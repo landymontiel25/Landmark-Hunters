@@ -361,7 +361,7 @@ export default function LandmarkDetail() {
     );
   }
 
-  if (!region || !landmark || (landmark.deleted && !adminMode)) {
+  if (!region || !landmark) {
     return (
       <div className="empty-state landmark-not-found">
         <p className="landmark-not-found-icon" aria-hidden="true">
@@ -686,7 +686,6 @@ export default function LandmarkDetail() {
         <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free to Visit' : 'Ticketed'}</span>
         <span className="tag">{'~' + landmark.typicalMinutes + ' min'}</span>
         {customLandmark && <span className="tag">{'\u{2728}'} Community-submitted</span>}
-        {landmark.deleted && <span className="tag tag-error">{'\u{1F5D1}'} Deleted — only you can see this (Admin Mode)</span>}
       </div>
       {customLandmark && user && customLandmark.createdBy !== user.uid && (
         <p className="center" style={{ marginTop: -10, marginBottom: 18 }}>

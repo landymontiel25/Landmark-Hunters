@@ -279,7 +279,7 @@ export default function LandmarkSelection() {
   // Admin Mode's live edits (name/category/etc) merged on top of the static
   // catalog -- same source of truth every other screen (map, detail page)
   // applies, so a correction shows up here too without a code deploy.
-  const editedLandmarks = useMemo(() => ALL_LANDMARKS.map(applyEdit).filter((l) => !l.deleted), [applyEdit]);
+  const editedLandmarks = useMemo(() => ALL_LANDMARKS.map(applyEdit), [applyEdit]);
 
   // Everything but the search box: city and category filters.
   const passesFilters = (l) => {
