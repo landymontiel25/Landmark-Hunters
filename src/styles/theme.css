@@ -5764,3 +5764,127 @@ h2,
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
+
+.lab-center {
+  max-width: 420px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+.lab-howto {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.lab-howto span {
+  margin-right: 6px;
+}
+
+.lab-progress {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0 0 10px;
+}
+
+.lab-card-area {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 8px 0 16px;
+}
+
+.lab-card {
+  position: relative;
+  width: min(320px, 100%);
+  border-radius: 20px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.lab-card.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.lab-card-word {
+  padding: 18px 16px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.lab-card-photo {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 5rem;
+  line-height: 1;
+}
+
+.lab-card-photo small {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lab-photo-food { background: linear-gradient(135deg, #7a3b1d, #d0833f); }
+.lab-photo-history { background: linear-gradient(135deg, #4a3f2a, #a88b55); }
+.lab-photo-nature { background: linear-gradient(135deg, #1f4d34, #5fa36f); }
+.lab-photo-entertainment { background: linear-gradient(135deg, #4b2173, #b0529a); }
+.lab-photo-sports { background: linear-gradient(135deg, #1d3f73, #4f8fd6); }
+.lab-photo-local { background: linear-gradient(135deg, #3a1f4d, #d0558a); }
+
+.lab-card-hint {
+  position: absolute;
+  top: 16px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 2px solid currentColor;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.lab-card-hint.love {
+  left: 16px;
+  color: #55c987;
+  transform: rotate(-10deg);
+}
+
+.lab-card-hint.dislike {
+  right: 16px;
+  color: #f06a6a;
+  transform: rotate(10deg);
+}
+
+.lab-card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.lab-card-buttons .btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  padding: 0;
+}

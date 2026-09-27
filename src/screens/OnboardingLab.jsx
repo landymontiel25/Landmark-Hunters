@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
@@ -6,41 +6,55 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { isAdmin } from '../lib/admins';
 import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
+import { pickSwipeCards, tagDeltasFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
 import LandmarkThumb from '../components/LandmarkThumb';
 
-// Admin-only sandbox of the real sign-up + onboarding flow (SignInForm ->
-// OnboardingPreferences -> TasteIntroStep -> FirstCheckInStep in
-// Profile.jsx), for trying out how onboarding should feel. Everything here
-// is local state: no account is created, nothing is written to Firestore or
-// the saved trip, and "Restart" wipes it. Copy and layout mirror the real
-// screens so what you try here is what a new user would see.
+// Admin-only sandbox for trying out sign-up + onboarding. Everything here is
+// local state: no account is created, nothing is written to Firestore or the
+// saved trip, and "Restart" wipes it. The results screen shows what a real
+// signup would have saved (tagScores changes and notes) without saving it.
 const STEPS = [
   { id: 'signup', label: 'Sign up' },
-  { id: 'preferences', label: 'Interests' },
-  { id: 'taste', label: 'Taste' },
+  { id: 'prompt', label: 'Rate prompt' },
+  { id: 'howto', label: 'Instructions' },
+  { id: 'cards', label: 'Cards' },
+  { id: 'notes', label: 'Anything else' },
   { id: 'checkin', label: 'First check-in' },
   { id: 'done', label: 'Done' },
 ];
+const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
-const EMPTY = { name: '', email: '', password: '', age: false, interests: [], taste: '', checkedIn: false, via: null };
+const empty = () => ({
+  name: '',
+  email: '',
+  password: '',
+  age: false,
+  via: null,
+  skippedRating: false,
+  cards: pickSwipeCards(),
+  answers: [],
+  notes: '',
+  checkedIn: false,
+});
 
 export default function OnboardingLab() {
   const { user } = useAuth();
   const [step, setStep] = useState(0);
-  const [data, setData] = useState(EMPTY);
+  const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
   const set = (patch) => setData((d) => ({ ...d, ...patch }));
   const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
 
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
 
-  const go = (i, why) => {
+  const go = (target, why) => {
+    const i = typeof target === 'string' ? indexOf(target) : target;
     const next = Math.max(0, Math.min(STEPS.length - 1, i));
     note(`${why}: ${STEPS[step].label} → ${STEPS[next].label}`);
     setStep(next);
   };
   const restart = () => {
-    setData(EMPTY);
+    setData(empty());
     setLog([]);
     setStep(0);
   };
@@ -84,11 +98,208 @@ export default function OnboardingLab() {
         </div>
       </div>
 
-      {id === 'signup' && <LabSignUp data={data} set={set} onDone={(via) => { set({ via }); go(1, `Signed up (${via})`); }} />}
-      {id === 'preferences' && <LabPreferences data={data} set={set} onDone={(how) => go(2, how)} />}
-      {id === 'taste' && <LabTaste data={data} set={set} onDone={(how) => go(3, how)} />}
-      {id === 'checkin' && <LabCheckIn data={data} set={set} onDone={(how) => go(4, how)} />}
+      {id === 'signup' && (
+        <LabSignUp
+          data={data}
+          set={set}
+          onDone={(via) => {
+            set({ via });
+            go('prompt', `Signed up (${via})`);
+          }}
+        />
+      )}
+      {id === 'prompt' && (
+        <LabRatePrompt
+          onSkip={() => {
+            set({ skippedRating: true });
+            go('done', 'Skipped rating, straight into the app');
+          }}
+          onNext={() => {
+            set({ skippedRating: false });
+            go('howto', 'Chose to rate');
+          }}
+        />
+      )}
+      {id === 'howto' && <LabInstructions onNext={() => go('cards', 'Read instructions')} />}
+      {id === 'cards' && (
+        <LabCardStack
+          cards={data.cards}
+          answers={data.answers}
+          onAnswer={(card, answer) => {
+            note(`${card.word}: ${answer === 'love' ? 'love it' : answer === 'dislike' ? "don't like it" : 'not sure'}`);
+            set({ answers: [...data.answers.filter((a) => a.card.word !== card.word), { card, answer }] });
+          }}
+          onFinished={() => go('notes', 'Finished cards')}
+        />
+      )}
+      {id === 'notes' && (
+        <LabNotes data={data} set={set} onDone={(how) => go('checkin', how)} />
+      )}
+      {id === 'checkin' && <LabCheckIn data={data} set={set} onDone={(how) => go('done', how)} />}
       {id === 'done' && <LabSummary data={data} log={log} onRestart={restart} />}
+    </div>
+  );
+}
+
+function LabRatePrompt({ onSkip, onNext }) {
+  return (
+    <div className="lab-center">
+      <h1 className="screen-title">
+        <span>{'\u{1F389}'}</span> You're in!
+      </h1>
+      <p className="screen-subtitle">Rate a few things you're into — takes 60-90 seconds.</p>
+      <button type="button" className="btn btn-primary btn-block" onClick={onNext}>
+        Next {'\u{2192}'}
+      </button>
+      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onSkip}>
+        Skip
+      </button>
+    </div>
+  );
+}
+
+function LabInstructions({ onNext }) {
+  return (
+    <div className="lab-center">
+      <h1 className="screen-title">Quick picks so Mapr gets you.</h1>
+      <ul className="lab-howto">
+        <li>
+          <span>{'\u{1F449}'}</span> Swipe right → love it
+        </li>
+        <li>
+          <span>{'\u{1F448}'}</span> Swipe left → don't like it
+        </li>
+        <li>
+          <span>{'\u{1F446}'}</span> Tap → not sure
+        </li>
+      </ul>
+      <button type="button" className="btn btn-primary btn-block" onClick={onNext}>
+        Start {'\u{2192}'}
+      </button>
+    </div>
+  );
+}
+
+const SWIPE_PX = 90;
+const TAP_PX = 8;
+
+function LabCardStack({ cards, answers, onAnswer, onFinished }) {
+  const answered = new Set(answers.map((a) => a.card.word));
+  const index = cards.findIndex((c) => !answered.has(c.word));
+  const card = index === -1 ? null : cards[index];
+  const [dx, setDx] = useState(0);
+  const [leaving, setLeaving] = useState(null);
+  const start = useRef(null);
+
+  if (!card) {
+    return (
+      <div className="lab-center">
+        <h1 className="screen-title">All done {'\u{2705}'}</h1>
+        <p className="screen-subtitle">{answers.length} cards rated.</p>
+        <button type="button" className="btn btn-primary btn-block" onClick={onFinished}>
+          Continue {'\u{2192}'}
+        </button>
+      </div>
+    );
+  }
+
+  const decide = (answer) => {
+    if (leaving) return;
+    setLeaving(answer);
+    setDx(answer === 'love' ? 600 : answer === 'dislike' ? -600 : 0);
+    setTimeout(() => {
+      onAnswer(card, answer);
+      setDx(0);
+      setLeaving(null);
+    }, 220);
+  };
+
+  const onPointerDown = (e) => {
+    if (leaving) return;
+    start.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+  const onPointerMove = (e) => {
+    if (!start.current) return;
+    setDx(e.clientX - start.current.x);
+  };
+  const onPointerUp = (e) => {
+    if (!start.current) return;
+    const moved = e.clientX - start.current.x;
+    const movedY = e.clientY - start.current.y;
+    start.current = null;
+    if (moved > SWIPE_PX) decide('love');
+    else if (moved < -SWIPE_PX) decide('dislike');
+    else if (Math.abs(moved) < TAP_PX && Math.abs(movedY) < TAP_PX) decide('unsure');
+    else setDx(0);
+  };
+
+  const hint = dx > 30 ? 'love' : dx < -30 ? 'dislike' : null;
+
+  return (
+    <div>
+      <p className="lab-progress">
+        {index + 1} / {cards.length}
+      </p>
+      <div className="lab-card-area">
+        <div
+          className={`lab-card ${leaving ? 'leaving' : ''} ${dx !== 0 && !leaving ? 'dragging' : ''}`}
+          style={{ transform: `translateX(${dx}px) rotate(${dx / 20}deg)`, opacity: leaving === 'unsure' ? 0 : 1 }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={() => {
+            start.current = null;
+            setDx(0);
+          }}
+          role="group"
+          aria-label={`${card.word}. Swipe right to love it, left if you don't like it, or tap if you're not sure.`}
+        >
+          <div className="lab-card-word">{card.word}</div>
+          <div className={`lab-card-photo lab-photo-${card.group}`}>
+            <span>{card.icon}</span>
+            <small>photo placeholder</small>
+          </div>
+          {hint && <div className={`lab-card-hint ${hint}`}>{hint === 'love' ? 'LOVE IT' : 'NOPE'}</div>}
+        </div>
+      </div>
+      <div className="lab-card-buttons">
+        <button type="button" className="btn btn-ghost" onClick={() => decide('dislike')} aria-label="Don't like it">
+          {'\u{2715}'}
+        </button>
+        <button type="button" className="btn btn-ghost" onClick={() => decide('unsure')} aria-label="Not sure">
+          ?
+        </button>
+        <button type="button" className="btn btn-ghost" onClick={() => decide('love')} aria-label="Love it">
+          {'\u{2665}'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function LabNotes({ data, set, onDone }) {
+  return (
+    <div>
+      <h1 className="screen-title">Anything else?</h1>
+      <p className="screen-subtitle">Anything else you love or hate that we didn't cover?</p>
+      <textarea
+        className="rating-comment"
+        aria-label="Anything else you love or hate"
+        rows={5}
+        maxLength={2000}
+        placeholder="Optional"
+        value={data.notes}
+        onChange={(e) => set({ notes: e.target.value })}
+      />
+      <button
+        type="button"
+        className="btn btn-primary btn-block"
+        style={{ marginTop: 20 }}
+        onClick={() => onDone(data.notes.trim() ? 'Added notes' : 'Continued without notes')}
+      >
+        {data.notes.trim() ? 'Save & continue' : 'Continue'} {'\u{2192}'}
+      </button>
     </div>
   );
 }
@@ -154,75 +365,6 @@ function LabSignUp({ data, set, onDone }) {
   );
 }
 
-function LabPreferences({ data, set, onDone }) {
-  const toggle = (id) =>
-    set({ interests: data.interests.includes(id) ? data.interests.filter((x) => x !== id) : [...data.interests, id] });
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F389}'}</span> Welcome!
-      </h1>
-      <p className="screen-subtitle">
-        What are you usually into? Save it now and Setup can fill it in for you on every trip from here on.
-      </p>
-      <div className="chip-grid">
-        {INTERESTS.map((i) => (
-          <button key={i.id} type="button" className={`chip ${data.interests.includes(i.id) ? 'selected' : ''}`} onClick={() => toggle(i.id)}>
-            <span className="chip-icon">{i.icon}</span>
-            <span>{i.label}</span>
-          </button>
-        ))}
-      </div>
-      <button
-        type="button"
-        className="btn btn-primary btn-block"
-        style={{ marginTop: 20 }}
-        onClick={() => onDone(`Continued with ${data.interests.length} interest(s)`)}
-      >
-        Continue {'\u{2192}'}
-      </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={() => onDone('Skipped interests')}>
-        Skip for now
-      </button>
-    </div>
-  );
-}
-
-function LabTaste({ data, set, onDone }) {
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F9E9}'}</span> Tell Mapr what you love
-      </h1>
-      <p className="screen-subtitle">
-        Optional, but it helps -- give Mapr a quick overview of your taste and it can start suggesting well before your
-        first rating.
-      </p>
-      <textarea
-        className="rating-comment"
-        aria-label="What you love"
-        rows={5}
-        maxLength={2000}
-        placeholder="What are you already into?"
-        value={data.taste}
-        onChange={(e) => set({ taste: e.target.value })}
-      />
-      <button
-        type="button"
-        className="btn btn-primary btn-block"
-        style={{ marginTop: 20 }}
-        disabled={!data.taste.trim()}
-        onClick={() => onDone('Saved taste intro')}
-      >
-        Continue {'\u{2192}'}
-      </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={() => onDone('Skipped taste intro')}>
-        Skip for now
-      </button>
-    </div>
-  );
-}
-
 function LabCheckIn({ data, set, onDone }) {
   const { coords, loading } = useGeo();
   const { units } = useUnits();
@@ -265,27 +407,82 @@ function LabCheckIn({ data, set, onDone }) {
 }
 
 function LabSummary({ data, log, onRestart }) {
-  const labels = data.interests.map((id) => INTERESTS.find((i) => i.id === id)?.label || id);
+  const tagLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || id;
+  const deltas = tagDeltasFromAnswers(data.answers);
+  const count = (a) => data.answers.filter((x) => x.answer === a).length;
+  const answerLabel = { love: 'love it', dislike: "don't like it", unsure: 'not sure' };
   return (
     <div>
       <h1 className="screen-title">
         <span>{'\u{1F3C1}'}</span> Onboarding finished
       </h1>
-      <p className="screen-subtitle">A real account would land on Profile here with the Welcome badge and 10 bonus points.</p>
+      <p className="screen-subtitle">What a real signup would have saved. Nothing here was actually saved.</p>
       <div className="card section">
         <p>
           <strong>Signed up with:</strong> {data.via || '—'}
         </p>
-        <p>
-          <strong>Interests:</strong> {labels.length ? labels.join(', ') : 'none (skipped)'}
-        </p>
-        <p>
-          <strong>Taste intro:</strong> {data.taste.trim() || 'none (skipped)'}
-        </p>
+        {data.skippedRating ? (
+          <p>
+            <strong>Rating:</strong> skipped — straight into the app, no preference data yet
+          </p>
+        ) : (
+          <p>
+            <strong>Cards:</strong> {data.answers.length} of {data.cards.length} rated — {count('love')} love it,{' '}
+            {count('dislike')} don't like it, {count('unsure')} not sure
+          </p>
+        )}
         <p>
           <strong>First check-in:</strong> {data.checkedIn ? 'yes' : 'skipped'}
         </p>
       </div>
+
+      {!data.skippedRating && (
+        <>
+          <div className="card section">
+            <strong>tagScores changes</strong>
+            <p className="screen-subtitle" style={{ margin: '4px 0 8px' }}>
+              Love it {SWIPE_DELTAS.love > 0 ? '+' : ''}
+              {SWIPE_DELTAS.love}, don't like it {SWIPE_DELTAS.dislike}, not sure 0 — summed per tag.
+            </p>
+            {Object.keys(deltas).length ? (
+              <ul className="lab-log">
+                {Object.entries(deltas)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([tag, d]) => (
+                    <li key={tag}>
+                      {tagLabel(tag)} <code>{tag}</code>: {d > 0 ? '+' : ''}
+                      {d}
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <p className="screen-subtitle">No changes (nothing loved or disliked).</p>
+            )}
+          </div>
+
+          <div className="card section">
+            <strong>Each card</strong>
+            <ul className="lab-log">
+              {data.answers.map(({ card, answer }) => (
+                <li key={card.word}>
+                  {card.icon} {card.word} → {answerLabel[answer]} <code>{card.tag}</code>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="card section">
+            <strong>Onboarding notes</strong>
+            <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>
+              {data.notes.trim() ? `"${data.notes.trim()}"` : 'none'}
+            </p>
+            <p className="screen-subtitle" style={{ fontSize: '0.75rem' }}>
+              Kept as raw text and passed to Mapr as context, never turned into new tags.
+            </p>
+          </div>
+        </>
+      )}
+
       {log.length > 0 && (
         <div className="card section">
           <strong>What happened</strong>

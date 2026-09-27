@@ -47,21 +47,41 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Create Account');
 
     await click(button(el, 'Sign up with Google'));
-    expect(el.textContent).toContain('What are you usually into?');
+    expect(el.textContent).toContain('Rate a few things you');
 
-    await click(el.querySelector('.chip'));
+    await click(button(el, 'Next'));
+    expect(el.textContent).toContain('Swipe right → love it');
+
+    await click(button(el, 'Start'));
+    const love = el.querySelector('[aria-label="Love it"]');
+    const total = Number(el.querySelector('.lab-progress').textContent.split('/')[1]);
+    expect(total).toBeGreaterThanOrEqual(15);
+    expect(total).toBeLessThanOrEqual(18);
+    for (let n = 0; n < total; n += 1) {
+      await click(n === 0 ? love : el.querySelector('[aria-label="Not sure"]'));
+      await act(async () => new Promise((r) => setTimeout(r, 250)));
+    }
+    expect(el.textContent).toContain('All done');
+
     await click(button(el, 'Continue →'));
-    expect(el.textContent).toContain('Tell Mapr what you love');
+    expect(el.textContent).toContain("Anything else you love or hate that we didn't cover?");
 
-    await click(button(el, 'Skip for now'));
+    await click(button(el, 'Continue'));
     expect(el.textContent).toContain('Your First Check-In');
 
     await click(button(el, 'Skip for now'));
     expect(el.textContent).toContain('Onboarding finished');
-    expect(el.textContent).toContain('Google');
-    expect(el.textContent).toContain('Skipped taste intro');
+    expect(el.textContent).toContain('1 love it');
+    expect(el.textContent).toContain('+10');
 
     await click(button(el, 'Restart sign-up'));
     expect(el.textContent).toContain('Create Account');
+  });
+
+  it('Skip on the rate prompt goes straight to the end with no preference data', async () => {
+    const el = await renderAs('landymontiel25@gmail.com');
+    await click(button(el, 'Sign up with Google'));
+    await click([...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Skip'));
+    expect(el.textContent).toContain('no preference data yet');
   });
 });
