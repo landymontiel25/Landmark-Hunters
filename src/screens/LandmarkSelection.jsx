@@ -327,6 +327,14 @@ export default function LandmarkSelection() {
       const interests = new Set(trip.savedInterests || []);
       const scoresByRegion = new Map();
       const score = new Map(filtered.map((l) => [l, forMeScore(l, myProfile, interests, scoresByRegion)]));
+      // Places that fit your taste first, then neutral ones, then categories
+      // you've rated down -- closest first within each group. Without a
+      // location yet, fall back to the strongest match first.
+      if (coords) {
+        const tier = (l) => (score.get(l) > 0 ? 0 : score.get(l) < 0 ? 2 : 1);
+        const dist = new Map(filtered.map((l) => [l, distanceMeters(coords.lat, coords.lng, l.lat, l.lng)]));
+        return [...filtered].sort((a, b) => tier(a) - tier(b) || dist.get(a) - dist.get(b));
+      }
       return [...filtered].sort(
         (a, b) =>
           score.get(b) - score.get(a) ||
