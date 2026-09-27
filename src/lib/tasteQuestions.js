@@ -109,41 +109,27 @@ export function baselineToSyntheticReviews(baseline, categoryNotes) {
   return out;
 }
 
-// contextPreferences ({ weekday, weekend, chill, active }, Settings' "Set
-// by Context" card): unlike the general taste baseline above, these are
-// explicitly SITUATIONAL -- someone who loves nightlife might only want it
-// Friday/Saturday, not a Tuesday, and "chill" vs "active" is a mood, not a
-// fixed fact about them. Only the day-type line is picked automatically
-// (from the real current day, `now`); both mood lines are always included
-// since there's no reliable automatic signal for mood -- the AI is told to
-// use whichever actually fits the traveler's current message, the same way
-// it already weighs a rating's specific reason over a blanket preference.
-export function composeContextPreferences(myProfile, now = new Date()) {
-  const cp = myProfile?.contextPreferences || {};
-  const isWeekend = [0, 6].includes(now.getDay());
-  const dayPref = (isWeekend ? cp.weekend : cp.weekday)?.trim();
-  const lines = [];
-  if (dayPref) {
-    lines.push(`it's currently a ${isWeekend ? 'weekend' : 'weekday'}, and for ${isWeekend ? 'weekends' : 'weekdays'} they said: ${dayPref}`);
-  }
-  if (cp.chill?.trim()) lines.push(`in a chill/relaxed mood, they said: ${cp.chill.trim()}`);
-  if (cp.active?.trim()) lines.push(`in an active/physical mood, they said: ${cp.active.trim()}`);
-  if (!lines.length) return '';
-  return `Context preferences (use whichever actually fits their CURRENT message/mood -- these are situational, not all true at once): ${lines.join('; ')}.`;
+// favoritePlaces (Settings, "Tell me the places you visit most"): named
+// places/brands, not categories -- "Dunkin' Donuts, sushi, Italian, arepa
+// places, marinas, Carrot Express" tells Mapr far more specifically than
+// "food" or "parks-nature" ever could. Read as prose, same as tasteIntro.
+export function composeFavoritePlaces(myProfile) {
+  const text = myProfile?.favoritePlaces?.trim();
+  return text ? `Places/brands they said they visit most: ${text}.` : '';
 }
 
 // The full text sent to the AI as this traveler's taste profile -- free-form
 // tasteIntro (onboarding/Settings), the structured baseline as prose
 // (including per-category comments), any notes typed alongside it in the
-// edit/nudge card, and the weekday/weekend/mood context preferences above,
-// combined at read time so editing any of it later never means hunting
-// through previously-saved sentences to avoid duplicating them.
-export function composeTasteIntro(myProfile, now = new Date()) {
+// edit/nudge card, and the named favorite places/brands above, combined at
+// read time so editing any of it later never means hunting through
+// previously-saved sentences to avoid duplicating them.
+export function composeTasteIntro(myProfile) {
   return [
     myProfile?.tasteIntro,
     baselineToSentence(myProfile?.tasteBaseline, myProfile?.tasteBaselineCategoryNotes),
     myProfile?.tasteBaselineNotes,
-    composeContextPreferences(myProfile, now),
+    composeFavoritePlaces(myProfile),
   ]
     .filter(Boolean)
     .join('. ');

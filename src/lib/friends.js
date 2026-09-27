@@ -141,24 +141,15 @@ export async function saveTasteIntro(uid, text) {
   await setDoc(doc(db, 'users', uid), { tasteIntro: (text || '').trim().slice(0, 2000), updatedAt: serverTimestamp() }, { merge: true });
 }
 
-// Situational taste, separate from the general baseline above: what they
-// want on a weekday vs a weekend, and in a chill/relaxed vs active/physical
-// mood -- e.g. "I'll go to a bar or club on the weekend, not on a Tuesday."
-// { weekday, weekend, chill, active }, each free text. See
-// composeContextPreferences (tasteQuestions.js) for how these actually
-// reach the AI -- only the day-type that matches the REAL current day is
-// used automatically; both mood lines are always included since mood has
-// no reliable automatic signal. setDoc with merge:true replaces the whole
-// contextPreferences field (a single top-level key), so re-saving from the
-// edit card cleanly overwrites old text instead of needing per-field
-// updates.
-export async function saveContextPreferences(uid, prefs) {
+// Named places/brands they actually visit most -- e.g. "Dunkin' Donuts,
+// sushi, Italian, arepa places, marinas, Carrot Express." Separate from the
+// general taste baseline above: those are category-level (like/dislike per
+// category), this is specific enough to catch a chain or cuisine a category
+// alone can't (see composeFavoritePlaces in tasteQuestions.js for how it
+// reaches the AI). One free-text field, capped at 1000 chars.
+export async function saveFavoritePlaces(uid, text) {
   if (!db || !uid) return;
-  const clean = {};
-  for (const key of ['weekday', 'weekend', 'chill', 'active']) {
-    clean[key] = (prefs?.[key] || '').trim().slice(0, 1000);
-  }
-  await setDoc(doc(db, 'users', uid), { contextPreferences: clean, updatedAt: serverTimestamp() }, { merge: true });
+  await setDoc(doc(db, 'users', uid), { favoritePlaces: (text || '').trim().slice(0, 1000), updatedAt: serverTimestamp() }, { merge: true });
 }
 
 // Answer to "You really love [tag]. Want us to lean more into it?" (see

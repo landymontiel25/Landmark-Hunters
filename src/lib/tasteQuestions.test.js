@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   baselineToSentence,
   baselineToSyntheticReviews,
-  composeContextPreferences,
+  composeFavoritePlaces,
   composeTasteIntro,
   extractLegacyBaselineFromIntro,
   tasteFingerprint,
@@ -87,38 +87,23 @@ describe('composeTasteIntro', () => {
     expect(combined).toContain('note: No pepper on my steak');
   });
 
-  it('folds in the context preference that matches the given day', () => {
-    const profile = { contextPreferences: { weekday: 'quiet dinners', weekend: 'bars and clubs' } };
-    const saturday = new Date('2026-09-26T12:00:00'); // a Saturday
-    const tuesday = new Date('2026-09-22T12:00:00'); // a Tuesday
-    expect(composeTasteIntro(profile, saturday)).toContain('bars and clubs');
-    expect(composeTasteIntro(profile, saturday)).not.toContain('quiet dinners');
-    expect(composeTasteIntro(profile, tuesday)).toContain('quiet dinners');
-    expect(composeTasteIntro(profile, tuesday)).not.toContain('bars and clubs');
+  it('folds in named favorite places/brands', () => {
+    const profile = { favoritePlaces: "Dunkin' Donuts, sushi, Italian, arepa places, marinas, Carrot Express" };
+    expect(composeTasteIntro(profile)).toContain("Dunkin' Donuts");
+    expect(composeTasteIntro(profile)).toContain('Carrot Express');
   });
 });
 
-describe('composeContextPreferences', () => {
+describe('composeFavoritePlaces', () => {
   it('returns empty for a profile with nothing set', () => {
-    expect(composeContextPreferences(null)).toBe('');
-    expect(composeContextPreferences({})).toBe('');
+    expect(composeFavoritePlaces(null)).toBe('');
+    expect(composeFavoritePlaces({})).toBe('');
+    expect(composeFavoritePlaces({ favoritePlaces: '  ' })).toBe('');
   });
 
-  it('always includes both mood lines regardless of the day', () => {
-    const profile = { contextPreferences: { chill: 'a quiet museum', active: 'pickleball' } };
-    const text = composeContextPreferences(profile, new Date('2026-09-26T12:00:00'));
-    expect(text).toContain('a quiet museum');
-    expect(text).toContain('pickleball');
-  });
-
-  it('only includes the day-type preference matching the real current day', () => {
-    const profile = { contextPreferences: { weekday: 'quiet dinners', weekend: 'bars and clubs' } };
-    const sunday = new Date('2026-09-27T12:00:00'); // a Sunday
-    const wednesday = new Date('2026-09-23T12:00:00'); // a Wednesday
-    expect(composeContextPreferences(profile, sunday)).toContain('bars and clubs');
-    expect(composeContextPreferences(profile, sunday)).not.toContain('quiet dinners');
-    expect(composeContextPreferences(profile, wednesday)).toContain('quiet dinners');
-    expect(composeContextPreferences(profile, wednesday)).not.toContain('bars and clubs');
+  it('wraps the named places/brands as a sentence Mapr can read', () => {
+    const text = composeFavoritePlaces({ favoritePlaces: 'Dunkin, sushi, Carrot Express' });
+    expect(text).toBe('Places/brands they said they visit most: Dunkin, sushi, Carrot Express.');
   });
 });
 

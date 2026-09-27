@@ -10,7 +10,7 @@ import {
   getUserProfile,
   saveHomeLocation,
   saveTasteIntro,
-  saveContextPreferences,
+  saveFavoritePlaces,
   setHabitTrackingEnabled,
 } from '../lib/friends';
 import { useAdminMode } from '../lib/AdminModeContext';
@@ -21,9 +21,6 @@ import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState, readPersisted } from '../lib/usePersistentState';
 
-const CONTEXT_KEYS = ['weekday', 'weekend', 'chill', 'active'];
-const contextFrom = (prefs) => Object.fromEntries(CONTEXT_KEYS.map((k) => [k, prefs?.[k] || '']));
-const sameContext = (a, b) => CONTEXT_KEYS.every((k) => (a?.[k] || '') === (b?.[k] || ''));
 const isNull = (v) => v == null;
 
 // A Settings text field whose unsaved edits survive leaving the screen.
@@ -85,11 +82,11 @@ export default function Settings() {
   const [homePending, setHomePending] = useState(null);
   const taste = useDraft(uid ? `tasteIntro.${uid}` : null, myProfile?.tasteIntro || '');
   const [tasteMsg, setTasteMsg] = useState(null);
-  const context = useDraft(uid ? `contextPrefs.${uid}` : null, contextFrom(myProfile?.contextPreferences), sameContext);
+  const context = useDraft(uid ? `favoritePlaces.${uid}` : null, myProfile?.favoritePlaces || '');
   const [contextMsg, setContextMsg] = useState(null);
   const homeAddress = home.value;
   const tasteIntro = taste.value;
-  const contextPrefs = context.value;
+  const favoritePlaces = context.value;
   const [verifyMsg, setVerifyMsg] = useState(null);
   const [verifyBusy, setVerifyBusy] = useState(false);
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
@@ -126,17 +123,17 @@ export default function Settings() {
   };
 
   const saveContext = () => {
-    const prefs = contextPrefs;
+    const text = favoritePlaces;
     runOptimistic({
       apply: () => setContextMsg('Saved.'),
       commit: async () => {
-        await saveContextPreferences(user.uid, prefs);
+        await saveFavoritePlaces(user.uid, text);
         await reloadFriends();
-        context.settle(prefs);
+        context.settle(text);
       },
       rollback: () => setContextMsg(null),
       toast,
-      errorMessage: friendlyError(null, "Couldn't save your situational preferences. They're still filled in."),
+      errorMessage: friendlyError(null, "Couldn't save your favorite places. They're still filled in."),
       retry: saveContext,
     });
   };
@@ -346,42 +343,30 @@ export default function Settings() {
 
       {firebaseEnabled && user && (
         <div className="card section">
-          <h3 style={{ marginTop: 0 }}>{'\u{1F5D3}\u{FE0F}'} Preferences by Situation</h3>
+          <h3 style={{ marginTop: 0 }}>{'\u{1F4CD}'} Places You Visit Most</h3>
           <p className="screen-subtitle" style={{ marginTop: -6 }}>
-            The taste above is your general baseline. This is for when it actually depends -- you might want a bar or
-            a club on a Saturday night and nothing like that on a Tuesday. Fill in whichever apply; Mapr only uses
-            the one that fits the moment (today's actual day, or the mood you're clearly asking for), never all of
-            them at once.
+            The taste above is by category. This is specific: name the actual places and brands you go to most, so
+            Mapr can spot the same kind of spot even when a broad category wouldn't catch it.
           </p>
           {context.restored && <DraftRestoredNote onDiscard={context.discard} />}
-          {[
-            { key: 'weekday', icon: '\u{1F4C5}', label: 'On weekdays', placeholder: 'e.g. "Quiet dinners, coffee shops, nothing too late"' },
-            { key: 'weekend', icon: '\u{1F389}', label: 'On weekends', placeholder: 'e.g. "I\'m up for a bar or a club, later nights"' },
-            { key: 'chill', icon: '\u{1F634}', label: 'When I want something chill', placeholder: 'e.g. "A quiet walk, a museum, low-key cafes"' },
-            { key: 'active', icon: '⚡', label: 'When I want something active', placeholder: 'e.g. "Pickleball, hiking, anything with movement"' },
-          ].map((f) => (
-            <div key={f.key} className="field" style={{ marginTop: 12 }}>
-              <label htmlFor={`ctx-${f.key}`}>
-                {f.icon} {f.label}
-              </label>
-              <textarea
-                id={`ctx-${f.key}`}
-                name={`context-${f.key}`}
-                className="rating-comment"
-                autoComplete="off"
-                autoCapitalize="sentences"
-                rows={2}
-                maxLength={1000}
-                placeholder={f.placeholder}
-                value={contextPrefs[f.key]}
-                onChange={(e) => {
-                  const text = e.target.value;
-                  setContextMsg(null);
-                  context.setDraft((cur) => ({ ...(cur ?? contextPrefs), [f.key]: text }));
-                }}
-              />
-            </div>
-          ))}
+          <div className="field" style={{ marginTop: 12 }}>
+            <label htmlFor="favorite-places">Tell me the places you visit most</label>
+            <textarea
+              id="favorite-places"
+              name="favorite-places"
+              className="rating-comment"
+              autoComplete="off"
+              autoCapitalize="sentences"
+              rows={3}
+              maxLength={1000}
+              placeholder="eg; Dunkin' Donuts, sushi, Italian, arepa places, marinas, Carrot Express"
+              value={favoritePlaces}
+              onChange={(e) => {
+                setContextMsg(null);
+                context.setDraft(e.target.value);
+              }}
+            />
+          </div>
           <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={saveContext}>
             Save
           </button>
