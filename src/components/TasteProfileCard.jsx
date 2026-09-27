@@ -3,7 +3,8 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
 import { saveTasteBaseline, saveTasteIntro } from '../lib/friends';
-import { computeTasteConfidence } from '../lib/tasteProfile';
+import { computeTasteConfidence, votesAsReviews } from '../lib/tasteProfile';
+import { getPickFeedback, readLocalFeedback, PICK_VOTE_EVENT } from '../lib/pickFeedback';
 import { baselineToSyntheticReviews, extractLegacyBaselineFromIntro } from '../lib/tasteQuestions';
 import TasteNudgeCard from './TasteNudgeCard';
 import { Skeleton } from './Skeleton';
@@ -90,6 +91,23 @@ export default function TasteProfileCard() {
     })();
   }, [user, profileFresh, myProfile?.tasteIntro, myProfile?.tasteBaseline, reloadFriends]);
 
+  // Mapr Picks ✓/✗ votes count toward the score too (at half weight).
+  const [votes, setVotes] = useState({});
+  useEffect(() => {
+    if (!user) return undefined;
+    let live = true;
+    setVotes(readLocalFeedback(user.uid));
+    getPickFeedback(user.uid)
+      .then((fb) => live && setVotes(fb))
+      .catch(() => {});
+    const onVote = () => setVotes(readLocalFeedback(user.uid));
+    window.addEventListener(PICK_VOTE_EVENT, onVote);
+    return () => {
+      live = false;
+      window.removeEventListener(PICK_VOTE_EVENT, onVote);
+    };
+  }, [user]);
+
   if (!user) return null;
 
   // The server read hasn't landed yet (and nothing was just saved this
@@ -126,6 +144,7 @@ export default function TasteProfileCard() {
       updatedAt: r.updatedAt,
     })),
     ...baselineToSyntheticReviews(effectiveBaseline, effectiveCategoryNotes),
+    ...votesAsReviews(votes, new Set([...Object.keys(myReviews), ...Object.values(myReviews).map((r) => r.landmarkId)])),
   ];
   const { confidence, sampleCount } = computeTasteConfidence(reviews);
   const hasBaseline = !!(effectiveBaseline && Object.keys(effectiveBaseline).length);
@@ -167,8 +186,8 @@ export default function TasteProfileCard() {
           </button>
         </div>
         <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
-          Rate a couple more places (or answer the quick-pick questions) and Mapr can start scoring how well it
-          actually knows your taste.
+          Rate a couple more places, vote on a few Mapr Picks, or answer the quick-pick questions and Mapr can start
+          scoring how well it actually knows your taste.
         </p>
       </div>
     );
@@ -193,8 +212,8 @@ export default function TasteProfileCard() {
         <div className="level-bar-fill" style={{ width: `${confidence}%` }} />
       </div>
       <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
-        How well Mapr can predict a rating of yours from your OTHER ratings alone. The more you rate — across
-        different kinds of places — the higher this climbs.
+        How well Mapr can predict a rating of yours from your OTHER ratings alone. Mapr Picks ✓/✗ votes count at half
+        weight. It climbs as your ratings get consistent across different kinds of places, not just with more of them.
       </p>
     </div>
   );

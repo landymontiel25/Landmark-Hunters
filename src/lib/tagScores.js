@@ -47,7 +47,11 @@ export const WILDCARD_MAX_RATINGS = 2;
 export const IGNORE_LIMIT = 3;
 export const IGNORE_DELTA = -3;
 // Bump when the stored shape or deltas change, so clients rebuild from reviews.
-export const TAG_SCORES_VERSION = 2;
+// 3: Mapr Picks ✓/✗ votes feed tag scores too (VOTE_DELTAS).
+export const TAG_SCORES_VERSION = 3;
+// A ✓/✗ on a Mapr Pick is a lighter signal than a full rating, and doesn't
+// count as a rating behind a tag (tagCounts).
+export const VOTE_DELTAS = { yes: 4, no: -6 };
 
 const DAY_MS = 86400000;
 const UNRATEABLE = new Set(['dorms', 'campus-life']);
@@ -78,21 +82,40 @@ export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, n
   return next;
 }
 
-// Replays a user's saved reviews oldest-first through applyRating, for users
-// who rated before the current TAG_SCORES_VERSION. Same math as the live path.
-export function rebuildTagScores(reviews) {
+export function applyVote({ scores = {}, at = {} }, tags, verdict, nowMs) {
+  const delta = VOTE_DELTAS[verdict];
+  const next = { scores: {}, at: {}, counts: {}, capped: [] };
+  if (delta == null) return next;
+  for (const tag of new Set(tags || [])) {
+    const value = clampScore((scores[tag] || 0) * decayFactor(at[tag], nowMs) + delta);
+    next.scores[tag] = value;
+    next.at[tag] = nowMs;
+    if (value >= TAG_CAP) next.capped.push(tag);
+  }
+  return next;
+}
+
+// Replays a user's saved reviews and Mapr Picks votes ({ region, categories,
+// verdict, at }) oldest-first, for users scored under an older
+// TAG_SCORES_VERSION. Same math as the live paths.
+export function rebuildTagScores(reviews, votes = []) {
   const toMs = (r) => (r.updatedAt?.seconds ? r.updatedAt.seconds * 1000 : r.updatedAtMs || 0);
   const out = { tagScores: {}, tagScoresAt: {}, tagCounts: {} };
-  const ordered = [...(reviews || [])].sort((a, b) => toMs(a) - toMs(b));
-  for (const r of ordered) {
-    const region = r.region;
-    if (!region || !TAG_DELTAS[r.ratingTier]) continue;
+  const events = [
+    ...(reviews || []).filter((r) => TAG_DELTAS[r.ratingTier]).map((r) => ({ r, ms: toMs(r) })),
+    ...(votes || []).filter((v) => VOTE_DELTAS[v.verdict]).map((v) => ({ v, ms: v.at || 0 })),
+  ].sort((a, b) => a.ms - b.ms);
+  for (const { r, v, ms } of events) {
+    const region = (r || v).region;
+    if (!region) continue;
     const cur = {
       scores: out.tagScores[region] || {},
       at: out.tagScoresAt[region] || {},
       counts: out.tagCounts[region] || {},
     };
-    const next = applyRating(cur, r.categories, r.ratingTier, toMs(r) || Date.now());
+    const next = r
+      ? applyRating(cur, r.categories, r.ratingTier, ms || Date.now())
+      : applyVote(cur, v.categories, v.verdict, ms || Date.now());
     out.tagScores[region] = { ...cur.scores, ...next.scores };
     out.tagScoresAt[region] = { ...cur.at, ...next.at };
     out.tagCounts[region] = { ...cur.counts, ...next.counts };

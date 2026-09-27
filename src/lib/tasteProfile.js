@@ -42,15 +42,18 @@ export function computeTasteConfidence(reviews, now = Date.now()) {
   }
 
   let errorSum = 0;
+  let weightSum = 0;
   for (let i = 0; i < rated.length; i++) {
     const target = rated[i];
     const others = rated.filter((_, j) => j !== i);
     const model = buildTasteModel(others, nowSec);
     const predicted = squash(predictedAffinityScore(target, model));
     const actual = TIER_TARGET[target.tier];
-    errorSum += Math.abs(predicted - actual);
+    const w = target.weight ?? 1;
+    errorSum += Math.abs(predicted - actual) * w;
+    weightSum += w;
   }
-  const avgError = errorSum / rated.length; // 0 (perfect) .. 2 (exact opposite)
+  const avgError = errorSum / weightSum; // 0 (perfect) .. 2 (exact opposite)
   const rawAccuracy = Math.max(0, 1 - avgError / 2); // 0..1
 
   const diversityFactor = Math.min(1, categoryDiversity / DIVERSITY_CATEGORIES_FOR_FULL_CONFIDENCE);
@@ -66,4 +69,22 @@ export const INSIDER_MODE_CONFIDENCE = 75;
 
 export function hasInsiderMode(confidence) {
   return confidence >= INSIDER_MODE_CONFIDENCE;
+}
+
+// Mapr Picks ✓/✗ votes as half-weight entries for computeTasteConfidence,
+// skipping places that already have a full rating. "Not sure" carries no
+// taste signal and is left out.
+export const VOTE_WEIGHT = 0.5;
+export function votesAsReviews(feedback, ratedIds = new Set()) {
+  return Object.values(feedback || {})
+    .filter((f) => (f.verdict === 'yes' || f.verdict === 'no') && !ratedIds.has(f.landmarkId))
+    .map((f) => ({
+      tier: f.verdict === 'yes' ? 'highly-recommend' : 'probably-skip',
+      categories: f.categories || [],
+      name: f.name || '',
+      comment: '',
+      highlights: [],
+      updatedAt: f.at ? { seconds: f.at / 1000 } : undefined,
+      weight: VOTE_WEIGHT,
+    }));
 }

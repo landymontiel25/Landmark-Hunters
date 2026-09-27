@@ -116,13 +116,16 @@ export default function MaprPicksCarousel({ reviews, interests = [], checkedInId
   // replace a global-popularity list right away, not after the TTL.
   const cacheFP = `${tasteFP}.${region || 'global'}`;
 
-  // Ratings saved before per-region tag scores existed: replay them once so
-  // those travelers don't restart from zero. Waits for a server-fresh
+  // Ratings (and Mapr Picks votes) saved under an older tag-score version:
+  // replay them once so those travelers don't restart from zero. Waits for a server-fresh
   // profile so a stale cached copy can't trigger a second replay.
   useEffect(() => {
     if (!user || !profileFresh || !reviews.length) return;
     if ((myProfile?.tagScoresVersion || 0) >= TAG_SCORES_VERSION) return;
-    saveRebuiltTagScores(user.uid, rebuildTagScores(reviews), TAG_SCORES_VERSION).catch(() => {});
+    getPickFeedback(user.uid)
+      .catch(() => readLocalFeedback(user.uid))
+      .then((fb) => saveRebuiltTagScores(user.uid, rebuildTagScores(reviews, Object.values(fb || {})), TAG_SCORES_VERSION))
+      .catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.uid, profileFresh, reviews.length, myProfile?.tagScoresVersion]);
 
