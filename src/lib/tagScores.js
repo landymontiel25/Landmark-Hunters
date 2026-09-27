@@ -47,17 +47,17 @@ export const WILDCARD_MAX_RATINGS = 2;
 export const IGNORE_LIMIT = 3;
 export const IGNORE_DELTA = -3;
 // Bump when the stored shape or deltas change, so clients rebuild from reviews.
-// 4: how often you visit (FREQUENCY_MULTIPLIER) scales a rating's delta.
-export const TAG_SCORES_VERSION = 4;
+// 5: how often you visit (FREQUENCY_MULTIPLIER) scales a rating's delta.
+export const TAG_SCORES_VERSION = 5;
 // A ✓/✗ on a Mapr Pick is a lighter signal than a full rating, and doesn't
 // count as a rating behind a tag (tagCounts).
 export const VOTE_DELTAS = { yes: 4, no: -6 };
 // A rating from someone who keeps coming back is stronger proof of taste
 // than a single visit -- scales the tier delta before it's applied. Applies
-// both directions: a regular who says "not for me" is just as informative
-// as a regular who loves it. Missing/unknown frequency (older reviews,
+// both directions: someone who comes here a lot saying "not for me" is just
+// as informative as loving it. Missing/unknown frequency (older reviews,
 // votes, or a skipped question) is 1x, unchanged from before this existed.
-export const FREQUENCY_MULTIPLIER = { first: 1, occasional: 1.2, regular: 1.4, usual: 1.6 };
+export const FREQUENCY_MULTIPLIER = { 'not-often': 1, sometimes: 1.3, 'a-lot': 1.6 };
 
 const DAY_MS = 86400000;
 const UNRATEABLE = new Set(['dorms', 'campus-life']);

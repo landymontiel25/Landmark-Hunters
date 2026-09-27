@@ -29,13 +29,13 @@ const T0 = Date.UTC(2026, 0, 1);
 
 describe('applyRating', () => {
   it('scales the delta by visit frequency, both directions', () => {
-    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'usual').scores.food).toBeCloseTo(
-      10 * FREQUENCY_MULTIPLIER.usual
+    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'a-lot').scores.food).toBeCloseTo(
+      10 * FREQUENCY_MULTIPLIER['a-lot']
     );
-    expect(applyRating({}, ['food'], 'probably-skip', T0, 'usual').scores.food).toBeCloseTo(
-      -15 * FREQUENCY_MULTIPLIER.usual
+    expect(applyRating({}, ['food'], 'probably-skip', T0, 'a-lot').scores.food).toBeCloseTo(
+      -15 * FREQUENCY_MULTIPLIER['a-lot']
     );
-    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'first').scores.food).toBeCloseTo(10);
+    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'not-often').scores.food).toBeCloseTo(10);
   });
 
   it('treats missing or unknown frequency as 1x, same as before frequency existed', () => {
@@ -203,10 +203,10 @@ describe('rebuildTagScores', () => {
 
   it('replays a review\'s visitFrequency at the same weight the live path applies', () => {
     const reviews = [
-      { region: 'milan', categories: ['food'], ratingTier: 'highly-recommend', visitFrequency: 'usual', updatedAt: { seconds: T0 / 1000 } },
+      { region: 'milan', categories: ['food'], ratingTier: 'highly-recommend', visitFrequency: 'a-lot', updatedAt: { seconds: T0 / 1000 } },
     ];
     const { tagScores } = rebuildTagScores(reviews);
-    expect(tagScores.milan.food).toBeCloseTo(10 * FREQUENCY_MULTIPLIER.usual);
+    expect(tagScores.milan.food).toBeCloseTo(10 * FREQUENCY_MULTIPLIER['a-lot']);
   });
 });
 
