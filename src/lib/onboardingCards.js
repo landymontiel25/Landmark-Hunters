@@ -26,7 +26,7 @@ export const CARD_PHOTOS = {
   "Waterfalls": "Cascada Dynjandi, Vestfirðir, Islandia, 2014-08-14, DD 136-138 HDR.JPG",
   "Lakes/rivers": "Pirogue running on the Mekong at golden hour between Don Det and Don Khon Laos.jpg",
   "Live music": "Dülmen, Dülmener Sommer, Open-Air-Konzert, \"Bounce\" -- 2018 -- 0051.jpg",
-  "Comedy shows": "Bill Burr (43602801301).jpg",
+  "Comedy shows": "Kevin Hart (15789082350).jpg",
   "Theme parks": "Luna Park Melbourne scenic railway.jpg",
   "Aquariums": "Male whale shark at Georgia Aquarium.jpg",
   "Zoos": "Sea Lion and Keeper at the Welsh Mountain Zoo - geograph.org.uk - 4684996.jpg",
@@ -47,6 +47,11 @@ export const CARD_PHOTOS = {
   "Farmers markets": "DSCF1116 Fresh root vegetables piled at a bustling market stall with fruits and produce blurred in the colorful background.jpg",
   "Luxury spots": "Infinity Edge Pool, Mauritius.JPG",
   "Shopping": "2018 Mall of America 01.jpg",
+};
+
+// Crop anchor for tall photos whose subject sits high in the frame.
+export const CARD_PHOTO_POSITION = {
+  "Comedy shows": 'center 20%',
 };
 
 const commonsUrl = (file, width) =>
@@ -147,6 +152,7 @@ export const SWIPE_GROUPS = [
     // Two files show side by side as a split photo.
     photos: [CARD_PHOTOS[word]].flat().map((f) => commonsUrl(f, 800)),
     photoPages: [CARD_PHOTOS[word]].flat().map(commonsPage),
+    photoPosition: CARD_PHOTO_POSITION[word] || null,
   })),
 }));
 

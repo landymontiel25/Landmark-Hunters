@@ -17,7 +17,8 @@ import MaprChatsPanel from '../components/MaprChatsPanel';
 import MultiRegionSearch from '../components/MultiRegionSearch';
 import DirectionsButton from '../components/DirectionsButton';
 import { reverseLocality } from '../lib/geocode';
-import { computeTasteConfidence, hasInsiderMode } from '../lib/tasteProfile';
+import { computeTasteConfidence, hasInsiderMode, votesAsReviews } from '../lib/tasteProfile';
+import { readLocalFeedback } from '../lib/pickFeedback';
 import { composeTasteIntro, baselineToSyntheticReviews } from '../lib/tasteQuestions';
 import { logPlanningEvent } from '../lib/timeSaved';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
@@ -443,6 +444,10 @@ export default function Mapr() {
       const confidenceInputs = [
         ...reviews,
         ...baselineToSyntheticReviews(myProfile?.tasteBaseline, myProfile?.tasteBaselineCategoryNotes),
+        ...votesAsReviews(
+          user ? readLocalFeedback(user.uid) : {},
+          new Set([...Object.keys(myReviews), ...Object.values(myReviews).map((r) => r.landmarkId)])
+        ),
       ];
       const insiderMode = hasInsiderMode(computeTasteConfidence(confidenceInputs).confidence);
       // Learned per-category scores for the chat's cities (or wherever the

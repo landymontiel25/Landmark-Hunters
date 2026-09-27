@@ -297,6 +297,7 @@ function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
                 src={src}
                 alt=""
                 draggable={false}
+                style={card.photoPosition ? { objectPosition: card.photoPosition } : undefined}
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}

@@ -76,7 +76,7 @@ export const APP_HELP =
   `place can be a yes on a lazy morning and a no on a Saturday night out), and solo/group in one place, then turns it into a normal chat message ` +
   `Mapr answers like any other.\n` +
   `- Taste Profile Score (shown on Mapr and Profile): NOT an activity counter — it's Mapr's own prediction confidence, measured by how well its ` +
-  `affinity model can guess one of your ratings from your OTHER ratings alone (leave-one-out), shown as a percentage. It only rises when predictions ` +
+  `affinity model can guess one of your ratings from your OTHER ratings alone (leave-one-out), shown as a percentage. Mapr Picks ✓/✗ votes count toward it at half the weight of a full rating. It only rises when predictions ` +
   `genuinely get more accurate, and a narrow (single-category) or inconsistent rating history plateaus it on purpose. Personal-only, never on any ` +
   `leaderboard. Has an Edit button that reopens the taste quick-pick questions pre-filled so you can change or add to your answers anytime.\n` +
   `- Taste baseline / "tell Mapr what you like" (Mapr, Settings, and an onboarding step): quick per-category like/hate chips (tap once for like, ` +
@@ -93,7 +93,7 @@ export const APP_HELP =
   `nightlife or food for that slot on top of your learned taste; with no time given, it plans for right now.\n` +
   `- Mapr Picks (on Profile): up to 10 landmarks Mapr thinks you'll love next at once, for the city you're in right now (or, once you've been to everything there, the nearest city with something new). Every rating updates a ` +
   `per-city score for that landmark's category ("I loved it" +10, "It was okay" +2, "Not for me" -15, kept between -100 and 100, fading by half every 90 days; after a category's first 5 ` +
-  `ratings, each new one counts half). ` +
+  `ratings, each new one counts half). A ✓ or ✗ vote on a Mapr Pick moves that score too, more lightly (✓ +4, ✗ -6, and it doesn't count as one of the 5 ratings); "not sure" moves nothing. ` +
   `Mapr shortlists that city's 30 best-scoring places (no more than 12 from any one category, so one favorite can't crowd out the rest) and then picks the final ones with your recent ratings and own words in mind. A few of the 30 are ` +
   `deliberate wildcards from categories you've barely rated, so Mapr can find new interests; a wildcard shows as "🎲 Something new" on its card. ` +
   `In a new city, Mapr starts from 40% of your scores from other cities and phases that out by your 15th rating there. With no ratings ` +

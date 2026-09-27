@@ -81,7 +81,8 @@ export function buildTasteModel(reviews, nowSec = Date.now() / 1000) {
   const negativeTraits = new Set();
   const softNegativeTraits = new Map();
   for (const r of reviews || []) {
-    const rw = recencyWeight(r.updatedAt?.seconds, nowSec);
+    // weight < 1: a lighter signal than a rating, e.g. a Mapr Picks vote.
+    const rw = recencyWeight(r.updatedAt?.seconds, nowSec) * (r.weight ?? 1);
     const w = (r.tier === 'highly-recommend' ? 3 : r.tier === 'probably-skip' ? -3 : 1) * rw;
     for (const c of r.categories || []) affinity[c] = (affinity[c] || 0) + w;
     const text = [r.name, r.comment, ...(r.highlights || []).map(chipLabel)].filter(Boolean).join(' ');
