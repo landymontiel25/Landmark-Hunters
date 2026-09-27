@@ -942,9 +942,6 @@ export default function Itinerary() {
                         <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
                       </button>
                     )}
-                    {!stop.external && claimedMap[stop.id] && (
-                      <span className="checkedin-badge">{'✅'} Checked in</span>
-                    )}
                     {!stop.external && <QuickRateButton landmark={stop} />}
                   </div>
                   <button
