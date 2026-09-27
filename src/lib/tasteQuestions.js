@@ -109,27 +109,18 @@ export function baselineToSyntheticReviews(baseline, categoryNotes) {
   return out;
 }
 
-// favoritePlaces (Settings, "Tell me the places you visit most"): named
-// places/brands, not categories -- "Dunkin' Donuts, sushi, Italian, arepa
-// places, marinas, Carrot Express" tells Mapr far more specifically than
-// "food" or "parks-nature" ever could. Read as prose, same as tasteIntro.
-export function composeFavoritePlaces(myProfile) {
-  const text = myProfile?.favoritePlaces?.trim();
-  return text ? `Places/brands they said they visit most: ${text}.` : '';
-}
-
 // The full text sent to the AI as this traveler's taste profile -- free-form
-// tasteIntro (onboarding/Settings), the structured baseline as prose
-// (including per-category comments), any notes typed alongside it in the
-// edit/nudge card, and the named favorite places/brands above, combined at
-// read time so editing any of it later never means hunting through
-// previously-saved sentences to avoid duplicating them.
+// tasteIntro (onboarding/Settings' "Tell Mapr What You Love," which also
+// invites naming specific places/brands, not just categories), the
+// structured baseline as prose (including per-category comments), and any
+// notes typed alongside it in the edit/nudge card, combined at read time so
+// editing any of it later never means hunting through previously-saved
+// sentences to avoid duplicating them.
 export function composeTasteIntro(myProfile) {
   return [
     myProfile?.tasteIntro,
     baselineToSentence(myProfile?.tasteBaseline, myProfile?.tasteBaselineCategoryNotes),
     myProfile?.tasteBaselineNotes,
-    composeFavoritePlaces(myProfile),
   ]
     .filter(Boolean)
     .join('. ');

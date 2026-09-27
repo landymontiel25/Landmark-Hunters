@@ -83,9 +83,9 @@ export const APP_HELP =
   `twice for dislike, three times to clear) plus an optional comment on each category and a free-text box — entirely optional, and typing/talking to ` +
   `Mapr directly works just as well. This baseline is what Mapr leans on before you've rated much; an actual rating on a specific landmark is more ` +
   `precise and wins if the two ever disagree.\n` +
-  `- Places You Visit Most (Settings, below "Tell Mapr What You Love"): one free-text box to name actual places and brands, not categories — e.g. ` +
-  `"Dunkin' Donuts, sushi, Italian, arepa places, marinas, Carrot Express." A category alone can't tell Mapr you specifically like a donut chain or ` +
-  `a cuisine; naming it directly can. Always included, not tied to the day or a mood.\n` +
+  `- "Tell Mapr What You Love" (Settings): one free-text box for anything in your own words — categories, moods, or actual places and brands by ` +
+  `name (e.g. "I love racing, steak, pickleball, Dunkin' Donuts, sushi, arepa places, marinas, Carrot Express"). Naming a specific place/brand tells ` +
+  `Mapr something a category alone can't. Mapr reads it directly, no rating required.\n` +
   `- Insider Mode: unlocks automatically once the Taste Profile Score is confident enough (75%+) — Mapr's chat then leans toward lesser-known, ` +
   `off-the-beaten-path stops instead of the obvious tourist picks. Nothing to turn on manually, it just activates, and there's no badge or toggle ` +
   `for it anywhere -- it's just how the chat behaves once it's confident enough.\n` +

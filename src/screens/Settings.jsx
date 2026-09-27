@@ -10,7 +10,6 @@ import {
   getUserProfile,
   saveHomeLocation,
   saveTasteIntro,
-  saveFavoritePlaces,
   setHabitTrackingEnabled,
 } from '../lib/friends';
 import { useAdminMode } from '../lib/AdminModeContext';
@@ -82,11 +81,8 @@ export default function Settings() {
   const [homePending, setHomePending] = useState(null);
   const taste = useDraft(uid ? `tasteIntro.${uid}` : null, myProfile?.tasteIntro || '');
   const [tasteMsg, setTasteMsg] = useState(null);
-  const context = useDraft(uid ? `favoritePlaces.${uid}` : null, myProfile?.favoritePlaces || '');
-  const [contextMsg, setContextMsg] = useState(null);
   const homeAddress = home.value;
   const tasteIntro = taste.value;
-  const favoritePlaces = context.value;
   const [verifyMsg, setVerifyMsg] = useState(null);
   const [verifyBusy, setVerifyBusy] = useState(false);
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
@@ -119,22 +115,6 @@ export default function Settings() {
       toast,
       errorMessage: friendlyError(null, "Couldn't save what you love. Your text is still here."),
       retry: saveTaste,
-    });
-  };
-
-  const saveContext = () => {
-    const text = favoritePlaces;
-    runOptimistic({
-      apply: () => setContextMsg('Saved.'),
-      commit: async () => {
-        await saveFavoritePlaces(user.uid, text);
-        await reloadFriends();
-        context.settle(text);
-      },
-      rollback: () => setContextMsg(null),
-      toast,
-      errorMessage: friendlyError(null, "Couldn't save your favorite places. They're still filled in."),
-      retry: saveContext,
     });
   };
 
@@ -305,8 +285,9 @@ export default function Settings() {
         <div className="card section">
           <h3 style={{ marginTop: 0 }}>{'\u{1F9E9}'} Tell Mapr What You Love</h3>
           <p className="screen-subtitle" style={{ marginTop: -6 }}>
-            In your own words -- "I love racing, steak, pickleball, the boat... I like fancy, luxurious things." Mapr
-            reads this directly, no rating required.
+            In your own words -- categories, specific places, or brands, whatever comes to mind: "I love racing,
+            steak, pickleball, the boat, Dunkin' Donuts, sushi, arepa places, marinas, Carrot Express... I like
+            fancy, luxurious things." Mapr reads this directly, no rating required.
           </p>
           {taste.restored && <DraftRestoredNote onDiscard={taste.discard} />}
           <textarea
@@ -336,43 +317,6 @@ export default function Settings() {
           {tasteMsg && (
             <p className="screen-subtitle" style={{ marginTop: 8 }}>
               {tasteMsg}
-            </p>
-          )}
-        </div>
-      )}
-
-      {firebaseEnabled && user && (
-        <div className="card section">
-          <h3 style={{ marginTop: 0 }}>{'\u{1F4CD}'} Places You Visit Most</h3>
-          <p className="screen-subtitle" style={{ marginTop: -6 }}>
-            The taste above is by category. This is specific: name the actual places and brands you go to most, so
-            Mapr can spot the same kind of spot even when a broad category wouldn't catch it.
-          </p>
-          {context.restored && <DraftRestoredNote onDiscard={context.discard} />}
-          <div className="field" style={{ marginTop: 12 }}>
-            <label htmlFor="favorite-places">Tell me the places you visit most</label>
-            <textarea
-              id="favorite-places"
-              name="favorite-places"
-              className="rating-comment"
-              autoComplete="off"
-              autoCapitalize="sentences"
-              rows={3}
-              maxLength={1000}
-              placeholder="eg; Dunkin' Donuts, sushi, Italian, arepa places, marinas, Carrot Express"
-              value={favoritePlaces}
-              onChange={(e) => {
-                setContextMsg(null);
-                context.setDraft(e.target.value);
-              }}
-            />
-          </div>
-          <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={saveContext}>
-            Save
-          </button>
-          {contextMsg && (
-            <p className="screen-subtitle" style={{ marginTop: 8 }}>
-              {contextMsg}
             </p>
           )}
         </div>

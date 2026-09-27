@@ -141,17 +141,6 @@ export async function saveTasteIntro(uid, text) {
   await setDoc(doc(db, 'users', uid), { tasteIntro: (text || '').trim().slice(0, 2000), updatedAt: serverTimestamp() }, { merge: true });
 }
 
-// Named places/brands they actually visit most -- e.g. "Dunkin' Donuts,
-// sushi, Italian, arepa places, marinas, Carrot Express." Separate from the
-// general taste baseline above: those are category-level (like/dislike per
-// category), this is specific enough to catch a chain or cuisine a category
-// alone can't (see composeFavoritePlaces in tasteQuestions.js for how it
-// reaches the AI). One free-text field, capped at 1000 chars.
-export async function saveFavoritePlaces(uid, text) {
-  if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { favoritePlaces: (text || '').trim().slice(0, 1000), updatedAt: serverTimestamp() }, { merge: true });
-}
-
 // Answer to "You really love [tag]. Want us to lean more into it?" (see
 // TagCapPrompt). One answer per tag, applied in every region. Either answer
 // is stored, which is what stops it asking again.
