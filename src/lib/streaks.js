@@ -3,9 +3,14 @@
 // there's nothing new to store or keep in sync.
 import { isRealCheckin } from './leaderboard';
 
-const dayKey = (d) => `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+// Local calendar day, not UTC -- a streak day has to mean "today" on the
+// traveler's own clock. Using getUTCFullYear/Month/Date here previously
+// meant the day boundary landed at UTC midnight (7-8pm in US timezones),
+// which read as an arbitrary, inconsistent cutoff rather than "resets at
+// midnight" the way every other daily-streak app works.
+const dayKey = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 
-/** Whether a real (points-earning) check-in happened today (UTC) -- used to warn when an active streak is about to lapse. */
+/** Whether a real (points-earning) check-in happened today (local time) -- used to warn when an active streak is about to lapse. */
 export function hasCheckedInToday(checkins, now = new Date()) {
   const today = dayKey(now);
   return checkins.some((c) => isRealCheckin(c) && c.createdAt?.seconds && dayKey(new Date(c.createdAt.seconds * 1000)) === today);
@@ -20,7 +25,7 @@ export function hasCheckedInToday(checkins, now = new Date()) {
 // feeds this streak math.
 export const PICKS_STREAK_THRESHOLD = 3;
 
-// Day-keys (UTC) with at least `minActions` distinct landmarks engaged
+// Day-keys (local time) with at least `minActions` distinct landmarks engaged
 // with, combining pick_feedback votes (voted landmarkId + `at` epoch ms)
 // and 0-point "Rate a Landmark" claims (ratingOnly checkins, by their
 // createdAt).
@@ -47,7 +52,7 @@ function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_TH
 }
 
 /**
- * Distinct landmarks engaged with today (UTC) toward the PICKS_STREAK_THRESHOLD
+ * Distinct landmarks engaged with today (local time) toward the PICKS_STREAK_THRESHOLD
  * goal -- votes and 0-point ratings combined, capped display-wise by nothing
  * (it can exceed the threshold). For a "2/3 rated today" style counter.
  */
@@ -78,21 +83,21 @@ export function hasSecuredStreakToday(checkins, pickFeedback = [], now = new Dat
 }
 
 /**
- * Milliseconds until the current UTC day ends -- the moment an active
+ * Milliseconds until the current LOCAL day ends -- the moment an active
  * streak with no check-in yet today actually lapses (computeStreakDays
- * counts by UTC calendar day, so this is the same boundary). Feeds the
+ * counts by local calendar day, so this is the same boundary). Feeds the
  * "your streak expires in ..." countdown banner.
  */
 export function msUntilStreakLapse(now = new Date()) {
-  const nextMidnightUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0, 0);
-  return nextMidnightUTC - now.getTime();
+  const nextLocalMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+  return nextLocalMidnight.getTime() - now.getTime();
 }
 
 /**
- * Consecutive days (UTC) with at least one real check-in -- or a qualifying
- * votes/ratings day, see hasSecuredStreakToday -- counting back from today.
- * A day with neither yet doesn't break the streak until tomorrow -- so
- * "yesterday, but not yet today" still counts.
+ * Consecutive days (local time) with at least one real check-in -- or a
+ * qualifying votes/ratings day, see hasSecuredStreakToday -- counting back
+ * from today. A day with neither yet doesn't break the streak until
+ * tomorrow -- so "yesterday, but not yet today" still counts.
  */
 export function computeStreakDays(checkins, now = new Date(), pickFeedback = []) {
   const days = new Set();
@@ -107,13 +112,13 @@ export function computeStreakDays(checkins, now = new Date(), pickFeedback = [])
 
   const cursor = new Date(now);
   if (!days.has(dayKey(cursor))) {
-    cursor.setUTCDate(cursor.getUTCDate() - 1);
+    cursor.setDate(cursor.getDate() - 1);
     if (!days.has(dayKey(cursor))) return 0;
   }
   let streak = 0;
   while (days.has(dayKey(cursor))) {
     streak += 1;
-    cursor.setUTCDate(cursor.getUTCDate() - 1);
+    cursor.setDate(cursor.getDate() - 1);
   }
   return streak;
 }

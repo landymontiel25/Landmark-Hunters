@@ -5,14 +5,14 @@ import { useBadges } from '../lib/BadgesContext';
 import { msUntilStreakLapse, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { notifyUser } from '../lib/notifications';
 
-// Alert once 5 hours remain in the UTC day with the streak not yet secured
+// Alert once 5 hours remain in the local day with the streak not yet secured
 // today (no check-in, and fewer than PICKS_STREAK_THRESHOLD landmarks
 // voted or rated) -- the same boundary computeStreakDays counts by, so this
 // is exactly when an active streak is about to actually lapse.
 const WARNING_WINDOW_MS = 5 * 60 * 60 * 1000;
 const NOTIFIED_PREFIX = 'landmarkhunters.streakWarned.';
 
-const dayKeyUTC = (d) => `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+const dayKeyLocal = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 
 function formatCountdown(ms) {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
@@ -48,7 +48,7 @@ export default function StreakWarningBanner() {
 
   useEffect(() => {
     if (!user || !withinWarningWindow) return;
-    const key = `${NOTIFIED_PREFIX}${user.uid}.${dayKeyUTC(new Date())}`;
+    const key = `${NOTIFIED_PREFIX}${user.uid}.${dayKeyLocal(new Date())}`;
     try {
       if (localStorage.getItem(key) === '1') return;
       localStorage.setItem(key, '1');
