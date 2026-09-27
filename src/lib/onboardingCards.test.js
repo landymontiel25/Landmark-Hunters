@@ -70,10 +70,14 @@ describe('card photos', () => {
   it('gives every card its own Wikimedia Commons photo', async () => {
     const { ALL_SWIPE_CARDS, CARD_PHOTOS } = await import('./onboardingCards');
     expect(Object.keys(CARD_PHOTOS).sort()).toEqual(ALL_SWIPE_CARDS.map((c) => c.word).sort());
-    expect(new Set(Object.values(CARD_PHOTOS)).size).toBe(ALL_SWIPE_CARDS.length);
+    const files = Object.values(CARD_PHOTOS).flat();
+    expect(new Set(files).size).toBe(files.length);
     for (const c of ALL_SWIPE_CARDS) {
-      expect(c.photo).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=800$/);
-      expect(c.photoPage).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+      expect(c.photos.length).toBeGreaterThan(0);
+      expect(c.photos.length).toBe(c.photoPages.length);
+      for (const u of c.photos) expect(u).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=800$/);
+      for (const u of c.photoPages) expect(u).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     }
+    expect(ALL_SWIPE_CARDS.find((c) => c.word === 'Arcades/bowling').photos).toHaveLength(2);
   });
 });
