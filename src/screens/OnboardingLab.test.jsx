@@ -50,7 +50,9 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Rate a few things you');
 
     await click(button(el, 'Next'));
-    expect(el.textContent).toContain('Swipe right → love it');
+    expect(el.textContent).toContain('Love it: swipe right or tap ♥');
+    expect(el.textContent).toContain("Don't like it: swipe left or tap ✕");
+    expect(el.textContent).toContain("Not sure or don't care: tap the card or tap −");
 
     await click(button(el, 'Start'));
     const love = el.querySelector('[aria-label="Love it"]');
