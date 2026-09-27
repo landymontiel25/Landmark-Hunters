@@ -7,7 +7,7 @@ import { isAdmin } from '../lib/admins';
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_REGIONS, getLandmark } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
-import { localTagPicks, pickRegion } from '../lib/tagScores';
+import { localSwipePicks, noteKeywords, pickRegion } from '../lib/tagScores';
 import { authHeaders } from '../lib/apiAuth';
 import LandmarkThumb from '../components/LandmarkThumb';
 
@@ -575,7 +575,8 @@ function LabRecommendations({ data, deltas }) {
     tagCounts: { [region]: counts },
   };
   const tasteIntro = tasteIntroFromAnswers(data.answers, data.notes);
-  const instant = localTagPicks({ profile, region, limit: 8, now });
+  const keywords = noteKeywords(tasteIntro);
+  const instant = localSwipePicks({ region, tagDeltas: deltas, keywords, limit: 8, now });
 
   const changeRegion = (r) => {
     setRegion(r);
@@ -588,7 +589,7 @@ function LabRecommendations({ data, deltas }) {
       const r = await fetch('/api/mapr-picks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-        body: JSON.stringify({ region, ...profile, tasteIntro, origin: coords || null }),
+        body: JSON.stringify({ region, ...profile, tasteIntro, origin: coords || null, mode: 'swipeOnly' }),
       });
       const body = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(body.error || `Mapr returned ${r.status}`);
@@ -630,14 +631,18 @@ function LabRecommendations({ data, deltas }) {
       <p className="screen-subtitle" style={{ margin: '0 0 6px', fontSize: '0.8rem' }}>
         <strong>Mapr reads:</strong> {tasteIntro || 'nothing (no answers)'}
       </p>
-
-      <p style={{ margin: '12px 0 4px' }}>
-        <strong>Instant picks</strong> <span className="screen-subtitle">(tag scores only, no AI)</span>
+      <p className="screen-subtitle" style={{ margin: '0 0 10px', fontSize: '0.8rem' }}>
+        Only places matching a swiped "love it" category or a word from your notes show up below -- nothing from
+        popularity alone.
       </p>
-      {instant.length ? <ul className="lab-recs">{instant.map(row)}</ul> : <p className="screen-subtitle">No landmarks here.</p>}
 
       <p style={{ margin: '12px 0 4px' }}>
-        <strong>Mapr AI picks</strong> <span className="screen-subtitle">(tag scores + your card words and notes)</span>
+        <strong>Instant picks</strong> <span className="screen-subtitle">(swipes + notes only, no AI)</span>
+      </p>
+      {instant.length ? <ul className="lab-recs">{instant.map(row)}</ul> : <p className="screen-subtitle">Nothing matches what you swiped or wrote yet.</p>}
+
+      <p style={{ margin: '12px 0 4px' }}>
+        <strong>Mapr AI picks</strong> <span className="screen-subtitle">(same swipes + notes only, picked and explained by Claude)</span>
       </p>
       {ai.status === 'done' &&
         (ai.picks.length ? <ul className="lab-recs">{ai.picks.map(row)}</ul> : <p className="screen-subtitle">Mapr returned no picks.</p>)}
