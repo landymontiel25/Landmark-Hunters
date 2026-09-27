@@ -55,11 +55,10 @@ describe('OnboardingLab', () => {
     await click(button(el, 'Start'));
     const love = el.querySelector('[aria-label="Love it"]');
     const total = Number(el.querySelector('.lab-progress').textContent.split('/')[1]);
-    expect(total).toBeGreaterThanOrEqual(15);
-    expect(total).toBeLessThanOrEqual(18);
+    expect(total).toBe(45);
     for (let n = 0; n < total; n += 1) {
       await click(n === 0 ? love : el.querySelector('[aria-label="Not sure"]'));
-      await act(async () => new Promise((r) => setTimeout(r, 250)));
+      await act(async () => new Promise((r) => setTimeout(r, 230)));
     }
     expect(el.textContent).toContain('All done');
 
@@ -73,10 +72,13 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Onboarding finished');
     expect(el.textContent).toContain('1 love it');
     expect(el.textContent).toContain('+10');
+    expect(el.textContent).toContain('What Mapr would recommend');
+    expect(el.textContent).toContain('Loves: ');
+    expect(el.querySelectorAll('.lab-rec').length).toBeGreaterThan(0);
 
     await click(button(el, 'Restart sign-up'));
     expect(el.textContent).toContain('Create Account');
-  });
+  }, 30000);
 
   it('Skip on the rate prompt goes straight to the end with no preference data', async () => {
     const el = await renderAs('landymontiel25@gmail.com');

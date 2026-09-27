@@ -41,3 +41,27 @@ describe('onboarding swipe cards', () => {
     expect(deltas).toEqual({ food: -5, 'formula-1': 10 });
   });
 });
+
+describe('tasteIntroFromAnswers', () => {
+  it('lists loved, disliked and unsure words plus notes', async () => {
+    const { tasteIntroFromAnswers, ALL_SWIPE_CARDS } = await import('./onboardingCards');
+    const card = (w) => ALL_SWIPE_CARDS.find((c) => c.word === w);
+    const text = tasteIntroFromAnswers(
+      [
+        { card: card('Steak'), answer: 'love' },
+        { card: card('Sushi'), answer: 'love' },
+        { card: card('Zoos'), answer: 'dislike' },
+        { card: card('Golf'), answer: 'unsure' },
+      ],
+      ' no crowds '
+    );
+    expect(text).toBe("Loves: Steak, Sushi. Doesn't like: Zoos. Not sure about: Golf. Also said: no crowds");
+  });
+
+  it('allSwipeCards deals every card once', async () => {
+    const { allSwipeCards, ALL_SWIPE_CARDS } = await import('./onboardingCards');
+    const dealt = allSwipeCards();
+    expect(dealt).toHaveLength(ALL_SWIPE_CARDS.length);
+    expect(new Set(dealt.map((c) => c.word)).size).toBe(ALL_SWIPE_CARDS.length);
+  });
+});
