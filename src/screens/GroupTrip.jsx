@@ -317,22 +317,27 @@ export default function GroupTrip() {
         {(region?.landmarks || []).map((l) => {
           const selected = isSelected(l.id);
           return (
-            <label key={l.id} className="friend-row" style={{ cursor: 'pointer' }}>
-              <span style={{ minWidth: 0 }}>
+            <div key={l.id} className="friend-row">
+              <button
+                type="button"
+                className="shared-landmark-link"
+                onClick={() => navigate(`/landmarks/${region.id}/${l.id}`)}
+                title={`Open ${l.name}`}
+              >
                 {selected ? '\u{2705}' : '\u{2B1C}'} {l.name}
                 {addresses[l.id] && (
                   <span style={{ display: 'block', fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginTop: 2 }}>
                     {'\u{1F4CD}'} {addresses[l.id]}
                   </span>
                 )}
-              </span>
+              </button>
               <input
                 type="checkbox"
                 checked={selected}
                 onChange={() => setLandmark(l, !selected)}
                 style={{ width: 20, height: 20 }}
               />
-            </label>
+            </div>
           );
         })}
       </div>
