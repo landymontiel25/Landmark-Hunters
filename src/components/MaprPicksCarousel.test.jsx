@@ -27,6 +27,7 @@ vi.mock('../lib/leaderboard', () => ({ getGlobalCheckinCounts: () => net.counts(
 vi.mock('../lib/friends', () => ({ recordShownPicks: () => never(), saveRebuiltTagScores: () => never(), saveSettledPicks: () => never() }));
 vi.mock('../lib/apiAuth', () => ({ authHeaders: async () => ({}) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
+vi.mock('./RateCityAhead', () => ({ default: () => null }));
 
 import MaprPicksCarousel from './MaprPicksCarousel';
 
