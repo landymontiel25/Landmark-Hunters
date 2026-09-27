@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
-import { saveLandmarkEdit, clearLandmarkEdit } from '../lib/landmarkOverrides';
+import { saveLandmarkEdit, clearLandmarkEdit, deleteBuiltInLandmark, restoreBuiltInLandmark } from '../lib/landmarkOverrides';
 import CategorySelect from './CategorySelect';
 
 // Admin Mode's edit tool for a BUILT-IN (static catalog) landmark. There's
@@ -11,6 +12,7 @@ import CategorySelect from './CategorySelect';
 // same as editing a custom landmark; "Reset to Original" deletes the patch
 // and reverts to whatever's in the source file.
 export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [name, setName] = useState(landmark.name || '');
   const [category, setCategory] = useState(landmark.categories?.[0] || '');
@@ -23,6 +25,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
   // Catalog landmarks store their city as `region`; list/map copies add `regionId`.
   const regionId = landmark.regionId ?? landmark.region;
   const [resetting, setResetting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [msg, setMsg] = useState(null);
 
   const save = async () => {
@@ -70,6 +73,39 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
       setMsg({ ok: false, text: e.message || 'Could not revert — try again.' });
     } finally {
       setResetting(false);
+    }
+  };
+
+  const remove = async () => {
+    if (
+      !window.confirm(
+        `Delete "${landmark.name}" for everyone? It's still in the app's source code, but hidden everywhere until an admin reverts it.`
+      )
+    ) {
+      return;
+    }
+    setDeleting(true);
+    setMsg(null);
+    try {
+      await deleteBuiltInLandmark(regionId, landmark.id, user?.uid);
+      navigate('/');
+    } catch (e) {
+      setMsg({ ok: false, text: e.message || 'Could not delete — try again.' });
+      setDeleting(false);
+    }
+  };
+
+  const restore = async () => {
+    setDeleting(true);
+    setMsg(null);
+    try {
+      await restoreBuiltInLandmark(regionId, landmark.id, user?.uid);
+      onSaved?.();
+      setMsg({ ok: true, text: 'Restored — visible to everyone again.' });
+    } catch (e) {
+      setMsg({ ok: false, text: e.message || 'Could not restore — try again.' });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -134,7 +170,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
         </label>
       </div>
 
-      <button type="button" className="btn btn-primary btn-block" disabled={saving || resetting} onClick={save}>
+      <button type="button" className="btn btn-primary btn-block" disabled={saving || resetting || deleting} onClick={save}>
         {saving ? 'Saving…' : 'Save Changes'}
       </button>
       {msg && (
@@ -147,11 +183,33 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
         type="button"
         className="btn btn-ghost btn-block"
         style={{ marginTop: 16 }}
-        disabled={saving || resetting}
+        disabled={saving || resetting || deleting}
         onClick={reset}
       >
         {resetting ? 'Reverting…' : `${'\u{21BA}'} Reset to Original`}
       </button>
+
+      {landmark.deleted ? (
+        <button
+          type="button"
+          className="btn btn-ghost btn-block"
+          style={{ marginTop: 10 }}
+          disabled={saving || resetting || deleting}
+          onClick={restore}
+        >
+          {deleting ? 'Restoring…' : `${'\u{21BA}'} Restore This Landmark`}
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-ghost btn-block"
+          style={{ marginTop: 10, color: 'var(--color-rust)' }}
+          disabled={saving || resetting || deleting}
+          onClick={remove}
+        >
+          {deleting ? 'Deleting…' : `${'\u{1F5D1}'} Delete This Landmark`}
+        </button>
+      )}
     </div>
   );
 }
