@@ -95,7 +95,9 @@ export const APP_HELP =
   `per-city score for that landmark's category ("I loved it" +10, "It was okay" +2, "Not for me" -15, kept between -100 and 100, fading by half every 90 days; after a category's first 5 ` +
   `ratings, each new one counts half). Rating also asks "How often do you come here?" (Not often / Sometimes / A lot, optional) -- "a lot" moves the score up to 1.6x as hard as "not often," both directions, since coming back ` +
   `often is stronger proof of taste than a rare visit. A ✓ or ✗ vote on a Mapr Pick moves that score too, more lightly (✓ +4, ✗ -6, and it doesn't count as one of the 5 ratings); "not sure" moves nothing. ` +
-  `Mapr shortlists that city's 30 best-scoring places (no more than 12 from any one category, so one favorite can't crowd out the rest) and then picks the final ones with your recent ratings and own words in mind. A few of the 30 are ` +
+  `Mapr shortlists that city's 30 best-scoring places (no more than 12 from any one category, so one favorite can't crowd out the rest) and then picks the final ones with your recent ratings and own words in mind. If you tell Mapr (in ` +
+  `the taste-intro free text) a city-specific exception -- "I don't usually like museums, but in Paris show me more" -- it honors that only when picking for that named city, even if it contradicts your general scores or ratings elsewhere. ` +
+  `A few of the 30 are ` +
   `deliberate wildcards from categories you've barely rated, so Mapr can find new interests; a wildcard shows as "🎲 Something new" on its card. ` +
   `In a new city, Mapr starts from 40% of your scores from other cities and phases that out by your 15th rating there. With no ratings ` +
   `anywhere yet, it starts from your signup interests, most-visited places first. With no location, ratings or saved cities at all, the row shows ` +

@@ -34,6 +34,10 @@ const INSTRUCTIONS =
   `dislikes by category. Actual rating history is more precise and specific (a real place, a real reason), so when ` +
   `the two would point different directions on the same thing, trust the specific rating over the general baseline. ` +
   `Use the baseline to cover categories no rating has touched yet, not to override a specific one.\n` +
+  `- If that baseline states a city-specific exception ("I don't usually like museums, but in Paris show me more"), ` +
+  `follow it only when the city you're planning for right now (from CURRENT LOCATION, the city they're asking about, ` +
+  `or an itinerary's city) matches the one they named -- even if it contradicts their general baseline or ratings ` +
+  `from other cities. An exception named for a different city never applies here.\n` +
   `- Loving something is not the same as wanting it RIGHT NOW -- someone can genuinely love hiking and scenic ` +
   `views and still want a club, not a trail, on a Saturday night in the city. Read their CURRENT message for time, ` +
   `day, mood, and occasion cues (tonight, this weekend, "something chill", "we're getting dressed up") and weigh ` +
