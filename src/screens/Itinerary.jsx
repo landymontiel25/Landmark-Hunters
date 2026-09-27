@@ -925,13 +925,23 @@ export default function Itinerary() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
                     {stop.external ? (
-                      <span className="chatlab-stop-globe" aria-hidden="true">
-                        {'\u{1F310}'}
-                      </span>
+                      <>
+                        <span className="chatlab-stop-globe" aria-hidden="true">
+                          {'\u{1F310}'}
+                        </span>
+                        <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
+                      </>
                     ) : (
-                      <LandmarkThumb landmark={stop} size={44} myPhoto={myPhotos[stop.id]?.[0]} />
+                      <button
+                        type="button"
+                        className="route-stop-link"
+                        onClick={() => navigate(`/landmarks/${region.id}/${stop.id}`)}
+                        title={`Open ${stop.name} — check in, rate, or see details`}
+                      >
+                        <LandmarkThumb landmark={stop} size={44} myPhoto={myPhotos[stop.id]?.[0]} />
+                        <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
+                      </button>
                     )}
-                    <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
                     {!stop.external && <QuickRateButton landmark={stop} />}
                   </div>
                   <button
@@ -983,11 +993,6 @@ export default function Itinerary() {
                     <a className="btn btn-primary btn-sm" href={stop.bookingUrl || '#'} target="_blank" rel="noreferrer">
                       Book Now
                     </a>
-                  )}
-                  {!stop.external && (
-                    <button className="btn btn-ghost btn-sm" onClick={() => navigate(`/landmarks/${region.id}/${stop.id}`)}>
-                      Details
-                    </button>
                   )}
                   {!stop.external && (
                   <CheckInButton
