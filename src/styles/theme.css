@@ -1178,8 +1178,18 @@ textarea {
 .landmark-row.visited,
 .card.visited {
   border-color: var(--color-green);
-  background: rgba(85, 201, 135, 0.16);
-  box-shadow: inset 0 0 0 1px rgba(85, 201, 135, 0.35);
+  background: rgba(85, 201, 135, 0.28);
+  box-shadow: inset 0 0 0 2px var(--color-green);
+}
+
+.checkedin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-green);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 /* ---------- Check-in blast ---------- */
