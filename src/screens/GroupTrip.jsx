@@ -18,6 +18,8 @@ import {
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import DirectionsButton from '../components/DirectionsButton';
+import CheckInButton from '../components/CheckInButton';
+import LandmarkThumb from '../components/LandmarkThumb';
 import { friendlyError } from '../lib/friendlyError';
 import { writePersisted } from '../lib/usePersistentState';
 import { useStopAddresses } from '../lib/useStopAddresses';
@@ -65,7 +67,7 @@ export default function GroupTrip() {
   const [pendingLandmarks, setPendingLandmarks] = useState({});
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { trip: myTrip, setMapFocus, setMapFocusStops, setItineraryStatus } = useTrip();
-  const { claimedMap } = useCheckIn();
+  const { claimedMap, checkingIn, checkIn, firebaseEnabled } = useCheckIn();
 
   const uid = user?.uid;
   useEffect(() => {
@@ -317,26 +319,52 @@ export default function GroupTrip() {
         {(region?.landmarks || []).map((l) => {
           const selected = isSelected(l.id);
           return (
-            <div key={l.id} className="friend-row">
-              <button
-                type="button"
-                className="shared-landmark-link"
-                onClick={() => navigate(`/landmarks/${region.id}/${l.id}`)}
-                title={`Open ${l.name}`}
-              >
-                {selected ? '\u{2705}' : '\u{2B1C}'} {l.name}
-                {addresses[l.id] && (
-                  <span style={{ display: 'block', fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginTop: 2 }}>
-                    {'\u{1F4CD}'} {addresses[l.id]}
-                  </span>
+            <div key={l.id} className={`card ${claimedMap[l.id] ? 'visited' : ''}`} style={{ marginBottom: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
+                <button
+                  type="button"
+                  className="route-stop-link"
+                  onClick={() => navigate(`/landmarks/${region.id}/${l.id}`)}
+                  title={`Open ${l.name}`}
+                >
+                  <LandmarkThumb landmark={l} size={44} />
+                  <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{l.name}</h4>
+                </button>
+                <input
+                  type="checkbox"
+                  checked={selected}
+                  onChange={() => setLandmark(l, !selected)}
+                  style={{ width: 20, height: 20, flexShrink: 0 }}
+                  aria-label={selected ? `Remove ${l.name} from the trip` : `Add ${l.name} to the trip`}
+                />
+              </div>
+              {addresses[l.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[l.id]}</p>}
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+                <span className={`tag ${l.free ? 'tag-free' : ''}`}>{l.free ? 'Free to Visit' : 'Ticketed'}</span>
+                {l.typicalMinutes && <span className="tag">{'\u{23F1}\u{FE0F}'} ~{l.typicalMinutes} min there</span>}
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
+                  Get Directions
+                </DirectionsButton>
+                {l.free ? (
+                  <button className="btn btn-sm" disabled style={{ borderColor: 'var(--color-green)', color: '#bfe0c8' }}>
+                    Free to Visit
+                  </button>
+                ) : (
+                  <a className="btn btn-primary btn-sm" href={l.bookingUrl || '#'} target="_blank" rel="noreferrer">
+                    Book Now
+                  </a>
                 )}
-              </button>
-              <input
-                type="checkbox"
-                checked={selected}
-                onChange={() => setLandmark(l, !selected)}
-                style={{ width: 20, height: 20 }}
-              />
+                <CheckInButton
+                  landmark={l}
+                  user={user}
+                  firebaseEnabled={firebaseEnabled}
+                  claimedMap={claimedMap}
+                  checkingIn={checkingIn}
+                  onCheckIn={checkIn}
+                />
+              </div>
             </div>
           );
         })}
