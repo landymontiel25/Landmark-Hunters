@@ -289,19 +289,21 @@ function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
           aria-label={`${card.word}. Swipe right to love it, left if you don't like it, or tap if you're not sure or don't care.`}
         >
           <div className="lab-card-word">{card.word}</div>
-          <div className={`lab-card-photo lab-photo-${card.group}`}>
+          <div className={`lab-card-photo lab-photo-${card.group} ${card.photos.length > 1 ? 'split' : ''}`}>
             <span aria-hidden="true">{card.icon}</span>
-            <img
-              key={card.word}
-              src={card.photo}
-              alt=""
-              draggable={false}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
+            {card.photos.map((src) => (
+              <img
+                key={src}
+                src={src}
+                alt=""
+                draggable={false}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ))}
           </div>
-          {cards[index + 1] && <link rel="preload" as="image" href={cards[index + 1].photo} />}
+          {cards[index + 1]?.photos.map((src) => <link key={src} rel="preload" as="image" href={src} />)}
           {hint && <div className={`lab-card-hint ${hint}`}>{hint === 'love' ? 'LOVE IT' : 'NOPE'}</div>}
         </div>
       </div>
@@ -513,9 +515,11 @@ function LabSummary({ data, log, onRestart }) {
               {data.answers.map(({ card, answer }) => (
                 <li key={card.word}>
                   {card.icon} {card.word} → {answerLabel[answer]} <code>{card.tag}</code>{' '}
-                  <a href={card.photoPage} target="_blank" rel="noreferrer">
-                    photo
-                  </a>
+                  {card.photoPages.map((href, i) => (
+                    <a key={href} href={href} target="_blank" rel="noreferrer" style={{ marginRight: 6 }}>
+                      photo{card.photoPages.length > 1 ? ` ${i + 1}` : ''}
+                    </a>
+                  ))}
                 </li>
               ))}
             </ul>

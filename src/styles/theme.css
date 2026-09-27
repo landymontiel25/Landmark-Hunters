@@ -5903,6 +5903,15 @@ h2,
   pointer-events: none;
 }
 
+.lab-card-photo.split img {
+  width: calc(50% - 1px);
+}
+
+.lab-card-photo.split img + img {
+  left: auto;
+  right: 0;
+}
+
 .lab-photo-food { background: linear-gradient(135deg, #7a3b1d, #d0833f); }
 .lab-photo-history { background: linear-gradient(135deg, #4a3f2a, #a88b55); }
 .lab-photo-nature { background: linear-gradient(135deg, #1f4d34, #5fa36f); }
