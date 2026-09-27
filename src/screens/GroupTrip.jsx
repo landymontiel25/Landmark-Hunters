@@ -157,9 +157,8 @@ export default function GroupTrip() {
   }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
-  const { order: dragOrder, registerNode, startDrag, draggingId } = useDragReorder(stopIds, (newIds) => {
+  const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     if (trip) reorderGroupLandmarks(trip, newIds).catch(() => {});
-    setSort('custom');
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 
@@ -372,15 +371,36 @@ export default function GroupTrip() {
           </p>
         )}
         {orderedRoute.map((l, idx) => (
-          <div key={l.id}>
+          <div
+            key={l.id}
+            ref={registerNode(l.id)}
+            style={{
+              transform: `translateY(${draggingId === l.id ? dragY : shifts[l.id] || 0}px)`,
+              transition: draggingId === l.id ? 'none' : 'transform 150ms ease',
+              position: 'relative',
+              zIndex: draggingId === l.id ? 20 : 1,
+            }}
+          >
             {coords && (idx > 0 || l.distanceFromPrevMeters <= 80000) && (
               <div className="route-travel">
                 {l.distanceFromPrevMeters <= 1200 ? '\u{1F6B6}' : '\u{1F697}'} {l.travelMinutesFromPrev || 1} min ·{' '}
                 {formatDistance(l.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}
-            <div className={`route-step ${draggingId === l.id ? 'dragging' : ''}`} ref={registerNode(l.id)}>
-              <div className="route-num">{idx + 1}</div>
+            <div className={`route-step ${draggingId === l.id ? 'dragging' : ''}`}>
+              {sort === 'custom' ? (
+                <button
+                  type="button"
+                  className="remove-dash"
+                  title="Remove from trip"
+                  aria-label={`Remove ${l.name} from trip`}
+                  onClick={() => setLandmark(l, false)}
+                >
+                  {'−'}
+                </button>
+              ) : (
+                <div className="route-num">{idx + 1}</div>
+              )}
               <div className={`card ${claimedMap[l.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                   <button
@@ -392,23 +412,26 @@ export default function GroupTrip() {
                     <LandmarkThumb landmark={l} size={44} />
                     <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{l.name}</h4>
                   </button>
-                  <button
-                    type="button"
-                    className="drag-handle"
-                    title="Hold and drag to reorder"
-                    aria-label={`Drag to reorder ${l.name}`}
-                    onPointerDown={startDrag(l.id)}
-                  >
-                    {'☰'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-icon-trash"
-                    title="Remove from trip"
-                    onClick={() => setLandmark(l, false)}
-                  >
-                    {'\u{1F5D1}\u{FE0F}'}
-                  </button>
+                  {sort === 'custom' ? (
+                    <button
+                      type="button"
+                      className="drag-handle"
+                      title="Hold and drag to reorder"
+                      aria-label={`Drag to reorder ${l.name}`}
+                      onPointerDown={startDrag(l.id)}
+                    >
+                      {'☰'}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn-icon-trash"
+                      title="Remove from trip"
+                      onClick={() => setLandmark(l, false)}
+                    >
+                      {'\u{1F5D1}\u{FE0F}'}
+                    </button>
+                  )}
                 </div>
                 {addresses[l.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[l.id]}</p>}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>

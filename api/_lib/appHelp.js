@@ -35,9 +35,11 @@ export const APP_HELP =
   `city's itinerary ("Clear" undoes it). A group trip's "➕ Add Landmarks" card has "Select all" / "Clear all" too, for everyone in the trip.\n` +
   `- An open itinerary's stops (solo or group -- both work exactly the same way, group trips just have more people on them) have a "Sort by" ` +
   `dropdown: "Nearest to me" (a walkable route, not just closest-to-you-first), "My order" (whatever you last dragged it into), "Highest rated", ` +
-  `"Quickest visits", "Free first". Hold the ☰ handle on any stop and drag it to reorder by hand -- doing that switches "Sort by" to "My order" ` +
-  `automatically and remembers it. A group trip shows its stops the same way, under "🗺️ Your Route", with a separate "➕ Add Landmarks" card ` +
-  `below it for browsing the rest of the city's catalog to add.\n` +
+  `"Quickest visits", "Free first". Only while "My order" is picked does each stop switch to an edit layout, same idea as iOS Weather's location ` +
+  `list: a red "−" on the left removes that stop (replacing the trash icon), and a ☰ handle on the right is what you hold and drag to reorder -- ` +
+  `the card follows your finger and the others slide out of the way live, not a jump to the new spot. Any other sort just shows a plain numbered ` +
+  `stop with the trash icon, no dragging. A group trip shows its stops the same way, under "🗺️ Your Route", with a separate "➕ Add Landmarks" ` +
+  `card below it for browsing the rest of the city's catalog to add.\n` +
   `- Itinerary tab has two subtabs, Current and Past. An itinerary (solo or group) moves to Past on its own once you've ` +
   `checked into every landmark on it (places Mapr found on the web don't count, since they can't be checked into). Open one ` +
   `and tap "📦 Move to Past" or "↩️ Move back to Current" to move it by hand; for a group trip that only moves it for you. ` +

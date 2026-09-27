@@ -388,9 +388,37 @@ textarea {
   cursor: grabbing;
 }
 
+/* iOS-style "remove" control -- shown in place of the route-num circle only
+   while sorted by "My order" (Itinerary, Group Trip's Your Route). Same
+   32x32 footprint as .route-num so switching sorts doesn't reflow the row. */
+.remove-dash {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-rust, #e0524f);
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.remove-dash:active {
+  transform: scale(0.94);
+}
+
+/* The dragged row lifts above the others (a raw, transition-less transform
+   tracking the finger -- see useDragReorder.js) while everything else slides
+   smoothly out of its way; the box-shadow is what sells "lifted", not a
+   flat opacity dim, which used to read as a teleport rather than a drag. */
 .route-step.dragging,
 .friend-row.dragging {
-  opacity: 0.55;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* ---------- Postcard / polaroid photo ---------- */
