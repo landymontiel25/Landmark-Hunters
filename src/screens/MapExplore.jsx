@@ -440,14 +440,10 @@ export default function MapExplore() {
     setFilterCatList((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
   const passesFilter = (l) => filterCats.size === 0 || (l.categories || []).some((c) => filterCats.has(c));
 
-  // "Move pins" mode: built-in landmark markers become draggable and a
-  // drop saves the corrected spot to the shared landmark_overrides
-  // collection (landmarkOverrides.js) -- the same mechanism the old,
-  // always-on drag-to-fix behavior wrote to, brought back as an explicit,
-  // discoverable toggle instead. Requires being signed in (Firestore's own
-  // rule for the collection does too); doesn't cover custom/user-submitted
-  // landmarks, which already store their own exact position.
-  const [editMode, setEditMode] = useState(false);
+  // Moving a built-in landmark's pin: Admin Mode only (same as moving a
+  // custom pin, or any other admin write) -- a drop saves the corrected
+  // spot to the landmark_overrides collection (landmarkOverrides.js).
+  // firestore.rules enforces this server-side too, not just here.
   const [pinSavedNote, setPinSavedNote] = useState(null);
   useEffect(() => {
     if (!pinSavedNote) return;
@@ -504,7 +500,6 @@ export default function MapExplore() {
   const startPlacingPin = () => {
     setPinDrop(null);
     setSearchOpen(false);
-    setEditMode(false);
     setPlacingPin(true);
   };
 
@@ -730,13 +725,6 @@ export default function MapExplore() {
     setSearchOpen((open) => !open);
     setSearchTerm('');
     setFilterOpen(false);
-    setEditMode(false);
-  };
-
-  const toggleEditMode = () => {
-    setEditMode((on) => !on);
-    setSearchOpen(false);
-    setFilterOpen(false);
   };
 
   // A live, distance-sorted view of what's closest right now, shown in the
@@ -793,8 +781,8 @@ export default function MapExplore() {
             key={`${l.regionId}/${l.id}`}
             position={position}
             icon={pinIcon(isClaimed, isSelected)}
-            draggable={editMode}
-            eventHandlers={editMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
+            draggable={adminMode}
+            eventHandlers={adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
           >
             <Popup>
               <div className="map-popup">
@@ -861,14 +849,13 @@ export default function MapExplore() {
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, editMode, applyEdit]
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
-  // crowd-sourced editMode drag-to-fix above (that one's open to any
-  // signed-in user and only ever nudges built-in landmarks via
-  // landmark_overrides). This writes straight onto the custom landmark's
-  // own doc, admin-only per firestore.rules.
+  // built-in drag-to-fix above (that one writes to landmark_overrides
+  // instead). This writes straight onto the custom landmark's own doc,
+  // admin-only per firestore.rules just like the built-in one is.
   const handleCustomPinDragEnd = (l, e) => {
     const { lat, lng } = e.target.getLatLng();
     runOptimistic({
@@ -1247,7 +1234,6 @@ export default function MapExplore() {
             onClick={() => {
               setFilterOpen((o) => !o);
               setSearchOpen(false);
-              setEditMode(false);
             }}
           >
             {filterOpen ? '\u{2715}' : '\u{1F5C2}\u{FE0F}'}
@@ -1266,30 +1252,10 @@ export default function MapExplore() {
               />
             </div>
           )}
-          {(!searchOpen && !filterOpen) || editMode ? (
-            <button
-              type="button"
-              className={`map-edit-btn ${editMode ? 'active' : ''}`}
-              disabled={!user}
-              title={user ? 'Move pins to fix their spot' : 'Sign in to move pins'}
-              onClick={toggleEditMode}
-            >
-              {editMode ? (
-                '\u{2715}'
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
-                  <line x1="5" y1="6.5" x2="19" y2="6.5" />
-                  <line x1="5" y1="11.5" x2="19" y2="11.5" />
-                  <line x1="5" y1="16.5" x2="19" y2="16.5" />
-                  <line x1="5" y1="21.5" x2="13" y2="21.5" />
-                </svg>
-              )}
-            </button>
-          ) : null}
           {pinSavedNote ? (
             <p className="tag tag-free map-edit-hint">Saved: {pinSavedNote}</p>
           ) : (
-            editMode && <p className="tag map-edit-hint">Drag a pin to fix its spot — saves for everyone</p>
+            adminMode && <p className="tag map-edit-hint">Admin Mode: drag any pin to move it — saves for everyone</p>
           )}
           {searchOpen && (
             <div className="map-search-panel">

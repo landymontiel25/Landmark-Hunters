@@ -3263,39 +3263,6 @@ button.header-streak {
   box-shadow: 0 6px 18px rgba(91, 140, 255, 0.35);
 }
 
-/* "Move pins" toggle -- top-right, mirroring .map-search-btn's top-left
-   circular buttons so the map has a matching control on each side. */
-.map-edit-btn {
-  position: absolute;
-  top: calc(var(--header-h) + 12px);
-  right: 12px;
-  z-index: 1000;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--glass-border);
-  background: rgb(var(--color-bg-rgb));
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  color: var(--text-primary);
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-float);
-}
-
-.map-edit-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.map-edit-btn.active {
-  border-color: var(--color-brass-bright);
-  box-shadow: 0 0 0 2px rgba(91, 140, 255, 0.45);
-}
-
 .map-edit-hint {
   position: absolute;
   top: calc(var(--header-h) + 64px);
@@ -4326,8 +4293,7 @@ input[type='search'] {
 /* ---------- Map controls ---------- */
 
 .map-search-btn,
-.map-locate-btn,
-.map-edit-btn {
+.map-locate-btn {
   background: var(--bg-elevated);
   border: 1px solid var(--border-default);
   color: var(--text-primary);
@@ -4340,8 +4306,7 @@ input[type='search'] {
   border-color: transparent;
 }
 
-.map-search-btn.active,
-.map-edit-btn.active {
+.map-search-btn.active {
   border-color: var(--mapr-blue);
   box-shadow: 0 0 0 3px var(--mapr-blue-soft);
 }
