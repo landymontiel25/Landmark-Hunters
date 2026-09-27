@@ -22,7 +22,6 @@ import { useStopAddresses } from '../lib/useStopAddresses';
 import { distanceMeters } from '../lib/geo';
 import { matchesSearch } from '../lib/search';
 import {
-  SORT_OPTIONS,
   orderStops,
   annotateRoute,
   enhanceRouteWithDrivingTimes,
@@ -271,24 +270,15 @@ export default function Itinerary() {
   const [geocoding, setGeocoding] = useState(true);
   const [view, setView] = useState('list'); // 'list' | 'map'
   const { ratings } = useRatings();
-  // Remembered across itineraries and sessions -- someone who always wants
-  // "Highest rated" shouldn't have to re-pick it in every city.
-  const [sort, setSort] = useState(() => {
-    let saved = null;
-    try {
-      saved = localStorage.getItem('lh-itin-sort');
-    } catch {
-      /* storage blocked: default sort */
-    }
-    return SORT_OPTIONS.some((o) => o.id === saved) ? saved : 'nearest';
-  });
-  useEffect(() => {
-    try {
-      localStorage.setItem('lh-itin-sort', sort);
-    } catch {
-      /* storage blocked: sort just won't be remembered */
-    }
-  }, [sort]);
+  // No sort preference to remember until the traveler has actually used
+  // "Edit List" once -- until then the route is just always nearest-to-me,
+  // automatically, with nothing to pick. Once they've edited it, this
+  // remembers whether they want to see that custom order or fall back to
+  // nearest, per city.
+  const [sortPref, setSortPref] = usePersistentState(region ? `itin-sort-pref.${region.id}` : null, null);
+  // Local, not persisted -- always starts closed when you open an itinerary.
+  const [editing, setEditing] = useState(false);
+  const sort = editing ? 'custom' : sortPref || 'nearest';
   const [pendingRemove, setPendingRemove] = useState(null); // stop awaiting delete confirmation
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showRecap, setShowRecap] = useState(false);
@@ -788,8 +778,8 @@ export default function Itinerary() {
       />
       <p className="screen-subtitle">
         {itineraryName(region.id) !== region.name ? `${region.name} · ` : ''}
-        {SORT_OPTIONS.find((o) => o.id === sort)?.label}
-        {sort === 'nearest' || sort === 'route'
+        {sort === 'custom' ? 'My order' : 'Nearest to me'}
+        {sort === 'nearest'
           ? ` from ${coords ? 'your current location' : trip.startingLocation || 'your starting point'}`
           : ''}{' '}
         · {displayRoute.length} stops
@@ -869,16 +859,32 @@ export default function Itinerary() {
             {'\u{1F5FA}\u{FE0F}'} Map
           </button>
         </div>
-        <label className="itin-sort">
-          <span>Sort by</span>
-          <select className="radius-select" value={sort} onChange={(e) => setSort(e.target.value)}>
-            {SORT_OPTIONS.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        {!editing && sortPref && (
+          <label className="itin-sort">
+            <span>Sort by</span>
+            <select className="radius-select" value={sortPref} onChange={(e) => setSortPref(e.target.value)}>
+              <option value="nearest">Nearest to me</option>
+              <option value="custom">My order</option>
+            </select>
+          </label>
+        )}
+        {selectedLandmarks.length > 0 && (
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            onClick={() => {
+              if (editing) {
+                setSortPref('custom');
+                setEditing(false);
+              } else {
+                reorderLandmarks(region.id, displayRoute.map((s) => s.id));
+                setEditing(true);
+              }
+            }}
+          >
+            {editing ? `${'\u{2705}'} Done` : `${'✏️'} Edit List`}
+          </button>
+        )}
       </div>
 
       {view === 'map' && (

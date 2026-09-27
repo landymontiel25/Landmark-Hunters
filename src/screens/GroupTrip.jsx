@@ -17,7 +17,7 @@ import {
   renameGroupTrip,
   removeGroupPlace,
 } from '../lib/groupTrips';
-import { SORT_OPTIONS, orderStops, annotateRoute } from '../lib/routing';
+import { orderStops, annotateRoute } from '../lib/routing';
 import { useDragReorder } from '../lib/useDragReorder';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import AddMemberSheet from '../components/AddMemberSheet';
@@ -26,7 +26,7 @@ import DirectionsButton from '../components/DirectionsButton';
 import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { friendlyError } from '../lib/friendlyError';
-import { writePersisted } from '../lib/usePersistentState';
+import { writePersisted, usePersistentState } from '../lib/usePersistentState';
 import { useStopAddresses } from '../lib/useStopAddresses';
 import { useRatings } from '../lib/RatingsContext';
 import { runOptimistic, useToast } from '../lib/ToastContext';
@@ -77,10 +77,13 @@ export default function GroupTrip() {
   const { coords } = useGeo();
   const { units } = useUnits();
   const { ratings } = useRatings();
-  // Same "Sort by" choices, and the same hold-and-drag reorder, as the solo
-  // Itinerary route -- a group trip is the same kind of itinerary, just with
-  // more people on it, so it shouldn't behave differently.
-  const [sort, setSort] = useState('nearest');
+  // Same "Edit List" + nearest-by-default behavior as the solo Itinerary
+  // route -- a group trip is the same kind of itinerary, just with more
+  // people on it, so it shouldn't behave differently. No sort preference to
+  // remember until someone's actually used Edit List once.
+  const [sortPref, setSortPref] = usePersistentState(trip?.id ? `itin-sort-pref.group-${trip.id}` : null, null);
+  const [editing, setEditing] = useState(false);
+  const sort = editing ? 'custom' : sortPref || 'nearest';
 
   const uid = user?.uid;
   useEffect(() => {
@@ -351,17 +354,31 @@ export default function GroupTrip() {
                 {'\u{1F5FA}\u{FE0F}'} View in Map
               </button>
             )}
-            {selectedCount > 0 && (
+            {!editing && sortPref && (
               <label className="itin-sort">
                 <span>Sort by</span>
-                <select className="radius-select" value={sort} onChange={(e) => setSort(e.target.value)}>
-                  {SORT_OPTIONS.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.label}
-                    </option>
-                  ))}
+                <select className="radius-select" value={sortPref} onChange={(e) => setSortPref(e.target.value)}>
+                  <option value="nearest">Nearest to me</option>
+                  <option value="custom">My order</option>
                 </select>
               </label>
+            )}
+            {selectedCount > 0 && (
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={() => {
+                  if (editing) {
+                    setSortPref('custom');
+                    setEditing(false);
+                  } else {
+                    if (trip) reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch(() => {});
+                    setEditing(true);
+                  }
+                }}
+              >
+                {editing ? `${'\u{2705}'} Done` : `${'✏️'} Edit List`}
+              </button>
             )}
           </div>
         </div>
