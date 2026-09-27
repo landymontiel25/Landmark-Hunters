@@ -55,14 +55,16 @@ describe('OnboardingLab', () => {
     await click(button(el, 'Start'));
     expect(el.querySelector('.lab-progress').className).toContain('lab-tier-red');
     const love = el.querySelector('[aria-label="Love it"]');
-    const total = Number(el.querySelector('.lab-progress').textContent.split('/')[1]);
-    expect(total).toBe(40);
+    expect(el.querySelector('.lab-progress').textContent).toBe('0%');
+    const total = Number(el.querySelector('.lab-bar').getAttribute('aria-valuemax'));
+    expect(total).toBe(39);
     for (let n = 0; n < total; n += 1) {
       await click(n === 0 ? love : el.querySelector('[aria-label="Not sure"]'));
       await act(async () => new Promise((r) => setTimeout(r, 230)));
     }
     expect(el.textContent).toContain('All done');
     expect(el.querySelector('.lab-progress').className).toContain('lab-tier-done');
+    expect(el.querySelector('.lab-progress').textContent).toBe('100%');
     expect(el.querySelector('.lab-bar span').style.width).toBe('100%');
 
     await click(button(el, 'Continue →'));
@@ -97,11 +99,11 @@ describe('OnboardingLab', () => {
     const first = el.querySelector('.lab-card-word').textContent;
     await click(el.querySelector('[aria-label="Love it"]'));
     await act(async () => new Promise((r) => setTimeout(r, 230)));
-    expect(el.querySelector('.lab-progress').textContent).toMatch(/^2 \//);
+    expect(el.querySelector('.lab-progress').textContent).toBe('3%');
     expect(el.querySelector('.lab-card-word').textContent).not.toBe(first);
 
     await click(button(el, 'Undo'));
-    expect(el.querySelector('.lab-progress').textContent).toMatch(/^1 \//);
+    expect(el.querySelector('.lab-progress').textContent).toBe('0%');
     expect(el.querySelector('.lab-card-word').textContent).toBe(first);
     expect(button(el, 'Undo').disabled).toBe(true);
   });
