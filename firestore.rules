@@ -390,12 +390,12 @@ service cloud.firestore {
           || (countDelta == -1 && exists(review) && !existsAfter(review))
         );
     }
-    // "Move pins" on the map: any signed-in account can correct a built-in
-    // landmark's position for everyone (by design). Shape-checked so it can
-    // only ever hold a position, stamped with who moved it.
+    // "Move pins" on the map: Admin Mode only can correct a built-in
+    // landmark's position for everyone. Shape-checked so it can only ever
+    // hold a position, stamped with who moved it.
     match /landmark_overrides/{id} {
       allow read: if true;
-      allow create, update: if request.auth != null
+      allow create, update: if request.auth != null && isAdmin()
         && id == request.resource.data.region + '__' + request.resource.data.id
         && request.resource.data.keys().hasOnly(['region', 'id', 'name', 'lat', 'lng', 'updatedAt', 'updatedBy'])
         && request.resource.data.lat is number && request.resource.data.lat >= -90 && request.resource.data.lat <= 90
@@ -408,8 +408,7 @@ service cloud.firestore {
     // Admin Mode's live corrections to a built-in (static catalog)
     // landmark -- name/category/summary/facts/free/typicalMinutes/images,
     // merged over the static src/data/landmarks.*.js data at render time.
-    // Unlike landmark_overrides just above (open to any signed-in user,
-    // position-only), this can touch any of those fields, so it's admin-only.
+    // Admin-only, same as landmark_overrides just above.
     match /landmark_edits/{id} {
       allow read: if true;
       allow write: if request.auth != null && isAdmin();

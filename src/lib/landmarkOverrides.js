@@ -50,9 +50,6 @@ export async function saveLandmarkEdit({ region, id, fields, userId }) {
   for (const f of EDITABLE_FIELDS) {
     if (fields[f] !== undefined) clean[f] = fields[f];
   }
-  // Separate from EDITABLE_FIELDS -- it's a flag, not a content field, and
-  // clearLandmarkEdit's revert-to-original shouldn't touch it (see below).
-  if (fields.deleted !== undefined) clean.deleted = fields.deleted;
   await setDoc(
     doc(db, 'landmark_edits', overrideDocId(region, id)),
     { region, id, ...clean, updatedAt: serverTimestamp(), updatedBy: userId || null },
@@ -60,28 +57,13 @@ export async function saveLandmarkEdit({ region, id, fields, userId }) {
   );
 }
 
-// A built-in landmark can't be removed from the static source file live --
-// this is the same landmark_edits doc a content edit uses, just with a
-// `deleted` flag instead, checked at render time everywhere ALL_LANDMARKS
-// is shown to hide it as if it were gone. Reversible: clearLandmarkEdit (or
-// AdminEditBuiltInPanel's own Reset) un-deletes it exactly like it un-edits it.
-export async function deleteBuiltInLandmark(region, id, userId) {
-  await saveLandmarkEdit({ region, id, userId, fields: { deleted: true } });
-}
-
-// Undoes a soft-delete without touching any other live edit on the same doc.
-export async function restoreBuiltInLandmark(region, id, userId) {
-  await saveLandmarkEdit({ region, id, userId, fields: { deleted: false } });
-}
-
-// Reverts a built-in landmark back to its original static data (including
-// undoing a soft-delete).
+// Reverts a built-in landmark back to its original static data.
 export async function clearLandmarkEdit(region, id) {
   await deleteDoc(doc(db, 'landmark_edits', overrideDocId(region, id)));
 }
 
-// Returns { "regionId/landmarkId": { name?, categories?, ..., deleted? } }
-// for every built-in landmark with a live admin edit and/or soft-delete.
+// Returns { "regionId/landmarkId": { name?, categories?, ... } } for every
+// built-in landmark with a live admin edit.
 export async function getLandmarkEdits() {
   if (!db) return {};
   const snap = await getDocs(collection(db, 'landmark_edits'));
@@ -92,7 +74,6 @@ export async function getLandmarkEdits() {
     for (const f of EDITABLE_FIELDS) {
       if (x[f] !== undefined) fields[f] = x[f];
     }
-    if (x.deleted !== undefined) fields.deleted = x.deleted;
     map[`${x.region}/${x.id}`] = fields;
   });
   return map;

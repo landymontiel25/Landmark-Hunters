@@ -14,7 +14,7 @@ import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useMyPhotos } from '../lib/MyPhotosContext';
-import { getLandmarkOverrides, saveLandmarkPosition, deleteBuiltInLandmark, restoreBuiltInLandmark } from '../lib/landmarkOverrides';
+import { getLandmarkOverrides, saveLandmarkPosition } from '../lib/landmarkOverrides';
 import { getCustomLandmarks, deleteCustomLandmark, updateCustomLandmark } from '../lib/customLandmarks';
 import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
@@ -270,7 +270,7 @@ export default function MapExplore() {
   const { toggleLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
-  const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
+  const { applyEdit } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
   const { coords, error: geoError, loading: geoLoading, lastKnown } = useGeo();
@@ -440,14 +440,10 @@ export default function MapExplore() {
     setFilterCatList((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
   const passesFilter = (l) => filterCats.size === 0 || (l.categories || []).some((c) => filterCats.has(c));
 
-  // "Move pins" mode: built-in landmark markers become draggable and a
-  // drop saves the corrected spot to the shared landmark_overrides
-  // collection (landmarkOverrides.js) -- the same mechanism the old,
-  // always-on drag-to-fix behavior wrote to, brought back as an explicit,
-  // discoverable toggle instead. Requires being signed in (Firestore's own
-  // rule for the collection does too); doesn't cover custom/user-submitted
-  // landmarks, which already store their own exact position.
-  const [editMode, setEditMode] = useState(false);
+  // Moving a built-in landmark's pin: Admin Mode only (same as moving a
+  // custom pin, or any other admin write) -- a drop saves the corrected
+  // spot to the landmark_overrides collection (landmarkOverrides.js).
+  // firestore.rules enforces this server-side too, not just here.
   const [pinSavedNote, setPinSavedNote] = useState(null);
   useEffect(() => {
     if (!pinSavedNote) return;
@@ -504,7 +500,6 @@ export default function MapExplore() {
   const startPlacingPin = () => {
     setPinDrop(null);
     setSearchOpen(false);
-    setEditMode(false);
     setPlacingPin(true);
   };
 
@@ -552,29 +547,6 @@ export default function MapExplore() {
     loadSharedPins();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // A built-in landmark has no doc to delete -- this is Admin Mode's soft
-  // delete (a `deleted` flag on the same landmark_edits patch a content
-  // edit uses), reloaded here so the marker's own applyEdit-based filter
-  // below picks it up and the pin disappears immediately.
-  const removeBuiltInLandmark = async (l) => {
-    try {
-      mapRef.current?.closePopup();
-      await deleteBuiltInLandmark(l.regionId, l.id, user.uid);
-      reloadLandmarkEdits();
-    } catch (e) {
-      toast.show(friendlyError(e, `Couldn't delete ${l.name} — try again.`));
-    }
-  };
-
-  const undoRemoveBuiltInLandmark = async (l) => {
-    try {
-      await restoreBuiltInLandmark(l.regionId, l.id, user.uid);
-      reloadLandmarkEdits();
-    } catch (e) {
-      toast.show(friendlyError(e, `Couldn't restore ${l.name} — try again.`));
-    }
-  };
 
   // Optimistic: the pin disappears on tap and comes back (with Retry) if
   // the delete is refused.
@@ -665,7 +637,7 @@ export default function MapExplore() {
     // International Autodrome even though no single field says "Miami F1"
     // verbatim (see matchesSearch: every WORD in the query has to appear
     // somewhere in the haystack, not the whole phrase in one field).
-    const landmarkMatches = ALL_LANDMARKS.filter((l) => !applyEdit(l).deleted || adminMode).map((l) => {
+    const landmarkMatches = ALL_LANDMARKS.map((l) => {
       const categoryLabels = l.categories?.map((c) => CATEGORY_LABEL[c]).filter(Boolean) ?? [];
       const details = [l.summary, getRegion(l.regionId)?.name, ...categoryLabels, ...(l.facts ?? [])].join(' ');
       return { l, score: searchScore(l.name, details, term) };
@@ -709,7 +681,7 @@ export default function MapExplore() {
     const placeMatches = SEARCHABLE_PLACES.map((p) => ({ ...p, score: searchScore(p.name, '', term) })).filter((p) => p.score > 0);
     // Best match first -- a name match beats a word buried in a description.
     return [...landmarkMatches, ...customMatches, ...placeMatches].sort((a, b) => b.score - a.score).slice(0, 8);
-  }, [searchTerm, savedOverrides, customLandmarks, applyEdit, adminMode]);
+  }, [searchTerm, savedOverrides, customLandmarks]);
 
   // AI fallback when the word search finds little: catalog on the server,
   // custom landmarks sent along.
@@ -728,7 +700,7 @@ export default function MapExplore() {
         }
         const [rid, lid] = id.split('/');
         const l = ALL_LANDMARKS.find((x) => x.regionId === rid && x.id === lid);
-        if (!l || (applyEdit(l).deleted && !adminMode)) return null;
+        if (!l) return null;
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
         return {
           id: `landmark-${l.regionId}-${l.id}`,
@@ -740,7 +712,7 @@ export default function MapExplore() {
         };
       })
       .filter((r) => r && !seen.has(r.id));
-  }, [smart.ids, searchResults, customLandmarks, savedOverrides, applyEdit, adminMode]);
+  }, [smart.ids, searchResults, customLandmarks, savedOverrides]);
 
   const selectSearchResult = (result) => {
     setSearchFocus(result);
@@ -753,13 +725,6 @@ export default function MapExplore() {
     setSearchOpen((open) => !open);
     setSearchTerm('');
     setFilterOpen(false);
-    setEditMode(false);
-  };
-
-  const toggleEditMode = () => {
-    setEditMode((on) => !on);
-    setSearchOpen(false);
-    setFilterOpen(false);
   };
 
   // A live, distance-sorted view of what's closest right now, shown in the
@@ -768,7 +733,7 @@ export default function MapExplore() {
   const nearbyList = useMemo(() => {
     if (!coords) return [];
     const all = [
-      ...ALL_LANDMARKS.filter((l) => !applyEdit(l).deleted || adminMode).map((l) => {
+      ...ALL_LANDMARKS.map((l) => {
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
         return {
           id: `landmark-${l.regionId}-${l.id}`,
@@ -785,7 +750,7 @@ export default function MapExplore() {
       .map((l) => ({ ...l, meters: distanceMeters(coords.lat, coords.lng, l.lat, l.lng) }))
       .sort((a, b) => a.meters - b.meters)
       .slice(0, 12);
-  }, [coords, customLandmarks, savedOverrides, applyEdit, adminMode]);
+  }, [coords, customLandmarks, savedOverrides]);
 
   // Build the markers once and reuse the same elements across re-renders. GPS
   // ticks update `coords` several times a minute; if the markers were rebuilt
@@ -800,15 +765,10 @@ export default function MapExplore() {
   // and zoom in to its landmarks even when you're on another continent.
   const markers = useMemo(
     () =>
-      ALL_LANDMARKS.filter(passesFilter)
+      ALL_LANDMARKS.filter(passesFilter).map((l) => {
         // Admin Mode's live edit, if any -- id/regionId/lat/lng never
         // change this way (position is savedOverrides' job, just below),
-        // only the display fields (name/category/summary/etc, or a
-        // `deleted` flag that hides it here exactly like it were gone --
-        // except in Admin Mode, which still shows it (flagged) so there's
-        // a way back to it to undo an accidental delete.
-        .filter((l) => !applyEdit(l).deleted || adminMode)
-        .map((l) => {
+        // only the display fields (name/category/summary/etc).
         const landmark = applyEdit(l);
         const isSelected = getRegionSelection(l.regionId).includes(l.id);
         const region = getRegion(l.regionId);
@@ -821,8 +781,8 @@ export default function MapExplore() {
             key={`${l.regionId}/${l.id}`}
             position={position}
             icon={pinIcon(isClaimed, isSelected)}
-            draggable={editMode}
-            eventHandlers={editMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
+            draggable={adminMode}
+            eventHandlers={adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
           >
             <Popup>
               <div className="map-popup">
@@ -843,34 +803,11 @@ export default function MapExplore() {
                 </div>
                 <div className="quick-rate-row" style={{ marginTop: 8 }}>
                   <h4 style={{ margin: 0 }}>{landmark.name}</h4>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <QuickRateButton landmark={landmark} />
-                    {adminMode && isAdmin(user?.email) && (
-                      <button
-                        type="button"
-                        className="btn btn-ghost btn-tight"
-                        aria-label={landmark.deleted ? `Restore ${landmark.name}` : `Delete ${landmark.name}`}
-                        onClick={() => {
-                          if (landmark.deleted) {
-                            undoRemoveBuiltInLandmark(l);
-                          } else if (window.confirm(`Delete "${landmark.name}" for everyone? This can't be undone from here.`)) {
-                            removeBuiltInLandmark(l);
-                          }
-                        }}
-                      >
-                        {landmark.deleted ? '\u{21BA}' : '\u{1F5D1}'}
-                      </button>
-                    )}
-                  </div>
+                  <QuickRateButton landmark={landmark} />
                 </div>
                 <p style={{ margin: '2px 0 8px', fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
                   {region?.name}
                 </p>
-                {landmark.deleted && (
-                  <p className="tag tag-error" style={{ display: 'inline-block', marginBottom: 8 }}>
-                    {'\u{1F5D1}'} Deleted — only you can see this (Admin Mode)
-                  </p>
-                )}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '0 0 8px' }}>
                   {landmark.categories.map((c) => (
                     <span key={c} className="tag">
@@ -912,14 +849,13 @@ export default function MapExplore() {
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, editMode, applyEdit, adminMode]
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
-  // crowd-sourced editMode drag-to-fix above (that one's open to any
-  // signed-in user and only ever nudges built-in landmarks via
-  // landmark_overrides). This writes straight onto the custom landmark's
-  // own doc, admin-only per firestore.rules.
+  // built-in drag-to-fix above (that one writes to landmark_overrides
+  // instead). This writes straight onto the custom landmark's own doc,
+  // admin-only per firestore.rules just like the built-in one is.
   const handleCustomPinDragEnd = (l, e) => {
     const { lat, lng } = e.target.getLatLng();
     runOptimistic({
@@ -984,23 +920,7 @@ export default function MapExplore() {
                 </div>
                 <div className="quick-rate-row" style={{ marginTop: 8 }}>
                   <h4 style={{ margin: 0 }}>{l.name}</h4>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <QuickRateButton landmark={landmark} />
-                    {user && (l.createdBy === user.uid || (isAdmin(user.email) && adminMode)) && (
-                      <button
-                        type="button"
-                        className="btn btn-ghost btn-tight"
-                        aria-label={`Delete ${l.name}`}
-                        onClick={() => {
-                          if (window.confirm(`Delete "${l.name}" for everyone? This can't be undone.`)) {
-                            removeCustomLandmark(l.docId);
-                          }
-                        }}
-                      >
-                        {'\u{1F5D1}'}
-                      </button>
-                    )}
-                  </div>
+                  <QuickRateButton landmark={landmark} />
                 </div>
                 <p style={{ margin: '2px 0 8px', fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
                   {region?.name || 'Custom pin'}
@@ -1039,6 +959,16 @@ export default function MapExplore() {
                     className="btn-block"
                   />
                 </div>
+                {user && (l.createdBy === user.uid || (isAdmin(user.email) && adminMode)) && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm btn-block"
+                    style={{ marginTop: 8 }}
+                    onClick={() => removeCustomLandmark(l.docId)}
+                  >
+                    {'\u{1F5D1}'} Remove Pin
+                  </button>
+                )}
               </div>
             </Popup>
           </Marker>
@@ -1304,7 +1234,6 @@ export default function MapExplore() {
             onClick={() => {
               setFilterOpen((o) => !o);
               setSearchOpen(false);
-              setEditMode(false);
             }}
           >
             {filterOpen ? '\u{2715}' : '\u{1F5C2}\u{FE0F}'}
@@ -1323,30 +1252,10 @@ export default function MapExplore() {
               />
             </div>
           )}
-          {(!searchOpen && !filterOpen) || editMode ? (
-            <button
-              type="button"
-              className={`map-edit-btn ${editMode ? 'active' : ''}`}
-              disabled={!user}
-              title={user ? 'Move pins to fix their spot' : 'Sign in to move pins'}
-              onClick={toggleEditMode}
-            >
-              {editMode ? (
-                '\u{2715}'
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
-                  <line x1="5" y1="6.5" x2="19" y2="6.5" />
-                  <line x1="5" y1="11.5" x2="19" y2="11.5" />
-                  <line x1="5" y1="16.5" x2="19" y2="16.5" />
-                  <line x1="5" y1="21.5" x2="13" y2="21.5" />
-                </svg>
-              )}
-            </button>
-          ) : null}
           {pinSavedNote ? (
             <p className="tag tag-free map-edit-hint">Saved: {pinSavedNote}</p>
           ) : (
-            editMode && <p className="tag map-edit-hint">Drag a pin to fix its spot — saves for everyone</p>
+            adminMode && <p className="tag map-edit-hint">Admin Mode: drag any pin to move it — saves for everyone</p>
           )}
           {searchOpen && (
             <div className="map-search-panel">
