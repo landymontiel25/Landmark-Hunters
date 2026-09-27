@@ -57,6 +57,8 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
   async function renderWith(trip) {
     vi.resetModules();
     vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null }) }));
+    vi.doMock('../lib/RatingsContext', () => ({ useRatings: () => ({ ratings: {} }) }));
+    vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
     vi.doMock('../lib/groupTrips', () => ({
       subscribeGroupTrip: (id, onData) => {
         onData(trip);
@@ -64,6 +66,7 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
       },
       toggleGroupLandmark: vi.fn(),
       setGroupLandmarks: vi.fn(),
+      reorderGroupLandmarks: vi.fn(),
       addGroupMember: vi.fn(),
       removeGroupMember: vi.fn(),
       deleteGroupTrip: vi.fn(),
@@ -93,12 +96,12 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
 
   it('landmarkIds missing entirely (a doc that predates the field, or a partial write)', async () => {
     const el = await renderWith({ ...base, landmarkIds: undefined });
-    expect(el.textContent).toContain('Shared Landmarks');
+    expect(el.textContent).toContain('Add Landmarks');
   });
 
   it('places missing entirely (a trip created before Mapr web-places existed)', async () => {
     const el = await renderWith({ ...base, landmarkIds: ['corr-hall-arch'], places: undefined });
-    expect(el.textContent).toContain('Shared Landmarks');
+    expect(el.textContent).toContain('Add Landmarks');
   });
 
   it('a Mapr-found place missing lat/lng (a lookup that partially failed)', async () => {

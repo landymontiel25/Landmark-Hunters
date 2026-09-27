@@ -100,12 +100,17 @@ export function buildNearestFirstList(origin, landmarks) {
 // is picked -- the map's numbered pins always match the cards.
 export const SORT_OPTIONS = [
   { id: 'nearest', label: 'Nearest to me' },
+  { id: 'custom', label: 'My order' },
   { id: 'rated', label: 'Highest rated' },
   { id: 'quick', label: 'Quickest visits' },
   { id: 'free', label: 'Free first' },
 ];
 
-export function orderStops(sortId, origin, landmarks, ratings = {}) {
+// `customOrder`: landmark ids in the order the traveler dragged them into
+// (see useDragReorder.js). Anything not in it (just added, or from before
+// a custom order existed) falls in at the end, nearest-first among
+// themselves, rather than vanishing from the list.
+export function orderStops(sortId, origin, landmarks, ratings = {}, customOrder = []) {
   const dist = (l) => distanceMeters(origin.lat, origin.lng, l.lat, l.lng);
   const nearest = (a, b) => dist(a) - dist(b);
   const list = [...landmarks];
@@ -116,6 +121,13 @@ export function orderStops(sortId, origin, landmarks, ratings = {}) {
     case 'nearest':
     case 'route':
       return buildNearestNeighborRoute(origin, landmarks);
+    case 'custom': {
+      const byId = new Map(list.map((l) => [l.id, l]));
+      const ordered = customOrder.map((id) => byId.get(id)).filter(Boolean);
+      const placed = new Set(ordered.map((l) => l.id));
+      const rest = list.filter((l) => !placed.has(l.id)).sort(nearest);
+      return [...ordered, ...rest];
+    }
     case 'rated': {
       const r = (l) => ratings[l.id] || { avg: 0, count: 0 };
       // Rated places first (by average, then by how many rated it); the

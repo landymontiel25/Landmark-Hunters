@@ -364,6 +364,35 @@ textarea {
   transform: scale(0.94);
 }
 
+/* Hold-and-drag reorder handle (Itinerary route stops, Group Trip's shared
+   landmarks) -- touch-action: none stops the browser starting a page-scroll
+   gesture the instant a finger lands on it, so our own drag tracking gets
+   the gesture instead. */
+.drag-handle {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--color-parchment-dim);
+  font-size: 1rem;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.route-step.dragging,
+.friend-row.dragging {
+  opacity: 0.55;
+}
+
 /* ---------- Postcard / polaroid photo ---------- */
 
 .postcard {
@@ -2888,6 +2917,26 @@ button.header-streak {
 
 .friend-row:last-child {
   border-bottom: none;
+}
+
+/* Tapping a landmark's name in the "Add Landmarks" list opens its page; the
+   checkbox next to it (a sibling, not nested inside this) still handles
+   adding it to the trip. */
+.shared-landmark-link {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shared-landmark-link:hover,
+.shared-landmark-link:focus-visible {
+  text-decoration: underline;
 }
 
 .review-item {

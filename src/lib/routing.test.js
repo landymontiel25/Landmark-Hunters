@@ -73,6 +73,18 @@ describe('orderStops', () => {
     orderStops('nearest', origin, input);
     expect(ids(input)).toEqual(['c', 'a', 'd', 'b']);
   });
+
+  it('custom: the dragged order, verbatim', () => {
+    expect(ids(orderStops('custom', origin, shuffled, {}, ['d', 'b', 'a', 'c']))).toEqual(['d', 'b', 'a', 'c']);
+  });
+
+  it('custom: a stop just added (not yet in the saved order) lands at the end, nearest-first', () => {
+    expect(ids(orderStops('custom', origin, shuffled, {}, ['c', 'a']))).toEqual(['c', 'a', 'b', 'd']);
+  });
+
+  it('custom: with no saved order at all, falls back to nearest-first', () => {
+    expect(ids(orderStops('custom', origin, shuffled, {}, []))).toEqual(['a', 'b', 'c', 'd']);
+  });
 });
 
 describe('annotateRoute', () => {
