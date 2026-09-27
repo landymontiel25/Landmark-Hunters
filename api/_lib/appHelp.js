@@ -38,7 +38,9 @@ export const APP_HELP =
   `and tap "📦 Move to Past" or "↩️ Move back to Current" to move it by hand; for a group trip that only moves it for you. ` +
   `There's no sharing of past itineraries yet. A search bar at the top of the Itinerary tab finds an itinerary by city, country ` +
   `or name across both Current and Past.\n` +
-  `- Landmarks list sorts two ways: "📍 Near Me" and "🔥 Popular" (most popular first, blending how well-known a place is with ` +
+  `- Landmarks list sorts three ways: "✨ For Me" (the default -- places you're most likely to go first, ranked by the same ` +
+  `taste scores Mapr Picks uses, learned from your ratings, plus the interests you picked at signup), "📍 Near Me", and ` +
+  `"🔥 Popular" (most popular first, blending how well-known a place is with ` +
   `community ratings). There's no Explored/Unexplored filter and no separate Top Rated sort anymore. Residence halls are ` +
   `under Campus Life; there's no separate Dorms category.\n` +
   `- You can edit your own comment on any landmark you've rated or checked into, from the "Your comment" box on its page.\n` +

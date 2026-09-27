@@ -5,6 +5,8 @@ import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
+import { useFriends } from '../lib/FriendsContext';
+import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
@@ -35,9 +37,25 @@ const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 
 
 const SORT_OPTIONS = [
+  { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
   { id: 'popularity', label: '\u{1F525} Popular' },
 ];
+
+// "For Me": how likely you are to actually go -- the same learned per-city
+// category scores Mapr Picks ranks by (-100..100, from your ratings, with
+// other cities lending a warm start), plus a nudge for the interests you
+// picked at signup. Ties fall through to Popular.
+const INTEREST_BONUS = 15;
+function forMeScore(l, profile, interests, scoresByRegion) {
+  const region = l.regionId ?? null;
+  if (!scoresByRegion.has(region)) scoresByRegion.set(region, effectiveTagScores(profile, region));
+  const scores = scoresByRegion.get(region);
+  const cats = l.categories || [];
+  const tagPart = cats.length ? Math.max(...cats.map((c) => scores[c] || 0)) : 0;
+  const interestPart = cats.some((c) => interests.has(c)) ? INTEREST_BONUS : 0;
+  return tagPart + interestPart;
+}
 
 // "Popular": the catalog's popularity (0-10) nudged by community ratings,
 // weighted by how many there are so one 5-star review can't jump the list.
@@ -151,6 +169,7 @@ export default function LandmarkSelection() {
   const { applyEdit } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const { ratings } = useRatings();
+  const { myProfile } = useFriends();
   const navigate = useNavigate();
 
   // User-submitted landmarks (via "Add a Landmark") -- merged in below so
@@ -189,9 +208,10 @@ export default function LandmarkSelection() {
   // Tapping a row's thumbnail opens the photo full-screen.
   const [lightbox, setLightbox] = useState(null);
   const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
-  const [savedSort, setSortBy] = usePersistentState('landmarks.sort', 'popularity', { isEmpty: NEVER_EMPTY });
-  // Top Rated folded into Popular; an old saved choice lands there.
-  const sortBy = savedSort === 'nearMe' ? 'nearMe' : 'popularity';
+  // New key so everyone lands on For Me (the default) once, instead of a
+  // Popular choice saved back when that was the only default.
+  const [savedSort, setSortBy] = usePersistentState('landmarks.sort.v2', 'forMe', { isEmpty: NEVER_EMPTY });
+  const sortBy = savedSort === 'nearMe' || savedSort === 'popularity' ? savedSort : 'forMe';
   // Snapshot of each touched region's selection from right before the last
   // "Suggest For Me" applied, so pressing it again can undo exactly that --
   // no separate trip to Clear. Null means the button isn't in its "applied"
@@ -287,7 +307,7 @@ export default function LandmarkSelection() {
 
     // Typing a name to find it is a lookup, not a browse -- the best match
     // first (then alphabetical) is what makes a known name fast to spot, so
-    // a search term overrides whichever Sort mode (Popular/Near
+    // a search term overrides whichever Sort mode (For Me/Popular/Near
     // Me) is active. Clearing the search goes back to that sort.
     if (term) {
       // Best match first (name matches over description matches), then A-Z.
@@ -303,6 +323,17 @@ export default function LandmarkSelection() {
           distanceMeters(coords.lat, coords.lng, a.lat, a.lng) - distanceMeters(coords.lat, coords.lng, b.lat, b.lng)
       );
     }
+    if (sortBy === 'forMe') {
+      const interests = new Set(trip.savedInterests || []);
+      const scoresByRegion = new Map();
+      const score = new Map(filtered.map((l) => [l, forMeScore(l, myProfile, interests, scoresByRegion)]));
+      return [...filtered].sort(
+        (a, b) =>
+          score.get(b) - score.get(a) ||
+          popularScore(b, ratings) - popularScore(a, ratings) ||
+          a.name.localeCompare(b.name)
+      );
+    }
     return [...filtered].sort(
       (a, b) =>
         (a.editorialRank ?? 99) - (b.editorialRank ?? 99) ||
@@ -310,6 +341,8 @@ export default function LandmarkSelection() {
         a.name.localeCompare(b.name)
     );
   }, [
+    myProfile,
+    trip.savedInterests,
     cityFilter,
     activeCategories,
     landmarkMatchesCategory,
