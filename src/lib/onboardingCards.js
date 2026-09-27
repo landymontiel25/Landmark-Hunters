@@ -180,8 +180,10 @@ export function pickSwipeCards(random = Math.random) {
   return shuffle(picked, random);
 }
 
-export function allSwipeCards(random = Math.random) {
-  return shuffle(ALL_SWIPE_CARDS, random);
+// Test tab shows every card grouped by category, in the order declared above,
+// so a reviewer can go through one category at a time instead of a shuffled mix.
+export function allSwipeCards() {
+  return [...ALL_SWIPE_CARDS];
 }
 
 // The card words themselves, in prose for Mapr's "in their own words" context:

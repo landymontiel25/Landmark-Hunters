@@ -58,11 +58,16 @@ describe('tasteIntroFromAnswers', () => {
     expect(text).toBe("Loves: Steak, Sushi. Doesn't like: Zoos. Not sure about: Golf. Also said: no crowds");
   });
 
-  it('allSwipeCards deals every card once', async () => {
-    const { allSwipeCards, ALL_SWIPE_CARDS } = await import('./onboardingCards');
+  it('allSwipeCards deals every card once, grouped by category', async () => {
+    const { allSwipeCards, ALL_SWIPE_CARDS, SWIPE_GROUPS } = await import('./onboardingCards');
     const dealt = allSwipeCards();
     expect(dealt).toHaveLength(ALL_SWIPE_CARDS.length);
     expect(new Set(dealt.map((c) => c.word)).size).toBe(ALL_SWIPE_CARDS.length);
+    expect(dealt.map((c) => c.group)).toEqual(ALL_SWIPE_CARDS.map((c) => c.group));
+    // Each group's cards stay contiguous instead of interleaved with other groups.
+    const seenGroups = [];
+    for (const c of dealt) if (seenGroups[seenGroups.length - 1] !== c.group) seenGroups.push(c.group);
+    expect(seenGroups).toEqual(SWIPE_GROUPS.map((g) => g.id));
   });
 });
 
