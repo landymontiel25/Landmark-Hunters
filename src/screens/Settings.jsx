@@ -11,11 +11,14 @@ import {
   saveHomeLocation,
   saveTasteIntro,
   setHabitTrackingEnabled,
+  setBackgroundLocationEnabled,
 } from '../lib/friends';
+import { requestAlwaysPermission } from '../lib/backgroundLocation';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { authErrorMessage } from '../lib/authErrors';
 import PreferenceChips from '../components/PreferenceChips';
 import LocationAutocomplete from '../components/LocationAutocomplete';
+import ErrorNotice from '../components/ErrorNotice';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState, readPersisted } from '../lib/usePersistentState';
@@ -71,6 +74,12 @@ export default function Settings() {
   const [habitOverride, setHabitOverride] = useState(null);
   const habitInFlightRef = useRef(false);
   const habitTrackingEnabled = habitOverride ?? myProfile?.habitTrackingEnabled !== false;
+  const [bgLocationOverride, setBgLocationOverride] = useState(null);
+  const bgLocationInFlightRef = useRef(false);
+  const [bgLocationErr, setBgLocationErr] = useState(null);
+  // Opt-in (unlike habit tracking above), since turning this on means asking
+  // iOS for "Always" location -- absence of the field means off.
+  const backgroundLocationEnabled = bgLocationOverride ?? !!myProfile?.backgroundLocationEnabled;
   // Drafts are per account (uid in the key). myProfile loads asynchronously
   // (FriendsContext); until you type, each field simply shows the server copy
   // whenever it lands. The taste-intro key is shared with onboarding's
@@ -181,6 +190,34 @@ export default function Settings() {
       habitInFlightRef.current = false;
       setHabitOverride(null);
     });
+  };
+
+  const toggleBackgroundLocation = async () => {
+    if (bgLocationInFlightRef.current) return;
+    bgLocationInFlightRef.current = true;
+    setBgLocationErr(null);
+    const next = !backgroundLocationEnabled;
+    try {
+      if (next) {
+        // Turning it ON needs iOS's "Always" permission dialog, which can
+        // genuinely be declined -- that's not a network failure to retry,
+        // so this skips runOptimistic's apply-then-rollback dance and just
+        // asks first.
+        const authorized = await requestAlwaysPermission();
+        if (!authorized) {
+          setBgLocationErr('Location access is off for Landmark Hunters. Turn it on in iOS Settings, then try again here.');
+          return;
+        }
+      }
+      setBgLocationOverride(next);
+      await setBackgroundLocationEnabled(user.uid, next);
+      await reloadFriends();
+    } catch (e) {
+      setBgLocationErr(friendlyError(e, `Couldn't turn ${next ? 'on' : 'off'} background location.`));
+    } finally {
+      bgLocationInFlightRef.current = false;
+      setBgLocationOverride(null);
+    }
   };
 
   const handleChangePassword = async (e) => {
@@ -378,6 +415,26 @@ export default function Settings() {
             onClick={toggleHabitTracking}
           >
             {habitTrackingEnabled ? `${'\u{2705}'} On — tap to turn off` : `${'\u{1F6AB}'} Off — tap to turn on`}
+          </button>
+        </div>
+      )}
+
+      {firebaseEnabled && user && (
+        <div className="card section">
+          <h3 style={{ marginTop: 0 }}>{'\u{1F30D}'} Background Location</h3>
+          <p className="screen-subtitle" style={{ marginTop: 0 }}>
+            {backgroundLocationEnabled
+              ? "Mapr keeps learning your location even with the app closed, so it's already building picks for a new city the moment you land there, not just once you open the app. Uses iOS's \"Always\" location permission and some extra battery."
+              : "Mapr only knows your location while the app is open. Turn this on and it keeps learning even when it's closed -- useful the moment you land in a new city."}
+          </p>
+          {bgLocationErr && <ErrorNotice compact message={bgLocationErr} />}
+          <button
+            type="button"
+            className={`btn btn-block ${backgroundLocationEnabled ? 'btn-success' : 'btn-ghost'}`}
+            aria-pressed={backgroundLocationEnabled}
+            onClick={toggleBackgroundLocation}
+          >
+            {backgroundLocationEnabled ? `${'\u{2705}'} On — tap to turn off` : `${'\u{1F6AB}'} Off — tap to turn on`}
           </button>
         </div>
       )}

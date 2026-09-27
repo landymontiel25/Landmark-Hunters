@@ -128,6 +128,30 @@ export async function setHabitTrackingEnabled(uid, enabled) {
   await setDoc(doc(db, 'users', uid), { habitTrackingEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
 }
 
+// Whether Mapr keeps learning location even with the app closed (see
+// src/lib/backgroundLocation.js + useBackgroundLocationSync.js) -- opt-in,
+// asked once during onboarding and toggleable anytime from Settings.
+// Defaults to off, unlike habit tracking, since this one asks for iOS's
+// "Always" location permission rather than something already granted.
+export async function setBackgroundLocationEnabled(uid, enabled) {
+  if (!db || !uid) return;
+  await setDoc(doc(db, 'users', uid), { backgroundLocationEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+}
+
+// Written by the background watcher itself (throttled -- see
+// useBackgroundLocationSync.js), not by anything the user directly triggers.
+// Lets Mapr Picks/plan-ai use a fresh location for someone who hasn't opened
+// the app since arriving in a new city, instead of waiting for their next
+// GPS fix inside the app.
+export async function saveLastKnownLocation(uid, { lat, lng, accuracy, at }) {
+  if (!db || !uid) return;
+  await setDoc(
+    doc(db, 'users', uid),
+    { lastKnownLocation: { lat, lng, accuracy: accuracy ?? null, at: at || Date.now() } },
+    { merge: true }
+  );
+}
+
 // The free-text "tell Mapr what you already love" blurb -- optional, set at
 // onboarding (TasteIntroStep) or anytime after from Settings. Same
 // users/{uid} doc getUserProfile already reads, so it's available for free

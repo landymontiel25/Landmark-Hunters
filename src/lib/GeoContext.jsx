@@ -28,6 +28,13 @@ function readLastFix() {
   }
 }
 let lastSavedAt = 0;
+// Exported so a background location fix (see useBackgroundLocationSync.js,
+// which runs even when this provider's own watch isn't active) can warm the
+// same cold-start cache a foreground fix would -- one instant-open location,
+// whichever source produced it most recently.
+export function cacheLastFix(c) {
+  saveLastFix(c);
+}
 function saveLastFix(c) {
   if (Date.now() - lastSavedAt < 60 * 1000) return;
   lastSavedAt = Date.now();

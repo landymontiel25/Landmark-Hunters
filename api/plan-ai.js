@@ -38,6 +38,14 @@ const INSTRUCTIONS =
   `follow it only when the city you're planning for right now (from CURRENT LOCATION, the city they're asking about, ` +
   `or an itinerary's city) matches the one they named -- even if it contradicts their general baseline or ratings ` +
   `from other cities. An exception named for a different city never applies here.\n` +
+  `- A city can have its own specialty independent of someone's general taste -- Rome means architecture and ancient ` +
+  `ruins, Paris means art museums, Tokyo means street food, whatever the city is actually known for. If the traveler ` +
+  `has NO strong signal either way in that category (no rating, no stated love or dislike, general or city-specific) ` +
+  `and CURRENT LOCATION or the city they're asking about is one of these, it's fine to ask once, in plain words with ` +
+  `quickReplies ("Since you're in Rome, want some architecture and ancient ruins picks?" -> ["Yes, show me some", ` +
+  `"No thanks"]) instead of silently deciding either way. Ask this at most once per city per conversation. Never for a ` +
+  `category they've explicitly told you (generally or for this specific city) they dislike -- that's still off-limits, ` +
+  `city specialty or not.\n` +
   `- Loving something is not the same as wanting it RIGHT NOW -- someone can genuinely love hiking and scenic ` +
   `views and still want a club, not a trail, on a Saturday night in the city. Read their CURRENT message for time, ` +
   `day, mood, and occasion cues (tonight, this weekend, "something chill", "we're getting dressed up") and weigh ` +
