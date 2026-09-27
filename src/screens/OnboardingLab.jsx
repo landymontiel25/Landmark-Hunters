@@ -167,13 +167,13 @@ function LabInstructions({ onNext }) {
       <h1 className="screen-title">Quick picks so Mapr gets you.</h1>
       <ul className="lab-howto">
         <li>
-          <span>{'\u{1F449}'}</span> Swipe right → love it
+          <span>{'\u{2665}'}</span> Love it: swipe right or tap {'\u{2665}'}
         </li>
         <li>
-          <span>{'\u{1F448}'}</span> Swipe left → don't like it
+          <span>{'\u{2715}'}</span> Don't like it: swipe left or tap {'\u{2715}'}
         </li>
         <li>
-          <span>{'\u{1F446}'}</span> Tap → not sure
+          <span>{'\u{2212}'}</span> Not sure or don't care: tap the card or tap {'\u{2212}'}
         </li>
       </ul>
       <button type="button" className="btn btn-primary btn-block" onClick={onNext}>
@@ -256,7 +256,7 @@ function LabCardStack({ cards, answers, onAnswer, onFinished }) {
             setDx(0);
           }}
           role="group"
-          aria-label={`${card.word}. Swipe right to love it, left if you don't like it, or tap if you're not sure.`}
+          aria-label={`${card.word}. Swipe right to love it, left if you don't like it, or tap if you're not sure or don't care.`}
         >
           <div className="lab-card-word">{card.word}</div>
           <div className={`lab-card-photo lab-photo-${card.group}`}>
@@ -271,7 +271,7 @@ function LabCardStack({ cards, answers, onAnswer, onFinished }) {
           {'\u{2715}'}
         </button>
         <button type="button" className="btn btn-ghost" onClick={() => decide('unsure')} aria-label="Not sure">
-          ?
+          {'\u{2212}'}
         </button>
         <button type="button" className="btn btn-ghost" onClick={() => decide('love')} aria-label="Love it">
           {'\u{2665}'}
