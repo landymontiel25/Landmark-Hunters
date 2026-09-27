@@ -5804,11 +5804,49 @@ h2,
   margin-right: 6px;
 }
 
+.lab-progress-wrap {
+  --lab-done: #1f9d74;
+  width: min(320px, 100%);
+  margin: 0 auto 12px;
+}
+
 .lab-progress {
   text-align: center;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  margin: 0 0 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 0 0 6px;
+  transition: color 0.3s ease;
+}
+
+.lab-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-default);
+  overflow: hidden;
+}
+
+.lab-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.lab-progress.lab-tier-red { color: var(--danger); }
+.lab-progress.lab-tier-yellow { color: var(--warning); }
+.lab-progress.lab-tier-green { color: var(--success); }
+.lab-progress.lab-tier-done { color: var(--lab-done); }
+.lab-bar .lab-tier-red { background: var(--danger); }
+.lab-bar .lab-tier-yellow { background: var(--warning); }
+.lab-bar .lab-tier-green { background: var(--success); }
+.lab-bar .lab-tier-done { background: var(--lab-done); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-progress,
+  .lab-bar span {
+    transition: none;
+  }
 }
 
 .lab-card-area {

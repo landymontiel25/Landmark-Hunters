@@ -192,6 +192,25 @@ function LabInstructions({ onNext }) {
   );
 }
 
+// Red for the first third, yellow to two thirds, green after, emerald when done.
+export function progressTier(done, total) {
+  if (total && done >= total) return 'done';
+  const f = total ? done / total : 0;
+  return f < 1 / 3 ? 'red' : f < 2 / 3 ? 'yellow' : 'green';
+}
+
+function LabProgress({ done, total, label }) {
+  const tier = progressTier(done, total);
+  return (
+    <div className="lab-progress-wrap">
+      <p className={`lab-progress lab-tier-${tier}`}>{label}</p>
+      <div className="lab-bar" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={done}>
+        <span className={`lab-tier-${tier}`} style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
+      </div>
+    </div>
+  );
+}
+
 const SWIPE_PX = 90;
 const TAP_PX = 8;
 
@@ -206,6 +225,7 @@ function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
   if (!card) {
     return (
       <div className="lab-center">
+        <LabProgress done={answers.length} total={cards.length} label={`${cards.length} / ${cards.length}`} />
         <h1 className="screen-title">All done {'\u{2705}'}</h1>
         <p className="screen-subtitle">{answers.length} cards rated.</p>
         <button type="button" className="btn btn-primary btn-block" onClick={onFinished}>
@@ -253,9 +273,7 @@ function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
 
   return (
     <div>
-      <p className="lab-progress">
-        {index + 1} / {cards.length}
-      </p>
+      <LabProgress done={answers.length} total={cards.length} label={`${index + 1} / ${cards.length}`} />
       <div className="lab-card-area">
         <div
           className={`lab-card ${leaving ? 'leaving' : ''} ${dx !== 0 && !leaving ? 'dragging' : ''}`}
