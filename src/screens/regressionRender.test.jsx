@@ -56,6 +56,7 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
 
   async function renderWith(trip) {
     vi.resetModules();
+    vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null }) }));
     vi.doMock('../lib/groupTrips', () => ({
       subscribeGroupTrip: (id, onData) => {
         onData(trip);
