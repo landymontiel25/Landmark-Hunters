@@ -13,7 +13,8 @@ import {
   backfillUserName,
   cleanName,
 } from '../lib/leaderboard';
-import { getUserProfile } from '../lib/friends';
+import { getUserProfile, setBackgroundLocationEnabled } from '../lib/friends';
+import { requestAlwaysPermission } from '../lib/backgroundLocation';
 import { useRatings } from '../lib/RatingsContext';
 import { RATING_GOAL } from '../lib/ratingFlow';
 import { getRegion, REGIONS, ALL_LANDMARKS } from '../data/regions';
@@ -204,6 +205,56 @@ function FirstCheckInStep({ onDone }) {
   );
 }
 
+// Final onboarding step -- asks to upgrade from "When In Use" (already
+// granted by now, since FirstCheckInStep just used GPS) to "Always", so Mapr
+// can keep learning your taste and location even with the app closed (see
+// src/lib/backgroundLocation.js). Comes last on purpose: this native
+// permission dialog reads as a bigger ask than the others, so it only shows
+// up once someone has already gotten value from the app. Skippable, and
+// re-offered anytime from Settings.
+function LocationAlwaysStep({ onDone }) {
+  const { user } = useAuth();
+  const [enabling, setEnabling] = useState(false);
+  const [err, setErr] = useState(null);
+
+  const enable = async () => {
+    setEnabling(true);
+    setErr(null);
+    try {
+      const authorized = await requestAlwaysPermission();
+      if (!authorized) {
+        setErr('Location access is off for Landmark Hunters. You can turn it on later from Settings or iOS Settings.');
+        return;
+      }
+      await setBackgroundLocationEnabled(user.uid, true);
+      onDone();
+    } catch (e) {
+      setErr(friendlyError(e, "Couldn't turn that on. You can enable it later from Settings."));
+    } finally {
+      setEnabling(false);
+    }
+  };
+
+  return (
+    <div>
+      <h1 className="screen-title">
+        <span>{'\u{1F30D}'}</span> Always Know Where You Are
+      </h1>
+      <p className="screen-subtitle">
+        Turn this on and Mapr keeps learning even when the app is closed -- so the moment you land somewhere new,
+        it's already building picks for that city instead of starting from scratch when you open the app.
+      </p>
+      {err && <ErrorNotice compact message={err} />}
+      <button type="button" className="btn btn-primary btn-block" onClick={enable} disabled={enabling}>
+        {enabling ? 'Enabling…' : 'Always Allow Location'}
+      </button>
+      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onDone}>
+        Not now
+      </button>
+    </div>
+  );
+}
+
 // The only thing left of the old badge-progress teaser: if onboarding was
 // never finished, a plain (not badge-framed) nudge to go finish it --
 // badges themselves now live entirely on Full Stats, not on Profile.
@@ -248,7 +299,7 @@ export default function Profile() {
   // "no one has points yet".
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
-  const [onboardingStep, setOnboardingStep] = useState(null); // null | 'preferences' | 'tasteIntro' | 'checkin'
+  const [onboardingStep, setOnboardingStep] = useState(null); // null | 'preferences' | 'tasteIntro' | 'checkin' | 'locationAlways'
   const healedRef = useRef(false);
   const [streakInfoOpen, setStreakInfoOpen] = useState(false);
 
@@ -388,7 +439,8 @@ export default function Profile() {
 
   if (onboardingStep === 'preferences') return <OnboardingPreferences onDone={() => setOnboardingStep('tasteIntro')} />;
   if (onboardingStep === 'tasteIntro') return <TasteIntroStep onDone={() => setOnboardingStep('checkin')} />;
-  if (onboardingStep === 'checkin') return <FirstCheckInStep onDone={() => setOnboardingStep(null)} />;
+  if (onboardingStep === 'checkin') return <FirstCheckInStep onDone={() => setOnboardingStep('locationAlways')} />;
+  if (onboardingStep === 'locationAlways') return <LocationAlwaysStep onDone={() => setOnboardingStep(null)} />;
 
   const myIdx = entries.findIndex((e) => e.userId === user.uid);
   const myPoints = myIdx >= 0 ? entries[myIdx].points : 0;

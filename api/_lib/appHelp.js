@@ -96,6 +96,9 @@ export const APP_HELP =
   `for it anywhere -- it's just how the chat behaves once it's confident enough.\n` +
   `- Mapr chat plans for the time you're asking about, not the time you're typing: say "Saturday night" or "lunch tomorrow" and it favors ` +
   `nightlife or food for that slot on top of your learned taste; with no time given, it plans for right now.\n` +
+  `- Mapr chat can offer a city's own specialty even outside your usual taste -- Rome's architecture and ruins, Paris's art museums, Tokyo's ` +
+  `street food -- but only when you have no real signal either way in that category (no rating, nothing you've said you love or dislike), and only ` +
+  `as a question with quick-tap Yes/No, not a silent addition. It never does this for a category you've told it you dislike, generally or for that city.\n` +
   `- Mapr Picks (on Profile): up to 10 landmarks Mapr thinks you'll love next at once, for the city you're in right now (or, once you've been to everything there, the nearest city with something new). Every rating updates a ` +
   `per-city score for that landmark's category ("I loved it" +10, "It was okay" +2, "Not for me" -15, kept between -100 and 100, fading by half every 90 days; after a category's first 5 ` +
   `ratings, each new one counts half). Rating also asks "How often do you come here?" (Not often / Sometimes / A lot, optional) -- "a lot" moves the score up to 1.6x as hard as "not often," both directions, since coming back ` +
@@ -114,8 +117,14 @@ export const APP_HELP =
   `dislike), drops that landmark out of the row and keeps it out for about a week, after which it can be recommended again. Voting on ` +
   `one pulls in a fresh pick to replace it, keeping the row at 10; swiping alone doesn't load more.\n` +
   `- Onboarding: right after creating an account, a one-time flow — pick your usual interests (or skip), an optional "tell Mapr what you like" taste ` +
-  `step (or skip), then the nearest real landmark to your GPS with a one-tap check-in. Reaching that final step — whether or not you check in — ` +
-  `completes onboarding and awards the "Welcome" badge plus 10 bonus points.\n` +
+  `step (or skip), the nearest real landmark to your GPS with a one-tap check-in, then an "Always Know Where You Are" step asking to upgrade ` +
+  `location from "While Using" to "Always" (or skip). Reaching the check-in step — whether or not you check in — completes onboarding and awards ` +
+  `the "Welcome" badge plus 10 bonus points; the location step comes after that and never blocks it.\n` +
+  `- Background Location (Settings, and that onboarding step): opt-in, off by default. On means Mapr keeps getting your location even with the ` +
+  `app fully closed (real background GPS via the native app, not a browser trick), so the moment you land in a new city it's already learning from ` +
+  `it instead of starting cold the next time you open the app -- uses iOS's "Always" location permission and some extra battery. Off means Mapr ` +
+  `only knows your location while the app is open, same as before this existed. Turning it on can be declined at the iOS permission prompt; the ` +
+  `toggle says so and doesn't turn on if you decline.\n` +
   `- Trip Setup: no longer its own tab. The Itinerary tab's empty/overview state leads with "🧭 Use Mapr (recommended)", which jumps straight to ` +
   `Mapr's Plan Your Trip card (see above) — a "➕ Create New Trip" modal (same starting location/region/interests form, plus a full solo-vs-group ` +
   `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead.\n` +

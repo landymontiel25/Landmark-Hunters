@@ -25,6 +25,15 @@ import CelebrationOverlay from './components/CelebrationOverlay';
 import AdminModeBadge from './components/AdminModeBadge';
 import { ScreenSkeleton } from './components/Skeleton';
 import { ToastProvider } from './lib/ToastContext';
+import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
+
+// Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
+// start/stop the real background location watcher as the traveler's own
+// saved preference (Settings, or the onboarding step) changes.
+function BackgroundLocationSync() {
+  useBackgroundLocationSync();
+  return null;
+}
 
 // Each screen is its own file with a content hash in its name, and every
 // deploy replaces them. A tab opened before a deploy then asks for a file
@@ -139,6 +148,7 @@ export default function App() {
           <UnitsProvider>
           <MaprChatProvider>
           <HashRouter>
+          <BackgroundLocationSync />
           <OfflineBanner />
           <StreakWarningBanner />
           <Header />
