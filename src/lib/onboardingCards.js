@@ -7,10 +7,10 @@ import { TAG_DELTAS } from './tagScores';
 // One Wikimedia Commons file per card (free licenses, mostly CC BY-SA), picked
 // to show the kind of place. Fixed per card; an array shows as a split photo.
 export const CARD_PHOTOS = {
-  "Steak": "Filet mignon with mushroom-cream sauce.jpg",
+  "Steak": "Bavette's Steakhouse & Bar - March 2022 - Sarah Stierch 05.jpg",
   "Pizza": "NYPizzaPie.jpg",
   "Sushi": "Sushi platter.jpg",
-  "Fine dining": "Dining Room, Mount Washington Hotel, Bretton Woods, NH.jpg",
+  "Fine dining": "Train bleu 05 bearbeitet.jpg",
   "Street food": "StreetfoodNY.jpg",
   "Coffee shops": "Tazzina di caffè a Ventimiglia.jpg",
   "Museums": "Museo Chileno de Arte Precolombino - 2020 - 10.jpg",
@@ -33,7 +33,7 @@ export const CARD_PHOTOS = {
   "Arcades/bowling": ["Pac-Man arcade machine, De Notaris Schaijk.jpg", "AMF bowling center.jpg"],
   "Festivals": "Festival de Luces, Chile 2023 - 'Lantern Festival' - A742061.jpg",
   "Golf": "Ballybunion Golf Club - 10th hole.jpg",
-  "Pickleball": "20251212 pickleball pitch poliforum playa del carmen.jpg",
+  "Pickleball": "Pickle Pro Tour 2025 2.jpg",
   "Racing": "First lap 2014 Bahrain Grand Prix (3).jpg",
   "Stadium games": "Fenway Park 20-April-2021.jpg",
   "Boating": "Century 2400 CC.jpg",
