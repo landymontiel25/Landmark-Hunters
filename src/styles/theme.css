@@ -2890,6 +2890,26 @@ button.header-streak {
   border-bottom: none;
 }
 
+/* Tapping a shared landmark's name opens its page; the checkbox next to it
+   (a sibling, not nested inside this) still handles selecting it for the
+   group trip. */
+.shared-landmark-link {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shared-landmark-link:hover,
+.shared-landmark-link:focus-visible {
+  text-decoration: underline;
+}
+
 .review-item {
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-md);
