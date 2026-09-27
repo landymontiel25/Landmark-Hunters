@@ -3,8 +3,56 @@ import { TAG_DELTAS } from './tagScores';
 // Onboarding swipe cards. Each card shows one word, but it scores one of the
 // app's real category tags (INTERESTS ids in src/data/regions.js) -- tagScores
 // is keyed by those, so "Steak" moves `food`, "Racing" moves `formula-1`.
-// Photos are placeholders (icon on the category's gradient) until generic,
-// non-identifiable stock photos are added.
+
+// One Wikimedia Commons file per card (free licenses, mostly CC BY-SA), picked
+// to show the kind of place rather than a famous person or brand.
+export const CARD_PHOTOS = {
+  "Steak": "Steak with shitaki mushrooms.jpg",
+  "Pizza": "Pizza-3007395.jpg",
+  "Sushi": "Sushi platter.jpg",
+  "Fine dining": "The Fat Duck restaurant dining room.JPG",
+  "Street food": "StreetfoodNY.jpg",
+  "Coffee shops": "Tazzina di caffè a Ventimiglia.jpg",
+  "Museums": "Museo Chileno de Arte Precolombino - 2020 - 10.jpg",
+  "Historic architecture": "West facade of Petit Trianon 002.JPG",
+  "Old churches": "Husby-Sjuhundra kyrka.jpg",
+  "Battlefields": "Best Farm MNB MD2.jpg",
+  "Ruins": "Gymnasion und Therme aus Südwest.jpg",
+  "Castles": "Panorámica Otoño Alcázar de Segovia.jpg",
+  "Hiking trails": "Hiking to the Ice Lakes. San Juan National Forest, Colorado.jpg",
+  "Scenic views": "Scenic View 1.jpg",
+  "Beaches": "Beach at Fort Lauderdale.jpg",
+  "Gardens": "Brooklyn Botanic Garden New York May 2015 010.jpg",
+  "Waterfalls": "Cascada Dynjandi, Vestfirðir, Islandia, 2014-08-14, DD 136-138 HDR.JPG",
+  "Lakes/rivers": "Pirogue running on the Mekong at golden hour between Don Det and Don Khon Laos.jpg",
+  "Live music": "Dülmen, Dülmener Sommer, Open-Air-Konzert, \"Bounce\" -- 2018 -- 0051.jpg",
+  "Comedy shows": "Game of Laugh - Comedy improv at \"Yo Mama's\", New Orleans 03.jpg",
+  "Theme parks": "Luna Park Melbourne scenic railway.jpg",
+  "Aquariums": "Male whale shark at Georgia Aquarium.jpg",
+  "Zoos": "Sea Lion and Keeper at the Welsh Mountain Zoo - geograph.org.uk - 4684996.jpg",
+  "Casinos": "13-02-27-spielbank-wiesbaden-by-RalfR-094.jpg",
+  "Arcades/bowling": "Sunset Lanes bowling alley - Beaverton, OR (2015).jpg",
+  "Festivals": "Festival de Luces, Chile 2023 - 'Lantern Festival' - A742061.jpg",
+  "Golf": "Golf course Golfplatz Wittenbeck Mecklenburg Ostsee Baltic Sea Germany.jpg",
+  "Pickleball": "Outdoor pickleball courts.jpg",
+  "Racing": "First lap 2014 Bahrain Grand Prix (3).jpg",
+  "Stadium games": "Fenway Park 20-April-2021.jpg",
+  "Boating": "Regattafeld vor Laboe.jpg",
+  "Fishing": "Mete (fiske) - Ystad-2018.jpg",
+  "Tennis": "Universityofbath indoor tennis courts arp.jpg",
+  "Watersports": "Woman kayaking on a turquoise lake (51125937521).jpg",
+  "Nightlife/clubs": "Wikipedia space ibiza(03).jpg",
+  "Dive bars": "Dive Bar Merrimaker.jpg",
+  "Rooftop bars": "Interior of Eleven Rooftop Bar, Fortiude Valley, Brisbane, 01.jpg",
+  "Farmers markets": "DSCF1116 Fresh root vegetables piled at a bustling market stall with fruits and produce blurred in the colorful background.jpg",
+  "Luxury spots": "Infinity Edge Pool, Mauritius.JPG",
+  "Shopping": "2018 Mall of America 01.jpg",
+};
+
+const commonsUrl = (file, width) =>
+  `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
+export const commonsPage = (file) => `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g, '_'))}`;
+
 export const SWIPE_GROUPS = [
   {
     id: 'food',
@@ -91,7 +139,14 @@ export const SWIPE_GROUPS = [
   },
 ].map((g) => ({
   ...g,
-  cards: g.cards.map(([word, icon, tag]) => ({ word, icon, group: g.id, tag: tag || g.tag || g.id })),
+  cards: g.cards.map(([word, icon, tag]) => ({
+    word,
+    icon,
+    group: g.id,
+    tag: tag || g.tag || g.id,
+    photo: commonsUrl(CARD_PHOTOS[word], 800),
+    photoPage: commonsPage(CARD_PHOTOS[word]),
+  })),
 }));
 
 export const ALL_SWIPE_CARDS = SWIPE_GROUPS.flatMap((g) => g.cards);

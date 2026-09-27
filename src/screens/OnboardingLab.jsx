@@ -260,9 +260,18 @@ function LabCardStack({ cards, answers, onAnswer, onFinished }) {
         >
           <div className="lab-card-word">{card.word}</div>
           <div className={`lab-card-photo lab-photo-${card.group}`}>
-            <span>{card.icon}</span>
-            <small>photo placeholder</small>
+            <span aria-hidden="true">{card.icon}</span>
+            <img
+              key={card.word}
+              src={card.photo}
+              alt=""
+              draggable={false}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
           </div>
+          {cards[index + 1] && <link rel="preload" as="image" href={cards[index + 1].photo} />}
           {hint && <div className={`lab-card-hint ${hint}`}>{hint === 'love' ? 'LOVE IT' : 'NOPE'}</div>}
         </div>
       </div>
@@ -468,7 +477,10 @@ function LabSummary({ data, log, onRestart }) {
             <ul className="lab-log">
               {data.answers.map(({ card, answer }) => (
                 <li key={card.word}>
-                  {card.icon} {card.word} → {answerLabel[answer]} <code>{card.tag}</code>
+                  {card.icon} {card.word} → {answerLabel[answer]} <code>{card.tag}</code>{' '}
+                  <a href={card.photoPage} target="_blank" rel="noreferrer">
+                    photo
+                  </a>
                 </li>
               ))}
             </ul>
