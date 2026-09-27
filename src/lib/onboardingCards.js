@@ -13,7 +13,7 @@ export const CARD_PHOTOS = {
   "Fine dining": "Train bleu 05 bearbeitet.jpg",
   "Street food": "StreetfoodNY.jpg",
   "Coffee shops": "Tazzina di caffè a Ventimiglia.jpg",
-  "Museums": "Museo Chileno de Arte Precolombino - 2020 - 10.jpg",
+  "Museums": "Grande Galerie, Louvre Museum, 25 September 2019 01.jpg",
   "Historic architecture": "West facade of Petit Trianon 002.JPG",
   "Old churches": "Husby-Sjuhundra kyrka.jpg",
   "Ruins": "Gymnasion und Therme aus Südwest.jpg",
@@ -31,7 +31,7 @@ export const CARD_PHOTOS = {
   "Zoos": "Sea Lion and Keeper at the Welsh Mountain Zoo - geograph.org.uk - 4684996.jpg",
   "Casinos": "Fontainebleau Las Vegas Casino Floor.jpg",
   "Arcades/bowling": ["Pac-Man arcade machine, De Notaris Schaijk.jpg", "AMF bowling center.jpg"],
-  "Festivals": "Festival de Luces, Chile 2023 - 'Lantern Festival' - A742061.jpg",
+  "Festivals": "Tomorrowland2016mainstage.jpg",
   "Golf": "Ballybunion Golf Club - 10th hole.jpg",
   "Pickleball": "Pickle Pro Tour 2025 2.jpg",
   "Racing": "First lap 2014 Bahrain Grand Prix (3).jpg",
@@ -45,7 +45,7 @@ export const CARD_PHOTOS = {
   "Rooftop bars": "Interior of Eleven Rooftop Bar, Fortiude Valley, Brisbane, 01.jpg",
   "Farmers markets": "DSCF1116 Fresh root vegetables piled at a bustling market stall with fruits and produce blurred in the colorful background.jpg",
   "Luxury spots": "Infinity Edge Pool, Mauritius.JPG",
-  "Shopping": "2018 Mall of America 01.jpg",
+  "Shopping": "Galleria Milano (179532365).jpeg",
 };
 
 // Crop anchor for tall photos whose subject sits high in the frame.
