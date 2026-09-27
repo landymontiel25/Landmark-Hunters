@@ -21,6 +21,7 @@ import {
   TAG_SCORES_VERSION,
 } from '../lib/tagScores';
 import RateLandmarkSearch from './RateLandmarkSearch';
+import RateCityAhead from './RateCityAhead';
 import { authHeaders } from '../lib/apiAuth';
 import { Skeleton } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
@@ -405,6 +406,7 @@ export default function MaprPicksCarousel({ reviews, interests = [], checkedInId
       </p>
       <div className="mapr-picks-track" ref={trackRef} onScroll={onScroll}>
         <RateLandmarkSearch />
+        <RateCityAhead />
         {/* Placeholder cards in the real cards' shape while the first list
             is still coming in, so the row doesn't jump when they land. */}
         {loading && (

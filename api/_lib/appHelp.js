@@ -119,6 +119,13 @@ export const APP_HELP =
   `conclusive verdict -- that landmark won't be offered again. "🤷 Not sure" is different: it means "I genuinely don't know yet" (not a hidden ` +
   `dislike), drops that landmark out of the row and keeps it out for about a week, after which it can be recommended again. Voting on ` +
   `one pulls in a fresh pick to replace it, keeping the row at 10; swiping alone doesn't load more.\n` +
+  `- Rating without visiting: the first two cards in "Your Mapr Picks" are always "+ Rate a Landmark" (search any place by name and rate it -- ` +
+  `useful for a backlog of places you've already been) and "🌍 Prep a Trip" (pick a city first, then rate whatever landmarks in it you already have ` +
+  `a feel for by reputation, even one you've never set foot in -- "I know I'll love the art museums in Paris" doesn't need you to already know the ` +
+  `Louvre's name). Both open the real rate-and-post flow and require a comment (there's no visit to lean on otherwise), and both save as a genuine ` +
+  `0-point rating -- no check-in points, since nothing was actually visited, but it feeds that city's tag scores exactly like any other rating, so ` +
+  `Mapr can have real picks ready for a city before you've ever landed there. Rating this way still claims the underlying check-in for later: show ` +
+  `up in person and tap Check In for real, and it reopens the same rating to edit rather than creating a duplicate.\n` +
   `- Onboarding: right after creating an account, a one-time flow — pick your usual interests (or skip), an optional "tell Mapr what you like" taste ` +
   `step (or skip), the nearest real landmark to your GPS with a one-tap check-in, then an "Always Know Where You Are" step asking to upgrade ` +
   `location from "While Using" to "Always" (or skip). Reaching the check-in step — whether or not you check in — completes onboarding and awards ` +
