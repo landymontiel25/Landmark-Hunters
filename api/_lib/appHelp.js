@@ -134,7 +134,8 @@ export const APP_HELP =
   `- Time saved / discovery: Mapr shows real, tracked numbers — minutes saved today, summed from actual Mapr chat replies that produced stops, each ` +
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
   `- Streaks: check in on consecutive days, or rate a few things through Mapr Picks, to build a streak; Profile warns if an active streak is about to ` +
-  `lapse, and the streak warning in Notifications shows a live countdown to when it expires. Tapping the 🔥 streak in the top middle of the header shows a live countdown too.\n` +
+  `lapse, and the streak warning in Notifications shows a live countdown to when it expires. Tapping the 🔥 streak in the top middle of the header shows a live countdown too. ` +
+  `Streak days run midnight to midnight in the traveler's local time, so the countdown is never more than 24 hours: before today is secured it's time left to save the streak, after that it's time until the next day starts.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +
   `- Ranks / Leaderboard (also a Profile section, now secondary to Mapr/taste stats): a Friends/Global toggle — Friends ranks you against people you ` +
   `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views.\n` +
