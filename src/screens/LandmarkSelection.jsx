@@ -226,11 +226,17 @@ export default function LandmarkSelection() {
   // state (nothing to undo).
   const [suggestedSnapshot, setSuggestedSnapshot] = useState(null);
 
-  // Keep the map's focus on the city shown in the list, so tapping Map opens on
-  // it — including the default city you land on here.
-  useEffect(() => {
-    if (cityFilter !== 'all') setMapFocus(cityFilter);
-  }, [cityFilter, setMapFocus]);
+  // Picking a city by hand (the dropdown) or GPS auto-pick already call
+  // setMapFocus(id) themselves, right where they happen -- there used to
+  // also be a useEffect here that set it from `cityFilter` on every render,
+  // including the very first one. Since cityFilter's initial value is
+  // trip.activeRegion (persisted per device, see above), that effect fired
+  // on mount from whatever city was last browsed on THIS device, even on a
+  // cold launch with no city actively chosen this session -- silently
+  // locking the Map tab onto a stale city (indefinitely, since it's a
+  // per-device localStorage value that survives app restarts) instead of
+  // the "cold launch -> GPS, or all landmarks" behavior MapExplore's own
+  // regionBounds is actually built to give. Removed; nothing here needs it.
 
   // A custom interest only filters anything once the AI has told us which
   // landmarks fit it. Normally that already happened when it was added on
