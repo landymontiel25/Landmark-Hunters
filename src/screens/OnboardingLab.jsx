@@ -33,7 +33,7 @@ const empty = () => ({
   age: false,
   via: null,
   skippedRating: false,
-  // All 45 here so every card gets tested; real signups get 15-18 (pickSwipeCards).
+  // All 40 here so every card gets tested; real signups get 15-18 (pickSwipeCards).
   cards: allSwipeCards(),
   answers: [],
   notes: '',

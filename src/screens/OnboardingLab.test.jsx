@@ -57,7 +57,7 @@ describe('OnboardingLab', () => {
     await click(button(el, 'Start'));
     const love = el.querySelector('[aria-label="Love it"]');
     const total = Number(el.querySelector('.lab-progress').textContent.split('/')[1]);
-    expect(total).toBe(45);
+    expect(total).toBe(40);
     for (let n = 0; n < total; n += 1) {
       await click(n === 0 ? love : el.querySelector('[aria-label="Not sure"]'));
       await act(async () => new Promise((r) => setTimeout(r, 230)));
