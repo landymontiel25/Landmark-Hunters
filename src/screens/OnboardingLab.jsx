@@ -36,7 +36,7 @@ const empty = () => ({
   age: false,
   via: null,
   skippedRating: false,
-  // All 40 here so every card gets tested; real signups get 15-18 (pickSwipeCards).
+  // All 39 here so every card gets tested; real signups get 15-18 (pickSwipeCards).
   cards: allSwipeCards(),
   answers: [],
   notes: '',
@@ -199,8 +199,9 @@ export function progressTier(done, total) {
   return f < 1 / 3 ? 'red' : f < 2 / 3 ? 'yellow' : 'green';
 }
 
-function LabProgress({ done, total, label }) {
+function LabProgress({ done, total }) {
   const tier = progressTier(done, total);
+  const label = `${total ? Math.round((done / total) * 100) : 0}%`;
   return (
     <div className="lab-progress-wrap">
       <p className={`lab-progress lab-tier-${tier}`}>{label}</p>
@@ -225,7 +226,7 @@ function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
   if (!card) {
     return (
       <div className="lab-center">
-        <LabProgress done={answers.length} total={cards.length} label={`${cards.length} / ${cards.length}`} />
+        <LabProgress done={answers.length} total={cards.length} />
         <h1 className="screen-title">All done {'\u{2705}'}</h1>
         <p className="screen-subtitle">{answers.length} cards rated.</p>
         <button type="button" className="btn btn-primary btn-block" onClick={onFinished}>
@@ -273,7 +274,7 @@ function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
 
   return (
     <div>
-      <LabProgress done={answers.length} total={cards.length} label={`${index + 1} / ${cards.length}`} />
+      <LabProgress done={answers.length} total={cards.length} />
       <div className="lab-card-area">
         <div
           className={`lab-card ${leaving ? 'leaving' : ''} ${dx !== 0 && !leaving ? 'dragging' : ''}`}
