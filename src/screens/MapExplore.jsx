@@ -972,7 +972,7 @@ export default function MapExplore() {
                     className="btn-block"
                   />
                 </div>
-                {user && (l.createdBy === user.uid || isAdmin(user.email)) && (
+                {user && (l.createdBy === user.uid || (isAdmin(user.email) && adminMode)) && (
                   <button
                     type="button"
                     className="btn btn-ghost btn-sm btn-block"
