@@ -2265,6 +2265,32 @@ button.header-streak {
   padding-bottom: 24px;
 }
 
+/* Tapping a stop's photo/name opens its landmark page -- where Check In and
+   rating live -- so it needs to look and behave like part of the card, not
+   a plain button, while still being a real tap target. */
+.route-stop-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.route-stop-link h4 {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.route-stop-link:hover h4,
+.route-stop-link:focus-visible h4 {
+  text-decoration-color: currentColor;
+}
+
 .route-step::before {
   content: '';
   position: absolute;
