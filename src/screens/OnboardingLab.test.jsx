@@ -44,9 +44,7 @@ describe('OnboardingLab', () => {
 
   it('walks the whole flow and restarts', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
-    expect(el.textContent).toContain('Create Account');
-
-    await click(button(el, 'Sign up with Google'));
+    expect(el.textContent).not.toContain('Create Account');
     expect(el.textContent).toContain('Rate a few things you');
 
     await click(button(el, 'Next'));
@@ -78,14 +76,30 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Loves: ');
     expect(el.querySelectorAll('.lab-rec').length).toBeGreaterThan(0);
 
-    await click(button(el, 'Restart sign-up'));
-    expect(el.textContent).toContain('Create Account');
+    await click(button(el, 'Restart'));
+    expect(el.textContent).toContain('Rate a few things you');
   }, 30000);
 
   it('Skip on the rate prompt goes straight to the end with no preference data', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
-    await click(button(el, 'Sign up with Google'));
     await click([...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Skip'));
     expect(el.textContent).toContain('no preference data yet');
+  });
+
+  it('Undo brings back the last card and drops its answer', async () => {
+    const el = await renderAs('landymontiel25@gmail.com');
+    await click(button(el, 'Next'));
+    await click(button(el, 'Start'));
+    expect(button(el, 'Undo').disabled).toBe(true);
+    const first = el.querySelector('.lab-card-word').textContent;
+    await click(el.querySelector('[aria-label="Love it"]'));
+    await act(async () => new Promise((r) => setTimeout(r, 230)));
+    expect(el.querySelector('.lab-progress').textContent).toMatch(/^2 \//);
+    expect(el.querySelector('.lab-card-word').textContent).not.toBe(first);
+
+    await click(button(el, 'Undo'));
+    expect(el.querySelector('.lab-progress').textContent).toMatch(/^1 \//);
+    expect(el.querySelector('.lab-card-word').textContent).toBe(first);
+    expect(button(el, 'Undo').disabled).toBe(true);
   });
 });

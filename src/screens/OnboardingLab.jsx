@@ -15,8 +15,11 @@ import LandmarkThumb from '../components/LandmarkThumb';
 // local state: no account is created, nothing is written to Firestore or the
 // saved trip, and "Restart" wipes it. The results screen shows what a real
 // signup would have saved (tagScores changes and notes) without saving it.
+// Off while we're only testing the cards; flip back to true to bring the
+// sign-up screen back as step 1.
+const SIGNUP_ON = false;
 const STEPS = [
-  { id: 'signup', label: 'Sign up' },
+  ...(SIGNUP_ON ? [{ id: 'signup', label: 'Sign up' }] : []),
   { id: 'prompt', label: 'Rate prompt' },
   { id: 'howto', label: 'Instructions' },
   { id: 'cards', label: 'Cards' },
@@ -85,7 +88,7 @@ export default function OnboardingLab() {
         </div>
         <div className="lab-actions">
           <button type="button" className="btn btn-ghost btn-sm" onClick={restart}>
-            {'\u{21BA}'} Restart sign-up
+            {'\u{21BA}'} Restart
           </button>
           <button type="button" className="btn btn-ghost btn-sm" disabled={step === 0} onClick={() => go(step - 1, 'Back')}>
             {'\u{2190}'} Back
@@ -94,9 +97,9 @@ export default function OnboardingLab() {
             type="button"
             className="btn btn-ghost btn-sm"
             disabled={step === STEPS.length - 1}
-            onClick={() => go(step + 1, 'Continue sign-up')}
+            onClick={() => go(step + 1, 'Next step')}
           >
-            Continue sign-up {'\u{2192}'}
+            Next step {'\u{2192}'}
           </button>
         </div>
       </div>
@@ -131,6 +134,12 @@ export default function OnboardingLab() {
           onAnswer={(card, answer) => {
             note(`${card.word}: ${answer === 'love' ? 'love it' : answer === 'dislike' ? "don't like it" : 'not sure'}`);
             set({ answers: [...data.answers.filter((a) => a.card.word !== card.word), { card, answer }] });
+          }}
+          onUndo={() => {
+            const last = data.answers[data.answers.length - 1];
+            if (!last) return;
+            note(`Undo: ${last.card.word}`);
+            set({ answers: data.answers.slice(0, -1) });
           }}
           onFinished={() => go('notes', 'Finished cards')}
         />
@@ -186,7 +195,7 @@ function LabInstructions({ onNext }) {
 const SWIPE_PX = 90;
 const TAP_PX = 8;
 
-function LabCardStack({ cards, answers, onAnswer, onFinished }) {
+function LabCardStack({ cards, answers, onAnswer, onUndo, onFinished }) {
   const answered = new Set(answers.map((a) => a.card.word));
   const index = cards.findIndex((c) => !answered.has(c.word));
   const card = index === -1 ? null : cards[index];
@@ -201,6 +210,9 @@ function LabCardStack({ cards, answers, onAnswer, onFinished }) {
         <p className="screen-subtitle">{answers.length} cards rated.</p>
         <button type="button" className="btn btn-primary btn-block" onClick={onFinished}>
           Continue {'\u{2192}'}
+        </button>
+        <button type="button" className="btn btn-ghost btn-sm lab-undo" disabled={!answers.length} onClick={onUndo}>
+          {'\u{21B6}'} Undo
         </button>
       </div>
     );
@@ -286,6 +298,9 @@ function LabCardStack({ cards, answers, onAnswer, onFinished }) {
           {'\u{2665}'}
         </button>
       </div>
+        <button type="button" className="btn btn-ghost btn-sm lab-undo" disabled={!answers.length || !!leaving} onClick={onUndo}>
+          {'\u{21B6}'} Undo
+        </button>
     </div>
   );
 }
@@ -430,9 +445,11 @@ function LabSummary({ data, log, onRestart }) {
       </h1>
       <p className="screen-subtitle">What a real signup would have saved. Nothing here was actually saved.</p>
       <div className="card section">
-        <p>
-          <strong>Signed up with:</strong> {data.via || '—'}
-        </p>
+        {SIGNUP_ON && (
+          <p>
+            <strong>Signed up with:</strong> {data.via || '—'}
+          </p>
+        )}
         {data.skippedRating ? (
           <p>
             <strong>Rating:</strong> skipped — straight into the app, no preference data yet
@@ -511,7 +528,7 @@ function LabSummary({ data, log, onRestart }) {
         </div>
       )}
       <button type="button" className="btn btn-primary btn-block" onClick={onRestart}>
-        {'\u{21BA}'} Restart sign-up
+        {'\u{21BA}'} Restart
       </button>
     </div>
   );
