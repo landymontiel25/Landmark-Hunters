@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   baselineToSentence,
   baselineToSyntheticReviews,
-  composeFavoritePlaces,
   composeTasteIntro,
   extractLegacyBaselineFromIntro,
   tasteFingerprint,
@@ -87,23 +86,10 @@ describe('composeTasteIntro', () => {
     expect(combined).toContain('note: No pepper on my steak');
   });
 
-  it('folds in named favorite places/brands', () => {
-    const profile = { favoritePlaces: "Dunkin' Donuts, sushi, Italian, arepa places, marinas, Carrot Express" };
+  it('passes named places/brands through in tasteIntro, same as any other free text', () => {
+    const profile = { tasteIntro: "I love Dunkin' Donuts, sushi, and Carrot Express." };
     expect(composeTasteIntro(profile)).toContain("Dunkin' Donuts");
     expect(composeTasteIntro(profile)).toContain('Carrot Express');
-  });
-});
-
-describe('composeFavoritePlaces', () => {
-  it('returns empty for a profile with nothing set', () => {
-    expect(composeFavoritePlaces(null)).toBe('');
-    expect(composeFavoritePlaces({})).toBe('');
-    expect(composeFavoritePlaces({ favoritePlaces: '  ' })).toBe('');
-  });
-
-  it('wraps the named places/brands as a sentence Mapr can read', () => {
-    const text = composeFavoritePlaces({ favoritePlaces: 'Dunkin, sushi, Carrot Express' });
-    expect(text).toBe('Places/brands they said they visit most: Dunkin, sushi, Carrot Express.');
   });
 });
 
