@@ -5900,6 +5900,11 @@ h2,
   gap: 16px;
 }
 
+.lab-undo {
+  display: block;
+  margin: 12px auto 0;
+}
+
 .lab-card-buttons .btn {
   width: 56px;
   height: 56px;
