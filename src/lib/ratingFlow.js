@@ -51,6 +51,21 @@ export function tierById(id) {
   return TIERS.find((t) => t.id === id) || null;
 }
 
+// How often you come here -- optional, asked alongside the tier. Mapr moves
+// its tag scores faster for a "my regular spot" love than a first-time one
+// (see FREQUENCY_MULTIPLIER in tagScores.js): a place you keep going back to
+// is stronger proof of taste than a single visit, good or bad.
+export const FREQUENCIES = [
+  { id: 'first', label: 'First time' },
+  { id: 'occasional', label: 'Now and then' },
+  { id: 'regular', label: 'Fairly often' },
+  { id: 'usual', label: 'My regular spot' },
+];
+
+export function frequencyById(id) {
+  return FREQUENCIES.find((f) => f.id === id) || null;
+}
+
 export function tierStars(id) {
   return tierById(id)?.stars ?? 0;
 }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { TIERS, MAX_CHIPS, MAX_ASPECTS, COMMENT_MAX, chipsFor, aspectsFor, aspectLabel } from '../lib/ratingFlow';
+import { TIERS, FREQUENCIES, MAX_CHIPS, MAX_ASPECTS, COMMENT_MAX, chipsFor, aspectsFor, aspectLabel } from '../lib/ratingFlow';
 import { usePersistentState, readPersisted } from '../lib/usePersistentState';
 
 function toDraft(initial) {
@@ -9,6 +9,7 @@ function toDraft(initial) {
     lovedOrder: initial?.lovedOrder || [],
     dislikedOrder: initial?.dislikedOrder || [],
     comment: initial?.comment || '',
+    visitFrequency: initial?.visitFrequency || null,
   };
 }
 
@@ -39,11 +40,12 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
     return !!saved && !isEmpty(saved);
   });
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
-  const { tier, highlights, lovedOrder, dislikedOrder, comment } = draft;
+  const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;
   const patch = (fields) => setDraft((cur) => ({ ...cur, ...fields }));
   const setHighlights = (fn) => setDraft((cur) => ({ ...cur, highlights: fn(cur.highlights) }));
   const setLovedOrder = (list) => patch({ lovedOrder: list });
   const setDislikedOrder = (list) => patch({ dislikedOrder: list });
+  const pickFrequency = (id) => patch({ visitFrequency: visitFrequency === id ? null : id });
   // Free text, optional: the one place to say what the chips can't. Mapr
   // reads it alongside the chips when learning what you like.
   const setComment = (text) => patch({ comment: text });
@@ -55,8 +57,8 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   };
 
   const payload = useMemo(
-    () => (tier ? { tier, highlights, lovedOrder, dislikedOrder, comment: comment.trim() } : null),
-    [tier, highlights, lovedOrder, dislikedOrder, comment]
+    () => (tier ? { tier, highlights, lovedOrder, dislikedOrder, comment: comment.trim(), visitFrequency } : null),
+    [tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency]
   );
   useEffect(() => {
     onChange?.(payload);
@@ -135,6 +137,26 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
           </button>
         ))}
       </div>
+
+      {tier && (
+        <div style={{ marginTop: 14 }}>
+          <p className="rating-flow-label">
+            How often do you come here? <span>optional, tap again to clear</span>
+          </p>
+          <div className="rating-chip-row">
+            {FREQUENCIES.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                className={`tag rating-chip ${visitFrequency === f.id ? 'selected' : ''}`}
+                onClick={() => pickFrequency(f.id)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {tier && chips.length > 0 && (
         <div style={{ marginTop: 14 }}>

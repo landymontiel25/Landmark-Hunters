@@ -47,11 +47,17 @@ export const WILDCARD_MAX_RATINGS = 2;
 export const IGNORE_LIMIT = 3;
 export const IGNORE_DELTA = -3;
 // Bump when the stored shape or deltas change, so clients rebuild from reviews.
-// 3: Mapr Picks ✓/✗ votes feed tag scores too (VOTE_DELTAS).
-export const TAG_SCORES_VERSION = 3;
+// 4: how often you visit (FREQUENCY_MULTIPLIER) scales a rating's delta.
+export const TAG_SCORES_VERSION = 4;
 // A ✓/✗ on a Mapr Pick is a lighter signal than a full rating, and doesn't
 // count as a rating behind a tag (tagCounts).
 export const VOTE_DELTAS = { yes: 4, no: -6 };
+// A rating from someone who keeps coming back is stronger proof of taste
+// than a single visit -- scales the tier delta before it's applied. Applies
+// both directions: a regular who says "not for me" is just as informative
+// as a regular who loves it. Missing/unknown frequency (older reviews,
+// votes, or a skipped question) is 1x, unchanged from before this existed.
+export const FREQUENCY_MULTIPLIER = { first: 1, occasional: 1.2, regular: 1.4, usual: 1.6 };
 
 const DAY_MS = 86400000;
 const UNRATEABLE = new Set(['dorms', 'campus-life']);
@@ -66,13 +72,17 @@ export function decayFactor(fromMs, nowMs) {
 
 // One rating applied to one region's tag maps. Returns only the tags it
 // touched, plus which of them landed on the cap, so callers can merge-write.
-export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs) {
+// `frequency` (FREQUENCIES ids in ratingFlow.js) scales the delta -- how
+// often you visit is a stronger or weaker vote of confidence than a single
+// visit; unknown/missing frequency is 1x.
+export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null) {
   const delta = TAG_DELTAS[tier];
   const next = { scores: {}, at: {}, counts: {}, capped: [] };
   if (delta == null) return next;
+  const mult = FREQUENCY_MULTIPLIER[frequency] || 1;
   for (const tag of new Set(tags || [])) {
     const prior = counts[tag] || 0;
-    const step = prior >= FULL_VALUE_RATINGS ? delta / 2 : delta;
+    const step = (prior >= FULL_VALUE_RATINGS ? delta / 2 : delta) * mult;
     const value = clampScore((scores[tag] || 0) * decayFactor(at[tag], nowMs) + step);
     next.scores[tag] = value;
     next.at[tag] = nowMs;
@@ -114,7 +124,7 @@ export function rebuildTagScores(reviews, votes = []) {
       counts: out.tagCounts[region] || {},
     };
     const next = r
-      ? applyRating(cur, r.categories, r.ratingTier, ms || Date.now())
+      ? applyRating(cur, r.categories, r.ratingTier, ms || Date.now(), r.visitFrequency || null)
       : applyVote(cur, v.categories, v.verdict, ms || Date.now());
     out.tagScores[region] = { ...cur.scores, ...next.scores };
     out.tagScoresAt[region] = { ...cur.at, ...next.at };

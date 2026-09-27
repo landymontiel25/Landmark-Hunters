@@ -263,6 +263,7 @@ export default function LandmarkDetail() {
             lovedOrder: r.lovedOrder || [],
             dislikedOrder: r.dislikedOrder || [],
             comment: r.comment || '',
+            visitFrequency: r.visitFrequency || null,
           }
         : r.stars
         ? { stars: r.stars, comment: r.comment || '' }
