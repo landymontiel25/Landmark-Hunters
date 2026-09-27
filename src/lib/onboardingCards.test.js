@@ -3,9 +3,9 @@ import { INTERESTS } from '../data/regions';
 import { ALL_SWIPE_CARDS, SWIPE_GROUPS, pickSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
 
 describe('onboarding swipe cards', () => {
-  it('has all 45 listed cards across 6 groups, each scoring a real category tag', () => {
+  it('has all 40 listed cards across 6 groups, each scoring a real category tag', () => {
     expect(SWIPE_GROUPS).toHaveLength(6);
-    expect(ALL_SWIPE_CARDS).toHaveLength(45);
+    expect(ALL_SWIPE_CARDS).toHaveLength(40);
     const tags = new Set(INTERESTS.map((i) => i.id));
     for (const c of ALL_SWIPE_CARDS) expect(tags.has(c.tag)).toBe(true);
   });
@@ -27,7 +27,7 @@ describe('onboarding swipe cards', () => {
   it('eventually shows every card across many signups', () => {
     const seen = new Set();
     for (let run = 0; run < 300; run += 1) for (const c of pickSwipeCards()) seen.add(c.word);
-    expect(seen.size).toBe(45);
+    expect(seen.size).toBe(40);
   });
 
   it('+10 love, -15 dislike, nothing for not sure, summed per tag', () => {

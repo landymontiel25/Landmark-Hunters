@@ -16,8 +16,6 @@ export const SWIPE_GROUPS = [
       ['Fine dining', '\u{1F377}'],
       ['Street food', '\u{1F32E}'],
       ['Coffee shops', '\u{2615}'],
-      ['BBQ', '\u{1F356}'],
-      ['Brunch', '\u{1F95E}'],
     ],
   },
   {
@@ -30,7 +28,6 @@ export const SWIPE_GROUPS = [
       ['Old churches', '\u{26EA}'],
       ['Battlefields', '\u{2694}\u{FE0F}'],
       ['Ruins', '\u{1F3DA}\u{FE0F}'],
-      ['Monuments', '\u{1F5FF}'],
       ['Castles', '\u{1F3F0}'],
     ],
   },
@@ -45,7 +42,6 @@ export const SWIPE_GROUPS = [
       ['Gardens', '\u{1F337}'],
       ['Waterfalls', '\u{1F4A7}'],
       ['Lakes/rivers', '\u{1F6F6}'],
-      ['Sunsets', '\u{1F305}'],
     ],
   },
   {
@@ -86,12 +82,11 @@ export const SWIPE_GROUPS = [
     cards: [
       ['Nightlife/clubs', '\u{1FAA9}'],
       ['Dive bars', '\u{1F37A}'],
+      ['Rooftop bars', '\u{1F378}'],
       // Food markets are filed under Food.
       ['Farmers markets', '\u{1F955}', 'food'],
       ['Luxury spots', '\u{1F48E}'],
       ['Shopping', '\u{1F6CD}\u{FE0F}'],
-      ['Rooftop bars', '\u{1F378}'],
-      ['Spas', '\u{1F9D6}'],
     ],
   },
 ].map((g) => ({
