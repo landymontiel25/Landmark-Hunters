@@ -3,18 +3,23 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
+import { useGeo } from '../lib/GeoContext';
 import { itineraryPhase, groupKey } from '../lib/itineraryStatus';
 import { getRegion } from '../data/regions';
 import {
   subscribeGroupTrip,
   toggleGroupLandmark,
   setGroupLandmarks,
+  reorderGroupLandmarks,
   addGroupMember,
   removeGroupMember,
   deleteGroupTrip,
   renameGroupTrip,
   removeGroupPlace,
 } from '../lib/groupTrips';
+import { SORT_OPTIONS, orderStops, annotateRoute } from '../lib/routing';
+import { useDragReorder } from '../lib/useDragReorder';
+import { useUnits, formatDistance } from '../lib/UnitsContext';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import DirectionsButton from '../components/DirectionsButton';
@@ -23,6 +28,7 @@ import LandmarkThumb from '../components/LandmarkThumb';
 import { friendlyError } from '../lib/friendlyError';
 import { writePersisted } from '../lib/usePersistentState';
 import { useStopAddresses } from '../lib/useStopAddresses';
+import { useRatings } from '../lib/RatingsContext';
 import { runOptimistic, useToast } from '../lib/ToastContext';
 import ErrorNotice from '../components/ErrorNotice';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
@@ -68,6 +74,13 @@ export default function GroupTrip() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { trip: myTrip, setMapFocus, setMapFocusStops, setItineraryStatus } = useTrip();
   const { claimedMap, checkingIn, checkIn, firebaseEnabled } = useCheckIn();
+  const { coords } = useGeo();
+  const { units } = useUnits();
+  const { ratings } = useRatings();
+  // Same "Sort by" choices, and the same hold-and-drag reorder, as the solo
+  // Itinerary route -- a group trip is the same kind of itinerary, just with
+  // more people on it, so it shouldn't behave differently.
+  const [sort, setSort] = useState('nearest');
 
   const uid = user?.uid;
   useEffect(() => {
@@ -119,6 +132,36 @@ export default function GroupTrip() {
       {'← Itineraries'}
     </button>
   );
+
+  // Computed unconditionally (with safe fallbacks) since useDragReorder
+  // below is a hook -- it has to run every render, loading or not, in the
+  // same order every time. landmarkIds' own array order IS the drag order,
+  // same as byRegion for a solo trip (see reorderLandmarks in TripContext.jsx).
+  const regionSafe = trip?.regionId ? getRegion(trip.regionId) : null;
+  const landmarkIdsSafe = trip?.landmarkIds || [];
+  const isSelectedSafe = (id) => (id in pendingLandmarks ? pendingLandmarks[id] : landmarkIdsSafe.includes(id));
+  const selectedLandmarks = (regionSafe?.landmarks || []).filter((l) => isSelectedSafe(l.id));
+  const selectedIdsKey = selectedLandmarks.map((l) => l.id).join(',');
+  const route = useMemo(() => {
+    if (!selectedLandmarks.length) return [];
+    if (!coords) {
+      // No GPS yet: just respect the saved order, unannotated -- distance
+      // sorts and leg distances need an origin we don't have.
+      const byId = new Map(selectedLandmarks.map((l) => [l.id, l]));
+      const ordered = landmarkIdsSafe.map((id) => byId.get(id)).filter(Boolean);
+      const placed = new Set(ordered.map((l) => l.id));
+      return [...ordered, ...selectedLandmarks.filter((l) => !placed.has(l.id))];
+    }
+    return annotateRoute(coords, orderStops(sort, coords, selectedLandmarks, ratings, landmarkIdsSafe));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
+  const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
+  const stopIds = useMemo(() => route.map((s) => s.id), [route]);
+  const { order: dragOrder, registerNode, startDrag, draggingId } = useDragReorder(stopIds, (newIds) => {
+    if (trip) reorderGroupLandmarks(trip, newIds).catch(() => {});
+    setSort('custom');
+  });
+  const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 
   if (authLoading || (user && status === 'loading')) return <GroupTripSkeleton />;
 
@@ -299,28 +342,45 @@ export default function GroupTrip() {
       </div>
 
       <div className="card section">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8, flexWrap: 'wrap' }}>
           <h3 style={{ margin: 0 }}>
-            {'\u{1F5FA}\u{FE0F}'} Shared Landmarks ({selectedCount})
+            {'\u{1F5FA}\u{FE0F}'} Your Route ({selectedCount})
           </h3>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
             {tripStops.length > 0 && (
               <button type="button" className="btn btn-primary btn-sm" onClick={viewInMap}>
                 {'\u{1F5FA}\u{FE0F}'} View in Map
               </button>
             )}
-            {regionLandmarks.length > 0 && (
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setAll(!allSelected)}>
-                {allSelected ? 'Clear all' : '\u{2705} Select all'}
-              </button>
+            {selectedCount > 0 && (
+              <label className="itin-sort">
+                <span>Sort by</span>
+                <select className="radius-select" value={sort} onChange={(e) => setSort(e.target.value)}>
+                  {SORT_OPTIONS.map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
             )}
           </div>
         </div>
-        {(region?.landmarks || []).map((l, idx) => {
-          const selected = isSelected(l.id);
-          return (
-            <div key={l.id} style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
-              <div className="route-num" style={{ marginTop: 2 }}>{idx + 1}</div>
+        {orderedRoute.length === 0 && (
+          <p className="screen-subtitle" style={{ margin: 0 }}>
+            Nothing added yet -- tick landmarks below to build this trip's route.
+          </p>
+        )}
+        {orderedRoute.map((l, idx) => (
+          <div key={l.id}>
+            {coords && (idx > 0 || l.distanceFromPrevMeters <= 80000) && (
+              <div className="route-travel">
+                {l.distanceFromPrevMeters <= 1200 ? '\u{1F6B6}' : '\u{1F697}'} {l.travelMinutesFromPrev || 1} min ·{' '}
+                {formatDistance(l.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
+              </div>
+            )}
+            <div className={`route-step ${draggingId === l.id ? 'dragging' : ''}`} ref={registerNode(l.id)}>
+              <div className="route-num">{idx + 1}</div>
               <div className={`card ${claimedMap[l.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                   <button
@@ -332,13 +392,23 @@ export default function GroupTrip() {
                     <LandmarkThumb landmark={l} size={44} />
                     <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{l.name}</h4>
                   </button>
-                  <input
-                    type="checkbox"
-                    checked={selected}
-                    onChange={() => setLandmark(l, !selected)}
-                    style={{ width: 20, height: 20, flexShrink: 0 }}
-                    aria-label={selected ? `Remove ${l.name} from the trip` : `Add ${l.name} to the trip`}
-                  />
+                  <button
+                    type="button"
+                    className="drag-handle"
+                    title="Hold and drag to reorder"
+                    aria-label={`Drag to reorder ${l.name}`}
+                    onPointerDown={startDrag(l.id)}
+                  >
+                    {'☰'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-icon-trash"
+                    title="Remove from trip"
+                    onClick={() => setLandmark(l, false)}
+                  >
+                    {'\u{1F5D1}\u{FE0F}'}
+                  </button>
                 </div>
                 {addresses[l.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[l.id]}</p>}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
@@ -369,8 +439,48 @@ export default function GroupTrip() {
                 </div>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
+      </div>
+
+      <div className="card section">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+          <h3 style={{ margin: 0 }}>{'\u{2795}'} Add Landmarks</h3>
+          {regionLandmarks.length > 0 && (
+            <button type="button" className="btn btn-ghost btn-sm" onClick={() => setAll(!allSelected)}>
+              {allSelected ? 'Clear all' : '\u{2705} Select all'}
+            </button>
+          )}
+        </div>
+        {regionLandmarks.filter((l) => !isSelected(l.id)).length === 0 && (
+          <p className="screen-subtitle" style={{ margin: 0 }}>Every catalog landmark in {region?.name} is already on your route.</p>
+        )}
+        {regionLandmarks
+          .filter((l) => !isSelected(l.id))
+          .map((l) => (
+            <div key={l.id} className="friend-row">
+              <button
+                type="button"
+                className="shared-landmark-link"
+                onClick={() => navigate(`/landmarks/${region.id}/${l.id}`)}
+                title={`Open ${l.name}`}
+              >
+                {l.name}
+                {addresses[l.id] && (
+                  <span style={{ display: 'block', fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginTop: 2 }}>
+                    {'\u{1F4CD}'} {addresses[l.id]}
+                  </span>
+                )}
+              </button>
+              <input
+                type="checkbox"
+                checked={false}
+                onChange={() => setLandmark(l, true)}
+                style={{ width: 20, height: 20, flexShrink: 0 }}
+                aria-label={`Add ${l.name} to the trip`}
+              />
+            </div>
+          ))}
       </div>
 
       {(trip.places || []).length > 0 && (

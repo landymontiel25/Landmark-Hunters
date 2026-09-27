@@ -32,7 +32,12 @@ export const APP_HELP =
   `- On the Map, landmarks you've checked into show as green pins. Opening the Map right after looking at an itinerary (solo or ` +
   `group) zooms it to fit every stop in that itinerary.\n` +
   `- Select all: on the Landmarks list, once you pick a single city, "✅ Select All" adds every landmark the current filters show to that ` +
-  `city's itinerary ("Clear" undoes it). A group trip's Shared Landmarks card has "Select all" / "Clear all" too, for everyone in the trip.\n` +
+  `city's itinerary ("Clear" undoes it). A group trip's "➕ Add Landmarks" card has "Select all" / "Clear all" too, for everyone in the trip.\n` +
+  `- An open itinerary's stops (solo or group -- both work exactly the same way, group trips just have more people on them) have a "Sort by" ` +
+  `dropdown: "Nearest to me" (a walkable route, not just closest-to-you-first), "My order" (whatever you last dragged it into), "Highest rated", ` +
+  `"Quickest visits", "Free first". Hold the ☰ handle on any stop and drag it to reorder by hand -- doing that switches "Sort by" to "My order" ` +
+  `automatically and remembers it. A group trip shows its stops the same way, under "🗺️ Your Route", with a separate "➕ Add Landmarks" card ` +
+  `below it for browsing the rest of the city's catalog to add.\n` +
   `- Itinerary tab has two subtabs, Current and Past. An itinerary (solo or group) moves to Past on its own once you've ` +
   `checked into every landmark on it (places Mapr found on the web don't count, since they can't be checked into). Open one ` +
   `and tap "📦 Move to Past" or "↩️ Move back to Current" to move it by hand; for a group trip that only moves it for you. ` +
@@ -161,7 +166,7 @@ export const APP_HELP =
   `"Next: …" for the following stop. "All stops in Google Maps" opens the whole route, every stop in order, in Google Maps.\n` +
   `- Each stop on an itinerary or group trip shows its street address under its name.\n` +
   `- Group Trips: a shared itinerary a few friends can all see and edit together (only the trip's owner can change who's a member). ` +
-  `"🗺️ View in Map" next to Shared Landmarks opens the Map with the trip's stops numbered in the most efficient order from where ` +
+  `"🗺️ View in Map" next to Your Route opens the Map with the trip's stops numbered in the most efficient order from where ` +
   `you are, the route drawn between them, and ▶ Start for live navigation through them (plus "All stops in Google Maps").\n` +
   `- Adding a landmark that's missing (Add Landmark screen): any signed-in account with a verified email can submit one (verify it from the ` +
   `link emailed at sign-up; Settings can resend it). It shows up on the map for everyone right away. While typing the name or address, ` +

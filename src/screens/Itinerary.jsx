@@ -34,6 +34,7 @@ import DirectionsButton from '../components/DirectionsButton';
 import { useRatings } from '../lib/RatingsContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { usePersistentState } from '../lib/usePersistentState';
+import { useDragReorder } from '../lib/useDragReorder';
 import { friendlyError } from '../lib/friendlyError';
 import { useToast } from '../lib/ToastContext';
 import ErrorNotice from '../components/ErrorNotice';
@@ -236,6 +237,7 @@ export default function Itinerary() {
     removeItinerary,
     addPlace,
     setItineraryStatus,
+    reorderLandmarks,
   } = useTrip();
   const [showAddMember, setShowAddMember] = useState(false);
   const { coords } = useGeo();
@@ -444,10 +446,14 @@ export default function Itinerary() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const routeOrigin = useMemo(() => liveOrigin, [originKey]);
 
+  // The persisted drag order IS byRegion's own array order (see
+  // reorderLandmarks in TripContext.jsx) -- no separate order field to keep in sync.
+  const customOrder = (region && trip.byRegion[region.id]) || [];
   const route = useMemo(() => {
     if (!routeOrigin || !selectedLandmarks.length) return [];
-    return annotateRoute(routeOrigin, orderStops(sort, routeOrigin, selectedLandmarks, ratings));
-  }, [routeOrigin, selectedLandmarks, sort, ratings]);
+    return annotateRoute(routeOrigin, orderStops(sort, routeOrigin, selectedLandmarks, ratings, customOrder));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routeOrigin, selectedLandmarks, sort, ratings, customOrder.join(',')]);
 
   const [drivingRoute, setDrivingRoute] = useState([]);
   const [refiningTimes, setRefiningTimes] = useState(false);
@@ -475,6 +481,18 @@ export default function Itinerary() {
   }, [routeOrigin, route]);
 
   const displayRoute = drivingRoute.length === route.length ? drivingRoute : route;
+
+  // Hold-and-drag reorder (the grip on each stop card). Dragging always
+  // works, whatever sort is currently picked -- the drop hands back the
+  // order the traveler actually sees on screen, switches "Sort by" to "My
+  // order", and persists it, so nothing else silently re-sorts it away.
+  const stopsById = useMemo(() => Object.fromEntries(displayRoute.map((s) => [s.id, s])), [displayRoute]);
+  const stopIds = useMemo(() => displayRoute.map((s) => s.id), [displayRoute]);
+  const { order: dragOrder, registerNode, startDrag, draggingId } = useDragReorder(stopIds, (newIds) => {
+    if (region) reorderLandmarks(region.id, newIds);
+    setSort('custom');
+  });
+  const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 
   // Street address under each catalog stop (Mapr-found places already have one).
   const addresses = useStopAddresses(selectedLandmarks);
@@ -911,7 +929,7 @@ export default function Itinerary() {
             )}
           </div>
         )}
-        {displayRoute.map((stop, idx) => (
+        {orderedRoute.map((stop, idx) => (
           <div key={stop.id}>
             {(idx > 0 || stop.distanceFromPrevMeters <= 80000) && (
               <div className="route-travel">
@@ -919,7 +937,10 @@ export default function Itinerary() {
                 {formatDistance(stop.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}
-            <div className="route-step">
+            <div
+              className={`route-step ${draggingId === stop.id ? 'dragging' : ''}`}
+              ref={registerNode(stop.id)}
+            >
               <div className="route-num">{idx + 1}</div>
               <div className={`card ${claimedMap[stop.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
@@ -944,6 +965,15 @@ export default function Itinerary() {
                     )}
                     {!stop.external && <QuickRateButton landmark={stop} />}
                   </div>
+                  <button
+                    type="button"
+                    className="drag-handle"
+                    title="Hold and drag to reorder"
+                    aria-label={`Drag to reorder ${stop.name}`}
+                    onPointerDown={startDrag(stop.id)}
+                  >
+                    {'☰'}
+                  </button>
                   <button
                     type="button"
                     className="btn-icon-trash"

@@ -145,6 +145,13 @@ export function TripProvider({ children }) {
     });
   };
 
+  // Hold-and-drag reorder (see useDragReorder.js) writes the whole new
+  // order straight back to byRegion -- the array's own order IS the
+  // itinerary's visit order for the 'custom' sort, so there's no separate
+  // order field to keep in sync.
+  const reorderLandmarks = (regionId, orderedIds) =>
+    setTrip((t) => ({ ...t, byRegion: { ...t.byRegion, [regionId]: orderedIds } }));
+
   // Idempotent add (Mapr's "add it to my itinerary" shouldn't toggle a
   // stop OFF if it was already there).
   const addLandmark = (id, regionId) =>
@@ -284,6 +291,7 @@ export function TripProvider({ children }) {
         setItineraryStatus,
         itineraryName,
         setRegionSelection,
+        reorderLandmarks,
         clearRegion,
         clearAll,
         getRegionSelection,

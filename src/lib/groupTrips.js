@@ -92,6 +92,16 @@ export async function setGroupLandmarks(trip, landmarkIds, add) {
   });
 }
 
+// A drag reorder (see useDragReorder.js) needs the whole new order written
+// at once, unlike the toggle/select-all above -- arrayUnion/arrayRemove
+// only add or drop entries, they can't rearrange the ones already there.
+// Two members dragging at the same moment can race and one write wins;
+// acceptable here since a reorder is a personal convenience, not data
+// that must never be lost the way a landmark selection is.
+export async function reorderGroupLandmarks(trip, orderedIds) {
+  await updateDoc(doc(db, 'group_trips', trip.id), { landmarkIds: orderedIds });
+}
+
 export async function addGroupMember(trip, memberUid, memberName) {
   if ((trip.memberUids || []).includes(memberUid)) return;
   await updateDoc(doc(db, 'group_trips', trip.id), {
