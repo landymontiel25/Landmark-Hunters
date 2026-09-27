@@ -53,6 +53,7 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain("Not sure or don't care: tap the card or tap −");
 
     await click(button(el, 'Start'));
+    expect(el.querySelector('.lab-progress').className).toContain('lab-tier-red');
     const love = el.querySelector('[aria-label="Love it"]');
     const total = Number(el.querySelector('.lab-progress').textContent.split('/')[1]);
     expect(total).toBe(40);
@@ -61,6 +62,8 @@ describe('OnboardingLab', () => {
       await act(async () => new Promise((r) => setTimeout(r, 230)));
     }
     expect(el.textContent).toContain('All done');
+    expect(el.querySelector('.lab-progress').className).toContain('lab-tier-done');
+    expect(el.querySelector('.lab-bar span').style.width).toBe('100%');
 
     await click(button(el, 'Continue →'));
     expect(el.textContent).toContain("Anything else you love or hate that we didn't cover?");
@@ -101,5 +104,16 @@ describe('OnboardingLab', () => {
     expect(el.querySelector('.lab-progress').textContent).toMatch(/^1 \//);
     expect(el.querySelector('.lab-card-word').textContent).toBe(first);
     expect(button(el, 'Undo').disabled).toBe(true);
+  });
+
+  it('progressTier goes red, yellow, green, then done', async () => {
+    const { progressTier } = await import('./OnboardingLab.jsx');
+    expect(progressTier(0, 40)).toBe('red');
+    expect(progressTier(13, 40)).toBe('red');
+    expect(progressTier(14, 40)).toBe('yellow');
+    expect(progressTier(26, 40)).toBe('yellow');
+    expect(progressTier(27, 40)).toBe('green');
+    expect(progressTier(39, 40)).toBe('green');
+    expect(progressTier(40, 40)).toBe('done');
   });
 });
