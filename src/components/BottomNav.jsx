@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../lib/AuthContext';
+import { isAdmin } from '../lib/admins';
 
 // 5 tabs -- Setup is no longer one of them (it's the "Create New Trip"
 // modal inside Itinerary now). Mapr sits dead center: it's the app's home
@@ -13,8 +15,13 @@ const items = [
   { to: '/profile', label: 'Profile', icon: '\u{1F3C6}' },
 ];
 
+// Admin-only sandbox for trying out sign-up/onboarding (screens/OnboardingLab).
+const TEST_TAB = { to: '/test', label: 'Test', icon: '\u{1F9EA}' };
+
 export default function BottomNav() {
   const navRef = useRef(null);
+  const { user } = useAuth();
+  const tabs = isAdmin(user?.email) ? [...items, TEST_TAB] : items;
 
   // If the page is zoomed anyway (pinch), position: fixed sticks to the
   // unzoomed layout viewport on iOS and the bar lands mid-screen. The
@@ -47,7 +54,7 @@ export default function BottomNav() {
 
   return (
     <nav className="bottom-nav" ref={navRef}>
-      {items.map((item) => (
+      {tabs.map((item) => (
         <NavLink key={item.to} to={item.to} end={item.end} className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="nav-icon">{item.icon}</span>
           <span>{item.label}</span>

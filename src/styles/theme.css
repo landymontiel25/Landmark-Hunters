@@ -5686,3 +5686,81 @@ h2,
   text-align: left;
   cursor: pointer;
 }
+
+/* ---------- Onboarding test (admin-only, screens/OnboardingLab) ---------- */
+
+.lab-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.lab-controls-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lab-steps,
+.lab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lab-step {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.lab-step.done {
+  color: var(--text-primary);
+}
+
+.lab-step.active {
+  border-color: var(--mapr-blue);
+  background: var(--mapr-blue-soft);
+  color: var(--text-primary);
+}
+
+.lab-age {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+  cursor: pointer;
+}
+
+.lab-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  opacity: 0.5;
+  font-size: 0.78rem;
+}
+
+.lab-divider::before,
+.lab-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+}
+
+.lab-log {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}

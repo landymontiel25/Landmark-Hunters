@@ -82,6 +82,7 @@ const FriendCities = lazyScreen(() => import('./screens/FriendCities'));
 const Notifications = lazyScreen(() => import('./screens/Notifications'));
 const RequestFeature = lazyScreen(() => import('./screens/RequestFeature'));
 const Mapr = lazyScreen(() => import('./screens/Mapr'));
+const OnboardingLab = lazyScreen(() => import('./screens/OnboardingLab'));
 const NotFound = lazyScreen(() => import('./screens/NotFound'));
 
 // Keyed by path so a crash's fallback UI clears itself on the next
@@ -114,6 +115,7 @@ function AppRoutes() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/request-feature" element={<RequestFeature />} />
           <Route path="/mapr" element={<Mapr />} />
+          <Route path="/test" element={<OnboardingLab />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
