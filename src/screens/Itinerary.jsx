@@ -482,15 +482,13 @@ export default function Itinerary() {
 
   const displayRoute = drivingRoute.length === route.length ? drivingRoute : route;
 
-  // Hold-and-drag reorder (the grip on each stop card). Dragging always
-  // works, whatever sort is currently picked -- the drop hands back the
-  // order the traveler actually sees on screen, switches "Sort by" to "My
-  // order", and persists it, so nothing else silently re-sorts it away.
+  // Hold-and-drag reorder (the grip on each stop card), only offered while
+  // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
+  // would just fight that sort right back.
   const stopsById = useMemo(() => Object.fromEntries(displayRoute.map((s) => [s.id, s])), [displayRoute]);
   const stopIds = useMemo(() => displayRoute.map((s) => s.id), [displayRoute]);
-  const { order: dragOrder, registerNode, startDrag, draggingId } = useDragReorder(stopIds, (newIds) => {
+  const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     if (region) reorderLandmarks(region.id, newIds);
-    setSort('custom');
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 
@@ -930,18 +928,36 @@ export default function Itinerary() {
           </div>
         )}
         {orderedRoute.map((stop, idx) => (
-          <div key={stop.id}>
+          <div
+            key={stop.id}
+            ref={registerNode(stop.id)}
+            style={{
+              transform: `translateY(${draggingId === stop.id ? dragY : shifts[stop.id] || 0}px)`,
+              transition: draggingId === stop.id ? 'none' : 'transform 150ms ease',
+              position: 'relative',
+              zIndex: draggingId === stop.id ? 20 : 1,
+            }}
+          >
             {(idx > 0 || stop.distanceFromPrevMeters <= 80000) && (
               <div className="route-travel">
                 {stop.distanceFromPrevMeters <= 1200 ? '\u{1F6B6}' : '\u{1F697}'} {stop.travelMinutesFromPrev || 1} min ·{' '}
                 {formatDistance(stop.distanceFromPrevMeters, units)} {idx === 0 ? 'from you' : 'from the last stop'}
               </div>
             )}
-            <div
-              className={`route-step ${draggingId === stop.id ? 'dragging' : ''}`}
-              ref={registerNode(stop.id)}
-            >
-              <div className="route-num">{idx + 1}</div>
+            <div className={`route-step ${draggingId === stop.id ? 'dragging' : ''}`}>
+              {sort === 'custom' ? (
+                <button
+                  type="button"
+                  className="remove-dash"
+                  title="Remove from itinerary"
+                  aria-label={`Remove ${stop.name} from itinerary`}
+                  onClick={() => setPendingRemove(stop)}
+                >
+                  {'−'}
+                </button>
+              ) : (
+                <div className="route-num">{idx + 1}</div>
+              )}
               <div className={`card ${claimedMap[stop.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
@@ -965,23 +981,26 @@ export default function Itinerary() {
                     )}
                     {!stop.external && <QuickRateButton landmark={stop} />}
                   </div>
-                  <button
-                    type="button"
-                    className="drag-handle"
-                    title="Hold and drag to reorder"
-                    aria-label={`Drag to reorder ${stop.name}`}
-                    onPointerDown={startDrag(stop.id)}
-                  >
-                    {'☰'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-icon-trash"
-                    title="Remove from itinerary"
-                    onClick={() => setPendingRemove(stop)}
-                  >
-                    {'\u{1F5D1}\u{FE0F}'}
-                  </button>
+                  {sort === 'custom' ? (
+                    <button
+                      type="button"
+                      className="drag-handle"
+                      title="Hold and drag to reorder"
+                      aria-label={`Drag to reorder ${stop.name}`}
+                      onPointerDown={startDrag(stop.id)}
+                    >
+                      {'☰'}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn-icon-trash"
+                      title="Remove from itinerary"
+                      onClick={() => setPendingRemove(stop)}
+                    >
+                      {'\u{1F5D1}\u{FE0F}'}
+                    </button>
+                  )}
                 </div>
                 {stop.external ? (
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
