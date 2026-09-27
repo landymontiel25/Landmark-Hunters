@@ -21,7 +21,7 @@ function formatCountdown(ms) {
 }
 
 // Live time left on a streak warning, shown at the right of its row. The
-// streak lapses at the UTC midnight after the warning went out, the same
+// streak lapses at the local midnight after the warning went out, the same
 // boundary computeStreakDays counts by.
 function StreakCountdown({ createdAt }) {
   const { checkedInToday } = useBadges();

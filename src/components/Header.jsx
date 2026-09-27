@@ -19,9 +19,9 @@ function formatLeft(ms) {
 
 // Dead center of the header, on every screen. Flame animates only while
 // there's a streak to celebrate and turns warning-colored once today's
-// check-in hasn't secured it yet. Tapping it opens a live countdown to the
-// moment the streak lapses (the UTC midnight computeStreakDays counts by;
-// a day already secured pushes that out by 24h).
+// check-in hasn't secured it yet. Tapping it opens a live countdown to local
+// midnight: when today's streak lapses, or when a secured day ends and the
+// next one needs its own check-in. Never more than 24h.
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streakDays, checkedInToday } = useBadges();
@@ -49,7 +49,6 @@ function StreakBadge() {
 
   const active = streakDays > 0;
   const atRisk = active && !checkedInToday;
-  const left = checkedInToday ? msLeft + 24 * 60 * 60 * 1000 : msLeft;
 
   return (
     <div className="header-streak-wrap" ref={ref}>
@@ -72,9 +71,9 @@ function StreakBadge() {
           ) : (
             <>
               <div className="points-popover-joined">
-                {atRisk ? `${streakDays}-day streak ends in` : "Today's secured — streak safe for"}
+                {atRisk ? `${streakDays}-day streak ends in` : "Today's secured \u2713 — new day starts in"}
               </div>
-              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(left)}</div>
+              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
               {atRisk && (
                 <div className="streak-popover-hint">
                   Check in, or vote/rate {PICKS_STREAK_THRESHOLD} landmarks

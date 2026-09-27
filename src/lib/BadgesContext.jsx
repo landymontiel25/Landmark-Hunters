@@ -10,7 +10,7 @@ import { getPickFeedback } from './pickFeedback';
 import { getUserReviews } from './reviews';
 import { getCustomLandmarks } from './customLandmarks';
 import { getRegion, getLandmark } from '../data/regions';
-import { computeStreakDays, computeBadges, hasSecuredStreakToday, todaysActionCount } from './streaks';
+import { computeStreakDays, computeBadges, hasSecuredStreakToday, msUntilStreakLapse, todaysActionCount } from './streaks';
 import {
   countPhotoCheckins,
   maxRegionCheckins,
@@ -175,6 +175,20 @@ export function BadgesProvider({ children }) {
   useEffect(() => {
     load();
   }, [load, claimedMap]);
+
+  // A tab left open overnight (common on desktop) otherwise keeps
+  // yesterday's streak and "secured today" until something else reloads.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') load();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    const t = setTimeout(load, msUntilStreakLapse() + 1000);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      clearTimeout(t);
+    };
+  }, [load]);
 
   // Derived from state rather than fetched separately, so completing
   // onboarding (which flips myProfile.onboardingCompleted, not the
