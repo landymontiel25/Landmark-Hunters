@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { buildShortlist } from '../src/lib/tagScores.js';
+import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScores.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 
 // "Your Mapr Picks" on Profile. The internal tag scorer (src/lib/tagScores.js)
@@ -33,6 +33,31 @@ const INSTRUCTIONS =
   `- Prefer variety across the 8 unless their taste is clearly single-minded. Among close fits, prefer the closer place.\n` +
   `- matchPercentage is your honest confidence this traveler will love this place, 60-99. Don't inflate weak fits, ` +
   `and it's fine to return fewer than 8.\n` +
+  `- oneLineSummary: under 12 words, concrete, about the place itself (not "you'll love it").\n` +
+  `- Only use region/id values that appear in the shortlist. Never invent one.\n\n` +
+  `Reply with ONLY this JSON, no other text:\n` +
+  `{"picks": [{"match": "<region/id>", "matchPercentage": <60-99>, "oneLineSummary": "<text>"}, ...]}`;
+
+// Signup swipes + notes, no ratings yet: the shortlist itself was already
+// built from ONLY what the traveler swiped/wrote (swipeShortlist in
+// tagScores.js) -- no signup-interest chips, no plain city popularity
+// outside that. Claude's job here is narrower: pick and explain the best 8
+// of THIS already-filtered list, leaning hard on their own words.
+const SWIPE_INSTRUCTIONS =
+  `You are Mapr, the taste engine inside the app "Landmark Hunters". A brand-new traveler just swiped through ` +
+  `preference cards and (optionally) wrote a few words about what they love. You get a SHORTLIST built entirely ` +
+  `from that swipe/notes signal -- nothing here came from generic city popularity or unrelated categories -- one ` +
+  `per line as "region/id | name | category | short description | fit score | check-ins | distance". You also get ` +
+  `their own words verbatim. Pick the 8 shortlist landmarks this traveler is most likely to love, most confident first.\n\n` +
+  `Rules:\n` +
+  `- Trust the shortlist: every line already matched something they swiped "love it" on, or a word from their own ` +
+  `notes. Your job is choosing and explaining the best 8 of THESE, not second-guessing whether they belong.\n` +
+  `- Lean heavily on their own words. If they named something specific (a place type, a vibe, a cuisine), prefer ` +
+  `lines that clearly fit that over a generic member of the same broad category.\n` +
+  `- Never pick a place outside their loved categories or their own words just to fill out variety -- a shorter, ` +
+  `tighter list of 8 beats padding with something unrelated.\n` +
+  `- Among close fits, prefer the closer place and the one with more check-ins.\n` +
+  `- matchPercentage is your honest confidence, 60-99. It's fine to return fewer than 8 if the shortlist is short.\n` +
   `- oneLineSummary: under 12 words, concrete, about the place itself (not "you'll love it").\n` +
   `- Only use region/id values that appear in the shortlist. Never invent one.\n\n` +
   `Reply with ONLY this JSON, no other text:\n` +
@@ -101,14 +126,22 @@ export default async function handler(req, res) {
     const checkinCounts = numMap(
       Object.fromEntries(Object.entries(body.checkinCounts && typeof body.checkinCounts === 'object' ? body.checkinCounts : {}).slice(0, 2000))
     );
-    const { coldStart, shortlist } = buildShortlist({
-      profile,
-      region,
-      excludeIds: (Array.isArray(body.excludeIds) ? body.excludeIds : []).slice(0, 2000).map((id) => str(id, 80)),
-      checkinCounts,
-      interests: (Array.isArray(body.interests) ? body.interests : []).map((c) => str(c, 30)).slice(0, 20),
-      customMatchIds: (Array.isArray(body.customMatchIds) ? body.customMatchIds : []).map((id) => str(id, 120)).slice(0, 300),
-    });
+    const excludeIds = (Array.isArray(body.excludeIds) ? body.excludeIds : []).slice(0, 2000).map((id) => str(id, 80));
+    // Signup: swipe cards + notes, no ratings yet. The shortlist is built
+    // from ONLY that signal (swipeShortlist), never signup-interest chips
+    // or plain city popularity -- see SWIPE_INSTRUCTIONS above.
+    const swipeOnly = body.mode === 'swipeOnly';
+    const tasteIntroPre = str(body.tasteIntro, 4000);
+    const { coldStart, shortlist } = swipeOnly
+      ? { coldStart: false, shortlist: swipeShortlist({ region, tagDeltas: profile.tagScores[region] || {}, keywords: noteKeywords(tasteIntroPre), excludeIds, checkinCounts }) }
+      : buildShortlist({
+          profile,
+          region,
+          excludeIds,
+          checkinCounts,
+          interests: (Array.isArray(body.interests) ? body.interests : []).map((c) => str(c, 30)).slice(0, 20),
+          customMatchIds: (Array.isArray(body.customMatchIds) ? body.customMatchIds : []).map((id) => str(id, 120)).slice(0, 300),
+        });
     if (!shortlist.length) {
       res.status(200).json({ picks: [] });
       return;
@@ -122,15 +155,25 @@ export default async function handler(req, res) {
     }));
     // Told directly at onboarding or from Settings (taste intro, baseline,
     // weekday/weekend/mood preferences), read as prose.
-    const tasteIntro = str(body.tasteIntro, 4000);
+    const tasteIntro = tasteIntroPre;
     const origin =
       body.origin && Number.isFinite(Number(body.origin.lat)) && Number.isFinite(Number(body.origin.lng))
         ? { lat: Number(body.origin.lat), lng: Number(body.origin.lng) }
         : null;
 
     const validIds = new Map(shortlist.map((l) => [`${l.regionId}/${l.id}`, l]));
+    const shortlistLine = (l) => {
+      const km = origin ? distanceKm(origin.lat, origin.lng, l.lat, l.lng) : null;
+      const dist = km != null ? ` | ${km < 10 ? km.toFixed(1) : Math.round(km)} km` : '';
+      return swipeOnly
+        ? `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}` +
+            ` | ${l.tagScore} | ${checkinCounts[l.id] || 0}${dist}`
+        : `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}` +
+            ` | ${l.tagScore} | ${l.tagRatings} | ${checkinCounts[l.id] || 0}${dist}` +
+            (l.wildcard ? ' | WILDCARD' : '');
+    };
     const prompt =
-      (coldStart ? 'COLD START: no ratings in this region yet.\n\n' : '') +
+      (!swipeOnly && coldStart ? 'COLD START: no ratings in this region yet.\n\n' : '') +
       (tasteIntro ? `IN THEIR OWN WORDS: "${tasteIntro}"\n\n` : '') +
       (Object.keys(tagNotes).length
         ? 'TAG NOTES (category: what they told us):\n' +
@@ -151,18 +194,10 @@ export default async function handler(req, res) {
             .join('\n') +
           '\n\n'
         : '') +
-      'SHORTLIST (region/id | name | category | description | fit score | ratings behind it | check-ins | distance), best internal score first:\n' +
-      shortlist
-        .map((l) => {
-          const km = origin ? distanceKm(origin.lat, origin.lng, l.lat, l.lng) : null;
-          return (
-            `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}` +
-            ` | ${l.tagScore} | ${l.tagRatings} | ${checkinCounts[l.id] || 0}` +
-            (km != null ? ` | ${km < 10 ? km.toFixed(1) : Math.round(km)} km` : '') +
-            (l.wildcard ? ' | WILDCARD' : '')
-          );
-        })
-        .join('\n');
+      (swipeOnly
+        ? 'SHORTLIST (region/id | name | category | description | fit score | check-ins | distance), best internal score first:\n'
+        : 'SHORTLIST (region/id | name | category | description | fit score | ratings behind it | check-ins | distance), best internal score first:\n') +
+      shortlist.map(shortlistLine).join('\n');
 
     const client = new Anthropic();
     const msg = await client.beta.messages.create({
@@ -172,7 +207,7 @@ export default async function handler(req, res) {
       output_config: { effort: 'low' },
       betas: ['server-side-fallback-2026-06-01'],
       fallbacks: [{ model: 'claude-opus-4-8' }],
-      system: [{ type: 'text', text: INSTRUCTIONS, cache_control: { type: 'ephemeral' } }],
+      system: [{ type: 'text', text: swipeOnly ? SWIPE_INSTRUCTIONS : INSTRUCTIONS, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: prompt }],
     });
 

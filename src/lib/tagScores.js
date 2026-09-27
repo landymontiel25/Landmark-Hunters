@@ -392,6 +392,69 @@ export function localTagPicks({ profile, region, limit = 10, now = Date.now(), .
   }));
 }
 
+// Signup swipe cards + free-text notes, and NOTHING else: no signup-interest
+// chips, no plain city popularity across unrelated categories. A landmark
+// only gets in if its category was swiped "love it" (tagDeltas > 0 for it),
+// or its name/summary/facts matches a word from the notes/loved cards
+// (keywords). check-in popularity only breaks ties INSIDE that filtered
+// set -- it can decide which loved-category place wins, never pull in a
+// place from a category nobody swiped on.
+const KEYWORD_MATCH_BONUS = 6;
+const STOPWORDS = new Set([
+  'love', 'loves', 'like', 'likes', 'about', 'also', 'said', 'into', 'sure', 'with', 'that',
+  'this', 'have', 'really', 'want', 'when', 'what', 'from', 'they', 'them', 'care', 'much',
+  'very', 'just', 'dont', 'places', 'place', 'things', 'thing', 'stuff', 'kind', 'kinds',
+]);
+
+// Meaningful words (4+ letters, stopwords dropped) from free text -- run on
+// notes, or on the "Loves: X, Y." style sentence tasteIntroFromAnswers
+// produces, so the server can derive the same keywords from just the
+// tasteIntro string it's already sent.
+export function noteKeywords(text) {
+  const words = (text || '').toLowerCase().match(/[a-z']{4,}/g) || [];
+  return [...new Set(words)].filter((w) => !STOPWORDS.has(w));
+}
+
+export function swipeShortlist({
+  region,
+  tagDeltas = {},
+  keywords = [],
+  excludeIds = [],
+  checkinCounts = {},
+  limit = SHORTLIST_SIZE,
+}) {
+  const pool = candidates(region, excludeIds);
+  const textOf = (l) => `${l.name} ${l.summary || ''} ${(l.facts || []).join(' ')}`.toLowerCase();
+  const matches = (l) => keywords.some((kw) => textOf(l).includes(kw));
+  const scoreOf = (l) => {
+    const catScore = (l.categories || []).reduce((s, c) => s + (tagDeltas[c] || 0), 0);
+    return catScore + (matches(l) ? KEYWORD_MATCH_BONUS : 0);
+  };
+  const demand = byDemand(checkinCounts);
+  const ranked = pool
+    .map((l) => ({ l, score: scoreOf(l) }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score || demand(a.l, b.l));
+  const round = (n) => Math.round(n * 10) / 10;
+  return takeWithTagLimit(ranked, limit, () => PER_TAG_LIMIT).map(({ l, score }) => ({ ...l, tagScore: round(score) }));
+}
+
+// Same on-device shape localTagPicks returns, built from swipeShortlist
+// instead -- for the Test tab's "Instant picks" panel.
+export function localSwipePicks({ region, tagDeltas, keywords = [], limit = 10, ...rest }) {
+  if (!region) return [];
+  const shortlist = swipeShortlist({ region, tagDeltas, keywords, limit: Math.max(limit, SHORTLIST_SIZE), ...rest });
+  return shortlist.slice(0, limit).map((l) => ({
+    id: l.id,
+    region: l.regionId,
+    name: l.name,
+    image: l.images?.[0] || null,
+    categories: l.categories || [],
+    matchPercentage: Math.round(Math.max(50, Math.min(97, 62 + l.tagScore * 0.8))),
+    oneLineSummary: (l.summary || '').split(/[.!?]/)[0].slice(0, 90),
+  }));
+}
+
 // No region to score in (no location, no ratings, no saved cities): the
 // most-checked-into landmarks across every region combined, ties broken by
 // the catalog's editorial popularity. With signup interests, landmarks in

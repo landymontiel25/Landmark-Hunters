@@ -12,6 +12,9 @@ import {
   scoreShortlist,
   settleShownPicks,
   localTagPicks,
+  localSwipePicks,
+  swipeShortlist,
+  noteKeywords,
   globalPopularPicks,
   capMaps,
   TAG_FLOOR,
@@ -371,5 +374,69 @@ describe('globalPopularPicks', () => {
 
   it('still fills the row before any check-ins exist', () => {
     expect(globalPopularPicks({ limit: 10 })).toHaveLength(10);
+  });
+});
+
+describe('swipeShortlist / localSwipePicks (signup swipes + notes only)', () => {
+  it('keeps only landmarks whose category was swiped positively', () => {
+    const shortlist = swipeShortlist({ region: 'miami', tagDeltas: { food: 20 } });
+    expect(shortlist.length).toBeGreaterThan(0);
+    for (const l of shortlist) expect(l.categories).toContain('food');
+  });
+
+  it('excludes a category with zero or negative swipe signal, even if popular', () => {
+    const shortlist = swipeShortlist({ region: 'miami', tagDeltas: { food: 20 } });
+    const ids = new Set(shortlist.map((l) => l.id));
+    const popularOtherCategory = ALL_LANDMARKS.find(
+      (l) => l.regionId === 'miami' && !l.categories?.includes('food') && (l.popularity || 0) >= 9
+    );
+    expect(popularOtherCategory).toBeTruthy();
+    expect(ids.has(popularOtherCategory.id)).toBe(false);
+  });
+
+  it('a keyword match pulls in a landmark even with no category signal', () => {
+    const target = ALL_LANDMARKS.find((l) => l.regionId === 'miami' && /wynwood/i.test(l.name));
+    expect(target).toBeTruthy();
+    const withoutKeyword = swipeShortlist({ region: 'miami', tagDeltas: {} });
+    expect(withoutKeyword.find((l) => l.id === target.id)).toBeFalsy();
+    const withKeyword = swipeShortlist({ region: 'miami', tagDeltas: {}, keywords: ['wynwood'] });
+    expect(withKeyword.find((l) => l.id === target.id)).toBeTruthy();
+  });
+
+  it('ranks by score, popularity only breaking ties inside the matched set', () => {
+    const shortlist = swipeShortlist({ region: 'miami', tagDeltas: { food: 20, 'history-culture': 5 } });
+    const scores = shortlist.map((l) => l.tagScore);
+    expect(scores).toEqual([...scores].sort((a, b) => b - a));
+  });
+
+  it('returns nothing when nothing was loved and no keyword matches', () => {
+    expect(swipeShortlist({ region: 'miami', tagDeltas: { food: -15 } })).toEqual([]);
+  });
+
+  it('localSwipePicks shapes results like the AI response and scales matchPercentage', () => {
+    const picks = localSwipePicks({ region: 'miami', tagDeltas: { food: 20 }, limit: 5 });
+    expect(picks.length).toBeGreaterThan(0);
+    expect(picks.length).toBeLessThanOrEqual(5);
+    for (const p of picks) {
+      expect(p.matchPercentage).toBeGreaterThanOrEqual(50);
+      expect(p.matchPercentage).toBeLessThanOrEqual(97);
+      expect(typeof p.oneLineSummary).toBe('string');
+    }
+  });
+});
+
+describe('noteKeywords', () => {
+  it('extracts meaningful lowercase words and drops stopwords/short words', () => {
+    expect(noteKeywords('Loves: Steak, Sushi. Also said: I really love jazz bars and rooftop views')).toEqual(
+      expect.arrayContaining(['steak', 'sushi', 'jazz', 'bars', 'rooftop', 'views'])
+    );
+    expect(noteKeywords('Loves: Steak, Sushi. Also said: I really love jazz bars and rooftop views')).not.toEqual(
+      expect.arrayContaining(['love', 'loves', 'also', 'said', 'with', 'this'])
+    );
+  });
+
+  it('handles empty input', () => {
+    expect(noteKeywords('')).toEqual([]);
+    expect(noteKeywords(undefined)).toEqual([]);
   });
 });
