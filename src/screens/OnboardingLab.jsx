@@ -4,9 +4,11 @@ import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { isAdmin } from '../lib/admins';
-import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS, PICKABLE_REGIONS, getLandmark } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
-import { pickSwipeCards, tagDeltasFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
+import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
+import { localTagPicks, pickRegion } from '../lib/tagScores';
+import { authHeaders } from '../lib/apiAuth';
 import LandmarkThumb from '../components/LandmarkThumb';
 
 // Admin-only sandbox for trying out sign-up + onboarding. Everything here is
@@ -31,7 +33,8 @@ const empty = () => ({
   age: false,
   via: null,
   skippedRating: false,
-  cards: pickSwipeCards(),
+  // All 45 here so every card gets tested; real signups get 15-18 (pickSwipeCards).
+  cards: allSwipeCards(),
   answers: [],
   notes: '',
   checkedIn: false,
@@ -471,6 +474,8 @@ function LabSummary({ data, log, onRestart }) {
             </ul>
           </div>
 
+          <LabRecommendations data={data} deltas={deltas} />
+
           <div className="card section">
             <strong>Onboarding notes</strong>
             <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>
@@ -495,6 +500,101 @@ function LabSummary({ data, log, onRestart }) {
       )}
       <button type="button" className="btn btn-primary btn-block" onClick={onRestart}>
         {'\u{21BA}'} Restart sign-up
+      </button>
+    </div>
+  );
+}
+
+// What Mapr Picks would show right after this signup. "Instant" is the
+// on-device tag scorer (tag scores only). "Ask Mapr" sends the same profile
+// plus the card words and notes to the real /api/mapr-picks, which only
+// reads what it's sent -- nothing is saved.
+function LabRecommendations({ data, deltas }) {
+  const { coords } = useGeo();
+  const [region, setRegion] = useState(() => pickRegion({ origin: coords, fallbackRegions: ['miami'] }) || 'miami');
+  const [ai, setAi] = useState({ status: 'idle', picks: [], error: '' });
+  const now = Date.now();
+  const counts = {};
+  for (const { card, answer } of data.answers) if (answer !== 'unsure') counts[card.tag] = (counts[card.tag] || 0) + 1;
+  const profile = {
+    tagScores: { [region]: deltas },
+    tagScoresAt: { [region]: Object.fromEntries(Object.keys(deltas).map((t) => [t, now])) },
+    tagCounts: { [region]: counts },
+  };
+  const tasteIntro = tasteIntroFromAnswers(data.answers, data.notes);
+  const instant = localTagPicks({ profile, region, limit: 8, now });
+
+  const changeRegion = (r) => {
+    setRegion(r);
+    setAi({ status: 'idle', picks: [], error: '' });
+  };
+
+  const askMapr = async () => {
+    setAi({ status: 'loading', picks: [], error: '' });
+    try {
+      const r = await fetch('/api/mapr-picks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+        body: JSON.stringify({ region, ...profile, tasteIntro, origin: coords || null }),
+      });
+      const body = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(body.error || `Mapr returned ${r.status}`);
+      setAi({ status: 'done', picks: body.picks || [], error: '' });
+    } catch (e) {
+      setAi({ status: 'error', picks: [], error: e.message || 'Mapr request failed.' });
+    }
+  };
+
+  const row = (p) => {
+    const l = getLandmark(p.region, p.id) || { id: p.id, name: p.name, images: p.image ? [p.image] : [], categories: p.categories };
+    return (
+      <li key={p.id} className="lab-rec">
+        <LandmarkThumb landmark={l} size={48} />
+        <div>
+          <strong>{p.name}</strong> <span className="tag">{p.matchPercentage}%</span>
+          {p.wildcard && <span className="tag">wildcard</span>}
+          <div className="screen-subtitle" style={{ margin: 0, fontSize: '0.8rem' }}>
+            {(p.categories || []).join(', ')} — {p.oneLineSummary}
+          </div>
+        </div>
+      </li>
+    );
+  };
+
+  return (
+    <div className="card section">
+      <strong>What Mapr would recommend</strong>
+      <div className="field" style={{ margin: '8px 0' }}>
+        <label htmlFor="lab-rec-region">City</label>
+        <select id="lab-rec-region" value={region} onChange={(e) => changeRegion(e.target.value)}>
+          {PICKABLE_REGIONS.map((r) => (
+            <option key={r.id} value={r.id}>
+              {r.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <p className="screen-subtitle" style={{ margin: '0 0 6px', fontSize: '0.8rem' }}>
+        <strong>Mapr reads:</strong> {tasteIntro || 'nothing (no answers)'}
+      </p>
+
+      <p style={{ margin: '12px 0 4px' }}>
+        <strong>Instant picks</strong> <span className="screen-subtitle">(tag scores only, no AI)</span>
+      </p>
+      {instant.length ? <ul className="lab-recs">{instant.map(row)}</ul> : <p className="screen-subtitle">No landmarks here.</p>}
+
+      <p style={{ margin: '12px 0 4px' }}>
+        <strong>Mapr AI picks</strong> <span className="screen-subtitle">(tag scores + your card words and notes)</span>
+      </p>
+      {ai.status === 'done' &&
+        (ai.picks.length ? <ul className="lab-recs">{ai.picks.map(row)}</ul> : <p className="screen-subtitle">Mapr returned no picks.</p>)}
+      {ai.status === 'error' && (
+        <p className="tag tag-error" role="alert" style={{ display: 'block' }}>
+          {ai.error}
+        </p>
+      )}
+      <button type="button" className="btn btn-primary btn-block" disabled={ai.status === 'loading'} onClick={askMapr}>
+        {ai.status === 'loading' ? 'Asking Mapr…' : ai.status === 'done' ? 'Ask Mapr again' : 'Ask Mapr'}
       </button>
     </div>
   );

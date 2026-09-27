@@ -125,6 +125,22 @@ export function pickSwipeCards(random = Math.random) {
   return shuffle(picked, random);
 }
 
+export function allSwipeCards(random = Math.random) {
+  return shuffle(ALL_SWIPE_CARDS, random);
+}
+
+// The card words themselves, in prose for Mapr's "in their own words" context:
+// tagScores alone can't tell Steak from Sushi, Mapr reading this can.
+export function tasteIntroFromAnswers(answers, notes = '') {
+  const words = (a) => answers.filter((x) => x.answer === a).map((x) => x.card.word);
+  const parts = [];
+  if (words('love').length) parts.push(`Loves: ${words('love').join(', ')}.`);
+  if (words('dislike').length) parts.push(`Doesn't like: ${words('dislike').join(', ')}.`);
+  if (words('unsure').length) parts.push(`Not sure about: ${words('unsure').join(', ')}.`);
+  if (notes.trim()) parts.push(`Also said: ${notes.trim()}`);
+  return parts.join(' ');
+}
+
 // Net change per tag from a set of answers ({ card, answer }).
 export function tagDeltasFromAnswers(answers) {
   const out = {};

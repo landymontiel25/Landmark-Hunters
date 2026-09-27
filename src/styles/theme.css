@@ -5765,6 +5765,24 @@ h2,
   color: var(--text-secondary);
 }
 
+.lab-recs {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.lab-rec {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border, rgba(127, 127, 127, 0.2));
+}
+
+.lab-rec .tag {
+  margin-left: 4px;
+}
+
 .lab-center {
   max-width: 420px;
   margin: 24px auto 0;
