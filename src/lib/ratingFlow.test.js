@@ -265,12 +265,12 @@ describe('diversityHint', () => {
 
 describe('visit frequency', () => {
   it('exposes four frequencies with unique ids', () => {
-    expect(FREQUENCIES).toHaveLength(4);
-    expect(new Set(FREQUENCIES.map((f) => f.id)).size).toBe(4);
+    expect(FREQUENCIES).toHaveLength(3);
+    expect(new Set(FREQUENCIES.map((f) => f.id)).size).toBe(3);
   });
 
   it('resolves a saved frequency id back to its label', () => {
-    expect(frequencyById('usual').label).toBe('My regular spot');
+    expect(frequencyById('a-lot').label).toBe('A lot');
     expect(frequencyById('not-a-real-id')).toBeNull();
   });
 });

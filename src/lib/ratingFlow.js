@@ -52,14 +52,13 @@ export function tierById(id) {
 }
 
 // How often you come here -- optional, asked alongside the tier. Mapr moves
-// its tag scores faster for a "my regular spot" love than a first-time one
-// (see FREQUENCY_MULTIPLIER in tagScores.js): a place you keep going back to
-// is stronger proof of taste than a single visit, good or bad.
+// its tag scores faster for "a lot" than for "not often" (see
+// FREQUENCY_MULTIPLIER in tagScores.js): a place you keep going back to is
+// stronger proof of taste than a place you rarely visit, good or bad.
 export const FREQUENCIES = [
-  { id: 'first', label: 'First time' },
-  { id: 'occasional', label: 'Now and then' },
-  { id: 'regular', label: 'Fairly often' },
-  { id: 'usual', label: 'My regular spot' },
+  { id: 'not-often', label: 'Not often' },
+  { id: 'sometimes', label: 'Sometimes' },
+  { id: 'a-lot', label: 'A lot' },
 ];
 
 export function frequencyById(id) {
