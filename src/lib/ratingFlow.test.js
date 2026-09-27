@@ -6,6 +6,8 @@ import {
   TIERS,
   tierById,
   tierStars,
+  FREQUENCIES,
+  frequencyById,
   chipsFor,
   chipLabel,
   MAX_CHIPS,
@@ -258,5 +260,17 @@ describe('diversityHint', () => {
   it('ignores reviews with no tier (not a real rating)', () => {
     const reviews = [{ categories: ['food'] }, { categories: ['food'] }, { categories: ['food'] }];
     expect(diversityHint(reviews)).toBeNull();
+  });
+});
+
+describe('visit frequency', () => {
+  it('exposes four frequencies with unique ids', () => {
+    expect(FREQUENCIES).toHaveLength(4);
+    expect(new Set(FREQUENCIES.map((f) => f.id)).size).toBe(4);
+  });
+
+  it('resolves a saved frequency id back to its label', () => {
+    expect(frequencyById('usual').label).toBe('My regular spot');
+    expect(frequencyById('not-a-real-id')).toBeNull();
   });
 });

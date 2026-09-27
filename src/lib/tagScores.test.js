@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ALL_LANDMARKS } from '../data/regions';
 import {
   applyRating,
+  FREQUENCY_MULTIPLIER,
   buildShortlist,
   coldStartShortlist,
   decayFactor,
@@ -27,6 +28,22 @@ const DAY = 86400000;
 const T0 = Date.UTC(2026, 0, 1);
 
 describe('applyRating', () => {
+  it('scales the delta by visit frequency, both directions', () => {
+    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'usual').scores.food).toBeCloseTo(
+      10 * FREQUENCY_MULTIPLIER.usual
+    );
+    expect(applyRating({}, ['food'], 'probably-skip', T0, 'usual').scores.food).toBeCloseTo(
+      -15 * FREQUENCY_MULTIPLIER.usual
+    );
+    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'first').scores.food).toBeCloseTo(10);
+  });
+
+  it('treats missing or unknown frequency as 1x, same as before frequency existed', () => {
+    expect(applyRating({}, ['food'], 'highly-recommend', T0).scores.food).toBe(10);
+    expect(applyRating({}, ['food'], 'highly-recommend', T0, null).scores.food).toBe(10);
+    expect(applyRating({}, ['food'], 'highly-recommend', T0, 'not-a-real-frequency').scores.food).toBe(10);
+  });
+
   it('applies +10 / +2 / -15 per tag', () => {
     expect(applyRating({}, ['food'], 'highly-recommend', T0).scores).toEqual({ food: 10 });
     expect(applyRating({}, ['food'], 'worth-trying', T0).scores).toEqual({ food: 2 });
@@ -182,6 +199,14 @@ describe('rebuildTagScores', () => {
     const second = applyRating(first, ['food'], 'probably-skip', T0 + 30 * DAY);
     expect(tagScores.milan.food).toBeCloseTo(second.scores.food);
     expect(tagScoresAt.milan.food).toBe(T0 + 30 * DAY);
+  });
+
+  it('replays a review\'s visitFrequency at the same weight the live path applies', () => {
+    const reviews = [
+      { region: 'milan', categories: ['food'], ratingTier: 'highly-recommend', visitFrequency: 'usual', updatedAt: { seconds: T0 / 1000 } },
+    ];
+    const { tagScores } = rebuildTagScores(reviews);
+    expect(tagScores.milan.food).toBeCloseTo(10 * FREQUENCY_MULTIPLIER.usual);
   });
 });
 

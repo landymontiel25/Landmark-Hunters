@@ -132,6 +132,9 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
           highlights: rating.highlights || [],
           lovedOrder: rating.lovedOrder || [],
           dislikedOrder: rating.dislikedOrder || [],
+          // How often they visit (FREQUENCIES in ratingFlow.js) -- optional,
+          // scales how hard this rating moves tagScores (applyRating).
+          visitFrequency: rating.visitFrequency || null,
           comment: (rating.comment || '').slice(0, COMMENT_MAX),
           // Denormalized (like landmarkName/region above) so the taste card
           // can tally categories without a read per review.
@@ -153,7 +156,8 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
           { scores: u.tagScores?.[region], at: u.tagScoresAt?.[region], counts: u.tagCounts?.[region] },
           landmark.categories,
           rating.tier,
-          Date.now()
+          Date.now(),
+          rating.visitFrequency || null
         );
         if (Object.keys(next.scores).length) {
           tx.set(
