@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScores.js';
+import { getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 
 // "Your Mapr Picks" on Profile. The internal tag scorer (src/lib/tagScores.js)
@@ -23,6 +24,10 @@ const INSTRUCTIONS =
   `- Go past the broad category to the SPECIFIC kind of place. If a recent rating or their own words rule out a ` +
   `specific kind (a zoo, a cemetery, a private club, whatever it is), skip other places of that kind even when the ` +
   `category scores well.\n` +
+  `- CITY is the city you're picking for right now. If their own words state a city-specific exception ("I don't ` +
+  `usually like museums, but in Paris show me more") that names or clearly means THIS city, follow it even if it ` +
+  `contradicts their general fit scores or ratings from other cities. An exception named for a different city never ` +
+  `applies here.\n` +
   `- A fit score backed by 1-2 ratings is a guess; the same score backed by 10+ ratings is proven. Trust it accordingly.\n` +
   `- WILDCARD lines are deliberate exploration: categories this traveler has barely rated, so Mapr can find new ` +
   `interests instead of only repeating known ones. Include 1-2 wildcards among the 8 when one looks like a real ` +
@@ -172,7 +177,9 @@ export default async function handler(req, res) {
             ` | ${l.tagScore} | ${l.tagRatings} | ${checkinCounts[l.id] || 0}${dist}` +
             (l.wildcard ? ' | WILDCARD' : '');
     };
+    const regionName = getRegion(region)?.name || region;
     const prompt =
+      `CITY: ${regionName}\n\n` +
       (!swipeOnly && coldStart ? 'COLD START: no ratings in this region yet.\n\n' : '') +
       (tasteIntro ? `IN THEIR OWN WORDS: "${tasteIntro}"\n\n` : '') +
       (Object.keys(tagNotes).length
