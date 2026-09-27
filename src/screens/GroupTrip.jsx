@@ -317,7 +317,7 @@ export default function GroupTrip() {
         {(region?.landmarks || []).map((l) => {
           const selected = isSelected(l.id);
           return (
-            <div key={l.id} className="friend-row">
+            <div key={l.id} className={`friend-row ${claimedMap[l.id] ? 'visited' : ''}`}>
               <button
                 type="button"
                 className="shared-landmark-link"

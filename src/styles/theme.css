@@ -1174,12 +1174,22 @@ textarea {
 }
 
 /* A landmark you've already checked into reads green wherever it's listed
-   (Landmarks tab rows, itinerary stop cards). */
+   (Landmarks tab rows, itinerary stop cards, group-trip shared-landmark rows). */
 .landmark-row.visited,
 .card.visited {
   border-color: var(--color-green);
   background: rgba(85, 201, 135, 0.28);
   box-shadow: inset 0 0 0 2px var(--color-green);
+}
+
+/* .friend-row has no border/padding of its own (just a bottom divider), so
+   the highlight needs its own box rather than reusing .card.visited's
+   border-color, which would have nothing to color. */
+.friend-row.visited {
+  background: rgba(85, 201, 135, 0.28);
+  box-shadow: inset 0 0 0 2px var(--color-green);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
 }
 
 /* ---------- Check-in blast ---------- */
