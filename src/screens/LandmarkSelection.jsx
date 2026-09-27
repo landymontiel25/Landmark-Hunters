@@ -19,12 +19,11 @@ import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import { matchesSearch, searchScore } from '../lib/search';
 import { useSmartSearch, useSmartCitySearch, landmarkSearchText } from '../lib/smartSearch';
 import SmartSearchLabel from '../components/SmartSearchLabel';
-import { usePersistentState } from '../lib/usePersistentState';
+import { usePersistentState, useSessionState } from '../lib/usePersistentState';
 import ErrorNotice from '../components/ErrorNotice';
 
 // A null sort (every sort tab toggled off) is a real choice worth keeping.
 const NEVER_EMPTY = () => false;
-const NO_CATEGORIES = (v) => !v?.length;
 // Search/filter choices are handy for a while, not forever -- after a day
 // the list opens fresh instead of mysteriously pre-filtered.
 const DAY = 24 * 60 * 60 * 1000;
@@ -34,8 +33,6 @@ const SMART_DIVIDER = { id: '__smart__' };
 
 const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 
-// How close a city center has to be to count as "where you are".
-const NEAR_CITY_KM = 80;
 
 const SORT_OPTIONS = [
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
@@ -169,45 +166,20 @@ export default function LandmarkSelection() {
   useEffect(() => {
     loadCustomLandmarks();
   }, [loadCustomLandmarks]);
-  // Default to the trip's already-chosen region (from Setup) so picking up where you
-  // left off doesn't require re-filtering to something you already told the app.
-  // Arriving with no trip region yet (e.g. straight from the bottom-nav tab) still
-  // shows everything.
-  const [cityFilter, setCityFilter] = useState(() => trip.activeRegion ?? 'all');
-  // Default to the city you're standing in (nearest city center within
-  // NEAR_CITY_KM of your GPS fix) -- but only until you pick a city
-  // yourself. Once you do, that choice sticks (trip.activeRegionPicked,
-  // persisted on the trip) even after switching tabs and coming back,
-  // instead of GPS quietly overriding it again.
-  useEffect(() => {
-    if (!coords || trip.activeRegionPicked) return;
-    let best = null;
-    let bestKm = NEAR_CITY_KM;
-    for (const r of PICKABLE_REGIONS) {
-      const km = distanceMeters(coords.lat, coords.lng, r.center.lat, r.center.lng) / 1000;
-      if (km < bestKm) {
-        bestKm = km;
-        best = r.id;
-      }
-    }
-    if (best && best !== cityFilter) {
-      setCityFilter(best);
-      updateTrip({ activeRegion: best });
-      setMapFocus(best);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coords?.lat, coords?.lng]);
+  // Always opens on every landmark. It used to start on trip.activeRegion,
+  // which is saved per device and never expires -- so a city browsed once
+  // (e.g. San Francisco) came back on every later visit, and a saved
+  // "picked by hand" flag kept GPS from ever correcting it. Pick a city
+  // from the dropdown to narrow the list for this visit.
+  const [cityFilter, setCityFilter] = useState('all');
   // Default to every interest picked on Setup -- built-in categories AND custom
   // ones you typed in -- so "Choose Landmarks" opens already narrowed to what you
   // said you wanted instead of dumping every landmark on you. Empty selection (no
   // interests chosen, or "All" tapped) means show everything.
   // Starts on "All categories"; the dropdown narrows from there.
-  // Search text, category and sort survive leaving the tab or closing the
-  // app (see usePersistentState).
-  const [activeCategories, setActiveCategories] = usePersistentState('landmarks.category', [], {
-    ttlMs: DAY,
-    isEmpty: NO_CATEGORIES,
-  });
+  // Category lasts while the app is open and resets every launch; search
+  // text and sort survive closing the app (see usePersistentState).
+  const [activeCategories, setActiveCategories] = useSessionState('landmarks.category', []);
   // A restored custom interest may have been removed since -- don't leave
   // the list filtered by something the dropdown can no longer show.
   useEffect(() => {

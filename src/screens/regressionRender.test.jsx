@@ -165,8 +165,20 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     expect(el.textContent).toContain('Corr Hall Arch');
   });
 
+  it('opens on every landmark, not a city saved from an earlier visit', async () => {
+    const el = await renderIt({ activeRegion: 'san-francisco', activeRegionPicked: true });
+    expect(el.querySelector('.city-dropdown-toggle').textContent).toContain('All Cities');
+  });
+
   it('filtered to just Villanova, with one already on the itinerary (Select All path)', async () => {
-    const el = await renderIt({ activeRegion: 'villanova', byRegion: { villanova: ['corr-hall-arch'] } });
+    const el = await renderIt({ byRegion: { villanova: ['corr-hall-arch'] } });
+    await act(async () => {
+      el.querySelector('.city-dropdown-toggle').click();
+    });
+    const villanova = [...el.querySelectorAll('.city-dropdown-item')].find((b) => /villanova/i.test(b.textContent));
+    await act(async () => {
+      villanova.click();
+    });
     expect(el.textContent).toContain('Select All');
   });
 });

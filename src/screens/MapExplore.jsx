@@ -31,11 +31,10 @@ import SmartSearchLabel from '../components/SmartSearchLabel';
 import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLink } from '../lib/routing';
 import LandmarkThumb from '../components/LandmarkThumb';
 import QuickRateButton from '../components/QuickRateButton';
-import { usePersistentState } from '../lib/usePersistentState';
+import { useSessionState } from '../lib/usePersistentState';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 
-const NO_FILTER = (v) => !v?.length;
 
 // Turn-by-turn's actual route, once directions are up -- see the dimming
 // rule on body.map-nav-open in theme.css.
@@ -432,9 +431,9 @@ export default function MapExplore() {
   // otherwise only pins whose category is in the set. Grows with INTERESTS,
   // so every category added later is filterable here automatically.
   const [filterOpen, setFilterOpen] = useState(false);
-  // Saved as a plain array so the map reopens with the same categories
-  // showing; the Set is just for fast lookups while rendering pins.
-  const [filterCatList, setFilterCatList] = usePersistentState('map.filterCats', [], { isEmpty: NO_FILTER });
+  // Lasts while the app is open, resets every launch: a filter saved to the
+  // device used to reopen days later with most pins silently hidden.
+  const [filterCatList, setFilterCatList] = useSessionState('map.filterCats', []);
   const filterCats = useMemo(() => new Set(normalizeCategories(filterCatList)), [filterCatList]);
   const setFilterCats = (set) => setFilterCatList([...set]);
   const toggleFilterCat = (id) =>
@@ -1253,6 +1252,11 @@ export default function MapExplore() {
           >
             {filterOpen ? '\u{2715}' : '\u{1F5C2}\u{FE0F}'}
           </button>
+          {filterCats.size > 0 && !filterOpen && (
+            <button type="button" className="map-filter-pill" onClick={() => setFilterCats(new Set())}>
+              Showing {filterCats.size} {filterCats.size === 1 ? 'category' : 'categories'} · Show all
+            </button>
+          )}
           {filterOpen && (
             <div className="map-search-panel">
               <MapCategoryFilter

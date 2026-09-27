@@ -84,3 +84,16 @@ export function usePersistentState(key, initial, { ttlMs = WEEK, isEmpty } = {})
 
   return [value, setValue, () => (key ? clearPersisted(key) : undefined)];
 }
+
+// For settings that should last while the app is open (hopping between
+// tabs) but start fresh every launch, like category filters. Held in
+// memory only, so closing or reloading the app resets it.
+const sessionValues = new Map();
+
+export function useSessionState(key, initial) {
+  const [value, setValue] = useState(() => (sessionValues.has(key) ? sessionValues.get(key) : initial));
+  useEffect(() => {
+    sessionValues.set(key, value);
+  }, [key, value]);
+  return [value, setValue];
+}
