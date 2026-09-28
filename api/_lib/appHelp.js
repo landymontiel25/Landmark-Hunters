@@ -235,7 +235,11 @@ export const APP_HELP =
   `- Habit tracking (on by default, toggle in Settings): while the app is open, Mapr notices places you keep actually visiting -- three or more different days at the same spot -- and, next time you're standing there, asks "You keep going here, want to add it to an itinerary?" with options to add it, say it's already there, snooze it, or stop tracking that spot. It also checks whether something matching your taste (an interest, or what you've told Mapr you love) is worth a stop near there or on the way -- e.g. spotting a shooting range nearby if you love shooting -- and offers to add that too, only when it has a genuinely good match. Entirely on-device: raw location history never leaves your phone, only the one place name it resolves once a spot has become a real pattern, plus that one taste-match question sent the same way a normal Mapr chat message is. It only notices patterns while the app is open (there's no real background location or push notification support), and it also drops a note in your in-app Notifications.\n` +
   `- Settings: switch dark/light mode, switch units between imperial (mi/ft) and metric (km/m), toggle your profile between public (reviews/photos ` +
   `visible to everyone) and private (friends only), set a home address (used for taste learning), edit the taste baseline described above, change your ` +
-  `password (for email/password accounts), and (at the very bottom) Request a Feature, Privacy Policy & Terms of Service, and the date you joined. All ` +
-  `account-level actions live in Settings now, not on Profile. There's no self-serve account deletion right now.\n` +
+  `password (for email/password accounts), and (at the very bottom) Request a Feature, Report a Bug, Privacy Policy & Terms of Service, and the date ` +
+  `you joined. All account-level actions live in Settings now, not on Profile. There's no self-serve account deletion right now.\n` +
+  `- Report a Bug (Settings, right below Request a Feature): a signed-in user describes what's broken (a required title + description, plus optional ` +
+  `steps to reproduce) and submits it. The one admin account gets an in-app notification for each new report, and tapping it opens the same screen's ` +
+  `second tab (Resolve/Dismiss Reports) -- same admin-review shape as Request a Feature's Approve/Reject tab, just with its own separate collection, ` +
+  `so bug reports and feature requests never mix in the same queue.\n` +
   `- Sign in options: you can create an account and sign in with an email and password, or use Google Sign-In. Google Sign-In uses your Google account ` +
   `for authentication and doesn't require a separate password here.\n\n`;

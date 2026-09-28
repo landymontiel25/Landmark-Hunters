@@ -137,6 +137,10 @@ export default function Notifications() {
       navigate('/request-feature', { state: { tab: 'review' } });
       return;
     }
+    if (n.bugReportId) {
+      navigate('/report-bug', { state: { tab: 'review' } });
+      return;
+    }
     if (n.landmarkId) {
       const landmark = ALL_LANDMARKS.find((l) => l.id === n.landmarkId);
       if (landmark) navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);

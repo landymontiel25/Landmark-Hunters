@@ -10,7 +10,7 @@ import { db } from './firebase';
 // submission getting approved shows up the next time they open the app.
 export async function notifyUser(
   uid,
-  { type, message, landmarkId = null, groupTripId = null, featureRequestId = null, maprProjectId = null }
+  { type, message, landmarkId = null, groupTripId = null, featureRequestId = null, bugReportId = null, maprProjectId = null }
 ) {
   await addDoc(collection(db, 'notifications'), {
     uid,
@@ -19,6 +19,7 @@ export async function notifyUser(
     landmarkId,
     groupTripId,
     featureRequestId,
+    bugReportId,
     ...(maprProjectId ? { maprProjectId } : {}),
     read: false,
     createdAt: serverTimestamp(),

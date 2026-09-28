@@ -101,6 +101,7 @@ const FriendCheckins = lazyScreen(() => import('./screens/FriendCheckins'));
 const FriendCities = lazyScreen(() => import('./screens/FriendCities'));
 const Notifications = lazyScreen(() => import('./screens/Notifications'));
 const RequestFeature = lazyScreen(() => import('./screens/RequestFeature'));
+const ReportBug = lazyScreen(() => import('./screens/ReportBug'));
 const Mapr = lazyScreen(() => import('./screens/Mapr'));
 const OnboardingLab = lazyScreen(() => import('./screens/OnboardingLab'));
 const NotFound = lazyScreen(() => import('./screens/NotFound'));
@@ -135,6 +136,7 @@ function AppRoutes() {
           <Route path="/friend/:uid/cities" element={<FriendCities />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/request-feature" element={<RequestFeature />} />
+          <Route path="/report-bug" element={<ReportBug />} />
           <Route path="/mapr" element={<Mapr />} />
           <Route path="/test" element={<OnboardingLab />} />
           <Route path="*" element={<NotFound />} />
