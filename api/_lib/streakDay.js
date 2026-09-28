@@ -19,3 +19,33 @@ export function previousDayKey(key) {
   const [y, m, d] = key.split('-').map(Number);
   return dayKey(new Date(y, m, d - 1));
 }
+
+// dayKey(d) above reads d.getFullYear()/getMonth()/getDate() -- the
+// *executing machine's* local timezone. In a browser that's the traveler's
+// own clock, which is exactly what a "local calendar day" streak needs (see
+// src/lib/streaks.js's own note on this). On Vercel's serverless functions
+// the machine's local timezone is UTC, so the SAME code run here computes a
+// different "today" than the client did for the same real-world moment --
+// for anyone not in UTC, that silently shifts which calendar day a
+// historical check-in/vote lands in. localDayKey fixes that by resolving
+// the day in an explicitly-given IANA timeZone (the client's own, via
+// Intl.DateTimeFormat().resolvedOptions().timeZone) instead of the
+// executing machine's, so a day-key computed here always matches the one
+// the same timestamp would produce in the user's own browser. Falls back to
+// the machine-local reading only if timeZone is missing/invalid, so this
+// never throws.
+export function localDayKey(epochMs, timeZone) {
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone, year: 'numeric', month: 'numeric', day: 'numeric' }).formatToParts(
+      new Date(epochMs)
+    );
+    const get = (type) => Number(parts.find((p) => p.type === type)?.value);
+    const y = get('year');
+    const m = get('month');
+    const d = get('day');
+    if (!y || !m || !d) throw new Error('unresolvable timeZone');
+    return `${y}-${m - 1}-${d}`;
+  } catch {
+    return dayKey(new Date(epochMs));
+  }
+}
