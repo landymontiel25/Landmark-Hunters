@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
+import { useGeo } from '../lib/GeoContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { listFriends } from '../lib/friends';
 import {
@@ -15,12 +16,12 @@ import {
   FREEZES_PER_MONTH,
 } from '../lib/pairStreaks';
 import { dailyDeck } from '../lib/sharedDeck';
-import { getRegion } from '../data/regions';
+import { pickRegion } from '../lib/tagScores';
+import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
 import { dayKey, monthKey } from '../lib/streaks';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
-import RegionSearch from '../components/RegionSearch';
 
 // Same verdict vocabulary Mapr Travel Picks uses (MaprPicksCarousel.jsx) --
 // "would you go", not "how was it", since a shared card is often somewhere
@@ -46,23 +47,22 @@ function fmtPct(score) {
 
 const COMPATIBILITY_MIN_SHARED_DISPLAY = 10;
 
-// One card in today's shared deck. Rate first; the guess step only unlocks
-// once you have (spec item 2, "the guess unlocks only after the user
-// submits their own rating"). Once both your rating+guess AND your
-// partner's rating are in, shows a light inline reveal -- the real Reveal
-// screen (highlights, bonus points) isn't built, but seeing both answers
-// side by side once they exist is most of the value.
-function DeckCard({ streak, landmark, myEntry, partnerEntry, partnerName, onRated, onGuessed }) {
+// One card in today's shared deck, in a Mapr Travel Picks-style swipeable
+// carousel (.mapr-picks-track / .mapr-pick, MaprPicksCarousel.jsx). Rate
+// first; the guess step only unlocks once you have (spec item 2, "the
+// guess unlocks only after the user submits their own rating"). Once
+// you've done both, the card is done for you -- like a Travel Picks vote,
+// it leaves the row (StreakDetail filters it out); the reveal (both
+// answers, whether your guess was right) shows in the "Today's results"
+// list below the carousel instead of staying inline here.
+function DeckCard({ streak, landmark, myEntry, onGuessed }) {
   const myRating = myEntry?.ratings?.[landmark.id];
-  const myGuess = myEntry?.guesses?.[landmark.id];
-  const partnerRating = partnerEntry?.ratings?.[landmark.id];
   const [busy, setBusy] = useState(false);
 
   const rate = async (verdict) => {
     setBusy(true);
     try {
       await submitCardRating(streak.id, myEntry.uid, landmark.id, verdict);
-      onRated();
     } finally {
       setBusy(false);
     }
@@ -77,7 +77,7 @@ function DeckCard({ streak, landmark, myEntry, partnerEntry, partnerName, onRate
   };
 
   return (
-    <div className="mapr-pick" style={{ flex: 'none', width: '100%', maxWidth: 'none', marginBottom: 12 }}>
+    <div className="mapr-pick">
       <div className="mapr-pick-main">
         {landmark.images?.[0] ? (
           <img className="mapr-pick-img" src={landmark.images[0]} alt="" loading="lazy" />
@@ -105,10 +105,10 @@ function DeckCard({ streak, landmark, myEntry, partnerEntry, partnerName, onRate
             );
           })}
         </div>
-      ) : !myGuess ? (
+      ) : (
         <div style={{ padding: '10px 12px 0' }}>
           <p className="screen-subtitle" style={{ margin: '0 0 8px' }}>
-            You said {VOTE_COPY[myRating].label}. What will @{partnerName} say?
+            You said {VOTE_COPY[myRating].label}. What will your streak partner say?
           </p>
           <div className="mapr-pick-actions" style={{ padding: 0 }}>
             {['no', 'unsure', 'yes'].map((verdict) => {
@@ -127,40 +127,26 @@ function DeckCard({ streak, landmark, myEntry, partnerEntry, partnerName, onRate
             })}
           </div>
         </div>
-      ) : (
-        <div style={{ padding: '10px 12px 12px' }}>
-          <p style={{ margin: '0 0 4px', fontSize: '0.85rem' }}>
-            You: {VOTE_COPY[myRating].label} · Your guess for @{partnerName}: {VOTE_COPY[myGuess].label}
-          </p>
-          {partnerRating ? (
-            <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700 }}>
-              @{partnerName}: {VOTE_COPY[partnerRating].label} --{' '}
-              {partnerRating === myGuess ? 'you guessed right! \u{1F389}' : 'not quite'}
-              {partnerRating === myRating ? ' (you both agree!)' : ''}
-            </p>
-          ) : (
-            <p className="screen-subtitle" style={{ margin: 0 }}>
-              Waiting on @{partnerName} to rate this one.
-            </p>
-          )}
-        </div>
       )}
     </div>
   );
 }
 
 // One streak's full detail: who it's with, count/best, today's shared
-// 3-card deck (rate then guess, per card), a live day-status per person,
-// how long it's existed, shared freezes, a recovery mission banner when
-// one's open, and a compatibility score once there's enough shared data.
-// "Guess accuracy" (the spec's second stat under compatibility) isn't
-// shown as a number yet -- but each card's inline reveal above is exactly
-// that same signal, just not yet rolled up into one stat.
+// 3-card deck (rate then guess, per card, Mapr Travel Picks-style
+// carousel), a live day-status per person, how long it's existed, shared
+// freezes, a recovery mission banner when one's open, and a compatibility
+// score once there's enough shared data. "Guess accuracy" (the spec's
+// second stat under compatibility) isn't shown as a number yet -- but
+// "Today's results" below the carousel is exactly that same signal, just
+// not yet rolled up into one stat. Mapr picks the city and the landmarks;
+// there's no manual city picker here (see the auto-pick effect below),
+// matching how Mapr Travel Picks itself defaults to wherever you are.
 function StreakDetail({ streak, onBack, onLeave }) {
   const { user } = useAuth();
+  const { coords } = useGeo();
   const { closeToday } = usePairStreaks();
   const [entries, setEntries] = useState({});
-  const [cityPickerOpen, setCityPickerOpen] = useState(false);
   const [freezeBusy, setFreezeBusy] = useState(false);
   const [freezeMsg, setFreezeMsg] = useState(null);
   const [recoveryBusy, setRecoveryBusy] = useState(false);
@@ -194,10 +180,35 @@ function StreakDetail({ streak, onBack, onLeave }) {
       .catch(() => setVisitedIds(new Set()));
   }, [user.uid, partnerUid, streak.cityId]);
 
+  // Mapr picks the city, not the user -- same default-location logic Mapr
+  // Travel Picks itself uses (tagScores.js's pickRegion), just with a
+  // guaranteed fallback (rather than null) so a streak never gets stuck
+  // with no city if location is off: worst case, the first pickable city.
+  // Whichever member opens this first sets it for the pair (setStreakCity
+  // is the one field either member can write, per firestore.rules); the
+  // ref stops a duplicate write from a re-render before that first write
+  // has landed and streak.cityId has caught up.
+  const pickedCityRef = useRef(false);
+  useEffect(() => {
+    if (streak.cityId || pickedCityRef.current) return;
+    const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
+    const defaultRegionId = pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
+    if (!defaultRegionId) return;
+    pickedCityRef.current = true;
+    setStreakCity(streak.id, defaultRegionId).catch(() => {
+      pickedCityRef.current = false;
+    });
+  }, [streak.id, streak.cityId, coords, pickedCityRef]);
+
   const myEntry = entries[user.uid] || { uid: user.uid, ratings: {}, guesses: {} };
   const partnerEntry = entries[partnerUid];
   const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
   const cardIds = deck.map((l) => l.id);
+  // Once you've rated AND guessed a card, it's done for you -- same as a
+  // Mapr Travel Picks vote, it leaves the carousel (the reveal moves to
+  // "Today's results" below instead of staying inline on the card).
+  const remainingDeck = deck.filter((l) => !(myEntry.ratings?.[l.id] && myEntry.guesses?.[l.id]));
+  const doneDeck = deck.filter((l) => myEntry.ratings?.[l.id] && myEntry.guesses?.[l.id]);
   const myGuessedCount = cardIds.filter((id) => myEntry.guesses?.[id]).length;
   const partnerGuessedCount = cardIds.filter((id) => partnerEntry?.guesses?.[id]).length;
   const myDayDone = cardIds.length > 0 && myGuessedCount === cardIds.length;
@@ -279,14 +290,10 @@ function StreakDetail({ streak, onBack, onLeave }) {
 
       <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>Today's 3 shared landmarks</span>
-        <button type="button" className="tag" style={{ fontSize: '0.68rem', cursor: 'pointer', fontFamily: 'inherit' }} onClick={() => setCityPickerOpen(true)}>
-          {region ? region.name : 'Choose a city'}
-        </button>
+        <span className="tag" style={{ fontSize: '0.68rem' }}>{region ? region.name : 'Finding your city…'}</span>
       </p>
       {!streak.cityId ? (
-        <p className="screen-subtitle" style={{ margin: 0 }}>
-          Pick a city above to get today's 3 shared landmarks -- you and @{partnerName} will both see the exact same 3.
-        </p>
+        <SkeletonList count={1} label="Finding your city" />
       ) : visitedIds === undefined ? (
         <SkeletonList count={3} label="Loading today's landmarks" />
       ) : (
@@ -295,18 +302,42 @@ function StreakDetail({ streak, onBack, onLeave }) {
             You: {myGuessedCount}/{cardIds.length} rated + guessed{myDayDone ? ' ✓' : ''} · @{partnerName}:{' '}
             {partnerGuessedCount}/{cardIds.length} rated + guessed{partnerGuessedCount === cardIds.length ? ' ✓' : ''}
           </p>
-          {deck.map((landmark) => (
-            <DeckCard
-              key={landmark.id}
-              streak={streak}
-              landmark={landmark}
-              myEntry={myEntry}
-              partnerEntry={partnerEntry}
-              partnerName={partnerName}
-              onRated={() => {}}
-              onGuessed={handleGuessed}
-            />
-          ))}
+          {remainingDeck.length > 0 ? (
+            <div className="mapr-picks-track">
+              {remainingDeck.map((landmark) => (
+                <DeckCard key={landmark.id} streak={streak} landmark={landmark} myEntry={myEntry} onGuessed={handleGuessed} />
+              ))}
+            </div>
+          ) : (
+            <p className="screen-subtitle" style={{ margin: 0 }}>
+              {'✓'} You've rated and guessed all 3 for today.
+            </p>
+          )}
+          {doneDeck.length > 0 && (
+            <div style={{ marginTop: 12 }}>
+              <p className="screen-subtitle" style={{ margin: '0 0 6px' }}>
+                Today's results
+              </p>
+              {doneDeck.map((landmark) => {
+                const myRating = myEntry.ratings[landmark.id];
+                const myGuess = myEntry.guesses[landmark.id];
+                const partnerRating = partnerEntry?.ratings?.[landmark.id];
+                return (
+                  <p key={landmark.id} style={{ margin: '0 0 4px', fontSize: '0.82rem' }}>
+                    <strong>{landmark.name}</strong> -- you: {VOTE_COPY[myRating].label}, your guess: {VOTE_COPY[myGuess].label}
+                    {partnerRating ? (
+                      <>
+                        {' · '}@{partnerName}: {VOTE_COPY[partnerRating].label} --{' '}
+                        {partnerRating === myGuess ? 'guessed right! \u{1F389}' : 'not quite'}
+                      </>
+                    ) : (
+                      <> {' · '}waiting on @{partnerName}</>
+                    )}
+                  </p>
+                );
+              })}
+            </div>
+          )}
         </>
       )}
 
@@ -367,27 +398,6 @@ function StreakDetail({ streak, onBack, onLeave }) {
         </button>
       </div>
 
-      {cityPickerOpen && (
-        <div className="modal-backdrop" onClick={() => setCityPickerOpen(false)}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>{'\u{1F5FA}\u{FE0F}'} Choose a City</h3>
-            <p className="screen-subtitle" style={{ marginTop: 0 }}>
-              Today's (and every future day's, until changed) 3 shared landmarks come from this city.
-            </p>
-            <RegionSearch
-              region={region}
-              onSelect={(r) => {
-                setStreakCity(streak.id, r.id);
-                setCityPickerOpen(false);
-              }}
-              placeholder="Search for a city…"
-            />
-            <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 16 }} onClick={() => setCityPickerOpen(false)}>
-              Done
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
