@@ -150,22 +150,26 @@ export const APP_HELP =
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
   `- Dual Streaks (🔥 in the header, and a "streak" tile in Your Stats on Profile): a streak belongs to a PAIR of friends now, not one person -- solo ` +
   `streaks are gone. Tapping the "streak" tile opens a real page (Your Streaks), not a popup -- same as check-ins/cities. From there, "Start a Streak" ` +
-  `picks a friend right on that page (streak-first, not friend-first). Each day counts once BOTH people have voted or rated 3 landmarks in Mapr ` +
-  `Travel Picks that day (local calendar day); the header flame shows the current pair's count and a live countdown to that day's deadline, turning ` +
-  `red once your own side isn't done yet. Cap of 3 active streaks per person. To stop a streak, tap the trash icon next to that friend's name on ` +
-  `the Your Streaks list -- immediate, no confirmation flow beyond one "are you sure," no penalty.\n` +
+  `picks a friend right on that page (streak-first, not friend-first). Cap of 3 active streaks per person. To stop a streak, tap the trash icon next ` +
+  `to that friend's name on the Your Streaks list -- immediate, no penalty beyond one "are you sure".\n` +
+  `- Today's 3 shared landmarks: once a streak has a city set (either person picks it, on the streak's own detail page -- defaults to nothing until ` +
+  `chosen), both people see the exact same 3 landmarks that day, deterministically picked from that city so no server round-trip decides it. Per ` +
+  `card: rate it first (I'd go / Not sure / Not for me -- same wording as Mapr Travel Picks), which unlocks a second question -- guess what your ` +
+  `partner will say about that same card. Once you've rated and guessed all 3, and your partner has too, the day counts. Each card then shows both ` +
+  `people's rating and whether your guess was right, right there on the card -- a lighter version of the spec's "Reveal" screen, without the ` +
+  `celebration animation or bonus points. The header flame shows the pair's current count and a live countdown to that day's deadline, turning red ` +
+  `once your own side isn't done. Known gap: cards can repeat on a later day -- there's no tracking yet of which ones a pair has already seen.\n` +
   `- Shared freezes: 2 per pair per month, resetting the 1st. Either person can spend one (a button on the streak's detail page) to hold that day -- ` +
-  `it keeps the chain from breaking if neither of you finishes the quota, but it doesn't add a day on its own.\n` +
+  `it keeps the chain from breaking if neither of you finishes today's 3 cards, but it doesn't add a day on its own.\n` +
   `- Recovery mission: opens for 24 hours after a real break that happens with no freezes left. Check in at the same landmark within 30 minutes of ` +
   `each other (or, long-distance, each check in anywhere in the 24 hours) to get the streak back to what it was. Once per pair per month. This is ` +
   `detected reactively (whenever either of you next opens the app), not pushed the instant it happens -- there's no scheduled server job for that yet.\n` +
   `- Compatibility score: shown on a streak's detail page once you and that friend have real ratings for at least 10 of the same landmarks -- a ` +
   `weighted match rate across your most recent 50 shared ratings (exact match counts full, "it was okay" against either extreme counts half, ` +
-  `opposite extremes count zero). The spec's second stat, "how well you know each other" (guess accuracy), isn't shown -- it needs a "guess what ` +
-  `your partner picked" feature that doesn't exist yet.\n` +
-  `- Not built yet for Dual Streaks: the shared 3-cards-a-day deck (today's quota is the existing 3-landmark one, not a server-chosen shared deck), ` +
-  `guessing what your partner would pick, and squads (3+ people). The 3-Day/7-Day/30-Day Streak badges in the catalog still can't be earned yet -- ` +
-  `re-pointing them to a pair's best count hasn't shipped.\n` +
+  `opposite extremes count zero). There's no single rolled-up "guess accuracy" number yet -- each card's own reveal already shows right/wrong per ` +
+  `landmark, just not summarized into one score.\n` +
+  `- Not built yet for Dual Streaks: squads (3+ people), and the fuller Reveal screen (match highlights, bonus points for a correct guess). The ` +
+  `3-Day/7-Day/30-Day Streak badges in the catalog still can't be earned yet -- re-pointing them to a pair's best count hasn't shipped.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +
   `- Ranks / Leaderboard (also a Profile section, now secondary to Mapr/taste stats): a Friends/Global toggle — Friends ranks you against people you ` +
   `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views.\n` +

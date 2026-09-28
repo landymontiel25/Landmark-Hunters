@@ -1,28 +1,20 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useFriends } from './FriendsContext';
-import { useBadges } from './BadgesContext';
-import { authHeaders } from './apiAuth';
-import { subscribeMyStreaks, startStreak, leaveStreak, submitMyEntry, PICKS_STREAK_THRESHOLD } from './pairStreaks';
-import { dayKey } from './streaks';
+import { subscribeMyStreaks, startStreak, leaveStreak, closeToday } from './pairStreaks';
 
 const PairStreakContext = createContext(null);
 
-// Every pair streak you're in (server truth, live), plus the day-close
-// sync: the moment your own "3 landmarks today" quota is hit (Mapr Travel
-// Picks' votes/ratings via BadgesContext's actionsToday), this submits your
-// entry for every active streak and pings the server to check whether the
-// PAIR's day is done -- see api/close-streak-day.js for why that decision
-// is never made on the client.
+// Every pair streak you're in, live from the server. The actual daily
+// completion trigger (rating + guessing all 3 of today's shared cards)
+// lives in MyStreaks.jsx, which calls closeToday() itself right after the
+// last guess lands -- there's nothing to watch passively here anymore now
+// that a day means something specific (the shared deck), not just "voted
+// on 3 things somewhere in the app".
 export function PairStreakProvider({ children }) {
   const { user } = useAuth();
   const { myUsername } = useFriends();
-  const { actionsToday } = useBadges();
   const [streaks, setStreaks] = useState([]);
-  // `${pairId}:${dayKey}` already pinged today -- avoids re-firing the
-  // network calls on every render once the quota's already been hit; the
-  // server side is idempotent regardless, this is just to be polite about it.
-  const pingedRef = useRef(new Set());
 
   useEffect(() => {
     if (!user) {
@@ -32,32 +24,11 @@ export function PairStreakProvider({ children }) {
     return subscribeMyStreaks(user.uid, setStreaks, () => {});
   }, [user?.uid]);
 
-  useEffect(() => {
-    if (!user || actionsToday < PICKS_STREAK_THRESHOLD || !streaks.length) return;
-    const today = dayKey(new Date());
-    streaks.forEach((s) => {
-      const key = `${s.id}:${today}`;
-      if (pingedRef.current.has(key)) return;
-      pingedRef.current.add(key);
-      (async () => {
-        try {
-          await submitMyEntry(s.id, user.uid, { done: true, count: actionsToday });
-          await fetch('/api/close-streak-day', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-            body: JSON.stringify({ pairId: s.id, dayId: today }),
-          });
-        } catch {
-          pingedRef.current.delete(key);
-        }
-      })();
-    });
-  }, [user, actionsToday, streaks]);
-
   const value = {
     streaks,
     startStreakWith: (friend) => startStreak({ uid: user.uid, name: myUsername }, friend),
     leaveStreak,
+    closeToday,
   };
 
   return <PairStreakContext.Provider value={value}>{children}</PairStreakContext.Provider>;

@@ -382,7 +382,14 @@ service cloud.firestore {
         && request.resource.data.lastCompletedDay == null
         && request.resource.data.freezesLeft == 2
         && request.resource.data.frozenDays.size() == 0;
-      allow update: if false;
+      // count/best/lastCompletedDay/freezesLeft/freezeMonth/frozenDays/
+      // recoveryOpenUntil/recoveryPriorCount/recoveryUsedMonth stay fully
+      // server-authority (any write touching them is denied) -- cityId is
+      // the one field either member can set themselves, to pick where the
+      // pair's daily 3-card deck (sharedDeck.js) draws from.
+      allow update: if request.auth != null
+        && request.auth.uid in resource.data.memberIds
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cityId', 'updatedAt']);
       // Guardrail (item b2/11): anyone in the pair can leave, no penalty.
       allow delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
 
