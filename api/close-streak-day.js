@@ -6,6 +6,19 @@ import { previousDayKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
+import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
+
+// Points for a secured dual day, and one-time bonuses the first time a
+// streak reaches a milestone length -- double the solo-streak amounts (see
+// close-solo-streak-day.js), since a dual day requires coordinating a
+// partner through rate AND guess on all 3, not just rating them alone.
+// Awarded to BOTH members here (server-side, the moment the day actually
+// closes) rather than left for each member's own client to self-report --
+// only ONE member's client ever gets `closed: true` back (the other's
+// follow-up call sees `already: true`), so a client-side award would only
+// ever pay the first person to trigger the close.
+export const DUAL_DAY_POINTS = 50;
+export const DUAL_MILESTONE_POINTS = { 3: 200, 7: 600, 30: 2000 };
 
 // Duplicated from leaderboard.js's isRealCheckin (pure logic, not worth
 // pulling that whole client-Firebase-importing module in for -- see
@@ -149,6 +162,12 @@ export default async function handler(req, res) {
       update.recoveryPriorCount = streak.count || 0;
     }
     await streakRef.update(update);
+    const milestone = DUAL_MILESTONE_POINTS[nextCount] || 0;
+    await Promise.all(
+      (streak.memberIds || []).map((uid) =>
+        awardLeaderboardPointsServer(db, uid, streak.memberNames?.[uid], DUAL_DAY_POINTS + milestone)
+      )
+    );
     res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });
   } catch (e) {
     res.status(500).json({ error: e?.message || 'Could not close that day.' });

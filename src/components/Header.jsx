@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
-import { useBadges } from '../lib/BadgesContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
+import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { msUntilStreakLapse, dayKey, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
@@ -18,21 +18,40 @@ function formatLeft(ms) {
   return h > 0 ? `${h}h ${m}m ${sec}s` : `${m}m ${sec}s`;
 }
 
-// The personal, solo streak -- back after being retired at #405. One 🔥,
-// distinct from the dual streak's two (🔥🔥) badge next to it in the
-// header, so the two are never confused for one number. Flame animates
-// only while there's a streak to celebrate. Always shown green once
-// today's check-in has secured it, red otherwise -- a glance answers "do I
-// still need to do something today", no yellow "in between" state. Tapping
-// it opens a live countdown to local midnight: when today's streak lapses,
-// or when a secured day ends and the next one needs its own check-in.
-// Never more than 24h.
+// The personal, solo streak -- back after being retired at #405, now a
+// server-authority streaks/{uid} doc (mode: 'solo') instead of a live
+// computation, so a freeze actually shows up here. One 🔥, distinct from
+// the dual streak's two (🔥🔥) badge next to it in the header, so the two
+// are never confused for one number. Flame animates only while there's a
+// streak to celebrate. Always shown green once today's already closed
+// (lastCompletedDay is today -- the real server-authority signal from
+// api/close-solo-streak-day.js), red otherwise -- no in-between color.
+// Tapping it opens a live countdown to local midnight. ensureSoloStreak
+// here (not just on the Your Streaks page) means the doc -- and, for
+// anyone with a pre-existing streak, its seeded-from-real-history count --
+// exists from the first screen this account ever lands on, not only after
+// visiting Your Streaks once; it's idempotent, so calling it again there
+// too is harmless.
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
-  const { streakDays, checkedInToday } = useBadges();
+  const [streak, setStreak] = useState(null);
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
+
+  useEffect(() => {
+    if (!firebaseEnabled || !user) return undefined;
+    let cancelled = false;
+    ensureSoloStreak(user.displayName || 'A traveler')
+      .then(() => {
+        if (cancelled) return;
+        return subscribeMySoloStreak(user.uid, setStreak, () => {});
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [firebaseEnabled, user]);
 
   useEffect(() => {
     if (!open) return;
@@ -52,36 +71,37 @@ function StreakBadge() {
 
   if (!firebaseEnabled || !user) return null;
 
-  const active = streakDays > 0;
-  const secured = checkedInToday;
+  const count = streak?.count || 0;
+  const active = count > 0;
+  const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
 
   return (
     <div className="header-streak-wrap" ref={ref}>
       <button
         type="button"
-        className={`header-streak ${active ? 'active' : ''} ${secured ? 'secured' : 'at-risk'}`}
+        className={`header-streak ${active ? 'active' : ''} ${streak ? (secured ? 'secured' : 'at-risk') : ''}`}
         aria-expanded={open}
-        aria-label={`${streakDays}-day solo streak, today ${secured ? 'secured' : 'not secured yet'}`}
+        aria-label={`${count}-day solo streak${streak ? `, today ${secured ? 'secured' : 'not secured yet'}` : ''}`}
         onClick={() => setOpen((o) => !o)}
       >
         <span className="header-streak-flame" aria-hidden="true">
           {'\u{1F525}'}
         </span>
-        <span className="header-streak-num">{streakDays}</span>
+        <span className="header-streak-num">{count}</span>
       </button>
       {open && (
         <div className="points-popover streak-popover" role="status">
           {!active ? (
-            <div>Check in today to start a streak</div>
+            <div>Rate 3 landmarks today to start a streak</div>
           ) : (
             <>
               <div className="points-popover-joined">
-                {!secured ? `${streakDays}-day streak ends in` : "Today's secured ✓ — new day starts in"}
+                {!secured ? `${count}-day streak ends in` : "Today's secured ✓ — new day starts in"}
               </div>
               <div className={`streak-popover-clock ${!secured ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
               {!secured && (
                 <div className="streak-popover-hint">
-                  Check in, or vote/rate {PICKS_STREAK_THRESHOLD} landmarks
+                  Rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
                 </div>
               )}
             </>

@@ -28,8 +28,28 @@ let currentStreaks = [streak];
 
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true }) }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 25.77, lng: -80.19 } }) }));
+vi.mock('../lib/FriendsContext', () => ({ useFriends: () => ({ myUsername: 'me' }) }));
 vi.mock('../lib/PairStreakContext', () => ({
   usePairStreaks: () => ({ streaks: currentStreaks, leaveStreak: vi.fn(), startStreakWith: vi.fn(), closeToday: vi.fn() }),
+}));
+// The solo streak stays null in these dual-streak-focused tests (as if
+// ensureSoloStreak resolved but no doc has synced back yet) -- exercised
+// separately in its own test.
+vi.mock('../lib/soloStreaks', () => ({
+  ensureSoloStreak: vi.fn(async () => ({})),
+  subscribeMySoloStreak: (uid, onStreak) => {
+    onStreak(null);
+    return () => {};
+  },
+  setSoloStreakCity: vi.fn(),
+  submitSoloCardRating: vi.fn(),
+  subscribeSoloDayEntry: (uid, dayId, onEntry) => {
+    onEntry({ uid, ratings: {} });
+    return () => {};
+  },
+  closeSoloToday: vi.fn(async () => ({ ok: true })),
+  spendSoloFreeze: vi.fn(),
+  SOLO_FREEZES_PER_MONTH: 1,
 }));
 const setStreakCityMock = vi.fn(async () => {});
 // A minimal fake of Firestore's real behavior (write, then the snapshot

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
+import { useFriends } from '../lib/FriendsContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { listFriends } from '../lib/friends';
 import {
@@ -15,6 +16,16 @@ import {
   MAX_ACTIVE_STREAKS,
   FREEZES_PER_MONTH,
 } from '../lib/pairStreaks';
+import {
+  ensureSoloStreak,
+  subscribeMySoloStreak,
+  setSoloStreakCity,
+  submitSoloCardRating,
+  subscribeSoloDayEntry,
+  closeSoloToday,
+  spendSoloFreeze,
+  SOLO_FREEZES_PER_MONTH,
+} from '../lib/soloStreaks';
 import { dailyDeck } from '../lib/sharedDeck';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
@@ -490,6 +501,197 @@ function StreakDetail({ streak, onBack, onLeave }) {
   );
 }
 
+// A solo streak's own detail: rate today's 3 (the same deterministic
+// per-day-3 mechanism dual streaks use, just seeded with your own uid
+// instead of a pairId), and the count goes up. No partner, so none of
+// StreakDetail's guess step, shared-freeze accounting, recovery mission,
+// or reveal apply here -- rating all 3 just closes the day outright. One
+// personal freeze a month instead of two shared ones. A banner at the
+// bottom offers to start a real dual streak with a friend -- that's a
+// BRAND NEW streak at 0 (the same StartStreakPicker flow as "Start a
+// Streak" on the list below); this streak's own count is never touched by
+// that.
+function SoloStreakDetail({ streak, onBack, onInvite }) {
+  const { user } = useAuth();
+  const { coords } = useGeo();
+  const [entry, setEntry] = useState({ uid: user.uid, ratings: {} });
+  const [freezeBusy, setFreezeBusy] = useState(false);
+  const [freezeMsg, setFreezeMsg] = useState(null);
+  const [visitedIds, setVisitedIds] = useState(undefined);
+  const [optimisticRatings, setOptimisticRatings] = useState({});
+  const [entriesError, setEntriesError] = useState(null);
+  const [voteError, setVoteError] = useState(null);
+  const [closeMsg, setCloseMsg] = useState(null);
+
+  const today = dayKey(new Date());
+  useEffect(() => {
+    setOptimisticRatings({});
+    setEntriesError(null);
+    return subscribeSoloDayEntry(streak.id, today, setEntry, (e) => {
+      // eslint-disable-next-line no-console -- worth having in the device
+      // console if someone needs to debug why today's ratings aren't showing.
+      console.error("Today's solo streak entry failed to load", e);
+      setEntriesError(friendlyError(e, "Couldn't load today's ratings."));
+    });
+  }, [streak.id, today]);
+
+  useEffect(() => {
+    setVisitedIds(undefined);
+    getUserCheckedInLandmarkIds(user.uid)
+      .then((mine) => setVisitedIds(new Set(mine)))
+      .catch(() => setVisitedIds(new Set()));
+  }, [user.uid]);
+
+  // Same auto-pick-the-city logic as StreakDetail/Mapr Travel Picks -- see
+  // that component's own note.
+  const pickedCityRef = useRef(false);
+  useEffect(() => {
+    if (streak.cityId || pickedCityRef.current) return;
+    const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
+    const defaultRegionId = pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
+    if (!defaultRegionId) return;
+    pickedCityRef.current = true;
+    setSoloStreakCity(streak.id, defaultRegionId).catch(() => {
+      pickedCityRef.current = false;
+    });
+  }, [streak.id, streak.cityId, coords]);
+
+  const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
+  const cardIds = deck.map((l) => l.id);
+  const shownRating = (id) => optimisticRatings[id] ?? entry.ratings?.[id];
+  const remainingToRate = deck.filter((l) => !shownRating(l.id));
+  const myRatedCount = cardIds.filter((id) => entry.ratings?.[id]).length;
+  const dayDone = cardIds.length > 0 && myRatedCount === cardIds.length;
+  const region = streak.cityId ? getRegion(streak.cityId) : null;
+
+  const handleRate = async (landmarkId, verdict) => {
+    setVoteError(null);
+    setCloseMsg(null);
+    setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
+    try {
+      await submitSoloCardRating(streak.id, landmarkId, verdict);
+      const willBeDone = cardIds.every((id) => id === landmarkId || entry.ratings?.[id]);
+      if (willBeDone) {
+        const r = await closeSoloToday();
+        if (r?.closed && !r.already && r.pointsAwarded) {
+          setCloseMsg(
+            r.milestoneAwarded
+              ? `+${r.pointsAwarded + r.milestoneAwarded} pts -- ${r.count}-day milestone!`
+              : `+${r.pointsAwarded} pts -- today's secured.`
+          );
+        }
+      }
+    } catch (e) {
+      setOptimisticRatings((cur) => {
+        const next = { ...cur };
+        delete next[landmarkId];
+        return next;
+      });
+      throw e;
+    }
+  };
+
+  const thisMonth = monthKey(new Date());
+  const freezesLeft =
+    streak.freezeMonth === thisMonth ? streak.freezesLeft ?? SOLO_FREEZES_PER_MONTH : SOLO_FREEZES_PER_MONTH;
+
+  const handleFreeze = async () => {
+    setFreezeBusy(true);
+    setFreezeMsg(null);
+    try {
+      const r = await spendSoloFreeze();
+      setFreezeMsg(r.alreadyFrozen ? "Today's already frozen." : `Freeze used -- ${r.freezesLeft} left this month.`);
+    } catch (e) {
+      setFreezeMsg(friendlyError(e, "Couldn't use a freeze. Try again."));
+    } finally {
+      setFreezeBusy(false);
+    }
+  };
+
+  return (
+    <div className="card section">
+      <h3 style={{ marginTop: 0 }}>{'\u{1F525}'} Your Solo Streak</h3>
+      <div className="profile-stats">
+        <div className="profile-stat">
+          <span className="profile-stat-num">{streak.count}</span>
+          <span className="profile-stat-label">current</span>
+        </div>
+        <div className="profile-stat">
+          <span className="profile-stat-num">{streak.best}</span>
+          <span className="profile-stat-label">best</span>
+        </div>
+        <div className="profile-stat">
+          <span className="profile-stat-num">{freezesLeft}</span>
+          <span className="profile-stat-label">freezes left</span>
+        </div>
+      </div>
+
+      <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Today's 3 landmarks</span>
+        <span className="tag" style={{ fontSize: '0.68rem' }}>{region ? region.name : 'Finding your city…'}</span>
+      </p>
+      {entriesError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {entriesError}</p>}
+      {voteError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {voteError}</p>}
+      {!streak.cityId ? (
+        <SkeletonList count={1} label="Finding your city" />
+      ) : visitedIds === undefined ? (
+        <SkeletonList count={3} label="Loading today's landmarks" />
+      ) : cardIds.length === 0 ? (
+        <p className="screen-subtitle" style={{ margin: 0 }}>
+          No landmarks left to rate here today.
+        </p>
+      ) : !dayDone ? (
+        <>
+          <p style={{ margin: '0 0 10px', fontSize: '0.85rem' }}>
+            Rate today's 3 ({myRatedCount}/{cardIds.length}) to keep your streak going.
+          </p>
+          <div className="mapr-picks-track">
+            {remainingToRate.map((landmark) => (
+              <VoteCard key={landmark.id} streak={streak} landmark={landmark} onVote={handleRate} onError={setVoteError} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <p className="screen-subtitle" style={{ margin: 0 }}>
+          {'✓'} You've rated all 3 today.{closeMsg ? ` ${closeMsg}` : ''}
+        </p>
+      )}
+
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '10px 0' }}>
+        <button type="button" className="btn btn-ghost btn-sm" disabled={freezeBusy || freezesLeft <= 0} onClick={handleFreeze}>
+          {freezeBusy ? '…' : `❄️ Use a Freeze (${freezesLeft} left)`}
+        </button>
+      </div>
+      {freezeMsg && (
+        <p className="screen-subtitle" style={{ marginTop: -6, marginBottom: 10 }}>
+          {freezeMsg}
+        </p>
+      )}
+
+      <p className="screen-subtitle" style={{ marginBottom: 0 }}>
+        {since(streak.createdAt) || 'Just started'}. The day counts once you've rated all 3.
+      </p>
+
+      <div style={{ marginTop: 16, padding: 12, borderRadius: 10, border: '1px dashed var(--border-default)' }}>
+        <p style={{ margin: '0 0 8px', fontWeight: 700 }}>{'\u{1F465}'} Add a friend to turn this into a dual streak.</p>
+        <p className="screen-subtitle" style={{ margin: '0 0 10px' }}>
+          A dual streak is its own thing -- rate and guess together, shared freezes, a compatibility score. It starts
+          fresh at 0; this solo streak keeps going exactly as it is.
+        </p>
+        <button type="button" className="btn btn-ghost btn-block" onClick={onInvite}>
+          {'\u{1F525}\u{1F525}'} Start a Dual Streak
+        </button>
+      </div>
+
+      {onBack && (
+        <button type="button" className="btn btn-ghost btn-sm btn-block" style={{ marginTop: 16 }} onClick={onBack}>
+          {'‹'} Back
+        </button>
+      )}
+    </div>
+  );
+}
+
 // Streak-first, friend-second: reached from the streak icon itself, not by
 // finding a friend first. Lists your existing friends right here so
 // starting one is a single flow, not a detour through the Friends section.
@@ -571,13 +773,43 @@ function StartStreakPicker({ existingPartnerUids, onStarted, onCancel }) {
 }
 
 // Your Stats' "streak" tile used to open a modal; this is a real page
-// instead, matching check-ins/cities (MyCheckins.jsx/MyCities.jsx).
+// instead, matching check-ins/cities (MyCheckins.jsx/MyCities.jsx). Lists
+// BOTH streak types together -- your one solo streak (single 🔥, always
+// present once this screen has loaded it once -- see the ensureSoloStreak
+// effect below) and every dual streak (🔥🔥) -- tap either kind to open it.
 export default function MyStreaks() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
+  const { myUsername } = useFriends();
   const { streaks, leaveStreak } = usePairStreaks();
   const [openId, setOpenId] = useState(null);
   const [picking, setPicking] = useState(false);
+  const [soloStreak, setSoloStreak] = useState(null);
+  const [soloError, setSoloError] = useState(null);
+
+  // Created (and, for anyone with a pre-existing streak, seeded from real
+  // history rather than reset to 0) the first time this screen loads for
+  // this account -- see api/ensure-solo-streak.js's own note. Idempotent:
+  // an existing doc is just returned and then kept live via the
+  // subscription below.
+  useEffect(() => {
+    if (!firebaseEnabled || !user) return undefined;
+    let cancelled = false;
+    ensureSoloStreak(myUsername || user.displayName || 'A traveler')
+      .then(() => {
+        if (cancelled) return;
+        return subscribeMySoloStreak(user.uid, setSoloStreak, (e) => {
+          // eslint-disable-next-line no-console
+          console.error('Solo streak failed to load', e);
+          setSoloError(friendlyError(e, "Couldn't load your solo streak."));
+        });
+      })
+      .catch((e) => setSoloError(friendlyError(e, "Couldn't load your solo streak.")));
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once per account, not on every myUsername change
+  }, [firebaseEnabled, user?.uid]);
 
   if (!firebaseEnabled || !user) {
     return (
@@ -590,10 +822,17 @@ export default function MyStreaks() {
     );
   }
 
-  const selected = streaks.find((s) => s.id === openId) || null;
+  const soloSelected = !!soloStreak && openId === soloStreak.id;
+  const dualSelected = streaks.find((s) => s.id === openId) || null;
   const existingPartnerUids = new Set(
     streaks.map((s) => (s.memberIds || []).find((uid) => uid !== user.uid)).filter(Boolean)
   );
+  const anySelected = soloSelected || !!dualSelected;
+  const hasAnyStreak = !!soloStreak || streaks.length > 0;
+  // Only worth an in-card "back to the list" button when there's more than
+  // one streak to go back TO -- with just one, the page-level back button
+  // above already does the same thing.
+  const totalStreakCount = (soloStreak ? 1 : 0) + streaks.length;
 
   const handleLeave = async (id) => {
     setOpenId(null);
@@ -606,9 +845,9 @@ export default function MyStreaks() {
         type="button"
         className="btn btn-ghost btn-block"
         style={{ marginBottom: 24 }}
-        onClick={() => (picking ? setPicking(false) : selected ? setOpenId(null) : navigate('/profile'))}
+        onClick={() => (picking ? setPicking(false) : anySelected ? setOpenId(null) : navigate('/profile'))}
       >
-        {'←'} Back {picking || selected ? '' : 'to Profile'}
+        {'←'} Back {picking || anySelected ? '' : 'to Profile'}
       </button>
       <h1 className="screen-title">
         <span>{'\u{1F525}'}</span> Your Streaks
@@ -623,19 +862,48 @@ export default function MyStreaks() {
           }}
           onCancel={() => setPicking(false)}
         />
-      ) : selected ? (
-        <StreakDetail streak={selected} onBack={streaks.length > 1 ? () => setOpenId(null) : null} onLeave={handleLeave} />
-      ) : streaks.length === 0 ? (
+      ) : soloSelected ? (
+        <SoloStreakDetail
+          streak={soloStreak}
+          onBack={totalStreakCount > 1 ? () => setOpenId(null) : null}
+          onInvite={() => {
+            setOpenId(null);
+            setPicking(true);
+          }}
+        />
+      ) : dualSelected ? (
+        <StreakDetail
+          streak={dualSelected}
+          onBack={totalStreakCount > 1 ? () => setOpenId(null) : null}
+          onLeave={handleLeave}
+        />
+      ) : !hasAnyStreak ? (
         <div className="card section">
           <p className="screen-subtitle" style={{ marginTop: 0 }}>
-            You don't have a streak yet.
+            {soloError ? soloError : 'Loading your streaks…'}
           </p>
-          <button type="button" className="btn btn-primary btn-block" onClick={() => setPicking(true)}>
-            {'\u{1F525}'} Start a Streak
-          </button>
+          {streaks.length === 0 && (
+            <button type="button" className="btn btn-primary btn-block" onClick={() => setPicking(true)}>
+              {'\u{1F525}\u{1F525}'} Start a Dual Streak
+            </button>
+          )}
         </div>
       ) : (
         <div className="card section">
+          {soloStreak && (
+            <div className="friend-row" style={{ gap: 8 }}>
+              <button
+                type="button"
+                style={{ flex: 1, display: 'flex', justifyContent: 'space-between', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'inherit', font: 'inherit' }}
+                onClick={() => setOpenId(soloStreak.id)}
+              >
+                <span style={{ fontWeight: 700 }}>You (solo)</span>
+                <span>
+                  {soloStreak.count} {'\u{1F525}'} {'›'}
+                </span>
+              </button>
+            </div>
+          )}
           {streaks.map((s) => {
             const partnerUid = (s.memberIds || []).find((uid) => uid !== user.uid);
             const partnerName = s.memberNames?.[partnerUid] || 'A traveler';
@@ -648,7 +916,7 @@ export default function MyStreaks() {
                 >
                   <span style={{ fontWeight: 700 }}>@{partnerName}</span>
                   <span>
-                    {s.count} {'\u{1F525}'} {'›'}
+                    {s.count} {'\u{1F525}\u{1F525}'} {'›'}
                   </span>
                 </button>
                 <button
@@ -664,7 +932,7 @@ export default function MyStreaks() {
           })}
           {streaks.length < MAX_ACTIVE_STREAKS && (
             <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={() => setPicking(true)}>
-              {'\u{1F525}'} Start Another Streak
+              {'\u{1F525}\u{1F525}'} Start a Dual Streak
             </button>
           )}
         </div>
