@@ -196,8 +196,10 @@ export const APP_HELP =
   `you are, the route drawn between them, and ▶ Start for live navigation through them (plus "All stops in Google Maps").\n` +
   `- Adding a landmark that's missing (Add Landmark screen): any signed-in account with a verified email can submit one (verify it from the ` +
   `link emailed at sign-up; Settings can resend it). It shows up on the map for everyone right away. While typing the name or address, ` +
-  `it warns you if that spot looks like it's already on the map (with a link to view the existing one) so you don't add a duplicate -- ` +
-  `purely a heads-up, not a block, so you can dismiss it and submit anyway if it's really a different place.\n` +
+  `it warns you if that spot looks like it's already on the map (with a link to view the existing one). A typed-name guess is just a heads-up -- ` +
+  `dismissible with "This is a different place" since the name match can be a false positive. Picking an existing landmark directly out of the ` +
+  `address search's own suggestions is different -- that can't be a false positive, so there's no "different place" option for it and submitting ` +
+  `is blocked until you either view the existing one or change what you typed/picked.\n` +
   `- You can also add one through Mapr just by saying "make a landmark for where I am" (or "add this place", "create a landmark here"). ` +
   `Mapr looks up the real place at your exact GPS location and asks "Just to confirm -- you're at [name], right?" before creating ` +
   `anything; say no and name the actual place ("no, I'm at the visitor center") and it looks that up instead and asks again. Needs ` +

@@ -204,6 +204,16 @@ export default function AddLandmark() {
   const [duplicateMatch, setDuplicateMatch] = useState(null);
   const [duplicateChecking, setDuplicateChecking] = useState(false);
   const [duplicateOverridden, setDuplicateOverridden] = useState(false);
+  // Set only when the match came from directly picking an existing
+  // landmark out of LocationAutocomplete's own suggestions (not a
+  // typed-name guess) -- a certain duplicate, not a maybe, so there's no
+  // legitimate "this is a different place" to offer. Cleared the moment
+  // Name or the address box is typed into again (see their onChange below),
+  // not by this effect -- selecting a suggestion also moves the pin, which
+  // changes regionId and would otherwise re-run this effect and immediately
+  // undo the confirmation.
+  const [confirmedLandmarkId, setConfirmedLandmarkId] = useState(null);
+  const duplicateConfirmed = !!confirmedLandmarkId && duplicateMatch?.id === confirmedLandmarkId;
   useEffect(() => {
     setDuplicateOverridden(false);
     const query = name.trim() || addressText.trim();
@@ -244,10 +254,12 @@ export default function AddLandmark() {
   };
 
   // Address (the pin) is the only real requirement -- Name and Category are
-  // optional (auto-filled below if left blank), and the duplicate check
-  // above is informational only, never blocking. It still always has SOME
-  // value since the map defaults to your current location or the trip's region.
-  const canSubmit = position && user;
+  // optional (auto-filled below if left blank), and a typed-name duplicate
+  // guess is informational only, never blocking (it can be a false
+  // positive). A confirmed duplicate (picked an existing landmark by name
+  // from the suggestions) is different -- that can't be a false positive,
+  // so it does block submission until View It is used or the pick changes.
+  const canSubmit = position && user && !duplicateConfirmed;
 
   const submit = async () => {
     if (!canSubmit || busy) return;
@@ -406,13 +418,21 @@ export default function AddLandmark() {
             placeholder="Or search an address…"
             value={addressText}
             regionId={regionId}
-            onChange={setAddressText}
+            onChange={(v) => {
+              setAddressText(v);
+              setConfirmedLandmarkId(null);
+            }}
             onSelect={(s) => {
               // Move the pin, but leave the typed address text alone --
               // the geocoder's top match is sometimes the nearest known
               // business at that address, not the address itself, and
               // overwriting what was typed with that name is confusing.
               choosePosition({ lat: s.lat, lng: s.lng });
+              // Picking one of the "landmark" suggestions (not a plain
+              // address) means they chose an EXISTING landmark by name --
+              // a certain duplicate, not the usual typed-name guess.
+              setConfirmedLandmarkId(s.landmarkId || null);
+              if (s.landmarkId) setDuplicateMatch({ name: s.primary, region: s.landmarkRegionId, id: s.landmarkId });
             }}
           />
         </div>
@@ -430,6 +450,12 @@ export default function AddLandmark() {
             <p className="tag tag-error" style={{ display: 'block', margin: 0 }}>
               {'\u{2B50}'} This is already a landmark: {duplicateMatch.name}
             </p>
+            {duplicateConfirmed && (
+              <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
+                You picked this one from the suggestions, so it can't be a different place -- view it instead of
+                adding a duplicate.
+              </p>
+            )}
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
               <button
                 type="button"
@@ -438,9 +464,15 @@ export default function AddLandmark() {
               >
                 View it
               </button>
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setDuplicateOverridden(true)}>
-                This is a different place — continue
-              </button>
+              {/* Only offered for a typed-name GUESS (namesMatch is fuzzy and
+                  can false-positive) -- not when the user directly picked an
+                  existing landmark from the suggestions above, which can't
+                  be a false positive. */}
+              {!duplicateConfirmed && (
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setDuplicateOverridden(true)}>
+                  This is a different place — continue
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -463,7 +495,10 @@ export default function AddLandmark() {
           placeholder="e.g. Farley Hall"
           value={name}
           maxLength={80}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            setConfirmedLandmarkId(null);
+          }}
         />
       </div>
 
