@@ -15,6 +15,7 @@ import {
   FREEZES_PER_MONTH,
 } from '../lib/pairStreaks';
 import { dailyDeck } from '../lib/sharedDeck';
+import { getRegion } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
 import { dayKey, monthKey } from '../lib/streaks';
 import { friendlyError } from '../lib/friendlyError';
