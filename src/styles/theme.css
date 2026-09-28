@@ -1450,7 +1450,7 @@ textarea {
   color: var(--color-parchment-dim);
 }
 
-/* ---------- Your Mapr Picks (Profile) ---------- */
+/* ---------- Mapr Travel Picks (Profile) ---------- */
 .mapr-picks {
   margin-top: 14px;
   padding: 12px 14px 10px;
@@ -1535,9 +1535,16 @@ textarea {
   background: rgba(85, 201, 135, 0.2);
 }
 .mapr-pick-vote.no:hover,
-.mapr-pick-vote.no:focus-visible {
+.mapr-pick-vote.no:focus-visible,
+.mapr-pick-vote.hate:hover,
+.mapr-pick-vote.hate:focus-visible {
   border-color: var(--color-rust);
   color: var(--danger);
+}
+.mapr-pick-vote.love:hover,
+.mapr-pick-vote.love:focus-visible {
+  border-color: var(--color-green);
+  color: var(--success);
 }
 .mapr-pick-vote.unsure {
   flex: 0.7;

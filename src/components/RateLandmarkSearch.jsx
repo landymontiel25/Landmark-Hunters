@@ -22,7 +22,7 @@ function userError(message) {
   return err;
 }
 
-// The first card in "Your Mapr Picks" -- a big "+" tile the same size and
+// The first card in "Mapr Travel Picks" -- a big "+" tile the same size and
 // shape as a real pick card, so rating something isn't a separate feature
 // bolted above the carousel but the obvious first thing in it.
 //
