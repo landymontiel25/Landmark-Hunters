@@ -140,8 +140,8 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
 
       {tier && (
         <div style={{ marginTop: 14 }}>
-          <p className="rating-flow-label">
-            How often do you come here? <span>optional, tap again to clear</span>
+          <p className="rating-flow-label rating-flow-label-frequency">
+            {'\u{1F551}'} How often do you come here? <span>optional, tap again to clear</span>
           </p>
           <div className="rating-chip-row">
             {FREQUENCIES.map((f) => (

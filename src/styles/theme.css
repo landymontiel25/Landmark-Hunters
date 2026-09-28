@@ -1016,6 +1016,34 @@ textarea {
   color: var(--color-parchment-dim);
 }
 
+/* This one question is easy to skim past between the tier grid above it and
+   the chip row below -- same small caps label as every other section, with
+   nothing to catch the eye. Make it read as its own moment: bigger, bold,
+   sentence case, and set off with its own padded surface instead of blending
+   into the plain label rhythm. */
+.rating-flow-label-frequency {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(91, 140, 255, 0.12);
+  border: 1px solid rgba(91, 140, 255, 0.3);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-parchment);
+}
+
+.rating-flow-label-frequency span {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--color-parchment-dim);
+}
+
 .rating-chip-row {
   display: flex;
   flex-wrap: wrap;
