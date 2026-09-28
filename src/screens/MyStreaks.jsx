@@ -55,30 +55,49 @@ const COMPATIBILITY_MIN_SHARED_DISPLAY = 10;
 // it leaves the row (StreakDetail filters it out); the reveal (both
 // answers, whether your guess was right) shows in the "Today's results"
 // list below the carousel instead of staying inline here.
+// How long the "✓ vote registered" confirmation shows before this card
+// advances (rate -> guess step) or, once both are in, leaves the carousel
+// on its own (the parent re-render does that once myEntry catches up).
+const VOTE_CONFIRM_MS = 700;
+
 function DeckCard({ streak, landmark, myEntry, onGuessed }) {
+  const navigate = useNavigate();
   const myRating = myEntry?.ratings?.[landmark.id];
   const [busy, setBusy] = useState(false);
+  // The verdict just tapped, shown as a checkmark in place of the vote row
+  // for a beat -- same "your tap registered" confirmation Mapr Travel
+  // Picks gives, instead of the buttons silently swapping to the next
+  // question the instant Firestore's write lands.
+  const [justVoted, setJustVoted] = useState(null);
 
   const rate = async (verdict) => {
     setBusy(true);
+    setJustVoted(verdict);
     try {
       await submitCardRating(streak.id, myEntry.uid, landmark.id, verdict);
     } finally {
       setBusy(false);
+      setTimeout(() => setJustVoted(null), VOTE_CONFIRM_MS);
     }
   };
   const guess = async (verdict) => {
     setBusy(true);
+    setJustVoted(verdict);
     try {
       await onGuessed(landmark.id, verdict);
     } finally {
       setBusy(false);
+      setTimeout(() => setJustVoted(null), VOTE_CONFIRM_MS);
     }
   };
 
   return (
     <div className="mapr-pick">
-      <div className="mapr-pick-main">
+      <button
+        type="button"
+        className="mapr-pick-main"
+        onClick={() => navigate(`/landmarks/${landmark.regionId || streak.cityId}/${landmark.id}`)}
+      >
         {landmark.images?.[0] ? (
           <img className="mapr-pick-img" src={landmark.images[0]} alt="" loading="lazy" />
         ) : (
@@ -86,9 +105,13 @@ function DeckCard({ streak, landmark, myEntry, onGuessed }) {
         )}
         <span className="mapr-pick-name">{landmark.name}</span>
         <span className="mapr-pick-sub">{(landmark.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
-      </div>
+      </button>
 
-      {!myRating ? (
+      {justVoted ? (
+        <div className="mapr-pick-actions">
+          <span className="mapr-pick-vote-done">{'\u{2713}'} {VOTE_COPY[justVoted].label}</span>
+        </div>
+      ) : !myRating ? (
         <div className="mapr-pick-actions">
           {['no', 'unsure', 'yes'].map((verdict) => {
             const copy = VOTE_COPY[verdict];
@@ -158,6 +181,11 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // visited. undefined while loading so the deck doesn't briefly show
   // (and let someone start rating) a place that turns out to be excluded.
   const [visitedIds, setVisitedIds] = useState(undefined);
+  // Landmark ids that just got their guess in -- kept in the carousel a
+  // beat longer than myEntry alone would (see DeckCard's own checkmark
+  // state) so the card doesn't vanish out from under the confirmation
+  // it's showing.
+  const [justCompletedIds, setJustCompletedIds] = useState(() => new Set());
 
   const today = dayKey(new Date());
   useEffect(() => subscribeDayEntries(streak.id, today, setEntries, () => {}), [streak.id, today]);
@@ -207,15 +235,31 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // Once you've rated AND guessed a card, it's done for you -- same as a
   // Mapr Travel Picks vote, it leaves the carousel (the reveal moves to
   // "Today's results" below instead of staying inline on the card).
-  const remainingDeck = deck.filter((l) => !(myEntry.ratings?.[l.id] && myEntry.guesses?.[l.id]));
-  const doneDeck = deck.filter((l) => myEntry.ratings?.[l.id] && myEntry.guesses?.[l.id]);
+  // justCompletedIds holds it in the carousel a moment longer so its own
+  // checkmark confirmation (see DeckCard) has time to actually show.
+  const isDone = (l) => myEntry.ratings?.[l.id] && myEntry.guesses?.[l.id];
+  const remainingDeck = deck.filter((l) => !isDone(l) || justCompletedIds.has(l.id));
+  const doneDeck = deck.filter((l) => isDone(l) && !justCompletedIds.has(l.id));
   const myGuessedCount = cardIds.filter((id) => myEntry.guesses?.[id]).length;
   const partnerGuessedCount = cardIds.filter((id) => partnerEntry?.guesses?.[id]).length;
   const myDayDone = cardIds.length > 0 && myGuessedCount === cardIds.length;
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
   const handleGuessed = async (landmarkId, verdict) => {
+    // Marked "just completed" before the write lands, in the same tick as
+    // the click -- otherwise there's a render where entries already shows
+    // it done but justCompletedIds hasn't caught up yet, so the card gets
+    // filtered out of remainingDeck and DeckCard unmounts (losing its own
+    // checkmark state) before this ever gets a chance to keep it around.
+    setJustCompletedIds((cur) => new Set(cur).add(landmarkId));
     const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds);
+    setTimeout(() => {
+      setJustCompletedIds((cur) => {
+        const next = new Set(cur);
+        next.delete(landmarkId);
+        return next;
+      });
+    }, VOTE_CONFIRM_MS);
     if (done) closeToday(streak.id);
   };
 
