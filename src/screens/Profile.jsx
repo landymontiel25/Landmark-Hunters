@@ -34,7 +34,6 @@ import RegionSearch from '../components/RegionSearch';
 import MaprPicksCarousel from '../components/MaprPicksCarousel';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
-import TasteProfileCard from '../components/TasteProfileCard';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
@@ -498,9 +497,105 @@ export default function Profile() {
 
   return (
     <div>
+      {/* Your Stats -- moved to the top of the page, ahead of everything else. */}
+      <div className="card section">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h3 style={{ margin: 0 }}>{'\u{1F4CA}'} Your Stats</h3>
+          <button type="button" className="btn btn-ghost btn-tight" onClick={() => navigate('/stats')}>
+            See Full Stats ›
+          </button>
+        </div>
+        <div className="profile-stats">
+          <button
+            type="button"
+            className="profile-stat profile-stat-btn"
+            onClick={() => stats?.checkins && navigate('/checkins')}
+          >
+            <span className="profile-stat-num">
+              {stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}
+            </span>
+            <span className="profile-stat-label">check-ins{stats?.checkins ? ' ›' : ''}</span>
+          </button>
+          <button
+            type="button"
+            className="profile-stat profile-stat-btn"
+            onClick={() => stats?.cityIds?.length && navigate('/cities')}
+          >
+            <span className="profile-stat-num">{stats ? stats.cities : <Skeleton className="skeleton-inline" width={28} height={22} />}</span>
+            <span className="profile-stat-label">cities{stats?.cityIds?.length ? ' ›' : ''}</span>
+          </button>
+          <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
+            <span className="profile-stat-num">{bestStreak}</span>
+            <span className="profile-stat-label">streak ›</span>
+          </button>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <button
+              type="button"
+              className="profile-stat profile-stat-btn"
+              style={{ width: '100%' }}
+              onClick={() => setStreakInfoOpen((v) => !v)}
+              aria-expanded={streakInfoOpen}
+            >
+              <span className="profile-stat-num">{streakDays}{streakDays > 0 ? ' \u{1F525}' : ''}</span>
+              <span className="profile-stat-label">day streak {streakInfoOpen ? '\u{25BE}' : '\u{25B8}'}</span>
+            </button>
+            {streakInfoOpen && (
+              <div className="streak-info-popover">
+                <p style={{ margin: 0, fontWeight: 700 }}>Two ways to keep your streak alive each day:</p>
+                <ul style={{ margin: '8px 0 0', paddingLeft: 18 }}>
+                  <li>Check in at any landmark, or</li>
+                  <li>
+                    Vote {'\u{2713}'}/{'\u{2715}'} or rate {actionsToday}/{PICKS_STREAK_THRESHOLD} landmarks
+                    below — even without checking in anywhere
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="rating-progress">
+          {ratingsCount >= RATING_GOAL ? (
+            <>
+              <strong>{ratingsCount} rated</strong> — Mapr knows your taste.
+            </>
+          ) : (
+            <>
+              <strong>
+                {ratingsCount}/{RATING_GOAL} rated
+              </strong>{' '}
+              — your picks get sharper from here.
+            </>
+          )}
+          <div className="rating-progress-track">
+            <div
+              className="rating-progress-fill"
+              style={{ width: `${Math.min(100, (ratingsCount / RATING_GOAL) * 100)}%` }}
+            />
+          </div>
+        </div>
+        <MaprPicksCarousel
+          reviews={myReviews}
+          interests={trip.savedInterests}
+          checkedInIds={Object.keys(claimedMap)}
+          regionIds={[...(stats?.cityIds || []), ...(trip.activeRegion ? [trip.activeRegion] : [])]}
+        />
+
+        {streakAtRisk && (
+          <p className="tag tag-error" style={{ display: 'block', marginTop: 14 }}>
+            {'\u{26A0}\u{FE0F}'} Check in, or vote/rate {actionsToday}/{PICKS_STREAK_THRESHOLD} landmarks
+            today — or your {streakDays}-day streak breaks!
+          </p>
+        )}
+        {streakDays > 0 && checkedInToday && (
+          <p className="tag tag-free" style={{ display: 'block', marginTop: 14 }}>
+            {'\u{2705}'} Your {streakDays}-day streak is safe today
+          </p>
+        )}
+      </div>
+
       {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => setOnboardingStep('checkin')} />}
       <DiscoveryStatsCard />
-      <TasteProfileCard />
 
       {closestRival && (
         <div className="card section">
@@ -665,104 +760,6 @@ export default function Profile() {
         <InviteButton myUsername={myUsername} />
       </div>
       <FriendsPanel />
-
-      {/* 4 — Your stats */}
-      <div className="card section">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h3 style={{ margin: 0 }}>{'\u{1F4CA}'} Your Stats</h3>
-          <button type="button" className="btn btn-ghost btn-tight" onClick={() => navigate('/stats')}>
-            See Full Stats ›
-          </button>
-        </div>
-        <div className="profile-stats">
-          <button
-            type="button"
-            className="profile-stat profile-stat-btn"
-            onClick={() => stats?.checkins && navigate('/checkins')}
-          >
-            <span className="profile-stat-num">
-              {stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}
-            </span>
-            <span className="profile-stat-label">check-ins{stats?.checkins ? ' ›' : ''}</span>
-          </button>
-          <button
-            type="button"
-            className="profile-stat profile-stat-btn"
-            onClick={() => stats?.cityIds?.length && navigate('/cities')}
-          >
-            <span className="profile-stat-num">{stats ? stats.cities : <Skeleton className="skeleton-inline" width={28} height={22} />}</span>
-            <span className="profile-stat-label">cities{stats?.cityIds?.length ? ' ›' : ''}</span>
-          </button>
-          <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
-            <span className="profile-stat-num">{bestStreak}</span>
-            <span className="profile-stat-label">streak ›</span>
-          </button>
-          <div style={{ position: 'relative', flex: 1 }}>
-            <button
-              type="button"
-              className="profile-stat profile-stat-btn"
-              style={{ width: '100%' }}
-              onClick={() => setStreakInfoOpen((v) => !v)}
-              aria-expanded={streakInfoOpen}
-            >
-              <span className="profile-stat-num">{streakDays}{streakDays > 0 ? ' \u{1F525}' : ''}</span>
-              <span className="profile-stat-label">day streak {streakInfoOpen ? '\u{25BE}' : '\u{25B8}'}</span>
-            </button>
-            {streakInfoOpen && (
-              <div className="streak-info-popover">
-                <p style={{ margin: 0, fontWeight: 700 }}>Two ways to keep your streak alive each day:</p>
-                <ul style={{ margin: '8px 0 0', paddingLeft: 18 }}>
-                  <li>Check in at any landmark, or</li>
-                  <li>
-                    Vote {'\u{2713}'}/{'\u{2715}'} or rate {actionsToday}/{PICKS_STREAK_THRESHOLD} landmarks
-                    below — even without checking in anywhere
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="rating-progress">
-          {ratingsCount >= RATING_GOAL ? (
-            <>
-              <strong>{ratingsCount} rated</strong> — Mapr knows your taste.
-            </>
-          ) : (
-            <>
-              <strong>
-                {ratingsCount}/{RATING_GOAL} rated
-              </strong>{' '}
-              — your picks get sharper from here.
-            </>
-          )}
-          <div className="rating-progress-track">
-            <div
-              className="rating-progress-fill"
-              style={{ width: `${Math.min(100, (ratingsCount / RATING_GOAL) * 100)}%` }}
-            />
-          </div>
-        </div>
-        <MaprPicksCarousel
-          reviews={myReviews}
-          interests={trip.savedInterests}
-          checkedInIds={Object.keys(claimedMap)}
-          regionIds={[...(stats?.cityIds || []), ...(trip.activeRegion ? [trip.activeRegion] : [])]}
-        />
-
-        {streakAtRisk && (
-          <p className="tag tag-error" style={{ display: 'block', marginTop: 14 }}>
-            {'\u{26A0}\u{FE0F}'} Check in, or vote/rate {actionsToday}/{PICKS_STREAK_THRESHOLD} landmarks
-            today — or your {streakDays}-day streak breaks!
-          </p>
-        )}
-        {streakDays > 0 && checkedInToday && (
-          <p className="tag tag-free" style={{ display: 'block', marginTop: 14 }}>
-            {'\u{2705}'} Your {streakDays}-day streak is safe today
-          </p>
-        )}
-
-      </div>
 
       <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
         {'\u{2699}\u{FE0F}'} Settings

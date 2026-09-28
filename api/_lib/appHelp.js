@@ -83,7 +83,7 @@ export const APP_HELP =
   `Itinerary's "Use Mapr" button) lets you set a starting location, region, interests, mood (energized/active vs. easygoing/chill — the same ` +
   `place can be a yes on a lazy morning and a no on a Saturday night out), and solo/group in one place, then turns it into a normal chat message ` +
   `Mapr answers like any other.\n` +
-  `- Taste Profile Score (shown on Mapr and Profile): NOT an activity counter — it's Mapr's own prediction confidence, measured by how well its ` +
+  `- Taste Profile Score (shown on Mapr only, not Profile): NOT an activity counter — it's Mapr's own prediction confidence, measured by how well its ` +
   `affinity model can guess one of your ratings from your OTHER ratings alone (leave-one-out), shown as a percentage. Mapr Picks ✓/✗ votes count toward it at half the weight of a full rating. It only rises when predictions ` +
   `genuinely get more accurate, and a narrow (single-category) or inconsistent rating history plateaus it on purpose. Personal-only, never on any ` +
   `leaderboard. Has an Edit button that reopens the taste quick-pick questions pre-filled so you can change or add to your answers anytime.\n` +
