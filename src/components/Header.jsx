@@ -37,14 +37,20 @@ function StreakBadge() {
   const [streak, setStreak] = useState(null);
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
+  // TEMPORARY: the raw ensureSoloStreak response's _debug block, shown in
+  // this popover so a specific account's repair math (api/ensure-solo-
+  // streak.js) can be inspected without DB access. Safe to remove once the
+  // current under-count report is resolved.
+  const [debugInfo, setDebugInfo] = useState(null);
   const ref = useRef(null);
 
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
     ensureSoloStreak(user.displayName || 'A traveler', user.uid)
-      .then(() => {
+      .then((result) => {
         if (cancelled) return;
+        if (result?._debug) setDebugInfo(result._debug);
         return subscribeMySoloStreak(user.uid, setStreak, () => {});
       })
       .catch(() => {});
@@ -105,6 +111,22 @@ function StreakBadge() {
                 </div>
               )}
             </>
+          )}
+          {debugInfo && (
+            <div
+              style={{
+                marginTop: 10,
+                paddingTop: 8,
+                borderTop: '1px dashed rgba(255,255,255,0.2)',
+                fontFamily: 'monospace',
+                fontSize: '0.62rem',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-all',
+                opacity: 0.85,
+              }}
+            >
+              DEBUG {JSON.stringify(debugInfo)}
+            </div>
           )}
         </div>
       )}
