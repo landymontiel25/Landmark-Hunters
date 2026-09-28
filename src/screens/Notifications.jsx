@@ -9,8 +9,8 @@ import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
-import { useBadges } from '../lib/BadgesContext';
-import { msUntilStreakLapse } from '../lib/streaks';
+import { subscribeMySoloStreak } from '../lib/soloStreaks';
+import { msUntilStreakLapse, dayKey } from '../lib/streaks';
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -21,10 +21,18 @@ function formatCountdown(ms) {
 }
 
 // Live time left on a streak warning, shown at the right of its row. The
-// streak lapses at the local midnight after the warning went out, the same
-// boundary computeStreakDays counts by.
+// streak lapses at the local midnight after the warning went out -- same
+// boundary, and same server-authority "secured" signal (lastCompletedDay)
+// Header's badge and the warning banner use, so this can never disagree
+// with either.
 function StreakCountdown({ createdAt }) {
-  const { checkedInToday } = useBadges();
+  const { user } = useAuth();
+  const [soloStreak, setSoloStreak] = useState(null);
+  useEffect(() => {
+    if (!user) return undefined;
+    return subscribeMySoloStreak(user.uid, setSoloStreak, () => {});
+  }, [user]);
+  const checkedInToday = !!soloStreak && soloStreak.lastCompletedDay === dayKey(new Date());
   const sentMs = createdAt?.seconds ? createdAt.seconds * 1000 : Date.now();
   const lapseAt = sentMs + msUntilStreakLapse(new Date(sentMs));
   const [now, setNow] = useState(() => Date.now());

@@ -80,6 +80,7 @@ export async function startStreak(me, friend) {
   }
   const memberIds = [me.uid, friend.uid].sort();
   const data = {
+    mode: 'dual',
     memberIds,
     memberNames: { [me.uid]: me.name || 'A traveler', [friend.uid]: friend.name || 'A traveler' },
     count: 0,
