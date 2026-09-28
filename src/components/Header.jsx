@@ -7,7 +7,7 @@ import { useBadges } from '../lib/BadgesContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
-import { msUntilStreakLapse, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, dayKey, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 
 function formatLeft(ms) {
@@ -21,11 +21,12 @@ function formatLeft(ms) {
 // The personal, solo streak -- back after being retired at #405. One 🔥,
 // distinct from the dual streak's two (🔥🔥) badge next to it in the
 // header, so the two are never confused for one number. Flame animates
-// only while there's a streak to celebrate and turns warning-colored once
-// today's check-in hasn't secured it yet. Tapping it opens a live
-// countdown to local midnight: when today's streak lapses, or when a
-// secured day ends and the next one needs its own check-in. Never more
-// than 24h.
+// only while there's a streak to celebrate. Always shown green once
+// today's check-in has secured it, red otherwise -- a glance answers "do I
+// still need to do something today", no yellow "in between" state. Tapping
+// it opens a live countdown to local midnight: when today's streak lapses,
+// or when a secured day ends and the next one needs its own check-in.
+// Never more than 24h.
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streakDays, checkedInToday } = useBadges();
@@ -52,15 +53,15 @@ function StreakBadge() {
   if (!firebaseEnabled || !user) return null;
 
   const active = streakDays > 0;
-  const atRisk = active && !checkedInToday;
+  const secured = checkedInToday;
 
   return (
     <div className="header-streak-wrap" ref={ref}>
       <button
         type="button"
-        className={`header-streak ${active ? 'active' : ''} ${atRisk ? 'at-risk' : ''}`}
+        className={`header-streak ${active ? 'active' : ''} ${secured ? 'secured' : 'at-risk'}`}
         aria-expanded={open}
-        aria-label={`${streakDays}-day solo streak`}
+        aria-label={`${streakDays}-day solo streak, today ${secured ? 'secured' : 'not secured yet'}`}
         onClick={() => setOpen((o) => !o)}
       >
         <span className="header-streak-flame" aria-hidden="true">
@@ -75,10 +76,10 @@ function StreakBadge() {
           ) : (
             <>
               <div className="points-popover-joined">
-                {atRisk ? `${streakDays}-day streak ends in` : "Today's secured ✓ — new day starts in"}
+                {!secured ? `${streakDays}-day streak ends in` : "Today's secured ✓ — new day starts in"}
               </div>
-              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
-              {atRisk && (
+              <div className={`streak-popover-clock ${!secured ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
+              {!secured && (
                 <div className="streak-popover-hint">
                   Check in, or vote/rate {PICKS_STREAK_THRESHOLD} landmarks
                 </div>
@@ -95,15 +96,16 @@ function StreakBadge() {
 // single 🔥 -- fed by a pair's streak instead of a personal one, and shown
 // as 🔥🔥 (two flames) specifically so it's never mistaken for the solo
 // badge right beside it. Flame animates only once a pair has an actual
-// streak (count > 0) and turns warning-colored once YOUR OWN side of
-// today's quota isn't secured yet. Tapping opens a live countdown to the
+// streak (count > 0). Green once today's already closed (lastCompletedDay
+// is today -- the real server-authority signal from api/close-streak-day.js,
+// only set once BOTH members finish rating+guessing all 3), red otherwise
+// -- no in-between color. Tapping opens a live countdown to the
 // local-midnight deadline -- the same lightweight popover as before; the
 // full "who it's with / how long / today's status" picture lives in Your
 // Stats -> the streak tile instead (MyStreaks.jsx).
 function PairStreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streaks } = usePairStreaks();
-  const { actionsToday } = useBadges();
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
@@ -130,7 +132,7 @@ function PairStreakBadge() {
   // the highest count, ties broken by whichever sorts first.
   const primary = streaks.length ? streaks.reduce((a, b) => (b.count > a.count ? b : a)) : null;
   const active = !!primary && primary.count > 0;
-  const atRisk = !!primary && actionsToday < PICKS_STREAK_THRESHOLD;
+  const secured = !!primary && primary.lastCompletedDay === dayKey(new Date());
   const partnerName = primary
     ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
     : null;
@@ -139,9 +141,9 @@ function PairStreakBadge() {
     <div className="header-streak-wrap" ref={ref}>
       <button
         type="button"
-        className={`header-streak ${active ? 'active' : ''} ${primary && atRisk ? 'at-risk' : ''}`}
+        className={`header-streak ${active ? 'active' : ''} ${primary ? (secured ? 'secured' : 'at-risk') : ''}`}
         aria-expanded={open}
-        aria-label="Dual streak"
+        aria-label={`Dual streak${primary ? `, today ${secured ? 'secured' : 'not secured yet'}` : ''}`}
         onClick={() => setOpen((o) => !o)}
       >
         <span className="header-streak-flame" aria-hidden="true">
@@ -156,12 +158,12 @@ function PairStreakBadge() {
           ) : (
             <>
               <div className="points-popover-joined">
-                {atRisk
+                {!secured
                   ? `Streak with @${partnerName} ends in`
                   : `Today's secured with @${partnerName} — new day starts in`}
               </div>
-              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
-              {atRisk && (
+              <div className={`streak-popover-clock ${!secured ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
+              {!secured && (
                 <div className="streak-popover-hint">
                   Vote or rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
                 </div>

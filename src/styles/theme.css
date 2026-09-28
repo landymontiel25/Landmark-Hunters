@@ -2035,10 +2035,14 @@ button.header-streak {
   transition: background 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease);
 }
 
-.header-streak.active {
-  color: var(--warning);
-  border-color: rgba(242, 184, 75, 0.35);
-  background: rgba(242, 184, 75, 0.1);
+/* .active no longer carries its own color -- it only gates the flicker
+   animation below. Color is always either .secured (today's already done)
+   or .at-risk (not yet), so a glance answers "do I still need to do
+   something today" with no amber in-between state. */
+.header-streak.secured {
+  color: var(--success);
+  border-color: rgba(85, 201, 135, 0.4);
+  background: rgba(85, 201, 135, 0.12);
 }
 
 .header-streak.at-risk {
