@@ -50,11 +50,24 @@ export function deckPool(cityId) {
 }
 
 // The 3 landmark ids both members of a pair see today, for this city.
-export function pickDailyCardIds(pairId, dayId, cityId, count = DAILY_DECK_SIZE) {
-  const pool = deckPool(cityId);
-  if (pool.length <= count) return pool;
+// excludeIds (a landmark id Set/array) is meant to be the union of both
+// members' REAL check-ins in this city -- the deck is for discovering and
+// rating places together, so a spot either of you has already physically
+// been to is skipped. Passed in rather than looked up here so this stays
+// pure and dependency-free (see the file-level note); callers fetch the
+// real check-in ids themselves (client: leaderboard.js's
+// getUserCheckedInLandmarkIds; server: close-streak-day.js, admin SDK).
+export function pickDailyCardIds(pairId, dayId, cityId, excludeIds = [], count = DAILY_DECK_SIZE) {
+  const exclude = excludeIds instanceof Set ? excludeIds : new Set(excludeIds);
+  const fullPool = deckPool(cityId);
+  const unvisited = fullPool.filter((id) => !exclude.has(id));
+  // Both of you have been everywhere rateable in this city -- fall back to
+  // the full pool rather than leaving the deck empty; a repeat is the
+  // lesser problem next to "no cards at all".
+  const source = unvisited.length > 0 ? unvisited : fullPool;
+  if (source.length <= count) return source;
   const rand = mulberry32(hashSeed(`${pairId}:${dayId}:${cityId}`));
-  const remaining = [...pool];
+  const remaining = [...source];
   const picked = [];
   for (let i = 0; i < count && remaining.length; i++) {
     const idx = Math.floor(rand() * remaining.length);
@@ -66,9 +79,9 @@ export function pickDailyCardIds(pairId, dayId, cityId, count = DAILY_DECK_SIZE)
 // Full landmark objects (with regionId attached, matching ALL_LANDMARKS'
 // shape) for today's deck, in the app's own catalog order -- not the
 // pick order, so the row doesn't visually reshuffle between renders.
-export function dailyDeck(pairId, dayId, cityId) {
+export function dailyDeck(pairId, dayId, cityId, excludeIds = []) {
   const region = getRegion(cityId);
   if (!region) return [];
-  const ids = new Set(pickDailyCardIds(pairId, dayId, cityId));
+  const ids = new Set(pickDailyCardIds(pairId, dayId, cityId, excludeIds));
   return region.landmarks.filter((l) => ids.has(l.id)).map((l) => ({ ...l, regionId: cityId }));
 }

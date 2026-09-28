@@ -15,6 +15,7 @@ import {
   FREEZES_PER_MONTH,
 } from '../lib/pairStreaks';
 import { dailyDeck } from '../lib/sharedDeck';
+import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
 import { dayKey, monthKey } from '../lib/streaks';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
@@ -164,6 +165,12 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const [recoveryBusy, setRecoveryBusy] = useState(false);
   const [recoveryMsg, setRecoveryMsg] = useState(null);
   const [compat, setCompat] = useState(undefined); // undefined = loading
+  // Union of both members' REAL check-ins (not votes/ratings) -- the deck
+  // skips anywhere either of you has actually been, since the point is
+  // discovering places together, not rating somewhere you've already
+  // visited. undefined while loading so the deck doesn't briefly show
+  // (and let someone start rating) a place that turns out to be excluded.
+  const [visitedIds, setVisitedIds] = useState(undefined);
 
   const today = dayKey(new Date());
   useEffect(() => subscribeDayEntries(streak.id, today, setEntries, () => {}), [streak.id, today]);
@@ -178,9 +185,17 @@ function StreakDetail({ streak, onBack, onLeave }) {
       .catch(() => setCompat(null));
   }, [user.uid, partnerUid]);
 
+  useEffect(() => {
+    if (!streak.cityId) return;
+    setVisitedIds(undefined);
+    Promise.all([getUserCheckedInLandmarkIds(user.uid), getUserCheckedInLandmarkIds(partnerUid)])
+      .then(([mine, theirs]) => setVisitedIds(new Set([...mine, ...theirs])))
+      .catch(() => setVisitedIds(new Set()));
+  }, [user.uid, partnerUid, streak.cityId]);
+
   const myEntry = entries[user.uid] || { uid: user.uid, ratings: {}, guesses: {} };
   const partnerEntry = entries[partnerUid];
-  const deck = streak.cityId ? dailyDeck(streak.id, today, streak.cityId) : [];
+  const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
   const cardIds = deck.map((l) => l.id);
   const myGuessedCount = cardIds.filter((id) => myEntry.guesses?.[id]).length;
   const partnerGuessedCount = cardIds.filter((id) => partnerEntry?.guesses?.[id]).length;
@@ -271,6 +286,8 @@ function StreakDetail({ streak, onBack, onLeave }) {
         <p className="screen-subtitle" style={{ margin: 0 }}>
           Pick a city above to get today's 3 shared landmarks -- you and @{partnerName} will both see the exact same 3.
         </p>
+      ) : visitedIds === undefined ? (
+        <SkeletonList count={3} label="Loading today's landmarks" />
       ) : (
         <>
           <p style={{ margin: '0 0 10px', fontSize: '0.85rem' }}>
