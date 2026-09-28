@@ -45,23 +45,89 @@ export function todaysActionCount(checkins, pickFeedback = [], now = new Date())
 /**
  * Milliseconds until the current LOCAL day ends. Used by the dual-streak
  * countdown (per-pair deadline is the latest local midnight among members --
- * see the streaks/ day-close design) and anywhere else a "resets at
- * midnight" countdown is needed.
+ * see the streaks/ day-close design), the solo streak-lapse countdown
+ * below, and anywhere else a "resets at midnight" countdown is needed.
  */
 export function msUntilStreakLapse(now = new Date()) {
   const nextLocalMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
   return nextLocalMidnight.getTime() - now.getTime();
 }
 
-// Solo streaks (item i1) are gone -- every streak now belongs to a pair or
-// squad (see the streaks/ Firestore collection, built in a later phase).
-// computeStreakDays/hasSecuredStreakToday/dailyActionDayKeys were the solo
-// implementation and are deleted, not just zeroed, so nothing can quietly
-// keep computing a solo streak on the side. BadgesContext.jsx now reports
-// streakDays: 0 unconditionally until the dual-streak `best` count is wired
-// in to replace it (the streak-3/7/30 badges below get re-pointed to that
-// same number then -- until that phase ships they're simply unearnable,
-// same as intended by retiring solo streaks).
+/** Whether a real (points-earning) check-in happened today (local time) -- used to warn when an active solo streak is about to lapse. */
+export function hasCheckedInToday(checkins, now = new Date()) {
+  const today = dayKey(now);
+  return checkins.some((c) => isRealCheckin(c) && c.createdAt?.seconds && dayKey(new Date(c.createdAt.seconds * 1000)) === today);
+}
+
+// Day-keys (local time) with at least `minActions` distinct landmarks engaged
+// with, combining pick_feedback votes (voted landmarkId + `at` epoch ms)
+// and 0-point "Rate a Landmark" claims (ratingOnly checkins, by their
+// createdAt).
+function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_THRESHOLD) {
+  const idsByDay = new Map();
+  const add = (key, id) => {
+    if (!key || !id) return;
+    if (!idsByDay.has(key)) idsByDay.set(key, new Set());
+    idsByDay.get(key).add(id);
+  };
+  for (const f of pickFeedback || []) {
+    if (!f.at || !f.landmarkId) continue;
+    add(dayKey(new Date(f.at)), f.landmarkId);
+  }
+  for (const c of checkins || []) {
+    if (isRealCheckin(c) || !c.createdAt?.seconds || !c.landmarkId) continue;
+    add(dayKey(new Date(c.createdAt.seconds * 1000)), c.landmarkId);
+  }
+  const days = new Set();
+  for (const [key, ids] of idsByDay) {
+    if (ids.size >= minActions) days.add(key);
+  }
+  return days;
+}
+
+/**
+ * Whether today's SOLO streak is already secured -- a real check-in, or
+ * PICKS_STREAK_THRESHOLD distinct landmarks voted/rated. Supersedes
+ * hasCheckedInToday wherever "is the streak safe today" (not "did you
+ * literally check in") is the actual question -- the streak-risk banner
+ * and Profile's streak messaging both want this one. Separate from (and
+ * independent of) the dual streak's own per-pair daily quota.
+ */
+export function hasSecuredStreakToday(checkins, pickFeedback = [], now = new Date()) {
+  return hasCheckedInToday(checkins, now) || dailyActionDayKeys(checkins, pickFeedback).has(dayKey(now));
+}
+
+/**
+ * Consecutive days (local time) with at least one real check-in -- or a
+ * qualifying votes/ratings day, see hasSecuredStreakToday -- counting back
+ * from today. A day with neither yet doesn't break the streak until
+ * tomorrow -- so "yesterday, but not yet today" still counts. This is the
+ * SOLO streak (one 🔥 in the header/Profile); the dual streak (🔥🔥) is a
+ * separate, pair-scoped count from pairStreaks.js and doesn't feed this.
+ */
+export function computeStreakDays(checkins, now = new Date(), pickFeedback = []) {
+  const days = new Set();
+  for (const c of checkins) {
+    if (!isRealCheckin(c)) continue;
+    const sec = c.createdAt?.seconds;
+    if (!sec) continue;
+    days.add(dayKey(new Date(sec * 1000)));
+  }
+  for (const key of dailyActionDayKeys(checkins, pickFeedback)) days.add(key);
+  if (days.size === 0) return 0;
+
+  const cursor = new Date(now);
+  if (!days.has(dayKey(cursor))) {
+    cursor.setDate(cursor.getDate() - 1);
+    if (!days.has(dayKey(cursor))) return 0;
+  }
+  let streak = 0;
+  while (days.has(dayKey(cursor))) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
 
 // Rarity is a fixed design-time tier, not something measured across real
 // users -- the app has no population-level stats on who holds which badge.
