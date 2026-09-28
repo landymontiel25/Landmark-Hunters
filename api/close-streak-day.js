@@ -5,6 +5,15 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { previousDayKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 
+// Duplicated from leaderboard.js's isRealCheckin (pure logic, not worth
+// pulling that whole client-Firebase-importing module in for -- see
+// _lib/streakDay.js's comment on why that crashes a serverless function).
+function isRealCheckin(x) {
+  if (x.ratingOnly) return false;
+  if (typeof x.visited === 'boolean') return x.visited;
+  return x.points !== 0;
+}
+
 // The one place a pair's streak count actually moves. Called by either
 // member's client right after they hit today's quota (see
 // usePairStreakSync.js) -- not on a schedule -- but it never trusts what
@@ -61,9 +70,16 @@ export default async function handler(req, res) {
       return;
     }
     // Never trust a bare `done` flag -- re-derive today's real 3 cards the
-    // exact same deterministic way both clients did (sharedDeck.js) and
-    // check each member's entry actually covers all of them.
-    const cardIds = pickDailyCardIds(pairId, dayId, streak.cityId);
+    // exact same deterministic way both clients did (sharedDeck.js,
+    // excluding anywhere either member has really checked into) and check
+    // each member's entry actually covers all of them.
+    const checkinsByMember = await Promise.all(
+      (streak.memberIds || []).map((uid) => db.collection('checkins').where('userId', '==', uid).get())
+    );
+    const visitedIds = new Set(
+      checkinsByMember.flatMap((snap) => snap.docs.map((d) => d.data()).filter(isRealCheckin).map((c) => c.landmarkId))
+    );
+    const cardIds = pickDailyCardIds(pairId, dayId, streak.cityId, visitedIds);
     const entriesSnap = await streakRef.collection('days').doc(dayId).collection('entries').get();
     const entries = Object.fromEntries(entriesSnap.docs.map((d) => [d.id, d.data()]));
     const bothDone =

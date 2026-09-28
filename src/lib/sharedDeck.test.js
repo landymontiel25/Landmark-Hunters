@@ -42,4 +42,18 @@ describe('sharedDeck', () => {
     const ids = pickDailyCardIds('uid1_uid2', '2026-9-28', 'frankfurt');
     expect(ids.length).toBeLessThanOrEqual(deckPool('frankfurt').length);
   });
+
+  it('skips landmarks either member has already checked into', () => {
+    const pool = deckPool('miami');
+    const untouched = pool.slice(-5);
+    const visited = new Set(pool.slice(0, -5));
+    const ids = pickDailyCardIds('uid1_uid2', '2026-9-28', 'miami', visited);
+    for (const id of ids) expect(untouched).toContain(id);
+  });
+
+  it('falls back to repeats rather than an empty deck once everything is visited', () => {
+    const pool = deckPool('miami');
+    const ids = pickDailyCardIds('uid1_uid2', '2026-9-28', 'miami', new Set(pool));
+    expect(ids.length).toBe(3);
+  });
 });
