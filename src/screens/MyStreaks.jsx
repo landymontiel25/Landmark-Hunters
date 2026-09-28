@@ -52,13 +52,14 @@ const COMPATIBILITY_MIN_SHARED_DISPLAY = 10;
 // both phases (rate, then guess -- see StreakDetail): the parent decides
 // which verdict this card is collecting and what's already been recorded
 // for it (shownVerdict), so the card itself doesn't need to know which
-// phase it's in. Once shownVerdict is set, the vote row is replaced with a
-// green checkmark and stays that way -- shownVerdict comes from the
-// parent's optimistic-write overlay (set the instant you tap, before the
-// Firestore write even lands) merged with the real synced value, so it
+// phase it's in. Once shownVerdict is set, the WHOLE card blacks out under
+// a big green checkmark (not just the vote row) -- shownVerdict comes from
+// the parent's optimistic-write overlay (set the instant you tap, before
+// the Firestore write even lands) merged with the real synced value, so it
 // never reverts back to the vote row once a tap has gone through. It only
-// reverts if the write actually fails, with a reason shown right on the
-// card, instead of silently resetting with no explanation.
+// reverts if the write actually fails, with a loud, impossible-to-miss
+// reason shown right on the card, instead of silently resetting or saying
+// nothing.
 function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
@@ -70,6 +71,9 @@ function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
     try {
       await onVote(landmark.id, verdict);
     } catch (e) {
+      // eslint-disable-next-line no-console -- worth having in the device
+      // console if someone needs to debug a save that silently didn't work.
+      console.error('Vote failed to save', landmark.id, verdict, e);
       setError(friendlyError(e, "Couldn't save that -- try again."));
     } finally {
       setBusy(false);
@@ -77,7 +81,7 @@ function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
   };
 
   return (
-    <div className="mapr-pick">
+    <div className={`mapr-pick${shownVerdict ? ' mapr-pick-voted' : ''}`}>
       <button
         type="button"
         className="mapr-pick-main"
@@ -93,8 +97,9 @@ function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
       </button>
 
       {shownVerdict ? (
-        <div className="mapr-pick-actions">
-          <span className="mapr-pick-vote-done">{'\u{2713}'} {VOTE_COPY[shownVerdict].label}</span>
+        <div className="mapr-pick-vote-overlay">
+          <span className="mapr-pick-vote-check">{'\u{2713}'}</span>
+          <span className="mapr-pick-vote-overlay-label">{VOTE_COPY[shownVerdict].label}</span>
         </div>
       ) : (
         <>
@@ -119,11 +124,7 @@ function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
               );
             })}
           </div>
-          {error && (
-            <p className="screen-subtitle" style={{ margin: '4px 12px 0', color: 'var(--danger)' }}>
-              {error}
-            </p>
-          )}
+          {error && <p className="mapr-pick-error">{'\u{26A0}\u{FE0F}'} {error}</p>}
         </>
       )}
     </div>
@@ -167,12 +168,28 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // arrives, with no visible change either way.
   const [optimisticRatings, setOptimisticRatings] = useState({});
   const [optimisticGuesses, setOptimisticGuesses] = useState({});
+  // Set if today's entries listener itself fails (e.g. a dropped auth
+  // token, a network blip that Firestore's SDK doesn't silently recover
+  // from) -- shown loud rather than swallowed, since a vote can genuinely
+  // have saved while this stays stuck showing stale/empty state, which
+  // otherwise looks exactly like "nothing was saved" on the next reload.
+  const [entriesError, setEntriesError] = useState(null);
 
   const today = dayKey(new Date());
-  useEffect(() => subscribeDayEntries(streak.id, today, setEntries, () => {}), [streak.id, today]);
   useEffect(() => {
+    // Reset here, in the same effect that (re)subscribes, rather than a
+    // separate effect with the same deps -- a separate one would run right
+    // after this one on every mount and wipe out an error/overlay this
+    // effect's own onError just set, since both fire in the same commit.
     setOptimisticRatings({});
     setOptimisticGuesses({});
+    setEntriesError(null);
+    return subscribeDayEntries(streak.id, today, setEntries, (e) => {
+      // eslint-disable-next-line no-console -- worth having in the device
+      // console if someone needs to debug why today's ratings aren't showing.
+      console.error("Today's streak entries failed to load", e);
+      setEntriesError(friendlyError(e, "Couldn't load today's ratings."));
+    });
   }, [streak.id, today]);
 
   const partnerUid = (streak.memberIds || []).find((uid) => uid !== user.uid);
@@ -336,6 +353,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
         <span>Today's 3 shared landmarks</span>
         <span className="tag" style={{ fontSize: '0.68rem' }}>{region ? region.name : 'Finding your city…'}</span>
       </p>
+      {entriesError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {entriesError}</p>}
       {!streak.cityId ? (
         <SkeletonList count={1} label="Finding your city" />
       ) : visitedIds === undefined ? (
