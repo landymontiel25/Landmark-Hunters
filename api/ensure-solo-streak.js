@@ -169,23 +169,15 @@ export default async function handler(req, res) {
       //    discarding it.
       //  - otherwise, the corrected historical numbers replace the stored
       //    ones outright.
-      // TEMPORARY diagnostic -- not persisted to Firestore, just echoed back
-      // in this response so a specific account's repair math can be
-      // inspected from the UI (no admin/DB access in this environment).
-      // Safe to remove once the current under-count report is resolved.
-      const _debug = { timeZoneReceived: timeZone || null, existingCount: existing.count || 0 };
       if (timeZone) {
         const { count: histCount, lastCompletedDay: histLast } = await seedFromHistory();
         const existingCount = existing.count || 0;
-        Object.assign(_debug, { histCount, histLast, existingLastCompletedDay: existing.lastCompletedDay || null });
         if (histCount > existingCount) {
           const now = new Date();
           const today = localDayKey(now.getTime(), timeZone);
           const bridgesToToday = existing.lastCompletedDay === today && histLast === previousDayKey(today);
           const count = bridgesToToday ? histCount + 1 : histCount;
           const lastCompletedDay = bridgesToToday ? today : histLast;
-          _debug.repaired = true;
-          _debug.bridgesToToday = bridgesToToday;
           const repaired = {
             ...existing,
             count,
@@ -194,12 +186,11 @@ export default async function handler(req, res) {
             updatedAt: FieldValue.serverTimestamp(),
           };
           await ref.set(repaired, { merge: true });
-          res.status(200).json({ id: account.uid, ...repaired, _debug });
+          res.status(200).json({ id: account.uid, ...repaired });
           return;
         }
-        _debug.repaired = false;
       }
-      res.status(200).json({ id: account.uid, ...existing, _debug });
+      res.status(200).json({ id: account.uid, ...existing });
       return;
     }
 
@@ -222,12 +213,8 @@ export default async function handler(req, res) {
       updatedAt: FieldValue.serverTimestamp(),
     };
     await ref.set(data);
-    // TEMPORARY diagnostic, see the note above -- covers the "no doc yet"
-    // path too, so _debug is present on every successful response.
-    res.status(200).json({ id: account.uid, ...data, _debug: { timeZoneReceived: timeZone || null, freshlyCreated: true, seededCount } });
+    res.status(200).json({ id: account.uid, ...data });
   } catch (e) {
-    // TEMPORARY diagnostic -- surface which path/timezone was in play even
-    // on a failure, so a 500 doesn't look identical to "nothing happened."
-    res.status(500).json({ error: e?.message || 'Could not load your streak.', _debug: { timeZoneReceived: timeZone || null, threw: true } });
+    res.status(500).json({ error: e?.message || 'Could not load your streak.' });
   }
 }

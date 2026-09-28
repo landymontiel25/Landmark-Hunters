@@ -37,30 +37,17 @@ function StreakBadge() {
   const [streak, setStreak] = useState(null);
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
-  // TEMPORARY: the raw ensureSoloStreak response's _debug block, shown in
-  // this popover so a specific account's repair math (api/ensure-solo-
-  // streak.js) can be inspected without DB access. Safe to remove once the
-  // current under-count report is resolved.
-  const [debugInfo, setDebugInfo] = useState(null);
   const ref = useRef(null);
 
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
-    // clientBuild: proof this exact debug build is the one actually
-    // running -- if a screenshot shows this popover WITHOUT this marker (or
-    // with none of this block at all), the browser is still on stale
-    // cached JS, not looking at a server that's failing to fix anything.
     ensureSoloStreak(user.displayName || 'A traveler', user.uid)
-      .then((result) => {
+      .then(() => {
         if (cancelled) return;
-        setDebugInfo({ clientBuild: 'debug-435', ...(result?._debug || {}) });
         return subscribeMySoloStreak(user.uid, setStreak, () => {});
       })
-      .catch((e) => {
-        if (cancelled) return;
-        setDebugInfo({ clientBuild: 'debug-435', error: e?.message, ...(e?._debug || {}) });
-      });
+      .catch(() => {});
     return () => {
       cancelled = true;
     };
@@ -118,22 +105,6 @@ function StreakBadge() {
                 </div>
               )}
             </>
-          )}
-          {debugInfo && (
-            <div
-              style={{
-                marginTop: 10,
-                paddingTop: 8,
-                borderTop: '1px dashed rgba(255,255,255,0.2)',
-                fontFamily: 'monospace',
-                fontSize: '0.62rem',
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-all',
-                opacity: 0.85,
-              }}
-            >
-              DEBUG {JSON.stringify(debugInfo)}
-            </div>
           )}
         </div>
       )}
