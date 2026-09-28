@@ -2031,6 +2031,21 @@ button.header-streak {
   text-align: center;
   padding: 10px 16px;
 }
+/* Redundant, self-contained background/stacking for this one popover --
+   opened over the Map tab's full-bleed Leaflet view, it was reported
+   showing the map right through it (map pins/labels visible behind the
+   countdown, no visible box at all) despite .points-popover already
+   setting an opaque background; whatever the exact cause, this makes the
+   popover opaque and clearly above the map on its own, without depending
+   on any ancestor's stacking context. .points-popover.streak-popover
+   (two classes) beats a bare .points-popover rule on specificity.
+   Solid, not translucent/blurred, so it can't ever read as "no background". */
+.points-popover.streak-popover {
+  z-index: 100;
+  background: rgb(var(--color-bg-rgb));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 /* A segmented, digital-style countdown (H : M : S, each in its own tile)
    instead of a flat "6h 32m 23s" line -- reads at a glance the way a real
    countdown does, and the tinted glow (green once secured, red once at
