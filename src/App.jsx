@@ -16,7 +16,6 @@ import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import ErrorBoundary from './components/ErrorBoundary';
 import OfflineBanner from './components/OfflineBanner';
-import StreakWarningBanner from './components/StreakWarningBanner';
 import CheckInReview from './components/CheckInReview';
 import LoveReasonPrompt from './components/LoveReasonPrompt';
 import TagCapPrompt from './components/TagCapPrompt';
@@ -150,7 +149,6 @@ export default function App() {
           <HashRouter>
           <BackgroundLocationSync />
           <OfflineBanner />
-          <StreakWarningBanner />
           <Header />
           <main className="app-main">
             <AppRoutes />

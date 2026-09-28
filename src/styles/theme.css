@@ -1836,92 +1836,6 @@ textarea {
   justify-content: center;
 }
 
-.header-streak-wrap {
-  position: relative;
-}
-button.header-streak {
-  font-family: inherit;
-  cursor: pointer;
-}
-.streak-popover {
-  right: auto;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  padding: 10px 16px;
-}
-.streak-popover-clock {
-  font-size: 1.35rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--warning);
-}
-.streak-popover-clock.at-risk {
-  color: var(--danger);
-}
-.streak-popover-hint {
-  margin-top: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-tertiary);
-}
-
-.header-streak {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-tertiary);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.92rem;
-  line-height: 1;
-  transition: background 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease);
-}
-
-.header-streak.active {
-  color: var(--warning);
-  border-color: rgba(242, 184, 75, 0.35);
-  background: rgba(242, 184, 75, 0.1);
-}
-
-.header-streak.at-risk {
-  color: var(--danger);
-  border-color: rgba(240, 106, 106, 0.4);
-  background: rgba(240, 106, 106, 0.1);
-}
-
-.header-streak-flame {
-  display: inline-block;
-  font-size: 1.05rem;
-  filter: grayscale(1) opacity(0.55);
-  transform-origin: 50% 85%;
-}
-
-.header-streak.active .header-streak-flame {
-  filter: none;
-  animation: header-flame-flicker 1.6s ease-in-out infinite;
-}
-
-@keyframes header-flame-flicker {
-  0%,
-  100% {
-    transform: scale(1, 1) rotate(-3deg) translateY(0);
-  }
-  25% {
-    transform: scale(1.08, 0.94) rotate(2deg) translateY(-1px);
-  }
-  50% {
-    transform: scale(0.94, 1.06) rotate(-2deg) translateY(0.5px);
-  }
-  75% {
-    transform: scale(1.05, 0.97) rotate(3deg) translateY(-1px);
-  }
-}
-
 .app-header-actions {
   /* The flex:1 .app-header-center between this and the logo already
      absorbs the row's slack, so this needs no margin-left: auto of its
@@ -2000,27 +1914,6 @@ button.header-streak {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-primary);
-}
-
-/* Same floating-popover language as .points-popover, but for wrapping
-   paragraph/list content instead of a one-line stat -- anchored under the
-   Profile "day streak" stat tile specifically, not the whole stats row. */
-.streak-info-popover {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 30;
-  width: 240px;
-  background: rgb(var(--color-bg-rgb));
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-float);
-  padding: 10px 14px;
-  font-size: 0.82rem;
-  color: var(--color-parchment);
-  text-align: left;
 }
 
 .admin-mode-switch {
@@ -4359,7 +4252,6 @@ input[type='search'] {
 }
 
 .points-popover,
-.streak-info-popover,
 .user-popover-card {
   background: var(--bg-elevated);
   border-color: var(--border-default);
@@ -4809,7 +4701,6 @@ h2,
 
 .modal-card,
 .points-popover,
-.streak-info-popover,
 .user-popover-card,
 .chatlab-region-popover {
   background: #0a0d16;
