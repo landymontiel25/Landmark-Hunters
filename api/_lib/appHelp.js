@@ -103,15 +103,14 @@ export const APP_HELP =
   `street food -- but only when you have no real signal either way in that category (no rating, nothing you've said you love or dislike), and only ` +
   `as a question with quick-tap Yes/No, not a silent addition. It never does this for a category you've told it you dislike, generally or for that city.\n` +
   `- Mapr Travel Picks (on Profile): city-first, not AI-suggested -- pick a city (it defaults to wherever you are right now, or your most recent ` +
-  `saved city with no GPS fix) and swipe through up to 10 of that city's landmarks Mapr doesn't already have a rating or check-in from you for, ` +
-  `most-visited first. Since these are places you haven't necessarily been, each card asks "would you go?", not "how was it?" -- tap "✓ I'd go" / ` +
-  `"🤷 Not sure" / "✗ Not for me" right on the card. That taps straight into the app's real three-tier rating (I'd go -> "I loved it", Not sure -> ` +
-  `"It was okay", Not for me -> "Not for me"), opened through the normal rate-and-post prompt. A rated (or checked-into) landmark drops out of the ` +
-  `row for good. Every rating still feeds that city's tag scores exactly like a real-visit review does. The first card in the row is always "+ Rate ` +
-  `a Landmark" (search any place by name and rate it directly). Ratings from here still count 0 points -- they're a rating, not a claim you were ` +
-  `there -- and rating something you later actually visit reopens the same entry to edit instead of creating a duplicate.\n` +
-  `- Rating ahead of a trip: to rate places in a city you haven't been to yet, open Mapr Travel Picks and pick that city -- the same swipe-and-rate ` +
-  `row works for a city you're planning as well as the one you're in; there's no separate "prep a trip" feature anymore.\n` +
+  `saved city with no GPS fix) and swipe through up to 10 of that city's landmarks you haven't voted on, rated, or checked into yet, most-visited ` +
+  `first. Since these are places you haven't necessarily been, each card asks "would you go?", not "how was it?" -- tap "✓ I'd go" / "🤷 Not sure" / ` +
+  `"✗ Not for me" right on the card. This is the exact same lightweight ✓/✗/🤷 vote every Mapr Pick has always used: no check-in, no modal, nothing ` +
+  `to post -- the card just leaves the row and the next one takes its place. ✓ and ✗ nudge that city's tag scores and are conclusive (that landmark ` +
+  `won't be offered here again); "🤷 Not sure" carries no signal and just snoozes it for about a week. The first card in the row is always "+ Rate a ` +
+  `Landmark" (search any place by name for the real rate-and-post flow, with a comment, that actually shows on the landmark's page).\n` +
+  `- Voting ahead of a trip: to vote on places in a city you haven't been to yet, open Mapr Travel Picks and pick that city -- the same swipe row ` +
+  `works for a city you're planning as well as the one you're in; there's no separate "prep a trip" feature anymore.\n` +
   `- Onboarding: right after creating an account, a one-time flow — pick your usual interests (or skip), an optional "tell Mapr what you like" taste ` +
   `step (or skip), the nearest real landmark to your GPS with a one-tap check-in, then an "Always Know Where You Are" step asking to upgrade ` +
   `location from "While Using" to "Always" (or skip). Reaching the check-in step — whether or not you check in — completes onboarding and awards ` +

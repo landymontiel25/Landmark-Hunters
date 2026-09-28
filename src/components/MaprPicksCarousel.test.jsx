@@ -9,8 +9,6 @@ import { ALL_LANDMARKS } from '../data/regions';
 
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' } }) }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 40.0356, lng: -75.3437 } }) }));
-const checkInMock = vi.fn();
-vi.mock('../lib/useCheckIn', () => ({ useCheckIn: () => ({ checkIn: checkInMock, user: { uid: 'me' } }) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
 
 import MaprPicksCarousel from './MaprPicksCarousel';
@@ -19,7 +17,6 @@ let container;
 afterEach(() => {
   document.body.removeChild(container);
   localStorage.clear();
-  checkInMock.mockClear();
 });
 
 const render = async (props) => {
@@ -54,13 +51,14 @@ describe('Mapr Travel Picks', () => {
     expect(names).not.toContain(villanova[1].name);
   });
 
-  it('opens the rate-and-post flow, pre-seeded on the tapped tier, when a rate button is tapped', async () => {
+  it('votes instantly, no check-in or modal, and removes the card from the row', async () => {
     await render({ reviews: [], checkedInIds: [] });
-    const loveButton = container.querySelector('.mapr-pick-vote.love');
-    await act(async () => loveButton.dispatchEvent(new MouseEvent('click', { bubbles: true })));
-    expect(checkInMock).toHaveBeenCalledTimes(1);
-    const [, options] = checkInMock.mock.calls[0];
-    expect(options).toEqual({ ratingOnly: true, initialTier: 'highly-recommend' });
+    const before = [...container.querySelectorAll('.mapr-pick-name')].map((n) => n.textContent);
+    const hateButton = container.querySelector('.mapr-pick-vote.hate');
+    await act(async () => hateButton.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(document.querySelector('.modal-card')).toBeFalsy();
+    const after = [...container.querySelectorAll('.mapr-pick-name')].map((n) => n.textContent);
+    expect(after).not.toContain(before[0]);
   });
 
   it('lets you switch cities from the header button', async () => {
