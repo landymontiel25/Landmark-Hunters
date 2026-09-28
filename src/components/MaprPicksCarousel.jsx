@@ -1,28 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
-import { useCheckIn } from '../lib/useCheckIn';
 import { usePersistentState } from '../lib/usePersistentState';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion } from '../data/regions';
-import { isRateable, TIERS } from '../lib/ratingFlow';
+import { isRateable } from '../lib/ratingFlow';
+import { getPickFeedback, readLocalFeedback, votedIds, setPickFeedback } from '../lib/pickFeedback';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
 
 // "Mapr Travel Picks": city-first curation, not AI-suggested picks. Step 1
 // is choosing a city (defaults to wherever `pickRegion` thinks you are);
-// step 2 is swiping that city's rateable landmarks and rating them with the
-// app's existing three-tier system (TIERS, ratingFlow.js). Capped at RESERVE
-// on screen at once so the row never turns into a full city directory.
+// step 2 is swiping that city's rateable landmarks. Capped at RESERVE on
+// screen at once so the row never turns into a full city directory.
 //
-// Rating a card reuses the same checkIn(landmark, { ratingOnly: true })
-// pipeline as "Rate a Landmark" -- it opens the global rate-and-post prompt
-// (CheckInReview -> RatingFlow) pre-seeded on the tapped tier via
-// initialTier, instead of writing a review directly. That keeps every
-// rating -- from here, from Rate a Landmark, or from a real visit -- going
-// through one write path with one set of rules.
+// Voting is the exact same lightweight mechanic the original Mapr Picks
+// carousel used (see pickFeedback.js) -- a tap saves a ✓/✗/🤷 verdict
+// straight to pick_feedback and moves on, no check-in, no modal, nothing to
+// post. It's a taste signal, not a review: "I'd go" and "Not for me" nudge
+// that city's tag scores and rule the landmark out for good; "Not sure"
+// carries no signal and just snoozes it for a week. Rating a landmark for
+// real (with a comment, feeding the public review average) is still what
+// "+ Rate a Landmark" is for.
 //
 // The "guess what your partner would pick" step from the dual-streak spec
 // isn't built yet -- there's no pairing system for it to attach to. This is
@@ -30,24 +31,22 @@ import RateLandmarkSearch from './RateLandmarkSearch';
 // path the spec describes for everyone until pairing ships.
 const RESERVE = 10;
 
-// The tap here is a guess, not a review -- you haven't been to most of
-// these places yet, so the buttons ask "would I go?" (the carousel's
-// original wording), not "how was it?". The tap still saves as the
-// matching TIERS entry underneath (see rate()), so it scores and displays
-// everywhere else exactly like a real review's tier would.
 const VOTE_COPY = {
-  'highly-recommend': { cls: 'love', emoji: '\u{2713}', label: "I'd go" },
-  'worth-trying': { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure' },
-  'probably-skip': { cls: 'hate', emoji: '\u{2715}', label: 'Not for me' },
+  yes: { cls: 'love', emoji: '\u{2713}', label: "I'd go" },
+  unsure: { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure' },
+  no: { cls: 'hate', emoji: '\u{2715}', label: 'Not for me' },
 };
 
 export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [] }) {
   const { user } = useAuth();
   const { coords } = useGeo();
-  const { checkIn } = useCheckIn();
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const [pickerOpen, setPickerOpen] = useState(false);
+  // { [landmarkId]: 'yes' | 'no' | 'unsure' } -- instant local copy so a vote
+  // pulls its card out of the row right away, without waiting on a Firestore
+  // round trip or on checkedInIds/reviews (a vote is neither) to catch up.
+  const [feedback, setFeedback] = useState(() => (user ? readLocalFeedback(user.uid) : {}));
 
   const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
   const [cityOverride, setCityOverride] = usePersistentState(user ? `mapr-travel-picks-city.${user.uid}` : null, null);
@@ -57,12 +56,22 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   const regionId = cityOverride || defaultRegionId;
   const region = regionId ? getRegion(regionId) : null;
 
+  // Reconciles with Firestore feedback (a vote made on another device) once,
+  // on top of the instant localStorage copy above.
+  useEffect(() => {
+    if (!user) return;
+    getPickFeedback(user.uid)
+      .then((fb) => setFeedback((cur) => ({ ...fb, ...cur })))
+      .catch(() => {});
+  }, [user?.uid]);
+
   if (!user) return null;
 
-  // A landmark already rated OR already checked into (even unrated) has
-  // nothing left to teach Mapr here -- rate it from its own page instead.
+  // A landmark already rated, already checked into (even unrated), or
+  // already voted ✓/✗/🤷 here has nothing left to teach Mapr right now --
+  // rate it for real from its own page instead.
   const reviewedIds = new Set(reviews.map((r) => r.landmarkId).filter(Boolean));
-  const excludeIds = new Set([...checkedInIds, ...reviewedIds]);
+  const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback)]);
   const landmarks = region
     ? region.landmarks
         .map((l) => ({ ...l, regionId: region.id }))
@@ -71,7 +80,17 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         .slice(0, RESERVE)
     : [];
 
-  const rate = (landmark, tier) => checkIn(landmark, { ratingOnly: true, initialTier: tier.id });
+  // Same lightweight vote every Mapr Pick has always used -- see the note at
+  // the top of this file. No check-in, no modal; the card just leaves the row.
+  const vote = (landmark, verdict) => {
+    setPickFeedback({
+      uid: user.uid,
+      landmark: { id: landmark.id, region: landmark.regionId, name: landmark.name, categories: landmark.categories || [] },
+      verdict,
+      origin,
+    });
+    setFeedback((cur) => ({ ...cur, [landmark.id]: { landmarkId: landmark.id, verdict, at: Date.now() } }));
+  };
 
   // Which card is in view, for the dots -- offset by one slot since the "+
   // Rate a Landmark" card sits before the real picks in the track.
@@ -99,8 +118,8 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
       </div>
       <p className="taste-card-note" style={{ margin: '0 0 10px' }}>
         {region
-          ? `Swipe through ${region.name} and rate whatever you already have an opinion on. Tap a card to see more.`
-          : 'Pick a city to start rating landmarks there.'}
+          ? `Swipe through ${region.name} and say whether you'd go. Tap a card to see more.`
+          : 'Pick a city to start voting on landmarks there.'}
       </p>
       <div className="mapr-picks-track" onScroll={onScroll}>
         <RateLandmarkSearch />
@@ -116,14 +135,14 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>
             <div className="mapr-pick-actions">
-              {TIERS.map((t) => {
-                const copy = VOTE_COPY[t.id];
+              {['no', 'unsure', 'yes'].map((verdict) => {
+                const copy = VOTE_COPY[verdict];
                 return (
                   <button
-                    key={t.id}
+                    key={verdict}
                     type="button"
                     className={`mapr-pick-vote ${copy.cls}`}
-                    onClick={() => rate(l, t)}
+                    onClick={() => vote(l, verdict)}
                     title={copy.label}
                   >
                     {copy.emoji} {copy.label}
@@ -135,7 +154,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         ))}
         {region && landmarks.length === 0 && (
           <p className="taste-card-note" style={{ margin: '10px 0 0' }}>
-            You've rated everything Mapr has for {region.name} so far -- check back later or pick another city.
+            You've voted on everything Mapr has for {region.name} so far -- check back later or pick another city.
           </p>
         )}
       </div>
