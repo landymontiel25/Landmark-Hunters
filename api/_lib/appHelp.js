@@ -148,22 +148,24 @@ export const APP_HELP =
   `intentionally de-emphasized in the UI now — Mapr and your taste profile are the headline, not the score.\n` +
   `- Time saved / discovery: Mapr shows real, tracked numbers — minutes saved today, summed from actual Mapr chat replies that produced stops, each ` +
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
-  `- Solo Streak (single 🔥 in the header, a "day streak" tile in Your Stats on Profile, and a "You (solo)" row on the Your Streaks page): your own ` +
-  `personal streak, a real stored Firestore doc (mode: "solo") the same as a dual streak, not just a computed display -- so it supports its own ` +
-  `freeze and points. The day counts by rating today's 3 landmarks through Mapr Picks (no check-in path -- rating is the whole rule; no guess step, ` +
-  `since there's no partner to guess about). 1 personal freeze per month, spendable from the streak's own detail page. Rating a day earns 20 points, ` +
-  `plus a milestone bonus (100 at day 3, 300 at day 7, 1000 at day 30). Tapping the single 🔥, or the "day streak" tile on Profile, opens the same ` +
-  `Your Streaks page a dual streak does. Everyone who already had a solo streak kept their exact count and best when this shipped -- it was seeded ` +
+  `- Solo Streak (single 🔥 in the header, and part of the combined "Streaks" tile in Your Stats on Profile): your own personal streak, a real ` +
+  `stored Firestore doc (mode: "solo") the same as a dual streak, not just a computed display -- so it supports its own freeze and points. The day ` +
+  `counts by rating today's 3 landmarks through Mapr Picks (no check-in path -- rating is the whole rule; no guess step, since there's no partner to ` +
+  `guess about). 1 personal freeze per month, spendable from the streak's own detail page. Rating a day earns 20 points, plus a milestone bonus (100 ` +
+  `at day 3, 300 at day 7, 1000 at day 30). Everyone who already had a solo streak kept their exact count and best when this shipped -- it was seeded ` +
   `once from their real history the first time their account touched the app after the change, never reset to 0.\n` +
-  `- Dual Streaks (🔥🔥, two flames, in the header next to the solo streak's single 🔥 -- and a "streak" tile in Your Stats on Profile): a SEPARATE ` +
-  `streak that belongs to a PAIR of friends, independent of the solo streak above -- you can have both going at once, and starting one never touches ` +
-  `or resets your solo streak. Tapping the "streak" tile, or the single 🔥, opens a real page (Your Streaks), not a popup -- same as check-ins/cities ` +
-  `-- listing your solo streak (if any) above your dual streaks; tap either kind to open it. From there, "Start a Dual Streak" picks a friend right on ` +
-  `that page (streak-first, not friend-first) -- also reachable from an "Add a friend to turn this into a dual streak" banner on the solo streak's own ` +
-  `detail page, which starts a brand-new dual streak at 0 rather than converting the solo one. Cap of 3 active streaks per person. To stop a streak, ` +
-  `tap the trash icon next to that friend's name on the Your Streaks list -- immediate, no penalty beyond one "are you sure". Dual days are worth more ` +
-  `than solo ones: 50 points per day plus a bigger milestone bonus (200 at day 3, 600 at day 7, 2000 at day 30), split so BOTH partners get it once the ` +
-  `day genuinely closes, not just whoever's device happened to trigger the close.\n` +
+  `- Dual Streaks (🔥🔥, two flames, in the header next to the solo streak's single 🔥, and also part of the combined "Streaks" tile on Profile): a ` +
+  `SEPARATE streak that belongs to a PAIR of friends, independent of the solo streak above -- you can have both going at once, and starting one never ` +
+  `touches or resets your solo streak.\n` +
+  `- Streaks page: Profile's "Streaks" tile, or the header's single 🔥 or 🔥🔥, all open the same real page (not a popup, same as check-ins/cities) ` +
+  `with the two streak types kept apart as SOLO and DUAL subtabs rather than one mixed list -- they're different enough (no partner/guess step, its ` +
+  `own single freeze, its own rules) that mixing them read as confusing, and a solo streak accidentally showing up in the dual list was a real bug ` +
+  `this fixed. Solo shows directly under its own tab (there's only ever one); Dual keeps a list, since a pair can have up to 3 active dual streaks ` +
+  `going at once. From the Dual tab, "Start a Dual Streak" picks a friend right there (streak-first, not friend-first) -- also reachable from an ` +
+  `"Add a friend to turn this into a dual streak" banner on the Solo tab, which starts a brand-new dual streak at 0 rather than converting the solo ` +
+  `one. To stop a dual streak, tap the trash icon next to that friend's name on the Dual tab's list -- immediate, no penalty beyond one "are you ` +
+  `sure". Dual days are worth more than solo ones: 50 points per day plus a bigger milestone bonus (200 at day 3, 600 at day 7, 2000 at day 30), ` +
+  `split so BOTH partners get it once the day genuinely closes, not just whoever's device happened to trigger the close.\n` +
   `- Today's 3 shared landmarks: shown as a swipeable carousel, same style as Mapr Travel Picks. Mapr picks the city (same default-location logic ` +
   `Mapr Travel Picks itself uses, no manual city picker -- the user never chooses it) and the 3 landmarks (deterministically, so both people see the ` +
   `exact same 3 with no server round-trip deciding it). Tap a card's photo/name to open that landmark's own page, same as tapping a Mapr Travel ` +

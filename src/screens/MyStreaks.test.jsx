@@ -124,8 +124,10 @@ const openStreak = async () => {
       </MemoryRouter>
     )
   );
-  // MyStreaks opens on the list of streaks; tap into the one streak to
-  // reach the detail view (the code path that used getRegion).
+  // MyStreaks opens on the Solo tab; switch to Dual, then tap into the one
+  // streak to reach the detail view (the code path that used getRegion).
+  const dualTab = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('Dual'));
+  await act(async () => dualTab.dispatchEvent(new MouseEvent('click', { bubbles: true })));
   const row = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('@buddy'));
   await act(async () => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
   await act(async () => {

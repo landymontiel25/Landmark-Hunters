@@ -804,17 +804,23 @@ function StartStreakPicker({ existingPartnerUids, onStarted, onCancel }) {
   );
 }
 
-// Your Stats' "streak" tile used to open a modal; this is a real page
-// instead, matching check-ins/cities (MyCheckins.jsx/MyCities.jsx). Lists
-// BOTH streak types together -- your one solo streak (single 🔥, always
-// present once this screen has loaded it once -- see the ensureSoloStreak
-// effect below) and every dual streak (🔥🔥) -- tap either kind to open it.
+// Your Stats' combined "Streaks" tile lands here -- one real page, not a
+// modal (matching check-ins/cities: MyCheckins.jsx/MyCities.jsx), with the
+// two streak types kept apart as subtabs (Solo / Dual) rather than mixed
+// into one list -- they're different enough (no partner/guess step, its
+// own single freeze, its own rules) that browsing them side by side read as
+// more confusing than useful, and it's what made a solo streak look like it
+// belonged in the dual list in the first place (a real bug -- see
+// pairStreaks.js's subscribeMyStreaks). Solo shows directly under its own
+// tab (there's only ever one); Dual keeps a list, since a pair can have up
+// to MAX_ACTIVE_STREAKS going at once.
 export default function MyStreaks() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
   const { streaks, leaveStreak } = usePairStreaks();
-  const [openId, setOpenId] = useState(null);
+  const [tab, setTab] = useState('solo');
+  const [openDualId, setOpenDualId] = useState(null);
   const [picking, setPicking] = useState(false);
   const [soloStreak, setSoloStreak] = useState(null);
   const [soloError, setSoloError] = useState(null);
@@ -854,20 +860,14 @@ export default function MyStreaks() {
     );
   }
 
-  const soloSelected = !!soloStreak && openId === soloStreak.id;
-  const dualSelected = streaks.find((s) => s.id === openId) || null;
+  const dualSelected = streaks.find((s) => s.id === openDualId) || null;
   const existingPartnerUids = new Set(
     streaks.map((s) => (s.memberIds || []).find((uid) => uid !== user.uid)).filter(Boolean)
   );
-  const anySelected = soloSelected || !!dualSelected;
-  const hasAnyStreak = !!soloStreak || streaks.length > 0;
-  // Only worth an in-card "back to the list" button when there's more than
-  // one streak to go back TO -- with just one, the page-level back button
-  // above already does the same thing.
-  const totalStreakCount = (soloStreak ? 1 : 0) + streaks.length;
+  const inSubScreen = picking || !!dualSelected;
 
   const handleLeave = async (id) => {
-    setOpenId(null);
+    setOpenDualId(null);
     await leaveStreak(id);
   };
 
@@ -877,91 +877,81 @@ export default function MyStreaks() {
         type="button"
         className="btn btn-ghost btn-block"
         style={{ marginBottom: 24 }}
-        onClick={() => (picking ? setPicking(false) : anySelected ? setOpenId(null) : navigate('/profile'))}
+        onClick={() => (picking ? setPicking(false) : dualSelected ? setOpenDualId(null) : navigate('/profile'))}
       >
-        {'←'} Back {picking || anySelected ? '' : 'to Profile'}
+        {'←'} Back {inSubScreen ? '' : 'to Profile'}
       </button>
       <h1 className="screen-title">
-        <span>{'\u{1F525}'}</span> Your Streaks
+        <span>{'\u{1F525}'}</span> Streaks
       </h1>
+
+      {!inSubScreen && (
+        <div className="tabs" style={{ margin: '0 0 16px' }}>
+          <button type="button" className={`tab-btn ${tab === 'solo' ? 'active' : ''}`} onClick={() => setTab('solo')}>
+            {'\u{1F525}'} Solo
+          </button>
+          <button type="button" className={`tab-btn ${tab === 'dual' ? 'active' : ''}`} onClick={() => setTab('dual')}>
+            {'\u{1F525}\u{1F525}'} Dual
+          </button>
+        </div>
+      )}
 
       {picking ? (
         <StartStreakPicker
           existingPartnerUids={existingPartnerUids}
           onStarted={(id) => {
             setPicking(false);
-            setOpenId(id);
+            setTab('dual');
+            setOpenDualId(id);
           }}
           onCancel={() => setPicking(false)}
         />
-      ) : soloSelected ? (
-        <SoloStreakDetail
-          streak={soloStreak}
-          onBack={totalStreakCount > 1 ? () => setOpenId(null) : null}
-          onInvite={() => {
-            setOpenId(null);
-            setPicking(true);
-          }}
-        />
       ) : dualSelected ? (
-        <StreakDetail
-          streak={dualSelected}
-          onBack={totalStreakCount > 1 ? () => setOpenId(null) : null}
-          onLeave={handleLeave}
-        />
-      ) : !hasAnyStreak ? (
-        <div className="card section">
-          <p className="screen-subtitle" style={{ marginTop: 0 }}>
-            {soloError ? soloError : 'Loading your streaks…'}
-          </p>
-          {streaks.length === 0 && (
-            <button type="button" className="btn btn-primary btn-block" onClick={() => setPicking(true)}>
-              {'\u{1F525}\u{1F525}'} Start a Dual Streak
-            </button>
-          )}
-        </div>
+        <StreakDetail streak={dualSelected} onBack={() => setOpenDualId(null)} onLeave={handleLeave} />
+      ) : tab === 'solo' ? (
+        !soloStreak ? (
+          <div className="card section">
+            <p className="screen-subtitle" style={{ margin: 0 }}>
+              {soloError ? soloError : 'Loading your solo streak…'}
+            </p>
+          </div>
+        ) : (
+          <SoloStreakDetail streak={soloStreak} onBack={null} onInvite={() => setPicking(true)} />
+        )
       ) : (
         <div className="card section">
-          {soloStreak && (
-            <div className="friend-row" style={{ gap: 8 }}>
-              <button
-                type="button"
-                style={{ flex: 1, display: 'flex', justifyContent: 'space-between', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'inherit', font: 'inherit' }}
-                onClick={() => setOpenId(soloStreak.id)}
-              >
-                <span style={{ fontWeight: 700 }}>You (solo)</span>
-                <span>
-                  {soloStreak.count} {'\u{1F525}'} {'›'}
-                </span>
-              </button>
-            </div>
+          {streaks.length === 0 ? (
+            <p className="screen-subtitle" style={{ marginTop: 0 }}>
+              No dual streaks yet -- start one with a friend.
+            </p>
+          ) : (
+            streaks.map((s) => {
+              const partnerUid = (s.memberIds || []).find((uid) => uid !== user.uid);
+              const partnerName = s.memberNames?.[partnerUid] || 'A traveler';
+              return (
+                <div key={s.id} className="friend-row" style={{ gap: 8 }}>
+                  <button
+                    type="button"
+                    style={{ flex: 1, display: 'flex', justifyContent: 'space-between', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'inherit', font: 'inherit' }}
+                    onClick={() => setOpenDualId(s.id)}
+                  >
+                    <span style={{ fontWeight: 700 }}>@{partnerName}</span>
+                    <span>
+                      {s.count} {'\u{1F525}\u{1F525}'} {'›'}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-tight"
+                    aria-label={`Stop the streak with @${partnerName}`}
+                    onClick={() => window.confirm(`Stop the streak with @${partnerName}? This can't be undone.`) && handleLeave(s.id)}
+                  >
+                    {'\u{1F5D1}\u{FE0F}'}
+                  </button>
+                </div>
+              );
+            })
           )}
-          {streaks.map((s) => {
-            const partnerUid = (s.memberIds || []).find((uid) => uid !== user.uid);
-            const partnerName = s.memberNames?.[partnerUid] || 'A traveler';
-            return (
-              <div key={s.id} className="friend-row" style={{ gap: 8 }}>
-                <button
-                  type="button"
-                  style={{ flex: 1, display: 'flex', justifyContent: 'space-between', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'inherit', font: 'inherit' }}
-                  onClick={() => setOpenId(s.id)}
-                >
-                  <span style={{ fontWeight: 700 }}>@{partnerName}</span>
-                  <span>
-                    {s.count} {'\u{1F525}\u{1F525}'} {'›'}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-ghost btn-tight"
-                  aria-label={`Stop the streak with @${partnerName}`}
-                  onClick={() => window.confirm(`Stop the streak with @${partnerName}? This can't be undone.`) && handleLeave(s.id)}
-                >
-                  {'\u{1F5D1}\u{FE0F}'}
-                </button>
-              </div>
-            );
-          })}
           {streaks.length < MAX_ACTIVE_STREAKS && (
             <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={() => setPicking(true)}>
               {'\u{1F525}\u{1F525}'} Start a Dual Streak

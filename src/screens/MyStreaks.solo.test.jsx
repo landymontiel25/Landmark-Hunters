@@ -104,16 +104,12 @@ const render = async () => {
 };
 
 describe('MyStreaks - solo streak', () => {
-  it('shows a solo row in the unified list, tapping it opens the solo detail', async () => {
+  it('shows the solo streak directly on the default Solo tab, no extra tap needed', async () => {
     await render();
-    expect(container.textContent).toContain('You (solo)');
-    const row = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('You (solo)'));
-    await act(async () => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
     expect(container.textContent).toContain('Your Solo Streak');
-    expect(container.textContent).not.toContain('You (solo)');
   });
 
-  it('shows both a solo row and dual rows together when both exist', async () => {
+  it('keeps solo and dual apart as separate tabs, not mixed into one list', async () => {
     currentDualStreaks = [
       {
         id: 'me_friend',
@@ -128,14 +124,18 @@ describe('MyStreaks - solo streak', () => {
       },
     ];
     await render();
-    expect(container.textContent).toContain('You (solo)');
+    // Solo tab (default) shows the solo streak, not the dual one.
+    expect(container.textContent).toContain('Your Solo Streak');
+    expect(container.textContent).not.toContain('@buddy');
+
+    const dualTab = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('Dual'));
+    await act(async () => dualTab.dispatchEvent(new MouseEvent('click', { bubbles: true })));
     expect(container.textContent).toContain('@buddy');
+    expect(container.textContent).not.toContain('Your Solo Streak');
   });
 
   it('lets you rate 3 cards with no guess step, closing the day', async () => {
     await render();
-    const row = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('You (solo)'));
-    await act(async () => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
 
     expect(container.querySelectorAll('.mapr-pick-name').length).toBe(3);
     for (let i = 0; i < 3; i++) {
@@ -151,8 +151,6 @@ describe('MyStreaks - solo streak', () => {
 
   it('opens the dual streak picker from the solo detail\'s invite button, without touching the solo count', async () => {
     await render();
-    const row = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('You (solo)'));
-    await act(async () => row.dispatchEvent(new MouseEvent('click', { bubbles: true })));
 
     const inviteBtn = [...container.querySelectorAll('button')].find((b) => b.textContent.includes('Start a Dual Streak'));
     await act(async () => inviteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
