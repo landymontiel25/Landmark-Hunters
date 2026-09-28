@@ -31,7 +31,6 @@ import FriendPopoverName from '../components/FriendPopoverName';
 import CheckInButton from '../components/CheckInButton';
 import RegionSearch from '../components/RegionSearch';
 import MaprPicksCarousel from '../components/MaprPicksCarousel';
-import StreakPopup from '../components/StreakPopup';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
 import TasteProfileCard from '../components/TasteProfileCard';
@@ -301,7 +300,6 @@ export default function Profile() {
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [onboardingStep, setOnboardingStep] = useState(null); // null | 'preferences' | 'tasteIntro' | 'checkin' | 'locationAlways'
-  const [streakPopupOpen, setStreakPopupOpen] = useState(false);
   const { streaks } = usePairStreaks();
   const bestStreak = streaks.length ? Math.max(...streaks.map((s) => s.count)) : 0;
   const healedRef = useRef(false);
@@ -688,12 +686,11 @@ export default function Profile() {
             <span className="profile-stat-num">{stats ? stats.cities : <Skeleton className="skeleton-inline" width={28} height={22} />}</span>
             <span className="profile-stat-label">cities{stats?.cityIds?.length ? ' ›' : ''}</span>
           </button>
-          <button type="button" className="profile-stat profile-stat-btn" onClick={() => setStreakPopupOpen(true)}>
+          <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
             <span className="profile-stat-num">{bestStreak}</span>
             <span className="profile-stat-label">streak ›</span>
           </button>
         </div>
-        {streakPopupOpen && <StreakPopup onClose={() => setStreakPopupOpen(false)} />}
 
         <div className="rating-progress">
           {ratingsCount >= RATING_GOAL ? (

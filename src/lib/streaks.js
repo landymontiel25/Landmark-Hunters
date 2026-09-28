@@ -12,6 +12,10 @@ import { isRealCheckin } from './leaderboard';
 // same local calendar day.
 export const dayKey = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 
+// Exported for pairStreaks.js -- shared freezes and the recovery mission
+// both reset monthly, on the 1st, local time.
+export const monthKey = (d) => `${d.getFullYear()}-${d.getMonth()}`;
+
 // Minimum distinct landmarks engaged with (voting or a 0-point "Rate a
 // Landmark" claim) for a day to count toward the daily quota -- solo streaks
 // used this to stay alive without a real visit; the dual-streak system (see

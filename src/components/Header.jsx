@@ -25,7 +25,7 @@ function formatLeft(ms) {
 // once YOUR OWN side of today's quota isn't secured yet. Tapping opens a
 // live countdown to the local-midnight deadline -- the same lightweight
 // popover as before; the full "who it's with / how long / today's status"
-// picture lives in Your Stats -> the streak tile instead (StreakPopup.jsx).
+// picture lives in Your Stats -> the streak tile instead (MyStreaks.jsx).
 function PairStreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streaks } = usePairStreaks();

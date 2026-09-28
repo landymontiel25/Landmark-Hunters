@@ -8,7 +8,7 @@ import { Skeleton } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
 
 // Starting a streak lives on the streak icon itself now (Header's flame,
-// or Your Stats' "streak" tile -> StreakPopup), not here -- streak-first,
+// or Your Stats' "streak" tile -> MyStreaks), not here -- streak-first,
 // friend-second. This modal only shows whether one already exists with
 // this friend, as context, same as everything else on it.
 

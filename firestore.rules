@@ -379,7 +379,9 @@ service cloud.firestore {
         && pairId == request.resource.data.memberIds[0] + '_' + request.resource.data.memberIds[1]
         && request.resource.data.count == 0
         && request.resource.data.best == 0
-        && request.resource.data.lastCompletedDay == null;
+        && request.resource.data.lastCompletedDay == null
+        && request.resource.data.freezesLeft == 2
+        && request.resource.data.frozenDays.size() == 0;
       allow update: if false;
       // Guardrail (item b2/11): anyone in the pair can leave, no penalty.
       allow delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
