@@ -119,18 +119,38 @@ describe('MyStreaks', () => {
     expect(container.querySelector('.modal-backdrop')).toBeFalsy();
   });
 
-  it('removes a card from the carousel once rated and guessed', async () => {
+  it('shows a checkmark confirmation, then removes a card from the carousel once rated and guessed', async () => {
     await openStreak();
     const before = container.querySelectorAll('.mapr-pick-name').length;
     const loveButton = container.querySelector('.mapr-pick-vote.love');
     await act(async () => loveButton.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    // The vote row is replaced with a checkmark confirmation right away,
+    // instead of jumping straight to the guess step.
+    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
+    expect(container.textContent).not.toContain('What will your streak partner say?');
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 750));
+    });
     // Re-render happens via component state (submitCardRating is mocked, no
     // real Firestore round trip) -- the card should now show the guess step.
     expect(container.textContent).toContain('What will your streak partner say?');
     const guessButton = container.querySelector('.mapr-pick-vote.love');
     await act(async () => guessButton.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 750));
+    });
     const after = container.querySelectorAll('.mapr-pick-name').length;
     expect(after).toBe(before - 1);
     expect(container.textContent).toContain("Today's results");
+  });
+
+  it('lets you tap a card to see the landmark itself', async () => {
+    await openStreak();
+    const main = container.querySelector('.mapr-pick-main');
+    expect(main).toBeTruthy();
+    expect(main.tagName).toBe('BUTTON');
+    // Should not throw -- just navigates via react-router's history.
+    await act(async () => main.dispatchEvent(new MouseEvent('click', { bubbles: true })));
   });
 });
