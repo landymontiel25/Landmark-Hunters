@@ -4,6 +4,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
   deleteDoc,
   onSnapshot,
   query,
@@ -14,31 +15,32 @@ import { db } from './firebase';
 import { dayKey, monthKey, PICKS_STREAK_THRESHOLD } from './streaks';
 import { getUserReviews } from './reviews';
 import { authHeaders } from './apiAuth';
+import { pickDailyCardIds } from './sharedDeck';
 
 export const FREEZES_PER_MONTH = 2;
 
-// Dual streaks (Dual Streak spec, phase 3 MVP): a streak belongs to a pair
-// of friends, not a person. This is a deliberately smaller slice of the
-// full spec -- no shared 3-cards-a-day deck yet (item 3's "chosen by a
-// server function from a pair-day ID"), no squads, and the compatibility
-// score's second stat ("guess accuracy") isn't computable yet since there's
-// no partner-guess feature to measure. What IS real: a pair doc, a daily
-// entry each member writes for themself, a server-authoritative day-close,
-// shared freezes, a recovery mission, and a compatibility score computed
-// from real ratings/votes both members already made. Reusing
-// PICKS_STREAK_THRESHOLD/todaysActionCount (the same "3 distinct landmarks
-// today" quota solo streaks used) as each person's own daily bar, since
-// Mapr Travel Picks already produces that number.
+// Dual streaks (Dual Streak spec, phase 3): a streak belongs to a pair of
+// friends, not a person. Each day, both members see the SAME 3 landmarks
+// (sharedDeck.js -- deterministic, not an actual scheduled server function,
+// see that file's own note) and, per card, rate it then guess what their
+// partner will say (spec item 2 -- the guess only unlocks after you've
+// rated). The day counts once both members have rated and guessed all 3.
+// Not built yet: squads, and the full "Reveal" screen with match
+// highlights/bonus points (MyStreaks.jsx shows a lighter inline version:
+// each card reveals both people's rating/guess once both are in).
 //
 // Data model:
-//   streaks/{pairId}: memberIds, memberNames, count, best, lastCompletedDay,
-//     freezesLeft, freezeMonth, frozenDays, recoveryUsedMonth, createdAt.
-//     count/best/lastCompletedDay/freezesLeft/freezeMonth/frozenDays/
-//     recoveryUsedMonth are server-authority only -- firestore.rules blocks
-//     client writes to an existing doc entirely, so the only way they ever
-//     change is api/close-streak-day.js, api/use-streak-freeze.js, and
+//   streaks/{pairId}: memberIds, memberNames, cityId, count, best,
+//     lastCompletedDay, freezesLeft, freezeMonth, frozenDays,
+//     recoveryUsedMonth, createdAt. cityId is the one field either member
+//     can set themselves (setStreakCity); count/best/lastCompletedDay/
+//     freezesLeft/freezeMonth/frozenDays/recoveryUsedMonth are
+//     server-authority only -- firestore.rules blocks any other client
+//     write to an existing doc, so the only way those change is
+//     api/close-streak-day.js, api/use-streak-freeze.js, and
 //     api/complete-recovery-mission.js (admin SDK, bypasses rules).
-//   streaks/{pairId}/days/{dayId}/entries/{uid}: done, count, updatedAt --
+//   streaks/{pairId}/days/{dayId}/entries/{uid}: uid, ratings (map of
+//     landmarkId -> verdict), guesses (same shape), done, updatedAt --
 //     each member writes only their own entry (rules-enforced).
 
 export function pairIdOf(uidA, uidB) {
@@ -98,19 +100,63 @@ export async function leaveStreak(pairId) {
   await deleteDoc(doc(db, 'streaks', pairId));
 }
 
-// Today's entry, written by the person themself once they've hit the daily
-// quota (see usePairStreakSync.js). Safe to call more than once a day --
-// it's a merge, and api/close-streak-day.js is what actually decides
-// whether the pair's count moves.
-export async function submitMyEntry(pairId, uid, { done, count }) {
+// The one field on the pair doc either member can set themselves -- which
+// city today's (and every future day's, until changed) shared 3-card deck
+// draws from (sharedDeck.js).
+export async function setStreakCity(pairId, cityId) {
+  if (!db) return;
+  await updateDoc(doc(db, 'streaks', pairId), { cityId, updatedAt: serverTimestamp() });
+}
+
+// Today's 3 shared cards for this pair -- both members compute the exact
+// same list independently (sharedDeck.js), no network round trip.
+export function todaysCardIds(pairId, cityId) {
+  if (!cityId) return [];
+  return pickDailyCardIds(pairId, dayKey(new Date()), cityId);
+}
+
+// Rate + guess a card (item 2): rating first, guess only after. Both write
+// into the same per-day entry doc, keyed by landmarkId so rating one card
+// never touches another's data. `done` flips true once all
+// DAILY_DECK_SIZE cards have both a rating and a guess -- close-streak-
+// day.js re-derives the day's real card ids itself and verifies this
+// rather than trusting the flag outright.
+export async function submitCardRating(pairId, uid, landmarkId, verdict) {
   if (!db) return;
   const today = dayKey(new Date());
   await setDoc(
     doc(db, 'streaks', pairId, 'days', today, 'entries', uid),
-    { uid, done: !!done, count: count || 0, updatedAt: serverTimestamp() },
+    { uid, [`ratings.${landmarkId}`]: verdict, updatedAt: serverTimestamp() },
     { merge: true }
   );
-  return today;
+}
+
+export async function submitCardGuess(pairId, uid, landmarkId, verdict, cardIds) {
+  if (!db) return;
+  const today = dayKey(new Date());
+  const ref = doc(db, 'streaks', pairId, 'days', today, 'entries', uid);
+  await setDoc(ref, { uid, [`guesses.${landmarkId}`]: verdict, updatedAt: serverTimestamp() }, { merge: true });
+  // Recompute `done` from the entry we now expect to be complete, rather
+  // than trusting a locally-tracked count -- a second device/tab writing
+  // the same entry can't leave `done` out of sync with what's actually saved.
+  const snap = await getDoc(ref);
+  const entry = snap.data() || {};
+  const done = (cardIds || []).every((id) => entry.ratings?.[id] && entry.guesses?.[id]);
+  if (done) await setDoc(ref, { done: true, updatedAt: serverTimestamp() }, { merge: true });
+  return done;
+}
+
+// Pings the server to check whether TODAY closes for this pair -- call
+// after a card's rating+guess completes the day's deck. Safe to call any
+// time; api/close-streak-day.js only ever advances the count when both
+// members' entries actually cover today's real 3 cards.
+export async function closeToday(pairId) {
+  const today = dayKey(new Date());
+  await fetch('/api/close-streak-day', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+    body: JSON.stringify({ pairId, dayId: today }),
+  }).catch(() => {});
 }
 
 export function subscribeDayEntries(pairId, dayId, onEntries, onError) {

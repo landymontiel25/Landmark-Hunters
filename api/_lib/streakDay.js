@@ -11,8 +11,6 @@
 // this by reading process.env.VITE_FIREBASE_API_KEY instead; these
 // duplicated helpers are the same fix applied here.
 
-export const PICKS_STREAK_THRESHOLD = 3;
-
 export const dayKey = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 
 export const monthKey = (d) => `${d.getFullYear()}-${d.getMonth()}`;

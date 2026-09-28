@@ -2,20 +2,32 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
-import { useBadges } from '../lib/BadgesContext';
 import { listFriends } from '../lib/friends';
 import {
   subscribeDayEntries,
+  setStreakCity,
+  submitCardRating,
+  submitCardGuess,
   spendFreeze,
   completeRecoveryMission,
   computeCompatibility,
-  PICKS_STREAK_THRESHOLD,
   MAX_ACTIVE_STREAKS,
   FREEZES_PER_MONTH,
 } from '../lib/pairStreaks';
+import { dailyDeck } from '../lib/sharedDeck';
 import { dayKey, monthKey } from '../lib/streaks';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
+import RegionSearch from '../components/RegionSearch';
+
+// Same verdict vocabulary Mapr Travel Picks uses (MaprPicksCarousel.jsx) --
+// "would you go", not "how was it", since a shared card is often somewhere
+// neither of you has actually been yet.
+const VOTE_COPY = {
+  yes: { cls: 'love', emoji: '\u{2713}', label: "I'd go" },
+  unsure: { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure' },
+  no: { cls: 'hate', emoji: '\u{2715}', label: 'Not for me' },
+};
 
 function since(createdAt) {
   const ms = createdAt?.seconds ? createdAt.seconds * 1000 : createdAt?.toMillis?.();
@@ -32,26 +44,129 @@ function fmtPct(score) {
 
 const COMPATIBILITY_MIN_SHARED_DISPLAY = 10;
 
-// One streak's full detail: who it's with, count/best, a live day-status
-// per person, how long it's existed, shared freezes, a recovery mission
-// banner when one's open, and a compatibility score once there's enough
-// shared data. "Guess accuracy" (the spec's second stat under
-// compatibility) isn't shown -- there's no partner-guess feature yet to
-// measure it from.
+// One card in today's shared deck. Rate first; the guess step only unlocks
+// once you have (spec item 2, "the guess unlocks only after the user
+// submits their own rating"). Once both your rating+guess AND your
+// partner's rating are in, shows a light inline reveal -- the real Reveal
+// screen (highlights, bonus points) isn't built, but seeing both answers
+// side by side once they exist is most of the value.
+function DeckCard({ streak, landmark, myEntry, partnerEntry, partnerName, onRated, onGuessed }) {
+  const myRating = myEntry?.ratings?.[landmark.id];
+  const myGuess = myEntry?.guesses?.[landmark.id];
+  const partnerRating = partnerEntry?.ratings?.[landmark.id];
+  const [busy, setBusy] = useState(false);
+
+  const rate = async (verdict) => {
+    setBusy(true);
+    try {
+      await submitCardRating(streak.id, myEntry.uid, landmark.id, verdict);
+      onRated();
+    } finally {
+      setBusy(false);
+    }
+  };
+  const guess = async (verdict) => {
+    setBusy(true);
+    try {
+      await onGuessed(landmark.id, verdict);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="mapr-pick" style={{ flex: 'none', width: '100%', maxWidth: 'none', marginBottom: 12 }}>
+      <div className="mapr-pick-main">
+        {landmark.images?.[0] ? (
+          <img className="mapr-pick-img" src={landmark.images[0]} alt="" loading="lazy" />
+        ) : (
+          <div className="mapr-pick-img mapr-pick-img-blank">{'\u{1F4CD}'}</div>
+        )}
+        <span className="mapr-pick-name">{landmark.name}</span>
+        <span className="mapr-pick-sub">{(landmark.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
+      </div>
+
+      {!myRating ? (
+        <div className="mapr-pick-actions">
+          {['no', 'unsure', 'yes'].map((verdict) => {
+            const copy = VOTE_COPY[verdict];
+            return (
+              <button
+                key={verdict}
+                type="button"
+                className={`mapr-pick-vote ${copy.cls}`}
+                disabled={busy}
+                onClick={() => rate(verdict)}
+              >
+                {copy.emoji} {copy.label}
+              </button>
+            );
+          })}
+        </div>
+      ) : !myGuess ? (
+        <div style={{ padding: '10px 12px 0' }}>
+          <p className="screen-subtitle" style={{ margin: '0 0 8px' }}>
+            You said {VOTE_COPY[myRating].label}. What will @{partnerName} say?
+          </p>
+          <div className="mapr-pick-actions" style={{ padding: 0 }}>
+            {['no', 'unsure', 'yes'].map((verdict) => {
+              const copy = VOTE_COPY[verdict];
+              return (
+                <button
+                  key={verdict}
+                  type="button"
+                  className={`mapr-pick-vote ${copy.cls}`}
+                  disabled={busy}
+                  onClick={() => guess(verdict)}
+                >
+                  {copy.emoji} {copy.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div style={{ padding: '10px 12px 12px' }}>
+          <p style={{ margin: '0 0 4px', fontSize: '0.85rem' }}>
+            You: {VOTE_COPY[myRating].label} · Your guess for @{partnerName}: {VOTE_COPY[myGuess].label}
+          </p>
+          {partnerRating ? (
+            <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700 }}>
+              @{partnerName}: {VOTE_COPY[partnerRating].label} --{' '}
+              {partnerRating === myGuess ? 'you guessed right! \u{1F389}' : 'not quite'}
+              {partnerRating === myRating ? ' (you both agree!)' : ''}
+            </p>
+          ) : (
+            <p className="screen-subtitle" style={{ margin: 0 }}>
+              Waiting on @{partnerName} to rate this one.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// One streak's full detail: who it's with, count/best, today's shared
+// 3-card deck (rate then guess, per card), a live day-status per person,
+// how long it's existed, shared freezes, a recovery mission banner when
+// one's open, and a compatibility score once there's enough shared data.
+// "Guess accuracy" (the spec's second stat under compatibility) isn't
+// shown as a number yet -- but each card's inline reveal above is exactly
+// that same signal, just not yet rolled up into one stat.
 function StreakDetail({ streak, onBack, onLeave }) {
   const { user } = useAuth();
-  const { actionsToday } = useBadges();
+  const { closeToday } = usePairStreaks();
   const [entries, setEntries] = useState({});
+  const [cityPickerOpen, setCityPickerOpen] = useState(false);
   const [freezeBusy, setFreezeBusy] = useState(false);
   const [freezeMsg, setFreezeMsg] = useState(null);
   const [recoveryBusy, setRecoveryBusy] = useState(false);
   const [recoveryMsg, setRecoveryMsg] = useState(null);
   const [compat, setCompat] = useState(undefined); // undefined = loading
 
-  useEffect(() => {
-    const today = dayKey(new Date());
-    return subscribeDayEntries(streak.id, today, setEntries, () => {});
-  }, [streak.id]);
+  const today = dayKey(new Date());
+  useEffect(() => subscribeDayEntries(streak.id, today, setEntries, () => {}), [streak.id, today]);
 
   const partnerUid = (streak.memberIds || []).find((uid) => uid !== user.uid);
   const partnerName = streak.memberNames?.[partnerUid] || 'A traveler';
@@ -63,10 +178,19 @@ function StreakDetail({ streak, onBack, onLeave }) {
       .catch(() => setCompat(null));
   }, [user.uid, partnerUid]);
 
-  const myEntry = entries[user.uid];
+  const myEntry = entries[user.uid] || { uid: user.uid, ratings: {}, guesses: {} };
   const partnerEntry = entries[partnerUid];
-  const myDone = myEntry?.done || actionsToday >= PICKS_STREAK_THRESHOLD;
-  const myCount = Math.max(myEntry?.count || 0, actionsToday);
+  const deck = streak.cityId ? dailyDeck(streak.id, today, streak.cityId) : [];
+  const cardIds = deck.map((l) => l.id);
+  const myGuessedCount = cardIds.filter((id) => myEntry.guesses?.[id]).length;
+  const partnerGuessedCount = cardIds.filter((id) => partnerEntry?.guesses?.[id]).length;
+  const myDayDone = cardIds.length > 0 && myGuessedCount === cardIds.length;
+  const region = streak.cityId ? getRegion(streak.cityId) : null;
+
+  const handleGuessed = async (landmarkId, verdict) => {
+    const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds);
+    if (done) closeToday(streak.id);
+  };
 
   const thisMonth = monthKey(new Date());
   const freezesLeft = streak.freezeMonth === thisMonth ? streak.freezesLeft ?? FREEZES_PER_MONTH : FREEZES_PER_MONTH;
@@ -137,17 +261,38 @@ function StreakDetail({ streak, onBack, onLeave }) {
         </div>
       )}
 
-      <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4 }}>
-        Today's status
+      <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Today's 3 shared landmarks</span>
+        <button type="button" className="tag" style={{ fontSize: '0.68rem', cursor: 'pointer', fontFamily: 'inherit' }} onClick={() => setCityPickerOpen(true)}>
+          {region ? region.name : 'Choose a city'}
+        </button>
       </p>
-      <p style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>
-        You: {myDone ? `✓ done (${myCount}/${PICKS_STREAK_THRESHOLD})` : `${myCount}/${PICKS_STREAK_THRESHOLD} rated today`}
-      </p>
-      <p style={{ margin: '0 0 10px', fontSize: '0.9rem' }}>
-        @{partnerName}: {partnerEntry?.done ? `✓ done (${partnerEntry.count}/${PICKS_STREAK_THRESHOLD})` : `${partnerEntry?.count || 0}/${PICKS_STREAK_THRESHOLD} rated today`}
-      </p>
+      {!streak.cityId ? (
+        <p className="screen-subtitle" style={{ margin: 0 }}>
+          Pick a city above to get today's 3 shared landmarks -- you and @{partnerName} will both see the exact same 3.
+        </p>
+      ) : (
+        <>
+          <p style={{ margin: '0 0 10px', fontSize: '0.85rem' }}>
+            You: {myGuessedCount}/{cardIds.length} rated + guessed{myDayDone ? ' ✓' : ''} · @{partnerName}:{' '}
+            {partnerGuessedCount}/{cardIds.length} rated + guessed{partnerGuessedCount === cardIds.length ? ' ✓' : ''}
+          </p>
+          {deck.map((landmark) => (
+            <DeckCard
+              key={landmark.id}
+              streak={streak}
+              landmark={landmark}
+              myEntry={myEntry}
+              partnerEntry={partnerEntry}
+              partnerName={partnerName}
+              onRated={() => {}}
+              onGuessed={handleGuessed}
+            />
+          ))}
+        </>
+      )}
 
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '10px 0' }}>
         <button type="button" className="btn btn-ghost btn-sm" disabled={freezeBusy || freezesLeft <= 0} onClick={handleFreeze}>
           {freezeBusy ? '…' : `❄️ Use a Freeze (${freezesLeft} left)`}
         </button>
@@ -159,8 +304,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
       )}
 
       <p className="screen-subtitle" style={{ marginBottom: 0 }}>
-        {since(streak.createdAt) || 'Just started'}. The day counts once you're both at {PICKS_STREAK_THRESHOLD} rated
-        or voted in Mapr Travel Picks.
+        {since(streak.createdAt) || 'Just started'}. The day counts once you're both fully rated and guessed on all 3.
       </p>
 
       <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4 }}>
@@ -185,8 +329,8 @@ function StreakDetail({ streak, onBack, onLeave }) {
         </p>
       )}
       <p className="screen-subtitle" style={{ marginTop: 6, marginBottom: 0, fontSize: '0.72rem' }}>
-        "How well you know each other" (guess accuracy) isn't shown yet -- it needs the "guess what your partner
-        picked" step, which isn't built.
+        "How well you know each other" (a rolled-up guess-accuracy number) isn't shown yet -- each card's reveal
+        above already tells you right/wrong per landmark, just not summarized into one score.
       </p>
 
       <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
@@ -204,6 +348,28 @@ function StreakDetail({ streak, onBack, onLeave }) {
           Leave streak
         </button>
       </div>
+
+      {cityPickerOpen && (
+        <div className="modal-backdrop" onClick={() => setCityPickerOpen(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ marginTop: 0 }}>{'\u{1F5FA}\u{FE0F}'} Choose a City</h3>
+            <p className="screen-subtitle" style={{ marginTop: 0 }}>
+              Today's (and every future day's, until changed) 3 shared landmarks come from this city.
+            </p>
+            <RegionSearch
+              region={region}
+              onSelect={(r) => {
+                setStreakCity(streak.id, r.id);
+                setCityPickerOpen(false);
+              }}
+              placeholder="Search for a city…"
+            />
+            <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 16 }} onClick={() => setCityPickerOpen(false)}>
+              Done
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

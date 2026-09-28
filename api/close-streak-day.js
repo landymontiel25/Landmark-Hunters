@@ -2,7 +2,8 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { PICKS_STREAK_THRESHOLD, previousDayKey } from './_lib/streakDay.js';
+import { previousDayKey } from './_lib/streakDay.js';
+import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 
 // The one place a pair's streak count actually moves. Called by either
 // member's client right after they hit today's quota (see
@@ -55,11 +56,22 @@ export default async function handler(req, res) {
       return;
     }
 
+    if (!streak.cityId) {
+      res.status(200).json({ ok: true, closed: false, reason: 'no-city' });
+      return;
+    }
+    // Never trust a bare `done` flag -- re-derive today's real 3 cards the
+    // exact same deterministic way both clients did (sharedDeck.js) and
+    // check each member's entry actually covers all of them.
+    const cardIds = pickDailyCardIds(pairId, dayId, streak.cityId);
     const entriesSnap = await streakRef.collection('days').doc(dayId).collection('entries').get();
     const entries = Object.fromEntries(entriesSnap.docs.map((d) => [d.id, d.data()]));
-    const bothDone = (streak.memberIds || []).every(
-      (uid) => entries[uid]?.done && (entries[uid]?.count || 0) >= PICKS_STREAK_THRESHOLD
-    );
+    const bothDone =
+      cardIds.length > 0 &&
+      (streak.memberIds || []).every((uid) => {
+        const e = entries[uid];
+        return e && cardIds.every((id) => e.ratings?.[id] && e.guesses?.[id]);
+      });
     if (!bothDone) {
       res.status(200).json({ ok: true, closed: false });
       return;
