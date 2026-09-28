@@ -1,5 +1,16 @@
 {
   "appId": "com.landmarkhunters.app",
   "appName": "Landmark Hunters",
-  "webDir": "dist"
+  "webDir": "dist",
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/messaging": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
 }

@@ -12,8 +12,12 @@ import {
   saveTasteIntro,
   setHabitTrackingEnabled,
   setBackgroundLocationEnabled,
+  setPushNotificationsEnabled,
+  savePushToken,
 } from '../lib/friends';
 import { requestAlwaysPermission } from '../lib/backgroundLocation';
+import { requestPushPermission, getPushToken } from '../lib/pushNotifications';
+import { authHeaders } from '../lib/apiAuth';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { authErrorMessage } from '../lib/authErrors';
 import PreferenceChips from '../components/PreferenceChips';
@@ -80,6 +84,13 @@ export default function Settings() {
   // Opt-in (unlike habit tracking above), since turning this on means asking
   // iOS for "Always" location -- absence of the field means off.
   const backgroundLocationEnabled = bgLocationOverride ?? !!myProfile?.backgroundLocationEnabled;
+  const [pushOverride, setPushOverride] = useState(null);
+  const pushInFlightRef = useRef(false);
+  const [pushErr, setPushErr] = useState(null);
+  const [pushTestMsg, setPushTestMsg] = useState(null);
+  // Opt-in, off by default -- turning this on asks for the OS notification
+  // permission, same reasoning as background location above.
+  const pushNotificationsEnabled = pushOverride ?? !!myProfile?.pushNotificationsEnabled;
   // Drafts are per account (uid in the key). myProfile loads asynchronously
   // (FriendsContext); until you type, each field simply shows the server copy
   // whenever it lands. The taste-intro key is shared with onboarding's
@@ -217,6 +228,47 @@ export default function Settings() {
     } finally {
       bgLocationInFlightRef.current = false;
       setBgLocationOverride(null);
+    }
+  };
+
+  const togglePushNotifications = async () => {
+    if (pushInFlightRef.current) return;
+    pushInFlightRef.current = true;
+    setPushErr(null);
+    setPushTestMsg(null);
+    const next = !pushNotificationsEnabled;
+    try {
+      if (next) {
+        // Same reasoning as background location: a genuine "no" at the OS
+        // prompt isn't a network failure to retry, so ask first.
+        const granted = await requestPushPermission();
+        if (!granted) {
+          setPushErr('Notifications are off for Landmark Hunters. Turn them on in iOS Settings, then try again here.');
+          return;
+        }
+        const token = await getPushToken();
+        if (token) await savePushToken(user.uid, token, 'ios');
+      }
+      setPushOverride(next);
+      await setPushNotificationsEnabled(user.uid, next);
+      await reloadFriends();
+    } catch (e) {
+      setPushErr(friendlyError(e, `Couldn't turn ${next ? 'on' : 'off'} notifications.`));
+    } finally {
+      pushInFlightRef.current = false;
+      setPushOverride(null);
+    }
+  };
+
+  const sendTestPush = async () => {
+    setPushTestMsg('Sending…');
+    try {
+      const r = await fetch('/api/push-test', { method: 'POST', headers: await authHeaders() });
+      const data = await r.json().catch(() => null);
+      if (!r.ok || data?.error) throw new Error(data?.error || `HTTP ${r.status}`);
+      setPushTestMsg("Sent -- it should arrive any moment.");
+    } catch (e) {
+      setPushTestMsg(friendlyError(e, "Couldn't send a test notification."));
     }
   };
 
@@ -436,6 +488,38 @@ export default function Settings() {
           >
             {backgroundLocationEnabled ? `${'\u{2705}'} On — tap to turn off` : `${'\u{1F6AB}'} Off — tap to turn on`}
           </button>
+        </div>
+      )}
+
+      {firebaseEnabled && user && (
+        <div className="card section">
+          <h3 style={{ marginTop: 0 }}>{'\u{1F514}'} Push Notifications</h3>
+          <p className="screen-subtitle" style={{ marginTop: 0 }}>
+            {pushNotificationsEnabled
+              ? 'Landmark Hunters can notify you even when the app is closed.'
+              : "Off means you'll only see updates while the app is open. Turn this on to get notified even when it's closed."}
+          </p>
+          {pushErr && <ErrorNotice compact message={pushErr} />}
+          <button
+            type="button"
+            className={`btn btn-block ${pushNotificationsEnabled ? 'btn-success' : 'btn-ghost'}`}
+            aria-pressed={pushNotificationsEnabled}
+            onClick={togglePushNotifications}
+          >
+            {pushNotificationsEnabled ? `${'\u{2705}'} On — tap to turn off` : `${'\u{1F6AB}'} Off — tap to turn on`}
+          </button>
+          {pushNotificationsEnabled && (
+            <>
+              <button type="button" className="btn btn-ghost btn-block btn-sm" style={{ marginTop: 8 }} onClick={sendTestPush}>
+                Send test notification
+              </button>
+              {pushTestMsg && (
+                <p className="screen-subtitle" style={{ margin: '6px 0 0', fontSize: '0.8rem' }}>
+                  {pushTestMsg}
+                </p>
+              )}
+            </>
+          )}
         </div>
       )}
 

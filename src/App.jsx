@@ -25,6 +25,15 @@ import AdminModeBadge from './components/AdminModeBadge';
 import { ScreenSkeleton } from './components/Skeleton';
 import { ToastProvider } from './lib/ToastContext';
 import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
+import { usePushNotificationsSync } from './lib/usePushNotificationsSync';
+
+// Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
+// start/stop push registration as the traveler's own saved preference
+// (Settings) changes.
+function PushNotificationsSync() {
+  usePushNotificationsSync();
+  return null;
+}
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
 // start/stop the real background location watcher as the traveler's own
@@ -148,6 +157,7 @@ export default function App() {
           <MaprChatProvider>
           <HashRouter>
           <BackgroundLocationSync />
+          <PushNotificationsSync />
           <OfflineBanner />
           <Header />
           <main className="app-main">
