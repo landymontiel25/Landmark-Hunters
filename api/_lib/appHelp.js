@@ -155,12 +155,13 @@ export const APP_HELP =
   `- Today's 3 shared landmarks: shown as a swipeable carousel, same style as Mapr Travel Picks. Mapr picks the city (same default-location logic ` +
   `Mapr Travel Picks itself uses, no manual city picker -- the user never chooses it) and the 3 landmarks (deterministically, so both people see the ` +
   `exact same 3 with no server round-trip deciding it). Tap a card's photo/name to open that landmark's own page, same as tapping a Mapr Travel ` +
-  `Picks card. Two full phases, not per-card: first, rate all 3 (I'd go / Not sure / Not for me -- same wording as Mapr Travel Picks); each tap ` +
-  `blacks out that whole card under a big green checkmark, right in place (the card doesn't disappear or move) -- it's an optimistic local update, ` +
-  `so it shows instantly and doesn't wait on or get reset by the write actually landing; only a real failure reverts it, with the reason shown on ` +
-  `the card in a loud red banner, not just quiet text. Once all 3 are rated, the same 3 cards switch together to a second question -- guess what ` +
-  `your partner will say about each one -- with the same checkmark-in-place behavior. Once you've guessed all 3, the carousel is replaced by a ` +
-  `"Today's results" list showing ` +
+  `Picks card. Two full phases, not per-card: first, rate all 3 (I'd go / Not sure / Not for me -- same wording as Mapr Travel Picks). Voting on a ` +
+  `card removes it from the row immediately -- exactly like voting on a Mapr Travel Picks card, no checkmark stage, it just disappears -- it's an ` +
+  `optimistic local update, so it happens instantly and doesn't wait on the write actually landing; only a real failure brings the card back, with ` +
+  `the reason shown in a loud red banner above the deck (not on the card, since it's already gone). Once all 3 are rated, the same 3 landmarks come ` +
+  `back for a second question -- guess what your partner will say about each one -- behind a big, colorful, animated banner ("Your turn to guess!") ` +
+  `so it reads as a clearly new step rather than the same 3 cards repeating themselves. Voting on a guess removes that card the same way. Once ` +
+  `you've guessed all 3, the carousel is replaced by a "Today's results" list showing ` +
   `both people's rating and whether your guess was right, once your partner's answer is in too (a lighter version of the spec's "Reveal" screen, ` +
   `without the celebration animation or bonus points). Once you've done all 3, and your partner has too, the day counts. The header flame shows the ` +
   `pair's current count and a live countdown to that day's deadline, turning red once your own side isn't done. The deck always skips anywhere ` +

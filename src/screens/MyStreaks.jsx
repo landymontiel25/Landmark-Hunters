@@ -48,40 +48,36 @@ function fmtPct(score) {
 const COMPATIBILITY_MIN_SHARED_DISPLAY = 10;
 
 // One card in today's shared deck, in a Mapr Travel Picks-style swipeable
-// carousel (.mapr-picks-track / .mapr-pick, MaprPicksCarousel.jsx). Used for
-// both phases (rate, then guess -- see StreakDetail): the parent decides
-// which verdict this card is collecting and what's already been recorded
-// for it (shownVerdict), so the card itself doesn't need to know which
-// phase it's in. Once shownVerdict is set, the WHOLE card blacks out under
-// a big green checkmark (not just the vote row) -- shownVerdict comes from
-// the parent's optimistic-write overlay (set the instant you tap, before
-// the Firestore write even lands) merged with the real synced value, so it
-// never reverts back to the vote row once a tap has gone through. It only
-// reverts if the write actually fails, with a loud, impossible-to-miss
-// reason shown right on the card, instead of silently resetting or saying
-// nothing.
-function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
+// carousel (.mapr-picks-track / .mapr-pick, MaprPicksCarousel.jsx). Used
+// for both phases (rate, then guess -- see StreakDetail). Voting on a card
+// removes it from the row immediately -- exactly like a Mapr Travel Picks
+// vote, no checkmark stage, it just disappears -- because the parent
+// filters it out of what it renders the instant the optimistic write
+// overlay is set (StreakDetail's shownRating/shownGuess), before the
+// Firestore write itself even lands. If the write actually fails, the
+// optimistic overlay gets cleared and the card reappears on its own
+// (there's no card left to show an inline error on at that point -- see
+// StreakDetail's voteError banner instead).
+function VoteCard({ streak, landmark, prompt, onVote, onError }) {
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState(null);
 
   const vote = async (verdict) => {
     setBusy(true);
-    setError(null);
     try {
       await onVote(landmark.id, verdict);
     } catch (e) {
       // eslint-disable-next-line no-console -- worth having in the device
       // console if someone needs to debug a save that silently didn't work.
       console.error('Vote failed to save', landmark.id, verdict, e);
-      setError(friendlyError(e, "Couldn't save that -- try again."));
+      onError(friendlyError(e, `Couldn't save your vote for ${landmark.name} -- try again.`));
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <div className={`mapr-pick${shownVerdict ? ' mapr-pick-voted' : ''}`}>
+    <div className="mapr-pick">
       <button
         type="button"
         className="mapr-pick-main"
@@ -96,37 +92,27 @@ function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
         <span className="mapr-pick-sub">{(landmark.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
       </button>
 
-      {shownVerdict ? (
-        <div className="mapr-pick-vote-overlay">
-          <span className="mapr-pick-vote-check">{'\u{2713}'}</span>
-          <span className="mapr-pick-vote-overlay-label">{VOTE_COPY[shownVerdict].label}</span>
-        </div>
-      ) : (
-        <>
-          {prompt && (
-            <p className="screen-subtitle" style={{ margin: '0 0 8px', padding: '10px 12px 0' }}>
-              {prompt}
-            </p>
-          )}
-          <div className="mapr-pick-actions" style={prompt ? { padding: '0 12px' } : undefined}>
-            {['no', 'unsure', 'yes'].map((verdict) => {
-              const copy = VOTE_COPY[verdict];
-              return (
-                <button
-                  key={verdict}
-                  type="button"
-                  className={`mapr-pick-vote ${copy.cls}`}
-                  disabled={busy}
-                  onClick={() => vote(verdict)}
-                >
-                  {copy.emoji} {copy.label}
-                </button>
-              );
-            })}
-          </div>
-          {error && <p className="mapr-pick-error">{'\u{26A0}\u{FE0F}'} {error}</p>}
-        </>
+      {prompt && (
+        <p className="screen-subtitle" style={{ margin: '0 0 8px', padding: '10px 12px 0' }}>
+          {prompt}
+        </p>
       )}
+      <div className="mapr-pick-actions" style={prompt ? { padding: '0 12px' } : undefined}>
+        {['no', 'unsure', 'yes'].map((verdict) => {
+          const copy = VOTE_COPY[verdict];
+          return (
+            <button
+              key={verdict}
+              type="button"
+              className={`mapr-pick-vote ${copy.cls}`}
+              disabled={busy}
+              onClick={() => vote(verdict)}
+            >
+              {copy.emoji} {copy.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -174,6 +160,10 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // have saved while this stays stuck showing stale/empty state, which
   // otherwise looks exactly like "nothing was saved" on the next reload.
   const [entriesError, setEntriesError] = useState(null);
+  // A vote failing to save has no card left to show an inline error on --
+  // it's already gone from the row (see VoteCard's note) -- so it lands
+  // here instead, above the deck.
+  const [voteError, setVoteError] = useState(null);
 
   const today = dayKey(new Date());
   useEffect(() => {
@@ -234,14 +224,18 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const partnerEntry = entries[partnerUid];
   const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
   const cardIds = deck.map((l) => l.id);
-  // What a card should show right now -- the optimistic tap if there's one
-  // still in flight (or that failed and got cleared), else whatever's
-  // actually synced.
+  // Whether a card's already been voted on -- the optimistic tap if
+  // there's one still in flight, else whatever's actually synced. Used to
+  // filter it OUT of what renders (see remainingToRate/remainingToGuess
+  // below), not to show a checkmark on it -- a voted card just disappears,
+  // exactly like a Mapr Travel Picks vote.
   const shownRating = (id) => optimisticRatings[id] ?? myEntry.ratings?.[id];
   const shownGuess = (id) => optimisticGuesses[id] ?? myEntry.guesses?.[id];
+  const remainingToRate = deck.filter((l) => !shownRating(l.id));
+  const remainingToGuess = deck.filter((l) => !shownGuess(l.id));
   // Phase transitions (rate all 3 -> guess all 3 -> done) key off the real
-  // synced counts, not the optimistic ones -- a card's own checkmark shows
-  // instantly on tap, but the deck only moves to the next phase once
+  // synced counts, not the optimistic ones -- a card disappears from its
+  // row instantly on tap, but the deck only moves to the next phase once
   // Firestore actually confirms all 3, so "Today's results" is never built
   // from a guess that hasn't landed yet.
   const myGuessedCount = cardIds.filter((id) => myEntry.guesses?.[id]).length;
@@ -252,6 +246,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
   const handleRate = async (landmarkId, verdict) => {
+    setVoteError(null);
     setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
     try {
       await submitCardRating(streak.id, user.uid, landmarkId, verdict);
@@ -266,6 +261,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
   };
 
   const handleGuess = async (landmarkId, verdict) => {
+    setVoteError(null);
     setOptimisticGuesses((cur) => ({ ...cur, [landmarkId]: verdict }));
     try {
       const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds);
@@ -354,6 +350,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
         <span className="tag" style={{ fontSize: '0.68rem' }}>{region ? region.name : 'Finding your city…'}</span>
       </p>
       {entriesError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {entriesError}</p>}
+      {voteError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {voteError}</p>}
       {!streak.cityId ? (
         <SkeletonList count={1} label="Finding your city" />
       ) : visitedIds === undefined ? (
@@ -369,32 +366,33 @@ function StreakDetail({ streak, onBack, onLeave }) {
             picks, to build your compatibility score.
           </p>
           <div className="mapr-picks-track">
-            {deck.map((landmark) => (
-              <VoteCard
-                key={landmark.id}
-                streak={streak}
-                landmark={landmark}
-                shownVerdict={shownRating(landmark.id)}
-                onVote={handleRate}
-              />
+            {remainingToRate.map((landmark) => (
+              <VoteCard key={landmark.id} streak={streak} landmark={landmark} onVote={handleRate} onError={setVoteError} />
             ))}
           </div>
         </>
       ) : !myDayDone ? (
         <>
-          <p className="screen-subtitle" style={{ margin: '0 0 10px' }}>
-            {'✓'} You've rated your 3 for today! Now guess what @{partnerName} will pick for each ({myGuessedCount}/
-            {cardIds.length}) to see your compatibility score.
-          </p>
-          <div className="mapr-picks-track">
-            {deck.map((landmark) => (
+          {/* A deliberately big, colorful, animated moment -- so this doesn't
+              read as the same 3 cards repeating the same question (the
+              complaint that led to this), but as a clearly new step. */}
+          <div className="streak-guess-banner">
+            <span className="streak-guess-banner-icon">{'\u{1F52E}'}</span>
+            <p className="streak-guess-banner-title">Your turn to guess!</p>
+            <p className="streak-guess-banner-sub">
+              What will @{partnerName} say about each one? ({myGuessedCount}/{cardIds.length}) -- get it right to
+              build your compatibility score.
+            </p>
+          </div>
+          <div className="mapr-picks-track streak-guess-track">
+            {remainingToGuess.map((landmark) => (
               <VoteCard
                 key={landmark.id}
                 streak={streak}
                 landmark={landmark}
-                shownVerdict={shownGuess(landmark.id)}
                 prompt={`What will @${partnerName} say about this one?`}
                 onVote={handleGuess}
+                onError={setVoteError}
               />
             ))}
           </div>

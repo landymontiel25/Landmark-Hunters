@@ -1551,45 +1551,76 @@ textarea {
   font-size: 0.66rem;
   letter-spacing: 0.02em;
 }
-/* Once a card's been voted on, the WHOLE card blacks out under this
-   overlay (not just the button row) -- covers the image/name/sub in place
-   (.mapr-pick already has position:relative) so it reads as "this one's
-   done", the same instant the tap registers. */
-.mapr-pick-voted {
-  cursor: default;
+/* Dual Streak's guess-phase banner: a deliberately big, colorful, animated
+   entrance (same bright gradient .mapr-pick-add already uses for its own
+   "this is an action, not another suggestion" moment) -- the same 3
+   landmarks reappear asking a second question, and without something this
+   obvious marking the switch, it reads as the UI just repeating itself. */
+@keyframes streakGuessBannerPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(-10px);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.03) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
-.mapr-pick-vote-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: rgba(8, 12, 18, 0.82);
-  border-radius: inherit;
-}
-.mapr-pick-vote-check {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-green);
+.streak-guess-banner {
+  margin: 0 0 12px;
+  padding: 16px 14px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(155deg, #ff6fa8, #ffb347 55%, #38bdf8);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   color: #ffffff;
-  font-size: 1.6rem;
-  font-weight: 800;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  animation: streakGuessBannerPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
-.mapr-pick-vote-overlay-label {
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #ffffff;
+.streak-guess-banner-icon {
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.streak-guess-banner-title {
+  margin: 0 0 4px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+}
+.streak-guess-banner-sub {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+/* The guess-phase cards themselves pop in staggered, right under the
+   banner, instead of just silently existing -- reinforces "this is a new
+   moment" beyond the banner alone. */
+@keyframes streakPickPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.streak-guess-track .mapr-pick {
+  animation: streakPickPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.streak-guess-track .mapr-pick:nth-child(2) {
+  animation-delay: 0.09s;
+}
+.streak-guess-track .mapr-pick:nth-child(3) {
+  animation-delay: 0.18s;
 }
 .mapr-pick-error {
   margin: 8px 12px 0;
