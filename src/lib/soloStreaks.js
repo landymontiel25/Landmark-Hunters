@@ -3,6 +3,7 @@ import { db } from './firebase';
 import { dayKey } from './streaks';
 import { pickDailyCardIds } from './sharedDeck';
 import { authHeaders } from './apiAuth';
+import { syncLocalFeedbackToFirestore } from './pickFeedback';
 
 // Solo streaks -- back after being retired at #405, now sharing the same
 // streaks/{id} collection as dual streaks (mode: 'solo', memberIds: [uid],
@@ -20,7 +21,7 @@ import { authHeaders } from './apiAuth';
 // created (and, for anyone with a pre-existing streak, seeded from their
 // real check-in/pick_feedback history rather than reset to 0) the first
 // time ensureSoloStreak is called -- see that endpoint's own note.
-export async function ensureSoloStreak(userName) {
+export async function ensureSoloStreak(userName, uid) {
   // timeZone (IANA, e.g. "America/New_York") lets the server bucket
   // historical check-ins/votes into the SAME calendar days the browser
   // itself would -- without it, a server that isn't in the user's own
@@ -33,6 +34,13 @@ export async function ensureSoloStreak(userName) {
   } catch {
     /* unsupported/unavailable -- the endpoint falls back gracefully */
   }
+  // Give any vote that only ever made it to this device's localStorage (a
+  // past best-effort Firestore write that silently failed) one more chance
+  // to sync BEFORE the server reads pick_feedback below -- otherwise a
+  // whole streak day resting on a local-only vote is invisible to it and
+  // the seed/repair under-counts even with the timezone fixed. Best-effort
+  // itself: never blocks or fails ensureSoloStreak over a sync hiccup.
+  if (uid) await syncLocalFeedbackToFirestore(uid).catch(() => {});
   const r = await fetch('/api/ensure-solo-streak', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
