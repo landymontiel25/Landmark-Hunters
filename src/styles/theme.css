@@ -2409,8 +2409,30 @@ button.header-streak {
 }
 
 .leaderboard-row.me {
-  border-color: var(--color-brass);
-  background: rgba(91, 140, 255, 0.1);
+  border-color: var(--color-green);
+  background: rgba(85, 201, 135, 0.12);
+}
+
+/* Bold + green everywhere your own row shows up (leaderboard rows, podium
+   tiles) -- a color the rank/medal styling never uses on its own, so "this
+   is you" never gets lost next to "this is #1"'s brass/gold. */
+.leaderboard-row.me .leaderboard-name,
+.podium-slot.me .podium-name {
+  font-weight: 800;
+  color: var(--color-green);
+}
+
+.leaderboard-you-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-green);
+  color: #06210f;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
 }
 
 /* --- Ranks hero card --- */
@@ -2501,8 +2523,8 @@ button.header-streak {
 }
 
 .podium-slot.me {
-  border-color: var(--color-brass-bright);
-  box-shadow: 0 0 0 1px var(--color-brass-bright) inset;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 1px var(--color-green) inset;
 }
 
 .podium-medal {
