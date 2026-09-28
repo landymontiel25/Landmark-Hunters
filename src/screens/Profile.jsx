@@ -33,7 +33,6 @@ import FriendPopoverName from '../components/FriendPopoverName';
 import CheckInButton from '../components/CheckInButton';
 import RegionSearch from '../components/RegionSearch';
 import MaprPicksCarousel from '../components/MaprPicksCarousel';
-import { usePairStreaks } from '../lib/PairStreakContext';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
@@ -309,8 +308,6 @@ export default function Profile() {
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [onboardingStep, setOnboardingStep] = useState(null); // null | 'preferences' | 'tasteIntro' | 'checkin' | 'locationAlways'
-  const { streaks } = usePairStreaks();
-  const bestStreak = streaks.length ? Math.max(...streaks.map((s) => s.count)) : 0;
   const healedRef = useRef(false);
 
   const period = tab; // the board always tracks a period
@@ -494,7 +491,6 @@ export default function Profile() {
   // Solo streak urgency: an active solo streak whose day isn't secured yet
   // -- same server-authority signal (lastCompletedDay) Header's badge and
   // the warning banner use, so this line can never disagree with either.
-  // Independent of the dual streak (bestStreak above).
   const soloStreakAtRisk = !!soloStreak && soloStreak.count > 0 && soloStreak.lastCompletedDay !== dayKey(new Date());
 
   const leaderboardLabel =
@@ -534,15 +530,10 @@ export default function Profile() {
             <span className="profile-stat-label">cities{stats?.cityIds?.length ? ' ›' : ''}</span>
           </button>
           <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
-            <span style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-              <span className="profile-stat-num" style={{ fontSize: '1rem' }}>
-                {'\u{1F525}'} {soloStreak?.count || 0}
-              </span>
-              <span className="profile-stat-num" style={{ fontSize: '1rem' }}>
-                {'\u{1F525}\u{1F525}'} {bestStreak}
-              </span>
+            <span className="profile-stat-num">
+              {soloStreak?.count || 0}{soloStreak?.count ? ' \u{1F525}' : ''}
             </span>
-            <span className="profile-stat-label">streaks ›</span>
+            <span className="profile-stat-label">streak ›</span>
           </button>
         </div>
 
