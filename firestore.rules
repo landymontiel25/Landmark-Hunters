@@ -547,6 +547,20 @@ service cloud.firestore {
       allow delete: if request.auth != null && isAdmin();
     }
 
+    // Settings' "Report a Bug" -- same shape as feature_requests above:
+    // anyone signed in can submit one (always starting "pending"); only the
+    // submitter or an admin can read it back, and only an admin can flip its
+    // status via the Resolve/Dismiss Reports tab.
+    match /bug_reports/{id} {
+      allow read: if request.auth != null
+        && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow update: if request.auth != null && isAdmin();
+      allow delete: if request.auth != null && isAdmin();
+    }
+
     // A trip a few friends build together (item i6). Only current members
     // can see or touch it at all; only the owner can change who's a member
     // (add/remove), while any member can edit the shared landmark list --
@@ -696,6 +710,10 @@ service cloud.firestore {
                 && request.resource.data.uid in
                    get(/databases/$(database)/documents/mapr_projects/$(request.resource.data.maprProjectId)).data.memberUids)
             || (request.resource.data.type == 'feature_request'
+                && exists(/databases/$(database)/documents/users/$(request.resource.data.uid))
+                && get(/databases/$(database)/documents/users/$(request.resource.data.uid)).data.get('email', '')
+                   in ['landymontiel25@gmail.com'])
+            || (request.resource.data.type == 'bug_report'
                 && exists(/databases/$(database)/documents/users/$(request.resource.data.uid))
                 && get(/databases/$(database)/documents/users/$(request.resource.data.uid)).data.get('email', '')
                    in ['landymontiel25@gmail.com']));

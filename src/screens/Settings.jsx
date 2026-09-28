@@ -548,6 +548,9 @@ export default function Settings() {
           <Link to="/request-feature" className="btn btn-ghost btn-block">
             {'\u{1F4A1}'} Request a Feature
           </Link>
+          <Link to="/report-bug" className="btn btn-ghost btn-block" style={{ marginTop: 12 }}>
+            {'\u{1F41B}'} Report a Bug
+          </Link>
           {!user.emailVerified && (
             <div style={{ marginTop: 12 }}>
               <p className="tag tag-error" style={{ display: 'block', margin: 0 }}>
