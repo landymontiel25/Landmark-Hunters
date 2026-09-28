@@ -222,8 +222,12 @@ export default async function handler(req, res) {
       updatedAt: FieldValue.serverTimestamp(),
     };
     await ref.set(data);
-    res.status(200).json({ id: account.uid, ...data });
+    // TEMPORARY diagnostic, see the note above -- covers the "no doc yet"
+    // path too, so _debug is present on every successful response.
+    res.status(200).json({ id: account.uid, ...data, _debug: { timeZoneReceived: timeZone || null, freshlyCreated: true, seededCount } });
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not load your streak.' });
+    // TEMPORARY diagnostic -- surface which path/timezone was in play even
+    // on a failure, so a 500 doesn't look identical to "nothing happened."
+    res.status(500).json({ error: e?.message || 'Could not load your streak.', _debug: { timeZoneReceived: timeZone || null, threw: true } });
   }
 }

@@ -47,13 +47,20 @@ function StreakBadge() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
+    // clientBuild: proof this exact debug build is the one actually
+    // running -- if a screenshot shows this popover WITHOUT this marker (or
+    // with none of this block at all), the browser is still on stale
+    // cached JS, not looking at a server that's failing to fix anything.
     ensureSoloStreak(user.displayName || 'A traveler', user.uid)
       .then((result) => {
         if (cancelled) return;
-        if (result?._debug) setDebugInfo(result._debug);
+        setDebugInfo({ clientBuild: 'debug-435', ...(result?._debug || {}) });
         return subscribeMySoloStreak(user.uid, setStreak, () => {});
       })
-      .catch(() => {});
+      .catch((e) => {
+        if (cancelled) return;
+        setDebugInfo({ clientBuild: 'debug-435', error: e?.message, ...(e?._debug || {}) });
+      });
     return () => {
       cancelled = true;
     };

@@ -47,7 +47,9 @@ export async function ensureSoloStreak(userName, uid) {
     body: JSON.stringify({ userName, timeZone }),
   });
   const data = await r.json().catch(() => null);
-  if (!r.ok || !data) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });
+  if (!r.ok || !data) {
+    throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error, _debug: data?._debug });
+  }
   return data;
 }
 
