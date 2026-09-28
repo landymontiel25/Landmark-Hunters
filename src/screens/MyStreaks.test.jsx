@@ -33,11 +33,15 @@ vi.mock('../lib/PairStreakContext', () => ({
 }));
 const setStreakCityMock = vi.fn(async () => {});
 // A minimal fake of Firestore's real behavior (write, then the snapshot
-// listener fires with the new state) -- needed for the rate -> guess ->
-// "card leaves the carousel" flow to actually exercise real state, not
-// just call mocked functions that go nowhere.
+// listener fires with the new state) -- needed for the rate -> guess flow
+// to actually exercise real state, not just call mocked functions that go
+// nowhere. rateDelayMs/rateShouldFail let individual tests simulate a slow
+// or failing write, to prove the checkmark doesn't depend on round-trip
+// timing (see the "keeps the checkmark up during a slow write" test).
 let fakeEntries = {};
 let entriesListener = null;
+let rateDelayMs = 0;
+let rateShouldFail = false;
 const notifyEntries = () => entriesListener?.({ ...fakeEntries });
 vi.mock('../lib/pairStreaks', () => ({
   subscribeDayEntries: (pairId, dayId, onEntries) => {
@@ -49,6 +53,8 @@ vi.mock('../lib/pairStreaks', () => ({
   },
   setStreakCity: (...args) => setStreakCityMock(...args),
   submitCardRating: async (pairId, uid, landmarkId, verdict) => {
+    if (rateDelayMs) await new Promise((r) => setTimeout(r, rateDelayMs));
+    if (rateShouldFail) throw new Error('write failed');
     fakeEntries[uid] = fakeEntries[uid] || { uid, ratings: {}, guesses: {} };
     fakeEntries[uid].ratings[landmarkId] = verdict;
     notifyEntries();
@@ -77,6 +83,8 @@ afterEach(() => {
   setStreakCityMock.mockClear();
   fakeEntries = {};
   entriesListener = null;
+  rateDelayMs = 0;
+  rateShouldFail = false;
 });
 
 const openStreak = async () => {
@@ -119,30 +127,64 @@ describe('MyStreaks', () => {
     expect(container.querySelector('.modal-backdrop')).toBeFalsy();
   });
 
-  it('shows a checkmark confirmation, then removes a card from the carousel once rated and guessed', async () => {
+  it('rates each card in place (checkmark, no disappearing), then unlocks guessing once all 3 are rated', async () => {
     await openStreak();
-    const before = container.querySelectorAll('.mapr-pick-name').length;
-    const loveButton = container.querySelector('.mapr-pick-vote.love');
-    await act(async () => loveButton.dispatchEvent(new MouseEvent('click', { bubbles: true })));
-    // The vote row is replaced with a checkmark confirmation right away,
-    // instead of jumping straight to the guess step.
-    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
-    expect(container.textContent).not.toContain('What will your streak partner say?');
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 750));
-    });
-    // Re-render happens via component state (submitCardRating is mocked, no
-    // real Firestore round trip) -- the card should now show the guess step.
-    expect(container.textContent).toContain('What will your streak partner say?');
-    const guessButton = container.querySelector('.mapr-pick-vote.love');
-    await act(async () => guessButton.dispatchEvent(new MouseEvent('click', { bubbles: true })));
-    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 750));
-    });
-    const after = container.querySelectorAll('.mapr-pick-name').length;
-    expect(after).toBe(before - 1);
+    expect(container.querySelectorAll('.mapr-pick-name').length).toBe(3);
+
+    // Rating phase: voting on a card swaps its row for a checkmark right
+    // there -- the card itself stays put, nothing is removed from the deck.
+    // Check after 2 of 3: still mid-phase, so the checkmarks are visible
+    // (once the 3rd lands, the whole deck flips straight to the guess
+    // phase, whose fresh cards have no checkmark of their own yet).
+    for (let i = 0; i < 2; i++) {
+      const cards = container.querySelectorAll('.mapr-pick');
+      const voteBtn = cards[i].querySelector('.mapr-pick-vote.love');
+      await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    }
+    expect(container.querySelectorAll('.mapr-pick-name').length).toBe(3);
+    expect(container.querySelectorAll('.mapr-pick-vote-done').length).toBe(2);
+
+    const lastCard = container.querySelectorAll('.mapr-pick')[2];
+    await act(async () =>
+      lastCard.querySelector('.mapr-pick-vote.love').dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    );
+
+    // All 3 rated -- the same 3 cards now collect a guess instead.
+    expect(container.textContent).toContain("You've rated your 3 for today");
+    expect(container.textContent).toContain('What will @buddy say about this one?');
+    expect(container.querySelectorAll('.mapr-pick-vote').length).toBe(9); // 3 cards x 3 fresh vote buttons
+
+    for (let i = 0; i < 3; i++) {
+      const cards = container.querySelectorAll('.mapr-pick');
+      const voteBtn = cards[i].querySelector('.mapr-pick-vote.love');
+      await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    }
     expect(container.textContent).toContain("Today's results");
+  });
+
+  it('keeps the checkmark up during a slow write instead of silently reverting to the vote row', async () => {
+    rateDelayMs = 500;
+    await openStreak();
+    const voteBtn = container.querySelector('.mapr-pick-vote.love');
+    await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    // Checkmark shows immediately -- optimistic, doesn't wait on the write.
+    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 300));
+    });
+    // Still showing the checkmark 300ms in, well before the 500ms write
+    // resolves -- this used to silently reset back to the vote row.
+    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
+    expect(container.querySelectorAll('.mapr-pick-vote.love').length).toBe(2);
+  });
+
+  it('shows an error and reverts the card if the write actually fails', async () => {
+    rateShouldFail = true;
+    await openStreak();
+    const voteBtn = container.querySelector('.mapr-pick-vote.love');
+    await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(container.querySelector('.mapr-pick-vote-done')).toBeFalsy();
+    expect(container.textContent).toMatch(/couldn't save/i);
   });
 
   it('lets you tap a card to see the landmark itself', async () => {

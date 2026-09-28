@@ -48,46 +48,31 @@ function fmtPct(score) {
 const COMPATIBILITY_MIN_SHARED_DISPLAY = 10;
 
 // One card in today's shared deck, in a Mapr Travel Picks-style swipeable
-// carousel (.mapr-picks-track / .mapr-pick, MaprPicksCarousel.jsx). Rate
-// first; the guess step only unlocks once you have (spec item 2, "the
-// guess unlocks only after the user submits their own rating"). Once
-// you've done both, the card is done for you -- like a Travel Picks vote,
-// it leaves the row (StreakDetail filters it out); the reveal (both
-// answers, whether your guess was right) shows in the "Today's results"
-// list below the carousel instead of staying inline here.
-// How long the "✓ vote registered" confirmation shows before this card
-// advances (rate -> guess step) or, once both are in, leaves the carousel
-// on its own (the parent re-render does that once myEntry catches up).
-const VOTE_CONFIRM_MS = 700;
-
-function DeckCard({ streak, landmark, myEntry, onGuessed }) {
+// carousel (.mapr-picks-track / .mapr-pick, MaprPicksCarousel.jsx). Used for
+// both phases (rate, then guess -- see StreakDetail): the parent decides
+// which verdict this card is collecting and what's already been recorded
+// for it (shownVerdict), so the card itself doesn't need to know which
+// phase it's in. Once shownVerdict is set, the vote row is replaced with a
+// green checkmark and stays that way -- shownVerdict comes from the
+// parent's optimistic-write overlay (set the instant you tap, before the
+// Firestore write even lands) merged with the real synced value, so it
+// never reverts back to the vote row once a tap has gone through. It only
+// reverts if the write actually fails, with a reason shown right on the
+// card, instead of silently resetting with no explanation.
+function VoteCard({ streak, landmark, shownVerdict, prompt, onVote }) {
   const navigate = useNavigate();
-  const myRating = myEntry?.ratings?.[landmark.id];
   const [busy, setBusy] = useState(false);
-  // The verdict just tapped, shown as a checkmark in place of the vote row
-  // for a beat -- same "your tap registered" confirmation Mapr Travel
-  // Picks gives, instead of the buttons silently swapping to the next
-  // question the instant Firestore's write lands.
-  const [justVoted, setJustVoted] = useState(null);
+  const [error, setError] = useState(null);
 
-  const rate = async (verdict) => {
+  const vote = async (verdict) => {
     setBusy(true);
-    setJustVoted(verdict);
+    setError(null);
     try {
-      await submitCardRating(streak.id, myEntry.uid, landmark.id, verdict);
+      await onVote(landmark.id, verdict);
+    } catch (e) {
+      setError(friendlyError(e, "Couldn't save that -- try again."));
     } finally {
       setBusy(false);
-      setTimeout(() => setJustVoted(null), VOTE_CONFIRM_MS);
-    }
-  };
-  const guess = async (verdict) => {
-    setBusy(true);
-    setJustVoted(verdict);
-    try {
-      await onGuessed(landmark.id, verdict);
-    } finally {
-      setBusy(false);
-      setTimeout(() => setJustVoted(null), VOTE_CONFIRM_MS);
     }
   };
 
@@ -107,33 +92,18 @@ function DeckCard({ streak, landmark, myEntry, onGuessed }) {
         <span className="mapr-pick-sub">{(landmark.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
       </button>
 
-      {justVoted ? (
+      {shownVerdict ? (
         <div className="mapr-pick-actions">
-          <span className="mapr-pick-vote-done">{'\u{2713}'} {VOTE_COPY[justVoted].label}</span>
-        </div>
-      ) : !myRating ? (
-        <div className="mapr-pick-actions">
-          {['no', 'unsure', 'yes'].map((verdict) => {
-            const copy = VOTE_COPY[verdict];
-            return (
-              <button
-                key={verdict}
-                type="button"
-                className={`mapr-pick-vote ${copy.cls}`}
-                disabled={busy}
-                onClick={() => rate(verdict)}
-              >
-                {copy.emoji} {copy.label}
-              </button>
-            );
-          })}
+          <span className="mapr-pick-vote-done">{'\u{2713}'} {VOTE_COPY[shownVerdict].label}</span>
         </div>
       ) : (
-        <div style={{ padding: '10px 12px 0' }}>
-          <p className="screen-subtitle" style={{ margin: '0 0 8px' }}>
-            You said {VOTE_COPY[myRating].label}. What will your streak partner say?
-          </p>
-          <div className="mapr-pick-actions" style={{ padding: 0 }}>
+        <>
+          {prompt && (
+            <p className="screen-subtitle" style={{ margin: '0 0 8px', padding: '10px 12px 0' }}>
+              {prompt}
+            </p>
+          )}
+          <div className="mapr-pick-actions" style={prompt ? { padding: '0 12px' } : undefined}>
             {['no', 'unsure', 'yes'].map((verdict) => {
               const copy = VOTE_COPY[verdict];
               return (
@@ -142,29 +112,37 @@ function DeckCard({ streak, landmark, myEntry, onGuessed }) {
                   type="button"
                   className={`mapr-pick-vote ${copy.cls}`}
                   disabled={busy}
-                  onClick={() => guess(verdict)}
+                  onClick={() => vote(verdict)}
                 >
                   {copy.emoji} {copy.label}
                 </button>
               );
             })}
           </div>
-        </div>
+          {error && (
+            <p className="screen-subtitle" style={{ margin: '4px 12px 0', color: 'var(--danger)' }}>
+              {error}
+            </p>
+          )}
+        </>
       )}
     </div>
   );
 }
 
 // One streak's full detail: who it's with, count/best, today's shared
-// 3-card deck (rate then guess, per card, Mapr Travel Picks-style
-// carousel), a live day-status per person, how long it's existed, shared
+// 3-card deck, a live day-status per person, how long it's existed, shared
 // freezes, a recovery mission banner when one's open, and a compatibility
-// score once there's enough shared data. "Guess accuracy" (the spec's
-// second stat under compatibility) isn't shown as a number yet -- but
-// "Today's results" below the carousel is exactly that same signal, just
-// not yet rolled up into one stat. Mapr picks the city and the landmarks;
-// there's no manual city picker here (see the auto-pick effect below),
-// matching how Mapr Travel Picks itself defaults to wherever you are.
+// score once there's enough shared data. The deck is two full phases, not
+// per-card rate-then-guess: rate all 3 first (each one turns into a
+// checkmark on the same card, in place, as you go), then once all 3 are
+// in, the same 3 cards switch to the guess question ("what will your
+// partner pick?"). "Guess accuracy" (the spec's second stat under
+// compatibility) isn't shown as a number yet -- but "Today's results"
+// below the carousel is exactly that same signal, just not yet rolled up
+// into one stat. Mapr picks the city and the landmarks; there's no manual
+// city picker here (see the auto-pick effect below), matching how Mapr
+// Travel Picks itself defaults to wherever you are.
 function StreakDetail({ streak, onBack, onLeave }) {
   const { user } = useAuth();
   const { coords } = useGeo();
@@ -181,14 +159,21 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // visited. undefined while loading so the deck doesn't briefly show
   // (and let someone start rating) a place that turns out to be excluded.
   const [visitedIds, setVisitedIds] = useState(undefined);
-  // Landmark ids that just got their guess in -- kept in the carousel a
-  // beat longer than myEntry alone would (see DeckCard's own checkmark
-  // state) so the card doesn't vanish out from under the confirmation
-  // it's showing.
-  const [justCompletedIds, setJustCompletedIds] = useState(() => new Set());
+  // Optimistic overlays: set the instant a vote is tapped, before the
+  // Firestore write lands, so the card's checkmark shows immediately and
+  // never has to wait on (or get reset by) round-trip timing. Cleared on a
+  // failed write (with the error shown on the card) or when the day rolls
+  // over; otherwise just gets superseded by the real synced value once it
+  // arrives, with no visible change either way.
+  const [optimisticRatings, setOptimisticRatings] = useState({});
+  const [optimisticGuesses, setOptimisticGuesses] = useState({});
 
   const today = dayKey(new Date());
   useEffect(() => subscribeDayEntries(streak.id, today, setEntries, () => {}), [streak.id, today]);
+  useEffect(() => {
+    setOptimisticRatings({});
+    setOptimisticGuesses({});
+  }, [streak.id, today]);
 
   const partnerUid = (streak.memberIds || []).find((uid) => uid !== user.uid);
   const partnerName = streak.memberNames?.[partnerUid] || 'A traveler';
@@ -232,35 +217,50 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const partnerEntry = entries[partnerUid];
   const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
   const cardIds = deck.map((l) => l.id);
-  // Once you've rated AND guessed a card, it's done for you -- same as a
-  // Mapr Travel Picks vote, it leaves the carousel (the reveal moves to
-  // "Today's results" below instead of staying inline on the card).
-  // justCompletedIds holds it in the carousel a moment longer so its own
-  // checkmark confirmation (see DeckCard) has time to actually show.
-  const isDone = (l) => myEntry.ratings?.[l.id] && myEntry.guesses?.[l.id];
-  const remainingDeck = deck.filter((l) => !isDone(l) || justCompletedIds.has(l.id));
-  const doneDeck = deck.filter((l) => isDone(l) && !justCompletedIds.has(l.id));
+  // What a card should show right now -- the optimistic tap if there's one
+  // still in flight (or that failed and got cleared), else whatever's
+  // actually synced.
+  const shownRating = (id) => optimisticRatings[id] ?? myEntry.ratings?.[id];
+  const shownGuess = (id) => optimisticGuesses[id] ?? myEntry.guesses?.[id];
+  // Phase transitions (rate all 3 -> guess all 3 -> done) key off the real
+  // synced counts, not the optimistic ones -- a card's own checkmark shows
+  // instantly on tap, but the deck only moves to the next phase once
+  // Firestore actually confirms all 3, so "Today's results" is never built
+  // from a guess that hasn't landed yet.
   const myGuessedCount = cardIds.filter((id) => myEntry.guesses?.[id]).length;
+  const myRatedCount = cardIds.filter((id) => myEntry.ratings?.[id]).length;
   const partnerGuessedCount = cardIds.filter((id) => partnerEntry?.guesses?.[id]).length;
+  const ratingPhaseDone = cardIds.length > 0 && myRatedCount === cardIds.length;
   const myDayDone = cardIds.length > 0 && myGuessedCount === cardIds.length;
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
-  const handleGuessed = async (landmarkId, verdict) => {
-    // Marked "just completed" before the write lands, in the same tick as
-    // the click -- otherwise there's a render where entries already shows
-    // it done but justCompletedIds hasn't caught up yet, so the card gets
-    // filtered out of remainingDeck and DeckCard unmounts (losing its own
-    // checkmark state) before this ever gets a chance to keep it around.
-    setJustCompletedIds((cur) => new Set(cur).add(landmarkId));
-    const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds);
-    setTimeout(() => {
-      setJustCompletedIds((cur) => {
-        const next = new Set(cur);
-        next.delete(landmarkId);
+  const handleRate = async (landmarkId, verdict) => {
+    setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
+    try {
+      await submitCardRating(streak.id, user.uid, landmarkId, verdict);
+    } catch (e) {
+      setOptimisticRatings((cur) => {
+        const next = { ...cur };
+        delete next[landmarkId];
         return next;
       });
-    }, VOTE_CONFIRM_MS);
-    if (done) closeToday(streak.id);
+      throw e;
+    }
+  };
+
+  const handleGuess = async (landmarkId, verdict) => {
+    setOptimisticGuesses((cur) => ({ ...cur, [landmarkId]: verdict }));
+    try {
+      const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds);
+      if (done) closeToday(streak.id);
+    } catch (e) {
+      setOptimisticGuesses((cur) => {
+        const next = { ...cur };
+        delete next[landmarkId];
+        return next;
+      });
+      throw e;
+    }
   };
 
   const thisMonth = monthKey(new Date());
@@ -340,48 +340,76 @@ function StreakDetail({ streak, onBack, onLeave }) {
         <SkeletonList count={1} label="Finding your city" />
       ) : visitedIds === undefined ? (
         <SkeletonList count={3} label="Loading today's landmarks" />
-      ) : (
+      ) : cardIds.length === 0 ? (
+        <p className="screen-subtitle" style={{ margin: 0 }}>
+          No landmarks left to rate here today.
+        </p>
+      ) : !ratingPhaseDone ? (
         <>
           <p style={{ margin: '0 0 10px', fontSize: '0.85rem' }}>
-            You: {myGuessedCount}/{cardIds.length} rated + guessed{myDayDone ? ' ✓' : ''} · @{partnerName}:{' '}
+            Rate today's 3 ({myRatedCount}/{cardIds.length}) -- once all 3 are in, you'll guess what @{partnerName}
+            picks, to build your compatibility score.
+          </p>
+          <div className="mapr-picks-track">
+            {deck.map((landmark) => (
+              <VoteCard
+                key={landmark.id}
+                streak={streak}
+                landmark={landmark}
+                shownVerdict={shownRating(landmark.id)}
+                onVote={handleRate}
+              />
+            ))}
+          </div>
+        </>
+      ) : !myDayDone ? (
+        <>
+          <p className="screen-subtitle" style={{ margin: '0 0 10px' }}>
+            {'✓'} You've rated your 3 for today! Now guess what @{partnerName} will pick for each ({myGuessedCount}/
+            {cardIds.length}) to see your compatibility score.
+          </p>
+          <div className="mapr-picks-track">
+            {deck.map((landmark) => (
+              <VoteCard
+                key={landmark.id}
+                streak={streak}
+                landmark={landmark}
+                shownVerdict={shownGuess(landmark.id)}
+                prompt={`What will @${partnerName} say about this one?`}
+                onVote={handleGuess}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="screen-subtitle" style={{ margin: '0 0 4px' }}>
+            {'✓'} You've rated and guessed all 3 for today. @{partnerName}:{' '}
             {partnerGuessedCount}/{cardIds.length} rated + guessed{partnerGuessedCount === cardIds.length ? ' ✓' : ''}
           </p>
-          {remainingDeck.length > 0 ? (
-            <div className="mapr-picks-track">
-              {remainingDeck.map((landmark) => (
-                <DeckCard key={landmark.id} streak={streak} landmark={landmark} myEntry={myEntry} onGuessed={handleGuessed} />
-              ))}
-            </div>
-          ) : (
-            <p className="screen-subtitle" style={{ margin: 0 }}>
-              {'✓'} You've rated and guessed all 3 for today.
+          <div style={{ marginTop: 10 }}>
+            <p className="screen-subtitle" style={{ margin: '0 0 6px' }}>
+              Today's results
             </p>
-          )}
-          {doneDeck.length > 0 && (
-            <div style={{ marginTop: 12 }}>
-              <p className="screen-subtitle" style={{ margin: '0 0 6px' }}>
-                Today's results
-              </p>
-              {doneDeck.map((landmark) => {
-                const myRating = myEntry.ratings[landmark.id];
-                const myGuess = myEntry.guesses[landmark.id];
-                const partnerRating = partnerEntry?.ratings?.[landmark.id];
-                return (
-                  <p key={landmark.id} style={{ margin: '0 0 4px', fontSize: '0.82rem' }}>
-                    <strong>{landmark.name}</strong> -- you: {VOTE_COPY[myRating].label}, your guess: {VOTE_COPY[myGuess].label}
-                    {partnerRating ? (
-                      <>
-                        {' · '}@{partnerName}: {VOTE_COPY[partnerRating].label} --{' '}
-                        {partnerRating === myGuess ? 'guessed right! \u{1F389}' : 'not quite'}
-                      </>
-                    ) : (
-                      <> {' · '}waiting on @{partnerName}</>
-                    )}
-                  </p>
-                );
-              })}
-            </div>
-          )}
+            {deck.map((landmark) => {
+              const myRating = myEntry.ratings[landmark.id];
+              const myGuess = myEntry.guesses[landmark.id];
+              const partnerRating = partnerEntry?.ratings?.[landmark.id];
+              return (
+                <p key={landmark.id} style={{ margin: '0 0 4px', fontSize: '0.82rem' }}>
+                  <strong>{landmark.name}</strong> -- you: {VOTE_COPY[myRating].label}, your guess: {VOTE_COPY[myGuess].label}
+                  {partnerRating ? (
+                    <>
+                      {' · '}@{partnerName}: {VOTE_COPY[partnerRating].label} --{' '}
+                      {partnerRating === myGuess ? 'guessed right! \u{1F389}' : 'not quite'}
+                    </>
+                  ) : (
+                    <> {' · '}waiting on @{partnerName}</>
+                  )}
+                </p>
+              );
+            })}
+          </div>
         </>
       )}
 
