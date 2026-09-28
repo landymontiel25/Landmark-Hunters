@@ -148,11 +148,14 @@ export const APP_HELP =
   `intentionally de-emphasized in the UI now — Mapr and your taste profile are the headline, not the score.\n` +
   `- Time saved / discovery: Mapr shows real, tracked numbers — minutes saved today, summed from actual Mapr chat replies that produced stops, each ` +
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
-  `- Streaks: solo streaks (checking in on consecutive days) are gone -- there's no personal streak, no 🔥 in the header, and no streak-lapse warning ` +
-  `anymore. Streaks are being rebuilt as something shared between two or more people (a "who rated the same places today" pair streak) -- not ` +
-  `shipped yet, so for now there is no streak feature to explain if asked. Mapr Travel Picks (see above) is the first piece of that rebuild -- the ` +
-  `city-first rating flow; pairing, daily card limits, and the "guess what your partner picked" step come in a later update. The 3-Day/7-Day/30-Day ` +
-  `Streak badges still exist in the catalog but currently can't be earned.\n` +
+  `- Dual Streaks (🔥 in the header, and a "streak" tile in Your Stats on Profile): a streak belongs to a PAIR of friends now, not one person -- solo ` +
+  `streaks are gone. From a friend's stats popup (Friends list -> tap a friend), either person can tap "Start a Streak". Each day counts once BOTH ` +
+  `people have voted or rated 3 landmarks in Mapr Travel Picks that day (local calendar day); the header flame shows the current pair's count and a ` +
+  `live countdown to that day's deadline, turning red once your own side isn't done yet. Tapping the header flame shows the countdown; tapping the ` +
+  `"streak" tile in Your Stats opens the full picture -- who it's with, current/best count, and both people's status for today. Cap of 3 active ` +
+  `streaks per person; anyone can leave a streak with no penalty. Not built yet: shared freezes, a "recovery" mission after a missed day, a ` +
+  `compatibility score, guessing what your partner would pick, and squads (3+ people) -- all still coming. The 3-Day/7-Day/30-Day Streak badges in ` +
+  `the catalog still can't be earned yet -- re-pointing them to a pair's best count hasn't shipped.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +
   `- Ranks / Leaderboard (also a Profile section, now secondary to Mapr/taste stats): a Friends/Global toggle — Friends ranks you against people you ` +
   `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views.\n` +

@@ -10,6 +10,7 @@ import { MyPhotosProvider } from './lib/MyPhotosContext';
 import { FriendsProvider } from './lib/FriendsContext';
 import { UnitsProvider } from './lib/UnitsContext';
 import { BadgesProvider } from './lib/BadgesContext';
+import { PairStreakProvider } from './lib/PairStreakContext';
 import { AdminModeProvider } from './lib/AdminModeContext';
 import { LandmarkEditsProvider } from './lib/LandmarkEditsContext';
 import Header from './components/Header';
@@ -150,6 +151,7 @@ export default function App() {
       <CheckInProvider>
       <TripProvider>
       <BadgesProvider>
+        <PairStreakProvider>
         <GeoProvider>
           <RatingsProvider>
           <MyPhotosProvider>
@@ -176,6 +178,7 @@ export default function App() {
           </MyPhotosProvider>
           </RatingsProvider>
         </GeoProvider>
+        </PairStreakProvider>
       </BadgesProvider>
       </TripProvider>
       </CheckInProvider>

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
+import { useBadges } from '../lib/BadgesContext';
 import { usePersistentState } from '../lib/usePersistentState';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion } from '../data/regions';
@@ -40,6 +41,7 @@ const VOTE_COPY = {
 export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [] }) {
   const { user } = useAuth();
   const { coords } = useGeo();
+  const { reload: reloadBadges } = useBadges();
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -90,6 +92,10 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
       origin,
     });
     setFeedback((cur) => ({ ...cur, [landmark.id]: { landmarkId: landmark.id, verdict, at: Date.now() } }));
+    // Refreshes actionsToday the moment a day's Nth vote lands, so a dual
+    // streak's day-close sync (PairStreakContext.jsx) doesn't wait for
+    // something else to happen to trigger a reload.
+    reloadBadges();
   };
 
   // Which card is in view, for the dots -- offset by one slot since the "+
