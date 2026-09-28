@@ -174,6 +174,10 @@ export const APP_HELP =
   `weighted match rate across your most recent 50 shared ratings (exact match counts full, "it was okay" against either extreme counts half, ` +
   `opposite extremes count zero). There's no single rolled-up "guess accuracy" number yet -- each card's own reveal already shows right/wrong per ` +
   `landmark, just not summarized into one score.\n` +
+  `- Streak partner push notification: the moment you finish rating and guessing all 3 for the day, your streak partner gets a push notification ` +
+  `(their device, iOS included, if they've turned push on in Settings) that you're done, with your compatibility score in the body if you two have ` +
+  `one yet ("your compatibility: 82% match") or a plain "your turn!" nudge if you don't. Sent once per person per day, from the same server call ` +
+  `that checks whether the day closes.\n` +
   `- Not built yet for Dual Streaks: squads (3+ people), and the fuller Reveal screen (match highlights, bonus points for a correct guess). The ` +
   `3-Day/7-Day/30-Day Streak badges in the catalog still can't be earned yet -- re-pointing them to a pair's best count hasn't shipped.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +

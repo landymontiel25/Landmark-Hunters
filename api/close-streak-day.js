@@ -4,6 +4,8 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { previousDayKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
+import { sendPushToUser } from './_lib/push.js';
+import { computeCompatibilityServer } from './_lib/compatibility.js';
 
 // Duplicated from leaderboard.js's isRealCheckin (pure logic, not worth
 // pulling that whole client-Firebase-importing module in for -- see
@@ -82,6 +84,37 @@ export default async function handler(req, res) {
     const cardIds = pickDailyCardIds(pairId, dayId, streak.cityId, visitedIds);
     const entriesSnap = await streakRef.collection('days').doc(dayId).collection('entries').get();
     const entries = Object.fromEntries(entriesSnap.docs.map((d) => [d.id, d.data()]));
+
+    // Notify the partner the moment THIS caller's own 3 are rated + guessed
+    // -- independent of bothDone below (the day only closes once BOTH
+    // members finish, but the partner should hear about it as soon as
+    // their half is done, not wait on their own). Guarded by a flag on the
+    // caller's own entry doc so a repeat call (page reload, a second close
+    // attempt after the day's already closed) never double-sends.
+    const myEntry = entries[account.uid];
+    const myDone = myEntry && cardIds.length > 0 && cardIds.every((id) => myEntry.ratings?.[id] && myEntry.guesses?.[id]);
+    const partnerUid = (streak.memberIds || []).find((uid) => uid !== account.uid);
+    if (myDone && !myEntry.notifiedPartner && partnerUid) {
+      const myName = streak.memberNames?.[account.uid] || 'Your streak partner';
+      const compat = await computeCompatibilityServer(account.uid, partnerUid).catch(() => null);
+      const body =
+        compat?.score != null
+          ? `${myName} rated and guessed all 3 today -- your compatibility: ${Math.round(compat.score * 100)}% match.`
+          : `${myName} rated and guessed all 3 today -- your turn!`;
+      await sendPushToUser(partnerUid, {
+        title: `\u{1F525} ${myName} finished today's 3`,
+        body,
+        data: { type: 'streak-partner-done', pairId },
+      }).catch(() => {});
+      await streakRef
+        .collection('days')
+        .doc(dayId)
+        .collection('entries')
+        .doc(account.uid)
+        .set({ notifiedPartner: true }, { merge: true })
+        .catch(() => {});
+    }
+
     const bothDone =
       cardIds.length > 0 &&
       (streak.memberIds || []).every((uid) => {
