@@ -7,6 +7,11 @@ import { usePairStreaks } from '../lib/PairStreakContext';
 import { Skeleton } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
 
+// Starting a streak lives on the streak icon itself now (Header's flame,
+// or Your Stats' "streak" tile -> StreakPopup), not here -- streak-first,
+// friend-second. This modal only shows whether one already exists with
+// this friend, as context, same as everything else on it.
+
 // A friend's quick summary -- points/check-ins/cities/last check-in -- as a
 // popup modal. Check-ins and Cities are buttons that navigate to their own
 // real pages rather than opening a second overlay on top of this one, which
@@ -15,25 +20,10 @@ import ErrorNotice from './ErrorNotice';
 // gets you here the same way.
 export default function FriendStatsModal({ uid, name, onClose }) {
   const navigate = useNavigate();
-  const { streaks, startStreakWith } = usePairStreaks();
+  const { streaks } = usePairStreaks();
   const [state, setState] = useState({ loading: true });
   const [attempt, setAttempt] = useState(0);
-  const [streakBusy, setStreakBusy] = useState(false);
-  const [streakMsg, setStreakMsg] = useState(null);
   const existingStreak = streaks.find((s) => (s.memberIds || []).includes(uid));
-
-  const handleStartStreak = async () => {
-    setStreakBusy(true);
-    setStreakMsg(null);
-    try {
-      await startStreakWith({ uid, name });
-      setStreakMsg(`Streak started with @${name}!`);
-    } catch (e) {
-      setStreakMsg(friendlyError(e, "Couldn't start a streak. Try again."));
-    } finally {
-      setStreakBusy(false);
-    }
-  };
 
   useEffect(() => {
     let cancelled = false;
@@ -117,27 +107,12 @@ export default function FriendStatsModal({ uid, name, onClose }) {
             )}
           </>
         )}
-        {existingStreak ? (
+        {existingStreak && (
           <p className="screen-subtitle" style={{ marginTop: 16, marginBottom: 0 }}>
             {'\u{1F525}'} You have a {existingStreak.count}-day streak with @{name}.
           </p>
-        ) : (
-          <button
-            type="button"
-            className="btn btn-ghost btn-block"
-            style={{ marginTop: 16 }}
-            disabled={streakBusy}
-            onClick={handleStartStreak}
-          >
-            {streakBusy ? '…' : `${'\u{1F525}'} Start a Streak`}
-          </button>
         )}
-        {streakMsg && (
-          <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
-            {streakMsg}
-          </p>
-        )}
-        <button className="btn btn-ghost btn-block" style={{ marginTop: 8 }} onClick={onClose}>
+        <button className="btn btn-ghost btn-block" style={{ marginTop: 16 }} onClick={onClose}>
           Close
         </button>
       </div>

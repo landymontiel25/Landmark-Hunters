@@ -354,10 +354,17 @@ service cloud.firestore {
     // only api/close-streak-day.js (firebase-admin, bypasses these rules
     // entirely) ever changes them.
     match /streaks/{pairId} {
-      // `read` covers both get and the array-contains list query
-      // (subscribeMyStreaks) -- Firestore can verify a list rule against
-      // an array-contains filter the same way it does for a direct get.
-      allow read: if request.auth != null && request.auth.uid in resource.data.memberIds;
+      // Checked against the id itself (pairId is always "{uidA}_{uidB}",
+      // sorted -- see pairIdOf), not resource.data: startStreak() does a
+      // getDoc() BEFORE the doc exists to check whether the pair is already
+      // streaking, and resource is null for a nonexistent doc -- the same
+      // class of bug #147 hit for reviews (a rule that dereferences
+      // resource.data before checking it exists is a hard deny, not a clean
+      // not-found). `read` covers both that get and the array-contains list
+      // query (subscribeMyStreaks); for list, pairId is still each matched
+      // document's own id, so this works the same way there too.
+      allow read: if request.auth != null
+        && (pairId.split('_')[0] == request.auth.uid || pairId.split('_')[1] == request.auth.uid);
       allow create: if request.auth != null
         && request.auth.uid in request.resource.data.memberIds
         && request.resource.data.memberIds.size() == 2
