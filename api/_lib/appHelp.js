@@ -102,30 +102,15 @@ export const APP_HELP =
   `- Mapr chat can offer a city's own specialty even outside your usual taste -- Rome's architecture and ruins, Paris's art museums, Tokyo's ` +
   `street food -- but only when you have no real signal either way in that category (no rating, nothing you've said you love or dislike), and only ` +
   `as a question with quick-tap Yes/No, not a silent addition. It never does this for a category you've told it you dislike, generally or for that city.\n` +
-  `- Mapr Picks (on Profile): up to 10 landmarks Mapr thinks you'll love next at once, for the city you're in right now (or, once you've been to everything there, the nearest city with something new). Every rating updates a ` +
-  `per-city score for that landmark's category ("I loved it" +10, "It was okay" +2, "Not for me" -15, kept between -100 and 100, fading by half every 90 days; after a category's first 5 ` +
-  `ratings, each new one counts half). Rating also asks "How often do you come here?" (Not often / Sometimes / A lot, optional) -- "a lot" moves the score up to 1.6x as hard as "not often," both directions, since coming back ` +
-  `often is stronger proof of taste than a rare visit. A ✓ or ✗ vote on a Mapr Pick moves that score too, more lightly (✓ +4, ✗ -6, and it doesn't count as one of the 5 ratings); "not sure" moves nothing. ` +
-  `Mapr shortlists that city's 30 best-scoring places (no more than 12 from any one category, so one favorite can't crowd out the rest) and then picks the final ones with your recent ratings and own words in mind. If you tell Mapr (in ` +
-  `the taste-intro free text) a city-specific exception -- "I don't usually like museums, but in Paris show me more" -- it honors that only when picking for that named city, even if it contradicts your general scores or ratings elsewhere. ` +
-  `A few of the 30 are ` +
-  `deliberate wildcards from categories you've barely rated, so Mapr can find new interests; a wildcard shows as "🎲 Something new" on its card. ` +
-  `In a new city, Mapr starts from 40% of your scores from other cities and phases that out by your 15th rating there. With no ratings ` +
-  `anywhere yet, it starts from your signup interests, most-visited places first. With no location, ratings or saved cities at all, the row shows ` +
-  `the most-visited places across every city (within your signup interests first, if you picked any), and switches to your city the moment location loads or you pick one. A pick you actually scrolled to and looked at on 3 different days, ` +
-  `without visiting, rating or voting on it, lowers that category a little (much less than "Not for me"); checking in later resets that count. When a category hits the cap, a one-time pop-up asks "You really ` +
-  `love [category]. Want us to lean more into it?" -- Yes tilts picks toward it and lets it take up to 18 of the 30 shortlist spots (other categories still show up), No leaves it as is, and the ` +
-  `optional comment box tells Mapr what you want more of there. It asks once per category, not once per city, and your answer applies in every city. Swipe to browse them. Only meant to hold things you'd clearly go to or clearly skip. Tap ✓ "I'd go" or ✗ "not for me" for a real, ` +
-  `conclusive verdict -- that landmark won't be offered again. "🤷 Not sure" is different: it means "I genuinely don't know yet" (not a hidden ` +
-  `dislike), drops that landmark out of the row and keeps it out for about a week, after which it can be recommended again. Voting on ` +
-  `one pulls in a fresh pick to replace it, keeping the row at 10; swiping alone doesn't load more.\n` +
-  `- Rating without visiting: the first two cards in "Your Mapr Picks" are always "+ Rate a Landmark" (search any place by name and rate it -- ` +
-  `useful for a backlog of places you've already been) and "🌍 Prep a Trip" (pick a city first, then rate whatever landmarks in it you already have ` +
-  `a feel for by reputation, even one you've never set foot in -- "I know I'll love the art museums in Paris" doesn't need you to already know the ` +
-  `Louvre's name). Both open the real rate-and-post flow and require a comment (there's no visit to lean on otherwise), and both save as a genuine ` +
-  `0-point rating -- no check-in points, since nothing was actually visited, but it feeds that city's tag scores exactly like any other rating, so ` +
-  `Mapr can have real picks ready for a city before you've ever landed there. Rating this way still claims the underlying check-in for later: show ` +
-  `up in person and tap Check In for real, and it reopens the same rating to edit rather than creating a duplicate.\n` +
+  `- Mapr Travel Picks (on Profile): city-first, not AI-suggested -- pick a city (it defaults to wherever you are right now, or your most recent ` +
+  `saved city with no GPS fix) and swipe through up to 10 of that city's landmarks Mapr doesn't already have a rating or check-in from you for, ` +
+  `most-visited first. Tap "I loved it" / "It was okay" / "Not for me" right on a card to rate it -- same three-tier rating as everywhere else in ` +
+  `the app, opened through the normal rate-and-post prompt. A rated (or checked-into) landmark drops out of the row for good; there's no ✓/✗/"not ` +
+  `sure" voting step anymore. Every rating still feeds that city's tag scores exactly like a real-visit review does. The first card in the row is ` +
+  `always "+ Rate a Landmark" (search any place by name and rate it directly). Ratings from here still count 0 points -- they're a rating, not a ` +
+  `claim you were there -- and rating something you later actually visit reopens the same entry to edit instead of creating a duplicate.\n` +
+  `- Rating ahead of a trip: to rate places in a city you haven't been to yet, open Mapr Travel Picks and pick that city -- the same swipe-and-rate ` +
+  `row works for a city you're planning as well as the one you're in; there's no separate "prep a trip" feature anymore.\n` +
   `- Onboarding: right after creating an account, a one-time flow — pick your usual interests (or skip), an optional "tell Mapr what you like" taste ` +
   `step (or skip), the nearest real landmark to your GPS with a one-tap check-in, then an "Always Know Where You Are" step asking to upgrade ` +
   `location from "While Using" to "Always" (or skip). Reaching the check-in step — whether or not you check in — completes onboarding and awards ` +
@@ -164,8 +149,10 @@ export const APP_HELP =
   `- Time saved / discovery: Mapr shows real, tracked numbers — minutes saved today, summed from actual Mapr chat replies that produced stops, each ` +
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
   `- Streaks: solo streaks (checking in on consecutive days) are gone -- there's no personal streak, no 🔥 in the header, and no streak-lapse warning ` +
-  `anymore. Streaks are being rebuilt as something shared between two or more people; that hasn't shipped yet, so for now there is no streak feature ` +
-  `to explain if asked. The 3-Day/7-Day/30-Day Streak badges still exist in the catalog but currently can't be earned.\n` +
+  `anymore. Streaks are being rebuilt as something shared between two or more people (a "who rated the same places today" pair streak) -- not ` +
+  `shipped yet, so for now there is no streak feature to explain if asked. Mapr Travel Picks (see above) is the first piece of that rebuild -- the ` +
+  `city-first rating flow; pairing, daily card limits, and the "guess what your partner picked" step come in a later update. The 3-Day/7-Day/30-Day ` +
+  `Streak badges still exist in the catalog but currently can't be earned.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +
   `- Ranks / Leaderboard (also a Profile section, now secondary to Mapr/taste stats): a Friends/Global toggle — Friends ranks you against people you ` +
   `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views.\n` +
