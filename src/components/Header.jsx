@@ -3,9 +3,102 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
+import { useBadges } from '../lib/BadgesContext';
+import { usePairStreaks } from '../lib/PairStreakContext';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
+import { msUntilStreakLapse, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
+
+function formatLeft(ms) {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const sec = total % 60;
+  return h > 0 ? `${h}h ${m}m ${sec}s` : `${m}m ${sec}s`;
+}
+
+// Dead center of the header, on every screen -- same spot and same visual
+// language the solo-streak flame used before it was retired (#405), now
+// fed by a pair's streak instead of a personal one. Flame animates only
+// once a pair has an actual streak (count > 0) and turns warning-colored
+// once YOUR OWN side of today's quota isn't secured yet. Tapping opens a
+// live countdown to the local-midnight deadline -- the same lightweight
+// popover as before; the full "who it's with / how long / today's status"
+// picture lives in Your Stats -> the streak tile instead (StreakPopup.jsx).
+function PairStreakBadge() {
+  const { user, firebaseEnabled } = useAuth();
+  const { streaks } = usePairStreaks();
+  const { actionsToday } = useBadges();
+  const [open, setOpen] = useState(false);
+  const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    setMsLeft(msUntilStreakLapse());
+    const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
+    const close = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('touchstart', close);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('touchstart', close);
+    };
+  }, [open]);
+
+  if (!firebaseEnabled || !user) return null;
+
+  // The streak you're most invested in, if you have more than one -- just
+  // the highest count, ties broken by whichever sorts first.
+  const primary = streaks.length ? streaks.reduce((a, b) => (b.count > a.count ? b : a)) : null;
+  const active = !!primary && primary.count > 0;
+  const atRisk = !!primary && actionsToday < PICKS_STREAK_THRESHOLD;
+  const partnerName = primary
+    ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
+    : null;
+
+  return (
+    <div className="header-streak-wrap" ref={ref}>
+      <button
+        type="button"
+        className={`header-streak ${active ? 'active' : ''} ${primary && atRisk ? 'at-risk' : ''}`}
+        aria-expanded={open}
+        aria-label="Dual streak"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="header-streak-flame" aria-hidden="true">
+          {'\u{1F525}'}
+        </span>
+        <span className="header-streak-num">{primary ? primary.count : 0}</span>
+      </button>
+      {open && (
+        <div className="points-popover streak-popover" role="status">
+          {!primary ? (
+            <div>Invite a friend to start a streak</div>
+          ) : (
+            <>
+              <div className="points-popover-joined">
+                {atRisk
+                  ? `Streak with @${partnerName} ends in`
+                  : `Today's secured with @${partnerName} — new day starts in`}
+              </div>
+              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
+              {atRisk && (
+                <div className="streak-popover-hint">
+                  Vote or rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Header identity control. Shows who you're signed in as; tapping reveals this week's rank/points, a "Notifications"
 // link (badged with the unread count), and "View Profile". Notifications
@@ -152,10 +245,9 @@ export default function Header() {
       <Link to="/" aria-label="Landmark Hunters" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
         <img src="/logo.png" alt="Landmark Hunters" className="brand-mark" />
       </Link>
-      {/* Solo streaks are gone (item i1) -- this center slot is empty until
-          a dual-streak summary chip (see the streaks/ Firestore collection,
-          a later phase) replaces the old per-user flame badge here. */}
-      <div className="app-header-center" />
+      <div className="app-header-center">
+        <PairStreakBadge />
+      </div>
       <div className="app-header-actions">
         <ProfileMenu />
       </div>

@@ -9,6 +9,7 @@ import { ALL_LANDMARKS } from '../data/regions';
 
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' } }) }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 40.0356, lng: -75.3437 } }) }));
+vi.mock('../lib/BadgesContext', () => ({ useBadges: () => ({ reload: () => {}, actionsToday: 0 }) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
 
 import MaprPicksCarousel from './MaprPicksCarousel';

@@ -8,7 +8,9 @@ import { isRealCheckin } from './leaderboard';
 // meant the day boundary landed at UTC midnight (7-8pm in US timezones),
 // which read as an arbitrary, inconsistent cutoff rather than "resets at
 // midnight" the way every other daily-streak app works.
-const dayKey = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+// Exported for pairStreaks.js -- a pair's daily entries are keyed by the
+// same local calendar day.
+export const dayKey = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 
 // Minimum distinct landmarks engaged with (voting or a 0-point "Rate a
 // Landmark" claim) for a day to count toward the daily quota -- solo streaks

@@ -341,8 +341,43 @@ service cloud.firestore {
       allow create, update: if request.auth != null
         && request.resource.data.userId == request.auth.uid
         && id == request.auth.uid + '_' + request.resource.data.landmarkId
-        && request.resource.data.verdict in ['yes', 'no'];
+        // 'unsure' is a real, common verdict (pickFeedback.js) -- leaving it
+        // out here meant every "Not sure" vote silently failed to sync to
+        // Firestore (caught by the client's own try/catch) and only ever
+        // lived in that one device's localStorage.
+        && request.resource.data.verdict in ['yes', 'no', 'unsure'];
       allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+    // Dual streaks (Dual Streak spec, phase 3 MVP -- see pairStreaks.js).
+    // count/best/lastCompletedDay are server-authority only: a client can
+    // create the pair at zero and can never touch them again after that --
+    // only api/close-streak-day.js (firebase-admin, bypasses these rules
+    // entirely) ever changes them.
+    match /streaks/{pairId} {
+      // `read` covers both get and the array-contains list query
+      // (subscribeMyStreaks) -- Firestore can verify a list rule against
+      // an array-contains filter the same way it does for a direct get.
+      allow read: if request.auth != null && request.auth.uid in resource.data.memberIds;
+      allow create: if request.auth != null
+        && request.auth.uid in request.resource.data.memberIds
+        && request.resource.data.memberIds.size() == 2
+        && pairId == request.resource.data.memberIds[0] + '_' + request.resource.data.memberIds[1]
+        && request.resource.data.count == 0
+        && request.resource.data.best == 0
+        && request.resource.data.lastCompletedDay == null;
+      allow update: if false;
+      // Guardrail (item b2/11): anyone in the pair can leave, no penalty.
+      allow delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
+
+      match /days/{dayId}/entries/{uid} {
+        allow read: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/streaks/$(pairId)).data.memberIds;
+        allow create, update: if request.auth != null
+          && request.auth.uid == uid
+          && request.resource.data.uid == request.auth.uid
+          && request.auth.uid in get(/databases/$(database)/documents/streaks/$(pairId)).data.memberIds;
+        allow delete: if false;
+      }
     }
     // One doc per real Mapr chat reply that produced stops -- backs the
     // "time saved" stat (src/lib/timeSaved.js). Auto-id (many per user per
