@@ -156,10 +156,11 @@ export const APP_HELP =
   `Mapr Travel Picks itself uses, no manual city picker -- the user never chooses it) and the 3 landmarks (deterministically, so both people see the ` +
   `exact same 3 with no server round-trip deciding it). Tap a card's photo/name to open that landmark's own page, same as tapping a Mapr Travel ` +
   `Picks card. Two full phases, not per-card: first, rate all 3 (I'd go / Not sure / Not for me -- same wording as Mapr Travel Picks); each tap ` +
-  `swaps that card's vote row for a green checkmark right in place (the card doesn't disappear or move) and stays a checkmark -- it's an optimistic ` +
-  `local update, so it shows instantly and doesn't wait on or get reset by the write actually landing; only a real failure reverts it, with the ` +
-  `reason shown on the card. Once all 3 are rated, the same 3 cards switch together to a second question -- guess what your partner will say about ` +
-  `each one -- with the same checkmark-in-place behavior. Once you've guessed all 3, the carousel is replaced by a "Today's results" list showing ` +
+  `blacks out that whole card under a big green checkmark, right in place (the card doesn't disappear or move) -- it's an optimistic local update, ` +
+  `so it shows instantly and doesn't wait on or get reset by the write actually landing; only a real failure reverts it, with the reason shown on ` +
+  `the card in a loud red banner, not just quiet text. Once all 3 are rated, the same 3 cards switch together to a second question -- guess what ` +
+  `your partner will say about each one -- with the same checkmark-in-place behavior. Once you've guessed all 3, the carousel is replaced by a ` +
+  `"Today's results" list showing ` +
   `both people's rating and whether your guess was right, once your partner's answer is in too (a lighter version of the spec's "Reveal" screen, ` +
   `without the celebration animation or bonus points). Once you've done all 3, and your partner has too, the day counts. The header flame shows the ` +
   `pair's current count and a live countdown to that day's deadline, turning red once your own side isn't done. The deck always skips anywhere ` +

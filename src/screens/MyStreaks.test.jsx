@@ -42,9 +42,14 @@ let fakeEntries = {};
 let entriesListener = null;
 let rateDelayMs = 0;
 let rateShouldFail = false;
+let entriesShouldError = false;
 const notifyEntries = () => entriesListener?.({ ...fakeEntries });
 vi.mock('../lib/pairStreaks', () => ({
-  subscribeDayEntries: (pairId, dayId, onEntries) => {
+  subscribeDayEntries: (pairId, dayId, onEntries, onError) => {
+    if (entriesShouldError) {
+      onError(new Error('listener failed'));
+      return () => {};
+    }
     entriesListener = onEntries;
     onEntries({ ...fakeEntries });
     return () => {
@@ -85,6 +90,7 @@ afterEach(() => {
   entriesListener = null;
   rateDelayMs = 0;
   rateShouldFail = false;
+  entriesShouldError = false;
 });
 
 const openStreak = async () => {
@@ -142,7 +148,7 @@ describe('MyStreaks', () => {
       await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
     }
     expect(container.querySelectorAll('.mapr-pick-name').length).toBe(3);
-    expect(container.querySelectorAll('.mapr-pick-vote-done').length).toBe(2);
+    expect(container.querySelectorAll('.mapr-pick-voted').length).toBe(2);
 
     const lastCard = container.querySelectorAll('.mapr-pick')[2];
     await act(async () =>
@@ -168,13 +174,13 @@ describe('MyStreaks', () => {
     const voteBtn = container.querySelector('.mapr-pick-vote.love');
     await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
     // Checkmark shows immediately -- optimistic, doesn't wait on the write.
-    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
+    expect(container.querySelector('.mapr-pick-voted')).toBeTruthy();
     await act(async () => {
       await new Promise((r) => setTimeout(r, 300));
     });
     // Still showing the checkmark 300ms in, well before the 500ms write
     // resolves -- this used to silently reset back to the vote row.
-    expect(container.querySelector('.mapr-pick-vote-done')).toBeTruthy();
+    expect(container.querySelector('.mapr-pick-voted')).toBeTruthy();
     expect(container.querySelectorAll('.mapr-pick-vote.love').length).toBe(2);
   });
 
@@ -183,8 +189,14 @@ describe('MyStreaks', () => {
     await openStreak();
     const voteBtn = container.querySelector('.mapr-pick-vote.love');
     await act(async () => voteBtn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
-    expect(container.querySelector('.mapr-pick-vote-done')).toBeFalsy();
+    expect(container.querySelector('.mapr-pick-voted')).toBeFalsy();
     expect(container.textContent).toMatch(/couldn't save/i);
+  });
+
+  it('surfaces an error banner if the entries listener itself fails, instead of silently showing nothing', async () => {
+    entriesShouldError = true;
+    await openStreak();
+    expect(container.textContent).toMatch(/couldn't load today's ratings/i);
   });
 
   it('lets you tap a card to see the landmark itself', async () => {

@@ -1551,19 +1551,56 @@ textarea {
   font-size: 0.66rem;
   letter-spacing: 0.02em;
 }
-.mapr-pick-vote-done {
-  flex: 1;
-  padding: 7px 8px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-green);
-  background: rgba(85, 201, 135, 0.2);
-  color: var(--success);
+/* Once a card's been voted on, the WHOLE card blacks out under this
+   overlay (not just the button row) -- covers the image/name/sub in place
+   (.mapr-pick already has position:relative) so it reads as "this one's
+   done", the same instant the tap registers. */
+.mapr-pick-voted {
+  cursor: default;
+}
+.mapr-pick-vote-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(8, 12, 18, 0.82);
+  border-radius: inherit;
+}
+.mapr-pick-vote-check {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-green);
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+.mapr-pick-vote-overlay-label {
   font-family: var(--font-body);
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  text-align: center;
+  color: #ffffff;
+}
+.mapr-pick-error {
+  margin: 8px 12px 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid var(--color-rust);
+  background: rgba(214, 92, 78, 0.16);
+  color: var(--danger);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 .mapr-pick-img {
   width: 100%;
