@@ -15,22 +15,32 @@ import { describe, it, expect, vi } from 'vitest';
 // firebase-tools, which this repo doesn't otherwise depend on.
 const setDocMock = vi.fn(async () => {});
 const getDocMock = vi.fn(async () => ({ data: () => ({}) }));
+let getDocsResult = { docs: [] };
+let lastOnSnapshotCallback = null;
 vi.mock('firebase/firestore', () => ({
   collection: vi.fn(),
   doc: vi.fn((...args) => args.join('/')),
   getDoc: (...args) => getDocMock(...args),
-  getDocs: vi.fn(async () => ({ docs: [] })),
+  getDocs: vi.fn(async () => getDocsResult),
   setDoc: (...args) => setDocMock(...args),
   updateDoc: vi.fn(),
   deleteDoc: vi.fn(),
-  onSnapshot: vi.fn(() => () => {}),
+  onSnapshot: vi.fn((q, onNext) => {
+    lastOnSnapshotCallback = onNext;
+    return () => {};
+  }),
   query: vi.fn(),
   where: vi.fn(),
   serverTimestamp: vi.fn(() => 'SERVER_TIMESTAMP'),
 }));
 vi.mock('./firebase', () => ({ db: {} }));
 
-const { pairIdOf, submitCardRating, submitCardGuess } = await import('./pairStreaks');
+const { pairIdOf, submitCardRating, submitCardGuess, subscribeMyStreaks, myStreakCount } = await import('./pairStreaks');
+
+// A solo streak doc has memberIds: [uid] too (see soloStreaks.js), so it
+// matches the same array-contains query dual streaks are fetched with --
+// snapDoc mirrors what a real snapshot doc looks like for either shape.
+const snapDoc = (id, data) => ({ id, data: () => data });
 
 describe('pairIdOf', () => {
   it('is order-independent, so either member computes the same doc id', () => {
@@ -58,5 +68,48 @@ describe('submitCardRating / submitCardGuess writes', () => {
     const [, data] = setDocMock.mock.calls[0];
     expect(data.guesses).toEqual({ landmarkA: 'yes' });
     expect(Object.keys(data)).not.toContain('guesses.landmarkA');
+  });
+});
+
+// Regression test for a real production bug: subscribeMyStreaks/
+// myStreakCount queried streaks/ with only where('memberIds',
+// 'array-contains', uid), with nothing excluding a solo streak doc (which
+// also has memberIds: [uid]) -- so a solo streak showed up in the "dual
+// streaks" list as a phantom row with no real partner, and "leave streak"
+// on it deleted the solo doc entirely (its own id is just the uid).
+describe('subscribeMyStreaks / myStreakCount exclude solo streaks', () => {
+  it('filters a solo streak doc out of the live dual-streaks list', () => {
+    const onStreaks = vi.fn();
+    subscribeMyStreaks('me', onStreaks, () => {});
+    lastOnSnapshotCallback({
+      docs: [
+        snapDoc('me', { mode: 'solo', memberIds: ['me'], count: 6 }),
+        snapDoc('friend_me', { mode: 'dual', memberIds: ['friend', 'me'], count: 2 }),
+      ],
+    });
+    const result = onStreaks.mock.calls[0][0];
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('friend_me');
+  });
+
+  it('still includes a dual streak doc predating the mode field (mode undefined, not "solo")', () => {
+    const onStreaks = vi.fn();
+    subscribeMyStreaks('me', onStreaks, () => {});
+    lastOnSnapshotCallback({
+      docs: [snapDoc('friend_me', { memberIds: ['friend', 'me'], count: 4 })],
+    });
+    const result = onStreaks.mock.calls[0][0];
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('friend_me');
+  });
+
+  it('does not count a solo streak toward the MAX_ACTIVE_STREAKS cap', async () => {
+    getDocsResult = {
+      docs: [
+        snapDoc('me', { mode: 'solo', memberIds: ['me'] }),
+        snapDoc('friend_me', { mode: 'dual', memberIds: ['friend', 'me'] }),
+      ],
+    };
+    await expect(myStreakCount('me')).resolves.toBe(1);
   });
 });
