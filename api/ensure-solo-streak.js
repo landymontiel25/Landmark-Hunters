@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { dayKey, monthKey, previousDayKey } from './_lib/streakDay.js';
+import { monthKey, previousDayKey, localDayKey } from './_lib/streakDay.js';
 
 const PICKS_STREAK_THRESHOLD = 3;
 export const SOLO_FREEZES_PER_MONTH = 1;
@@ -21,7 +21,15 @@ function isRealCheckin(x) {
 // already computed a LIVE solo streak count from check-in/pick_feedback
 // history before this endpoint existed. Duplicated rather than imported for
 // the same reason as isRealCheckin above.
-function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_THRESHOLD) {
+//
+// Every "which calendar day does this timestamp fall on" decision goes
+// through localDayKey(epochMs, timeZone) rather than reading the executing
+// machine's own local time -- see that helper's own note on why: this code
+// runs on Vercel (always UTC), but a "local calendar day" streak has to
+// agree with the day the CLIENT (the traveler's own timezone) would compute
+// for the same instant, or historical days silently land in the wrong
+// bucket for anyone not in UTC.
+function dailyActionDayKeys(checkins, pickFeedback, timeZone, minActions = PICKS_STREAK_THRESHOLD) {
   const idsByDay = new Map();
   const add = (key, id) => {
     if (!key || !id) return;
@@ -30,11 +38,11 @@ function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_TH
   };
   for (const f of pickFeedback || []) {
     if (!f.at || !f.landmarkId) continue;
-    add(dayKey(new Date(f.at)), f.landmarkId);
+    add(localDayKey(f.at, timeZone), f.landmarkId);
   }
   for (const c of checkins || []) {
     if (isRealCheckin(c) || !c.createdAt?.seconds || !c.landmarkId) continue;
-    add(dayKey(new Date(c.createdAt.seconds * 1000)), c.landmarkId);
+    add(localDayKey(c.createdAt.seconds * 1000, timeZone), c.landmarkId);
   }
   const days = new Set();
   for (const [key, ids] of idsByDay) {
@@ -43,35 +51,35 @@ function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_TH
   return days;
 }
 
-function computeStreakDays(checkins, now, pickFeedback) {
+function computeStreakDays(checkins, now, pickFeedback, timeZone) {
   const days = new Set();
   for (const c of checkins) {
     if (!isRealCheckin(c)) continue;
     const sec = c.createdAt?.seconds;
     if (!sec) continue;
-    days.add(dayKey(new Date(sec * 1000)));
+    days.add(localDayKey(sec * 1000, timeZone));
   }
-  for (const key of dailyActionDayKeys(checkins, pickFeedback)) days.add(key);
+  for (const key of dailyActionDayKeys(checkins, pickFeedback, timeZone)) days.add(key);
   if (days.size === 0) return 0;
-  const cursor = new Date(now);
-  if (!days.has(dayKey(cursor))) {
-    cursor.setDate(cursor.getDate() - 1);
-    if (!days.has(dayKey(cursor))) return 0;
+  let cursor = localDayKey(now.getTime(), timeZone);
+  if (!days.has(cursor)) {
+    cursor = previousDayKey(cursor);
+    if (!days.has(cursor)) return 0;
   }
   let streak = 0;
-  while (days.has(dayKey(cursor))) {
+  while (days.has(cursor)) {
     streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
+    cursor = previousDayKey(cursor);
   }
   return streak;
 }
 
-function hasSecuredToday(checkins, pickFeedback, now) {
-  const today = dayKey(now);
+function hasSecuredToday(checkins, pickFeedback, now, timeZone) {
+  const today = localDayKey(now.getTime(), timeZone);
   const checkedIn = checkins.some(
-    (c) => isRealCheckin(c) && c.createdAt?.seconds && dayKey(new Date(c.createdAt.seconds * 1000)) === today
+    (c) => isRealCheckin(c) && c.createdAt?.seconds && localDayKey(c.createdAt.seconds * 1000, timeZone) === today
   );
-  return checkedIn || dailyActionDayKeys(checkins, pickFeedback).has(today);
+  return checkedIn || dailyActionDayKeys(checkins, pickFeedback, timeZone).has(today);
 }
 
 // Solo streaks share the streaks/{id} collection with dual streaks now
@@ -99,34 +107,76 @@ export default async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { userName } = req.body || {};
+  const { userName, timeZone } = req.body || {};
 
   try {
     const db = adminDb();
     const ref = db.collection('streaks').doc(account.uid);
     const snap = await ref.get();
+
+    // Re-derive {count, best, lastCompletedDay} from real check-in/
+    // pick_feedback history, the same way for both a brand-new doc and a
+    // repair of an existing one below.
+    const seedFromHistory = async () => {
+      const [checkinsSnap, feedbackSnap] = await Promise.all([
+        db.collection('checkins').where('userId', '==', account.uid).get(),
+        db.collection('pick_feedback').where('userId', '==', account.uid).get(),
+      ]);
+      const checkins = checkinsSnap.docs.map((d) => d.data());
+      const pickFeedback = feedbackSnap.docs.map((d) => d.data());
+      const now = new Date();
+      const count = computeStreakDays(checkins, now, pickFeedback, timeZone);
+      const today = localDayKey(now.getTime(), timeZone);
+      // A day already secured today counts toward the seeded value above, so
+      // today itself is the anchor; otherwise (streak > 0 but not yet
+      // secured today) yesterday is, so the very first close-solo-streak-day
+      // call under the new system correctly bridges forward from the seeded
+      // count instead of treating it as a break.
+      const securedToday = hasSecuredToday(checkins, pickFeedback, now, timeZone);
+      const lastCompletedDay = count === 0 ? null : securedToday ? today : previousDayKey(today);
+      return { count, lastCompletedDay };
+    };
+
     if (snap.exists) {
-      res.status(200).json({ id: account.uid, ...snap.data() });
+      const existing = snap.data();
+      // Self-heal a doc seeded by an earlier, buggy build of this endpoint:
+      // that version bucketed historical days using THIS SERVER's own
+      // timezone (Vercel is UTC) instead of the caller's, which could
+      // under-count (even to 0) anyone not in UTC the moment their solo
+      // streak was first turned into a stored doc. Only repair when it's
+      // provably safe:
+      //  - a timeZone is actually given (an old client build might not send
+      //    one yet -- nothing to correct against without it)
+      //  - the doc has had ZERO real activity since it was created
+      //    (updatedAt still equals createdAt -- no close-day, no freeze) --
+      //    otherwise a corrected re-seed could clobber real progress made
+      //    under the new system
+      //  - the freshly-recomputed count is HIGHER than what's stored --
+      //    this can only ever raise a count, so it can never itself become
+      //    a new way to reset someone, and a legitimately-empty streak (a
+      //    real 0) is left alone.
+      const untouchedSinceSeed =
+        existing.createdAt && existing.updatedAt && existing.createdAt.isEqual?.(existing.updatedAt);
+      if (untouchedSinceSeed && timeZone) {
+        const { count, lastCompletedDay } = await seedFromHistory();
+        if (count > (existing.count || 0)) {
+          const repaired = {
+            ...existing,
+            count,
+            best: Math.max(existing.best || 0, count),
+            lastCompletedDay,
+            updatedAt: FieldValue.serverTimestamp(),
+          };
+          await ref.set(repaired, { merge: true });
+          res.status(200).json({ id: account.uid, ...repaired });
+          return;
+        }
+      }
+      res.status(200).json({ id: account.uid, ...existing });
       return;
     }
 
-    const [checkinsSnap, feedbackSnap] = await Promise.all([
-      db.collection('checkins').where('userId', '==', account.uid).get(),
-      db.collection('pick_feedback').where('userId', '==', account.uid).get(),
-    ]);
-    const checkins = checkinsSnap.docs.map((d) => d.data());
-    const pickFeedback = feedbackSnap.docs.map((d) => d.data());
-    const now = new Date();
-    const seededCount = computeStreakDays(checkins, now, pickFeedback);
-    const today = dayKey(now);
-    // A day already secured today counts toward the seeded value above, so
-    // today itself is the anchor; otherwise (streak > 0 but not yet
-    // secured today) yesterday is, so the very first close-solo-streak-day
-    // call under the new system correctly bridges forward from the seeded
-    // count instead of treating it as a break.
-    const securedToday = hasSecuredToday(checkins, pickFeedback, now);
-    const lastCompletedDay = seededCount === 0 ? null : securedToday ? today : previousDayKey(today);
-
+    const { count: seededCount, lastCompletedDay } = await seedFromHistory();
     const data = {
       mode: 'solo',
       memberIds: [account.uid],
@@ -139,7 +189,7 @@ export default async function handler(req, res) {
       best: seededCount,
       lastCompletedDay,
       freezesLeft: SOLO_FREEZES_PER_MONTH,
-      freezeMonth: monthKey(now),
+      freezeMonth: monthKey(new Date()),
       frozenDays: [],
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),

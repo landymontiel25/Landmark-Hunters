@@ -21,10 +21,22 @@ import { authHeaders } from './apiAuth';
 // real check-in/pick_feedback history rather than reset to 0) the first
 // time ensureSoloStreak is called -- see that endpoint's own note.
 export async function ensureSoloStreak(userName) {
+  // timeZone (IANA, e.g. "America/New_York") lets the server bucket
+  // historical check-ins/votes into the SAME calendar days the browser
+  // itself would -- without it, a server that isn't in the user's own
+  // timezone (every Vercel function; always UTC) can shift day boundaries
+  // and badly under-count a real streak. See api/ensure-solo-streak.js's
+  // own note.
+  let timeZone;
+  try {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  } catch {
+    /* unsupported/unavailable -- the endpoint falls back gracefully */
+  }
   const r = await fetch('/api/ensure-solo-streak', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ userName }),
+    body: JSON.stringify({ userName, timeZone }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });
