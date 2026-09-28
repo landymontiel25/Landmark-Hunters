@@ -616,6 +616,7 @@ export default function Profile() {
                     <FriendPopoverName userId={e.userId} fallbackName={displayFor(e)}>
                       {displayFor(e)}
                     </FriendPopoverName>
+                    {e.userId === user.uid && <span className="leaderboard-you-tag">You</span>}
                   </div>
                   <div className="podium-pts">{e.points.toLocaleString()}</div>
                 </div>
@@ -629,10 +630,11 @@ export default function Profile() {
         {!loading && rest.map((e, idx) => (
           <div key={e.id} className={`leaderboard-row ${e.userId === user.uid ? 'me' : ''}`}>
             <div className="leaderboard-rank">#{idx + 4}</div>
-            <div style={{ flex: 1 }}>
+            <div className="leaderboard-name" style={{ flex: 1 }}>
               <FriendPopoverName userId={e.userId} fallbackName={displayFor(e)}>
                 {displayFor(e)}
               </FriendPopoverName>
+              {e.userId === user.uid && <span className="leaderboard-you-tag">You</span>}
             </div>
             <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-brass-bright)', fontWeight: 700 }}>
               {e.points.toLocaleString()} pts
@@ -643,7 +645,10 @@ export default function Profile() {
         {!loading && myRowOutside && (
           <div className="leaderboard-row me" style={{ marginTop: 8 }}>
             <div className="leaderboard-rank">#{myRank}</div>
-            <div style={{ flex: 1 }}>{myUsername ? `@${myUsername}` : 'You'}</div>
+            <div className="leaderboard-name" style={{ flex: 1 }}>
+              {myUsername ? `@${myUsername}` : 'You'}
+              <span className="leaderboard-you-tag">You</span>
+            </div>
             <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-brass-bright)', fontWeight: 700 }}>
               {myPoints.toLocaleString()} pts
             </div>
