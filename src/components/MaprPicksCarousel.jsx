@@ -30,10 +30,15 @@ import RateLandmarkSearch from './RateLandmarkSearch';
 // path the spec describes for everyone until pairing ships.
 const RESERVE = 10;
 
-const TIER_CLASS = {
-  'highly-recommend': 'love',
-  'worth-trying': 'unsure',
-  'probably-skip': 'hate',
+// The tap here is a guess, not a review -- you haven't been to most of
+// these places yet, so the buttons ask "would I go?" (the carousel's
+// original wording), not "how was it?". The tap still saves as the
+// matching TIERS entry underneath (see rate()), so it scores and displays
+// everywhere else exactly like a real review's tier would.
+const VOTE_COPY = {
+  'highly-recommend': { cls: 'love', emoji: '\u{2713}', label: "I'd go" },
+  'worth-trying': { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure' },
+  'probably-skip': { cls: 'hate', emoji: '\u{2715}', label: 'Not for me' },
 };
 
 export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [] }) {
@@ -111,17 +116,20 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>
             <div className="mapr-pick-actions">
-              {TIERS.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  className={`mapr-pick-vote ${TIER_CLASS[t.id]}`}
-                  onClick={() => rate(l, t)}
-                  title={t.label}
-                >
-                  {t.emoji} {t.label}
-                </button>
-              ))}
+              {TIERS.map((t) => {
+                const copy = VOTE_COPY[t.id];
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className={`mapr-pick-vote ${copy.cls}`}
+                    onClick={() => rate(l, t)}
+                    title={copy.label}
+                  >
+                    {copy.emoji} {copy.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         ))}
