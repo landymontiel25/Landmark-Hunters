@@ -49,12 +49,28 @@ export function pairIdOf(uidA, uidB) {
 
 export const MAX_ACTIVE_STREAKS = 3;
 
+// A solo streak doc ALSO has memberIds: [uid] (see soloStreaks.js), so an
+// array-contains match on the shared streaks/ collection returns the
+// caller's own solo streak too, mixed in as if it were a dual one -- a
+// phantom row with no real partner. That's a real bug that shipped: it let
+// "leave streak" on that phantom row delete the solo doc entirely (deleteDoc
+// by id, and a solo doc's own id is just the uid), instead of leaving an
+// actual pair.
+//
+// Filtered out client-side (mode !== 'solo'), not with a Firestore
+// where('mode', '==', 'dual') query: every solo doc always has mode:
+// 'solo' set (ensure-solo-streak.js), so excluding that is enough -- and
+// doing it this way needs no new composite index, and can't silently hide
+// a dual streak created before the mode field existed (mode undefined on
+// an old doc still isn't 'solo', so it stays in the list).
+const isNotSolo = (d) => d.mode !== 'solo';
+
 export function subscribeMyStreaks(uid, onStreaks, onError) {
   if (!db || !uid) return () => {};
   const q = query(collection(db, 'streaks'), where('memberIds', 'array-contains', uid));
   return onSnapshot(
     q,
-    (snap) => onStreaks(snap.docs.map((d) => ({ id: d.id, ...d.data() }))),
+    (snap) => onStreaks(snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter(isNotSolo)),
     onError
   );
 }
@@ -62,7 +78,7 @@ export function subscribeMyStreaks(uid, onStreaks, onError) {
 export async function myStreakCount(uid) {
   if (!db || !uid) return 0;
   const snap = await getDocs(query(collection(db, 'streaks'), where('memberIds', 'array-contains', uid)));
-  return snap.size;
+  return snap.docs.filter((d) => isNotSolo(d.data())).length;
 }
 
 // Idempotent: calling this on an already-streaking pair just returns the
