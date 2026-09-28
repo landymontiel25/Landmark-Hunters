@@ -197,6 +197,20 @@ export async function spendFreeze(pairId) {
   return data;
 }
 
+// TEMPORARY, one-off correction -- not a normal capability, see
+// api/reset-dual-streak.js's own note. Resets count/best/lastCompletedDay/
+// freezes back to a fresh 0 without touching the pairing itself.
+export async function resetDualStreak(pairId) {
+  const r = await fetch('/api/reset-dual-streak', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+    body: JSON.stringify({ pairId }),
+  });
+  const data = await r.json().catch(() => null);
+  if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });
+  return data;
+}
+
 // The 24h window after a break (item 7): both check in at the same landmark
 // within 30 minutes (or, long-distance, each checks in anywhere within the
 // window). Server-authoritative (api/complete-recovery-mission.js) -- it

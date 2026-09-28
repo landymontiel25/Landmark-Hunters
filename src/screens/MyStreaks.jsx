@@ -11,6 +11,7 @@ import {
   submitCardRating,
   submitCardGuess,
   spendFreeze,
+  resetDualStreak,
   completeRecoveryMission,
   computeCompatibility,
   MAX_ACTIVE_STREAKS,
@@ -150,6 +151,10 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const [freezeMsg, setFreezeMsg] = useState(null);
   const [recoveryBusy, setRecoveryBusy] = useState(false);
   const [recoveryMsg, setRecoveryMsg] = useState(null);
+  // TEMPORARY: a one-off correction, not a normal capability -- see
+  // api/reset-dual-streak.js's own note. Safe to remove once used.
+  const [resetBusy, setResetBusy] = useState(false);
+  const [resetMsg, setResetMsg] = useState(null);
   const [compat, setCompat] = useState(undefined); // undefined = loading
   // Union of both members' REAL check-ins (not votes/ratings) -- the deck
   // skips anywhere either of you has actually been, since the point is
@@ -317,6 +322,20 @@ function StreakDetail({ streak, onBack, onLeave }) {
     }
   };
 
+  const handleReset = async () => {
+    if (!window.confirm(`Reset this streak with @${partnerName} to 0? This can't be undone.`)) return;
+    setResetBusy(true);
+    setResetMsg(null);
+    try {
+      await resetDualStreak(streak.id);
+      setResetMsg('Reset to 0.');
+    } catch (e) {
+      setResetMsg(friendlyError(e, "Couldn't reset that streak. Try again."));
+    } finally {
+      setResetBusy(false);
+    }
+  };
+
   return (
     <div className="card section">
       <h3 style={{ marginTop: 0 }}>
@@ -448,6 +467,19 @@ function StreakDetail({ streak, onBack, onLeave }) {
       {freezeMsg && (
         <p className="screen-subtitle" style={{ marginTop: -6, marginBottom: 10 }}>
           {freezeMsg}
+        </p>
+      )}
+
+      {/* TEMPORARY: a one-off correction, not a normal capability -- see
+          api/reset-dual-streak.js's own note. Safe to remove once used. */}
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '10px 0' }}>
+        <button type="button" className="btn btn-ghost btn-sm" disabled={resetBusy} onClick={handleReset}>
+          {resetBusy ? '…' : '↺ Reset to 0'}
+        </button>
+      </div>
+      {resetMsg && (
+        <p className="screen-subtitle" style={{ marginTop: -6, marginBottom: 10 }}>
+          {resetMsg}
         </p>
       )}
 
