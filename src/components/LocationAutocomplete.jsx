@@ -54,6 +54,11 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
           secondary: `${getRegion(l.regionId)?.name} landmark`,
           lat: l.lat,
           lng: l.lng,
+          // Carried through to onSelect so a caller (Add Landmark) can tell
+          // "picked an existing landmark by name" apart from "picked an
+          // address" -- the former is a certain duplicate, not a maybe.
+          landmarkId: l.id,
+          landmarkRegionId: l.regionId,
         }));
 
       const region = regionId ? getRegion(regionId) : null;
