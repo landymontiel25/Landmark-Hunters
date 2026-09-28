@@ -139,27 +139,45 @@ export default async function handler(req, res) {
 
     if (snap.exists) {
       const existing = snap.data();
-      // Self-heal a doc seeded by an earlier, buggy build of this endpoint:
-      // that version bucketed historical days using THIS SERVER's own
-      // timezone (Vercel is UTC) instead of the caller's, which could
-      // under-count (even to 0) anyone not in UTC the moment their solo
-      // streak was first turned into a stored doc. Only repair when it's
-      // provably safe:
-      //  - a timeZone is actually given (an old client build might not send
-      //    one yet -- nothing to correct against without it)
-      //  - the doc has had ZERO real activity since it was created
-      //    (updatedAt still equals createdAt -- no close-day, no freeze) --
-      //    otherwise a corrected re-seed could clobber real progress made
-      //    under the new system
-      //  - the freshly-recomputed count is HIGHER than what's stored --
-      //    this can only ever raise a count, so it can never itself become
-      //    a new way to reset someone, and a legitimately-empty streak (a
-      //    real 0) is left alone.
-      const untouchedSinceSeed =
-        existing.createdAt && existing.updatedAt && existing.createdAt.isEqual?.(existing.updatedAt);
-      if (untouchedSinceSeed && timeZone) {
-        const { count, lastCompletedDay } = await seedFromHistory();
-        if (count > (existing.count || 0)) {
+      // Self-heal a doc seeded (or previously "repaired") by an earlier,
+      // buggy build of this endpoint -- either the original version, which
+      // bucketed historical days using THIS SERVER's own timezone (Vercel
+      // is UTC) instead of the caller's, or a version whose best-effort
+      // pick_feedback sync hadn't run yet, either of which could
+      // under-count (even to 0) a real streak the moment it was first
+      // turned into a stored doc.
+      //
+      // Re-checked on EVERY call, not just once right after creation: a
+      // real close-solo-streak-day call in between (someone using the app
+      // while their count was wrongly showing 0/low) would otherwise
+      // permanently lock out any later correction. This costs two extra
+      // reads per call instead of zero once a doc exists, which is a
+      // deliberate trade -- provable convergence to the real number beats
+      // saving a couple of reads, given how badly a silent under-count
+      // erodes trust in "we said this would never reset you."
+      //
+      // Always upward-only, so this can never itself become a new way to
+      // reset someone, and a legitimately-empty streak (a real 0, or a
+      // real gap that broke it) is left alone:
+      //  - if the recomputed historical count is no higher than what's
+      //    stored, nothing changes.
+      //  - if it IS higher, and the stored streak was already secured
+      //    TODAY (real new-system activity checkins/pick_feedback can't
+      //    see) with a chain that connects straight into the historical
+      //    one (history's own last day is exactly yesterday), credit that
+      //    real today on top of the corrected history instead of
+      //    discarding it.
+      //  - otherwise, the corrected historical numbers replace the stored
+      //    ones outright.
+      if (timeZone) {
+        const { count: histCount, lastCompletedDay: histLast } = await seedFromHistory();
+        const existingCount = existing.count || 0;
+        if (histCount > existingCount) {
+          const now = new Date();
+          const today = localDayKey(now.getTime(), timeZone);
+          const bridgesToToday = existing.lastCompletedDay === today && histLast === previousDayKey(today);
+          const count = bridgesToToday ? histCount + 1 : histCount;
+          const lastCompletedDay = bridgesToToday ? today : histLast;
           const repaired = {
             ...existing,
             count,
