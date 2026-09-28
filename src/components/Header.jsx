@@ -18,6 +18,35 @@ function formatLeft(ms) {
   return h > 0 ? `${h}h ${m}m ${sec}s` : `${m}m ${sec}s`;
 }
 
+// A segmented, digital-style countdown (H : M : S, each digit pair in its
+// own tinted tile) instead of a flat "6h 32m 23s" text line -- reads at a
+// glance the way a real countdown does. The tint (green once secured, red
+// once at risk) carries the same signal color the header flame itself
+// uses. The visible segments are decorative (aria-hidden); the plain
+// formatLeft string underneath is what a screen reader actually announces.
+function CountdownClock({ ms, secured }) {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  const pad = (n) => String(n).padStart(2, '0');
+  const segments = h > 0 ? [[pad(h), 'h'], [pad(m), 'm'], [pad(s), 's']] : [[pad(m), 'm'], [pad(s), 's']];
+  return (
+    <div className={`streak-clock ${secured ? 'secured' : 'at-risk'}`}>
+      <div aria-hidden="true" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {segments.map(([value, unit], i) => (
+          <span className="streak-clock-seg" key={unit}>
+            {i > 0 && <span className="streak-clock-sep">:</span>}
+            <span className="streak-clock-value">{value}</span>
+            <span className="streak-clock-unit">{unit}</span>
+          </span>
+        ))}
+      </div>
+      <span className="visually-hidden">{formatLeft(ms)} left</span>
+    </div>
+  );
+}
+
 // The personal, solo streak -- back after being retired at #405, now a
 // server-authority streaks/{uid} doc (mode: 'solo') instead of a live
 // computation, so a freeze actually shows up here. One 🔥, distinct from
@@ -98,7 +127,7 @@ function StreakBadge() {
               <div className="points-popover-joined">
                 {!secured ? `${count}-day streak ends in` : "Today's secured ✓ — new day starts in"}
               </div>
-              <div className={`streak-popover-clock ${!secured ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
+              <CountdownClock ms={msLeft} secured={secured} />
               {!secured && (
                 <div className="streak-popover-hint">
                   Rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
@@ -182,7 +211,7 @@ function PairStreakBadge() {
                   ? `Streak with @${partnerName} ends in`
                   : `Today's secured with @${partnerName} — new day starts in`}
               </div>
-              <div className={`streak-popover-clock ${!secured ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
+              <CountdownClock ms={msLeft} secured={secured} />
               {!secured && (
                 <div className="streak-popover-hint">
                   Vote or rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
