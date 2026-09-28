@@ -30,13 +30,26 @@ export async function getCustomLandmarks() {
   return snap.docs.map((d) => withCategories({ docId: d.id, ...d.data() }));
 }
 
-// Direct lookup by id -- the doc id and the `id` field are always the same
-// value (set at creation below), so LandmarkDetail can fetch a single custom
-// landmark the same way it'd look one up in the static catalog.
+// Direct lookup by id -- the doc id and the `id` field are supposed to
+// always be the same value (set at creation below, and the create rule in
+// firestore.rules now enforces docId === id server-side too), so
+// LandmarkDetail can fetch a single custom landmark the same way it'd look
+// one up in the static catalog.
 export async function getCustomLandmark(id) {
   if (!db || !id) return null;
   const snap = await getDoc(doc(db, 'custom_landmarks', id));
-  return snap.exists() ? withCategories({ docId: snap.id, ...snap.data() }) : null;
+  if (snap.exists()) return withCategories({ docId: snap.id, ...snap.data() });
+  // Fallback for a record whose own Firestore document id doesn't actually
+  // match its `id` field -- e.g. one written before the create rule above
+  // existed to enforce that. Without this, a pin like that still renders
+  // fine on the map (getCustomLandmarks below, an unfiltered read of every
+  // doc) but its own detail page always 404s, so it can never be opened to
+  // edit or delete -- a dead pin nobody can clear. Reuses that same
+  // already-working bulk read rather than a new filtered query, so this
+  // doesn't risk a different list-vs-get rules outcome for a query shape
+  // that's never been verified against the emulator.
+  const all = await getCustomLandmarks();
+  return all.find((l) => l.id === id) || null;
 }
 
 // Reject after `ms` so a stalled Storage upload never hangs the submission.
