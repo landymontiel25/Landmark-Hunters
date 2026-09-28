@@ -121,12 +121,25 @@ export function todaysCardIds(pairId, cityId) {
 // DAILY_DECK_SIZE cards have both a rating and a guess -- close-streak-
 // day.js re-derives the day's real card ids itself and verifies this
 // rather than trusting the flag outright.
+// The nested-object form here (`ratings: { [landmarkId]: verdict }`) is
+// deliberate, not just style -- setDoc's merge:true deep-merges a nested
+// object literal into the existing map field, but if this were instead a
+// dotted STRING key on the top-level object (`{ [`ratings.${id}`]: verdict
+// }`), setDoc treats it as one literal field named "ratings.xyz" rather
+// than a path into a nested "ratings" map (that dotted-path interpretation
+// is an updateDoc-only behavior, not shared by setDoc). Verified against
+// the Firestore emulator directly: the dotted-key form silently wrote a
+// bogus top-level "ratings.landmarkId" field forever, which every read in
+// this app ignores (`entry.ratings?.[id]`) -- so a vote appeared to work
+// (no error, ever) but was permanently invisible on every read, including
+// after a reload. This exact bug shipped and reached production before it
+// was caught.
 export async function submitCardRating(pairId, uid, landmarkId, verdict) {
   if (!db) return;
   const today = dayKey(new Date());
   await setDoc(
     doc(db, 'streaks', pairId, 'days', today, 'entries', uid),
-    { uid, [`ratings.${landmarkId}`]: verdict, updatedAt: serverTimestamp() },
+    { uid, ratings: { [landmarkId]: verdict }, updatedAt: serverTimestamp() },
     { merge: true }
   );
 }
@@ -135,7 +148,7 @@ export async function submitCardGuess(pairId, uid, landmarkId, verdict, cardIds)
   if (!db) return;
   const today = dayKey(new Date());
   const ref = doc(db, 'streaks', pairId, 'days', today, 'entries', uid);
-  await setDoc(ref, { uid, [`guesses.${landmarkId}`]: verdict, updatedAt: serverTimestamp() }, { merge: true });
+  await setDoc(ref, { uid, guesses: { [landmarkId]: verdict }, updatedAt: serverTimestamp() }, { merge: true });
   // Recompute `done` from the entry we now expect to be complete, rather
   // than trusting a locally-tracked count -- a second device/tab writing
   // the same entry can't leave `done` out of sync with what's actually saved.
