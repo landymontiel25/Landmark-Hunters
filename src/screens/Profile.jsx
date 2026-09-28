@@ -20,6 +20,7 @@ import { RATING_GOAL } from '../lib/ratingFlow';
 import { getRegion, REGIONS, ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { useBadges } from '../lib/BadgesContext';
+import { PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { claimMyReferralBonuses } from '../lib/referrals';
 import { completeOnboarding, hasCompletedOnboardingLocally, markOnboardingCompletedLocally } from '../lib/onboarding';
 import FriendsPanel from '../components/FriendsPanel';
@@ -274,7 +275,7 @@ export default function Profile() {
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
   const navigate = useNavigate();
-  const { stats } = useBadges();
+  const { stats, streakDays, checkedInToday, actionsToday } = useBadges();
   const { claimedMap } = useCheckIn();
 
   // Your own reviews come from RatingsContext (refreshed after every save),
@@ -303,6 +304,7 @@ export default function Profile() {
   const { streaks } = usePairStreaks();
   const bestStreak = streaks.length ? Math.max(...streaks.map((s) => s.count)) : 0;
   const healedRef = useRef(false);
+  const [streakInfoOpen, setStreakInfoOpen] = useState(false);
 
   const period = tab; // the board always tracks a period
 
@@ -481,6 +483,11 @@ export default function Profile() {
   // so "Finish Onboarding" can't reappear on this device even on a load
   // where myProfile hasn't picked up the Firestore flag.
   const onboardingDone = !!myProfile?.onboardingCompleted || hasCompletedOnboardingLocally(user.uid);
+
+  // Solo streak urgency: you have an active solo streak from a prior day,
+  // but haven't checked in yet today -- it lapses if today passes with no
+  // check-in. Independent of the dual streak (bestStreak above).
+  const streakAtRisk = streakDays > 0 && !checkedInToday;
 
   const leaderboardLabel =
     scope === 'friends'
@@ -690,6 +697,30 @@ export default function Profile() {
             <span className="profile-stat-num">{bestStreak}</span>
             <span className="profile-stat-label">streak ›</span>
           </button>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <button
+              type="button"
+              className="profile-stat profile-stat-btn"
+              style={{ width: '100%' }}
+              onClick={() => setStreakInfoOpen((v) => !v)}
+              aria-expanded={streakInfoOpen}
+            >
+              <span className="profile-stat-num">{streakDays}{streakDays > 0 ? ' \u{1F525}' : ''}</span>
+              <span className="profile-stat-label">day streak {streakInfoOpen ? '\u{25BE}' : '\u{25B8}'}</span>
+            </button>
+            {streakInfoOpen && (
+              <div className="streak-info-popover">
+                <p style={{ margin: 0, fontWeight: 700 }}>Two ways to keep your streak alive each day:</p>
+                <ul style={{ margin: '8px 0 0', paddingLeft: 18 }}>
+                  <li>Check in at any landmark, or</li>
+                  <li>
+                    Vote {'\u{2713}'}/{'\u{2715}'} or rate {actionsToday}/{PICKS_STREAK_THRESHOLD} landmarks
+                    below — even without checking in anywhere
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="rating-progress">
@@ -718,6 +749,18 @@ export default function Profile() {
           checkedInIds={Object.keys(claimedMap)}
           regionIds={[...(stats?.cityIds || []), ...(trip.activeRegion ? [trip.activeRegion] : [])]}
         />
+
+        {streakAtRisk && (
+          <p className="tag tag-error" style={{ display: 'block', marginTop: 14 }}>
+            {'\u{26A0}\u{FE0F}'} Check in, or vote/rate {actionsToday}/{PICKS_STREAK_THRESHOLD} landmarks
+            today — or your {streakDays}-day streak breaks!
+          </p>
+        )}
+        {streakDays > 0 && checkedInToday && (
+          <p className="tag tag-free" style={{ display: 'block', marginTop: 14 }}>
+            {'\u{2705}'} Your {streakDays}-day streak is safe today
+          </p>
+        )}
 
       </div>
 

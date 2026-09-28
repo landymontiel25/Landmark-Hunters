@@ -18,14 +18,88 @@ function formatLeft(ms) {
   return h > 0 ? `${h}h ${m}m ${sec}s` : `${m}m ${sec}s`;
 }
 
-// Dead center of the header, on every screen -- same spot and same visual
-// language the solo-streak flame used before it was retired (#405), now
-// fed by a pair's streak instead of a personal one. Flame animates only
-// once a pair has an actual streak (count > 0) and turns warning-colored
-// once YOUR OWN side of today's quota isn't secured yet. Tapping opens a
-// live countdown to the local-midnight deadline -- the same lightweight
-// popover as before; the full "who it's with / how long / today's status"
-// picture lives in Your Stats -> the streak tile instead (MyStreaks.jsx).
+// The personal, solo streak -- back after being retired at #405. One 🔥,
+// distinct from the dual streak's two (🔥🔥) badge next to it in the
+// header, so the two are never confused for one number. Flame animates
+// only while there's a streak to celebrate and turns warning-colored once
+// today's check-in hasn't secured it yet. Tapping it opens a live
+// countdown to local midnight: when today's streak lapses, or when a
+// secured day ends and the next one needs its own check-in. Never more
+// than 24h.
+function StreakBadge() {
+  const { user, firebaseEnabled } = useAuth();
+  const { streakDays, checkedInToday } = useBadges();
+  const [open, setOpen] = useState(false);
+  const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    setMsLeft(msUntilStreakLapse());
+    const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
+    const close = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('touchstart', close);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('touchstart', close);
+    };
+  }, [open]);
+
+  if (!firebaseEnabled || !user) return null;
+
+  const active = streakDays > 0;
+  const atRisk = active && !checkedInToday;
+
+  return (
+    <div className="header-streak-wrap" ref={ref}>
+      <button
+        type="button"
+        className={`header-streak ${active ? 'active' : ''} ${atRisk ? 'at-risk' : ''}`}
+        aria-expanded={open}
+        aria-label={`${streakDays}-day solo streak`}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="header-streak-flame" aria-hidden="true">
+          {'\u{1F525}'}
+        </span>
+        <span className="header-streak-num">{streakDays}</span>
+      </button>
+      {open && (
+        <div className="points-popover streak-popover" role="status">
+          {!active ? (
+            <div>Check in today to start a streak</div>
+          ) : (
+            <>
+              <div className="points-popover-joined">
+                {atRisk ? `${streakDays}-day streak ends in` : "Today's secured ✓ — new day starts in"}
+              </div>
+              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
+              {atRisk && (
+                <div className="streak-popover-hint">
+                  Check in, or vote/rate {PICKS_STREAK_THRESHOLD} landmarks
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Dead center of the header, on every screen, next to the solo streak's
+// single 🔥 -- fed by a pair's streak instead of a personal one, and shown
+// as 🔥🔥 (two flames) specifically so it's never mistaken for the solo
+// badge right beside it. Flame animates only once a pair has an actual
+// streak (count > 0) and turns warning-colored once YOUR OWN side of
+// today's quota isn't secured yet. Tapping opens a live countdown to the
+// local-midnight deadline -- the same lightweight popover as before; the
+// full "who it's with / how long / today's status" picture lives in Your
+// Stats -> the streak tile instead (MyStreaks.jsx).
 function PairStreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streaks } = usePairStreaks();
@@ -71,7 +145,7 @@ function PairStreakBadge() {
         onClick={() => setOpen((o) => !o)}
       >
         <span className="header-streak-flame" aria-hidden="true">
-          {'\u{1F525}'}
+          {'\u{1F525}\u{1F525}'}
         </span>
         <span className="header-streak-num">{primary ? primary.count : 0}</span>
       </button>
@@ -245,7 +319,8 @@ export default function Header() {
       <Link to="/" aria-label="Landmark Hunters" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
         <img src="/logo.png" alt="Landmark Hunters" className="brand-mark" />
       </Link>
-      <div className="app-header-center">
+      <div className="app-header-center" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        <StreakBadge />
         <PairStreakBadge />
       </div>
       <div className="app-header-actions">

@@ -148,10 +148,16 @@ export const APP_HELP =
   `intentionally de-emphasized in the UI now — Mapr and your taste profile are the headline, not the score.\n` +
   `- Time saved / discovery: Mapr shows real, tracked numbers — minutes saved today, summed from actual Mapr chat replies that produced stops, each ` +
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
-  `- Dual Streaks (🔥 in the header, and a "streak" tile in Your Stats on Profile): a streak belongs to a PAIR of friends now, not one person -- solo ` +
-  `streaks are gone. Tapping the "streak" tile opens a real page (Your Streaks), not a popup -- same as check-ins/cities. From there, "Start a Streak" ` +
-  `picks a friend right on that page (streak-first, not friend-first). Cap of 3 active streaks per person. To stop a streak, tap the trash icon next ` +
-  `to that friend's name on the Your Streaks list -- immediate, no penalty beyond one "are you sure".\n` +
+  `- Solo Streak (single 🔥 in the header, and a "day streak" tile in Your Stats on Profile): your own personal streak, back after briefly being ` +
+  `retired. Counts consecutive local days with either a real check-in, or 3 distinct landmarks voted/rated through Mapr Picks (no check-in needed ` +
+  `for that path). Tapping the single 🔥 shows a live countdown to when today ends; a red banner appears app-wide once ` +
+  `5 hours are left in the day with today not yet secured, and fires one in-app notification the first time that happens each day. Profile's "day ` +
+  `streak" tile has its own info popover explaining both ways to keep it alive, plus a risk/safe banner below the Mapr Picks row.\n` +
+  `- Dual Streaks (🔥🔥, two flames, in the header next to the solo streak's single 🔥 -- and a "streak" tile in Your Stats on Profile): a SEPARATE ` +
+  `streak that belongs to a PAIR of friends, independent of the solo streak above -- you can have both going at once. Tapping the "streak" tile opens ` +
+  `a real page (Your Streaks), not a popup -- same as check-ins/cities. From there, "Start a Streak" picks a friend right on that page (streak-first, ` +
+  `not friend-first). Cap of 3 active streaks per person. To stop a streak, tap the trash icon next to that friend's name on the Your Streaks list -- ` +
+  `immediate, no penalty beyond one "are you sure".\n` +
   `- Today's 3 shared landmarks: shown as a swipeable carousel, same style as Mapr Travel Picks. Mapr picks the city (same default-location logic ` +
   `Mapr Travel Picks itself uses, no manual city picker -- the user never chooses it) and the 3 landmarks (deterministically, so both people see the ` +
   `exact same 3 with no server round-trip deciding it). Tap a card's photo/name to open that landmark's own page, same as tapping a Mapr Travel ` +
@@ -181,7 +187,7 @@ export const APP_HELP =
   `one yet ("your compatibility: 82% match") or a plain "your turn!" nudge if you don't. Sent once per person per day, from the same server call ` +
   `that checks whether the day closes.\n` +
   `- Not built yet for Dual Streaks: squads (3+ people), and the fuller Reveal screen (match highlights, bonus points for a correct guess). The ` +
-  `3-Day/7-Day/30-Day Streak badges in the catalog still can't be earned yet -- re-pointing them to a pair's best count hasn't shipped.\n` +
+  `3-Day/7-Day/30-Day Streak badges in the catalog are earned against the SOLO streak count, not the dual streak's.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +
   `- Ranks / Leaderboard (also a Profile section, now secondary to Mapr/taste stats): a Friends/Global toggle — Friends ranks you against people you ` +
   `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views.\n` +

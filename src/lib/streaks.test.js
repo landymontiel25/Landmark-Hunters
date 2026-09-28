@@ -1,10 +1,120 @@
 import { describe, it, expect } from 'vitest';
-import { computeBadges, closestUnearnedBadge, msUntilStreakLapse, todaysActionCount, PICKS_STREAK_THRESHOLD } from './streaks';
+import {
+  computeStreakDays,
+  computeBadges,
+  closestUnearnedBadge,
+  hasCheckedInToday,
+  hasSecuredStreakToday,
+  msUntilStreakLapse,
+  todaysActionCount,
+  PICKS_STREAK_THRESHOLD,
+} from './streaks';
 
+const sec = (isoDate) => Math.floor(new Date(isoDate).getTime() / 1000);
+const checkin = (isoDate) => ({ createdAt: { seconds: sec(isoDate) } });
 const vote = (isoDate, landmarkId) => ({ at: new Date(isoDate).getTime(), landmarkId });
 // PICKS_STREAK_THRESHOLD distinct-landmark votes on the same day.
 const votesOn = (isoDate, count = PICKS_STREAK_THRESHOLD) =>
   Array.from({ length: count }, (_, i) => vote(isoDate, `landmark-${i}`));
+
+describe('computeStreakDays', () => {
+  it('is zero with no check-ins', () => {
+    expect(computeStreakDays([])).toBe(0);
+  });
+
+  it('counts consecutive days ending today', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-10T08:00:00Z'), checkin('2026-03-09T08:00:00Z'), checkin('2026-03-08T08:00:00Z')];
+    expect(computeStreakDays(checkins, now)).toBe(3);
+  });
+
+  it('still counts through yesterday if today has no check-in yet', () => {
+    const now = new Date('2026-03-10T23:00:00Z');
+    const checkins = [checkin('2026-03-09T08:00:00Z'), checkin('2026-03-08T08:00:00Z')];
+    expect(computeStreakDays(checkins, now)).toBe(2);
+  });
+
+  it('is broken by a gap', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-10T08:00:00Z'), checkin('2026-03-07T08:00:00Z')];
+    expect(computeStreakDays(checkins, now)).toBe(1);
+  });
+
+  it('is zero if the most recent check-in was more than a day ago', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-05T08:00:00Z')];
+    expect(computeStreakDays(checkins, now)).toBe(0);
+  });
+
+  it('counts multiple check-ins on the same day as one day', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-10T08:00:00Z'), checkin('2026-03-10T20:00:00Z')];
+    expect(computeStreakDays(checkins, now)).toBe(1);
+  });
+
+  it('counts a day with PICKS_STREAK_THRESHOLD distinct Mapr Picks votes the same as a check-in', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-09T08:00:00Z')];
+    const feedback = votesOn('2026-03-10T08:00:00Z');
+    expect(computeStreakDays(checkins, now, feedback)).toBe(2);
+  });
+
+  it('does not count a day with fewer than PICKS_STREAK_THRESHOLD votes', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-09T08:00:00Z')];
+    const feedback = votesOn('2026-03-10T08:00:00Z', PICKS_STREAK_THRESHOLD - 1);
+    expect(computeStreakDays(checkins, now, feedback)).toBe(1);
+  });
+
+  it('does not double-count repeat votes on the same landmark toward the threshold', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-09T08:00:00Z')];
+    // Same landmark voted on PICKS_STREAK_THRESHOLD times -- only 1 distinct id.
+    const feedback = Array.from({ length: PICKS_STREAK_THRESHOLD }, () => vote('2026-03-10T08:00:00Z', 'same-landmark'));
+    expect(computeStreakDays(checkins, now, feedback)).toBe(1);
+  });
+
+  it('bridges a gap in check-ins with a qualifying picks-voting day', () => {
+    const now = new Date('2026-03-10T12:00:00Z');
+    const checkins = [checkin('2026-03-10T08:00:00Z'), checkin('2026-03-08T08:00:00Z')];
+    const feedback = votesOn('2026-03-09T08:00:00Z');
+    expect(computeStreakDays(checkins, now, feedback)).toBe(3);
+  });
+});
+
+describe('hasCheckedInToday', () => {
+  it('is true for a check-in earlier the same UTC day', () => {
+    const now = new Date('2026-03-10T20:00:00Z');
+    expect(hasCheckedInToday([checkin('2026-03-10T08:00:00Z')], now)).toBe(true);
+  });
+
+  it('is false with no check-ins today', () => {
+    const now = new Date('2026-03-10T20:00:00Z');
+    expect(hasCheckedInToday([checkin('2026-03-09T08:00:00Z')], now)).toBe(false);
+  });
+});
+
+describe('hasSecuredStreakToday', () => {
+  it('is true with a real check-in today, no votes needed', () => {
+    const now = new Date('2026-03-10T20:00:00Z');
+    expect(hasSecuredStreakToday([checkin('2026-03-10T08:00:00Z')], [], now)).toBe(true);
+  });
+
+  it('is true with PICKS_STREAK_THRESHOLD votes today, with no check-in at all', () => {
+    const now = new Date('2026-03-10T20:00:00Z');
+    expect(hasSecuredStreakToday([], votesOn('2026-03-10T08:00:00Z'), now)).toBe(true);
+  });
+
+  it('is false with neither a check-in nor enough votes today', () => {
+    const now = new Date('2026-03-10T20:00:00Z');
+    expect(hasSecuredStreakToday([], votesOn('2026-03-10T08:00:00Z', PICKS_STREAK_THRESHOLD - 1), now)).toBe(false);
+  });
+
+  it("ignores votes from a day other than today", () => {
+    const now = new Date('2026-03-10T20:00:00Z');
+    expect(hasSecuredStreakToday([], votesOn('2026-03-09T08:00:00Z'), now)).toBe(false);
+  });
+});
 
 describe('todaysActionCount', () => {
   it('counts distinct landmarks voted on today', () => {

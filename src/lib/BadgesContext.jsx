@@ -10,7 +10,7 @@ import { getPickFeedback } from './pickFeedback';
 import { getUserReviews } from './reviews';
 import { getCustomLandmarks } from './customLandmarks';
 import { getRegion, getLandmark } from '../data/regions';
-import { computeBadges, msUntilStreakLapse, todaysActionCount } from './streaks';
+import { computeBadges, computeStreakDays, hasSecuredStreakToday, msUntilStreakLapse, todaysActionCount } from './streaks';
 import {
   countPhotoCheckins,
   maxRegionCheckins,
@@ -123,11 +123,8 @@ export function BadgesProvider({ children }) {
       const [checkinRows, feedback] = await Promise.all([getUserCheckins(user.uid), getPickFeedback(user.uid)]);
       rows = checkinRows;
       const fbList = Object.values(feedback || {});
-      // Solo streaks are gone (item i1) -- streakDays/checkedInToday are
-      // fixed at 0/false until the dual-streak `best` count (streaks/
-      // Firestore collection, a later phase) replaces them for real.
-      setStreakDays(0);
-      setCheckedInToday(false);
+      setStreakDays(computeStreakDays(rows, new Date(), fbList));
+      setCheckedInToday(hasSecuredStreakToday(rows, fbList));
       setActionsToday(todaysActionCount(rows, fbList));
     } catch {
       setStreakDays(0);
