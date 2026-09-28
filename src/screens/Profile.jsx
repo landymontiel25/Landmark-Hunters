@@ -534,9 +534,13 @@ export default function Profile() {
             <span className="profile-stat-label">cities{stats?.cityIds?.length ? ' ›' : ''}</span>
           </button>
           <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
-            <span className="profile-stat-num" style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-              <span>{'\u{1F525}'} {soloStreak?.count || 0}</span>
-              <span>{'\u{1F525}\u{1F525}'} {bestStreak}</span>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+              <span className="profile-stat-num" style={{ fontSize: '1rem' }}>
+                {'\u{1F525}'} {soloStreak?.count || 0}
+              </span>
+              <span className="profile-stat-num" style={{ fontSize: '1rem' }}>
+                {'\u{1F525}\u{1F525}'} {bestStreak}
+              </span>
             </span>
             <span className="profile-stat-label">streaks ›</span>
           </button>
