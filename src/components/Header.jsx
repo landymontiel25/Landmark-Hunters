@@ -2,90 +2,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { useBadges } from '../lib/BadgesContext';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { Skeleton } from './Skeleton';
-import { msUntilStreakLapse, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
-
-function formatLeft(ms) {
-  const total = Math.max(0, Math.floor(ms / 1000));
-  const h = Math.floor(total / 3600);
-  const m = Math.floor((total % 3600) / 60);
-  const sec = total % 60;
-  return h > 0 ? `${h}h ${m}m ${sec}s` : `${m}m ${sec}s`;
-}
-
-// Dead center of the header, on every screen. Flame animates only while
-// there's a streak to celebrate and turns warning-colored once today's
-// check-in hasn't secured it yet. Tapping it opens a live countdown to local
-// midnight: when today's streak lapses, or when a secured day ends and the
-// next one needs its own check-in. Never more than 24h.
-function StreakBadge() {
-  const { user, firebaseEnabled } = useAuth();
-  const { streakDays, checkedInToday } = useBadges();
-  const [open, setOpen] = useState(false);
-  const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!open) return;
-    setMsLeft(msUntilStreakLapse());
-    const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
-    const close = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', close);
-    document.addEventListener('touchstart', close);
-    return () => {
-      clearInterval(id);
-      document.removeEventListener('mousedown', close);
-      document.removeEventListener('touchstart', close);
-    };
-  }, [open]);
-
-  if (!firebaseEnabled || !user) return null;
-
-  const active = streakDays > 0;
-  const atRisk = active && !checkedInToday;
-
-  return (
-    <div className="header-streak-wrap" ref={ref}>
-      <button
-        type="button"
-        className={`header-streak ${active ? 'active' : ''} ${atRisk ? 'at-risk' : ''}`}
-        aria-expanded={open}
-        aria-label={`${streakDays}-day streak`}
-        onClick={() => setOpen((o) => !o)}
-      >
-        <span className="header-streak-flame" aria-hidden="true">
-          {'\u{1F525}'}
-        </span>
-        <span className="header-streak-num">{streakDays}</span>
-      </button>
-      {open && (
-        <div className="points-popover streak-popover" role="status">
-          {!active ? (
-            <div>Check in today to start a streak</div>
-          ) : (
-            <>
-              <div className="points-popover-joined">
-                {atRisk ? `${streakDays}-day streak ends in` : "Today's secured \u2713 — new day starts in"}
-              </div>
-              <div className={`streak-popover-clock ${atRisk ? 'at-risk' : ''}`}>{formatLeft(msLeft)}</div>
-              {atRisk && (
-                <div className="streak-popover-hint">
-                  Check in, or vote/rate {PICKS_STREAK_THRESHOLD} landmarks
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
 
 // Header identity control. Shows who you're signed in as; tapping reveals this week's rank/points, a "Notifications"
 // link (badged with the unread count), and "View Profile". Notifications
@@ -232,11 +152,10 @@ export default function Header() {
       <Link to="/" aria-label="Landmark Hunters" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
         <img src="/logo.png" alt="Landmark Hunters" className="brand-mark" />
       </Link>
-      {/* Sits in the flex gap between the logo and the profile pill, so a
-          long @username can only shrink this space, never sit under it. */}
-      <div className="app-header-center">
-        <StreakBadge />
-      </div>
+      {/* Solo streaks are gone (item i1) -- this center slot is empty until
+          a dual-streak summary chip (see the streaks/ Firestore collection,
+          a later phase) replaces the old per-user flame badge here. */}
+      <div className="app-header-center" />
       <div className="app-header-actions">
         <ProfileMenu />
       </div>

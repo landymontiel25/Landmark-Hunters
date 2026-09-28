@@ -389,7 +389,7 @@ export default function MaprPicksCarousel({ reviews, interests = [], checkedInId
           type="button"
           className="tag"
           style={{ fontSize: '0.68rem', cursor: 'pointer', fontFamily: 'inherit', appearance: 'none' }}
-          title={`${actionsToday} of ${PICKS_STREAK_THRESHOLD} needed today to secure your streak without a check-in -- more is fine, ${PICKS_STREAK_THRESHOLD} is just the minimum. Tap to see everything you've rated.`}
+          title={`${actionsToday} of ${PICKS_STREAK_THRESHOLD} landmarks voted or rated today. Tap to see everything you've rated.`}
           onClick={() => navigate('/mapr-ratings')}
         >
           {actionsToday}/{PICKS_STREAK_THRESHOLD} today
