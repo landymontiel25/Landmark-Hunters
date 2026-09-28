@@ -15,11 +15,13 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",
     "@capacitor-community/background-geolocation": "^1.2.26",
+    "@capacitor-firebase/messaging": "^8.5.2",
     "@capacitor/camera": "^8.2.4",
     "@capacitor/core": "^8.5.2",
     "@capacitor/geolocation": "^8.2.2",
     "@capacitor/ios": "^8.5.2",
     "firebase": "^12.17.1",
+    "firebase-admin": "^14.5.0",
     "leaflet": "^1.9.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

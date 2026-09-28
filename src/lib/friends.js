@@ -4,6 +4,7 @@ import {
   setDoc,
   updateDoc,
   deleteDoc,
+  deleteField,
   getDocs,
   collection,
   query,
@@ -150,6 +151,33 @@ export async function saveLastKnownLocation(uid, { lat, lng, accuracy, at }) {
     { lastKnownLocation: { lat, lng, accuracy: accuracy ?? null, at: at || Date.now() } },
     { merge: true }
   );
+}
+
+// Whether this account wants push notifications at all -- opt-in, off by
+// default, same reasoning as background location: turning it on means an
+// OS permission prompt. Checked server-side by api/_lib/push.js before it
+// bothers sending anything (see usePushNotificationsSync.js).
+export async function setPushNotificationsEnabled(uid, enabled) {
+  if (!db || !uid) return;
+  await setDoc(doc(db, 'users', uid), { pushNotificationsEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+}
+
+// One entry per device that's ever registered, keyed by its own FCM token --
+// re-registering the same device overwrites its own entry (idempotent), and
+// a dead token can be dropped by key alone (see sendPushToUser in
+// api/_lib/push.js) without touching any other device's.
+export async function savePushToken(uid, token, platform) {
+  if (!db || !uid || !token) return;
+  await setDoc(
+    doc(db, 'users', uid),
+    { pushTokens: { [token]: { platform, updatedAt: serverTimestamp() } } },
+    { merge: true }
+  );
+}
+
+export async function removePushToken(uid, token) {
+  if (!db || !uid || !token) return;
+  await updateDoc(doc(db, 'users', uid), { [`pushTokens.${token}`]: deleteField() });
 }
 
 // The free-text "tell Mapr what you already love" blurb -- optional, set at

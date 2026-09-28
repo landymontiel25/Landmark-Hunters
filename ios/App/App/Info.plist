@@ -31,6 +31,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Landmark Hunters uses your camera to take a photo when you check in at a landmark or submit a new one.</string>
