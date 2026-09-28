@@ -152,15 +152,16 @@ export const APP_HELP =
   `streaks are gone. Tapping the "streak" tile opens a real page (Your Streaks), not a popup -- same as check-ins/cities. From there, "Start a Streak" ` +
   `picks a friend right on that page (streak-first, not friend-first). Cap of 3 active streaks per person. To stop a streak, tap the trash icon next ` +
   `to that friend's name on the Your Streaks list -- immediate, no penalty beyond one "are you sure".\n` +
-  `- Today's 3 shared landmarks: once a streak has a city set (either person picks it, on the streak's own detail page -- defaults to nothing until ` +
-  `chosen), both people see the exact same 3 landmarks that day, deterministically picked from that city so no server round-trip decides it. Per ` +
-  `card: rate it first (I'd go / Not sure / Not for me -- same wording as Mapr Travel Picks), which unlocks a second question -- guess what your ` +
-  `partner will say about that same card. Once you've rated and guessed all 3, and your partner has too, the day counts. Each card then shows both ` +
-  `people's rating and whether your guess was right, right there on the card -- a lighter version of the spec's "Reveal" screen, without the ` +
-  `celebration animation or bonus points. The header flame shows the pair's current count and a live countdown to that day's deadline, turning red ` +
-  `once your own side isn't done. The deck always skips anywhere either of you has really (physically) checked into -- picking is for discovering ` +
-  `and rating places together, not re-rating somewhere you've been. Once every rateable landmark in that city is checked into by one of you, it ` +
-  `falls back to repeats rather than showing nothing.\n` +
+  `- Today's 3 shared landmarks: shown as a swipeable carousel, same style as Mapr Travel Picks. Mapr picks the city (same default-location logic ` +
+  `Mapr Travel Picks itself uses, no manual city picker -- the user never chooses it) and the 3 landmarks (deterministically, so both people see the ` +
+  `exact same 3 with no server round-trip deciding it). Per card: rate it first (I'd go / Not sure / Not for me -- same wording as Mapr Travel ` +
+  `Picks), which unlocks a second question -- guess what your partner will say about that same card. The moment you've rated and guessed a card, ` +
+  `it leaves the carousel -- exactly like voting on a Mapr Travel Picks card -- and moves to a "Today's results" list below showing both people's ` +
+  `rating and whether your guess was right, once your partner's answer is in too (a lighter version of the spec's "Reveal" screen, without the ` +
+  `celebration animation or bonus points). Once you've done all 3, and your partner has too, the day counts. The header flame shows the pair's ` +
+  `current count and a live countdown to that day's deadline, turning red once your own side isn't done. The deck always skips anywhere either of ` +
+  `you has really (physically) checked into -- picking is for discovering and rating places together, not re-rating somewhere you've been. Once ` +
+  `every rateable landmark in that city is checked into by one of you, it falls back to repeats rather than showing nothing.\n` +
   `- Shared freezes: 2 per pair per month, resetting the 1st. Either person can spend one (a button on the streak's detail page) to hold that day -- ` +
   `it keeps the chain from breaking if neither of you finishes today's 3 cards, but it doesn't add a day on its own.\n` +
   `- Recovery mission: opens for 24 hours after a real break that happens with no freezes left. Check in at the same landmark within 30 minutes of ` +
