@@ -42,7 +42,7 @@ function StreakBadge() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
-    ensureSoloStreak(user.displayName || 'A traveler')
+    ensureSoloStreak(user.displayName || 'A traveler', user.uid)
       .then(() => {
         if (cancelled) return;
         return subscribeMySoloStreak(user.uid, setStreak, () => {});

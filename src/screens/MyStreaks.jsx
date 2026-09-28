@@ -795,7 +795,7 @@ export default function MyStreaks() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
-    ensureSoloStreak(myUsername || user.displayName || 'A traveler')
+    ensureSoloStreak(myUsername || user.displayName || 'A traveler', user.uid)
       .then(() => {
         if (cancelled) return;
         return subscribeMySoloStreak(user.uid, setSoloStreak, (e) => {

@@ -111,6 +111,46 @@ export async function getPickFeedback(uid) {
   return map;
 }
 
+const SYNCED_FLAG_PREFIX = 'landmarkhunters.pickFeedbackSynced.';
+
+// setPickFeedback's Firestore write is best-effort -- offline, or the rules
+// not being deployed yet, silently leaves an entry living ONLY in this
+// device's localStorage (see that function's own comment). That was
+// invisible while the solo streak was purely a live, client-side
+// computation (it read the local+Firestore merge via getPickFeedback), but
+// api/ensure-solo-streak.js's server-side seed can only see Firestore --
+// any streak day whose only 3-distinct-landmarks quota came from a
+// local-only vote is invisible to it, and can quietly break the seeded
+// count even after the timezone fix. Re-attempting each local entry's write
+// gives it a fresh chance to land BEFORE the server reads pick_feedback to
+// seed or repair a streak. One-time per device (a localStorage flag), not
+// on every call -- the writes are idempotent (merge) but there's no reason
+// to repeat them once they've gone through.
+export async function syncLocalFeedbackToFirestore(uid) {
+  if (!db || !uid) return;
+  const flagKey = `${SYNCED_FLAG_PREFIX}${uid}`;
+  try {
+    if (localStorage.getItem(flagKey) === '1') return;
+  } catch {
+    /* private mode -- no flag to check, just sync every time (cheap, idempotent) */
+  }
+  const entries = Object.values(readLocal(uid));
+  if (entries.length) {
+    await Promise.all(
+      entries.map((entry) =>
+        setDoc(doc(db, 'pick_feedback', `${uid}_${entry.landmarkId}`), { userId: uid, ...entry, updatedAt: serverTimestamp() }, { merge: true }).catch(
+          () => {}
+        )
+      )
+    );
+  }
+  try {
+    localStorage.setItem(flagKey, '1');
+  } catch {
+    /* private mode */
+  }
+}
+
 // "Not sure" snoozes a pick instead of blacklisting it. Without a snooze,
 // any reload of the deck (a location update, a profile change) brought the
 // same card straight back seconds after you tapped it.
