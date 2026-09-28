@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { dayKey, PICKS_STREAK_THRESHOLD } from '../src/lib/streaks.js';
+import { PICKS_STREAK_THRESHOLD, previousDayKey } from './_lib/streakDay.js';
 
 // The one place a pair's streak count actually moves. Called by either
 // member's client right after they hit today's quota (see
@@ -15,11 +15,6 @@ import { dayKey, PICKS_STREAK_THRESHOLD } from '../src/lib/streaks.js';
 // actively using the app to trigger the check, which is the common case but
 // not the guaranteed one. A scheduled cron is a clean follow-up once this
 // is proven out -- the data model doesn't change either way.
-function previousDayKey(key) {
-  const [y, m, d] = key.split('-').map(Number);
-  const prev = new Date(y, m, d - 1);
-  return dayKey(prev);
-}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -70,14 +65,29 @@ export default async function handler(req, res) {
       return;
     }
 
-    const nextCount = streak.lastCompletedDay === previousDayKey(dayId) ? (streak.count || 0) + 1 : 1;
+    // A frozen day (item 5, api/use-streak-freeze.js) bridges one gap the
+    // same as an actually-completed day would -- it holds the count, it
+    // doesn't add to it.
+    const bridged =
+      streak.lastCompletedDay === previousDayKey(dayId) || (streak.frozenDays || []).includes(previousDayKey(dayId));
+    const broke = !bridged && (streak.count || 0) > 0;
+    const nextCount = bridged ? (streak.count || 0) + 1 : 1;
     const nextBest = Math.max(streak.best || 0, nextCount);
-    await streakRef.update({
+    const update = {
       count: nextCount,
       best: nextBest,
       lastCompletedDay: dayId,
       updatedAt: FieldValue.serverTimestamp(),
-    });
+    };
+    // Recovery mission (item 7): only opens when a real break just happened
+    // AND the pair has no freezes left to fall back on. 24h window, logged
+    // reactively here (there's no scheduled cron yet to catch a break that
+    // nobody's client happens to trigger a close around).
+    if (broke && (streak.freezesLeft || 0) <= 0) {
+      update.recoveryOpenUntil = Date.now() + 24 * 60 * 60 * 1000;
+      update.recoveryPriorCount = streak.count || 0;
+    }
+    await streakRef.update(update);
     res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });
   } catch (e) {
     res.status(500).json({ error: e?.message || 'Could not close that day.' });

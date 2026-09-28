@@ -95,6 +95,7 @@ const FullStats = lazyScreen(() => import('./screens/FullStats'));
 const MyCheckins = lazyScreen(() => import('./screens/MyCheckins'));
 const MyMaprRatings = lazyScreen(() => import('./screens/MyMaprRatings'));
 const MyCities = lazyScreen(() => import('./screens/MyCities'));
+const MyStreaks = lazyScreen(() => import('./screens/MyStreaks'));
 const FriendCheckins = lazyScreen(() => import('./screens/FriendCheckins'));
 const FriendCities = lazyScreen(() => import('./screens/FriendCities'));
 const Notifications = lazyScreen(() => import('./screens/Notifications'));
@@ -128,6 +129,7 @@ function AppRoutes() {
           <Route path="/checkins" element={<MyCheckins />} />
           <Route path="/mapr-ratings" element={<MyMaprRatings />} />
           <Route path="/cities" element={<MyCities />} />
+          <Route path="/streaks" element={<MyStreaks />} />
           <Route path="/friend/:uid/checkins" element={<FriendCheckins />} />
           <Route path="/friend/:uid/cities" element={<FriendCities />} />
           <Route path="/notifications" element={<Notifications />} />
