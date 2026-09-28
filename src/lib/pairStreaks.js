@@ -37,7 +37,7 @@ export function pairIdOf(uidA, uidB) {
   return [uidA, uidB].sort().join('_');
 }
 
-const MAX_ACTIVE_STREAKS = 3;
+export const MAX_ACTIVE_STREAKS = 3;
 
 export function subscribeMyStreaks(uid, onStreaks, onError) {
   if (!db || !uid) return () => {};
