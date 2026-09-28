@@ -2031,13 +2031,66 @@ button.header-streak {
   text-align: center;
   padding: 10px 16px;
 }
-.streak-popover-clock {
-  font-size: 1.35rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--warning);
+/* A segmented, digital-style countdown (H : M : S, each in its own tile)
+   instead of a flat "6h 32m 23s" line -- reads at a glance the way a real
+   countdown does, and the tinted glow (green once secured, red once at
+   risk) carries the same signal color the header flame itself uses,
+   instead of relying on text color alone against a plain background. */
+.streak-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 6px 0 2px;
 }
-.streak-popover-clock.at-risk {
+.streak-clock-seg {
+  display: flex;
+  align-items: center;
+}
+.streak-clock-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.3em;
+  padding: 5px 4px 4px;
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--warning);
+  background: linear-gradient(180deg, rgba(242, 184, 75, 0.16), rgba(242, 184, 75, 0.04));
+  border: 1px solid rgba(242, 184, 75, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.streak-clock-unit {
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-tertiary);
+  margin: 0 1px 0 3px;
+}
+.streak-clock-sep {
+  color: var(--text-tertiary);
+  font-weight: 700;
+  opacity: 0.5;
+  margin: 0 1px;
+}
+/* Same green/red tint values as .header-streak.secured/.at-risk and
+   .tag-free/.tag-error, so this reads as the same signal color everywhere
+   in the app, not a new one-off. */
+.streak-clock.secured .streak-clock-value {
+  color: var(--success);
+  background: linear-gradient(180deg, rgba(85, 201, 135, 0.2), rgba(85, 201, 135, 0.05));
+  border-color: rgba(85, 201, 135, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 14px rgba(85, 201, 135, 0.18);
+}
+.streak-clock.at-risk .streak-clock-value {
   color: var(--danger);
+  background: linear-gradient(180deg, rgba(240, 106, 106, 0.2), rgba(240, 106, 106, 0.05));
+  border-color: rgba(240, 106, 106, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 14px rgba(240, 106, 106, 0.18);
 }
 .streak-popover-hint {
   margin-top: 4px;
