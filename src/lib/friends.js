@@ -181,7 +181,7 @@ export async function removePushToken(uid, token) {
 }
 
 // The free-text "tell Mapr what you already love" blurb -- optional, set at
-// onboarding (TasteIntroStep) or anytime after from Settings. Same
+// onboarding (its notes step) or anytime after from Settings. Same
 // users/{uid} doc getUserProfile already reads, so it's available for free
 // via FriendsContext's myProfile once saved. Fed to the AI verbatim (see
 // api/plan-ai.js/api/mapr-picks.js's TASTE INTRO section) rather than

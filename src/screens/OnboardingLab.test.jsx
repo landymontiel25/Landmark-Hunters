@@ -12,7 +12,8 @@ afterEach(() => {
   vi.resetModules();
 });
 
-async function renderAs(email) {
+async function renderAs(email, { nothingToTest = false } = {}) {
+  vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
   vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '' }));
@@ -37,6 +38,12 @@ const click = (el) => act(async () => el.click());
 const button = (el, text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
 
 describe('OnboardingLab', () => {
+  it('says there is nothing to test while the sandbox is switched off', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { nothingToTest: true });
+    expect(el.textContent).toContain('Nothing to test');
+    expect(el.textContent).not.toContain('Rate a few things you');
+  });
+
   it('sends non-admins away', async () => {
     const el = await renderAs('someone@example.com');
     expect(el.textContent).toContain('home');

@@ -34,6 +34,7 @@ import QuickRateButton from '../components/QuickRateButton';
 import { useSessionState } from '../lib/usePersistentState';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
+import OnboardingBanner from '../components/OnboardingBanner';
 
 
 // Turn-by-turn's actual route, once directions are up -- see the dimming
@@ -980,6 +981,7 @@ export default function MapExplore() {
 
   return (
     <div className="map-fullscreen">
+      <OnboardingBanner variant="fixed" />
       {/* A small note, not a cover: the map and its pins are usable while
           the GPS fix is still coming in. */}
       {geoLoading && (

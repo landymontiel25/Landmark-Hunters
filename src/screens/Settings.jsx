@@ -95,7 +95,7 @@ export default function Settings() {
   // Drafts are per account (uid in the key). myProfile loads asynchronously
   // (FriendsContext); until you type, each field simply shows the server copy
   // whenever it lands. The taste-intro key is shared with onboarding's
-  // TasteIntroStep, so text typed there but never saved shows up here.
+  // onboarding's notes step, so text typed there but never saved shows up here.
   const home = useDraft(uid ? `homeAddress.${uid}` : null, myProfile?.homeAddress || '');
   // Shown as "Saved: …" right away after picking an address, before the
   // server write (and profile reload) confirm it.

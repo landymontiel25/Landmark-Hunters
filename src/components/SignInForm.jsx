@@ -1,13 +1,18 @@
 import { useState } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { authErrorMessage } from '../lib/authErrors';
+import { withTimeout } from '../lib/withTimeout';
 import { readPersisted, writePersisted } from '../lib/usePersistentState';
 
 // The email last used to sign in on this device, so coming back only means
 // typing a password (or letting the password manager fill it). Never the
 // password itself -- that's the browser's/OS's job.
 const LAST_EMAIL_KEY = 'auth.lastEmail';
+
+// Google sign-in uses a popup, which the iOS web view can't open.
+const GOOGLE_SIGN_IN_AVAILABLE = !Capacitor.isNativePlatform();
 
 export default function SignInForm({ onSignedUp }) {
   const { signUpEmail, signInEmail, signInWithGoogle, resetPassword } = useAuth();
@@ -37,11 +42,11 @@ export default function SignInForm({ onSignedUp }) {
     const normalizedEmail = email.trim().toLowerCase();
     try {
       if (mode === 'signup') {
-        await signUpEmail(normalizedEmail, password, name);
+        await withTimeout(signUpEmail(normalizedEmail, password, name));
         writePersisted(LAST_EMAIL_KEY, normalizedEmail);
         onSignedUp?.();
       } else {
-        await signInEmail(normalizedEmail, password);
+        await withTimeout(signInEmail(normalizedEmail, password));
         writePersisted(LAST_EMAIL_KEY, normalizedEmail);
       }
     } catch (err) {
@@ -62,7 +67,7 @@ export default function SignInForm({ onSignedUp }) {
     setResetSent(false);
     setBusy(true);
     try {
-      await resetPassword(normalizedEmail);
+      await withTimeout(resetPassword(normalizedEmail));
       setResetSent(true);
     } catch (err) {
       setError(authErrorMessage(err));
@@ -76,8 +81,10 @@ export default function SignInForm({ onSignedUp }) {
     setResetSent(false);
     setBusy(true);
     try {
-      await signInWithGoogle();
-      onSignedUp?.();
+      // Only a brand-new Google account starts onboarding; signing back in
+      // to an existing one just signs in.
+      const { isNewUser } = await signInWithGoogle();
+      if (isNewUser) onSignedUp?.();
     } catch (err) {
       setError(authErrorMessage(err));
     } finally {
@@ -214,22 +221,26 @@ export default function SignInForm({ onSignedUp }) {
         </button>
       </form>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '16px 0', opacity: 0.5 }}>
-        <div style={{ flex: 1, height: '1px', background: 'currentColor' }} />
-        <span style={{ fontSize: '0.78rem' }}>or</span>
-        <div style={{ flex: 1, height: '1px', background: 'currentColor' }} />
-      </div>
+      {GOOGLE_SIGN_IN_AVAILABLE && (
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '16px 0', opacity: 0.5 }}>
+            <div style={{ flex: 1, height: '1px', background: 'currentColor' }} />
+            <span style={{ fontSize: '0.78rem' }}>or</span>
+            <div style={{ flex: 1, height: '1px', background: 'currentColor' }} />
+          </div>
 
-      <button
-        type="button"
-        className="btn btn-ghost btn-block"
-        onClick={handleGoogleSignIn}
-        disabled={busy}
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
-      >
-        <span style={{ fontSize: '1.2rem' }}>🔐</span>
-        Sign {mode === 'signup' ? 'up' : 'in'} with Google
-      </button>
+          <button
+            type="button"
+            className="btn btn-ghost btn-block"
+            onClick={handleGoogleSignIn}
+            disabled={busy}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+          >
+            <span style={{ fontSize: '1.2rem' }}>🔐</span>
+            Sign {mode === 'signup' ? 'up' : 'in'} with Google
+          </button>
+        </>
+      )}
 
       {mode === 'signin' && (
         <button

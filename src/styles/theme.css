@@ -58,9 +58,18 @@
   /* No blur -- panels are fully opaque, so backdrop-filter has nothing
      to blur (and iOS Safari under Low Power Mode skips it anyway). */
   --glass-blur: none;
-  --header-h: 76px;
+  /* Notch / Dynamic Island / home-indicator insets. 0 on desktop and browsers
+     without them (index.html sets viewport-fit=cover), so the web layout is
+     unchanged; inside the iOS app they push the header, map buttons and tab
+     bar clear of the system UI. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --header-base: calc(76px + var(--safe-top));
+  /* Set by OnboardingBanner while its floating variant is on screen. */
+  --banner-h: 0px;
+  --header-h: calc(var(--header-base) + var(--banner-h));
   /* Floating tab bar: 66px tall, 12px off the bottom edge, plus room. */
-  --nav-h: 92px;
+  --nav-h: calc(92px + var(--safe-bottom));
 }
 
 /* iOS (Safari and the installed app): native SF Pro instead of Inter. */
@@ -1938,7 +1947,7 @@ textarea {
   align-items: center;
   gap: 8px;
   padding: 0 14px;
-  margin: 12px 14px 8px;
+  margin: calc(var(--safe-top) + 12px) 14px 8px;
   /* Solid (not backdrop-blur) so this fixed/sticky bar doesn't jitter or jump
      to a stale position during momentum scroll on iOS Safari. */
   background: rgb(var(--color-bg-rgb));
@@ -1946,7 +1955,7 @@ textarea {
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-float);
   position: sticky;
-  top: 12px;
+  top: calc(var(--safe-top) + 12px);
   z-index: 20;
 }
 
@@ -3279,7 +3288,7 @@ button.header-streak {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 20px);
 }
 
 .modal-card {
@@ -3318,7 +3327,7 @@ button.header-streak {
 /* Constant reminder Admin Mode is on, on every screen -- see AdminModeBadge. */
 .admin-mode-badge {
   position: fixed;
-  top: 10px;
+  top: calc(var(--safe-top) + 10px);
   right: 12px;
   z-index: 4000;
   display: flex;
@@ -6249,4 +6258,52 @@ h2,
   border-radius: 50%;
   font-size: 1.3rem;
   padding: 0;
+}
+
+
+/* ---------- Onboarding banner (Map and Mapr tabs) ---------- */
+
+.onboarding-banner {
+  display: flex;
+  align-items: stretch;
+  min-height: 44px;
+  margin: 0 0 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default, var(--glass-border));
+  background: var(--bg-elevated, rgb(var(--color-bg-rgb)));
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+
+.onboarding-banner-fixed {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  top: var(--header-base);
+  z-index: 1100;
+  margin: 0;
+}
+
+.onboarding-banner-main {
+  flex: 1;
+  min-width: 0;
+  padding: 0 8px 0 16px;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.onboarding-banner-close {
+  flex-shrink: 0;
+  width: 44px;
+  border: none;
+  background: none;
+  color: var(--color-parchment-dim);
+  font-size: 1rem;
+  cursor: pointer;
 }

@@ -4,8 +4,6 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
-import { useGeo } from '../lib/GeoContext';
-import { useUnits, formatDistance } from '../lib/UnitsContext';
 import {
   subscribeLeaderboard,
   getFriendsLeaderboard,
@@ -13,24 +11,19 @@ import {
   backfillUserName,
   cleanName,
 } from '../lib/leaderboard';
-import { getUserProfile, setBackgroundLocationEnabled } from '../lib/friends';
-import { requestAlwaysPermission } from '../lib/backgroundLocation';
 import { useRatings } from '../lib/RatingsContext';
 import { RATING_GOAL } from '../lib/ratingFlow';
-import { getRegion, REGIONS, ALL_LANDMARKS } from '../data/regions';
-import { distanceMeters } from '../lib/geo';
+import { getRegion, REGIONS } from '../data/regions';
 import { useBadges } from '../lib/BadgesContext';
 import { PICKS_STREAK_THRESHOLD, dayKey } from '../lib/streaks';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
 import { claimMyReferralBonuses } from '../lib/referrals';
-import { completeOnboarding, hasCompletedOnboardingLocally, markOnboardingCompletedLocally } from '../lib/onboarding';
+import { hasCompletedOnboardingLocally } from '../lib/onboarding';
+import { ONBOARDING_VERSION, onboardingStatus } from '../lib/onboardingVersion';
 import FriendsPanel from '../components/FriendsPanel';
 import SignInForm from '../components/SignInForm';
-import TasteIntroStep from './TasteIntroStep';
-import PreferenceChips from '../components/PreferenceChips';
-import LandmarkThumb from '../components/LandmarkThumb';
+import Onboarding from './Onboarding';
 import FriendPopoverName from '../components/FriendPopoverName';
-import CheckInButton from '../components/CheckInButton';
 import RegionSearch from '../components/RegionSearch';
 import MaprPicksCarousel from '../components/MaprPicksCarousel';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
@@ -80,178 +73,6 @@ function InviteButton({ myUsername }) {
     <button className="btn btn-primary btn-block" onClick={share}>
       {copied ? '✓ Invite copied!' : '\u{1F465} Invite Friends'}
     </button>
-  );
-}
-
-// Shown once, right after creating an account -- gets your usual interests
-// saved before you ever see Setup, so "Use My Preferences" already has
-// something to apply on your very first trip.
-function OnboardingPreferences({ onDone }) {
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F389}'}</span> Welcome!
-      </h1>
-      <p className="screen-subtitle">
-        What are you usually into? Save it now and Setup can fill it in for you on every trip from here on.
-      </p>
-      <PreferenceChips />
-      <button type="button" className="btn btn-primary btn-block" style={{ marginTop: 20 }} onClick={onDone}>
-        Continue {'\u{2192}'}
-      </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onDone}>
-        Skip for now
-      </button>
-    </div>
-  );
-}
-
-// Last onboarding step -- surfaces the nearest landmark to your current GPS
-// fix with a one-tap check-in, so a brand-new account can earn its first
-// point immediately instead of hunting through the map. Reaching this step
-// (whether or not you actually check in) is what completes onboarding.
-function FirstCheckInStep({ onDone }) {
-  const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
-  const { myProfile, myUsername, reload: reloadFriends } = useFriends();
-  const { coords, loading: geoLoading } = useGeo();
-  const { units } = useUnits();
-  // Surfaced in the UI (not just the console) since the previous silent
-  // failure mode -- onboardingCompleted not sticking past a reload -- turned
-  // out to need an actual error message from the field to diagnose, and
-  // most people testing this aren't going to open devtools to get one.
-  const [saveError, setSaveError] = useState(null);
-  const [saveAttempt, setSaveAttempt] = useState(0);
-
-  useEffect(() => {
-    if (!user || myProfile?.onboardingCompleted || hasCompletedOnboardingLocally(user.uid)) return;
-    setSaveError(null);
-    completeOnboarding(user.uid, myUsername || user.displayName || 'Explorer')
-      .then(async () => {
-        // Permanent local guard, same idea as BadgesContext's celebration
-        // guard: mark this done on this device the moment the write
-        // succeeds, so "Finish Onboarding" can never reappear here again
-        // regardless of what a later reload's Firestore read comes back
-        // with. The Firestore flag is still the source of truth for other
-        // devices/badges -- this is just insurance against it not sticking.
-        markOnboardingCompletedLocally(user.uid);
-        await reloadFriends();
-        // Read back directly (bypassing FriendsContext's own cache/state)
-        // so a write that silently didn't stick shows up right here instead
-        // of only reappearing as "Finish Onboarding" on the next reload.
-        const fresh = await getUserProfile(user.uid);
-        if (!fresh?.onboardingCompleted) {
-          console.error('[Onboarding] wrote onboardingCompleted but read-back shows it unset:', fresh);
-          setSaveError("Saved, but it didn't stick server-side -- please screenshot this and send it over.");
-        }
-      })
-      .catch((err) => {
-        console.error('[Onboarding] completeOnboarding failed:', err);
-        // Details stay in the console; the screen gets a plain sentence.
-        setSaveError(friendlyError(err, "Couldn't finish setting up your account. Try again."));
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, myProfile?.onboardingCompleted, saveAttempt]);
-
-  const nearest = (() => {
-    if (!coords) return null;
-    let best = null;
-    let bestDist = Infinity;
-    for (const l of ALL_LANDMARKS) {
-      const d = distanceMeters(coords.lat, coords.lng, l.lat, l.lng);
-      if (d < bestDist) {
-        bestDist = d;
-        best = l;
-      }
-    }
-    return best ? { landmark: best, meters: bestDist } : null;
-  })();
-
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F4CD}'}</span> Your First Check-In
-      </h1>
-      <p className="screen-subtitle">One tap to earn your first point.</p>
-
-      {saveError && <ErrorNotice compact message={saveError} onRetry={() => setSaveAttempt((n) => n + 1)} />}
-
-      {!coords && (
-        <p className="screen-subtitle">{geoLoading ? 'Finding your location…' : "Can't find your location right now."}</p>
-      )}
-
-      {nearest && (
-        <div className="card section" style={{ textAlign: 'center' }}>
-          <LandmarkThumb landmark={nearest.landmark} size={96} />
-          <h3 style={{ marginBottom: 4 }}>{nearest.landmark.name}</h3>
-          <p className="screen-subtitle" style={{ marginTop: 0 }}>
-            {formatDistance(nearest.meters, units)} away
-          </p>
-          <CheckInButton
-            landmark={nearest.landmark}
-            user={user}
-            firebaseEnabled={firebaseEnabled}
-            claimedMap={claimedMap}
-            checkingIn={checkingIn}
-            onCheckIn={checkIn}
-            className="btn-block"
-          />
-        </div>
-      )}
-
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onDone}>
-        {claimedMap[nearest?.landmark?.id] ? 'Continue' : 'Skip for now'}
-      </button>
-    </div>
-  );
-}
-
-// Final onboarding step -- asks to upgrade from "When In Use" (already
-// granted by now, since FirstCheckInStep just used GPS) to "Always", so Mapr
-// can keep learning your taste and location even with the app closed (see
-// src/lib/backgroundLocation.js). Comes last on purpose: this native
-// permission dialog reads as a bigger ask than the others, so it only shows
-// up once someone has already gotten value from the app. Skippable, and
-// re-offered anytime from Settings.
-function LocationAlwaysStep({ onDone }) {
-  const { user } = useAuth();
-  const [enabling, setEnabling] = useState(false);
-  const [err, setErr] = useState(null);
-
-  const enable = async () => {
-    setEnabling(true);
-    setErr(null);
-    try {
-      const authorized = await requestAlwaysPermission();
-      if (!authorized) {
-        setErr('Location access is off for Landmark Hunters. You can turn it on later from Settings or iOS Settings.');
-        return;
-      }
-      await setBackgroundLocationEnabled(user.uid, true);
-      onDone();
-    } catch (e) {
-      setErr(friendlyError(e, "Couldn't turn that on. You can enable it later from Settings."));
-    } finally {
-      setEnabling(false);
-    }
-  };
-
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F30D}'}</span> Always Know Where You Are
-      </h1>
-      <p className="screen-subtitle">
-        Turn this on and Mapr keeps learning even when the app is closed -- so the moment you land somewhere new,
-        it's already building picks for that city instead of starting from scratch when you open the app.
-      </p>
-      {err && <ErrorNotice compact message={err} />}
-      <button type="button" className="btn btn-primary btn-block" onClick={enable} disabled={enabling}>
-        {enabling ? 'Enabling…' : 'Always Allow Location'}
-      </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onDone}>
-        Not now
-      </button>
-    </div>
   );
 }
 
@@ -307,7 +128,23 @@ export default function Profile() {
   // "no one has points yet".
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
-  const [onboardingStep, setOnboardingStep] = useState(null); // null | 'preferences' | 'tasteIntro' | 'checkin' | 'locationAlways'
+  // The onboarding flow takes over this tab for a new account (started right
+  // after sign-up, or resumed on a later visit once the saved progress or the
+  // sign-up marker says it isn't finished). Accounts from before onboarding
+  // existed are never dropped in: they get the notification and banner and
+  // open it from there.
+  const [flowActive, setFlowActive] = useState(false);
+  // Set the moment sign-up succeeds, before the account's own marker has
+  // reached the profile listener.
+  const [signedUpNow, setSignedUpNow] = useState(false);
+  const { profileFresh } = useFriends();
+  const launchFlow =
+    !!user &&
+    profileFresh &&
+    (onboardingStatus(myProfile) === 'new' || myProfile?.onboardingProgress?.version === ONBOARDING_VERSION);
+  useEffect(() => {
+    if (launchFlow) setFlowActive(true);
+  }, [launchFlow]);
   const healedRef = useRef(false);
 
   const period = tab; // the board always tracks a period
@@ -442,12 +279,16 @@ export default function Profile() {
     );
   }
 
-  if (!user) return <SignInForm onSignedUp={() => setOnboardingStep('preferences')} />;
+  if (!user) return (
+      <SignInForm
+        onSignedUp={() => {
+          setSignedUpNow(true);
+          setFlowActive(true);
+        }}
+      />
+    );
 
-  if (onboardingStep === 'preferences') return <OnboardingPreferences onDone={() => setOnboardingStep('tasteIntro')} />;
-  if (onboardingStep === 'tasteIntro') return <TasteIntroStep onDone={() => setOnboardingStep('checkin')} />;
-  if (onboardingStep === 'checkin') return <FirstCheckInStep onDone={() => setOnboardingStep('locationAlways')} />;
-  if (onboardingStep === 'locationAlways') return <LocationAlwaysStep onDone={() => setOnboardingStep(null)} />;
+  if (flowActive) return <Onboarding isNew={signedUpNow || onboardingStatus(myProfile) === 'new' || undefined} onExit={() => setFlowActive(false)} />;
 
   const myIdx = entries.findIndex((e) => e.userId === user.uid);
   const myPoints = myIdx >= 0 ? entries[myIdx].points : 0;
@@ -577,7 +418,7 @@ export default function Profile() {
         )}
       </div>
 
-      {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => setOnboardingStep('checkin')} />}
+      {!onboardingDone && <FinishOnboardingCard onStartOnboarding={() => navigate('/onboarding')} />}
       <DiscoveryStatsCard />
 
       {closestRival && (

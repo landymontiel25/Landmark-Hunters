@@ -216,7 +216,7 @@ async function handler(req, res) {
       comment: str(r.comment, 280),
     }));
     const interests = (Array.isArray(body.interests) ? body.interests : []).map((c) => str(c, 30)).slice(0, 20);
-    // Told directly at onboarding or from Settings (src/screens/TasteIntroStep.jsx,
+    // Told directly at onboarding or from Settings (the notes step in src/screens/Onboarding.jsx,
     // src/screens/Settings.jsx) -- free-form, in the traveler's own words, not
     // tied to any rating. Read as prose, same as the rest of the profile.
     const tasteIntro = str(body.tasteIntro, 4000);

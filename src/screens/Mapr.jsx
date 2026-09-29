@@ -24,6 +24,7 @@ import { logPlanningEvent } from '../lib/timeSaved';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
 import TasteProfileCard from '../components/TasteProfileCard';
 import TasteNudgeCard from '../components/TasteNudgeCard';
+import OnboardingBanner from '../components/OnboardingBanner';
 import TripPlannerCard from '../components/TripPlannerCard';
 import MaprRateCard from '../components/MaprRateCard';
 import { authHeaders } from '../lib/apiAuth';
@@ -192,7 +193,7 @@ export default function Mapr() {
   const feedEndRef = useRef(null);
   const regionBoxRef = useRef(null);
 
-  const hasTasteInfo = !!(myProfile?.tasteIntro || (myProfile?.tasteBaseline && Object.keys(myProfile.tasteBaseline).length));
+  const hasTasteInfo = !!(myProfile?.tasteIntro || myProfile?.swipeSummary || (myProfile?.tasteBaseline && Object.keys(myProfile.tasteBaseline).length));
   // profileFresh: don't nag "you haven't told Mapr what you like" off the
   // localStorage prefill -- until the real server read lands, the profile
   // can look empty when it isn't.
@@ -593,6 +594,7 @@ export default function Mapr() {
 
   return (
     <div className="chatlab">
+      <OnboardingBanner />
       <div className="chatlab-header">
         <div className="chatlab-orb" />
         <div className="chatlab-header-text">

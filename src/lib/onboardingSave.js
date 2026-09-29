@@ -1,0 +1,134 @@
+import { doc, setDoc, deleteField, serverTimestamp } from 'firebase/firestore';
+import { db } from './firebase';
+import { PICKABLE_REGIONS } from '../data/regions';
+import { allSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
+import { TAG_CAP, TAG_FLOOR, decayFactor } from './tagScores';
+import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, onboardingNoticeId } from './onboardingVersion';
+
+const cardsByWord = new Map(allSwipeCards().map((c) => [c.word, c]));
+export const cardForWord = (word) => cardsByWord.get(word) || null;
+
+// In memory: [{ card, answer }]. In Firestore: [{ word, answer }]. A list, not
+// a { word: answer } map, because a merge write replaces a list whole (so Undo
+// really removes an answer) while it merges maps key by key.
+export const answersToPairs = (list) => list.map(({ card, answer }) => ({ word: card.word, answer }));
+export const pairsToAnswers = (pairs) =>
+  (Array.isArray(pairs) ? pairs : [])
+    .map(({ word, answer }) => ({ card: cardForWord(word), answer }))
+    .filter((a) => a.card && ['love', 'dislike', 'unsure'].includes(a.answer));
+
+// The answers a screen starts from. What they did earlier in this same run
+// wins, then what they answered the last time they did onboarding, then a
+// "love it" for every card whose category they already saved as a preference,
+// so returning users aren't asked what they've already told us.
+export function prefillAnswers({ cardWords, progress, profile, savedInterests = [] }) {
+  const inDeck = new Set(cardWords);
+  const byWord = new Map();
+  for (const a of pairsToAnswers(profile?.swipeAnswers)) if (inDeck.has(a.card.word)) byWord.set(a.card.word, a);
+  for (const w of cardWords) {
+    const card = cardForWord(w);
+    if (card && !byWord.has(w) && savedInterests.includes(card.tag)) byWord.set(w, { card, answer: 'love' });
+  }
+  for (const a of pairsToAnswers(progress?.answers)) if (inDeck.has(a.card.word)) byWord.set(a.card.word, a);
+  return cardWords.map((w) => byWord.get(w)).filter(Boolean);
+}
+
+// Marks an account as created through sign-up, which is what makes onboarding
+// start on its own for it (see onboardingStatus). Written once, at creation.
+export async function markNewSignup(uid) {
+  if (!db || !uid) return;
+  await setDoc(doc(db, 'users', uid), { onboardingSource: 'signup' }, { merge: true });
+}
+
+// Where the person is in the flow, so closing the app resumes there. Answers
+// are saved as they swipe. setDoc merge keeps the write safe even when it
+// races the profile doc's own creation.
+export async function saveOnboardingProgress(uid, patch) {
+  if (!db || !uid) return;
+  await setDoc(
+    doc(db, 'users', uid),
+    { onboardingProgress: { ...patch, version: ONBOARDING_VERSION, updatedAt: Date.now() } },
+    { merge: true }
+  );
+}
+
+export async function clearOnboardingProgress(uid) {
+  if (!db || !uid) return;
+  await setDoc(doc(db, 'users', uid), { onboardingProgress: deleteField() }, { merge: true });
+}
+
+const clamp = (v) => Math.max(TAG_FLOOR, Math.min(TAG_CAP, v));
+
+// Turns swipe answers into the per-region tagScores Mapr Picks already ranks
+// by, so they count from the first picks request. Answers are stored on the
+// account as a whole, not per city, so each pickable region gets the same
+// seed. Redoing onboarding applies only the change from last time
+// (previousDeltas), so a repeat never doubles up.
+export function seedTagScores(profile, answers, now = Date.now(), regions = PICKABLE_REGIONS.map((r) => r.id)) {
+  const deltas = tagDeltasFromAnswers(answers);
+  const previous = profile?.onboardingSwipeDeltas || {};
+  const tags = new Set([...Object.keys(deltas), ...Object.keys(previous)]);
+  const tagScores = {};
+  const tagScoresAt = {};
+  for (const region of regions) {
+    for (const tag of tags) {
+      const change = (deltas[tag] || 0) - (previous[tag] || 0);
+      if (!change) continue;
+      const current = Number(profile?.tagScores?.[region]?.[tag]) || 0;
+      const decayed = current * decayFactor(profile?.tagScoresAt?.[region]?.[tag], now);
+      (tagScores[region] ||= {})[tag] = clamp(decayed + change);
+      (tagScoresAt[region] ||= {})[tag] = now;
+    }
+  }
+  return { deltas, tagScores, tagScoresAt };
+}
+
+// Same wording the Test tab feeds Mapr: the card words in prose. The free-text
+// notes live in tasteIntro, saved by their own step, so only the words go here.
+export function swipeSummary(answers) {
+  const words = (a) => answers.filter((x) => x.answer === a).map((x) => x.card.word);
+  const parts = [];
+  if (words('love').length) parts.push(`Loves: ${words('love').join(', ')}.`);
+  if (words('dislike').length) parts.push(`Doesn't like: ${words('dislike').join(', ')}.`);
+  // No trailing period: composeTasteIntro joins the pieces with ". ".
+  return parts.join(' ').replace(/\.$/, '');
+}
+
+// Writes the finished swipes to the account: the raw answers, the summary
+// Mapr reads, the tag-score seed, and the version that clears the
+// notification and banner. Progress stays until the whole flow is done.
+export async function saveOnboardingResults(uid, profile, answers) {
+  if (!db || !uid) return;
+  const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers);
+  await setDoc(
+    doc(db, 'users', uid),
+    {
+      onboardingVersion: ONBOARDING_VERSION,
+      swipeAnswers: answersToPairs(answers),
+      swipeSummary: swipeSummary(answers),
+      onboardingSwipeDeltas: deltas,
+      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt } : {}),
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true }
+  );
+}
+
+// "Onboarding has been updated" for accounts that predate this version.
+// The notification is created first and the profile marker second: if the
+// notification write fails the marker stays unset and the next load retries.
+export async function sendOnboardingNotice(uid) {
+  if (!db || !uid) return;
+  await setDoc(doc(db, 'notifications', onboardingNoticeId()), {
+    uid,
+    type: 'onboarding_update',
+    message: ONBOARDING_NOTICE_MESSAGE,
+    landmarkId: null,
+    groupTripId: null,
+    featureRequestId: null,
+    bugReportId: null,
+    read: false,
+    createdAt: serverTimestamp(),
+  });
+  await setDoc(doc(db, 'users', uid), { onboardingNoticeVersion: ONBOARDING_VERSION }, { merge: true });
+}
