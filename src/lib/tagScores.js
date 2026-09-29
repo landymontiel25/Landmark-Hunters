@@ -573,8 +573,9 @@ export function applyTimeSlot(scores, boosts) {
 // rankings over the user's saved tag scores -- no AI call is made to rank.
 //
 // A tag counts as "new" to someone while it has at most NEW_PICK_MAX_RATINGS
-// ratings behind it across EVERY region combined: a category rated 20 times
-// in Miami isn't new to them in Villanova, even with no local ratings yet.
+// ratings behind it IN THIS REGION: taste varies city to city (someone can
+// love museums in Paris and never have rated one in Brussels), so a category
+// rated 20 times in Miami is still new to them in Villanova.
 export const NEW_PICK_MAX_RATINGS = WILDCARD_MAX_RATINGS;
 // "Something new" spreads across categories instead of five of one kind.
 export const NEW_PICK_PER_TAG = 2;
@@ -611,14 +612,14 @@ export function usualPicks({ profile, region, excludeIds = [], checkinCounts = {
 }
 
 // "Something new": landmarks whose main category the user has rated little
-// or never (NEW_PICK_MAX_RATINGS, sitewide), with nothing they've disliked
-// on them, ranked by how close they still land to the user's taste -- the
-// warm start from other regions and any liked secondary category push a
-// place up, so it's new territory that still fits them.
+// or never IN THIS REGION (NEW_PICK_MAX_RATINGS), with nothing they've
+// disliked on them, ranked by how close they still land to the user's taste
+// -- the warm start from other regions and any liked secondary category push
+// a place up, so it's new territory here that still fits their taste.
 export function discoveryPicks({ profile, region, excludeIds = [], checkinCounts = {}, limit = 6, now = Date.now() }) {
   if (!region) return [];
   const scores = effectiveTagScores(profile, region, now);
-  const counts = sitewideTagCounts(profile);
+  const counts = profile?.tagCounts?.[region] || {};
   const demand = byDemand(checkinCounts);
   const scoreOf = (l) => (l.categories || []).reduce((s, t) => s + (scores[t] || 0), 0);
   const ranked = candidates(region, excludeIds)
