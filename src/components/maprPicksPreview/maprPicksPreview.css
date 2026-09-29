@@ -1,0 +1,409 @@
+/* "Picked for you right now" pieces (components/maprPicksPreview). Every
+   class is mpp-* so nothing here reaches other screens. Colors are the
+   theme's tokens; pin colors are NOT set here (theme.css owns .map-pin). */
+
+.mpp {
+  --mpp-safe-top: env(safe-area-inset-top, 0px);
+  --mpp-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.mpp-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+
+.mpp-control-label,
+.mpp-distance-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.mpp-control-note {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.mpp-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.mpp-chip {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.mpp-chip.active {
+  border-color: var(--mapr-blue);
+  background: var(--mapr-blue-soft);
+  color: var(--text-primary);
+}
+
+/* ---- Phone frame ---- */
+
+.mpp-phone {
+  width: min(100%, 380px);
+  height: min(780px, 82vh);
+  margin: 0 auto 20px;
+  padding: 10px;
+  border-radius: 46px;
+  background: #0b0b0f;
+  box-shadow: 0 0 0 2px var(--border-strong), 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.mpp-phone-screen {
+  /* Typical notch/home-indicator insets, so the preview shows the spacing
+     the real screen gets from env(safe-area-inset-*). */
+  --mpp-safe-top: 47px;
+  --mpp-safe-bottom: 34px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 36px;
+  background: var(--bg-primary);
+  isolation: isolate;
+}
+
+.mpp-map {
+  position: absolute !important;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ---- Bottom sheet ---- */
+
+.mpp-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  height: 46%;
+  border-radius: 22px 22px 0 0;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-subtle);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+  transition: height 0.28s var(--ease);
+}
+
+.mpp-sheet.expanded {
+  height: calc(100% - var(--mpp-safe-top) - 8px);
+}
+
+.mpp-sheet-grip {
+  padding: 8px 16px 6px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.mpp-handle {
+  display: block;
+  width: 40px;
+  height: 5px;
+  margin: 0 auto 8px;
+  border-radius: 3px;
+  background: var(--border-strong);
+}
+
+.mpp-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mpp-sheet-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.mpp-sheet-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 16px calc(var(--mpp-safe-bottom) + 16px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.mpp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--mapr-blue-soft);
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.mpp-pill-slow {
+  background: rgba(242, 184, 75, 0.16);
+}
+
+.mpp-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mapr-blue);
+  animation: mpp-blink 1s ease-in-out infinite;
+}
+
+@keyframes mpp-blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.mpp-empty {
+  margin: 18px 0;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.mpp-note {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* ---- Rows (collapsed sheet, meal card) ---- */
+
+.mpp-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mpp-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mpp-row-img {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-xs);
+  object-fit: cover;
+  background: var(--bg-card);
+}
+
+.mpp-row-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.mpp-row-body strong {
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mpp-row-body span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.mpp-skeleton .mpp-row-img,
+.mpp-skeleton-line {
+  background: linear-gradient(90deg, var(--bg-card), var(--bg-card-hover), var(--bg-card));
+  background-size: 200% 100%;
+  animation: mpp-shimmer 1.2s linear infinite;
+}
+
+.mpp-skeleton-line {
+  flex: 1;
+  height: 14px;
+  border-radius: 7px;
+}
+
+@keyframes mpp-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---- Cards ---- */
+
+.mpp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mpp-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.mpp-card-img {
+  width: 100%;
+  height: 132px;
+  object-fit: cover;
+  display: block;
+}
+
+.mpp-card-body {
+  padding: 10px 12px 12px;
+}
+
+.mpp-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.mpp-card-tags:empty {
+  display: none;
+}
+
+.mpp-tag,
+.mpp-chain {
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}
+
+.mpp-tag-usual {
+  border-color: var(--mapr-blue-border);
+  color: var(--text-primary);
+}
+
+.mpp-tag-new {
+  border-color: rgba(242, 184, 75, 0.55);
+  color: var(--text-primary);
+}
+
+.mpp-chain {
+  border-style: dashed;
+}
+
+.mpp-card-name {
+  margin: 0 0 2px;
+  font-size: 0.95rem;
+}
+
+.mpp-card-meta {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.mpp-card-reason {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+}
+
+.mpp-card-dir {
+  width: 100%;
+}
+
+/* ---- Sections under the picks ---- */
+
+.mpp-section {
+  margin-top: 20px;
+}
+
+.mpp-section-title {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.mpp-callout {
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.mpp-carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.mpp-carousel > .mpp-card {
+  flex: 0 0 78%;
+  scroll-snap-align: start;
+}
+
+.mpp-moods {
+  gap: 8px;
+}
+
+.mpp-mood {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 92px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.mpp-mood.active {
+  border-color: var(--mapr-blue);
+  background: var(--mapr-blue-soft);
+}
+
+.mpp-mood-icon {
+  font-size: 1.4rem;
+}
+
+.mpp-sort {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.mpp-distance {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.mpp-debug .field {
+  margin: 10px 0;
+}
