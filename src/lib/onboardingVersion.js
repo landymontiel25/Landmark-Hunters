@@ -38,3 +38,6 @@ export function noticeAction(profile, current = ONBOARDING_VERSION) {
   if (onboardingStatus(profile, current) !== 'update') return null;
   return needsOnboardingNotice(profile, current) ? 'send' : 'resurface';
 }
+
+// Where OnboardingBanner remembers a dismissal on this device.
+export const bannerDismissKey = (uid) => `onboardingBanner.${uid}`;

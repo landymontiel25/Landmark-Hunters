@@ -44,6 +44,15 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('Rate a few things you');
   });
 
+  it('lets an admin reset their own onboarding to try the update notice again', async () => {
+    const reset = vi.fn(async () => {});
+    vi.doMock('../lib/onboardingSave', () => ({ resetOnboarding: reset }));
+    const el = await renderAs('landymontiel25@gmail.com', { nothingToTest: true });
+    await click(button(el, 'Reset my onboarding'));
+    expect(reset).toHaveBeenCalledWith('u');
+    expect(el.textContent).toContain('Reset. Reload the app');
+  });
+
   it('sends non-admins away', async () => {
     const el = await renderAs('someone@example.com');
     expect(el.textContent).toContain('home');

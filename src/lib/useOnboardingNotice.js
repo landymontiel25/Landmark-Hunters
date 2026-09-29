@@ -20,6 +20,8 @@ export function useOnboardingNotice() {
     const action = noticeAction(myProfile);
     if (!action) return;
     triedFor.current = user.uid;
-    (action === 'send' ? sendOnboardingNotice : resurfaceOnboardingNotice)(user.uid).catch(() => {});
+    (action === 'send' ? sendOnboardingNotice : resurfaceOnboardingNotice)(user.uid).catch((err) =>
+      console.error(`[Onboarding] notice ${action} failed:`, err)
+    );
   }, [user, profileFresh, myProfile]);
 }

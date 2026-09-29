@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { readPersisted, writePersisted } from '../lib/usePersistentState';
-import { ONBOARDING_VERSION, onboardingStatus } from '../lib/onboardingVersion';
+import { ONBOARDING_VERSION, bannerDismissKey, onboardingStatus } from '../lib/onboardingVersion';
 
 // Dismissed for this version on this device. Bumping ONBOARDING_VERSION
 // brings the banner back for everyone still unfinished.
-const dismissKey = (uid) => `onboardingBanner.${uid}`;
+const dismissKey = bannerDismissKey;
 const isDismissed = (uid) => (Number(readPersisted(dismissKey(uid), 0)) || 0) >= ONBOARDING_VERSION;
 
 // Shown on the Map and Mapr tabs until onboarding is finished. A nudge, never a

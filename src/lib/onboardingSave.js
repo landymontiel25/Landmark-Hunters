@@ -1,9 +1,10 @@
-import { doc, setDoc, updateDoc, deleteField, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, deleteDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { PICKABLE_REGIONS } from '../data/regions';
 import { allSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
 import { TAG_CAP, TAG_FLOOR, decayFactor } from './tagScores';
-import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, onboardingNoticeId } from './onboardingVersion';
+import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, bannerDismissKey, onboardingNoticeId } from './onboardingVersion';
+import { clearPersisted } from './usePersistentState';
 
 const cardsByWord = new Map(allSwipeCards().map((c) => [c.word, c]));
 export const cardForWord = (word) => cardsByWord.get(word) || null;
@@ -138,4 +139,25 @@ export async function sendOnboardingNotice(uid) {
 export async function resurfaceOnboardingNotice(uid) {
   if (!db || !uid) return;
   await updateDoc(doc(db, 'notifications', onboardingNoticeId()), { read: false });
+}
+
+// Test-tab tool: puts an account back to "never did onboarding" so the update
+// notification and banner can be tried again. Clears the version, sign-up
+// marker, notice marker and saved progress, deletes the notification, and
+// forgets a banner dismissal on this device. Earlier swipe answers stay, so
+// the pre-fill can be tried too.
+export async function resetOnboarding(uid) {
+  if (!db || !uid) return;
+  await setDoc(
+    doc(db, 'users', uid),
+    {
+      onboardingVersion: deleteField(),
+      onboardingSource: deleteField(),
+      onboardingNoticeVersion: deleteField(),
+      onboardingProgress: deleteField(),
+    },
+    { merge: true }
+  );
+  await deleteDoc(doc(db, 'notifications', onboardingNoticeId())).catch(() => {});
+  clearPersisted(bannerDismissKey(uid));
 }
