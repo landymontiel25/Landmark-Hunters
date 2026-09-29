@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -47,6 +48,59 @@ function CountdownClock({ ms, secured }) {
   );
 }
 
+// Rendered through a portal straight onto document.body -- NOT nested
+// inside the header/map DOM tree at all. This popover kept rendering
+// transparent over the Map tab's Leaflet view no matter how forcefully its
+// background was pinned in CSS (solid color, !important, a high z-index):
+// a real compositing/paint bug tied to sitting in the same branch as the
+// map's own layers, not a stylesheet mistake. Escaping to the body
+// sidesteps that class of bug entirely instead of fighting it with more
+// CSS. Positioned by JS off the trigger button's own bounding rect since
+// it's no longer a CSS-positioned descendant of that button.
+function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
+  const popoverRef = useRef(null);
+  const [rect, setRect] = useState(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const update = () => setRect(triggerRef.current?.getBoundingClientRect() ?? null);
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update, true);
+    const close = (e) => {
+      if (popoverRef.current?.contains(e.target) || triggerRef.current?.contains(e.target)) return;
+      onRequestClose();
+    };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('touchstart', close);
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update, true);
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('touchstart', close);
+    };
+  }, [open, triggerRef, onRequestClose]);
+
+  if (!open || !rect) return null;
+  return createPortal(
+    <div
+      ref={popoverRef}
+      className="points-popover streak-popover"
+      role="status"
+      style={{
+        position: 'fixed',
+        top: rect.bottom + 18,
+        left: rect.left + rect.width / 2,
+        right: 'auto',
+        transform: 'translateX(-50%)',
+      }}
+    >
+      {children}
+    </div>,
+    document.body
+  );
+}
+
 // The personal, solo streak -- back after being retired at #405, now a
 // server-authority streaks/{uid} doc (mode: 'solo') instead of a live
 // computation, so a freeze actually shows up here. One 🔥, distinct from
@@ -83,19 +137,10 @@ function StreakBadge() {
   }, [firebaseEnabled, user]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return undefined;
     setMsLeft(msUntilStreakLapse());
     const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
-    const close = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', close);
-    document.addEventListener('touchstart', close);
-    return () => {
-      clearInterval(id);
-      document.removeEventListener('mousedown', close);
-      document.removeEventListener('touchstart', close);
-    };
+    return () => clearInterval(id);
   }, [open]);
 
   if (!firebaseEnabled || !user) return null;
@@ -118,25 +163,23 @@ function StreakBadge() {
         </span>
         <span className="header-streak-num">{count}</span>
       </button>
-      {open && (
-        <div className="points-popover streak-popover" role="status">
-          {!active ? (
-            <div>Rate 3 landmarks today to start a streak</div>
-          ) : (
-            <>
-              <div className="points-popover-joined">
-                {!secured ? `${count}-day streak ends in` : "Today's secured ✓ — new day starts in"}
+      <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
+        {!active ? (
+          <div>Rate 3 landmarks today to start a streak</div>
+        ) : (
+          <>
+            <div className="points-popover-joined">
+              {!secured ? `${count}-day streak ends in` : "Today's secured ✓ — new day starts in"}
+            </div>
+            <CountdownClock ms={msLeft} secured={secured} />
+            {!secured && (
+              <div className="streak-popover-hint">
+                Rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
               </div>
-              <CountdownClock ms={msLeft} secured={secured} />
-              {!secured && (
-                <div className="streak-popover-hint">
-                  Rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
+            )}
+          </>
+        )}
+      </StreakPopoverPortal>
     </div>
   );
 }
@@ -160,19 +203,10 @@ function PairStreakBadge() {
   const ref = useRef(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return undefined;
     setMsLeft(msUntilStreakLapse());
     const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
-    const close = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', close);
-    document.addEventListener('touchstart', close);
-    return () => {
-      clearInterval(id);
-      document.removeEventListener('mousedown', close);
-      document.removeEventListener('touchstart', close);
-    };
+    return () => clearInterval(id);
   }, [open]);
 
   if (!firebaseEnabled || !user) return null;
@@ -200,27 +234,25 @@ function PairStreakBadge() {
         </span>
         <span className="header-streak-num">{primary ? primary.count : 0}</span>
       </button>
-      {open && (
-        <div className="points-popover streak-popover" role="status">
-          {!primary ? (
-            <div>Invite a friend to start a streak</div>
-          ) : (
-            <>
-              <div className="points-popover-joined">
-                {!secured
-                  ? `Streak with @${partnerName} ends in`
-                  : `Today's secured with @${partnerName} — new day starts in`}
+      <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
+        {!primary ? (
+          <div>Invite a friend to start a streak</div>
+        ) : (
+          <>
+            <div className="points-popover-joined">
+              {!secured
+                ? `Streak with @${partnerName} ends in`
+                : `Today's secured with @${partnerName} — new day starts in`}
+            </div>
+            <CountdownClock ms={msLeft} secured={secured} />
+            {!secured && (
+              <div className="streak-popover-hint">
+                Vote or rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
               </div>
-              <CountdownClock ms={msLeft} secured={secured} />
-              {!secured && (
-                <div className="streak-popover-hint">
-                  Vote or rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
+            )}
+          </>
+        )}
+      </StreakPopoverPortal>
     </div>
   );
 }

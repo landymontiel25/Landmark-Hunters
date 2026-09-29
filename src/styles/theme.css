@@ -2038,43 +2038,23 @@ button.header-streak {
   font-family: inherit;
   cursor: pointer;
 }
-.streak-popover {
-  right: auto;
-  left: 50%;
-  transform: translateX(-50%);
+/* Position (fixed, off the trigger button's own bounding rect) is set
+   inline in Header.jsx now, not here -- this popover is rendered through a
+   React portal straight onto document.body instead of as a CSS-positioned
+   descendant of the header, so it's never nested in the same DOM branch as
+   the Map tab's Leaflet view. It kept rendering transparent over the map no
+   matter how forcefully its background was pinned in CSS (solid color,
+   !important, a high z-index) -- a real compositing/paint bug tied to
+   sitting in that branch, not a stylesheet mistake -- and escaping to the
+   body sidesteps that class of bug entirely. z-index/background stay
+   pinned here too, belt-and-braces, since there's no real cost to it. */
+.points-popover.streak-popover {
   text-align: center;
   padding: 10px 16px;
-}
-/* Redundant, self-contained background/stacking for this one popover --
-   opened over the Map tab's full-bleed Leaflet view, it was reported
-   showing the map right through it (map pins/labels visible behind the
-   countdown, no visible box at all) despite .points-popover already
-   setting an opaque background; whatever the exact cause, this makes the
-   popover opaque and clearly above the map on its own, without depending
-   on any ancestor's stacking context. .points-popover.streak-popover
-   (two classes) beats a bare .points-popover rule on specificity.
-   Solid, not translucent/blurred, so it can't ever read as "no background". */
-.points-popover.streak-popover {
-  /* !important is a last resort everywhere else in this file, but this one
-     popover (opened over the Map tab's full-bleed Leaflet view) has now
-     been reported transparent-over-the-map multiple times in a row despite
-     each fix looking correct in isolation -- while the OTHER, untouched
-     .points-popover (rank/points) right next to it in the header renders
-     solid every time. That contrast points at this rule simply not having
-     reached the browser yet (a caching issue this session has hit
-     repeatedly elsewhere), not a cascade bug -- but there's no real cost to
-     also making it unconditionally win once it does land. */
   z-index: 100 !important;
   background: #0a0d16 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  /* The trigger button (.header-streak) gets its own solid green/red pill
-     background once secured/at-risk (.header-streak.secured/.at-risk) --
-     with only the base .points-popover gap (8px) below it, that pill and
-     this popover's own opaque box read as one connected bar rather than
-     two separate floating pieces. More room makes the gap between them
-     unmistakable. */
-  top: calc(100% + 18px) !important;
 }
 /* A segmented, digital-style countdown (H : M : S, each in its own tile)
    instead of a flat "6h 32m 23s" line -- reads at a glance the way a real
