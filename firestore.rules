@@ -516,7 +516,7 @@ service cloud.firestore {
         && request.resource.data.createdBy == request.auth.uid
         && id == request.resource.data.id
         && request.resource.data.keys().hasOnly(['region', 'id', 'name', 'lat', 'lng', 'categories', 'images',
-             'summary', 'facts', 'free', 'typicalMinutes', 'hours', 'status', 'createdBy', 'createdAt'])
+             'summary', 'facts', 'free', 'typicalMinutes', 'hours', 'topic', 'status', 'createdBy', 'createdAt'])
         && request.resource.data.name is string
         && request.resource.data.name.size() > 0
         && request.resource.data.name.size() <= 120
@@ -524,7 +524,8 @@ service cloud.firestore {
         && request.resource.data.get('images', []).size() <= 10
         && request.resource.data.get('facts', []).size() <= 20
         && request.resource.data.get('categories', []).size() <= 10
-        && request.resource.data.get('hours', '').size() <= 200;
+        && request.resource.data.get('hours', '').size() <= 200
+        && request.resource.data.get('topic', '').size() <= 80;
       // An admin can change status (approve) or anything else. Anyone else
       // (not the submitter) may only report it -- same restricted
       // reportedBy-append as reviews above.

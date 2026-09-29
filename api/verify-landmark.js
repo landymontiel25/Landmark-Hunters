@@ -120,6 +120,9 @@ async function handler(req, res) {
           : `A community-submitted spot${categories[0] ? ` (${categories[0]})` : ''}.`,
         facts: userFacts,
         free: true,
+        // No research, no specific "kind of place" -- the rating question
+        // falls back to its per-category wording (see tierQuestion).
+        topic: null,
       };
 
       if (!AI_ENRICHMENT_ENABLED || !process.env.ANTHROPIC_API_KEY) {

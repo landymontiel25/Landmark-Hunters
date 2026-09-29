@@ -52,6 +52,12 @@ export const ENRICHMENT_INSTRUCTIONS =
   `Typical visit length: estimate "typicalMinutes" as a whole number of minutes a normal visit takes (e.g. 15, 30, 60, ` +
   `120), based on the category and what you find. A rough estimate is fine; return null only if you have no basis at ` +
   `all to guess.\n\n` +
+  `Topic: return "topic" as a short (2-5 word) phrase for what kind of place this specifically is, more specific ` +
+  `than the category and grounded in what your search actually found -- e.g. "Peruvian restaurant", "sports bar", ` +
+  `"go-kart track", "Formula 1 circuit", "contemporary art museum", "botanical garden". It's shown to users as ` +
+  `"Do you like this <topic>?", so write it as a singular noun phrase with no article, lowercase except proper nouns ` +
+  `and adjectives (e.g. "Peruvian", "Formula 1"). Only return what search actually shows this exact place to be -- ` +
+  `never guess from the name alone, never invent one; return null if search doesn't make it clear.\n\n` +
   `Hours: if your search turns up this specific place's real, current opening hours, return them as a short one-line ` +
   `string in "hours" (e.g. "Mon–Sat 10am–11pm, Sun 12pm–8pm", or "Open 24 hours"). Only return hours you actually found ` +
   `for this exact place -- never guess typical hours for the category, and never invent a schedule. If you're not ` +
@@ -64,7 +70,23 @@ export const ENRICHMENT_INSTRUCTIONS =
   `submitter already has a photo, return null -- never guess or invent a file name; a missing photo is fine, a wrong ` +
   `one is not.\n\n` +
   `Reply with ONLY a JSON object, no other text:\n` +
-  `{"resolvedName": "<the place's real name, or null>", "summary": "<1-2 sentence summary>", "facts": ["<fact>", ...], "free": true|false, "category": "<id from the list, or null>", "typicalMinutes": <number, or null>, "imageFileName": "<exact Wikimedia Commons file name, or null>", "hours": "<short hours string, or null>"}`;
+  `{"resolvedName": "<the place's real name, or null>", "summary": "<1-2 sentence summary>", "facts": ["<fact>", ...], "free": true|false, "category": "<id from the list, or null>", "typicalMinutes": <number, or null>, "imageFileName": "<exact Wikimedia Commons file name, or null>", "hours": "<short hours string, or null>", "topic": "<2-5 word kind of place, or null>"}`;
+
+export const TOPIC_MAX = 60;
+
+// A short phrase, not a sentence the model wrote instead of following the
+// schema -- anything longer than a handful of words is dropped, not trimmed.
+export function cleanEnrichedTopic(raw) {
+  if (typeof raw !== 'string') return null;
+  const t = stripCitationTags(raw)
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.!?]+$/, '')
+    .replace(/^(a|an|the|this)\s+/i, '')
+    .trim();
+  if (!t || t.length > TOPIC_MAX || t.split(' ').length > 6 || t.toLowerCase() === 'null') return null;
+  return t;
+}
 
 // Best-effort reverse geocode for real-world grounding -- never throws.
 export async function reverseGeocode(lat, lng) {
@@ -185,5 +207,6 @@ export async function enrichLandmark({ name, lat, lng, userFacts = [], placeCont
     typicalMinutes,
     imageUrl,
     hours,
+    topic: cleanEnrichedTopic(parsed.topic),
   };
 }

@@ -84,6 +84,7 @@ export async function addCustomLandmark({
   free = true,
   typicalMinutes = 15,
   hours = null,
+  topic = null,
 }) {
   const id = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const data = {
@@ -103,6 +104,10 @@ export async function addCustomLandmark({
     createdAt: serverTimestamp(),
   };
   if (hours) data.hours = hours;
+  // What kind of place this specifically is ("Peruvian restaurant"), from
+  // the AI research step -- phrases the rating question (tierQuestion in
+  // ratingFlow.js). Left off entirely when research didn't find one.
+  if (topic) data.topic = topic;
   await setDoc(doc(db, 'custom_landmarks', id), data);
   return { docId: id, ...data };
 }
