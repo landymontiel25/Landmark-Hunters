@@ -3,6 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { dayKey, monthKey } from './_lib/streakDay.js';
+import { withCors } from './_lib/cors.js';
 
 // 1 personal freeze per month for a solo streak -- half the dual streak's
 // 2 shared ones (use-streak-freeze.js), since there's no partner to share
@@ -11,7 +12,7 @@ import { dayKey, monthKey } from './_lib/streakDay.js';
 // bridges the gap instead of resetting the count.
 export const SOLO_FREEZES_PER_MONTH = 1;
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -67,3 +68,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not use a freeze.' });
   }
 }
+
+export default withCors(handler);

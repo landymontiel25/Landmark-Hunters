@@ -5,6 +5,7 @@ import { searchPlaces, getPlaceDetails, makeSessionToken } from './places';
 import { authErrorMessage } from './authErrors';
 import { auth } from './firebase';
 import { fetchJson } from './friendlyError';
+import { API_BASE } from './apiBase';
 
 // An Error whose message was written for travelers, not developers.
 function userError(message) {
@@ -36,7 +37,7 @@ export async function createLandmarkFromPlace({ details, fallbackName, trustedNa
   const idToken = await (auth.currentUser || user).getIdToken(true);
   let verified;
   try {
-    verified = await fetchJson('/api/verify-landmark', {
+    verified = await fetchJson(`${API_BASE}/api/verify-landmark`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
       body: JSON.stringify({

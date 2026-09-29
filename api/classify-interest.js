@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
+import { withCors } from './_lib/cors.js';
 
 // Custom interests (typed in on Setup, e.g. "nightlife", "racing") don't map to
 // any of the app's four built-in categories, so they can't filter Choose
@@ -19,7 +20,7 @@ const INSTRUCTIONS =
   `{"matches": ["<region/id>", ...], "emoji": "<one emoji>"}\n` +
   `- Only use region/id values that appear in the catalog. NEVER invent one.`;
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -82,3 +83,5 @@ export default async function handler(req, res) {
     });
   }
 }
+
+export default withCors(handler);

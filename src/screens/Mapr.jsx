@@ -41,6 +41,7 @@ import {
 import { listMyGroupTrips } from '../lib/groupTrips';
 import { writePersisted } from '../lib/usePersistentState';
 import { useToast } from '../lib/ToastContext';
+import { API_BASE } from '../lib/apiBase';
 
 // "You haven't told Mapr what you like yet" nudge -- shown once (per
 // device/account) until either dismissed outright or satisfied by actually
@@ -481,7 +482,7 @@ export default function Mapr() {
         : null;
       const now = new Date();
       const startedAt = performance.now();
-      const data = await fetchJson('/api/plan-ai', {
+      const data = await fetchJson(`${API_BASE}/api/plan-ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
         body: JSON.stringify({

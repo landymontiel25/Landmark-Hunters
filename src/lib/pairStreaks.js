@@ -16,6 +16,7 @@ import { dayKey, monthKey, PICKS_STREAK_THRESHOLD } from './streaks';
 import { getUserReviews } from './reviews';
 import { authHeaders } from './apiAuth';
 import { pickDailyCardIds } from './sharedDeck';
+import { API_BASE } from './apiBase';
 
 export const FREEZES_PER_MONTH = 2;
 
@@ -182,7 +183,7 @@ export async function submitCardGuess(pairId, uid, landmarkId, verdict, cardIds)
 // members' entries actually cover today's real 3 cards.
 export async function closeToday(pairId) {
   const today = dayKey(new Date());
-  await fetch('/api/close-streak-day', {
+  await fetch(`${API_BASE}/api/close-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ pairId, dayId: today }),
@@ -203,7 +204,7 @@ export function subscribeDayEntries(pairId, dayId, onEntries, onError) {
 // from resetting the count. Server-authoritative (api/use-streak-freeze.js):
 // resets the monthly count first if the calendar month has turned over.
 export async function spendFreeze(pairId) {
-  const r = await fetch('/api/use-streak-freeze', {
+  const r = await fetch(`${API_BASE}/api/use-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ pairId }),
@@ -217,7 +218,7 @@ export async function spendFreeze(pairId) {
 // api/reset-dual-streak.js's own note. Resets count/best/lastCompletedDay/
 // freezes back to a fresh 0 without touching the pairing itself.
 export async function resetDualStreak(pairId) {
-  const r = await fetch('/api/reset-dual-streak', {
+  const r = await fetch(`${API_BASE}/api/reset-dual-streak`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ pairId }),
@@ -233,7 +234,7 @@ export async function resetDualStreak(pairId) {
 // re-reads both members' real check-ins itself, same trust model as
 // close-streak-day.js.
 export async function completeRecoveryMission(pairId) {
-  const r = await fetch('/api/complete-recovery-mission', {
+  const r = await fetch(`${API_BASE}/api/complete-recovery-mission`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ pairId }),

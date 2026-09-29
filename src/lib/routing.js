@@ -1,4 +1,5 @@
 import { distanceMeters } from './geo';
+import { API_BASE } from './apiBase';
 
 // Rough average speeds for a mixed walk/transit/drive city trip.
 const WALK_SPEED_MPS = 1.3; // ~4.7 km/h
@@ -211,7 +212,7 @@ export async function enhanceRouteWithDrivingTimes(origin, route) {
  * Throws with the server's message on failure.
  */
 export async function fetchDirections(origin, destination) {
-  const res = await fetch('/api/directions', {
+  const res = await fetch(`${API_BASE}/api/directions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

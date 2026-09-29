@@ -26,6 +26,7 @@ import ErrorNotice from '../components/ErrorNotice';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState, readPersisted } from '../lib/usePersistentState';
+import { API_BASE } from '../lib/apiBase';
 
 const isNull = (v) => v == null;
 
@@ -263,7 +264,7 @@ export default function Settings() {
   const sendTestPush = async () => {
     setPushTestMsg('Sending…');
     try {
-      const r = await fetch('/api/push-test', { method: 'POST', headers: await authHeaders() });
+      const r = await fetch(`${API_BASE}/api/push-test`, { method: 'POST', headers: await authHeaders() });
       const data = await r.json().catch(() => null);
       if (!r.ok || data?.error) throw new Error(data?.error || `HTTP ${r.status}`);
       setPushTestMsg("Sent -- it should arrive any moment.");

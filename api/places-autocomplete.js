@@ -1,11 +1,12 @@
 import { isRateLimited } from './_lib/rateLimit.js';
+import { withCors } from './_lib/cors.js';
 
 // Search-as-you-type address suggestions for the Add Landmark / Trip Setup
 // location box, backed by Google Places API (New) Autocomplete. Proxied
 // through this server function so GOOGLE_PLACES_API_KEY never reaches the
 // client bundle. Returns only what the dropdown needs to render a row and
 // resolve it later via places-details -- no Place Details call happens here.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -79,3 +80,5 @@ export default async function handler(req, res) {
     res.status(502).json({ error: 'Address search failed.' });
   }
 }
+
+export default withCors(handler);

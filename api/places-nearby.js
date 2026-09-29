@@ -1,4 +1,5 @@
 import { isRateLimited } from './_lib/rateLimit.js';
+import { withCors } from './_lib/cors.js';
 
 // Names the business at a GPS point -- the one piece the "you keep going
 // here" habit prompt (src/lib/habitTracking.js) needs but doesn't have on
@@ -7,7 +8,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 // and rankPreference: DISTANCE so this returns the place AT that point, not
 // just the closest thing to it. Same Essentials-tier field mask discipline
 // as places-details.js, so this never bills a higher SKU.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -66,3 +67,5 @@ export default async function handler(req, res) {
     res.status(502).json({ error: 'Could not identify that place.' });
   }
 }
+
+export default withCors(handler);

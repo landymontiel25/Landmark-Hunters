@@ -19,6 +19,7 @@ import LocationAutocomplete from '../components/LocationAutocomplete';
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError, fetchJson } from '../lib/friendlyError';
 import { readPersisted, writePersisted, clearPersisted } from '../lib/usePersistentState';
+import { API_BASE } from '../lib/apiBase';
 
 // Our own plain-language messages (and the AI's "reason"), which
 // friendlyError should show as written rather than swap for a generic one.
@@ -274,7 +275,7 @@ export default function AddLandmark() {
       const finalName = name.trim() || addressText.trim() || 'New Landmark';
       let verified;
       try {
-        verified = await fetchJson('/api/verify-landmark', {
+        verified = await fetchJson(`${API_BASE}/api/verify-landmark`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
           body: JSON.stringify({

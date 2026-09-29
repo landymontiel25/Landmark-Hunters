@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { auth } from './firebase';
 import { authHeaders } from './apiAuth';
 import { PICKABLE_REGIONS } from '../data/regions';
+import { API_BASE } from './apiBase';
 
 // The AI half of every search box (api/smart-search.js). Each screen's own
 // search (matchesSearch -- already typo-tolerant) runs first; this only
@@ -44,7 +45,7 @@ export function useSmartSearch({ query, localCount, catalog = false, items = [],
     const t = setTimeout(async () => {
       let ids = [];
       try {
-        const res = await fetch('/api/smart-search', {
+        const res = await fetch(`${API_BASE}/api/smart-search`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
           body: JSON.stringify({ query: q, catalog, items: items.slice(0, 400) }),

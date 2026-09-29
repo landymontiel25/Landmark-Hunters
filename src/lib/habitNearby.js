@@ -1,6 +1,7 @@
 import { fetchJson } from './friendlyError';
 import { authHeaders } from './apiAuth';
 import { composeTasteIntro } from './tasteQuestions';
+import { API_BASE } from './apiBase';
 
 // Once habitTracking.js has already spotted a habit and named the place
 // (e.g. "you keep going to Dunkin' Donuts"), this asks ONE narrow question
@@ -17,7 +18,7 @@ export async function findRelatedStop({ coords, placeName, myProfile, savedInter
     `say there's nothing right now and suggest no stops.`;
   let data;
   try {
-    data = await fetchJson('/api/plan-ai', {
+    data = await fetchJson(`${API_BASE}/api/plan-ai`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
       body: JSON.stringify({

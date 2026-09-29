@@ -3,6 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { dayKey, monthKey } from './_lib/streakDay.js';
+import { withCors } from './_lib/cors.js';
 
 // Shared freezes (item 5): 2 per pair per month, resets on the 1st, either
 // member can spend one. Spending one holds TODAY specifically -- if neither
@@ -16,7 +17,7 @@ import { dayKey, monthKey } from './_lib/streakDay.js';
 // which this serverless function shouldn't load at all (see
 // _lib/streakDay.js's own comment for why that crashes here).
 const FREEZES_PER_MONTH = 2;
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -79,3 +80,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not use a freeze.' });
   }
 }
+
+export default withCors(handler);

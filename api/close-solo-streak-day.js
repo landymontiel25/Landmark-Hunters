@@ -5,6 +5,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { previousDayKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
+import { withCors } from './_lib/cors.js';
 
 // Points for a secured solo day, and one-time bonuses the first time a
 // streak reaches a milestone length -- half the dual-streak amounts (see
@@ -19,7 +20,7 @@ export const SOLO_MILESTONE_POINTS = { 3: 100, 7: 300, 30: 1000 };
 // count moves -- the same server-authority pattern as close-streak-day.js,
 // just for a single-member streaks/{uid} doc. No recovery mission (not
 // part of the solo rules) and no push notification (no partner to notify).
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -111,3 +112,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not close that day.' });
   }
 }
+
+export default withCors(handler);

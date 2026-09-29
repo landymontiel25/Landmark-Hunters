@@ -10,6 +10,7 @@ import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTA
 import { localSwipePicks, noteKeywords, pickRegion } from '../lib/tagScores';
 import { authHeaders } from '../lib/apiAuth';
 import LandmarkThumb from '../components/LandmarkThumb';
+import { API_BASE } from '../lib/apiBase';
 
 // Admin-only sandbox for trying out sign-up + onboarding. Everything here is
 // local state: no account is created, nothing is written to Firestore or the
@@ -586,7 +587,7 @@ function LabRecommendations({ data, deltas }) {
   const askMapr = async () => {
     setAi({ status: 'loading', picks: [], error: '' });
     try {
-      const r = await fetch('/api/mapr-picks', {
+      const r = await fetch(`${API_BASE}/api/mapr-picks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
         body: JSON.stringify({ region, ...profile, tasteIntro, origin: coords || null, mode: 'swipeOnly' }),

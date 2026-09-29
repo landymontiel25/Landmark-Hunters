@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { enrichLandmark, reverseGeocode } from './_lib/enrichLandmark.js';
+import { withCors } from './_lib/cors.js';
 
 // Backs "Add Landmark" on the map: before a user-submitted spot gets saved as
 // a real landmark, this asks the AI to sanity-check it's a genuine physical
@@ -56,7 +57,7 @@ const AI_MODERATION_ENABLED = false;
 // submission is never blocked by this. Turn off by flipping this to false.
 const AI_ENRICHMENT_ENABLED = true;
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -196,3 +197,5 @@ export default async function handler(req, res) {
     });
   }
 }
+
+export default withCors(handler);

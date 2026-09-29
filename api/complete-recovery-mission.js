@@ -3,6 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { monthKey } from './_lib/streakDay.js';
+import { withCors } from './_lib/cors.js';
 
 const THIRTY_MIN_MS = 30 * 60 * 1000;
 
@@ -21,7 +22,7 @@ function isRealCheckin(x) {
 // each has any real check-in inside the window instead. Once per pair per
 // month. Success restores the count to what it was before the break --
 // functionally the same as a freeze would have, just after the fact.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -102,3 +103,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not complete the recovery mission.' });
   }
 }
+
+export default withCors(handler);

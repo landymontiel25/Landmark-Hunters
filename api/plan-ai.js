@@ -3,6 +3,7 @@ import { ALL_LANDMARKS, getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
+import { withCors } from './_lib/cors.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -154,7 +155,7 @@ function estimateCostUsd(usage) {
   return tokenCost + searchCost;
 }
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -477,3 +478,5 @@ export default async function handler(req, res) {
     });
   }
 }
+
+export default withCors(handler);

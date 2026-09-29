@@ -1,4 +1,5 @@
 import { isRateLimited } from './_lib/rateLimit.js';
+import { withCors } from './_lib/cors.js';
 
 // Real turn-by-turn directions for the Itinerary screen's in-app route view
 // (replaces having to open Apple/Google Maps to see the way there). Calls
@@ -58,7 +59,7 @@ const endPoint = (loc) => {
   return lat != null && lng != null ? [lat, lng] : null;
 };
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -160,3 +161,5 @@ export default async function handler(req, res) {
     res.status(502).json({ error: 'Could not get directions right now.' });
   }
 }
+
+export default withCors(handler);
