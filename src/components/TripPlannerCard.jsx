@@ -1,183 +1,381 @@
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTrip } from '../lib/TripContext';
-import { usePersistentState } from '../lib/usePersistentState';
-import { INTERESTS } from '../data/regions';
+import { useAuth } from '../lib/AuthContext';
+import { useRatings } from '../lib/RatingsContext';
+import { useFriends } from '../lib/FriendsContext';
+import { useGeo } from '../lib/GeoContext';
+import { clearPersisted, usePersistentState } from '../lib/usePersistentState';
+import { ALL_LANDMARKS, getRegion } from '../data/regions';
 import { nearestRegionId } from '../lib/geo';
+import { geocodeLocation } from '../lib/geocode';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
+import { classifyInterest } from '../lib/interestClassifier';
+import { pickRegion } from '../lib/tagScores';
+import { logRecommendations } from '../lib/recommendationLog';
+import {
+  MIN_RATINGS_FOR_PICK_TYPE,
+  TRIP_STEPS,
+  composePlanMessage,
+  isPlanCacheValid,
+  planAnswersKey,
+  rankTripPicks,
+  readPlanCache,
+  writePlanCache,
+} from '../lib/tripPlanner';
+import ChatWizard from './ChatWizard';
 import LocationAutocomplete, { HomeStartPrefill } from './LocationAutocomplete';
 import MultiRegionSearch from './MultiRegionSearch';
 
-const isFalsy = (v) => !v;
-const isSolo = (v) => v === 'solo';
-
 const MOODS = [
-  { id: 'energized', icon: '\u{26A1}', label: 'Energized & Active', hint: 'upbeat, on your feet, go-go-go' },
-  { id: 'easygoing', icon: '\u{1F634}', label: 'Easygoing & Chill', hint: 'relaxed, slower pace, low-key' },
+  { value: 'energized', icon: '\u{26A1}', label: 'Energized & Active', hint: 'upbeat, on your feet, go-go-go' },
+  { value: 'easygoing', icon: '\u{1F634}', label: 'Easygoing & Chill', hint: 'relaxed, slower pace, low-key' },
+];
+const PICK_TYPES = [
+  { value: 'usual', icon: '\u{2B50}', label: 'The usual', hint: 'more of what you already love' },
+  { value: 'new', icon: '\u{1F9ED}', label: 'Something new', hint: "kinds of places you haven't tried much" },
+];
+const TRIP_MODES = [
+  { value: 'solo', icon: '\u{1F464}', label: 'Solo' },
+  { value: 'group', icon: '\u{1F465}', label: 'Group' },
+];
+const LOCATION_CHOICES = [
+  { value: 'gps', icon: '\u{1F4CD}', label: 'Use my current location' },
+  { value: 'type', icon: '\u{2328}\u{FE0F}', label: 'Type an address' },
 ];
 
-// The card version of TripSetup's form, dropped right into Mapr instead of
-// its own screen -- pick a few things, tap "Plan My Trip", and it turns
-// straight into a chat message Mapr answers like any other, so a trip
-// starts as a real conversation instead of a static route. Reuses the same
-// trip state (TripContext) TripSetup/Itinerary read, so anything picked
-// here still applies if you later open "Create New Trip" too.
-export default function TripPlannerCard({ regions, onToggleRegion, onClearRegions, onClose, onPlan }) {
-  const { trip, updateTrip, applyPreferences } = useTrip();
-  const { useCurrentLocation, locating, locateError, usingGps } = useGpsStartLocation();
+const DEFAULT_WIZARD = {
+  step: 'location',
+  locationMode: null, // null | 'gps' | 'type'
+  needCity: false, // location off or address not found -> ask for a city
+  mood: null,
+  pickType: null, // null | 'usual' | 'new'
+  specific: '',
+  tripMode: null, // null | 'solo' | 'group'
+};
+const isDefault = (w) => !w || JSON.stringify({ ...DEFAULT_WIZARD, ...w }) === JSON.stringify(DEFAULT_WIZARD);
+
+const landmarkNames = new Map(ALL_LANDMARKS.map((l) => [`${l.regionId}/${l.id}`, l.name]));
+
+// Mapr's Plan Your Trip, as a step-by-step chat (ChatWizard): where you're
+// starting, your mood, the usual vs. something new, solo or group, then one
+// "Plan my trip" that turns every answer into a single chat message Mapr
+// answers like any other -- the same message path (and group-trip
+// handling) the old one-screen form used. Every question and button is
+// fixed text: no AI runs while you tap through. Answers are saved as you
+// go, so closing the app picks up on the same step.
+//
+// onPlan(message, { onReply }) sends a fresh plan; onPlan(message,
+// { cachedReply }) replays the last plan when nothing has changed.
+export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion, onClearRegions, onClose, onPlan }) {
+  const { trip, updateTrip } = useTrip();
+  const { user } = useAuth();
+  const { myReviews } = useRatings();
+  const { myProfile } = useFriends();
+  const { coords } = useGeo();
+  const { useCurrentLocation: locateMe, locating, locateError, usingGps } = useGpsStartLocation();
   const navigate = useNavigate();
-  // Everything else on the card (start, interests, cities) already lives in
-  // saved trip/chat state; these three were the only picks a closed app
-  // lost. Cleared once the card turns into a chat message.
-  const [preferencesSelected, setPreferencesSelected] = usePersistentState('mapr.planner.prefs', false, { isEmpty: isFalsy });
-  const [tripMode, setTripMode] = usePersistentState('mapr.planner.mode', 'solo', { isEmpty: isSolo }); // 'solo' | 'group'
-  const [mood, setMood] = usePersistentState('mapr.planner.mood', null); // null | 'energized' | 'easygoing'
+  const storageKey = `mapr.wizard.${user?.uid || 'anon'}`;
+  const [saved, setWizard] = usePersistentState(storageKey, DEFAULT_WIZARD, { isEmpty: isDefault });
+  const wizard = { ...DEFAULT_WIZARD, ...saved };
+  const set = (patch) => setWizard((cur) => ({ ...DEFAULT_WIZARD, ...cur, ...patch }));
+  const [addressMissing, setAddressMissing] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const [planning, setPlanning] = useState(false);
+  const gpsPending = useRef(false);
 
-  const togglePreferences = () => {
-    if (preferencesSelected) {
-      updateTrip({ interests: [], customInterests: [] });
+  const ratingsCount = Object.values(myReviews || {}).filter((r) => r.ratingTier).length;
+  const canPickType = ratingsCount >= MIN_RATINGS_FOR_PICK_TYPE;
+  const pickType = canPickType ? wizard.pickType : null;
+
+  const index = Math.max(0, TRIP_STEPS.indexOf(wizard.step));
+  const goTo = (step) => set({ step });
+  const advance = () => goTo(TRIP_STEPS[Math.min(index + 1, TRIP_STEPS.length - 1)]);
+  const back = () => goTo(TRIP_STEPS[Math.max(index - 1, 0)]);
+
+  // The plan's city comes from where you're starting; only ask for one when
+  // location is off or the address couldn't be found.
+  const fillRegionFrom = (point) => {
+    const region = getRegion(nearestRegionId(point.lat, point.lng));
+    if (region && !(regions.length === 1 && regions[0].id === region.id)) onSetRegions?.([region]);
+  };
+
+  // "Use my current location" moves on by itself once the fix lands.
+  useEffect(() => {
+    if (!gpsPending.current || wizard.step !== 'location') return;
+    if (usingGps && trip.startingCoords) {
+      gpsPending.current = false;
+      fillRegionFrom(trip.startingCoords);
+      set({ step: 'mood', needCity: false });
+    } else if (locateError && !locating) {
+      gpsPending.current = false;
+      set({ needCity: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [usingGps, trip.startingCoords, locateError, locating, wizard.step]);
+
+  const chooseLocation = (mode) => {
+    setAddressMissing(false);
+    set({ locationMode: mode, needCity: false });
+    if (mode === 'gps') {
+      gpsPending.current = true;
+      locateMe();
+    }
+  };
+
+  const nextFromLocation = async () => {
+    if (wizard.needCity) {
+      if (regions.length) advance();
+      return;
+    }
+    if (trip.startingCoords) {
+      fillRegionFrom(trip.startingCoords);
+      advance();
+      return;
+    }
+    const text = (trip.startingLocation || '').trim();
+    if (!text) return;
+    setChecking(true);
+    const found = await geocodeLocation(text);
+    setChecking(false);
+    if (found) {
+      updateTrip({ startingCoords: found, activeRegion: nearestRegionId(found.lat, found.lng) });
+      fillRegionFrom(found);
+      advance();
     } else {
-      applyPreferences();
+      setAddressMissing(true);
+      set({ needCity: true });
     }
-    setPreferencesSelected((s) => !s);
   };
 
-  const toggleInterest = (id) => {
-    const has = trip.interests.includes(id);
-    updateTrip({ interests: has ? trip.interests.filter((i) => i !== id) : [...trip.interests, id] });
+  const skip = () => {
+    if (wizard.step === 'mood') set({ mood: null });
+    if (wizard.step === 'pick') set({ pickType: null, specific: '' });
+    if (wizard.step === 'tripType') set({ tripMode: null });
+    advance();
   };
 
-  const planTrip = () => {
-    const parts = ['Plan a trip for me.'];
-    if (mood) {
-      parts.push(mood === 'energized' ? "I'm in the mood for something energized and active." : "I'm in the mood for something easygoing and chill.");
-    }
-    parts.push(tripMode === 'group' ? "It's for a group." : "It's just me.");
-    if (trip.startingLocation) parts.push(`Starting from ${trip.startingLocation}.`);
-    if (regions.length) parts.push(`In ${regions.map((r) => r.name).join(' or ')}.`);
-    const interestLabels = [
-      ...trip.interests.map((id) => INTERESTS.find((i) => i.id === id)?.label).filter(Boolean),
-      ...trip.customInterests,
-    ];
-    if (interestLabels.length) parts.push(`I'm interested in: ${interestLabels.join(', ')}.`);
-    onPlan(parts.join(' '));
-    // Back to defaults, which the saved copies treat as "nothing to restore".
-    setPreferencesSelected(false);
-    setTripMode('solo');
-    setMood(null);
+  const onChoose = (value) => {
+    if (wizard.step === 'location') chooseLocation(value);
+    else if (wizard.step === 'mood') set({ mood: value, step: 'pick' });
+    else if (wizard.step === 'pick') set({ pickType: wizard.pickType === value ? null : value });
+    else if (wizard.step === 'tripType') set({ tripMode: value, step: 'plan' });
   };
+
+  const onNext = () => (wizard.step === 'location' ? nextFromLocation() : advance());
+
+  const reset = () => {
+    setWizard(DEFAULT_WIZARD);
+    // The debounced save won't run once the card closes, so drop it now.
+    clearPersisted(storageKey);
+  };
+
+  const planTrip = async () => {
+    if (planning) return;
+    const regionIds = regions.map((r) => r.id);
+    const origin = coords || trip.startingCoords || null;
+    const answersKey = planAnswersKey({
+      mood: wizard.mood,
+      pickType,
+      specific: wizard.specific,
+      tripMode: wizard.tripMode,
+      startingLocation: trip.startingLocation,
+      regionIds,
+    });
+    const cached = readPlanCache(user?.uid);
+    if (isPlanCacheValid(cached, { answersKey, origin })) {
+      reset();
+      onPlan(cached.message, { cachedReply: cached.reply });
+      return;
+    }
+
+    setPlanning(true);
+    // The one optional extra AI call: only when something was typed.
+    const specific = wizard.specific.trim();
+    let matchIds = [];
+    if (specific) {
+      const { matches } = await classifyInterest(specific);
+      matchIds = regionIds.length ? matches.filter((m) => regionIds.includes(m.split('/')[0])) : matches;
+    }
+    // "The usual" / "Something new": on-device ranking from saved tag scores.
+    const rankRegions = regionIds.length
+      ? regionIds
+      : [trip.activeRegion || pickRegion({ origin, fallbackRegions: [] })].filter(Boolean);
+    const ranked = rankTripPicks({
+      pickType,
+      profile: myProfile,
+      regionIds: rankRegions,
+      excludeIds: Object.values(myReviews || {}).map((r) => r.landmarkId),
+    });
+    const message = composePlanMessage({
+      mood: wizard.mood,
+      tripMode: wizard.tripMode,
+      startingLocation: trip.startingLocation,
+      regionNames: regions.map((r) => r.name),
+      pickType,
+      rankedNames: ranked.map((l) => l.name),
+      specific,
+      specificMatchNames: matchIds.map((id) => landmarkNames.get(id)).filter(Boolean),
+    });
+    const rankedIds = ranked.map((l) => `${l.regionId}/${l.id}`);
+    const uid = user?.uid;
+    setPlanning(false);
+    reset();
+    onPlan(message, {
+      onReply: (reply) => {
+        writePlanCache(uid, { answersKey, origin, message, reply, pickType });
+        if (uid) logRecommendations({ uid, source: 'trip-planner', pickType, stops: reply.stops, rankedIds }).catch(() => {});
+      },
+    });
+  };
+
+  const locationStatus =
+    wizard.locationMode === 'gps' && locating
+      ? 'Finding you\u{2026}'
+      : addressMissing
+        ? "Couldn't find that address."
+        : wizard.needCity && locateError
+          ? locateError
+          : null;
+
+  const cityPicker = wizard.needCity && (
+    <div className="field chat-wizard-field">
+      <label>Which city are you exploring?</label>
+      <MultiRegionSearch selectedIds={regions.map((r) => r.id)} onToggle={onToggleRegion} onClearAll={onClearRegions} placeholder="Add a city…" />
+    </div>
+  );
+
+  const summary = [
+    trip.startingLocation && `\u{1F4CD} ${trip.startingLocation}`,
+    regions.length > 0 && `\u{1F3D9}\u{FE0F} ${regions.map((r) => r.name).join(', ')}`,
+    wizard.mood && `${MOODS.find((m) => m.value === wizard.mood)?.icon} ${MOODS.find((m) => m.value === wizard.mood)?.label}`,
+    pickType && `${PICK_TYPES.find((p) => p.value === pickType)?.icon} ${PICK_TYPES.find((p) => p.value === pickType)?.label}`,
+    wizard.specific.trim() && `\u{1F4AC} ${wizard.specific.trim()}`,
+    wizard.tripMode && `${TRIP_MODES.find((t) => t.value === wizard.tripMode)?.icon} ${TRIP_MODES.find((t) => t.value === wizard.tripMode)?.label}`,
+  ].filter(Boolean);
+
+  const steps = [
+    {
+      id: 'location',
+      question: 'Where are you starting from?',
+      subtitle: trip.startingLocation && !wizard.locationMode ? `Right now: ${trip.startingLocation}` : null,
+      choices: LOCATION_CHOICES,
+      value: wizard.locationMode,
+      skippable: false,
+      status: locationStatus,
+      statusError: !!(addressMissing || (wizard.needCity && locateError)),
+      children: (
+        <>
+          {wizard.locationMode === 'type' && !wizard.needCity && (
+            <div className="field chat-wizard-field">
+              <LocationAutocomplete
+                name="start-location"
+                id="planner-start"
+                placeholder="Address, hotel, etc."
+                value={trip.startingLocation}
+                onChange={(text) => {
+                  setAddressMissing(false);
+                  updateTrip({ startingLocation: text, startingCoords: null });
+                }}
+                onSelect={(s) =>
+                  updateTrip({
+                    startingLocation: s.primary,
+                    startingCoords: { lat: s.lat, lng: s.lng },
+                    activeRegion: nearestRegionId(s.lat, s.lng),
+                  })
+                }
+              />
+              <HomeStartPrefill />
+            </div>
+          )}
+          {cityPicker}
+        </>
+      ),
+      next:
+        wizard.locationMode === 'type' || wizard.needCity || (!wizard.locationMode && trip.startingLocation)
+          ? {
+              disabled: checking || (wizard.needCity ? regions.length === 0 : !(trip.startingLocation || '').trim()),
+              label: checking ? 'Checking\u{2026}' : 'Next',
+            }
+          : null,
+    },
+    {
+      id: 'mood',
+      question: 'What are you in the mood for?',
+      choices: MOODS,
+      value: wizard.mood,
+    },
+    {
+      id: 'pick',
+      question: 'What sounds good?',
+      subtitle: canPickType ? null : `Rate ${MIN_RATINGS_FOR_PICK_TYPE} places to unlock "The usual" and "Something new".`,
+      choices: canPickType ? PICK_TYPES : null,
+      value: pickType,
+      children: (
+        <div className="field chat-wizard-field">
+          <label htmlFor="planner-specific">
+            Anything specific? <span className="chat-wizard-optional">(optional)</span>
+          </label>
+          <input
+            id="planner-specific"
+            name="planner-specific"
+            type="text"
+            maxLength={200}
+            placeholder="e.g. rooftop views, live jazz, tacos"
+            value={wizard.specific}
+            onChange={(e) => set({ specific: e.target.value })}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                advance();
+              }
+            }}
+          />
+        </div>
+      ),
+      next: {},
+    },
+    {
+      id: 'tripType',
+      question: 'Is this trip just you, or a group?',
+      choices: TRIP_MODES,
+      value: wizard.tripMode,
+    },
+    {
+      id: 'plan',
+      question: "All set. Here's what I've got:",
+      skippable: false,
+      children: summary.length > 0 && (
+        <ul className="chat-wizard-summary">
+          {summary.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      ),
+      primary: {
+        label: planning ? 'Planning\u{2026}' : '\u{2728} Plan my trip',
+        onClick: planTrip,
+        disabled: planning,
+      },
+    },
+  ];
 
   return (
-    <div className="card section trip-planner-card">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-        <h3 style={{ margin: 0 }}>{'\u{1F9ED}'} Plan Your Trip</h3>
-        <button type="button" className="tag" style={{ cursor: 'pointer', fontFamily: 'inherit', appearance: 'none' }} onClick={onClose}>
-          {'\u{2715}'} Close
+    <ChatWizard
+      className="trip-planner-card"
+      title={'\u{1F9ED} Plan Your Trip'}
+      steps={steps}
+      index={index}
+      onChoose={onChoose}
+      onNext={onNext}
+      onBack={back}
+      onSkip={skip}
+      onClose={onClose}
+      footer={
+        <button type="button" className="chat-wizard-link" onClick={() => navigate('/')}>
+          {'\u{1F310}'} Just browse the map
         </button>
-      </div>
-
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={() => navigate('/')}>
-        {'\u{1F310}'} Just Browse the Map
-      </button>
-
-      <div className="field" style={{ marginTop: 14 }}>
-        <label>Starting Location <span style={{ fontWeight: 400, color: 'var(--color-parchment-dim)' }}>(optional)</span></label>
-        <button
-          type="button"
-          className={`btn btn-sm ${usingGps ? 'btn-primary' : 'btn-ghost'}`}
-          style={{ marginBottom: 10 }}
-          onClick={useCurrentLocation}
-          disabled={locating}
-        >
-          {'\u{1F4CD}'} {locating ? 'Locating…' : usingGps ? 'Using Your Current Location' : 'Use My Current Location'}
-        </button>
-        <LocationAutocomplete
-          name="start-location"
-          id="planner-start"
-          placeholder="Or type an address, hotel, etc."
-          value={trip.startingLocation}
-          onChange={(text) => updateTrip({ startingLocation: text, startingCoords: null })}
-          onSelect={(s) =>
-            updateTrip({
-              startingLocation: s.primary,
-              startingCoords: { lat: s.lat, lng: s.lng },
-              activeRegion: nearestRegionId(s.lat, s.lng),
-            })
-          }
-        />
-        <HomeStartPrefill />
-        {locateError && (
-          <p className="tag tag-error" style={{ marginTop: 6 }}>
-            {locateError}
-          </p>
-        )}
-      </div>
-
-      <div className="field">
-        <label>Region</label>
-        <MultiRegionSearch selectedIds={regions.map((r) => r.id)} onToggle={onToggleRegion} onClearAll={onClearRegions} placeholder="Add a city…" />
-      </div>
-
-      <div className="field">
-        <label>What are you interested in?</label>
-        {(trip.savedInterests.length > 0 || trip.savedCustomInterests.length > 0) && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
-            <button type="button" className={`chip ${preferencesSelected ? 'selected' : ''}`} onClick={togglePreferences}>
-              <span className="chip-icon">{'⭐'}</span>
-              <span>Use My Preferences</span>
-            </button>
-          </div>
-        )}
-        <div className="chip-grid">
-          {INTERESTS.map((i) => (
-            <button
-              key={i.id}
-              type="button"
-              className={`chip ${trip.interests.includes(i.id) ? 'selected' : ''}`}
-              onClick={() => toggleInterest(i.id)}
-            >
-              <span className="chip-icon">{i.icon}</span>
-              <span>{i.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="field">
-        <label>What are you in the mood for?</label>
-        <p className="screen-subtitle" style={{ marginTop: -4 }}>
-          You might love hiking on a Sunday morning and still want nothing to do with it on a Saturday night out.
-        </p>
-        <div className="chip-grid">
-          {MOODS.map((m) => (
-            <button
-              key={m.id}
-              type="button"
-              className={`chip ${mood === m.id ? 'selected' : ''}`}
-              title={m.hint}
-              onClick={() => setMood((cur) => (cur === m.id ? null : m.id))}
-            >
-              <span className="chip-icon">{m.icon}</span>
-              <span>{m.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="field">
-        <label>Trip Type</label>
-        <div className="tabs" style={{ justifyContent: 'center' }}>
-          <button type="button" className={`tab-btn ${tripMode === 'solo' ? 'active' : ''}`} onClick={() => setTripMode('solo')}>
-            {'\u{1F464}'} Solo
-          </button>
-          <button type="button" className={`tab-btn ${tripMode === 'group' ? 'active' : ''}`} onClick={() => setTripMode('group')}>
-            {'\u{1F465}'} Group
-          </button>
-        </div>
-      </div>
-
-      <button type="button" className="btn btn-primary btn-block" style={{ marginTop: 4 }} onClick={planTrip}>
-        {'\u{2728}'} Plan My Trip {'\u{2192}'}
-      </button>
-    </div>
+      }
+    />
   );
 }

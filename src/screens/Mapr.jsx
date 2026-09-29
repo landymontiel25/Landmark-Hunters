@@ -387,7 +387,24 @@ export default function Mapr() {
   // retry resends the text of a failed turn: that user bubble is already in
   // the thread, so only the error bubble under it is swapped back out for
   // the typing indicator -- never a second copy of the same message.
-  const send = async (e, overrideText, { retry = false, historyOverride } = {}) => {
+  // Plan Your Trip with nothing changed since its last plan (same answers,
+  // same spot within half a mile, same part of the day): show that plan
+  // again instead of asking the AI for the same thing. Its itinerary
+  // actions already ran the first time, so they aren't repeated.
+  const replayPlan = (text, reply) => {
+    if (busy) return;
+    if (showTasteNudge) dismissNudge();
+    if (restored) dismissRestored();
+    setMessagesFor(activeChat.id, (cur) => [
+      ...cur,
+      { role: 'user', text },
+      { ...reply, id: `m${Date.now()}`, role: 'assistant', actionResults: [], fromCache: true },
+    ]);
+  };
+
+  // onReply (optional) gets the finished assistant message, e.g. so the
+  // trip planner can cache it and log its picks.
+  const send = async (e, overrideText, { retry = false, historyOverride, onReply } = {}) => {
     e?.preventDefault();
     const text = (overrideText ?? draft).trim();
     if (!text || busy) return;
@@ -551,10 +568,15 @@ export default function Mapr() {
       // "Repeat a favorite") -- tapping one just sends that exact text, the
       // same as typing it, so the traveler never has to type a one-word
       // answer by hand.
-      put((cur) => [
-        ...cur,
-        { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null },
-      ]);
+      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null };
+      put((cur) => [...cur, reply]);
+      if (onReply) {
+        try {
+          onReply({ text: reply.text, stops, raw, quickReplies: reply.quickReplies, rate: reply.rate });
+        } catch {
+          /* caching/logging is best-effort */
+        }
+      }
       if (data.cost) setTotalCost((c) => c + data.cost);
     } catch (err) {
       // The user's message stays in the thread; this bubble explains what
@@ -677,12 +699,14 @@ export default function Mapr() {
       {showPlanner ? (
         <TripPlannerCard
           regions={regions}
+          onSetRegions={setRegions}
           onToggleRegion={toggleRegion}
           onClearRegions={() => setRegions([])}
           onClose={() => setShowPlanner(false)}
-          onPlan={(message) => {
+          onPlan={(message, { cachedReply, onReply } = {}) => {
             setShowPlanner(false);
-            send(null, message);
+            if (cachedReply) replayPlan(message, cachedReply);
+            else send(null, message, { onReply });
           }}
         />
       ) : (

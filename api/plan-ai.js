@@ -4,6 +4,8 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
 import { withCors } from './_lib/cors.js';
+import { PLAN_AI_MODEL } from './_lib/aiModels.js';
+import { logAiCall } from './_lib/aiCallLog.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -122,7 +124,7 @@ const INSTRUCTIONS =
   `  {"type": "create_landmark_here", "nameOverride": "<only if they named the specific place themselves, else omit>"}\n` +
   `  {"type": "add_member", "itinerary": "<ref>", "username": "<their username, no @>"}`;
 
-// claude-haiku-4-5 per-token pricing (USD per token, i.e. price-per-MTok / 1e6),
+// PLAN_AI_MODEL (claude-haiku-4-5) per-token pricing (USD per token, i.e. price-per-MTok / 1e6),
 // plus $10/1,000 web searches -- used to report a running cost estimate to the
 // client. Update these if the model or its pricing changes.
 const PRICE_PER_TOKEN = {
@@ -344,7 +346,7 @@ async function handler(req, res) {
     const client = new Anthropic();
 
     const msg = await client.messages.create({
-      model: 'claude-haiku-4-5',
+      model: PLAN_AI_MODEL,
       max_tokens: 1200,
       system: [
         { type: 'text', text: INSTRUCTIONS },
@@ -371,6 +373,7 @@ async function handler(req, res) {
       messages: turns,
     });
 
+    await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: msg.usage });
     const costUsd = estimateCostUsd(msg.usage);
 
     const raw = msg.content

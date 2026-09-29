@@ -26,7 +26,7 @@ export const APP_HELP =
   `- Your progress is saved on this device as you go: the Mapr conversation, half-typed messages and questions, a landmark you were adding, a ` +
   `rating in progress, feature-request drafts, and your Landmarks search and sort come back if you close the app. Category filters (Map and Landmarks) last while the app is open and reset every launch, and Landmarks always opens on All Cities. If something fails to load or ` +
   `save, the app says what happened in plain words and shows a Try again button; nothing you typed is cleared.\n` +
-  `- Trip planning (Plan Your Trip card and Create New Trip) fills in your starting location from your saved home address when home is in the ` +
+  `- Trip planning (Plan Your Trip's "Type an address" step and Create New Trip) fills in your starting location from your saved home address when home is in the ` +
   `city you picked, with a Clear option. "Use My Current Location" fills in the street address you're at (or the business, ` +
   `if you're standing in one). In city search, pressing Enter picks the top match.\n` +
   `- On the Map, landmarks you've checked into show as green pins. Opening the Map right after looking at an itinerary (solo or ` +
@@ -79,10 +79,17 @@ export const APP_HELP =
   `interest) and it replies with 0-4 real stops, from the curated catalog or the live web. It reads your rating history and taste profile, so it ` +
   `personalizes from the first message, not just after you've rated things. It also weighs the CURRENT message's timing/mood ("Saturday night in the ` +
   `city") over a blanket favorite category — loving hiking doesn't mean it suggests a trail when you're clearly asking for nightlife. The city pill in ` +
-  `its header supports picking several cities at once, not just one. A "🧭 Plan Your Trip" card (open it any time, or land on it automatically via ` +
-  `Itinerary's "Use Mapr" button) lets you set a starting location, region, interests, mood (energized/active vs. easygoing/chill — the same ` +
-  `place can be a yes on a lazy morning and a no on a Saturday night out), and solo/group in one place, then turns it into a normal chat message ` +
-  `Mapr answers like any other.\n` +
+  `its header supports picking several cities at once, not just one. "🧭 Plan Your Trip" (open it any time, or land on it automatically via ` +
+  `Itinerary's "Use Mapr" button) is a short step-by-step chat with Mapr — one question at a time as a Mapr bubble with big tap buttons: ` +
+  `(1) where you're starting ("Use my current location" or "Type an address"; the city fills in from that, and it only asks for a city if ` +
+  `location is off or the address can't be found), (2) mood — Energized & Active or Easygoing & Chill (the same place can be a yes on a lazy ` +
+  `morning and a no on a Saturday night out), (3) "What sounds good?" — "The usual" (places ranked by your saved taste) or "Something new" ` +
+  `(kinds of places you've rated little or never that still fit your taste), plus an optional "Anything specific?" box; with fewer than 10 ` +
+  `ratings only the box shows, (4) Solo or Group, then (5) "Plan my trip", which turns the answers into a normal chat message Mapr answers like ` +
+  `any other (group trips work the same as before). Tapping an answer moves on by itself; steps with a text box have Next. Every step has Back, ` +
+  `progress dots, Close and "Just browse the map", and every step but the first has Skip. Answers are saved as you go, so closing the app ` +
+  `picks up on the same step. Planning the exact same trip again from the same spot in the same part of the day shows the last plan again ` +
+  `instead of re-planning. Interest chips and "Use My Preferences" are no longer part of this flow; My Preferences is still editable in Settings.\n` +
   `- Taste Profile Score (shown on Mapr only, not Profile): NOT an activity counter — it's Mapr's own prediction confidence, measured by how well its ` +
   `affinity model can guess one of your ratings from your OTHER ratings alone (leave-one-out), shown as a percentage. Mapr Picks ✓/✗ votes count toward it at half the weight of a full rating. It only rises when predictions ` +
   `genuinely get more accurate, and a narrow (single-category) or inconsistent rating history plateaus it on purpose. Personal-only, never on any ` +
@@ -121,7 +128,7 @@ export const APP_HELP =
   `the shared streak feature). Turning it on asks for the iOS notification permission and registers this device; a "Send test notification" button ` +
   `appears once it's on, to check the whole pipeline actually works.\n` +
   `- Trip Setup: no longer its own tab. The Itinerary tab's empty/overview state leads with "🧭 Use Mapr (recommended)", which jumps straight to ` +
-  `Mapr's Plan Your Trip card (see above) — a "➕ Create New Trip" modal (same starting location/region/interests form, plus a full solo-vs-group ` +
+  `Mapr's Plan Your Trip chat (see above) — a "➕ Create New Trip" modal (a one-page starting location/region/interests form, plus a full solo-vs-group ` +
   `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead.\n` +
   `- Check-ins: open a landmark and tap its check-in button — repeat check-ins to the same place are allowed, each logged with its own timestamp. ` +
   `Points taper on repeats: full points on the 1st visit, about 20% on the 2nd-5th, nothing from the 6th on — but every visit still counts toward Mapr ` +

@@ -2,6 +2,8 @@ import Anthropic from '@anthropic-ai/sdk';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
+import { INTEREST_CLASSIFIER_MODEL } from './_lib/aiModels.js';
+import { logAiCall } from './_lib/aiCallLog.js';
 
 // Custom interests (typed in on Setup, e.g. "nightlife", "racing") don't map to
 // any of the app's four built-in categories, so they can't filter Choose
@@ -47,7 +49,7 @@ async function handler(req, res) {
     const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
 
     const msg = await client.messages.create({
-      model: 'claude-haiku-4-5',
+      model: INTEREST_CLASSIFIER_MODEL,
       max_tokens: 3000,
       // Catalog is identical every request → cache it so repeat calls are cheap.
       system: [
@@ -56,6 +58,8 @@ async function handler(req, res) {
       ],
       messages: [{ role: 'user', content: `Interest: ${interest}` }],
     });
+
+    await logAiCall({ feature: 'interest-classifier', model: INTEREST_CLASSIFIER_MODEL, usage: msg.usage });
 
     const raw = msg.content
       .filter((b) => b.type === 'text')

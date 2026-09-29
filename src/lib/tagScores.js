@@ -568,3 +568,72 @@ export function applyTimeSlot(scores, boosts) {
   for (const [tag, v] of Object.entries(scores)) out[tag] = v > 0 && boosts[tag] ? v * boosts[tag] : v;
   return out;
 }
+
+// Plan Your Trip's "What sounds good?" step. Both are pure, on-device
+// rankings over the user's saved tag scores -- no AI call is made to rank.
+//
+// A tag counts as "new" to someone while it has at most NEW_PICK_MAX_RATINGS
+// ratings behind it across EVERY region combined: a category rated 20 times
+// in Miami isn't new to them in Villanova, even with no local ratings yet.
+export const NEW_PICK_MAX_RATINGS = WILDCARD_MAX_RATINGS;
+// "Something new" spreads across categories instead of five of one kind.
+export const NEW_PICK_PER_TAG = 2;
+
+export function sitewideTagCounts(profile) {
+  const out = {};
+  for (const byTag of Object.values(profile?.tagCounts || {})) {
+    for (const [tag, n] of Object.entries(byTag || {})) out[tag] = (out[tag] || 0) + (Number(n) || 0);
+  }
+  return out;
+}
+
+const firstRateableTag = (l) => (l.categories || []).find((c) => !UNRATEABLE.has(c)) || null;
+
+// "The usual": the region's landmarks ranked by the user's saved tag scores
+// (the same scoreShortlist Mapr Picks runs, minus its wildcard slots), kept
+// to places their taste actually scores above zero.
+export function usualPicks({ profile, region, excludeIds = [], checkinCounts = {}, limit = 6, now = Date.now() }) {
+  if (!region) return [];
+  const scores = effectiveTagScores(profile, region, now);
+  return scoreShortlist({
+    scores,
+    region,
+    tagCounts: profile?.tagCounts?.[region] || {},
+    excludeIds,
+    checkinCounts,
+    boostedTags: boostedTagsFor(profile),
+    limit: Math.max(limit, SHORTLIST_SIZE),
+    wildcardSlots: 0,
+  })
+    .filter((l) => l.tagScore > 0)
+    .slice(0, limit)
+    .map((l) => ({ ...l, pickType: 'usual' }));
+}
+
+// "Something new": landmarks whose main category the user has rated little
+// or never (NEW_PICK_MAX_RATINGS, sitewide), with nothing they've disliked
+// on them, ranked by how close they still land to the user's taste -- the
+// warm start from other regions and any liked secondary category push a
+// place up, so it's new territory that still fits them.
+export function discoveryPicks({ profile, region, excludeIds = [], checkinCounts = {}, limit = 6, now = Date.now() }) {
+  if (!region) return [];
+  const scores = effectiveTagScores(profile, region, now);
+  const counts = sitewideTagCounts(profile);
+  const demand = byDemand(checkinCounts);
+  const scoreOf = (l) => (l.categories || []).reduce((s, t) => s + (scores[t] || 0), 0);
+  const ranked = candidates(region, excludeIds)
+    .filter((l) => {
+      const tag = firstRateableTag(l);
+      if (!tag || (counts[tag] || 0) > NEW_PICK_MAX_RATINGS) return false;
+      return (l.categories || []).every((t) => (scores[t] || 0) >= 0);
+    })
+    .map((l) => ({ l, score: scoreOf(l) }))
+    .sort((a, b) => b.score - a.score || demand(a.l, b.l));
+  const round = (n) => Math.round(n * 10) / 10;
+  return takeWithTagLimit(ranked, limit, () => NEW_PICK_PER_TAG).map(({ l, score }) => ({
+    ...l,
+    tagScore: round(score),
+    tagRatings: counts[firstRateableTag(l)] || 0,
+    pickType: 'new',
+  }));
+}
