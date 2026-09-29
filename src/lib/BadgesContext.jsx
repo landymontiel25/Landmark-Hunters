@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { useAuth } from './AuthContext';
@@ -22,6 +22,7 @@ import {
   hasAllStarWeek,
 } from './badgeStats';
 import { hasCompletedOnboardingLocally } from './onboarding';
+import { claimFreshBadges, releaseBadges } from './badgeCelebration';
 
 // Your check-in/city/streak counts and the badges earned from them -- one
 // shared fetch + one shared "what's newly earned" detector, so Profile's
@@ -98,6 +99,10 @@ export function BadgesProvider({ children }) {
   // myProfile.badgeEarnedAt at the moment they were computed) -- consumed
   // by CelebrationOverlay, which dismisses each one after showing it.
   const [justEarned, setJustEarned] = useState([]);
+  // Badge ids this session has already started writing/queuing (see
+  // badgeCelebration.js): stops a re-run of the detector below from writing
+  // and celebrating the same badge again while the first write is in flight.
+  const claimedRef = useRef(new Set());
 
   // Pulled out of the effect (and exposed as `reload`) so voting on a Mapr
   // Pick can refresh the streak the moment a day's 5th vote lands, instead
@@ -232,7 +237,13 @@ export function BadgesProvider({ children }) {
   useEffect(() => {
     if (!user || !profileFresh || badges.length === 0) return;
     const known = myProfile.badgeEarnedAt || {};
-    const fresh = badges.filter((b) => !known[b.id] && !hasCelebrated(user.uid, b.id));
+    const fresh = claimFreshBadges({
+      badges,
+      known,
+      uid: user.uid,
+      celebrated: hasCelebrated,
+      claimed: claimedRef.current,
+    });
     if (fresh.length === 0) return;
     const patch = {};
     for (const b of fresh) patch[`badgeEarnedAt.${b.id}`] = serverTimestamp();
@@ -249,7 +260,7 @@ export function BadgesProvider({ children }) {
         });
         reloadFriends();
       })
-      .catch(() => {});
+      .catch(() => releaseBadges({ badges: fresh, uid: user.uid, claimed: claimedRef.current }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, profileFresh, badges, myProfile]);
 
