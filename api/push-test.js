@@ -1,12 +1,13 @@
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { sendPushToUser } from './_lib/push.js';
+import { withCors } from './_lib/cors.js';
 
 // Settings' "Send test notification" button -- the only way to confirm the
 // whole pipeline (device token saved, service account configured, APNs key
 // uploaded to Firebase) actually works end to end, without waiting for a
 // real dual-streak reminder to have something to send.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -42,3 +43,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not send a test notification.' });
   }
 }
+
+export default withCors(handler);

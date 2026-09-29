@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { ALL_LANDMARKS, getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
+import { withCors } from './_lib/cors.js';
 
 // "Figure out what I mean" for every search box in the app (src/lib/
 // smartSearch.js). The client only calls this when its own typo-tolerant
@@ -27,7 +28,7 @@ const CATALOG_IDS = new Set(ALL_LANDMARKS.map((l) => `${l.regionId}/${l.id}`));
 const MAX_ITEMS = 400;
 const str = (v, n) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, n);
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -89,3 +90,5 @@ export default async function handler(req, res) {
     res.status(status).json({ error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'Smart search failed.' });
   }
 }
+
+export default withCors(handler);

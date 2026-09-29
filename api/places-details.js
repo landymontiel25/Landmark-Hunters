@@ -1,10 +1,11 @@
 import { isRateLimited } from './_lib/rateLimit.js';
+import { withCors } from './_lib/cors.js';
 
 // Resolves an autocomplete suggestion's placeId into the final name,
 // address, and coordinates, once the user actually picks it -- kept to the
 // Places API (New) Essentials SKU field mask (id, displayName,
 // formattedAddress, location) so this never bills a higher tier.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -55,3 +56,5 @@ export default async function handler(req, res) {
     res.status(502).json({ error: 'Could not look up that address.' });
   }
 }
+
+export default withCors(handler);

@@ -4,6 +4,7 @@ import { dayKey } from './streaks';
 import { pickDailyCardIds } from './sharedDeck';
 import { authHeaders } from './apiAuth';
 import { syncLocalFeedbackToFirestore } from './pickFeedback';
+import { API_BASE } from './apiBase';
 
 // Solo streaks -- back after being retired at #405, now sharing the same
 // streaks/{id} collection as dual streaks (mode: 'solo', memberIds: [uid],
@@ -41,7 +42,7 @@ export async function ensureSoloStreak(userName, uid) {
   // the seed/repair under-counts even with the timezone fixed. Best-effort
   // itself: never blocks or fails ensureSoloStreak over a sync hiccup.
   if (uid) await syncLocalFeedbackToFirestore(uid).catch(() => {});
-  const r = await fetch('/api/ensure-solo-streak', {
+  const r = await fetch(`${API_BASE}/api/ensure-solo-streak`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ userName, timeZone }),
@@ -100,7 +101,7 @@ export function subscribeSoloDayEntry(uid, dayId, onEntry, onError) {
 // award a second time.
 export async function closeSoloToday() {
   const today = dayKey(new Date());
-  const r = await fetch('/api/close-solo-streak-day', {
+  const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ dayId: today }),
@@ -113,7 +114,7 @@ export async function closeSoloToday() {
 // authoritative (api/use-solo-streak-freeze.js), same pattern as
 // pairStreaks.js's spendFreeze.
 export async function spendSoloFreeze() {
-  const r = await fetch('/api/use-solo-streak-freeze', {
+  const r = await fetch(`${API_BASE}/api/use-solo-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
   });

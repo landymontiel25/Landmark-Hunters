@@ -3,6 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { monthKey, previousDayKey, localDayKey } from './_lib/streakDay.js';
+import { withCors } from './_lib/cors.js';
 
 const PICKS_STREAK_THRESHOLD = 3;
 export const SOLO_FREEZES_PER_MONTH = 1;
@@ -93,7 +94,7 @@ function hasSecuredToday(checkins, pickFeedback, now, timeZone) {
 // per-user seed on first touch IS the entire migration: there is no batch
 // job run against every user's data at once, and nothing here can ever
 // reset an already-created doc.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -218,3 +219,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not load your streak.' });
   }
 }
+
+export default withCors(handler);

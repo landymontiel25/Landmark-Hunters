@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScores.js';
 import { getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
+import { withCors } from './_lib/cors.js';
 
 // "Your Mapr Picks" on Profile. The internal tag scorer (src/lib/tagScores.js)
 // ranks the traveler's current region down to a 30-landmark shortlist from
@@ -80,7 +81,7 @@ function distanceKm(lat1, lng1, lat2, lng2) {
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -265,3 +266,5 @@ export default async function handler(req, res) {
     });
   }
 }
+
+export default withCors(handler);

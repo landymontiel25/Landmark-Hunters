@@ -7,6 +7,7 @@ import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
+import { withCors } from './_lib/cors.js';
 
 // Points for a secured dual day, and one-time bonuses the first time a
 // streak reaches a milestone length -- double the solo-streak amounts (see
@@ -41,7 +42,7 @@ function isRealCheckin(x) {
 // not the guaranteed one. A scheduled cron is a clean follow-up once this
 // is proven out -- the data model doesn't change either way.
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -173,3 +174,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not close that day.' });
   }
 }
+
+export default withCors(handler);

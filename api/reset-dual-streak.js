@@ -3,6 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { monthKey } from './_lib/streakDay.js';
+import { withCors } from './_lib/cors.js';
 
 const FREEZES_PER_MONTH = 2;
 
@@ -17,7 +18,7 @@ const FREEZES_PER_MONTH = 2;
 // them actually earned. Resets everything BUT the pairing itself
 // (memberIds/memberNames/cityId/mode/createdAt untouched) -- either member
 // can call it for their own pair.
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -68,3 +69,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: e?.message || 'Could not reset that streak.' });
   }
 }
+
+export default withCors(handler);

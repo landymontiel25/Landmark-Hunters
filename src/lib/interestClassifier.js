@@ -1,4 +1,5 @@
 import { authHeaders } from './apiAuth';
+import { API_BASE } from './apiBase';
 
 const DEFAULT_EMOJI = '\u{2728}'; // sparkle -- shown until/unless the AI call succeeds
 
@@ -11,7 +12,7 @@ const DEFAULT_EMOJI = '\u{2728}'; // sparkle -- shown until/unless the AI call s
 // never breaks the picker.
 export async function classifyInterest(interest) {
   try {
-    const res = await fetch('/api/classify-interest', {
+    const res = await fetch(`${API_BASE}/api/classify-interest`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
       body: JSON.stringify({ interest }),

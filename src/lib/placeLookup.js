@@ -1,6 +1,7 @@
 import { searchPlaces, getPlaceDetails, makeSessionToken } from './places';
 import { REGIONS } from '../data/regions';
 import { distanceMeters } from './geo';
+import { API_BASE } from './apiBase';
 
 /**
  * Finds a real place by text ("Autana, 9 Station Rd, Ardmore") and returns
@@ -42,7 +43,7 @@ export function nearestRegionId(lat, lng, maxKm = 120) {
  */
 export async function reverseGeocodePlace(lat, lng) {
   try {
-    const r = await fetch('/api/places-nearby', {
+    const r = await fetch(`${API_BASE}/api/places-nearby`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ lat, lng }),
