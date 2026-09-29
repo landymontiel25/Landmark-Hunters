@@ -54,3 +54,14 @@ describe('getCustomLandmark', () => {
     expect(result).toBeNull();
   });
 });
+
+describe('addCustomLandmark topic', () => {
+  it('saves a researched topic, and leaves the field off when there is none', async () => {
+    const { setDoc } = await import('firebase/firestore');
+    const { addCustomLandmark } = await import('./customLandmarks');
+    await addCustomLandmark({ region: 'r', name: 'Inka Grill', lat: 1, lng: 2, userId: 'u', topic: 'Peruvian restaurant' });
+    expect(setDoc.mock.calls.at(-1)[1].topic).toBe('Peruvian restaurant');
+    await addCustomLandmark({ region: 'r', name: 'Somewhere', lat: 1, lng: 2, userId: 'u' });
+    expect('topic' in setDoc.mock.calls.at(-1)[1]).toBe(false);
+  });
+});

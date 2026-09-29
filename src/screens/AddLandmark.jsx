@@ -351,6 +351,7 @@ export default function AddLandmark() {
         facts: verified.facts,
         free: verified.free,
         typicalMinutes: verified.typicalMinutes || undefined,
+        topic: verified.topic || null,
       });
       // Submitted -- the saved draft has done its job.
       clearPersisted(draftKey);

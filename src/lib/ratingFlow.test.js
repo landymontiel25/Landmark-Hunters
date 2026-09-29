@@ -17,6 +17,9 @@ import {
   aspectLabel,
   RATING_GOAL,
   diversityHint,
+  tierQuestion,
+  cleanTopic,
+  commentQuestion,
 } from './ratingFlow';
 import { INTERESTS, migrateInterests } from '../data/regions';
 
@@ -272,5 +275,62 @@ describe('visit frequency', () => {
   it('resolves a saved frequency id back to its label', () => {
     expect(frequencyById('a-lot').label).toBe('A lot');
     expect(frequencyById('not-a-real-id')).toBeNull();
+  });
+});
+
+describe('tierQuestion', () => {
+  it('asks about the cuisine for a restaurant with a specific topic', () => {
+    expect(tierQuestion({ categories: ['food'], topic: 'Peruvian restaurant' })).toBe('Do you like Peruvian food?');
+    expect(tierQuestion({ categories: ['food'], topic: 'Thai cafe' })).toBe('Do you like Thai food?');
+    expect(tierQuestion({ categories: ['food'], topic: 'Peruvian food' })).toBe('Do you like Peruvian food?');
+  });
+
+  it('asks about the place itself when the cuisine reads badly as "<x> food"', () => {
+    expect(tierQuestion({ categories: ['food'], topic: 'sushi restaurant' })).toBe('Do you like this sushi restaurant?');
+    expect(tierQuestion({ categories: ['food'], topic: 'bakery' })).toBe('Do you like this bakery?');
+  });
+
+  it('asks about the bar for a bar, and the racing for a racing venue', () => {
+    expect(tierQuestion({ categories: ['local-life'], topic: 'sports bar' })).toBe('Do you like this sports bar?');
+    expect(tierQuestion({ categories: ['sports'], topic: 'go-kart track' })).toBe('Do you like the racing?');
+    expect(tierQuestion({ categories: ['formula-1'], topic: 'Formula 1 circuit' })).toBe('Do you like the racing?');
+    expect(tierQuestion({ categories: ['stadiums'], topic: 'NASCAR speedway' })).toBe('Do you like the racing?');
+  });
+
+  it('tidies a topic with an article or trailing period', () => {
+    expect(tierQuestion({ categories: ['art-museums'], topic: '  A contemporary art museum. ' })).toBe(
+      'Do you like this contemporary art museum?'
+    );
+  });
+
+  it('falls back to a per-category question when there is no usable topic', () => {
+    expect(tierQuestion({ categories: ['food'] })).toBe('Do you like the food here?');
+    expect(tierQuestion({ categories: ['food'], topic: null })).toBe('Do you like the food here?');
+    expect(tierQuestion({ categories: ['food'], topic: '' })).toBe('Do you like the food here?');
+    expect(tierQuestion({ categories: ['formula-1'] })).toBe('Do you like the racing?');
+    expect(tierQuestion({ categories: ['local-life'], topic: 'x'.repeat(200) })).toBe('Do you like this spot?');
+    for (const c of RATEABLE_CATEGORIES) {
+      expect(tierQuestion({ categories: [c] })).toMatch(/^Do you like .+\?$/);
+    }
+  });
+
+  it('asks nothing for a landmark that is not rateable', () => {
+    expect(tierQuestion({ categories: ['campus-life'] })).toBeNull();
+    expect(tierQuestion(null)).toBeNull();
+  });
+
+  it('cleanTopic rejects non-strings and blanks', () => {
+    expect(cleanTopic(undefined)).toBeNull();
+    expect(cleanTopic(42)).toBeNull();
+    expect(cleanTopic('   ')).toBeNull();
+    expect(cleanTopic('the sports bar')).toBe('sports bar');
+  });
+});
+
+describe('commentQuestion', () => {
+  it('asks what you like, or what you did not for a "Not for me"', () => {
+    expect(commentQuestion('highly-recommend')).toBe('What do you like about this place?');
+    expect(commentQuestion('worth-trying')).toBe('What do you like about this place?');
+    expect(commentQuestion('probably-skip')).toBe("What didn't you like about this place?");
   });
 });

@@ -390,6 +390,73 @@ export function aspectLabel(id) {
   return id;
 }
 
+// The question the tier picker answers, phrased around what this specific
+// place is. Custom landmarks carry a `topic` (e.g. "Peruvian restaurant",
+// "sports bar", "go-kart track") found by the web research in
+// api/_lib/enrichLandmark.js when they were added; built-in catalog
+// landmarks don't have one yet, so they fall back to a per-category phrasing
+// below. Either way the answer is the same tier pick that feeds the
+// per-category scoring in tagScores.js -- this only frames it as a question.
+const TIER_QUESTION_FALLBACK = {
+  airports: 'Do you like this airport?',
+  'formula-1': 'Do you like the racing?',
+  sports: 'Do you like playing here?',
+  stadiums: 'Do you like this stadium?',
+  benches: 'Do you like this bench?',
+  'parks-nature': 'Do you like the outdoors here?',
+  entertainment: 'Do you like this place?',
+  tech: 'Do you like this piece of tech history?',
+  'history-culture': 'Do you like the history here?',
+  'art-museums': 'Do you like the art here?',
+  food: 'Do you like the food here?',
+  'local-life': 'Do you like this spot?',
+};
+
+// Places where the thing you like or don't is the food, not the building --
+// "Peruvian restaurant" asks "Do you like Peruvian food?".
+const EATERY_NOUNS = /\s+(restaurant|eatery|cafe|café|bistro|diner|kitchen|grill|cantina|trattoria|taqueria|steakhouse)$/i;
+const RACING = /\b(racing|race ?track|raceway|speedway|karting|go-?kart|circuit|motorsports?|drag strip)\b/i;
+
+export const TOPIC_MAX = 60;
+
+export function cleanTopic(raw) {
+  if (typeof raw !== 'string') return null;
+  const t = raw
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.!?]+$/, '')
+    .replace(/^(a|an|the|this)\s+/i, '')
+    .trim();
+  return t && t.length <= TOPIC_MAX ? t : null;
+}
+
+export function tierQuestion(landmark) {
+  const cat = ratingCategory(landmark);
+  if (!cat) return null;
+  const topic = cleanTopic(landmark?.topic);
+  if (!topic) return TIER_QUESTION_FALLBACK[cat] || `Do you like ${categoryLabel(cat)}?`;
+
+  if (RACING.test(topic)) return 'Do you like the racing?';
+  // Already the thing itself ("Peruvian food", "Thai cuisine").
+  if (/\b(food|cuisine)$/i.test(topic)) return `Do you like ${topic}?`;
+  // A cuisine named by a proper adjective ("Peruvian restaurant", "Thai
+  // cafe") reads best as the food; a lowercase one ("sushi restaurant",
+  // "seafood restaurant") reads better as the place itself.
+  const eatery = topic.match(EATERY_NOUNS);
+  if (eatery) {
+    const cuisine = topic.slice(0, eatery.index).trim();
+    if (/^[A-Z]/.test(cuisine) && !/\s/.test(cuisine)) return `Do you like ${cuisine} food?`;
+  }
+  return `Do you like this ${topic}?`;
+}
+
+// The free-text box under the rating. Asked the same way whether it's
+// required or optional; a "Not for me" asks the flip side, since "what do
+// you like" reads oddly for a place you didn't.
+export function commentQuestion(tierId) {
+  return tierId === 'probably-skip' ? "What didn't you like about this place?" : 'What do you like about this place?';
+}
+
 export function categoryLabel(id) {
   if (id === 'food-local-life') return 'Food & Local Life';
   return INTERESTS.find((i) => i.id === id)?.label || id;

@@ -148,8 +148,11 @@ export const APP_HELP =
   `Points taper on repeats: full points on the 1st visit, about 20% on the 2nd-5th, nothing from the 6th on — but every visit still counts toward Mapr ` +
   `learning your taste regardless of payout. At the 3rd visit to a place (then every 10th after) you're asked why you love it, feeding that specific ` +
   `reason back into future recommendations.\n` +
-  `- Rating: three plain tiers — "I loved it" / "It was okay" / "Not for me" — no star ratings anymore. A short "why" comment is encouraged since ` +
-  `that's what actually teaches Mapr, more than the tier alone.\n` +
+  `- Rating: three plain tiers — "I loved it" / "It was okay" / "Not for me" — no star ratings anymore, framed as a question about the place ` +
+  `("Do you like Peruvian food?", "Do you like this sports bar?", "Do you like the racing?"). Newly added community landmarks get that specific ` +
+  `wording from the research done when they're added; catalog landmarks get a general one per category ("Do you like the food here?"). The ` +
+  `comment box asks "What do you like about this place?" ("What didn't you like..." for "Not for me") and is encouraged since that's what ` +
+  `actually teaches Mapr, more than the tier alone.\n` +
   `- Comments: every landmark page has a 💬 Comments section with your comment (at the top) and other people's. Only written ` +
   `comments show there -- a rating on its own doesn't count as a comment. Once you've checked ` +
   `in somewhere you can add or edit your comment any time later, with or without a rating -- from that section or from each row of ` +

@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { TIERS, FREQUENCIES, MAX_CHIPS, MAX_ASPECTS, COMMENT_MAX, chipsFor, aspectsFor, aspectLabel } from '../lib/ratingFlow';
+import {
+  TIERS,
+  FREQUENCIES,
+  MAX_CHIPS,
+  MAX_ASPECTS,
+  COMMENT_MAX,
+  chipsFor,
+  aspectsFor,
+  aspectLabel,
+  tierQuestion,
+  commentQuestion,
+} from '../lib/ratingFlow';
 import { usePersistentState, readPersisted } from '../lib/usePersistentState';
 
 function toDraft(initial) {
@@ -83,6 +94,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
     else if (list.length < MAX_ASPECTS) setList([...list, id]);
   };
 
+  const question = tierQuestion(landmark);
   const chips = tier ? chipsFor(landmark, tier) : [];
   const showLoved = tier === 'highly-recommend' || tier === 'worth-trying';
   const showDisliked = tier === 'probably-skip' || tier === 'worth-trying';
@@ -124,6 +136,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
           </button>
         </p>
       )}
+      {question && <p className="rating-flow-question">{question}</p>}
       <div className="rating-tier-grid">
         {TIERS.map((t) => (
           <button
@@ -201,7 +214,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
       {tier && (
         <div style={{ marginTop: 14 }}>
           <p className="rating-flow-label">
-            {requireComment ? 'Why?' : 'Anything else?'} <span>{requireComment ? 'required' : 'optional'}</span>
+            {commentQuestion(tier)} <span>{requireComment ? 'required' : 'optional'}</span>
           </p>
           <textarea
             name="comment"
@@ -210,11 +223,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
             className="rating-comment"
             rows={2}
             maxLength={COMMENT_MAX}
-            placeholder={
-              requireComment
-                ? "Why did you love it — or not? Mapr reads this to learn your taste"
-                : "What you liked or didn't — Mapr uses this to learn your taste"
-            }
+            placeholder="In your own words — Mapr reads this to learn your taste"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />

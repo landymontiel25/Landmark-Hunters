@@ -1039,6 +1039,15 @@ textarea {
   color: var(--color-parchment-dim);
 }
 
+/* "Do you like Peruvian food?" -- the question the tier grid right below it
+   answers, in plain sentence case so it reads as a question, not a label. */
+.rating-flow-question {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-parchment);
+}
+
 /* This one question is easy to skim past between the tier grid above it and
    the chip row below -- same small caps label as every other section, with
    nothing to catch the eye. Make it read as its own moment: bigger, bold,
