@@ -120,6 +120,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Without this, some mobile browsers paint their own default tap-highlight
+   overlay on any tapped button/link -- often a dark, oddly-rounded blob
+   that has nothing to do with this app's own styling and can sit behind
+   or through content that opens right on tap (e.g. the streak countdown
+   popover, reported as "a solid black bar" appearing behind its digits
+   the instant the header flame is tapped). Every custom :active/:focus
+   state in this app is already deliberate CSS, so the browser's own
+   highlight is never wanted on top of it. */
+button,
+a,
+[role='button'] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 #root {
   min-height: 100vh;
   display: flex;
