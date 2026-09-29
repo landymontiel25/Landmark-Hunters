@@ -8,6 +8,7 @@ import CategorySelect from '../components/CategorySelect';
 import { nearestRegionId, nearestAttributableRegionId } from '../lib/geo';
 import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
+import { distanceMeters, CHECKIN_RADIUS_METERS } from '../lib/leaderboard';
 import { useAuth } from '../lib/AuthContext';
 import { authErrorMessage } from '../lib/authErrors';
 import { auth } from '../lib/firebase';
@@ -83,7 +84,7 @@ export default function AddLandmark() {
   const navigate = useNavigate();
   const location = useLocation();
   const { coords } = useGeo();
-  const { user, firebaseEnabled } = useCheckIn();
+  const { user, firebaseEnabled, checkIn } = useCheckIn();
   const { resendVerification } = useAuth();
   const { trip } = useTrip();
 
@@ -325,11 +326,16 @@ export default function AddLandmark() {
       const region = nearestAttributableRegionId(position.lat, position.lng);
       const tempId = `pending-${Date.now()}`;
       const imageUrl = photo ? await uploadLandmarkPhoto(tempId, user.uid, photo) : null;
-      // If no name was typed (finalName is just the address text) and the
-      // AI's research clearly identified the real place there, save it
-      // under that real name instead of the address -- but never override
-      // a name the submitter actually typed themselves.
-      const savedName = !name.trim() && verified.resolvedName ? verified.resolvedName : finalName;
+      // If no name was typed (finalName is just the address text), or what
+      // was typed is a shorthand of the real place's full name ("Tapia" for
+      // "Tapia Peruvian Restaurant" -- the typed name is a prefix/substring
+      // of it), save it under the AI's research instead -- but never
+      // override a name that's actually a different name, since that could
+      // be a deliberate choice, not a shorthand.
+      const typedName = name.trim();
+      const resolved = verified.resolvedName || '';
+      const isShorthand = typedName && resolved.toLowerCase().includes(typedName.toLowerCase());
+      const savedName = resolved && (!typedName || isShorthand) ? resolved : finalName;
       const created = await addCustomLandmark({
         region,
         name: savedName,
@@ -348,6 +354,14 @@ export default function AddLandmark() {
       });
       // Submitted -- the saved draft has done its job.
       clearPersisted(draftKey);
+      // Standing right where you added it (within the same radius a normal
+      // Check In button requires) means you don't have to tap Check In
+      // separately -- open the same rate + post prompt every other check-in
+      // path uses. Too far (or no GPS fix), and nothing happens here: you
+      // check in manually later, once you're actually there.
+      if (coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
+        checkIn({ id: created.id, name: savedName, region: created.region, lat: position.lat, lng: position.lng });
+      }
       navigate(`/landmarks/${created.region}/${created.id}`);
     } catch (err) {
       // Everything you entered (photo included) stays on the form.
