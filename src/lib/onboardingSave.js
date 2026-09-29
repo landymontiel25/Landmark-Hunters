@@ -1,4 +1,4 @@
-import { doc, setDoc, deleteField, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { PICKABLE_REGIONS } from '../data/regions';
 import { allSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
@@ -131,4 +131,11 @@ export async function sendOnboardingNotice(uid) {
     createdAt: serverTimestamp(),
   });
   await setDoc(doc(db, 'users', uid), { onboardingNoticeVersion: ONBOARDING_VERSION }, { merge: true });
+}
+
+// Puts the notification back to unread. Fails quietly if it doesn't exist
+// (updateDoc rejects on a missing doc); the caller ignores that.
+export async function resurfaceOnboardingNotice(uid) {
+  if (!db || !uid) return;
+  await updateDoc(doc(db, 'notifications', onboardingNoticeId()), { read: false });
 }

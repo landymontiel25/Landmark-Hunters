@@ -124,7 +124,9 @@ export default function Notifications() {
     });
 
   const openItem = (n) => {
-    if (!n.read && !readIds.has(n.id)) markRead(n);
+    // The onboarding notice only clears once onboarding is finished (see
+    // Onboarding.jsx); opening it and walking away leaves it unread.
+    if (!n.read && !readIds.has(n.id) && n.type !== 'onboarding_update') markRead(n);
     if (n.type === 'onboarding_update') {
       navigate('/onboarding');
       return;
