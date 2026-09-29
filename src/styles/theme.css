@@ -6287,7 +6287,7 @@ h2,
 .onboarding-banner-main {
   flex: 1;
   min-width: 0;
-  padding: 0 8px 0 16px;
+  padding: 0 16px;
   border: none;
   background: none;
   color: var(--text-primary);
@@ -6295,15 +6295,5 @@ h2,
   font-size: 0.82rem;
   font-weight: 600;
   text-align: left;
-  cursor: pointer;
-}
-
-.onboarding-banner-close {
-  flex-shrink: 0;
-  width: 44px;
-  border: none;
-  background: none;
-  color: var(--color-parchment-dim);
-  font-size: 1rem;
   cursor: pointer;
 }

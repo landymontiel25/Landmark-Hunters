@@ -9,11 +9,11 @@ import { saveTasteIntro } from '../lib/friends';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
 import { markNotificationRead } from '../lib/notifications';
-import { ONBOARDING_VERSION, onboardingStatus, onboardingNoticeId } from '../lib/onboardingVersion';
+import { ONBOARDING_VERSION, isDeckComplete, onboardingStatus, onboardingNoticeId } from '../lib/onboardingVersion';
 import {
   answersToPairs,
   cardForWord,
-  clearOnboardingProgress,
+  endOnboardingFlow,
   prefillAnswers,
   saveOnboardingProgress,
   saveOnboardingResults,
@@ -124,20 +124,26 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
 
   useWelcomeBonus(resultsSaved);
 
-  // Saves swipes + notes results and records the version, then moves on.
+  const deckDone = isDeckComplete(answers.length, cardWords.length);
+
+  // Saves what was swiped, then moves on. The version (which clears the
+  // notification and banner) is recorded only when every card has an answer,
+  // so skipping the cards leaves both up until they're done.
   const finishCore = async () => {
     setSaving(true);
     setSaveError(null);
     try {
-      await saveOnboardingResults(user.uid, profile, answers);
+      await saveOnboardingResults(user.uid, profile, answers, { complete: deckDone });
       // Loved categories also become saved preferences, so Trip Setup's
       // "Use My Preferences" starts from them. Adds only; never removes.
       // A Set, because several cards can share a category and each toggle
       // flips it: two "food" cards would switch it on and straight back off.
       const loved = new Set(answers.filter((a) => a.answer === 'love' && INTEREST_IDS.has(a.card.tag)).map((a) => a.card.tag));
       for (const tag of loved) if (!trip.savedInterests.includes(tag)) toggleSavedInterest(tag);
-      setResultsSaved(true);
-      markNotificationRead(onboardingNoticeId()).catch(() => {});
+      if (deckDone) {
+        setResultsSaved(true);
+        markNotificationRead(onboardingNoticeId()).catch(() => {});
+      }
       next();
     } catch (err) {
       setSaveError(err);
@@ -151,8 +157,8 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   useEffect(() => {
     if (current !== 'done' || clearedRef.current) return;
     clearedRef.current = true;
-    clearOnboardingProgress(user.uid).catch(() => {});
-  }, [current, user.uid]);
+    endOnboardingFlow(user.uid, { complete: deckDone, isNew }).catch(() => {});
+  }, [current, user.uid, deckDone, isNew]);
 
   const exit = (to) => {
     onExit?.();
@@ -231,10 +237,12 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   return (
     <div className="lab-center">
       <h1 className="screen-title">
-        <span>{'\u{1F3C1}'}</span> You're all set
+        <span>{'\u{1F3C1}'}</span> {deckDone ? "You're all set" : "You're set for now"}
       </h1>
       <p className="screen-subtitle">
-        Mapr has what you told it and will use it for your very next picks. You can change any of it later in Settings.
+        {deckDone
+          ? 'Mapr has what you told it and will use it for your very next picks. You can change any of it later in Settings.'
+          : `Mapr will use the ${answers.length} you answered. Finish the rest of the cards any time: the banner on the Map tab brings you back.`}
       </p>
       <button type="button" className="btn btn-primary btn-block" onClick={() => exit('/mapr')}>
         See my Mapr picks {'\u{2192}'}

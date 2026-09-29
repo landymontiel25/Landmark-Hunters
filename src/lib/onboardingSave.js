@@ -3,8 +3,7 @@ import { db } from './firebase';
 import { PICKABLE_REGIONS } from '../data/regions';
 import { allSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
 import { TAG_CAP, TAG_FLOOR, decayFactor } from './tagScores';
-import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, bannerDismissKey, onboardingNoticeId } from './onboardingVersion';
-import { clearPersisted } from './usePersistentState';
+import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, onboardingNoticeId } from './onboardingVersion';
 
 const cardsByWord = new Map(allSwipeCards().map((c) => [c.word, c]));
 export const cardForWord = (word) => cardsByWord.get(word) || null;
@@ -53,9 +52,20 @@ export async function saveOnboardingProgress(uid, patch) {
   );
 }
 
-export async function clearOnboardingProgress(uid) {
+// The flow ended: drop the saved progress, so nothing resumes. A new account
+// that ended without finishing the cards stops counting as "new" (which would
+// pull it back into the flow every time Profile opens) and becomes an
+// account with onboarding still to do: notification and banner, no lock.
+export async function endOnboardingFlow(uid, { complete, isNew }) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { onboardingProgress: deleteField() }, { merge: true });
+  await setDoc(
+    doc(db, 'users', uid),
+    {
+      onboardingProgress: deleteField(),
+      ...(!complete && isNew ? { onboardingSource: 'signup-skipped' } : {}),
+    },
+    { merge: true }
+  );
 }
 
 const clamp = (v) => Math.max(TAG_FLOOR, Math.min(TAG_CAP, v));
@@ -95,16 +105,17 @@ export function swipeSummary(answers) {
   return parts.join(' ').replace(/\.$/, '');
 }
 
-// Writes the finished swipes to the account: the raw answers, the summary
-// Mapr reads, the tag-score seed, and the version that clears the
+// Writes the swipes to the account: the raw answers, the summary Mapr reads
+// and the tag-score seed, so Mapr uses whatever was answered even if the deck
+// wasn't finished. Only `complete` records the version that clears the
 // notification and banner. Progress stays until the whole flow is done.
-export async function saveOnboardingResults(uid, profile, answers) {
+export async function saveOnboardingResults(uid, profile, answers, { complete }) {
   if (!db || !uid) return;
   const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers);
   await setDoc(
     doc(db, 'users', uid),
     {
-      onboardingVersion: ONBOARDING_VERSION,
+      ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
       swipeAnswers: answersToPairs(answers),
       swipeSummary: swipeSummary(answers),
       onboardingSwipeDeltas: deltas,
@@ -143,9 +154,8 @@ export async function resurfaceOnboardingNotice(uid) {
 
 // Test-tab tool: puts an account back to "never did onboarding" so the update
 // notification and banner can be tried again. Clears the version, sign-up
-// marker, notice marker and saved progress, deletes the notification, and
-// forgets a banner dismissal on this device. Earlier swipe answers stay, so
-// the pre-fill can be tried too.
+// marker, notice marker and saved progress, and deletes the notification.
+// Earlier swipe answers stay, so the pre-fill can be tried too.
 export async function resetOnboarding(uid) {
   if (!db || !uid) return;
   await setDoc(
@@ -159,5 +169,4 @@ export async function resetOnboarding(uid) {
     { merge: true }
   );
   await deleteDoc(doc(db, 'notifications', onboardingNoticeId())).catch(() => {});
-  clearPersisted(bannerDismissKey(uid));
 }
