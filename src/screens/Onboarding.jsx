@@ -4,7 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
 import { INTERESTS } from '../data/regions';
-import { shuffledSwipeCards } from '../lib/onboardingCards';
+import { allSwipeCards } from '../lib/onboardingCards';
 import { saveTasteIntro } from '../lib/friends';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
@@ -84,7 +84,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
 
   const [cardWords] = useState(() => {
     const saved = (progress?.cardWords || []).filter((w) => cardForWord(w));
-    return saved.length ? saved : shuffledSwipeCards().map((c) => c.word);
+    return saved.length ? saved : allSwipeCards().map((c) => c.word);
   });
   const [answers, setAnswers] = useState(() =>
     prefillAnswers({ cardWords, progress, profile, savedInterests: trip.savedInterests })

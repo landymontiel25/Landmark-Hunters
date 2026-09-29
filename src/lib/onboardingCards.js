@@ -180,13 +180,9 @@ export function pickSwipeCards(random = Math.random) {
   return shuffle(picked, random);
 }
 
-// Every card, shuffled so categories mix. What the real onboarding deals.
-export function shuffledSwipeCards(random = Math.random) {
-  return shuffle(ALL_SWIPE_CARDS, random);
-}
-
-// Test tab shows every card grouped by category, in the order declared above,
-// so a reviewer can go through one category at a time instead of a shuffled mix.
+// Every card grouped by category, in the order declared above, so a person goes
+// through one category at a time instead of a shuffled mix. Both the Test tab
+// and the real onboarding deal this.
 export function allSwipeCards() {
   return [...ALL_SWIPE_CARDS];
 }
