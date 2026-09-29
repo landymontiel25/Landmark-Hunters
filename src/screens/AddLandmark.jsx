@@ -8,6 +8,7 @@ import CategorySelect from '../components/CategorySelect';
 import { nearestRegionId, nearestAttributableRegionId } from '../lib/geo';
 import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
+import { distanceMeters, CHECKIN_RADIUS_METERS } from '../lib/leaderboard';
 import { useAuth } from '../lib/AuthContext';
 import { authErrorMessage } from '../lib/authErrors';
 import { auth } from '../lib/firebase';
@@ -83,7 +84,7 @@ export default function AddLandmark() {
   const navigate = useNavigate();
   const location = useLocation();
   const { coords } = useGeo();
-  const { user, firebaseEnabled } = useCheckIn();
+  const { user, firebaseEnabled, checkIn } = useCheckIn();
   const { resendVerification } = useAuth();
   const { trip } = useTrip();
 
@@ -348,6 +349,14 @@ export default function AddLandmark() {
       });
       // Submitted -- the saved draft has done its job.
       clearPersisted(draftKey);
+      // Standing right where you added it (within the same radius a normal
+      // Check In button requires) means you don't have to tap Check In
+      // separately -- open the same rate + post prompt every other check-in
+      // path uses. Too far (or no GPS fix), and nothing happens here: you
+      // check in manually later, once you're actually there.
+      if (coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
+        checkIn({ id: created.id, name: savedName, region: created.region, lat: position.lat, lng: position.lng });
+      }
       navigate(`/landmarks/${created.region}/${created.id}`);
     } catch (err) {
       // Everything you entered (photo included) stays on the form.
