@@ -14,11 +14,13 @@ import {
   updatePassword,
   GoogleAuthProvider,
   signInWithPopup,
+  getAdditionalUserInfo,
 } from 'firebase/auth';
 import { auth, firebaseEnabled } from './firebase';
 import { deleteAccountData } from './accountDeletion';
 import { recordReferralIfPending } from './referrals';
 import { touchLastActive } from './friends';
+import { markNewSignup } from './onboardingSave';
 
 const AuthContext = createContext(null);
 
@@ -44,6 +46,9 @@ export function AuthProvider({ children }) {
 
   const signUpEmail = async (email, password, displayName) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
+    // First thing after the account exists, so the profile is already marked
+    // as a sign-up by the time anything reads it (see onboardingStatus).
+    markNewSignup(cred.user.uid).catch(() => {});
     if (displayName) {
       await updateProfile(cred.user, { displayName });
       setUser({ ...cred.user, displayName });
@@ -63,8 +68,10 @@ export function AuthProvider({ children }) {
     provider.addScope('email');
     try {
       const result = await signInWithPopup(auth, provider);
+      const isNewUser = !!getAdditionalUserInfo(result)?.isNewUser;
+      if (isNewUser) markNewSignup(result.user.uid).catch(() => {});
       recordReferralIfPending(result.user).catch(() => {});
-      return result.user;
+      return { user: result.user, isNewUser };
     } catch (err) {
       console.error('Google Sign-In error:', err.code, err.message);
       throw err;

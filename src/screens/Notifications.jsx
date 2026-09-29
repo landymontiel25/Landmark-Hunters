@@ -125,6 +125,10 @@ export default function Notifications() {
 
   const openItem = (n) => {
     if (!n.read && !readIds.has(n.id)) markRead(n);
+    if (n.type === 'onboarding_update') {
+      navigate('/onboarding');
+      return;
+    }
     if (n.groupTripId) {
       navigate(`/group/${n.groupTripId}`);
       return;

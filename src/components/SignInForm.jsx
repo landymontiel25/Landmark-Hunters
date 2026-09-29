@@ -81,8 +81,10 @@ export default function SignInForm({ onSignedUp }) {
     setResetSent(false);
     setBusy(true);
     try {
-      await signInWithGoogle();
-      onSignedUp?.();
+      // Only a brand-new Google account starts onboarding; signing back in
+      // to an existing one just signs in.
+      const { isNewUser } = await signInWithGoogle();
+      if (isNewUser) onSignedUp?.();
     } catch (err) {
       setError(authErrorMessage(err));
     } finally {

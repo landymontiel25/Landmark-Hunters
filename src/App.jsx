@@ -28,12 +28,18 @@ import { ScreenSkeleton } from './components/Skeleton';
 import { ToastProvider } from './lib/ToastContext';
 import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
 import { usePushNotificationsSync } from './lib/usePushNotificationsSync';
+import { useOnboardingNotice } from './lib/useOnboardingNotice';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
 // start/stop push registration as the traveler's own saved preference
 // (Settings) changes.
 function PushNotificationsSync() {
   usePushNotificationsSync();
+  return null;
+}
+
+function OnboardingNoticeSync() {
+  useOnboardingNotice();
   return null;
 }
 
@@ -104,6 +110,7 @@ const RequestFeature = lazyScreen(() => import('./screens/RequestFeature'));
 const ReportBug = lazyScreen(() => import('./screens/ReportBug'));
 const Mapr = lazyScreen(() => import('./screens/Mapr'));
 const OnboardingLab = lazyScreen(() => import('./screens/OnboardingLab'));
+const Onboarding = lazyScreen(() => import('./screens/Onboarding'));
 const NotFound = lazyScreen(() => import('./screens/NotFound'));
 
 // Keyed by path so a crash's fallback UI clears itself on the next
@@ -138,6 +145,7 @@ function AppRoutes() {
           <Route path="/request-feature" element={<RequestFeature />} />
           <Route path="/report-bug" element={<ReportBug />} />
           <Route path="/mapr" element={<Mapr />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/test" element={<OnboardingLab />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -165,6 +173,7 @@ export default function App() {
           <HashRouter>
           <BackgroundLocationSync />
           <PushNotificationsSync />
+          <OnboardingNoticeSync />
           <OfflineBanner />
           <StreakWarningBanner />
           <Header />

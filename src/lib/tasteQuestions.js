@@ -119,6 +119,7 @@ export function baselineToSyntheticReviews(baseline, categoryNotes) {
 export function composeTasteIntro(myProfile) {
   return [
     myProfile?.tasteIntro,
+    myProfile?.swipeSummary,
     baselineToSentence(myProfile?.tasteBaseline, myProfile?.tasteBaselineCategoryNotes),
     myProfile?.tasteBaselineNotes,
   ]
