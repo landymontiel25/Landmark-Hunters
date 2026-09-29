@@ -257,6 +257,18 @@ function PairStreakBadge() {
   );
 }
 
+// Red count bubble for unread notifications and pending friend requests.
+// Sits on a corner of whatever it's inside (which must be position: relative)
+// and lets taps through to it.
+function CountBadge({ count }) {
+  if (!(count > 0)) return null;
+  return (
+    <span className="notif-badge" role="status" aria-label={`${count} notifications`}>
+      {count > 9 ? '9+' : count}
+    </span>
+  );
+}
+
 // Header identity control. Shows who you're signed in as; tapping reveals this week's rank/points, a "Notifications"
 // link (badged with the unread count), and "View Profile". Notifications
 // live inside this dropdown rather than as their own header icon -- a
@@ -320,6 +332,9 @@ function ProfileMenu() {
         <span className="score-chip-pts">{name}</span>
         <span className="profile-menu-caret">{'▾'}</span>
       </button>
+      {/* Also on the username pill itself, so a new notification shows without
+          opening the menu. */}
+      <CountBadge count={notificationCount} />
       {open && (
         <div className="points-popover">
           <div className="points-popover-joined">This Week</div>
@@ -359,30 +374,7 @@ function ProfileMenu() {
               }}
             >
               {'\u{1F514}'} Notifications
-              {notificationCount > 0 && (
-                <span
-                  aria-label={`${notificationCount} notifications`}
-                  style={{
-                    position: 'absolute',
-                    top: -6,
-                    right: -6,
-                    minWidth: 15,
-                    height: 15,
-                    borderRadius: 8,
-                    background: 'var(--color-error, #b3503f)',
-                    color: '#fff',
-                    fontSize: '0.6rem',
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0 3px',
-                    lineHeight: 1,
-                  }}
-                >
-                  {notificationCount > 9 ? '9+' : notificationCount}
-                </span>
-              )}
+              <CountBadge count={notificationCount} />
             </button>
             <Link to="/profile" className="btn btn-primary btn-sm" style={{ flex: 1 }} onClick={() => setOpen(false)}>
               View Profile
