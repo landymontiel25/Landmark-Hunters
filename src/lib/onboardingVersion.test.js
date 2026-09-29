@@ -4,6 +4,7 @@ import {
   onboardingNoticeId,
   onboardingStatus,
   needsOnboardingNotice,
+  noticeAction,
 } from './onboardingVersion';
 
 describe('onboardingStatus', () => {
@@ -53,5 +54,24 @@ describe('needsOnboardingNotice', () => {
 
   it('uses a different notification id per version', () => {
     expect(onboardingNoticeId(1)).not.toBe(onboardingNoticeId(2));
+  });
+});
+
+describe('noticeAction', () => {
+  it('sends the notification to an existing user the first time', () => {
+    expect(noticeAction({})).toBe('send');
+  });
+
+  it('keeps putting it back until they finish', () => {
+    expect(noticeAction({ onboardingNoticeVersion: ONBOARDING_VERSION })).toBe('resurface');
+  });
+
+  it('leaves new users and finished users alone', () => {
+    expect(noticeAction({ onboardingSource: 'signup' })).toBe(null);
+    expect(noticeAction({ onboardingVersion: ONBOARDING_VERSION, onboardingNoticeVersion: ONBOARDING_VERSION })).toBe(null);
+  });
+
+  it('starts over with a bumped version', () => {
+    expect(noticeAction({ onboardingVersion: 1, onboardingNoticeVersion: 1 }, 2)).toBe('send');
   });
 });

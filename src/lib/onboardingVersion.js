@@ -29,3 +29,12 @@ export const onboardingNoticeId = (version = ONBOARDING_VERSION) => `onboarding-
 export function needsOnboardingNotice(profile, current = ONBOARDING_VERSION) {
   return onboardingStatus(profile, current) === 'update' && (Number(profile?.onboardingNoticeVersion) || 0) < current;
 }
+
+// What to do about the notification this session. 'send': never sent for this
+// version, so create it. 'resurface': already sent, but onboarding still isn't
+// finished, so make it unread again, so it keeps showing up (and keeps
+// counting in the red badge) until they finish. null: nothing to do.
+export function noticeAction(profile, current = ONBOARDING_VERSION) {
+  if (onboardingStatus(profile, current) !== 'update') return null;
+  return needsOnboardingNotice(profile, current) ? 'send' : 'resurface';
+}
