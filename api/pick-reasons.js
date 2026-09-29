@@ -1,6 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getLandmark, INTERESTS } from '../src/data/regions.js';
-import { isAdmin } from '../src/lib/admins.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { PICK_REASONS_MODEL } from './_lib/aiModels.js';
@@ -11,9 +10,10 @@ import { logAiCall } from './_lib/aiCallLog.js';
 // model only writes the lines, it never picks or reorders places. The
 // client shows a plain fallback line for any pick missing from the reply.
 //
-// Admin-only for now: it backs the Test tab's "Picked for you right now"
-// preview, and every call is logged with isTest so it never counts toward
-// real usage or Mapr's match rate.
+// Backs "Picked for you right now" on the Map tab, for any signed-in
+// traveler: a verified sign-in and the shared per-account rate limit
+// (guardAiRequest), like every other AI endpoint. The client caches each set
+// for 4 hours, so a normal session makes a handful of calls at most.
 
 export const MAX_PICKS = 8;
 
@@ -79,12 +79,7 @@ async function handler(req, res) {
     res.status(503).json({ error: 'AI is not set up yet. Add ANTHROPIC_API_KEY in Vercel.' });
     return;
   }
-  const account = await guardAiRequest(req, res, { key: 'pick-reasons', limit: 20, windowMs: 10 * 60 * 1000 });
-  if (!account) return;
-  if (!isAdmin(account.email)) {
-    res.status(403).json({ error: 'This preview is admin-only.' });
-    return;
-  }
+  if (!(await guardAiRequest(req, res, { key: 'pick-reasons', limit: 20, windowMs: 10 * 60 * 1000 }))) return;
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
@@ -101,8 +96,7 @@ async function handler(req, res) {
       system: [{ type: 'text', text: INSTRUCTIONS }],
       messages: [{ role: 'user', content: `PICKS:\n${lines.join('\n')}` }],
     });
-    // Everything served from this endpoint is preview traffic.
-    await logAiCall({ feature: 'pick-reasons-preview', model: PICK_REASONS_MODEL, usage: msg.usage, isTest: true });
+    await logAiCall({ feature: 'pick-reasons', model: PICK_REASONS_MODEL, usage: msg.usage });
 
     if (msg.stop_reason === 'refusal') {
       res.status(200).json({ reasons: {} });

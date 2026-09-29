@@ -48,30 +48,31 @@ export function useImageStatus(urls, { enabled = true, timeoutMs = IMAGE_WAIT_MS
   return { status, settled };
 }
 
-// A row's items with the skip rule applied: only ones whose photo has
-// loaded, in order, up to `limit` -- a loading or broken one is skipped and
-// the next takes its place.
+// A row's items, ready to show, up to `limit`: a place with no photo shows
+// on a category tile (PickPhoto), and so does one whose photo failed; one
+// still loading waits, up to IMAGE_WAIT_MS, then shows anyway.
 export function useReadyItems(items, limit) {
-  const candidates = useMemo(() => selectReady(items).slice(0, limit * 2 + 2), [items, limit]);
+  const candidates = useMemo(() => (items || []).slice(0, limit * 2 + 2), [items, limit]);
   const urls = useMemo(() => candidates.map((p) => p.image), [candidates]);
-  const { status } = useImageStatus(urls);
-  return selectReady(candidates, (p) => status[p.image] === 'loaded', limit);
+  const { status, settled } = useImageStatus(urls);
+  return selectReady(candidates, (p) => settled || status[p.image] === 'loaded' || status[p.image] === 'failed', limit);
 }
 
-// Everything behind "Picked for you right now", as data:
+// Everything behind "Picked for you right now" on the Map tab, as data:
 //   picks    -- the set on screen (null while the very first set loads)
-//   updating -- an older set is on screen while a new one is built
+//   updating -- an older cached set is on screen while a new one is built
+//   slow     -- offline: the last cached set stays on screen, no new one
+//               is attempted until the connection is back
 //   usual/fresh -- the ranked queues, for the other cards
 //
-// mode (Test tab "Preview as" override):
-//   'returning' -- real behavior: a fresh cached set shows as-is; an old one
-//                  shows with "Updating..." until the new set replaces it
-//   'old-cache' -- hold the cached set and stay in "Updating..."
-//   'slow'      -- no network: keep the cached set on screen
+// A fresh cached set (under 4 hours, same spot/distance/ratings) shows as-is
+// with no call at all. Every set that is built is logged to
+// recommendation_log as real usage (isTest false) so it counts toward
+// Mapr's match rate.
 export function useNearbyPicks({
   uid,
   enabled = true,
-  mode = 'returning',
+  online = true,
   profile,
   origin,
   miles,
@@ -80,8 +81,8 @@ export function useNearbyPicks({
   links,
   lastCategory,
   now,
-  isTest = true,
-  source = 'mapr-picks-preview',
+  isTest = false,
+  source = 'map-picks',
   fetchReasons = fetchPickReasons,
   logPicks = logRecommendations,
 }) {
@@ -109,7 +110,7 @@ export function useNearbyPicks({
   );
   const chained = useMemo(() => chainedPick({ usual, fresh, links, lastCategory }), [usual, fresh, links, lastCategory]);
 
-  const live = enabled && mode === 'returning' && !!key;
+  const live = enabled && online && !!key;
   const needFresh = live && !(cached && !cached.stale) && result?.key !== key;
   const urls = useMemo(
     () => (needFresh ? [chained?.image, ...usual.slice(0, 10).map((p) => p.image), ...fresh.slice(0, 5).map((p) => p.image)] : []),
@@ -143,13 +144,6 @@ export function useNearbyPicks({
     });
   }, [needFresh, settled, key, usual, fresh, chained, status, fetchReasons, logPicks, uid, source, isTest]);
 
-  // Nothing cached to demo "old cache" / "slow signal" with: stand in the
-  // set the ranking would give, with plain reasons, as that cached set.
-  const standIn = useMemo(
-    () => (enabled && !live ? withReasons(composePicks({ usual, fresh, chained }), {}) : null),
-    [enabled, live, usual, fresh, chained]
-  );
-
   const refresh = useCallback(() => {
     if (key) {
       try {
@@ -166,17 +160,14 @@ export function useNearbyPicks({
   const freshPicks = result?.key === key ? result.picks : null;
   let picks = null;
   let updating = false;
+  let slow = false;
   if (enabled) {
-    if (mode === 'old-cache') {
-      picks = cached?.picks || standIn;
-      updating = true;
-    } else if (mode === 'slow') {
-      picks = cached?.picks || standIn;
-    } else {
-      picks = freshPicks || cached?.picks || null;
-      updating = !freshPicks && !!cached?.stale;
-    }
+    // A new set that came back empty (every photo failed on a bad
+    // connection) never replaces a cached set that has cards in it.
+    picks = (freshPicks?.length ? freshPicks : null) || cached?.picks || freshPicks || null;
+    updating = online && !freshPicks && !!cached?.stale;
+    slow = !online;
   }
 
-  return { picks, updating, usual, fresh, chained, cachedAt: cached?.at ?? null, refresh };
+  return { picks, updating, slow, usual, fresh, chained, cachedAt: cached?.at ?? null, refresh };
 }

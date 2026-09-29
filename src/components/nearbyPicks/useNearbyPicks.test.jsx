@@ -82,7 +82,7 @@ afterEach(async () => {
 });
 
 describe('useNearbyPicks', () => {
-  it('shows plain fallback reasons when the reasons call fails, and logs the picks with the test flag', async () => {
+  it('shows plain fallback reasons when the reasons call fails, and logs the picks as real usage', async () => {
     const fetchReasons = vi.fn(async () => {
       throw new Error('network down');
     });
@@ -96,7 +96,7 @@ describe('useNearbyPicks', () => {
     expect(latest.picks.filter((p) => p.pickType === 'new')).toHaveLength(1);
     expect(fetchReasons).toHaveBeenCalledTimes(1);
     expect(logPicks).toHaveBeenCalledTimes(1);
-    expect(logPicks.mock.calls[0][0]).toMatchObject({ uid: 'u1', source: 'mapr-picks-preview', isTest: true });
+    expect(logPicks.mock.calls[0][0]).toMatchObject({ uid: 'u1', source: 'map-picks', isTest: false });
   });
 
   it('uses the AI line where the one call returned one', async () => {
@@ -152,14 +152,27 @@ describe('useNearbyPicks', () => {
     expect(latest.updating).toBe(false);
   });
 
-  it('slow signal: keeps the last set and makes no call', async () => {
+  it('offline: keeps the last set on screen, flags it slow, and makes no call', async () => {
     const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: 10, origin: ORIGIN, miles: 10, lastCategory: null });
     writeNearbyPicksCache(key, [{ id: 'last', region: 'villanova', name: 'Last', image: 'https://x/y.jpg' }], NOW - 5 * 60 * 60 * 1000);
     const fetchReasons = vi.fn(async () => ({}));
-    await render(base({ fetchReasons, logPicks: vi.fn(), mode: 'slow' }));
+    await render(base({ fetchReasons, logPicks: vi.fn(), online: false }));
     await flush();
     expect(latest.picks.map((p) => p.id)).toEqual(['last']);
     expect(latest.updating).toBe(false);
+    expect(latest.slow).toBe(true);
     expect(fetchReasons).not.toHaveBeenCalled();
+  });
+
+  it('a new set that comes back empty never replaces the cached one', async () => {
+    const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: 10, origin: ORIGIN, miles: 10, lastCategory: null });
+    writeNearbyPicksCache(key, [{ id: 'last', region: 'villanova', name: 'Last', image: 'https://x/y.jpg' }], NOW - 5 * 60 * 60 * 1000);
+    // Bad connection: every candidate photo fails, so nothing can be composed.
+    const { rankNearbyCandidates } = await import('../../lib/nearbyPicks');
+    const { usual, fresh } = rankNearbyCandidates({ profile: PROFILE, origin: ORIGIN, miles: 10, myReviews: REVIEWS, now: NOW });
+    for (const p of [...usual, ...fresh]) broken.add(p.image);
+    await render(base({ fetchReasons: vi.fn(async () => ({})), logPicks: vi.fn() }));
+    await flush();
+    expect(latest.picks.map((p) => p.id)).toEqual(['last']);
   });
 });

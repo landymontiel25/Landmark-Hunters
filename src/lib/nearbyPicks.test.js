@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach } from 'vitest';
-import { getRegion } from '../data/regions';
+import { ALL_LANDMARKS, getRegion } from '../data/regions';
 import {
   DEFAULT_DISTANCE_MI,
   DISTANCE_OPTIONS_MI,
@@ -13,6 +13,7 @@ import {
   hasPhoto,
   isClosedNow,
   lowRatedIds,
+  mealPicks,
   moodPlaces,
   nearbyPicksCacheKey,
   pickKey,
@@ -79,7 +80,7 @@ describe('distance filter', () => {
   });
 });
 
-describe('never showing a card that is loading or has no photo', () => {
+describe('photos: loading, missing or broken', () => {
   it('treats a place without an image in its own data as having no photo', () => {
     expect(hasPhoto(place('a', 1))).toBe(true);
     expect(hasPhoto(place('b', 1, { images: [] }))).toBe(false);
@@ -102,14 +103,46 @@ describe('never showing a card that is loading or has no photo', () => {
     expect(shown.map((p) => p.id)).toEqual(['u2', 'u3', 'n2', 'u4']);
   });
 
-  it('applies the same skip to the other rows', () => {
+  it('the other rows skip a still-loading photo but keep a place with no photo (shown on a tile)', () => {
     const rows = [pick('a'), pick('b', { image: null }), pick('c'), pick('d')];
-    expect(selectReady(rows, (p) => p.id !== 'c', 2).map((p) => p.id)).toEqual(['a', 'd']);
+    expect(selectReady(rows, (p) => p.id !== 'c', 3).map((p) => p.id)).toEqual(['a', 'b', 'd']);
   });
 
-  it('filters out places with no photo before ranking', () => {
-    const ids = eligiblePlaces({ origin: ORIGIN, miles: 10, landmarks: [place('has', 1), place('none', 1, { images: [] })] }).map((p) => p.id);
-    expect(ids).toEqual(['has']);
+  it('keeps places with no photo in the pool, but never as a top pick', () => {
+    const landmarks = [place('has', 1), place('none', 1, { images: [] })];
+    const ids = eligiblePlaces({ origin: ORIGIN, miles: 10, landmarks }).map((p) => p.id);
+    expect(ids).toEqual(['has', 'none']);
+    const shown = composePicks({ usual: [pick('none', { image: null }), pick('has')], fresh: [] });
+    expect(shown.map((p) => p.id)).toEqual(['has']);
+  });
+
+  it('a chained pick never lands on a place with no photo', () => {
+    const links = [{ from: 'art-museums', to: 'food', count: 3 }];
+    const usual = [pick('bare', { image: null }), pick('photo')];
+    expect(chainedPick({ usual, links, lastCategory: 'art-museums' }).id).toBe('photo');
+  });
+});
+
+describe('mood "Something to eat" finds real nearby food places', () => {
+  // Regression: every Villanova food spot (Campus Corner, The Grog Grill,
+  // Hope's Cookies) ships without a photo, and the pool used to drop
+  // photo-less places, so the mood row said "Nothing for that mood within
+  // your distance" right next to them.
+  const campusCorner = ALL_LANDMARKS.find((l) => l.regionId === 'villanova' && l.id === 'campus-corner');
+  const nearby = { lat: campusCorner.lat + 0.02, lng: campusCorner.lng }; // ~1.4 mi north
+
+  it('Campus Corner is a food place with no photo, and within 10 miles of here', () => {
+    expect(campusCorner.categories).toContain('food');
+    expect(hasPhoto(campusCorner)).toBe(false);
+  });
+
+  it('shows up for the eat mood and the meal card at the default 10 miles', () => {
+    const pool = eligiblePlaces({ origin: nearby, miles: DEFAULT_DISTANCE_MI, date: new Date(2026, 8, 29, 12) });
+    const eat = moodPlaces({ moodId: 'eat', pool, limit: 50 }).map((p) => p.id);
+    expect(eat).toContain('campus-corner');
+    expect(mealPicks({ pool, limit: 50 }).map((p) => p.id)).toContain('campus-corner');
+    // ...and the row keeps it rather than skipping it for having no photo.
+    expect(selectReady(moodPlaces({ moodId: 'eat', pool, limit: 50 }), () => false).map((p) => p.id)).toContain('campus-corner');
   });
 });
 
