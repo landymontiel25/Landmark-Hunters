@@ -1,13 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { INTERESTS } from '../data/regions';
-import { ALL_SWIPE_CARDS, SWIPE_GROUPS, pickSwipeCards, shuffledSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
+import { ALL_SWIPE_CARDS, SWIPE_GROUPS, allSwipeCards, pickSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
 
 describe('onboarding swipe cards', () => {
-  it('deals every card, once each, in a shuffled order', () => {
-    const deck = shuffledSwipeCards();
-    expect(deck).toHaveLength(ALL_SWIPE_CARDS.length);
+  it('deals every card, once each, grouped by category in the declared order', () => {
+    const deck = allSwipeCards();
+    expect(deck.map((c) => c.word)).toEqual(SWIPE_GROUPS.flatMap((g) => g.cards.map((c) => c.word)));
     expect(new Set(deck.map((c) => c.word)).size).toBe(ALL_SWIPE_CARDS.length);
-    expect(deck.map((c) => c.word)).not.toEqual(ALL_SWIPE_CARDS.map((c) => c.word));
   });
 
   it('has all 39 listed cards across 6 groups, each scoring a real category tag', () => {
