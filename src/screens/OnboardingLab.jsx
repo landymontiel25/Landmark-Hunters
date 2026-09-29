@@ -12,6 +12,7 @@ import { authHeaders } from '../lib/apiAuth';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
 import { API_BASE } from '../lib/apiBase';
+import { NOTHING_TO_TEST } from './onboardingLabConfig';
 
 export { progressTier };
 
@@ -56,6 +57,17 @@ export default function OnboardingLab() {
   const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
 
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
+
+  if (NOTHING_TO_TEST) {
+    return (
+      <div className="lab-center">
+        <h1 className="screen-title">
+          <span>{'\u{1F9EA}'}</span> Nothing to test
+        </h1>
+        <p className="screen-subtitle">There's no new onboarding to try right now. This tab will come back when there is.</p>
+      </div>
+    );
+  }
 
   const go = (target, why) => {
     const i = typeof target === 'string' ? indexOf(target) : target;
