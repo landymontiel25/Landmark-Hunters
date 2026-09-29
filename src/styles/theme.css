@@ -6320,3 +6320,210 @@ h2,
   pointer-events: none;
   z-index: 2;
 }
+
+/* ---------- Chat wizard (ChatWizard.jsx: Plan Your Trip, reusable) ----------
+   One screen tall at most: the frame (top bar + actions) stays put and only
+   the question area scrolls if a step runs long. Sits between the header
+   and the floating tab bar, both of which already include the safe-area
+   insets; the extra --safe-bottom padding keeps the last button clear of
+   the home indicator when this is shown full-screen elsewhere. */
+.chat-wizard {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - var(--header-h) - var(--nav-h) - 24px);
+  min-height: min(460px, calc(100dvh - var(--header-h) - var(--nav-h) - 24px));
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.chat-wizard.fullscreen {
+  max-height: 100dvh;
+  min-height: 100dvh;
+  border-radius: 0;
+  padding: calc(var(--safe-top) + 12px) 16px calc(var(--safe-bottom) + 16px);
+}
+.chat-wizard-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.chat-wizard-title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--text-primary);
+}
+.chat-wizard-icon-btn {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.chat-wizard-dots {
+  display: flex;
+  gap: 8px;
+}
+.chat-wizard-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  transition: width 0.2s var(--ease), background 0.2s var(--ease);
+}
+.chat-wizard-dot.done {
+  background: var(--mapr-blue);
+  opacity: 0.55;
+}
+.chat-wizard-dot.active {
+  width: 22px;
+  border-radius: 4px;
+  background: var(--mapr-blue);
+}
+.chat-wizard-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 2px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.chat-wizard-question .chatlab-bubble {
+  max-width: 88%;
+  font-size: 1.02rem;
+}
+.chat-wizard-subtitle {
+  margin-top: 6px !important;
+  font-size: 0.85rem;
+  color: var(--text-secondary) !important;
+}
+.chat-wizard-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 38px;
+}
+.chat-wizard-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.chat-wizard-choice.selected {
+  border-color: var(--mapr-blue);
+  background: color-mix(in srgb, var(--mapr-blue) 14%, var(--bg-elevated));
+}
+.chat-wizard-choice:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.chat-wizard-choice-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+.chat-wizard-choice-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.chat-wizard-choice-text small {
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.chat-wizard-field {
+  margin: 0;
+  padding-left: 38px;
+}
+.chat-wizard-field label {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.9rem;
+}
+.chat-wizard-optional {
+  color: var(--text-tertiary);
+}
+.chat-wizard-status {
+  margin: 0;
+  padding-left: 38px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+.chat-wizard-status.error {
+  color: var(--danger);
+}
+.chat-wizard-summary {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-primary);
+}
+.chat-wizard-summary li {
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  overflow-wrap: anywhere;
+}
+.chat-wizard-actions {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+.chat-wizard-main {
+  min-height: 52px;
+  font-size: 1.02rem;
+}
+.chat-wizard-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.chat-wizard-links > :only-child {
+  margin-left: auto;
+}
+.chat-wizard-link {
+  min-height: 44px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.chat-wizard-link:hover {
+  color: var(--text-primary);
+}

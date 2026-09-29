@@ -70,6 +70,10 @@ export async function deleteAccountData(uid) {
   await deleteAll(await getDocs(query(collection(db, 'friend_requests'), where('to', '==', uid))));
   await deleteAll(await getDocs(query(collection(db, 'friend_edges'), where('owner', '==', uid))));
   await deleteAll(await getDocs(query(collection(db, 'blocks'), where('blockerUid', '==', uid))));
+  // Newer collection: if its rules aren't deployed yet, don't stop the rest.
+  await deleteAll(
+    await getDocs(query(collection(db, 'recommendation_log'), where('userId', '==', uid))).catch(() => ({ docs: [] }))
+  );
 
   if (username) {
     try {

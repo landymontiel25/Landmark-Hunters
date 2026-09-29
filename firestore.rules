@@ -429,6 +429,18 @@ service cloud.firestore {
         && request.resource.data.minutesSaved >= 0;
       allow update, delete: if false;
     }
+    // One doc per place Mapr recommended from the Plan Your Trip wizard
+    // (src/lib/recommendationLog.js), tagged 'usual' / 'new' / null so the
+    // match rate can be split by pick type. Write-once, private to its
+    // owner; the owner can delete (account deletion cleans these up).
+    match /recommendation_log/{id} {
+      allow read, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && (request.resource.data.pickType == null || request.resource.data.pickType in ['usual', 'new'])
+        && request.resource.data.landmarkId is string;
+      allow update: if false;
+    }
     // Running per-landmark check-in counts for one region (Mapr Picks' cold
     // start ranks by these). Same trust level as landmark_ratings below.
     match /region_stats/{region} {
