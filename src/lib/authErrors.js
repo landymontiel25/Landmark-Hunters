@@ -14,6 +14,7 @@ const MESSAGES = {
   'auth/requires-recent-login': 'For your security, sign out and back in, then try that again.',
   'auth/unauthorized-domain': 'Google Sign-In is not configured for this domain yet. Please try again in a moment.',
   'auth/operation-not-supported-in-this-environment': 'Google Sign-In is not available in this browser. Try using a different browser or device.',
+  'auth/timeout': "Sign-in is taking too long — check your connection and try again.",
   'auth/internal-error': 'Something went wrong on our end — try again in a moment.',
 };
 
