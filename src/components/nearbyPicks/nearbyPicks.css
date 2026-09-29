@@ -1,29 +1,7 @@
-/* "Picked for you right now" pieces (components/maprPicksPreview). Every
-   class is mpp-* so nothing here reaches other screens. Colors are the
-   theme's tokens; pin colors are NOT set here (theme.css owns .map-pin). */
-
-.mpp {
-  --mpp-safe-top: env(safe-area-inset-top, 0px);
-  --mpp-safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-.mpp-control {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 0;
-}
-
-.mpp-control-label,
-.mpp-distance-label {
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-}
-
-.mpp-control-note {
-  margin: 0;
-  font-size: 0.78rem;
-}
+/* "Picked for you right now" on the Map tab (components/nearbyPicks). Every
+   class is mpp-* or map-picks* so nothing here reaches other screens.
+   Colors are the theme's tokens; pin colors are NOT set here (theme.css
+   owns .map-pin / .map-pin-checked-in). */
 
 .mpp-chips {
   display: flex;
@@ -51,36 +29,64 @@
   color: var(--text-primary);
 }
 
-/* ---- Phone frame ---- */
-
-.mpp-phone {
-  width: min(100%, 380px);
-  height: min(780px, 82vh);
-  margin: 0 auto 20px;
-  padding: 10px;
-  border-radius: 46px;
-  background: #0b0b0f;
-  box-shadow: 0 0 0 2px var(--border-strong), 0 18px 40px rgba(0, 0, 0, 0.45);
+.mpp-distance-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
 }
 
-.mpp-phone-screen {
-  /* Typical notch/home-indicator insets, so the preview shows the spacing
-     the real screen gets from env(safe-area-inset-*). */
-  --mpp-safe-top: 47px;
-  --mpp-safe-bottom: 34px;
+/* ---- On the Map tab ----
+   A floating sheet above the tab bar, in the same spot and width as the
+   directions sheet (.map-nav-sheet), which replaces it while it's up.
+   Three heights: minimized (just the title), collapsed (the top three --
+   how the Map opens), expanded (full list, up to just under the header).
+   MapExplore sets --map-picks-h on .map-fullscreen so the radius select,
+   locate button and location-error note sit just above it. */
+
+.map-picks {
+  /* The tab bar (--nav-h) and header (--header-h) already carry the
+     device's safe-area insets, so the sheet adds none of its own. */
+  --mpp-safe-top: 0px;
+  --mpp-safe-bottom: 0px;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--nav-h) + 8px);
+  z-index: 1001;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.map-fullscreen.has-picks .map-fab-bar,
+.map-fullscreen.has-picks .map-locate-btn {
+  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 16px);
+  transition: bottom 0.28s var(--ease);
+}
+
+.map-fullscreen.has-picks .map-error-toast {
+  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 70px);
+}
+
+.map-picks .mpp-sheet {
   position: relative;
-  width: 100%;
-  height: 100%;
+  height: var(--map-picks-h, 232px);
+  border-radius: 22px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-float);
   overflow: hidden;
-  border-radius: 36px;
-  background: var(--bg-primary);
-  isolation: isolate;
 }
 
-.mpp-map {
-  position: absolute !important;
-  inset: 0;
-  z-index: 0;
+.map-picks .mpp-sheet.expanded {
+  height: calc(100dvh - var(--header-h) - var(--nav-h) - 20px);
+}
+
+.map-picks .mpp-sheet.minimized .mpp-sheet-scroll {
+  display: none;
+}
+
+.map-picks[hidden],
+.map-nav-active .map-picks,
+body.pin-placing .map-picks {
+  display: none;
 }
 
 /* ---- Bottom sheet ---- */
@@ -198,6 +204,28 @@
   gap: 10px;
 }
 
+.mpp-row-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mpp-img-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
 .mpp-row-img {
   flex: 0 0 auto;
   width: 48px;
@@ -262,6 +290,19 @@
   border: 1px solid var(--border-subtle);
 }
 
+.mpp-card-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .mpp-card-img {
   width: 100%;
   height: 132px;
@@ -269,8 +310,17 @@
   display: block;
 }
 
+.mpp-card-img.mpp-img-tile {
+  font-size: 2.6rem;
+}
+
 .mpp-card-body {
-  padding: 10px 12px 12px;
+  display: block;
+  padding: 10px 12px 0;
+}
+
+.mpp-card-foot {
+  padding: 0 12px 12px;
 }
 
 .mpp-card-tags {
@@ -307,7 +357,14 @@
   border-style: dashed;
 }
 
+.mpp-card-name,
+.mpp-card-meta,
+.mpp-card-reason {
+  display: block;
+}
+
 .mpp-card-name {
+  font-weight: 600;
   margin: 0 0 2px;
   font-size: 0.95rem;
 }
@@ -402,8 +459,4 @@
   flex-direction: column;
   gap: 6px;
   margin-bottom: 12px;
-}
-
-.mpp-debug .field {
-  margin: 10px 0;
 }

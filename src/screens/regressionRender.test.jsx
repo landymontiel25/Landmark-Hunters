@@ -186,3 +186,78 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     expect(el.textContent).toContain('Select All');
   });
 });
+
+describe('MapExplore shows "Picked for you right now" over the live map', () => {
+  const CAMPUS = { lat: 40.0375, lng: -75.3421 }; // Villanova's campus
+  async function renderMap({ coords = CAMPUS, geoError = null, ratingsCount = 12, reviewsLoaded = true } = {}) {
+    vi.resetModules();
+    const myReviews = Object.fromEntries(
+      Array.from({ length: ratingsCount }, (_, i) => [`r${i}`, { landmarkId: `r${i}`, ratingTier: 'worth-trying' }])
+    );
+    const logRecommendations = vi.fn(async () => []);
+    vi.doMock('../lib/TripContext', () => ({
+      useTrip: () => ({
+        trip: { byRegion: {}, activeRegion: null },
+        toggleLandmark: vi.fn(),
+        getRegionSelection: () => [],
+        mapFocus: null,
+        mapFocusPoint: null,
+        setMapFocusPoint: vi.fn(),
+        mapFocusStops: null,
+      }),
+    }));
+    vi.doMock('../lib/useCheckIn', () => ({
+      useCheckIn: () => ({ user: { uid: 'me', email: 'me@x.com' }, firebaseEnabled: true, claimedMap: {}, checkingIn: null, checkIn: vi.fn() }),
+    }));
+    vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords, error: geoError, loading: false, lastKnown: null }) }));
+    vi.doMock('../lib/RatingsContext', () => ({ useRatings: () => ({ ratings: {}, myReviews, myReviewsLoaded: reviewsLoaded }) }));
+    vi.doMock('../lib/FriendsContext', () => ({
+      useFriends: () => ({
+        myProfile: { tagScores: { villanova: { 'history-culture': 40, food: 20 } }, tagCounts: { villanova: { 'history-culture': 8, food: 5 } } },
+      }),
+    }));
+    vi.doMock('../lib/AdminModeContext', () => ({ useAdminMode: () => ({ adminMode: false }) }));
+    vi.doMock('../lib/LandmarkEditsContext', () => ({ useLandmarkEdits: () => ({ applyEdit: (l) => l }) }));
+    vi.doMock('../lib/MyPhotosContext', () => ({ useMyPhotos: () => ({ myPhotos: {} }) }));
+    vi.doMock('../lib/UnitsContext', () => ({ useUnits: () => ({ units: 'imperial' }), formatDistance: () => '1 mi' }));
+    vi.doMock('../lib/landmarkOverrides', () => ({ getLandmarkOverrides: async () => ({}), saveLandmarkPosition: vi.fn() }));
+    vi.doMock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => [], deleteCustomLandmark: vi.fn(), updateCustomLandmark: vi.fn() }));
+    vi.doMock('../lib/leaderboard', () => ({ getUserCheckins: async () => [], isRealCheckin: () => true }));
+    vi.doMock('../lib/pickReasonsApi', () => ({ fetchPickReasons: async () => ({}) }));
+    vi.doMock('../lib/recommendationLog', () => ({ logRecommendations }));
+    vi.doMock('../components/OnboardingBanner', () => ({ default: () => null }));
+    const { default: MapExplore } = await import('./MapExplore.jsx');
+    const el = await mount(
+      <MemoryRouter>
+        <MapExplore />
+      </MemoryRouter>
+    );
+    return { el, logRecommendations };
+  }
+
+  it('opens on the picks sheet over the real map, with no preview controls', async () => {
+    const { el } = await renderMap();
+    expect(el.querySelector('.leaflet-container')).toBeTruthy();
+    const sheet = el.querySelector('.map-picks .mpp-sheet');
+    expect(sheet).toBeTruthy();
+    expect(sheet.textContent).toContain('Picked for you right now');
+    expect(el.querySelector('.map-fullscreen').classList.contains('has-picks')).toBe(true);
+    expect(el.textContent).not.toMatch(/Preview as|Simulate location/);
+    expect(el.querySelector('.mpp-phone')).toBeNull();
+    localStorage.clear();
+  });
+
+  it('asks a new account for ratings, and asks for location when it is off', async () => {
+    expect((await renderMap({ ratingsCount: 3 })).el.textContent).toContain('Rate 10 places and Mapr will start picking for you.');
+    document.body.removeChild(container);
+    container = null;
+    const { el } = await renderMap({ coords: null, geoError: 'Location permission denied' });
+    expect(el.querySelector('.map-picks').textContent).toContain('Turn on location to see picks near you.');
+  });
+
+  it("waits for the account's ratings before showing anything", async () => {
+    const { el } = await renderMap({ reviewsLoaded: false });
+    expect(el.querySelector('.map-picks')).toBeNull();
+    expect(el.querySelector('.map-fullscreen').classList.contains('has-picks')).toBe(false);
+  });
+});

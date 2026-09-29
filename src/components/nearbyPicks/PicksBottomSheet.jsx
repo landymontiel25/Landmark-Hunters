@@ -2,17 +2,19 @@ import { useRef } from 'react';
 import { MIN_RATINGS_FOR_PICKS, PICKS_SHOWN, SHEET_PICKS } from '../../lib/nearbyPicks';
 import PickCard, { PickRow } from './PickCard';
 
-// The sheet over the map. Collapsed (how the app opens) it shows the top
+// The sheet over the map. Collapsed (how the Map opens) it shows the top
 // three picks; swipe up -- or tap the handle -- for the full "Picked for you
 // right now" list and whatever the parent passes as children (because you
-// liked, mood, meal, nearby). Swipe down to collapse.
+// liked, mood, meal, nearby). Swipe down to collapse, and down again to
+// minimize it to just its title (when the parent passes onMinimizedChange);
+// swipe up or tap brings it back.
 //
 // state:
 //   'ready'       picks (or skeletons while the first set loads)
 //   'locked'      under MIN_RATINGS_FOR_PICKS ratings
 //   'no-location' location off
 // Also: updating (an older set is showing while a new one loads) and slow
-// (slow signal: the last set stays on screen).
+// (offline: the last set stays on screen).
 export const SWIPE_PX = 30;
 
 export default function PicksBottomSheet({
@@ -22,6 +24,8 @@ export default function PicksBottomSheet({
   slow = false,
   expanded,
   onExpandedChange,
+  minimized = false,
+  onMinimizedChange = null,
   showChainLabels = false,
   toolbar = null,
   children,
@@ -34,8 +38,16 @@ export default function PicksBottomSheet({
     if (startY.current == null) return;
     const dy = e.clientY - startY.current;
     startY.current = null;
-    if (dy < -SWIPE_PX) onExpandedChange(true);
-    else if (dy > SWIPE_PX) onExpandedChange(false);
+    if (minimized) {
+      if (dy <= SWIPE_PX) onMinimizedChange?.(false);
+    } else if (dy < -SWIPE_PX) onExpandedChange(true);
+    else if (dy > SWIPE_PX) {
+      if (expanded) onExpandedChange(false);
+      else onMinimizedChange?.(true);
+    } else onExpandedChange(!expanded);
+  };
+  const toggle = () => {
+    if (minimized) onMinimizedChange?.(false);
     else onExpandedChange(!expanded);
   };
 
@@ -45,7 +57,7 @@ export default function PicksBottomSheet({
     </span>
   ) : slow ? (
     <span className="mpp-pill mpp-pill-slow" role="status">
-      Slow connection · showing your last picks
+      Offline · showing your last picks
     </span>
   ) : null;
 
@@ -54,6 +66,8 @@ export default function PicksBottomSheet({
     body = <p className="mpp-empty">Rate {MIN_RATINGS_FOR_PICKS} places and Mapr will start picking for you.</p>;
   } else if (state === 'no-location') {
     body = <p className="mpp-empty">Turn on location to see picks near you.</p>;
+  } else if (!picks && slow) {
+    body = <p className="mpp-empty">You're offline. Picks will show once you're back online.</p>;
   } else if (!picks) {
     body = (
       <ul className="mpp-rows" aria-label="Loading picks">
@@ -86,19 +100,22 @@ export default function PicksBottomSheet({
   }
 
   return (
-    <section className={`mpp-sheet ${expanded ? 'expanded' : ''}`} aria-label="Picked for you right now">
+    <section
+      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized ? 'minimized' : ''}`}
+      aria-label="Picked for you right now"
+    >
       <div
         className="mpp-sheet-grip"
         role="button"
         tabIndex={0}
-        aria-expanded={expanded}
-        aria-label={expanded ? 'Collapse picks' : 'Show all picks'}
+        aria-expanded={expanded && !minimized}
+        aria-label={minimized ? 'Show picks' : expanded ? 'Collapse picks' : 'Show all picks'}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            onExpandedChange(!expanded);
+            toggle();
           }
         }}
       >

@@ -31,6 +31,20 @@ export const APP_HELP =
   `if you're standing in one). In city search, pressing Enter picks the top match.\n` +
   `- On the Map, landmarks you've checked into show as green pins. Opening the Map right after looking at an itinerary (solo or ` +
   `group) zooms it to fit every stop in that itinerary.\n` +
+  `- "Picked for you right now" (Mapr's nearby picks, on the Map tab): signed in, a sheet sits over the bottom of the live map with ` +
+  `your top 3 picks near where you are right now (photo, name, distance). Swipe up (or tap its handle) for the full list: 4 cards, ` +
+  `each with a one-line reason and a Directions button, mostly "Your usual" (kinds of places your ratings already love) plus one ` +
+  `"Something new". If you usually go from one kind of place straight to another (3+ times, back to back within 3 hours), the next ` +
+  `pick can follow that habit. Tap any pick (row or card) for "🧭 Directions" or "📍 Open landmark page". Swipe down to shrink it ` +
+  `back to 3, and down again to tuck it away to just its title (swipe up or tap to bring it back). The full list also has a ` +
+  `distance filter (1-100 miles, 10 by default), "Because you liked <a place you loved>", "What are you in the mood for?" (Something ` +
+  `to eat, Some history, Art & museums, Fresh air, A night out, Sports, Tech spots, sorted Closest or Highest rated), a "Time to ` +
+  `eat?" card around breakfast, lunch and dinner, and a heads-up when you're within a mile of one of your favorite kinds of places. ` +
+  `Picks skip places that are closed right now, places you rated 2 stars or lower, and (for the top picks) places without a photo; ` +
+  `the other rows show photo-less places on a colored tile. It needs 10 ratings first ("Rate 10 places and Mapr will start ` +
+  `picking for you") and location turned on ("Turn on location to see picks near you"). A set is kept for 4 hours; an older one ` +
+  `stays on screen with "Updating…" while a new one loads, and offline your last picks stay up. It hides while directions, a ` +
+  `trip route, the search or category panel, or pin placement is open. No notifications, no background location.\n` +
   `- Select all: on the Landmarks list, once you pick a single city, "✅ Select All" adds every landmark the current filters show to that ` +
   `city's itinerary ("Clear" undoes it). A group trip's "➕ Add Landmarks" card has "Select all" / "Clear all" too, for everyone in the trip.\n` +
   `- An open itinerary's stops (solo or group -- both work exactly the same way, group trips just have more people on them) are just always sorted ` +

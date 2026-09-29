@@ -25,7 +25,7 @@ describe('AI call log', () => {
   });
 
   it('flags calls from test/preview surfaces so they stay out of real stats', () => {
-    expect(aiCallEntry({ feature: 'pick-reasons-preview', model: 'm', usage: null, isTest: true }).isTest).toBe(true);
+    expect(aiCallEntry({ feature: 'test-surface', model: 'm', usage: null, isTest: true }).isTest).toBe(true);
     // Only a real `true` counts -- a truthy string can't sneak a real call out of the stats.
     expect(aiCallEntry({ feature: 'plan-ai', model: 'm', usage: null, isTest: 'yes' }).isTest).toBe(false);
   });

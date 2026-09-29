@@ -34,6 +34,9 @@ export function RatingsProvider({ children }) {
   const { user } = useAuth();
   const [ratings, setRatings] = useState({});
   const [myReviews, setMyReviews] = useState({});
+  // Whose reviews myReviews holds once the first read for them finished
+  // (or failed), so a screen can tell "no ratings yet" from "not loaded".
+  const [loadedFor, setLoadedFor] = useState(null);
 
   const reload = useCallback(async () => {
     if (!firebaseEnabled) return;
@@ -52,13 +55,15 @@ export function RatingsProvider({ children }) {
     } catch {
       /* leave whatever we had */
     }
+    setLoadedFor(user.uid);
   }, [user]);
 
   useEffect(() => {
     reload();
   }, [reload]);
 
-  return <RatingsContext.Provider value={{ ratings, myReviews, reload }}>{children}</RatingsContext.Provider>;
+  const myReviewsLoaded = !!user && loadedFor === user.uid;
+  return <RatingsContext.Provider value={{ ratings, myReviews, myReviewsLoaded, reload }}>{children}</RatingsContext.Provider>;
 }
 
 export function useRatings() {

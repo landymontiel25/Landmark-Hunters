@@ -1,4 +1,4 @@
-import { ALL_LANDMARKS, INTERESTS, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, usualPicks } from './tagScores';
 import { tierStars } from './ratingFlow';
@@ -8,7 +8,8 @@ import { linksFrom, primaryCategory } from './preferenceChains';
 // "Picked for you right now": nearby picks ranked on-device from the saved
 // tag scores (tagScores.js usualPicks / discoveryPicks), filtered to what is
 // actually worth showing right here, right now. Pure functions only -- the
-// UI (components/maprPicksPreview) and the one reasons call sit on top.
+// UI (components/nearbyPicks, on the Map tab) and the one reasons call sit
+// on top.
 
 export const DISTANCE_OPTIONS_MI = [1, 5, 10, 15, 20, 30, 50, 100];
 export const DEFAULT_DISTANCE_MI = 10;
@@ -18,6 +19,9 @@ export const MIN_RATINGS_FOR_PICKS = 10;
 // Four in the full list, the first three in the collapsed bottom sheet.
 export const PICKS_SHOWN = 4;
 export const SHEET_PICKS = 3;
+// The Map tab sheet's height in px, minimized (title only) and collapsed
+// (top three). MapExplore lifts its own bottom controls by this much.
+export const PICKS_SHEET_H = { minimized: 58, collapsed: 232 };
 export const SIMILAR_LIMIT = 4;
 export const MEAL_LIMIT = 3;
 // "You're near something you love" only fires this close.
@@ -27,19 +31,14 @@ export const LOW_RATING_STARS = 2;
 // Same 4-hour freshness as the Mapr Picks cache (maprPicks.js).
 export const PICKS_CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 
-// Places to pretend to be, for testing without moving.
-export const LOCATION_PRESETS = ['villanova', 'miami', 'milan']
-  .map((id) => getRegion(id))
-  .filter(Boolean)
-  .map((r) => ({ id: r.id, label: r.name, lat: r.center.lat, lng: r.center.lng }));
-
 const LABELS = Object.fromEntries(INTERESTS.map((i) => [i.id, i.label]));
 export const categoryLabel = (id) => LABELS[id] || id || 'this kind of place';
 
 export const pickKey = (p) => `${p.region || p.regionId}/${p.id}`;
 
-// A usable photo is part of the landmark's own data. A card without one is
-// never shown -- the next pick takes its place.
+// A usable photo is part of the landmark's own data. The top picks never
+// show a place without one (the next pick takes its place); the other rows
+// (mood, meal, because you liked, nearby) show it on a category tile.
 export function hasPhoto(l) {
   const src = l?.image ?? l?.images?.[0];
   return typeof src === 'string' && /^(https?:)?\/\//.test(src.trim());
@@ -172,11 +171,15 @@ export function regionsWithin(origin, miles, landmarks = ALL_LANDMARKS) {
   return [...found];
 }
 
-// A place that can be shown at all: close enough, has a photo, open, and
-// not something the user already said was bad.
+// A place that can be shown at all: close enough, open, and not something
+// the user already said was bad. A missing photo does NOT rule a place out
+// here -- about one catalog place in six ships without one (Campus Corner
+// and every other Villanova food spot among them), and dropping them here
+// emptied the mood and meal rows for places that really are nearby. Only
+// the top picks require a photo (composePicks).
 export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS }) {
   const low = new Set(lowRated);
-  return withinDistance(landmarks, origin, miles).filter((l) => hasPhoto(l) && !isClosedNow(l, date) && !low.has(l.id));
+  return withinDistance(landmarks, origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
 }
 
 export function toPick(l, extra = {}) {
@@ -197,7 +200,8 @@ export function toPick(l, extra = {}) {
 }
 
 // The two ranked queues behind the picks, both already filtered (distance,
-// photo, open, not low-rated) and in best-first order:
+// open, not low-rated) and in best-first order -- composePicks then skips
+// any without a photo:
 //   usual -- places the saved tag scores rate above zero (usualPicks)
 //   fresh -- "something new": categories rated little or never (discoveryPicks)
 // Ranking spans every region inside the distance filter, since a 30-mile
@@ -234,8 +238,8 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
 export function chainedPick({ usual = [], fresh = [], links = [], lastCategory = null }) {
   for (const link of linksFrom(links, lastCategory)) {
     const hit =
-      usual.find((p) => primaryCategory(p.categories) === link.to) ||
-      fresh.find((p) => primaryCategory(p.categories) === link.to);
+      usual.find((p) => hasPhoto(p) && primaryCategory(p.categories) === link.to) ||
+      fresh.find((p) => hasPhoto(p) && primaryCategory(p.categories) === link.to);
     if (hit) return { ...hit, chain: { from: link.from, to: link.to, count: link.count } };
   }
   return null;
@@ -278,11 +282,12 @@ export function composePicks({ usual = [], fresh = [], chained = null, count = P
   return list.slice(0, count);
 }
 
-// The same skip rule for any other row of cards ("Because you liked", the
-// mood carousel, the meal card): first `limit` items that have a photo and
-// are ready, in order.
+// The other rows of cards ("Because you liked", the mood carousel, the meal
+// and nearby cards): first `limit` items that are ready, in order. A place
+// with no photo is always ready -- it shows on a category tile instead of
+// being dropped -- and one whose photo is still loading waits (isReady).
 export function selectReady(items, isReady = () => true, limit = Infinity) {
-  return (items || []).filter((p) => hasPhoto(p) && isReady(p)).slice(0, limit);
+  return (items || []).filter((p) => !hasPhoto(p) || isReady(p)).slice(0, limit);
 }
 
 // ---- Reasons -------------------------------------------------------------

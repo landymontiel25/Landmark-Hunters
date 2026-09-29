@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
@@ -49,74 +49,15 @@ const empty = () => ({
   checkedIn: false,
 });
 
-// The Test tab holds more than one sandbox; this picks which one is open.
-// Remembered on this device so reopening the tab lands where you left off.
-const SECTIONS = [
-  { id: 'onboarding', label: 'Onboarding Lab' },
-  { id: 'mapr-picks', label: 'Mapr Picks Preview' },
-];
-const SECTION_KEY = 'lh-test-tab-section';
-const readSection = () => {
-  try {
-    const v = localStorage.getItem(SECTION_KEY);
-    return SECTIONS.some((s) => s.id === v) ? v : 'onboarding';
-  } catch {
-    return 'onboarding';
-  }
-};
-
-// Loaded only when opened, so the map preview's code never ships with the
-// onboarding sandbox (or anywhere else in the app).
-const MaprPicksPreview = lazy(() => import('../components/maprPicksPreview/MaprPicksPreview'));
-
 export default function OnboardingLab() {
   const { user } = useAuth();
-  const [section, setSection] = useState(readSection);
-
-  if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
-
-  const choose = (id) => {
-    setSection(id);
-    try {
-      localStorage.setItem(SECTION_KEY, id);
-    } catch {
-      /* private mode */
-    }
-  };
-
-  return (
-    <div>
-      <div className="lab-steps lab-sections" role="tablist" aria-label="Test sandboxes" style={{ marginBottom: 14 }}>
-        {SECTIONS.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            role="tab"
-            aria-selected={section === s.id}
-            className={`lab-step ${section === s.id ? 'active' : ''}`}
-            onClick={() => choose(s.id)}
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-      {section === 'mapr-picks' ? (
-        <Suspense fallback={<p className="screen-subtitle">Loading preview…</p>}>
-          <MaprPicksPreview />
-        </Suspense>
-      ) : (
-        <OnboardingLabSection user={user} />
-      )}
-    </div>
-  );
-}
-
-function OnboardingLabSection({ user }) {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
   const set = (patch) => setData((d) => ({ ...d, ...patch }));
   const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
+
+  if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
 
   if (NOTHING_TO_TEST) {
     return (

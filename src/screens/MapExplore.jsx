@@ -35,6 +35,9 @@ import { useSessionState } from '../lib/usePersistentState';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import OnboardingBanner from '../components/OnboardingBanner';
+import { useRatings } from '../lib/RatingsContext';
+import MapPicksOverlay from '../components/nearbyPicks/MapPicksOverlay';
+import { PICKS_SHEET_H } from '../lib/nearbyPicks';
 
 
 // Turn-by-turn's actual route, once directions are up -- see the dimming
@@ -426,6 +429,18 @@ export default function MapExplore() {
     return () => document.body.classList.remove('map-nav-active');
   }, [navActive]);
   const [radiusMiles, setRadiusMiles] = useZoomRadius();
+
+  // "Picked for you right now": a sheet over the map, signed in, once the
+  // account's ratings have loaded. It steps aside (hidden, not unmounted)
+  // for directions, a trip route and pin placement, which use the same spot
+  // above the tab bar, and while the search or category panel is open
+  // (their lists run down the screen). Opens on the top three every launch;
+  // minimized lasts while the app is open, so it doesn't pop back up on
+  // every visit to the Map tab.
+  const { myReviewsLoaded } = useRatings();
+  const [picksExpanded, setPicksExpanded] = useState(false);
+  const [picksMinimized, setPicksMinimized] = useSessionState('map.picksMinimized', false);
+
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   // Which categories to plot. Empty means "all landmarks" (the default);
@@ -979,8 +994,15 @@ export default function MapExplore() {
     [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, filterCats, myPhotos, getRegionSelection, adminMode]
   );
 
+  const picksReady = !!user && !!myReviewsLoaded;
+  const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen;
+  const picksH = picksMinimized ? PICKS_SHEET_H.minimized : PICKS_SHEET_H.collapsed;
+
   return (
-    <div className="map-fullscreen">
+    <div
+      className={`map-fullscreen ${showPicks ? 'has-picks' : ''}`}
+      style={showPicks ? { '--map-picks-h': `${picksH}px` } : undefined}
+    >
       <OnboardingBanner variant="fixed" />
       {/* A small note, not a cover: the map and its pins are usable while
           the GPS fix is still coming in. */}
@@ -1350,6 +1372,21 @@ export default function MapExplore() {
             Done
           </button>
         </>
+      )}
+
+      {picksReady && (
+        <MapPicksOverlay
+          hidden={!showPicks}
+          coords={coords}
+          geoError={geoError}
+          expanded={picksExpanded}
+          onExpandedChange={setPicksExpanded}
+          minimized={picksMinimized}
+          onMinimizedChange={(v) => {
+            setPicksMinimized(v);
+            if (v) setPicksExpanded(false);
+          }}
+        />
       )}
 
       {geoError && <p className="tag tag-error map-error-toast">Location unavailable — {geoError}</p>}
