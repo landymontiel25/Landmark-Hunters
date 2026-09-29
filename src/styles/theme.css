@@ -2045,6 +2045,13 @@ button.header-streak {
   background: rgb(var(--color-bg-rgb));
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  /* The trigger button (.header-streak) gets its own solid green/red pill
+     background once secured/at-risk (.header-streak.secured/.at-risk) --
+     with only the base .points-popover gap (8px) below it, that pill and
+     this popover's own opaque box read as one connected bar rather than
+     two separate floating pieces. More room makes the gap between them
+     unmistakable. */
+  top: calc(100% + 18px);
 }
 /* A segmented, digital-style countdown (H : M : S, each in its own tile)
    instead of a flat "6h 32m 23s" line -- reads at a glance the way a real
