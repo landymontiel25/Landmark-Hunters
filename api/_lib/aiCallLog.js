@@ -5,13 +5,18 @@ import { adminDb } from './firebaseAdmin.js';
 // as a structured line to the function log (always) and to Firestore
 // ai_call_log (best-effort, needs FIREBASE_SERVICE_ACCOUNT; admin-only, no
 // client rules). Never throws, and never holds up a reply for long.
+//
+// isTest marks calls made from admin preview/test surfaces (the Test tab),
+// so anything that sums real usage -- Mapr's match rate included -- can
+// leave them out with a single `isTest == false` filter.
 
 const FIRESTORE_TIMEOUT_MS = 1500;
 
-export function aiCallEntry({ feature, model, usage }) {
+export function aiCallEntry({ feature, model, usage, isTest = false }) {
   return {
     feature: String(feature || 'unknown'),
     model: String(model || 'unknown'),
+    isTest: isTest === true,
     inputTokens: Number(usage?.input_tokens) || 0,
     outputTokens: Number(usage?.output_tokens) || 0,
     cacheReadInputTokens: Number(usage?.cache_read_input_tokens) || 0,
@@ -20,8 +25,8 @@ export function aiCallEntry({ feature, model, usage }) {
   };
 }
 
-export async function logAiCall({ feature, model, usage }, { db = null } = {}) {
-  const entry = aiCallEntry({ feature, model, usage });
+export async function logAiCall({ feature, model, usage, isTest = false }, { db = null } = {}) {
+  const entry = aiCallEntry({ feature, model, usage, isTest });
   try {
     console.log(JSON.stringify({ type: 'ai_call', ...entry }));
   } catch {

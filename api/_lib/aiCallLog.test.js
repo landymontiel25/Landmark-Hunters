@@ -17,10 +17,17 @@ describe('AI call log', () => {
       outputTokens: 300,
       cacheReadInputTokens: 5000,
       cacheCreationInputTokens: 0,
+      isTest: false,
     });
     expect(Object.keys(entry).sort()).toEqual(
-      ['at', 'cacheCreationInputTokens', 'cacheReadInputTokens', 'feature', 'inputTokens', 'model', 'outputTokens'].sort()
+      ['at', 'cacheCreationInputTokens', 'cacheReadInputTokens', 'feature', 'inputTokens', 'isTest', 'model', 'outputTokens'].sort()
     );
+  });
+
+  it('flags calls from test/preview surfaces so they stay out of real stats', () => {
+    expect(aiCallEntry({ feature: 'pick-reasons-preview', model: 'm', usage: null, isTest: true }).isTest).toBe(true);
+    // Only a real `true` counts -- a truthy string can't sneak a real call out of the stats.
+    expect(aiCallEntry({ feature: 'plan-ai', model: 'm', usage: null, isTest: 'yes' }).isTest).toBe(false);
   });
 
   it('writes the entry to ai_call_log and never throws when Firestore fails', async () => {

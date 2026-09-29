@@ -53,6 +53,19 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Reset. Reload the app');
   });
 
+  it('switches between the onboarding lab and the Mapr Picks preview, onboarding first', async () => {
+    vi.doMock('../components/maprPicksPreview/MaprPicksPreview', () => ({ default: () => <p>picks preview</p> }));
+    const el = await renderAs('landymontiel25@gmail.com', { nothingToTest: true });
+    expect(el.textContent).toContain('Nothing to test');
+    await click(button(el, 'Mapr Picks Preview'));
+    await act(async () => new Promise((r) => setTimeout(r, 0)));
+    expect(el.textContent).toContain('picks preview');
+    expect(el.textContent).not.toContain('Nothing to test');
+    await click(button(el, 'Onboarding Lab'));
+    expect(el.textContent).toContain('Nothing to test');
+    localStorage.clear();
+  });
+
   it('sends non-admins away', async () => {
     const el = await renderAs('someone@example.com');
     expect(el.textContent).toContain('home');

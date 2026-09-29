@@ -1,0 +1,165 @@
+// @vitest-environment jsdom
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { createRoot } from 'react-dom/client';
+import { act } from 'react';
+import { getRegion } from '../../data/regions';
+import { nearbyPicksCacheKey, pickKey, writeNearbyPicksCache } from '../../lib/nearbyPicks';
+
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+
+vi.mock('../../lib/pickReasonsApi', () => ({ fetchPickReasons: vi.fn(async () => ({})) }));
+vi.mock('../../lib/recommendationLog', () => ({ logRecommendations: vi.fn(async () => []) }));
+
+import { useNearbyPicks } from './useNearbyPicks';
+
+// Photos load on the next tick, except any URL listed in `stuck` (never
+// answers: "still loading") or `broken` (fails).
+const stuck = new Set();
+const broken = new Set();
+class FakeImage {
+  set src(url) {
+    this._src = url;
+    setTimeout(() => {
+      if (stuck.has(url)) return;
+      if (broken.has(url)) this.onerror?.();
+      else this.onload?.();
+    }, 0);
+  }
+  get src() {
+    return this._src;
+  }
+}
+
+const ORIGIN = getRegion('villanova').center;
+const NOW = Date.now();
+const PROFILE = {
+  tagScores: { villanova: { 'history-culture': 40, food: 20 } },
+  tagScoresAt: { villanova: { 'history-culture': NOW, food: NOW } },
+  tagCounts: { villanova: { 'history-culture': 8, food: 5 } },
+};
+const REVIEWS = Object.fromEntries(
+  Array.from({ length: 10 }, (_, i) => [`r${i}`, { landmarkId: `r${i}`, ratingTier: 'worth-trying' }])
+);
+
+let container;
+let root;
+let latest;
+function Probe(props) {
+  latest = useNearbyPicks(props);
+  return null;
+}
+const render = async (props) => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+  root = createRoot(container);
+  await act(async () => root.render(<Probe {...props} />));
+};
+const flush = async (ms = 50) => act(async () => new Promise((r) => setTimeout(r, ms)));
+const base = (extra = {}) => ({
+  uid: 'u1',
+  profile: PROFILE,
+  origin: ORIGIN,
+  miles: 10,
+  myReviews: REVIEWS,
+  checkinCounts: {},
+  links: [],
+  lastCategory: null,
+  now: NOW,
+  ...extra,
+});
+
+beforeEach(() => {
+  vi.stubGlobal('Image', FakeImage);
+  stuck.clear();
+  broken.clear();
+});
+afterEach(async () => {
+  await act(async () => root?.unmount());
+  container?.remove();
+  localStorage.clear();
+  vi.unstubAllGlobals();
+  vi.clearAllMocks();
+});
+
+describe('useNearbyPicks', () => {
+  it('shows plain fallback reasons when the reasons call fails, and logs the picks with the test flag', async () => {
+    const fetchReasons = vi.fn(async () => {
+      throw new Error('network down');
+    });
+    const logPicks = vi.fn(async () => []);
+    await render(base({ fetchReasons, logPicks }));
+    expect(latest.picks).toBeNull(); // first load: skeletons, no cards yet
+    await flush();
+
+    expect(latest.picks).toHaveLength(4);
+    expect(latest.picks.every((p) => p.reasonSource === 'fallback' && p.reason)).toBe(true);
+    expect(latest.picks.filter((p) => p.pickType === 'new')).toHaveLength(1);
+    expect(fetchReasons).toHaveBeenCalledTimes(1);
+    expect(logPicks).toHaveBeenCalledTimes(1);
+    expect(logPicks.mock.calls[0][0]).toMatchObject({ uid: 'u1', source: 'mapr-picks-preview', isTest: true });
+  });
+
+  it('uses the AI line where the one call returned one', async () => {
+    const fetchReasons = vi.fn(async (picks) => ({ [pickKey(picks[0])]: 'A quiet stone church at the heart of campus.' }));
+    await render(base({ fetchReasons, logPicks: vi.fn() }));
+    await flush();
+    expect(latest.picks[0]).toMatchObject({ reason: 'A quiet stone church at the heart of campus.', reasonSource: 'ai' });
+    expect(latest.picks.slice(1).every((p) => p.reasonSource === 'fallback')).toBe(true);
+  });
+
+  it('skips a pick whose photo is still loading and shows the next one', async () => {
+    // First, what the set looks like with every photo loading fine.
+    await render(base({ fetchReasons: vi.fn(async () => ({})), logPicks: vi.fn() }));
+    await flush();
+    const normal = latest.picks.map(pickKey);
+    const first = latest.picks[0];
+    await act(async () => root.unmount());
+    localStorage.clear();
+
+    stuck.add(first.image);
+    await render(base({ fetchReasons: vi.fn(async () => ({})), logPicks: vi.fn(), uid: 'u2' }));
+    // Photos answer on the next tick; the stuck one never does, so wait out the photo wait.
+    await flush(3200);
+    const keys = latest.picks.map(pickKey);
+    expect(keys).not.toContain(pickKey(first));
+    expect(keys).toHaveLength(4);
+    expect(keys).toContain(normal[1]);
+  }, 10_000);
+
+  it('shows a fresh cached set without calling anything', async () => {
+    const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: 10, origin: ORIGIN, miles: 10, lastCategory: null });
+    writeNearbyPicksCache(key, [{ id: 'cached', region: 'villanova', name: 'Cached', image: 'https://x/y.jpg' }], NOW - 60_000);
+    const fetchReasons = vi.fn(async () => ({}));
+    await render(base({ fetchReasons, logPicks: vi.fn() }));
+    await flush();
+    expect(latest.picks.map((p) => p.id)).toEqual(['cached']);
+    expect(latest.updating).toBe(false);
+    expect(fetchReasons).not.toHaveBeenCalled();
+  });
+
+  it('keeps an old cached set on screen with "Updating…" until the new set arrives', async () => {
+    const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: 10, origin: ORIGIN, miles: 10, lastCategory: null });
+    writeNearbyPicksCache(key, [{ id: 'old', region: 'villanova', name: 'Old', image: 'https://x/y.jpg' }], NOW - 5 * 60 * 60 * 1000);
+    let answer;
+    const fetchReasons = vi.fn(() => new Promise((r) => (answer = r)));
+    await render(base({ fetchReasons, logPicks: vi.fn() }));
+    await flush();
+    expect(latest.picks.map((p) => p.id)).toEqual(['old']);
+    expect(latest.updating).toBe(true);
+    await act(async () => answer({}));
+    await flush();
+    expect(latest.picks).toHaveLength(4);
+    expect(latest.updating).toBe(false);
+  });
+
+  it('slow signal: keeps the last set and makes no call', async () => {
+    const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: 10, origin: ORIGIN, miles: 10, lastCategory: null });
+    writeNearbyPicksCache(key, [{ id: 'last', region: 'villanova', name: 'Last', image: 'https://x/y.jpg' }], NOW - 5 * 60 * 60 * 1000);
+    const fetchReasons = vi.fn(async () => ({}));
+    await render(base({ fetchReasons, logPicks: vi.fn(), mode: 'slow' }));
+    await flush();
+    expect(latest.picks.map((p) => p.id)).toEqual(['last']);
+    expect(latest.updating).toBe(false);
+    expect(fetchReasons).not.toHaveBeenCalled();
+  });
+});
