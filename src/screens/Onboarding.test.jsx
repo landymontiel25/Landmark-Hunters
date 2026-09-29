@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { ONBOARDING_VERSION } from '../lib/onboardingVersion';
+import { ALL_SWIPE_CARDS } from '../lib/onboardingCards';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -14,7 +15,7 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), clear: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}) };
+const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}) };
 
 // user: { emailVerified }, profile: users/{uid} doc, checkins: real check-in count
 async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, checkins = 3, isNew } = {}) {
@@ -29,7 +30,7 @@ async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: t
     ...(await vi.importActual('../lib/onboardingSave')),
     saveOnboardingResults: saved.results,
     saveOnboardingProgress: saved.progress,
-    clearOnboardingProgress: saved.clear,
+    endOnboardingFlow: saved.end,
   }));
   vi.doMock('../lib/friends', () => ({ saveTasteIntro: saved.tasteIntro }));
   vi.doMock('../lib/notifications', () => ({ markNotificationRead: async () => {} }));
@@ -86,12 +87,32 @@ describe('Onboarding: existing user (account from before the flow existed)', () 
     expect(el.textContent).toContain('Anything else?');
     await click(button(el, 'Skip for now'));
 
-    // Swipes + notes are saved to the account, and with a check-in already on
-    // record the flow ends without asking for another or for "Always" location.
+    // What was answered is saved, but skipping the cards doesn't finish
+    // onboarding, so the notification and banner stay. With a check-in already
+    // on record the flow ends without asking for another or for "Always" location.
     expect(saved.results).toHaveBeenCalledTimes(1);
-    expect(el.textContent).toContain("You're all set");
+    expect(saved.results.mock.calls[0][3]).toEqual({ complete: false });
+    expect(el.textContent).toContain("You're set for now");
     expect(el.textContent).not.toContain('FIRST CHECK-IN STEP');
     expect(el.textContent).not.toContain('LOCATION STEP');
+  });
+
+  it('finishing every card is what completes it', async () => {
+    const el = await renderFlow({
+      profile: {
+        onboardingCompleted: true,
+        onboardingProgress: {
+          version: ONBOARDING_VERSION,
+          step: 'notes',
+          cardWords: ALL_SWIPE_CARDS.map((c) => c.word),
+          answers: ALL_SWIPE_CARDS.map((c) => ({ word: c.word, answer: 'love' })),
+        },
+      },
+      checkins: 5,
+    });
+    await click(button(el, 'Skip for now'));
+    expect(saved.results.mock.calls[0][3]).toEqual({ complete: true });
+    expect(el.textContent).toContain("You're all set");
   });
 
   it('but an existing account with no check-in yet still gets the first check-in step', async () => {
@@ -131,6 +152,7 @@ describe('Onboarding: new user', () => {
     await click(button(el, 'Skip'));
     await click(button(el, 'Skip for now'));
     expect(saved.results).toHaveBeenCalledTimes(1);
+    expect(saved.results.mock.calls[0][3]).toEqual({ complete: false });
     expect(el.textContent).toContain('FIRST CHECK-IN STEP');
   });
 });

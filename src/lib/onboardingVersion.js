@@ -1,8 +1,8 @@
 // The version of the onboarding flow (swipe cards + notes). Bump this number
 // whenever the flow changes enough that everyone should redo it: every
 // account whose users/{uid}.onboardingVersion is missing or lower gets the
-// "Onboarding has been updated" notification, plus the dismissible banner on
-// the Map and Mapr tabs, until they finish the flow again. Nothing locks the
+// "Onboarding has been updated" notification, plus a banner on the Map
+// and Mapr tabs that can't be dismissed, until they finish the flow again. Nothing locks the
 // app. The Test tab (OnboardingLab) ignores this number.
 export const ONBOARDING_VERSION = 1;
 
@@ -12,9 +12,11 @@ export const ONBOARDING_NOTICE_MESSAGE = 'Onboarding has been updated. Finish it
 // 'new': created the account through sign-up and has never finished
 //        onboarding. The flow starts on its own, right after email
 //        verification.
-// 'update': an account from before onboarding existed (no version), or one
-//        that finished an older version. Gets the notification and banner,
-//        and is never dropped into the flow uninvited.
+// 'update': an account from before onboarding existed (no version), one that
+//        finished an older version, or a new account that went through the
+//        flow without finishing the cards (onboardingSource becomes
+//        'signup-skipped'). Gets the notification and banner, and is never
+//        dropped into the flow uninvited.
 export function onboardingStatus(profile, current = ONBOARDING_VERSION) {
   const done = Number(profile?.onboardingVersion) || 0;
   if (done >= current) return 'complete';
@@ -39,5 +41,8 @@ export function noticeAction(profile, current = ONBOARDING_VERSION) {
   return needsOnboardingNotice(profile, current) ? 'send' : 'resurface';
 }
 
-// Where OnboardingBanner remembers a dismissal on this device.
-export const bannerDismissKey = (uid) => `onboardingBanner.${uid}`;
+// Onboarding counts as done only once every card has an answer (answers from
+// an earlier run count). Skipping the cards, or leaving some unanswered, still
+// saves what was answered, but leaves the notification and banner up until the
+// rest is done. The notes step is optional and doesn't matter here.
+export const isDeckComplete = (answeredCount, deckSize) => deckSize > 0 && answeredCount >= deckSize;

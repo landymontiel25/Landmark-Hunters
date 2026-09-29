@@ -5,6 +5,7 @@ import {
   onboardingStatus,
   needsOnboardingNotice,
   noticeAction,
+  isDeckComplete,
 } from './onboardingVersion';
 
 describe('onboardingStatus', () => {
@@ -17,6 +18,11 @@ describe('onboardingStatus', () => {
     expect(onboardingStatus({ username: 'old-timer', onboardingCompleted: true })).toBe('update');
     expect(onboardingStatus({})).toBe('update');
     expect(onboardingStatus(null)).toBe('update');
+  });
+
+  it('new user who went through sign-up without finishing the cards: treated as an existing user to nag', () => {
+    expect(onboardingStatus({ onboardingSource: 'signup-skipped' })).toBe('update');
+    expect(noticeAction({ onboardingSource: 'signup-skipped' })).toBe('send');
   });
 
   it('completed user: finished the current version', () => {
@@ -73,5 +79,17 @@ describe('noticeAction', () => {
 
   it('starts over with a bumped version', () => {
     expect(noticeAction({ onboardingVersion: 1, onboardingNoticeVersion: 1 }, 2)).toBe('send');
+  });
+});
+
+describe('isDeckComplete', () => {
+  it('needs an answer for every card', () => {
+    expect(isDeckComplete(39, 39)).toBe(true);
+    expect(isDeckComplete(38, 39)).toBe(false);
+    expect(isDeckComplete(0, 39)).toBe(false);
+  });
+
+  it('is never complete for an empty deck', () => {
+    expect(isDeckComplete(0, 0)).toBe(false);
   });
 });
