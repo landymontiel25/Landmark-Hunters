@@ -404,7 +404,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
       ) : !ratingPhaseDone ? (
         <>
           <p style={{ margin: '0 0 10px', fontSize: '0.85rem' }}>
-            Rate today's 3 ({myRatedCount}/{cardIds.length}) -- once all 3 are in, you'll guess what @{partnerName}
+            Rate today's 3 ({myRatedCount}/{cardIds.length}) -- once all 3 are in, you'll guess what @{partnerName}{' '}
             picks, to build your compatibility score.
           </p>
           <div className="mapr-picks-track">

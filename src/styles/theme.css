@@ -675,7 +675,7 @@ textarea {
 
 .chip-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -2070,7 +2070,7 @@ button.header-streak {
   text-align: center;
   padding: 10px 16px;
   z-index: 100 !important;
-  background: #0a0d16 !important;
+  background: var(--bg-elevated) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -2145,6 +2145,7 @@ button.header-streak {
 .header-streak {
   display: flex;
   flex-shrink: 0;
+  white-space: nowrap;
   align-items: center;
   gap: 4px;
   padding: 5px 12px;
@@ -3843,7 +3844,7 @@ body.lightbox-open .bottom-nav {
 
 @media (min-width: 600px) {
   .chip-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -4990,7 +4991,7 @@ h2,
 .friend-email-input,
 .map-search-input,
 .radius-select {
-  background: rgba(10, 13, 22, 0.9);
+  background: var(--bg-input);
   border-color: rgba(77, 127, 255, 0.3);
   border-radius: var(--radius-pill);
 }
@@ -5031,7 +5032,9 @@ h2,
 .streak-info-popover,
 .user-popover-card,
 .chatlab-region-popover {
-  background: #0a0d16;
+  /* --bg-elevated, not a fixed dark color: in light mode the text here is
+     dark, and a dark card made modals unreadable. */
+  background: var(--bg-elevated);
   border-color: var(--border-default);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
@@ -5080,7 +5083,7 @@ h2,
 
 .chatlab-quick-replies button,
 .chatlab-region-pill {
-  background: rgba(10, 13, 22, 0.85);
+  background: var(--bg-input);
   border-color: var(--border-default);
   border-radius: var(--radius-pill);
 }
@@ -5425,7 +5428,7 @@ h2,
   min-width: 0;
   font-size: 1.1rem;
   padding: 10px 16px;
-  background: rgba(10, 13, 22, 0.9);
+  background: var(--bg-input);
   border: 1px solid var(--mapr-blue);
   border-radius: 999px;
   color: var(--text-primary);
@@ -6535,4 +6538,29 @@ h2,
 }
 .chat-wizard-link:hover {
   color: var(--text-primary);
+}
+
+/* Very narrow phones (320px): the logo, two streak pills and the profile
+   pill don't fit at their normal padding, so the logo ended up under the
+   first pill. */
+@media (max-width: 340px) {
+  .app-header {
+    padding: 0 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+    gap: 6px;
+  }
+  .app-header-actions {
+    gap: 6px;
+  }
+  .header-streak {
+    padding: 5px 8px;
+  }
+}
+
+/* A .tag used as a block-level message (error/success sentence in a <p>) must
+   wrap; the pill's nowrap pushed long messages off the side of narrow screens. */
+p.tag {
+  white-space: normal;
+  border-radius: var(--radius-md);
 }

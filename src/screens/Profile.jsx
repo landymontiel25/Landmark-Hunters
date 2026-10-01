@@ -418,13 +418,13 @@ export default function Profile() {
         />
 
         {soloStreakAtRisk && (
-          <p className="tag tag-error" style={{ display: 'block', marginTop: 14 }}>
+          <p className="tag tag-error" style={{ display: 'block', marginTop: 14, whiteSpace: 'normal' }}>
             {'\u{26A0}\u{FE0F}'} Rate {PICKS_STREAK_THRESHOLD} landmarks today — or your {soloStreak.count}-day
             streak breaks!
           </p>
         )}
         {soloStreak?.count > 0 && !soloStreakAtRisk && (
-          <p className="tag tag-free" style={{ display: 'block', marginTop: 14 }}>
+          <p className="tag tag-free" style={{ display: 'block', marginTop: 14, whiteSpace: 'normal' }}>
             {'\u{2705}'} Your {soloStreak.count}-day streak is safe today
           </p>
         )}

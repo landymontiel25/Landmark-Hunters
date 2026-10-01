@@ -953,10 +953,11 @@ export default function Mapr() {
             </div>
           </div>
         )}
-        <div ref={feedEndRef} />
       </div>
 
       <div className="action-bar-spacer" />
+      {/* After the spacer, so scrolling to the newest message leaves it above the fixed composer. */}
+      <div ref={feedEndRef} style={{ scrollMarginBottom: 70 }} />
       <form className="fixed-action-bar chatlab-composer" onSubmit={send}>
         <div className="fixed-action-bar-inner chatlab-composer-inner">
           <input

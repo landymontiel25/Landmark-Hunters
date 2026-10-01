@@ -159,7 +159,7 @@ function LandmarkDetailBody() {
       }),
     [staticLandmark, customLandmark, applyEdit]
   );
-  const { ratings, reload: reloadRatings } = useRatings();
+  const { ratings, myReviews, reload: reloadRatings } = useRatings();
   const { reload: reloadMyPhotos } = useMyPhotos();
   const { myUsername, friendUids } = useFriends();
   const toast = useToast();
@@ -285,6 +285,19 @@ function LandmarkDetailBody() {
   useEffect(() => {
     loadMyReview();
   }, [loadMyReview]);
+
+  // The check-in popup (CheckInReview) saves a rating from outside this page.
+  // Without this, checking in here and rating in the popup left this page
+  // saying "Not rated yet" and showing the rating form as an unsaved draft.
+  // RatingsContext reloads once that save lands, so pick the new review up
+  // from there. Skipped while this page's own save is running -- that path
+  // refreshes itself and must keep its "Rating submitted!" state.
+  const contextTier = landmark ? myReviews?.[landmark.id]?.ratingTier : null;
+  useEffect(() => {
+    if (!contextTier || contextTier === savedRating?.tier || saving || submitted) return;
+    loadMyReview().then(() => setCommentRev((n) => n + 1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextTier]);
 
   const checkedInHere = !!(landmark && claimedMap[landmark.id]);
   useEffect(() => {
