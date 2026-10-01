@@ -9,7 +9,7 @@ import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { useTodayKey } from '../lib/useTodayKey';
-import { msUntilStreakLapse, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 
 function formatLeft(ms) {
@@ -166,7 +166,7 @@ function StreakBadge() {
   // the next close resets it -- show the real, already-broken 0 instead.
   const count = displayStreakCount(streak);
   const active = count > 0;
-  const secured = !!streak && streak.lastCompletedDay === today;
+  const secured = isDayHeld(streak, today);
 
   return (
     <div className="header-streak-wrap" ref={ref}>
@@ -238,7 +238,7 @@ function PairStreakBadge() {
     : null;
   const primaryCount = displayStreakCount(primary);
   const active = primaryCount > 0;
-  const secured = !!primary && primary.lastCompletedDay === today;
+  const secured = isDayHeld(primary, today);
   const partnerName = primary
     ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
     : null;

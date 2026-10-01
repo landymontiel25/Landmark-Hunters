@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
-import { msUntilStreakLapse, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { notifyUser } from '../lib/notifications';
 
@@ -47,7 +47,7 @@ export default function StreakWarningBanner() {
   const count = displayStreakCount(streak);
   // A freeze spent today holds the streak across today's gap, so it isn't
   // "about to lapse" any more -- don't nag someone who just used one.
-  const secured = !!streak && (streak.lastCompletedDay === today || (streak.frozenDays || []).includes(today));
+  const secured = isDayHeld(streak, today);
   const atRisk = count > 0 && !secured;
 
   useEffect(() => {

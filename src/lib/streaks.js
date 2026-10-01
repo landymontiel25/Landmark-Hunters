@@ -63,6 +63,17 @@ export function isStoredStreakLive(streak, now = new Date()) {
   );
 }
 
+/**
+ * Whether `today` (a dayKey) is already taken care of for this streak: the
+ * day was closed, or a freeze was spent on it. Every "at risk / secured"
+ * indicator (header badges, warning banner, Profile) shares this so none of
+ * them tells someone who just used a freeze that their streak is still
+ * about to lapse.
+ */
+export function isDayHeld(streak, today) {
+  return !!streak && (streak.lastCompletedDay === today || (streak.frozenDays || []).includes(today));
+}
+
 /** The count to DISPLAY for a stored streak doc: 0 once it has lapsed. */
 export function displayStreakCount(streak, now = new Date()) {
   return isStoredStreakLive(streak, now) ? streak.count : 0;

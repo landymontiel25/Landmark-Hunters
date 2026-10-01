@@ -31,7 +31,8 @@ import { dailyDeck } from '../lib/sharedDeck';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
-import { dayKey, monthKey, displayStreakCount } from '../lib/streaks';
+import { monthKey, displayStreakCount } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 
@@ -181,7 +182,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // here instead, above the deck.
   const [voteError, setVoteError] = useState(null);
 
-  const today = dayKey(new Date());
+  const today = useTodayKey();
   useEffect(() => {
     // Reset here, in the same effect that (re)subscribes, rather than a
     // separate effect with the same deps -- a separate one would run right
@@ -570,7 +571,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const [voteError, setVoteError] = useState(null);
   const [closeMsg, setCloseMsg] = useState(null);
 
-  const today = dayKey(new Date());
+  const today = useTodayKey();
   useEffect(() => {
     setOptimisticRatings({});
     setEntriesError(null);

@@ -17,7 +17,7 @@ import { useRatings } from '../lib/RatingsContext';
 import { RATING_GOAL } from '../lib/ratingFlow';
 import { getRegion, REGIONS } from '../data/regions';
 import { useBadges } from '../lib/BadgesContext';
-import { PICKS_STREAK_THRESHOLD, dayKey, displayStreakCount } from '../lib/streaks';
+import { PICKS_STREAK_THRESHOLD, dayKey, displayStreakCount, isDayHeld } from '../lib/streaks';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
 import { claimMyReferralBonuses } from '../lib/referrals';
 import { hasCompletedOnboardingLocally } from '../lib/onboarding';
@@ -380,7 +380,7 @@ export default function Profile() {
   const soloCount = displayStreakCount(soloStreak);
   const todayKey = dayKey(new Date());
   const soloStreakAtRisk =
-    soloCount > 0 && soloStreak.lastCompletedDay !== todayKey && !(soloStreak.frozenDays || []).includes(todayKey);
+    soloCount > 0 && !isDayHeld(soloStreak, todayKey);
 
   const leaderboardLabel =
     scope === 'friends'
