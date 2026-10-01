@@ -106,7 +106,9 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
       const agg = await tx.get(aggRef);
       const userSnap = await tx.get(userRef);
       const prevStars = prev.exists() ? prev.data().stars || 0 : 0;
-      const hadReview = prev.exists();
+      // A doc that only holds a comment or love note has no stars and was
+      // never counted in the aggregate, so rating it adds to the count.
+      const hadReview = prev.exists() && prevStars > 0;
       const curSum = agg.exists() ? agg.data().sum || 0 : 0;
       const curCount = agg.exists() ? agg.data().count || 0 : 0;
       const newSum = curSum - prevStars + stars;
@@ -307,6 +309,11 @@ export async function deleteMyReview(userId, landmarkId) {
     const prev = await tx.get(reviewRef);
     if (!prev.exists()) return;
     const s = prev.data().stars || 0;
+    // A comment-only doc was never counted in the aggregate; just delete it.
+    if (!s) {
+      tx.delete(reviewRef);
+      return;
+    }
     const agg = await tx.get(aggRef);
     const curSum = agg.exists() ? agg.data().sum || 0 : 0;
     const curCount = agg.exists() ? agg.data().count || 0 : 0;
