@@ -156,7 +156,9 @@ input[type='range']:focus-visible {
 .mpp-pill-distance::after {
   content: '';
   position: absolute;
-  inset: -12px -6px;
+  /* Extend upward over the non-interactive title, barely downward so the
+     first place row below keeps its own taps. */
+  inset: -22px -6px -4px;
 }
 .check-age-label {
   display: flex;
@@ -190,4 +192,24 @@ input[type='range']:focus-visible {
 }
 .mapr-pick-vote {
   min-height: 44px;
+}
+/* Carousel cards are ~217px wide: three 44px-tall votes plus a hint no longer
+   fit on one row, so "Not sure" (with its hint) gets its own full-width row. */
+.mapr-pick .mapr-pick-actions {
+  flex-wrap: wrap;
+}
+.mapr-pick .mapr-pick-vote.no,
+.mapr-pick .mapr-pick-vote.yes {
+  flex: 1 1 0;
+  min-width: 0;
+  order: 1;
+}
+.mapr-pick .mapr-pick-vote.unsure {
+  flex: 1 0 100%;
+  order: 2;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.mapr-pick-vote-hint {
+  white-space: nowrap;
 }
