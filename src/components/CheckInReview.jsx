@@ -146,7 +146,7 @@ export default function CheckInReview() {
     return (
       <CheckInBlast
         landmarkName={justCheckedIn.landmark?.name || justCheckedIn.name || ''}
-        points={celebration?.points ?? justCheckedIn.points ?? 100}
+        points={celebration?.points ?? 0}
         message={celebration?.message}
         onDone={endBlast}
       />
@@ -159,7 +159,7 @@ export default function CheckInReview() {
         {posted ? (
           <>
             <h3 style={{ marginTop: 0 }}>
-              {ratingOnly ? `${'\u{2B50}'} Rated!` : `${'\u{1F3AF}'} Checked in! +${celebration?.points ?? justCheckedIn.points ?? 100} pts`}
+              {ratingOnly ? `${'\u{2B50}'} Rated!` : `${'\u{1F3AF}'} Checked in!${celebration?.points > 0 ? ` +${celebration.points} pts` : ''}`}
             </h3>
             {!ratingOnly && celebration?.message && <div className="celebration-banner">{celebration.message}</div>}
             {msg && (

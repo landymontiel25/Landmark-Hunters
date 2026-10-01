@@ -52,7 +52,7 @@ export default function CheckInBlast({ landmarkName, points = 100, message, onDo
         <div className="blast-pin">{'\u{1F4CD}'}</div>
         <h1 className="blast-title">YOU CHECKED IN!</h1>
         <p className="blast-name">{landmarkName}</p>
-        <p className="blast-points">+{points} pts</p>
+        {points > 0 && <p className="blast-points">+{points} pts</p>}
         {message && <p className="blast-message">{message}</p>}
       </div>
     </div>
