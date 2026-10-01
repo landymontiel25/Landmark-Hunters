@@ -60,6 +60,24 @@ describe('ErrorBoundary', () => {
     expect(host.textContent).toBe('still here');
   });
 
+  it('a crashed BottomNav leaves plain hash links to every main tab, and the crash is still logged', async () => {
+    const { BottomNavFallback } = await import('./BottomNav');
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    host = document.createElement('div');
+    document.body.appendChild(host);
+    root = createRoot(host);
+    act(() =>
+      root.render(
+        <ErrorBoundary fallback={<BottomNavFallback />}>
+          <Bomb />
+        </ErrorBoundary>
+      )
+    );
+    const hrefs = [...host.querySelectorAll('nav a')].map((a) => a.getAttribute('href'));
+    expect(hrefs).toEqual(['#/', '#/landmarks', '#/mapr', '#/itinerary', '#/profile']);
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('says so when the device is offline', () => {
     vi.stubGlobal('navigator', { ...navigator, onLine: false });
     mountCrash();

@@ -64,7 +64,7 @@ input[type='range']:focus-visible {
 .bottom-nav a {
   min-width: 0;
   overflow: hidden;
-  font-size: min(0.62rem, 12px);
+  font-size: min(0.7rem, 12px);
 }
 .bottom-nav .nav-icon {
   font-size: min(1.25rem, 26px);

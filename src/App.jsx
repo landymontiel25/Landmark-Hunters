@@ -14,7 +14,7 @@ import { PairStreakProvider } from './lib/PairStreakContext';
 import { AdminModeProvider } from './lib/AdminModeContext';
 import { LandmarkEditsProvider } from './lib/LandmarkEditsContext';
 import Header from './components/Header';
-import BottomNav from './components/BottomNav';
+import BottomNav, { BottomNavFallback } from './components/BottomNav';
 import ErrorBoundary from './components/ErrorBoundary';
 import OfflineBanner from './components/OfflineBanner';
 import StreakWarningBanner from './components/StreakWarningBanner';
@@ -243,7 +243,7 @@ export default function App() {
           <main className="app-main">
             <AppRoutes />
           </main>
-          <Soft><BottomNav /></Soft>
+          <ErrorBoundary fallback={<BottomNavFallback />}><BottomNav /></ErrorBoundary>
           <Soft><CheckInReview /></Soft>
           <Soft><LoveReasonPrompt /></Soft>
           <Soft><TagCapPrompt /></Soft>
