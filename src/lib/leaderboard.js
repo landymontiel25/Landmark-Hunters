@@ -17,6 +17,7 @@ import {
   arrayRemove,
   Timestamp,
 } from 'firebase/firestore';
+import { sharedRead, invalidating } from './sharedRead';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
@@ -99,7 +100,7 @@ export const PERIODS = ['weekly', 'monthly', 'yearly'];
  * should learn from every visit whether or not it paid out.
  * Returns { claimed, alreadyClaimed, visitNumber?, payout?, checkinId? }.
  */
-export async function claimCheckIn({
+async function _claimCheckIn({
   userId,
   userName,
   landmarkId,
@@ -245,7 +246,7 @@ export async function backfillUserName(userId, userName) {
  * as addCheckinPhoto, each in its own Storage file, so a second photo (or a
  * later visit's) never overwrites the first.
  */
-export async function attachCheckinPhoto(userId, landmarkId, file) {
+async function _attachCheckinPhoto(userId, landmarkId, file) {
   return addCheckinPhoto(userId, landmarkId, file);
 }
 
@@ -256,7 +257,7 @@ export async function attachCheckinPhoto(userId, landmarkId, file) {
  * (src/lib/admins.js); a non-admin write attempt is rejected there
  * regardless of what the client sends.
  */
-export async function updateCheckinTimestamp(checkinId, date) {
+async function _updateCheckinTimestamp(checkinId, date) {
   if (!db || !checkinId || !date) return;
   await _updateDoc(doc(db, 'checkins', checkinId), { createdAt: Timestamp.fromDate(date) });
 }
@@ -274,7 +275,7 @@ export const MAX_CHECKIN_PHOTOS = 9;
  * checkin_photos/{landmarkId}/{uid}_{timestamp}.jpg keeps each upload its
  * own file instead of overwriting the last one.
  */
-export async function addCheckinPhoto(userId, landmarkId, file) {
+async function _addCheckinPhoto(userId, landmarkId, file) {
   if (!db || !storage || !userId || !landmarkId || !file) return null;
   const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${Math.floor(Math.random() * 1000)}.jpg`);
   await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
@@ -284,7 +285,7 @@ export async function addCheckinPhoto(userId, landmarkId, file) {
 }
 
 /** Removes one photo from the check-in's gallery, and its file in Storage. */
-export async function removeCheckinPhoto(userId, landmarkId, photoURL) {
+async function _removeCheckinPhoto(userId, landmarkId, photoURL) {
   if (!db || !userId || !landmarkId || !photoURL) return;
   await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURLs: arrayRemove(photoURL) });
   if (storage) {
@@ -478,13 +479,15 @@ export async function getUserStats(userId) {
  */
 export async function getUserCheckins(userId) {
   if (!db || !userId) return [];
-  const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
-  return snap.docs
-    .map((d) => {
-      const c = { id: d.id, ...d.data() };
-      return { ...c, landmarkId: canonicalLandmarkId(c.landmarkId, c.region) };
-    })
-    .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  return sharedRead(`checkins:${userId}`, async () => {
+    const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
+    return snap.docs
+      .map((d) => {
+        const c = { id: d.id, ...d.data() };
+        return { ...c, landmarkId: canonicalLandmarkId(c.landmarkId, c.region) };
+      })
+      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  });
 }
 
 /**
@@ -494,8 +497,9 @@ export async function getUserCheckins(userId) {
  * or block the real "Check In" button/points once you actually go.
  */
 export async function getUserCheckedInLandmarkIds(userId) {
-  const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
-  return snap.docs.map((d) => d.data()).filter(isRealCheckin).map((x) => canonicalLandmarkId(x.landmarkId, x.region));
+  // Shares the one check-ins read getUserCheckins already makes at startup.
+  const rows = await getUserCheckins(userId);
+  return rows.filter(isRealCheckin).map((x) => canonicalLandmarkId(x.landmarkId, x.region));
 }
 
 /**
@@ -665,3 +669,13 @@ export function subscribeLeaderboard(period, onData, topN = 50, onError) {
     (err) => onError?.(err)
   );
 }
+
+export const claimCheckIn = invalidating(_claimCheckIn);
+
+export const attachCheckinPhoto = invalidating(_attachCheckinPhoto);
+
+export const updateCheckinTimestamp = invalidating(_updateCheckinTimestamp);
+
+export const addCheckinPhoto = invalidating(_addCheckinPhoto);
+
+export const removeCheckinPhoto = invalidating(_removeCheckinPhoto);

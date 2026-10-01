@@ -14,6 +14,7 @@ import {
   arrayUnion,
   serverTimestamp,
 } from 'firebase/firestore';
+import { sharedRead, invalidating } from './sharedRead';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { tierStars, COMMENT_MAX } from './ratingFlow';
@@ -108,7 +109,7 @@ function tagScoreUpdate(userData, prev, next, nowMs) {
  * rating adjusts the sum by the delta rather than double-counting. Optional
  * photos are uploaded to Storage and their URLs saved on the review.
  */
-export async function submitReview({ userId, userName, landmark, rating, photoFiles, photoFile }) {
+async function _submitReview({ userId, userName, landmark, rating, photoFiles, photoFile }) {
   const landmarkId = landmark.id;
   // stars is derived from the tier (I loved it / It was okay / Not for me)
   // for the landmark_ratings aggregate's math -- the UI only ever picks a
@@ -266,10 +267,12 @@ export async function getUserReviewPhotos(userId) {
 /** Every review a user has written, raw. Feeds ratingsCount and the taste card. */
 export async function getUserReviews(userId) {
   if (!db || !userId) return [];
-  const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', userId)));
-  return snap.docs.map((d) => {
-    const r = { id: d.id, ...d.data() };
-    return { ...r, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
+  return sharedRead(`reviews:${userId}`, async () => {
+    const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', userId)));
+    return snap.docs.map((d) => {
+      const r = { id: d.id, ...d.data() };
+      return { ...r, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
+    });
   });
 }
 
@@ -327,7 +330,7 @@ export async function getLandmarkReviews(landmarkId, { uid = null, friendUids = 
  * profile privacy -- after flipping Public/Private, and once per session
  * for reviews saved before those fields existed. Best effort per review.
  */
-export async function syncMyReviewVisibility(uid, isPublic) {
+async function _syncMyReviewVisibility(uid, isPublic) {
   if (!db || !uid) return 0;
   const want = isPublic ? 'public' : 'private';
   const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', uid)));
@@ -345,7 +348,7 @@ export async function syncMyReviewVisibility(uid, isPublic) {
  * collection needed; this is the actual enforcement, not just a client-side
  * filter.
  */
-export async function reportReview({ reporterUid, review }) {
+async function _reportReview({ reporterUid, review }) {
   const ref = doc(db, 'reviews', review.id);
   await runTransaction(db, async (tx) => {
     const cur = await tx.get(ref);
@@ -359,7 +362,7 @@ export async function reportReview({ reporterUid, review }) {
 }
 
 /** Delete your own review and roll its stars back out of the aggregate. */
-export async function deleteMyReview(userId, landmarkId) {
+async function _deleteMyReview(userId, landmarkId) {
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
   const userRef = doc(db, 'users', userId);
@@ -398,7 +401,7 @@ export async function deleteMyReview(userId, landmarkId) {
  * rating does (a merge, so tier, photos and love notes are untouched), and
  * firestore.rules only allows it once you've checked in there.
  */
-export async function saveMyComment({ userId, landmark, comment }) {
+async function _saveMyComment({ userId, landmark, comment }) {
   const text = (comment || '').trim().slice(0, COMMENT_MAX);
   const ref = doc(db, 'reviews', `${userId}_${landmark.id}`);
   await runTransaction(db, async (tx) => {
@@ -435,7 +438,7 @@ export async function saveMyComment({ userId, landmark, comment }) {
  * an update -- the create-or-update case is identical here since the only
  * field touched either way is loveNotes.
  */
-export async function appendLoveNote(userId, landmarkId, landmark, note) {
+async function _appendLoveNote(userId, landmarkId, landmark, note) {
   const text = (note || '').trim().slice(0, 280);
   if (!db || !userId || !landmarkId || !text) return;
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
@@ -489,3 +492,15 @@ export async function addReply(reviewId, { uid, userName, text }) {
 export async function deleteReply(reviewId, replyId) {
   await deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId));
 }
+
+export const submitReview = invalidating(_submitReview);
+
+export const syncMyReviewVisibility = invalidating(_syncMyReviewVisibility);
+
+export const reportReview = invalidating(_reportReview);
+
+export const deleteMyReview = invalidating(_deleteMyReview);
+
+export const saveMyComment = invalidating(_saveMyComment);
+
+export const appendLoveNote = invalidating(_appendLoveNote);

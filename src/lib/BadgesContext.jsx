@@ -193,8 +193,13 @@ export function BadgesProvider({ children }) {
     }
   }, [firebaseEnabled, user, friendUids, trip.byRegion]);
 
+  // On launch the friend list, trips and check-in map each arrive a moment
+  // apart and each changes `load`; running the whole multi-read badge pass once
+  // per arrival (3x) was most of the startup Firestore traffic. Wait for the
+  // burst to settle and run it once.
   useEffect(() => {
-    load();
+    const t = setTimeout(load, 400);
+    return () => clearTimeout(t);
   }, [load, claimedMap]);
 
   // A tab left open overnight (common on desktop) otherwise keeps
