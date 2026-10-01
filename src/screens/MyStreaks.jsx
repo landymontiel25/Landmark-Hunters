@@ -31,7 +31,7 @@ import { dailyDeck } from '../lib/sharedDeck';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
-import { dayKey, monthKey } from '../lib/streaks';
+import { dayKey, monthKey, displayStreakCount } from '../lib/streaks';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 
@@ -261,6 +261,18 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const myDayDone = cardIds.length > 0 && myGuessedCount === cardIds.length;
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
+  // The close call is fire-and-forget right after a vote, so a dropped
+  // request (or the partner finishing last while this screen isn't open)
+  // would leave a fully-rated day never counted. Re-ping once whenever both
+  // halves are in but the server hasn't closed today yet.
+  const closeRetriedFor = useRef(null);
+  const bothDone = myDayDone && cardIds.length > 0 && partnerGuessedCount === cardIds.length;
+  useEffect(() => {
+    if (!bothDone || streak.lastCompletedDay === today || closeRetriedFor.current === today) return;
+    closeRetriedFor.current = today;
+    closeToday(streak.id);
+  }, [bothDone, streak.lastCompletedDay, streak.id, today, closeToday]);
+
   const handleRate = async (landmarkId, verdict) => {
     setVoteError(null);
     setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
@@ -343,7 +355,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
       </h3>
       <div className="profile-stats">
         <div className="profile-stat">
-          <span className="profile-stat-num">{streak.count}</span>
+          <span className="profile-stat-num">{displayStreakCount(streak)}</span>
           <span className="profile-stat-label">current</span>
         </div>
         <div className="profile-stat">
@@ -596,15 +608,43 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const dayDone = cardIds.length > 0 && myRatedCount === cardIds.length;
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
+  // If the close call right after the last rating failed (a network blip --
+  // it's also what used to throw the rating back out of the optimistic
+  // overlay), the day would stay "rated all 3" but never count. Re-ping once
+  // whenever all 3 are in and the server hasn't closed today.
+  const closeRetriedFor = useRef(null);
+  const [closeRetryTick, setCloseRetryTick] = useState(0);
+  useEffect(() => {
+    if (!dayDone || streak.lastCompletedDay === today || closeRetriedFor.current === today) return;
+    closeRetriedFor.current = today;
+    closeSoloToday()
+      .then((res) => {
+        if (!res?.ok) closeRetriedFor.current = null;
+      })
+      .catch(() => {
+        closeRetriedFor.current = null;
+      });
+  }, [dayDone, streak.lastCompletedDay, today, closeRetryTick]);
+
   const handleRate = async (landmarkId, verdict) => {
     setVoteError(null);
     setCloseMsg(null);
     setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
+    const willBeDone = cardIds.every((id) => id === landmarkId || entry.ratings?.[id]);
+    // Claimed BEFORE the write: the local snapshot can flip dayDone (and fire the
+    // retry effect above) before the awaited write even resolves, which would
+    // send a second close and swallow the "+20 pts" result of this one.
+    if (willBeDone) closeRetriedFor.current = today;
     try {
       await submitSoloCardRating(streak.id, landmarkId, verdict);
-      const willBeDone = cardIds.every((id) => id === landmarkId || entry.ratings?.[id]);
       if (willBeDone) {
-        const r = await closeSoloToday();
+        // The rating itself already saved -- a failed close ping must not throw it
+        // back out of the optimistic overlay; the effect above retries it.
+        const r = await closeSoloToday().catch(() => null);
+        if (!r?.ok) {
+          closeRetriedFor.current = null;
+          setCloseRetryTick((n) => n + 1);
+        }
         if (r?.closed && !r.already && r.pointsAwarded) {
           setCloseMsg(
             r.milestoneAwarded
@@ -614,6 +654,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
         }
       }
     } catch (e) {
+      if (willBeDone) closeRetriedFor.current = null;
       setOptimisticRatings((cur) => {
         const next = { ...cur };
         delete next[landmarkId];
@@ -645,7 +686,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       <h3 style={{ marginTop: 0 }}>{'\u{1F525}'} Your Solo Streak</h3>
       <div className="profile-stats">
         <div className="profile-stat">
-          <span className="profile-stat-num">{streak.count}</span>
+          <span className="profile-stat-num">{displayStreakCount(streak)}</span>
           <span className="profile-stat-label">current</span>
         </div>
         <div className="profile-stat">
@@ -937,7 +978,7 @@ export default function MyStreaks() {
                   >
                     <span style={{ fontWeight: 700 }}>@{partnerName}</span>
                     <span>
-                      {s.count} {'\u{1F525}\u{1F525}'} {'›'}
+                      {displayStreakCount(s)} {'\u{1F525}\u{1F525}'} {'›'}
                     </span>
                   </button>
                   <button

@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { dayKey, validClientDayKey } from './_lib/streakDay.js';
+import { dayKey, monthKey, validClientDayKey, monthKeyOfDay } from './_lib/streakDay.js';
 import { withCors } from './_lib/cors.js';
 
 // 1 personal freeze per month for a solo streak -- half the dual streak's
@@ -41,12 +41,12 @@ async function handler(req, res) {
       return;
     }
 
+    // The caller's own local day (see validClientDayKey) -- falls back to the
+    // server's clock only for an old client that doesn't send one.
     const now = new Date();
-    // The caller's own local day (matches the dayId close-*-streak-day gets),
-    // not the server's UTC one -- otherwise an evening freeze for anyone west
-    // of UTC is stored as tomorrow and never bridges the gap it was bought for.
-    const today = validClientDayKey(req.body?.dayId) || dayKey(now);
-    const thisMonth = today.split('-').slice(0, 2).join('-');
+    const clientDay = validClientDayKey(req.body?.dayId, now);
+    const today = clientDay || dayKey(now);
+    const thisMonth = clientDay ? monthKeyOfDay(clientDay) : monthKey(now);
     const carryingOver = streak.freezeMonth !== thisMonth;
     const freezesLeft = carryingOver ? SOLO_FREEZES_PER_MONTH : streak.freezesLeft ?? SOLO_FREEZES_PER_MONTH;
     const frozenDays = carryingOver ? [] : streak.frozenDays || [];

@@ -19,7 +19,10 @@ const soloStreak = {
   id: 'me',
   mode: 'solo',
   count: 6,
-  lastCompletedDay: 'not-today',
+  lastCompletedDay: (() => {
+    const y = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    return `${y.getFullYear()}-${y.getMonth()}-${y.getDate()}`;
+  })(),
   createdAt: { seconds: 0 },
 };
 

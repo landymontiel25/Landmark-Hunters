@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
-import { msUntilStreakLapse, dayKey, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, dayKey, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { notifyUser } from '../lib/notifications';
 
 // Alert once 5 hours remain in the local day with the SOLO streak not yet
@@ -41,7 +41,8 @@ export default function StreakWarningBanner() {
     return subscribeMySoloStreak(user.uid, setStreak, () => {});
   }, [user]);
 
-  const count = streak?.count || 0;
+  // 0 once the stored streak has already lapsed -- nothing left to warn about.
+  const count = displayStreakCount(streak);
   const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
   const atRisk = count > 0 && !secured;
 

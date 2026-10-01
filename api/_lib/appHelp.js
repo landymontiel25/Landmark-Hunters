@@ -175,6 +175,8 @@ export const APP_HELP =
   `since there's no partner to guess about). 1 personal freeze per month, spendable from the streak's own detail page. Rating a day earns 20 points, ` +
   `plus a milestone bonus (100 at day 3, 300 at day 7, 1000 at day 30). Everyone who already had a solo streak kept their exact count and best when ` +
   `this shipped -- it was seeded once from their real history the first time their account touched the app after the change, never reset to 0.\n` +
+  `- Streak counts (solo and dual) show 0 as soon as a day has been missed with no freeze covering it, instead of lingering at the old number until the ` +
+  `next rating. A freeze holds the day on the traveler's own local calendar (not UTC), and a fully-rated day that failed to register retries on reopening the streak page.\n` +
   `- Dual Streaks (🔥🔥, two flames, in the header next to the solo streak's single 🔥 -- not shown on Profile's Your Stats tile, only reachable via ` +
   `the header or the Streaks page's own Dual tab): a SEPARATE streak that belongs to a PAIR of friends, independent of the solo streak above -- you ` +
   `can have both going at once, and starting one never touches or resets your solo streak.\n` +
