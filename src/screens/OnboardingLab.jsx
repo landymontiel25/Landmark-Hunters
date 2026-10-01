@@ -50,13 +50,14 @@ const empty = () => ({
 });
 
 export default function OnboardingLab() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [step, setStep] = useState(0);
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
   const set = (patch) => setData((d) => ({ ...d, ...patch }));
   const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
 
+  if (authLoading) return null;
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
 
   if (NOTHING_TO_TEST) {

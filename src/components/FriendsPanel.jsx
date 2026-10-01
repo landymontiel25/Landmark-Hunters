@@ -82,7 +82,7 @@ export default function FriendsPanel() {
     try {
       const u = await setUsername(unameInput);
       setUnameMsg(`Username set to @${u}.`);
-      setUnameInput('');
+      setUnameInput(u);
     } catch (e) {
       setUnameMsg(friendlyError(e, "Couldn't set that username. Try again."));
     } finally {

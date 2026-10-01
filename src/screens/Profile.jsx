@@ -91,7 +91,7 @@ function FinishOnboardingCard({ onStartOnboarding }) {
 }
 
 export default function Profile() {
-  const { user, firebaseEnabled, signOutUser } = useAuth();
+  const { user, loading: authLoading, firebaseEnabled, signOutUser } = useAuth();
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
   const navigate = useNavigate();
@@ -146,6 +146,15 @@ export default function Profile() {
     if (launchFlow) setFlowActive(true);
   }, [launchFlow]);
   const healedRef = useRef(false);
+  // Signing out and into a different account while this screen stays
+  // mounted must not carry the previous account's onboarding takeover or
+  // "already healed" flag over to the next one.
+  useEffect(() => {
+    if (user) return;
+    setFlowActive(false);
+    setSignedUpNow(false);
+    healedRef.current = false;
+  }, [user]);
 
   const period = tab; // the board always tracks a period
 
@@ -279,6 +288,10 @@ export default function Profile() {
     );
   }
 
+  // Auth is still restoring the saved session: not signed out yet, so don't
+  // flash the sign-in form at someone who is signed in.
+  if (authLoading) return <SkeletonList count={3} label="Loading" />;
+
   if (!user) return (
       <SignInForm
         onSignedUp={() => {
@@ -314,7 +327,6 @@ export default function Profile() {
   const top3 = entries.slice(0, 3);
   const podiumOrder = [top3[1], top3[0], top3[2]]; // 2nd · 1st · 3rd
   const rest = entries.slice(3);
-  const myRowOutside = myIdx >= 3;
 
   // Closest rival: the friend nearest above you on this period's board --
   // a friend-scoped nudge, distinct from the motivator above (which compares
@@ -565,18 +577,6 @@ export default function Profile() {
           </div>
         ))}
 
-        {!loading && myRowOutside && (
-          <div className="leaderboard-row me" style={{ marginTop: 8 }}>
-            <div className="leaderboard-rank">#{myRank}</div>
-            <div className="leaderboard-name" style={{ flex: 1 }}>
-              {myUsername ? `@${myUsername}` : 'You'}
-              <span className="leaderboard-you-tag">You</span>
-            </div>
-            <div style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-brass-bright)', fontWeight: 700 }}>
-              {myPoints.toLocaleString()} pts
-            </div>
-          </div>
-        )}
       </div>
 
       {/* 3 — Friends & invite */}

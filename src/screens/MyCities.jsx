@@ -9,8 +9,10 @@ import { SkeletonList } from '../components/Skeleton';
 // equivalent. "See Full Stats" still shows level + badges + everything.
 export default function MyCities() {
   const navigate = useNavigate();
-  const { user, firebaseEnabled } = useAuth();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
   const { stats } = useBadges();
+
+  if (authLoading) return <SkeletonList count={4} label="Loading your cities" />;
 
   if (!firebaseEnabled || !user) {
     return (
