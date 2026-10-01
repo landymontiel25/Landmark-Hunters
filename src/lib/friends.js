@@ -313,6 +313,11 @@ export async function sendFriendRequest(fromUser, toUser) {
   if (theirs.docs.some((d) => d.data().from === toUser.uid)) {
     throw userError(`@${toUser.username || toUser.displayName || 'They'} already sent you a request. Accept it under Requests.`);
   }
+  // Re-sending over your own pending request would be an update, which the
+  // rules don't allow -- it surfaced as a generic "couldn't send" error.
+  if (await hasPendingRequestTo(fromUser.uid, toUser.uid)) {
+    throw userError(`You already sent @${toUser.username || toUser.displayName || 'them'} a request -- waiting on them to accept.`);
+  }
   await setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
     from: fromUser.uid,
     fromName: fromUser.username || fromUser.displayName || fromUser.email,
@@ -364,5 +369,15 @@ export async function declineRequest(req) {
 
 export async function listFriends(uid) {
   const snap = await getDocs(query(collection(db, 'friend_edges'), where('owner', '==', uid)));
-  return snap.docs.map((d) => d.data());
+  const edges = snap.docs.map((d) => d.data());
+  // An edge's friendName is the handle at the moment the request was
+  // accepted; a friend who changed their username since would otherwise
+  // keep showing under the old (now unsearchable) name everywhere friends
+  // are listed. Prefer the live username, fall back to the stored one.
+  const live = await Promise.allSettled(edges.map((e) => getDoc(doc(db, 'users', e.friend))));
+  return edges.map((e, i) => {
+    const r = live[i];
+    const username = r.status === 'fulfilled' && r.value?.exists?.() ? r.value.data()?.username : null;
+    return username ? { ...e, friendName: username } : e;
+  });
 }

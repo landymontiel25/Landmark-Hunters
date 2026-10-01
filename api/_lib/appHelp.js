@@ -226,7 +226,13 @@ export const APP_HELP =
   `using a freeze, since a frozen day still counts as unbroken for the stored streak but not for the badge count.\n` +
   `- Map category filter: tap the 🗂️ button on the Map, then the "All landmarks" dropdown, to search categories and tap to show or hide them.\n` +
   `- Ranks / Leaderboard (also a Profile section, now secondary to Mapr/taste stats): a Friends/Global toggle — Friends ranks you against people you ` +
-  `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views.\n` +
+  `follow, Global splits into Worldwide and Regional (one curated city). Each has Weekly/Monthly/Yearly views. People on the same points share a rank (a tie never shows one of them a worse number), ` +
+  `and on the Worldwide board (which lists the top 50) someone ranked below that sees their own points with a "50+" rank instead of "no points yet".\n` +
+  `- Streak warning banner: once 5 hours remain in the local day with the solo streak neither secured nor held by a freeze, a red countdown banner shows ` +
+  `on every screen (tap it for the Streaks page); using the day's freeze or rating the day's 3 landmarks clears it. A "streak expires" notification in ` +
+  `Notifications opens the Streaks page when tapped.\n` +
+  `- Trip data (itineraries, My Preferences chips) is stored on the device; signing in as a different account (or signing out) clears it so the next ` +
+  `person on the same phone doesn't see the previous account's itineraries.\n` +
   `- Inviting friends: Profile has an "Invite Friends" button that shares your username/link; once someone signs up through it, both of you get 50 ` +
   `bonus points (credited quietly into your point total — there's no separate referral display anymore).\n` +
   `- Directions: every "Get Directions" button in the app (Map tab pins, Landmarks list, a landmark's page, itineraries) opens the same ` +

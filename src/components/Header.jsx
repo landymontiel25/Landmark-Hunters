@@ -6,9 +6,10 @@ import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
-import { subscribeLeaderboard } from '../lib/leaderboard';
+import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
-import { msUntilStreakLapse, dayKey, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
+import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 
 function formatLeft(ms) {
@@ -130,17 +131,6 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
 // exists from the first screen this account ever lands on, not only after
 // visiting Your Streaks once; it's idempotent, so calling it again there
 // too is harmless.
-// The current local day key, re-evaluated at each local midnight so a badge
-// left open overnight doesn't keep calling yesterday's streak "secured".
-function useTodayKey() {
-  const [today, setToday] = useState(() => dayKey(new Date()));
-  useEffect(() => {
-    const id = setTimeout(() => setToday(dayKey(new Date())), msUntilStreakLapse() + 500);
-    return () => clearTimeout(id);
-  }, [today]);
-  return today;
-}
-
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const today = useTodayKey();
@@ -176,7 +166,7 @@ function StreakBadge() {
   // the next close resets it -- show the real, already-broken 0 instead.
   const count = displayStreakCount(streak);
   const active = count > 0;
-  const secured = !!streak && streak.lastCompletedDay === today;
+  const secured = isDayHeld(streak, today);
 
   return (
     <div className="header-streak-wrap" ref={ref}>
@@ -248,7 +238,7 @@ function PairStreakBadge() {
     : null;
   const primaryCount = displayStreakCount(primary);
   const active = primaryCount > 0;
-  const secured = !!primary && primary.lastCompletedDay === today;
+  const secured = isDayHeld(primary, today);
   const partnerName = primary
     ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
     : null;
@@ -322,11 +312,22 @@ function ProfileMenu() {
       setMe(null);
       return;
     }
+    let cancelled = false;
     const unsub = subscribeLeaderboard('weekly', (entries) => {
       const idx = entries.findIndex((e) => e.userId === user.uid);
-      setMe({ points: idx >= 0 ? entries[idx].points : 0, rank: idx >= 0 ? entries.findIndex((e) => e.points === entries[idx].points) + 1 : null });
+      if (idx >= 0) {
+        setMe({ points: entries[idx].points, rank: rankOf(entries, idx) });
+        return;
+      }
+      // Not in the top 50: show your real points (unranked), not "0 pts".
+      getMyLeaderboardEntry('weekly', user.uid)
+        .then((mine) => !cancelled && setMe({ points: mine?.points || 0, rank: null }))
+        .catch(() => !cancelled && setMe({ points: 0, rank: null }));
     }, 50, () => setMe({ points: null, rank: null, failed: true }));
-    return unsub;
+    return () => {
+      cancelled = true;
+      unsub();
+    };
   }, [firebaseEnabled, user]);
 
   useEffect(() => {

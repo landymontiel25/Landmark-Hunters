@@ -31,7 +31,8 @@ import { dailyDeck } from '../lib/sharedDeck';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
-import { dayKey, monthKey, displayStreakCount } from '../lib/streaks';
+import { monthKey, displayStreakCount } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 
@@ -181,7 +182,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // here instead, above the deck.
   const [voteError, setVoteError] = useState(null);
 
-  const today = dayKey(new Date());
+  const today = useTodayKey();
   useEffect(() => {
     // Reset here, in the same effect that (re)subscribes, rather than a
     // separate effect with the same deps -- a separate one would run right
@@ -570,7 +571,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const [voteError, setVoteError] = useState(null);
   const [closeMsg, setCloseMsg] = useState(null);
 
-  const today = dayKey(new Date());
+  const today = useTodayKey();
   useEffect(() => {
     setOptimisticRatings({});
     setEntriesError(null);
@@ -862,7 +863,25 @@ export default function MyStreaks() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
-  const { streaks, leaveStreak } = usePairStreaks();
+  const { streaks: storedStreaks, leaveStreak } = usePairStreaks();
+  // A streak doc keeps the partner's handle from the day it was created; a
+  // partner who has renamed since would keep showing under the old one.
+  // Friends carry their live username (listFriends), so prefer that.
+  const [liveNames, setLiveNames] = useState({});
+  useEffect(() => {
+    if (!firebaseEnabled || !user?.uid) return undefined;
+    let cancelled = false;
+    listFriends(user.uid)
+      .then((fs) => !cancelled && setLiveNames(Object.fromEntries((fs || []).map((f) => [f.friend, f.friendName]))))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [firebaseEnabled, user?.uid]);
+  const streaks = storedStreaks.map((s) => {
+    const live = (s.memberIds || []).filter((uid) => liveNames[uid]);
+    return live.length ? { ...s, memberNames: { ...s.memberNames, ...Object.fromEntries(live.map((uid) => [uid, liveNames[uid]])) } } : s;
+  });
   const [tab, setTab] = useState('solo');
   const [openDualId, setOpenDualId] = useState(null);
   const [picking, setPicking] = useState(false);

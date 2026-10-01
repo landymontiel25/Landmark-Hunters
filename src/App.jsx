@@ -29,12 +29,20 @@ import { ToastProvider } from './lib/ToastContext';
 import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
 import { usePushNotificationsSync } from './lib/usePushNotificationsSync';
 import { useOnboardingNotice } from './lib/useOnboardingNotice';
+import { useTripAccountGuard } from './lib/tripAccountGuard';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
 // start/stop push registration as the traveler's own saved preference
 // (Settings) changes.
 function PushNotificationsSync() {
   usePushNotificationsSync();
+  return null;
+}
+
+// Renders nothing -- clears the device-local trip when a different account
+// (or nobody) is signed in than the one that built it.
+function TripAccountGuard() {
+  useTripAccountGuard();
   return null;
 }
 
@@ -194,6 +202,7 @@ export default function App() {
           <UnitsProvider>
           <MaprChatProvider>
           <HashRouter>
+          <TripAccountGuard />
           <BackgroundLocationSync />
           <PushNotificationsSync />
           <OnboardingNoticeSync />

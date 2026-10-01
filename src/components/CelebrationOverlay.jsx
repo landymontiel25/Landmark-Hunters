@@ -19,7 +19,9 @@ export default function CelebrationOverlay() {
   const [levelUp, setLevelUp] = useState(null);
 
   useEffect(() => {
-    if (!user || !stats) return;
+    // A failed stats read is zeros, not a real level 1: recording that as the
+    // baseline would later celebrate the account's actual level as a level-up.
+    if (!user || !stats || stats.failed) return;
     const key = `${LEVEL_KEY_PREFIX}${user.uid}`;
     const { level } = levelProgress(stats.totalPoints);
     // Storage can be blocked/full; this effect runs app-wide, so a throw

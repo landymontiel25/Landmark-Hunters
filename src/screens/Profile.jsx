@@ -10,12 +10,14 @@ import {
   getRegionalLeaderboard,
   backfillUserName,
   cleanName,
+  rankOf,
+  getMyLeaderboardEntry,
 } from '../lib/leaderboard';
 import { useRatings } from '../lib/RatingsContext';
 import { RATING_GOAL } from '../lib/ratingFlow';
 import { getRegion, REGIONS } from '../data/regions';
 import { useBadges } from '../lib/BadgesContext';
-import { PICKS_STREAK_THRESHOLD, dayKey } from '../lib/streaks';
+import { PICKS_STREAK_THRESHOLD, dayKey, displayStreakCount, isDayHeld } from '../lib/streaks';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
 import { claimMyReferralBonuses } from '../lib/referrals';
 import { hasCompletedOnboardingLocally } from '../lib/onboarding';
@@ -277,6 +279,27 @@ export default function Profile() {
     };
   }, [period, firebaseEnabled, user, scope, globalMode, regionalRegionId, friendUids, loadAttempt]);
 
+  // The worldwide board only lists its top 50, so someone ranked below that
+  // is absent from `entries` -- fetch their own row so they see their points
+  // instead of "no points yet".
+  const [outsideEntry, setOutsideEntry] = useState(null);
+  const onGlobalBoard = scope === 'global' && globalMode === 'global';
+  const missingFromBoard =
+    !!user && !loading && !loadError && onGlobalBoard && entries.length > 0 && !entries.some((e) => e.userId === user.uid);
+  useEffect(() => {
+    setOutsideEntry(null);
+    if (!missingFromBoard) return undefined;
+    let cancelled = false;
+    getMyLeaderboardEntry(period, user.uid)
+      .then((e) => {
+        if (!cancelled) setOutsideEntry(e);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [missingFromBoard, period, user?.uid]);
+
   if (!firebaseEnabled) {
     return (
       <div className="empty-state">
@@ -304,8 +327,9 @@ export default function Profile() {
   if (flowActive) return <Onboarding isNew={signedUpNow || onboardingStatus(myProfile) === 'new' || undefined} onExit={() => setFlowActive(false)} />;
 
   const myIdx = entries.findIndex((e) => e.userId === user.uid);
-  const myPoints = myIdx >= 0 ? entries[myIdx].points : 0;
-  const myRank = myIdx >= 0 ? myIdx + 1 : null;
+  const myPoints = myIdx >= 0 ? entries[myIdx].points : outsideEntry?.points || 0;
+  const myRank = myIdx >= 0 ? rankOf(entries, myIdx) : null;
+  const belowBoard = myIdx < 0 && !!outsideEntry && outsideEntry.points > 0;
 
   const displayFor = (e) => (e.userId === user.uid && myUsername ? myUsername : cleanName(e.userName));
 
@@ -314,6 +338,9 @@ export default function Profile() {
     motivator = <Skeleton width="70%" height={13} />;
   } else if (loadError) {
     motivator = '';
+  } else if (belowBoard) {
+    const last = entries[entries.length - 1];
+    motivator = `${Math.max(0, last.points - myPoints + 1).toLocaleString()} pts to reach the top ${entries.length} 🔥`;
   } else if (myIdx < 0) {
     motivator = 'Check in at a landmark to get on the board! 🚀';
   } else if (myIdx === 0) {
@@ -321,7 +348,10 @@ export default function Profile() {
   } else {
     const above = entries[myIdx - 1];
     const gap = above.points - myPoints;
-    motivator = `${gap.toLocaleString()} pts behind ${cleanName(above.userName)} 🔥`;
+    motivator =
+      gap > 0
+        ? `${gap.toLocaleString()} pts behind ${cleanName(above.userName)} 🔥`
+        : `Tied with ${cleanName(above.userName)} — one more check-in breaks it 🔥`;
   }
 
   const top3 = entries.slice(0, 3);
@@ -344,7 +374,13 @@ export default function Profile() {
   // Solo streak urgency: an active solo streak whose day isn't secured yet
   // -- same server-authority signal (lastCompletedDay) Header's badge and
   // the warning banner use, so this line can never disagree with either.
-  const soloStreakAtRisk = !!soloStreak && soloStreak.count > 0 && soloStreak.lastCompletedDay !== dayKey(new Date());
+  // displayStreakCount is 0 once the streak has already lapsed (a stored
+  // count lingers until the next close), so a dead streak is neither "at
+  // risk" nor "safe" here -- and a freeze spent today counts as held.
+  const soloCount = displayStreakCount(soloStreak);
+  const todayKey = dayKey(new Date());
+  const soloStreakAtRisk =
+    soloCount > 0 && !isDayHeld(soloStreak, todayKey);
 
   const leaderboardLabel =
     scope === 'friends'
@@ -384,7 +420,7 @@ export default function Profile() {
           </button>
           <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
             <span className="profile-stat-num">
-              {soloStreak?.count || 0}{soloStreak?.count ? ' \u{1F525}' : ''}
+              {soloCount}{soloCount ? ' \u{1F525}' : ''}
             </span>
             <span className="profile-stat-label">streak ›</span>
           </button>
@@ -419,13 +455,13 @@ export default function Profile() {
 
         {soloStreakAtRisk && (
           <p className="tag tag-error" style={{ display: 'block', marginTop: 14, whiteSpace: 'normal' }}>
-            {'\u{26A0}\u{FE0F}'} Rate {PICKS_STREAK_THRESHOLD} landmarks today — or your {soloStreak.count}-day
+            {'\u{26A0}\u{FE0F}'} Rate {PICKS_STREAK_THRESHOLD} landmarks today — or your {soloCount}-day
             streak breaks!
           </p>
         )}
-        {soloStreak?.count > 0 && !soloStreakAtRisk && (
+        {soloCount > 0 && !soloStreakAtRisk && (
           <p className="tag tag-free" style={{ display: 'block', marginTop: 14, whiteSpace: 'normal' }}>
-            {'\u{2705}'} Your {soloStreak.count}-day streak is safe today
+            {'\u{2705}'} Your {soloCount}-day streak is safe today
           </p>
         )}
       </div>
@@ -487,7 +523,15 @@ export default function Profile() {
         )}
         <div className="rank-hero-top">
           <div className="rank-hero-rank">
-            {loading ? <Skeleton className="skeleton-inline" width={48} height={30} radius={10} /> : myRank ? `#${myRank}` : '—'}
+            {loading ? (
+              <Skeleton className="skeleton-inline" width={48} height={30} radius={10} />
+            ) : myRank ? (
+              `#${myRank}`
+            ) : belowBoard ? (
+              `${entries.length}+`
+            ) : (
+              '—'
+            )}
           </div>
           <div className="rank-hero-meta">
             <div className="rank-hero-name">{myUsername ? `@${myUsername}` : user.displayName || 'Explorer'}</div>
@@ -564,7 +608,7 @@ export default function Profile() {
 
         {!loading && rest.map((e, idx) => (
           <div key={e.id} className={`leaderboard-row ${e.userId === user.uid ? 'me' : ''}`}>
-            <div className="leaderboard-rank">#{idx + 4}</div>
+            <div className="leaderboard-rank">#{rankOf(entries, idx + 3)}</div>
             <div className="leaderboard-name" style={{ flex: 1 }}>
               <FriendPopoverName userId={e.userId} fallbackName={displayFor(e)}>
                 {displayFor(e)}
