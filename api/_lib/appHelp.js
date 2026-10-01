@@ -254,7 +254,9 @@ export const APP_HELP =
   `it warns you if that spot looks like it's already on the map (with a link to view the existing one). A typed-name guess is just a heads-up -- ` +
   `dismissible with "This is a different place" since the name match can be a false positive. Picking an existing landmark directly out of the ` +
   `address search's own suggestions is different -- that can't be a false positive, so there's no "different place" option for it and submitting ` +
-  `is blocked until you either view the existing one or change what you typed/picked.\n` +
+  `is blocked until you either view the existing one or change what you typed/picked. A landmark added more than ~100 km from any curated ` +
+  `city shows as a "Custom pin" with no city: you can check in, rate and view it, but it has no "Add to Itinerary" button since there's no ` +
+  `city itinerary for it. Landmarks added inside a curated city do show up in that city's itinerary when added. Photos are shrunk before upload.\n` +
   `- You can also add one through Mapr just by saying "make a landmark for where I am" (or "add this place", "create a landmark here"). ` +
   `Mapr looks up the real place at your exact GPS location and asks "Just to confirm -- you're at [name], right?" before creating ` +
   `anything; say no and name the actual place ("no, I'm at the visitor center") and it looks that up instead and asks again. Needs ` +

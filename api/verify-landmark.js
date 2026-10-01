@@ -92,8 +92,11 @@ async function handler(req, res) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
     const name = String(body.name || '').trim().slice(0, 80);
     const categories = Array.isArray(body.categories) ? body.categories.map((c) => String(c).slice(0, 40)).slice(0, 6) : [];
-    const lat = Number(body.lat);
-    const lng = Number(body.lng);
+    // Number(null) and Number('') are 0, which would silently accept a
+    // missing coordinate as "Null Island" -- only real numbers/numeric strings count.
+    const toCoord = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
+    const lat = toCoord(body.lat);
+    const lng = toCoord(body.lng);
     // Photo is optional -- only validate its shape when one was actually sent.
     const imageDataUrl = String(body.imageDataUrl || '');
     const match = imageDataUrl ? imageDataUrl.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/) : null;
@@ -104,6 +107,10 @@ async function handler(req, res) {
 
     if (!name || !Number.isFinite(lat) || !Number.isFinite(lng) || (imageDataUrl && !match)) {
       res.status(400).json({ error: 'Missing name or location.' });
+      return;
+    }
+    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+      res.status(400).json({ error: "That location isn't valid — move the pin to a real spot on the map and try again." });
       return;
     }
 

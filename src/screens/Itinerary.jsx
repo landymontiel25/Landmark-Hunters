@@ -17,6 +17,7 @@ import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
 import { itineraryPhase, groupKey } from '../lib/itineraryStatus';
 import { getRegion } from '../data/regions';
+import { getCustomLandmarks } from '../lib/customLandmarks';
 import { geocodeLocation } from '../lib/geocode';
 import { useStopAddresses } from '../lib/useStopAddresses';
 import { distanceMeters } from '../lib/geo';
@@ -315,6 +316,11 @@ export default function Itinerary() {
     setPendingRemove(null);
   };
 
+  const [customLms, setCustomLms] = useState([]);
+  useEffect(() => {
+    getCustomLandmarks().then(setCustomLms).catch(() => {});
+  }, []);
+
   // Catalog landmarks plus any real places Mapr found on the web and you
   // added -- those get a landmark-shaped stand-in so the route, map and
   // directions treat them the same (no check-in or rating: they aren't in
@@ -322,6 +328,19 @@ export default function Itinerary() {
   const selectedLandmarks = useMemo(() => {
     if (!region) return [];
     const ids = trip.byRegion[region.id] || [];
+    // User-submitted landmarks in this city (not in region.landmarks) --
+    // without these, adding one to the itinerary made it silently vanish.
+    const customs = customLms
+      .filter((l) => l.region === region.id && ids.includes(l.id))
+      .map((l) => ({
+        ...l,
+        regionId: region.id,
+        categories: l.categories || [],
+        images: l.images || [],
+        facts: l.facts || [],
+        free: l.free ?? true,
+        typicalMinutes: l.typicalMinutes ?? 15,
+      }));
     const places = (trip.placesByRegion?.[region.id] || []).map((p) => ({
       ...p,
       external: true,
@@ -331,8 +350,8 @@ export default function Itinerary() {
       free: true,
       typicalMinutes: 45,
     }));
-    return [...region.landmarks.filter((l) => ids.includes(l.id)), ...places];
-  }, [region, trip.byRegion, trip.placesByRegion]);
+    return [...region.landmarks.filter((l) => ids.includes(l.id)), ...customs, ...places];
+  }, [region, trip.byRegion, trip.placesByRegion, customLms]);
 
   // Tapping Map from here frames every stop in this itinerary. Declared
   // after the effect above that calls setMapFocus (which clears it).
@@ -563,7 +582,10 @@ export default function Itinerary() {
   // order; those aren't catalog stops (no check-in), so they're left out of
   // the done check and the stop count.
   const catalogIdsFor = (rid) => {
-    const known = new Set((getRegion(rid)?.landmarks || []).map((l) => l.id));
+    const known = new Set([
+      ...(getRegion(rid)?.landmarks || []).map((l) => l.id),
+      ...customLms.filter((l) => l.region === rid).map((l) => l.id),
+    ]);
     return (trip.byRegion[rid] || []).filter((id) => known.has(id));
   };
   const soloPhase = (rid) => itineraryPhase(rid, catalogIdsFor(rid), claimedMap, statusOverrides);

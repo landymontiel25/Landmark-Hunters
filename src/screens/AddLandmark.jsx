@@ -14,6 +14,7 @@ import { authErrorMessage } from '../lib/authErrors';
 import { auth } from '../lib/firebase';
 import { useTrip } from '../lib/TripContext';
 import { addCustomLandmark, uploadLandmarkPhoto } from '../lib/customLandmarks';
+import { adoptResolvedName } from '../lib/adoptResolvedName';
 import { findPossibleDuplicate } from '../lib/duplicateLandmarkCheck';
 import { fileToSmallDataUrl, pickPhoto } from '../lib/imageUtils';
 import LocationAutocomplete from '../components/LocationAutocomplete';
@@ -193,6 +194,10 @@ export default function AddLandmark() {
   };
 
   const regionId = nearestRegionId(position.lat, position.lng);
+  // Read inside the debounced duplicate check without re-running it (and
+  // resetting "this is a different place") on every pin nudge.
+  const positionRef = useRef(position);
+  positionRef.current = position;
 
   // Catches "I'm re-adding something that's already on the map" before the
   // AI/moderation round trip, not after -- checked against both the
@@ -228,7 +233,7 @@ export default function AddLandmark() {
     let cancelled = false;
     setDuplicateChecking(true);
     const handle = setTimeout(async () => {
-      const match = await findPossibleDuplicate({ name: query, regionId }).catch(() => null);
+      const match = await findPossibleDuplicate({ name: query, regionId, lat: positionRef.current.lat, lng: positionRef.current.lng }).catch(() => null);
       if (!cancelled) {
         setDuplicateMatch(match);
         setDuplicateChecking(false);
@@ -349,8 +354,7 @@ export default function AddLandmark() {
       // be a deliberate choice, not a shorthand.
       const typedName = name.trim();
       const resolved = verified.resolvedName || '';
-      const isShorthand = typedName && resolved.toLowerCase().includes(typedName.toLowerCase());
-      const savedName = resolved && (!typedName || isShorthand) ? resolved : finalName;
+      const savedName = adoptResolvedName(typedName, resolved) ? resolved : finalName;
       const created = await addCustomLandmark({
         region,
         name: savedName,
