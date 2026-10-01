@@ -15,6 +15,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage, auth } from './firebase';
 import { isAdmin } from './admins';
 import { shrinkPhoto } from './shrinkPhoto';
+import { settleWrite } from './offlineWrite';
 
 // Stable region for a custom landmark added farther than the attribution
 // radius from any curated city. Used end to end (URL, check-ins, reviews,
@@ -149,7 +150,7 @@ async function _addCustomLandmark({
   // the AI research step -- phrases the rating question (tierQuestion in
   // ratingFlow.js). Left off entirely when research didn't find one.
   if (topic) data.topic = topic;
-  await setDoc(doc(db, 'custom_landmarks', id), data);
+  await settleWrite(setDoc(doc(db, 'custom_landmarks', id), data));
   return { docId: id, ...data };
 }
 

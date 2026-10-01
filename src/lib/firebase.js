@@ -1,7 +1,13 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { Capacitor } from '@capacitor/core';
 import { getAuth, initializeAuth, indexedDBLocalPersistence, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  connectFirestoreEmulator,
+} from 'firebase/firestore';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -31,7 +37,23 @@ function createAuth() {
   }
 }
 export const auth = firebaseEnabled ? createAuth() : null;
-export const db = firebaseEnabled ? getFirestore(app) : null;
+// Firestore's default web cache is in-memory only: a write queued in a tunnel
+// is lost if the tab/app is closed before signal returns, and a cold start
+// offline has no cached data at all. A persistent (IndexedDB) cache keeps
+// queued writes and last-seen documents across restarts; the multi-tab
+// manager lets several tabs share it. Falls back to the default where
+// IndexedDB is unavailable (private windows, some web views) or Firestore was
+// already initialized (hot reload).
+function createDb() {
+  try {
+    return initializeFirestore(app, {
+      localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+    });
+  } catch {
+    return getFirestore(app);
+  }
+}
+export const db = firebaseEnabled ? createDb() : null;
 
 // Storage may not be provisioned (no bucket configured yet). Never let that
 // crash the app — photo upload just stays disabled until it's set up.

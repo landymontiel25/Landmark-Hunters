@@ -21,6 +21,7 @@ import { sharedRead, invalidating } from './sharedRead';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
+import { isOffline, OFFLINE_MESSAGE } from './friendlyError';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
 import { REGIONS, canonicalLandmarkId } from '../data/regions';
@@ -111,6 +112,9 @@ async function _claimCheckIn({
   homeCoords = null,
   landmarkCoords = null,
 }) {
+  // A check-in is a server transaction, so it can't be queued offline; without
+  // this it spent ~25s on "Posting..." (transaction retries) before failing.
+  if (isOffline()) throw Object.assign(new Error(OFFLINE_MESSAGE), { userMessage: OFFLINE_MESSAGE });
   // Visit numbering needs a count of this user's prior check-ins here -- a
   // query, which a transaction can't run (only reads by reference). This
   // happens just before the transaction; the transaction's own existence

@@ -17,6 +17,7 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import { settleWrite } from './offlineWrite';
 import { syncMyReviewVisibility } from './reviews';
 
 const PENDING_WRITES_WAIT_MS = 8000;
@@ -139,7 +140,7 @@ export async function upsertUserProfile(user) {
 // rather than just hidden client-side.
 export async function setProfileVisibility(uid, isPublic) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { public: !!isPublic, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { public: !!isPublic, updatedAt: serverTimestamp() }, { merge: true }));
   // Your reviews carry a copy of this for comment lists (see reviews.js).
   await syncMyReviewVisibility(uid, !!isPublic).catch(() => {});
 }
@@ -149,7 +150,7 @@ export async function setProfileVisibility(uid, isPublic) {
 // means enabled.
 export async function setHabitTrackingEnabled(uid, enabled) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { habitTrackingEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { habitTrackingEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // Whether Mapr keeps learning location even with the app closed (see
@@ -159,7 +160,7 @@ export async function setHabitTrackingEnabled(uid, enabled) {
 // "Always" location permission rather than something already granted.
 export async function setBackgroundLocationEnabled(uid, enabled) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { backgroundLocationEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { backgroundLocationEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // Written by the background watcher itself (throttled -- see
@@ -182,7 +183,7 @@ export async function saveLastKnownLocation(uid, { lat, lng, accuracy, at }) {
 // bothers sending anything (see usePushNotificationsSync.js).
 export async function setPushNotificationsEnabled(uid, enabled) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { pushNotificationsEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { pushNotificationsEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // One entry per device that's ever registered, keyed by its own FCM token --
@@ -213,7 +214,7 @@ export async function removePushToken(uid, token) {
 // reads better than any keyword list could.
 export async function saveTasteIntro(uid, text) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { tasteIntro: (text || '').trim().slice(0, 2000), updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { tasteIntro: (text || '').trim().slice(0, 2000), updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // Answer to "You really love [tag]. Want us to lean more into it?" (see
@@ -341,14 +342,14 @@ export async function sendFriendRequest(fromUser, toUser) {
   if (await hasPendingRequestTo(fromUser.uid, toUser.uid)) {
     throw userError(`You already sent @${toUser.username || toUser.displayName || 'them'} a request -- waiting on them to accept.`);
   }
-  await setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
+  await settleWrite(setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
     from: fromUser.uid,
     fromName: fromUser.username || fromUser.displayName || fromUser.email,
     to: toUser.uid,
     toName: toUser.username || toUser.displayName || toUser.email,
     status: 'pending',
     createdAt: serverTimestamp(),
-  });
+  }));
 }
 
 export async function listIncomingRequests(uid) {
@@ -383,11 +384,11 @@ export async function acceptRequest(req) {
     createdAt: serverTimestamp(),
   });
   batch.delete(doc(db, 'friend_requests', req.id));
-  await batch.commit();
+  await settleWrite(batch.commit());
 }
 
 export async function declineRequest(req) {
-  await deleteDoc(doc(db, 'friend_requests', req.id));
+  await settleWrite(deleteDoc(doc(db, 'friend_requests', req.id)));
 }
 
 const prunedEdges = new Set();

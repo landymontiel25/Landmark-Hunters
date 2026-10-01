@@ -1,4 +1,5 @@
-import { createContext, useCallback, useContext, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { WRITE_QUEUED_EVENT, WRITE_REJECTED_EVENT, QUEUED_MESSAGE, REJECTED_MESSAGE } from './offlineWrite';
 
 // Small, bottom-of-screen messages for things that happened off-screen --
 // mostly "that didn't save, we put it back" after an optimistic update had
@@ -20,6 +21,19 @@ export function ToastProvider({ children }) {
     },
     [dismiss]
   );
+
+  // Writes made offline are queued by Firestore: say so when they are, and say
+  // so if one is rejected after reconnecting (see offlineWrite.js).
+  useEffect(() => {
+    const queued = () => show(QUEUED_MESSAGE, { tone: 'info' });
+    const rejected = () => show(REJECTED_MESSAGE, { durationMs: 10000 });
+    window.addEventListener(WRITE_QUEUED_EVENT, queued);
+    window.addEventListener(WRITE_REJECTED_EVENT, rejected);
+    return () => {
+      window.removeEventListener(WRITE_QUEUED_EVENT, queued);
+      window.removeEventListener(WRITE_REJECTED_EVENT, rejected);
+    };
+  }, [show]);
 
   return (
     <ToastContext.Provider value={{ show, dismiss }}>

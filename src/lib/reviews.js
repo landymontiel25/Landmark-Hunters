@@ -18,6 +18,7 @@ import {
 import { sharedRead, invalidating } from './sharedRead';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
+import { settleWrite } from './offlineWrite';
 import { tierStars, COMMENT_MAX } from './ratingFlow';
 import { applyRating, revertRating } from './tagScores';
 import { canonicalLandmarkId } from '../data/regions';
@@ -529,17 +530,22 @@ export async function getReplies(reviewId) {
 }
 
 export async function addReply(reviewId, { uid, userName, text }) {
-  const added = await addDoc(collection(db, 'reviews', reviewId, 'replies'), {
-    uid,
-    userName,
-    text: text.slice(0, 500),
-    createdAt: serverTimestamp(),
-  });
-  return added?.id ?? null;
+  // The id is minted locally so a reply written offline (queued on this
+  // device) still has one, instead of waiting for an addDoc that never ends.
+  const replyRef = doc(collection(db, 'reviews', reviewId, 'replies'));
+  await settleWrite(
+    setDoc(replyRef, {
+      uid,
+      userName,
+      text: text.slice(0, 500),
+      createdAt: serverTimestamp(),
+    })
+  );
+  return replyRef.id;
 }
 
 export async function deleteReply(reviewId, replyId) {
-  await deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId));
+  await settleWrite(deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId)));
 }
 
 // One save at a time per review: a double tap would otherwise let the second
