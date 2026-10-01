@@ -167,8 +167,18 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
 
   it('every Villanova landmark renders in the default (city-filtered) view', async () => {
     const el = await renderIt({});
+    // Rows fill in a chunk per frame (so ~870 rows don't block first paint).
+    const initial = el.querySelectorAll('.landmark-row').length;
+    expect(initial).toBeGreaterThan(0);
+    expect(initial).toBeLessThan(800);
+    for (let i = 0; i < 100 && el.querySelectorAll('.landmark-row').length < 800; i++) {
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 30));
+      });
+    }
+    expect(el.querySelectorAll('.landmark-row').length).toBeGreaterThan(800);
     expect(el.textContent).toContain('Corr Hall Arch');
-  });
+  }, 40000);
 
   it('opens on every landmark, not a city saved from an earlier visit', async () => {
     const el = await renderIt({ activeRegion: 'san-francisco', activeRegionPicked: true });

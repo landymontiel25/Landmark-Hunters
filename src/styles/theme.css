@@ -2442,6 +2442,13 @@ button.header-streak {
   -webkit-backdrop-filter: var(--glass-blur);
   margin-bottom: 10px;
   cursor: pointer;
+  /* ~870 rows: let the browser skip layout/paint for the ones off screen.
+     The background is opaque, so the old backdrop-filter blurred nothing
+     but cost a GPU layer per row. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 150px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .landmark-row .lr-top {
