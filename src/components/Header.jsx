@@ -73,7 +73,10 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
     };
     document.addEventListener('mousedown', close);
     document.addEventListener('touchstart', close);
+    const onKey = (e) => e.key === 'Escape' && onRequestClose();
+    document.addEventListener('keydown', onKey);
     return () => {
+      document.removeEventListener('keydown', onKey);
       window.removeEventListener('resize', update);
       window.removeEventListener('scroll', update, true);
       document.removeEventListener('mousedown', close);
@@ -308,8 +311,13 @@ function ProfileMenu() {
     function handleClickOutside(e) {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     }
+    const handleKey = (e) => e.key === 'Escape' && setOpen(false);
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKey);
+    };
   }, []);
 
   if (!firebaseEnabled) return null;
@@ -328,7 +336,7 @@ function ProfileMenu() {
 
   return (
     <div className="profile-menu" ref={ref}>
-      <button type="button" className="score-chip profile-menu-trigger" onClick={() => setOpen((o) => !o)}>
+      <button type="button" className="score-chip profile-menu-trigger" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <span className="score-chip-pts">{name}</span>
         <span className="profile-menu-caret">{'▾'}</span>
       </button>

@@ -41,11 +41,17 @@ export function countryName(code) {
 }
 
 function getInitialMode() {
-  const saved = localStorage.getItem(MODE_KEY);
-  if (saved === 'auto' || saved === 'imperial' || saved === 'metric') return saved;
-  // Someone who picked a unit before "Automatic" existed keeps their pick.
-  const legacy = localStorage.getItem(LEGACY_KEY);
-  return legacy === 'imperial' || legacy === 'metric' ? legacy : 'auto';
+  // Blocked/unavailable storage (private mode, blocked site data) throws on
+  // access -- that must not take the whole app down at startup.
+  try {
+    const saved = localStorage.getItem(MODE_KEY);
+    if (saved === 'auto' || saved === 'imperial' || saved === 'metric') return saved;
+    // Someone who picked a unit before "Automatic" existed keeps their pick.
+    const legacy = localStorage.getItem(LEGACY_KEY);
+    return legacy === 'imperial' || legacy === 'metric' ? legacy : 'auto';
+  } catch {
+    return 'auto';
+  }
 }
 
 // Every distance shown in the app (Nearby Now, itinerary stops, the
@@ -54,9 +60,10 @@ function getInitialMode() {
 export function formatDistance(meters, units) {
   if (units === 'imperial') {
     const feet = meters * 3.28084;
-    return feet < 1000 ? `${Math.round(feet)} ft` : `${(meters / 1609.34).toFixed(1)} mi`;
+    // Compare the ROUNDED value so 999.6 ft reads "0.2 mi", not "1000 ft".
+    return Math.round(feet) < 1000 ? `${Math.round(feet)} ft` : `${(meters / 1609.34).toFixed(1)} mi`;
   }
-  return meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
+  return Math.round(meters) < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
 }
 
 const UnitsContext = createContext(null);
@@ -69,7 +76,11 @@ export function UnitsProvider({ children }) {
   const [autoCountry, setAutoCountry] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem(MODE_KEY, mode);
+    try {
+      localStorage.setItem(MODE_KEY, mode);
+    } catch {
+      /* storage full or blocked: the choice still applies for this session */
+    }
   }, [mode]);
 
   // One reverse lookup per session, and only once there's a fix. Not

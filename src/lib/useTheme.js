@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 const STORAGE_KEY = 'lh-theme';
 
 function getInitialTheme() {
-  return localStorage.getItem(STORAGE_KEY) === 'dark' ? 'dark' : 'light';
+  try {
+    return localStorage.getItem(STORAGE_KEY) === 'dark' ? 'dark' : 'light';
+  } catch {
+    return 'light'; // storage blocked: don't crash the app over a theme
+  }
 }
 
 export function useTheme() {
@@ -11,7 +15,11 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(STORAGE_KEY, theme);
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      /* storage full or blocked */
+    }
   }, [theme]);
 
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
