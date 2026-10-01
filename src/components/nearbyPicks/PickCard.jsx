@@ -32,7 +32,7 @@ export function ChainLabel({ chain }) {
 export function PickPhoto({ pick, className }) {
   const [failed, setFailed] = useState(null);
   if (pick.image && failed !== pick.image) {
-    return <img className={className} src={pick.image} alt="" onError={() => setFailed(pick.image)} />;
+    return <img className={className} src={pick.image} alt="" loading="lazy" decoding="async" onError={() => setFailed(pick.image)} />;
   }
   const [from, to] = paletteFor(pick.id);
   return (

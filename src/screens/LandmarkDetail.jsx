@@ -1059,6 +1059,8 @@ function LandmarkDetailBody() {
                   <img
                     src={url}
                     alt="Your photo"
+                    loading="lazy"
+                    decoding="async"
                     onClick={() => setLightboxSrc(url)}
                     style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 10, display: 'block', cursor: 'pointer' }}
                   />
@@ -1135,6 +1137,8 @@ function LandmarkDetailBody() {
                       <img
                         src={src}
                         alt={`Photo ${i + 1}`}
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 10, display: 'block' }}
                       />
                       <button
@@ -1268,6 +1272,8 @@ function LandmarkDetailBody() {
                           src={u}
                           alt={`${r.userName}'s visit ${i + 1}`}
                           className="review-photo"
+                          loading="lazy"
+                          decoding="async"
                           style={{ cursor: 'zoom-in', maxWidth: photos.length > 1 ? '31%' : '100%' }}
                           onClick={() => setLightboxSrc(u)}
                         />

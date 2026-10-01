@@ -2795,6 +2795,9 @@ button.header-streak {
   background: rgb(var(--color-bg-rgb));
   margin-bottom: 8px;
   cursor: pointer;
+  /* Long histories: skip layout/paint for rows that are off screen. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 72px;
 }
 
 .checkin-name {
