@@ -22,6 +22,11 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'users/u1/place_scores/a' }, data: () => ({ landmarkId: 'a', placeScore: -46, missWeight: 0.5 }) },
           { ref: { path: 'users/u1/place_scores/b' }, data: () => ({ landmarkId: 'b', placeScore: 4, missWeight: 0 }) },
         ]
+      : col === 'users/u1/open_days'
+      ? [
+          { ref: { path: 'users/u1/open_days/2026-10-01' }, data: () => ({ userId: 'u1', date: '2026-10-01' }) },
+          { ref: { path: 'users/u1/open_days/2026-10-02' }, data: () => ({ userId: 'u1', date: '2026-10-02' }) },
+        ]
       : col === 'users/u1/taste_history'
       ? [
           { ref: { path: 'users/u1/taste_history/h1' }, data: () => ({ at: 1, score: 80, guesses: 20, ratingsCount: 30, version: 1 }) },
@@ -152,6 +157,12 @@ describe('deleteAccountData wipe coverage', () => {
   it('removes every taste score snapshot (users/{uid}/taste_history), which outlive users/{uid}', async () => {
     await deleteAccountData('u1');
     expect(deletedPaths).toEqual(expect.arrayContaining(['users/u1/taste_history/h1', 'users/u1/taste_history/h2']));
+  });
+
+  it('removes every daily open record (users/{uid}/open_days) and the profile that holds createdAt', async () => {
+    await deleteAccountData('u1');
+    expect(deletedPaths).toEqual(expect.arrayContaining(['users/u1/open_days/2026-10-01', 'users/u1/open_days/2026-10-02']));
+    expect(deletedPaths).toContain('users/u1'); // createdAt lives on this doc
   });
 
   it('queries every owned collection by its ownership field', async () => {

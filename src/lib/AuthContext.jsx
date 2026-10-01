@@ -21,6 +21,7 @@ import { auth, firebaseEnabled } from './firebase';
 import { deleteAccountData } from './accountDeletion';
 import { recordReferralIfPending } from './referrals';
 import { touchLastActive } from './friends';
+import { recordOpenDay } from './openDays';
 import { markNewSignup } from './onboardingSave';
 import { cleanUpPushOnSignOut } from './pushSignOut';
 
@@ -42,9 +43,22 @@ export function AuthProvider({ children }) {
       // retention-by-ratings-count analysis possible later (who came back
       // within 30 days). Never blocks or fails sign-in.
       if (u) touchLastActive(u.uid).catch(() => {});
+      // One tiny "opened the app today" record per day (openDays.js).
+      if (u) recordOpenDay(u.uid).catch(() => {});
     });
     return unsub;
   }, []);
+
+  // An app left open overnight counts again the next local day.
+  useEffect(() => {
+    const uid = user?.uid;
+    if (!uid) return undefined;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') recordOpenDay(uid).catch(() => {});
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [user?.uid]);
 
   const signUpEmail = async (email, password, displayName) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);

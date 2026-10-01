@@ -174,6 +174,12 @@ export async function deleteAccountData(uid) {
   } catch {
     /* best-effort */
   }
+  // The daily open record (users/{uid}/open_days), same reason.
+  try {
+    await deleteAll(await getDocs(collection(db, 'users', uid, 'open_days')));
+  } catch {
+    /* best-effort */
+  }
   // The owner-only private doc (email, home, location, push tokens) is a
   // subcollection doc, so deleting users/{uid} does not remove it.
   try {

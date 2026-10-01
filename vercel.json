@@ -17,8 +17,20 @@
     },
     "api/place-photo.js": {
       "maxDuration": 30
+    },
+    "api/admin-stats.js": {
+      "maxDuration": 60
+    },
+    "api/study-summary.js": {
+      "maxDuration": 60
     }
   },
+  "crons": [
+    {
+      "path": "/api/study-summary",
+      "schedule": "17 6 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

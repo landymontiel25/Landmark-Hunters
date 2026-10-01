@@ -1,0 +1,200 @@
+/* Owner-only stats page (src/screens/AdminStats.jsx). Colors come from the
+   theme tokens, so light and dark both work; green/red always travel with an
+   icon and a word. Built for a 390px-wide phone first. */
+.as-page {
+  padding: 0 16px 96px;
+  max-width: 720px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.as-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.as-meta {
+  margin: 4px 0 16px;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+.as-error {
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin: 0 0 16px;
+  color: var(--text-primary);
+}
+.as-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-left-width: 6px;
+  border-radius: var(--radius-md);
+  padding: 14px 14px 12px;
+  margin: 0 0 12px;
+  min-width: 0;
+}
+.as-card[data-status='met'] {
+  border-left-color: var(--success);
+}
+.as-card[data-status='missed'] {
+  border-left-color: var(--danger);
+}
+.as-card[data-status='unknown'],
+.as-card[data-status='info'] {
+  border-left-color: var(--border-strong);
+}
+.as-label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.as-value {
+  margin: 2px 0 4px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.as-card.as-headline .as-value {
+  font-size: 3.2rem;
+}
+.as-value.as-cant {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.as-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.as-chip[data-status='met'] {
+  border-color: var(--success);
+}
+.as-chip[data-status='missed'] {
+  border-color: var(--danger);
+}
+.as-chip[data-status='met'] .as-icon {
+  color: var(--success);
+}
+.as-chip[data-status='missed'] .as-icon {
+  color: var(--danger);
+}
+.as-goal,
+.as-note,
+.as-base {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.as-note {
+  color: var(--text-tertiary);
+}
+.as-base strong {
+  color: var(--text-primary);
+}
+.as-h2 {
+  margin: 28px 0 4px;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+}
+.as-h3 {
+  margin: 20px 0 6px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+.as-p {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.as-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+.as-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.as-table th,
+.as-table td {
+  padding: 6px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.as-table th:first-child,
+.as-table td:first-child {
+  text-align: left;
+  white-space: normal;
+}
+.as-table th {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.as-table tr:last-child td {
+  border-bottom: 0;
+}
+.as-chart {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+.as-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+}
+.as-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+.as-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.as-key {
+  width: 22px;
+  height: 0;
+  border-top: 3px solid var(--mapr-blue);
+}
+.as-key.as-dash {
+  border-top: 2px dashed var(--text-secondary);
+}
+.as-readout {
+  min-height: 1.3em;
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.as-link {
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  min-height: 32px;
+  color: var(--mapr-blue);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
