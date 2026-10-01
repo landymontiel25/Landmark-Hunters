@@ -573,7 +573,14 @@ export default function Itinerary() {
   // landmark checked into, or moved there by hand.
   const [itinTab, setItinTab] = usePersistentState('itinerary.tab', 'current');
   const statusOverrides = trip.itineraryStatus || {};
-  const soloPhase = (rid) => itineraryPhase(rid, trip.byRegion[rid], claimedMap, statusOverrides);
+  // byRegion also holds Mapr-found places' ids once Edit List has saved an
+  // order; those aren't catalog stops (no check-in), so they're left out of
+  // the done check and the stop count.
+  const catalogIdsFor = (rid) => {
+    const known = new Set((getRegion(rid)?.landmarks || []).map((l) => l.id));
+    return (trip.byRegion[rid] || []).filter((id) => known.has(id));
+  };
+  const soloPhase = (rid) => itineraryPhase(rid, catalogIdsFor(rid), claimedMap, statusOverrides);
   const groupPhase = (g) => itineraryPhase(groupKey(g.id), g.landmarkIds, claimedMap, statusOverrides);
   const pastCount = myRegions.filter((rid) => soloPhase(rid) === 'past').length + groupTrips.filter((g) => groupPhase(g) === 'past').length;
   const currentCount = myRegions.length + groupTrips.length - pastCount;
@@ -718,7 +725,7 @@ export default function Itinerary() {
         )}
         {tabSolo.map((rid) => {
           const r = getRegion(rid);
-          const count = (trip.byRegion[rid] || []).length + (trip.placesByRegion?.[rid] || []).length;
+          const count = catalogIdsFor(rid).length + (trip.placesByRegion?.[rid] || []).length;
           const named = itineraryName(rid);
           return (
             <button key={rid} type="button" className="card itin-city-card" onClick={() => setOpenRegion(rid)}>
@@ -727,7 +734,7 @@ export default function Itinerary() {
                 <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
                   {named !== r?.name ? `${r?.name} · ` : ''}
                   {count} stop{count !== 1 ? 's' : ''}
-                  {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, trip.byRegion[rid])}` : ''}
+                  {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, catalogIdsFor(rid))}` : ''}
                 </p>
               </div>
               <span className="itin-city-arrow">{'→'}</span>

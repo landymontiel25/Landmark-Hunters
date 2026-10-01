@@ -312,7 +312,10 @@ async function addMember(action, ctx) {
     ownerName: ctx.ownerName,
     name: target.name,
     regionId,
-    landmarkIds: ctx.tripApi.getRegionSelection(regionId),
+    // Only catalog stops: the saved order can also hold Mapr-found places' ids.
+    landmarkIds: ctx.tripApi
+      .getRegionSelection(regionId)
+      .filter((id) => ALL_LANDMARKS.some((l) => l.regionId === regionId && l.id === id)),
     places: ctx.trip.placesByRegion?.[regionId] || [],
     initialMembers: [member],
   });

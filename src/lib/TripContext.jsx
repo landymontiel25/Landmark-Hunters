@@ -183,7 +183,13 @@ export function TripProvider({ children }) {
       const placesByRegion = { ...t.placesByRegion };
       if (next.length) placesByRegion[regionId] = next;
       else delete placesByRegion[regionId];
-      return { ...t, placesByRegion };
+      // Edit List / drag also store a place's id in the saved order
+      // (byRegion); drop it too so a deleted place can't linger there.
+      const byRegion = { ...t.byRegion };
+      const order = (byRegion[regionId] || []).filter((x) => x !== id);
+      if (order.length) byRegion[regionId] = order;
+      else delete byRegion[regionId];
+      return { ...t, placesByRegion, byRegion };
     });
 
   const renameItinerary = (regionId, name) =>

@@ -161,7 +161,13 @@ export default function GroupTrip() {
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
   const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
-    if (trip) reorderGroupLandmarks(trip, newIds).catch(() => {});
+    // A refused/dropped write used to vanish silently, leaving the new order
+    // on screen for you while everyone else (and a reopen) still had the old one.
+    if (trip) {
+      reorderGroupLandmarks(trip, newIds).catch((e) =>
+        toast.show(friendlyError(e, "Couldn't save the new order. Try again."))
+      );
+    }
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 

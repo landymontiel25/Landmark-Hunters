@@ -71,7 +71,10 @@ export const APP_HELP =
   `you both can edit (same name, stops and places). In a group trip, any member can rename it, tick landmarks, and invite people with ` +
   `"➕ Add" at the bottom of the Members list; only the owner can remove members. "🗑️ Delete Itinerary" at the bottom of an ` +
   `itinerary deletes it after a confirm (its stops and name; check-ins and ratings stay), with an Undo right after. A group ` +
-  `trip's owner has "Delete This Group Trip" there instead, also confirmed, and that one deletes it for everyone with no undo.\n` +
+  `trip's owner has "Delete This Group Trip" there instead, also confirmed, and that one deletes it for everyone with no undo. A group trip ` +
+  `holds up to 25 people. Places Mapr found on the web that were added to a group trip are listed in its own "Places From Mapr" card (with ` +
+  `Directions and a remove button), separate from the numbered route. Once you've checked into at least one landmark on a solo itinerary, a ` +
+  `"🎬 Trip Recap" button appears there: a shareable card with how many landmarks you visited and the points earned (group trips don't have one).\n` +
   `- Mapr's place recommendations (e.g. "good bowling near me") show as a grid of cards under its reply, one per place — not plain chat ` +
   `text. Each card shows a photo/category icon, the address, a short reason, distance from you once it's ready, and a Get Directions ` +
   `button (same three-choice picker as everywhere else) — no opening/closing hours on the card by default; ask Mapr directly ("what time ` +
