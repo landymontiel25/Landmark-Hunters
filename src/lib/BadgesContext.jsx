@@ -106,6 +106,8 @@ export function BadgesProvider({ children }) {
 
   // Popups queued for one account must never play for the next one signed in
   // on the same device.
+  const uidRef = useRef(null);
+  uidRef.current = user?.uid ?? null;
   useEffect(() => {
     setJustEarned([]);
   }, [user?.uid]);
@@ -271,6 +273,9 @@ export function BadgesProvider({ children }) {
     updateDoc(doc(db, 'users', user.uid), patch)
       .then(() => {
         for (const b of fresh) markCelebrated(user.uid, b.id);
+        // The write outlived a sign-out/account switch: its popup belongs to
+        // the previous account and must not play for the next one.
+        if (uidRef.current !== user.uid) return;
         // Dedupe against whatever's already queued -- guards a fast second
         // check-in whose "fresh" detection runs before myProfile reflects
         // this write, which would otherwise queue the same badge twice.
