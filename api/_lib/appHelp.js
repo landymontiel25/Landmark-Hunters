@@ -250,7 +250,7 @@ export const APP_HELP =
   `"🗺️ View in Map" next to Your Route opens the Map with the trip's stops numbered in the most efficient order from where ` +
   `you are, the route drawn between them, and ▶ Start for live navigation through them (plus "All stops in Google Maps").\n` +
   `- Adding a landmark that's missing (Add Landmark screen): any signed-in account with a verified email can submit one (verify it from the ` +
-  `link emailed at sign-up; Settings can resend it). It shows up on the map for everyone right away. While typing the name or address, ` +
+  `link emailed at sign-up; Settings can resend it). It shows up on the map for everyone right away. If you're standing within about 30 m of the pin when you add it, the check-in prompt opens straight away with the usual rating questions for that kind of place (e.g. "Do you like Peruvian food?"). While typing the name or address, ` +
   `it warns you if that spot looks like it's already on the map (with a link to view the existing one). A typed-name guess is just a heads-up -- ` +
   `dismissible with "This is a different place" since the name match can be a false positive. Picking an existing landmark directly out of the ` +
   `address search's own suggestions is different -- that can't be a false positive, so there's no "different place" option for it and submitting ` +
