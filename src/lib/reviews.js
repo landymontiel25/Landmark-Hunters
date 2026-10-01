@@ -295,10 +295,18 @@ export async function getUserReviewPhotos(userId) {
 }
 
 /** Every review a user has written, raw. Feeds ratingsCount and the taste card. */
-export async function getUserReviews(userId) {
+export async function getUserReviews(userId, { other = false } = {}) {
   if (!db || !userId) return [];
-  return sharedRead(`reviews:${userId}`, async () => {
-    const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', userId)));
+  return sharedRead(`reviews:${userId}${other ? ':other' : ''}`, async () => {
+    // Someone else's reviews (a friend's, for compatibility): firestore.rules
+    // only accepts a list query that proves `hidden == false` for them -- a
+    // bare userId filter is rejected whole with permission-denied. Your own
+    // need no such filter (and must keep your reported-hidden ones).
+    const snap = await getDocs(
+      other
+        ? query(collection(db, 'reviews'), where('userId', '==', userId), where('hidden', '==', false))
+        : query(collection(db, 'reviews'), where('userId', '==', userId))
+    );
     return snap.docs.map((d) => {
       const r = { id: d.id, ...d.data() };
       return { ...r, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
