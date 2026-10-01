@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { getLandmarkEdits } from './landmarkOverrides';
+import { getLandmarkEdits, getLandmarkOverrides } from './landmarkOverrides';
 
 const LandmarkEditsContext = createContext(null);
 
@@ -11,12 +11,21 @@ const LandmarkEditsContext = createContext(null);
 // shared load is plenty -- no per-screen re-fetching.
 export function LandmarkEditsProvider({ children }) {
   const [edits, setEdits] = useState({});
+  // Admin drag-to-fix pin positions ("regionId/id" -> { lat, lng }). Loaded
+  // here too so the detail page's check-in/directions, the landmark list's
+  // distances and every other screen use the corrected spot, not just the map.
+  const [positions, setPositions] = useState({});
 
   const reload = useCallback(() => {
     getLandmarkEdits()
       .then(setEdits)
       .catch(() => {
         /* offline / rules not deployed yet -- landmarks just show their static data */
+      });
+    getLandmarkOverrides()
+      .then(setPositions)
+      .catch(() => {
+        /* same: static positions */
       });
   }, []);
 
@@ -30,14 +39,17 @@ export function LandmarkEditsProvider({ children }) {
     (landmark) => {
       if (!landmark) return landmark;
       // Catalog entries carry `region`; list/map copies add `regionId`.
-      const edit = edits[`${landmark.regionId ?? landmark.region}/${landmark.id}`];
-      return edit ? { ...landmark, ...edit } : landmark;
+      const key = `${landmark.regionId ?? landmark.region}/${landmark.id}`;
+      const edit = edits[key];
+      const pos = positions[key];
+      if (!edit && !pos) return landmark;
+      return { ...landmark, ...edit, ...(pos && Number.isFinite(pos.lat) && Number.isFinite(pos.lng) ? { lat: pos.lat, lng: pos.lng } : {}) };
     },
-    [edits]
+    [edits, positions]
   );
 
   return (
-    <LandmarkEditsContext.Provider value={{ edits, applyEdit, reload }}>{children}</LandmarkEditsContext.Provider>
+    <LandmarkEditsContext.Provider value={{ edits, positions, applyEdit, reload }}>{children}</LandmarkEditsContext.Provider>
   );
 }
 
