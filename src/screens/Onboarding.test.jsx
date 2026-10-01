@@ -15,7 +15,7 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}) };
+const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}), markRead: vi.fn(async () => {}) };
 
 // user: { emailVerified }, profile: users/{uid} doc, checkins: real check-in count
 async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, checkins = 3, isNew } = {}) {
@@ -33,7 +33,7 @@ async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: t
     endOnboardingFlow: saved.end,
   }));
   vi.doMock('../lib/friends', () => ({ saveTasteIntro: saved.tasteIntro }));
-  vi.doMock('../lib/notifications', () => ({ markNotificationRead: async () => {} }));
+  vi.doMock('../lib/notifications', () => ({ markNotificationRead: saved.markRead }));
   vi.doMock('../lib/useWelcomeBonus', () => ({ useWelcomeBonus: () => ({ saveError: null, retry: () => {} }) }));
   vi.doMock('../lib/firstCheckIn', async () => ({
     ...(await vi.importActual('../lib/firstCheckIn')),
@@ -116,6 +116,29 @@ describe('Onboarding: existing user (account from before the flow existed)', () 
     await click(button(el, 'Skip for now'));
     expect(saved.results.mock.calls[0][3]).toEqual({ complete: true });
     expect(el.textContent).toContain("You're all set");
+  });
+
+  // firestore.rules denies an update to a notification that doesn't exist, so
+  // only an account that was actually sent the notice has one to mark read.
+  it.each([
+    ['was never sent the notice', {}, 0],
+    ['was sent the notice', { onboardingNoticeVersion: ONBOARDING_VERSION }, 1],
+  ])('finishing the cards marks the notice read only when the account %s', async (_label, extra, calls) => {
+    const el = await renderFlow({
+      profile: {
+        onboardingCompleted: true,
+        ...extra,
+        onboardingProgress: {
+          version: ONBOARDING_VERSION,
+          step: 'notes',
+          cardWords: ALL_SWIPE_CARDS.map((c) => c.word),
+          answers: ALL_SWIPE_CARDS.map((c) => ({ word: c.word, answer: 'love' })),
+        },
+      },
+      checkins: 5,
+    });
+    await click(button(el, 'Skip for now'));
+    expect(saved.markRead).toHaveBeenCalledTimes(calls);
   });
 
   it('but an existing account with no check-in yet still gets the first check-in step', async () => {

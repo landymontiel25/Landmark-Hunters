@@ -1,6 +1,8 @@
 import {
   doc,
   getDoc,
+  getDocFromServer,
+  waitForPendingWrites,
   setDoc,
   updateDoc,
   deleteDoc,
@@ -17,6 +19,7 @@ import {
 import { db } from './firebase';
 import { syncMyReviewVisibility } from './reviews';
 
+const PENDING_WRITES_WAIT_MS = 8000;
 const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
 
 // Our own validation errors are already written for people -- tagging them
@@ -30,7 +33,27 @@ function userError(message) {
 
 export async function getUserProfile(uid) {
   if (!db || !uid) return null;
-  const snap = await getDoc(doc(db, 'users', uid));
+  const ref = doc(db, 'users', uid);
+  let snap = await getDoc(ref);
+  // A fresh session writes to this doc at sign-in (touchLastActive,
+  // upsertUserProfile) before the first read lands. With nothing cached yet,
+  // getDoc then answers from those pending local merges alone -- a 5-field
+  // doc, `fromCache` false -- and the caller took it for the real profile:
+  // onboarding looked unfinished, so "Onboarding has been updated" was
+  // re-sent (and its write to an existing notification denied) on every
+  // sign-in. Let those writes land, then ask the server for the real thing;
+  // if that fails or stalls, throw so the caller retries or falls back to its
+  // cached copy instead of trusting this.
+  if (snap.metadata?.hasPendingWrites) {
+    let timer;
+    await Promise.race([
+      waitForPendingWrites(db),
+      new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Profile read timed out')), PENDING_WRITES_WAIT_MS);
+      }),
+    ]).finally(() => clearTimeout(timer));
+    snap = await getDocFromServer(ref);
+  }
   return snap.exists() ? snap.data() : null;
 }
 
@@ -367,6 +390,8 @@ export async function declineRequest(req) {
   await deleteDoc(doc(db, 'friend_requests', req.id));
 }
 
+const prunedEdges = new Set();
+
 export async function listFriends(uid) {
   const snap = await getDocs(query(collection(db, 'friend_edges'), where('owner', '==', uid)));
   const edges = snap.docs.map((d) => d.data());
@@ -375,9 +400,26 @@ export async function listFriends(uid) {
   // keep showing under the old (now unsearchable) name everywhere friends
   // are listed. Prefer the live username, fall back to the stored one.
   const live = await Promise.allSettled(edges.map((e) => getDoc(doc(db, 'users', e.friend))));
-  return edges.map((e, i) => {
+  const out = [];
+  edges.forEach((e, i) => {
     const r = live[i];
+    // A friend who deleted their account: their half of the friendship (the
+    // edge you own) can't be removed by them -- firestore.rules only lets an
+    // owner delete their own edge -- so it would list a ghost forever. Drop it
+    // from the list and clear your own half. Only on a real "no such user"
+    // answer, never a failed read.
+    if (r.status === 'fulfilled' && r.value?.exists?.() === false) {
+      // Once per edge: listFriends runs from several places at once, and a
+      // second delete of an already-deleted doc is a (harmless) permission-denied.
+      const edgeId = `${e.owner}_${e.friend}`;
+      if (!prunedEdges.has(edgeId)) {
+        prunedEdges.add(edgeId);
+        deleteDoc(doc(db, 'friend_edges', edgeId)).catch(() => {});
+      }
+      return;
+    }
     const username = r.status === 'fulfilled' && r.value?.exists?.() ? r.value.data()?.username : null;
-    return username ? { ...e, friendName: username } : e;
+    out.push(username ? { ...e, friendName: username } : e);
   });
+  return out;
 }

@@ -7,6 +7,11 @@ describe('initialRating', () => {
   it('returns null with nothing on file and no pre-picked tier', () => {
     expect(initialRating(null, null)).toBeNull();
   });
+  it('keeps a comment saved before any rating, with or without a pre-picked tier', () => {
+    expect(initialRating({ comment: 'loud' }, null)).toEqual({ comment: 'loud' });
+    expect(initialRating({ comment: 'loud' }, 'highly-recommend')).toEqual({ tier: 'highly-recommend', comment: 'loud' });
+    expect(initialRating({ comment: '' }, null)).toBeNull();
+  });
   it('pre-fills everything on file when the tier is unchanged', () => {
     expect(initialRating(existing, 'worth-trying')).toMatchObject({ tier: 'worth-trying', highlights: ['a'], comment: 'nice' });
   });

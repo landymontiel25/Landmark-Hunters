@@ -160,7 +160,10 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
       for (const tag of loved) if (!trip.savedInterests.includes(tag)) toggleSavedInterest(tag);
       if (deckDone) {
         setResultsSaved(true);
-        markNotificationRead(onboardingNoticeId(user.uid)).catch(() => {});
+        // Only when the notice was ever sent: updating a notification that
+        // doesn't exist is denied by firestore.rules (a new account that
+        // finishes onboarding in one go never gets one).
+        if (profile?.onboardingNoticeVersion) markNotificationRead(onboardingNoticeId(user.uid)).catch(() => {});
       }
       next();
     } catch (err) {
