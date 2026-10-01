@@ -66,7 +66,10 @@ function fuzzyWordMatch(word, tokens) {
     // A half-typed word: compare against the start of the longer one.
     if (t.length > word.length && editDistance(word, t.slice(0, word.length), max) <= max) return true;
     const st = sound(t);
-    return editDistance(sw, st, max) <= max || (st.length > sw.length && editDistance(sw, st.slice(0, sw.length), max) <= max);
+    // The sound form can be much shorter than the word ("zzzzqqqq" -> "zq"),
+    // so the allowance follows ITS length, or gibberish matches everything.
+    const smax = Math.min(max, sw.length >= 7 ? 2 : sw.length >= 4 ? 1 : 0);
+    return editDistance(sw, st, smax) <= smax || (st.length > sw.length && editDistance(sw, st.slice(0, sw.length), smax) <= smax);
   });
 }
 
