@@ -38,6 +38,8 @@ Proposed rules diff (also saved on local branch commit 7c678c0, not applied):
 - Distance chips and the zoom control were hard-coded "mi". They follow the Units setting.
 - Moved pins applied only on the map. Distances and check-ins on other screens used the old position. Now consistent.
 
+- Follow-up request: places you rated 4+ stars ("I loved it") within a mile now go first in "Picked for you right now" (up to two, tagged "You loved this", skipped when closed or when you are standing at them), with one "Something new" kept in the third spot. They use your live location and current ratings, so a new rating or a short walk shows up right away.
+
 ## Add landmark and check-in (what you asked for at the start)
 
 - Auto check-in near a new landmark opened without the rating questions. It now asks "Do you like Peruvian food?" style questions. Landmarks created from a Google place also keep their topic.

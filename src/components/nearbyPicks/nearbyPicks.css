@@ -370,6 +370,11 @@ body.pin-placing .map-picks {
   color: var(--text-primary);
 }
 
+.mpp-tag-fav {
+  border-color: rgba(224, 82, 99, 0.6);
+  color: var(--text-primary);
+}
+
 .mpp-tag-new {
   border-color: rgba(242, 184, 75, 0.55);
   color: var(--text-primary);

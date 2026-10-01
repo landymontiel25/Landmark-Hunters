@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { getRegion } from '../../data/regions';
-import { nearbyPicksCacheKey, pickKey, writeNearbyPicksCache } from '../../lib/nearbyPicks';
+import { nearbyPicksCacheKey, pickKey, withinDistance, writeNearbyPicksCache } from '../../lib/nearbyPicks';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -82,6 +82,19 @@ afterEach(async () => {
 });
 
 describe('useNearbyPicks', () => {
+  it('puts a place you loved within a mile first, tagged as a favorite', async () => {
+    const lovedPlace = withinDistance(getRegion('villanova').landmarks, ORIGIN, 1).find((l) => l.distanceMeters > 150);
+    expect(lovedPlace).toBeTruthy();
+    const myReviews = { ...REVIEWS, [lovedPlace.id]: { landmarkId: lovedPlace.id, ratingTier: 'highly-recommend' } };
+    await render(base({ myReviews, fetchReasons: vi.fn(async () => ({})) }));
+    await flush();
+    expect(latest.picks[0]).toMatchObject({ id: lovedPlace.id, favorite: true });
+    expect(latest.picks[0].reason).toMatch(/^You loved this place\./);
+    // Still a full set with exactly one "something new" in it.
+    expect(latest.picks).toHaveLength(4);
+    expect(latest.picks.filter((p) => p.pickType === 'new')).toHaveLength(1);
+  });
+
   it('shows plain fallback reasons when the reasons call fails, and logs the picks as real usage', async () => {
     const fetchReasons = vi.fn(async () => {
       throw new Error('network down');

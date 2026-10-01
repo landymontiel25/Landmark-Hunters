@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   chainedPick,
   composePicks,
+  mergeFavorites,
   nearbyPicksCacheKey,
   pickKey,
   rankNearbyCandidates,
@@ -106,11 +107,11 @@ export function useNearbyPicks({
     return key ? readNearbyPicksCache(key, now) : null;
   }, [key, now, refreshToken]);
 
-  const { usual, fresh } = useMemo(
+  const { usual, fresh, favorites } = useMemo(
     () =>
       enabled && lat != null
         ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides, extraPlaces })
-        : { usual: [], fresh: [] },
+        : { usual: [], fresh: [], favorites: [] },
     [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces]
   );
   const chained = useMemo(() => chainedPick({ usual, fresh, links, lastCategory }), [usual, fresh, links, lastCategory]);
@@ -177,5 +178,9 @@ export function useNearbyPicks({
     slow = !online;
   }
 
-  return { picks, updating, slow, usual, fresh, chained, cachedAt: cached?.at ?? null, refresh };
+  // Places you rated highly within a mile go first, built from the live
+  // position and ratings rather than the cached set.
+  const shown = useMemo(() => (enabled && picks ? mergeFavorites(picks, favorites) : picks), [enabled, picks, favorites]);
+
+  return { picks: shown, updating, slow, usual, fresh, favorites, chained, cachedAt: cached?.at ?? null, refresh };
 }

@@ -14,6 +14,7 @@ import DirectionsButton from '../DirectionsButton';
 // showChainLabel: the small "which link produced this" label -- off by
 // default, so the Map tab never shows it.
 export function PickTag({ pick }) {
+  if (pick.favorite) return <span className="mpp-tag mpp-tag-fav">{(pick.favoriteStars || 0) >= 5 ? 'You loved this' : 'A favorite of yours'}</span>;
   if (pick.pickType === 'new') return <span className="mpp-tag mpp-tag-new">Something new</span>;
   return <span className="mpp-tag mpp-tag-usual">Your usual</span>;
 }
@@ -139,7 +140,7 @@ export function PickRow({ pick, action = null }) {
           <strong>{pick.name}</strong>
           <span>
             {pick.distanceMeters != null ? formatDistance(pick.distanceMeters, units) : ''}
-            {pick.pickType === 'new' ? ' · Something new' : ''}
+            {pick.favorite ? ' · You loved this' : pick.pickType === 'new' ? ' · Something new' : ''}
           </span>
         </span>
       </button>
