@@ -164,9 +164,13 @@ describe('chips', () => {
 });
 
 describe('limits and aspects', () => {
-  it('caps picks at 3 chips and 3 ranked aspects', () => {
+  it('caps picks at 3 chips and lets all 4 aspects be ranked', () => {
     expect(MAX_CHIPS).toBe(3);
-    expect(MAX_ASPECTS).toBe(3);
+    expect(MAX_ASPECTS).toBe(4);
+  });
+
+  it('never offers more aspects than can be ranked', () => {
+    for (const c of RATEABLE_CATEGORIES) expect(ASPECT_SETS[c].length, c).toBeLessThanOrEqual(MAX_ASPECTS);
   });
 
   it('offers four aspects per rateable category, with Price and Location shared', () => {

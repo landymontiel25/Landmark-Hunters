@@ -4,6 +4,10 @@ const STORAGE_KEY = 'lh-zoom-radius-miles';
 const DEFAULT_RADIUS = 5;
 export const ZOOM_RADIUS_OPTIONS = [1, 2, 5, 10, 25, 50, 100];
 
+// The smallest radius option that is at least n (a picks distance of 15 or 20
+// becomes 25), so a distance set elsewhere always lands on a real option.
+export const zoomOptionAtLeast = (n) => ZOOM_RADIUS_OPTIONS.find((o) => o >= n) ?? ZOOM_RADIUS_OPTIONS[ZOOM_RADIUS_OPTIONS.length - 1];
+
 // scope: the Test tab keeps its own remembered radius ('test'), so it starts
 // at the default instead of inheriting whatever the real Map was left on.
 const keyFor = (scope) => (scope ? `${STORAGE_KEY}:${scope}` : STORAGE_KEY);

@@ -2,7 +2,7 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
-import { useZoomRadius } from './useZoomRadius';
+import { useZoomRadius, zoomOptionAtLeast, ZOOM_RADIUS_OPTIONS } from './useZoomRadius';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -46,5 +46,16 @@ describe('useZoomRadius', () => {
     localStorage.setItem('lh-zoom-radius-miles', '1');
     await mount(null);
     expect(latest[0]).toBe(1);
+  });
+});
+
+describe('zoomOptionAtLeast', () => {
+  it('lands on a real radius option, rounding up', () => {
+    expect(zoomOptionAtLeast(1)).toBe(1);
+    expect(zoomOptionAtLeast(3)).toBe(5);
+    expect(zoomOptionAtLeast(15)).toBe(25);
+    expect(zoomOptionAtLeast(30)).toBe(50);
+    expect(zoomOptionAtLeast(1000)).toBe(100);
+    for (const n of [1, 4, 12, 20, 60]) expect(ZOOM_RADIUS_OPTIONS).toContain(zoomOptionAtLeast(n));
   });
 });

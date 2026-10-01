@@ -9,7 +9,7 @@ import { ALL_LANDMARKS, ALL_LANDMARKS_BOUNDS, INTERESTS, getRegion, normalizeCat
 import { SEARCHABLE_PLACES } from '../data/places';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
-import { useZoomRadius, ZOOM_RADIUS_OPTIONS } from '../lib/useZoomRadius';
+import { useZoomRadius, zoomOptionAtLeast, ZOOM_RADIUS_OPTIONS } from '../lib/useZoomRadius';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { useCheckIn } from '../lib/useCheckIn';
@@ -656,14 +656,14 @@ export default function MapExplore({ experiments = false }) {
     ];
   });
 
-  const handleRadiusChange = (e) => {
-    const n = Number(e.target.value);
+  const applyRadius = (n) => {
     setRadiusMiles(n);
     const miles = optionToMiles(n, units);
     if (coords && mapRef.current) {
       mapRef.current.flyTo([coords.lat, coords.lng], zoomForRadiusMiles(mapRef.current, coords.lat, miles));
     }
   };
+  const handleRadiusChange = (e) => applyRadius(Number(e.target.value));
 
   const handleAdd = (landmark) => {
     toggleLandmark(landmark.id, landmark.regionId);
@@ -1436,6 +1436,8 @@ export default function MapExplore({ experiments = false }) {
       {picksReady && (
         <MapPicksOverlay
           showRefresh={experiments}
+          sharedDistance={experiments ? radiusOption : null}
+          onSharedDistanceChange={experiments ? (n) => applyRadius(zoomOptionAtLeast(n)) : null}
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}
