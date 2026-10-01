@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc, deleteDoc, getDocs, collection, query, where } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, deleteDoc, getDocs, collection, query, where, deleteField } from 'firebase/firestore';
 import { ref, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { deleteMyReview } from './reviews';
@@ -12,6 +12,16 @@ async function deletePhotoSafe(url) {
   }
 }
 
+async function safeGetDocs(col, field, op, value) {
+  try {
+    return await getDocs(query(collection(db, col), where(field, op, value)));
+  } catch {
+    // Newer collection whose rules aren't deployed yet, or a transient
+    // failure: skip it rather than stopping the rest of the wipe.
+    return { docs: [] };
+  }
+}
+
 async function deleteAll(snap) {
   for (const d of snap.docs) {
     try {
@@ -22,28 +32,45 @@ async function deleteAll(snap) {
   }
 }
 
+const deleteWhere = async (col, field, uid) => deleteAll(await safeGetDocs(col, field, '==', uid));
+
 /**
  * Best-effort cleanup of everything this account owns in Firestore/Storage,
  * run right before the Firebase Auth user itself is deleted (deleteAccount
- * in AuthContext). Check-ins can't be deleted outright -- firestore.rules
- * locks them permanently (allow delete: if false, kept that way so
- * leaderboard totals can't be tampered with after the fact) -- so those are
- * scrubbed of their two identifying fields instead (userName, photoURL),
- * which is exactly what the checkins update rule already lets an owner
- * change. Landmark submissions and the reverse half of a friend edge
- * (owned by the *other* user) are left alone: removing them would delete
- * content or relationships someone else still sees, and this account has
- * no rule-granted way to touch the friend's own copy of the edge anyway.
+ * in AuthContext). Every step is independent and swallows its own errors so
+ * one failure never blocks the rest.
+ *
+ * Check-ins can't be deleted outright -- firestore.rules locks them
+ * permanently (allow delete: if false, kept that way so leaderboard totals
+ * can't be tampered with after the fact) -- so those are scrubbed of their
+ * identifying fields instead (userName, photoURL, photoURLs), which is
+ * exactly what the checkins update rule already lets an owner change.
+ *
+ * Left alone on purpose (no rule lets this account touch them, or they
+ * belong to someone else): the reverse half of a friend edge, notifications
+ * this account SENT to others (they carry only the recipient's uid), the
+ * referral doc, per-day streak entries (delete: false), and Mapr projects
+ * the account merely joined.
  */
 export async function deleteAccountData(uid) {
   if (!db) return;
 
-  const userSnap = await getDoc(doc(db, 'users', uid));
-  const username = userSnap.exists() ? userSnap.data().username : null;
+  let username = null;
+  try {
+    const userSnap = await getDoc(doc(db, 'users', uid));
+    username = userSnap.exists() ? userSnap.data().username : null;
+  } catch {
+    /* best-effort */
+  }
 
-  const reviewSnap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', uid)));
-  for (const d of reviewSnap.docs) {
+  // Reviews (+ replies and photos)
+  for (const d of (await safeGetDocs('reviews', 'userId', '==', uid)).docs) {
     const { landmarkId, photoURLs, photoURL } = d.data();
+    try {
+      await deleteAll(await getDocs(collection(db, 'reviews', d.id, 'replies')));
+    } catch {
+      /* best-effort */
+    }
     try {
       await deleteMyReview(uid, landmarkId);
     } catch {
@@ -54,13 +81,11 @@ export async function deleteAccountData(uid) {
     }
   }
 
-  const checkinSnap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', uid)));
-  for (const d of checkinSnap.docs) {
+  // Check-ins: scrub, never delete (see above).
+  for (const d of (await safeGetDocs('checkins', 'userId', '==', uid)).docs) {
     const { photoURL, photoURLs } = d.data();
     const gallery = Array.isArray(photoURLs) ? photoURLs : [];
     try {
-      // photoURLs is the check-in's photo gallery (addCheckinPhoto); the rules
-      // let the owner change exactly userName / photoURL / photoURLs.
       await updateDoc(d.ref, {
         userName: 'Deleted User',
         photoURL: null,
@@ -73,15 +98,52 @@ export async function deleteAccountData(uid) {
     for (const u of gallery) await deletePhotoSafe(u);
   }
 
-  await deleteAll(await getDocs(query(collection(db, 'leaderboard_entries'), where('userId', '==', uid))));
-  await deleteAll(await getDocs(query(collection(db, 'friend_requests'), where('from', '==', uid))));
-  await deleteAll(await getDocs(query(collection(db, 'friend_requests'), where('to', '==', uid))));
-  await deleteAll(await getDocs(query(collection(db, 'friend_edges'), where('owner', '==', uid))));
-  await deleteAll(await getDocs(query(collection(db, 'blocks'), where('blockerUid', '==', uid))));
-  // Newer collection: if its rules aren't deployed yet, don't stop the rest.
-  await deleteAll(
-    await getDocs(query(collection(db, 'recommendation_log'), where('userId', '==', uid))).catch(() => ({ docs: [] }))
-  );
+  await deleteWhere('leaderboard_entries', 'userId', uid);
+  await deleteWhere('friend_requests', 'from', uid);
+  await deleteWhere('friend_requests', 'to', uid);
+  await deleteWhere('friend_edges', 'owner', uid);
+  await deleteWhere('blocks', 'blockerUid', uid);
+  await deleteWhere('pick_feedback', 'userId', uid);
+  await deleteWhere('planning_events', 'userId', uid);
+  await deleteWhere('recommendation_log', 'userId', uid);
+  // In-app notifications addressed to this account.
+  await deleteWhere('notifications', 'uid', uid);
+
+  // Streaks: a solo streak is streaks/{uid} (memberIds: [uid]); dual streaks
+  // list this uid in memberIds. Rules let any member delete the doc.
+  await deleteAll(await safeGetDocs('streaks', 'memberIds', 'array-contains', uid));
+
+  // Mapr: chats and projects this account owns.
+  await deleteWhere('mapr_chats', 'ownerUid', uid);
+  await deleteWhere('mapr_projects', 'ownerUid', uid);
+
+  // Group trips: delete the ones owned; leave the ones joined.
+  for (const d of (await safeGetDocs('group_trips', 'memberUids', 'array-contains', uid)).docs) {
+    const trip = d.data();
+    try {
+      if (trip.ownerUid === uid) {
+        await deleteDoc(d.ref);
+      } else {
+        await updateDoc(d.ref, {
+          memberUids: (trip.memberUids || []).filter((m) => m !== uid),
+          [`memberNames.${uid}`]: deleteField(),
+        });
+      }
+    } catch {
+      /* best-effort */
+    }
+  }
+
+  // Landmarks this account submitted (rules let the creator delete them).
+  for (const d of (await safeGetDocs('custom_landmarks', 'createdBy', '==', uid)).docs) {
+    const { images } = d.data();
+    try {
+      await deleteDoc(d.ref);
+    } catch {
+      continue;
+    }
+    for (const u of Array.isArray(images) ? images : []) await deletePhotoSafe(u);
+  }
 
   if (username) {
     try {
@@ -90,6 +152,7 @@ export async function deleteAccountData(uid) {
       /* best-effort */
     }
   }
+  // users/{uid} also holds push tokens, taste profile and itinerary data.
   try {
     await deleteDoc(doc(db, 'users', uid));
   } catch {

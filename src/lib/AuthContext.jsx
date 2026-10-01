@@ -9,6 +9,7 @@ import {
   updateProfile,
   signOut,
   reauthenticateWithCredential,
+  reauthenticateWithPopup,
   EmailAuthProvider,
   deleteUser,
   updatePassword,
@@ -116,10 +117,17 @@ export function AuthProvider({ children }) {
   // Firestore/Storage cleanup runs BEFORE deleteUser: once the Auth account
   // is gone, request.auth is null and every rule above that checks it would
   // reject the cleanup writes.
+  // Accounts with no password provider (Google-only) reauthenticate with
+  // the Google popup instead, so `password` is only needed when one exists.
   const deleteAccount = async (password) => {
     const current = auth.currentUser;
-    const cred = EmailAuthProvider.credential(current.email, password);
-    await reauthenticateWithCredential(current, cred);
+    const hasPassword = (current.providerData || []).some((p) => p.providerId === 'password');
+    if (hasPassword) {
+      const cred = EmailAuthProvider.credential(current.email, password);
+      await reauthenticateWithCredential(current, cred);
+    } else {
+      await reauthenticateWithPopup(current, new GoogleAuthProvider());
+    }
     await deleteAccountData(current.uid);
     await deleteUser(current);
   };
