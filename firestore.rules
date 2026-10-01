@@ -501,15 +501,9 @@ service cloud.firestore {
     match /custom_landmarks/{id} {
       // Same reportedBy hide-past-threshold rule as reviews, unless you're
       // the submitter or an admin.
-      allow get: if resource.data.get('reportedBy', []).size() < 2
+      allow read: if resource.data.get('reportedBy', []).size() < 2
         || (request.auth != null
             && (resource.data.createdBy == request.auth.uid || isAdmin()));
-      // A collection query can't be proven to satisfy a rule that reads
-      // resource.data (Firestore rejects it outright, so the map, search and
-      // duplicate check never loaded any custom landmark). Lists are open
-      // here instead, and getCustomLandmarks() in src/lib/customLandmarks.js
-      // applies the same reportedBy-hide-past-threshold filter client-side.
-      allow list: if true;
       // A brand-new submission always starts "pending" -- enforced here, not
       // just in the app's own code, so calling the database directly can't
       // skip the approval queue and self-publish as "approved".
