@@ -35,6 +35,7 @@ import { monthKey, displayStreakCount } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
+import MaprPickImage from '../components/MaprPickImage';
 
 // Same verdict vocabulary Mapr Travel Picks uses (MaprPicksCarousel.jsx) --
 // "would you go", not "how was it", since a shared card is often somewhere
@@ -96,11 +97,7 @@ function VoteCard({ streak, landmark, prompt, onVote, onError }) {
         className="mapr-pick-main"
         onClick={() => navigate(`/landmarks/${landmark.regionId || streak.cityId}/${landmark.id}`)}
       >
-        {landmark.images?.[0] ? (
-          <img className="mapr-pick-img" src={landmark.images[0]} alt="" loading="lazy" />
-        ) : (
-          <div className="mapr-pick-img mapr-pick-img-blank">{'\u{1F4CD}'}</div>
-        )}
+        <MaprPickImage landmark={landmark} />
         <span className="mapr-pick-name">{landmark.name}</span>
         <span className="mapr-pick-sub">{(landmark.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
       </button>

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { paletteFor, iconFor } from '../lib/landmarkVisuals';
+import { usePlacePhoto } from '../lib/usePlacePhoto';
+import PlacePhotoCredit from './PlacePhotoCredit';
 
 // Compact, non-swipeable thumbnail for dense contexts (list rows, itinerary
 // stops, map popups) where the decorative postcard frame doesn't fit.
@@ -10,10 +12,17 @@ import { paletteFor, iconFor } from '../lib/landmarkVisuals';
 // A photo that fails to load (deleted upload, dead link, offline) falls
 // through to the next one, then to the colored category tile -- never the
 // browser's broken-image icon. It shimmers softly while loading.
+//
+// A landmark with no photo at all (and no myPhoto) lazily asks for a Google
+// Places photo once the tile scrolls into view (see docs/photos.md), shown
+// with its required "Photo: <author> via Google Maps" credit; any failure
+// leaves the colored tile.
 export default function LandmarkThumb({ landmark, size = 52, width, height, myPhoto }) {
   const [failed, setFailed] = useState(() => new Set());
   const [loaded, setLoaded] = useState(null);
   const image = [myPhoto, landmark.images?.[0]].find((src) => src && !failed.has(src));
+  const wantsFallback = !myPhoto && !landmark.images?.length;
+  const place = usePlacePhoto(landmark, { enabled: wantsFallback });
   const w = width ?? size;
   const h = height ?? size;
   const style = { width: w, height: h };
@@ -35,9 +44,30 @@ export default function LandmarkThumb({ landmark, size = 52, width, height, myPh
     );
   }
 
+  if (place.photo) {
+    return (
+      <span className="landmark-thumb-wrap" style={style}>
+        <img
+          src={place.photo.url}
+          alt={landmark.name}
+          className="landmark-thumb"
+          style={style}
+          loading="lazy"
+          decoding="async"
+          width={w}
+          height={h}
+          referrerPolicy="no-referrer"
+          onError={place.onError}
+        />
+        <PlacePhotoCredit photo={place.photo} compact={w < 160} />
+      </span>
+    );
+  }
+
   const palette = paletteFor(landmark.id);
   return (
     <div
+      ref={place.ref}
       className="landmark-thumb landmark-thumb-fallback"
       style={{ ...style, background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})` }}
     >

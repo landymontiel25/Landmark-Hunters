@@ -6,6 +6,8 @@ import { categoryLabel } from '../../lib/nearbyPicks';
 import { primaryCategory } from '../../lib/preferenceChains';
 import { iconFor, paletteFor } from '../../lib/landmarkVisuals';
 import DirectionsButton from '../DirectionsButton';
+import { usePlacePhoto } from '../../lib/usePlacePhoto';
+import PlacePhotoCredit from '../PlacePhotoCredit';
 
 // One pick: photo, name, distance, one-line reason, Directions. Tapping a
 // card or a row opens a small sheet with Directions and the landmark's own
@@ -32,12 +34,21 @@ export function ChainLabel({ chain }) {
 // same colored category tile LandmarkThumb falls back to.
 export function PickPhoto({ pick, className }) {
   const [failed, setFailed] = useState(null);
+  const place = usePlacePhoto(pick, { enabled: !pick.image });
   if (pick.image && failed !== pick.image) {
     return <img className={className} src={pick.image} alt="" loading="lazy" decoding="async" onError={() => setFailed(pick.image)} />;
   }
+  if (place.photo) {
+    return (
+      <span className={`${className} place-photo-host`}>
+        <img src={place.photo.url} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={place.onError} />
+        <PlacePhotoCredit photo={place.photo} compact />
+      </span>
+    );
+  }
   const [from, to] = paletteFor(pick.id);
   return (
-    <span className={`${className} mpp-img-tile`} style={{ background: `linear-gradient(135deg, ${from}, ${to})` }} aria-hidden="true">
+    <span ref={place.ref} className={`${className} mpp-img-tile`} style={{ background: `linear-gradient(135deg, ${from}, ${to})` }} aria-hidden="true">
       {iconFor(pick.categories)}
     </span>
   );

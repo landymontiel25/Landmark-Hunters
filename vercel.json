@@ -14,6 +14,9 @@
     },
     "api/verify-landmark.js": {
       "maxDuration": 60
+    },
+    "api/place-photo.js": {
+      "maxDuration": 30
     }
   },
   "headers": [
