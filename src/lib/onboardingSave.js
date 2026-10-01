@@ -131,17 +131,26 @@ export async function saveOnboardingResults(uid, profile, answers, { complete })
 // notification write fails the marker stays unset and the next load retries.
 export async function sendOnboardingNotice(uid) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'notifications', onboardingNoticeId()), {
-    uid,
-    type: 'onboarding_update',
-    message: ONBOARDING_NOTICE_MESSAGE,
-    landmarkId: null,
-    groupTripId: null,
-    featureRequestId: null,
-    bugReportId: null,
-    read: false,
-    createdAt: serverTimestamp(),
-  });
+  const noticeRef = doc(db, 'notifications', onboardingNoticeId(uid));
+  try {
+    await setDoc(noticeRef, {
+      uid,
+      type: 'onboarding_update',
+      message: ONBOARDING_NOTICE_MESSAGE,
+      landmarkId: null,
+      groupTripId: null,
+      featureRequestId: null,
+      bugReportId: null,
+      read: false,
+      createdAt: serverTimestamp(),
+    });
+  } catch (err) {
+    // A retry after the marker write below failed finds its own notification
+    // already there, and setDoc over an existing doc is an update --
+    // firestore.rules only lets the owner flip `read`. Do just that.
+    if (err?.code !== 'permission-denied') throw err;
+    await updateDoc(noticeRef, { read: false });
+  }
   await setDoc(doc(db, 'users', uid), { onboardingNoticeVersion: ONBOARDING_VERSION }, { merge: true });
 }
 
@@ -149,7 +158,7 @@ export async function sendOnboardingNotice(uid) {
 // (updateDoc rejects on a missing doc); the caller ignores that.
 export async function resurfaceOnboardingNotice(uid) {
   if (!db || !uid) return;
-  await updateDoc(doc(db, 'notifications', onboardingNoticeId()), { read: false });
+  await updateDoc(doc(db, 'notifications', onboardingNoticeId(uid)), { read: false });
 }
 
 // Test-tab tool: puts an account back to "never did onboarding" so the update
@@ -168,5 +177,5 @@ export async function resetOnboarding(uid) {
     },
     { merge: true }
   );
-  await deleteDoc(doc(db, 'notifications', onboardingNoticeId())).catch(() => {});
+  await deleteDoc(doc(db, 'notifications', onboardingNoticeId(uid))).catch(() => {});
 }
