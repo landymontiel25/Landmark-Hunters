@@ -269,7 +269,14 @@ function LandmarkDetailBody() {
     if (!firebaseEnabled || !user || !landmark) return;
     // Best-effort pre-fill: if this read fails the card still works, it
     // just starts blank (and saving overwrites correctly either way).
-    const r = await getMyReview(user.uid, landmark.id).catch(() => null);
+    let failed = false;
+    const r = await getMyReview(user.uid, landmark.id).catch(() => {
+      failed = true;
+      return null;
+    });
+    // A failed read is not "no review": keep what's on screen (the photo
+    // count would otherwise reset to 0 and let a 4th photo be added).
+    if (failed) return;
     setMyComment(r?.comment || '');
     setHasMyReview(!!r);
     setReviewPhotoCount(r ? r.photoURLs?.length || (r.photoURL ? 1 : 0) : 0);

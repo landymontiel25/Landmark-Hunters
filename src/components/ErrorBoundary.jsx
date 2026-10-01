@@ -1,9 +1,8 @@
 import { Component } from 'react';
 
-// Catches a render-time crash in whatever screen is mounted inside it (this
-// wraps just <Routes>, not Header/BottomNav -- see App.jsx) so one bad
-// component blanks that screen instead of the entire app, and the user can
-// still navigate somewhere else via the nav that's still on screen.
+// Catches a render-time crash in whatever it wraps: the current screen (keyed
+// by route in App.jsx), each piece of always-on chrome (with a `fallback`),
+// and the whole app as a last resort (main.jsx). Every catch is console.error'd.
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props);

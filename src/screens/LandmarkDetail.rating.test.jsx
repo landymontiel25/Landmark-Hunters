@@ -174,4 +174,27 @@ describe('landmark page rating section', () => {
     expect(save).toBeTruthy();
     expect(save.disabled).toBe(false);
   });
+
+  it('keeps the photo cap when re-reading your review fails after a save', async () => {
+    claimed = { 'south-beach': true };
+    const rv = await import('../lib/reviews');
+    const full = {
+      ratingTier: 'highly-recommend',
+      stars: 5,
+      highlights: [],
+      lovedOrder: [],
+      dislikedOrder: [],
+      comment: 'Great',
+      photoURLs: ['a', 'b', 'c'],
+    };
+    let offline = false;
+    rv.getMyReview.mockImplementation(() => (offline ? Promise.reject(new Error('offline')) : Promise.resolve(full)));
+    submitReview.mockResolvedValue({ photoURLs: ['a', 'b', 'c'] });
+    const c = await mountPage();
+    expect(btn(c, /Add photo \(\d+\/3\)/)).toBeFalsy();
+    offline = true;
+    await click(btn(c, /Update Rating/));
+    await act(async () => {});
+    expect(btn(c, /Add photo \(\d+\/3\)/)).toBeFalsy();
+  });
 });
