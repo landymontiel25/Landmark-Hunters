@@ -44,7 +44,9 @@ input[type='range']:focus-visible {
 .chip,
 .modal-card,
 .fixed-action-bar {
-  overflow-wrap: anywhere;
+  /* break-word, not anywhere: anywhere also shrinks min-content, which makes
+     flex items and pills wrap letter by letter instead of staying whole. */
+  overflow-wrap: break-word;
 }
 .tabs {
   flex-wrap: wrap;
@@ -105,7 +107,7 @@ input[type='range']:focus-visible {
   inset: -6px;
 }
 .check-circle::after {
-  inset: -9px;
+  inset: -5px;
 }
 .header-streak::after,
 .score-chip::after {
