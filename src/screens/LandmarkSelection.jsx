@@ -237,7 +237,8 @@ export default function LandmarkSelection() {
   useEffect(() => {
     trip.customInterests.forEach((text) => {
       if (trip.customInterestMatches[text] !== undefined) return;
-      classifyInterest(text).then(({ matches, emoji }) => {
+      classifyInterest(text).then(({ matches, emoji, failed }) => {
+        if (failed) return;
         setCustomInterestMatches(text, matches);
         setCustomInterestEmoji(text, emoji);
       });

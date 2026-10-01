@@ -23,9 +23,11 @@ export default function PreferenceChips() {
   const addCustom = (text) => {
     addSavedCustomInterest(text);
     setClassifying((cur) => new Set(cur).add(text));
-    classifyInterest(text).then(({ matches, emoji }) => {
-      setCustomInterestMatches(text, matches);
-      setCustomInterestEmoji(text, emoji);
+    classifyInterest(text).then(({ matches, emoji, failed }) => {
+      if (!failed) {
+        setCustomInterestMatches(text, matches);
+        setCustomInterestEmoji(text, emoji);
+      }
       setClassifying((cur) => {
         const next = new Set(cur);
         next.delete(text);

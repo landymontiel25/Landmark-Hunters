@@ -551,7 +551,7 @@ export const MIAMI_LANDMARKS = [
     cost: 'Free',
     neighborhood: 'Design District',
     firstTimerPriority: 'Medium',
-    images: ["https://commons.wikimedia.org/wiki/Special:FilePath/Buckminster%20Fuller\\\\","s%20Eye%20Dome.jpg?width=1200","https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/ICA_Miami_17-11_2839_03.jpg/1280px-ICA_Miami_17-11_2839_03.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Institute_of_Contemporary_Art_-_Miami_Design_District_%2851010355042%29.jpg/1280px-The_Institute_of_Contemporary_Art_-_Miami_Design_District_%2851010355042%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"],
+    images: ["https://commons.wikimedia.org/wiki/Special:FilePath/Buckminster%20Fuller%27s%20Fly%27s%20Eye%20Dome.jpg?width=1200","https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/ICA_Miami_17-11_2839_03.jpg/1280px-ICA_Miami_17-11_2839_03.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Institute_of_Contemporary_Art_-_Miami_Design_District_%2851010355042%29.jpg/1280px-The_Institute_of_Contemporary_Art_-_Miami_Design_District_%2851010355042%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"],
     name: 'Institute of Contemporary Art Miami',
     region: 'miami',
     lat: 25.814359,
