@@ -1153,9 +1153,9 @@ export const EL_ESCORIAL_LANDMARKS = [
     lng: -4.1576617,
     checkInRadiusMeters: 400,
     categories: ["sports"],
-    summary: "An 18-hole golf course set in the Herrería forest, just a few hundred meters from the Monastery of El Escorial.",
+    summary: "An 18-hole golf course set in the Herrería forest, just over a kilometer from the Monastery of El Escorial.",
     tip: "Green fees are booked through the club or tee-time sites; check the dress code and book ahead.",
-    facts: ["Opened in 1966 in the Bosque de La Herrería","Sits about 400 meters from the Monastery of San Lorenzo de El Escorial","Is about 45 kilometers from Madrid","Has an 18-hole course laid out with the guidance of architect Antonio Gómez","Was granted the title Real (Royal) in 2006","The Dehesa de La Herrería was bought by Philip II to support the monastery","The name La Herrería comes from the cereal fields that once covered the site","Is open to visitors who book a green fee"],
+    facts: ["Opened in 1966 in the Bosque de La Herrería","Sits just over a kilometer from the Monastery of San Lorenzo de El Escorial","Has an 18-hole course designed by Antonio Lucena in 1966 and remodeled by José Gancedo in 2000","The Dehesa de La Herrería was bought by Philip II to support the monastery","Is open to visitors who book a green fee"],
     free: false,
     bookingUrl: null,
     typicalMinutes: 240
@@ -1176,7 +1176,7 @@ export const EL_ESCORIAL_LANDMARKS = [
     categories: ["entertainment"],
     summary: "A large modern performing-arts venue in Parque Felipe II for concerts, theater and dance.",
     tip: "Check the program in advance; it hosts the summer Festival de Verano and orchestral concerts.",
-    facts: ["Sits in Parque Felipe II in San Lorenzo de El Escorial","Opened in 2006","Covers about 26,000 square meters","Has a main hall, Sala A, with 1,064 seats","Has a smaller hall, Sala B, with about 300 seats","Programs music, theater and dance","Hosts the Festival de Verano de El Escorial each summer","Became a base for the Orquesta y Coro de la Comunidad de Madrid concert season in 2026"],
+    facts: ["Sits in Parque Felipe II in San Lorenzo de El Escorial","Opened in 2006","Covers about 26,000 square meters","Has a main hall, Sala A, laid out as an Italian-style theater with more than 1,000 seats","Has a smaller second hall, Sala B","Programs music, theater and dance","Hosts the Festival de Verano de El Escorial each summer","Hosts concert cycles by the Orquesta y Coro de la Comunidad de Madrid"],
     free: false,
     bookingUrl: null,
     typicalMinutes: 120

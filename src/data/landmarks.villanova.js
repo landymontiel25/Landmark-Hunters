@@ -822,7 +822,7 @@ export const VILLANOVA_LANDMARKS = [
     cost: "$$",
     neighborhood: "Bryn Mawr",
     firstTimerPriority: "Low",
-    images: [],
+    images: ["https://commons.wikimedia.org/wiki/Special:FilePath/Seville_Theater_exterior.JPG?width=1200"],
     name: "Bryn Mawr Film Institute",
     region: 'villanova',
     lat: 40.021573,
