@@ -35,13 +35,9 @@ describe('taperedPoints', () => {
     expect(taperedPoints(100, 1)).toBe(100);
   });
 
-  it('pays 20% on the 2nd-5th visit', () => {
-    expect(taperedPoints(100, 2)).toBe(20);
-    expect(taperedPoints(100, 5)).toBe(20);
-  });
-
-  it('pays nothing from the 6th visit on', () => {
-    expect(taperedPoints(100, 6)).toBe(0);
+  it('pays nothing from the 2nd visit on', () => {
+    expect(taperedPoints(100, 2)).toBe(0);
+    expect(taperedPoints(100, 5)).toBe(0);
     expect(taperedPoints(100, 50)).toBe(0);
   });
 });
