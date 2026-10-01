@@ -22,6 +22,7 @@ import {
   timeSlotFor,
   applyTimeSlot,
   TAG_CAP,
+  PER_TAG_LIMIT,
 } from './tagScores';
 
 const DAY = 86400000;
@@ -272,7 +273,8 @@ describe('shortlists', () => {
     const busiest = arts.at(-1);
     const list = coldStartShortlist({ region: 'milan', interests: ['art-museums'], checkinCounts: { [busiest.id]: 7 } });
     expect(list[0].id).toBe(busiest.id);
-    expect(list.slice(0, arts.length).every((l) => l.categories[0] === 'art-museums')).toBe(true);
+    // At most 12 per tag are taken, so only that many are guaranteed to lead the list.
+    expect(list.slice(0, Math.min(arts.length, 12)).every((l) => l.categories[0] === 'art-museums')).toBe(true);
   });
 
   it('uses cold start only when the region has no rating signal', () => {
@@ -431,7 +433,11 @@ describe('swipeShortlist / localSwipePicks (signup swipes + notes only)', () => 
   it('ranks by score, popularity only breaking ties inside the matched set', () => {
     const shortlist = swipeShortlist({ region: 'miami', tagDeltas: { food: 20, 'history-culture': 5 } });
     const scores = shortlist.map((l) => l.tagScore);
-    expect(scores).toEqual([...scores].sort((a, b) => b - a));
+    // Past PER_TAG_LIMIT per category the overflow is held back behind the
+    // other categories, so only the first pass is strictly ordered by score.
+    const firstPass = scores.slice(0, PER_TAG_LIMIT);
+    expect(firstPass).toEqual([...firstPass].sort((a, b) => b - a));
+    expect(scores[0]).toBe(Math.max(...scores));
   });
 
   it('returns nothing when nothing was loved and no keyword matches', () => {

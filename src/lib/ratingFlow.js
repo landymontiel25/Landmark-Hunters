@@ -43,8 +43,8 @@ export function ratingCategory(landmark) {
 // relabeling here never touches saved data.
 export const TIERS = [
   { id: 'highly-recommend', label: 'I loved it', emoji: '\u{2764}\u{FE0F}', stars: 5 },
-  { id: 'worth-trying', label: 'It was okay', emoji: '\u{1F610}', stars: 3 },
-  { id: 'probably-skip', label: 'Not for me', emoji: '\u{1F44E}', stars: 1 },
+  { id: 'worth-trying', label: 'Ok', emoji: '\u{1F610}', stars: 3 },
+  { id: 'probably-skip', label: "I didn't like it", emoji: '\u{1F44E}', stars: 1 },
 ];
 
 export function tierById(id) {
@@ -67,6 +67,30 @@ export function frequencyById(id) {
 
 export function tierStars(id) {
   return tierById(id)?.stars ?? 0;
+}
+
+// Every saved review carries one of the three tiers (firestore.rules
+// enforces it); a comment can only be saved together with one.
+export function isValidTier(id) {
+  return !!tierById(id);
+}
+
+// A review is only proof of a real visit if the place is in the user's
+// check-ins. Rating a place you haven't been to is allowed (it teaches
+// Mapr), so RatingsContext stamps each of your reviews with `visited` from
+// the real check-ins. A review nobody stamped (older callers, tests) counts
+// as visited, which is how every review used to be treated.
+export function isVisitedReview(review) {
+  return review?.visited !== false;
+}
+
+export function withVisited(reviewsById, claimedMap) {
+  if (!claimedMap) return reviewsById;
+  const out = {};
+  for (const [id, r] of Object.entries(reviewsById || {})) {
+    out[id] = { ...r, visited: !!claimedMap[r.landmarkId] || !!claimedMap[id] };
+  }
+  return out;
 }
 
 export const MAX_CHIPS = 3;

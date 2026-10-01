@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { saveMyComment } from '../lib/reviews';
-import { COMMENT_MAX } from '../lib/ratingFlow';
+import { COMMENT_MAX, TIERS } from '../lib/ratingFlow';
 import { friendlyError } from '../lib/friendlyError';
 
-// Your own comment on a place you checked into: shows it, and lets you add
-// one or edit it any time later. Used on the landmark page's Comments
-// section and on each row of My Check-ins.
-export default function MyCommentEditor({ userId, landmark, comment, onSaved, compact = false }) {
+// Your own comment on a place: shows it, and lets you add one or edit it any
+// time later. Used on the landmark page's Comments section and on each row of
+// My Check-ins. A comment is only ever saved together with a rating tier
+// (I loved it / Ok / I didn't like it): with a tier on file `tier` is passed
+// and only the text changes; without one (an old comment-only review, or
+// none yet) the editor asks you to pick one first.
+export default function MyCommentEditor({ userId, userName, landmark, comment, tier = null, onSaved, compact = false }) {
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState('');
+  const [pickedTier, setPickedTier] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   // What you just saved shows right away, before the parent reloads.
@@ -17,15 +21,21 @@ export default function MyCommentEditor({ userId, landmark, comment, onSaved, co
 
   const start = () => {
     setText(shown || '');
+    setPickedTier(null);
     setError(null);
     setEditing(true);
   };
 
+  const needsTier = !tier;
   const save = async () => {
+    if (needsTier && !pickedTier) {
+      setError("Pick how it was first: I loved it, Ok, or I didn't like it.");
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
-      const saved = await saveMyComment({ userId, landmark, comment: text });
+      const saved = await saveMyComment({ userId, userName, landmark, comment: text, tier: tier || pickedTier });
       setSavedText(saved);
       setEditing(false);
       onSaved?.(saved);
@@ -51,6 +61,22 @@ export default function MyCommentEditor({ userId, landmark, comment, onSaved, co
 
   return (
     <div className={`my-comment ${compact ? 'my-comment-compact' : ''}`} onClick={stop} onKeyDown={stop}>
+      {needsTier && (
+        <div className="rating-tier-grid" role="group" aria-label="How was it?" style={{ marginBottom: 8 }}>
+          {TIERS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              className={`chip rating-tier ${pickedTier === t.id ? 'selected' : ''}`}
+              aria-pressed={pickedTier === t.id}
+              onClick={() => setPickedTier(t.id)}
+            >
+              <span className="chip-icon">{t.emoji}</span>
+              <span>{t.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
       <textarea
         className="rating-comment"
         name="my-comment"
@@ -64,7 +90,7 @@ export default function MyCommentEditor({ userId, landmark, comment, onSaved, co
         onChange={(e) => setText(e.target.value)}
       />
       <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
-        <button type="button" className="btn btn-primary btn-sm" disabled={saving} onClick={save}>
+        <button type="button" className="btn btn-primary btn-sm" disabled={saving || (needsTier && !pickedTier)} onClick={save}>
           {saving ? 'Saving…' : 'Save'}
         </button>
         <button type="button" className="btn btn-ghost btn-sm" disabled={saving} onClick={() => setEditing(false)}>

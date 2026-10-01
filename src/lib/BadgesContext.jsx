@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 import { useFriends } from './FriendsContext';
 import { useCheckIn } from './useCheckIn';
 import { useTrip } from './TripContext';
-import { getUserStats, getUserCheckins, isInTopLeaderboard, hasFriendTagTeam } from './leaderboard';
+import { getUserStats, getUserCheckins, isInTopLeaderboard, hasFriendTagTeam, isRealCheckin } from './leaderboard';
 import { getPickFeedback } from './pickFeedback';
 import { getUserReviews } from './reviews';
 import { getCustomLandmarks } from './customLandmarks';
@@ -174,7 +174,11 @@ export function BadgesProvider({ children }) {
 
       setExtra({
         photoCheckins: countPhotoCheckins(rows),
-        fiveStarReview: reviews.some((r) => r.ratingTier === 'highly-recommend'),
+        // Reviewer needs a place you actually visited: you can rate places
+        // without checking in, but the badge is for reviews of real visits.
+        fiveStarReview: reviews.some(
+          (r) => r.ratingTier === 'highly-recommend' && rows.some((c) => c.landmarkId === r.landmarkId && isRealCheckin(c))
+        ),
         factLandmarks,
         friends: friendUidList.length,
         top10,

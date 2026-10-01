@@ -12,7 +12,7 @@ import { geocodeLocation } from '../lib/geocode';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { classifyInterest } from '../lib/interestClassifier';
 import { pickRegion } from '../lib/tagScores';
-import { ratePlacesText } from '../lib/nearbyPicks';
+import { ratePlacesText, visitedReviewIds } from '../lib/nearbyPicks';
 import { logRecommendations } from '../lib/recommendationLog';
 import {
   MIN_RATINGS_FOR_PICK_TYPE,
@@ -206,7 +206,9 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
       pickType,
       profile: myProfile,
       regionIds: rankRegions,
-      excludeIds: Object.values(myReviews || {}).map((r) => r.landmarkId),
+      // Rated-and-visited places only: a place rated without a visit is still
+      // somewhere new to go.
+      excludeIds: visitedReviewIds(myReviews),
     });
     const message = composePlanMessage({
       mood: wizard.mood,

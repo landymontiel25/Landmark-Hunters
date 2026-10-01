@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { submitReview, ratingDraftKey } from '../lib/reviews';
 import { clearPersisted } from '../lib/usePersistentState';
@@ -10,43 +9,33 @@ import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { isRateable } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
+import { initialRating } from './initialRating';
 
-// TEMPORARY. A "Rate" pill next to a landmark's name so places checked
-// into before the rating flow existed can be rated now. Rating normally
-// happens only at check-in; delete this file and its three call sites
-// (map popup, Landmarks list, itinerary card) once the backlog is rated.
-//
-// Only shows for a landmark you've checked into: the reviews rules
-// require a check-in doc to exist, and that's the set worth going back
-// to anyway. Once rated it reads "Rated · Edit" and opens pre-filled from
-// the shared myReviews map, so tapping again edits, never duplicates.
+// A "Rate" pill next to a landmark's name (map popup, Landmarks list,
+// itinerary card). Shows for every rateable landmark, checked into or not:
+// rating a place you haven't been to still teaches Mapr. If you later check
+// in there, the check-in prompt asks you to rate again and that rating
+// replaces this one. Once rated it reads "Rated · Edit" and opens pre-filled
+// from the shared myReviews map, so tapping again edits, never duplicates.
 export default function QuickRateButton({ landmark }) {
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
-  const { claimedMap } = useCheckIn();
   const { myReviews, reload: reloadRatings } = useRatings();
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  if (!firebaseEnabled || !user || !claimedMap[landmark.id] || !isRateable(landmark)) return null;
+  if (!firebaseEnabled || !user || !isRateable(landmark)) return null;
   const draftKey = ratingDraftKey(user.uid, landmark.id);
 
   // Only a review made through the tier + chips flow counts as "rated". A
   // pre-tier review (plain stars, no ratingTier) still shows "Rate" and
   // opens fresh; saving overwrites it.
   const mine = myReviews[landmark.id]?.ratingTier ? myReviews[landmark.id] : null;
-  const initial = mine
-    ? {
-        tier: mine.ratingTier,
-        highlights: mine.highlights || [],
-        lovedOrder: mine.lovedOrder || [],
-        dislikedOrder: mine.dislikedOrder || [],
-        comment: mine.comment || '',
-        visitFrequency: mine.visitFrequency || null,
-      }
-    : null;
+  // A legacy comment-only review has no tier but its comment still pre-fills,
+  // so picking a tier doesn't blank it.
+  const initial = initialRating(myReviews[landmark.id], null);
 
   const openModal = (e) => {
     e.stopPropagation();

@@ -7,10 +7,11 @@ import { useBadges } from '../lib/BadgesContext';
 import { usePersistentState } from '../lib/usePersistentState';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion } from '../data/regions';
-import { isRateable } from '../lib/ratingFlow';
+import { isRateable, isVisitedReview } from '../lib/ratingFlow';
 import { getPickFeedback, readLocalFeedback, votedIds, setPickFeedback } from '../lib/pickFeedback';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
+import MaprPickImage from './MaprPickImage';
 
 // "Mapr Travel Picks": city-first curation, not AI-suggested picks. Step 1
 // is choosing a city (defaults to wherever `pickRegion` thinks you are);
@@ -72,7 +73,9 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // A landmark already rated, already checked into (even unrated), or
   // already voted ✓/✗/🤷 here has nothing left to teach Mapr right now --
   // rate it for real from its own page instead.
-  const reviewedIds = new Set(reviews.map((r) => r.landmarkId).filter(Boolean));
+  // Rated without a visit still counts as somewhere new to go (the rating
+  // itself keeps teaching the taste model above).
+  const reviewedIds = new Set(reviews.filter(isVisitedReview).map((r) => r.landmarkId).filter(Boolean));
   const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback)]);
   const landmarks = region
     ? region.landmarks
@@ -132,11 +135,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         {landmarks.map((l) => (
           <div key={`${l.regionId}/${l.id}`} className="mapr-pick" data-pick-key={`${l.regionId}/${l.id}`}>
             <button type="button" className="mapr-pick-main" onClick={() => navigate(`/landmarks/${l.regionId}/${l.id}`)}>
-              {l.images?.[0] ? (
-                <img className="mapr-pick-img" src={l.images[0]} alt="" loading="lazy" />
-              ) : (
-                <div className="mapr-pick-img mapr-pick-img-blank">{'\u{1F4CD}'}</div>
-              )}
+              <MaprPickImage landmark={l} />
               <span className="mapr-pick-name">{l.name}</span>
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>
