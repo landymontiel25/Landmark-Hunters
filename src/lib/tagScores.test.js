@@ -272,7 +272,8 @@ describe('shortlists', () => {
     const busiest = arts.at(-1);
     const list = coldStartShortlist({ region: 'milan', interests: ['art-museums'], checkinCounts: { [busiest.id]: 7 } });
     expect(list[0].id).toBe(busiest.id);
-    expect(list.slice(0, arts.length).every((l) => l.categories[0] === 'art-museums')).toBe(true);
+    // At most 12 per tag are taken, so only that many are guaranteed to lead the list.
+    expect(list.slice(0, Math.min(arts.length, 12)).every((l) => l.categories[0] === 'art-museums')).toBe(true);
   });
 
   it('uses cold start only when the region has no rating signal', () => {
