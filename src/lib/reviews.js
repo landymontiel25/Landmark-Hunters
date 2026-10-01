@@ -17,7 +17,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { tierStars, COMMENT_MAX } from './ratingFlow';
-import { applyRating } from './tagScores';
+import { applyRating, revertRating } from './tagScores';
 
 // An Error whose message was written for travelers, not developers --
 // friendlyError() shows `userMessage` as-is instead of a generic fallback.
@@ -49,6 +49,50 @@ function withTimeout(promise, ms) {
     promise,
     new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timed out')), ms)),
   ]);
+}
+
+
+// Moves the user's per-region tag scores from `prev` rating (if any) to
+// `next` rating (if any): the old rating's effect is taken back out before
+// the new one goes in, and an unchanged rating touches nothing. Returns the
+// fields to merge into users/{uid}, or null for no change.
+function tagScoreUpdate(userData, prev, next, nowMs) {
+  const same =
+    prev && next && prev.region === next.region && prev.tier === next.tier &&
+    (prev.visitFrequency || null) === (next.visitFrequency || null) &&
+    JSON.stringify([...(prev.categories || [])].sort()) === JSON.stringify([...(next.categories || [])].sort());
+  if (same) return null;
+  const maps = {};
+  const get = (region) =>
+    (maps[region] ||= {
+      scores: { ...(userData?.tagScores?.[region] || {}) },
+      at: { ...(userData?.tagScoresAt?.[region] || {}) },
+      counts: { ...(userData?.tagCounts?.[region] || {}) },
+    });
+  let touched = false;
+  if (prev?.region && prev.tier) {
+    const m = get(prev.region);
+    const r = revertRating(m, prev.categories, prev.tier, prev.visitFrequency);
+    Object.assign(m.scores, r.scores);
+    Object.assign(m.counts, r.counts);
+    touched = Object.keys(r.scores).length > 0;
+  }
+  if (next?.region && next.tier) {
+    const m = get(next.region);
+    const r = applyRating(m, next.categories, next.tier, nowMs, next.visitFrequency);
+    Object.assign(m.scores, r.scores);
+    Object.assign(m.at, r.at);
+    Object.assign(m.counts, r.counts);
+    touched = touched || Object.keys(r.scores).length > 0;
+  }
+  if (!touched) return null;
+  const out = { tagScores: {}, tagScoresAt: {}, tagCounts: {} };
+  for (const [region, m] of Object.entries(maps)) {
+    out.tagScores[region] = m.scores;
+    out.tagScoresAt[region] = m.at;
+    out.tagCounts[region] = m.counts;
+  }
+  return out;
 }
 
 /**
@@ -85,7 +129,9 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
   if (files.length && storage) {
     for (let i = 0; i < files.length; i++) {
       try {
-        const path = `review_photos/${landmarkId}/${userId}_${i}.jpg`;
+        // Unique name per upload (rules allow {uid}_{digits}.jpg): a later photo
+        // must never overwrite an earlier one's file.
+        const path = `review_photos/${landmarkId}/${userId}_${Date.now()}${i}.jpg`;
         const storageRef = ref(storage, path);
         await withTimeout(uploadBytes(storageRef, files[i], { contentType: files[i].type || 'image/jpeg' }), 20000);
         photoURLs.push(await withTimeout(getDownloadURL(storageRef), 10000));
@@ -105,6 +151,8 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
       const prev = await tx.get(reviewRef);
       const agg = await tx.get(aggRef);
       const userSnap = await tx.get(userRef);
+      // Copied up front: everything below reads the pre-edit review.
+      const pd = prev.exists() ? { ...prev.data() } : null;
       const prevStars = prev.exists() ? prev.data().stars || 0 : 0;
       // A doc that only holds a comment or love note has no stars and was
       // never counted in the aggregate, so rating it adds to the count.
@@ -137,11 +185,13 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
           // How often they visit (FREQUENCIES in ratingFlow.js) -- optional,
           // scales how hard this rating moves tagScores (applyRating).
           visitFrequency: rating.visitFrequency || null,
-          comment: (rating.comment || '').slice(0, COMMENT_MAX),
+          // Only a comment the caller actually sent changes it: a form that
+          // never loaded the saved one must not blank it.
+          comment: rating.comment === undefined && prev.exists() ? prev.data().comment || '' : (rating.comment || '').slice(0, COMMENT_MAX),
           // Denormalized (like landmarkName/region above) so the taste card
           // can tally categories without a read per review.
           categories: landmark.categories || [],
-          ...(photoURLs.length ? { photoURLs } : {}),
+          ...(photoURLs.length ? { photoURLs: [...(prev.exists() ? prev.data().photoURLs || [] : []), ...photoURLs] } : {}),
           visibility: visibilityFor(userSnap.exists() ? userSnap.data() : null),
           hidden: hiddenFor(prev.exists() ? prev.data() : null),
           updatedAt: serverTimestamp(),
@@ -150,29 +200,17 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
       );
 
       // Mapr Picks' per-region tag scores (see tagScores.js). Inside this
-      // transaction so a retried save never counts the same rating twice.
-      const region = landmark.region;
-      if (region && rating.tier) {
-        const u = userSnap.exists() ? userSnap.data() : {};
-        const next = applyRating(
-          { scores: u.tagScores?.[region], at: u.tagScoresAt?.[region], counts: u.tagCounts?.[region] },
-          landmark.categories,
-          rating.tier,
-          Date.now(),
-          rating.visitFrequency || null
-        );
-        if (Object.keys(next.scores).length) {
-          tx.set(
-            userRef,
-            {
-              tagScores: { [region]: next.scores },
-              tagScoresAt: { [region]: next.at },
-              tagCounts: { [region]: next.counts },
-            },
-            { merge: true }
-          );
-        }
-      }
+      // transaction so a retried save never counts the same rating twice;
+      // an edit swaps the old rating's effect for the new one.
+      const upd = tagScoreUpdate(
+        userSnap.exists() ? userSnap.data() : {},
+        pd?.ratingTier ? { region: pd.region, tier: pd.ratingTier, categories: pd.categories, visitFrequency: pd.visitFrequency } : null,
+        landmark.region && rating.tier
+          ? { region: landmark.region, tier: rating.tier, categories: landmark.categories, visitFrequency: rating.visitFrequency }
+          : null,
+        Date.now()
+      );
+      if (upd) tx.set(userRef, upd, { merge: true });
     });
 
   // The review's create rule checks `exists(checkins/...)` for the check-in
@@ -305,16 +343,27 @@ export async function reportReview({ reporterUid, review }) {
 export async function deleteMyReview(userId, landmarkId) {
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
+  const userRef = doc(db, 'users', userId);
   await runTransaction(db, async (tx) => {
     const prev = await tx.get(reviewRef);
     if (!prev.exists()) return;
     const s = prev.data().stars || 0;
+    const userSnap = await tx.get(userRef);
     // A comment-only doc was never counted in the aggregate; just delete it.
     if (!s) {
       tx.delete(reviewRef);
       return;
     }
     const agg = await tx.get(aggRef);
+    // Roll the rating back out of Mapr's taste profile too.
+    const pd = prev.data();
+    const upd = tagScoreUpdate(
+      userSnap.exists() ? userSnap.data() : {},
+      pd.ratingTier ? { region: pd.region, tier: pd.ratingTier, categories: pd.categories, visitFrequency: pd.visitFrequency } : null,
+      null,
+      Date.now()
+    );
+    if (upd) tx.set(userRef, upd, { merge: true });
     const curSum = agg.exists() ? agg.data().sum || 0 : 0;
     const curCount = agg.exists() ? agg.data().count || 0 : 0;
     const newCount = Math.max(0, curCount - 1);

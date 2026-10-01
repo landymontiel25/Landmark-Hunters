@@ -250,9 +250,16 @@ export default function AddLandmark() {
   };
 
   const onPhotoChange = async () => {
-    const f = await pickPhoto();
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setError(e);
+      return;
+    }
     if (!f) return;
     setPhoto(f);
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
     setPhotoPreview(URL.createObjectURL(f));
   };
 
@@ -599,6 +606,7 @@ export default function AddLandmark() {
               type="button"
               onClick={() => {
                 setPhoto(null);
+                if (photoPreview) URL.revokeObjectURL(photoPreview);
                 setPhotoPreview(null);
               }}
               aria-label="Remove photo"

@@ -397,13 +397,20 @@ function LandmarkDetailBody() {
   const draftKey = ratingDraftKey(user?.uid, landmark.id);
 
   const onPhotoChange = async () => {
-    const f = await pickPhoto();
-    if (f) {
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setSaveMsg(friendlyError(e, "Couldn't use that photo. Try another one."));
+      return;
+    }
+    if (f && photoFiles.length < 3) {
       setPhotoFiles((prev) => (prev.length < 3 ? [...prev, f] : prev));
       setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, URL.createObjectURL(f)] : prev));
     }
   };
   const removePhoto = (i) => {
+    if (photoPreviews[i]) URL.revokeObjectURL(photoPreviews[i]);
     setPhotoFiles((prev) => prev.filter((_, idx) => idx !== i));
     setPhotoPreviews((prev) => prev.filter((_, idx) => idx !== i));
   };
@@ -437,11 +444,12 @@ function LandmarkDetailBody() {
       return;
     }
     clearPersisted(draftKey);
+    photoPreviews.forEach((u) => URL.revokeObjectURL(u));
     setPhotoFiles([]);
     setPhotoPreviews([]);
     setJustEdited(wasEdit);
     setSubmitted(true);
-    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload." : null);
+    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Photos must be under 8 MB." : null);
     setSaving(false);
     // The rating is saved; these only refresh what's shown, so a hiccup
     // here must never read as "your rating failed".
@@ -528,7 +536,13 @@ function LandmarkDetailBody() {
 
   const addMyCheckinPhoto = async () => {
     if (checkinPhotos.length >= MAX_CHECKIN_PHOTOS) return;
-    const f = await pickPhoto();
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setCheckinPhotoError(friendlyError(e, "Couldn't use that photo. Try another one."));
+      return;
+    }
     if (f) uploadCheckinPhoto(f);
   };
 

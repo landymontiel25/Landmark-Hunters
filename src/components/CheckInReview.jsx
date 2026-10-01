@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -46,12 +46,32 @@ export default function CheckInReview() {
   // off to the quieter "Checked in! +100" panel below.
   const [blast, setBlast] = useState(false);
   const endBlast = useCallback(() => setBlast(false), []);
+  // Every preview blob URL made, so they can be released (they otherwise
+  // hold the full photo in memory until the page closes).
+  const previewUrls = useRef(new Set());
+  const makePreview = (f) => {
+    const u = URL.createObjectURL(f);
+    previewUrls.current.add(u);
+    return u;
+  };
+  const releasePreview = (u) => {
+    if (previewUrls.current.delete(u)) URL.revokeObjectURL(u);
+  };
+  useEffect(() => {
+    const urls = previewUrls.current;
+    return () => {
+      urls.forEach((u) => URL.revokeObjectURL(u));
+      urls.clear();
+    };
+  }, []);
 
   useEffect(() => {
     if (justCheckedIn) {
       // No setRating(null) here: RatingFlow (mounted in this same commit)
       // reports its own starting state, including a pre-picked tier or a
       // restored draft, and this effect runs after it and would wipe that.
+      previewUrls.current.forEach((u) => URL.revokeObjectURL(u));
+      previewUrls.current.clear();
       setPhotoFiles([]);
       setPhotoPreviews([]);
       setMsg(null);
@@ -65,15 +85,25 @@ export default function CheckInReview() {
 
   const rateable = isRateable(justCheckedIn);
   const draftKey = ratingDraftKey(user?.uid, justCheckedIn.id);
+  // Re-checking in at a place you already rated: start from what's on file so
+  // posting doesn't blank the saved comment, chips and love notes.
+  const existing = myReviews?.[justCheckedIn.id] || null;
 
   const onPhoto = async () => {
-    const f = await pickPhoto();
-    if (f) {
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setMsg(friendlyError(e, "Couldn't use that photo. Try another one."));
+      return;
+    }
+    if (f && photoFiles.length < 3) {
       setPhotoFiles((prev) => (prev.length < 3 ? [...prev, f] : prev));
-      setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, URL.createObjectURL(f)] : prev));
+      setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, makePreview(f)] : prev));
     }
   };
   const removePhoto = (i) => {
+    releasePreview(photoPreviews[i]);
     setPhotoFiles((prev) => prev.filter((_, idx) => idx !== i));
     setPhotoPreviews((prev) => prev.filter((_, idx) => idx !== i));
   };
@@ -134,9 +164,19 @@ export default function CheckInReview() {
         });
     } else if (photoFiles.length) {
       // No rating here, so the photo lives on the check-in doc instead.
-      attachCheckinPhoto(user.uid, justCheckedIn.id, photoFiles[0])
-        .then(() => reloadMyPhotos())
-        .catch(() => setMsg("Your photo couldn't upload — you can try again from the landmark page."));
+      // Every photo picked, one after another -- not just the first.
+      (async () => {
+        let failed = false;
+        for (const f of photoFiles) {
+          try {
+            await attachCheckinPhoto(user.uid, justCheckedIn.id, f);
+          } catch {
+            failed = true;
+          }
+        }
+        await reloadMyPhotos().catch(() => {});
+        if (failed) setMsg("Some photos couldn't upload — you can try again from the landmark page.");
+      })();
     }
   };
 
@@ -197,7 +237,7 @@ export default function CheckInReview() {
                 <RatingFlow
                   key={justCheckedIn.id}
                   landmark={justCheckedIn}
-                  initial={checkInOptions?.initialTier ? { tier: checkInOptions.initialTier } : null}
+                  initial={existing?.ratingTier ? { ...existing, tier: checkInOptions?.initialTier || existing.ratingTier } : checkInOptions?.initialTier ? { tier: checkInOptions.initialTier } : null}
                   onChange={setRating}
                   requireComment={requireComment}
                   draftKey={draftKey}

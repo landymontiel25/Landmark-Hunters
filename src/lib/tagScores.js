@@ -92,6 +92,26 @@ export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, n
   return next;
 }
 
+// Takes one earlier applyRating back out (an edited or deleted rating), so
+// the profile only ever holds the rating's CURRENT effect. `counts` already
+// includes the rating being removed, so its step is the one applyRating used
+// at prior = count - 1. Decay since then isn't recoverable, so this is
+// approximate for old ratings, but never drifts by a whole step per edit.
+export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null) {
+  const delta = TAG_DELTAS[tier];
+  const next = { scores: {}, counts: {} };
+  if (delta == null) return next;
+  const mult = FREQUENCY_MULTIPLIER[frequency] || 1;
+  for (const tag of new Set(tags || [])) {
+    if (!(counts[tag] > 0)) continue;
+    const prior = counts[tag] - 1;
+    const step = (prior >= FULL_VALUE_RATINGS ? delta / 2 : delta) * mult;
+    next.scores[tag] = clampScore((scores[tag] || 0) - step);
+    next.counts[tag] = prior;
+  }
+  return next;
+}
+
 export function applyVote({ scores = {}, at = {} }, tags, verdict, nowMs) {
   const delta = VOTE_DELTAS[verdict];
   const next = { scores: {}, at: {}, counts: {}, capped: [] };
