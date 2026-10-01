@@ -36,7 +36,7 @@ function sortBadges(badgeEarnedAt, sortBy) {
 
 export default function FullStats() {
   const navigate = useNavigate();
-  const { user, firebaseEnabled } = useAuth();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
   const { claimedMap } = useCheckIn();
   const { stats, badges, badgeEarnedAt } = useBadges();
   const [sortBy, setSortBy] = useState('recent');
@@ -62,6 +62,8 @@ export default function FullStats() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  if (authLoading) return <SkeletonCard lines={1} />;
 
   if (!firebaseEnabled || !user) {
     return (

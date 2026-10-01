@@ -76,7 +76,7 @@ function StreakCountdown({ createdAt }) {
 // whatever else lands in `notifications` going forward.
 export default function Notifications() {
   const navigate = useNavigate();
-  const { user, firebaseEnabled } = useAuth();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
   const { requests, reload: reloadFriends } = useFriends();
   const toast = useToast();
   const [items, setItems] = useState(null); // null = first snapshot not in yet
@@ -89,6 +89,7 @@ export default function Notifications() {
   const [readIds, setReadIds] = useState(() => new Set());
 
   useEffect(() => {
+    if (authLoading) return;
     if (!firebaseEnabled || !user) {
       setItems([]);
       return;
@@ -103,7 +104,7 @@ export default function Notifications() {
       },
       (err) => setLoadError(err)
     );
-  }, [firebaseEnabled, user, loadAttempt]);
+  }, [firebaseEnabled, user, authLoading, loadAttempt]);
 
   const toggleIn = (setter, id, on) =>
     setter((cur) => {

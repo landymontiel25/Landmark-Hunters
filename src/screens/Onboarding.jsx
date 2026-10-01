@@ -59,10 +59,11 @@ function buildSteps({ isNew, verified, needsCheckIn }) {
 const INTEREST_IDS = new Set(INTERESTS.map((i) => i.id));
 
 export default function Onboarding({ isNew: isNewProp, onExit }) {
-  const { user, firebaseEnabled } = useAuth();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
   const { myProfile, profileFresh } = useFriends();
   const navigate = useNavigate();
 
+  if (authLoading) return <SkeletonList count={3} label="Loading" />;
   if (!firebaseEnabled || !user) return <Navigate to="/profile" replace />;
   if (!profileFresh) return <SkeletonList count={3} label="Loading" />;
   return <Flow key={user.uid} user={user} profile={myProfile} isNewProp={isNewProp} onExit={onExit} navigate={navigate} />;

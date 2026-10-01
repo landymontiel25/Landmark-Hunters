@@ -307,6 +307,12 @@ export async function sendFriendRequest(fromUser, toUser) {
   if (fromUser.uid === toUser.uid) throw userError("That's your own account.");
   const edge = await getDoc(doc(db, 'friend_edges', `${fromUser.uid}_${toUser.uid}`));
   if (edge.exists()) throw userError('You two are already friends.');
+  // They already asked you: a second, crossing request would leave one of
+  // the two stuck pending forever after the other is accepted.
+  const theirs = await getDocs(query(collection(db, 'friend_requests'), where('to', '==', fromUser.uid)));
+  if (theirs.docs.some((d) => d.data().from === toUser.uid)) {
+    throw userError(`@${toUser.username || toUser.displayName || 'They'} already sent you a request. Accept it under Requests.`);
+  }
   await setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
     from: fromUser.uid,
     fromName: fromUser.username || fromUser.displayName || fromUser.email,

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useFriends } from './FriendsContext';
 import { requestPushPermission, getPushToken, listenForTokenRefresh, removePushListeners } from './pushNotifications';
@@ -13,31 +13,31 @@ export function usePushNotificationsSync() {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const enabled = !!myProfile?.pushNotificationsEnabled;
-  const startedForRef = useRef(null);
+  const uid = user?.uid || null;
 
+  // Keyed on the uid, not the user object: Firebase hands back a new user
+  // object whenever e.g. email verification flips, and re-running (and
+  // cleaning up) the effect then would silence the token-refresh listener
+  // for the rest of the session.
   useEffect(() => {
-    if (!user || !enabled) {
+    if (!uid || !enabled) {
       removePushListeners();
-      startedForRef.current = null;
       return undefined;
     }
-    // Registering again on every re-render (e.g. an unrelated profile field
-    // changing) would pile up duplicate listeners -- only (re)register when
-    // the account actually changes.
-    if (startedForRef.current === user.uid) return undefined;
-    startedForRef.current = user.uid;
     let cancelled = false;
     (async () => {
       const granted = await requestPushPermission().catch(() => false);
       if (!granted || cancelled) return;
       const token = await getPushToken().catch(() => null);
-      if (token && !cancelled) savePushToken(user.uid, token, 'ios').catch(() => {});
+      if (token && !cancelled) savePushToken(uid, token, 'ios').catch(() => {});
+      if (cancelled) return;
       listenForTokenRefresh((t) => {
-        if (!cancelled) savePushToken(user.uid, t, 'ios').catch(() => {});
+        if (!cancelled) savePushToken(uid, t, 'ios').catch(() => {});
       });
     })();
     return () => {
       cancelled = true;
+      removePushListeners();
     };
-  }, [user, enabled]);
+  }, [uid, enabled]);
 }
