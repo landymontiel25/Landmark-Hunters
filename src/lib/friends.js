@@ -313,6 +313,11 @@ export async function sendFriendRequest(fromUser, toUser) {
   if (theirs.docs.some((d) => d.data().from === toUser.uid)) {
     throw userError(`@${toUser.username || toUser.displayName || 'They'} already sent you a request. Accept it under Requests.`);
   }
+  // Re-sending over your own pending request would be an update, which the
+  // rules don't allow -- it surfaced as a generic "couldn't send" error.
+  if (await hasPendingRequestTo(fromUser.uid, toUser.uid)) {
+    throw userError(`You already sent @${toUser.username || toUser.displayName || 'them'} a request -- waiting on them to accept.`);
+  }
   await setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
     from: fromUser.uid,
     fromName: fromUser.username || fromUser.displayName || fromUser.email,

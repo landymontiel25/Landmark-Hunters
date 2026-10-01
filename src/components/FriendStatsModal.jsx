@@ -4,6 +4,7 @@ import { getUserStats, getUserCheckins, isRealCheckin } from '../lib/leaderboard
 import { getRegion } from '../data/regions';
 import { friendlyError } from '../lib/friendlyError';
 import { usePairStreaks } from '../lib/PairStreakContext';
+import { displayStreakCount } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
 
@@ -98,7 +99,7 @@ export default function FriendStatsModal({ uid, name, onClose }) {
             {state.recent ? (
               <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 0 }}>
                 Last check-in: <strong>{state.recent.landmarkName || 'a landmark'}</strong>
-                {state.recent.region ? ` — ${getRegion(state.recent.region)?.name || ''}` : ''}
+                {getRegion(state.recent.region)?.name ? ` — ${getRegion(state.recent.region).name}` : ''}
               </p>
             ) : (
               <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 0 }}>
@@ -107,9 +108,9 @@ export default function FriendStatsModal({ uid, name, onClose }) {
             )}
           </>
         )}
-        {existingStreak && (
+        {existingStreak && displayStreakCount(existingStreak) > 0 && (
           <p className="screen-subtitle" style={{ marginTop: 16, marginBottom: 0 }}>
-            {'\u{1F525}'} You have a {existingStreak.count}-day streak with @{name}.
+            {'\u{1F525}'} You have a {displayStreakCount(existingStreak)}-day streak with @{name}.
           </p>
         )}
         <button className="btn btn-ghost btn-block" style={{ marginTop: 16 }} onClick={onClose}>

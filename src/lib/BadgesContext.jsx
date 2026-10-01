@@ -104,6 +104,12 @@ export function BadgesProvider({ children }) {
   // and celebrating the same badge again while the first write is in flight.
   const claimedRef = useRef(new Set());
 
+  // Popups queued for one account must never play for the next one signed in
+  // on the same device.
+  useEffect(() => {
+    setJustEarned([]);
+  }, [user?.uid]);
+
   // Pulled out of the effect (and exposed as `reload`) so voting on a Mapr
   // Pick can refresh the streak the moment a day's 5th vote lands, instead
   // of waiting for claimedMap to change (which a vote never does).
@@ -120,7 +126,8 @@ export function BadgesProvider({ children }) {
     try {
       s = await getUserStats(user.uid);
     } catch {
-      s = { totalPoints: 0, checkins: 0, cities: 0 };
+      // `failed` keeps zeros from being mistaken for a real level 1 (see CelebrationOverlay).
+      s = { totalPoints: 0, checkins: 0, cities: 0, failed: true };
     }
     setStats(s);
     let rows = [];

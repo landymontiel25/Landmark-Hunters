@@ -6,7 +6,7 @@ import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
-import { subscribeLeaderboard } from '../lib/leaderboard';
+import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { useTodayKey } from '../lib/useTodayKey';
 import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
@@ -312,11 +312,22 @@ function ProfileMenu() {
       setMe(null);
       return;
     }
+    let cancelled = false;
     const unsub = subscribeLeaderboard('weekly', (entries) => {
       const idx = entries.findIndex((e) => e.userId === user.uid);
-      setMe({ points: idx >= 0 ? entries[idx].points : 0, rank: idx >= 0 ? entries.findIndex((e) => e.points === entries[idx].points) + 1 : null });
+      if (idx >= 0) {
+        setMe({ points: entries[idx].points, rank: rankOf(entries, idx) });
+        return;
+      }
+      // Not in the top 50: show your real points (unranked), not "0 pts".
+      getMyLeaderboardEntry('weekly', user.uid)
+        .then((mine) => !cancelled && setMe({ points: mine?.points || 0, rank: null }))
+        .catch(() => !cancelled && setMe({ points: 0, rank: null }));
     }, 50, () => setMe({ points: null, rank: null, failed: true }));
-    return unsub;
+    return () => {
+      cancelled = true;
+      unsub();
+    };
   }, [firebaseEnabled, user]);
 
   useEffect(() => {
