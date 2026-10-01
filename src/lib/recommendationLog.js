@@ -4,6 +4,7 @@ import { getLandmark } from '../data/regions';
 import { makeSetId } from './setId';
 import { predictLevel } from './maprPrediction';
 import { SHOWN_MEMORY_LIMIT, SURFACES } from './maprConstants';
+import { rememberShownPicks } from './pickMarks';
 
 // One row per place Mapr recommended, in Firestore recommendation_log/
 // {auto-id}. pickType records which kind of pick produced it -- 'usual',
@@ -113,5 +114,9 @@ export async function logShownPicks({ uid, setId, stops, log = logRecommendation
   if (!uid || !setId) return 0;
   const fresh = (stops || []).filter((s) => s && s.id && s.region && claimShown(setId, `${s.region}/${s.id}`));
   if (!fresh.length) return 0;
-  return log({ uid, setId, stops: fresh, ...rest });
+  const at = rest.at ?? Date.now();
+  // Remember these as picks so a later tap or rating on one is marked (see
+  // pickMarks.js). Test surfaces never count, so they are not remembered.
+  if (rest.isTest !== true) rememberShownPicks({ uid, setId, surface: rest.surface, stops: fresh, at });
+  return log({ uid, setId, stops: fresh, ...rest, at });
 }

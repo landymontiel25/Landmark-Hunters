@@ -21,6 +21,7 @@ import { db, storage } from './firebase';
 import { settleWrite } from './offlineWrite';
 import { tierStars, isValidTier, COMMENT_MAX } from './ratingFlow';
 import { applyRating, revertRating } from './tagScores';
+import { pickMarkFields } from './pickMarks';
 import { canonicalLandmarkId } from '../data/regions';
 
 // An Error whose message was written for travelers, not developers --
@@ -155,6 +156,9 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
     }
   }
 
+  // Present only if this place was shown as a Mapr pick recently; {} otherwise
+  // so an existing mark on an edited review is never wiped.
+  const pickMarks = pickMarkFields(userId, landmarkId);
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
   const userRef = doc(db, 'users', userId);
@@ -209,6 +213,7 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           ...(photoURLs.length ? { photoURLs: [...(prev.exists() ? prev.data().photoURLs || [] : []), ...photoURLs] } : {}),
           visibility: visibilityFor(userSnap.exists() ? userSnap.data() : null),
           hidden: hiddenFor(prev.exists() ? prev.data() : null),
+          ...pickMarks,
           updatedAt: serverTimestamp(),
         },
         { merge: true }

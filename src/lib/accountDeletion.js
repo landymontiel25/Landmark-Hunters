@@ -2,6 +2,7 @@ import { doc, getDoc, updateDoc, deleteDoc, getDocs, collection, query, where, d
 import { ref, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { deleteMyReview } from './reviews';
+import { clearPickMarks } from './pickMarks';
 
 async function deletePhotoSafe(url) {
   if (!storage || !url) return;
@@ -104,6 +105,7 @@ export async function deleteAccountData(uid) {
   await deleteWhere('friend_edges', 'owner', uid);
   await deleteWhere('blocks', 'blockerUid', uid);
   await deleteWhere('pick_feedback', 'userId', uid);
+  clearPickMarks(uid); // the on-device pick memory (pickMarks.js)
   await deleteWhere('planning_events', 'userId', uid);
   await deleteWhere('recommendation_log', 'userId', uid);
   // In-app notifications addressed to this account.

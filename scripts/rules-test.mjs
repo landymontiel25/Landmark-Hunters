@@ -298,6 +298,43 @@ await t('recommendation_log: write-once (no update), owner-only read and delete'
   await assertSucceeds(deleteDoc(doc(as('ann'), 'recommendation_log/r2')));
 });
 
+console.log('pick marks on pick_feedback and reviews');
+const pf = (o = {}) => ({ userId: 'ann', landmarkId: 'pm1', verdict: 'yes', at: Date.now(), ...o });
+const mark = { pickSetId: 'ann-1-x', pickSurface: 'mapr-tab', pickShownAt: Date.now() };
+const rv = (o = {}) => ({ userId: 'ann', landmarkId: 'pm1', stars: 5, ratingTier: 'highly-recommend', comment: '', hidden: false, visibility: 'private', ...o });
+await t('pick_feedback: with and without pick marks both write; surface may be null', async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), pf()));
+  await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), pf(mark)));
+  await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), pf({ ...mark, pickSurface: null })));
+});
+await t('pick_feedback: bad pick marks are refused', async () => {
+  const db = as('ann');
+  await assertFails(setDoc(doc(db, 'pick_feedback/ann_pm1'), pf({ ...mark, pickSurface: 'billboard' })));
+  await assertFails(setDoc(doc(db, 'pick_feedback/ann_pm1'), pf({ ...mark, pickSetId: 5 })));
+  await assertFails(setDoc(doc(db, 'pick_feedback/ann_pm1'), pf({ ...mark, pickSetId: 'x'.repeat(201) })));
+  await assertFails(setDoc(doc(db, 'pick_feedback/ann_pm1'), pf({ ...mark, pickShownAt: 'yesterday' })));
+});
+await t('pick_feedback: marks do not loosen reads (still owner-only)', async () => {
+  await assertSucceeds(getDoc(doc(as('ann'), 'pick_feedback/ann_pm1')));
+  await assertFails(getDoc(doc(as('bob'), 'pick_feedback/ann_pm1')));
+});
+await t('reviews: pick marks accepted on create and edit; bad ones refused', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_pm1'), rv(mark)));
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_pm1'), rv({ ...mark, comment: 'edit' })));
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_pm2'), rv({ landmarkId: 'pm2' })));
+  await assertFails(setDoc(doc(db, 'reviews/ann_pm3'), rv({ landmarkId: 'pm3', ...mark, pickSurface: 'other' })));
+  await assertFails(setDoc(doc(db, 'reviews/ann_pm3'), rv({ landmarkId: 'pm3', ...mark, pickShownAt: 'x' })));
+  await assertFails(setDoc(doc(db, 'reviews/ann_pm3'), rv({ landmarkId: 'pm3', ...mark, pickSetId: 'x'.repeat(201) })));
+  await assertFails(updateDoc(doc(db, 'reviews/ann_pm1'), { pickSurface: 'nope' }));
+});
+await t('reviews: tier rule still applies with marks (no tier, still refused)', async () => {
+  await assertFails(setDoc(doc(as('ann'), 'reviews/ann_pm4'), { userId: 'ann', landmarkId: 'pm4', comment: '', hidden: false, visibility: 'private', ...mark }));
+});
+await t('reviews: marks do not widen reads (private review stays hidden from others)', async () => {
+  await assertFails(getDoc(doc(as('bob'), 'reviews/ann_pm1')));
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {

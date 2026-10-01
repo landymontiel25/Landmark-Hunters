@@ -67,6 +67,16 @@ service cloud.firestore {
         && data.get('stars', 0) == (data.ratingTier == 'highly-recommend' ? 5 : (data.ratingTier == 'worth-trying' ? 3 : 1));
     }
 
+    // Optional "this came from a Mapr pick" marks on a tap (pick_feedback) or
+    // a rating (reviews): which set, which surface, when it was shown. All
+    // three are optional (older app builds, and anything not from a pick,
+    // omit them); when present they must be well-formed.
+    function pickMarkOk(data) {
+      return (!('pickSetId' in data) || (data.pickSetId is string && data.pickSetId.size() <= 200))
+        && (!('pickSurface' in data) || data.pickSurface == null || data.pickSurface in ['map-sheet', 'mapr-tab', 'chat'])
+        && (!('pickShownAt' in data) || data.pickShownAt == null || data.pickShownAt is number);
+    }
+
     // --- Existing production rules, kept as-is (stricter than the new
     // defaults below): public read, ownership-validated writes, immutable
     // checkins, and leaderboard entries locked to their own owner. ---
@@ -395,7 +405,8 @@ service cloud.firestore {
         && request.resource.data.get('comment', '').size() <= 500
         && reviewHiddenOk(request.resource.data)
         && reviewVisibilityOk(request.resource.data)
-        && reviewTierOk(request.resource.data);
+        && reviewTierOk(request.resource.data)
+        && pickMarkOk(request.resource.data);
       // Two ways to update: the author editing their own review (unchanged),
       // or someone else reporting it -- which may ONLY append their own uid
       // to reportedBy, exactly once, touching no other field. That, plus
@@ -410,6 +421,7 @@ service cloud.firestore {
             && request.resource.data.get('comment', '').size() <= 500
             && reviewHiddenOk(request.resource.data)
             && reviewVisibilityOk(request.resource.data)
+            && pickMarkOk(request.resource.data)
             // A tier is required to edit, except the privacy-copy sync
             // (syncMyReviewVisibility) on an old tier-less review.
             && (reviewTierOk(request.resource.data)
@@ -454,7 +466,8 @@ service cloud.firestore {
         // out here meant every "Not sure" vote silently failed to sync to
         // Firestore (caught by the client's own try/catch) and only ever
         // lived in that one device's localStorage.
-        && request.resource.data.verdict in ['yes', 'no', 'unsure'];
+        && request.resource.data.verdict in ['yes', 'no', 'unsure']
+        && pickMarkOk(request.resource.data);
       allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
     // Dual streaks (Dual Streak spec, phase 3 MVP -- see pairStreaks.js).
