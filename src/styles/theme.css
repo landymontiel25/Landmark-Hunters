@@ -675,7 +675,7 @@ textarea {
 
 .chip-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 
@@ -964,6 +964,8 @@ textarea {
   cursor: pointer;
   font-size: 0.9rem;
   text-align: left;
+  min-width: 0;
+  overflow-wrap: break-word;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -2534,6 +2536,11 @@ button.header-streak {
   padding: 40px 20px;
 }
 
+/* .screen-title is display:flex, which ignores the parent's text-align. */
+.empty-state .screen-title {
+  justify-content: center;
+}
+
 .route-step {
   display: flex;
   gap: 14px;
@@ -3309,6 +3316,8 @@ button.header-streak {
   width: 100%;
   max-width: 420px;
   max-height: 90vh;
+  /* 90vh overshoots on mobile browsers whose URL bar covers part of it. */
+  max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 40px);
   overflow-y: auto;
 }
 
@@ -5145,6 +5154,47 @@ h2,
   background: rgba(156, 122, 52, 0.14);
 }
 
+/* The dark-first refresh above hard-codes near-black surfaces; without these
+   light-theme counterparts, inputs/modals/popovers/the Mapr header render
+   dark-on-dark (dark text on a #0a0d16 background). */
+[data-theme='light'] .field input[type='text'],
+[data-theme='light'] .field input[type='email'],
+[data-theme='light'] .field input[type='password'],
+[data-theme='light'] .field select,
+[data-theme='light'] .field textarea,
+[data-theme='light'] .autocomplete-chip-input,
+[data-theme='light'] .city-dropdown-panel input[type='text'],
+[data-theme='light'] .friend-email-input,
+[data-theme='light'] .map-search-input,
+[data-theme='light'] .radius-select,
+[data-theme='light'] .rename-form input,
+[data-theme='light'] .chatlab-quick-replies button,
+[data-theme='light'] .chatlab-region-pill {
+  background: var(--bg-input);
+}
+
+[data-theme='light'] .modal-card,
+[data-theme='light'] .points-popover,
+[data-theme='light'] .streak-info-popover,
+[data-theme='light'] .user-popover-card,
+[data-theme='light'] .chatlab-region-popover {
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-float);
+}
+
+[data-theme='light'] .chatlab-header {
+  background: var(--bg-card);
+}
+
+[data-theme='light'] .chatlab-composer {
+  background: rgba(255, 250, 240, 0.96);
+  box-shadow: 0 0 0 4px rgba(77, 127, 255, 0.08), var(--shadow-float);
+}
+
+[data-theme='light'] .chatlab-msg.assistant .chatlab-bubble {
+  background: var(--bg-card);
+}
+
 /* ==========================================================================
    Skeleton loaders, error notices, toasts
    ========================================================================== */
@@ -6559,4 +6609,17 @@ h2,
 }
 .chat-wizard-link:hover {
   color: var(--text-primary);
+}
+
+/* Narrow phones: two-up chips need less padding/gap so single long words
+   ("Entertainment") fit without breaking or widening the page. */
+@media (max-width: 360px) {
+  .chip-grid .chip {
+    padding: 12px 8px;
+    gap: 5px;
+    font-size: 0.78rem;
+  }
+  .chip-grid .chip-icon {
+    font-size: 1.1rem;
+  }
 }
