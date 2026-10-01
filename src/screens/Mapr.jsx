@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { useAuth } from '../lib/AuthContext';
@@ -691,6 +691,31 @@ export default function Mapr() {
     });
   };
 
+  // Plan Your Trip sits right under Mapr's greeting, so people can either
+  // tap it or just ask Mapr a question in the box below.
+  const plannerBlock = (
+    <>
+      {showPlanner ? (
+        <TripPlannerCard
+          regions={regions}
+          onSetRegions={setRegions}
+          onToggleRegion={toggleRegion}
+          onClearRegions={() => setRegions([])}
+          onClose={() => setShowPlanner(false)}
+          onPlan={(message, { cachedReply, onReply, logMeta, requestFor } = {}) => {
+            setShowPlanner(false);
+            if (cachedReply) replayPlan(message, cachedReply, logMeta, requestFor);
+            else send(null, message, { onReply, requestFor: normalizeRequestFor(requestFor) });
+          }}
+        />
+      ) : (
+        <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 12 }} onClick={() => setShowPlanner(true)}>
+          {'\u{1F9ED}'} Plan Your Trip
+        </button>
+      )}
+    </>
+  );
+
   return (
     <div className="chatlab">
       <OnboardingBanner />
@@ -773,25 +798,6 @@ export default function Mapr() {
       )}
       {chatsOpen && <MaprChatsPanel onClose={() => setChatsOpen(false)} />}
 
-      {showPlanner ? (
-        <TripPlannerCard
-          regions={regions}
-          onSetRegions={setRegions}
-          onToggleRegion={toggleRegion}
-          onClearRegions={() => setRegions([])}
-          onClose={() => setShowPlanner(false)}
-          onPlan={(message, { cachedReply, onReply, logMeta, requestFor } = {}) => {
-            setShowPlanner(false);
-            if (cachedReply) replayPlan(message, cachedReply, logMeta, requestFor);
-            else send(null, message, { onReply, requestFor: normalizeRequestFor(requestFor) });
-          }}
-        />
-      ) : (
-        <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 12 }} onClick={() => setShowPlanner(true)}>
-          {'\u{1F9ED}'} Plan Your Trip
-        </button>
-      )}
-
       {showTasteNudge && <TasteNudgeCard onDone={dismissNudge} onDismiss={dismissNudge} />}
 
       <DiscoveryStatsCard />
@@ -806,8 +812,10 @@ export default function Mapr() {
             </button>
           </p>
         )}
+        {messages.length === 0 && plannerBlock}
         {messages.map((m, i) => (
-          <div key={i} className={`chatlab-msg ${m.role}`}>
+          <Fragment key={i}>
+          <div className={`chatlab-msg ${m.role}`}>
             {m.role === 'assistant' && <div className="chatlab-avatar" />}
             <div className={`chatlab-bubble ${m.error ? 'error' : ''}`}>
               {m.role === 'user' && editingIndex === i ? (
@@ -1040,6 +1048,8 @@ export default function Mapr() {
               )}
             </div>
           </div>
+          {i === 0 && plannerBlock}
+          </Fragment>
         ))}
         {busy && (
           <div className="chatlab-msg assistant">
