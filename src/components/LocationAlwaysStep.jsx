@@ -6,7 +6,7 @@ import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 
 // Final onboarding step -- asks to upgrade from "When In Use" (already
-// granted by now, since FirstCheckInStep just used GPS) to "Always", so Mapr
+// granted by now) to "Always", so Mapr
 // can keep learning your taste and location even with the app closed (see
 // src/lib/backgroundLocation.js). Comes last on purpose: this native
 // permission dialog reads as a bigger ask than the others, so it only shows

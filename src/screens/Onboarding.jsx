@@ -21,10 +21,9 @@ import {
   saveOnboardingResults,
 } from '../lib/onboardingSave';
 import { useWelcomeBonus } from '../lib/useWelcomeBonus';
-import { needsFirstCheckIn, useCheckinCount } from '../lib/firstCheckIn';
 import { HowToStep, SwipeCardStack } from '../components/OnboardingSteps';
 import { Capacitor } from '@capacitor/core';
-import FirstCheckInStep from '../components/FirstCheckInStep';
+import OnboardingRateStep from '../components/OnboardingRateStep';
 import LocationAlwaysStep from '../components/LocationAlwaysStep';
 import ErrorNotice from '../components/ErrorNotice';
 import { SkeletonList } from '../components/Skeleton';
@@ -36,24 +35,25 @@ import { SkeletonList } from '../components/Skeleton';
 // for trying new versions of the same pieces without saving anything.
 //
 // Steps: verify email (new accounts only, until verified) -> prompt ->
-// instructions -> cards -> notes -> first check-in (only while the account has
-// no check-in yet) -> "Always" location (new accounts only) -> done. Every
-// step but verify and the first check-in has a Skip. The step and the swipes
-// are saved to the account as they happen, so closing the app resumes here.
+// instructions -> cards -> notes -> rate (rate real places until the account
+// has the 10 ratings that unlock picks; skips itself if it already does, and
+// has "Do this later") -> "Always" location (new accounts only) -> done.
+// Every step but verify has a Skip. The step and the swipes are saved to the
+// account as they happen, so closing the app resumes here.
 //
 // The swipes and notes are saved when the notes step ends; that write is what
-// records ONBOARDING_VERSION. The check-in and location steps come after it
-// and never affect it.
-const CHECKIN_STEP = 'checkin';
+// records ONBOARDING_VERSION. The rate and location steps come after it and
+// never affect it.
+const RATE_STEP = 'rate';
 
-function buildSteps({ isNew, verified, needsCheckIn }) {
+function buildSteps({ isNew, verified }) {
   return [
     ...(isNew && !verified ? ['verify'] : []),
     'prompt',
     'howto',
     'cards',
     'notes',
-    ...(needsCheckIn ? [CHECKIN_STEP] : []),
+    RATE_STEP,
     // "Always" location is an iOS-app permission (backgroundLocation.js has no
     // web fallback); in a browser the button could only ever fail with an error
     // about iOS Settings, a dead end right before the finish.
@@ -93,7 +93,6 @@ export default function Onboarding({ isNew: isNewProp, onExit }) {
 function Flow({ user, profile, isNewProp, onExit, navigate }) {
   const { resendVerification, refreshUser } = useAuth();
   const { trip, toggleSavedInterest } = useTrip();
-  const { count: checkinCount, loading: checkinLoading } = useCheckinCount(user.uid);
 
   const status = onboardingStatus(profile);
   const isNew = isNewProp ?? profile?.onboardingSource === 'signup';
@@ -111,18 +110,17 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   const [answers, setAnswers] = useState(() =>
     prefillAnswers({ cardWords, progress, profile, savedInterests: trip.savedInterests })
   );
-  const [stepId, setStepId] = useState(progress?.step || 'prompt');
+  // 'checkin' is the retired first check-in step; anyone saved on it resumes at rate.
+  const [stepId, setStepId] = useState(progress?.step === 'checkin' ? RATE_STEP : progress?.step || 'prompt');
   const [saveError, setSaveError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [resultsSaved, setResultsSaved] = useState(false);
 
   const verified = !!user.emailVerified;
-  const needsCheckIn = needsFirstCheckIn(checkinCount);
-  const steps = buildSteps({ isNew, verified, needsCheckIn });
-  // A saved or in-flight step that no longer applies (email just verified,
-  // check-in count says they already have one) falls forward to the next one
-  // that does.
-  const ORDER = ['verify', 'prompt', 'howto', 'cards', 'notes', CHECKIN_STEP, 'location', 'done'];
+  const steps = buildSteps({ isNew, verified });
+  // A saved or in-flight step that no longer applies (email just verified)
+  // falls forward to the next one that does.
+  const ORDER = ['verify', 'prompt', 'howto', 'cards', 'notes', RATE_STEP, 'location', 'done'];
   // The email step is a gate: nothing else shows until the address is verified.
   const current =
     steps[0] === 'verify'
@@ -250,13 +248,15 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
         uid={user.uid}
         savedIntro={profile?.tasteIntro || ''}
         saving={saving}
-        waiting={checkinLoading}
         error={saveError}
         onDone={finishCore}
       />
     );
   }
-  if (current === CHECKIN_STEP) return <FirstCheckInStep required onDone={() => next()} />;
+  if (current === RATE_STEP) {
+    const lovedTags = [...new Set(answers.filter((a) => a.answer === 'love').map((a) => a.card.tag))];
+    return <OnboardingRateStep lovedTags={lovedTags} onDone={() => next()} onLater={() => next()} />;
+  }
   if (current === 'location') return <LocationAlwaysStep onDone={() => next()} />;
 
   return (
@@ -347,9 +347,7 @@ function VerifyEmail({ email, resend, refresh }) {
 // are the same free-text field (users/{uid}.tasteIntro), so this is one
 // screen for both. It shares Settings' draft key, and starts from what the
 // account already has saved.
-// `waiting` holds the buttons while the check-in count loads, so the step
-// after this one is decided from real data.
-function NotesStep({ uid, savedIntro, saving, waiting, error, onDone }) {
+function NotesStep({ uid, savedIntro, saving, error, onDone }) {
   const [text, setText, clearDraft] = usePersistentState(`tasteIntro.${uid}`, '');
   const [textError, setTextError] = useState(null);
 
@@ -414,10 +412,10 @@ function NotesStep({ uid, savedIntro, saving, waiting, error, onDone }) {
           onRetry={() => submit(true)}
         />
       )}
-      <button type="button" className="btn btn-primary btn-block" style={{ marginTop: 20 }} disabled={saving || waiting} onClick={() => submit(true)}>
+      <button type="button" className="btn btn-primary btn-block" style={{ marginTop: 20 }} disabled={saving} onClick={() => submit(true)}>
         {saving ? 'Saving…' : `${trimmed ? 'Save & continue' : 'Continue'} \u{2192}`}
       </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} disabled={saving || waiting} onClick={() => submit(false)}>
+      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} disabled={saving} onClick={() => submit(false)}>
         Skip for now
       </button>
     </div>
