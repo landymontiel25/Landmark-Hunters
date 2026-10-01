@@ -224,6 +224,11 @@ describe('displayStreakCount (lapsed stored streaks)', () => {
     const { displayStreakCount } = await import('./streaks');
     expect(displayStreakCount({ count: 7, lastCompletedDay: key(new Date(2026, 5, 8)) }, now)).toBe(0);
   });
+  it('keeps the count when today is frozen even if yesterday was missed', async () => {
+    const { displayStreakCount } = await import('./streaks');
+    const streak = { count: 7, lastCompletedDay: key(new Date(2026, 5, 8)), frozenDays: [key(now)] };
+    expect(displayStreakCount(streak, now)).toBe(7);
+  });
   it('keeps the count when yesterday was frozen', async () => {
     const { displayStreakCount } = await import('./streaks');
     const streak = { count: 7, lastCompletedDay: key(new Date(2026, 5, 8)), frozenDays: [key(new Date(2026, 5, 9))] };

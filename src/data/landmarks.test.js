@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests } from './regions';
+import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId } from './regions';
 
 const KNOWN = new Set(INTERESTS.map((i) => i.id));
 
@@ -78,6 +78,17 @@ describe('landmark ids and data', () => {
       }
     }
     expect(bad).toEqual([]);
+  });
+});
+
+describe('canonicalLandmarkId (renamed San Francisco ids)', () => {
+  it('maps pre-rename San Francisco records to the new ids and leaves everything else alone', () => {
+    expect(canonicalLandmarkId('washington-square-park', 'san-francisco')).toBe('washington-square-park-sf');
+    expect(canonicalLandmarkId('the-battery', 'san-francisco')).toBe('the-battery-sf');
+    expect(canonicalLandmarkId('the-battery', 'nyc')).toBe('the-battery');
+    expect(canonicalLandmarkId('ferry-building', 'san-francisco')).toBe('ferry-building');
+    const sfIds = new Set(ALL_LANDMARKS.filter((l) => l.regionId === 'san-francisco').map((l) => l.id));
+    expect(sfIds.has(canonicalLandmarkId('the-battery', 'san-francisco'))).toBe(true);
   });
 });
 

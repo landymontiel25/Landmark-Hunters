@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { migrateInterests, getRegion } from '../data/regions';
+import { migrateInterests, getRegion, canonicalLandmarkId } from '../data/regions';
 
 const STORAGE_KEY = 'landmarkhunters.trip.v1';
 
@@ -60,7 +60,12 @@ function loadTrip() {
         : {};
       t.activeRegion = parsed.region ?? null;
     }
-    t.byRegion = t.byRegion || {};
+    t.byRegion = Object.fromEntries(
+      Object.entries(t.byRegion || {}).map(([region, ids]) => [
+        region,
+        Array.isArray(ids) ? ids.map((id) => canonicalLandmarkId(id, region)) : ids,
+      ])
+    );
     t.itineraryNames = t.itineraryNames || {};
     t.placesByRegion = t.placesByRegion || {};
     t.itineraryStatus = t.itineraryStatus || {};

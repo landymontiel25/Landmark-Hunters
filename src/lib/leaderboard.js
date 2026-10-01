@@ -22,7 +22,7 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage
 import { db, storage } from './firebase';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
-import { REGIONS } from '../data/regions';
+import { REGIONS, canonicalLandmarkId } from '../data/regions';
 
 export { distanceMeters };
 
@@ -460,7 +460,10 @@ export async function getUserCheckins(userId) {
   if (!db || !userId) return [];
   const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
   return snap.docs
-    .map((d) => ({ id: d.id, ...d.data() }))
+    .map((d) => {
+      const c = { id: d.id, ...d.data() };
+      return { ...c, landmarkId: canonicalLandmarkId(c.landmarkId, c.region) };
+    })
     .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 }
 
@@ -472,7 +475,7 @@ export async function getUserCheckins(userId) {
  */
 export async function getUserCheckedInLandmarkIds(userId) {
   const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
-  return snap.docs.map((d) => d.data()).filter(isRealCheckin).map((x) => x.landmarkId);
+  return snap.docs.map((d) => d.data()).filter(isRealCheckin).map((x) => canonicalLandmarkId(x.landmarkId, x.region));
 }
 
 /**
