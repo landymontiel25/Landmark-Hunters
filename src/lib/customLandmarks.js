@@ -66,7 +66,17 @@ async function loadCustomLandmarks() {
 // one up in the static catalog.
 export async function getCustomLandmark(id) {
   if (!db || !id) return null;
-  const snap = await getDoc(doc(db, 'custom_landmarks', id));
+  let snap;
+  try {
+    snap = await getDoc(doc(db, 'custom_landmarks', id));
+  } catch (e) {
+    // firestore.rules refuse a direct read of a landmark that two people have
+    // reported (only its submitter and the admin may open it). To everyone
+    // else that is simply "gone" -- not an error worth "Try signing out and
+    // back in", which is what the permission-denied surfaced as.
+    if (e?.code === 'permission-denied') return null;
+    throw e;
+  }
   if (snap.exists()) return withCategories({ docId: snap.id, ...snap.data() });
   // Fallback for a record whose own Firestore document id doesn't actually
   // match its `id` field -- e.g. one written before the create rule above

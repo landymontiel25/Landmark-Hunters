@@ -1,8 +1,8 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { Capacitor } from '@capacitor/core';
-import { getAuth, initializeAuth, indexedDBLocalPersistence } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getAuth, initializeAuth, indexedDBLocalPersistence, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getStorage, connectStorageEmulator } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -44,3 +44,13 @@ if (firebaseEnabled) {
   }
 }
 export const storage = _storage;
+
+// Local rules testing only: VITE_USE_EMULATOR=1 points the SDKs at the Firebase
+// emulators (auth 9099, firestore 8080, storage 9199). Never set in production.
+if (firebaseEnabled && import.meta.env.VITE_USE_EMULATOR) {
+  try {
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
+    connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    if (_storage) connectStorageEmulator(_storage, '127.0.0.1', 9199);
+  } catch { /* already connected (hot reload) */ }
+}

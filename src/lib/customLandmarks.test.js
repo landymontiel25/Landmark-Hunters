@@ -55,6 +55,18 @@ describe('getCustomLandmark', () => {
   });
 });
 
+describe('getCustomLandmark on a reported (hidden) landmark', () => {
+  it('treats the rules\' permission-denied as "not found", not an error', async () => {
+    getDocMock.mockRejectedValueOnce(Object.assign(new Error('Missing or insufficient permissions.'), { code: 'permission-denied' }));
+    expect(await getCustomLandmark('custom-hidden')).toBeNull();
+  });
+
+  it('still throws other read failures', async () => {
+    getDocMock.mockRejectedValueOnce(Object.assign(new Error('offline'), { code: 'unavailable' }));
+    await expect(getCustomLandmark('custom-x')).rejects.toMatchObject({ code: 'unavailable' });
+  });
+});
+
 describe('region-less custom landmarks', () => {
   it('saves a stable "custom" region instead of null, and reads legacy null/"null" the same way', async () => {
     const { setDoc } = await import('firebase/firestore');
