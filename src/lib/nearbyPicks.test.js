@@ -21,6 +21,7 @@ import {
   readNearbyPicksCache,
   selectReady,
   withReasons,
+  optionToMiles,
   withinDistance,
   writeNearbyPicksCache,
 } from './nearbyPicks';
@@ -52,6 +53,18 @@ describe('distance filter', () => {
     expect(withinDistance(places, ORIGIN, 10).map((p) => p.id)).toEqual(['near', 'mid']);
     expect(withinDistance(places, ORIGIN, 1).map((p) => p.id)).toEqual(['near']);
     expect(withinDistance(places, ORIGIN, 15).map((p) => p.id)).toEqual(['near', 'mid', 'far']);
+  });
+
+  it('measures from a saved pin correction, like the map list does', () => {
+    const p = { ...place('moved', 0.5), regionId: 'villanova' };
+    const moved = { lat: p.lat + 0.2, lng: p.lng }; // ~14 mi north
+    expect(eligiblePlaces({ origin: ORIGIN, miles: 5, landmarks: [p] })).toHaveLength(1);
+    expect(eligiblePlaces({ origin: ORIGIN, miles: 5, landmarks: [p], overrides: { 'villanova/moved': moved } })).toHaveLength(0);
+  });
+
+  it('reads the chip number in km when the units are metric', () => {
+    expect(optionToMiles(10, 'imperial')).toBe(10);
+    expect(optionToMiles(10, 'metric')).toBeCloseTo(6.21, 2);
   });
 
   it('includes the edge and attaches each distance', () => {
@@ -179,6 +192,14 @@ describe('closed places and low ratings', () => {
     expect(isClosedNow({ hours: 'Daily 6pm-2am' }, tuesday(15))).toBe(true);
     expect(isClosedNow({ hours: 'Closed Tuesdays' }, tuesday(12))).toBe(true);
     expect(isClosedNow({ permanentlyClosed: true }, tuesday(12))).toBe(true);
+  });
+
+  it('reads a bare "9-5" as 9am-5pm, and "12-8pm" as noon to 8pm', () => {
+    expect(isClosedNow({ hours: '9-5' }, tuesday(3))).toBe(true);
+    expect(isClosedNow({ hours: '9-5' }, tuesday(12))).toBe(false);
+    expect(isClosedNow({ hours: '9-5' }, tuesday(18))).toBe(true);
+    expect(isClosedNow({ hours: '12-8pm' }, tuesday(0, 30))).toBe(true);
+    expect(isClosedNow({ hours: '12-8pm' }, tuesday(15))).toBe(false);
   });
 
   it('keeps a late-night range open past midnight into the next day', () => {

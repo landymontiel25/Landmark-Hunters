@@ -7,6 +7,7 @@ import { getUserCheckins, isRealCheckin } from '../../lib/leaderboard';
 import { ALL_LANDMARKS } from '../../data/regions';
 import {
   DEFAULT_DISTANCE_MI,
+  optionToMiles,
   MIN_RATINGS_FOR_PICKS,
   eligiblePlaces,
   isMealTime,
@@ -19,6 +20,7 @@ import {
   similarPlaces,
 } from '../../lib/nearbyPicks';
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
+import { useUnits } from '../../lib/UnitsContext';
 import { useNearbyPicks } from './useNearbyPicks';
 import PicksBottomSheet from './PicksBottomSheet';
 import DistanceFilter from './DistanceFilter';
@@ -45,20 +47,29 @@ const NO_COUNTS = {};
 // ~110 m: a GPS tick while standing still doesn't re-rank anything.
 const round3 = (n) => Math.round(n * 1000) / 1000;
 
-export default function MapPicksOverlay({ hidden = false, coords, geoError, expanded, onExpandedChange, minimized, onMinimizedChange }) {
+export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, expanded, onExpandedChange, minimized, onMinimizedChange }) {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const { ratings, myReviews } = useRatings();
   const online = useOnlineStatus();
   const uid = user?.uid || null;
 
-  const [miles, setMiles] = useState(DEFAULT_DISTANCE_MI);
+  const { units } = useUnits();
+  // The chip number (10 = 10 mi or 10 km, per the units setting).
+  const [distance, setDistance] = useState(DEFAULT_DISTANCE_MI);
+  const miles = optionToMiles(distance, units);
   // The overlay stays mounted while the app is open, so "now" has to move:
   // a frozen clock never showed the lunch card after a morning launch.
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 10 * 60 * 1000);
-    return () => clearInterval(id);
+    // Coming back to the app after a while: the timer was paused with the tab.
+    const onVisible = () => document.visibilityState === 'visible' && setNow(Date.now());
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, []);
   const [checkins, setCheckins] = useState([]);
 
@@ -104,11 +115,12 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, expa
     links,
     lastCategory,
     now,
+    overrides,
   });
 
   const pool = useMemo(
-    () => (state === 'ready' && origin ? eligiblePlaces({ origin, miles, lowRated: lowRatedIds(myReviews), date: new Date(now) }) : []),
-    [state, origin, miles, myReviews, now]
+    () => (state === 'ready' && origin ? eligiblePlaces({ origin, miles, lowRated: lowRatedIds(myReviews), date: new Date(now), overrides }) : []),
+    [state, origin, miles, myReviews, now, overrides]
   );
   const shownKeys = useMemo(() => (picks || []).map(pickKey), [picks]);
   const liked = useMemo(() => lovedSeed(myReviews), [myReviews]);
@@ -134,8 +146,8 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, expa
         onExpandedChange={onExpandedChange}
         minimized={minimized}
         onMinimizedChange={onMinimizedChange}
-        distanceMiles={miles}
-        toolbar={<DistanceFilter value={miles} onChange={setMiles} />}
+        distanceMiles={distance}
+        toolbar={<DistanceFilter value={distance} onChange={setDistance} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />
         <MoodCarousel pool={pool} ratings={ratings} />

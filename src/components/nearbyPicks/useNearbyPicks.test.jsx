@@ -175,4 +175,20 @@ describe('useNearbyPicks', () => {
     await flush();
     expect(latest.picks.map((p) => p.id)).toEqual(['last']);
   });
+
+  it('rebuilds a set built this session once it is over 30 minutes old', async () => {
+    const fetchReasons = vi.fn(async () => ({}));
+    const props = base({ fetchReasons, logPicks: vi.fn() });
+    await render(props);
+    await flush();
+    expect(fetchReasons).toHaveBeenCalledTimes(1);
+
+    await act(async () => root.render(<Probe {...props} now={NOW + 10 * 60 * 1000} />));
+    await flush();
+    expect(fetchReasons).toHaveBeenCalledTimes(1); // still fresh
+
+    await act(async () => root.render(<Probe {...props} now={NOW + 31 * 60 * 1000} />));
+    await flush();
+    expect(fetchReasons).toHaveBeenCalledTimes(2);
+  });
 });
