@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const updates = [];
@@ -121,6 +122,17 @@ describe('deleteAccountData wipe coverage', () => {
     await deleteAccountData('u1');
     expect(deletedPaths).toEqual(expect.arrayContaining(['pick_feedback/u1_a', 'pick_feedback/u1_b']));
     expect(deleteMyReview).toHaveBeenCalledWith('u1', 'a');
+  });
+
+  it('clears the on-device copy of taps and the pending-retry queue (taps not yet sent)', async () => {
+    localStorage.setItem('lh-pick-feedback:u1', JSON.stringify({ a: { landmarkId: 'a', verdict: 'yes', pickSetId: 's' } }));
+    localStorage.setItem('lh-pick-feedback-pending:u1', JSON.stringify({ b: { landmarkId: 'b', verdict: 'no', pickSetId: 's' } }));
+    localStorage.setItem('lh-pick-feedback-pending:u2', JSON.stringify({ c: { landmarkId: 'c', verdict: 'no' } }));
+    await deleteAccountData('u1');
+    expect(localStorage.getItem('lh-pick-feedback:u1')).toBeNull();
+    expect(localStorage.getItem('lh-pick-feedback-pending:u1')).toBeNull();
+    expect(localStorage.getItem('lh-pick-feedback-pending:u2')).not.toBeNull(); // someone else's is untouched
+    localStorage.clear();
   });
 
   it('removes a review that carries the re-rating fields (ratedAt, priorTier, priorRatedAt, disagreement): they live inside the doc', async () => {

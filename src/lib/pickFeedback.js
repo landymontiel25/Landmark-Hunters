@@ -64,6 +64,16 @@ function writePending(uid, map) {
   }
 }
 
+// Account deletion: the device copy of saved taps and the pending retry queue.
+export function clearLocalPickFeedback(uid) {
+  try {
+    localStorage.removeItem(KEY(uid));
+  } catch {
+    /* ignore */
+  }
+  clearPendingPickVotes(uid);
+}
+
 export function clearPendingPickVotes(uid) {
   try {
     localStorage.removeItem(PENDING_KEY(uid));

@@ -329,6 +329,10 @@ await t('pick_feedback: with and without pick marks both write; surface may be n
   await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), pf(mark)));
   await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), pf({ ...mark, pickSurface: null })));
 });
+await t('pick_feedback: a chat pick vote with requestFor and marks writes (no rules change needed); other users still cannot write it', async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), pf({ ...mark, pickSurface: 'chat', requestFor: 'group', verdict: 'unsure' })));
+  await assertFails(setDoc(doc(as('bob'), 'pick_feedback/ann_pm1'), pf({ ...mark, requestFor: 'group' })));
+});
 await t('pick_feedback: bad pick marks are refused', async () => {
   const db = as('ann');
   await assertFails(setDoc(doc(db, 'pick_feedback/ann_pm1'), pf({ ...mark, pickSurface: 'billboard' })));
