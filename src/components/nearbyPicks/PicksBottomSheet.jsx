@@ -5,6 +5,7 @@ import { useUnits } from '../../lib/UnitsContext';
 import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
 import { formatDistance } from '../../lib/formatDistance';
 import PickCard, { PickRow } from './PickCard';
+import DirectionsButton from '../DirectionsButton';
 
 // The sheet over the map. Collapsed (how the Map opens) it shows the top
 // three picks; swipe up -- or tap the handle -- for the full "Picked for you
@@ -19,6 +20,10 @@ import PickCard, { PickRow } from './PickCard';
 //   'no-location' location off
 // Also: updating (an older set is showing while a new one loads) and slow
 // (offline: the last set stays on screen).
+//
+// layout 'mood-first' (the Test tab): "What are you in the mood for?" (the
+// moodSlot) on top, then one card with the top three picks, each with a
+// Directions button, and the refresh button beside the card's title.
 export const SWIPE_PX = 30;
 
 export default function PicksBottomSheet({
@@ -38,8 +43,11 @@ export default function PicksBottomSheet({
   ratingsCount = 0,
   onRefresh = null,
   refreshing = false,
+  layout = 'default',
+  moodSlot = null,
   children,
 }) {
+  const moodFirst = layout === 'mood-first';
   const { units } = useUnits();
   const navigate = useNavigate();
   const startY = useRef(null);
@@ -136,7 +144,7 @@ export default function PicksBottomSheet({
   } else if (!picks) {
     body = (
       <ul className="mpp-rows" aria-label="Loading picks">
-        {Array.from({ length: expanded ? PICKS_SHOWN : SHEET_PICKS }, (_, i) => (
+        {Array.from({ length: expanded && !moodFirst ? PICKS_SHOWN : SHEET_PICKS }, (_, i) => (
           <li key={i} className="mpp-row mpp-skeleton" aria-hidden="true">
             <span className="mpp-row-img" />
             <span className="mpp-skeleton-line" />
@@ -151,7 +159,7 @@ export default function PicksBottomSheet({
         {beyondNote}
       </div>
     );
-  } else if (expanded) {
+  } else if (expanded && !moodFirst) {
     body = (
       <div className="mpp-list">
         {picks.slice(0, PICKS_SHOWN).map((p) => (
@@ -163,15 +171,44 @@ export default function PicksBottomSheet({
     body = (
       <ul className="mpp-rows">
         {picks.slice(0, SHEET_PICKS).map((p) => (
-          <PickRow key={`${p.region}/${p.id}`} pick={p} />
+          <PickRow
+            key={`${p.region}/${p.id}`}
+            pick={p}
+            action={
+              moodFirst ? (
+                <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
+                  Directions
+                </DirectionsButton>
+              ) : null
+            }
+          />
         ))}
       </ul>
     );
   }
 
+  // Inside the swipeable grip (default layout), so its pointer and key events
+  // must not reach it: tapping refresh must not also expand or collapse.
+  const refreshButton =
+    onRefresh && state === 'ready' ? (
+      <button
+        type="button"
+        className={`mpp-refresh ${refreshing ? 'spinning' : ''}`}
+        aria-label="Show different places"
+        title="Show different places"
+        disabled={refreshing}
+        onPointerDown={(e) => e.stopPropagation()}
+        onPointerUp={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        onClick={onRefresh}
+      >
+        <span aria-hidden="true">{'\u21BB'}</span>
+      </button>
+    ) : null;
+
   return (
     <section
-      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized ? 'minimized' : ''}`}
+      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized ? 'minimized' : ''} ${moodFirst ? 'mpp-sheet-mood' : ''}`}
       aria-label="Picked for you right now"
     >
       <div
@@ -191,43 +228,55 @@ export default function PicksBottomSheet({
         }}
       >
         <span className="mpp-handle" />
-        <div className={`mpp-sheet-head ${onRefresh && state === 'ready' ? 'has-refresh' : ''}`}>
-          <h2 className="mpp-sheet-title">Picked for you right now</h2>
-          {/* Inside the swipeable grip, so its pointer and key events must not
-              reach it: tapping refresh must not also expand or collapse. */}
-          {onRefresh && state === 'ready' && (
-            <button
-              type="button"
-              className={`mpp-refresh ${refreshing ? 'spinning' : ''}`}
-              aria-label="Show different places"
-              title="Show different places"
-              disabled={refreshing}
-              onPointerDown={(e) => e.stopPropagation()}
-              onPointerUp={(e) => e.stopPropagation()}
-              onKeyDown={(e) => e.stopPropagation()}
-              onClick={onRefresh}
-            >
-              <span aria-hidden="true">{'\u21BB'}</span>
-            </button>
-          )}
-          {status}
-        </div>
+        {moodFirst ? (
+          minimized && <h2 className="mpp-sheet-title mpp-sheet-title-min">Picked for you right now</h2>
+        ) : (
+          <div className={`mpp-sheet-head ${refreshButton ? 'has-refresh' : ''}`}>
+            <h2 className="mpp-sheet-title">Picked for you right now</h2>
+            {refreshButton}
+            {status}
+          </div>
+        )}
       </div>
       {/* Outside the swipeable grip, so tapping it doesn't also trigger a
           swipe toggle. Visible collapsed too -- the distance filter itself
           only shows once expanded, and without this a traveler has no way
           to tell (or change) how far "right now" is actually searching,
           easy to confuse with the map's own unrelated zoom radius control. */}
-      {!minimized && !expanded && state === 'ready' && distanceMiles != null && (
+      {!moodFirst && !minimized && !expanded && state === 'ready' && distanceMiles != null && (
         <button type="button" className="mpp-pill mpp-pill-distance" onClick={() => onExpandedChange(true)}>
           Within {distanceMiles} {distanceUnitLabel(units)}
         </button>
       )}
       <div className="mpp-sheet-scroll">
-        {expanded && state === 'ready' && toolbar}
-        {body}
-        {state === 'ready' && picks?.length > 0 && beyondNote}
-        {expanded && state === 'ready' && children}
+        {moodFirst ? (
+          <>
+            {state === 'ready' && moodSlot}
+            <section className="mpp-section mpp-callout mpp-top3">
+              <div className="mpp-top3-head">
+                <h3 className="mpp-section-title">Picked for you right now</h3>
+                {refreshButton}
+                {status ||
+                  (state === 'ready' && distanceMiles != null && (
+                    <button type="button" className="mpp-pill mpp-pill-distance" onClick={() => onExpandedChange(!expanded)}>
+                      Within {distanceMiles} {distanceUnitLabel(units)}
+                    </button>
+                  ))}
+              </div>
+              {expanded && state === 'ready' && toolbar}
+              {body}
+              {state === 'ready' && picks?.length > 0 && beyondNote}
+            </section>
+            {expanded && state === 'ready' && children}
+          </>
+        ) : (
+          <>
+            {expanded && state === 'ready' && toolbar}
+            {body}
+            {state === 'ready' && picks?.length > 0 && beyondNote}
+            {expanded && state === 'ready' && children}
+          </>
+        )}
       </div>
     </section>
   );

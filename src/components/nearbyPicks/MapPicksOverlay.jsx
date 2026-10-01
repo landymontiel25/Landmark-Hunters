@@ -204,13 +204,15 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         beyond={beyond}
         onWiden={chooseDistance}
         ratingsCount={ratingsCount}
+        layout={showRefresh ? 'mood-first' : 'default'}
+        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} /> : null}
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />
-        <MoodCarousel pool={pool} ratings={ratings} />
-        <MealCard places={meal} />
+        {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} />}
+        {!showRefresh && <MealCard places={meal} />}
         <NearbyInterestCard place={interest} />
       </PicksBottomSheet>
     </div>

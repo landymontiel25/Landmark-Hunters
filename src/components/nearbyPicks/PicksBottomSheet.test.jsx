@@ -239,6 +239,58 @@ describe('PicksBottomSheet', () => {
     expect(btn.classList.contains('spinning')).toBe(true);
   });
 
+  describe('mood-first layout (Test tab)', () => {
+    const MOODS = <section className="mpp-section" data-testid="moods"><h3 className="mpp-section-title">What are you in the mood for?</h3></section>;
+
+    it('puts the mood cards first, then one card with the top three, a Directions button each, and refresh by the title', async () => {
+      const onRefresh = vi.fn();
+      const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, onRefresh, distanceMiles: 10 });
+      const scroll = el.querySelector('.mpp-sheet-scroll');
+      const [first, second] = scroll.children;
+      expect(first.textContent).toContain('What are you in the mood for?');
+      expect(second.classList.contains('mpp-top3')).toBe(true);
+      const head = second.querySelector('.mpp-top3-head');
+      expect(head.querySelector('h3').textContent).toBe('Picked for you right now');
+      expect([...head.children].slice(0, 2).map((c) => c.tagName)).toEqual(['H3', 'BUTTON']);
+      expect(head.querySelector('.mpp-refresh')).toBeTruthy();
+      const rows = second.querySelectorAll('.mpp-row');
+      expect(rows).toHaveLength(3);
+      for (const row of rows) expect(row.textContent).toContain('Directions');
+      await click(head.querySelector('.mpp-refresh'));
+      expect(onRefresh).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the grip to a handle until the sheet is minimized, then shows the title', async () => {
+      const open = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS });
+      expect(open.querySelector('.mpp-sheet-grip .mpp-sheet-title')).toBeNull();
+      container.remove();
+      const min = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, minimized: true });
+      expect(min.querySelector('.mpp-sheet-grip .mpp-sheet-title').textContent).toBe('Picked for you right now');
+    });
+
+    it('keeps the top three as rows even when expanded, and shows the distance filter inside the card', async () => {
+      const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, toolbar: <div data-testid="bar" /> });
+      expect(el.querySelectorAll('.mpp-top3 .mpp-row')).toHaveLength(3);
+      expect(el.querySelector('.mpp-top3 [data-testid="bar"]')).toBeTruthy();
+      expect(el.querySelector('.mpp-card')).toBeNull();
+    });
+
+    it('shows loading rows and the lock message inside the card, without the mood cards when locked', async () => {
+      const loading = await render({ picks: null, layout: 'mood-first', moodSlot: MOODS });
+      expect(loading.querySelectorAll('.mpp-top3 .mpp-skeleton')).toHaveLength(3);
+      container.remove();
+      const locked = await render({ state: 'locked', layout: 'mood-first', moodSlot: MOODS, ratingsCount: 3 });
+      expect(locked.querySelector('[data-testid="moods"]')).toBeNull();
+      expect(locked.textContent).toContain('Rate 7 more places');
+    });
+
+    it('leaves the normal layout alone when no layout is asked for', async () => {
+      const el = await render({ picks: PICKS });
+      expect(el.querySelector('.mpp-top3')).toBeNull();
+      expect(el.querySelector('.mpp-sheet-head .mpp-sheet-title')).toBeTruthy();
+    });
+  });
+
   it('shows a category tile for a place with no photo instead of a broken image', async () => {
     const el = await render({ picks: [pick('bare', { image: null }), ...PICKS] });
     const first = el.querySelector('.mpp-row');

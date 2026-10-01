@@ -1032,12 +1032,21 @@ export default function MapExplore({ experiments = false }) {
 
   const picksReady = !!user && !!myReviewsLoaded;
   const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen;
-  const picksH = picksMinimized ? PICKS_SHEET_H.minimized : PICKS_SHEET_H.collapsed;
+  const picksH = picksMinimized ? `${PICKS_SHEET_H.minimized}px` : experiments ? PICKS_SHEET_H.moodCollapsed : `${PICKS_SHEET_H.collapsed}px`;
 
   return (
     <div
       className={`map-fullscreen ${showPicks ? 'has-picks' : ''}`}
-      style={showPicks ? { '--map-picks-h': `${picksH}px` } : undefined}
+      style={
+        showPicks
+          ? {
+              '--map-picks-h': picksH,
+              // The real Map caps its sheet at a third of the screen (nearbyPicks.css);
+              // the Test tab's mood-first sheet sizes itself.
+              ...(experiments ? { '--mpp-h': picksH } : {}),
+            }
+          : undefined
+      }
     >
       <OnboardingBanner variant="fixed" />
       {/* A small note, not a cover: the map and its pins are usable while

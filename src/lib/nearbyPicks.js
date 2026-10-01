@@ -32,7 +32,13 @@ export const PICKS_SHOWN = 4;
 export const SHEET_PICKS = 3;
 // The Map tab sheet's height in px, minimized (title only) and collapsed
 // (top three). MapExplore lifts its own bottom controls by this much.
-export const PICKS_SHEET_H = { minimized: 58, collapsed: 232 };
+// moodCollapsed (the Test tab's mood-first layout) is a CSS length: tall enough
+// for the mood cards and three picks, capped so it never covers the whole map.
+export const PICKS_SHEET_H = {
+  minimized: 58,
+  collapsed: 232,
+  moodCollapsed: 'min(440px, calc(100dvh - var(--header-h, 64px) - var(--nav-h, 64px) - 120px))',
+};
 export const SIMILAR_LIMIT = 4;
 export const MEAL_LIMIT = 3;
 // "You're near something you love" only fires this close.
