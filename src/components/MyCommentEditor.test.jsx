@@ -38,18 +38,24 @@ const landmark = { id: 'lm1', name: 'Shooting Range', region: 'philly' };
 
 describe('MyCommentEditor', () => {
   it('adds a comment to a check-in that had none', async () => {
-    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="" />);
+    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="" tier="worth-trying" />);
     await click('Add a comment');
     await type('Great instructors');
     await click('Save');
-    expect(saveMyComment).toHaveBeenCalledWith({ userId: 'me', landmark, comment: 'Great instructors' });
+    expect(saveMyComment).toHaveBeenCalledWith({
+      userId: 'me',
+      userName: undefined,
+      landmark,
+      comment: 'Great instructors',
+      tier: 'worth-trying',
+    });
     expect(container.textContent).toContain('Great instructors');
     expect(container.textContent).toContain('Edit comment');
   });
 
   it('edits an existing comment, starting from what was there', async () => {
     const onSaved = vi.fn();
-    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="Fun" onSaved={onSaved} />);
+    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="Fun" tier="highly-recommend" onSaved={onSaved} />);
     await click('Edit comment');
     expect(container.querySelector('textarea').value).toBe('Fun');
     await type('Fun. Bring ear protection.');
@@ -60,11 +66,38 @@ describe('MyCommentEditor', () => {
 
   it('keeps the text and shows an error when saving fails', async () => {
     saveMyComment.mockRejectedValueOnce(Object.assign(new Error('x'), { code: 'permission-denied' }));
-    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="" />);
+    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="" tier="worth-trying" />);
     await click('Add a comment');
     await type('Draft text');
     await click('Save');
     expect(container.querySelector('textarea').value).toBe('Draft text');
     expect(container.querySelector('.tag-error')).not.toBeNull();
+  });
+
+  it('without a tier on file it asks for one first and saves the comment together with it', async () => {
+    await mount(<MyCommentEditor userId="me" userName="Me" landmark={landmark} comment="old legacy note" tier={null} />);
+    await click('Edit comment');
+    const save = () => [...container.querySelectorAll('button')].find((b) => b.textContent === 'Save');
+    // Three tiers offered, Save blocked until one is picked.
+    expect(container.textContent).toContain('I loved it');
+    expect(container.textContent).toContain('Ok');
+    expect(container.textContent).toContain("I didn't like it");
+    expect(save().disabled).toBe(true);
+    await click("I didn't like it");
+    expect(save().disabled).toBe(false);
+    await click('Save');
+    expect(saveMyComment).toHaveBeenCalledWith({
+      userId: 'me',
+      userName: 'Me',
+      landmark,
+      comment: 'old legacy note',
+      tier: 'probably-skip',
+    });
+  });
+
+  it('does not show the tier picker when the review already has one', async () => {
+    await mount(<MyCommentEditor userId="me" landmark={landmark} comment="Fun" tier="highly-recommend" />);
+    await click('Edit comment');
+    expect(container.querySelector('.rating-tier')).toBeNull();
   });
 });

@@ -21,6 +21,8 @@ import {
   readNearbyPicksCache,
   selectReady,
   unratedPlaces,
+  favoriteReviews,
+  visitedReviewIds,
   withReasons,
   optionToMiles,
   withinDistance,
@@ -317,5 +319,52 @@ describe('unratedPlaces', () => {
     expect(unratedPlaces(pool, myReviews).map((l) => l.id)).toEqual(['a', 'c']);
     expect(unratedPlaces(pool, null)).toHaveLength(3);
     expect(unratedPlaces(undefined, myReviews)).toEqual([]);
+  });
+});
+
+describe('rated without a visit is not "been there"', () => {
+  it('visitedReviewIds / unratedPlaces / favoriteReviews skip reviews flagged visited:false', () => {
+    const myReviews = {
+      a: { landmarkId: 'a', ratingTier: 'highly-recommend', visited: true },
+      b: { landmarkId: 'b', ratingTier: 'highly-recommend', visited: false },
+      c: { landmarkId: 'c', ratingTier: 'worth-trying' }, // unstamped counts as visited
+    };
+    expect(visitedReviewIds(myReviews).sort()).toEqual(['a', 'c']);
+    expect(unratedPlaces([{ id: 'a' }, { id: 'b' }, { id: 'c' }], myReviews).map((l) => l.id)).toEqual(['b']);
+    expect(favoriteReviews(myReviews).map((f) => f.landmarkId)).toEqual(['a']);
+  });
+
+  it('still suggests a place rated "I loved it" without visiting, but not one actually visited', () => {
+    const now = Date.now();
+    const villanova = getRegion('villanova').center;
+    const profile = {
+      tagScores: { villanova: { 'history-culture': 40, food: 20 } },
+      tagScoresAt: { villanova: { 'history-culture': now, food: now } },
+      tagCounts: { villanova: { 'history-culture': 8, food: 5 } },
+    };
+    const before = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now });
+    const id = before.usual[0].id;
+    const review = { landmarkId: id, ratingTier: 'highly-recommend' };
+    const visited = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now, myReviews: { [id]: { ...review, visited: true } } });
+    expect([...visited.usual, ...visited.fresh].map((p) => p.id)).not.toContain(id);
+    const notVisited = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now, myReviews: { [id]: { ...review, visited: false } } });
+    expect([...notVisited.usual, ...notVisited.fresh].map((p) => p.id)).toContain(id);
+  });
+
+  it('keeps a place you rated "I didn\'t like it" out even without a visit', () => {
+    const now = Date.now();
+    const villanova = getRegion('villanova').center;
+    const profile = {
+      tagScores: { villanova: { 'history-culture': 40, food: 20 } },
+      tagScoresAt: { villanova: { 'history-culture': now, food: now } },
+      tagCounts: { villanova: { 'history-culture': 8, food: 5 } },
+    };
+    const before = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now });
+    const id = before.usual[0].id;
+    const after = rankNearbyCandidates({
+      profile, origin: villanova, miles: 10, now,
+      myReviews: { [id]: { landmarkId: id, ratingTier: 'probably-skip', visited: false } },
+    });
+    expect([...after.usual, ...after.fresh].map((p) => p.id)).not.toContain(id);
   });
 });

@@ -19,7 +19,7 @@ import { sharedRead, invalidating } from './sharedRead';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { settleWrite } from './offlineWrite';
-import { tierStars, COMMENT_MAX } from './ratingFlow';
+import { tierStars, isValidTier, COMMENT_MAX } from './ratingFlow';
 import { applyRating, revertRating } from './tagScores';
 import { canonicalLandmarkId } from '../data/regions';
 
@@ -103,28 +103,22 @@ function tagScoreUpdate(userData, prev, next, nowMs) {
 
 /**
  * Submit (or update) a user's rating for a landmark. `rating` is the
- * RatingFlow payload: { tier, highlights, lovedOrder, dislikedOrder }. Gated
- * on having a check-in for that landmark. Keeps a running aggregate in
- * `landmark_ratings` so average + count are cheap to read -- `stars` is
- * derived from the tier (5/3/1) purely to feed that aggregate, which every
- * card's star display and the Top Rated sort are built on. Editing your
- * rating adjusts the sum by the delta rather than double-counting. Optional
- * photos are uploaded to Storage and their URLs saved on the review.
+ * RatingFlow payload: { tier, highlights, lovedOrder, dislikedOrder }. The
+ * tier (I loved it / Ok / I didn't like it) is mandatory: every review has
+ * one, and a comment is only ever saved together with it (firestore.rules
+ * enforces the same). No check-in is needed -- rating a place you haven't
+ * been to helps Mapr learn; a later real check-in prompts a fresh rating
+ * that replaces this one. Keeps a running aggregate in `landmark_ratings`
+ * so average + count are cheap to read -- `stars` is derived from the tier
+ * (5/3/1) purely to feed that aggregate, which every card's star display and
+ * the Top Rated sort are built on. Editing your rating adjusts the sum by
+ * the delta rather than double-counting. Optional photos are uploaded to
+ * Storage and their URLs saved on the review.
  */
 async function _submitReview({ userId, userName, landmark, rating, photoFiles, photoFile }) {
   const landmarkId = landmark.id;
-  // stars is derived from the tier (I loved it / It was okay / Not for me)
-  // for the landmark_ratings aggregate's math -- the UI only ever picks a
-  // tier now. The plain rating.stars fallback below is just for any
-  // leftover pre-tier data, not a live input path.
-  const stars = rating?.tier ? tierStars(rating.tier) : Number(rating?.stars) || 0;
-  if (!stars) throw userError('Pick a rating first.');
-
-  // Must have checked in here first.
-  const checkin = await getDoc(doc(db, 'checkins', `${userId}_${landmarkId}`));
-  if (!checkin.exists()) {
-    throw userError('Check in at this landmark first to leave a rating.');
-  }
+  if (!isValidTier(rating?.tier)) throw userError('Pick how it was first: I loved it, Ok, or I didn\'t like it.');
+  const stars = tierStars(rating.tier);
 
   // Up to 3 photos. Accepts an array (photoFiles) or a single file (photoFile).
   const files = (photoFiles && photoFiles.length ? photoFiles : photoFile ? [photoFile] : [])
@@ -165,36 +159,6 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
   const userRef = doc(db, 'users', userId);
 
-  // firestore.rules only lets landmark_ratings.count go up by one while
-  // reviews/{uid}_{landmarkId} does not exist yet (ratingDeltaOk). A
-  // comment-only / love-note-only doc (no stars, never counted) already
-  // occupies that id, so rating on top of it was permission-denied on every
-  // attempt. Take that doc out of the way first (it is not in the aggregate,
-  // so nothing else changes) and carry its fields onto the new review; put it
-  // back if the rating still can't be saved. A reported doc stays put:
-  // recreating it would shed its reportedBy list.
-  let stash = null;
-  try {
-    const cur = await getDoc(reviewRef);
-    if (cur.exists() && !(cur.data().stars > 0) && !cur.data().reportedBy?.length) {
-      const saved = { ...cur.data() };
-      // Bounded: offline, a delete never resolves until the connection is
-      // back, which would hang the save with no message. On a timeout the
-      // queued delete is put right back (writes apply in order) and the save
-      // fails like any other offline save.
-      stash = saved;
-      try {
-        await withTimeout(deleteDoc(reviewRef), 8000);
-      } catch (e) {
-        setDoc(reviewRef, saved).catch(() => {});
-        throw e;
-      }
-    }
-  } catch (e) {
-    if (stash) throw userError('Could not save your rating. Check your connection and try again.');
-    stash = null;
-  }
-
   const writeReview = () =>
     runTransaction(db, async (tx) => {
       const prev = await tx.get(reviewRef);
@@ -203,8 +167,8 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       // Copied up front: everything below reads the pre-edit review.
       const pd = prev.exists() ? { ...prev.data() } : null;
       const prevStars = prev.exists() ? prev.data().stars || 0 : 0;
-      // A doc that only holds a comment or love note has no stars and was
-      // never counted in the aggregate, so rating it adds to the count.
+      // A legacy doc that only holds a comment or love note has no stars and
+      // was never counted in the aggregate, so rating it adds to the count.
       const hadReview = prev.exists() && prevStars > 0;
       const curSum = agg.exists() ? agg.data().sum || 0 : 0;
       const curCount = agg.exists() ? agg.data().count || 0 : 0;
@@ -225,9 +189,7 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           landmarkName: landmark.name,
           region: landmark.region,
           stars,
-          // null (not undefined -- the SDK rejects that) in star mode, so a
-          // saved review unambiguously says which flow it came from.
-          ratingTier: rating.tier || null,
+          ratingTier: rating.tier,
           highlights: rating.highlights || [],
           lovedOrder: rating.lovedOrder || [],
           dislikedOrder: rating.dislikedOrder || [],
@@ -237,16 +199,14 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           // Only a comment the caller actually sent changes it: a form that
           // never loaded the saved one must not blank it.
           comment:
-            rating.comment === undefined && (prev.exists() || stash)
-              ? (prev.exists() ? prev.data() : stash).comment || ''
+            rating.comment === undefined && prev.exists()
+              ? prev.data().comment || ''
               : (rating.comment || '').slice(0, COMMENT_MAX),
-          ...(!prev.exists() && stash?.loveNotes?.length ? { loveNotes: stash.loveNotes } : {}),
           // Denormalized (like landmarkName/region above) so the taste card
-          // can tally categories without a read per review.
-          categories: landmark.categories || [],
-          ...(photoURLs.length || (!prev.exists() && stash?.photoURLs?.length)
-            ? { photoURLs: [...((prev.exists() ? prev.data() : stash)?.photoURLs || []), ...photoURLs] }
-            : {}),
+          // can tally categories without a read per review. A caller that
+          // doesn't know them (a comment edit) keeps what's on file.
+          categories: landmark.categories?.length ? landmark.categories : prev.exists() ? prev.data().categories || [] : [],
+          ...(photoURLs.length ? { photoURLs: [...(prev.exists() ? prev.data().photoURLs || [] : []), ...photoURLs] } : {}),
           visibility: visibilityFor(userSnap.exists() ? userSnap.data() : null),
           hidden: hiddenFor(prev.exists() ? prev.data() : null),
           updatedAt: serverTimestamp(),
@@ -268,27 +228,7 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       if (upd) tx.set(userRef, upd, { merge: true });
     });
 
-  // The review's create rule checks `exists(checkins/...)` for the check-in
-  // we just wrote a moment ago. Firestore explicitly does NOT guarantee
-  // strong consistency for a security rule's own get()/exists() calls
-  // against other documents (unlike direct reads/writes to the target doc
-  // itself), so that check can occasionally see stale data and wrongly deny
-  // this write right after a fresh check-in. Retry through that brief
-  // window instead of surfacing a permission error for something that
-  // legitimately just happened.
-  for (let attempt = 1; ; attempt++) {
-    try {
-      await writeReview();
-      break;
-    } catch (e) {
-      if (e.code !== 'permission-denied' || attempt >= 3) {
-        // Not awaited: offline, a queued write never resolves and would hang the error.
-        if (stash) setDoc(reviewRef, stash).catch(() => {});
-        throw e;
-      }
-      await new Promise((resolve) => setTimeout(resolve, attempt * 400));
-    }
-  }
+  await writeReview();
 
   return { photoURLs, photoFailed };
 }
@@ -446,29 +386,44 @@ async function _deleteMyReview(userId, landmarkId) {
 }
 
 /**
- * Adds or edits just the comment on your check-in, any time after -- with
- * or without a rating. Lives on the same reviews/{uid}_{landmarkId} doc a
- * rating does (a merge, so tier, photos and love notes are untouched), and
- * firestore.rules only allows it once you've checked in there.
+ * Adds or edits the comment on your review of a place. A comment is never
+ * saved on its own: it always rides with one of the three tiers. If your
+ * review already has a tier this only changes the comment (a merge, so tier,
+ * photos and love notes are untouched). If it has none -- a legacy
+ * comment-only review, or no review yet -- `tier` is required and the save
+ * goes through the full rating path so the tier, the stars and the
+ * landmark_ratings aggregate stay consistent. Doesn't need a check-in.
  */
-async function _saveMyComment({ userId, landmark, comment }) {
+async function _saveMyComment({ userId, userName, landmark, comment, tier }) {
   const text = (comment || '').trim().slice(0, COMMENT_MAX);
   const ref = doc(db, 'reviews', `${userId}_${landmark.id}`);
+  const cur = await getDoc(ref).catch(() => null);
+  const curData = cur?.exists() ? cur.data() : null;
+  if (!curData?.ratingTier) {
+    if (!isValidTier(tier)) throw userError("Pick how it was (I loved it, Ok, or I didn't like it) to save a comment.");
+    await _submitReviewSerial({
+      userId,
+      userName: userName || curData?.userName || 'Explorer',
+      landmark: { ...landmark, region: landmark.region ?? landmark.regionId },
+      rating: { tier, comment: text },
+    });
+    return text;
+  }
   await runTransaction(db, async (tx) => {
-    const cur = await tx.get(ref);
+    const latest = await tx.get(ref);
     const user = await tx.get(doc(db, 'users', userId));
     const username = user.exists() ? user.data().username : null;
     tx.set(
       ref,
       {
         userId,
-        userName: username || (cur.exists() ? cur.data().userName : null) || 'Explorer',
+        userName: username || (latest.exists() ? latest.data().userName : null) || 'Explorer',
         landmarkId: landmark.id,
         landmarkName: landmark.name,
         region: landmark.region ?? landmark.regionId,
         comment: text,
         visibility: visibilityFor(user.exists() ? user.data() : null),
-        hidden: hiddenFor(cur.exists() ? cur.data() : null),
+        hidden: hiddenFor(latest.exists() ? latest.data() : null),
         updatedAt: serverTimestamp(),
       },
       { merge: true }
@@ -483,17 +438,18 @@ async function _saveMyComment({ userId, landmark, comment }) {
  * leaderboard.js) on the same reviews/{uid}_{landmarkId} doc a rating
  * lives on, so maprPicks/plan-ai's trait matching -- which already reads a
  * review's `comment` -- picks it up for free by joining it in with any
- * loveNotes. Doesn't require a rating to already exist (checking in 3
- * times without ever tapping a tier is possible), so this is a merge, not
- * an update -- the create-or-update case is identical here since the only
- * field touched either way is loveNotes.
+ * loveNotes. Only saved onto a review that already has a tier: a review
+ * never exists without one (firestore.rules), so with no rating on file the
+ * note is skipped (returns false) rather than creating a tier-less doc.
  */
 async function _appendLoveNote(userId, landmarkId, landmark, note) {
   const text = (note || '').trim().slice(0, 280);
-  if (!db || !userId || !landmarkId || !text) return;
+  if (!db || !userId || !landmarkId || !text) return false;
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
+  let saved = false;
   await runTransaction(db, async (tx) => {
     const cur = await tx.get(reviewRef);
+    if (!cur.exists() || !cur.data().ratingTier) return;
     const user = await tx.get(doc(db, 'users', userId));
     tx.set(
       reviewRef,
@@ -504,12 +460,14 @@ async function _appendLoveNote(userId, landmarkId, landmark, note) {
         region: landmark?.region ?? landmark?.regionId,
         loveNotes: arrayUnion(text),
         visibility: visibilityFor(user.exists() ? user.data() : null),
-        hidden: hiddenFor(cur.exists() ? cur.data() : null),
+        hidden: hiddenFor(cur.data()),
         updatedAt: serverTimestamp(),
       },
       { merge: true }
     );
+    saved = true;
   });
+  return saved;
 }
 
 /** The most recent "why do you love this place" answer for a landmark, or null. */
@@ -548,9 +506,8 @@ export async function deleteReply(reviewId, replyId) {
   await settleWrite(deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId)));
 }
 
-// One save at a time per review: a double tap would otherwise let the second
-// call read the star-less doc, then delete the first call's finished rating
-// and count it twice in landmark_ratings.
+// One save at a time per review: a double tap would otherwise run two
+// read-modify-write passes over the same review and aggregate at once.
 const submitQueue = new Map();
 function _submitReviewSerial(args) {
   const k = `${args.userId}_${args.landmark?.id}`;
