@@ -177,3 +177,17 @@ export const CHECKIN_VERIFICATIONS = ['unverified', 'verified'];
 // offered ONE skippable first check-in, only at a place they are actually
 // near. Set to false to remove the step; nothing else depends on it.
 export const ONBOARDING_FIRST_CHECKIN = true;
+
+// --- Saving a pick tap (src/lib/pickFeedback.js, docs/pick-buttons.md) -----
+// A tap on I'd go / Not sure / Not for me is written to Firestore
+// pick_feedback FIRST; the screen and the device copy update only after that
+// write lands. A failed write is retried this many attempts in all (the first
+// try included), waiting PICK_VOTE_RETRY_BASE_MS before the second try and
+// doubling each time (600 ms, then 1200 ms). Still failing: the card shows an
+// error with a Try again button.
+export const PICK_VOTE_SAVE_ATTEMPTS = 3;
+export const PICK_VOTE_RETRY_BASE_MS = 600;
+// While the phone is offline a tap is held as a pending retry (not a saved
+// vote) and flushed when it is back online. Most pending taps kept per user
+// on the device (oldest dropped first).
+export const PICK_VOTE_PENDING_LIMIT = 50;
