@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useVisibleInterval } from '../lib/useVisibleInterval';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
@@ -51,11 +52,9 @@ export default function StreakWarningBanner() {
   const atRisk = count > 0 && !secured;
 
   useEffect(() => {
-    if (!atRisk) return;
-    setMsLeft(msUntilStreakLapse());
-    const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
-    return () => clearInterval(id);
+    if (atRisk) setMsLeft(msUntilStreakLapse());
   }, [atRisk]);
+  useVisibleInterval(() => setMsLeft(msUntilStreakLapse()), 1000, atRisk);
 
   const withinWarningWindow = atRisk && msLeft > 0 && msLeft <= WARNING_WINDOW_MS;
 

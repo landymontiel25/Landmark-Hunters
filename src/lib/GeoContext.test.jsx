@@ -76,4 +76,49 @@ describe('GeoProvider', () => {
     const seen = await mount((cb) => cb({ coords: { latitude: 400, longitude: 10, accuracy: 5 } }));
     expect(seen.coords).toBeNull();
   });
+
+  it('treats sub-5m GPS jitter as the same fix but a real move as new', async () => {
+    const { isSameFix } = await import('./GeoContext');
+    const a = { lat: 25.7, lng: -80.2, accuracy: 10 };
+    expect(isSameFix(a, { lat: 25.70002, lng: -80.2, accuracy: 11 })).toBe(true); // ~2m
+    expect(isSameFix(a, { lat: 25.7001, lng: -80.2, accuracy: 10 })).toBe(false); // ~11m
+    expect(isSameFix(a, { lat: 25.7, lng: -80.2, accuracy: 30 })).toBe(false); // accuracy changed
+    expect(isSameFix(null, a)).toBe(false);
+  });
+
+  it('does not re-render consumers for a repeated identical fix', async () => {
+    let renders = 0;
+    let watchCb;
+    vi.doMock('@capacitor/geolocation', () => ({
+      Geolocation: {
+        getCurrentPosition: () => new Promise(() => {}),
+        watchPosition: (_o, cb) => {
+          watchCb = cb;
+          return Promise.resolve('w1');
+        },
+        clearWatch: () => {},
+      },
+    }));
+    const { GeoProvider, useGeo } = await import('./GeoContext');
+    function Probe() {
+      useGeo();
+      renders++;
+      return null;
+    }
+    host = document.createElement('div');
+    document.body.appendChild(host);
+    await act(async () => {
+      root = createRoot(host);
+      root.render(
+        <GeoProvider>
+          <Probe />
+        </GeoProvider>
+      );
+    });
+    const fix = { coords: { latitude: 25.7, longitude: -80.2, accuracy: 10 } };
+    await act(async () => watchCb(fix));
+    const after = renders;
+    for (let i = 0; i < 5; i++) await act(async () => watchCb({ coords: { ...fix.coords } }));
+    expect(renders).toBe(after);
+  });
 });

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useVisibleInterval } from '../lib/useVisibleInterval';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -284,16 +285,8 @@ function VerifyEmail({ email, resend, refresh }) {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    const check = () => refresh().catch(() => {});
-    const timer = setInterval(check, 4000);
-    const onVisible = () => document.visibilityState === 'visible' && check();
-    document.addEventListener('visibilitychange', onVisible);
-    return () => {
-      clearInterval(timer);
-      document.removeEventListener('visibilitychange', onVisible);
-    };
-  }, [refresh]);
+  // Polls only while the app is in front (and checks once on coming back).
+  useVisibleInterval(() => refresh().catch(() => {}), 4000);
 
   const run = async (fn, done) => {
     setBusy(true);

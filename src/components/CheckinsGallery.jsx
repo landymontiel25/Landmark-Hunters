@@ -351,7 +351,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
               }}
             >
               {it.photo ? (
-                <img className="checkin-list-thumb" src={it.photo} alt={it.name} loading="lazy" />
+                <img className="checkin-list-thumb" src={it.photo} alt={it.name} loading="lazy" decoding="async" />
               ) : (
                 <div className="checkin-thumb-blank" />
               )}
@@ -441,7 +441,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
             ) : (
             <button type="button" key={it.id} className="checkin-tile" onClick={() => go(it)}>
               {it.photo ? (
-                <img src={it.photo} alt={it.name} loading="lazy" />
+                <img src={it.photo} alt={it.name} loading="lazy" decoding="async" />
               ) : (
                 <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
               )}

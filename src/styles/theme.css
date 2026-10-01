@@ -2446,6 +2446,13 @@ button.header-streak {
   -webkit-backdrop-filter: var(--glass-blur);
   margin-bottom: 10px;
   cursor: pointer;
+  /* ~870 rows: let the browser skip layout/paint for the ones off screen.
+     The background is opaque, so the old backdrop-filter blurred nothing
+     but cost a GPU layer per row. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 150px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .landmark-row .lr-top {
@@ -2792,6 +2799,9 @@ button.header-streak {
   background: rgb(var(--color-bg-rgb));
   margin-bottom: 8px;
   cursor: pointer;
+  /* Long histories: skip layout/paint for rows that are off screen. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 72px;
 }
 
 .checkin-name {

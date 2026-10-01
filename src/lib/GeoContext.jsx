@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
 import { friendlyGeoError, isLocationDenied } from './geoError';
+import { distanceMeters } from './geo';
 
 // One shared live location for the whole app, so a single "Refresh" control can
 // update every distance on screen at once (instead of each screen watching alone).
@@ -53,6 +54,21 @@ function saveLastFix(c) {
   }
 }
 
+// A high-accuracy watch reports about once a second even when you're standing
+// still, and every report used to re-render every screen (the whole landmark
+// list, every map marker) and warm the phone. Jitter under a few metres with
+// the same accuracy carries no information, so it keeps the existing state.
+const SAME_SPOT_METERS = 5;
+const SAME_ACCURACY_METERS = 5;
+export function isSameFix(a, b) {
+  return (
+    !!a &&
+    !!b &&
+    distanceMeters(a.lat, a.lng, b.lat, b.lng) < SAME_SPOT_METERS &&
+    Math.abs((a.accuracy ?? 0) - (b.accuracy ?? 0)) < SAME_ACCURACY_METERS
+  );
+}
+
 export function GeoProvider({ children }) {
   const [state, setState] = useState({ coords: null, error: null, loading: true });
   const [refreshing, setRefreshing] = useState(false);
@@ -65,7 +81,7 @@ export function GeoProvider({ children }) {
       if (!validPos(pos)) return onError({ code: 2, message: 'invalid position' });
       const coords = readPos(pos);
       saveLastFix(coords);
-      setState({ coords, error: null, loading: false });
+      setState((s) => (!s.error && !s.loading && isSameFix(s.coords, coords) ? s : { coords, error: null, loading: false }));
     };
     // A quick, rough fix (cached or Wi-Fi based) usually answers in well
     // under a second; the precise watch below then takes over.
@@ -114,7 +130,8 @@ export function GeoProvider({ children }) {
       });
   }, []);
 
-  return <GeoContext.Provider value={{ ...state, lastKnown, refresh, refreshing }}>{children}</GeoContext.Provider>;
+  const value = useMemo(() => ({ ...state, lastKnown, refresh, refreshing }), [state, lastKnown, refresh, refreshing]);
+  return <GeoContext.Provider value={value}>{children}</GeoContext.Provider>;
 }
 
 export function useGeo() {

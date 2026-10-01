@@ -26,6 +26,9 @@ export default function LandmarkThumb({ landmark, size = 52, width, height, myPh
         className={`landmark-thumb ${loaded === image ? '' : 'img-loading'}`}
         style={style}
         loading="lazy"
+        decoding="async"
+        width={w}
+        height={h}
         onLoad={() => setLoaded(image)}
         onError={() => setFailed((cur) => new Set(cur).add(image))}
       />

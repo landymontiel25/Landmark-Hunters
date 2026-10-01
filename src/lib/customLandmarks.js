@@ -1,4 +1,5 @@
 import { normalizeCategories } from '../data/regions';
+import { sharedRead, invalidating } from './sharedRead';
 import {
   doc,
   getDoc,
@@ -37,7 +38,11 @@ const withCategories = (l) => {
   return l.categories ? { ...out, categories: normalizeCategories(l.categories) } : out;
 };
 
-export async function getCustomLandmarks() {
+export function getCustomLandmarks() {
+  return sharedRead('custom_landmarks', loadCustomLandmarks);
+}
+
+async function loadCustomLandmarks() {
   if (!db) return [];
   const snap = await getDocs(collection(db, 'custom_landmarks'));
   // firestore.rules can't enforce the hide-once-reported rule on a list
@@ -97,7 +102,7 @@ export async function uploadLandmarkPhoto(landmarkId, userId, file) {
 // is ever called. status: "pending" is required by the Firestore rules'
 // create check (see firestore.rules) but otherwise unused -- getCustomLandmarks
 // returns every submission immediately, no approval step.
-export async function addCustomLandmark({
+async function _addCustomLandmark({
   region,
   name,
   lat,
@@ -141,7 +146,7 @@ export async function addCustomLandmark({
 // Only the submitter or an admin can call this -- the Firestore rules
 // enforce that independently of this client code (used by "Remove Pin" on
 // the map).
-export async function deleteCustomLandmark(docId) {
+async function _deleteCustomLandmark(docId) {
   await deleteDoc(doc(db, 'custom_landmarks', docId));
 }
 
@@ -153,14 +158,14 @@ export async function deleteCustomLandmark(docId) {
 // still limited to the reportedBy-only update reportCustomLandmark uses.
 // The change is immediate and permanent for everyone, same as a built-in
 // catalog entry -- there's no draft/preview step.
-export async function updateCustomLandmark(docId, fields) {
+async function _updateCustomLandmark(docId, fields) {
   await updateDoc(doc(db, 'custom_landmarks', docId), fields);
 }
 
 // Same reportedBy-array pattern as reviews.js -- firestore.rules hides a
 // submission (photo, name, everything) from everyone but the submitter and
 // admins once enough distinct people have reported it.
-export async function reportCustomLandmark(reporterUid, docId) {
+async function _reportCustomLandmark(reporterUid, docId) {
   await updateDoc(doc(db, 'custom_landmarks', docId), { reportedBy: arrayUnion(reporterUid) });
 }
 
@@ -179,3 +184,11 @@ export function checkInTarget(created) {
     images: created.images || [],
   };
 }
+
+export const addCustomLandmark = invalidating(_addCustomLandmark);
+
+export const deleteCustomLandmark = invalidating(_deleteCustomLandmark);
+
+export const updateCustomLandmark = invalidating(_updateCustomLandmark);
+
+export const reportCustomLandmark = invalidating(_reportCustomLandmark);
