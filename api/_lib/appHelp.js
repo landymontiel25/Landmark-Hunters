@@ -101,6 +101,13 @@ export const APP_HELP =
   `affinity model can guess one of your ratings from your OTHER ratings alone (leave-one-out), shown as a percentage. Mapr Picks ✓/✗ votes count toward it at half the weight of a full rating. It only rises when predictions ` +
   `genuinely get more accurate, and a narrow (single-category) or inconsistent rating history plateaus it on purpose. Personal-only, never on any ` +
   `leaderboard. Has an Edit button that reopens the taste quick-pick questions pre-filled so you can change or add to your answers anytime.\n` +
+  `- How Mapr learns from you: only from your ratings, your taps on a pick ("I'd go" / "Not sure" / "Not for me") and the comments you write on a rating. ` +
+  `A good answer (I loved it, I'd go) raises that place and its kind of place; a bad one (I didn't like it, Not for me) lowers them; a neutral one (It was ok, Not sure) barely ` +
+  `moves them. A tap counts for less than a rating. Words in a comment count too ("too loud" lowers loud kinds of places, "great food" raises food; "not loud" doesn't lower ` +
+  `anything), up to a small cap per rating. Mapr keeps two scores: one for the specific place and one for its kind (food, history, ...), so one bad restaurant doesn't ` +
+  `condemn all food. If you tap "I'd go" and then rate it "I didn't like it", that place drops a lot, its kind only a little, and Mapr counts it as half a miss on its own ` +
+  `guess. Changing your tap, rating or comment later replaces the old answer's effect. A check-in rating counts the same whether you went alone or with a group. Your per-place scores ` +
+  `are private to you and are deleted with your account.\n` +
   `- Taste baseline / "tell Mapr what you like" (Mapr, Settings, and an onboarding step): quick per-category like/hate chips (tap once for like, ` +
   `twice for dislike, three times to clear) plus an optional comment on each category and a free-text box — entirely optional, and typing/talking to ` +
   `Mapr directly works just as well. This baseline is what Mapr leans on before you've rated much; an actual rating on a specific landmark is more ` +

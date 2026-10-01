@@ -1,4 +1,5 @@
 import { ALL_LANDMARKS } from '../data/regions.js';
+import { RATING_TAG_DELTA, TAP_TAG_DELTA } from './maprConstants.js';
 
 // Per-region tag scoring for Mapr Picks. A "tag" is a landmark's category id
 // (food, history-culture, ...), the same ids signup interests use. Everything
@@ -21,7 +22,12 @@ import { ALL_LANDMARKS } from '../data/regions.js';
 // That lets us store one number per tag instead of every contribution.
 // Plain .js import paths: api/mapr-picks.js runs this under Node on Vercel.
 
-export const TAG_DELTAS = { 'highly-recommend': 10, 'worth-trying': 2, 'probably-skip': -15 };
+// Numbers live in maprConstants.js (RATING_TAG_DELTA / TAP_TAG_DELTA).
+export const TAG_DELTAS = {
+  'highly-recommend': RATING_TAG_DELTA.positive,
+  'worth-trying': RATING_TAG_DELTA.neutral,
+  'probably-skip': RATING_TAG_DELTA.negative,
+};
 export const HALF_LIFE_DAYS = 90;
 export const TAG_CAP = 100;
 export const TAG_FLOOR = -100;
@@ -51,7 +57,7 @@ export const IGNORE_DELTA = -3;
 export const TAG_SCORES_VERSION = 5;
 // A ✓/✗ on a Mapr Pick is a lighter signal than a full rating, and doesn't
 // count as a rating behind a tag (tagCounts).
-export const VOTE_DELTAS = { yes: 4, no: -6 };
+export const VOTE_DELTAS = { yes: TAP_TAG_DELTA.positive, no: TAP_TAG_DELTA.negative };
 // A rating from someone who keeps coming back is stronger proof of taste
 // than a single visit -- scales the tier delta before it's applied. Applies
 // both directions: someone who comes here a lot saying "not for me" is just
@@ -75,11 +81,11 @@ export function decayFactor(fromMs, nowMs) {
 // `frequency` (FREQUENCIES ids in ratingFlow.js) scales the delta -- how
 // often you visit is a stronger or weaker vote of confidence than a single
 // visit; unknown/missing frequency is 1x.
-export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null) {
+export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null, factor = 1) {
   const delta = TAG_DELTAS[tier];
   const next = { scores: {}, at: {}, counts: {}, capped: [] };
   if (delta == null) return next;
-  const mult = FREQUENCY_MULTIPLIER[frequency] || 1;
+  const mult = (FREQUENCY_MULTIPLIER[frequency] || 1) * factor;
   for (const tag of new Set(tags || [])) {
     const prior = counts[tag] || 0;
     const step = (prior >= FULL_VALUE_RATINGS ? delta / 2 : delta) * mult;
@@ -97,11 +103,11 @@ export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, n
 // includes the rating being removed, so its step is the one applyRating used
 // at prior = count - 1. Decay since then isn't recoverable, so this is
 // approximate for old ratings, but never drifts by a whole step per edit.
-export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null) {
+export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null, factor = 1) {
   const delta = TAG_DELTAS[tier];
   const next = { scores: {}, counts: {} };
   if (delta == null) return next;
-  const mult = FREQUENCY_MULTIPLIER[frequency] || 1;
+  const mult = (FREQUENCY_MULTIPLIER[frequency] || 1) * factor;
   for (const tag of new Set(tags || [])) {
     if (!(counts[tag] > 0)) continue;
     const prior = counts[tag] - 1;
@@ -112,8 +118,8 @@ export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency
   return next;
 }
 
-export function applyVote({ scores = {}, at = {} }, tags, verdict, nowMs) {
-  const delta = VOTE_DELTAS[verdict];
+export function applyVote({ scores = {}, at = {} }, tags, verdict, nowMs, deltaOverride) {
+  const delta = deltaOverride ?? VOTE_DELTAS[verdict];
   const next = { scores: {}, at: {}, counts: {}, capped: [] };
   if (delta == null) return next;
   for (const tag of new Set(tags || [])) {
@@ -122,6 +128,34 @@ export function applyVote({ scores = {}, at = {} }, tags, verdict, nowMs) {
     next.at[tag] = nowMs;
     if (value >= TAG_CAP) next.capped.push(tag);
   }
+  return next;
+}
+
+// Takes one earlier applyVote back out (a changed tap). `delta` is what was
+// applied to every tag (stored on the place_scores doc, so retuning the
+// constants later never corrupts an undo).
+export function revertVote({ scores = {} }, tags, delta) {
+  const next = { scores: {} };
+  if (!delta) return next;
+  for (const tag of new Set(tags || [])) next.scores[tag] = clampScore((scores[tag] || 0) - delta);
+  return next;
+}
+
+// Per-tag deltas (a comment's effect): { tag: points }. Same decay-then-add
+// as applyVote; counts untouched, like a tap.
+export function applyTagDeltas({ scores = {}, at = {} }, deltas, nowMs) {
+  const next = { scores: {}, at: {} };
+  for (const [tag, d] of Object.entries(deltas || {})) {
+    if (!d) continue;
+    next.scores[tag] = clampScore((scores[tag] || 0) * decayFactor(at[tag], nowMs) + d);
+    next.at[tag] = nowMs;
+  }
+  return next;
+}
+
+export function revertTagDeltas({ scores = {} }, deltas) {
+  const next = { scores: {} };
+  for (const [tag, d] of Object.entries(deltas || {})) if (d) next.scores[tag] = clampScore((scores[tag] || 0) - d);
   return next;
 }
 

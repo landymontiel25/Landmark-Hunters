@@ -335,6 +335,37 @@ await t('reviews: marks do not widen reads (private review stays hidden from oth
   await assertFails(getDoc(doc(as('bob'), 'reviews/ann_pm1')));
 });
 
+console.log('place_scores (Mapr per-place score, owner-only)');
+const ps = (o = {}) => ({
+  landmarkId: 'pl1', region: 'miami', categories: ['food'], tap: 'positive', tapDelta: 4, tapAt: 1, rating: 'negative',
+  ratingTier: 'probably-skip', ratingFrequency: null, ratingFactor: 0.5, ratingAt: 2, commentDeltas: { food: -3 },
+  placeScore: -46, predicted: 'positive', outcome: 'negative', missWeight: 0.5, updatedAt: serverTimestamp(), ...o,
+});
+await t('place_scores: owner creates, updates, reads and deletes their own', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps()));
+  await assertSucceeds(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ tap: null, tapDelta: 0, placeScore: -30, missWeight: 0, predicted: null, outcome: null })));
+  await assertSucceeds(getDoc(doc(db, 'users/ann/place_scores/pl1')));
+  await assertSucceeds(getDocs(collection(db, 'users/ann/place_scores')));
+});
+await t('place_scores: nobody else can read, list, write or delete them', async () => {
+  const db = as('bob');
+  await assertFails(getDoc(doc(db, 'users/ann/place_scores/pl1')));
+  await assertFails(getDocs(collection(db, 'users/ann/place_scores')));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps()));
+  await assertFails(deleteDoc(doc(db, 'users/ann/place_scores/pl1')));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'users/ann/place_scores/pl1')));
+});
+await t('place_scores: unknown fields, wrong id, bad types and bad levels are refused', async () => {
+  const db = as('ann');
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ isAdmin: true })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl2'), ps()));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ placeScore: 'high' })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ missWeight: null })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl1'), ps({ tap: 'maybe' })));
+});
+await t('place_scores: owner can delete (account deletion)', () => assertSucceeds(deleteDoc(doc(as('ann'), 'users/ann/place_scores/pl1'))));
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {
