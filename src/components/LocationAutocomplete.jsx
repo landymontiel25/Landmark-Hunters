@@ -44,6 +44,9 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
     setSearchError('');
     setFailedPick(null);
     const q = value.trim();
+    // A slow earlier search must not overwrite the newer one's results (or
+    // flip the spinner off) after the user has kept typing.
+    let cancelled = false;
     const handle = setTimeout(async () => {
       const localMatches = ALL_LANDMARKS.filter((l) => matchesSearch([l.name, getRegion(l.regionId)?.name].join(' '), q))
         .sort((a, b) => (a.regionId === regionId ? -1 : 0) - (b.regionId === regionId ? -1 : 0))
@@ -76,13 +79,18 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
           .slice(0, 5)
           .map((r) => ({ key: `r-${r.placeId}`, ...r }));
       } catch (e) {
+        if (cancelled) return;
         setSearchError(friendlyError(e, SEARCH_FAILED));
       }
 
+      if (cancelled) return;
       setSuggestions([...localMatches, ...remoteMatches].slice(0, 7));
       setLoading(false);
     }, 300);
-    return () => clearTimeout(handle);
+    return () => {
+      cancelled = true;
+      clearTimeout(handle);
+    };
   }, [value, regionId, attempt]);
 
   // Local landmark matches already carry lat/lng; a Places suggestion only
@@ -135,7 +143,12 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
             resolveSuggestion(suggestions[0]);
           }
         }}
-        onBlur={() => {
+        onBlur={(e) => {
+          // Tapping a suggestion blurs the input first -- without this check
+          // the top suggestion also got resolved, racing the one actually
+          // tapped (the pin could land on the wrong place). Also skip while
+          // a search is in flight: the list is stale then.
+          if (boxRef.current?.contains(e.relatedTarget) || loading) return;
           if (suggestions.length > 0) resolveSuggestion(suggestions[0]);
         }}
       />

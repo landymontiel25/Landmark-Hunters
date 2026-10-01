@@ -221,7 +221,7 @@ export default function LandmarkDetail() {
   // Remember which city this landmark belongs to, so tapping Back returns to
   // that city's list (not whatever the popularity sort floats to the top).
   useEffect(() => {
-    if (regionId) {
+    if (regionId && region) {
       updateTrip({ activeRegion: regionId });
       setMapFocus(regionId);
     }
@@ -362,7 +362,10 @@ export default function LandmarkDetail() {
     );
   }
 
-  if (!region || !landmark) {
+  // A custom landmark added far from every curated city has no region
+  // (shows as "Custom pin"), so its URL carries "null" -- that's still a
+  // real landmark, not a 404.
+  if (!landmark || (!region && !customLandmark)) {
     return (
       <div className="empty-state landmark-not-found">
         <p className="landmark-not-found-icon" aria-hidden="true">

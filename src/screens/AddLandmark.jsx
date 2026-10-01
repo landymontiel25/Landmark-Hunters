@@ -125,6 +125,7 @@ export default function AddLandmark() {
   const [stage, setStage] = useState('idle'); // idle | verifying | saving
   const [error, setError] = useState(null);
   const busy = stage !== 'idle';
+  const submittingRef = useRef(false);
   const [draftRestored, setDraftRestored] = useState(() => draftHasContent(savedDraft));
 
   const choosePosition = (pos) => {
@@ -264,7 +265,10 @@ export default function AddLandmark() {
   const canSubmit = position && user && !duplicateConfirmed;
 
   const submit = async () => {
-    if (!canSubmit || busy) return;
+    // A ref, not `busy`: two fast taps can both run before React re-renders
+    // with stage !== 'idle', which saved the landmark twice.
+    if (!canSubmit || busy || submittingRef.current) return;
+    submittingRef.current = true;
     setError(null);
     try {
       setStage('verifying');
@@ -273,12 +277,16 @@ export default function AddLandmark() {
       // still says unverified for up to an hour, and firestore.rules checks
       // the token's email_verified before accepting the new landmark.
       const idToken = await (auth.currentUser || user).getIdToken(true);
-      const finalName = name.trim() || addressText.trim() || 'New Landmark';
+      // Capped like the Name box: a long address as the fallback name would
+      // exceed the 120-char rule in firestore.rules (permission-denied).
+      const finalName = (name.trim() || addressText.trim() || 'New Landmark').slice(0, 80);
       let verified;
       try {
         verified = await fetchJson(`${API_BASE}/api/verify-landmark`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+          // Never leave "Verifying…" spinning forever on a stalled request.
+          signal: AbortSignal.timeout(90000),
           body: JSON.stringify({
             name: finalName,
             categories,
@@ -352,6 +360,7 @@ export default function AddLandmark() {
         free: verified.free,
         typicalMinutes: verified.typicalMinutes || undefined,
         topic: verified.topic || null,
+        hours: verified.hours || null,
       });
       // Submitted -- the saved draft has done its job.
       clearPersisted(draftKey);
@@ -360,7 +369,7 @@ export default function AddLandmark() {
       // separately -- open the same rate + post prompt every other check-in
       // path uses. Too far (or no GPS fix), and nothing happens here: you
       // check in manually later, once you're actually there.
-      if (coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
+      if (created.region && coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
         checkIn({ id: created.id, name: savedName, region: created.region, lat: position.lat, lng: position.lng });
       }
       navigate(`/landmarks/${created.region}/${created.id}`);
@@ -368,6 +377,8 @@ export default function AddLandmark() {
       // Everything you entered (photo included) stays on the form.
       setError(err);
       setStage('idle');
+    } finally {
+      submittingRef.current = false;
     }
   };
 
