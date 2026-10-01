@@ -154,6 +154,7 @@ const ReportBug = lazyScreen(() => import('./screens/ReportBug'));
 const Mapr = lazyScreen(() => import('./screens/Mapr'));
 const OnboardingLab = lazyScreen(() => import('./screens/OnboardingLab'));
 const Onboarding = lazyScreen(() => import('./screens/Onboarding'));
+const AdminStats = lazyScreen(() => import('./screens/AdminStats'));
 const NotFound = lazyScreen(() => import('./screens/NotFound'));
 
 // Keyed by path so a crash's fallback UI clears itself on the next
@@ -166,6 +167,15 @@ function TestMap() {
   if (loading) return <ScreenSkeleton />;
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
   return <MapExplore experiments />;
+}
+
+// The owner's stats page: same guard as the Test tab. The server (api/admin-stats.js)
+// checks the admin account again, so this redirect is only for show.
+function AdminStatsRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <ScreenSkeleton />;
+  if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
+  return <AdminStats />;
 }
 
 function AppRoutes() {
@@ -199,6 +209,7 @@ function AppRoutes() {
           <Route path="/mapr" element={<Mapr />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/test" element={<TestMap />} />
+          <Route path="/admin-stats" element={<AdminStatsRoute />} />
           <Route path="/test/onboarding" element={<OnboardingLab />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
