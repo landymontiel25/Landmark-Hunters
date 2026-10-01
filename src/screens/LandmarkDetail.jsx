@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getLandmark, getRegion, INTERESTS } from '../data/regions';
-import { getCustomLandmark, reportCustomLandmark } from '../lib/customLandmarks';
+import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import { isAdmin } from '../lib/admins';
@@ -21,6 +21,7 @@ import {
   reportReview,
   deleteMyReview,
   ratingDraftKey,
+  MAX_REVIEW_PHOTOS,
 } from '../lib/reviews';
 import { isRateable, tierById } from '../lib/ratingFlow';
 import {
@@ -101,7 +102,7 @@ function LandmarkDetailBody() {
       state: { checkinNav: { ...checkinNav, index } },
     });
   };
-  const { toggleLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
+  const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
@@ -140,6 +141,14 @@ function LandmarkDetailBody() {
       cancelled = true;
     };
   }, [id, staticLandmark, customAttempt]);
+
+  // A custom landmark that's gone (its owner deleted it) must not linger as an
+  // invisible stop in this device's itinerary for that city.
+  const customGone = !staticLandmark && !customLoading && !customError && !customLandmark;
+  useEffect(() => {
+    if (customGone && id && getRegionSelection(regionId).includes(id)) removeLandmark(id, regionId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customGone, id, regionId]);
 
   // Memoized so it's referentially stable across renders once resolved --
   // several effects below key off "landmark changed" (e.g. the one-shot map
@@ -185,6 +194,8 @@ function LandmarkDetailBody() {
   // pick it all over again.
   const [failedCheckinPhoto, setFailedCheckinPhoto] = useState(null);
   const [photoFiles, setPhotoFiles] = useState([]);
+  // Photos already saved on my review: new ones append, 3 total at most.
+  const [reviewPhotoCount, setReviewPhotoCount] = useState(0);
   const [photoPreviews, setPhotoPreviews] = useState([]);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState(null);
@@ -216,6 +227,7 @@ function LandmarkDetailBody() {
   const [factsExpanded, setFactsExpanded] = useState(false);
   const [shareMsg, setShareMsg] = useState(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
+  const [deletingCustom, setDeletingCustom] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('');
 
@@ -260,6 +272,7 @@ function LandmarkDetailBody() {
     const r = await getMyReview(user.uid, landmark.id).catch(() => null);
     setMyComment(r?.comment || '');
     setHasMyReview(!!r);
+    setReviewPhotoCount(r ? r.photoURLs?.length || (r.photoURL ? 1 : 0) : 0);
     if (!r) return;
     // Pre-fills the tier flow on an edit. A legacy star-only review (from
     // before there was only ever the tier flow) has no tier to pre-fill --
@@ -396,6 +409,7 @@ function LandmarkDetailBody() {
   const agg = ratings[landmark.id];
   const draftKey = ratingDraftKey(user?.uid, landmark.id);
 
+  const photoRoom = Math.max(0, MAX_REVIEW_PHOTOS - reviewPhotoCount);
   const onPhotoChange = async () => {
     let f;
     try {
@@ -404,9 +418,14 @@ function LandmarkDetailBody() {
       setSaveMsg(friendlyError(e, "Couldn't use that photo. Try another one."));
       return;
     }
-    if (f && photoFiles.length < 3) {
-      setPhotoFiles((prev) => (prev.length < 3 ? [...prev, f] : prev));
-      setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, URL.createObjectURL(f)] : prev));
+    if (f && photoFiles.length >= photoRoom) {
+      setSaveMsg(`A rating holds up to ${MAX_REVIEW_PHOTOS} photos in total.`);
+      return;
+    }
+    if (f) {
+      setSaveMsg(null);
+      setPhotoFiles((prev) => [...prev, f]);
+      setPhotoPreviews((prev) => [...prev, URL.createObjectURL(f)]);
     }
   };
   const removePhoto = (i) => {
@@ -459,12 +478,13 @@ function LandmarkDetailBody() {
   // Optimistic: your review disappears the moment you tap Delete; if the
   // server says no, it's put back with a Retry.
   const handleDeleteMine = () => {
-    const before = { reviews, savedRating, myPhotos };
+    const before = { reviews, savedRating, myPhotos, reviewPhotoCount };
     runOptimistic({
       apply: () => {
         setReviews((cur) => cur.filter((r) => r.userId !== user.uid));
         setSavedRating(null);
         setMyRating(null);
+        setReviewPhotoCount(0);
         // The review's own photos are gone, but any check-in gallery photos
         // (added independently via "My Photos" below) aren't touched by this.
         setMyPhotos(checkinPhotosNewestFirst(myCheckin));
@@ -477,6 +497,7 @@ function LandmarkDetailBody() {
         setReviews(before.reviews);
         setSavedRating(before.savedRating);
         setMyPhotos(before.myPhotos);
+        setReviewPhotoCount(before.reviewPhotoCount);
       },
       toast,
       errorMessage: "Couldn't delete your review, so we put it back.",
@@ -625,6 +646,22 @@ function LandmarkDetailBody() {
     });
   };
 
+  const handleDeleteCustom = async () => {
+    if (!customLandmark || deletingCustom) return;
+    if (!window.confirm(`Delete "${customLandmark.name}" for everyone? This can't be undone.`)) return;
+    setDeletingCustom(true);
+    try {
+      await deleteCustomLandmark(customLandmark.docId);
+    } catch (e) {
+      setDeletingCustom(false);
+      toast?.show(friendlyError(e, "Couldn't delete that landmark. Nothing was changed."));
+      return;
+    }
+    removeLandmark(landmark.id, regionId);
+    toast?.show('Landmark deleted.');
+    navigate(-1);
+  };
+
   const shareVisit = async () => {
     const checkedIn = !!claimedMap[landmark.id];
     const url = `${window.location.origin}/#/landmarks/${regionId}/${landmark.id}`;
@@ -639,8 +676,13 @@ function LandmarkDetailBody() {
         setShareMsg('Link copied — paste it to your friends! \u{1F4E3}');
         setTimeout(() => setShareMsg(null), 4000);
       }
-    } catch {
-      /* user dismissed the share sheet — nothing to do */
+    } catch (e) {
+      // Dismissing the share sheet (AbortError) is fine; a blocked clipboard
+      // or failed share shouldn't look like a dead button.
+      if (e?.name !== 'AbortError') {
+        setShareMsg(`Couldn't share from here. Copy this link instead: ${url}`);
+        setTimeout(() => setShareMsg(null), 8000);
+      }
     }
   };
 
@@ -727,8 +769,17 @@ function LandmarkDetailBody() {
         </p>
       )}
 
+      {customLandmark && user && customLandmark.createdBy === user.uid && (
+        <p className="center" style={{ marginTop: -10, marginBottom: 18 }}>
+          <button className="btn btn-ghost btn-tight" onClick={handleDeleteCustom} disabled={deletingCustom}>
+            {deletingCustom ? 'Deleting…' : '\u{1F5D1} Delete this landmark'}
+          </button>
+        </p>
+      )}
+
       {customLandmark && adminMode && isAdmin(user?.email) && (
         <AdminEditLandmarkPanel
+          onDeleted={() => removeLandmark(landmark.id, regionId)}
           landmark={customLandmark}
           onSaved={(fields) => setCustomLandmark((cur) => ({ ...cur, ...fields }))}
         />
@@ -1072,12 +1123,16 @@ function LandmarkDetailBody() {
                   ))}
                 </div>
               )}
-              {photoFiles.length < 3 && (
+              {photoFiles.length < photoRoom ? (
                 <div style={{ marginTop: 12 }}>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={onPhotoChange}>
-                    {'\u{1F4F8}'} Add photo ({photoFiles.length}/3)
+                    {'\u{1F4F8}'} Add photo ({reviewPhotoCount + photoFiles.length}/{MAX_REVIEW_PHOTOS})
                   </button>
                 </div>
+              ) : (
+                <p className="screen-subtitle" style={{ marginTop: 12, marginBottom: 0 }}>
+                  {`This rating already has the most photos it can hold (${MAX_REVIEW_PHOTOS}).`}
+                </p>
               )}
               <button
                 type="button"

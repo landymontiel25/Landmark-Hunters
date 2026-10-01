@@ -271,7 +271,7 @@ const OFF_ROUTE_FIXES = 2;
 const REROUTE_MS = 15000;
 
 export default function MapExplore() {
-  const { toggleLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
+  const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit } = useLandmarkEdits();
@@ -579,7 +579,11 @@ export default function MapExplore() {
         mapRef.current?.closePopup();
         setCustomLandmarks((prev) => prev.filter((l) => l.docId !== docId));
       },
-      commit: () => deleteCustomLandmark(docId),
+      commit: async () => {
+        await deleteCustomLandmark(docId);
+        // Drop it from this device's itinerary too, so no ghost stop is left behind.
+        if (removed?.region) removeLandmark(docId, removed.region);
+      },
       rollback: () =>
         removed && setCustomLandmarks((prev) => (prev.some((l) => l.docId === docId) ? prev : [...prev, removed])),
       toast,

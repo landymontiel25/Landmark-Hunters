@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { paletteFor, iconFor } from '../lib/landmarkVisuals';
 
 // swipeable: renders a horizontal scroll-snap gallery with dot indicators
@@ -24,6 +24,17 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   const allImages = [...(myPhotos || []), ...(landmark.images || [])].filter((src) => !failed.has(src));
   const images = allImages.length ? allImages : null;
   const [activeIdx, setActiveIdx] = useState(0);
+  const scrollRef = useRef(null);
+  // A dropped photo shrinks the set: keep the dot indicator in range and snap
+  // the strip back to the (clamped) active slide so it never rests between slides.
+  const shownIdx = Math.min(activeIdx, Math.max(0, (images?.length || 1) - 1));
+  const imageCount = images?.length || 0;
+  useEffect(() => {
+    setActiveIdx((cur) => (cur > imageCount - 1 ? Math.max(0, imageCount - 1) : cur));
+    const el = scrollRef.current;
+    if (el && el.clientWidth) el.scrollLeft = Math.min(activeIdx, Math.max(0, imageCount - 1)) * el.clientWidth;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageCount]);
   const imgProps = (src) => ({
     className: `postcard-photo ${loaded.has(src) ? '' : 'img-loading'}`,
     onLoad: () => setLoaded((cur) => new Set(cur).add(src)),
@@ -39,7 +50,7 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   if (images && swipeable && images.length > 1) {
     body = (
       <div className="postcard-gallery" style={{ width: dims.width, height: dims.height }}>
-        <div className="postcard-gallery-scroll" onScroll={handleScroll}>
+        <div className="postcard-gallery-scroll" ref={scrollRef} onScroll={handleScroll}>
           {images.map((src, i) => (
             <img
               key={src}
@@ -54,7 +65,7 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
         </div>
         <div className="postcard-gallery-dots">
           {images.map((_, i) => (
-            <span key={i} className={`postcard-gallery-dot ${i === activeIdx ? 'active' : ''}`} />
+            <span key={i} className={`postcard-gallery-dot ${i === shownIdx ? 'active' : ''}`} />
           ))}
         </div>
       </div>
