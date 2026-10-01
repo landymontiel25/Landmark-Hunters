@@ -1,8 +1,9 @@
 import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
-import { discoveryPicks, usualPicks } from './tagScores';
+import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
 import { tierStars } from './ratingFlow';
 import { linksFrom, primaryCategory } from './preferenceChains';
+import { formatDistance } from './formatDistance';
 
 // "Picked for you right now": nearby picks ranked on-device from the saved
 // tag scores (tagScores.js usualPicks / discoveryPicks), filtered to what is
@@ -207,9 +208,79 @@ export function withPositionOverrides(places, overrides) {
   });
 }
 
-export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS, overrides = null }) {
+// User-added landmarks (lib/customLandmarks.js) are real places too: a
+// restaurant someone added by hand is exactly what "close to me" should find.
+// They carry `region` (a catalog region id or 'custom'); the picks pipeline
+// reads `regionId`. A custom doc that duplicates a catalog id is ignored.
+export function withCustomPlaces(extraPlaces, landmarks = ALL_LANDMARKS) {
+  const seen = new Set(landmarks.map((l) => `${l.regionId}/${l.id}`));
+  const extras = (extraPlaces || [])
+    .filter((l) => l?.id && Number.isFinite(l.lat) && Number.isFinite(l.lng) && l.name)
+    .map((l) => ({ ...l, regionId: l.regionId || l.region || 'custom', custom: true }))
+    .filter((l) => !seen.has(`${l.regionId}/${l.id}`));
+  return extras.length ? [...landmarks, ...extras] : landmarks;
+}
+
+export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS, overrides = null, extraPlaces = null }) {
   const low = new Set(lowRated);
-  return withinDistance(withPositionOverrides(landmarks, overrides), origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
+  const all = extraPlaces?.length ? withCustomPlaces(extraPlaces, landmarks) : landmarks;
+  return withinDistance(withPositionOverrides(all, overrides), origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
+}
+
+// Places past the chosen distance, nearest first -- what "Nothing within 1
+// mi. Nearest: ..." shows when the radius comes up empty or thin. Photos are
+// not required here (it is a pointer, not a pick).
+export const NEAREST_BEYOND_LIMIT = 3;
+export function nearestBeyond({ origin, miles, count = NEAREST_BEYOND_LIMIT, ...rest }) {
+  if (!origin) return [];
+  const max = miles * METERS_PER_MILE;
+  return eligiblePlaces({ origin, miles: 20000, ...rest })
+    .filter((p) => p.distanceMeters > max)
+    .slice(0, count)
+    .map((l) => toPick(l));
+}
+
+// The smallest distance chip (in the chip's own unit) that covers `meters`,
+// or the biggest chip when none does.
+export function chipCovering(meters, units, options = DISTANCE_OPTIONS_MI, above = 0) {
+  const chips = options.filter((n) => n > above);
+  return chips.find((n) => optionToMiles(n, units) * METERS_PER_MILE >= meters) ?? chips[chips.length - 1] ?? null;
+}
+
+// Default distance: the smallest chip with at least `min` places that could
+// be picked (open, not low-rated, with a photo), so a dense neighborhood
+// opens tight and a thin one (Doral has nothing within 5 mi) opens wide.
+export const SMART_MIN_PLACES = 3;
+export function smartDistance({ origin, units, lowRated = [], date = new Date(), overrides = null, extraPlaces = null, options = DISTANCE_OPTIONS_MI, min = SMART_MIN_PLACES }) {
+  if (!origin) return DEFAULT_DISTANCE_MI;
+  const maxMiles = optionToMiles(options[options.length - 1], units);
+  const pool = eligiblePlaces({ origin, miles: maxMiles, lowRated, date, overrides, extraPlaces }).filter(hasPhoto);
+  for (const n of options) {
+    const max = optionToMiles(n, units) * METERS_PER_MILE;
+    if (pool.filter((p) => p.distanceMeters <= max).length >= min) return n;
+  }
+  return DEFAULT_DISTANCE_MI;
+}
+
+// Last distance the user picked on the chips, per account. Only an explicit
+// choice is stored; the smart default is recomputed from where they are.
+const distanceStoreKey = (uid) => `lh-picks-distance:v1:${uid}`;
+export function readStoredDistance(uid, options = DISTANCE_OPTIONS_MI) {
+  if (!uid) return null;
+  try {
+    const n = Number(localStorage.getItem(distanceStoreKey(uid)));
+    return options.includes(n) ? n : null;
+  } catch {
+    return null;
+  }
+}
+export function writeStoredDistance(uid, n) {
+  if (!uid) return;
+  try {
+    localStorage.setItem(distanceStoreKey(uid), String(n));
+  } catch {
+    /* private mode */
+  }
 }
 
 export function toPick(l, extra = {}) {
@@ -236,28 +307,48 @@ export function toPick(l, extra = {}) {
 //   fresh -- "something new": categories rated little or never (discoveryPicks)
 // Ranking spans every region inside the distance filter, since a 30-mile
 // circle around Miami also covers Coral Gables and Key Biscayne.
-export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null }) {
+// Distance is a real ranking factor: every mile away costs this many tag-
+// score points (one "Highly recommend" is worth 10), so between two places
+// the user likes about equally the closer one wins, and a far place needs a
+// clearly better fit to outrank a near one.
+export const DISTANCE_PENALTY_PER_MILE = 1.5;
+export const rankScore = (p) => (p.tagScore || 0) - (p.distanceMeters / METERS_PER_MILE) * DISTANCE_PENALTY_PER_MILE;
+
+export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null }) {
   if (!origin) return { usual: [], fresh: [] };
   const lowRated = lowRatedIds(myReviews);
   // Anything already rated (like Plan Your Trip and Mapr Travel Picks) is
   // not a pick: "Picked for you" shouldn't suggest a place they've been to.
   const ratedIds = Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean);
-  const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date, overrides }).map((l) => [`${l.regionId}/${l.id}`, l]));
+  const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date, overrides, extraPlaces }).map((l) => [`${l.regionId}/${l.id}`, l]));
   const regions = [...new Set([...eligible.values()].map((l) => l.regionId))];
   const usual = [];
   const fresh = [];
+  const rated = new Set(ratedIds);
   for (const region of regions) {
     const args = { profile, region, excludeIds: ratedIds, checkinCounts, now };
-    for (const l of usualPicks({ ...args, limit: 60 })) {
+    // Big limits: the distance filter runs AFTER the region's ranking, and a
+    // top-60 cut by taste alone dropped the closest places in a big region.
+    for (const l of usualPicks({ ...args, limit: 1000 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
       if (e) usual.push(toPick({ ...l, lat: e.lat, lng: e.lng, distanceMeters: e.distanceMeters }));
     }
-    for (const l of discoveryPicks({ ...args, limit: 20 })) {
+    for (const l of discoveryPicks({ ...args, limit: 1000 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
       if (e) fresh.push(toPick({ ...l, lat: e.lat, lng: e.lng, distanceMeters: e.distanceMeters }));
     }
   }
-  const best = (a, b) => (b.tagScore || 0) - (a.tagScore || 0) || a.distanceMeters - b.distanceMeters;
+  // Custom (user-added) places are not in the catalog the tag-score queues
+  // read, so score them here with the same effective tag scores.
+  for (const e of eligible.values()) {
+    if (!e.custom || rated.has(e.id)) continue;
+    const scores = effectiveTagScores(profile, e.regionId, now);
+    const cats = e.categories || [];
+    if (cats.some((c) => (scores[c] || 0) < 0)) continue;
+    const tagScore = Math.round(cats.reduce((sum, c) => sum + (scores[c] || 0), 0) * 10) / 10;
+    (tagScore > 0 ? usual : fresh).push(toPick({ ...e, pickType: tagScore > 0 ? 'usual' : 'new', tagScore }));
+  }
+  const best = (a, b) => rankScore(b) - rankScore(a) || a.distanceMeters - b.distanceMeters;
   const usualKeys = new Set(usual.map(pickKey));
   return {
     usual: usual.sort(best),
@@ -326,11 +417,14 @@ export function selectReady(items, isReady = () => true, limit = Infinity) {
 // ---- Reasons -------------------------------------------------------------
 
 // The plain line a card shows when the one AI call fails or is skipped.
-export function fallbackReason(p) {
+// With `units` and a distance on the pick, it ends with the real distance in
+// the user's units ("... 0.3 mi away"); the AI lines never mention distance.
+export function fallbackReason(p, units = null) {
   const cat = categoryLabel(primaryCategory(p?.categories));
-  if (p?.chain) return `You often go for ${categoryLabel(p.chain.to)} after ${categoryLabel(p.chain.from)}.`;
-  if (p?.pickType === 'new') return `Something new for you: ${cat}.`;
-  return `${cat} is one of your favorite kinds of places.`;
+  const away = units && Number.isFinite(p?.distanceMeters) ? ` ${formatDistance(p.distanceMeters, units)} away.` : '';
+  if (p?.chain) return `You often go for ${categoryLabel(p.chain.to)} after ${categoryLabel(p.chain.from)}.${away}`;
+  if (p?.pickType === 'new') return `Something new for you: ${cat}.${away}`;
+  return `${cat} is one of your favorite kinds of places.${away}`;
 }
 
 // Attaches a reason to each pick: the AI line when there's a usable one for
@@ -436,8 +530,10 @@ const CACHE_PREFIX = 'lh-nearby-picks:v1';
 // ~1 km grid, not coarseLocation's ~10 km: a set built across town would
 // otherwise be shown as-is, with places outside the distance filter.
 const nearbyCell = (origin) => (origin ? `${origin.lat.toFixed(2)},${origin.lng.toFixed(2)}` : 'nowhere');
-export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '' }) =>
-  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${nearbyCell(origin)}:${miles}:${lastCategory || ''}`;
+// extraCount: how many user-added places were in the pool, so adding one
+// rebuilds the set instead of waiting out the 4 hours.
+export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '', extraCount = 0 }) =>
+  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${nearbyCell(origin)}:${miles}:${lastCategory || ''}${extraCount ? `:c${extraCount}` : ''}`;
 
 // The last set for this key, even when old: { picks, at, stale }. An old set
 // still goes on screen right away (marked stale) while a new one loads.

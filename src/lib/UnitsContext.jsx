@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useGeo } from './GeoContext';
 import { reverseCountryCode } from './geocode';
+import { formatDistance } from './formatDistance';
 
 const MODE_KEY = 'lh-units-mode'; // 'auto' | 'imperial' | 'metric'
 const LEGACY_KEY = 'lh-units'; // pre-"auto" value, 'imperial' | 'metric'
@@ -57,14 +58,7 @@ function getInitialMode() {
 // Every distance shown in the app (Nearby Now, itinerary stops, the
 // distance tag on a landmark card) formats through this one function, so
 // switching units on Settings updates all of them at once.
-export function formatDistance(meters, units) {
-  if (units === 'imperial') {
-    const feet = meters * 3.28084;
-    // Compare the ROUNDED value so 999.6 ft reads "0.2 mi", not "1000 ft".
-    return Math.round(feet) < 1000 ? `${Math.round(feet)} ft` : `${(meters / 1609.34).toFixed(1)} mi`;
-  }
-  return Math.round(meters) < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
-}
+export { formatDistance };
 
 const UnitsContext = createContext(null);
 
