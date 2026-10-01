@@ -95,9 +95,13 @@ export default function SignInForm({ onSignedUp }) {
   return (
     <div>
       <h1 className="screen-title">
-        <span>{'\u{1F6C2}'}</span> Sign In
+        <span>{'\u{1F6C2}'}</span> {mode === 'signup' ? 'Create Account' : 'Sign In'}
       </h1>
-      <p className="screen-subtitle">Sign in to check in, rate places, add friends, and hit the leaderboard.</p>
+      <p className="screen-subtitle">
+        {mode === 'signup'
+          ? 'Create an account to check in, rate places, add friends, and hit the leaderboard.'
+          : 'Sign in to check in, rate places, add friends, and hit the leaderboard.'}
+      </p>
 
       <form onSubmit={handleEmailSubmit}>
         {mode === 'signup' && (
@@ -258,7 +262,12 @@ export default function SignInForm({ onSignedUp }) {
         type="button"
         className="btn btn-ghost btn-block"
         style={{ marginTop: 12 }}
-        onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
+        onClick={() => {
+          // An error from the other form ("wrong password") means nothing here.
+          setError('');
+          setResetSent(false);
+          setMode(mode === 'signup' ? 'signin' : 'signup');
+        }}
       >
         {mode === 'signup' ? 'Already have an account? Sign In' : 'New here? Create an Account'}
       </button>

@@ -8,9 +8,11 @@ import App from './App.jsx';
 import { capturePendingReferralFromUrl } from './lib/referrals';
 import { registerOfflineServiceWorker } from './lib/offlineMap';
 import { watchForNewVersion } from './lib/versionCheck';
+import { applyStoredTheme } from './lib/useTheme';
 
 // Before HashRouter takes over the URL -- ?ref=... lives in the real query
 // string, ahead of the # it routes on.
+applyStoredTheme();
 capturePendingReferralFromUrl();
 registerOfflineServiceWorker();
 watchForNewVersion();
