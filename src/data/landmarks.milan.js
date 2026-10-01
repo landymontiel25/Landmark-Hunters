@@ -93,7 +93,7 @@ export const MILAN_LANDMARKS = [
     lat: 45.467604,
     lng: 9.189114,
     checkInRadiusMeters: 300,
-    categories: ['history-culture'],
+    categories: ['entertainment'],
     summary: "One of the world's most famous opera houses, where legendary singers and composers have performed for over two centuries.",
     facts: ["One of the world's most famous opera houses, inaugurated in 1778","Built on the site of the church of Santa Maria alla Scala, its namesake","Designed by neoclassical architect Giuseppe Piermarini","Rebuilt after 1943 wartime bombing, reopening in 1946","Has premiered works by Verdi, Puccini, Rossini, and Bellini","Its season traditionally opens each December 7, St. Ambrose's day","Home to a renowned theatre museum of costumes and instruments","The horseshoe auditorium seats about 2,000 and is famed for its acoustics","Conductors from Toscanini to Abbado have led its orchestra","A grand chandelier hangs above tiers of private boxes"],
     free: false,

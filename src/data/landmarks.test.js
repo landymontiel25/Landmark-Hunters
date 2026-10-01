@@ -12,9 +12,38 @@ describe('landmark catalog', () => {
 
   it('keeps Local Life to bars, clubs and live music', () => {
     const local = ALL_LANDMARKS.filter((l) => l.categories[0] === 'local-life').map((l) => l.id);
-    expect(local.length).toBeLessThanOrEqual(12);
+    expect(local.length).toBeLessThanOrEqual(13);
     expect(local).toContain('ball-and-chain');
     expect(local).not.toContain('calle-ocho');
+  });
+
+  // A hotel is not a restaurant: the Test tab's "Something to eat" mood is
+  // every Food landmark, so a lodging filed under Food shows up as dinner.
+  // These are real restaurants (a hotel's restaurant, a roadside burger inn).
+  it('never files lodging under Food (except restaurants with a hotel/inn in the name)', () => {
+    const LODGING = /\b(hotel|inn|motel|hostel|resort|lodge|suites)\b/i;
+    const RESTAURANTS_IN_HOTELS = new Set(['hotel-ristorante-la-darsena', 'derby-grill-monza', 'alpine-inn-zotts-rossottis']);
+    const bad = ALL_LANDMARKS.filter(
+      (l) => l.categories[0] === 'food' && LODGING.test(l.name) && !RESTAURANTS_IN_HOTELS.has(l.id)
+    );
+    expect(bad.map((l) => `${l.regionId}/${l.id}: ${l.name}`)).toEqual([]);
+    const stays = ALL_LANDMARKS.filter((l) => l.categories[0] === 'food' && /\b(modern|boutique) hotel\b|\bguest rooms\b/i.test(l.summary));
+    expect(stays.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
+  });
+
+  it('files theaters, opera houses and cinemas under Entertainment (or Local Life for live-music clubs), and nightclubs under Local Life', () => {
+    const VENUE = /\b(theat(er|re)|teatro|cinema|opera house|music hall|concert hall)\b/i;
+    const badVenue = ALL_LANDMARKS.filter((l) => VENUE.test(l.name) && !['entertainment', 'local-life'].includes(l.categories[0]));
+    expect(badVenue.map((l) => `${l.regionId}/${l.id}: ${l.categories[0]}`)).toEqual([]);
+    const badClub = ALL_LANDMARKS.filter((l) => /\bnightclub\b/i.test(l.summary) && !['local-life', 'entertainment'].includes(l.categories[0]));
+    expect(badClub.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
+    expect(ALL_LANDMARKS.find((l) => l.id === 'le-duplex').categories).toEqual(['local-life']);
+  });
+
+  it('keeps cost and the free flag consistent for paid venues', () => {
+    const PAID_KINDS = new Set(['food', 'stadiums', 'entertainment', 'formula-1']);
+    const bad = ALL_LANDMARKS.filter((l) => PAID_KINDS.has(l.categories[0]) && l.free === true && /^\$/.test(l.cost || ''));
+    expect(bad.map((l) => `${l.regionId}/${l.id}: ${l.cost}`)).toEqual([]);
   });
 
   it('never repeats a region/id pair', () => {

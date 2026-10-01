@@ -1524,7 +1524,7 @@ export const SILICONVALLEY_LANDMARKS = [
     lat: 37.438241,
     lng: -122.160397,
     checkInRadiusMeters: 100,
-    categories: ["food"],
+    categories: ["tech"],
     summary: "The former Town & Country Village café of Google's first chef, once a reliable spot for a Sergey Brin sighting.",
     tip: "Calafia Cafe has closed; the address is Town & Country Village shopping center at 855 El Camino Real, and another tenant now occupies the space. Visit for the location and the shopping center.",
     facts: ["Opened in 2009 in Town & Country Village, Palo Alto", "Founded by Charlie Ayers, Google's first executive chef", "Ayers ran Google's early cafeteria and helped create the free-food culture", "Sergey Brin was a regular customer", "The menu was built on local, organic ingredients", "A market stand next door sold takeaway meals", "Town & Country Village sits across El Camino Real from Stanford Stadium", "Palo Alto High School is next door, so students filled the center at lunch", "The café closed and the space has been taken by another tenant", "Ayers also wrote the cookbook Food 2.0"],

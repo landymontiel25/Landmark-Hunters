@@ -14,7 +14,7 @@ export const PARIS_LANDMARKS = [
     lat: 48.873,
     lng: 2.2925,
     checkInRadiusMeters: 150,
-    categories: ['entertainment'],
+    categories: ['local-life'],
     summary:
       'A multi-level nightclub near the Arc de Triomphe in Paris, combining dance rooms with varied music styles, an on-site restaurant, and a bowling alley. Themed nights and guest DJs are regular features.',
     tip: 'Open nightly from around 11pm to 6am; weekly theme nights draw a young, trendy crowd, so arrive early to skip the line.',
