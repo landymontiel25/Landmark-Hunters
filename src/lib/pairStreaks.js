@@ -207,7 +207,7 @@ export async function spendFreeze(pairId) {
   const r = await fetch(`${API_BASE}/api/use-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ pairId }),
+    body: JSON.stringify({ pairId, dayId: dayKey(new Date()) }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });

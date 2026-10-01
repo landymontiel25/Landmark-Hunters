@@ -117,6 +117,7 @@ export async function spendSoloFreeze() {
   const r = await fetch(`${API_BASE}/api/use-solo-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+    body: JSON.stringify({ dayId: dayKey(new Date()) }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });
