@@ -208,13 +208,19 @@ describe('useNearbyPicks', () => {
   });
 
   it('a new set that comes back empty never replaces the cached one', async () => {
-    const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: 10, origin: ORIGIN, miles: 10, lastCategory: null });
-    writeNearbyPicksCache(key, [{ id: 'last', region: 'villanova', name: 'Last', image: 'https://x/y.jpg' }], NOW - 5 * 60 * 60 * 1000);
     // Bad connection: every candidate photo fails, so nothing can be composed.
-    const { rankNearbyCandidates } = await import('../../lib/nearbyPicks');
+    // Places with no photo of their own are always ready, so they are rated
+    // "didn't like it" here to keep them out of the pool.
+    const { rankNearbyCandidates, hasPhoto } = await import('../../lib/nearbyPicks');
     const { usual, fresh } = rankNearbyCandidates({ profile: PROFILE, origin: ORIGIN, miles: 10, myReviews: REVIEWS, now: NOW });
-    for (const p of [...usual, ...fresh]) broken.add(p.image);
-    await render(base({ fetchReasons: vi.fn(async () => ({})), logPicks: vi.fn() }));
+    const reviews = { ...REVIEWS };
+    for (const p of [...usual, ...fresh]) {
+      if (hasPhoto(p)) broken.add(p.image);
+      else reviews[`x-${p.id}`] = { landmarkId: p.id, ratingTier: 'probably-skip' };
+    }
+    const key = nearbyPicksCacheKey({ uid: 'u1', ratingsCount: Object.keys(reviews).length, origin: ORIGIN, miles: 10, lastCategory: null });
+    writeNearbyPicksCache(key, [{ id: 'last', region: 'villanova', name: 'Last', image: 'https://x/y.jpg' }], NOW - 5 * 60 * 60 * 1000);
+    await render(base({ myReviews: reviews, fetchReasons: vi.fn(async () => ({})), logPicks: vi.fn() }));
     await flush();
     expect(latest.picks.map((p) => p.id)).toEqual(['last']);
   });
