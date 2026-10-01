@@ -56,7 +56,10 @@ export function isStoredStreakLive(streak, now = new Date()) {
   return (
     streak.lastCompletedDay === today ||
     streak.lastCompletedDay === yesterday ||
-    (streak.frozenDays || []).includes(yesterday)
+    (streak.frozenDays || []).includes(yesterday) ||
+    // A freeze spent today holds the streak across today's gap too (the next
+    // close bridges it), so it must not read as lapsed until the day ends.
+    (streak.frozenDays || []).includes(today)
   );
 }
 

@@ -304,6 +304,20 @@ const RETIRED_INTERESTS = {
   'food-local-life': ['food', 'local-life'],
 };
 
+// Landmark ids that were renamed because two cities shared one. Check-ins,
+// reviews and saved itineraries written before the rename still carry the old
+// id plus their region, so reads map (region, oldId) -> the current id.
+const LEGACY_LANDMARK_IDS = {
+  'san-francisco': {
+    'washington-square-park': 'washington-square-park-sf',
+    'the-battery': 'the-battery-sf',
+  },
+};
+
+export function canonicalLandmarkId(id, region) {
+  return LEGACY_LANDMARK_IDS[region]?.[id] || id;
+}
+
 export function migrateInterests(ids) {
   const out = [];
   for (const id of ids || []) {

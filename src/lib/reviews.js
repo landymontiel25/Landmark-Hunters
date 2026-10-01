@@ -18,6 +18,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { tierStars, COMMENT_MAX } from './ratingFlow';
 import { applyRating, revertRating } from './tagScores';
+import { canonicalLandmarkId } from '../data/regions';
 
 // An Error whose message was written for travelers, not developers --
 // friendlyError() shows `userMessage` as-is instead of a generic fallback.
@@ -251,7 +252,10 @@ export async function getUserReviewPhotos(userId) {
 export async function getUserReviews(userId) {
   if (!db || !userId) return [];
   const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', userId)));
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  return snap.docs.map((d) => {
+    const r = { id: d.id, ...d.data() };
+    return { ...r, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
+  });
 }
 
 export async function getMyReview(userId, landmarkId) {
