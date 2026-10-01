@@ -3,6 +3,7 @@ import { ref, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { deleteMyReview } from './reviews';
 import { clearPickMarks } from './pickMarks';
+import { clearLocalPickFeedback } from './pickFeedback';
 
 async function deletePhotoSafe(url) {
   if (!storage || !url) return;
@@ -111,6 +112,7 @@ export async function deleteAccountData(uid) {
   await deleteWhere('blocks', 'blockerUid', uid);
   await deleteWhere('pick_feedback', 'userId', uid);
   clearPickMarks(uid); // the on-device pick memory (pickMarks.js)
+  clearLocalPickFeedback(uid); // the device copy of taps and any still waiting to be sent (pickFeedback.js)
   await deleteWhere('planning_events', 'userId', uid);
   await deleteWhere('recommendation_log', 'userId', uid);
   // In-app notifications addressed to this account.

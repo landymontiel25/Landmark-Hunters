@@ -6789,3 +6789,84 @@ p.tag {
   margin: 10px auto 0;
   min-height: 44px;
 }
+
+/* The three pick buttons (PickVoteButtons.jsx): Map sheet, Mapr tab, Mapr
+   chat and the Profile Travel Picks carousel. 44px targets, side padding that
+   respects the phone's safe-area insets. */
+.pick-vote {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left));
+}
+.pick-vote-actions {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+.pick-vote .pick-vote-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 4px;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  text-transform: none;
+}
+.pick-vote .pick-vote-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.mapr-pick-vote.on {
+  font-weight: 800;
+}
+.mapr-pick-vote.love.on {
+  border-color: var(--color-green);
+  color: var(--success);
+  background: rgba(85, 201, 135, 0.2);
+}
+.mapr-pick-vote.hate.on {
+  border-color: var(--color-rust);
+  color: var(--danger);
+  background: rgba(220, 90, 70, 0.16);
+}
+.mapr-pick-vote.unsure.on {
+  border-color: var(--color-parchment-dim);
+  color: var(--color-parchment);
+  background: rgba(150, 150, 150, 0.22);
+}
+.pick-vote .pick-vote-btn.unsure {
+  flex: 1 1 0;
+  font-size: 0.7rem;
+}
+.pick-vote-note {
+  margin: 6px 0 0;
+  font-size: 0.74rem;
+  color: var(--color-parchment-dim);
+}
+.pick-vote-note.error {
+  color: var(--danger);
+}
+.pick-vote-retry {
+  min-height: 44px;
+  padding: 0 10px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.mpp-row {
+  flex-wrap: wrap;
+}
+.mpp-row > .pick-vote {
+  flex: 0 0 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+.chatlab-stop-card > .pick-vote {
+  padding-left: 0;
+  padding-right: 0;
+}

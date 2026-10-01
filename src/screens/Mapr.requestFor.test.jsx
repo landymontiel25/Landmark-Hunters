@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [] }));
+const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn() }));
 
 const stub = () => () => null;
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1', displayName: 'Ann' }, resendVerification: () => {} }) }));
@@ -66,7 +66,13 @@ vi.mock('../lib/apiAuth', () => ({ authHeaders: async () => ({}) }));
 vi.mock('../lib/geocode', () => ({ reverseLocality: async () => null }));
 vi.mock('../lib/timeSaved', () => ({ logPlanningEvent: async () => {} }));
 vi.mock('../lib/groupTrips', () => ({ listMyGroupTrips: async () => [] }));
-vi.mock('../lib/pickFeedback', () => ({ readLocalFeedback: () => ({}) }));
+vi.mock('../lib/pickFeedback', () => ({
+  readLocalFeedback: () => ({}),
+  getPickFeedback: async () => ({}),
+  readPendingPickVotes: () => ({}),
+  flushPendingPickVotes: async () => [],
+  setPickFeedback: (...a) => h.saveVote(...a),
+}));
 vi.mock('../lib/useShownLogger', () => ({
   useShownLogger: () => (setId, stops, overrides) => h.logged.push({ setId, stops, ...overrides }),
 }));
@@ -104,6 +110,8 @@ let root;
 beforeEach(async () => {
   window.HTMLElement.prototype.scrollIntoView = () => {};
   h.fetchJson.mockReset();
+  h.saveVote.mockReset();
+  h.saveVote.mockResolvedValue({ status: 'saved', entry: { landmarkId: 'a', verdict: 'yes' } });
   h.logged.length = 0;
   localStorage.clear();
   h.fetchJson.mockResolvedValue({ reply: 'Try Autana.', stops: [], quickReplies: [] });
@@ -213,5 +221,74 @@ describe('Mapr asks who each request is for', () => {
     const bubbles = container.textContent;
     expect(bubbles).toContain('family bowling');
     expect(bubbles).toContain('Here you go.');
+  });
+});
+
+describe('the three pick buttons on Mapr chat suggestion cards', () => {
+  const stops = [
+    { id: 'a', region: 'villanova', name: 'Autana', reason: 'Great food', categories: ['food'] },
+    { id: 'b', region: 'villanova', name: 'Bistro', reason: 'Nice', categories: ['food'] },
+  ];
+  const ask = async () => {
+    h.fetchJson.mockResolvedValue({ reply: 'Try these.', stops, quickReplies: [] });
+    await setValue('somewhere fun');
+    await submit();
+    await click('A group');
+  };
+  // OnScreen is stubbed away here, so a card is found through its button group.
+  const card = (name) => container.querySelector(`[aria-label="Would you go to ${name}?"]`)?.closest('[data-pick-vote]') || undefined;
+  const vbtn = (name, label) => [...card(name).querySelectorAll('.pick-vote-btn')].find((b) => b.textContent.includes(label));
+  const tap = async (b) => act(async () => b.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+
+  it("shows Not for me, Not sure and I'd go on each card, and no 'ask me again' text", async () => {
+    await ask();
+    for (const n of ['Autana', 'Bistro']) {
+      const labels = [...card(n).querySelectorAll('.pick-vote-btn')].map((b) => b.textContent.trim());
+      expect(labels).toEqual(['✕ Not for me', '\u{1F937} Not sure', "✓ I'd go"]);
+    }
+    expect(container.textContent.toLowerCase()).not.toContain('ask me again');
+  });
+
+  it('saves first (the answer is selected only after the save lands) and sends requestFor', async () => {
+    let done;
+    h.saveVote.mockImplementation(() => new Promise((r) => (done = r)));
+    await ask();
+    await tap(vbtn('Autana', "I'd go"));
+    expect(h.saveVote).toHaveBeenCalledWith(expect.objectContaining({ landmark: expect.objectContaining({ id: 'a' }), verdict: 'yes', requestFor: 'group' }));
+    expect(vbtn('Autana', "I'd go").getAttribute('aria-pressed')).toBe('false');
+    await act(async () => done({ status: 'saved', entry: { landmarkId: 'a', verdict: 'yes' } }));
+    expect(vbtn('Autana', "I'd go").getAttribute('aria-pressed')).toBe('true');
+    expect(card('Autana')).toBeTruthy();
+  });
+
+  it('Not sure keeps the card; Not for me removes it', async () => {
+    await ask();
+    h.saveVote.mockResolvedValueOnce({ status: 'saved', entry: { landmarkId: 'a', verdict: 'unsure' } });
+    await tap(vbtn('Autana', 'Not sure'));
+    expect(vbtn('Autana', 'Not sure').getAttribute('aria-pressed')).toBe('true');
+    h.saveVote.mockResolvedValueOnce({ status: 'saved', entry: { landmarkId: 'b', verdict: 'no' } });
+    await tap(vbtn('Bistro', 'Not for me'));
+    expect(card('Bistro')).toBeUndefined();
+    expect(card('Autana')).toBeTruthy();
+  });
+
+  it('a failed save shows an error with Try again, and the card does not change', async () => {
+    await ask();
+    h.saveVote.mockRejectedValueOnce(new Error('down'));
+    await tap(vbtn('Autana', 'Not for me'));
+    expect(card('Autana')).toBeTruthy();
+    expect(card('Autana').querySelector('[role="alert"]').textContent).toContain("Couldn't save");
+    h.saveVote.mockResolvedValueOnce({ status: 'saved', entry: { landmarkId: 'a', verdict: 'no' } });
+    await tap([...card('Autana').querySelectorAll('button')].find((b) => b.textContent === 'Try again'));
+    expect(h.saveVote).toHaveBeenCalledTimes(2);
+    expect(card('Autana')).toBeUndefined();
+  });
+
+  it("an offline tap shows 'Not saved yet' and is not selected", async () => {
+    await ask();
+    h.saveVote.mockResolvedValueOnce({ status: 'pending', entry: { landmarkId: 'a', verdict: 'yes' } });
+    await tap(vbtn('Autana', "I'd go"));
+    expect(card('Autana').textContent).toContain('Not saved yet');
+    expect(vbtn('Autana', "I'd go").getAttribute('aria-pressed')).toBe('false');
   });
 });

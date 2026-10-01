@@ -30,6 +30,8 @@ import OnScreen from '../components/OnScreen';
 import { makeSetId } from '../lib/setId';
 import { useShownLogger } from '../lib/useShownLogger';
 import MaprRateCard from '../components/MaprRateCard';
+import PickVoteButtons from '../components/PickVoteButtons';
+import { usePickVotes } from '../lib/usePickVotes';
 import { authHeaders } from '../lib/apiAuth';
 import { fetchJson, friendlyError } from '../lib/friendlyError';
 import {
@@ -176,6 +178,8 @@ export default function Mapr() {
     }
   };
   const { coords, error: geoError } = useGeo();
+  // The three answer buttons on each suggested place (Mapr tab planner and chat).
+  const pickVotes = usePickVotes({ uid: user?.uid, origin: coords ? { lat: coords.lat, lng: coords.lng } : null });
   // Chat thread, city picks, planner-open state, cost total and busy all
   // live in MaprChatContext (above the router in App.jsx) instead of here
   // -- this screen unmounts like any other route the moment you tap over
@@ -881,6 +885,9 @@ export default function Mapr() {
                       ? formatDistance(distanceMeters(coords.lat, coords.lng, lat, lng), units)
                       : null;
                     const resolved = !stop.external || !!stop.createdId;
+                    const voteRegion = stop.createdRegion || stop.region;
+                    // "Not for me" takes the card out of the reply.
+                    if (id && pickVotes.removed.has(id)) return null;
 
                     return (
                       <OnScreen key={`${m.id}-${idx}`} className="chatlab-stop-card" onSeen={() => logStopShown(m, idx, stop)}>
@@ -921,6 +928,20 @@ export default function Mapr() {
                             Directions
                           </DirectionsButton>
                         </div>
+                        {user && resolved && id && voteRegion && (
+                          <PickVoteButtons
+                            name={stop.name}
+                            vote={pickVotes.votes[id]}
+                            onVote={(v) =>
+                              pickVotes.vote(
+                                { id, region: voteRegion, name: stop.name, categories: categories || [] },
+                                v,
+                                { requestFor: requestForSet.current.get(m.setId) || m.requestFor || null }
+                              )
+                            }
+                            onRetry={() => pickVotes.retry(id)}
+                          />
+                        )}
                       </OnScreen>
                     );
                   })}

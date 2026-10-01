@@ -137,8 +137,13 @@ export const APP_HELP =
   `saved city with no GPS fix) and swipe through up to 10 of that city's landmarks you haven't voted on, rated, or checked into yet, most-visited ` +
   `first. Since these are places you haven't necessarily been, each card asks "would you go?", not "how was it?" -- tap "✓ I'd go" / "🤷 Not sure" / ` +
   `"✗ Not for me" right on the card. This is the exact same lightweight ✓/✗/🤷 vote every Mapr Pick has always used: no check-in, no modal, nothing ` +
-  `to post -- the card just leaves the row and the next one takes its place. ✓ and ✗ nudge that city's tag scores and are conclusive (that landmark ` +
-  `won't be offered here again); "🤷 Not sure" (the button says "Ask me again in a week") carries no signal and just snoozes it for about a week. The first card in the row is always "+ Rate a ` +
+  `to post. The same three buttons are on every pick Mapr shows you: the cards in the Map tab's "Picked for you right now" sheet, and the places ` +
+  `Mapr suggests in the Mapr tab (trip planner and chat). A tap is saved to your account first and the button only lights up once it is saved; ` +
+  `if saving fails you see "Couldn't save your answer" with a Try again button, and with no connection it says "Not saved yet" and sends when ` +
+  `you are back online. "✗ Not for me" removes the card and the next pick takes its place (that landmark won't be offered here again); ` +
+  `"✓ I'd go" and "🤷 Not sure" keep the card, shown as selected, and you can tap a different button to change your answer. ✓ and ✗ nudge that ` +
+  `city's tag scores; "🤷 Not sure" carries no signal and Mapr Travel Picks offers that place again after about a week (there is no "ask me ` +
+  `again" button or text). The first card in the row is always "+ Rate a ` +
   `Landmark" (search any place by name for the real rate-and-post flow, with a comment, that actually shows on the landmark's page).\n` +
   `- Voting ahead of a trip: to vote on places in a city you haven't been to yet, open Mapr Travel Picks and pick that city -- the same swipe row ` +
   `works for a city you're planning as well as the one you're in; there's no separate "prep a trip" feature anymore.\n` +

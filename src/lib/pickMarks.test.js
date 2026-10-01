@@ -99,10 +99,10 @@ describe('marking real taps and ratings', () => {
 
   it('a tap on a shown pick carries the marks; a tap on any other place does not', async () => {
     rememberShownPicks({ uid: 'u', setId: 's1', surface: 'map-sheet', stops: [{ id: 'lm1' }], at: Date.now() - 1000 });
-    const e = await setPickFeedback({ uid: 'u', landmark: lm, verdict: 'yes' });
+    const { entry: e } = await setPickFeedback({ uid: 'u', landmark: lm, verdict: 'yes' });
     expect(e).toMatchObject({ pickSetId: 's1', pickSurface: 'map-sheet' });
     expect(store.get('pick_feedback/u_lm1')).toMatchObject({ pickSetId: 's1', pickShownAt: e.pickShownAt });
-    const e2 = await setPickFeedback({ uid: 'u', landmark: { ...lm, id: 'lm2' }, verdict: 'no' });
+    const { entry: e2 } = await setPickFeedback({ uid: 'u', landmark: { ...lm, id: 'lm2' }, verdict: 'no' });
     expect('pickSetId' in e2).toBe(false);
     expect('pickSetId' in store.get('pick_feedback/u_lm2')).toBe(false);
   });

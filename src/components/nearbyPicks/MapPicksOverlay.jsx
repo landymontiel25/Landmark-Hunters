@@ -223,6 +223,8 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
         onShown={onShown}
+        uid={showRefresh ? null : uid}
+        origin={origin}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />

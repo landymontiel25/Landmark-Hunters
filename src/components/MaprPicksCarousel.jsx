@@ -8,7 +8,9 @@ import { usePersistentState } from '../lib/usePersistentState';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion } from '../data/regions';
 import { isRateable, isVisitedReview } from '../lib/ratingFlow';
-import { getPickFeedback, readLocalFeedback, votedIds, setPickFeedback } from '../lib/pickFeedback';
+import { getPickFeedback, readLocalFeedback, votedIds } from '../lib/pickFeedback';
+import { usePickVotes } from '../lib/usePickVotes';
+import PickVoteButtons from './PickVoteButtons';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
 import MaprPickImage from './MaprPickImage';
@@ -18,13 +20,16 @@ import MaprPickImage from './MaprPickImage';
 // step 2 is swiping that city's rateable landmarks. Capped at RESERVE on
 // screen at once so the row never turns into a full city directory.
 //
-// Voting is the exact same lightweight mechanic the original Mapr Picks
-// carousel used (see pickFeedback.js) -- a tap saves a ✓/✗/🤷 verdict
-// straight to pick_feedback and moves on, no check-in, no modal, nothing to
-// post. It's a taste signal, not a review: "I'd go" and "Not for me" nudge
-// that city's tag scores and rule the landmark out for good; "Not sure"
-// carries no signal and just snoozes it for a week. Rating a landmark for
-// real (with a comment, feeding the public review average) is still what
+// Voting is the same three buttons every Mapr pick has (PickVoteButtons.jsx):
+// a tap is saved to pick_feedback FIRST and the card changes only once that
+// write lands (usePickVotes / pickFeedback.js). "Not for me" takes the card
+// out of the row; "I'd go" and "Not sure" keep it, shown as selected, and you
+// can tap another button to change your mind. It's a taste signal, not a
+// review: "I'd go" and "Not for me" nudge that city's tag scores; "Not sure"
+// carries no signal. On a later visit a place you answered "I'd go" or "Not
+// for me" is not offered again, and a "Not sure" one comes back after
+// UNSURE_SNOOZE_MS (pickFeedback.js votedIds). Rating a landmark for real
+// (with a comment, feeding the public review average) is still what
 // "+ Rate a Landmark" is for.
 //
 // The "guess what your partner would pick" step from the dual-streak spec
@@ -33,12 +38,6 @@ import MaprPickImage from './MaprPickImage';
 // path the spec describes for everyone until pairing ships.
 const RESERVE = 10;
 
-const VOTE_COPY = {
-  yes: { cls: 'love', emoji: '\u{2713}', label: "I'd go" },
-  unsure: { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure', hint: "Ask me again in a week" },
-  no: { cls: 'hate', emoji: '\u{2715}', label: 'Not for me' },
-};
-
 export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [] }) {
   const { user } = useAuth();
   const { coords } = useGeo();
@@ -46,10 +45,11 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const [pickerOpen, setPickerOpen] = useState(false);
-  // { [landmarkId]: 'yes' | 'no' | 'unsure' } -- instant local copy so a vote
-  // pulls its card out of the row right away, without waiting on a Firestore
-  // round trip or on checkedInIds/reviews (a vote is neither) to catch up.
+  // { [landmarkId]: { verdict, at } } as of opening the row: what was already
+  // answered on earlier visits (the device copy, then the database's).
   const [feedback, setFeedback] = useState(() => (user ? readLocalFeedback(user.uid) : {}));
+  // Cards tapped during this visit stay put (selected) until "Not for me".
+  const [touched, setTouched] = useState(() => new Set());
 
   const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
   const [cityOverride, setCityOverride] = usePersistentState(user ? `mapr-travel-picks-city.${user.uid}` : null, null);
@@ -57,6 +57,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Trip is reflected here even before a fresh GPS fix comes in.
   const defaultRegionId = pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
   const regionId = cityOverride || defaultRegionId;
+  const { votes, removed, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges() });
   const region = regionId ? getRegion(regionId) : null;
 
   // Reconciles with Firestore feedback (a vote made on another device) once,
@@ -76,7 +77,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Rated without a visit still counts as somewhere new to go (the rating
   // itself keeps teaching the taste model above).
   const reviewedIds = new Set(reviews.filter(isVisitedReview).map((r) => r.landmarkId).filter(Boolean));
-  const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback)]);
+  const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback).filter((id) => !touched.has(id)), ...removed]);
   const landmarks = region
     ? region.landmarks
         .map((l) => ({ ...l, regionId: region.id }))
@@ -85,20 +86,13 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         .slice(0, RESERVE)
     : [];
 
-  // Same lightweight vote every Mapr Pick has always used -- see the note at
-  // the top of this file. No check-in, no modal; the card just leaves the row.
+  // Saved to the database first (usePickVotes); the card reacts to the
+  // result. onSaved refreshes actionsToday the moment a day's Nth vote lands,
+  // so a dual streak's day-close sync (PairStreakContext.jsx) doesn't wait
+  // for something else to trigger a reload.
   const vote = (landmark, verdict) => {
-    setPickFeedback({
-      uid: user.uid,
-      landmark: { id: landmark.id, region: landmark.regionId, name: landmark.name, categories: landmark.categories || [] },
-      verdict,
-      origin,
-    });
-    setFeedback((cur) => ({ ...cur, [landmark.id]: { landmarkId: landmark.id, verdict, at: Date.now() } }));
-    // Refreshes actionsToday the moment a day's Nth vote lands, so a dual
-    // streak's day-close sync (PairStreakContext.jsx) doesn't wait for
-    // something else to happen to trigger a reload.
-    reloadBadges();
+    setTouched((cur) => new Set(cur).add(landmark.id));
+    saveVote({ id: landmark.id, region: landmark.regionId, name: landmark.name, categories: landmark.categories || [] }, verdict);
   };
 
   // Which card is in view, for the dots -- offset by one slot since the "+
@@ -139,23 +133,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
               <span className="mapr-pick-name">{l.name}</span>
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>
-            <div className="mapr-pick-actions">
-              {['no', 'unsure', 'yes'].map((verdict) => {
-                const copy = VOTE_COPY[verdict];
-                return (
-                  <button
-                    key={verdict}
-                    type="button"
-                    className={`mapr-pick-vote ${copy.cls}`}
-                    onClick={() => vote(l, verdict)}
-                    title={copy.hint ? `${copy.label}: ${copy.hint}` : copy.label}
-                  >
-                    {copy.emoji} {copy.label}
-                    {copy.hint && <span className="mapr-pick-vote-hint">{copy.hint}</span>}
-                  </button>
-                );
-              })}
-            </div>
+            <PickVoteButtons name={l.name} vote={votes[l.id]} onVote={(v) => vote(l, v)} onRetry={() => retry(l.id)} />
           </div>
         ))}
         {region && landmarks.length === 0 && (

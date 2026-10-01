@@ -107,7 +107,7 @@ function usePickActions(pick) {
   };
 }
 
-export default function PickCard({ pick, showChainLabel = false, showTag = true }) {
+export default function PickCard({ pick, showChainLabel = false, showTag = true, voteSlot = null }) {
   const { units } = useUnits();
   const { openActions, sheet } = usePickActions(pick);
   return (
@@ -134,13 +134,14 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true 
           {'\u{1F9ED}'} Directions
         </DirectionsButton>
       </div>
+      {voteSlot}
       {sheet}
     </article>
   );
 }
 
 // Compact row for the collapsed bottom sheet's top three (and the meal card).
-export function PickRow({ pick, action = null }) {
+export function PickRow({ pick, action = null, voteSlot = null }) {
   const { units } = useUnits();
   const { openActions, sheet } = usePickActions(pick);
   return (
@@ -156,6 +157,7 @@ export function PickRow({ pick, action = null }) {
         </span>
       </button>
       {action}
+      {voteSlot}
       {sheet}
     </li>
   );

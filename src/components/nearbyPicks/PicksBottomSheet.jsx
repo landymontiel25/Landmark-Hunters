@@ -6,6 +6,8 @@ import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
 import { formatDistance } from '../../lib/formatDistance';
 import PickCard, { PickRow } from './PickCard';
 import DirectionsButton from '../DirectionsButton';
+import PickVoteButtons from '../PickVoteButtons';
+import { usePickVotes } from '../../lib/usePickVotes';
 
 // The sheet over the map. Collapsed (how the Map opens) it shows the top
 // three picks; swipe up -- or tap the handle -- for the full "Picked for you
@@ -46,6 +48,8 @@ export default function PicksBottomSheet({
   layout = 'default',
   moodSlot = null,
   onShown = null,
+  uid = null,
+  origin = null,
   children,
 }) {
   const moodFirst = layout === 'mood-first';
@@ -55,10 +59,17 @@ export default function PicksBottomSheet({
 
   // The cards actually on screen (1-based rank = position in the set). Nothing
   // while minimized, loading, locked or empty. onShown logs each once per set.
+  // "Not for me" takes a card out and the next pick in the same set moves up
+  // into the slot. A pick keeps its place in the set as its rank (the
+  // replacement is ranked where it sits in the set, and logged when it appears).
+  const { votes, removed, vote, retry } = usePickVotes({ uid, origin });
+  const queue = picks ? picks.map((p, i) => ({ ...p, rank: i + 1 })).filter((p) => !removed.has(p.id)) : picks;
+  const voteSlot = (p) =>
+    uid ? (
+      <PickVoteButtons name={p.name} vote={votes[p.id]} onVote={(v) => vote({ id: p.id, region: p.region, name: p.name, categories: p.categories || [] }, v)} onRetry={() => retry(p.id)} />
+    ) : null;
   const onScreen =
-    state === 'ready' && !minimized && picks?.length
-      ? picks.slice(0, expanded && !moodFirst ? PICKS_SHOWN : SHEET_PICKS).map((p, i) => ({ ...p, rank: i + 1 }))
-      : [];
+    state === 'ready' && !minimized && queue?.length ? queue.slice(0, expanded && !moodFirst ? PICKS_SHOWN : SHEET_PICKS) : [];
   const onScreenSig = onScreen.map((p) => `${p.region}/${p.id}`).join('|');
   const onShownRef = useRef(onShown);
   onShownRef.current = onShown;
@@ -182,21 +193,24 @@ export default function PicksBottomSheet({
         {beyondNote}
       </div>
     );
+  } else if (!queue.length) {
+    body = <p className="mpp-empty">That's all the picks for now.</p>;
   } else if (expanded && !moodFirst) {
     body = (
       <div className="mpp-list">
-        {picks.slice(0, PICKS_SHOWN).map((p) => (
-          <PickCard key={`${p.region}/${p.id}`} pick={p} showChainLabel={showChainLabels} />
+        {queue.slice(0, PICKS_SHOWN).map((p) => (
+          <PickCard key={`${p.region}/${p.id}`} pick={p} showChainLabel={showChainLabels} voteSlot={voteSlot(p)} />
         ))}
       </div>
     );
   } else {
     body = (
       <ul className="mpp-rows">
-        {picks.slice(0, SHEET_PICKS).map((p) => (
+        {queue.slice(0, SHEET_PICKS).map((p) => (
           <PickRow
             key={`${p.region}/${p.id}`}
             pick={p}
+            voteSlot={voteSlot(p)}
             action={
               moodFirst ? (
                 <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
