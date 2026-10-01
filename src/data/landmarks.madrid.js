@@ -1186,7 +1186,7 @@ export const MADRID_LANDMARKS = [
     firstTimerPriority: "Low",
     neighborhood: "Centro",
     cost: "$$",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Artisanal_chocolate_coated_ice_cream_bar_01.jpg/1280px-Artisanal_chocolate_coated_ice_cream_bar_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","https://upload.wikimedia.org/wikipedia/commons/a/ac/Geraldo%27s_Artisan_Ice_Cream_-_geograph.org.uk_-_5290962.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","https://upload.wikimedia.org/wikipedia/commons/3/3e/Hedgehog_Artisan_Ice_Cream_shop%2C_Bakewell_-_geograph.org.uk_-_3714748.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled","https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Italian_artisan_ice_cream.jpg/1280px-Italian_artisan_ice_cream.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"],
+    images: ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Artisanal_chocolate_coated_ice_cream_bar_01.jpg/1280px-Artisanal_chocolate_coated_ice_cream_bar_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"],
     name: "Maison Glacée",
     region: 'madrid',
     lat: 40.417996,

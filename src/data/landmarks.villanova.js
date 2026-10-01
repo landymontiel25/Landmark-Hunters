@@ -94,7 +94,7 @@ export const VILLANOVA_LANDMARKS = [
   {
     id: 'mendel-field',
     popularity: 1, // 0 avg monthly Wikipedia views (raw signal, log-scaled 1-10)
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Zawadzki%20and%20Mendel.jpg?width=1200', 'https://commons.wikimedia.org/wiki/Special:FilePath/046CupolaSPietro.jpg?width=1200', 'https://commons.wikimedia.org/wiki/Special:FilePath/Gregor%20Mendel%202.jpg?width=1200'],
+    images: [],
     name: 'Mendel Field',
     region: 'villanova',
     lat: 40.03804,

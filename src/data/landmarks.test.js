@@ -81,6 +81,75 @@ describe('landmark ids and data', () => {
   });
 });
 
+describe('catalog text and image hygiene', () => {
+  const textOf = (l) => [l.name, l.summary, l.tip, l.neighborhood, l.cost, ...(l.facts || [])].filter((s) => typeof s === 'string');
+
+  it('has no escape/entity artifacts or placeholder text in user-visible strings', () => {
+    const ARTIFACT = /&(?:[a-z]+|#\d+|#x[0-9a-f]+);|[a-z]x(?:27|22|26)[a-z]|\\u[0-9a-f]{4}|\\[nt"']|%[0-9A-F]{2}|\*\*|`|\bundefined\b|\bnull\b|\bNaN\b|\bTODO\b|lorem ipsum|[\u0000-\u001f ​�]/i;
+    const bad = [];
+    for (const l of ALL_LANDMARKS)
+      for (const s of textOf(l)) {
+        if (ARTIFACT.test(s) || / {2,}/.test(s) || s !== s.trim() || !s.length) bad.push(`${l.regionId}/${l.id}: ${s.slice(0, 80)}`);
+      }
+    expect(bad).toEqual([]);
+  });
+
+  it('has balanced curly quotes and parentheses', () => {
+    const count = (s, re) => (s.match(re) || []).length;
+    const bad = [];
+    for (const l of ALL_LANDMARKS)
+      for (const s of textOf(l))
+        if (count(s, /“/g) !== count(s, /”/g) || count(s, /\(/g) !== count(s, /\)/g)) bad.push(`${l.regionId}/${l.id}: ${s.slice(0, 80)}`);
+    expect(bad).toEqual([]);
+  });
+
+  it('gives every landmark a name and a summary of real sentences', () => {
+    const bad = ALL_LANDMARKS.filter((l) => !l.summary || l.summary.trim().length < 20 || !/[.!?)"”']$/.test(l.summary.trim()));
+    expect(bad.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
+  });
+
+  it('uses only valid, in-range coordinates (no zeros, no flipped signs for the Americas)', () => {
+    const WEST = new Set(['miami', 'key-biscayne', 'coral-gables', 'san-francisco', 'silicon-valley', 'nyc', 'philly', 'villanova']);
+    const bad = ALL_LANDMARKS.filter(
+      (l) => l.lat === 0 || l.lng === 0 || Math.abs(l.lat) > 90 || Math.abs(l.lng) > 180 || (WEST.has(l.regionId) && (l.lng >= 0 || l.lat <= 0))
+    );
+    expect(bad.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
+  });
+
+  it('keeps every region well formed (unique id, center inside its own map bounds)', () => {
+    expect(new Set(REGIONS.map((r) => r.id)).size).toBe(REGIONS.length);
+    const bad = REGIONS.filter((r) => {
+      const v = r.viewbox;
+      const c = r.center;
+      return !r.name || !(v.minLat < v.maxLat && v.minLng < v.maxLng) || (c && (c.lat < v.minLat || c.lat > v.maxLat || c.lng < v.minLng || c.lng > v.maxLng));
+    });
+    expect(bad.map((r) => r.id)).toEqual([]);
+  });
+
+  it('only lists https image URLs on known hosts, with no repeats inside one landmark', () => {
+    const HOSTS = new Set(['commons.wikimedia.org', 'upload.wikimedia.org', 'thumb.wikimedia.org', 'www.miamibeachfl.gov']);
+    const bad = [];
+    for (const l of ALL_LANDMARKS) {
+      const imgs = l.images || [];
+      if (new Set(imgs).size !== imgs.length) bad.push(`${l.regionId}/${l.id}: repeated image`);
+      for (const src of imgs) if (src.startsWith('https://') && !HOSTS.has(new URL(src).host)) bad.push(`${l.regionId}/${l.id}: ${src}`);
+    }
+    expect(bad).toEqual([]);
+  });
+
+  it('never reuses one photo across different cities (a photo of Rome on a Philly arboretum)', () => {
+    const owner = new Map();
+    const bad = [];
+    for (const l of ALL_LANDMARKS)
+      for (const src of l.images || []) {
+        const prev = owner.get(src);
+        if (prev && prev !== l.regionId) bad.push(`${prev} & ${l.regionId}/${l.id}: ${src.slice(0, 90)}`);
+        else owner.set(src, l.regionId);
+      }
+    expect(bad).toEqual([]);
+  });
+});
+
 describe('canonicalLandmarkId (renamed San Francisco ids)', () => {
   it('maps pre-rename San Francisco records to the new ids and leaves everything else alone', () => {
     expect(canonicalLandmarkId('washington-square-park', 'san-francisco')).toBe('washington-square-park-sf');
