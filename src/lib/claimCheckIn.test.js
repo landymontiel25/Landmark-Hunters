@@ -68,11 +68,11 @@ describe('claimCheckIn visit numbering', () => {
     for (const k of ['distanceMeters', 'gpsAccuracyMeters', 'verification']) expect(k in state.written).toBe(false);
   });
 
-  it('still tapers real repeat visits', async () => {
+  it('pays nothing on real repeat visits but still logs them', async () => {
     state.prior = [{ visited: true, points: 100 }];
     const res = await claimCheckIn(args);
     expect(res.visitNumber).toBe(2);
-    expect(res.payout).toBe(20);
+    expect(res.payout).toBe(0);
     expect(state.written.id).toBe('u1_lm_2');
   });
 });
