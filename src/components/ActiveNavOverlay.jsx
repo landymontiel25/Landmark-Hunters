@@ -82,7 +82,12 @@ export default function ActiveNavOverlay({
     });
   };
 
-  const arrived = !!progress?.arrived;
+  // Once you've arrived it stays arrived: GPS jitter at the door (or
+  // wandering inside the building) must not flip the banner back to turns
+  // and take the Next stop button away.
+  const arrivedRef = useRef(false);
+  if (progress?.arrived) arrivedRef.current = true;
+  const arrived = arrivedRef.current;
   const nextText = progress?.next?.instruction || `Arrive at ${dest.name}`;
 
   // Say each instruction once when its step begins, and once more as the

@@ -37,7 +37,7 @@ export const APP_HELP =
   `"Something new". If you usually go from one kind of place straight to another (3+ times, back to back within 3 hours), the next ` +
   `pick can follow that habit. Tap any pick (row or card) for "🧭 Directions" or "📍 Open landmark page". Swipe down to shrink it ` +
   `back to 3, and down again to tuck it away to just its title (swipe up or tap to bring it back). The full list also has a ` +
-  `distance filter (1-100 miles, 10 by default), "Because you liked <a place you loved>", "What are you in the mood for?" (Something ` +
+  `distance filter (1-100, in miles or km to match your units setting, 10 by default), "Because you liked <a place you loved>", "What are you in the mood for?" (Something ` +
   `to eat, Some history, Art & museums, Fresh air, A night out, Sports, Tech spots, sorted Closest or Highest rated), a "Time to ` +
   `eat?" card around breakfast, lunch and dinner, and a heads-up when you're within a mile of one of your favorite kinds of places. ` +
   `Picks skip places that are closed right now, places you have already rated, and (for the top picks) places without a photo; ` +

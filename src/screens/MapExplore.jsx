@@ -377,8 +377,10 @@ export default function MapExplore() {
   // Live navigation: where you are along the route on every GPS fix.
   const navRoute = useMemo(() => (nav?.data?.points?.length > 1 ? prepareRoute(nav.data) : null), [nav?.data]);
   const alongRef = useRef(0);
+  const arrivedRef = useRef(false);
   useEffect(() => {
     alongRef.current = 0;
+    arrivedRef.current = false;
   }, [navRoute]);
   const navActive = !!nav?.active;
   const progress = useMemo(
@@ -392,7 +394,9 @@ export default function MapExplore() {
   useEffect(() => {
     if (!progress) return;
     alongRef.current = progress.along;
-    if (progress.arrived || !progress.offRoute) {
+    if (progress.arrived) arrivedRef.current = true;
+    // After arriving, drifting off the line is just GPS noise: no reroute.
+    if (arrivedRef.current || !progress.offRoute) {
       offRouteCountRef.current = 0;
       return;
     }
@@ -749,8 +753,12 @@ export default function MapExplore() {
   // A live, distance-sorted view of what's closest right now, shown in the
   // search panel before you type anything. Only meaningful with a real GPS
   // fix, so it's just not offered without one.
+  // Measured from a ~110 m grid, so GPS jitter while standing still doesn't
+  // reshuffle (and mis-tap) the rows.
+  const listLat = coords ? Math.round(coords.lat * 1000) / 1000 : null;
+  const listLng = coords ? Math.round(coords.lng * 1000) / 1000 : null;
   const nearbyList = useMemo(() => {
-    if (!coords) return [];
+    if (listLat == null) return [];
     const all = [
       ...ALL_LANDMARKS.map((l) => {
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
@@ -766,10 +774,10 @@ export default function MapExplore() {
       ...customLandmarks.map((l) => ({ id: `custom-${l.docId}`, name: l.name, region: l.region, landmarkId: l.id, lat: l.lat, lng: l.lng })),
     ];
     return all
-      .map((l) => ({ ...l, meters: distanceMeters(coords.lat, coords.lng, l.lat, l.lng) }))
+      .map((l) => ({ ...l, meters: distanceMeters(listLat, listLng, l.lat, l.lng) }))
       .sort((a, b) => a.meters - b.meters)
       .slice(0, 12);
-  }, [coords, customLandmarks, savedOverrides]);
+  }, [listLat, listLng, customLandmarks, savedOverrides]);
 
   // Build the markers once and reuse the same elements across re-renders. GPS
   // ticks update `coords` several times a minute; if the markers were rebuilt
