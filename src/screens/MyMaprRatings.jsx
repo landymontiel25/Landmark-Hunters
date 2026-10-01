@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useRatings } from '../lib/RatingsContext';
-import { getUserCheckins } from '../lib/leaderboard';
+import { getUserCheckins, isRealCheckin } from '../lib/leaderboard';
 import { deleteMyReview } from '../lib/reviews';
 import { getRegion } from '../data/regions';
 import { TIERS, tierById, chipLabel } from '../lib/ratingFlow';
@@ -23,7 +23,7 @@ export default function MyMaprRatings() {
   const { user, firebaseEnabled } = useAuth();
   const { myReviews, myReviewsLoaded, reload: reloadRatings } = useRatings();
   const toast = useToast();
-  const [ratingOnlyIds, setRatingOnlyIds] = useState(null); // null = still loading
+  const [visitedIds, setVisitedIds] = useState(null); // null = still loading
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [tab, setTab] = useState(TABS[0].id);
@@ -54,7 +54,7 @@ export default function MyMaprRatings() {
 
   useEffect(() => {
     if (!firebaseEnabled || !user) {
-      setRatingOnlyIds(new Set());
+      setVisitedIds(new Set());
       return;
     }
     let cancelled = false;
@@ -62,16 +62,11 @@ export default function MyMaprRatings() {
     getUserCheckins(user.uid)
       .then((rows) => {
         if (cancelled) return;
-        // A ratingOnly claim is an explicit "Rate a Landmark" click, never a
-        // real visit -- legacy rows without the field fall back to the old
-        // points === 0 heuristic (payout-0 real visits didn't exist yet then).
-        setRatingOnlyIds(
-          new Set(
-            rows
-              .filter((c) => (typeof c.ratingOnly === 'boolean' ? c.ratingOnly : c.points === 0))
-              .map((c) => c.landmarkId)
-          )
-        );
+        // Everything rated but not really visited: a rating needs no check-in
+        // (or came from a 0-point "Rate a Landmark" claim, which isn't a
+        // visit either), so the places with a real check-in are the ones to
+        // leave out.
+        setVisitedIds(new Set(rows.filter(isRealCheckin).map((c) => c.landmarkId)));
       })
       .catch((err) => {
         if (!cancelled) setLoadError(err);
@@ -93,11 +88,11 @@ export default function MyMaprRatings() {
   }
 
   // Also wait for myReviews: before it arrives every tab would read "Nothing rated yet".
-  const loading = ratingOnlyIds === null || (!myReviewsLoaded && !loadError);
+  const loading = visitedIds === null || (!myReviewsLoaded && !loadError);
   const rated = loading
     ? []
     : Object.values(myReviews).filter(
-        (r) => ratingOnlyIds.has(r.landmarkId) && r.ratingTier && !hiddenIds.has(r.landmarkId)
+        (r) => !visitedIds.has(r.landmarkId) && r.ratingTier && !hiddenIds.has(r.landmarkId)
       );
   const byTier = { 'highly-recommend': [], 'worth-trying': [], 'probably-skip': [] };
   for (const r of rated) {
@@ -115,7 +110,7 @@ export default function MyMaprRatings() {
         <span>{'\u{2B50}'}</span> My Mapr Ratings
       </h1>
       <p className="screen-subtitle">
-        Everything you've rated through Mapr Picks — not places you've checked into, just rated directly.
+        Everything you've rated without checking in — through Mapr Picks, Rate a Landmark, or a Rate button. Places you've checked into are in My Check-ins.
       </p>
 
       <div className="tabs" style={{ justifyContent: 'center', marginBottom: 14, flexWrap: 'wrap' }}>

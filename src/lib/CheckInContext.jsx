@@ -18,6 +18,11 @@ export function CheckInProvider({ children }) {
   const { user, firebaseEnabled } = useAuth();
   const { myUsername, myProfile } = useFriends();
   const [claimedMap, setClaimedMap] = useState({});
+  // True once the first read of this account's real check-ins has finished
+  // (or failed). RatingsContext waits for it before stamping which rated
+  // places were really visited, so a half-loaded map never reads as
+  // "rated but never been".
+  const [claimedLoaded, setClaimedLoaded] = useState(false);
   const [checkingIn, setCheckingIn] = useState(null);
   // The landmark currently in the rate + post prompt. Tapping "Check In" sets
   // this immediately, but nothing is claimed/awarded yet — that only happens
@@ -50,6 +55,7 @@ export function CheckInProvider({ children }) {
   }, [user, firebaseEnabled]);
 
   useEffect(() => {
+    setClaimedLoaded(false);
     if (!user || !firebaseEnabled) {
       setClaimedMap({});
       return;
@@ -57,7 +63,9 @@ export function CheckInProvider({ children }) {
     let cancelled = false;
     getUserCheckedInLandmarkIds(user.uid).then((ids) => {
       if (!cancelled) setClaimedMap(Object.fromEntries(ids.map((id) => [id, true])));
-    }).catch(() => {});
+    }).catch(() => {}).finally(() => {
+      if (!cancelled) setClaimedLoaded(true);
+    });
     return () => {
       cancelled = true;
     };
@@ -173,6 +181,7 @@ export function CheckInProvider({ children }) {
         user,
         firebaseEnabled,
         claimedMap,
+        claimedLoaded,
         checkingIn,
         checkIn,
         commitCheckIn,

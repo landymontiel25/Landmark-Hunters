@@ -6,6 +6,9 @@ import {
   TIERS,
   tierById,
   tierStars,
+  isValidTier,
+  isVisitedReview,
+  withVisited,
   FREQUENCIES,
   frequencyById,
   chipsFor,
@@ -127,8 +130,8 @@ describe('tier -> stars (feeds the landmark_ratings aggregate)', () => {
 
   it('labels the tiers as a plain personal verdict, not a star rating', () => {
     expect(tierById('highly-recommend').label).toBe('I loved it');
-    expect(tierById('worth-trying').label).toBe('It was okay');
-    expect(tierById('probably-skip').label).toBe('Not for me');
+    expect(tierById('worth-trying').label).toBe('Ok');
+    expect(tierById('probably-skip').label).toBe("I didn't like it");
   });
 });
 
@@ -336,5 +339,30 @@ describe('commentQuestion', () => {
     expect(commentQuestion('highly-recommend')).toBe('What do you like about this place?');
     expect(commentQuestion('worth-trying')).toBe('What do you like about this place?');
     expect(commentQuestion('probably-skip')).toBe("What didn't you like about this place?");
+  });
+});
+
+describe('every review needs a valid tier', () => {
+  it('accepts only the three tiers', () => {
+    expect(TIERS.map((t) => t.id).every(isValidTier)).toBe(true);
+    for (const bad of [undefined, null, '', 'bogus', 5, 'highly_recommend']) expect(isValidTier(bad)).toBe(false);
+  });
+});
+
+describe('rated is not visited', () => {
+  it('stamps each review visited from the real check-ins only', () => {
+    const reviews = { a: { landmarkId: 'a' }, b: { landmarkId: 'b' } };
+    const out = withVisited(reviews, { a: true });
+    expect(out.a.visited).toBe(true);
+    expect(out.b.visited).toBe(false);
+    expect(isVisitedReview(out.a)).toBe(true);
+    expect(isVisitedReview(out.b)).toBe(false);
+    expect(reviews.a.visited).toBeUndefined(); // input untouched
+  });
+  it('leaves reviews unstamped (treated as visited) when check-ins are unknown', () => {
+    const reviews = { a: { landmarkId: 'a' } };
+    expect(withVisited(reviews, undefined)).toBe(reviews);
+    expect(isVisitedReview(reviews.a)).toBe(true);
+    expect(isVisitedReview(null)).toBe(true);
   });
 });

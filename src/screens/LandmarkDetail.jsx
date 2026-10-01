@@ -718,7 +718,7 @@ function LandmarkDetailBody() {
     }
   };
 
-  // Add or edit your own comment any time after checking in here.
+  // Add or edit your own comment any time (always saved together with a tier).
   const myCommentBox =
     user && myComment !== null && (checkedInHere || hasMyReview || reviews.some((r) => r.userId === user.uid)) ? (
       <div className="card" style={{ marginBottom: 12 }}>
@@ -727,8 +727,10 @@ function LandmarkDetailBody() {
         </div>
         <MyCommentEditor
           userId={user.uid}
+          userName={myUsername || user.displayName || 'Explorer'}
           landmark={{ ...landmark, region: landmark.region ?? regionId }}
           comment={myComment}
+          tier={savedRating?.tier || null}
           onSaved={(text) => {
             setMyComment(text);
             setCommentRev((n) => n + 1);
@@ -1105,18 +1107,17 @@ function LandmarkDetailBody() {
 
       {firebaseEnabled && isRateable(landmark) && (
         <div className="card section" style={{ marginTop: 16 }}>
-          <h3 style={{ marginTop: 0 }}>Rate your visit</h3>
+          <h3 style={{ marginTop: 0 }}>{checkedInHere ? 'Rate your visit' : 'Rate this place'}</h3>
           {!user ? (
             <p className="screen-subtitle" style={{ margin: 0 }}>Sign in to rate this place.</p>
-          ) : !claimedMap[landmark.id] && !savedRating?.tier ? (
-            // A place rated through "Rate a Landmark" has a 0-point claim
-            // (not counted as checked in) but its rating is still yours to
-            // edit here -- the rules only need that claim doc to exist.
-            <p className="screen-subtitle" style={{ margin: 0 }}>
-              Check in here first to rate it and add a photo.
-            </p>
           ) : (
             <>
+              {!checkedInHere && (
+                <p className="screen-subtitle" style={{ marginTop: 0 }}>
+                  You can rate it without checking in — it helps Mapr learn your taste. When you do check in here,
+                  you'll be asked to rate it again, and that rating replaces this one.
+                </p>
+              )}
               {savedRating && (
                 <p className="screen-subtitle" style={{ marginTop: 0 }}>
                   {'\u{2713}'} Already rated — change anything below to update it.
