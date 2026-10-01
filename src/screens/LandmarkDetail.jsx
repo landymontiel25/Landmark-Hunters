@@ -70,7 +70,17 @@ function fmtCheckinTime(seconds) {
 
 const FACTS_PREVIEW = 5;
 
+// Keyed by landmark so stepping between landmarks (the check-in gallery's
+// ‹ › buttons navigate with `replace`, which keeps this same screen mounted)
+// starts every one fresh. Without it the previous landmark's rating, photos,
+// check-in and reviews lingered on the next one -- loadMyReview() returns
+// early when there's no review, leaving the old state in place.
 export default function LandmarkDetail() {
+  const { region, id } = useParams();
+  return <LandmarkDetailBody key={`${region}/${id}`} />;
+}
+
+function LandmarkDetailBody() {
   const { region: regionId, id } = useParams();
   const navigate = useNavigate();
   // Set when you arrived from a check-ins gallery: the gallery's full order
