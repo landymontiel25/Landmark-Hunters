@@ -8,7 +8,7 @@ import { usePairStreaks } from '../lib/PairStreakContext';
 import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
-import { msUntilStreakLapse, dayKey, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, dayKey, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 
 function formatLeft(ms) {
@@ -145,7 +145,9 @@ function StreakBadge() {
 
   if (!firebaseEnabled || !user) return null;
 
-  const count = streak?.count || 0;
+  // A lapsed streak (a missed day, no freeze) keeps its old stored count until
+  // the next close resets it -- show the real, already-broken 0 instead.
+  const count = displayStreakCount(streak);
   const active = count > 0;
   const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
 
@@ -213,8 +215,11 @@ function PairStreakBadge() {
 
   // The streak you're most invested in, if you have more than one -- just
   // the highest count, ties broken by whichever sorts first.
-  const primary = streaks.length ? streaks.reduce((a, b) => (b.count > a.count ? b : a)) : null;
-  const active = !!primary && primary.count > 0;
+  const primary = streaks.length
+    ? streaks.reduce((a, b) => (displayStreakCount(b) > displayStreakCount(a) ? b : a))
+    : null;
+  const primaryCount = displayStreakCount(primary);
+  const active = primaryCount > 0;
   const secured = !!primary && primary.lastCompletedDay === dayKey(new Date());
   const partnerName = primary
     ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
@@ -232,7 +237,7 @@ function PairStreakBadge() {
         <span className="header-streak-flame" aria-hidden="true">
           {'\u{1F525}\u{1F525}'}
         </span>
-        <span className="header-streak-num">{primary ? primary.count : 0}</span>
+        <span className="header-streak-num">{primaryCount}</span>
       </button>
       <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
         {!primary ? (

@@ -43,6 +43,29 @@ export function todaysActionCount(checkins, pickFeedback = [], now = new Date())
 }
 
 /**
+ * Whether a stored (server-authority) streak doc is still alive right now.
+ * count/lastCompletedDay only change when a day is closed, so a streak whose
+ * last completed day is older than yesterday (and isn't bridged by a freeze)
+ * is already broken even though the doc still holds its old count -- the
+ * next close resets it to 1, but until then the UI must not keep showing it.
+ */
+export function isStoredStreakLive(streak, now = new Date()) {
+  if (!streak || !(streak.count > 0)) return false;
+  const today = dayKey(now);
+  const yesterday = dayKey(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+  return (
+    streak.lastCompletedDay === today ||
+    streak.lastCompletedDay === yesterday ||
+    (streak.frozenDays || []).includes(yesterday)
+  );
+}
+
+/** The count to DISPLAY for a stored streak doc: 0 once it has lapsed. */
+export function displayStreakCount(streak, now = new Date()) {
+  return isStoredStreakLive(streak, now) ? streak.count : 0;
+}
+
+/**
  * Milliseconds until the current LOCAL day ends. Used by the dual-streak
  * countdown (per-pair deadline is the latest local midnight among members --
  * see the streaks/ day-close design), the solo streak-lapse countdown
