@@ -1129,7 +1129,9 @@ function LandmarkDetailBody() {
               <RatingFlow
                 key={`${landmark.id}:${commentRev}`}
                 landmark={landmark}
-                initial={savedRating?.tier ? savedRating : null}
+                // A comment saved before any rating still pre-fills the comment box
+                // (otherwise saving the rating submits '' and blanks it).
+                initial={savedRating?.tier ? savedRating : myComment ? { comment: myComment } : null}
                 draftKey={draftKey}
                 onChange={(r) => {
                   setMyRating(r);
