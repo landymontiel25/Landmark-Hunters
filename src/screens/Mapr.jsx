@@ -752,6 +752,7 @@ export default function Mapr() {
                 >
                   <textarea
                     className="chatlab-edit-input"
+                    aria-label="Edit your message"
                     value={editDraft}
                     onChange={(e) => setEditDraft(e.target.value)}
                     onKeyDown={(e) => {

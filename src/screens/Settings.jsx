@@ -360,19 +360,19 @@ export default function Settings() {
           )}
         </p>
         <div className="tabs" style={{ margin: 0 }}>
-          <button type="button" className={`tab-btn ${mode === 'auto' ? 'active' : ''}`} onClick={() => setMode('auto')}>
+          <button type="button" className={`tab-btn ${mode === 'auto' ? 'active' : ''}`} aria-pressed={!!(mode === 'auto')} onClick={() => setMode('auto')}>
             Automatic
           </button>
           <button
             type="button"
-            className={`tab-btn ${mode === 'imperial' ? 'active' : ''}`}
+            className={`tab-btn ${mode === 'imperial' ? 'active' : ''}`} aria-pressed={!!(mode === 'imperial')}
             onClick={() => setMode('imperial')}
           >
             Imperial (mi)
           </button>
           <button
             type="button"
-            className={`tab-btn ${mode === 'metric' ? 'active' : ''}`}
+            className={`tab-btn ${mode === 'metric' ? 'active' : ''}`} aria-pressed={!!(mode === 'metric')}
             onClick={() => setMode('metric')}
           >
             Metric (km)

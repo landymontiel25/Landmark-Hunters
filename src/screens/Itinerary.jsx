@@ -494,7 +494,7 @@ export default function Itinerary() {
   // would just fight that sort right back.
   const stopsById = useMemo(() => Object.fromEntries(displayRoute.map((s) => [s.id, s])), [displayRoute]);
   const stopIds = useMemo(() => displayRoute.map((s) => s.id), [displayRoute]);
-  const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
+  const { order: dragOrder, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     if (region) reorderLandmarks(region.id, newIds);
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
@@ -681,7 +681,7 @@ export default function Itinerary() {
             <button
               key={t.id}
               type="button"
-              className={`tab-btn ${itinTab === t.id ? 'active' : ''}`}
+              className={`tab-btn ${itinTab === t.id ? 'active' : ''}`} aria-pressed={!!(itinTab === t.id)}
               onClick={() => setItinTab(t.id)}
             >
               {t.label} ({t.count})
@@ -861,14 +861,14 @@ export default function Itinerary() {
         <div className="tabs" style={{ margin: 0, flex: 1, maxWidth: 240 }}>
           <button
             type="button"
-            className={`tab-btn ${view === 'list' ? 'active' : ''}`}
+            className={`tab-btn ${view === 'list' ? 'active' : ''}`} aria-pressed={!!(view === 'list')}
             onClick={() => setView('list')}
           >
             {'\u{1F5D2}\u{FE0F}'} List
           </button>
           <button
             type="button"
-            className={`tab-btn ${view === 'map' ? 'active' : ''}`}
+            className={`tab-btn ${view === 'map' ? 'active' : ''}`} aria-pressed={!!(view === 'map')}
             onClick={() => setView('map')}
           >
             {'\u{1F5FA}\u{FE0F}'} Map
@@ -1007,8 +1007,9 @@ export default function Itinerary() {
                       type="button"
                       className="drag-handle"
                       title="Hold and drag to reorder"
-                      aria-label={`Drag to reorder ${stop.name}`}
+                      aria-label={`Reorder ${stop.name}: hold and drag, or use the up and down arrow keys`}
                       onPointerDown={startDrag(stop.id)}
+                      onKeyDown={keyReorder(stop.id)}
                     >
                       {'☰'}
                     </button>
@@ -1017,6 +1018,7 @@ export default function Itinerary() {
                       type="button"
                       className="btn-icon-trash"
                       title="Remove from itinerary"
+                      aria-label="Remove from itinerary"
                       onClick={() => setPendingRemove(stop)}
                     >
                       {'\u{1F5D1}\u{FE0F}'}

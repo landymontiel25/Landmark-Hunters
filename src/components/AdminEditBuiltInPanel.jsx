@@ -84,7 +84,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
 
       <div className="field">
         <label>Name</label>
-        <input type="text" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
+        <input type="text" aria-label="Name" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
       </div>
 
       <div className="field">
@@ -115,7 +115,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
 
       <div className="field">
         <label>Photo URL</label>
-        <input type="text" placeholder="https://…" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+        <input type="text" aria-label="Image URL" placeholder="https://…" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
       </div>
 
       <div style={{ display: 'flex', gap: 16, marginBottom: 18, flexWrap: 'wrap' }}>

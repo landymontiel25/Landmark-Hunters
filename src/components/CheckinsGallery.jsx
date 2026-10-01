@@ -254,10 +254,10 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h3 style={{ margin: 0 }}>{'\u{1F4F8}'} {title} {checkins ? `(${checkins.length})` : ''}</h3>
         <div className="tabs" style={{ margin: 0 }}>
-          <button className={`tab-btn ${layout === 'list' ? 'active' : ''}`} onClick={() => setLayout('list')}>
+          <button className={`tab-btn ${layout === 'list' ? 'active' : ''}`} aria-pressed={!!(layout === 'list')} onClick={() => setLayout('list')}>
             {'\u{1F4C4}'} List
           </button>
-          <button className={`tab-btn ${layout === 'grid' ? 'active' : ''}`} onClick={() => setLayout('grid')}>
+          <button className={`tab-btn ${layout === 'grid' ? 'active' : ''}`} aria-pressed={!!(layout === 'grid')} onClick={() => setLayout('grid')}>
             {'\u{1F5BC}\u{FE0F}'} Grid
           </button>
         </div>
@@ -365,6 +365,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                   >
                     <input
                       type="datetime-local"
+                      aria-label="Check-in date and time"
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
                       disabled={editSaving}

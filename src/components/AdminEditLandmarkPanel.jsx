@@ -75,7 +75,7 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
 
       <div className="field">
         <label>Name</label>
-        <input type="text" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
+        <input type="text" aria-label="Name" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
       </div>
 
       <div className="field">

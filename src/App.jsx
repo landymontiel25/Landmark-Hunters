@@ -30,6 +30,8 @@ import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
 import { usePushNotificationsSync } from './lib/usePushNotificationsSync';
 import { useOnboardingNotice } from './lib/useOnboardingNotice';
 import { useTripAccountGuard } from './lib/tripAccountGuard';
+import { installModalA11y } from './lib/modalA11y';
+import { useDocumentTitle } from './lib/useDocumentTitle';
 import { flagClear, flagSet, shouldReloadForChunkError } from './lib/chunkReload';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
@@ -44,6 +46,12 @@ function PushNotificationsSync() {
 // (or nobody) is signed in than the one that built it.
 function TripAccountGuard() {
   useTripAccountGuard();
+  return null;
+}
+
+// Renders nothing -- per-route document title (inside the router).
+function DocumentTitleSync() {
+  useDocumentTitle();
   return null;
 }
 
@@ -204,6 +212,7 @@ function prefetchScreens() {
 
 export default function App() {
   useEffect(() => prefetchScreens(), []);
+  useEffect(() => installModalA11y(), []);
   return (
     <ToastProvider>
     <AuthProvider>
@@ -221,6 +230,7 @@ export default function App() {
           <MaprChatProvider>
           <HashRouter>
           <TripAccountGuard />
+          <DocumentTitleSync />
           <BackgroundLocationSync />
           <PushNotificationsSync />
           <OnboardingNoticeSync />

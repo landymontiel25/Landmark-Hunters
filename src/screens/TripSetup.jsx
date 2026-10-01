@@ -271,7 +271,7 @@ export default function TripSetup() {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
             <button
               type="button"
-              className={`chip ${preferencesSelected ? 'selected' : ''}`}
+              className={`chip ${preferencesSelected ? 'selected' : ''}`} aria-pressed={!!(preferencesSelected)}
               onClick={togglePreferences}
             >
               <span className="chip-icon">{'⭐'}</span>
@@ -284,7 +284,7 @@ export default function TripSetup() {
             <button
               key={i.id}
               type="button"
-              className={`chip ${trip.interests.includes(i.id) ? 'selected' : ''}`}
+              className={`chip ${trip.interests.includes(i.id) ? 'selected' : ''}`} aria-pressed={!!(trip.interests.includes(i.id))}
               onClick={() => toggleInterest(i.id)}
             >
               <span className="chip-icon">{i.icon}</span>
@@ -332,10 +332,10 @@ export default function TripSetup() {
       <div className="field">
         <label>Trip Type</label>
         <div className="tabs" style={{ justifyContent: 'center' }}>
-          <button type="button" className={`tab-btn ${tripMode === 'solo' ? 'active' : ''}`} onClick={() => setTripMode('solo')}>
+          <button type="button" className={`tab-btn ${tripMode === 'solo' ? 'active' : ''}`} aria-pressed={!!(tripMode === 'solo')} onClick={() => setTripMode('solo')}>
             {'\u{1F464}'} Solo
           </button>
-          <button type="button" className={`tab-btn ${tripMode === 'group' ? 'active' : ''}`} onClick={() => setTripMode('group')}>
+          <button type="button" className={`tab-btn ${tripMode === 'group' ? 'active' : ''}`} aria-pressed={!!(tripMode === 'group')} onClick={() => setTripMode('group')}>
             {'\u{1F465}'} Group
           </button>
         </div>

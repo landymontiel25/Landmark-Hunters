@@ -119,7 +119,7 @@ export default function FullStats() {
         </p>
         <div className="tabs" style={{ marginBottom: 14 }}>
           {SORTS.map((s) => (
-            <button key={s.id} className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} onClick={() => setSortBy(s.id)}>
+            <button key={s.id} className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} aria-pressed={!!(sortBy === s.id)} onClick={() => setSortBy(s.id)}>
               {s.label}
             </button>
           ))}

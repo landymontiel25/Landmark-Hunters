@@ -42,7 +42,7 @@ export default function PreferenceChips() {
         <button
           key={i.id}
           type="button"
-          className={`chip ${trip.savedInterests.includes(i.id) ? 'selected' : ''}`}
+          className={`chip ${trip.savedInterests.includes(i.id) ? 'selected' : ''}`} aria-pressed={!!(trip.savedInterests.includes(i.id))}
           onClick={() => toggleSavedInterest(i.id)}
         >
           <span className="chip-icon">{i.icon}</span>
@@ -56,7 +56,7 @@ export default function PreferenceChips() {
             key={text}
             role="button"
             tabIndex={0}
-            className={`chip ${isSelected ? 'selected' : ''}`}
+            className={`chip ${isSelected ? 'selected' : ''}`} aria-pressed={!!(isSelected)}
              aria-busy={classifying.has(text)}
             title={classifying.has(text) ? 'Finding matching landmarks…' : isSelected ? 'Tap to turn off' : 'Tap to turn on'}
             onClick={() => toggleSavedCustomInterestSelected(text)}

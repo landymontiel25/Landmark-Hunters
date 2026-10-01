@@ -136,5 +136,24 @@ export function useDragReorder(ids, onReorder) {
     window.addEventListener('pointercancel', onUp);
   };
 
-  return { order, registerNode, startDrag, draggingId, dragY, shifts };
+  // Keyboard alternative to the drag: ArrowUp / ArrowDown on the grip moves
+  // that row one place and saves, exactly like a drop would.
+  const keyReorder = (id) => (e) => {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    e.preventDefault();
+    if (dragId.current) return;
+    const cur = orderRef.current;
+    const from = cur.indexOf(id);
+    const to = from + (e.key === 'ArrowUp' ? -1 : 1);
+    if (from < 0 || to < 0 || to >= cur.length) return;
+    const next = [...cur];
+    next.splice(to, 0, next.splice(from, 1)[0]);
+    orderRef.current = next;
+    setOrder(next);
+    onReorder(next);
+    // The row is re-inserted at its new spot; keep the keyboard on its grip.
+    setTimeout(() => nodesRef.current[id]?.querySelector('.drag-handle')?.focus(), 0);
+  };
+
+  return { order, registerNode, startDrag, keyReorder, draggingId, dragY, shifts };
 }

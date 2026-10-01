@@ -102,7 +102,7 @@ export default function FullLeaderboard() {
         {TABS.map((t) => (
           <button
             key={t.id}
-            className={`tab-btn ${period === t.id ? 'active' : ''}`}
+            className={`tab-btn ${period === t.id ? 'active' : ''}`} aria-pressed={!!(period === t.id)}
             onClick={() => pickPeriod(t.id)}
           >
             {t.label}
