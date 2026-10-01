@@ -28,6 +28,7 @@ export default function PicksBottomSheet({
   onMinimizedChange = null,
   showChainLabels = false,
   toolbar = null,
+  distanceMiles = null,
   children,
 }) {
   const startY = useRef(null);
@@ -125,6 +126,16 @@ export default function PicksBottomSheet({
           {status}
         </div>
       </div>
+      {/* Outside the swipeable grip, so tapping it doesn't also trigger a
+          swipe toggle. Visible collapsed too -- the distance filter itself
+          only shows once expanded, and without this a traveler has no way
+          to tell (or change) how far "right now" is actually searching,
+          easy to confuse with the map's own unrelated zoom radius control. */}
+      {!minimized && state === 'ready' && distanceMiles != null && (
+        <button type="button" className="mpp-pill mpp-pill-distance" onClick={() => onExpandedChange(true)}>
+          Within {distanceMiles} mi
+        </button>
+      )}
       <div className="mpp-sheet-scroll">
         {expanded && state === 'ready' && toolbar}
         {body}
