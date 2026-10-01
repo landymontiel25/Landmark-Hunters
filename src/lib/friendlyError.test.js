@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { friendlyError, fetchJson, OFFLINE_MESSAGE } from './friendlyError';
+import { friendlyError, fetchJson, isRetryable, OFFLINE_MESSAGE } from './friendlyError';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -77,5 +77,15 @@ describe('fetchJson', () => {
     );
     const err = await fetchJson('/api/x', {}, { timeoutMs: 10 }).catch((e) => e);
     expect(friendlyError(err)).toMatch(/took too long/);
+  });
+});
+
+describe('isRetryable', () => {
+  it('is false for our own plain-language answers, true for real failures', () => {
+    const own = Object.assign(new Error('x'), { userMessage: 'You already sent @bob a request.' });
+    expect(isRetryable(own)).toBe(false);
+    expect(isRetryable({ code: 'unavailable' })).toBe(true);
+    expect(isRetryable(Object.assign(new Error('x'), { userMessage: 'Busy', status: 503 }))).toBe(true);
+    expect(isRetryable(null)).toBe(true);
   });
 });

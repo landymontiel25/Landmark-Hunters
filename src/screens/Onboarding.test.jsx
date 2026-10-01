@@ -18,7 +18,8 @@ afterEach(() => {
 const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}), markRead: vi.fn(async () => {}) };
 
 // user: { emailVerified }, profile: users/{uid} doc, checkins: real check-in count
-async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, checkins = 3, isNew } = {}) {
+async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, checkins = 3, isNew, native = false } = {}) {
+  vi.doMock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => native } }));
   vi.doMock('../lib/AuthContext', () => ({
     useAuth: () => ({ user, firebaseEnabled: true, resendVerification: vi.fn(), refreshUser: async () => {} }),
   }));
@@ -39,7 +40,7 @@ async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: t
     ...(await vi.importActual('../lib/firstCheckIn')),
     useCheckinCount: () => ({ count: checkins, loading: false }),
   }));
-  vi.doMock('../components/FirstCheckInStep', () => ({ default: () => <p>FIRST CHECK-IN STEP</p> }));
+  vi.doMock('../components/FirstCheckInStep', () => ({ default: ({ onDone }) => <button onClick={onDone}>FIRST CHECK-IN STEP</button> }));
   vi.doMock('../components/LocationAlwaysStep', () => ({ default: () => <p>LOCATION STEP</p> }));
 
   const { default: Onboarding } = await import('./Onboarding.jsx');
@@ -180,5 +181,21 @@ describe('Onboarding: new user', () => {
     expect(saved.results).toHaveBeenCalledTimes(1);
     expect(saved.results.mock.calls[0][3]).toEqual({ complete: false });
     expect(el.textContent).toContain('FIRST CHECK-IN STEP');
+  });
+});
+
+describe('Onboarding: "Always" location step', () => {
+  const profile = { onboardingVersion: ONBOARDING_VERSION, onboardingProgress: { version: ONBOARDING_VERSION, step: 'checkin' } };
+
+  it('is skipped in a browser, where the plugin does not exist', async () => {
+    const el = await renderFlow({ profile, isNew: true, checkins: 0, native: false });
+    await click(button(el, 'FIRST CHECK-IN STEP'));
+    expect(el.textContent).not.toContain('LOCATION STEP');
+  });
+
+  it('is still offered in the iOS app', async () => {
+    const el = await renderFlow({ profile, isNew: true, checkins: 0, native: true });
+    await click(button(el, 'FIRST CHECK-IN STEP'));
+    expect(el.textContent).toContain('LOCATION STEP');
   });
 });
