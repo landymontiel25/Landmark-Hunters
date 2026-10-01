@@ -7,7 +7,7 @@ import { useBadges } from '../lib/BadgesContext';
 import { usePersistentState } from '../lib/usePersistentState';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion } from '../data/regions';
-import { isRateable } from '../lib/ratingFlow';
+import { isRateable, isVisitedReview } from '../lib/ratingFlow';
 import { getPickFeedback, readLocalFeedback, votedIds, setPickFeedback } from '../lib/pickFeedback';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
@@ -72,7 +72,9 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // A landmark already rated, already checked into (even unrated), or
   // already voted ✓/✗/🤷 here has nothing left to teach Mapr right now --
   // rate it for real from its own page instead.
-  const reviewedIds = new Set(reviews.map((r) => r.landmarkId).filter(Boolean));
+  // Rated without a visit still counts as somewhere new to go (the rating
+  // itself keeps teaching the taste model above).
+  const reviewedIds = new Set(reviews.filter(isVisitedReview).map((r) => r.landmarkId).filter(Boolean));
   const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback)]);
   const landmarks = region
     ? region.landmarks

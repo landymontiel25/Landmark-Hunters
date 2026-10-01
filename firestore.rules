@@ -45,6 +45,18 @@ service cloud.firestore {
       return data.get('visibility', 'private') in ['public', 'private'];
     }
 
+    // Every review carries one of the three tiers (I loved it / Ok / I
+    // didn't like it), and `stars` is always the value that tier maps to
+    // (5 / 3 / 1) -- the landmark_ratings aggregate below is built from it.
+    // A comment can't exist without a tier. Reviews written before this
+    // rule that have no tier stay readable and deletable; they can only be
+    // edited once a tier is picked (or for the privacy-copy sync below).
+    function reviewTierOk(data) {
+      return data.keys().hasAny(['ratingTier'])
+        && data.ratingTier in ['highly-recommend', 'worth-trying', 'probably-skip']
+        && data.get('stars', 0) == (data.ratingTier == 'highly-recommend' ? 5 : (data.ratingTier == 'worth-trying' ? 3 : 1));
+    }
+
     // --- Existing production rules, kept as-is (stricter than the new
     // defaults below): public read, ownership-validated writes, immutable
     // checkins, and leaderboard entries locked to their own owner. ---
@@ -289,7 +301,7 @@ service cloud.firestore {
         && request.resource.data.get('comment', '').size() <= 500
         && reviewHiddenOk(request.resource.data)
         && reviewVisibilityOk(request.resource.data)
-        && exists(/databases/$(database)/documents/checkins/$(reviewId));
+        && reviewTierOk(request.resource.data);
       // Two ways to update: the author editing their own review (unchanged),
       // or someone else reporting it -- which may ONLY append their own uid
       // to reportedBy, exactly once, touching no other field. That, plus
@@ -304,7 +316,10 @@ service cloud.firestore {
             && request.resource.data.get('comment', '').size() <= 500
             && reviewHiddenOk(request.resource.data)
             && reviewVisibilityOk(request.resource.data)
-            && exists(/databases/$(database)/documents/checkins/$(reviewId)))
+            // A tier is required to edit, except the privacy-copy sync
+            // (syncMyReviewVisibility) on an old tier-less review.
+            && (reviewTierOk(request.resource.data)
+                || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['visibility', 'hidden', 'updatedAt'])))
           || (
             reviewId.split('_')[0] != request.auth.uid
             && !(resource.data.get('reportedBy', []).hasAny([request.auth.uid]))
@@ -452,9 +467,14 @@ service cloud.firestore {
     }
     // Running rating aggregate per landmark. Only moves together with your
     // own review for that landmark in the same transaction (submitReview /
-    // deleteMyReview): +1 count when your review is new, 0 on an edit, -1
-    // when it's deleted, and the star sum by at most one review's worth.
-    // Before, any signed-in account could set any landmark to 5.0 or wipe it.
+    // deleteMyReview). Every review has a tier, so a review counts (stars > 0)
+    // or doesn't exist; an old tier-less comment-only review has no stars and
+    // was never counted. The count and sum must move by exactly what that
+    // one review's before/after says: +1 and +stars when it's new (or was an
+    // uncounted old doc), 0 and (new - old) stars on an edit, -1 and up to
+    // -old stars on a delete (the client clamps at 0, so a drifted sum may
+    // fall short of the full amount). Before, any signed-in account could set
+    // any landmark to 5.0 or wipe it.
     match /landmark_ratings/{id} {
       allow read: if true;
       allow create, update: if request.auth != null
@@ -470,12 +490,12 @@ service cloud.firestore {
     }
     function ratingDeltaOk(landmarkId, countDelta, sumDelta) {
       let review = /databases/$(database)/documents/reviews/$(request.auth.uid + '_' + landmarkId);
-      return sumDelta >= -5 && sumDelta <= 5
-        && (
-          (countDelta == 1 && !exists(review) && existsAfter(review))
-          || (countDelta == 0 && existsAfter(review))
-          || (countDelta == -1 && exists(review) && !existsAfter(review))
-        );
+      let before = exists(review) ? get(review).data.get('stars', 0) : 0;
+      let after = existsAfter(review) ? getAfter(review).data.get('stars', 0) : 0;
+      return countDelta == (after > 0 ? 1 : 0) - (before > 0 ? 1 : 0)
+        && (after > 0
+          ? sumDelta == after - before
+          : (sumDelta <= 0 && sumDelta >= -before));
     }
     // "Move pins" on the map: Admin Mode only can correct a built-in
     // landmark's position for everyone. Shape-checked so it can only ever

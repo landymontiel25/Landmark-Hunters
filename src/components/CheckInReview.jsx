@@ -24,7 +24,7 @@ import CheckInBlast from './CheckInBlast';
 // check-in, since there's nothing useful Mapr could learn from ranking a
 // dorm on Food/Service.
 export default function CheckInReview() {
-  const { justCheckedIn, checkInOptions, celebration, commitCheckIn, clearJustCheckedIn } = useCheckIn();
+  const { justCheckedIn, checkInOptions, celebration, commitCheckIn, clearJustCheckedIn, claimedMap } = useCheckIn();
   const requireComment = !!checkInOptions?.requireComment;
   // Rate a Landmark (Profile) claims the check-in for 0 points -- see
   // commitCheckIn in CheckInContext. No points were awarded, so this skips
@@ -89,6 +89,10 @@ export default function CheckInReview() {
   // Re-checking in at a place you already rated: start from what's on file so
   // posting doesn't blank the saved comment, chips and love notes.
   const existing = myReviews?.[justCheckedIn.id] || null;
+  // Rated before ever visiting (rating needs no check-in): the real visit
+  // asks again. The old pick is the starting point, but Post saves what's on
+  // screen as the new rating, replacing the earlier one.
+  const ratedBeforeVisit = !ratingOnly && !!existing?.ratingTier && !claimedMap?.[justCheckedIn.id];
 
   const onPhoto = async () => {
     let f;
@@ -230,6 +234,12 @@ export default function CheckInReview() {
                     ? 'This also claims a check-in — a comment is required so Mapr knows why.'
                     : 'How was it? One tap is enough — the rest is optional.'}
                 </p>
+                {ratedBeforeVisit && (
+                  <p className="screen-subtitle" style={{ marginTop: -10, fontSize: '0.78rem' }}>
+                    {'\u{1F501}'} You rated this before you visited. Now that you're here, confirm or change it — this
+                    rating replaces the earlier one.
+                  </p>
+                )}
                 <p className="screen-subtitle" style={{ marginTop: -10, fontSize: '0.78rem' }}>
                   Rate for yourself, not others. This is just so we learn your taste.
                 </p>
