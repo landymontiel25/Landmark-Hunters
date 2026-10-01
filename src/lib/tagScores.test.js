@@ -22,6 +22,7 @@ import {
   timeSlotFor,
   applyTimeSlot,
   TAG_CAP,
+  PER_TAG_LIMIT,
 } from './tagScores';
 
 const DAY = 86400000;
@@ -431,7 +432,11 @@ describe('swipeShortlist / localSwipePicks (signup swipes + notes only)', () => 
   it('ranks by score, popularity only breaking ties inside the matched set', () => {
     const shortlist = swipeShortlist({ region: 'miami', tagDeltas: { food: 20, 'history-culture': 5 } });
     const scores = shortlist.map((l) => l.tagScore);
-    expect(scores).toEqual([...scores].sort((a, b) => b - a));
+    // Past PER_TAG_LIMIT per category the overflow is held back behind the
+    // other categories, so only the first pass is strictly ordered by score.
+    const firstPass = scores.slice(0, PER_TAG_LIMIT);
+    expect(firstPass).toEqual([...firstPass].sort((a, b) => b - a));
+    expect(scores[0]).toBe(Math.max(...scores));
   });
 
   it('returns nothing when nothing was loved and no keyword matches', () => {
