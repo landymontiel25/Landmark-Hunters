@@ -547,7 +547,8 @@ service cloud.firestore {
       allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
     // One doc per place Mapr recommended from the Plan Your Trip wizard
-    // (src/lib/recommendationLog.js), tagged 'usual' / 'new' / null so the
+    // (src/lib/recommendationLog.js), written when a pick is shown on screen
+    // (setId, rank, shownAt, surface, and a hidden `predicted`), tagged 'usual' / 'new' / null so the
     // match rate can be split by pick type. Write-once, private to its
     // owner; the owner can delete (account deletion cleans these up).
     match /recommendation_log/{id} {
@@ -555,7 +556,13 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.userId == request.auth.uid
         && (request.resource.data.pickType == null || request.resource.data.pickType in ['usual', 'new'])
-        && request.resource.data.landmarkId is string;
+        && request.resource.data.landmarkId is string
+        // Shown-pick fields (optional: older app builds write rows without them).
+        && (!('setId' in request.resource.data) || (request.resource.data.setId is string && request.resource.data.setId.size() <= 200))
+        && (!('rank' in request.resource.data) || (request.resource.data.rank is int && request.resource.data.rank >= 1 && request.resource.data.rank <= 100))
+        && (!('shownAt' in request.resource.data) || request.resource.data.shownAt is number)
+        && (!('surface' in request.resource.data) || request.resource.data.surface in ['map-sheet', 'mapr-tab', 'chat'])
+        && (!('predicted' in request.resource.data) || request.resource.data.predicted == null || request.resource.data.predicted in ['positive', 'neutral', 'negative']);
       allow update: if false;
     }
     // Running per-landmark check-in counts for one region (Mapr Picks' cold

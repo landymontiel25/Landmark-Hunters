@@ -266,6 +266,38 @@ await t('replies are hidden across a block, either direction', async () => {
   await assertFails(getDocs(collection(as('kim'), 'reviews/ivy_lm/replies')));
 });
 
+console.log('recommendation_log: shown-pick fields');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'recommendation_log/own'), { userId: 'ann', landmarkId: 'a', setId: 's', rank: 1 });
+});
+const rec = (o = {}) => ({ userId: 'ann', landmarkId: 'a', pickType: null, ...o });
+const shown = { setId: 'ann-1-x', rank: 2, shownAt: Date.now(), surface: 'map-sheet', predicted: 'positive' };
+await t('recommendation_log: old-style row (no new fields) still creates', () => assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/r1'), rec())));
+await t('recommendation_log: shown row with all new fields creates', () => assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/r2'), rec(shown))));
+await t('recommendation_log: predicted may be null, neutral or negative', async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/r3'), rec({ ...shown, predicted: null })));
+  await assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/r4'), rec({ ...shown, predicted: 'neutral' })));
+  await assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/r5'), rec({ ...shown, predicted: 'negative' })));
+});
+await t('recommendation_log: bad new-field values are rejected', async () => {
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b1'), rec({ ...shown, predicted: 'great' })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b2'), rec({ ...shown, surface: 'billboard' })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b3'), rec({ ...shown, rank: 1.5 })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b4'), rec({ ...shown, rank: '1' })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b5'), rec({ ...shown, setId: 42 })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b6'), rec({ ...shown, shownAt: 'now' })));
+});
+await t('recommendation_log: cannot write as another user', () => assertFails(setDoc(doc(as('bob'), 'recommendation_log/x1'), rec(shown))));
+await t('recommendation_log: write-once (no update), owner-only read and delete', async () => {
+  await assertFails(updateDoc(doc(as('ann'), 'recommendation_log/r2'), { predicted: 'negative' }));
+  await assertSucceeds(getDoc(doc(as('ann'), 'recommendation_log/r2')));
+  await assertFails(getDoc(doc(as('bob'), 'recommendation_log/r2')));
+  await assertFails(getDocs(query(collection(as('bob'), 'recommendation_log'), where('userId', '==', 'ann'))));
+  await assertFails(deleteDoc(doc(as('bob'), 'recommendation_log/r2')));
+  await assertSucceeds(deleteDoc(doc(as('ann'), 'recommendation_log/r2')));
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {

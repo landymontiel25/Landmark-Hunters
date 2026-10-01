@@ -5,7 +5,6 @@ import {
   mergeFavorites,
   nearbyPicksCacheKey,
   nextSeenKeys,
-  pickKey,
   rankNearbyCandidates,
   ratingsCountOf,
   readNearbyPicksCache,
@@ -16,7 +15,7 @@ import {
   writeNearbyPicksCache,
 } from '../../lib/nearbyPicks';
 import { fetchPickReasons } from '../../lib/pickReasonsApi';
-import { logRecommendations } from '../../lib/recommendationLog';
+import { makeSetId } from '../../lib/setId';
 
 // How long to wait for candidate photos before composing with whatever has
 // loaded. A card whose photo is still loading after this is skipped.
@@ -73,9 +72,9 @@ export function useReadyItems(items, limit) {
 //   usual/fresh -- the ranked queues, for the other cards
 //
 // A fresh cached set (under 4 hours, same spot/distance/ratings) shows as-is
-// with no call at all. Every set that is built is logged to
-// recommendation_log as real usage (isTest false) so it counts toward
-// Mapr's match rate.
+// with no call at all. Nothing is logged here: a pick is logged to
+// recommendation_log only once it is on screen (see useShownLogger), and
+// `setId` (stable for the built set) is what ties those rows together.
 export function useNearbyPicks({
   uid,
   enabled = true,
@@ -91,10 +90,7 @@ export function useNearbyPicks({
   overrides = null,
   extraPlaces = null,
   fillNew = false,
-  isTest = false,
-  source = 'map-picks',
   fetchReasons = fetchPickReasons,
-  logPicks = logRecommendations,
 }) {
   const [refreshToken, setRefreshToken] = useState(0);
   const [result, setResult] = useState(null); // { key, picks }
@@ -153,16 +149,14 @@ export function useNearbyPicks({
     const composed = composePicks({ usual: usualQ, fresh: freshQ, chained, isReady: (p) => status[p.image] === 'loaded' });
     (composed.length ? Promise.resolve(fetchReasons(composed)).catch(() => ({})) : Promise.resolve({})).then((reasons) => {
       if (!mounted.current || inflight.current !== buildTag) return;
-      const picks = withReasons(composed, reasons);
+      const setId = makeSetId(uid);
+      const picks = withReasons(composed, reasons).map((p) => ({ ...p, setId }));
       // An empty set (nothing nearby, or no photo loaded) isn't worth keeping.
       if (picks.length) writeNearbyPicksCache(key, picks);
       setResult({ key, picks, at: Math.max(Date.now(), Number.isFinite(now) ? now : 0) });
       setPending(false);
-      if (uid && picks.length) {
-        Promise.resolve(logPicks({ uid, source, stops: picks, rankedIds: picks.map(pickKey), isTest })).catch(() => {});
-      }
     });
-  }, [needFresh, settled, key, buildTag, now, usualQ, freshQ, chained, status, fetchReasons, logPicks, uid, source, isTest]);
+  }, [needFresh, settled, key, buildTag, now, usualQ, freshQ, chained, status, fetchReasons, uid]);
 
   const refresh = useCallback(() => {
     if (key) {
@@ -204,5 +198,9 @@ export function useNearbyPicks({
     refresh();
   }, [key, refresh]);
 
-  return { picks: shown, updating, slow, usual, fresh, favorites, chained, cachedAt: cached?.at ?? null, refresh, showDifferent, refreshing: pending };
+  // One id for the set on screen. A set saved before setIds existed gets a
+  // stable one derived from when it was cached.
+  const setId = picks?.find((p) => p.setId)?.setId || (picks?.length && uid ? `${uid}-legacy-${cached?.at ?? 0}` : null);
+
+  return { picks: shown, setId, updating, slow, usual, fresh, favorites, chained, cachedAt: cached?.at ?? null, refresh, showDifferent, refreshing: pending };
 }

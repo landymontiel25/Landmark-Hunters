@@ -32,6 +32,7 @@ import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib
 import { useUnits } from '../../lib/UnitsContext';
 import { distanceMeters } from '../../lib/geo';
 import { useNearbyPicks } from './useNearbyPicks';
+import { useShownLogger } from '../../lib/useShownLogger';
 import PicksBottomSheet from './PicksBottomSheet';
 import DistanceFilter from './DistanceFilter';
 import BecauseYouLikedRow from './BecauseYouLikedRow';
@@ -135,7 +136,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
   const state = locked ? 'locked' : !origin && geoError ? 'no-location' : 'ready';
 
-  const { picks: builtPicks, updating, slow, usual, showDifferent, refreshing } = useNearbyPicks({
+  const { picks: builtPicks, setId, updating, slow, usual, showDifferent, refreshing } = useNearbyPicks({
     uid,
     enabled: state === 'ready' && !!origin,
     online,
@@ -191,6 +192,13 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     return { places, widenTo };
   }, [state, origin, picks, miles, distance, units, lowRated, now, overrides, customLandmarks]);
 
+  // Log each card once, the first time it is on screen in this set.
+  const logShown = useShownLogger({ uid, profile: myProfile, surface: 'map-sheet', source: 'map-picks', isTest: showRefresh });
+  const onShown = useMemo(
+    () => (hidden || !setId ? null : (visible) => logShown(setId, visible)),
+    [hidden, setId, logShown]
+  );
+
   // MapExplore only mounts this signed in, once the account's own ratings
   // have loaded (so a new account isn't confused with one mid-load).
   if (!uid) return null;
@@ -214,6 +222,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} moods={TEST_MOODS} /> : null}
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
+        onShown={onShown}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />

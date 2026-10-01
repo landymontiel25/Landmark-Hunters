@@ -1,5 +1,9 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
+import { getLandmark } from '../data/regions';
+import { makeSetId } from './setId';
+import { predictLevel } from './maprPrediction';
+import { SHOWN_MEMORY_LIMIT, SURFACES } from './maprConstants';
 
 // One row per place Mapr recommended, in Firestore recommendation_log/
 // {auto-id}. pickType records which kind of pick produced it -- 'usual',
@@ -12,12 +16,26 @@ import { db } from './firebase';
 // tab). Those never count toward Mapr's match rate: filter on
 // `isTest == false`. Every row has the field, so the filter never misses one.
 // Best-effort, like pick_feedback: a failed write never blocks the chat.
+//
+// A row is written when a pick is SHOWN on screen, not when its set is built:
+//   setId    one id per built set (makeSetId), shared by every row of the set
+//   rank     1-based position in that set
+//   shownAt  ms the card reached the screen
+//   surface  'map-sheet' | 'mapr-tab' | 'chat' (SURFACES)
+//   predicted  hidden guess of how the user will answer ('positive' |
+//            'neutral' | 'negative' | null, see maprPrediction.js). Written
+//            only; never put on a pick object or returned to the UI.
+// Rows from older app builds are written at build time without these fields.
 
 export const PICK_TYPES = ['usual', 'new'];
 
-export function recommendationEntries({ uid, source, pickType, stops, rankedIds = [], isTest = false, at = Date.now() }) {
+const catsOf = (s) => (s.categories && s.categories.length ? s.categories : getLandmark(s.region, s.id)?.categories) || [];
+
+export { makeSetId };
+export function recommendationEntries({ uid, source, surface, setId, profile, pickType, stops, rankedIds = [], isTest = false, at = Date.now() }) {
   const ranked = new Set(rankedIds);
-  return (stops || [])
+  const withRank = (stops || []).map((s, i) => (s && s.rank == null ? { ...s, rank: i + 1 } : s));
+  return withRank
     .filter((s) => s && !s.external && s.id && s.region)
     .map((s) => {
       const type = s.pickType !== undefined ? s.pickType : pickType;
@@ -33,6 +51,15 @@ export function recommendationEntries({ uid, source, pickType, stops, rankedIds 
         fromRanking: ranked.has(`${s.region}/${s.id}`),
         isTest: isTest === true,
         at,
+        ...(setId
+          ? {
+              setId,
+              rank: s.rank,
+              shownAt: at,
+              surface: SURFACES.includes(surface) ? surface : null,
+              predicted: profile ? predictLevel({ profile, region: s.region, tags: catsOf(s), nowMs: at }) : null,
+            }
+          : {}),
       };
     });
 }
@@ -43,5 +70,48 @@ export async function logRecommendations(args) {
   await Promise.all(
     entries.map((e) => addDoc(collection(db, 'recommendation_log'), { ...e, createdAt: serverTimestamp() }).catch(() => {}))
   );
-  return entries;
+  // Rows hold the hidden `predicted`, so only a count goes back to callers.
+  return entries.length;
+}
+
+// Once per set per place: remembers what was logged in memory and on the
+// device, so a re-render, or reopening the app on the same cached set, never
+// writes a second row.
+const SEEN_KEY = 'lh_shown_logged';
+const seenMemory = new Set();
+let seenLoaded = false;
+function loadSeen() {
+  if (seenLoaded) return;
+  seenLoaded = true;
+  try {
+    for (const k of JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')) seenMemory.add(k);
+  } catch {
+    /* storage unavailable: memory only */
+  }
+}
+export function claimShown(setId, placeKey) {
+  loadSeen();
+  const k = `${setId}|${placeKey}`;
+  if (seenMemory.has(k)) return false;
+  seenMemory.add(k);
+  try {
+    const all = [...seenMemory].slice(-SHOWN_MEMORY_LIMIT);
+    localStorage.setItem(SEEN_KEY, JSON.stringify(all));
+  } catch {
+    /* ignore */
+  }
+  return true;
+}
+export function resetShownMemory() {
+  seenMemory.clear();
+  seenLoaded = false;
+}
+
+// Log the given on-screen stops (each may carry its own 1-based `rank`) that
+// haven't been logged for this set yet. Returns how many rows were written.
+export async function logShownPicks({ uid, setId, stops, log = logRecommendations, ...rest }) {
+  if (!uid || !setId) return 0;
+  const fresh = (stops || []).filter((s) => s && s.id && s.region && claimShown(setId, `${s.region}/${s.id}`));
+  if (!fresh.length) return 0;
+  return log({ uid, setId, stops: fresh, ...rest });
 }

@@ -125,7 +125,7 @@ describe('useNearbyPicks', () => {
     expect(latest.picks.filter((p) => p.pickType === 'new')).toHaveLength(1);
   });
 
-  it('shows plain fallback reasons when the reasons call fails, and logs the picks as real usage', async () => {
+  it('shows plain fallback reasons when the reasons call fails, and gives the set one setId, logging nothing at build time', async () => {
     const fetchReasons = vi.fn(async () => {
       throw new Error('network down');
     });
@@ -138,8 +138,9 @@ describe('useNearbyPicks', () => {
     expect(latest.picks.every((p) => p.reasonSource === 'fallback' && p.reason)).toBe(true);
     expect(latest.picks.filter((p) => p.pickType === 'new')).toHaveLength(1);
     expect(fetchReasons).toHaveBeenCalledTimes(1);
-    expect(logPicks).toHaveBeenCalledTimes(1);
-    expect(logPicks.mock.calls[0][0]).toMatchObject({ uid: 'u1', source: 'map-picks', isTest: false });
+    expect(logPicks).not.toHaveBeenCalled(); // logging happens when cards are on screen
+    expect(latest.setId).toMatch(/^u1-\d+-/);
+    expect(latest.picks.every((p) => p.setId === latest.setId)).toBe(true);
   });
 
   it('uses the AI line where the one call returned one', async () => {

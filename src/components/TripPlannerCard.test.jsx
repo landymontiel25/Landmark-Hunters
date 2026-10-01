@@ -198,7 +198,7 @@ describe('Plan Your Trip wizard', () => {
     expect(message).toContain(`Places that fit that: ${villanova[0].name}.`);
   });
 
-  it('logs each recommended pick with its usual/new type', async () => {
+  it('hands back its log meta (usual/new type) instead of logging at reply time', async () => {
     await render();
     await click('Next');
     await click('Energized & Active');
@@ -208,10 +208,11 @@ describe('Plan Your Trip wizard', () => {
     await click('Plan my trip');
     const { onReply } = onPlan.mock.calls[0][1];
     const stop = { id: villanova[1].id, region: 'villanova', name: villanova[1].name, categories: villanova[1].categories };
-    onReply({ text: 'Here you go', stops: [stop], raw: 'Here you go', quickReplies: [], rate: null });
-    expect(logRecommendations).toHaveBeenCalledWith(
-      expect.objectContaining({ uid: 'me', source: 'trip-planner', pickType: 'usual', stops: [stop] })
-    );
+    const meta = onReply({ text: 'Here you go', stops: [stop], raw: 'Here you go', quickReplies: [], rate: null });
+    // Nothing is logged when the reply arrives; Mapr.jsx logs each card once
+    // it is on screen, using this meta.
+    expect(logRecommendations).not.toHaveBeenCalled();
+    expect(meta).toMatchObject({ source: 'trip-planner', pickType: 'usual' });
   });
 
   it('reuses the last plan (no AI calls at all) when nothing has changed', async () => {

@@ -365,3 +365,52 @@ describe('PicksBottomSheet: thin or empty radius', () => {
     expect(c.textContent).toContain('Widen to 10 mi');
   });
 });
+
+describe('PicksBottomSheet onShown (logging on view)', () => {
+  const ids = (fn) => fn.mock.calls.at(-1)[0].map((p) => `${p.rank}:${p.id}`);
+
+  it('minimized reports nothing', async () => {
+    const onShown = vi.fn();
+    await render({ picks: PICKS, minimized: true, onMinimizedChange: () => {}, onShown });
+    expect(onShown).not.toHaveBeenCalled();
+  });
+
+  it('loading, locked and empty states report nothing', async () => {
+    const onShown = vi.fn();
+    await render({ picks: null, onShown });
+    container.remove();
+    await render({ picks: PICKS, state: 'locked', onShown });
+    container.remove();
+    await render({ picks: [], onShown });
+    expect(onShown).not.toHaveBeenCalled();
+  });
+
+  it('open on the map: reports the 3 visible cards with 1-based ranks', async () => {
+    const onShown = vi.fn();
+    await render({ picks: PICKS, onShown });
+    expect(onShown).toHaveBeenCalledTimes(1);
+    expect(ids(onShown)).toEqual(['1:a', '2:b', '3:c']);
+  });
+
+  it('expanded: reports the four cards in view', async () => {
+    const onShown = vi.fn();
+    await render({ picks: PICKS, expanded: true, onShown });
+    expect(ids(onShown)).toEqual(['1:a', '2:b', '3:c', '4:d']);
+  });
+
+  it('a re-render with the same cards does not report again', async () => {
+    const onShown = vi.fn();
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    const tree = (extra) => (
+      <MemoryRouter>
+        <PicksBottomSheet picks={PICKS} expanded={false} onExpandedChange={() => {}} onShown={onShown} {...extra} />
+      </MemoryRouter>
+    );
+    await act(async () => root.render(tree({})));
+    await act(async () => root.render(tree({ updating: true })));
+    await act(async () => root.render(tree({ updating: false })));
+    expect(onShown).toHaveBeenCalledTimes(1);
+  });
+});

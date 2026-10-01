@@ -26,6 +26,9 @@ import TasteProfileCard from '../components/TasteProfileCard';
 import TasteNudgeCard from '../components/TasteNudgeCard';
 import OnboardingBanner from '../components/OnboardingBanner';
 import TripPlannerCard from '../components/TripPlannerCard';
+import OnScreen from '../components/OnScreen';
+import { makeSetId } from '../lib/setId';
+import { useShownLogger } from '../lib/useShownLogger';
 import MaprRateCard from '../components/MaprRateCard';
 import { authHeaders } from '../lib/apiAuth';
 import { fetchJson, friendlyError } from '../lib/friendlyError';
@@ -113,6 +116,19 @@ export default function Mapr() {
     setMessages((cur) =>
       cur.map((m) => (m.id === msgId ? { ...m, actionResults: m.actionResults.map((r, j) => (j === idx ? next : r)) } : m))
     );
+
+  // setId -> how its picks are logged. Planner replies carry
+  // { source: 'trip-planner', pickType, rankedIds }; plain chat is null.
+  const liveSets = useRef(new Map());
+  const logChat = useShownLogger({ uid: user?.uid, profile: myProfile, surface: 'chat', source: 'chat' });
+  const logPlanner = useShownLogger({ uid: user?.uid, profile: myProfile, surface: 'mapr-tab', source: 'trip-planner' });
+  const logStopShown = (m, idx, stop) => {
+    if (m.role !== 'assistant' || !m.setId || !liveSets.current.has(m.setId)) return;
+    const meta = liveSets.current.get(m.setId);
+    const stopWithRank = { ...stop, rank: idx + 1 };
+    if (meta) logPlanner(m.setId, [stopWithRank], { source: meta.source, pickType: meta.pickType, rankedIds: meta.rankedIds });
+    else logChat(m.setId, [stopWithRank]);
+  };
 
   const [retrying, setRetrying] = useState({});
   // Retries exactly the one action that failed -- no retyping the whole
@@ -396,14 +412,16 @@ export default function Mapr() {
   // same spot within half a mile, same part of the day): show that plan
   // again instead of asking the AI for the same thing. Its itinerary
   // actions already ran the first time, so they aren't repeated.
-  const replayPlan = (text, reply) => {
+  const replayPlan = (text, reply, logMeta = null) => {
     if (busy) return;
+    const setId = makeSetId(user?.uid);
+    liveSets.current.set(setId, logMeta);
     if (showTasteNudge) dismissNudge();
     if (restored) dismissRestored();
     setMessagesFor(activeChat.id, (cur) => [
       ...cur,
       { role: 'user', text },
-      { ...reply, id: `m${Date.now()}`, role: 'assistant', actionResults: [], fromCache: true },
+      { ...reply, id: `m${Date.now()}`, role: 'assistant', actionResults: [], fromCache: true, setId },
     ]);
   };
 
@@ -576,15 +594,21 @@ export default function Mapr() {
       // "Repeat a favorite") -- tapping one just sends that exact text, the
       // same as typing it, so the traveler never has to type a one-word
       // answer by hand.
-      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null };
-      put((cur) => [...cur, reply]);
+      // setId ties this reply's stop cards together for recommendation_log;
+      // liveSets (not saved with the chat) is what keeps a chat restored from
+      // an earlier session from logging its old cards as shown again.
+      const setId = makeSetId(user?.uid);
+      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null, setId };
+      let logMeta = null;
       if (onReply) {
         try {
-          onReply({ text: reply.text, stops, raw, quickReplies: reply.quickReplies, rate: reply.rate });
+          logMeta = onReply({ text: reply.text, stops, raw, quickReplies: reply.quickReplies, rate: reply.rate }) || null;
         } catch {
-          /* caching/logging is best-effort */
+          /* caching is best-effort */
         }
       }
+      liveSets.current.set(setId, logMeta);
+      put((cur) => [...cur, reply]);
       if (data.cost) setTotalCost((c) => c + data.cost);
     } catch (err) {
       // The user's message stays in the thread; this bubble explains what
@@ -712,9 +736,9 @@ export default function Mapr() {
           onToggleRegion={toggleRegion}
           onClearRegions={() => setRegions([])}
           onClose={() => setShowPlanner(false)}
-          onPlan={(message, { cachedReply, onReply } = {}) => {
+          onPlan={(message, { cachedReply, onReply, logMeta } = {}) => {
             setShowPlanner(false);
-            if (cachedReply) replayPlan(message, cachedReply);
+            if (cachedReply) replayPlan(message, cachedReply, logMeta);
             else send(null, message, { onReply });
           }}
         />
@@ -819,7 +843,7 @@ export default function Mapr() {
                     const resolved = !stop.external || !!stop.createdId;
 
                     return (
-                      <div key={`${m.id}-${idx}`} className="chatlab-stop-card">
+                      <OnScreen key={`${m.id}-${idx}`} className="chatlab-stop-card" onSeen={() => logStopShown(m, idx, stop)}>
                         <button
                           type="button"
                           className="chatlab-stop-card-main"
@@ -857,7 +881,7 @@ export default function Mapr() {
                             Directions
                           </DirectionsButton>
                         </div>
-                      </div>
+                      </OnScreen>
                     );
                   })}
                 </div>

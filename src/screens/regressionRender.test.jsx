@@ -240,7 +240,7 @@ describe('MapExplore shows "Picked for you right now" over the live map', () => 
     vi.doMock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => [], deleteCustomLandmark: vi.fn(), updateCustomLandmark: vi.fn() }));
     vi.doMock('../lib/leaderboard', () => ({ getUserCheckins: async () => [], isRealCheckin: () => true }));
     vi.doMock('../lib/pickReasonsApi', () => ({ fetchPickReasons: async () => ({}) }));
-    vi.doMock('../lib/recommendationLog', () => ({ logRecommendations }));
+    vi.doMock('../lib/recommendationLog', () => ({ logRecommendations, logShownPicks: vi.fn(async () => 0), makeSetId: () => 'set' }));
     vi.doMock('../components/OnboardingBanner', () => ({ default: () => null }));
     const { default: MapExplore } = await import('./MapExplore.jsx');
     const el = await mount(
