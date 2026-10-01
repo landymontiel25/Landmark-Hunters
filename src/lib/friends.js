@@ -390,6 +390,8 @@ export async function declineRequest(req) {
   await deleteDoc(doc(db, 'friend_requests', req.id));
 }
 
+const prunedEdges = new Set();
+
 export async function listFriends(uid) {
   const snap = await getDocs(query(collection(db, 'friend_edges'), where('owner', '==', uid)));
   const edges = snap.docs.map((d) => d.data());
@@ -398,9 +400,26 @@ export async function listFriends(uid) {
   // keep showing under the old (now unsearchable) name everywhere friends
   // are listed. Prefer the live username, fall back to the stored one.
   const live = await Promise.allSettled(edges.map((e) => getDoc(doc(db, 'users', e.friend))));
-  return edges.map((e, i) => {
+  const out = [];
+  edges.forEach((e, i) => {
     const r = live[i];
+    // A friend who deleted their account: their half of the friendship (the
+    // edge you own) can't be removed by them -- firestore.rules only lets an
+    // owner delete their own edge -- so it would list a ghost forever. Drop it
+    // from the list and clear your own half. Only on a real "no such user"
+    // answer, never a failed read.
+    if (r.status === 'fulfilled' && r.value?.exists?.() === false) {
+      // Once per edge: listFriends runs from several places at once, and a
+      // second delete of an already-deleted doc is a (harmless) permission-denied.
+      const edgeId = `${e.owner}_${e.friend}`;
+      if (!prunedEdges.has(edgeId)) {
+        prunedEdges.add(edgeId);
+        deleteDoc(doc(db, 'friend_edges', edgeId)).catch(() => {});
+      }
+      return;
+    }
     const username = r.status === 'fulfilled' && r.value?.exists?.() ? r.value.data()?.username : null;
-    return username ? { ...e, friendName: username } : e;
+    out.push(username ? { ...e, friendName: username } : e);
   });
+  return out;
 }
