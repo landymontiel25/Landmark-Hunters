@@ -2,7 +2,6 @@ import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, usualPicks } from './tagScores';
 import { tierStars } from './ratingFlow';
-import { coarseLocation } from './maprPicks';
 import { linksFrom, primaryCategory } from './preferenceChains';
 
 // "Picked for you right now": nearby picks ranked on-device from the saved
@@ -209,12 +208,15 @@ export function toPick(l, extra = {}) {
 export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now) }) {
   if (!origin) return { usual: [], fresh: [] };
   const lowRated = lowRatedIds(myReviews);
+  // Anything already rated (like Plan Your Trip and Mapr Travel Picks) is
+  // not a pick: "Picked for you" shouldn't suggest a place they've been to.
+  const ratedIds = Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean);
   const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date }).map((l) => [`${l.regionId}/${l.id}`, l]));
   const regions = [...new Set([...eligible.values()].map((l) => l.regionId))];
   const usual = [];
   const fresh = [];
   for (const region of regions) {
-    const args = { profile, region, excludeIds: lowRated, checkinCounts, now };
+    const args = { profile, region, excludeIds: ratedIds, checkinCounts, now };
     for (const l of usualPicks({ ...args, limit: 60 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
       if (e) usual.push(toPick({ ...l, distanceMeters: e.distanceMeters }));
@@ -400,8 +402,11 @@ export function nearbyInterest({ usual = [], maxMiles = NEARBY_INTEREST_MI }) {
 
 const CACHE_PREFIX = 'lh-nearby-picks:v1';
 
+// ~1 km grid, not coarseLocation's ~10 km: a set built across town would
+// otherwise be shown as-is, with places outside the distance filter.
+const nearbyCell = (origin) => (origin ? `${origin.lat.toFixed(2)},${origin.lng.toFixed(2)}` : 'nowhere');
 export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '' }) =>
-  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${coarseLocation(origin)}:${miles}:${lastCategory || ''}`;
+  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${nearbyCell(origin)}:${miles}:${lastCategory || ''}`;
 
 // The last set for this key, even when old: { picks, at, stale }. An old set
 // still goes on screen right away (marked stale) while a new one loads.

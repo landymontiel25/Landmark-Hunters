@@ -243,3 +243,27 @@ describe('mood sort and the cached set', () => {
     expect(pickKey(pick('a'))).toBe('test/a');
   });
 });
+
+describe('regressions: moving and already-rated places', () => {
+  it('builds a different cache key once you have moved a few miles', () => {
+    const moved = { lat: ORIGIN.lat + 3 / 69.05, lng: ORIGIN.lng };
+    const a = nearbyPicksCacheKey({ uid: 'u', ratingsCount: 12, origin: ORIGIN, miles: 1 });
+    const b = nearbyPicksCacheKey({ uid: 'u', ratingsCount: 12, origin: moved, miles: 1 });
+    expect(a).not.toBe(b);
+  });
+
+  it('never picks a place the user already rated', () => {
+    const now = Date.now();
+    const villanova = getRegion('villanova').center;
+    const profile = {
+      tagScores: { villanova: { 'history-culture': 40, food: 20 } },
+      tagScoresAt: { villanova: { 'history-culture': now, food: now } },
+      tagCounts: { villanova: { 'history-culture': 8, food: 5 } },
+    };
+    const before = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now });
+    const ratedId = before.usual[0].id;
+    const myReviews = { [ratedId]: { landmarkId: ratedId, ratingTier: 'highly-recommend' } };
+    const after = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now, myReviews });
+    expect([...after.usual, ...after.fresh].map((p) => p.id)).not.toContain(ratedId);
+  });
+});
