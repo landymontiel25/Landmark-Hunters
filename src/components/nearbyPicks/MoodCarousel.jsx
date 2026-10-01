@@ -6,17 +6,17 @@ import PickCard from './PickCard';
 // "What are you in the mood for?": swipe through moods, pick one, then
 // swipe its places, sorted closest or highest rated. `pool` is
 // nearbyPicks.eligiblePlaces (already inside the distance filter).
-export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'closest' }) {
+export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'closest', moods = MOODS }) {
   const [mood, setMood] = useState(initialMood);
   const [sort, setSort] = useState(initialSort);
-  const places = useMemo(() => (mood ? moodPlaces({ moodId: mood, pool, sort, ratings, limit: 12 }) : []), [mood, pool, sort, ratings]);
+  const places = useMemo(() => (mood ? moodPlaces({ moodId: mood, pool, sort, ratings, limit: 12, moods }) : []), [mood, pool, sort, ratings, moods]);
   const ready = useReadyItems(places, 8);
 
   return (
     <section className="mpp-section">
       <h3 className="mpp-section-title">What are you in the mood for?</h3>
       <div className="mpp-carousel mpp-moods" role="listbox" aria-label="Moods">
-        {MOODS.map((m) => (
+        {moods.map((m) => (
           <button
             key={m.id}
             type="button"
