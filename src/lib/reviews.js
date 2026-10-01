@@ -3,6 +3,7 @@ import {
   getDoc,
   getDocs,
   runTransaction,
+  setDoc,
   collection,
   query,
   where,
@@ -163,6 +164,26 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
   const userRef = doc(db, 'users', userId);
 
+  // firestore.rules only lets landmark_ratings.count go up by one while
+  // reviews/{uid}_{landmarkId} does not exist yet (ratingDeltaOk). A
+  // comment-only / love-note-only doc (no stars, never counted) already
+  // occupies that id, so rating on top of it was permission-denied on every
+  // attempt. Take that doc out of the way first (it is not in the aggregate,
+  // so nothing else changes) and carry its fields onto the new review; put it
+  // back if the rating still can't be saved. A reported doc stays put:
+  // recreating it would shed its reportedBy list.
+  let stash = null;
+  try {
+    const cur = await getDoc(reviewRef);
+    if (cur.exists() && !(cur.data().stars > 0) && !cur.data().reportedBy?.length) {
+      const saved = { ...cur.data() };
+      await deleteDoc(reviewRef);
+      stash = saved;
+    }
+  } catch {
+    stash = null;
+  }
+
   const writeReview = () =>
     runTransaction(db, async (tx) => {
       const prev = await tx.get(reviewRef);
@@ -204,11 +225,17 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           visitFrequency: rating.visitFrequency || null,
           // Only a comment the caller actually sent changes it: a form that
           // never loaded the saved one must not blank it.
-          comment: rating.comment === undefined && prev.exists() ? prev.data().comment || '' : (rating.comment || '').slice(0, COMMENT_MAX),
+          comment:
+            rating.comment === undefined && (prev.exists() || stash)
+              ? (prev.exists() ? prev.data() : stash).comment || ''
+              : (rating.comment || '').slice(0, COMMENT_MAX),
+          ...(!prev.exists() && stash?.loveNotes?.length ? { loveNotes: stash.loveNotes } : {}),
           // Denormalized (like landmarkName/region above) so the taste card
           // can tally categories without a read per review.
           categories: landmark.categories || [],
-          ...(photoURLs.length ? { photoURLs: [...(prev.exists() ? prev.data().photoURLs || [] : []), ...photoURLs] } : {}),
+          ...(photoURLs.length || (!prev.exists() && stash?.photoURLs?.length)
+            ? { photoURLs: [...((prev.exists() ? prev.data() : stash)?.photoURLs || []), ...photoURLs] }
+            : {}),
           visibility: visibilityFor(userSnap.exists() ? userSnap.data() : null),
           hidden: hiddenFor(prev.exists() ? prev.data() : null),
           updatedAt: serverTimestamp(),
@@ -243,7 +270,10 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       await writeReview();
       break;
     } catch (e) {
-      if (e.code !== 'permission-denied' || attempt >= 3) throw e;
+      if (e.code !== 'permission-denied' || attempt >= 3) {
+        if (stash) await setDoc(reviewRef, stash).catch(() => {});
+        throw e;
+      }
       await new Promise((resolve) => setTimeout(resolve, attempt * 400));
     }
   }

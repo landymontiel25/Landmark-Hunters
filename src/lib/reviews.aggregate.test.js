@@ -11,9 +11,31 @@ vi.mock('firebase/firestore', () => {
     runTransaction: async (_db, fn) =>
       fn({
         get: async (ref) => snap(key(ref)),
-        set: (ref, data, opts) => store.set(key(ref), opts?.merge ? { ...(store.get(key(ref)) || {}), ...data } : data),
+        set: (ref, data, opts) => {
+          // firestore.rules (ratingDeltaOk): landmark_ratings.count may only go
+          // up by one while this user's review doc for it does not exist yet.
+          if (ref.path.startsWith('landmark_ratings/')) {
+            const cur = store.get(ref.path)?.count || 0;
+            const review = [...store.keys()].find((k) => k.startsWith('reviews/u') && k.endsWith(`_${ref.path.split('/')[1]}`));
+            if ((data.count ?? cur) - cur === 1 && review) {
+              const err = new Error('Missing or insufficient permissions.');
+              err.code = 'permission-denied';
+              throw err;
+            }
+          }
+          if (globalThis.__failReviewWrite && ref.path.startsWith('reviews/')) {
+            throw Object.assign(new Error('offline'), { code: 'unavailable' });
+          }
+          store.set(key(ref), opts?.merge ? { ...(store.get(key(ref)) || {}), ...data } : data);
+        },
         delete: (ref) => store.delete(key(ref)),
       }),
+    deleteDoc: async (ref) => {
+      store.delete(ref.path);
+    },
+    setDoc: async (ref, data) => {
+      store.set(ref.path, data);
+    },
     serverTimestamp: () => 0,
     arrayUnion: (x) => x,
     collection: vi.fn(),
@@ -23,7 +45,6 @@ vi.mock('firebase/firestore', () => {
     limit: vi.fn(),
     getDocs: vi.fn(),
     updateDoc: vi.fn(),
-    deleteDoc: vi.fn(),
     addDoc: vi.fn(),
   };
 });
@@ -44,6 +65,34 @@ describe('landmark_ratings aggregate vs comment-only review docs', () => {
     const agg = store.get('landmark_ratings/lm1');
     expect(agg.count).toBe(1);
     expect(agg.avg).toBe(5);
+  });
+
+  it('keeps the comment and love notes when rating over a comment-only doc (rules: +1 only if the doc is new)', async () => {
+    store.clear();
+    store.set('checkins/u1_lm1', { landmarkId: 'lm1' });
+    store.set('reviews/u1_lm1', { userId: 'u1', landmarkId: 'lm1', comment: 'nice', loveNotes: ['the view'] });
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } });
+    const r = store.get('reviews/u1_lm1');
+    expect(r.stars).toBe(5);
+    expect(r.comment).toBe('nice');
+    expect(r.loveNotes).toEqual(['the view']);
+    expect(store.get('landmark_ratings/lm1').count).toBe(1);
+  });
+
+  it('puts a comment-only doc back if the rating cannot be saved', async () => {
+    store.clear();
+    store.set('checkins/u1_lm1', { landmarkId: 'lm1' });
+    const original = { userId: 'u1', landmarkId: 'lm1', comment: 'nice' };
+    store.set('reviews/u1_lm1', original);
+    globalThis.__failReviewWrite = true;
+    try {
+      await expect(
+        submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } })
+      ).rejects.toMatchObject({ code: 'unavailable' });
+    } finally {
+      globalThis.__failReviewWrite = false;
+    }
+    expect(store.get('reviews/u1_lm1')).toEqual(original);
   });
 
   it('deleting a comment-only doc leaves the aggregate alone', async () => {
