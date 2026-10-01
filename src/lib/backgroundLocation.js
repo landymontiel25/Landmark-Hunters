@@ -56,7 +56,8 @@ export async function startBackgroundLocation(onLocation) {
     watcherId = id;
   } catch (err) {
     console.error('[BackgroundLocation] failed to start:', err);
-    watcherId = null;
+    // A superseded start that fails late must not forget a newer watcher.
+    if (myGen === generation) watcherId = null;
   }
 }
 

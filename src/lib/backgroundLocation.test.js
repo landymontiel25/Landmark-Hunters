@@ -34,4 +34,18 @@ describe('background location watcher', () => {
     await Promise.all([a, b]);
     expect(addWatcher.mock.calls.length - removeWatcher.mock.calls.length).toBe(1);
   });
+  it('a stale start that fails late does not forget the newer watcher', async () => {
+    const rejects = [];
+    addWatcher.mockImplementationOnce(() => new Promise((_, rej) => rejects.push(rej)));
+    const a = startBackgroundLocation(() => {});
+    await new Promise((r) => setTimeout(r, 0));
+    const b = startBackgroundLocation(() => {});
+    await new Promise((r) => setTimeout(r, 0));
+    pending[0]('wB');
+    await b;
+    rejects[0](new Error('boom'));
+    await a;
+    await stopBackgroundLocation();
+    expect(removeWatcher).toHaveBeenCalledWith({ id: 'wB' });
+  });
 });
