@@ -1,5 +1,10 @@
 import { ALL_LANDMARKS } from '../data/regions';
-import { getCustomLandmarks } from './customLandmarks';
+import { getCustomLandmarks, CUSTOM_REGION } from './customLandmarks';
+import { distanceMeters } from './geo';
+
+// A region-less custom pin has no city to compare, so it counts as the same
+// area when it's this close to the one being added.
+const SAME_AREA_METERS = 50_000;
 
 function levenshtein(a, b) {
   const m = a.length;
@@ -48,7 +53,7 @@ function namesMatch(a, b) {
 // rather than exact-distance: good enough to catch "I'm re-adding the
 // Hillstone that's already here" without also flagging an unrelated
 // same-named chain location in a different city.
-export async function findPossibleDuplicate({ name, regionId }) {
+export async function findPossibleDuplicate({ name, regionId, lat, lng }) {
   const trimmed = (name || '').trim();
   if (trimmed.length < 2 || !regionId) return null;
 
@@ -56,6 +61,12 @@ export async function findPossibleDuplicate({ name, regionId }) {
   if (builtIn) return { name: builtIn.name, region: builtIn.regionId, id: builtIn.id };
 
   const existing = await getCustomLandmarks().catch(() => []);
-  const match = existing.find((l) => l.region === regionId && namesMatch(l.name, trimmed));
+  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng);
+  const match = existing.find(
+    (l) =>
+      namesMatch(l.name, trimmed) &&
+      (l.region === regionId ||
+        (l.region === CUSTOM_REGION && hasPoint && distanceMeters(lat, lng, l.lat, l.lng) <= SAME_AREA_METERS))
+  );
   return match ? { name: match.name, region: match.region, id: match.id } : null;
 }

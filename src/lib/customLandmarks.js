@@ -11,7 +11,16 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from './firebase';
+import { db, storage, auth } from './firebase';
+import { isAdmin } from './admins';
+import { shrinkPhoto } from './shrinkPhoto';
+
+// Stable region for a custom landmark added farther than the attribution
+// radius from any curated city. Used end to end (URL, check-ins, reviews,
+// duplicate check) instead of a literal null, which turned into the string
+// "null" in routes and Firestore keys.
+export const CUSTOM_REGION = 'custom';
+export const normalizeRegion = (r) => (r && r !== 'null' && r !== 'undefined' ? r : CUSTOM_REGION);
 
 // User-created landmarks (e.g. a dorm hall not yet in the built-in catalog)
 // live in their own Firestore collection and get merged onto the map
@@ -22,12 +31,27 @@ import { db, storage } from './firebase';
 // to include status: "pending" and nothing here ever changes it -- that's
 // just the rules' own internal enforcement token, not a real approval
 // gate. Nothing in the app reads or shows that value anymore.)
-const withCategories = (l) => (l.categories ? { ...l, categories: normalizeCategories(l.categories) } : l);
+// Also normalizes a missing/legacy "null" region so old docs stay readable.
+const withCategories = (l) => {
+  const out = { ...l, region: normalizeRegion(l.region) };
+  return l.categories ? { ...out, categories: normalizeCategories(l.categories) } : out;
+};
 
 export async function getCustomLandmarks() {
   if (!db) return [];
   const snap = await getDocs(collection(db, 'custom_landmarks'));
-  return snap.docs.map((d) => withCategories({ docId: d.id, ...d.data() }));
+  // firestore.rules can't enforce the hide-once-reported rule on a list
+  // query, so it's applied here: hidden from everyone but the submitter
+  // and the admin once two people have reported it.
+  let me = null;
+  try {
+    me = auth?.currentUser || null;
+  } catch {
+    me = null;
+  }
+  return snap.docs
+    .map((d) => withCategories({ docId: d.id, ...d.data() }))
+    .filter((l) => (l.reportedBy?.length || 0) < 2 || (me && (l.createdBy === me.uid || isAdmin(me.email))));
 }
 
 // Direct lookup by id -- the doc id and the `id` field are supposed to
@@ -61,7 +85,9 @@ export async function uploadLandmarkPhoto(landmarkId, userId, file) {
   if (!storage) throw new Error('Photo upload is not set up yet.');
   const path = `landmark_photos/${landmarkId}/${userId}.jpg`;
   const storageRef = ref(storage, path);
-  await withTimeout(uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' }), 20000);
+  // Full-size phone photos can exceed storage.rules' 8 MB cap.
+  const body = await shrinkPhoto(file);
+  await withTimeout(uploadBytes(storageRef, body, { contentType: body.type || 'image/jpeg' }), 20000);
   return withTimeout(getDownloadURL(storageRef), 10000);
 }
 
@@ -88,7 +114,7 @@ export async function addCustomLandmark({
 }) {
   const id = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const data = {
-    region,
+    region: normalizeRegion(region),
     id,
     name,
     lat,

@@ -950,13 +950,16 @@ export default function MapExplore() {
                   <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free' : 'Ticketed'}</span>
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${isSelected ? 'btn-success' : 'btn-primary'}`}
-                    onClick={() => handleAdd(landmark)}
-                  >
-                    {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
-                  </button>
+                  {/* A pin far from every curated city has no city itinerary to join. */}
+                  {getRegion(l.region) && (
+                    <button
+                      type="button"
+                      className={`btn btn-sm ${isSelected ? 'btn-success' : 'btn-primary'}`}
+                      onClick={() => handleAdd(landmark)}
+                    >
+                      {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
+                    </button>
+                  )}
                   <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
                     {'\u{1F9ED}'} Directions
                   </DirectionsButton>

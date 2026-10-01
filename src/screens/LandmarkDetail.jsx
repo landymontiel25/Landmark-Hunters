@@ -924,14 +924,17 @@ function LandmarkDetailBody() {
         </div>
       )}
 
-      <button
-        type="button"
-        className={`btn btn-block ${isSelected ? 'btn-success' : 'btn-primary'}`}
-        onClick={() => toggleLandmark(landmark.id, regionId)}
-        style={{ marginBottom: 12 }}
-      >
-        {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
-      </button>
+      {/* A pin far from every curated city has no city itinerary to join. */}
+      {(region || isSelected) && (
+        <button
+          type="button"
+          className={`btn btn-block ${isSelected ? 'btn-success' : 'btn-primary'}`}
+          onClick={() => toggleLandmark(landmark.id, regionId)}
+          style={{ marginBottom: 12 }}
+        >
+          {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
+        </button>
+      )}
 
       <CheckInButton
         landmark={landmark}
