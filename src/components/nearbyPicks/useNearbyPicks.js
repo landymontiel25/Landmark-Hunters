@@ -17,6 +17,9 @@ import { logRecommendations } from '../../lib/recommendationLog';
 // How long to wait for candidate photos before composing with whatever has
 // loaded. A card whose photo is still loading after this is skipped.
 export const IMAGE_WAIT_MS = 3000;
+// A set built this session is rebuilt once it is this old (checked whenever
+// `now` moves: on a timer and when the user comes back to the app).
+export const SESSION_SET_MAX_AGE_MS = 30 * 60 * 1000;
 
 // Preloads photos and reports each one as 'loading' | 'loaded' | 'failed'.
 // settled: every photo answered, or the wait ran out.
@@ -81,6 +84,7 @@ export function useNearbyPicks({
   links,
   lastCategory,
   now,
+  overrides = null,
   isTest = false,
   source = 'map-picks',
   fetchReasons = fetchPickReasons,
@@ -104,14 +108,17 @@ export function useNearbyPicks({
   const { usual, fresh } = useMemo(
     () =>
       enabled && lat != null
-        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now })
+        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides })
         : { usual: [], fresh: [] },
-    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now]
+    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides]
   );
   const chained = useMemo(() => chainedPick({ usual, fresh, links, lastCategory }), [usual, fresh, links, lastCategory]);
 
   const live = enabled && online && !!key;
-  const needFresh = live && !(cached && !cached.stale) && result?.key !== key;
+  const sessionStale =
+    result?.key === key && Number.isFinite(now) && Number.isFinite(result.at) && now - result.at > SESSION_SET_MAX_AGE_MS;
+  const buildTag = sessionStale ? `${key}@${result.at}` : key;
+  const needFresh = live && (sessionStale || (!(cached && !cached.stale) && result?.key !== key));
   const urls = useMemo(
     () => (needFresh ? [chained?.image, ...usual.slice(0, 10).map((p) => p.image), ...fresh.slice(0, 5).map((p) => p.image)] : []),
     [needFresh, chained, usual, fresh]
@@ -129,20 +136,20 @@ export function useNearbyPicks({
   // One composition and one reasons call per key: a photo that finishes
   // loading after the wait doesn't reshuffle the set or trigger a second call.
   useEffect(() => {
-    if (!needFresh || !settled || inflight.current === key) return;
-    inflight.current = key;
+    if (!needFresh || !settled || inflight.current === buildTag) return;
+    inflight.current = buildTag;
     const composed = composePicks({ usual, fresh, chained, isReady: (p) => status[p.image] === 'loaded' });
     (composed.length ? Promise.resolve(fetchReasons(composed)).catch(() => ({})) : Promise.resolve({})).then((reasons) => {
-      if (!mounted.current || inflight.current !== key) return;
+      if (!mounted.current || inflight.current !== buildTag) return;
       const picks = withReasons(composed, reasons);
       // An empty set (nothing nearby, or no photo loaded) isn't worth keeping.
       if (picks.length) writeNearbyPicksCache(key, picks);
-      setResult({ key, picks });
+      setResult({ key, picks, at: Math.max(Date.now(), Number.isFinite(now) ? now : 0) });
       if (uid && picks.length) {
         Promise.resolve(logPicks({ uid, source, stops: picks, rankedIds: picks.map(pickKey), isTest })).catch(() => {});
       }
     });
-  }, [needFresh, settled, key, usual, fresh, chained, status, fetchReasons, logPicks, uid, source, isTest]);
+  }, [needFresh, settled, key, buildTag, now, usual, fresh, chained, status, fetchReasons, logPicks, uid, source, isTest]);
 
   const refresh = useCallback(() => {
     if (key) {

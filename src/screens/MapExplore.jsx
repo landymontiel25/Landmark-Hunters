@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, Polyline, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, AttributionControl, TileLayer, Marker, Popup, Tooltip, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -37,7 +37,7 @@ import { friendlyError } from '../lib/friendlyError';
 import OnboardingBanner from '../components/OnboardingBanner';
 import { useRatings } from '../lib/RatingsContext';
 import MapPicksOverlay from '../components/nearbyPicks/MapPicksOverlay';
-import { PICKS_SHEET_H } from '../lib/nearbyPicks';
+import { PICKS_SHEET_H, distanceUnitLabel, optionToMiles } from '../lib/nearbyPicks';
 
 
 // Turn-by-turn's actual route, once directions are up -- see the dimming
@@ -130,11 +130,11 @@ const TILE_LAYERS = {
   street: {
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
   },
   satellite: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    attribution: '&copy; Esri, Maxar, Earthstar Geographics',
   },
 };
 
@@ -377,8 +377,10 @@ export default function MapExplore() {
   // Live navigation: where you are along the route on every GPS fix.
   const navRoute = useMemo(() => (nav?.data?.points?.length > 1 ? prepareRoute(nav.data) : null), [nav?.data]);
   const alongRef = useRef(0);
+  const arrivedRef = useRef(false);
   useEffect(() => {
     alongRef.current = 0;
+    arrivedRef.current = false;
   }, [navRoute]);
   const navActive = !!nav?.active;
   const progress = useMemo(
@@ -392,7 +394,9 @@ export default function MapExplore() {
   useEffect(() => {
     if (!progress) return;
     alongRef.current = progress.along;
-    if (progress.arrived || !progress.offRoute) {
+    if (progress.arrived) arrivedRef.current = true;
+    // After arriving, drifting off the line is just GPS noise: no reroute.
+    if (arrivedRef.current || !progress.offRoute) {
       offRouteCountRef.current = 0;
       return;
     }
@@ -428,7 +432,9 @@ export default function MapExplore() {
     document.body.classList.toggle('map-nav-active', navActive);
     return () => document.body.classList.remove('map-nav-active');
   }, [navActive]);
-  const [radiusMiles, setRadiusMiles] = useZoomRadius();
+  // The menu number (5 = 5 mi or 5 km, per the units setting).
+  const [radiusOption, setRadiusMiles] = useZoomRadius();
+  const radiusMiles = optionToMiles(radiusOption, units);
 
   // "Picked for you right now": a sheet over the map, signed in, once the
   // account's ratings have loaded. It steps aside (hidden, not unmounted)
@@ -634,8 +640,9 @@ export default function MapExplore() {
   });
 
   const handleRadiusChange = (e) => {
-    const miles = Number(e.target.value);
-    setRadiusMiles(miles);
+    const n = Number(e.target.value);
+    setRadiusMiles(n);
+    const miles = optionToMiles(n, units);
     if (coords && mapRef.current) {
       mapRef.current.flyTo([coords.lat, coords.lng], zoomForRadiusMiles(mapRef.current, coords.lat, miles));
     }
@@ -746,8 +753,12 @@ export default function MapExplore() {
   // A live, distance-sorted view of what's closest right now, shown in the
   // search panel before you type anything. Only meaningful with a real GPS
   // fix, so it's just not offered without one.
+  // Measured from a ~110 m grid, so GPS jitter while standing still doesn't
+  // reshuffle (and mis-tap) the rows.
+  const listLat = coords ? Math.round(coords.lat * 1000) / 1000 : null;
+  const listLng = coords ? Math.round(coords.lng * 1000) / 1000 : null;
   const nearbyList = useMemo(() => {
-    if (!coords) return [];
+    if (listLat == null) return [];
     const all = [
       ...ALL_LANDMARKS.map((l) => {
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
@@ -763,10 +774,10 @@ export default function MapExplore() {
       ...customLandmarks.map((l) => ({ id: `custom-${l.docId}`, name: l.name, region: l.region, landmarkId: l.id, lat: l.lat, lng: l.lng })),
     ];
     return all
-      .map((l) => ({ ...l, meters: distanceMeters(coords.lat, coords.lng, l.lat, l.lng) }))
+      .map((l) => ({ ...l, meters: distanceMeters(listLat, listLng, l.lat, l.lng) }))
       .sort((a, b) => a.meters - b.meters)
       .slice(0, 12);
-  }, [coords, customLandmarks, savedOverrides]);
+  }, [listLat, listLng, customLandmarks, savedOverrides]);
 
   // Build the markers once and reuse the same elements across re-renders. GPS
   // ticks update `coords` several times a minute; if the markers were rebuilt
@@ -1023,6 +1034,7 @@ export default function MapExplore() {
           zoomSnap={0.25}
           zoomDelta={0.25}
           zoomControl={false}
+          attributionControl={false}
           scrollWheelZoom
           style={{ height: '100%', width: '100%' }}
         >
@@ -1036,6 +1048,7 @@ export default function MapExplore() {
             radiusMiles={radiusMiles}
           />
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
+          <AttributionControl position="bottomright" prefix={false} />
           <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />
           <TileLayer
             key={satellite ? 'satellite' : 'street'}
@@ -1048,7 +1061,7 @@ export default function MapExplore() {
           {satellite && (
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
-              attribution="Place labels &copy; Esri"
+              attribution="&copy; Esri"
               zIndex={650}
             />
           )}
@@ -1341,10 +1354,10 @@ export default function MapExplore() {
           )}
 
           <div className="map-fab-bar">
-            <select className="radius-select" value={radiusMiles} onChange={handleRadiusChange} title="Zoom radius">
+            <select className="radius-select" value={radiusOption} onChange={handleRadiusChange} title="Zoom radius">
               {ZOOM_RADIUS_OPTIONS.map((miles) => (
                 <option key={miles} value={miles}>
-                  {miles} mi
+                  {miles} {distanceUnitLabel(units)}
                 </option>
               ))}
             </select>
@@ -1379,6 +1392,7 @@ export default function MapExplore() {
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}
+          overrides={savedOverrides}
           expanded={picksExpanded}
           onExpandedChange={setPicksExpanded}
           minimized={picksMinimized}

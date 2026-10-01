@@ -13,6 +13,11 @@ import { linksFrom, primaryCategory } from './preferenceChains';
 export const DISTANCE_OPTIONS_MI = [1, 5, 10, 15, 20, 30, 50, 100];
 export const DEFAULT_DISTANCE_MI = 10;
 export const METERS_PER_MILE = 1609.34;
+// The distance chips and the map zoom menu offer the same numbers (1, 5,
+// 10...) in whichever unit the Units setting resolves to; internally
+// everything stays in miles.
+export const distanceUnitLabel = (units) => (units === 'metric' ? 'km' : 'mi');
+export const optionToMiles = (n, units) => (units === 'metric' ? (n * 1000) / METERS_PER_MILE : n);
 // Same bar as Plan Your Trip's "The usual" / "Something new".
 export const MIN_RATINGS_FOR_PICKS = 10;
 // Four in the full list, the first three in the collapsed bottom sheet.
@@ -107,7 +112,7 @@ function parseRange(text) {
   };
   const a = side(m[1], m[2], m[3], m[4]);
   const b = side(m[5], m[6], m[7], m[8]);
-  const endMins = b.mins ?? toMinutes(b.h, b.min, b.suffix);
+  let endMins = b.mins ?? toMinutes(b.h, b.min, b.suffix);
   let startMins = a.mins;
   if (startMins == null) {
     // "10-5pm": borrow the end's am/pm unless that puts the start after the end.
@@ -115,6 +120,9 @@ function parseRange(text) {
     startMins = toMinutes(a.h, a.min, borrowed);
     if (!a.suffix && b.suffix && startMins > endMins) startMins = toMinutes(a.h, a.min, 'am');
   }
+  // "9-5" (no am/pm anywhere) is a normal day, 9am-5pm, not 9am-5am: a bare
+  // end that lands before the start is read as the afternoon.
+  if (a.mins == null && b.mins == null && !a.suffix && !b.suffix && Number(b.h) < 12 && endMins <= startMins) endMins += 12 * 60;
   return { start: startMins, end: endMins };
 }
 
@@ -183,9 +191,19 @@ export function regionsWithin(origin, miles, landmarks = ALL_LANDMARKS) {
 // and every other Villanova food spot among them), and dropping them here
 // emptied the mood and meal rows for places that really are nearby. Only
 // the top picks require a photo (composePicks).
-export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS }) {
+// Drag-to-fix pin corrections ({ "region/id": { lat, lng } }) win over the
+// catalog coordinates, so a place is the same distance away everywhere.
+export function withPositionOverrides(places, overrides) {
+  if (!overrides) return places;
+  return places.map((l) => {
+    const pos = overrides[`${l.regionId || l.region}/${l.id}`];
+    return pos && Number.isFinite(pos.lat) && Number.isFinite(pos.lng) ? { ...l, lat: pos.lat, lng: pos.lng } : l;
+  });
+}
+
+export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS, overrides = null }) {
   const low = new Set(lowRated);
-  return withinDistance(landmarks, origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
+  return withinDistance(withPositionOverrides(landmarks, overrides), origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
 }
 
 export function toPick(l, extra = {}) {
@@ -212,13 +230,13 @@ export function toPick(l, extra = {}) {
 //   fresh -- "something new": categories rated little or never (discoveryPicks)
 // Ranking spans every region inside the distance filter, since a 30-mile
 // circle around Miami also covers Coral Gables and Key Biscayne.
-export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now) }) {
+export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null }) {
   if (!origin) return { usual: [], fresh: [] };
   const lowRated = lowRatedIds(myReviews);
   // Anything already rated (like Plan Your Trip and Mapr Travel Picks) is
   // not a pick: "Picked for you" shouldn't suggest a place they've been to.
   const ratedIds = Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean);
-  const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date }).map((l) => [`${l.regionId}/${l.id}`, l]));
+  const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date, overrides }).map((l) => [`${l.regionId}/${l.id}`, l]));
   const regions = [...new Set([...eligible.values()].map((l) => l.regionId))];
   const usual = [];
   const fresh = [];
@@ -226,11 +244,11 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
     const args = { profile, region, excludeIds: ratedIds, checkinCounts, now };
     for (const l of usualPicks({ ...args, limit: 60 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
-      if (e) usual.push(toPick({ ...l, distanceMeters: e.distanceMeters }));
+      if (e) usual.push(toPick({ ...l, lat: e.lat, lng: e.lng, distanceMeters: e.distanceMeters }));
     }
     for (const l of discoveryPicks({ ...args, limit: 20 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
-      if (e) fresh.push(toPick({ ...l, distanceMeters: e.distanceMeters }));
+      if (e) fresh.push(toPick({ ...l, lat: e.lat, lng: e.lng, distanceMeters: e.distanceMeters }));
     }
   }
   const best = (a, b) => (b.tagScore || 0) - (a.tagScore || 0) || a.distanceMeters - b.distanceMeters;

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { MIN_RATINGS_FOR_PICKS, PICKS_SHOWN, SHEET_PICKS } from '../../lib/nearbyPicks';
+import { MIN_RATINGS_FOR_PICKS, PICKS_SHOWN, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
+import { useUnits } from '../../lib/UnitsContext';
 import PickCard, { PickRow } from './PickCard';
 
 // The sheet over the map. Collapsed (how the Map opens) it shows the top
@@ -31,6 +32,7 @@ export default function PicksBottomSheet({
   distanceMiles = null,
   children,
 }) {
+  const { units } = useUnits();
   const startY = useRef(null);
   const onPointerDown = (e) => {
     startY.current = e.clientY;
@@ -133,7 +135,7 @@ export default function PicksBottomSheet({
           easy to confuse with the map's own unrelated zoom radius control. */}
       {!minimized && state === 'ready' && distanceMiles != null && (
         <button type="button" className="mpp-pill mpp-pill-distance" onClick={() => onExpandedChange(true)}>
-          Within {distanceMiles} mi
+          Within {distanceMiles} {distanceUnitLabel(units)}
         </button>
       )}
       <div className="mpp-sheet-scroll">
