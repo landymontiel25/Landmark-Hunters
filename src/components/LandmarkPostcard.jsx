@@ -19,6 +19,9 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   const icon = iconFor(landmark.categories);
   const dims =
     size === 'sm' ? { width: 150, height: 105 } : size === 'lg' ? { width: 320, height: 220 } : { width: 220, height: 150 };
+  // The big postcard is a fixed 320px, which (plus its border) is wider than
+  // the page on a 320px phone and pushed the whole screen sideways.
+  dims.width = `min(${dims.width}px, calc(100vw - 60px))`;
   const [failed, setFailed] = useState(() => new Set());
   const [loaded, setLoaded] = useState(() => new Set());
   const allImages = [...(myPhotos || []), ...(landmark.images || [])].filter((src) => !failed.has(src));

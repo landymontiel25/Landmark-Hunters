@@ -272,8 +272,8 @@ export default function FriendsPanel() {
           <h4 style={{ margin: '0 0 8px' }}>Requests</h4>
           {visibleRequests.map((r) => (
             <div key={r.id} className="friend-row">
-              <span>@{r.fromName}</span>
-              <span style={{ display: 'flex', gap: 6 }}>
+              <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>@{r.fromName}</span>
+              <span style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
                 <button type="button" className="btn btn-primary btn-tight" onClick={() => handleAccept(r)}>
                   Accept
                 </button>

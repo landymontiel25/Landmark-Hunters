@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
@@ -60,6 +60,18 @@ function CountdownClock({ ms, secured }) {
 function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
   const popoverRef = useRef(null);
   const [rect, setRect] = useState(null);
+  // The popover is centered under its trigger, which sits near the left edge
+  // of the header -- a wide one ran off the left of the screen. Measured
+  // after render and nudged back inside the viewport.
+  const [clampedLeft, setClampedLeft] = useState(null);
+  useLayoutEffect(() => {
+    if (!open || !rect || !popoverRef.current) return;
+    const width = popoverRef.current.offsetWidth;
+    const vw = document.documentElement.clientWidth;
+    const center = rect.left + rect.width / 2;
+    const margin = 8;
+    setClampedLeft(Math.max(margin + width / 2, Math.min(center, vw - margin - width / 2)));
+  });
 
   useEffect(() => {
     if (!open) return undefined;
@@ -93,7 +105,7 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
       style={{
         position: 'fixed',
         top: rect.bottom + 18,
-        left: rect.left + rect.width / 2,
+        left: clampedLeft ?? rect.left + rect.width / 2,
         right: 'auto',
         transform: 'translateX(-50%)',
       }}
