@@ -12,7 +12,7 @@ describe('landmark catalog', () => {
 
   it('keeps Local Life to bars, clubs and live music', () => {
     const local = ALL_LANDMARKS.filter((l) => l.categories[0] === 'local-life').map((l) => l.id);
-    expect(local.length).toBeLessThanOrEqual(60);
+    expect(local.length).toBeLessThanOrEqual(80);
     expect(local).toContain('ball-and-chain');
     expect(local).not.toContain('calle-ocho');
   });

@@ -64,7 +64,7 @@ function DraftRestoredNote({ onDiscard }) {
 
 export default function Settings() {
   const navigate = useNavigate();
-  const { user, firebaseEnabled, signOutUser, resendVerification, refreshUser, changePassword } = useAuth();
+  const { user, firebaseEnabled, signOutUser, resendVerification, refreshUser, changePassword, deleteAccount } = useAuth();
   const { myProfile, reload: reloadFriends } = useFriends();
   const { theme, toggleTheme } = useTheme();
   const { units, mode, setMode, autoCountry } = useUnits();
@@ -119,6 +119,35 @@ export default function Settings() {
   const hasPasswordLogin = (user?.providerData || []).some((p) => p.providerId === 'password');
 
   useEffect(() => () => clearTimeout(passwordTimerRef.current), []);
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteText, setDeleteText] = useState('');
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteMsg, setDeleteMsg] = useState(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
+  const canDelete = deleteText === 'DELETE' && (!hasPasswordLogin || deletePassword.length > 0) && !deleteBusy;
+
+  const closeDelete = () => {
+    if (deleteBusy) return;
+    setDeleteOpen(false);
+    setDeleteText('');
+    setDeletePassword('');
+    setDeleteMsg(null);
+  };
+
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    if (!canDelete) return;
+    setDeleteMsg(null);
+    setDeleteBusy(true);
+    try {
+      await deleteAccount(hasPasswordLogin ? deletePassword : undefined);
+      navigate('/', { replace: true });
+    } catch (err) {
+      setDeleteMsg(authErrorMessage(err) || 'Could not delete your account.');
+      setDeleteBusy(false);
+    }
+  };
 
   const handleSignOut = async () => {
     if (signingOut) return;
@@ -613,6 +642,13 @@ export default function Settings() {
           <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} disabled={signingOut} onClick={handleSignOut}>
             {signingOut ? 'Signing out…' : 'Sign Out'}
           </button>
+          <button
+            className="btn btn-ghost btn-block"
+            style={{ marginTop: 12, color: 'var(--color-error, #d9534f)', borderColor: 'var(--color-error, #d9534f)' }}
+            onClick={() => setDeleteOpen(true)}
+          >
+            Delete Account
+          </button>
           {user.metadata?.creationTime && (
             <p style={{ textAlign: 'center', marginTop: 12, marginBottom: 0, fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
               Joined{' '}
@@ -696,6 +732,70 @@ export default function Settings() {
                     onClick={() => setChangePasswordOpen(false)}
                     disabled={passwordBusy}
                   >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body
+        )}
+      {deleteOpen &&
+        createPortal(
+          <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && closeDelete()}>
+            <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ marginTop: 0 }}>Delete Account</h3>
+              <p className="screen-subtitle">
+                This permanently deletes your account and cannot be undone. We will erase your profile and username,
+                reviews and photos, friends, requests and blocks, streaks, Mapr chats and projects, group trips you own,
+                landmarks you submitted, notifications and saved preferences. Your check-ins stay on the leaderboard for
+                scoring integrity, but your name and photos are removed from them.
+              </p>
+              <form onSubmit={handleDeleteAccount}>
+                <div className="field">
+                  <label htmlFor="delete-confirm">Type DELETE to confirm</label>
+                  <input
+                    id="delete-confirm"
+                    type="text"
+                    value={deleteText}
+                    onChange={(e) => setDeleteText(e.target.value)}
+                    placeholder="DELETE"
+                    disabled={deleteBusy}
+                    autoComplete="off"
+                    autoCapitalize="characters"
+                  />
+                </div>
+                {hasPasswordLogin ? (
+                  <div className="field">
+                    <label htmlFor="delete-password">Password</label>
+                    <input
+                      id="delete-password"
+                      type="password"
+                      value={deletePassword}
+                      onChange={(e) => setDeletePassword(e.target.value)}
+                      placeholder="Enter your password"
+                      disabled={deleteBusy}
+                      autoComplete="current-password"
+                    />
+                  </div>
+                ) : (
+                  <p className="screen-subtitle">You will be asked to confirm with Google when you continue.</p>
+                )}
+                {deleteMsg && (
+                  <p className="tag tag-error" role="alert" style={{ display: 'block', marginBottom: 12 }}>
+                    {deleteMsg}
+                  </p>
+                )}
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block"
+                    style={{ background: 'var(--color-error, #d9534f)' }}
+                    disabled={!canDelete}
+                  >
+                    {deleteBusy ? 'Deleting your account…' : 'Delete My Account'}
+                  </button>
+                  <button type="button" className="btn btn-ghost btn-block" onClick={closeDelete} disabled={deleteBusy}>
                     Cancel
                   </button>
                 </div>

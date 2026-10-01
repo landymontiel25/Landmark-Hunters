@@ -152,6 +152,8 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
         stars: tier ? tierStars(tier.id) : null,
         tierEmoji: tier?.emoji || null,
         tierLabel: tier?.label || null,
+        tierId: tier?.id || null,
+        categories: lm?.categories || [],
         comment: loaded ? review?.comment || '' : null,
       };
     };
@@ -413,8 +415,10 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                   <MyCommentEditor
                     compact
                     userId={user.uid}
-                    landmark={{ id: it.landmarkId, name: it.name, region: it.regionId }}
+                    landmark={{ id: it.landmarkId, name: it.name, region: it.regionId, categories: it.categories }}
                     comment={it.comment}
+                    tier={it.tierId}
+                    userName={user.displayName || undefined}
                     // Repeat visits to one place are separate rows sharing one
                     // comment -- keep the others in step with the edit.
                     onSaved={(text) =>
