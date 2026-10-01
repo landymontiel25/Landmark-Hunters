@@ -1,6 +1,8 @@
 import {
   doc,
   getDoc,
+  getDocFromServer,
+  waitForPendingWrites,
   setDoc,
   updateDoc,
   deleteDoc,
@@ -17,6 +19,7 @@ import {
 import { db } from './firebase';
 import { syncMyReviewVisibility } from './reviews';
 
+const PENDING_WRITES_WAIT_MS = 8000;
 const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
 
 // Our own validation errors are already written for people -- tagging them
@@ -30,7 +33,27 @@ function userError(message) {
 
 export async function getUserProfile(uid) {
   if (!db || !uid) return null;
-  const snap = await getDoc(doc(db, 'users', uid));
+  const ref = doc(db, 'users', uid);
+  let snap = await getDoc(ref);
+  // A fresh session writes to this doc at sign-in (touchLastActive,
+  // upsertUserProfile) before the first read lands. With nothing cached yet,
+  // getDoc then answers from those pending local merges alone -- a 5-field
+  // doc, `fromCache` false -- and the caller took it for the real profile:
+  // onboarding looked unfinished, so "Onboarding has been updated" was
+  // re-sent (and its write to an existing notification denied) on every
+  // sign-in. Let those writes land, then ask the server for the real thing;
+  // if that fails or stalls, throw so the caller retries or falls back to its
+  // cached copy instead of trusting this.
+  if (snap.metadata?.hasPendingWrites) {
+    let timer;
+    await Promise.race([
+      waitForPendingWrites(db),
+      new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Profile read timed out')), PENDING_WRITES_WAIT_MS);
+      }),
+    ]).finally(() => clearTimeout(timer));
+    snap = await getDocFromServer(ref);
+  }
   return snap.exists() ? snap.data() : null;
 }
 
