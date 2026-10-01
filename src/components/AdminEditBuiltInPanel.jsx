@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { friendlyError } from '../lib/friendlyError';
 import { useAuth } from '../lib/AuthContext';
 import { saveLandmarkEdit, clearLandmarkEdit } from '../lib/landmarkOverrides';
 import CategorySelect from './CategorySelect';
@@ -52,7 +53,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
       onSaved?.();
       setMsg({ ok: true, text: 'Saved — live for everyone now.' });
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not save — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not save — try again.') });
     } finally {
       setSaving(false);
     }
@@ -67,7 +68,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
       onSaved?.();
       setMsg({ ok: true, text: 'Reverted to the original catalog data.' });
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not revert — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not revert — try again.') });
     } finally {
       setResetting(false);
     }

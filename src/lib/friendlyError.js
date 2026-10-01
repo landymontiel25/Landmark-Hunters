@@ -2,6 +2,8 @@
 // status, a thrown Error) into one short sentence a traveler can act on.
 // Never shows raw backend text like "FirebaseError: [code=unavailable]".
 
+import { authErrorMessage } from './authErrors';
+
 const FIREBASE = {
   unavailable: "Can't reach the server right now. Check your connection and try again.",
   'deadline-exceeded': 'That took too long. Try again.',
@@ -50,6 +52,9 @@ export function friendlyError(err, fallback = 'Something went wrong. Try again.'
   if (err.userMessage) return err.userMessage;
   const code = String(err.code || '').replace(/^firestore\//, '');
   if (FIREBASE[code]) return FIREBASE[code];
+  // A Firebase Auth failure that surfaced somewhere other than the sign-in
+  // form (token refresh before an upload, a re-check of the session...).
+  if (code.startsWith('auth/')) return authErrorMessage(err);
   if (err.status && HTTP[err.status]) return HTTP[err.status];
   const msg = String(err.message || '');
   if (err.name === 'TypeError' && /fetch|network|load failed/i.test(msg)) {

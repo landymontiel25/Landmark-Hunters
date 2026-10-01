@@ -25,7 +25,7 @@ export default function FriendCities() {
       try {
         const [profile, s] = await Promise.all([getUserProfile(uid), getUserStats(uid)]);
         if (cancelled) return;
-        setName(profile?.username || 'this user');
+        setName(profile?.username ? `@${profile.username}` : 'This user');
         setStats(s);
       } catch (err) {
         if (!cancelled) setError(err);
@@ -43,7 +43,7 @@ export default function FriendCities() {
       </button>
       <h1 className="screen-title">
         <span>{'\u{1F3D9}\u{FE0F}'}</span>{' '}
-        {name ? `@${name}'s Cities` : error ? 'Cities' : <Skeleton width={180} height={26} radius={10} />}
+        {name ? `${name}'s Cities` : error ? 'Cities' : <Skeleton width={180} height={26} radius={10} />}
       </h1>
       {error && (
         <ErrorNotice

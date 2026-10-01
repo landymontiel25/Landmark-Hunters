@@ -29,7 +29,7 @@ export default function FriendCheckins() {
       try {
         const [profile, stats] = await Promise.all([getUserProfile(uid), getUserStats(uid)]);
         if (cancelled) return;
-        setName(profile?.username || 'this user');
+        setName(profile?.username ? `@${profile.username}` : 'This user');
         setTotalPoints(stats.totalPoints);
         setLoaded(true);
       } catch (err) {
@@ -68,7 +68,7 @@ export default function FriendCheckins() {
           claimedMap={{}}
           navigate={navigate}
           totalPoints={totalPoints}
-          title={`@${name}'s Check-ins`}
+          title={`${name}'s Check-ins`}
         />
       )}
     </div>

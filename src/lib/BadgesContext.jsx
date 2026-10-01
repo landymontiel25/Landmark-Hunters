@@ -120,7 +120,9 @@ export function BadgesProvider({ children }) {
     try {
       s = await getUserStats(user.uid);
     } catch {
-      s = { totalPoints: 0, checkins: 0, cities: 0 };
+      // `failed` lets screens say "couldn't load" instead of presenting these
+      // zeros as the traveler's real history.
+      s = { totalPoints: 0, checkins: 0, cities: 0, cityIds: [], cityLastVisit: {}, cityPoints: {}, failed: true };
     }
     setStats(s);
     let rows = [];

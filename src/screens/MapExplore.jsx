@@ -1407,7 +1407,7 @@ export default function MapExplore() {
         />
       )}
 
-      {geoError && <p className="tag tag-error map-error-toast">Location unavailable — {geoError}</p>}
+      {geoError && <p className="tag tag-error map-error-toast">{geoError}</p>}
     </div>
   );
 }

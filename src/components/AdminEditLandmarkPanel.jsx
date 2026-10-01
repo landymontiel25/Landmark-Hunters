@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { friendlyError } from '../lib/friendlyError';
 import { useNavigate } from 'react-router-dom';
 import { updateCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import CategorySelect from './CategorySelect';
@@ -46,7 +47,7 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
       onSaved?.(fields);
       setMsg({ ok: true, text: 'Saved — live for everyone now.' });
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not save — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not save — try again.') });
     } finally {
       setSaving(false);
     }
@@ -60,7 +61,7 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
       onDeleted?.();
       navigate('/');
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not delete — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not delete — try again.') });
       setDeleting(false);
     }
   };

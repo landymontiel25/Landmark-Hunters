@@ -8,6 +8,7 @@ import { allSwipeCards } from '../lib/onboardingCards';
 import { saveTasteIntro } from '../lib/friends';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
+import { useSlowLoad } from '../lib/useSlowLoad';
 import { markNotificationRead } from '../lib/notifications';
 import { ONBOARDING_VERSION, isDeckComplete, onboardingStatus, onboardingNoticeId } from '../lib/onboardingVersion';
 import {
@@ -60,12 +61,27 @@ const INTEREST_IDS = new Set(INTERESTS.map((i) => i.id));
 
 export default function Onboarding({ isNew: isNewProp, onExit }) {
   const { user, loading: authLoading, firebaseEnabled } = useAuth();
-  const { myProfile, profileFresh } = useFriends();
+  const { myProfile, profileFresh, reload } = useFriends();
   const navigate = useNavigate();
+  // The profile read can fail for good (rules, a missing document, no
+  // connection); without this the skeleton below would never go away.
+  const profileStuck = useSlowLoad(!authLoading && !!user && !profileFresh);
 
   if (authLoading) return <SkeletonList count={3} label="Loading" />;
   if (!firebaseEnabled || !user) return <Navigate to="/profile" replace />;
-  if (!profileFresh) return <SkeletonList count={3} label="Loading" />;
+  if (!profileFresh) {
+    if (profileStuck) {
+      return (
+        <div style={{ padding: '24px 20px' }}>
+          <ErrorNotice
+            message="We couldn't load your profile. Check your connection and try again."
+            onRetry={() => reload()}
+          />
+        </div>
+      );
+    }
+    return <SkeletonList count={3} label="Loading" />;
+  }
   return <Flow key={user.uid} user={user} profile={myProfile} isNewProp={isNewProp} onExit={onExit} navigate={navigate} />;
 }
 

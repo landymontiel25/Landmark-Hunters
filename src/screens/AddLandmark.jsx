@@ -19,7 +19,7 @@ import { findPossibleDuplicate } from '../lib/duplicateLandmarkCheck';
 import { fileToSmallDataUrl, pickPhoto } from '../lib/imageUtils';
 import LocationAutocomplete from '../components/LocationAutocomplete';
 import ErrorNotice from '../components/ErrorNotice';
-import { friendlyError, fetchJson } from '../lib/friendlyError';
+import { friendlyError, fetchJson, isOffline } from '../lib/friendlyError';
 import { readPersisted, writePersisted, clearPersisted } from '../lib/usePersistentState';
 import { API_BASE } from '../lib/apiBase';
 
@@ -283,6 +283,9 @@ export default function AddLandmark() {
     submittingRef.current = true;
     setError(null);
     try {
+      // Offline, the save below would wait (and "Saving…" spin) until the
+      // connection came back; say so up front instead.
+      if (isOffline()) throw Object.assign(new Error('offline'), { code: 'unavailable' });
       setStage('verifying');
       const imageDataUrl = photo ? await fileToSmallDataUrl(photo) : '';
       // Forced refresh: right after verifying their email, a cached token
