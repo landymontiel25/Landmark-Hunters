@@ -37,6 +37,17 @@ export default function PicksBottomSheet({
   const startY = useRef(null);
   const onPointerDown = (e) => {
     startY.current = e.clientY;
+    // A mouse drag leaves the (short) grip within a few pixels, and without
+    // capture the release lands on the map, so the swipe never registered.
+    // Touch captures implicitly; this makes the mouse behave the same.
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {
+      /* pointer already gone */
+    }
+  };
+  const onPointerCancel = () => {
+    startY.current = null;
   };
   const onPointerUp = (e) => {
     if (startY.current == null) return;
@@ -59,7 +70,7 @@ export default function PicksBottomSheet({
     <span className="mpp-pill" role="status">
       <span className="mpp-pill-dot" /> Updating…
     </span>
-  ) : slow ? (
+  ) : slow && picks ? (
     <span className="mpp-pill mpp-pill-slow" role="status">
       Offline · showing your last picks
     </span>
@@ -116,6 +127,7 @@ export default function PicksBottomSheet({
         aria-label={minimized ? 'Show picks' : expanded ? 'Collapse picks' : 'Show all picks'}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();

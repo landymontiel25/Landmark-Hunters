@@ -265,6 +265,12 @@ function FollowUser({ pos, following, onUserPan }) {
   return null;
 }
 
+// A pin popup pans into view clear of the floating header (and the tab bar):
+// with Leaflet's default 5px margin a tall popup opened with its photo and
+// close button hidden behind the header pill.
+const POPUP_PAN_TOP_LEFT = [16, 96];
+const POPUP_PAN_BOTTOM_RIGHT = [16, 100];
+
 // Off the route this many fixes in a row -> fetch a new route from here,
 // but no more often than every REROUTE_MS.
 const OFF_ROUTE_FIXES = 2;
@@ -815,7 +821,7 @@ export default function MapExplore() {
             draggable={adminMode}
             eventHandlers={adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
           >
-            <Popup>
+            <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
                 <div
                   role="button"
@@ -932,7 +938,7 @@ export default function MapExplore() {
             draggable={adminMode}
             eventHandlers={adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : undefined}
           >
-            <Popup>
+            <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
                 <div
                   role="button"
@@ -1407,7 +1413,9 @@ export default function MapExplore() {
         />
       )}
 
-      {geoError && <p className="tag tag-error map-error-toast">Location unavailable — {geoError}</p>}
+      {/* A watch timeout while a fix is already on screen (common when
+          standing still indoors) isn't "unavailable": your pin is showing. */}
+      {geoError && !coords && <p className="tag tag-error map-error-toast">Location unavailable — {geoError}</p>}
     </div>
   );
 }

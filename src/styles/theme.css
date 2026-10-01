@@ -5578,7 +5578,7 @@ h2,
    the bottom nav, the picks sheet and the radius / locate buttons, instead
    of wrapping to three lines behind them. */
 .map-fullscreen .leaflet-bottom.leaflet-right {
-  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 68px);
+  bottom: calc(var(--nav-h) + var(--mpp-h, var(--map-picks-h, 0px)) + 68px);
   left: 0;
   display: flex;
   justify-content: flex-end;
