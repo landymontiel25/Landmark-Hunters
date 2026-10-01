@@ -6,8 +6,7 @@ import { useOnlineStatus } from '../../lib/useOnlineStatus';
 import { getUserCheckins, isRealCheckin } from '../../lib/leaderboard';
 import { ALL_LANDMARKS } from '../../data/regions';
 import {
-  DISTANCE_OPTIONS_MI,
-  chipCovering,
+  widenChip,
   fallbackReason,
   nearestBeyond,
   optionToMiles,
@@ -180,7 +179,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const beyond = useMemo(() => {
     if (state !== 'ready' || !origin || !picks || picks.length >= SHEET_PICKS) return null;
     const places = nearestBeyond({ origin, miles, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks });
-    const widenTo = distance >= DISTANCE_OPTIONS_MI[DISTANCE_OPTIONS_MI.length - 1] ? null : chipCovering(places[0]?.distanceMeters ?? 0, units, DISTANCE_OPTIONS_MI, distance);
+    const widenTo = widenChip(places, distance, units);
     return { places, widenTo };
   }, [state, origin, picks, miles, distance, units, lowRated, now, overrides, customLandmarks]);
 
