@@ -152,7 +152,15 @@ export function BadgesProvider({ children }) {
         hasFriendTagTeam(user.uid, friendUidList, rows).catch(() => false),
       ]);
 
-      const tripLandmarks = Math.max(0, ...Object.values(trip.byRegion || {}).map((ids) => ids.length));
+      // byRegion also holds Mapr-found places' ids once Edit List has saved an
+      // order; only catalog landmarks count toward the badge.
+      const tripLandmarks = Math.max(
+        0,
+        ...Object.entries(trip.byRegion || {}).map(([rid, ids]) => {
+          const known = new Set((getRegion(rid)?.landmarks || []).map((l) => l.id));
+          return ids.filter((id) => known.has(id)).length;
+        })
+      );
 
       setExtra({
         photoCheckins: countPhotoCheckins(rows),

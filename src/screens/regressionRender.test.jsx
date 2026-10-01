@@ -72,6 +72,7 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
       deleteGroupTrip: vi.fn(),
       renameGroupTrip: vi.fn(),
       removeGroupPlace: vi.fn(),
+      MAX_GROUP_MEMBERS: 25,
     }));
     const { default: GroupTrip } = await import('./GroupTrip.jsx');
     const { TripProvider } = await import('../lib/TripContext');

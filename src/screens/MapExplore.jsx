@@ -28,7 +28,7 @@ import ActiveNavOverlay from '../components/ActiveNavOverlay';
 import { prepareRoute, navProgress } from '../lib/navProgress';
 import { useSmartSearch, landmarkSearchText } from '../lib/smartSearch';
 import SmartSearchLabel from '../components/SmartSearchLabel';
-import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLink } from '../lib/routing';
+import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLegs } from '../lib/routing';
 import LandmarkThumb from '../components/LandmarkThumb';
 import QuickRateButton from '../components/QuickRateButton';
 import { useSessionState } from '../lib/usePersistentState';
@@ -1192,14 +1192,11 @@ export default function MapExplore() {
               <button type="button" className="btn btn-primary btn-sm" onClick={startTripRoute} disabled={!coords}>
                 {'\u{25B6}\u{FE0F}'} {coords ? 'Start' : 'Start (waiting for location)'}
               </button>
-              <a
-                className="btn btn-ghost btn-sm"
-                href={googleMapsMultiStopLink(orderedTrip.stops, orderedTrip.origin)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                All stops in Google Maps
-              </a>
+              {googleMapsMultiStopLegs(orderedTrip.stops, orderedTrip.origin).map((href, i, all) => (
+                <a key={href} className="btn btn-ghost btn-sm" href={href} target="_blank" rel="noreferrer">
+                  {all.length > 1 ? `Google Maps, part ${i + 1} of ${all.length}` : 'All stops in Google Maps'}
+                </a>
+              ))}
             </div>
           </div>
         </div>

@@ -247,12 +247,27 @@ export function mapsDeepLink(destination, destLat, destLng) {
 // Google Maps with every stop in order (Apple Maps' web links can't take
 // more than one destination). Google allows up to 9 waypoints between
 // origin and destination; with no origin it starts from your location.
+// Only the first 10 stops fit one link -- use googleMapsMultiStopLegs for more.
+export const MAPS_STOPS_PER_LINK = 10;
 export function googleMapsMultiStopLink(stops, origin, mode = 'driving') {
   const pt = (s) => `${s.lat},${s.lng}`;
-  const list = stops.slice(0, 10);
+  const list = stops.slice(0, MAPS_STOPS_PER_LINK);
   if (!list.length) return null;
   const params = new URLSearchParams({ api: '1', destination: pt(list[list.length - 1]), travelmode: mode });
   if (origin) params.set('origin', pt(origin));
   if (list.length > 1) params.set('waypoints', list.slice(0, -1).map(pt).join('|'));
   return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
+// Every stop, split into consecutive links of up to 10 stops. Each part
+// starts where the previous one ended, so nothing is dropped.
+export function googleMapsMultiStopLegs(stops, origin, mode = 'driving') {
+  const links = [];
+  let from = origin;
+  for (let i = 0; i < stops.length; i += MAPS_STOPS_PER_LINK) {
+    const chunk = stops.slice(i, i + MAPS_STOPS_PER_LINK);
+    links.push(googleMapsMultiStopLink(chunk, from, mode));
+    from = chunk[chunk.length - 1];
+  }
+  return links;
 }

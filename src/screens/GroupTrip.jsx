@@ -16,6 +16,7 @@ import {
   deleteGroupTrip,
   renameGroupTrip,
   removeGroupPlace,
+  MAX_GROUP_MEMBERS,
 } from '../lib/groupTrips';
 import { orderStops, annotateRoute } from '../lib/routing';
 import { useDragReorder } from '../lib/useDragReorder';
@@ -336,9 +337,15 @@ export default function GroupTrip() {
           </div>
         ))}
         {/* Always the last row, under whoever joined most recently. */}
-        <button type="button" className="member-add-row" onClick={() => setShowAdd(true)}>
-          {'\u{2795}'} Add
-        </button>
+        {memberUids.length >= MAX_GROUP_MEMBERS ? (
+          <p className="screen-subtitle" style={{ marginBottom: 0 }}>
+            This trip is full: a group trip fits up to {MAX_GROUP_MEMBERS} people.
+          </p>
+        ) : (
+          <button type="button" className="member-add-row" onClick={() => setShowAdd(true)}>
+            {'\u{2795}'} Add
+          </button>
+        )}
         {showAdd && (
           <AddMemberSheet
             title={`Add someone to ${trip.name}`}
@@ -378,7 +385,11 @@ export default function GroupTrip() {
                     setSortPref('custom');
                     setEditing(false);
                   } else {
-                    if (trip) reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch(() => {});
+                    if (trip) {
+                      reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch((e) =>
+                        toast.show(friendlyError(e, "Couldn't save your list order. Try again."))
+                      );
+                    }
                     setEditing(true);
                   }
                 }}

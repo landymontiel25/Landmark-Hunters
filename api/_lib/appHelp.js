@@ -72,7 +72,7 @@ export const APP_HELP =
   `"➕ Add" at the bottom of the Members list; only the owner can remove members. "🗑️ Delete Itinerary" at the bottom of an ` +
   `itinerary deletes it after a confirm (its stops and name; check-ins and ratings stay), with an Undo right after. A group ` +
   `trip's owner has "Delete This Group Trip" there instead, also confirmed, and that one deletes it for everyone with no undo. A group trip ` +
-  `holds up to 25 people. Places Mapr found on the web that were added to a group trip are listed in its own "Places From Mapr" card (with ` +
+  `holds up to 25 people (including you); the friend picker and Add button stop there with a note. Places Mapr found on the web that were added to a group trip are listed in its own "Places From Mapr" card (with ` +
   `Directions and a remove button), separate from the numbered route. Once you've checked into at least one landmark on a solo itinerary, a ` +
   `"🎬 Trip Recap" button appears there: a shareable card with how many landmarks you visited and the points earned (group trips don't have one).\n` +
   `- Mapr's place recommendations (e.g. "good bowling near me") show as a grid of cards under its reply, one per place — not plain chat ` +
@@ -243,7 +243,8 @@ export const APP_HELP =
   `to look around, then 📍 to recenter; End stops it.\n` +
   `- Itineraries show each stop's street address and, between stops, how long each leg takes and whether it's a walk or a drive. ` +
   `"▶ Start Trip" runs live navigation through the stops you haven't checked into yet, in list order -- arriving at one offers ` +
-  `"Next: …" for the following stop. "All stops in Google Maps" opens the whole route, every stop in order, in Google Maps.\n` +
+  `"Next: …" for the following stop. "All stops in Google Maps" opens the whole route, every stop in order, in Google Maps; Google takes 10 stops per link, so a longer route shows ` +
+  `"Google Maps, part 1 of 2" style links to open one after another.\n` +
   `- Each stop on an itinerary or group trip shows its street address under its name.\n` +
   `- Group Trips: a shared itinerary a few friends can all see and edit together (only the trip's owner can change who's a member). ` +
   `"🗺️ View in Map" next to Your Route opens the Map with the trip's stops numbered in the most efficient order from where ` +

@@ -13,7 +13,7 @@ import { nearestRegionId } from '../lib/geo';
 import { classifyInterest } from '../lib/interestClassifier';
 import { listFriends } from '../lib/friends';
 import { matchesSearch } from '../lib/search';
-import { createGroupTrip } from '../lib/groupTrips';
+import { createGroupTrip, MAX_GROUP_MEMBERS } from '../lib/groupTrips';
 import LocationAutocomplete, { HomeStartPrefill } from '../components/LocationAutocomplete';
 import AddInterestChip from '../components/AddInterestChip';
 import RegionSearch from '../components/RegionSearch';
@@ -55,6 +55,9 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
             onChange={(e) => onQueryChange(e.target.value)}
             style={{ marginBottom: 10 }}
           />
+          {selected.size >= MAX_GROUP_MEMBERS - 1 && (
+            <p className="screen-subtitle">A group trip fits up to {MAX_GROUP_MEMBERS} people, including you, so that's everyone you can add.</p>
+          )}
           {filtered.length === 0 && <p className="screen-subtitle">No friends match "{query}".</p>}
           {filtered.map((f) => (
             <label key={f.friend} className="friend-row" style={{ cursor: 'pointer' }}>
@@ -62,6 +65,7 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
               <input
                 type="checkbox"
                 checked={selected.has(f.friend)}
+                disabled={!selected.has(f.friend) && selected.size >= MAX_GROUP_MEMBERS - 1}
                 onChange={() => onToggle(f.friend)}
                 style={{ width: 20, height: 20 }}
               />
