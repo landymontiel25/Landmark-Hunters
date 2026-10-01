@@ -8,6 +8,7 @@ import {
   shouldPromptLoveReason,
   POINTS_PER_CHECKIN,
 } from './leaderboard';
+import { checkinBlockReason, checkinLocationFields, BLOCK_MESSAGES } from './checkinRules';
 
 // Shared check-in state so there's ONE source of truth and a single place to
 // trigger the "rate + post" prompt, no matter which screen you checked in
@@ -113,9 +114,17 @@ export function CheckInProvider({ children }) {
   // own. Every other check-in path in the app (map pin, itinerary, landmark
   // list, detail page) never sets this flag, so they keep awarding points
   // and instantly securing the streak exactly as before.
-  const commitCheckIn = async () => {
+  // `fix` is the user's GPS fix ({ lat, lng, accuracy }) at the moment of
+  // Post. This provider sits above GeoProvider, so the caller passes it in.
+  // Every real check-in saves distance, accuracy and a verification tag;
+  // with REQUIRE_GPS_CHECKIN on, one that fails the rule is refused.
+  const commitCheckIn = async (fix = null) => {
     const landmark = justCheckedIn;
     if (!user || !landmark) return null;
+    const blocked = checkinBlockReason(fix, landmark, { ratingOnly: !!checkInOptions?.ratingOnly });
+    if (blocked) {
+      throw Object.assign(new Error(BLOCK_MESSAGES[blocked]), { userMessage: BLOCK_MESSAGES[blocked], code: `checkin/${blocked}` });
+    }
     setCheckingIn(landmark.id);
     try {
       const ratingOnly = !!checkInOptions?.ratingOnly;
@@ -132,6 +141,7 @@ export function CheckInProvider({ children }) {
         ratingOnly,
         homeCoords: myProfile?.homeCoords || null,
         landmarkCoords,
+        location: ratingOnly ? null : checkinLocationFields(fix, landmark),
       });
       // Only a real (non-ratingOnly) attempt marks the map/UI as "checked in"
       // here -- a ratingOnly claim never should, even if it's the one that

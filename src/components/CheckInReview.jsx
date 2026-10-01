@@ -15,6 +15,7 @@ import { isRateable, diversityHint } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
+import { useGeo } from '../lib/GeoContext';
 
 // Pops up the moment "Check In" is tapped -- nothing is claimed yet. Tapping
 // Post is what actually registers the check-in (via commitCheckIn) and awards
@@ -32,6 +33,7 @@ export default function CheckInReview() {
   // the confetti blast and the "+N pts" copy entirely rather than show "+0".
   const ratingOnly = !!checkInOptions?.ratingOnly;
   const { user } = useAuth();
+  const { coords } = useGeo();
   const { myUsername } = useFriends();
   const { myReviews, reload: reloadRatings } = useRatings();
   const { reload: reloadMyPhotos } = useMyPhotos();
@@ -136,7 +138,7 @@ export default function CheckInReview() {
       // The server stays the gate here: nothing reads as "checked in" (and
       // no points show) until this resolves, so a refused or failed claim
       // can never look like it counted.
-      await commitCheckIn();
+      await commitCheckIn(coords);
     } catch (e) {
       // The check-in write itself failed -- no points awarded, nothing to
       // show as posted.

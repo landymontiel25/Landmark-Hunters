@@ -168,6 +168,28 @@ await t('check-in payout follows the visit taper', async () => {
   await assertFails(setDoc(doc(db, 'checkins/erin_b'), ck({ landmarkId: 'b', ratingOnly: true, points: 50 })));
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_c'), ck({ landmarkId: 'c', ratingOnly: true, visited: false, points: 0 })));
 });
+await t('check-in location evidence: optional, typed, and only removable by the owner', async () => {
+  const db = as('erin');
+  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc1'), ck({ landmarkId: 'loc1', distanceMeters: 12, gpsAccuracyMeters: 8.5, verification: 'unverified' })));
+  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc2'), ck({ landmarkId: 'loc2', verification: 'verified' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc3'), ck({ landmarkId: 'loc3', distanceMeters: '12' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc4'), ck({ landmarkId: 'loc4', distanceMeters: -1 })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc5'), ck({ landmarkId: 'loc5', gpsAccuracyMeters: 'good' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc6'), ck({ landmarkId: 'loc6', verification: 'trusted' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc7'), ck({ landmarkId: 'loc7', somethingElse: 1 })));
+  // Owner can remove the two location numbers (account-deletion scrub) ...
+  await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc1'), { distanceMeters: deleteField(), gpsAccuracyMeters: deleteField() }));
+  // ... but cannot set, change or null them, nor touch verification or points.
+  await assertFails(updateDoc(doc(db, 'checkins/erin_loc2'), { distanceMeters: 5 }));
+  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc8'), ck({ landmarkId: 'loc8', distanceMeters: 40, gpsAccuracyMeters: 9, verification: 'unverified' })));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { distanceMeters: 0 }));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { distanceMeters: null }));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { verification: 'verified' }));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { points: 500 }));
+  // Someone else cannot scrub it, and the usual owner fields still work.
+  await assertFails(updateDoc(doc(as('bob'), 'checkins/erin_loc8'), { distanceMeters: deleteField() }));
+  await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc8'), { userName: 'Deleted User', photoURL: null }));
+});
 
 console.log('region_stats');
 await reset();
