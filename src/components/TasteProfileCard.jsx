@@ -8,6 +8,8 @@ import { getPickFeedback, readLocalFeedback, PICK_VOTE_EVENT } from '../lib/pick
 import { baselineToSyntheticReviews, extractLegacyBaselineFromIntro } from '../lib/tasteQuestions';
 import TasteNudgeCard from './TasteNudgeCard';
 import { Skeleton } from './Skeleton';
+import ErrorNotice from './ErrorNotice';
+import { useSlowLoad } from '../lib/useSlowLoad';
 
 // Taste Profile Score -- Mapr's own leave-one-out prediction confidence
 // (see computeTasteConfidence), NOT an activity counter. It only goes up
@@ -108,6 +110,8 @@ export default function TasteProfileCard() {
     };
   }, [user]);
 
+  const profileStuck = useSlowLoad(!!user && !profileFresh && !justSaved && !editing);
+
   if (!user) return null;
 
   // The server read hasn't landed yet (and nothing was just saved this
@@ -115,6 +119,18 @@ export default function TasteProfileCard() {
   // "answer a few quick picks" state -- or letting Edit open pre-filled
   // with nothing -- against data that simply isn't here yet.
   if (!profileFresh && !justSaved && !editing) {
+    if (profileStuck) {
+      return (
+        <div className="card section taste-profile-card">
+          <h3 style={{ margin: 0, fontSize: '0.95rem' }}>{'\u{1F9E9}'} Taste Profile</h3>
+          <ErrorNotice
+            compact
+            message="We couldn't load your taste profile. Check your connection and try again."
+            onRetry={() => reloadFriends()}
+          />
+        </div>
+      );
+    }
     return (
       <div className="card section taste-profile-card" role="status" aria-live="polite">
         <span className="visually-hidden">Loading your taste profile…</span>

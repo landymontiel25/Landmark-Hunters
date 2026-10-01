@@ -142,14 +142,21 @@ function StreakBadge() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
+    // Keep the unsubscribe: handing it back from the .then() below returns it
+    // to nobody, which left a live listener behind every time `user` changed.
+    let unsubscribe = null;
+    const subscribe = () => {
+      if (cancelled || unsubscribe) return;
+      unsubscribe = subscribeMySoloStreak(user.uid, setStreak, () => {});
+    };
     ensureSoloStreak(user.displayName || 'A traveler', user.uid)
-      .then(() => {
-        if (cancelled) return;
-        return subscribeMySoloStreak(user.uid, setStreak, () => {});
-      })
-      .catch(() => {});
+      .then(subscribe)
+      // The set-up call failing (offline, server hiccup) shouldn't hide an
+      // existing streak from the badge.
+      .catch(subscribe);
     return () => {
       cancelled = true;
+      if (unsubscribe) unsubscribe();
     };
   }, [firebaseEnabled, user]);
 

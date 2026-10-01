@@ -896,18 +896,30 @@ export default function MyStreaks() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
+    // The unsubscribe has to be kept: returning it from the .then() below
+    // hands it to nobody, so every visit to this screen left a live
+    // Firestore listener behind.
+    let unsubscribe = null;
+    const subscribe = () => {
+      if (cancelled || unsubscribe) return;
+      unsubscribe = subscribeMySoloStreak(user.uid, setSoloStreak, (e) => {
+        // eslint-disable-next-line no-console
+        console.error('Solo streak failed to load', e);
+        if (!cancelled) setSoloError(friendlyError(e, "Couldn't load your solo streak."));
+      });
+    };
     ensureSoloStreak(myUsername || user.displayName || 'A traveler', user.uid)
-      .then(() => {
+      .then(subscribe)
+      .catch((e) => {
         if (cancelled) return;
-        return subscribeMySoloStreak(user.uid, setSoloStreak, (e) => {
-          // eslint-disable-next-line no-console
-          console.error('Solo streak failed to load', e);
-          setSoloError(friendlyError(e, "Couldn't load your solo streak."));
-        });
-      })
-      .catch((e) => setSoloError(friendlyError(e, "Couldn't load your solo streak.")));
+        setSoloError(friendlyError(e, "Couldn't load your solo streak."));
+        // The set-up call failing (offline, server hiccup) doesn't mean the
+        // streak doesn't exist -- an existing one can still be shown.
+        subscribe();
+      });
     return () => {
       cancelled = true;
+      if (unsubscribe) unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once per account, not on every myUsername change
   }, [firebaseEnabled, user?.uid]);

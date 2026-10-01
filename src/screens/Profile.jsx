@@ -97,7 +97,7 @@ export default function Profile() {
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
   const navigate = useNavigate();
-  const { stats } = useBadges();
+  const { stats, reload: reloadStats } = useBadges();
   const { claimedMap } = useCheckIn();
   // Solo streak's own doc (mode: 'solo', streaks/{uid}) -- kept live here
   // the same way Header's badge and the streak-risk banner below do, so
@@ -406,7 +406,7 @@ export default function Profile() {
             onClick={() => stats?.checkins && navigate('/checkins')}
           >
             <span className="profile-stat-num">
-              {stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}
+              {stats?.failed ? '–' : stats ? stats.checkins.toLocaleString() : <Skeleton className="skeleton-inline" width={36} height={22} />}
             </span>
             <span className="profile-stat-label">check-ins{stats?.checkins ? ' ›' : ''}</span>
           </button>
@@ -415,7 +415,7 @@ export default function Profile() {
             className="profile-stat profile-stat-btn"
             onClick={() => stats?.cityIds?.length && navigate('/cities')}
           >
-            <span className="profile-stat-num">{stats ? stats.cities : <Skeleton className="skeleton-inline" width={28} height={22} />}</span>
+            <span className="profile-stat-num">{stats?.failed ? '–' : stats ? stats.cities : <Skeleton className="skeleton-inline" width={28} height={22} />}</span>
             <span className="profile-stat-label">cities{stats?.cityIds?.length ? ' ›' : ''}</span>
           </button>
           <button type="button" className="profile-stat profile-stat-btn" onClick={() => navigate('/streaks')}>
@@ -425,6 +425,14 @@ export default function Profile() {
             <span className="profile-stat-label">streak ›</span>
           </button>
         </div>
+
+        {stats?.failed && (
+          <ErrorNotice
+            compact
+            message="We couldn't load your stats. Check your connection and try again."
+            onRetry={() => reloadStats()}
+          />
+        )}
 
         <div className="rating-progress">
           {ratingsCount >= RATING_GOAL ? (

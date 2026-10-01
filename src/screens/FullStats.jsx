@@ -7,6 +7,7 @@ import { ALL_BADGES, RARITY_ORDER } from '../lib/streaks';
 import { levelProgress } from '../lib/level';
 import CheckinsGallery from '../components/CheckinsGallery';
 import { SkeletonCard } from '../components/Skeleton';
+import ErrorNotice from '../components/ErrorNotice';
 
 const SORTS = [
   { id: 'oldest', label: 'Oldest' },
@@ -38,7 +39,7 @@ export default function FullStats() {
   const navigate = useNavigate();
   const { user, loading: authLoading, firebaseEnabled } = useAuth();
   const { claimedMap } = useCheckIn();
-  const { stats, badges, badgeEarnedAt } = useBadges();
+  const { stats, badges, badgeEarnedAt, reload: reloadStats } = useBadges();
   const [sortBy, setSortBy] = useState('recent');
   // Which badge's description popover is open -- hover (desktop, with the
   // same short grace period as the header's profile popover) or tap
@@ -90,7 +91,9 @@ export default function FullStats() {
       </button>
 
       {/* Until stats land, "Level 1 · 0 pts" would be a wrong answer, not a placeholder. */}
-      {stats ? (
+      {stats?.failed ? (
+        <ErrorNotice message="We couldn't load your level. Check your connection and try again." onRetry={() => reloadStats()} />
+      ) : stats ? (
         <div className="card section">
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
             <h3 style={{ margin: 0 }}>{'\u{1F396}\u{FE0F}'} Level {level}</h3>

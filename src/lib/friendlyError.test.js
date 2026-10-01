@@ -27,6 +27,13 @@ describe('friendlyError', () => {
     expect(friendlyError(new Error('FirebaseError: [code=internal] stack trace'))).toBe('Something went wrong. Try again.');
   });
 
+  it('never shows a raw auth/ code from a token refresh or similar', () => {
+    expect(friendlyError({ code: 'auth/network-request-failed', message: 'Firebase: Error (auth/network-request-failed).' })).toBe(
+      'Network error — check your connection and try again.'
+    );
+    expect(friendlyError({ code: 'auth/some-new-code' })).not.toMatch(/auth\//);
+  });
+
   it('says offline when the device is offline', () => {
     vi.stubGlobal('navigator', { onLine: false });
     expect(friendlyError({ code: 'unavailable' })).toBe(OFFLINE_MESSAGE);

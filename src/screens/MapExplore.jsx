@@ -1415,7 +1415,7 @@ export default function MapExplore() {
 
       {/* A watch timeout while a fix is already on screen (common when
           standing still indoors) isn't "unavailable": your pin is showing. */}
-      {geoError && !coords && <p className="tag tag-error map-error-toast">Location unavailable — {geoError}</p>}
+      {geoError && !coords && <p className="tag tag-error map-error-toast">{geoError}</p>}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
+import { friendlyGeoError, isLocationDenied } from './geoError';
 
 // One shared live location for the whole app, so a single "Refresh" control can
 // update every distance on screen at once (instead of each screen watching alone).
@@ -13,6 +14,13 @@ const readPos = (pos) => ({
   lng: pos.coords.longitude,
   accuracy: pos.coords.accuracy,
 });
+// A fix with a missing/NaN coordinate (a flaky device or plugin) would crash
+// the map and distance math downstream -- treat it as "no fix", not a fix.
+const validPos = (pos) =>
+  Number.isFinite(pos?.coords?.latitude) &&
+  Number.isFinite(pos?.coords?.longitude) &&
+  Math.abs(pos.coords.latitude) <= 90 &&
+  Math.abs(pos.coords.longitude) <= 180;
 
 // The last fix, saved on this device so the Map can open where you are
 // instantly -- a fresh GPS fix can take 10-15 s (longer on a laptop), and
@@ -54,6 +62,7 @@ export function GeoProvider({ children }) {
   useEffect(() => {
     let cancelled = false;
     const onSuccess = (pos) => {
+      if (!validPos(pos)) return onError({ code: 2, message: 'invalid position' });
       const coords = readPos(pos);
       saveLastFix(coords);
       setState({ coords, error: null, loading: false });
@@ -62,10 +71,17 @@ export function GeoProvider({ children }) {
     // under a second; the precise watch below then takes over.
     Geolocation.getCurrentPosition({ enableHighAccuracy: false, timeout: 4000, maximumAge: 10 * 60 * 1000 })
       .then((pos) => {
-        if (!cancelled) setState((s) => (s.coords ? s : { coords: readPos(pos), error: null, loading: false }));
+        if (!cancelled && validPos(pos)) setState((s) => (s.coords ? s : { coords: readPos(pos), error: null, loading: false }));
       })
       .catch(() => {});
-    const onError = (err) => setState((s) => ({ ...s, error: err?.message || 'Unable to get your location.', loading: false }));
+    // A watch timeout while a good fix is already on screen isn't "location
+    // unavailable" -- keep using the fix; only a denial is worth surfacing then.
+    const onError = (err) =>
+      setState((s) => ({
+        ...s,
+        error: s.coords && !isLocationDenied(err) ? null : friendlyGeoError(err),
+        loading: false,
+      }));
     Geolocation.watchPosition({ enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }, (pos, err) => {
       if (err) onError(err);
       else if (pos) onSuccess(pos);
@@ -86,13 +102,14 @@ export function GeoProvider({ children }) {
     setRefreshing(true);
     Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 15000, maximumAge: 0 })
       .then((pos) => {
+        if (!validPos(pos)) throw new Error('invalid position');
         const coords = readPos(pos);
         saveLastFix(coords);
         setState({ coords, error: null, loading: false });
         setRefreshing(false);
       })
       .catch((err) => {
-        setState((s) => ({ ...s, error: err?.message || 'Unable to get your location.', loading: false }));
+        setState((s) => ({ ...s, error: friendlyGeoError(err), loading: false }));
         setRefreshing(false);
       });
   }, []);

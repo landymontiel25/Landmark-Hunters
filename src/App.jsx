@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './lib/AuthContext';
 import { MaprChatProvider } from './lib/MaprChatContext';
@@ -30,6 +30,7 @@ import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
 import { usePushNotificationsSync } from './lib/usePushNotificationsSync';
 import { useOnboardingNotice } from './lib/useOnboardingNotice';
 import { useTripAccountGuard } from './lib/tripAccountGuard';
+import { flagClear, flagSet, shouldReloadForChunkError } from './lib/chunkReload';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
 // start/stop push registration as the traveler's own saved preference
@@ -59,36 +60,23 @@ function BackgroundLocationSync() {
   return null;
 }
 
+// A boundary that renders nothing when its child crashes (see ErrorBoundary's
+// `fallback`), for the chrome that stays mounted on every screen.
+function Soft({ children }) {
+  return <ErrorBoundary fallback={null}>{children}</ErrorBoundary>;
+}
+
 // Each screen is its own file with a content hash in its name, and every
 // deploy replaces them. A tab opened before a deploy then asks for a file
 // that's gone, and the screen crashed with "Something went wrong" -- the
 // usual cause of that screen. Reload once to pick up the current version
 // (the flag stops a reload loop if the file is missing for another reason).
-const RELOAD_FLAG = 'lh-chunk-reload';
-// sessionStorage can throw (blocked storage); that must never turn a
-// successfully loaded screen into "Something went wrong".
-const flagGet = () => {
-  try {
-    return sessionStorage.getItem(RELOAD_FLAG);
-  } catch {
-    return null;
-  }
-};
-const flagSet = () => {
-  try {
-    sessionStorage.setItem(RELOAD_FLAG, '1');
-  } catch {
-    /* blocked storage */
-  }
-};
-const flagClear = () => {
-  try {
-    sessionStorage.removeItem(RELOAD_FLAG);
-  } catch {
-    /* blocked storage */
-  }
-};
+// Every screen loader, so they can be fetched ahead of time (see
+// prefetchScreens): a screen first opened while the connection is down used
+// to land on "Something went wrong", because its file had never been loaded.
+const screenLoaders = [];
 function lazyScreen(load) {
+  screenLoaders.push(load);
   return lazy(() =>
     load()
       .then((m) => {
@@ -96,7 +84,7 @@ function lazyScreen(load) {
         return m;
       })
       .catch((err) => {
-        if (!flagGet()) {
+        if (shouldReloadForChunkError()) {
           flagSet();
           window.location.reload();
           return new Promise(() => {});
@@ -108,7 +96,7 @@ function lazyScreen(load) {
 // Vite's own signal for the same thing (a preloaded dependency is gone).
 if (typeof window !== 'undefined') {
   window.addEventListener('vite:preloadError', (e) => {
-    if (flagGet()) return;
+    if (!shouldReloadForChunkError()) return;
     e.preventDefault();
     flagSet();
     window.location.reload();
@@ -185,7 +173,37 @@ function AppRoutes() {
   );
 }
 
+// After the app is up and quiet, quietly load the remaining screens one at a
+// time, so a dropped connection mid-session doesn't make the next screen
+// fail. Skipped on Data Saver / offline; failures are ignored (best effort).
+const PREFETCH_START_MS = 4000;
+const PREFETCH_GAP_MS = 400;
+function prefetchScreens() {
+  if (typeof navigator === 'undefined') return () => {};
+  if (navigator.onLine === false || navigator.connection?.saveData) return () => {};
+  const loaders = [...screenLoaders, () => import('./screens/TripSetup')];
+  let cancelled = false;
+  let timer = setTimeout(async function run() {
+    for (const load of loaders) {
+      if (cancelled || navigator.onLine === false) return;
+      try {
+        await load();
+      } catch {
+        /* best effort */
+      }
+      await new Promise((r) => {
+        timer = setTimeout(r, PREFETCH_GAP_MS);
+      });
+    }
+  }, PREFETCH_START_MS);
+  return () => {
+    cancelled = true;
+    clearTimeout(timer);
+  };
+}
+
 export default function App() {
+  useEffect(() => prefetchScreens(), []);
   return (
     <ToastProvider>
     <AuthProvider>
@@ -206,19 +224,22 @@ export default function App() {
           <BackgroundLocationSync />
           <PushNotificationsSync />
           <OnboardingNoticeSync />
-          <OfflineBanner />
-          <StreakWarningBanner />
-          <Header />
+          {/* Each always-on piece gets its own boundary: without one, a crash
+              in any of them (they sit outside the per-screen boundary) takes
+              down the whole app to a blank white page. */}
+          <Soft><OfflineBanner /></Soft>
+          <Soft><StreakWarningBanner /></Soft>
+          <Soft><Header /></Soft>
           <main className="app-main">
             <AppRoutes />
           </main>
-          <BottomNav />
-          <CheckInReview />
-          <LoveReasonPrompt />
-          <TagCapPrompt />
-          <HabitPlacePrompt />
-          <CelebrationOverlay />
-          <AdminModeBadge />
+          <Soft><BottomNav /></Soft>
+          <Soft><CheckInReview /></Soft>
+          <Soft><LoveReasonPrompt /></Soft>
+          <Soft><TagCapPrompt /></Soft>
+          <Soft><HabitPlacePrompt /></Soft>
+          <Soft><CelebrationOverlay /></Soft>
+          <Soft><AdminModeBadge /></Soft>
           </HashRouter>
           </MaprChatProvider>
           </UnitsProvider>
