@@ -14,7 +14,6 @@ import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
 import { API_BASE } from '../lib/apiBase';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
-import { resetOnboarding } from '../lib/onboardingSave';
 
 export { progressTier };
 
@@ -68,7 +67,6 @@ export default function OnboardingLab() {
           <span>{'\u{1F9EA}'}</span> Nothing to test
         </h1>
         <p className="screen-subtitle">There's no new onboarding to try right now. This tab will come back when there is.</p>
-        <ResetOnboarding uid={user.uid} />
       </div>
     );
   }
@@ -169,43 +167,6 @@ export default function OnboardingLab() {
       )}
       {id === 'checkin' && <LabCheckIn data={data} set={set} onDone={(how) => go('done', how)} />}
       {id === 'done' && <LabSummary data={data} log={log} onRestart={restart} />}
-    </div>
-  );
-}
-
-// Puts this admin account back to "never did onboarding", so the update
-// notification and the Map/Mapr banner can be seen again.
-function ResetOnboarding({ uid }) {
-  const [state, setState] = useState('idle'); // idle | working | done | error
-  const run = async () => {
-    setState('working');
-    try {
-      await resetOnboarding(uid);
-      setState('done');
-    } catch (err) {
-      console.error('[Onboarding] reset failed:', err);
-      setState('error');
-    }
-  };
-  return (
-    <div className="card section" style={{ marginTop: 24, textAlign: 'left' }}>
-      <strong>Admin: try the update notice again</strong>
-      <p className="screen-subtitle" style={{ margin: '4px 0 10px', fontSize: '0.8rem' }}>
-        Resets your own account to "never did onboarding". Reload the app afterward: the notification and the banner come back.
-      </p>
-      {state === 'done' && (
-        <p className="tag tag-free" role="status" style={{ display: 'block', marginBottom: 10 }}>
-          Reset. Reload the app to see the notification.
-        </p>
-      )}
-      {state === 'error' && (
-        <p className="tag tag-error" role="alert" style={{ display: 'block', marginBottom: 10 }}>
-          Couldn't reset. Check the console for details.
-        </p>
-      )}
-      <button type="button" className="btn btn-ghost btn-sm" disabled={state === 'working'} onClick={run}>
-        {state === 'working' ? 'Resetting…' : 'Reset my onboarding'}
-      </button>
     </div>
   );
 }
