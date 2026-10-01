@@ -302,7 +302,27 @@ export async function removeCheckinPhoto(userId, landmarkId, photoURL) {
 export async function getMyCheckin(userId, landmarkId) {
   if (!db || !userId || !landmarkId) return null;
   const snap = await getDoc(doc(db, 'checkins', `${userId}_${landmarkId}`));
-  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+  if (!snap.exists()) return null;
+  const base = { id: snap.id, ...snap.data() };
+  // The first doc id is taken by a "Rate a Landmark" claim if you rated a
+  // place before ever visiting it -- its date is when you RATED, not when you
+  // checked in. Show the first real visit's date instead (photos and other
+  // fields stay on the first doc, which is where they're written).
+  if (!isRealCheckin(base)) {
+    try {
+      const all = await getDocs(
+        query(collection(db, 'checkins'), where('userId', '==', userId), where('landmarkId', '==', landmarkId))
+      );
+      const real = all.docs
+        .map((d) => ({ id: d.id, ...d.data() }))
+        .filter(isRealCheckin)
+        .sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0))[0];
+      if (real?.createdAt) return { ...base, createdAt: real.createdAt, visitDocId: real.id };
+    } catch {
+      /* fall back to the rating claim's own date */
+    }
+  }
+  return base;
 }
 
 export async function hasClaimedLandmark(userId, landmarkId) {
