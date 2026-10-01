@@ -24,10 +24,10 @@ const miles = (m) => m / METERS_PER_MILE;
 const NOW = new Date('2026-10-01T03:00:00');
 
 describe('real catalog density', () => {
-  it('Doral has nothing in the catalog within 5 mi, but plenty within 10', () => {
-    expect(withinDistance(ALL_LANDMARKS, DORAL, 5)).toHaveLength(0);
+  it('Doral has a real set of places within 5 mi, and plenty within 10', () => {
+    expect(withinDistance(ALL_LANDMARKS, DORAL, 5).length).toBeGreaterThanOrEqual(10);
     expect(withinDistance(ALL_LANDMARKS, DORAL, 10).length).toBeGreaterThanOrEqual(20);
-    expect(miles(withinDistance(ALL_LANDMARKS, DORAL, 100)[0].distanceMeters)).toBeGreaterThan(5);
+    expect(miles(withinDistance(ALL_LANDMARKS, DORAL, 100)[0].distanceMeters)).toBeLessThan(2);
   });
 
   it('3 AM does not hide the nearby catalog (no built-in place carries hours)', () => {
@@ -71,15 +71,15 @@ describe('nearest beyond the radius', () => {
   it('lists the nearest three past 1 mi at Doral, closest first', () => {
     const list = nearestBeyond({ origin: DORAL, miles: 1, date: NOW });
     expect(list).toHaveLength(3);
-    expect(list[0].name).toBe('El Palacio de los Jugos');
-    expect(miles(list[0].distanceMeters)).toBeCloseTo(5.7, 0);
+    expect(list[0].name).toBe('Trump National Doral (Blue Monster)');
+    expect(miles(list[0].distanceMeters)).toBeCloseTo(1.1, 0);
     expect(list.every((p, i) => i === 0 || p.distanceMeters >= list[i - 1].distanceMeters)).toBe(true);
   });
   it('widen target is the smallest chip that reaches the nearest place', () => {
     const near = nearestBeyond({ origin: DORAL, miles: 1, date: NOW })[0];
-    expect(chipCovering(near.distanceMeters, 'imperial', DISTANCE_OPTIONS_MI, 1)).toBe(10);
+    expect(chipCovering(near.distanceMeters, 'imperial', DISTANCE_OPTIONS_MI, 1)).toBe(5);
     expect(chipCovering(1000, 'imperial', DISTANCE_OPTIONS_MI, 1)).toBe(5);
-    expect(chipCovering(near.distanceMeters, 'metric', DISTANCE_OPTIONS_MI, 1)).toBe(10); // 10 km = 6.2 mi
+    expect(chipCovering(near.distanceMeters, 'metric', DISTANCE_OPTIONS_MI, 1)).toBe(5); // 5 km = 3.1 mi
   });
   it('only returns places past the radius', () => {
     expect(nearestBeyond({ origin: DORAL, miles: 100, date: NOW }).every((p) => p.distanceMeters > 100 * METERS_PER_MILE)).toBe(true);
