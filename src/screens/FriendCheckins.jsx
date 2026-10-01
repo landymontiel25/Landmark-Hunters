@@ -22,6 +22,9 @@ export default function FriendCheckins() {
   useEffect(() => {
     let cancelled = false;
     setError(null);
+    // Moving to another friend's page reuses this component -- don't keep
+    // showing the previous friend's name/points while the new ones load.
+    setLoaded(false);
     (async () => {
       try {
         const [profile, stats] = await Promise.all([getUserProfile(uid), getUserStats(uid)]);

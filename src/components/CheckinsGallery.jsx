@@ -125,7 +125,10 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       // Prefer the photo saved AT check-in, then a rating photo, then the
       // landmark's stock image.
       const myPhoto = review?.photoURLs?.length ? review.photoURLs[0] : review?.photoURL || null;
-      const mine = c.photoURL || myPhoto || null;
+      // photoURLs is the check-in's own gallery (oldest -> newest, see
+      // addCheckinPhoto); show the newest, same as the landmark page does.
+      const checkinPhoto = c.photoURLs?.length ? c.photoURLs[c.photoURLs.length - 1] : c.photoURL;
+      const mine = checkinPhoto || myPhoto || null;
       // Only a tier rating (the chips flow) counts; a leftover star-only
       // review sorts as unrated, same as the Profile counter.
       const tier = review?.ratingTier ? tierById(review.ratingTier) : null;
@@ -395,6 +398,13 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                     userId={user.uid}
                     landmark={{ id: it.landmarkId, name: it.name, region: it.regionId }}
                     comment={it.comment}
+                    // Repeat visits to one place are separate rows sharing one
+                    // comment -- keep the others in step with the edit.
+                    onSaved={(text) =>
+                      setCheckins((prev) =>
+                        prev.map((c) => (c.landmarkId === it.landmarkId ? { ...c, comment: text } : c))
+                      )
+                    }
                   />
                 )}
               </div>

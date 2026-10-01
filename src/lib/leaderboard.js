@@ -119,8 +119,14 @@ export async function claimCheckIn({
   const priorSnap = await getDocs(
     query(collection(db, 'checkins'), where('userId', '==', userId), where('landmarkId', '==', landmarkId))
   );
-  const visitNumber = priorSnap.size + 1;
-  const checkinId = visitNumber === 1 ? `${userId}_${landmarkId}` : `${userId}_${landmarkId}_${visitNumber}`;
+  // The doc id counts every prior doc (a "Rate a Landmark" claim occupies an
+  // id too), but the visit number -- which drives the payout taper and the
+  // love-reason prompt -- counts only real visits. Otherwise rating a place
+  // first made your first real check-in there pay as a 20% "repeat".
+  const docNumber = priorSnap.size + 1;
+  const realPrior = priorSnap.docs.filter((d) => isRealCheckin(d.data())).length;
+  const visitNumber = realPrior + 1;
+  const checkinId = docNumber === 1 ? `${userId}_${landmarkId}` : `${userId}_${landmarkId}_${docNumber}`;
   const checkinRef = doc(db, 'checkins', checkinId);
   const keys = periodKeys();
 
