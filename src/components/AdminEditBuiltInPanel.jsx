@@ -37,7 +37,8 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
         userId: user?.uid,
         fields: {
           name: name.trim() || landmark.name,
-          categories: category ? [category] : [],
+          // Only the first category is editable here -- keep any others.
+        categories: category ? [category, ...(landmark.categories || []).slice(1).filter((c) => c !== category)] : [],
           summary: summary.trim(),
           facts: facts
             .split('\n')

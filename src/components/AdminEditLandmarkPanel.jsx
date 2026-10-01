@@ -32,7 +32,8 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
       const minutes = Math.round(Number(typicalMinutes));
       const fields = {
         name: name.trim() || landmark.name,
-        categories: category ? [category] : [],
+        // Only the first category is editable here -- keep any others.
+        categories: category ? [category, ...(landmark.categories || []).slice(1).filter((c) => c !== category)] : [],
         summary: summary.trim(),
         facts: facts
           .split('\n')
@@ -41,7 +42,8 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted })
           .slice(0, 5),
         free,
         typicalMinutes: Number.isFinite(minutes) && minutes > 0 ? minutes : 15,
-        images: imageUrl.trim() ? [imageUrl.trim()] : [],
+        // Only the first photo is editable here -- keep the rest of the gallery.
+        images: [imageUrl.trim(), ...(landmark.images || []).slice(1)].filter(Boolean),
       };
       await updateCustomLandmark(landmark.docId, fields);
       onSaved?.(fields);

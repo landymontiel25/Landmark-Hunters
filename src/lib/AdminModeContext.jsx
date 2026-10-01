@@ -14,7 +14,7 @@ const KEY = 'landmarkhunters.adminMode';
 // actions. Flipping this on from devtools with a non-admin account wouldn't
 // grant anything real -- the writes would still be rejected.
 export function AdminModeProvider({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const canUseAdminMode = isAdmin(user?.email);
   const [adminMode, setAdminModeState] = useState(() => {
     try {
@@ -26,10 +26,12 @@ export function AdminModeProvider({ children }) {
 
   // Never let a non-admin account see edit tools, even if this device once
   // had it on as the admin and then signed into a different account.
+  // Not while auth is still loading: user is null for the first moments of
+  // every app start, which used to switch Admin Mode off on every reload.
   useEffect(() => {
-    if (!canUseAdminMode && adminMode) setAdminModeState(false);
+    if (!loading && !canUseAdminMode && adminMode) setAdminModeState(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canUseAdminMode]);
+  }, [canUseAdminMode, loading]);
 
   const setAdminMode = (on) => {
     if (on && !canUseAdminMode) return;

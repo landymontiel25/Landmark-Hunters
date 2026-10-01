@@ -280,7 +280,7 @@ export default function MapExplore() {
   const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
-  const { applyEdit } = useLandmarkEdits();
+  const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
   const { coords, error: geoError, loading: geoLoading, lastKnown } = useGeo();
@@ -492,7 +492,11 @@ export default function MapExplore() {
         setSavedOverrides((prev) => ({ ...prev, [key]: pos }));
         setPinSavedNote(l.name);
       },
-      commit: () => saveLandmarkPosition({ region: l.regionId, id: l.id, name: l.name, ...pos, userId: user?.uid }),
+      commit: async () => {
+        await saveLandmarkPosition({ region: l.regionId, id: l.id, name: l.name, ...pos, userId: user?.uid });
+        // Other screens read the corrected spot from the shared edits context.
+        reloadLandmarkEdits?.();
+      },
       rollback: () => {
         setPinSavedNote(null);
         setSavedOverrides((prev) => {
