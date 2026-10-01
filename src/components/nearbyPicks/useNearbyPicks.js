@@ -85,6 +85,7 @@ export function useNearbyPicks({
   lastCategory,
   now,
   overrides = null,
+  extraPlaces = null,
   isTest = false,
   source = 'map-picks',
   fetchReasons = fetchPickReasons,
@@ -97,7 +98,7 @@ export function useNearbyPicks({
   const ratingsCount = ratingsCountOf(myReviews);
   const lat = origin?.lat;
   const lng = origin?.lng;
-  const key = uid && origin ? nearbyPicksCacheKey({ uid, ratingsCount, origin, miles, lastCategory }) : null;
+  const key = uid && origin ? nearbyPicksCacheKey({ uid, ratingsCount, origin, miles, lastCategory, extraCount: extraPlaces?.length || 0 }) : null;
 
   const cached = useMemo(() => {
     // refreshToken: re-read after a manual refresh cleared the entry.
@@ -108,9 +109,9 @@ export function useNearbyPicks({
   const { usual, fresh } = useMemo(
     () =>
       enabled && lat != null
-        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides })
+        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides, extraPlaces })
         : { usual: [], fresh: [] },
-    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides]
+    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces]
   );
   const chained = useMemo(() => chainedPick({ usual, fresh, links, lastCategory }), [usual, fresh, links, lastCategory]);
 

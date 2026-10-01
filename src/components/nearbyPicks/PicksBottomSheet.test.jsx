@@ -213,3 +213,29 @@ describe('PicksBottomSheet', () => {
     expect(offlineEmpty.querySelector('.mpp-pill-slow')).toBeNull();
   });
 });
+
+describe('PicksBottomSheet: thin or empty radius', () => {
+  const places = [
+    { id: 'x', region: 'miami', name: 'El Palacio', distanceMeters: 5.7 * 1609.34 },
+    { id: 'y', region: 'miami', name: 'Venetian Pool', distanceMeters: 7.2 * 1609.34 },
+  ];
+  it('names the nearest place and offers one tap to widen', async () => {
+    const onWiden = vi.fn();
+    const c = await render({ picks: [], distanceMiles: 1, beyond: { places, widenTo: 10 }, onWiden });
+    expect(c.textContent).toContain('Nothing within 1 mi. Nearest: El Palacio (5.7 mi).');
+    const btn = [...c.querySelectorAll('button')].find((b) => b.textContent === 'Widen to 10 mi');
+    await click(btn);
+    expect(onWiden).toHaveBeenCalledWith(10);
+  });
+  it('at the biggest chip it does not say "try a wider one"', async () => {
+    const c = await render({ picks: [], distanceMiles: 100, beyond: { places: [], widenTo: null }, onWiden: () => {} });
+    expect(c.textContent).toContain('Nothing to pick within 100 mi.');
+    expect(c.textContent).not.toMatch(/wider/i);
+    expect(c.textContent).not.toContain('Widen');
+  });
+  it('fewer than three picks still points past the radius', async () => {
+    const c = await render({ picks: [pick('a')], distanceMiles: 1, beyond: { places, widenTo: 10 }, onWiden: () => {} });
+    expect(c.textContent).toContain('Only 1 within 1 mi');
+    expect(c.textContent).toContain('Widen to 10 mi');
+  });
+});

@@ -6,8 +6,14 @@ import { useOnlineStatus } from '../../lib/useOnlineStatus';
 import { getUserCheckins, isRealCheckin } from '../../lib/leaderboard';
 import { ALL_LANDMARKS } from '../../data/regions';
 import {
-  DEFAULT_DISTANCE_MI,
+  DISTANCE_OPTIONS_MI,
+  chipCovering,
+  fallbackReason,
+  nearestBeyond,
   optionToMiles,
+  readStoredDistance,
+  smartDistance,
+  writeStoredDistance,
   MIN_RATINGS_FOR_PICKS,
   eligiblePlaces,
   isMealTime,
@@ -18,6 +24,7 @@ import {
   pickKey,
   ratingsCountOf,
   similarPlaces,
+  SHEET_PICKS,
 } from '../../lib/nearbyPicks';
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
 import { useUnits } from '../../lib/UnitsContext';
@@ -48,7 +55,7 @@ const NO_COUNTS = {};
 // ~110 m: a GPS tick while standing still doesn't re-rank anything.
 const round3 = (n) => Math.round(n * 1000) / 1000;
 
-export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, expanded, onExpandedChange, minimized, onMinimizedChange }) {
+export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange }) {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const { ratings, myReviews } = useRatings();
@@ -56,9 +63,20 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const uid = user?.uid || null;
 
   const { units } = useUnits();
-  // The chip number (10 = 10 mi or 10 km, per the units setting).
-  const [distance, setDistance] = useState(DEFAULT_DISTANCE_MI);
-  const miles = optionToMiles(distance, units);
+  // The chip number (10 = 10 mi or 10 km, per the units setting). `chosen`
+  // is what the user tapped (remembered per account); until they tap one the
+  // distance is the smallest chip with at least 3 places (smartDistance), so
+  // the pill and chips always show the distance actually searched.
+  const [chosen, setChosen] = useState(() => readStoredDistance(uid));
+  const [storedFor, setStoredFor] = useState(uid);
+  if (storedFor !== uid) {
+    setStoredFor(uid);
+    setChosen(readStoredDistance(uid));
+  }
+  const chooseDistance = (n) => {
+    setChosen(n);
+    writeStoredDistance(uid, n);
+  };
   // The overlay stays mounted while the app is open, so "now" has to move:
   // a frozen clock never showed the lunch card after a morning launch.
   const [now, setNow] = useState(() => Date.now());
@@ -101,6 +119,14 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const lng = coords ? round3(coords.lng) : null;
   const origin = useMemo(() => (lat != null ? { lat, lng } : null), [lat, lng]);
 
+  const lowRated = useMemo(() => lowRatedIds(myReviews), [myReviews]);
+  const auto = useMemo(
+    () => smartDistance({ origin, units, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks }),
+    [origin, units, lowRated, now, overrides, customLandmarks]
+  );
+  const distance = chosen ?? auto;
+  const miles = optionToMiles(distance, units);
+
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
   const state = locked ? 'locked' : !origin && geoError ? 'no-location' : 'ready';
 
@@ -117,6 +143,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     lastCategory,
     now,
     overrides,
+    extraPlaces: customLandmarks,
   });
 
   // A saved set keeps the distances from when it was built, which is up to
@@ -124,18 +151,20 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const picks = useMemo(
     () =>
       builtPicks && coords
-        ? builtPicks.map((p) =>
-            Number.isFinite(p.lat) && Number.isFinite(p.lng)
-              ? { ...p, distanceMeters: distanceMeters(coords.lat, coords.lng, p.lat, p.lng) }
-              : p
-          )
+        ? builtPicks.map((p) => {
+            if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return p;
+            const q = { ...p, distanceMeters: distanceMeters(coords.lat, coords.lng, p.lat, p.lng) };
+            // The plain reason line carries the distance, so it is rebuilt
+            // from the live one, in the Units setting's unit.
+            return p.reasonSource === 'fallback' ? { ...q, reason: fallbackReason(q, units) } : q;
+          })
         : builtPicks,
-    [builtPicks, coords?.lat, coords?.lng] // eslint-disable-line react-hooks/exhaustive-deps
+    [builtPicks, coords?.lat, coords?.lng, units] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const pool = useMemo(
-    () => (state === 'ready' && origin ? eligiblePlaces({ origin, miles, lowRated: lowRatedIds(myReviews), date: new Date(now), overrides }) : []),
-    [state, origin, miles, myReviews, now, overrides]
+    () => (state === 'ready' && origin ? eligiblePlaces({ origin, miles, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks }) : []),
+    [state, origin, miles, lowRated, now, overrides, customLandmarks]
   );
   const shownKeys = useMemo(() => (picks || []).map(pickKey), [picks]);
   const liked = useMemo(() => lovedSeed(myReviews), [myReviews]);
@@ -145,6 +174,15 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     const p = nearbyInterest({ usual: usual.filter((u) => !shownKeys.includes(pickKey(u))) });
     return p ? { ...p, reason: 'One of your favorite kinds of places, just around the corner.' } : null;
   }, [usual, shownKeys]);
+
+  // Thin or empty radius: the nearest few places past it, and the smallest
+  // wider chip that reaches the first of them (null at the biggest chip).
+  const beyond = useMemo(() => {
+    if (state !== 'ready' || !origin || !picks || picks.length >= SHEET_PICKS) return null;
+    const places = nearestBeyond({ origin, miles, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks });
+    const widenTo = distance >= DISTANCE_OPTIONS_MI[DISTANCE_OPTIONS_MI.length - 1] ? null : chipCovering(places[0]?.distanceMeters ?? 0, units, DISTANCE_OPTIONS_MI, distance);
+    return { places, widenTo };
+  }, [state, origin, picks, miles, distance, units, lowRated, now, overrides, customLandmarks]);
 
   // MapExplore only mounts this signed in, once the account's own ratings
   // have loaded (so a new account isn't confused with one mid-load).
@@ -162,8 +200,10 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         minimized={minimized}
         onMinimizedChange={onMinimizedChange}
         distanceMiles={distance}
+        beyond={beyond}
+        onWiden={chooseDistance}
         ratingsCount={ratingsCount}
-        toolbar={<DistanceFilter value={distance} onChange={setDistance} />}
+        toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />
         <MoodCarousel pool={pool} ratings={ratings} />

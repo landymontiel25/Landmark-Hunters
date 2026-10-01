@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
 import { useUnits } from '../../lib/UnitsContext';
+import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
+import { formatDistance } from '../../lib/formatDistance';
 import PickCard, { PickRow } from './PickCard';
 
 // The sheet over the map. Collapsed (how the Map opens) it shows the top
@@ -30,6 +32,8 @@ export default function PicksBottomSheet({
   showChainLabels = false,
   toolbar = null,
   distanceMiles = null,
+  beyond = null,
+  onWiden = null,
   ratingsCount = 0,
   children,
 }) {
@@ -76,6 +80,39 @@ export default function PicksBottomSheet({
     </span>
   ) : null;
 
+  const unit = distanceUnitLabel(units);
+  const atMax = distanceMiles != null && distanceMiles >= DISTANCE_OPTIONS_MI[DISTANCE_OPTIONS_MI.length - 1];
+  const near = beyond?.places?.[0];
+  // Nothing / not much inside the radius: say how far the nearest place
+  // really is and offer the one tap that reaches it.
+  const emptyText = atMax
+    ? `Nothing to pick within ${distanceMiles} ${unit}.`
+    : `Nothing within ${distanceMiles} ${unit}.${near ? ` Nearest: ${near.name} (${formatDistance(near.distanceMeters, units)}).` : ''}`;
+  const beyondNote =
+    beyond && (beyond.places.length > 0 || beyond.widenTo) ? (
+      <div className="mpp-beyond">
+        {picks?.length > 0 && near && (
+          <p className="mpp-empty">
+            Only {picks.length} within {distanceMiles} {unit}. Nearest beyond: {near.name} ({formatDistance(near.distanceMeters, units)}).
+          </p>
+        )}
+        {beyond.places.length > 1 && (
+          <ul className="mpp-beyond-list">
+            {beyond.places.map((p) => (
+              <li key={`${p.region}/${p.id}`}>
+                {p.name} <span>{formatDistance(p.distanceMeters, units)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {beyond.widenTo != null && onWiden && (
+          <button type="button" className="btn btn-primary btn-sm mpp-widen" onClick={() => onWiden(beyond.widenTo)}>
+            Widen to {beyond.widenTo} {unit}
+          </button>
+        )}
+      </div>
+    ) : null;
+
   let body;
   if (state === 'locked') {
     body = <p className="mpp-empty">{ratePlacesText(ratingsCount)} and Mapr will start picking for you.</p>;
@@ -95,7 +132,12 @@ export default function PicksBottomSheet({
       </ul>
     );
   } else if (!picks.length) {
-    body = <p className="mpp-empty">Nothing to pick within this distance yet. Try a wider one.</p>;
+    body = (
+      <div className="mpp-empty-wrap">
+        <p className="mpp-empty">{emptyText}</p>
+        {beyondNote}
+      </div>
+    );
   } else if (expanded) {
     body = (
       <div className="mpp-list">
@@ -154,6 +196,7 @@ export default function PicksBottomSheet({
       <div className="mpp-sheet-scroll">
         {expanded && state === 'ready' && toolbar}
         {body}
+        {state === 'ready' && picks?.length > 0 && beyondNote}
         {expanded && state === 'ready' && children}
       </div>
     </section>

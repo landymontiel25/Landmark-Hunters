@@ -1410,6 +1410,7 @@ export default function MapExplore() {
           coords={coords}
           geoError={geoError}
           overrides={savedOverrides}
+          customLandmarks={customLandmarks}
           expanded={picksExpanded}
           onExpandedChange={setPicksExpanded}
           minimized={picksMinimized}
