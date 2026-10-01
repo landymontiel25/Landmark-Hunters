@@ -470,13 +470,7 @@ service cloud.firestore {
       let review = /databases/$(database)/documents/reviews/$(request.auth.uid + '_' + landmarkId);
       return sumDelta >= -5 && sumDelta <= 5
         && (
-          // +1: this review becomes a counted (starred) one. It may already
-          // exist as a star-less doc (a comment or love note saved before any
-          // rating, never counted) -- only a review that already had stars
-          // can't be counted a second time.
-          (countDelta == 1
-            && existsAfter(review) && getAfter(review).data.get('stars', 0) > 0
-            && (!exists(review) || get(review).data.get('stars', 0) == 0))
+          (countDelta == 1 && !exists(review) && existsAfter(review))
           || (countDelta == 0 && existsAfter(review))
           || (countDelta == -1 && exists(review) && !existsAfter(review))
         );
