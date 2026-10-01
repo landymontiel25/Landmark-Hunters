@@ -172,6 +172,35 @@ export function trimTurns(incoming) {
   return turns;
 }
 
+// Who the request is for. Asked in the app before every request: 'solo' (just
+// the traveler) or 'group'. Only 'group' is special; anything else is solo.
+export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 'solo');
+
+// The traveler's own taste, as sent by the client. For a GROUP request none of
+// it is used -- even if a client sent it -- so places are chosen from what was
+// asked for, not from the traveler's usual taste (their rating history, saved
+// interests, intro, tag scores or Insider Mode).
+export function tasteInputsOf(body) {
+  if (requestForOf(body) === 'group') {
+    return { reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {} };
+  }
+  return {
+    reviews: body?.reviews,
+    interests: body?.interests,
+    tasteIntro: body?.tasteIntro,
+    insiderMode: body?.insiderMode === true,
+    tagScoreSummary: body?.tagScoreSummary,
+  };
+}
+
+export const GROUP_REQUEST_TEXT =
+  'GROUP REQUEST: this request is for a group, not just the traveler. Follow exactly what they asked for ' +
+  '(for example "family bowling" means bowling places a family can go to). Do NOT use the traveler\'s own taste, ' +
+  'ratings, past picks, saved interests or "usual" favorites to choose places, and never say you are picking ' +
+  'something because they usually like it. If no taste information is given below, that is on purpose: do not ' +
+  'ask about their taste or say you lack a rating history. If the ask is too vague to suggest anything, ask ONE short ' +
+  'question about what the group wants to do.';
+
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -222,23 +251,25 @@ async function handler(req, res) {
     // Same rating history Mapr Picks reads -- this is the app's home
     // screen now, so it should never have to say "I don't know you" when
     // the traveler has clearly already told the app what they like.
-    const reviews = (Array.isArray(body.reviews) ? body.reviews : []).slice(0, 60).map((r) => ({
+    const requestFor = requestForOf(body);
+    const taste = tasteInputsOf(body);
+    const reviews = (Array.isArray(taste.reviews) ? taste.reviews : []).slice(0, 60).map((r) => ({
       name: str(r.name, 80),
       tier: str(r.tier, 30),
       categories: (Array.isArray(r.categories) ? r.categories : []).map((c) => str(c, 30)).slice(0, 3),
       highlights: (Array.isArray(r.highlights) ? r.highlights : []).map((h) => str(h, 40)).slice(0, 3),
       comment: str(r.comment, 280),
     }));
-    const interests = (Array.isArray(body.interests) ? body.interests : []).map((c) => str(c, 30)).slice(0, 20);
+    const interests = (Array.isArray(taste.interests) ? taste.interests : []).map((c) => str(c, 30)).slice(0, 20);
     // Told directly at onboarding or from Settings (the notes step in src/screens/Onboarding.jsx,
     // src/screens/Settings.jsx) -- free-form, in the traveler's own words, not
     // tied to any rating. Read as prose, same as the rest of the profile.
-    const tasteIntro = str(body.tasteIntro, 4000);
+    const tasteIntro = str(taste.tasteIntro, 4000);
     // Insider Mode -- unlocked client-side once Mapr's own predictions are
     // confidently right about this traveler (src/lib/tasteProfile.js). The
     // client decides the unlock and just tells us the flag; this only
     // changes how a request already this personalized gets phrased.
-    const insiderMode = body.insiderMode === true;
+    const insiderMode = taste.insiderMode === true;
     const hasHistory = reviews.length > 0;
     const profileParts = [];
     if (tasteIntro) profileParts.push(`IN THEIR OWN WORDS (told Mapr this directly): "${tasteIntro}"`);
@@ -254,13 +285,13 @@ async function handler(req, res) {
             )
             .join('\n')
       );
-    } else if (!tasteIntro) {
+    } else if (!tasteIntro && requestFor !== 'group') {
       profileParts.push('RATING HISTORY: none yet.');
     }
     if (interests.length) profileParts.push(`Saved interests: ${interests.join(', ')}`);
     // Per-city category scores learned from ratings (src/lib/tagScores.js),
     // and the time-slot table for weighing them by when a plan is for.
-    const tagLines = Object.entries(body.tagScoreSummary && typeof body.tagScoreSummary === 'object' ? body.tagScoreSummary : {})
+    const tagLines = Object.entries(taste.tagScoreSummary && typeof taste.tagScoreSummary === 'object' ? taste.tagScoreSummary : {})
       .slice(0, 3)
       .map(([region, tags]) => {
         const parts = Object.entries(tags && typeof tags === 'object' ? tags : {})
@@ -365,6 +396,7 @@ async function handler(req, res) {
         { type: 'text', text: APP_HELP },
         { type: 'text', text: catalog, cache_control: { type: 'ephemeral' } },
         ...(profile ? [{ type: 'text', text: profile }] : []),
+        ...(requestFor === 'group' ? [{ type: 'text', text: GROUP_REQUEST_TEXT }] : []),
         ...(insiderMode
           ? [
               {

@@ -23,6 +23,7 @@ import { tierStars, isValidTier, COMMENT_MAX } from './ratingFlow';
 import { planLearning } from './maprLearning';
 import { disagreementCheck, isDisagreementReason, ratedAtMs, reasonFromComment } from './rerating';
 import { pickMarkFields } from './pickMarks';
+import { scheduleTasteRecompute } from './tasteScoreStore';
 import { canonicalLandmarkId } from '../data/regions';
 
 // An Error whose message was written for travelers, not developers --
@@ -269,6 +270,8 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
     });
 
   await writeReview();
+  // The taste score follows the newest answer (tasteScore.js).
+  scheduleTasteRecompute(userId);
 
   return { photoURLs, photoFailed };
 }

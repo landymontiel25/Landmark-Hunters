@@ -6744,3 +6744,28 @@ p.tag {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ---------- "Who is this for?" (asked before every Mapr request) ---------- */
+.chatlab-composer-asking {
+  border-radius: var(--radius-lg);
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px) * 0);
+}
+.chatlab-request-for-label {
+  margin: 0 0 10px;
+  font-weight: 600;
+  text-align: center;
+}
+.chatlab-request-for-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.chatlab-request-for-buttons .btn {
+  min-height: 52px;
+  font-size: 1rem;
+}
+.chatlab-request-for-cancel {
+  display: block;
+  margin: 10px auto 0;
+  min-height: 44px;
+}

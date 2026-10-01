@@ -107,8 +107,9 @@ export function timeOfDayBucket(date = new Date()) {
 }
 
 // Everything the wizard asked, as one comparable string.
-export function planAnswersKey({ mood, pickType, specific, tripMode, startingLocation, regionIds }) {
+export function planAnswersKey({ mood, pickType, specific, tripMode, startingLocation, regionIds, requestFor = 'solo' }) {
   return JSON.stringify([
+    requestFor === 'group' ? 'group' : 'solo',
     mood || null,
     pickType || null,
     String(specific || '').trim().toLowerCase(),

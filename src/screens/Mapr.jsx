@@ -46,6 +46,7 @@ import { listMyGroupTrips } from '../lib/groupTrips';
 import { writePersisted } from '../lib/usePersistentState';
 import { useToast } from '../lib/ToastContext';
 import { API_BASE } from '../lib/apiBase';
+import { tasteContextFor, normalizeRequestFor } from '../lib/requestFor';
 
 // "You haven't told Mapr what you like yet" nudge -- shown once (per
 // device/account) until either dismissed outright or satisfied by actually
@@ -126,10 +127,14 @@ export default function Mapr() {
     if (m.role !== 'assistant' || !m.setId || !liveSets.current.has(m.setId)) return;
     const meta = liveSets.current.get(m.setId);
     const stopWithRank = { ...stop, rank: idx + 1 };
-    if (meta) logPlanner(m.setId, [stopWithRank], { source: meta.source, pickType: meta.pickType, rankedIds: meta.rankedIds });
-    else logChat(m.setId, [stopWithRank]);
+    const requestFor = requestForSet.current.get(m.setId) || m.requestFor || null;
+    if (meta) logPlanner(m.setId, [stopWithRank], { source: meta.source, pickType: meta.pickType, rankedIds: meta.rankedIds, requestFor });
+    else logChat(m.setId, [stopWithRank], { requestFor });
   };
 
+  // setId -> 'solo' | 'group': who the request behind each reply was for, so
+  // the picks logged when its cards are shown carry requestFor.
+  const requestForSet = useRef(new Map());
   const [retrying, setRetrying] = useState({});
   // Retries exactly the one action that failed -- no retyping the whole
   // request, and no repeating whatever else was in the same reply that
@@ -412,27 +417,30 @@ export default function Mapr() {
   // same spot within half a mile, same part of the day): show that plan
   // again instead of asking the AI for the same thing. Its itinerary
   // actions already ran the first time, so they aren't repeated.
-  const replayPlan = (text, reply, logMeta = null) => {
+  const replayPlan = (text, reply, logMeta = null, requestFor = 'solo') => {
     if (busy) return;
     const setId = makeSetId(user?.uid);
     liveSets.current.set(setId, logMeta);
+    requestForSet.current.set(setId, requestFor);
     if (showTasteNudge) dismissNudge();
     if (restored) dismissRestored();
     setMessagesFor(activeChat.id, (cur) => [
       ...cur,
-      { role: 'user', text },
-      { ...reply, id: `m${Date.now()}`, role: 'assistant', actionResults: [], fromCache: true, setId },
+      { role: 'user', text, requestFor },
+      { ...reply, id: `m${Date.now()}`, role: 'assistant', actionResults: [], fromCache: true, setId, requestFor },
     ]);
   };
 
   // onReply (optional) gets the finished assistant message, e.g. so the
   // trip planner can cache it and log its picks.
-  const send = async (e, overrideText, { retry = false, historyOverride, onReply } = {}) => {
+  const doSend = async (e, overrideText, { retry = false, historyOverride, onReply, beforeSend, requestFor: requestForIn = 'solo' } = {}) => {
     e?.preventDefault();
+    const requestFor = normalizeRequestFor(requestForIn);
     const text = (overrideText ?? draft).trim();
     // sendingRef covers a second Enter/tap in the same tick, before `busy`
     // has re-rendered.
     if (!text || busy || sendingRef.current.has(activeChat.id)) return;
+    beforeSend?.();
 
     // Actually talking to Mapr about what you're into satisfies the taste
     // nudge just as well as filling in the Settings field does -- that's
@@ -452,7 +460,7 @@ export default function Mapr() {
     // the messages it just replaced.
     const startingMessages = historyOverride ?? messages;
     const base = retry && startingMessages.at(-1)?.error ? startingMessages.slice(0, -1) : startingMessages;
-    const history = retry ? base : [...base, { role: 'user', text }];
+    const history = retry ? base : [...base, { role: 'user', text, requestFor }];
     setMessages(history);
     // Only a typed message empties the composer; a quick reply or planner
     // message leaves whatever you'd started typing alone.
@@ -494,7 +502,7 @@ export default function Mapr() {
           new Set([...Object.keys(myReviews), ...Object.values(myReviews).map((r) => r.landmarkId)])
         ),
       ];
-      const insiderMode = hasInsiderMode(computeTasteConfidence(confidenceInputs).confidence);
+      const insiderMode = requestFor === 'group' ? false : hasInsiderMode(computeTasteConfidence(confidenceInputs).confidence);
       // Learned per-category scores for the chat's cities (or wherever the
       // traveler is), plus the local clock, so the server can weigh
       // categories by the time a plan is for (tagScores.js TIME_SLOTS).
@@ -532,11 +540,16 @@ export default function Mapr() {
         body: JSON.stringify({
           messages: payload,
           regionIds: regions.map((r) => r.id),
-          reviews,
-          interests: trip.savedInterests || [],
-          tasteIntro: composeTasteIntro(myProfile),
-          insiderMode,
-          tagScoreSummary,
+          requestFor,
+          // A group request sends none of the user's own taste (rating
+          // history, interests, intro, tag scores, insider mode).
+          ...tasteContextFor(requestFor, {
+            reviews,
+            interests: trip.savedInterests || [],
+            tasteIntro: composeTasteIntro(myProfile),
+            insiderMode,
+            tagScoreSummary,
+          }),
           itineraries: itinerarySummary(trip, tripApi, groupTrips),
           project: activeProject ? { name: activeProject.name, instructions: activeProject.instructions } : null,
           location,
@@ -598,7 +611,8 @@ export default function Mapr() {
       // liveSets (not saved with the chat) is what keeps a chat restored from
       // an earlier session from logging its old cards as shown again.
       const setId = makeSetId(user?.uid);
-      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null, setId };
+      requestForSet.current.set(setId, requestFor);
+      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null, setId, requestFor };
       let logMeta = null;
       if (onReply) {
         try {
@@ -624,6 +638,7 @@ export default function Mapr() {
           stops: [],
           error: true,
           retryText: text,
+          requestFor,
           signIn,
         },
       ]);
@@ -631,6 +646,25 @@ export default function Mapr() {
       sendingRef.current.delete(chatId);
       setBusy(false, chatId);
     }
+  };
+
+  // Every Mapr request asks first: "Just me" or "A group". The choice applies
+  // to this one request only. Retrying a failed turn keeps its earlier answer,
+  // and the Plan Your Trip wizard asks on its own last step, so both arrive
+  // here with requestFor already set.
+  const [ask, setAsk] = useState(null);
+  const send = (e, overrideText, opts = {}) => {
+    e?.preventDefault();
+    if (opts.requestFor) return doSend(null, overrideText, opts);
+    const text = (overrideText ?? draft).trim();
+    if (!text || busy || sendingRef.current.has(activeChat.id)) return undefined;
+    setAsk({ overrideText, opts });
+    return undefined;
+  };
+  const chooseRequestFor = (value) => {
+    const a = ask;
+    setAsk(null);
+    if (a) doSend(null, a.overrideText, { ...a.opts, requestFor: value });
   };
 
   // Editing an earlier message discards it and everything that followed
@@ -641,10 +675,16 @@ export default function Mapr() {
     const trimmed = newText.trim();
     if (!trimmed || busy) return;
     const truncated = messages.slice(0, idx);
-    setMessagesFor(activeChat.id, truncated);
-    setEditingIndex(null);
-    setEditDraft('');
-    await send(null, trimmed, { historyOverride: truncated });
+    // The old turns are only dropped once the request really goes out (after
+    // "Just me" / "A group"), so cancelling that question loses nothing.
+    send(null, trimmed, {
+      historyOverride: truncated,
+      beforeSend: () => {
+        setMessagesFor(activeChat.id, truncated);
+        setEditingIndex(null);
+        setEditDraft('');
+      },
+    });
   };
 
   return (
@@ -736,10 +776,10 @@ export default function Mapr() {
           onToggleRegion={toggleRegion}
           onClearRegions={() => setRegions([])}
           onClose={() => setShowPlanner(false)}
-          onPlan={(message, { cachedReply, onReply, logMeta } = {}) => {
+          onPlan={(message, { cachedReply, onReply, logMeta, requestFor } = {}) => {
             setShowPlanner(false);
-            if (cachedReply) replayPlan(message, cachedReply, logMeta);
-            else send(null, message, { onReply });
+            if (cachedReply) replayPlan(message, cachedReply, logMeta, requestFor);
+            else send(null, message, { onReply, requestFor: normalizeRequestFor(requestFor) });
           }}
         />
       ) : (
@@ -889,7 +929,7 @@ export default function Mapr() {
               {m.rate && <MaprRateCard place={m.rate} />}
               {m.error && m.retryText && i === messages.length - 1 && !busy && (
                 <div className="chatlab-error-actions">
-                  <button type="button" className="btn btn-sm btn-ghost" onClick={() => send(null, m.retryText, { retry: true })}>
+                  <button type="button" className="btn btn-sm btn-ghost" onClick={() => send(null, m.retryText, { retry: true, requestFor: m.requestFor })}>
                     {'\u{1F504}'} Try again
                   </button>
                   {m.signIn && !user && (
@@ -995,8 +1035,26 @@ export default function Mapr() {
       <div className="action-bar-spacer" />
       {/* After the spacer, so scrolling to the newest message leaves it above the fixed composer. */}
       <div ref={feedEndRef} style={{ scrollMarginBottom: 70 }} />
-      <form className="fixed-action-bar chatlab-composer" onSubmit={send}>
-        <div className="fixed-action-bar-inner chatlab-composer-inner">
+      <form className={`fixed-action-bar chatlab-composer${ask ? ' chatlab-composer-asking' : ''}`} onSubmit={send}>
+        {ask && (
+          <div className="fixed-action-bar-inner chatlab-request-for" role="group" aria-labelledby="request-for-label">
+            <p id="request-for-label" className="chatlab-request-for-label">
+              Who is this for?
+            </p>
+            <div className="chatlab-request-for-buttons">
+              <button type="button" className="btn btn-primary" autoFocus onClick={() => chooseRequestFor('solo')}>
+                Just me
+              </button>
+              <button type="button" className="btn btn-primary" onClick={() => chooseRequestFor('group')}>
+                A group
+              </button>
+            </div>
+            <button type="button" className="chat-wizard-link chatlab-request-for-cancel" onClick={() => setAsk(null)}>
+              Cancel
+            </button>
+          </div>
+        )}
+        <div className="fixed-action-bar-inner chatlab-composer-inner" hidden={!!ask}>
           <input
             type="text"
             name="mapr-message"
