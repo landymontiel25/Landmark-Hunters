@@ -296,7 +296,7 @@ function LabSignUp({ data, set, onDone }) {
             {error}
           </p>
         )}
-        <label className="lab-age">
+        <label className="lab-age check-age-label">
           <input type="checkbox" checked={data.age} onChange={(e) => set({ age: e.target.checked })} />
           <span>I am 13 years of age or older.</span>
         </label>

@@ -11,6 +11,7 @@ import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import { classifyInterest } from '../lib/interestClassifier';
 import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
@@ -226,7 +227,7 @@ const LandmarkRow = memo(function LandmarkRow({
             <QuickRateButton landmark={l} />
           </h4>
           <div className="lr-meta">
-            <span className={`tag ${l.free ? 'tag-free' : ''}`}>{l.free ? 'Free' : 'Ticketed'}</span>
+            <AdmissionTag landmark={l} short />
             {typeof l.popularity === 'number' && <span className="tag popularity-tag">{'\u{1F525}'} {l.popularity}/10</span>}
             {ratingCount > 0 && (
               <span className="tag rating-tag">{'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})</span>

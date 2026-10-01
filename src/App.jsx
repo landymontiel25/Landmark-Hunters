@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import { AuthProvider } from './lib/AuthContext';
 import { MaprChatProvider } from './lib/MaprChatContext';
 import { CheckInProvider } from './lib/CheckInContext';
@@ -32,6 +32,7 @@ import { useOnboardingNotice } from './lib/useOnboardingNotice';
 import { useTripAccountGuard } from './lib/tripAccountGuard';
 import { installModalA11y } from './lib/modalA11y';
 import { useDocumentTitle } from './lib/useDocumentTitle';
+import { shouldResetScroll } from './lib/scrollReset';
 import { flagClear, flagSet, shouldReloadForChunkError } from './lib/chunkReload';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
@@ -52,6 +53,19 @@ function TripAccountGuard() {
 // Renders nothing -- per-route document title (inside the router).
 function DocumentTitleSync() {
   useDocumentTitle();
+  return null;
+}
+
+// Tapping into a main tab used to keep the previous page's scroll position
+// (the Landmarks list opened halfway down). Fresh navigations to a tab start
+// at the top; Back/Forward (POP) is left alone so lists that restore their
+// own position (CheckinsGallery) keep working.
+function ScrollToTopOnNavigate() {
+  const { pathname } = useLocation();
+  const navType = useNavigationType();
+  useEffect(() => {
+    if (shouldResetScroll(pathname, navType)) window.scrollTo(0, 0);
+  }, [pathname, navType]);
   return null;
 }
 
@@ -231,6 +245,7 @@ export default function App() {
           <HashRouter>
           <TripAccountGuard />
           <DocumentTitleSync />
+          <ScrollToTopOnNavigate />
           <BackgroundLocationSync />
           <PushNotificationsSync />
           <OnboardingNoticeSync />

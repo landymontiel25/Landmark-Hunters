@@ -316,12 +316,14 @@ export default function Profile() {
   if (authLoading) return <SkeletonList count={3} label="Loading" />;
 
   if (!user) return (
-      <SignInForm
-        onSignedUp={() => {
-          setSignedUpNow(true);
-          setFlowActive(true);
-        }}
-      />
+      <div className="nav-clear">
+        <SignInForm
+          onSignedUp={() => {
+            setSignedUpNow(true);
+            setFlowActive(true);
+          }}
+        />
+      </div>
     );
 
   if (flowActive) return <Onboarding isNew={signedUpNow || onboardingStatus(myProfile) === 'new' || undefined} onExit={() => setFlowActive(false)} />;

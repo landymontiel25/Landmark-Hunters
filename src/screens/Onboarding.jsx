@@ -197,7 +197,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   }
   if (current === 'prompt') {
     return (
-      <div className="lab-center">
+      <div className="lab-center nav-clear">
         <h1 className="screen-title">
           <span>{'\u{1F389}'}</span> {isNew ? "You're in!" : 'Onboarding has been updated'}
         </h1>
@@ -216,7 +216,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   }
   if (current === 'howto') {
     return (
-      <div>
+      <div className="nav-clear">
         <HowToStep onNext={() => next()} />
         <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={() => goTo('notes')}>
           Skip this step
@@ -260,7 +260,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   if (current === 'location') return <LocationAlwaysStep onDone={() => next()} />;
 
   return (
-    <div className="lab-center">
+    <div className="lab-center nav-clear">
       <h1 className="screen-title">
         <span>{'\u{1F3C1}'}</span> {deckDone ? "You're all set" : "You're set for now"}
       </h1>
@@ -309,7 +309,7 @@ function VerifyEmail({ email, resend, refresh }) {
   };
 
   return (
-    <div className="lab-center">
+    <div className="lab-center nav-clear">
       <h1 className="screen-title">
         <span>{'\u{1F4E7}'}</span> Verify your email
       </h1>

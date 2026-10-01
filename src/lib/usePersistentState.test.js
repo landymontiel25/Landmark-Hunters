@@ -1,5 +1,23 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { readPersisted, writePersisted, clearPersisted } from './usePersistentState';
+import {
+  readPersisted,
+  writePersisted,
+  clearPersisted,
+  markDraftSubmitting,
+  unmarkDraftSubmitting,
+  isDraftSubmitting,
+} from './usePersistentState';
+
+describe('draft submit-in-flight flag', () => {
+  it('tracks keys marked as submitting and releases them', () => {
+    expect(isDraftSubmitting('k1')).toBe(false);
+    markDraftSubmitting('k1');
+    expect(isDraftSubmitting('k1')).toBe(true);
+    unmarkDraftSubmitting('k1');
+    expect(isDraftSubmitting('k1')).toBe(false);
+    expect(isDraftSubmitting(null)).toBe(false);
+  });
+});
 
 function memoryStorage() {
   const m = new Map();

@@ -31,6 +31,7 @@ import {
 } from '../lib/routing';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import { useRatings } from '../lib/RatingsContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { usePersistentState } from '../lib/usePersistentState';
@@ -1034,9 +1035,7 @@ export default function Itinerary() {
                   <>
                   {addresses[stop.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[stop.id]}</p>}
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                    <span className={`tag ${stop.free ? 'tag-free' : ''}`}>
-                      {stop.free ? 'Free to Visit' : 'Ticketed'}
-                    </span>
+                    <AdmissionTag landmark={stop} />
                     <span className="tag">{'\u{23F1}\u{FE0F}'} ~{stop.typicalMinutes} min there</span>
                   </div>
                   </>

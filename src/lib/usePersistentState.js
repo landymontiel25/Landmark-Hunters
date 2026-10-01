@@ -51,6 +51,20 @@ export function writePersisted(key, value) {
   write(key, value);
 }
 
+// A draft whose submit is still in flight (slow network). The stored copy is
+// kept until the submit succeeds -- so a failure never loses it -- but screens
+// that mount meanwhile must not present it as an "unsaved draft restored".
+const submitting = new Set();
+export function markDraftSubmitting(key) {
+  if (key) submitting.add(key);
+}
+export function unmarkDraftSubmitting(key) {
+  submitting.delete(key);
+}
+export function isDraftSubmitting(key) {
+  return !!key && submitting.has(key);
+}
+
 const WEEK = 7 * 24 * 60 * 60 * 1000;
 
 export function usePersistentState(key, initial, { ttlMs = WEEK, isEmpty } = {}) {

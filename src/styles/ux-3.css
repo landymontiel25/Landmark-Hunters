@@ -125,3 +125,69 @@ input[type='range']:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* Tester pass (60-year-old on iPhone): real 44px targets, not just overlays,
+   for controls that sit next to each other or were styled as bare text. */
+.landmark-row .lr-actions .btn-tight,
+.landmark-row .lr-actions .btn-sm {
+  min-height: 44px;
+}
+.chatlab-stop-link-btn {
+  min-height: 44px;
+  padding: 0 12px 0 0;
+  display: inline-flex;
+  align-items: center;
+}
+.rating-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.draft-restored-note button {
+  min-height: 44px;
+  padding: 0 10px;
+}
+.mpp-chip {
+  min-height: 44px;
+}
+.mpp-pill-distance {
+  position: relative;
+}
+.mpp-pill-distance::after {
+  content: '';
+  position: absolute;
+  inset: -12px -6px;
+}
+.check-age-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.check-age-label input[type='checkbox'] {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+.admin-edit-btn {
+  min-height: 44px;
+}
+
+/* The last control of a screen that has no scrolling content of its own
+   after it (onboarding "Skip this step", signed-out Create Account) must be
+   able to scroll clear of the fixed bottom nav. */
+.nav-clear {
+  padding-bottom: calc(var(--nav-h) + 16px);
+}
+.mapr-pick-vote-hint {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.mapr-pick-vote {
+  min-height: 44px;
+}

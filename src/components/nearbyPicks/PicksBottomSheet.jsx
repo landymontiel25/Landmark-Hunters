@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
 import { useUnits } from '../../lib/UnitsContext';
 import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
@@ -38,6 +39,7 @@ export default function PicksBottomSheet({
   children,
 }) {
   const { units } = useUnits();
+  const navigate = useNavigate();
   const startY = useRef(null);
   const onPointerDown = (e) => {
     startY.current = e.clientY;
@@ -115,7 +117,16 @@ export default function PicksBottomSheet({
 
   let body;
   if (state === 'locked') {
-    body = <p className="mpp-empty">{ratePlacesText(ratingsCount)} and Mapr will start picking for you.</p>;
+    // The Landmarks tab is where first ratings happen (the quick-rate button
+    // on every row), so the lock state hands off straight there.
+    body = (
+      <div className="mpp-empty-wrap">
+        <p className="mpp-empty">{ratePlacesText(ratingsCount)} and Mapr will start picking for you.</p>
+        <button type="button" className="btn btn-primary btn-block mpp-rate-cta" onClick={() => navigate('/landmarks')}>
+          Rate places
+        </button>
+      </div>
+    );
   } else if (state === 'no-location') {
     body = <p className="mpp-empty">Turn on location to see picks near you.</p>;
   } else if (!picks && slow) {
@@ -188,7 +199,7 @@ export default function PicksBottomSheet({
           only shows once expanded, and without this a traveler has no way
           to tell (or change) how far "right now" is actually searching,
           easy to confuse with the map's own unrelated zoom radius control. */}
-      {!minimized && state === 'ready' && distanceMiles != null && (
+      {!minimized && !expanded && state === 'ready' && distanceMiles != null && (
         <button type="button" className="mpp-pill mpp-pill-distance" onClick={() => onExpandedChange(true)}>
           Within {distanceMiles} {distanceUnitLabel(units)}
         </button>

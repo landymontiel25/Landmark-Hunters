@@ -197,7 +197,7 @@ export default function TasteProfileCard() {
       <div className="card section taste-profile-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
           <h3 style={{ margin: 0, fontSize: '0.95rem' }}>{'\u{1F9E9}'} Taste Profile</h3>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={startEditing}>
+          <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44 }} onClick={startEditing}>
             {hasBaseline ? `${'\u{270F}\u{FE0F}'} Edit` : `${'\u{2795}'} Answer a few quick picks`}
           </button>
         </div>
@@ -212,7 +212,7 @@ export default function TasteProfileCard() {
   return (
     <div className="card section taste-profile-card">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-        <h3 style={{ margin: 0, fontSize: '0.95rem' }}>{'\u{1F9E9}'} Taste Profile — {confidence}% confident</h3>
+        <h3 style={{ margin: 0, fontSize: '0.95rem' }}>{'\u{1F9E9}'} Mapr is still learning your taste: {confidence}%</h3>
         <button type="button" className="btn btn-ghost btn-sm" onClick={startEditing}>
           {'\u{270F}\u{FE0F}'} Edit
         </button>

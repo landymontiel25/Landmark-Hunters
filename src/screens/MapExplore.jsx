@@ -20,9 +20,10 @@ import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import MapCategoryFilter from '../components/MapCategoryFilter';
-import { searchScore } from '../lib/search';
+import { searchScore, proximityBonus } from '../lib/search';
 import CheckInButton from '../components/CheckInButton';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import ActiveNavOverlay from '../components/ActiveNavOverlay';
 import { prepareRoute, navProgress } from '../lib/navProgress';
@@ -669,6 +670,11 @@ export default function MapExplore() {
   const searchResults = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return [];
+    // Results near the traveler rank above equal matches on the other side of
+    // the world (e.g. "Far" in Miami should not lead with Madrid).
+    const here = coords || lastKnown || null;
+    const near = (lat, lng) =>
+      here && Number.isFinite(lat) && Number.isFinite(lng) ? proximityBonus(distanceMeters(here.lat, here.lng, lat, lng)) : 0;
     // Includes the city/region name, category labels and facts too, joined
     // into one haystack -- so a query like "Miami F1" finds the Miami
     // International Autodrome even though no single field says "Miami F1"
@@ -695,7 +701,7 @@ export default function MapExplore() {
         lat: savedPos?.lat ?? l.lat,
         lng: savedPos?.lng ?? l.lng,
         zoom: 17,
-        score,
+        score: score + near(savedPos?.lat ?? l.lat, savedPos?.lng ?? l.lng),
       };
     });
     // User-submitted landmarks were never searchable here -- only via the
@@ -713,12 +719,12 @@ export default function MapExplore() {
         lat: l.lat,
         lng: l.lng,
         zoom: 17,
-        score,
+        score: score + near(l.lat, l.lng),
       }));
     const placeMatches = SEARCHABLE_PLACES.map((p) => ({ ...p, score: searchScore(p.name, '', term) })).filter((p) => p.score > 0);
     // Best match first -- a name match beats a word buried in a description.
     return [...landmarkMatches, ...customMatches, ...placeMatches].sort((a, b) => b.score - a.score).slice(0, 8);
-  }, [searchTerm, savedOverrides, customLandmarks]);
+  }, [searchTerm, savedOverrides, customLandmarks, coords, lastKnown]);
 
   // AI fallback when the word search finds little: catalog on the server,
   // custom landmarks sent along.
@@ -855,7 +861,7 @@ export default function MapExplore() {
                       {CATEGORY_LABEL[c]}
                     </span>
                   ))}
-                  <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free' : 'Ticketed'}</span>
+                  <AdmissionTag landmark={landmark} short />
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   <button
@@ -972,7 +978,7 @@ export default function MapExplore() {
                       {CATEGORY_LABEL[c]}
                     </span>
                   ))}
-                  <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free' : 'Ticketed'}</span>
+                  <AdmissionTag landmark={landmark} short />
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {/* A pin far from every curated city has no city itinerary to join. */}

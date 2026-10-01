@@ -40,6 +40,7 @@ import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
 import RatingStars from '../components/RatingStars';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import { pickPhoto } from '../lib/imageUtils';
 import { LandmarkDetailSkeleton, Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
@@ -784,7 +785,7 @@ function LandmarkDetailBody() {
             {CATEGORY_LABEL[c]}
           </span>
         ))}
-        <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free to Visit' : 'Ticketed'}</span>
+        <AdmissionTag landmark={landmark} />
         <span className="tag">{'~' + landmark.typicalMinutes + ' min'}</span>
         {customLandmark && <span className="tag">{'\u{2728}'} Community-submitted</span>}
       </div>
@@ -895,8 +896,8 @@ function LandmarkDetailBody() {
                 {adminMode && isAdmin(user?.email) && !editingCheckinDate && (
                   <button
                     type="button"
-                    className="btn btn-ghost btn-sm"
-                    style={{ marginLeft: 8, padding: '1px 6px', fontSize: '0.7rem' }}
+                    className="btn btn-ghost btn-sm admin-edit-btn"
+                    style={{ marginLeft: 8, padding: '1px 10px', fontSize: '0.7rem' }}
                     onClick={startEditCheckinDate}
                   >
                     {'\u{270F}\u{FE0F}'} Edit

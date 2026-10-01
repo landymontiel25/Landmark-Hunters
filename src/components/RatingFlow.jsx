@@ -11,7 +11,7 @@ import {
   tierQuestion,
   commentQuestion,
 } from '../lib/ratingFlow';
-import { usePersistentState, readPersisted } from '../lib/usePersistentState';
+import { usePersistentState, readPersisted, isDraftSubmitting } from '../lib/usePersistentState';
 
 function toDraft(initial) {
   return {
@@ -48,7 +48,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   const isEmpty = useCallback((d) => !d?.tier || JSON.stringify(d) === initialJson, [initialJson]);
   const [restored, setRestored] = useState(() => {
     const saved = draftKey ? readPersisted(draftKey) : undefined;
-    return !!saved && !isEmpty(saved);
+    return !!saved && !isEmpty(saved) && !isDraftSubmitting(draftKey);
   });
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
   const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;

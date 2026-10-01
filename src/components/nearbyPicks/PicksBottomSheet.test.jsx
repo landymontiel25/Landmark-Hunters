@@ -49,6 +49,7 @@ const render = async (props) => {
           <Route path="/" element={<PicksBottomSheet expanded={false} onExpandedChange={() => {}} {...props} />} />
           <Route path="/landmarks/:region/:id" element={<LandmarkPage />} />
           <Route path="/landing" element={<Landing />} />
+          <Route path="/landmarks" element={<p>landmarks tab</p>} />
         </Routes>
       </MemoryRouter>
     )
@@ -186,6 +187,19 @@ describe('PicksBottomSheet', () => {
     container.remove();
     const min = await render({ picks: PICKS, distanceMiles: 10, minimized: true });
     expect(min.querySelector('.mpp-pill-distance')).toBeNull();
+  });
+
+  it('hides the collapsed distance pill once expanded (the Within chips show the value)', async () => {
+    const el = await render({ picks: PICKS, distanceMiles: 10, expanded: true, toolbar: <div className="tb" /> });
+    expect(el.querySelector('.mpp-pill-distance')).toBeNull();
+  });
+
+  it('locked state has a Rate places button that goes to the Landmarks tab', async () => {
+    const el = await render({ state: 'locked', ratingsCount: 3 });
+    const btn = [...el.querySelectorAll('button')].find((b) => b.textContent.includes('Rate places'));
+    expect(btn).toBeTruthy();
+    await click(btn);
+    expect(document.body.textContent).toContain('landmarks tab');
   });
 
   it('shows a category tile for a place with no photo instead of a broken image', async () => {

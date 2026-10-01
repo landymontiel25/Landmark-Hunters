@@ -120,3 +120,17 @@ export function searchScore(name, details, query) {
   if (n.startsWith(words[0])) score += 1;
   return score;
 }
+
+/**
+ * Ranking nudge for results near the user: up to +3 within 30 km, tapering to
+ * 0 beyond ~800 km. Added to searchScore so that, for an ambiguous word like
+ * "Far", the landmark in the traveler's own city outranks an equally good
+ * match on another continent, but a clearly better name match still wins.
+ */
+export function proximityBonus(meters) {
+  if (!Number.isFinite(meters)) return 0;
+  if (meters <= 30000) return 3;
+  if (meters <= 150000) return 2;
+  if (meters <= 800000) return 1;
+  return 0;
+}

@@ -24,6 +24,7 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { friendlyError } from '../lib/friendlyError';
@@ -471,7 +472,7 @@ export default function GroupTrip() {
                 </div>
                 {addresses[l.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[l.id]}</p>}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                  <span className={`tag ${l.free ? 'tag-free' : ''}`}>{l.free ? 'Free to Visit' : 'Ticketed'}</span>
+                  <AdmissionTag landmark={l} />
                   {l.typicalMinutes && <span className="tag">{'\u{23F1}\u{FE0F}'} ~{l.typicalMinutes} min there</span>}
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

@@ -194,14 +194,11 @@ export default function SignInForm({ onSignedUp }) {
         )}
         {mode === 'signup' && (
           <label
+            className="check-age-label"
             style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: 8,
               fontSize: '0.78rem',
               color: 'var(--color-parchment-dim)',
               margin: '0 0 12px',
-              cursor: 'pointer',
             }}
           >
             <input
@@ -210,7 +207,6 @@ export default function SignInForm({ onSignedUp }) {
               checked={ageConfirmed}
               onChange={(e) => setAgeConfirmed(e.target.checked)}
               required
-              style={{ marginTop: 2 }}
             />
             <span>I am 13 years of age or older.</span>
           </label>

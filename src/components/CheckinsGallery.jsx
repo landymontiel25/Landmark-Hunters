@@ -397,8 +397,8 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                     {canEditDates && (
                       <button
                         type="button"
-                        className="btn btn-ghost btn-sm"
-                        style={{ padding: '1px 6px', fontSize: '0.7rem' }}
+                        className="btn btn-ghost btn-sm admin-edit-btn"
+                        style={{ padding: '1px 10px', fontSize: '0.7rem' }}
                         onClick={(e) => {
                           e.stopPropagation();
                           startEdit(it);

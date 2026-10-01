@@ -6,7 +6,7 @@ import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { submitReview, ratingDraftKey } from '../lib/reviews';
-import { clearPersisted } from '../lib/usePersistentState';
+import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../lib/usePersistentState';
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
@@ -146,6 +146,10 @@ export default function CheckInReview() {
     setSaving(false);
 
     if (rateable) {
+      // The draft stays in storage until the save lands (so a failure keeps
+      // it), but is flagged so the landmark page doesn't call it "restored"
+      // while this is still uploading.
+      markDraftSubmitting(draftKey);
       submitReview({
         userId: user.uid,
         userName: myUsername || user.displayName || 'Explorer',
@@ -157,10 +161,12 @@ export default function CheckInReview() {
           // Saved -- the in-progress copy on this device isn't needed. (On
           // failure it's kept, so the landmark page reopens with it.)
           clearPersisted(draftKey);
+          unmarkDraftSubmitting(draftKey);
           await Promise.all([reloadRatings(), reloadMyPhotos()]).catch(() => {});
           if (res?.photoFailed) setMsg("Your photo couldn't upload — you can try again from the landmark page.");
         })
         .catch(() => {
+          unmarkDraftSubmitting(draftKey);
           setMsg("Your rating couldn't save — you can try rating it again from the landmark page.");
         });
     } else if (photoFiles.length) {
