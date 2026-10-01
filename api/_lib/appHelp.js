@@ -92,15 +92,20 @@ export const APP_HELP =
   `location is off or the address can't be found), (2) mood — Energized & Active or Easygoing & Chill (the same place can be a yes on a lazy ` +
   `morning and a no on a Saturday night out), (3) "What sounds good?" — "The usual" (places ranked by your saved taste) or "Something new" ` +
   `(kinds of places you've rated little or never that still fit your taste), plus an optional "Anything specific?" box; with fewer than 10 ` +
-  `ratings only the box shows, (4) Solo or Group, then (5) "Plan my trip", which turns the answers into a normal chat message Mapr answers like ` +
+  `ratings only the box shows, (4) Solo or Group, then (5) "Plan my trip", which first asks "Who is this plan for?" (Just me or A group) and then turns the answers into a normal chat message Mapr answers like ` +
   `any other (group trips work the same as before). Tapping an answer moves on by itself; steps with a text box have Next. Every step has Back, ` +
   `progress dots, Close and "Just browse the map", and every step but the first has Skip. Answers are saved as you go, so closing the app ` +
   `picks up on the same step. Planning the exact same trip again from the same spot in the same part of the day shows the last plan again ` +
   `instead of re-planning. Interest chips and "Use My Preferences" are no longer part of this flow; My Preferences is still editable in Settings.\n` +
-  `- Taste Profile Score (shown on Mapr only, not Profile; the card reads "Mapr is still learning your taste: N%"): NOT an activity counter — it's Mapr's own prediction confidence, measured by how well its ` +
-  `affinity model can guess one of your ratings from your OTHER ratings alone (leave-one-out), shown as a percentage. Mapr Picks ✓/✗ votes count toward it at half the weight of a full rating. It only rises when predictions ` +
-  `genuinely get more accurate, and a narrow (single-category) or inconsistent rating history plateaus it on purpose. Personal-only, never on any ` +
-  `leaderboard. Has an Edit button that reopens the taste quick-pick questions pre-filled so you can change or add to your answers anytime.\n` +
+  `- Taste score (the "Taste Profile" card on the Mapr tab, not Profile; it reads "Mapr knows your taste: N%"): how often Mapr's own quiet guess about a place it suggested matched your answer. ` +
+  `Mapr keeps a hidden guess for each pick it shows you, and only after you answer (a rating, or an "I'd go" / "Not sure" / "Not for me" tap, whichever is your newest answer on that place) ` +
+  `is it compared. The score looks at your last 20 such guesses: same answer is a full hit, one step off (say a guess of I'd go against It was ok) counts half, two steps off (I'd go against ` +
+  `Didn't like it) counts nothing, and an "I'd go" tap followed by "Didn't like it" counts as half a miss because Mapr had your kind of place right and the specific place wrong. It shows "Learning..." until ` +
+  `5 guesses have been answered, never goes above 99% until your last 100 guesses were all full hits (then 100%), and follows your newest answer, so re-rating a place can change it. ` +
+  `You never see what Mapr guessed for a pick before you answer. Guesses made for a group request (below) don't count. Personal-only, never on any leaderboard. The card's Edit button reopens the taste quick-pick questions pre-filled so you can change or add to your answers anytime. Mapr keeps a private history of your score over time, deleted with your account.\n` +
+  `- "Who is this for?": before every message you send to Mapr (typed, a quick-reply button, an "Ask Mapr about..." question, an edited message, or Plan Your Trip's last step), Mapr first asks "Just me" or "A group". ` +
+  `You answer each time; it isn't remembered. "Just me" works as before. "A group" makes Mapr follow exactly what you asked for (say, family bowling) and ignore your usual taste, your ratings, saved interests, ` +
+  `taste notes and Insider Mode when choosing places; Plan Your Trip also skips "The usual" / "Something new" for a group. Taps and check-in ratings count toward your taste the same either way.\n` +
   `- How Mapr learns from you: only from your ratings, your taps on a pick ("I'd go" / "Not sure" / "Not for me") and the comments you write on a rating. ` +
   `A good answer (I loved it, I'd go) raises that place and its kind of place; a bad one (I didn't like it, Not for me) lowers them; a neutral one (It was ok, Not sure) barely ` +
   `moves them. A tap counts for less than a rating. Words in a comment count too ("too loud" lowers loud kinds of places, "great food" raises food; "not loud" doesn't lower ` +
@@ -120,7 +125,7 @@ export const APP_HELP =
   `- "Tell Mapr What You Love" (Settings): one free-text box for anything in your own words — categories, moods, or actual places and brands by ` +
   `name (e.g. "I love racing, steak, pickleball, Dunkin' Donuts, sushi, arepa places, marinas, Carrot Express"). Naming a specific place/brand tells ` +
   `Mapr something a category alone can't. Mapr reads it directly, no rating required.\n` +
-  `- Insider Mode: unlocks automatically once the Taste Profile Score is confident enough (75%+) — Mapr's chat then leans toward lesser-known, ` +
+  `- Insider Mode: unlocks automatically once Mapr's separate internal confidence about your taste (measured by how well it can guess one of your ratings from your other ratings; it is not the percentage on the Taste Profile card) reaches 75% — Mapr's chat then leans toward lesser-known, ` +
   `off-the-beaten-path stops instead of the obvious tourist picks. Nothing to turn on manually, it just activates, and there's no badge or toggle ` +
   `for it anywhere -- it's just how the chat behaves once it's confident enough.\n` +
   `- Mapr chat plans for the time you're asking about, not the time you're typing: say "Saturday night" or "lunch tomorrow" and it favors ` +

@@ -39,6 +39,12 @@ const TRIP_MODES = [
   { value: 'solo', icon: '\u{1F464}', label: 'Solo' },
   { value: 'group', icon: '\u{1F465}', label: 'Group' },
 ];
+// Asked on the last step, before every plan: who is this request for?
+// Group plans follow the wish and never use the user's own taste.
+const REQUEST_FOR_CHOICES = [
+  { value: 'solo', icon: '\u{1F464}', label: 'Just me' },
+  { value: 'group', icon: '\u{1F465}', label: 'A group' },
+];
 const LOCATION_CHOICES = [
   { value: 'gps', icon: '\u{1F4CD}', label: 'Use my current location' },
   { value: 'type', icon: '\u{2328}\u{FE0F}', label: 'Type an address' },
@@ -82,14 +88,20 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
   const [addressMissing, setAddressMissing] = useState(false);
   const [checking, setChecking] = useState(false);
   const [planning, setPlanning] = useState(false);
+  // On the last step, after "Plan my trip": asking "Just me" or "A group".
+  const [asking, setAsking] = useState(false);
   const gpsPending = useRef(false);
 
   const ratingsCount = Object.values(myReviews || {}).filter((r) => r?.ratingTier).length;
   const canPickType = ratingsCount >= MIN_RATINGS_FOR_PICK_TYPE;
-  const pickType = canPickType ? wizard.pickType : null;
+  const pickTypeChosen = canPickType ? wizard.pickType : null;
+  const pickType = pickTypeChosen;
 
   const index = Math.max(0, TRIP_STEPS.indexOf(wizard.step));
-  const goTo = (step) => set({ step });
+  const goTo = (step) => {
+    setAsking(false);
+    set({ step });
+  };
   const advance = () => goTo(TRIP_STEPS[Math.min(index + 1, TRIP_STEPS.length - 1)]);
   const back = () => goTo(TRIP_STEPS[Math.max(index - 1, 0)]);
 
@@ -160,6 +172,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     else if (wizard.step === 'mood') set({ mood: value, step: 'pick' });
     else if (wizard.step === 'pick') set({ pickType: wizard.pickType === value ? null : value });
     else if (wizard.step === 'tripType') set({ tripMode: value, step: 'plan' });
+    else if (wizard.step === 'plan' && asking) planTrip(value);
   };
 
   const onNext = () => (wizard.step === 'location' ? nextFromLocation() : advance());
@@ -170,11 +183,16 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     clearPersisted(storageKey);
   };
 
-  const planTrip = async () => {
+  const planTrip = async (requestFor = 'solo') => {
     if (planning) return;
+    setAsking(false);
+    // A group plan never uses "The usual" / "Something new": those rank by the
+    // user's own taste.
+    const pickType = requestFor === 'group' ? null : pickTypeChosen;
     const regionIds = regions.map((r) => r.id);
     const origin = coords || trip.startingCoords || null;
     const answersKey = planAnswersKey({
+      requestFor,
       mood: wizard.mood,
       pickType,
       specific: wizard.specific,
@@ -186,7 +204,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     if (isPlanCacheValid(cached, { answersKey, origin })) {
       reset();
       // logMeta: how Mapr's tab logs these picks once their cards are on screen.
-      onPlan(cached.message, { cachedReply: cached.reply, logMeta: { source: 'trip-planner', pickType: cached.pickType ?? pickType, rankedIds: [] } });
+      onPlan(cached.message, { cachedReply: cached.reply, requestFor, logMeta: { source: 'trip-planner', pickType: cached.pickType ?? pickType, rankedIds: [] } });
       return;
     }
 
@@ -225,6 +243,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     setPlanning(false);
     reset();
     onPlan(message, {
+      requestFor,
       onReply: (reply) => {
         writePlanCache(uid, { answersKey, origin, message, reply, pickType });
         // Not logged here: a pick is logged when its card is on screen (Mapr.jsx).
@@ -347,8 +366,10 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     },
     {
       id: 'plan',
-      question: "All set. Here's what I've got:",
+      question: asking ? 'Who is this plan for?' : "All set. Here's what I've got:",
       skippable: false,
+      choices: asking ? REQUEST_FOR_CHOICES.map((c) => ({ ...c, disabled: planning })) : null,
+      value: null,
       children: summary.length > 0 && (
         <ul className="chat-wizard-summary">
           {summary.map((line) => (
@@ -356,11 +377,9 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
           ))}
         </ul>
       ),
-      primary: {
-        label: planning ? 'Planning\u{2026}' : '\u{2728} Plan my trip',
-        onClick: planTrip,
-        disabled: planning,
-      },
+      status: planning ? 'Planning\u{2026}' : null,
+      // The request type is asked first, every time: "Plan my trip" opens it.
+      primary: asking ? undefined : { label: '\u{2728} Plan my trip', onClick: () => setAsking(true), disabled: planning },
     },
   ];
 

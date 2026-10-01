@@ -3,7 +3,7 @@ import { db } from './firebase';
 import { getLandmark } from '../data/regions';
 import { makeSetId } from './setId';
 import { predictLevel } from './maprPrediction';
-import { SHOWN_MEMORY_LIMIT, SURFACES } from './maprConstants';
+import { REQUEST_FOR_VALUES, SHOWN_MEMORY_LIMIT, SURFACES } from './maprConstants';
 import { rememberShownPicks } from './pickMarks';
 
 // One row per place Mapr recommended, in Firestore recommendation_log/
@@ -26,6 +26,8 @@ import { rememberShownPicks } from './pickMarks';
 //   predicted  hidden guess of how the user will answer ('positive' |
 //            'neutral' | 'negative' | null, see maprPrediction.js). Written
 //            only; never put on a pick object or returned to the UI.
+//   requestFor  'solo' | 'group', for picks that answer a Mapr chat request
+//            (asked before every request). Absent on picks from other surfaces.
 // Rows from older app builds are written at build time without these fields.
 
 export const PICK_TYPES = ['usual', 'new'];
@@ -33,7 +35,7 @@ export const PICK_TYPES = ['usual', 'new'];
 const catsOf = (s) => (s.categories && s.categories.length ? s.categories : getLandmark(s.region, s.id)?.categories) || [];
 
 export { makeSetId };
-export function recommendationEntries({ uid, source, surface, setId, profile, pickType, stops, rankedIds = [], isTest = false, at = Date.now() }) {
+export function recommendationEntries({ uid, source, surface, setId, profile, pickType, stops, rankedIds = [], isTest = false, requestFor = null, at = Date.now() }) {
   const ranked = new Set(rankedIds);
   const withRank = (stops || []).map((s, i) => (s && s.rank == null ? { ...s, rank: i + 1 } : s));
   return withRank
@@ -52,6 +54,8 @@ export function recommendationEntries({ uid, source, surface, setId, profile, pi
         fromRanking: ranked.has(`${s.region}/${s.id}`),
         isTest: isTest === true,
         at,
+        // 'solo' | 'group': who the Mapr request behind this pick was for.
+        ...(REQUEST_FOR_VALUES.includes(requestFor) ? { requestFor } : {}),
         ...(setId
           ? {
               setId,

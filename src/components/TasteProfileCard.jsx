@@ -1,26 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { useRatings } from '../lib/RatingsContext';
 import { saveTasteBaseline, saveTasteIntro } from '../lib/friends';
-import { computeTasteConfidence, votesAsReviews } from '../lib/tasteProfile';
-import { getPickFeedback, readLocalFeedback, PICK_VOTE_EVENT } from '../lib/pickFeedback';
-import { baselineToSyntheticReviews, extractLegacyBaselineFromIntro } from '../lib/tasteQuestions';
+import { TASTE_WINDOW } from '../lib/maprConstants';
+import { loadTasteSummary, TASTE_ANSWER_EVENT } from '../lib/tasteScoreStore';
+import { extractLegacyBaselineFromIntro } from '../lib/tasteQuestions';
 import TasteNudgeCard from './TasteNudgeCard';
 import { Skeleton } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
 import { useSlowLoad } from '../lib/useSlowLoad';
 
-// Taste Profile Score -- Mapr's own leave-one-out prediction confidence
-// (see computeTasteConfidence), NOT an activity counter. It only goes up
-// when the model's affinity math actually starts guessing your ratings
-// right from your OTHER ratings; a narrow or inconsistent rating history
-// plateaus it, on purpose. Personal-only, never on any leaderboard. Real
-// landmark ratings AND the taste baseline (TasteNudgeCard's like/dislike
-// picks, turned into synthetic category-level "ratings" by
-// baselineToSyntheticReviews) both feed it, so answering the baseline
-// questions moves this score too, not just the free-text profile the AI
-// reads.
+// Taste score (src/lib/tasteScore.js, docs/taste-score.md): how often Mapr's
+// hidden guess about a pick matched the user's newest answer on that place,
+// over their last TASTE_WINDOW predictions. Shows "Learning..." until
+// TASTE_MIN_GUESSES of them are answered. Never shows what a pick's guess
+// was, only the score. Personal-only, never on any leaderboard. (The old
+// leave-one-out "% confident" it replaces still drives Insider Mode.)
 export default function TasteProfileCard() {
   const { user } = useAuth();
   // profileFresh: true only once a REAL server read of the profile has
@@ -29,7 +24,6 @@ export default function TasteProfileCard() {
   // entirely) -- rendering that as "you have no picks" is exactly what made
   // the card look empty on app open until something else re-fetched it.
   const { myProfile, profileFresh, reload: reloadFriends } = useFriends();
-  const { myReviews } = useRatings();
   const [editing, setEditing] = useState(false);
   // Bridges the gap between "saveTasteBaseline's write resolved" and "the
   // FriendsContext re-render carrying the reloaded myProfile has actually
@@ -93,20 +87,21 @@ export default function TasteProfileCard() {
     })();
   }, [user, profileFresh, myProfile?.tasteIntro, myProfile?.tasteBaseline, reloadFriends]);
 
-  // Mapr Picks ✓/✗ votes count toward the score too (at half weight).
-  const [votes, setVotes] = useState({});
+  // null until the first read lands; recomputed when an answer is saved.
+  const [taste, setTaste] = useState(null);
   useEffect(() => {
     if (!user) return undefined;
     let live = true;
-    setVotes(readLocalFeedback(user.uid));
-    getPickFeedback(user.uid)
-      .then((fb) => live && setVotes(fb))
-      .catch(() => {});
-    const onVote = () => setVotes(readLocalFeedback(user.uid));
-    window.addEventListener(PICK_VOTE_EVENT, onVote);
+    const load = () =>
+      loadTasteSummary(user.uid)
+        .then((t) => live && t && setTaste(t))
+        .catch(() => {});
+    load();
+    const onAnswer = (e) => (e.detail ? live && setTaste(e.detail) : load());
+    window.addEventListener(TASTE_ANSWER_EVENT, onAnswer);
     return () => {
       live = false;
-      window.removeEventListener(PICK_VOTE_EVENT, onVote);
+      window.removeEventListener(TASTE_ANSWER_EVENT, onAnswer);
     };
   }, [user]);
 
@@ -150,19 +145,6 @@ export default function TasteProfileCard() {
   const effectiveNotes = justSaved ? justSaved.notes : myProfile?.tasteBaselineNotes;
   const effectiveCategoryNotes = justSaved ? justSaved.categoryNotes : myProfile?.tasteBaselineCategoryNotes;
 
-  const reviews = [
-    ...Object.values(myReviews).map((r) => ({
-      tier: r.ratingTier,
-      categories: r.categories || [],
-      name: r.landmarkName,
-      comment: r.comment || '',
-      highlights: r.highlights || [],
-      updatedAt: r.updatedAt,
-    })),
-    ...baselineToSyntheticReviews(effectiveBaseline, effectiveCategoryNotes),
-    ...votesAsReviews(votes, new Set([...Object.keys(myReviews), ...Object.values(myReviews).map((r) => r.landmarkId)])),
-  ];
-  const { confidence, sampleCount } = computeTasteConfidence(reviews);
   const hasBaseline = !!(effectiveBaseline && Object.keys(effectiveBaseline).length);
 
   // `committed` (from an optimistic Save) settles once the write does; if it
@@ -192,44 +174,36 @@ export default function TasteProfileCard() {
     );
   }
 
-  if (sampleCount < 2) {
-    return (
-      <div className="card section taste-profile-card">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-          <h3 style={{ margin: 0, fontSize: '0.95rem' }}>{'\u{1F9E9}'} Taste Profile</h3>
-          <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44 }} onClick={startEditing}>
-            {hasBaseline ? `${'\u{270F}\u{FE0F}'} Edit` : `${'\u{2795}'} Answer a few quick picks`}
-          </button>
-        </div>
-        <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
-          Rate a couple more places, vote on a few Mapr Picks, or answer the quick-pick questions and Mapr can start
-          scoring how well it actually knows your taste.
-        </p>
-      </div>
-    );
-  }
+  const learning = !taste || taste.state !== 'ready';
+  const score = learning ? null : taste.score;
 
   return (
     <div className="card section taste-profile-card">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-        <h3 style={{ margin: 0, fontSize: '0.95rem' }}>{'\u{1F9E9}'} Mapr is still learning your taste: {confidence}%</h3>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={startEditing}>
-          {'\u{270F}\u{FE0F}'} Edit
+        <h3 style={{ margin: 0, fontSize: '0.95rem' }}>
+          {'\u{1F9E9}'} Mapr knows your taste: {learning ? 'Learning...' : `${score}%`}
+        </h3>
+        <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44 }} onClick={startEditing}>
+          {hasBaseline ? `${'\u{270F}\u{FE0F}'} Edit` : `${'\u{2795}'} Answer a few quick picks`}
         </button>
       </div>
-      <div
-        className="level-bar-track"
-        style={{ marginTop: 8 }}
-        role="progressbar"
-        aria-valuenow={confidence}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      >
-        <div className="level-bar-fill" style={{ width: `${confidence}%` }} />
-      </div>
+      {!learning && (
+        <div
+          className="level-bar-track"
+          style={{ marginTop: 8 }}
+          role="progressbar"
+          aria-label="Taste score"
+          aria-valuenow={score}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div className="level-bar-fill" style={{ width: `${score}%` }} />
+        </div>
+      )}
       <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
-        How well Mapr can predict a rating of yours from your OTHER ratings alone. Mapr Picks ✓/✗ votes count at half
-        weight. It climbs as your ratings get consistent across different kinds of places, not just with more of them.
+        {learning
+          ? 'Rate the places Mapr suggests and it will start scoring how well it knows your taste.'
+          : `How often Mapr guessed your answer right on its last ${TASTE_WINDOW} picks. Your newest answer on a place is the one that counts.`}
       </p>
     </div>
   );

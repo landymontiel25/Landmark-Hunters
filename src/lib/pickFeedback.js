@@ -2,6 +2,7 @@ import { collection, doc, getDocs, query, runTransaction, serverTimestamp, setDo
 import { db } from './firebase';
 import { pickMarkFields } from './pickMarks';
 import { levelOfVerdict, planLearning } from './maprLearning';
+import { scheduleTasteRecompute } from './tasteScoreStore';
 
 export const PICK_VOTE_EVENT = 'lh-pick-vote';
 
@@ -92,6 +93,7 @@ async function applyTapToProfile(uid, landmark, verdict, nowMs, priorVerdict) {
     if (userPatch) tx.set(userRef, userPatch, { merge: true });
     if (ledger) tx.set(placeRef, { ...ledger, updatedAt: serverTimestamp() });
   });
+  scheduleTasteRecompute(uid);
 }
 
 // Synchronous (localStorage only, no Firestore round trip) -- for painting

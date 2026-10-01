@@ -276,6 +276,22 @@ service cloud.firestore {
         && (request.resource.data.get('resolution', null) == null
             || request.resource.data.resolution in ['food', 'service', 'price', 'noise-crowd', 'changed-mind', 'one-off', 'wrong-type', 'other', 'skip']);
     }
+    // The taste score's history for one user (src/lib/tasteScore.js): a
+    // snapshot per recompute, throttled client-side. Owner-only in every
+    // direction; create and delete only, a snapshot is never edited.
+    match /users/{uid}/taste_history/{id} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['at', 'score', 'percent', 'guesses', 'totalGuesses', 'window',
+             'hits', 'smallMisses', 'bigMisses', 'halfMisses', 'baselineScore', 'baselineLevel',
+             'ratingsCount', 'version', 'createdAt'])
+        && request.resource.data.at is number
+        && (request.resource.data.score == null || (request.resource.data.score is number && request.resource.data.score >= 0 && request.resource.data.score <= 100))
+        && request.resource.data.guesses is int
+        && request.resource.data.ratingsCount is int
+        && request.resource.data.version is int;
+      allow update: if false;
+    }
     // Who the admin account's uid is, so a feature request / bug report can
     // notify them without anyone being able to look people up by email. Set
     // by the admin's own client at sign-in.
@@ -623,7 +639,9 @@ service cloud.firestore {
         && (!('rank' in request.resource.data) || (request.resource.data.rank is int && request.resource.data.rank >= 1 && request.resource.data.rank <= 100))
         && (!('shownAt' in request.resource.data) || request.resource.data.shownAt is number)
         && (!('surface' in request.resource.data) || request.resource.data.surface in ['map-sheet', 'mapr-tab', 'chat'])
-        && (!('predicted' in request.resource.data) || request.resource.data.predicted == null || request.resource.data.predicted in ['positive', 'neutral', 'negative']);
+        && (!('predicted' in request.resource.data) || request.resource.data.predicted == null || request.resource.data.predicted in ['positive', 'neutral', 'negative'])
+        // Who the chat request behind this pick was for (optional).
+        && (!('requestFor' in request.resource.data) || request.resource.data.requestFor in ['solo', 'group']);
       allow update: if false;
     }
     // Running per-landmark check-in counts for one region (Mapr Picks' cold

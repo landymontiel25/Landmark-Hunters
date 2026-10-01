@@ -115,3 +115,39 @@ export const DISAGREEMENT_ONE_OFF_LEVEL = 'neutral';
 // counts this much and the older one the rest.
 export const DISAGREEMENT_NEW_WEIGHT = 0.7;
 export const DISAGREEMENT_OLD_WEIGHT = 0.3;
+
+// --- Taste score (src/lib/tasteScore.js, docs/taste-score.md) -------------
+// The user-facing "how well does Mapr know you" number: credit-weighted hits
+// over the user's last TASTE_WINDOW predictions. A prediction is the hidden
+// guess saved with a shown pick, paired with the user's NEWEST answer on that
+// place (a rating or a tap) given after the pick was shown.
+export const TASTE_WINDOW = 20;
+// "Learning..." until this many predictions have been answered.
+export const TASTE_MIN_GUESSES = 5;
+// The display never goes above 99% ...
+export const TASTE_DISPLAY_CAP = 99;
+// ... except 100% when the last this-many predictions were all full hits.
+export const TASTE_PERFECT_WINDOW = 100;
+// Credit per prediction: same level = hit, one level off = small miss, two
+// levels off = big miss.
+export const TASTE_HIT_CREDIT = 1;
+export const TASTE_SMALL_MISS_CREDIT = 0.5;
+export const TASTE_BIG_MISS_CREDIT = 0;
+// "Place wrong, type right" (missWeight on the place_scores doc, from an "I'd
+// go" tap then a "Didn't like it" rating) counts as half a miss: the
+// prediction earns this much, which is 1 minus the recorded miss weight.
+export const TASTE_HALF_MISS_CREDIT = 1 - MISS_WEIGHTS['positive>negative'];
+// Score history (users/{uid}/taste_history): a new snapshot is written after
+// an answer at most once per this long, or sooner once this many more ratings
+// sit behind the score than at the last snapshot.
+export const TASTE_SNAPSHOT_MIN_MS = 24 * 60 * 60 * 1000;
+export const TASTE_SNAPSHOT_EVERY_ANSWERS = 5;
+// Bumped when the scoring rules change, so old snapshots stay comparable.
+export const TASTE_HISTORY_VERSION = 1;
+// After an answer, the score is recomputed once things go quiet for this long.
+export const TASTE_RECOMPUTE_DELAY_MS = 2000;
+
+// --- Who a Mapr request is for (src/lib/requestFor.js) --------------------
+// Asked before every Mapr request. 'group' requests never use the user's own
+// taste to choose places.
+export const REQUEST_FOR_VALUES = ['solo', 'group'];

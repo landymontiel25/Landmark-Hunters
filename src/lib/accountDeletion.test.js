@@ -21,6 +21,11 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'users/u1/place_scores/a' }, data: () => ({ landmarkId: 'a', placeScore: -46, missWeight: 0.5 }) },
           { ref: { path: 'users/u1/place_scores/b' }, data: () => ({ landmarkId: 'b', placeScore: 4, missWeight: 0 }) },
         ]
+      : col === 'users/u1/taste_history'
+      ? [
+          { ref: { path: 'users/u1/taste_history/h1' }, data: () => ({ at: 1, score: 80, guesses: 20, ratingsCount: 30, version: 1 }) },
+          { ref: { path: 'users/u1/taste_history/h2' }, data: () => ({ at: 2, score: null, guesses: 3, ratingsCount: 5, version: 1 }) },
+        ]
       : col === 'reviews'
       ? [{ ref: { path: 'reviews/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', ratingTier: 'highly-recommend', pickSetId: 's', pickSurface: 'mapr-tab', pickShownAt: 1, ratedAt: 1, priorTier: 'probably-skip', priorRatedAt: 0, disagreement: { reason: 'food', comment: 'cold', at: 2, source: 'asked' } }) }]
       : col === 'recommendation_log'
@@ -115,6 +120,11 @@ describe('deleteAccountData wipe coverage', () => {
     await deleteAccountData('u1');
     expect(deletedPaths).toEqual(expect.arrayContaining(['users/u1/place_scores/a', 'users/u1/place_scores/b']));
     expect(deletedPaths).toContain('users/u1');
+  });
+
+  it('removes every taste score snapshot (users/{uid}/taste_history), which outlive users/{uid}', async () => {
+    await deleteAccountData('u1');
+    expect(deletedPaths).toEqual(expect.arrayContaining(['users/u1/taste_history/h1', 'users/u1/taste_history/h2']));
   });
 
   it('queries every owned collection by its ownership field', async () => {

@@ -366,6 +366,44 @@ await t('place_scores: unknown fields, wrong id, bad types and bad levels are re
 });
 await t('place_scores: owner can delete (account deletion)', () => assertSucceeds(deleteDoc(doc(as('ann'), 'users/ann/place_scores/pl1'))));
 
+console.log('taste_history (score snapshots, owner-only) and recommendation_log.requestFor');
+const th = (o = {}) => ({
+  at: Date.now(), score: 80, percent: 80.5, guesses: 20, totalGuesses: 24, window: 20, hits: 14, smallMisses: 4,
+  bigMisses: 1, halfMisses: 1, baselineScore: 60, baselineLevel: 'positive', ratingsCount: 30, version: 1,
+  createdAt: serverTimestamp(), ...o,
+});
+await t('taste_history: owner creates (null score allowed), reads, lists and deletes', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/taste_history/h1'), th()));
+  await assertSucceeds(setDoc(doc(db, 'users/ann/taste_history/h2'), th({ score: null, baselineScore: null, baselineLevel: null })));
+  await assertSucceeds(getDoc(doc(db, 'users/ann/taste_history/h1')));
+  await assertSucceeds(getDocs(collection(db, 'users/ann/taste_history')));
+});
+await t('taste_history: nobody else can read, list, create or delete', async () => {
+  const db = as('bob');
+  await assertFails(getDoc(doc(db, 'users/ann/taste_history/h1')));
+  await assertFails(getDocs(collection(db, 'users/ann/taste_history')));
+  await assertFails(setDoc(doc(db, 'users/ann/taste_history/h3'), th()));
+  await assertFails(deleteDoc(doc(db, 'users/ann/taste_history/h1')));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'users/ann/taste_history/h1')));
+});
+await t('taste_history: a snapshot is never edited, and bad shapes are refused', async () => {
+  const db = as('ann');
+  await assertFails(updateDoc(doc(db, 'users/ann/taste_history/h1'), { score: 100 }));
+  await assertFails(setDoc(doc(db, 'users/ann/taste_history/h1'), th({ score: 100 })));
+  await assertFails(setDoc(doc(db, 'users/ann/taste_history/h4'), th({ isAdmin: true })));
+  await assertFails(setDoc(doc(db, 'users/ann/taste_history/h5'), th({ score: 101 })));
+  await assertFails(setDoc(doc(db, 'users/ann/taste_history/h6'), th({ score: 'high' })));
+  await assertFails(setDoc(doc(db, 'users/ann/taste_history/h7'), th({ ratingsCount: 1.5 })));
+});
+await t('taste_history: owner can delete (account deletion)', () => assertSucceeds(deleteDoc(doc(as('ann'), 'users/ann/taste_history/h1'))));
+await t('recommendation_log: requestFor accepts solo and group only', async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/rf1'), rec({ ...shown, requestFor: 'solo' })));
+  await assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/rf2'), rec({ ...shown, requestFor: 'group' })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/rf3'), rec({ ...shown, requestFor: 'family' })));
+  await assertFails(setDoc(doc(as('ann'), 'recommendation_log/rf4'), rec({ ...shown, requestFor: null })));
+});
+
 console.log('re-rating fields on reviews (ratedAt, priorTier, priorRatedAt, disagreement)');
 const dis = (o = {}) => ({ reason: 'food', comment: 'cold fries', at: Date.now(), source: 'asked', ...o });
 await t('reviews: re-rating fields accepted on create and on a re-rating edit', async () => {

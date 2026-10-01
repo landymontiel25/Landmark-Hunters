@@ -130,12 +130,33 @@ describe('Plan Your Trip wizard', () => {
     expect(activeDot()).toBe(4);
 
     await click('Plan my trip');
+    await click('Just me');
     expect(onPlan).toHaveBeenCalledTimes(1);
     const [message, opts] = onPlan.mock.calls[0];
     expect(message).toContain('energized and active');
     expect(message).toContain("It's for a group.");
     expect(message).toContain('my usual kind of places, like:');
     expect(typeof opts.onReply).toBe('function');
+    expect(opts.requestFor).toBe('solo');
+  });
+
+  it('asks who the plan is for before sending, and a group plan skips the usual/new taste ranking', async () => {
+    await render();
+    await click('Next');
+    await click('Energized & Active');
+    await click('The usual');
+    await click('Next');
+    await click('Solo');
+    await click('Plan my trip');
+    expect(question()).toBe('Who is this plan for?');
+    expect(onPlan).not.toHaveBeenCalled(); // nothing is sent until one is chosen
+    expect(button('Just me')).toBeTruthy();
+    await click('A group');
+    expect(onPlan).toHaveBeenCalledTimes(1);
+    const [message, opts] = onPlan.mock.calls[0];
+    expect(opts.requestFor).toBe('group');
+    expect(message).not.toContain('usual kind of places');
+    expect(opts.onReply({ text: 'x', stops: [], raw: 'x', quickReplies: [], rate: null })).toMatchObject({ pickType: null, rankedIds: [] });
   });
 
   it('Back returns to the previous step and Skip moves on without an answer', async () => {
@@ -177,6 +198,7 @@ describe('Plan Your Trip wizard', () => {
     await click('Solo');
     expect(classifyInterest).not.toHaveBeenCalled();
     await click('Plan my trip');
+    await click('Just me');
     expect(classifyInterest).not.toHaveBeenCalled();
     expect(onPlan).toHaveBeenCalledTimes(1); // the one plan call
     expect(onPlan.mock.calls[0][0]).toContain('something new that still fits my taste');
@@ -191,6 +213,7 @@ describe('Plan Your Trip wizard', () => {
     await click('Solo');
     expect(classifyInterest).not.toHaveBeenCalled();
     await click('Plan my trip');
+    await click('Just me');
     expect(classifyInterest).toHaveBeenCalledTimes(1);
     expect(classifyInterest).toHaveBeenCalledWith('tacos');
     const [message] = onPlan.mock.calls[0];
@@ -206,6 +229,7 @@ describe('Plan Your Trip wizard', () => {
     await click('Next');
     await click('Solo');
     await click('Plan my trip');
+    await click('Just me');
     const { onReply } = onPlan.mock.calls[0][1];
     const stop = { id: villanova[1].id, region: 'villanova', name: villanova[1].name, categories: villanova[1].categories };
     const meta = onReply({ text: 'Here you go', stops: [stop], raw: 'Here you go', quickReplies: [], rate: null });
@@ -223,6 +247,7 @@ describe('Plan Your Trip wizard', () => {
       await click('Next');
       await click('Solo');
       await click('Plan my trip');
+      await click('Just me');
     };
     await render();
     await walk();
