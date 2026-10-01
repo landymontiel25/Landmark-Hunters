@@ -20,6 +20,7 @@ import {
   rankNearbyCandidates,
   readNearbyPicksCache,
   selectReady,
+  unratedPlaces,
   withReasons,
   optionToMiles,
   withinDistance,
@@ -306,5 +307,15 @@ describe('ratePlacesText', () => {
     expect(ratePlacesText(3)).toBe('Rate 7 more places');
     expect(ratePlacesText(9)).toBe('Rate 1 more place');
     expect(ratePlacesText(undefined)).toBe('Rate 10 places');
+  });
+});
+
+describe('unratedPlaces', () => {
+  it('drops places the user already rated so suggestion rows never recommend them', () => {
+    const pool = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+    const myReviews = { x: { landmarkId: 'b' }, y: {}, z: null };
+    expect(unratedPlaces(pool, myReviews).map((l) => l.id)).toEqual(['a', 'c']);
+    expect(unratedPlaces(pool, null)).toHaveLength(3);
+    expect(unratedPlaces(undefined, myReviews)).toEqual([]);
   });
 });

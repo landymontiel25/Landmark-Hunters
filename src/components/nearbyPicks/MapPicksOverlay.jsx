@@ -23,6 +23,7 @@ import {
   pickKey,
   ratingsCountOf,
   similarPlaces,
+  unratedPlaces,
   SHEET_PICKS,
 } from '../../lib/nearbyPicks';
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
@@ -167,8 +168,9 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   );
   const shownKeys = useMemo(() => (picks || []).map(pickKey), [picks]);
   const liked = useMemo(() => lovedSeed(myReviews), [myReviews]);
-  const similar = useMemo(() => similarPlaces({ liked, pool, exclude: shownKeys }), [liked, pool, shownKeys]);
-  const meal = useMemo(() => (isMealTime(new Date(now)) ? mealPicks({ pool, ratings }) : []), [pool, ratings, now]);
+  const unrated = useMemo(() => unratedPlaces(pool, myReviews), [pool, myReviews]);
+  const similar = useMemo(() => similarPlaces({ liked, pool: unrated, exclude: shownKeys }), [liked, unrated, shownKeys]);
+  const meal = useMemo(() => (isMealTime(new Date(now)) ? mealPicks({ pool: unrated, ratings }) : []), [unrated, ratings, now]);
   const interest = useMemo(() => {
     const p = nearbyInterest({ usual: usual.filter((u) => !shownKeys.includes(pickKey(u))) });
     return p ? { ...p, reason: 'One of your favorite kinds of places, just around the corner.' } : null;

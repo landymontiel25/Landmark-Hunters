@@ -7,7 +7,7 @@ import FriendStatsModal from './FriendStatsModal';
 import ErrorNotice from './ErrorNotice';
 import { SkeletonList } from './Skeleton';
 import { useToast, runOptimistic } from '../lib/ToastContext';
-import { friendlyError } from '../lib/friendlyError';
+import { friendlyError, isRetryable } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
 
 export default function FriendsPanel() {
@@ -121,10 +121,10 @@ export default function FriendsPanel() {
       // Put the handle back (unless they've started typing another) and say why.
       setHandle((cur) => cur || typed);
       setMsg(null);
-      toast.show(friendlyError(e, `Couldn't send the request to @${found.username}.`), {
-        actionLabel: 'Retry',
-        onAction: handleAdd,
-      });
+      toast.show(
+        friendlyError(e, `Couldn't send the request to @${found.username}.`),
+        isRetryable(e) ? { actionLabel: 'Retry', onAction: handleAdd } : {}
+      );
     }
   };
 

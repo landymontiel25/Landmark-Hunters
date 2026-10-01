@@ -40,6 +40,16 @@ export function isOffline() {
 }
 
 /**
+ * Would trying the same thing again have a chance of working? False for our
+ * own validation messages ("You already sent @x a request", "You two are
+ * already friends"): they are the answer, and a Retry button on them just
+ * repeats it. Server (/api) errors carry a `status` and stay retryable.
+ */
+export function isRetryable(err) {
+  return !(err && err.userMessage && err.status == null);
+}
+
+/**
  * friendlyError(err, fallback) -> string
  * err may be an Error, a Firebase error ({ code }), a fetch Response-shaped
  * error ({ status }), or an Error thrown with a server `error` message our

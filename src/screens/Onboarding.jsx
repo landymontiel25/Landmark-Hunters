@@ -23,6 +23,7 @@ import {
 import { useWelcomeBonus } from '../lib/useWelcomeBonus';
 import { needsFirstCheckIn, useCheckinCount } from '../lib/firstCheckIn';
 import { HowToStep, SwipeCardStack } from '../components/OnboardingSteps';
+import { Capacitor } from '@capacitor/core';
 import FirstCheckInStep from '../components/FirstCheckInStep';
 import LocationAlwaysStep from '../components/LocationAlwaysStep';
 import ErrorNotice from '../components/ErrorNotice';
@@ -53,7 +54,10 @@ function buildSteps({ isNew, verified, needsCheckIn }) {
     'cards',
     'notes',
     ...(needsCheckIn ? [CHECKIN_STEP] : []),
-    ...(isNew ? ['location'] : []),
+    // "Always" location is an iOS-app permission (backgroundLocation.js has no
+    // web fallback); in a browser the button could only ever fail with an error
+    // about iOS Settings, a dead end right before the finish.
+    ...(isNew && Capacitor.isNativePlatform() ? ['location'] : []),
     'done',
   ];
 }

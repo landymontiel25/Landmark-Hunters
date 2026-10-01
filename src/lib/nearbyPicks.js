@@ -459,6 +459,15 @@ export function lovedSeed(myReviews, landmarks = ALL_LANDMARKS) {
   return null;
 }
 
+// `pool` without anything the user has already rated. "Picked for you" skips
+// those (rankNearbyCandidates), and so must the rows built from the same pool
+// that suggest a place ("Because you liked", "Time to eat?") -- otherwise they
+// recommend the restaurant you are standing in.
+export function unratedPlaces(pool, myReviews) {
+  const rated = new Set(Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean));
+  return (pool || []).filter((l) => !rated.has(l.id));
+}
+
 // Up to `limit` places like `liked`: same main category first, then any
 // shared category, closest first within each. `pool` is eligiblePlaces.
 export function similarPlaces({ liked, pool = [], exclude = [], limit = SIMILAR_LIMIT }) {
