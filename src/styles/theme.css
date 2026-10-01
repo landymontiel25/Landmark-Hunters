@@ -4067,6 +4067,10 @@ body.lightbox-open .bottom-nav {
   background: var(--chatlab-panel);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  /* A long URL or unbroken word wraps inside the bubble instead of
+     spilling out and making the whole page scroll sideways. */
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .chatlab-bubble p {

@@ -13,7 +13,7 @@ import { useAuth } from '../lib/AuthContext';
 import { authErrorMessage } from '../lib/authErrors';
 import { auth } from '../lib/firebase';
 import { useTrip } from '../lib/TripContext';
-import { addCustomLandmark, uploadLandmarkPhoto } from '../lib/customLandmarks';
+import { addCustomLandmark, checkInTarget, uploadLandmarkPhoto } from '../lib/customLandmarks';
 import { adoptResolvedName } from '../lib/adoptResolvedName';
 import { findPossibleDuplicate } from '../lib/duplicateLandmarkCheck';
 import { fileToSmallDataUrl, pickPhoto } from '../lib/imageUtils';
@@ -381,7 +381,7 @@ export default function AddLandmark() {
       // path uses. Too far (or no GPS fix), and nothing happens here: you
       // check in manually later, once you're actually there.
       if (created.region && coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
-        checkIn({ id: created.id, name: savedName, region: created.region, lat: position.lat, lng: position.lng });
+        checkIn(checkInTarget(created));
       }
       navigate(`/landmarks/${created.region}/${created.id}`);
     } catch (err) {

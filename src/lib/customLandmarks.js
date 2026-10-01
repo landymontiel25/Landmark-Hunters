@@ -163,3 +163,19 @@ export async function updateCustomLandmark(docId, fields) {
 export async function reportCustomLandmark(reporterUid, docId) {
   await updateDoc(doc(db, 'custom_landmarks', docId), { reportedBy: arrayUnion(reporterUid) });
 }
+
+// What the check-in sheet needs from a landmark that was just added. The
+// rating questions are chosen from its categories and topic ("Do you like
+// Peruvian food?"), so passing only id/name skipped rating entirely.
+export function checkInTarget(created) {
+  return {
+    id: created.id,
+    name: created.name,
+    region: created.region,
+    lat: created.lat,
+    lng: created.lng,
+    categories: created.categories || [],
+    topic: created.topic || null,
+    images: created.images || [],
+  };
+}
