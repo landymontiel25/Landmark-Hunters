@@ -21,6 +21,7 @@ import {
 } from '../../lib/nearbyPicks';
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
 import { useUnits } from '../../lib/UnitsContext';
+import { distanceMeters } from '../../lib/geo';
 import { useNearbyPicks } from './useNearbyPicks';
 import PicksBottomSheet from './PicksBottomSheet';
 import DistanceFilter from './DistanceFilter';
@@ -103,7 +104,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
   const state = locked ? 'locked' : !origin && geoError ? 'no-location' : 'ready';
 
-  const { picks, updating, slow, usual } = useNearbyPicks({
+  const { picks: builtPicks, updating, slow, usual } = useNearbyPicks({
     uid,
     enabled: state === 'ready' && !!origin,
     online,
@@ -117,6 +118,20 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     now,
     overrides,
   });
+
+  // A saved set keeps the distances from when it was built, which is up to
+  // ~1 km (one cache cell) and 4 hours from where you are now.
+  const picks = useMemo(
+    () =>
+      builtPicks && coords
+        ? builtPicks.map((p) =>
+            Number.isFinite(p.lat) && Number.isFinite(p.lng)
+              ? { ...p, distanceMeters: distanceMeters(coords.lat, coords.lng, p.lat, p.lng) }
+              : p
+          )
+        : builtPicks,
+    [builtPicks, coords?.lat, coords?.lng] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const pool = useMemo(
     () => (state === 'ready' && origin ? eligiblePlaces({ origin, miles, lowRated: lowRatedIds(myReviews), date: new Date(now), overrides }) : []),

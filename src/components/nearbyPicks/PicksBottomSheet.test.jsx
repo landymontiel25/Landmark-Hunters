@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
-import { MemoryRouter, Routes, Route, useParams } from 'react-router-dom';
+import { MemoryRouter, Routes, Route, useParams, useLocation } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -35,6 +35,10 @@ function LandmarkPage() {
   const { region, id } = useParams();
   return <p>landmark page {region}/{id}</p>;
 }
+function Landing() {
+  const loc = useLocation();
+  return <p data-testid="landing">{loc.state?.directionsTo ? `route to ${loc.state.directionsTo.name}` : 'plain'}</p>;
+}
 const render = async (props) => {
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -44,6 +48,7 @@ const render = async (props) => {
         <Routes>
           <Route path="/" element={<PicksBottomSheet expanded={false} onExpandedChange={() => {}} {...props} />} />
           <Route path="/landmarks/:region/:id" element={<LandmarkPage />} />
+          <Route path="/landing" element={<Landing />} />
         </Routes>
       </MemoryRouter>
     )
@@ -125,6 +130,40 @@ describe('PicksBottomSheet', () => {
     expect(document.querySelector('.modal-card')).toBeNull();
   });
 
+  it('"Use the Map" from a pick closes the pick sheet instead of leaving it over the route', async () => {
+    const el = await render({ picks: PICKS });
+    await click(el.querySelector('.mpp-row-main'));
+    await click(sheetButton('Directions'));
+    const useMap = [...document.querySelectorAll('.modal-card button')].find((b) => b.textContent.includes('Use the Map'));
+    await click(useMap);
+    expect(document.querySelector('.modal-backdrop')).toBeNull();
+  });
+
+  it('a mouse drag that leaves the grip still counts: the pointer is captured on press', async () => {
+    const onExpandedChange = vi.fn();
+    const el = await render({ picks: PICKS, onExpandedChange });
+    const grip = el.querySelector('.mpp-sheet-grip');
+    grip.setPointerCapture = vi.fn();
+    await act(async () => {
+      const down = new MouseEvent('pointerdown', { bubbles: true, clientY: 400 });
+      Object.assign(down, { pointerId: 7 });
+      grip.dispatchEvent(down);
+    });
+    expect(grip.setPointerCapture).toHaveBeenCalledWith(7);
+  });
+
+  it('a cancelled gesture does not leave a stale start that turns the next release into a swipe', async () => {
+    const onExpandedChange = vi.fn();
+    const el = await render({ picks: PICKS, onExpandedChange });
+    const grip = el.querySelector('.mpp-sheet-grip');
+    await act(async () => {
+      grip.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientY: 400 }));
+      grip.dispatchEvent(new MouseEvent('pointercancel', { bubbles: true }));
+      grip.dispatchEvent(new MouseEvent('pointerup', { bubbles: true, clientY: 100 }));
+    });
+    expect(onExpandedChange).not.toHaveBeenCalled();
+  });
+
   it('tapping an expanded card opens the same choices', async () => {
     const el = await render({ picks: PICKS, expanded: true });
     await click(el.querySelectorAll('.mpp-card-main')[1]);
@@ -168,6 +207,9 @@ describe('PicksBottomSheet', () => {
     const slow = await render({ picks: PICKS, slow: true });
     expect(slow.textContent).toContain('showing your last picks');
     expect(slow.querySelectorAll('.mpp-row')).toHaveLength(3);
-    expect((await render({ picks: null, slow: true })).textContent).toContain("You're offline");
+    const offlineEmpty = await render({ picks: null, slow: true });
+    expect(offlineEmpty.textContent).toContain("You're offline");
+    // No picks to be "showing" -- the message says it, the pill would lie.
+    expect(offlineEmpty.querySelector('.mpp-pill-slow')).toBeNull();
   });
 });

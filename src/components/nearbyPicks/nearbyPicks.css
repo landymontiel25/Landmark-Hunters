@@ -56,19 +56,35 @@
   margin: 0 auto;
 }
 
+.map-fullscreen.has-picks {
+  /* The collapsed sheet never takes more than a third of the screen: held
+     at 232px it filled a phone turned sideways, pushing the radius menu and
+     locate button up under the header and leaving no map to look at. */
+  --mpp-h: min(var(--map-picks-h, 0px), 32dvh);
+}
+
 .map-fullscreen.has-picks .map-fab-bar,
 .map-fullscreen.has-picks .map-locate-btn {
-  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 16px);
+  bottom: calc(var(--nav-h) + var(--mpp-h, 0px) + 16px);
   transition: bottom 0.28s var(--ease);
 }
 
+/* Sideways or on a short screen: the search / add / filter buttons run down the left edge and
+   would sit under the radius menu, so it moves next to the locate button. */
+@media (max-height: 600px) {
+  .map-fullscreen .map-fab-bar {
+    left: auto;
+    right: 68px;
+  }
+}
+
 .map-fullscreen.has-picks .map-error-toast {
-  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 70px);
+  bottom: calc(var(--nav-h) + var(--mpp-h, 0px) + 70px);
 }
 
 .map-picks .mpp-sheet {
   position: relative;
-  height: var(--map-picks-h, 232px);
+  height: var(--mpp-h, 232px);
   border-radius: 22px;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-float);
