@@ -123,7 +123,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
     goTo(after, patch);
   };
 
-  useWelcomeBonus(resultsSaved);
+  const { saveError: bonusError, retry: retryBonus } = useWelcomeBonus(resultsSaved);
 
   const deckDone = isDeckComplete(answers.length, cardWords.length);
 
@@ -245,6 +245,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
           ? 'Mapr has what you told it and will use it for your very next picks. You can change any of it later in Settings.'
           : `Mapr will use the ${answers.length} you answered. Finish the rest of the cards any time: the banner on the Map tab brings you back.`}
       </p>
+      {bonusError && <ErrorNotice compact message={bonusError} onRetry={retryBonus} />}
       <button type="button" className="btn btn-primary btn-block" onClick={() => exit('/mapr')}>
         See my Mapr picks {'\u{2192}'}
       </button>
@@ -339,7 +340,17 @@ function NotesStep({ uid, savedIntro, saving, waiting, error, onDone }) {
   }, [savedIntro]);
 
   const trimmed = text.trim();
+  const submittingRef = useRef(false);
   const submit = async (save) => {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    try {
+      await submitInner(save);
+    } finally {
+      submittingRef.current = false;
+    }
+  };
+  const submitInner = async (save) => {
     setTextError(null);
     if (save && trimmed && trimmed !== savedIntro.trim()) {
       try {

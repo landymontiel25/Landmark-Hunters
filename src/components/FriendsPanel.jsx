@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { findUserByUsername, sendFriendRequest, acceptRequest, declineRequest, listFriends } from '../lib/friends';
+import { findUserByUsername, sendFriendRequest, acceptRequest, declineRequest, listFriends, requestKey } from '../lib/friends';
 import { listBlockedUsers, unblockUser } from '../lib/blocks';
 import FriendStatsModal from './FriendStatsModal';
 import ErrorNotice from './ErrorNotice';
@@ -140,7 +140,7 @@ export default function FriendsPanel() {
     const edge = { friend: r.from, friendName: r.fromName };
     runOptimistic({
       apply: () => {
-        markAnswered(r.id, true);
+        markAnswered(requestKey(r), true);
         setFriends((cur) => (cur && !cur.some((f) => f.friend === r.from) ? [...cur, edge] : cur));
       },
       commit: async () => {
@@ -149,7 +149,7 @@ export default function FriendsPanel() {
         await loadFriends();
       },
       rollback: () => {
-        markAnswered(r.id, false);
+        markAnswered(requestKey(r), false);
         setFriends((cur) => cur && cur.filter((f) => f !== edge));
       },
       toast,
@@ -159,18 +159,18 @@ export default function FriendsPanel() {
   };
   const handleDecline = (r) =>
     runOptimistic({
-      apply: () => markAnswered(r.id, true),
+      apply: () => markAnswered(requestKey(r), true),
       commit: async () => {
         await declineRequest(r);
         await reload();
       },
-      rollback: () => markAnswered(r.id, false),
+      rollback: () => markAnswered(requestKey(r), false),
       toast,
       errorMessage: friendlyError(null, `Couldn't decline @${r.fromName}'s request, so it's back.`),
       retry: () => handleDecline(r),
     });
 
-  const visibleRequests = requests.filter((r) => !answeredIds.has(r.id));
+  const visibleRequests = requests.filter((r) => !answeredIds.has(requestKey(r)));
 
   return (
     <div className="card section">

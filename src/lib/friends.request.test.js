@@ -26,6 +26,16 @@ async function load({ edgeExists = false, incoming = [] } = {}) {
 const me = { uid: 'me', username: 'me' };
 const them = { uid: 'them', username: 'them' };
 
+describe('requestKey', () => {
+  it('differs for a re-sent request that reuses the same doc id', async () => {
+    const { requestKey } = await load();
+    const a = { id: 'a_b', createdAt: { seconds: 100, nanoseconds: 1 } };
+    const b = { id: 'a_b', createdAt: { seconds: 200, nanoseconds: 5 } };
+    expect(requestKey(a)).not.toBe(requestKey(b));
+    expect(requestKey(a)).toBe(requestKey({ ...a }));
+  });
+});
+
 describe('sendFriendRequest', () => {
   it('does not create a crossing request when they already asked you', async () => {
     const { sendFriendRequest, setDoc } = await load({ incoming: [{ from: 'them', to: 'me' }] });

@@ -38,11 +38,15 @@ export default function SignInForm({ onSignedUp }) {
       setError('You must confirm you’re 13 or older to create an account.');
       return;
     }
+    if (mode === 'signup' && !name.trim()) {
+      setError('Type a display name first.');
+      return;
+    }
     setBusy(true);
     const normalizedEmail = email.trim().toLowerCase();
     try {
       if (mode === 'signup') {
-        await withTimeout(signUpEmail(normalizedEmail, password, name));
+        await withTimeout(signUpEmail(normalizedEmail, password, name.trim()));
         writePersisted(LAST_EMAIL_KEY, normalizedEmail);
         onSignedUp?.();
       } else {

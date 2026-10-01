@@ -330,6 +330,15 @@ export async function listIncomingRequests(uid) {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
+// A request's doc id is deterministic (from_to), so a re-sent request after a
+// decline reuses the same id. Screens that hide "just answered" requests key
+// on this instead, so the new request isn't swallowed by the old answer.
+export function requestKey(req) {
+  const t = req?.createdAt;
+  const stamp = t?.seconds != null ? `${t.seconds}.${t.nanoseconds ?? 0}` : '';
+  return `${req?.id}|${stamp}`;
+}
+
 export async function acceptRequest(req) {
   const batch = writeBatch(db);
   // Two directed edges so each user can query their own friends.

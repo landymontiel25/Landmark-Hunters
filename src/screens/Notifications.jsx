@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { acceptRequest, declineRequest } from '../lib/friends';
+import { acceptRequest, declineRequest, requestKey } from '../lib/friends';
 import { subscribeMyNotifications, markNotificationRead } from '../lib/notifications';
 import { ALL_LANDMARKS } from '../data/regions';
 import { useToast, runOptimistic } from '../lib/ToastContext';
@@ -156,12 +156,12 @@ export default function Notifications() {
 
   const answer = (r, accept) =>
     runOptimistic({
-      apply: () => toggleIn(setAnsweredIds, r.id, true),
+      apply: () => toggleIn(setAnsweredIds, requestKey(r), true),
       commit: async () => {
         await (accept ? acceptRequest(r) : declineRequest(r));
         await reloadFriends();
       },
-      rollback: () => toggleIn(setAnsweredIds, r.id, false),
+      rollback: () => toggleIn(setAnsweredIds, requestKey(r), false),
       toast,
       errorMessage: friendlyError(
         null,
@@ -172,7 +172,7 @@ export default function Notifications() {
   const handleAccept = (r) => answer(r, true);
   const handleDecline = (r) => answer(r, false);
 
-  const visibleRequests = requests.filter((r) => !answeredIds.has(r.id));
+  const visibleRequests = requests.filter((r) => !answeredIds.has(requestKey(r)));
   const loaded = items !== null;
   const shownItems = (items || []).map((n) => (readIds.has(n.id) ? { ...n, read: true } : n));
   const groupInvites = shownItems.filter((n) => n.type === 'group_invite');

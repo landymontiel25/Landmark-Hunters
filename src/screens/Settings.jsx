@@ -112,6 +112,23 @@ export default function Settings() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMsg, setPasswordMsg] = useState(null);
   const [passwordBusy, setPasswordBusy] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+  const passwordTimerRef = useRef(null);
+  // Google/Apple-only accounts have no password to change (Firebase would
+  // reject the re-auth with a confusing error), so the button is hidden.
+  const hasPasswordLogin = (user?.providerData || []).some((p) => p.providerId === 'password');
+
+  useEffect(() => () => clearTimeout(passwordTimerRef.current), []);
+
+  const handleSignOut = async () => {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await signOutUser();
+    } finally {
+      setSigningOut(false);
+    }
+  };
 
   // Catches "verified in another tab, then came back to Settings" without
   // requiring a full sign-out/sign-in.
@@ -296,7 +313,7 @@ export default function Settings() {
     try {
       await changePassword(currentPassword, newPassword);
       setPasswordMsg('Password changed successfully.');
-      setTimeout(() => {
+      passwordTimerRef.current = setTimeout(() => {
         setChangePasswordOpen(false);
         setCurrentPassword('');
         setNewPassword('');
@@ -588,11 +605,13 @@ export default function Settings() {
               Privacy Policy & Terms of Service
             </Link>
           </p>
-          <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={() => setChangePasswordOpen(true)}>
-            Change Password
-          </button>
-          <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={signOutUser}>
-            Sign Out
+          {hasPasswordLogin && (
+            <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={() => setChangePasswordOpen(true)}>
+              Change Password
+            </button>
+          )}
+          <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} disabled={signingOut} onClick={handleSignOut}>
+            {signingOut ? 'Signing out…' : 'Sign Out'}
           </button>
           {user.metadata?.creationTime && (
             <p style={{ textAlign: 'center', marginTop: 12, marginBottom: 0, fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
