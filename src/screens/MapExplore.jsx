@@ -1035,9 +1035,7 @@ export default function MapExplore({ experiments = false }) {
   const picksH = picksMinimized
     ? `${PICKS_SHEET_H.minimized}px`
     : experiments
-      ? picksExpanded
-        ? PICKS_SHEET_H.moodExpanded
-        : PICKS_SHEET_H.moodCollapsed
+      ? PICKS_SHEET_H.moodExpanded
       : `${PICKS_SHEET_H.collapsed}px`;
 
   return (
@@ -1441,8 +1439,8 @@ export default function MapExplore({ experiments = false }) {
           geoError={geoError}
           overrides={savedOverrides}
           customLandmarks={customLandmarks}
-          expanded={picksExpanded}
-          onExpandedChange={setPicksExpanded}
+          expanded={experiments || picksExpanded}
+          onExpandedChange={experiments ? () => {} : setPicksExpanded}
           minimized={picksMinimized}
           onMinimizedChange={(v) => {
             setPicksMinimized(v);
