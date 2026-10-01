@@ -160,7 +160,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
       for (const tag of loved) if (!trip.savedInterests.includes(tag)) toggleSavedInterest(tag);
       if (deckDone) {
         setResultsSaved(true);
-        markNotificationRead(onboardingNoticeId()).catch(() => {});
+        markNotificationRead(onboardingNoticeId(user.uid)).catch(() => {});
       }
       next();
     } catch (err) {

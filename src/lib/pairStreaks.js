@@ -262,7 +262,7 @@ const COMPATIBILITY_WINDOW = 50;
 // accuracy" (the spec's second stat) isn't computable at all yet -- there's
 // no partner-guess feature to measure.
 export async function computeCompatibility(myUid, partnerUid) {
-  const [mine, theirs] = await Promise.all([getUserReviews(myUid), getUserReviews(partnerUid)]);
+  const [mine, theirs] = await Promise.all([getUserReviews(myUid), getUserReviews(partnerUid, { other: true })]);
   const mineMap = new Map(mine.filter((r) => r.ratingTier && r.landmarkId).map((r) => [r.landmarkId, r]));
   const theirsMap = new Map(theirs.filter((r) => r.ratingTier && r.landmarkId).map((r) => [r.landmarkId, r]));
   const sharedIds = [...mineMap.keys()].filter((id) => theirsMap.has(id));

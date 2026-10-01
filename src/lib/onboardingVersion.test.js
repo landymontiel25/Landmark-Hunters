@@ -59,7 +59,11 @@ describe('needsOnboardingNotice', () => {
   });
 
   it('uses a different notification id per version', () => {
-    expect(onboardingNoticeId(1)).not.toBe(onboardingNoticeId(2));
+    expect(onboardingNoticeId('u1', 1)).not.toBe(onboardingNoticeId('u1', 2));
+  });
+
+  it('uses a different notification id per user (firestore.rules: one owner per doc)', () => {
+    expect(onboardingNoticeId('u1', 1)).not.toBe(onboardingNoticeId('u2', 1));
   });
 });
 
