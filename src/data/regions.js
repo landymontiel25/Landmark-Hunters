@@ -206,7 +206,7 @@ export const REGIONS = [
     state: 'Bern',
     country: 'Switzerland',
     center: { lat: 46.4998, lng: 7.7275 },
-    viewbox: { minLat: 46.45, minLng: 7.65, maxLat: 46.55, maxLng: 7.8 },
+    viewbox: { minLat: 45.9, minLng: 6.0, maxLat: 47.65, maxLng: 8.7 },
     landmarks: SWITZERLAND_LANDMARKS,
   },
   {

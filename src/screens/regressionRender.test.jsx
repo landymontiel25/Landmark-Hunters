@@ -171,7 +171,12 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     const initial = el.querySelectorAll('.landmark-row').length;
     expect(initial).toBeGreaterThan(0);
     expect(initial).toBeLessThan(800);
-    for (let i = 0; i < 100 && !el.textContent.includes('Corr Hall Arch'); i++) {
+    // Keep waiting until the row count stops growing, so the catalog can keep growing.
+    let last = -1;
+    for (let i = 0; i < 400; i++) {
+      const now = el.querySelectorAll('.landmark-row').length;
+      if (now > 800 && now === last) break;
+      last = now;
       await act(async () => {
         await new Promise((r) => setTimeout(r, 30));
       });
