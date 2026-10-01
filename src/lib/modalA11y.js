@@ -13,9 +13,11 @@ function visible(el) {
   return !el.hidden && el.getAttribute('aria-hidden') !== 'true';
 }
 
-function decorate(backdrop, stack) {
+// Returns false when the backdrop has no dialog child yet, so a later pass
+// can try again instead of leaving it undecorated for good.
+function decorate(backdrop, stack, history, doc) {
   const dialog = backdrop.firstElementChild;
-  if (!dialog) return;
+  if (!dialog) return false;
   if (!dialog.getAttribute('role')) dialog.setAttribute('role', 'dialog');
   dialog.setAttribute('aria-modal', 'true');
   if (!dialog.hasAttribute('tabindex')) dialog.setAttribute('tabindex', '-1');
@@ -26,20 +28,44 @@ function decorate(backdrop, stack) {
       dialog.setAttribute('aria-labelledby', heading.id);
     }
   }
-  const opener = document.activeElement;
+  // The opener is the last thing focused/pressed before this modal appeared.
+  // document.activeElement is too late: a modal with an autofocus field has
+  // already moved focus into itself by the time the observer runs, and focus
+  // would then be "returned" to a node that is about to be removed.
+  let opener = null;
+  for (let i = history.length - 1; i >= 0; i--) {
+    const el = history[i];
+    if (el.isConnected && !backdrop.contains(el)) {
+      opener = el;
+      break;
+    }
+  }
   stack.push({ backdrop, dialog, opener });
-  if (!dialog.contains(document.activeElement)) dialog.focus({ preventScroll: true });
+  if (!dialog.contains(doc.activeElement)) dialog.focus({ preventScroll: true });
+  return true;
 }
+
+const OPENER = 'button,a[href],input,select,textarea,summary,[role="button"],[tabindex]';
 
 export function installModalA11y(doc = document) {
   const stack = [];
   const seen = new WeakSet();
+  const history = [];
+  const remember = (el) => {
+    if (!el || el === doc.body || el.nodeType !== 1) return;
+    if (history[history.length - 1] === el) return;
+    history.push(el);
+    if (history.length > 8) history.shift();
+  };
+  // Focus covers keyboard; the press covers Safari/iOS, where tapping a
+  // button does not focus it.
+  const onFocusIn = (e) => remember(e.target);
+  const onPress = (e) => remember(e.target.closest?.(OPENER));
 
   const sync = () => {
     doc.querySelectorAll('.modal-backdrop').forEach((b) => {
       if (seen.has(b)) return;
-      seen.add(b);
-      decorate(b, stack);
+      if (decorate(b, stack, history, doc)) seen.add(b);
     });
     for (let i = stack.length - 1; i >= 0; i--) {
       const entry = stack[i];
@@ -57,6 +83,9 @@ export function installModalA11y(doc = document) {
     const top = stack[stack.length - 1];
     if (!top || e.defaultPrevented) return;
     if (e.key === 'Escape') {
+      // Don't close a modal mid-IME or behind the lightbox (which closes
+      // itself on Escape).
+      if (e.isComposing || doc.body.classList.contains('lightbox-open')) return;
       e.preventDefault();
       top.backdrop.click();
       return;
@@ -85,10 +114,18 @@ export function installModalA11y(doc = document) {
 
   const mo = new MutationObserver(sync);
   mo.observe(doc.body, { childList: true, subtree: true });
-  doc.addEventListener('keydown', onKey);
+  // On window, after every document-level Escape handler (menus, popovers)
+  // has had its chance to claim the key with preventDefault.
+  const win = doc.defaultView || window;
+  win.addEventListener('keydown', onKey);
+  doc.addEventListener('focusin', onFocusIn, true);
+  doc.addEventListener('pointerdown', onPress, true);
+  remember(doc.activeElement);
   sync();
   return () => {
     mo.disconnect();
-    doc.removeEventListener('keydown', onKey);
+    win.removeEventListener('keydown', onKey);
+    doc.removeEventListener('focusin', onFocusIn, true);
+    doc.removeEventListener('pointerdown', onPress, true);
   };
 }

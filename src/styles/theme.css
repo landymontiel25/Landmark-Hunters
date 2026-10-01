@@ -5333,7 +5333,8 @@ h2,
   left: 12px;
   right: 12px;
   bottom: calc(var(--nav-h) + 12px);
-  z-index: 60;
+  /* Above .modal-backdrop (3000) so a toast raised from inside a dialog shows. */
+  z-index: 3500;
   display: flex;
   flex-direction: column;
   align-items: center;
