@@ -760,7 +760,10 @@ export default function Mapr() {
                         e.preventDefault();
                         editAndResend(i, editDraft);
                       }
-                      if (e.key === 'Escape') setEditingIndex(null);
+                      if (e.key === 'Escape') {
+                        e.preventDefault();
+                        setEditingIndex(null);
+                      }
                     }}
                     autoFocus
                     rows={2}

@@ -30,7 +30,11 @@ function ChatRow({ chat, active, projects, isMine, onOpen }) {
   useEffect(() => {
     if (!menu) return undefined;
     const close = (e) => {
-      if (e.type === 'keydown' ? e.key === 'Escape' : !rowRef.current?.contains(e.target)) setMenu(false);
+      if (e.type === 'keydown') {
+        if (e.key !== 'Escape') return;
+        e.preventDefault(); // close just the menu, not the panel around it
+        setMenu(false);
+      } else if (!rowRef.current?.contains(e.target)) setMenu(false);
     };
     document.addEventListener('mousedown', close);
     document.addEventListener('touchstart', close);
