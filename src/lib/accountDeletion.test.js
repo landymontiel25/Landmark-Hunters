@@ -11,7 +11,15 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'group_trips/own' }, data: () => ({ ownerUid: 'u1', memberUids: ['u1', 'x'] }) },
           { ref: { path: 'group_trips/joined' }, data: () => ({ ownerUid: 'x', memberUids: ['x', 'u1'] }) },
         ]
-      : col === 'custom_landmarks'
+      : col === 'recommendation_log'
+        ? [
+            { ref: { path: 'recommendation_log/old' }, data: () => ({ userId: 'u1', landmarkId: 'a' }) },
+            {
+              ref: { path: 'recommendation_log/shown' },
+              data: () => ({ userId: 'u1', landmarkId: 'b', setId: 'u1-1-x', rank: 2, shownAt: 1, surface: 'chat', predicted: 'positive' }),
+            },
+          ]
+        : col === 'custom_landmarks'
         ? [{ ref: { path: 'custom_landmarks/c1' }, data: () => ({ images: ['img1'] }) }]
         : col === 'checkins'
       ? [
@@ -71,6 +79,11 @@ describe('deleteAccountData check-in scrub', () => {
 });
 
 describe('deleteAccountData wipe coverage', () => {
+  it('removes recommendation_log rows, including shown rows with setId/rank/predicted', async () => {
+    await deleteAccountData('u1');
+    expect(deletedPaths).toEqual(expect.arrayContaining(['recommendation_log/old', 'recommendation_log/shown']));
+  });
+
   it('queries every owned collection by its ownership field', async () => {
     await deleteAccountData('u1');
     const has = (f, o = '==') => queries.some(([qf, qo, v]) => qf === f && qo === o && v === 'u1');

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
 import { useUnits } from '../../lib/UnitsContext';
@@ -45,12 +45,27 @@ export default function PicksBottomSheet({
   refreshing = false,
   layout = 'default',
   moodSlot = null,
+  onShown = null,
   children,
 }) {
   const moodFirst = layout === 'mood-first';
   const { units } = useUnits();
   const navigate = useNavigate();
   const startY = useRef(null);
+
+  // The cards actually on screen (1-based rank = position in the set). Nothing
+  // while minimized, loading, locked or empty. onShown logs each once per set.
+  const onScreen =
+    state === 'ready' && !minimized && picks?.length
+      ? picks.slice(0, expanded && !moodFirst ? PICKS_SHOWN : SHEET_PICKS).map((p, i) => ({ ...p, rank: i + 1 }))
+      : [];
+  const onScreenSig = onScreen.map((p) => `${p.region}/${p.id}`).join('|');
+  const onShownRef = useRef(onShown);
+  onShownRef.current = onShown;
+  useEffect(() => {
+    if (onScreen.length) onShownRef.current?.(onScreen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onScreenSig, onShown]);
   const onPointerDown = (e) => {
     startY.current = e.clientY;
     // A mouse drag leaves the (short) grip within a few pixels, and without

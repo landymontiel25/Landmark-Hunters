@@ -13,7 +13,6 @@ import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { classifyInterest } from '../lib/interestClassifier';
 import { pickRegion } from '../lib/tagScores';
 import { ratePlacesText, visitedReviewIds } from '../lib/nearbyPicks';
-import { logRecommendations } from '../lib/recommendationLog';
 import {
   MIN_RATINGS_FOR_PICK_TYPE,
   TRIP_STEPS,
@@ -186,7 +185,8 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     const cached = readPlanCache(user?.uid);
     if (isPlanCacheValid(cached, { answersKey, origin })) {
       reset();
-      onPlan(cached.message, { cachedReply: cached.reply });
+      // logMeta: how Mapr's tab logs these picks once their cards are on screen.
+      onPlan(cached.message, { cachedReply: cached.reply, logMeta: { source: 'trip-planner', pickType: cached.pickType ?? pickType, rankedIds: [] } });
       return;
     }
 
@@ -227,7 +227,8 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     onPlan(message, {
       onReply: (reply) => {
         writePlanCache(uid, { answersKey, origin, message, reply, pickType });
-        if (uid) logRecommendations({ uid, source: 'trip-planner', pickType, stops: reply.stops, rankedIds }).catch(() => {});
+        // Not logged here: a pick is logged when its card is on screen (Mapr.jsx).
+        return { source: 'trip-planner', pickType, rankedIds };
       },
     });
   };
