@@ -453,7 +453,6 @@ export default function MapExplore({ experiments = false }) {
   // minimized lasts while the app is open, so it doesn't pop back up on
   // every visit to the Map tab.
   const { myReviewsLoaded } = useRatings();
-  const [picksExpanded, setPicksExpanded] = useState(false);
   const [picksMinimized, setPicksMinimized] = useSessionState('map.picksMinimized', false);
 
   const [searchOpen, setSearchOpen] = useState(false);
@@ -1034,9 +1033,7 @@ export default function MapExplore({ experiments = false }) {
   const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen;
   const picksH = picksMinimized
     ? `${PICKS_SHEET_H.minimized}px`
-    : experiments
-      ? PICKS_SHEET_H.moodExpanded
-      : `${PICKS_SHEET_H.collapsed}px`;
+    : PICKS_SHEET_H.moodExpanded;
 
   return (
     <div
@@ -1045,9 +1042,10 @@ export default function MapExplore({ experiments = false }) {
         showPicks
           ? {
               '--map-picks-h': picksH,
-              // The real Map caps its sheet at a third of the screen (nearbyPicks.css);
-              // the Test tab's mood-first sheet sizes itself.
-              ...(experiments ? { '--mpp-h': picksH } : {}),
+              // The mood-first sheet sizes itself (open at half the screen, or
+              // just its title), overriding the old third-of-screen cap in
+              // nearbyPicks.css.
+              '--mpp-h': picksH,
             }
           : undefined
       }
@@ -1433,18 +1431,17 @@ export default function MapExplore({ experiments = false }) {
 
       {picksReady && (
         <MapPicksOverlay
-          showRefresh={experiments}
+          showRefresh
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}
           overrides={savedOverrides}
           customLandmarks={customLandmarks}
-          expanded={experiments || picksExpanded}
-          onExpandedChange={experiments ? () => {} : setPicksExpanded}
+          expanded
+          onExpandedChange={() => {}}
           minimized={picksMinimized}
           onMinimizedChange={(v) => {
             setPicksMinimized(v);
-            if (v) setPicksExpanded(false);
           }}
         />
       )}
