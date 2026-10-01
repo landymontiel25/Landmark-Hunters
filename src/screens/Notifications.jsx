@@ -10,6 +10,7 @@ import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
+import { useVisibleInterval } from '../lib/useVisibleInterval';
 import { msUntilStreakLapse, dayKey } from '../lib/streaks';
 
 function formatCountdown(ms) {
@@ -40,11 +41,7 @@ function StreakCountdown({ createdAt }) {
   const sameDay = msLeft > 0 && msLeft <= 24 * 60 * 60 * 1000;
   const ticking = sameDay && !checkedInToday;
 
-  useEffect(() => {
-    if (!ticking) return;
-    const id = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, [ticking]);
+  useVisibleInterval(() => setNow(Date.now()), 1000, ticking);
 
   let label;
   let color;
