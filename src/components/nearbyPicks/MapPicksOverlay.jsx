@@ -128,6 +128,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, expa
         onExpandedChange={onExpandedChange}
         minimized={minimized}
         onMinimizedChange={onMinimizedChange}
+        distanceMiles={miles}
         toolbar={<DistanceFilter value={miles} onChange={setMiles} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />

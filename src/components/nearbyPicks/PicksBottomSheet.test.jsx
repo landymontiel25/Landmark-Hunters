@@ -133,6 +133,22 @@ describe('PicksBottomSheet', () => {
     expect(el.textContent).toContain('landmark page villanova/b');
   });
 
+  it('shows the current distance even while collapsed, and tapping it expands', async () => {
+    const onExpandedChange = vi.fn();
+    const el = await render({ picks: PICKS, distanceMiles: 1, onExpandedChange });
+    const pill = [...el.querySelectorAll('.mpp-pill-distance')].find((b) => b.textContent.includes('Within 1 mi'));
+    expect(pill).toBeTruthy();
+    await click(pill);
+    expect(onExpandedChange).toHaveBeenCalledWith(true);
+  });
+
+  it('hides the distance pill while minimized or without a value', async () => {
+    expect((await render({ picks: PICKS, distanceMiles: null })).querySelector('.mpp-pill-distance')).toBeNull();
+    container.remove();
+    const min = await render({ picks: PICKS, distanceMiles: 10, minimized: true });
+    expect(min.querySelector('.mpp-pill-distance')).toBeNull();
+  });
+
   it('shows a category tile for a place with no photo instead of a broken image', async () => {
     const el = await render({ picks: [pick('bare', { image: null }), ...PICKS] });
     const first = el.querySelector('.mpp-row');

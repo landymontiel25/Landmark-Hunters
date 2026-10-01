@@ -162,6 +162,12 @@ body.pin-placing .map-picks {
   background: rgba(242, 184, 75, 0.16);
 }
 
+.mpp-pill-distance {
+  margin: 4px 16px 0;
+  border: none;
+  cursor: pointer;
+}
+
 .mpp-pill-dot {
   width: 6px;
   height: 6px;
