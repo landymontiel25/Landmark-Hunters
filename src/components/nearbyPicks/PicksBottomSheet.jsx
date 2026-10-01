@@ -25,6 +25,7 @@ import DirectionsButton from '../DirectionsButton';
 // moodSlot) on top, then one card with the top three picks, each with a
 // Directions button, and the refresh button beside the card's title.
 export const SWIPE_PX = 30;
+export const LONG_SWIPE_PX = 140;
 
 export default function PicksBottomSheet({
   state = 'ready',
@@ -73,8 +74,11 @@ export default function PicksBottomSheet({
       if (dy <= SWIPE_PX) onMinimizedChange?.(false);
     } else if (dy < -SWIPE_PX) onExpandedChange(true);
     else if (dy > SWIPE_PX) {
+      // Test tab: a long pull down from the half-open sheet goes all the way
+      // to the title bar; a short one steps down to the collapsed card.
+      const allTheWay = moodFirst && dy > LONG_SWIPE_PX && onMinimizedChange;
       if (expanded) onExpandedChange(false);
-      else onMinimizedChange?.(true);
+      if (!expanded || allTheWay) onMinimizedChange?.(true);
     } else onExpandedChange(!expanded);
   };
   const toggle = () => {

@@ -268,6 +268,26 @@ describe('PicksBottomSheet', () => {
       expect(min.querySelector('.mpp-sheet-grip .mpp-sheet-title').textContent).toBe('Picked for you right now');
     });
 
+    it('a long pull down from the half-open sheet goes all the way to the title; a short one only collapses', async () => {
+      const swipe = (el, dy) =>
+        act(async () => {
+          const grip = el.querySelector('.mpp-sheet-grip');
+          grip.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientY: 100 }));
+          grip.dispatchEvent(new MouseEvent('pointerup', { bubbles: true, clientY: 100 + dy }));
+        });
+      const longOne = { expanded: true, onExpandedChange: vi.fn(), onMinimizedChange: vi.fn() };
+      let el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, ...longOne });
+      await swipe(el, 200);
+      expect(longOne.onExpandedChange).toHaveBeenCalledWith(false);
+      expect(longOne.onMinimizedChange).toHaveBeenCalledWith(true);
+      container.remove();
+      const shortOne = { expanded: true, onExpandedChange: vi.fn(), onMinimizedChange: vi.fn() };
+      el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, ...shortOne });
+      await swipe(el, 60);
+      expect(shortOne.onExpandedChange).toHaveBeenCalledWith(false);
+      expect(shortOne.onMinimizedChange).not.toHaveBeenCalled();
+    });
+
     it('keeps the top three as rows even when expanded, and shows the distance filter inside the card', async () => {
       const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, toolbar: <div data-testid="bar" /> });
       expect(el.querySelectorAll('.mpp-top3 .mpp-row')).toHaveLength(3);
