@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { initialRating } from './initialRating';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -237,7 +238,7 @@ export default function CheckInReview() {
                 <RatingFlow
                   key={justCheckedIn.id}
                   landmark={justCheckedIn}
-                  initial={existing?.ratingTier ? { ...existing, tier: checkInOptions?.initialTier || existing.ratingTier } : checkInOptions?.initialTier ? { tier: checkInOptions.initialTier } : null}
+                  initial={initialRating(existing, checkInOptions?.initialTier)}
                   onChange={setRating}
                   requireComment={requireComment}
                   draftKey={draftKey}
