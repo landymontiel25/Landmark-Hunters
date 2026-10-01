@@ -11,7 +11,7 @@ import CategorySelect from './CategorySelect';
 // landmark -- the built-in catalog is static source data checked into the
 // repo, so correcting one of those still goes through a normal code change
 // instead of a live in-app edit.
-export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
+export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted }) {
   const navigate = useNavigate();
   const [name, setName] = useState(landmark.name || '');
   const [category, setCategory] = useState(landmark.categories?.[0] || '');
@@ -57,6 +57,7 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
     setDeleting(true);
     try {
       await deleteCustomLandmark(landmark.docId);
+      onDeleted?.();
       navigate('/');
     } catch (e) {
       setMsg({ ok: false, text: e.message || 'Could not delete — try again.' });

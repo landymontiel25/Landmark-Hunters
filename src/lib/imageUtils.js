@@ -31,12 +31,17 @@ export async function pickPhoto() {
   const file = await downscalePhoto(original);
   if (file.size >= PHOTO_MAX_BYTES) {
     // Storage refuses 8 MB+ files; say so now instead of failing at upload.
-    const err = new Error(PHOTO_TOO_BIG_MESSAGE);
-    err.userMessage = PHOTO_TOO_BIG_MESSAGE;
+    const msg = isHeic(file) ? PHOTO_HEIC_TOO_BIG_MESSAGE : PHOTO_TOO_BIG_MESSAGE;
+    const err = new Error(msg);
+    err.userMessage = msg;
     throw err;
   }
   return file;
 }
+
+export const PHOTO_HEIC_TOO_BIG_MESSAGE =
+  "That HEIC photo is over the 8 MB limit and this browser can't shrink it. Pick a JPEG instead, or take a screenshot of the photo.";
+const isHeic = (f) => /hei[cf]/i.test(f?.type || '') || /\.hei[cf]$/i.test(f?.name || '');
 
 // storage.rules refuses uploads of 8 MB or more.
 export const PHOTO_MAX_BYTES = 8 * 1024 * 1024;

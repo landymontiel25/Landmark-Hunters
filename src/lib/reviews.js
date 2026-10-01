@@ -42,6 +42,8 @@ export function ratingDraftKey(userId, landmarkId) {
   return userId && landmarkId ? `rating.${userId}.${landmarkId}` : null;
 }
 
+export const MAX_REVIEW_PHOTOS = 3;
+
 // Reject after `ms` so a stalled Storage upload (bucket not enabled, blocked by
 // rules, CORS, or just slow) can never hang the whole save forever.
 function withTimeout(promise, ms) {
@@ -126,6 +128,19 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
     .slice(0, 3);
   const photoURLs = [];
   let photoFailed = false;
+  if (files.length) {
+    // A review holds at most 3 photos in total; an edit appends to what's there.
+    const existing = await getDoc(doc(db, 'reviews', `${userId}_${landmarkId}`)).catch(() => null);
+    const have = existing?.exists() ? existing.data().photoURLs?.length || 0 : 0;
+    if (have + files.length > MAX_REVIEW_PHOTOS) {
+      const over = have + files.length - MAX_REVIEW_PHOTOS;
+      throw userError(
+        have >= MAX_REVIEW_PHOTOS
+          ? `Your rating already has ${MAX_REVIEW_PHOTOS} photos, the most it can hold. Remove the new photo${files.length === 1 ? '' : 's'} to save.`
+          : `A rating holds up to ${MAX_REVIEW_PHOTOS} photos and yours already has ${have}. Remove ${over} new photo${over === 1 ? '' : 's'} to save.`
+      );
+    }
+  }
   if (files.length && storage) {
     for (let i = 0; i < files.length; i++) {
       try {
@@ -458,12 +473,13 @@ export async function getReplies(reviewId) {
 }
 
 export async function addReply(reviewId, { uid, userName, text }) {
-  await addDoc(collection(db, 'reviews', reviewId, 'replies'), {
+  const added = await addDoc(collection(db, 'reviews', reviewId, 'replies'), {
     uid,
     userName,
     text: text.slice(0, 500),
     createdAt: serverTimestamp(),
   });
+  return added?.id ?? null;
 }
 
 export async function deleteReply(reviewId, replyId) {
