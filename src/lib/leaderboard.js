@@ -123,7 +123,17 @@ export async function claimCheckIn({
   // id too), but the visit number -- which drives the payout taper and the
   // love-reason prompt -- counts only real visits. Otherwise rating a place
   // first made your first real check-in there pay as a 20% "repeat".
-  const docNumber = priorSnap.size + 1;
+  // Highest existing visit index, not the doc count: deleting a check-in
+  // leaves a gap, and count+1 would then collide with a surviving doc id.
+  const base = `${userId}_${landmarkId}`;
+  let maxIdx = 0;
+  for (const d of priorSnap.docs) {
+    if (d.id === base) maxIdx = Math.max(maxIdx, 1);
+    else if (d.id?.startsWith(`${base}_`) && /^\d+$/.test(d.id.slice(base.length + 1))) {
+      maxIdx = Math.max(maxIdx, Number(d.id.slice(base.length + 1)));
+    }
+  }
+  const docNumber = Math.max(priorSnap.size, maxIdx) + 1;
   const realPrior = priorSnap.docs.filter((d) => isRealCheckin(d.data())).length;
   const visitNumber = realPrior + 1;
   const checkinId = docNumber === 1 ? `${userId}_${landmarkId}` : `${userId}_${landmarkId}_${docNumber}`;

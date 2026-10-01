@@ -335,11 +335,14 @@ function StreakDetail({ streak, onBack, onLeave }) {
   };
 
   const handleReset = async () => {
-    if (!window.confirm(`Reset this streak with @${partnerName} to 0? This can't be undone.`)) return;
+    const typed = window.prompt(
+      `Reset the current streak with @${partnerName} to 0? This can't be undone (your best streak is kept). Type RESET to confirm.`
+    );
+    if (typed?.trim().toUpperCase() !== 'RESET') return;
     setResetBusy(true);
     setResetMsg(null);
     try {
-      await resetDualStreak(streak.id);
+      await resetDualStreak(streak.id, 'RESET');
       setResetMsg('Reset to 0.');
     } catch (e) {
       setResetMsg(friendlyError(e, "Couldn't reset that streak. Try again."));

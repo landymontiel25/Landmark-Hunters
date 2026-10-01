@@ -90,15 +90,18 @@ async function handler(req, res) {
       return;
     }
 
+    // The break reset the count to 1 and it has grown since; restore the old
+    // run PLUS the days completed after the break, not just the old number.
+    const restored = (streak.recoveryPriorCount || 0) + (streak.count || 0);
     await streakRef.update({
-      count: streak.recoveryPriorCount || 0,
-      best: Math.max(streak.best || 0, streak.recoveryPriorCount || 0),
+      count: restored,
+      best: Math.max(streak.best || 0, restored),
       recoveryOpenUntil: FieldValue.delete(),
       recoveryPriorCount: FieldValue.delete(),
       recoveryUsedMonth: thisMonth,
       updatedAt: FieldValue.serverTimestamp(),
     });
-    res.status(200).json({ ok: true, count: streak.recoveryPriorCount || 0 });
+    res.status(200).json({ ok: true, count: restored });
   } catch (e) {
     res.status(500).json({ error: e?.message || 'Could not complete the recovery mission.' });
   }

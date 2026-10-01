@@ -136,7 +136,7 @@ export default function FullLeaderboard() {
         !loadFailed &&
         entries.map((e, idx) => (
           <div key={e.id} className={`leaderboard-row ${user && e.userId === user.uid ? 'me' : ''}`}>
-            <div className="leaderboard-rank">#{idx + 1}</div>
+            <div className="leaderboard-rank">#{entries.findIndex((x) => x.points === e.points) + 1}</div>
             <div style={{ flex: 1 }}>
               <FriendPopoverName userId={e.userId} fallbackName={displayFor(e)}>
                 {displayFor(e)}

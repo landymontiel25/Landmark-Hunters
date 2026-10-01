@@ -312,7 +312,7 @@ function ProfileMenu() {
     }
     const unsub = subscribeLeaderboard('weekly', (entries) => {
       const idx = entries.findIndex((e) => e.userId === user.uid);
-      setMe({ points: idx >= 0 ? entries[idx].points : 0, rank: idx >= 0 ? idx + 1 : null });
+      setMe({ points: idx >= 0 ? entries[idx].points : 0, rank: idx >= 0 ? entries.findIndex((e) => e.points === entries[idx].points) + 1 : null });
     }, 50, () => setMe({ points: null, rank: null, failed: true }));
     return unsub;
   }, [firebaseEnabled, user]);

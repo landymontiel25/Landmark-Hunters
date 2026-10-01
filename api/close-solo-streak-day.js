@@ -117,7 +117,7 @@ async function handler(req, res) {
     const nextBest = outcome.best;
     const milestone = SOLO_MILESTONE_POINTS[nextCount] || 0;
     const userName = streak.memberNames?.[account.uid];
-    await awardLeaderboardPointsServer(db, account.uid, userName, SOLO_DAY_POINTS + milestone);
+    await awardLeaderboardPointsServer(db, account.uid, userName, SOLO_DAY_POINTS + milestone, dayId);
     res.status(200).json({
       ok: true,
       closed: true,

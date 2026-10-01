@@ -213,7 +213,20 @@ async function handler(req, res) {
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     };
-    await ref.set(data);
+    // create-if-missing: Header and the Streaks page both call this on first
+    // load; a plain set() let the slower call overwrite a doc a close-day call
+    // had already advanced in between.
+    try {
+      await db.runTransaction(async (t) => {
+        if ((await t.get(ref)).exists) throw Object.assign(new Error('exists'), { alreadyExists: true });
+        t.set(ref, data);
+      });
+    } catch (e) {
+      if (!e?.alreadyExists) throw e;
+      const winner = await ref.get();
+      res.status(200).json({ id: account.uid, ...winner.data() });
+      return;
+    }
     res.status(200).json({ id: account.uid, ...data });
   } catch (e) {
     res.status(500).json({ error: e?.message || 'Could not load your streak.' });
