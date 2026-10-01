@@ -247,6 +247,14 @@ export function chipCovering(meters, units, options = DISTANCE_OPTIONS_MI, above
   return chips.find((n) => optionToMiles(n, units) * METERS_PER_MILE >= meters) ?? chips[chips.length - 1] ?? null;
 }
 
+// The chip "Widen to" offers: the smallest wider one reaching the nearest
+// place past the radius; null when there is no such place (widening would
+// show nothing new) or the biggest chip is already on.
+export function widenChip(places, distance, units, options = DISTANCE_OPTIONS_MI) {
+  if (!places?.length || distance >= options[options.length - 1]) return null;
+  return chipCovering(places[0].distanceMeters, units, options, distance);
+}
+
 // Default distance: the smallest chip with at least `min` places that could
 // be picked (open, not low-rated, with a photo), so a dense neighborhood
 // opens tight and a thin one (Doral has nothing within 5 mi) opens wide.

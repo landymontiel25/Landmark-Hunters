@@ -9,7 +9,6 @@ import AdminEditLandmarkPanel from '../components/AdminEditLandmarkPanel';
 import AdminEditBuiltInPanel from '../components/AdminEditBuiltInPanel';
 import { blockUser, listBlockedUsers } from '../lib/blocks';
 import { useTrip } from '../lib/TripContext';
-import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
@@ -106,7 +105,6 @@ function LandmarkDetailBody() {
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
-  const { coords } = useGeo();
   const region = getRegion(regionId);
   const staticLandmark = getLandmark(regionId, id);
   // Not in the built-in catalog -- might be a user-submitted one from

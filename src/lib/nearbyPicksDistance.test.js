@@ -134,3 +134,16 @@ describe('reason lines carry the real distance in the right unit', () => {
     expect(fallbackReason({ categories: ['food'] })).not.toMatch(/away/);
   });
 });
+
+describe('widenChip', () => {
+  const far = [{ distanceMeters: 7 * 1609.34 }];
+  it('picks the smallest wider chip reaching the nearest place', async () => {
+    const { widenChip } = await import('./nearbyPicks');
+    expect(widenChip(far, 1, 'imperial')).toBe(10);
+  });
+  it('offers nothing with no place beyond, or at the biggest chip', async () => {
+    const { widenChip } = await import('./nearbyPicks');
+    expect(widenChip([], 1, 'imperial')).toBeNull();
+    expect(widenChip(far, 100, 'imperial')).toBeNull();
+  });
+});

@@ -486,7 +486,8 @@ body.pin-placing .map-picks {
 .mpp-beyond {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 8px;
   padding: 0 16px 12px;
 }
