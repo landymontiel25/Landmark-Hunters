@@ -214,6 +214,10 @@ service cloud.firestore {
         && (!changed.hasAny(['username'])
             || getAfter(/databases/$(database)/documents/usernames/$(d.username)).data.uid == request.auth.uid)
         && (!changed.hasAny(['bonusPoints']) || bonusPointsOk(d))
+        // createdAt (account creation, for the owner's stats) is written once,
+        // as server time, and never changed or removed afterwards.
+        && (!changed.hasAny(['createdAt'])
+            || ((resource == null || !('createdAt' in resource.data)) && d.createdAt == request.time))
         // Once onboarding is done it stays done, or its +10 could be re-earned.
         && (resource == null || resource.data.get('onboardingCompleted', false) != true
             || d.get('onboardingCompleted', false) == true);
@@ -296,6 +300,20 @@ service cloud.firestore {
         && (request.resource.data.get('resolution', null) == null
             || request.resource.data.resolution in ['food', 'service', 'price', 'noise-crowd', 'changed-mind', 'one-off', 'wrong-type', 'other', 'skip']);
     }
+    // The daily open record: one doc per user per day the app was opened
+    // (src/lib/openDays.js), id = the user's local YYYY-MM-DD. Owner-only,
+    // create-only (a second write for the same day is an update, refused),
+    // no location. The owner may delete (account deletion).
+    match /users/{uid}/open_days/{date} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['userId', 'date', 'createdAt'])
+        && request.resource.data.userId == uid
+        && request.resource.data.date == date
+        && date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.createdAt == request.time;
+      allow update: if false;
+    }
     // The taste score's history for one user (src/lib/tasteScore.js): a
     // snapshot per recompute, throttled client-side. Owner-only in every
     // direction; create and delete only, a snapshot is never edited.
@@ -311,6 +329,12 @@ service cloud.firestore {
         && request.resource.data.ratingsCount is int
         && request.resource.data.version is int;
       allow update: if false;
+    }
+    // The owner's daily study summaries (api/study-summary.js). Written and
+    // read only by the server (Admin SDK bypasses rules); no client, not even
+    // the admin account, can read or write them.
+    match /study_summaries/{day} {
+      allow read, write: if false;
     }
     // Who the admin account's uid is, so a feature request / bug report can
     // notify them without anyone being able to look people up by email. Set

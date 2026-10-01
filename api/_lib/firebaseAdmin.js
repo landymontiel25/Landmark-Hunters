@@ -1,6 +1,7 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getMessaging } from 'firebase-admin/messaging';
 import { getFirestore } from 'firebase-admin/firestore';
+import { getAuth } from 'firebase-admin/auth';
 
 // The one place in this app that needs a real Firebase service-account
 // secret. Everywhere else (verifyAuth.js) gets by on the public web API key
@@ -27,3 +28,12 @@ export function adminMessaging() {
 export function adminDb() {
   return getFirestore(adminApp());
 }
+
+// Account records (creation time) for the createdAt backfill.
+export function adminAuth() {
+  return getAuth(adminApp());
+}
+
+// A message a route can hand back instead of crashing when the secret is
+// missing (adminApp throws exactly this).
+export const SERVICE_ACCOUNT_MISSING = 'FIREBASE_SERVICE_ACCOUNT is not set';

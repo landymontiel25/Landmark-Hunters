@@ -35,9 +35,12 @@ export function prefillAnswers({ cardWords, progress, profile, savedInterests = 
 
 // Marks an account as created through sign-up, which is what makes onboarding
 // start on its own for it (see onboardingStatus). Written once, at creation.
+// Also stamps createdAt (server time) -- the account's creation moment, which
+// firestore.rules lets be written once and never changed. Accounts made before
+// this existed are filled in by the admin backfill (api/admin-stats.js).
 export async function markNewSignup(uid) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { onboardingSource: 'signup' }, { merge: true });
+  await setDoc(doc(db, 'users', uid), { onboardingSource: 'signup', createdAt: serverTimestamp() }, { merge: true });
 }
 
 // Where the person is in the flow, so closing the app resumes there. Answers

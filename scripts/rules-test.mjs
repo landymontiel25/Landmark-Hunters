@@ -490,6 +490,58 @@ await t('place_scores: new ledger fields (type effect, resolution, latest answer
   await assertFails(getDoc(doc(as('bob'), 'users/ann/place_scores/pl9')));
 });
 
+console.log('item 8: createdAt, open_days, study_summaries');
+await reset();
+await t('createdAt: owner sets it once (server time) on a profile without one', async () => {
+  const db = as('nina');
+  await assertSucceeds(setDoc(doc(db, 'users/nina'), { uid: 'nina', onboardingSource: 'signup', createdAt: serverTimestamp() }, { merge: true }));
+});
+await t('createdAt: cannot be changed, removed or set to a made-up time afterwards', async () => {
+  const db = as('nina');
+  await assertFails(setDoc(doc(db, 'users/nina'), { createdAt: serverTimestamp() }, { merge: true }));
+  await assertFails(updateDoc(doc(db, 'users/nina'), { createdAt: deleteField() }));
+  await assertFails(updateDoc(doc(db, 'users/nina'), { createdAt: new Date(2020, 1, 1) }));
+  await assertSucceeds(setDoc(doc(db, 'users/nina'), { displayName: 'Nina', updatedAt: serverTimestamp() }, { merge: true }));
+});
+await t('createdAt: a made-up time is refused even the first time; someone else cannot set it', async () => {
+  await seed((adb) => setDoc(doc(adb, 'users/omar'), { uid: 'omar' }));
+  await assertFails(setDoc(doc(as('omar'), 'users/omar'), { createdAt: new Date(2020, 1, 1) }, { merge: true }));
+  await assertFails(setDoc(doc(as('nina'), 'users/omar'), { createdAt: serverTimestamp() }, { merge: true }));
+});
+await t('createdAt: a profile that already has one (backfilled) keeps it', async () => {
+  await seed((adb) => setDoc(doc(adb, 'users/pia'), { uid: 'pia', createdAt: new Date(2024, 0, 1) }));
+  await assertFails(setDoc(doc(as('pia'), 'users/pia'), { createdAt: serverTimestamp() }, { merge: true }));
+  await assertSucceeds(setDoc(doc(as('pia'), 'users/pia'), { displayName: 'Pia' }, { merge: true }));
+});
+await t('open_days: owner creates today once; a second write for the same day is refused', async () => {
+  const db = as('quin');
+  await assertSucceeds(setDoc(doc(db, 'users/quin/open_days/2026-10-01'), { userId: 'quin', date: '2026-10-01', createdAt: serverTimestamp() }));
+  await assertFails(setDoc(doc(db, 'users/quin/open_days/2026-10-01'), { userId: 'quin', date: '2026-10-01', createdAt: serverTimestamp() }));
+  await assertFails(updateDoc(doc(db, 'users/quin/open_days/2026-10-01'), { date: '2026-10-01' }));
+});
+await t('open_days: no extra fields (no location), id must match the date, userId must be the owner', async () => {
+  const db = as('quin');
+  await assertFails(setDoc(doc(db, 'users/quin/open_days/2026-10-02'), { userId: 'quin', date: '2026-10-02', createdAt: serverTimestamp(), lat: 1 }));
+  await assertFails(setDoc(doc(db, 'users/quin/open_days/2026-10-03'), { userId: 'quin', date: '2026-10-04', createdAt: serverTimestamp() }));
+  await assertFails(setDoc(doc(db, 'users/quin/open_days/today'), { userId: 'quin', date: 'today', createdAt: serverTimestamp() }));
+  await assertFails(setDoc(doc(db, 'users/quin/open_days/2026-10-05'), { userId: 'rex', date: '2026-10-05', createdAt: serverTimestamp() }));
+});
+await t('open_days: owner-only (others cannot read, create or delete); owner can delete', async () => {
+  await assertFails(getDoc(doc(as('rex'), 'users/quin/open_days/2026-10-01')));
+  await assertFails(setDoc(doc(as('rex'), 'users/quin/open_days/2026-10-06'), { userId: 'quin', date: '2026-10-06', createdAt: serverTimestamp() }));
+  await assertFails(deleteDoc(doc(as('rex'), 'users/quin/open_days/2026-10-01')));
+  await assertSucceeds(getDoc(doc(as('quin'), 'users/quin/open_days/2026-10-01')));
+  await assertSucceeds(deleteDoc(doc(as('quin'), 'users/quin/open_days/2026-10-01')));
+});
+await t('study_summaries: denied to everyone, the admin account included', async () => {
+  await seed((adb) => setDoc(doc(adb, 'study_summaries/2026-10-01'), { date: '2026-10-01' }));
+  for (const db of [as('quin'), as('admin1', { email: ADMIN_EMAIL }), env.unauthenticatedContext().firestore()]) {
+    await assertFails(getDoc(doc(db, 'study_summaries/2026-10-01')));
+    await assertFails(setDoc(doc(db, 'study_summaries/2026-10-02'), { date: '2026-10-02' }));
+    await assertFails(deleteDoc(doc(db, 'study_summaries/2026-10-01')));
+  }
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {
