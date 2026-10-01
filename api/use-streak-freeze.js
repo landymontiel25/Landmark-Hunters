@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { dayKey, monthKey } from './_lib/streakDay.js';
+import { dayKey, validClientDayKey } from './_lib/streakDay.js';
 import { withCors } from './_lib/cors.js';
 
 // Shared freezes (item 5): 2 per pair per month, resets on the 1st, either
@@ -52,8 +52,11 @@ async function handler(req, res) {
     }
 
     const now = new Date();
-    const thisMonth = monthKey(now);
-    const today = dayKey(now);
+    // The caller's own local day (matches the dayId close-*-streak-day gets),
+    // not the server's UTC one -- otherwise an evening freeze for anyone west
+    // of UTC is stored as tomorrow and never bridges the gap it was bought for.
+    const today = validClientDayKey(req.body?.dayId) || dayKey(now);
+    const thisMonth = today.split('-').slice(0, 2).join('-');
     // Roll over into a fresh month's allowance the moment anyone touches
     // freezes after the 1st -- no separate scheduled reset needed.
     const carryingOver = streak.freezeMonth !== thisMonth;

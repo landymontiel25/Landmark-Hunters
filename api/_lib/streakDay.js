@@ -49,3 +49,21 @@ export function localDayKey(epochMs, timeZone) {
     return dayKey(new Date(epochMs));
   }
 }
+
+// A day key sent by the client ("2026-9-1", month 0-based like dayKey), or
+// null if it isn't well-formed or isn't plausibly "today" somewhere on
+// Earth. Real local dates differ from the server's UTC date by at most one
+// day either way (UTC-12..UTC+14), so anything further out is a forged day
+// -- close-*-streak-day used to accept any string, which let someone write
+// ratings for made-up past/future days and close each one for leaderboard
+// points. The freeze endpoints also use this so a freeze lands on the
+// caller's own local day instead of the server's UTC day.
+export function validClientDayKey(raw, nowMs = Date.now()) {
+  if (typeof raw !== 'string' || !/^\d{4}-\d{1,2}-\d{1,2}$/.test(raw)) return null;
+  const [y, m, d] = raw.split('-').map(Number);
+  const asUtc = Date.UTC(y, m, d);
+  if (new Date(asUtc).getUTCMonth() !== m || new Date(asUtc).getUTCDate() !== d) return null;
+  const n = new Date(nowMs);
+  const todayUtc = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate());
+  return Math.abs(asUtc - todayUtc) <= 86400000 ? raw : null;
+}

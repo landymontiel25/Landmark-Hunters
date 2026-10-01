@@ -157,6 +157,20 @@ function estimateCostUsd(usage) {
   return tokenCost + searchCost;
 }
 
+// The last few usable turns, starting on a user turn: the Messages API
+// rejects a conversation whose first message is the assistant's, and
+// slice(-10) of an alternating chat that ends on the user's turn lands
+// exactly there -- so once a Mapr chat got ~10 messages long, every further
+// message failed with "AI request failed".
+export function trimTurns(incoming) {
+  const turns = (Array.isArray(incoming) ? incoming : [])
+    .filter((m) => (m?.role === 'user' || m?.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
+    .slice(-10)
+    .map((m) => ({ role: m.role, content: m.content.trim().slice(0, 800) }));
+  while (turns.length && turns[0].role !== 'user') turns.shift();
+  return turns;
+}
+
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -174,10 +188,7 @@ async function handler(req, res) {
     const incoming = Array.isArray(body.messages) ? body.messages : [];
     // Keep the payload (and cost) bounded -- a handful of recent turns is
     // plenty of context for a trip-planning chat.
-    const turns = incoming
-      .filter((m) => (m?.role === 'user' || m?.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
-      .slice(-10)
-      .map((m) => ({ role: m.role, content: m.content.trim().slice(0, 800) }));
+    const turns = trimTurns(incoming);
 
     if (turns.length === 0 || turns[turns.length - 1].role !== 'user') {
       res.status(400).json({ error: 'Say something to start planning.' });

@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey } from './_lib/streakDay.js';
+import { previousDayKey, validClientDayKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
 import { withCors } from './_lib/cors.js';
@@ -35,8 +35,8 @@ async function handler(req, res) {
     return;
   }
   const { dayId } = req.body || {};
-  if (!dayId || typeof dayId !== 'string') {
-    res.status(400).json({ error: 'dayId is required.' });
+  if (!validClientDayKey(dayId)) {
+    res.status(400).json({ error: 'A valid dayId (today) is required.' });
     return;
   }
 

@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey } from './_lib/streakDay.js';
+import { previousDayKey, validClientDayKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
@@ -57,8 +57,8 @@ async function handler(req, res) {
     return;
   }
   const { pairId, dayId } = req.body || {};
-  if (!pairId || typeof pairId !== 'string' || !dayId || typeof dayId !== 'string') {
-    res.status(400).json({ error: 'pairId and dayId are required.' });
+  if (!pairId || typeof pairId !== 'string' || !validClientDayKey(dayId)) {
+    res.status(400).json({ error: 'A pairId and a valid dayId (today) are required.' });
     return;
   }
 
