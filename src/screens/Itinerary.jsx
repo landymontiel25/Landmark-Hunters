@@ -26,7 +26,7 @@ import {
   annotateRoute,
   enhanceRouteWithDrivingTimes,
   fetchDirections,
-  googleMapsMultiStopLink,
+  googleMapsMultiStopLegs,
 } from '../lib/routing';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import DirectionsButton from '../components/DirectionsButton';
@@ -250,7 +250,8 @@ export default function Itinerary() {
   // One itinerary per city. Overview lists them; opening one shows its route.
   // The open city is remembered, so closing the app mid-trip reopens that
   // city's route instead of the overview.
-  const myRegions = regionsWithItineraries();
+  // A saved city id the catalog no longer knows can't be shown (or opened).
+  const myRegions = regionsWithItineraries().filter((rid) => getRegion(rid));
   const [openRegion, setOpenRegion] = usePersistentState('itinerary.openRegion', null);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const openReg = openRegion && myRegions.includes(openRegion) ? openRegion : null;
@@ -427,7 +428,7 @@ export default function Itinerary() {
   // location (falling back to the saved start point). Default is nearest to
   // you first, so the list -- and the map route, which follows the same
   // order -- runs closest to farthest. Every stop then gets its leg from the
-  // stop before it, so "X to next stop", the totals, and the drawn route
+  // stop before it, so "X to next stop" and the drawn route
   // hold for whichever sort is picked.
   // Quantize to ~100m so the order/route only recomputes when you actually move,
   // not on every GPS jitter (which made the screen flicker and re-sort).
@@ -446,7 +447,6 @@ export default function Itinerary() {
   }, [routeOrigin, selectedLandmarks, sort, ratings, customOrder.join(',')]);
 
   const [drivingRoute, setDrivingRoute] = useState([]);
-  const [refiningTimes, setRefiningTimes] = useState(false);
 
   useEffect(() => {
     if (!routeOrigin || !route.length) {
@@ -454,7 +454,6 @@ export default function Itinerary() {
       return;
     }
     let cancelled = false;
-    setRefiningTimes(true);
     // Driving times only refine the straight-line estimates already on
     // screen; if the lookup fails, those estimates simply stay.
     enhanceRouteWithDrivingTimes(routeOrigin, route)
@@ -462,7 +461,6 @@ export default function Itinerary() {
       .then((enhanced) => {
         if (!cancelled) {
           setDrivingRoute(enhanced);
-          setRefiningTimes(false);
         }
       });
     return () => {
@@ -525,7 +523,7 @@ export default function Itinerary() {
     ? displayRoute.filter((s) => !claimedMap[s.id])
     : displayRoute;
   const allWalkable = linkStops.every((s, i) => i === 0 || s.distanceFromPrevMeters <= 1200);
-  const allStopsLink = googleMapsMultiStopLink(linkStops, coords, allWalkable ? 'walking' : 'driving');
+  const allStopsLinks = googleMapsMultiStopLegs(linkStops, coords, allWalkable ? 'walking' : 'driving');
 
   // In-app turn-by-turn (api/directions.js). Starts from your live GPS when
   // you're actually in the city; if you're planning from far away, from the
@@ -553,18 +551,6 @@ export default function Itinerary() {
   };
   // Leaving the city's itinerary drops any directions that were open.
   useEffect(() => setNav(null), [openReg]);
-
-  const totals = useMemo(() => {
-    // The first leg is from your location to stop #1. When you're far from the
-    // city (planning ahead), skip that cross-country hop so it doesn't inflate
-    // the city's total time.
-    const travel = displayRoute.reduce((s, r, i) => {
-      if (i === 0 && (r.distanceFromPrevMeters || 0) > 80000) return s;
-      return s + (r.travelMinutesFromPrev || 0);
-    }, 0);
-    const there = displayRoute.reduce((s, r) => s + r.typicalMinutes, 0);
-    return { travel, there, total: travel + there };
-  }, [displayRoute]);
 
   // How many of this city's planned landmarks you've already checked in at.
   const visitedCount = selectedLandmarks.filter((l) => claimedMap[l.id]).length;
@@ -797,7 +783,7 @@ export default function Itinerary() {
           {'\u{1F4CD}'} {selectedLandmarks.length} landmark{selectedLandmarks.length !== 1 ? 's' : ''} in {region.name}
         </span>
         <span className="tag">
-          {'\u{2705}'} {visitedCount} of {selectedLandmarks.length} visited
+          {'\u{2705}'} {visitedCount} of {selectedLandmarks.filter((l) => !l.external).length} visited
         </span>
         {visitedCount > 0 && (
           <button type="button" className="btn btn-ghost btn-tight" onClick={() => setShowRecap(true)}>
@@ -933,11 +919,11 @@ export default function Itinerary() {
             <button type="button" className="btn btn-primary" onClick={() => startTrip()}>
               {'\u{25B6}\u{FE0F}'} Start Trip
             </button>
-            {allStopsLink && (
-              <a className="btn btn-ghost" href={allStopsLink} target="_blank" rel="noreferrer">
-                {'\u{1F5FA}\u{FE0F}'} All stops in Google Maps
+            {allStopsLinks.map((href, i) => (
+              <a key={href} className="btn btn-ghost" href={href} target="_blank" rel="noreferrer">
+                {'\u{1F5FA}\u{FE0F}'} {allStopsLinks.length > 1 ? `Google Maps, part ${i + 1} of ${allStopsLinks.length}` : 'All stops in Google Maps'}
               </a>
-            )}
+            ))}
           </div>
         )}
         {orderedRoute.map((stop, idx) => (
