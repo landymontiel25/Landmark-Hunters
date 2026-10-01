@@ -298,3 +298,13 @@ describe('regressions: moving and already-rated places', () => {
     expect([...after.usual, ...after.fresh].map((p) => p.id)).not.toContain(ratedId);
   });
 });
+
+import { ratePlacesText } from './nearbyPicks';
+describe('ratePlacesText', () => {
+  it('counts what is left, not the full threshold', () => {
+    expect(ratePlacesText(0)).toBe('Rate 10 places');
+    expect(ratePlacesText(3)).toBe('Rate 7 more places');
+    expect(ratePlacesText(9)).toBe('Rate 1 more place');
+    expect(ratePlacesText(undefined)).toBe('Rate 10 places');
+  });
+});

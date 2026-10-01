@@ -79,6 +79,11 @@ export default function RegionSearch({ region, onSelect, includeAny = false, pla
           ))}
         </div>
       )}
+      {open && q && matches.length === 0 && !smart.loading && (
+        <div className="autocomplete-list">
+          <p className="city-dropdown-empty">No cities match.</p>
+        </div>
+      )}
     </div>
   );
 }

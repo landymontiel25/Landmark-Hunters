@@ -93,6 +93,9 @@ describe('Onboarding: existing user (account from before the flow existed)', () 
     expect(saved.results).toHaveBeenCalledTimes(1);
     expect(saved.results.mock.calls[0][3]).toEqual({ complete: false });
     expect(el.textContent).toContain("You're set for now");
+    // Skipped every card: never "Mapr will use the 0 you answered".
+    expect(el.textContent).not.toMatch(/use the 0/);
+    expect(el.textContent).toContain('skipped the cards');
     expect(el.textContent).not.toContain('FIRST CHECK-IN STEP');
     expect(el.textContent).not.toContain('LOCATION STEP');
   });

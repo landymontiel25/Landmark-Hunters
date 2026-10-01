@@ -460,7 +460,11 @@ export default function LandmarkSelection() {
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
-        <button className={`btn btn-sm ${suggestedSnapshot ? 'btn-primary' : 'btn-ghost'}`} onClick={suggestForMe}>
+        <button
+          className={`btn btn-sm ${suggestedSnapshot ? 'btn-primary' : 'btn-ghost'}`}
+          onClick={suggestForMe}
+          disabled={!suggestedSnapshot && landmarks.length === 0}
+        >
           {'✨'} {suggestedSnapshot ? 'Suggested ✓' : 'Suggest For Me'}
         </button>
         {/* One city at a time: "select all 74 landmarks everywhere" isn't a

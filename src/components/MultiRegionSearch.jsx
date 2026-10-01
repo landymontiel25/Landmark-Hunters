@@ -54,7 +54,8 @@ export default function MultiRegionSearch({ selectedIds, onToggle, onClearAll, p
           onKeyDown={(e) => {
             if (e.key === 'Enter' && q && matches.length > 0) {
               e.preventDefault();
-              onToggle(matches[0]);
+              // Enter adds; it never removes a city that is already picked.
+              if (!selectedIds.includes(matches[0].id)) onToggle(matches[0]);
               setQuery('');
             }
           }}
@@ -83,6 +84,11 @@ export default function MultiRegionSearch({ selectedIds, onToggle, onClearAll, p
                 </Fragment>
               );
             })}
+          </div>
+        )}
+        {open && q && matches.length === 0 && !smart.loading && (
+          <div className="autocomplete-list">
+            <p className="city-dropdown-empty">No cities match.</p>
           </div>
         )}
       </div>
