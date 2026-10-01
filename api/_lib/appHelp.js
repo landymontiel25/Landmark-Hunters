@@ -161,7 +161,7 @@ export const APP_HELP =
   `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead.\n` +
   `- Check-ins: open a landmark and tap its check-in button, then Post (Cancel records nothing) — repeat check-ins to the same place are allowed, each logged with its own timestamp. ` +
   `The usual "you're here" radius is 30 m, but right now the app does NOT require being near the place to check in. ` +
-  `Points taper on repeats: 100 points on the 1st visit, about 20% (20) on the 2nd-5th, nothing from the 6th on — but every visit still counts toward Mapr ` +
+  `Points only pay on the 1st visit to a place (100 points on the 1st visit); the 2nd visit and every one after pays nothing, because check-ins are for Mapr — every visit still counts toward Mapr ` +
   `learning your taste regardless of payout. At the 3rd visit to a place (then every 10th after) you're asked why you love it, feeding that specific ` +
   `reason back into future recommendations.\n` +
   `- Rating: three plain tiers — "I loved it" / "Ok" / "I didn't like it" — no star ratings anymore, framed as a question about the place ` +

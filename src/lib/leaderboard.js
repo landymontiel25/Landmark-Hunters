@@ -48,14 +48,12 @@ export const HOME_RADIUS_METERS = 804.672; // 0.5 miles
 // anyone's payout. Flip back to true to re-enable the exclusion.
 export const HOME_RADIUS_EXCLUSION_ENABLED = false;
 
-// Payout taper for repeat visits to the same landmark: full the first time,
-// a light nudge for a handful of return trips, then nothing -- repeat
-// visits keep logging in full for Mapr either way (see claimCheckIn), this
-// only governs what pays out.
+// Points only pay on the first visit to a landmark. Check-ins are for Mapr
+// (every repeat visit keeps logging in full, see claimCheckIn), so the
+// second visit onward pays nothing. firestore.rules still allows the old
+// taper (20 on visits 2-5) so older app builds keep working.
 export function taperedPoints(basePoints, visitNumber) {
-  if (visitNumber <= 1) return basePoints;
-  if (visitNumber <= 5) return Math.round(basePoints * 0.2);
-  return 0;
+  return visitNumber <= 1 ? basePoints : 0;
 }
 
 // "Why do you love this place" fires on the 3rd visit, then every 10th
