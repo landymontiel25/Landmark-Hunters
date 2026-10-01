@@ -32,9 +32,14 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { pairId } = req.body || {};
+  const { pairId, confirm } = req.body || {};
   if (!pairId || typeof pairId !== 'string') {
     res.status(400).json({ error: 'pairId is required.' });
+    return;
+  }
+
+  if (confirm !== 'RESET') {
+    res.status(400).json({ error: 'Type RESET to confirm.' });
     return;
   }
 
@@ -54,7 +59,7 @@ async function handler(req, res) {
 
     await streakRef.update({
       count: 0,
-      best: 0,
+      // best is a record of what the pair really earned -- keep it.
       lastCompletedDay: null,
       freezesLeft: FREEZES_PER_MONTH,
       freezeMonth: monthKey(new Date()),

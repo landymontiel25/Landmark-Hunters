@@ -27,6 +27,13 @@ function periodKeys(date = new Date()) {
   };
 }
 
+function dateFromDayId(dayId) {
+  const m = typeof dayId === 'string' && /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(dayId);
+  return m ? new Date(Number(m[1]), Number(m[2]), Number(m[3])) : new Date();
+}
+
+export { periodKeys };
+
 const PERIODS = ['weekly', 'monthly', 'yearly'];
 
 // Awarded server-side, from the same endpoint that decides a streak day
@@ -36,9 +43,13 @@ const PERIODS = ['weekly', 'monthly', 'yearly'];
 // the other's follow-up call sees `already: true` and would never trigger
 // a client-side award), and keeps the same trust boundary close-streak-day.js
 // already uses for the count itself.
-export async function awardLeaderboardPointsServer(db, userId, userName, points) {
+export async function awardLeaderboardPointsServer(db, userId, userName, points, dayId) {
   if (!userId || !points) return;
-  const keys = periodKeys();
+  // dayId is the caller's own local "y-m-d" key (month 0-based, already
+  // validated by validClientDayKey): derive the week/month/year from THAT so
+  // points land in the same period the traveler's own check-ins do, not the
+  // server's UTC one (which differs near midnight on a period boundary).
+  const keys = periodKeys(dateFromDayId(dayId));
   const batch = db.batch();
   for (const period of PERIODS) {
     const ref = db.collection('leaderboard_entries').doc(`${period}_${keys[period]}_${userId}`);

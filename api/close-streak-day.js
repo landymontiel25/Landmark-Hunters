@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey, validClientDayKey, isDayBefore } from './_lib/streakDay.js';
+import { previousDayKey, validClientDayKey, isDayBefore, monthKeyOfDay } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
@@ -165,7 +165,11 @@ async function handler(req, res) {
       // AND the pair has no freezes left to fall back on. 24h window, logged
       // reactively here (there's no scheduled cron yet to catch a break that
       // nobody's client happens to trigger a close around).
-      if (broke && (fresh.freezesLeft || 0) <= 0) {
+      // freezesLeft is only refreshed when someone touches freezes (see
+      // use-streak-freeze.js), so a stored 0 from last month really means a
+      // fresh allowance this month -- don't open a recovery mission then.
+      const freezesNow = fresh.freezeMonth === monthKeyOfDay(dayId) ? fresh.freezesLeft ?? 0 : 2;
+      if (broke && freezesNow <= 0) {
         update.recoveryOpenUntil = Date.now() + 24 * 60 * 60 * 1000;
         update.recoveryPriorCount = fresh.count || 0;
       }
@@ -185,7 +189,7 @@ async function handler(req, res) {
     const milestone = DUAL_MILESTONE_POINTS[nextCount] || 0;
     await Promise.all(
       (streak.memberIds || []).map((uid) =>
-        awardLeaderboardPointsServer(db, uid, streak.memberNames?.[uid], DUAL_DAY_POINTS + milestone)
+        awardLeaderboardPointsServer(db, uid, streak.memberNames?.[uid], DUAL_DAY_POINTS + milestone, dayId)
       )
     );
     res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });

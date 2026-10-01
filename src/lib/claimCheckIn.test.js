@@ -12,7 +12,7 @@ vi.mock('firebase/firestore', () => ({
   where: () => ({}),
   orderBy: () => ({}),
   limit: () => ({}),
-  getDocs: async () => ({ size: state.prior.length, docs: state.prior.map((x) => ({ data: () => x })) }),
+  getDocs: async () => ({ size: state.prior.length, docs: state.prior.map((x) => ({ id: x.__id, data: () => x })) }),
   runTransaction: async (_db, fn) =>
     fn({
       get: async () => ({ exists: () => false }),
@@ -48,6 +48,13 @@ describe('claimCheckIn visit numbering', () => {
     expect(res.payout).toBe(100);
     // doc id must still be unique: the rating claim already holds the first id.
     expect(state.written.id).toBe('u1_lm_2');
+  });
+
+  it('does not reuse a surviving doc id after an earlier check-in was deleted', async () => {
+    // visit 1 was deleted; only u1_lm_2 remains -> next id must be _3, not _2.
+    state.prior = [{ visited: true, points: 20, __id: 'u1_lm_2' }];
+    await claimCheckIn(args);
+    expect(state.written.id).toBe('u1_lm_3');
   });
 
   it('still tapers real repeat visits', async () => {

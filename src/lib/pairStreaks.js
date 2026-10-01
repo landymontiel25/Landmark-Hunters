@@ -217,11 +217,11 @@ export async function spendFreeze(pairId) {
 // TEMPORARY, one-off correction -- not a normal capability, see
 // api/reset-dual-streak.js's own note. Resets count/best/lastCompletedDay/
 // freezes back to a fresh 0 without touching the pairing itself.
-export async function resetDualStreak(pairId) {
+export async function resetDualStreak(pairId, confirm) {
   const r = await fetch(`${API_BASE}/api/reset-dual-streak`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ pairId }),
+    body: JSON.stringify({ pairId, confirm }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });

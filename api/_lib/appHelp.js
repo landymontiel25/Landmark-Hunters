@@ -210,7 +210,7 @@ export const APP_HELP =
   `- Shared freezes: 2 per pair per month, resetting the 1st. Either person can spend one (a button on the streak's detail page) to hold that day -- ` +
   `it keeps the chain from breaking if neither of you finishes today's 3 cards, but it doesn't add a day on its own.\n` +
   `- Recovery mission: opens for 24 hours after a real break that happens with no freezes left. Check in at the same landmark within 30 minutes of ` +
-  `each other (or, long-distance, each check in anywhere in the 24 hours) to get the streak back to what it was. Once per pair per month. This is ` +
+  `each other (or, long-distance, each check in anywhere in the 24 hours) to get the streak back to what it was before the break plus any days you've completed since. Once per pair per month. This is ` +
   `detected reactively (whenever either of you next opens the app), not pushed the instant it happens -- there's no scheduled server job for that yet.\n` +
   `- Compatibility score: shown on a streak's detail page once you and that friend have real ratings for at least 10 of the same landmarks -- a ` +
   `weighted match rate across your most recent 50 shared ratings (exact match counts full, "it was okay" against either extreme counts half, ` +
