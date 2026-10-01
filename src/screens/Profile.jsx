@@ -493,10 +493,10 @@ export default function Profile() {
       </h2>
 
       <div className="tabs" style={{ justifyContent: 'center', marginBottom: 14 }}>
-        <button type="button" className={`tab-btn ${scope === 'friends' ? 'active' : ''}`} onClick={() => setScope('friends')}>
+        <button type="button" className={`tab-btn ${scope === 'friends' ? 'active' : ''}`} aria-pressed={!!(scope === 'friends')} onClick={() => setScope('friends')}>
           Friends
         </button>
-        <button type="button" className={`tab-btn ${scope === 'global' ? 'active' : ''}`} onClick={() => setScope('global')}>
+        <button type="button" className={`tab-btn ${scope === 'global' ? 'active' : ''}`} aria-pressed={!!(scope === 'global')} onClick={() => setScope('global')}>
           Global
         </button>
       </div>
@@ -507,14 +507,14 @@ export default function Profile() {
           <div className="tabs" style={{ justifyContent: 'center', marginBottom: 12 }}>
             <button
               type="button"
-              className={`tab-btn ${globalMode === 'global' ? 'active' : ''}`}
+              className={`tab-btn ${globalMode === 'global' ? 'active' : ''}`} aria-pressed={!!(globalMode === 'global')}
               onClick={() => setGlobalMode('global')}
             >
               Worldwide
             </button>
             <button
               type="button"
-              className={`tab-btn ${globalMode === 'regional' ? 'active' : ''}`}
+              className={`tab-btn ${globalMode === 'regional' ? 'active' : ''}`} aria-pressed={!!(globalMode === 'regional')}
               onClick={() => setGlobalMode('regional')}
             >
               Regional
@@ -552,7 +552,7 @@ export default function Profile() {
         <div className="rank-hero-motivator">{motivator}</div>
         <div className="tabs" style={{ marginTop: 12, flexWrap: 'wrap' }}>
           {TABS.map((t) => (
-            <button key={t.id} className={`tab-btn ${tab === t.id ? 'active' : ''}`} onClick={() => setTab(t.id)}>
+            <button key={t.id} className={`tab-btn ${tab === t.id ? 'active' : ''}`} aria-pressed={!!(tab === t.id)} onClick={() => setTab(t.id)}>
               {t.label}
             </button>
           ))}

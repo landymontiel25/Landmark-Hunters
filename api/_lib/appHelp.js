@@ -50,7 +50,7 @@ export const APP_HELP =
   `- An open itinerary's stops (solo or group -- both work exactly the same way, group trips just have more people on them) are just always sorted ` +
   `"Nearest to me" automatically (a walkable route, not just closest-to-you-first) until you've customized the order -- nothing to pick, no dropdown, ` +
   `that's simply the default. An "✏️ Edit List" button switches every stop to an edit layout, same idea as iOS Weather's location list: a red "−" ` +
-  `on the left removes that stop (no separate trash icon in this mode), and a ☰ handle on the right is what you hold and drag to reorder -- the card ` +
+  `on the left removes that stop (no separate trash icon in this mode), and a ☰ handle on the right is what you hold and drag to reorder (or focus and press the Up/Down arrow keys) -- the card ` +
   `follows your finger and the others slide out of the way live, not a jump to the new spot. Tapping "✅ Done" saves that order. Only once you've ` +
   `used Edit List at least once does a "Sort by" dropdown appear (Nearest to me / My order), so you can flip back to automatic distance sorting ` +
   `without losing the custom order you built -- it's remembered, ready the next time you pick My order again. A group trip shows its stops the ` +

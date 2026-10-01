@@ -265,10 +265,10 @@ export default function RequestFeature() {
 
       {admin && (
         <div className="tabs" style={{ margin: '0 0 16px' }}>
-          <button type="button" className={`tab-btn ${tab === 'request' ? 'active' : ''}`} onClick={() => setTab('request')}>
+          <button type="button" className={`tab-btn ${tab === 'request' ? 'active' : ''}`} aria-pressed={!!(tab === 'request')} onClick={() => setTab('request')}>
             Request a Feature
           </button>
-          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}>
+          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} aria-pressed={!!(tab === 'review')} onClick={() => setTab('review')}>
             Approve/Reject Features
           </button>
         </div>

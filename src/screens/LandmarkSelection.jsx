@@ -543,7 +543,7 @@ export default function LandmarkSelection() {
         {SORT_OPTIONS.map((s) => (
           <button
             key={s.id}
-            className={`tab-btn ${sortBy === s.id ? 'active' : ''}`}
+            className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} aria-pressed={!!(sortBy === s.id)}
             onClick={() => setSortBy((cur) => (cur === s.id ? null : s.id))}
           >
             {s.label}

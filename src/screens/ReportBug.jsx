@@ -260,10 +260,10 @@ export default function ReportBug() {
 
       {admin && (
         <div className="tabs" style={{ margin: '0 0 16px' }}>
-          <button type="button" className={`tab-btn ${tab === 'report' ? 'active' : ''}`} onClick={() => setTab('report')}>
+          <button type="button" className={`tab-btn ${tab === 'report' ? 'active' : ''}`} aria-pressed={!!(tab === 'report')} onClick={() => setTab('report')}>
             Report a Bug
           </button>
-          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}>
+          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} aria-pressed={!!(tab === 'review')} onClick={() => setTab('review')}>
             Resolve/Dismiss Reports
           </button>
         </div>

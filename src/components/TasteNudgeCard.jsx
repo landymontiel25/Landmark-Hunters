@@ -227,6 +227,7 @@ export default function TasteNudgeCard({
                       key={ex}
                       type="button"
                       className={`tag ${state === 'like' ? 'tag-active' : ''} ${state === 'dislike' ? 'tag-dislike' : ''}`}
+                      aria-pressed={!!state}
                       style={{ cursor: 'pointer', fontFamily: 'inherit', appearance: 'none' }}
                       onClick={() => cycleChip(q.id, ex)}
                         >

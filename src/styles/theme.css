@@ -82,8 +82,12 @@
 [data-theme='light'] {
   --text-primary: #2b2620;
   --text-secondary: #6b5f4e;
-  --text-tertiary: #8a7f6d;
+  --text-tertiary: #6f6553; /* was #8a7f6d: 3.4:1 on the cream page */
   --text-disabled: #b3a994;
+  /* Brand blue is used as link/label text too; #4d7fff is 3.2:1 on cream. */
+  --mapr-blue: #2f5fe0;
+  --mapr-blue-hover: #3d6ce8;
+  --mapr-blue-active: #254fc4;
   --border-subtle: rgba(43, 38, 32, 0.08);
   --border-default: rgba(43, 38, 32, 0.14);
   --border-strong: rgba(43, 38, 32, 0.22);

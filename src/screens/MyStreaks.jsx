@@ -962,10 +962,10 @@ export default function MyStreaks() {
 
       {!inSubScreen && (
         <div className="tabs" style={{ margin: '0 0 16px' }}>
-          <button type="button" className={`tab-btn ${tab === 'solo' ? 'active' : ''}`} onClick={() => setTab('solo')}>
+          <button type="button" className={`tab-btn ${tab === 'solo' ? 'active' : ''}`} aria-pressed={!!(tab === 'solo')} onClick={() => setTab('solo')}>
             {'\u{1F525}'} Solo
           </button>
-          <button type="button" className={`tab-btn ${tab === 'dual' ? 'active' : ''}`} onClick={() => setTab('dual')}>
+          <button type="button" className={`tab-btn ${tab === 'dual' ? 'active' : ''}`} aria-pressed={!!(tab === 'dual')} onClick={() => setTab('dual')}>
             {'\u{1F525}\u{1F525}'} Dual
           </button>
         </div>

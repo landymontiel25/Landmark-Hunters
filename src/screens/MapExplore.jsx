@@ -1261,7 +1261,7 @@ export default function MapExplore() {
 
       {!placingPin && (
         <>
-          <button type="button" className="map-search-btn" title="Search landmarks" onClick={toggleSearch}>
+          <button type="button" className="map-search-btn" title="Search landmarks" aria-label={searchOpen ? "Close search" : "Search landmarks"} aria-expanded={searchOpen} onClick={toggleSearch}>
             {searchOpen ? '\u{2715}' : '\u{1F50D}'}
           </button>
           <button
@@ -1269,6 +1269,7 @@ export default function MapExplore() {
             className="map-search-btn map-add-btn"
             style={{ top: 'calc(var(--header-h) + 64px)' }}
             title="Add a landmark — long-press the map to pin an exact spot"
+            aria-label="Add a landmark"
             onClick={startPlacingPin}
           >
             {'\u{2795}'}
@@ -1278,6 +1279,8 @@ export default function MapExplore() {
             className={`map-search-btn ${filterCats.size > 0 ? 'active' : ''}`}
             style={{ top: 'calc(var(--header-h) + 128px)' }}
             title="Filter the map by category"
+            aria-label="Filter the map by category"
+            aria-expanded={filterOpen}
             onClick={() => {
               setFilterOpen((o) => !o);
               setSearchOpen(false);
@@ -1364,7 +1367,7 @@ export default function MapExplore() {
           )}
 
           <div className="map-fab-bar">
-            <select className="radius-select" value={radiusOption} onChange={handleRadiusChange} title="Zoom radius">
+            <select className="radius-select" value={radiusOption} onChange={handleRadiusChange} title="Zoom radius" aria-label="Zoom radius">
               {ZOOM_RADIUS_OPTIONS.map((miles) => (
                 <option key={miles} value={miles}>
                   {miles} {distanceUnitLabel(units)}
@@ -1388,7 +1391,7 @@ export default function MapExplore() {
             </svg>
           </div>
           <p className="map-pin-target-hint">Pan the map to line up your spot</p>
-          <button type="button" className="map-search-btn map-pin-cancel-btn" title="Cancel" onClick={() => setPlacingPin(false)}>
+          <button type="button" className="map-search-btn map-pin-cancel-btn" title="Cancel" aria-label="Cancel" onClick={() => setPlacingPin(false)}>
             {'\u{2715}'}
           </button>
           <button type="button" className="btn btn-primary map-pin-done-btn" onClick={confirmPinPlacement}>

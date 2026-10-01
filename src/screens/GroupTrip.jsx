@@ -161,7 +161,7 @@ export default function GroupTrip() {
   }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
-  const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
+  const { order: dragOrder, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     // A refused/dropped write used to vanish silently, leaving the new order
     // on screen for you while everyone else (and a reopen) still had the old one.
     if (trip) {
@@ -451,8 +451,9 @@ export default function GroupTrip() {
                       type="button"
                       className="drag-handle"
                       title="Hold and drag to reorder"
-                      aria-label={`Drag to reorder ${l.name}`}
+                      aria-label={`Reorder ${l.name}: hold and drag, or use the up and down arrow keys`}
                       onPointerDown={startDrag(l.id)}
+                      onKeyDown={keyReorder(l.id)}
                     >
                       {'☰'}
                     </button>
@@ -461,6 +462,7 @@ export default function GroupTrip() {
                       type="button"
                       className="btn-icon-trash"
                       title="Remove from trip"
+                      aria-label="Remove from trip"
                       onClick={() => setLandmark(l, false)}
                     >
                       {'\u{1F5D1}\u{FE0F}'}

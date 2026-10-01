@@ -123,7 +123,7 @@ export default function MyMaprRatings() {
           <button
             key={t.id}
             type="button"
-            className={`tab-btn ${tab === t.id ? 'active' : ''}`}
+            className={`tab-btn ${tab === t.id ? 'active' : ''}`} aria-pressed={!!(tab === t.id)}
             onClick={() => setTab(t.id)}
           >
             {t.emoji} {t.label} ({byTier[t.id]?.length ?? 0})
