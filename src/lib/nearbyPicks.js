@@ -583,6 +583,15 @@ export const MOODS = [
   { id: 'sports', icon: '\u{1F3DF}\u{FE0F}', label: 'Sports', categories: ['stadiums', 'sports', 'formula-1'] },
   { id: 'tech', icon: '\u{1F4BB}', label: 'Tech spots', categories: ['tech'] },
 ];
+// The Test tab's moods: eating first, then entertainment (shows, zoos,
+// aquariums, amusement parks), the rest as before, and no tech spots.
+export const TEST_MOODS = [
+  MOODS.find((m) => m.id === 'eat'),
+  { id: 'entertainment', icon: '\u{1F39F}\u{FE0F}', label: 'Entertainment', categories: ['entertainment'] },
+  ...MOODS.filter((m) => m.id !== 'eat' && m.id !== 'tech'),
+];
+// Where the Test tab's picks start, until someone taps a distance chip.
+export const TEST_DEFAULT_DISTANCE_MI = 5;
 export const MOOD_SORTS = [
   { id: 'closest', label: 'Closest' },
   { id: 'rated', label: 'Highest rated' },
@@ -591,8 +600,8 @@ export const MOOD_SORTS = [
 // Places for one mood, sorted closest first or by the public average rating
 // (ratings: RatingsContext's { [landmarkId]: { avg, count } }). Unrated
 // places sort after rated ones, closest first.
-export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, limit = 10 }) {
-  const mood = MOODS.find((m) => m.id === moodId);
+export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, limit = 10, moods = MOODS }) {
+  const mood = moods.find((m) => m.id === moodId);
   if (!mood) return [];
   const wanted = new Set(mood.categories);
   const avg = (l) => (ratings?.[l.id]?.count ? Number(ratings[l.id].avg) || 0 : -1);

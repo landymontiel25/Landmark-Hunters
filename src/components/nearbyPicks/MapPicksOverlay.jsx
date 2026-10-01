@@ -12,6 +12,8 @@ import {
   optionToMiles,
   readStoredDistance,
   smartDistance,
+  TEST_DEFAULT_DISTANCE_MI,
+  TEST_MOODS,
   writeStoredDistance,
   MIN_RATINGS_FOR_PICKS,
   eligiblePlaces,
@@ -67,15 +69,18 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   // is what the user tapped (remembered per account); until they tap one the
   // distance is the smallest chip with at least 3 places (smartDistance), so
   // the pill and chips always show the distance actually searched.
-  const [chosen, setChosen] = useState(() => readStoredDistance(uid));
-  const [storedFor, setStoredFor] = useState(uid);
-  if (storedFor !== uid) {
-    setStoredFor(uid);
-    setChosen(readStoredDistance(uid));
+  // The Test tab (showRefresh) starts at TEST_DEFAULT_DISTANCE_MI and keeps its
+  // own remembered choice, so trying it never changes the real Map's distance.
+  const store = showRefresh && uid ? `${uid}:test` : uid;
+  const [chosen, setChosen] = useState(() => readStoredDistance(store));
+  const [storedFor, setStoredFor] = useState(store);
+  if (storedFor !== store) {
+    setStoredFor(store);
+    setChosen(readStoredDistance(store));
   }
   const chooseDistance = (n) => {
     setChosen(n);
-    writeStoredDistance(uid, n);
+    writeStoredDistance(store, n);
   };
   // The overlay stays mounted while the app is open, so "now" has to move:
   // a frozen clock never showed the lunch card after a morning launch.
@@ -124,7 +129,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     () => smartDistance({ origin, units, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks }),
     [origin, units, lowRated, now, overrides, customLandmarks]
   );
-  const distance = chosen ?? auto;
+  const distance = chosen ?? (showRefresh ? TEST_DEFAULT_DISTANCE_MI : auto);
   const miles = optionToMiles(distance, units);
 
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
@@ -205,7 +210,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         onWiden={chooseDistance}
         ratingsCount={ratingsCount}
         layout={showRefresh ? 'mood-first' : 'default'}
-        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} /> : null}
+        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} moods={TEST_MOODS} /> : null}
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
