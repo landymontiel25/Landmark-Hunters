@@ -366,6 +366,66 @@ await t('place_scores: unknown fields, wrong id, bad types and bad levels are re
 });
 await t('place_scores: owner can delete (account deletion)', () => assertSucceeds(deleteDoc(doc(as('ann'), 'users/ann/place_scores/pl1'))));
 
+console.log('re-rating fields on reviews (ratedAt, priorTier, priorRatedAt, disagreement)');
+const dis = (o = {}) => ({ reason: 'food', comment: 'cold fries', at: Date.now(), source: 'asked', ...o });
+await t('reviews: re-rating fields accepted on create and on a re-rating edit', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr1'), rv({ landmarkId: 'rr1', ratedAt: 1000 })));
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr1'), rv({ landmarkId: 'rr1', ratedAt: 1000, ratingTier: 'probably-skip', stars: 1, priorTier: 'highly-recommend', priorRatedAt: 1000, disagreement: dis() })));
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr1'), rv({ landmarkId: 'rr1', ratedAt: 1000, priorTier: 'probably-skip', priorRatedAt: 2000, disagreement: null })));
+});
+await t('reviews: every allowed disagreement reason is accepted', async () => {
+  const db = as('ann');
+  for (const reason of ['food', 'service', 'price', 'noise-crowd', 'changed-mind', 'one-off', 'wrong-type', 'other', 'skip']) {
+    await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr2'), rv({ landmarkId: 'rr2', ratedAt: 1, disagreement: dis({ reason }) })));
+  }
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr2'), rv({ landmarkId: 'rr2', ratedAt: 1, disagreement: { reason: 'skip', comment: '', at: 5 } })));
+});
+await t('reviews: bad re-rating fields are refused (reason, comment length, types, extra keys)', async () => {
+  const db = as('ann');
+  const bad = (o) => assertFails(setDoc(doc(db, 'reviews/ann_rr3'), rv({ landmarkId: 'rr3', ...o })));
+  await bad({ disagreement: dis({ reason: 'because' }) });
+  await bad({ disagreement: dis({ comment: 'x'.repeat(501) }) });
+  await bad({ disagreement: dis({ comment: 5 }) });
+  await bad({ disagreement: dis({ at: 'now' }) });
+  await bad({ disagreement: { ...dis(), isAdmin: true } });
+  await bad({ disagreement: 'food' });
+  await bad({ ratedAt: 'yesterday' });
+  await bad({ priorTier: 'meh' });
+  await bad({ priorRatedAt: 'x' });
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr3'), rv({ landmarkId: 'rr3', disagreement: dis({ comment: 'x'.repeat(500) }) })));
+});
+await t('reviews: ratedAt can be added once to an old review, then never changed', async () => {
+  const db = as('ann');
+  await seed((adb) => setDoc(doc(adb, 'reviews/ann_rr4'), rv({ landmarkId: 'rr4' })));
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr4'), rv({ landmarkId: 'rr4', ratedAt: 500 })));
+  await assertFails(setDoc(doc(db, 'reviews/ann_rr4'), rv({ landmarkId: 'rr4', ratedAt: 600 })));
+  await assertFails(setDoc(doc(db, 'reviews/ann_rr4'), rv({ landmarkId: 'rr4' })));
+  await assertSucceeds(setDoc(doc(db, 'reviews/ann_rr4'), rv({ landmarkId: 'rr4', ratedAt: 500, comment: 'edit' })));
+  await assertSucceeds(updateDoc(doc(db, 'reviews/ann_rr4'), { visibility: 'public', hidden: false }));
+});
+await t('reviews: the new fields do not loosen reads or the tier rule', async () => {
+  await assertFails(getDoc(doc(as('bob'), 'reviews/ann_rr1')));
+  await assertFails(setDoc(doc(as('ann'), 'reviews/ann_rr5'), { userId: 'ann', landmarkId: 'rr5', comment: '', hidden: false, visibility: 'private', ratedAt: 1, disagreement: dis() }));
+  await assertFails(setDoc(doc(as('bob'), 'reviews/ann_rr1'), rv({ landmarkId: 'rr1', ratedAt: 1 })));
+});
+await t('account deletion: the owner can delete a review carrying the new fields, nobody else can', async () => {
+  const id = 'reviews/ann_rr6';
+  await seed((adb) => setDoc(doc(adb, id), rv({ landmarkId: 'rr6', ratedAt: 1, priorTier: 'highly-recommend', priorRatedAt: 1, disagreement: dis() })));
+  await assertFails(deleteDoc(doc(as('bob'), id)));
+  await assertSucceeds(deleteDoc(doc(as('ann'), id)));
+  await seed(async (adb) => { if ((await getDoc(doc(adb, id))).exists()) throw new Error('review still there'); });
+});
+await t('place_scores: new ledger fields (type effect, resolution, latest answer) accepted; bad ones refused', async () => {
+  const db = as('ann');
+  const extra = { tapPlaceOff: true, typeTier: null, typeFrequency: null, typeFactor: 1, typeDelta: 3.4, placeRatingDelta: -6, resolution: 'skip', latestLevel: 'negative', latestSource: 'rating', latestAt: 5, commentTypeDeltas: {} };
+  await assertSucceeds(setDoc(doc(db, 'users/ann/place_scores/pl9'), ps({ landmarkId: 'pl9', ...extra })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl9'), ps({ landmarkId: 'pl9', ...extra, latestLevel: 'meh' })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl9'), ps({ landmarkId: 'pl9', ...extra, resolution: 'because' })));
+  await assertFails(setDoc(doc(db, 'users/ann/place_scores/pl9'), ps({ landmarkId: 'pl9', ...extra, latestSource: 'chat' })));
+  await assertFails(getDoc(doc(as('bob'), 'users/ann/place_scores/pl9')));
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {

@@ -81,8 +81,8 @@ export function decayFactor(fromMs, nowMs) {
 // `frequency` (FREQUENCIES ids in ratingFlow.js) scales the delta -- how
 // often you visit is a stronger or weaker vote of confidence than a single
 // visit; unknown/missing frequency is 1x.
-export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null, factor = 1) {
-  const delta = TAG_DELTAS[tier];
+export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, nowMs, frequency = null, factor = 1, deltaOverride = null) {
+  const delta = deltaOverride ?? TAG_DELTAS[tier];
   const next = { scores: {}, at: {}, counts: {}, capped: [] };
   if (delta == null) return next;
   const mult = (FREQUENCY_MULTIPLIER[frequency] || 1) * factor;
@@ -103,8 +103,8 @@ export function applyRating({ scores = {}, at = {}, counts = {} }, tags, tier, n
 // includes the rating being removed, so its step is the one applyRating used
 // at prior = count - 1. Decay since then isn't recoverable, so this is
 // approximate for old ratings, but never drifts by a whole step per edit.
-export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null, factor = 1) {
-  const delta = TAG_DELTAS[tier];
+export function revertRating({ scores = {}, counts = {} }, tags, tier, frequency = null, factor = 1, deltaOverride = null) {
+  const delta = deltaOverride ?? TAG_DELTAS[tier];
   const next = { scores: {}, counts: {} };
   if (delta == null) return next;
   const mult = (FREQUENCY_MULTIPLIER[frequency] || 1) * factor;

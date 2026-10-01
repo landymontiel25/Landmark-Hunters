@@ -106,7 +106,12 @@ export const APP_HELP =
   `moves them. A tap counts for less than a rating. Words in a comment count too ("too loud" lowers loud kinds of places, "great food" raises food; "not loud" doesn't lower ` +
   `anything), up to a small cap per rating. Mapr keeps two scores: one for the specific place and one for its kind (food, history, ...), so one bad restaurant doesn't ` +
   `condemn all food. If you tap "I'd go" and then rate it "I didn't like it", that place drops a lot, its kind only a little, and Mapr counts it as half a miss on its own ` +
-  `guess. Changing your tap, rating or comment later replaces the old answer's effect. A check-in rating counts the same whether you went alone or with a group. Your per-place scores ` +
+  `guess. Changing your tap, rating or comment later replaces the old answer's effect. If your new answer on a place is two levels from your own earlier one (I'd go then Didn't like it, ` +
+  `or I loved it then Didn't like it, either way), Mapr asks once "Your answer changed a lot. What happened?" with buttons Food, Service, Price, Noise or crowd, I changed my mind, ` +
+  `First visit was a one-off, I was wrong about this type of place, Other, a note box and Skip (it skips the question when your comment already says, e.g. "too loud" or "overpriced"). ` +
+  `Food, Service, Price and Noise or crowd keep the change on that one place only and leave its kind of place alone; I changed my mind and I was wrong about this type of place let the new ` +
+  `answer count fully, kind of place included; First visit was a one-off treats both answers as in-between; Skip (and Other) count the new answer 70% and the old one 30%. A one-level change ` +
+  `(I loved it then It was ok) asks nothing. Mapr also remembers when you first rated a place and what your previous answer was. A check-in rating counts the same whether you went alone or with a group. Your per-place scores ` +
   `are private to you and are deleted with your account.\n` +
   `- Taste baseline / "tell Mapr what you like" (Mapr, Settings, and an onboarding step): quick per-category like/hate chips (tap once for like, ` +
   `twice for dislike, three times to clear) plus an optional comment on each category and a free-text box — entirely optional, and typing/talking to ` +

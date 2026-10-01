@@ -95,3 +95,23 @@ export const PLACE_SCORE_CAP = 100;
 export const PLACE_MISS_DELTA = -20;
 export const MISS_TYPE_FACTOR = 0.5;
 export const MISS_WEIGHTS = { 'positive>negative': 0.5 };
+
+// --- Changed answers on one place (src/lib/rerating.js, docs/rerating.md) ---
+// Two of the user's OWN answers on the same place this many levels apart
+// (levels run negative=0, neutral=1, positive=2) trigger "What happened?".
+export const DISAGREEMENT_LEVEL_GAP = 2;
+// Reasons the user can give (and what is stored in review.disagreement.reason).
+export const DISAGREEMENT_REASONS = ['food', 'service', 'price', 'noise-crowd', 'changed-mind', 'one-off', 'wrong-type', 'other', 'skip'];
+// Food / service / price / noise-or-crowd: the drop stays on that one place;
+// the place score moves, the type (tag) scores do not.
+export const DISAGREEMENT_PLACE_ONLY_REASONS = ['food', 'service', 'price', 'noise-crowd'];
+// "I changed my mind" and "I was wrong about this type of place": the newest
+// answer counts fully, on the place and on the type (the old answer is taken out).
+export const DISAGREEMENT_FULL_REASONS = ['changed-mind', 'wrong-type'];
+// "First visit was a one-off": the two answers are averaged to the middle
+// level, neutral, for scoring.
+export const DISAGREEMENT_ONE_OFF_LEVEL = 'neutral';
+// Skip (and "Other", which gives Mapr no usable cause): the newest answer
+// counts this much and the older one the rest.
+export const DISAGREEMENT_NEW_WEIGHT = 0.7;
+export const DISAGREEMENT_OLD_WEIGHT = 0.3;

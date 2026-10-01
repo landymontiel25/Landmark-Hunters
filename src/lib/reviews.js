@@ -21,6 +21,7 @@ import { db, storage } from './firebase';
 import { settleWrite } from './offlineWrite';
 import { tierStars, isValidTier, COMMENT_MAX } from './ratingFlow';
 import { planLearning } from './maprLearning';
+import { disagreementCheck, isDisagreementReason, ratedAtMs, reasonFromComment } from './rerating';
 import { pickMarkFields } from './pickMarks';
 import { canonicalLandmarkId } from '../data/regions';
 
@@ -100,7 +101,7 @@ function writeLearning(tx, { uid, userRef, placeRef, userSnap, placeSnap, pd, la
  * the delta rather than double-counting. Optional photos are uploaded to
  * Storage and their URLs saved on the review.
  */
-async function _submitReview({ userId, userName, landmark, rating, photoFiles, photoFile }) {
+async function _submitReview({ userId, userName, landmark, rating, photoFiles, photoFile, disagreement }) {
   const landmarkId = landmark.id;
   if (!isValidTier(rating?.tier)) throw userError('Pick how it was first: I loved it, Ok, or I didn\'t like it.');
   const stars = tierStars(rating.tier);
@@ -156,6 +157,40 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       const placeSnap = await tx.get(placeRef);
       // Copied up front: everything below reads the pre-edit review.
       const pd = prev.exists() ? { ...prev.data() } : null;
+      const placeData = placeSnap.exists() ? placeSnap.data() : null;
+      const nowMs = Date.now();
+
+      // Re-rating and "your answer changed a lot" (docs/rerating.md). The first
+      // rating's time is kept forever (ratedAt); a re-rating to a different
+      // level keeps the old level and when it was given (priorTier/priorRatedAt).
+      const hadTier = !!pd?.ratingTier;
+      const ratedAt = pd?.ratedAt ?? (hadTier ? ratedAtMs(pd) : null) ?? nowMs;
+      const tierChanged = hadTier && pd.ratingTier !== rating.tier;
+      const priorFields = tierChanged ? { priorTier: pd.ratingTier, priorRatedAt: placeData?.ratingAt || ratedAtMs(pd) || ratedAt } : {};
+      // Two levels apart from the user's own earlier answer: how the new
+      // answer counts comes from what they said (asked), else from their
+      // comment; with neither, it just replaces the old one as before.
+      const check = disagreementCheck({ prev: pd, place: placeData, newTier: rating.tier });
+      const commentText = rating.comment === undefined ? pd?.comment || '' : rating.comment || '';
+      let resolution = null;
+      let disagreementDoc = null;
+      if (check.needed) {
+        let reason = null;
+        let note = '';
+        let source = 'asked';
+        if (disagreement && isDisagreementReason(disagreement.reason)) {
+          reason = disagreement.reason;
+          note = String(disagreement.comment || '').trim().slice(0, COMMENT_MAX);
+        } else {
+          reason = reasonFromComment(commentText);
+          note = commentText.trim().slice(0, COMMENT_MAX);
+          source = 'comment';
+        }
+        if (reason) {
+          resolution = { reason, oldLevel: check.oldLevel, oldKind: check.oldKind };
+          disagreementDoc = { reason, comment: note, at: nowMs, source };
+        }
+      }
       const prevStars = prev.exists() ? prev.data().stars || 0 : 0;
       // A legacy doc that only holds a comment or love note has no stars and
       // was never counted in the aggregate, so rating it adds to the count.
@@ -186,6 +221,11 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           // How often they visit (FREQUENCIES in ratingFlow.js) -- optional,
           // scales how hard this rating moves tagScores (applyRating).
           visitFrequency: rating.visitFrequency || null,
+          ratedAt,
+          ...priorFields,
+          // A new answer that moved two levels says why; a re-rating without
+          // such a change clears the old answer's explanation.
+          ...(disagreementDoc ? { disagreement: disagreementDoc } : tierChanged ? { disagreement: null } : {}),
           // Only a comment the caller actually sent changes it: a form that
           // never loaded the saved one must not blank it.
           comment:
@@ -222,14 +262,35 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           rating: { tier: rating.tier, frequency: rating.visitFrequency || null },
           // A caller that sent no comment (undefined) keeps what's on file.
           comment: rating.comment === undefined ? undefined : (rating.comment || '').slice(0, COMMENT_MAX),
+          ...(resolution ? { resolution } : {}),
         },
-        nowMs: Date.now(),
+        nowMs,
       });
     });
 
   await writeReview();
 
   return { photoURLs, photoFailed };
+}
+
+/**
+ * Read-only: would saving this rating be a big change from the user's own
+ * earlier answer on the place (two levels apart)? The UI calls this before
+ * submitReview so it can ask "What happened?" first. `needsAsk` is false when
+ * the comment already says (reasonFromComment) or no question is due.
+ */
+export async function previewDisagreement({ userId, landmark, tier, comment }) {
+  if (!db || !userId || !landmark?.id) return { needed: false, needsAsk: false };
+  const [rv, ps] = await Promise.all([
+    getDoc(doc(db, 'reviews', `${userId}_${landmark.id}`)).catch(() => null),
+    getDoc(placeScoresRef(userId, landmark.id)).catch(() => null),
+  ]);
+  const prev = rv?.exists() ? rv.data() : null;
+  const check = disagreementCheck({ prev, place: ps?.exists() ? ps.data() : null, newTier: tier });
+  if (!check.needed) return { ...check, needsAsk: false };
+  const text = comment === undefined ? prev?.comment || '' : comment || '';
+  const auto = reasonFromComment(text);
+  return { ...check, auto, needsAsk: !auto };
 }
 
 /** All of a user's review photos, as { [landmarkId]: [photoURL, ...] }. */
