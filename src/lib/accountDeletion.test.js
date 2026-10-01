@@ -22,7 +22,7 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'users/u1/place_scores/b' }, data: () => ({ landmarkId: 'b', placeScore: 4, missWeight: 0 }) },
         ]
       : col === 'reviews'
-      ? [{ ref: { path: 'reviews/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', ratingTier: 'highly-recommend', pickSetId: 's', pickSurface: 'mapr-tab', pickShownAt: 1 }) }]
+      ? [{ ref: { path: 'reviews/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', ratingTier: 'highly-recommend', pickSetId: 's', pickSurface: 'mapr-tab', pickShownAt: 1, ratedAt: 1, priorTier: 'probably-skip', priorRatedAt: 0, disagreement: { reason: 'food', comment: 'cold', at: 2, source: 'asked' } }) }]
       : col === 'recommendation_log'
         ? [
             { ref: { path: 'recommendation_log/old' }, data: () => ({ userId: 'u1', landmarkId: 'a' }) },
@@ -101,6 +101,14 @@ describe('deleteAccountData wipe coverage', () => {
     await deleteAccountData('u1');
     expect(deletedPaths).toEqual(expect.arrayContaining(['pick_feedback/u1_a', 'pick_feedback/u1_b']));
     expect(deleteMyReview).toHaveBeenCalledWith('u1', 'a');
+  });
+
+  it('removes a review that carries the re-rating fields (ratedAt, priorTier, priorRatedAt, disagreement): they live inside the doc', async () => {
+    const { deleteMyReview } = await import('./reviews');
+    await deleteAccountData('u1');
+    // the review is removed through deleteMyReview, which deletes the whole doc (and its place score ledger)
+    expect(deleteMyReview).toHaveBeenCalledWith('u1', 'a');
+    expect(deletedPaths).toContain('users/u1/place_scores/a');
   });
 
   it('removes every Mapr place score (users/{uid}/place_scores), which outlive users/{uid}', async () => {

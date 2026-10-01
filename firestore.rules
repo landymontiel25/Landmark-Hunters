@@ -77,6 +77,27 @@ service cloud.firestore {
         && (!('pickShownAt' in data) || data.pickShownAt == null || data.pickShownAt is number);
     }
 
+    // Optional fields from re-rating and "your answer changed a lot"
+    // (docs/rerating.md): when the first rating was given (ratedAt, ms), the
+    // level it replaced and when that was given (priorTier, priorRatedAt), and
+    // why a two-level change happened (disagreement). All optional; when
+    // present they must be well-formed. Reads are untouched.
+    function reratingFieldsOk(data) {
+      return (!('ratedAt' in data) || data.ratedAt is number)
+        && (!('priorTier' in data) || data.priorTier == null
+            || data.priorTier in ['highly-recommend', 'worth-trying', 'probably-skip'])
+        && (!('priorRatedAt' in data) || data.priorRatedAt == null || data.priorRatedAt is number)
+        && (!('disagreement' in data) || data.disagreement == null
+            || (data.disagreement is map
+                && data.disagreement.keys().hasOnly(['reason', 'comment', 'at', 'source'])
+                && data.disagreement.get('reason', null) in ['food', 'service', 'price', 'noise-crowd', 'changed-mind',
+                     'one-off', 'wrong-type', 'other', 'skip']
+                && data.disagreement.get('comment', '') is string
+                && data.disagreement.get('comment', '').size() <= 500
+                && data.disagreement.get('at', 0) is number
+                && data.disagreement.get('source', 'asked') in ['asked', 'comment']));
+    }
+
     // --- Existing production rules, kept as-is (stricter than the new
     // defaults below): public read, ownership-validated writes, immutable
     // checkins, and leaderboard entries locked to their own owner. ---
@@ -242,12 +263,18 @@ service cloud.firestore {
       allow create, update: if request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['landmarkId', 'region', 'categories', 'tap', 'tapDelta', 'tapAt',
              'rating', 'ratingTier', 'ratingFrequency', 'ratingFactor', 'ratingAt', 'commentDeltas', 'placeScore',
-             'predicted', 'outcome', 'missWeight', 'updatedAt'])
+             'predicted', 'outcome', 'missWeight', 'updatedAt',
+             'tapPlaceOff', 'typeTier', 'typeFrequency', 'typeFactor', 'typeDelta', 'placeRatingDelta', 'resolution',
+             'latestLevel', 'latestSource', 'latestAt', 'commentTypeDeltas'])
         && request.resource.data.landmarkId == landmarkId
         && request.resource.data.placeScore is number
         && request.resource.data.missWeight is number
         && (request.resource.data.get('tap', null) == null || request.resource.data.tap in ['positive', 'neutral', 'negative'])
-        && (request.resource.data.get('rating', null) == null || request.resource.data.rating in ['positive', 'neutral', 'negative']);
+        && (request.resource.data.get('rating', null) == null || request.resource.data.rating in ['positive', 'neutral', 'negative'])
+        && (request.resource.data.get('latestLevel', null) == null || request.resource.data.latestLevel in ['positive', 'neutral', 'negative'])
+        && (request.resource.data.get('latestSource', null) == null || request.resource.data.latestSource in ['rating', 'tap'])
+        && (request.resource.data.get('resolution', null) == null
+            || request.resource.data.resolution in ['food', 'service', 'price', 'noise-crowd', 'changed-mind', 'one-off', 'wrong-type', 'other', 'skip']);
     }
     // Who the admin account's uid is, so a feature request / bug report can
     // notify them without anyone being able to look people up by email. Set
@@ -423,7 +450,8 @@ service cloud.firestore {
         && reviewHiddenOk(request.resource.data)
         && reviewVisibilityOk(request.resource.data)
         && reviewTierOk(request.resource.data)
-        && pickMarkOk(request.resource.data);
+        && pickMarkOk(request.resource.data)
+        && reratingFieldsOk(request.resource.data);
       // Two ways to update: the author editing their own review (unchanged),
       // or someone else reporting it -- which may ONLY append their own uid
       // to reportedBy, exactly once, touching no other field. That, plus
@@ -439,6 +467,9 @@ service cloud.firestore {
             && reviewHiddenOk(request.resource.data)
             && reviewVisibilityOk(request.resource.data)
             && pickMarkOk(request.resource.data)
+            && reratingFieldsOk(request.resource.data)
+            // The first rating's time never changes once saved.
+            && (!('ratedAt' in resource.data) || request.resource.data.get('ratedAt', null) == resource.data.ratedAt)
             // A tier is required to edit, except the privacy-copy sync
             // (syncMyReviewVisibility) on an old tier-less review.
             && (reviewTierOk(request.resource.data)

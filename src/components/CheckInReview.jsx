@@ -13,6 +13,7 @@ import { attachCheckinPhoto } from '../lib/leaderboard';
 import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
+import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
 
 // Pops up the moment "Check In" is tapped -- nothing is claimed yet. Tapping
@@ -34,6 +35,7 @@ export default function CheckInReview() {
   const { myUsername } = useFriends();
   const { myReviews, reload: reloadRatings } = useRatings();
   const { reload: reloadMyPhotos } = useMyPhotos();
+  const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
   const [rating, setRating] = useState(null);
   const [photoFiles, setPhotoFiles] = useState([]);
   const [photoPreviews, setPhotoPreviews] = useState([]);
@@ -125,6 +127,11 @@ export default function CheckInReview() {
     setSaving(true);
     setMsg(null);
     setPostError(null);
+    // A re-rating two levels from your own earlier answer on this place asks
+    // what happened first (before anything is posted, so closing can't lose it).
+    const disagreement = rateable
+      ? await askDisagreement({ userId: user.uid, landmark: justCheckedIn, tier: rating.tier, comment: rating.comment })
+      : undefined;
     try {
       // The server stays the gate here: nothing reads as "checked in" (and
       // no points show) until this resolves, so a refused or failed claim
@@ -160,6 +167,7 @@ export default function CheckInReview() {
         landmark: justCheckedIn,
         rating,
         photoFiles,
+        disagreement,
       })
         .then(async (res) => {
           // Saved -- the in-progress copy on this device isn't needed. (On
@@ -207,6 +215,7 @@ export default function CheckInReview() {
   return (
     <div className="modal-backdrop" onClick={() => !saving && close()}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+        {disagreementNode}
         {posted ? (
           <>
             <h3 style={{ marginTop: 0 }}>

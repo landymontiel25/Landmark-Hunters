@@ -47,6 +47,7 @@ import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { clearPersisted } from '../lib/usePersistentState';
+import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 
 const CATEGORY_LABEL = Object.fromEntries(INTERESTS.map((i) => [i.id, i.label]));
 
@@ -171,6 +172,7 @@ function LandmarkDetailBody() {
   const { reload: reloadMyPhotos } = useMyPhotos();
   const { myUsername, friendUids } = useFriends();
   const toast = useToast();
+  const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
   // myRating: live RatingFlow payload (null until a tier's picked).
   // savedRating: what's already on file, to pre-fill on an edit.
   const [myRating, setMyRating] = useState(null);
@@ -472,12 +474,15 @@ function LandmarkDetailBody() {
     setSaveError(null);
     let res;
     try {
+      // Two levels from your own earlier answer on this place: asks what happened first.
+      const disagreement = await askDisagreement({ userId: user.uid, landmark, tier: myRating.tier, comment: myRating.comment });
       res = await submitReview({
         userId: user.uid,
         userName: myUsername || user.displayName || 'Explorer',
         landmark,
         rating: myRating,
         photoFiles,
+        disagreement,
       });
     } catch (e) {
       // Your tier/chips/comment and photos all stay put -- Try again
@@ -742,6 +747,7 @@ function LandmarkDetailBody() {
 
   return (
     <div>
+      {disagreementNode}
       <div className="detail-topbar">
         <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)}>
           {'← Back'}

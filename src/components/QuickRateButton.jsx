@@ -10,6 +10,7 @@ import ErrorNotice from './ErrorNotice';
 import { isRateable } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
 import { initialRating } from './initialRating';
+import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 
 // A "Rate" pill next to a landmark's name (map popup, Landmarks list,
 // itinerary card). Shows for every rateable landmark, checked into or not:
@@ -25,6 +26,7 @@ export default function QuickRateButton({ landmark }) {
   const [rating, setRating] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
 
   if (!firebaseEnabled || !user || !isRateable(landmark)) return null;
   const draftKey = ratingDraftKey(user.uid, landmark.id);
@@ -53,11 +55,14 @@ export default function QuickRateButton({ landmark }) {
     setSaving(true);
     setError(null);
     try {
+      // Two levels from your own earlier answer on this place: asks what happened first.
+      const disagreement = await askDisagreement({ userId: user.uid, landmark, tier: rating.tier, comment: rating.comment });
       await submitReview({
         userId: user.uid,
         userName: myUsername || user.displayName || 'Explorer',
         landmark,
         rating,
+        disagreement,
       });
     } catch (e) {
       // Modal stays open with every pick intact; Try again resends it.
@@ -84,6 +89,7 @@ export default function QuickRateButton({ landmark }) {
         createPortal(
           <div className="modal-backdrop" onClick={close}>
             <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+              {disagreementNode}
               <h3 style={{ marginTop: 0 }}>
                 {'\u{2B50}'} {mine ? 'Edit your rating' : 'Rate'} {mine ? 'of ' : ''}
                 {landmark.name}
