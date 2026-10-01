@@ -4,25 +4,29 @@ const STORAGE_KEY = 'lh-zoom-radius-miles';
 const DEFAULT_RADIUS = 5;
 export const ZOOM_RADIUS_OPTIONS = [1, 2, 5, 10, 25, 50, 100];
 
-function getInitialRadius() {
+// scope: the Test tab keeps its own remembered radius ('test'), so it starts
+// at the default instead of inheriting whatever the real Map was left on.
+const keyFor = (scope) => (scope ? `${STORAGE_KEY}:${scope}` : STORAGE_KEY);
+
+function getInitialRadius(scope) {
   try {
-    const stored = Number(localStorage.getItem(STORAGE_KEY));
+    const stored = Number(localStorage.getItem(keyFor(scope)));
     return ZOOM_RADIUS_OPTIONS.includes(stored) ? stored : DEFAULT_RADIUS;
   } catch {
     return DEFAULT_RADIUS; // storage blocked
   }
 }
 
-export function useZoomRadius() {
-  const [radiusMiles, setRadiusMiles] = useState(getInitialRadius);
+export function useZoomRadius(scope = null) {
+  const [radiusMiles, setRadiusMiles] = useState(() => getInitialRadius(scope));
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, String(radiusMiles));
+      localStorage.setItem(keyFor(scope), String(radiusMiles));
     } catch {
       /* storage full or blocked */
     }
-  }, [radiusMiles]);
+  }, [radiusMiles, scope]);
 
   return [radiusMiles, setRadiusMiles];
 }

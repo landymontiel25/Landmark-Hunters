@@ -149,6 +149,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     now,
     overrides,
     extraPlaces: customLandmarks,
+    fillNew: showRefresh,
   });
 
   // A saved set keeps the distances from when it was built, which is up to
@@ -218,7 +219,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         <BecauseYouLikedRow liked={liked} places={similar} />
         {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} />}
         {!showRefresh && <MealCard places={meal} />}
-        <NearbyInterestCard place={interest} />
+        {!showRefresh && <NearbyInterestCard place={interest} />}
       </PicksBottomSheet>
     </div>
   );

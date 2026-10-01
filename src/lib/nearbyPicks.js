@@ -37,7 +37,9 @@ export const SHEET_PICKS = 3;
 export const PICKS_SHEET_H = {
   minimized: 58,
   collapsed: 232,
-  moodCollapsed: 'min(440px, calc(100dvh - var(--header-h, 64px) - var(--nav-h, 64px) - 120px))',
+  moodCollapsed: 'min(380px, calc(100dvh - var(--header-h, 64px) - var(--nav-h, 64px) - 120px))',
+  // Swiping up goes half way up the screen, not to the top.
+  moodExpanded: '50dvh',
 };
 export const SIMILAR_LIMIT = 4;
 export const MEAL_LIMIT = 3;
@@ -406,7 +408,10 @@ export function toPick(l, extra = {}) {
 export const DISTANCE_PENALTY_PER_MILE = 1.5;
 export const rankScore = (p) => (p.tagScore || 0) - (p.distanceMeters / METERS_PER_MILE) * DISTANCE_PENALTY_PER_MILE;
 
-export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null }) {
+// fillNew (the Test tab): "Something new" normally means a category you have
+// rated little in this region, so an active user can run out of them. With
+// fillNew, any place you have not rated counts as new once those run out.
+export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null, fillNew = false }) {
   if (!origin) return { usual: [], fresh: [], favorites: [] };
   const lowRated = lowRatedIds(myReviews);
   // Anything already rated (like Plan Your Trip and Mapr Travel Picks) is
@@ -439,6 +444,17 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
     if (cats.some((c) => (scores[c] || 0) < 0)) continue;
     const tagScore = Math.round(cats.reduce((sum, c) => sum + (scores[c] || 0), 0) * 10) / 10;
     (tagScore > 0 ? usual : fresh).push(toPick({ ...e, pickType: tagScore > 0 ? 'usual' : 'new', tagScore }));
+  }
+  if (fillNew) {
+    const taken = new Set([...usual, ...fresh].map(pickKey));
+    for (const e of eligible.values()) {
+      if (rated.has(e.id) || taken.has(`${e.regionId}/${e.id}`)) continue;
+      const scores = effectiveTagScores(profile, e.regionId, now);
+      const cats = e.categories || [];
+      if (cats.some((c) => (scores[c] || 0) < 0)) continue;
+      const tagScore = Math.round(cats.reduce((sum, c) => sum + (scores[c] || 0), 0) * 10) / 10;
+      fresh.push(toPick({ ...e, pickType: 'new', tagScore }));
+    }
   }
   const best = (a, b) => rankScore(b) - rankScore(a) || a.distanceMeters - b.distanceMeters;
   const usualKeys = new Set(usual.map(pickKey));
@@ -584,11 +600,15 @@ export const MOODS = [
   { id: 'tech', icon: '\u{1F4BB}', label: 'Tech spots', categories: ['tech'] },
 ];
 // The Test tab's moods: eating first, then entertainment (shows, zoos,
-// aquariums, amusement parks), the rest as before, and no tech spots.
+// aquariums, amusement parks), the rest as before except that a night out is
+// only bars and clubs, and no tech spots.
 export const TEST_MOODS = [
   MOODS.find((m) => m.id === 'eat'),
   { id: 'entertainment', icon: '\u{1F39F}\u{FE0F}', label: 'Entertainment', categories: ['entertainment'] },
-  ...MOODS.filter((m) => m.id !== 'eat' && m.id !== 'tech'),
+  ...MOODS.filter((m) => m.id !== 'eat' && m.id !== 'tech').map((m) =>
+    // A night out is bars, clubs and live music (Local Life), not shows and zoos.
+    m.id === 'night' ? { ...m, categories: ['local-life'] } : m
+  ),
 ];
 // Where the Test tab's picks start, until someone taps a distance chip.
 export const TEST_DEFAULT_DISTANCE_MI = 5;
@@ -647,8 +667,10 @@ const CACHE_PREFIX = 'lh-nearby-picks:v1';
 const nearbyCell = (origin) => (origin ? `${origin.lat.toFixed(2)},${origin.lng.toFixed(2)}` : 'nowhere');
 // extraCount: how many user-added places were in the pool, so adding one
 // rebuilds the set instead of waiting out the 4 hours.
-export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '', extraCount = 0 }) =>
-  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${nearbyCell(origin)}:${miles}:${lastCategory || ''}${extraCount ? `:c${extraCount}` : ''}`;
+// scope: the Test tab builds its sets differently (new places filled in, refresh
+// rotation), so its saved sets must never be shown on the real Map.
+export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '', extraCount = 0, scope = '' }) =>
+  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${nearbyCell(origin)}:${miles}:${lastCategory || ''}${extraCount ? `:c${extraCount}` : ''}${scope ? `:${scope}` : ''}`;
 
 // The last set for this key, even when old: { picks, at, stale }. An old set
 // still goes on screen right away (marked stale) while a new one loads.

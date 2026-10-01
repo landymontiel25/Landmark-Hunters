@@ -606,3 +606,8 @@ body.pin-placing .map-picks {
 .mpp-top3-head .mpp-pill-distance::after {
   inset: -8px -4px;
 }
+
+/* Test tab: swiping up goes half way up the screen (MapExplore sets --mpp-h). */
+.map-picks .mpp-sheet.mpp-sheet-mood.expanded {
+  height: var(--mpp-h);
+}
