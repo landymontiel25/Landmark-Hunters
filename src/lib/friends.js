@@ -407,8 +407,8 @@ export async function listFriends(uid) {
     // edge you own) can't be removed by them -- firestore.rules only lets an
     // owner delete their own edge -- so it would list a ghost forever. Drop it
     // from the list and clear your own half. Only on a real "no such user"
-    // answer, never a failed read.
-    if (r.status === 'fulfilled' && r.value?.exists?.() === false) {
+    // answer from the server, never a failed read or a cache-only miss.
+    if (r.status === 'fulfilled' && r.value?.exists?.() === false && !r.value?.metadata?.fromCache) {
       // Once per edge: listFriends runs from several places at once, and a
       // second delete of an already-deleted doc is a (harmless) permission-denied.
       const edgeId = `${e.owner}_${e.friend}`;

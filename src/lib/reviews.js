@@ -177,10 +177,20 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
     const cur = await getDoc(reviewRef);
     if (cur.exists() && !(cur.data().stars > 0) && !cur.data().reportedBy?.length) {
       const saved = { ...cur.data() };
-      await deleteDoc(reviewRef);
+      // Bounded: offline, a delete never resolves until the connection is
+      // back, which would hang the save with no message. On a timeout the
+      // queued delete is put right back (writes apply in order) and the save
+      // fails like any other offline save.
       stash = saved;
+      try {
+        await withTimeout(deleteDoc(reviewRef), 8000);
+      } catch (e) {
+        setDoc(reviewRef, saved).catch(() => {});
+        throw e;
+      }
     }
-  } catch {
+  } catch (e) {
+    if (stash) throw userError('Could not save your rating. Check your connection and try again.');
     stash = null;
   }
 
@@ -271,7 +281,8 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       break;
     } catch (e) {
       if (e.code !== 'permission-denied' || attempt >= 3) {
-        if (stash) await setDoc(reviewRef, stash).catch(() => {});
+        // Not awaited: offline, a queued write never resolves and would hang the error.
+        if (stash) setDoc(reviewRef, stash).catch(() => {});
         throw e;
       }
       await new Promise((resolve) => setTimeout(resolve, attempt * 400));
@@ -531,7 +542,19 @@ export async function deleteReply(reviewId, replyId) {
   await deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId));
 }
 
-export const submitReview = invalidating(_submitReview);
+// One save at a time per review: a double tap would otherwise let the second
+// call read the star-less doc, then delete the first call's finished rating
+// and count it twice in landmark_ratings.
+const submitQueue = new Map();
+function _submitReviewSerial(args) {
+  const k = `${args.userId}_${args.landmark?.id}`;
+  const run = (submitQueue.get(k) || Promise.resolve()).catch(() => {}).then(() => _submitReview(args));
+  submitQueue.set(k, run);
+  const clear = () => submitQueue.get(k) === run && submitQueue.delete(k);
+  run.then(clear, clear);
+  return run;
+}
+export const submitReview = invalidating(_submitReviewSerial);
 
 export const syncMyReviewVisibility = invalidating(_syncMyReviewVisibility);
 

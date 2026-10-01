@@ -145,4 +145,14 @@ describe('editing and deleting a rating', () => {
     await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } });
     expect(store.get('reviews/u1_lm1').comment).toBe('great');
   });
+
+  it('a double tap over a comment-only doc counts the rating once', async () => {
+    store.clear();
+    store.set('checkins/u1_lm1', { landmarkId: 'lm1' });
+    store.set('reviews/u1_lm1', { userId: 'u1', landmarkId: 'lm1', comment: 'nice' });
+    const args = { userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } };
+    await Promise.all([submitReview(args), submitReview(args)]);
+    expect(store.get('landmark_ratings/lm1').count).toBe(1);
+    expect(store.get('reviews/u1_lm1').comment).toBe('nice');
+  });
 });

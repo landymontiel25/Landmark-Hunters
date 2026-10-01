@@ -86,4 +86,23 @@ describe('listFriends and a friend who deleted their account', () => {
     expect(deleteDoc).toHaveBeenCalledTimes(1);
     expect(deleteDoc).toHaveBeenCalledWith({ path: 'friend_edges/me_gone' });
   });
+
+  it('never deletes an edge on a cache-only "missing" answer', async () => {
+    const deleteDoc = vi.fn(async () => {});
+    vi.doMock('firebase/firestore', () => ({
+      doc: (_db, ...path) => ({ path: path.join('/') }),
+      getDoc: async () => ({ exists: () => false, data: () => undefined, metadata: { fromCache: true } }),
+      getDocs: async () => ({ docs: [{ data: () => ({ owner: 'me', friend: 'cached', friendName: 'c' }) }] }),
+      collection: (_db, name) => ({ name }),
+      query: (c) => c,
+      where: () => ({}),
+      deleteDoc,
+    }));
+    vi.doMock('./firebase', () => ({ db: {} }));
+    vi.doMock('./reviews', () => ({ syncMyReviewVisibility: async () => {} }));
+    const { listFriends } = await import('./friends.js');
+    const out = await listFriends('me');
+    expect(out).toHaveLength(1);
+    expect(deleteDoc).not.toHaveBeenCalled();
+  });
 });
