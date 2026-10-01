@@ -437,12 +437,17 @@ function LandmarkDetailBody() {
     }
     if (f) {
       setSaveMsg(null);
+      // A new photo is something left to save: without this the button kept
+      // reading "Rating updated!" (disabled) after a save, so a photo that
+      // failed to upload could never be retried from here.
+      setSubmitted(false);
       setPhotoFiles((prev) => [...prev, f]);
       setPhotoPreviews((prev) => [...prev, URL.createObjectURL(f)]);
     }
   };
   const removePhoto = (i) => {
     if (photoPreviews[i]) URL.revokeObjectURL(photoPreviews[i]);
+    setSaveError(null);
     setPhotoFiles((prev) => prev.filter((_, idx) => idx !== i));
     setPhotoPreviews((prev) => prev.filter((_, idx) => idx !== i));
   };
@@ -481,7 +486,7 @@ function LandmarkDetailBody() {
     setPhotoPreviews([]);
     setJustEdited(wasEdit);
     setSubmitted(true);
-    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Photos must be under 8 MB." : null);
+    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Check your connection and try again (photos must be under 8 MB)." : null);
     setSaving(false);
     // The rating is saved; these only refresh what's shown, so a hiccup
     // here must never read as "your rating failed".
@@ -491,13 +496,18 @@ function LandmarkDetailBody() {
   // Optimistic: your review disappears the moment you tap Delete; if the
   // server says no, it's put back with a Retry.
   const handleDeleteMine = () => {
-    const before = { reviews, savedRating, myPhotos, reviewPhotoCount };
+    const before = { reviews, savedRating, myPhotos, reviewPhotoCount, myComment, hasMyReview };
     runOptimistic({
       apply: () => {
         setReviews((cur) => cur.filter((r) => r.userId !== user.uid));
         setSavedRating(null);
         setMyRating(null);
         setReviewPhotoCount(0);
+        // The whole review doc goes, comment included.
+        setMyComment('');
+        setHasMyReview(false);
+        setSubmitted(false);
+        setCommentRev((n) => n + 1);
         // The review's own photos are gone, but any check-in gallery photos
         // (added independently via "My Photos" below) aren't touched by this.
         setMyPhotos(checkinPhotosNewestFirst(myCheckin));
@@ -511,6 +521,9 @@ function LandmarkDetailBody() {
         setSavedRating(before.savedRating);
         setMyPhotos(before.myPhotos);
         setReviewPhotoCount(before.reviewPhotoCount);
+        setMyComment(before.myComment);
+        setHasMyReview(before.hasMyReview);
+        setCommentRev((n) => n + 1);
       },
       toast,
       errorMessage: "Couldn't delete your review, so we put it back.",
@@ -539,7 +552,7 @@ function LandmarkDetailBody() {
     setCheckinDateSaving(true);
     setCheckinDateError('');
     try {
-      await updateCheckinTimestamp(`${user.uid}_${landmark.id}`, date);
+      await updateCheckinTimestamp(myCheckin?.visitDocId || `${user.uid}_${landmark.id}`, date);
       setMyCheckin((cur) => ({ ...cur, createdAt: { seconds: Math.floor(date.getTime() / 1000) } }));
       setEditingCheckinDate(false);
     } catch (e) {
@@ -1087,7 +1100,10 @@ function LandmarkDetailBody() {
           <h3 style={{ marginTop: 0 }}>Rate your visit</h3>
           {!user ? (
             <p className="screen-subtitle" style={{ margin: 0 }}>Sign in to rate this place.</p>
-          ) : !claimedMap[landmark.id] ? (
+          ) : !claimedMap[landmark.id] && !savedRating?.tier ? (
+            // A place rated through "Rate a Landmark" has a 0-point claim
+            // (not counted as checked in) but its rating is still yours to
+            // edit here -- the rules only need that claim doc to exist.
             <p className="screen-subtitle" style={{ margin: 0 }}>
               Check in here first to rate it and add a photo.
             </p>
@@ -1162,6 +1178,18 @@ function LandmarkDetailBody() {
                   ? 'Update Rating'
                   : 'Submit Rating'}
               </button>
+              {savedRating?.tier && !saving && (
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-block"
+                  style={{ marginTop: 8 }}
+                  onClick={() => {
+                    if (window.confirm('Remove your rating, comment and rating photos for this place? Your check-in stays.')) handleDeleteMine();
+                  }}
+                >
+                  {'\u{1F5D1}\u{FE0F}'} Remove my rating
+                </button>
+              )}
               {saveMsg && (
                 <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
                   {saveMsg}
