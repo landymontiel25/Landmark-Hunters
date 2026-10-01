@@ -3,7 +3,6 @@ import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScor
 import { getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
-import { MAPR_PICKS_MODEL } from './_lib/aiModels.js';
 import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // "Your Mapr Picks" on Profile. The internal tag scorer (src/lib/tagScores.js)
@@ -210,9 +209,13 @@ async function handler(req, res) {
       shortlist.map(shortlistLine).join('\n');
 
     const client = new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
-    const msg = await client.messages.create({
-      model: MAPR_PICKS_MODEL,
+    const msg = await client.beta.messages.create({
+      model: 'claude-opus-5',
       max_tokens: 1400,
+      // Ranking a short list is routine work; low effort keeps it quick.
+      output_config: { effort: 'low' },
+      betas: ['server-side-fallback-2026-06-01'],
+      fallbacks: [{ model: 'claude-opus-4-8' }],
       system: [{ type: 'text', text: swipeOnly ? SWIPE_INSTRUCTIONS : INSTRUCTIONS, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: prompt }],
     });

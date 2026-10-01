@@ -9,10 +9,6 @@ export const INTEREST_CLASSIFIER_MODEL = 'claude-haiku-4-5';
 // Mapr's chat replies, including the one call that builds a planned trip.
 export const PLAN_AI_MODEL = 'claude-haiku-4-5';
 
-// Mapr Picks ranking (api/mapr-picks.js): reads a shortlist and returns a
-// ranked JSON list.
-export const MAPR_PICKS_MODEL = 'claude-haiku-4-5';
-
 // One-line reasons for an already-ranked set of nearby picks ("Picked for
 // you right now" on the Map tab). Writing a short line per place
 // is small work; the ranking itself is done in code.
