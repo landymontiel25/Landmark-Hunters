@@ -53,7 +53,13 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, expa
   const uid = user?.uid || null;
 
   const [miles, setMiles] = useState(DEFAULT_DISTANCE_MI);
-  const [now] = useState(() => Date.now());
+  // The overlay stays mounted while the app is open, so "now" has to move:
+  // a frozen clock never showed the lunch card after a morning launch.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 10 * 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
   const [checkins, setCheckins] = useState([]);
 
   const ratingsCount = ratingsCountOf(myReviews);

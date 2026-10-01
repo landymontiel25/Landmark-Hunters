@@ -40,7 +40,7 @@ export const APP_HELP =
   `distance filter (1-100 miles, 10 by default), "Because you liked <a place you loved>", "What are you in the mood for?" (Something ` +
   `to eat, Some history, Art & museums, Fresh air, A night out, Sports, Tech spots, sorted Closest or Highest rated), a "Time to ` +
   `eat?" card around breakfast, lunch and dinner, and a heads-up when you're within a mile of one of your favorite kinds of places. ` +
-  `Picks skip places that are closed right now, places you rated 2 stars or lower, and (for the top picks) places without a photo; ` +
+  `Picks skip places that are closed right now, places you have already rated, and (for the top picks) places without a photo; ` +
   `the other rows show photo-less places on a colored tile. It needs 10 ratings first ("Rate 10 places and Mapr will start ` +
   `picking for you") and location turned on ("Turn on location to see picks near you"). A set is kept for 4 hours; an older one ` +
   `stays on screen with "Updating…" while a new one loads, and offline your last picks stay up. It hides while directions, a ` +
