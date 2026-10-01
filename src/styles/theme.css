@@ -6382,8 +6382,8 @@ h2,
 
 .onboarding-banner-fixed {
   position: fixed;
-  left: 12px;
-  right: 12px;
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
   top: var(--header-base);
   z-index: 1100;
   margin: 0;
@@ -6401,6 +6401,26 @@ h2,
   font-weight: 600;
   text-align: left;
   cursor: pointer;
+}
+
+.onboarding-banner-dismiss {
+  flex: none;
+  width: 44px;
+  min-height: 44px;
+  border: none;
+  border-left: 1px solid var(--border-default, var(--glass-border));
+  background: none;
+  color: var(--text-secondary, var(--text-primary));
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.onboarding-banner-main:focus-visible,
+.onboarding-banner-dismiss:focus-visible {
+  outline: 2px solid var(--color-accent, currentColor);
+  outline-offset: -3px;
 }
 
 /* ---------- Notification count bubble (header username pill, menu) ---------- */

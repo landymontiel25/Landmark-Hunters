@@ -10,6 +10,7 @@ import { saveTasteIntro } from '../lib/friends';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
 import { useSlowLoad } from '../lib/useSlowLoad';
+import { needsFirstCheckIn, useCheckinCount } from '../lib/firstCheckIn';
 import { markNotificationRead } from '../lib/notifications';
 import { ONBOARDING_VERSION, isDeckComplete, onboardingStatus, onboardingNoticeId } from '../lib/onboardingVersion';
 import {
@@ -24,6 +25,7 @@ import { useWelcomeBonus } from '../lib/useWelcomeBonus';
 import { HowToStep, SwipeCardStack } from '../components/OnboardingSteps';
 import { Capacitor } from '@capacitor/core';
 import OnboardingRateStep from '../components/OnboardingRateStep';
+import OnboardingCheckinStep from '../components/OnboardingCheckinStep';
 import LocationAlwaysStep from '../components/LocationAlwaysStep';
 import ErrorNotice from '../components/ErrorNotice';
 import { SkeletonList } from '../components/Skeleton';
@@ -34,26 +36,33 @@ import { SkeletonList } from '../components/Skeleton';
 // banner (route /onboarding). The Test tab (OnboardingLab) is the sandbox
 // for trying new versions of the same pieces without saving anything.
 //
-// Steps: verify email (new accounts only, until verified) -> prompt ->
-// instructions -> cards -> notes -> rate (rate real places until the account
-// has the 10 ratings that unlock picks; skips itself if it already does, and
-// has "Do this later") -> "Always" location (new accounts only) -> done.
+// Steps for a NEW account: verify email (until verified) -> rate (real places
+// until the account has the 10 ratings that unlock picks; skips itself if it
+// already does; "Do this later") -> first check-in (optional, after the
+// ratings, only for accounts with no check-in yet, and only at a place the
+// user is actually at; ONBOARDING_FIRST_CHECKIN) -> "Always" location (iOS app)
+// -> done. The swipe cards are NOT in a new account's path: they are optional
+// and can be done any time later, from the banner on the Map and Mapr tabs or
+// the bell alert, which come back to this same screen as an 'update' account.
+//
+// Steps for an account coming back for the cards (the banner / bell / an older
+// ONBOARDING_VERSION): prompt -> instructions -> cards -> notes -> rate.
 // Every step but verify has a Skip. The step and the swipes are saved to the
 // account as they happen, so closing the app resumes here.
 //
 // The swipes and notes are saved when the notes step ends; that write is what
-// records ONBOARDING_VERSION. The rate and location steps come after it and
-// never affect it.
+// records ONBOARDING_VERSION. The rate, check-in and location steps never
+// affect it.
 const RATE_STEP = 'rate';
+const CHECKIN_STEP = 'checkin';
+const CARD_STEPS = ['prompt', 'howto', 'cards', 'notes'];
 
-function buildSteps({ isNew, verified }) {
+function buildSteps({ isNew, verified, withCards, needsCheckIn }) {
   return [
     ...(isNew && !verified ? ['verify'] : []),
-    'prompt',
-    'howto',
-    'cards',
-    'notes',
+    ...(withCards ? CARD_STEPS : []),
     RATE_STEP,
+    ...(isNew && needsCheckIn ? [CHECKIN_STEP] : []),
     // "Always" location is an iOS-app permission (backgroundLocation.js has no
     // web fallback); in a browser the button could only ever fail with an error
     // about iOS Settings, a dead end right before the finish.
@@ -87,10 +96,10 @@ export default function Onboarding({ isNew: isNewProp, onExit }) {
     }
     return <SkeletonList count={3} label="Loading" />;
   }
-  return <Flow key={user.uid} user={user} profile={myProfile} isNewProp={isNewProp} onExit={onExit} navigate={navigate} />;
+  return <Flow key={user.uid} user={user} profile={myProfile} isNewProp={isNewProp} onExit={onExit} navigate={navigate} reload={reload} />;
 }
 
-function Flow({ user, profile, isNewProp, onExit, navigate }) {
+function Flow({ user, profile, isNewProp, onExit, navigate, reload }) {
   const { resendVerification, refreshUser } = useAuth();
   const { trip, toggleSavedInterest } = useTrip();
 
@@ -110,17 +119,26 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   const [answers, setAnswers] = useState(() =>
     prefillAnswers({ cardWords, progress, profile, savedInterests: trip.savedInterests })
   );
-  // 'checkin' is the retired first check-in step; anyone saved on it resumes at rate.
-  const [stepId, setStepId] = useState(progress?.step === 'checkin' ? RATE_STEP : progress?.step || 'prompt');
+  // New accounts start at the rating step; the cards are for later. Anyone
+  // who is partway through them (saved progress on a card step) keeps them.
+  const withCards = !isNew || CARD_STEPS.includes(progress?.step);
+  const [stepId, setStepId] = useState(progress?.step || (withCards ? 'prompt' : RATE_STEP));
   const [saveError, setSaveError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [resultsSaved, setResultsSaved] = useState(false);
 
   const verified = !!user.emailVerified;
-  const steps = buildSteps({ isNew, verified });
+  // Only a new account that has no real check-in yet (rating-only claims do
+  // not count) is offered the first one. Unknown (still loading / failed) never
+  // counts as zero (the step is left out if the read fails); while it loads the
+  // step is kept in the list so a resume on it is not skipped past, and it
+  // drops out the moment the count shows a check-in.
+  const { count: checkinCount, loading: checkinLoading } = useCheckinCount(isNew ? user.uid : null);
+  const needsCheckIn = checkinLoading || needsFirstCheckIn(checkinCount);
+  const steps = buildSteps({ isNew, verified, withCards, needsCheckIn });
   // A saved or in-flight step that no longer applies (email just verified)
   // falls forward to the next one that does.
-  const ORDER = ['verify', 'prompt', 'howto', 'cards', 'notes', RATE_STEP, 'location', 'done'];
+  const ORDER = ['verify', 'prompt', 'howto', 'cards', 'notes', RATE_STEP, CHECKIN_STEP, 'location', 'done'];
   // The email step is a gate: nothing else shows until the address is verified.
   const current =
     steps[0] === 'verify'
@@ -180,8 +198,12 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   useEffect(() => {
     if (current !== 'done' || clearedRef.current) return;
     clearedRef.current = true;
-    endOnboardingFlow(user.uid, { complete: deckDone, isNew }).catch(() => {});
-  }, [current, user.uid, deckDone, isNew]);
+    // Reload after: a new account that skipped the cards turns into 'update'
+    // here, which is what puts up the banner and the bell alert right away.
+    endOnboardingFlow(user.uid, { complete: deckDone, isNew })
+      .then(() => reload?.())
+      .catch(() => {});
+  }, [current, user.uid, deckDone, isNew, reload]);
 
   const exit = (to) => {
     onExit?.();
@@ -257,6 +279,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
     const lovedTags = [...new Set(answers.filter((a) => a.answer === 'love').map((a) => a.card.tag))];
     return <OnboardingRateStep lovedTags={lovedTags} onDone={() => next()} onLater={() => next()} />;
   }
+  if (current === CHECKIN_STEP) return <OnboardingCheckinStep onDone={() => next()} />;
   if (current === 'location') return <LocationAlwaysStep onDone={() => next()} />;
 
   return (

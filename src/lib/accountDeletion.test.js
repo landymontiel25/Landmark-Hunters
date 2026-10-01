@@ -42,6 +42,7 @@ vi.mock('firebase/firestore', () => {
       ? [
           { ref: { path: 'checkins/u1_a' }, data: () => ({ photoURL: 'legacy', photoURLs: ['g1', 'g2'] }) },
           { ref: { path: 'checkins/u1_b' }, data: () => ({}) },
+          { ref: { path: 'checkins/u1_c' }, data: () => ({ distanceMeters: 12, gpsAccuracyMeters: 8, verification: 'unverified' }) },
         ]
       : [];
   return {
@@ -87,11 +88,25 @@ describe('deleteAccountData check-in scrub', () => {
     expect(patchA).toEqual({ userName: 'Deleted User', photoURL: null, photoURLs: [] });
     // checkins update rule: affectedKeys().hasOnly(['photoURL', 'photoURLs', 'userName'])
     for (const [, patch] of updates.filter(([p]) => p.startsWith('checkins/'))) {
-      expect(Object.keys(patch).every((k) => ['photoURL', 'photoURLs', 'userName'].includes(k))).toBe(true);
+      expect(Object.keys(patch).every((k) => ['photoURL', 'photoURLs', 'userName', 'distanceMeters', 'gpsAccuracyMeters'].includes(k))).toBe(true);
     }
     expect(deletedFiles).toEqual(expect.arrayContaining(['legacy', 'g1', 'g2']));
     const [, patchB] = updates.find(([p]) => p === 'checkins/u1_b');
     expect(patchB).toEqual({ userName: 'Deleted User', photoURL: null });
+  });
+
+  it('removes the location-derived numbers (distance, GPS accuracy) from check-ins that have them', async () => {
+    await deleteAccountData('u1');
+    const [, patchC] = updates.find(([p]) => p === 'checkins/u1_c');
+    expect(patchC).toEqual({
+      userName: 'Deleted User',
+      photoURL: null,
+      distanceMeters: 'DELETE_FIELD',
+      gpsAccuracyMeters: 'DELETE_FIELD',
+    });
+    // Check-ins without them get no location keys at all.
+    const [, patchB] = updates.find(([p]) => p === 'checkins/u1_b');
+    expect('distanceMeters' in patchB).toBe(false);
   });
 });
 

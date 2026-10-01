@@ -57,6 +57,17 @@ describe('claimCheckIn visit numbering', () => {
     expect(state.written.id).toBe('u1_lm_3');
   });
 
+  it('saves distance, GPS accuracy and the verification tag on a real check-in; leaves a rating-only claim untagged', async () => {
+    const location = { distanceMeters: 12, gpsAccuracyMeters: 8, verification: 'unverified' };
+    state.prior = [];
+    await claimCheckIn({ ...args, location });
+    expect(state.written).toMatchObject(location);
+    state.written = null;
+    await claimCheckIn({ ...args, ratingOnly: true, points: 0, location });
+    expect(state.written.ratingOnly).toBe(true);
+    for (const k of ['distanceMeters', 'gpsAccuracyMeters', 'verification']) expect(k in state.written).toBe(false);
+  });
+
   it('still tapers real repeat visits', async () => {
     state.prior = [{ visited: true, points: 100 }];
     const res = await claimCheckIn(args);

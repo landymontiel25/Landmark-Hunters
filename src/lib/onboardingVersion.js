@@ -2,8 +2,8 @@
 // whenever the flow changes enough that everyone should redo it: every
 // account whose users/{uid}.onboardingVersion is missing or lower gets the
 // "Onboarding has been updated" notification, plus a banner on the Map
-// and Mapr tabs that can't be dismissed, until they finish the flow again. Nothing locks the
-// app. The Test tab (OnboardingLab) ignores this number.
+// and Mapr tabs (its X hides it for the session only) until they finish the swipe
+// cards. The cards are optional; nothing locks the app. The Test tab (OnboardingLab) ignores this number.
 export const ONBOARDING_VERSION = 1;
 
 export const ONBOARDING_NOTICE_MESSAGE = 'Onboarding has been updated. Finish it to get better picks from Mapr.';

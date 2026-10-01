@@ -44,8 +44,9 @@ const deleteWhere = async (col, field, uid) => deleteAll(await safeGetDocs(col, 
  * Check-ins can't be deleted outright -- firestore.rules locks them
  * permanently (allow delete: if false, kept that way so leaderboard totals
  * can't be tampered with after the fact) -- so those are scrubbed of their
- * identifying fields instead (userName, photoURL, photoURLs), which is
- * exactly what the checkins update rule already lets an owner change.
+ * identifying fields instead (userName, photoURL, photoURLs) plus the
+ * location-derived numbers (distanceMeters, gpsAccuracyMeters), which the
+ * checkins update rule lets an owner change or, for the last two, remove.
  *
  * Left alone on purpose (no rule lets this account touch them, or they
  * belong to someone else): the reverse half of a friend edge, notifications
@@ -84,13 +85,17 @@ export async function deleteAccountData(uid) {
 
   // Check-ins: scrub, never delete (see above).
   for (const d of (await safeGetDocs('checkins', 'userId', '==', uid)).docs) {
-    const { photoURL, photoURLs } = d.data();
+    const { photoURL, photoURLs, distanceMeters, gpsAccuracyMeters } = d.data();
     const gallery = Array.isArray(photoURLs) ? photoURLs : [];
     try {
       await updateDoc(d.ref, {
         userName: 'Deleted User',
         photoURL: null,
         ...(gallery.length ? { photoURLs: [] } : {}),
+        // Location-derived: removed (firestore.rules lets an owner only
+        // remove these, never set them). `verification` carries no position.
+        ...(distanceMeters !== undefined ? { distanceMeters: deleteField() } : {}),
+        ...(gpsAccuracyMeters !== undefined ? { gpsAccuracyMeters: deleteField() } : {}),
       });
     } catch {
       /* best-effort */

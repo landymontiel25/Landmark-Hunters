@@ -20,6 +20,7 @@ const ratingsState = { myReviews: {}, reload: () => {} };
 const photosState = { reload: () => {} };
 vi.mock('../lib/useCheckIn', () => ({ useCheckIn: () => checkInState }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => authState }));
+vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null }) }));
 vi.mock('../lib/FriendsContext', () => ({ useFriends: () => friendsState }));
 vi.mock('../lib/RatingsContext', () => ({ useRatings: () => ratingsState }));
 vi.mock('../lib/MyPhotosContext', () => ({ useMyPhotos: () => photosState }));
