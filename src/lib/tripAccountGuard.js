@@ -9,14 +9,15 @@ import { useTrip } from './TripContext';
 export const TRIP_OWNER_KEY = 'landmarkhunters.trip.owner';
 
 // What to do given who last owned the stored trip and who is signed in now:
-// 'reset' wipes it, 'claim' records the current account as the owner (adopting
-// a trip built while signed out or before this guard existed), 'keep' is a no-op.
+// 'reset-and-claim' wipes it when a different account signs in, 'claim'
+// records the current account as the owner (adopting a trip built while signed
+// out or before this guard existed), 'keep' is a no-op. Signing out keeps the
+// trip: it lives only on this device, so wiping it would destroy the same
+// person's itineraries when they sign back in.
 export function tripOwnerAction(owner, uid) {
-  if (uid) {
-    if (!owner) return 'claim';
-    return owner === uid ? 'keep' : 'reset-and-claim';
-  }
-  return owner ? 'reset' : 'keep';
+  if (!uid) return 'keep';
+  if (!owner) return 'claim';
+  return owner === uid ? 'keep' : 'reset-and-claim';
 }
 
 function readOwner() {
@@ -42,9 +43,8 @@ export function useTripAccountGuard() {
   useEffect(() => {
     if (loading) return;
     const action = tripOwnerAction(readOwner(), uid);
-    if (action === 'reset' || action === 'reset-and-claim') resetTrip();
+    if (action === 'reset-and-claim') resetTrip();
     if (action === 'claim' || action === 'reset-and-claim') writeOwner(uid);
-    if (action === 'reset') writeOwner(null);
     // resetTrip is a fresh closure every render; only an account change matters.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid, loading]);
