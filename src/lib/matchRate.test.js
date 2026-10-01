@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { countedShownPicks } from './matchRate';
+import { countedShownPicks, computeMatchRate, gatherMatchRateInputs } from './matchRate';
 import { MATCH_WEEK_MS } from './maprConstants';
 
 const T = Date.UTC(2026, 5, 1);
@@ -27,5 +27,16 @@ describe('countedShownPicks', () => {
   it('reads Firestore timestamps and handles empty input', () => {
     expect(countedShownPicks([row({ shownAt: { seconds: T / 1000 } })])).toHaveLength(1);
     expect(countedShownPicks(null)).toEqual([]);
+  });
+});
+
+describe('check-in ratings count the same for Just me and A group', () => {
+  it('a rating row carrying a group marker is counted exactly like one without', () => {
+    const shown = [{ userId: 'u', landmarkId: 'a', setId: 's', shownAt: 1, region: 'r' }];
+    const base = { userId: 'u', landmarkId: 'a', ratingTier: 'highly-recommend', pickSetId: 's', updatedAt: 5 };
+    const solo = gatherMatchRateInputs({ recommendationLog: shown, reviews: [{ ...base, companions: 'solo' }] });
+    const group = gatherMatchRateInputs({ recommendationLog: shown, reviews: [{ ...base, companions: 'group' }] });
+    expect(computeMatchRate(group).overall).toEqual(computeMatchRate(solo).overall);
+    expect(computeMatchRate(group).overall.ratings.positive).toBe(1);
   });
 });

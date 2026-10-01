@@ -232,6 +232,23 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'updatedAt'])
         && (!('email' in request.resource.data) || request.resource.data.email == request.auth.token.email.lower());
     }
+    // Mapr's per-place score for one user (src/lib/maprLearning.js): the
+    // place's own score, what was applied to the type (tag) scores so a changed
+    // answer can be taken back out, and the half-miss record for the taste
+    // score. Owner-only in every direction -- unlike users/{uid} itself, which
+    // any signed-in user can read.
+    match /users/{uid}/place_scores/{landmarkId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['landmarkId', 'region', 'categories', 'tap', 'tapDelta', 'tapAt',
+             'rating', 'ratingTier', 'ratingFrequency', 'ratingFactor', 'ratingAt', 'commentDeltas', 'placeScore',
+             'predicted', 'outcome', 'missWeight', 'updatedAt'])
+        && request.resource.data.landmarkId == landmarkId
+        && request.resource.data.placeScore is number
+        && request.resource.data.missWeight is number
+        && (request.resource.data.get('tap', null) == null || request.resource.data.tap in ['positive', 'neutral', 'negative'])
+        && (request.resource.data.get('rating', null) == null || request.resource.data.rating in ['positive', 'neutral', 'negative']);
+    }
     // Who the admin account's uid is, so a feature request / bug report can
     // notify them without anyone being able to look people up by email. Set
     // by the admin's own client at sign-in.

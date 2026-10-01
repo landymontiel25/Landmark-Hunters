@@ -154,6 +154,13 @@ export async function deleteAccountData(uid) {
       /* best-effort */
     }
   }
+  // Mapr's per-place scores (users/{uid}/place_scores). Subcollection docs
+  // outlive users/{uid}, so each one is removed here.
+  try {
+    await deleteAll(await getDocs(collection(db, 'users', uid, 'place_scores')));
+  } catch {
+    /* best-effort */
+  }
   // The owner-only private doc (email, home, location, push tokens) is a
   // subcollection doc, so deleting users/{uid} does not remove it.
   try {

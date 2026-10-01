@@ -16,6 +16,11 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'pick_feedback/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', verdict: 'yes', pickSetId: 's', pickSurface: 'chat', pickShownAt: 1 }) },
           { ref: { path: 'pick_feedback/u1_b' }, data: () => ({ userId: 'u1', landmarkId: 'b', verdict: 'no' }) },
         ]
+      : col === 'users/u1/place_scores'
+      ? [
+          { ref: { path: 'users/u1/place_scores/a' }, data: () => ({ landmarkId: 'a', placeScore: -46, missWeight: 0.5 }) },
+          { ref: { path: 'users/u1/place_scores/b' }, data: () => ({ landmarkId: 'b', placeScore: 4, missWeight: 0 }) },
+        ]
       : col === 'reviews'
       ? [{ ref: { path: 'reviews/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', ratingTier: 'highly-recommend', pickSetId: 's', pickSurface: 'mapr-tab', pickShownAt: 1 }) }]
       : col === 'recommendation_log'
@@ -36,7 +41,7 @@ vi.mock('firebase/firestore', () => {
       : [];
   return {
     doc: (_db, ...parts) => ({ path: parts.join('/') }),
-    collection: (_db, name) => ({ name }),
+    collection: (_db, ...parts) => ({ name: parts.join('/') }),
     query: (c) => c,
     where: (field, op, value) => {
       queries.push([field, op, value]);
@@ -96,6 +101,12 @@ describe('deleteAccountData wipe coverage', () => {
     await deleteAccountData('u1');
     expect(deletedPaths).toEqual(expect.arrayContaining(['pick_feedback/u1_a', 'pick_feedback/u1_b']));
     expect(deleteMyReview).toHaveBeenCalledWith('u1', 'a');
+  });
+
+  it('removes every Mapr place score (users/{uid}/place_scores), which outlive users/{uid}', async () => {
+    await deleteAccountData('u1');
+    expect(deletedPaths).toEqual(expect.arrayContaining(['users/u1/place_scores/a', 'users/u1/place_scores/b']));
+    expect(deletedPaths).toContain('users/u1');
   });
 
   it('queries every owned collection by its ownership field', async () => {

@@ -20,7 +20,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { settleWrite } from './offlineWrite';
 import { tierStars, isValidTier, COMMENT_MAX } from './ratingFlow';
-import { applyRating, revertRating } from './tagScores';
+import { planLearning } from './maprLearning';
 import { pickMarkFields } from './pickMarks';
 import { canonicalLandmarkId } from '../data/regions';
 
@@ -59,47 +59,31 @@ function withTimeout(promise, ms) {
 }
 
 
-// Moves the user's per-region tag scores from `prev` rating (if any) to
-// `next` rating (if any): the old rating's effect is taken back out before
-// the new one goes in, and an unchanged rating touches nothing. Returns the
-// fields to merge into users/{uid}, or null for no change.
-function tagScoreUpdate(userData, prev, next, nowMs) {
-  const same =
-    prev && next && prev.region === next.region && prev.tier === next.tier &&
-    (prev.visitFrequency || null) === (next.visitFrequency || null) &&
-    JSON.stringify([...(prev.categories || [])].sort()) === JSON.stringify([...(next.categories || [])].sort());
-  if (same) return null;
-  const maps = {};
-  const get = (region) =>
-    (maps[region] ||= {
-      scores: { ...(userData?.tagScores?.[region] || {}) },
-      at: { ...(userData?.tagScoresAt?.[region] || {}) },
-      counts: { ...(userData?.tagCounts?.[region] || {}) },
-    });
-  let touched = false;
-  if (prev?.region && prev.tier) {
-    const m = get(prev.region);
-    const r = revertRating(m, prev.categories, prev.tier, prev.visitFrequency);
-    Object.assign(m.scores, r.scores);
-    Object.assign(m.counts, r.counts);
-    touched = Object.keys(r.scores).length > 0;
-  }
-  if (next?.region && next.tier) {
-    const m = get(next.region);
-    const r = applyRating(m, next.categories, next.tier, nowMs, next.visitFrequency);
-    Object.assign(m.scores, r.scores);
-    Object.assign(m.at, r.at);
-    Object.assign(m.counts, r.counts);
-    touched = touched || Object.keys(r.scores).length > 0;
-  }
-  if (!touched) return null;
-  const out = { tagScores: {}, tagScoresAt: {}, tagCounts: {} };
-  for (const [region, m] of Object.entries(maps)) {
-    out.tagScores[region] = m.scores;
-    out.tagScoresAt[region] = m.at;
-    out.tagCounts[region] = m.counts;
-  }
-  return out;
+// Mapr's learning for one place (maprLearning.js), run inside the caller's
+// transaction: moves the type score (tag scores on users/{uid}) and the place
+// score (users/{uid}/place_scores/{landmarkId}) from what was applied before
+// to what the new answers say, taking the old effect out first. `legacyRating`
+// is a review saved before place_scores existed.
+const placeScoresRef = (uid, landmarkId) => doc(db, 'users', uid, 'place_scores', landmarkId);
+
+function legacyRatingOf(pd) {
+  return pd?.ratingTier
+    ? { tier: pd.ratingTier, frequency: pd.visitFrequency || null, region: pd.region, categories: pd.categories || [] }
+    : null;
+}
+
+function writeLearning(tx, { uid, userRef, placeRef, userSnap, placeSnap, pd, landmark, next, nowMs }) {
+  const { userPatch, ledger } = planLearning({
+    user: userSnap?.exists() ? userSnap.data() : {},
+    prev: placeSnap?.exists() ? placeSnap.data() : null,
+    legacy: { rating: legacyRatingOf(pd) },
+    landmark,
+    next,
+    nowMs,
+  });
+  if (userPatch) tx.set(userRef, userPatch, { merge: true });
+  if (ledger) tx.set(placeRef, { ...ledger, updatedAt: serverTimestamp() });
+  else if (placeSnap?.exists()) tx.delete(placeRef);
 }
 
 /**
@@ -168,6 +152,8 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       const prev = await tx.get(reviewRef);
       const agg = await tx.get(aggRef);
       const userSnap = await tx.get(userRef);
+      const placeRef = placeScoresRef(userId, landmarkId);
+      const placeSnap = await tx.get(placeRef);
       // Copied up front: everything below reads the pre-edit review.
       const pd = prev.exists() ? { ...prev.data() } : null;
       const prevStars = prev.exists() ? prev.data().stars || 0 : 0;
@@ -219,18 +205,26 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
         { merge: true }
       );
 
-      // Mapr Picks' per-region tag scores (see tagScores.js). Inside this
-      // transaction so a retried save never counts the same rating twice;
-      // an edit swaps the old rating's effect for the new one.
-      const upd = tagScoreUpdate(
-        userSnap.exists() ? userSnap.data() : {},
-        pd?.ratingTier ? { region: pd.region, tier: pd.ratingTier, categories: pd.categories, visitFrequency: pd.visitFrequency } : null,
-        landmark.region && rating.tier
-          ? { region: landmark.region, tier: rating.tier, categories: landmark.categories, visitFrequency: rating.visitFrequency }
-          : null,
-        Date.now()
-      );
-      if (upd) tx.set(userRef, upd, { merge: true });
+      // Mapr's learning from this rating and its comment (maprLearning.js):
+      // type score (per-region tag scores) and place score. Inside this
+      // transaction so a retried save never counts the same rating twice; an
+      // edit swaps the old answer's effect for the new one. A check-in rating
+      // counts the same whether the visit was solo or with a group.
+      writeLearning(tx, {
+        uid: userId,
+        userRef,
+        placeRef,
+        userSnap,
+        placeSnap,
+        pd,
+        landmark: { ...landmark, region: landmark.region ?? landmark.regionId },
+        next: {
+          rating: { tier: rating.tier, frequency: rating.visitFrequency || null },
+          // A caller that sent no comment (undefined) keeps what's on file.
+          comment: rating.comment === undefined ? undefined : (rating.comment || '').slice(0, COMMENT_MAX),
+        },
+        nowMs: Date.now(),
+      });
     });
 
   await writeReview();
@@ -366,21 +360,28 @@ async function _deleteMyReview(userId, landmarkId) {
     if (!prev.exists()) return;
     const s = prev.data().stars || 0;
     const userSnap = await tx.get(userRef);
+    const placeRef = placeScoresRef(userId, landmarkId);
+    const placeSnap = await tx.get(placeRef);
     // A comment-only doc was never counted in the aggregate; just delete it.
     if (!s) {
       tx.delete(reviewRef);
       return;
     }
     const agg = await tx.get(aggRef);
-    // Roll the rating back out of Mapr's taste profile too.
+    // Roll the rating (and its comment) back out of Mapr's taste profile too;
+    // a tap on the same place stays.
     const pd = prev.data();
-    const upd = tagScoreUpdate(
-      userSnap.exists() ? userSnap.data() : {},
-      pd.ratingTier ? { region: pd.region, tier: pd.ratingTier, categories: pd.categories, visitFrequency: pd.visitFrequency } : null,
-      null,
-      Date.now()
-    );
-    if (upd) tx.set(userRef, upd, { merge: true });
+    writeLearning(tx, {
+      uid: userId,
+      userRef,
+      placeRef,
+      userSnap,
+      placeSnap,
+      pd,
+      landmark: { id: landmarkId, region: pd.region, categories: pd.categories },
+      next: { rating: null },
+      nowMs: Date.now(),
+    });
     const curSum = agg.exists() ? agg.data().sum || 0 : 0;
     const curCount = agg.exists() ? agg.data().count || 0 : 0;
     const newCount = Math.max(0, curCount - 1);
@@ -416,8 +417,26 @@ async function _saveMyComment({ userId, userName, landmark, comment, tier }) {
   }
   await runTransaction(db, async (tx) => {
     const latest = await tx.get(ref);
-    const user = await tx.get(doc(db, 'users', userId));
+    const userRef = doc(db, 'users', userId);
+    const user = await tx.get(userRef);
+    const placeRef = placeScoresRef(userId, landmark.id);
+    const placeSnap = await tx.get(placeRef);
     const username = user.exists() ? user.data().username : null;
+    // A changed comment changes what Mapr learned from it: the old comment's
+    // effect comes out, the new one goes in (the rating itself is untouched).
+    const lm = { ...landmark, region: landmark.region ?? landmark.regionId };
+    if (!lm.categories?.length) lm.categories = latest.exists() ? latest.data().categories || [] : [];
+    writeLearning(tx, {
+      uid: userId,
+      userRef,
+      placeRef,
+      userSnap: user,
+      placeSnap,
+      pd: latest.exists() ? latest.data() : null,
+      landmark: lm,
+      next: { comment: text },
+      nowMs: Date.now(),
+    });
     tx.set(
       ref,
       {

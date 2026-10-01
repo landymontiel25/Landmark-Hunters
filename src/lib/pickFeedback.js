@@ -1,7 +1,7 @@
 import { collection, doc, getDocs, query, runTransaction, serverTimestamp, setDoc, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { pickMarkFields } from './pickMarks';
-import { applyVote, VOTE_DELTAS } from './tagScores';
+import { levelOfVerdict, planLearning } from './maprLearning';
 
 export const PICK_VOTE_EVENT = 'lh-pick-vote';
 
@@ -64,27 +64,33 @@ export async function setPickFeedback({ uid, landmark, verdict, origin }) {
   } catch {
     /* rules not deployed yet, or offline -- the local copy still counts */
   }
-  // A place is only ever scored once: a ✓/✗ removes it from picks for good.
-  if (VOTE_DELTAS[verdict] && !VOTE_DELTAS[prior] && landmark.region && landmark.categories?.length) {
-    applyVoteToProfile(uid, landmark, verdict, entry.at).catch(() => {});
+  // Mapr learns from the tap (maprLearning.js): a lighter nudge than a
+  // rating on the place's tags, plus the place's own score. Changing the tap
+  // later takes the old tap's effect back out first.
+  if (levelOfVerdict(verdict) && landmark.region) {
+    applyTapToProfile(uid, landmark, verdict, entry.at, prior).catch(() => {});
   }
   return entry;
 }
 
-async function applyVoteToProfile(uid, landmark, verdict, nowMs) {
+async function applyTapToProfile(uid, landmark, verdict, nowMs, priorVerdict) {
   const userRef = doc(db, 'users', uid);
+  const placeRef = doc(db, 'users', uid, 'place_scores', landmark.id);
   await runTransaction(db, async (tx) => {
-    const snap = await tx.get(userRef);
-    const u = snap.exists() ? snap.data() : {};
-    const region = landmark.region;
-    const next = applyVote(
-      { scores: u.tagScores?.[region], at: u.tagScoresAt?.[region] },
-      landmark.categories,
-      verdict,
-      nowMs
-    );
-    if (!Object.keys(next.scores).length) return;
-    tx.set(userRef, { tagScores: { [region]: next.scores }, tagScoresAt: { [region]: next.at } }, { merge: true });
+    const userSnap = await tx.get(userRef);
+    const placeSnap = await tx.get(placeRef);
+    const { userPatch, ledger } = planLearning({
+      user: userSnap.exists() ? userSnap.data() : {},
+      prev: placeSnap.exists() ? placeSnap.data() : null,
+      // A tap made before place_scores existed already moved the tags once
+      // (applyVote); this lets a change of mind take that back out.
+      legacy: priorVerdict ? { tap: { verdict: priorVerdict, region: landmark.region, categories: landmark.categories || [] } } : {},
+      landmark,
+      next: { tap: levelOfVerdict(verdict) },
+      nowMs,
+    });
+    if (userPatch) tx.set(userRef, userPatch, { merge: true });
+    if (ledger) tx.set(placeRef, { ...ledger, updatedAt: serverTimestamp() });
   });
 }
 

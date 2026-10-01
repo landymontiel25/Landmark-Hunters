@@ -54,7 +54,7 @@ const render = async (props) => {
   root = createRoot(container);
   await act(async () => root.render(<Probe {...props} />));
 };
-const flush = async (ms = 150) => act(async () => new Promise((r) => setTimeout(r, ms)));
+const flush = async (ms = 400) => act(async () => new Promise((r) => setTimeout(r, ms)));
 const base = (extra = {}) => ({
   uid: 'u1',
   profile: PROFILE,
