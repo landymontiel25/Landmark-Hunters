@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { notifyUser } from './notifications';
-import { findUserByEmail } from './friends';
+import { findAdminUid } from './friends';
 import { ADMIN_EMAILS } from './admins';
 
 // "Request a Feature" on Profile -- anyone signed in can suggest something,
@@ -24,9 +24,9 @@ export async function submitFeatureRequest({ userId, userName, title, descriptio
   // the admin notification couldn't be created (e.g. the admin's own users/
   // doc hasn't synced an email yet).
   try {
-    const admin = await findUserByEmail(ADMIN_EMAILS[0]);
-    if (admin?.uid) {
-      await notifyUser(admin.uid, {
+    const adminUid = await findAdminUid(ADMIN_EMAILS[0]);
+    if (adminUid) {
+      await notifyUser(adminUid, {
         type: 'feature_request',
         message: `\u{1F4A1} New feature request from ${data.userName}: "${data.title}"`,
         featureRequestId: ref.id,

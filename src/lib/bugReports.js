@@ -1,7 +1,7 @@
 import { addDoc, collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { notifyUser } from './notifications';
-import { findUserByEmail } from './friends';
+import { findAdminUid } from './friends';
 import { ADMIN_EMAILS } from './admins';
 
 // Settings' "Report a Bug" -- same pending-review shape as
@@ -24,9 +24,9 @@ export async function submitBugReport({ userId, userName, title, description, st
   // the admin notification couldn't be created (e.g. the admin's own users/
   // doc hasn't synced an email yet).
   try {
-    const admin = await findUserByEmail(ADMIN_EMAILS[0]);
-    if (admin?.uid) {
-      await notifyUser(admin.uid, {
+    const adminUid = await findAdminUid(ADMIN_EMAILS[0]);
+    if (adminUid) {
+      await notifyUser(adminUid, {
         type: 'bug_report',
         message: `\u{1F41B} New bug report from ${data.userName}: "${data.title}"`,
         bugReportId: ref.id,

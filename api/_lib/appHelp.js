@@ -241,7 +241,7 @@ export const APP_HELP =
   `Notifications opens the Streaks page when tapped.\n` +
   `- Trip data (itineraries, My Preferences chips) is stored on the device. Signing out keeps it (it's yours when you sign back in); signing in as a different account clears it so the next ` +
   `person on the same phone doesn't see the previous account's itineraries.\n` +
-  `- Inviting friends: Profile has an "Invite Friends" button that shares your username/link; once someone signs up through it, both of you get 50 ` +
+  `- Inviting friends: Profile has an "Invite Friends" button that shares your username/link; once someone signs up through it AND verifies their email, both of you get 50 ` +
   `bonus points (credited quietly into your point total — there's no separate referral display anymore).\n` +
   `- Directions: every "Get Directions" button in the app (Map tab pins, Landmarks list, a landmark's page, itineraries) opens the same ` +
   `choice: "🗺️ Use the Map", "🌐 Use Google Maps", or "🍎 Use Apple Maps". "Use the Map" keeps you in the app: it draws the real road ` +

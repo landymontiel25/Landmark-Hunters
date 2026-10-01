@@ -152,6 +152,13 @@ export async function deleteAccountData(uid) {
       /* best-effort */
     }
   }
+  // The owner-only private doc (email, home, location, push tokens) is a
+  // subcollection doc, so deleting users/{uid} does not remove it.
+  try {
+    await deleteDoc(doc(db, 'users', uid, 'private', 'main'));
+  } catch {
+    /* best-effort */
+  }
   // users/{uid} also holds push tokens, taste profile and itinerary data.
   try {
     await deleteDoc(doc(db, 'users', uid));

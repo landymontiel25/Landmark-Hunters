@@ -19,14 +19,17 @@ export async function sendPushToUser(uid, { title, body, data = {} }) {
     return { sent: 0, reason: 'not-configured' }; // FIREBASE_SERVICE_ACCOUNT not set
   }
   let snap;
+  let privSnap;
   try {
-    snap = await db.doc(`users/${uid}`).get();
+    // Push tokens live in the owner-only users/{uid}/private/main doc; an
+    // account that hasn't migrated yet still has them on the public doc.
+    [snap, privSnap] = await Promise.all([db.doc(`users/${uid}`).get(), db.doc(`users/${uid}/private/main`).get()]);
   } catch {
     return { sent: 0, reason: 'firestore-error' };
   }
   const profile = snap.data() || {};
   if (!profile.pushNotificationsEnabled) return { sent: 0, reason: 'disabled' };
-  const tokens = Object.keys(profile.pushTokens || {});
+  const tokens = Object.keys({ ...(profile.pushTokens || {}), ...(privSnap.data()?.pushTokens || {}) });
   if (!tokens.length) return { sent: 0, reason: 'no-devices' };
 
   let result;
@@ -47,7 +50,10 @@ export async function sendPushToUser(uid, { title, body, data = {} }) {
   if (dead.length) {
     const update = {};
     for (const t of dead) update[`pushTokens.${t}`] = FieldValue.delete();
-    await db.doc(`users/${uid}`).update(update).catch(() => {});
+    await Promise.all([
+      db.doc(`users/${uid}/private/main`).update(update).catch(() => {}),
+      db.doc(`users/${uid}`).update(update).catch(() => {}),
+    ]);
   }
   return { sent: result.successCount, reason: result.successCount ? 'ok' : 'all-failed' };
 }
