@@ -202,6 +202,43 @@ describe('PicksBottomSheet', () => {
     expect(document.body.textContent).toContain('landmarks tab');
   });
 
+  it('has no refresh button on the real Map, and one right after the title in the Test tab', async () => {
+    const plain = await render({ picks: PICKS });
+    expect(plain.querySelector('.mpp-refresh')).toBeNull();
+    container.remove();
+    const onRefresh = vi.fn();
+    const el = await render({ picks: PICKS, onRefresh });
+    const btn = el.querySelector('.mpp-refresh');
+    expect(btn).toBeTruthy();
+    expect(btn.getAttribute('aria-label')).toBe('Show different places');
+    const head = el.querySelector('.mpp-sheet-head');
+    expect([...head.children].map((c) => c.tagName)).toEqual(['H2', 'BUTTON']);
+    await click(btn);
+    expect(onRefresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('tapping refresh does not also expand or collapse the sheet', async () => {
+    const onExpandedChange = vi.fn();
+    const onRefresh = vi.fn();
+    const el = await render({ picks: PICKS, onRefresh, onExpandedChange });
+    const btn = el.querySelector('.mpp-refresh');
+    await act(async () => {
+      btn.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientY: 300 }));
+      btn.dispatchEvent(new MouseEvent('pointerup', { bubbles: true, clientY: 300 }));
+      btn.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }));
+      btn.click();
+    });
+    expect(onRefresh).toHaveBeenCalledTimes(1);
+    expect(onExpandedChange).not.toHaveBeenCalled();
+  });
+
+  it('spins and disables the button while a new set is loading', async () => {
+    const el = await render({ picks: PICKS, onRefresh: () => {}, refreshing: true });
+    const btn = el.querySelector('.mpp-refresh');
+    expect(btn.disabled).toBe(true);
+    expect(btn.classList.contains('spinning')).toBe(true);
+  });
+
   it('shows a category tile for a place with no photo instead of a broken image', async () => {
     const el = await render({ picks: [pick('bare', { image: null }), ...PICKS] });
     const first = el.querySelector('.mpp-row');

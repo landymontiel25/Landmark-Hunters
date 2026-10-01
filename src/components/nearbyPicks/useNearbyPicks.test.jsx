@@ -82,6 +82,22 @@ afterEach(async () => {
 });
 
 describe('useNearbyPicks', () => {
+  it('showDifferent builds a new set that skips the places that were showing', async () => {
+    await render(base({ fetchReasons: vi.fn(async () => ({})) }));
+    await flush();
+    const before = latest.picks.map(pickKey);
+    expect(before).toHaveLength(4);
+    expect(latest.refreshing).toBe(false);
+
+    await act(async () => latest.showDifferent());
+    await flush(120);
+
+    expect(latest.refreshing).toBe(false);
+    const after = latest.picks.map(pickKey);
+    expect(after).toHaveLength(4);
+    expect(after.filter((k) => before.includes(k))).toEqual([]);
+  });
+
   it('puts a place you loved within a mile first, tagged as a favorite', async () => {
     const lovedPlace = withinDistance(getRegion('villanova').landmarks, ORIGIN, 1).find((l) => l.distanceMeters > 150);
     expect(lovedPlace).toBeTruthy();

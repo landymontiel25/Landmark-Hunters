@@ -36,6 +36,8 @@ export default function PicksBottomSheet({
   beyond = null,
   onWiden = null,
   ratingsCount = 0,
+  onRefresh = null,
+  refreshing = false,
   children,
 }) {
   const { units } = useUnits();
@@ -189,8 +191,25 @@ export default function PicksBottomSheet({
         }}
       >
         <span className="mpp-handle" />
-        <div className="mpp-sheet-head">
+        <div className={`mpp-sheet-head ${onRefresh && state === 'ready' ? 'has-refresh' : ''}`}>
           <h2 className="mpp-sheet-title">Picked for you right now</h2>
+          {/* Inside the swipeable grip, so its pointer and key events must not
+              reach it: tapping refresh must not also expand or collapse. */}
+          {onRefresh && state === 'ready' && (
+            <button
+              type="button"
+              className={`mpp-refresh ${refreshing ? 'spinning' : ''}`}
+              aria-label="Show different places"
+              title="Show different places"
+              disabled={refreshing}
+              onPointerDown={(e) => e.stopPropagation()}
+              onPointerUp={(e) => e.stopPropagation()}
+              onKeyDown={(e) => e.stopPropagation()}
+              onClick={onRefresh}
+            >
+              <span aria-hidden="true">{'\u21BB'}</span>
+            </button>
+          )}
           {status}
         </div>
       </div>

@@ -4,11 +4,14 @@ import {
   composePicks,
   mergeFavorites,
   nearbyPicksCacheKey,
+  nextSeenKeys,
   pickKey,
   rankNearbyCandidates,
   ratingsCountOf,
   readNearbyPicksCache,
+  rotateFavorites,
   selectReady,
+  unseenFirst,
   withReasons,
   writeNearbyPicksCache,
 } from '../../lib/nearbyPicks';
@@ -114,7 +117,13 @@ export function useNearbyPicks({
         : { usual: [], fresh: [], favorites: [] },
     [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces]
   );
-  const chained = useMemo(() => chainedPick({ usual, fresh, links, lastCategory }), [usual, fresh, links, lastCategory]);
+  // "Show different places": what was on screen before the last refresh is
+  // skipped, so the same top places don't come straight back.
+  const [seen, setSeen] = useState([]);
+  const [pending, setPending] = useState(false);
+  const usualQ = useMemo(() => unseenFirst(usual, seen), [usual, seen]);
+  const freshQ = useMemo(() => unseenFirst(fresh, seen), [fresh, seen]);
+  const chained = useMemo(() => chainedPick({ usual: usualQ, fresh: freshQ, links, lastCategory }), [usualQ, freshQ, links, lastCategory]);
 
   const live = enabled && online && !!key;
   const sessionStale =
@@ -122,8 +131,8 @@ export function useNearbyPicks({
   const buildTag = sessionStale ? `${key}@${result.at}` : key;
   const needFresh = live && (sessionStale || (!(cached && !cached.stale) && result?.key !== key));
   const urls = useMemo(
-    () => (needFresh ? [chained?.image, ...usual.slice(0, 10).map((p) => p.image), ...fresh.slice(0, 5).map((p) => p.image)] : []),
-    [needFresh, chained, usual, fresh]
+    () => (needFresh ? [chained?.image, ...usualQ.slice(0, 10).map((p) => p.image), ...freshQ.slice(0, 5).map((p) => p.image)] : []),
+    [needFresh, chained, usualQ, freshQ]
   );
   const { status, settled } = useImageStatus(urls, { enabled: needFresh });
 
@@ -140,18 +149,19 @@ export function useNearbyPicks({
   useEffect(() => {
     if (!needFresh || !settled || inflight.current === buildTag) return;
     inflight.current = buildTag;
-    const composed = composePicks({ usual, fresh, chained, isReady: (p) => status[p.image] === 'loaded' });
+    const composed = composePicks({ usual: usualQ, fresh: freshQ, chained, isReady: (p) => status[p.image] === 'loaded' });
     (composed.length ? Promise.resolve(fetchReasons(composed)).catch(() => ({})) : Promise.resolve({})).then((reasons) => {
       if (!mounted.current || inflight.current !== buildTag) return;
       const picks = withReasons(composed, reasons);
       // An empty set (nothing nearby, or no photo loaded) isn't worth keeping.
       if (picks.length) writeNearbyPicksCache(key, picks);
       setResult({ key, picks, at: Math.max(Date.now(), Number.isFinite(now) ? now : 0) });
+      setPending(false);
       if (uid && picks.length) {
         Promise.resolve(logPicks({ uid, source, stops: picks, rankedIds: picks.map(pickKey), isTest })).catch(() => {});
       }
     });
-  }, [needFresh, settled, key, buildTag, now, usual, fresh, chained, status, fetchReasons, logPicks, uid, source, isTest]);
+  }, [needFresh, settled, key, buildTag, now, usualQ, freshQ, chained, status, fetchReasons, logPicks, uid, source, isTest]);
 
   const refresh = useCallback(() => {
     if (key) {
@@ -180,7 +190,18 @@ export function useNearbyPicks({
 
   // Places you rated highly within a mile go first, built from the live
   // position and ratings rather than the cached set.
-  const shown = useMemo(() => (enabled && picks ? mergeFavorites(picks, favorites) : picks), [enabled, picks, favorites]);
+  const rotatedFavorites = useMemo(() => rotateFavorites(favorites, seen), [favorites, seen]);
+  const shown = useMemo(() => (enabled && picks ? mergeFavorites(picks, rotatedFavorites) : picks), [enabled, picks, rotatedFavorites]);
 
-  return { picks: shown, updating, slow, usual, fresh, favorites, chained, cachedAt: cached?.at ?? null, refresh };
+  // The refresh button: skip everything on screen now and build another set.
+  const shownRef = useRef([]);
+  shownRef.current = shown || [];
+  const showDifferent = useCallback(() => {
+    if (!key) return;
+    setSeen((prev) => nextSeenKeys({ seen: prev, shown: shownRef.current }));
+    setPending(true);
+    refresh();
+  }, [key, refresh]);
+
+  return { picks: shown, updating, slow, usual, fresh, favorites, chained, cachedAt: cached?.at ?? null, refresh, showDifferent, refreshing: pending };
 }

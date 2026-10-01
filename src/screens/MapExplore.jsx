@@ -277,7 +277,9 @@ const POPUP_PAN_BOTTOM_RIGHT = [16, 100];
 const OFF_ROUTE_FIXES = 2;
 const REROUTE_MS = 15000;
 
-export default function MapExplore() {
+// experiments: the Test tab's copy of the Map. Same screen, plus whatever is
+// being tried before it goes on the real Map (admin-only route, see App.jsx).
+export default function MapExplore({ experiments = false }) {
   const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
@@ -1410,8 +1412,15 @@ export default function MapExplore() {
         </>
       )}
 
+      {experiments && (
+        <span className="map-test-badge" role="status">
+          {'\u{1F9EA}'} Test version
+        </span>
+      )}
+
       {picksReady && (
         <MapPicksOverlay
+          showRefresh={experiments}
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}

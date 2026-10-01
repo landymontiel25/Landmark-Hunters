@@ -55,7 +55,7 @@ const NO_COUNTS = {};
 // ~110 m: a GPS tick while standing still doesn't re-rank anything.
 const round3 = (n) => Math.round(n * 1000) / 1000;
 
-export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange }) {
+export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, showRefresh = false }) {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const { ratings, myReviews } = useRatings();
@@ -130,7 +130,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
   const state = locked ? 'locked' : !origin && geoError ? 'no-location' : 'ready';
 
-  const { picks: builtPicks, updating, slow, usual } = useNearbyPicks({
+  const { picks: builtPicks, updating, slow, usual, showDifferent, refreshing } = useNearbyPicks({
     uid,
     enabled: state === 'ready' && !!origin,
     online,
@@ -204,6 +204,8 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         beyond={beyond}
         onWiden={chooseDistance}
         ratingsCount={ratingsCount}
+        onRefresh={showRefresh && online ? showDifferent : null}
+        refreshing={refreshing}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { FAVORITE_RADIUS_MI, favoritePlaces, fallbackReason, mergeFavorites, rankNearbyCandidates } from './nearbyPicks';
+import { FAVORITE_RADIUS_MI, favoritePlaces, fallbackReason, mergeFavorites, nextSeenKeys, rankNearbyCandidates, rotateFavorites, unseenFirst } from './nearbyPicks';
 
 // Miracle Mile, Coral Gables. 0.01 degree of latitude is about 0.69 mile.
 const here = { lat: 25.75, lng: -80.26 };
@@ -100,5 +100,31 @@ describe('rankNearbyCandidates', () => {
     const r = rankNearbyCandidates({ profile: {}, origin: here, miles: 5, myReviews: reviews(loved('hillstone')), now: Date.now() });
     expect(Array.isArray(r.favorites)).toBe(true);
     expect(Array.isArray(r.usual)).toBe(true);
+  });
+});
+
+describe('show different places', () => {
+  const pk = (id) => ({ id, region: 'test', image: `https://img.example/${id}.jpg` });
+  const many = (prefix, n) => Array.from({ length: n }, (_, i) => pk(`${prefix}${i}`));
+
+  it('remembers what was showing across refreshes', () => {
+    const first = nextSeenKeys({ seen: [], shown: [pk('u0'), pk('u1')] });
+    expect(first).toEqual(['test/u0', 'test/u1']);
+    expect(nextSeenKeys({ seen: first, shown: [pk('u2'), pk('u0')] })).toEqual(['test/u0', 'test/u1', 'test/u2']);
+  });
+
+  it('puts places not shown yet first and keeps the rest after them, so a set is never short', () => {
+    const usual = many('u', 5);
+    expect(unseenFirst(usual, ['test/u0', 'test/u1']).map((p) => p.id)).toEqual(['u2', 'u3', 'u4', 'u0', 'u1']);
+    expect(unseenFirst(usual, []).map((p) => p.id)).toEqual(['u0', 'u1', 'u2', 'u3', 'u4']);
+    const all = usual.map((p) => `test/${p.id}`);
+    expect(unseenFirst(usual, all).map((p) => p.id)).toEqual(['u0', 'u1', 'u2', 'u3', 'u4']);
+  });
+
+  it('shows the favorites not seen yet first when there are more than fit', () => {
+    const favs = [pk('a'), pk('b'), pk('c')];
+    expect(rotateFavorites(favs, ['test/a', 'test/b']).map((f) => f.id)).toEqual(['c', 'a', 'b']);
+    expect(rotateFavorites(favs, ['test/a', 'test/b', 'test/c']).map((f) => f.id)).toEqual(['a', 'b', 'c']);
+    expect(rotateFavorites(favs, []).map((f) => f.id)).toEqual(['a', 'b', 'c']);
   });
 });

@@ -282,6 +282,29 @@ export function mergeFavorites(picks, favorites, count = PICKS_SHOWN) {
   return list.slice(0, count);
 }
 
+// "Show me different places" (the Test tab's refresh button): remember what
+// has been on screen, and put the places not shown yet ahead of the ones that
+// were. The set is always full: when few places are left unseen, the earlier
+// ones fill in after them rather than leaving gaps.
+const SEEN_LIMIT = 80;
+export function nextSeenKeys({ seen = [], shown = [] }) {
+  return [...new Set([...(seen || []), ...(shown || []).map(pickKey)])].slice(-SEEN_LIMIT);
+}
+
+export function unseenFirst(list, seen) {
+  const skip = new Set(seen || []);
+  if (!skip.size) return list || [];
+  const items = list || [];
+  return [...items.filter((p) => !skip.has(pickKey(p))), ...items.filter((p) => skip.has(pickKey(p)))];
+}
+
+// With more favorites than slots, the ones not shown yet go first.
+export function rotateFavorites(favorites, seen) {
+  const skip = new Set(seen || []);
+  const unseen = (favorites || []).filter((f) => !skip.has(pickKey(f)));
+  return unseen.length ? [...unseen, ...(favorites || []).filter((f) => skip.has(pickKey(f)))] : favorites || [];
+}
+
 // Places past the chosen distance, nearest first -- what "Nothing within 1
 // mi. Nearest: ..." shows when the radius comes up empty or thin. Photos are
 // not required here (it is a pointer, not a pick).
