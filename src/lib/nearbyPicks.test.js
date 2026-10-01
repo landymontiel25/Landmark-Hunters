@@ -112,11 +112,11 @@ describe('photos: loading, missing or broken', () => {
     expect(shown.map((p) => p.id)).toEqual(['u1', 'u3', 'n1', 'u4']);
   });
 
-  it('skips a pick with no photo, and a new pick that is loading falls back to the next new one', () => {
+  it('keeps a pick with no photo, and a new pick that is loading falls back to the next new one', () => {
     const usual = [pick('u1', { image: null }), pick('u2'), pick('u3'), pick('u4')];
     const fresh = [pick('n1', { pickType: 'new' }), pick('n2', { pickType: 'new' })];
     const shown = composePicks({ usual, fresh, isReady: (p) => p.id !== 'n1' });
-    expect(shown.map((p) => p.id)).toEqual(['u2', 'u3', 'n2', 'u4']);
+    expect(shown.map((p) => p.id)).toEqual(['u1', 'u2', 'n2', 'u3']);
   });
 
   it('the other rows skip a still-loading photo but keep a place with no photo (shown on a tile)', () => {
@@ -124,18 +124,18 @@ describe('photos: loading, missing or broken', () => {
     expect(selectReady(rows, (p) => p.id !== 'c', 3).map((p) => p.id)).toEqual(['a', 'b', 'd']);
   });
 
-  it('keeps places with no photo in the pool, but never as a top pick', () => {
+  it('keeps places with no photo in the pool and as top picks (best match wins)', () => {
     const landmarks = [place('has', 1), place('none', 1, { images: [] })];
     const ids = eligiblePlaces({ origin: ORIGIN, miles: 10, landmarks }).map((p) => p.id);
     expect(ids).toEqual(['has', 'none']);
     const shown = composePicks({ usual: [pick('none', { image: null }), pick('has')], fresh: [] });
-    expect(shown.map((p) => p.id)).toEqual(['has']);
+    expect(shown.map((p) => p.id)).toEqual(['none', 'has']);
   });
 
-  it('a chained pick never lands on a place with no photo', () => {
+  it('a chained pick can land on a place with no photo', () => {
     const links = [{ from: 'art-museums', to: 'food', count: 3 }];
     const usual = [pick('bare', { image: null }), pick('photo')];
-    expect(chainedPick({ usual, links, lastCategory: 'art-museums' }).id).toBe('photo');
+    expect(chainedPick({ usual, links, lastCategory: 'art-museums' }).id).toBe('bare');
   });
 });
 

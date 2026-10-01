@@ -63,9 +63,9 @@ export const categoryLabel = (id) => LABELS[id] || id || 'this kind of place';
 
 export const pickKey = (p) => `${p.region || p.regionId}/${p.id}`;
 
-// A usable photo is part of the landmark's own data. The top picks never
-// show a place without one (the next pick takes its place); the other rows
-// (mood, meal, because you liked, nearby) show it on a category tile.
+// A usable photo is part of the landmark's own data. A place without one is
+// still picked (best match wins); its tile looks a photo up at view time
+// (usePlacePhoto) and falls back to a category tile.
 export function hasPhoto(l) {
   const src = l?.image ?? l?.images?.[0];
   return typeof src === 'string' && /^(https?:)?\/\//.test(src.trim());
@@ -353,13 +353,13 @@ export function widenChip(places, distance, units, options = DISTANCE_OPTIONS_MI
 }
 
 // Default distance: the smallest chip with at least `min` places that could
-// be picked (open, not low-rated, with a photo), so a dense neighborhood
+// be picked (open, not low-rated), so a dense neighborhood
 // opens tight and a thin one (Doral has nothing within 5 mi) opens wide.
 export const SMART_MIN_PLACES = 3;
 export function smartDistance({ origin, units, lowRated = [], date = new Date(), overrides = null, extraPlaces = null, options = DISTANCE_OPTIONS_MI, min = SMART_MIN_PLACES }) {
   if (!origin) return DEFAULT_DISTANCE_MI;
   const maxMiles = optionToMiles(options[options.length - 1], units);
-  const pool = eligiblePlaces({ origin, miles: maxMiles, lowRated, date, overrides, extraPlaces }).filter(hasPhoto);
+  const pool = eligiblePlaces({ origin, miles: maxMiles, lowRated, date, overrides, extraPlaces });
   for (const n of options) {
     const max = optionToMiles(n, units) * METERS_PER_MILE;
     if (pool.filter((p) => p.distanceMeters <= max).length >= min) return n;
@@ -485,8 +485,8 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
 export function chainedPick({ usual = [], fresh = [], links = [], lastCategory = null }) {
   for (const link of linksFrom(links, lastCategory)) {
     const hit =
-      usual.find((p) => hasPhoto(p) && primaryCategory(p.categories) === link.to) ||
-      fresh.find((p) => hasPhoto(p) && primaryCategory(p.categories) === link.to);
+      usual.find((p) => primaryCategory(p.categories) === link.to) ||
+      fresh.find((p) => primaryCategory(p.categories) === link.to);
     if (hit) return { ...hit, chain: { from: link.from, to: link.to, count: link.count } };
   }
   return null;
@@ -494,12 +494,12 @@ export function chainedPick({ usual = [], fresh = [], links = [], lastCategory =
 
 // The final list: mostly usual, exactly one "something new" when there is
 // one, and a chained pick first when a link applies. A pick that isn't
-// ready (still loading, no photo, or its photo failed) is skipped and the
+// ready (its photo is still loading) is skipped and the
 // next one in the same queue takes its place.
 //   order: usual, usual, new, usual -- so the three in the collapsed sheet
 //   are two usual + the one new, and the full four are three usual + one new.
 export function composePicks({ usual = [], fresh = [], chained = null, count = PICKS_SHOWN, isReady = hasPhoto }) {
-  const ready = (p) => p && hasPhoto(p) && isReady(p);
+  const ready = (p) => p && (!hasPhoto(p) || isReady(p));
   const used = new Set();
   const take = (queue) => {
     const p = queue.find((x) => ready(x) && !used.has(pickKey(x)));
