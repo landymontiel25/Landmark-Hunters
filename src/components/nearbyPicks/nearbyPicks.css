@@ -569,3 +569,40 @@ body.pin-placing .map-picks {
   font-size: 0.72rem;
   pointer-events: none;
 }
+
+/* ---- Test tab: mood first, then the top three in one card ---- */
+
+.mpp-sheet-mood .mpp-sheet-scroll > .mpp-section:first-child {
+  margin-top: 4px;
+}
+
+.mpp-sheet-title-min {
+  margin: 0 0 4px;
+}
+
+.mpp-top3 {
+  margin-top: 14px;
+}
+
+.mpp-top3-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.mpp-top3-head .mpp-section-title {
+  margin: 0;
+}
+
+.mpp-top3-head .mpp-pill {
+  margin-left: auto;
+}
+
+.mpp-top3-head .mpp-pill-distance {
+  margin: 0 0 0 auto;
+}
+
+.mpp-top3-head .mpp-pill-distance::after {
+  inset: -8px -4px;
+}
