@@ -797,7 +797,7 @@ export default function Itinerary() {
         {sort === 'nearest'
           ? ` from ${coords ? 'your current location' : trip.startingLocation || 'your starting point'}`
           : ''}{' '}
-        · {displayRoute.length} stops
+        · {displayRoute.length} stop{displayRoute.length === 1 ? '' : 's'}
       </p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>

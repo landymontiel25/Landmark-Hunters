@@ -293,7 +293,7 @@ function PairStreakBadge() {
 function CountBadge({ count }) {
   if (!(count > 0)) return null;
   return (
-    <span className="notif-badge" role="status" aria-label={`${count} notifications`}>
+    <span className="notif-badge" role="status" aria-label={`${count} ${count === 1 ? 'notification' : 'notifications'}`}>
       {count > 9 ? '9+' : count}
     </span>
   );
