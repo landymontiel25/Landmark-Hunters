@@ -132,6 +132,10 @@ export default function Notifications() {
       navigate('/onboarding');
       return;
     }
+    if (n.type === 'streak_warning') {
+      navigate('/streaks');
+      return;
+    }
     if (n.groupTripId) {
       navigate(`/group/${n.groupTripId}`);
       return;

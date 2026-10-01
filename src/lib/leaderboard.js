@@ -518,8 +518,32 @@ export async function getFriendsLeaderboard(period, friendUids, myUid) {
     )
   );
   return results
-    .flatMap((snap) => snap.docs.map((d) => d.data()))
+    // `id` matters: the board rows are keyed on it (the global listener
+    // path adds it too), and without it every row's key is undefined.
+    .flatMap((snap) => snap.docs.map((d) => ({ id: d.id, ...d.data() })))
     .sort((a, b) => b.points - a.points);
+}
+
+/**
+ * Competition ("1224") rank of entries[idx] on a points-sorted board: people
+ * on the same points share a rank, so a tie never shows one of them a worse
+ * number than the other.
+ */
+export function rankOf(entries, idx) {
+  if (idx < 0 || idx >= entries.length) return null;
+  return entries.findIndex((x) => x.points === entries[idx].points) + 1;
+}
+
+/**
+ * Your own entry for this period, wherever you rank -- the global board only
+ * lists the top N, so someone further down would otherwise look like they
+ * have no points at all.
+ */
+export async function getMyLeaderboardEntry(period, userId) {
+  if (!db || !userId) return null;
+  const keys = periodKeys();
+  const snap = await getDoc(doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`));
+  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 }
 
 /**

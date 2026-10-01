@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
-import { msUntilStreakLapse, dayKey, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
 import { notifyUser } from '../lib/notifications';
 
 // Alert once 5 hours remain in the local day with the SOLO streak not yet
@@ -33,6 +34,7 @@ function formatCountdown(ms) {
 export default function StreakWarningBanner() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const today = useTodayKey();
   const [streak, setStreak] = useState(null);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
 
@@ -43,7 +45,9 @@ export default function StreakWarningBanner() {
 
   // 0 once the stored streak has already lapsed -- nothing left to warn about.
   const count = displayStreakCount(streak);
-  const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
+  // A freeze spent today holds the streak across today's gap, so it isn't
+  // "about to lapse" any more -- don't nag someone who just used one.
+  const secured = !!streak && (streak.lastCompletedDay === today || (streak.frozenDays || []).includes(today));
   const atRisk = count > 0 && !secured;
 
   useEffect(() => {
@@ -57,7 +61,7 @@ export default function StreakWarningBanner() {
 
   useEffect(() => {
     if (!user || !withinWarningWindow) return;
-    const key = `${NOTIFIED_PREFIX}${user.uid}.${dayKey(new Date())}`;
+    const key = `${NOTIFIED_PREFIX}${user.uid}.${today}`;
     try {
       if (localStorage.getItem(key) === '1') return;
       localStorage.setItem(key, '1');
@@ -68,7 +72,7 @@ export default function StreakWarningBanner() {
       type: 'streak_warning',
       message: `\u{23F3} Your ${count}-day streak expires today — rate ${PICKS_STREAK_THRESHOLD} landmarks to keep it going!`,
     }).catch(() => {});
-  }, [user, withinWarningWindow, count]);
+  }, [user, withinWarningWindow, count, today]);
 
   if (!withinWarningWindow) return null;
 

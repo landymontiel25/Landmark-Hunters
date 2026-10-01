@@ -8,7 +8,8 @@ import { usePairStreaks } from '../lib/PairStreakContext';
 import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
 import { subscribeLeaderboard } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
-import { msUntilStreakLapse, dayKey, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
+import { msUntilStreakLapse, displayStreakCount, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 
 function formatLeft(ms) {
@@ -130,17 +131,6 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
 // exists from the first screen this account ever lands on, not only after
 // visiting Your Streaks once; it's idempotent, so calling it again there
 // too is harmless.
-// The current local day key, re-evaluated at each local midnight so a badge
-// left open overnight doesn't keep calling yesterday's streak "secured".
-function useTodayKey() {
-  const [today, setToday] = useState(() => dayKey(new Date()));
-  useEffect(() => {
-    const id = setTimeout(() => setToday(dayKey(new Date())), msUntilStreakLapse() + 500);
-    return () => clearTimeout(id);
-  }, [today]);
-  return today;
-}
-
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const today = useTodayKey();
