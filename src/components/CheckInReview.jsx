@@ -49,7 +49,9 @@ export default function CheckInReview() {
 
   useEffect(() => {
     if (justCheckedIn) {
-      setRating(null);
+      // No setRating(null) here: RatingFlow (mounted in this same commit)
+      // reports its own starting state, including a pre-picked tier or a
+      // restored draft, and this effect runs after it and would wipe that.
       setPhotoFiles([]);
       setPhotoPreviews([]);
       setMsg(null);
