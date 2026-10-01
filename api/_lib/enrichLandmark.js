@@ -168,7 +168,10 @@ export async function enrichLandmark({ name, lat, lng, userFacts = [], placeCont
             : 'The submitter gave no facts of their own.'),
       },
     ],
-  });
+    // A stalled web search must not leave the submitter on "Verifying…" for
+    // minutes (SDK default is 10 min with retries) -- the caller falls back
+    // to generic filler when this throws.
+  }, { timeout: 40000, maxRetries: 0 });
 
   const raw = msg.content
     .filter((b) => b.type === 'text')
@@ -179,7 +182,8 @@ export async function enrichLandmark({ name, lat, lng, userFacts = [], placeCont
 
   const category = typeof parsed.category === 'string' && CATEGORY_IDS.has(parsed.category) ? parsed.category : null;
 
-  const typicalMinutesNum = Number(parsed.typicalMinutes);
+  // Number(null) is 0, which would clamp to a bogus 5-minute visit.
+  const typicalMinutesNum = parsed.typicalMinutes == null || parsed.typicalMinutes === '' ? NaN : Number(parsed.typicalMinutes);
   const typicalMinutes = Number.isFinite(typicalMinutesNum) ? Math.min(300, Math.max(5, Math.round(typicalMinutesNum))) : null;
 
   const imageUrl = !hasPhoto && parsed.imageFileName ? await verifyCommonsImage(parsed.imageFileName) : null;

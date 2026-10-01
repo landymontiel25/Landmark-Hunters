@@ -51,3 +51,19 @@ describe('enrichLandmark topic', () => {
     expect(cleanEnrichedTopic('This is a restaurant that serves a lot of different kinds of food')).toBeNull();
   });
 });
+
+describe('enrichLandmark typicalMinutes', () => {
+  beforeEach(() => createMock.mockReset());
+
+  it('leaves typicalMinutes null when the model returns null (not a bogus 5-minute visit)', async () => {
+    replyWith({ ...BASE, typicalMinutes: null });
+    const out = await enrichLandmark({ name: 'Somewhere', lat: 1, lng: 2, hasPhoto: true });
+    expect(out.typicalMinutes).toBeNull();
+  });
+
+  it('still clamps real values', async () => {
+    replyWith({ ...BASE, typicalMinutes: 1000 });
+    const out = await enrichLandmark({ name: 'Somewhere', lat: 1, lng: 2, hasPhoto: true });
+    expect(out.typicalMinutes).toBe(300);
+  });
+});
