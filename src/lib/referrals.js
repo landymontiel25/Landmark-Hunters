@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc, increment, serverTimestamp, getDocs, collection, query, where } from 'firebase/firestore';
+import { doc, getDoc, setDoc, writeBatch, increment, serverTimestamp, getDocs, collection, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { findUserByUsername } from './friends';
 // Dynamic, not static: this file is reachable from AuthContext (eager,
@@ -90,14 +90,21 @@ export function claimMyReferralBonuses(uid, userName) {
 
 async function claimBonuses(uid, userName) {
   if (!db || !uid) return;
-  const { awardLeaderboardPoints } = await import('./leaderboard');
+  const { addLeaderboardPointsToBatch } = await import('./leaderboard');
 
+  // One atomic batch per payout: the bonusPoints bump, the leaderboard
+  // entries and the claimed flag land together or not at all. firestore.rules
+  // only accepts a bonusPoints rise of exactly +50 in the same write that
+  // flips the matching referral's flag -- which also means a half-finished
+  // claim can no longer pay twice.
   try {
     const mine = await getDoc(doc(db, 'referrals', uid));
     if (mine.exists() && !mine.data().referredClaimed) {
-      await updateDoc(doc(db, 'users', uid), { bonusPoints: increment(REFERRAL_BONUS_POINTS) });
-      await awardLeaderboardPoints(uid, userName, REFERRAL_BONUS_POINTS);
-      await updateDoc(mine.ref, { referredClaimed: true });
+      const batch = writeBatch(db);
+      batch.set(doc(db, 'users', uid), { bonusPoints: increment(REFERRAL_BONUS_POINTS) }, { merge: true });
+      addLeaderboardPointsToBatch(batch, uid, userName, REFERRAL_BONUS_POINTS);
+      batch.update(mine.ref, { referredClaimed: true });
+      await batch.commit();
     }
   } catch {
     /* best-effort */
@@ -109,9 +116,18 @@ async function claimBonuses(uid, userName) {
     const snap = await getDocs(query(collection(db, 'referrals'), where('referrerUid', '==', uid)));
     for (const d of snap.docs) {
       if (d.data().referrerClaimed) continue;
-      await updateDoc(doc(db, 'users', uid), { bonusPoints: increment(REFERRAL_BONUS_POINTS) });
-      await awardLeaderboardPoints(uid, userName, REFERRAL_BONUS_POINTS);
-      await updateDoc(d.ref, { referrerClaimed: true });
+      // The referrer can only claim once the referred person has claimed
+      // theirs (they need a verified email to), so this skips until then.
+      if (!d.data().referredClaimed) continue;
+      const batch = writeBatch(db);
+      batch.set(
+        doc(db, 'users', uid),
+        { bonusPoints: increment(REFERRAL_BONUS_POINTS), bonusSource: d.id },
+        { merge: true }
+      );
+      addLeaderboardPointsToBatch(batch, uid, userName, REFERRAL_BONUS_POINTS);
+      batch.update(d.ref, { referrerClaimed: true });
+      await batch.commit();
     }
   } catch {
     /* best-effort */

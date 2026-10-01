@@ -4,20 +4,22 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // (and twice on mount in StrictMode). Overlapping runs both saw
 // referrerClaimed === false and each paid the referrer +50 (found driving
 // the real app against the Firestore emulator: one referral, 100 bonus).
-const updateDocMock = vi.fn(() => Promise.resolve());
+const batchCommit = vi.fn(() => Promise.resolve());
+const batch = { set: vi.fn(), update: vi.fn(), commit: (...a) => batchCommit(...a) };
 const getDocMock = vi.fn(() => Promise.resolve({ exists: () => false }));
 let releaseQuery;
 const getDocsMock = vi.fn(
   () =>
     new Promise((resolve) => {
-      releaseQuery = () => resolve({ docs: [{ ref: 'refDoc', data: () => ({ referrerClaimed: false }) }] });
+      releaseQuery = () =>
+        resolve({ docs: [{ id: 'new1', ref: 'refDoc', data: () => ({ referrerClaimed: false, referredClaimed: true }) }] });
     })
 );
 vi.mock('firebase/firestore', () => ({
   doc: vi.fn((...a) => a.join('/')),
   getDoc: (...a) => getDocMock(...a),
   setDoc: vi.fn(),
-  updateDoc: (...a) => updateDocMock(...a),
+  writeBatch: vi.fn(() => batch),
   increment: vi.fn((n) => ({ inc: n })),
   serverTimestamp: vi.fn(),
   getDocs: (...a) => getDocsMock(...a),
@@ -27,10 +29,10 @@ vi.mock('firebase/firestore', () => ({
 }));
 vi.mock('./firebase', () => ({ db: {} }));
 vi.mock('./friends', () => ({ findUserByUsername: vi.fn() }));
-vi.mock('./leaderboard', () => ({ awardLeaderboardPoints: vi.fn(() => Promise.resolve()) }));
+vi.mock('./leaderboard', () => ({ addLeaderboardPointsToBatch: vi.fn() }));
 
 const { claimMyReferralBonuses } = await import('./referrals');
-const { awardLeaderboardPoints } = await import('./leaderboard');
+const { addLeaderboardPointsToBatch } = await import('./leaderboard');
 
 describe('claimMyReferralBonuses', () => {
   beforeEach(() => vi.clearAllMocks());
@@ -42,7 +44,11 @@ describe('claimMyReferralBonuses', () => {
     await vi.waitFor(() => expect(getDocsMock).toHaveBeenCalled());
     releaseQuery();
     await a;
-    expect(awardLeaderboardPoints).toHaveBeenCalledTimes(1);
+    expect(addLeaderboardPointsToBatch).toHaveBeenCalledTimes(1);
+    // One atomic batch: bonus + leaderboard + flag together (firestore.rules checks them as a unit).
+    expect(batchCommit).toHaveBeenCalledTimes(1);
+    expect(batch.set).toHaveBeenCalledWith(expect.stringContaining('users/u1'), expect.objectContaining({ bonusSource: 'new1' }), { merge: true });
+    expect(batch.update).toHaveBeenCalledWith('refDoc', { referrerClaimed: true });
   });
 
   it('allows a fresh claim once the previous one has settled', async () => {

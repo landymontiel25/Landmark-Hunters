@@ -12,6 +12,7 @@ import {
   onSnapshot,
   serverTimestamp,
   increment,
+  deleteField,
   writeBatch,
   arrayUnion,
   arrayRemove,
@@ -213,8 +214,18 @@ async function _claimCheckIn({
  */
 export async function awardLeaderboardPoints(userId, userName, points) {
   if (!db || !userId || !points) return;
-  const keys = periodKeys();
   const batch = writeBatch(db);
+  addLeaderboardPointsToBatch(batch, userId, userName, points);
+  await batch.commit();
+}
+
+/**
+ * The same award, added to a caller's batch -- so a bonus can commit in ONE
+ * atomic write with the bonusPoints bump and the flag that earns it (the
+ * rules check those together; see referrals.js).
+ */
+export function addLeaderboardPointsToBatch(batch, userId, userName, points) {
+  const keys = periodKeys();
   for (const period of PERIODS) {
     const entryRef = doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`);
     batch.set(
@@ -223,7 +234,6 @@ export async function awardLeaderboardPoints(userId, userName, points) {
       { merge: true }
     );
   }
-  await batch.commit();
 }
 
 /**
@@ -364,13 +374,15 @@ export async function getRegionCheckinCounts(region) {
   if (stats?.exists() && stats.data().backfilled) {
     counts = stats.data().counts || {};
   } else {
-    const snap = await getDocs(query(collection(db, 'checkins'), where('region', '==', region)));
+    // check-ins need a signed-in user; signed out, there is nothing to count.
+    const snap = await getDocs(query(collection(db, 'checkins'), where('region', '==', region))).catch(() => null);
+    if (!snap) return {};
     counts = {};
     for (const d of snap.docs) {
       const x = d.data();
       if (isRealCheckin(x)) counts[x.landmarkId] = (counts[x.landmarkId] || 0) + 1;
     }
-    setDoc(statsRef, { counts, backfilled: true, updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
+    setDoc(statsRef, { counts, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
   }
   regionCountsCache.set(region, { at: Date.now(), counts });
   return counts;
@@ -408,7 +420,9 @@ async function bumpRegionCheckinCount(region, landmarkId) {
   if (!db || !region || !landmarkId) return;
   await setDoc(
     doc(db, 'region_stats', region),
-    { counts: { [landmarkId]: increment(1) }, updatedAt: serverTimestamp() },
+    // lastBump names the one landmark being bumped -- firestore.rules allows
+    // exactly +1 on that key (and only for someone who has checked in there).
+    { counts: { [landmarkId]: increment(1) }, lastBump: landmarkId, updatedAt: serverTimestamp() },
     { merge: true }
   );
 }

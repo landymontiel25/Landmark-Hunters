@@ -32,6 +32,83 @@ function userError(message) {
   return err;
 }
 
+// users/{uid} is the PUBLIC profile -- any signed-in user can read it. What
+// must not be public lives in the owner-only users/{uid}/private/main doc
+// (see firestore.rules): email, home address/coords, last known location,
+// push tokens. Everything here that reads or writes one of those goes
+// through privateRef; the app's own profile reads (FriendsContext) merge it
+// back in so screens still see myProfile.homeCoords and friends.
+export const PRIVATE_PROFILE_FIELDS = ['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens'];
+const privateRef = (uid) => doc(db, 'users', uid, 'private', 'main');
+
+// Live subscription to your own private doc (never call it for anyone else's
+// uid -- the rules deny it).
+export function subscribeMyPrivateProfile(uid, onData, onError) {
+  if (!db || !uid) return () => {};
+  return onSnapshot(
+    privateRef(uid),
+    (snap) => onData(snap.exists() ? snap.data() : {}),
+    (err) => onError?.(err)
+  );
+}
+
+// An account made before the split still has its private fields on the
+// public doc, where every signed-in user can read them. On the owner's next
+// launch: copy them to the private doc (never over a value already there),
+// then delete them from the public one -- and, since displayName used to
+// default to the email address, replace one that IS the email. Safe to run
+// every launch (no-ops once clean) and to retry (copy happens first).
+const migratedPrivate = new Set();
+export async function migratePrivateProfile(uid, pub, authEmail) {
+  if (!db || !uid || !pub || migratedPrivate.has(uid)) return;
+  const legacy = PRIVATE_PROFILE_FIELDS.filter((k) => pub[k] !== undefined);
+  const email = (pub.email || authEmail || '').toLowerCase();
+  const nameIsEmail = !!pub.displayName && !!email && pub.displayName.toLowerCase() === email;
+  if (!legacy.length && !nameIsEmail) {
+    migratedPrivate.add(uid);
+    return;
+  }
+  migratedPrivate.add(uid);
+  try {
+    if (legacy.length) {
+      const existing = await getDoc(privateRef(uid));
+      const have = existing.exists() ? existing.data() : {};
+      const copy = {};
+      for (const k of legacy) {
+        if (k === 'pushTokens') copy.pushTokens = { ...(pub.pushTokens || {}), ...(have.pushTokens || {}) };
+        else if (have[k] === undefined) copy[k] = pub[k];
+      }
+      await setDoc(privateRef(uid), { ...copy, updatedAt: serverTimestamp() }, { merge: true });
+    }
+    const patch = {};
+    for (const k of legacy) patch[k] = deleteField();
+    if (nameIsEmail) patch.displayName = pub.username || email.split('@')[0] || 'Explorer';
+    await updateDoc(doc(db, 'users', uid), patch);
+  } catch (e) {
+    migratedPrivate.delete(uid); // try again next launch
+    throw e;
+  }
+}
+
+// The admin account's uid, so a feature request / bug report can notify
+// them (the admin's email is no longer searchable on public profiles).
+// Falls back to the old email lookup until the admin has opened a build that
+// publishes the pointer.
+export async function publishAdminPointer(uid) {
+  if (!db || !uid) return;
+  await setDoc(doc(db, 'admin_pointer', 'current'), { uid, updatedAt: serverTimestamp() });
+}
+export async function findAdminUid(adminEmail) {
+  if (!db) return null;
+  try {
+    const snap = await getDoc(doc(db, 'admin_pointer', 'current'));
+    if (snap.exists() && snap.data().uid) return snap.data().uid;
+  } catch {
+    /* fall through to the legacy lookup */
+  }
+  return (await findUserByEmail(adminEmail))?.uid || null;
+}
+
 export async function getUserProfile(uid) {
   if (!db || !uid) return null;
   const ref = doc(db, 'users', uid);
@@ -99,11 +176,11 @@ export async function claimUsername(user, rawName) {
         uid: user.uid,
         username,
         displayName: user.displayName || username,
-        email: (user.email || '').toLowerCase(),
         updatedAt: serverTimestamp(),
       },
       { merge: true }
     );
+    tx.set(privateRef(user.uid), { email: (user.email || '').toLowerCase(), updatedAt: serverTimestamp() }, { merge: true });
     if (oldName && oldName !== username) tx.delete(doc(db, 'usernames', oldName));
   });
   return username;
@@ -122,14 +199,20 @@ export async function findUserByUsername(rawName) {
 // Minimal searchable profile so friends can find each other by email.
 export async function upsertUserProfile(user) {
   if (!db || !user) return;
+  // displayName used to fall back to the full email address, which anyone
+  // signed in could then read -- use its local part instead.
   await setDoc(
     doc(db, 'users', user.uid),
     {
       uid: user.uid,
-      displayName: user.displayName || user.email,
-      email: (user.email || '').toLowerCase(),
+      displayName: user.displayName || (user.email || '').split('@')[0] || 'Explorer',
       updatedAt: serverTimestamp(),
     },
+    { merge: true }
+  );
+  await setDoc(
+    privateRef(user.uid),
+    { email: (user.email || '').toLowerCase(), updatedAt: serverTimestamp() },
     { merge: true }
   );
 }
@@ -171,8 +254,8 @@ export async function setBackgroundLocationEnabled(uid, enabled) {
 export async function saveLastKnownLocation(uid, { lat, lng, accuracy, at }) {
   if (!db || !uid) return;
   await setDoc(
-    doc(db, 'users', uid),
-    { lastKnownLocation: { lat, lng, accuracy: accuracy ?? null, at: at || Date.now() } },
+    privateRef(uid),
+    { lastKnownLocation: { lat, lng, accuracy: accuracy ?? null, at: at || Date.now() }, updatedAt: serverTimestamp() },
     { merge: true }
   );
 }
@@ -193,15 +276,20 @@ export async function setPushNotificationsEnabled(uid, enabled) {
 export async function savePushToken(uid, token, platform) {
   if (!db || !uid || !token) return;
   await setDoc(
-    doc(db, 'users', uid),
-    { pushTokens: { [token]: { platform, updatedAt: serverTimestamp() } } },
+    privateRef(uid),
+    { pushTokens: { [token]: { platform, updatedAt: serverTimestamp() } }, updatedAt: serverTimestamp() },
     { merge: true }
   );
 }
 
 export async function removePushToken(uid, token) {
   if (!db || !uid || !token) return;
-  await updateDoc(doc(db, 'users', uid), { [`pushTokens.${token}`]: deleteField() });
+  // The public doc too: a not-yet-migrated account still has it there.
+  const results = await Promise.allSettled([
+    updateDoc(privateRef(uid), { [`pushTokens.${token}`]: deleteField() }),
+    updateDoc(doc(db, 'users', uid), { [`pushTokens.${token}`]: deleteField() }),
+  ]);
+  if (results.every((r) => r.status === 'rejected')) throw results[0].reason;
 }
 
 // The free-text "tell Mapr what you already love" blurb -- optional, set at
@@ -294,7 +382,7 @@ export async function saveTasteBaseline(uid, { baseline, notes, categoryNotes })
 export async function saveHomeLocation(uid, { address, lat, lng }) {
   if (!db || !uid) return;
   await setDoc(
-    doc(db, 'users', uid),
+    privateRef(uid),
     { homeAddress: address || '', homeCoords: { lat, lng }, updatedAt: serverTimestamp() },
     { merge: true }
   );
