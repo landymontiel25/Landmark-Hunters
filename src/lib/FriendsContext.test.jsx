@@ -21,6 +21,9 @@ async function setup(friendsMock) {
     upsertUserProfile: async () => {},
     claimUsername: async () => {},
     subscribeUserProfile: () => () => {},
+    subscribeMyPrivateProfile: () => () => {},
+    migratePrivateProfile: async () => {},
+    publishAdminPointer: async () => {},
     ...friendsMock,
   }));
   const { FriendsProvider, useFriends } = await import('./FriendsContext.jsx');

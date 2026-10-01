@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { firebaseEnabled } from './firebase';
 import {
@@ -7,8 +7,12 @@ import {
   listIncomingRequests,
   getUserProfile,
   subscribeUserProfile,
+  subscribeMyPrivateProfile,
+  migratePrivateProfile,
+  publishAdminPointer,
   claimUsername,
 } from './friends';
+import { isAdmin } from './admins';
 import { backfillUserName } from './leaderboard';
 import { syncMyReviewVisibility } from './reviews';
 
@@ -63,7 +67,14 @@ export function FriendsProvider({ children }) {
   const { user } = useAuth();
   const [friendUids, setFriendUids] = useState(() => new Set());
   const [requests, setRequests] = useState([]);
-  const [myProfile, setMyProfile] = useState(null);
+  const [publicProfile, setMyProfile] = useState(null);
+  // Email, home address/coords, last location, push tokens: owner-only doc,
+  // merged into myProfile below so screens keep reading myProfile.homeCoords.
+  const [myPrivate, setMyPrivate] = useState(null);
+  const myProfile = useMemo(
+    () => (publicProfile && myPrivate ? { ...publicProfile, ...myPrivate } : publicProfile),
+    [publicProfile, myPrivate]
+  );
   // True only once a REAL server read of this profile has landed this
   // session -- the instant cache pre-fill below is just for display (so a
   // username doesn't flash blank), and must never be mistaken for a
@@ -84,6 +95,7 @@ export function FriendsProvider({ children }) {
       setFriendUids(new Set());
       setRequests([]);
       setMyProfile(null);
+      setMyPrivate(null);
       setProfileFresh(false);
       return;
     }
@@ -146,6 +158,7 @@ export function FriendsProvider({ children }) {
     if (accountChanged) {
       setFriendUids(new Set());
       setRequests([]);
+      setMyPrivate(null);
     }
     // Show the cached username immediately, then let the live listener
     // replace it the moment the server copy arrives.
@@ -165,6 +178,8 @@ export function FriendsProvider({ children }) {
       user.uid,
       (profile, { fresh }) => {
         setMyProfile(profile);
+        // Pre-split accounts: move email/home/location/tokens off the public doc.
+        if (fresh) migratePrivateProfile(user.uid, profile, user.email).catch(() => {});
         if (fresh) {
           cacheProfile(user.uid, profile);
           setProfileFresh(true);
@@ -172,9 +187,18 @@ export function FriendsProvider({ children }) {
       },
       (err) => console.error('[FriendsContext] profile listener failed:', err)
     );
+    const unsubscribePrivate = subscribeMyPrivateProfile(
+      user.uid,
+      (data) => setMyPrivate(data),
+      (err) => console.error('[FriendsContext] private profile listener failed:', err)
+    );
+    if (isAdmin(user.email)) publishAdminPointer(user.uid).catch(() => {});
     // Friends/requests (and a belt-and-braces profile read) still load here.
     reload();
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      unsubscribePrivate();
+    };
   }, [user, reload]);
 
   // Once per session (and whenever privacy changes): make sure your reviews

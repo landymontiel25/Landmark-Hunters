@@ -25,11 +25,21 @@ service cloud.firestore {
     // subcollection's rules can't reference a sibling match block).
     function reviewVisible(reviewId) {
       let review = get(/databases/$(database)/documents/reviews/$(reviewId));
-      return (exists(/databases/$(database)/documents/users/$(review.data.userId))
-          && get(/databases/$(database)/documents/users/$(review.data.userId)).data.get('public', false) == true)
-        || (request.auth != null
-            && (reviewId.split('_')[0] == request.auth.uid
-                || exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + review.data.userId))));
+      return (
+          (exists(/databases/$(database)/documents/users/$(review.data.userId))
+            && get(/databases/$(database)/documents/users/$(review.data.userId)).data.get('public', false) == true)
+          || (request.auth != null
+              && (reviewId.split('_')[0] == request.auth.uid
+                  || exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + review.data.userId))))
+        )
+        // A review hidden by 2+ reports hides its replies too (author and
+        // admin still see them), and a block hides them from either side --
+        // the same two filters the review's own get rule applies.
+        && (review.data.get('reportedBy', []).size() < 2
+            || (request.auth != null && (reviewId.split('_')[0] == request.auth.uid || isAdmin())))
+        && !(request.auth != null
+          && (exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + review.data.userId))
+              || exists(/databases/$(database)/documents/blocks/$(review.data.userId + '_' + request.auth.uid))));
     }
 
     // A review's `hidden` flag must always equal "reported by 2+ people" --
@@ -61,7 +71,9 @@ service cloud.firestore {
     // defaults below): public read, ownership-validated writes, immutable
     // checkins, and leaderboard entries locked to their own owner. ---
     match /checkins/{checkinId} {
-      allow read: if true;
+      // Signed-in only (was public). Nothing the app shows signed out reads
+      // check-ins; leaderboards read leaderboard_entries instead.
+      allow read: if request.auth != null;
       // Repeat check-ins to the same landmark are real now -- visit #1 keeps
       // the original uid_landmarkId doc id (so every existing check-in stays
       // valid untouched); visit #2 onward is uid_landmarkId_<visitNumber>.
@@ -80,6 +92,14 @@ service cloud.firestore {
         && request.resource.data.points <= maxPointsPerWrite()
         && request.resource.data.get('basePoints', 0) is number
         && request.resource.data.get('basePoints', 0) <= maxPointsPerWrite()
+        // Payout follows the same taper claimCheckIn applies (full on visit
+        // 1, 20% on visits 2-5, 0 after), and a rating-only claim pays 0.
+        && request.resource.data.get('visitNumber', 1) is number
+        && request.resource.data.get('visitNumber', 1) >= 1
+        && request.resource.data.points <= (request.resource.data.get('visitNumber', 1) <= 1
+             ? maxPointsPerWrite()
+             : (request.resource.data.get('visitNumber', 1) <= 5 ? 20 : 0))
+        && (request.resource.data.get('ratingOnly', false) != true || request.resource.data.points == 0)
         && request.resource.data.get('userName', '') is string
         && request.resource.data.get('userName', '').size() <= 200
         && request.resource.data.createdAt == request.time;
@@ -137,18 +157,80 @@ service cloud.firestore {
       let changed = resource == null ? d.keys() : d.diff(resource.data).affectedKeys();
       return !d.keys().hasAny(['isAdmin', 'admin', 'role', 'roles', 'isVerified', 'verified', 'moderator'])
         && (!changed.hasAny(['uid']) || d.uid == request.auth.uid)
-        && (!changed.hasAny(['email']) || d.email == request.auth.token.email.lower())
+        // (email may also be REMOVED from this doc: it now lives in the
+        // private doc below, and the client deletes the legacy copy.)
+        && (!changed.hasAny(['email']) || !('email' in d) || d.email == request.auth.token.email.lower())
         && (!changed.hasAny(['username'])
             || getAfter(/databases/$(database)/documents/usernames/$(d.username)).data.uid == request.auth.uid)
-        && (!changed.hasAny(['bonusPoints'])
-            || (d.bonusPoints is number
-                && d.bonusPoints >= (resource == null ? 0 : resource.data.get('bonusPoints', 0))
-                && d.bonusPoints <= (resource == null ? 0 : resource.data.get('bonusPoints', 0)) + maxPointsPerWrite()));
+        && (!changed.hasAny(['bonusPoints']) || bonusPointsOk(d))
+        // Once onboarding is done it stays done, or its +10 could be re-earned.
+        && (resource == null || resource.data.get('onboardingCompleted', false) != true
+            || d.get('onboardingCompleted', false) == true);
     }
+    // bonusPoints only ever rises, and only alongside the event that earns it
+    // (so it can't be bumped by hand): the one-time onboarding bonus (+10,
+    // same write that flips onboardingCompleted false -> true), or a referral
+    // claim (+50, same batch that flips that referral's claimed flag).
+    // The referrer side names the referral it is claiming in `bonusSource`
+    // (the referred user's uid -- a referral doc's id).
+    function bonusPointsOk(d) {
+      return d.bonusPoints is number
+        && d.bonusPoints >= (resource == null ? 0 : resource.data.get('bonusPoints', 0))
+        && bonusDeltaOk(d, d.bonusPoints - (resource == null ? 0 : resource.data.get('bonusPoints', 0)));
+    }
+    function bonusDeltaOk(d, delta) {
+      return delta == 0
+        || (delta == 10
+            && (resource == null || resource.data.get('onboardingCompleted', false) != true)
+            && d.get('onboardingCompleted', false) == true)
+        || (delta == 50 && referredClaimNow(request.auth.uid))
+        || (delta == 50 && d.get('bonusSource', null) is string && referrerClaimNow(d.bonusSource));
+    }
+    // referrals/{referredUid}: referredClaimed flips false -> true in this write.
+    function referredClaimNow(referredUid) {
+      let path = /databases/$(database)/documents/referrals/$(referredUid);
+      return exists(path) && existsAfter(path)
+        && get(path).data.referredClaimed == false
+        && getAfter(path).data.referredClaimed == true;
+    }
+    // referrals/{referredUid} names me as the referrer and its referrerClaimed
+    // flips false -> true in this write.
+    function referrerClaimNow(referredUid) {
+      let path = /databases/$(database)/documents/referrals/$(referredUid);
+      return exists(path) && existsAfter(path)
+        && get(path).data.referrerUid == request.auth.uid
+        && get(path).data.referrerClaimed == false
+        && getAfter(path).data.referrerClaimed == true;
+    }
+    // users/{uid} is the PUBLIC profile: any signed-in user can read it
+    // (friends, search, leaderboards, review privacy checks), so it must not
+    // hold anything sensitive. Email, home address/coords, last known
+    // location and push tokens live in the owner-only private doc below.
+    // (Pre-split accounts still carry those fields here until their owner's
+    // next app launch moves them -- see migratePrivateProfile in friends.js.)
     match /users/{uid} {
       allow read: if request.auth != null;
       allow create, update: if request.auth != null && request.auth.uid == uid && profileFieldsOk();
       allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+    // Owner-only. The server (firebase-admin) bypasses rules, so push
+    // sending reads tokens from here too.
+    match /users/{uid}/private/{docId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && docId == 'main'
+        && request.resource.data.keys().hasOnly(['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'updatedAt'])
+        && (!('email' in request.resource.data) || request.resource.data.email == request.auth.token.email.lower());
+    }
+    // Who the admin account's uid is, so a feature request / bug report can
+    // notify them without anyone being able to look people up by email. Set
+    // by the admin's own client at sign-in.
+    match /admin_pointer/{docId} {
+      allow read: if request.auth != null;
+      allow create, update: if isAdmin() && docId == 'current'
+        && request.resource.data.keys().hasOnly(['uid', 'updatedAt'])
+        && request.resource.data.uid == request.auth.uid;
+      allow delete: if false;
     }
     match /usernames/{name} {
       allow read: if request.auth != null;
@@ -184,18 +266,30 @@ service cloud.firestore {
     match /referrals/{id} {
       allow get: if request.auth != null && (id == request.auth.uid || resource.data.referrerUid == request.auth.uid);
       allow list: if request.auth != null && resource.data.referrerUid == request.auth.uid;
+      // The referrer must be a real account, and the doc is shape-pinned.
       allow create: if request.auth != null
         && id == request.auth.uid
+        && request.resource.data.keys().hasOnly(['referrerUid', 'referrerUsername', 'referredUid',
+             'referredClaimed', 'referrerClaimed', 'createdAt'])
         && request.resource.data.referredUid == request.auth.uid
+        && request.resource.data.referrerUid is string
         && request.resource.data.referrerUid != request.auth.uid
+        && exists(/databases/$(database)/documents/users/$(request.resource.data.referrerUid))
         && request.resource.data.referredClaimed == false
-        && request.resource.data.referrerClaimed == false;
+        && request.resource.data.referrerClaimed == false
+        && request.resource.data.createdAt == request.time;
+      // Claiming costs a little effort so a throwaway account can't farm it:
+      // the referred side needs a VERIFIED email, and the referrer can only
+      // claim after the referred side has. (Both flips happen in the same
+      // batch as the matching bonusPoints write -- see bonusPointsOk.)
       allow update: if request.auth != null
         && (
           (id == request.auth.uid
+            && request.auth.token.email_verified == true
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['referredClaimed'])
             && request.resource.data.referredClaimed == true)
           || (resource.data.referrerUid == request.auth.uid
+              && resource.data.referredClaimed == true
               && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['referrerClaimed'])
               && request.resource.data.referrerClaimed == true)
         );
@@ -406,6 +500,12 @@ service cloud.firestore {
         && request.resource.data.mode == 'dual'
         && request.resource.data.memberIds.size() == 2
         && pairId == request.resource.data.memberIds[0] + '_' + request.resource.data.memberIds[1]
+        // The other member must be one of your friends (the client only
+        // offers friends), not an arbitrary uid.
+        && request.resource.data.memberIds[0] != request.resource.data.memberIds[1]
+        && exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_'
+             + (request.resource.data.memberIds[0] == request.auth.uid
+                  ? request.resource.data.memberIds[1] : request.resource.data.memberIds[0])))
         && request.resource.data.count == 0
         && request.resource.data.best == 0
         && request.resource.data.lastCompletedDay == null
@@ -462,8 +562,30 @@ service cloud.firestore {
     // start ranks by these). Same trust level as landmark_ratings below.
     match /region_stats/{region} {
       allow read: if true;
-      allow write: if request.auth != null
-        && request.resource.data.keys().hasOnly(['counts', 'backfilled', 'updatedAt']);
+      // Two kinds of write, nothing else (and no delete):
+      //  - a bump: +1 on exactly ONE landmark, named in `lastBump`, by someone
+      //    who has a check-in doc for that landmark (bumpRegionCheckinCount);
+      //  - the one-time backfill that stamps a region's counts and
+      //    `backfilled: true`, allowed only while the region isn't backfilled.
+      allow create, update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['counts', 'backfilled', 'lastBump', 'updatedAt'])
+        && request.resource.data.counts is map
+        && (regionBackfillOk() || regionBumpOk());
+    }
+    function regionBackfillOk() {
+      return request.resource.data.get('backfilled', false) == true
+        && !('lastBump' in request.resource.data)
+        && (resource == null || resource.data.get('backfilled', false) != true);
+    }
+    function regionBumpOk() {
+      let d = request.resource.data;
+      let bumped = d.get('lastBump', null);
+      let old = resource == null ? {} : resource.data.get('counts', {});
+      return bumped is string
+        && d.get('backfilled', false) == (resource == null ? false : resource.data.get('backfilled', false))
+        && exists(/databases/$(database)/documents/checkins/$(request.auth.uid + '_' + bumped))
+        && d.counts.diff(old).affectedKeys().hasOnly([bumped])
+        && d.counts[bumped] == old.get(bumped, 0) + 1;
     }
     // Running rating aggregate per landmark. Only moves together with your
     // own review for that landmark in the same transaction (submitReview /
@@ -733,6 +855,30 @@ service cloud.firestore {
     // hardcoded uid, so this doesn't need updating if the admin account
     // ever changes. Nothing lets one regular account write into another's
     // notifications outside those two cases.
+    function isAdminUid(uid) {
+      return (exists(/databases/$(database)/documents/admin_pointer/current)
+          && get(/databases/$(database)/documents/admin_pointer/current).data.uid == uid)
+        // Fallbacks until the admin's pointer/private doc exist (the email
+        // on either is pinned to the owner's own sign-in email).
+        || (exists(/databases/$(database)/documents/users/$(uid)/private/main)
+            && get(/databases/$(database)/documents/users/$(uid)/private/main).data.get('email', '')
+               in ['landymontiel25@gmail.com'])
+        || (exists(/databases/$(database)/documents/users/$(uid))
+            && get(/databases/$(database)/documents/users/$(uid)).data.get('email', '')
+               in ['landymontiel25@gmail.com']);
+    }
+    function adminNoticeOk(col, idField, sep) {
+      let d = request.resource.data;
+      let refId = d.get(idField, null);
+      let src = /databases/$(database)/documents/$(col)/$(refId);
+      return refId is string
+        && exists(src)
+        && get(src).data.userId == request.auth.uid
+        && d.message is string
+        && d.message.split(sep).size() == 2
+        && d.message.split(sep)[0].size() <= 4
+        && d.message.split(sep)[1] == get(src).data.userName + ': "' + get(src).data.title + '"';
+    }
     match /notifications/{id} {
       allow get, list: if request.auth != null && resource.data.uid == request.auth.uid;
       allow create: if request.auth != null
@@ -750,14 +896,16 @@ service cloud.firestore {
                    get(/databases/$(database)/documents/mapr_projects/$(request.resource.data.maprProjectId)).data.ownerUid
                 && request.resource.data.uid in
                    get(/databases/$(database)/documents/mapr_projects/$(request.resource.data.maprProjectId)).data.memberUids)
+            // To the admin only, and only as the notice for a request/report
+            // the writer really filed: it must point at their own doc and
+            // its message must carry that doc's own name and title (so it
+            // can't be used to send the admin arbitrary text).
             || (request.resource.data.type == 'feature_request'
-                && exists(/databases/$(database)/documents/users/$(request.resource.data.uid))
-                && get(/databases/$(database)/documents/users/$(request.resource.data.uid)).data.get('email', '')
-                   in ['landymontiel25@gmail.com'])
+                && isAdminUid(request.resource.data.uid)
+                && adminNoticeOk('feature_requests', 'featureRequestId', ' New feature request from '))
             || (request.resource.data.type == 'bug_report'
-                && exists(/databases/$(database)/documents/users/$(request.resource.data.uid))
-                && get(/databases/$(database)/documents/users/$(request.resource.data.uid)).data.get('email', '')
-                   in ['landymontiel25@gmail.com']));
+                && isAdminUid(request.resource.data.uid)
+                && adminNoticeOk('bug_reports', 'bugReportId', ' New bug report from ')));
       allow update: if request.auth != null
         && resource.data.uid == request.auth.uid
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);

@@ -22,18 +22,24 @@ service firebase.storage {
     }
 
     match /review_photos/{landmarkId}/{fileName} {
-      allow read: if request.auth != null;
+      // get only: no list, so a signed-in user can not enumerate every
+      // uploaded photo path (the app only ever opens a known download URL).
+      allow get: if request.auth != null;
       allow create, update: if ownsFile(fileName) && isImageUpload();
       // Split from create/update: request.resource is null on a delete.
       allow delete: if ownsFile(fileName) || isAdmin();
     }
     match /checkin_photos/{landmarkId}/{fileName} {
-      allow read: if request.auth != null;
+      // get only: no list, so a signed-in user can not enumerate every
+      // uploaded photo path (the app only ever opens a known download URL).
+      allow get: if request.auth != null;
       allow create, update: if ownsFile(fileName) && isImageUpload();
       allow delete: if ownsFile(fileName) || isAdmin();
     }
     match /landmark_photos/{landmarkId}/{fileName} {
-      allow read: if request.auth != null;
+      // get only: no list, so a signed-in user can not enumerate every
+      // uploaded photo path (the app only ever opens a known download URL).
+      allow get: if request.auth != null;
       allow create, update: if ownsFile(fileName) && isImageUpload();
       allow delete: if ownsFile(fileName) || isAdmin();
     }

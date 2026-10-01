@@ -202,7 +202,7 @@ export const ALL_BADGES = [
 
   // Check-In Depth
   { id: 'photo-contributor', kind: 'photoCheckins', n: 10, label: 'Photo Contributor', icon: '\u{1F4F8}', description: '10 check-ins with a photo', rarity: 'uncommon' },
-  { id: 'reviewer', kind: 'fiveStarReview', n: 1, label: 'Reviewer', icon: '\u{2B50}', description: 'Gave a Highly Recommend review', rarity: 'common' },
+  { id: 'reviewer', kind: 'fiveStarReview', n: 1, label: 'Reviewer', icon: '\u{2B50}', description: 'Loved a place you visited and said so in a review', rarity: 'common' },
   { id: 'describer', kind: 'factLandmarks', n: 3, label: 'Describer', icon: '\u{1F4DD}', description: 'Added facts to 3 landmarks', rarity: 'uncommon' },
 
   // Social
