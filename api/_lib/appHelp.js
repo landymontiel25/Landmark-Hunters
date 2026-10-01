@@ -37,7 +37,7 @@ export const APP_HELP =
   `"Something new". If you usually go from one kind of place straight to another (3+ times, back to back within 3 hours), the next ` +
   `pick can follow that habit. Tap any pick (row or card) for "🧭 Directions" or "📍 Open landmark page". Swipe down to shrink it ` +
   `back to 3, and down again to tuck it away to just its title (swipe up or tap to bring it back). The full list also has a ` +
-  `distance filter (1-100, in miles or km to match your units setting, 10 by default), "Because you liked <a place you loved>", "What are you in the mood for?" (Something ` +
+  `distance filter (chips from 1 to 100 in miles or km to match your units setting, 10 by default), "Because you liked <a place you loved>", "What are you in the mood for?" (Something ` +
   `to eat, Some history, Art & museums, Fresh air, A night out, Sports, Tech spots, sorted Closest or Highest rated), a "Time to ` +
   `eat?" card around breakfast, lunch and dinner, and a heads-up when you're within a mile of one of your favorite kinds of places. ` +
   `Picks skip places that are closed right now, places you have already rated, and (for the top picks) places without a photo; ` +
@@ -92,7 +92,7 @@ export const APP_HELP =
   `for you.\n` +
   `- Tell Mapr you just left a place ("I just left the shooting range, where should I eat?") and it asks how it was: a card under ` +
   `its reply with "I loved it" / "It was okay" / "Not for me". One tap opens the usual rating (tier already picked, plus a ` +
-  `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr (the middle tab, app home screen): a live AI chat, opened every day — type or describe what you're up for (a vibe, a time budget, an ` +
+  `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr (the middle tab; the Map tab is the home screen): a live AI chat — type or describe what you're up for (a vibe, a time budget, an ` +
   `interest) and it replies with 0-4 real stops, from the curated catalog or the live web. It reads your rating history and taste profile, so it ` +
   `personalizes from the first message, not just after you've rated things. It also weighs the CURRENT message's timing/mood ("Saturday night in the ` +
   `city") over a blanket favorite category — loving hiking doesn't mean it suggests a trail when you're clearly asking for nightlife. The city pill in ` +
@@ -147,8 +147,9 @@ export const APP_HELP =
   `- Trip Setup: no longer its own tab. The Itinerary tab's empty/overview state leads with "🧭 Use Mapr (recommended)", which jumps straight to ` +
   `Mapr's Plan Your Trip chat (see above) — a "➕ Create New Trip" modal (a one-page starting location/region/interests form, plus a full solo-vs-group ` +
   `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead.\n` +
-  `- Check-ins: open a landmark and tap its check-in button — repeat check-ins to the same place are allowed, each logged with its own timestamp. ` +
-  `Points taper on repeats: full points on the 1st visit, about 20% on the 2nd-5th, nothing from the 6th on — but every visit still counts toward Mapr ` +
+  `- Check-ins: open a landmark and tap its check-in button, then Post (Cancel records nothing) — repeat check-ins to the same place are allowed, each logged with its own timestamp. ` +
+  `The usual "you're here" radius is 30 m, but right now the app does NOT require being near the place to check in. ` +
+  `Points taper on repeats: 100 points on the 1st visit, about 20% (20) on the 2nd-5th, nothing from the 6th on — but every visit still counts toward Mapr ` +
   `learning your taste regardless of payout. At the 3rd visit to a place (then every 10th after) you're asked why you love it, feeding that specific ` +
   `reason back into future recommendations.\n` +
   `- Rating: three plain tiers — "I loved it" / "It was okay" / "Not for me" — no star ratings anymore, framed as a question about the place ` +
@@ -165,10 +166,11 @@ export const APP_HELP =
   `letters, half-typed words, sound-alike spellings ("filadelfia"), and accents. Best matches come first. When that still finds ` +
   `little and you're signed in, Mapr works out what you meant from a description, nickname or what a place is known for ("the big ` +
   `clock in London", "Rocky steps", "the city with the Eiffel Tower") and shows those under "✨ Mapr thinks you mean".\n` +
-  `- Badges: not shown on Profile itself (that screen is deliberately kept simple) — see them all at Profile → "See Full Stats". Earned ` +
-  `automatically from your check-in history — total check-ins (First Steps, Explorer, Adventurer, Legend), distinct cities visited (City Hopper, ` +
-  `Globetrotter), daily check-in streaks (3/7/30-Day Streak), and the one-time Welcome badge from onboarding.\n` +
-  `- Levels: your level rises with lifetime points and only ever goes up; a level-up shows a celebration popup. Points and the leaderboard are ` +
+  `- Badges: not shown on Profile itself (that screen is deliberately kept simple) — see them all at Profile → "See Full Stats" (earned in color, the rest grayed). Earned ` +
+  `automatically: total check-ins (1/5/10/25/50/100: First Steps, Explorer, Adventurer, Legend, Expedition, Cartographer), cities (2/3: City Hopper, ` +
+  `Globetrotter), states and countries, daily check-in streaks (3/7/30-Day Streak), the one-time Welcome badge from onboarding, plus activity ones ` +
+  `(photo check-ins, a first review, adding landmark facts, 5 friends, top-10 leaderboard, trip planning, night owl / golden hour check-ins, and more).\n` +
+  `- Levels: level N unlocks at (N-1)² × 100 lifetime points (level 2 at 100, level 3 at 400) and only ever goes up; a level-up shows a celebration popup. Points and the leaderboard are ` +
   `intentionally de-emphasized in the UI now — Mapr and your taste profile are the headline, not the score.\n` +
   `- Time saved / discovery: Mapr shows real, tracked numbers — minutes saved today, summed from actual Mapr chat replies that produced stops, each ` +
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
@@ -190,7 +192,7 @@ export const APP_HELP =
   `going at once. From the Dual tab, "Start a Dual Streak" picks a friend right there (streak-first, not friend-first) -- also reachable from an ` +
   `"Add a friend to turn this into a dual streak" banner on the Solo tab, which starts a brand-new dual streak at 0 rather than converting the solo ` +
   `one. To stop a dual streak, tap the trash icon next to that friend's name on the Dual tab's list -- immediate, no penalty beyond one "are you ` +
-  `sure". Dual days are worth more than solo ones: 50 points per day plus a bigger milestone bonus (200 at day 3, 600 at day 7, 2000 at day 30), ` +
+  `sure" (a streak's detail page also has "Leave streak" and "↺ Reset to 0", which asks you to type RESET and keeps your best). Dual days are worth more than solo ones: 50 points per day plus a bigger milestone bonus (200 at day 3, 600 at day 7, 2000 at day 30), ` +
   `split so BOTH partners get it once the day genuinely closes, not just whoever's device happened to trigger the close.\n` +
   `- Today's 3 shared landmarks: shown as a swipeable carousel, same style as Mapr Travel Picks. Mapr picks the city (same default-location logic ` +
   `Mapr Travel Picks itself uses, no manual city picker -- the user never chooses it) and the 3 landmarks (deterministically, so both people see the ` +
@@ -231,7 +233,7 @@ export const APP_HELP =
   `- Streak warning banner: once 5 hours remain in the local day with the solo streak neither secured nor held by a freeze, a red countdown banner shows ` +
   `on every screen (tap it for the Streaks page); using the day's freeze or rating the day's 3 landmarks clears it. A "streak expires" notification in ` +
   `Notifications opens the Streaks page when tapped.\n` +
-  `- Trip data (itineraries, My Preferences chips) is stored on the device; signing in as a different account (or signing out) clears it so the next ` +
+  `- Trip data (itineraries, My Preferences chips) is stored on the device. Signing out keeps it (it's yours when you sign back in); signing in as a different account clears it so the next ` +
   `person on the same phone doesn't see the previous account's itineraries.\n` +
   `- Inviting friends: Profile has an "Invite Friends" button that shares your username/link; once someone signs up through it, both of you get 50 ` +
   `bonus points (credited quietly into your point total — there's no separate referral display anymore).\n` +
@@ -268,10 +270,10 @@ export const APP_HELP =
   `anything; say no and name the actual place ("no, I'm at the visitor center") and it looks that up instead and asks again. Needs ` +
   `location on and the same signed-in, verified-email account as Add Landmark.\n` +
   `- "Nearby Now" (on the map screen): an expandable panel showing landmarks close to your current location right now.\n` +
-  `- Photos: up to 3 can be added when you rate or check in, and more any time from a landmark's page. Big phone photos are shrunk automatically before upload; only a photo that is still over 8 MB afterwards is refused, with a message. A rating holds at most 3 photos in total (new ones add to the ones already on it). Adding a photo never replaces your earlier ones. If you added a landmark yourself, you can delete it from its own page ("Delete this landmark", with a confirmation) as well as from its map pin; it also leaves your itinerary. And re-checking in at a place you already rated pre-fills your saved rating and comment. On a landmark's page, the "Rate your visit" card shows once you've checked in OR already rated it through Rate a Landmark (so those ratings can be edited there too), and a saved rating has a "Remove my rating" button (asks to confirm; removes the rating, its comment and its rating photos, keeps the check-in). If a photo fails to upload after saving, adding it again re-enables the save button.\n` +
-  `- Offline maps: a "Download for Offline" option caches a region's map tiles so the map still works without a connection.\n` +
+  `- Photos: up to 3 can be added when you rate or check in; once checked in, a landmark's page also has an "Add photo" gallery of its own (up to 9 per check-in), separate from the rating's 3. Big phone photos are shrunk automatically before upload; only a photo that is still over 8 MB afterwards is refused, with a message. A rating holds at most 3 photos in total (new ones add to the ones already on it). Adding a photo never replaces your earlier ones. If you added a landmark yourself, you can delete it from its own page ("Delete this landmark", with a confirmation) as well as from its map pin; it also leaves your itinerary. And re-checking in at a place you already rated pre-fills your saved rating and comment. On a landmark's page, the "Rate your visit" card shows once you've checked in OR already rated it through Rate a Landmark (so those ratings can be edited there too), and a saved rating has a "Remove my rating" button (asks to confirm; removes the rating, its comment and its rating photos, keeps the check-in). If a photo fails to upload after saving, adding it again re-enables the save button.\n` +
+  `- Offline maps: an itinerary's "📥 Offline Map" card has "Download for Offline" (and Re-download), caching that city's map tiles so the map still works without a connection.\n` +
   `- Habit tracking (on by default, toggle in Settings): while the app is open, Mapr notices places you keep actually visiting -- three or more different days at the same spot -- and, next time you're standing there, asks "You keep going here, want to add it to an itinerary?" with options to add it, say it's already there, snooze it, or stop tracking that spot. It also checks whether something matching your taste (an interest, or what you've told Mapr you love) is worth a stop near there or on the way -- e.g. spotting a shooting range nearby if you love shooting -- and offers to add that too, only when it has a genuinely good match. Entirely on-device: raw location history never leaves your phone, only the one place name it resolves once a spot has become a real pattern, plus that one taste-match question sent the same way a normal Mapr chat message is. It only notices patterns while the app is open (there's no real background location or push notification support), and it also drops a note in your in-app Notifications.\n` +
-  `- Settings: switch dark/light mode, switch units between imperial (mi/ft) and metric (km/m), toggle your profile between public (reviews/photos ` +
+  `- Settings: switch dark/light mode, set units to Automatic (by your location/region), Imperial (mi/ft) or Metric (km/m), toggle your profile between public (reviews/photos ` +
   `visible to everyone) and private (friends only), set a home address (used for taste learning), edit the taste baseline described above, change your ` +
   `password (for email/password accounts), and (at the very bottom) Request a Feature, Report a Bug, Privacy Policy & Terms of Service, and the date ` +
   `you joined. All account-level actions live in Settings now, not on Profile. There's no self-serve account deletion right now.\n` +
