@@ -55,3 +55,45 @@ describe('landmark_ratings aggregate vs comment-only review docs', () => {
     expect(store.has('reviews/u2_lm1')).toBe(false);
   });
 });
+
+describe('editing and deleting a rating', () => {
+  const seed = () => {
+    store.clear();
+    store.set('checkins/u1_lm1', { landmarkId: 'lm1' });
+    store.set('users/u1', {});
+  };
+
+  it('does not drift tagScores/tagCounts when re-saving the same rating', async () => {
+    seed();
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend', comment: 'a' } });
+    const first = JSON.parse(JSON.stringify(store.get('users/u1')));
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend', comment: 'b' } });
+    expect(store.get('users/u1').tagScores).toEqual(first.tagScores);
+    expect(store.get('users/u1').tagCounts).toEqual(first.tagCounts);
+  });
+
+  it('swaps the old tier for the new one on edit', async () => {
+    seed();
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } });
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'probably-skip' } });
+    const u = store.get('users/u1');
+    expect(u.tagCounts.r.food).toBe(1);
+    expect(u.tagScores.r.food).toBe(-15);
+  });
+
+  it('rolls tagScores back when the review is deleted', async () => {
+    seed();
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } });
+    await deleteMyReview('u1', 'lm1');
+    const u = store.get('users/u1');
+    expect(u.tagCounts.r.food).toBe(0);
+    expect(u.tagScores.r.food).toBe(0);
+  });
+
+  it('keeps the saved comment when the caller sends none', async () => {
+    seed();
+    store.set('reviews/u1_lm1', { userId: 'u1', landmarkId: 'lm1', comment: 'great', stars: 3, ratingTier: 'worth-trying' });
+    await submitReview({ userId: 'u1', userName: 'u', landmark, rating: { tier: 'highly-recommend' } });
+    expect(store.get('reviews/u1_lm1').comment).toBe('great');
+  });
+});

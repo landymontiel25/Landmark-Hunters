@@ -229,19 +229,14 @@ export async function backfillUserName(userId, userName) {
 }
 
 /**
- * Saves a photo on the check-in itself (checkins/{uid}_{landmarkId}.photoURL),
- * for check-ins that carry no rating (a dorm, a campus spot, or a rating
- * that didn't save) -- those never get a review doc to hang the photo on.
- * Storage path checkin_photos/{landmarkId}/{uid}.jpg; the Firestore rule
- * lets an owner update photoURL on their own check-in.
+ * Saves a photo from the check-in moment onto the check-in
+ * (checkins/{uid}_{landmarkId}), for check-ins that carry no rating (a dorm,
+ * a campus spot, or a rating that didn't save). It adds to the same gallery
+ * as addCheckinPhoto, each in its own Storage file, so a second photo (or a
+ * later visit's) never overwrites the first.
  */
 export async function attachCheckinPhoto(userId, landmarkId, file) {
-  if (!db || !storage || !userId || !landmarkId || !file) return null;
-  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}.jpg`);
-  await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
-  const photoURL = await getDownloadURL(storageRef);
-  await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURL });
-  return photoURL;
+  return addCheckinPhoto(userId, landmarkId, file);
 }
 
 /**
@@ -271,7 +266,7 @@ export const MAX_CHECKIN_PHOTOS = 9;
  */
 export async function addCheckinPhoto(userId, landmarkId, file) {
   if (!db || !storage || !userId || !landmarkId || !file) return null;
-  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}.jpg`);
+  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${Math.floor(Math.random() * 1000)}.jpg`);
   await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
   const photoURL = await getDownloadURL(storageRef);
   await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURLs: arrayUnion(photoURL) });

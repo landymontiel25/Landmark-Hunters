@@ -42,3 +42,19 @@ describe('CheckInReview with a pre-picked tier (Mapr "How was it?")', () => {
     expect(post.disabled).toBe(false);
   });
 });
+
+describe('CheckInReview re-checking in at an already-rated place', () => {
+  it('starts from the saved comment instead of a blank form', async () => {
+    checkInState.checkInOptions = { ratingOnly: false, requireComment: false };
+    ratingsState.myReviews = { lm1: { ratingTier: 'worth-trying', comment: 'Great espresso', highlights: [] } };
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    await act(async () => {
+      root.render(<CheckInReview />);
+    });
+    expect(container.querySelector('.rating-tier.selected')).toBeTruthy();
+    expect(container.querySelector('textarea')?.value).toBe('Great espresso');
+  });
+});
+
