@@ -863,7 +863,25 @@ export default function MyStreaks() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
-  const { streaks, leaveStreak } = usePairStreaks();
+  const { streaks: storedStreaks, leaveStreak } = usePairStreaks();
+  // A streak doc keeps the partner's handle from the day it was created; a
+  // partner who has renamed since would keep showing under the old one.
+  // Friends carry their live username (listFriends), so prefer that.
+  const [liveNames, setLiveNames] = useState({});
+  useEffect(() => {
+    if (!firebaseEnabled || !user?.uid) return undefined;
+    let cancelled = false;
+    listFriends(user.uid)
+      .then((fs) => !cancelled && setLiveNames(Object.fromEntries((fs || []).map((f) => [f.friend, f.friendName]))))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [firebaseEnabled, user?.uid]);
+  const streaks = storedStreaks.map((s) => {
+    const live = (s.memberIds || []).filter((uid) => liveNames[uid]);
+    return live.length ? { ...s, memberNames: { ...s.memberNames, ...Object.fromEntries(live.map((uid) => [uid, liveNames[uid]])) } } : s;
+  });
   const [tab, setTab] = useState('solo');
   const [openDualId, setOpenDualId] = useState(null);
   const [picking, setPicking] = useState(false);
