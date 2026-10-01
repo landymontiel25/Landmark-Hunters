@@ -249,7 +249,7 @@ describe('MapExplore shows "Picked for you right now" over the live map', () => 
   });
 
   it('asks a new account for ratings, and asks for location when it is off', async () => {
-    expect((await renderMap({ ratingsCount: 3 })).el.textContent).toContain('Rate 10 places and Mapr will start picking for you.');
+    expect((await renderMap({ ratingsCount: 3 })).el.textContent).toContain('Rate 7 more places and Mapr will start picking for you.');
     document.body.removeChild(container);
     container = null;
     const { el } = await renderMap({ coords: null, geoError: 'Location permission denied' });

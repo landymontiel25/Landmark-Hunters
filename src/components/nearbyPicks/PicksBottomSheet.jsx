@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { MIN_RATINGS_FOR_PICKS, PICKS_SHOWN, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
+import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
 import { useUnits } from '../../lib/UnitsContext';
 import PickCard, { PickRow } from './PickCard';
 
@@ -30,6 +30,7 @@ export default function PicksBottomSheet({
   showChainLabels = false,
   toolbar = null,
   distanceMiles = null,
+  ratingsCount = 0,
   children,
 }) {
   const { units } = useUnits();
@@ -66,7 +67,7 @@ export default function PicksBottomSheet({
 
   let body;
   if (state === 'locked') {
-    body = <p className="mpp-empty">Rate {MIN_RATINGS_FOR_PICKS} places and Mapr will start picking for you.</p>;
+    body = <p className="mpp-empty">{ratePlacesText(ratingsCount)} and Mapr will start picking for you.</p>;
   } else if (state === 'no-location') {
     body = <p className="mpp-empty">Turn on location to see picks near you.</p>;
   } else if (!picks && slow) {

@@ -20,6 +20,12 @@ export const distanceUnitLabel = (units) => (units === 'metric' ? 'km' : 'mi');
 export const optionToMiles = (n, units) => (units === 'metric' ? (n * 1000) / METERS_PER_MILE : n);
 // Same bar as Plan Your Trip's "The usual" / "Something new".
 export const MIN_RATINGS_FOR_PICKS = 10;
+// "Rate 10 places" for someone with none; "Rate 1 more place" for someone at 9.
+export function ratePlacesText(count, min = MIN_RATINGS_FOR_PICKS) {
+  const left = Math.max(0, min - (Number(count) || 0));
+  if (left === 0 || left === min) return `Rate ${min} places`;
+  return `Rate ${left} more ${left === 1 ? 'place' : 'places'}`;
+}
 // Four in the full list, the first three in the collapsed bottom sheet.
 export const PICKS_SHOWN = 4;
 export const SHEET_PICKS = 3;
