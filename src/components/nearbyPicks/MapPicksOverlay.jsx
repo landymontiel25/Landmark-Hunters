@@ -31,6 +31,7 @@ import {
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
 import { useUnits } from '../../lib/UnitsContext';
 import { distanceMeters } from '../../lib/geo';
+import { ZOOM_RADIUS_OPTIONS } from '../../lib/useZoomRadius';
 import { useNearbyPicks } from './useNearbyPicks';
 import PicksBottomSheet from './PicksBottomSheet';
 import DistanceFilter from './DistanceFilter';
@@ -57,7 +58,7 @@ const NO_COUNTS = {};
 // ~110 m: a GPS tick while standing still doesn't re-rank anything.
 const round3 = (n) => Math.round(n * 1000) / 1000;
 
-export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, showRefresh = false }) {
+export default function MapPicksOverlay({ hidden = false, coords, geoError, overrides = null, customLandmarks = null, expanded, onExpandedChange, minimized, onMinimizedChange, showRefresh = false, sharedDistance = null, onSharedDistanceChange = null }) {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const { ratings, myReviews } = useRatings();
@@ -78,7 +79,14 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     setStoredFor(store);
     setChosen(readStoredDistance(store));
   }
+  // sharedDistance (the Test tab): the map's radius menu and the picks' Within
+  // distance are one setting, so changing either one changes both.
+  const shared = sharedDistance != null && !!onSharedDistanceChange;
   const chooseDistance = (n) => {
+    if (shared) {
+      onSharedDistanceChange(n);
+      return;
+    }
     setChosen(n);
     writeStoredDistance(store, n);
   };
@@ -129,7 +137,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     () => smartDistance({ origin, units, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks }),
     [origin, units, lowRated, now, overrides, customLandmarks]
   );
-  const distance = chosen ?? (showRefresh ? TEST_DEFAULT_DISTANCE_MI : auto);
+  const distance = shared ? sharedDistance : chosen ?? (showRefresh ? TEST_DEFAULT_DISTANCE_MI : auto);
   const miles = optionToMiles(distance, units);
 
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
@@ -214,7 +222,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} moods={TEST_MOODS} /> : null}
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
-        toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
+        toolbar={<DistanceFilter value={distance} onChange={chooseDistance} options={shared ? ZOOM_RADIUS_OPTIONS : undefined} />}
       >
         <BecauseYouLikedRow liked={liked} places={similar} />
         {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} />}

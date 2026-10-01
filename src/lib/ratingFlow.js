@@ -70,7 +70,9 @@ export function tierStars(id) {
 }
 
 export const MAX_CHIPS = 3;
-export const MAX_ASPECTS = 3;
+// Every category offers four aspects (Price, Location and two that vary), and
+// all four can be ranked.
+export const MAX_ASPECTS = 4;
 
 // Chip copy per category x tier. Each chip's `id` is what gets saved in a
 // review's `highlights` -- keep ids stable if the labels are ever reworded
