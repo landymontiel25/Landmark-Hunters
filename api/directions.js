@@ -1,5 +1,6 @@
 import { isRateLimited } from './_lib/rateLimit.js';
 import { withCors } from './_lib/cors.js';
+import { timeoutSignal } from './_lib/upstream.js';
 
 // Real turn-by-turn directions for the Itinerary screen's in-app route view
 // (replaces having to open Apple/Google Maps to see the way there). Calls
@@ -104,6 +105,7 @@ async function handler(req, res) {
 
   try {
     const r = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+      signal: timeoutSignal(),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

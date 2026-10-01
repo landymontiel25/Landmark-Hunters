@@ -1,5 +1,6 @@
 import { distanceMeters } from './geo';
 import { API_BASE } from './apiBase';
+import { fetchJson } from './friendlyError';
 
 // Rough average speeds for a mixed walk/transit/drive city trip.
 const WALK_SPEED_MPS = 1.3; // ~4.7 km/h
@@ -212,7 +213,7 @@ export async function enhanceRouteWithDrivingTimes(origin, route) {
  * Throws with the server's message on failure.
  */
 export async function fetchDirections(origin, destination) {
-  const res = await fetch(`${API_BASE}/api/directions`, {
+  const data = await fetchJson(`${API_BASE}/api/directions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -220,8 +221,7 @@ export async function fetchDirections(origin, destination) {
       destination: { lat: destination.lat, lng: destination.lng },
     }),
   });
-  const data = await res.json().catch(() => null);
-  if (!res.ok || !data?.points?.length) throw new Error(data?.error || 'Could not get directions right now.');
+  if (!data?.points?.length) throw Object.assign(new Error('No route'), { userMessage: 'Could not get directions right now.' });
   return data;
 }
 

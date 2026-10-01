@@ -9,6 +9,7 @@ import { distanceMeters } from '../lib/geo';
 import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
 import { localSwipePicks, noteKeywords, pickRegion } from '../lib/tagScores';
 import { authHeaders } from '../lib/apiAuth';
+import { fetchJson, friendlyError } from '../lib/friendlyError';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
 import { API_BASE } from '../lib/apiBase';
@@ -485,16 +486,14 @@ function LabRecommendations({ data, deltas }) {
   const askMapr = async () => {
     setAi({ status: 'loading', picks: [], error: '' });
     try {
-      const r = await fetch(`${API_BASE}/api/mapr-picks`, {
+      const body = await fetchJson(`${API_BASE}/api/mapr-picks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
         body: JSON.stringify({ region, ...profile, tasteIntro, origin: coords || null, mode: 'swipeOnly' }),
       });
-      const body = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(body.error || `Mapr returned ${r.status}`);
       setAi({ status: 'done', picks: body.picks || [], error: '' });
     } catch (e) {
-      setAi({ status: 'error', picks: [], error: e.message || 'Mapr request failed.' });
+      setAi({ status: 'error', picks: [], error: friendlyError(e, 'Mapr request failed.') });
     }
   };
 

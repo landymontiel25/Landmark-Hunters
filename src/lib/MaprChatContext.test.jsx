@@ -109,6 +109,28 @@ describe('Mapr chats', () => {
     expect(docs.get(asked).messages.at(-1).text).toBe('Try Dunkin');
   });
 
+  it("keeps a chat's typing indicator when a reply finishes in another chat", async () => {
+    await say('Question in A');
+    await wait();
+    const a = ctx.activeChat.id;
+    await act(() => ctx.setBusy(true)); // A's reply in flight
+    await act(() => ctx.newChat());
+    await act(() => ctx.setBusy(true, ctx.activeChat.id)); // B's reply in flight too
+    await act(() => ctx.setBusy(false, a)); // A's reply lands
+    expect(ctx.busy).toBe(true); // B is still waiting
+    await act(() => ctx.openChat(a));
+    expect(ctx.busy).toBe(false);
+  });
+
+  it("lands a reply even when you left the chat before its first message was saved", async () => {
+    await say('Quick question');
+    const asked = ctx.activeChat.id;
+    await act(() => ctx.newChat()); // switched away inside the 500ms save delay
+    await act(() => ctx.setMessagesFor(asked, (cur) => [...cur, { role: 'assistant', text: 'Late answer' }]));
+    await wait();
+    expect(docs.get(asked)?.messages.map((m) => m.text)).toEqual([expect.any(String), 'Quick question', 'Late answer']);
+  });
+
   it('renames a chat, and a later message keeps the new name', async () => {
     await say('Paris plans');
     await wait();

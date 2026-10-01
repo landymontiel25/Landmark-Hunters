@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { landmarkCountText } from '../lib/landmarkCountText';
 import { useNavigate } from 'react-router-dom';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
@@ -428,9 +429,12 @@ export default function LandmarkSelection() {
         <span>{'\u{1F4CD}'}</span> Choose Landmarks
       </h1>
       <p className="screen-subtitle">
-        {activeCategories.length
-          ? `${landmarks.length} landmarks matching your interests — pick what you want to see.`
-          : `All ${landmarks.length} landmarks — pick everything you want to see.`}
+        {landmarkCountText({
+          count: landmarks.length,
+          matchingInterests: activeCategories.length > 0,
+          searching: search.trim().length > 0,
+          cityFiltered: cityFilter !== 'all',
+        })}
       </p>
 
       <button

@@ -3,6 +3,8 @@ import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScor
 import { getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
+import { MAPR_PICKS_MODEL } from './_lib/aiModels.js';
+import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // "Your Mapr Picks" on Profile. The internal tag scorer (src/lib/tagScores.js)
 // ranks the traveler's current region down to a 30-landmark shortlist from
@@ -207,14 +209,10 @@ async function handler(req, res) {
         : 'SHORTLIST (region/id | name | category | description | fit score | ratings behind it | check-ins | distance), best internal score first:\n') +
       shortlist.map(shortlistLine).join('\n');
 
-    const client = new Anthropic();
-    const msg = await client.beta.messages.create({
-      model: 'claude-opus-5',
+    const client = new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
+    const msg = await client.messages.create({
+      model: MAPR_PICKS_MODEL,
       max_tokens: 1400,
-      // Ranking a short list is routine work; low effort keeps it quick.
-      output_config: { effort: 'low' },
-      betas: ['server-side-fallback-2026-06-01'],
-      fallbacks: [{ model: 'claude-opus-4-8' }],
       system: [{ type: 'text', text: swipeOnly ? SWIPE_INSTRUCTIONS : INSTRUCTIONS, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: prompt }],
     });
@@ -260,10 +258,8 @@ async function handler(req, res) {
 
     res.status(200).json({ picks, coldStart });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'Mapr is busy right now — try again in a moment.' : 'Mapr request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'Mapr is busy right now — try again in a moment.', failed: 'Mapr request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

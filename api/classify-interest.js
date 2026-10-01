@@ -4,6 +4,7 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { INTEREST_CLASSIFIER_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
+import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // Custom interests (typed in on Setup, e.g. "nightlife", "racing") don't map to
 // any of the app's four built-in categories, so they can't filter Choose
@@ -21,6 +22,22 @@ const INSTRUCTIONS =
   `Reply with ONLY a JSON object, no other text:\n` +
   `{"matches": ["<region/id>", ...], "emoji": "<one emoji>"}\n` +
   `- Only use region/id values that appear in the catalog. NEVER invent one.`;
+
+// Reads the model's reply. A broad interest can run past max_tokens mid-list,
+// leaving invalid JSON; the ids written before the cut are still real matches,
+// so keep them. Returns null when nothing usable came back.
+export function parseClassification(raw, validIds, stopReason) {
+  const clean = (list) => [...new Set(list.filter((m) => validIds.has(m)))];
+  const pickEmoji = (e) => (typeof e === 'string' && e.trim().length > 0 && e.length <= 8 ? e.trim() : DEFAULT_EMOJI);
+  try {
+    const parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
+    return { matches: clean(Array.isArray(parsed.matches) ? parsed.matches.map(String) : []), emoji: pickEmoji(parsed.emoji) };
+  } catch {
+    if (stopReason !== 'max_tokens') return null;
+    const ids = clean([...raw.matchAll(/"([^"\\\s]+\/[^"\\\s]+)"/g)].map((m) => m[1]));
+    return ids.length ? { matches: ids, emoji: DEFAULT_EMOJI } : null;
+  }
+}
 
 async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -50,7 +67,7 @@ async function handler(req, res) {
 
     const msg = await client.messages.create({
       model: INTEREST_CLASSIFIER_MODEL,
-      max_tokens: 3000,
+      max_tokens: 6000,
       // Catalog is identical every request → cache it so repeat calls are cheap.
       system: [
         { type: 'text', text: INSTRUCTIONS },
@@ -67,24 +84,19 @@ async function handler(req, res) {
       .join('\n')
       .trim();
 
-    let parsed;
-    try {
-      parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
-    } catch {
-      res.status(200).json({ matches: [], emoji: DEFAULT_EMOJI });
+    const result = parseClassification(raw, validIds, msg.stop_reason);
+    if (!result) {
+      // Nothing usable (cut off before a single match, or not JSON at all):
+      // a failure, not "no landmarks fit" -- the app would otherwise save an
+      // empty match list and filter that interest to zero landmarks for good.
+      res.status(502).json({ error: 'The AI could not match that interest. Please try again.' });
       return;
     }
-
-    const matches = (Array.isArray(parsed.matches) ? parsed.matches : []).filter((m) => validIds.has(m));
-    const emoji = typeof parsed.emoji === 'string' && parsed.emoji.trim().length > 0 && parsed.emoji.length <= 8
-      ? parsed.emoji.trim()
-      : DEFAULT_EMOJI;
+    const { matches, emoji } = result;
     res.status(200).json({ matches, emoji });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'AI request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

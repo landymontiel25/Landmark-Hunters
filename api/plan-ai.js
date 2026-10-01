@@ -6,6 +6,7 @@ import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagSco
 import { withCors } from './_lib/cors.js';
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
+import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -354,7 +355,7 @@ async function handler(req, res) {
     }
     const profile = profileParts.length ? `TRAVELER PROFILE:\n${profileParts.join('\n\n')}` : '';
 
-    const client = new Anthropic();
+    const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({
       model: PLAN_AI_MODEL,
@@ -499,10 +500,8 @@ async function handler(req, res) {
       cost: costUsd,
     });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'AI request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

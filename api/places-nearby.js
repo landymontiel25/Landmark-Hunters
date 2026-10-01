@@ -1,5 +1,6 @@
 import { isRateLimited } from './_lib/rateLimit.js';
 import { withCors } from './_lib/cors.js';
+import { timeoutSignal } from './_lib/upstream.js';
 
 // Names the business at a GPS point -- the one piece the "you keep going
 // here" habit prompt (src/lib/habitTracking.js) needs but doesn't have on
@@ -34,6 +35,7 @@ async function handler(req, res) {
     }
 
     const r = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
+      signal: timeoutSignal(),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
