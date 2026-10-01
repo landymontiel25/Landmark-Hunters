@@ -1,7 +1,9 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { getAllRatings, getUserReviews } from './reviews';
 import { firebaseEnabled } from './firebase';
 import { useAuth } from './AuthContext';
+import { CheckInContext } from './CheckInContext';
+import { withVisited } from './ratingFlow';
 
 // Loads every landmark's aggregate user rating once and shares it, so cards,
 // the Top Rated sort, and detail pages all read from one place. Also holds
@@ -33,7 +35,18 @@ async function withRetry(fn) {
 export function RatingsProvider({ children }) {
   const { user } = useAuth();
   const [ratings, setRatings] = useState({});
-  const [myReviews, setMyReviews] = useState({});
+  const [rawReviews, setMyReviews] = useState({});
+  // Rating a place needs no check-in, so a review is not proof of a visit.
+  // Each of your reviews is stamped `visited` from your real check-ins
+  // (claimedMap -- ratingOnly claims are not in it), and everything that
+  // means "places you've been" reads that instead of "has a review".
+  const checkInCtx = useContext(CheckInContext);
+  const claimedMap = checkInCtx?.claimedMap;
+  const claimedLoaded = checkInCtx ? !!checkInCtx.claimedLoaded : true;
+  const myReviews = useMemo(
+    () => (claimedLoaded ? withVisited(rawReviews, claimedMap) : rawReviews),
+    [rawReviews, claimedMap, claimedLoaded]
+  );
   // Whose reviews myReviews holds once the first read for them finished
   // (or failed), so a screen can tell "no ratings yet" from "not loaded".
   const [loadedFor, setLoadedFor] = useState(null);
@@ -62,7 +75,7 @@ export function RatingsProvider({ children }) {
     reload();
   }, [reload]);
 
-  const myReviewsLoaded = !!user && loadedFor === user.uid;
+  const myReviewsLoaded = !!user && loadedFor === user.uid && claimedLoaded;
   return <RatingsContext.Provider value={{ ratings, myReviews, myReviewsLoaded, reload }}>{children}</RatingsContext.Provider>;
 }
 

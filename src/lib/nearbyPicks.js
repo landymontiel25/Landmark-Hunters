@@ -1,7 +1,7 @@
 import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
-import { tierStars } from './ratingFlow';
+import { tierStars, isVisitedReview } from './ratingFlow';
 import { linksFrom, primaryCategory } from './preferenceChains';
 import { formatDistance } from './formatDistance';
 
@@ -198,10 +198,21 @@ export function lowRatedIds(myReviews) {
 }
 
 // Reviews at FAVORITE_MIN_STARS or better, as { landmarkId, stars }.
+// Only places actually visited: a place you rated without going isn't a
+// "favorite" you've been to (it still teaches Mapr, and "Because you liked"
+// reads it through lovedSeed).
 export function favoriteReviews(myReviews) {
   return Object.values(myReviews || {})
-    .filter((r) => r?.landmarkId && starsOf(r) >= FAVORITE_MIN_STARS)
+    .filter((r) => r?.landmarkId && isVisitedReview(r) && starsOf(r) >= FAVORITE_MIN_STARS)
     .map((r) => ({ landmarkId: r.landmarkId, stars: starsOf(r) }));
+}
+
+// Landmark ids with a review AND a real visit. A review alone is not proof
+// of a visit: rating a place needs no check-in (see isVisitedReview).
+export function visitedReviewIds(myReviews) {
+  return Object.values(myReviews || {})
+    .filter((r) => r?.landmarkId && isVisitedReview(r))
+    .map((r) => r.landmarkId);
 }
 
 export function ratingsCountOf(myReviews) {
@@ -414,9 +425,12 @@ export const rankScore = (p) => (p.tagScore || 0) - (p.distanceMeters / METERS_P
 export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null, fillNew = false }) {
   if (!origin) return { usual: [], fresh: [], favorites: [] };
   const lowRated = lowRatedIds(myReviews);
-  // Anything already rated (like Plan Your Trip and Mapr Travel Picks) is
-  // not a pick: "Picked for you" shouldn't suggest a place they've been to.
-  const ratedIds = Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean);
+  // Anything already rated AND visited (like Plan Your Trip and Mapr Travel
+  // Picks) is not a pick: "Picked for you" shouldn't suggest a place they've
+  // been to. A place rated without a visit (rating needs no check-in) still
+  // counts as somewhere new to go; if they rated it "didn't like it" it is
+  // already out through lowRated.
+  const ratedIds = visitedReviewIds(myReviews);
   const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date, overrides, extraPlaces }).map((l) => [`${l.regionId}/${l.id}`, l]));
   const regions = [...new Set([...eligible.values()].map((l) => l.regionId))];
   const usual = [];
@@ -569,7 +583,7 @@ export function lovedSeed(myReviews, landmarks = ALL_LANDMARKS) {
 // that suggest a place ("Because you liked", "Time to eat?") -- otherwise they
 // recommend the restaurant you are standing in.
 export function unratedPlaces(pool, myReviews) {
-  const rated = new Set(Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean));
+  const rated = new Set(visitedReviewIds(myReviews));
   return (pool || []).filter((l) => !rated.has(l.id));
 }
 

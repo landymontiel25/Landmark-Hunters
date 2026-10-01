@@ -58,3 +58,36 @@ describe('CheckInReview re-checking in at an already-rated place', () => {
   });
 });
 
+describe('CheckInReview checking in at a place rated before visiting', () => {
+  const mount = async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    await act(async () => {
+      createRoot(container).render(<CheckInReview />);
+    });
+    return container;
+  };
+
+  it('asks you to confirm or change the earlier rating, pre-filled, and still requires Post', async () => {
+    checkInState.checkInOptions = { ratingOnly: false, requireComment: false };
+    checkInState.claimedMap = {};
+    ratingsState.myReviews = { lm1: { ratingTier: 'probably-skip', comment: 'heard it was bad', visited: false } };
+    const c = await mount();
+    expect(c.textContent).toMatch(/You rated this before you visited/);
+    expect(c.textContent).toMatch(/replaces the earlier one/);
+    expect(c.querySelector('.rating-tier.selected').textContent).toContain("I didn't like it");
+    const post = [...c.querySelectorAll('button')].find((b) => b.textContent === 'Post');
+    expect(post.disabled).toBe(false);
+    // Switching to a different tier is what a fresh rating looks like.
+    await act(async () => [...c.querySelectorAll('.rating-tier')].find((b) => b.textContent.includes('I loved it')).click());
+    expect(c.querySelector('.rating-tier.selected').textContent).toContain('I loved it');
+  });
+
+  it('does not show that note once the place is already visited', async () => {
+    checkInState.checkInOptions = { ratingOnly: false, requireComment: false };
+    checkInState.claimedMap = { lm1: true };
+    ratingsState.myReviews = { lm1: { ratingTier: 'worth-trying', comment: 'fine', visited: true } };
+    const c = await mount();
+    expect(c.textContent).not.toMatch(/You rated this before you visited/);
+  });
+});

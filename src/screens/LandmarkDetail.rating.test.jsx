@@ -129,7 +129,7 @@ describe('landmark page rating section', () => {
     expect(btn(c, /Update Rating/)).toBeTruthy();
   });
 
-  it('still asks you to check in first when there is no rating and no check-in', async () => {
+  it('offers rating without a check-in, and says a later check-in will ask again', async () => {
     claimed = {};
     const rv = await import('../lib/reviews');
     const saved = stable.ratings.myReviews;
@@ -138,7 +138,11 @@ describe('landmark page rating section', () => {
     rv.getMyReview.mockResolvedValue(null);
     try {
       const c = await mountPage();
-      expect(c.textContent).toMatch(/Check in here first to rate it/);
+      expect(c.textContent).not.toMatch(/Check in here first/);
+      expect(c.textContent).toMatch(/Rate this place/);
+      expect(c.textContent).toMatch(/rate it without checking in/);
+      expect(c.textContent).toMatch(/asked to rate it again/);
+      expect(btn(c, /Submit Rating/)).toBeTruthy();
     } finally {
       stable.ratings.myReviews = saved;
       rv.getMyReview.mockResolvedValue(had);

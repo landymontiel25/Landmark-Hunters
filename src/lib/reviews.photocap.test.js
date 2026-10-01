@@ -29,11 +29,10 @@ const landmark = { id: 'lm1', name: 'Cafe', region: 'r', categories: [] };
 
 describe('review photo cap', () => {
   it('refuses to append past 3 photos in total, with a clear message', async () => {
-    store.set('checkins/u1_lm1', {});
     store.set('reviews/u1_lm1', { photoURLs: ['a', 'b'] });
     const f = (n) => new File(['x'], `${n}.jpg`, { type: 'image/jpeg' });
     await expect(
-      submitReview({ userId: 'u1', userName: 'U', landmark, rating: { stars: 5 }, photoFiles: [f(1), f(2)] })
+      submitReview({ userId: 'u1', userName: 'U', landmark, rating: { tier: 'highly-recommend' }, photoFiles: [f(1), f(2)] })
     ).rejects.toMatchObject({ userMessage: expect.stringContaining('up to 3 photos') });
   });
 });
