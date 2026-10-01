@@ -1,4 +1,5 @@
 import { API_BASE } from './apiBase';
+import { fetchJson } from './friendlyError';
 /**
  * Address search for Add Landmark / Trip Setup, backed by Google Places API
  * (New) via the /api/places-* server functions -- keeps GOOGLE_PLACES_API_KEY
@@ -27,13 +28,11 @@ export async function searchPlaces(text, region, sessionToken) {
   // No catch here -- a genuinely failed search (network error, quota,
   // a non-2xx response) needs to reach the caller as an error, not come
   // back silently as "zero matches."
-  const res = await fetch(`${API_BASE}/api/places-autocomplete`, {
+  const data = await fetchJson(`${API_BASE}/api/places-autocomplete`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(`Address search failed: HTTP ${res.status}`);
-  const data = await res.json();
   return Array.isArray(data.suggestions) ? data.suggestions : [];
 }
 
@@ -44,7 +43,5 @@ export async function searchPlaces(text, region, sessionToken) {
 export async function getPlaceDetails(placeId, sessionToken) {
   const params = new URLSearchParams({ placeId });
   if (sessionToken) params.set('sessionToken', sessionToken);
-  const res = await fetch(`${API_BASE}/api/places-details?${params.toString()}`);
-  if (!res.ok) throw new Error(`Could not look up that address: HTTP ${res.status}`);
-  return res.json();
+  return fetchJson(`${API_BASE}/api/places-details?${params.toString()}`);
 }

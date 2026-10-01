@@ -3,6 +3,7 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { enrichLandmark, reverseGeocode } from './_lib/enrichLandmark.js';
 import { withCors } from './_lib/cors.js';
+import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // Backs "Add Landmark" on the map: before a user-submitted spot gets saved as
 // a real landmark, this asks the AI to sanity-check it's a genuine physical
@@ -144,7 +145,7 @@ async function handler(req, res) {
 
     const [, mediaType, imageB64] = hasPhoto ? match : [];
 
-    const client = new Anthropic();
+    const client = new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
     const msg = await client.messages.create({
       model: 'claude-haiku-4-5',
       max_tokens: 500,
@@ -194,10 +195,8 @@ async function handler(req, res) {
       free: parsed.free !== false,
     });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'AI request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

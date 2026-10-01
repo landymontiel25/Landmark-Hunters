@@ -43,4 +43,32 @@ describe('fetchJson', () => {
     vi.stubGlobal('fetch', async () => ({ ok: true, status: 200, json: async () => ({ a: 1 }) }));
     await expect(fetchJson('/api/x')).resolves.toEqual({ a: 1 });
   });
+
+  it('turns an HTML error page into a friendly message, never a parse error', async () => {
+    vi.stubGlobal('fetch', async () => ({
+      ok: false,
+      status: 504,
+      json: async () => {
+        throw new SyntaxError('Unexpected token <');
+      },
+    }));
+    const err = await fetchJson('/api/x').catch((e) => e);
+    expect(friendlyError(err)).toMatch(/took too long/);
+    expect(friendlyError(err)).not.toMatch(/Unexpected|token/);
+  });
+
+  it('does not call a missing API route "that was removed"', async () => {
+    vi.stubGlobal('fetch', async () => ({ ok: false, status: 404, json: async () => null }));
+    const err = await fetchJson('/api/x').catch((e) => e);
+    expect(friendlyError(err)).not.toMatch(/couldn't find/i);
+  });
+
+  it('ends a hung call with a took-too-long message', async () => {
+    vi.stubGlobal(
+      'fetch',
+      (url, { signal }) => new Promise((_, reject) => signal.addEventListener('abort', () => reject(new Error('aborted'))))
+    );
+    const err = await fetchJson('/api/x', {}, { timeoutMs: 10 }).catch((e) => e);
+    expect(friendlyError(err)).toMatch(/took too long/);
+  });
 });

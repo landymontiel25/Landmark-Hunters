@@ -1,5 +1,6 @@
 import { isRateLimited } from './_lib/rateLimit.js';
 import { withCors } from './_lib/cors.js';
+import { timeoutSignal } from './_lib/upstream.js';
 
 // Search-as-you-type address suggestions for the Add Landmark / Trip Setup
 // location box, backed by Google Places API (New) Autocomplete. Proxied
@@ -51,6 +52,7 @@ async function handler(req, res) {
     }
 
     const r = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
+      signal: timeoutSignal(),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

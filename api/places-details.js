@@ -1,5 +1,6 @@
 import { isRateLimited } from './_lib/rateLimit.js';
 import { withCors } from './_lib/cors.js';
+import { timeoutSignal } from './_lib/upstream.js';
 
 // Resolves an autocomplete suggestion's placeId into the final name,
 // address, and coordinates, once the user actually picks it -- kept to the
@@ -31,6 +32,7 @@ async function handler(req, res) {
     if (sessionToken) url.searchParams.set('sessionToken', sessionToken);
 
     const r = await fetch(url, {
+      signal: timeoutSignal(),
       headers: {
         'X-Goog-Api-Key': process.env.GOOGLE_PLACES_API_KEY,
         'X-Goog-FieldMask': 'id,displayName,formattedAddress,location',

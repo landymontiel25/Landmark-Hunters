@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { ALL_LANDMARKS, getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
+import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // "Figure out what I mean" for every search box in the app (src/lib/
 // smartSearch.js). The client only calls this when its own typo-tolerant
@@ -61,7 +62,7 @@ async function handler(req, res) {
     if (useCatalog) system.push({ type: 'text', text: CATALOG, cache_control: { type: 'ephemeral' } });
     const extra = items.length ? `ITEMS (id | description):\n${items.map((it) => `${it.id} | ${it.text}`).join('\n')}\n\n` : '';
 
-    const msg = await new Anthropic().messages.create({
+    const msg = await new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 }).messages.create({
       model: 'claude-haiku-4-5',
       max_tokens: 300,
       system,
@@ -86,8 +87,8 @@ async function handler(req, res) {
     ].slice(0, 8);
     res.status(200).json({ ids });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({ error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'Smart search failed.' });
+    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'Smart search failed.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 
