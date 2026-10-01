@@ -11,6 +11,7 @@ import { isRateable, isVisitedReview } from '../lib/ratingFlow';
 import { getPickFeedback, readLocalFeedback, votedIds, setPickFeedback } from '../lib/pickFeedback';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
+import MaprPickImage from './MaprPickImage';
 
 // "Mapr Travel Picks": city-first curation, not AI-suggested picks. Step 1
 // is choosing a city (defaults to wherever `pickRegion` thinks you are);
@@ -134,11 +135,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         {landmarks.map((l) => (
           <div key={`${l.regionId}/${l.id}`} className="mapr-pick" data-pick-key={`${l.regionId}/${l.id}`}>
             <button type="button" className="mapr-pick-main" onClick={() => navigate(`/landmarks/${l.regionId}/${l.id}`)}>
-              {l.images?.[0] ? (
-                <img className="mapr-pick-img" src={l.images[0]} alt="" loading="lazy" />
-              ) : (
-                <div className="mapr-pick-img mapr-pick-img-blank">{'\u{1F4CD}'}</div>
-              )}
+              <MaprPickImage landmark={l} />
               <span className="mapr-pick-name">{l.name}</span>
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>

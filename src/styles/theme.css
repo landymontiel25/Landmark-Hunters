@@ -6670,3 +6670,77 @@ p.tag {
     font-size: 1.1rem;
   }
 }
+
+/* ---------- Google Places fallback photos (docs/photos.md) ---------- */
+.landmark-thumb-wrap {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 0;
+}
+.landmark-thumb-wrap .landmark-thumb {
+  display: block;
+}
+.place-photo-host {
+  position: relative;
+  overflow: hidden;
+}
+.place-photo-host > img,
+.mapr-pick-photo-host > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.mapr-pick-photo-host {
+  position: relative;
+  display: block;
+}
+.place-photo-credit {
+  font-size: 0.66rem;
+  line-height: 1.2;
+  color: var(--color-muted, #8a8a8a);
+}
+.place-photo-credit a {
+  color: inherit;
+  text-decoration: underline;
+}
+/* Over the corner of a photo: tiny (c) badge or a one-line caption strip. */
+.place-photo-credit-compact {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.6rem;
+  line-height: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+.mapr-pick-photo-host > .place-photo-credit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.postcard > .place-photo-credit-caption {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 6px;
+  text-align: center;
+  color: #5a4a2a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

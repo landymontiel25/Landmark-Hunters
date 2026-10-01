@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { paletteFor, iconFor } from '../lib/landmarkVisuals';
+import { usePlacePhoto } from '../lib/usePlacePhoto';
+import PlacePhotoCredit from './PlacePhotoCredit';
 
 // swipeable: renders a horizontal scroll-snap gallery with dot indicators
 // when the landmark has more than one photo. Non-swipeable contexts (list
@@ -26,6 +28,8 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   const [loaded, setLoaded] = useState(() => new Set());
   const allImages = [...(myPhotos || []), ...(landmark.images || [])].filter((src) => !failed.has(src));
   const images = allImages.length ? allImages : null;
+  // No photo of its own (not even a failed one) -> lazily try a Google Places photo.
+  const place = usePlacePhoto(landmark, { enabled: !myPhotos?.length && !landmark.images?.length });
   const [activeIdx, setActiveIdx] = useState(0);
   const scrollRef = useRef(null);
   // A dropped photo shrinks the set: keep the dot indicator in range and snap
@@ -84,9 +88,23 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
         onClick={onImageClick ? () => onImageClick(images[0]) : undefined}
       />
     );
+  } else if (place.photo) {
+    body = (
+      <img
+        src={place.photo.url}
+        alt={landmark.name}
+        className="postcard-photo"
+        style={{ width: dims.width, height: dims.height, cursor: onImageClick ? 'zoom-in' : undefined }}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        onClick={onImageClick ? () => onImageClick(place.photo.url) : undefined}
+        onError={place.onError}
+      />
+    );
   } else {
     body = (
       <div
+        ref={place.ref}
         className="postcard-photo"
         style={{
           width: dims.width,
@@ -102,5 +120,10 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
     );
   }
 
-  return <div className={`postcard ${rotate === 'r' ? 'rot-r' : ''}`}>{body}</div>;
+  return (
+    <div className={`postcard ${rotate === 'r' ? 'rot-r' : ''}`}>
+      {body}
+      {!images && place.photo && <PlacePhotoCredit photo={place.photo} className="place-photo-credit-caption" />}
+    </div>
+  );
 }
