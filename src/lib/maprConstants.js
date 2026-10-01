@@ -40,3 +40,19 @@ export const SHOWN_VISIBLE_RATIO = 0.5;
 // How many already-logged (setId, place) pairs are remembered on the device,
 // so reopening the app on the same cached set does not log it twice.
 export const SHOWN_MEMORY_LIMIT = 300;
+
+// --- Marking taps and ratings that came from a pick (src/lib/pickMarks.js) --
+// A tap or rating counts as "from a Mapr pick" only if the place was shown as
+// a pick to this user within this window before the reaction.
+export const PICK_MARK_WINDOW_DAYS = 7;
+export const PICK_MARK_WINDOW_MS = PICK_MARK_WINDOW_DAYS * 24 * 60 * 60 * 1000;
+// Most places remembered per user on the device (oldest dropped first).
+export const PICK_MARK_LIMIT = 200;
+
+// --- Match rate (computeMatchRate in src/lib/matchRate.js) ---------------
+// match rate = weighted positive reactions / weighted all reactions, on
+// Mapr picks only. A check-in rating says more than a pre-visit tap.
+export const MATCH_WEIGHT_RATING = 2;
+export const MATCH_WEIGHT_TAP = 1;
+// The match-rate target applies to a user once they have this many ratings.
+export const MATCH_ELIGIBLE_MIN_RATINGS = 10;

@@ -1,5 +1,6 @@
 import { collection, doc, getDocs, query, runTransaction, serverTimestamp, setDoc, where } from 'firebase/firestore';
 import { db } from './firebase';
+import { pickMarkFields } from './pickMarks';
 import { applyVote, VOTE_DELTAS } from './tagScores';
 
 export const PICK_VOTE_EVENT = 'lh-pick-vote';
@@ -44,6 +45,9 @@ export async function setPickFeedback({ uid, landmark, verdict, origin }) {
     verdict, // 'yes' | 'no' | 'unsure'
     at: Date.now(),
     near: origin ? { lat: Number(origin.lat.toFixed(2)), lng: Number(origin.lng.toFixed(2)) } : null,
+    // pickSetId / pickSurface / pickShownAt: present only when this place was
+    // shown as a Mapr pick to this user recently (see pickMarks.js).
+    ...pickMarkFields(uid, landmark.id),
   };
   const map = readLocal(uid);
   const prior = map[landmark.id]?.verdict;
@@ -100,7 +104,7 @@ export async function getPickFeedback(uid) {
       for (const d of snap.docs) {
         const r = d.data();
         if (!map[r.landmarkId] || (r.at || 0) > (map[r.landmarkId].at || 0)) {
-          map[r.landmarkId] = { landmarkId: r.landmarkId, region: r.region, name: r.name, categories: r.categories || [], verdict: r.verdict, at: r.at || 0, near: r.near || null };
+          map[r.landmarkId] = { landmarkId: r.landmarkId, region: r.region, name: r.name, categories: r.categories || [], verdict: r.verdict, at: r.at || 0, near: r.near || null, ...(r.pickSetId ? { pickSetId: r.pickSetId, pickSurface: r.pickSurface ?? null, pickShownAt: r.pickShownAt } : {}) };
         }
       }
       writeLocal(uid, map);

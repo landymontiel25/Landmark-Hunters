@@ -11,6 +11,13 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'group_trips/own' }, data: () => ({ ownerUid: 'u1', memberUids: ['u1', 'x'] }) },
           { ref: { path: 'group_trips/joined' }, data: () => ({ ownerUid: 'x', memberUids: ['x', 'u1'] }) },
         ]
+      : col === 'pick_feedback'
+      ? [
+          { ref: { path: 'pick_feedback/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', verdict: 'yes', pickSetId: 's', pickSurface: 'chat', pickShownAt: 1 }) },
+          { ref: { path: 'pick_feedback/u1_b' }, data: () => ({ userId: 'u1', landmarkId: 'b', verdict: 'no' }) },
+        ]
+      : col === 'reviews'
+      ? [{ ref: { path: 'reviews/u1_a' }, data: () => ({ userId: 'u1', landmarkId: 'a', ratingTier: 'highly-recommend', pickSetId: 's', pickSurface: 'mapr-tab', pickShownAt: 1 }) }]
       : col === 'recommendation_log'
         ? [
             { ref: { path: 'recommendation_log/old' }, data: () => ({ userId: 'u1', landmarkId: 'a' }) },
@@ -82,6 +89,13 @@ describe('deleteAccountData wipe coverage', () => {
   it('removes recommendation_log rows, including shown rows with setId/rank/predicted', async () => {
     await deleteAccountData('u1');
     expect(deletedPaths).toEqual(expect.arrayContaining(['recommendation_log/old', 'recommendation_log/shown']));
+  });
+
+  it('removes pick_feedback docs and reviews that carry pick marks (the marks live inside the docs)', async () => {
+    const { deleteMyReview } = await import('./reviews');
+    await deleteAccountData('u1');
+    expect(deletedPaths).toEqual(expect.arrayContaining(['pick_feedback/u1_a', 'pick_feedback/u1_b']));
+    expect(deleteMyReview).toHaveBeenCalledWith('u1', 'a');
   });
 
   it('queries every owned collection by its ownership field', async () => {
