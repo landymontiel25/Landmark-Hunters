@@ -427,7 +427,9 @@ service cloud.firestore {
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.minutesSaved is number
         && request.resource.data.minutesSaved >= 0;
-      allow update, delete: if false;
+      allow update: if false;
+      // Owner only, so account deletion can wipe the users own events.
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
     // One doc per place Mapr recommended from the Plan Your Trip wizard
     // (src/lib/recommendationLog.js), tagged 'usual' / 'new' / null so the
@@ -605,6 +607,12 @@ service cloud.firestore {
           || (request.auth.uid == resource.data.ownerUid
               && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberUids', 'memberNames', 'name'])
               && request.resource.data.ownerUid in request.resource.data.memberUids)
+          // A non-owner member may remove ONLY themselves (account deletion).
+          || (request.auth.uid != resource.data.ownerUid
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberUids', 'memberNames'])
+              && !(request.auth.uid in request.resource.data.memberUids)
+              && request.resource.data.memberUids.size() == resource.data.memberUids.size() - 1
+              && request.resource.data.memberUids.hasAll(resource.data.memberUids.removeAll([request.auth.uid])))
         );
       allow delete: if request.auth != null && request.auth.uid == resource.data.ownerUid;
     }

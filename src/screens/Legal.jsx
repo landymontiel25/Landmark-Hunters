@@ -65,8 +65,8 @@ export default function Legal() {
         <h3>Your choices</h3>
         <p>
           You can make your profile private (Profile → Privacy), block or report another user's content (on any
-          review), or delete your account entirely (Profile → Delete Account) — which removes your profile, reviews,
-          and friend connections. Check-ins stay on the leaderboard for scoring integrity but are stripped of your
+          review), or delete your account entirely (Settings → Delete Account) — which removes your profile, reviews,
+          photos, friend connections, streaks, saved Mapr chats and trips, and the landmarks you submitted. Check-ins stay on the leaderboard for scoring integrity but are stripped of your
           name and photo once your account is deleted.
         </p>
 
