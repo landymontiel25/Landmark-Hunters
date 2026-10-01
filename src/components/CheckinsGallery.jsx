@@ -184,9 +184,14 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   useEffect(() => {
     if (!checkins || restoredRef.current) return;
     restoredRef.current = true;
-    const saved = sessionStorage.getItem(scrollKey);
+    let saved = null;
+    try {
+      saved = sessionStorage.getItem(scrollKey);
+      if (saved != null) sessionStorage.removeItem(scrollKey);
+    } catch {
+      /* blocked storage */
+    }
     if (saved == null) return;
-    sessionStorage.removeItem(scrollKey);
     requestAnimationFrame(() => window.scrollTo(0, Number(saved)));
   }, [checkins, scrollKey]);
 
@@ -217,7 +222,11 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   const display = matched ? [...matched, ...(smartExtra.length ? [SMART_DIVIDER, ...smartExtra] : [])] : null;
 
   const go = (it) => {
-    sessionStorage.setItem(scrollKey, String(window.scrollY));
+    try {
+      sessionStorage.setItem(scrollKey, String(window.scrollY));
+    } catch {
+      /* blocked storage -- navigation must still work */
+    }
     const sequence = shown.map((c) => ({ regionId: c.regionId, landmarkId: c.landmarkId, name: c.name }));
     navigate(`/landmarks/${it.regionId}/${it.landmarkId}`, {
       state: { checkinNav: { sequence, index: shown.indexOf(it) } },

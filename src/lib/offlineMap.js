@@ -74,7 +74,8 @@ export async function downloadRegionTiles(region, { minZoom = 12, maxZoom = 15, 
 
 function readDownloaded() {
   try {
-    return JSON.parse(localStorage.getItem(DOWNLOADED_KEY) || '{}');
+    const v = JSON.parse(localStorage.getItem(DOWNLOADED_KEY) || '{}');
+    return v && typeof v === 'object' ? v : {};
   } catch {
     return {};
   }

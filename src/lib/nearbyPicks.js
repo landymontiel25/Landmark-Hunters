@@ -130,22 +130,29 @@ export function isClosedNow(l, date = new Date()) {
   if (/24 ?hours|24\/7/.test(lower)) return false;
   const day = date.getDay();
   const mins = date.getHours() * 60 + date.getMinutes();
-  let sawToday = false;
+  const yesterday = (day + 6) % 7;
+  let sawRange = false;
+  let closedToday = false;
   for (const seg of hours.split(/[,;]/)) {
     const days = daysIn(seg);
     const appliesToday = !days || days.has(day);
     if (/\bclosed\b/i.test(seg)) {
-      if (days && days.has(day)) return true;
+      if (days && days.has(day)) closedToday = true;
       continue;
     }
     const range = parseRange(seg);
-    if (!range || !appliesToday) continue;
-    sawToday = true;
-    const inRange = range.end > range.start ? mins >= range.start && mins < range.end : mins >= range.start || mins < range.end;
+    if (!range) continue;
+    sawRange = true;
+    const wraps = range.end <= range.start;
+    // A range that runs past midnight (6pm-2am) is still open after midnight
+    // on the day AFTER the one it's listed for.
+    if (wraps && (!days || days.has(yesterday)) && mins < range.end) return false;
+    if (!appliesToday) continue;
+    const inRange = wraps ? mins >= range.start || mins < range.end : mins >= range.start && mins < range.end;
     if (inRange) return false;
   }
-  // Hours listed for today and now falls outside all of them: closed.
-  return sawToday;
+  // Hours are listed but none cover this moment (or this day): closed.
+  return closedToday || sawRange;
 }
 
 // ---- The user's own ratings ---------------------------------------------

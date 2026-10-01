@@ -115,8 +115,20 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
 // exists from the first screen this account ever lands on, not only after
 // visiting Your Streaks once; it's idempotent, so calling it again there
 // too is harmless.
+// The current local day key, re-evaluated at each local midnight so a badge
+// left open overnight doesn't keep calling yesterday's streak "secured".
+function useTodayKey() {
+  const [today, setToday] = useState(() => dayKey(new Date()));
+  useEffect(() => {
+    const id = setTimeout(() => setToday(dayKey(new Date())), msUntilStreakLapse() + 500);
+    return () => clearTimeout(id);
+  }, [today]);
+  return today;
+}
+
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
+  const today = useTodayKey();
   const [streak, setStreak] = useState(null);
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
@@ -147,7 +159,7 @@ function StreakBadge() {
 
   const count = streak?.count || 0;
   const active = count > 0;
-  const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
+  const secured = !!streak && streak.lastCompletedDay === today;
 
   return (
     <div className="header-streak-wrap" ref={ref}>
@@ -198,6 +210,7 @@ function StreakBadge() {
 function PairStreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streaks } = usePairStreaks();
+  const today = useTodayKey();
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
@@ -215,7 +228,7 @@ function PairStreakBadge() {
   // the highest count, ties broken by whichever sorts first.
   const primary = streaks.length ? streaks.reduce((a, b) => (b.count > a.count ? b : a)) : null;
   const active = !!primary && primary.count > 0;
-  const secured = !!primary && primary.lastCompletedDay === dayKey(new Date());
+  const secured = !!primary && primary.lastCompletedDay === today;
   const partnerName = primary
     ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
     : null;

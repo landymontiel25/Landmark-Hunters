@@ -57,16 +57,39 @@ function BackgroundLocationSync() {
 // usual cause of that screen. Reload once to pick up the current version
 // (the flag stops a reload loop if the file is missing for another reason).
 const RELOAD_FLAG = 'lh-chunk-reload';
+// sessionStorage can throw (blocked storage); that must never turn a
+// successfully loaded screen into "Something went wrong".
+const flagGet = () => {
+  try {
+    return sessionStorage.getItem(RELOAD_FLAG);
+  } catch {
+    return null;
+  }
+};
+const flagSet = () => {
+  try {
+    sessionStorage.setItem(RELOAD_FLAG, '1');
+  } catch {
+    /* blocked storage */
+  }
+};
+const flagClear = () => {
+  try {
+    sessionStorage.removeItem(RELOAD_FLAG);
+  } catch {
+    /* blocked storage */
+  }
+};
 function lazyScreen(load) {
   return lazy(() =>
     load()
       .then((m) => {
-        sessionStorage.removeItem(RELOAD_FLAG);
+        flagClear();
         return m;
       })
       .catch((err) => {
-        if (!sessionStorage.getItem(RELOAD_FLAG)) {
-          sessionStorage.setItem(RELOAD_FLAG, '1');
+        if (!flagGet()) {
+          flagSet();
           window.location.reload();
           return new Promise(() => {});
         }
@@ -77,9 +100,9 @@ function lazyScreen(load) {
 // Vite's own signal for the same thing (a preloaded dependency is gone).
 if (typeof window !== 'undefined') {
   window.addEventListener('vite:preloadError', (e) => {
-    if (sessionStorage.getItem(RELOAD_FLAG)) return;
+    if (flagGet()) return;
     e.preventDefault();
-    sessionStorage.setItem(RELOAD_FLAG, '1');
+    flagSet();
     window.location.reload();
   });
 }
