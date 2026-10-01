@@ -21,7 +21,15 @@ export async function pickPhoto() {
       source: CameraSource.Prompt,
       webUseInput: true,
     });
-  } catch {
+  } catch (e) {
+    const msg = String(e?.message || e || '');
+    // Backing out of the picker is not an error; a refused permission is, and
+    // swallowing it made the photo button look dead.
+    if (/denied|not.?authori[sz]ed|permission/i.test(msg)) {
+      const err = new Error(PHOTO_DENIED_MESSAGE);
+      err.userMessage = PHOTO_DENIED_MESSAGE;
+      throw err;
+    }
     return null;
   }
   if (!photo.webPath) return null;
@@ -37,6 +45,8 @@ export async function pickPhoto() {
   }
   return file;
 }
+
+const PHOTO_DENIED_MESSAGE = "Landmark Hunters doesn't have access to your camera or photos. Turn it on in Settings, then try again.";
 
 // storage.rules refuses uploads of 8 MB or more.
 export const PHOTO_MAX_BYTES = 8 * 1024 * 1024;

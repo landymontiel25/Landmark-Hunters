@@ -9,6 +9,10 @@ import { registerPlugin } from '@capacitor/core';
 const BackgroundGeolocation = registerPlugin('BackgroundGeolocation');
 
 let watcherId = null;
+// Bumped by every start/stop so a start whose addWatcher() resolves after a
+// newer start/stop knows it is stale and must tear its own watcher down
+// (otherwise it leaks and keeps draining battery with the setting off).
+let generation = 0;
 
 // Starts (once) or replaces the single background watcher, forwarding every
 // fix to `onLocation({ lat, lng, accuracy, at })`. `distanceFilter` keeps
@@ -17,8 +21,9 @@ let watcherId = null;
 // while already running -- the old watcher is stopped first.
 export async function startBackgroundLocation(onLocation) {
   await stopBackgroundLocation();
+  const myGen = ++generation;
   try {
-    watcherId = await BackgroundGeolocation.addWatcher(
+    const id = await BackgroundGeolocation.addWatcher(
       {
         backgroundTitle: 'Landmark Hunters',
         backgroundMessage: "Learning your taste as you travel -- tap to open the app.",
@@ -44,6 +49,11 @@ export async function startBackgroundLocation(onLocation) {
         }
       }
     );
+    if (myGen !== generation) {
+      BackgroundGeolocation.removeWatcher({ id }).catch(() => {});
+      return;
+    }
+    watcherId = id;
   } catch (err) {
     console.error('[BackgroundLocation] failed to start:', err);
     watcherId = null;
@@ -51,6 +61,7 @@ export async function startBackgroundLocation(onLocation) {
 }
 
 export async function stopBackgroundLocation() {
+  generation += 1;
   if (watcherId == null) return;
   const id = watcherId;
   watcherId = null;
