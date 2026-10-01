@@ -1,5 +1,5 @@
 import { useGeo } from '../lib/GeoContext';
-import { CHECKIN_RADIUS_METERS, distanceMeters } from '../lib/leaderboard';
+import { checkinBlockReason, radiusFor } from '../lib/checkinRules';
 
 // Opens the rate + post prompt (CheckInReview) — the check-in itself isn't
 // registered until Post is tapped there. Gated on GPS: you must be within
@@ -10,9 +10,9 @@ import { CHECKIN_RADIUS_METERS, distanceMeters } from '../lib/leaderboard';
 // tick (avoids the open popup flashing/closing), so a coords prop would go
 // stale right when it matters most -- mid check-in.
 //
-// REQUIRE_PROXIMITY is off for now (temporary, per request) -- flip back to
-// true to restore the GPS gate. Nothing else needs to change.
-const REQUIRE_PROXIMITY = false;
+// The GPS gate is the one switch REQUIRE_GPS_CHECKIN in maprConstants.js
+// (off by default); rules live in checkinRules.js. CheckInContext enforces
+// the same rule again when Post is tapped.
 
 export default function CheckInButton({ landmark, user, firebaseEnabled, claimedMap, checkingIn, onCheckIn, className = '' }) {
   const { coords } = useGeo();
@@ -23,11 +23,11 @@ export default function CheckInButton({ landmark, user, firebaseEnabled, claimed
   // so a prior visit never disables the button.
   const alreadyVisited = !!claimedMap[landmark.id];
   const busy = checkingIn === landmark.id;
-  const radius = landmark.checkInRadiusMeters ?? CHECKIN_RADIUS_METERS;
+  const radius = radiusFor(landmark);
   const hasPosition = landmark.lat != null && landmark.lng != null;
-  const distance = hasPosition && coords ? distanceMeters(coords.lat, coords.lng, landmark.lat, landmark.lng) : null;
-  const noLocation = REQUIRE_PROXIMITY && hasPosition && !coords;
-  const tooFar = REQUIRE_PROXIMITY && distance != null && distance > radius;
+  const reason = hasPosition ? checkinBlockReason(coords, landmark) : null;
+  const noLocation = reason === 'no-location' || reason === 'weak-signal';
+  const tooFar = reason === 'too-far';
 
   const handleClick = () => {
     if (!user || busy || noLocation || tooFar) return;

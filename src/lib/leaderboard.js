@@ -26,6 +26,7 @@ import { isOffline, OFFLINE_MESSAGE } from './friendlyError';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
 import { REGIONS, canonicalLandmarkId } from '../data/regions';
+import { CHECKIN_RULE_METERS } from './maprConstants';
 
 export { distanceMeters };
 
@@ -34,7 +35,7 @@ export const POINTS_PER_CHECKIN = 100;
 // during build/testing to balance real-world GPS accuracy against making
 // the claim meaningful. Individual landmarks can widen this via
 // `checkInRadiusMeters` (malls, parks, beaches, national parks, etc.).
-export const CHECKIN_RADIUS_METERS = 30;
+export const CHECKIN_RADIUS_METERS = CHECKIN_RULE_METERS; // see maprConstants.js
 // A landmark within this of the user's home address earns 0 points no
 // matter what -- otherwise a landmark right next to home would be free
 // points on demand (and blocks the obvious exploit of self-submitting a
@@ -112,6 +113,10 @@ async function _claimCheckIn({
   ratingOnly = false,
   homeCoords = null,
   landmarkCoords = null,
+  // { distanceMeters?, gpsAccuracyMeters?, verification } from
+  // checkinLocationFields. Saved on real check-ins only; a rating-only claim
+  // is not a visit and stays untagged.
+  location = null,
 }) {
   // A check-in is a server transaction, so it can't be queued offline; without
   // this it spent ~25s on "Posting..." (transaction retries) before failing.
@@ -174,6 +179,7 @@ async function _claimCheckIn({
       // fully-tapered repeat visit is still real, at 0 points.
       visited: !ratingOnly,
       insideHomeRadius,
+      ...(!ratingOnly && location ? location : {}),
       createdAt: serverTimestamp(),
     });
 

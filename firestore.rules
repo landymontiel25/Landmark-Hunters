@@ -101,6 +101,11 @@ service cloud.firestore {
     // --- Existing production rules, kept as-is (stricter than the new
     // defaults below): public read, ownership-validated writes, immutable
     // checkins, and leaderboard entries locked to their own owner. ---
+    // A check-in's location number may stay as it is or be removed, never
+    // set or changed (account deletion scrubs it by removing it).
+    function locationOnlyRemoved(k) {
+      return !(k in request.resource.data) || request.resource.data[k] == resource.data.get(k, null);
+    }
     match /checkins/{checkinId} {
       // Signed-in only (was public). Nothing the app shows signed out reads
       // check-ins; leaderboards read leaderboard_entries instead.
@@ -117,7 +122,17 @@ service cloud.firestore {
           || checkinId.matches(request.auth.uid + '_' + request.resource.data.landmarkId + '_[0-9]+')
         )
         && request.resource.data.keys().hasOnly(['userId', 'userName', 'landmarkId', 'landmarkName', 'region',
-             'points', 'basePoints', 'visitNumber', 'ratingOnly', 'visited', 'insideHomeRadius', 'createdAt'])
+             'points', 'basePoints', 'visitNumber', 'ratingOnly', 'visited', 'insideHomeRadius', 'createdAt',
+             'distanceMeters', 'gpsAccuracyMeters', 'verification'])
+        // Optional location evidence saved with a real check-in (see
+        // checkinRules.js). Client-reported, so only type-checked here.
+        && request.resource.data.get('distanceMeters', 0) is number
+        && request.resource.data.get('distanceMeters', 0) >= 0
+        && request.resource.data.get('distanceMeters', 0) <= 20100000
+        && request.resource.data.get('gpsAccuracyMeters', 0) is number
+        && request.resource.data.get('gpsAccuracyMeters', 0) >= 0
+        && request.resource.data.get('gpsAccuracyMeters', 0) <= 1000000
+        && request.resource.data.get('verification', 'unverified') in ['unverified', 'verified']
         && request.resource.data.points is number
         && request.resource.data.points >= 0
         && request.resource.data.points <= maxPointsPerWrite()
@@ -134,6 +149,8 @@ service cloud.firestore {
         && request.resource.data.get('userName', '') is string
         && request.resource.data.get('userName', '').size() <= 200
         && request.resource.data.createdAt == request.time;
+      // Owner may also REMOVE distanceMeters / gpsAccuracyMeters (account
+      // deletion scrubs the location-derived fields); never set or change them.
       // Owner may update ONLY photoURL / photoURLs / userName (own check-in
       // photos via addCheckinPhoto/removeCheckinPhoto, the legacy single
       // attachCheckinPhoto, email->username backfill via backfillUserName).
@@ -144,7 +161,10 @@ service cloud.firestore {
       allow update: if request.auth != null
         && (
           (checkinId.split('_')[0] == request.auth.uid
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['photoURL', 'photoURLs', 'userName']))
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['photoURL', 'photoURLs', 'userName', 'distanceMeters', 'gpsAccuracyMeters'])
+            && locationOnlyRemoved('distanceMeters')
+            && locationOnlyRemoved('gpsAccuracyMeters'))
           || (isAdmin()
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['createdAt']))
         );
