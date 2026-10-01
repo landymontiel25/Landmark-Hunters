@@ -42,7 +42,10 @@ describe('smart default distance', () => {
   it('opens tight where it is dense and wide where it is thin', () => {
     expect(smartDistance({ origin: MIDTOWN, units: 'imperial', date: NOW })).toBe(1);
     expect(smartDistance({ origin: SUBURB, units: 'imperial', date: NOW })).toBe(5);
-    expect(smartDistance({ origin: DORAL, units: 'imperial', date: NOW })).toBe(10);
+    // Doral gained photographed places (Trump Doral, Dolphin Mall, FIU...) so it opens at 5 now
+    expect(smartDistance({ origin: DORAL, units: 'imperial', date: NOW })).toBe(5);
+    // nowhere near any catalog place: falls back to the wide default
+    expect(smartDistance({ origin: { lat: 38.5, lng: -98.5 }, units: 'imperial', date: NOW })).toBe(10);
   });
   it('hand-added places nearby count', () => {
     const custom = ['a', 'b', 'c'].map((id, i) => ({ id, name: id, region: 'miami', lat: DORAL.lat + 0.002 * i, lng: DORAL.lng, images: ['https://x/y.jpg'], categories: ['food'] }));
