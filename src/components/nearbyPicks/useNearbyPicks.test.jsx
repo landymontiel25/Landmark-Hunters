@@ -82,6 +82,20 @@ afterEach(async () => {
 });
 
 describe('useNearbyPicks', () => {
+  it('fillNew keeps a "Something new" place in the set when every category has been rated a lot, and saves it apart from the real Map', async () => {
+    const allRated = {
+      tagScores: PROFILE.tagScores,
+      tagScoresAt: PROFILE.tagScoresAt,
+      tagCounts: { villanova: Object.fromEntries(['history-culture', 'food', 'art-museums', 'parks-nature', 'campus-life', 'local-life', 'entertainment', 'tech', 'stadiums', 'sports'].map((c) => [c, 99])) },
+    };
+    await render(base({ profile: allRated, fillNew: true, fetchReasons: vi.fn(async () => ({})) }));
+    await flush(250);
+    expect(latest.picks.some((p) => p.pickType === 'new')).toBe(true);
+    const saved = Object.keys(localStorage).filter((k) => k.startsWith('lh-nearby-picks') || k.includes('picks'));
+    expect(saved.some((k) => k.endsWith(':test'))).toBe(true);
+    expect(saved.some((k) => !k.endsWith(':test') && k.includes('nearby'))).toBe(false);
+  });
+
   it('showDifferent builds a new set that skips the places that were showing', async () => {
     await render(base({ fetchReasons: vi.fn(async () => ({})) }));
     await flush();

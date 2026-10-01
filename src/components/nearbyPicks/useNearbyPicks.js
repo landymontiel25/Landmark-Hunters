@@ -90,6 +90,7 @@ export function useNearbyPicks({
   now,
   overrides = null,
   extraPlaces = null,
+  fillNew = false,
   isTest = false,
   source = 'map-picks',
   fetchReasons = fetchPickReasons,
@@ -102,7 +103,7 @@ export function useNearbyPicks({
   const ratingsCount = ratingsCountOf(myReviews);
   const lat = origin?.lat;
   const lng = origin?.lng;
-  const key = uid && origin ? nearbyPicksCacheKey({ uid, ratingsCount, origin, miles, lastCategory, extraCount: extraPlaces?.length || 0 }) : null;
+  const key = uid && origin ? nearbyPicksCacheKey({ uid, ratingsCount, origin, miles, lastCategory, extraCount: extraPlaces?.length || 0, scope: fillNew ? 'test' : '' }) : null;
 
   const cached = useMemo(() => {
     // refreshToken: re-read after a manual refresh cleared the entry.
@@ -113,9 +114,9 @@ export function useNearbyPicks({
   const { usual, fresh, favorites } = useMemo(
     () =>
       enabled && lat != null
-        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides, extraPlaces })
+        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides, extraPlaces, fillNew })
         : { usual: [], fresh: [], favorites: [] },
-    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces]
+    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces, fillNew]
   );
   // "Show different places": what was on screen before the last refresh is
   // skipped, so the same top places don't come straight back.

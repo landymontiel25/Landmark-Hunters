@@ -442,7 +442,7 @@ export default function MapExplore({ experiments = false }) {
     return () => document.body.classList.remove('map-nav-active');
   }, [navActive]);
   // The menu number (5 = 5 mi or 5 km, per the units setting).
-  const [radiusOption, setRadiusMiles] = useZoomRadius();
+  const [radiusOption, setRadiusMiles] = useZoomRadius(experiments ? 'test' : null);
   const radiusMiles = optionToMiles(radiusOption, units);
 
   // "Picked for you right now": a sheet over the map, signed in, once the
@@ -1032,7 +1032,13 @@ export default function MapExplore({ experiments = false }) {
 
   const picksReady = !!user && !!myReviewsLoaded;
   const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen;
-  const picksH = picksMinimized ? `${PICKS_SHEET_H.minimized}px` : experiments ? PICKS_SHEET_H.moodCollapsed : `${PICKS_SHEET_H.collapsed}px`;
+  const picksH = picksMinimized
+    ? `${PICKS_SHEET_H.minimized}px`
+    : experiments
+      ? picksExpanded
+        ? PICKS_SHEET_H.moodExpanded
+        : PICKS_SHEET_H.moodCollapsed
+      : `${PICKS_SHEET_H.collapsed}px`;
 
   return (
     <div

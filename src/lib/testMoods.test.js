@@ -23,6 +23,15 @@ describe('the Test tab moods', () => {
     expect(found.map((p) => p.id)).toEqual(['show', 'zoo']);
   });
 
+  it('makes a night out bars and clubs only, not shows and zoos', () => {
+    const night = TEST_MOODS.find((m) => m.id === 'night');
+    expect(night.categories).toEqual(['local-life']);
+    const pool = [place('bar', ['local-life'], 0.4), place('zoo', ['entertainment'], 0.2), place('cafe', ['food'], 0.1)];
+    expect(moodPlaces({ moodId: 'night', pool, moods: TEST_MOODS }).map((p) => p.id)).toEqual(['bar']);
+    // The real Map's moods keep including entertainment.
+    expect(moodPlaces({ moodId: 'night', pool }).map((p) => p.id)).toEqual(['zoo', 'bar']);
+  });
+
   it('does not change the real Map moods', () => {
     expect(MOODS[0].id).toBe('eat');
     expect(MOODS.some((m) => m.id === 'tech')).toBe(true);
