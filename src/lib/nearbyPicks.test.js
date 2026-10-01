@@ -181,6 +181,16 @@ describe('closed places and low ratings', () => {
     expect(isClosedNow({ permanentlyClosed: true }, tuesday(12))).toBe(true);
   });
 
+  it('keeps a late-night range open past midnight into the next day', () => {
+    // Tuesday 1am is still Monday night's session.
+    expect(isClosedNow({ hours: 'Mon-Sat 6pm-2am' }, tuesday(1))).toBe(false);
+    expect(isClosedNow({ hours: 'Mon 6pm-2am' }, tuesday(1))).toBe(false);
+    expect(isClosedNow({ hours: 'Mon 6pm-2am' }, tuesday(3))).toBe(true);
+    // Sunday 1am is Saturday night's session; Sunday is otherwise closed.
+    const sunday1am = new Date(2026, 9, 4, 1, 0);
+    expect(isClosedNow({ hours: 'Sat 6pm-2am, Sun closed' }, sunday1am)).toBe(false);
+  });
+
   it('treats missing or unreadable hours as open', () => {
     expect(isClosedNow({}, tuesday(3))).toBe(false);
     expect(isClosedNow({ hours: 'Varies by season' }, tuesday(3))).toBe(false);
