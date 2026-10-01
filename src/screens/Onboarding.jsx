@@ -243,7 +243,11 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
       <p className="screen-subtitle">
         {deckDone
           ? 'Mapr has what you told it and will use it for your very next picks. You can change any of it later in Settings.'
-          : `Mapr will use the ${answers.length} you answered. Finish the rest of the cards any time: the banner on the Map tab brings you back.`}
+          : `${
+              answers.length
+                ? `Mapr will use the ${answers.length} ${answers.length === 1 ? 'card' : 'cards'} you answered.`
+                : "You skipped the cards, so Mapr doesn't know your taste yet."
+            } Finish the rest of the cards any time: the banner on the Map tab brings you back.`}
       </p>
       {bonusError && <ErrorNotice compact message={bonusError} onRetry={retryBonus} />}
       <button type="button" className="btn btn-primary btn-block" onClick={() => exit('/mapr')}>
