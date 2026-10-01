@@ -75,7 +75,20 @@ export async function recordReferralIfPending(newUser) {
  * call site). Each side can only ever write its own uid's fields, per
  * firestore.rules, so this never touches another account's points.
  */
-export async function claimMyReferralBonuses(uid, userName) {
+// One run per uid at a time. Profile re-runs its claim effect whenever the
+// `user` object changes (and twice on mount in StrictMode), and each run
+// reads "not claimed yet" before the first one has written the flag, so two
+// overlapping runs both paid out the same +50.
+const claimsInFlight = new Map();
+export function claimMyReferralBonuses(uid, userName) {
+  if (!db || !uid) return Promise.resolve();
+  if (claimsInFlight.has(uid)) return claimsInFlight.get(uid);
+  const run = claimBonuses(uid, userName).finally(() => claimsInFlight.delete(uid));
+  claimsInFlight.set(uid, run);
+  return run;
+}
+
+async function claimBonuses(uid, userName) {
   if (!db || !uid) return;
   const { awardLeaderboardPoints } = await import('./leaderboard');
 

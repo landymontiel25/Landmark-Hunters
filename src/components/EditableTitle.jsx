@@ -46,7 +46,12 @@ export default function EditableTitle({ value, onSave, prefix = null, label = 'R
         value={draft}
         autoFocus
         onChange={(e) => setDraft(e.target.value)}
-        onKeyDown={(e) => e.key === 'Escape' && setEditing(false)}
+        onKeyDown={(e) => {
+          if (e.key !== 'Escape') return;
+          // Cancel the rename only; don't also close the dialog around it.
+          e.preventDefault();
+          setEditing(false);
+        }}
       />
       <button type="submit" className="btn btn-primary btn-sm" disabled={!draft.trim()}>
         Save

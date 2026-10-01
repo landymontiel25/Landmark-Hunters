@@ -1,6 +1,8 @@
 import {
   doc,
   getDoc,
+  getDocFromServer,
+  waitForPendingWrites,
   setDoc,
   updateDoc,
   deleteDoc,
@@ -15,8 +17,10 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import { settleWrite } from './offlineWrite';
 import { syncMyReviewVisibility } from './reviews';
 
+const PENDING_WRITES_WAIT_MS = 8000;
 const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
 
 // Our own validation errors are already written for people -- tagging them
@@ -30,7 +34,27 @@ function userError(message) {
 
 export async function getUserProfile(uid) {
   if (!db || !uid) return null;
-  const snap = await getDoc(doc(db, 'users', uid));
+  const ref = doc(db, 'users', uid);
+  let snap = await getDoc(ref);
+  // A fresh session writes to this doc at sign-in (touchLastActive,
+  // upsertUserProfile) before the first read lands. With nothing cached yet,
+  // getDoc then answers from those pending local merges alone -- a 5-field
+  // doc, `fromCache` false -- and the caller took it for the real profile:
+  // onboarding looked unfinished, so "Onboarding has been updated" was
+  // re-sent (and its write to an existing notification denied) on every
+  // sign-in. Let those writes land, then ask the server for the real thing;
+  // if that fails or stalls, throw so the caller retries or falls back to its
+  // cached copy instead of trusting this.
+  if (snap.metadata?.hasPendingWrites) {
+    let timer;
+    await Promise.race([
+      waitForPendingWrites(db),
+      new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Profile read timed out')), PENDING_WRITES_WAIT_MS);
+      }),
+    ]).finally(() => clearTimeout(timer));
+    snap = await getDocFromServer(ref);
+  }
   return snap.exists() ? snap.data() : null;
 }
 
@@ -116,7 +140,7 @@ export async function upsertUserProfile(user) {
 // rather than just hidden client-side.
 export async function setProfileVisibility(uid, isPublic) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { public: !!isPublic, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { public: !!isPublic, updatedAt: serverTimestamp() }, { merge: true }));
   // Your reviews carry a copy of this for comment lists (see reviews.js).
   await syncMyReviewVisibility(uid, !!isPublic).catch(() => {});
 }
@@ -126,7 +150,7 @@ export async function setProfileVisibility(uid, isPublic) {
 // means enabled.
 export async function setHabitTrackingEnabled(uid, enabled) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { habitTrackingEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { habitTrackingEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // Whether Mapr keeps learning location even with the app closed (see
@@ -136,7 +160,7 @@ export async function setHabitTrackingEnabled(uid, enabled) {
 // "Always" location permission rather than something already granted.
 export async function setBackgroundLocationEnabled(uid, enabled) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { backgroundLocationEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { backgroundLocationEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // Written by the background watcher itself (throttled -- see
@@ -159,7 +183,7 @@ export async function saveLastKnownLocation(uid, { lat, lng, accuracy, at }) {
 // bothers sending anything (see usePushNotificationsSync.js).
 export async function setPushNotificationsEnabled(uid, enabled) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { pushNotificationsEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { pushNotificationsEnabled: !!enabled, updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // One entry per device that's ever registered, keyed by its own FCM token --
@@ -190,7 +214,7 @@ export async function removePushToken(uid, token) {
 // reads better than any keyword list could.
 export async function saveTasteIntro(uid, text) {
   if (!db || !uid) return;
-  await setDoc(doc(db, 'users', uid), { tasteIntro: (text || '').trim().slice(0, 2000), updatedAt: serverTimestamp() }, { merge: true });
+  await settleWrite(setDoc(doc(db, 'users', uid), { tasteIntro: (text || '').trim().slice(0, 2000), updatedAt: serverTimestamp() }, { merge: true }));
 }
 
 // Answer to "You really love [tag]. Want us to lean more into it?" (see
@@ -307,14 +331,25 @@ export async function sendFriendRequest(fromUser, toUser) {
   if (fromUser.uid === toUser.uid) throw userError("That's your own account.");
   const edge = await getDoc(doc(db, 'friend_edges', `${fromUser.uid}_${toUser.uid}`));
   if (edge.exists()) throw userError('You two are already friends.');
-  await setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
+  // They already asked you: a second, crossing request would leave one of
+  // the two stuck pending forever after the other is accepted.
+  const theirs = await getDocs(query(collection(db, 'friend_requests'), where('to', '==', fromUser.uid)));
+  if (theirs.docs.some((d) => d.data().from === toUser.uid)) {
+    throw userError(`@${toUser.username || toUser.displayName || 'They'} already sent you a request. Accept it under Requests.`);
+  }
+  // Re-sending over your own pending request would be an update, which the
+  // rules don't allow -- it surfaced as a generic "couldn't send" error.
+  if (await hasPendingRequestTo(fromUser.uid, toUser.uid)) {
+    throw userError(`You already sent @${toUser.username || toUser.displayName || 'them'} a request -- waiting on them to accept.`);
+  }
+  await settleWrite(setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
     from: fromUser.uid,
     fromName: fromUser.username || fromUser.displayName || fromUser.email,
     to: toUser.uid,
     toName: toUser.username || toUser.displayName || toUser.email,
     status: 'pending',
     createdAt: serverTimestamp(),
-  });
+  }));
 }
 
 export async function listIncomingRequests(uid) {
@@ -322,6 +357,15 @@ export async function listIncomingRequests(uid) {
   // deleted, so everything addressed to you is a pending request.
   const snap = await getDocs(query(collection(db, 'friend_requests'), where('to', '==', uid)));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+// A request's doc id is deterministic (from_to), so a re-sent request after a
+// decline reuses the same id. Screens that hide "just answered" requests key
+// on this instead, so the new request isn't swallowed by the old answer.
+export function requestKey(req) {
+  const t = req?.createdAt;
+  const stamp = t?.seconds != null ? `${t.seconds}.${t.nanoseconds ?? 0}` : '';
+  return `${req?.id}|${stamp}`;
 }
 
 export async function acceptRequest(req) {
@@ -340,14 +384,43 @@ export async function acceptRequest(req) {
     createdAt: serverTimestamp(),
   });
   batch.delete(doc(db, 'friend_requests', req.id));
-  await batch.commit();
+  await settleWrite(batch.commit());
 }
 
 export async function declineRequest(req) {
-  await deleteDoc(doc(db, 'friend_requests', req.id));
+  await settleWrite(deleteDoc(doc(db, 'friend_requests', req.id)));
 }
+
+const prunedEdges = new Set();
 
 export async function listFriends(uid) {
   const snap = await getDocs(query(collection(db, 'friend_edges'), where('owner', '==', uid)));
-  return snap.docs.map((d) => d.data());
+  const edges = snap.docs.map((d) => d.data());
+  // An edge's friendName is the handle at the moment the request was
+  // accepted; a friend who changed their username since would otherwise
+  // keep showing under the old (now unsearchable) name everywhere friends
+  // are listed. Prefer the live username, fall back to the stored one.
+  const live = await Promise.allSettled(edges.map((e) => getDoc(doc(db, 'users', e.friend))));
+  const out = [];
+  edges.forEach((e, i) => {
+    const r = live[i];
+    // A friend who deleted their account: their half of the friendship (the
+    // edge you own) can't be removed by them -- firestore.rules only lets an
+    // owner delete their own edge -- so it would list a ghost forever. Drop it
+    // from the list and clear your own half. Only on a real "no such user"
+    // answer from the server, never a failed read or a cache-only miss.
+    if (r.status === 'fulfilled' && r.value?.exists?.() === false && !r.value?.metadata?.fromCache) {
+      // Once per edge: listFriends runs from several places at once, and a
+      // second delete of an already-deleted doc is a (harmless) permission-denied.
+      const edgeId = `${e.owner}_${e.friend}`;
+      if (!prunedEdges.has(edgeId)) {
+        prunedEdges.add(edgeId);
+        deleteDoc(doc(db, 'friend_edges', edgeId)).catch(() => {});
+      }
+      return;
+    }
+    const username = r.status === 'fulfilled' && r.value?.exists?.() ? r.value.data()?.username : null;
+    out.push(username ? { ...e, friendName: username } : e);
+  });
+  return out;
 }

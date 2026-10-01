@@ -1,14 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
-import { subscribeLeaderboard } from '../lib/leaderboard';
+import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
-import { msUntilStreakLapse, dayKey, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
+import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 
 function formatLeft(ms) {
@@ -60,6 +61,18 @@ function CountdownClock({ ms, secured }) {
 function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
   const popoverRef = useRef(null);
   const [rect, setRect] = useState(null);
+  // The popover is centered under its trigger, which sits near the left edge
+  // of the header -- a wide one ran off the left of the screen. Measured
+  // after render and nudged back inside the viewport.
+  const [clampedLeft, setClampedLeft] = useState(null);
+  useLayoutEffect(() => {
+    if (!open || !rect || !popoverRef.current) return;
+    const width = popoverRef.current.offsetWidth;
+    const vw = document.documentElement.clientWidth;
+    const center = rect.left + rect.width / 2;
+    const margin = 8;
+    setClampedLeft(Math.max(margin + width / 2, Math.min(center, vw - margin - width / 2)));
+  });
 
   useEffect(() => {
     if (!open) return undefined;
@@ -73,7 +86,10 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
     };
     document.addEventListener('mousedown', close);
     document.addEventListener('touchstart', close);
+    const onKey = (e) => e.key === 'Escape' && onRequestClose();
+    document.addEventListener('keydown', onKey);
     return () => {
+      document.removeEventListener('keydown', onKey);
       window.removeEventListener('resize', update);
       window.removeEventListener('scroll', update, true);
       document.removeEventListener('mousedown', close);
@@ -90,7 +106,7 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
       style={{
         position: 'fixed',
         top: rect.bottom + 18,
-        left: rect.left + rect.width / 2,
+        left: clampedLeft ?? rect.left + rect.width / 2,
         right: 'auto',
         transform: 'translateX(-50%)',
       }}
@@ -117,6 +133,7 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
 // too is harmless.
 function StreakBadge() {
   const { user, firebaseEnabled } = useAuth();
+  const today = useTodayKey();
   const [streak, setStreak] = useState(null);
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
@@ -125,14 +142,21 @@ function StreakBadge() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
+    // Keep the unsubscribe: handing it back from the .then() below returns it
+    // to nobody, which left a live listener behind every time `user` changed.
+    let unsubscribe = null;
+    const subscribe = () => {
+      if (cancelled || unsubscribe) return;
+      unsubscribe = subscribeMySoloStreak(user.uid, setStreak, () => {});
+    };
     ensureSoloStreak(user.displayName || 'A traveler', user.uid)
-      .then(() => {
-        if (cancelled) return;
-        return subscribeMySoloStreak(user.uid, setStreak, () => {});
-      })
-      .catch(() => {});
+      .then(subscribe)
+      // The set-up call failing (offline, server hiccup) shouldn't hide an
+      // existing streak from the badge.
+      .catch(subscribe);
     return () => {
       cancelled = true;
+      if (unsubscribe) unsubscribe();
     };
   }, [firebaseEnabled, user]);
 
@@ -145,9 +169,11 @@ function StreakBadge() {
 
   if (!firebaseEnabled || !user) return null;
 
-  const count = streak?.count || 0;
+  // A lapsed streak (a missed day, no freeze) keeps its old stored count until
+  // the next close resets it -- show the real, already-broken 0 instead.
+  const count = displayStreakCount(streak);
   const active = count > 0;
-  const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
+  const secured = isDayHeld(streak, today);
 
   return (
     <div className="header-streak-wrap" ref={ref}>
@@ -198,6 +224,7 @@ function StreakBadge() {
 function PairStreakBadge() {
   const { user, firebaseEnabled } = useAuth();
   const { streaks } = usePairStreaks();
+  const today = useTodayKey();
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
@@ -213,9 +240,12 @@ function PairStreakBadge() {
 
   // The streak you're most invested in, if you have more than one -- just
   // the highest count, ties broken by whichever sorts first.
-  const primary = streaks.length ? streaks.reduce((a, b) => (b.count > a.count ? b : a)) : null;
-  const active = !!primary && primary.count > 0;
-  const secured = !!primary && primary.lastCompletedDay === dayKey(new Date());
+  const primary = streaks.length
+    ? streaks.reduce((a, b) => (displayStreakCount(b) > displayStreakCount(a) ? b : a))
+    : null;
+  const primaryCount = displayStreakCount(primary);
+  const active = primaryCount > 0;
+  const secured = isDayHeld(primary, today);
   const partnerName = primary
     ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
     : null;
@@ -232,7 +262,7 @@ function PairStreakBadge() {
         <span className="header-streak-flame" aria-hidden="true">
           {'\u{1F525}\u{1F525}'}
         </span>
-        <span className="header-streak-num">{primary ? primary.count : 0}</span>
+        <span className="header-streak-num">{primaryCount}</span>
       </button>
       <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
         {!primary ? (
@@ -263,7 +293,7 @@ function PairStreakBadge() {
 function CountBadge({ count }) {
   if (!(count > 0)) return null;
   return (
-    <span className="notif-badge" role="status" aria-label={`${count} notifications`}>
+    <span className="notif-badge" role="status" aria-label={`${count} ${count === 1 ? 'notification' : 'notifications'}`}>
       {count > 9 ? '9+' : count}
     </span>
   );
@@ -289,11 +319,22 @@ function ProfileMenu() {
       setMe(null);
       return;
     }
+    let cancelled = false;
     const unsub = subscribeLeaderboard('weekly', (entries) => {
       const idx = entries.findIndex((e) => e.userId === user.uid);
-      setMe({ points: idx >= 0 ? entries[idx].points : 0, rank: idx >= 0 ? idx + 1 : null });
+      if (idx >= 0) {
+        setMe({ points: entries[idx].points, rank: rankOf(entries, idx) });
+        return;
+      }
+      // Not in the top 50: show your real points (unranked), not "0 pts".
+      getMyLeaderboardEntry('weekly', user.uid)
+        .then((mine) => !cancelled && setMe({ points: mine?.points || 0, rank: null }))
+        .catch(() => !cancelled && setMe({ points: 0, rank: null }));
     }, 50, () => setMe({ points: null, rank: null, failed: true }));
-    return unsub;
+    return () => {
+      cancelled = true;
+      unsub();
+    };
   }, [firebaseEnabled, user]);
 
   useEffect(() => {
@@ -308,8 +349,13 @@ function ProfileMenu() {
     function handleClickOutside(e) {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false);
     }
+    const handleKey = (e) => e.key === 'Escape' && setOpen(false);
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKey);
+    };
   }, []);
 
   if (!firebaseEnabled) return null;
@@ -328,7 +374,7 @@ function ProfileMenu() {
 
   return (
     <div className="profile-menu" ref={ref}>
-      <button type="button" className="score-chip profile-menu-trigger" onClick={() => setOpen((o) => !o)}>
+      <button type="button" className="score-chip profile-menu-trigger" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <span className="score-chip-pts">{name}</span>
         <span className="profile-menu-caret">{'▾'}</span>
       </button>

@@ -1,9 +1,9 @@
 import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
-import { discoveryPicks, usualPicks } from './tagScores';
+import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
 import { tierStars } from './ratingFlow';
-import { coarseLocation } from './maprPicks';
 import { linksFrom, primaryCategory } from './preferenceChains';
+import { formatDistance } from './formatDistance';
 
 // "Picked for you right now": nearby picks ranked on-device from the saved
 // tag scores (tagScores.js usualPicks / discoveryPicks), filtered to what is
@@ -14,8 +14,19 @@ import { linksFrom, primaryCategory } from './preferenceChains';
 export const DISTANCE_OPTIONS_MI = [1, 5, 10, 15, 20, 30, 50, 100];
 export const DEFAULT_DISTANCE_MI = 10;
 export const METERS_PER_MILE = 1609.34;
+// The distance chips and the map zoom menu offer the same numbers (1, 5,
+// 10...) in whichever unit the Units setting resolves to; internally
+// everything stays in miles.
+export const distanceUnitLabel = (units) => (units === 'metric' ? 'km' : 'mi');
+export const optionToMiles = (n, units) => (units === 'metric' ? (n * 1000) / METERS_PER_MILE : n);
 // Same bar as Plan Your Trip's "The usual" / "Something new".
 export const MIN_RATINGS_FOR_PICKS = 10;
+// "Rate 10 places" for someone with none; "Rate 1 more place" for someone at 9.
+export function ratePlacesText(count, min = MIN_RATINGS_FOR_PICKS) {
+  const left = Math.max(0, min - (Number(count) || 0));
+  if (left === 0 || left === min) return `Rate ${min} places`;
+  return `Rate ${left} more ${left === 1 ? 'place' : 'places'}`;
+}
 // Four in the full list, the first three in the collapsed bottom sheet.
 export const PICKS_SHOWN = 4;
 export const SHEET_PICKS = 3;
@@ -28,6 +39,14 @@ export const MEAL_LIMIT = 3;
 export const NEARBY_INTEREST_MI = 1;
 // A rating at or below this many stars rules the place out for good.
 export const LOW_RATING_STARS = 2;
+// Places rated at least this many stars ("I loved it" is 5) are favorites:
+// within FAVORITE_RADIUS_MI of you they go to the front of the picks (up to
+// FAVORITE_SLOTS of them), ahead of new places. One you are standing at
+// (inside FAVORITE_MIN_METERS) is not worth suggesting.
+export const FAVORITE_MIN_STARS = 4;
+export const FAVORITE_RADIUS_MI = 1;
+export const FAVORITE_SLOTS = 2;
+export const FAVORITE_MIN_METERS = 75;
 // Same 4-hour freshness as the Mapr Picks cache (maprPicks.js).
 export const PICKS_CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 
@@ -108,7 +127,7 @@ function parseRange(text) {
   };
   const a = side(m[1], m[2], m[3], m[4]);
   const b = side(m[5], m[6], m[7], m[8]);
-  const endMins = b.mins ?? toMinutes(b.h, b.min, b.suffix);
+  let endMins = b.mins ?? toMinutes(b.h, b.min, b.suffix);
   let startMins = a.mins;
   if (startMins == null) {
     // "10-5pm": borrow the end's am/pm unless that puts the start after the end.
@@ -116,6 +135,9 @@ function parseRange(text) {
     startMins = toMinutes(a.h, a.min, borrowed);
     if (!a.suffix && b.suffix && startMins > endMins) startMins = toMinutes(a.h, a.min, 'am');
   }
+  // "9-5" (no am/pm anywhere) is a normal day, 9am-5pm, not 9am-5am: a bare
+  // end that lands before the start is read as the afternoon.
+  if (a.mins == null && b.mins == null && !a.suffix && !b.suffix && Number(b.h) < 12 && endMins <= startMins) endMins += 12 * 60;
   return { start: startMins, end: endMins };
 }
 
@@ -130,22 +152,29 @@ export function isClosedNow(l, date = new Date()) {
   if (/24 ?hours|24\/7/.test(lower)) return false;
   const day = date.getDay();
   const mins = date.getHours() * 60 + date.getMinutes();
-  let sawToday = false;
+  const yesterday = (day + 6) % 7;
+  let sawRange = false;
+  let closedToday = false;
   for (const seg of hours.split(/[,;]/)) {
     const days = daysIn(seg);
     const appliesToday = !days || days.has(day);
     if (/\bclosed\b/i.test(seg)) {
-      if (days && days.has(day)) return true;
+      if (days && days.has(day)) closedToday = true;
       continue;
     }
     const range = parseRange(seg);
-    if (!range || !appliesToday) continue;
-    sawToday = true;
-    const inRange = range.end > range.start ? mins >= range.start && mins < range.end : mins >= range.start || mins < range.end;
+    if (!range) continue;
+    sawRange = true;
+    const wraps = range.end <= range.start;
+    // A range that runs past midnight (6pm-2am) is still open after midnight
+    // on the day AFTER the one it's listed for.
+    if (wraps && (!days || days.has(yesterday)) && mins < range.end) return false;
+    if (!appliesToday) continue;
+    const inRange = wraps ? mins >= range.start || mins < range.end : mins >= range.start && mins < range.end;
     if (inRange) return false;
   }
-  // Hours listed for today and now falls outside all of them: closed.
-  return sawToday;
+  // Hours are listed but none cover this moment (or this day): closed.
+  return closedToday || sawRange;
 }
 
 // ---- The user's own ratings ---------------------------------------------
@@ -158,6 +187,13 @@ export function lowRatedIds(myReviews) {
   return Object.values(myReviews || {})
     .filter((r) => r?.landmarkId && starsOf(r) > 0 && starsOf(r) <= LOW_RATING_STARS)
     .map((r) => r.landmarkId);
+}
+
+// Reviews at FAVORITE_MIN_STARS or better, as { landmarkId, stars }.
+export function favoriteReviews(myReviews) {
+  return Object.values(myReviews || {})
+    .filter((r) => r?.landmarkId && starsOf(r) >= FAVORITE_MIN_STARS)
+    .map((r) => ({ landmarkId: r.landmarkId, stars: starsOf(r) }));
 }
 
 export function ratingsCountOf(myReviews) {
@@ -177,9 +213,160 @@ export function regionsWithin(origin, miles, landmarks = ALL_LANDMARKS) {
 // and every other Villanova food spot among them), and dropping them here
 // emptied the mood and meal rows for places that really are nearby. Only
 // the top picks require a photo (composePicks).
-export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS }) {
+// Drag-to-fix pin corrections ({ "region/id": { lat, lng } }) win over the
+// catalog coordinates, so a place is the same distance away everywhere.
+export function withPositionOverrides(places, overrides) {
+  if (!overrides) return places;
+  return places.map((l) => {
+    const pos = overrides[`${l.regionId || l.region}/${l.id}`];
+    return pos && Number.isFinite(pos.lat) && Number.isFinite(pos.lng) ? { ...l, lat: pos.lat, lng: pos.lng } : l;
+  });
+}
+
+// User-added landmarks (lib/customLandmarks.js) are real places too: a
+// restaurant someone added by hand is exactly what "close to me" should find.
+// They carry `region` (a catalog region id or 'custom'); the picks pipeline
+// reads `regionId`. A custom doc that duplicates a catalog id is ignored.
+export function withCustomPlaces(extraPlaces, landmarks = ALL_LANDMARKS) {
+  const seen = new Set(landmarks.map((l) => `${l.regionId}/${l.id}`));
+  const extras = (extraPlaces || [])
+    .filter((l) => l?.id && Number.isFinite(l.lat) && Number.isFinite(l.lng) && l.name)
+    .map((l) => ({ ...l, regionId: l.regionId || l.region || 'custom', custom: true }))
+    .filter((l) => !seen.has(`${l.regionId}/${l.id}`));
+  return extras.length ? [...landmarks, ...extras] : landmarks;
+}
+
+export function eligiblePlaces({ origin, miles, lowRated = [], date = new Date(), landmarks = ALL_LANDMARKS, overrides = null, extraPlaces = null }) {
   const low = new Set(lowRated);
-  return withinDistance(landmarks, origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
+  const all = extraPlaces?.length ? withCustomPlaces(extraPlaces, landmarks) : landmarks;
+  return withinDistance(withPositionOverrides(all, overrides), origin, miles).filter((l) => !isClosedNow(l, date) && !low.has(l.id));
+}
+
+// Places the user rated highly that are within a mile (or the chosen
+// distance, if that is smaller): best-rated first, then closest. They skip
+// closed places and the one the user is standing at. Built from the live
+// position and ratings so a new rating or a few blocks of walking shows up at
+// once, without waiting for the cached set to rebuild.
+export function favoritePlaces({ origin, miles, myReviews, date = new Date(), landmarks = ALL_LANDMARKS, overrides = null, extraPlaces = null }) {
+  if (!origin) return [];
+  const loved = favoriteReviews(myReviews);
+  if (!loved.length) return [];
+  const stars = new Map();
+  for (const f of loved) stars.set(f.landmarkId, Math.max(stars.get(f.landmarkId) || 0, f.stars));
+  const all = extraPlaces?.length ? withCustomPlaces(extraPlaces, landmarks) : landmarks;
+  const candidates = withPositionOverrides(
+    all.filter((l) => stars.has(l.id)),
+    overrides
+  );
+  const maxMiles = Math.min(FAVORITE_RADIUS_MI, Number.isFinite(miles) ? miles : FAVORITE_RADIUS_MI);
+  return withinDistance(candidates, origin, maxMiles)
+    .filter((l) => l.distanceMeters >= FAVORITE_MIN_METERS && !isClosedNow(l, date))
+    .map((l) => toPick({ ...l, pickType: 'usual' }, { favorite: true, favoriteStars: stars.get(l.id) }))
+    .sort((a, b) => b.favoriteStars - a.favoriteStars || a.distanceMeters - b.distanceMeters);
+}
+
+// Puts the favorites first in a finished picks list. At most FAVORITE_SLOTS of
+// them, then the rest in their existing order with the one "something new"
+// kept at the third spot, so the collapsed three are favorite, favorite, new
+// (or favorite, usual, new with one favorite). Stale copies of favorites in a
+// cached set are dropped and replaced by the live ones.
+export function mergeFavorites(picks, favorites, count = PICKS_SHOWN) {
+  if (!Array.isArray(picks)) return picks;
+  const favs = (favorites || []).slice(0, FAVORITE_SLOTS).map((f) => ({ ...f, reason: fallbackReason(f), reasonSource: 'fallback' }));
+  if (!favs.length) return picks.filter((p) => !p.favorite);
+  const taken = new Set(favs.map(pickKey));
+  const rest = picks.filter((p) => !p.favorite && !taken.has(pickKey(p)));
+  const fresh = rest.find((p) => p.pickType === 'new');
+  const list = [...favs, ...rest.filter((p) => p !== fresh)];
+  if (fresh) list.splice(Math.min(2, list.length), 0, fresh);
+  return list.slice(0, count);
+}
+
+// "Show me different places" (the Test tab's refresh button): remember what
+// has been on screen, and put the places not shown yet ahead of the ones that
+// were. The set is always full: when few places are left unseen, the earlier
+// ones fill in after them rather than leaving gaps.
+const SEEN_LIMIT = 80;
+export function nextSeenKeys({ seen = [], shown = [] }) {
+  return [...new Set([...(seen || []), ...(shown || []).map(pickKey)])].slice(-SEEN_LIMIT);
+}
+
+export function unseenFirst(list, seen) {
+  const skip = new Set(seen || []);
+  if (!skip.size) return list || [];
+  const items = list || [];
+  return [...items.filter((p) => !skip.has(pickKey(p))), ...items.filter((p) => skip.has(pickKey(p)))];
+}
+
+// With more favorites than slots, the ones not shown yet go first.
+export function rotateFavorites(favorites, seen) {
+  const skip = new Set(seen || []);
+  const unseen = (favorites || []).filter((f) => !skip.has(pickKey(f)));
+  return unseen.length ? [...unseen, ...(favorites || []).filter((f) => skip.has(pickKey(f)))] : favorites || [];
+}
+
+// Places past the chosen distance, nearest first -- what "Nothing within 1
+// mi. Nearest: ..." shows when the radius comes up empty or thin. Photos are
+// not required here (it is a pointer, not a pick).
+export const NEAREST_BEYOND_LIMIT = 3;
+export function nearestBeyond({ origin, miles, count = NEAREST_BEYOND_LIMIT, ...rest }) {
+  if (!origin) return [];
+  const max = miles * METERS_PER_MILE;
+  return eligiblePlaces({ origin, miles: 20000, ...rest })
+    .filter((p) => p.distanceMeters > max)
+    .slice(0, count)
+    .map((l) => toPick(l));
+}
+
+// The smallest distance chip (in the chip's own unit) that covers `meters`,
+// or the biggest chip when none does.
+export function chipCovering(meters, units, options = DISTANCE_OPTIONS_MI, above = 0) {
+  const chips = options.filter((n) => n > above);
+  return chips.find((n) => optionToMiles(n, units) * METERS_PER_MILE >= meters) ?? chips[chips.length - 1] ?? null;
+}
+
+// The chip "Widen to" offers: the smallest wider one reaching the nearest
+// place past the radius; null when there is no such place (widening would
+// show nothing new) or the biggest chip is already on.
+export function widenChip(places, distance, units, options = DISTANCE_OPTIONS_MI) {
+  if (!places?.length || distance >= options[options.length - 1]) return null;
+  return chipCovering(places[0].distanceMeters, units, options, distance);
+}
+
+// Default distance: the smallest chip with at least `min` places that could
+// be picked (open, not low-rated, with a photo), so a dense neighborhood
+// opens tight and a thin one (Doral has nothing within 5 mi) opens wide.
+export const SMART_MIN_PLACES = 3;
+export function smartDistance({ origin, units, lowRated = [], date = new Date(), overrides = null, extraPlaces = null, options = DISTANCE_OPTIONS_MI, min = SMART_MIN_PLACES }) {
+  if (!origin) return DEFAULT_DISTANCE_MI;
+  const maxMiles = optionToMiles(options[options.length - 1], units);
+  const pool = eligiblePlaces({ origin, miles: maxMiles, lowRated, date, overrides, extraPlaces }).filter(hasPhoto);
+  for (const n of options) {
+    const max = optionToMiles(n, units) * METERS_PER_MILE;
+    if (pool.filter((p) => p.distanceMeters <= max).length >= min) return n;
+  }
+  return DEFAULT_DISTANCE_MI;
+}
+
+// Last distance the user picked on the chips, per account. Only an explicit
+// choice is stored; the smart default is recomputed from where they are.
+const distanceStoreKey = (uid) => `lh-picks-distance:v1:${uid}`;
+export function readStoredDistance(uid, options = DISTANCE_OPTIONS_MI) {
+  if (!uid) return null;
+  try {
+    const n = Number(localStorage.getItem(distanceStoreKey(uid)));
+    return options.includes(n) ? n : null;
+  } catch {
+    return null;
+  }
+}
+export function writeStoredDistance(uid, n) {
+  if (!uid) return;
+  try {
+    localStorage.setItem(distanceStoreKey(uid), String(n));
+  } catch {
+    /* private mode */
+  }
 }
 
 export function toPick(l, extra = {}) {
@@ -206,29 +393,53 @@ export function toPick(l, extra = {}) {
 //   fresh -- "something new": categories rated little or never (discoveryPicks)
 // Ranking spans every region inside the distance filter, since a 30-mile
 // circle around Miami also covers Coral Gables and Key Biscayne.
-export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now) }) {
-  if (!origin) return { usual: [], fresh: [] };
+// Distance is a real ranking factor: every mile away costs this many tag-
+// score points (one "Highly recommend" is worth 10), so between two places
+// the user likes about equally the closer one wins, and a far place needs a
+// clearly better fit to outrank a near one.
+export const DISTANCE_PENALTY_PER_MILE = 1.5;
+export const rankScore = (p) => (p.tagScore || 0) - (p.distanceMeters / METERS_PER_MILE) * DISTANCE_PENALTY_PER_MILE;
+
+export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null }) {
+  if (!origin) return { usual: [], fresh: [], favorites: [] };
   const lowRated = lowRatedIds(myReviews);
-  const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date }).map((l) => [`${l.regionId}/${l.id}`, l]));
+  // Anything already rated (like Plan Your Trip and Mapr Travel Picks) is
+  // not a pick: "Picked for you" shouldn't suggest a place they've been to.
+  const ratedIds = Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean);
+  const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date, overrides, extraPlaces }).map((l) => [`${l.regionId}/${l.id}`, l]));
   const regions = [...new Set([...eligible.values()].map((l) => l.regionId))];
   const usual = [];
   const fresh = [];
+  const rated = new Set(ratedIds);
   for (const region of regions) {
-    const args = { profile, region, excludeIds: lowRated, checkinCounts, now };
-    for (const l of usualPicks({ ...args, limit: 60 })) {
+    const args = { profile, region, excludeIds: ratedIds, checkinCounts, now };
+    // Big limits: the distance filter runs AFTER the region's ranking, and a
+    // top-60 cut by taste alone dropped the closest places in a big region.
+    for (const l of usualPicks({ ...args, limit: 1000 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
-      if (e) usual.push(toPick({ ...l, distanceMeters: e.distanceMeters }));
+      if (e) usual.push(toPick({ ...l, lat: e.lat, lng: e.lng, distanceMeters: e.distanceMeters }));
     }
-    for (const l of discoveryPicks({ ...args, limit: 20 })) {
+    for (const l of discoveryPicks({ ...args, limit: 1000 })) {
       const e = eligible.get(`${l.regionId}/${l.id}`);
-      if (e) fresh.push(toPick({ ...l, distanceMeters: e.distanceMeters }));
+      if (e) fresh.push(toPick({ ...l, lat: e.lat, lng: e.lng, distanceMeters: e.distanceMeters }));
     }
   }
-  const best = (a, b) => (b.tagScore || 0) - (a.tagScore || 0) || a.distanceMeters - b.distanceMeters;
+  // Custom (user-added) places are not in the catalog the tag-score queues
+  // read, so score them here with the same effective tag scores.
+  for (const e of eligible.values()) {
+    if (!e.custom || rated.has(e.id)) continue;
+    const scores = effectiveTagScores(profile, e.regionId, now);
+    const cats = e.categories || [];
+    if (cats.some((c) => (scores[c] || 0) < 0)) continue;
+    const tagScore = Math.round(cats.reduce((sum, c) => sum + (scores[c] || 0), 0) * 10) / 10;
+    (tagScore > 0 ? usual : fresh).push(toPick({ ...e, pickType: tagScore > 0 ? 'usual' : 'new', tagScore }));
+  }
+  const best = (a, b) => rankScore(b) - rankScore(a) || a.distanceMeters - b.distanceMeters;
   const usualKeys = new Set(usual.map(pickKey));
   return {
     usual: usual.sort(best),
     fresh: fresh.filter((p) => !usualKeys.has(pickKey(p))).sort(best),
+    favorites: favoritePlaces({ origin, miles, myReviews, date, overrides, extraPlaces }),
   };
 }
 
@@ -293,11 +504,18 @@ export function selectReady(items, isReady = () => true, limit = Infinity) {
 // ---- Reasons -------------------------------------------------------------
 
 // The plain line a card shows when the one AI call fails or is skipped.
-export function fallbackReason(p) {
+// With `units` and a distance on the pick, it ends with the real distance in
+// the user's units ("... 0.3 mi away"); the AI lines never mention distance.
+export function fallbackReason(p, units = null) {
   const cat = categoryLabel(primaryCategory(p?.categories));
-  if (p?.chain) return `You often go for ${categoryLabel(p.chain.to)} after ${categoryLabel(p.chain.from)}.`;
-  if (p?.pickType === 'new') return `Something new for you: ${cat}.`;
-  return `${cat} is one of your favorite kinds of places.`;
+  const away = units && Number.isFinite(p?.distanceMeters) ? ` ${formatDistance(p.distanceMeters, units)} away.` : '';
+  if (p?.favorite) {
+    const stars = p.favoriteStars || 0;
+    return `${stars >= 5 ? 'You loved this place.' : `You rated this ${stars} stars.`}${away}`;
+  }
+  if (p?.chain) return `You often go for ${categoryLabel(p.chain.to)} after ${categoryLabel(p.chain.from)}.${away}`;
+  if (p?.pickType === 'new') return `Something new for you: ${cat}.${away}`;
+  return `${cat} is one of your favorite kinds of places.${away}`;
 }
 
 // Attaches a reason to each pick: the AI line when there's a usable one for
@@ -322,6 +540,15 @@ export function lovedSeed(myReviews, landmarks = ALL_LANDMARKS) {
     if (l) return l;
   }
   return null;
+}
+
+// `pool` without anything the user has already rated. "Picked for you" skips
+// those (rankNearbyCandidates), and so must the rows built from the same pool
+// that suggest a place ("Because you liked", "Time to eat?") -- otherwise they
+// recommend the restaurant you are standing in.
+export function unratedPlaces(pool, myReviews) {
+  const rated = new Set(Object.values(myReviews || {}).map((r) => r?.landmarkId).filter(Boolean));
+  return (pool || []).filter((l) => !rated.has(l.id));
 }
 
 // Up to `limit` places like `liked`: same main category first, then any
@@ -400,8 +627,13 @@ export function nearbyInterest({ usual = [], maxMiles = NEARBY_INTEREST_MI }) {
 
 const CACHE_PREFIX = 'lh-nearby-picks:v1';
 
-export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '' }) =>
-  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${coarseLocation(origin)}:${miles}:${lastCategory || ''}`;
+// ~1 km grid, not coarseLocation's ~10 km: a set built across town would
+// otherwise be shown as-is, with places outside the distance filter.
+const nearbyCell = (origin) => (origin ? `${origin.lat.toFixed(2)},${origin.lng.toFixed(2)}` : 'nowhere');
+// extraCount: how many user-added places were in the pool, so adding one
+// rebuilds the set instead of waiting out the 4 hours.
+export const nearbyPicksCacheKey = ({ uid, ratingsCount, origin, miles, lastCategory = '', extraCount = 0 }) =>
+  `${CACHE_PREFIX}:${uid}:${ratingsCount}:${nearbyCell(origin)}:${miles}:${lastCategory || ''}${extraCount ? `:c${extraCount}` : ''}`;
 
 // The last set for this key, even when old: { picks, at, stale }. An old set
 // still goes on screen right away (marked stale) while a new one loads.

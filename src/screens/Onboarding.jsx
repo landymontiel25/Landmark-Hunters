@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useVisibleInterval } from '../lib/useVisibleInterval';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -8,6 +9,7 @@ import { allSwipeCards } from '../lib/onboardingCards';
 import { saveTasteIntro } from '../lib/friends';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
+import { useSlowLoad } from '../lib/useSlowLoad';
 import { markNotificationRead } from '../lib/notifications';
 import { ONBOARDING_VERSION, isDeckComplete, onboardingStatus, onboardingNoticeId } from '../lib/onboardingVersion';
 import {
@@ -21,6 +23,7 @@ import {
 import { useWelcomeBonus } from '../lib/useWelcomeBonus';
 import { needsFirstCheckIn, useCheckinCount } from '../lib/firstCheckIn';
 import { HowToStep, SwipeCardStack } from '../components/OnboardingSteps';
+import { Capacitor } from '@capacitor/core';
 import FirstCheckInStep from '../components/FirstCheckInStep';
 import LocationAlwaysStep from '../components/LocationAlwaysStep';
 import ErrorNotice from '../components/ErrorNotice';
@@ -51,7 +54,10 @@ function buildSteps({ isNew, verified, needsCheckIn }) {
     'cards',
     'notes',
     ...(needsCheckIn ? [CHECKIN_STEP] : []),
-    ...(isNew ? ['location'] : []),
+    // "Always" location is an iOS-app permission (backgroundLocation.js has no
+    // web fallback); in a browser the button could only ever fail with an error
+    // about iOS Settings, a dead end right before the finish.
+    ...(isNew && Capacitor.isNativePlatform() ? ['location'] : []),
     'done',
   ];
 }
@@ -59,12 +65,28 @@ function buildSteps({ isNew, verified, needsCheckIn }) {
 const INTEREST_IDS = new Set(INTERESTS.map((i) => i.id));
 
 export default function Onboarding({ isNew: isNewProp, onExit }) {
-  const { user, firebaseEnabled } = useAuth();
-  const { myProfile, profileFresh } = useFriends();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
+  const { myProfile, profileFresh, reload } = useFriends();
   const navigate = useNavigate();
+  // The profile read can fail for good (rules, a missing document, no
+  // connection); without this the skeleton below would never go away.
+  const profileStuck = useSlowLoad(!authLoading && !!user && !profileFresh);
 
+  if (authLoading) return <SkeletonList count={3} label="Loading" />;
   if (!firebaseEnabled || !user) return <Navigate to="/profile" replace />;
-  if (!profileFresh) return <SkeletonList count={3} label="Loading" />;
+  if (!profileFresh) {
+    if (profileStuck) {
+      return (
+        <div style={{ padding: '24px 20px' }}>
+          <ErrorNotice
+            message="We couldn't load your profile. Check your connection and try again."
+            onRetry={() => reload()}
+          />
+        </div>
+      );
+    }
+    return <SkeletonList count={3} label="Loading" />;
+  }
   return <Flow key={user.uid} user={user} profile={myProfile} isNewProp={isNewProp} onExit={onExit} navigate={navigate} />;
 }
 
@@ -122,7 +144,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
     goTo(after, patch);
   };
 
-  useWelcomeBonus(resultsSaved);
+  const { saveError: bonusError, retry: retryBonus } = useWelcomeBonus(resultsSaved);
 
   const deckDone = isDeckComplete(answers.length, cardWords.length);
 
@@ -142,7 +164,10 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
       for (const tag of loved) if (!trip.savedInterests.includes(tag)) toggleSavedInterest(tag);
       if (deckDone) {
         setResultsSaved(true);
-        markNotificationRead(onboardingNoticeId()).catch(() => {});
+        // Only when the notice was ever sent: updating a notification that
+        // doesn't exist is denied by firestore.rules (a new account that
+        // finishes onboarding in one go never gets one).
+        if (profile?.onboardingNoticeVersion) markNotificationRead(onboardingNoticeId(user.uid)).catch(() => {});
       }
       next();
     } catch (err) {
@@ -172,7 +197,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   }
   if (current === 'prompt') {
     return (
-      <div className="lab-center">
+      <div className="lab-center nav-clear">
         <h1 className="screen-title">
           <span>{'\u{1F389}'}</span> {isNew ? "You're in!" : 'Onboarding has been updated'}
         </h1>
@@ -191,7 +216,7 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   }
   if (current === 'howto') {
     return (
-      <div>
+      <div className="nav-clear">
         <HowToStep onNext={() => next()} />
         <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={() => goTo('notes')}>
           Skip this step
@@ -235,15 +260,20 @@ function Flow({ user, profile, isNewProp, onExit, navigate }) {
   if (current === 'location') return <LocationAlwaysStep onDone={() => next()} />;
 
   return (
-    <div className="lab-center">
+    <div className="lab-center nav-clear">
       <h1 className="screen-title">
         <span>{'\u{1F3C1}'}</span> {deckDone ? "You're all set" : "You're set for now"}
       </h1>
       <p className="screen-subtitle">
         {deckDone
           ? 'Mapr has what you told it and will use it for your very next picks. You can change any of it later in Settings.'
-          : `Mapr will use the ${answers.length} you answered. Finish the rest of the cards any time: the banner on the Map tab brings you back.`}
+          : `${
+              answers.length
+                ? `Mapr will use the ${answers.length} ${answers.length === 1 ? 'card' : 'cards'} you answered.`
+                : "You skipped the cards, so Mapr doesn't know your taste yet."
+            } Finish the rest of the cards any time: the banner on the Map tab brings you back.`}
       </p>
+      {bonusError && <ErrorNotice compact message={bonusError} onRetry={retryBonus} />}
       <button type="button" className="btn btn-primary btn-block" onClick={() => exit('/mapr')}>
         See my Mapr picks {'\u{2192}'}
       </button>
@@ -262,16 +292,8 @@ function VerifyEmail({ email, resend, refresh }) {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    const check = () => refresh().catch(() => {});
-    const timer = setInterval(check, 4000);
-    const onVisible = () => document.visibilityState === 'visible' && check();
-    document.addEventListener('visibilitychange', onVisible);
-    return () => {
-      clearInterval(timer);
-      document.removeEventListener('visibilitychange', onVisible);
-    };
-  }, [refresh]);
+  // Polls only while the app is in front (and checks once on coming back).
+  useVisibleInterval(() => refresh().catch(() => {}), 4000);
 
   const run = async (fn, done) => {
     setBusy(true);
@@ -287,7 +309,7 @@ function VerifyEmail({ email, resend, refresh }) {
   };
 
   return (
-    <div className="lab-center">
+    <div className="lab-center nav-clear">
       <h1 className="screen-title">
         <span>{'\u{1F4E7}'}</span> Verify your email
       </h1>
@@ -338,7 +360,17 @@ function NotesStep({ uid, savedIntro, saving, waiting, error, onDone }) {
   }, [savedIntro]);
 
   const trimmed = text.trim();
+  const submittingRef = useRef(false);
   const submit = async (save) => {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    try {
+      await submitInner(save);
+    } finally {
+      submittingRef.current = false;
+    }
+  };
+  const submitInner = async (save) => {
     setTextError(null);
     if (save && trimmed && trimmed !== savedIntro.trim()) {
       try {

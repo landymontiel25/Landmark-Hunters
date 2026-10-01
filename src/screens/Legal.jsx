@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 
 const EFFECTIVE_DATE = 'September 12, 2026';
 const CONTACT_EMAIL = 'supportlandmarkhunters@gmail.com';
@@ -8,10 +9,11 @@ const CONTACT_EMAIL = 'supportlandmarkhunters@gmail.com';
 // reviewer or a real visitor should never have to log in to read it.
 export default function Legal() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location)} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 

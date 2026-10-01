@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { isAdmin } from '../lib/admins';
@@ -254,7 +255,7 @@ export default function RequestFeature() {
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location)} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 
@@ -264,10 +265,10 @@ export default function RequestFeature() {
 
       {admin && (
         <div className="tabs" style={{ margin: '0 0 16px' }}>
-          <button type="button" className={`tab-btn ${tab === 'request' ? 'active' : ''}`} onClick={() => setTab('request')}>
+          <button type="button" className={`tab-btn ${tab === 'request' ? 'active' : ''}`} aria-pressed={!!(tab === 'request')} onClick={() => setTab('request')}>
             Request a Feature
           </button>
-          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}>
+          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} aria-pressed={!!(tab === 'review')} onClick={() => setTab('review')}>
             Approve/Reject Features
           </button>
         </div>

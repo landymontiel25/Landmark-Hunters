@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 // Full-screen photo viewer: solid black, above everything (header and nav
@@ -8,6 +8,10 @@ export default function Lightbox({ src, alt = 'Photo', onClose }) {
   // A photo that can't load says so in words instead of a broken-image icon
   // on a black screen.
   const [failedSrc, setFailedSrc] = useState(null);
+  // Held in a ref so a parent passing a fresh inline onClose each render
+  // doesn't tear down and re-lock the page (and jump the scroll) every time.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
   // Lock the page: iOS ignores overflow:hidden on body, so pin the body
   // in place at the current scroll offset and put it back on close.
   useEffect(() => {
@@ -19,7 +23,7 @@ export default function Lightbox({ src, alt = 'Photo', onClose }) {
     document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
     document.body.classList.add('lightbox-open');
-    const onKey = (e) => e.key === 'Escape' && onClose?.();
+    const onKey = (e) => e.key === 'Escape' && onCloseRef.current?.();
     window.addEventListener('keydown', onKey);
     return () => {
       document.body.style.position = position;
@@ -30,7 +34,7 @@ export default function Lightbox({ src, alt = 'Photo', onClose }) {
       window.removeEventListener('keydown', onKey);
       window.scrollTo(0, y);
     };
-  }, [src, onClose]);
+  }, [src]);
 
   if (!src) return null;
   return createPortal(

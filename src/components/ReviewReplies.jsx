@@ -61,7 +61,10 @@ export default function ReviewReplies({ reviewId, currentUser, reviewAuthorUid }
         setRestored(false);
       },
       commit: async () => {
-        await addReply(reviewId, { uid: currentUser.uid, userName, text });
+        const realId = await addReply(reviewId, { uid: currentUser.uid, userName, text });
+        // Settle the placeholder right away (real id, no longer faded) so it
+        // can be deleted even if the refresh below fails (e.g. goes offline).
+        if (realId) setReplies((cur) => (cur || []).map((r) => (r.id === tempId ? { ...r, id: realId, pending: false } : r)));
         // Swap the placeholder for the real doc (real id, so Delete works).
         await load({ quiet: true });
       },

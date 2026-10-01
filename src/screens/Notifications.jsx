@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { acceptRequest, declineRequest } from '../lib/friends';
+import { acceptRequest, declineRequest, requestKey } from '../lib/friends';
 import { subscribeMyNotifications, markNotificationRead } from '../lib/notifications';
 import { ALL_LANDMARKS } from '../data/regions';
 import { useToast, runOptimistic } from '../lib/ToastContext';
@@ -10,6 +10,7 @@ import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
+import { useVisibleInterval } from '../lib/useVisibleInterval';
 import { msUntilStreakLapse, dayKey } from '../lib/streaks';
 
 function formatCountdown(ms) {
@@ -40,11 +41,7 @@ function StreakCountdown({ createdAt }) {
   const sameDay = msLeft > 0 && msLeft <= 24 * 60 * 60 * 1000;
   const ticking = sameDay && !checkedInToday;
 
-  useEffect(() => {
-    if (!ticking) return;
-    const id = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, [ticking]);
+  useVisibleInterval(() => setNow(Date.now()), 1000, ticking);
 
   let label;
   let color;
@@ -76,7 +73,7 @@ function StreakCountdown({ createdAt }) {
 // whatever else lands in `notifications` going forward.
 export default function Notifications() {
   const navigate = useNavigate();
-  const { user, firebaseEnabled } = useAuth();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
   const { requests, reload: reloadFriends } = useFriends();
   const toast = useToast();
   const [items, setItems] = useState(null); // null = first snapshot not in yet
@@ -89,6 +86,7 @@ export default function Notifications() {
   const [readIds, setReadIds] = useState(() => new Set());
 
   useEffect(() => {
+    if (authLoading) return;
     if (!firebaseEnabled || !user) {
       setItems([]);
       return;
@@ -103,7 +101,7 @@ export default function Notifications() {
       },
       (err) => setLoadError(err)
     );
-  }, [firebaseEnabled, user, loadAttempt]);
+  }, [firebaseEnabled, user, authLoading, loadAttempt]);
 
   const toggleIn = (setter, id, on) =>
     setter((cur) => {
@@ -131,6 +129,10 @@ export default function Notifications() {
       navigate('/onboarding');
       return;
     }
+    if (n.type === 'streak_warning') {
+      navigate('/streaks');
+      return;
+    }
     if (n.groupTripId) {
       navigate(`/group/${n.groupTripId}`);
       return;
@@ -155,12 +157,12 @@ export default function Notifications() {
 
   const answer = (r, accept) =>
     runOptimistic({
-      apply: () => toggleIn(setAnsweredIds, r.id, true),
+      apply: () => toggleIn(setAnsweredIds, requestKey(r), true),
       commit: async () => {
         await (accept ? acceptRequest(r) : declineRequest(r));
         await reloadFriends();
       },
-      rollback: () => toggleIn(setAnsweredIds, r.id, false),
+      rollback: () => toggleIn(setAnsweredIds, requestKey(r), false),
       toast,
       errorMessage: friendlyError(
         null,
@@ -171,7 +173,7 @@ export default function Notifications() {
   const handleAccept = (r) => answer(r, true);
   const handleDecline = (r) => answer(r, false);
 
-  const visibleRequests = requests.filter((r) => !answeredIds.has(r.id));
+  const visibleRequests = requests.filter((r) => !answeredIds.has(requestKey(r)));
   const loaded = items !== null;
   const shownItems = (items || []).map((n) => (readIds.has(n.id) ? { ...n, read: true } : n));
   const groupInvites = shownItems.filter((n) => n.type === 'group_invite');
@@ -204,8 +206,8 @@ export default function Notifications() {
           <h3 style={{ marginTop: 0 }}>{'\u{1F465}'} Friend Requests</h3>
           {visibleRequests.map((r) => (
             <div key={r.id} className="friend-row">
-              <span>@{r.fromName}</span>
-              <span style={{ display: 'flex', gap: 6 }}>
+              <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>@{r.fromName}</span>
+              <span style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
                 <button type="button" className="btn btn-primary btn-tight" onClick={() => handleAccept(r)}>
                   Accept
                 </button>

@@ -17,12 +17,14 @@ import {
   arrayRemove,
   Timestamp,
 } from 'firebase/firestore';
+import { sharedRead, invalidating } from './sharedRead';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
+import { isOffline, OFFLINE_MESSAGE } from './friendlyError';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
-import { REGIONS } from '../data/regions';
+import { REGIONS, canonicalLandmarkId } from '../data/regions';
 
 export { distanceMeters };
 
@@ -99,7 +101,7 @@ export const PERIODS = ['weekly', 'monthly', 'yearly'];
  * should learn from every visit whether or not it paid out.
  * Returns { claimed, alreadyClaimed, visitNumber?, payout?, checkinId? }.
  */
-export async function claimCheckIn({
+async function _claimCheckIn({
   userId,
   userName,
   landmarkId,
@@ -110,6 +112,9 @@ export async function claimCheckIn({
   homeCoords = null,
   landmarkCoords = null,
 }) {
+  // A check-in is a server transaction, so it can't be queued offline; without
+  // this it spent ~25s on "Posting..." (transaction retries) before failing.
+  if (isOffline()) throw Object.assign(new Error(OFFLINE_MESSAGE), { userMessage: OFFLINE_MESSAGE });
   // Visit numbering needs a count of this user's prior check-ins here -- a
   // query, which a transaction can't run (only reads by reference). This
   // happens just before the transaction; the transaction's own existence
@@ -119,8 +124,24 @@ export async function claimCheckIn({
   const priorSnap = await getDocs(
     query(collection(db, 'checkins'), where('userId', '==', userId), where('landmarkId', '==', landmarkId))
   );
-  const visitNumber = priorSnap.size + 1;
-  const checkinId = visitNumber === 1 ? `${userId}_${landmarkId}` : `${userId}_${landmarkId}_${visitNumber}`;
+  // The doc id counts every prior doc (a "Rate a Landmark" claim occupies an
+  // id too), but the visit number -- which drives the payout taper and the
+  // love-reason prompt -- counts only real visits. Otherwise rating a place
+  // first made your first real check-in there pay as a 20% "repeat".
+  // Highest existing visit index, not the doc count: deleting a check-in
+  // leaves a gap, and count+1 would then collide with a surviving doc id.
+  const base = `${userId}_${landmarkId}`;
+  let maxIdx = 0;
+  for (const d of priorSnap.docs) {
+    if (d.id === base) maxIdx = Math.max(maxIdx, 1);
+    else if (d.id?.startsWith(`${base}_`) && /^\d+$/.test(d.id.slice(base.length + 1))) {
+      maxIdx = Math.max(maxIdx, Number(d.id.slice(base.length + 1)));
+    }
+  }
+  const docNumber = Math.max(priorSnap.size, maxIdx) + 1;
+  const realPrior = priorSnap.docs.filter((d) => isRealCheckin(d.data())).length;
+  const visitNumber = realPrior + 1;
+  const checkinId = docNumber === 1 ? `${userId}_${landmarkId}` : `${userId}_${landmarkId}_${docNumber}`;
   const checkinRef = doc(db, 'checkins', checkinId);
   const keys = periodKeys();
 
@@ -223,19 +244,14 @@ export async function backfillUserName(userId, userName) {
 }
 
 /**
- * Saves a photo on the check-in itself (checkins/{uid}_{landmarkId}.photoURL),
- * for check-ins that carry no rating (a dorm, a campus spot, or a rating
- * that didn't save) -- those never get a review doc to hang the photo on.
- * Storage path checkin_photos/{landmarkId}/{uid}.jpg; the Firestore rule
- * lets an owner update photoURL on their own check-in.
+ * Saves a photo from the check-in moment onto the check-in
+ * (checkins/{uid}_{landmarkId}), for check-ins that carry no rating (a dorm,
+ * a campus spot, or a rating that didn't save). It adds to the same gallery
+ * as addCheckinPhoto, each in its own Storage file, so a second photo (or a
+ * later visit's) never overwrites the first.
  */
-export async function attachCheckinPhoto(userId, landmarkId, file) {
-  if (!db || !storage || !userId || !landmarkId || !file) return null;
-  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}.jpg`);
-  await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
-  const photoURL = await getDownloadURL(storageRef);
-  await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURL });
-  return photoURL;
+async function _attachCheckinPhoto(userId, landmarkId, file) {
+  return addCheckinPhoto(userId, landmarkId, file);
 }
 
 /**
@@ -245,7 +261,7 @@ export async function attachCheckinPhoto(userId, landmarkId, file) {
  * (src/lib/admins.js); a non-admin write attempt is rejected there
  * regardless of what the client sends.
  */
-export async function updateCheckinTimestamp(checkinId, date) {
+async function _updateCheckinTimestamp(checkinId, date) {
   if (!db || !checkinId || !date) return;
   await _updateDoc(doc(db, 'checkins', checkinId), { createdAt: Timestamp.fromDate(date) });
 }
@@ -263,9 +279,9 @@ export const MAX_CHECKIN_PHOTOS = 9;
  * checkin_photos/{landmarkId}/{uid}_{timestamp}.jpg keeps each upload its
  * own file instead of overwriting the last one.
  */
-export async function addCheckinPhoto(userId, landmarkId, file) {
+async function _addCheckinPhoto(userId, landmarkId, file) {
   if (!db || !storage || !userId || !landmarkId || !file) return null;
-  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}.jpg`);
+  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${Math.floor(Math.random() * 1000)}.jpg`);
   await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
   const photoURL = await getDownloadURL(storageRef);
   await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURLs: arrayUnion(photoURL) });
@@ -273,7 +289,7 @@ export async function addCheckinPhoto(userId, landmarkId, file) {
 }
 
 /** Removes one photo from the check-in's gallery, and its file in Storage. */
-export async function removeCheckinPhoto(userId, landmarkId, photoURL) {
+async function _removeCheckinPhoto(userId, landmarkId, photoURL) {
   if (!db || !userId || !landmarkId || !photoURL) return;
   await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURLs: arrayRemove(photoURL) });
   if (storage) {
@@ -291,7 +307,27 @@ export async function removeCheckinPhoto(userId, landmarkId, photoURL) {
 export async function getMyCheckin(userId, landmarkId) {
   if (!db || !userId || !landmarkId) return null;
   const snap = await getDoc(doc(db, 'checkins', `${userId}_${landmarkId}`));
-  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+  if (!snap.exists()) return null;
+  const base = { id: snap.id, ...snap.data() };
+  // The first doc id is taken by a "Rate a Landmark" claim if you rated a
+  // place before ever visiting it -- its date is when you RATED, not when you
+  // checked in. Show the first real visit's date instead (photos and other
+  // fields stay on the first doc, which is where they're written).
+  if (!isRealCheckin(base)) {
+    try {
+      const all = await getDocs(
+        query(collection(db, 'checkins'), where('userId', '==', userId), where('landmarkId', '==', landmarkId))
+      );
+      const real = all.docs
+        .map((d) => ({ id: d.id, ...d.data() }))
+        .filter(isRealCheckin)
+        .sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0))[0];
+      if (real?.createdAt) return { ...base, createdAt: real.createdAt, visitDocId: real.id };
+    } catch {
+      /* fall back to the rating claim's own date */
+    }
+  }
+  return base;
 }
 
 export async function hasClaimedLandmark(userId, landmarkId) {
@@ -447,10 +483,15 @@ export async function getUserStats(userId) {
  */
 export async function getUserCheckins(userId) {
   if (!db || !userId) return [];
-  const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
-  return snap.docs
-    .map((d) => ({ id: d.id, ...d.data() }))
-    .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  return sharedRead(`checkins:${userId}`, async () => {
+    const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
+    return snap.docs
+      .map((d) => {
+        const c = { id: d.id, ...d.data() };
+        return { ...c, landmarkId: canonicalLandmarkId(c.landmarkId, c.region) };
+      })
+      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+  });
 }
 
 /**
@@ -460,8 +501,9 @@ export async function getUserCheckins(userId) {
  * or block the real "Check In" button/points once you actually go.
  */
 export async function getUserCheckedInLandmarkIds(userId) {
-  const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
-  return snap.docs.map((d) => d.data()).filter(isRealCheckin).map((x) => x.landmarkId);
+  // Shares the one check-ins read getUserCheckins already makes at startup.
+  const rows = await getUserCheckins(userId);
+  return rows.filter(isRealCheckin).map((x) => canonicalLandmarkId(x.landmarkId, x.region));
 }
 
 /**
@@ -504,8 +546,32 @@ export async function getFriendsLeaderboard(period, friendUids, myUid) {
     )
   );
   return results
-    .flatMap((snap) => snap.docs.map((d) => d.data()))
+    // `id` matters: the board rows are keyed on it (the global listener
+    // path adds it too), and without it every row's key is undefined.
+    .flatMap((snap) => snap.docs.map((d) => ({ id: d.id, ...d.data() })))
     .sort((a, b) => b.points - a.points);
+}
+
+/**
+ * Competition ("1224") rank of entries[idx] on a points-sorted board: people
+ * on the same points share a rank, so a tie never shows one of them a worse
+ * number than the other.
+ */
+export function rankOf(entries, idx) {
+  if (idx < 0 || idx >= entries.length) return null;
+  return entries.findIndex((x) => x.points === entries[idx].points) + 1;
+}
+
+/**
+ * Your own entry for this period, wherever you rank -- the global board only
+ * lists the top N, so someone further down would otherwise look like they
+ * have no points at all.
+ */
+export async function getMyLeaderboardEntry(period, userId) {
+  if (!db || !userId) return null;
+  const keys = periodKeys();
+  const snap = await getDoc(doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`));
+  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 }
 
 /**
@@ -607,3 +673,13 @@ export function subscribeLeaderboard(period, onData, topN = 50, onError) {
     (err) => onError?.(err)
   );
 }
+
+export const claimCheckIn = invalidating(_claimCheckIn);
+
+export const attachCheckinPhoto = invalidating(_attachCheckinPhoto);
+
+export const updateCheckinTimestamp = invalidating(_updateCheckinTimestamp);
+
+export const addCheckinPhoto = invalidating(_addCheckinPhoto);
+
+export const removeCheckinPhoto = invalidating(_removeCheckinPhoto);

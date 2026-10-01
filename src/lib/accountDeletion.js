@@ -56,13 +56,21 @@ export async function deleteAccountData(uid) {
 
   const checkinSnap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', uid)));
   for (const d of checkinSnap.docs) {
-    const { photoURL } = d.data();
+    const { photoURL, photoURLs } = d.data();
+    const gallery = Array.isArray(photoURLs) ? photoURLs : [];
     try {
-      await updateDoc(d.ref, { userName: 'Deleted User', photoURL: null });
+      // photoURLs is the check-in's photo gallery (addCheckinPhoto); the rules
+      // let the owner change exactly userName / photoURL / photoURLs.
+      await updateDoc(d.ref, {
+        userName: 'Deleted User',
+        photoURL: null,
+        ...(gallery.length ? { photoURLs: [] } : {}),
+      });
     } catch {
       /* best-effort */
     }
     await deletePhotoSafe(photoURL);
+    for (const u of gallery) await deletePhotoSafe(u);
   }
 
   await deleteAll(await getDocs(query(collection(db, 'leaderboard_entries'), where('userId', '==', uid))));

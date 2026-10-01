@@ -1,7 +1,9 @@
-import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
+import { DISTANCE_OPTIONS_MI, distanceUnitLabel } from '../../lib/nearbyPicks';
+import { useUnits } from '../../lib/UnitsContext';
 
-// How far picks may be: 1-100 miles, default 10 (DEFAULT_DISTANCE_MI).
+// How far picks may be: 1-100 miles or km, default 10 (DEFAULT_DISTANCE_MI).
 export default function DistanceFilter({ value, onChange, options = DISTANCE_OPTIONS_MI }) {
+  const { units } = useUnits();
   return (
     <div className="mpp-distance" role="radiogroup" aria-label="Distance">
       <span className="mpp-distance-label">Within</span>
@@ -15,7 +17,7 @@ export default function DistanceFilter({ value, onChange, options = DISTANCE_OPT
             className={`mpp-chip ${value === mi ? 'active' : ''}`}
             onClick={() => onChange(mi)}
           >
-            {mi} mi
+            {mi} {distanceUnitLabel(units)}
           </button>
         ))}
       </div>

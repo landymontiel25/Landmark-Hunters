@@ -1475,7 +1475,7 @@ export const SANFRANCISCO_LANDMARKS = [
     typicalMinutes: 45
   },
   {
-    id: "washington-square-park",
+    id: "washington-square-park-sf",
     editorialRank: 71,
     popularity: 6,
     cost: "Free",
@@ -1643,7 +1643,7 @@ export const SANFRANCISCO_LANDMARKS = [
     typicalMinutes: 20
   },
   {
-    id: "the-battery",
+    id: "the-battery-sf",
     editorialRank: 79,
     popularity: 5,
     cost: "Free",

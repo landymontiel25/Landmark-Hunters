@@ -66,7 +66,7 @@ describe('OnboardingLab', () => {
     await click(button(el, 'Next'));
     expect(el.textContent).toContain('Love it: swipe right or tap ♥');
     expect(el.textContent).toContain("Don't like it: swipe left or tap ✕");
-    expect(el.textContent).toContain("Not sure or don't care: tap the card or tap −");
+    expect(el.textContent).toContain("Not sure or don't care (you'll be asked again later): tap the card or tap −");
 
     await click(button(el, 'Start'));
     expect(el.querySelector('.lab-progress').className).toContain('lab-tier-red');

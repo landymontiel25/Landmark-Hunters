@@ -57,7 +57,7 @@ export function CheckInProvider({ children }) {
     let cancelled = false;
     getUserCheckedInLandmarkIds(user.uid).then((ids) => {
       if (!cancelled) setClaimedMap(Object.fromEntries(ids.map((id) => [id, true])));
-    });
+    }).catch(() => {});
     return () => {
       cancelled = true;
     };
@@ -139,6 +139,11 @@ export function CheckInProvider({ children }) {
       // home-radius or 6th+ repeat visit pays 0 and has nothing to celebrate.
       if (result.claimed && result.payout > 0) {
         setCelebration(buildCelebration(result.payout));
+      } else if (!ratingOnly) {
+        // Paid nothing (6th+ repeat visit, or a duplicate claim): record that
+        // explicitly so the success panel doesn't fall back to showing the
+        // landmark's base value as if it had been earned.
+        setCelebration({ points: 0, rank: null, message: null });
       }
       // Only a brand-new claim has a visitNumber worth checking -- a repeat
       // tap on an already-claimed check-in (result.alreadyClaimed) never

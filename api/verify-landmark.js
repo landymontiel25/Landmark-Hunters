@@ -3,6 +3,7 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { enrichLandmark, reverseGeocode } from './_lib/enrichLandmark.js';
 import { withCors } from './_lib/cors.js';
+import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // Backs "Add Landmark" on the map: before a user-submitted spot gets saved as
 // a real landmark, this asks the AI to sanity-check it's a genuine physical
@@ -91,8 +92,11 @@ async function handler(req, res) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
     const name = String(body.name || '').trim().slice(0, 80);
     const categories = Array.isArray(body.categories) ? body.categories.map((c) => String(c).slice(0, 40)).slice(0, 6) : [];
-    const lat = Number(body.lat);
-    const lng = Number(body.lng);
+    // Number(null) and Number('') are 0, which would silently accept a
+    // missing coordinate as "Null Island" -- only real numbers/numeric strings count.
+    const toCoord = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
+    const lat = toCoord(body.lat);
+    const lng = toCoord(body.lng);
     // Photo is optional -- only validate its shape when one was actually sent.
     const imageDataUrl = String(body.imageDataUrl || '');
     const match = imageDataUrl ? imageDataUrl.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/) : null;
@@ -103,6 +107,10 @@ async function handler(req, res) {
 
     if (!name || !Number.isFinite(lat) || !Number.isFinite(lng) || (imageDataUrl && !match)) {
       res.status(400).json({ error: 'Missing name or location.' });
+      return;
+    }
+    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+      res.status(400).json({ error: "That location isn't valid — move the pin to a real spot on the map and try again." });
       return;
     }
 
@@ -144,7 +152,7 @@ async function handler(req, res) {
 
     const [, mediaType, imageB64] = hasPhoto ? match : [];
 
-    const client = new Anthropic();
+    const client = new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
     const msg = await client.messages.create({
       model: 'claude-haiku-4-5',
       max_tokens: 500,
@@ -194,10 +202,8 @@ async function handler(req, res) {
       free: parsed.free !== false,
     });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'AI request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

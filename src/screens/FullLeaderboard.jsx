@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { subscribeLeaderboard, cleanName } from '../lib/leaderboard';
+import { subscribeLeaderboard, cleanName, rankOf } from '../lib/leaderboard';
 import FriendPopoverName from '../components/FriendPopoverName';
 import { SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
@@ -102,7 +102,7 @@ export default function FullLeaderboard() {
         {TABS.map((t) => (
           <button
             key={t.id}
-            className={`tab-btn ${period === t.id ? 'active' : ''}`}
+            className={`tab-btn ${period === t.id ? 'active' : ''}`} aria-pressed={!!(period === t.id)}
             onClick={() => pickPeriod(t.id)}
           >
             {t.label}
@@ -136,7 +136,7 @@ export default function FullLeaderboard() {
         !loadFailed &&
         entries.map((e, idx) => (
           <div key={e.id} className={`leaderboard-row ${user && e.userId === user.uid ? 'me' : ''}`}>
-            <div className="leaderboard-rank">#{idx + 1}</div>
+            <div className="leaderboard-rank">#{rankOf(entries, idx)}</div>
             <div style={{ flex: 1 }}>
               <FriendPopoverName userId={e.userId} fallbackName={displayFor(e)}>
                 {displayFor(e)}

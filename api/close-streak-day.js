@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey } from './_lib/streakDay.js';
+import { previousDayKey, validClientDayKey, isDayBefore, monthKeyOfDay } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
@@ -57,7 +57,7 @@ async function handler(req, res) {
     return;
   }
   const { pairId, dayId } = req.body || {};
-  if (!pairId || typeof pairId !== 'string' || !dayId || typeof dayId !== 'string') {
+  if (!pairId || typeof pairId !== 'string' || !validClientDayKey(dayId)) {
     res.status(400).json({ error: 'pairId and dayId are required.' });
     return;
   }
@@ -140,33 +140,56 @@ async function handler(req, res) {
       return;
     }
 
-    // A frozen day (item 5, api/use-streak-freeze.js) bridges one gap the
-    // same as an actually-completed day would -- it holds the count, it
-    // doesn't add to it.
-    const bridged =
-      streak.lastCompletedDay === previousDayKey(dayId) || (streak.frozenDays || []).includes(previousDayKey(dayId));
-    const broke = !bridged && (streak.count || 0) > 0;
-    const nextCount = bridged ? (streak.count || 0) + 1 : 1;
-    const nextBest = Math.max(streak.best || 0, nextCount);
-    const update = {
-      count: nextCount,
-      best: nextBest,
-      lastCompletedDay: dayId,
-      updatedAt: FieldValue.serverTimestamp(),
-    };
-    // Recovery mission (item 7): only opens when a real break just happened
-    // AND the pair has no freezes left to fall back on. 24h window, logged
-    // reactively here (there's no scheduled cron yet to catch a break that
-    // nobody's client happens to trigger a close around).
-    if (broke && (streak.freezesLeft || 0) <= 0) {
-      update.recoveryOpenUntil = Date.now() + 24 * 60 * 60 * 1000;
-      update.recoveryPriorCount = streak.count || 0;
+    // Re-read and write inside a transaction: both partners' clients call this
+    // the moment they finish, and when they finish together both used to read
+    // the same pre-close count, both write it, and both pay out the day.
+    const outcome = await db.runTransaction(async (t) => {
+      const fresh = (await t.get(streakRef)).data() || streak;
+      if (fresh.lastCompletedDay === dayId) {
+        return { already: true, count: fresh.count, best: fresh.best };
+      }
+      // Never move lastCompletedDay backwards (e.g. a late call for yesterday).
+      if (fresh.lastCompletedDay && isDayBefore(dayId, fresh.lastCompletedDay)) {
+        return { stale: true };
+      }
+      // A frozen day (item 5, api/use-streak-freeze.js) bridges one gap the
+      // same as an actually-completed day would -- it holds the count, it
+      // doesn't add to it.
+      const bridged =
+        fresh.lastCompletedDay === previousDayKey(dayId) || (fresh.frozenDays || []).includes(previousDayKey(dayId));
+      const broke = !bridged && (fresh.count || 0) > 0;
+      const count = bridged ? (fresh.count || 0) + 1 : 1;
+      const best = Math.max(fresh.best || 0, count);
+      const update = { count, best, lastCompletedDay: dayId, updatedAt: FieldValue.serverTimestamp() };
+      // Recovery mission (item 7): only opens when a real break just happened
+      // AND the pair has no freezes left to fall back on. 24h window, logged
+      // reactively here (there's no scheduled cron yet to catch a break that
+      // nobody's client happens to trigger a close around).
+      // freezesLeft is only refreshed when someone touches freezes (see
+      // use-streak-freeze.js), so a stored 0 from last month really means a
+      // fresh allowance this month -- don't open a recovery mission then.
+      const freezesNow = fresh.freezeMonth === monthKeyOfDay(dayId) ? fresh.freezesLeft ?? 0 : 2;
+      if (broke && freezesNow <= 0) {
+        update.recoveryOpenUntil = Date.now() + 24 * 60 * 60 * 1000;
+        update.recoveryPriorCount = fresh.count || 0;
+      }
+      t.update(streakRef, update);
+      return { closed: true, count, best };
+    });
+    if (outcome.already) {
+      res.status(200).json({ ok: true, closed: true, count: outcome.count, best: outcome.best, already: true });
+      return;
     }
-    await streakRef.update(update);
+    if (outcome.stale) {
+      res.status(200).json({ ok: true, closed: false, reason: 'stale-day' });
+      return;
+    }
+    const nextCount = outcome.count;
+    const nextBest = outcome.best;
     const milestone = DUAL_MILESTONE_POINTS[nextCount] || 0;
     await Promise.all(
       (streak.memberIds || []).map((uid) =>
-        awardLeaderboardPointsServer(db, uid, streak.memberNames?.[uid], DUAL_DAY_POINTS + milestone)
+        awardLeaderboardPointsServer(db, uid, streak.memberNames?.[uid], DUAL_DAY_POINTS + milestone, dayId)
       )
     );
     res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });

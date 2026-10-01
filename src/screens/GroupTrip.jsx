@@ -16,6 +16,7 @@ import {
   deleteGroupTrip,
   renameGroupTrip,
   removeGroupPlace,
+  MAX_GROUP_MEMBERS,
 } from '../lib/groupTrips';
 import { orderStops, annotateRoute } from '../lib/routing';
 import { useDragReorder } from '../lib/useDragReorder';
@@ -23,6 +24,7 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { friendlyError } from '../lib/friendlyError';
@@ -160,8 +162,14 @@ export default function GroupTrip() {
   }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
-  const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
-    if (trip) reorderGroupLandmarks(trip, newIds).catch(() => {});
+  const { order: dragOrder, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
+    // A refused/dropped write used to vanish silently, leaving the new order
+    // on screen for you while everyone else (and a reopen) still had the old one.
+    if (trip) {
+      reorderGroupLandmarks(trip, newIds).catch((e) =>
+        toast.show(friendlyError(e, "Couldn't save the new order. Try again."))
+      );
+    }
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
 
@@ -330,9 +338,15 @@ export default function GroupTrip() {
           </div>
         ))}
         {/* Always the last row, under whoever joined most recently. */}
-        <button type="button" className="member-add-row" onClick={() => setShowAdd(true)}>
-          {'\u{2795}'} Add
-        </button>
+        {memberUids.length >= MAX_GROUP_MEMBERS ? (
+          <p className="screen-subtitle" style={{ marginBottom: 0 }}>
+            This trip is full: a group trip fits up to {MAX_GROUP_MEMBERS} people.
+          </p>
+        ) : (
+          <button type="button" className="member-add-row" onClick={() => setShowAdd(true)}>
+            {'\u{2795}'} Add
+          </button>
+        )}
         {showAdd && (
           <AddMemberSheet
             title={`Add someone to ${trip.name}`}
@@ -372,7 +386,11 @@ export default function GroupTrip() {
                     setSortPref('custom');
                     setEditing(false);
                   } else {
-                    if (trip) reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch(() => {});
+                    if (trip) {
+                      reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch((e) =>
+                        toast.show(friendlyError(e, "Couldn't save your list order. Try again."))
+                      );
+                    }
                     setEditing(true);
                   }
                 }}
@@ -434,8 +452,9 @@ export default function GroupTrip() {
                       type="button"
                       className="drag-handle"
                       title="Hold and drag to reorder"
-                      aria-label={`Drag to reorder ${l.name}`}
+                      aria-label={`Reorder ${l.name}: hold and drag, or use the up and down arrow keys`}
                       onPointerDown={startDrag(l.id)}
+                      onKeyDown={keyReorder(l.id)}
                     >
                       {'☰'}
                     </button>
@@ -444,6 +463,7 @@ export default function GroupTrip() {
                       type="button"
                       className="btn-icon-trash"
                       title="Remove from trip"
+                      aria-label="Remove from trip"
                       onClick={() => setLandmark(l, false)}
                     >
                       {'\u{1F5D1}\u{FE0F}'}
@@ -452,7 +472,7 @@ export default function GroupTrip() {
                 </div>
                 {addresses[l.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[l.id]}</p>}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                  <span className={`tag ${l.free ? 'tag-free' : ''}`}>{l.free ? 'Free to Visit' : 'Ticketed'}</span>
+                  <AdmissionTag landmark={l} />
                   {l.typicalMinutes && <span className="tag">{'\u{23F1}\u{FE0F}'} ~{l.typicalMinutes} min there</span>}
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

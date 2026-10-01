@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey } from './_lib/streakDay.js';
+import { previousDayKey, validClientDayKey, isDayBefore } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
 import { withCors } from './_lib/cors.js';
@@ -35,7 +35,7 @@ async function handler(req, res) {
     return;
   }
   const { dayId } = req.body || {};
-  if (!dayId || typeof dayId !== 'string') {
+  if (!validClientDayKey(dayId)) {
     res.status(400).json({ error: 'dayId is required.' });
     return;
   }
@@ -80,26 +80,44 @@ async function handler(req, res) {
       return;
     }
 
-    // A frozen day (api/use-solo-streak-freeze.js) bridges one gap the same
-    // way a dual streak's shared freeze does -- it holds the count, it
-    // doesn't add to it.
-    const bridged =
-      streak.lastCompletedDay === previousDayKey(dayId) || (streak.frozenDays || []).includes(previousDayKey(dayId));
-    const nextCount = bridged ? (streak.count || 0) + 1 : 1;
-    const nextBest = Math.max(streak.best || 0, nextCount);
-    // No recovery mission for solo (spec: solo has no shared freezes, no
-    // recovery mission, no reveal) -- a break with no freeze left just
-    // resets, same as it always would have under the old live-computed
-    // count.
-    await streakRef.update({
-      count: nextCount,
-      best: nextBest,
-      lastCompletedDay: dayId,
-      updatedAt: FieldValue.serverTimestamp(),
+    // Re-read and write inside a transaction so two overlapping calls (a
+    // double tap, two open tabs) can't both advance the count and both pay out.
+    const outcome = await db.runTransaction(async (t) => {
+      const fresh = (await t.get(streakRef)).data() || streak;
+      if (fresh.lastCompletedDay === dayId) {
+        return { already: true, count: fresh.count, best: fresh.best };
+      }
+      // Never move lastCompletedDay backwards (e.g. a late call for yesterday).
+      if (fresh.lastCompletedDay && isDayBefore(dayId, fresh.lastCompletedDay)) {
+        return { stale: true };
+      }
+      // A frozen day (api/use-solo-streak-freeze.js) bridges one gap the same
+      // way a dual streak's shared freeze does -- it holds the count, it
+      // doesn't add to it.
+      const bridged =
+        fresh.lastCompletedDay === previousDayKey(dayId) || (fresh.frozenDays || []).includes(previousDayKey(dayId));
+      const count = bridged ? (fresh.count || 0) + 1 : 1;
+      const best = Math.max(fresh.best || 0, count);
+      // No recovery mission for solo (spec: solo has no shared freezes, no
+      // recovery mission, no reveal) -- a break with no freeze left just
+      // resets, same as it always would have under the old live-computed
+      // count.
+      t.update(streakRef, { count, best, lastCompletedDay: dayId, updatedAt: FieldValue.serverTimestamp() });
+      return { closed: true, count, best };
     });
+    if (outcome.already) {
+      res.status(200).json({ ok: true, closed: true, already: true, count: outcome.count, best: outcome.best });
+      return;
+    }
+    if (outcome.stale) {
+      res.status(200).json({ ok: true, closed: false, reason: 'stale-day' });
+      return;
+    }
+    const nextCount = outcome.count;
+    const nextBest = outcome.best;
     const milestone = SOLO_MILESTONE_POINTS[nextCount] || 0;
     const userName = streak.memberNames?.[account.uid];
-    await awardLeaderboardPointsServer(db, account.uid, userName, SOLO_DAY_POINTS + milestone);
+    await awardLeaderboardPointsServer(db, account.uid, userName, SOLO_DAY_POINTS + milestone, dayId);
     res.status(200).json({
       ok: true,
       closed: true,

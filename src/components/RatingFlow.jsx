@@ -11,7 +11,7 @@ import {
   tierQuestion,
   commentQuestion,
 } from '../lib/ratingFlow';
-import { usePersistentState, readPersisted } from '../lib/usePersistentState';
+import { usePersistentState, readPersisted, isDraftSubmitting } from '../lib/usePersistentState';
 
 function toDraft(initial) {
   return {
@@ -48,7 +48,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   const isEmpty = useCallback((d) => !d?.tier || JSON.stringify(d) === initialJson, [initialJson]);
   const [restored, setRestored] = useState(() => {
     const saved = draftKey ? readPersisted(draftKey) : undefined;
-    return !!saved && !isEmpty(saved);
+    return !!saved && !isEmpty(saved) && !isDraftSubmitting(draftKey);
   });
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
   const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;
@@ -114,6 +114,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
               key={a.id}
               type="button"
               className={`chip rating-aspect ${rank >= 0 ? 'selected' : ''} ${taken || full ? 'disabled' : ''}`}
+              aria-pressed={rank >= 0}
               disabled={taken || full}
               onClick={() => toggleRank(setList, list, a.id)}
             >
@@ -143,6 +144,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
             key={t.id}
             type="button"
             className={`chip rating-tier ${tier === t.id ? 'selected' : ''}`}
+            aria-pressed={tier === t.id}
             onClick={() => pickTier(t.id)}
           >
             <span className="chip-icon">{t.emoji}</span>
@@ -162,6 +164,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
                 key={f.id}
                 type="button"
                 className={`tag rating-chip ${visitFrequency === f.id ? 'selected' : ''}`}
+                aria-pressed={visitFrequency === f.id}
                 onClick={() => pickFrequency(f.id)}
               >
                 {f.label}
@@ -185,6 +188,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
                   key={c.id}
                   type="button"
                   className={`tag rating-chip ${on ? 'selected' : ''} ${full ? 'disabled' : ''}`}
+                  aria-pressed={on}
                   disabled={full}
                   onClick={() => toggleChip(c.id)}
                 >
@@ -218,6 +222,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
           </p>
           <textarea
             name="comment"
+            aria-label="Your comment"
             autoComplete="off"
             enterKeyHint="done"
             className="rating-comment"

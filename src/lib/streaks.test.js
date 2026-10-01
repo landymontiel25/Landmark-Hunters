@@ -211,3 +211,27 @@ describe('msUntilStreakLapse', () => {
     expect(msUntilStreakLapse(new Date('2026-03-10T00:00:00Z'))).toBe(24 * 60 * 60 * 1000);
   });
 });
+
+describe('displayStreakCount (lapsed stored streaks)', () => {
+  const now = new Date(2026, 5, 10, 15, 0, 0);
+  const key = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  it('keeps the count when completed today or yesterday', async () => {
+    const { displayStreakCount } = await import('./streaks');
+    expect(displayStreakCount({ count: 7, lastCompletedDay: key(now) }, now)).toBe(7);
+    expect(displayStreakCount({ count: 7, lastCompletedDay: key(new Date(2026, 5, 9)) }, now)).toBe(7);
+  });
+  it('shows 0 once a day has been missed with no freeze', async () => {
+    const { displayStreakCount } = await import('./streaks');
+    expect(displayStreakCount({ count: 7, lastCompletedDay: key(new Date(2026, 5, 8)) }, now)).toBe(0);
+  });
+  it('keeps the count when today is frozen even if yesterday was missed', async () => {
+    const { displayStreakCount } = await import('./streaks');
+    const streak = { count: 7, lastCompletedDay: key(new Date(2026, 5, 8)), frozenDays: [key(now)] };
+    expect(displayStreakCount(streak, now)).toBe(7);
+  });
+  it('keeps the count when yesterday was frozen', async () => {
+    const { displayStreakCount } = await import('./streaks');
+    const streak = { count: 7, lastCompletedDay: key(new Date(2026, 5, 8)), frozenDays: [key(new Date(2026, 5, 9))] };
+    expect(displayStreakCount(streak, now)).toBe(7);
+  });
+});

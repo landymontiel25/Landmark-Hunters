@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { isAdmin } from '../lib/admins';
@@ -249,7 +250,7 @@ export default function ReportBug() {
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location)} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 
@@ -259,10 +260,10 @@ export default function ReportBug() {
 
       {admin && (
         <div className="tabs" style={{ margin: '0 0 16px' }}>
-          <button type="button" className={`tab-btn ${tab === 'report' ? 'active' : ''}`} onClick={() => setTab('report')}>
+          <button type="button" className={`tab-btn ${tab === 'report' ? 'active' : ''}`} aria-pressed={!!(tab === 'report')} onClick={() => setTab('report')}>
             Report a Bug
           </button>
-          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}>
+          <button type="button" className={`tab-btn ${tab === 'review' ? 'active' : ''}`} aria-pressed={!!(tab === 'review')} onClick={() => setTab('review')}>
             Resolve/Dismiss Reports
           </button>
         </div>

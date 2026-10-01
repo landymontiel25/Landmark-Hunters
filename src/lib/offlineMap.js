@@ -51,15 +51,21 @@ export async function downloadRegionTiles(region, { minZoom = 12, maxZoom = 15, 
   const tiles = tilesForViewbox(region.viewbox, minZoom, maxZoom).slice(0, 1500);
   const cache = await caches.open(TILE_CACHE);
   let done = 0;
+  let saved = 0;
   for (const { z, x, y } of tiles) {
     await Promise.all(
       SUBDOMAINS.map(async (s) => {
         const url = `https://${s}.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`;
         try {
           const existing = await cache.match(url);
-          if (!existing) {
+          if (existing) {
+            saved += 1;
+          } else {
             const res = await fetch(url);
-            if (res.ok) await cache.put(url, res);
+            if (res.ok) {
+              await cache.put(url, res);
+              saved += 1;
+            }
           }
         } catch {
           /* one failed tile shouldn't abort the whole download */
@@ -69,12 +75,15 @@ export async function downloadRegionTiles(region, { minZoom = 12, maxZoom = 15, 
     done += 1;
     onProgress?.(done / tiles.length);
   }
+  // Every tile failing (no signal) must not be reported as "Downloaded".
+  if (tiles.length && saved === 0) throw new Error('No map tiles could be downloaded');
   markRegionDownloaded(region.id);
 }
 
 function readDownloaded() {
   try {
-    return JSON.parse(localStorage.getItem(DOWNLOADED_KEY) || '{}');
+    const v = JSON.parse(localStorage.getItem(DOWNLOADED_KEY) || '{}');
+    return v && typeof v === 'object' ? v : {};
   } catch {
     return {};
   }

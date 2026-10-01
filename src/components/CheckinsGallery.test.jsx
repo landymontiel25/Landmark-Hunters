@@ -9,7 +9,7 @@ import { MemoryRouter } from 'react-router-dom';
 const ts = (d) => ({ seconds: Math.floor(new Date(d).getTime() / 1000) });
 vi.mock('../lib/leaderboard', () => ({
   getUserCheckins: async () => [
-    { id: 'c1', landmarkId: 'a', landmarkName: 'Wynwood Walls', region: 'miami', points: 100, createdAt: ts('2026-05-01') },
+    { id: 'c1', landmarkId: 'a', landmarkName: 'Wynwood Walls', region: 'miami', points: 100, photoURLs: ['old.jpg', 'new.jpg'], createdAt: ts('2026-05-01') },
     { id: 'c2', landmarkId: 'b', landmarkName: 'Liberty Bell', region: 'philly', points: 100, createdAt: ts('2026-06-01') },
     { id: 'c3', landmarkId: 'c', landmarkName: 'Eiffel Tower', region: 'paris', points: 100, createdAt: ts('2026-07-01') },
   ],
@@ -71,5 +71,13 @@ describe('My Check-ins search', () => {
     await search('tokyo');
     expect(names()).toHaveLength(0);
     expect(container.textContent).toContain('No check-ins match "tokyo"');
+  });
+});
+
+describe('My Check-ins thumbnails', () => {
+  it('shows the newest photo added to the check-in, not the stock image', async () => {
+    await mount();
+    const row = [...container.querySelectorAll('.checkin-row')].find((r) => r.textContent.includes('Wynwood Walls'));
+    expect(row.querySelector('img').getAttribute('src')).toBe('new.jpg');
   });
 });

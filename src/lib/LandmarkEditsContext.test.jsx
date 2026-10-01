@@ -8,6 +8,7 @@ import { getLandmark } from '../data/regions';
 
 vi.mock('./landmarkOverrides', () => ({
   getLandmarkEdits: async () => ({ 'lake-como/the-10-10-bench': { name: 'Renamed Bench' } }),
+  getLandmarkOverrides: async () => ({ 'lake-como/the-10-10-bench': { lat: 1.5, lng: 2.5 } }),
 }));
 
 import { LandmarkEditsProvider, useLandmarkEdits } from './LandmarkEditsContext';
@@ -30,5 +31,24 @@ describe('applyEdit', () => {
       )
     );
     expect(shown).toBe('Renamed Bench');
+  });
+
+  it('applies an admin pin move so detail/list/check-in use the corrected position', async () => {
+    const raw = getLandmark('lake-como', 'the-10-10-bench');
+    let shown;
+    function Probe() {
+      const l = useLandmarkEdits().applyEdit(raw);
+      shown = [l.lat, l.lng];
+      return null;
+    }
+    const el = document.createElement('div');
+    await act(async () =>
+      createRoot(el).render(
+        <LandmarkEditsProvider>
+          <Probe />
+        </LandmarkEditsProvider>
+      )
+    );
+    expect(shown).toEqual([1.5, 2.5]);
   });
 });

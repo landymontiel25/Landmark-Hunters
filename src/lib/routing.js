@@ -1,5 +1,6 @@
 import { distanceMeters } from './geo';
 import { API_BASE } from './apiBase';
+import { fetchJson } from './friendlyError';
 
 // Rough average speeds for a mixed walk/transit/drive city trip.
 const WALK_SPEED_MPS = 1.3; // ~4.7 km/h
@@ -212,7 +213,7 @@ export async function enhanceRouteWithDrivingTimes(origin, route) {
  * Throws with the server's message on failure.
  */
 export async function fetchDirections(origin, destination) {
-  const res = await fetch(`${API_BASE}/api/directions`, {
+  const data = await fetchJson(`${API_BASE}/api/directions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -220,8 +221,7 @@ export async function fetchDirections(origin, destination) {
       destination: { lat: destination.lat, lng: destination.lng },
     }),
   });
-  const data = await res.json().catch(() => null);
-  if (!res.ok || !data?.points?.length) throw new Error(data?.error || 'Could not get directions right now.');
+  if (!data?.points?.length) throw Object.assign(new Error('No route'), { userMessage: 'Could not get directions right now.' });
   return data;
 }
 
@@ -247,12 +247,27 @@ export function mapsDeepLink(destination, destLat, destLng) {
 // Google Maps with every stop in order (Apple Maps' web links can't take
 // more than one destination). Google allows up to 9 waypoints between
 // origin and destination; with no origin it starts from your location.
+// Only the first 10 stops fit one link -- use googleMapsMultiStopLegs for more.
+export const MAPS_STOPS_PER_LINK = 10;
 export function googleMapsMultiStopLink(stops, origin, mode = 'driving') {
   const pt = (s) => `${s.lat},${s.lng}`;
-  const list = stops.slice(0, 10);
+  const list = stops.slice(0, MAPS_STOPS_PER_LINK);
   if (!list.length) return null;
   const params = new URLSearchParams({ api: '1', destination: pt(list[list.length - 1]), travelmode: mode });
   if (origin) params.set('origin', pt(origin));
   if (list.length > 1) params.set('waypoints', list.slice(0, -1).map(pt).join('|'));
   return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
+// Every stop, split into consecutive links of up to 10 stops. Each part
+// starts where the previous one ended, so nothing is dropped.
+export function googleMapsMultiStopLegs(stops, origin, mode = 'driving') {
+  const links = [];
+  let from = origin;
+  for (let i = 0; i < stops.length; i += MAPS_STOPS_PER_LINK) {
+    const chunk = stops.slice(i, i + MAPS_STOPS_PER_LINK);
+    links.push(googleMapsMultiStopLink(chunk, from, mode));
+    from = chunk[chunk.length - 1];
+  }
+  return links;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getLandmark, getRegion } from '../data/regions';
+import { getCustomLandmarks } from '../lib/customLandmarks';
 import { getUserCheckins, updateCheckinTimestamp, isRealCheckin } from '../lib/leaderboard';
 import { getMyReview } from '../lib/reviews';
 import { isRateable, tierById, tierStars } from '../lib/ratingFlow';
@@ -119,13 +120,19 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
 
   useEffect(() => {
     let cancelled = false;
+    // User-submitted landmarks aren't in the catalog; filled in once fetched
+    // so their cards get the landmark's own photo and coordinates too.
+    let customs = new Map();
     // `loaded` is false for the instant first paint, before reviews are read.
     const build = (c, review, loaded = false) => {
-      const lm = getLandmark(c.region, c.landmarkId);
+      const lm = getLandmark(c.region, c.landmarkId) || customs.get(c.landmarkId);
       // Prefer the photo saved AT check-in, then a rating photo, then the
       // landmark's stock image.
       const myPhoto = review?.photoURLs?.length ? review.photoURLs[0] : review?.photoURL || null;
-      const mine = c.photoURL || myPhoto || null;
+      // photoURLs is the check-in's own gallery (oldest -> newest, see
+      // addCheckinPhoto); show the newest, same as the landmark page does.
+      const checkinPhoto = c.photoURLs?.length ? c.photoURLs[c.photoURLs.length - 1] : c.photoURL;
+      const mine = checkinPhoto || myPhoto || null;
       // Only a tier rating (the chips flow) counts; a leftover star-only
       // review sorts as unrated, same as the Profile counter.
       const tier = review?.ratingTier ? tierById(review.ratingTier) : null;
@@ -137,7 +144,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
         name: c.landmarkName || lm?.name || c.landmarkId,
         photo: mine || lm?.images?.[0] || null,
         isMine: !!mine,
-        city: getRegion(c.region)?.name || c.region,
+        city: getRegion(c.region)?.name || (!c.region || c.region === 'null' || c.region === 'custom' ? 'Custom pin' : c.region),
         points: c.points || 0,
         createdAt: c.createdAt?.seconds || 0,
         date: fmtDateTime(c.createdAt?.seconds),
@@ -167,9 +174,12 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       // …then upgrade each tile with the user's own review via direct doc
       // reads (the reviews/{uid}_{landmarkId} doc), which the security rules
       // allow: their photo, and their rating for the rating sorts.
-      const reviews = await Promise.all(
-        rows.map((c) => getMyReview(user.uid, c.landmarkId).catch(() => null))
-      );
+      const needsCustoms = rows.some((c) => !getLandmark(c.region, c.landmarkId));
+      const [reviews, customList] = await Promise.all([
+        Promise.all(rows.map((c) => getMyReview(user.uid, c.landmarkId).catch(() => null))),
+        needsCustoms ? getCustomLandmarks().catch(() => []) : [],
+      ]);
+      customs = new Map(customList.map((l) => [l.id, l]));
       if (cancelled) return;
       setCheckins(rows.map((c, i) => build(c, reviews[i], true)));
     })();
@@ -184,9 +194,14 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   useEffect(() => {
     if (!checkins || restoredRef.current) return;
     restoredRef.current = true;
-    const saved = sessionStorage.getItem(scrollKey);
+    let saved = null;
+    try {
+      saved = sessionStorage.getItem(scrollKey);
+      if (saved != null) sessionStorage.removeItem(scrollKey);
+    } catch {
+      /* blocked storage */
+    }
     if (saved == null) return;
-    sessionStorage.removeItem(scrollKey);
     requestAnimationFrame(() => window.scrollTo(0, Number(saved)));
   }, [checkins, scrollKey]);
 
@@ -217,7 +232,11 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   const display = matched ? [...matched, ...(smartExtra.length ? [SMART_DIVIDER, ...smartExtra] : [])] : null;
 
   const go = (it) => {
-    sessionStorage.setItem(scrollKey, String(window.scrollY));
+    try {
+      sessionStorage.setItem(scrollKey, String(window.scrollY));
+    } catch {
+      /* blocked storage -- navigation must still work */
+    }
     const sequence = shown.map((c) => ({ regionId: c.regionId, landmarkId: c.landmarkId, name: c.name }));
     navigate(`/landmarks/${it.regionId}/${it.landmarkId}`, {
       state: { checkinNav: { sequence, index: shown.indexOf(it) } },
@@ -235,10 +254,10 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h3 style={{ margin: 0 }}>{'\u{1F4F8}'} {title} {checkins ? `(${checkins.length})` : ''}</h3>
         <div className="tabs" style={{ margin: 0 }}>
-          <button className={`tab-btn ${layout === 'list' ? 'active' : ''}`} onClick={() => setLayout('list')}>
+          <button className={`tab-btn ${layout === 'list' ? 'active' : ''}`} aria-pressed={!!(layout === 'list')} onClick={() => setLayout('list')}>
             {'\u{1F4C4}'} List
           </button>
-          <button className={`tab-btn ${layout === 'grid' ? 'active' : ''}`} onClick={() => setLayout('grid')}>
+          <button className={`tab-btn ${layout === 'grid' ? 'active' : ''}`} aria-pressed={!!(layout === 'grid')} onClick={() => setLayout('grid')}>
             {'\u{1F5BC}\u{FE0F}'} Grid
           </button>
         </div>
@@ -332,7 +351,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
               }}
             >
               {it.photo ? (
-                <img className="checkin-list-thumb" src={it.photo} alt={it.name} loading="lazy" />
+                <img className="checkin-list-thumb" src={it.photo} alt={it.name} loading="lazy" decoding="async" />
               ) : (
                 <div className="checkin-thumb-blank" />
               )}
@@ -346,6 +365,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                   >
                     <input
                       type="datetime-local"
+                      aria-label="Check-in date and time"
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
                       disabled={editSaving}
@@ -377,8 +397,8 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                     {canEditDates && (
                       <button
                         type="button"
-                        className="btn btn-ghost btn-sm"
-                        style={{ padding: '1px 6px', fontSize: '0.7rem' }}
+                        className="btn btn-ghost btn-sm admin-edit-btn"
+                        style={{ padding: '1px 10px', fontSize: '0.7rem' }}
                         onClick={(e) => {
                           e.stopPropagation();
                           startEdit(it);
@@ -395,6 +415,13 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                     userId={user.uid}
                     landmark={{ id: it.landmarkId, name: it.name, region: it.regionId }}
                     comment={it.comment}
+                    // Repeat visits to one place are separate rows sharing one
+                    // comment -- keep the others in step with the edit.
+                    onSaved={(text) =>
+                      setCheckins((prev) =>
+                        prev.map((c) => (c.landmarkId === it.landmarkId ? { ...c, comment: text } : c))
+                      )
+                    }
                   />
                 )}
               </div>
@@ -414,7 +441,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
             ) : (
             <button type="button" key={it.id} className="checkin-tile" onClick={() => go(it)}>
               {it.photo ? (
-                <img src={it.photo} alt={it.name} loading="lazy" />
+                <img src={it.photo} alt={it.name} loading="lazy" decoding="async" />
               ) : (
                 <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
               )}

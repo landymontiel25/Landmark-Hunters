@@ -207,7 +207,7 @@ export async function spendFreeze(pairId) {
   const r = await fetch(`${API_BASE}/api/use-streak-freeze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ pairId }),
+    body: JSON.stringify({ pairId, dayId: dayKey(new Date()) }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });
@@ -217,11 +217,11 @@ export async function spendFreeze(pairId) {
 // TEMPORARY, one-off correction -- not a normal capability, see
 // api/reset-dual-streak.js's own note. Resets count/best/lastCompletedDay/
 // freezes back to a fresh 0 without touching the pairing itself.
-export async function resetDualStreak(pairId) {
+export async function resetDualStreak(pairId, confirm) {
   const r = await fetch(`${API_BASE}/api/reset-dual-streak`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ pairId }),
+    body: JSON.stringify({ pairId, confirm }),
   });
   const data = await r.json().catch(() => null);
   if (!r.ok || !data?.ok) throw Object.assign(new Error(data?.error || `HTTP ${r.status}`), { userMessage: data?.error });
@@ -262,7 +262,7 @@ const COMPATIBILITY_WINDOW = 50;
 // accuracy" (the spec's second stat) isn't computable at all yet -- there's
 // no partner-guess feature to measure.
 export async function computeCompatibility(myUid, partnerUid) {
-  const [mine, theirs] = await Promise.all([getUserReviews(myUid), getUserReviews(partnerUid)]);
+  const [mine, theirs] = await Promise.all([getUserReviews(myUid), getUserReviews(partnerUid, { other: true })]);
   const mineMap = new Map(mine.filter((r) => r.ratingTier && r.landmarkId).map((r) => [r.landmarkId, r]));
   const theirsMap = new Map(theirs.filter((r) => r.ratingTier && r.landmarkId).map((r) => [r.landmarkId, r]));
   const sharedIds = [...mineMap.keys()].filter((id) => theirsMap.has(id));

@@ -38,11 +38,15 @@ export default function SignInForm({ onSignedUp }) {
       setError('You must confirm you’re 13 or older to create an account.');
       return;
     }
+    if (mode === 'signup' && !name.trim()) {
+      setError('Type a display name first.');
+      return;
+    }
     setBusy(true);
     const normalizedEmail = email.trim().toLowerCase();
     try {
       if (mode === 'signup') {
-        await withTimeout(signUpEmail(normalizedEmail, password, name));
+        await withTimeout(signUpEmail(normalizedEmail, password, name.trim()));
         writePersisted(LAST_EMAIL_KEY, normalizedEmail);
         onSignedUp?.();
       } else {
@@ -95,9 +99,13 @@ export default function SignInForm({ onSignedUp }) {
   return (
     <div>
       <h1 className="screen-title">
-        <span>{'\u{1F6C2}'}</span> Sign In
+        <span>{'\u{1F6C2}'}</span> {mode === 'signup' ? 'Create Account' : 'Sign In'}
       </h1>
-      <p className="screen-subtitle">Sign in to check in, rate places, add friends, and hit the leaderboard.</p>
+      <p className="screen-subtitle">
+        {mode === 'signup'
+          ? 'Create an account to check in, rate places, add friends, and hit the leaderboard.'
+          : 'Sign in to check in, rate places, add friends, and hit the leaderboard.'}
+      </p>
 
       <form onSubmit={handleEmailSubmit}>
         {mode === 'signup' && (
@@ -186,14 +194,11 @@ export default function SignInForm({ onSignedUp }) {
         )}
         {mode === 'signup' && (
           <label
+            className="check-age-label"
             style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: 8,
               fontSize: '0.78rem',
               color: 'var(--color-parchment-dim)',
               margin: '0 0 12px',
-              cursor: 'pointer',
             }}
           >
             <input
@@ -202,7 +207,6 @@ export default function SignInForm({ onSignedUp }) {
               checked={ageConfirmed}
               onChange={(e) => setAgeConfirmed(e.target.checked)}
               required
-              style={{ marginTop: 2 }}
             />
             <span>I am 13 years of age or older.</span>
           </label>
@@ -258,7 +262,12 @@ export default function SignInForm({ onSignedUp }) {
         type="button"
         className="btn btn-ghost btn-block"
         style={{ marginTop: 12 }}
-        onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
+        onClick={() => {
+          // An error from the other form ("wrong password") means nothing here.
+          setError('');
+          setResetSent(false);
+          setMode(mode === 'signup' ? 'signin' : 'signup');
+        }}
       >
         {mode === 'signup' ? 'Already have an account? Sign In' : 'New here? Create an Account'}
       </button>

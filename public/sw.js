@@ -19,7 +19,11 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.open(TILE_CACHE).then(async (cache) => {
-      const cached = await cache.match(event.request);
+      // The live map asks for "@2x" tiles on high-density screens, but the
+      // Download button caches the standard tile; fall back to that one.
+      const cached =
+        (await cache.match(event.request)) ||
+        (url.pathname.includes('@2x') ? await cache.match(event.request.url.replace('@2x', '')) : undefined);
       if (cached) return cached;
       // Offline and not cached -- this naturally rejects, same as an
       // uncached fetch would without a service worker at all.

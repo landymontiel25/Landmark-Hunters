@@ -24,9 +24,12 @@ export function onboardingStatus(profile, current = ONBOARDING_VERSION) {
   return 'update';
 }
 
-// One notification doc per version, so bumping the version notifies everyone
-// again while a repeat load never sends a second copy.
-export const onboardingNoticeId = (version = ONBOARDING_VERSION) => `onboarding-v${version}`;
+// One notification doc per user per version, so bumping the version notifies
+// everyone again while a repeat load never sends a second copy. The uid has to
+// be in the id: notifications/{id} is a single shared collection, and
+// firestore.rules only lets a uid touch docs it owns, so one global
+// "onboarding-v1" doc was permission-denied for everyone but its first writer.
+export const onboardingNoticeId = (uid, version = ONBOARDING_VERSION) => `onboarding-v${version}-${uid}`;
 
 export function needsOnboardingNotice(profile, current = ONBOARDING_VERSION) {
   return onboardingStatus(profile, current) === 'update' && (Number(profile?.onboardingNoticeVersion) || 0) < current;

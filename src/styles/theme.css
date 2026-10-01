@@ -82,8 +82,12 @@
 [data-theme='light'] {
   --text-primary: #2b2620;
   --text-secondary: #6b5f4e;
-  --text-tertiary: #8a7f6d;
+  --text-tertiary: #6f6553; /* was #8a7f6d: 3.4:1 on the cream page */
   --text-disabled: #b3a994;
+  /* Brand blue is used as link/label text too; #4d7fff is 3.2:1 on cream. */
+  --mapr-blue: #2f5fe0;
+  --mapr-blue-hover: #3d6ce8;
+  --mapr-blue-active: #254fc4;
   --border-subtle: rgba(43, 38, 32, 0.08);
   --border-default: rgba(43, 38, 32, 0.14);
   --border-strong: rgba(43, 38, 32, 0.22);
@@ -675,7 +679,7 @@ textarea {
 
 .chip-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -964,6 +968,8 @@ textarea {
   cursor: pointer;
   font-size: 0.9rem;
   text-align: left;
+  min-width: 0;
+  overflow-wrap: break-word;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -2070,7 +2076,7 @@ button.header-streak {
   text-align: center;
   padding: 10px 16px;
   z-index: 100 !important;
-  background: #0a0d16 !important;
+  background: var(--bg-elevated) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -2145,6 +2151,7 @@ button.header-streak {
 .header-streak {
   display: flex;
   flex-shrink: 0;
+  white-space: nowrap;
   align-items: center;
   gap: 4px;
   padding: 5px 12px;
@@ -2439,6 +2446,13 @@ button.header-streak {
   -webkit-backdrop-filter: var(--glass-blur);
   margin-bottom: 10px;
   cursor: pointer;
+  /* ~870 rows: let the browser skip layout/paint for the ones off screen.
+     The background is opaque, so the old backdrop-filter blurred nothing
+     but cost a GPU layer per row. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 150px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .landmark-row .lr-top {
@@ -2532,6 +2546,11 @@ button.header-streak {
   text-align: center;
   color: var(--color-parchment-dim);
   padding: 40px 20px;
+}
+
+/* .screen-title is display:flex, which ignores the parent's text-align. */
+.empty-state .screen-title {
+  justify-content: center;
 }
 
 .route-step {
@@ -2780,6 +2799,9 @@ button.header-streak {
   background: rgb(var(--color-bg-rgb));
   margin-bottom: 8px;
   cursor: pointer;
+  /* Long histories: skip layout/paint for rows that are off screen. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 72px;
 }
 
 .checkin-name {
@@ -3309,6 +3331,8 @@ button.header-streak {
   width: 100%;
   max-width: 420px;
   max-height: 90vh;
+  /* 90vh overshoots on mobile browsers whose URL bar covers part of it. */
+  max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 40px);
   overflow-y: auto;
 }
 
@@ -3843,7 +3867,7 @@ body.lightbox-open .bottom-nav {
 
 @media (min-width: 600px) {
   .chip-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -4057,6 +4081,10 @@ body.lightbox-open .bottom-nav {
   background: var(--chatlab-panel);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  /* A long URL or unbroken word wraps inside the bubble instead of
+     spilling out and making the whole page scroll sideways. */
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .chatlab-bubble p {
@@ -4990,7 +5018,7 @@ h2,
 .friend-email-input,
 .map-search-input,
 .radius-select {
-  background: rgba(10, 13, 22, 0.9);
+  background: var(--bg-input);
   border-color: rgba(77, 127, 255, 0.3);
   border-radius: var(--radius-pill);
 }
@@ -5031,7 +5059,9 @@ h2,
 .streak-info-popover,
 .user-popover-card,
 .chatlab-region-popover {
-  background: #0a0d16;
+  /* --bg-elevated, not a fixed dark color: in light mode the text here is
+     dark, and a dark card made modals unreadable. */
+  background: var(--bg-elevated);
   border-color: var(--border-default);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
@@ -5080,7 +5110,7 @@ h2,
 
 .chatlab-quick-replies button,
 .chatlab-region-pill {
-  background: rgba(10, 13, 22, 0.85);
+  background: var(--bg-input);
   border-color: var(--border-default);
   border-radius: var(--radius-pill);
 }
@@ -5143,6 +5173,47 @@ h2,
 [data-theme='light'] .bottom-nav a.active {
   color: var(--color-brass-bright);
   background: rgba(156, 122, 52, 0.14);
+}
+
+/* The dark-first refresh above hard-codes near-black surfaces; without these
+   light-theme counterparts, inputs/modals/popovers/the Mapr header render
+   dark-on-dark (dark text on a #0a0d16 background). */
+[data-theme='light'] .field input[type='text'],
+[data-theme='light'] .field input[type='email'],
+[data-theme='light'] .field input[type='password'],
+[data-theme='light'] .field select,
+[data-theme='light'] .field textarea,
+[data-theme='light'] .autocomplete-chip-input,
+[data-theme='light'] .city-dropdown-panel input[type='text'],
+[data-theme='light'] .friend-email-input,
+[data-theme='light'] .map-search-input,
+[data-theme='light'] .radius-select,
+[data-theme='light'] .rename-form input,
+[data-theme='light'] .chatlab-quick-replies button,
+[data-theme='light'] .chatlab-region-pill {
+  background: var(--bg-input);
+}
+
+[data-theme='light'] .modal-card,
+[data-theme='light'] .points-popover,
+[data-theme='light'] .streak-info-popover,
+[data-theme='light'] .user-popover-card,
+[data-theme='light'] .chatlab-region-popover {
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-float);
+}
+
+[data-theme='light'] .chatlab-header {
+  background: var(--bg-card);
+}
+
+[data-theme='light'] .chatlab-composer {
+  background: rgba(255, 250, 240, 0.96);
+  box-shadow: 0 0 0 4px rgba(77, 127, 255, 0.08), var(--shadow-float);
+}
+
+[data-theme='light'] .chatlab-msg.assistant .chatlab-bubble {
+  background: var(--bg-card);
 }
 
 /* ==========================================================================
@@ -5272,7 +5343,8 @@ h2,
   left: 12px;
   right: 12px;
   bottom: calc(var(--nav-h) + 12px);
-  z-index: 60;
+  /* Above .modal-backdrop (3000) so a toast raised from inside a dialog shows. */
+  z-index: 3500;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5425,7 +5497,7 @@ h2,
   min-width: 0;
   font-size: 1.1rem;
   padding: 10px 16px;
-  background: rgba(10, 13, 22, 0.9);
+  background: var(--bg-input);
   border: 1px solid var(--mapr-blue);
   border-radius: 999px;
   color: var(--text-primary);
@@ -5569,6 +5641,30 @@ h2,
   margin: 10px 0 0;
   font-size: 0.82rem;
   color: var(--success);
+}
+
+/* Map attribution: one short line ("© OpenStreetMap © CARTO") lifted above
+   the bottom nav, the picks sheet and the radius / locate buttons, instead
+   of wrapping to three lines behind them. */
+.map-fullscreen .leaflet-bottom.leaflet-right {
+  bottom: calc(var(--nav-h) + var(--mpp-h, var(--map-picks-h, 0px)) + 68px);
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+  transition: bottom 0.28s var(--ease);
+}
+.map-fullscreen .leaflet-control-attribution {
+  font-size: 10px;
+  line-height: 1.3;
+  padding: 1px 6px;
+  margin-right: 8px;
+  border-radius: 6px;
+  pointer-events: auto;
+  white-space: nowrap;
+  max-width: calc(100vw - 16px);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Live navigation (ActiveNavOverlay) over the full-screen Map. */
@@ -6535,4 +6631,42 @@ h2,
 }
 .chat-wizard-link:hover {
   color: var(--text-primary);
+}
+
+/* Very narrow phones (320px): the logo, two streak pills and the profile
+   pill don't fit at their normal padding, so the logo ended up under the
+   first pill. */
+@media (max-width: 340px) {
+  .app-header {
+    padding: 0 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+    gap: 6px;
+  }
+  .app-header-actions {
+    gap: 6px;
+  }
+  .header-streak {
+    padding: 5px 8px;
+  }
+}
+
+/* A .tag used as a block-level message (error/success sentence in a <p>) must
+   wrap; the pill's nowrap pushed long messages off the side of narrow screens. */
+p.tag {
+  white-space: normal;
+  border-radius: var(--radius-md);
+}
+
+/* Narrow phones: two-up chips need less padding/gap so single long words
+   ("Entertainment") fit without breaking or widening the page. */
+@media (max-width: 360px) {
+  .chip-grid .chip {
+    padding: 12px 8px;
+    gap: 5px;
+    font-size: 0.78rem;
+  }
+  .chip-grid .chip-icon {
+    font-size: 1.1rem;
+  }
 }

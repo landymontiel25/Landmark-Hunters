@@ -83,3 +83,11 @@ describe('searchScore', () => {
     expect(typo).toBeGreaterThan(inDetails);
   });
 });
+
+describe('gibberish', () => {
+  it('does not match everything when repeated letters collapse the sound form', () => {
+    expect(matchesSearch('Madrid royal palaces tapas', 'zzzzqqqq')).toBe(false);
+    expect(matchesSearch('Madrid royal palaces tapas', 'aaaaaaaa')).toBe(false);
+    expect(matchesSearch('Philadelphia', 'filadelfia')).toBe(true);
+  });
+});

@@ -66,7 +66,10 @@ function fuzzyWordMatch(word, tokens) {
     // A half-typed word: compare against the start of the longer one.
     if (t.length > word.length && editDistance(word, t.slice(0, word.length), max) <= max) return true;
     const st = sound(t);
-    return editDistance(sw, st, max) <= max || (st.length > sw.length && editDistance(sw, st.slice(0, sw.length), max) <= max);
+    // The sound form can be much shorter than the word ("zzzzqqqq" -> "zq"),
+    // so the allowance follows ITS length, or gibberish matches everything.
+    const smax = Math.min(max, sw.length >= 7 ? 2 : sw.length >= 4 ? 1 : 0);
+    return editDistance(sw, st, smax) <= smax || (st.length > sw.length && editDistance(sw, st.slice(0, sw.length), smax) <= smax);
   });
 }
 
@@ -116,4 +119,18 @@ export function searchScore(name, details, query) {
   // A name that starts with what was typed is the likeliest target.
   if (n.startsWith(words[0])) score += 1;
   return score;
+}
+
+/**
+ * Ranking nudge for results near the user: up to +3 within 30 km, tapering to
+ * 0 beyond ~800 km. Added to searchScore so that, for an ambiguous word like
+ * "Far", the landmark in the traveler's own city outranks an equally good
+ * match on another continent, but a clearly better name match still wins.
+ */
+export function proximityBonus(meters) {
+  if (!Number.isFinite(meters)) return 0;
+  if (meters <= 30000) return 3;
+  if (meters <= 150000) return 2;
+  if (meters <= 800000) return 1;
+  return 0;
 }

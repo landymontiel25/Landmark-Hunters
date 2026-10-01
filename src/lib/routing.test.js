@@ -118,3 +118,22 @@ describe('googleMapsMultiStopLink', () => {
     expect(new URL(googleMapsMultiStopLink([{ lat: 1, lng: 2 }], null)).searchParams.has('origin')).toBe(false);
   });
 });
+
+describe('googleMapsMultiStopLegs', () => {
+  it('splits 11+ stops into linked parts so none are dropped', async () => {
+    const { googleMapsMultiStopLegs } = await import('./routing');
+    const stops = Array.from({ length: 23 }, (_, i) => ({ lat: i, lng: i }));
+    const links = googleMapsMultiStopLegs(stops, { lat: -1, lng: -1 });
+    expect(links).toHaveLength(3);
+    const u1 = new URL(links[0]);
+    const u2 = new URL(links[1]);
+    expect(u1.searchParams.get('destination')).toBe('9,9');
+    expect(u2.searchParams.get('origin')).toBe('9,9');
+    expect(new URL(links[2]).searchParams.get('destination')).toBe('22,22');
+  });
+  it('gives one link for 10 or fewer and none for empty', async () => {
+    const { googleMapsMultiStopLegs } = await import('./routing');
+    expect(googleMapsMultiStopLegs([], null)).toEqual([]);
+    expect(googleMapsMultiStopLegs([{ lat: 1, lng: 2 }], null)).toHaveLength(1);
+  });
+});

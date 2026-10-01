@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { findUserByUsername, sendFriendRequest, acceptRequest, declineRequest, listFriends } from '../lib/friends';
+import { findUserByUsername, sendFriendRequest, acceptRequest, declineRequest, listFriends, requestKey } from '../lib/friends';
 import { listBlockedUsers, unblockUser } from '../lib/blocks';
 import FriendStatsModal from './FriendStatsModal';
 import ErrorNotice from './ErrorNotice';
 import { SkeletonList } from './Skeleton';
 import { useToast, runOptimistic } from '../lib/ToastContext';
-import { friendlyError } from '../lib/friendlyError';
+import { friendlyError, isRetryable } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
 
 export default function FriendsPanel() {
@@ -82,7 +82,7 @@ export default function FriendsPanel() {
     try {
       const u = await setUsername(unameInput);
       setUnameMsg(`Username set to @${u}.`);
-      setUnameInput('');
+      setUnameInput(u);
     } catch (e) {
       setUnameMsg(friendlyError(e, "Couldn't set that username. Try again."));
     } finally {
@@ -121,10 +121,10 @@ export default function FriendsPanel() {
       // Put the handle back (unless they've started typing another) and say why.
       setHandle((cur) => cur || typed);
       setMsg(null);
-      toast.show(friendlyError(e, `Couldn't send the request to @${found.username}.`), {
-        actionLabel: 'Retry',
-        onAction: handleAdd,
-      });
+      toast.show(
+        friendlyError(e, `Couldn't send the request to @${found.username}.`),
+        isRetryable(e) ? { actionLabel: 'Retry', onAction: handleAdd } : {}
+      );
     }
   };
 
@@ -140,7 +140,7 @@ export default function FriendsPanel() {
     const edge = { friend: r.from, friendName: r.fromName };
     runOptimistic({
       apply: () => {
-        markAnswered(r.id, true);
+        markAnswered(requestKey(r), true);
         setFriends((cur) => (cur && !cur.some((f) => f.friend === r.from) ? [...cur, edge] : cur));
       },
       commit: async () => {
@@ -149,7 +149,7 @@ export default function FriendsPanel() {
         await loadFriends();
       },
       rollback: () => {
-        markAnswered(r.id, false);
+        markAnswered(requestKey(r), false);
         setFriends((cur) => cur && cur.filter((f) => f !== edge));
       },
       toast,
@@ -159,18 +159,18 @@ export default function FriendsPanel() {
   };
   const handleDecline = (r) =>
     runOptimistic({
-      apply: () => markAnswered(r.id, true),
+      apply: () => markAnswered(requestKey(r), true),
       commit: async () => {
         await declineRequest(r);
         await reload();
       },
-      rollback: () => markAnswered(r.id, false),
+      rollback: () => markAnswered(requestKey(r), false),
       toast,
       errorMessage: friendlyError(null, `Couldn't decline @${r.fromName}'s request, so it's back.`),
       retry: () => handleDecline(r),
     });
 
-  const visibleRequests = requests.filter((r) => !answeredIds.has(r.id));
+  const visibleRequests = requests.filter((r) => !answeredIds.has(requestKey(r)));
 
   return (
     <div className="card section">
@@ -272,8 +272,8 @@ export default function FriendsPanel() {
           <h4 style={{ margin: '0 0 8px' }}>Requests</h4>
           {visibleRequests.map((r) => (
             <div key={r.id} className="friend-row">
-              <span>@{r.fromName}</span>
-              <span style={{ display: 'flex', gap: 6 }}>
+              <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>@{r.fromName}</span>
+              <span style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
                 <button type="button" className="btn btn-primary btn-tight" onClick={() => handleAccept(r)}>
                   Accept
                 </button>

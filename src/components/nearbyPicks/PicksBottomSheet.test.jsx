@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
-import { MemoryRouter, Routes, Route, useParams } from 'react-router-dom';
+import { MemoryRouter, Routes, Route, useParams, useLocation } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -35,6 +35,10 @@ function LandmarkPage() {
   const { region, id } = useParams();
   return <p>landmark page {region}/{id}</p>;
 }
+function Landing() {
+  const loc = useLocation();
+  return <p data-testid="landing">{loc.state?.directionsTo ? `route to ${loc.state.directionsTo.name}` : 'plain'}</p>;
+}
 const render = async (props) => {
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -44,6 +48,8 @@ const render = async (props) => {
         <Routes>
           <Route path="/" element={<PicksBottomSheet expanded={false} onExpandedChange={() => {}} {...props} />} />
           <Route path="/landmarks/:region/:id" element={<LandmarkPage />} />
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/landmarks" element={<p>landmarks tab</p>} />
         </Routes>
       </MemoryRouter>
     )
@@ -125,6 +131,40 @@ describe('PicksBottomSheet', () => {
     expect(document.querySelector('.modal-card')).toBeNull();
   });
 
+  it('"Use the Map" from a pick closes the pick sheet instead of leaving it over the route', async () => {
+    const el = await render({ picks: PICKS });
+    await click(el.querySelector('.mpp-row-main'));
+    await click(sheetButton('Directions'));
+    const useMap = [...document.querySelectorAll('.modal-card button')].find((b) => b.textContent.includes('Use the Map'));
+    await click(useMap);
+    expect(document.querySelector('.modal-backdrop')).toBeNull();
+  });
+
+  it('a mouse drag that leaves the grip still counts: the pointer is captured on press', async () => {
+    const onExpandedChange = vi.fn();
+    const el = await render({ picks: PICKS, onExpandedChange });
+    const grip = el.querySelector('.mpp-sheet-grip');
+    grip.setPointerCapture = vi.fn();
+    await act(async () => {
+      const down = new MouseEvent('pointerdown', { bubbles: true, clientY: 400 });
+      Object.assign(down, { pointerId: 7 });
+      grip.dispatchEvent(down);
+    });
+    expect(grip.setPointerCapture).toHaveBeenCalledWith(7);
+  });
+
+  it('a cancelled gesture does not leave a stale start that turns the next release into a swipe', async () => {
+    const onExpandedChange = vi.fn();
+    const el = await render({ picks: PICKS, onExpandedChange });
+    const grip = el.querySelector('.mpp-sheet-grip');
+    await act(async () => {
+      grip.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientY: 400 }));
+      grip.dispatchEvent(new MouseEvent('pointercancel', { bubbles: true }));
+      grip.dispatchEvent(new MouseEvent('pointerup', { bubbles: true, clientY: 100 }));
+    });
+    expect(onExpandedChange).not.toHaveBeenCalled();
+  });
+
   it('tapping an expanded card opens the same choices', async () => {
     const el = await render({ picks: PICKS, expanded: true });
     await click(el.querySelectorAll('.mpp-card-main')[1]);
@@ -149,6 +189,56 @@ describe('PicksBottomSheet', () => {
     expect(min.querySelector('.mpp-pill-distance')).toBeNull();
   });
 
+  it('hides the collapsed distance pill once expanded (the Within chips show the value)', async () => {
+    const el = await render({ picks: PICKS, distanceMiles: 10, expanded: true, toolbar: <div className="tb" /> });
+    expect(el.querySelector('.mpp-pill-distance')).toBeNull();
+  });
+
+  it('locked state has a Rate places button that goes to the Landmarks tab', async () => {
+    const el = await render({ state: 'locked', ratingsCount: 3 });
+    const btn = [...el.querySelectorAll('button')].find((b) => b.textContent.includes('Rate places'));
+    expect(btn).toBeTruthy();
+    await click(btn);
+    expect(document.body.textContent).toContain('landmarks tab');
+  });
+
+  it('has no refresh button on the real Map, and one right after the title in the Test tab', async () => {
+    const plain = await render({ picks: PICKS });
+    expect(plain.querySelector('.mpp-refresh')).toBeNull();
+    container.remove();
+    const onRefresh = vi.fn();
+    const el = await render({ picks: PICKS, onRefresh });
+    const btn = el.querySelector('.mpp-refresh');
+    expect(btn).toBeTruthy();
+    expect(btn.getAttribute('aria-label')).toBe('Show different places');
+    const head = el.querySelector('.mpp-sheet-head');
+    expect([...head.children].map((c) => c.tagName)).toEqual(['H2', 'BUTTON']);
+    await click(btn);
+    expect(onRefresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('tapping refresh does not also expand or collapse the sheet', async () => {
+    const onExpandedChange = vi.fn();
+    const onRefresh = vi.fn();
+    const el = await render({ picks: PICKS, onRefresh, onExpandedChange });
+    const btn = el.querySelector('.mpp-refresh');
+    await act(async () => {
+      btn.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientY: 300 }));
+      btn.dispatchEvent(new MouseEvent('pointerup', { bubbles: true, clientY: 300 }));
+      btn.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }));
+      btn.click();
+    });
+    expect(onRefresh).toHaveBeenCalledTimes(1);
+    expect(onExpandedChange).not.toHaveBeenCalled();
+  });
+
+  it('spins and disables the button while a new set is loading', async () => {
+    const el = await render({ picks: PICKS, onRefresh: () => {}, refreshing: true });
+    const btn = el.querySelector('.mpp-refresh');
+    expect(btn.disabled).toBe(true);
+    expect(btn.classList.contains('spinning')).toBe(true);
+  });
+
   it('shows a category tile for a place with no photo instead of a broken image', async () => {
     const el = await render({ picks: [pick('bare', { image: null }), ...PICKS] });
     const first = el.querySelector('.mpp-row');
@@ -168,6 +258,35 @@ describe('PicksBottomSheet', () => {
     const slow = await render({ picks: PICKS, slow: true });
     expect(slow.textContent).toContain('showing your last picks');
     expect(slow.querySelectorAll('.mpp-row')).toHaveLength(3);
-    expect((await render({ picks: null, slow: true })).textContent).toContain("You're offline");
+    const offlineEmpty = await render({ picks: null, slow: true });
+    expect(offlineEmpty.textContent).toContain("You're offline");
+    // No picks to be "showing" -- the message says it, the pill would lie.
+    expect(offlineEmpty.querySelector('.mpp-pill-slow')).toBeNull();
+  });
+});
+
+describe('PicksBottomSheet: thin or empty radius', () => {
+  const places = [
+    { id: 'x', region: 'miami', name: 'El Palacio', distanceMeters: 5.7 * 1609.34 },
+    { id: 'y', region: 'miami', name: 'Venetian Pool', distanceMeters: 7.2 * 1609.34 },
+  ];
+  it('names the nearest place and offers one tap to widen', async () => {
+    const onWiden = vi.fn();
+    const c = await render({ picks: [], distanceMiles: 1, beyond: { places, widenTo: 10 }, onWiden });
+    expect(c.textContent).toContain('Nothing within 1 mi. Nearest: El Palacio (5.7 mi).');
+    const btn = [...c.querySelectorAll('button')].find((b) => b.textContent === 'Widen to 10 mi');
+    await click(btn);
+    expect(onWiden).toHaveBeenCalledWith(10);
+  });
+  it('at the biggest chip it does not say "try a wider one"', async () => {
+    const c = await render({ picks: [], distanceMiles: 100, beyond: { places: [], widenTo: null }, onWiden: () => {} });
+    expect(c.textContent).toContain('Nothing to pick within 100 mi.');
+    expect(c.textContent).not.toMatch(/wider/i);
+    expect(c.textContent).not.toContain('Widen');
+  });
+  it('fewer than three picks still points past the radius', async () => {
+    const c = await render({ picks: [pick('a')], distanceMiles: 1, beyond: { places, widenTo: 10 }, onWiden: () => {} });
+    expect(c.textContent).toContain('Only 1 within 1 mi');
+    expect(c.textContent).toContain('Widen to 10 mi');
   });
 });

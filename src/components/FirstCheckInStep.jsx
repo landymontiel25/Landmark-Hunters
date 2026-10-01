@@ -24,6 +24,9 @@ export default function FirstCheckInStep({ onDone, required = false }) {
     }
   }
   const checkedIn = !!claimedMap[nearest?.landmark?.id];
+  // Location denied or unavailable: a check-in is impossible, so the
+  // required step must not be a dead end with no button.
+  const noLocation = !coords && !geoLoading;
 
   return (
     <div>
@@ -55,13 +58,18 @@ export default function FirstCheckInStep({ onDone, required = false }) {
         </div>
       )}
 
-      {required && !checkedIn && (
+      {required && !checkedIn && !noLocation && (
         <p className="screen-subtitle" style={{ fontSize: '0.8rem' }}>
           Check in at a landmark to finish setting up. Not at one right now? Come back any time; this will be waiting
           on your Profile tab.
         </p>
       )}
-      {(!required || checkedIn) && (
+      {noLocation && required && (
+        <p className="screen-subtitle" style={{ fontSize: '0.8rem' }}>
+          Turn on location for Landmark Hunters to check in. You can do this later from your Profile tab.
+        </p>
+      )}
+      {(!required || checkedIn || noLocation) && (
         <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onDone}>
           {checkedIn ? 'Continue' : 'Skip for now'}
         </button>

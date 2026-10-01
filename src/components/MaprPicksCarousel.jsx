@@ -34,7 +34,7 @@ const RESERVE = 10;
 
 const VOTE_COPY = {
   yes: { cls: 'love', emoji: '\u{2713}', label: "I'd go" },
-  unsure: { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure' },
+  unsure: { cls: 'unsure', emoji: '\u{1F937}', label: 'Not sure', hint: "Ask me again in a week" },
   no: { cls: 'hate', emoji: '\u{2715}', label: 'Not for me' },
 };
 
@@ -149,9 +149,10 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
                     type="button"
                     className={`mapr-pick-vote ${copy.cls}`}
                     onClick={() => vote(l, verdict)}
-                    title={copy.label}
+                    title={copy.hint ? `${copy.label}: ${copy.hint}` : copy.label}
                   >
                     {copy.emoji} {copy.label}
+                    {copy.hint && <span className="mapr-pick-vote-hint">{copy.hint}</span>}
                   </button>
                 );
               })}

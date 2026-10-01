@@ -122,11 +122,16 @@ export function MaprChatProvider({ children }) {
   const [totalCost, setTotalCost] = useState(0);
   // The chat a reply is in flight for, if any. Never saved: nothing is in
   // flight after a relaunch.
-  const [busyId, setBusyId] = useState(null);
+  const [busyIds, setBusyIds] = useState(() => new Set());
   const [drafts, setDrafts] = useState(() => (uid ? readPersisted(draftsKey(uid)) || {} : {}));
   const uidRef = useRef(uid);
   const chatRef = useRef(chat);
   chatRef.current = chat;
+  // Latest in-memory copy of every chat opened this session, so a reply that
+  // lands after you switched away builds on what you actually sent (the saved
+  // copy can be up to a save-delay behind, or not exist yet for a new chat).
+  const snapshotsRef = useRef({});
+  snapshotsRef.current[chat.id] = chat;
   const chatsRef = useRef(chats);
   chatsRef.current = chats;
   const projectsRef = useRef(projects);
@@ -142,7 +147,7 @@ export function MaprChatProvider({ children }) {
     setListLoaded(false);
     setDrafts(uid ? readPersisted(draftsKey(uid)) || {} : {});
     setTotalCost(0);
-    setBusyId(null);
+    setBusyIds(new Set());
   }, [uid]);
 
   // Live lists of every chat and project you can see (yours and shared).
@@ -176,7 +181,7 @@ export function MaprChatProvider({ children }) {
     setChat((c) => {
       if (c.id !== remote.id) return c;
       const meta = { title: remote.title, renamed: c.renamed || remote.title !== 'New chat', projectId: remote.projectId, ownerUid: remote.ownerUid, saved: true };
-      if (remote.rev > c.rev && busyId !== c.id) {
+      if (remote.rev > c.rev && !busyIds.has(c.id)) {
         const next = fromRemote(uid, remote);
         lastSavedRef.current = JSON.stringify([next.messages, next.regionIds]);
         return { ...next, showPlanner: c.showPlanner };
@@ -254,12 +259,24 @@ export function MaprChatProvider({ children }) {
         setMessages(u);
         return;
       }
+      if (!synced) return;
       const remote = chatsRef.current.find((c) => c.id === chatId);
-      if (!remote || !synced) return;
-      const messages = resolve(u, remote.messages);
-      store
-        .saveChatMessages(uid, chatId, { messages, regionIds: remote.regionIds, rev: remote.rev + 1 })
-        .catch(setSyncError);
+      const snap = snapshotsRef.current[chatId];
+      // The snapshot is at least as new as the saved copy unless someone else
+      // (a friend in a shared project) added turns since.
+      const base = snap && (!remote || snap.messages.length >= remote.messages.length) ? snap.messages : remote?.messages;
+      if (!base) return;
+      const messages = resolve(u, base);
+      if (snap) snapshotsRef.current[chatId] = { ...snap, messages };
+      if (remote) {
+        store
+          .saveChatMessages(uid, chatId, { messages, regionIds: remote.regionIds, rev: Math.max(remote.rev, snap?.rev || 0) + 1 })
+          .catch(setSyncError);
+      } else if (snap && messages.length > 1) {
+        const project = snap.projectId ? projectsRef.current.find((p) => p.id === snap.projectId) : null;
+        const title = snap.renamed ? snap.title : store.titleFrom(firstUserText(messages));
+        store.saveChat(uid, { ...snap, messages, title, rev: (snap.rev || 0) + 1 }, project).catch(setSyncError);
+      }
     },
     [setMessages, synced, uid]
   );
@@ -356,7 +373,17 @@ export function MaprChatProvider({ children }) {
   }, [uid]);
 
   const activeProject = chat.projectId ? projects.find((p) => p.id === chat.projectId) || null : null;
-  const setBusy = useCallback((on) => setBusyId(on ? chatRef.current.id : null), []);
+  // Each chat tracks its own in-flight reply: finishing one chat's reply
+  // must not clear another chat's typing indicator (or let you double-send).
+  const setBusy = useCallback((on, id = chatRef.current.id) => {
+    setBusyIds((cur) => {
+      if (cur.has(id) === !!on) return cur;
+      const next = new Set(cur);
+      if (on) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }, []);
 
   return (
     <MaprChatContext.Provider
@@ -372,8 +399,7 @@ export function MaprChatProvider({ children }) {
         setShowPlanner,
         totalCost,
         setTotalCost,
-        busy: busyId !== null && busyId === chat.id,
-        busyChatId: busyId,
+        busy: busyIds.has(chat.id),
         setBusy,
         restored: chat.restored,
         dismissRestored,

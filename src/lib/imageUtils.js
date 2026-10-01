@@ -21,13 +21,70 @@ export async function pickPhoto() {
       source: CameraSource.Prompt,
       webUseInput: true,
     });
-  } catch {
+  } catch (e) {
+    const msg = String(e?.message || e || '');
+    // Backing out of the picker is not an error; a refused permission is, and
+    // swallowing it made the photo button look dead.
+    if (/denied|not.?authori[sz]ed|permission/i.test(msg)) {
+      const err = new Error(PHOTO_DENIED_MESSAGE);
+      err.userMessage = PHOTO_DENIED_MESSAGE;
+      throw err;
+    }
     return null;
   }
   if (!photo.webPath) return null;
   const blob = await (await fetch(photo.webPath)).blob();
   const ext = photo.format || 'jpeg';
-  return new File([blob], `photo.${ext}`, { type: blob.type || `image/${ext}` });
+  const original = new File([blob], `photo.${ext}`, { type: blob.type || `image/${ext}` });
+  const file = await downscalePhoto(original);
+  if (file.size >= PHOTO_MAX_BYTES) {
+    // Storage refuses 8 MB+ files; say so now instead of failing at upload.
+    const msg = isHeic(file) ? PHOTO_HEIC_TOO_BIG_MESSAGE : PHOTO_TOO_BIG_MESSAGE;
+    const err = new Error(msg);
+    err.userMessage = msg;
+    throw err;
+  }
+  return file;
+}
+
+const PHOTO_DENIED_MESSAGE = "Landmark Hunters doesn't have access to your camera or photos. Turn it on in Settings, then try again.";
+export const PHOTO_HEIC_TOO_BIG_MESSAGE =
+  "That HEIC photo is over the 8 MB limit and this browser can't shrink it. Pick a JPEG instead, or take a screenshot of the photo.";
+const isHeic = (f) => /hei[cf]/i.test(f?.type || '') || /\.hei[cf]$/i.test(f?.name || '');
+
+// storage.rules refuses uploads of 8 MB or more.
+export const PHOTO_MAX_BYTES = 8 * 1024 * 1024;
+export const PHOTO_TOO_BIG_MESSAGE = "That photo is too large to upload (the limit is 8 MB). Try a smaller one or a screenshot of it.";
+
+// Phone photos are routinely 5-12 MB. Redraws one at most `maxDim` px on its
+// long side as a JPEG so it fits the upload cap and uploads fast. Anything
+// the browser can't decode (e.g. HEIC on desktop Chrome) or that doesn't
+// get smaller comes back unchanged.
+export async function downscalePhoto(file, maxDim = 2000, quality = 0.85) {
+  try {
+    if (typeof document === 'undefined' || !file) return file;
+    const url = URL.createObjectURL(file);
+    try {
+      const img = await new Promise((resolve, reject) => {
+        const el = new Image();
+        el.onload = () => resolve(el);
+        el.onerror = () => reject(new Error('decode'));
+        el.src = url;
+      });
+      const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale) || 1;
+      canvas.height = Math.round(img.height * scale) || 1;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+      if (!blob || (blob.size >= file.size && file.type === 'image/jpeg')) return file;
+      return new File([blob], 'photo.jpg', { type: 'image/jpeg' });
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  } catch {
+    return file;
+  }
 }
 
 // Shrinks an image file down to a small JPEG data URL for sending to the AI

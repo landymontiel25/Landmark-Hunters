@@ -104,6 +104,14 @@ export function BadgesProvider({ children }) {
   // and celebrating the same badge again while the first write is in flight.
   const claimedRef = useRef(new Set());
 
+  // Popups queued for one account must never play for the next one signed in
+  // on the same device.
+  const uidRef = useRef(null);
+  uidRef.current = user?.uid ?? null;
+  useEffect(() => {
+    setJustEarned([]);
+  }, [user?.uid]);
+
   // Pulled out of the effect (and exposed as `reload`) so voting on a Mapr
   // Pick can refresh the streak the moment a day's 5th vote lands, instead
   // of waiting for claimedMap to change (which a vote never does).
@@ -120,7 +128,9 @@ export function BadgesProvider({ children }) {
     try {
       s = await getUserStats(user.uid);
     } catch {
-      s = { totalPoints: 0, checkins: 0, cities: 0 };
+      // `failed` lets screens say "couldn't load" instead of presenting these
+      // zeros as the traveler's real history.
+      s = { totalPoints: 0, checkins: 0, cities: 0, cityIds: [], cityLastVisit: {}, cityPoints: {}, failed: true };
     }
     setStats(s);
     let rows = [];
@@ -152,7 +162,15 @@ export function BadgesProvider({ children }) {
         hasFriendTagTeam(user.uid, friendUidList, rows).catch(() => false),
       ]);
 
-      const tripLandmarks = Math.max(0, ...Object.values(trip.byRegion || {}).map((ids) => ids.length));
+      // byRegion also holds Mapr-found places' ids once Edit List has saved an
+      // order; only catalog landmarks count toward the badge.
+      const tripLandmarks = Math.max(
+        0,
+        ...Object.entries(trip.byRegion || {}).map(([rid, ids]) => {
+          const known = new Set((getRegion(rid)?.landmarks || []).map((l) => l.id));
+          return ids.filter((id) => known.has(id)).length;
+        })
+      );
 
       setExtra({
         photoCheckins: countPhotoCheckins(rows),
@@ -177,8 +195,13 @@ export function BadgesProvider({ children }) {
     }
   }, [firebaseEnabled, user, friendUids, trip.byRegion]);
 
+  // On launch the friend list, trips and check-in map each arrive a moment
+  // apart and each changes `load`; running the whole multi-read badge pass once
+  // per arrival (3x) was most of the startup Firestore traffic. Wait for the
+  // burst to settle and run it once.
   useEffect(() => {
-    load();
+    const t = setTimeout(load, 400);
+    return () => clearTimeout(t);
   }, [load, claimedMap]);
 
   // A tab left open overnight (common on desktop) otherwise keeps
@@ -250,6 +273,9 @@ export function BadgesProvider({ children }) {
     updateDoc(doc(db, 'users', user.uid), patch)
       .then(() => {
         for (const b of fresh) markCelebrated(user.uid, b.id);
+        // The write outlived a sign-out/account switch: its popup belongs to
+        // the previous account and must not play for the next one.
+        if (uidRef.current !== user.uid) return;
         // Dedupe against whatever's already queued -- guards a fast second
         // check-in whose "fresh" detection runs before myProfile reflects
         // this write, which would otherwise queue the same badge twice.

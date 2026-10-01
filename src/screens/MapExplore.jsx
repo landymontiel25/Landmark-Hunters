@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, Polyline, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, AttributionControl, TileLayer, Marker, Popup, Tooltip, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -20,15 +20,16 @@ import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import MapCategoryFilter from '../components/MapCategoryFilter';
-import { searchScore } from '../lib/search';
+import { searchScore, proximityBonus } from '../lib/search';
 import CheckInButton from '../components/CheckInButton';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import ActiveNavOverlay from '../components/ActiveNavOverlay';
 import { prepareRoute, navProgress } from '../lib/navProgress';
 import { useSmartSearch, landmarkSearchText } from '../lib/smartSearch';
 import SmartSearchLabel from '../components/SmartSearchLabel';
-import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLink } from '../lib/routing';
+import { fetchDirections, buildNearestNeighborRoute, googleMapsMultiStopLegs } from '../lib/routing';
 import LandmarkThumb from '../components/LandmarkThumb';
 import QuickRateButton from '../components/QuickRateButton';
 import { useSessionState } from '../lib/usePersistentState';
@@ -37,7 +38,7 @@ import { friendlyError } from '../lib/friendlyError';
 import OnboardingBanner from '../components/OnboardingBanner';
 import { useRatings } from '../lib/RatingsContext';
 import MapPicksOverlay from '../components/nearbyPicks/MapPicksOverlay';
-import { PICKS_SHEET_H } from '../lib/nearbyPicks';
+import { PICKS_SHEET_H, distanceUnitLabel, optionToMiles } from '../lib/nearbyPicks';
 
 
 // Turn-by-turn's actual route, once directions are up -- see the dimming
@@ -130,11 +131,11 @@ const TILE_LAYERS = {
   street: {
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
   },
   satellite: {
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    attribution: '&copy; Esri, Maxar, Earthstar Geographics',
   },
 };
 
@@ -265,16 +266,24 @@ function FollowUser({ pos, following, onUserPan }) {
   return null;
 }
 
+// A pin popup pans into view clear of the floating header (and the tab bar):
+// with Leaflet's default 5px margin a tall popup opened with its photo and
+// close button hidden behind the header pill.
+const POPUP_PAN_TOP_LEFT = [16, 96];
+const POPUP_PAN_BOTTOM_RIGHT = [16, 100];
+
 // Off the route this many fixes in a row -> fetch a new route from here,
 // but no more often than every REROUTE_MS.
 const OFF_ROUTE_FIXES = 2;
 const REROUTE_MS = 15000;
 
-export default function MapExplore() {
-  const { toggleLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
+// experiments: the Test tab's copy of the Map. Same screen, plus whatever is
+// being tried before it goes on the real Map (admin-only route, see App.jsx).
+export default function MapExplore({ experiments = false }) {
+  const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
-  const { applyEdit } = useLandmarkEdits();
+  const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
   const { coords, error: geoError, loading: geoLoading, lastKnown } = useGeo();
@@ -377,8 +386,10 @@ export default function MapExplore() {
   // Live navigation: where you are along the route on every GPS fix.
   const navRoute = useMemo(() => (nav?.data?.points?.length > 1 ? prepareRoute(nav.data) : null), [nav?.data]);
   const alongRef = useRef(0);
+  const arrivedRef = useRef(false);
   useEffect(() => {
     alongRef.current = 0;
+    arrivedRef.current = false;
   }, [navRoute]);
   const navActive = !!nav?.active;
   const progress = useMemo(
@@ -392,7 +403,9 @@ export default function MapExplore() {
   useEffect(() => {
     if (!progress) return;
     alongRef.current = progress.along;
-    if (progress.arrived || !progress.offRoute) {
+    if (progress.arrived) arrivedRef.current = true;
+    // After arriving, drifting off the line is just GPS noise: no reroute.
+    if (arrivedRef.current || !progress.offRoute) {
       offRouteCountRef.current = 0;
       return;
     }
@@ -428,7 +441,9 @@ export default function MapExplore() {
     document.body.classList.toggle('map-nav-active', navActive);
     return () => document.body.classList.remove('map-nav-active');
   }, [navActive]);
-  const [radiusMiles, setRadiusMiles] = useZoomRadius();
+  // The menu number (5 = 5 mi or 5 km, per the units setting).
+  const [radiusOption, setRadiusMiles] = useZoomRadius();
+  const radiusMiles = optionToMiles(radiusOption, units);
 
   // "Picked for you right now": a sheet over the map, signed in, once the
   // account's ratings have loaded. It steps aside (hidden, not unmounted)
@@ -480,7 +495,11 @@ export default function MapExplore() {
         setSavedOverrides((prev) => ({ ...prev, [key]: pos }));
         setPinSavedNote(l.name);
       },
-      commit: () => saveLandmarkPosition({ region: l.regionId, id: l.id, name: l.name, ...pos, userId: user?.uid }),
+      commit: async () => {
+        await saveLandmarkPosition({ region: l.regionId, id: l.id, name: l.name, ...pos, userId: user?.uid });
+        // Other screens read the corrected spot from the shared edits context.
+        reloadLandmarkEdits?.();
+      },
       rollback: () => {
         setPinSavedNote(null);
         setSavedOverrides((prev) => {
@@ -573,7 +592,11 @@ export default function MapExplore() {
         mapRef.current?.closePopup();
         setCustomLandmarks((prev) => prev.filter((l) => l.docId !== docId));
       },
-      commit: () => deleteCustomLandmark(docId),
+      commit: async () => {
+        await deleteCustomLandmark(docId);
+        // Drop it from this device's itinerary too, so no ghost stop is left behind.
+        if (removed?.region) removeLandmark(docId, removed.region);
+      },
       rollback: () =>
         removed && setCustomLandmarks((prev) => (prev.some((l) => l.docId === docId) ? prev : [...prev, removed])),
       toast,
@@ -634,8 +657,9 @@ export default function MapExplore() {
   });
 
   const handleRadiusChange = (e) => {
-    const miles = Number(e.target.value);
-    setRadiusMiles(miles);
+    const n = Number(e.target.value);
+    setRadiusMiles(n);
+    const miles = optionToMiles(n, units);
     if (coords && mapRef.current) {
       mapRef.current.flyTo([coords.lat, coords.lng], zoomForRadiusMiles(mapRef.current, coords.lat, miles));
     }
@@ -648,6 +672,11 @@ export default function MapExplore() {
   const searchResults = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return [];
+    // Results near the traveler rank above equal matches on the other side of
+    // the world (e.g. "Far" in Miami should not lead with Madrid).
+    const here = coords || lastKnown || null;
+    const near = (lat, lng) =>
+      here && Number.isFinite(lat) && Number.isFinite(lng) ? proximityBonus(distanceMeters(here.lat, here.lng, lat, lng)) : 0;
     // Includes the city/region name, category labels and facts too, joined
     // into one haystack -- so a query like "Miami F1" finds the Miami
     // International Autodrome even though no single field says "Miami F1"
@@ -674,7 +703,7 @@ export default function MapExplore() {
         lat: savedPos?.lat ?? l.lat,
         lng: savedPos?.lng ?? l.lng,
         zoom: 17,
-        score,
+        score: score + near(savedPos?.lat ?? l.lat, savedPos?.lng ?? l.lng),
       };
     });
     // User-submitted landmarks were never searchable here -- only via the
@@ -692,12 +721,12 @@ export default function MapExplore() {
         lat: l.lat,
         lng: l.lng,
         zoom: 17,
-        score,
+        score: score + near(l.lat, l.lng),
       }));
     const placeMatches = SEARCHABLE_PLACES.map((p) => ({ ...p, score: searchScore(p.name, '', term) })).filter((p) => p.score > 0);
     // Best match first -- a name match beats a word buried in a description.
     return [...landmarkMatches, ...customMatches, ...placeMatches].sort((a, b) => b.score - a.score).slice(0, 8);
-  }, [searchTerm, savedOverrides, customLandmarks]);
+  }, [searchTerm, savedOverrides, customLandmarks, coords, lastKnown]);
 
   // AI fallback when the word search finds little: catalog on the server,
   // custom landmarks sent along.
@@ -746,8 +775,12 @@ export default function MapExplore() {
   // A live, distance-sorted view of what's closest right now, shown in the
   // search panel before you type anything. Only meaningful with a real GPS
   // fix, so it's just not offered without one.
+  // Measured from a ~110 m grid, so GPS jitter while standing still doesn't
+  // reshuffle (and mis-tap) the rows.
+  const listLat = coords ? Math.round(coords.lat * 1000) / 1000 : null;
+  const listLng = coords ? Math.round(coords.lng * 1000) / 1000 : null;
   const nearbyList = useMemo(() => {
-    if (!coords) return [];
+    if (listLat == null) return [];
     const all = [
       ...ALL_LANDMARKS.map((l) => {
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
@@ -763,10 +796,10 @@ export default function MapExplore() {
       ...customLandmarks.map((l) => ({ id: `custom-${l.docId}`, name: l.name, region: l.region, landmarkId: l.id, lat: l.lat, lng: l.lng })),
     ];
     return all
-      .map((l) => ({ ...l, meters: distanceMeters(coords.lat, coords.lng, l.lat, l.lng) }))
+      .map((l) => ({ ...l, meters: distanceMeters(listLat, listLng, l.lat, l.lng) }))
       .sort((a, b) => a.meters - b.meters)
       .slice(0, 12);
-  }, [coords, customLandmarks, savedOverrides]);
+  }, [listLat, listLng, customLandmarks, savedOverrides]);
 
   // Build the markers once and reuse the same elements across re-renders. GPS
   // ticks update `coords` several times a minute; if the markers were rebuilt
@@ -800,7 +833,7 @@ export default function MapExplore() {
             draggable={adminMode}
             eventHandlers={adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
           >
-            <Popup>
+            <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
                 <div
                   role="button"
@@ -830,7 +863,7 @@ export default function MapExplore() {
                       {CATEGORY_LABEL[c]}
                     </span>
                   ))}
-                  <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free' : 'Ticketed'}</span>
+                  <AdmissionTag landmark={landmark} short />
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   <button
@@ -917,7 +950,7 @@ export default function MapExplore() {
             draggable={adminMode}
             eventHandlers={adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : undefined}
           >
-            <Popup>
+            <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
                 <div
                   role="button"
@@ -947,16 +980,19 @@ export default function MapExplore() {
                       {CATEGORY_LABEL[c]}
                     </span>
                   ))}
-                  <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free' : 'Ticketed'}</span>
+                  <AdmissionTag landmark={landmark} short />
                 </div>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button
-                    type="button"
-                    className={`btn btn-sm ${isSelected ? 'btn-success' : 'btn-primary'}`}
-                    onClick={() => handleAdd(landmark)}
-                  >
-                    {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
-                  </button>
+                  {/* A pin far from every curated city has no city itinerary to join. */}
+                  {getRegion(l.region) && (
+                    <button
+                      type="button"
+                      className={`btn btn-sm ${isSelected ? 'btn-success' : 'btn-primary'}`}
+                      onClick={() => handleAdd(landmark)}
+                    >
+                      {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
+                    </button>
+                  )}
                   <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
                     {'\u{1F9ED}'} Directions
                   </DirectionsButton>
@@ -1020,6 +1056,7 @@ export default function MapExplore() {
           zoomSnap={0.25}
           zoomDelta={0.25}
           zoomControl={false}
+          attributionControl={false}
           scrollWheelZoom
           style={{ height: '100%', width: '100%' }}
         >
@@ -1033,6 +1070,7 @@ export default function MapExplore() {
             radiusMiles={radiusMiles}
           />
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
+          <AttributionControl position="bottomright" prefix={false} />
           <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />
           <TileLayer
             key={satellite ? 'satellite' : 'street'}
@@ -1045,7 +1083,7 @@ export default function MapExplore() {
           {satellite && (
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
-              attribution="Place labels &copy; Esri"
+              attribution="&copy; Esri"
               zIndex={650}
             />
           )}
@@ -1192,14 +1230,11 @@ export default function MapExplore() {
               <button type="button" className="btn btn-primary btn-sm" onClick={startTripRoute} disabled={!coords}>
                 {'\u{25B6}\u{FE0F}'} {coords ? 'Start' : 'Start (waiting for location)'}
               </button>
-              <a
-                className="btn btn-ghost btn-sm"
-                href={googleMapsMultiStopLink(orderedTrip.stops, orderedTrip.origin)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                All stops in Google Maps
-              </a>
+              {googleMapsMultiStopLegs(orderedTrip.stops, orderedTrip.origin).map((href, i, all) => (
+                <a key={href} className="btn btn-ghost btn-sm" href={href} target="_blank" rel="noreferrer">
+                  {all.length > 1 ? `Google Maps, part ${i + 1} of ${all.length}` : 'All stops in Google Maps'}
+                </a>
+              ))}
             </div>
           </div>
         </div>
@@ -1238,7 +1273,7 @@ export default function MapExplore() {
 
       {!placingPin && (
         <>
-          <button type="button" className="map-search-btn" title="Search landmarks" onClick={toggleSearch}>
+          <button type="button" className="map-search-btn" title="Search landmarks" aria-label={searchOpen ? "Close search" : "Search landmarks"} aria-expanded={searchOpen} onClick={toggleSearch}>
             {searchOpen ? '\u{2715}' : '\u{1F50D}'}
           </button>
           <button
@@ -1246,6 +1281,7 @@ export default function MapExplore() {
             className="map-search-btn map-add-btn"
             style={{ top: 'calc(var(--header-h) + 64px)' }}
             title="Add a landmark — long-press the map to pin an exact spot"
+            aria-label="Add a landmark"
             onClick={startPlacingPin}
           >
             {'\u{2795}'}
@@ -1255,6 +1291,8 @@ export default function MapExplore() {
             className={`map-search-btn ${filterCats.size > 0 ? 'active' : ''}`}
             style={{ top: 'calc(var(--header-h) + 128px)' }}
             title="Filter the map by category"
+            aria-label="Filter the map by category"
+            aria-expanded={filterOpen}
             onClick={() => {
               setFilterOpen((o) => !o);
               setSearchOpen(false);
@@ -1341,10 +1379,10 @@ export default function MapExplore() {
           )}
 
           <div className="map-fab-bar">
-            <select className="radius-select" value={radiusMiles} onChange={handleRadiusChange} title="Zoom radius">
+            <select className="radius-select" value={radiusOption} onChange={handleRadiusChange} title="Zoom radius" aria-label="Zoom radius">
               {ZOOM_RADIUS_OPTIONS.map((miles) => (
                 <option key={miles} value={miles}>
-                  {miles} mi
+                  {miles} {distanceUnitLabel(units)}
                 </option>
               ))}
             </select>
@@ -1365,7 +1403,7 @@ export default function MapExplore() {
             </svg>
           </div>
           <p className="map-pin-target-hint">Pan the map to line up your spot</p>
-          <button type="button" className="map-search-btn map-pin-cancel-btn" title="Cancel" onClick={() => setPlacingPin(false)}>
+          <button type="button" className="map-search-btn map-pin-cancel-btn" title="Cancel" aria-label="Cancel" onClick={() => setPlacingPin(false)}>
             {'\u{2715}'}
           </button>
           <button type="button" className="btn btn-primary map-pin-done-btn" onClick={confirmPinPlacement}>
@@ -1374,11 +1412,20 @@ export default function MapExplore() {
         </>
       )}
 
+      {experiments && (
+        <span className="map-test-badge" role="status">
+          {'\u{1F9EA}'} Test version
+        </span>
+      )}
+
       {picksReady && (
         <MapPicksOverlay
+          showRefresh={experiments}
           hidden={!showPicks}
           coords={coords}
           geoError={geoError}
+          overrides={savedOverrides}
+          customLandmarks={customLandmarks}
           expanded={picksExpanded}
           onExpandedChange={setPicksExpanded}
           minimized={picksMinimized}
@@ -1389,7 +1436,9 @@ export default function MapExplore() {
         />
       )}
 
-      {geoError && <p className="tag tag-error map-error-toast">Location unavailable — {geoError}</p>}
+      {/* A watch timeout while a fix is already on screen (common when
+          standing still indoors) isn't "unavailable": your pin is showing. */}
+      {geoError && !coords && <p className="tag tag-error map-error-toast">{geoError}</p>}
     </div>
   );
 }

@@ -9,7 +9,9 @@ const DEFAULT_EMOJI = '\u{2728}'; // sparkle -- shown until/unless the AI call s
 // represents the interest itself (e.g. "racing" -> a race car), so its chip
 // shows something more specific than a generic sparkle. Falls back to no
 // matches and the sparkle on any failure, so a flaky/missing AI backend
-// never breaks the picker.
+// never breaks the picker. `failed: true` marks that fallback, so callers
+// don't save an empty match list as if the AI had really found nothing
+// (which would leave the interest filtering to zero landmarks for good).
 export async function classifyInterest(interest) {
   try {
     const res = await fetch(`${API_BASE}/api/classify-interest`, {
@@ -17,13 +19,13 @@ export async function classifyInterest(interest) {
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
       body: JSON.stringify({ interest }),
     });
-    if (!res.ok) return { matches: [], emoji: DEFAULT_EMOJI };
+    if (!res.ok) return { matches: [], emoji: DEFAULT_EMOJI, failed: true };
     const data = await res.json();
     return {
       matches: Array.isArray(data.matches) ? data.matches : [],
       emoji: typeof data.emoji === 'string' && data.emoji ? data.emoji : DEFAULT_EMOJI,
     };
   } catch {
-    return { matches: [], emoji: DEFAULT_EMOJI };
+    return { matches: [], emoji: DEFAULT_EMOJI, failed: true };
   }
 }

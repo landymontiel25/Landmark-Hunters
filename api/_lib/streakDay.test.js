@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { dayKey, previousDayKey, localDayKey } from './streakDay.js';
+import { dayKey, previousDayKey, localDayKey, validClientDayKey } from './streakDay.js';
 
 describe('localDayKey', () => {
   it('matches the machine-local dayKey when given that machine\'s own timezone', () => {
@@ -36,5 +36,17 @@ describe('localDayKey', () => {
     expect(() => localDayKey(t, undefined)).not.toThrow();
     expect(() => localDayKey(t, 'Not/AZone')).not.toThrow();
     expect(localDayKey(t, undefined)).toBe(dayKey(new Date(t)));
+  });
+});
+
+describe('validClientDayKey', () => {
+  const now = Date.UTC(2026, 9, 1, 12);
+  it('accepts yesterday, today and tomorrow (timezone spread)', () => {
+    for (const k of ['2026-8-30', '2026-9-1', '2026-9-2']) expect(validClientDayKey(k, now)).toBe(k);
+  });
+  it('rejects forged, far-off or malformed days', () => {
+    for (const k of ['2020-0-1', '2026-9-9', '2026-9-31', 'x', '', null, undefined, 5, '2026-9-1; DROP']) {
+      expect(validClientDayKey(k, now)).toBe(null);
+    }
   });
 });

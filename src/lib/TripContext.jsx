@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { migrateInterests, getRegion } from '../data/regions';
+import { migrateInterests, getRegion, canonicalLandmarkId } from '../data/regions';
 
 const STORAGE_KEY = 'landmarkhunters.trip.v1';
 
@@ -60,7 +60,12 @@ function loadTrip() {
         : {};
       t.activeRegion = parsed.region ?? null;
     }
-    t.byRegion = t.byRegion || {};
+    t.byRegion = Object.fromEntries(
+      Object.entries(t.byRegion || {}).map(([region, ids]) => [
+        region,
+        Array.isArray(ids) ? ids.map((id) => canonicalLandmarkId(id, region)) : ids,
+      ])
+    );
     t.itineraryNames = t.itineraryNames || {};
     t.placesByRegion = t.placesByRegion || {};
     t.itineraryStatus = t.itineraryStatus || {};
@@ -183,7 +188,13 @@ export function TripProvider({ children }) {
       const placesByRegion = { ...t.placesByRegion };
       if (next.length) placesByRegion[regionId] = next;
       else delete placesByRegion[regionId];
-      return { ...t, placesByRegion };
+      // Edit List / drag also store a place's id in the saved order
+      // (byRegion); drop it too so a deleted place can't linger there.
+      const byRegion = { ...t.byRegion };
+      const order = (byRegion[regionId] || []).filter((x) => x !== id);
+      if (order.length) byRegion[regionId] = order;
+      else delete byRegion[regionId];
+      return { ...t, placesByRegion, byRegion };
     });
 
   const renameItinerary = (regionId, name) =>

@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { initialRating } from './initialRating';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { submitReview, ratingDraftKey } from '../lib/reviews';
-import { clearPersisted } from '../lib/usePersistentState';
+import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../lib/usePersistentState';
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
@@ -46,10 +47,32 @@ export default function CheckInReview() {
   // off to the quieter "Checked in! +100" panel below.
   const [blast, setBlast] = useState(false);
   const endBlast = useCallback(() => setBlast(false), []);
+  // Every preview blob URL made, so they can be released (they otherwise
+  // hold the full photo in memory until the page closes).
+  const previewUrls = useRef(new Set());
+  const makePreview = (f) => {
+    const u = URL.createObjectURL(f);
+    previewUrls.current.add(u);
+    return u;
+  };
+  const releasePreview = (u) => {
+    if (previewUrls.current.delete(u)) URL.revokeObjectURL(u);
+  };
+  useEffect(() => {
+    const urls = previewUrls.current;
+    return () => {
+      urls.forEach((u) => URL.revokeObjectURL(u));
+      urls.clear();
+    };
+  }, []);
 
   useEffect(() => {
     if (justCheckedIn) {
-      setRating(null);
+      // No setRating(null) here: RatingFlow (mounted in this same commit)
+      // reports its own starting state, including a pre-picked tier or a
+      // restored draft, and this effect runs after it and would wipe that.
+      previewUrls.current.forEach((u) => URL.revokeObjectURL(u));
+      previewUrls.current.clear();
       setPhotoFiles([]);
       setPhotoPreviews([]);
       setMsg(null);
@@ -63,15 +86,25 @@ export default function CheckInReview() {
 
   const rateable = isRateable(justCheckedIn);
   const draftKey = ratingDraftKey(user?.uid, justCheckedIn.id);
+  // Re-checking in at a place you already rated: start from what's on file so
+  // posting doesn't blank the saved comment, chips and love notes.
+  const existing = myReviews?.[justCheckedIn.id] || null;
 
   const onPhoto = async () => {
-    const f = await pickPhoto();
-    if (f) {
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setMsg(friendlyError(e, "Couldn't use that photo. Try another one."));
+      return;
+    }
+    if (f && photoFiles.length < 3) {
       setPhotoFiles((prev) => (prev.length < 3 ? [...prev, f] : prev));
-      setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, URL.createObjectURL(f)] : prev));
+      setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, makePreview(f)] : prev));
     }
   };
   const removePhoto = (i) => {
+    releasePreview(photoPreviews[i]);
     setPhotoFiles((prev) => prev.filter((_, idx) => idx !== i));
     setPhotoPreviews((prev) => prev.filter((_, idx) => idx !== i));
   };
@@ -113,6 +146,10 @@ export default function CheckInReview() {
     setSaving(false);
 
     if (rateable) {
+      // The draft stays in storage until the save lands (so a failure keeps
+      // it), but is flagged so the landmark page doesn't call it "restored"
+      // while this is still uploading.
+      markDraftSubmitting(draftKey);
       submitReview({
         userId: user.uid,
         userName: myUsername || user.displayName || 'Explorer',
@@ -124,17 +161,29 @@ export default function CheckInReview() {
           // Saved -- the in-progress copy on this device isn't needed. (On
           // failure it's kept, so the landmark page reopens with it.)
           clearPersisted(draftKey);
+          unmarkDraftSubmitting(draftKey);
           await Promise.all([reloadRatings(), reloadMyPhotos()]).catch(() => {});
           if (res?.photoFailed) setMsg("Your photo couldn't upload — you can try again from the landmark page.");
         })
         .catch(() => {
+          unmarkDraftSubmitting(draftKey);
           setMsg("Your rating couldn't save — you can try rating it again from the landmark page.");
         });
     } else if (photoFiles.length) {
       // No rating here, so the photo lives on the check-in doc instead.
-      attachCheckinPhoto(user.uid, justCheckedIn.id, photoFiles[0])
-        .then(() => reloadMyPhotos())
-        .catch(() => setMsg("Your photo couldn't upload — you can try again from the landmark page."));
+      // Every photo picked, one after another -- not just the first.
+      (async () => {
+        let failed = false;
+        for (const f of photoFiles) {
+          try {
+            await attachCheckinPhoto(user.uid, justCheckedIn.id, f);
+          } catch {
+            failed = true;
+          }
+        }
+        await reloadMyPhotos().catch(() => {});
+        if (failed) setMsg("Some photos couldn't upload — you can try again from the landmark page.");
+      })();
     }
   };
 
@@ -144,7 +193,7 @@ export default function CheckInReview() {
     return (
       <CheckInBlast
         landmarkName={justCheckedIn.landmark?.name || justCheckedIn.name || ''}
-        points={celebration?.points ?? justCheckedIn.points ?? 100}
+        points={celebration?.points ?? 0}
         message={celebration?.message}
         onDone={endBlast}
       />
@@ -157,7 +206,7 @@ export default function CheckInReview() {
         {posted ? (
           <>
             <h3 style={{ marginTop: 0 }}>
-              {ratingOnly ? `${'\u{2B50}'} Rated!` : `${'\u{1F3AF}'} Checked in! +${celebration?.points ?? justCheckedIn.points ?? 100} pts`}
+              {ratingOnly ? `${'\u{2B50}'} Rated!` : `${'\u{1F3AF}'} Checked in!${celebration?.points > 0 ? ` +${celebration.points} pts` : ''}`}
             </h3>
             {!ratingOnly && celebration?.message && <div className="celebration-banner">{celebration.message}</div>}
             {msg && (
@@ -195,7 +244,7 @@ export default function CheckInReview() {
                 <RatingFlow
                   key={justCheckedIn.id}
                   landmark={justCheckedIn}
-                  initial={checkInOptions?.initialTier ? { tier: checkInOptions.initialTier } : null}
+                  initial={initialRating(existing, checkInOptions?.initialTier)}
                   onChange={setRating}
                   requireComment={requireComment}
                   draftKey={draftKey}

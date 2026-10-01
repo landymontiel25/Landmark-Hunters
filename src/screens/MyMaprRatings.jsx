@@ -21,7 +21,7 @@ const TABS = TIERS.map((t) => ({ id: t.id, label: t.label, emoji: t.emoji }));
 export default function MyMaprRatings() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
-  const { myReviews, reload: reloadRatings } = useRatings();
+  const { myReviews, myReviewsLoaded, reload: reloadRatings } = useRatings();
   const toast = useToast();
   const [ratingOnlyIds, setRatingOnlyIds] = useState(null); // null = still loading
   const [loadError, setLoadError] = useState(null);
@@ -92,7 +92,8 @@ export default function MyMaprRatings() {
     );
   }
 
-  const loading = ratingOnlyIds === null;
+  // Also wait for myReviews: before it arrives every tab would read "Nothing rated yet".
+  const loading = ratingOnlyIds === null || (!myReviewsLoaded && !loadError);
   const rated = loading
     ? []
     : Object.values(myReviews).filter(
@@ -122,7 +123,7 @@ export default function MyMaprRatings() {
           <button
             key={t.id}
             type="button"
-            className={`tab-btn ${tab === t.id ? 'active' : ''}`}
+            className={`tab-btn ${tab === t.id ? 'active' : ''}`} aria-pressed={!!(tab === t.id)}
             onClick={() => setTab(t.id)}
           >
             {t.emoji} {t.label} ({byTier[t.id]?.length ?? 0})

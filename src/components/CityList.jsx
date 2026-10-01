@@ -35,7 +35,7 @@ export default function CityList({ cityIds, cityPoints, cityLastVisit, onSelect 
           <button
             key={s.id}
             type="button"
-            className={`tab-btn ${sortBy === s.id ? 'active' : ''}`}
+            className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} aria-pressed={!!(sortBy === s.id)}
             onClick={() => setSortBy(s.id)}
           >
             {s.label}

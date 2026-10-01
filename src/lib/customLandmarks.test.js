@@ -55,6 +55,47 @@ describe('getCustomLandmark', () => {
   });
 });
 
+describe('getCustomLandmark on a reported (hidden) landmark', () => {
+  it('treats the rules\' permission-denied as "not found", not an error', async () => {
+    getDocMock.mockRejectedValueOnce(Object.assign(new Error('Missing or insufficient permissions.'), { code: 'permission-denied' }));
+    expect(await getCustomLandmark('custom-hidden')).toBeNull();
+  });
+
+  it('still throws other read failures', async () => {
+    getDocMock.mockRejectedValueOnce(Object.assign(new Error('offline'), { code: 'unavailable' }));
+    await expect(getCustomLandmark('custom-x')).rejects.toMatchObject({ code: 'unavailable' });
+  });
+});
+
+describe('region-less custom landmarks', () => {
+  it('saves a stable "custom" region instead of null, and reads legacy null/"null" the same way', async () => {
+    const { setDoc } = await import('firebase/firestore');
+    const { addCustomLandmark, getCustomLandmarks } = await import('./customLandmarks');
+    await addCustomLandmark({ region: null, name: 'Far Spot', lat: 1, lng: 2, userId: 'u' });
+    expect(setDoc.mock.calls.at(-1)[1].region).toBe('custom');
+    getDocsMock.mockResolvedValueOnce({
+      docs: [
+        { id: 'a', data: () => ({ id: 'a', name: 'A', region: null }) },
+        { id: 'b', data: () => ({ id: 'b', name: 'B', region: 'null' }) },
+        { id: 'c', data: () => ({ id: 'c', name: 'C', region: 'nyc' }) },
+      ],
+    });
+    const all = await getCustomLandmarks();
+    expect(all.map((l) => l.region)).toEqual(['custom', 'custom', 'nyc']);
+  });
+
+  it('hides a landmark reported by two people (the list rule cannot enforce it)', async () => {
+    const { getCustomLandmarks } = await import('./customLandmarks');
+    getDocsMock.mockResolvedValueOnce({
+      docs: [
+        { id: 'a', data: () => ({ id: 'a', name: 'A', reportedBy: ['x', 'y'] }) },
+        { id: 'b', data: () => ({ id: 'b', name: 'B', reportedBy: ['x'] }) },
+      ],
+    });
+    expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['b']);
+  });
+});
+
 describe('addCustomLandmark topic', () => {
   it('saves a researched topic, and leaves the field off when there is none', async () => {
     const { setDoc } = await import('firebase/firestore');

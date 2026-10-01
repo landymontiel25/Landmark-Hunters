@@ -24,6 +24,11 @@ export async function getPushToken() {
   return token;
 }
 
+export async function hasPushPermission() {
+  const status = await FirebaseMessaging.checkPermissions();
+  return status.receive === 'granted';
+}
+
 export async function deletePushToken() {
   await FirebaseMessaging.deleteToken();
 }

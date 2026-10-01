@@ -146,6 +146,11 @@ describe('MyStreaks', () => {
     expect(container.textContent).not.toContain('Choose a city');
   });
 
+  it('keeps a space between the partner name and the sentence that follows it', async () => {
+    await openStreak();
+    expect(container.textContent).toMatch(/guess what @\S+ picks/);
+  });
+
   it('auto-picks a city from location when the streak has none yet, with no picker UI', async () => {
     currentStreaks = [{ ...streak, cityId: null }];
     await openStreak();

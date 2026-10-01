@@ -20,7 +20,9 @@ import {
   rankNearbyCandidates,
   readNearbyPicksCache,
   selectReady,
+  unratedPlaces,
   withReasons,
+  optionToMiles,
   withinDistance,
   writeNearbyPicksCache,
 } from './nearbyPicks';
@@ -52,6 +54,18 @@ describe('distance filter', () => {
     expect(withinDistance(places, ORIGIN, 10).map((p) => p.id)).toEqual(['near', 'mid']);
     expect(withinDistance(places, ORIGIN, 1).map((p) => p.id)).toEqual(['near']);
     expect(withinDistance(places, ORIGIN, 15).map((p) => p.id)).toEqual(['near', 'mid', 'far']);
+  });
+
+  it('measures from a saved pin correction, like the map list does', () => {
+    const p = { ...place('moved', 0.5), regionId: 'villanova' };
+    const moved = { lat: p.lat + 0.2, lng: p.lng }; // ~14 mi north
+    expect(eligiblePlaces({ origin: ORIGIN, miles: 5, landmarks: [p] })).toHaveLength(1);
+    expect(eligiblePlaces({ origin: ORIGIN, miles: 5, landmarks: [p], overrides: { 'villanova/moved': moved } })).toHaveLength(0);
+  });
+
+  it('reads the chip number in km when the units are metric', () => {
+    expect(optionToMiles(10, 'imperial')).toBe(10);
+    expect(optionToMiles(10, 'metric')).toBeCloseTo(6.21, 2);
   });
 
   it('includes the edge and attaches each distance', () => {
@@ -181,6 +195,24 @@ describe('closed places and low ratings', () => {
     expect(isClosedNow({ permanentlyClosed: true }, tuesday(12))).toBe(true);
   });
 
+  it('reads a bare "9-5" as 9am-5pm, and "12-8pm" as noon to 8pm', () => {
+    expect(isClosedNow({ hours: '9-5' }, tuesday(3))).toBe(true);
+    expect(isClosedNow({ hours: '9-5' }, tuesday(12))).toBe(false);
+    expect(isClosedNow({ hours: '9-5' }, tuesday(18))).toBe(true);
+    expect(isClosedNow({ hours: '12-8pm' }, tuesday(0, 30))).toBe(true);
+    expect(isClosedNow({ hours: '12-8pm' }, tuesday(15))).toBe(false);
+  });
+
+  it('keeps a late-night range open past midnight into the next day', () => {
+    // Tuesday 1am is still Monday night's session.
+    expect(isClosedNow({ hours: 'Mon-Sat 6pm-2am' }, tuesday(1))).toBe(false);
+    expect(isClosedNow({ hours: 'Mon 6pm-2am' }, tuesday(1))).toBe(false);
+    expect(isClosedNow({ hours: 'Mon 6pm-2am' }, tuesday(3))).toBe(true);
+    // Sunday 1am is Saturday night's session; Sunday is otherwise closed.
+    const sunday1am = new Date(2026, 9, 4, 1, 0);
+    expect(isClosedNow({ hours: 'Sat 6pm-2am, Sun closed' }, sunday1am)).toBe(false);
+  });
+
   it('treats missing or unreadable hours as open', () => {
     expect(isClosedNow({}, tuesday(3))).toBe(false);
     expect(isClosedNow({ hours: 'Varies by season' }, tuesday(3))).toBe(false);
@@ -241,5 +273,49 @@ describe('mood sort and the cached set', () => {
     expect(readNearbyPicksCache(key, 1000 + 60_000)).toMatchObject({ stale: false, picks: [{ id: 'a' }] });
     expect(readNearbyPicksCache(key, 1000 + PICKS_CACHE_TTL_MS + 1)).toMatchObject({ stale: true, picks: [{ id: 'a' }] });
     expect(pickKey(pick('a'))).toBe('test/a');
+  });
+});
+
+describe('regressions: moving and already-rated places', () => {
+  it('builds a different cache key once you have moved a few miles', () => {
+    const moved = { lat: ORIGIN.lat + 3 / 69.05, lng: ORIGIN.lng };
+    const a = nearbyPicksCacheKey({ uid: 'u', ratingsCount: 12, origin: ORIGIN, miles: 1 });
+    const b = nearbyPicksCacheKey({ uid: 'u', ratingsCount: 12, origin: moved, miles: 1 });
+    expect(a).not.toBe(b);
+  });
+
+  it('never picks a place the user already rated', () => {
+    const now = Date.now();
+    const villanova = getRegion('villanova').center;
+    const profile = {
+      tagScores: { villanova: { 'history-culture': 40, food: 20 } },
+      tagScoresAt: { villanova: { 'history-culture': now, food: now } },
+      tagCounts: { villanova: { 'history-culture': 8, food: 5 } },
+    };
+    const before = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now });
+    const ratedId = before.usual[0].id;
+    const myReviews = { [ratedId]: { landmarkId: ratedId, ratingTier: 'highly-recommend' } };
+    const after = rankNearbyCandidates({ profile, origin: villanova, miles: 10, now, myReviews });
+    expect([...after.usual, ...after.fresh].map((p) => p.id)).not.toContain(ratedId);
+  });
+});
+
+import { ratePlacesText } from './nearbyPicks';
+describe('ratePlacesText', () => {
+  it('counts what is left, not the full threshold', () => {
+    expect(ratePlacesText(0)).toBe('Rate 10 places');
+    expect(ratePlacesText(3)).toBe('Rate 7 more places');
+    expect(ratePlacesText(9)).toBe('Rate 1 more place');
+    expect(ratePlacesText(undefined)).toBe('Rate 10 places');
+  });
+});
+
+describe('unratedPlaces', () => {
+  it('drops places the user already rated so suggestion rows never recommend them', () => {
+    const pool = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+    const myReviews = { x: { landmarkId: 'b' }, y: {}, z: null };
+    expect(unratedPlaces(pool, myReviews).map((l) => l.id)).toEqual(['a', 'c']);
+    expect(unratedPlaces(pool, null)).toHaveLength(3);
+    expect(unratedPlaces(undefined, myReviews)).toEqual([]);
   });
 });

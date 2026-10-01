@@ -15,10 +15,11 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}) };
+const saved = { results: vi.fn(async () => {}), progress: vi.fn(async () => {}), end: vi.fn(async () => {}), tasteIntro: vi.fn(async () => {}), markRead: vi.fn(async () => {}) };
 
 // user: { emailVerified }, profile: users/{uid} doc, checkins: real check-in count
-async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, checkins = 3, isNew } = {}) {
+async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: true }, profile = {}, checkins = 3, isNew, native = false } = {}) {
+  vi.doMock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => native } }));
   vi.doMock('../lib/AuthContext', () => ({
     useAuth: () => ({ user, firebaseEnabled: true, resendVerification: vi.fn(), refreshUser: async () => {} }),
   }));
@@ -33,13 +34,13 @@ async function renderFlow({ user = { uid: 'u', email: 'a@b.co', emailVerified: t
     endOnboardingFlow: saved.end,
   }));
   vi.doMock('../lib/friends', () => ({ saveTasteIntro: saved.tasteIntro }));
-  vi.doMock('../lib/notifications', () => ({ markNotificationRead: async () => {} }));
+  vi.doMock('../lib/notifications', () => ({ markNotificationRead: saved.markRead }));
   vi.doMock('../lib/useWelcomeBonus', () => ({ useWelcomeBonus: () => ({ saveError: null, retry: () => {} }) }));
   vi.doMock('../lib/firstCheckIn', async () => ({
     ...(await vi.importActual('../lib/firstCheckIn')),
     useCheckinCount: () => ({ count: checkins, loading: false }),
   }));
-  vi.doMock('../components/FirstCheckInStep', () => ({ default: () => <p>FIRST CHECK-IN STEP</p> }));
+  vi.doMock('../components/FirstCheckInStep', () => ({ default: ({ onDone }) => <button onClick={onDone}>FIRST CHECK-IN STEP</button> }));
   vi.doMock('../components/LocationAlwaysStep', () => ({ default: () => <p>LOCATION STEP</p> }));
 
   const { default: Onboarding } = await import('./Onboarding.jsx');
@@ -93,6 +94,9 @@ describe('Onboarding: existing user (account from before the flow existed)', () 
     expect(saved.results).toHaveBeenCalledTimes(1);
     expect(saved.results.mock.calls[0][3]).toEqual({ complete: false });
     expect(el.textContent).toContain("You're set for now");
+    // Skipped every card: never "Mapr will use the 0 you answered".
+    expect(el.textContent).not.toMatch(/use the 0/);
+    expect(el.textContent).toContain('skipped the cards');
     expect(el.textContent).not.toContain('FIRST CHECK-IN STEP');
     expect(el.textContent).not.toContain('LOCATION STEP');
   });
@@ -113,6 +117,29 @@ describe('Onboarding: existing user (account from before the flow existed)', () 
     await click(button(el, 'Skip for now'));
     expect(saved.results.mock.calls[0][3]).toEqual({ complete: true });
     expect(el.textContent).toContain("You're all set");
+  });
+
+  // firestore.rules denies an update to a notification that doesn't exist, so
+  // only an account that was actually sent the notice has one to mark read.
+  it.each([
+    ['was never sent the notice', {}, 0],
+    ['was sent the notice', { onboardingNoticeVersion: ONBOARDING_VERSION }, 1],
+  ])('finishing the cards marks the notice read only when the account %s', async (_label, extra, calls) => {
+    const el = await renderFlow({
+      profile: {
+        onboardingCompleted: true,
+        ...extra,
+        onboardingProgress: {
+          version: ONBOARDING_VERSION,
+          step: 'notes',
+          cardWords: ALL_SWIPE_CARDS.map((c) => c.word),
+          answers: ALL_SWIPE_CARDS.map((c) => ({ word: c.word, answer: 'love' })),
+        },
+      },
+      checkins: 5,
+    });
+    await click(button(el, 'Skip for now'));
+    expect(saved.markRead).toHaveBeenCalledTimes(calls);
   });
 
   it('but an existing account with no check-in yet still gets the first check-in step', async () => {
@@ -154,5 +181,21 @@ describe('Onboarding: new user', () => {
     expect(saved.results).toHaveBeenCalledTimes(1);
     expect(saved.results.mock.calls[0][3]).toEqual({ complete: false });
     expect(el.textContent).toContain('FIRST CHECK-IN STEP');
+  });
+});
+
+describe('Onboarding: "Always" location step', () => {
+  const profile = { onboardingVersion: ONBOARDING_VERSION, onboardingProgress: { version: ONBOARDING_VERSION, step: 'checkin' } };
+
+  it('is skipped in a browser, where the plugin does not exist', async () => {
+    const el = await renderFlow({ profile, isNew: true, checkins: 0, native: false });
+    await click(button(el, 'FIRST CHECK-IN STEP'));
+    expect(el.textContent).not.toContain('LOCATION STEP');
+  });
+
+  it('is still offered in the iOS app', async () => {
+    const el = await renderFlow({ profile, isNew: true, checkins: 0, native: true });
+    await click(button(el, 'FIRST CHECK-IN STEP'));
+    expect(el.textContent).toContain('LOCATION STEP');
   });
 });

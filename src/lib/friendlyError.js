@@ -2,6 +2,8 @@
 // status, a thrown Error) into one short sentence a traveler can act on.
 // Never shows raw backend text like "FirebaseError: [code=unavailable]".
 
+import { authErrorMessage } from './authErrors';
+
 const FIREBASE = {
   unavailable: "Can't reach the server right now. Check your connection and try again.",
   'deadline-exceeded': 'That took too long. Try again.',
@@ -38,6 +40,16 @@ export function isOffline() {
 }
 
 /**
+ * Would trying the same thing again have a chance of working? False for our
+ * own validation messages ("You already sent @x a request", "You two are
+ * already friends"): they are the answer, and a Retry button on them just
+ * repeats it. Server (/api) errors carry a `status` and stay retryable.
+ */
+export function isRetryable(err) {
+  return !(err && err.userMessage && err.status == null);
+}
+
+/**
  * friendlyError(err, fallback) -> string
  * err may be an Error, a Firebase error ({ code }), a fetch Response-shaped
  * error ({ status }), or an Error thrown with a server `error` message our
@@ -50,6 +62,9 @@ export function friendlyError(err, fallback = 'Something went wrong. Try again.'
   if (err.userMessage) return err.userMessage;
   const code = String(err.code || '').replace(/^firestore\//, '');
   if (FIREBASE[code]) return FIREBASE[code];
+  // A Firebase Auth failure that surfaced somewhere other than the sign-in
+  // form (token refresh before an upload, a re-check of the session...).
+  if (code.startsWith('auth/')) return authErrorMessage(err);
   if (err.status && HTTP[err.status]) return HTTP[err.status];
   const msg = String(err.message || '');
   if (err.name === 'TypeError' && /fetch|network|load failed/i.test(msg)) {
@@ -59,26 +74,43 @@ export function friendlyError(err, fallback = 'Something went wrong. Try again.'
   return fallback;
 }
 
+// How long one of our own /api calls may take before the app gives up. The
+// server's own limit (vercel.json maxDuration) is 60s; this stays just above
+// it so a hung connection ends in a clear message.
+const API_TIMEOUT_MS = 65000;
+
 /**
  * POSTs/GETs one of our own /api endpoints and returns parsed JSON, or
  * throws an Error carrying `status` and, when the server sent one, its
  * plain-language `error` text as `userMessage` (our endpoints write those
- * for people, not developers).
+ * for people, not developers). A reply that isn't JSON (an HTML 404/504
+ * page from the host) never leaks its parse error: it becomes a plain
+ * status-based message. A call that hangs ends as a "took too long" error.
  */
-export async function fetchJson(url, options) {
+export async function fetchJson(url, options, { timeoutMs = API_TIMEOUT_MS } = {}) {
+  const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+  const timer = ctrl ? setTimeout(() => ctrl.abort(), timeoutMs) : null;
   let res;
+  let data = null;
   try {
-    res = await fetch(url, options);
+    res = await fetch(url, ctrl ? { ...options, signal: ctrl.signal } : options);
+    data = await res.json().catch(() => null);
   } catch (e) {
-    const err = new Error(e?.message || 'Network error');
-    err.name = 'TypeError';
+    const timedOut = ctrl?.signal.aborted;
+    const err = new Error(timedOut ? 'Request timed out' : e?.message || 'Network error');
+    err.name = timedOut ? 'TimeoutError' : 'TypeError';
     throw err;
+  } finally {
+    if (timer) clearTimeout(timer);
   }
-  const data = await res.json().catch(() => null);
   if (!res.ok || !data) {
     const err = new Error(data?.error || `HTTP ${res.status}`);
     err.status = res.status;
     if (data?.error && typeof data.error === 'string') err.userMessage = data.error;
+    // A missing /api route (or a host error page) isn't "that thing was
+    // removed" -- the service itself isn't reachable.
+    else if (res.status === 404) err.userMessage = "That feature isn't available right now. Try again in a moment.";
+    else if (res.ok) err.userMessage = 'We got an unexpected reply from the server. Try again in a moment.';
     if (data?.code) err.code = data.code;
     throw err;
   }

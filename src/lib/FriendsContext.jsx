@@ -73,6 +73,12 @@ export function FriendsProvider({ children }) {
   // BadgesContext think an old badge was newly earned, over and over.
   const [profileFresh, setProfileFresh] = useState(false);
 
+  // uid the provider is currently showing. A slow reload() started for the
+  // previous account must not write its results into the next account's state.
+  const activeUidRef = useRef(null);
+  const shownUidRef = useRef(null);
+  activeUidRef.current = user?.uid ?? null;
+
   const reload = useCallback(async () => {
     if (!firebaseEnabled || !user) {
       setFriendUids(new Set());
@@ -87,8 +93,11 @@ export function FriendsProvider({ children }) {
     // for the friends/requests queries too: on a cold start those all
     // compete with every other boot-time query, and the profile is what
     // the Taste Profile card (and the taste nudge) are sitting on.
-    const profileDone = fetchProfileWithRetry(user.uid).then(
+    const uid = user.uid;
+    const stale = () => activeUidRef.current !== uid;
+    const profileDone = fetchProfileWithRetry(uid).then(
       (profile) => {
+        if (stale()) return;
         if (profile) {
           setMyProfile(profile);
           cacheProfile(user.uid, profile);
@@ -100,6 +109,7 @@ export function FriendsProvider({ children }) {
         setMyProfile((cur) => cur ?? loadCachedProfile(user.uid));
       },
       (err) => {
+        if (stale()) return;
         // Read failed even after retrying. Logged (not just swallowed) so
         // a real read failure shows up somewhere instead of silently
         // serving stale cached data forever. Only ever fall back to the
@@ -111,7 +121,8 @@ export function FriendsProvider({ children }) {
         setMyProfile((cur) => cur ?? loadCachedProfile(user.uid));
       }
     );
-    const [, f, r] = await Promise.allSettled([profileDone, listFriends(user.uid), listIncomingRequests(user.uid)]);
+    const [, f, r] = await Promise.allSettled([profileDone, listFriends(uid), listIncomingRequests(uid)]);
+    if (stale()) return;
     if (f.status === 'fulfilled') setFriendUids(new Set((f.value || []).map((x) => x.friend)));
     if (r.status === 'fulfilled') setRequests(r.value || []);
   }, [user]);
@@ -123,13 +134,24 @@ export function FriendsProvider({ children }) {
     // back on.
     setProfileFresh(false);
     if (!firebaseEnabled || !user) {
+      shownUidRef.current = null;
       reload();
       return undefined;
+    }
+    // Switching straight from one account to another: drop the previous
+    // account's profile/friends/requests now instead of showing them until
+    // the new account's reads land (or forever, if they fail).
+    const accountChanged = shownUidRef.current !== user.uid;
+    shownUidRef.current = user.uid;
+    if (accountChanged) {
+      setFriendUids(new Set());
+      setRequests([]);
     }
     // Show the cached username immediately, then let the live listener
     // replace it the moment the server copy arrives.
     const cached = loadCachedProfile(user.uid);
-    if (cached) setMyProfile(cached);
+    if (accountChanged) setMyProfile(cached);
+    else if (cached) setMyProfile((cur) => cur ?? cached);
     upsertUserProfile(user).catch(() => {});
     // The profile rides a live listener, not the one-shot read in reload():
     // on app open, a getDoc fired the instant auth restores could lose that

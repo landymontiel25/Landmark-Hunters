@@ -66,3 +66,10 @@ describe('resolveUnits', () => {
     expect(resolveUnits({ mode: 'auto', country: null, locale: 'es-ES' })).toBe('metric');
   });
 });
+
+describe('formatDistance rounding boundaries', () => {
+  it('never shows "1000 m" or "1000 ft"', () => {
+    expect(formatDistance(999.6, 'metric')).toBe('1.0 km');
+    expect(formatDistance(304.7, 'imperial')).toBe('0.2 mi');
+  });
+});

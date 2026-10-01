@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { friendlyError, fetchJson, OFFLINE_MESSAGE } from './friendlyError';
+import { friendlyError, fetchJson, isRetryable, OFFLINE_MESSAGE } from './friendlyError';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -27,6 +27,13 @@ describe('friendlyError', () => {
     expect(friendlyError(new Error('FirebaseError: [code=internal] stack trace'))).toBe('Something went wrong. Try again.');
   });
 
+  it('never shows a raw auth/ code from a token refresh or similar', () => {
+    expect(friendlyError({ code: 'auth/network-request-failed', message: 'Firebase: Error (auth/network-request-failed).' })).toBe(
+      'Network error — check your connection and try again.'
+    );
+    expect(friendlyError({ code: 'auth/some-new-code' })).not.toMatch(/auth\//);
+  });
+
   it('says offline when the device is offline', () => {
     vi.stubGlobal('navigator', { onLine: false });
     expect(friendlyError({ code: 'unavailable' })).toBe(OFFLINE_MESSAGE);
@@ -42,5 +49,43 @@ describe('fetchJson', () => {
   it('returns parsed JSON on success', async () => {
     vi.stubGlobal('fetch', async () => ({ ok: true, status: 200, json: async () => ({ a: 1 }) }));
     await expect(fetchJson('/api/x')).resolves.toEqual({ a: 1 });
+  });
+
+  it('turns an HTML error page into a friendly message, never a parse error', async () => {
+    vi.stubGlobal('fetch', async () => ({
+      ok: false,
+      status: 504,
+      json: async () => {
+        throw new SyntaxError('Unexpected token <');
+      },
+    }));
+    const err = await fetchJson('/api/x').catch((e) => e);
+    expect(friendlyError(err)).toMatch(/took too long/);
+    expect(friendlyError(err)).not.toMatch(/Unexpected|token/);
+  });
+
+  it('does not call a missing API route "that was removed"', async () => {
+    vi.stubGlobal('fetch', async () => ({ ok: false, status: 404, json: async () => null }));
+    const err = await fetchJson('/api/x').catch((e) => e);
+    expect(friendlyError(err)).not.toMatch(/couldn't find/i);
+  });
+
+  it('ends a hung call with a took-too-long message', async () => {
+    vi.stubGlobal(
+      'fetch',
+      (url, { signal }) => new Promise((_, reject) => signal.addEventListener('abort', () => reject(new Error('aborted'))))
+    );
+    const err = await fetchJson('/api/x', {}, { timeoutMs: 10 }).catch((e) => e);
+    expect(friendlyError(err)).toMatch(/took too long/);
+  });
+});
+
+describe('isRetryable', () => {
+  it('is false for our own plain-language answers, true for real failures', () => {
+    const own = Object.assign(new Error('x'), { userMessage: 'You already sent @bob a request.' });
+    expect(isRetryable(own)).toBe(false);
+    expect(isRetryable({ code: 'unavailable' })).toBe(true);
+    expect(isRetryable(Object.assign(new Error('x'), { userMessage: 'Busy', status: 503 }))).toBe(true);
+    expect(isRetryable(null)).toBe(true);
   });
 });

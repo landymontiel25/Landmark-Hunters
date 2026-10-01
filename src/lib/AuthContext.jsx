@@ -21,6 +21,7 @@ import { deleteAccountData } from './accountDeletion';
 import { recordReferralIfPending } from './referrals';
 import { touchLastActive } from './friends';
 import { markNewSignup } from './onboardingSave';
+import { cleanUpPushOnSignOut } from './pushSignOut';
 
 const AuthContext = createContext(null);
 
@@ -102,7 +103,12 @@ export function AuthProvider({ children }) {
     setUser((prev) => (prev && prev.emailVerified === auth.currentUser.emailVerified ? prev : { ...auth.currentUser }));
   };
 
-  const signOutUser = () => signOut(auth);
+  const signOutUser = async () => {
+    // Drop this device's push token from the account first (needs the live
+    // session), so the next person on a shared phone isn't sent this one's pushes.
+    await cleanUpPushOnSignOut(auth.currentUser?.uid);
+    return signOut(auth);
+  };
 
   // Requires a password because Firebase rejects deleteUser on a session
   // that isn't "recent" -- reauthenticating first is the standard fix, and

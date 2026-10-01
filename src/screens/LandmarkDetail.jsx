@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getLandmark, getRegion, INTERESTS } from '../data/regions';
-import { getCustomLandmark, reportCustomLandmark } from '../lib/customLandmarks';
+import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import { isAdmin } from '../lib/admins';
@@ -9,7 +9,6 @@ import AdminEditLandmarkPanel from '../components/AdminEditLandmarkPanel';
 import AdminEditBuiltInPanel from '../components/AdminEditBuiltInPanel';
 import { blockUser, listBlockedUsers } from '../lib/blocks';
 import { useTrip } from '../lib/TripContext';
-import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
@@ -21,6 +20,7 @@ import {
   reportReview,
   deleteMyReview,
   ratingDraftKey,
+  MAX_REVIEW_PHOTOS,
 } from '../lib/reviews';
 import { isRateable, tierById } from '../lib/ratingFlow';
 import {
@@ -40,6 +40,7 @@ import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
 import RatingStars from '../components/RatingStars';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import { pickPhoto } from '../lib/imageUtils';
 import { LandmarkDetailSkeleton, Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
@@ -70,7 +71,17 @@ function fmtCheckinTime(seconds) {
 
 const FACTS_PREVIEW = 5;
 
+// Keyed by landmark so stepping between landmarks (the check-in gallery's
+// ‹ › buttons navigate with `replace`, which keeps this same screen mounted)
+// starts every one fresh. Without it the previous landmark's rating, photos,
+// check-in and reviews lingered on the next one -- loadMyReview() returns
+// early when there's no review, leaving the old state in place.
 export default function LandmarkDetail() {
+  const { region, id } = useParams();
+  return <LandmarkDetailBody key={`${region}/${id}`} />;
+}
+
+function LandmarkDetailBody() {
   const { region: regionId, id } = useParams();
   const navigate = useNavigate();
   // Set when you arrived from a check-ins gallery: the gallery's full order
@@ -91,11 +102,10 @@ export default function LandmarkDetail() {
       state: { checkinNav: { ...checkinNav, index } },
     });
   };
-  const { toggleLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
+  const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
-  const { coords } = useGeo();
   const region = getRegion(regionId);
   const staticLandmark = getLandmark(regionId, id);
   // Not in the built-in catalog -- might be a user-submitted one from
@@ -131,6 +141,14 @@ export default function LandmarkDetail() {
     };
   }, [id, staticLandmark, customAttempt]);
 
+  // A custom landmark that's gone (its owner deleted it) must not linger as an
+  // invisible stop in this device's itinerary for that city.
+  const customGone = !staticLandmark && !customLoading && !customError && !customLandmark;
+  useEffect(() => {
+    if (customGone && id && getRegionSelection(regionId).includes(id)) removeLandmark(id, regionId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customGone, id, regionId]);
+
   // Memoized so it's referentially stable across renders once resolved --
   // several effects below key off "landmark changed" (e.g. the one-shot map
   // focus point on first open), which would misfire on every render otherwise
@@ -149,7 +167,7 @@ export default function LandmarkDetail() {
       }),
     [staticLandmark, customLandmark, applyEdit]
   );
-  const { ratings, reload: reloadRatings } = useRatings();
+  const { ratings, myReviews, reload: reloadRatings } = useRatings();
   const { reload: reloadMyPhotos } = useMyPhotos();
   const { myUsername, friendUids } = useFriends();
   const toast = useToast();
@@ -175,6 +193,8 @@ export default function LandmarkDetail() {
   // pick it all over again.
   const [failedCheckinPhoto, setFailedCheckinPhoto] = useState(null);
   const [photoFiles, setPhotoFiles] = useState([]);
+  // Photos already saved on my review: new ones append, 3 total at most.
+  const [reviewPhotoCount, setReviewPhotoCount] = useState(0);
   const [photoPreviews, setPhotoPreviews] = useState([]);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState(null);
@@ -206,6 +226,7 @@ export default function LandmarkDetail() {
   const [factsExpanded, setFactsExpanded] = useState(false);
   const [shareMsg, setShareMsg] = useState(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
+  const [deletingCustom, setDeletingCustom] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('');
 
@@ -221,7 +242,7 @@ export default function LandmarkDetail() {
   // Remember which city this landmark belongs to, so tapping Back returns to
   // that city's list (not whatever the popularity sort floats to the top).
   useEffect(() => {
-    if (regionId) {
+    if (regionId && region) {
       updateTrip({ activeRegion: regionId });
       setMapFocus(regionId);
     }
@@ -247,9 +268,17 @@ export default function LandmarkDetail() {
     if (!firebaseEnabled || !user || !landmark) return;
     // Best-effort pre-fill: if this read fails the card still works, it
     // just starts blank (and saving overwrites correctly either way).
-    const r = await getMyReview(user.uid, landmark.id).catch(() => null);
+    let failed = false;
+    const r = await getMyReview(user.uid, landmark.id).catch(() => {
+      failed = true;
+      return null;
+    });
+    // A failed read is not "no review": keep what's on screen (the photo
+    // count would otherwise reset to 0 and let a 4th photo be added).
+    if (failed) return;
     setMyComment(r?.comment || '');
     setHasMyReview(!!r);
+    setReviewPhotoCount(r ? r.photoURLs?.length || (r.photoURL ? 1 : 0) : 0);
     if (!r) return;
     // Pre-fills the tier flow on an edit. A legacy star-only review (from
     // before there was only ever the tier flow) has no tier to pre-fill --
@@ -275,6 +304,19 @@ export default function LandmarkDetail() {
   useEffect(() => {
     loadMyReview();
   }, [loadMyReview]);
+
+  // The check-in popup (CheckInReview) saves a rating from outside this page.
+  // Without this, checking in here and rating in the popup left this page
+  // saying "Not rated yet" and showing the rating form as an unsaved draft.
+  // RatingsContext reloads once that save lands, so pick the new review up
+  // from there. Skipped while this page's own save is running -- that path
+  // refreshes itself and must keep its "Rating submitted!" state.
+  const contextTier = landmark ? myReviews?.[landmark.id]?.ratingTier : null;
+  useEffect(() => {
+    if (!contextTier || contextTier === savedRating?.tier || saving || submitted) return;
+    loadMyReview().then(() => setCommentRev((n) => n + 1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextTier]);
 
   const checkedInHere = !!(landmark && claimedMap[landmark.id]);
   useEffect(() => {
@@ -362,7 +404,10 @@ export default function LandmarkDetail() {
     );
   }
 
-  if (!region || !landmark) {
+  // A custom landmark added far from every curated city has no region
+  // (shows as "Custom pin"), so its URL carries "null" -- that's still a
+  // real landmark, not a 404.
+  if (!landmark || (!region && !customLandmark)) {
     return (
       <div className="empty-state landmark-not-found">
         <p className="landmark-not-found-icon" aria-hidden="true">
@@ -383,14 +428,32 @@ export default function LandmarkDetail() {
   const agg = ratings[landmark.id];
   const draftKey = ratingDraftKey(user?.uid, landmark.id);
 
+  const photoRoom = Math.max(0, MAX_REVIEW_PHOTOS - reviewPhotoCount);
   const onPhotoChange = async () => {
-    const f = await pickPhoto();
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setSaveMsg(friendlyError(e, "Couldn't use that photo. Try another one."));
+      return;
+    }
+    if (f && photoFiles.length >= photoRoom) {
+      setSaveMsg(`A rating holds up to ${MAX_REVIEW_PHOTOS} photos in total.`);
+      return;
+    }
     if (f) {
-      setPhotoFiles((prev) => (prev.length < 3 ? [...prev, f] : prev));
-      setPhotoPreviews((prev) => (prev.length < 3 ? [...prev, URL.createObjectURL(f)] : prev));
+      setSaveMsg(null);
+      // A new photo is something left to save: without this the button kept
+      // reading "Rating updated!" (disabled) after a save, so a photo that
+      // failed to upload could never be retried from here.
+      setSubmitted(false);
+      setPhotoFiles((prev) => [...prev, f]);
+      setPhotoPreviews((prev) => [...prev, URL.createObjectURL(f)]);
     }
   };
   const removePhoto = (i) => {
+    if (photoPreviews[i]) URL.revokeObjectURL(photoPreviews[i]);
+    setSaveError(null);
     setPhotoFiles((prev) => prev.filter((_, idx) => idx !== i));
     setPhotoPreviews((prev) => prev.filter((_, idx) => idx !== i));
   };
@@ -424,11 +487,12 @@ export default function LandmarkDetail() {
       return;
     }
     clearPersisted(draftKey);
+    photoPreviews.forEach((u) => URL.revokeObjectURL(u));
     setPhotoFiles([]);
     setPhotoPreviews([]);
     setJustEdited(wasEdit);
     setSubmitted(true);
-    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload." : null);
+    setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Check your connection and try again (photos must be under 8 MB)." : null);
     setSaving(false);
     // The rating is saved; these only refresh what's shown, so a hiccup
     // here must never read as "your rating failed".
@@ -438,12 +502,18 @@ export default function LandmarkDetail() {
   // Optimistic: your review disappears the moment you tap Delete; if the
   // server says no, it's put back with a Retry.
   const handleDeleteMine = () => {
-    const before = { reviews, savedRating, myPhotos };
+    const before = { reviews, savedRating, myPhotos, reviewPhotoCount, myComment, hasMyReview };
     runOptimistic({
       apply: () => {
         setReviews((cur) => cur.filter((r) => r.userId !== user.uid));
         setSavedRating(null);
         setMyRating(null);
+        setReviewPhotoCount(0);
+        // The whole review doc goes, comment included.
+        setMyComment('');
+        setHasMyReview(false);
+        setSubmitted(false);
+        setCommentRev((n) => n + 1);
         // The review's own photos are gone, but any check-in gallery photos
         // (added independently via "My Photos" below) aren't touched by this.
         setMyPhotos(checkinPhotosNewestFirst(myCheckin));
@@ -456,6 +526,10 @@ export default function LandmarkDetail() {
         setReviews(before.reviews);
         setSavedRating(before.savedRating);
         setMyPhotos(before.myPhotos);
+        setReviewPhotoCount(before.reviewPhotoCount);
+        setMyComment(before.myComment);
+        setHasMyReview(before.hasMyReview);
+        setCommentRev((n) => n + 1);
       },
       toast,
       errorMessage: "Couldn't delete your review, so we put it back.",
@@ -484,7 +558,7 @@ export default function LandmarkDetail() {
     setCheckinDateSaving(true);
     setCheckinDateError('');
     try {
-      await updateCheckinTimestamp(`${user.uid}_${landmark.id}`, date);
+      await updateCheckinTimestamp(myCheckin?.visitDocId || `${user.uid}_${landmark.id}`, date);
       setMyCheckin((cur) => ({ ...cur, createdAt: { seconds: Math.floor(date.getTime() / 1000) } }));
       setEditingCheckinDate(false);
     } catch (e) {
@@ -515,7 +589,13 @@ export default function LandmarkDetail() {
 
   const addMyCheckinPhoto = async () => {
     if (checkinPhotos.length >= MAX_CHECKIN_PHOTOS) return;
-    const f = await pickPhoto();
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setCheckinPhotoError(friendlyError(e, "Couldn't use that photo. Try another one."));
+      return;
+    }
     if (f) uploadCheckinPhoto(f);
   };
 
@@ -598,6 +678,22 @@ export default function LandmarkDetail() {
     });
   };
 
+  const handleDeleteCustom = async () => {
+    if (!customLandmark || deletingCustom) return;
+    if (!window.confirm(`Delete "${customLandmark.name}" for everyone? This can't be undone.`)) return;
+    setDeletingCustom(true);
+    try {
+      await deleteCustomLandmark(customLandmark.docId);
+    } catch (e) {
+      setDeletingCustom(false);
+      toast?.show(friendlyError(e, "Couldn't delete that landmark. Nothing was changed."));
+      return;
+    }
+    removeLandmark(landmark.id, regionId);
+    toast?.show('Landmark deleted.');
+    navigate(-1);
+  };
+
   const shareVisit = async () => {
     const checkedIn = !!claimedMap[landmark.id];
     const url = `${window.location.origin}/#/landmarks/${regionId}/${landmark.id}`;
@@ -612,8 +708,13 @@ export default function LandmarkDetail() {
         setShareMsg('Link copied — paste it to your friends! \u{1F4E3}');
         setTimeout(() => setShareMsg(null), 4000);
       }
-    } catch {
-      /* user dismissed the share sheet — nothing to do */
+    } catch (e) {
+      // Dismissing the share sheet (AbortError) is fine; a blocked clipboard
+      // or failed share shouldn't look like a dead button.
+      if (e?.name !== 'AbortError') {
+        setShareMsg(`Couldn't share from here. Copy this link instead: ${url}`);
+        setTimeout(() => setShareMsg(null), 8000);
+      }
     }
   };
 
@@ -684,7 +785,7 @@ export default function LandmarkDetail() {
             {CATEGORY_LABEL[c]}
           </span>
         ))}
-        <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{landmark.free ? 'Free to Visit' : 'Ticketed'}</span>
+        <AdmissionTag landmark={landmark} />
         <span className="tag">{'~' + landmark.typicalMinutes + ' min'}</span>
         {customLandmark && <span className="tag">{'\u{2728}'} Community-submitted</span>}
       </div>
@@ -700,8 +801,17 @@ export default function LandmarkDetail() {
         </p>
       )}
 
+      {customLandmark && user && customLandmark.createdBy === user.uid && (
+        <p className="center" style={{ marginTop: -10, marginBottom: 18 }}>
+          <button className="btn btn-ghost btn-tight" onClick={handleDeleteCustom} disabled={deletingCustom}>
+            {deletingCustom ? 'Deleting…' : '\u{1F5D1} Delete this landmark'}
+          </button>
+        </p>
+      )}
+
       {customLandmark && adminMode && isAdmin(user?.email) && (
         <AdminEditLandmarkPanel
+          onDeleted={() => removeLandmark(landmark.id, regionId)}
           landmark={customLandmark}
           onSaved={(fields) => setCustomLandmark((cur) => ({ ...cur, ...fields }))}
         />
@@ -786,8 +896,8 @@ export default function LandmarkDetail() {
                 {adminMode && isAdmin(user?.email) && !editingCheckinDate && (
                   <button
                     type="button"
-                    className="btn btn-ghost btn-sm"
-                    style={{ marginLeft: 8, padding: '1px 6px', fontSize: '0.7rem' }}
+                    className="btn btn-ghost btn-sm admin-edit-btn"
+                    style={{ marginLeft: 8, padding: '1px 10px', fontSize: '0.7rem' }}
                     onClick={startEditCheckinDate}
                   >
                     {'\u{270F}\u{FE0F}'} Edit
@@ -911,14 +1021,17 @@ export default function LandmarkDetail() {
         </div>
       )}
 
-      <button
-        type="button"
-        className={`btn btn-block ${isSelected ? 'btn-success' : 'btn-primary'}`}
-        onClick={() => toggleLandmark(landmark.id, regionId)}
-        style={{ marginBottom: 12 }}
-      >
-        {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
-      </button>
+      {/* A pin far from every curated city has no city itinerary to join. */}
+      {(region || isSelected) && (
+        <button
+          type="button"
+          className={`btn btn-block ${isSelected ? 'btn-success' : 'btn-primary'}`}
+          onClick={() => toggleLandmark(landmark.id, regionId)}
+          style={{ marginBottom: 12 }}
+        >
+          {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
+        </button>
+      )}
 
       <CheckInButton
         landmark={landmark}
@@ -952,6 +1065,8 @@ export default function LandmarkDetail() {
                   <img
                     src={url}
                     alt="Your photo"
+                    loading="lazy"
+                    decoding="async"
                     onClick={() => setLightboxSrc(url)}
                     style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 10, display: 'block', cursor: 'pointer' }}
                   />
@@ -993,7 +1108,10 @@ export default function LandmarkDetail() {
           <h3 style={{ marginTop: 0 }}>Rate your visit</h3>
           {!user ? (
             <p className="screen-subtitle" style={{ margin: 0 }}>Sign in to rate this place.</p>
-          ) : !claimedMap[landmark.id] ? (
+          ) : !claimedMap[landmark.id] && !savedRating?.tier ? (
+            // A place rated through "Rate a Landmark" has a 0-point claim
+            // (not counted as checked in) but its rating is still yours to
+            // edit here -- the rules only need that claim doc to exist.
             <p className="screen-subtitle" style={{ margin: 0 }}>
               Check in here first to rate it and add a photo.
             </p>
@@ -1010,7 +1128,9 @@ export default function LandmarkDetail() {
               <RatingFlow
                 key={`${landmark.id}:${commentRev}`}
                 landmark={landmark}
-                initial={savedRating?.tier ? savedRating : null}
+                // A comment saved before any rating still pre-fills the comment box
+                // (otherwise saving the rating submits '' and blanks it).
+                initial={savedRating?.tier ? savedRating : myComment ? { comment: myComment } : null}
                 draftKey={draftKey}
                 onChange={(r) => {
                   setMyRating(r);
@@ -1025,6 +1145,8 @@ export default function LandmarkDetail() {
                       <img
                         src={src}
                         alt={`Photo ${i + 1}`}
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 10, display: 'block' }}
                       />
                       <button
@@ -1042,12 +1164,16 @@ export default function LandmarkDetail() {
                   ))}
                 </div>
               )}
-              {photoFiles.length < 3 && (
+              {photoFiles.length < photoRoom ? (
                 <div style={{ marginTop: 12 }}>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={onPhotoChange}>
-                    {'\u{1F4F8}'} Add photo ({photoFiles.length}/3)
+                    {'\u{1F4F8}'} Add photo ({reviewPhotoCount + photoFiles.length}/{MAX_REVIEW_PHOTOS})
                   </button>
                 </div>
+              ) : (
+                <p className="screen-subtitle" style={{ marginTop: 12, marginBottom: 0 }}>
+                  {`This rating already has the most photos it can hold (${MAX_REVIEW_PHOTOS}).`}
+                </p>
               )}
               <button
                 type="button"
@@ -1064,6 +1190,18 @@ export default function LandmarkDetail() {
                   ? 'Update Rating'
                   : 'Submit Rating'}
               </button>
+              {savedRating?.tier && !saving && (
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-block"
+                  style={{ marginTop: 8 }}
+                  onClick={() => {
+                    if (window.confirm('Remove your rating, comment and rating photos for this place? Your check-in stays.')) handleDeleteMine();
+                  }}
+                >
+                  {'\u{1F5D1}\u{FE0F}'} Remove my rating
+                </button>
+              )}
               {saveMsg && (
                 <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
                   {saveMsg}
@@ -1142,6 +1280,8 @@ export default function LandmarkDetail() {
                           src={u}
                           alt={`${r.userName}'s visit ${i + 1}`}
                           className="review-photo"
+                          loading="lazy"
+                          decoding="async"
                           style={{ cursor: 'zoom-in', maxWidth: photos.length > 1 ? '31%' : '100%' }}
                           onClick={() => setLightboxSrc(u)}
                         />

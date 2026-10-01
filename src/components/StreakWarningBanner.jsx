@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useVisibleInterval } from '../lib/useVisibleInterval';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
-import { msUntilStreakLapse, dayKey, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
 import { notifyUser } from '../lib/notifications';
 
 // Alert once 5 hours remain in the local day with the SOLO streak not yet
@@ -33,6 +35,7 @@ function formatCountdown(ms) {
 export default function StreakWarningBanner() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const today = useTodayKey();
   const [streak, setStreak] = useState(null);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
 
@@ -41,22 +44,23 @@ export default function StreakWarningBanner() {
     return subscribeMySoloStreak(user.uid, setStreak, () => {});
   }, [user]);
 
-  const count = streak?.count || 0;
-  const secured = !!streak && streak.lastCompletedDay === dayKey(new Date());
+  // 0 once the stored streak has already lapsed -- nothing left to warn about.
+  const count = displayStreakCount(streak);
+  // A freeze spent today holds the streak across today's gap, so it isn't
+  // "about to lapse" any more -- don't nag someone who just used one.
+  const secured = isDayHeld(streak, today);
   const atRisk = count > 0 && !secured;
 
   useEffect(() => {
-    if (!atRisk) return;
-    setMsLeft(msUntilStreakLapse());
-    const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
-    return () => clearInterval(id);
+    if (atRisk) setMsLeft(msUntilStreakLapse());
   }, [atRisk]);
+  useVisibleInterval(() => setMsLeft(msUntilStreakLapse()), 1000, atRisk);
 
   const withinWarningWindow = atRisk && msLeft > 0 && msLeft <= WARNING_WINDOW_MS;
 
   useEffect(() => {
     if (!user || !withinWarningWindow) return;
-    const key = `${NOTIFIED_PREFIX}${user.uid}.${dayKey(new Date())}`;
+    const key = `${NOTIFIED_PREFIX}${user.uid}.${today}`;
     try {
       if (localStorage.getItem(key) === '1') return;
       localStorage.setItem(key, '1');
@@ -67,7 +71,7 @@ export default function StreakWarningBanner() {
       type: 'streak_warning',
       message: `\u{23F3} Your ${count}-day streak expires today — rate ${PICKS_STREAK_THRESHOLD} landmarks to keep it going!`,
     }).catch(() => {});
-  }, [user, withinWarningWindow, count]);
+  }, [user, withinWarningWindow, count, today]);
 
   if (!withinWarningWindow) return null;
 

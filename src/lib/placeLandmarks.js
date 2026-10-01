@@ -91,6 +91,9 @@ export async function createLandmarkFromPlace({ details, fallbackName, trustedNa
     facts: verified.facts,
     free: verified.free,
     typicalMinutes: verified.typicalMinutes || undefined,
+    // What kind of place this is ("Peruvian restaurant") phrases the rating
+    // question; Add Landmark already saved it, this path dropped it.
+    topic: verified.topic || null,
     hours: verified.hours || null,
   });
   return { ...created, regionId: created.region };

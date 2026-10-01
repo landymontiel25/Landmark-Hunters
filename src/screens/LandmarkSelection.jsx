@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { landmarkCountText } from '../lib/landmarkCountText';
 import { useNavigate } from 'react-router-dom';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
@@ -10,6 +11,7 @@ import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import { classifyInterest } from '../lib/interestClassifier';
 import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
@@ -149,6 +151,110 @@ function CityDropdown({ value, onChange }) {
   );
 }
 
+// Mounting ~870 rows in one go blocks the first paint for seconds on a phone.
+// Show a screenful-plus immediately, then fill in the rest a chunk per frame
+// so the screen appears fast and stays scrollable while it completes.
+const FIRST_ROWS = 30;
+const ROWS_PER_FRAME = 120;
+function useProgressiveCount(total) {
+  const [count, setCount] = useState(FIRST_ROWS);
+  useEffect(() => {
+    if (count >= total) return undefined;
+    const id = requestAnimationFrame(() => setCount((c) => c + ROWS_PER_FRAME));
+    return () => cancelAnimationFrame(id);
+  }, [count, total]);
+  return count;
+}
+
+// One row of the landmark list. Memoized: with ~870 rows, re-rendering all of
+// them on every keystroke elsewhere, selection tick or GPS update froze phones.
+const LandmarkRow = memo(function LandmarkRow({
+  l,
+  isSelected,
+  photo,
+  ratingAvg,
+  ratingCount,
+  distanceText,
+  user,
+  firebaseEnabled,
+  claimedMap,
+  checkingIn,
+  onToggle,
+  onCheckIn,
+  onOpenPhoto,
+  onInfo,
+}) {
+  return (
+    <div className={`landmark-row ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
+      <div className="lr-top">
+        <div
+          className="check-circle"
+          role="checkbox"
+          aria-checked={isSelected}
+          aria-label={`${isSelected ? 'Remove' : 'Add'} ${l.name} ${isSelected ? 'from' : 'to'} itinerary`}
+          tabIndex={0}
+          onClick={() => onToggle(l)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onToggle(l);
+            }
+          }}
+        >
+          {isSelected ? '✓' : ''}
+        </div>
+        <div onClick={() => onToggle(l)} style={{ flexShrink: 0 }}>
+          {photo || l.images?.[0] ? (
+            <button
+              type="button"
+              className="lr-thumb-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenPhoto({ src: photo || l.images[0], alt: l.name });
+              }}
+              aria-label={`View photo of ${l.name}`}
+            >
+              <LandmarkThumb landmark={l} myPhoto={photo} />
+            </button>
+          ) : (
+            <LandmarkThumb landmark={l} myPhoto={photo} />
+          )}
+        </div>
+        <div className="lr-main" onClick={() => onToggle(l)}>
+          <h4>
+            <span className="lr-category-icons">{l.categories.map((c) => CATEGORY_ICON[c]).join('')}</span>
+            {l.name}
+            <QuickRateButton landmark={l} />
+          </h4>
+          <div className="lr-meta">
+            <AdmissionTag landmark={l} short />
+            {typeof l.popularity === 'number' && <span className="tag popularity-tag">{'\u{1F525}'} {l.popularity}/10</span>}
+            {ratingCount > 0 && (
+              <span className="tag rating-tag">{'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})</span>
+            )}
+            {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
+          </div>
+        </div>
+      </div>
+      <div className="lr-actions">
+        <button type="button" className="btn btn-ghost btn-tight" onClick={() => onInfo(l)}>
+          Info
+        </button>
+        <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-tight" />
+        <CheckInButton
+          landmark={l}
+          user={user}
+          firebaseEnabled={firebaseEnabled}
+          claimedMap={claimedMap}
+          checkingIn={checkingIn}
+          onCheckIn={onCheckIn}
+          className="btn-tight"
+        />
+      </div>
+    </div>
+  );
+});
+
 export default function LandmarkSelection() {
   const {
     trip,
@@ -237,7 +343,8 @@ export default function LandmarkSelection() {
   useEffect(() => {
     trip.customInterests.forEach((text) => {
       if (trip.customInterestMatches[text] !== undefined) return;
-      classifyInterest(text).then(({ matches, emoji }) => {
+      classifyInterest(text).then(({ matches, emoji, failed }) => {
+        if (failed) return;
         setCustomInterestMatches(text, matches);
         setCustomInterestEmoji(text, emoji);
       });
@@ -362,9 +469,13 @@ export default function LandmarkSelection() {
     editedLandmarks,
   ]);
 
-  const handleToggle = (landmark) => {
-    toggleLandmark(landmark.id, landmark.regionId);
-  };
+  // Row callbacks keep one identity for the life of the screen so the memoized
+  // rows (867 of them) skip re-rendering when something unrelated changes.
+  const latest = useRef({});
+  latest.current = { toggleLandmark, checkIn, navigate };
+  const stableToggle = useCallback((landmark) => latest.current.toggleLandmark(landmark.id, landmark.regionId), []);
+  const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
+  const stableInfo = useCallback((landmark) => latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`), []);
 
   // AI fallback when the word search finds little (catalog searched on the
   // server; community-added landmarks sent along), same filters applied.
@@ -411,6 +522,12 @@ export default function LandmarkSelection() {
     Object.entries(byR).forEach(([r, ids]) => setRegionSelection(r, ids));
   };
 
+  const allRows = useMemo(
+    () => [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])],
+    [landmarks, smartLandmarks]
+  );
+  const shownCount = useProgressiveCount(allRows.length);
+
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
   const scopeCount = cityFilter === 'all' ? selectedCount : getRegionSelection(cityFilter).length;
@@ -427,9 +544,12 @@ export default function LandmarkSelection() {
         <span>{'\u{1F4CD}'}</span> Choose Landmarks
       </h1>
       <p className="screen-subtitle">
-        {activeCategories.length
-          ? `${landmarks.length} landmarks matching your interests — pick what you want to see.`
-          : `All ${landmarks.length} landmarks — pick everything you want to see.`}
+        {landmarkCountText({
+          count: landmarks.length,
+          matchingInterests: activeCategories.length > 0,
+          searching: search.trim().length > 0,
+          cityFiltered: cityFilter !== 'all',
+        })}
       </p>
 
       <button
@@ -455,7 +575,11 @@ export default function LandmarkSelection() {
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
-        <button className={`btn btn-sm ${suggestedSnapshot ? 'btn-primary' : 'btn-ghost'}`} onClick={suggestForMe}>
+        <button
+          className={`btn btn-sm ${suggestedSnapshot ? 'btn-primary' : 'btn-ghost'}`}
+          onClick={suggestForMe}
+          disabled={!suggestedSnapshot && landmarks.length === 0}
+        >
           {'✨'} {suggestedSnapshot ? 'Suggested ✓' : 'Suggest For Me'}
         </button>
         {/* One city at a time: "select all 74 landmarks everywhere" isn't a
@@ -534,7 +658,7 @@ export default function LandmarkSelection() {
         {SORT_OPTIONS.map((s) => (
           <button
             key={s.id}
-            className={`tab-btn ${sortBy === s.id ? 'active' : ''}`}
+            className={`tab-btn ${sortBy === s.id ? 'active' : ''}`} aria-pressed={!!(sortBy === s.id)}
             onClick={() => setSortBy((cur) => (cur === s.id ? null : s.id))}
           >
             {s.label}
@@ -556,88 +680,28 @@ export default function LandmarkSelection() {
       )}
 
       <div>
-        {[...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])].map((l) => {
+        {allRows.slice(0, shownCount).map((l) => {
           if (l === SMART_DIVIDER) return <SmartSearchLabel key={l.id} count={smartLandmarks.length} />;
-          const isSelected = getRegionSelection(l.regionId).includes(l.id);
+          const photo = myPhotos[l.id]?.[0];
+          const rating = ratings[l.id];
           return (
-            <div
+            <LandmarkRow
               key={`${l.regionId}-${l.id}`}
-              className={`landmark-row ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}
-            >
-              <div className="lr-top">
-                <div
-                  className="check-circle"
-                  role="checkbox"
-                  aria-checked={isSelected}
-                  aria-label={`${isSelected ? 'Remove' : 'Add'} ${l.name} ${isSelected ? 'from' : 'to'} itinerary`}
-                  tabIndex={0}
-                  onClick={() => handleToggle(l)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleToggle(l);
-                    }
-                  }}
-                >
-                  {isSelected ? '✓' : ''}
-                </div>
-                <div onClick={() => handleToggle(l)} style={{ flexShrink: 0 }}>
-                  {(myPhotos[l.id]?.[0] || l.images?.[0]) ? (
-                    <button
-                      type="button"
-                      className="lr-thumb-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLightbox({ src: myPhotos[l.id]?.[0] || l.images[0], alt: l.name });
-                      }}
-                      aria-label={`View photo of ${l.name}`}
-                    >
-                      <LandmarkThumb landmark={l} myPhoto={myPhotos[l.id]?.[0]} />
-                    </button>
-                  ) : (
-                    <LandmarkThumb landmark={l} myPhoto={myPhotos[l.id]?.[0]} />
-                  )}
-                </div>
-                <div className="lr-main" onClick={() => handleToggle(l)}>
-                  <h4>
-                    <span className="lr-category-icons">{l.categories.map((c) => CATEGORY_ICON[c]).join('')}</span>
-                    {l.name}
-                    <QuickRateButton landmark={l} />
-                  </h4>
-                  <div className="lr-meta">
-                    <span className={`tag ${l.free ? 'tag-free' : ''}`}>{l.free ? 'Free' : 'Ticketed'}</span>
-                    {typeof l.popularity === 'number' && <span className="tag popularity-tag">{'\u{1F525}'} {l.popularity}/10</span>}
-                    {ratings[l.id]?.count > 0 && (
-                      <span className="tag rating-tag">{'⭐'} {ratings[l.id].avg.toFixed(1)} ({ratings[l.id].count})</span>
-                    )}
-                    {coords && (
-                      <span className="tag distance-tag">
-                        {'\u{1F4CD}'} {formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units)} away
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="lr-actions">
-                <button
-                  type="button"
-                  className="btn btn-ghost btn-tight"
-                  onClick={() => navigate(`/landmarks/${l.regionId}/${l.id}`)}
-                >
-                  Info
-                </button>
-                <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-tight" />
-                <CheckInButton
-                  landmark={l}
-                  user={user}
-                  firebaseEnabled={firebaseEnabled}
-                  claimedMap={claimedMap}
-                  checkingIn={checkingIn}
-                  onCheckIn={checkIn}
-                  className="btn-tight"
-                />
-              </div>
-            </div>
+              l={l}
+              isSelected={getRegionSelection(l.regionId).includes(l.id)}
+              photo={photo}
+              ratingAvg={rating?.count > 0 ? rating.avg : null}
+              ratingCount={rating?.count || 0}
+              distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
+              user={user}
+              firebaseEnabled={firebaseEnabled}
+              claimedMap={claimedMap}
+              checkingIn={checkingIn}
+              onToggle={stableToggle}
+              onCheckIn={stableCheckIn}
+              onOpenPhoto={setLightbox}
+              onInfo={stableInfo}
+            />
           );
         })}
         {smart.loading && <SmartSearchLabel loading />}

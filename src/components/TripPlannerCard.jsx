@@ -12,6 +12,7 @@ import { geocodeLocation } from '../lib/geocode';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { classifyInterest } from '../lib/interestClassifier';
 import { pickRegion } from '../lib/tagScores';
+import { ratePlacesText } from '../lib/nearbyPicks';
 import { logRecommendations } from '../lib/recommendationLog';
 import {
   MIN_RATINGS_FOR_PICK_TYPE,
@@ -84,7 +85,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
   const [planning, setPlanning] = useState(false);
   const gpsPending = useRef(false);
 
-  const ratingsCount = Object.values(myReviews || {}).filter((r) => r.ratingTier).length;
+  const ratingsCount = Object.values(myReviews || {}).filter((r) => r?.ratingTier).length;
   const canPickType = ratingsCount >= MIN_RATINGS_FOR_PICK_TYPE;
   const pickType = canPickType ? wizard.pickType : null;
 
@@ -308,7 +309,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     {
       id: 'pick',
       question: 'What sounds good?',
-      subtitle: canPickType ? null : `Rate ${MIN_RATINGS_FOR_PICK_TYPE} places to unlock "The usual" and "Something new".`,
+      subtitle: canPickType ? null : `${ratePlacesText(ratingsCount, MIN_RATINGS_FOR_PICK_TYPE)} to unlock "The usual" and "Something new".`,
       choices: canPickType ? PICK_TYPES : null,
       value: pickType,
       children: (

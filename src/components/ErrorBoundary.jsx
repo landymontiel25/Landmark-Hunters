@@ -1,9 +1,8 @@
 import { Component } from 'react';
 
-// Catches a render-time crash in whatever screen is mounted inside it (this
-// wraps just <Routes>, not Header/BottomNav -- see App.jsx) so one bad
-// component blanks that screen instead of the entire app, and the user can
-// still navigate somewhere else via the nav that's still on screen.
+// Catches a render-time crash in whatever it wraps: the current screen (keyed
+// by route in App.jsx), each piece of always-on chrome (with a `fallback`),
+// and the whole app as a last resort (main.jsx). Every catch is console.error'd.
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -22,12 +21,16 @@ export default class ErrorBoundary extends Component {
 
   render() {
     if (!this.state.error) return this.props.children;
+    // Always-mounted chrome (header, prompts, banners) passes `fallback` so
+    // one of them crashing drops just that piece instead of the whole app.
+    if (this.props.fallback !== undefined) return this.props.fallback;
     return (
       <div style={{ padding: '24px 20px' }}>
         <h1 className="screen-title">{'\u{26A0}\u{FE0F}'} Something went wrong</h1>
         <p className="screen-subtitle">
-          This screen hit a snag on our end. Anything you were typing is saved on this device, so trying again
-          picks up where you left off.
+          {typeof navigator !== 'undefined' && navigator.onLine === false
+            ? "You're offline, and this screen needs a connection to open. Reconnect and try again."
+            : 'This screen hit a snag on our end. Anything you were typing is saved on this device, so trying again picks up where you left off.'}
         </p>
         {/* A full reload, not just clearing local state: the most common
             real cause here is a stale JS chunk reference from before the
@@ -39,7 +42,21 @@ export default class ErrorBoundary extends Component {
         <button className="btn btn-primary btn-block" onClick={() => window.location.reload()}>
           Try Again
         </button>
-        <a href="#/" className="btn btn-ghost btn-block" style={{ marginTop: 10, display: 'block', textAlign: 'center' }}>
+        <a
+          href="#/"
+          onClick={(e) => {
+            // Already on the map (the crashed screen IS "/"): the hash doesn't
+            // change, so the router never re-renders and the link would do
+            // nothing. Reload instead.
+            const h = window.location.hash;
+            if (!h || h === '#' || h === '#/') {
+              e.preventDefault();
+              window.location.reload();
+            }
+          }}
+          className="btn btn-ghost btn-block"
+          style={{ marginTop: 10, display: 'block', textAlign: 'center' }}
+        >
           Back to Map
         </a>
         {/* The real error, small, so a screenshot of this screen says what broke. */}

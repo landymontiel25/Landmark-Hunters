@@ -18,6 +18,22 @@ const items = [
 // Admin-only sandbox for trying out sign-up/onboarding (screens/OnboardingLab).
 const TEST_TAB = { to: '/test', label: 'Test', icon: '\u{1F9EA}' };
 
+// Plain-anchor stand-in, shown by App's boundary if BottomNav itself crashes:
+// without it the user has no way off the current screen except a reload.
+// Uses hash links so it needs nothing from the router or any context.
+export function BottomNavFallback() {
+  return (
+    <nav className="bottom-nav" aria-label="Main">
+      {items.map((item) => (
+        <a key={item.to} href={`#${item.to}`}>
+          <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+          <span>{item.label}</span>
+        </a>
+      ))}
+    </nav>
+  );
+}
+
 export default function BottomNav() {
   const navRef = useRef(null);
   const { user } = useAuth();
@@ -53,10 +69,10 @@ export default function BottomNav() {
   }, []);
 
   return (
-    <nav className="bottom-nav" ref={navRef}>
+    <nav className="bottom-nav" ref={navRef} aria-label="Main">
       {tabs.map((item) => (
         <NavLink key={item.to} to={item.to} end={item.end} className={({ isActive }) => (isActive ? 'active' : '')}>
-          <span className="nav-icon">{item.icon}</span>
+          <span className="nav-icon" aria-hidden="true">{item.icon}</span>
           <span>{item.label}</span>
         </NavLink>
       ))}

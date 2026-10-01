@@ -56,19 +56,35 @@
   margin: 0 auto;
 }
 
+.map-fullscreen.has-picks {
+  /* The collapsed sheet never takes more than a third of the screen: held
+     at 232px it filled a phone turned sideways, pushing the radius menu and
+     locate button up under the header and leaving no map to look at. */
+  --mpp-h: min(var(--map-picks-h, 0px), 32dvh);
+}
+
 .map-fullscreen.has-picks .map-fab-bar,
 .map-fullscreen.has-picks .map-locate-btn {
-  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 16px);
+  bottom: calc(var(--nav-h) + var(--mpp-h, 0px) + 16px);
   transition: bottom 0.28s var(--ease);
 }
 
+/* Sideways or on a short screen: the search / add / filter buttons run down the left edge and
+   would sit under the radius menu, so it moves next to the locate button. */
+@media (max-height: 600px) {
+  .map-fullscreen .map-fab-bar {
+    left: auto;
+    right: 68px;
+  }
+}
+
 .map-fullscreen.has-picks .map-error-toast {
-  bottom: calc(var(--nav-h) + var(--map-picks-h, 0px) + 70px);
+  bottom: calc(var(--nav-h) + var(--mpp-h, 0px) + 70px);
 }
 
 .map-picks .mpp-sheet {
   position: relative;
-  height: var(--map-picks-h, 232px);
+  height: var(--mpp-h, 232px);
   border-radius: 22px;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-float);
@@ -354,6 +370,11 @@ body.pin-placing .map-picks {
   color: var(--text-primary);
 }
 
+.mpp-tag-fav {
+  border-color: rgba(224, 82, 99, 0.6);
+  color: var(--text-primary);
+}
+
 .mpp-tag-new {
   border-color: rgba(242, 184, 75, 0.55);
   color: var(--text-primary);
@@ -465,4 +486,86 @@ body.pin-placing .map-picks {
   flex-direction: column;
   gap: 6px;
   margin-bottom: 12px;
+}
+
+.mpp-beyond {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+.mpp-beyond-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+}
+.mpp-beyond-list li span {
+  opacity: 0.7;
+  margin-left: 6px;
+}
+
+/* ---- Test tab: "show different places" ---- */
+
+.mpp-sheet-head.has-refresh {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.mpp-sheet-head.has-refresh .mpp-pill {
+  margin-left: auto;
+}
+
+.mpp-refresh {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mpp-refresh::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+
+.mpp-refresh:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.mpp-refresh.spinning span {
+  display: inline-block;
+  animation: mpp-spin 0.8s linear infinite;
+}
+
+@keyframes mpp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.map-test-badge {
+  position: absolute;
+  top: calc(var(--header-h, 64px) + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1002;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-elevated);
+  border: 1px solid rgba(242, 184, 75, 0.7);
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  pointer-events: none;
 }

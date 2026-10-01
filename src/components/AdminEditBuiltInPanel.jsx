@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { friendlyError } from '../lib/friendlyError';
 import { useAuth } from '../lib/AuthContext';
 import { saveLandmarkEdit, clearLandmarkEdit } from '../lib/landmarkOverrides';
 import CategorySelect from './CategorySelect';
@@ -36,7 +37,8 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
         userId: user?.uid,
         fields: {
           name: name.trim() || landmark.name,
-          categories: category ? [category] : [],
+          // Only the first category is editable here -- keep any others.
+        categories: category ? [category, ...(landmark.categories || []).slice(1).filter((c) => c !== category)] : [],
           summary: summary.trim(),
           facts: facts
             .split('\n')
@@ -52,7 +54,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
       onSaved?.();
       setMsg({ ok: true, text: 'Saved — live for everyone now.' });
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not save — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not save — try again.') });
     } finally {
       setSaving(false);
     }
@@ -67,7 +69,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
       onSaved?.();
       setMsg({ ok: true, text: 'Reverted to the original catalog data.' });
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not revert — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not revert — try again.') });
     } finally {
       setResetting(false);
     }
@@ -83,7 +85,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
 
       <div className="field">
         <label>Name</label>
-        <input type="text" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
+        <input type="text" aria-label="Name" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
       </div>
 
       <div className="field">
@@ -114,7 +116,7 @@ export default function AdminEditBuiltInPanel({ landmark, onSaved }) {
 
       <div className="field">
         <label>Photo URL</label>
-        <input type="text" placeholder="https://…" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+        <input type="text" aria-label="Image URL" placeholder="https://…" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
       </div>
 
       <div style={{ display: 'flex', gap: 16, marginBottom: 18, flexWrap: 'wrap' }}>

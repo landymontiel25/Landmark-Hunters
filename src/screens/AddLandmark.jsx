@@ -13,12 +13,13 @@ import { useAuth } from '../lib/AuthContext';
 import { authErrorMessage } from '../lib/authErrors';
 import { auth } from '../lib/firebase';
 import { useTrip } from '../lib/TripContext';
-import { addCustomLandmark, uploadLandmarkPhoto } from '../lib/customLandmarks';
+import { addCustomLandmark, checkInTarget, uploadLandmarkPhoto } from '../lib/customLandmarks';
+import { adoptResolvedName } from '../lib/adoptResolvedName';
 import { findPossibleDuplicate } from '../lib/duplicateLandmarkCheck';
 import { fileToSmallDataUrl, pickPhoto } from '../lib/imageUtils';
 import LocationAutocomplete from '../components/LocationAutocomplete';
 import ErrorNotice from '../components/ErrorNotice';
-import { friendlyError, fetchJson } from '../lib/friendlyError';
+import { friendlyError, fetchJson, isOffline } from '../lib/friendlyError';
 import { readPersisted, writePersisted, clearPersisted } from '../lib/usePersistentState';
 import { API_BASE } from '../lib/apiBase';
 
@@ -125,6 +126,7 @@ export default function AddLandmark() {
   const [stage, setStage] = useState('idle'); // idle | verifying | saving
   const [error, setError] = useState(null);
   const busy = stage !== 'idle';
+  const submittingRef = useRef(false);
   const [draftRestored, setDraftRestored] = useState(() => draftHasContent(savedDraft));
 
   const choosePosition = (pos) => {
@@ -192,6 +194,10 @@ export default function AddLandmark() {
   };
 
   const regionId = nearestRegionId(position.lat, position.lng);
+  // Read inside the debounced duplicate check without re-running it (and
+  // resetting "this is a different place") on every pin nudge.
+  const positionRef = useRef(position);
+  positionRef.current = position;
 
   // Catches "I'm re-adding something that's already on the map" before the
   // AI/moderation round trip, not after -- checked against both the
@@ -227,7 +233,7 @@ export default function AddLandmark() {
     let cancelled = false;
     setDuplicateChecking(true);
     const handle = setTimeout(async () => {
-      const match = await findPossibleDuplicate({ name: query, regionId }).catch(() => null);
+      const match = await findPossibleDuplicate({ name: query, regionId, lat: positionRef.current.lat, lng: positionRef.current.lng }).catch(() => null);
       if (!cancelled) {
         setDuplicateMatch(match);
         setDuplicateChecking(false);
@@ -249,9 +255,16 @@ export default function AddLandmark() {
   };
 
   const onPhotoChange = async () => {
-    const f = await pickPhoto();
+    let f;
+    try {
+      f = await pickPhoto();
+    } catch (e) {
+      setError(e);
+      return;
+    }
     if (!f) return;
     setPhoto(f);
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
     setPhotoPreview(URL.createObjectURL(f));
   };
 
@@ -264,21 +277,31 @@ export default function AddLandmark() {
   const canSubmit = position && user && !duplicateConfirmed;
 
   const submit = async () => {
-    if (!canSubmit || busy) return;
+    // A ref, not `busy`: two fast taps can both run before React re-renders
+    // with stage !== 'idle', which saved the landmark twice.
+    if (!canSubmit || busy || submittingRef.current) return;
+    submittingRef.current = true;
     setError(null);
     try {
+      // Offline, the save below would wait (and "Saving…" spin) until the
+      // connection came back; say so up front instead.
+      if (isOffline()) throw Object.assign(new Error('offline'), { code: 'unavailable' });
       setStage('verifying');
       const imageDataUrl = photo ? await fileToSmallDataUrl(photo) : '';
       // Forced refresh: right after verifying their email, a cached token
       // still says unverified for up to an hour, and firestore.rules checks
       // the token's email_verified before accepting the new landmark.
       const idToken = await (auth.currentUser || user).getIdToken(true);
-      const finalName = name.trim() || addressText.trim() || 'New Landmark';
+      // Capped like the Name box: a long address as the fallback name would
+      // exceed the 120-char rule in firestore.rules (permission-denied).
+      const finalName = (name.trim() || addressText.trim() || 'New Landmark').slice(0, 80);
       let verified;
       try {
         verified = await fetchJson(`${API_BASE}/api/verify-landmark`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+          // Never leave "Verifying…" spinning forever on a stalled request.
+          signal: AbortSignal.timeout(90000),
           body: JSON.stringify({
             name: finalName,
             categories,
@@ -334,8 +357,7 @@ export default function AddLandmark() {
       // be a deliberate choice, not a shorthand.
       const typedName = name.trim();
       const resolved = verified.resolvedName || '';
-      const isShorthand = typedName && resolved.toLowerCase().includes(typedName.toLowerCase());
-      const savedName = resolved && (!typedName || isShorthand) ? resolved : finalName;
+      const savedName = adoptResolvedName(typedName, resolved) ? resolved : finalName;
       const created = await addCustomLandmark({
         region,
         name: savedName,
@@ -352,6 +374,7 @@ export default function AddLandmark() {
         free: verified.free,
         typicalMinutes: verified.typicalMinutes || undefined,
         topic: verified.topic || null,
+        hours: verified.hours || null,
       });
       // Submitted -- the saved draft has done its job.
       clearPersisted(draftKey);
@@ -360,14 +383,16 @@ export default function AddLandmark() {
       // separately -- open the same rate + post prompt every other check-in
       // path uses. Too far (or no GPS fix), and nothing happens here: you
       // check in manually later, once you're actually there.
-      if (coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
-        checkIn({ id: created.id, name: savedName, region: created.region, lat: position.lat, lng: position.lng });
+      if (created.region && coords && distanceMeters(coords.lat, coords.lng, position.lat, position.lng) <= CHECKIN_RADIUS_METERS) {
+        checkIn(checkInTarget(created));
       }
       navigate(`/landmarks/${created.region}/${created.id}`);
     } catch (err) {
       // Everything you entered (photo included) stays on the form.
       setError(err);
       setStage('idle');
+    } finally {
+      submittingRef.current = false;
     }
   };
 
@@ -588,6 +613,7 @@ export default function AddLandmark() {
               type="button"
               onClick={() => {
                 setPhoto(null);
+                if (photoPreview) URL.revokeObjectURL(photoPreview);
                 setPhotoPreview(null);
               }}
               aria-label="Remove photo"

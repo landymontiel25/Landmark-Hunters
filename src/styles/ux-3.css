@@ -6,3 +6,210 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+/* Keyboard focus: one visible ring for every focusable control. Text fields
+   keep their own glow (border + shadow); everything else that was relying on
+   the browser default (several rules above set outline:none) gets this. */
+a[href]:focus-visible,
+button:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[role='button']:focus-visible,
+[role='tab']:focus-visible,
+[role='switch']:focus-visible,
+[role='checkbox']:focus-visible,
+[role='radio']:focus-visible,
+[tabindex]:not([tabindex='-1']):focus-visible,
+input[type='checkbox']:focus-visible,
+input[type='radio']:focus-visible,
+input[type='range']:focus-visible {
+  outline: 2px solid var(--mapr-blue);
+  outline-offset: 2px;
+}
+.map-cat-search:focus-visible,
+.mapr-chat-bar-title input:focus-visible {
+  outline: 2px solid var(--mapr-blue);
+  outline-offset: 2px;
+}
+/* Modal dialogs take programmatic focus on open; no ring on the card. */
+.modal-card:focus,
+.mapr-chats-panel:focus {
+  outline: none;
+}
+
+/* Large text (Dynamic Type / 200% root size): long words and fixed-width
+   bars used to push the page sideways at 390px. Let words break instead of
+   overflowing, let segmented rows wrap, and cap the tab-bar labels. */
+.app-main,
+.chip,
+.modal-card,
+.fixed-action-bar {
+  /* break-word, not anywhere: anywhere also shrinks min-content, which makes
+     flex items and pills wrap letter by letter instead of staying whole. */
+  overflow-wrap: break-word;
+}
+.tabs {
+  flex-wrap: wrap;
+}
+.tab-btn {
+  min-width: min-content;
+}
+.itin-sort {
+  flex-wrap: wrap;
+}
+.itin-sort .radius-select {
+  max-width: 100%;
+}
+.chatlab-composer input {
+  min-width: 0;
+}
+.bottom-nav a {
+  min-width: 0;
+  overflow: hidden;
+  font-size: min(0.7rem, 12px);
+}
+.bottom-nav .nav-icon {
+  font-size: min(1.25rem, 26px);
+}
+
+/* The Mapr composer hides its input's own focus style (the pill is the
+   field), so show focus on the pill. */
+.chatlab-composer:focus-within {
+  outline: 2px solid var(--mapr-blue);
+  outline-offset: 2px;
+}
+
+/* Primary controls under the 44px touch minimum. */
+.chatlab-send {
+  width: 44px;
+  height: 44px;
+}
+.tab-btn {
+  min-height: 44px;
+}
+
+/* Touch targets: these controls look compact on purpose, so keep their
+   look and grow only the tappable area to 44px with an invisible overlay. */
+.check-circle,
+.btn-sm,
+.btn-tight,
+.header-streak,
+.score-chip {
+  position: relative;
+}
+.check-circle::after,
+.btn-sm::after,
+.btn-tight::after,
+.header-streak::after,
+.score-chip::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+}
+.check-circle::after {
+  inset: -5px;
+}
+.header-streak::after,
+.score-chip::after {
+  inset: -8px -4px;
+}
+
+/* Reduced motion: the base rule shrinks durations to 0.01ms, which on an
+   endless animation (pulse, shimmer, floating badge) becomes a rapid strobe.
+   Play everything once instead. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tester pass (60-year-old on iPhone): real 44px targets, not just overlays,
+   for controls that sit next to each other or were styled as bare text. */
+.landmark-row .lr-actions .btn-tight,
+.landmark-row .lr-actions .btn-sm {
+  min-height: 44px;
+}
+.chatlab-stop-link-btn {
+  min-height: 44px;
+  padding: 0 12px 0 0;
+  display: inline-flex;
+  align-items: center;
+}
+.rating-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.draft-restored-note button {
+  min-height: 44px;
+  padding: 0 10px;
+}
+.mpp-chip {
+  min-height: 44px;
+}
+.mpp-pill-distance {
+  position: relative;
+}
+.mpp-pill-distance::after {
+  content: '';
+  position: absolute;
+  /* Extend upward over the non-interactive title, barely downward so the
+     first place row below keeps its own taps. */
+  inset: -22px -6px -4px;
+}
+.check-age-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.check-age-label input[type='checkbox'] {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+.admin-edit-btn {
+  min-height: 44px;
+}
+
+/* The last control of a screen that has no scrolling content of its own
+   after it (onboarding "Skip this step", signed-out Create Account) must be
+   able to scroll clear of the fixed bottom nav. */
+.nav-clear {
+  padding-bottom: calc(var(--nav-h) + 16px);
+}
+.mapr-pick-vote-hint {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.mapr-pick-vote {
+  min-height: 44px;
+}
+/* Carousel cards are ~217px wide: three 44px-tall votes plus a hint no longer
+   fit on one row, so "Not sure" (with its hint) gets its own full-width row. */
+.mapr-pick .mapr-pick-actions {
+  flex-wrap: wrap;
+}
+.mapr-pick .mapr-pick-vote.no,
+.mapr-pick .mapr-pick-vote.yes {
+  flex: 1 1 0;
+  min-width: 0;
+  order: 1;
+}
+.mapr-pick .mapr-pick-vote.unsure {
+  flex: 1 0 100%;
+  order: 2;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.mapr-pick-vote-hint {
+  white-space: nowrap;
+}

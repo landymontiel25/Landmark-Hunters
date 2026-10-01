@@ -228,7 +228,7 @@ export default function RateLandmarkSearch() {
                 <div className="autocomplete-list" style={{ position: 'static', marginTop: 8, boxShadow: 'none' }}>
                   {[...results, ...(smartResults.length ? [null, ...smartResults] : [])].map((l) => {
                     if (!l) return <SmartSearchLabel key="smart" count={smartResults.length} />;
-                    const alreadyRated = !!myReviews[l.id];
+                    const alreadyRated = !!myReviews[l.id]?.ratingTier;
                     return (
                       <button
                         type="button"

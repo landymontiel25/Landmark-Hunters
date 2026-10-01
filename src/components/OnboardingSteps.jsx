@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 
 export function HowToStep({ onNext }) {
   return (
-    <div className="lab-center">
+    <div className="lab-center nav-clear">
       <h1 className="screen-title">Quick picks so Mapr gets you.</h1>
       <ul className="lab-howto">
         <li>
@@ -16,7 +16,7 @@ export function HowToStep({ onNext }) {
           <span>{'\u{2715}'}</span> Don't like it: swipe left or tap {'\u{2715}'}
         </li>
         <li>
-          <span>{'\u{2212}'}</span> Not sure or don't care: tap the card or tap {'\u{2212}'}
+          <span>{'\u{2212}'}</span> Not sure or don't care (you'll be asked again later): tap the card or tap {'\u{2212}'}
         </li>
       </ul>
       <button type="button" className="btn btn-primary btn-block" onClick={onNext}>
@@ -60,7 +60,7 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
 
   if (!card) {
     return (
-      <div className="lab-center">
+      <div className="lab-center nav-clear">
         <OnboardingProgress done={answers.length} total={cards.length} />
         <h1 className="screen-title">All done {'\u{2705}'}</h1>
         <p className="screen-subtitle">{answers.length} cards rated.</p>
@@ -108,7 +108,7 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
   const hint = dx > 30 ? 'love' : dx < -30 ? 'dislike' : null;
 
   return (
-    <div>
+    <div className="nav-clear">
       <OnboardingProgress done={answers.length} total={cards.length} />
       <div className="lab-card-area">
         <div

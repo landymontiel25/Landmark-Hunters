@@ -17,6 +17,7 @@ import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
 import { itineraryPhase, groupKey } from '../lib/itineraryStatus';
 import { getRegion } from '../data/regions';
+import { getCustomLandmarks } from '../lib/customLandmarks';
 import { geocodeLocation } from '../lib/geocode';
 import { useStopAddresses } from '../lib/useStopAddresses';
 import { distanceMeters } from '../lib/geo';
@@ -26,10 +27,11 @@ import {
   annotateRoute,
   enhanceRouteWithDrivingTimes,
   fetchDirections,
-  googleMapsMultiStopLink,
+  googleMapsMultiStopLegs,
 } from '../lib/routing';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import DirectionsButton from '../components/DirectionsButton';
+import AdmissionTag from '../components/AdmissionTag';
 import { useRatings } from '../lib/RatingsContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { usePersistentState } from '../lib/usePersistentState';
@@ -250,7 +252,8 @@ export default function Itinerary() {
   // One itinerary per city. Overview lists them; opening one shows its route.
   // The open city is remembered, so closing the app mid-trip reopens that
   // city's route instead of the overview.
-  const myRegions = regionsWithItineraries();
+  // A saved city id the catalog no longer knows can't be shown (or opened).
+  const myRegions = regionsWithItineraries().filter((rid) => getRegion(rid));
   const [openRegion, setOpenRegion] = usePersistentState('itinerary.openRegion', null);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const openReg = openRegion && myRegions.includes(openRegion) ? openRegion : null;
@@ -314,6 +317,11 @@ export default function Itinerary() {
     setPendingRemove(null);
   };
 
+  const [customLms, setCustomLms] = useState([]);
+  useEffect(() => {
+    getCustomLandmarks().then(setCustomLms).catch(() => {});
+  }, []);
+
   // Catalog landmarks plus any real places Mapr found on the web and you
   // added -- those get a landmark-shaped stand-in so the route, map and
   // directions treat them the same (no check-in or rating: they aren't in
@@ -321,6 +329,19 @@ export default function Itinerary() {
   const selectedLandmarks = useMemo(() => {
     if (!region) return [];
     const ids = trip.byRegion[region.id] || [];
+    // User-submitted landmarks in this city (not in region.landmarks) --
+    // without these, adding one to the itinerary made it silently vanish.
+    const customs = customLms
+      .filter((l) => l.region === region.id && ids.includes(l.id))
+      .map((l) => ({
+        ...l,
+        regionId: region.id,
+        categories: l.categories || [],
+        images: l.images || [],
+        facts: l.facts || [],
+        free: l.free ?? true,
+        typicalMinutes: l.typicalMinutes ?? 15,
+      }));
     const places = (trip.placesByRegion?.[region.id] || []).map((p) => ({
       ...p,
       external: true,
@@ -330,8 +351,8 @@ export default function Itinerary() {
       free: true,
       typicalMinutes: 45,
     }));
-    return [...region.landmarks.filter((l) => ids.includes(l.id)), ...places];
-  }, [region, trip.byRegion, trip.placesByRegion]);
+    return [...region.landmarks.filter((l) => ids.includes(l.id)), ...customs, ...places];
+  }, [region, trip.byRegion, trip.placesByRegion, customLms]);
 
   // Tapping Map from here frames every stop in this itinerary. Declared
   // after the effect above that calls setMapFocus (which clears it).
@@ -427,7 +448,7 @@ export default function Itinerary() {
   // location (falling back to the saved start point). Default is nearest to
   // you first, so the list -- and the map route, which follows the same
   // order -- runs closest to farthest. Every stop then gets its leg from the
-  // stop before it, so "X to next stop", the totals, and the drawn route
+  // stop before it, so "X to next stop" and the drawn route
   // hold for whichever sort is picked.
   // Quantize to ~100m so the order/route only recomputes when you actually move,
   // not on every GPS jitter (which made the screen flicker and re-sort).
@@ -446,7 +467,6 @@ export default function Itinerary() {
   }, [routeOrigin, selectedLandmarks, sort, ratings, customOrder.join(',')]);
 
   const [drivingRoute, setDrivingRoute] = useState([]);
-  const [refiningTimes, setRefiningTimes] = useState(false);
 
   useEffect(() => {
     if (!routeOrigin || !route.length) {
@@ -454,7 +474,6 @@ export default function Itinerary() {
       return;
     }
     let cancelled = false;
-    setRefiningTimes(true);
     // Driving times only refine the straight-line estimates already on
     // screen; if the lookup fails, those estimates simply stay.
     enhanceRouteWithDrivingTimes(routeOrigin, route)
@@ -462,7 +481,6 @@ export default function Itinerary() {
       .then((enhanced) => {
         if (!cancelled) {
           setDrivingRoute(enhanced);
-          setRefiningTimes(false);
         }
       });
     return () => {
@@ -477,7 +495,7 @@ export default function Itinerary() {
   // would just fight that sort right back.
   const stopsById = useMemo(() => Object.fromEntries(displayRoute.map((s) => [s.id, s])), [displayRoute]);
   const stopIds = useMemo(() => displayRoute.map((s) => s.id), [displayRoute]);
-  const { order: dragOrder, registerNode, startDrag, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
+  const { order: dragOrder, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     if (region) reorderLandmarks(region.id, newIds);
   });
   const orderedRoute = dragOrder.map((id) => stopsById[id]).filter(Boolean);
@@ -525,7 +543,7 @@ export default function Itinerary() {
     ? displayRoute.filter((s) => !claimedMap[s.id])
     : displayRoute;
   const allWalkable = linkStops.every((s, i) => i === 0 || s.distanceFromPrevMeters <= 1200);
-  const allStopsLink = googleMapsMultiStopLink(linkStops, coords, allWalkable ? 'walking' : 'driving');
+  const allStopsLinks = googleMapsMultiStopLegs(linkStops, coords, allWalkable ? 'walking' : 'driving');
 
   // In-app turn-by-turn (api/directions.js). Starts from your live GPS when
   // you're actually in the city; if you're planning from far away, from the
@@ -554,18 +572,6 @@ export default function Itinerary() {
   // Leaving the city's itinerary drops any directions that were open.
   useEffect(() => setNav(null), [openReg]);
 
-  const totals = useMemo(() => {
-    // The first leg is from your location to stop #1. When you're far from the
-    // city (planning ahead), skip that cross-country hop so it doesn't inflate
-    // the city's total time.
-    const travel = displayRoute.reduce((s, r, i) => {
-      if (i === 0 && (r.distanceFromPrevMeters || 0) > 80000) return s;
-      return s + (r.travelMinutesFromPrev || 0);
-    }, 0);
-    const there = displayRoute.reduce((s, r) => s + r.typicalMinutes, 0);
-    return { travel, there, total: travel + there };
-  }, [displayRoute]);
-
   // How many of this city's planned landmarks you've already checked in at.
   const visitedCount = selectedLandmarks.filter((l) => claimedMap[l.id]).length;
 
@@ -573,7 +579,17 @@ export default function Itinerary() {
   // landmark checked into, or moved there by hand.
   const [itinTab, setItinTab] = usePersistentState('itinerary.tab', 'current');
   const statusOverrides = trip.itineraryStatus || {};
-  const soloPhase = (rid) => itineraryPhase(rid, trip.byRegion[rid], claimedMap, statusOverrides);
+  // byRegion also holds Mapr-found places' ids once Edit List has saved an
+  // order; those aren't catalog stops (no check-in), so they're left out of
+  // the done check and the stop count.
+  const catalogIdsFor = (rid) => {
+    const known = new Set([
+      ...(getRegion(rid)?.landmarks || []).map((l) => l.id),
+      ...customLms.filter((l) => l.region === rid).map((l) => l.id),
+    ]);
+    return (trip.byRegion[rid] || []).filter((id) => known.has(id));
+  };
+  const soloPhase = (rid) => itineraryPhase(rid, catalogIdsFor(rid), claimedMap, statusOverrides);
   const groupPhase = (g) => itineraryPhase(groupKey(g.id), g.landmarkIds, claimedMap, statusOverrides);
   const pastCount = myRegions.filter((rid) => soloPhase(rid) === 'past').length + groupTrips.filter((g) => groupPhase(g) === 'past').length;
   const currentCount = myRegions.length + groupTrips.length - pastCount;
@@ -666,7 +682,7 @@ export default function Itinerary() {
             <button
               key={t.id}
               type="button"
-              className={`tab-btn ${itinTab === t.id ? 'active' : ''}`}
+              className={`tab-btn ${itinTab === t.id ? 'active' : ''}`} aria-pressed={!!(itinTab === t.id)}
               onClick={() => setItinTab(t.id)}
             >
               {t.label} ({t.count})
@@ -718,7 +734,7 @@ export default function Itinerary() {
         )}
         {tabSolo.map((rid) => {
           const r = getRegion(rid);
-          const count = (trip.byRegion[rid] || []).length + (trip.placesByRegion?.[rid] || []).length;
+          const count = catalogIdsFor(rid).length + (trip.placesByRegion?.[rid] || []).length;
           const named = itineraryName(rid);
           return (
             <button key={rid} type="button" className="card itin-city-card" onClick={() => setOpenRegion(rid)}>
@@ -727,7 +743,7 @@ export default function Itinerary() {
                 <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
                   {named !== r?.name ? `${r?.name} · ` : ''}
                   {count} stop{count !== 1 ? 's' : ''}
-                  {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, trip.byRegion[rid])}` : ''}
+                  {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, catalogIdsFor(rid))}` : ''}
                 </p>
               </div>
               <span className="itin-city-arrow">{'→'}</span>
@@ -782,7 +798,7 @@ export default function Itinerary() {
         {sort === 'nearest'
           ? ` from ${coords ? 'your current location' : trip.startingLocation || 'your starting point'}`
           : ''}{' '}
-        · {displayRoute.length} stops
+        · {displayRoute.length} stop{displayRoute.length === 1 ? '' : 's'}
       </p>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
@@ -790,7 +806,7 @@ export default function Itinerary() {
           {'\u{1F4CD}'} {selectedLandmarks.length} landmark{selectedLandmarks.length !== 1 ? 's' : ''} in {region.name}
         </span>
         <span className="tag">
-          {'\u{2705}'} {visitedCount} of {selectedLandmarks.length} visited
+          {'\u{2705}'} {visitedCount} of {selectedLandmarks.filter((l) => !l.external).length} visited
         </span>
         {visitedCount > 0 && (
           <button type="button" className="btn btn-ghost btn-tight" onClick={() => setShowRecap(true)}>
@@ -846,14 +862,14 @@ export default function Itinerary() {
         <div className="tabs" style={{ margin: 0, flex: 1, maxWidth: 240 }}>
           <button
             type="button"
-            className={`tab-btn ${view === 'list' ? 'active' : ''}`}
+            className={`tab-btn ${view === 'list' ? 'active' : ''}`} aria-pressed={!!(view === 'list')}
             onClick={() => setView('list')}
           >
             {'\u{1F5D2}\u{FE0F}'} List
           </button>
           <button
             type="button"
-            className={`tab-btn ${view === 'map' ? 'active' : ''}`}
+            className={`tab-btn ${view === 'map' ? 'active' : ''}`} aria-pressed={!!(view === 'map')}
             onClick={() => setView('map')}
           >
             {'\u{1F5FA}\u{FE0F}'} Map
@@ -926,11 +942,11 @@ export default function Itinerary() {
             <button type="button" className="btn btn-primary" onClick={() => startTrip()}>
               {'\u{25B6}\u{FE0F}'} Start Trip
             </button>
-            {allStopsLink && (
-              <a className="btn btn-ghost" href={allStopsLink} target="_blank" rel="noreferrer">
-                {'\u{1F5FA}\u{FE0F}'} All stops in Google Maps
+            {allStopsLinks.map((href, i) => (
+              <a key={href} className="btn btn-ghost" href={href} target="_blank" rel="noreferrer">
+                {'\u{1F5FA}\u{FE0F}'} {allStopsLinks.length > 1 ? `Google Maps, part ${i + 1} of ${allStopsLinks.length}` : 'All stops in Google Maps'}
               </a>
-            )}
+            ))}
           </div>
         )}
         {orderedRoute.map((stop, idx) => (
@@ -992,8 +1008,9 @@ export default function Itinerary() {
                       type="button"
                       className="drag-handle"
                       title="Hold and drag to reorder"
-                      aria-label={`Drag to reorder ${stop.name}`}
+                      aria-label={`Reorder ${stop.name}: hold and drag, or use the up and down arrow keys`}
                       onPointerDown={startDrag(stop.id)}
+                      onKeyDown={keyReorder(stop.id)}
                     >
                       {'☰'}
                     </button>
@@ -1002,6 +1019,7 @@ export default function Itinerary() {
                       type="button"
                       className="btn-icon-trash"
                       title="Remove from itinerary"
+                      aria-label="Remove from itinerary"
                       onClick={() => setPendingRemove(stop)}
                     >
                       {'\u{1F5D1}\u{FE0F}'}
@@ -1017,9 +1035,7 @@ export default function Itinerary() {
                   <>
                   {addresses[stop.id] && <p className="route-address">{'\u{1F4CD}'} {addresses[stop.id]}</p>}
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                    <span className={`tag ${stop.free ? 'tag-free' : ''}`}>
-                      {stop.free ? 'Free to Visit' : 'Ticketed'}
-                    </span>
+                    <AdmissionTag landmark={stop} />
                     <span className="tag">{'\u{23F1}\u{FE0F}'} ~{stop.typicalMinutes} min there</span>
                   </div>
                   </>

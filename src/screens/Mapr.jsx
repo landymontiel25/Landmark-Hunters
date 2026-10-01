@@ -191,6 +191,7 @@ export default function Mapr() {
   const [regionOpen, setRegionOpen] = useState(false);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
   const feedEndRef = useRef(null);
+  const sendingRef = useRef(new Set());
   const regionBoxRef = useRef(null);
 
   const hasTasteInfo = !!(myProfile?.tasteIntro || myProfile?.swipeSummary || (myProfile?.tasteBaseline && Object.keys(myProfile.tasteBaseline).length));
@@ -203,9 +204,13 @@ export default function Mapr() {
     setNudgeDismissed(true);
   };
 
+  // Follow the conversation when a message arrives, the typing dots appear
+  // or you switch chats -- not on every in-place update to an older message
+  // (a suggested stop finishing its background setup), which used to yank
+  // the page to the bottom while you were reading further up.
   useEffect(() => {
     feedEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [messages, busy]);
+  }, [messages.length, busy, activeChat.id]);
 
   // A place Mapr found on the web isn't checkable-into or directions-ready
   // until it's a real landmark -- so the moment one shows up in a reply,
@@ -407,7 +412,9 @@ export default function Mapr() {
   const send = async (e, overrideText, { retry = false, historyOverride, onReply } = {}) => {
     e?.preventDefault();
     const text = (overrideText ?? draft).trim();
-    if (!text || busy) return;
+    // sendingRef covers a second Enter/tap in the same tick, before `busy`
+    // has re-rendered.
+    if (!text || busy || sendingRef.current.has(activeChat.id)) return;
 
     // Actually talking to Mapr about what you're into satisfies the taste
     // nudge just as well as filling in the Settings field does -- that's
@@ -418,6 +425,7 @@ export default function Mapr() {
     // The reply belongs to this chat even if you switch to another one
     // while it's coming in.
     const chatId = activeChat.id;
+    sendingRef.current.add(chatId);
     const put = (u) => setMessagesFor(chatId, u);
     // historyOverride: editing an earlier message already truncated
     // `messages` in state, but that setState hasn't landed yet by the time
@@ -431,7 +439,7 @@ export default function Mapr() {
     // Only a typed message empties the composer; a quick reply or planner
     // message leaves whatever you'd started typing alone.
     if (overrideText == null) setDraft('');
-    setBusy(true);
+    setBusy(true, chatId);
 
     try {
       // The AI only needs its own prior replies (not the canned local greeting)
@@ -596,7 +604,8 @@ export default function Mapr() {
         },
       ]);
     } finally {
-      setBusy(false);
+      sendingRef.current.delete(chatId);
+      setBusy(false, chatId);
     }
   };
 
@@ -743,6 +752,7 @@ export default function Mapr() {
                 >
                   <textarea
                     className="chatlab-edit-input"
+                    aria-label="Edit your message"
                     value={editDraft}
                     onChange={(e) => setEditDraft(e.target.value)}
                     onKeyDown={(e) => {
@@ -750,7 +760,10 @@ export default function Mapr() {
                         e.preventDefault();
                         editAndResend(i, editDraft);
                       }
-                      if (e.key === 'Escape') setEditingIndex(null);
+                      if (e.key === 'Escape') {
+                        e.preventDefault();
+                        setEditingIndex(null);
+                      }
                     }}
                     autoFocus
                     rows={2}
@@ -953,10 +966,11 @@ export default function Mapr() {
             </div>
           </div>
         )}
-        <div ref={feedEndRef} />
       </div>
 
       <div className="action-bar-spacer" />
+      {/* After the spacer, so scrolling to the newest message leaves it above the fixed composer. */}
+      <div ref={feedEndRef} style={{ scrollMarginBottom: 70 }} />
       <form className="fixed-action-bar chatlab-composer" onSubmit={send}>
         <div className="fixed-action-bar-inner chatlab-composer-inner">
           <input

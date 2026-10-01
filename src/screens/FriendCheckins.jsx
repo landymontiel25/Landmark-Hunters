@@ -22,11 +22,14 @@ export default function FriendCheckins() {
   useEffect(() => {
     let cancelled = false;
     setError(null);
+    // Moving to another friend's page reuses this component -- don't keep
+    // showing the previous friend's name/points while the new ones load.
+    setLoaded(false);
     (async () => {
       try {
         const [profile, stats] = await Promise.all([getUserProfile(uid), getUserStats(uid)]);
         if (cancelled) return;
-        setName(profile?.username || 'this user');
+        setName(profile?.username ? `@${profile.username}` : 'This user');
         setTotalPoints(stats.totalPoints);
         setLoaded(true);
       } catch (err) {
@@ -65,7 +68,7 @@ export default function FriendCheckins() {
           claimedMap={{}}
           navigate={navigate}
           totalPoints={totalPoints}
-          title={`@${name}'s Check-ins`}
+          title={`${name}'s Check-ins`}
         />
       )}
     </div>

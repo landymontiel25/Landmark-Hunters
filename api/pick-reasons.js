@@ -4,6 +4,7 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { PICK_REASONS_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
+import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // One-line reasons for a set of nearby picks that were already ranked
 // on-device (src/lib/nearbyPicks.js). One call covers the whole set; the
@@ -89,7 +90,7 @@ async function handler(req, res) {
       return;
     }
 
-    const client = new Anthropic();
+    const client = new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
     const msg = await client.messages.create({
       model: PICK_REASONS_MODEL,
       max_tokens: 600,
@@ -109,10 +110,8 @@ async function handler(req, res) {
       .trim();
     res.status(200).json({ reasons: parseReasons(raw, keys) });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'Mapr is busy right now — try again in a moment.' : 'Mapr request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'Mapr is busy right now — try again in a moment.', failed: 'Mapr request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

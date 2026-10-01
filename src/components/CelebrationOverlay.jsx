@@ -19,19 +19,27 @@ export default function CelebrationOverlay() {
   const [levelUp, setLevelUp] = useState(null);
 
   useEffect(() => {
-    if (!user || !stats) return;
+    // A failed stats read is zeros, not a real level 1: recording that as the
+    // baseline would later celebrate the account's actual level as a level-up.
+    if (!user || !stats || stats.failed) return;
     const key = `${LEVEL_KEY_PREFIX}${user.uid}`;
     const { level } = levelProgress(stats.totalPoints);
-    const stored = Number(localStorage.getItem(key)) || 0;
-    if (stored === 0) {
-      // First time we've ever seen this account's level -- record a
-      // baseline instead of celebrating whatever level they already were.
-      localStorage.setItem(key, String(level));
-      return;
-    }
-    if (level > stored) {
-      localStorage.setItem(key, String(level));
-      setLevelUp(level);
+    // Storage can be blocked/full; this effect runs app-wide, so a throw
+    // here would crash the whole app. Without storage, skip level-ups.
+    try {
+      const stored = Number(localStorage.getItem(key)) || 0;
+      if (stored === 0) {
+        // First time we've ever seen this account's level -- record a
+        // baseline instead of celebrating whatever level they already were.
+        localStorage.setItem(key, String(level));
+        return;
+      }
+      if (level > stored) {
+        localStorage.setItem(key, String(level));
+        setLevelUp(level);
+      }
+    } catch {
+      /* storage unavailable */
     }
   }, [user, stats]);
 
@@ -45,10 +53,12 @@ export default function CelebrationOverlay() {
   }, [badge?.id]);
 
   useEffect(() => {
-    if (!levelUp) return;
+    // Not while a badge popup is covering it, or the level-up would expire
+    // unseen before the badge queue drains.
+    if (!levelUp || badge) return;
     const t = setTimeout(() => setLevelUp(null), AUTO_DISMISS_MS);
     return () => clearTimeout(t);
-  }, [levelUp]);
+  }, [levelUp, badge]);
 
   if (badge) {
     return (

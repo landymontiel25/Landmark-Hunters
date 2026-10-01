@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { friendlyError } from '../lib/friendlyError';
 import { useNavigate } from 'react-router-dom';
 import { updateCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import CategorySelect from './CategorySelect';
@@ -11,7 +12,7 @@ import CategorySelect from './CategorySelect';
 // landmark -- the built-in catalog is static source data checked into the
 // repo, so correcting one of those still goes through a normal code change
 // instead of a live in-app edit.
-export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
+export default function AdminEditLandmarkPanel({ landmark, onSaved, onDeleted }) {
   const navigate = useNavigate();
   const [name, setName] = useState(landmark.name || '');
   const [category, setCategory] = useState(landmark.categories?.[0] || '');
@@ -31,7 +32,8 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
       const minutes = Math.round(Number(typicalMinutes));
       const fields = {
         name: name.trim() || landmark.name,
-        categories: category ? [category] : [],
+        // Only the first category is editable here -- keep any others.
+        categories: category ? [category, ...(landmark.categories || []).slice(1).filter((c) => c !== category)] : [],
         summary: summary.trim(),
         facts: facts
           .split('\n')
@@ -40,13 +42,14 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
           .slice(0, 5),
         free,
         typicalMinutes: Number.isFinite(minutes) && minutes > 0 ? minutes : 15,
-        images: imageUrl.trim() ? [imageUrl.trim()] : [],
+        // Only the first photo is editable here -- keep the rest of the gallery.
+        images: [imageUrl.trim(), ...(landmark.images || []).slice(1)].filter(Boolean),
       };
       await updateCustomLandmark(landmark.docId, fields);
       onSaved?.(fields);
       setMsg({ ok: true, text: 'Saved — live for everyone now.' });
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not save — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not save — try again.') });
     } finally {
       setSaving(false);
     }
@@ -57,9 +60,10 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
     setDeleting(true);
     try {
       await deleteCustomLandmark(landmark.docId);
+      onDeleted?.();
       navigate('/');
     } catch (e) {
-      setMsg({ ok: false, text: e.message || 'Could not delete — try again.' });
+      setMsg({ ok: false, text: friendlyError(e, 'Could not delete — try again.') });
       setDeleting(false);
     }
   };
@@ -73,7 +77,7 @@ export default function AdminEditLandmarkPanel({ landmark, onSaved }) {
 
       <div className="field">
         <label>Name</label>
-        <input type="text" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
+        <input type="text" aria-label="Name" value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
       </div>
 
       <div className="field">

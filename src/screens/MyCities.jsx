@@ -3,14 +3,17 @@ import { useAuth } from '../lib/AuthContext';
 import { useBadges } from '../lib/BadgesContext';
 import CityList from '../components/CityList';
 import { SkeletonList } from '../components/Skeleton';
+import ErrorNotice from '../components/ErrorNotice';
 
 // Just the cities list, on its own -- Your Stats' "cities" tile used to open
 // a modal; this is a real page instead, matching "check-ins" and the friend
 // equivalent. "See Full Stats" still shows level + badges + everything.
 export default function MyCities() {
   const navigate = useNavigate();
-  const { user, firebaseEnabled } = useAuth();
-  const { stats } = useBadges();
+  const { user, loading: authLoading, firebaseEnabled } = useAuth();
+  const { stats, reload } = useBadges();
+
+  if (authLoading) return <SkeletonList count={4} label="Loading your cities" />;
 
   if (!firebaseEnabled || !user) {
     return (
@@ -33,7 +36,11 @@ export default function MyCities() {
       </h1>
       {/* stats is null until BadgesContext's first read lands -- an empty
           CityList there would read as "no cities yet". */}
-      {stats ? (
+      {stats?.failed ? (
+        <ErrorNotice message="We couldn't load your cities. Check your connection and try again." onRetry={() => reload()} />
+      ) : stats && !stats.cityIds?.length ? (
+        <p className="screen-subtitle">No cities yet. Check in at a landmark and its city shows up here.</p>
+      ) : stats ? (
         <CityList cityIds={stats.cityIds} cityPoints={stats.cityPoints} cityLastVisit={stats.cityLastVisit} />
       ) : (
         <SkeletonList count={4} label="Loading your cities" />

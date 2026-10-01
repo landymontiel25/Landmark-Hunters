@@ -479,7 +479,7 @@ export const PHILLY_LANDMARKS = [
   {
     id: 'barnes-arboretum-at-saint-josephs-university',
     popularity: 8, // 4923 avg monthly Wikipedia views (raw signal, log-scaled 1-10)
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Mandeville%20Hall%2C%20Saint%20Joseph\'s%20University%20(03-05-2007).jpg?width=1200', 'https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20Joseph\'s%20University%20sign.jpg?width=1200', 'https://commons.wikimedia.org/wiki/Special:FilePath/046CupolaSPietro.jpg?width=1200'],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Mandeville%20Hall%2C%20Saint%20Joseph\'s%20University%20(03-05-2007).jpg?width=1200', 'https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20Joseph\'s%20University%20sign.jpg?width=1200'],
     name: "Barnes Arboretum at Saint Joseph's University",
     region: 'philly',
     lat: 40.0037,

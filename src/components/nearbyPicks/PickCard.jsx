@@ -14,6 +14,7 @@ import DirectionsButton from '../DirectionsButton';
 // showChainLabel: the small "which link produced this" label -- off by
 // default, so the Map tab never shows it.
 export function PickTag({ pick }) {
+  if (pick.favorite) return <span className="mpp-tag mpp-tag-fav">{(pick.favoriteStars || 0) >= 5 ? 'You loved this' : 'A favorite of yours'}</span>;
   if (pick.pickType === 'new') return <span className="mpp-tag mpp-tag-new">Something new</span>;
   return <span className="mpp-tag mpp-tag-usual">Your usual</span>;
 }
@@ -32,7 +33,7 @@ export function ChainLabel({ chain }) {
 export function PickPhoto({ pick, className }) {
   const [failed, setFailed] = useState(null);
   if (pick.image && failed !== pick.image) {
-    return <img className={className} src={pick.image} alt="" onError={() => setFailed(pick.image)} />;
+    return <img className={className} src={pick.image} alt="" loading="lazy" decoding="async" onError={() => setFailed(pick.image)} />;
   }
   const [from, to] = paletteFor(pick.id);
   return (
@@ -54,7 +55,18 @@ export function PickActionsSheet({ pick, onClose }) {
     <div className="modal-backdrop" onClick={close}>
       <div className="modal-card directions-sheet" role="dialog" aria-label={pick.name} onClick={(e) => e.stopPropagation()}>
         <h3 style={{ marginTop: 0 }}>{pick.name}</h3>
-        <DirectionsButton name={pick.name} lat={pick.lat} lng={pick.lng} className="btn btn-primary btn-block directions-choice">
+        {/* "Use the Map" navigates to the Map tab, which is where this sheet
+            already is -- without closing it here it stayed up over the route. */}
+        <DirectionsButton
+          name={pick.name}
+          lat={pick.lat}
+          lng={pick.lng}
+          className="btn btn-primary btn-block directions-choice"
+          onInApp={() => {
+            onClose();
+            navigate('/', { state: { directionsTo: { name: pick.name, lat: pick.lat, lng: pick.lng } } });
+          }}
+        >
           {'\u{1F9ED}'} Directions
         </DirectionsButton>
         <button
@@ -128,7 +140,7 @@ export function PickRow({ pick, action = null }) {
           <strong>{pick.name}</strong>
           <span>
             {pick.distanceMeters != null ? formatDistance(pick.distanceMeters, units) : ''}
-            {pick.pickType === 'new' ? ' · Something new' : ''}
+            {pick.favorite ? ' · You loved this' : pick.pickType === 'new' ? ' · Something new' : ''}
           </span>
         </span>
       </button>

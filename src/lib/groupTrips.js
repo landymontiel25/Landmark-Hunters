@@ -15,6 +15,14 @@ import {
 import { db } from './firebase';
 import { notifyUser } from './notifications';
 
+// firestore.rules caps memberUids at 25 (owner included).
+export const MAX_GROUP_MEMBERS = 25;
+function fullError() {
+  const e = new Error(`A group trip can have up to ${MAX_GROUP_MEMBERS} people, including you.`);
+  e.userMessage = e.message;
+  return e;
+}
+
 // A trip a few friends build together (item i6): one shared landmark list,
 // visible and editable by every member. Any member can rename it, edit the
 // shared lists and invite people; only the owner can remove members (see
@@ -25,6 +33,7 @@ import { notifyUser } from './notifications';
 // instead of creating an owner-only trip and then calling addGroupMember in
 // a loop right after.
 export async function createGroupTrip({ ownerUid, ownerName, name, regionId, landmarkIds = [], places = [], initialMembers = [] }) {
+  if (1 + initialMembers.length > MAX_GROUP_MEMBERS) throw fullError();
   const ref = await addDoc(collection(db, 'group_trips'), {
     ownerUid,
     name,
@@ -104,6 +113,7 @@ export async function reorderGroupLandmarks(trip, orderedIds) {
 
 export async function addGroupMember(trip, memberUid, memberName) {
   if ((trip.memberUids || []).includes(memberUid)) return;
+  if ((trip.memberUids || []).length >= MAX_GROUP_MEMBERS) throw fullError();
   await updateDoc(doc(db, 'group_trips', trip.id), {
     memberUids: arrayUnion(memberUid),
     [`memberNames.${memberUid}`]: memberName,

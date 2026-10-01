@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { distanceMeters } from './geo';
+import { friendlyGeoError } from './geoError';
 
 // watchPosition fires far more often on a real phone than in desktop testing
 // (every GPS jitter tick, sometimes multiple times a second). Every tick was
@@ -37,7 +38,7 @@ export function useGeolocation({ watch = true } = {}) {
     // keeps retrying and usually recovers on the next tick. Surface the error
     // without discarding a known-good position the UI is already using.
     const onError = (err) => {
-      setState((s) => ({ ...s, error: err.message || 'Unable to get your location.', loading: false }));
+      setState((s) => ({ ...s, error: friendlyGeoError(err), loading: false }));
     };
 
     const opts = { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 };

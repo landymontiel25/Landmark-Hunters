@@ -6,6 +6,7 @@ import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagSco
 import { withCors } from './_lib/cors.js';
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
+import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -157,6 +158,20 @@ function estimateCostUsd(usage) {
   return tokenCost + searchCost;
 }
 
+// The last few usable turns, starting on a user turn: the Messages API
+// rejects a conversation whose first message is the assistant's, and
+// slice(-10) of an alternating chat that ends on the user's turn lands
+// exactly there -- so once a Mapr chat got ~10 messages long, every further
+// message failed with "AI request failed".
+export function trimTurns(incoming) {
+  const turns = (Array.isArray(incoming) ? incoming : [])
+    .filter((m) => (m?.role === 'user' || m?.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
+    .slice(-10)
+    .map((m) => ({ role: m.role, content: m.content.trim().slice(0, 800) }));
+  while (turns.length && turns[0].role !== 'user') turns.shift();
+  return turns;
+}
+
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -174,10 +189,7 @@ async function handler(req, res) {
     const incoming = Array.isArray(body.messages) ? body.messages : [];
     // Keep the payload (and cost) bounded -- a handful of recent turns is
     // plenty of context for a trip-planning chat.
-    const turns = incoming
-      .filter((m) => (m?.role === 'user' || m?.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
-      .slice(-10)
-      .map((m) => ({ role: m.role, content: m.content.trim().slice(0, 800) }));
+    const turns = trimTurns(incoming);
 
     if (turns.length === 0 || turns[turns.length - 1].role !== 'user') {
       res.status(400).json({ error: 'Say something to start planning.' });
@@ -343,7 +355,7 @@ async function handler(req, res) {
     }
     const profile = profileParts.length ? `TRAVELER PROFILE:\n${profileParts.join('\n\n')}` : '';
 
-    const client = new Anthropic();
+    const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({
       model: PLAN_AI_MODEL,
@@ -386,7 +398,20 @@ async function handler(req, res) {
     try {
       parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     } catch {
-      res.status(200).json({ reply: raw || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
+      // A long answer can hit max_tokens mid-JSON. Never show that raw blob:
+      // pull out the reply text if it got that far, else a plain retry line.
+      let fallback = raw;
+      if (raw.includes('{')) {
+        const m = raw.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+        let recovered = '';
+        try {
+          recovered = m ? JSON.parse(`"${m[1]}"`) : '';
+        } catch {
+          recovered = '';
+        }
+        fallback = raw.trimStart().startsWith('{') ? recovered : raw;
+      }
+      res.status(200).json({ reply: fallback || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
       return;
     }
 
@@ -475,10 +500,8 @@ async function handler(req, res) {
       cost: costUsd,
     });
   } catch (err) {
-    const status = err?.status === 429 ? 429 : 500;
-    res.status(status).json({
-      error: status === 429 ? 'The AI is busy right now — try again in a moment.' : 'AI request failed. Please try again.',
-    });
+    const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });
+    res.status(f.status).json({ error: f.error });
   }
 }
 

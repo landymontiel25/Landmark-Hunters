@@ -49,3 +49,35 @@ export function localDayKey(epochMs, timeZone) {
     return dayKey(new Date(epochMs));
   }
 }
+
+// The client's own local "today" key (dayKey(new Date()) in its browser),
+// sent as `dayId`. Freezes must be keyed to THIS day, not the serverless
+// machine's own clock (always UTC): in the evening in any US timezone the
+// server's "today" is already tomorrow, so a freeze would hold a day the
+// traveler never sees as today and the next completion would still count as a
+// break. Returns the key if it's well-formed and within one calendar day of
+// the server's UTC date (every real timezone is within that), else null.
+export function validClientDayKey(dayId, now = new Date()) {
+  if (typeof dayId !== 'string' || !/^\d{4}-\d{1,2}-\d{1,2}$/.test(dayId)) return null;
+  const [y, m, d] = dayId.split('-').map(Number);
+  if (m > 11 || d < 1 || d > 31) return null;
+  const n = now instanceof Date ? now : new Date(now);
+  const diffDays = (Date.UTC(y, m, d) - Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate())) / 86400000;
+  return Math.abs(diffDays) <= 1 ? dayId : null;
+}
+
+// True when dayKey `a` is strictly before dayKey `b` (both "y-m-d" keys).
+export function isDayBefore(a, b) {
+  const t = (k) => {
+    const [y, m, d] = k.split('-').map(Number);
+    return Date.UTC(y, m, d);
+  };
+  return t(a) < t(b);
+}
+
+// Month key (same shape as monthKey) of a dayKey -- so a freeze spent late on
+// the last evening of a month lands in the traveler's month, not the server's.
+export function monthKeyOfDay(dayId) {
+  const [y, m] = dayId.split('-');
+  return `${y}-${m}`;
+}

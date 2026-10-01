@@ -3,6 +3,7 @@ import {
   getDoc,
   getDocs,
   runTransaction,
+  setDoc,
   collection,
   query,
   where,
@@ -14,10 +15,13 @@ import {
   arrayUnion,
   serverTimestamp,
 } from 'firebase/firestore';
+import { sharedRead, invalidating } from './sharedRead';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from './firebase';
+import { settleWrite } from './offlineWrite';
 import { tierStars, COMMENT_MAX } from './ratingFlow';
-import { applyRating } from './tagScores';
+import { applyRating, revertRating } from './tagScores';
+import { canonicalLandmarkId } from '../data/regions';
 
 // An Error whose message was written for travelers, not developers --
 // friendlyError() shows `userMessage` as-is instead of a generic fallback.
@@ -42,6 +46,8 @@ export function ratingDraftKey(userId, landmarkId) {
   return userId && landmarkId ? `rating.${userId}.${landmarkId}` : null;
 }
 
+export const MAX_REVIEW_PHOTOS = 3;
+
 // Reject after `ms` so a stalled Storage upload (bucket not enabled, blocked by
 // rules, CORS, or just slow) can never hang the whole save forever.
 function withTimeout(promise, ms) {
@@ -49,6 +55,50 @@ function withTimeout(promise, ms) {
     promise,
     new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timed out')), ms)),
   ]);
+}
+
+
+// Moves the user's per-region tag scores from `prev` rating (if any) to
+// `next` rating (if any): the old rating's effect is taken back out before
+// the new one goes in, and an unchanged rating touches nothing. Returns the
+// fields to merge into users/{uid}, or null for no change.
+function tagScoreUpdate(userData, prev, next, nowMs) {
+  const same =
+    prev && next && prev.region === next.region && prev.tier === next.tier &&
+    (prev.visitFrequency || null) === (next.visitFrequency || null) &&
+    JSON.stringify([...(prev.categories || [])].sort()) === JSON.stringify([...(next.categories || [])].sort());
+  if (same) return null;
+  const maps = {};
+  const get = (region) =>
+    (maps[region] ||= {
+      scores: { ...(userData?.tagScores?.[region] || {}) },
+      at: { ...(userData?.tagScoresAt?.[region] || {}) },
+      counts: { ...(userData?.tagCounts?.[region] || {}) },
+    });
+  let touched = false;
+  if (prev?.region && prev.tier) {
+    const m = get(prev.region);
+    const r = revertRating(m, prev.categories, prev.tier, prev.visitFrequency);
+    Object.assign(m.scores, r.scores);
+    Object.assign(m.counts, r.counts);
+    touched = Object.keys(r.scores).length > 0;
+  }
+  if (next?.region && next.tier) {
+    const m = get(next.region);
+    const r = applyRating(m, next.categories, next.tier, nowMs, next.visitFrequency);
+    Object.assign(m.scores, r.scores);
+    Object.assign(m.at, r.at);
+    Object.assign(m.counts, r.counts);
+    touched = touched || Object.keys(r.scores).length > 0;
+  }
+  if (!touched) return null;
+  const out = { tagScores: {}, tagScoresAt: {}, tagCounts: {} };
+  for (const [region, m] of Object.entries(maps)) {
+    out.tagScores[region] = m.scores;
+    out.tagScoresAt[region] = m.at;
+    out.tagCounts[region] = m.counts;
+  }
+  return out;
 }
 
 /**
@@ -61,7 +111,7 @@ function withTimeout(promise, ms) {
  * rating adjusts the sum by the delta rather than double-counting. Optional
  * photos are uploaded to Storage and their URLs saved on the review.
  */
-export async function submitReview({ userId, userName, landmark, rating, photoFiles, photoFile }) {
+async function _submitReview({ userId, userName, landmark, rating, photoFiles, photoFile }) {
   const landmarkId = landmark.id;
   // stars is derived from the tier (I loved it / It was okay / Not for me)
   // for the landmark_ratings aggregate's math -- the UI only ever picks a
@@ -82,10 +132,25 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
     .slice(0, 3);
   const photoURLs = [];
   let photoFailed = false;
+  if (files.length) {
+    // A review holds at most 3 photos in total; an edit appends to what's there.
+    const existing = await getDoc(doc(db, 'reviews', `${userId}_${landmarkId}`)).catch(() => null);
+    const have = existing?.exists() ? existing.data().photoURLs?.length || 0 : 0;
+    if (have + files.length > MAX_REVIEW_PHOTOS) {
+      const over = have + files.length - MAX_REVIEW_PHOTOS;
+      throw userError(
+        have >= MAX_REVIEW_PHOTOS
+          ? `Your rating already has ${MAX_REVIEW_PHOTOS} photos, the most it can hold. Remove the new photo${files.length === 1 ? '' : 's'} to save.`
+          : `A rating holds up to ${MAX_REVIEW_PHOTOS} photos and yours already has ${have}. Remove ${over} new photo${over === 1 ? '' : 's'} to save.`
+      );
+    }
+  }
   if (files.length && storage) {
     for (let i = 0; i < files.length; i++) {
       try {
-        const path = `review_photos/${landmarkId}/${userId}_${i}.jpg`;
+        // Unique name per upload (rules allow {uid}_{digits}.jpg): a later photo
+        // must never overwrite an earlier one's file.
+        const path = `review_photos/${landmarkId}/${userId}_${Date.now()}${i}.jpg`;
         const storageRef = ref(storage, path);
         await withTimeout(uploadBytes(storageRef, files[i], { contentType: files[i].type || 'image/jpeg' }), 20000);
         photoURLs.push(await withTimeout(getDownloadURL(storageRef), 10000));
@@ -100,13 +165,47 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
   const userRef = doc(db, 'users', userId);
 
+  // firestore.rules only lets landmark_ratings.count go up by one while
+  // reviews/{uid}_{landmarkId} does not exist yet (ratingDeltaOk). A
+  // comment-only / love-note-only doc (no stars, never counted) already
+  // occupies that id, so rating on top of it was permission-denied on every
+  // attempt. Take that doc out of the way first (it is not in the aggregate,
+  // so nothing else changes) and carry its fields onto the new review; put it
+  // back if the rating still can't be saved. A reported doc stays put:
+  // recreating it would shed its reportedBy list.
+  let stash = null;
+  try {
+    const cur = await getDoc(reviewRef);
+    if (cur.exists() && !(cur.data().stars > 0) && !cur.data().reportedBy?.length) {
+      const saved = { ...cur.data() };
+      // Bounded: offline, a delete never resolves until the connection is
+      // back, which would hang the save with no message. On a timeout the
+      // queued delete is put right back (writes apply in order) and the save
+      // fails like any other offline save.
+      stash = saved;
+      try {
+        await withTimeout(deleteDoc(reviewRef), 8000);
+      } catch (e) {
+        setDoc(reviewRef, saved).catch(() => {});
+        throw e;
+      }
+    }
+  } catch (e) {
+    if (stash) throw userError('Could not save your rating. Check your connection and try again.');
+    stash = null;
+  }
+
   const writeReview = () =>
     runTransaction(db, async (tx) => {
       const prev = await tx.get(reviewRef);
       const agg = await tx.get(aggRef);
       const userSnap = await tx.get(userRef);
+      // Copied up front: everything below reads the pre-edit review.
+      const pd = prev.exists() ? { ...prev.data() } : null;
       const prevStars = prev.exists() ? prev.data().stars || 0 : 0;
-      const hadReview = prev.exists();
+      // A doc that only holds a comment or love note has no stars and was
+      // never counted in the aggregate, so rating it adds to the count.
+      const hadReview = prev.exists() && prevStars > 0;
       const curSum = agg.exists() ? agg.data().sum || 0 : 0;
       const curCount = agg.exists() ? agg.data().count || 0 : 0;
       const newSum = curSum - prevStars + stars;
@@ -135,11 +234,19 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
           // How often they visit (FREQUENCIES in ratingFlow.js) -- optional,
           // scales how hard this rating moves tagScores (applyRating).
           visitFrequency: rating.visitFrequency || null,
-          comment: (rating.comment || '').slice(0, COMMENT_MAX),
+          // Only a comment the caller actually sent changes it: a form that
+          // never loaded the saved one must not blank it.
+          comment:
+            rating.comment === undefined && (prev.exists() || stash)
+              ? (prev.exists() ? prev.data() : stash).comment || ''
+              : (rating.comment || '').slice(0, COMMENT_MAX),
+          ...(!prev.exists() && stash?.loveNotes?.length ? { loveNotes: stash.loveNotes } : {}),
           // Denormalized (like landmarkName/region above) so the taste card
           // can tally categories without a read per review.
           categories: landmark.categories || [],
-          ...(photoURLs.length ? { photoURLs } : {}),
+          ...(photoURLs.length || (!prev.exists() && stash?.photoURLs?.length)
+            ? { photoURLs: [...((prev.exists() ? prev.data() : stash)?.photoURLs || []), ...photoURLs] }
+            : {}),
           visibility: visibilityFor(userSnap.exists() ? userSnap.data() : null),
           hidden: hiddenFor(prev.exists() ? prev.data() : null),
           updatedAt: serverTimestamp(),
@@ -148,29 +255,17 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
       );
 
       // Mapr Picks' per-region tag scores (see tagScores.js). Inside this
-      // transaction so a retried save never counts the same rating twice.
-      const region = landmark.region;
-      if (region && rating.tier) {
-        const u = userSnap.exists() ? userSnap.data() : {};
-        const next = applyRating(
-          { scores: u.tagScores?.[region], at: u.tagScoresAt?.[region], counts: u.tagCounts?.[region] },
-          landmark.categories,
-          rating.tier,
-          Date.now(),
-          rating.visitFrequency || null
-        );
-        if (Object.keys(next.scores).length) {
-          tx.set(
-            userRef,
-            {
-              tagScores: { [region]: next.scores },
-              tagScoresAt: { [region]: next.at },
-              tagCounts: { [region]: next.counts },
-            },
-            { merge: true }
-          );
-        }
-      }
+      // transaction so a retried save never counts the same rating twice;
+      // an edit swaps the old rating's effect for the new one.
+      const upd = tagScoreUpdate(
+        userSnap.exists() ? userSnap.data() : {},
+        pd?.ratingTier ? { region: pd.region, tier: pd.ratingTier, categories: pd.categories, visitFrequency: pd.visitFrequency } : null,
+        landmark.region && rating.tier
+          ? { region: landmark.region, tier: rating.tier, categories: landmark.categories, visitFrequency: rating.visitFrequency }
+          : null,
+        Date.now()
+      );
+      if (upd) tx.set(userRef, upd, { merge: true });
     });
 
   // The review's create rule checks `exists(checkins/...)` for the check-in
@@ -186,7 +281,11 @@ export async function submitReview({ userId, userName, landmark, rating, photoFi
       await writeReview();
       break;
     } catch (e) {
-      if (e.code !== 'permission-denied' || attempt >= 3) throw e;
+      if (e.code !== 'permission-denied' || attempt >= 3) {
+        // Not awaited: offline, a queued write never resolves and would hang the error.
+        if (stash) setDoc(reviewRef, stash).catch(() => {});
+        throw e;
+      }
       await new Promise((resolve) => setTimeout(resolve, attempt * 400));
     }
   }
@@ -208,10 +307,23 @@ export async function getUserReviewPhotos(userId) {
 }
 
 /** Every review a user has written, raw. Feeds ratingsCount and the taste card. */
-export async function getUserReviews(userId) {
+export async function getUserReviews(userId, { other = false } = {}) {
   if (!db || !userId) return [];
-  const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', userId)));
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  return sharedRead(`reviews:${userId}${other ? ':other' : ''}`, async () => {
+    // Someone else's reviews (a friend's, for compatibility): firestore.rules
+    // only accepts a list query that proves `hidden == false` for them -- a
+    // bare userId filter is rejected whole with permission-denied. Your own
+    // need no such filter (and must keep your reported-hidden ones).
+    const snap = await getDocs(
+      other
+        ? query(collection(db, 'reviews'), where('userId', '==', userId), where('hidden', '==', false))
+        : query(collection(db, 'reviews'), where('userId', '==', userId))
+    );
+    return snap.docs.map((d) => {
+      const r = { id: d.id, ...d.data() };
+      return { ...r, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
+    });
+  });
 }
 
 export async function getMyReview(userId, landmarkId) {
@@ -268,7 +380,7 @@ export async function getLandmarkReviews(landmarkId, { uid = null, friendUids = 
  * profile privacy -- after flipping Public/Private, and once per session
  * for reviews saved before those fields existed. Best effort per review.
  */
-export async function syncMyReviewVisibility(uid, isPublic) {
+async function _syncMyReviewVisibility(uid, isPublic) {
   if (!db || !uid) return 0;
   const want = isPublic ? 'public' : 'private';
   const snap = await getDocs(query(collection(db, 'reviews'), where('userId', '==', uid)));
@@ -286,7 +398,7 @@ export async function syncMyReviewVisibility(uid, isPublic) {
  * collection needed; this is the actual enforcement, not just a client-side
  * filter.
  */
-export async function reportReview({ reporterUid, review }) {
+async function _reportReview({ reporterUid, review }) {
   const ref = doc(db, 'reviews', review.id);
   await runTransaction(db, async (tx) => {
     const cur = await tx.get(ref);
@@ -300,14 +412,30 @@ export async function reportReview({ reporterUid, review }) {
 }
 
 /** Delete your own review and roll its stars back out of the aggregate. */
-export async function deleteMyReview(userId, landmarkId) {
+async function _deleteMyReview(userId, landmarkId) {
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
   const aggRef = doc(db, 'landmark_ratings', landmarkId);
+  const userRef = doc(db, 'users', userId);
   await runTransaction(db, async (tx) => {
     const prev = await tx.get(reviewRef);
     if (!prev.exists()) return;
     const s = prev.data().stars || 0;
+    const userSnap = await tx.get(userRef);
+    // A comment-only doc was never counted in the aggregate; just delete it.
+    if (!s) {
+      tx.delete(reviewRef);
+      return;
+    }
     const agg = await tx.get(aggRef);
+    // Roll the rating back out of Mapr's taste profile too.
+    const pd = prev.data();
+    const upd = tagScoreUpdate(
+      userSnap.exists() ? userSnap.data() : {},
+      pd.ratingTier ? { region: pd.region, tier: pd.ratingTier, categories: pd.categories, visitFrequency: pd.visitFrequency } : null,
+      null,
+      Date.now()
+    );
+    if (upd) tx.set(userRef, upd, { merge: true });
     const curSum = agg.exists() ? agg.data().sum || 0 : 0;
     const curCount = agg.exists() ? agg.data().count || 0 : 0;
     const newCount = Math.max(0, curCount - 1);
@@ -323,7 +451,7 @@ export async function deleteMyReview(userId, landmarkId) {
  * rating does (a merge, so tier, photos and love notes are untouched), and
  * firestore.rules only allows it once you've checked in there.
  */
-export async function saveMyComment({ userId, landmark, comment }) {
+async function _saveMyComment({ userId, landmark, comment }) {
   const text = (comment || '').trim().slice(0, COMMENT_MAX);
   const ref = doc(db, 'reviews', `${userId}_${landmark.id}`);
   await runTransaction(db, async (tx) => {
@@ -360,7 +488,7 @@ export async function saveMyComment({ userId, landmark, comment }) {
  * an update -- the create-or-update case is identical here since the only
  * field touched either way is loveNotes.
  */
-export async function appendLoveNote(userId, landmarkId, landmark, note) {
+async function _appendLoveNote(userId, landmarkId, landmark, note) {
   const text = (note || '').trim().slice(0, 280);
   if (!db || !userId || !landmarkId || !text) return;
   const reviewRef = doc(db, 'reviews', `${userId}_${landmarkId}`);
@@ -402,14 +530,44 @@ export async function getReplies(reviewId) {
 }
 
 export async function addReply(reviewId, { uid, userName, text }) {
-  await addDoc(collection(db, 'reviews', reviewId, 'replies'), {
-    uid,
-    userName,
-    text: text.slice(0, 500),
-    createdAt: serverTimestamp(),
-  });
+  // The id is minted locally so a reply written offline (queued on this
+  // device) still has one, instead of waiting for an addDoc that never ends.
+  const replyRef = doc(collection(db, 'reviews', reviewId, 'replies'));
+  await settleWrite(
+    setDoc(replyRef, {
+      uid,
+      userName,
+      text: text.slice(0, 500),
+      createdAt: serverTimestamp(),
+    })
+  );
+  return replyRef.id;
 }
 
 export async function deleteReply(reviewId, replyId) {
-  await deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId));
+  await settleWrite(deleteDoc(doc(db, 'reviews', reviewId, 'replies', replyId)));
 }
+
+// One save at a time per review: a double tap would otherwise let the second
+// call read the star-less doc, then delete the first call's finished rating
+// and count it twice in landmark_ratings.
+const submitQueue = new Map();
+function _submitReviewSerial(args) {
+  const k = `${args.userId}_${args.landmark?.id}`;
+  const run = (submitQueue.get(k) || Promise.resolve()).catch(() => {}).then(() => _submitReview(args));
+  submitQueue.set(k, run);
+  const clear = () => submitQueue.get(k) === run && submitQueue.delete(k);
+  run.then(clear, clear);
+  return run;
+}
+export const submitReview = invalidating(_submitReviewSerial);
+
+export const syncMyReviewVisibility = invalidating(_syncMyReviewVisibility);
+
+export const reportReview = invalidating(_reportReview);
+
+export const deleteMyReview = invalidating(_deleteMyReview);
+
+export const saveMyComment = invalidating(_saveMyComment);
+
+export const appendLoveNote = invalidating(_appendLoveNote);

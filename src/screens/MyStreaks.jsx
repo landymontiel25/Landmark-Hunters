@@ -31,7 +31,8 @@ import { dailyDeck } from '../lib/sharedDeck';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
-import { dayKey, monthKey } from '../lib/streaks';
+import { monthKey, displayStreakCount } from '../lib/streaks';
+import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
 import { SkeletonList } from '../components/Skeleton';
 
@@ -181,7 +182,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
   // here instead, above the deck.
   const [voteError, setVoteError] = useState(null);
 
-  const today = dayKey(new Date());
+  const today = useTodayKey();
   useEffect(() => {
     // Reset here, in the same effect that (re)subscribes, rather than a
     // separate effect with the same deps -- a separate one would run right
@@ -261,6 +262,18 @@ function StreakDetail({ streak, onBack, onLeave }) {
   const myDayDone = cardIds.length > 0 && myGuessedCount === cardIds.length;
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
+  // The close call is fire-and-forget right after a vote, so a dropped
+  // request (or the partner finishing last while this screen isn't open)
+  // would leave a fully-rated day never counted. Re-ping once whenever both
+  // halves are in but the server hasn't closed today yet.
+  const closeRetriedFor = useRef(null);
+  const bothDone = myDayDone && cardIds.length > 0 && partnerGuessedCount === cardIds.length;
+  useEffect(() => {
+    if (!bothDone || streak.lastCompletedDay === today || closeRetriedFor.current === today) return;
+    closeRetriedFor.current = today;
+    closeToday(streak.id);
+  }, [bothDone, streak.lastCompletedDay, streak.id, today, closeToday]);
+
   const handleRate = async (landmarkId, verdict) => {
     setVoteError(null);
     setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
@@ -323,11 +336,14 @@ function StreakDetail({ streak, onBack, onLeave }) {
   };
 
   const handleReset = async () => {
-    if (!window.confirm(`Reset this streak with @${partnerName} to 0? This can't be undone.`)) return;
+    const typed = window.prompt(
+      `Reset the current streak with @${partnerName} to 0? This can't be undone (your best streak is kept). Type RESET to confirm.`
+    );
+    if (typed?.trim().toUpperCase() !== 'RESET') return;
     setResetBusy(true);
     setResetMsg(null);
     try {
-      await resetDualStreak(streak.id);
+      await resetDualStreak(streak.id, 'RESET');
       setResetMsg('Reset to 0.');
     } catch (e) {
       setResetMsg(friendlyError(e, "Couldn't reset that streak. Try again."));
@@ -343,7 +359,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
       </h3>
       <div className="profile-stats">
         <div className="profile-stat">
-          <span className="profile-stat-num">{streak.count}</span>
+          <span className="profile-stat-num">{displayStreakCount(streak)}</span>
           <span className="profile-stat-label">current</span>
         </div>
         <div className="profile-stat">
@@ -392,7 +408,7 @@ function StreakDetail({ streak, onBack, onLeave }) {
       ) : !ratingPhaseDone ? (
         <>
           <p style={{ margin: '0 0 10px', fontSize: '0.85rem' }}>
-            Rate today's 3 ({myRatedCount}/{cardIds.length}) -- once all 3 are in, you'll guess what @{partnerName}
+            Rate today's 3 ({myRatedCount}/{cardIds.length}) -- once all 3 are in, you'll guess what @{partnerName}{' '}
             picks, to build your compatibility score.
           </p>
           <div className="mapr-picks-track">
@@ -555,7 +571,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const [voteError, setVoteError] = useState(null);
   const [closeMsg, setCloseMsg] = useState(null);
 
-  const today = dayKey(new Date());
+  const today = useTodayKey();
   useEffect(() => {
     setOptimisticRatings({});
     setEntriesError(null);
@@ -596,15 +612,43 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const dayDone = cardIds.length > 0 && myRatedCount === cardIds.length;
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
+  // If the close call right after the last rating failed (a network blip --
+  // it's also what used to throw the rating back out of the optimistic
+  // overlay), the day would stay "rated all 3" but never count. Re-ping once
+  // whenever all 3 are in and the server hasn't closed today.
+  const closeRetriedFor = useRef(null);
+  const [closeRetryTick, setCloseRetryTick] = useState(0);
+  useEffect(() => {
+    if (!dayDone || streak.lastCompletedDay === today || closeRetriedFor.current === today) return;
+    closeRetriedFor.current = today;
+    closeSoloToday()
+      .then((res) => {
+        if (!res?.ok) closeRetriedFor.current = null;
+      })
+      .catch(() => {
+        closeRetriedFor.current = null;
+      });
+  }, [dayDone, streak.lastCompletedDay, today, closeRetryTick]);
+
   const handleRate = async (landmarkId, verdict) => {
     setVoteError(null);
     setCloseMsg(null);
     setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
+    const willBeDone = cardIds.every((id) => id === landmarkId || entry.ratings?.[id]);
+    // Claimed BEFORE the write: the local snapshot can flip dayDone (and fire the
+    // retry effect above) before the awaited write even resolves, which would
+    // send a second close and swallow the "+20 pts" result of this one.
+    if (willBeDone) closeRetriedFor.current = today;
     try {
       await submitSoloCardRating(streak.id, landmarkId, verdict);
-      const willBeDone = cardIds.every((id) => id === landmarkId || entry.ratings?.[id]);
       if (willBeDone) {
-        const r = await closeSoloToday();
+        // The rating itself already saved -- a failed close ping must not throw it
+        // back out of the optimistic overlay; the effect above retries it.
+        const r = await closeSoloToday().catch(() => null);
+        if (!r?.ok) {
+          closeRetriedFor.current = null;
+          setCloseRetryTick((n) => n + 1);
+        }
         if (r?.closed && !r.already && r.pointsAwarded) {
           setCloseMsg(
             r.milestoneAwarded
@@ -614,6 +658,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
         }
       }
     } catch (e) {
+      if (willBeDone) closeRetriedFor.current = null;
       setOptimisticRatings((cur) => {
         const next = { ...cur };
         delete next[landmarkId];
@@ -645,7 +690,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       <h3 style={{ marginTop: 0 }}>{'\u{1F525}'} Your Solo Streak</h3>
       <div className="profile-stats">
         <div className="profile-stat">
-          <span className="profile-stat-num">{streak.count}</span>
+          <span className="profile-stat-num">{displayStreakCount(streak)}</span>
           <span className="profile-stat-label">current</span>
         </div>
         <div className="profile-stat">
@@ -818,7 +863,25 @@ export default function MyStreaks() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
-  const { streaks, leaveStreak } = usePairStreaks();
+  const { streaks: storedStreaks, leaveStreak } = usePairStreaks();
+  // A streak doc keeps the partner's handle from the day it was created; a
+  // partner who has renamed since would keep showing under the old one.
+  // Friends carry their live username (listFriends), so prefer that.
+  const [liveNames, setLiveNames] = useState({});
+  useEffect(() => {
+    if (!firebaseEnabled || !user?.uid) return undefined;
+    let cancelled = false;
+    listFriends(user.uid)
+      .then((fs) => !cancelled && setLiveNames(Object.fromEntries((fs || []).map((f) => [f.friend, f.friendName]))))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [firebaseEnabled, user?.uid]);
+  const streaks = storedStreaks.map((s) => {
+    const live = (s.memberIds || []).filter((uid) => liveNames[uid]);
+    return live.length ? { ...s, memberNames: { ...s.memberNames, ...Object.fromEntries(live.map((uid) => [uid, liveNames[uid]])) } } : s;
+  });
   const [tab, setTab] = useState('solo');
   const [openDualId, setOpenDualId] = useState(null);
   const [picking, setPicking] = useState(false);
@@ -833,18 +896,30 @@ export default function MyStreaks() {
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
     let cancelled = false;
+    // The unsubscribe has to be kept: returning it from the .then() below
+    // hands it to nobody, so every visit to this screen left a live
+    // Firestore listener behind.
+    let unsubscribe = null;
+    const subscribe = () => {
+      if (cancelled || unsubscribe) return;
+      unsubscribe = subscribeMySoloStreak(user.uid, setSoloStreak, (e) => {
+        // eslint-disable-next-line no-console
+        console.error('Solo streak failed to load', e);
+        if (!cancelled) setSoloError(friendlyError(e, "Couldn't load your solo streak."));
+      });
+    };
     ensureSoloStreak(myUsername || user.displayName || 'A traveler', user.uid)
-      .then(() => {
+      .then(subscribe)
+      .catch((e) => {
         if (cancelled) return;
-        return subscribeMySoloStreak(user.uid, setSoloStreak, (e) => {
-          // eslint-disable-next-line no-console
-          console.error('Solo streak failed to load', e);
-          setSoloError(friendlyError(e, "Couldn't load your solo streak."));
-        });
-      })
-      .catch((e) => setSoloError(friendlyError(e, "Couldn't load your solo streak.")));
+        setSoloError(friendlyError(e, "Couldn't load your solo streak."));
+        // The set-up call failing (offline, server hiccup) doesn't mean the
+        // streak doesn't exist -- an existing one can still be shown.
+        subscribe();
+      });
     return () => {
       cancelled = true;
+      if (unsubscribe) unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once per account, not on every myUsername change
   }, [firebaseEnabled, user?.uid]);
@@ -887,10 +962,10 @@ export default function MyStreaks() {
 
       {!inSubScreen && (
         <div className="tabs" style={{ margin: '0 0 16px' }}>
-          <button type="button" className={`tab-btn ${tab === 'solo' ? 'active' : ''}`} onClick={() => setTab('solo')}>
+          <button type="button" className={`tab-btn ${tab === 'solo' ? 'active' : ''}`} aria-pressed={!!(tab === 'solo')} onClick={() => setTab('solo')}>
             {'\u{1F525}'} Solo
           </button>
-          <button type="button" className={`tab-btn ${tab === 'dual' ? 'active' : ''}`} onClick={() => setTab('dual')}>
+          <button type="button" className={`tab-btn ${tab === 'dual' ? 'active' : ''}`} aria-pressed={!!(tab === 'dual')} onClick={() => setTab('dual')}>
             {'\u{1F525}\u{1F525}'} Dual
           </button>
         </div>
@@ -937,7 +1012,7 @@ export default function MyStreaks() {
                   >
                     <span style={{ fontWeight: 700 }}>@{partnerName}</span>
                     <span>
-                      {s.count} {'\u{1F525}\u{1F525}'} {'›'}
+                      {displayStreakCount(s)} {'\u{1F525}\u{1F525}'} {'›'}
                     </span>
                   </button>
                   <button

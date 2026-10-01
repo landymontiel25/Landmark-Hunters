@@ -13,7 +13,7 @@ import { nearestRegionId } from '../lib/geo';
 import { classifyInterest } from '../lib/interestClassifier';
 import { listFriends } from '../lib/friends';
 import { matchesSearch } from '../lib/search';
-import { createGroupTrip } from '../lib/groupTrips';
+import { createGroupTrip, MAX_GROUP_MEMBERS } from '../lib/groupTrips';
 import LocationAutocomplete, { HomeStartPrefill } from '../components/LocationAutocomplete';
 import AddInterestChip from '../components/AddInterestChip';
 import RegionSearch from '../components/RegionSearch';
@@ -55,6 +55,9 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
             onChange={(e) => onQueryChange(e.target.value)}
             style={{ marginBottom: 10 }}
           />
+          {selected.size >= MAX_GROUP_MEMBERS - 1 && (
+            <p className="screen-subtitle">A group trip fits up to {MAX_GROUP_MEMBERS} people, including you, so that's everyone you can add.</p>
+          )}
           {filtered.length === 0 && <p className="screen-subtitle">No friends match "{query}".</p>}
           {filtered.map((f) => (
             <label key={f.friend} className="friend-row" style={{ cursor: 'pointer' }}>
@@ -62,6 +65,7 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
               <input
                 type="checkbox"
                 checked={selected.has(f.friend)}
+                disabled={!selected.has(f.friend) && selected.size >= MAX_GROUP_MEMBERS - 1}
                 onChange={() => onToggle(f.friend)}
                 style={{ width: 20, height: 20 }}
               />
@@ -146,9 +150,11 @@ export default function TripSetup() {
     if (trip.customInterests.includes(text)) return;
     updateTrip({ customInterests: [...trip.customInterests, text] });
     setClassifying((cur) => new Set(cur).add(text));
-    classifyInterest(text).then(({ matches, emoji }) => {
-      setCustomInterestMatches(text, matches);
-      setCustomInterestEmoji(text, emoji);
+    classifyInterest(text).then(({ matches, emoji, failed }) => {
+      if (!failed) {
+        setCustomInterestMatches(text, matches);
+        setCustomInterestEmoji(text, emoji);
+      }
       setClassifying((cur) => {
         const next = new Set(cur);
         next.delete(text);
@@ -265,7 +271,7 @@ export default function TripSetup() {
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
             <button
               type="button"
-              className={`chip ${preferencesSelected ? 'selected' : ''}`}
+              className={`chip ${preferencesSelected ? 'selected' : ''}`} aria-pressed={!!(preferencesSelected)}
               onClick={togglePreferences}
             >
               <span className="chip-icon">{'⭐'}</span>
@@ -278,7 +284,7 @@ export default function TripSetup() {
             <button
               key={i.id}
               type="button"
-              className={`chip ${trip.interests.includes(i.id) ? 'selected' : ''}`}
+              className={`chip ${trip.interests.includes(i.id) ? 'selected' : ''}`} aria-pressed={!!(trip.interests.includes(i.id))}
               onClick={() => toggleInterest(i.id)}
             >
               <span className="chip-icon">{i.icon}</span>
@@ -326,10 +332,10 @@ export default function TripSetup() {
       <div className="field">
         <label>Trip Type</label>
         <div className="tabs" style={{ justifyContent: 'center' }}>
-          <button type="button" className={`tab-btn ${tripMode === 'solo' ? 'active' : ''}`} onClick={() => setTripMode('solo')}>
+          <button type="button" className={`tab-btn ${tripMode === 'solo' ? 'active' : ''}`} aria-pressed={!!(tripMode === 'solo')} onClick={() => setTripMode('solo')}>
             {'\u{1F464}'} Solo
           </button>
-          <button type="button" className={`tab-btn ${tripMode === 'group' ? 'active' : ''}`} onClick={() => setTripMode('group')}>
+          <button type="button" className={`tab-btn ${tripMode === 'group' ? 'active' : ''}`} aria-pressed={!!(tripMode === 'group')} onClick={() => setTripMode('group')}>
             {'\u{1F465}'} Group
           </button>
         </div>
