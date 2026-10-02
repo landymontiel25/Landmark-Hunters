@@ -217,5 +217,11 @@
   "osm-w441800741": {
     "category": "stadiums",
     "topic": "stadium"
+  },
+  "osm-n12369742001": {
+    "rejectPhoto": "Commons match is a plate of pancakes"
+  },
+  "osm-n6010863676": {
+    "rejectPhoto": "Commons match shows ATMs"
   }
 }
