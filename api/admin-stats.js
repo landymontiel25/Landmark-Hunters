@@ -61,7 +61,8 @@ async function handler(req, res) {
       return;
     }
     console.error('admin-stats failed:', msg);
-    res.status(500).json({ error: 'Could not build the stats.' });
+    // Safe to show: only a verified admin reaches this line (401/403 above).
+    res.status(500).json({ error: `Could not build the stats: ${msg}` });
   }
 }
 
