@@ -24,13 +24,13 @@ const outDir = args[0] || 'out';
 fs.mkdirSync(outDir, { recursive: true });
 const outFile = path.join(outDir, 'commons.found.json');
 const API = 'https://commons.wikimedia.org/w/api.php';
-const UA = 'LandmarkHunters-photo-finder/1.0 (https://landmarkhunters.com)';
+const UA = 'LandmarkHunters-photo-finder/1.0 (https://landmarkhunters.com; https://github.com/landymontiel25/Landmark-Hunters)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function api(params) {
   const url = `${API}?${new URLSearchParams({ format: 'json', ...params })}`;
   for (let attempt = 0; attempt < 4; attempt++) {
-    const r = await fetch(url, { headers: { 'User-Agent': UA } });
+    const r = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30000) }).catch((e) => ({ status: 599, error: e }));
     if (r.status === 429 || r.status >= 500) {
       await sleep(2000 * (attempt + 1));
       continue;
@@ -65,9 +65,14 @@ const have = new Map(done.map((r) => [`${r.region}/${r.id}`, r]));
 const source = placesFile ? JSON.parse(fs.readFileSync(placesFile, 'utf8')) : ALL_LANDMARKS;
 const todo = source.filter((l) => !(l.images && l.images.length)).map((l) => ({ ...l, region: l.regionId || l.region }));
 let n = 0;
-for (const l of todo) {
+// A few places at a time: Commons answers in 1-2 s, so one at a time takes hours.
+const CONCURRENCY = 3;
+const queue = todo.filter((l) => have.get(`${l.region}/${l.id}`)?.status !== 'found');
+async function worker() {
+  for (let l = queue.shift(); l; l = queue.shift()) await findOne(l);
+}
+async function findOne(l) {
   const key = `${l.region}/${l.id}`;
-  if (have.get(key)?.status === 'found') continue;
   let result;
   try {
     const cands = await candidatesFor(l);
@@ -81,6 +86,7 @@ for (const l of todo) {
   if (++n % 10 === 0) fs.writeFileSync(outFile, JSON.stringify([...have.values()], null, 1));
   console.log(`${result.status === 'found' ? 'FOUND' : 'none '} ${key}${result.status === 'found' ? `  ${result.fileTitle}` : ''}`);
 }
+await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 fs.writeFileSync(outFile, JSON.stringify([...have.values()], null, 1));
 const all = [...have.values()];
 console.log(`\nfound ${all.filter((r) => r.status === 'found').length}, none ${all.filter((r) => r.status !== 'found').length}. Next: node scripts/apply-commons-photos.mjs ${outDir}`);

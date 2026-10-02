@@ -8,7 +8,7 @@ import { classify, factsFromWikidata } from './transform.js';
 const OSM = 'scripts/osm-import/data/osm.json';
 const OUT = 'scripts/osm-import/data/wikidata-facts.json';
 const API = 'https://www.wikidata.org/w/api.php';
-const UA = 'LandmarkHunters-osm-import/1.0 (https://landmarkhunters.com)';
+const UA = 'LandmarkHunters-osm-import/1.0 (https://landmarkhunters.com; https://github.com/landymontiel25/Landmark-Hunters)';
 const PROPS = ['P1619', 'P571', 'P84', 'P1083', 'P466', 'P138', 'P1435'];
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -16,7 +16,12 @@ async function entities(ids, props) {
   const out = {};
   for (let i = 0; i < ids.length; i += 50) {
     const q = new URLSearchParams({ action: 'wbgetentities', format: 'json', ids: ids.slice(i, i + 50).join('|'), props, languages: 'en' });
-    const r = await fetch(`${API}?${q}`, { headers: { 'User-Agent': UA } });
+    let r;
+    for (let attempt = 1; ; attempt++) {
+      r = await fetch(`${API}?${q}`, { headers: { 'User-Agent': UA } });
+      if ((r.status !== 429 && r.status < 500) || attempt === 6) break;
+      await sleep(Number(r.headers.get('retry-after')) * 1000 || 5000 * attempt);
+    }
     if (!r.ok) throw new Error(`Wikidata ${r.status}`);
     Object.assign(out, (await r.json()).entities || {});
     await sleep(200);

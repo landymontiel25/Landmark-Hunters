@@ -124,6 +124,13 @@ describe('facts', () => {
       'Has outdoor seating',
       'Has vegan options',
     ]);
+    expect(factsFromTags({ cuisine: 'coffee_shop' }, 'food')).toEqual(['Serves coffee']);
+    expect(factsFromTags({ cuisine: 'seafood;fish' }, 'food')).toEqual(['Serves seafood and fish']);
+    expect(factsFromTags({ cuisine: 'mexican;venezuelan;international' }, 'food')).toEqual(['Serves Mexican and Venezuelan food']);
+    expect(factsFromTags({ cuisine: 'italian;pizza' }, 'food')).toEqual(['Serves Italian food, plus pizza']);
+    expect(factsFromTags({ cuisine: 'burger;sandwich' }, 'food')).toEqual(['Serves burgers and sandwiches']);
+    expect(factsFromTags({ cuisine: 'portuguese' }, 'food')).toEqual(['Serves Portuguese food']);
+    expect(factsFromTags({ brand: 'The Cheesecake Factory' }, 'food')).toEqual(['Part of the Cheesecake Factory chain']);
     expect(factsFromTags({ leisure: 'pitch', sport: 'tennis;pickleball', surface: 'hard', lit: 'yes' }, 'sports')).toEqual([
       'Set up for tennis and pickleball',
       'Hard surface',
@@ -195,12 +202,50 @@ describe('duplicates', () => {
     expect(findCatalogDuplicate({ name: 'Versailles', lat: 25.79, lng: -80.2531 }, catalog)).toBeNull();
     expect(findCatalogDuplicate({ name: 'Joe’s Pizza', lat: 25.7654, lng: -80.2531 }, catalog)).toBeNull();
   });
+  it('tells a venue inside a catalog place apart from the place itself', () => {
+    const catalog = [
+      { id: 'wynwood', regionId: 'miami', name: 'Wynwood', lat: 25.8, lng: -80.2, categories: ['local-life'] },
+      { id: 'bayfront-park', regionId: 'miami', name: 'Bayfront Park', lat: 25.775, lng: -80.186 },
+      { id: 'panther-coffee-wynwood', regionId: 'miami', name: 'Panther Coffee', lat: 25.801, lng: -80.199, categories: ['food'] },
+      { id: 'nu-stadium', regionId: 'miami', name: 'Nu Stadium at Miami Freedom Park', lat: 25.79, lng: -80.25 },
+    ];
+    expect(findCatalogDuplicate({ name: 'Sha Wynwood', lat: 25.8001, lng: -80.2001, categories: ['food'] }, catalog)).toBeNull();
+    expect(findCatalogDuplicate({ name: 'Wynwood Kitchen & Bar', lat: 25.8001, lng: -80.2001, categories: ['food'] }, catalog)).toBeNull();
+    expect(findCatalogDuplicate({ name: 'FPL Solar Amphitheater at Bayfront Park', lat: 25.775, lng: -80.186 }, catalog)).toBeNull();
+    expect(findCatalogDuplicate({ name: 'Panther Coffee Wynwood', lat: 25.801, lng: -80.199, categories: ['food'] }, catalog)?.id).toBe('panther-coffee-wynwood');
+    expect(findCatalogDuplicate({ name: 'Nu Stadium', lat: 25.7901, lng: -80.2501 }, catalog)?.id).toBe('nu-stadium');
+  });
   it('keeps one of a place mapped twice', () => {
     const a = toPlace(node(1, { amenity: 'cafe', name: 'Café Demetrio', cuisine: 'coffee_shop' }));
     const b = toPlace({ type: 'way', id: 2, center: { lat: 25.76552, lon: -80.21962 }, tags: { amenity: 'cafe', name: 'Cafe Demetrio' } });
     const { kept, dropped } = dedupeImport([a, b]);
     expect(kept).toHaveLength(1);
     expect(dropped).toHaveLength(1);
+  });
+});
+
+describe('review rules', () => {
+  const now = new Date('2026-10-02T12:00:00Z');
+  it('drops generic names and big-box chains, applies overrides', () => {
+    const els = [
+      node(1, { tourism: 'attraction', name: 'Street Art' }),
+      node(2, { shop: 'department_store', name: 'Ross', brand: 'Ross Dress for Less' }),
+      node(3, { shop: 'department_store', name: "Macy's" }),
+      node(4, { tourism: 'museum', name: 'Lock & Load Miami Range' }),
+      node(5, { tourism: 'attraction', name: 'Cruise Port' }),
+      node(6, { historic: 'memorial', name: 'Our Heroes -' }),
+    ];
+    const overrides = { 'osm-n4': { category: 'sports', topic: 'shooting range' }, 'osm-n5': { drop: 'terminal' } };
+    const { places, dropped } = importPlaces(els, { overrides, now });
+    expect(places.map((p) => p.name).sort()).toEqual(['Lock & Load Miami Range', "Macy's", 'Our Heroes']);
+    expect(places.find((p) => p.id === 'osm-n4')).toMatchObject({ categories: ['sports'], topic: 'shooting range' });
+    expect(dropped.genericName).toHaveLength(1);
+    expect(dropped.chainStore).toHaveLength(1);
+    expect(dropped.reviewed[0].why).toBe('terminal');
+  });
+  it('catches a catalog museum named with extra words', () => {
+    const catalog = [{ id: 'frost', regionId: 'miami', name: 'Frost Museum of Science', lat: 25.785, lng: -80.195, categories: ['art-museums'] }];
+    expect(findCatalogDuplicate({ name: 'Patricia and Phillip Frost Museum of Science', lat: 25.7851, lng: -80.1951, categories: ['art-museums'] }, catalog)?.id).toBe('frost');
   });
 });
 

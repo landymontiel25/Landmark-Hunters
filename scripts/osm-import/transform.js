@@ -70,7 +70,21 @@ const CUISINE_LABEL = {
   sandwich: 'sandwich', seafood: 'seafood', spanish: 'Spanish', steak_house: 'steak', sushi: 'sushi', tapas: 'tapas',
   tea: 'tea', thai: 'Thai', turkish: 'Turkish', vegan: 'vegan', vegetarian: 'vegetarian', venezuelan: 'Venezuelan',
   vietnamese: 'Vietnamese', bubble_tea: 'bubble tea', wings: 'wings', tacos: 'taco', fish: 'fish', hot_dog: 'hot dog',
+  portuguese: 'Portuguese', 'tex-mex': 'Tex-Mex', austrian: 'Austrian', irish: 'Irish', european: 'European',
+  indonesian: 'Indonesian', guatemalan: 'Guatemalan', columbia: 'Colombian', uruguay: 'Uruguayan', latin: 'Latin American',
+  south_american: 'South American', new_american: 'New American', 'french-indonesian': 'French-Indonesian',
+  latin_fusion: 'Latin fusion', asian_fusion: 'Asian fusion', health_food: 'health food', healthy_food: 'health food',
+  smoothies: 'smoothie', open_fire: 'open-fire', bar_and_grill: 'bar and grill', frozen_yoghurt: 'frozen yogurt',
 };
+
+// Dishes read as plurals in a fact line ("Serves burgers", "Serves tacos").
+const DISH_PLURAL = {
+  burger: 'burgers', sandwich: 'sandwiches', bagel: 'bagels', donut: 'donuts', 'crêpe': 'crêpes', taco: 'tacos',
+  'hot dog': 'hot dogs', pancake: 'pancakes', empanada: 'empanadas', kebab: 'kebabs', calzone: 'calzones', cake: 'cakes',
+  smoothie: 'smoothies', salad: 'salads', fries: 'fries',
+};
+
+const VAGUE_CUISINE = new Set(['international', 'regional', 'local', 'fusion', 'fine dining', 'casual', 'other', 'oriental', 'lunch', 'grill', 'pub', 'bar and grill', 'open-fire']);
 
 export function cuisines(tags) {
   return String(tags.cuisine || '')
@@ -159,7 +173,18 @@ export function isClosed(tags, now = new Date()) {
   return false;
 }
 
-export const cleanName = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+export const cleanName = (s) =>
+  String(s || '')
+    .replace(/[«»]/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[\s\-–—,.]+$/, '')
+    .trim();
+
+// A name that is only a generic word says nothing about which place it is.
+export const GENERIC_NAME = /^(street art|auditorium|war|stadium court|viewpoint(?: p?\d+)?|park|playground|garden|museum|gallery|beach|monument|memorial|statue|fountain)$/i;
+
+// Discount and big-box chains are not "shops of interest".
+export const CHAIN_STORES = /^(ross|ross dress for less|burlington|marshalls|tj ?maxx|t\.j\. maxx|homegoods|target|walmart|sears|jcpenney|j\. ?c\. penney|kohl'?s|duty free americas|big lots|dollar tree|family dollar)$/i;
 
 // ---- Hours -----------------------------------------------------------------
 // The app's closed-now check (src/lib/nearbyPicks.js isClosedNow) reads
@@ -220,8 +245,14 @@ const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 export function factsFromTags(tags, category) {
   const t = tags || {};
   const f = [];
-  const cs = cuisines(t);
-  if (cs.length && (category === 'food' || category === 'local-life')) f.push(`Serves ${listJoin(cs.slice(0, 3))} food`);
+  if (category === 'food' || category === 'local-life') {
+    // "Cuban" is a cuisine ("Serves Cuban food"); "pizza" is a dish ("Serves pizza").
+    const cs = cuisines(t).filter((c) => !VAGUE_CUISINE.has(c)).slice(0, 3);
+    const styles = cs.filter((c) => /^[A-Z]/.test(c));
+    const dishes = cs.filter((c) => !/^[A-Z]/.test(c)).map((c) => DISH_PLURAL[c] || c);
+    if (styles.length) f.push(`Serves ${listJoin(styles)} food${dishes.length ? `, plus ${listJoin(dishes)}` : ''}`);
+    else if (dishes.length) f.push(`Serves ${listJoin(dishes)}`);
+  }
   const year = yearOf(t.start_date) || yearOf(t.opening_date);
   if (year) f.push(category === 'parks-nature' ? `Established in ${year}` : category === 'history-culture' ? `Dates from ${year}` : `Opened in ${year}`);
   if (t.architect) f.push(`Designed by ${cleanName(t.architect)}`);
@@ -235,7 +266,7 @@ export function factsFromTags(tags, category) {
     if (t.surface) f.push(`${cap(t.surface.replace(/_/g, ' '))} surface`);
     if (t.lit === 'yes') f.push('Lit for night play');
   }
-  if (t.brand) f.push(`Part of the ${cleanName(t.brand)} chain`);
+  if (t.brand) f.push(`Part of the ${cleanName(t.brand).replace(/^the\s+/i, '')} chain`);
   if (t.operator && !t.brand) f.push(`Run by ${cleanName(t.operator)}`);
   if (t.outdoor_seating === 'yes') f.push('Has outdoor seating');
   if (t['diet:vegan'] === 'only') f.push('Fully vegan menu');
@@ -282,8 +313,10 @@ export function factsFromWikidata(entity, labels = {}, category = null) {
   if (occupants.length) f.push(`Home of ${listJoin(occupants.slice(0, 3))}`);
   const named = vals('P138').map(label).filter(Boolean);
   if (named.length) f.push(`Named after ${named[0]}`);
-  const heritage = vals('P1435').map(label).filter(Boolean);
-  for (const h of heritage.slice(0, 2)) f.push(`Designated: ${h}`);
+  for (const v of vals('P1435').slice(0, 2)) {
+    if (v.id === 'Q19558910') f.push('Listed on the U.S. National Register of Historic Places');
+    else if (label(v)) f.push(`Designated: ${label(v)}`);
+  }
   return f;
 }
 
@@ -367,13 +400,45 @@ function sameName(a, b) {
   return s.length >= 6 && ` ${l} `.includes(` ${s} `);
 }
 
-// Catalog duplicates: same name within 250 m (a big park's catalog pin can sit
-// far from OSM's center), or nearly the same spot with the same first word.
+// Words that only say where or what kind of place it is. "Panther Coffee
+// Wynwood" is the catalog's "Panther Coffee"; "Sha Wynwood" is not the
+// catalog's "Wynwood" neighborhood.
+const GENERIC = new Set(
+  ('restaurant cafe coffee bar grill kitchen bakery park parks museum gardens garden center centre theater theatre ' +
+    'stadium arena beach hammock historic state market marketplace building college dade university hotel ' +
+    'coral gables key biscayne little havana coconut grove brickell wynwood downtown south north west east city ' +
+    'shops shop mall bookstore books store').split(' ')
+);
+
+// Is this OSM place the catalog landmark `catalogName`? The catalog often
+// names a place more fully ("Nu Stadium at Miami Freedom Park"), so an OSM
+// name inside it counts. An OSM name that wraps a catalog name ("FPL Solar
+// Amphitheater at Bayfront Park") counts only when the extra words are generic
+// and both are the same kind of place ("Wynwood Kitchen & Bar" is a restaurant,
+// not the Wynwood neighborhood).
+export function isCatalogName(osmName, catalogName, sameKind = true) {
+  const o = nameKey(osmName);
+  const c = nameKey(catalogName);
+  if (!o || !c) return false;
+  if (o === c) return true;
+  if (o.length >= 6 && ` ${c} `.includes(` ${o} `)) return true;
+  const ct = c.split(' ');
+  if (sameKind && ct.length >= 3 && ct.every((w) => ` ${o} `.includes(` ${w} `))) return true;
+  if (sameKind && c.length >= 6 && ` ${o} `.includes(` ${c} `)) {
+    const inside = new Set(c.split(' '));
+    return o.split(' ').filter((w) => !inside.has(w)).every((w) => GENERIC.has(w));
+  }
+  return false;
+}
+
+// Catalog duplicates: the same place within 250 m (a big park's catalog pin
+// can sit far from OSM's center), or exactly the same name within 400 m.
 export function findCatalogDuplicate(place, catalog) {
   for (const l of catalog) {
     if (!Number.isFinite(l.lat) || !Number.isFinite(l.lng)) continue;
     const d = distanceMeters(place.lat, place.lng, l.lat, l.lng);
-    if (d <= 250 && sameName(place.name, l.name)) return l;
+    const sameKind = (l.categories || []).includes(place.categories?.[0]);
+    if (d <= 250 && isCatalogName(place.name, l.name, sameKind)) return l;
     if (d <= 400 && nameKey(place.name) === nameKey(l.name)) return l;
   }
   return null;
@@ -412,8 +477,8 @@ export function dedupeImport(places) {
 
 // Runs the whole element list through the rules and says why each drop
 // happened, for the final report.
-export function importPlaces(elements, { catalog = [], region = 'miami', shape = MIAMI_SHAPE, wikidataFacts = {}, now = new Date() } = {}) {
-  const dropped = { noName: [], closed: [], outside: [], notListed: [], duplicateInImport: [], duplicateOfCatalog: [] };
+export function importPlaces(elements, { catalog = [], region = 'miami', shape = MIAMI_SHAPE, wikidataFacts = {}, overrides = {}, now = new Date() } = {}) {
+  const dropped = { noName: [], genericName: [], chainStore: [], closed: [], outside: [], notListed: [], reviewed: [], duplicateInImport: [], duplicateOfCatalog: [] };
   const candidates = [];
   for (const el of elements || []) {
     const t = el.tags || {};
@@ -435,8 +500,27 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
       dropped.closed.push({ id: label, name: t.name });
       continue;
     }
+    if (GENERIC_NAME.test(cleanName(t.name))) {
+      dropped.genericName.push({ id: label, name: t.name });
+      continue;
+    }
+    if (CHAIN_STORES.test(cleanName(t.brand || t.name)) && (t.shop === 'department_store' || t.shop === 'mall')) {
+      dropped.chainStore.push({ id: label, name: t.name });
+      continue;
+    }
     const place = toPlace(el, { region, wikidataFacts: wikidataFacts[t.wikidata] || [] });
-    if (place) candidates.push(place);
+    if (!place) continue;
+    const fix = overrides[place.id];
+    if (fix?.drop) {
+      dropped.reviewed.push({ id: label, name: place.name, why: fix.drop });
+      continue;
+    }
+    if (fix?.category) place.categories = [fix.category];
+    if (fix?.topic) {
+      place.topic = fix.topic;
+      place.summary = summaryFor(t, fix.topic);
+    }
+    candidates.push(place);
   }
   const { kept, dropped: dupes } = dedupeImport(candidates);
   dropped.duplicateInImport = dupes.map((d) => ({ id: d.place.id, name: d.place.name, keptId: d.keptId }));
