@@ -109,6 +109,20 @@ describe('close-solo-streak-day: Travel Picks answers', () => {
     expect(streakDoc.lastCompletedDay).toBe(todayClient());
   });
 
+  it('closes on 3 Travel Picks answers even when the streak has no city yet (the cards need one, Travel Picks do not)', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    cardsRated = false;
+    delete streakDoc.cityId;
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
+    pickDocs = [answer('p1', localNoonMs()), answer('p2', localNoonMs()), answer('p3', localNoonMs())];
+    const out = await call(handler, { dayId: todayClient(), tzOffsetMin: tz });
+    expect(out.closed).toBe(true);
+    // ...but with fewer answers and no city it still reports why.
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
+    pickDocs = [answer('p1', localNoonMs())];
+    expect((await call(handler, { dayId: todayClient(), tzOffsetMin: tz })).reason).toBe('no-city');
+  });
+
   it('does not close on 2 answers, repeats of one landmark, or answers from another day', async () => {
     const { default: handler } = await import('./close-solo-streak-day.js');
     cardsRated = false;
