@@ -3,11 +3,16 @@ import { adminAuth, adminDb, SERVICE_ACCOUNT_MISSING } from './_lib/firebaseAdmi
 import { withCors } from './_lib/cors.js';
 import { buildSummary, mergeSeries, storedSeries } from './_lib/statsSummary.js';
 import { backfillCreatedAt } from './_lib/createdAtBackfill.js';
+import { isRateLimited } from './_lib/rateLimit.js';
+import { runPhotoBackfill } from './_lib/photoBackfill.js';
+import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { isAdmin } from '../src/lib/admins.js';
 import { STATS_CACHE_MS } from '../src/lib/statsConstants.js';
 
 // Owner-only. GET -> the stats summary (totals only). POST {action:
-// 'backfill'} -> fills users.createdAt for accounts that predate it.
+// 'backfill'} -> fills users.createdAt for accounts that predate it. POST
+// {action: 'photo-backfill'} -> one batch of the Google place-ID backfill
+// (api/_lib/photoBackfill.js).
 //
 // Needs FIREBASE_SERVICE_ACCOUNT in Vercel (the Admin SDK reads Firestore past
 // the rules); without it this answers 503 with that message instead of
@@ -34,7 +39,20 @@ async function handler(req, res) {
   try {
     const db = adminDb();
     if (req.method === 'POST') {
-      if ((req.body || {}).action !== 'backfill') {
+      const action = (req.body || {}).action;
+      if (action === 'photo-backfill') {
+        if (!process.env.GOOGLE_PLACES_API_KEY) {
+          res.status(503).json({ error: 'GOOGLE_PLACES_API_KEY is not set in Vercel, so photos cannot be looked up.' });
+          return;
+        }
+        if (isRateLimited(req, 'photo-backfill', { limit: 12, windowMs: 10 * 60 * 1000, id: account.uid })) {
+          res.status(429).json({ error: 'Too many batches in a row. Wait a few minutes.' });
+          return;
+        }
+        res.status(200).json(await runPhotoBackfill(db, ALL_LANDMARKS, { apiKey: process.env.GOOGLE_PLACES_API_KEY }));
+        return;
+      }
+      if (action !== 'backfill') {
         res.status(400).json({ error: 'Unknown action.' });
         return;
       }

@@ -1049,5 +1049,12 @@ service cloud.firestore {
     match /place_ids/{id} {
       allow read, write: if false;
     }
+
+    // Daily search counter for the admin photo backfill
+    // (api/_lib/photoBackfill.js): place_backfill_usage/{date} -> { searches }.
+    // Server only (Admin SDK). No user data, nothing to delete with an account.
+    match /place_backfill_usage/{id} {
+      allow read, write: if false;
+    }
   }
 }

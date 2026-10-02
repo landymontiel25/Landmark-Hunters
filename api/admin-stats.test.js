@@ -68,6 +68,9 @@ vi.mock('firebase-admin/firestore', () => ({
   Timestamp: { fromMillis: (ms) => ({ ms }) },
 }));
 
+const runPhotoBackfill = vi.fn(async () => ({ done: false, remaining: 5 }));
+vi.mock('./_lib/photoBackfill.js', () => ({ runPhotoBackfill: (...a) => runPhotoBackfill(...a) }));
+
 const { default: handler, _resetStatsCache } = await import('./admin-stats.js');
 
 const call = async (req = {}) => {
@@ -103,6 +106,20 @@ describe('api/admin-stats: who may call it', () => {
     const res = await call();
     expect(res.statusCode).toBe(200);
     expect(res.body.metrics.length).toBeGreaterThan(8);
+  });
+  it('POST photo-backfill is admin-only, needs the Places key, and runs one batch over the catalog', async () => {
+    account = { uid: UIDS[1], email: EMAILS[1], emailVerified: true };
+    expect((await call({ method: 'POST', body: { action: 'photo-backfill' } })).statusCode).toBe(403);
+    account = { uid: UIDS[0], email: 'landymontiel25@gmail.com', emailVerified: true };
+    delete process.env.GOOGLE_PLACES_API_KEY;
+    expect((await call({ method: 'POST', body: { action: 'photo-backfill' } })).statusCode).toBe(503);
+    process.env.GOOGLE_PLACES_API_KEY = 'k';
+    const res = await call({ method: 'POST', body: { action: 'photo-backfill' } });
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ done: false, remaining: 5 });
+    expect(runPhotoBackfill).toHaveBeenCalledTimes(1);
+    expect(runPhotoBackfill.mock.calls[0][1].length).toBeGreaterThan(1000); // the whole catalog
+    delete process.env.GOOGLE_PLACES_API_KEY;
   });
   it('POST backfill is admin-only as well', async () => {
     account = { uid: UIDS[1], email: EMAILS[1], emailVerified: true };

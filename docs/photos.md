@@ -58,6 +58,19 @@ Seeding all 463 photo-less landmarks once is roughly $15 in Text Search Pro befo
 
 Unconfirmed: the SKU details page (`/billing-and-pricing/sku-details`) could not be machine-read, so the IDs Only classification of Place Details + `photos` rests on the field table and the Place IDs page above. Confirm with the first month's billing report (look for "Place Details Essentials (IDs Only)" on Place Details calls and no "Place Details Pro/Enterprise" lines). If Google bills Details with `photos` at a paid tier, each view would cost $0.017-0.020 + $0.007, about 40-50% cheaper than before rather than 82%.
 
+## Admin photo backfill (one-time)
+
+`Admin stats` page, "Landmark photos (one-time)", button **Run photo backfill** (`POST /api/admin-stats {action: 'photo-backfill'}`, code in `api/_lib/photoBackfill.js`).
+
+- For every landmark with no stored photo it runs the same strict Text Search match as `api/place-photo.js` (shared code in `api/_lib/placeLookup.js`) and saves the result to `place_ids`: a place ID, or a "no match" marker (kept 30 days). It saves **place IDs only**. It never fetches or stores an image, photo name or photo link, and makes no Place Details calls.
+- One batch (20 landmarks) per call. The page repeats the call every 2.5 minutes while the tab is open (8 searches a minute, under the 90 per 10 minutes limit), shows progress (checked, Google has a photo, no match, failed this run, searches today) and has a Stop button.
+- At most 300 backfill searches per day, counted per Pacific-time day in `place_backfill_usage/{date}` (Google's quota is 400 and resets at midnight Pacific; the other 100 are for live views). When it reaches 300 the run stops and says to come back tomorrow.
+- A failed search (Google error, timeout) is not saved, so the next press retries it. A Google 429 or 403, or 3 failures in a row, stops the run. Each failure writes one `place-photo: ... (backfill: ...)` line to the Vercel logs with the step and Google status (never the key).
+- Safe to run again at any time: landmarks that already have a saved result are skipped.
+- All numbers are in `src/lib/statsConstants.js` (`PHOTO_BACKFILL_*`).
+- Rules: `place_backfill_usage` is server-only, like `place_ids` (`allow read, write: if false`), with an emulator test. It holds no user data, so account deletion has nothing to remove.
+- Once place IDs are saved, each tile view makes one free Place Details lookup (the IDs-only photo reference). If you set a daily quota on `GetPlaceRequest`, keep it comfortably above expected views.
+
 ## Capping spend
 
 - Google Cloud console, APIs & Services, Places API (New), Quotas: set a low **Requests per day** on Text Search (and on the Photos method). Once the cap is hit Google returns errors, the route answers 502, and the app keeps showing the placeholder tile.
