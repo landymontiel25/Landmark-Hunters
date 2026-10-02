@@ -1041,5 +1041,13 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
       allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
     }
+
+    // Google place-ID cache for api/place-photo.js. Written and read ONLY by
+    // the server (Admin SDK, which bypasses these rules). Clients never touch
+    // it. Holds no user data (landmark id -> Google place id), so account
+    // deletion has nothing to remove here.
+    match /place_ids/{id} {
+      allow read, write: if false;
+    }
   }
 }

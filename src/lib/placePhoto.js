@@ -62,6 +62,12 @@ async function request(l) {
   if (!headers.Authorization) return { value: null, ttl: 15_000 }; // signed out: endpoint needs an account
   try {
     const q = new URLSearchParams({ name: l.name, lat: String(l.lat), lng: String(l.lng) });
+    // Lets the server remember this landmark's Google place ID (never the photo).
+    const region = l.region || l.regionId;
+    if (region && l.id) {
+      q.set('region', String(region));
+      q.set('id', String(l.id));
+    }
     const data = await fetchJson(`${API_BASE}/api/place-photo?${q}`, { headers });
     if (!data?.url || !/^https:\/\//.test(data.url)) return { value: null, ttl: SUCCESS_TTL_MS };
     const attributions = (Array.isArray(data.attributions) ? data.attributions : []).filter((a) => a?.name);

@@ -3,6 +3,30 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const verify = vi.fn();
 vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: (...a) => verify(...a) }));
 vi.mock('./_lib/cors.js', () => ({ withCors: (h) => h }));
+const store = new Map();
+let adminMode = 'ok'; // 'ok' | 'missing' | 'broken'
+const fakeDb = {
+  collection: (c) => ({
+    doc: (id) => ({
+      get: async () => {
+        if (adminMode === 'broken') throw new Error('firestore down');
+        const d = store.get(`${c}/${id}`);
+        return { exists: !!d, data: () => d };
+      },
+      set: async (d) => {
+        if (adminMode === 'broken') throw new Error('firestore down');
+        store.set(`${c}/${id}`, { ...d, verifiedAt: { toMillis: () => Date.now() } });
+      },
+      delete: async () => void store.delete(`${c}/${id}`),
+    }),
+  }),
+};
+vi.mock('./_lib/firebaseAdmin.js', () => ({
+  adminDb: () => {
+    if (adminMode === 'missing') throw new Error('FIREBASE_SERVICE_ACCOUNT is not set.');
+    return fakeDb;
+  },
+}));
 
 const { default: handler, namesMatch } = await import('./place-photo.js');
 
@@ -104,7 +128,7 @@ describe('place-photo route', () => {
     expect(r.headers['Cache-Control']).toMatch(/s-maxage=10800/);
     const [searchUrl, searchInit] = globalThis.fetch.mock.calls[0];
     expect(searchUrl).toContain('places:searchText');
-    expect(searchInit.headers['X-Goog-FieldMask']).toBe('places.displayName,places.location,places.photos');
+    expect(searchInit.headers['X-Goog-FieldMask']).toBe('places.id,places.displayName,places.location,places.photos');
     const body = JSON.parse(searchInit.body);
     expect(body.locationBias.circle.radius).toBeLessThanOrEqual(500);
     const mediaUrl = globalThis.fetch.mock.calls[1][0];

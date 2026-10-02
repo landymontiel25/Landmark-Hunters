@@ -2,6 +2,14 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { withCors } from './_lib/cors.js';
 import { timeoutSignal } from './_lib/upstream.js';
+import { adminDb } from './_lib/firebaseAdmin.js';
+import { FieldValue } from 'firebase-admin/firestore';
+import {
+  PLACE_ID_COLLECTION,
+  PLACE_ID_FIRESTORE_TIMEOUT_MS,
+  PLACE_ID_NO_MATCH_RETRY_MS,
+  PLACE_ID_REFRESH_MS,
+} from './_lib/placeIdConstants.js';
 
 // Runtime photo fallback for landmarks that have no image of their own.
 // Resolves the landmark to a Google place (Places API (New) Text Search,
@@ -10,14 +18,14 @@ import { timeoutSignal } from './_lib/upstream.js';
 // photoUri and returns it with the photographer attribution Google requires
 // the app to display next to the image.
 //
-// Google Maps Platform terms: nothing here is stored. No image bytes are
-// re-hosted, and neither the place id nor the photo reference is written to
-// our database or the landmark data -- every call resolves them fresh. The
-// only caching is the CDN's few hours on this JSON (Cache-Control below).
+// Google Maps Platform terms: image bytes are never re-hosted and photo
+// names / photoUris are never stored -- each view fetches a fresh photo
+// reference. The one thing persisted is the place ID (which the terms allow)
+// in the server-only place_ids collection, so the expensive Text Search runs
+// once per landmark instead of on every view. Plus the CDN's few hours on
+// this JSON (Cache-Control below).
 //
-// Cost control: the field mask is exactly what the name check and the photo
-// need (displayName/location/photos bill the Text Search Pro SKU; there is no
-// cheaper tier that returns photos). See docs/photos.md.
+// Cost control: see docs/photos.md for the SKU math.
 
 const SEARCH_RADIUS_M = 250;
 const MAX_DISTANCE_M = 250;
@@ -73,6 +81,131 @@ function safeUri(uri) {
   }
 }
 
+// ---- Place-ID cache (Firestore place_ids/{region}__{landmarkId}) -----------
+// Read and written ONLY here, via the Admin SDK (which bypasses rules; the
+// rules deny every client read/write). Holds no user data, so account
+// deletion has nothing to remove. Google's terms allow storing place IDs; we
+// never store photo bytes, photo names or photoUris. Any failure here
+// (credentials missing, Firestore down) degrades to the uncached behavior.
+
+let warnedNoAdmin = false;
+
+function placeIdKey(region, id) {
+  const ok = (v) => typeof v === 'string' && /^[A-Za-z0-9_.:-]{1,100}$/.test(v) && v !== '.' && v !== '..';
+  return ok(region) && ok(id) ? `${region}__${id}` : null;
+}
+
+function withTimeout(promise) {
+  let t;
+  return Promise.race([
+    promise,
+    new Promise((_, rej) => {
+      t = setTimeout(() => rej(new Error('Firestore timed out')), PLACE_ID_FIRESTORE_TIMEOUT_MS);
+    }),
+  ]).finally(() => clearTimeout(t));
+}
+
+function placeIdDoc(key) {
+  try {
+    return adminDb().collection(PLACE_ID_COLLECTION).doc(key);
+  } catch (e) {
+    if (!warnedNoAdmin) {
+      warnedNoAdmin = true;
+      console.warn(`place-photo: place-ID cache disabled, doing a Text Search every time (${e?.message || e})`);
+    }
+    return null;
+  }
+}
+
+async function readPlaceId(key) {
+  const ref = placeIdDoc(key);
+  if (!ref) return null;
+  try {
+    const snap = await withTimeout(ref.get());
+    return snap.exists ? snap.data() : null;
+  } catch (e) {
+    console.warn(`place-photo: place-ID cache read failed for ${key}: ${e?.message || e}`);
+    return null;
+  }
+}
+
+async function writePlaceId(key, { status, placeId, matchedName, lat, lng }) {
+  const ref = placeIdDoc(key);
+  if (!ref) return;
+  try {
+    // Exactly these fields; never photo names, URIs or bytes.
+    await withTimeout(ref.set({ placeId, matchedName, lat, lng, verifiedAt: FieldValue.serverTimestamp(), source: 'text-search', status }));
+  } catch (e) {
+    console.warn(`place-photo: place-ID cache write failed for ${key}: ${e?.message || e}`);
+  }
+}
+
+async function deletePlaceId(key) {
+  const ref = placeIdDoc(key);
+  if (!ref) return;
+  try {
+    await withTimeout(ref.delete());
+  } catch (e) {
+    console.warn(`place-photo: place-ID cache delete failed for ${key}: ${e?.message || e}`);
+  }
+}
+
+function verifiedMs(doc) {
+  const v = doc?.verifiedAt;
+  if (typeof v?.toMillis === 'function') return v.toMillis();
+  if (v instanceof Date) return v.getTime();
+  return typeof v === 'number' ? v : 0;
+}
+const isFresh = (doc, windowMs) => Date.now() - verifiedMs(doc) < windowMs;
+
+// The request's name/coordinates come from the client, so only trust a stored
+// doc when they still describe the place it was verified for.
+function sameLandmark(doc, name, lat, lng) {
+  if (!Number.isFinite(doc?.lat) || !Number.isFinite(doc?.lng)) return false;
+  if (distanceMeters(lat, lng, doc.lat, doc.lng) > MAX_DISTANCE_M) return false;
+  return doc.status === 'no-match' || namesMatch(name, doc.matchedName);
+}
+
+async function fetchPlaceDetailsPhotos(placeId, apiKey) {
+  const r = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
+    signal: timeoutSignal(),
+    headers: { 'X-Goog-Api-Key': apiKey, 'X-Goog-FieldMask': 'photos' },
+  });
+  // 404 NOT_FOUND = obsolete ID; 400 = malformed/invalid ID.
+  if (r.status === 404 || r.status === 400) return { ok: false, stale: true };
+  if (!r.ok) return { ok: false, stale: false };
+  const data = await r.json();
+  return { ok: true, photo: data?.photos?.[0] || null };
+}
+
+async function textSearchMatch(name, lat, lng, apiKey) {
+  const search = await fetch('https://places.googleapis.com/v1/places:searchText', {
+    signal: timeoutSignal(),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': apiKey,
+      // places.id is IDs-only (free tier), so it adds nothing on top of the Pro fields.
+      'X-Goog-FieldMask': 'places.id,places.displayName,places.location,places.photos',
+    },
+    body: JSON.stringify({
+      textQuery: name,
+      maxResultCount: 5,
+      locationBias: { circle: { center: { latitude: lat, longitude: lng }, radius: SEARCH_RADIUS_M } },
+    }),
+  });
+  if (!search.ok) return { error: true };
+  const data = await search.json();
+  const match = (data.places || []).find(
+    (p) =>
+      p?.photos?.[0]?.name &&
+      p.location &&
+      distanceMeters(lat, lng, p.location.latitude, p.location.longitude) <= MAX_DISTANCE_M &&
+      namesMatch(name, p.displayName?.text)
+  );
+  return { match: match || null };
+}
+
 // Edge only (s-maxage), never the browser's own cache: the CDN may reuse this
 // JSON for a few hours across users; max-age=0 keeps clients re-asking us.
 const EDGE_CACHE = 'public, max-age=0, s-maxage=10800, stale-while-revalidate=3600';
@@ -107,52 +240,74 @@ async function handler(req, res) {
   }
 
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const cacheKey = placeIdKey(req.query?.region, req.query?.id);
+  const fail = () => res.status(502).json({ error: 'Could not look up a photo.' });
+  const noPhoto = () => {
+    // A confident "no photo" is cacheable too -- saves paying again.
+    res.setHeader('Cache-Control', EDGE_CACHE);
+    res.status(200).json({ url: null, attributions: [] });
+  };
   try {
-    const search = await fetch('https://places.googleapis.com/v1/places:searchText', {
-      signal: timeoutSignal(),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Key': apiKey,
-        'X-Goog-FieldMask': 'places.displayName,places.location,places.photos',
-      },
-      body: JSON.stringify({
-        textQuery: name,
-        maxResultCount: 5,
-        locationBias: { circle: { center: { latitude: lat, longitude: lng }, radius: SEARCH_RADIUS_M } },
-      }),
-    });
-    if (!search.ok) {
-      res.status(502).json({ error: 'Could not look up a photo.' });
-      return;
-    }
-    const data = await search.json();
-    const match = (data.places || []).find(
-      (p) =>
-        p?.photos?.[0]?.name &&
-        p.location &&
-        distanceMeters(lat, lng, p.location.latitude, p.location.longitude) <= MAX_DISTANCE_M &&
-        namesMatch(name, p.displayName?.text)
-    );
-    if (!match) {
-      // A confident "no photo" is cacheable too -- saves paying again.
-      res.setHeader('Cache-Control', EDGE_CACHE);
-      res.status(200).json({ url: null, attributions: [] });
+    const cached = cacheKey ? await readPlaceId(cacheKey) : null;
+    const trusted = cached && sameLandmark(cached, name, lat, lng);
+    let placeId = null;
+    let photo = null;
+
+    if (trusted && cached.status === 'no-match' && isFresh(cached, PLACE_ID_NO_MATCH_RETRY_MS)) {
+      noPhoto();
       return;
     }
 
-    const photo = match.photos[0];
+    if (trusted && cached.status === 'ok' && cached.placeId) {
+      // Place Details with the photos field only = the free "IDs Only" SKU.
+      const details = await fetchPlaceDetailsPhotos(cached.placeId, apiKey);
+      if (details.ok) {
+        placeId = cached.placeId;
+        photo = details.photo;
+        // Past the refresh window: this free call just re-verified the ID.
+        if (!isFresh(cached, PLACE_ID_REFRESH_MS)) await writePlaceId(cacheKey, cached);
+      } else if (details.stale) {
+        console.warn(`place-photo: stored place ID for ${cacheKey} is obsolete; re-searching once`);
+        await deletePlaceId(cacheKey);
+      } else {
+        fail();
+        return;
+      }
+    }
+
+    if (!placeId) {
+      const found = await textSearchMatch(name, lat, lng, apiKey);
+      if (found.error) {
+        fail();
+        return;
+      }
+      if (!found.match) {
+        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: null, lat, lng });
+        noPhoto();
+        return;
+      }
+      placeId = found.match.id || null;
+      photo = found.match.photos[0];
+      if (cacheKey && placeId) {
+        await writePlaceId(cacheKey, { status: 'ok', placeId, matchedName: String(found.match.displayName?.text || '').slice(0, 200), lat, lng });
+      }
+    }
+
+    if (!photo?.name) {
+      noPhoto();
+      return;
+    }
     const media = await fetch(`https://places.googleapis.com/v1/${photo.name}/media?maxWidthPx=800&skipHttpRedirect=true`, {
       signal: timeoutSignal(),
       headers: { 'X-Goog-Api-Key': apiKey },
     });
     if (!media.ok) {
-      res.status(502).json({ error: 'Could not look up a photo.' });
+      fail();
       return;
     }
     const url = safeUri((await media.json())?.photoUri);
     if (!url) {
-      res.status(502).json({ error: 'Could not look up a photo.' });
+      fail();
       return;
     }
     const attributions = (photo.authorAttributions || [])
@@ -162,7 +317,7 @@ async function handler(req, res) {
     res.setHeader('Cache-Control', EDGE_CACHE);
     res.status(200).json({ url, attributions });
   } catch {
-    res.status(502).json({ error: 'Could not look up a photo.' });
+    fail();
   }
 }
 

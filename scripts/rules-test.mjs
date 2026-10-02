@@ -543,6 +543,21 @@ await t('study_summaries: denied to everyone, the admin account included', async
   }
 });
 
+console.log('place_ids (server-only Google place-ID cache)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'place_ids/sf__lm1'), { placeId: 'ChIJx', matchedName: 'Liberty Bell', lat: 1, lng: 2, status: 'ok', source: 'text-search' });
+});
+await t('place_ids: no client (signed out, user, admin) can read, list, write or delete', async () => {
+  for (const db of [as('alice'), as('alice', { email: ADMIN_EMAIL }), env.unauthenticatedContext().firestore()]) {
+    await assertFails(getDoc(doc(db, 'place_ids/sf__lm1')));
+    await assertFails(getDocs(collection(db, 'place_ids')));
+    await assertFails(setDoc(doc(db, 'place_ids/sf__lm2'), { placeId: 'x' }));
+    await assertFails(setDoc(doc(db, 'place_ids/sf__lm1'), { placeId: 'evil' }));
+    await assertFails(deleteDoc(doc(db, 'place_ids/sf__lm1')));
+  }
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {
