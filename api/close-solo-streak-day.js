@@ -60,32 +60,35 @@ async function handler(req, res) {
       res.status(200).json({ ok: true, closed: true, already: true, count: streak.count, best: streak.best });
       return;
     }
-    if (!streak.cityId) {
-      res.status(200).json({ ok: true, closed: false, reason: 'no-city' });
-      return;
+    // Mapr Travel Picks first: answer SOLO_PICK_VOTES_REQUIRED different
+    // landmarks there (pick_feedback) on the caller's local day and the day is
+    // secured, with no daily-card deck and so no city needed.
+    let picksDone = false;
+    const window = localDayWindow(dayId, tzOffsetMin);
+    if (window) {
+      const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
+      picksDone = distinctPickAnswersOn(fbSnap.docs, window) >= SOLO_PICK_VOTES_REQUIRED;
     }
 
-    const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
-    const visitedIds = new Set(
-      checkinsSnap.docs
-        .map((d) => d.data())
-        .filter((c) => c.ratingOnly ? false : typeof c.visited === 'boolean' ? c.visited : c.points !== 0)
-        .map((c) => c.landmarkId)
-    );
-    const cardIds = pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds);
-    const entrySnap = await streakRef.collection('days').doc(dayId).collection('entries').doc(account.uid).get();
-    const entry = entrySnap.exists ? entrySnap.data() : null;
-    const cardsDone = !!entry && cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id]);
-    // The other way to secure the day: answer SOLO_PICK_VOTES_REQUIRED
-    // different landmarks in Mapr Travel Picks (pick_feedback) that local day.
-    // Only checked when the cards are not done, so it costs one query at most.
-    let picksDone = false;
-    if (!cardsDone) {
-      const window = localDayWindow(dayId, tzOffsetMin);
-      if (window) {
-        const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
-        picksDone = distinctPickAnswersOn(fbSnap.docs, window) >= SOLO_PICK_VOTES_REQUIRED;
+    // Otherwise the 3 daily cards on the Streaks page, which are drawn from
+    // the streak's city.
+    let cardsDone = false;
+    if (!picksDone) {
+      if (!streak.cityId) {
+        res.status(200).json({ ok: true, closed: false, reason: 'no-city' });
+        return;
       }
+      const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
+      const visitedIds = new Set(
+        checkinsSnap.docs
+          .map((d) => d.data())
+          .filter((c) => c.ratingOnly ? false : typeof c.visited === 'boolean' ? c.visited : c.points !== 0)
+          .map((c) => c.landmarkId)
+      );
+      const cardIds = pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds);
+      const entrySnap = await streakRef.collection('days').doc(dayId).collection('entries').doc(account.uid).get();
+      const entry = entrySnap.exists ? entrySnap.data() : null;
+      cardsDone = !!entry && cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id]);
     }
     const done = cardsDone || picksDone;
     if (!done) {
