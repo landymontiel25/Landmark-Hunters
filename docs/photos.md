@@ -7,26 +7,56 @@ About 463 of 1,244 catalog landmarks have `images: []`. Instead of storing photo
 1. A landmark with no image (and no personal check-in photo) renders its colored category tile. Where it renders: `LandmarkThumb` (list rows, itinerary, map popups, trip/Mapr cards), `LandmarkPostcard` (the landmark page hero), `PickPhoto` (nearby picks), and `MaprPickImage` (Mapr picks and streak vote cards).
 2. `src/lib/usePlacePhoto.js` waits until the tile is near the viewport (IntersectionObserver), then calls `src/lib/placePhoto.js`. That module dedupes per page session in memory, runs at most 3 requests at once, and backs off for 60 s after a 401/429/503. It never writes to localStorage, IndexedDB or Firestore.
 3. `GET /api/place-photo?name=&lat=&lng=` (`api/place-photo.js`) requires sign-in, is limited to 90 requests per account per 10 min, then:
-   - Places API (New) **Text Search** with a 250 m circular location bias, up to 5 results, field mask `places.displayName,places.location,places.photos`.
+   - Looks up `place_ids/{region}__{landmarkId}` (see "Place-ID cache" below). If a verified place ID is stored, it skips Text Search and calls **Place Details** with field mask `photos` only to get a fresh photo reference.
+   - Otherwise (no doc, obsolete ID, or an expired no-match) Places API (New) **Text Search** with a 250 m circular location bias, up to 5 results, field mask `places.id,places.displayName,places.location,places.photos`, and stores the resulting ID.
    - Accepts a result only if it has a photo, is within 250 m of the landmark, and its name matches strictly (`namesMatch`: same words, or one name wholly inside the other with enough overlap). A weak match returns `{url: null}` and the placeholder stays, so a wrong place's photo is never shown.
    - Calls the **Place Photos** media endpoint (`maxWidthPx=800&skipHttpRedirect=true`) for the first photo and returns `{url, attributions: [{name, uri}]}`. `url` is Google's short-lived `photoUri`.
    - `Cache-Control: public, max-age=0, s-maxage=10800, stale-while-revalidate=3600`: the Vercel edge may reuse the JSON for 3 h, browsers never.
 4. The UI shows "Photo: <author> via Google Maps" (author links to their Google Maps profile). Tiny thumbnails show a small (c) badge instead of the full text, with the full credit in its title and link. If the image fails to load or anything errors, the tile stays.
 
-Google Maps Platform compliance: the image bytes are never downloaded or re-hosted, and neither place IDs nor photo names/URLs are persisted (no database, no landmark data, no localStorage). The only retention is in-memory for the session (2 h cap) and the 3 h CDN cache on the JSON. The attribution is displayed wherever the photo appears. Google's terms can change; re-read the Places "Policies" page if you extend this.
+Google Maps Platform compliance: the image bytes are never downloaded or re-hosted, and photo names/URLs are never persisted (no database, no landmark data, no localStorage). The one persisted Google value is the **place ID**, which Google's Place IDs page explicitly exempts from the caching restrictions ("You can therefore store place ID values for later"). Everything else is in-memory for the session (2 h cap) plus the 3 h CDN cache on the JSON. The attribution is displayed wherever the photo appears. Google's terms can change; re-read the Places "Policies" page if you extend this.
 
 Note: because the endpoint requires an `Authorization` header, the Vercel edge may not cache these responses at all; the cache header is harmless either way, and in-memory client dedupe plus the per-account limit are the real controls.
 
-## What it costs (Google Maps Platform list prices, checked 1 Oct 2026)
+## Place-ID cache
 
-Check the [pricing page](https://developers.google.com/maps/billing-and-pricing/pricing) before relying on these numbers.
+Firestore collection `place_ids/{region}__{landmarkId}`, read and written only by the Admin SDK in `api/place-photo.js` (needs `FIREBASE_SERVICE_ACCOUNT`). `firestore.rules` denies all client access (`allow read, write: if false`). It holds no user data, so account deletion is unaffected.
+
+Doc: `{ placeId, matchedName, lat, lng, verifiedAt (server time), source: 'text-search', status: 'ok' | 'no-match' }`. Nothing else is ever written: no photo bytes, photo names, photoUris or attributions (a test asserts the exact field list).
+
+The client sends `region` and `id` along with name/lat/lng. The server only trusts a stored doc if the request's name still matches `matchedName` and the coordinates are within 250 m of the stored ones (the query string is client-supplied). Requests without a safe region/id skip the cache and behave as before.
+
+Flow: `ok` doc, Place Details (`photos` mask) returns the photo; Details 404/400 (obsolete ID), the doc is deleted, one Text Search runs and the new ID is stored; no doc, Text Search, store the ID (or a `no-match` doc), then the photo; `no-match` doc younger than its retry window, answer `{url: null}` with no Google call. If Admin credentials are missing, Firestore errors, or it takes over 3 s, the route logs a `place-photo: ...` console line and does exactly what it did before the cache. A cache failure never fails a photo. Transient Place Details errors (5xx/429) answer 502 and keep the stored ID.
+
+Constants in `api/_lib/placeIdConstants.js`: `PLACE_ID_REFRESH_MS` = 365 days (Google recommends refreshing IDs older than 12 months; the free Place Details call re-verifies it and bumps `verifiedAt`), `PLACE_ID_NO_MATCH_RETRY_MS` = 30 days, `PLACE_ID_FIRESTORE_TIMEOUT_MS` = 3 s.
+
+## What it costs (Google Maps Platform list prices, checked 2 Oct 2026; Google's page says last updated 2026-09-28)
+
+Sources: [pricing list](https://developers.google.com/maps/billing-and-pricing/pricing), [Place Data Fields](https://developers.google.com/maps/documentation/places/web-service/data-fields), [Place IDs](https://developers.google.com/maps/documentation/places/web-service/place-id). Re-check before relying on them.
 
 | Call | SKU | Per 1,000 calls | Free per month |
 | --- | --- | --- | --- |
 | Text Search with `displayName`, `location`, `photos` | Text Search Pro | $32.00 | 5,000 |
+| Text Search, IDs only | Text Search Essentials (IDs Only) | free | unlimited |
+| Place Details, field mask `photos` only | Place Details Essentials (IDs Only) | free | unlimited |
+| Place Details, `displayName` | Place Details Pro | $17.00 | 5,000 |
 | Photo media request (`.../media`) | Place Details Photos | $7.00 | 1,000 |
 
-There is no cheaper Text Search tier that returns photos (IDs-only Text Search is $5 per 1,000 but has no photos). So one successful photo costs about $0.039; a lookup that finds no confident match costs $0.032. Seeding all 463 photo-less landmarks once is roughly $15-18 before the free tier, and less after it. Real spend depends on how many distinct photo-less landmarks users scroll past, because results are shared within a session and at the CDN but not saved between sessions.
+The key fact: in Google's field table the `photos` field is **Text Search Pro** when requested from Text Search, but **Place Details Essentials (IDs Only)**, which is unlimited and free, when requested from Place Details. Google's Place IDs page also says a stored ID can be refreshed "at no charge" with a Place Details request for the ID field only. So with a stored ID the only billed call is the photo media request.
+
+Per photo view (all prices are the first-tier list price, before free allowances):
+
+| | Before (no cache) | After, ID cached | After, first view of a landmark |
+| --- | --- | --- | --- |
+| Lookup | Text Search Pro $0.032 | Place Details (IDs Only) $0 | Text Search Pro $0.032, once |
+| Photo media | $0.007 | $0.007 | $0.007 |
+| Total | $0.039 | $0.007 | $0.039, once ever |
+
+So a repeat view costs about 18% of before, a saving of roughly 82% (the owner's "about a fifth" was right). It is not 35-40%: the photo reference does have to be fetched fresh each time, but that fetch (Place Details with `photos` only) is the free tier, not a billed Details call. The photo media request ($7 per 1,000, free allowance 1,000/month) stays the permanent per-view cost; only the 3 h edge cache and the client's in-session dedupe reduce it. A landmark Google cannot match used to cost $0.032 on every view; now it costs $0.032 once per 30 days.
+
+Seeding all 463 photo-less landmarks once is roughly $15 in Text Search Pro before the free 5,000/month, which covers it entirely.
+
+Unconfirmed: the SKU details page (`/billing-and-pricing/sku-details`) could not be machine-read, so the IDs Only classification of Place Details + `photos` rests on the field table and the Place IDs page above. Confirm with the first month's billing report (look for "Place Details Essentials (IDs Only)" on Place Details calls and no "Place Details Pro/Enterprise" lines). If Google bills Details with `photos` at a paid tier, each view would cost $0.017-0.020 + $0.007, about 40-50% cheaper than before rather than 82%.
 
 ## Capping spend
 
