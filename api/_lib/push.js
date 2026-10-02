@@ -34,7 +34,7 @@ export async function sendPushToUser(uid, { title, body, data = {} }) {
 
   let result;
   try {
-    result = await adminMessaging().sendEachForMulticast({
+    result = await (await adminMessaging()).sendEachForMulticast({
       tokens,
       notification: { title, body },
       data: Object.fromEntries(Object.entries(data).map(([k, v]) => [k, String(v)])),
