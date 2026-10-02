@@ -1,7 +1,7 @@
 import { isRateLimited } from './_lib/rateLimit.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { withCors } from './_lib/cors.js';
-import { timeoutSignal } from './_lib/upstream.js';
+import { timeoutSignal, isTimeoutError } from './_lib/upstream.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import {
@@ -166,6 +166,13 @@ function sameLandmark(doc, name, lat, lng) {
   return doc.status === 'no-match' || namesMatch(name, doc.matchedName);
 }
 
+// One short line per failed Google step, so a 502 can be diagnosed from
+// Vercel's Logs. Step + HTTP status (or error name) + the landmark's cache key
+// only: never the API key, the request headers or any response body.
+function logFailure(step, detail, key) {
+  console.warn(`place-photo: ${step} failed (${detail})${key ? ` for ${key}` : ''}`);
+}
+
 async function fetchPlaceDetailsPhotos(placeId, apiKey) {
   const r = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
     signal: timeoutSignal(),
@@ -173,7 +180,7 @@ async function fetchPlaceDetailsPhotos(placeId, apiKey) {
   });
   // 404 NOT_FOUND = obsolete ID; 400 = malformed/invalid ID.
   if (r.status === 404 || r.status === 400) return { ok: false, stale: true };
-  if (!r.ok) return { ok: false, stale: false };
+  if (!r.ok) return { ok: false, stale: false, status: r.status };
   const data = await r.json();
   return { ok: true, photo: data?.photos?.[0] || null };
 }
@@ -194,7 +201,7 @@ async function textSearchMatch(name, lat, lng, apiKey) {
       locationBias: { circle: { center: { latitude: lat, longitude: lng }, radius: SEARCH_RADIUS_M } },
     }),
   });
-  if (!search.ok) return { error: true };
+  if (!search.ok) return { error: true, status: search.status };
   const data = await search.json();
   const match = (data.places || []).find(
     (p) =>
@@ -242,6 +249,7 @@ async function handler(req, res) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   const cacheKey = placeIdKey(req.query?.region, req.query?.id);
   const fail = () => res.status(502).json({ error: 'Could not look up a photo.' });
+  let step = 'photo lookup'; // which Google call the catch below was in
   const noPhoto = () => {
     // A confident "no photo" is cacheable too -- saves paying again.
     res.setHeader('Cache-Control', EDGE_CACHE);
@@ -270,14 +278,17 @@ async function handler(req, res) {
         console.warn(`place-photo: stored place ID for ${cacheKey} is obsolete; re-searching once`);
         await deletePlaceId(cacheKey);
       } else {
+        logFailure('photo lookup', `Google status ${details.status}`, cacheKey);
         fail();
         return;
       }
     }
 
     if (!placeId) {
+      step = 'search';
       const found = await textSearchMatch(name, lat, lng, apiKey);
       if (found.error) {
+        logFailure('search', `Google status ${found.status}`, cacheKey);
         fail();
         return;
       }
@@ -297,16 +308,19 @@ async function handler(req, res) {
       noPhoto();
       return;
     }
+    step = 'image fetch';
     const media = await fetch(`https://places.googleapis.com/v1/${photo.name}/media?maxWidthPx=800&skipHttpRedirect=true`, {
       signal: timeoutSignal(),
       headers: { 'X-Goog-Api-Key': apiKey },
     });
     if (!media.ok) {
+      logFailure('image fetch', `Google status ${media.status}`, cacheKey);
       fail();
       return;
     }
     const url = safeUri((await media.json())?.photoUri);
     if (!url) {
+      logFailure('image fetch', 'no https photoUri in the reply', cacheKey);
       fail();
       return;
     }
@@ -316,7 +330,9 @@ async function handler(req, res) {
 
     res.setHeader('Cache-Control', EDGE_CACHE);
     res.status(200).json({ url, attributions });
-  } catch {
+  } catch (e) {
+    if (isTimeoutError(e)) logFailure('timeout', `during ${step}`, cacheKey);
+    else logFailure(step, `error ${e?.name || 'Error'}`, cacheKey);
     fail();
   }
 }
