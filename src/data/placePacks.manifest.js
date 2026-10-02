@@ -3,4 +3,11 @@
 // can be cached forever.
 export const PLACE_PACK_ID_PREFIX = 'osm-';
 
-export const PLACE_PACKS = [];
+export const PLACE_PACKS = [
+  {
+    "region": "miami",
+    "category": "airports",
+    "file": "places/miami/airports.6e677be541.json",
+    "count": 2
+  }
+];

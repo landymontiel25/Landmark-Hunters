@@ -12,7 +12,8 @@ const wikidataFacts = fs.existsSync(`${DIR}/wikidata-facts.json`) ? JSON.parse(f
 // Only the hand-curated catalog: places already imported must not count as
 // duplicates of themselves.
 const catalog = ALL_LANDMARKS.filter((l) => l.source !== 'osm');
-const { places, dropped } = importPlaces(elements, { catalog, wikidataFacts });
+const overrides = JSON.parse(fs.readFileSync('scripts/osm-import/overrides.json', 'utf8'));
+const { places, dropped } = importPlaces(elements, { catalog, wikidataFacts, overrides });
 fs.writeFileSync(`${DIR}/staged.json`, JSON.stringify(places, null, 1));
 fs.writeFileSync(`${DIR}/dropped.json`, JSON.stringify({ osmBase: osm3s?.timestamp_osm_base, ...dropped }, null, 1));
 
