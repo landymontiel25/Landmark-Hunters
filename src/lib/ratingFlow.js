@@ -1,4 +1,4 @@
-import { INTERESTS } from '../data/regions';
+import { INTERESTS } from '../data/regions.js';
 
 // Same cap firestore.rules enforces on reviews.comment.
 export const COMMENT_MAX = 500;
