@@ -179,6 +179,19 @@ describe('catalog text and image hygiene', () => {
   });
 });
 
+describe('image credits', () => {
+  it('has a credit (author + license) for every stored Commons photo that has one, and none for photos not in use', async () => {
+    const { IMAGE_CREDITS } = await import('./imageCredits.js');
+    const used = new Set(ALL_LANDMARKS.flatMap((l) => l.images || []));
+    const unused = Object.keys(IMAGE_CREDITS).filter((u) => !used.has(u));
+    expect(unused).toEqual([]);
+    for (const c of Object.values(IMAGE_CREDITS)) {
+      expect(c.license).toBeTruthy();
+      if (!/^(public domain|cc0)/i.test(c.license)) expect(c.author).toBeTruthy();
+    }
+  });
+});
+
 describe('canonicalLandmarkId (renamed San Francisco ids)', () => {
   it('maps pre-rename San Francisco records to the new ids and leaves everything else alone', () => {
     expect(canonicalLandmarkId('washington-square-park', 'san-francisco')).toBe('washington-square-park-sf');

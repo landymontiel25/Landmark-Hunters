@@ -284,6 +284,7 @@ export const PHILLY_LANDMARKS = [
   },
   {
     id: 'the-willows-park-and-mansion',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/The%20Willows%20Radnor.jpg?width=1200'],
     popularity: 1, // no reliable match: only found the unrelated novel "The Wind in the Willows"
     name: 'The Willows Park and Mansion',
     region: 'philly',
@@ -598,6 +599,7 @@ export const PHILLY_LANDMARKS = [
   },
   {
     id: 'muhlenbergs-brigade-huts',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/General%20Muhlenberg%27s%20Reconstructed%20Brigade%20Huts%20at%20the%20Valley%20Forge%20National%20Historical%20Park.jpg?width=1200'],
     popularity: 1, // 0 avg monthly Wikipedia views (raw signal, log-scaled 1-10)
     name: "Muhlenberg's Brigade Huts",
     region: 'philly',

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { paletteFor, iconFor } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
+import { IMAGE_CREDITS } from '../data/imageCredits';
 
 // swipeable: renders a horizontal scroll-snap gallery with dot indicators
 // when the landmark has more than one photo. Non-swipeable contexts (list
@@ -124,7 +125,38 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   return (
     <div className={`postcard ${rotate === 'r' ? 'rot-r' : ''}`}>
       {body}
+      {images && size !== 'sm' && IMAGE_CREDITS[images[shownIdx]] && <CommonsCredit credit={IMAGE_CREDITS[images[shownIdx]]} />}
       {!images && place.photo && <PlacePhotoCredit photo={place.photo} className="place-photo-credit-caption" />}
     </div>
+  );
+}
+
+// "Photo: <author>, <license>" under a stored Wikimedia Commons photo; the
+// author links to the file page and the license to its terms.
+export function CommonsCredit({ credit }) {
+  const stop = (e) => e.stopPropagation();
+  return (
+    <span className="place-photo-credit place-photo-credit-caption">
+      Photo:{' '}
+      {credit.pageUrl ? (
+        <a href={credit.pageUrl} target="_blank" rel="noopener noreferrer" onClick={stop}>
+          {credit.author || 'Wikimedia Commons'}
+        </a>
+      ) : (
+        credit.author || 'Wikimedia Commons'
+      )}
+      {credit.license && (
+        <>
+          {', '}
+          {credit.licenseUrl ? (
+            <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer" onClick={stop}>
+              {credit.license}
+            </a>
+          ) : (
+            credit.license
+          )}
+        </>
+      )}
+    </span>
   );
 }

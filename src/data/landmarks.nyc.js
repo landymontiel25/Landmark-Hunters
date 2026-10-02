@@ -2226,7 +2226,7 @@ export const NYC_LANDMARKS = [
     cost: "$$$",
     neighborhood: "Flushing Meadows",
     firstTimerPriority: "Medium",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Citi%20Field%20from%20the%20south%202025.jpg?width=1200'],
     name: "Citi Field",
     region: 'nyc',
     lat: 40.757031,
