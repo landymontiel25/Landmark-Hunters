@@ -40,4 +40,22 @@ describe('predictLevel', () => {
     const p = { tagScores: { villanova: { food: 30 } }, tagScoresAt: {}, tagCounts: { villanova: { food: 1 }, miami: { food: 5 } } };
     expect(at(['food'], p)).toBe('positive');
   });
+
+  it('a city the user is new to still gets a real guess from what they love elsewhere', () => {
+    // All ratings are in villanova; Cape Town has none. Food is loved, history is not.
+    const guess = (tags) => predictLevel({ profile: base, region: 'cape-town', tags, nowMs: NOW });
+    expect(guess(['food'])).toBe('positive');
+    expect(guess(['history'])).toBe('negative');
+  });
+
+  it('the loan fades as the user rates in the new city (local taste takes over)', () => {
+    // 15 local Cape Town ratings that say food is bad: the loan from villanova is gone.
+    const mixed = {
+      ...base,
+      tagScores: { ...base.tagScores, 'cape-town': { food: -50 } },
+      tagScoresAt: { ...base.tagScoresAt, 'cape-town': {} },
+      tagCounts: { ...base.tagCounts, 'cape-town': { food: 15 } },
+    };
+    expect(predictLevel({ profile: mixed, region: 'cape-town', tags: ['food'], nowMs: NOW })).toBe('negative');
+  });
 });

@@ -6,13 +6,15 @@ import {
   PREDICTION_MIN_TOTAL_RATINGS,
   PREDICTION_NEGATIVE_CUTOFF,
   PREDICTION_POSITIVE_CUTOFF,
+  PREDICTION_WARM_START_WEIGHT,
 } from './maprConstants.js';
 
 // The hidden prediction saved with every shown pick. Pure; never rendered.
 //
 // Rule:
-//  1. scores = the user's decayed per-tag scores for the place's region
-//     (effectiveTagScores, same view Mapr ranks with).
+//  1. scores = the user's decayed per-tag scores for the place's region,
+//     topped up with their tastes from other cities while they are new to
+//     this one (effectiveTagScores with PREDICTION_WARM_START_WEIGHT).
 //  2. Return null if the user has fewer than PREDICTION_MIN_TOTAL_RATINGS
 //     ratings in all, or the place has no tags.
 //  3. Evidence tags = the place's tags with at least PREDICTION_MIN_TAG_RATINGS
@@ -30,7 +32,7 @@ export function predictLevel({ profile, region, tags, nowMs = Date.now() }) {
   const placeTags = [...new Set(tags || [])];
   if (!placeTags.length || !region) return null;
 
-  const scores = effectiveTagScores(profile, region, nowMs);
+  const scores = effectiveTagScores(profile, region, nowMs, { warmStartWeight: PREDICTION_WARM_START_WEIGHT });
   const evidence = placeTags.filter((t) => (counts[t] || 0) >= PREDICTION_MIN_TAG_RATINGS);
   if (evidence.length < Math.max(1, PREDICTION_MIN_EVIDENCE_TAGS)) return null;
 

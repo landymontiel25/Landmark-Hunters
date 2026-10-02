@@ -24,6 +24,12 @@ export const PREDICTION_MIN_TOTAL_RATINGS = 5;
 // tiny does not have every tag blown up to look extreme.
 export const PREDICTION_MIN_SCALE = 10;
 // Normalized average (-1..1) at or above this predicts 'positive'.
+// How much of the user's tastes from OTHER cities the hidden guess borrows
+// for a city they are new to (fading to 0 as local ratings build up, same
+// fade as the ranking's warm start). Ranking lends 0.4; a guess is about the
+// level of liking, so it leans on what they love elsewhere (views, history,
+// food...) much more, or every guess in a new city would come out "neutral".
+export const PREDICTION_WARM_START_WEIGHT = 1;
 export const PREDICTION_POSITIVE_CUTOFF = 0.25;
 // At or below this predicts 'negative'. Between the two is 'neutral'.
 export const PREDICTION_NEGATIVE_CUTOFF = -0.25;
