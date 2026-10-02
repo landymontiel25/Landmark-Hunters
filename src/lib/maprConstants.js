@@ -137,6 +137,10 @@ export const TASTE_BIG_MISS_CREDIT = 0;
 // go" tap then a "Didn't like it" rating) counts as half a miss: the
 // prediction earns this much, which is 1 minus the recorded miss weight.
 export const TASTE_HALF_MISS_CREDIT = 1 - MISS_WEIGHTS['positive>negative'];
+// Estimate from past ratings (src/lib/tasteEstimate.js), shown only until the
+// live score has TASTE_MIN_GUESSES guesses: replay starts once the user has
+// this many earlier ratings (same floor predictLevel itself needs).
+export const TASTE_ESTIMATE_MIN_HISTORY = PREDICTION_MIN_TOTAL_RATINGS;
 // Score history (users/{uid}/taste_history): a new snapshot is written after
 // an answer at most once per this long, or sooner once this many more ratings
 // sit behind the score than at the last snapshot.
