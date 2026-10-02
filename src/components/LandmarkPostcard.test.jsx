@@ -11,7 +11,7 @@ vi.mock('../lib/placePhoto', () => ({
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
-import LandmarkPostcard from './LandmarkPostcard';
+import LandmarkPostcard, { CommonsCredit } from './LandmarkPostcard';
 
 let container;
 afterEach(() => document.body.removeChild(container));
@@ -44,5 +44,15 @@ describe('LandmarkPostcard', () => {
     await act(async () => {});
     expect(loadPlacePhoto).toHaveBeenCalled();
     expect(container.querySelector('img').getAttribute('src')).toBe('https://lh3.googleusercontent.com/p');
+  });
+
+  it('shows the author and license credit for a Commons photo, linked to its page and terms', async () => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const credit = { author: 'Jane Doe', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', pageUrl: 'https://commons.wikimedia.org/wiki/File:X.jpg' };
+    await act(async () => createRoot(container).render(<CommonsCredit credit={credit} />));
+    const links = [...container.querySelectorAll('a')];
+    expect(container.textContent).toBe('Photo: Jane Doe, CC BY-SA 4.0');
+    expect(links.map((a) => a.getAttribute('href'))).toEqual([credit.pageUrl, credit.licenseUrl]);
   });
 });
