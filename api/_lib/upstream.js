@@ -16,10 +16,21 @@ export function isTimeoutError(err) {
   return n === 'TimeoutError' || n === 'AbortError' || n === 'APIConnectionTimeoutError' || /timed? ?out/i.test(String(err?.message || ''));
 }
 
-// { status, error } for a failed Anthropic call: busy -> 429, hung -> 504,
-// anything else -> 500, always with a plain-language message.
+// { status, error } for a failed Anthropic call: busy (429, or Anthropic's 529
+// "overloaded") -> 429, hung -> 504, anything else -> 500, always with a
+// plain-language message. The real cause (status, error type, message) goes
+// to the server log, so a generic "something went wrong" on screen can still
+// be diagnosed from Vercel's Logs (never includes the request or any key).
 export function aiFailure(err, { busy, failed }) {
-  if (err?.status === 429) return { status: 429, error: busy };
+  console.error(
+    '[ai] upstream failure:',
+    JSON.stringify({
+      status: err?.status ?? null,
+      type: err?.error?.error?.type || err?.error?.type || err?.name || null,
+      message: String(err?.message || '').slice(0, 300),
+    })
+  );
+  if (err?.status === 429 || err?.status === 529) return { status: 429, error: busy };
   if (isTimeoutError(err)) return { status: 504, error: 'That took too long. Please try again.' };
   return { status: 500, error: failed };
 }

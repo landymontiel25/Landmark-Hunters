@@ -5,6 +5,8 @@ describe('aiFailure', () => {
   const msgs = { busy: 'busy', failed: 'failed' };
   it('maps rate limits, timeouts and other errors to distinct JSON messages', () => {
     expect(aiFailure({ status: 429 }, msgs)).toEqual({ status: 429, error: 'busy' });
+    // Anthropic's 529 "overloaded" is a busy signal too, not a server bug.
+    expect(aiFailure({ status: 529 }, msgs)).toEqual({ status: 429, error: 'busy' });
     expect(aiFailure({ name: 'APIConnectionTimeoutError' }, msgs).status).toBe(504);
     expect(aiFailure(Object.assign(new Error('x'), { name: 'TimeoutError' }), msgs).status).toBe(504);
     expect(aiFailure(new Error('boom'), msgs)).toEqual({ status: 500, error: 'failed' });
