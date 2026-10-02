@@ -1146,7 +1146,7 @@ export const EL_ESCORIAL_LANDMARKS = [
     firstTimerPriority: "Low",
     neighborhood: "La Herrería",
     cost: "$$$",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/El_Escorial%2C_desde_Golf_de_la_Herrer%C3%ADa.jpg?width=1200'],
     name: "Real Club de Golf La Herrería",
     region: 'el-escorial',
     lat: 40.5808632,

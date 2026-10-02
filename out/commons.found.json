@@ -1,0 +1,2074 @@
+[
+ {
+  "region": "miami",
+  "id": "miami-international-autodrome",
+  "name": "Miami International Autodrome",
+  "status": "found",
+  "fileTitle": "File:Miami International Autodrome.png",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Miami_International_Autodrome.png?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Miami_International_Autodrome.png",
+  "author": "Anthony Alessio Tralongo",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "miami",
+  "id": "time-out-market-miami",
+  "name": "Time Out Market Miami",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "brickell-bay",
+  "name": "Brickell Bay",
+  "status": "found",
+  "fileTitle": "File:Brickell Bay Drive extra high tide 2.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Brickell_Bay_Drive_extra_high_tide_2.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Brickell_Bay_Drive_extra_high_tide_2.jpg",
+  "author": "B137",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "miami",
+  "id": "regatta-park",
+  "name": "Regatta Park",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "cafe-la-trova",
+  "name": "Café La Trova",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "kyu-miami",
+  "name": "KYU",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "garcias-seafood",
+  "name": "García's Seafood Grille & Fish Market",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "everglades-airboat-tour",
+  "name": "Everglades Airboat Tour",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "biscayne-bay-boat-cruise",
+  "name": "Biscayne Bay Boat Cruise",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "hillstone-restaurant",
+  "name": "Hillstone Restaurant",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "doral-glades-park",
+  "name": "Doral Glades Park",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "tropical-park",
+  "name": "Tropical Park",
+  "status": "found",
+  "fileTitle": "File:Tropical Park Stadium.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tropical_Park_Stadium.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Tropical_Park_Stadium.jpg",
+  "author": "Ven-Lib",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "miami",
+  "id": "magic-city-casino",
+  "name": "Magic City Casino",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "bowlero-doral",
+  "name": "Bowlero Doral",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "kings-dining-entertainment-doral",
+  "name": "Kings Dining & Entertainment (Doral)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "miami-springs-golf-country-club",
+  "name": "Miami Springs Golf & Country Club",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "divieto-ristorante-doral",
+  "name": "Divieto Ristorante (Doral)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "pisco-y-nazca-doral",
+  "name": "Pisco y Nazca Ceviche Gastrobar (Doral)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "islas-canarias-restaurant",
+  "name": "Islas Canarias Restaurant",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "original-rio-cristal",
+  "name": "Original Rio Cristal",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "la-sin-rival-bakery",
+  "name": "La Sin Rival Bakery",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "bay-of-pigs-museum",
+  "name": "Bay of Pigs Museum & Library (Brigade 2506)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "hoy-como-ayer",
+  "name": "Hoy Como Ayer",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "churchills-pub",
+  "name": "Churchill's Pub",
+  "status": "found",
+  "fileTitle": "File:Churchill's Pub Miami (16638410195).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Churchill's_Pub_Miami_(16638410195).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Churchill%27s_Pub_Miami_(16638410195).jpg",
+  "author": "Phillip Pessar from Miami, USA",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "miami",
+  "id": "lagniappe-miami",
+  "name": "Lagniappe",
+  "status": "found",
+  "fileTitle": "File:Friday Harbor, WA - yacht Lagniappe 02 (20019785634).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Friday_Harbor%2C_WA_-_yacht_Lagniappe_02_(20019785634).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Friday_Harbor,_WA_-_yacht_Lagniappe_02_(20019785634).jpg",
+  "author": "Joe Mabel (on Flickr as Joe Mabel from Seattle, US)",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "miami",
+  "id": "bougainvilleas-old-florida-tavern",
+  "name": "Bougainvillea's Old Florida Tavern",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "sanguich-de-miami",
+  "name": "Sanguich de Miami",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "la-camaronera",
+  "name": "La Camaronera Seafood Joint & Fish Market",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "azucar-ice-cream-little-havana",
+  "name": "Azucar Ice Cream Company",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "museum-of-graffiti",
+  "name": "Museum of Graffiti",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "kendall-indian-hammocks-park",
+  "name": "Kendall Indian Hammocks Park",
+  "status": "found",
+  "fileTitle": "File:Megascops asio Kendall Indian Hammocks Park.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Megascops_asio_Kendall_Indian_Hammocks_Park.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Megascops_asio_Kendall_Indian_Hammocks_Park.jpg",
+  "author": "Brandon Trentler from USA",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "miami",
+  "id": "ad-barnes-park",
+  "name": "A.D. Barnes Park",
+  "status": "found",
+  "fileTitle": "File:BLACK WITCH MOTH (Ascalapha odorata) (5-13-14) a d barnes park, miami, miami-dade co, fl (14177903646).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/BLACK_WITCH_MOTH_(Ascalapha_odorata)_(5-13-14)_a_d_barnes_park%2C_miami%2C_miami-dade_co%2C_fl_(14177903646).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:BLACK_WITCH_MOTH_(Ascalapha_odorata)_(5-13-14)_a_d_barnes_park,_miami,_miami-dade_co,_fl_(14177903646).jpg",
+  "author": "ALAN SCHMIERER",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "miami",
+  "id": "grazianos-bird-road",
+  "name": "Graziano's Restaurant (Bird Road)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "zak-the-baker",
+  "name": "Zak the Baker",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "panther-coffee-wynwood",
+  "name": "Panther Coffee (Wynwood)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "miami",
+  "id": "greenstreet-cafe-coconut-grove",
+  "name": "GreenStreet Cafe",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "key-biscayne",
+  "id": "hobie-island-beach",
+  "name": "Hobie Island Beach (Windsurfer Beach)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "key-biscayne",
+  "id": "key-biscayne-community-center",
+  "name": "Key Biscayne Community Center",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "one-alhambra-plaza",
+  "name": "1 Alhambra Plaza",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "hyatt-regency-coral-gables",
+  "name": "Hyatt Regency Coral Gables",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "pasion-del-cielo-coral-gables",
+  "name": "Pasión del Cielo Coffee",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "grazianos-market-coral-gables",
+  "name": "Graziano's Market",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "granada-golf-course",
+  "name": "Granada Golf Course",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "biltmore-golf-course",
+  "name": "Biltmore Golf Course",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "coral-gables-art-cinema",
+  "name": "Coral Gables Art Cinema",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "titanic-brewing-company",
+  "name": "Titanic Brewing Company",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "caffe-abbracci",
+  "name": "Caffe Abbracci",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "coral-gables",
+  "id": "bulla-gastrobar-coral-gables",
+  "name": "Bulla Gastrobar (Coral Gables)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "anthropic-office",
+  "name": "Anthropic Office",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "odeo-twitter-birthplace",
+  "name": "Odeo/Twitter Birthplace",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "blue-bottle-coffee-original-kiosk",
+  "name": "Blue Bottle Coffee Original Kiosk",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "doordash-hq",
+  "name": "DoorDash HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "lyft-hq",
+  "name": "Lyft HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "instacart-hq",
+  "name": "Instacart HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "the-battery-sf",
+  "name": "The Battery",
+  "status": "found",
+  "fileTitle": "File:A Split-Field Composition Study in the Battery.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/A_Split-Field_Composition_Study_in_the_Battery.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:A_Split-Field_Composition_Study_in_the_Battery.jpg",
+  "author": "SavidgeMichael",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "san-francisco",
+  "id": "waymo-depot",
+  "name": "Waymo Depot",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "dropbox-hq",
+  "name": "Dropbox HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "databricks-hq",
+  "name": "Databricks HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "slack-original-hq",
+  "name": "Slack Original HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "block-square-hq",
+  "name": "Block (Square) HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "craigslist-origin-apartment",
+  "name": "Craigslist Origin Apartment",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "world-flagship-store",
+  "name": "World Flagship Store",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "the-institute",
+  "name": "The Institute",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "frontier-tower",
+  "name": "Frontier Tower",
+  "status": "found",
+  "fileTitle": "File:Malam jabba frontier tower hotel.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Malam_jabba_frontier_tower_hotel.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Malam_jabba_frontier_tower_hotel.jpg",
+  "author": "Cannis lupus chanco",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "san-francisco",
+  "id": "tiat",
+  "name": "Tiat",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "caffe-centro",
+  "name": "Caffe Centro",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "san-francisco",
+  "id": "corgi-cafe",
+  "name": "Corgi Cafe",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "facebook-first-office-plaque",
+  "name": "Facebook First Office Plaque",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "a16z-menlo-park-headquarters",
+  "name": "a16z Menlo Park Headquarters",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "intel-museum",
+  "name": "Intel Museum",
+  "status": "found",
+  "fileTitle": "File:Intel Museum 2019-01-30 071955.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Intel_Museum_2019-01-30_071955.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Intel_Museum_2019-01-30_071955.jpg",
+  "author": "David290",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "palantir-original-palo-alto-office",
+  "name": "Palantir Original Palo Alto Office",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "netscape-communications-original-hq",
+  "name": "Netscape Communications Original HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "youtube-garage",
+  "name": "YouTube Garage",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "cisco-original-site",
+  "name": "Cisco Original Site",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "electronic-arts-first-base",
+  "name": "Electronic Arts First Base",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "x-com-early-address",
+  "name": "X.com Early Address",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "peninsula-creamery",
+  "name": "Peninsula Creamery",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "rosewood-sand-hill-madera",
+  "name": "Rosewood Sand Hill / Madera",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "coupa-cafe",
+  "name": "Coupa Cafe",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "evvia-estiatorio",
+  "name": "Evvia Estiatorio",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "silicon-graphics-sgi-original-campus",
+  "name": "Silicon Graphics (SGI) Original Campus",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "nikola-tesla-statue",
+  "name": "Nikola Tesla Statue",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "nest-labs-first-office",
+  "name": "Nest Labs First Office",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "gopro-origin-cottage",
+  "name": "GoPro Origin Cottage",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "dolby-labs-early-bay-area-lab",
+  "name": "Dolby Labs Early Bay Area Lab",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "dutch-goose",
+  "name": "Dutch Goose",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "st-michaels-alley",
+  "name": "St Michael's Alley",
+  "status": "found",
+  "fileTitle": "File:St Michael's Alley, Bell Inn Yard, George Yard.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/St_Michael's_Alley%2C_Bell_Inn_Yard%2C_George_Yard.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:St_Michael%27s_Alley,_Bell_Inn_Yard,_George_Yard.jpg",
+  "author": "It's No Game",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "il-fornaio-palo-alto",
+  "name": "Il Fornaio Palo Alto",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "red-rock-coffee",
+  "name": "Red Rock Coffee",
+  "status": "found",
+  "fileTitle": "File:Corner of Castro and Villa in Mountain View.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Corner_of_Castro_and_Villa_in_Mountain_View.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Corner_of_Castro_and_Villa_in_Mountain_View.jpg",
+  "author": "Runner1928",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "the-village-pub",
+  "name": "The Village Pub",
+  "status": "found",
+  "fileTitle": "File:Evening sun on the village pub - geograph.org.uk - 3910648.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Evening_sun_on_the_village_pub_-_geograph.org.uk_-_3910648.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Evening_sun_on_the_village_pub_-_geograph.org.uk_-_3910648.jpg",
+  "author": "Martin Dawes",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "bird-dog",
+  "name": "Bird Dog",
+  "status": "found",
+  "fileTitle": "File:O-1 Bird Dog War Memorial of Korea-3.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/O-1_Bird_Dog_War_Memorial_of_Korea-3.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:O-1_Bird_Dog_War_Memorial_of_Korea-3.jpg",
+  "author": "Balon Greyjoy",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "applied-materials-hq",
+  "name": "Applied Materials HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "a16z-the-quad-expansion",
+  "name": "a16z The Quad Expansion",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "loudcloud-opsware-hq",
+  "name": "Loudcloud/Opsware HQ",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "emerson-channing-plaque",
+  "name": "Emerson/Channing Plaque",
+  "status": "found",
+  "fileTitle": "File:Electronics Research Laboratory plaque.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Electronics_Research_Laboratory_plaque.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Electronics_Research_Laboratory_plaque.jpg",
+  "author": "User:Ethics2med",
+  "license": "Public domain",
+  "licenseUrl": "",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "varian-associates",
+  "name": "Varian Associates",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "ibm-building-025-memorial",
+  "name": "IBM Building 025 Memorial",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "ideo-david-kelley-design-origin",
+  "name": "IDEO David Kelley Design Origin",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "zilog-federico-faggin-origin",
+  "name": "Zilog Federico Faggin Origin",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "logitech-early-us-base",
+  "name": "Logitech Early US Base",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "sand-hill-sundeck",
+  "name": "Sand Hill Sundeck",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "center-of-santa-clara-valley-plaque",
+  "name": "Center of Santa Clara Valley Plaque",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "cromemco-origin",
+  "name": "Cromemco Origin",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "vm-labs-origin",
+  "name": "VM Labs Origin",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "silicon-valley",
+  "id": "original-joes-san-jose",
+  "name": "Original Joe's San Jose",
+  "status": "found",
+  "fileTitle": "File:Netroots Nation 2013 - Rogers, Varnum, and Wahls.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Netroots_Nation_2013_-_Rogers%2C_Varnum%2C_and_Wahls.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Netroots_Nation_2013_-_Rogers,_Varnum,_and_Wahls.jpg",
+  "author": "Gregory Varnum",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "nyc",
+  "id": "levain-bakery-upper-west-side",
+  "name": "Levain Bakery",
+  "status": "found",
+  "fileTitle": "File:Levain Bakery - The Best Cookies in the World - Chocolate Chocolate Chip, Oatmeal Raisin, Chocolate Chip Walnut.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Levain_Bakery_-_The_Best_Cookies_in_the_World_-_Chocolate_Chocolate_Chip%2C_Oatmeal_Raisin%2C_Chocolate_Chip_Walnut.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Levain_Bakery_-_The_Best_Cookies_in_the_World_-_Chocolate_Chocolate_Chip,_Oatmeal_Raisin,_Chocolate_Chip_Walnut.jpg",
+  "author": "Biskuit",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "cape-town",
+  "id": "holocaust-centre",
+  "name": "Cape Town Holocaust & Genocide Centre",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "cape-town",
+  "id": "la-colombe",
+  "name": "La Colombe",
+  "status": "found",
+  "fileTitle": "File:La Colombe-FR-41-panneau d'agglomération-2.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/La_Colombe-FR-41-panneau_d'agglom%C3%A9ration-2.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:La_Colombe-FR-41-panneau_d%27agglom%C3%A9ration-2.jpg",
+  "author": "François GOGLINS",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "madrid",
+  "id": "madring",
+  "name": "Madring (Madrid Street Circuit)",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "madrid",
+  "id": "casa-julio-croquetas",
+  "name": "Casa Julio",
+  "status": "found",
+  "fileTitle": "File:Casa Júlio Resende - Gondomar - 3.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Casa_J%C3%BAlio_Resende_-_Gondomar_-_3.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Casa_J%C3%BAlio_Resende_-_Gondomar_-_3.jpg",
+  "author": "Reis Quarteu",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "madrid",
+  "id": "los-galayos",
+  "name": "Los Galayos",
+  "status": "found",
+  "fileTitle": "File:Senderistas en Los Galayos, Sierra de Gredos.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Senderistas_en_Los_Galayos%2C_Sierra_de_Gredos.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Senderistas_en_Los_Galayos,_Sierra_de_Gredos.jpg",
+  "author": "Pablosievert",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "madrid",
+  "id": "mercado-de-san-ildefonso",
+  "name": "Mercado de San Ildefonso",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "madrid",
+  "id": "cafe-berlin-madrid",
+  "name": "Café Berlín",
+  "status": "found",
+  "fileTitle": "File:Tilsit Café Berlin.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tilsit_Caf%C3%A9_Berlin.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Tilsit_Caf%C3%A9_Berlin.jpg",
+  "author": "Fridolin freudenfett",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "madrid",
+  "id": "sala-el-sol",
+  "name": "Sala El Sol",
+  "status": "found",
+  "fileTitle": "File:Russian Red @ Sala El Sol (2425268576).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Russian_Red_%40_Sala_El_Sol_(2425268576).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Russian_Red_@_Sala_El_Sol_(2425268576).jpg",
+  "author": "David",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "madrid",
+  "id": "bar-cock",
+  "name": "Bar Cock",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "madrid",
+  "id": "museo-chicote",
+  "name": "Museo Chicote",
+  "status": "found",
+  "fileTitle": "File:Museo Chicote - Gran Vía.JPG",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Museo_Chicote_-_Gran_V%C3%ADa.JPG?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Museo_Chicote_-_Gran_V%C3%ADa.JPG",
+  "author": "Cvbr",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "madrid",
+  "id": "cardamomo-tablao",
+  "name": "Cardamomo Tablao Flamenco",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "madrid",
+  "id": "zoo-aquarium-de-madrid",
+  "name": "Zoo Aquarium de Madrid",
+  "status": "found",
+  "fileTitle": "File:Zoo Aquarium de Madrid (1) (16790184666).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Zoo_Aquarium_de_Madrid_(1)_(16790184666).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Zoo_Aquarium_de_Madrid_(1)_(16790184666).jpg",
+  "author": "Daniel from Glasgow, United Kingdom",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "el-escorial",
+  "id": "arboreto-luis-ceballos",
+  "name": "Arboreto Luis Ceballos",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "el-escorial",
+  "id": "real-club-de-golf-la-herreria",
+  "name": "Real Club de Golf La Herrería",
+  "status": "found",
+  "fileTitle": "File:El Escorial, desde Golf de la Herrería.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/El_Escorial%2C_desde_Golf_de_la_Herrer%C3%ADa.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:El_Escorial,_desde_Golf_de_la_Herrer%C3%ADa.jpg",
+  "author": "IGOLEA",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "el-escorial",
+  "id": "vesta-taberna",
+  "name": "Vesta Taberna",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "casa-jose-restaurant",
+  "name": "Casa José",
+  "status": "found",
+  "fileTitle": "File:Casa José Boiteux, um legado cultura para posteridade.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Casa_Jos%C3%A9_Boiteux%2C_um_legado_cultura_para_posteridade.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Casa_Jos%C3%A9_Boiteux,_um_legado_cultura_para_posteridade.jpg",
+  "author": "Luluhgomes",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "aranjuez",
+  "id": "asador-el-corral-de-la-abuela",
+  "name": "Asador El Corral de la Abuela",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "restaurante-careme-aranjuez",
+  "name": "Restaurante Carême",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "restaurante-la-almazara",
+  "name": "La Almazara",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "restaurante-rusinol-aranjuez",
+  "name": "Restaurante Rusiñol",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "tenta-brewing-aranjuez",
+  "name": "Tenta Brewing",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "bierlab-aranjuez",
+  "name": "BierLab",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "aranjuez",
+  "id": "club-piraguismo-aranjuez",
+  "name": "Club Escuela de Piragüismo de Aranjuez",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "spontini-pizzeria",
+  "name": "Spontini",
+  "status": "found",
+  "fileTitle": "File:Via Gaspare Spontini in Milan.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Via_Gaspare_Spontini_in_Milan.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Via_Gaspare_Spontini_in_Milan.jpg",
+  "author": "Kaitu",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "milan",
+  "id": "pasticceria-giovanni-galli",
+  "name": "Giovanni Galli",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "latteria-san-marco",
+  "name": "Latteria San Marco",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "mercato-centrale-milano",
+  "name": "Mercato Centrale Milano",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "bistro-aimo-e-nadia",
+  "name": "Bistro Aimo e Nadia",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "ratana-milano",
+  "name": "Ratanà",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "blue-note-milano",
+  "name": "Blue Note Milano",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "magazzini-generali-milano",
+  "name": "Magazzini Generali",
+  "status": "found",
+  "fileTitle": "File:Magazzini Generali Chiasso 01 11.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Magazzini_Generali_Chiasso_01_11.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Magazzini_Generali_Chiasso_01_11.jpg",
+  "author": "Хрюша",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "milan",
+  "id": "alcatraz-milano",
+  "name": "Alcatraz",
+  "status": "found",
+  "fileTitle": "File:Haken - Live at Alcatraz, Milan (March 5, 2023) (706).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Haken_-_Live_at_Alcatraz%2C_Milan_(March_5%2C_2023)_(706).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Haken_-_Live_at_Alcatraz,_Milan_(March_5,_2023)_(706).jpg",
+  "author": "Luca Dell'Orto",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "milan",
+  "id": "mag-cafe-navigli",
+  "name": "Mag Cafè",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "milan",
+  "id": "teatro-franco-parenti",
+  "name": "Teatro Franco Parenti",
+  "status": "found",
+  "fileTitle": "File:Michela Giraud.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Michela_Giraud.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Michela_Giraud.jpg",
+  "author": "Twin2",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "milan",
+  "id": "civico-museo-archeologico-milano",
+  "name": "Civico Museo Archeologico",
+  "status": "found",
+  "fileTitle": "File:Civico museo archeologico di Milano a04.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Civico_museo_archeologico_di_Milano_a04.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Civico_museo_archeologico_di_Milano_a04.jpg",
+  "author": "Alberto Panzani",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "lake-como",
+  "id": "hotel-ristorante-la-darsena",
+  "name": "Hotel Ristorante La Darsena",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "lake-como",
+  "id": "osteria-del-gallo-como",
+  "name": "Osteria del Gallo",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "lake-como",
+  "id": "ristorante-sociale-como",
+  "name": "Ristorante Sociale",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "lake-como",
+  "id": "teatro-sociale-di-como",
+  "name": "Teatro Sociale di Como",
+  "status": "found",
+  "fileTitle": "File:Teatro Sociale di Como.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Teatro_Sociale_di_Como.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Teatro_Sociale_di_Como.jpg",
+  "author": "Mirna.ortizl",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "lake-como",
+  "id": "museo-della-seta-como",
+  "name": "Museo della Seta",
+  "status": "found",
+  "fileTitle": "File:Como - Museo della seta - 2026-09-17 16-43-37 003.jpeg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Como_-_Museo_della_seta_-_2026-09-17_16-43-37_003.jpeg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Como_-_Museo_della_seta_-_2026-09-17_16-43-37_003.jpeg",
+  "author": "Dstevanato",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "lake-como",
+  "id": "faro-voltiano-brunate",
+  "name": "Faro Voltiano",
+  "status": "found",
+  "fileTitle": "File:Brunate - Panorama dal Faro Voltiano.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Brunate_-_Panorama_dal_Faro_Voltiano.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Brunate_-_Panorama_dal_Faro_Voltiano.jpg",
+  "author": "SteTaglia",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "lake-como",
+  "id": "orrido-di-bellano",
+  "name": "Orrido di Bellano",
+  "status": "found",
+  "fileTitle": "File:Ponte Orrido di Bellano.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Ponte_Orrido_di_Bellano.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Ponte_Orrido_di_Bellano.jpg",
+  "author": "Maurizio Moro5153",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "lake-como",
+  "id": "punta-spartivento-bellagio",
+  "name": "Punta Spartivento",
+  "status": "found",
+  "fileTitle": "File:Bellagio Punta Spartivento.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio_Punta_Spartivento.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Bellagio_Punta_Spartivento.jpg",
+  "author": "Zairon",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "lake-como",
+  "id": "basilica-di-san-giacomo-bellagio",
+  "name": "Basilica di San Giacomo",
+  "status": "found",
+  "fileTitle": "File:Bellaggio Basilica di San Giacomo (en2018) (3).JPG",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bellaggio_Basilica_di_San_Giacomo_(en2018)_(3).JPG?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Bellaggio_Basilica_di_San_Giacomo_(en2018)_(3).JPG",
+  "author": "Pierre André",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "lake-como",
+  "id": "ristorante-terrazza-barchetta",
+  "name": "Ristorante Terrazza Barchetta",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "lake-como",
+  "id": "passerella-degli-innamorati-varenna",
+  "name": "Passerella degli Innamorati",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "lake-como",
+  "id": "chiesa-di-san-giorgio-varenna",
+  "name": "Chiesa di San Giorgio",
+  "status": "found",
+  "fileTitle": "File:Varenna - Chiesa di San Giorgio - 2023-09-24 16-11-14 001.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Varenna_-_Chiesa_di_San_Giorgio_-_2023-09-24_16-11-14_001.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Varenna_-_Chiesa_di_San_Giorgio_-_2023-09-24_16-11-14_001.jpg",
+  "author": "Ysogo",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "philly",
+  "id": "appleford-estate",
+  "name": "Appleford Estate",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "philly",
+  "id": "ardmore-music-hall",
+  "name": "Ardmore Music Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "philly",
+  "id": "hilton-garden-inn-newtown-square",
+  "name": "Hilton Garden Inn Newtown Square Radnor",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "philly",
+  "id": "f1-arcade-philadelphia",
+  "name": "F1 Arcade Philadelphia",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "philly",
+  "id": "the-franklin-fountain",
+  "name": "The Franklin Fountain",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "philly",
+  "id": "philadelphia-film-center",
+  "name": "Philadelphia Film Center",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "corr-hall-arch",
+  "name": "Corr Hall Arch",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "the-awakening-the-oreo",
+  "name": "The Awakening (\"The Oreo\")",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "riley-ellipse",
+  "name": "Riley Ellipse",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "mendel-field",
+  "name": "Mendel Field",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "sullivan-hall",
+  "name": "Sullivan Hall",
+  "status": "found",
+  "fileTitle": "File:Seattle University School of Law, Sullivan Hall 01.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Seattle_University_School_of_Law%2C_Sullivan_Hall_01.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Seattle_University_School_of_Law,_Sullivan_Hall_01.jpg",
+  "author": "Joe Mabel",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "sheehan-hall",
+  "name": "Sheehan Hall",
+  "status": "found",
+  "fileTitle": "File:WSU Sheehan Hall.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/WSU_Sheehan_Hall.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:WSU_Sheehan_Hall.jpg",
+  "author": "WillJayPA",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "stanford-hall",
+  "name": "Stanford Hall",
+  "status": "found",
+  "fileTitle": "File:Stanford Hall Notts.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Stanford_Hall_Notts.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Stanford_Hall_Notts.jpg",
+  "author": "John Beniston",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "simpson-hall",
+  "name": "Simpson Hall",
+  "status": "found",
+  "fileTitle": "File:Simpson Hall (Burghill) - geograph.org.uk - 6700953.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Simpson_Hall_(Burghill)_-_geograph.org.uk_-_6700953.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Simpson_Hall_(Burghill)_-_geograph.org.uk_-_6700953.jpg",
+  "author": "Fabian Musto",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "caughlin-hall",
+  "name": "Caughlin Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "good-counsel-hall",
+  "name": "Good Counsel Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "katharine-hall",
+  "name": "Katharine Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "mcguire-hall",
+  "name": "McGuire Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "st-monica-hall",
+  "name": "St. Monica Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "farley-hall",
+  "name": "Farley Hall",
+  "status": "found",
+  "fileTitle": "File:Farley Hall Chapel.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Farley_Hall_Chapel.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Farley_Hall_Chapel.jpg",
+  "author": "Swanyay",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "gallen-hall",
+  "name": "Gallen Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "jackson-hall",
+  "name": "Jackson Hall",
+  "status": "found",
+  "fileTitle": "File:Jackson Hall NRHP 95001036 Kitsap County, WA.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jackson_Hall_NRHP_95001036_Kitsap_County%2C_WA.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Jackson_Hall_NRHP_95001036_Kitsap_County,_WA.jpg",
+  "author": "Jon Roanhaus",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "klekotka-hall",
+  "name": "Klekotka Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "moulden-hall",
+  "name": "Moulden Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "rudolph-hall",
+  "name": "Rudolph Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "st-clare-hall",
+  "name": "St. Clare Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "welsh-hall",
+  "name": "Welsh Hall",
+  "status": "found",
+  "fileTitle": "File:The Welsh Hall, Elm Road, Kingston-Upon-Thames - London. (7683045322).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Welsh_Hall%2C_Elm_Road%2C_Kingston-Upon-Thames_-_London._(7683045322).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:The_Welsh_Hall,_Elm_Road,_Kingston-Upon-Thames_-_London._(7683045322).jpg",
+  "author": "Jim Linwood from London",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "st-marys-hall",
+  "name": "St. Mary's Hall",
+  "status": "found",
+  "fileTitle": "File:City of Edinburgh - St Mary's Hall, 16-28 St Mary's Street, Edinburgh - 2025-09-21 10-38-47 001.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/City_of_Edinburgh_-_St_Mary's_Hall%2C_16-28_St_Mary's_Street%2C_Edinburgh_-_2025-09-21_10-38-47_001.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:City_of_Edinburgh_-_St_Mary%27s_Hall,_16-28_St_Mary%27s_Street,_Edinburgh_-_2025-09-21_10-38-47_001.jpg",
+  "author": "Drnoble",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "tolentine-hall",
+  "name": "Tolentine Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "mendel-hall",
+  "name": "Mendel Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "kennedy-hall",
+  "name": "Kennedy Hall",
+  "status": "found",
+  "fileTitle": "File:John F. Kennedy Hall.JPG",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/John_F._Kennedy_Hall.JPG?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:John_F._Kennedy_Hall.JPG",
+  "author": "Guyatrandom",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "austin-hall",
+  "name": "Austin Hall",
+  "status": "found",
+  "fileTitle": "File:Austin Hall at Harvard University.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Austin_Hall_at_Harvard_University.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Austin_Hall_at_Harvard_University.jpg",
+  "author": "Kenneth C. Zirkel",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "dougherty-hall",
+  "name": "Dougherty Hall",
+  "status": "found",
+  "fileTitle": "File:Carlow University Dougherty Hall 2015.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Carlow_University_Dougherty_Hall_2015.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Carlow_University_Dougherty_Hall_2015.jpg",
+  "author": "Carlow University",
+  "license": "CC BY-SA 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "vasey-hall",
+  "name": "Vasey Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "connelly-center",
+  "name": "Connelly Center",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "driscoll-hall",
+  "name": "Driscoll Hall",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "bartley-hall",
+  "name": "Bartley Hall",
+  "status": "found",
+  "fileTitle": "File:Bartley-Hall-External-Front-Pic.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bartley-Hall-External-Front-Pic.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Bartley-Hall-External-Front-Pic.jpg",
+  "author": "Imac0507",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "donahue-hall",
+  "name": "Donahue Hall",
+  "status": "found",
+  "fileTitle": "File:Donahue Hall.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Donahue_Hall.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Donahue_Hall.jpg",
+  "author": "Ktr101",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "burns-hall",
+  "name": "Burns Hall",
+  "status": "found",
+  "fileTitle": "File:245 Clinton Avenue Burns Hall St. Joseph's College.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/245_Clinton_Avenue_Burns_Hall_St._Joseph's_College.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:245_Clinton_Avenue_Burns_Hall_St._Joseph%27s_College.jpg",
+  "author": "Beyond My Ken",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "campus-corner",
+  "name": "Campus Corner",
+  "status": "found",
+  "fileTitle": "File:Norman September 2014 3 (Campus Corner).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Norman_September_2014_3_(Campus_Corner).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Norman_September_2014_3_(Campus_Corner).jpg",
+  "author": "Michael Barera",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "villanova",
+  "id": "ithan-valley-park",
+  "name": "Ithan Valley Park",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "kellys-taproom",
+  "name": "Kelly's Taproom",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "the-grog-grill",
+  "name": "The Grog Grill",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "erin-pub",
+  "name": "Erin Pub",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "hopes-cookies",
+  "name": "Hope's Cookies",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "villanova",
+  "id": "bryn-mawr-college",
+  "name": "Bryn Mawr College",
+  "status": "found",
+  "fileTitle": "File:Bryn Mawr College Campus Center.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bryn_Mawr_College_Campus_Center.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Bryn_Mawr_College_Campus_Center.jpg",
+  "author": "Firespeaker",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "villanova",
+  "id": "eastern-university",
+  "name": "Eastern University",
+  "status": "found",
+  "fileTitle": "File:2018-ICP-Buildings of Far Eastern University.png",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/2018-ICP-Buildings_of_Far_Eastern_University.png?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:2018-ICP-Buildings_of_Far_Eastern_University.png",
+  "author": "Andre Ryan Maceda",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "frankfurt",
+  "id": "jazzkeller-frankfurt",
+  "name": "Jazzkeller Frankfurt",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "switzerland",
+  "id": "10-10-bench-lake-oeschinensee",
+  "name": "10/10 Bench Lake Oeschinensee",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "switzerland",
+  "id": "rhine-falls",
+  "name": "Rhine Falls",
+  "status": "found",
+  "fileTitle": "File:Rhine Falls, Rheinfelden (Ank Kumar,Infosys) 05.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rhine_Falls%2C_Rheinfelden_(Ank_Kumar%2CInfosys)_05.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Rhine_Falls,_Rheinfelden_(Ank_Kumar,Infosys)_05.jpg",
+  "author": "Ank Kumar",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "switzerland",
+  "id": "cabaret-voltaire",
+  "name": "Cabaret Voltaire",
+  "status": "found",
+  "fileTitle": "File:Zürich - Cabaret Voltaire (48687833078).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Z%C3%BCrich_-_Cabaret_Voltaire_(48687833078).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Z%C3%BCrich_-_Cabaret_Voltaire_(48687833078).jpg",
+  "author": "Fred Romero from Paris, France",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "zeughauskeller",
+  "name": "Zeughauskeller",
+  "status": "found",
+  "fileTitle": "File:Geschnetzelte Kalbsleber Zeughauskeller Zürich.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Geschnetzelte_Kalbsleber_Zeughauskeller_Z%C3%BCrich.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Geschnetzelte_Kalbsleber_Zeughauskeller_Z%C3%BCrich.jpg",
+  "author": "Benreis",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "haus-hiltl",
+  "name": "Haus Hiltl",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "switzerland",
+  "id": "st-pierre-cathedral-geneva",
+  "name": "St. Pierre Cathedral",
+  "status": "found",
+  "fileTitle": "File:St Pierre Cathedral, Genève, Switzerland (Unsplash 6R8b 8v5pxE).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/St_Pierre_Cathedral%2C_Gen%C3%A8ve%2C_Switzerland_(Unsplash_6R8b_8v5pxE).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:St_Pierre_Cathedral,_Gen%C3%A8ve,_Switzerland_(Unsplash_6R8b_8v5pxE).jpg",
+  "author": "Samuel Zeller samuelzeller",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "cern",
+  "name": "CERN",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "switzerland",
+  "id": "patek-philippe-museum",
+  "name": "Patek Philippe Museum",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "switzerland",
+  "id": "musee-d-art-et-d-histoire-geneve",
+  "name": "Musée d'Art et d'Histoire",
+  "status": "found",
+  "fileTitle": "File:Musée d'Art et d'Histoire (46745210785).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mus%C3%A9e_d'Art_et_d'Histoire_(46745210785).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Mus%C3%A9e_d%27Art_et_d%27Histoire_(46745210785).jpg",
+  "author": "Torbjorn Toby Jorgensen",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "switzerland",
+  "id": "bains-des-paquis",
+  "name": "Bains des Pâquis",
+  "status": "found",
+  "fileTitle": "File:Panoramio - V&A Dudush - Bains des Paquis.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Panoramio_-_V%26A_Dudush_-_Bains_des_Paquis.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Panoramio_-_V%26A_Dudush_-_Bains_des_Paquis.jpg",
+  "author": "V&A Dudush",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "bear-park-bern",
+  "name": "BärenPark",
+  "status": "found",
+  "fileTitle": "File:Bern Bärenpark Bär-20120807-RM-191003.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bern_B%C3%A4renpark_B%C3%A4r-20120807-RM-191003.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Bern_B%C3%A4renpark_B%C3%A4r-20120807-RM-191003.jpg",
+  "author": "Ermell",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "rosengarten-bern",
+  "name": "Rosengarten",
+  "status": "found",
+  "fileTitle": "File:Bern COVID-19-Informationen Rosengarten 2.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bern_COVID-19-Informationen_Rosengarten_2.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Bern_COVID-19-Informationen_Rosengarten_2.jpg",
+  "author": "Hadi",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "zentrum-paul-klee",
+  "name": "Zentrum Paul Klee",
+  "status": "found",
+  "fileTitle": "File:Zentrum Paul Klee, Bern, Switzerland (Unsplash).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Zentrum_Paul_Klee%2C_Bern%2C_Switzerland_(Unsplash).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Zentrum_Paul_Klee,_Bern,_Switzerland_(Unsplash).jpg",
+  "author": "Ricardo Gomez Angel ripato",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "kkl-luzern",
+  "name": "KKL Luzern",
+  "status": "found",
+  "fileTitle": "File:Markus Kühnis.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Markus_K%C3%BChnis.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Markus_K%C3%BChnis.jpg",
+  "author": "Organiolo",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "rigi",
+  "name": "Rigi",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ },
+ {
+  "region": "switzerland",
+  "id": "zoo-basel",
+  "name": "Zoo Basel",
+  "status": "found",
+  "fileTitle": "File:Paolo Monti - Serie fotografica (Basel, 1962) - BEIC 6328632.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Paolo_Monti_-_Serie_fotografica_(Basel%2C_1962)_-_BEIC_6328632.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Paolo_Monti_-_Serie_fotografica_(Basel,_1962)_-_BEIC_6328632.jpg",
+  "author": "Paolo Monti",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "thun-castle",
+  "name": "Thun Castle",
+  "status": "found",
+  "fileTitle": "File:View from Thun Castle 3.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/View_from_Thun_Castle_3.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:View_from_Thun_Castle_3.jpg",
+  "author": "Einaz80",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "high",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "switzerland",
+  "id": "swiss-museum-of-transport",
+  "name": "Swiss Museum of Transport",
+  "status": "found",
+  "fileTitle": "File:Swiss Museum of Transportation(Verkehrshaus der Schweiz) Lucerne, Switzerland (Ank Kumar, Infosys Limited) 02.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Swiss_Museum_of_Transportation(Verkehrshaus_der_Schweiz)_Lucerne%2C_Switzerland_(Ank_Kumar%2C_Infosys_Limited)_02.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Swiss_Museum_of_Transportation(Verkehrshaus_der_Schweiz)_Lucerne,_Switzerland_(Ank_Kumar,_Infosys_Limited)_02.jpg",
+  "author": "Ank Kumar",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "switzerland",
+  "id": "pilatus-kulm",
+  "name": "Pilatus Kulm",
+  "status": "found",
+  "fileTitle": "File:Pilatus Kulm - From Oberhaupt to Tomlishorn , Switzerland - panoramio (31).jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pilatus_Kulm_-_From_Oberhaupt_to_Tomlishorn_%2C_Switzerland_-_panoramio_(31).jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Pilatus_Kulm_-_From_Oberhaupt_to_Tomlishorn_,_Switzerland_-_panoramio_(31).jpg",
+  "author": "Patrick Nouhailler's…",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "f1-circuits",
+  "id": "jeddah-corniche-circuit",
+  "name": "Jeddah Corniche Circuit",
+  "status": "found",
+  "fileTitle": "File:Jeddah Corniche Circuit viewed from above.png",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jeddah_Corniche_Circuit_viewed_from_above.png?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Jeddah_Corniche_Circuit_viewed_from_above.png",
+  "author": "GéoFr11",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "f1-circuits",
+  "id": "red-bull-ring",
+  "name": "Austria · Red Bull Ring",
+  "status": "found",
+  "fileTitle": "File:Mattias Ekström 2015-08-02 004.jpg",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mattias_Ekstr%C3%B6m_2015-08-02_004.jpg?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Mattias_Ekstr%C3%B6m_2015-08-02_004.jpg",
+  "author": "Audi Sweden",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "confidence": "medium",
+  "why": "name words match the file and it was taken within 150 m"
+ },
+ {
+  "region": "f1-circuits",
+  "id": "las-vegas-strip-circuit",
+  "name": "Las Vegas Strip Circuit",
+  "status": "found",
+  "fileTitle": "File:Las Vegas Strip Circuit.png",
+  "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Las_Vegas_Strip_Circuit.png?width=1200",
+  "pageUrl": "https://commons.wikimedia.org/wiki/File:Las_Vegas_Strip_Circuit.png",
+  "author": "Juan2910",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "confidence": "medium",
+  "why": "name words match the file"
+ },
+ {
+  "region": "f1-circuits",
+  "id": "lusail-international-circuit",
+  "name": "Qatar · Lusail International Circuit",
+  "status": "none",
+  "why": "no verified free-licensed photo of this exact place on Commons"
+ }
+]

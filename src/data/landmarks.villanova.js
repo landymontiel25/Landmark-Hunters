@@ -150,6 +150,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: 'sullivan-hall',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Seattle_University_School_of_Law%2C_Sullivan_Hall_01.jpg?width=1200'],
     popularity: 1,
     name: 'Sullivan Hall',
     region: 'villanova',
@@ -168,6 +169,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: 'sheehan-hall',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/WSU_Sheehan_Hall.jpg?width=1200'],
     popularity: 1,
     name: 'Sheehan Hall',
     region: 'villanova',
@@ -186,6 +188,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: 'stanford-hall',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Stanford_Hall_Notts.jpg?width=1200'],
     popularity: 1,
     name: 'Stanford Hall',
     region: 'villanova',
@@ -204,6 +207,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "simpson-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Simpson_Hall_(Burghill)_-_geograph.org.uk_-_6700953.jpg?width=1200'],
     popularity: 1,
     name: "Simpson Hall",
     region: "villanova",
@@ -312,6 +316,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "farley-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Farley_Hall_Chapel.jpg?width=1200'],
     popularity: 1,
     name: "Farley Hall",
     region: "villanova",
@@ -348,6 +353,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "jackson-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Jackson_Hall_NRHP_95001036_Kitsap_County%2C_WA.jpg?width=1200'],
     popularity: 1,
     name: "Jackson Hall",
     region: "villanova",
@@ -438,6 +444,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "welsh-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/The_Welsh_Hall%2C_Elm_Road%2C_Kingston-Upon-Thames_-_London._(7683045322).jpg?width=1200'],
     popularity: 1,
     name: "Welsh Hall",
     region: "villanova",
@@ -548,6 +555,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "kennedy-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/John_F._Kennedy_Hall.JPG?width=1200'],
     popularity: 1,
     name: "Kennedy Hall",
     region: "villanova",
@@ -566,6 +574,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "austin-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Austin_Hall_at_Harvard_University.jpg?width=1200'],
     popularity: 1,
     name: "Austin Hall",
     region: "villanova",
@@ -584,6 +593,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "dougherty-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Carlow_University_Dougherty_Hall_2015.jpg?width=1200'],
     popularity: 1,
     name: "Dougherty Hall",
     region: "villanova",
@@ -656,6 +666,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "bartley-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Bartley-Hall-External-Front-Pic.jpg?width=1200'],
     popularity: 1,
     name: "Bartley Hall",
     region: "villanova",
@@ -674,6 +685,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: "donahue-hall",
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Donahue_Hall.jpg?width=1200'],
     popularity: 1,
     name: "Donahue Hall",
     region: "villanova",
@@ -710,6 +722,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: 'campus-corner',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Norman_September_2014_3_(Campus_Corner).jpg?width=1200'],
     popularity: 1, // no Wikipedia page to source a view count from
     name: 'Campus Corner',
     region: 'villanova',
@@ -863,7 +876,7 @@ export const VILLANOVA_LANDMARKS = [
     cost: "Free",
     neighborhood: "Bryn Mawr",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Bryn_Mawr_College_Campus_Center.jpg?width=1200'],
     name: "Bryn Mawr College",
     region: 'villanova',
     lat: 40.028681,
@@ -883,7 +896,7 @@ export const VILLANOVA_LANDMARKS = [
     cost: "Free",
     neighborhood: "St. Davids",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/2018-ICP-Buildings_of_Far_Eastern_University.png?width=1200'],
     name: "Eastern University",
     region: 'villanova',
     lat: 40.050567,

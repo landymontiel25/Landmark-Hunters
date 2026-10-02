@@ -2373,7 +2373,7 @@ export const NYC_LANDMARKS = [
     cost: "$",
     neighborhood: "Upper West Side",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Levain_Bakery_-_The_Best_Cookies_in_the_World_-_Chocolate_Chocolate_Chip%2C_Oatmeal_Raisin%2C_Chocolate_Chip_Walnut.jpg?width=1200'],
     name: "Levain Bakery",
     region: 'nyc',
     lat: 40.7799,
