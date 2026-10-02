@@ -213,5 +213,9 @@
   },
   "osm-w475911001": {
     "drop": "same as Hobie Island Beach (in the catalog)"
+  },
+  "osm-w441800741": {
+    "category": "stadiums",
+    "topic": "stadium"
   }
 }

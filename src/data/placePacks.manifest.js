@@ -39,5 +39,11 @@ export const PLACE_PACKS = [
     "category": "parks-nature",
     "file": "places/miami/parks-nature.ca1547994b.json",
     "count": 160
+  },
+  {
+    "region": "miami",
+    "category": "sports",
+    "file": "places/miami/sports.5426263729.json",
+    "count": 6
   }
 ];
