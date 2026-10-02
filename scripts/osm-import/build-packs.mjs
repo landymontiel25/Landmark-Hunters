@@ -21,6 +21,8 @@ const staged = JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8')).filter(
 if (!staged.length) throw new Error(`no staged places in ${category}`);
 const found = fs.existsSync(`${DIR}/commons.found.json`) ? JSON.parse(fs.readFileSync(`${DIR}/commons.found.json`, 'utf8')) : [];
 const photoOf = new Map(found.filter((r) => r.status === 'found').map((r) => [r.id, r]));
+const sameName = new Map();
+for (const p of JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8'))) sameName.set(p.name, (sameName.get(p.name) || 0) + 1);
 // Photos rejected after looking at them (overrides.json rejectPhoto).
 const overrides = JSON.parse(fs.readFileSync('scripts/osm-import/overrides.json', 'utf8'));
 
@@ -35,6 +37,9 @@ const places = staged.map((p) => {
   if (!r) return p;
   const skip = (why) => (photoSkips.push({ id: p.id, name: p.name, why }), p);
   if (overrides[p.id]?.rejectPhoto) return skip(`reviewed: ${overrides[p.id].rejectPhoto}`);
+  // Chains: a file named "Chicken Kitchen" fits every branch, so only a
+  // photo geotagged at this branch counts.
+  if (sameName.get(p.name) > 1 && !/within 150 m/.test(r.why || '')) return skip('several places share this name and the photo is not geotagged at this one');
   if (!/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/[^\s"'\\]+\.(jpe?g|png)\?width=1200$/i.test(r.imageUrl || '')) return skip('bad imageUrl');
   if (!LICENSE_OK.test(String(r.license || '').trim()) || /\b(nc|nd)\b/i.test(r.license)) return skip(`license ${r.license}`);
   if (!/^(public domain|cc0|pd)/i.test(r.license) && !r.author) return skip('license needs an author');

@@ -51,5 +51,11 @@ export const PLACE_PACKS = [
     "category": "stadiums",
     "file": "places/miami/stadiums.aafd20450d.json",
     "count": 2
+  },
+  {
+    "region": "miami",
+    "category": "food",
+    "file": "places/miami/food.3687680149.json",
+    "count": 687
   }
 ];
