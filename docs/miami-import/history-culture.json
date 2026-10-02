@@ -1,0 +1,450 @@
+{
+ "category": "history-culture",
+ "count": 34,
+ "commonsPhotos": 10,
+ "commonsPhotoPct": 29.4,
+ "withFacts": 4,
+ "withHours": 2,
+ "photoSkips": [
+  {
+   "id": "osm-w120105957",
+   "name": "Lincoln Theatre",
+   "why": "reviewed: Commons match shows the inside of an H&M store"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n1577578109",
+   "name": "Jose Marti Memorial",
+   "topic": "monument",
+   "lat": 25.764408,
+   "lng": -80.216429,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1577578109"
+  },
+  {
+   "id": "osm-n6579421487",
+   "name": "Dr. Luis Henry Debayle",
+   "topic": "memorial",
+   "lat": 25.797,
+   "lng": -80.129788,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6579421487"
+  },
+  {
+   "id": "osm-w435585913",
+   "name": "Alhambra Water Tower",
+   "topic": "historic site",
+   "lat": 25.752712,
+   "lng": -80.284978,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/435585913"
+  },
+  {
+   "id": "osm-n4880364621",
+   "name": "Dade County War Memorial",
+   "topic": "monument",
+   "lat": 25.774038,
+   "lng": -80.186048,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4880364621"
+  },
+  {
+   "id": "osm-n358695896",
+   "name": "Flagler Memorial Monument",
+   "topic": "monument",
+   "lat": 25.785168,
+   "lng": -80.152745,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/358695896"
+  },
+  {
+   "id": "osm-n6594610104",
+   "name": "Julia Deforest Tuttle",
+   "topic": "memorial",
+   "lat": 25.793427,
+   "lng": -80.191689,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6594610104"
+  },
+  {
+   "id": "osm-w435737408",
+   "name": "The Congress Building",
+   "topic": "historic site",
+   "lat": 25.775568,
+   "lng": -80.190081,
+   "photo": true,
+   "facts": [
+    "Designed by Martin L. Hampton",
+    "Listed on the U.S. National Register of Historic Places"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435737408"
+  },
+  {
+   "id": "osm-n6583012889",
+   "name": "Julia B. Tuttle's Homestead",
+   "topic": "historic site",
+   "lat": 25.770915,
+   "lng": -80.19232,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6583012889"
+  },
+  {
+   "id": "osm-n13995056353",
+   "name": "Brickell Mausoleum",
+   "topic": "monument",
+   "lat": 25.768242,
+   "lng": -80.18914,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/13995056353"
+  },
+  {
+   "id": "osm-n4587210554",
+   "name": "Calle Ocho Walk of Fame",
+   "topic": "attraction",
+   "lat": 25.765644,
+   "lng": -80.219973,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4587210554"
+  },
+  {
+   "id": "osm-n14099749569",
+   "name": "George Fink’s Studio",
+   "topic": "historic site",
+   "lat": 25.748337,
+   "lng": -80.258815,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/14099749569"
+  },
+  {
+   "id": "osm-n5613530547",
+   "name": "Mildred and Claude Pepper Fountain",
+   "topic": "fountain",
+   "lat": 25.774401,
+   "lng": -80.185476,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/5613530547"
+  },
+  {
+   "id": "osm-n3245478362",
+   "name": "Spanish Navy Plaza",
+   "topic": "memorial",
+   "lat": 25.783359,
+   "lng": -80.186407,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/3245478362"
+  },
+  {
+   "id": "osm-n6583012885",
+   "name": "Claude D. Pepper",
+   "topic": "statue",
+   "lat": 25.773323,
+   "lng": -80.185417,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6583012885"
+  },
+  {
+   "id": "osm-n1577578093",
+   "name": "General Antonio Macro memorial",
+   "topic": "monument",
+   "lat": 25.764167,
+   "lng": -80.216417,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1577578093"
+  },
+  {
+   "id": "osm-w120105957",
+   "name": "Lincoln Theatre",
+   "topic": "historic site",
+   "lat": 25.790888,
+   "lng": -80.134016,
+   "photo": false,
+   "facts": [
+    "Founded in 1936",
+    "Designed by Thomas W. Lamb",
+    "Dates from 1936"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/120105957"
+  },
+  {
+   "id": "osm-n12507229031",
+   "name": "Section of the Berlin Wall",
+   "topic": "monument",
+   "lat": 25.777369,
+   "lng": -80.19054,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/12507229031"
+  },
+  {
+   "id": "osm-n6579421596",
+   "name": "Simon Bolivar",
+   "topic": "memorial",
+   "lat": 25.79692,
+   "lng": -80.130069,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6579421596"
+  },
+  {
+   "id": "osm-n5679960544",
+   "name": "Iron Arrow Mound",
+   "topic": "monument",
+   "lat": 25.720382,
+   "lng": -80.277914,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/5679960544"
+  },
+  {
+   "id": "osm-n6579421394",
+   "name": "Carlos J. Finlay",
+   "topic": "memorial",
+   "lat": 25.796966,
+   "lng": -80.129555,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6579421394"
+  },
+  {
+   "id": "osm-n6594606196",
+   "name": "Our Heroes",
+   "topic": "memorial",
+   "lat": 25.793392,
+   "lng": -80.192667,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6594606196"
+  },
+  {
+   "id": "osm-n4866286983",
+   "name": "Freedom Plaza",
+   "topic": "monument",
+   "lat": 25.762243,
+   "lng": -80.257322,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4866286983"
+  },
+  {
+   "id": "osm-n4595581948",
+   "name": "Simon Bolivar",
+   "topic": "monument",
+   "lat": 25.777387,
+   "lng": -80.187618,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4595581948"
+  },
+  {
+   "id": "osm-w435881982",
+   "name": "Queen Miami Beach",
+   "topic": "historic site",
+   "lat": 25.775587,
+   "lng": -80.134472,
+   "photo": false,
+   "facts": [
+    "Dates from 1935",
+    "Designed by Henry Hohauser",
+    "Run by Mathieu Massa"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435881982"
+  },
+  {
+   "id": "osm-n4595581949",
+   "name": "The Torch of Friendship",
+   "topic": "monument",
+   "lat": 25.777651,
+   "lng": -80.187639,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4595581949"
+  }
+ ],
+ "points": [
+  [
+   25.752712,
+   -80.284978,
+   1
+  ],
+  [
+   25.768242,
+   -80.18914,
+   1
+  ],
+  [
+   25.765644,
+   -80.219973,
+   1
+  ],
+  [
+   25.796966,
+   -80.129555,
+   0
+  ],
+  [
+   25.773149,
+   -80.186592,
+   1
+  ],
+  [
+   25.773323,
+   -80.185417,
+   0
+  ],
+  [
+   25.774038,
+   -80.186048,
+   1
+  ],
+  [
+   25.797,
+   -80.129788,
+   1
+  ],
+  [
+   25.765639,
+   -80.216466,
+   0
+  ],
+  [
+   25.785168,
+   -80.152745,
+   0
+  ],
+  [
+   25.762243,
+   -80.257322,
+   0
+  ],
+  [
+   25.764167,
+   -80.216417,
+   0
+  ],
+  [
+   25.748337,
+   -80.258815,
+   0
+  ],
+  [
+   25.720382,
+   -80.277914,
+   0
+  ],
+  [
+   25.764408,
+   -80.216429,
+   0
+  ],
+  [
+   25.770915,
+   -80.19232,
+   0
+  ],
+  [
+   25.793427,
+   -80.191689,
+   0
+  ],
+  [
+   25.773447,
+   -80.185601,
+   0
+  ],
+  [
+   25.790888,
+   -80.134016,
+   0
+  ],
+  [
+   25.790934,
+   -80.133011,
+   0
+  ],
+  [
+   25.765193,
+   -80.216446,
+   0
+  ],
+  [
+   25.774401,
+   -80.185476,
+   0
+  ],
+  [
+   25.793392,
+   -80.192667,
+   1
+  ],
+  [
+   25.775587,
+   -80.134472,
+   0
+  ],
+  [
+   25.777369,
+   -80.19054,
+   0
+  ],
+  [
+   25.777387,
+   -80.187618,
+   0
+  ],
+  [
+   25.79692,
+   -80.130069,
+   0
+  ],
+  [
+   25.766873,
+   -80.136664,
+   0
+  ],
+  [
+   25.783359,
+   -80.186407,
+   0
+  ],
+  [
+   25.666186,
+   -80.156993,
+   0
+  ],
+  [
+   25.775568,
+   -80.190081,
+   1
+  ],
+  [
+   25.772833,
+   -80.185068,
+   0
+  ],
+  [
+   25.777651,
+   -80.187639,
+   1
+  ],
+  [
+   25.791247,
+   -80.15218,
+   1
+  ]
+ ]
+}

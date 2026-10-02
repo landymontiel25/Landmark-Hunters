@@ -21,5 +21,11 @@ export const PLACE_PACKS = [
     "category": "entertainment",
     "file": "places/miami/entertainment.eafa2972a3.json",
     "count": 29
+  },
+  {
+    "region": "miami",
+    "category": "history-culture",
+    "file": "places/miami/history-culture.a1793ff80e.json",
+    "count": 34
   }
 ];
