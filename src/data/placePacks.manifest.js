@@ -33,5 +33,11 @@ export const PLACE_PACKS = [
     "category": "local-life",
     "file": "places/miami/local-life.cf7c42a426.json",
     "count": 124
+  },
+  {
+    "region": "miami",
+    "category": "parks-nature",
+    "file": "places/miami/parks-nature.ca1547994b.json",
+    "count": 160
   }
 ];
