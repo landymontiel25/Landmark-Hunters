@@ -558,6 +558,16 @@ await t('place_ids: no client (signed out, user, admin) can read, list, write or
   }
 });
 
+console.log('place_backfill_usage (server-only daily counter)');
+await t('place_backfill_usage: no client (signed out, user, admin) can read, list, write or delete', async () => {
+  for (const db of [as('alice'), as('alice', { email: ADMIN_EMAIL }), env.unauthenticatedContext().firestore()]) {
+    await assertFails(getDoc(doc(db, 'place_backfill_usage/2026-10-02')));
+    await assertFails(getDocs(collection(db, 'place_backfill_usage')));
+    await assertFails(setDoc(doc(db, 'place_backfill_usage/2026-10-02'), { searches: 0 }));
+    await assertFails(deleteDoc(doc(db, 'place_backfill_usage/2026-10-02')));
+  }
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {

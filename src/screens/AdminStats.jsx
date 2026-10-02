@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { API_BASE } from '../lib/apiBase';
 import { authHeaders } from '../lib/apiAuth';
-import { ADMIN_STATS_POLL_MS, GROWTH_GOALS, STUDY_FLAT_MAX_GAIN } from '../lib/statsConstants';
+import { ADMIN_STATS_POLL_MS, GROWTH_GOALS, PHOTO_BACKFILL_GAP_MS, STUDY_FLAT_MAX_GAIN } from '../lib/statsConstants';
 import { useVisibleInterval } from '../lib/useVisibleInterval';
 import '../styles/admin-stats.css';
 
@@ -283,6 +283,66 @@ export default function AdminStats() {
     }
   };
 
+  // The one-time landmark photo backfill (api/admin-stats POST {action:
+  // 'photo-backfill'}): finds and saves each photo-less landmark's Google place
+  // ID, one batch per call. This loop calls again after PHOTO_BACKFILL_GAP_MS
+  // while the tab stays open, and stops when it is done, hits the daily limit or
+  // a Google error, or you press Stop.
+  const [photo, setPhoto] = useState({ running: false, text: '' });
+  const stopPhoto = useRef(false);
+  useEffect(
+    () => () => {
+      stopPhoto.current = true;
+    },
+    [],
+  );
+  const runPhotoBackfill = async () => {
+    stopPhoto.current = false;
+    let failedRun = 0;
+    setPhoto({ running: true, text: 'Running the first batch…' });
+    try {
+      for (;;) {
+        const r = await fetch(`${API_BASE}/api/admin-stats`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+          body: JSON.stringify({ action: 'photo-backfill' }),
+        });
+        const b = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(b.error || `The route answered ${r.status}.`);
+        failedRun += b.thisCall?.failed ?? 0;
+        const found = b.saved?.ok ?? 0;
+        const none = b.saved?.noMatch ?? 0;
+        const progress = `Checked ${found + none} of ${b.total}: Google has a photo for ${found}, no match for ${none}, ${failedRun} failed this run (they are retried next time). Searches today: ${b.searchesToday} of ${b.dailyLimit}.`;
+        const reasons = {
+          'daily-limit': 'Stopped: the daily search limit is reached. Press the button again tomorrow.',
+          'google-quota': "Stopped: Google's daily quota is used up. Try again tomorrow.",
+          'google-denied': "Stopped: Google refused the lookups (check the Places key in Vercel and that Places API (New) is enabled).",
+          failing: 'Stopped after 3 failed searches in a row. Check the Vercel logs for "place-photo:" lines, then press the button again.',
+        };
+        if (b.done) {
+          setPhoto({ running: false, text: `Done. ${progress}${b.withoutCoordinates ? ` ${b.withoutCoordinates} have no coordinates and were skipped.` : ''}` });
+          return;
+        }
+        if (b.stopped) {
+          setPhoto({ running: false, text: `${progress} ${reasons[b.stopped] || 'Stopped.'}` });
+          return;
+        }
+        // Wait between batches (keeps the requests under the rate limit), counting down.
+        for (let left = Math.round(PHOTO_BACKFILL_GAP_MS / 1000); left > 0; left -= 1) {
+          if (stopPhoto.current) break;
+          setPhoto({ running: true, text: `${progress} ${b.remaining} left. Next batch in ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}.` });
+          await new Promise((res) => setTimeout(res, 1000));
+        }
+        if (stopPhoto.current) {
+          setPhoto({ running: false, text: `${progress} Stopped by you. ${b.remaining} left; press the button to continue.` });
+          return;
+        }
+      }
+    } catch (e) {
+      setPhoto({ running: false, text: String(e.message || e) });
+    }
+  };
+
   const load = useCallback(async () => {
     if (busy.current) return;
     busy.current = true;
@@ -347,6 +407,25 @@ export default function AdminStats() {
         {fill.text && (
           <p className="as-p" role="status">
             {fill.text}
+          </p>
+        )}
+      </section>
+      <section className="as-card" aria-label="Landmark photo backfill">
+        <p className="as-label">Landmark photos (one-time)</p>
+        <p className="as-p">
+          For every landmark with no stored photo, finds its Google place ID and saves it, so its photo loads fast later. Saves place IDs only, never images. Runs in small batches with a pause between them (up to 300 searches a day), so leave this tab open. Safe to run more than once.
+        </p>
+        <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44 }} disabled={photo.running} onClick={runPhotoBackfill}>
+          {photo.running ? 'Running…' : 'Run photo backfill'}
+        </button>
+        {photo.running && (
+          <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44, marginLeft: 8 }} onClick={() => { stopPhoto.current = true; }}>
+            Stop
+          </button>
+        )}
+        {photo.text && (
+          <p className="as-p" role="status">
+            {photo.text}
           </p>
         )}
       </section>

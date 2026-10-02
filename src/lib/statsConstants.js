@@ -64,3 +64,13 @@ export const STUDY_FLAT_MAX_GAIN = 1; // ... gained no more than this many point
 export const STUDY_RETURN_DAYS = [7, 30]; // score vs coming back
 export const STUDY_MIN_CORRELATION_USERS = 5;
 export const STUDY_COLLECTION = 'study_summaries';
+
+// --- Landmark photo backfill (api/_lib/photoBackfill.js, admin stats page) ---
+// One-time job that finds and saves the Google place ID of every landmark with
+// no stored photo (never the photo itself; see docs/photos.md).
+export const PHOTO_BACKFILL_BATCH = 20; // landmarks per button call
+export const PHOTO_BACKFILL_DAILY_SEARCHES = 300; // Text Search requests per day; the Google quota is 400, the rest is for live views
+export const PHOTO_BACKFILL_GAP_MS = 150_000; // page waits this long between batches: 20 / 2.5 min = 8 requests a minute, under the 90 per 10 min limit
+export const PHOTO_BACKFILL_BUDGET_MS = 45_000; // stop starting new searches after this long in one call (the function limit is 60 s)
+export const PHOTO_BACKFILL_FAIL_STREAK = 3; // stop after this many failed searches in a row
+export const PHOTO_BACKFILL_USAGE_COLLECTION = 'place_backfill_usage';

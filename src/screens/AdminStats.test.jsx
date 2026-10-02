@@ -103,4 +103,45 @@ describe('AdminStats page', () => {
     expect(host.textContent).toContain('Filled 12 from Firebase sign-up time and 1 from a first rating');
     expect(host.textContent).toContain('press the button again');
   });
+
+  it('runs the photo backfill in batches with a pause between them, shows progress, and stops when done', async () => {
+    try {
+      const posts = [];
+      const batches = [
+        { total: 10, remaining: 6, saved: { ok: 3, noMatch: 1 }, thisCall: { failed: 1 }, searchesToday: 5, dailyLimit: 300, done: false, stopped: null },
+        { total: 10, remaining: 0, saved: { ok: 7, noMatch: 3 }, thisCall: { failed: 0 }, searchesToday: 11, dailyLimit: 300, done: true, stopped: null },
+      ];
+      await mount(async (url, init) => {
+        if (init?.method === 'POST') {
+          posts.push(JSON.parse(init.body));
+          return { ok: true, status: 200, json: async () => batches[posts.length - 1] };
+        }
+        return { ok: true, status: 200, json: async () => body };
+      });
+      vi.useFakeTimers({ toFake: ['setTimeout'] }); // after mount, which waits on a real timer
+      const btn = [...host.querySelectorAll('button')].find((b) => b.textContent.includes('Run photo backfill'));
+      expect(btn).toBeTruthy();
+      await act(async () => btn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+      expect(posts).toEqual([{ action: 'photo-backfill' }]);
+      expect(host.textContent).toContain('Checked 4 of 10');
+      expect(host.textContent).toContain('1 failed this run');
+      expect(host.textContent).toContain('6 left. Next batch in 2:30');
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(151000);
+      });
+      expect(posts).toHaveLength(2);
+      expect(host.textContent).toContain('Done. Checked 10 of 10: Google has a photo for 7, no match for 3');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('stops the photo backfill when Google or the daily limit says so, and when you press Stop', async () => {
+    const quota = { total: 10, remaining: 8, saved: { ok: 1, noMatch: 1 }, thisCall: { failed: 2 }, searchesToday: 300, dailyLimit: 300, done: false, stopped: 'daily-limit' };
+    await mount(async (url, init) => (init?.method === 'POST' ? { ok: true, status: 200, json: async () => quota } : { ok: true, status: 200, json: async () => body }));
+    const btn = [...host.querySelectorAll('button')].find((b) => b.textContent.includes('Run photo backfill'));
+    await act(async () => btn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(host.textContent).toContain('the daily search limit is reached');
+    expect([...host.querySelectorAll('button')].some((b) => b.textContent === 'Stop')).toBe(false);
+  });
 });
