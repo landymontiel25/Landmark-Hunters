@@ -28,8 +28,9 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   const [loaded, setLoaded] = useState(() => new Set());
   const allImages = [...(myPhotos || []), ...(landmark.images || [])].filter((src) => !failed.has(src));
   const images = allImages.length ? allImages : null;
-  // No photo of its own (not even a failed one) -> lazily try a Google Places photo.
-  const place = usePlacePhoto(landmark, { enabled: !myPhotos?.length && !landmark.images?.length });
+  // No photo of its own, or every one of them failed to load -> lazily try a
+  // Google Places photo.
+  const place = usePlacePhoto(landmark, { enabled: !images });
   const [activeIdx, setActiveIdx] = useState(0);
   const scrollRef = useRef(null);
   // A dropped photo shrinks the set: keep the dot indicator in range and snap

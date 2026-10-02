@@ -1,5 +1,12 @@
 // @vitest-environment jsdom
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
+
+const loadPlacePhoto = vi.fn(async () => ({ url: 'https://lh3.googleusercontent.com/p', attributions: [{ name: 'Jane' }] }));
+vi.mock('../lib/placePhoto', () => ({
+  placePhotoKey: (l) => (l?.name ? `${l.name}|${l.lat}|${l.lng}` : null),
+  peekPlacePhoto: () => undefined,
+  loadPlacePhoto: (...a) => loadPlacePhoto(...a),
+}));
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 import { createRoot } from 'react-dom/client';
@@ -24,5 +31,18 @@ describe('LandmarkPostcard', () => {
     const dots = container.querySelectorAll('.postcard-gallery-dot');
     expect(dots).toHaveLength(2);
     expect([...dots].filter((d) => d.className.includes('active'))).toHaveLength(1);
+  });
+
+  it('falls back to a Google photo when its only stored photo fails to load', async () => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const lm = { id: 'x', name: 'X', lat: 1, lng: 2, categories: [], images: ['dead.jpg'] };
+    await act(async () => createRoot(container).render(<LandmarkPostcard landmark={lm} />));
+    expect(container.querySelector('img').getAttribute('src')).toBe('dead.jpg');
+    expect(loadPlacePhoto).not.toHaveBeenCalled();
+    await act(async () => container.querySelector('img').dispatchEvent(new Event('error')));
+    await act(async () => {});
+    expect(loadPlacePhoto).toHaveBeenCalled();
+    expect(container.querySelector('img').getAttribute('src')).toBe('https://lh3.googleusercontent.com/p');
   });
 });

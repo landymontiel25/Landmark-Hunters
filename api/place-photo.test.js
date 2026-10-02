@@ -168,6 +168,24 @@ describe('place-photo route', () => {
     expect((await call(Q)).status).toBe(502);
   });
 
+  it('logs the failed step and Google status, never the key', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    globalThis.fetch = vi.fn(async () => ({ ok: false, status: 403, json: async () => ({}) }));
+    await call(Q);
+    mockGoogle([place()], { mediaOk: false });
+    await call(Q);
+    globalThis.fetch = vi.fn(async () => {
+      throw Object.assign(new Error('x'), { name: 'TimeoutError' });
+    });
+    await call(Q);
+    const lines = warn.mock.calls.map((c) => String(c[0])).filter((l) => l.startsWith('place-photo:'));
+    warn.mockRestore();
+    expect(lines.some((l) => l.includes('search failed (Google status 403)'))).toBe(true);
+    expect(lines.some((l) => l.includes('image fetch failed (Google status'))).toBe(true);
+    expect(lines.some((l) => l.includes('timeout failed (during search)'))).toBe(true);
+    expect(lines.join('\n')).not.toContain(process.env.GOOGLE_PLACES_API_KEY + '\n');
+  });
+
   it('drops a non-https photoUri', async () => {
     mockGoogle([place()], { photoUri: 'http://evil.example/x.jpg' });
     expect((await call(Q)).status).toBe(502);

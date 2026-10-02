@@ -34,7 +34,7 @@ export function ChainLabel({ chain }) {
 // same colored category tile LandmarkThumb falls back to.
 export function PickPhoto({ pick, className }) {
   const [failed, setFailed] = useState(null);
-  const place = usePlacePhoto(pick, { enabled: !pick.image });
+  const place = usePlacePhoto(pick, { enabled: !pick.image || failed === pick.image });
   if (pick.image && failed !== pick.image) {
     return <img className={className} src={pick.image} alt="" loading="lazy" decoding="async" onError={() => setFailed(pick.image)} />;
   }
