@@ -19,9 +19,7 @@ function adminApp() {
   return initializeApp({ credential: cert(JSON.parse(json)) });
 }
 
-// Messaging and Auth load lazily: firebase-admin/auth pulls in jwks-rsa, which
-// require()s an ESM-only jose and crashes on Vercel's Node. Routes that only
-// need Firestore (the streak routes) must never load it.
+// Messaging loads lazily so Firestore-only routes (the streak routes) never load it.
 export async function adminMessaging() {
   const { getMessaging } = await import('firebase-admin/messaging');
   return getMessaging(adminApp());
@@ -31,10 +29,31 @@ export function adminDb() {
   return getFirestore(adminApp());
 }
 
-// Account records (creation time) for the createdAt backfill.
+// Account records (creation time) for the createdAt backfill. firebase-admin's
+// own Auth module is not used: it loads jwks-rsa, which require()s an ESM-only
+// jose and crashes on Vercel's Node. The Identity Toolkit REST API gives the
+// same data with the service account's access token.
 export async function adminAuth() {
-  const { getAuth } = await import('firebase-admin/auth');
-  return getAuth(adminApp());
+  const app = adminApp();
+  const projectId = app.options.projectId || JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT).project_id;
+  return {
+    async getUsers(identifiers) {
+      const { access_token: token } = await app.options.credential.getAccessToken();
+      const r = await fetch(`https://identitytoolkit.googleapis.com/v1/projects/${projectId}/accounts:lookup`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ localId: identifiers.map((x) => x.uid) }),
+      });
+      if (!r.ok) throw new Error(`Auth lookup failed (${r.status}).`);
+      const body = await r.json();
+      return {
+        users: (body.users || []).map((u) => ({
+          uid: u.localId,
+          metadata: { creationTime: u.createdAt ? new Date(Number(u.createdAt)).toISOString() : undefined },
+        })),
+      };
+    },
+  };
 }
 
 // A message a route can hand back instead of crashing when the secret is
