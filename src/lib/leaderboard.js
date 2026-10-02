@@ -48,10 +48,12 @@ export const HOME_RADIUS_METERS = 804.672; // 0.5 miles
 // anyone's payout. Flip back to true to re-enable the exclusion.
 export const HOME_RADIUS_EXCLUSION_ENABLED = false;
 
-// Points only pay on the first visit to a landmark. Check-ins are for Mapr
-// (every repeat visit keeps logging in full, see claimCheckIn), so the
-// second visit onward pays nothing. firestore.rules still allows the old
-// taper (20 on visits 2-5) so older app builds keep working.
+// Points only pay on a user's very first check-in, ever. Check-ins are for
+// Mapr (every one keeps logging in full, see claimCheckIn); claimCheckIn
+// zeroes the payout once the account has any real check-in anywhere. This
+// per-place helper is the second guard: a repeat visit to the same place
+// never pays either. firestore.rules still allows the old taper (20 on
+// visits 2-5) so older app builds keep working.
 export function taperedPoints(basePoints, visitNumber) {
   return visitNumber <= 1 ? basePoints : 0;
 }
@@ -101,6 +103,19 @@ export const PERIODS = ['weekly', 'monthly', 'yearly'];
  * should learn from every visit whether or not it paid out.
  * Returns { claimed, alreadyClaimed, visitNumber?, payout?, checkinId? }.
  */
+// Whether this account already has a real (physical) check-in anywhere. The
+// cheap path is an indexed equality query on the explicit `visited` flag;
+// older docs (before that flag existed) fall back to a full read, which is
+// empty for a brand-new account.
+async function hasAnyRealCheckin(userId) {
+  const flagged = await getDocs(
+    query(collection(db, 'checkins'), where('userId', '==', userId), where('visited', '==', true), limit(1))
+  );
+  if (flagged.docs.some((d) => isRealCheckin(d.data()))) return true;
+  const all = await getDocs(query(collection(db, 'checkins'), where('userId', '==', userId)));
+  return all.docs.some((d) => isRealCheckin(d.data()));
+}
+
 async function _claimCheckIn({
   userId,
   userName,
@@ -153,8 +168,13 @@ async function _claimCheckIn({
     !!homeCoords &&
     !!landmarkCoords &&
     distanceMeters(homeCoords.lat, homeCoords.lng, landmarkCoords.lat, landmarkCoords.lng) <= HOME_RADIUS_METERS;
+  // Only the account's first real check-in pays. Any earlier real check-in,
+  // at this place or any other, means this one is just for Mapr.
+  const hadEarlierCheckin = ratingOnly ? false : await hasAnyRealCheckin(userId);
   const payout =
-    ratingOnly || (HOME_RADIUS_EXCLUSION_ENABLED && insideHomeRadius) ? 0 : taperedPoints(points, visitNumber);
+    ratingOnly || hadEarlierCheckin || (HOME_RADIUS_EXCLUSION_ENABLED && insideHomeRadius)
+      ? 0
+      : taperedPoints(points, visitNumber);
 
   const result = await runTransaction(db, async (tx) => {
     const existing = await tx.get(checkinRef);

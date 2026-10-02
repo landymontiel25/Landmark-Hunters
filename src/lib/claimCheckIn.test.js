@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const state = { prior: [], written: null };
+const state = { prior: [], other: null, written: null };
 
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./friends', () => ({ getUserProfile: vi.fn() }));
@@ -8,11 +8,17 @@ vi.mock('firebase/storage', () => ({}));
 vi.mock('firebase/firestore', () => ({
   doc: (_db, col, id) => ({ col, id }),
   collection: () => ({}),
-  query: () => ({}),
-  where: () => ({}),
+  query: (_c, ...clauses) => ({ clauses }),
+  where: (f) => ({ f }),
   orderBy: () => ({}),
   limit: () => ({}),
-  getDocs: async () => ({ size: state.prior.length, docs: state.prior.map((x) => ({ id: x.__id, data: () => x })) }),
+  // The per-place query reads state.prior; any other user-wide query reads
+  // state.other (the account's check-ins elsewhere) when a test sets it.
+  getDocs: async (q) => {
+    const perPlace = (q?.clauses || []).some((c) => c.f === 'landmarkId');
+    const rows = perPlace || !state.other ? state.prior : state.other;
+    return { size: rows.length, docs: rows.map((x) => ({ id: x.__id, data: () => x })) };
+  },
   runTransaction: async (_db, fn) =>
     fn({
       get: async () => ({ exists: () => false }),
@@ -39,6 +45,7 @@ const args = { userId: 'u1', userName: 'x', landmarkId: 'lm', landmarkName: 'LM'
 describe('claimCheckIn visit numbering', () => {
   beforeEach(() => {
     state.written = null;
+    state.other = null;
   });
 
   it('pays full points for the first real visit after a rating-only claim', async () => {
@@ -55,6 +62,23 @@ describe('claimCheckIn visit numbering', () => {
     state.prior = [{ visited: true, points: 20, __id: 'u1_lm_2' }];
     await claimCheckIn(args);
     expect(state.written.id).toBe('u1_lm_3');
+  });
+
+  it('pays nothing on a first visit to a NEW place once the account has any real check-in', async () => {
+    state.prior = [];
+    state.other = [{ visited: true, points: 100, __id: 'u1_elsewhere' }];
+    const res = await claimCheckIn(args);
+    expect(res.visitNumber).toBe(1);
+    expect(res.payout).toBe(0);
+    expect(state.written.points).toBe(0);
+    expect(state.written.visited).toBe(true);
+  });
+
+  it('a rating-only claim elsewhere does not use up the one paid check-in', async () => {
+    state.prior = [];
+    state.other = [{ ratingOnly: true, visited: false, points: 0, __id: 'u1_x' }];
+    const res = await claimCheckIn(args);
+    expect(res.payout).toBe(100);
   });
 
   it('saves distance, GPS accuracy and the verification tag on a real check-in; leaves a rating-only claim untagged', async () => {
