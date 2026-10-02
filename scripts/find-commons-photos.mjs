@@ -32,10 +32,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function api(params) {
   const url = `${API}?${new URLSearchParams({ format: 'json', ...params })}`;
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < 6; attempt++) {
     const r = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30000) }).catch((e) => ({ status: 599, error: e }));
     if (r.status === 429 || r.status >= 500) {
-      await sleep(2000 * (attempt + 1));
+      // Commons rate-limits bursts; wait as asked, or back off harder each time.
+      await sleep((Number(r.headers?.get?.('retry-after')) || 0) * 1000 || 5000 * 2 ** attempt);
       continue;
     }
     if (!r.ok) throw new Error(`Commons API ${r.status}`);
@@ -68,9 +69,14 @@ const have = new Map(done.map((r) => [`${r.region}/${r.id}`, r]));
 const source = placesFile ? JSON.parse(fs.readFileSync(placesFile, 'utf8')) : ALL_LANDMARKS;
 const todo = source.filter((l) => !(l.images && l.images.length)).map((l) => ({ ...l, region: l.regionId || l.region }));
 let n = 0;
-// A few places at a time: Commons answers in 1-2 s, so one at a time takes hours.
-const CONCURRENCY = 3;
-const queue = todo.filter((l) => have.get(`${l.region}/${l.id}`)?.status !== 'found');
+// One place at a time: Commons rate-limits bursts (three at once failed a
+// third of the lookups).
+const CONCURRENCY = 1;
+// Re-runs retry only lookups that failed; a real "no photo" result stays.
+const queue = todo.filter((l) => {
+  const prev = have.get(`${l.region}/${l.id}`);
+  return !prev || (prev.status !== 'found' && /^lookup failed/.test(prev.why || ''));
+});
 async function worker() {
   for (let l = queue.shift(); l; l = queue.shift()) await findOne(l);
 }
