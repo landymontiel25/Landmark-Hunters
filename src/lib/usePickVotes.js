@@ -8,15 +8,16 @@ import { flushPendingPickVotes, getPickFeedback, readPendingPickVotes, setPickFe
 //                    It changes only after the database write succeeded.
 //     status         'idle' | 'saving' | 'pending' (offline, not saved yet) | 'error'
 //     tryingVerdict  the tap in flight / waiting / failed (never shown as selected)
-//   removed          Set of landmark ids answered "Not for me" this session: the
-//                    card leaves and the next pick takes its place.
+//   removed          Set of landmark ids answered "Not for me" this session (or,
+//                    with removeOnAnyVote, answered at all): the card leaves and
+//                    the next pick takes its place.
 //
 // onSaved(entry) runs after a successful save (e.g. refresh a badge count).
-export function usePickVotes({ uid, origin = null, onSaved = null }) {
+export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVote = false }) {
   const [votes, setVotes] = useState({});
   const [removed, setRemoved] = useState(() => new Set());
   const ctx = useRef({});
-  ctx.current = { uid, origin, onSaved };
+  ctx.current = { uid, origin, onSaved, removeOnAnyVote };
   const last = useRef({}); // landmarkId -> { landmark, verdict, requestFor } for Try again
   const alive = useRef(true);
   useEffect(() => {
@@ -35,7 +36,9 @@ export function usePickVotes({ uid, origin = null, onSaved = null }) {
     (entry) => {
       if (!alive.current) return;
       setVotes((cur) => ({ ...cur, [entry.landmarkId]: { verdict: entry.verdict, status: 'idle', tryingVerdict: null } }));
-      if (entry.verdict === 'no') setRemoved((cur) => new Set(cur).add(entry.landmarkId));
+      // Not for me always takes the card out. Where a place is asked about once
+      // (the Profile carousel), any answer does: it is already answered.
+      if (entry.verdict === 'no' || ctx.current.removeOnAnyVote) setRemoved((cur) => new Set(cur).add(entry.landmarkId));
       ctx.current.onSaved?.(entry);
     },
     []

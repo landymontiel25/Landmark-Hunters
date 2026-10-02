@@ -4,7 +4,15 @@ import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
 import { estimateTasteScore } from '../lib/tasteEstimate';
 import { saveTasteBaseline, saveTasteIntro } from '../lib/friends';
-import { TASTE_WINDOW } from '../lib/maprConstants';
+import { TASTE_WINDOW, TASTE_BAR_YELLOW_FROM, TASTE_BAR_GREEN_FROM } from '../lib/maprConstants';
+
+// Red, yellow or green (with a word, so color is never the only signal).
+export const tasteBarTone = (pct) =>
+  pct >= TASTE_BAR_GREEN_FROM
+    ? { key: 'green', label: 'Strong' }
+    : pct >= TASTE_BAR_YELLOW_FROM
+    ? { key: 'yellow', label: 'Getting there' }
+    : { key: 'red', label: 'Still learning you' };
 import { loadTasteSummary, TASTE_ANSWER_EVENT } from '../lib/tasteScoreStore';
 import { extractLegacyBaselineFromIntro } from '../lib/tasteQuestions';
 import TasteNudgeCard from './TasteNudgeCard';
@@ -184,6 +192,8 @@ export default function TasteProfileCard() {
   const learning = !taste || taste.state !== 'ready';
   const score = learning ? null : taste.score;
   const estimated = learning && estimate ? estimate.score : null;
+  const shownPct = learning ? estimated : score;
+  const tone = tasteBarTone(shownPct ?? 0);
 
   return (
     <div className="card section taste-profile-card">
@@ -200,18 +210,26 @@ export default function TasteProfileCard() {
           {hasBaseline ? `${'\u{270F}\u{FE0F}'} Edit` : `${'\u{2795}'} Answer a few quick picks`}
         </button>
       </div>
-      {!learning && (
-        <div
-          className="level-bar-track"
-          style={{ marginTop: 8 }}
-          role="progressbar"
-          aria-label="Taste score"
-          aria-valuenow={score}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        >
-          <div className="level-bar-fill" style={{ width: `${score}%` }} />
+      {shownPct != null && (
+        <div className="taste-bar-row">
+          <div
+            className="taste-bar-track"
+            role="progressbar"
+            aria-label={estimated != null ? 'Estimated taste score' : 'Taste score'}
+            aria-valuenow={shownPct}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
+            <div className={`taste-bar-fill taste-bar-${tone.key}`} style={{ width: `${shownPct}%` }} />
+          </div>
+          <span className={`taste-bar-number taste-bar-${tone.key}`}>
+            {estimated != null ? '~' : ''}
+            {shownPct}%
+          </span>
         </div>
+      )}
+      {shownPct != null && (
+        <p className={`taste-bar-word taste-bar-${tone.key}`}>{tone.label}</p>
       )}
       <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
         {learning && estimated != null

@@ -195,3 +195,9 @@ export const PICK_VOTE_RETRY_BASE_MS = 600;
 // vote) and flushed when it is back online. Most pending taps kept per user
 // on the device (oldest dropped first).
 export const PICK_VOTE_PENDING_LIMIT = 50;
+
+// The taste score bar's colors: red below TASTE_BAR_YELLOW_FROM, yellow from
+// there up to TASTE_BAR_GREEN_FROM, green from TASTE_BAR_GREEN_FROM (the same
+// 70% the admin stats page uses as the match-rate goal).
+export const TASTE_BAR_YELLOW_FROM = 40;
+export const TASTE_BAR_GREEN_FROM = 70;

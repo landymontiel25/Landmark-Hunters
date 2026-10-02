@@ -6847,3 +6847,40 @@ p.tag {
   padding-left: 0;
   padding-right: 0;
 }
+
+/* Taste score bar: red / yellow / green by score, with the number beside it. */
+.taste-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.taste-bar-track {
+  flex: 1;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.taste-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.35s ease;
+}
+.taste-bar-fill.taste-bar-red { background: var(--danger); }
+.taste-bar-fill.taste-bar-yellow { background: var(--warning); }
+.taste-bar-fill.taste-bar-green { background: var(--success); }
+.taste-bar-number {
+  min-width: 3.2em;
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.taste-bar-word {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.taste-bar-number.taste-bar-red, .taste-bar-word.taste-bar-red { color: var(--danger); }
+.taste-bar-number.taste-bar-yellow, .taste-bar-word.taste-bar-yellow { color: var(--warning); }
+.taste-bar-number.taste-bar-green, .taste-bar-word.taste-bar-green { color: var(--success); }
