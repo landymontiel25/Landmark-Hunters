@@ -1,8 +1,8 @@
 {
  "category": "art-museums",
- "count": 28,
+ "count": 27,
  "commonsPhotos": 3,
- "commonsPhotoPct": 10.7,
+ "commonsPhotoPct": 11.1,
  "withFacts": 5,
  "withHours": 6,
  "photoSkips": [],
@@ -31,16 +31,14 @@
    "osmUrl": "https://www.openstreetmap.org/node/367827368"
   },
   {
-   "id": "osm-w1315447901",
-   "name": "The Irving Korach Architecture Gallery",
-   "topic": "art gallery",
-   "lat": 25.716819,
-   "lng": -80.279064,
+   "id": "osm-n4205228308",
+   "name": "The Screening Room",
+   "topic": "arts center",
+   "lat": 25.801921,
+   "lng": -80.199239,
    "photo": false,
-   "facts": [
-    "Run by University of Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1315447901"
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4205228308"
   },
   {
    "id": "osm-w435748157",
@@ -53,26 +51,6 @@
    "osmUrl": "https://www.openstreetmap.org/way/435748157"
   },
   {
-   "id": "osm-n4205228308",
-   "name": "The Screening Room",
-   "topic": "arts center",
-   "lat": 25.801921,
-   "lng": -80.199239,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4205228308"
-  },
-  {
-   "id": "osm-n367827530",
-   "name": "Sanford L Ziff Jewish Museum of Florida",
-   "topic": "museum",
-   "lat": 25.771667,
-   "lng": -80.134722,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367827530"
-  },
-  {
    "id": "osm-w1314522471",
    "name": "Thomas F. Daly Loggia",
    "topic": "art gallery",
@@ -83,6 +61,28 @@
     "Run by University of Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1314522471"
+  },
+  {
+   "id": "osm-w1315447901",
+   "name": "The Irving Korach Architecture Gallery",
+   "topic": "art gallery",
+   "lat": 25.716819,
+   "lng": -80.279064,
+   "photo": false,
+   "facts": [
+    "Run by University of Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1315447901"
+  },
+  {
+   "id": "osm-n13610476795",
+   "name": "Vossen",
+   "topic": "art gallery",
+   "lat": 25.705117,
+   "lng": -80.285974,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/13610476795"
   },
   {
    "id": "osm-w1180991368",
@@ -155,14 +155,14 @@
    "osmUrl": "https://www.openstreetmap.org/node/4249047169"
   },
   {
-   "id": "osm-n13610476795",
-   "name": "Vossen",
+   "id": "osm-n6091344318",
+   "name": "Waltman Ortega Fine Art",
    "topic": "art gallery",
-   "lat": 25.705117,
-   "lng": -80.285974,
+   "lat": 25.79944,
+   "lng": -80.19512,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/13610476795"
+   "osmUrl": "https://www.openstreetmap.org/node/6091344318"
   },
   {
    "id": "osm-n367819294",
@@ -217,16 +217,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/367827528"
   },
   {
-   "id": "osm-n6091344318",
-   "name": "Waltman Ortega Fine Art",
-   "topic": "art gallery",
-   "lat": 25.79944,
-   "lng": -80.19512,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6091344318"
-  },
-  {
    "id": "osm-n367819328",
    "name": "Miami Art Center",
    "topic": "arts center",
@@ -265,6 +255,18 @@
    "photo": false,
    "facts": [],
    "osmUrl": "https://www.openstreetmap.org/node/4224000190"
+  },
+  {
+   "id": "osm-n4110041150",
+   "name": "Belairfineart",
+   "topic": "art gallery",
+   "lat": 25.790503,
+   "lng": -80.132832,
+   "photo": false,
+   "facts": [
+    "Part of the Scotch & Soda chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4110041150"
   }
  ],
  "points": [
@@ -376,11 +378,6 @@
   [
    25.799103,
    -80.194626,
-   0
-  ],
-  [
-   25.771667,
-   -80.134722,
    0
   ],
   [

@@ -221,6 +221,29 @@ describe('duplicates', () => {
     expect(findCatalogDuplicate({ name: 'Panther Coffee Wynwood', lat: 25.801, lng: -80.199, categories: ['food'] }, catalog)?.id).toBe('panther-coffee-wynwood');
     expect(findCatalogDuplicate({ name: 'Nu Stadium', lat: 25.7901, lng: -80.2501 }, catalog)?.id).toBe('nu-stadium');
   });
+  it('catches catalog places named differently or pinned far apart', () => {
+    const catalog = [
+      { id: 'fairchild', regionId: 'miami', name: 'Fairchild Tropical Botanic Garden', lat: 25.6785, lng: -80.2743, categories: ['parks-nature'] },
+      { id: 'crandon-park', regionId: 'key-biscayne', name: 'Crandon Park', lat: 25.7102, lng: -80.1564, categories: ['parks-nature'] },
+      { id: 'crandon-tennis', regionId: 'key-biscayne', name: 'Tennis Center at Crandon Park', lat: 25.7088, lng: -80.16, categories: ['sports'] },
+      { id: 'miami-circle', regionId: 'miami', name: 'Miami Circle National Historic Landmark', lat: 25.7699, lng: -80.1913, categories: ['history-culture'] },
+    ];
+    const at = (name, lat, lng, cat) => findCatalogDuplicate({ name, lat, lng, categories: [cat] }, catalog)?.id;
+    expect(at('Fairchild Botanical Garden', 25.6771, -80.2729, 'parks-nature')).toBe('fairchild');
+    expect(at('Crandon Park', 25.7146, -80.1619, 'parks-nature')).toBe('crandon-park');
+    expect(at('Crandon Tennis Center', 25.7085, -80.1597, 'sports')).toBe('crandon-tennis');
+    // Different places that share one word stay.
+    expect(at('Crandon Beach', 25.7081, -80.1528, 'parks-nature')).toBeUndefined();
+    const more = [
+      { id: 'lincoln-road', regionId: 'miami', name: 'Lincoln Road', lat: 25.7906, lng: -80.1393, categories: ['history-culture'] },
+      { id: 'versailles', regionId: 'miami', name: 'Versailles Restaurant', lat: 25.7652, lng: -80.2532, categories: ['food'] },
+      { id: 'arsht', regionId: 'miami', name: 'Adrienne Arsht Center', lat: 25.7872, lng: -80.1897, categories: ['entertainment'] },
+    ];
+    const at2 = (name, lat, lng, cat) => findCatalogDuplicate({ name, lat, lng, categories: [cat] }, more)?.id;
+    expect(at2('Lincoln Theatre', 25.7905, -80.1395, 'history-culture')).toBeUndefined();
+    expect(at2('Versailles Bakery', 25.7653, -80.2531, 'food')).toBeUndefined();
+    expect(at2('Adrienne Arsht Center for the Performing Arts', 25.7875, -80.1895, 'entertainment')).toBe('arsht');
+  });
   it('keeps one of a place mapped twice', () => {
     const a = toPlace(node(1, { amenity: 'cafe', name: 'Café Demetrio', cuisine: 'coffee_shop' }));
     const b = toPlace({ type: 'way', id: 2, center: { lat: 25.76552, lon: -80.21962 }, tags: { amenity: 'cafe', name: 'Cafe Demetrio' } });

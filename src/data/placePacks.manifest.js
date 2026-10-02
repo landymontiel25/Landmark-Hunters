@@ -13,14 +13,14 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "art-museums",
-    "file": "places/miami/art-museums.8ddbb29660.json",
-    "count": 28
+    "file": "places/miami/art-museums.3199fe6f73.json",
+    "count": 27
   },
   {
     "region": "miami",
     "category": "entertainment",
-    "file": "places/miami/entertainment.eafa2972a3.json",
-    "count": 29
+    "file": "places/miami/entertainment.f578413f73.json",
+    "count": 27
   },
   {
     "region": "miami",

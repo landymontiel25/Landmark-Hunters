@@ -1,9 +1,9 @@
 {
  "category": "entertainment",
- "count": 29,
- "commonsPhotos": 5,
- "commonsPhotoPct": 17.2,
- "withFacts": 13,
+ "count": 27,
+ "commonsPhotos": 3,
+ "commonsPhotoPct": 11.1,
+ "withFacts": 12,
  "withHours": 1,
  "photoSkips": [
   {
@@ -19,91 +19,24 @@
  ],
  "sample": [
   {
-   "id": "osm-n367825978",
-   "name": "Lincoln Theatre-New World Symphony Building",
-   "topic": "theater",
-   "lat": 25.790783,
-   "lng": -80.134164,
+   "id": "osm-n4770384121",
+   "name": "Miami seaplane tour",
+   "topic": "seaplane tour",
+   "lat": 25.746674,
+   "lng": -80.177954,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367825978"
+   "osmUrl": "https://www.openstreetmap.org/node/4770384121"
   },
   {
-   "id": "osm-w366186665",
-   "name": "Gusman Concert Hall",
+   "id": "osm-w375165787",
+   "name": "Jerry Herman Ring Theatre",
    "topic": "theater",
-   "lat": 25.71965,
-   "lng": -80.279508,
-   "photo": false,
-   "facts": [
-    "Run by University of Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/366186665"
-  },
-  {
-   "id": "osm-w314061996",
-   "name": "Adrienne Arsht Center for the Performing Arts",
-   "topic": "theater",
-   "lat": 25.787633,
-   "lng": -80.189899,
-   "photo": true,
-   "facts": [
-    "Founded in 2006",
-    "Wheelchair accessible"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/314061996"
-  },
-  {
-   "id": "osm-n367825974",
-   "name": "Dade County Auditorium",
-   "topic": "theater",
-   "lat": 25.777222,
-   "lng": -80.236111,
-   "photo": true,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367825974"
-  },
-  {
-   "id": "osm-n4710861095",
-   "name": "O Cinema South Beach",
-   "topic": "movie theater",
-   "lat": 25.782493,
-   "lng": -80.132639,
-   "photo": false,
-   "facts": [
-    "Has 1 screen"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4710861095"
-  },
-  {
-   "id": "osm-w589360337",
-   "name": "Colony Theatre / Miami New Drama",
-   "topic": "theater",
-   "lat": 25.790206,
-   "lng": -80.139788,
+   "lat": 25.719593,
+   "lng": -80.280105,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/589360337"
-  },
-  {
-   "id": "osm-n8871944117",
-   "name": "Thriller Miami Speedboat Adventures",
-   "topic": "boat tour",
-   "lat": 25.777684,
-   "lng": -80.185741,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/8871944117"
-  },
-  {
-   "id": "osm-w435585940",
-   "name": "Manuel Artime Theater",
-   "topic": "theater",
-   "lat": 25.772327,
-   "lng": -80.209553,
-   "photo": true,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/435585940"
+   "osmUrl": "https://www.openstreetmap.org/way/375165787"
   },
   {
    "id": "osm-w746679195",
@@ -120,78 +53,26 @@
    "osmUrl": "https://www.openstreetmap.org/way/746679195"
   },
   {
-   "id": "osm-n4587214222",
-   "name": "La Casa Del Teatro",
+   "id": "osm-w366186665",
+   "name": "Gusman Concert Hall",
    "topic": "theater",
-   "lat": 25.766311,
-   "lng": -80.211418,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4587214222"
-  },
-  {
-   "id": "osm-n4770384121",
-   "name": "Miami seaplane tour",
-   "topic": "seaplane tour",
-   "lat": 25.746674,
-   "lng": -80.177954,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4770384121"
-  },
-  {
-   "id": "osm-w297682367",
-   "name": "Regal Cinema",
-   "topic": "movie theater",
-   "lat": 25.790116,
-   "lng": -80.140627,
+   "lat": 25.71965,
+   "lng": -80.279508,
    "photo": false,
    "facts": [
-    "Part of the Regal Cinemas chain"
+    "Run by University of Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/297682367"
+   "osmUrl": "https://www.openstreetmap.org/way/366186665"
   },
   {
-   "id": "osm-w1178593087",
-   "name": "CMX",
+   "id": "osm-n13165171139",
+   "name": "Rooftop Cinema Club South Beach",
    "topic": "movie theater",
-   "lat": 25.766877,
-   "lng": -80.194509,
-   "photo": false,
-   "facts": [
-    "Has 10 screens"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1178593087"
-  },
-  {
-   "id": "osm-w301237024",
-   "name": "FPL Solar Amphitheater at Bayfront Park",
-   "topic": "amphitheater",
-   "lat": 25.776205,
-   "lng": -80.18606,
+   "lat": 25.789316,
+   "lng": -80.14144,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/301237024"
-  },
-  {
-   "id": "osm-n11972505214",
-   "name": "Splash",
-   "topic": "water park",
-   "lat": 25.786921,
-   "lng": -80.175012,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11972505214"
-  },
-  {
-   "id": "osm-n9173305516",
-   "name": "Ashe Auditorium",
-   "topic": "theater",
-   "lat": 25.77096,
-   "lng": -80.190726,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/9173305516"
+   "osmUrl": "https://www.openstreetmap.org/node/13165171139"
   },
   {
    "id": "osm-n12179541636",
@@ -206,6 +87,50 @@
    "osmUrl": "https://www.openstreetmap.org/node/12179541636"
   },
   {
+   "id": "osm-n4710861095",
+   "name": "O Cinema South Beach",
+   "topic": "movie theater",
+   "lat": 25.782493,
+   "lng": -80.132639,
+   "photo": false,
+   "facts": [
+    "Has 1 screen"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4710861095"
+  },
+  {
+   "id": "osm-n9173305516",
+   "name": "Ashe Auditorium",
+   "topic": "theater",
+   "lat": 25.77096,
+   "lng": -80.190726,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/9173305516"
+  },
+  {
+   "id": "osm-n367825978",
+   "name": "Lincoln Theatre-New World Symphony Building",
+   "topic": "theater",
+   "lat": 25.790783,
+   "lng": -80.134164,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/367825978"
+  },
+  {
+   "id": "osm-w297682367",
+   "name": "Regal Cinema",
+   "topic": "movie theater",
+   "lat": 25.790116,
+   "lng": -80.140627,
+   "photo": false,
+   "facts": [
+    "Part of the Regal Cinemas chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/297682367"
+  },
+  {
    "id": "osm-n6935717880",
    "name": "Silverspot Cinema",
    "topic": "movie theater",
@@ -216,58 +141,6 @@
     "Has 17 screens"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6935717880"
-  },
-  {
-   "id": "osm-n5025200754",
-   "name": "Teatro Trail",
-   "topic": "theater",
-   "lat": 25.764814,
-   "lng": -80.255562,
-   "photo": true,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/5025200754"
-  },
-  {
-   "id": "osm-w375165787",
-   "name": "Jerry Herman Ring Theatre",
-   "topic": "theater",
-   "lat": 25.719593,
-   "lng": -80.280105,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/375165787"
-  },
-  {
-   "id": "osm-w1274267731",
-   "name": "Knight Center for Music Innovation",
-   "topic": "theater",
-   "lat": 25.718064,
-   "lng": -80.281176,
-   "photo": false,
-   "facts": [
-    "Run by University of Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1274267731"
-  },
-  {
-   "id": "osm-n3683239634",
-   "name": "Victor E. Clarke Recital Hall",
-   "topic": "theater",
-   "lat": 25.718589,
-   "lng": -80.280223,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/3683239634"
-  },
-  {
-   "id": "osm-n13165171139",
-   "name": "Rooftop Cinema Club South Beach",
-   "topic": "movie theater",
-   "lat": 25.789316,
-   "lng": -80.14144,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/13165171139"
   },
   {
    "id": "osm-n367825966",
@@ -283,6 +156,29 @@
    "osmUrl": "https://www.openstreetmap.org/node/367825966"
   },
   {
+   "id": "osm-n9173305501",
+   "name": "James L. Knight Center Theater",
+   "topic": "theater",
+   "lat": 25.771149,
+   "lng": -80.191443,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/9173305501"
+  },
+  {
+   "id": "osm-w590186839",
+   "name": "The Fillmore Miami Beach at the Jackie Gleason Theater",
+   "topic": "concert venue",
+   "lat": 25.79293,
+   "lng": -80.133092,
+   "photo": false,
+   "facts": [
+    "Founded in 1951",
+    "Designed by Russell T. Pancoast and Henry Hohauser"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/590186839"
+  },
+  {
    "id": "osm-n4945642323",
    "name": "Cinema 6",
    "topic": "movie theater",
@@ -291,14 +187,115 @@
    "photo": false,
    "facts": [],
    "osmUrl": "https://www.openstreetmap.org/node/4945642323"
+  },
+  {
+   "id": "osm-w301237024",
+   "name": "FPL Solar Amphitheater at Bayfront Park",
+   "topic": "amphitheater",
+   "lat": 25.776205,
+   "lng": -80.18606,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/301237024"
+  },
+  {
+   "id": "osm-n5025200754",
+   "name": "Teatro Trail",
+   "topic": "theater",
+   "lat": 25.764814,
+   "lng": -80.255562,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/5025200754"
+  },
+  {
+   "id": "osm-n8871944117",
+   "name": "Thriller Miami Speedboat Adventures",
+   "topic": "boat tour",
+   "lat": 25.777684,
+   "lng": -80.185741,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/8871944117"
+  },
+  {
+   "id": "osm-n4587214222",
+   "name": "La Casa Del Teatro",
+   "topic": "theater",
+   "lat": 25.766311,
+   "lng": -80.211418,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4587214222"
+  },
+  {
+   "id": "osm-n6932414793",
+   "name": "Landmark at Merrick Park",
+   "topic": "movie theater",
+   "lat": 25.731388,
+   "lng": -80.260907,
+   "photo": false,
+   "facts": [
+    "Has 7 screens",
+    "Part of the Landmark Theatres chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6932414793"
+  },
+  {
+   "id": "osm-n11972505214",
+   "name": "Splash",
+   "topic": "water park",
+   "lat": 25.786921,
+   "lng": -80.175012,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/11972505214"
+  },
+  {
+   "id": "osm-w589360337",
+   "name": "Colony Theatre / Miami New Drama",
+   "topic": "theater",
+   "lat": 25.790206,
+   "lng": -80.139788,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/589360337"
+  },
+  {
+   "id": "osm-n6912995626",
+   "name": "Cinépolis Luxury Cinemas",
+   "topic": "movie theater",
+   "lat": 25.728701,
+   "lng": -80.242366,
+   "photo": false,
+   "facts": [
+    "Has 14 screens",
+    "Part of the Cinépolis chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6912995626"
+  },
+  {
+   "id": "osm-w435585940",
+   "name": "Manuel Artime Theater",
+   "topic": "theater",
+   "lat": 25.772327,
+   "lng": -80.209553,
+   "photo": true,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/435585940"
+  },
+  {
+   "id": "osm-n3683239634",
+   "name": "Victor E. Clarke Recital Hall",
+   "topic": "theater",
+   "lat": 25.718589,
+   "lng": -80.280223,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/3683239634"
   }
  ],
  "points": [
-  [
-   25.787633,
-   -80.189899,
-   1
-  ],
   [
    25.704966,
    -80.286298,
@@ -338,11 +335,6 @@
    25.72262,
    -80.277237,
    0
-  ],
-  [
-   25.777222,
-   -80.236111,
-   1
   ],
   [
    25.776205,
