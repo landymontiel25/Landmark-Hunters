@@ -1167,7 +1167,7 @@ export const EL_ESCORIAL_LANDMARKS = [
     firstTimerPriority: "Low",
     neighborhood: "Centro",
     cost: "$$",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/San%20Lorenzo%20de%20El%20Escorial%20-%20Teatro%20Auditorio.jpg?width=1200'],
     name: "Teatro Auditorio de San Lorenzo de El Escorial",
     region: 'el-escorial',
     lat: 40.5905051,
