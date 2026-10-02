@@ -652,23 +652,15 @@ export default function Mapr() {
     }
   };
 
-  // Every Mapr request asks first: "Just me" or "A group". The choice applies
-  // to this one request only. Retrying a failed turn keeps its earlier answer,
-  // and the Plan Your Trip wizard asks on its own last step, so both arrive
-  // here with requestFor already set.
-  const [ask, setAsk] = useState(null);
+  // Only Plan Your Trip asks "Just me" or "A group" (on its own last step), and
+  // its answer arrives here as opts.requestFor. The choice applies to that one
+  // request only; retrying a failed turn keeps its earlier answer.
+  // Typed messages go straight out (Just me, so your taste is used). Only
+  // Plan Your Trip asks "Who is this plan for?", on its own last step, and
+  // passes the answer in as opts.requestFor.
   const send = (e, overrideText, opts = {}) => {
     e?.preventDefault();
-    if (opts.requestFor) return doSend(null, overrideText, opts);
-    const text = (overrideText ?? draft).trim();
-    if (!text || busy || sendingRef.current.has(activeChat.id)) return undefined;
-    setAsk({ overrideText, opts });
-    return undefined;
-  };
-  const chooseRequestFor = (value) => {
-    const a = ask;
-    setAsk(null);
-    if (a) doSend(null, a.overrideText, { ...a.opts, requestFor: value });
+    return doSend(null, overrideText, opts);
   };
 
   // Editing an earlier message discards it and everything that followed
@@ -679,8 +671,6 @@ export default function Mapr() {
     const trimmed = newText.trim();
     if (!trimmed || busy) return;
     const truncated = messages.slice(0, idx);
-    // The old turns are only dropped once the request really goes out (after
-    // "Just me" / "A group"), so cancelling that question loses nothing.
     send(null, trimmed, {
       historyOverride: truncated,
       beforeSend: () => {
@@ -1066,26 +1056,8 @@ export default function Mapr() {
       <div className="action-bar-spacer" />
       {/* After the spacer, so scrolling to the newest message leaves it above the fixed composer. */}
       <div ref={feedEndRef} style={{ scrollMarginBottom: 70 }} />
-      <form className={`fixed-action-bar chatlab-composer${ask ? ' chatlab-composer-asking' : ''}`} onSubmit={send}>
-        {ask && (
-          <div className="fixed-action-bar-inner chatlab-request-for" role="group" aria-labelledby="request-for-label">
-            <p id="request-for-label" className="chatlab-request-for-label">
-              Who is this for?
-            </p>
-            <div className="chatlab-request-for-buttons">
-              <button type="button" className="btn btn-primary" autoFocus onClick={() => chooseRequestFor('solo')}>
-                Just me
-              </button>
-              <button type="button" className="btn btn-primary" onClick={() => chooseRequestFor('group')}>
-                A group
-              </button>
-            </div>
-            <button type="button" className="chat-wizard-link chatlab-request-for-cancel" onClick={() => setAsk(null)}>
-              Cancel
-            </button>
-          </div>
-        )}
-        <div className="fixed-action-bar-inner chatlab-composer-inner" hidden={!!ask}>
+      <form className="fixed-action-bar chatlab-composer" onSubmit={send}>
+        <div className="fixed-action-bar-inner chatlab-composer-inner">
           <input
             type="text"
             name="mapr-message"

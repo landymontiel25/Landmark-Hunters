@@ -149,21 +149,19 @@ const click = async (text) => {
 };
 const lastBody = () => JSON.parse(h.fetchJson.mock.calls.at(-1)[1].body);
 
-describe('Mapr asks who each request is for', () => {
-  it('asks first with two buttons, and sends nothing until one is chosen', async () => {
+describe('typed chat messages go straight out (Who is this for? is only asked by Plan Your Trip)', () => {
+  it('sends immediately with no question', async () => {
     await setValue('somewhere fun');
     await submit();
-    expect(container.querySelector('#request-for-label').textContent).toBe('Who is this for?');
-    expect(button('Just me')).toBeTruthy();
-    expect(button('A group')).toBeTruthy();
-    expect(h.fetchJson).not.toHaveBeenCalled();
+    expect(container.querySelector('#request-for-label')).toBeNull();
+    expect(button('Just me')).toBeUndefined();
+    expect(button('A group')).toBeUndefined();
+    expect(h.fetchJson).toHaveBeenCalledTimes(1);
   });
 
-  it('Just me keeps the current behaviour: the whole taste context is sent', async () => {
+  it('uses your taste: the whole taste context is sent as a Just me request', async () => {
     await setValue('somewhere fun');
     await submit();
-    await click('Just me');
-    expect(h.fetchJson).toHaveBeenCalledTimes(1);
     const body = lastBody();
     expect(body.requestFor).toBe('solo');
     expect(body.reviews).toHaveLength(1);
@@ -172,55 +170,13 @@ describe('Mapr asks who each request is for', () => {
     expect(body.messages.at(-1)).toEqual({ role: 'user', content: 'somewhere fun' });
   });
 
-  it('A group sends no taste context at all', async () => {
+  it('keeps the typed text out of the box after sending and shows the exchange', async () => {
+    h.fetchJson.mockResolvedValue({ reply: 'Here you go.', stops: [], quickReplies: [] });
     await setValue('family bowling');
     await submit();
-    await click('A group');
-    const body = lastBody();
-    expect(body.requestFor).toBe('group');
-    expect(body.reviews).toEqual([]);
-    expect(body.interests).toEqual([]);
-    expect(body.tasteIntro).toBe('');
-    expect(body.insiderMode).toBe(false);
-    expect(body.tagScoreSummary).toEqual({});
-    expect(body.messages.at(-1).content).toBe('family bowling');
-  });
-
-  it('asks again on the next request (the choice is not remembered)', async () => {
-    await setValue('family bowling');
-    await submit();
-    await click('A group');
-    await setValue('and dinner after');
-    await submit();
-    expect(container.querySelector('#request-for-label')).toBeTruthy();
-    expect(h.fetchJson).toHaveBeenCalledTimes(1);
-    await click('Just me');
-    expect(h.fetchJson).toHaveBeenCalledTimes(2);
-    expect(lastBody().requestFor).toBe('solo');
-    expect(lastBody().reviews).toHaveLength(1);
-  });
-
-  it('Cancel sends nothing and keeps what was typed', async () => {
-    await setValue('family bowling');
-    await submit();
-    await click('Cancel');
-    expect(h.fetchJson).not.toHaveBeenCalled();
-    expect(container.querySelector('input[name="mapr-message"]').value).toBe('family bowling');
-  });
-
-  it('still shows the exchange after a group request', async () => {
-    h.fetchJson.mockResolvedValue({
-      reply: 'Here you go.',
-      stops: [{ name: 'Lucky Strike', id: 'x1', region: 'villanova', external: false }],
-      quickReplies: [],
-    });
-    await setValue('family bowling');
-    await submit();
-    await click('A group');
-    // Chat messages are shown in the thread; the stop card reports itself shown via the logger mock.
-    const bubbles = container.textContent;
-    expect(bubbles).toContain('family bowling');
-    expect(bubbles).toContain('Here you go.');
+    expect(container.querySelector('input[name="mapr-message"]').value).toBe('');
+    expect(container.textContent).toContain('family bowling');
+    expect(container.textContent).toContain('Here you go.');
   });
 });
 
@@ -233,7 +189,6 @@ describe('the three pick buttons on Mapr chat suggestion cards', () => {
     h.fetchJson.mockResolvedValue({ reply: 'Try these.', stops, quickReplies: [] });
     await setValue('somewhere fun');
     await submit();
-    await click('A group');
   };
   // OnScreen is stubbed away here, so a card is found through its button group.
   const card = (name) => container.querySelector(`[aria-label="Would you go to ${name}?"]`)?.closest('[data-pick-vote]') || undefined;
@@ -254,7 +209,7 @@ describe('the three pick buttons on Mapr chat suggestion cards', () => {
     h.saveVote.mockImplementation(() => new Promise((r) => (done = r)));
     await ask();
     await tap(vbtn('Autana', "I'd go"));
-    expect(h.saveVote).toHaveBeenCalledWith(expect.objectContaining({ landmark: expect.objectContaining({ id: 'a' }), verdict: 'yes', requestFor: 'group' }));
+    expect(h.saveVote).toHaveBeenCalledWith(expect.objectContaining({ landmark: expect.objectContaining({ id: 'a' }), verdict: 'yes', requestFor: 'solo' }));
     expect(vbtn('Autana', "I'd go").getAttribute('aria-pressed')).toBe('false');
     await act(async () => done({ status: 'saved', entry: { landmarkId: 'a', verdict: 'yes' } }));
     expect(vbtn('Autana', "I'd go").getAttribute('aria-pressed')).toBe('true');
