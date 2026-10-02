@@ -6,6 +6,7 @@
 export const F1_LANDMARKS = [
   {
     id: 'albert-park-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Melbourne%20Grand%20Prix%20Circuit%20pit%20building.jpg?width=1200'],
     editorialRank: 1,
     popularity: 7,
     cost: '$$$',
@@ -25,6 +26,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'shanghai-international-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Formula%201%20Circuit%20(Shanghai)%20-%20panoramio.jpg?width=1200'],
     editorialRank: 2,
     popularity: 7,
     cost: '$$$',
@@ -44,6 +46,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'suzuka-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Suzuka%20Circuit%20Pit%20Building.jpg?width=1200'],
     editorialRank: 3,
     popularity: 7,
     cost: '$$$',
@@ -63,6 +66,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'bahrain-international-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Bahrain%20International%20Circuit.jpg?width=1200'],
     editorialRank: 4,
     popularity: 7,
     cost: '$$$',
@@ -101,6 +105,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-gilles-villeneuve',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20Gilles%20Villeneuve%2C%20Montreal.jpg?width=1200'],
     editorialRank: 6,
     popularity: 7,
     cost: '$$$',
@@ -120,6 +125,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-de-monaco',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20de%20Monaco%2C%20April%201%2C%202018%20SkySat.jpg?width=1200'],
     editorialRank: 7,
     popularity: 7,
     cost: '$$$',
@@ -139,6 +145,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-de-barcelona-catalunya',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20de%20Catalunya%2C%20Barcelona%20(Ank%20Kumar)%2004.jpg?width=1200'],
     editorialRank: 8,
     popularity: 7,
     cost: '$$$',
@@ -177,6 +184,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'silverstone-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Silverstone%20Circuit%2C%20UK%20(Ank%20Kumar%2C%20Infosys%20Limited)%2001.jpg?width=1200'],
     editorialRank: 10,
     popularity: 7,
     cost: '$$$',
@@ -196,6 +204,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-de-spa-francorchamps',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20de%20Spa-Francorchamps%2C%20April%2022%2C%202018%20SkySat.jpg?width=1200'],
     editorialRank: 11,
     popularity: 7,
     cost: '$$$',
@@ -215,6 +224,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'hungaroring',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Hungaroring%20-%20wide%20view%20from%20gate%203%2009-2022.jpg?width=1200'],
     editorialRank: 12,
     popularity: 7,
     cost: '$$$',
@@ -234,6 +244,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-zandvoort',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Luftbild%20der%20Circuit%20Park%20Zandvoort%20Rennstrecke%20Formel%201%20(46940306055).jpg?width=1200'],
     editorialRank: 13,
     popularity: 7,
     cost: '$$$',
@@ -253,6 +264,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'baku-city-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Baku%20City%20Circuit%2C%20April%209%2C%202018%20SkySat.jpg?width=1200'],
     editorialRank: 14,
     popularity: 7,
     cost: '$$$',
@@ -272,6 +284,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'marina-bay-street-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Singapore%20(SG)%2C%20Marina%20Bay%20Street%20Circuit%2C%20F1%20Pit%20Building%20--%202019%20--%204478.jpg?width=1200'],
     editorialRank: 15,
     popularity: 7,
     cost: '$$$',
@@ -291,6 +304,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-of-the-americas',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Main%20straight%20and%20turn%201%20hill%2C%20Circuit%20of%20the%20Americas.jpg?width=1200'],
     editorialRank: 16,
     popularity: 7,
     cost: '$$$',
@@ -310,6 +324,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'autodromo-hermanos-rodriguez',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Vista%20a%C3%A9rea%20del%20Aut%C3%B3dromo%20Hermanos%20Rodr%C3%ADguez%2003.jpg?width=1200'],
     editorialRank: 17,
     popularity: 7,
     cost: '$$$',
@@ -329,6 +344,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'interlagos',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Aut%C3%B3dromo%20de%20Interlagos%20em%20Dezembro%20de%202023.jpg?width=1200'],
     editorialRank: 18,
     popularity: 7,
     cost: '$$$',
@@ -386,6 +402,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'yas-marina-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Yas%20Marina%20Circuit%2C%20Abu%20Dhabi.jpg?width=1200'],
     editorialRank: 21,
     popularity: 7,
     cost: '$$$',

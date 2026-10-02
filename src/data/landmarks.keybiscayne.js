@@ -309,7 +309,7 @@ export const KEYBISCAYNE_LANDMARKS = [
     cost: "$$",
     neighborhood: "North Key Biscayne",
     firstTimerPriority: "Medium",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Tennis%20Center%20at%20Crandon%20Park.jpg?width=1200'],
     name: "Tennis Center at Crandon Park",
     region: 'key-biscayne',
     lat: 25.7087608,
