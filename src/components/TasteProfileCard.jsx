@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
+import { useRatings } from '../lib/RatingsContext';
+import { estimateTasteScore } from '../lib/tasteEstimate';
 import { saveTasteBaseline, saveTasteIntro } from '../lib/friends';
 import { TASTE_WINDOW } from '../lib/maprConstants';
 import { loadTasteSummary, TASTE_ANSWER_EVENT } from '../lib/tasteScoreStore';
@@ -105,6 +107,11 @@ export default function TasteProfileCard() {
     };
   }, [user]);
 
+  // Display-only estimate from the reviews already loaded (no reads, nothing
+  // saved). Only used while the live score is still learning.
+  const { myReviews } = useRatings();
+  const estimate = useMemo(() => estimateTasteScore(myReviews), [myReviews]);
+
   const profileStuck = useSlowLoad(!!user && !profileFresh && !justSaved && !editing);
 
   if (!user) return null;
@@ -176,12 +183,18 @@ export default function TasteProfileCard() {
 
   const learning = !taste || taste.state !== 'ready';
   const score = learning ? null : taste.score;
+  const estimated = learning && estimate ? estimate.score : null;
 
   return (
     <div className="card section taste-profile-card">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
         <h3 style={{ margin: 0, fontSize: '0.95rem' }}>
-          {'\u{1F9E9}'} Mapr knows your taste: {learning ? 'Learning...' : `${score}%`}
+          {'\u{1F9E9}'} Mapr knows your taste: {learning ? (estimated != null ? `~${estimated}%` : 'Learning...') : `${score}%`}
+          {estimated != null && (
+            <span className="screen-subtitle" style={{ fontWeight: 400, marginLeft: 6 }}>
+              (estimated from your past ratings)
+            </span>
+          )}
         </h3>
         <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44 }} onClick={startEditing}>
           {hasBaseline ? `${'\u{270F}\u{FE0F}'} Edit` : `${'\u{2795}'} Answer a few quick picks`}
@@ -201,7 +214,9 @@ export default function TasteProfileCard() {
         </div>
       )}
       <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
-        {learning
+        {learning && estimated != null
+          ? 'Rate the places Mapr suggests and this will switch to scoring its real guesses.'
+          : learning
           ? 'Rate the places Mapr suggests and it will start scoring how well it knows your taste.'
           : `How often Mapr guessed your answer right on its last ${TASTE_WINDOW} picks. Your newest answer on a place is the one that counts.`}
       </p>

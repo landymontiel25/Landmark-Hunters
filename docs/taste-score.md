@@ -94,6 +94,30 @@ the score. It reads the user's own `recommendation_log` rows (filtered to rows
 with a guess) and own `place_scores`, and refreshes after an answer
 (`TASTE_ANSWER_EVENT`).
 
+## Estimate from past ratings
+
+Past ratings have no saved guess, so a user with many ratings but few live
+guesses would see "Learning...". Until the live score has `TASTE_MIN_GUESSES`
+guesses, the card shows **"Mapr knows your taste: ~N%"** with "(estimated from
+your past ratings)" (`src/lib/tasteEstimate.js`, tests in `tasteEstimate.test.js`).
+
+- Replay the user's reviews (already loaded in `RatingsContext`, memoized)
+  oldest first by `ratedAt` (else `updatedAt`). Once `TASTE_ESTIMATE_MIN_HISTORY`
+  (5) earlier ratings exist, each rating is predicted with the real
+  `predictLevel` from tag scores built **only from earlier ratings**
+  (`applyRating`, in memory, visit frequency included), then credited against
+  the actual tier with the live credits (hit / small miss / big miss).
+  Ratings `predictLevel` would not guess on (null) are skipped.
+- Estimate = credit-weighted hits over the last `TASTE_WINDOW` replayed guesses,
+  same 99% cap (`computeTasteScore`). Fewer than `TASTE_MIN_GUESSES` replayable
+  guesses: no estimate, plain "Learning...".
+- Display only. It is never written to `taste_history`, `recommendation_log`,
+  the match rate, the admin stats or the long study; those stay based on live
+  predictions. Nothing new is stored, so account deletion needs no change, and
+  firestore.rules are untouched. It uses only past ratings, so it never reveals
+  a pick's prediction. Once live guesses reach the minimum, the live score
+  replaces it.
+
 ## History: `users/{uid}/taste_history/{id}`
 
 Owner-only (read, create, delete; no update). One document per snapshot:
