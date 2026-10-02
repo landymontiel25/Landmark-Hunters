@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getLandmark, INTERESTS } from '../src/data/regions.js';
+import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { PICK_REASONS_MODEL } from './_lib/aiModels.js';
@@ -84,6 +85,7 @@ async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    await ensureServerPlacePacks();
     const { lines, keys } = promptLines(body.picks);
     if (!lines.length) {
       res.status(200).json({ reasons: {} });

@@ -4,6 +4,8 @@
 // show nothing rather than a misleading "Ticketed".
 export function admissionText(landmark, short = false) {
   if (!landmark) return null;
+  // Unknown (imported places without a fee tag): no claim either way.
+  if (landmark.free == null) return null;
   if (landmark.free) return short ? 'Free' : 'Free to Visit';
   if ((landmark.categories || []).includes('food')) return null;
   return 'Needs a ticket';

@@ -10,7 +10,7 @@ export function getChallengesForRegion(regionId) {
     categoryId: cat.id,
     label: `Every ${cat.label} Spot`,
     icon: cat.icon,
-    landmarks: ALL_LANDMARKS.filter((l) => l.regionId === regionId && l.categories?.includes(cat.id)),
+    landmarks: ALL_LANDMARKS.filter((l) => l.regionId === regionId && l.source !== 'osm' && l.categories?.includes(cat.id)),
     // A "collection" of one isn't much of a challenge.
   })).filter((c) => c.landmarks.length >= 2);
 }

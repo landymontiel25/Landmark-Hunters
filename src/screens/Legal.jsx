@@ -62,6 +62,16 @@ export default function Legal() {
           (GetYourGuide, Viator, or Tiqets), subject to their own privacy policy.
         </p>
 
+        <h3>Place data and photos</h3>
+        <p>
+          Many places come from{' '}
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+            © OpenStreetMap contributors
+          </a>{' '}
+          (Open Database License), with some facts from Wikidata (CC0). Photos credited to an author and license come
+          from Wikimedia Commons; photos marked "via Google Maps" load from Google each time and are never stored.
+        </p>
+
         <h3>Your choices</h3>
         <p>
           You can make your profile private (Profile → Privacy), block or report another user's content (on any

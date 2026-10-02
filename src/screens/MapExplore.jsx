@@ -16,6 +16,7 @@ import { useCheckIn } from '../lib/useCheckIn';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { getLandmarkOverrides, saveLandmarkPosition } from '../lib/landmarkOverrides';
 import { getCustomLandmarks, deleteCustomLandmark, updateCustomLandmark } from '../lib/customLandmarks';
+import { usePlacePacksVersion } from '../lib/placePacks';
 import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -283,6 +284,7 @@ export default function MapExplore({ experiments = false }) {
   const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
+  const packsVersion = usePlacePacksVersion();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
@@ -725,7 +727,8 @@ export default function MapExplore({ experiments = false }) {
     const placeMatches = SEARCHABLE_PLACES.map((p) => ({ ...p, score: searchScore(p.name, '', term) })).filter((p) => p.score > 0);
     // Best match first -- a name match beats a word buried in a description.
     return [...landmarkMatches, ...customMatches, ...placeMatches].sort((a, b) => b.score - a.score).slice(0, 8);
-  }, [searchTerm, savedOverrides, customLandmarks, coords, lastKnown]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- packsVersion: imported places join ALL_LANDMARKS in place
+  }, [searchTerm, savedOverrides, customLandmarks, coords, lastKnown, packsVersion]);
 
   // AI fallback when the word search finds little: catalog on the server,
   // custom landmarks sent along.
@@ -798,7 +801,8 @@ export default function MapExplore({ experiments = false }) {
       .map((l) => ({ ...l, meters: distanceMeters(listLat, listLng, l.lat, l.lng) }))
       .sort((a, b) => a.meters - b.meters)
       .slice(0, 12);
-  }, [listLat, listLng, customLandmarks, savedOverrides]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- packsVersion: imported places join ALL_LANDMARKS in place
+  }, [listLat, listLng, customLandmarks, savedOverrides, packsVersion]);
 
   // Build the markers once and reuse the same elements across re-renders. GPS
   // ticks update `coords` several times a minute; if the markers were rebuilt
@@ -897,7 +901,7 @@ export default function MapExplore({ experiments = false }) {
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit]
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit, packsVersion]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the

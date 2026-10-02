@@ -25,3 +25,6 @@ npm-debug.log*
 # Local Claude Code permission allowlist -- personal to each machine/session,
 # not project config that should be shared.
 .claude/settings.local.json
+
+# OSM import working files (raw Overpass/Wikidata/Commons replies)
+scripts/osm-import/data/

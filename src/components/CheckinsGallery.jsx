@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getLandmark, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
+import { ensurePlacePacks, isPlacePackId } from '../lib/placePacks';
 import { getUserCheckins, updateCheckinTimestamp, isRealCheckin } from '../lib/leaderboard';
 import { getMyReview } from '../lib/reviews';
 import { isRateable, tierById, tierStars } from '../lib/ratingFlow';
@@ -176,6 +177,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       // …then upgrade each tile with the user's own review via direct doc
       // reads (the reviews/{uid}_{landmarkId} doc), which the security rules
       // allow: their photo, and their rating for the rating sorts.
+      if (rows.some((c) => isPlacePackId(c.landmarkId))) await ensurePlacePacks();
       const needsCustoms = rows.some((c) => !getLandmark(c.region, c.landmarkId));
       const [reviews, customList] = await Promise.all([
         Promise.all(rows.map((c) => getMyReview(user.uid, c.landmarkId).catch(() => null))),

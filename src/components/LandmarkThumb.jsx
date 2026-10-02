@@ -22,7 +22,10 @@ export default function LandmarkThumb({ landmark, size = 52, width, height, myPh
   const [loaded, setLoaded] = useState(null);
   const image = [myPhoto, landmark.images?.[0]].find((src) => src && !failed.has(src));
   const wantsFallback = !myPhoto && !landmark.images?.length;
-  const place = usePlacePhoto(landmark, { enabled: wantsFallback });
+  // Imported places only look up a Google photo when opened (detail page,
+  // pick and swipe cards), so scrolling a long list can't spend the day's
+  // search quota.
+  const place = usePlacePhoto(landmark, { enabled: wantsFallback, lookup: landmark.source !== 'osm' });
   const w = width ?? size;
   const h = height ?? size;
   const style = { width: w, height: h };

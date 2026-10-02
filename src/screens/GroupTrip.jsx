@@ -479,7 +479,7 @@ export default function GroupTrip() {
                   <DirectionsButton name={l.name} lat={l.lat} lng={l.lng} className="btn btn-ghost btn-sm">
                     Get Directions
                   </DirectionsButton>
-                  {l.free ? (
+                  {l.free == null && !l.bookingUrl ? null : l.free ? (
                     <button className="btn btn-sm" disabled style={{ borderColor: 'var(--color-green)', color: '#bfe0c8' }}>
                       Free to Visit
                     </button>

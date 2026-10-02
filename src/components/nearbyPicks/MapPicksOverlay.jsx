@@ -4,7 +4,7 @@ import { useFriends } from '../../lib/FriendsContext';
 import { useRatings } from '../../lib/RatingsContext';
 import { useOnlineStatus } from '../../lib/useOnlineStatus';
 import { getUserCheckins, isRealCheckin } from '../../lib/leaderboard';
-import { ALL_LANDMARKS } from '../../data/regions';
+import { ALL_LANDMARKS, getLandmark } from '../../data/regions';
 import {
   widenChip,
   fallbackReason,
@@ -49,9 +49,7 @@ import './nearbyPicks.css';
 // with location off it asks for location, an old cached set shows with
 // "Updating...", and offline the last set stays up.
 
-const byKey = new Map(ALL_LANDMARKS.map((l) => [`${l.regionId}/${l.id}`, l]));
-const byId = new Map(ALL_LANDMARKS.map((l) => [l.id, l]));
-const landmarkOf = (c) => byKey.get(`${c.region}/${c.landmarkId}`) || byId.get(c.landmarkId) || null;
+const landmarkOf = (c) => getLandmark(c.region, c.landmarkId) || ALL_LANDMARKS.find((l) => l.id === c.landmarkId) || null;
 const categoryOf = (c) => primaryCategory(landmarkOf(c)?.categories);
 const NO_COUNTS = {};
 

@@ -4,7 +4,8 @@
       "maxDuration": 60
     },
     "api/mapr-picks.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "public/places/**"
     },
     "api/smart-search.js": {
       "maxDuration": 60
@@ -23,6 +24,9 @@
     },
     "api/study-summary.js": {
       "maxDuration": 60
+    },
+    "api/pick-reasons.js": {
+      "includeFiles": "public/places/**"
     }
   },
   "crons": [
@@ -58,6 +62,15 @@
         {
           "key": "Permissions-Policy",
           "value": "camera=(self), geolocation=(self), microphone=(), payment=(), usb=()"
+        }
+      ]
+    },
+    {
+      "source": "/places/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }

@@ -10,6 +10,7 @@ import { capturePendingReferralFromUrl } from './lib/referrals';
 import { registerOfflineServiceWorker } from './lib/offlineMap';
 import { watchForNewVersion } from './lib/versionCheck';
 import { applyStoredTheme } from './lib/useTheme';
+import { ensurePlacePacks } from './lib/placePacks';
 
 // Before HashRouter takes over the URL -- ?ref=... lives in the real query
 // string, ahead of the # it routes on.
@@ -27,3 +28,6 @@ createRoot(document.getElementById('root')).render(
     </ErrorBoundary>
   </StrictMode>
 );
+
+// Imported places load after the first screen so they never delay it.
+setTimeout(() => ensurePlacePacks().catch(() => {}), 1500);

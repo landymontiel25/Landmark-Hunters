@@ -3,6 +3,8 @@
 // internet access:
 //   node scripts/find-commons-photos.mjs out/            # writes out/commons.found.json
 //   node scripts/apply-commons-photos.mjs out/           # edits the landmark data + credits
+//   node scripts/find-commons-photos.mjs --places scripts/osm-import/data/staged.json scripts/osm-import/data/
+//                                                        # OSM import: build-packs.mjs applies the results
 // Then review the diff (git diff) before committing. Safe to re-run: landmarks
 // already found in the output file are skipped, so an interrupted run resumes.
 // A photo is only chosen when the file name/description/categories contain the
@@ -13,7 +15,12 @@ import path from 'node:path';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { toCandidate, scoreCandidate, pickBest, resultFor } from '../src/lib/commonsMatch.js';
 
-const outDir = process.argv[2] || 'out';
+// --places <file.json>: run over those places (the OSM import's staged list)
+// instead of the catalog's photo-less landmarks.
+const args = process.argv.slice(2);
+const placesArg = args.indexOf('--places');
+const placesFile = placesArg >= 0 ? args.splice(placesArg, 2)[1] : null;
+const outDir = args[0] || 'out';
 fs.mkdirSync(outDir, { recursive: true });
 const outFile = path.join(outDir, 'commons.found.json');
 const API = 'https://commons.wikimedia.org/w/api.php';
@@ -55,7 +62,8 @@ async function candidatesFor(l) {
 
 const done = fs.existsSync(outFile) ? JSON.parse(fs.readFileSync(outFile, 'utf8')) : [];
 const have = new Map(done.map((r) => [`${r.region}/${r.id}`, r]));
-const todo = ALL_LANDMARKS.filter((l) => !(l.images && l.images.length)).map((l) => ({ ...l, region: l.regionId || l.region }));
+const source = placesFile ? JSON.parse(fs.readFileSync(placesFile, 'utf8')) : ALL_LANDMARKS;
+const todo = source.filter((l) => !(l.images && l.images.length)).map((l) => ({ ...l, region: l.regionId || l.region }));
 let n = 0;
 for (const l of todo) {
   const key = `${l.region}/${l.id}`;
