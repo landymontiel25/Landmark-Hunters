@@ -9,5 +9,11 @@ export const PLACE_PACKS = [
     "category": "airports",
     "file": "places/miami/airports.6e677be541.json",
     "count": 2
+  },
+  {
+    "region": "miami",
+    "category": "art-museums",
+    "file": "places/miami/art-museums.8ddbb29660.json",
+    "count": 28
   }
 ];
