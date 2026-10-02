@@ -1540,7 +1540,7 @@ export const MIAMI_LANDMARKS = [
     cost: "Free",
     neighborhood: "Westchester",
     firstTimerPriority: "Medium",
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Tropical%20Park%20Stadium.jpg?width=1200'],
+    images: [],
     name: "Tropical Park",
     region: 'miami',
     lat: 25.7251649,
