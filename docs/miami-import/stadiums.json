@@ -1,0 +1,48 @@
+{
+ "category": "stadiums",
+ "count": 2,
+ "commonsPhotos": 0,
+ "commonsPhotoPct": 0,
+ "withFacts": 2,
+ "withHours": 1,
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w441800741",
+   "name": "Memorial Field Football Stadium",
+   "topic": "stadium",
+   "lat": 25.782342,
+   "lng": -80.139615,
+   "photo": false,
+   "facts": [
+    "Grass surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/441800741"
+  },
+  {
+   "id": "osm-w1303862465",
+   "name": "Cobb Stadium",
+   "topic": "stadium",
+   "lat": 25.713346,
+   "lng": -80.282434,
+   "photo": false,
+   "facts": [
+    "Home of Miami Hurricanes women's soccer",
+    "Run by University of Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1303862465"
+  }
+ ],
+ "points": [
+  [
+   25.713346,
+   -80.282434,
+   0
+  ],
+  [
+   25.782342,
+   -80.139615,
+   0
+  ]
+ ]
+}
