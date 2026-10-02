@@ -131,6 +131,7 @@ export const VILLANOVA_LANDMARKS = [
   },
   {
     id: 'alumni-hall',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Villanova_alumni_hall.JPG?width=1200'],
     popularity: 1,
     name: 'Alumni Hall',
     region: 'villanova',
@@ -842,7 +843,7 @@ export const VILLANOVA_LANDMARKS = [
     cost: "Free",
     neighborhood: "Haverford",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Haverfordfounders.jpg?width=1200'],
     name: "Haverford College",
     region: 'villanova',
     lat: 40.007151,
