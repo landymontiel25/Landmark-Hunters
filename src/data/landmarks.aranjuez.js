@@ -106,7 +106,7 @@ export const ARANJUEZ_LANDMARKS = [
     firstTimerPriority: "Medium",
     neighborhood: "Centro",
     cost: "$$$",
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Casa_Jos%C3%A9_Boiteux%2C_um_legado_cultura_para_posteridade.jpg?width=1200'],
+    images: [],
     name: "Casa José",
     region: 'aranjuez',
     lat: 40.034,

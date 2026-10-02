@@ -166,7 +166,6 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'red-bull-ring',
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Mattias_Ekstr%C3%B6m_2015-08-02_004.jpg?width=1200'],
     editorialRank: 9,
     popularity: 7,
     cost: '$$$',
@@ -366,7 +365,6 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'las-vegas-strip-circuit',
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Las_Vegas_Strip_Circuit.png?width=1200'],
     editorialRank: 19,
     popularity: 7,
     cost: '$$$',

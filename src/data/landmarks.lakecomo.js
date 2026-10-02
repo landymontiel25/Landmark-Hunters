@@ -953,7 +953,7 @@ export const LAKE_COMO_LANDMARKS = [
     firstTimerPriority: "Medium",
     neighborhood: "Brunate",
     cost: "Free",
-    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Brunate_-_Panorama_dal_Faro_Voltiano.jpg?width=1200'],
+    images: [],
     name: "Faro Voltiano",
     region: 'lake-como',
     lat: 45.826058,
