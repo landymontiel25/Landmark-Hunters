@@ -1,4 +1,3 @@
-import { FieldPath } from 'firebase-admin/firestore';
 import { computeMetrics, growthStats } from '../../src/lib/adminStats.js';
 import { computeStudy } from '../../src/lib/studySummary.js';
 import { STUDY_COLLECTION, STUDY_SERIES_DAYS } from '../../src/lib/statsConstants.js';
@@ -25,7 +24,7 @@ export async function buildSummary(db, now = Date.now()) {
 // account deleted later removes its taste_history, which would otherwise
 // rewrite the past.
 export async function storedSeries(db) {
-  const snap = await db.collection(STUDY_COLLECTION).orderBy(FieldPath.documentId(), 'desc').limit(STUDY_SERIES_DAYS).get();
+  const snap = await db.collection(STUDY_COLLECTION).orderBy('date', 'desc').limit(STUDY_SERIES_DAYS).get();
   const out = new Map();
   for (const d of snap.docs) {
     const p = d.data()?.daily;
