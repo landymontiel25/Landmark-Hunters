@@ -36,6 +36,10 @@ Deploy `firestore.rules` and `storage.rules` from this repo as-is (Firestore Dat
 
 The in-app AI assistant (the "✨ Ask AI" widget, the Mapr trip-planning chat, custom-interest matching on Setup, and landmark-submission verification) is powered by the Anthropic API via serverless functions in `api/`. Add `ANTHROPIC_API_KEY` to `.env` (see `.env.example`) to enable it locally, and as a Vercel environment variable in production. Without it, those features show a "not set up yet" message — everything else works fine.
 
+## Google Maps Platform and other server secrets
+
+Server routes read these from Vercel: `GOOGLE_PLACES_API_KEY` (Places API (New) only), `GOOGLE_ROUTES_API_KEY` (Routes API only), `ANTHROPIC_API_KEY`, `FIREBASE_SERVICE_ACCOUNT` and `CRON_SECRET`. The Google keys are separate on purpose, each restricted to its own API. Daily caps, the monthly budget and the current setup are written down in `docs/photos.md` (Owner setup).
+
 ## How the leaderboard resets
 
 Each check-in increments per-period aggregate documents (`leaderboard_entries`) keyed by ISO week / calendar month / calendar year. When a new period starts, its key is new, so the leaderboard naturally shows zero for that period — no scheduled job required.
