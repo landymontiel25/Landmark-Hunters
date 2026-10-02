@@ -38,7 +38,7 @@ async function handler(req, res) {
         res.status(400).json({ error: 'Unknown action.' });
         return;
       }
-      res.status(200).json(await backfillCreatedAt(db, adminAuth()));
+      res.status(200).json(await backfillCreatedAt(db, await adminAuth()));
       return;
     }
     if (req.method !== 'GET') {

@@ -1,7 +1,5 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getMessaging } from 'firebase-admin/messaging';
 import { getFirestore } from 'firebase-admin/firestore';
-import { getAuth } from 'firebase-admin/auth';
 
 // The one place in this app that needs a real Firebase service-account
 // secret. Everywhere else (verifyAuth.js) gets by on the public web API key
@@ -21,7 +19,11 @@ function adminApp() {
   return initializeApp({ credential: cert(JSON.parse(json)) });
 }
 
-export function adminMessaging() {
+// Messaging and Auth load lazily: firebase-admin/auth pulls in jwks-rsa, which
+// require()s an ESM-only jose and crashes on Vercel's Node. Routes that only
+// need Firestore (the streak routes) must never load it.
+export async function adminMessaging() {
+  const { getMessaging } = await import('firebase-admin/messaging');
   return getMessaging(adminApp());
 }
 
@@ -30,7 +32,8 @@ export function adminDb() {
 }
 
 // Account records (creation time) for the createdAt backfill.
-export function adminAuth() {
+export async function adminAuth() {
+  const { getAuth } = await import('firebase-admin/auth');
   return getAuth(adminApp());
 }
 
