@@ -16,6 +16,9 @@ import { flushPendingPickVotes, getPickFeedback, readPendingPickVotes, setPickFe
 export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVote = false }) {
   const [votes, setVotes] = useState({});
   const [removed, setRemoved] = useState(() => new Set());
+  // Landmarks whose answer was saved during this visit (any verdict), so a
+  // "3 answered today" counter can move the instant a save lands.
+  const [answeredIds, setAnsweredIds] = useState(() => new Set());
   const ctx = useRef({});
   ctx.current = { uid, origin, onSaved, removeOnAnyVote };
   const last = useRef({}); // landmarkId -> { landmark, verdict, requestFor } for Try again
@@ -36,6 +39,7 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
     (entry) => {
       if (!alive.current) return;
       setVotes((cur) => ({ ...cur, [entry.landmarkId]: { verdict: entry.verdict, status: 'idle', tryingVerdict: null } }));
+      setAnsweredIds((cur) => new Set(cur).add(entry.landmarkId));
       // Not for me always takes the card out. Where a place is asked about once
       // (the Profile carousel), any answer does: it is already answered.
       if (entry.verdict === 'no' || ctx.current.removeOnAnyVote) setRemoved((cur) => new Set(cur).add(entry.landmarkId));
@@ -104,5 +108,5 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
     [vote]
   );
 
-  return { votes, removed, vote, retry };
+  return { votes, removed, answeredIds, vote, retry };
 }

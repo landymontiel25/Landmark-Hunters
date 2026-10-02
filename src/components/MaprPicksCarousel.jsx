@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
@@ -14,6 +14,8 @@ import { getRegion } from '../data/regions';
 import { isRateable, isVisitedReview } from '../lib/ratingFlow';
 import { getPickFeedback, readLocalFeedback, votedIds } from '../lib/pickFeedback';
 import { usePickVotes } from '../lib/usePickVotes';
+import { closeSoloToday } from '../lib/soloStreaks';
+import { PICKS_STREAK_THRESHOLD, dayKey } from '../lib/streaks';
 import PickVoteButtons from './PickVoteButtons';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
@@ -62,8 +64,36 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Trip is reflected here even before a fresh GPS fix comes in.
   const defaultRegionId = pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
   const regionId = cityOverride || defaultRegionId;
-  const { votes, removed, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
+  const { votes, removed, answeredIds, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
+  // Landmarks answered today: earlier answers from today (the database copy,
+  // with their time) plus the ones saved during this visit, so the counter
+  // moves the moment a save lands, with no reload. The badges count (votes
+  // and 0-point ratings from everywhere) can only raise it.
+  const { actionsToday = 0 } = useBadges();
+  const answeredToday = useMemo(() => {
+    const today = dayKey(new Date());
+    const ids = new Set(answeredIds);
+    for (const [id, f] of Object.entries(feedback || {})) {
+      if (f?.at && dayKey(new Date(f.at)) === today) ids.add(id);
+    }
+    return ids.size;
+  }, [feedback, answeredIds]);
+  const countToday = Math.max(answeredToday, actionsToday);
+  const dayDone = countToday >= PICKS_STREAK_THRESHOLD;
+  // The moment today's quota is met, tell the server so the streak day
+  // closes now (and the Profile warning flips) instead of after a reload.
+  const closedFor = useRef(null);
+  useEffect(() => {
+    if (!dayDone || !user?.uid) return;
+    const key = `${user.uid}:${dayKey(new Date())}`;
+    if (closedFor.current === key) return;
+    closedFor.current = key;
+    closeSoloToday()
+      .then(() => reloadBadges())
+      .catch(() => {});
+  }, [dayDone, user?.uid]);
+
   // Each card is logged as shown (with a hidden guess) when it scrolls into
   // view, one set per city row, so a vote on it counts toward the taste score
   // and the match rate like any other Mapr pick.
@@ -119,7 +149,18 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   return (
     <div className="mapr-picks">
       <div className="taste-card-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-        <span>{'\u{1F5FA}\u{FE0F}'} Mapr Travel Picks</span>
+        <span>
+          {'\u{1F5FA}\u{FE0F}'} Mapr Travel Picks{' '}
+          <span
+            className={`pick-day-counter${dayDone ? ' done' : ''}`}
+            role="status"
+            aria-live="polite"
+            aria-label={`${Math.min(countToday, PICKS_STREAK_THRESHOLD)} of ${PICKS_STREAK_THRESHOLD} landmarks answered today${dayDone ? ', done' : ''}`}
+          >
+            {dayDone ? '\u2713 ' : ''}
+            {Math.min(countToday, PICKS_STREAK_THRESHOLD)}/{PICKS_STREAK_THRESHOLD} today
+          </span>
+        </span>
         <button
           type="button"
           className="tag"
