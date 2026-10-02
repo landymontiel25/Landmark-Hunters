@@ -67,8 +67,16 @@ Unconfirmed: the SKU details page (`/billing-and-pricing/sku-details`) could not
 
 ## Owner setup
 
-- **Places API (New)** enabled on the Google Cloud project that owns `GOOGLE_PLACES_API_KEY` (already used by autocomplete/details/nearby), with **billing enabled**.
-- If the key has API restrictions, Places API (New) must be allowed. Server-side use means the key should have no HTTP-referrer restriction.
+State as of Oct 2 (recorded from the owner; no code depends on it):
+
+- **Places API (New)** is enabled in the Google Cloud project "Landmark Hunters" (`landmark-hunters-284ab`), with billing enabled.
+- **Two separate API keys.**
+  - "Places key" (created Oct 2): allows Places API (New) only. It is the value of `GOOGLE_PLACES_API_KEY` in Vercel for Production and Preview.
+  - "Routes key" (created Sep 25): allows Routes API only. It is `GOOGLE_ROUTES_API_KEY` (used by `api/directions.js`).
+  - Server-side use means neither key has an HTTP-referrer restriction.
+- **Daily Places API (New) caps** (Cloud console, APIs & Services, Quotas): SearchTextRequest 100, GetPlaceRequest 300, GetPhotoMediaRequest 1000, AutocompletePlacesRequest 500, SearchNearbyRequest 100. **If photos or search stop working, check these first.** Once a cap is hit Google returns errors and the route answers 502 (the failing step and Google status now show in Vercel Logs as `place-photo:` lines).
+- **Budget:** $20 a month with email alerts at 50%, 90% and 100%.
+- Other Vercel secrets: `ANTHROPIC_API_KEY` was rotated and the old key deleted. `CRON_SECRET` and `FIREBASE_SERVICE_ACCOUNT` are set in Production. The iOS app was rebuilt and tested in the simulator.
 - Deploy; `api/place-photo.js` has `maxDuration: 30` in `vercel.json`.
 
 ## Why not Unsplash, Pexels or stock subscriptions
