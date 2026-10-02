@@ -202,17 +202,20 @@ export function localRatingCount(profile, region) {
 }
 
 // Weight other regions lend this one: 40% with no local ratings, 0 at 15.
-export function warmStartWeight(profile, region) {
-  return WARM_START_WEIGHT * Math.max(0, 1 - localRatingCount(profile, region) / WARM_START_RATINGS);
+export function warmStartWeight(profile, region, base = WARM_START_WEIGHT) {
+  return base * Math.max(0, 1 - localRatingCount(profile, region) / WARM_START_RATINGS);
 }
 
 // Decayed, capped scores for one region, topped up by the warm start from
 // the user's other regions, with a 1.5x multiplier on any tag the user said
 // "yes, lean into it" to. Only this ranking view can exceed the cap; the
 // stored score never does.
-export function effectiveTagScores(profile, region, nowMs = Date.now()) {
+// opts.warmStartWeight overrides how much other regions lend (default
+// WARM_START_WEIGHT); the hidden prediction uses a fuller loan, see
+// maprPrediction.js.
+export function effectiveTagScores(profile, region, nowMs = Date.now(), opts = {}) {
   const local = decayedRegion(profile, region, nowMs);
-  const w = warmStartWeight(profile, region);
+  const w = warmStartWeight(profile, region, opts.warmStartWeight ?? WARM_START_WEIGHT);
   const borrowed = {};
   if (w > 0) {
     const sums = {};
