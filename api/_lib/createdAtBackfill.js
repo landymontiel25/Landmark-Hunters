@@ -78,6 +78,8 @@ export async function backfillCreatedAt(db, auth, { max = BACKFILL_MAX_USERS } =
     if (pick.source === 'auth') result.fromAuth += 1;
     else result.fromFirstRating += 1;
   }
-  result.done = exhausted && todo.length < max && result.noSource === 0;
+  // Users with no source (no Auth account, no ratings) can never be filled, so they
+  // must not keep the job "not done" forever.
+  result.done = exhausted && todo.length < max;
   return result;
 }

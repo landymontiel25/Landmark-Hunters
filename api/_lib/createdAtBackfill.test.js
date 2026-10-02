@@ -48,7 +48,7 @@ describe('backfillCreatedAt', () => {
       reviews: { viaRating: [{ ratedAt: 9000, updatedAt: stamp(8000) }, { updatedAt: stamp(5000) }], nothing: [] },
     });
     const r = await backfillCreatedAt(db, auth, { max: 50 });
-    expect(r).toMatchObject({ scanned: 4, updated: 2, fromAuth: 1, fromFirstRating: 1, noSource: 1 });
+    expect(r).toMatchObject({ scanned: 4, updated: 2, fromAuth: 1, fromFirstRating: 1, noSource: 1, done: true });
     expect(sets.map((s) => s[0]).sort()).toEqual(['viaAuth', 'viaRating']);
     expect(sets.find((s) => s[0] === 'viaAuth')[1]).toEqual({ createdAt: { ms: Date.parse('2024-01-01T00:00:00Z') } });
     expect(sets.find((s) => s[0] === 'viaRating')[1].createdAt.ms).toBe(5000);

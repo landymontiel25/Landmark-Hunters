@@ -275,7 +275,7 @@ export default function AdminStats() {
       if (!r.ok) throw new Error(body.error || `The route answered ${r.status}.`);
       setFill({
         running: false,
-        text: `Filled ${body.fromAuth ?? 0} from Firebase sign-up time and ${body.fromFirstRating ?? 0} from a first rating; ${body.noSource ?? 0} had no source. ${body.done ? 'Done: every user has a sign-up date.' : 'Not done yet: press the button again.'}`,
+        text: `Filled ${body.fromAuth ?? 0} from Firebase sign-up time and ${body.fromFirstRating ?? 0} from a first rating; ${body.noSource ?? 0} had no source. ${body.done ? (body.noSource ? 'Done: the rest have no account or rating to read a date from.' : 'Done: every user has a sign-up date.') : 'Not done yet: press the button again.'}`,
       });
       load();
     } catch (e) {
