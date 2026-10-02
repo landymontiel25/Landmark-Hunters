@@ -107,7 +107,9 @@ export async function closeSoloToday() {
     body: JSON.stringify({ dayId: today, tzOffsetMin: new Date().getTimezoneOffset() }),
   });
   const data = await r.json().catch(() => null);
-  return data || { ok: false };
+  // A crashed function answers with a non-JSON error page: report its status
+  // instead of a bare "not ok", so the app can say what actually happened.
+  return data || { ok: false, error: `The server could not run (error ${r.status}).` };
 }
 
 // Spends the month's one personal freeze to hold today -- server-

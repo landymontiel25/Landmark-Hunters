@@ -1,5 +1,5 @@
-import { getRegion } from '../data/regions';
-import { isRateable } from './ratingFlow';
+import { getRegion } from '../data/regions.js';
+import { isRateable } from './ratingFlow.js';
 
 // Deterministic per-pair daily deck (Dual Streak spec item 3: "Each pair
 // gets 3 cards per day, chosen by a server function from a pair-day ID.
