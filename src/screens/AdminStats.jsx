@@ -260,6 +260,28 @@ export default function AdminStats() {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const busy = useRef(false);
+  // The one-time sign-up date backfill (api/admin-stats POST {action:'backfill'}):
+  // run it again until it reports done.
+  const [fill, setFill] = useState({ running: false, text: '' });
+  const runBackfill = async () => {
+    setFill({ running: true, text: 'Running…' });
+    try {
+      const r = await fetch(`${API_BASE}/api/admin-stats`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+        body: JSON.stringify({ action: 'backfill' }),
+      });
+      const body = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(body.error || `The route answered ${r.status}.`);
+      setFill({
+        running: false,
+        text: `Filled ${body.fromAuth ?? 0} from Firebase sign-up time and ${body.fromFirstRating ?? 0} from a first rating; ${body.noSource ?? 0} had no source. ${body.done ? 'Done: every user has a sign-up date.' : 'Not done yet: press the button again.'}`,
+      });
+      load();
+    } catch (e) {
+      setFill({ running: false, text: String(e.message || e) });
+    }
+  };
 
   const load = useCallback(async () => {
     if (busy.current) return;
@@ -316,6 +338,18 @@ export default function AdminStats() {
         </p>
       )}
       {data?.study && <Study study={data.study} />}
+      <section className="as-card" aria-label="Sign-up date backfill">
+        <p className="as-label">Sign-up dates (one-time)</p>
+        <p className="as-p">Fills in the sign-up date for users created before it was saved. Safe to run more than once.</p>
+        <button type="button" className="btn btn-ghost btn-sm" style={{ minHeight: 44 }} disabled={fill.running} onClick={runBackfill}>
+          {fill.running ? 'Running…' : 'Run sign-up date backfill'}
+        </button>
+        {fill.text && (
+          <p className="as-p" role="status">
+            {fill.text}
+          </p>
+        )}
+      </section>
     </div>
   );
 }

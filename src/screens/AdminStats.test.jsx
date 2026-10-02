@@ -81,4 +81,26 @@ describe('AdminStats page', () => {
     await mount(async () => ({ ok: false, status: 403, json: async () => ({ error: 'Not allowed.' }) }));
     expect(host.querySelector('[role="alert"]').textContent).toBe('Not allowed.');
   });
+
+  it('runs the sign-up date backfill with a POST and reports the counts, telling you to press again until done', async () => {
+    const calls = [];
+    await mount(async (url, init) => {
+      calls.push({ url, method: init?.method || 'GET', body: init?.body });
+      if (init?.method === 'POST') {
+        return { ok: true, status: 200, json: async () => ({ fromAuth: 12, fromFirstRating: 1, noSource: 0, done: false }) };
+      }
+      return { ok: true, status: 200, json: async () => body };
+    });
+    const btn = [...host.querySelectorAll('button')].find((b) => b.textContent.includes('Run sign-up date backfill'));
+    expect(btn).toBeTruthy();
+    await act(async () => btn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 20));
+    });
+    const post = calls.find((c) => c.method === 'POST');
+    expect(post.url).toContain('/api/admin-stats');
+    expect(JSON.parse(post.body)).toEqual({ action: 'backfill' });
+    expect(host.textContent).toContain('Filled 12 from Firebase sign-up time and 1 from a first rating');
+    expect(host.textContent).toContain('press the button again');
+  });
 });
