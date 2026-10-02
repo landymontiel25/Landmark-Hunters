@@ -7,6 +7,7 @@ import { subscribeMyNotifications, markNotificationRead } from '../lib/notificat
 import { ALL_LANDMARKS } from '../data/regions';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
+import { onboardingStatus } from '../lib/onboardingVersion';
 import { SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
@@ -74,7 +75,7 @@ function StreakCountdown({ createdAt }) {
 export default function Notifications() {
   const navigate = useNavigate();
   const { user, loading: authLoading, firebaseEnabled } = useAuth();
-  const { requests, reload: reloadFriends } = useFriends();
+  const { requests, reload: reloadFriends, myProfile, profileFresh } = useFriends();
   const toast = useToast();
   const [items, setItems] = useState(null); // null = first snapshot not in yet
   const [loadError, setLoadError] = useState(null);
@@ -103,6 +104,18 @@ export default function Notifications() {
     );
   }, [firebaseEnabled, user, authLoading, loadAttempt]);
 
+  // An "Onboarding has been updated" notice for an account that has already
+  // finished the current onboarding has nothing to open (the /onboarding route
+  // sends it straight back to Profile), and it would keep the red badge up for
+  // nothing. Mark those read once the real profile is known.
+  const onboardingDone = profileFresh && !!myProfile && onboardingStatus(myProfile) === 'complete';
+  useEffect(() => {
+    if (!onboardingDone || !items) return;
+    for (const n of items) {
+      if (n.type === 'onboarding_update' && !n.read) markNotificationRead(n.id).catch(() => {});
+    }
+  }, [onboardingDone, items]);
+
   const toggleIn = (setter, id, on) =>
     setter((cur) => {
       const next = new Set(cur);
@@ -126,6 +139,12 @@ export default function Notifications() {
     // Onboarding.jsx); opening it and walking away leaves it unread.
     if (!n.read && !readIds.has(n.id) && n.type !== 'onboarding_update') markRead(n);
     if (n.type === 'onboarding_update') {
+      if (onboardingDone) {
+        // Nothing left to finish: clear it instead of opening an empty screen.
+        if (!n.read && !readIds.has(n.id)) markRead(n);
+        toast.show('Onboarding is already finished.', { tone: 'success', durationMs: 3000 });
+        return;
+      }
       navigate('/onboarding');
       return;
     }
