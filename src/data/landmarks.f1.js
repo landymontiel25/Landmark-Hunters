@@ -6,6 +6,7 @@
 export const F1_LANDMARKS = [
   {
     id: 'albert-park-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Melbourne%20Grand%20Prix%20Circuit%20pit%20building.jpg?width=1200'],
     editorialRank: 1,
     popularity: 7,
     cost: '$$$',
@@ -25,6 +26,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'shanghai-international-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Formula%201%20Circuit%20(Shanghai)%20-%20panoramio.jpg?width=1200'],
     editorialRank: 2,
     popularity: 7,
     cost: '$$$',
@@ -44,6 +46,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'suzuka-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Suzuka%20Circuit%20Pit%20Building.jpg?width=1200'],
     editorialRank: 3,
     popularity: 7,
     cost: '$$$',
@@ -63,6 +66,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'bahrain-international-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Bahrain%20International%20Circuit.jpg?width=1200'],
     editorialRank: 4,
     popularity: 7,
     cost: '$$$',
@@ -101,6 +105,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-gilles-villeneuve',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20Gilles%20Villeneuve%2C%20Montreal.jpg?width=1200'],
     editorialRank: 6,
     popularity: 7,
     cost: '$$$',
@@ -120,6 +125,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-de-monaco',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20de%20Monaco%2C%20April%201%2C%202018%20SkySat.jpg?width=1200'],
     editorialRank: 7,
     popularity: 7,
     cost: '$$$',
@@ -139,6 +145,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-de-barcelona-catalunya',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20de%20Catalunya%2C%20Barcelona%20(Ank%20Kumar)%2004.jpg?width=1200'],
     editorialRank: 8,
     popularity: 7,
     cost: '$$$',
@@ -177,6 +184,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'silverstone-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Silverstone%20Circuit%2C%20UK%20(Ank%20Kumar%2C%20Infosys%20Limited)%2001.jpg?width=1200'],
     editorialRank: 10,
     popularity: 7,
     cost: '$$$',
@@ -196,6 +204,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'circuit-de-spa-francorchamps',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Circuit%20de%20Spa-Francorchamps%2C%20April%2022%2C%202018%20SkySat.jpg?width=1200'],
     editorialRank: 11,
     popularity: 7,
     cost: '$$$',
