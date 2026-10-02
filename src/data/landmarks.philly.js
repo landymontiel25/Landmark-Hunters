@@ -1073,7 +1073,7 @@ export const PHILLY_LANDMARKS = [
     cost: "$$",
     neighborhood: "Chinatown",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/TrocaderoTheater%2020160115.jpg?width=1200'],
     name: "Trocadero Theatre",
     region: 'philly',
     lat: 39.953975,
