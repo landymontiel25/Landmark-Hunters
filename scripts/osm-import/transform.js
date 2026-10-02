@@ -441,9 +441,32 @@ export function findCatalogDuplicate(place, catalog) {
     const d = distanceMeters(place.lat, place.lng, l.lat, l.lng);
     const sameKind = (l.categories || []).includes(place.categories?.[0]);
     if (d <= 250 && isCatalogName(place.name, l.name, sameKind)) return l;
-    if (d <= 400 && nameKey(place.name) === nameKey(l.name)) return l;
+    // A big park's two pins can sit far apart under the same name.
+    if (d <= 1500 && nameKey(place.name) === nameKey(l.name)) return l;
+    if (d <= 500 && sameKind && mostlySameName(place.name, l.name)) return l;
   }
   return null;
+}
+
+// "Fairchild Botanical Garden" / "Fairchild Tropical Botanic Garden",
+// "Crandon Tennis Center" / "Tennis Center at Crandon Park": every distinctive
+// word of the shorter name shared, allowing simple word-form changes
+// (botanical/botanic).
+const LOOSE_GENERIC = new Set([...GENERIC, 'national', 'landmark', 'point', 'at']);
+function mostlySameName(a, b) {
+  const stem = (w) => {
+    let out = w;
+    while (out.length > 4 && /(al|ic|s)$/.test(out)) out = out.replace(/(al|ic|s)$/, '');
+    return out;
+  };
+  const words = (s) => [...new Set(nameKey(s).split(' ').filter((w) => w && !LOOSE_GENERIC.has(w)).map(stem))];
+  const x = words(a);
+  const y = words(b);
+  if (!x.length || !y.length) return false;
+  const shared = x.filter((w) => y.includes(w)).length;
+  // Two distinctive words in common, covering the shorter name: one shared
+  // word ("Lincoln Theatre" / "Lincoln Road") is not enough.
+  return shared >= 2 && shared / Math.min(x.length, y.length) >= 1;
 }
 
 // Within the import: the same place mapped twice (a node and a building way,

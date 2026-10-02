@@ -167,5 +167,51 @@
   },
   "osm-w406011969": {
     "rejectPhoto": "Commons match shows a closed fabric store"
+  },
+  "osm-w217385712": {
+    "rejectPhoto": "Commons match is a Williams-Sonoma storefront"
+  },
+  "osm-w184076406": {
+    "rejectPhoto": "Commons match could not be confirmed as this park"
+  },
+  "osm-r10225212": {
+    "rejectPhoto": "Commons match is a close-up of insects"
+  },
+  "osm-w1368907136": {
+    "rejectPhoto": "Commons match shows Simpson Park",
+    "drop": "likely the hammock inside Simpson Park Hammock (in the catalog)"
+  },
+  "osm-w570390085": {
+    "rejectPhoto": "Commons match shows Allen Morris Brickell Park"
+  },
+  "osm-w416557590": {
+    "rejectPhoto": "Commons match shows the Shops at Merrick Park mall"
+  },
+  "osm-w237024259": {
+    "rejectPhoto": "Commons match is a flower close-up"
+  },
+  "osm-w230481393": {
+    "rejectPhoto": "Commons match shows a construction site"
+  },
+  "osm-w1420651228": {
+    "rejectPhoto": "Commons match is a close-up of fruit"
+  },
+  "osm-w995609966": {
+    "rejectPhoto": "Commons match shows a food kiosk"
+  },
+  "osm-w217385717": {
+    "drop": "same as Miami Circle National Historic Landmark (in the catalog)"
+  },
+  "osm-n367827530": {
+    "drop": "same as Jewish Museum of Florida-FIU (in the catalog)"
+  },
+  "osm-n4705938191": {
+    "drop": "same as García's Seafood Grille & Fish Market (in the catalog)"
+  },
+  "osm-n12134765372": {
+    "drop": "same as Titanic Brewing Company (in the catalog)"
+  },
+  "osm-w475911001": {
+    "drop": "same as Hobie Island Beach (in the catalog)"
   }
 }
