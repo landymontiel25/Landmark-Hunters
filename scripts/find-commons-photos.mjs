@@ -46,27 +46,38 @@ async function api(params) {
   throw new Error('Commons API kept failing');
 }
 
+const meters = (a, b, c, d) => {
+  const r = (x) => (x * Math.PI) / 180;
+  const h = Math.sin(r(c - a) / 2) ** 2 + Math.cos(r(a)) * Math.cos(r(c)) * Math.sin(r(d - b) / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(h));
+};
+const IMAGEINFO = { prop: 'imageinfo|coordinates', iiprop: 'url|extmetadata|size|mime', colimit: 'max' };
+
+// Two requests per landmark: files geotagged within 150 m, and files whose
+// text has the exact name, each returned with its image details.
 async function candidatesFor(l) {
-  const near = new Map(); // title -> meters
-  const geo = await api({ action: 'query', list: 'geosearch', gscoord: `${l.lat}|${l.lng}`, gsradius: '150', gsnamespace: '6', gslimit: '30' });
-  for (const g of geo.query?.geosearch || []) near.set(g.title, g.dist);
-  const search = await api({ action: 'query', list: 'search', srsearch: `"${l.name}"`, srnamespace: '6', srlimit: '10' });
-  const titles = new Set([...near.keys(), ...(search.query?.search || []).map((s) => s.title)]);
-  const out = [];
-  const list = [...titles];
-  for (let i = 0; i < list.length; i += 20) {
-    const info = await api({ action: 'query', titles: list.slice(i, i + 20).join('|'), prop: 'imageinfo', iiprop: 'url|extmetadata|size|mime' });
-    for (const page of Object.values(info.query?.pages || {})) {
+  const geo = await api({ action: 'query', generator: 'geosearch', ggscoord: `${l.lat}|${l.lng}`, ggsradius: '150', ggsnamespace: '6', ggslimit: '30', ...IMAGEINFO });
+  const search = await api({ action: 'query', generator: 'search', gsrsearch: `"${l.name}"`, gsrnamespace: '6', gsrlimit: '10', ...IMAGEINFO });
+  const out = new Map();
+  for (const [res, isGeo] of [[geo, true], [search, false]]) {
+    for (const page of Object.values(res.query?.pages || {})) {
       const c = toCandidate(page);
-      if (c) out.push({ candidate: c, near: near.has(page.title) ? near.get(page.title) : null });
+      if (!c) continue;
+      const co = page.coordinates?.[0];
+      const dist = isGeo && co ? meters(l.lat, l.lng, co.lat, co.lon) : null;
+      const prev = out.get(page.title);
+      if (!prev || (dist != null && (prev.near == null || dist < prev.near))) out.set(page.title, { candidate: c, near: dist });
     }
   }
-  return out;
+  return [...out.values()];
 }
 
 const done = fs.existsSync(outFile) ? JSON.parse(fs.readFileSync(outFile, 'utf8')) : [];
 const have = new Map(done.map((r) => [`${r.region}/${r.id}`, r]));
-const source = placesFile ? JSON.parse(fs.readFileSync(placesFile, 'utf8')) : ALL_LANDMARKS;
+// Imported places run the small categories first, food (the biggest) last.
+const source = placesFile
+  ? JSON.parse(fs.readFileSync(placesFile, 'utf8')).sort((a, b) => (a.categories?.[0] === 'food') - (b.categories?.[0] === 'food'))
+  : ALL_LANDMARKS;
 const todo = source.filter((l) => !(l.images && l.images.length)).map((l) => ({ ...l, region: l.regionId || l.region }));
 let n = 0;
 // One place at a time: Commons rate-limits bursts (three at once failed a
