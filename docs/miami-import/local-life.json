@@ -1,0 +1,922 @@
+{
+ "category": "local-life",
+ "count": 124,
+ "commonsPhotos": 10,
+ "commonsPhotoPct": 8.1,
+ "withFacts": 31,
+ "withHours": 24,
+ "photoSkips": [
+  {
+   "id": "osm-w960715591",
+   "name": "Club Space",
+   "why": "reviewed: Commons match is a close-up of a dancer, not the club"
+  },
+  {
+   "id": "osm-w144051823",
+   "name": "Dadeland Mall",
+   "why": "reviewed: Commons match shows one chocolate shop inside the mall"
+  },
+  {
+   "id": "osm-w441809093",
+   "name": "Lincoln Road Mall",
+   "why": "reviewed: Commons match is a hookah pipe at one shop"
+  },
+  {
+   "id": "osm-r7554876",
+   "name": "Sunset Place",
+   "why": "reviewed: Commons match is a car on display"
+  },
+  {
+   "id": "osm-w406011969",
+   "name": "The Greenery Mall",
+   "why": "reviewed: Commons match shows a closed fabric store"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n6090251576",
+   "name": "BOHO Edgewater Miami",
+   "topic": "nightclub",
+   "lat": 25.795824,
+   "lng": -80.192447,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6090251576"
+  },
+  {
+   "id": "osm-n4980808353",
+   "name": "Area 31 - Epic Hotel",
+   "topic": "bar",
+   "lat": 25.770564,
+   "lng": -80.189253,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4980808353"
+  },
+  {
+   "id": "osm-n12197880117",
+   "name": "Fat Tuesday",
+   "topic": "pub",
+   "lat": 25.690932,
+   "lng": -80.313759,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/12197880117"
+  },
+  {
+   "id": "osm-n5903100399",
+   "name": "Corona Beach House",
+   "topic": "bar",
+   "lat": 25.797408,
+   "lng": -80.276516,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/5903100399"
+  },
+  {
+   "id": "osm-n4732841232",
+   "name": "Jenga bar",
+   "topic": "bar",
+   "lat": 25.787277,
+   "lng": -80.131565,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4732841232"
+  },
+  {
+   "id": "osm-n10959342065",
+   "name": "Floyd",
+   "topic": "bar",
+   "lat": 25.784669,
+   "lng": -80.193052,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/10959342065"
+  },
+  {
+   "id": "osm-n9805079269",
+   "name": "Bud Light Lounge",
+   "topic": "pub",
+   "lat": 25.790505,
+   "lng": -80.276497,
+   "photo": false,
+   "facts": [
+    "Brews its own beer",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9805079269"
+  },
+  {
+   "id": "osm-n763659225",
+   "name": "Barracuda",
+   "topic": "bar",
+   "lat": 25.727762,
+   "lng": -80.243216,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/763659225"
+  },
+  {
+   "id": "osm-n367823350",
+   "name": "Alegro Music Center",
+   "topic": "record store",
+   "lat": 25.762778,
+   "lng": -80.306944,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/367823350"
+  },
+  {
+   "id": "osm-n11586521969",
+   "name": "Perro Negro Miami",
+   "topic": "nightclub",
+   "lat": 25.799695,
+   "lng": -80.195167,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/11586521969"
+  },
+  {
+   "id": "osm-n6110284487",
+   "name": "Gramps",
+   "topic": "bar",
+   "lat": 25.79965,
+   "lng": -80.198301,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6110284487"
+  },
+  {
+   "id": "osm-w435513518",
+   "name": "Macy's",
+   "topic": "department store",
+   "lat": 25.791794,
+   "lng": -80.136117,
+   "photo": false,
+   "facts": [
+    "Part of the Macy's chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435513518"
+  },
+  {
+   "id": "osm-n4372003896",
+   "name": "Wet Bar",
+   "topic": "bar",
+   "lat": 25.765542,
+   "lng": -80.223047,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4372003896"
+  },
+  {
+   "id": "osm-n2082872477",
+   "name": "Abraxas Lounge",
+   "topic": "pub",
+   "lat": 25.773766,
+   "lng": -80.135897,
+   "photo": false,
+   "facts": [
+    "Has Wi-Fi"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2082872477"
+  },
+  {
+   "id": "osm-w316621085",
+   "name": "The Electric Pickle",
+   "topic": "nightclub",
+   "lat": 25.803553,
+   "lng": -80.195267,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/316621085"
+  },
+  {
+   "id": "osm-n4405152389",
+   "name": "The Corner",
+   "topic": "bar",
+   "lat": 25.784656,
+   "lng": -80.193897,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4405152389"
+  },
+  {
+   "id": "osm-n10111847374",
+   "name": "Baby Jane Cocktail House & Noodle Bar",
+   "topic": "bar",
+   "lat": 25.768426,
+   "lng": -80.190639,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/10111847374"
+  },
+  {
+   "id": "osm-n6575836985",
+   "name": "Deweys Tavern",
+   "topic": "bar",
+   "lat": 25.779116,
+   "lng": -80.14102,
+   "photo": true,
+   "facts": [
+    "Serves American food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6575836985"
+  },
+  {
+   "id": "osm-n1454839975",
+   "name": "Gator Plaza",
+   "topic": "market",
+   "lat": 25.682988,
+   "lng": -80.313448,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1454839975"
+  },
+  {
+   "id": "osm-n13401917278",
+   "name": "Live Like You Green It",
+   "topic": "market",
+   "lat": 25.727727,
+   "lng": -80.247289,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/13401917278"
+  },
+  {
+   "id": "osm-w441809093",
+   "name": "Lincoln Road Mall",
+   "topic": "mall",
+   "lat": 25.790528,
+   "lng": -80.136521,
+   "photo": false,
+   "facts": [
+    "Listed on the U.S. National Register of Historic Places"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/441809093"
+  },
+  {
+   "id": "osm-w310319091",
+   "name": "Wynwood Warehouse Project",
+   "topic": "art shop",
+   "lat": 25.801567,
+   "lng": -80.202563,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/310319091"
+  },
+  {
+   "id": "osm-n13567619001",
+   "name": "Vizcaya Farmer’s Market",
+   "topic": "market",
+   "lat": 25.748046,
+   "lng": -80.210794,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/13567619001"
+  },
+  {
+   "id": "osm-n9934299819",
+   "name": "Budweiser Brew House",
+   "topic": "pub",
+   "lat": 25.792271,
+   "lng": -80.281294,
+   "photo": false,
+   "facts": [
+    "Brews its own beer"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9934299819"
+  },
+  {
+   "id": "osm-n3839885752",
+   "name": "Dot Fiftyone Gallery",
+   "topic": "art shop",
+   "lat": 25.802032,
+   "lng": -80.198683,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/3839885752"
+  }
+ ],
+ "points": [
+  [
+   25.739828,
+   -80.279578,
+   0
+  ],
+  [
+   25.773742,
+   -80.140768,
+   0
+  ],
+  [
+   25.789038,
+   -80.140294,
+   0
+  ],
+  [
+   25.773766,
+   -80.135897,
+   0
+  ],
+  [
+   25.762778,
+   -80.306944,
+   0
+  ],
+  [
+   25.765526,
+   -80.22076,
+   1
+  ],
+  [
+   25.770564,
+   -80.189253,
+   0
+  ],
+  [
+   25.748102,
+   -80.245948,
+   0
+  ],
+  [
+   25.768426,
+   -80.190639,
+   0
+  ],
+  [
+   25.797841,
+   -80.284633,
+   0
+  ],
+  [
+   25.705788,
+   -80.285729,
+   0
+  ],
+  [
+   25.749402,
+   -80.258035,
+   0
+  ],
+  [
+   25.727762,
+   -80.243216,
+   0
+  ],
+  [
+   25.773243,
+   -80.190444,
+   0
+  ],
+  [
+   25.764354,
+   -80.188526,
+   0
+  ],
+  [
+   25.795824,
+   -80.192447,
+   0
+  ],
+  [
+   25.797222,
+   -80.274744,
+   0
+  ],
+  [
+   25.750669,
+   -80.259833,
+   1
+  ],
+  [
+   25.797388,
+   -80.277613,
+   0
+  ],
+  [
+   25.777388,
+   -80.185312,
+   0
+  ],
+  [
+   25.790505,
+   -80.276497,
+   0
+  ],
+  [
+   25.792271,
+   -80.281294,
+   0
+  ],
+  [
+   25.791281,
+   -80.279023,
+   0
+  ],
+  [
+   25.764973,
+   -80.194022,
+   0
+  ],
+  [
+   25.784532,
+   -80.19315,
+   0
+  ],
+  [
+   25.7974,
+   -80.277109,
+   0
+  ],
+  [
+   25.728644,
+   -80.242038,
+   1
+  ],
+  [
+   25.790979,
+   -80.273634,
+   0
+  ],
+  [
+   25.797408,
+   -80.276516,
+   0
+  ],
+  [
+   25.790818,
+   -80.13268,
+   0
+  ],
+  [
+   25.790813,
+   -80.132886,
+   0
+  ],
+  [
+   25.690655,
+   -80.312495,
+   0
+  ],
+  [
+   25.741654,
+   -80.234491,
+   0
+  ],
+  [
+   25.779116,
+   -80.14102,
+   1
+  ],
+  [
+   25.789314,
+   -80.132288,
+   0
+  ],
+  [
+   25.802032,
+   -80.198683,
+   0
+  ],
+  [
+   25.784934,
+   -80.19354,
+   1
+  ],
+  [
+   25.758937,
+   -80.192227,
+   0
+  ],
+  [
+   25.79902,
+   -80.198031,
+   0
+  ],
+  [
+   25.788277,
+   -80.132186,
+   0
+  ],
+  [
+   25.690932,
+   -80.313759,
+   0
+  ],
+  [
+   25.790332,
+   -80.138631,
+   0
+  ],
+  [
+   25.784669,
+   -80.193052,
+   0
+  ],
+  [
+   25.682988,
+   -80.313448,
+   0
+  ],
+  [
+   25.790564,
+   -80.143828,
+   0
+  ],
+  [
+   25.790778,
+   -80.133702,
+   0
+  ],
+  [
+   25.803152,
+   -80.195241,
+   0
+  ],
+  [
+   25.79965,
+   -80.198301,
+   0
+  ],
+  [
+   25.745178,
+   -80.174051,
+   0
+  ],
+  [
+   25.728742,
+   -80.233395,
+   0
+  ],
+  [
+   25.801477,
+   -80.202169,
+   0
+  ],
+  [
+   25.798524,
+   -80.271934,
+   0
+  ],
+  [
+   25.787277,
+   -80.131565,
+   0
+  ],
+  [
+   25.798162,
+   -80.273378,
+   0
+  ],
+  [
+   25.795788,
+   -80.194703,
+   0
+  ],
+  [
+   25.803437,
+   -80.207466,
+   0
+  ],
+  [
+   25.763286,
+   -80.290444,
+   0
+  ],
+  [
+   25.790728,
+   -80.135765,
+   0
+  ],
+  [
+   25.790201,
+   -80.135286,
+   0
+  ],
+  [
+   25.790528,
+   -80.136521,
+   0
+  ],
+  [
+   25.750997,
+   -80.259922,
+   0
+  ],
+  [
+   25.727727,
+   -80.247289,
+   0
+  ],
+  [
+   25.803398,
+   -80.195221,
+   0
+  ],
+  [
+   25.772913,
+   -80.322581,
+   0
+  ],
+  [
+   25.690663,
+   -80.315307,
+   0
+  ],
+  [
+   25.690863,
+   -80.311729,
+   0
+  ],
+  [
+   25.791794,
+   -80.136117,
+   0
+  ],
+  [
+   25.775339,
+   -80.190082,
+   1
+  ],
+  [
+   25.787287,
+   -80.194273,
+   0
+  ],
+  [
+   25.733195,
+   -80.301922,
+   0
+  ],
+  [
+   25.773397,
+   -80.322442,
+   0
+  ],
+  [
+   25.77412,
+   -80.136158,
+   0
+  ],
+  [
+   25.778364,
+   -80.186486,
+   0
+  ],
+  [
+   25.704614,
+   -80.154696,
+   0
+  ],
+  [
+   25.771462,
+   -80.139609,
+   0
+  ],
+  [
+   25.800837,
+   -80.201702,
+   0
+  ],
+  [
+   25.803043,
+   -80.200167,
+   0
+  ],
+  [
+   25.799695,
+   -80.195167,
+   0
+  ],
+  [
+   25.719223,
+   -80.279609,
+   0
+  ],
+  [
+   25.764264,
+   -80.194084,
+   0
+  ],
+  [
+   25.749961,
+   -80.244158,
+   0
+  ],
+  [
+   25.790301,
+   -80.140254,
+   0
+  ],
+  [
+   25.76717,
+   -80.196118,
+   0
+  ],
+  [
+   25.689614,
+   -80.31484,
+   1
+  ],
+  [
+   25.766883,
+   -80.194307,
+   1
+  ],
+  [
+   25.773006,
+   -80.192017,
+   0
+  ],
+  [
+   25.795176,
+   -80.280956,
+   0
+  ],
+  [
+   25.797876,
+   -80.274129,
+   0
+  ],
+  [
+   25.731562,
+   -80.260145,
+   1
+  ],
+  [
+   25.799649,
+   -80.201358,
+   0
+  ],
+  [
+   25.790289,
+   -80.133777,
+   0
+  ],
+  [
+   25.797829,
+   -80.273614,
+   0
+  ],
+  [
+   25.763563,
+   -80.294001,
+   0
+  ],
+  [
+   25.797326,
+   -80.281466,
+   0
+  ],
+  [
+   25.766606,
+   -80.19287,
+   0
+  ],
+  [
+   25.794591,
+   -80.144099,
+   0
+  ],
+  [
+   25.705814,
+   -80.28644,
+   0
+  ],
+  [
+   25.79609,
+   -80.129787,
+   0
+  ],
+  [
+   25.751198,
+   -80.261002,
+   0
+  ],
+  [
+   25.790569,
+   -80.140949,
+   0
+  ],
+  [
+   25.751136,
+   -80.258193,
+   0
+  ],
+  [
+   25.740809,
+   -80.278353,
+   0
+  ],
+  [
+   25.799364,
+   -80.198137,
+   0
+  ],
+  [
+   25.797017,
+   -80.280194,
+   0
+  ],
+  [
+   25.784656,
+   -80.193897,
+   0
+  ],
+  [
+   25.800003,
+   -80.198014,
+   0
+  ],
+  [
+   25.803553,
+   -80.195267,
+   0
+  ],
+  [
+   25.687493,
+   -80.320297,
+   0
+  ],
+  [
+   25.729328,
+   -80.241768,
+   0
+  ],
+  [
+   25.797876,
+   -80.284261,
+   0
+  ],
+  [
+   25.777499,
+   -80.185697,
+   0
+  ],
+  [
+   25.792112,
+   -80.130561,
+   0
+  ],
+  [
+   25.76497,
+   -80.193787,
+   0
+  ],
+  [
+   25.731872,
+   -80.30736,
+   0
+  ],
+  [
+   25.795012,
+   -80.279676,
+   0
+  ],
+  [
+   25.772976,
+   -80.191412,
+   1
+  ],
+  [
+   25.719989,
+   -80.277782,
+   0
+  ],
+  [
+   25.748046,
+   -80.210794,
+   0
+  ],
+  [
+   25.765542,
+   -80.223047,
+   0
+  ],
+  [
+   25.801319,
+   -80.19894,
+   0
+  ],
+  [
+   25.792121,
+   -80.281524,
+   0
+  ],
+  [
+   25.791461,
+   -80.278935,
+   0
+  ],
+  [
+   25.801567,
+   -80.202563,
+   0
+  ],
+  [
+   25.78907,
+   -80.140089,
+   0
+  ]
+ ]
+}

@@ -152,5 +152,20 @@
   },
   "osm-w120105957": {
     "rejectPhoto": "Commons match shows the inside of an H&M store"
+  },
+  "osm-w960715591": {
+    "rejectPhoto": "Commons match is a close-up of a dancer, not the club"
+  },
+  "osm-w144051823": {
+    "rejectPhoto": "Commons match shows one chocolate shop inside the mall"
+  },
+  "osm-w441809093": {
+    "rejectPhoto": "Commons match is a hookah pipe at one shop"
+  },
+  "osm-r7554876": {
+    "rejectPhoto": "Commons match is a car on display"
+  },
+  "osm-w406011969": {
+    "rejectPhoto": "Commons match shows a closed fabric store"
   }
 }
