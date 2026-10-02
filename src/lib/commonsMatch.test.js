@@ -45,3 +45,21 @@ describe('commons matching', () => {
     expect(resultFor(lm, null).status).toBe('none');
   });
 });
+
+describe('localEnough (imported places)', () => {
+  const area = /\b(miami|coral gables)\b/;
+  const cand = (text) => ({ text, titleNorm: text });
+  it('accepts a nearby geotag', async () => {
+    const { localEnough } = await import('./commonsMatch.js');
+    expect(localEnough({ name: 'Vossen' }, cand('lois vossen portrait'), 40, area)).toBe(true);
+  });
+  it('rejects a one-word name without a geotag', async () => {
+    const { localEnough } = await import('./commonsMatch.js');
+    expect(localEnough({ name: 'Vossen' }, cand('jeffrey jones lois vossen miami'), null, area)).toBe(false);
+  });
+  it('needs the area named for a far photo', async () => {
+    const { localEnough } = await import('./commonsMatch.js');
+    expect(localEnough({ name: 'Cinema 6' }, cand('moultrie stadium cinema 6'), null, area)).toBe(false);
+    expect(localEnough({ name: 'Bass Museum' }, cand('miami beach bass museum of art building'), null, area)).toBe(true);
+  });
+});

@@ -64,6 +64,16 @@ export function scoreCandidate(landmark, c, nearMeters) {
   return 10 + (inTitle ? 6 : 0) + (near ? 4 : 0) + Math.min(3, c.width / 1500);
 }
 
+// Extra guard for bulk-imported places, whose names are often short or
+// generic ("Cinema 6", "Vossen"): the photo must be geotagged within 150 m,
+// or the file must name the area; a one-word name needs the geotag.
+export function localEnough(landmark, c, nearMeters, area) {
+  const near = nearMeters != null && nearMeters <= 150;
+  if (near) return true;
+  if (nameTokens(landmark.name).length < 2) return false;
+  return area.test(c.text);
+}
+
 export function pickBest(landmark, scored) {
   const ok = scored.filter((s) => s.score > 0).sort((a, b) => b.score - a.score);
   return ok[0] || null;

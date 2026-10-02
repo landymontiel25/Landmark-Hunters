@@ -13,7 +13,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
-import { toCandidate, scoreCandidate, pickBest, resultFor } from '../src/lib/commonsMatch.js';
+import { toCandidate, scoreCandidate, pickBest, resultFor, localEnough } from '../src/lib/commonsMatch.js';
+
+// Imported places (--places) must also be shown to be in the right area.
+const MIAMI_AREA = /\b(miami|coral gables|key biscayne|coconut grove|little havana|wynwood|brickell|south beach|virginia key|pinecrest|doral|hialeah|westchester|kendall|sweetwater|dade|biscayne)\b/;
 
 // --places <file.json>: run over those places (the OSM import's staged list)
 // instead of the catalog's photo-less landmarks.
@@ -76,7 +79,9 @@ async function findOne(l) {
   let result;
   try {
     const cands = await candidatesFor(l);
-    const scored = cands.map((c) => ({ candidate: c.candidate, near: c.near != null && c.near <= 150, score: scoreCandidate(l, c.candidate, c.near) }));
+    const scored = cands
+      .filter((c) => !placesFile || localEnough(l, c.candidate, c.near, MIAMI_AREA))
+      .map((c) => ({ candidate: c.candidate, near: c.near != null && c.near <= 150, score: scoreCandidate(l, c.candidate, c.near) }));
     result = resultFor(l, pickBest(l, scored));
     if (result.status === 'found') result.near = undefined;
   } catch (e) {
