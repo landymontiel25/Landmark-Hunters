@@ -627,3 +627,8 @@ body.pin-placing .map-picks {
 .map-picks .mpp-sheet.mpp-sheet-mood.expanded {
   height: var(--mpp-h);
 }
+
+/* While a finger is dragging the handle the height tracks it exactly. */
+.mpp-sheet.dragging {
+  transition: none;
+}

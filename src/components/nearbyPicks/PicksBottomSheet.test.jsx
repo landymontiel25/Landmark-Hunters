@@ -291,6 +291,41 @@ describe('PicksBottomSheet', () => {
       expect(closed.onMinimizedChange).toHaveBeenCalledWith(false);
     });
 
+    it('follows the finger while dragging, then settles on the nearer end (slow) or the flick direction (fast)', async () => {
+      const ev = (type, y) => new MouseEvent(type, { bubbles: true, clientY: y });
+      let now = 1000;
+      const spy = vi.spyOn(Date, 'now').mockImplementation(() => now);
+      const onMinimizedChange = vi.fn();
+      const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, onExpandedChange: vi.fn(), onMinimizedChange });
+      const grip = el.querySelector('.mpp-sheet-grip');
+      const sheet = el.querySelector('.mpp-sheet');
+      Object.defineProperty(sheet, 'offsetHeight', { value: 400, configurable: true });
+      await act(async () => grip.dispatchEvent(ev('pointerdown', 300)));
+      await act(async () => grip.dispatchEvent(ev('pointermove', 360)));
+      expect(sheet.style.height).toBe('340px'); // 400 - 60: moved with the finger
+      expect(sheet.classList.contains('dragging')).toBe(true);
+      // Slow release a little way down (nearer the open end): stays open.
+      now = 3000;
+      await act(async () => grip.dispatchEvent(ev('pointerup', 360)));
+      expect(onMinimizedChange).not.toHaveBeenCalled();
+      expect(sheet.style.height).toBe('');
+      // Slow release most of the way down: goes to the title bar.
+      now = 4000;
+      await act(async () => grip.dispatchEvent(ev('pointerdown', 100)));
+      await act(async () => grip.dispatchEvent(ev('pointermove', 420)));
+      now = 9000;
+      await act(async () => grip.dispatchEvent(ev('pointerup', 420)));
+      expect(onMinimizedChange).toHaveBeenLastCalledWith(true);
+      // A quick flick down goes to the title bar even over a short distance.
+      onMinimizedChange.mockClear();
+      now = 10000;
+      await act(async () => grip.dispatchEvent(ev('pointerdown', 100)));
+      now = 10050;
+      await act(async () => grip.dispatchEvent(ev('pointerup', 160)));
+      expect(onMinimizedChange).toHaveBeenLastCalledWith(true);
+      spy.mockRestore();
+    });
+
     it('keeps the top three as rows even when expanded, and shows the distance filter inside the card', async () => {
       const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, toolbar: <div data-testid="bar" /> });
       expect(el.querySelectorAll('.mpp-top3 .mpp-row')).toHaveLength(3);

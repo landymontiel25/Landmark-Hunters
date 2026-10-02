@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel } from '../../lib/nearbyPicks';
+import { PICKS_SHOWN, ratePlacesText, SHEET_PICKS, distanceUnitLabel, PICKS_SHEET_H } from '../../lib/nearbyPicks';
 import { useUnits } from '../../lib/UnitsContext';
 import { DISTANCE_OPTIONS_MI } from '../../lib/nearbyPicks';
 import { formatDistance } from '../../lib/formatDistance';
@@ -27,6 +27,9 @@ import { usePickVotes } from '../../lib/usePickVotes';
 // moodSlot) on top, then one card with the top three picks, each with a
 // Directions button, and the refresh button beside the card's title.
 export const SWIPE_PX = 30;
+// Test/Map layout: a flick faster than this (px per ms) goes the way it was
+// flicked; a slower drag goes to whichever end it is nearer to.
+export const FLICK_PX_PER_MS = 0.4;
 
 export default function PicksBottomSheet({
   state = 'ready',
@@ -56,6 +59,14 @@ export default function PicksBottomSheet({
   const { units } = useUnits();
   const navigate = useNavigate();
   const startY = useRef(null);
+  const startT = useRef(0);
+  const startH = useRef(0);
+  const sheetRef = useRef(null);
+  // Mood-first layout only: the sheet's live height while a finger is on the
+  // handle, so it follows the finger. null = not dragging (CSS sets the height).
+  const [dragH, setDragH] = useState(null);
+  const dragging = dragH != null;
+  const heightBounds = () => ({ min: PICKS_SHEET_H.minimized, max: Math.max(PICKS_SHEET_H.minimized + 1, Math.round((typeof window !== 'undefined' ? window.innerHeight : 800) * 0.5)) });
 
   // The cards actually on screen (1-based rank = position in the set). Nothing
   // while minimized, loading, locked or empty. onShown logs each once per set.
@@ -79,6 +90,8 @@ export default function PicksBottomSheet({
   }, [onScreenSig, onShown]);
   const onPointerDown = (e) => {
     startY.current = e.clientY;
+    startT.current = Date.now();
+    startH.current = sheetRef.current?.offsetHeight || (minimized ? heightBounds().min : heightBounds().max);
     // A mouse drag leaves the (short) grip within a few pixels, and without
     // capture the release lands on the map, so the swipe never registered.
     // Touch captures implicitly; this makes the mouse behave the same.
@@ -90,16 +103,32 @@ export default function PicksBottomSheet({
   };
   const onPointerCancel = () => {
     startY.current = null;
+    setDragH(null);
+  };
+  const onPointerMove = (e) => {
+    if (!moodFirst || startY.current == null) return;
+    const dy = e.clientY - startY.current;
+    if (Math.abs(dy) <= 4 && !dragging) return; // still a tap
+    const { min, max } = heightBounds();
+    setDragH(Math.min(max, Math.max(min, startH.current - dy)));
   };
   const onPointerUp = (e) => {
     if (startY.current == null) return;
     const dy = e.clientY - startY.current;
     startY.current = null;
     if (moodFirst) {
-      // Test tab: two states only, the half-open sheet and the title bar.
-      if (minimized) {
-        if (dy <= SWIPE_PX) onMinimizedChange?.(false);
-      } else if (dy >= -SWIPE_PX) onMinimizedChange?.(true); // pulled down, or tapped
+      // Two states only: open (half the screen) and the title bar. The sheet
+      // follows the finger (onPointerMove) and settles on release: a flick goes
+      // the way it was flicked, a slow drag to the nearer end, a tap toggles.
+      const { min, max } = heightBounds();
+      const endH = Math.min(max, Math.max(min, startH.current - dy));
+      const speed = Math.abs(dy) / Math.max(1, Date.now() - startT.current);
+      let wantMin;
+      if (Math.abs(dy) <= 4) wantMin = !minimized; // tap
+      else if (Math.abs(dy) > SWIPE_PX && speed >= FLICK_PX_PER_MS) wantMin = dy > 0;
+      else wantMin = endH < (min + max) / 2;
+      setDragH(null);
+      if (wantMin !== minimized) onMinimizedChange?.(wantMin);
       return;
     }
     if (minimized) {
@@ -245,7 +274,9 @@ export default function PicksBottomSheet({
 
   return (
     <section
-      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized ? 'minimized' : ''} ${moodFirst ? 'mpp-sheet-mood' : ''}`}
+      ref={sheetRef}
+      className={`mpp-sheet ${expanded && !minimized ? 'expanded' : ''} ${minimized && !dragging ? 'minimized' : ''} ${moodFirst ? 'mpp-sheet-mood' : ''} ${dragging ? 'dragging' : ''}`}
+      style={dragging ? { height: `${dragH}px` } : undefined}
       aria-label="Picked for you right now"
     >
       <div
@@ -255,6 +286,7 @@ export default function PicksBottomSheet({
         aria-expanded={expanded && !minimized}
         aria-label={minimized ? 'Show picks' : expanded ? 'Collapse picks' : 'Show all picks'}
         onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerCancel}
         onKeyDown={(e) => {
@@ -266,7 +298,7 @@ export default function PicksBottomSheet({
       >
         <span className="mpp-handle" />
         {moodFirst ? (
-          minimized && <h2 className="mpp-sheet-title mpp-sheet-title-min">Picked for you right now</h2>
+          minimized && !dragging && <h2 className="mpp-sheet-title mpp-sheet-title-min">Picked for you right now</h2>
         ) : (
           <div className={`mpp-sheet-head ${refreshButton ? 'has-refresh' : ''}`}>
             <h2 className="mpp-sheet-title">Picked for you right now</h2>
