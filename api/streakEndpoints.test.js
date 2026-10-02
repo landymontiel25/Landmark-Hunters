@@ -123,6 +123,28 @@ describe('close-solo-streak-day: Travel Picks answers', () => {
     expect((await call(handler, { dayId: todayClient(), tzOffsetMin: tz })).reason).toBe('no-city');
   });
 
+  it("also counts 0-point 'Rate a Landmark' ratings, exactly like the N/3 counter, and mixes them with Travel Picks answers", async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    cardsRated = false;
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
+    const claim = (id, ratingOnly = true) => ({ landmarkId: id, ratingOnly, visited: !ratingOnly, points: ratingOnly ? 0 : 100, createdAt: { toMillis: () => localNoonMs() } });
+    checkinDocs = [claim('r1'), claim('r2'), claim('visit', false)];
+    pickDocs = [answer('p1', localNoonMs())];
+    const out = await call(handler, { dayId: todayClient(), tzOffsetMin: tz });
+    expect(out.closed).toBe(true); // r1 + r2 + p1 = 3; the real check-in does not count
+  });
+
+  it('reports how many it counted when the day is not secured, so the app can say why', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    cardsRated = false;
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
+    pickDocs = [answer('p1', localNoonMs()), answer('p2', localNoonMs())];
+    const out = await call(handler, { dayId: todayClient(), tzOffsetMin: tz });
+    expect(out).toMatchObject({ closed: false, counted: 2, needed: 3, window: 'ok' });
+    const noTz = await call(handler, { dayId: todayClient() });
+    expect(noTz).toMatchObject({ closed: false, counted: 0, window: 'no-timezone' });
+  });
+
   it('does not close on 2 answers, repeats of one landmark, or answers from another day', async () => {
     const { default: handler } = await import('./close-solo-streak-day.js');
     cardsRated = false;

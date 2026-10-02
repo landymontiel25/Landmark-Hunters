@@ -99,7 +99,13 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         console.error('[streak] day was not secured:', JSON.stringify(r));
         setCloseState({
           status: 'failed',
-          message: r?.error || (r?.reason === 'no-city' ? 'Your streak has no city yet.' : "The server didn't count today's answers yet."),
+          message:
+            r?.error ||
+            (Number.isFinite(r?.counted)
+              ? `The server counted ${r.counted} of ${r.needed ?? 3} landmarks answered today${r.window === 'no-timezone' ? ' (no timezone sent)' : ''}.`
+              : r?.reason === 'no-city'
+              ? 'Your streak has no city yet.'
+              : "The server didn't count today's answers yet."),
         });
       })
       .catch((e) => {
