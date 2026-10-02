@@ -184,6 +184,12 @@ describe('toPlace', () => {
     });
     for (const k of ['id', 'popularity', 'name', 'region', 'lat', 'lng', 'categories', 'summary', 'facts', 'free', 'bookingUrl', 'typicalMinutes']) expect(p).toHaveProperty(k);
   });
+  it('skips a Wikidata namesake the name already says', () => {
+    const p = toPlace(node(8, { aeroway: 'aerodrome', iata: 'MIA', name: 'Miami International Airport' }), { wikidataFacts: ['Opened in 1928', 'Named after Miami'] });
+    expect(p.facts).toEqual(['Opened in 1928']);
+    const q = toPlace(node(9, { leisure: 'park', name: 'Bayfront Park' }), { wikidataFacts: ['Named after Julia Tuttle'] });
+    expect(q.facts).toEqual(['Named after Julia Tuttle']);
+  });
   it('leaves facts empty and the fee unknown when OSM has neither', () => {
     const p = toPlace(node(5, { leisure: 'park', name: 'Tiny Park' }));
     expect(p.facts).toEqual([]);

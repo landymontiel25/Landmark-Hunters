@@ -348,7 +348,9 @@ export function toPlace(el, { region = 'miami', wikidataFacts = [] } = {}) {
   const name = cleanName(t.name);
   if (!kind || !pos || !name) return null;
   const fee = t.fee === 'no' ? true : t.fee === 'yes' ? false : null;
-  const facts = [...new Set([...wikidataFacts, ...factsFromTags(t, kind.category)])].slice(0, 10);
+  // "Named after Miami" on Miami International Airport says nothing new.
+  const wd = wikidataFacts.filter((f) => !/^Named after /.test(f) || !nameKey(name).includes(nameKey(f.slice(12))));
+  const facts = [...new Set([...wd, ...factsFromTags(t, kind.category)])].slice(0, 10);
   const place = {
     id: `osm-${TYPE_LETTER[el.type]}${el.id}`,
     popularity: (t.wikidata ? 2 : 0) + (t.wikipedia ? 1 : 0) + 1,

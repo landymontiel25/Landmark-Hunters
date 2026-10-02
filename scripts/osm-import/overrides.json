@@ -90,7 +90,8 @@
   },
   "osm-w590186839": {
     "category": "entertainment",
-    "topic": "concert venue"
+    "topic": "concert venue",
+    "rejectPhoto": "Commons match is a dedication plaque, not the venue"
   },
   "osm-w301237024": {
     "topic": "amphitheater"
@@ -145,5 +146,11 @@
   },
   "osm-n4945642323": {
     "rejectPhoto": "Commons match shows the Ocean Bank headquarters, not the cinema"
+  },
+  "osm-n1327354294": {
+    "rejectPhoto": "Commons match is a 1989 snapshot of a person posing, not the seaplane base"
+  },
+  "osm-w120105957": {
+    "rejectPhoto": "Commons match shows the inside of an H&M store"
   }
 }

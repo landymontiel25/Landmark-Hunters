@@ -1,0 +1,53 @@
+{
+ "category": "airports",
+ "count": 2,
+ "commonsPhotos": 1,
+ "commonsPhotoPct": 50,
+ "withFacts": 1,
+ "withHours": 0,
+ "photoSkips": [
+  {
+   "id": "osm-n1327354294",
+   "name": "Miami Seaplane Base",
+   "why": "reviewed: Commons match is a 1989 snapshot of a person posing, not the seaplane base"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n1327354294",
+   "name": "Miami Seaplane Base",
+   "topic": "airport",
+   "lat": 25.783463,
+   "lng": -80.17755,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1327354294"
+  },
+  {
+   "id": "osm-w113657169",
+   "name": "Miami International Airport",
+   "topic": "airport",
+   "lat": 25.795541,
+   "lng": -80.291882,
+   "photo": true,
+   "facts": [
+    "Opened in 1928",
+    "Run by Miami-Dade Aviation Department (MDAD)",
+    "Has Wi-Fi"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/113657169"
+  }
+ ],
+ "points": [
+  [
+   25.795541,
+   -80.291882,
+   1
+  ],
+  [
+   25.783463,
+   -80.17755,
+   0
+  ]
+ ]
+}
