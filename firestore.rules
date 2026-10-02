@@ -73,7 +73,7 @@ service cloud.firestore {
     // omit them); when present they must be well-formed.
     function pickMarkOk(data) {
       return (!('pickSetId' in data) || (data.pickSetId is string && data.pickSetId.size() <= 200))
-        && (!('pickSurface' in data) || data.pickSurface == null || data.pickSurface in ['map-sheet', 'mapr-tab', 'chat'])
+        && (!('pickSurface' in data) || data.pickSurface == null || data.pickSurface in ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'])
         && (!('pickShownAt' in data) || data.pickShownAt == null || data.pickShownAt is number);
     }
 
@@ -682,7 +682,7 @@ service cloud.firestore {
         && (!('setId' in request.resource.data) || (request.resource.data.setId is string && request.resource.data.setId.size() <= 200))
         && (!('rank' in request.resource.data) || (request.resource.data.rank is int && request.resource.data.rank >= 1 && request.resource.data.rank <= 100))
         && (!('shownAt' in request.resource.data) || request.resource.data.shownAt is number)
-        && (!('surface' in request.resource.data) || request.resource.data.surface in ['map-sheet', 'mapr-tab', 'chat'])
+        && (!('surface' in request.resource.data) || request.resource.data.surface in ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'])
         && (!('predicted' in request.resource.data) || request.resource.data.predicted == null || request.resource.data.predicted in ['positive', 'neutral', 'negative'])
         // Who the chat request behind this pick was for (optional).
         && (!('requestFor' in request.resource.data) || request.resource.data.requestFor in ['solo', 'group']);

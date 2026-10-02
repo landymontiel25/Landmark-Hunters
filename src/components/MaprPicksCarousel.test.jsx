@@ -21,6 +21,9 @@ vi.mock('firebase/firestore', async (orig) => ({
 }));
 vi.mock('../lib/firebase', async (orig) => ({ ...(await orig()), db: {} }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' } }) }));
+const shown = vi.hoisted(() => []);
+vi.mock('../lib/FriendsContext', () => ({ useFriends: () => ({ myProfile: { tagScores: {} } }) }));
+vi.mock('../lib/recommendationLog', () => ({ logShownPicks: (a) => { shown.push(a); return Promise.resolve(); } }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 40.0356, lng: -75.3437 } }) }));
 vi.mock('../lib/BadgesContext', () => ({ useBadges: () => ({ reload: () => {}, actionsToday: 0 }) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
@@ -147,5 +150,20 @@ describe('Mapr Travel Picks dots', () => {
     track.firstElementChild.getBoundingClientRect = () => ({ width: 250 });
     await act(async () => track.dispatchEvent(new Event('scroll')));
     expect(dots().at(-1).classList.contains('active')).toBe(true);
+  });
+
+  it('logs each card as a shown Mapr pick (surface travel-picks, set id, rank), once, so votes count toward the taste score', async () => {
+    shown.length = 0;
+    await render({ reviews: [], checkedInIds: [] });
+    expect(shown.length).toBeGreaterThan(0);
+    for (const call of shown) {
+      expect(call).toMatchObject({ uid: 'me', surface: 'travel-picks', source: 'travel-picks' });
+      expect(call.setId).toBeTruthy();
+      expect(call.stops).toHaveLength(1);
+      expect(call.stops[0]).toMatchObject({ id: expect.any(String), region: expect.any(String), rank: expect.any(Number) });
+    }
+    const ids = shown.map((c) => c.stops[0].id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(shown.map((c) => c.setId)).size).toBe(1);
   });
 });

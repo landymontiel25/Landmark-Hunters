@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
+import { useFriends } from '../lib/FriendsContext';
+import { useShownLogger } from '../lib/useShownLogger';
+import { makeSetId } from '../lib/setId';
+import OnScreen from './OnScreen';
 import { useGeo } from '../lib/GeoContext';
 import { useBadges } from '../lib/BadgesContext';
 import { usePersistentState } from '../lib/usePersistentState';
@@ -40,6 +44,7 @@ const RESERVE = 10;
 
 export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [] }) {
   const { user } = useAuth();
+  const { myProfile } = useFriends();
   const { coords } = useGeo();
   const { reload: reloadBadges } = useBadges();
   const navigate = useNavigate();
@@ -59,6 +64,11 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   const regionId = cityOverride || defaultRegionId;
   const { votes, removed, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
+  // Each card is logged as shown (with a hidden guess) when it scrolls into
+  // view, one set per city row, so a vote on it counts toward the taste score
+  // and the match rate like any other Mapr pick.
+  const setId = useMemo(() => (user?.uid ? makeSetId(user.uid) : null), [user?.uid, regionId]);
+  const logShown = useShownLogger({ uid: user?.uid, profile: myProfile, surface: 'travel-picks', source: 'travel-picks' });
 
   // Reconciles with Firestore feedback (a vote made on another device) once,
   // on top of the instant localStorage copy above.
@@ -126,15 +136,22 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
       </p>
       <div className="mapr-picks-track" onScroll={onScroll}>
         <RateLandmarkSearch />
-        {landmarks.map((l) => (
-          <div key={`${l.regionId}/${l.id}`} className="mapr-pick" data-pick-key={`${l.regionId}/${l.id}`}>
+        {landmarks.map((l, i) => (
+          <OnScreen
+            key={`${l.regionId}/${l.id}`}
+            className="mapr-pick"
+            data-pick-key={`${l.regionId}/${l.id}`}
+            onSeen={() =>
+              logShown(setId, [{ id: l.id, region: l.regionId, name: l.name, categories: l.categories, rank: i + 1 }])
+            }
+          >
             <button type="button" className="mapr-pick-main" onClick={() => navigate(`/landmarks/${l.regionId}/${l.id}`)}>
               <MaprPickImage landmark={l} />
               <span className="mapr-pick-name">{l.name}</span>
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>
             <PickVoteButtons name={l.name} vote={votes[l.id]} onVote={(v) => vote(l, v)} onRetry={() => retry(l.id)} />
-          </div>
+          </OnScreen>
         ))}
         {region && landmarks.length === 0 && (
           <p className="taste-card-note" style={{ margin: '10px 0 0' }}>

@@ -22,7 +22,7 @@ import { rememberShownPicks } from './pickMarks';
 //   setId    one id per built set (makeSetId), shared by every row of the set
 //   rank     1-based position in that set
 //   shownAt  ms the card reached the screen
-//   surface  'map-sheet' | 'mapr-tab' | 'chat' (SURFACES)
+//   surface  'map-sheet' | 'mapr-tab' | 'chat' | 'travel-picks' (SURFACES)
 //   predicted  hidden guess of how the user will answer ('positive' |
 //            'neutral' | 'negative' | null, see maprPrediction.js). Written
 //            only; never put on a pick object or returned to the UI.
