@@ -84,4 +84,29 @@ describe('TasteProfileCard estimate', () => {
     expect(text()).toContain('~99%');
     expect(store.recordTasteAnswer).not.toHaveBeenCalled();
   });
+
+  it('shows a colored bar with the number: green when high, and red/yellow by score on the live score', async () => {
+    h.reviews = mk(20);
+    h.summary = { state: 'learning', score: null };
+    await mount();
+    const bar = () => host.querySelector('[role="progressbar"]');
+    expect(bar().getAttribute('aria-valuenow')).toBe('99');
+    expect(host.querySelector('.taste-bar-fill').className).toContain('taste-bar-green');
+    expect(host.querySelector('.taste-bar-number').textContent).toBe('~99%');
+
+    for (const [score, tone, word] of [[62, 'yellow', 'Getting there'], [25, 'red', 'Still learning you'], [80, 'green', 'Strong']]) {
+      await act(async () => {
+        window.dispatchEvent(new CustomEvent('lh-taste-answer', { detail: { state: 'ready', score } }));
+      });
+      expect(host.querySelector('.taste-bar-fill').className).toContain(`taste-bar-${tone}`);
+      expect(host.querySelector('.taste-bar-number').textContent).toBe(`${score}%`);
+      expect(host.querySelector('.taste-bar-word').textContent).toBe(word);
+    }
+  });
+
+  it('shows no bar while there is nothing to show yet', async () => {
+    h.reviews = mk(3);
+    await mount();
+    expect(host.querySelector('[role="progressbar"]')).toBeNull();
+  });
 });

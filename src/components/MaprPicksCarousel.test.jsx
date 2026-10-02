@@ -92,17 +92,16 @@ describe('Mapr Travel Picks', () => {
     expect(names()).not.toContain(before[0]);
   });
 
-  it("I'd go and Not sure are saved and keep the card, selected; you can change your mind", async () => {
+  it("every answer (I'd go, Not sure, Not for me) saves and then takes the card away, because it is answered", async () => {
     await render({ reviews: [], checkedInIds: [] });
     const before = names();
     await tap(cardBtn(0, "I'd go"));
     expect(fs.setDoc.mock.calls[0][1]).toMatchObject({ verdict: 'yes' });
-    expect(names()).toEqual(before);
-    expect(cardBtn(0, "I'd go").getAttribute('aria-pressed')).toBe('true');
+    expect(names()).not.toContain(before[0]);
+    const second = names()[0];
     await tap(cardBtn(0, 'Not sure'));
     expect(fs.setDoc.mock.calls[1][1]).toMatchObject({ verdict: 'unsure' });
-    expect(names()).toEqual(before);
-    expect(cardBtn(0, 'Not sure').getAttribute('aria-pressed')).toBe('true');
+    expect(names()).not.toContain(second);
   });
 
   it('nothing changes until the save lands, and a failed save keeps the card and shows Try again', async () => {

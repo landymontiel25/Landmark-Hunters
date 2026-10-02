@@ -57,7 +57,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Trip is reflected here even before a fresh GPS fix comes in.
   const defaultRegionId = pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
   const regionId = cityOverride || defaultRegionId;
-  const { votes, removed, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges() });
+  const { votes, removed, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
 
   // Reconciles with Firestore feedback (a vote made on another device) once,

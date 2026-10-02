@@ -97,7 +97,7 @@ export const APP_HELP =
   `progress dots, Close and "Just browse the map", and every step but the first has Skip. Answers are saved as you go, so closing the app ` +
   `picks up on the same step. Planning the exact same trip again from the same spot in the same part of the day shows the last plan again ` +
   `instead of re-planning. Interest chips and "Use My Preferences" are no longer part of this flow; My Preferences is still editable in Settings.\n` +
-  `- Taste score (the "Taste Profile" card on the Mapr tab, not Profile; it reads "Mapr knows your taste: N%"): how often Mapr's own quiet guess about a place it suggested matched your answer. ` +
+  `- Taste score (the "Taste Profile" card on the Mapr tab, not Profile; it reads "Mapr knows your taste: N%" with a bar that is red under 40%, yellow from 40% to 69% and green from 70%, with the number beside it and a word like Strong or Getting there): how often Mapr's own quiet guess about a place it suggested matched your answer. ` +
   `Mapr keeps a hidden guess for each pick it shows you, and only after you answer (a rating, or an "I'd go" / "Not sure" / "Not for me" tap, whichever is your newest answer on that place) ` +
   `is it compared. The score looks at your last 20 such guesses: same answer is a full hit, one step off (say a guess of I'd go against It was ok) counts half, two steps off (I'd go against ` +
   `Didn't like it) counts nothing, and an "I'd go" tap followed by "Didn't like it" counts as half a miss because Mapr had your kind of place right and the specific place wrong. It shows "Learning..." until ` +
@@ -140,7 +140,7 @@ export const APP_HELP =
   `Mapr suggests in the Mapr tab (trip planner and chat). A tap is saved to your account first and the button only lights up once it is saved; ` +
   `if saving fails you see "Couldn't save your answer" with a Try again button, and with no connection it says "Not saved yet" and sends when ` +
   `you are back online. "✗ Not for me" removes the card and the next pick takes its place (that landmark won't be offered here again); ` +
-  `"✓ I'd go" and "🤷 Not sure" keep the card, shown as selected, and you can tap a different button to change your answer. ✓ and ✗ nudge that ` +
+  `On the Map sheet and in the Mapr tab "✓ I'd go" and "🤷 Not sure" keep the card, shown as selected, and you can tap a different button to change your answer; in Mapr Travel Picks on Profile every answer (I'd go, Not sure, Not for me) takes the card away once it is saved, because it is answered. ✓ and ✗ nudge that ` +
   `city's tag scores; "🤷 Not sure" carries no signal and Mapr Travel Picks offers that place again after about a week (there is no "ask me ` +
   `again" button or text). The first card in the row is always "+ Rate a ` +
   `Landmark" (search any place by name for the real rate-and-post flow, with a comment, that actually shows on the landmark's page).\n` +
