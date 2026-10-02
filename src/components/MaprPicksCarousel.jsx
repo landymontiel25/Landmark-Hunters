@@ -84,14 +84,35 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // The moment today's quota is met, tell the server so the streak day
   // closes now (and the Profile warning flips) instead of after a reload.
   const closedFor = useRef(null);
+  // 'ok' once the server confirms the day is secured; otherwise the reason it
+  // is not, shown under the title so a failure is never silent.
+  const [closeState, setCloseState] = useState({ status: 'idle', message: '' });
+  const closeDay = () => {
+    setCloseState({ status: 'saving', message: '' });
+    return closeSoloToday()
+      .then((r) => {
+        if (r?.ok && r.closed) {
+          setCloseState({ status: 'ok', message: '' });
+          reloadBadges();
+          return;
+        }
+        console.error('[streak] day was not secured:', JSON.stringify(r));
+        setCloseState({
+          status: 'failed',
+          message: r?.error || (r?.reason === 'no-city' ? 'Your streak has no city yet.' : "The server didn't count today's answers yet."),
+        });
+      })
+      .catch((e) => {
+        console.error('[streak] could not reach the server:', e);
+        setCloseState({ status: 'failed', message: "Couldn't reach the server." });
+      });
+  };
   useEffect(() => {
     if (!dayDone || !user?.uid) return;
     const key = `${user.uid}:${dayKey(new Date())}`;
     if (closedFor.current === key) return;
     closedFor.current = key;
-    closeSoloToday()
-      .then(() => reloadBadges())
-      .catch(() => {});
+    closeDay();
   }, [dayDone, user?.uid]);
 
   // Each card is logged as shown (with a hidden guess) when it scrolls into
@@ -170,6 +191,14 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
           {region ? region.name : 'Choose a city'}
         </button>
       </div>
+      {dayDone && closeState.status === 'failed' && (
+        <p className="tag tag-error" role="alert" style={{ display: 'block', whiteSpace: 'normal', margin: '0 0 10px' }}>
+          Couldn&apos;t save today&apos;s streak: {closeState.message}{' '}
+          <button type="button" className="chat-wizard-link" style={{ minHeight: 44 }} onClick={closeDay}>
+            Try again
+          </button>
+        </p>
+      )}
       <p className="taste-card-note" style={{ margin: '0 0 10px' }}>
         {region
           ? `Swipe through ${region.name} and say whether you'd go. Tap a card to see more.`

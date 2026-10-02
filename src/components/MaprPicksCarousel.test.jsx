@@ -25,8 +25,8 @@ const shown = vi.hoisted(() => []);
 vi.mock('../lib/FriendsContext', () => ({ useFriends: () => ({ myProfile: { tagScores: {} } }) }));
 vi.mock('../lib/recommendationLog', () => ({ logShownPicks: (a) => { shown.push(a); return Promise.resolve(); } }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 40.0356, lng: -75.3437 } }) }));
-const solo = vi.hoisted(() => ({ closes: 0 }));
-vi.mock('../lib/soloStreaks', () => ({ closeSoloToday: () => { solo.closes += 1; return Promise.resolve({ ok: true }); } }));
+const solo = vi.hoisted(() => ({ closes: 0, reply: { ok: true, closed: true } }));
+vi.mock('../lib/soloStreaks', () => ({ closeSoloToday: () => { solo.closes += 1; return Promise.resolve(solo.reply); } }));
 vi.mock('../lib/BadgesContext', () => ({ useBadges: () => ({ reload: () => {}, actionsToday: 0 }) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
 
@@ -171,6 +171,7 @@ describe('Mapr Travel Picks dots', () => {
 
   it('shows an N/3 today counter that moves the moment a save lands and turns green (with a check) at 3, then closes the streak day once', async () => {
     solo.closes = 0;
+    solo.reply = { ok: true, closed: true };
     await render({ reviews: [], checkedInIds: [] });
     const cardBtn = (i, label) => [...container.querySelectorAll('.mapr-pick')[i].querySelectorAll('.pick-vote-btn')].find((b) => b.textContent.includes(label));
     const tap = (el) => act(async () => el.dispatchEvent(new MouseEvent('click', { bubbles: true })));
@@ -187,5 +188,23 @@ describe('Mapr Travel Picks dots', () => {
     await tap(cardBtn(0, "I'd go"));
     expect(counter().textContent.trim()).toBe('\u2713 3/3 today');
     expect(solo.closes).toBe(1);
+  });
+
+  it('says so on screen, with Try again, when the server does not secure the day', async () => {
+    solo.closes = 0;
+    solo.reply = { ok: false, error: 'No such streak.' };
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    await render({ reviews: [], checkedInIds: [] });
+    const cardBtn = (i, label) => [...container.querySelectorAll('.mapr-pick')[i].querySelectorAll('.pick-vote-btn')].find((b) => b.textContent.includes(label));
+    const tap = (el) => act(async () => el.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    for (let i = 0; i < 3; i++) await tap(cardBtn(0, "I'd go"));
+    const alertEl = container.querySelector('[role="alert"]');
+    expect(alertEl.textContent).toContain("Couldn't save today's streak: No such streak.");
+    solo.reply = { ok: true, closed: true };
+    const retry = [...alertEl.querySelectorAll('button')].find((b) => b.textContent.includes('Try again'));
+    await tap(retry);
+    expect(container.querySelector('[role="alert"]')).toBeNull();
+    expect(solo.closes).toBe(2);
+    err.mockRestore();
   });
 });
