@@ -86,6 +86,7 @@ export const F1_LANDMARKS = [
   },
   {
     id: 'jeddah-corniche-circuit',
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Jeddah_Corniche_Circuit_viewed_from_above.png?width=1200'],
     editorialRank: 5,
     popularity: 7,
     cost: '$$$',

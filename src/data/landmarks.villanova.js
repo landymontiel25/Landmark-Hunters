@@ -863,7 +863,7 @@ export const VILLANOVA_LANDMARKS = [
     cost: "Free",
     neighborhood: "Bryn Mawr",
     firstTimerPriority: "Low",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Bryn_Mawr_College_Campus_Center.jpg?width=1200'],
     name: "Bryn Mawr College",
     region: 'villanova',
     lat: 40.028681,

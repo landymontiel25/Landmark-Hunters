@@ -2111,7 +2111,7 @@ export const MILAN_LANDMARKS = [
     firstTimerPriority: "Low",
     neighborhood: "Magenta",
     cost: "$",
-    images: [],
+    images: ['https://commons.wikimedia.org/wiki/Special:FilePath/Civico_museo_archeologico_di_Milano_a04.jpg?width=1200'],
     name: "Civico Museo Archeologico",
     region: 'milan',
     lat: 45.465621,
