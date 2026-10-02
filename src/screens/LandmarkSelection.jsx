@@ -19,6 +19,7 @@ import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
 import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, sortInterests, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
+import { usePlacePacksVersion } from '../lib/placePacks';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import { matchesSearch, searchScore } from '../lib/search';
 import { useSmartSearch, useSmartCitySearch, landmarkSearchText } from '../lib/smartSearch';
@@ -386,7 +387,9 @@ export default function LandmarkSelection() {
   // Admin Mode's live edits (name/category/etc) merged on top of the static
   // catalog -- same source of truth every other screen (map, detail page)
   // applies, so a correction shows up here too without a code deploy.
-  const editedLandmarks = useMemo(() => ALL_LANDMARKS.map(applyEdit), [applyEdit]);
+  const packsVersion = usePlacePacksVersion();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- packsVersion: imported places join ALL_LANDMARKS in place
+  const editedLandmarks = useMemo(() => ALL_LANDMARKS.map(applyEdit), [applyEdit, packsVersion]);
 
   // Everything but the search box: city and category filters.
   const passesFilters = (l) => {

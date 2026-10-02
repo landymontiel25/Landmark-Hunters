@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getLandmark, getRegion, INTERESTS } from '../data/regions';
 import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
+import { ensurePlacePacks, isPlacePackId, usePlacePacksVersion } from '../lib/placePacks';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import { isAdmin } from '../lib/admins';
@@ -108,6 +109,7 @@ function LandmarkDetailBody() {
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const region = getRegion(regionId);
+  const packsVersion = usePlacePacksVersion();
   const staticLandmark = getLandmark(regionId, id);
   // Not in the built-in catalog -- might be a user-submitted one from
   // "Add Landmark" on the map, so fetch it from Firestore by the same id.
@@ -126,6 +128,17 @@ function LandmarkDetailBody() {
     let cancelled = false;
     setCustomLoading(true);
     setCustomError(null);
+    if (isPlacePackId(id)) {
+      // An imported place: it arrives with the place chunks, not Firestore.
+      ensurePlacePacks().then((ok) => {
+        if (cancelled) return;
+        if (!ok && !getLandmark(regionId, id)) setCustomError(new Error('Could not load this place.'));
+        setCustomLoading(false);
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
     getCustomLandmark(id)
       .then((l) => {
         if (cancelled) return;
@@ -140,7 +153,7 @@ function LandmarkDetailBody() {
     return () => {
       cancelled = true;
     };
-  }, [id, staticLandmark, customAttempt]);
+  }, [id, regionId, staticLandmark, customAttempt, packsVersion]);
 
   // A custom landmark that's gone (its owner deleted it) must not linger as an
   // invisible stop in this device's itinerary for that city.
@@ -878,6 +891,24 @@ function LandmarkDetailBody() {
           </button>
         )}
       </div>
+      )}
+
+      {landmark.source === 'osm' && (
+        <p className="screen-subtitle osm-credit" style={{ fontSize: '0.8rem', margin: '0 0 12px' }}>
+          Place data ©{' '}
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+            OpenStreetMap contributors
+          </a>
+          {landmark.osmUrl && (
+            <>
+              {' · '}
+              <a href={landmark.osmUrl} target="_blank" rel="noreferrer">
+                View on OpenStreetMap
+              </a>
+            </>
+          )}
+          {landmark.wikidata && ' · Facts include Wikidata (CC0)'}
+        </p>
       )}
 
       {firebaseEnabled && user && (

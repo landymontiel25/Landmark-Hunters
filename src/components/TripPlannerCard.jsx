@@ -6,7 +6,7 @@ import { useRatings } from '../lib/RatingsContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useGeo } from '../lib/GeoContext';
 import { clearPersisted, usePersistentState } from '../lib/usePersistentState';
-import { ALL_LANDMARKS, getRegion } from '../data/regions';
+import { getLandmark, getRegion } from '../data/regions';
 import { nearestRegionId } from '../lib/geo';
 import { geocodeLocation } from '../lib/geocode';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
@@ -61,7 +61,6 @@ const DEFAULT_WIZARD = {
 };
 const isDefault = (w) => !w || JSON.stringify({ ...DEFAULT_WIZARD, ...w }) === JSON.stringify(DEFAULT_WIZARD);
 
-const landmarkNames = new Map(ALL_LANDMARKS.map((l) => [`${l.regionId}/${l.id}`, l.name]));
 
 // Mapr's Plan Your Trip, as a step-by-step chat (ChatWizard): where you're
 // starting, your mood, the usual vs. something new, solo or group, then one
@@ -236,7 +235,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
       pickType,
       rankedNames: ranked.map((l) => l.name),
       specific,
-      specificMatchNames: matchIds.map((id) => landmarkNames.get(id)).filter(Boolean),
+      specificMatchNames: matchIds.map((id) => getLandmark(...id.split('/'))?.name).filter(Boolean),
     });
     const rankedIds = ranked.map((l) => `${l.regionId}/${l.id}`);
     const uid = user?.uid;

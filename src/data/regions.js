@@ -248,7 +248,47 @@ export const ALL_LANDMARKS_BOUNDS = ALL_LANDMARKS.reduce(
   ]
 );
 
+// Places loaded at runtime from public/places (src/lib/placePacks.js in the
+// browser, api/_lib/placePacks.js on the server) join the catalog here, so
+// every reader of ALL_LANDMARKS / getLandmark sees them once they arrive.
+const packIndex = new Map();
+let catalogVersion = 0;
+const catalogListeners = new Set();
+
+export const getCatalogVersion = () => catalogVersion;
+export function subscribeCatalog(fn) {
+  catalogListeners.add(fn);
+  return () => catalogListeners.delete(fn);
+}
+
+export function registerPlaces(places) {
+  let added = 0;
+  const idsByRegion = new Map();
+  const idsOf = (region) => {
+    if (!idsByRegion.has(region.id)) idsByRegion.set(region.id, new Set(region.landmarks.map((l) => l.id)));
+    return idsByRegion.get(region.id);
+  };
+  for (const p of places || []) {
+    const region = getRegion(p?.region);
+    const key = `${p?.region}/${p?.id}`;
+    if (!region || !p.id || packIndex.has(key) || idsOf(region).has(p.id)) continue;
+    idsOf(region).add(p.id);
+    region.landmarks.push(p);
+    const entry = { ...p, regionId: region.id };
+    ALL_LANDMARKS.push(entry);
+    packIndex.set(key, p);
+    added += 1;
+  }
+  if (added) {
+    catalogVersion += 1;
+    for (const fn of catalogListeners) fn(catalogVersion);
+  }
+  return added;
+}
+
 export function getLandmark(regionId, landmarkId) {
+  const packed = packIndex.get(`${regionId}/${landmarkId}`);
+  if (packed) return packed;
   const region = getRegion(regionId);
   return region?.landmarks.find((l) => l.id === landmarkId) || null;
 }

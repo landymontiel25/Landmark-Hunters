@@ -12,4 +12,8 @@ describe('admissionText', () => {
   it('restaurants are never labelled ticketed', () => {
     expect(admissionText({ free: false, categories: ['food'] })).toBeNull();
   });
+  it('an unknown fee makes no claim', () => {
+    expect(admissionText({ free: null, categories: ['parks-nature'] })).toBeNull();
+    expect(admissionText({ categories: ['local-life'] })).toBeNull();
+  });
 });

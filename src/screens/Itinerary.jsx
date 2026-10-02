@@ -1056,7 +1056,7 @@ export default function Itinerary() {
                         Source {'↗'}
                       </a>
                     )
-                  ) : stop.free ? (
+                  ) : stop.free == null && !stop.bookingUrl ? null : stop.free ? (
                     <button className="btn btn-sm" disabled style={{ borderColor: 'var(--color-green)', color: '#bfe0c8' }}>
                       Free to Visit
                     </button>

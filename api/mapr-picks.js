@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScores.js';
 import { getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
+import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { withCors } from './_lib/cors.js';
 import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
@@ -100,6 +101,7 @@ async function handler(req, res) {
       res.status(200).json({ picks: [] });
       return;
     }
+    await ensureServerPlacePacks();
     // users/{uid} tag maps (see tagScores.js). Scores, timestamps and counts
     // come for every region, since the warm start borrows from the others.
     const numMap = (m) =>

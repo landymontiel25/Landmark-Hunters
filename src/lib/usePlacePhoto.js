@@ -7,12 +7,15 @@ import { loadPlacePhoto, peekPlacePhoto, placePhotoKey } from './placePhoto';
  * element scrolls into view, and `enabled` must be false whenever the
  * landmark already has a photo (so those never cost a request).
  *
+ * lookup: false never starts a Google lookup (dense lists of imported
+ * places); it still shows a photo already fetched this session.
+ *
  * Returns { ref, photo, onError }: photo is {url, attributions} or null.
  * Call onError from the <img> so a dead URL drops back to the placeholder.
  */
-export function usePlacePhoto(landmark, { enabled = true } = {}) {
+export function usePlacePhoto(landmark, { enabled = true, lookup = true } = {}) {
   const key = placePhotoKey(landmark);
-  const active = enabled && !!key;
+  const active = enabled && lookup && !!key;
   const [node, setNode] = useState(null);
   const [visibleKey, setVisibleKey] = useState(null);
   const [state, setState] = useState({ key: null, photo: null });
@@ -56,6 +59,9 @@ export function usePlacePhoto(landmark, { enabled = true } = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, key]);
 
-  const photo = active && state.key === key && state.photo && state.photo.url !== brokenUrl ? state.photo : null;
+  // lookup: false shows a photo this session already fetched, never a new one.
+  const known = enabled && !lookup && key ? peekPlacePhoto(landmark) : null;
+  const fetched = active && state.key === key ? state.photo : null;
+  const photo = [fetched, known].find((p) => p && p.url !== brokenUrl) || null;
   return { ref: setNode, photo, onError: () => photo && setBrokenUrl(photo.url) };
 }

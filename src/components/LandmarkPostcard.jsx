@@ -17,6 +17,9 @@ import { IMAGE_CREDITS } from '../data/imageCredits';
 // A photo that fails to load is dropped from the set (so a gallery never
 // shows a broken-image icon); if none load, the colored category card shows
 // instead. Photos shimmer softly until they arrive.
+// Imported places carry their own credits; the catalog's live in IMAGE_CREDITS.
+const creditFor = (landmark, src) => IMAGE_CREDITS[src] || landmark.imageCredits?.[src] || null;
+
 export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', swipeable = false, myPhotos, onImageClick }) {
   const palette = paletteFor(landmark.id);
   const icon = iconFor(landmark.categories);
@@ -125,7 +128,7 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
   return (
     <div className={`postcard ${rotate === 'r' ? 'rot-r' : ''}`}>
       {body}
-      {images && size !== 'sm' && IMAGE_CREDITS[images[shownIdx]] && <CommonsCredit credit={IMAGE_CREDITS[images[shownIdx]]} />}
+      {images && size !== 'sm' && creditFor(landmark, images[shownIdx]) && <CommonsCredit credit={creditFor(landmark, images[shownIdx])} />}
       {!images && place.photo && <PlacePhotoCredit photo={place.photo} className="place-photo-credit-caption" />}
     </div>
   );

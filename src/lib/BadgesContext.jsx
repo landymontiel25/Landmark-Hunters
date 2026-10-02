@@ -9,6 +9,7 @@ import { getUserStats, getUserCheckins, isInTopLeaderboard, hasFriendTagTeam, is
 import { getPickFeedback } from './pickFeedback';
 import { getUserReviews } from './reviews';
 import { getCustomLandmarks } from './customLandmarks';
+import { ensurePlacePacks, isPlacePackId } from './placePacks';
 import { getRegion, getLandmark } from '../data/regions';
 import { computeBadges, computeStreakDays, hasSecuredStreakToday, msUntilStreakLapse, todaysActionCount } from './streaks';
 import {
@@ -151,6 +152,7 @@ export function BadgesProvider({ children }) {
       const [reviews, allCustom] = await Promise.all([
         getUserReviews(user.uid).catch(() => []),
         getCustomLandmarks().catch(() => []),
+        rows.some((c) => isPlacePackId(c.landmarkId)) ? ensurePlacePacks() : null,
       ]);
       const customLandmarksById = new Map(allCustom.map((l) => [l.id, l]));
       const factLandmarks = allCustom.filter((l) => l.createdBy === user.uid && (l.facts || []).length > 0).length;
