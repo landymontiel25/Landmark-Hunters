@@ -305,6 +305,7 @@ await t('recommendation_log: predicted may be null, neutral or negative', async 
 await t('recommendation_log: bad new-field values are rejected', async () => {
   await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b1'), rec({ ...shown, predicted: 'great' })));
   await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b2'), rec({ ...shown, surface: 'billboard' })));
+  await assertSucceeds(setDoc(doc(as('ann'), 'recommendation_log/b2tp'), rec({ ...shown, surface: 'travel-picks' })));
   await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b3'), rec({ ...shown, rank: 1.5 })));
   await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b4'), rec({ ...shown, rank: '1' })));
   await assertFails(setDoc(doc(as('ann'), 'recommendation_log/b5'), rec({ ...shown, setId: 42 })));

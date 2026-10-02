@@ -140,7 +140,7 @@ export const APP_HELP =
   `Mapr suggests in the Mapr tab (trip planner and chat). A tap is saved to your account first and the button only lights up once it is saved; ` +
   `if saving fails you see "Couldn't save your answer" with a Try again button, and with no connection it says "Not saved yet" and sends when ` +
   `you are back online. "✗ Not for me" removes the card and the next pick takes its place (that landmark won't be offered here again); ` +
-  `On the Map sheet and in the Mapr tab "✓ I'd go" and "🤷 Not sure" keep the card, shown as selected, and you can tap a different button to change your answer; in Mapr Travel Picks on Profile every answer (I'd go, Not sure, Not for me) takes the card away once it is saved, because it is answered. ✓ and ✗ nudge that ` +
+  `On the Map sheet and in the Mapr tab "✓ I'd go" and "🤷 Not sure" keep the card, shown as selected, and you can tap a different button to change your answer; in Mapr Travel Picks on Profile every answer (I'd go, Not sure, Not for me) takes the card away once it is saved, because it is answered. Travel Picks count toward your taste like every other Mapr pick: each card gets a hidden guess when it scrolls into view, and your answer is compared with it for your taste score (and the tag scores and place score move as before). ✓ and ✗ nudge that ` +
   `city's tag scores; "🤷 Not sure" carries no signal and Mapr Travel Picks offers that place again after about a week (there is no "ask me ` +
   `again" button or text). The first card in the row is always "+ Rate a ` +
   `Landmark" (search any place by name for the real rate-and-post flow, with a comment, that actually shows on the landmark's page).\n` +

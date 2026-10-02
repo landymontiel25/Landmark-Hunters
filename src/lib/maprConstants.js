@@ -3,7 +3,7 @@
 // Later measurement items add to this file.
 
 // --- Where a pick was shown (recommendation_log.surface) ---------------
-export const SURFACES = ['map-sheet', 'mapr-tab', 'chat'];
+export const SURFACES = ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'];
 
 // --- Hidden prediction (src/lib/maprPrediction.js) ---------------------
 // Saved with each shown pick as `predicted`. Never rendered or returned to
