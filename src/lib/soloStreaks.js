@@ -104,7 +104,7 @@ export async function closeSoloToday() {
   const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ dayId: today }),
+    body: JSON.stringify({ dayId: today, tzOffsetMin: new Date().getTimezoneOffset() }),
   });
   const data = await r.json().catch(() => null);
   return data || { ok: false };

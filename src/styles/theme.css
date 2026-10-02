@@ -6884,3 +6884,23 @@ p.tag {
 .taste-bar-number.taste-bar-red, .taste-bar-word.taste-bar-red { color: var(--danger); }
 .taste-bar-number.taste-bar-yellow, .taste-bar-word.taste-bar-yellow { color: var(--warning); }
 .taste-bar-number.taste-bar-green, .taste-bar-word.taste-bar-green { color: var(--success); }
+
+/* "N/3 today" next to Mapr Travel Picks: neutral until the day's quota is
+   met, then green (with a check, so color is not the only signal). */
+.pick-day-counter {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary, #aab);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  vertical-align: middle;
+}
+.pick-day-counter.done {
+  color: var(--success);
+  border-color: var(--success);
+  background: rgba(85, 201, 135, 0.14);
+}

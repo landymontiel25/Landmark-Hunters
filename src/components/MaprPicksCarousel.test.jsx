@@ -25,6 +25,8 @@ const shown = vi.hoisted(() => []);
 vi.mock('../lib/FriendsContext', () => ({ useFriends: () => ({ myProfile: { tagScores: {} } }) }));
 vi.mock('../lib/recommendationLog', () => ({ logShownPicks: (a) => { shown.push(a); return Promise.resolve(); } }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 40.0356, lng: -75.3437 } }) }));
+const solo = vi.hoisted(() => ({ closes: 0 }));
+vi.mock('../lib/soloStreaks', () => ({ closeSoloToday: () => { solo.closes += 1; return Promise.resolve({ ok: true }); } }));
 vi.mock('../lib/BadgesContext', () => ({ useBadges: () => ({ reload: () => {}, actionsToday: 0 }) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
 
@@ -165,5 +167,25 @@ describe('Mapr Travel Picks dots', () => {
     const ids = shown.map((c) => c.stops[0].id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(new Set(shown.map((c) => c.setId)).size).toBe(1);
+  });
+
+  it('shows an N/3 today counter that moves the moment a save lands and turns green (with a check) at 3, then closes the streak day once', async () => {
+    solo.closes = 0;
+    await render({ reviews: [], checkedInIds: [] });
+    const cardBtn = (i, label) => [...container.querySelectorAll('.mapr-pick')[i].querySelectorAll('.pick-vote-btn')].find((b) => b.textContent.includes(label));
+    const tap = (el) => act(async () => el.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    const counter = () => document.querySelector('.pick-day-counter');
+    expect(counter().textContent.trim()).toBe('0/3 today');
+    expect(counter().className).not.toContain('done');
+    await tap(cardBtn(0, "I'd go"));
+    expect(counter().textContent.trim()).toBe('1/3 today');
+    await tap(cardBtn(0, 'Not sure'));
+    await tap(cardBtn(0, 'Not for me'));
+    expect(counter().textContent.trim()).toBe('\u2713 3/3 today');
+    expect(counter().className).toContain('done');
+    expect(solo.closes).toBe(1);
+    await tap(cardBtn(0, "I'd go"));
+    expect(counter().textContent.trim()).toBe('\u2713 3/3 today');
+    expect(solo.closes).toBe(1);
   });
 });

@@ -4,6 +4,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // re-reads it, so the tests can drive the real handlers end to end.
 let streakDoc;
 let checkinDocs = [];
+let pickDocs = [];
+let cardsRated = true;
 const award = vi.fn(async () => {});
 
 function ref(path) {
@@ -11,7 +13,7 @@ function ref(path) {
     path,
     get: async () => {
       if (path === 'streaks/me') return { exists: !!streakDoc, data: () => streakDoc };
-      if (path.endsWith('/entries/me')) return { exists: true, data: () => ({ ratings: { a: 'yes', b: 'yes', c: 'yes' } }) };
+      if (path.endsWith('/entries/me')) return { exists: cardsRated, data: () => ({ ratings: { a: 'yes', b: 'yes', c: 'yes' } }) };
       return { exists: false, data: () => undefined };
     },
     update: async (u) => Object.assign(streakDoc, u),
@@ -24,7 +26,7 @@ function ref(path) {
 const fakeDb = {
   collection: (n) => ({
     doc: (id) => ref(`${n}/${id}`),
-    where: () => ({ get: async () => ({ docs: checkinDocs.map((x) => ({ data: () => x })) }) }),
+    where: () => ({ get: async () => ({ docs: (n === 'pick_feedback' ? pickDocs : checkinDocs).map((x) => ({ data: () => x })) }) }),
   }),
   runTransaction: async (fn) => fn({ get: (r) => r.get(), update: (r, u) => r.update(u) }),
 };
@@ -54,6 +56,8 @@ const utcYesterday = () => {
 beforeEach(() => {
   award.mockClear();
   checkinDocs = [];
+  pickDocs = [];
+  cardsRated = true;
   streakDoc = { mode: 'solo', memberIds: ['me'], cityId: 'x', count: 4, best: 4, lastCompletedDay: utcYesterday(), frozenDays: [] };
 });
 
@@ -80,6 +84,45 @@ describe('close-solo-streak-day', () => {
     const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
     await handler({ method: 'POST', headers: {}, body: { dayId: '2001-0-1' } }, res);
     expect(res.status).toHaveBeenCalledWith(400);
+  });
+});
+
+describe('close-solo-streak-day: Travel Picks answers', () => {
+  const tz = 240; // UTC-4, like US Eastern in summer
+  const todayClient = () => {
+    const n = new Date(Date.now() - tz * 60000);
+    return `${n.getUTCFullYear()}-${n.getUTCMonth()}-${n.getUTCDate()}`;
+  };
+  const localNoonMs = () => {
+    const n = new Date(Date.now() - tz * 60000);
+    return Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate(), 12) + tz * 60000;
+  };
+  const answer = (id, at, verdict = 'yes') => ({ landmarkId: id, verdict, at });
+
+  it('closes the day when 3 different landmarks were answered today, even without the daily cards', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    cardsRated = false;
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
+    pickDocs = [answer('p1', localNoonMs()), answer('p2', localNoonMs(), 'unsure'), answer('p3', localNoonMs(), 'no')];
+    const out = await call(handler, { dayId: todayClient(), tzOffsetMin: tz });
+    expect(out.closed).toBe(true);
+    expect(streakDoc.lastCompletedDay).toBe(todayClient());
+  });
+
+  it('does not close on 2 answers, repeats of one landmark, or answers from another day', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    cardsRated = false;
+    pickDocs = [answer('p1', localNoonMs()), answer('p1', localNoonMs()), answer('p2', localNoonMs() - 86400000), answer('p3', localNoonMs())];
+    const out = await call(handler, { dayId: todayClient(), tzOffsetMin: tz });
+    expect(out.closed).toBe(false);
+  });
+
+  it('ignores Travel Picks answers when the client sends no usable timezone offset', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    cardsRated = false;
+    pickDocs = [answer('p1', localNoonMs()), answer('p2', localNoonMs()), answer('p3', localNoonMs())];
+    expect((await call(handler, { dayId: todayClient() })).closed).toBe(false);
+    expect((await call(handler, { dayId: todayClient(), tzOffsetMin: 99999 })).closed).toBe(false);
   });
 });
 

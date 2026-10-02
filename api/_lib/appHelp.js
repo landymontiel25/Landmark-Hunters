@@ -193,8 +193,8 @@ export const APP_HELP =
   `compared against a stated manual-planning baseline (never a made-up estimate).\n` +
   `- Solo Streak (single 🔥 in the header, and Your Stats' "streak" tile on Profile -- Profile shows ONLY the solo count, not the dual one): your ` +
   `own personal streak, a real stored Firestore doc (mode: "solo") the same as a dual streak, not just a computed display -- so it supports its own ` +
-  `freeze and points. The day counts by rating today's 3 landmarks through Mapr Picks (no check-in path -- rating is the whole rule; no guess step, ` +
-  `since there's no partner to guess about). 1 personal freeze per month, spendable from the streak's own detail page. Rating a day earns 20 points, ` +
+  `freeze and points. The day counts when you answer 3 different landmarks today, either the 3 daily cards on the Streaks page or any 3 in Mapr Travel Picks on Profile (I'd go, Not sure or Not for me; no check-in path -- answering is the whole rule; no guess step, ` +
+  `since there's no partner to guess about). Mapr Travel Picks shows an "N/3 today" counter beside its title that updates the moment each answer saves and turns green with a check at 3, and the streak day closes then, so the red "Rate 3 landmarks today" warning flips to "streak is safe" without a reload. 1 personal freeze per month, spendable from the streak's own detail page. Rating a day earns 20 points, ` +
   `plus a milestone bonus (100 at day 3, 300 at day 7, 1000 at day 30). Everyone who already had a solo streak kept their exact count and best when ` +
   `this shipped -- it was seeded once from their real history the first time their account touched the app after the change, never reset to 0.\n` +
   `- Streak counts (solo and dual) show 0 as soon as a day has been missed with no freeze covering it, instead of lingering at the old number until the ` +

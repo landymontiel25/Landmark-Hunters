@@ -6,6 +6,7 @@ import { previousDayKey, validClientDayKey, isDayBefore } from './_lib/streakDay
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
 import { withCors } from './_lib/cors.js';
+import { SOLO_PICK_VOTES_REQUIRED, distinctPickAnswersOn, localDayWindow } from './_lib/soloPicks.js';
 
 // Points for a secured solo day, and one-time bonuses the first time a
 // streak reaches a milestone length -- half the dual-streak amounts (see
@@ -34,7 +35,7 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { dayId } = req.body || {};
+  const { dayId, tzOffsetMin } = req.body || {};
   if (!validClientDayKey(dayId)) {
     res.status(400).json({ error: 'dayId is required.' });
     return;
@@ -74,7 +75,19 @@ async function handler(req, res) {
     const cardIds = pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds);
     const entrySnap = await streakRef.collection('days').doc(dayId).collection('entries').doc(account.uid).get();
     const entry = entrySnap.exists ? entrySnap.data() : null;
-    const done = entry && cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id]);
+    const cardsDone = !!entry && cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id]);
+    // The other way to secure the day: answer SOLO_PICK_VOTES_REQUIRED
+    // different landmarks in Mapr Travel Picks (pick_feedback) that local day.
+    // Only checked when the cards are not done, so it costs one query at most.
+    let picksDone = false;
+    if (!cardsDone) {
+      const window = localDayWindow(dayId, tzOffsetMin);
+      if (window) {
+        const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
+        picksDone = distinctPickAnswersOn(fbSnap.docs, window) >= SOLO_PICK_VOTES_REQUIRED;
+      }
+    }
+    const done = cardsDone || picksDone;
     if (!done) {
       res.status(200).json({ ok: true, closed: false });
       return;
