@@ -36,3 +36,39 @@ export function distinctPickAnswersOn(docs, window) {
   }
   return ids.size;
 }
+
+// A check-in doc that is NOT a real visit: the 0-point claim "Rate a
+// Landmark" (and the Mapr rate card) writes. Mirrors isRealCheckin in
+// src/lib/leaderboard.js, which this route cannot import (browser SDK).
+export function isRatingOnlyClaim(c) {
+  if (!c) return false;
+  if (c.ratingOnly) return true;
+  if (typeof c.visited === 'boolean') return !c.visited;
+  return c.points === 0;
+}
+
+const msOf = (t) => (typeof t?.toMillis === 'function' ? t.toMillis() : Number.isFinite(t?.seconds) ? t.seconds * 1000 : Number(t));
+
+// Distinct landmarks engaged with on that local day, the SAME rule the
+// "N/3 today" counter uses on the client (todaysActionCount in
+// src/lib/streaks.js): Travel Picks answers plus 0-point "Rate a Landmark"
+// ratings. Real check-ins do not count here.
+export function distinctActionsOn(pickDocs, checkinDocs, window) {
+  if (!window) return 0;
+  const ids = new Set();
+  for (const raw of pickDocs || []) {
+    const f = typeof raw?.data === 'function' ? raw.data() : raw;
+    if (!f || !VERDICTS.has(f.verdict)) continue;
+    const id = typeof f.landmarkId === 'string' ? f.landmarkId : '';
+    const at = Number(f.at);
+    if (id && id.length <= 100 && Number.isFinite(at) && at >= window.start && at < window.end) ids.add(id);
+  }
+  for (const raw of checkinDocs || []) {
+    const c = typeof raw?.data === 'function' ? raw.data() : raw;
+    if (!isRatingOnlyClaim(c)) continue;
+    const id = typeof c.landmarkId === 'string' ? c.landmarkId : '';
+    const at = msOf(c.createdAt);
+    if (id && id.length <= 100 && Number.isFinite(at) && at >= window.start && at < window.end) ids.add(id);
+  }
+  return ids.size;
+}

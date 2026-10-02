@@ -207,4 +207,15 @@ describe('Mapr Travel Picks dots', () => {
     expect(solo.closes).toBe(2);
     err.mockRestore();
   });
+
+  it('tells you how many answers the server counted when it did not secure the day', async () => {
+    solo.reply = { ok: true, closed: false, counted: 1, needed: 3, window: 'ok' };
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    await render({ reviews: [], checkedInIds: [] });
+    const cardBtn = (i, label) => [...container.querySelectorAll('.mapr-pick')[i].querySelectorAll('.pick-vote-btn')].find((b) => b.textContent.includes(label));
+    const tap = (el) => act(async () => el.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    for (let i = 0; i < 3; i++) await tap(cardBtn(0, "I'd go"));
+    expect(container.querySelector('[role="alert"]').textContent).toContain('The server counted 1 of 3 landmarks answered today.');
+    err.mockRestore();
+  });
 });

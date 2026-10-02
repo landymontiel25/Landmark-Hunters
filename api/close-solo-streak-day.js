@@ -6,7 +6,7 @@ import { previousDayKey, validClientDayKey, isDayBefore } from './_lib/streakDay
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
 import { withCors } from './_lib/cors.js';
-import { SOLO_PICK_VOTES_REQUIRED, distinctPickAnswersOn, localDayWindow } from './_lib/soloPicks.js';
+import { SOLO_PICK_VOTES_REQUIRED, distinctActionsOn, localDayWindow } from './_lib/soloPicks.js';
 
 // Points for a secured solo day, and one-time bonuses the first time a
 // streak reaches a milestone length -- half the dual-streak amounts (see
@@ -60,25 +60,27 @@ async function handler(req, res) {
       res.status(200).json({ ok: true, closed: true, already: true, count: streak.count, best: streak.best });
       return;
     }
-    // Mapr Travel Picks first: answer SOLO_PICK_VOTES_REQUIRED different
-    // landmarks there (pick_feedback) on the caller's local day and the day is
-    // secured, with no daily-card deck and so no city needed.
-    let picksDone = false;
+    // The "rate 3 landmarks today" quota, counted exactly like the Travel Picks
+    // "N/3 today" counter: answers in Mapr Travel Picks (pick_feedback) plus
+    // 0-point "Rate a Landmark" ratings, on the caller's local day. 3 different
+    // landmarks secures the day with no daily-card deck, so no city is needed.
+    const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
+    let counted = 0;
     const window = localDayWindow(dayId, tzOffsetMin);
     if (window) {
       const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
-      picksDone = distinctPickAnswersOn(fbSnap.docs, window) >= SOLO_PICK_VOTES_REQUIRED;
+      counted = distinctActionsOn(fbSnap.docs, checkinsSnap.docs, window);
     }
+    const picksDone = counted >= SOLO_PICK_VOTES_REQUIRED;
 
     // Otherwise the 3 daily cards on the Streaks page, which are drawn from
     // the streak's city.
     let cardsDone = false;
     if (!picksDone) {
       if (!streak.cityId) {
-        res.status(200).json({ ok: true, closed: false, reason: 'no-city' });
+        res.status(200).json({ ok: true, closed: false, reason: 'no-city', counted, needed: SOLO_PICK_VOTES_REQUIRED });
         return;
       }
-      const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
       const visitedIds = new Set(
         checkinsSnap.docs
           .map((d) => d.data())
@@ -92,7 +94,7 @@ async function handler(req, res) {
     }
     const done = cardsDone || picksDone;
     if (!done) {
-      res.status(200).json({ ok: true, closed: false });
+      res.status(200).json({ ok: true, closed: false, counted, needed: SOLO_PICK_VOTES_REQUIRED, window: window ? 'ok' : 'no-timezone' });
       return;
     }
 
