@@ -1,28 +1,29 @@
 {
  "category": "local-life",
- "count": 332,
+ "count": 328,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 288,
+ "withFacts": 296,
  "withHours": 78,
  "byRegion": {
-  "philly": 331,
+  "philly": 327,
   "villanova": 1
  },
  "photoSkips": [],
  "sample": [
   {
-   "id": "osm-n7383480662",
-   "name": "Stateside Urbancraft Vodka Tasting Room",
+   "id": "osm-n13426985662",
+   "name": "Marsha's South Street",
    "topic": "bar",
-   "lat": 39.976283,
-   "lng": -75.137141,
+   "lat": 39.94168,
+   "lng": -75.150353,
    "photo": false,
    "facts": [
-    "Run by Federal Distilling Room",
-    "Address: 1700 North Hancock Street, Philadelphia"
+    "Opened on September 19, 2025, by owner Chivonn Anderson.",
+    "Named for Marsha P. Johnson.",
+    "Interior includes repurposed bleacher seating from a vintage stadium."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/7383480662"
+   "osmUrl": "https://www.openstreetmap.org/node/13426985662"
   },
   {
    "id": "osm-n2668016915",
@@ -39,83 +40,81 @@
    "osmUrl": "https://www.openstreetmap.org/node/2668016915"
   },
   {
-   "id": "osm-n10938659887",
-   "name": "Bar Jawn",
-   "topic": "pub",
-   "lat": 40.024587,
-   "lng": -75.221194,
+   "id": "osm-w340038768",
+   "name": "CLC Book Center",
+   "topic": "bookstore",
+   "lat": 39.9494,
+   "lng": -75.153757,
    "photo": false,
-   "facts": [
-    "Opened by David and Ana Lee, the owners of Pizza Jawn.",
-    "Occupies the former Manayunk Tavern at Main and Rector streets.",
-    "Sells Pizza Jawn pizzas for takeout and delivery."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/10938659887"
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/340038768"
   },
   {
-   "id": "osm-w1315826155",
-   "name": "Hilltown Tavern Fairmount",
-   "topic": "pub",
-   "lat": 39.969805,
-   "lng": -75.176283,
-   "photo": false,
-   "facts": [
-    "Irish-style pub with 20 rotating drafts and craft cocktails.",
-    "Serves burgers, sandwiches, wings, tacos, salads and Irish specialties.",
-    "Has pet-friendly outdoor seating."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1315826155"
-  },
-  {
-   "id": "osm-n2752762909",
-   "name": "58th & Chester Farmers Market",
+   "id": "osm-n3542577320",
+   "name": "Dilworth Park Farmer's Market",
    "topic": "market",
-   "lat": 39.935524,
-   "lng": -75.22853,
+   "lat": 39.953174,
+   "lng": -75.164683,
    "photo": false,
    "facts": [
-    "Run by The Food Trust"
+    "Address: 1 South 15th Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/2752762909"
+   "osmUrl": "https://www.openstreetmap.org/node/3542577320"
   },
   {
-   "id": "osm-w372593381",
-   "name": "Great American Pub",
+   "id": "osm-w542308533",
+   "name": "The Pub of Penn Valley",
    "topic": "pub",
-   "lat": 40.006003,
-   "lng": -75.260025,
+   "lat": 40.011339,
+   "lng": -75.259471,
    "photo": false,
    "facts": [
-    "Serves a Sunday brunch.",
-    "Hosts a no buy-in Texas Hold'em poker night on Tuesdays.",
-    "Offers full-service catering."
+    "Also known as The Penn Valley Pub",
+    "Address: 863 East Montgomery Avenue, Lower Merion Township"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/372593381"
+   "osmUrl": "https://www.openstreetmap.org/way/542308533"
   },
   {
-   "id": "osm-n12068573588",
-   "name": "Fishtown Tavern",
-   "topic": "bar",
-   "lat": 39.970522,
-   "lng": -75.134301,
-   "photo": false,
-   "facts": [
-    "Bought by Curt Large of Buffalo Billiards in Old City and manager Josh Semesh.",
-    "Address: 1301 Frankford Avenue, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12068573588"
-  },
-  {
-   "id": "osm-n2760051352",
-   "name": "IBC Farmers Market",
+   "id": "osm-n2760042645",
+   "name": "Jefferson Farmers Market",
    "topic": "market",
-   "lat": 39.953649,
-   "lng": -75.171623,
+   "lat": 39.949815,
+   "lng": -75.156929,
    "photo": false,
    "facts": [
+    "Held at Jefferson University at 925 Chestnut Street.",
+    "Run by Farm to City Markets",
+    "Address: 995 Chestnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2760042645"
+  },
+  {
+   "id": "osm-n2760044052",
+   "name": "East Falls Farmers Market",
+   "topic": "market",
+   "lat": 40.007321,
+   "lng": -75.191773,
+   "photo": false,
+   "facts": [
+    "Held at 4100 Ridge Avenue between the Twin Bridges.",
+    "Hosts farmers, prepared food vendors, artisans, musicians and community groups.",
     "Run by Farm to City Markets"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/2760051352"
+   "osmUrl": "https://www.openstreetmap.org/node/2760044052"
+  },
+  {
+   "id": "osm-w250863827",
+   "name": "Green Room",
+   "topic": "pub",
+   "lat": 39.96476,
+   "lng": -75.170602,
+   "photo": false,
+   "facts": [
+    "Bought in 1919 by Pop Plumer, who turned the original restaurant into the Cadillac Delicatessen.",
+    "Became a bar when Prohibition ended in 1933.",
+    "Has a pool table, two dart boards and a jukebox."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/250863827"
   },
   {
    "id": "osm-n1078209701",
@@ -132,57 +131,123 @@
    "osmUrl": "https://www.openstreetmap.org/node/1078209701"
   },
   {
-   "id": "osm-n3548911781",
-   "name": "Finn McCools Ale House",
-   "topic": "pub",
-   "lat": 39.949736,
-   "lng": -75.16049,
+   "id": "osm-n4115044299",
+   "name": "Creep Records",
+   "topic": "record store",
+   "lat": 39.966678,
+   "lng": -75.139252,
    "photo": false,
    "facts": [
-    "Ale house in Midtown Village serving food and drinks.",
-    "Address: 118 South 12th Street, Philadelphia"
+    "Sits in The Piazza in Northern Liberties.",
+    "Focuses on rock, alternative and indie records and also sells audio equipment and merchandise.",
+    "Hosts local bands in the store and in The Piazza courtyard."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/3548911781"
+   "osmUrl": "https://www.openstreetmap.org/node/4115044299"
   },
   {
-   "id": "osm-w333012788",
-   "name": "Fergie's Pub",
-   "topic": "pub",
-   "lat": 39.949613,
-   "lng": -75.161157,
+   "id": "osm-n2760059634",
+   "name": "Fair Food Farmstand",
+   "topic": "market",
+   "lat": 39.95353,
+   "lng": -75.159384,
    "photo": false,
    "facts": [
-    "Irish pub with no TVs.",
-    "Hosts live band karaoke and traditional Irish music sessions.",
-    "Address: 1214 Sansom Street, Philadelphia"
+    "Run by Fair Food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/333012788"
+   "osmUrl": "https://www.openstreetmap.org/node/2760059634"
   },
   {
-   "id": "osm-n1073734567",
-   "name": "JD McGillicuddy's",
-   "topic": "pub",
-   "lat": 39.959206,
-   "lng": -75.150111,
-   "photo": false,
-   "facts": [
-    "Operated in the space that was previously the bar Whiskey Dix.",
-    "Address: 421 North 7th Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/1073734567"
-  },
-  {
-   "id": "osm-n10916408098",
-   "name": "Henry James Saloon",
+   "id": "osm-w428817661",
+   "name": "Grumpy's Tavern",
    "topic": "bar",
-   "lat": 40.029295,
-   "lng": -75.206728,
+   "lat": 39.929863,
+   "lng": -75.159648,
    "photo": false,
    "facts": [
-    "Has been a neighborhood bar since 1989.",
-    "Has an outdoor patio and hosts live music nights."
+    "Hatch & Coop runs the kitchen, serving sandwiches, bowls and a cheesesteak.",
+    "Address: 1525 South 9th Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/10916408098"
+   "osmUrl": "https://www.openstreetmap.org/way/428817661"
+  },
+  {
+   "id": "osm-n10938659887",
+   "name": "Bar Jawn",
+   "topic": "pub",
+   "lat": 40.024587,
+   "lng": -75.221194,
+   "photo": false,
+   "facts": [
+    "Opened by David and Ana Lee, the owners of Pizza Jawn.",
+    "Occupies the former Manayunk Tavern at Main and Rector streets.",
+    "Sells Pizza Jawn pizzas for takeout and delivery."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10938659887"
+  },
+  {
+   "id": "osm-w520719730",
+   "name": "House of Our Own Books",
+   "topic": "bookstore",
+   "lat": 39.951332,
+   "lng": -75.201889,
+   "photo": false,
+   "facts": [
+    "Occupies two floors of a Victorian house at the edge of the Penn campus.",
+    "Sells new and used general and scholarly books.",
+    "Address: 3920 Spruce Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/520719730"
+  },
+  {
+   "id": "osm-n2752762909",
+   "name": "58th & Chester Farmers Market",
+   "topic": "market",
+   "lat": 39.935524,
+   "lng": -75.22853,
+   "photo": false,
+   "facts": [
+    "Run by The Food Trust"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2752762909"
+  },
+  {
+   "id": "osm-n3976315771",
+   "name": "Long in the Tooth",
+   "topic": "record store",
+   "lat": 39.951507,
+   "lng": -75.174648,
+   "photo": false,
+   "facts": [
+    "Address: 2027 Sansom Street"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3976315771"
+  },
+  {
+   "id": "osm-w81741957",
+   "name": "Lancaster County Farmers' Market",
+   "topic": "market",
+   "lat": 40.044903,
+   "lng": -75.400328,
+   "photo": false,
+   "facts": [
+    "Has operated for over 50 years.",
+    "Sells produce, baked goods, meats, cheeses and handmade items from over 30 vendors.",
+    "Address: 389 West Lancaster Avenue, Wayne"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/81741957"
+  },
+  {
+   "id": "osm-w1106481263",
+   "name": "Evil Genius Beer Company",
+   "topic": "bar",
+   "lat": 39.975753,
+   "lng": -75.13383,
+   "photo": false,
+   "facts": [
+    "Taproom is a 165-seat pub with an outdoor beer garden.",
+    "Has pool and shuffleboard in the taproom.",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1106481263"
   },
   {
    "id": "osm-n13332562796",
@@ -198,6 +263,19 @@
    "osmUrl": "https://www.openstreetmap.org/node/13332562796"
   },
   {
+   "id": "osm-n1073734567",
+   "name": "JD McGillicuddy's",
+   "topic": "pub",
+   "lat": 39.959206,
+   "lng": -75.150111,
+   "photo": false,
+   "facts": [
+    "Operated in the space that was previously the bar Whiskey Dix.",
+    "Address: 421 North 7th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1073734567"
+  },
+  {
    "id": "osm-w439036334",
    "name": "Bonnie's Capistrano Bar",
    "topic": "bar",
@@ -210,132 +288,57 @@
    "osmUrl": "https://www.openstreetmap.org/way/439036334"
   },
   {
-   "id": "osm-n11638805850",
-   "name": "Iffy Books",
+   "id": "osm-n11482992421",
+   "name": "Making Worlds Bookstore and Social Center",
    "topic": "bookstore",
-   "lat": 39.94656,
-   "lng": -75.174795,
+   "lat": 39.954814,
+   "lng": -75.211899,
    "photo": false,
    "facts": [
-    "Sells a small selection of books and zines on hacking, free culture and gardening.",
-    "Hosts a weekly Writing Room co-working session for writers on Tuesday evenings.",
-    "Address: 404 South 20th Street, Philadelphia"
+    "Collectively owned and operated bookstore.",
+    "Began when West Philadelphia organizers searched for space for the publisher Common Notions.",
+    "Features a children's book section and a pay-as-you-wish cafe."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/11638805850"
+   "osmUrl": "https://www.openstreetmap.org/node/11482992421"
   },
   {
-   "id": "osm-n12228631531",
-   "name": "Barnes & Noble",
-   "topic": "bookstore",
-   "lat": 39.951414,
-   "lng": -75.169187,
-   "photo": false,
-   "facts": [
-    "Moved here in 2023 from a larger store on Rittenhouse Square.",
-    "Part of the Barnes & Noble chain",
-    "Address: 1708 Chestnut Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12228631531"
-  },
-  {
-   "id": "osm-n2752820086",
-   "name": "Fountain Farmers Market",
-   "topic": "market",
-   "lat": 39.929989,
-   "lng": -75.163162,
-   "photo": false,
-   "facts": [
-    "Run by Farm to City Markets",
-    "Address: 1600 East Passyunk Avenue, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2752820086"
-  },
-  {
-   "id": "osm-n877499231",
-   "name": "Great American Pub",
-   "topic": "pub",
-   "lat": 40.045385,
-   "lng": -75.388031,
-   "photo": false,
-   "facts": [
-    "The Wayne location opened in 2000.",
-    "Address: 4 West Avenue, Wayne"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/877499231"
-  },
-  {
-   "id": "osm-n7431800654",
-   "name": "ASCII Cup XLI",
+   "id": "osm-w1107321334",
+   "name": "JJ Mallons",
    "topic": "bar",
-   "lat": 39.94732,
-   "lng": -75.166654,
+   "lat": 39.968696,
+   "lng": -75.136143,
    "photo": false,
    "facts": [
-    "Address: 1501 Spruce Street, Philadelphia"
+    "Address: 1155 North Front Street, Unit 57, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/7431800654"
+   "osmUrl": "https://www.openstreetmap.org/way/1107321334"
   },
   {
-   "id": "osm-n2752736446",
-   "name": "33rd & Diamond Farmers Market",
-   "topic": "market",
-   "lat": 39.98886,
-   "lng": -75.187243,
-   "photo": false,
-   "facts": [
-    "Established in 2011 next to Mander Playground in Strawberry Mansion.",
-    "Supported by community partner East Park Revitalization Alliance since its start.",
-    "Produce comes from EPRA and PHS City Harvest gardens a few blocks away."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2752736446"
-  },
-  {
-   "id": "osm-n649984278",
-   "name": "Grace Tavern",
+   "id": "osm-n12827420086",
+   "name": "Kitchen at Bala",
    "topic": "pub",
-   "lat": 39.945091,
-   "lng": -75.17968,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/649984278"
-  },
-  {
-   "id": "osm-w340038768",
-   "name": "CLC Book Center",
-   "topic": "bookstore",
-   "lat": 39.9494,
-   "lng": -75.153757,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/340038768"
-  },
-  {
-   "id": "osm-n3306921057",
-   "name": "Frankford Hall",
-   "topic": "pub",
-   "lat": 39.969485,
-   "lng": -75.134683,
+   "lat": 40.000087,
+   "lng": -75.228535,
    "photo": false,
    "facts": [
-    "Modern biergarten in Fishtown inspired by traditional German beer gardens.",
-    "Serves German and American dishes such as sausages and burgers, plus beer.",
-    "Address: 1210 Frankford Avenue, Philadelphia"
+    "Black-owned business founded in 2019.",
+    "Led by a head chef who is an alumnus of the Auguste Escoffier School of Culinary Arts.",
+    "Offers catering, take-out and dine-in service."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/3306921057"
+   "osmUrl": "https://www.openstreetmap.org/node/12827420086"
   },
   {
-   "id": "osm-n2752688769",
-   "name": "29th & Wharton Farmers Market",
-   "topic": "market",
-   "lat": 39.937204,
-   "lng": -75.19229,
+   "id": "osm-n12879659842",
+   "name": "Canalside",
+   "topic": "beer garden",
+   "lat": 40.02327,
+   "lng": -75.220163,
    "photo": false,
    "facts": [
-    "Located in Grays Ferry in front of the Peace Wall mural.",
-    "Established in 2010.",
-    "Run by The Food Trust"
+    "Outdoor beer garden beside the canal in Manayunk, with waterside views.",
+    "Serves cocktails, craft beers and wines."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/2752688769"
+   "osmUrl": "https://www.openstreetmap.org/node/12879659842"
   }
  ],
  "points": [
@@ -782,11 +785,6 @@
   [
    40.001169,
    -75.215068,
-   0
-  ],
-  [
-   40.025436,
-   -75.337382,
    0
   ],
   [
@@ -1595,11 +1593,6 @@
    0
   ],
   [
-   39.953855,
-   -75.157219,
-   0
-  ],
-  [
    39.921605,
    -75.178667,
    0
@@ -1720,11 +1713,6 @@
    0
   ],
   [
-   40.02569,
-   -75.223155,
-   0
-  ],
-  [
    40.005868,
    -75.260547,
    0
@@ -1825,11 +1813,6 @@
    0
   ],
   [
-   39.939825,
-   -75.157562,
-   0
-  ],
-  [
    40.023113,
    -75.192925,
    0
@@ -1920,11 +1903,6 @@
    0
   ],
   [
-   39.946209,
-   -75.157744,
-   0
-  ],
-  [
    39.904272,
    -75.169616,
    0
@@ -1997,6 +1975,11 @@
   [
    39.960644,
    -75.147227,
+   0
+  ],
+  [
+   40.025436,
+   -75.337382,
    0
   ]
  ]

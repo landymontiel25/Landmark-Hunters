@@ -3,7 +3,7 @@
  "count": 138,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 59,
+ "withFacts": 84,
  "withHours": 3,
  "byRegion": {
   "philly": 135,
@@ -28,7 +28,10 @@
    "lat": 39.941871,
    "lng": -75.210275,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Its sprayground reopened after upgrades in July 2024.",
+    "The sprayground was redesigned around a learning theme."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/50108070"
   },
   {
@@ -39,20 +42,23 @@
    "lng": -75.285811,
    "photo": false,
    "facts": [
-    "Run by Lower Merion Township",
-    "Dogs allowed on a leash"
+    "Covers 22.0 acres in Gladwyne.",
+    "Nature park with hiking and bridle trails.",
+    "Run by Lower Merion Township"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/789928930"
   },
   {
-   "id": "osm-w1382319933",
-   "name": "Raymond Ludwig Weinmann Sr. Memorial Park",
-   "topic": "park",
-   "lat": 40.072139,
-   "lng": -75.307322,
+   "id": "osm-w789938262",
+   "name": "Riverbend Environmental Education Center",
+   "topic": "nature preserve",
+   "lat": 40.06904,
+   "lng": -75.284038,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/1382319933"
+   "facts": [
+    "Address: 1950 North Spring Mill Road, Lower Merion Township"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/789938262"
   },
   {
    "id": "osm-w1031861147",
@@ -71,7 +77,10 @@
    "lat": 40.072481,
    "lng": -75.303028,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Reopened after renovation on October 10, 2020.",
+    "Rededicated as Aubrey Collins Jr. Park."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/220643640"
   },
   {
@@ -85,14 +94,17 @@
    "osmUrl": "https://www.openstreetmap.org/way/183666855"
   },
   {
-   "id": "osm-w28526195",
-   "name": "Woodland Ave Park",
-   "topic": "park",
-   "lat": 40.046914,
-   "lng": -75.384372,
+   "id": "osm-n3873345276",
+   "name": "Wynnewood Valley Park: Garden for the Blind",
+   "topic": "garden",
+   "lat": 39.986348,
+   "lng": -75.282731,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/28526195"
+   "facts": [
+    "The Ardmore Rotary Club built and dedicated the garden in 1977.",
+    "Reconstruction began in 2010, and the restored garden was rededicated on May 9, 2011."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3873345276"
   },
   {
    "id": "osm-w337138776",
@@ -107,24 +119,28 @@
    "osmUrl": "https://www.openstreetmap.org/way/337138776"
   },
   {
-   "id": "osm-w197528040",
-   "name": "Pretzel Park",
+   "id": "osm-n6695578170",
+   "name": "Quadrangle",
    "topic": "park",
-   "lat": 40.025641,
-   "lng": -75.221181,
+   "lat": 40.0136,
+   "lng": -75.305923,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/197528040"
+   "osmUrl": "https://www.openstreetmap.org/node/6695578170"
   },
   {
-   "id": "osm-w553336182",
-   "name": "Powder Mill Valley Park",
+   "id": "osm-w545161403",
+   "name": "Preston Park",
    "topic": "park",
-   "lat": 39.985026,
-   "lng": -75.286034,
+   "lat": 40.014223,
+   "lng": -75.312234,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/553336182"
+   "facts": [
+    "Preston Reading Room Association, a Quaker group, built a facility at Railroad Avenue and Buck Lane in 1891.",
+    "Richard Lloyd bought the private parcels in 1938 and donated them to the township.",
+    "Six parcels became Preston Park, later renamed Preston Field by the township."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/545161403"
   },
   {
    "id": "osm-r11115686",
@@ -134,21 +150,25 @@
    "lng": -75.14919,
    "photo": false,
    "facts": [
-    "Established in 1948",
-    "Designed by Charles E. Peterson and Grant Miles Simon",
-    "Built in the colonial architecture and Federal architecture style"
+    "Covers 55 acres in the Old City and Society Hill neighborhoods and is administered by the National Park Service.",
+    "Centered on Independence Hall, where the Declaration of Independence and Constitution were debated and adopted.",
+    "Nicknamed America's most historic square mile."
    ],
    "osmUrl": "https://www.openstreetmap.org/relation/11115686"
   },
   {
-   "id": "osm-w542264933",
-   "name": "Narberth Park",
+   "id": "osm-w1157957120",
+   "name": "Narbrook Park",
    "topic": "park",
-   "lat": 40.004994,
-   "lng": -75.266124,
+   "lat": 40.00758,
+   "lng": -75.266129,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/542264933"
+   "facts": [
+    "Added to the National Register of Historic Places in 2003.",
+    "Planned garden suburb developed between 1915 and 1938, also known as Narberth Garden.",
+    "Covers about 14 acres"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1157957120"
   },
   {
    "id": "osm-w433062771",
@@ -158,8 +178,9 @@
    "lng": -75.183436,
    "photo": false,
    "facts": [
-    "Established in 1914",
-    "Also known as The Lakes"
+    "FDR Park was originally named League Island Park and covers about 348 acres.",
+    "Olmsted Brothers designed the park.",
+    "The American Swedish Historical Museum (1926) is one of the remains of the 1926 Exposition."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/433062771"
   },
@@ -176,26 +197,30 @@
    "osmUrl": "https://www.openstreetmap.org/way/468558321"
   },
   {
-   "id": "osm-w1492222360",
-   "name": "Peg Braun Memorial Hill",
+   "id": "osm-w156109656",
+   "name": "Penn Park",
    "topic": "park",
-   "lat": 40.03318,
-   "lng": -75.279962,
+   "lat": 39.949713,
+   "lng": -75.18681,
    "photo": false,
    "facts": [
-    "Also known as Margaret W. Braum Memorial Hill"
+    "Penn Park is a 24-acre park on the University of Pennsylvania campus beside the Schuylkill River.",
+    "Penn Park was completed in September 2011 and has two athletic fields, a tennis center and picnic areas.",
+    "Penn Park Orchard was started in fall 2014 with the Philadelphia Orchard Project."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/1492222360"
+   "osmUrl": "https://www.openstreetmap.org/way/156109656"
   },
   {
-   "id": "osm-r13678142",
-   "name": "Penn Treaty Park",
+   "id": "osm-w50275070",
+   "name": "Penn Wynne Park",
    "topic": "park",
-   "lat": 39.966214,
-   "lng": -75.128672,
+   "lat": 39.98617,
+   "lng": -75.270103,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/relation/13678142"
+   "facts": [
+    "Address: 1300 Manoa Road, Wynnewood"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/50275070"
   },
   {
    "id": "osm-w28526211",
@@ -208,34 +233,42 @@
    "osmUrl": "https://www.openstreetmap.org/way/28526211"
   },
   {
-   "id": "osm-w699107724",
-   "name": "Radnor Memorial Park",
+   "id": "osm-w291456005",
+   "name": "Ralph Brooks Park",
    "topic": "park",
-   "lat": 40.045947,
-   "lng": -75.359556,
+   "lat": 39.931462,
+   "lng": -75.177727,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/699107724"
+   "facts": [
+    "Redevelopment added a new basketball court with bleachers, a tot lot and pedestrian access points.",
+    "The park features murals by Stephen ESPO Powers through the Mural Arts Program.",
+    "It is one of four park revitalization projects completed by Make The World Better."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/291456005"
   },
   {
-   "id": "osm-w458952454",
-   "name": "Sabine Park",
-   "topic": "park",
-   "lat": 40.012283,
-   "lng": -75.263321,
+   "id": "osm-w484364316",
+   "name": "Schuykill Center for Environmental Education",
+   "topic": "nature preserve",
+   "lat": 40.056205,
+   "lng": -75.25199,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/458952454"
+   "facts": [
+    "The Schuylkill Center became an accredited arboretum.",
+    "Established in 1965",
+    "No dogs allowed"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/484364316"
   },
   {
-   "id": "osm-w28526168",
-   "name": "Petrie Ave Park",
+   "id": "osm-w28526184",
+   "name": "Plant Ave Park",
    "topic": "park",
-   "lat": 40.023511,
-   "lng": -75.327228,
+   "lat": 40.046751,
+   "lng": -75.384749,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/28526168"
+   "osmUrl": "https://www.openstreetmap.org/way/28526184"
   },
   {
    "id": "osm-w385508434",
@@ -248,27 +281,24 @@
    "osmUrl": "https://www.openstreetmap.org/way/385508434"
   },
   {
-   "id": "osm-n6695578170",
-   "name": "Quadrangle",
+   "id": "osm-w699107724",
+   "name": "Radnor Memorial Park",
    "topic": "park",
-   "lat": 40.0136,
-   "lng": -75.305923,
+   "lat": 40.045947,
+   "lng": -75.359556,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6695578170"
+   "osmUrl": "https://www.openstreetmap.org/way/699107724"
   },
   {
-   "id": "osm-w1157957120",
-   "name": "Narbrook Park",
+   "id": "osm-w776596303",
+   "name": "Newhall Park",
    "topic": "park",
-   "lat": 40.00758,
-   "lng": -75.266129,
+   "lat": 40.027342,
+   "lng": -75.174477,
    "photo": false,
-   "facts": [
-    "Covers about 14 acres",
-    "Listed on the U.S. National Register of Historic Places"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1157957120"
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/776596303"
   },
   {
    "id": "osm-w410095875",
@@ -278,7 +308,9 @@
    "lng": -75.164678,
    "photo": false,
    "facts": [
-    "Established in 1914"
+    "Dilworth Park was rebuilt from Dilworth Plaza and opened on September 4, 2014.",
+    "Pennsylvania Railroad's Broad Street Station occupied the site from 1881 until its demolition in 1953.",
+    "Dilworth Plaza was completed in 1977 and named for Richardson Dilworth, twice mayor of Philadelphia."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/410095875"
   }
@@ -595,11 +627,6 @@
    0
   ],
   [
-   40.036136,
-   -75.340943,
-   0
-  ],
-  [
    40.017723,
    -75.210733,
    0
@@ -880,11 +907,6 @@
    0
   ],
   [
-   40.026776,
-   -75.334572,
-   0
-  ],
-  [
    40.027716,
    -75.329984,
    0
@@ -897,11 +919,6 @@
   [
    40.074937,
    -75.305862,
-   0
-  ],
-  [
-   40.027423,
-   -75.335173,
    0
   ],
   [
@@ -972,6 +989,21 @@
   [
    39.986348,
    -75.282731,
+   0
+  ],
+  [
+   40.036136,
+   -75.340943,
+   0
+  ],
+  [
+   40.026776,
+   -75.334572,
+   0
+  ],
+  [
+   40.027423,
+   -75.335173,
    0
   ]
  ]

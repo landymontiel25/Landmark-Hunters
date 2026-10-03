@@ -967,5 +967,29 @@
   },
   "osm-w352696199": {
     "rejectPhoto": "plaque close-up"
+  },
+  "osm-n6556392908": {
+    "drop": "closed for good per web research: Tango in Chinatown closed after 15 years",
+    "source": "https://wooderice.com/tango-in-chinatown-to-close-its-doors-this-weekend-after-15-years-of-philly-nightlife-memories/"
+  },
+  "osm-n11220871802": {
+    "drop": "closed for good per web research: The Grape Room closed permanently in March 2024",
+    "source": "https://www.inquirer.com/arts/grape-room-manayunk-music-closed-permanently-20240318.html"
+  },
+  "osm-n1509757250": {
+    "drop": "closed for good per web research: Wishing Well in Bella Vista shut down",
+    "source": "https://www.inquirer.com/philly/blogs/the-insider/Wishing-Well-in-Bella-Vista-shuts-down.html"
+  },
+  "osm-n1034425431": {
+    "drop": "closed for good per web research: Known Associates opened in the former Varga Bar space",
+    "source": "https://www.inquirer.com/food/restaurants/known-associates-cocktail-bar-forsythia-chris-kearse-philadelphia-20260623.html"
+  },
+  "osm-w296245913": {
+    "drop": "closed for good per web research: Conshohocken Italian Bakery closed",
+    "source": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+  },
+  "osm-w335160210": {
+    "drop": "closed for good per web research: Yangming in Bryn Mawr closed",
+    "source": "https://patch.com/pennsylvania/brynmawr/bryn-mawr-chinese-eatery-yangming-close-report"
   }
 }

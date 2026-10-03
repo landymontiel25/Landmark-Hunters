@@ -14243,7 +14243,12 @@
   "name": "First Watch",
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "First Watch has its corporate headquarters in Bradenton, Florida.",
+    "url": "https://investors.firstwatch.com/news-releases/news-release-details/first-watch-opens-doors-new-corporate-headquarters-bradenton"
+   }
+  ]
  },
  "osm-n7198791202": {
   "name": "La Colombe Coffee Roasters",
@@ -14253,6 +14258,10 @@
    {
     "text": "Featured in The Villanovan's guide to coffee shops near campus, about a mile away.",
     "url": "https://villanovan.com/25852/culture/catappetite-the-best-coffee-shops-near-villanova/"
+   },
+   {
+    "text": "JP Iberti is a co-founder of La Colombe.",
+    "url": "https://blog.lacolombe.com/2013/03/05/zagat-interview/"
    }
   ]
  },
@@ -14292,5 +14301,4575 @@
     "url": "https://villanovan.com/29858/opinion/radnor-roundup-wildcats-share-their-favorite-local-spots/"
    }
   ]
+ },
+ "osm-w1122789968": {
+  "name": "Molly's Books & Records",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n4949327723": {
+  "name": "Monk's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1219528042": {
+  "name": "Monkey Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5718906468": {
+  "name": "Mostaza Sports Bar & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w909177967": {
+  "name": "Murph's Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11171814638": {
+  "name": "Murphy's Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3763949888": {
+  "name": "Narberth Bookshop",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13151180984": {
+  "name": "Narberth Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3042654511": {
+  "name": "National Mechanics",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2727251803": {
+  "name": "New Food Trust Farmer's Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2720252212": {
+  "name": "Norris Square Park Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The market is run by the Norris Square Neighborhood Project at 2217 N 2nd Street.",
+    "url": "https://map.thefoodtrust.org/programs/norris-square-neighborhood-project-farmers-market/"
+   },
+   {
+    "text": "The market accepts WIC and Senior FMNP checks.",
+    "url": "https://map.thefoodtrust.org/programs/norris-square-neighborhood-project-farmers-market/"
+   }
+  ]
+ },
+ "osm-n2699346739": {
+  "name": "North Bowl",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "North Bowl has bowling lanes, an arcade, a bar and a restaurant.",
+    "url": "https://www.northbowlphilly.com/location/north-bowl/"
+   },
+   {
+    "text": "North Bowl hosts bowling leagues.",
+    "url": "https://www.northbowlphilly.com/leagues/"
+   }
+  ]
+ },
+ "osm-w345167316": {
+  "name": "NOTO Philadelphia",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n8116472552": {
+  "name": "Nut Hut Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w963498924": {
+  "name": "Old City Beer Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1712035844": {
+  "name": "Oneal's Pub",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w966635306": {
+  "name": "Ortlieb's Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n4175142992": {
+  "name": "Oscar's Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n7383548306": {
+  "name": "Other Half Brewing",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2752459656": {
+  "name": "Overbrook Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Overbrook Farmers Market was established in 2008.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   },
+   {
+    "text": "The market was held at Overbrook Presbyterian Church.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   },
+   {
+    "text": "The market closed after a 2024 fire at the church.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   }
+  ]
+ },
+ "osm-n1606862187": {
+  "name": "Paddy Whacks",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12069137869": {
+  "name": "Paddy’s",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2745990725": {
+  "name": "Palmer Park Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11055837200": {
+  "name": "Peck Miller's Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Peck Miller's is a dive bar at 6119 Ridge Avenue in Roxborough.",
+    "url": "https://www.yelp.com/biz/peck-millers-philadelphia"
+   },
+   {
+    "text": "The bar has a dart league.",
+    "url": "https://www.yelp.com/biz/peck-millers-philadelphia"
+   }
+  ]
+ },
+ "osm-n360500734": {
+  "name": "Penn Bookstore",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w297788075": {
+  "name": "Pennsy Flea Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12547061332": {
+  "name": "Pentridge Station",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w789715192": {
+  "name": "Philadelphia Brewing Company Peacock Room Bar & Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n7383548287": {
+  "name": "Philadelphia Distilling",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Philadelphia Distilling makes Bluecoat American Dry Gin.",
+    "url": "https://www.philadelphiadistilling.com/bluecoat-american-dry-gin"
+   },
+   {
+    "text": "It also makes Bluecoat Elderflower Gin and Bluecoat Barrel Finished Gin.",
+    "url": "https://www.philadelphiadistilling.com/bluecoat-elderflower-gin"
+   }
+  ]
+ },
+ "osm-w908918547": {
+  "name": "Philadelphia Record Exchange",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3944590539": {
+  "name": "Philadium Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened its doors in 1971.",
+    "url": "https://philadium.com/"
+   },
+   {
+    "text": "Sports bar serving pub food and craft drinks, with indoor and outdoor seating.",
+    "url": "https://philadium.com/"
+   }
+  ]
+ },
+ "osm-n4629808956": {
+  "name": "Philly AIDS Thrift @ Giovanni's Room",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Philly AIDS Thrift took over Giovanni's Room in 2014.",
+    "url": "https://www.phillymag.com/news/2014/08/21/philly-aids-thrift-re-open-giovannis-room-thrift-shop/"
+   },
+   {
+    "text": "Honored with a historical marker in 2011.",
+    "url": "https://epgn.com/2011/03/24/12478810-giovannis-room-honored-with-historical-marker/"
+   }
+  ]
+ },
+ "osm-w692349346": {
+  "name": "PHS Pop Up Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Celebrated 10 years as a PHS Pop Up Garden at South Street.",
+    "url": "https://phsonline.org/for-gardeners/gardeners-blog/10-years-phs-pop-up-garden-south-street"
+   }
+  ]
+ },
+ "osm-w747170433": {
+  "name": "PHS Pop Up Garden at Manayunk",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed in 2018 and built in 2020 on a 0.3 acre site.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   },
+   {
+    "text": "Built on a coal shoot site that had been an informal parking lot.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   },
+   {
+    "text": "Has a raised bed community garden whose harvest is donated to a local community center.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   },
+   {
+    "text": "Combines an outdoor restaurant and bar with public garden displays and food demonstration gardens.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   }
+  ]
+ },
+ "osm-n11102457755": {
+  "name": "Pitchers Pub",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef Reuben Big Rube Harley brought his cooking to the pub in 2021.",
+    "url": "https://www.inquirer.com/food/big-rube-reuben-harley-food-pitchers-pub-20210802.html"
+   }
+  ]
+ },
+ "osm-n6669293565": {
+  "name": "Point Breeze Brewing",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located at 1225 South 28th Street.",
+    "url": "https://beermapping.com/location/21299"
+   },
+   {
+    "text": "Received its brewing license and prepared its first brew.",
+    "url": "https://www.phillyvoice.com/point-breeze-brewing-company-now-licensed-readying-first-brew/"
+   }
+  ]
+ },
+ "osm-n13889733701": {
+  "name": "Ponder",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Created by Matt Kuziemski, with cocktails curated by Leighton Phillips.",
+    "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
+   },
+   {
+    "text": "Operates as a takeout wine and beer shop where guests can also open a bottle on site.",
+    "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
+   },
+   {
+    "text": "Wine selection is mostly Italian and French, with some local bottles.",
+    "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
+   }
+  ]
+ },
+ "osm-w782572287": {
+  "name": "Pop Pops 2",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11107895468": {
+  "name": "Pretzel Park Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Independent farmers market organized and staffed by neighborhood volunteers.",
+    "url": "https://www.friendsofpretzelpark.org/the-pretzel-park-farmers-market-is-an-independent-farmers-market-organized-and-staffed-by-neighborhood-volunteers/"
+   }
+  ]
+ },
+ "osm-w589737134": {
+  "name": "Prime Fusion Afro Grill and Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Owned by Anthony Daramola.",
+    "url": "https://6abc.com/post/prime-fusion-afro-grill-black-owned-restaurants-nigerian-african/13556799/"
+   },
+   {
+    "text": "Serves fried wings wrapped in 24k edible gold.",
+    "url": "https://6abc.com/post/prime-fusion-afro-grill-black-owned-restaurants-nigerian-african/13556799/"
+   },
+   {
+    "text": "Mixes Nigerian dishes with Caribbean and West African flavors.",
+    "url": "https://6abc.com/post/prime-fusion-afro-grill-black-owned-restaurants-nigerian-african/13556799/"
+   }
+  ]
+ },
+ "osm-n343293806": {
+  "name": "Prohibition Taproom",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Occupies a building that has been a pub since the 1800s.",
+    "url": "https://prohibitiontaproom.com/restaurant-pacific"
+   },
+   {
+    "text": "Has 13 taps, including a rotating local brewery hand pulled cask line.",
+    "url": "https://prohibitiontaproom.com/restaurant-pacific"
+   }
+  ]
+ },
+ "osm-w439036335": {
+  "name": "Pub On Passyunk East",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bar on East Passyunk with a menu of burgers and wings.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/the-pub-on-passyunk-east"
+   }
+  ]
+ },
+ "osm-n2012656012": {
+  "name": "Pub Webb",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n7383526245": {
+  "name": "Punch Buggy Brewing Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Started as a weekend hobby by friends Patrick Coyne and John Riley.",
+    "url": "https://www.phillymag.com/restaurants/2019/07/31/punch-buggy-brewing-fishtown-kensington-philadelphia/"
+   },
+   {
+    "text": "Flagship beers include Smoky Tailpipe, Beetle Juice and Joyride.",
+    "url": "https://www.phillymag.com/restaurants/2019/07/31/punch-buggy-brewing-fishtown-kensington-philadelphia/"
+   },
+   {
+    "text": "Serves grilled cheeses inspired by bar bites, paired with homemade tomato soup.",
+    "url": "https://www.phillymag.com/restaurants/2019/07/31/punch-buggy-brewing-fishtown-kensington-philadelphia/"
+   }
+  ]
+ },
+ "osm-w632064525": {
+  "name": "Purple Orchid",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n8439601863": {
+  "name": "R&D Cocktail Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reborn in 2018 as a cocktail bar from the Fishtown wine bar Root.",
+    "url": "https://www.phillymag.com/restaurants/2018/09/27/rd-cocktail-bar-fishtown-root/"
+   }
+  ]
+ },
+ "osm-w342742180": {
+  "name": "Raven Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n4267167928": {
+  "name": "Ray's Happy Birthday Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1938 by Anthony Ray Capozzoli, who greeted everyone with Happy Birthday.",
+    "url": "https://thehappybirthdaybar.com/"
+   },
+   {
+    "text": "Renamed Ray's Happy Birthday Bar by his son Lou after Ray died in 1997.",
+    "url": "https://thehappybirthdaybar.com/"
+   },
+   {
+    "text": "Has a rare oak and tile bar with a trough running along the base.",
+    "url": "https://thehappybirthdaybar.com/"
+   }
+  ]
+ },
+ "osm-n2752776496": {
+  "name": "Reading Terminal Farmers Market: 12th and Arch Streets",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10692148334": {
+  "name": "Rec & Royal",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Soft opening was on September 12, 2019, run by Home Hospitality in the former G Lounge space.",
+    "url": "https://phillychitchat.com/2019/09/13/rec-royal-has-arrived-a-new-dance-club-adult-game-venue/"
+   },
+   {
+    "text": "Rec side is a gaming parlour and karaoke lounge, and Royal side is a boutique nightclub.",
+    "url": "https://phillychitchat.com/2019/09/13/rec-royal-has-arrived-a-new-dance-club-adult-game-venue/"
+   }
+  ]
+ },
+ "osm-w1314521388": {
+  "name": "Records Forever",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened at 2036 Fairmount Avenue on November 1, 2024.",
+    "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
+   },
+   {
+    "text": "Owner Gabriel Coan spent 27 years in media, including KQED and WHYY.",
+    "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
+   },
+   {
+    "text": "Records are arranged by style, genre and scene time instead of alphabetically.",
+    "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
+   }
+  ]
+ },
+ "osm-w334264446": {
+  "name": "Red Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2752788045": {
+  "name": "Rittenhouse Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Open year-round at 18th and Walnut Streets.",
+    "url": "https://www.inquirer.com/food/restaurants/rittenhouse-farmers-market/"
+   },
+   {
+    "text": "Farm to City also runs winter markets in Chestnut Hill, Bryn Mawr, University City and Media.",
+    "url": "https://www.inquirer.com/food/restaurants/rittenhouse-farmers-market/"
+   }
+  ]
+ },
+ "osm-n12057913791": {
+  "name": "Rodin Garden Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Seasonal outdoor bar at the Rodin Museum along the Benjamin Franklin Parkway.",
+    "url": "https://www.phillyvoice.com/rodin-museum-garden-bar-beer-gardens-benjamin-franklin-parkway/"
+   }
+  ]
+ },
+ "osm-n3470849327": {
+  "name": "Rotten Ralph's Pub & Eatery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Corner bar in Old City with New American cuisine.",
+    "url": "https://www.oldcitydistrict.org/business/rotten-ralphs-pub-eatery"
+   }
+  ]
+ },
+ "osm-n1475234787": {
+  "name": "Royal Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened after a long renovation in November 2019.",
+    "url": "https://www.inquirer.com/food/royal-tavern-open-renovation-bella-vista-south-philadelphia-20191129.html"
+   },
+   {
+    "text": "Reopened in November 2023 after the pandemic.",
+    "url": "https://www.inquirer.com/food/restaurants/royal-tavern-reopens-south-philadelphia-bar-20231113.html"
+   }
+  ]
+ },
+ "osm-w964195883": {
+  "name": "Rusty Nail Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Dive bar where musicians perform and all genres of music are accepted.",
+    "url": "https://mainlineneighbors.com/venue/the-rusty-nail/"
+   },
+   {
+    "text": "Has wheelchair access and accessible parking and restrooms.",
+    "url": "https://mainlineneighbors.com/venue/the-rusty-nail/"
+   }
+  ]
+ },
+ "osm-n943210892": {
+  "name": "Ryan's Pub",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10784710893": {
+  "name": "Rybrew",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in Brewerytown as a bottle shop and sandwich shop.",
+    "url": "https://www.inquirer.com/philly/blogs/the-insider/Rybrew-opening-in-Brewerytown-.html"
+   }
+  ]
+ },
+ "osm-n7125160404": {
+  "name": "Saint Joseph's University Bookstore",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10682365932": {
+  "name": "Sammy's Sports Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11231061192": {
+  "name": "Scanlon's Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2745593578": {
+  "name": "Schuylkill River Park Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Managed by Evergreen Events as a producer-only market.",
+    "url": "https://map.thefoodtrust.org/programs/schuylkill-river-park-farmers-market/"
+   }
+  ]
+ },
+ "osm-n12001487360": {
+  "name": "Second District Brewing Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2931994044": {
+  "name": "Señor Baynard's Bar & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w274894262": {
+  "name": "Showcase Comics and Games",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w486628353": {
+  "name": "Sit on It Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1700198702": {
+  "name": "Smokey Joe's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has operated as a University of Pennsylvania bar since 1933.",
+    "url": "https://www.smokeyjoesbar.com/about-us"
+   }
+  ]
+ },
+ "osm-n12229584188": {
+  "name": "Society Commons",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w456378263": {
+  "name": "Solar Myth",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in the former Boot & Saddle space as a cafe, wine bar and live music venue.",
+    "url": "https://www.inquirer.com/entertainment/solar-myth-ars-nova-collective-boot-saddle-20221025.html"
+   }
+  ]
+ },
+ "osm-n11073875079": {
+  "name": "Somo Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2752798594": {
+  "name": "South and Passyunk Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w269853604": {
+  "name": "South Philadelphia Tap Room",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w250700251": {
+  "name": "St. Stephen's Green",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5659717024": {
+  "name": "State Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n7383480662": {
+  "name": "Stateside Urbancraft Vodka Tasting Room",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13911519701": {
+  "name": "Stir Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5366495321": {
+  "name": "Strangelove's",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2760042238": {
+  "name": "Suburban Station Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12862925001": {
+  "name": "Supérette",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6775455858": {
+  "name": "Superfolie",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6556392908": {
+  "name": "Tango",
+  "closed": true,
+  "closedSource": "https://wooderice.com/tango-in-chinatown-to-close-its-doors-this-weekend-after-15-years-of-philly-nightlife-memories/",
+  "facts": [
+   {
+    "text": "Operated in Chinatown for 15 years before closing.",
+    "url": "https://wooderice.com/tango-in-chinatown-to-close-its-doors-this-weekend-after-15-years-of-philly-nightlife-memories/"
+   }
+  ]
+ },
+ "osm-w270896130": {
+  "name": "Tap Room on 19th",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12228642803": {
+  "name": "Tapster",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1712034405": {
+  "name": "Tattooed Mom",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2002957445": {
+  "name": "Temple University Bookstore",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12288879226": {
+  "name": "Tempo",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5631483014": {
+  "name": "Ten Stone",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12228786312": {
+  "name": "The 700",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reported for sale in 2018 after 21 years in business in Northern Liberties.",
+    "url": "https://billypenn.com/2018/11/28/after-21-years-the-700-club-in-northern-liberties-is-for-sale/"
+   }
+  ]
+ },
+ "osm-n989532234": {
+  "name": "The Antique Store in Wayne",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1696268602": {
+  "name": "The Bayou Bar and Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w750988129": {
+  "name": "The Black Taxi",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12610634141": {
+  "name": "The Book Trader",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11459691253": {
+  "name": "The Brass Tap",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Franchise craft-beer bar and the chain's first Philadelphia location, in Manayunk.",
+    "url": "https://www.phillyvoice.com/manayunk-brass-tap-new-bar-franchise-craft-beer/"
+   },
+   {
+    "text": "Took over a corner bar property in Manayunk.",
+    "url": "https://www.phillyvoice.com/brass-tap-manayunk-craft-beer-restaurant-philadelphia/"
+   }
+  ]
+ },
+ "osm-n11584990433": {
+  "name": "The Cigar Republic",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cigar lounge, bar and retail shop with a walk-in cedar humidor, at 126 Fayette Street in Conshohocken.",
+    "url": "https://mainlinetoday.com/partner/faces-of-the-main-line/faces-main-line-2021/cigar-republic-conshohocken/"
+   },
+   {
+    "text": "The lounge covers 5,000 square feet.",
+    "url": "https://mainlinetoday.com/partner/faces-of-the-main-line/faces-main-line-2021/cigar-republic-conshohocken/"
+   }
+  ]
+ },
+ "osm-w336505649": {
+  "name": "The Dandelion",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "British pub serving British cuisine near Rittenhouse Square.",
+    "url": "https://thedandelionpub.com/"
+   }
+  ]
+ },
+ "osm-n1475234971": {
+  "name": "The Dive Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2613465619": {
+  "name": "The Druid's Keep",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w401910417": {
+  "name": "The El Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Fishtown bar with a large outdoor patio under the El train.",
+    "url": "https://www.phillymag.com/best-of-philly-archive/el-bar/"
+   }
+  ]
+ },
+ "osm-w373914374": {
+  "name": "The Fairmount Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2572265673": {
+  "name": "The Fairview Philly",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in Fairmount in the former Belgian Cafe space.",
+    "url": "https://www.phillyvoice.com/fairmount-bars-fairview-belgian-cafe-fergie-carey/"
+   },
+   {
+    "text": "Opened as a new bar in Fairmount by Fergie Carey.",
+    "url": "https://www.phillymag.com/foobooz/2020/01/14/fairmount-the-fairview-opening/"
+   }
+  ]
+ },
+ "osm-n11608500946": {
+  "name": "The Fallser Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1712067122": {
+  "name": "The Fire",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3496961798": {
+  "name": "The Fountain Porter",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Replaced the South Philadelphia restaurant 1601.",
+    "url": "https://www.phillymag.com/restaurants/2012/06/27/fountain-porter-replacing-1601/"
+   }
+  ]
+ },
+ "osm-w334890739": {
+  "name": "The Garage",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11073875052": {
+  "name": "The Goat's Beard",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Whiskey bar and restaurant on Main Street in Manayunk.",
+    "url": "https://mainlinetoday.com/food/manayunk-restaurant-review-goats-beard-whiskey-bar/"
+   }
+  ]
+ },
+ "osm-n11220871802": {
+  "name": "The Grape Room",
+  "closed": true,
+  "closedSource": "https://www.inquirer.com/arts/grape-room-manayunk-music-closed-permanently-20240318.html",
+  "facts": [
+   {
+    "text": "Manayunk dive bar and music venue that closed in 2024 and was set to reopen under a new name.",
+    "url": "https://www.phillyvoice.com/manayunk-grape-room-reopening-bar-music-venue/"
+   },
+   {
+    "text": "Manayunk music venue that closed in March 2024 after years of spotlighting Philly musicians.",
+    "url": "https://www.inquirer.com/arts/grape-room-manayunk-music-closed-permanently-20240318.html"
+   }
+  ]
+ },
+ "osm-w372593400": {
+  "name": "The Greeks",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3094702133": {
+  "name": "The Irish Pub",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2100740219": {
+  "name": "The Last Word Bookshop",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n8410340131": {
+  "name": "The Library Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10682204580": {
+  "name": "The Living Room Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Lounge on the lobby level of The Inn at Penn, a Hilton hotel on the University of Pennsylvania campus.",
+    "url": "https://shopsatpenn.com/living-room-lounge"
+   }
+  ]
+ },
+ "osm-n7383406648": {
+  "name": "The Lost Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Listed as Atlantis: Lost Bar, a bar established in 2004.",
+    "url": "https://www.phillymag.com/restaurant-finder/find/atlantis-lost-bar/"
+   }
+  ]
+ },
+ "osm-n3896676608": {
+  "name": "The Monto",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6625360703": {
+  "name": "The Olde Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in January 2015 by chef Jose Garces.",
+    "url": "https://www.phillymag.com/foobooz/2015/01/09/jose-garces-olde-bar-opens-today/"
+   },
+   {
+    "text": "Located in the old Bookbinder's building in Old City.",
+    "url": "https://www.phillymag.com/best-of-philly-archive/the-olde-bar-at-bookbinders/"
+   }
+  ]
+ },
+ "osm-n989532196": {
+  "name": "The Pembrook Shop",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989544993": {
+  "name": "The Philadelphia Print Shop",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Moved from Chestnut Hill to Wayne under a new owner.",
+    "url": "https://patch.com/pennsylvania/chestnuthill/iconic-chestnut-hill-print-shop-moving-wayne-new-owner"
+   }
+  ]
+ },
+ "osm-n3470849335": {
+  "name": "The Plough & the Stars",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2633133902": {
+  "name": "The Porch at 30th Street Station",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10682250887": {
+  "name": "The Post",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Beer hall with an arcade in University City.",
+    "url": "https://www.phillyvoice.com/post-philadelphia-university-city-arcade-beer-hall-sports-bar-opening/"
+   }
+  ]
+ },
+ "osm-w542308533": {
+  "name": "The Pub of Penn Valley",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11352102723": {
+  "name": "The Rook Manayunk",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1980171513": {
+  "name": "The SideCar Bar & Grille",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w440061732": {
+  "name": "The Station Bar & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Three generations of the Maglio family have run the Station Bar & Grill for more than 60 years.",
+    "url": "https://www.inquirer.com/news/philadelphia/station-bar-grill-south-philadelphia-complaints-vandalism-20210106.html"
+   }
+  ]
+ },
+ "osm-n10128661868": {
+  "name": "The Title Page",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1099888899": {
+  "name": "The Trestle Inn",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n4649150190": {
+  "name": "The Victor Pub",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1509757250": {
+  "name": "The Wishing Well",
+  "closed": true,
+  "closedSource": "https://www.inquirer.com/philly/blogs/the-insider/Wishing-Well-in-Bella-Vista-shuts-down.html",
+  "facts": [
+   {
+    "text": "The bar stood at Ninth and Catharine Streets in Bella Vista and closed after six years.",
+    "url": "https://www.inquirer.com/philly/blogs/the-insider/Wishing-Well-in-Bella-Vista-shuts-down.html"
+   }
+  ]
+ },
+ "osm-n764531544": {
+  "name": "Thomas Jefferson University East Falls Campus Store",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11225105222": {
+  "name": "Throwbaxx Bar and Grille",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2457180088": {
+  "name": "Tir na nOg",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n4949266021": {
+  "name": "Tired Hands Fermentaria",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Tired Hands Fermentaria is paired with a General Store in Ardmore.",
+    "url": "https://tiredhands.com/pages/fermentaria"
+   }
+  ]
+ },
+ "osm-n3527163511": {
+  "name": "Tradesman's",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w883078030": {
+  "name": "Tree House Books",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12363524534": {
+  "name": "Triangle Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w335078433": {
+  "name": "Triple Bottom Brewing",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11156263980": {
+  "name": "Twisted Gingers",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3892460932": {
+  "name": "U-Bahn",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6222237222": {
+  "name": "Ubar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n14170675531": {
+  "name": "Union Tap House",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Union Tap House serves chicken wings with more than 10 sauce choices, burgers and fresh cut fries.",
+    "url": "https://manayunk.com/business-directory/union-tap-house/"
+   }
+  ]
+ },
+ "osm-n11072156875": {
+  "name": "United States Hotel Bar & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2752817466": {
+  "name": "University Square Farmers Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6897200045": {
+  "name": "Upland Beer & Deli",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1314520584": {
+  "name": "Urban Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13646814508": {
+  "name": "Val's Lesbian Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Val's is a lesbian bar in Queen Village opened by co-owners Clover Gilfor and Julia Harris.",
+    "url": "https://www.inquirer.com/food/vals-lesbian-bar-philadelphia-20260320.html"
+   },
+   {
+    "text": "Val's has two floors with a bar on each, a patio, and about 2,000 square feet of space.",
+    "url": "https://www.inquirer.com/food/vals-lesbian-bar-philadelphia-20260320.html"
+   }
+  ]
+ },
+ "osm-n6875587110": {
+  "name": "Vanity Grand",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1034425431": {
+  "name": "Varga",
+  "closed": true,
+  "closedSource": "https://www.inquirer.com/food/restaurants/known-associates-cocktail-bar-forsythia-chris-kearse-philadelphia-20260623.html",
+  "facts": [
+   {
+    "text": "Rich Colli was the owner of Varga Bar.",
+    "url": "https://www.inquirer.com/food/richi-colli-varga-bar-death-20250227.html"
+   },
+   {
+    "text": "Known Associates, a cocktail bar, took over the former Varga Bar space.",
+    "url": "https://www.inquirer.com/food/restaurants/known-associates-cocktail-bar-forsythia-chris-kearse-philadelphia-20260623.html"
+   }
+  ]
+ },
+ "osm-n2423064966": {
+  "name": "Victory Beer Hall",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1204761128": {
+  "name": "Vikings High School Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11073875065": {
+  "name": "Vira Vookah Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6672536425": {
+  "name": "Voyeur Nightclub Mayfield Social Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1099974343": {
+  "name": "Walnut Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Operates as a pop-up garden on Rittenhouse Row.",
+    "url": "https://www.phillyvoice.com/walnut-garden-pop-up-reopens-rittenhouse-code-violations/"
+   },
+   {
+    "text": "Reopened after resolving city code violations that had shut it down.",
+    "url": "https://www.phillyvoice.com/walnut-garden-pop-up-reopens-rittenhouse-code-violations/"
+   }
+  ]
+ },
+ "osm-n1749989684": {
+  "name": "Watkins Drinkery",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1255724378": {
+  "name": "Watusi Pub",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11231061180": {
+  "name": "Wissahickon Bar & Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n7383526243": {
+  "name": "Wissahickon Brewing Co",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Second taproom of Wissahickon Brewing Co., opened in Olde Kensington.",
+    "url": "https://www.fox29.com/video/1659183"
+   },
+   {
+    "text": "Includes a kombucha brewery alongside the taproom.",
+    "url": "https://www.phillyvoice.com/wissahickon-brewing-olde-kensington-expand-taproom-kombucha/"
+   }
+  ]
+ },
+ "osm-n7524084336": {
+  "name": "Wissahickon Brewing Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n8318860194": {
+  "name": "Wooden Shoe Books",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Anarchist bookstore and infoshop founded in 1976 by members of Philadelphia Solidarity.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   },
+   {
+    "text": "Named for workers who threw wooden shoes (sabots) into machinery during the Industrial Revolution.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   },
+   {
+    "text": "Run by an all-volunteer worker collective.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   },
+   {
+    "text": "Moved to its current location at 7th and South Street in October 2009.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   }
+  ]
+ },
+ "osm-n2822025477": {
+  "name": "Woody's Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5861898622": {
+  "name": "Writer's Block Rehab",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1238160487": {
+  "name": "Xanadu",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12989799655": {
+  "name": "Yards Brewing Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1994 by friends Tom Kehoe and Jon Bovit.",
+    "url": "https://en.wikipedia.org/wiki/Yards_Brewing_Company"
+   },
+   {
+    "text": "A craft brewery specializing in ales, particularly in the English tradition.",
+    "url": "https://en.wikipedia.org/wiki/Yards_Brewing_Company"
+   }
+  ]
+ },
+ "osm-w50108070": {
+  "name": "48th & Woodland Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Its sprayground reopened after upgrades in July 2024.",
+    "url": "https://www.westphillylocal.com/2024/07/11/48th-woodland-sprayground-reopens-after-upgrades/"
+   },
+   {
+    "text": "The sprayground was redesigned around a learning theme.",
+    "url": "https://www.westphillylocal.com/2023/02/17/new-playful-and-learning-sprayground-coming-to-48th-and-woodland-vote-for-your-favorite-design/"
+   }
+  ]
+ },
+ "osm-w317949577": {
+  "name": "Alan Wood Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w791958594": {
+  "name": "Appleford Estate",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 24-acre non-profit arboretum and country estate, also called the Parsons-Banks Arboretum.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   },
+   {
+    "text": "The estate was created in the 1920s by landscape architect Thomas Sears and architect R. Brognard Okie.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   },
+   {
+    "text": "Anabel Parsons donated the property to Lower Merion Township in 1973.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   },
+   {
+    "text": "Maintained as an arboretum and bird sanctuary with a pond, waterfall and formal gardens.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   }
+  ]
+ },
+ "osm-w23069891": {
+  "name": "Ashbridge Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 28.8 acres in Rosemont and includes the Ashbridge House.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/ashbridge-memorial-park"
+   },
+   {
+    "text": "Has 2 tennis courts, 4 pickleball courts, a walking path and a playground.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/ashbridge-memorial-park"
+   }
+  ]
+ },
+ "osm-w220643640": {
+  "name": "Aubrey Collins Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened after renovation on October 10, 2020.",
+    "url": "https://conshohockenpa.gov/resources/news/article/?id=4336"
+   },
+   {
+    "text": "Rededicated as Aubrey Collins Jr. Park.",
+    "url": "https://patch.com/pennsylvania/plymouthwhitemarsh/conshy-celebrates-aubrey-collins-jr-park-rededication"
+   }
+  ]
+ },
+ "osm-w26944724": {
+  "name": "Austin Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 2.3-acre nature park at Lancaster Avenue and Norwood Avenue in Rosemont.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/austin-memorial-park"
+   },
+   {
+    "text": "Part of the Lower Merion Township park system.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/austin-memorial-park"
+   }
+  ]
+ },
+ "osm-w468562730": {
+  "name": "B-Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w227149221": {
+  "name": "Bala Cynwyd Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has baseball, softball, basketball and tennis facilities plus a children's playground and tot lot.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/bala-cynwyd-park"
+   },
+   {
+    "text": "Its parking lot gives access to the Cynwyd Heritage Trail.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/bala-cynwyd-park"
+   }
+  ]
+ },
+ "osm-w583250862": {
+  "name": "Beechwood Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1237661428": {
+  "name": "Bishop Richard Allen Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named in 2009 for Richard Allen, founder of the African Methodist Episcopal Church.",
+    "url": "https://radnorhistory.org/bishoprichardallenpark/"
+   },
+   {
+    "text": "Richard Allen stayed with Caesar and Phebe Waters in Radnor in 1784.",
+    "url": "https://radnorhistory.org/bishoprichardallenpark/"
+   },
+   {
+    "text": "An interpretive sign in the park was dedicated on June 25, 2023.",
+    "url": "https://radnorhistory.org/bishoprichardallenpark/"
+   }
+  ]
+ },
+ "osm-w1327302144": {
+  "name": "Black Rock Road Site",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 6.0-acre site at Black Rock Road and Dove Lake Road in Gladwyne.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/black-rock-road-site"
+   },
+   {
+    "text": "Classified by Lower Merion Township as undeveloped open space.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/black-rock-road-site"
+   }
+  ]
+ },
+ "osm-w337138776": {
+  "name": "Bocce Grove",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-r18200514": {
+  "name": "Boone Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1320189395": {
+  "name": "Brookline Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w593495805": {
+  "name": "Cadwalader Tract",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1031861147": {
+  "name": "Camden Children's Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Operated by the Camden City Garden Club and created in 1999.",
+    "url": "https://en.wikipedia.org/wiki/Camden_Children's_Garden"
+   },
+   {
+    "text": "A 4.5-acre garden with themed exhibits such as the Dinosaur Garden and Storybook Gardens.",
+    "url": "https://en.wikipedia.org/wiki/Camden_Children's_Garden"
+   },
+   {
+    "text": "Includes the Philadelphia Eagles Four Seasons Butterfly House.",
+    "url": "https://en.wikipedia.org/wiki/Camden_Children's_Garden"
+   }
+  ]
+ },
+ "osm-w1504511711": {
+  "name": "Carol's Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w385508434": {
+  "name": "Center Green",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w642017181": {
+  "name": "Chanticleer Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chanticleer is a 48 acre botanical garden on the former Rosengarten estate at 786 Church Road.",
+    "url": "https://en.wikipedia.org/wiki/Chanticleer_Garden"
+   },
+   {
+    "text": "The estate was built in 1912 as a summer cottage for Christine Penrose and Adolph G. Rosengarten Sr.",
+    "url": "https://en.wikipedia.org/wiki/Chanticleer_Garden"
+   },
+   {
+    "text": "Adolph Rosengarten Jr. set up a foundation to make the estate a public garden, open to the public in 1993.",
+    "url": "https://en.wikipedia.org/wiki/Chanticleer_Garden"
+   },
+   {
+    "text": "Christopher Woods, a native of Britain, was hired to develop the garden.",
+    "url": "https://en.wikipedia.org/wiki/Chanticleer_Garden"
+   }
+  ]
+ },
+ "osm-r2588200": {
+  "name": "Clarence H. Clark Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Clark Park covers 9.1 acres between 43rd and 45th streets and Baltimore and Woodland Avenues.",
+    "url": "https://en.wikipedia.org/wiki/Clark_Park"
+   },
+   {
+    "text": "The park was established in 1895 on land donated by banker Clarence Howard Clark.",
+    "url": "https://en.wikipedia.org/wiki/Clark_Park"
+   },
+   {
+    "text": "It holds a life-sized 1890 sculpture of Charles Dickens.",
+    "url": "https://en.wikipedia.org/wiki/Clark_Park"
+   },
+   {
+    "text": "It is home to the Shakespeare in Clark Park theatre company.",
+    "url": "https://en.wikipedia.org/wiki/Clark_Park"
+   }
+  ]
+ },
+ "osm-w28526211": {
+  "name": "Clem Macrone Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w49890663": {
+  "name": "Clifford Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w60990784": {
+  "name": "Cloverly Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28526152": {
+  "name": "Cowan Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cowan Park is named for Leslie Cowan, a Radnor resident killed in action in 1945 during World War II.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/10/33"
+   },
+   {
+    "text": "It has been one of the Radnor Township parks since the early 1950s.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/10/33"
+   },
+   {
+    "text": "Gulph Creek, dammed to form the Wayne Natatorium pool, runs through the park.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/10/33"
+   },
+   {
+    "text": "The Wayne Natatorium pool measured 500 feet by 100 feet and closed in 1903 after a drought.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/10/33"
+   }
+  ]
+ },
+ "osm-w410095875": {
+  "name": "Dilworth Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Dilworth Park was rebuilt from Dilworth Plaza and opened on September 4, 2014.",
+    "url": "https://en.wikipedia.org/wiki/Dilworth_Park"
+   },
+   {
+    "text": "Pennsylvania Railroad's Broad Street Station occupied the site from 1881 until its demolition in 1953.",
+    "url": "https://en.wikipedia.org/wiki/Dilworth_Park"
+   },
+   {
+    "text": "Dilworth Plaza was completed in 1977 and named for Richardson Dilworth, twice mayor of Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Dilworth_Park"
+   },
+   {
+    "text": "The park has a programmable fountain that becomes an ice skating rink in winter.",
+    "url": "https://en.wikipedia.org/wiki/Dilworth_Park"
+   },
+   {
+    "text": "The park is managed by Center City District on a long-term lease with the city.",
+    "url": "https://en.wikipedia.org/wiki/Dilworth_Park"
+   }
+  ]
+ },
+ "osm-w28532652": {
+  "name": "Dittmar Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1204792304": {
+  "name": "Eakins Oval",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Eakins Oval is named for Philadelphia realist painter Thomas Eakins.",
+    "url": "https://en.wikipedia.org/wiki/Eakins_Oval"
+   },
+   {
+    "text": "The oval was part of Jacques Gréber's design for the Benjamin Franklin Parkway, proposed in 1917.",
+    "url": "https://en.wikipedia.org/wiki/Eakins_Oval"
+   },
+   {
+    "text": "It is a traffic circle at the northwest end of the Parkway in front of the Philadelphia Museum of Art.",
+    "url": "https://en.wikipedia.org/wiki/Eakins_Oval"
+   }
+  ]
+ },
+ "osm-r9798160": {
+  "name": "East Fairmount Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w705324151": {
+  "name": "Edgar Allan Poe National Historic Site",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w705644924": {
+  "name": "Ellen Phillips Samuel Memorial",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The memorial has three terraces and seventeen sculptures commissioned over thirty years.",
+    "url": "https://www.associationforpublicart.org/artwork/ellen-phillips-samuel-memorial/"
+   },
+   {
+    "text": "Ellen Phillips Samuel left her estate in trust for sculptures emblematic of the history of America.",
+    "url": "https://www.associationforpublicart.org/artwork/ellen-phillips-samuel-memorial/"
+   },
+   {
+    "text": "Sculptors were found through Sculpture Internationals held in 1933, 1940 and 1949.",
+    "url": "https://www.associationforpublicart.org/artwork/ellen-phillips-samuel-memorial/"
+   }
+  ]
+ },
+ "osm-w1280393172": {
+  "name": "Elm Grove Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w116522717": {
+  "name": "Elwell Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28526193": {
+  "name": "Encke Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w26661628": {
+  "name": "Encke Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Encke Park was the site of the Radnor Township Sewage Plant in the mid-1940s.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/14/33"
+   },
+   {
+    "text": "The township purchased the land in 1965 and it was formerly called Iven Field.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/14/33"
+   },
+   {
+    "text": "It was renamed in 1974 for Ethel G. Encke, founder of the Radnor Recreation Department.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/14/33"
+   }
+  ]
+ },
+ "osm-w28526179": {
+  "name": "Environmental Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w26986958": {
+  "name": "Executive Estates Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w549814986": {
+  "name": "Fairview Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Fairview Park is at 4418 Manayunk Avenue and has flower gardens, mature trees and a Tiny Library.",
+    "url": "https://roxboroughmanayunkconservancy.org/fairview-park"
+   },
+   {
+    "text": "The Friends of Fairview Park formed in 2018 and removed the chain-link fencing.",
+    "url": "https://roxboroughmanayunkconservancy.org/fairview-park"
+   }
+  ]
+ },
+ "osm-w23108267": {
+  "name": "Fenimore Woods",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Fenimore Woods is an 11.5 acre park at 1194 Eagle Road with a 3-acre fishing pond.",
+    "url": "https://www.radnor.com/home/components/facilitydirectory/facilitydirectory/16/33"
+   },
+   {
+    "text": "Valley Forge Military Academy first bought the land for a summer camp.",
+    "url": "https://www.radnor.com/home/components/facilitydirectory/facilitydirectory/16/33"
+   },
+   {
+    "text": "Radnor Township acquired the tract in 1973.",
+    "url": "https://www.radnor.com/home/components/facilitydirectory/facilitydirectory/16/33"
+   },
+   {
+    "text": "Much of the park is woods with three streams, a pond and marshland.",
+    "url": "https://www.radnor.com/home/components/facilitydirectory/facilitydirectory/16/33"
+   }
+  ]
+ },
+ "osm-r17381907": {
+  "name": "Fernhill Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w183666855": {
+  "name": "Fitler Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w706543045": {
+  "name": "Francisville Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Francisville Playground opened in 1926 and sits on 3.7 acres.",
+    "url": "https://spiritnews.org/articles/francisville-playground-a-multi-faceted-resource-to-north-philly-residents/"
+   },
+   {
+    "text": "It has a baseball field, two basketball courts, tot play areas and a recreation center.",
+    "url": "https://spiritnews.org/articles/francisville-playground-a-multi-faceted-resource-to-north-philly-residents/"
+   }
+  ]
+ },
+ "osm-w433062771": {
+  "name": "Franklin Delano Roosevelt Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "FDR Park was originally named League Island Park and covers about 348 acres.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Delano_Roosevelt_Park"
+   },
+   {
+    "text": "Olmsted Brothers designed the park.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Delano_Roosevelt_Park"
+   },
+   {
+    "text": "The American Swedish Historical Museum (1926) is one of the remains of the 1926 Exposition.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Delano_Roosevelt_Park"
+   },
+   {
+    "text": "The park was added to the Philadelphia Register of Historic Places in 2000.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Delano_Roosevelt_Park"
+   }
+  ]
+ },
+ "osm-w705322048": {
+  "name": "Franklin Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Franklin Square is one of the five original squares planned by William Penn in 1682.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Square_(Philadelphia)"
+   },
+   {
+    "text": "It was renamed in 1825 in honor of Benjamin Franklin.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Square_(Philadelphia)"
+   },
+   {
+    "text": "Historic Philadelphia, Inc. refurbished the park from 2003 to 2006.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Square_(Philadelphia)"
+   },
+   {
+    "text": "The park has a golf course, playground, carousel and gardens.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Square_(Philadelphia)"
+   }
+  ]
+ },
+ "osm-w28526165": {
+  "name": "Friends of Radnor Trail Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w557471144": {
+  "name": "Gest Tract Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w705312288": {
+  "name": "Girard Fountain Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Girard Fountain Park is a 0.15-acre pocket park at 325 Arch Street in Old City.",
+    "url": "https://en.wikipedia.org/wiki/Girard_Fountain_Park"
+   },
+   {
+    "text": "It was created in the mid-1960s after four commercial buildings were demolished.",
+    "url": "https://en.wikipedia.org/wiki/Girard_Fountain_Park"
+   },
+   {
+    "text": "Volunteers now incorporated as Old City Green maintain the park.",
+    "url": "https://en.wikipedia.org/wiki/Girard_Fountain_Park"
+   },
+   {
+    "text": "The fountain was restored to operation in August 2008.",
+    "url": "https://en.wikipedia.org/wiki/Girard_Fountain_Park"
+   }
+  ]
+ },
+ "osm-r16431192": {
+  "name": "Gorgas Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Gorgas Park covers 20 acres along 6300 Ridge Avenue.",
+    "url": "https://roxboroughmanayunkconservancy.org/gorgas-park"
+   },
+   {
+    "text": "The park was dedicated on July 4, 1893 by the city of Philadelphia.",
+    "url": "https://roxboroughmanayunkconservancy.org/gorgas-park"
+   },
+   {
+    "text": "Friends of Gorgas Park was established in 1997 to restore the park.",
+    "url": "https://roxboroughmanayunkconservancy.org/gorgas-park"
+   }
+  ]
+ },
+ "osm-w864023846": {
+  "name": "Grays Ferry Crescent Trail Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park is a former industrial site turned riverfront park and trail on the Schuylkill River.",
+    "url": "https://keystonefund.org/success-story/schuylkill-river-trail-at-grays-ferry-crescent-reconnecting-a-community-with-its-riverfront/"
+   },
+   {
+    "text": "Groundbreaking took place in 2009 after a capital campaign.",
+    "url": "https://keystonefund.org/success-story/schuylkill-river-trail-at-grays-ferry-crescent-reconnecting-a-community-with-its-riverfront/"
+   }
+  ]
+ },
+ "osm-r18197129": {
+  "name": "Gulley Run Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 7.2 acres in Lower Merion Township.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14761"
+   },
+   {
+    "text": "Has picnic tables and BBQ grills.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14761"
+   }
+  ]
+ },
+ "osm-n357373311": {
+  "name": "Gypsy Wood Preserve",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w468558321": {
+  "name": "Haines & Salvati Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w27474531": {
+  "name": "Harford Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 30.8 acres off Gulph Creek Road in Radnor.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   },
+   {
+    "text": "Site of Harford Mansion, completed in 1880 and designed by Furness and Evans as a summer home for Judge John Hare.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   },
+   {
+    "text": "Radnor Township bought the Hare Estate in 1969 and renamed Hare Park to Harford Park in 1974.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   },
+   {
+    "text": "Designated a dog park in 1997.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   }
+  ]
+ },
+ "osm-w26944300": {
+  "name": "Harriton Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 13.0 acres and includes the Harriton House Museum and a nature park.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/harriton-park"
+   }
+  ]
+ },
+ "osm-w789928930": {
+  "name": "Henry Lane Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 22.0 acres in Gladwyne.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14765"
+   },
+   {
+    "text": "Nature park with hiking and bridle trails.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14765"
+   }
+  ]
+ },
+ "osm-n357369285": {
+  "name": "Highland Farms Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1372037518": {
+  "name": "Idlewild Farm Preserve",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Added to the National Register of Historic Places in 1983.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   },
+   {
+    "text": "Welsh farmer Robert Lloyd built a one-room house on the farm in 1700.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   },
+   {
+    "text": "Lawrence Saunders began the Bridlewild Trails Association on the farm in 1927.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   },
+   {
+    "text": "In 1992 Dorothy Saunders gave about 21 acres of the farm to Natural Lands.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   }
+  ]
+ },
+ "osm-r11115686": {
+  "name": "Independence National Historical Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 55 acres in the Old City and Society Hill neighborhoods and is administered by the National Park Service.",
+    "url": "https://en.wikipedia.org/wiki/Independence_National_Historical_Park"
+   },
+   {
+    "text": "Centered on Independence Hall, where the Declaration of Independence and Constitution were debated and adopted.",
+    "url": "https://en.wikipedia.org/wiki/Independence_National_Historical_Park"
+   },
+   {
+    "text": "Nicknamed America's most historic square mile.",
+    "url": "https://en.wikipedia.org/wiki/Independence_National_Historical_Park"
+   }
+  ]
+ },
+ "osm-w1141051788": {
+  "name": "Indian Creek Basin Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w26661675": {
+  "name": "John Capelli Golf Range",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w709564096": {
+  "name": "Julian Abele Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w710791425": {
+  "name": "Kay Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w607186936": {
+  "name": "Kenealy Nature Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 87.0 acres in Gladwyne.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14769"
+   },
+   {
+    "text": "Nature park with hiking and bridle trails.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14769"
+   }
+  ]
+ },
+ "osm-w427856094": {
+  "name": "Kennedy Ellipse",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w229771351": {
+  "name": "La Noce Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w219535527": {
+  "name": "Leeland Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w434794391": {
+  "name": "Linwood Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A passive mini-park of about 1.06 acres at Linwood and Athens Avenues in Ardmore.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/linwood-park"
+   }
+  ]
+ },
+ "osm-r21281848": {
+  "name": "Logan Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Originally Northwest Square in William Penn's 1684 plan, renamed in 1825 for statesman James Logan.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   },
+   {
+    "text": "Site of the Great Sanitary Fair in 1864, which Abraham Lincoln visited.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   },
+   {
+    "text": "Jacques Greber converted the square into a circle as part of the Benjamin Franklin Parkway plan.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1981.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   }
+  ]
+ },
+ "osm-w219554130": {
+  "name": "Mary Wood Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w337138783": {
+  "name": "Mazie B. Hall Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 2.3 acres on Upper Gulph Road in Tredyffrin Township.",
+    "url": "https://www.tredyffrin.org/Parks/Mazie-B.-Hall-Park"
+   },
+   {
+    "text": "Has a baseball field, two basketball courts, a tot lot, a picnic area and a walking path.",
+    "url": "https://www.tredyffrin.org/Parks/Mazie-B.-Hall-Park"
+   }
+  ]
+ },
+ "osm-w468564941": {
+  "name": "McKenzie Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by the Borough of West Conshohocken.",
+    "url": "https://www.westconsho.com/mackenziepark"
+   }
+  ]
+ },
+ "osm-w60928712": {
+  "name": "McMichael Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28526203": {
+  "name": "Memorial Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w502474106": {
+  "name": "Merion Botanical Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Created in 1944 by residents who formed the Botanical Society of Lower Merion, which still manages it.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   },
+   {
+    "text": "Covers 13.5 acres at 100 Merion Road.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   },
+   {
+    "text": "Laura Barnes, wife of collector Albert C. Barnes, was among the founders.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   },
+   {
+    "text": "Contains azaleas, dogwoods, magnolias, redbuds, rhododendron and viburnum.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   }
+  ]
+ },
+ "osm-w28526198": {
+  "name": "Merryvale",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w78288153": {
+  "name": "Merwood Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13058728101": {
+  "name": "Mom Rinker's Rock",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Scenic outlook in Wissahickon Valley Park, just north of the Walnut Lane Bridge.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   },
+   {
+    "text": "Named for Molly Rinker, a bartender and spy during the American Revolutionary War.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   },
+   {
+    "text": "A marble statue carved by Herman Kirn was installed there by John Welsh in 1883.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   },
+   {
+    "text": "Novelist George Lippard was married on the rock in 1847.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   }
+  ]
+ },
+ "osm-w542264933": {
+  "name": "Narberth Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a baseball diamond, basketball courts, a playground and a skate park.",
+    "url": "https://www.narberthpa.gov/departments/public_works/parks/index.php"
+   },
+   {
+    "text": "Has a reservable gazebo and picnic tables.",
+    "url": "https://www.narberthpa.gov/departments/public_works/parks/index.php"
+   }
+  ]
+ },
+ "osm-w1157957120": {
+  "name": "Narbrook Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Added to the National Register of Historic Places in 2003.",
+    "url": "https://en.wikipedia.org/wiki/Narbrook_Park_Historic_District"
+   },
+   {
+    "text": "Planned garden suburb developed between 1915 and 1938, also known as Narberth Garden.",
+    "url": "https://en.wikipedia.org/wiki/Narbrook_Park_Historic_District"
+   }
+  ]
+ },
+ "osm-w776596303": {
+  "name": "Newhall Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w231710565": {
+  "name": "Normandy Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28531703": {
+  "name": "Odorisio Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w767410384": {
+  "name": "Ottinger Tract",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w722510824": {
+  "name": "Packer Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Packer Park covers 2.1 acres and has a community garden and nature area.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/packer-park"
+   }
+  ]
+ },
+ "osm-w1492222360": {
+  "name": "Peg Braun Memorial Hill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sledding hill at Youngs Ford Road and Merion Square Road in Gladwyne, across from Gladwyne Elementary School.",
+    "url": "https://www.lowermerion.org/?navid=751"
+   }
+  ]
+ },
+ "osm-w156109656": {
+  "name": "Penn Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Penn Park is a 24-acre park on the University of Pennsylvania campus beside the Schuylkill River.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Park"
+   },
+   {
+    "text": "Penn Park was completed in September 2011 and has two athletic fields, a tennis center and picnic areas.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Park"
+   },
+   {
+    "text": "Penn Park Orchard was started in fall 2014 with the Philadelphia Orchard Project.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Park"
+   }
+  ]
+ },
+ "osm-r13678142": {
+  "name": "Penn Treaty Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Penn Treaty Park is on the Delaware River in Fishtown, on the site tied to William Penn's treaty with Tamanend.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_Park"
+   },
+   {
+    "text": "The park officially opened on October 28, 1893.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_Park"
+   },
+   {
+    "text": "A statue of William Penn by sculptor Frank Gaylord stands near the park's northern entrance.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_Park"
+   }
+  ]
+ },
+ "osm-w50275070": {
+  "name": "Penn Wynne Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n367961295": {
+  "name": "Perry Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Perry Garden was created on the site of the former Perry House at Bryn Mawr College.",
+    "url": "https://www.brynmawr.edu/news/celebrate-opening-perry-garden-friday-april-28"
+   },
+   {
+    "text": "The garden honors generations of students of color who sustained Perry House as a Black Cultural Center.",
+    "url": "https://www.brynmawr.edu/news/celebrate-opening-perry-garden-friday-april-28"
+   }
+  ]
+ },
+ "osm-w28526168": {
+  "name": "Petrie Ave Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28526184": {
+  "name": "Plant Ave Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w335163357": {
+  "name": "Polo Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w553336182": {
+  "name": "Powder Mill Valley Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w545161403": {
+  "name": "Preston Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Preston Reading Room Association, a Quaker group, built a facility at Railroad Avenue and Buck Lane in 1891.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Preston-Field-in-Haverford-Township.pdf"
+   },
+   {
+    "text": "Richard Lloyd bought the private parcels in 1938 and donated them to the township.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Preston-Field-in-Haverford-Township.pdf"
+   },
+   {
+    "text": "Six parcels became Preston Park, later renamed Preston Field by the township.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Preston-Field-in-Haverford-Township.pdf"
+   }
+  ]
+ },
+ "osm-w197528040": {
+  "name": "Pretzel Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park was officially named Manayunk Park from 1929 until 2004.",
+    "url": "https://en.wikipedia.org/wiki/Pretzel_Park"
+   },
+   {
+    "text": "A pretzel sculpture by Warren C. Holzman was installed in the park on November 28, 2005.",
+    "url": "https://en.wikipedia.org/wiki/Pretzel_Park"
+   },
+   {
+    "text": "The park has a partially fenced dog park and looped, pretzel-like pathways.",
+    "url": "https://en.wikipedia.org/wiki/Pretzel_Park"
+   }
+  ]
+ },
+ "osm-n6695578170": {
+  "name": "Quadrangle",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w699107724": {
+  "name": "Radnor Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w291456005": {
+  "name": "Ralph Brooks Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Redevelopment added a new basketball court with bleachers, a tot lot and pedestrian access points.",
+    "url": "https://www.mtwb.org/projects/ralph-brooks-park"
+   },
+   {
+    "text": "The park features murals by Stephen ESPO Powers through the Mural Arts Program.",
+    "url": "https://www.mtwb.org/projects/ralph-brooks-park"
+   },
+   {
+    "text": "It is one of four park revitalization projects completed by Make The World Better.",
+    "url": "https://www.mtwb.org/projects/ralph-brooks-park"
+   }
+  ]
+ },
+ "osm-w28531779": {
+  "name": "Ravenscliff Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1382319933": {
+  "name": "Raymond Ludwig Weinmann Sr. Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w789938262": {
+  "name": "Riverbend Environmental Education Center",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w112477630": {
+  "name": "Ryan Pinetum",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w458952454": {
+  "name": "Sabine Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w484364316": {
+  "name": "Schuykill Center for Environmental Education",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Schuylkill Center became an accredited arboretum.",
+    "url": "https://schuylkillcenter.org/theschuylkillcenterbecomesaccreditedarboretum/"
+   }
+  ]
+ },
+ "osm-w49914024": {
+  "name": "Schuylkill River Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park is owned by the Philadelphia Department of Parks and Recreation.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   },
+   {
+    "text": "It has tennis courts, a playground, basketball courts and a recreation center.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   },
+   {
+    "text": "A pedestrian bridge linking the park to the Schuylkill River Trail was completed in October 2012.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   },
+   {
+    "text": "Friends of Schuylkill River Park works to improve the park, Markward Recreation Center and Taney Field.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   }
+  ]
+ },
+ "osm-w49914026": {
+  "name": "Schuylkill River Park Community Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w791961115": {
+  "name": "Sharpe Park Bird Sanctuary",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sharpe Park and Bird Sanctuary covers 2.3 acres at West Montgomery Avenue and Haverford Station Road.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/sharpe-park-bird-sanctuary"
+   },
+   {
+    "text": "The township classes it as a nature park and bird sanctuary, and leashed dogs are permitted.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/sharpe-park-bird-sanctuary"
+   }
+  ]
+ },
+ "osm-w952732826": {
+  "name": "Sheldon Lane Pollinator Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w688647034": {
+  "name": "Shofuso Japanese House and Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w27053762": {
+  "name": "Shortridge Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has an arboretum listed with ArbNet.",
+    "url": "https://arbnet.org/morton-register/shortridge-memorial-park-arboretum/"
+   }
+  ]
+ },
+ "osm-w58250778": {
+  "name": "South Ardmore Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-r2927352": {
+  "name": "Spring Mill Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spring Mill Park is a Montgomery County-owned park of 38 acres of floodplain along the Schuylkill River.",
+    "url": "https://www.whitemarshtwp.org/515/Spring-Mill-Park"
+   },
+   {
+    "text": "The Schuylkill River Trail passes through the park.",
+    "url": "https://www.whitemarshtwp.org/515/Spring-Mill-Park"
+   }
+  ]
+ },
+ "osm-w743695066": {
+  "name": "Spruce Hill Bird Sanctuary",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Spruce Hill Community Association bought the lot in 1981.",
+    "url": "https://www.sprucehillca.org/committees/bird-sanctuary/"
+   },
+   {
+    "text": "Landscape architects Julie Bush and Ann Froehling designed the layout in 2011.",
+    "url": "https://www.sprucehillca.org/committees/bird-sanctuary/"
+   },
+   {
+    "text": "A Dept of Agriculture grant helped turn the lot into the sanctuary.",
+    "url": "https://www.sprucehillca.org/committees/bird-sanctuary/"
+   }
+  ]
+ },
+ "osm-r16691307": {
+  "name": "Spruce Street Harbor Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park opened in 2014 at Penn's Landing.",
+    "url": "https://en.wikipedia.org/wiki/Spruce_Street_Harbor_Park"
+   },
+   {
+    "text": "It features a boardwalk along the Delaware River.",
+    "url": "https://en.wikipedia.org/wiki/Spruce_Street_Harbor_Park"
+   },
+   {
+    "text": "It has about 100 hammocks and thousands of LED lights hung in the trees.",
+    "url": "https://en.wikipedia.org/wiki/Spruce_Street_Harbor_Park"
+   },
+   {
+    "text": "Groundswell Design Group is credited with the park's design.",
+    "url": "https://landezine.com/spruce-street-harbor-park-by-groundswell-design-group/"
+   }
+  ]
+ },
+ "osm-w468565851": {
+  "name": "St. Gerts Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w337138787": {
+  "name": "Strafford Park & Library",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 13.6 acres.",
+    "url": "https://www.tredyffrin.org/Parks/Strafford-Park-and-Library"
+   },
+   {
+    "text": "It has four tennis courts and a tennis wall.",
+    "url": "https://www.tredyffrin.org/Parks/Strafford-Park-and-Library"
+   },
+   {
+    "text": "It also has a tot-lot, a baseball field and a basketball court.",
+    "url": "https://www.tredyffrin.org/Parks/Strafford-Park-and-Library"
+   }
+  ]
+ },
+ "osm-w705790704": {
+  "name": "Strawberry Mansion Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w219553994": {
+  "name": "Sutcliffe Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1356509020": {
+  "name": "Swedeland Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w624503577": {
+  "name": "Taft Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28526154": {
+  "name": "Tunnell Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 5 acres and was formerly known as Converse Field.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   },
+   {
+    "text": "The park is owned by Radnor Township School District and leased to Radnor Township.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   },
+   {
+    "text": "It honors Emlen Tunnell, a Radnor High School graduate and Pro Football Hall of Fame member.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   }
+  ]
+ },
+ "osm-w24007175": {
+  "name": "Unkefer Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 1.5 acres and is a gateway to Radnor Township.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/60/33"
+   },
+   {
+    "text": "It is named for Ralph T. Unkefer, a Radnor parks and recreation board member who died in 1967.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/60/33"
+   },
+   {
+    "text": "A large rock in the park was donated by PennDOT in 1990 during Blue Route construction.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/60/33"
+   }
+  ]
+ },
+ "osm-w545164952": {
+  "name": "Vernon V. Young Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park includes a swimming pool, known as the Ardmore Pool.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/vernon-v-young-memorial-park"
+   }
+  ]
+ },
+ "osm-w468567049": {
+  "name": "Veterans Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28526200": {
+  "name": "Walker Prop",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w167097532": {
+  "name": "Warner Avenue Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Lower Merion playground at Old Lancaster Road and Warner Avenue covers 0.8 acres.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/warner-ave-playground"
+   },
+   {
+    "text": "It has a basketball court, volleyball, a children's playground and a tot lot.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/warner-ave-playground"
+   }
+  ]
+ },
+ "osm-w165746026": {
+  "name": "Warren Filipone Memorial Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w705317585": {
+  "name": "Washington Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Originally laid out as Southeast Square, one of five squares in William Penn's plan for Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Washington_Square_(Philadelphia)"
+   },
+   {
+    "text": "The square was planned by William Penn's surveyor Thomas Holme.",
+    "url": "https://en.wikipedia.org/wiki/Washington_Square_(Philadelphia)"
+   },
+   {
+    "text": "The park covers about 6.4 acres in Center City.",
+    "url": "https://en.wikipedia.org/wiki/Washington_Square_(Philadelphia)"
+   }
+  ]
+ },
+ "osm-r16277006": {
+  "name": "West Fairmount Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w605639670": {
+  "name": "West Mill Creek Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 9.6 acres in Gladwyne.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/west-mill-creek-park"
+   },
+   {
+    "text": "Dogs can use designated off-leash areas of the park with a township permit.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/west-mill-creek-park"
+   }
+  ]
+ },
+ "osm-w28526205": {
+  "name": "West Wayne Preserve",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The preserve is part of a wooded wetlands restoration and habitat enhancement project.",
+    "url": "https://www.radnor.com/government/departments/parks-recreation/park-trails-projects/south-devon-avenue-area-project"
+   }
+  ]
+ },
+ "osm-w337138791": {
+  "name": "Westover Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w709564104": {
+  "name": "Wharton Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1327302143": {
+  "name": "Williamson Road Site",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The site is 3.0 acres of undeveloped open space in Gladwyne.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/williamson-road-site"
+   }
+  ]
+ },
+ "osm-w28526195": {
+  "name": "Woodland Ave Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w27053828": {
+  "name": "Wynnewood Station Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "It is a 0.5-acre mini-park at Penn Road and Station Road.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-station-park"
+   },
+   {
+    "text": "The township added the park to its park system in 1995.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-station-park"
+   }
+  ]
+ },
+ "osm-w551768611": {
+  "name": "Wynnewood Valley Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 10.9 acres.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-valley-park"
+   },
+   {
+    "text": "It has a nature park, pavilion, playground, tennis and pickleball courts, and a garden for the blind.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-valley-park"
+   }
+  ]
+ },
+ "osm-n3873345276": {
+  "name": "Wynnewood Valley Park: Garden for the Blind",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Ardmore Rotary Club built and dedicated the garden in 1977.",
+    "url": "https://archives.hud.gov/local/pa/goodstories/2011-05-31.cfm"
+   },
+   {
+    "text": "Reconstruction began in 2010, and the restored garden was rededicated on May 9, 2011.",
+    "url": "https://archives.hud.gov/local/pa/goodstories/2011-05-31.cfm"
+   },
+   {
+    "text": "A $100,000 HUD Community Development Block Grant helped fund the restoration.",
+    "url": "https://archives.hud.gov/local/pa/goodstories/2011-05-31.cfm"
+   }
+  ]
+ },
+ "osm-w905990686": {
+  "name": "Barbara and Kathy Jordan's Family Court",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w880823702": {
+  "name": "Barrack Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w686639637": {
+  "name": "Carter Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w201703799": {
+  "name": "Dink City Pickleball Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has 16 pickleball courts in Wayne.",
+    "url": "https://www.globalpickleball.network/pickleball-courts/courts/pickleball-court-page/court/4047-dink-city-pickleball"
+   }
+  ]
+ },
+ "osm-r10132829": {
+  "name": "Dixon Tennis Courts",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w201484369": {
+  "name": "Edith Robb Dixon Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w22173363": {
+  "name": "Higgins Soccer Complex",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2014 as a 1,000-seat soccer stadium.",
+    "url": "https://en.wikipedia.org/wiki/Higgins_Soccer_Complex"
+   },
+   {
+    "text": "Home to the Villanova men's and women's soccer teams.",
+    "url": "https://en.wikipedia.org/wiki/Higgins_Soccer_Complex"
+   }
+  ]
+ },
+ "osm-w104739787": {
+  "name": "Memorial Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w90707883": {
+  "name": "O’Hara Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w28023590": {
+  "name": "Olson Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w686639641": {
+  "name": "Phelps Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w986779013": {
+  "name": "Pike Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w42000667": {
+  "name": "Shillingford Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12964773735": {
+  "name": "The Proving Grounds",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Multi sports complex in Conshohocken with turf fields.",
+    "url": "https://theprovinggroundspa.com/"
+   }
+  ]
+ },
+ "osm-w112477131": {
+  "name": "Walton Field",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a grandstand with a capacity of 1,000, a press box and a filming deck.",
+    "url": "https://www.haverford.edu/campus-map/240172"
+   },
+   {
+    "text": "Hosts men's and women's soccer at Haverford College.",
+    "url": "https://www.haverford.edu/campus-map/240172"
+   }
+  ]
+ },
+ "osm-w753448741": {
+  "name": "Warren Filipone Memorial Park Tennis Courts",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 10.2 acres next to Bo Connor Park on South Devon Avenue.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/32"
+   },
+   {
+    "text": "Named in May 1976 for Warren G. Filipone, a former township Parks Supervisor.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/32"
+   },
+   {
+    "text": "Has three tennis courts, four pickleball courts, two ball fields and a multipurpose field.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/32"
+   }
+  ]
+ },
+ "osm-w988541362": {
+  "name": "'feine",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened at 812 Fayette Street in Conshohocken.",
+    "url": "https://morethanthecurve.com/feine-opens-at-812-fayette-street/"
+   },
+   {
+    "text": "Introduced a coffee named for the meaning behind Conshohocken.",
+    "url": "https://morethanthecurve.com/conshohockens-feine-introduces-coffee-named-for-the-meaning-behind-conshohocken/"
+   }
+  ]
+ },
+ "osm-w840299910": {
+  "name": "333 Belrose",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1083626597": {
+  "name": "A Taste of Britain",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has operated as a tea room on the Main Line since 1991.",
+    "url": "https://atobritain.com/"
+   }
+  ]
+ },
+ "osm-n989613788": {
+  "name": "Alessandro's Wood Fired Italian & Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in the space of Arde Osteria, which closed during the pandemic.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   },
+   {
+    "text": "Named for owner and executive chef Alessandro Fiorello.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   },
+   {
+    "text": "Serves Sicilian dishes such as Pasta Cu Sarde.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   },
+   {
+    "text": "Cooks in a wood burning oven imported from Naples, Italy.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   }
+  ]
+ },
+ "osm-n2114069977": {
+  "name": "Alif Brew & Mini Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by Addis Ababa native Hayat Ali on Baltimore Avenue in 2020.",
+    "url": "https://www.inquirer.com/food/alif-brew-mini-mart-west-philadelphia-ethiopian-restaurants-coffee-shops-20211029.html"
+   },
+   {
+    "text": "Specializes in Ethiopian coffee traditions.",
+    "url": "https://www.inquirer.com/food/alif-brew-mini-mart-west-philadelphia-ethiopian-restaurants-coffee-shops-20211029.html"
+   },
+   {
+    "text": "Roasts its own coffee and serves it in a jebena pot.",
+    "url": "https://www.inquirer.com/food/alif-brew-mini-mart-west-philadelphia-ethiopian-restaurants-coffee-shops-20211029.html"
+   }
+  ]
+ },
+ "osm-n13310029887": {
+  "name": "Amada",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spanish tapas restaurant from Chef Jose Garces.",
+    "url": "https://www.phillyvoice.com/amada-randor-opening-jose-garces-spanish-tapas-restaurant/"
+   },
+   {
+    "text": "Third Amada location, opened in Radnor.",
+    "url": "https://www.phillyvoice.com/amada-randor-opening-jose-garces-spanish-tapas-restaurant/"
+   }
+  ]
+ },
+ "osm-n1479235296": {
+  "name": "Anthony's Italian Coffee & Chocolate House",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Family owned and operated for over 50 years.",
+    "url": "https://italianmarketphilly.org/merchant/anthonys-italian-coffee-house/"
+   }
+  ]
+ },
+ "osm-w696448439": {
+  "name": "Ardmore Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w696447945": {
+  "name": "Ardmore Q",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n821207197": {
+  "name": "Ardmore Station Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11573732465": {
+  "name": "Autograph Brasserie",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w369570963": {
+  "name": "Avril 50",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in September 1984 as a newsstand at 3406 Sansom Street.",
+    "url": "https://lampoonmagazine.com/article/2021/09/29/avril-50-philadelphia/"
+   },
+   {
+    "text": "Founded by Shahidi because few stores carried magazines and academic journals for students.",
+    "url": "https://lampoonmagazine.com/article/2021/09/29/avril-50-philadelphia/"
+   },
+   {
+    "text": "Sells magazines, academic journals, coffee, teas, chocolates and greeting cards.",
+    "url": "https://lampoonmagazine.com/article/2021/09/29/avril-50-philadelphia/"
+   }
+  ]
+ },
+ "osm-n4514675789": {
+  "name": "Bar Bombon",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Plant-based Puerto Rican restaurant owned by Nicole Marquis.",
+    "url": "https://6abc.com/post/bar-bombon-puerto-rican-food-vegan-restaurants-philadelphia/6684751/"
+   },
+   {
+    "text": "Features a mezcal bar and empanadas stuffed with vegan Impossible meat.",
+    "url": "https://6abc.com/post/bar-bombon-puerto-rican-food-vegan-restaurants-philadelphia/6684751/"
+   }
+  ]
+ },
+ "osm-w367278709": {
+  "name": "Bar Lucca",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2003082513": {
+  "name": "Bella Italia Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13401642500": {
+  "name": "Bikini Burger",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Owned by local caterer Mia Robertson and located in downtown Ardmore.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   },
+   {
+    "text": "Uses never-frozen, double-ground 80/20 beef from a Lancaster County butcher.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   },
+   {
+    "text": "Serves burgers on Martin's potato rolls, with crinkle-cut fries and milkshakes.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   },
+   {
+    "text": "Debuted in late 2025.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   }
+  ]
+ },
+ "osm-n12217246245": {
+  "name": "Boba King",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13436639863": {
+  "name": "Brewroom",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224411728": {
+  "name": "Brunch",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11345251172": {
+  "name": "Buena Vista",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989516630": {
+  "name": "Cafe Procopio",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n8765431355": {
+  "name": "Capital One Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves handcrafted beverages made with Verve Coffee Roasters coffee.",
+    "url": "https://www.capitalone.com/local/philadelphia-rittenhouse/"
+   },
+   {
+    "text": "Part bank and part cafe, with free Wi-Fi and outlets.",
+    "url": "https://www.capitalone.com/local/philadelphia-rittenhouse/"
+   },
+   {
+    "text": "Account holders can reserve a nook, a private workspace with tables and outlets.",
+    "url": "https://www.capitalone.com/local/philadelphia-rittenhouse/"
+   }
+  ]
+ },
+ "osm-w225131102": {
+  "name": "Cerdo",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The name is Spanish for pork, and it is the Pieris' third Conshohocken restaurant.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   },
+   {
+    "text": "Owned by Brian and Christina Pieri of Pieri Restaurant Group.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   },
+   {
+    "text": "Describes its menu as a celebration of Spanish and Italian pig culture.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   },
+   {
+    "text": "Carves hams barside and features wild boar throughout the menu.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   }
+  ]
+ },
+ "osm-w224489170": {
+  "name": "Chiangmai",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9964922710": {
+  "name": "Coco's Cookies and Creamery",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w296245913": {
+  "name": "Conshohocken Italian Bakery",
+  "closed": true,
+  "closedSource": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/",
+  "facts": [
+   {
+    "text": "Closed after a 51-year run.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "Founded by Dominic Gambone and Frank Manze in a former tire shop.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "Known for hoagie rolls used by many cheesesteak shops in the Philadelphia region.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "Also baked kaiser rolls, bagels, tomato pies and Easter bread.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "The Gambone family continued the bakery after Manze died in 2010.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   }
+  ]
+ },
+ "osm-n2100740228": {
+  "name": "Copabanana",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989292632": {
+  "name": "Cornerstone Bistro & Artisinal Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w221492162": {
+  "name": "Coyote Crossing",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11573781885": {
+  "name": "Dandan",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Szechuan and Taiwanese cuisine.",
+    "url": "https://mainlinetoday.com/food/dandan-wayne/"
+   }
+  ]
+ },
+ "osm-n11582727182": {
+  "name": "Dandan",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened as DanDan's third location, at Suburban Square in Ardmore.",
+    "url": "https://mainlinetoday.com/food/dandan-ardmore-location/"
+   }
+  ]
+ },
+ "osm-n989578532": {
+  "name": "Delice et Chocolat",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n821207194": {
+  "name": "DePaul's Table",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Italian steakhouse that replaced The Bercy in Ardmore.",
+    "url": "https://www.inquirer.com/food/depauls-table-ardmore-steakhouse-bercy-20210317.html"
+   }
+  ]
+ },
+ "osm-n12995680862": {
+  "name": "Di Bruno Bros",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989626637": {
+  "name": "DiMeo Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w435981433": {
+  "name": "Divine Lorraine Hotel",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed by architect Willis G. Hale and built between 1892 and 1894 as the Lorraine Apartments.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   },
+   {
+    "text": "Became the Lorraine Hotel in 1900 when the Metropolitan Hotel Company bought it.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   },
+   {
+    "text": "Father Divine bought it in 1948 and renamed it the Divine Lorraine Hotel.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   },
+   {
+    "text": "Listed on the National Register of Historic Places in 2002.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   }
+  ]
+ },
+ "osm-w1255293162": {
+  "name": "Doro Bet",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w366860350": {
+  "name": "Dragon & Phoenix Express",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5534129527": {
+  "name": "Eagle Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11584990434": {
+  "name": "Eat Greek",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10991119964": {
+  "name": "El Limon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13429423372": {
+  "name": "El Limon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w365541784": {
+  "name": "El Limon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989613786": {
+  "name": "Elegance Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13625380376": {
+  "name": "Erawan",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13424564301": {
+  "name": "Felicia's Pizza Kitchen",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5968575687": {
+  "name": "Fellini Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224489965": {
+  "name": "Flanigan's Boat House",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n877499152": {
+  "name": "Flavor",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13310029889": {
+  "name": "Fleming's",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11738825351": {
+  "name": "Get Café",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1479235293": {
+  "name": "Gleaner's Cafe Gallery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serving Philadelphia since 2003 in the Italian Market area.",
+    "url": "https://gleanerscafe.com/"
+   },
+   {
+    "text": "Specializes in bagel sandwiches.",
+    "url": "https://gleanerscafe.com/"
+   },
+   {
+    "text": "Hosts monthly art shows.",
+    "url": "https://gleanerscafe.com/"
+   }
+  ]
+ },
+ "osm-n13401642495": {
+  "name": "Golden Bowl",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3118475655": {
+  "name": "Grindcore House",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11904652055": {
+  "name": "Ground Up Café & Coffee",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w396266005": {
+  "name": "Gryphon Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n923766375": {
+  "name": "Gullifty's",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1034623680": {
+  "name": "Hana Japanese",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5534132015": {
+  "name": "Harusame",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1043848933": {
+  "name": "Haverford Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5595471757": {
+  "name": "HipCityVeg",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Led by CEO Nicole Marquis.",
+    "url": "https://hipcityveg.com/compassionate-ceo-profile-nicole-marquis-hipcityveg/"
+   }
+  ]
+ },
+ "osm-n5595478221": {
+  "name": "HipCityVeg",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Led by CEO Nicole Marquis.",
+    "url": "https://hipcityveg.com/compassionate-ceo-profile-nicole-marquis-hipcityveg/"
+   }
+  ]
+ },
+ "osm-n12504780819": {
+  "name": "Hu's Kitchen?",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224409946": {
+  "name": "Izenberg's",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w484811222": {
+  "name": "Jasper's Backyard",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9494216580": {
+  "name": "Jasper's West Side",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Took over the former Imbibe space in West Conshohocken.",
+    "url": "https://morethanthecurve.com/jaspers-westside-tavern-taking-imbibe-spot-in-west-conshohocken/"
+   }
+  ]
+ },
+ "osm-n989578537": {
+  "name": "Jules Thin Crust",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10974561755": {
+  "name": "Kuma Sushi & Asian Fusion",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12229810853": {
+  "name": "Kung Fu Tea",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10773712305": {
+  "name": "LaScala's Fire",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9508379539": {
+  "name": "Legal Grounds",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cafe on West Campus located in Scarpa Hall, the Villanova law school building.",
+    "url": "https://www.villanova.edu/university/dining/where-to-eat/legal-grounds.html"
+   },
+   {
+    "text": "Brews fairly traded Equal Exchange coffee.",
+    "url": "https://www.villanova.edu/university/dining/where-to-eat/legal-grounds.html"
+   }
+  ]
+ },
+ "osm-n11582727186": {
+  "name": "Life Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located in Suburban Square in Ardmore.",
+    "url": "https://www.mallscenters.com/brands/stores/lifecafe/ardmore--pennsylvania--suburban-square"
+   }
+  ]
+ },
+ "osm-n11236966179": {
+  "name": "Little Basil",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11738825357": {
+  "name": "Little Blue Owl Baking Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10971360272": {
+  "name": "Lola's Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located in Suburban Square in Ardmore.",
+    "url": "https://mainlinetoday.com/food/lolas-garden-suburban-square-ardmore/"
+   }
+  ]
+ },
+ "osm-n13429423374": {
+  "name": "Lu & Aug's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Ash and Pretha Kailath and named after their children Laiyla and Augustine.",
+    "url": "https://mainlinetoday.com/food/lu-augs-ardmore/"
+   },
+   {
+    "text": "Specializes in soft serve ice cream, with affogato as its signature offering.",
+    "url": "https://mainlinetoday.com/food/lu-augs-ardmore/"
+   },
+   {
+    "text": "Sits at the corner of Rittenhouse and Cricket in a former Foot Solutions shoe store space.",
+    "url": "https://mainlinetoday.com/food/lu-augs-ardmore/"
+   }
+  ]
+ },
+ "osm-n11584990432": {
+  "name": "M&M Pho Mi",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Vietnamese restaurant serving pho and banh mi at 6 East 1st Avenue in Conshohocken.",
+    "url": "https://morethanthecurve.com/m-m-pho-mi-open-in-conshohocken/"
+   },
+   {
+    "text": "Took over the space that was most recently Snap Custom Pizza.",
+    "url": "https://morethanthecurve.com/m-m-pho-mi-open-in-conshohocken/"
+   }
+  ]
+ },
+ "osm-w1037766441": {
+  "name": "Mad Anthony Wayne Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves coffee and gelato.",
+    "url": "https://madanthonywaynecafe.com/"
+   }
+  ]
+ },
+ "osm-n2256040035": {
+  "name": "Maggiano's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Maggiano's Little Italy chain was founded in Chicago in 1991 by Lettuce Entertain You Enterprises.",
+    "url": "https://en.wikipedia.org/wiki/Maggiano's_Little_Italy"
+   },
+   {
+    "text": "The chain is named for Marvin Magid, a business partner of founder Rich Melman.",
+    "url": "https://en.wikipedia.org/wiki/Maggiano's_Little_Italy"
+   }
+  ]
+ },
+ "osm-n989613859": {
+  "name": "Maison Lotus",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Part of WIN Hospitality.",
+    "url": "https://culinaryagents.com/entities/834502-Maison-Lotus"
+   },
+   {
+    "text": "Serves French-Vietnamese cuisine.",
+    "url": "https://www.shailujaswal.com/on-the-main-line-and-beyond/introducing-maison-lotus-waynes-upcoming-french-vietnamese-culinary-gem"
+   }
+  ]
+ },
+ "osm-n13794360703": {
+  "name": "Malooga",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Yemeni restaurant that first opened at 134 Chestnut Street in Philadelphia's Old City in 2021.",
+    "url": "https://patch.com/pennsylvania/balacynwyd/popular-middle-eastern-restaurant-expanding-main-line"
+   },
+   {
+    "text": "Menu includes lamb haneeth, falafel, sambosas and malooga, a traditional Yemeni flatbread.",
+    "url": "https://patch.com/pennsylvania/balacynwyd/popular-middle-eastern-restaurant-expanding-main-line"
+   }
+  ]
+ },
+ "osm-n10778956283": {
+  "name": "maman",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10983343325": {
+  "name": "Mango Mango",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w225236916": {
+  "name": "Masala Symphony",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224411729": {
+  "name": "Masterpeace Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n877499112": {
+  "name": "Minella's Diner",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1139520331": {
+  "name": "Mom's Bake at Home Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224489171": {
+  "name": "Morning Talk Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened at 108 1/2 Fayette Street on June 14, 2022.",
+    "url": "https://morethanthecurve.com/morning-talk-cafe-has-opened-in-conshohocken/"
+   },
+   {
+    "text": "Occupies a space that was previously a candy shop.",
+    "url": "https://morethanthecurve.com/morning-talk-cafe-has-opened-in-conshohocken/"
+   },
+   {
+    "text": "Opened by the owner of neighboring Chiangmai Thai Cuisine and partners.",
+    "url": "https://morethanthecurve.com/morning-talk-cafe-has-opened-in-conshohocken/"
+   }
+  ]
+ },
+ "osm-w170349587": {
+  "name": "Moshulu",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Floating restaurant aboard the four-masted steel barque Moshulu, built in 1904.",
+    "url": "https://www.loc.gov/item/2019688988/"
+   },
+   {
+    "text": "The ship was built by William Hamilton and Company on the River Clyde in Scotland.",
+    "url": "https://www.loc.gov/item/2019688988/"
+   },
+   {
+    "text": "Docked at Penn's Landing next to the museum ships USS Olympia and USS Becuna.",
+    "url": "https://www.loc.gov/item/2019688988/"
+   }
+  ]
+ },
+ "osm-n12484702919": {
+  "name": "Mr Wish",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13151180977": {
+  "name": "Nana's Kitchen & Catering",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2611788981": {
+  "name": "Nanu's Hot Chicken",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Nashville hot chicken that is 100% halal.",
+    "url": "https://nanushotchicken.co/"
+   }
+  ]
+ },
+ "osm-n5218983209": {
+  "name": "Narberth Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w225236917": {
+  "name": "Neo's Americana",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened after water damage closed Daniel's Restaurant in the same Conshohocken space.",
+    "url": "https://mainlinetoday.com/food/neos-americana/"
+   },
+   {
+    "text": "Owned by Kurt Benkurt and Annalise Long.",
+    "url": "https://mainlinetoday.com/food/neos-americana/"
+   },
+   {
+    "text": "Menu is Mediterranean-inspired, with executive chef Michael Austin.",
+    "url": "https://mainlinetoday.com/food/neos-americana/"
+   },
+   {
+    "text": "Cafe Neos, Annalise's concept, opened alongside the restaurant.",
+    "url": "https://mainlinetoday.com/food/neos-americana/"
+   }
+  ]
+ },
+ "osm-n989578555": {
+  "name": "New Wayne Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serving downtown Wayne since 1989.",
+    "url": "http://www.newwaynepizza.com/about-us"
+   },
+   {
+    "text": "Pizza sauce is made with California tomatoes.",
+    "url": "http://www.newwaynepizza.com/about-us"
+   }
+  ]
+ },
+ "osm-n1208049180": {
+  "name": "Nirvana",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Led by restaurateur Nabin Chhantyal, who also owns Nirvana restaurants in Blue Bell and Chestnut Hill.",
+    "url": "https://mainlinetoday.com/food/nirvana-indian-bistro/"
+   },
+   {
+    "text": "The Bryn Mawr location is in the former Tip O'Leary's building.",
+    "url": "https://mainlinetoday.com/food/nirvana-indian-bistro/"
+   }
+  ]
+ },
+ "osm-n10778676504": {
+  "name": "Not Your Average Joe's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Not Your Average Joe's chain was founded in 1994 in Dartmouth, Massachusetts.",
+    "url": "https://en.wikipedia.org/wiki/Not_Your_Average_Joe's"
+   },
+   {
+    "text": "The chain is headquartered in Milton, Massachusetts.",
+    "url": "https://en.wikipedia.org/wiki/Not_Your_Average_Joe's"
+   }
+  ]
+ },
+ "osm-n11933285941": {
+  "name": "Nudy's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9494187057": {
+  "name": "Nudy's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w987745205": {
+  "name": "Nudy's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9498198032": {
+  "name": "Ogyu",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Ogyu opened in Ardmore as an all-you-can-eat Japanese barbecue restaurant.",
+    "url": "https://www.inquirer.com/food/restaurants/ogyu-japanese-bbq-opens-ardmore-iron-hill-20260709.html"
+   }
+  ]
+ },
+ "osm-n14210505720": {
+  "name": "OSushi",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12542098250": {
+  "name": "Otto by Polpo",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5534131133": {
+  "name": "Pak Yue",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9710435817": {
+  "name": "Paola's Cucina",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w225015993": {
+  "name": "Pepperoncini",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11738825355": {
+  "name": "Pho Losophy",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1253777939": {
+  "name": "Pietramala",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Pietramala is a vegan restaurant in the Northern Liberties neighborhood.",
+    "url": "https://www.pietramalaphl.com/"
+   }
+  ]
+ },
+ "osm-n11137175405": {
+  "name": "Pietro's Pizzeria",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11554757108": {
+  "name": "PJ Whelihan's",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224528197": {
+  "name": "Pop's Steaks",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Pop's Steaks was founded by executive chef Nino Cordivari, who co-owns it with Mark Pagano.",
+    "url": "https://popssteaks.com/"
+   },
+   {
+    "text": "The kitchen fries in beef tallow and uses no seed oils.",
+    "url": "https://popssteaks.com/"
+   },
+   {
+    "text": "Pop's Steaks is a cheesesteak shop that opened in Conshohocken.",
+    "url": "https://patch.com/pennsylvania/plymouthwhitemarsh/pops-steaks-new-cheesesteak-joint-opens-conshohocken"
+   }
+  ]
+ },
+ "osm-n2611788971": {
+  "name": "Positano Ristorante",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w587976077": {
+  "name": "Pour Richard's Coffee Co",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12191875444": {
+  "name": "Queen & Rook Game Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Queen & Rook is a board game cafe that relocated to South Street.",
+    "url": "https://www.nbcphiladelphia.com/entertainment/the-scene/queen-and-rook-new-location-south-street/3859043/"
+   }
+  ]
+ },
+ "osm-n13988552514": {
+  "name": "Raffs Fine Italian Restaurant",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w372593386": {
+  "name": "Real Pizza Narberth",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w647047816": {
+  "name": "Renata's Kitchen & Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11177268778": {
+  "name": "Rosa Mexicano",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13703618706": {
+  "name": "Rosalie Italian Soul Food",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Rosalie is part of Fearless Restaurants.",
+    "url": "https://culinaryagents.com/entities/290268-Rosalie"
+   }
+  ]
+ },
+ "osm-n1687458235": {
+  "name": "Rosemont Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11307980347": {
+  "name": "Rosie's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9587719502": {
+  "name": "Rudee's Thai cuisine",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w458781331": {
+  "name": "Ryan Christophers BYOB",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10884033879": {
+  "name": "Sabrina's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w944686673": {
+  "name": "Saffron Indian Kitchen",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224528195": {
+  "name": "Saigon Noodle Kitchen",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n12482465051": {
+  "name": "Sake Mian",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224489289": {
+  "name": "Salt & Stone",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w1376907581": {
+  "name": "Sam's Brick Oven Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2687978760": {
+  "name": "SangKee Asian Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "SangKee Asian Bistro serves dim sum and Hong Kong dishes.",
+    "url": "https://sangkeeasianbistro.com/"
+   }
+  ]
+ },
+ "osm-w988626622": {
+  "name": "Savona Restaurant",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The mansion housing Savona dates to 1765 and was once headquarters of Aaron Burr.",
+    "url": "https://mainlinetoday.com/food/more-than-20-years-later-savona-remains-the-quintessence-of-fine-dining/"
+   },
+   {
+    "text": "Savona opened in 1997 as a Riviera-inspired restaurant.",
+    "url": "https://mainlinetoday.com/food/more-than-20-years-later-savona-remains-the-quintessence-of-fine-dining/"
+   }
+  ]
+ },
+ "osm-n10760531991": {
+  "name": "Saxbys",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Saxbys cafe at Community College of Philadelphia gives students leadership experience and college credit.",
+    "url": "https://www.ccp.edu/about-ccp/news-events/newsroom/2023-12-11/perfect-blend-saxbys-offers-students-leadership"
+   }
+  ]
+ },
+ "osm-w366860352": {
+  "name": "Scoops",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6507325262": {
+  "name": "Silk Cuisine",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n523613930": {
+  "name": "Snap Custom Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13310467662": {
+  "name": "Sontuosa",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224640033": {
+  "name": "Southern Cross Kitchen",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w685999287": {
+  "name": "Spinagar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w541206485": {
+  "name": "Spread Bagelry",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spread Bagelry serves wood-fired bagels.",
+    "url": "https://www.spreadbagelry.com/"
+   }
+  ]
+ },
+ "osm-w224655232": {
+  "name": "Spring Mill Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1208049171": {
+  "name": "Sub Valley Pizza and Catering",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Offers flatbread pizzas including Margarita, Greek, Mediterranean and BBQ chicken.",
+    "url": "https://www.sunvalleypizzacatering.com/"
+   },
+   {
+    "text": "Offers gluten-free pizza options and catering for events.",
+    "url": "https://www.sunvalleypizzacatering.com/"
+   }
+  ]
+ },
+ "osm-n12504780826": {
+  "name": "Sushi Land",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5605114326": {
+  "name": "Sweet Freedom Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11177268782": {
+  "name": "Sweet Stuff",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11610241969": {
+  "name": "Taste of Chang'an",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989306169": {
+  "name": "Teresa's Cafe and Next Door",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n1208049189": {
+  "name": "The Bakery House",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w587976074": {
+  "name": "The Black Cat Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n6617897849": {
+  "name": "The Cheese Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10991108357": {
+  "name": "The Choice",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n13384627661": {
+  "name": "The Goat's Beard",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w988620453": {
+  "name": "The Gypsy Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n5605089962": {
+  "name": "The Juice Merchant",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n3714274818": {
+  "name": "The Pullman Restaurant and Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The restaurant opened in the former Bryn Mawr freight station.",
+    "url": "https://www.audacy.com/kywnewsradio/news/local/pullman-restaurant-bar-opens-bryn-mawr-dining-cars"
+   }
+  ]
+ },
+ "osm-n11573781870": {
+  "name": "The Silverspoon",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w221498719": {
+  "name": "The Tomato Shack",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10991147767": {
+  "name": "Tiffin",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n10884221880": {
+  "name": "Tiffin Cuisine",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w224527451": {
+  "name": "Tony & Joe's Pizzeria",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w366662297": {
+  "name": "Trattoria Totaro",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n4236656391": {
+  "name": "Vedge",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n9385011517": {
+  "name": "Vernick Coffee Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w215322953": {
+  "name": "Vic & Deans",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n2611788967": {
+  "name": "Villa Artigiano",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n989532164": {
+  "name": "White Dog Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "White Dog Cafe has served local, seasonal and sustainable food since 1983.",
+    "url": "https://whitedog.com/our-story/"
+   }
+  ]
+ },
+ "osm-w224489169": {
+  "name": "Win Wah",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-w335160210": {
+  "name": "Yangming",
+  "closed": true,
+  "closedSource": "https://patch.com/pennsylvania/brynmawr/bryn-mawr-chinese-eatery-yangming-close-report",
+  "facts": []
+ },
+ "osm-n10974561754": {
+  "name": "Yapple Yogurt",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ "osm-n11236966180": {
+  "name": "Zesto Pizza & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": []
  }
 }

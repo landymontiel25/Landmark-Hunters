@@ -85,8 +85,8 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "local-life",
-    "file": "places/philly/local-life.b0ac20c12d.json",
-    "count": 331
+    "file": "places/philly/local-life.ebdcc6fd41.json",
+    "count": 327
   },
   {
     "region": "villanova",
@@ -97,25 +97,25 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "parks-nature",
-    "file": "places/philly/parks-nature.67e549b90e.json",
+    "file": "places/philly/parks-nature.d613819fcf.json",
     "count": 135
   },
   {
     "region": "villanova",
     "category": "parks-nature",
-    "file": "places/villanova/parks-nature.f565dc0460.json",
+    "file": "places/villanova/parks-nature.f6d0079fd4.json",
     "count": 3
   },
   {
     "region": "philly",
     "category": "sports",
-    "file": "places/philly/sports.52a5523566.json",
+    "file": "places/philly/sports.743d4f4d92.json",
     "count": 13
   },
   {
     "region": "villanova",
     "category": "sports",
-    "file": "places/villanova/sports.ebbe48543e.json",
+    "file": "places/villanova/sports.0b7c526ffc.json",
     "count": 3
   },
   {
@@ -127,13 +127,13 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "food",
-    "file": "places/philly/food.003c923212.json",
-    "count": 167
+    "file": "places/philly/food.5f0d522ce1.json",
+    "count": 165
   },
   {
     "region": "villanova",
     "category": "food",
-    "file": "places/villanova/food.d2e0bcb38f.json",
+    "file": "places/villanova/food.66147e4330.json",
     "count": 7
   }
 ];
