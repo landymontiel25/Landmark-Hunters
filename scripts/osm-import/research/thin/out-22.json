@@ -1,0 +1,439 @@
+[
+ {
+  "id": "osm-n4379394799",
+  "name": "Emily's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Sold as beer, wine and spirits, with a deli counter, under the name Emily's Cold Beer.",
+    "url": "https://www.yelp.com/biz/emilys-cold-beer-philadelphia"
+   },
+   {
+    "text": "Listed as a bar on Untappd under the name Emily's Cold Beer & Bar.",
+    "url": "https://untappd.com/v/emily-s-cold-beer-bar/1424350"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10728686424",
+  "name": "Five Points Cocktails",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Bar with a pool table, listed as Five Points Cocktail Lounge.",
+    "url": "https://www.yelp.com/biz/five-points-cocktail-lounge-philadelphia"
+   },
+   {
+    "text": "Described as open since the early 2000s, with trivia nights and live music.",
+    "url": "https://www.novacircle.com/spots/north-america/united-states/pennsylvania/philadelphia/philadelphia-pa/five-points-cocktail-lounge-22d0fe"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13173643609",
+  "name": "Franklin's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed as Franklin's East Falls, a pub with 14 draft beers weighted toward craft.",
+    "url": "https://www.forkandcity.com/restaurant/franklins-east-falls"
+   },
+   {
+    "text": "Known for a Fries Trio, plus wings and burgers made in house.",
+    "url": "https://www.forkandcity.com/restaurant/franklins-east-falls"
+   },
+   {
+    "text": "Runs weekly Quizzo and Friday karaoke.",
+    "url": "https://www.forkandcity.com/restaurant/franklins-east-falls"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3559271948",
+  "name": "Fresh for All: Pennsport",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12630165226",
+  "name": "Good Good Things Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Keeps the original bar in place, with booth and table seating.",
+    "url": "https://www.yelp.com/biz/good-good-things-philadelphia"
+   },
+   {
+    "text": "Listed as an American bar and lounge.",
+    "url": "https://culinaryagents.com/entities/762951-Good-Good-Things-"
+   }
+  ]
+ },
+ {
+  "id": "osm-n649984278",
+  "name": "Grace Tavern",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.theinfatuation.com/philadelphia/reviews/grace-tavern",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n12068476125",
+  "name": "Harriett's Bookshop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Named for Harriet Tubman, it celebrates women authors, artists and activists.",
+    "url": "https://globalphiladelphia.org/organizations/harrietts-bookshop"
+   },
+   {
+    "text": "Opened in Fishtown by owner Jeannine Cook.",
+    "url": "https://globalphiladelphia.org/organizations/harrietts-bookshop"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6875686018",
+  "name": "Jerry's Corner",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Indoor and outdoor flea market.",
+    "url": "https://www.antiqueace.com/explore/Jerry-s-Corner/"
+   },
+   {
+    "text": "Vendors sell items ranging from clothing to home decor.",
+    "url": "https://fleamarketsnearyou.com/states/pennsylvania/philadelphia/jerrys-corner/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1107321334",
+  "name": "JJ Mallons",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Northern Liberties bar and restaurant on the corner of Front and Girard, listed as J.J. Mallon's.",
+    "url": "http://jjmallons.com/"
+   },
+   {
+    "text": "Offers take-out and an outdoor patio.",
+    "url": "http://jjmallons.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6556392900",
+  "name": "KTV",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Lair KTV opened in 2016 and its owners later added the Sky Club lounge upstairs.",
+    "url": "https://finance.yahoo.com/news/owners-philadelphia-lair-ktv-open-101000238.html"
+   },
+   {
+    "text": "Sky Club has over 10 private luxury rooms, two holding up to 50 people.",
+    "url": "https://finance.yahoo.com/news/owners-philadelphia-lair-ktv-open-101000238.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1194592773",
+  "name": "L&G Cold Beer",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w1220519339",
+  "name": "La Familia",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n2102072178",
+  "name": "Local 44",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Neighborhood craft beer bar in West Philadelphia with a craft bottle shop.",
+    "url": "http://www.local44beerbar.com/"
+   },
+   {
+    "text": "The bottle shop sells takeout beer, wine, cheese and charcuterie.",
+    "url": "http://www.local44beerbar.com/"
+   },
+   {
+    "text": "Serves weekend brunch.",
+    "url": "http://www.local44beerbar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3976315771",
+  "name": "Long in the Tooth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Stocks rare LPs and vintage items such as magazines from the 1980s.",
+    "url": "https://wmmr.com/2022/04/19/mmrs-philly-record-store-guide-long-in-the-tooth/"
+   },
+   {
+    "text": "Carries vintage punk, soul reissues, novelty records and horror soundtracks.",
+    "url": "https://www.phillymag.com/best-of-philly-archive/long-in-the-tooth/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1238391053",
+  "name": "Marv Love's Too",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu has fried and grilled fish platters, jumbo shrimp, mussels and crab legs.",
+    "url": "https://www.allmenus.com/pa/philadelphia/791026-marv-loves-too/menu/"
+   },
+   {
+    "text": "Serves breakfast all day, including shrimp and grits.",
+    "url": "https://www.allmenus.com/pa/philadelphia/791026-marv-loves-too/menu/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2002970598",
+  "name": "Mcdaniels",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n2002970604",
+  "name": "McKennas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu includes wings, pretzel nuggets, crab balls, chicken parmesan and cheesesteaks.",
+    "url": "https://mckennaspub.my.canva.site/"
+   },
+   {
+    "text": "Has a dart league.",
+    "url": "https://foursquare.com/v/mckennas-pub/4cb29437db32f04d744bd14d"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1167079387",
+  "name": "MilkBoy South Street",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened on the 400 block of South Street, across from Jim's Steaks, in August 2016.",
+    "url": "https://thevendry.com/venue/166456/milkboy-south-street-philadelphia-pa"
+   },
+   {
+    "text": "Has an upstairs music venue space for live performances.",
+    "url": "https://thevendry.com/venue/166456/milkboy-south-street-philadelphia-pa"
+   },
+   {
+    "text": "MilkBoy began as a music studio above Zapf's Music; owners are Tommy Joyner and Jamie Lokoff.",
+    "url": "https://thevendry.com/venue/166456/milkboy-south-street-philadelphia-pa"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2099872443",
+  "name": "Millcreek Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu is American pub food, sandwiches and lunch specials.",
+    "url": "https://menupages.com/millcreek-tavern/4200-chester-ave-philadelphia"
+   },
+   {
+    "text": "Has hosted live concerts, with a setlist.fm venue page.",
+    "url": "https://www.setlist.fm/venue/millcreek-tavern-philadelphia-pa-usa-6bd7564a.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1122789968",
+  "name": "Molly's Books & Records",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Has a used book section running the length of the shop, plus a vinyl collection.",
+    "url": "https://www.phillybookstorecrawl.com/updates/mollys-draft"
+   },
+   {
+    "text": "Hosted a small press and poetry fair under its awning in the Italian Market.",
+    "url": "https://www.phillybookstorecrawl.com/updates/mollys-draft"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4949327723",
+  "name": "Monk's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Belgian beer specialist with one of the longest Belgian draught lists in America at its Back Bar.",
+    "url": "https://www.monkscafe.com/"
+   },
+   {
+    "text": "Food is house made daily.",
+    "url": "https://www.monkscafe.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5718906468",
+  "name": "Mostaza Sports Bar & Grill",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n11171814638",
+  "name": "Murphy's Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Added an outdoor patio joined to the bar by French doors.",
+    "url": "https://whyy.org/articles/murphys-tavern-gets-a-facelift/"
+   },
+   {
+    "text": "Menu keeps customizable pizza and burgers, with jumbo wings on Wednesdays.",
+    "url": "https://whyy.org/articles/murphys-tavern-gets-a-facelift/"
+   },
+   {
+    "text": "Bob Bear took over management and part ownership, replacing booths with high tops.",
+    "url": "https://whyy.org/articles/murphys-tavern-gets-a-facelift/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3763949888",
+  "name": "Narberth Bookshop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Founded in 2016 by Ellen Trachtenberg, a publishing industry veteran.",
+    "url": "https://www.yelp.com/biz/narberth-bookshop-narberth-2"
+   },
+   {
+    "text": "Carries used books in addition to new titles.",
+    "url": "https://www.yelp.com/biz/narberth-bookshop-narberth-2"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13151180984",
+  "name": "Narberth Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Volunteer-led nonprofit formed in 2023 to connect the community with local growers and makers.",
+    "url": "https://www.narberthfarmersmarket.org/"
+   },
+   {
+    "text": "Leftover produce from each market day goes to the Narberth Food Bank.",
+    "url": "https://www.narberthfarmersmarket.org/"
+   }
+  ]
+ }
+]
