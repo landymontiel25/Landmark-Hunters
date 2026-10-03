@@ -65,6 +65,11 @@ describe.runIf(packs.length)('shipped place chunks', () => {
         expect(c?.pageUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\//);
       }
       expect(JSON.stringify(l)).not.toMatch(/googleapis|googleusercontent|places\//);
+      // A researched fact names the page it came from.
+      for (const [fact, url] of Object.entries(l.factSources || {})) {
+        expect(l.facts).toContain(fact);
+        expect(url).toMatch(/^https:\/\//);
+      }
     }
   });
 

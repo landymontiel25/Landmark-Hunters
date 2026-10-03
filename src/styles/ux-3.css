@@ -186,3 +186,10 @@ input[type='range']:focus-visible {
 .mapr-pick-vote {
   min-height: 44px;
 }
+
+/* Where a researched fact on an imported place came from (LandmarkDetail). */
+.fact-source {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
