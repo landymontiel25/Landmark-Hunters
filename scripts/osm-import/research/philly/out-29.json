@@ -1,0 +1,270 @@
+[
+ {
+  "id": "osm-n13625380376",
+  "name": "Erawan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13424564301",
+  "name": "Felicia's Pizza Kitchen",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5968575687",
+  "name": "Fellini Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5705646781",
+  "name": "First Watch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224489965",
+  "name": "Flanigan's Boat House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n877499152",
+  "name": "Flavor",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13310029889",
+  "name": "Fleming's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11738825351",
+  "name": "Get Café",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1479235293",
+  "name": "Gleaner's Cafe Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serving Philadelphia since 2003 in the Italian Market area.",
+    "url": "https://gleanerscafe.com/"
+   },
+   {
+    "text": "Specializes in bagel sandwiches.",
+    "url": "https://gleanerscafe.com/"
+   },
+   {
+    "text": "Hosts monthly art shows.",
+    "url": "https://gleanerscafe.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13401642495",
+  "name": "Golden Bowl",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w584780298",
+  "name": "Green Engine Cafe",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3118475655",
+  "name": "Grindcore House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11904652055",
+  "name": "Ground Up Café & Coffee",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w396266005",
+  "name": "Gryphon Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n923766375",
+  "name": "Gullifty's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1034623680",
+  "name": "Hana Japanese",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5534132015",
+  "name": "Harusame",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1043848933",
+  "name": "Haverford Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5595471757",
+  "name": "HipCityVeg",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Led by CEO Nicole Marquis.",
+    "url": "https://hipcityveg.com/compassionate-ceo-profile-nicole-marquis-hipcityveg/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5595478221",
+  "name": "HipCityVeg",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Led by CEO Nicole Marquis.",
+    "url": "https://hipcityveg.com/compassionate-ceo-profile-nicole-marquis-hipcityveg/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12504780819",
+  "name": "Hu's Kitchen?",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4658126868",
+  "name": "Insomnia Cookies",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224409946",
+  "name": "Izenberg's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w484811222",
+  "name": "Jasper's Backyard",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9494216580",
+  "name": "Jasper's West Side",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Took over the former Imbibe space in West Conshohocken.",
+    "url": "https://morethanthecurve.com/jaspers-westside-tavern-taking-imbibe-spot-in-west-conshohocken/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989578537",
+  "name": "Jules Thin Crust",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10974561755",
+  "name": "Kuma Sushi & Asian Fusion",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12229810853",
+  "name": "Kung Fu Tea",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7198791202",
+  "name": "La Colombe Coffee Roasters",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10773712305",
+  "name": "LaScala's Fire",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]
