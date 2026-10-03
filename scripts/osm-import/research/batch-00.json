@@ -1,0 +1,387 @@
+[
+{
+"id": "osm-w435585913",
+"name": "Alhambra Water Tower",
+"category": "history-culture",
+"kind": "historic site",
+"address": "2000 Alhambra Circle",
+"city": "Coral Gables",
+"lat": 25.75271,
+"lng": -80.28498,
+"website": null,
+"knownFacts": [
+"About 39 m (127 ft) tall",
+"Address: 2000 Alhambra Circle, Coral Gables"
+]
+},
+{
+"id": "osm-n13995056353",
+"name": "Brickell Mausoleum",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.76824,
+"lng": -80.18914,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4587210554",
+"name": "Calle Ocho Walk of Fame",
+"category": "history-culture",
+"kind": "attraction",
+"address": null,
+"city": null,
+"lat": 25.76564,
+"lng": -80.21997,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6579421394",
+"name": "Carlos J. Finlay",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.79697,
+"lng": -80.12955,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4595559141",
+"name": "Challenger Memorial",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.77315,
+"lng": -80.18659,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6583012885",
+"name": "Claude D. Pepper",
+"category": "history-culture",
+"kind": "statue",
+"address": null,
+"city": null,
+"lat": 25.77332,
+"lng": -80.18542,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4880364621",
+"name": "Dade County War Memorial",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.77404,
+"lng": -80.18605,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6579421487",
+"name": "Dr. Luis Henry Debayle",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.797,
+"lng": -80.12979,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n1577578115",
+"name": "Eternal Torch",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.76564,
+"lng": -80.21647,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358695896",
+"name": "Flagler Memorial Monument",
+"category": "history-culture",
+"kind": "monument",
+"address": "1 Flagler Memorial Island",
+"city": "Miami Beach",
+"lat": 25.78517,
+"lng": -80.15274,
+"website": null,
+"knownFacts": [
+"Address: 1 Flagler Memorial Island, Miami Beach"
+]
+},
+{
+"id": "osm-n4866286983",
+"name": "Freedom Plaza",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.76224,
+"lng": -80.25732,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n1577578093",
+"name": "General Antonio Macro memorial",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.76417,
+"lng": -80.21642,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n14099749569",
+"name": "George Fink’s Studio",
+"category": "history-culture",
+"kind": "historic site",
+"address": "2506 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74834,
+"lng": -80.25881,
+"website": null,
+"knownFacts": [
+"Address: 2506 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n5679960544",
+"name": "Iron Arrow Mound",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.72038,
+"lng": -80.27791,
+"website": null,
+"knownFacts": [
+"Inscription: “IA Iron Arrow Honor Society Insignia FOUNDED IN 1926 AS THE UNIVERSITY'S HIGHEST HONOR \"HE WHO WOULD KNOW THE ARROW MUST AS AN IRREFUTABLE RULE HAVE OPENLY AND WITHOUT THOUGHT OF REWARD SHOWN OBVIOUS LOVE OF ALMA MATER”"
+]
+},
+{
+"id": "osm-n1577578109",
+"name": "Jose Marti Memorial",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.76441,
+"lng": -80.21643,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6583012889",
+"name": "Julia B. Tuttle's Homestead",
+"category": "history-culture",
+"kind": "historic site",
+"address": null,
+"city": null,
+"lat": 25.77091,
+"lng": -80.19232,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6594610104",
+"name": "Julia Deforest Tuttle",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.79343,
+"lng": -80.19169,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6583009086",
+"name": "Julia Sturtevant Tuttle",
+"category": "history-culture",
+"kind": "statue",
+"address": null,
+"city": null,
+"lat": 25.77345,
+"lng": -80.1856,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w120105957",
+"name": "Lincoln Theatre",
+"category": "history-culture",
+"kind": "historic site",
+"address": null,
+"city": null,
+"lat": 25.79089,
+"lng": -80.13402,
+"website": null,
+"knownFacts": [
+"Founded in 1936",
+"Designed by Thomas W. Lamb",
+"Built in the Art Deco style",
+"Dates from 1936",
+"4 stories tall"
+]
+},
+{
+"id": "osm-w564987068",
+"name": "Lincoln-Drexel Building",
+"category": "history-culture",
+"kind": "historic site",
+"address": null,
+"city": null,
+"lat": 25.79093,
+"lng": -80.13301,
+"website": null,
+"knownFacts": [
+"2 stories tall"
+]
+},
+{
+"id": "osm-n1577578108",
+"name": "Madonna Statue",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.76519,
+"lng": -80.21645,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5613530547",
+"name": "Mildred and Claude Pepper Fountain",
+"category": "history-culture",
+"kind": "fountain",
+"address": null,
+"city": null,
+"lat": 25.7744,
+"lng": -80.18548,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6594606196",
+"name": "Our Heroes",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.79339,
+"lng": -80.19267,
+"website": null,
+"knownFacts": [
+"Inscription: “United Daughters of the Confederacy”"
+]
+},
+{
+"id": "osm-w435881982",
+"name": "Queen Miami Beach",
+"category": "history-culture",
+"kind": "historic site",
+"address": "550 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77559,
+"lng": -80.13447,
+"website": "https://www.queenmiamibeach.com",
+"knownFacts": [
+"Dates from 1935",
+"Designed by Henry Hohauser",
+"Run by Mathieu Massa",
+"About 21 m (70 ft) tall",
+"Address: 550 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n12507229031",
+"name": "Section of the Berlin Wall",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.77737,
+"lng": -80.19054,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4595581948",
+"name": "Simon Bolivar",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.77739,
+"lng": -80.18762,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6579421596",
+"name": "Simon Bolivar",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.79692,
+"lng": -80.13007,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n10232512919",
+"name": "South Pointe Park Lighthouse",
+"category": "history-culture",
+"kind": "attraction",
+"address": null,
+"city": null,
+"lat": 25.76687,
+"lng": -80.13666,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3245478362",
+"name": "Spanish Navy Plaza",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.78336,
+"lng": -80.18641,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6580864585",
+"name": "The Bahama Dingy",
+"category": "history-culture",
+"kind": "attraction",
+"address": "Cape Florida Park Boulevard",
+"city": null,
+"lat": 25.66619,
+"lng": -80.15699,
+"website": null,
+"knownFacts": []
+}
+]

@@ -1,0 +1,417 @@
+[
+{
+"id": "osm-w297682367",
+"name": "Regal Cinema",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "1120 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79012,
+"lng": -80.14063,
+"website": "https://www.regmovies.com/Theatres/Theatre-Folder/Regal-South-Beach-Stadium-18-IMAX-1462",
+"knownFacts": [
+"Part of the Regal Cinemas chain",
+"Address: 1120 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n13165171139",
+"name": "Rooftop Cinema Club South Beach",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "1212 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.78932,
+"lng": -80.14144,
+"website": "https://rooftopcinemaclub.com/miami/venue/rooftop-cinema-club-south-beach/",
+"knownFacts": [
+"Address: 1212 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6935717880",
+"name": "Silverspot Cinema",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "300 Southeast 3rd Street",
+"city": "Miami",
+"lat": 25.77139,
+"lng": -80.18844,
+"website": "https://www.silverspot.net/",
+"knownFacts": [
+"Has 17 screens",
+"Address: 300 Southeast 3rd Street, Unit 100, Miami"
+]
+},
+{
+"id": "osm-n11972505214",
+"name": "Splash",
+"category": "entertainment",
+"kind": "water park",
+"address": null,
+"city": null,
+"lat": 25.78692,
+"lng": -80.17501,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5025200754",
+"name": "Teatro Trail",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.76481,
+"lng": -80.25556,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w590186839",
+"name": "The Fillmore Miami Beach at the Jackie Gleason Theater",
+"category": "entertainment",
+"kind": "concert venue",
+"address": "1700 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.79293,
+"lng": -80.13309,
+"website": null,
+"knownFacts": [
+"Founded in 1951",
+"Designed by Russell T. Pancoast and Henry Hohauser",
+"Address: 1700 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n8871944117",
+"name": "Thriller Miami Speedboat Adventures",
+"category": "entertainment",
+"kind": "boat tour",
+"address": "401 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.77768,
+"lng": -80.18574,
+"website": "https://www.thrillermiami.com/",
+"knownFacts": [
+"Address: 401 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n3683239634",
+"name": "Victor E. Clarke Recital Hall",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.71859,
+"lng": -80.28022,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1303862465",
+"name": "Cobb Stadium",
+"category": "stadiums",
+"kind": "stadium",
+"address": "5951 San Amaro Drive",
+"city": "Coral Gables",
+"lat": 25.71335,
+"lng": -80.28243,
+"website": null,
+"knownFacts": [
+"Home of Miami Hurricanes women's soccer",
+"Run by Miami Hurricanes",
+"Run by University of Miami",
+"Address: 5951 San Amaro Drive, Coral Gables"
+]
+},
+{
+"id": "osm-w441800741",
+"name": "Memorial Field Football Stadium",
+"category": "stadiums",
+"kind": "stadium",
+"address": null,
+"city": null,
+"lat": 25.78234,
+"lng": -80.13962,
+"website": null,
+"knownFacts": [
+"Grass surface"
+]
+},
+{
+"id": "osm-w113657169",
+"name": "Miami International Airport",
+"category": "airports",
+"kind": "airport",
+"address": "2100 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.79554,
+"lng": -80.29188,
+"website": "https://www.miami-airport.com/",
+"knownFacts": [
+"Opened in 1928",
+"Owned by Miami-Dade County",
+"Run by Miami-Dade Aviation Department (MDAD)",
+"Has Wi-Fi",
+"Address: 2100 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n1327354294",
+"name": "Miami Seaplane Base",
+"category": "airports",
+"kind": "airport",
+"address": null,
+"city": null,
+"lat": 25.78346,
+"lng": -80.17755,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w441800748",
+"name": "Flamingo Park Pool",
+"category": "sports",
+"kind": "public pool",
+"address": "1245 Michigan Avenue",
+"city": "Miami Beach",
+"lat": 25.78275,
+"lng": -80.13809,
+"website": "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/facility-info-flamingo-park/",
+"knownFacts": [
+"Run by City of Miami Beach Government",
+"Address: 1245 Michigan Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w255402011",
+"name": "Flamingo Park Tennis Center",
+"category": "sports",
+"kind": "tennis center",
+"address": "Jefferson Ave & 11th St",
+"city": "Miami Beach",
+"lat": 25.78278,
+"lng": -80.13726,
+"website": "https://www.flamingotenniscenter.com/",
+"knownFacts": [
+"Run by City of Miami Beach"
+]
+},
+{
+"id": "osm-n6540203185",
+"name": "Lock & Load Miami Range",
+"category": "sports",
+"kind": "shooting range",
+"address": null,
+"city": null,
+"lat": 25.8015,
+"lng": -80.19455,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r18439268",
+"name": "Neil Schiff Tennis Center",
+"category": "sports",
+"kind": "tennis center",
+"address": null,
+"city": null,
+"lat": 25.7155,
+"lng": -80.28251,
+"website": null,
+"knownFacts": [
+"Run by University of Miami"
+]
+},
+{
+"id": "osm-n5901147212",
+"name": "Salvadore Park Tennis Center",
+"category": "sports",
+"kind": "tennis center",
+"address": "1121 Andalusia Avenue",
+"city": "Coral Gables",
+"lat": 25.74732,
+"lng": -80.27797,
+"website": null,
+"knownFacts": [
+"Address: 1121 Andalusia Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-w366186664",
+"name": "Yaron Intramural Field",
+"category": "sports",
+"kind": "soccer field",
+"address": null,
+"city": null,
+"lat": 25.71712,
+"lng": -80.28219,
+"website": null,
+"knownFacts": [
+"Grass surface"
+]
+},
+{
+"id": "osm-n6299289301",
+"name": "19th Hole Sports Bar & Grill",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.73983,
+"lng": -80.27958,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2273259029",
+"name": "5 Diamond Delicacies",
+"category": "local-life",
+"kind": "market",
+"address": null,
+"city": null,
+"lat": 25.77374,
+"lng": -80.14077,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4860141024",
+"name": "Abbey Brewing Company",
+"category": "local-life",
+"kind": "bar",
+"address": "1115-1117 16th Street",
+"city": "Miami Beach",
+"lat": 25.78904,
+"lng": -80.14029,
+"website": "https://www.instagram.com/abbeybrewingmia/?hl=en",
+"knownFacts": [
+"21 and over",
+"Address: 1115-1117 16th Street, Miami Beach"
+]
+},
+{
+"id": "osm-n2082872477",
+"name": "Abraxas Lounge",
+"category": "local-life",
+"kind": "pub",
+"address": "407 Meridian Avenue",
+"city": "Miami Beach",
+"lat": 25.77377,
+"lng": -80.1359,
+"website": null,
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 407 Meridian Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n367823350",
+"name": "Alegro Music Center",
+"category": "local-life",
+"kind": "record store",
+"address": null,
+"city": null,
+"lat": 25.76278,
+"lng": -80.30694,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13606372603",
+"name": "Alfaro's",
+"category": "local-life",
+"kind": "nightclub",
+"address": "1604 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76553,
+"lng": -80.22076,
+"website": "http://alfaroscalleocho.com/",
+"knownFacts": [
+"Address: 1604 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n4980808353",
+"name": "Area 31 - Epic Hotel",
+"category": "local-life",
+"kind": "bar",
+"address": "270 Biscayne Boulevard",
+"city": null,
+"lat": 25.77056,
+"lng": -80.18925,
+"website": null,
+"knownFacts": [
+"Address: 270 Biscayne Boulevard"
+]
+},
+{
+"id": "osm-n4374603591",
+"name": "Azucar Nightclub",
+"category": "local-life",
+"kind": "nightclub",
+"address": null,
+"city": null,
+"lat": 25.7481,
+"lng": -80.24595,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6090251576",
+"name": "BOHO Edgewater Miami",
+"category": "local-life",
+"kind": "nightclub",
+"address": "111 Northeast 20th Street",
+"city": "Miami",
+"lat": 25.79582,
+"lng": -80.19245,
+"website": "https://bohoedgewater.com/",
+"knownFacts": [
+"21 and over",
+"Address: 111 Northeast 20th Street, Miami"
+]
+},
+{
+"id": "osm-n10111847374",
+"name": "Baby Jane Cocktail House & Noodle Bar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.76843,
+"lng": -80.19064,
+"website": "http://babyjanemiami.com/",
+"knownFacts": []
+},
+{
+"id": "osm-n2355909380",
+"name": "Bacardi",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79784,
+"lng": -80.28463,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4166557069",
+"name": "Barnes & Noble",
+"category": "local-life",
+"kind": "bookstore",
+"address": "5701 Sunset Drive",
+"city": null,
+"lat": 25.70579,
+"lng": -80.28573,
+"website": "https://stores.barnesandnoble.com/store/2878",
+"knownFacts": [
+"Opened in 1999",
+"Part of the Barnes & Noble chain",
+"Address: 5701 Sunset Drive"
+]
+}
+]

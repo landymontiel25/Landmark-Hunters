@@ -64,7 +64,11 @@ describe.runIf(packs.length)('shipped place chunks', () => {
         expect(c?.license).toBeTruthy();
         expect(c?.pageUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\//);
       }
-      expect(JSON.stringify(l)).not.toMatch(/googleapis|googleusercontent|places\//);
+      // Google Places refs look like places/<id>; a researched fact's source
+      // page (factSources) may have /places/ in its own path.
+      const { factSources, ...rest } = l;
+      expect(JSON.stringify(rest)).not.toMatch(/googleapis|googleusercontent|places\//);
+      expect(JSON.stringify(factSources || {})).not.toMatch(/googleapis|googleusercontent/);
       // A researched fact names the page it came from.
       for (const [fact, url] of Object.entries(l.factSources || {})) {
         expect(l.facts).toContain(fact);

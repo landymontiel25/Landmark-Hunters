@@ -3,7 +3,7 @@
  "count": 2,
  "commonsPhotos": 1,
  "commonsPhotoPct": 50,
- "withFacts": 1,
+ "withFacts": 2,
  "withHours": 0,
  "photoSkips": [
   {
@@ -20,7 +20,9 @@
    "lat": 25.783463,
    "lng": -80.17755,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Public-use seaplane base on Watson Island, 2 miles east of downtown Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/1327354294"
   },
   {
@@ -31,9 +33,9 @@
    "lng": -80.291882,
    "photo": true,
    "facts": [
-    "Opened in 1928",
-    "Owned by Miami-Dade County",
-    "Run by Miami-Dade Aviation Department (MDAD)"
+    "Began as Pan American Field, built by Pan American Airways on 116 acres on NW 36th Street",
+    "Pan American Field was officially dedicated on January 9, 1929",
+    "Its first terminal was designed by Delano & Aldrich of New York City"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/113657169"
   }

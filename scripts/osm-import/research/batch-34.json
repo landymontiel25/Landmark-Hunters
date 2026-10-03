@@ -1,0 +1,424 @@
+[
+{
+"id": "osm-n5343497437",
+"name": "Toni’s sushis",
+"category": "food",
+"kind": "Japanese restaurant",
+"address": "1208 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.7833,
+"lng": -80.13244,
+"website": null,
+"knownFacts": [
+"Serves Japanese food",
+"Address: 1208 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n7844732303",
+"name": "Tradewinds Waterfront Bar And Grill",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.7795,
+"lng": -80.18673,
+"website": null,
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-n1025649433",
+"name": "Tre Italian Bistro",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77419,
+"lng": -80.18906,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w453591591",
+"name": "Truluck's Ocean's Finest Seafood and Crab",
+"category": "food",
+"kind": "restaurant",
+"address": "777 Brickell Avenue",
+"city": "Miami",
+"lat": 25.76643,
+"lng": -80.18989,
+"website": null,
+"knownFacts": [
+"Address: 777 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-n12198008217",
+"name": "UDON",
+"category": "food",
+"kind": "Japanese restaurant",
+"address": null,
+"city": null,
+"lat": 25.68982,
+"lng": -80.31228,
+"website": null,
+"knownFacts": [
+"Serves Japanese food",
+"Part of the UDON chain"
+]
+},
+{
+"id": "osm-n7259840785",
+"name": "Under the Mango Tree",
+"category": "food",
+"kind": "café",
+"address": "5th Street",
+"city": null,
+"lat": 25.77476,
+"lng": -80.13586,
+"website": null,
+"knownFacts": [
+"Serves breakfast, coffee and sandwiches",
+"Has vegan options"
+]
+},
+{
+"id": "osm-n4235821639",
+"name": "Vapiano",
+"category": "food",
+"kind": "Italian restaurant",
+"address": null,
+"city": null,
+"lat": 25.76115,
+"lng": -80.19158,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Part of the Vapiano chain"
+]
+},
+{
+"id": "osm-n6073277503",
+"name": "Veganlitaly",
+"category": "food",
+"kind": "restaurant",
+"address": "3808 Southwest 8th Street",
+"city": "Coral Gables",
+"lat": 25.76444,
+"lng": -80.25756,
+"website": "https://www.ittlelitaly.com",
+"knownFacts": [
+"Has vegan options",
+"Accepts Bitcoin",
+"Address: 3808 Southwest 8th Street, Coral Gables"
+]
+},
+{
+"id": "osm-n4773376559",
+"name": "Verde",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.7861,
+"lng": -80.18609,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n8698410413",
+"name": "Vero italian",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77322,
+"lng": -80.19232,
+"website": "https://www.orderveroitalian.com",
+"knownFacts": []
+},
+{
+"id": "osm-n5296701726",
+"name": "Versailles",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79527,
+"lng": -80.28397,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4953857721",
+"name": "Versailles Bakery",
+"category": "food",
+"kind": "bakery",
+"address": "3501 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76491,
+"lng": -80.25241,
+"website": null,
+"knownFacts": [
+"Wheelchair accessible",
+"Address: 3501 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6114007385",
+"name": "Vice City Bean",
+"category": "food",
+"kind": "café",
+"address": "1657 unit c North Miami Avenue",
+"city": null,
+"lat": 25.79154,
+"lng": -80.19412,
+"website": "https://vicecitybean.com/",
+"knownFacts": [
+"Serves coffee",
+"Has Wi-Fi",
+"Address: 1657 unit c North Miami Avenue"
+]
+},
+{
+"id": "osm-n8501929077",
+"name": "Vicky Bakery",
+"category": "food",
+"kind": "bakery",
+"address": null,
+"city": null,
+"lat": 25.77226,
+"lng": -80.25644,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n12134973680",
+"name": "Vicky Cafe",
+"category": "food",
+"kind": "bakery",
+"address": "1306 Stanford Drive",
+"city": "Coral Gables",
+"lat": 25.71989,
+"lng": -80.27873,
+"website": null,
+"knownFacts": [
+"Run by University of Miami",
+"Address: 1306 Stanford Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n5554721613",
+"name": "Vicky's Bakery",
+"category": "food",
+"kind": "bakery",
+"address": null,
+"city": null,
+"lat": 25.74769,
+"lng": -80.3223,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w260119986",
+"name": "Villa Azur",
+"category": "food",
+"kind": "restaurant",
+"address": "309 23rd Street",
+"city": "Miami Beach",
+"lat": 25.79903,
+"lng": -80.12914,
+"website": null,
+"knownFacts": [
+"Address: 309 23rd Street, Miami Beach"
+]
+},
+{
+"id": "osm-n9934299849",
+"name": "Villa Italian Kitchen",
+"category": "food",
+"kind": "Italian restaurant",
+"address": null,
+"city": null,
+"lat": 25.79364,
+"lng": -80.27774,
+"website": null,
+"knownFacts": [
+"Serves Italian food"
+]
+},
+{
+"id": "osm-n14143233506",
+"name": "Vintage Auto Spa & Bistro Café",
+"category": "food",
+"kind": "café",
+"address": "15 Southwest 17th Avenue",
+"city": "Miami",
+"lat": 25.77261,
+"lng": -80.22246,
+"website": null,
+"knownFacts": [
+"Address: 15 Southwest 17th Avenue, Miami"
+]
+},
+{
+"id": "osm-w435882059",
+"name": "Wall's Old Fashioned Ice Cream",
+"category": "food",
+"kind": "café",
+"address": "8075 Southwest 67th Avenue",
+"city": "Miami",
+"lat": 25.69559,
+"lng": -80.30088,
+"website": null,
+"knownFacts": [
+"Serves ice cream",
+"Has outdoor seating",
+"Address: 8075 Southwest 67th Avenue, Miami"
+]
+},
+{
+"id": "osm-n6091342066",
+"name": "Wayan Miami",
+"category": "food",
+"kind": "Indonesian restaurant",
+"address": "50 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.7996,
+"lng": -80.19585,
+"website": "https://wayan-miami.com",
+"knownFacts": [
+"Serves Indonesian, French-Indonesian and Asian food",
+"Address: 50 Northwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-n13847143611",
+"name": "Wing Xscape by Hot Potato 1.2.3. Express",
+"category": "food",
+"kind": "chicken restaurant",
+"address": "3417 Northeast 1st Avenue",
+"city": "Miami",
+"lat": 25.7951,
+"lng": -80.19429,
+"website": null,
+"knownFacts": [
+"Serves chicken and wings",
+"Offers delivery",
+"Offers takeout",
+"Accepts Bitcoin",
+"Address: 3417 Northeast 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-n1024680688",
+"name": "Wok Town",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77284,
+"lng": -80.1918,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3175197146",
+"name": "Wynwood Cafe",
+"category": "food",
+"kind": "café",
+"address": "450 Northwest 27th Street",
+"city": "Miami",
+"lat": 25.80161,
+"lng": -80.20259,
+"website": null,
+"knownFacts": [
+"Address: 450 Northwest 27th Street, Miami"
+]
+},
+{
+"id": "osm-n4147238093",
+"name": "Wynwood Diner",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80154,
+"lng": -80.19899,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w311836299",
+"name": "Wynwood Kitchen & Bar",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80131,
+"lng": -80.19932,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5676900199",
+"name": "Wynwood Smoke and Lounge",
+"category": "food",
+"kind": "Middle Eastern restaurant",
+"address": "320 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.79981,
+"lng": -80.20125,
+"website": null,
+"knownFacts": [
+"Serves Middle Eastern food",
+"Address: 320 Northwest 24th Street, Unit b, Miami"
+]
+},
+{
+"id": "osm-n5629725240",
+"name": "XO Espresso Bar",
+"category": "food",
+"kind": "café",
+"address": "723 Lincoln Lane North",
+"city": "Miami Beach",
+"lat": 25.79139,
+"lng": -80.13645,
+"website": "http://xoespressobar.com/",
+"knownFacts": [
+"Address: 723 Lincoln Lane North, Miami Beach"
+]
+},
+{
+"id": "osm-n12898889748",
+"name": "Xpress Food",
+"category": "food",
+"kind": "grill restaurant",
+"address": "2315 Pine Tree Drive",
+"city": "Miami Beach",
+"lat": 25.79938,
+"lng": -80.12985,
+"website": null,
+"knownFacts": [
+"Address: 2315 Pine Tree Drive, Miami Beach"
+]
+},
+{
+"id": "osm-n4000119494",
+"name": "YUCA",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "501 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79078,
+"lng": -80.13322,
+"website": "http://www.yuca.com",
+"knownFacts": [
+"Serves Cuban food",
+"Also known as Young Urban Cuban American",
+"Address: 501 Lincoln Road, Miami Beach"
+]
+}
+]

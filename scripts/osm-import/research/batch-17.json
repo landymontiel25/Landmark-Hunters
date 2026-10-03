@@ -1,0 +1,443 @@
+[
+{
+"id": "osm-w646900380",
+"name": "Coral House Italian Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": "1762 Southwest 22nd Street",
+"city": "Miami",
+"lat": 25.75056,
+"lng": -80.22344,
+"website": "https://coralhousemiami.com/",
+"knownFacts": [
+"Address: 1762 Southwest 22nd Street, Miami"
+]
+},
+{
+"id": "osm-n11512949967",
+"name": "Cortadito",
+"category": "food",
+"kind": "café",
+"address": "1656 Meridian Avenue",
+"city": "Miami Beach",
+"lat": 25.79106,
+"lng": -80.13671,
+"website": "https://www.cortaditocoffeehouse.com/",
+"knownFacts": [
+"Serves Cuban food, plus coffee",
+"Has outdoor seating",
+"Address: 1656 Meridian Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n13119552527",
+"name": "Cortadito Coffee House",
+"category": "food",
+"kind": "café",
+"address": "800 Brickell Avenue suite 105",
+"city": "Miami",
+"lat": 25.7656,
+"lng": -80.19115,
+"website": "https://cortaditocoffeehouse.com/",
+"knownFacts": [
+"Serves coffee",
+"Address: 800 Brickell Avenue suite 105, Miami"
+]
+},
+{
+"id": "osm-n6018222244",
+"name": "Cortadito Coffee House Coral Gables",
+"category": "food",
+"kind": "café",
+"address": "200 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74935,
+"lng": -80.25884,
+"website": "https://cortaditocoffeehouse.com/",
+"knownFacts": [
+"Serves coffee",
+"Address: 200 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n5327820422",
+"name": "Coyo Taco",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79976,
+"lng": -80.19925,
+"website": null,
+"knownFacts": [
+"Has Wi-Fi"
+]
+},
+{
+"id": "osm-w278812499",
+"name": "Coyo Taco",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "1514 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.70909,
+"lng": -80.28316,
+"website": null,
+"knownFacts": [
+"Serves Mexican food",
+"Address: 1514 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n12873595082",
+"name": "Craft Key Biscayne",
+"category": "food",
+"kind": "American restaurant",
+"address": "260 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.69611,
+"lng": -80.16403,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Address: 260 Crandon Boulevard, Unit 14, Key Biscayne"
+]
+},
+{
+"id": "osm-n14041447902",
+"name": "Crema Downtown",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.74994,
+"lng": -80.25843,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n10244984256",
+"name": "Crema Gourmet",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.68754,
+"lng": -80.31274,
+"website": null,
+"knownFacts": [
+"Has outdoor seating"
+]
+},
+{
+"id": "osm-n5638862629",
+"name": "Crema Gourmet Espresso Bar South Beach",
+"category": "food",
+"kind": "café",
+"address": "1601 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.7896,
+"lng": -80.13164,
+"website": "https://www.cremagourmet.com",
+"knownFacts": [
+"Serves European food, plus sandwiches and salads",
+"Opened in 2012",
+"Has outdoor seating",
+"Has vegan options",
+"Offers delivery",
+"Takes reservations",
+"Has Wi-Fi",
+"Wheelchair accessible",
+"Offers takeout",
+"Has a bar"
+]
+},
+{
+"id": "osm-n6085600910",
+"name": "Crisppis | Miami",
+"category": "food",
+"kind": "burger restaurant",
+"address": "2917 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.80457,
+"lng": -80.18917,
+"website": "https://www.crisppischicken.com/",
+"knownFacts": [
+"Serves burgers, chicken and donuts",
+"Address: 2917 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n5227403521",
+"name": "Crust",
+"category": "food",
+"kind": "restaurant",
+"address": "668 Northwest 5th Street",
+"city": null,
+"lat": 25.77832,
+"lng": -80.20593,
+"website": null,
+"knownFacts": [
+"Address: 668 Northwest 5th Street"
+]
+},
+{
+"id": "osm-n12134973677",
+"name": "Cucina Fresca",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1306 Stanford Drive",
+"city": "Coral Gables",
+"lat": 25.71975,
+"lng": -80.27823,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1306 Stanford Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n12684996473",
+"name": "Cure Cafe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.75815,
+"lng": -80.19906,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n9170248719",
+"name": "Cvltvra",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.78505,
+"lng": -80.18987,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5645972221",
+"name": "Cybr Caffe",
+"category": "food",
+"kind": "café",
+"address": "1574 Washington Avenue",
+"city": null,
+"lat": 25.78894,
+"lng": -80.13199,
+"website": null,
+"knownFacts": [
+"Address: 1574 Washington Avenue"
+]
+},
+{
+"id": "osm-n5676900198",
+"name": "DOYA",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80011,
+"lng": -80.20128,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4581410254",
+"name": "David's Cafecito Cafe",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "919 Alton Road",
+"city": "Miami Beach",
+"lat": 25.77943,
+"lng": -80.14067,
+"website": null,
+"knownFacts": [
+"Serves Cuban food",
+"Address: 919 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6018262288",
+"name": "Delicias de Espana",
+"category": "food",
+"kind": "bakery",
+"address": "7374 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73254,
+"lng": -80.31462,
+"website": null,
+"knownFacts": [
+"Address: 7374 Southwest 40th Street, Miami"
+]
+},
+{
+"id": "osm-n13604472101",
+"name": "Delicias en Miami",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77319,
+"lng": -80.22077,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7149328085",
+"name": "Delicious Raw",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79415,
+"lng": -80.1439,
+"website": null,
+"knownFacts": [
+"Has vegan options"
+]
+},
+{
+"id": "osm-n5251280122",
+"name": "Delta Sky Club",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79325,
+"lng": -80.27644,
+"website": null,
+"knownFacts": [
+"Run by Delta Air Lines",
+"Has Wi-Fi"
+]
+},
+{
+"id": "osm-n4809918522",
+"name": "Denny's",
+"category": "food",
+"kind": "American restaurant",
+"address": "1150 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.7157,
+"lng": -80.27506,
+"website": "https://locations.dennys.com/FL/CORAL-GABLES/248698",
+"knownFacts": [
+"Serves American food",
+"Part of the Denny's chain",
+"Has Wi-Fi",
+"Open 24 hours",
+"Offers takeout",
+"Address: 1150 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n6073265267",
+"name": "Denny's",
+"category": "food",
+"kind": "American restaurant",
+"address": "1 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.75002,
+"lng": -80.25525,
+"website": "https://locations.dennys.com/FL/CORAL-GABLES/209595",
+"knownFacts": [
+"Serves American food",
+"Part of the Denny's chain",
+"Offers delivery",
+"Open 24 hours",
+"Offers takeout",
+"Address: 1 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n6047566297",
+"name": "Di Napoli",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "11755 South Dixie Highway",
+"city": "Pinecrest",
+"lat": 25.66127,
+"lng": -80.32506,
+"website": "https://www.dinapoliitalian.com/",
+"knownFacts": [
+"Serves Italian food",
+"Offers delivery",
+"Address: 11755 South Dixie Highway, Pinecrest"
+]
+},
+{
+"id": "osm-n6063741033",
+"name": "Diced",
+"category": "food",
+"kind": "restaurant",
+"address": "2342 Southwest 67th Avenue",
+"city": "Miami",
+"lat": 25.74878,
+"lng": -80.30387,
+"website": null,
+"knownFacts": [
+"Address: 2342 Southwest 67th Avenue, Miami"
+]
+},
+{
+"id": "osm-w435528672",
+"name": "Diced",
+"category": "food",
+"kind": "restaurant",
+"address": "9050 South Dixie Highway",
+"city": "Miami",
+"lat": 25.6864,
+"lng": -80.31167,
+"website": null,
+"knownFacts": [
+"Address: 9050 South Dixie Highway, Miami"
+]
+},
+{
+"id": "osm-w416557610",
+"name": "Doc B's Restaurant + Bar",
+"category": "food",
+"kind": "restaurant",
+"address": "301 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74976,
+"lng": -80.26088,
+"website": null,
+"knownFacts": [
+"Address: 301 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n11214375089",
+"name": "Domain",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.7666,
+"lng": -80.19303,
+"website": null,
+"knownFacts": [
+"Serves coffee"
+]
+},
+{
+"id": "osm-w435736803",
+"name": "Don Camaron",
+"category": "food",
+"kind": "fish restaurant",
+"address": null,
+"city": null,
+"lat": 25.77773,
+"lng": -80.25539,
+"website": null,
+"knownFacts": [
+"Serves fish"
+]
+}
+]

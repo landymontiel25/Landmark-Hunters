@@ -1,0 +1,443 @@
+[
+{
+"id": "osm-n4945642322",
+"name": "Hereford Grill",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77947,
+"lng": -80.26439,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n9393163340",
+"name": "Hiro's Sushi Express",
+"category": "food",
+"kind": "Asian restaurant",
+"address": "1518 Washington Avenue",
+"city": "Miami",
+"lat": 25.78807,
+"lng": -80.13199,
+"website": null,
+"knownFacts": [
+"Serves Asian food",
+"Address: 1518 Washington Avenue, Miami"
+]
+},
+{
+"id": "osm-n10138428303",
+"name": "Hometown Barbecue",
+"category": "food",
+"kind": "barbecue restaurant",
+"address": "1200 Northwest 22nd Street",
+"city": "Miami",
+"lat": 25.79742,
+"lng": -80.21571,
+"website": "https://hometownbbqmiami.com/",
+"knownFacts": [
+"Serves barbecue",
+"Also known as Hometown BBQ",
+"Address: 1200 Northwest 22nd Street, Unit 100, Miami"
+]
+},
+{
+"id": "osm-n1707834630",
+"name": "Hooters",
+"category": "food",
+"kind": "burger restaurant",
+"address": null,
+"city": null,
+"lat": 25.77846,
+"lng": -80.18632,
+"website": null,
+"knownFacts": [
+"Serves burgers",
+"Part of the Hooters chain"
+]
+},
+{
+"id": "osm-n13719776029",
+"name": "Hosteria Romana",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "429 Española Way",
+"city": "Miami Beach",
+"lat": 25.78701,
+"lng": -80.13247,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 429 Española Way, Miami Beach"
+]
+},
+{
+"id": "osm-n3992927510",
+"name": "Huahua's Taqueria",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "1211 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79058,
+"lng": -80.14172,
+"website": "https://huahuastaco.com/",
+"knownFacts": [
+"Serves Mexican food",
+"Address: 1211 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n11214375108",
+"name": "Häagen-Dazs",
+"category": "food",
+"kind": "ice cream shop",
+"address": null,
+"city": null,
+"lat": 25.7671,
+"lng": -80.19255,
+"website": null,
+"knownFacts": [
+"Part of the Häagen-Dazs chain"
+]
+},
+{
+"id": "osm-n13239228568",
+"name": "Häagen-Dazs",
+"category": "food",
+"kind": "ice cream shop",
+"address": "1440 Northwest North River Drive",
+"city": "Miami",
+"lat": 25.78532,
+"lng": -80.22028,
+"website": "https://www.icecream.com/us/en/brands/haagen-dazs",
+"knownFacts": [
+"Part of the Häagen-Dazs chain",
+"Has outdoor seating",
+"Address: 1440 Northwest North River Drive, Unit 193, Miami"
+]
+},
+{
+"id": "osm-n4110014678",
+"name": "Häagen-Dazs",
+"category": "food",
+"kind": "ice cream shop",
+"address": "424 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.7905,
+"lng": -80.13258,
+"website": "https://www.haagendazs.us/locator/",
+"knownFacts": [
+"Part of the Häagen-Dazs chain",
+"Address: 424 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6025987539",
+"name": "Häagen-Dazs",
+"category": "food",
+"kind": "ice cream shop",
+"address": "5800 Sunset Drive",
+"city": "South Miami",
+"lat": 25.70423,
+"lng": -80.28747,
+"website": null,
+"knownFacts": [
+"Part of the Häagen-Dazs chain",
+"Address: 5800 Sunset Drive, South Miami"
+]
+},
+{
+"id": "osm-n6359624486",
+"name": "Häagen-Dazs",
+"category": "food",
+"kind": "ice cream shop",
+"address": "665 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79074,
+"lng": -80.13544,
+"website": null,
+"knownFacts": [
+"Part of the Häagen-Dazs chain",
+"Address: 665 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n9397956308",
+"name": "Häagen-Dazs",
+"category": "food",
+"kind": "ice cream shop",
+"address": null,
+"city": null,
+"lat": 25.69085,
+"lng": -80.31371,
+"website": null,
+"knownFacts": [
+"Part of the Häagen-Dazs chain"
+]
+},
+{
+"id": "osm-n10138464476",
+"name": "I Think She Is",
+"category": "food",
+"kind": "café",
+"address": "169 Southwest 7th Street",
+"city": "Miami",
+"lat": 25.76743,
+"lng": -80.19643,
+"website": "https://ithinksheis.com/",
+"knownFacts": [
+"Serves coffee",
+"Address: 169 Southwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-w435731406",
+"name": "IHOP",
+"category": "food",
+"kind": "breakfast restaurant",
+"address": "285 North Le Jeune Road",
+"city": "Miami",
+"lat": 25.77481,
+"lng": -80.26348,
+"website": null,
+"knownFacts": [
+"Serves breakfast and pancakes",
+"Part of the IHOP chain",
+"Address: 285 North Le Jeune Road, Miami"
+]
+},
+{
+"id": "osm-w435883334",
+"name": "IHOP",
+"category": "food",
+"kind": "breakfast restaurant",
+"address": "7376 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73268,
+"lng": -80.3141,
+"website": null,
+"knownFacts": [
+"Serves breakfast and pancakes",
+"Part of the IHOP chain",
+"Address: 7376 Southwest 40th Street, Miami"
+]
+},
+{
+"id": "osm-n5903100433",
+"name": "Icebox Cafe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79853,
+"lng": -80.27217,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4542077389",
+"name": "Icebox Café",
+"category": "food",
+"kind": "restaurant",
+"address": "1855 Purdy Avenue",
+"city": null,
+"lat": 25.79456,
+"lng": -80.14428,
+"website": "https://iceboxcafe.com/",
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 1855 Purdy Avenue"
+]
+},
+{
+"id": "osm-n6933189191",
+"name": "Il Gabbiano",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77183,
+"lng": -80.18516,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n1025646223",
+"name": "Iron Sushi",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "120 Southeast 3rd Avenue",
+"city": "Miami",
+"lat": 25.77323,
+"lng": -80.18917,
+"website": null,
+"knownFacts": [
+"Serves sushi",
+"Address: 120 Southeast 3rd Avenue, Miami"
+]
+},
+{
+"id": "osm-n5070251324",
+"name": "Iron Sushi",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "840 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77914,
+"lng": -80.13337,
+"website": "https://ironsushimiami.com/",
+"knownFacts": [
+"Serves sushi",
+"Address: 840 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n12197880119",
+"name": "Islas Canarias Cuban Express",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": null,
+"city": null,
+"lat": 25.69112,
+"lng": -80.3139,
+"website": null,
+"knownFacts": [
+"Serves Latin American food"
+]
+},
+{
+"id": "osm-w915662112",
+"name": "Jacalito Taqueria",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": null,
+"city": null,
+"lat": 25.77174,
+"lng": -80.25398,
+"website": null,
+"knownFacts": [
+"Serves Mexican food",
+"Has outdoor seating",
+"Offers takeout"
+]
+},
+{
+"id": "osm-w435537451",
+"name": "Jackson Soul Food",
+"category": "food",
+"kind": "restaurant",
+"address": "950 Northwest 3rd Avenue",
+"city": "Miami",
+"lat": 25.78347,
+"lng": -80.19994,
+"website": null,
+"knownFacts": [
+"Address: 950 Northwest 3rd Avenue, Miami"
+]
+},
+{
+"id": "osm-n13767195636",
+"name": "Jackson Square",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.79507,
+"lng": -80.28011,
+"website": null,
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-w435881316",
+"name": "Jaguar Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": "3067 Grand Avenue",
+"city": "Miami",
+"lat": 25.72834,
+"lng": -80.24282,
+"website": null,
+"knownFacts": [
+"Address: 3067 Grand Avenue, Miami"
+]
+},
+{
+"id": "osm-n5422749426",
+"name": "Jar and Fork",
+"category": "food",
+"kind": "restaurant",
+"address": "270 East Flagler Street",
+"city": "Miami",
+"lat": 25.77328,
+"lng": -80.18922,
+"website": null,
+"knownFacts": [
+"Address: 270 East Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n6641176985",
+"name": "Joe & The Juice",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.75918,
+"lng": -80.19221,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Joe & The Juice chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n3839885170",
+"name": "Joey's Italian Cuisine",
+"category": "food",
+"kind": "Italian restaurant",
+"address": null,
+"city": null,
+"lat": 25.80097,
+"lng": -80.19923,
+"website": "https://joeyswynwood.com/",
+"knownFacts": [
+"Serves Italian food"
+]
+},
+{
+"id": "osm-n4993345421",
+"name": "Juan Valdez Café",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77314,
+"lng": -80.18808,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Juan Valdez Café chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n5903100401",
+"name": "Juan Valdez Café",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79728,
+"lng": -80.27595,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Juan Valdez Café chain",
+"Offers takeout"
+]
+}
+]

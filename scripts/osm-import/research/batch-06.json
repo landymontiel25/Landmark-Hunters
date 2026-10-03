@@ -1,0 +1,389 @@
+[
+{
+"id": "osm-w203207163",
+"name": "R Hardy Matheson County Preserve",
+"category": "parks-nature",
+"kind": "nature preserve",
+"address": null,
+"city": null,
+"lat": 25.66577,
+"lng": -80.27046,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w486209295",
+"name": "Rainbow Village Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79642,
+"lng": -80.20232,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w792940616",
+"name": "Reeves Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78298,
+"lng": -80.20388,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w464453590",
+"name": "Riverside Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77036,
+"lng": -80.20677,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w461407683",
+"name": "Robert J. Fewell Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "950 Coral Way",
+"city": "Coral Gables",
+"lat": 25.74853,
+"lng": -80.27464,
+"website": null,
+"knownFacts": [
+"Address: 950 Coral Way, Coral Gables"
+]
+},
+{
+"id": "osm-w230483740",
+"name": "Robert King High Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77381,
+"lng": -80.30899,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Robert-King-High-Park",
+"knownFacts": []
+},
+{
+"id": "osm-w624993920",
+"name": "Rotary Centennial Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "512 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.76681,
+"lng": -80.25816,
+"website": null,
+"knownFacts": [
+"Address: 512 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-r21154926",
+"name": "Ruth Bryan Owen Waterway Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73498,
+"lng": -80.27438,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w184076414",
+"name": "Salvadore Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1120 Andalusia Avenue",
+"city": "Coral Gables",
+"lat": 25.74731,
+"lng": -80.27809,
+"website": null,
+"knownFacts": [
+"Address: 1120 Andalusia Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-w461405867",
+"name": "San Jacinto Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "4430 Southwest 15th Terrace",
+"city": "Coral Gables",
+"lat": 25.75769,
+"lng": -80.26786,
+"website": null,
+"knownFacts": [
+"Address: 4430 Southwest 15th Terrace, Coral Gables"
+]
+},
+{
+"id": "osm-w184076415",
+"name": "Schenly Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.74526,
+"lng": -80.28769,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w268565501",
+"name": "Seamans Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77766,
+"lng": -80.17568,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r15789687",
+"name": "Sewell Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78483,
+"lng": -80.22437,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w683973335",
+"name": "Shenandoah Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1800 Southwest 21st Avenue",
+"city": "Miami",
+"lat": 25.75534,
+"lng": -80.22928,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Shenandoah-Park",
+"knownFacts": [
+"Address: 1800 Southwest 21st Avenue, Miami"
+]
+},
+{
+"id": "osm-w865501557",
+"name": "Silver Bluff Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1960 Southwest 24th Street",
+"city": "Miami",
+"lat": 25.74723,
+"lng": -80.22709,
+"website": "https://www.miamigov.com/Residents/Parks-Directory/Silver-Bluff-Mini-Park",
+"knownFacts": [
+"Run by City of Miami",
+"Address: 1960 Southwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-w425041205",
+"name": "Soundscape Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79167,
+"lng": -80.13259,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w236947942",
+"name": "South Miami Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73058,
+"lng": -80.29049,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w835337289",
+"name": "South Shenandoah Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1197 Southwest 19th Avenue",
+"city": "Miami",
+"lat": 25.7618,
+"lng": -80.22632,
+"website": null,
+"knownFacts": [
+"Run by City of Miami",
+"Address: 1197 Southwest 19th Avenue, Miami"
+]
+},
+{
+"id": "osm-w230481393",
+"name": "Southside Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76297,
+"lng": -80.19614,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r15789686",
+"name": "Spring Garden Point Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "701 Northwest 7th Street Road",
+"city": "Miami",
+"lat": 25.77932,
+"lng": -80.20768,
+"website": null,
+"knownFacts": [
+"Address: 701 Northwest 7th Street Road, Miami"
+]
+},
+{
+"id": "osm-w453575836",
+"name": "Steele Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.74066,
+"lng": -80.21943,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358730063",
+"name": "Sunrise Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.70816,
+"lng": -80.25338,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w972314707",
+"name": "Swannanoa Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1301 Southwest 21st Avenue",
+"city": "Miami",
+"lat": 25.76018,
+"lng": -80.22829,
+"website": null,
+"knownFacts": [
+"Run by City of Miami",
+"Address: 1301 Southwest 21st Avenue, Miami"
+]
+},
+{
+"id": "osm-n358707549",
+"name": "Tahiti Beach",
+"category": "parks-nature",
+"kind": "beach",
+"address": null,
+"city": null,
+"lat": 25.69816,
+"lng": -80.24672,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1420651228",
+"name": "The Kampong",
+"category": "parks-nature",
+"kind": "garden",
+"address": "4013 Douglas Road",
+"city": "Miami",
+"lat": 25.71571,
+"lng": -80.25128,
+"website": "https://ntbg.org/gardens/kampong/",
+"knownFacts": [
+"Address: 4013 Douglas Road, Miami"
+]
+},
+{
+"id": "osm-w995609966",
+"name": "The Underline",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76654,
+"lng": -80.19555,
+"website": "https://www.theunderline.org/",
+"knownFacts": []
+},
+{
+"id": "osm-w475883950",
+"name": "Triangle Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76297,
+"lng": -80.20115,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w235922050",
+"name": "Trinity Pineland County Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.69865,
+"lng": -80.31255,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w638374314",
+"name": "Tropical Audubon Society",
+"category": "parks-nature",
+"kind": "nature center",
+"address": "5530 Sunset Drive",
+"city": "Miami",
+"lat": 25.70422,
+"lng": -80.28426,
+"website": null,
+"knownFacts": [
+"Run by Tropical Audubon Society",
+"About 5 m (17 ft) tall",
+"Address: 5530 Sunset Drive, Miami"
+]
+},
+{
+"id": "osm-w370748746",
+"name": "UM Sinkhole Lounge",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72392,
+"lng": -80.27864,
+"website": null,
+"knownFacts": []
+}
+]

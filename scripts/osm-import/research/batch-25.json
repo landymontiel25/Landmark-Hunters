@@ -1,0 +1,460 @@
+[
+{
+"id": "osm-n11167336902",
+"name": "Margaritaville",
+"category": "food",
+"kind": "restaurant",
+"address": "401 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.777,
+"lng": -80.18514,
+"website": "https://www.margaritavillemiamibayside.com",
+"knownFacts": [
+"Address: 401 Biscayne Boulevard, Unit 1180, Miami"
+]
+},
+{
+"id": "osm-w1179968253",
+"name": "Mario the Baker Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "43 West Flagler Street",
+"city": "Miami",
+"lat": 25.77436,
+"lng": -80.19447,
+"website": "https://www.ordermariothebaker.com/",
+"knownFacts": [
+"Serves pizza",
+"Address: 43 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n14190528506",
+"name": "Mary Mary Bar and SwitchPoint Station Bar",
+"category": "food",
+"kind": "restaurant",
+"address": "600 Northwest 6th Street",
+"city": "Miami",
+"lat": 25.77997,
+"lng": -80.19613,
+"website": "https://www.gobrightline.com/train-stations/fl/miami",
+"knownFacts": [
+"Has Wi-Fi",
+"Has a bar",
+"Address: 600 Northwest 6th Street, Miami"
+]
+},
+{
+"id": "osm-n2623048423",
+"name": "Mary's Cafeteria",
+"category": "food",
+"kind": "café",
+"address": "2542 Southwest 27th Avenue",
+"city": "Miami",
+"lat": 25.74441,
+"lng": -80.23821,
+"website": null,
+"knownFacts": [
+"Serves sandwiches",
+"Has outdoor seating",
+"Offers takeout",
+"Address: 2542 Southwest 27th Avenue, Miami"
+]
+},
+{
+"id": "osm-n5625763530",
+"name": "Masaru Sushi & Thai",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1671 Alton Road",
+"city": null,
+"lat": 25.79131,
+"lng": -80.14106,
+"website": null,
+"knownFacts": [
+"Serves Thai food, plus sushi",
+"Address: 1671 Alton Road"
+]
+},
+{
+"id": "osm-n3992924356",
+"name": "Master's Pizza Pasta & Grill",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1720 Alton Road",
+"city": "Miami Beach",
+"lat": 25.79251,
+"lng": -80.14145,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1720 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n5289046671",
+"name": "Matsuri",
+"category": "food",
+"kind": "regional restaurant",
+"address": null,
+"city": null,
+"lat": 25.73481,
+"lng": -80.28812,
+"website": null,
+"knownFacts": [
+"Serves Japanese food, plus sushi"
+]
+},
+{
+"id": "osm-n4003575289",
+"name": "Maya Tapas & Grill",
+"category": "food",
+"kind": "restaurant",
+"address": "809 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79071,
+"lng": -80.13679,
+"website": "http://www.mayatapasandgrill.com",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 809 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6046793767",
+"name": "Mayfair Grill",
+"category": "food",
+"kind": "American restaurant",
+"address": "3000 Florida Avenue",
+"city": "Miami",
+"lat": 25.72876,
+"lng": -80.24102,
+"website": "https://www.mayfair-grill.com",
+"knownFacts": [
+"Serves American and New American food",
+"Takes reservations",
+"Has a bar",
+"Address: 3000 Florida Avenue, Miami"
+]
+},
+{
+"id": "osm-n4001940434",
+"name": "Meat Market",
+"category": "food",
+"kind": "steak restaurant",
+"address": "915 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79067,
+"lng": -80.13802,
+"website": "https://www.meatmarket.net/miami_beach/",
+"knownFacts": [
+"Serves steak",
+"Has outdoor seating",
+"Address: 915 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6110284189",
+"name": "Meraki Greek Bistro",
+"category": "food",
+"kind": "restaurant",
+"address": "142 Southeast 1st Avenue",
+"city": null,
+"lat": 25.77296,
+"lng": -80.19215,
+"website": null,
+"knownFacts": [
+"Address: 142 Southeast 1st Avenue"
+]
+},
+{
+"id": "osm-w300499403",
+"name": "Mercado Japones",
+"category": "food",
+"kind": "restaurant",
+"address": "1036 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76382,
+"lng": -80.19341,
+"website": null,
+"knownFacts": [
+"Address: 1036 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n13119700534",
+"name": "Mercato della Pescheria Miami Beach",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "412 Española Way",
+"city": "Miami Beach",
+"lat": 25.78681,
+"lng": -80.13223,
+"website": "https://www.mercatodellapescheria.com/miami-locations/",
+"knownFacts": [
+"Serves Italian food",
+"Address: 412 Española Way, Miami Beach"
+]
+},
+{
+"id": "osm-n6082723883",
+"name": "Mi Rinconcito Mexicano",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "1961 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76563,
+"lng": -80.22791,
+"website": null,
+"knownFacts": [
+"Serves Mexican food",
+"Address: 1961 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n4106412781",
+"name": "Miami Under Ground",
+"category": "food",
+"kind": "café",
+"address": "331 Northwest 26th Street",
+"city": "Miami",
+"lat": 25.8015,
+"lng": -80.2018,
+"website": "http://www.mugwynwood.com/",
+"knownFacts": [
+"Serves coffee",
+"Address: 331 Northwest 26th Street, Miami"
+]
+},
+{
+"id": "osm-n12134765374",
+"name": "Miami's Best Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "5833 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.71037,
+"lng": -80.28319,
+"website": "https://www.miamisbestpizza.com",
+"knownFacts": [
+"Serves pizza",
+"Address: 5833 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n12803203179",
+"name": "Midtown Boba",
+"category": "food",
+"kind": "café",
+"address": "18 Southwest 8th Street",
+"city": "Brickell",
+"lat": 25.76608,
+"lng": -80.19368,
+"website": "https://www.midtownboba.com/location/brickell/",
+"knownFacts": [
+"Serves bubble tea",
+"Address: 18 Southwest 8th Street, Brickell"
+]
+},
+{
+"id": "osm-w312175706",
+"name": "Mignonette",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "210 Northeast 18th Street",
+"city": "Miami",
+"lat": 25.79329,
+"lng": -80.1906,
+"website": "https://www.mignonettemiami.com/",
+"knownFacts": [
+"Serves seafood",
+"Wheelchair accessible",
+"Address: 210 Northeast 18th Street, Miami"
+]
+},
+{
+"id": "osm-n6173620650",
+"name": "Mike's at Venetia",
+"category": "food",
+"kind": "pub restaurant",
+"address": "555 Northeast 15th Street",
+"city": "Miami",
+"lat": 25.78998,
+"lng": -80.18581,
+"website": "https://mikesmiami.com/",
+"knownFacts": [
+"Serves seafood",
+"Has outdoor seating",
+"Has Wi-Fi",
+"Offers takeout",
+"Has a bar",
+"Address: 555 Northeast 15th Street, Miami"
+]
+},
+{
+"id": "osm-n6073265234",
+"name": "Miller's Ale House",
+"category": "food",
+"kind": "American restaurant",
+"address": "101 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74988,
+"lng": -80.25688,
+"website": "https://millersalehouse.com/locations/coral-gables/",
+"knownFacts": [
+"Serves American food",
+"Part of the Miller's Ale House chain",
+"Offers takeout",
+"Address: 101 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n7144641122",
+"name": "Milā",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "800 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79014,
+"lng": -80.13667,
+"website": "https://www.milarestaurant.com",
+"knownFacts": [
+"Serves Mediterranean and Asian food",
+"Address: 800 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n5182011195",
+"name": "Mint Leaf Indian Brasserie",
+"category": "food",
+"kind": "Indian restaurant",
+"address": null,
+"city": null,
+"lat": 25.7518,
+"lng": -80.2603,
+"website": null,
+"knownFacts": [
+"Serves Indian food"
+]
+},
+{
+"id": "osm-n4001941510",
+"name": "Miss Saigon",
+"category": "food",
+"kind": "Vietnamese restaurant",
+"address": "710 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77794,
+"lng": -80.13361,
+"website": "http://www.misssaigonxpress.com",
+"knownFacts": [
+"Serves Vietnamese food",
+"Address: 710 Washington Avenue, Unit 13, Miami Beach"
+]
+},
+{
+"id": "osm-n12572225794",
+"name": "Mister 01",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "8189 South Dixie Highway",
+"city": "Pinecrest",
+"lat": 25.66298,
+"lng": -80.32454,
+"website": "https://www.mistero1.com/pinecrest/",
+"knownFacts": [
+"Serves pizza",
+"Offers delivery",
+"Offers takeout",
+"Address: 8189 South Dixie Highway, Pinecrest"
+]
+},
+{
+"id": "osm-n14055084501",
+"name": "Mister 01",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "110 Alhambra Circle",
+"city": "Coral Gables",
+"lat": 25.75339,
+"lng": -80.25641,
+"website": "http://mister01.com",
+"knownFacts": [
+"Serves pizza",
+"Address: 110 Alhambra Circle, Coral Gables"
+]
+},
+{
+"id": "osm-n4788863455",
+"name": "Mister Block Cafe",
+"category": "food",
+"kind": "café",
+"address": "2621 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80185,
+"lng": -80.19872,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Address: 2621 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n4001931789",
+"name": "Mister O1",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "1680 Michigan Avenue",
+"city": "Miami Beach",
+"lat": 25.79171,
+"lng": -80.13917,
+"website": "https://www.mistero1.com/",
+"knownFacts": [
+"Serves pizza",
+"Address: 1680 Michigan Avenue, Unit 101, Miami Beach"
+]
+},
+{
+"id": "osm-n3220586304",
+"name": "Mmmm",
+"category": "food",
+"kind": "restaurant",
+"address": "2519 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80118,
+"lng": -80.19898,
+"website": null,
+"knownFacts": [
+"Address: 2519 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n5714247522",
+"name": "Moi Homemade Peruvian Bakery",
+"category": "food",
+"kind": "bakery",
+"address": "7388 Southwest 57th Avenue",
+"city": "South Miami",
+"lat": 25.70283,
+"lng": -80.28562,
+"website": null,
+"knownFacts": [
+"Run by Moi Homemade Peruvian Bakery",
+"Address: 7388 Southwest 57th Avenue, South Miami"
+]
+},
+{
+"id": "osm-n8699013758",
+"name": "Monalisa Pizzeria Italian Restaurant",
+"category": "food",
+"kind": "pizza restaurant",
+"address": null,
+"city": null,
+"lat": 25.76436,
+"lng": -80.2727,
+"website": "https://monalisapizzeria.menufy.com",
+"knownFacts": [
+"Serves pizza"
+]
+}
+]

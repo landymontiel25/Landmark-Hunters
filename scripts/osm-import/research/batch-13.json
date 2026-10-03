@@ -1,0 +1,439 @@
+[
+{
+"id": "osm-n10280833494",
+"name": "ARCH Café",
+"category": "food",
+"kind": "café",
+"address": "Arch Building 1395 Brickell Avenue Suite #140 2nd Floor, Miami, FL 33131, United States",
+"city": null,
+"lat": 25.76048,
+"lng": -80.19121,
+"website": "https://brickellarchcafe.com/",
+"knownFacts": [
+"Address: Arch Building 1395 Brickell Avenue Suite #140 2nd Floor, Miami, FL 33131, United States"
+]
+},
+{
+"id": "osm-n10144549329",
+"name": "Ai Tallarin",
+"category": "food",
+"kind": "restaurant",
+"address": "723 Lincoln Lane North",
+"city": "Miami Beach",
+"lat": 25.79136,
+"lng": -80.13603,
+"website": null,
+"knownFacts": [
+"Address: 723 Lincoln Lane North, Miami Beach"
+]
+},
+{
+"id": "osm-n2697912480",
+"name": "Akashi Japanese Restaurant",
+"category": "food",
+"kind": "Japanese restaurant",
+"address": "3444 Main Hwy",
+"city": "Miami",
+"lat": 25.72749,
+"lng": -80.2434,
+"website": null,
+"knownFacts": [
+"Serves Japanese food",
+"Address: 3444 Main Hwy, Miami"
+]
+},
+{
+"id": "osm-n6596747090",
+"name": "Al Basha Grill Kebab",
+"category": "food",
+"kind": "chicken restaurant",
+"address": "1533 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78819,
+"lng": -80.13159,
+"website": "https://albashagrillfood.com/",
+"knownFacts": [
+"Serves chicken and kebabs",
+"Address: 1533 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w435375489",
+"name": "Alloy Bistro Gourmet",
+"category": "food",
+"kind": "restaurant",
+"address": "154 Southeast 1st Avenue",
+"city": "Miami",
+"lat": 25.77274,
+"lng": -80.1923,
+"website": null,
+"knownFacts": [
+"Address: 154 Southeast 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-w643553509",
+"name": "Amara at Paraiso",
+"category": "food",
+"kind": "restaurant",
+"address": "3101 Northeast 7th Avenue",
+"city": "Miami",
+"lat": 25.80649,
+"lng": -80.18563,
+"website": "https://amaraatparaiso.com/",
+"knownFacts": [
+"Address: 3101 Northeast 7th Avenue, Miami"
+]
+},
+{
+"id": "osm-n10781661352",
+"name": "Amarres de amor Florida",
+"category": "food",
+"kind": "restaurant",
+"address": "43 Northeast 1st Street",
+"city": null,
+"lat": 25.77529,
+"lng": -80.19257,
+"website": null,
+"knownFacts": [
+"Address: 43 Northeast 1st Street"
+]
+},
+{
+"id": "osm-n13461562301",
+"name": "Amazonico",
+"category": "food",
+"kind": "international restaurant",
+"address": "800 Brickell Avenue",
+"city": "Miami",
+"lat": 25.76604,
+"lng": -80.19117,
+"website": "https://amazonicorestaurant.com/",
+"knownFacts": [
+"Address: 800 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-n8372106524",
+"name": "American",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77272,
+"lng": -80.20286,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6110274385",
+"name": "American Social",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76818,
+"lng": -80.19642,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n11753966392",
+"name": "Anthony's Coal Fired Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": null,
+"city": null,
+"lat": 25.6754,
+"lng": -80.31875,
+"website": null,
+"knownFacts": [
+"Serves pizza and wings",
+"Part of the Anthony's Coal Fired Pizza chain"
+]
+},
+{
+"id": "osm-n7527993810",
+"name": "Antigua Guatemala",
+"category": "food",
+"kind": "Guatemalan restaurant",
+"address": "2741 West Flagler Street",
+"city": "Miami",
+"lat": 25.77248,
+"lng": -80.23993,
+"website": "https://www.facebook.com/AntiguaGuatemalaRestaurant/",
+"knownFacts": [
+"Serves Guatemalan and Latin American food",
+"Offers takeout",
+"Address: 2741 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n12198008215",
+"name": "Aoki Teppanyaki",
+"category": "food",
+"kind": "Japanese restaurant",
+"address": null,
+"city": null,
+"lat": 25.68963,
+"lng": -80.31239,
+"website": null,
+"knownFacts": [
+"Serves Japanese food"
+]
+},
+{
+"id": "osm-n7390272508",
+"name": "Apizza Brooklyn",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "5755 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73481,
+"lng": -80.28803,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 5755 Southwest 40th Street, Miami"
+]
+},
+{
+"id": "osm-n7194556914",
+"name": "Apple a Day Juice Bar & Cafe",
+"category": "food",
+"kind": "café",
+"address": "1534 Alton Road",
+"city": null,
+"lat": 25.78797,
+"lng": -80.14142,
+"website": null,
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 1534 Alton Road"
+]
+},
+{
+"id": "osm-n12134185043",
+"name": "Archivist Cafe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.72088,
+"lng": -80.27875,
+"website": "https://dineoncampus.com/miami",
+"knownFacts": [
+"Has outdoor seating"
+]
+},
+{
+"id": "osm-n9397939004",
+"name": "Arepasmania",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": null,
+"city": null,
+"lat": 25.69126,
+"lng": -80.3138,
+"website": null,
+"knownFacts": [
+"Serves Latin American food"
+]
+},
+{
+"id": "osm-n6058560431",
+"name": "Aromas del Peru",
+"category": "food",
+"kind": "Peruvian restaurant",
+"address": "5757 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76372,
+"lng": -80.28912,
+"website": "https://aromasperu.com/locations/west-miami/",
+"knownFacts": [
+"Serves Peruvian and Latin American food",
+"Offers takeout",
+"Address: 5757 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6082723842",
+"name": "Asian Thai Kitchen",
+"category": "food",
+"kind": "Thai restaurant",
+"address": "1981 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76562,
+"lng": -80.22804,
+"website": "https://sw8th.asianthaikitchenonline.com",
+"knownFacts": [
+"Serves Thai food",
+"Address: 1981 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n5646280098",
+"name": "Atlantica Seafood Restaurant and Market",
+"category": "food",
+"kind": "seafood restaurant",
+"address": null,
+"city": null,
+"lat": 25.74375,
+"lng": -80.17202,
+"website": null,
+"knownFacts": [
+"Serves seafood",
+"Has outdoor seating"
+]
+},
+{
+"id": "osm-n6114243285",
+"name": "Atlantis Cafe",
+"category": "food",
+"kind": "café",
+"address": "12 Northwest 1st Street",
+"city": null,
+"lat": 25.77503,
+"lng": -80.19395,
+"website": null,
+"knownFacts": [
+"Address: 12 Northwest 1st Street"
+]
+},
+{
+"id": "osm-n4866021122",
+"name": "B&B Joint",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.76492,
+"lng": -80.1938,
+"website": "https://bnbjoint.com/",
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-w435566878",
+"name": "Bagatelle Miami River",
+"category": "food",
+"kind": "French restaurant",
+"address": "311 Northwest South River Drive",
+"city": "Miami",
+"lat": 25.77695,
+"lng": -80.20457,
+"website": "https://bagatelle.com/venues/bagatelle-miami-river",
+"knownFacts": [
+"Serves French and Mediterranean food",
+"Address: 311 Northwest South River Drive, Miami"
+]
+},
+{
+"id": "osm-n13228803916",
+"name": "Baires Grill - Coral Gables",
+"category": "food",
+"kind": "Argentinian restaurant",
+"address": "180 Aragon Avenue",
+"city": "Coral Gables",
+"lat": 25.7502,
+"lng": -80.25846,
+"website": "https://www.bairesgrill.com/",
+"knownFacts": [
+"Serves Argentinian food, plus steak and barbecue",
+"Has outdoor seating",
+"Takes reservations",
+"Address: 180 Aragon Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n4686160889",
+"name": "Baires Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76407,
+"lng": -80.19327,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6010863681",
+"name": "Baires grill",
+"category": "food",
+"kind": "Argentinian restaurant",
+"address": "1010 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76395,
+"lng": -80.19344,
+"website": "https://www.bairesgrill.com/",
+"knownFacts": [
+"Serves Argentinian food, plus steak and barbecue",
+"Has outdoor seating",
+"Takes reservations",
+"Address: 1010 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-w648463778",
+"name": "Bakan Wynwood",
+"category": "food",
+"kind": "restaurant",
+"address": "2801 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80325,
+"lng": -80.19902,
+"website": null,
+"knownFacts": [
+"Address: 2801 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n3999701216",
+"name": "Balans",
+"category": "food",
+"kind": "American restaurant",
+"address": "1022 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79034,
+"lng": -80.13935,
+"website": null,
+"knownFacts": [
+"Serves American food, plus breakfast and brunch",
+"Address: 1022 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6018250453",
+"name": "Bangkok City",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "7362 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73254,
+"lng": -80.31431,
+"website": null,
+"knownFacts": [
+"Serves Thai food, plus sushi",
+"Address: 7362 Southwest 40th Street, Miami"
+]
+},
+{
+"id": "osm-n3992860911",
+"name": "Barceloneta Miami",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "1400 20th Street",
+"city": "Miami Beach",
+"lat": 25.7954,
+"lng": -80.14395,
+"website": "https://www.barcelonetamiami.com/",
+"knownFacts": [
+"Serves Spanish food, plus tapas",
+"Offers delivery",
+"Has a bar",
+"Address: 1400 20th Street, Miami Beach"
+]
+}
+]

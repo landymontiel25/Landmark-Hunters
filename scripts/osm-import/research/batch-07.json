@@ -1,0 +1,415 @@
+[
+{
+"id": "osm-w624805558",
+"name": "Venetia Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1047 Venetia Avenue",
+"city": "Coral Gables",
+"lat": 25.7589,
+"lng": -80.2771,
+"website": null,
+"knownFacts": [
+"Address: 1047 Venetia Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-w546220379",
+"name": "Venetian Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.74639,
+"lng": -80.27303,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w650168265",
+"name": "Virginia Key Beach North Point Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "3515-3801 Rickenbacker Causeway",
+"city": "Miami",
+"lat": 25.74779,
+"lng": -80.15287,
+"website": null,
+"knownFacts": [
+"Address: 3515-3801 Rickenbacker Causeway, Miami"
+]
+},
+{
+"id": "osm-w646834187",
+"name": "Virrick Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73066,
+"lng": -80.25074,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Elizabeth-Virrick-Park",
+"knownFacts": []
+},
+{
+"id": "osm-n358708717",
+"name": "Water Plant Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.7226,
+"lng": -80.26116,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w464465629",
+"name": "Watson Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78463,
+"lng": -80.17681,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4587815792",
+"name": "West Islands Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72565,
+"lng": -80.22817,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w803927978",
+"name": "West Miami Recreation Center",
+"category": "parks-nature",
+"kind": "park",
+"address": "1700 Southwest 62nd Avenue",
+"city": "Miami",
+"lat": 25.75458,
+"lng": -80.29665,
+"website": null,
+"knownFacts": [
+"Run by City of West Miami",
+"Address: 1700 Southwest 62nd Avenue, Miami"
+]
+},
+{
+"id": "osm-w237024262",
+"name": "William H. Kerdyk, Jr. & Family Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "6611 Yumuri Street",
+"city": "Coral Gables",
+"lat": 25.70679,
+"lng": -80.28207,
+"website": null,
+"knownFacts": [
+"Address: 6611 Yumuri Street, Coral Gables"
+]
+},
+{
+"id": "osm-w468603406",
+"name": "Williams Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79225,
+"lng": -80.20229,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w461407684",
+"name": "Young Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "950 Castile Plaza",
+"city": "Coral Gables",
+"lat": 25.75011,
+"lng": -80.27448,
+"website": null,
+"knownFacts": [
+"Address: 950 Castile Plaza, Coral Gables"
+]
+},
+{
+"id": "osm-w746679195",
+"name": "AMC Sunset Place 24",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "5701 Sunset Drive",
+"city": "South Miami",
+"lat": 25.70497,
+"lng": -80.2863,
+"website": "https://www.amctheatres.com/movie-theatres/miami-ft-lauderdale/amc-sunset-place-24",
+"knownFacts": [
+"Has 24 screens",
+"Part of the AMC chain",
+"Has Wi-Fi",
+"Wheelchair accessible",
+"Address: 5701 Sunset Drive, Unit 300, South Miami"
+]
+},
+{
+"id": "osm-n9173305516",
+"name": "Ashe Auditorium",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.77096,
+"lng": -80.19073,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1178593087",
+"name": "CMX",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "701 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76688,
+"lng": -80.19451,
+"website": null,
+"knownFacts": [
+"Has 10 screens",
+"Address: 701 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n4945642323",
+"name": "Cinema 6",
+"category": "entertainment",
+"kind": "movie theater",
+"address": null,
+"city": null,
+"lat": 25.77924,
+"lng": -80.26494,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6912995626",
+"name": "Cinépolis Luxury Cinemas",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "3105 Grand Avenue",
+"city": "Coconut Grove",
+"lat": 25.7287,
+"lng": -80.24237,
+"website": null,
+"knownFacts": [
+"Owned by Cinépolis of the United States",
+"Has 14 screens",
+"Part of the Cinépolis chain",
+"Address: 3105 Grand Avenue, Unit 322, Coconut Grove"
+]
+},
+{
+"id": "osm-n367825966",
+"name": "Coconut Grove Playhouse",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.72602,
+"lng": -80.24497,
+"website": null,
+"knownFacts": [
+"Designed by Richard Kiehnel",
+"Listed on the U.S. National Register of Historic Places"
+]
+},
+{
+"id": "osm-w589360337",
+"name": "Colony Theatre / Miami New Drama",
+"category": "entertainment",
+"kind": "theater",
+"address": "1040 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79021,
+"lng": -80.13979,
+"website": "https://www.colonytheatremiamibeach.com/",
+"knownFacts": [
+"Address: 1040 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n12179541636",
+"name": "Cosford Cinema",
+"category": "entertainment",
+"kind": "movie theater",
+"address": null,
+"city": null,
+"lat": 25.72262,
+"lng": -80.27724,
+"website": "https://cosfordcinema.com",
+"knownFacts": [
+"Run by University of Miami",
+"Official name: The Bill Cosford Cinema"
+]
+},
+{
+"id": "osm-w301237024",
+"name": "FPL Solar Amphitheater at Bayfront Park",
+"category": "entertainment",
+"kind": "amphitheater",
+"address": "301 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.77621,
+"lng": -80.18606,
+"website": "https://www.fplsolaramphitheaterbayfront.com/",
+"knownFacts": [
+"Also known as Bayfront Park Amphitheatre",
+"Address: 301 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-w366186665",
+"name": "Gusman Concert Hall",
+"category": "entertainment",
+"kind": "theater",
+"address": "1314 Miller Road",
+"city": "Coral Gables",
+"lat": 25.71965,
+"lng": -80.27951,
+"website": null,
+"knownFacts": [
+"Run by University of Miami",
+"Official name: Maurice Gusman Music Hall",
+"Address: 1314 Miller Road, Coral Gables"
+]
+},
+{
+"id": "osm-n9173305501",
+"name": "James L. Knight Center Theater",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.77115,
+"lng": -80.19144,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w375165787",
+"name": "Jerry Herman Ring Theatre",
+"category": "entertainment",
+"kind": "theater",
+"address": "1312 Miller Road",
+"city": "Coral Gables",
+"lat": 25.71959,
+"lng": -80.28011,
+"website": "https://ring-theatre.as.miami.edu/index.html",
+"knownFacts": [
+"Address: 1312 Miller Road, Coral Gables"
+]
+},
+{
+"id": "osm-w1274267731",
+"name": "Knight Center for Music Innovation",
+"category": "entertainment",
+"kind": "theater",
+"address": "5513 San Amaro Drive",
+"city": "Coral Gables",
+"lat": 25.71806,
+"lng": -80.28118,
+"website": null,
+"knownFacts": [
+"Run by University of Miami",
+"Address: 5513 San Amaro Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n4587214222",
+"name": "La Casa Del Teatro",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.76631,
+"lng": -80.21142,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6932414793",
+"name": "Landmark at Merrick Park",
+"category": "entertainment",
+"kind": "movie theater",
+"address": null,
+"city": null,
+"lat": 25.73139,
+"lng": -80.26091,
+"website": "https://www.landmarktheatres.com/miami/the-landmark-at-merrick-park/",
+"knownFacts": [
+"Has 7 screens",
+"Part of the Landmark Theatres chain"
+]
+},
+{
+"id": "osm-n367825978",
+"name": "Lincoln Theatre-New World Symphony Building",
+"category": "entertainment",
+"kind": "theater",
+"address": null,
+"city": null,
+"lat": 25.79078,
+"lng": -80.13416,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435585940",
+"name": "Manuel Artime Theater",
+"category": "entertainment",
+"kind": "theater",
+"address": "900 Southwest 1st Street",
+"city": null,
+"lat": 25.77233,
+"lng": -80.20955,
+"website": null,
+"knownFacts": [
+"Address: 900 Southwest 1st Street"
+]
+},
+{
+"id": "osm-n4770384121",
+"name": "Miami seaplane tour",
+"category": "entertainment",
+"kind": "seaplane tour",
+"address": null,
+"city": null,
+"lat": 25.74667,
+"lng": -80.17795,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4710861095",
+"name": "O Cinema South Beach",
+"category": "entertainment",
+"kind": "movie theater",
+"address": "1130 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78249,
+"lng": -80.13264,
+"website": "https://www.o-cinema.org/",
+"knownFacts": [
+"Has 1 screen",
+"Address: 1130 Washington Avenue, Miami Beach"
+]
+}
+]

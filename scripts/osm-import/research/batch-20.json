@@ -1,0 +1,435 @@
+[
+{
+"id": "osm-n12081906813",
+"name": "Fuku",
+"category": "food",
+"kind": "chicken restaurant",
+"address": null,
+"city": null,
+"lat": 25.71795,
+"lng": -80.2773,
+"website": null,
+"knownFacts": [
+"Serves chicken"
+]
+},
+{
+"id": "osm-n6073265218",
+"name": "Fuku",
+"category": "food",
+"kind": "restaurant",
+"address": "135 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74986,
+"lng": -80.25746,
+"website": null,
+"knownFacts": [
+"Address: 135 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n5635852323",
+"name": "Full Bloom",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79151,
+"lng": -80.13093,
+"website": null,
+"knownFacts": [
+"Fully vegan menu"
+]
+},
+{
+"id": "osm-n4835402323",
+"name": "G Spot",
+"category": "food",
+"kind": "restaurant",
+"address": "4545 Northwest 7th Street",
+"city": null,
+"lat": 25.77924,
+"lng": -80.27049,
+"website": null,
+"knownFacts": [
+"Address: 4545 Northwest 7th Street"
+]
+},
+{
+"id": "osm-n6110284486",
+"name": "GK Bistronomie",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80063,
+"lng": -80.19943,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n10138470850",
+"name": "GROU Coffee + Cowork",
+"category": "food",
+"kind": "café",
+"address": "4100 Salzedo Street",
+"city": "Coral Gables",
+"lat": 25.7334,
+"lng": -80.26042,
+"website": "https://groucommunity.com/",
+"knownFacts": [
+"Serves coffee",
+"Accepts Bitcoin",
+"Address: 4100 Salzedo Street, #5, Coral Gables"
+]
+},
+{
+"id": "osm-n8786362780",
+"name": "GVA BOX",
+"category": "food",
+"kind": "café",
+"address": "39 Northeast 1st Avenue 2b",
+"city": "Miami",
+"lat": 25.77475,
+"lng": -80.19209,
+"website": "https://gvabox.com/",
+"knownFacts": [
+"Address: 39 Northeast 1st Avenue 2b, Miami"
+]
+},
+{
+"id": "osm-n12038509112",
+"name": "Gaetano's Pizza & Pasta",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "9808 Southwest 77th Avenue",
+"city": "Miami",
+"lat": 25.67925,
+"lng": -80.31861,
+"website": "https://gaetanos-pizza.com/",
+"knownFacts": [
+"Serves pizza, pasta and salads",
+"Address: 9808 Southwest 77th Avenue, Miami"
+]
+},
+{
+"id": "osm-n5674089068",
+"name": "Gelateria 4D",
+"category": "food",
+"kind": "ice cream shop",
+"address": "551 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79078,
+"lng": -80.13391,
+"website": null,
+"knownFacts": [
+"Address: 551 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n5356498124",
+"name": "Genuine Pizza",
+"category": "food",
+"kind": "restaurant",
+"address": "2996 McFarlane Road",
+"city": null,
+"lat": 25.7278,
+"lng": -80.24225,
+"website": null,
+"knownFacts": [
+"Address: 2996 McFarlane Road"
+]
+},
+{
+"id": "osm-n5629731539",
+"name": "Genuine Pizza",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79177,
+"lng": -80.13675,
+"website": null,
+"knownFacts": [
+"Run by Chef Michael Schwartz"
+]
+},
+{
+"id": "osm-n12957873701",
+"name": "Ghee - Wynwood",
+"category": "food",
+"kind": "Indian restaurant",
+"address": "63 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.80009,
+"lng": -80.1965,
+"website": "https://www.gheemiami.com/",
+"knownFacts": [
+"Serves Indian food",
+"Address: 63 Northwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-n1025619350",
+"name": "Giardino Gourmet Salads",
+"category": "food",
+"kind": "salad restaurant",
+"address": "169 East Flagler Street",
+"city": "Miami",
+"lat": 25.7743,
+"lng": -80.19056,
+"website": "https://giardinosalads.com/",
+"knownFacts": [
+"Serves salads",
+"Address: 169 East Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n6059013240",
+"name": "Giardino Gourmet Salads",
+"category": "food",
+"kind": "restaurant",
+"address": "5787 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.77835,
+"lng": -80.29017,
+"website": null,
+"knownFacts": [
+"Address: 5787 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-n13450634550",
+"name": "Giselle Miami",
+"category": "food",
+"kind": "fusion restaurant",
+"address": "15 Northeast 11th Street",
+"city": "Miami",
+"lat": 25.78495,
+"lng": -80.19342,
+"website": "https://gisellemiami.com",
+"knownFacts": [
+"Address: 15 Northeast 11th Street, Miami"
+]
+},
+{
+"id": "osm-w534343920",
+"name": "Glasshouse Café",
+"category": "food",
+"kind": "café",
+"address": "10901 Old Cutler Road",
+"city": "Coral Gables",
+"lat": 25.67531,
+"lng": -80.27574,
+"website": "http://fairchildgarden.com",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 10901 Old Cutler Road, Coral Gables"
+]
+},
+{
+"id": "osm-n14085790101",
+"name": "Gordon Ramsay Hell's Kitchen",
+"category": "food",
+"kind": "restaurant",
+"address": "340 Southeast 3rd Street",
+"city": "Miami",
+"lat": 25.77114,
+"lng": -80.18849,
+"website": null,
+"knownFacts": [
+"Address: 340 Southeast 3rd Street, Miami"
+]
+},
+{
+"id": "osm-n3623650210",
+"name": "Gran Paris Bakery",
+"category": "food",
+"kind": "bakery",
+"address": "3026 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.77906,
+"lng": -80.24401,
+"website": "https://www.ordergranparisbakery.com",
+"knownFacts": [
+"Run by Gran Paris Bakery",
+"Address: 3026 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-n9996482852",
+"name": "Groovys Pizza & Grill",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "2770 Southwest 27th Avenue",
+"city": "Miami",
+"lat": 25.74088,
+"lng": -80.23812,
+"website": "https://www.groovyspizzaandgrill.com/",
+"knownFacts": [
+"Serves pizza and burgers",
+"Address: 2770 Southwest 27th Avenue, Miami"
+]
+},
+{
+"id": "osm-n12197880120",
+"name": "Guaca-Mole",
+"category": "food",
+"kind": "taco restaurant",
+"address": null,
+"city": null,
+"lat": 25.69117,
+"lng": -80.3139,
+"website": null,
+"knownFacts": [
+"Serves tacos"
+]
+},
+{
+"id": "osm-n5848695085",
+"name": "Guantanamera Cigars & Cafe",
+"category": "food",
+"kind": "café",
+"address": "1465 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76592,
+"lng": -80.21887,
+"website": "https://www.guantanameracigars.com/",
+"knownFacts": [
+"Address: 1465 Southwest 8th Street, Unit 105, Miami"
+]
+},
+{
+"id": "osm-w310637943",
+"name": "Gustave",
+"category": "food",
+"kind": "restaurant",
+"address": "366 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74904,
+"lng": -80.26205,
+"website": null,
+"knownFacts": [
+"Address: 366 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n7844732323",
+"name": "Gyro House",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": null,
+"city": null,
+"lat": 25.77741,
+"lng": -80.1855,
+"website": null,
+"knownFacts": [
+"Serves Mediterranean food"
+]
+},
+{
+"id": "osm-n11885271011",
+"name": "HaSalon Miami",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "404 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77424,
+"lng": -80.13443,
+"website": "https://www.hasalonmiami.com",
+"knownFacts": [
+"Serves Mediterranean food",
+"Address: 404 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n12158613704",
+"name": "Half Moon Empanadas",
+"category": "food",
+"kind": "crêpe restaurant",
+"address": "5250 University Drive",
+"city": "Coral Gables",
+"lat": 25.72015,
+"lng": -80.27641,
+"website": null,
+"knownFacts": [
+"Serves crêpes",
+"Address: 5250 University Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n5903091082",
+"name": "Halfmoon Empanadas",
+"category": "food",
+"kind": "empanada restaurant",
+"address": null,
+"city": null,
+"lat": 25.79715,
+"lng": -80.27914,
+"website": null,
+"knownFacts": [
+"Serves empanadas"
+]
+},
+{
+"id": "osm-w263238667",
+"name": "Hard Rock Cafe",
+"category": "food",
+"kind": "American restaurant",
+"address": "401 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.7775,
+"lng": -80.18446,
+"website": "https://www.hardrock.com/cafes/miami/",
+"knownFacts": [
+"Serves American food",
+"Part of the Hard Rock Cafe chain",
+"Address: 401 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n3999997102",
+"name": "Havana 1957",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "819 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.7907,
+"lng": -80.13704,
+"website": "https://havana1957.com/lincoln-road/",
+"knownFacts": [
+"Serves Cuban food",
+"Has outdoor seating",
+"Address: 819 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4001948867",
+"name": "Havana 1957",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "405 Española Way",
+"city": "Miami Beach",
+"lat": 25.78703,
+"lng": -80.13193,
+"website": "https://havana1957.com/espanola-way/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 405 Española Way, Miami Beach"
+]
+},
+{
+"id": "osm-w435565527",
+"name": "Havana Harry's",
+"category": "food",
+"kind": "restaurant",
+"address": "4612 Southwest 42nd Avenue",
+"city": "Coral Gables",
+"lat": 25.72916,
+"lng": -80.26205,
+"website": null,
+"knownFacts": [
+"Address: 4612 Southwest 42nd Avenue, Coral Gables"
+]
+}
+]

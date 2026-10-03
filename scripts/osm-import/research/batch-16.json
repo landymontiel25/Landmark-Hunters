@@ -1,0 +1,438 @@
+[
+{
+"id": "osm-n12532491034",
+"name": "Carrot Express",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.68783,
+"lng": -80.31306,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4713855493",
+"name": "Carrot Express",
+"category": "food",
+"kind": "restaurant",
+"address": "80 Northeast 2nd Avenue",
+"city": "Miami",
+"lat": 25.775,
+"lng": -80.19045,
+"website": null,
+"knownFacts": [
+"Address: 80 Northeast 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n6073264223",
+"name": "Carrot Express",
+"category": "food",
+"kind": "restaurant",
+"address": "259 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.7497,
+"lng": -80.25993,
+"website": "https://carrotexpress.com/",
+"knownFacts": [
+"Has vegan options",
+"Address: 259 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n8501929075",
+"name": "Carvel",
+"category": "food",
+"kind": "ice cream shop",
+"address": null,
+"city": null,
+"lat": 25.77226,
+"lng": -80.25653,
+"website": null,
+"knownFacts": [
+"Serves ice cream",
+"Part of the Carvel chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n6059013230",
+"name": "Casa Juan",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "5755 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.77915,
+"lng": -80.2904,
+"website": "https://www.casajuanrestaurant.com/",
+"knownFacts": [
+"Serves Mexican food",
+"Has outdoor seating",
+"Address: 5755 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-w435748067",
+"name": "Casa Juancho",
+"category": "food",
+"kind": "restaurant",
+"address": "2436 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76498,
+"lng": -80.23581,
+"website": null,
+"knownFacts": [
+"Address: 2436 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-w435377674",
+"name": "Casa Maiz",
+"category": "food",
+"kind": "restaurant",
+"address": "7490 Northwest 25th Street",
+"city": "Miami",
+"lat": 25.79669,
+"lng": -80.31818,
+"website": null,
+"knownFacts": [
+"Address: 7490 Northwest 25th Street, Miami"
+]
+},
+{
+"id": "osm-n6299289289",
+"name": "Cascade Pool Cafe at The Biltmore Hotel Miami",
+"category": "food",
+"kind": "American restaurant",
+"address": "1200 Anastasia Avenue",
+"city": "Coral Gables",
+"lat": 25.74052,
+"lng": -80.27879,
+"website": "https://www.biltmorehotel.com/dining/cascade/",
+"knownFacts": [
+"Serves American food",
+"Address: 1200 Anastasia Avenue, Suite B, Coral Gables"
+]
+},
+{
+"id": "osm-w435519440",
+"name": "Casola's Pizzeria & Sub Shop",
+"category": "food",
+"kind": "restaurant",
+"address": "2437 Southwest 17th Avenue",
+"city": "Miami",
+"lat": 25.74699,
+"lng": -80.2214,
+"website": null,
+"knownFacts": [
+"Address: 2437 Southwest 17th Avenue, Miami"
+]
+},
+{
+"id": "osm-w436033345",
+"name": "Catch of the Day",
+"category": "food",
+"kind": "restaurant",
+"address": "1050 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.78226,
+"lng": -80.26441,
+"website": null,
+"knownFacts": [
+"Address: 1050 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n6073275079",
+"name": "Cava",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "3850 Southwest 8th Street",
+"city": "Coral Gables",
+"lat": 25.76443,
+"lng": -80.25834,
+"website": "https://cavamia.com/",
+"knownFacts": [
+"Serves Spanish food",
+"Part of the CAVA chain",
+"Address: 3850 Southwest 8th Street, Coral Gables"
+]
+},
+{
+"id": "osm-n6025987565",
+"name": "Cecile",
+"category": "food",
+"kind": "bakery",
+"address": "5738 Sunset Drive",
+"city": "South Miami",
+"lat": 25.7042,
+"lng": -80.28617,
+"website": null,
+"knownFacts": [
+"Address: 5738 Sunset Drive, South Miami"
+]
+},
+{
+"id": "osm-n4001766674",
+"name": "Chalan On the Beach",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "1580 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78901,
+"lng": -80.132,
+"website": null,
+"knownFacts": [
+"Serves Latin American food",
+"Opened in 1997",
+"Address: 1580 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n5903091080",
+"name": "Chefs of the Caribbean",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79715,
+"lng": -80.27933,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n1025685386",
+"name": "Chick'n Grill",
+"category": "food",
+"kind": "chicken restaurant",
+"address": "250 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76601,
+"lng": -80.19859,
+"website": null,
+"knownFacts": [
+"Serves chicken",
+"Address: 250 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n12198008214",
+"name": "Chicken Guy!",
+"category": "food",
+"kind": "chicken restaurant",
+"address": null,
+"city": null,
+"lat": 25.68963,
+"lng": -80.31254,
+"website": null,
+"knownFacts": [
+"Serves chicken"
+]
+},
+{
+"id": "osm-n6059013229",
+"name": "Chicken Kitchen",
+"category": "food",
+"kind": "restaurant",
+"address": "5765 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.77892,
+"lng": -80.2904,
+"website": null,
+"knownFacts": [
+"Address: 5765 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-n6446809494",
+"name": "Chicken Kitchen",
+"category": "food",
+"kind": "American restaurant",
+"address": "400 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.72605,
+"lng": -80.26189,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Address: 400 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n2940215421",
+"name": "Chili's",
+"category": "food",
+"kind": "Tex-Mex restaurant",
+"address": null,
+"city": null,
+"lat": 25.68822,
+"lng": -80.31275,
+"website": null,
+"knownFacts": [
+"Serves Tex-Mex food",
+"Part of the Chili's chain",
+"Official name: Chili's Grill & Bar"
+]
+},
+{
+"id": "osm-n6357127085",
+"name": "Chili's",
+"category": "food",
+"kind": "Tex-Mex restaurant",
+"address": null,
+"city": null,
+"lat": 25.77909,
+"lng": -80.18651,
+"website": null,
+"knownFacts": [
+"Serves Tex-Mex food",
+"Part of the Chili's chain",
+"Official name: Chili's Grill & Bar"
+]
+},
+{
+"id": "osm-n5924568809",
+"name": "Chill-N",
+"category": "food",
+"kind": "ice cream shop",
+"address": "7316 Southwest 57th Avenue",
+"city": "South Miami",
+"lat": 25.70316,
+"lng": -80.28564,
+"website": null,
+"knownFacts": [
+"Address: 7316 Southwest 57th Avenue, South Miami"
+]
+},
+{
+"id": "osm-n8691773632",
+"name": "China Lee",
+"category": "food",
+"kind": "Asian restaurant",
+"address": null,
+"city": null,
+"lat": 25.76624,
+"lng": -80.20364,
+"website": "https://www.chinaleemiamifl.com",
+"knownFacts": [
+"Serves Asian and Chinese food",
+"Offers delivery",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n7194556886",
+"name": "China Moon",
+"category": "food",
+"kind": "Chinese restaurant",
+"address": "1540 Alton Road",
+"city": null,
+"lat": 25.788,
+"lng": -80.14163,
+"website": null,
+"knownFacts": [
+"Serves Chinese food",
+"Address: 1540 Alton Road"
+]
+},
+{
+"id": "osm-n6417121785",
+"name": "Chotto Matte",
+"category": "food",
+"kind": "restaurant",
+"address": "1664 Lenox Avenue",
+"city": "Miami Beach",
+"lat": 25.79111,
+"lng": -80.1408,
+"website": "https://chotto-matte.com/",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 1664 Lenox Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n10148027135",
+"name": "Cilantro 27",
+"category": "food",
+"kind": "Peruvian restaurant",
+"address": "723 Lincoln Lane North",
+"city": "Miami Beach",
+"lat": 25.79154,
+"lng": -80.13621,
+"website": null,
+"knownFacts": [
+"Serves Peruvian food",
+"Address: 723 Lincoln Lane North, Miami Beach"
+]
+},
+{
+"id": "osm-n13355967389",
+"name": "Claudie",
+"category": "food",
+"kind": "restaurant",
+"address": "1101 Brickell Avenue",
+"city": "Miami",
+"lat": 25.76327,
+"lng": -80.1911,
+"website": "https://www.claudierestaurant.com/",
+"knownFacts": [
+"Address: 1101 Brickell Avenue, Unit S-113, Miami"
+]
+},
+{
+"id": "osm-n4993345321",
+"name": "Clos Bistro & Cafe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77312,
+"lng": -80.18783,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7844732315",
+"name": "CoCo Fresh Tea & Juice",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77731,
+"lng": -80.18553,
+"website": null,
+"knownFacts": [
+"Serves bubble tea",
+"Part of the CoCo chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n11090903666",
+"name": "Comida de la Tierra Colombian Cuisine",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77514,
+"lng": -80.18897,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7538861249",
+"name": "Cono Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "1200 Southwest 67th Avenue",
+"city": "Miami",
+"lat": 25.75931,
+"lng": -80.30401,
+"website": null,
+"knownFacts": [
+"Serves pizza",
+"Address: 1200 Southwest 67th Avenue, Miami"
+]
+}
+]

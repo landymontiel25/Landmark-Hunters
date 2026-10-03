@@ -625,3 +625,30 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
   places.sort((a, b) => a.categories[0].localeCompare(b.categories[0]) || a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
   return { places, dropped };
 }
+
+// Plain one-line statements with a real link; nothing that goes stale or
+// reads as an opinion (prices, hours, phone numbers, star ratings, plans).
+export function okWebFact(f) {
+  const text = String(f?.text || '').trim();
+  return (
+    text.length >= 12 &&
+    text.length <= 160 &&
+    /^https:\/\/[^\s"'<>]+$/.test(String(f?.url || '')) &&
+    !/\$\s?\d|\b\d{3}[-.\s)]+\d{3}[-.\s]\d{4}\b|\b(stars?|rated|ratings?|reviews?|open(s)? (daily|from|until)|hours)\b|—|\b(best|most popular|famous|iconic|must-visit|must-try|favorite|beloved|stunning|delicious)\b|\b(coming soon|under construction|will (open|reopen|be built))\b/i.test(
+      text
+    )
+  );
+}
+
+// Facts found by web research (web-facts.json, keyed by place id), each with
+// the page that states it. They go first; OSM/Wikidata facts follow, with
+// the street address last.
+export function withWebFacts(p, webFacts = {}) {
+  const web = (webFacts[p.id]?.facts || []).filter((f) => okWebFact(f));
+  if (!web.length) return p;
+  const seen = new Set(web.map((f) => f.text.toLowerCase()));
+  const own = p.facts.filter((f) => !seen.has(f.toLowerCase()));
+  const address = own.filter((f) => f.startsWith('Address: '));
+  const facts = [...web.map((f) => f.text), ...own.filter((f) => !f.startsWith('Address: '))].slice(0, 7).concat(address);
+  return { ...p, facts, factSources: Object.fromEntries(web.filter((f) => facts.includes(f.text)).map((f) => [f.text, f.url])) };
+}

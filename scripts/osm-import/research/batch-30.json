@@ -1,0 +1,441 @@
+[
+{
+"id": "osm-n13119878795",
+"name": "Salty Flame",
+"category": "food",
+"kind": "steak restaurant",
+"address": "1414 Brickell Avenue",
+"city": "Miami",
+"lat": 25.76026,
+"lng": -80.19264,
+"website": "https://saltyflamerestaurant.com/",
+"knownFacts": [
+"Serves steak",
+"Address: 1414 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-n2270799497",
+"name": "Sanctuary",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79306,
+"lng": -80.13062,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3992803680",
+"name": "Sardinia Enoteca Ristorante",
+"category": "food",
+"kind": "restaurant",
+"address": "1801 Purdy Avenue",
+"city": "Miami Beach",
+"lat": 25.79368,
+"lng": -80.14427,
+"website": null,
+"knownFacts": [
+"Address: 1801 Purdy Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w416557606",
+"name": "Seasons 52",
+"category": "food",
+"kind": "American restaurant",
+"address": "321 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74968,
+"lng": -80.2613,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Part of the Seasons 52 chain",
+"Address: 321 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-w435586158",
+"name": "Seaspice Brasserie & Lounge",
+"category": "food",
+"kind": "restaurant",
+"address": "422 Northwest N River Drive",
+"city": "Miami",
+"lat": 25.77771,
+"lng": -80.20467,
+"website": null,
+"knownFacts": [
+"Address: 422 Northwest N River Drive, Miami"
+]
+},
+{
+"id": "osm-n12111677783",
+"name": "Sebastian's Cafe",
+"category": "food",
+"kind": "café",
+"address": "6200 San Amaro Drive",
+"city": "Coral Gables",
+"lat": 25.71132,
+"lng": -80.28353,
+"website": "https://newmanalumnicenter.miami.edu/about-2/sebastians-cafe/",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 6200 San Amaro Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n3999743520",
+"name": "Segafredo",
+"category": "food",
+"kind": "café",
+"address": "1040 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79033,
+"lng": -80.13972,
+"website": "https://www.sze-originale.com/",
+"knownFacts": [
+"Serves coffee",
+"Part of the Segafredo chain",
+"Offers takeout",
+"Address: 1040 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n7844732320",
+"name": "Segafredo",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77773,
+"lng": -80.18631,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Segafredo chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n5898892283",
+"name": "Semilla Eatery & Bar",
+"category": "food",
+"kind": "restaurant",
+"address": "1330 Alton Road",
+"city": "Miami Beach",
+"lat": 25.78458,
+"lng": -80.14125,
+"website": "https://www.semillamiami.com/",
+"knownFacts": [
+"Address: 1330 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-w310227353",
+"name": "Sergio's",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": null,
+"city": null,
+"lat": 25.74975,
+"lng": -80.24747,
+"website": null,
+"knownFacts": [
+"Serves Cuban food"
+]
+},
+{
+"id": "osm-n6047566577",
+"name": "Sergio’s",
+"category": "food",
+"kind": "restaurant",
+"address": "11927 South Dixie Highway",
+"city": "Pinecrest",
+"lat": 25.65948,
+"lng": -80.32583,
+"website": "https://www.sergios.com/location/pinecrest/",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 11927 South Dixie Highway, Pinecrest"
+]
+},
+{
+"id": "osm-n6091345897",
+"name": "Sha Wynwood",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "97 Northwest 25th Street",
+"city": "Miami",
+"lat": 25.80097,
+"lng": -80.19696,
+"website": "https://www.shawynwood.com/",
+"knownFacts": [
+"Serves Mediterranean food",
+"Address: 97 Northwest 25th Street, Miami"
+]
+},
+{
+"id": "osm-n10140097876",
+"name": "Shadow Wagyu",
+"category": "food",
+"kind": "restaurant",
+"address": "4702 Southwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.72863,
+"lng": -80.26205,
+"website": "https://shadowwagyu.com/",
+"knownFacts": [
+"Address: 4702 Southwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n10542101409",
+"name": "Shah of Kebab",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.70482,
+"lng": -80.29057,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435564920",
+"name": "Shelter Restaurant - Miami",
+"category": "food",
+"kind": "restaurant",
+"address": "10 Northeast 27th Street",
+"city": "Miami",
+"lat": 25.80232,
+"lng": -80.19424,
+"website": null,
+"knownFacts": [
+"Address: 10 Northeast 27th Street, Miami"
+]
+},
+{
+"id": "osm-w278805189",
+"name": "Shorty's BBQ",
+"category": "food",
+"kind": "barbecue restaurant",
+"address": "9200 Dixie Highway",
+"city": "Pinecrest",
+"lat": 25.68489,
+"lng": -80.31329,
+"website": null,
+"knownFacts": [
+"Serves barbecue",
+"Address: 9200 Dixie Highway, Pinecrest"
+]
+},
+{
+"id": "osm-n10291477421",
+"name": "Siam Dragon",
+"category": "food",
+"kind": "Thai restaurant",
+"address": "7748 North Kendall Drive",
+"city": "Miami",
+"lat": 25.68737,
+"lng": -80.31976,
+"website": "https://www.siamdragonasianbistro.com/",
+"knownFacts": [
+"Serves Thai and Asian food, plus sushi",
+"Offers delivery",
+"Has Wi-Fi",
+"Offers takeout",
+"Has a bar",
+"Address: 7748 North Kendall Drive, Miami"
+]
+},
+{
+"id": "osm-n9768317178",
+"name": "Silverback Nutrition",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79911,
+"lng": -80.2548,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6019697637",
+"name": "Sipsip Rum Bar",
+"category": "food",
+"kind": "American restaurant",
+"address": "3000 Florida Avenue",
+"city": "Coconut Grove",
+"lat": 25.72868,
+"lng": -80.24101,
+"website": "https://www.mayfairhousemiami.com/dining/sipsip/",
+"knownFacts": [
+"Serves American food",
+"Has a bar",
+"Address: 3000 Florida Avenue, Coconut Grove"
+]
+},
+{
+"id": "osm-n6357125785",
+"name": "Skinny Louie",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.76587,
+"lng": -80.22067,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13611824107",
+"name": "Sky Coffee Buenos Aires",
+"category": "food",
+"kind": "café",
+"address": "1825 Biscayne Boulevard",
+"city": null,
+"lat": 25.79377,
+"lng": -80.18874,
+"website": "https://skycoffeebuenosaires.com/",
+"knownFacts": [
+"Serves coffee",
+"Has outdoor seating",
+"Address: 1825 Biscayne Boulevard"
+]
+},
+{
+"id": "osm-n13808239206",
+"name": "Smart Bowls Miami",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "542 NW 30th Street",
+"city": "Miami",
+"lat": 25.80443,
+"lng": -80.2042,
+"website": "https://smartbowlsmiami.com/",
+"knownFacts": [
+"Serves Mediterranean food, plus health food",
+"Accepts Bitcoin",
+"Address: 542 NW 30th Street, Miami"
+]
+},
+{
+"id": "osm-n10119894543",
+"name": "SoBe Vegan",
+"category": "food",
+"kind": "café",
+"address": "110 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77042,
+"lng": -80.13527,
+"website": null,
+"knownFacts": [
+"Has vegan options",
+"Address: 110 Washington Avenue, Unit CU 4, Miami Beach"
+]
+},
+{
+"id": "osm-n14210219001",
+"name": "SoCal Tacos Co. & Cantina",
+"category": "food",
+"kind": "restaurant",
+"address": "1000 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76419,
+"lng": -80.19341,
+"website": null,
+"knownFacts": [
+"Address: 1000 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n12134973671",
+"name": "Socal Cantina",
+"category": "food",
+"kind": "Tex-Mex restaurant",
+"address": "1306 Stanford Drive",
+"city": "Coral Gables",
+"lat": 25.71949,
+"lng": -80.27768,
+"website": "https://dineoncampus.com/miami/",
+"knownFacts": [
+"Serves Tex-Mex food",
+"Also known as SoCal",
+"Address: 1306 Stanford Drive, Unit 1251, Coral Gables"
+]
+},
+{
+"id": "osm-n12534374055",
+"name": "Sonia’s Seafood",
+"category": "food",
+"kind": "seafood restaurant",
+"address": null,
+"city": null,
+"lat": 25.76291,
+"lng": -80.31796,
+"website": null,
+"knownFacts": [
+"Serves seafood"
+]
+},
+{
+"id": "osm-n5422777121",
+"name": "Soul Fresh",
+"category": "food",
+"kind": "café",
+"address": "80 Northeast 2nd Avenue",
+"city": null,
+"lat": 25.77582,
+"lng": -80.19046,
+"website": null,
+"knownFacts": [
+"Address: 80 Northeast 2nd Avenue"
+]
+},
+{
+"id": "osm-n5623459925",
+"name": "Soul Tavern",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79387,
+"lng": -80.14231,
+"website": "https://www.soultavern.com",
+"knownFacts": []
+},
+{
+"id": "osm-n4000137492",
+"name": "South Beach Munchies",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "324 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79051,
+"lng": -80.13132,
+"website": null,
+"knownFacts": [
+"Serves Latin American food",
+"Takeout only",
+"Address: 324 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4835257128",
+"name": "Spitfire-Turkish Halal Food",
+"category": "food",
+"kind": "German restaurant",
+"address": "405 15th Street",
+"city": "Miami Beach",
+"lat": 25.78771,
+"lng": -80.13222,
+"website": "http://spitfiredonerkebab.com",
+"knownFacts": [
+"Serves German, Turkish and Mediterranean food",
+"Address: 405 15th Street, Miami Beach"
+]
+}
+]

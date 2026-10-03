@@ -1,0 +1,437 @@
+[
+{
+"id": "osm-n4146960714",
+"name": "Bardo's Caffe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.75584,
+"lng": -80.25906,
+"website": null,
+"knownFacts": [
+"Serves sandwiches"
+]
+},
+{
+"id": "osm-n9033506450",
+"name": "Bariloche Gourmet",
+"category": "food",
+"kind": "Argentinian restaurant",
+"address": "1198 Southwest 17th Avenue",
+"city": "Miami",
+"lat": 25.76179,
+"lng": -80.22259,
+"website": "https://barilochegourmet.com/",
+"knownFacts": [
+"Serves Argentinian food",
+"Offers takeout",
+"Address: 1198 Southwest 17th Avenue, Miami"
+]
+},
+{
+"id": "osm-n2697912490",
+"name": "Barton G the Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": "1427 West Avenue",
+"city": "miami beach",
+"lat": 25.78617,
+"lng": -80.14205,
+"website": "bartongtherestaurant.com",
+"knownFacts": [
+"Address: 1427 West Avenue, miami beach"
+]
+},
+{
+"id": "osm-n4810040221",
+"name": "Barzola",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "4860 Northwest 7th Street",
+"city": null,
+"lat": 25.77839,
+"lng": -80.27539,
+"website": null,
+"knownFacts": [
+"Serves Latin American food",
+"Address: 4860 Northwest 7th Street"
+]
+},
+{
+"id": "osm-n14031225188",
+"name": "Batch Gastropub",
+"category": "food",
+"kind": "American restaurant",
+"address": "30 Southwest 12th Street",
+"city": "Miami",
+"lat": 25.76234,
+"lng": -80.19397,
+"website": "https://batchgastropub.com/miami/",
+"knownFacts": [
+"Serves American food",
+"Has vegan options",
+"Address: 30 Southwest 12th Street, Miami"
+]
+},
+{
+"id": "osm-n13351871602",
+"name": "Bayshore Club Bar & Grill",
+"category": "food",
+"kind": "grill restaurant",
+"address": null,
+"city": null,
+"lat": 25.72869,
+"lng": -80.23419,
+"website": "https://bayshoreclubmiami.com/",
+"knownFacts": []
+},
+{
+"id": "osm-n7295693385",
+"name": "Beaker & Gray",
+"category": "food",
+"kind": "restaurant",
+"address": "2637 North Miami Avenue",
+"city": "Miami",
+"lat": 25.80239,
+"lng": -80.19484,
+"website": null,
+"knownFacts": [
+"Address: 2637 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n5903100396",
+"name": "Beaudevin",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79722,
+"lng": -80.27689,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n12978737373",
+"name": "Beauty & The Butcher",
+"category": "food",
+"kind": "steak restaurant",
+"address": null,
+"city": null,
+"lat": 25.70506,
+"lng": -80.28527,
+"website": null,
+"knownFacts": [
+"Serves steak"
+]
+},
+{
+"id": "osm-n10111845552",
+"name": "Bebito's",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.78739,
+"lng": -80.1441,
+"website": "https://bebitos.cafe/",
+"knownFacts": []
+},
+{
+"id": "osm-n6112915271",
+"name": "Beehive Juice Bar",
+"category": "food",
+"kind": "café",
+"address": "6490 Bird Road",
+"city": "Miami",
+"lat": 25.7331,
+"lng": -80.30066,
+"website": "https://www.beehivejuicebarandcafe.getsauce.com/",
+"knownFacts": [
+"Address: 6490 Bird Road, Miami"
+]
+},
+{
+"id": "osm-n3057276069",
+"name": "Bella Cuba",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "1659 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.79096,
+"lng": -80.1317,
+"website": null,
+"knownFacts": [
+"Serves Cuban food",
+"Address: 1659 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n7202204383",
+"name": "Bella Napoli Restaurant & Pizzeria",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "1443 Alton Road",
+"city": "Miami Beach",
+"lat": 25.78667,
+"lng": -80.14074,
+"website": null,
+"knownFacts": [
+"Serves pizza",
+"Address: 1443 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6059013223",
+"name": "Bellacapri Italian Restaurant",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "5749 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.7793,
+"lng": -80.2904,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 5749 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-n3142396994",
+"name": "Ben & Jerry's",
+"category": "food",
+"kind": "ice cream shop",
+"address": "1631 Alton Road",
+"city": "Miami Beach",
+"lat": 25.7901,
+"lng": -80.14102,
+"website": null,
+"knownFacts": [
+"Serves ice cream",
+"Part of the Ben & Jerry's chain",
+"Address: 1631 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n12197880121",
+"name": "Ben's Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": null,
+"city": null,
+"lat": 25.69126,
+"lng": -80.31374,
+"website": null,
+"knownFacts": [
+"Serves pizza"
+]
+},
+{
+"id": "osm-n9768312811",
+"name": "Benihana",
+"category": "food",
+"kind": "Japanese restaurant",
+"address": "242 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74929,
+"lng": -80.2595,
+"website": null,
+"knownFacts": [
+"Serves Japanese food, plus teppanyaki and steak",
+"Part of the Benihana chain",
+"Address: 242 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n4193878243",
+"name": "Bianchini Mercato",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.80209,
+"lng": -80.19956,
+"website": null,
+"knownFacts": [
+"Serves Italian food"
+]
+},
+{
+"id": "osm-n5902548468",
+"name": "Birdie's Bistro",
+"category": "food",
+"kind": "restaurant",
+"address": "2001 Granada Boulevard",
+"city": "Coral Gables",
+"lat": 25.75249,
+"lng": -80.27475,
+"website": "https://birdiebistro.co/",
+"knownFacts": [
+"Wheelchair accessible",
+"Address: 2001 Granada Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n13604478201",
+"name": "Bite Sandwich",
+"category": "food",
+"kind": "café",
+"address": "1576 Southwest 1st Street",
+"city": null,
+"lat": 25.77221,
+"lng": -80.22122,
+"website": null,
+"knownFacts": [
+"Serves breakfast, coffee and sandwiches",
+"Address: 1576 Southwest 1st Street"
+]
+},
+{
+"id": "osm-n14197741301",
+"name": "Black Market",
+"category": "food",
+"kind": "American restaurant",
+"address": "401 Biscayne Boulevard",
+"city": null,
+"lat": 25.77842,
+"lng": -80.1865,
+"website": "http://blackmarketmia.com",
+"knownFacts": [
+"Serves American food",
+"Has outdoor seating",
+"Has Wi-Fi",
+"Address: 401 Biscayne Boulevard"
+]
+},
+{
+"id": "osm-n6110284485",
+"name": "Blackbird Ordinary",
+"category": "food",
+"kind": "restaurant",
+"address": "729 Southwest 1st Avenue",
+"city": null,
+"lat": 25.76672,
+"lng": -80.19516,
+"website": null,
+"knownFacts": [
+"Address: 729 Southwest 1st Avenue"
+]
+},
+{
+"id": "osm-n7390272505",
+"name": "Blue Sky Food by the Pound",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "5751 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73488,
+"lng": -80.28775,
+"website": null,
+"knownFacts": [
+"Serves Latin American and Cuban food",
+"Address: 5751 Southwest 40th Street, Miami"
+]
+},
+{
+"id": "osm-n6073738986",
+"name": "Bodega Taqueria",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "1220 16th Street",
+"city": "Miami Beach",
+"lat": 25.78877,
+"lng": -80.14163,
+"website": "https://www.bodegataqueria.com/",
+"knownFacts": [
+"Serves Mexican food",
+"Address: 1220 16th Street, Miami Beach"
+]
+},
+{
+"id": "osm-n6073264999",
+"name": "Bodega Taqueria y Tequila",
+"category": "food",
+"kind": "restaurant",
+"address": "317 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74976,
+"lng": -80.26115,
+"website": null,
+"knownFacts": [
+"Address: 317 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n6575655588",
+"name": "Bottega Express",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77615,
+"lng": -80.19693,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n12631824771",
+"name": "Braga Portuguese Restaurant",
+"category": "food",
+"kind": "Portuguese restaurant",
+"address": "1401 Southwest 22nd Street",
+"city": "Miami",
+"lat": 25.75117,
+"lng": -80.21857,
+"website": "https://bragarestaurant.com/",
+"knownFacts": [
+"Serves Portuguese food",
+"Address: 1401 Southwest 22nd Street, Miami"
+]
+},
+{
+"id": "osm-n7844732313",
+"name": "Brawy Seafood",
+"category": "food",
+"kind": "seafood restaurant",
+"address": null,
+"city": null,
+"lat": 25.77755,
+"lng": -80.18571,
+"website": null,
+"knownFacts": [
+"Serves seafood"
+]
+},
+{
+"id": "osm-n1813316250",
+"name": "Bubba Gump Shrimp Company",
+"category": "food",
+"kind": "seafood restaurant",
+"address": null,
+"city": null,
+"lat": 25.77832,
+"lng": -80.18702,
+"website": null,
+"knownFacts": [
+"Serves seafood",
+"Part of the Bubba Gump Shrimp Company chain",
+"Has Wi-Fi"
+]
+},
+{
+"id": "osm-w1005780281",
+"name": "Bugatti Bistro",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "2504 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74843,
+"lng": -80.25889,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 2504 Ponce de Leon Boulevard, Coral Gables"
+]
+}
+]

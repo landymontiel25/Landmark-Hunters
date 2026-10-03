@@ -1,10 +1,10 @@
 {
  "category": "local-life",
- "count": 124,
+ "count": 108,
  "commonsPhotos": 10,
- "commonsPhotoPct": 8.1,
- "withFacts": 79,
- "withHours": 24,
+ "commonsPhotoPct": 9.3,
+ "withFacts": 89,
+ "withHours": 23,
  "photoSkips": [
   {
    "id": "osm-w960715591",
@@ -34,71 +34,17 @@
  ],
  "sample": [
   {
-   "id": "osm-n6090251576",
-   "name": "BOHO Edgewater Miami",
-   "topic": "nightclub",
-   "lat": 25.795824,
-   "lng": -80.192447,
+   "id": "osm-n6023379408",
+   "name": "Miami Twice",
+   "topic": "antique shop",
+   "lat": 25.733195,
+   "lng": -80.301922,
    "photo": false,
    "facts": [
-    "21 and over",
-    "Address: 111 Northeast 20th Street, Miami"
+    "Sells used, vintage and consignment goods.",
+    "Address: 6562 Southwest 40th Street, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6090251576"
-  },
-  {
-   "id": "osm-n4980808353",
-   "name": "Area 31 - Epic Hotel",
-   "topic": "bar",
-   "lat": 25.770564,
-   "lng": -80.189253,
-   "photo": false,
-   "facts": [
-    "Address: 270 Biscayne Boulevard"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4980808353"
-  },
-  {
-   "id": "osm-n12197880117",
-   "name": "Fat Tuesday",
-   "topic": "pub",
-   "lat": 25.690932,
-   "lng": -80.313759,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/12197880117"
-  },
-  {
-   "id": "osm-n5903100399",
-   "name": "Corona Beach House",
-   "topic": "bar",
-   "lat": 25.797408,
-   "lng": -80.276516,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100399"
-  },
-  {
-   "id": "osm-n4732841232",
-   "name": "Jenga bar",
-   "topic": "bar",
-   "lat": 25.787277,
-   "lng": -80.131565,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4732841232"
-  },
-  {
-   "id": "osm-n10959342065",
-   "name": "Floyd",
-   "topic": "bar",
-   "lat": 25.784669,
-   "lng": -80.193052,
-   "photo": false,
-   "facts": [
-    "Address: 34 Northeast 11th Street, Suite B, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/10959342065"
+   "osmUrl": "https://www.openstreetmap.org/node/6023379408"
   },
   {
    "id": "osm-n9805079269",
@@ -114,106 +60,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/9805079269"
   },
   {
-   "id": "osm-n763659225",
-   "name": "Barracuda",
-   "topic": "bar",
-   "lat": 25.727762,
-   "lng": -80.243216,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/763659225"
-  },
-  {
-   "id": "osm-n367823350",
-   "name": "Alegro Music Center",
-   "topic": "record store",
-   "lat": 25.762778,
-   "lng": -80.306944,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367823350"
-  },
-  {
-   "id": "osm-n11586521969",
-   "name": "Perro Negro Miami",
-   "topic": "nightclub",
-   "lat": 25.799695,
-   "lng": -80.195167,
-   "photo": false,
-   "facts": [
-    "Address: 2328 North Miami Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/11586521969"
-  },
-  {
-   "id": "osm-n6110284487",
-   "name": "Gramps",
-   "topic": "bar",
-   "lat": 25.79965,
-   "lng": -80.198301,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6110284487"
-  },
-  {
-   "id": "osm-w435513518",
-   "name": "Macy's",
-   "topic": "department store",
-   "lat": 25.791794,
-   "lng": -80.136117,
-   "photo": false,
-   "facts": [
-    "Part of the Macy's chain",
-    "Address: 1675 Meridian Avenue, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/435513518"
-  },
-  {
-   "id": "osm-n4372003896",
-   "name": "Wet Bar",
-   "topic": "bar",
-   "lat": 25.765542,
-   "lng": -80.223047,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4372003896"
-  },
-  {
-   "id": "osm-n2082872477",
-   "name": "Abraxas Lounge",
-   "topic": "pub",
-   "lat": 25.773766,
-   "lng": -80.135897,
-   "photo": false,
-   "facts": [
-    "Has Wi-Fi",
-    "Address: 407 Meridian Avenue, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2082872477"
-  },
-  {
-   "id": "osm-w316621085",
-   "name": "The Electric Pickle",
-   "topic": "nightclub",
-   "lat": 25.803553,
-   "lng": -80.195267,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/316621085"
-  },
-  {
-   "id": "osm-n4405152389",
-   "name": "The Corner",
-   "topic": "bar",
-   "lat": 25.784656,
-   "lng": -80.193897,
-   "photo": false,
-   "facts": [
-    "Address: 1035 North Miami Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4405152389"
-  },
-  {
    "id": "osm-n10111847374",
    "name": "Baby Jane Cocktail House & Noodle Bar",
    "topic": "bar",
@@ -224,26 +70,32 @@
    "osmUrl": "https://www.openstreetmap.org/node/10111847374"
   },
   {
-   "id": "osm-n6575836985",
-   "name": "Deweys Tavern",
+   "id": "osm-n3839885175",
+   "name": "Grails",
    "topic": "bar",
-   "lat": 25.779116,
-   "lng": -80.14102,
-   "photo": true,
+   "lat": 25.803152,
+   "lng": -80.195241,
+   "photo": false,
    "facts": [
-    "Serves American food"
+    "Opened in 2019 as Wynwood's first sports bar.",
+    "Its signature sneaker cocktail is served in a shoe-shaped vessel.",
+    "Accepts Bitcoin"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6575836985"
+   "osmUrl": "https://www.openstreetmap.org/node/3839885175"
   },
   {
-   "id": "osm-n1454839975",
-   "name": "Gator Plaza",
-   "topic": "market",
-   "lat": 25.682988,
-   "lng": -80.313448,
+   "id": "osm-w1178292587",
+   "name": "Do Not Sit On The Furniture",
+   "topic": "nightclub",
+   "lat": 25.789314,
+   "lng": -80.132288,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/1454839975"
+   "facts": [
+    "Owned by DJ Behrouz, a Miami Beach club owner.",
+    "Accepts Bitcoin",
+    "Address: 423 16th Street, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1178292587"
   },
   {
    "id": "osm-n13401917278",
@@ -253,22 +105,124 @@
    "lng": -80.247289,
    "photo": false,
    "facts": [
+    "A skincare brand focused on products for sensitive skin.",
     "Accepts Bitcoin",
     "Address: 3300 Grand Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/13401917278"
   },
   {
-   "id": "osm-w441809093",
-   "name": "Lincoln Road Mall",
-   "topic": "mall",
-   "lat": 25.790528,
-   "lng": -80.136521,
+   "id": "osm-n3213534391",
+   "name": "House of Art",
+   "topic": "art shop",
+   "lat": 25.801477,
+   "lng": -80.202169,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/3213534391"
+  },
+  {
+   "id": "osm-n5903100394",
+   "name": "Clubhouse One",
+   "topic": "bar",
+   "lat": 25.7974,
+   "lng": -80.277109,
    "photo": false,
    "facts": [
-    "Listed on the U.S. National Register of Historic Places"
+    "A restaurant and bar near Concourse D at Miami International Airport."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/441809093"
+   "osmUrl": "https://www.openstreetmap.org/node/5903100394"
+  },
+  {
+   "id": "osm-n5903100414",
+   "name": "Booklink and Cafe",
+   "topic": "bookstore",
+   "lat": 25.797222,
+   "lng": -80.274744,
+   "photo": false,
+   "facts": [
+    "A bookshop with a cafe inside Miami International Airport."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5903100414"
+  },
+  {
+   "id": "osm-n4980808353",
+   "name": "Area 31 - Epic Hotel",
+   "topic": "bar",
+   "lat": 25.770564,
+   "lng": -80.189253,
+   "photo": false,
+   "facts": [
+    "Rooftop bar and restaurant on the 16th floor of the Kimpton EPIC Hotel",
+    "Menu focuses on seafood, with some plates from the butcher",
+    "Address: 270 Biscayne Boulevard"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4980808353"
+  },
+  {
+   "id": "osm-n4340609410",
+   "name": "Librería San Pablo",
+   "topic": "bookstore",
+   "lat": 25.763286,
+   "lng": -80.290444,
+   "photo": false,
+   "facts": [
+    "Also operates as the St Paul Distribution Center.",
+    "Run by The Society of St Paul",
+    "Address: 5800 Southwest 8th Street, West Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4340609410"
+  },
+  {
+   "id": "osm-n13606372603",
+   "name": "Alfaro's",
+   "topic": "nightclub",
+   "lat": 25.765526,
+   "lng": -80.22076,
+   "photo": true,
+   "facts": [
+    "Address: 1604 Southwest 8th Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13606372603"
+  },
+  {
+   "id": "osm-n4166557069",
+   "name": "Barnes & Noble",
+   "topic": "bookstore",
+   "lat": 25.705788,
+   "lng": -80.285729,
+   "photo": false,
+   "facts": [
+    "Located in The Shops at Sunset Place mall",
+    "Opened in 1999",
+    "Part of the Barnes & Noble chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4166557069"
+  },
+  {
+   "id": "osm-n11163206124",
+   "name": "Siboney",
+   "topic": "nightclub",
+   "lat": 25.763563,
+   "lng": -80.294001,
+   "photo": false,
+   "facts": [
+    "Salsa dancing nightclub.",
+    "Address: 6051 Southwest 8th Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11163206124"
+  },
+  {
+   "id": "osm-n9397996103",
+   "name": "Macy's",
+   "topic": "department store",
+   "lat": 25.690863,
+   "lng": -80.311729,
+   "photo": false,
+   "facts": [
+    "Part of the Macy's chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9397996103"
   },
   {
    "id": "osm-w310319091",
@@ -278,43 +232,129 @@
    "lng": -80.202563,
    "photo": false,
    "facts": [
+    "It also operates as an art and framing shop.",
     "Address: 450 Northwest 27th Street, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/310319091"
   },
   {
-   "id": "osm-n13567619001",
-   "name": "Vizcaya Farmer’s Market",
-   "topic": "market",
-   "lat": 25.748046,
-   "lng": -80.210794,
+   "id": "osm-n4405152389",
+   "name": "The Corner",
+   "topic": "bar",
+   "lat": 25.784656,
+   "lng": -80.193897,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/13567619001"
+   "facts": [
+    "It sits in downtown Miami's Arts & Entertainment District.",
+    "Address: 1035 North Miami Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4405152389"
   },
   {
-   "id": "osm-n9934299819",
-   "name": "Budweiser Brew House",
+   "id": "osm-w1178292585",
+   "name": "Exchange",
+   "topic": "nightclub",
+   "lat": 25.788277,
+   "lng": -80.132186,
+   "photo": false,
+   "facts": [
+    "Hosts hip hop club nights.",
+    "Address: 1532 Washington Avenue, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1178292585"
+  },
+  {
+   "id": "osm-n9882018349",
+   "name": "Saloni By Meraki",
+   "topic": "bar",
+   "lat": 25.773006,
+   "lng": -80.192017,
+   "photo": false,
+   "facts": [
+    "Athens-inspired neighborhood bar in downtown Miami.",
+    "Opened in 2022",
+    "Address: 140 Southeast 1st Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9882018349"
+  },
+  {
+   "id": "osm-n5903100435",
+   "name": "Islander Bar & Grill",
+   "topic": "bar",
+   "lat": 25.798524,
+   "lng": -80.271934,
+   "photo": false,
+   "facts": [
+    "Located in Miami International Airport's North Terminal, Concourse D East."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5903100435"
+  },
+  {
+   "id": "osm-r7554876",
+   "name": "Sunset Place",
+   "topic": "mall",
+   "lat": 25.705814,
+   "lng": -80.28644,
+   "photo": false,
+   "facts": [
+    "Opened on December 18, 1998.",
+    "Built on the former site of The Bakery Centre, which opened in 1986.",
+    "Founded in 1999"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/relation/7554876"
+  },
+  {
+   "id": "osm-n2498529919",
+   "name": "CocoWalk",
+   "topic": "mall",
+   "lat": 25.728644,
+   "lng": -80.242038,
+   "photo": true,
+   "facts": [
+    "Developed by Constructa Properties.",
+    "Designed by John Clark of Maryland.",
+    "Founded in 1990"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2498529919"
+  },
+  {
+   "id": "osm-w1334918470",
+   "name": "Thorn",
+   "topic": "bar",
+   "lat": 25.731872,
+   "lng": -80.30736,
+   "photo": false,
+   "facts": [
+    "It is the first liquor concept from the creators of Lincoln's Beard Brewery.",
+    "It opened as a restaurant and cocktail bar at the MiLine Ludlam Trail apartments."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1334918470"
+  },
+  {
+   "id": "osm-n9397973765",
+   "name": "Saks Fifth Avenue",
+   "topic": "department store",
+   "lat": 25.689614,
+   "lng": -80.31484,
+   "photo": true,
+   "facts": [
+    "Anchor department store at Dadeland Mall.",
+    "Part of the Saks Fifth Avenue chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9397973765"
+  },
+  {
+   "id": "osm-n4109762896",
+   "name": "Finnegan's Road",
    "topic": "pub",
-   "lat": 25.792271,
-   "lng": -80.281294,
+   "lat": 25.790332,
+   "lng": -80.138631,
    "photo": false,
    "facts": [
-    "Brews its own beer"
+    "Serves Irish food",
+    "Address: 942 Lincoln Road"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/9934299819"
-  },
-  {
-   "id": "osm-n3839885752",
-   "name": "Dot Fiftyone Gallery",
-   "topic": "art shop",
-   "lat": 25.802032,
-   "lng": -80.198683,
-   "photo": false,
-   "facts": [
-    "Address: 187 Northwest 27th Street, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3839885752"
+   "osmUrl": "https://www.openstreetmap.org/node/4109762896"
   }
  ],
  "points": [
@@ -331,16 +371,6 @@
   [
    25.789038,
    -80.140294,
-   0
-  ],
-  [
-   25.773766,
-   -80.135897,
-   0
-  ],
-  [
-   25.762778,
-   -80.306944,
    0
   ],
   [
@@ -389,16 +419,6 @@
    0
   ],
   [
-   25.764354,
-   -80.188526,
-   0
-  ],
-  [
-   25.795824,
-   -80.192447,
-   0
-  ],
-  [
    25.797222,
    -80.274744,
    0
@@ -411,11 +431,6 @@
   [
    25.797388,
    -80.277613,
-   0
-  ],
-  [
-   25.777388,
-   -80.185312,
    0
   ],
   [
@@ -461,11 +476,6 @@
   [
    25.797408,
    -80.276516,
-   0
-  ],
-  [
-   25.790818,
-   -80.13268,
    0
   ],
   [
@@ -554,18 +564,8 @@
    0
   ],
   [
-   25.79965,
-   -80.198301,
-   0
-  ],
-  [
    25.745178,
    -80.174051,
-   0
-  ],
-  [
-   25.728742,
-   -80.233395,
    0
   ],
   [
@@ -581,11 +581,6 @@
   [
    25.787277,
    -80.131565,
-   0
-  ],
-  [
-   25.798162,
-   -80.273378,
    0
   ],
   [
@@ -659,11 +654,6 @@
    1
   ],
   [
-   25.787287,
-   -80.194273,
-   0
-  ],
-  [
    25.733195,
    -80.301922,
    0
@@ -719,11 +709,6 @@
    0
   ],
   [
-   25.749961,
-   -80.244158,
-   0
-  ],
-  [
    25.790301,
    -80.140254,
    0
@@ -762,11 +747,6 @@
    25.731562,
    -80.260145,
    1
-  ],
-  [
-   25.799649,
-   -80.201358,
-   0
   ],
   [
    25.790289,
@@ -849,18 +829,8 @@
    0
   ],
   [
-   25.803553,
-   -80.195267,
-   0
-  ],
-  [
    25.687493,
    -80.320297,
-   0
-  ],
-  [
-   25.729328,
-   -80.241768,
    0
   ],
   [
@@ -914,11 +884,6 @@
    0
   ],
   [
-   25.801319,
-   -80.19894,
-   0
-  ],
-  [
    25.792121,
    -80.281524,
    0
@@ -931,11 +896,6 @@
   [
    25.801567,
    -80.202563,
-   0
-  ],
-  [
-   25.78907,
-   -80.140089,
    0
   ]
  ]

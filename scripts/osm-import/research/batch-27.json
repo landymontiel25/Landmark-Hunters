@@ -1,0 +1,449 @@
+[
+{
+"id": "osm-n4181155100",
+"name": "Oliver's Bistro",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77939,
+"lng": -80.14196,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6773341638",
+"name": "Opera House",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "1750 North Bayshore Drive",
+"city": "Miami",
+"lat": 25.79223,
+"lng": -80.18712,
+"website": null,
+"knownFacts": [
+"Serves pizza and burgers",
+"Has outdoor seating",
+"Wheelchair accessible",
+"Has a bar",
+"Address: 1750 North Bayshore Drive, Unit 102-103, Miami"
+]
+},
+{
+"id": "osm-n6296898185",
+"name": "Origin Asian Bistro and Sushi",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.69756,
+"lng": -80.16327,
+"website": "https://www.originkeybiscayne.com",
+"knownFacts": []
+},
+{
+"id": "osm-n6073253051",
+"name": "Original Uncle Tom's Barbecue",
+"category": "food",
+"kind": "barbecue restaurant",
+"address": "3988 Southwest 8th Street",
+"city": "Coral Gables",
+"lat": 25.76433,
+"lng": -80.26138,
+"website": "https://originaluncletomsbbq.com/",
+"knownFacts": [
+"Serves American food, plus barbecue and burgers",
+"Offers takeout",
+"Address: 3988 Southwest 8th Street, Coral Gables"
+]
+},
+{
+"id": "osm-n10144336373",
+"name": "Orilla Bar & Grill",
+"category": "food",
+"kind": "restaurant",
+"address": "426 Euclid Avenue",
+"city": "Miami Beach",
+"lat": 25.77421,
+"lng": -80.13524,
+"website": "https://orilla.restaurant/miami",
+"knownFacts": [
+"Address: 426 Euclid Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n10847051464",
+"name": "Orno Miami",
+"category": "food",
+"kind": "restaurant",
+"address": "1350 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.71267,
+"lng": -80.27871,
+"website": "https://ornomiami.com/",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 1350 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n4110134233",
+"name": "Osmanlizadeler Baklava",
+"category": "food",
+"kind": "bakery",
+"address": "618 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79044,
+"lng": -80.13475,
+"website": null,
+"knownFacts": [
+"Address: 618 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4285661290",
+"name": "Osteria del Teatro",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1443 Washington Avenue",
+"city": null,
+"lat": 25.78695,
+"lng": -80.13405,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1443 Washington Avenue"
+]
+},
+{
+"id": "osm-w301827956",
+"name": "Otto-Coming soon",
+"category": "food",
+"kind": "Italian restaurant",
+"address": null,
+"city": null,
+"lat": 25.7511,
+"lng": -80.2584,
+"website": null,
+"knownFacts": [
+"Serves Italian food"
+]
+},
+{
+"id": "osm-w308601895",
+"name": "Outback Steakhouse",
+"category": "food",
+"kind": "American restaurant",
+"address": "7705 West Flagler Street",
+"city": "Miami",
+"lat": 25.77034,
+"lng": -80.3234,
+"website": "https://locations.outback.com/florida/miami/7705-w.-flagler-street",
+"knownFacts": [
+"Serves American food, plus steak",
+"Part of the Outback Steakhouse chain",
+"Has outdoor seating",
+"Has vegetarian options",
+"Offers delivery",
+"Takes reservations",
+"Has Wi-Fi",
+"Wheelchair accessible",
+"Offers takeout",
+"Has a bar"
+]
+},
+{
+"id": "osm-n3106608956",
+"name": "P.F. Chang's",
+"category": "food",
+"kind": "Asian restaurant",
+"address": null,
+"city": null,
+"lat": 25.76535,
+"lng": -80.1931,
+"website": null,
+"knownFacts": [
+"Serves Asian food",
+"Part of the P.F. Chang's chain",
+"Official name: P.F. Chang's China Bistro"
+]
+},
+{
+"id": "osm-n10216469147",
+"name": "P.Pole Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "279 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74972,
+"lng": -80.2643,
+"website": "https://ppolepizza.com/",
+"knownFacts": [
+"Serves pizza",
+"Offers delivery",
+"Offers takeout",
+"Address: 279 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n13406913739",
+"name": "Palo Quemao",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80005,
+"lng": -80.18891,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n12560451572",
+"name": "Pamplemousse on the Bay",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "910 West Avenue",
+"city": "Miami Beach",
+"lat": 25.78002,
+"lng": -80.14262,
+"website": "https://www.pamplemoussemiami.com",
+"knownFacts": [
+"Serves Mediterranean food",
+"Has vegan options",
+"Address: 910 West Avenue, Suite D, Miami Beach"
+]
+},
+{
+"id": "osm-n5321121922",
+"name": "Pane and Vino",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1450 Washington Avenue",
+"city": null,
+"lat": 25.78727,
+"lng": -80.13192,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1450 Washington Avenue"
+]
+},
+{
+"id": "osm-n4738330843",
+"name": "Panna",
+"category": "food",
+"kind": "Venezuelan restaurant",
+"address": "660 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.68997,
+"lng": -80.16463,
+"website": "https://mypanna.com",
+"knownFacts": [
+"Serves Venezuelan food",
+"Address: 660 Crandon Boulevard, Key Biscayne"
+]
+},
+{
+"id": "osm-n2514944685",
+"name": "Panorama Restaurant & Sky Lounge",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.72765,
+"lng": -80.2413,
+"website": "https://www.sonesta.com/CoconutGrove/index.cfm?fa=restaurant1.home",
+"knownFacts": []
+},
+{
+"id": "osm-n4940365821",
+"name": "Panther Coffee",
+"category": "food",
+"kind": "café",
+"address": "Purdy Avenue",
+"city": null,
+"lat": 25.79465,
+"lng": -80.14425,
+"website": null,
+"knownFacts": [
+"Serves coffee"
+]
+},
+{
+"id": "osm-w435234020",
+"name": "Paperfish Sushi",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1421 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76027,
+"lng": -80.19327,
+"website": "https://paperfishsushi.com/",
+"knownFacts": [
+"Serves sushi",
+"Address: 1421 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n10232521769",
+"name": "Papi Steak",
+"category": "food",
+"kind": "steak restaurant",
+"address": null,
+"city": null,
+"lat": 25.76976,
+"lng": -80.13596,
+"website": null,
+"knownFacts": [
+"Serves steak"
+]
+},
+{
+"id": "osm-n9738008725",
+"name": "Pascal's On Ponce",
+"category": "food",
+"kind": "restaurant",
+"address": "2611 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74759,
+"lng": -80.25826,
+"website": null,
+"knownFacts": [
+"Address: 2611 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n13570383301",
+"name": "Pastelmania Bakery",
+"category": "food",
+"kind": "bakery",
+"address": "2015 West Flagler Street",
+"city": "Miami",
+"lat": 25.77285,
+"lng": -80.2286,
+"website": null,
+"knownFacts": [
+"Address: 2015 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n4110067782",
+"name": "Paul",
+"category": "food",
+"kind": "bakery",
+"address": "450 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79049,
+"lng": -80.13299,
+"website": "http://www.paul-usa.com",
+"knownFacts": [
+"Part of the Paul chain",
+"Has outdoor seating",
+"Address: 450 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n8694944761",
+"name": "Pauloluigi",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.73564,
+"lng": -80.23949,
+"website": "https://www.pauloluigicg.com",
+"knownFacts": []
+},
+{
+"id": "osm-n9559444279",
+"name": "Peacock Garden",
+"category": "food",
+"kind": "steak restaurant",
+"address": "2889 McFarlane Road",
+"city": "Miami",
+"lat": 25.72689,
+"lng": -80.24058,
+"website": "https://peacockgardenrestobar.com/",
+"knownFacts": [
+"Serves steak",
+"Address: 2889 McFarlane Road, Miami"
+]
+},
+{
+"id": "osm-n12134185044",
+"name": "Peet's Coffee",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.72089,
+"lng": -80.27876,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Peet's Coffee chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n13767195653",
+"name": "Peet's Coffee",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79755,
+"lng": -80.28441,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Peet's Coffee chain",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n7538451829",
+"name": "Pei Wei",
+"category": "food",
+"kind": "Asian restaurant",
+"address": "2283 Southwest 37th Avenue",
+"city": "Miami",
+"lat": 25.7492,
+"lng": -80.25437,
+"website": "https://www.peiwei.com/florida/240-coral-gables/",
+"knownFacts": [
+"Serves Asian food",
+"Part of the Pei Wei chain",
+"Address: 2283 Southwest 37th Avenue, Miami"
+]
+},
+{
+"id": "osm-n9397986188",
+"name": "Pei Wei Asian Express",
+"category": "food",
+"kind": "Asian restaurant",
+"address": null,
+"city": null,
+"lat": 25.69106,
+"lng": -80.31389,
+"website": null,
+"knownFacts": [
+"Serves Asian food",
+"Part of the Pei Wei chain"
+]
+},
+{
+"id": "osm-w435389430",
+"name": "Perricone's Marketplace & Cafe",
+"category": "food",
+"kind": "restaurant",
+"address": "1700 Southwest 3rd Avenue",
+"city": "Miami",
+"lat": 25.76121,
+"lng": -80.20026,
+"website": null,
+"knownFacts": [
+"Address: 1700 Southwest 3rd Avenue, Miami"
+]
+}
+]

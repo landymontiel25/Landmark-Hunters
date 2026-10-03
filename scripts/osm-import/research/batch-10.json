@@ -1,0 +1,418 @@
+[
+{
+"id": "osm-n10959342065",
+"name": "Floyd",
+"category": "local-life",
+"kind": "bar",
+"address": "34 Northeast 11th Street",
+"city": "Miami",
+"lat": 25.78467,
+"lng": -80.19305,
+"website": null,
+"knownFacts": [
+"Address: 34 Northeast 11th Street, Suite B, Miami"
+]
+},
+{
+"id": "osm-n1454839975",
+"name": "Gator Plaza",
+"category": "local-life",
+"kind": "market",
+"address": "South Dixie Highway",
+"city": "Miami",
+"lat": 25.68299,
+"lng": -80.31345,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n10947597279",
+"name": "Gaythering",
+"category": "local-life",
+"kind": "bar",
+"address": "1409 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79056,
+"lng": -80.14383,
+"website": "https://www.gaythering.com/bar.html",
+"knownFacts": [
+"Has outdoor seating",
+"Has Wi-Fi",
+"Dogs allowed",
+"Wheelchair accessible",
+"Also known as Gaythering Bar",
+"Address: 1409 Lincoln Road, Unit F1, Miami Beach"
+]
+},
+{
+"id": "osm-n7150191720",
+"name": "Gemma Lounge",
+"category": "local-life",
+"kind": "bar",
+"address": "529 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79078,
+"lng": -80.1337,
+"website": null,
+"knownFacts": [
+"Address: 529 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n3839885175",
+"name": "Grails",
+"category": "local-life",
+"kind": "bar",
+"address": "2800 North Miami Avenue",
+"city": "Miami",
+"lat": 25.80315,
+"lng": -80.19524,
+"website": "https://grailsmiami.com",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 2800 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n6110284487",
+"name": "Gramps",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79965,
+"lng": -80.1983,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5688787821",
+"name": "Gramps Getaway",
+"category": "local-life",
+"kind": "bar",
+"address": "3301 Rickenbacker Causeway",
+"city": null,
+"lat": 25.74518,
+"lng": -80.17405,
+"website": null,
+"knownFacts": [
+"Address: 3301 Rickenbacker Causeway"
+]
+},
+{
+"id": "osm-n2464923603",
+"name": "Grove Bay Grill",
+"category": "local-life",
+"kind": "bar",
+"address": "3381 Pan American Drive",
+"city": "Miami",
+"lat": 25.72874,
+"lng": -80.2334,
+"website": null,
+"knownFacts": [
+"Address: 3381 Pan American Drive, Miami"
+]
+},
+{
+"id": "osm-n3213534391",
+"name": "House of Art",
+"category": "local-life",
+"kind": "art shop",
+"address": "Northwest 26th Street",
+"city": null,
+"lat": 25.80148,
+"lng": -80.20217,
+"website": "http://www.houseofart.co/",
+"knownFacts": []
+},
+{
+"id": "osm-n5903100435",
+"name": "Islander Bar & Grill",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79852,
+"lng": -80.27193,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4732841232",
+"name": "Jenga bar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.78728,
+"lng": -80.13156,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5903100427",
+"name": "Jose Cuervo Tequilaro",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79816,
+"lng": -80.27338,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2773788608",
+"name": "Kush Wynwood",
+"category": "local-life",
+"kind": "bar",
+"address": "2003 North Miami Avenue",
+"city": "Miami",
+"lat": 25.79579,
+"lng": -80.1947,
+"website": "https://www.kushwynwood.com/",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 2003 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n4003573090",
+"name": "LIK Miami",
+"category": "local-life",
+"kind": "art shop",
+"address": "701 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79073,
+"lng": -80.13577,
+"website": "https://lik.com/galleries/miami.html",
+"knownFacts": [
+"Address: 701 Lincoln Road, Unit B, Miami Beach"
+]
+},
+{
+"id": "osm-n14092183681",
+"name": "Las Rosas",
+"category": "local-life",
+"kind": "bar",
+"address": "2898 Northwest 7th Avenue",
+"city": "Miami",
+"lat": 25.80344,
+"lng": -80.20747,
+"website": "https://lasrosasmiami.com/",
+"knownFacts": [
+"Address: 2898 Northwest 7th Avenue, Miami"
+]
+},
+{
+"id": "osm-n4340609410",
+"name": "Librería San Pablo",
+"category": "local-life",
+"kind": "bookstore",
+"address": "5800 Southwest 8th Street",
+"city": "West Miami",
+"lat": 25.76329,
+"lng": -80.29044,
+"website": null,
+"knownFacts": [
+"Run by The Society of St Paul",
+"Address: 5800 Southwest 8th Street, West Miami"
+]
+},
+{
+"id": "osm-n6030985494",
+"name": "Lincoln Center",
+"category": "local-life",
+"kind": "mall",
+"address": "690 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.7902,
+"lng": -80.13529,
+"website": null,
+"knownFacts": [
+"Address: 690 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-w441809093",
+"name": "Lincoln Road Mall",
+"category": "local-life",
+"kind": "mall",
+"address": "Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79053,
+"lng": -80.13652,
+"website": "https://lincolnroadmall.com",
+"knownFacts": [
+"Listed on the U.S. National Register of Historic Places"
+]
+},
+{
+"id": "osm-n6073265038",
+"name": "Liquor Dreams",
+"category": "local-life",
+"kind": "bar",
+"address": "248 Giralda Avenue",
+"city": "Coral Gables",
+"lat": 25.751,
+"lng": -80.25992,
+"website": null,
+"knownFacts": [
+"Address: 248 Giralda Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n13401917278",
+"name": "Live Like You Green It",
+"category": "local-life",
+"kind": "market",
+"address": "3300 Grand Avenue",
+"city": "Miami",
+"lat": 25.72773,
+"lng": -80.24729,
+"website": "https://livelikeyougreenit.com/",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 3300 Grand Avenue, Miami"
+]
+},
+{
+"id": "osm-n12022547872",
+"name": "Love and gyros",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.8034,
+"lng": -80.19522,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n14005210052",
+"name": "Macy's",
+"category": "local-life",
+"kind": "department store",
+"address": null,
+"city": null,
+"lat": 25.77291,
+"lng": -80.32258,
+"website": null,
+"knownFacts": [
+"Part of the Macy's chain"
+]
+},
+{
+"id": "osm-n9397968961",
+"name": "Macy's",
+"category": "local-life",
+"kind": "department store",
+"address": null,
+"city": null,
+"lat": 25.69066,
+"lng": -80.31531,
+"website": null,
+"knownFacts": [
+"Part of the Macy's chain"
+]
+},
+{
+"id": "osm-n9397996103",
+"name": "Macy's",
+"category": "local-life",
+"kind": "department store",
+"address": null,
+"city": null,
+"lat": 25.69086,
+"lng": -80.31173,
+"website": "https://www.macys.com/stores/fl/miami/dadeland-mall_776.html",
+"knownFacts": [
+"Part of the Macy's chain"
+]
+},
+{
+"id": "osm-w435513518",
+"name": "Macy's",
+"category": "local-life",
+"kind": "department store",
+"address": "1675 Meridian Avenue",
+"city": "Miami Beach",
+"lat": 25.79179,
+"lng": -80.13612,
+"website": "https://www.macys.com/stores/fl/miamibeach/south-beach_773.html",
+"knownFacts": [
+"Part of the Macy's chain",
+"Address: 1675 Meridian Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n9882017556",
+"name": "Mama Tried",
+"category": "local-life",
+"kind": "bar",
+"address": "207 Northeast 1st Street",
+"city": null,
+"lat": 25.77534,
+"lng": -80.19008,
+"website": "http://mamatriedmia.com/",
+"knownFacts": [
+"Address: 207 Northeast 1st Street"
+]
+},
+{
+"id": "osm-w352674172",
+"name": "Melinda's",
+"category": "local-life",
+"kind": "nightclub",
+"address": null,
+"city": null,
+"lat": 25.78729,
+"lng": -80.19427,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6023379408",
+"name": "Miami Twice",
+"category": "local-life",
+"kind": "antique shop",
+"address": "6562 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73319,
+"lng": -80.30192,
+"website": null,
+"knownFacts": [
+"Address: 6562 Southwest 40th Street, Miami"
+]
+},
+{
+"id": "osm-w279443134",
+"name": "Midway Crossings",
+"category": "local-life",
+"kind": "mall",
+"address": "7795 West Flagler Street",
+"city": "Miami",
+"lat": 25.7734,
+"lng": -80.32244,
+"website": "https://midwaycrossings.com/",
+"knownFacts": [
+"Also known as Mall of the Americas",
+"Address: 7795 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n10138526560",
+"name": "Minibar",
+"category": "local-life",
+"kind": "bar",
+"address": "418 Meridian Avenue",
+"city": "Miami Beach",
+"lat": 25.77412,
+"lng": -80.13616,
+"website": "https://www.minibarmiami.com/",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 418 Meridian Avenue, Miami Beach"
+]
+}
+]

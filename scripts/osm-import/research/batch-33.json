@@ -1,0 +1,457 @@
+[
+{
+"id": "osm-n13461562101",
+"name": "Talavera Cocina Mexicana",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "2299 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.75141,
+"lng": -80.2585,
+"website": "https://talaveracocinamexicana.com/",
+"knownFacts": [
+"Serves Mexican food",
+"Address: 2299 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n12980708301",
+"name": "Talkin' Tacos",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76654,
+"lng": -80.19515,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4004622089",
+"name": "Tapelia, Tapas",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "551 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79078,
+"lng": -80.13384,
+"website": "https://www.tapeliamiami.com",
+"knownFacts": [
+"Serves Spanish food",
+"Address: 551 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n6572697286",
+"name": "Taste Bakery Cafe",
+"category": "food",
+"kind": "café",
+"address": "900 Alton Road",
+"city": "Miami Beach",
+"lat": 25.7794,
+"lng": -80.1411,
+"website": "https://www.taste-bakery.com/",
+"knownFacts": [
+"Serves Mediterranean food, plus tea and cakes",
+"Has Wi-Fi",
+"Address: 900 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n7207335158",
+"name": "Taula",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": null,
+"city": null,
+"lat": 25.79153,
+"lng": -80.19429,
+"website": null,
+"knownFacts": [
+"Serves Mediterranean food"
+]
+},
+{
+"id": "osm-n13610476799",
+"name": "Tea & Poets",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.7057,
+"lng": -80.28611,
+"website": null,
+"knownFacts": [
+"Serves tea"
+]
+},
+{
+"id": "osm-n12198008216",
+"name": "Texas de Brazil",
+"category": "food",
+"kind": "steak restaurant",
+"address": "7535 North Kendall Drive",
+"city": "Miami",
+"lat": 25.68964,
+"lng": -80.31226,
+"website": "https://texasdebrazil.com/locations/dadeland-mall/",
+"knownFacts": [
+"Serves steak",
+"Has outdoor seating",
+"Offers delivery",
+"Takes reservations",
+"Offers takeout",
+"Has a bar",
+"Address: 7535 North Kendall Drive, Miami"
+]
+},
+{
+"id": "osm-n5929942285",
+"name": "Texas de Brazil",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77178,
+"lng": -80.13981,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4722198205",
+"name": "Thank You Miami",
+"category": "food",
+"kind": "restaurant",
+"address": "1663 West Flagler Street",
+"city": "Miami",
+"lat": 25.77307,
+"lng": -80.2232,
+"website": null,
+"knownFacts": [
+"Address: 1663 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n6304801911",
+"name": "The Arketekt by Aficionados",
+"category": "food",
+"kind": "restaurant",
+"address": "1200 Brickell Bay Drive",
+"city": "Miami",
+"lat": 25.76187,
+"lng": -80.1904,
+"website": null,
+"knownFacts": [
+"Has outdoor seating",
+"Address: 1200 Brickell Bay Drive, Unit 107, Miami"
+]
+},
+{
+"id": "osm-n6020962673",
+"name": "The Asian Kitchen",
+"category": "food",
+"kind": "Chinese restaurant",
+"address": "5796 Bird Road",
+"city": "Miami",
+"lat": 25.73375,
+"lng": -80.28844,
+"website": null,
+"knownFacts": [
+"Serves Chinese food",
+"Address: 5796 Bird Road, Miami"
+]
+},
+{
+"id": "osm-n12038500701",
+"name": "The Best Sub Shop",
+"category": "food",
+"kind": "sandwich restaurant",
+"address": "9802 Southwest 77th Avenue",
+"city": "Miami",
+"lat": 25.67931,
+"lng": -80.31858,
+"website": null,
+"knownFacts": [
+"Serves sandwiches and salads",
+"Address: 9802 Southwest 77th Avenue, Miami"
+]
+},
+{
+"id": "osm-n7138149131",
+"name": "The Café at Books & Books",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79059,
+"lng": -80.13832,
+"website": null,
+"knownFacts": [
+"Has outdoor seating"
+]
+},
+{
+"id": "osm-n8615496440",
+"name": "The Café at Books and Books",
+"category": "food",
+"kind": "restaurant",
+"address": "1300 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.78735,
+"lng": -80.18937,
+"website": "https://booksandbooks.com/",
+"knownFacts": [
+"Has a bar",
+"Address: 1300 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n5164895529",
+"name": "The Capital Grille",
+"category": "food",
+"kind": "steak restaurant",
+"address": "444 Brickell Avenue",
+"city": "Miami",
+"lat": 25.76948,
+"lng": -80.19027,
+"website": "https://www.thecapitalgrille.com/locations/fl/miami/miami/8006",
+"knownFacts": [
+"Serves steak",
+"Address: 444 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-n5837658985",
+"name": "The Cat Café South Beach",
+"category": "food",
+"kind": "café",
+"address": "1423 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78631,
+"lng": -80.13164,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Has Wi-Fi",
+"Address: 1423 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n11812826870",
+"name": "The Cheesecake Factory",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.79044,
+"lng": -80.13446,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Part of the Cheesecake Factory chain"
+]
+},
+{
+"id": "osm-n2001812832",
+"name": "The Cheesecake Factory",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.72829,
+"lng": -80.2424,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Part of the Cheesecake Factory chain"
+]
+},
+{
+"id": "osm-n6018224354",
+"name": "The Cheesecake Factory",
+"category": "food",
+"kind": "American restaurant",
+"address": "2418 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74898,
+"lng": -80.2589,
+"website": "https://locations.thecheesecakefactory.com/",
+"knownFacts": [
+"Serves American food",
+"Part of the Cheesecake Factory chain",
+"Address: 2418 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n6029583840",
+"name": "The Cheesecake Factory",
+"category": "food",
+"kind": "American restaurant",
+"address": "7497 North Kendall Drive",
+"city": "Miami",
+"lat": 25.68988,
+"lng": -80.31335,
+"website": "https://locations.thecheesecakefactory.com/fl/miami-22.html",
+"knownFacts": [
+"Serves American food",
+"Part of the Cheesecake Factory chain",
+"Has outdoor seating",
+"Offers delivery",
+"Takes reservations",
+"Wheelchair accessible",
+"Offers takeout",
+"Has a bar",
+"Has high chairs",
+"Address: 7497 North Kendall Drive, Miami"
+]
+},
+{
+"id": "osm-n6010865904",
+"name": "The Cocinita Miami",
+"category": "food",
+"kind": "restaurant",
+"address": "70 Southeast 5th Street",
+"city": "Miami",
+"lat": 25.76844,
+"lng": -80.19079,
+"website": "https://www.thecocinitamiami.getsauce.com/",
+"knownFacts": [
+"Address: 70 Southeast 5th Street, Miami"
+]
+},
+{
+"id": "osm-n13767195638",
+"name": "The Counter",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.79685,
+"lng": -80.28071,
+"website": null,
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-n6773371141",
+"name": "The Daily Creative Food Co",
+"category": "food",
+"kind": "sandwich restaurant",
+"address": "2001 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.79545,
+"lng": -80.1888,
+"website": null,
+"knownFacts": [
+"Serves sandwiches, salads and breakfast",
+"Has outdoor seating",
+"Offers delivery",
+"Wheelchair accessible",
+"Offers takeout",
+"Address: 2001 Biscayne Boulevard, Unit 109, Miami"
+]
+},
+{
+"id": "osm-n4000102006",
+"name": "The Frieze Ice Cream Factory",
+"category": "food",
+"kind": "ice cream shop",
+"address": "1626 North Michigan Avenue",
+"city": "Miami Beach",
+"lat": 25.78998,
+"lng": -80.13889,
+"website": "https://www.thefrieze.com/",
+"knownFacts": [
+"Address: 1626 North Michigan Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n13704236301",
+"name": "The Grape Ape",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "7400 Southwest 57th Court",
+"city": null,
+"lat": 25.70237,
+"lng": -80.28655,
+"website": null,
+"knownFacts": [
+"Serves Spanish food",
+"Address: 7400 Southwest 57th Court"
+]
+},
+{
+"id": "osm-n12134973676",
+"name": "The Halal Shack",
+"category": "food",
+"kind": "Middle Eastern restaurant",
+"address": "1306 Stanford Drive",
+"city": "Coral Gables",
+"lat": 25.71984,
+"lng": -80.27823,
+"website": null,
+"knownFacts": [
+"Serves Middle Eastern food",
+"Address: 1306 Stanford Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n6010864364",
+"name": "The Henry",
+"category": "food",
+"kind": "American restaurant",
+"address": "701 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76675,
+"lng": -80.19315,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Address: 701 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n8691614974",
+"name": "The Original Crab House",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.68023,
+"lng": -80.31886,
+"website": "https://www.theoriginalcrabhousemiami.com",
+"knownFacts": []
+},
+{
+"id": "osm-n3843182874",
+"name": "The River Oyster Bar",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "33 Southeast 7th Street",
+"city": "Miami",
+"lat": 25.76763,
+"lng": -80.19197,
+"website": null,
+"knownFacts": [
+"Serves seafood",
+"Offers delivery",
+"Offers takeout",
+"Address: 33 Southeast 7th Street, Unit 100, Miami"
+]
+},
+{
+"id": "osm-n13577974501",
+"name": "Tin Tin",
+"category": "food",
+"kind": "local restaurant",
+"address": "2555 Southwest 8th Street",
+"city": null,
+"lat": 25.7654,
+"lng": -80.23756,
+"website": "https://www.tintinmiami.co/",
+"knownFacts": [
+"Address: 2555 Southwest 8th Street, Unit 101"
+]
+}
+]

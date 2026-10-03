@@ -1,0 +1,409 @@
+[
+{
+"id": "osm-n5384767023",
+"name": "Mojitobar",
+"category": "local-life",
+"kind": "bar",
+"address": "401 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.77836,
+"lng": -80.18649,
+"website": null,
+"knownFacts": [
+"Address: 401 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n12777064092",
+"name": "Monarch Lounge Bar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.70461,
+"lng": -80.1547,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3448593179",
+"name": "Monty's Sunset",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.77146,
+"lng": -80.13961,
+"website": "https://www.montyssobe.com/",
+"knownFacts": []
+},
+{
+"id": "osm-w316609809",
+"name": "Now Contemporary Art",
+"category": "local-life",
+"kind": "art shop",
+"address": "337 Northwest 25th Street",
+"city": "Miami",
+"lat": 25.80084,
+"lng": -80.2017,
+"website": null,
+"knownFacts": [
+"Address: 337 Northwest 25th Street, Miami"
+]
+},
+{
+"id": "osm-n13717744385",
+"name": "ON & ON",
+"category": "local-life",
+"kind": "bar",
+"address": "239 Northwest 28th Street",
+"city": "Miami",
+"lat": 25.80304,
+"lng": -80.20017,
+"website": "https://www.onandonmiami.com/",
+"knownFacts": [
+"Opened in 2026",
+"21 and over",
+"Address: 239 Northwest 28th Street, Unit B, Miami"
+]
+},
+{
+"id": "osm-n11586521969",
+"name": "Perro Negro Miami",
+"category": "local-life",
+"kind": "nightclub",
+"address": "2328 North Miami Avenue",
+"city": "Miami",
+"lat": 25.79969,
+"lng": -80.19517,
+"website": "https://clubperronegro.com/",
+"knownFacts": [
+"Address: 2328 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n12134973683",
+"name": "Rathskeller",
+"category": "local-life",
+"kind": "pub",
+"address": "1330 Miller Road",
+"city": "Coral Gables",
+"lat": 25.71922,
+"lng": -80.27961,
+"website": null,
+"knownFacts": [
+"Also known as The Rat",
+"Address: 1330 Miller Road, Coral Gables"
+]
+},
+{
+"id": "osm-n12717255501",
+"name": "RedBar Brickell",
+"category": "local-life",
+"kind": "bar",
+"address": "52 Southwest 10th Street",
+"city": "Miami",
+"lat": 25.76426,
+"lng": -80.19408,
+"website": "https://www.redbarbrickell.com/",
+"knownFacts": [
+"Address: 52 Southwest 10th Street, Miami"
+]
+},
+{
+"id": "osm-n5102158421",
+"name": "Rivieralive",
+"category": "local-life",
+"kind": "nightclub",
+"address": null,
+"city": null,
+"lat": 25.74996,
+"lng": -80.24416,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7134733373",
+"name": "Romero Britto",
+"category": "local-life",
+"kind": "art shop",
+"address": "1102 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.7903,
+"lng": -80.14025,
+"website": null,
+"knownFacts": [
+"Address: 1102 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n12022554470",
+"name": "Rose skybar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.76717,
+"lng": -80.19612,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6091344200",
+"name": "SHOTS Miami",
+"category": "local-life",
+"kind": "nightclub",
+"address": "311 Northwest 23rd Street",
+"city": "Miami",
+"lat": 25.79965,
+"lng": -80.20136,
+"website": "https://www.shotsbar.com/miami",
+"knownFacts": [
+"Address: 311 Northwest 23rd Street, Miami"
+]
+},
+{
+"id": "osm-n9397973765",
+"name": "Saks Fifth Avenue",
+"category": "local-life",
+"kind": "department store",
+"address": null,
+"city": null,
+"lat": 25.68961,
+"lng": -80.31484,
+"website": null,
+"knownFacts": [
+"Part of the Saks Fifth Avenue chain"
+]
+},
+{
+"id": "osm-w1178593088",
+"name": "Saks Fifth Avenue",
+"category": "local-life",
+"kind": "department store",
+"address": null,
+"city": null,
+"lat": 25.76688,
+"lng": -80.19431,
+"website": null,
+"knownFacts": [
+"Part of the Saks Fifth Avenue chain"
+]
+},
+{
+"id": "osm-n9882018349",
+"name": "Saloni By Meraki",
+"category": "local-life",
+"kind": "bar",
+"address": "140 Southeast 1st Avenue",
+"city": "Miami",
+"lat": 25.77301,
+"lng": -80.19202,
+"website": "https://salonibymeraki.com/",
+"knownFacts": [
+"Opened in 2022",
+"Address: 140 Southeast 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-n13767195631",
+"name": "Samuel Adams",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79518,
+"lng": -80.28096,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5903100420",
+"name": "Shoppes at Ocean Drive",
+"category": "local-life",
+"kind": "department store",
+"address": null,
+"city": null,
+"lat": 25.79788,
+"lng": -80.27413,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w291775638",
+"name": "Shops at Merrick Park",
+"category": "local-life",
+"kind": "mall",
+"address": "358 San Lorenzo Avenue",
+"city": "Coral Gables",
+"lat": 25.73156,
+"lng": -80.26014,
+"website": "https://www.villageofmerrickpark.com/",
+"knownFacts": [
+"Address: 358 San Lorenzo Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-w591571018",
+"name": "Showfields",
+"category": "local-life",
+"kind": "department store",
+"address": "530 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79029,
+"lng": -80.13378,
+"website": null,
+"knownFacts": [
+"Address: 530 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n5903100422",
+"name": "Shula's Bar and Grill",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79783,
+"lng": -80.27361,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n11163206124",
+"name": "Siboney",
+"category": "local-life",
+"kind": "nightclub",
+"address": "6051 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76356,
+"lng": -80.294,
+"website": null,
+"knownFacts": [
+"Address: 6051 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n10792782706",
+"name": "Smoking Area",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79733,
+"lng": -80.28147,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n11214375088",
+"name": "Sugar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.76661,
+"lng": -80.19287,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w396472117",
+"name": "Sunset Harbour Shops",
+"category": "local-life",
+"kind": "mall",
+"address": null,
+"city": null,
+"lat": 25.79459,
+"lng": -80.1441,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r7554876",
+"name": "Sunset Place",
+"category": "local-life",
+"kind": "mall",
+"address": null,
+"city": null,
+"lat": 25.70581,
+"lng": -80.28644,
+"website": "https://www.shopsunsetplace.com/",
+"knownFacts": [
+"Founded in 1999"
+]
+},
+{
+"id": "osm-w436034275",
+"name": "Sweet Liberty Drinks & Supply",
+"category": "local-life",
+"kind": "bar",
+"address": "237 20th Street",
+"city": "Miami Beach",
+"lat": 25.79609,
+"lng": -80.12979,
+"website": null,
+"knownFacts": [
+"Address: 237 20th Street, Miami Beach"
+]
+},
+{
+"id": "osm-n4000117180",
+"name": "TASCHEN",
+"category": "local-life",
+"kind": "bookstore",
+"address": "1117 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79057,
+"lng": -80.14095,
+"website": "https://www.taschen.com/pages/en/stores/27093.store_miami.htm",
+"knownFacts": [
+"Address: 1117 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n11922704532",
+"name": "Tap 42 Craft Kitchen & Bar - Coral Gables",
+"category": "local-life",
+"kind": "bar",
+"address": "301 Giralda Avenue",
+"city": "Coral Gables",
+"lat": 25.7512,
+"lng": -80.261,
+"website": "https://tap42.com/locations/coral-gables/",
+"knownFacts": [
+"Address: 301 Giralda Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-w301827958",
+"name": "The Bar",
+"category": "local-life",
+"kind": "bar",
+"address": "172 Giralda Avenue",
+"city": "Coral Gables",
+"lat": 25.75114,
+"lng": -80.25819,
+"website": null,
+"knownFacts": [
+"Has outdoor seating",
+"21 and over",
+"Address: 172 Giralda Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n6299289294",
+"name": "The Biltmore Bar",
+"category": "local-life",
+"kind": "bar",
+"address": "1200 Anastasia Avenue",
+"city": "Coral Gables",
+"lat": 25.74081,
+"lng": -80.27835,
+"website": null,
+"knownFacts": [
+"21 and over",
+"Address: 1200 Anastasia Avenue, Coral Gables"
+]
+}
+]

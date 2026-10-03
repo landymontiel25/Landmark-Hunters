@@ -1,0 +1,397 @@
+[
+{
+"id": "osm-w464453612",
+"name": "Lecuona Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.772,
+"lng": -80.21004,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358729231",
+"name": "Lincoln Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73427,
+"lng": -80.24088,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w461404528",
+"name": "Lisbon Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1015 Lisbon Street",
+"city": "Coral Gables",
+"lat": 25.76153,
+"lng": -80.28351,
+"website": null,
+"knownFacts": [
+"Address: 1015 Lisbon Street, Coral Gables"
+]
+},
+{
+"id": "osm-w1443103503",
+"name": "Ludlam Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "7435 Southwest 66th Avenue",
+"city": "South Miami",
+"lat": 25.70174,
+"lng": -80.29995,
+"website": null,
+"knownFacts": [
+"Address: 7435 Southwest 66th Avenue, South Miami"
+]
+},
+{
+"id": "osm-w624805559",
+"name": "Majorca Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "937-939 Majorca Avenue",
+"city": "Coral Gables",
+"lat": 25.75445,
+"lng": -80.27492,
+"website": null,
+"knownFacts": [
+"Address: 937-939 Majorca Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-w806235765",
+"name": "Manolo Reyes Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "6030 Southwest 2nd Street",
+"city": "Miami",
+"lat": 25.76786,
+"lng": -80.29408,
+"website": "https://www.miamigov.com/Residents/Parks-and-Recreation/Parks-Directory/West-End-Park",
+"knownFacts": [
+"Run by Miami",
+"Run by City of Miami",
+"Address: 6030 Southwest 2nd Street, Miami"
+]
+},
+{
+"id": "osm-w189590701",
+"name": "Margaret Pace Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79415,
+"lng": -80.18625,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358730068",
+"name": "Marshall Williams Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.70871,
+"lng": -80.29783,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w570390085",
+"name": "Mary Brickell Village Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "901 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76497,
+"lng": -80.19268,
+"website": null,
+"knownFacts": [
+"Address: 901 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-w203053990",
+"name": "Matheson Hammock County Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.68259,
+"lng": -80.27863,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w258236772",
+"name": "Maurice Gibb Memorial Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.7928,
+"lng": -80.14478,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w466294473",
+"name": "Melrose Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.80404,
+"lng": -80.23855,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w416557590",
+"name": "Merrick Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "405 Biltmore Way",
+"city": "Coral Gables",
+"lat": 25.74883,
+"lng": -80.26314,
+"website": null,
+"knownFacts": [
+"Address: 405 Biltmore Way, Coral Gables"
+]
+},
+{
+"id": "osm-w237024259",
+"name": "Merrie Christmas Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "4355 Southwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.71138,
+"lng": -80.25997,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Merrie-Christmas-Park",
+"knownFacts": [
+"Address: 4355 Southwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-w76690420",
+"name": "Miami Beach Botanical Garden",
+"category": "parks-nature",
+"kind": "botanical garden",
+"address": "2000 Convention Center Drive",
+"city": "Miami Beach",
+"lat": 25.79568,
+"lng": -80.13561,
+"website": "https://www.mbgarden.org/",
+"knownFacts": [
+"Dogs allowed",
+"Wheelchair accessible",
+"Has restrooms",
+"Address: 2000 Convention Center Drive, Miami Beach"
+]
+},
+{
+"id": "osm-w835612848",
+"name": "Miami Beach Convention Center Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79409,
+"lng": -80.13581,
+"website": null,
+"knownFacts": [
+"Run by City of Miami Beach",
+"Wheelchair accessible",
+"Official name: Pride Park"
+]
+},
+{
+"id": "osm-r19094034",
+"name": "Miami Police Benevolent Association Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78582,
+"lng": -80.23367,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358709672",
+"name": "Miami River Rapids Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79315,
+"lng": -80.24144,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w237024260",
+"name": "Murray Park & Aquatic Center",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.70886,
+"lng": -80.28826,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w463514508",
+"name": "Myres Bayside Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72711,
+"lng": -80.23863,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w646834188",
+"name": "Oak Avenue Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72942,
+"lng": -80.2441,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w624952975",
+"name": "Orduna Dr-Miller Rd Triangle Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.7199,
+"lng": -80.26862,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w236948940",
+"name": "Palmer Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.71333,
+"lng": -80.30349,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w955510747",
+"name": "Palmetum",
+"category": "parks-nature",
+"kind": "garden",
+"address": null,
+"city": null,
+"lat": 25.72254,
+"lng": -80.27709,
+"website": null,
+"knownFacts": [
+"Established in 1999",
+"Run by University of Miami"
+]
+},
+{
+"id": "osm-w296082878",
+"name": "Paradise Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "530 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.69143,
+"lng": -80.16412,
+"website": null,
+"knownFacts": [
+"Run by Village of Key Biscayne",
+"Address: 530 Crandon Boulevard, Key Biscayne"
+]
+},
+{
+"id": "osm-n10232512923",
+"name": "Park Fountains",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76674,
+"lng": -80.13608,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358730049",
+"name": "Parrot Jungle",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.66927,
+"lng": -80.28644,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w823021999",
+"name": "Paul S. Walker Urbanscape",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77387,
+"lng": -80.19453,
+"website": null,
+"knownFacts": [
+"Run by City of Miami"
+]
+},
+{
+"id": "osm-w184076411",
+"name": "Phillips Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75765,
+"lng": -80.25641,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w547376265",
+"name": "Pittman Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "115 Merrick Way",
+"city": "Coral Gables",
+"lat": 25.75197,
+"lng": -80.25701,
+"website": null,
+"knownFacts": [
+"Address: 115 Merrick Way, Coral Gables"
+]
+}
+]

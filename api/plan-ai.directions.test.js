@@ -56,16 +56,18 @@ describe('plan-ai directions questions', () => {
   });
 
   it('lists named imported places and accepts them as stops', async () => {
-    const cafe = ALL_LANDMARKS.find((l) => l.source === 'osm' && l.name === 'Panther Coffee');
+    const cafe = ALL_LANDMARKS.find((l) => l.source === 'osm' && l.name === 'Vice City Bean');
     expect(cafe).toBeTruthy();
-    aiText = JSON.stringify({ reply: "Here's Panther Coffee.", stops: [{ match: `miami/${cafe.id}`, reason: 'Tap Directions.' }] });
-    const r = await ask('directions to Panther Coffee');
+    aiText = JSON.stringify({ reply: "Here's Vice City Bean.", stops: [{ match: `miami/${cafe.id}`, reason: 'Tap Directions.' }] });
+    const r = await ask('directions to Vice City Bean');
     const system = lastRequest.system.map((b) => b.text).join('\n');
     expect(system).toMatch(/MATCHING PLACES/);
     expect(system).toContain(`miami/${cafe.id}`);
+    // Its researched facts ride along so Mapr knows what the place is.
+    expect(system).toContain('facts: Founded by Roland and Eva Baker');
     // Imported places stay out of the cached catalog block.
     expect(lastRequest.system.find((b) => b.cache_control).text).not.toContain('osm-');
-    expect(r.stops[0]).toMatchObject({ id: cafe.id, name: 'Panther Coffee', source: 'osm' });
+    expect(r.stops[0]).toMatchObject({ id: cafe.id, name: 'Vice City Bean', source: 'osm' });
   });
 });
 

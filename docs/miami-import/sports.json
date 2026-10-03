@@ -15,6 +15,7 @@
    "lng": -80.138091,
    "photo": false,
    "facts": [
+    "Has an 8-lane lap pool, aerated in summer and heated in winter",
     "Run by City of Miami Beach Government",
     "Address: 1245 Michigan Avenue, Miami Beach"
    ],
@@ -38,6 +39,7 @@
    "lng": -80.282191,
    "photo": false,
    "facts": [
+    "Named for Michael Yaron, who donated the money to fix up the fields",
     "Grass surface"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/366186664"
@@ -50,7 +52,9 @@
    "lng": -80.137263,
    "photo": false,
    "facts": [
-    "Run by City of Miami Beach"
+    "Has 17 clay tennis courts",
+    "Center and courts were rebuilt in a renovation completed in 2013",
+    "The Orange Bowl junior tennis championship began here and stayed until 1998"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/255402011"
   },
@@ -62,6 +66,7 @@
    "lng": -80.277969,
    "photo": false,
    "facts": [
+    "Has 13 lighted clay courts",
     "Address: 1121 Andalusia Avenue, Coral Gables"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/5901147212"
@@ -74,6 +79,7 @@
    "lng": -80.282511,
    "photo": false,
    "facts": [
+    "Has 16 tennis courts",
     "Run by University of Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/relation/18439268"
