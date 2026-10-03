@@ -1,0 +1,468 @@
+[
+ {
+  "id": "osm-n989578555",
+  "name": "New Wayne Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Serving the Wayne area since 1989 and sits across from the Wayne Post Office.",
+    "url": "http://www.newwaynepizza.com/about-us"
+   },
+   {
+    "text": "Makes its pizza sauce with California tomatoes and a special cheese blend.",
+    "url": "http://www.newwaynepizza.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10778676504",
+  "name": "Not Your Average Joe's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Run by Chef Michael Logan at this location.",
+    "url": "https://www.notyouraveragejoes.com/ardmore"
+   },
+   {
+    "text": "Offers brunch and cocktails along with its dinner menu.",
+    "url": "https://www.notyouraveragejoes.com/ardmore"
+   },
+   {
+    "text": "Menu includes New England clam chowder.",
+    "url": "https://www.notyouraveragejoes.com/items/new-england-clam-chowder"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11933285941",
+  "name": "Nudy's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Part of Nudy's Cafes, a family-owned business founded in Devon in 1979.",
+    "url": "https://www.nudyscafes.com/locations/ardmore/"
+   },
+   {
+    "text": "Casual breakfast and lunch cafe.",
+    "url": "https://www.nudyscafes.com/locations/ardmore/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9494187057",
+  "name": "Nudy's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Part of Nudy's Cafes, a family-owned business founded in Devon in 1979.",
+    "url": "https://www.nudyscafes.com/locations/nudys-cafe-conshohocken/"
+   },
+   {
+    "text": "Casual breakfast and lunch cafe.",
+    "url": "https://www.nudyscafes.com/locations/nudys-cafe-conshohocken/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w987745205",
+  "name": "Nudy's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Part of Nudy's Cafes, a family-owned business founded in Devon in 1979.",
+    "url": "https://www.nudyscafes.com/"
+   },
+   {
+    "text": "Chain operates breakfast and lunch cafes across Chester, Montgomery and Delaware Counties.",
+    "url": "https://www.nudyscafes.com/nudys-cafe-promise/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14210505720",
+  "name": "OSushi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Offers sushi combination dishes, special rolls and Japanese entrees.",
+    "url": "https://osushipa.com/"
+   },
+   {
+    "text": "Part of Osushi, which also has locations in Wayne, PA and Marlton, NJ.",
+    "url": "https://osushipa.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12542098250",
+  "name": "Otto by Polpo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "BYOB restaurant serving modern Italian dishes that follow the seasons.",
+    "url": "https://www.ottobypolpo.com/"
+   },
+   {
+    "text": "Executive chef Bujar selects its produce, meats, fish and cheese fresh each day.",
+    "url": "https://www.ottobypolpo.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5534131133",
+  "name": "Pak Yue",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Offers takeout and delivery.",
+    "url": "https://pakyuechineserestaurant.netwaiter.com/ardmore/about/"
+   },
+   {
+    "text": "Menu lists General Tso's Chicken and Happy Family as house specialties.",
+    "url": "https://pakyuechinese.5menucities.com/catalog.aspx?cid=37"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9710435817",
+  "name": "Paola's Cucina",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Specializes in old school, classic Italian cooking.",
+    "url": "https://www.paolascucina.com/"
+   },
+   {
+    "text": "Opened in 1997 as Bravo Pizza.",
+    "url": "https://www.paolascucina.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w225015993",
+  "name": "Pepperoncini",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Chef and owner Paul DiBona runs this Italian restaurant and bar.",
+    "url": "https://pepperoncinirestaurant.com/"
+   },
+   {
+    "text": "Offers full bar and catering for private events.",
+    "url": "https://www.yellowpages.com/conshohocken-pa/mip/pepperoncini-restaurant-bar-17608624"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11738825355",
+  "name": "Pho Losophy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Vietnamese cooking built on herbs and vegetables with minimal dairy and oil.",
+    "url": "http://pho-losophy.com/"
+   },
+   {
+    "text": "Family-owned Vietnamese restaurant on Haverford Avenue serving pho noodle soup and sandwiches.",
+    "url": "https://themerionite.org/7701/features/pho-losophy-vietnamese-bliss/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11137175405",
+  "name": "Pietro's Pizzeria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Pizzeria and birreria with pizza and pasta specialties plus beer and wine.",
+    "url": "https://pietrospizza.com/radnor.asp"
+   },
+   {
+    "text": "Hosts banquets for groups of up to 100 guests.",
+    "url": "https://pietrospizza.com/radnor.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11554757108",
+  "name": "PJ Whelihan's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Neighborhood sports pub known for jumbo wings and a local beer lineup.",
+    "url": "https://locations.pjspub.com/locations/pa/wynnewood/50-e-wynnewood-road"
+   },
+   {
+    "text": "Part of P.J. Whelihan's, operating since 1983.",
+    "url": "https://locations.pjspub.com/locations/pa/wynnewood/50-e-wynnewood-road"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2611788971",
+  "name": "Positano Ristorante",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Named after the cliffside village on Italy's Amalfi Coast.",
+    "url": "https://www.positanoristorante.com/"
+   },
+   {
+    "text": "Has three private dining rooms for events and banquets.",
+    "url": "https://www.positanoristorante.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w587976077",
+  "name": "Pour Richard's Coffee Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Small batch craft coffee roastery.",
+    "url": "https://pourrichardscoffee.com/"
+   },
+   {
+    "text": "Pour Richard's Coffee Company was envisioned in 2005 by Richard and Jean.",
+    "url": "https://pourrichardscoffee.com/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13988552514",
+  "name": "Raffs Fine Italian Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Prepares classic Italian dishes with top-shelf ingredients.",
+    "url": "https://www.raffsrestaurant.com/"
+   },
+   {
+    "text": "Hosts events such as bridal showers and anniversaries.",
+    "url": "https://www.raffsrestaurant.com/events/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w372593386",
+  "name": "Real Pizza Narberth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Makes Greek-style pizza.",
+    "url": "https://www.yelp.com/biz/real-pizza-of-narberth-narberth"
+   },
+   {
+    "text": "Menu includes a buffalo chicken cheesesteak.",
+    "url": "https://www.yelp.com/biz/real-pizza-of-narberth-narberth"
+   }
+  ]
+ },
+ {
+  "id": "osm-w647047816",
+  "name": "Renata's Kitchen & Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Mediterranean restaurant open since 2012 in University City.",
+    "url": "https://www.renatas-kitchen.com/"
+   },
+   {
+    "text": "Has a patio garden and serves weekend brunch with shakshuka and flatbreads.",
+    "url": "https://www.renatas-kitchen.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11177268778",
+  "name": "Rosa Mexicano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Located in Suburban Square, with a bar and outdoor patio.",
+    "url": "https://rosamexicano.com/location/ardmore/"
+   },
+   {
+    "text": "Prepares guacamole tableside.",
+    "url": "https://rosamexicano.com/location/ardmore/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9587719502",
+  "name": "Rudee's Thai cuisine",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/rudees-thai-cuisine-wynnewood",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-w458781331",
+  "name": "Ryan Christophers BYOB",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Bistro-style BYOB serving made-to-order seafood, veal and chicken cutlets, and pastas.",
+    "url": "https://ryanchristophersbyob.com/"
+   },
+   {
+    "text": "Makes its desserts in house and offers entree salads.",
+    "url": "https://ryanchristophersbyob.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10884033879",
+  "name": "Sabrina's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-owned bruncherie serving New American breakfast, brunch and lunch.",
+    "url": "https://www.sabrinascafe.com/location/sabrinas-cafe-wynnewood/"
+   },
+   {
+    "text": "Its first shopping center location, opened in 2015, and BYOB.",
+    "url": "https://www.sabrinascafe.com/location/sabrinas-cafe-wynnewood/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w944686673",
+  "name": "Saffron Indian Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Cooks Indian dishes from scratch each morning.",
+    "url": "https://saffronofphilly.com/saffron-wayne"
+   },
+   {
+    "text": "One of four Saffron locations, all BYOB.",
+    "url": "https://saffronofphilly.com/saffron-wayne"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224528195",
+  "name": "Saigon Noodle Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned Vietnamese restaurant open since 2023.",
+    "url": "https://saigonnoodlekitchen.com/"
+   },
+   {
+    "text": "Pho comes with brisket, flank or eye round steak, basil, bean sprouts and lemon.",
+    "url": "https://saigonnoodlekitchen.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12482465051",
+  "name": "Sake Mian",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Japanese menu includes yellowtail tiradito, seared tuna tataki, sashimi and ramen.",
+    "url": "https://www.sakeramen-ardmorepa.com/"
+   }
+  ]
+ }
+]
