@@ -181,15 +181,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
     "text": "Chef and owner Paul DiBona runs this Italian restaurant and bar.",
     "url": "https://pepperoncinirestaurant.com/"
    },
    {
-    "text": "Offers full bar and catering for private events.",
-    "url": "https://www.yellowpages.com/conshohocken-pa/mip/pepperoncini-restaurant-bar-17608624"
+    "text": "Offers full-service off-site catering with delivery, set-up and servers.",
+    "url": "https://pepperoncinirestaurant.com/conshohocken-pepperoncini-restaurant-catering"
    }
   ]
  },
@@ -457,11 +457,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 3,
+  "searches": 4,
   "facts": [
    {
     "text": "Japanese menu includes yellowtail tiradito, seared tuna tataki, sashimi and ramen.",
     "url": "https://www.sakeramen-ardmorepa.com/"
+   },
+   {
+    "text": "Menu also lists bubble tea and sushi.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g30053-d24971392-Reviews-Sake_Mian-Ardmore_Pennsylvania.html"
    }
   ]
  }
