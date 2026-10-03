@@ -46,7 +46,7 @@ export function okWebFact(f) {
     text.length >= 12 &&
     text.length <= 160 &&
     /^https:\/\/[^\s"'<>]+$/.test(String(f?.url || '')) &&
-    !/\$\s?\d|\b\d{3}[-.\s)]+\d{3}[-.\s]\d{4}\b|\b(stars?|rated|ratings?|reviews?|open(s)? (daily|from|until)|hours)\b|\u2014/i.test(text)
+    !/\$\s?\d|\b\d{3}[-.\s)]+\d{3}[-.\s]\d{4}\b|\b(stars?|rated|ratings?|reviews?|open(s)? (daily|from|until)|hours)\b|\u2014|\b(best|most popular|famous|iconic|must-visit|favorite)\b/i.test(text)
   );
 }
 
