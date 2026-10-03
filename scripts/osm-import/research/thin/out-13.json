@@ -1,0 +1,376 @@
+[
+ {
+  "id": "osm-w570390085",
+  "name": "Mary Brickell Village Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of Mary Brickell Village, which has two public plazas shaded by mature oak and mahogany trees.",
+    "url": "https://themiamiguide.com/miami/mary-brickell-village-miami/"
+   },
+   {
+    "text": "The village-style setting includes water features and entertainment venues.",
+    "url": "https://themiamiguide.com/miami/mary-brickell-village-miami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w237024259",
+  "name": "Merrie Christmas Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Has a playground and picnic tables, and dogs are allowed on leash.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Merrie-Christmas-Park"
+   },
+   {
+    "text": "Had soil remediation and landscaping work beside the playground, due to finish in January 2022.",
+    "url": "https://www.miami.gov/My-Government/Departments/Office-of-Capital-Improvements/Capital-Improvements-Projects-Construction-Notices-Per-District/District-2-Capital-Improvements-Projects-1-1/Merrie-Christmas-Park-Improvements"
+   }
+  ]
+ },
+ {
+  "id": "osm-w76690420",
+  "name": "Miami Beach Botanical Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The City of Miami Beach created the Garden Center here in 1962, opposite the Convention Center.",
+    "url": "https://www.mbgarden.org/about/"
+   },
+   {
+    "text": "Three-acre garden with Japanese and Native gardens.",
+    "url": "https://www.mbgarden.org/about/"
+   },
+   {
+    "text": "Landscape architect Raymond Jungles led a redesign focused on native plants and water conservation.",
+    "url": "https://www.mbgarden.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-r19094034",
+  "name": "Miami Police Benevolent Association Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Grounds of the Miami PBA hall include an outdoor barbecue area.",
+    "url": "https://www.cvent.com/venues/miami/special-event-venue/miami-police-benevolent-association/venue-24b70c10-7d40-4300-a109-a89d30bb7547"
+   },
+   {
+    "text": "The adjoining hall has indoor banquet space for weddings and other events, renovated in 2024.",
+    "url": "https://www.cvent.com/venues/miami/special-event-venue/miami-police-benevolent-association/venue-24b70c10-7d40-4300-a109-a89d30bb7547"
+   }
+  ]
+ },
+ {
+  "id": "osm-w237024260",
+  "name": "Murray Park & Aquatic Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The aquatic center opened to the community on August 6, 2014.",
+    "url": "https://southmiamifl.gov/facilities/facility/details/Murray-Park-Aquatic-Center-21"
+   },
+   {
+    "text": "Features a splash pad and a zero-depth entry outdoor pool, with locker rooms.",
+    "url": "https://southmiamifl.gov/facilities/facility/details/Murray-Park-Aquatic-Center-21"
+   }
+  ]
+ },
+ {
+  "id": "osm-w646834188",
+  "name": "Oak Avenue Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w624952975",
+  "name": "Orduna Dr-Miller Rd Triangle Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Small passive park of 0.25 acres in Coral Gables.",
+    "url": "https://www.coralgables.com/community-recreation/parks-open-spaces/our-parks/all-parks-open-spaces"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10232512923",
+  "name": "Park Fountains",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w184076411",
+  "name": "Phillips Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Has tennis courts, a playground, a basketball court and an open field ringed by a running track.",
+    "url": "https://www.yelp.com/biz/phillips-park-coral-gables"
+   }
+  ]
+ },
+ {
+  "id": "osm-w547376265",
+  "name": "Pittman Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Small corner park with mowed lawn, benches and scattered shade trees.",
+    "url": "https://www.atly.com/location/PittmanPark"
+   },
+   {
+    "text": "Has no restrooms on site.",
+    "url": "https://www.atly.com/location/PittmanPark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w461407683",
+  "name": "Robert J. Fewell Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Created from a 0.75-acre plot donated by Robert and Marian Fewell, and named in their honor.",
+    "url": "https://gablesfoundation.org/about/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w624993920",
+  "name": "Rotary Centennial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w184076415",
+  "name": "Schenly Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sits in a natural dip in the land beside Red Road, with large shade trees.",
+    "url": "https://www.yelp.com/biz/schenley-park-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-r15789686",
+  "name": "Spring Garden Point Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Waterfront park in Overtown with benches overlooking the river and canoe access.",
+    "url": "https://wanderlog.com/place/details/6479740/spring-garden-point-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w453575836",
+  "name": "Steele Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358730063",
+  "name": "Sunrise Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w235922050",
+  "name": "Trinity Pineland County Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Pine rockland habitat of about 10 acres managed as an Environmentally Endangered Land site.",
+    "url": "https://www.miamidade.gov/global/environment/ecosystems/endangered-lands-acquired.page"
+   }
+  ]
+ },
+ {
+  "id": "osm-w370748746",
+  "name": "UM Sinkhole Lounge",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w624805558",
+  "name": "Venetia Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Small neighborhood park, also listed as James T. Barker Park, with entrances on two opposite streets.",
+    "url": "https://www.yelp.com/biz/james-t-barker-park-coral-gables"
+   },
+   {
+    "text": "Has a bench swing, a log for children to play on and a water fountain.",
+    "url": "https://www.yelp.com/biz/james-t-barker-park-coral-gables"
+   }
+  ]
+ },
+ {
+  "id": "osm-w546220379",
+  "name": "Venetian Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358708717",
+  "name": "Water Plant Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w464465629",
+  "name": "Watson Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w237024262",
+  "name": "William H. Kerdyk, Jr. & Family Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Park of about 3 acres with a pavilion, a children's play area with rock climbing and a walking path.",
+    "url": "http://legacy.coralgables.com/index.aspx?page=1180"
+   },
+   {
+    "text": "Also has picnic tables, benches and fitness equipment.",
+    "url": "http://legacy.coralgables.com/index.aspx?page=1180"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6540203185",
+  "name": "Lock & Load Miami Range",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Machine gun experience, museum and art gallery in the Wynwood district with over 25 fully automatic firearms.",
+    "url": "https://lockandloadmiami.com/about-us/"
+   },
+   {
+    "text": "The 14,000 square-foot facility has 24 air-conditioned lanes.",
+    "url": "https://lockandloadmiami.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12188327106",
+  "name": "Arch Enemy Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Founded in 2012 as an exhibition space for emerging and established artists in new contemporary art.",
+    "url": "https://www.archenemyarts.com/about"
+   },
+   {
+    "text": "Focuses on representational drawing, painting and sculpture in lowbrow/pop surrealism, magical realism and post-graffiti.",
+    "url": "https://www.archenemyarts.com/about"
+   }
+  ]
+ }
+]
