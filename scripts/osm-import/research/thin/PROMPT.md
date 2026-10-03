@@ -53,6 +53,8 @@ villanova region: Villanova, Rosemont, Bryn Mawr, Wayne, Radnor).
   street address. Facts must not start with the generic words in knownFacts
   ("Serves ...", "Has outdoor seating" ...); write specific facts instead,
   e.g. "Bakes Italian rolls and tomato pie on site." rather than "Serves bread."
+- A place that moved away from this address counts as closed here
+  (closedSource = the page saying it moved).
 - A result says it closed for good (permanently closed, shut down, replaced
   by another business): closed: true, closedSource: that URL, no facts.
 - After 4 searches nothing confirms this place exists: matched: false,
