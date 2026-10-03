@@ -1,0 +1,80 @@
+[
+{"id":"osm-n10728686424","name":"Five Points Cocktails","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n1687527838","name":"Flip & Bailey's","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Began as Horace P. Jerky's, which opened in 1972 at this address.","url":"https://www.flipandbaileys.com/about"},
+{"text":"Renamed Flip & Bailey's in 2007 after the owner's dogs, two Labrador Retrievers.","url":"https://www.flipandbaileys.com/about"},
+{"text":"Has a second-floor dining and game area.","url":"http://wp.flipandbaileys.com/service/lounge-party/"}]},
+{"id":"osm-n2012636167","name":"Fluid Nightclub","matched":true,"closed":true,"closedSource":"https://metrophiladelphia.com/dj-jazzy-jeff-questlove-party-set-to-close-fluid-after-16-years/","facts":[
+{"text":"Operated for 16 years before closing.","url":"https://metrophiladelphia.com/dj-jazzy-jeff-questlove-party-set-to-close-fluid-after-16-years/"},
+{"text":"Held a closing party with DJ Jazzy Jeff and Questlove.","url":"https://metrophiladelphia.com/dj-jazzy-jeff-questlove-party-set-to-close-fluid-after-16-years/"}]},
+{"id":"osm-n2182345789","name":"Flynn's Bar","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Has been in the same family since 1911.","url":"https://www.loopnet.com/Listing/4010-Market-St-Philadelphia-PA/22343955/"},
+{"text":"Sits next to 40th Street Station in University City.","url":"https://www.loopnet.com/Listing/4010-Market-St-Philadelphia-PA/22343955/"}]},
+{"id":"osm-n2752820086","name":"Fountain Farmers Market","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n2760163290","name":"Francisville Farmers Market","matched":false,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n3306921057","name":"Frankford Hall","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Modern biergarten in Fishtown inspired by traditional German beer gardens.","url":"https://frankfordhall.com/"},
+{"text":"Serves German and American dishes such as sausages and burgers, plus beer.","url":"https://frankfordhall.com/"}]},
+{"id":"osm-n13173643609","name":"Franklin's Pub","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n3559271948","name":"Fresh for All: Pennsport","matched":false,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w909177961","name":"Garage Fishtown","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Stocks over 150 canned beers.","url":"https://www.garagephilly.com/fishtown"},
+{"text":"Has skeeball and serves picklebacks and specialty shots.","url":"https://www.garagephilly.com/fishtown"},
+{"text":"Has an in-house bar food menu.","url":"https://www.garagephilly.com/fishtown"}]},
+{"id":"osm-w334239526","name":"Good Dog Bar","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Spans three stories, including a third-floor game room.","url":"https://gooddogbar.com/"},
+{"text":"Occupies a roughly 100-year-old building that has been a watering hole since Prohibition.","url":"https://gooddogbar.com/"},
+{"text":"Has operated since 2003 and welcomes leashed dogs in its outdoor dining area.","url":"https://gooddogbar.com/"}]},
+{"id":"osm-n12630165226","name":"Good Good Things Bar","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n649984278","name":"Grace Tavern","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n877499231","name":"Great American Pub","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"The Wayne location opened in 2000.","url":"https://thegreatamericanpub.com/wayne/about-us/"},
+{"text":"Hosts private parties for up to 40 people.","url":"http://thegreatamericanpub.com/wayne/wayne-banquets/"}]},
+{"id":"osm-w224489962","name":"Great American Pub","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"The first Great American Pub location, opened in 1991.","url":"https://thegreatamericanpub.com/conshohocken/about-us/"},
+{"text":"Has the Valley Top Ballroom upstairs, seating up to 170 guests.","url":"https://thegreatamericanpub.com/conshohocken/banquets/"},
+{"text":"Has a seasonal outdoor area called the Skytop Garden.","url":"https://thegreatamericanpub.com/conshohocken/skytop-garden/"}]},
+{"id":"osm-w372593381","name":"Great American Pub","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Serves a Sunday brunch.","url":"https://www.greatamericanpub.net/brunch"},
+{"text":"Hosts a no buy-in Texas Hold'em poker night on Tuesdays.","url":"https://www.greatamericanpub.net/events"},
+{"text":"Offers full-service catering.","url":"https://www.greatamericanpub.net/catering"}]},
+{"id":"osm-w250863827","name":"Green Room","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Bought in 1919 by Pop Plumer, who turned the original restaurant into the Cadillac Delicatessen.","url":"https://www.greenroomphiladelphia.com/about"},
+{"text":"Became a bar when Prohibition ended in 1933.","url":"https://www.greenroomphiladelphia.com/about"},
+{"text":"Has a pool table, two dart boards and a jukebox.","url":"https://www.greenroomphiladelphia.com/"}]},
+{"id":"osm-n7098149781","name":"Green Tree Tavern","matched":true,"closed":true,"closedSource":"https://en.wikipedia.org/wiki/Green_Tree_Tavern","facts":[
+{"text":"Built in 1845 and designed by architect Joseph Singerly.","url":"https://en.wikipedia.org/wiki/Green_Tree_Tavern"},
+{"text":"Also known as the Marlborough Inn.","url":"https://en.wikipedia.org/wiki/Green_Tree_Tavern"},
+{"text":"Claimed to be the oldest operating tavern in Philadelphia, established in 1849.","url":"https://en.wikipedia.org/wiki/Green_Tree_Tavern"},
+{"text":"The building is now used by a martial arts studio.","url":"https://en.wikipedia.org/wiki/Green_Tree_Tavern"}]},
+{"id":"osm-n2760098506","name":"Greensgrow Farmstand","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w428817661","name":"Grumpy's Tavern","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Hatch & Coop runs the kitchen, serving sandwiches, bowls and a cheesesteak.","url":"https://billypenn.com/2023/07/18/philadelphia-fried-chicken-hatch-coop-grumpys/"}]},
+{"id":"osm-n12537584658","name":"Guard House Inn","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Has stood in Gladwyne since about 1790.","url":"https://www.ritnerdigital.com/blog/the-guard-house-inn-has-been-there-since-the-18th-century-heres-what-that-kind-of-longevity-actually-takes"}]},
+{"id":"osm-n1475230378","name":"Gunner's Run","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/gunners-run-philadelphia","facts":[
+{"text":"Located at The Piazza at Schmidt's in Northern Liberties.","url":"http://www.myphillyalive.com/blog/gunners-run-at-the-piazza-in-northern-liberties/"}]},
+{"id":"osm-w225131235","name":"Guppy's Good Times","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Featured on 6abc's Best Dishes in 2020.","url":"https://guppysgoodtimes.com/"},
+{"text":"Won the Tacohocken taco competition in 2023.","url":"https://guppysgoodtimes.com/"},
+{"text":"Shares its location with Kaede Sushi, a separate venue.","url":"https://guppysgoodtimes.com/"}]},
+{"id":"osm-n12068476125","name":"Harriett's Bookshop","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n4670258445","name":"Headhouse Farmers Market","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Established in 2007 in the Society Hill neighborhood.","url":"https://thefoodtrust.org/what-we-do/farmers-markets/headhouse/"},
+{"text":"One of The Food Trust's largest farmers markets.","url":"https://thefoodtrust.org/what-we-do/farmers-markets/headhouse/"},
+{"text":"Located at 2nd and Lombard Streets, under the Headhouse Shambles.","url":"https://thefoodtrust.org/what-we-do/farmers-markets/headhouse/"},
+{"text":"Vendors sell produce, bread, soup, baked goods, coffee, beer and wine.","url":"https://thefoodtrust.org/what-we-do/farmers-markets/headhouse/"}]},
+{"id":"osm-n2760115676","name":"Henry Got Crops!","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n10916408098","name":"Henry James Saloon","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Has been a neighborhood bar since 1989.","url":"https://www.henryjamessaloonpa.com/"},
+{"text":"Has an outdoor patio and hosts live music nights.","url":"https://www.henryjamessaloonpa.com/"}]},
+{"id":"osm-n11073875083","name":"Hero Complex","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Operates as Johnny Destructo's Hero Complex, selling comic books, original art and graphic novels.","url":"https://www.jdsherocomplex.com/comic-books"}]},
+{"id":"osm-n14148929201","name":"High Leverage","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Sells vinyl records in punk, hardcore, screamo and indie genres.","url":"https://highleverage.online/"},
+{"text":"Carries rare and collectible punk records.","url":"https://highleverage.online/"}]},
+{"id":"osm-n14005016986","name":"Hilltop Books","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"A project of the Friends of the Chestnut Hill Library.","url":"https://hilltopbooks.org/about/"},
+{"text":"Sells gently used books donated by the community.","url":"https://hilltopbooks.org/about/"},
+{"text":"Staffed by volunteers, with proceeds supporting the Chestnut Hill library branch.","url":"https://hilltopbooks.org/about/"}]}
+]

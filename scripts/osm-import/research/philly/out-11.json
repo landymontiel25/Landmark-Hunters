@@ -1,0 +1,459 @@
+[
+ {
+  "id": "osm-n2752762909",
+  "name": "58th & Chester Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6897200051",
+  "name": "60th St Pizza & Beer",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13987029531",
+  "name": "A Man Full of Trouble",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1759 with an adjoining Paschall House.",
+    "url": "https://www.hmdb.org/m.asp?m=31273"
+   },
+   {
+    "text": "Last of the 18th century inns of colonial Philadelphia.",
+    "url": "https://www.hmdb.org/m.asp?m=31273"
+   },
+   {
+    "text": "Owned by Colonel Blaithewaite Jones and John Wood, a clockmaker.",
+    "url": "https://www.hmdb.org/m.asp?m=31273"
+   },
+   {
+    "text": "Restored by the Knauer Foundation.",
+    "url": "https://www.hmdb.org/m.asp?m=31273"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7383548302",
+  "name": "Ajax Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bar and lounge inside The Fillmore Philadelphia.",
+    "url": "https://thevendry.com/venue/5511/the-fillmore-philadelphia-philadelphia-pa/space/54463"
+   },
+   {
+    "text": "Connects the Box Office Courtyard entrance to the main Music Hall.",
+    "url": "https://thevendry.com/venue/5511/the-fillmore-philadelphia-philadelphia-pa/space/54463"
+   },
+   {
+    "text": "Open to visitors without a ticket to a show.",
+    "url": "https://thevendry.com/venue/5511/the-fillmore-philadelphia-philadelphia-pa/space/54463"
+   }
+  ]
+ },
+ {
+  "id": "osm-w484960727",
+  "name": "American Sardine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Neighborhood bar in Point Breeze.",
+    "url": "https://americansardinebar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1238355257",
+  "name": "Arecibo Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7431800654",
+  "name": "ASCII Cup XLI",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2003090914",
+  "name": "B Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by its owner, Mr. B, for 17 years until he retired.",
+    "url": "https://www.facebook.com/thebbarandgrill/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2247020281",
+  "name": "Bacchus Market & Catering",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1999 by owner Tracey Wolfson.",
+    "url": "https://www.bacchusmarket.com/about"
+   },
+   {
+    "text": "Named after the Roman god of harvest, fertility, theater arts and parties.",
+    "url": "https://www.bacchusmarket.com/about"
+   },
+   {
+    "text": "Sits at 23rd and Spruce streets near Fitler Square.",
+    "url": "https://www.bacchusmarket.com/about"
+   },
+   {
+    "text": "Offers gourmet carry-out, retail and event catering.",
+    "url": "https://www.bacchusmarket.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10938659887",
+  "name": "Bar Jawn",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by David and Ana Lee, the owners of Pizza Jawn.",
+    "url": "https://www.phillyvoice.com/pizza-jawn-bar-jawn-restaurant-manayunk-philadelphia/"
+   },
+   {
+    "text": "Occupies the former Manayunk Tavern at Main and Rector streets.",
+    "url": "https://www.phillyvoice.com/pizza-jawn-bar-jawn-restaurant-manayunk-philadelphia/"
+   },
+   {
+    "text": "Sells Pizza Jawn pizzas for takeout and delivery.",
+    "url": "https://www.phillyvoice.com/pizza-jawn-bar-jawn-restaurant-manayunk-philadelphia/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6417151886",
+  "name": "Bar Ly",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8410340130",
+  "name": "Bar210",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11901925862",
+  "name": "Barcade",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Second Philadelphia location of the retro arcade and bar Barcade, which began in New York.",
+    "url": "https://www.phillyvoice.com/barcade-center-city-opening-retro-arcade-games-craft-beer-bar/"
+   },
+   {
+    "text": "Fills two floors of the historic Hale building with over 70 games and 24 craft beer lines.",
+    "url": "https://www.phillyvoice.com/barcade-center-city-opening-retro-arcade-games-craft-beer-bar/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11908737571",
+  "name": "Bardot",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12228631531",
+  "name": "Barnes & Noble",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Moved here in 2023 from a larger store on Rittenhouse Square.",
+    "url": "https://www.phillyvoice.com/barnes-noble-rittenhouse-square-chestnut-street-center-city/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7613664316",
+  "name": "Bender City",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11073875074",
+  "name": "Best Kept Secret Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "BYOB lounge that serves finger foods and hookah.",
+    "url": "https://bkslounge.com/about"
+   },
+   {
+    "text": "Decorated with artistic wall murals and graffiti collaborations.",
+    "url": "https://bkslounge.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2100751398",
+  "name": "Bindlestiff Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Volunteer-run neighborhood bookstore in West Philadelphia.",
+    "url": "https://bindlestiffbooks.wordpress.com/about/"
+   },
+   {
+    "text": "Sells new and discounted books, including children's books, graphic novels and labor studies.",
+    "url": "https://bindlestiffbooks.wordpress.com/about/"
+   },
+   {
+    "text": "Sits two blocks from Clark Park.",
+    "url": "https://bindlestiffbooks.wordpress.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3903303647",
+  "name": "Black Squirrel",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.inquirer.com/food/restaurants/philadelphia-restaurant-closings-2024-20241230.html",
+  "facts": [
+   {
+    "text": "Opened by restaurateur Arthur Cavaliere and developer Mark Sherman.",
+    "url": "https://www.inquirer.com/columnists/black-quirrel-restaurant-review-20211112.html"
+   },
+   {
+    "text": "British-style pub serving cocktails and English comfort food in East Falls.",
+    "url": "https://www.inquirer.com/columnists/black-quirrel-restaurant-review-20211112.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8591425502",
+  "name": "Blue Bird Distilling - Center City Tasting Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Tasting room run by Phoenixville's Bluebird Distilling.",
+    "url": "https://phoenixvillechamber.org/news-events/news/center-city-welcomes-phoenixvilles-bluebird-distilling/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2701472360",
+  "name": "Bob and Barbara's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1969 by Robert Porter and Barbara Carter.",
+    "url": "https://www.bobandbarbaras.com/menu"
+   },
+   {
+    "text": "Originated 'The Special', a can of Pabst Blue Ribbon with a shot of Jim Beam, in 1994.",
+    "url": "https://www.bobandbarbaras.com/menu"
+   },
+   {
+    "text": "Hosts Philadelphia's longest running drag show on Thursday nights.",
+    "url": "https://www.bobandbarbaras.com/menu"
+   },
+   {
+    "text": "Nate Wiley and the Crowd Pleasers played live music on weekends for decades.",
+    "url": "https://www.bobandbarbaras.com/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9247339141",
+  "name": "Bok Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Rooftop of the former Edward W. Bok Technical High School, completed in 1938.",
+    "url": "https://en.wikipedia.org/wiki/Edward_W._Bok_Technical_High_School"
+   },
+   {
+    "text": "The building honors Edward Bok, editor of the Ladies' Home Journal.",
+    "url": "https://en.wikipedia.org/wiki/Edward_W._Bok_Technical_High_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-w350991334",
+  "name": "Bonner's Irish Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1994.",
+    "url": "https://www.bonnersirishpub.com/about-us"
+   },
+   {
+    "text": "Offers on-site catering of Irish pub fare.",
+    "url": "https://www.bonnersirishpub.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-w439036334",
+  "name": "Bonnie's Capistrano Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Honored in Philadelphia magazine's Best of Philly 2014 in the dive bar category.",
+    "url": "https://www.phillymag.com/best-of-philly-archive/bonnies-capistrano/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2581946413",
+  "name": "Book Corner",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Nonprofit used bookstore run by the Friends of the Free Library of Philadelphia.",
+    "url": "https://www.libraryfriends.info/bookcorner"
+   },
+   {
+    "text": "Sells donated books, records and CDs.",
+    "url": "https://www.libraryfriends.info/bookcorner"
+   },
+   {
+    "text": "Sits directly behind the Parkway Central Library on Logan Square.",
+    "url": "https://www.libraryfriends.info/bookcorner"
+   },
+   {
+    "text": "Includes Chris' Kids Corner for children's books and story hours.",
+    "url": "https://www.libraryfriends.info/bookcorner"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10769229361",
+  "name": "Bookhaven",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "In operation since 1988.",
+    "url": "https://bookhaven.store/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2752591098",
+  "name": "Books-A-Million",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/books-a-million-philadelphia",
+  "facts": []
+ },
+ {
+  "id": "osm-n2613831462",
+  "name": "Bourbon & Branch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Tavern in Northern Liberties with a restaurant downstairs and a music venue upstairs.",
+    "url": "https://bourbonandbranchphilly.com/"
+   },
+   {
+    "text": "Hosts Quizzo every Tuesday night.",
+    "url": "https://bourbonandbranchphilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4779956683",
+  "name": "Brasil's Nightclub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Latin nightclub in Old City, open since 1997.",
+    "url": "https://brasilsnightclub-philly.com/about/"
+   },
+   {
+    "text": "Offers salsa lessons on Wednesday, Friday and Saturday nights.",
+    "url": "https://brasilsnightclub-philly.com/about/"
+   },
+   {
+    "text": "Wednesday lessons are taught by World Salsa Champion Sonya Elmore.",
+    "url": "https://brasilsnightclub-philly.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w460568112",
+  "name": "Brewery ARS",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Garage brewery with locations in Fishtown and South Philadelphia.",
+    "url": "https://www.breweryars.com/"
+   },
+   {
+    "text": "Flagship Wayne's Pale Ale is named after the owner's father.",
+    "url": "https://www.breweryars.com/"
+   },
+   {
+    "text": "A portion of Wayne's Pale Ale sales goes to Parkinson's disease research.",
+    "url": "https://www.breweryars.com/"
+   }
+  ]
+ }
+]

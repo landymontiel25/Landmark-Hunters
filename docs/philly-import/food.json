@@ -3,7 +3,7 @@
  "count": 174,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 162,
+ "withFacts": 163,
  "withHours": 84,
  "byRegion": {
   "philly": 167,
@@ -135,7 +135,9 @@
    "lat": 40.013579,
    "lng": -75.301239,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Featured in The Villanovan's guide to coffee shops near campus, 2.3 miles away."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/584780298"
   },
   {
@@ -304,6 +306,7 @@
    "lng": -75.328873,
    "photo": false,
    "facts": [
+    "Promised free cookies to visitors if Villanova won the national championship.",
     "Part of the Insomnia Cookies chain",
     "Address: 1084 East Lancaster Avenue, Bryn Mawr"
    ],

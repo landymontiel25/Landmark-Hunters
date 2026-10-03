@@ -1,0 +1,85 @@
+[
+{"id":"osm-w666529958","name":"Hilltown Tavern","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Describes itself as a modern Irish American gastropub on Roxborough Avenue.","url":"https://hilltowntavern.com/"},
+{"text":"Has indoor, outdoor and tent seating with TVs for watching games.","url":"https://hilltowntavern.com/"},
+{"text":"Hosts trivia on Thursday evenings.","url":"https://hilltowntavern.com/"}]},
+{"id":"osm-w1315826155","name":"Hilltown Tavern Fairmount","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Irish-style pub with 20 rotating drafts and craft cocktails.","url":"https://hilltownfairmount.com/"},
+{"text":"Serves burgers, sandwiches, wings, tacos, salads and Irish specialties.","url":"https://hilltownfairmount.com/"},
+{"text":"Has pet-friendly outdoor seating.","url":"https://hilltownfairmount.com/"}]},
+{"id":"osm-w520719730","name":"House of Our Own Books","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Occupies two floors of a Victorian house at the edge of the Penn campus.","url":"https://shopsatpenn.com/house-our-own-books"},
+{"text":"Sells new and used general and scholarly books.","url":"https://shopsatpenn.com/house-our-own-books"}]},
+{"id":"osm-n6597387162","name":"Howl at the Moon","matched":true,"closed":true,"closedSource":"https://www.phillyvoice.com/howl-at-the-moon-down-nightclub-abruptly-closing/","facts":[
+{"text":"Was part of a chain of venues with dueling pianos, where two pianists take audience song requests.","url":"https://www.phillyvoice.com/howl-at-the-moon-down-nightclub-abruptly-closing/"},
+{"text":"Closed on July 1, 2024 after more than a decade in Center City.","url":"https://www.phillyvoice.com/howl-at-the-moon-down-nightclub-abruptly-closing/"}]},
+{"id":"osm-n11897497290","name":"Human Robot","matched":true,"closed":true,"closedSource":"https://thebeerthrillers.com/2025/04/23/human-robot-shutting-down-schuylkill-banks-and-opening-new-taphouses/","facts":[
+{"text":"Was the brewery's third location, overlooking the Schuylkill in Center City.","url":"https://www.inquirer.com/news/human-robot-center-city-schuylkill-brewery-bars-20230510.html"}]},
+{"id":"osm-n13625639026","name":"Human Robot","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Opened to the public on February 6, 2020, at 1710 North 5th Street in Kensington.","url":"https://www.phillymag.com/foobooz/2020/02/04/human-robot-kensington-opening/"},
+{"text":"Founded by Jake Atkinson, Chris Roller and Rachael Morris.","url":"https://www.phillymag.com/foobooz/2020/02/04/human-robot-kensington-opening/"},
+{"text":"Shares its building with Poe's Sandwich Joint.","url":"https://www.phillymag.com/foobooz/2020/02/04/human-robot-kensington-opening/"},
+{"text":"Brews classic and modern styles of beer in a space formerly built out for Saint Benjamin Brewing.","url":"https://www.phillymag.com/foobooz/2020/02/04/human-robot-kensington-opening/"}]},
+{"id":"osm-n4551221875","name":"Human Robot Girard","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Moved into the storefront previously occupied by Crime & Punishment Brewing.","url":"https://www.phillyvoice.com/human-robot-brewery-girard-avenue-crime-and-punishment-closed/"},
+{"text":"Pours craft beers including IPAs, pale ales, saisons and lagers.","url":"https://www.humanrobotgirard.com/"}]},
+{"id":"osm-n2760051352","name":"IBC Farmers Market","matched":false,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n11638805850","name":"Iffy Books","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Sells a small selection of books and zines on hacking, free culture and gardening.","url":"https://iffybooks.net/about/"},
+{"text":"Hosts a weekly Writing Room co-working session for writers on Tuesday evenings.","url":"https://iffybooks.net/event/the-writing-room-tues/2026-01-20/"}]},
+{"id":"osm-w1218089813","name":"Interstate Drafthouse","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Birthplace of the Fishtown Iced Tea cocktail.","url":"https://interstatedrafthouse.com/"},
+{"text":"Laid-back Southern-style tavern serving craft beer, iced-tea cocktails and pub fare.","url":"https://interstatedrafthouse.com/"}]},
+{"id":"osm-n6448326618","name":"Iron Hill Brewery","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Seats 275 in a ground-up brewery and scratch kitchen with its own brewmaster.","url":"https://ironhillbrewery.us/our-locations/center-city/"}]},
+{"id":"osm-n1078209701","name":"Jack McShea's Restaurant & Bar","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Neighborhood restaurant and pub serving cheesesteaks, burgers, sandwiches and wings.","url":"https://www.jackmcsheas-ardmore.com/"},
+{"text":"Offers online ordering with delivery and curbside pickup.","url":"https://www.jackmcsheas-ardmore.com/"}]},
+{"id":"osm-n1073734567","name":"JD McGillicuddy's","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Operated in the space that was previously the bar Whiskey Dix.","url":"https://www.phillymag.com/foobooz/2012/06/25/and-we-thought-whiskey-dix-was-a-bad-name/"}]},
+{"id":"osm-n11220871797","name":"JD McGillicuddy's","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Sits at 111 Cotton Street, one block off Main Street in Manayunk.","url":"https://www.jdmcgillicuddysmanayunk.com/"},
+{"text":"Sports bar with quizzo, weekend live music and a menu of burgers, wings and flatbreads.","url":"https://www.jdmcgillicuddysmanayunk.com/"}]},
+{"id":"osm-n2760042645","name":"Jefferson Farmers Market","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Held at Jefferson University at 925 Chestnut Street.","url":"https://www.farmtocitymarkets.com/"}]},
+{"id":"osm-n6875686018","name":"Jerry's Corner","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w1107321334","name":"JJ Mallons","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Stands in Northern Liberties at the corner of Front and Girard.","url":"http://jjmallons.com/"},
+{"text":"Offers take-out and outdoor patio seating.","url":"http://jjmallons.com/"}]},
+{"id":"osm-n12068420908","name":"Johnny Brenda's Tavern","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Has a restored 250-person live music venue upstairs.","url":"https://www.visitphilly.com/things-to-do/food-drink/johnny-brendas/"},
+{"text":"Stands at the intersection of Frankford and Girard avenues in Fishtown.","url":"https://www.visitphilly.com/things-to-do/food-drink/johnny-brendas/"},
+{"text":"Appears in the film Creed.","url":"https://www.visitphilly.com/things-to-do/food-drink/johnny-brendas/"}]},
+{"id":"osm-n3497025942","name":"Joseph Fox Bookshop","matched":true,"closed":true,"closedSource":"https://www.audacy.com/kywnewsradio/news/local/joseph-fox-bookshop-philadelphia-closing","facts":[
+{"text":"Opened in 1951 and served the community for more than 70 years.","url":"https://www.audacy.com/kywnewsradio/news/local/joseph-fox-bookshop-philadelphia-closing"},
+{"text":"Michael Fox took over the store after his father died in 1998.","url":"https://www.audacy.com/kywnewsradio/news/local/joseph-fox-bookshop-philadelphia-closing"}]},
+{"id":"osm-n2571727569","name":"Kelliann's Bar & Grill","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Family owned and operated, serving the Spring Garden and Fairmount area since 1994.","url":"https://kellianns.com/about"}]},
+{"id":"osm-n12228634297","name":"Khyber Pass Pub","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Has a back bar crafted by German woodworkers and used in the 1876 Centennial celebration.","url":"https://www.khyberpasspub.com/"},
+{"text":"Serves New Orleans-inspired Southern, Cajun and Creole food with vegan options.","url":"https://www.khyberpasspub.com/"},
+{"text":"Has an upstairs space for live music, dancing and art shows.","url":"https://www.khyberpasspub.com/"}]},
+{"id":"osm-n12827420086","name":"Kitchen at Bala","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Black-owned business founded in 2019.","url":"https://www.kitchenatbala.com/about"},
+{"text":"Led by a head chef who is an alumnus of the Auguste Escoffier School of Culinary Arts.","url":"https://www.kitchenatbala.com/about"},
+{"text":"Offers catering, take-out and dine-in service.","url":"https://www.kitchenatbala.com/about"}]},
+{"id":"osm-n2581946417","name":"Kite and Key","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Beer bar just off the Benjamin Franklin Parkway.","url":"https://www.phillymag.com/best-of-philly-archive/kite-and-key/"},
+{"text":"Serves a veggie burger of two fried shredded-vegetable patties with Swiss and horseradish mayo.","url":"https://www.phillymag.com/best-of-philly-archive/kite-and-key/"}]},
+{"id":"osm-w584780039","name":"Kraftwork","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Gastropub at Montgomery and Girard avenues in Fishtown, run by Adam Ritter.","url":"https://www.phillymag.com/restaurant/kraftwork/"},
+{"text":"Interior built by sculptor Andrew Jevremovic around an industrial theme.","url":"https://www.phillymag.com/restaurant/kraftwork/"},
+{"text":"Pours about 25 beers on tap.","url":"https://www.phillymag.com/restaurant/kraftwork/"}]},
+{"id":"osm-n6556392900","name":"KTV","matched":false,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n4646669803","name":"Kung Fu Necktie","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Live music venue and bar in the Fishtown neighborhood.","url":"https://kungfunecktie.com/"}]},
+{"id":"osm-w1194592773","name":"L&G Cold Beer","matched":false,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w1220519339","name":"La Familia","matched":false,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w81741957","name":"Lancaster County Farmers' Market","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Has operated for over 50 years.","url":"https://www.lancastercountyfarmersmarket.com/"},
+{"text":"Sells produce, baked goods, meats, cheeses and handmade items from over 30 vendors.","url":"https://www.lancastercountyfarmersmarket.com/"}]},
+{"id":"osm-n12862881802","name":"Latchkey","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Record shop focused on hip-hop, new wave and alt rock from the 80s and 90s.","url":"https://latchkeyrecords.com/"},
+{"text":"Also offers DJ and karaoke services.","url":"https://latchkeyrecords.com/"},
+{"text":"Sits at Dickinson and East Passyunk, across from South Fellini.","url":"https://latchkeyrecords.com/"}]}
+]

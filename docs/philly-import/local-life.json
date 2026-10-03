@@ -1,41 +1,42 @@
 {
  "category": "local-life",
- "count": 348,
+ "count": 332,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 279,
- "withHours": 82,
+ "withFacts": 288,
+ "withHours": 78,
  "byRegion": {
-  "philly": 347,
+  "philly": 331,
   "villanova": 1
  },
  "photoSkips": [],
  "sample": [
   {
-   "id": "osm-n14071748046",
-   "name": "Little Big Planet",
+   "id": "osm-n7383480662",
+   "name": "Stateside Urbancraft Vodka Tasting Room",
    "topic": "bar",
-   "lat": 39.948961,
-   "lng": -75.160079,
+   "lat": 39.976283,
+   "lng": -75.137141,
    "photo": false,
    "facts": [
-    "Hosts live music",
-    "Also known as LBP",
-    "Address: 1123 Walnut Street, Unit 2nd Fl, Philadelphia"
+    "Run by Federal Distilling Room",
+    "Address: 1700 North Hancock Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/14071748046"
+   "osmUrl": "https://www.openstreetmap.org/node/7383480662"
   },
   {
-   "id": "osm-n2003082507",
-   "name": "Calliope Music",
-   "topic": "record store",
-   "lat": 40.00762,
-   "lng": -75.29079,
+   "id": "osm-n2668016915",
+   "name": "Fairmount Farmers Market",
+   "topic": "market",
+   "lat": 39.967558,
+   "lng": -75.174033,
    "photo": false,
    "facts": [
-    "Address: 4 East Lancaster Avenue, Ardmore"
+    "Established in 2004 with support from Bookhaven Used Book Store.",
+    "Sits across from Eastern State Penitentiary.",
+    "Vendors sell produce, poultry, eggs, baked goods, honey, cheese and flowers."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/2003082507"
+   "osmUrl": "https://www.openstreetmap.org/node/2668016915"
   },
   {
    "id": "osm-n10938659887",
@@ -44,8 +45,26 @@
    "lat": 40.024587,
    "lng": -75.221194,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Opened by David and Ana Lee, the owners of Pizza Jawn.",
+    "Occupies the former Manayunk Tavern at Main and Rector streets.",
+    "Sells Pizza Jawn pizzas for takeout and delivery."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/10938659887"
+  },
+  {
+   "id": "osm-w1315826155",
+   "name": "Hilltown Tavern Fairmount",
+   "topic": "pub",
+   "lat": 39.969805,
+   "lng": -75.176283,
+   "photo": false,
+   "facts": [
+    "Irish-style pub with 20 rotating drafts and craft cocktails.",
+    "Serves burgers, sandwiches, wings, tacos, salads and Irish specialties.",
+    "Has pet-friendly outdoor seating."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1315826155"
   },
   {
    "id": "osm-n2752762909",
@@ -60,63 +79,149 @@
    "osmUrl": "https://www.openstreetmap.org/node/2752762909"
   },
   {
-   "id": "osm-n3470849334",
-   "name": "Brownie's Pub",
+   "id": "osm-w372593381",
+   "name": "Great American Pub",
    "topic": "pub",
-   "lat": 39.948834,
-   "lng": -75.144108,
+   "lat": 40.006003,
+   "lng": -75.260025,
    "photo": false,
    "facts": [
-    "Address: 48 South 2nd Street, Philadelphia"
+    "Serves a Sunday brunch.",
+    "Hosts a no buy-in Texas Hold'em poker night on Tuesdays.",
+    "Offers full-service catering."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/3470849334"
+   "osmUrl": "https://www.openstreetmap.org/way/372593381"
   },
   {
-   "id": "osm-w350991334",
-   "name": "Bonner's Irish Pub",
+   "id": "osm-n12068573588",
+   "name": "Fishtown Tavern",
    "topic": "bar",
-   "lat": 39.951983,
-   "lng": -75.178496,
+   "lat": 39.970522,
+   "lng": -75.134301,
    "photo": false,
    "facts": [
-    "Address: 120 South 23rd Street, Philadelphia"
+    "Bought by Curt Large of Buffalo Billiards in Old City and manager Josh Semesh.",
+    "Address: 1301 Frankford Avenue, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/350991334"
+   "osmUrl": "https://www.openstreetmap.org/node/12068573588"
   },
   {
-   "id": "osm-n11020598865",
-   "name": "Buffalo Billiards",
-   "topic": "bar",
-   "lat": 39.948126,
-   "lng": -75.143285,
+   "id": "osm-n2760051352",
+   "name": "IBC Farmers Market",
+   "topic": "market",
+   "lat": 39.953649,
+   "lng": -75.171623,
    "photo": false,
    "facts": [
-    "21 and over",
-    "Address: 118 Chestnut Street, Philadelphia"
+    "Run by Farm to City Markets"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/11020598865"
+   "osmUrl": "https://www.openstreetmap.org/node/2760051352"
   },
   {
-   "id": "osm-w334658102",
-   "name": "Misconduct Tavern",
-   "topic": "bar",
-   "lat": 39.948694,
-   "lng": -75.166564,
+   "id": "osm-n1078209701",
+   "name": "Jack McShea's Restaurant & Bar",
+   "topic": "pub",
+   "lat": 40.007163,
+   "lng": -75.289891,
    "photo": false,
    "facts": [
-    "Address: 1511 Locust Street, Philadelphia"
+    "Neighborhood restaurant and pub serving cheesesteaks, burgers, sandwiches and wings.",
+    "Offers online ordering with delivery and curbside pickup.",
+    "Address: 34 East Lancaster Avenue, Ardmore"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/334658102"
+   "osmUrl": "https://www.openstreetmap.org/node/1078209701"
   },
   {
-   "id": "osm-n11459691253",
-   "name": "The Brass Tap",
-   "topic": "bar",
-   "lat": 40.022737,
-   "lng": -75.214462,
+   "id": "osm-n3548911781",
+   "name": "Finn McCools Ale House",
+   "topic": "pub",
+   "lat": 39.949736,
+   "lng": -75.16049,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11459691253"
+   "facts": [
+    "Ale house in Midtown Village serving food and drinks.",
+    "Address: 118 South 12th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3548911781"
+  },
+  {
+   "id": "osm-w333012788",
+   "name": "Fergie's Pub",
+   "topic": "pub",
+   "lat": 39.949613,
+   "lng": -75.161157,
+   "photo": false,
+   "facts": [
+    "Irish pub with no TVs.",
+    "Hosts live band karaoke and traditional Irish music sessions.",
+    "Address: 1214 Sansom Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/333012788"
+  },
+  {
+   "id": "osm-n1073734567",
+   "name": "JD McGillicuddy's",
+   "topic": "pub",
+   "lat": 39.959206,
+   "lng": -75.150111,
+   "photo": false,
+   "facts": [
+    "Operated in the space that was previously the bar Whiskey Dix.",
+    "Address: 421 North 7th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1073734567"
+  },
+  {
+   "id": "osm-n10916408098",
+   "name": "Henry James Saloon",
+   "topic": "bar",
+   "lat": 40.029295,
+   "lng": -75.206728,
+   "photo": false,
+   "facts": [
+    "Has been a neighborhood bar since 1989.",
+    "Has an outdoor patio and hosts live music nights."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10916408098"
+  },
+  {
+   "id": "osm-n13332562796",
+   "name": "Bulletin Bar",
+   "topic": "bar",
+   "lat": 39.955171,
+   "lng": -75.184214,
+   "photo": false,
+   "facts": [
+    "Bar inside Gather Food Hall at Schuylkill Yards, 3025 Market Street.",
+    "Address: 3025 Market Street, Suite 100, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13332562796"
+  },
+  {
+   "id": "osm-w439036334",
+   "name": "Bonnie's Capistrano Bar",
+   "topic": "bar",
+   "lat": 39.931274,
+   "lng": -75.165752,
+   "photo": false,
+   "facts": [
+    "Address: 1503 South 13th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/439036334"
+  },
+  {
+   "id": "osm-n11638805850",
+   "name": "Iffy Books",
+   "topic": "bookstore",
+   "lat": 39.94656,
+   "lng": -75.174795,
+   "photo": false,
+   "facts": [
+    "Sells a small selection of books and zines on hacking, free culture and gardening.",
+    "Hosts a weekly Writing Room co-working session for writers on Tuesday evenings.",
+    "Address: 404 South 20th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11638805850"
   },
   {
    "id": "osm-n12228631531",
@@ -126,34 +231,11 @@
    "lng": -75.169187,
    "photo": false,
    "facts": [
+    "Moved here in 2023 from a larger store on Rittenhouse Square.",
     "Part of the Barnes & Noble chain",
     "Address: 1708 Chestnut Street, Philadelphia"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/12228631531"
-  },
-  {
-   "id": "osm-n5718906468",
-   "name": "Mostaza Sports Bar & Grill",
-   "topic": "bar",
-   "lat": 39.997572,
-   "lng": -75.129628,
-   "photo": false,
-   "facts": [
-    "Address: 3124 North Front Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5718906468"
-  },
-  {
-   "id": "osm-n7431800654",
-   "name": "ASCII Cup XLI",
-   "topic": "bar",
-   "lat": 39.94732,
-   "lng": -75.166654,
-   "photo": false,
-   "facts": [
-    "Address: 1501 Spruce Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/7431800654"
   },
   {
    "id": "osm-n2752820086",
@@ -169,6 +251,31 @@
    "osmUrl": "https://www.openstreetmap.org/node/2752820086"
   },
   {
+   "id": "osm-n877499231",
+   "name": "Great American Pub",
+   "topic": "pub",
+   "lat": 40.045385,
+   "lng": -75.388031,
+   "photo": false,
+   "facts": [
+    "The Wayne location opened in 2000.",
+    "Address: 4 West Avenue, Wayne"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/877499231"
+  },
+  {
+   "id": "osm-n7431800654",
+   "name": "ASCII Cup XLI",
+   "topic": "bar",
+   "lat": 39.94732,
+   "lng": -75.166654,
+   "photo": false,
+   "facts": [
+    "Address: 1501 Spruce Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7431800654"
+  },
+  {
    "id": "osm-n2752736446",
    "name": "33rd & Diamond Farmers Market",
    "topic": "market",
@@ -176,44 +283,45 @@
    "lng": -75.187243,
    "photo": false,
    "facts": [
-    "Run by The Food Trust",
-    "Address: 3299 Diamond Street, Philadelphia"
+    "Established in 2011 next to Mander Playground in Strawberry Mansion.",
+    "Supported by community partner East Park Revitalization Alliance since its start.",
+    "Produce comes from EPRA and PHS City Harvest gardens a few blocks away."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/2752736446"
   },
   {
-   "id": "osm-n1687527838",
-   "name": "Flip & Bailey's",
-   "topic": "bar",
-   "lat": 40.025436,
-   "lng": -75.337382,
-   "photo": false,
-   "facts": [
-    "Address: 902 Conestoga Road, Bryn Mawr"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/1687527838"
-  },
-  {
-   "id": "osm-w428817661",
-   "name": "Grumpy's Tavern",
-   "topic": "bar",
-   "lat": 39.929863,
-   "lng": -75.159648,
-   "photo": false,
-   "facts": [
-    "Address: 1525 South 9th Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/428817661"
-  },
-  {
-   "id": "osm-n13625740448",
-   "name": "Libertad Lounge",
-   "topic": "bar",
-   "lat": 39.975503,
-   "lng": -75.143679,
+   "id": "osm-n649984278",
+   "name": "Grace Tavern",
+   "topic": "pub",
+   "lat": 39.945091,
+   "lng": -75.17968,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/13625740448"
+   "osmUrl": "https://www.openstreetmap.org/node/649984278"
+  },
+  {
+   "id": "osm-w340038768",
+   "name": "CLC Book Center",
+   "topic": "bookstore",
+   "lat": 39.9494,
+   "lng": -75.153757,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/340038768"
+  },
+  {
+   "id": "osm-n3306921057",
+   "name": "Frankford Hall",
+   "topic": "pub",
+   "lat": 39.969485,
+   "lng": -75.134683,
+   "photo": false,
+   "facts": [
+    "Modern biergarten in Fishtown inspired by traditional German beer gardens.",
+    "Serves German and American dishes such as sausages and burgers, plus beer.",
+    "Address: 1210 Frankford Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3306921057"
   },
   {
    "id": "osm-n2752688769",
@@ -223,94 +331,11 @@
    "lng": -75.19229,
    "photo": false,
    "facts": [
+    "Located in Grays Ferry in front of the Peace Wall mural.",
+    "Established in 2010.",
     "Run by The Food Trust"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/2752688769"
-  },
-  {
-   "id": "osm-n13987029531",
-   "name": "A Man Full of Trouble",
-   "topic": "pub",
-   "lat": 39.944541,
-   "lng": -75.144606,
-   "photo": false,
-   "facts": [
-    "Address: 125 Spruce Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13987029531"
-  },
-  {
-   "id": "osm-n10692148334",
-   "name": "Rec & Royal",
-   "topic": "nightclub",
-   "lat": 39.95078,
-   "lng": -75.168868,
-   "photo": false,
-   "facts": [
-    "Address: 111 South 17th Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/10692148334"
-  },
-  {
-   "id": "osm-n3042654511",
-   "name": "National Mechanics",
-   "topic": "bar",
-   "lat": 39.949548,
-   "lng": -75.145966,
-   "photo": false,
-   "facts": [
-    "Address: 22 South 3rd Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3042654511"
-  },
-  {
-   "id": "osm-w1194592773",
-   "name": "L&G Cold Beer",
-   "topic": "bar",
-   "lat": 39.995358,
-   "lng": -75.129765,
-   "photo": false,
-   "facts": [
-    "Address: 2959 North Front Street, Unit 61, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1194592773"
-  },
-  {
-   "id": "osm-n2613831462",
-   "name": "Bourbon & Branch",
-   "topic": "bar",
-   "lat": 39.96206,
-   "lng": -75.140942,
-   "photo": false,
-   "facts": [
-    "Address: 705 North 2nd Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2613831462"
-  },
-  {
-   "id": "osm-w224489962",
-   "name": "Great American Pub",
-   "topic": "pub",
-   "lat": 40.074346,
-   "lng": -75.305288,
-   "photo": false,
-   "facts": [
-    "Address: 123 Fayette Street, Conshohocken"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/224489962"
-  },
-  {
-   "id": "osm-w1238391053",
-   "name": "Marv Love's Too",
-   "topic": "bar",
-   "lat": 39.992934,
-   "lng": -75.134768,
-   "photo": false,
-   "facts": [
-    "Serves American food",
-    "Address: 2762 North 2nd Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1238391053"
   }
  ],
  "points": [
@@ -435,11 +460,6 @@
    0
   ],
   [
-   40.009243,
-   -75.193836,
-   0
-  ],
-  [
    39.952246,
    -75.168287,
    0
@@ -475,11 +495,6 @@
    0
   ],
   [
-   39.95137,
-   -75.155284,
-   0
-  ],
-  [
    39.96206,
    -75.140942,
    0
@@ -497,11 +512,6 @@
   [
    39.940225,
    -75.149325,
-   0
-  ],
-  [
-   39.924032,
-   -75.169209,
    0
   ],
   [
@@ -625,16 +635,6 @@
    0
   ],
   [
-   39.94152,
-   -75.149093,
-   0
-  ],
-  [
-   39.966097,
-   -75.139308,
-   0
-  ],
-  [
    39.962562,
    -75.13579,
    0
@@ -677,11 +677,6 @@
   [
    39.952015,
    -75.172231,
-   0
-  ],
-  [
-   39.93581,
-   -75.16199,
    0
   ],
   [
@@ -770,18 +765,8 @@
    0
   ],
   [
-   39.952996,
-   -75.159239,
-   0
-  ],
-  [
    39.949736,
    -75.16049,
-   0
-  ],
-  [
-   39.961023,
-   -75.143212,
    0
   ],
   [
@@ -802,11 +787,6 @@
   [
    40.025436,
    -75.337382,
-   0
-  ],
-  [
-   39.941127,
-   -75.149147,
    0
   ],
   [
@@ -880,11 +860,6 @@
    0
   ],
   [
-   39.969543,
-   -75.131822,
-   0
-  ],
-  [
    39.978527,
    -75.121013,
    0
@@ -897,11 +872,6 @@
   [
    40.037571,
    -75.280344,
-   0
-  ],
-  [
-   39.96627,
-   -75.140024,
    0
   ],
   [
@@ -957,16 +927,6 @@
   [
    39.951332,
    -75.201889,
-   0
-  ],
-  [
-   39.947698,
-   -75.166533,
-   0
-  ],
-  [
-   39.951548,
-   -75.180081,
    0
   ],
   [
@@ -1035,11 +995,6 @@
    0
   ],
   [
-   39.950754,
-   -75.169765,
-   0
-  ],
-  [
    39.963026,
    -75.164511,
    0
@@ -1100,11 +1055,6 @@
    0
   ],
   [
-   39.975503,
-   -75.143679,
-   0
-  ],
-  [
    39.948961,
    -75.160079,
    0
@@ -1122,11 +1072,6 @@
   [
    40.008704,
    -75.29233,
-   0
-  ],
-  [
-   40.02042,
-   -75.212444,
    0
   ],
   [

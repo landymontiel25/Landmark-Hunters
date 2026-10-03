@@ -1,0 +1,586 @@
+[
+ {
+  "id": "osm-n5368454121",
+  "name": "Institute of Contemporary Art",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1963 by Holmes Perkins.",
+    "url": "https://en.wikipedia.org/wiki/Institute_of_Contemporary_Art,_Philadelphia"
+   },
+   {
+    "text": "Gallery building opened in 1990, designed by Adèle Naudé Santos.",
+    "url": "https://en.wikipedia.org/wiki/Institute_of_Contemporary_Art,_Philadelphia"
+   },
+   {
+    "text": "Has no permanent collection and mounts about twelve shows a year.",
+    "url": "https://en.wikipedia.org/wiki/Institute_of_Contemporary_Art,_Philadelphia"
+   },
+   {
+    "text": "Staged the first museum shows of Andy Warhol, Laurie Anderson, Agnes Martin and Robert Indiana.",
+    "url": "https://en.wikipedia.org/wiki/Institute_of_Contemporary_Art,_Philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12068573587",
+  "name": "Karlie Gallery",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989578516",
+  "name": "LAA Art Collective",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Lauren Addis in 2016.",
+    "url": "https://laurenanrigaddis.com/pages/about"
+   },
+   {
+    "text": "Contemporary art gallery and custom picture frame shop showing regional emerging artists.",
+    "url": "https://laurenanrigaddis.com/pages/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12222614599",
+  "name": "Larry Becker Contemporary Art",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w377438263",
+  "name": "Laurel Hill Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1764 for Rebecca Rawle, a Quaker widow.",
+    "url": "https://laurelhillmansion.org/Pages/history.html"
+   },
+   {
+    "text": "Fairmount Park Commission bought the house in 1869.",
+    "url": "https://laurelhillmansion.org/Pages/history.html"
+   },
+   {
+    "text": "Placed on the National Register of Historic Places on March 24, 1972.",
+    "url": "https://laurelhillmansion.org/Pages/history.html"
+   },
+   {
+    "text": "Stewarded since 1976 by Women for Greater Philadelphia.",
+    "url": "https://laurelhillmansion.org/Pages/history.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w222122351",
+  "name": "Lemon Hill Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built from 1799 to 1800 by merchant Henry Pratt.",
+    "url": "https://en.wikipedia.org/wiki/Lemon_Hill"
+   },
+   {
+    "text": "Named for the citrus fruits Pratt grew on the property.",
+    "url": "https://en.wikipedia.org/wiki/Lemon_Hill"
+   },
+   {
+    "text": "Stands on land once part of Robert Morris's estate, The Hills.",
+    "url": "https://en.wikipedia.org/wiki/Lemon_Hill"
+   },
+   {
+    "text": "First estate incorporated into Fairmount Park, in 1855.",
+    "url": "https://en.wikipedia.org/wiki/Lemon_Hill"
+   }
+  ]
+ },
+ {
+  "id": "osm-w705808932",
+  "name": "Maguire Art Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened to the public on May 6, 2023, after a five-year renovation.",
+    "url": "https://www.sju.edu/news/frances-m-maguire-art-museum-saint-josephs-university-opens-public"
+   },
+   {
+    "text": "Housed in the former Barnes Foundation building designed by Paul Cret, home to the Barnes collection from 1925 to 2011.",
+    "url": "https://www.sju.edu/news/frances-m-maguire-art-museum-saint-josephs-university-opens-public"
+   },
+   {
+    "text": "Named for Frances M. Maguire, whose family gave a $50 million gift to the university in 2018.",
+    "url": "https://www.sju.edu/news/frances-m-maguire-art-museum-saint-josephs-university-opens-public"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12501040601",
+  "name": "Main Line Art Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served the community for over 75 years as an art school and gallery.",
+    "url": "https://mainlineart.org/"
+   },
+   {
+    "text": "Offers up to ten exhibitions a year, including seasonal fine crafts shows.",
+    "url": "https://mainlineart.org/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11102457731",
+  "name": "Manayunk-Roxborough Art Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Active since 1953 as an arts and humanities organization.",
+    "url": "https://www.mrartcenter.org/"
+   },
+   {
+    "text": "Housed in a historic carriage house in Roxborough.",
+    "url": "https://www.mrartcenter.org/"
+   },
+   {
+    "text": "Run entirely by volunteers and offers classes in drawing, painting, clay and fibers.",
+    "url": "https://www.mrartcenter.org/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w919904985",
+  "name": "Marjorie Walter Goodhart Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1926 to 1928 by the firm Mellor, Meigs & Howe.",
+    "url": "https://www.philadelphiabuildings.org/pab/app/pj_display.cfm/17109"
+   },
+   {
+    "text": "Named for Marjorie Walter Goodhart of the Bryn Mawr class of 1912.",
+    "url": "https://www.philadelphiabuildings.org/pab/app/pj_display.cfm/17109"
+   },
+   {
+    "text": "Houses McPherson Auditorium, Hepburn Teaching Theater and the Goodhart Music Room.",
+    "url": "https://www.brynmawr.edu/inside/offices-services/arts-bryn-mawr/performance-spaces-goodhart-hall/goodhart-hall"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6658146374",
+  "name": "Marvin Samson Center for the History of Pharmacy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 1995 to coincide with the 175th anniversary of the Philadelphia College of Pharmacy.",
+    "url": "https://www.sju.edu/pharmacymuseum/about"
+   },
+   {
+    "text": "Holds over 8,000 pharmaceutical and medical artifacts dating back to the 1600s.",
+    "url": "https://www.sju.edu/pharmacymuseum/about"
+   },
+   {
+    "text": "Located on the first floor of Griffith Hall on the university's West Philadelphia campus.",
+    "url": "https://www.sju.edu/pharmacymuseum/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w366376167",
+  "name": "Mary Wood Park House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1859 by Alan Wood, reportedly for his bride Mary.",
+    "url": "https://conshystuff.com/mary-wood-park-and-parkhouse-thank-you-mary-wood/"
+   },
+   {
+    "text": "Queen Anne Victorian style house.",
+    "url": "https://conshystuff.com/mary-wood-park-and-parkhouse-thank-you-mary-wood/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w332786629",
+  "name": "Merchants' Exchange Building",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built between 1832 and 1834.",
+    "url": "https://en.wikipedia.org/wiki/Merchants'_Exchange_Building_(Philadelphia)"
+   },
+   {
+    "text": "Oldest existing stock exchange building in the United States.",
+    "url": "https://en.wikipedia.org/wiki/Merchants'_Exchange_Building_(Philadelphia)"
+   },
+   {
+    "text": "Philadelphia Stock Exchange's Board of Brokers moved in during 1834.",
+    "url": "https://en.wikipedia.org/wiki/Merchants'_Exchange_Building_(Philadelphia)"
+   },
+   {
+    "text": "Now serves as headquarters of Independence National Historical Park.",
+    "url": "https://en.wikipedia.org/wiki/Merchants'_Exchange_Building_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14108378398",
+  "name": "Moderne Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1984.",
+    "url": "https://modernegallery.com/about/"
+   },
+   {
+    "text": "Specializes in 20th and 21st century art and design, especially the Studio Craft Movement.",
+    "url": "https://modernegallery.com/about/"
+   },
+   {
+    "text": "Moved to the North American Street Arts Corridor in January 2025.",
+    "url": "https://modernegallery.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w356323017",
+  "name": "Mount Pleasant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built about 1761 to 1762 by privateer John Macpherson and his wife Margaret.",
+    "url": "https://en.wikipedia.org/wiki/Mount_Pleasant_(mansion)"
+   },
+   {
+    "text": "Builder-architect was Thomas Nevell.",
+    "url": "https://en.wikipedia.org/wiki/Mount_Pleasant_(mansion)"
+   },
+   {
+    "text": "Two small pavilions, an office and a summer kitchen, flank the main house.",
+    "url": "https://en.wikipedia.org/wiki/Mount_Pleasant_(mansion)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6541208570",
+  "name": "Mudroom Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Paint-your-own pottery and craft studio.",
+    "url": "https://mudroomstudioardmore.com/"
+   },
+   {
+    "text": "Hosts birthday parties, art clubs and offers pottery to-go kits.",
+    "url": "https://mudroomstudioardmore.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w486443341",
+  "name": "Mummers Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Exhibits costumes and the history of the Mummers Parade, billed as America's oldest folk parade.",
+    "url": "http://mummersmuseum.com/?page_id=58"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12216138511",
+  "name": "Muse Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Artists' cooperative established in late 1977.",
+    "url": "https://www.musegalleryphiladelphia.com/biography"
+   },
+   {
+    "text": "Members work in abstract, conceptual and representational forms.",
+    "url": "https://www.musegalleryphiladelphia.com/biography"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12235452452",
+  "name": "Museum for Art in Wood",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1986 and formerly called the Center for Art in Wood.",
+    "url": "https://museumforartinwood.org/the-center-for-art-in-wood-rebrands-as-the-museum-for-art-in-wood/"
+   },
+   {
+    "text": "Permanent collection of about 1,200 handmade objects, from everyday items to sculpture.",
+    "url": "https://museumforartinwood.org/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10268934301",
+  "name": "Museum of Illusions Philadelphia",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Part of the global Museum of Illusions group.",
+    "url": "https://moiphilly.com/"
+   },
+   {
+    "text": "Has more than 60 exhibits including holograms, stereograms and immersive rooms.",
+    "url": "https://moiphilly.com/"
+   },
+   {
+    "text": "Occupies about 5,000 square feet.",
+    "url": "https://moiphilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w334665979",
+  "name": "National Liberty Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by publisher Irvin J. Borowsky and his daughter Gwen Borowsky.",
+    "url": "https://en.wikipedia.org/wiki/National_Liberty_Museum"
+   },
+   {
+    "text": "Displays the 20-foot glass sculpture Flame of Liberty by Dale Chihuly.",
+    "url": "https://en.wikipedia.org/wiki/National_Liberty_Museum"
+   }
+  ]
+ },
+ {
+  "id": "osm-w705850337",
+  "name": "National Marian Anderson Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened March 1, 2025, after five years of renovation following a 2020 flood.",
+    "url": "https://www.dar.org/discover/media-center/news-releases/marian-anderson-museum-historical-society-reopens-public"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5524144227",
+  "name": "New Africa Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Houses the Muslim American Museum & Archive, focused on African American Muslim culture.",
+    "url": "https://newafricacenter.com/"
+   },
+   {
+    "text": "Part of an effort to revitalize the 4200 block of Lancaster Avenue.",
+    "url": "https://newafricacenter.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w261314255",
+  "name": "New Hall Military Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reconstruction of a 1791 building that served as the U.S. Department of War.",
+    "url": "https://www.nps.gov/inde/planyourvisit/newhall.htm"
+   },
+   {
+    "text": "Original built by members of the Carpenters' Company.",
+    "url": "https://www.nps.gov/inde/planyourvisit/newhall.htm"
+   },
+   {
+    "text": "Exhibits cover the Continental Army, Navy and Marine Corps.",
+    "url": "https://www.nps.gov/inde/planyourvisit/newhall.htm"
+   },
+   {
+    "text": "Has a first-floor sculpture designed by Felix de Weldon.",
+    "url": "https://www.nps.gov/inde/planyourvisit/newhall.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1687517332",
+  "name": "Nitre Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built as the home of William Rogers, powder master of the Nitre Hall powder mills.",
+    "url": "https://haverfordhistoricalsociety.org/nitre_hall/"
+   },
+   {
+    "text": "Powder mills were built by Israel Whelen shortly after 1800.",
+    "url": "https://haverfordhistoricalsociety.org/nitre_hall/"
+   },
+   {
+    "text": "Only intact building remaining from the valley's industrial era.",
+    "url": "https://haverfordhistoricalsociety.org/nitre_hall/"
+   },
+   {
+    "text": "Home of the Haverford Township Historical Society collections, owned by the township.",
+    "url": "https://haverfordhistoricalsociety.org/nitre_hall/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w40083567",
+  "name": "Old City Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1790 to 1791 in the Federal style.",
+    "url": "https://en.wikipedia.org/wiki/Old_City_Hall_(Philadelphia)"
+   },
+   {
+    "text": "Housed the U.S. Supreme Court from 1791 to 1800.",
+    "url": "https://en.wikipedia.org/wiki/Old_City_Hall_(Philadelphia)"
+   },
+   {
+    "text": "Served as Philadelphia's City Hall until 1854.",
+    "url": "https://en.wikipedia.org/wiki/Old_City_Hall_(Philadelphia)"
+   },
+   {
+    "text": "Architect was David Evans, Jr.",
+    "url": "https://en.wikipedia.org/wiki/Old_City_Hall_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w377438264",
+  "name": "Ormiston Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Georgian house of pink-red brick with a pillared front porch.",
+    "url": "https://www.ormistonmansion.org/about-ormiston"
+   },
+   {
+    "text": "City bought it from Burd's heirs in 1869, making it part of Fairmount Park.",
+    "url": "https://www.ormistonmansion.org/about-ormiston"
+   },
+   {
+    "text": "Maintained since 1982 by the volunteer Royal Heritage Society.",
+    "url": "https://www.ormistonmansion.org/about-ormiston"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12229818896",
+  "name": "Paradigm Gallery + Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 2010 by Jason Chen and Sara McCorriston.",
+    "url": "https://www.paradigmarts.org/pages/about-paradigm"
+   },
+   {
+    "text": "Moved in 2023 into a 5-story, 7,000 square foot building.",
+    "url": "https://www.paradigmarts.org/pages/about-paradigm"
+   },
+   {
+    "text": "Shows contemporary work by emerging and mid-career artists, with a focus on Philadelphia.",
+    "url": "https://www.paradigmarts.org/pages/about-paradigm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6944020724",
+  "name": "Paul Robeson House & Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed by architect E. Allen Wilson in 1907 and built in 1911.",
+    "url": "https://paulrobesonhouse.org/history-of-robeson-house/"
+   },
+   {
+    "text": "Paul Robeson lived here with his sister Marian Forsythe from 1966 until his death in 1976.",
+    "url": "https://paulrobesonhouse.org/history-of-robeson-house/"
+   },
+   {
+    "text": "Owned and operated by the West Philadelphia Cultural Alliance.",
+    "url": "https://paulrobesonhouse.org/history-of-robeson-house/"
+   }
+  ]
+ },
+ {
+  "id": "osm-r5231601",
+  "name": "Penn Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "First phase completed in 1899 to house finds from the Nippur expedition.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Museum"
+   },
+   {
+    "text": "Rotunda with Harrison Auditorium completed in 1915.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Museum"
+   },
+   {
+    "text": "Coxe Memorial Wing by Charles Klauder opened in 1926 for the Egyptian collection.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Museum"
+   }
+  ]
+ }
+]

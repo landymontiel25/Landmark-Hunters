@@ -1,0 +1,537 @@
+[
+ {
+  "id": "osm-n445838150",
+  "name": "Reel Cinemas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w60928793",
+  "name": "Regal UA Main Street Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1940864146",
+  "name": "Ritz Five",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Ramon L. Posel as a three-screen theatre in 1976 and expanded to five screens in 1985.",
+    "url": "https://www.landmarktheatres.com/our-locations/x081d-landmark-ritz-five-philadelphia/"
+   },
+   {
+    "text": "Premiered M. Night Shyamalan's debut feature Praying with Anger in 1992.",
+    "url": "https://www.landmarktheatres.com/our-locations/x081d-landmark-ritz-five-philadelphia/"
+   },
+   {
+    "text": "Ownership transferred to Landmark Theatres in March 2007.",
+    "url": "https://www.landmarktheatres.com/our-locations/x081d-landmark-ritz-five-philadelphia/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1325818256",
+  "name": "Sidequest Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Grew out of Roll Play, an improvised comedy show paying tribute to tabletop role-playing games.",
+    "url": "https://www.phillyvoice.com/sidequest-theater-opening-dungeons-dragons-improv-comedy/"
+   },
+   {
+    "text": "Opened in the former Adrienne Theater space, which became vacant in June 2023.",
+    "url": "https://www.phillyvoice.com/sidequest-theater-opening-dungeons-dragons-improv-comedy/"
+   },
+   {
+    "text": "Offers improv and role-playing classes plus a summer camp for ages 11 to 14.",
+    "url": "https://www.phillyvoice.com/sidequest-theater-opening-dungeons-dragons-improv-comedy/"
+   },
+   {
+    "text": "Neighbors Helium Comedy Club and ComedySportz on Sansom Street.",
+    "url": "https://www.phillyvoice.com/sidequest-theater-opening-dungeons-dragons-improv-comedy/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12170442409",
+  "name": "Sidney Kimmel Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Hosts Freedom Rising, a 17-minute 360-degree multimedia show with a live narrator.",
+    "url": "https://constitutioncenter.org/experience/exhibitions/main-exhibition/freedom-rising"
+   },
+   {
+    "text": "Renovation was supported by a $2 million contribution from the Sidney Kimmel Foundation.",
+    "url": "https://www.globenewswire.com/news-release/2016/01/06/799927/10158942/en/NATIONAL-CONSTITUTION-CENTER-RECEIVES-2-MILLION-CONTRIBUTION-FROM-SIDNEY-KIMMEL-FOUNDATION-TO-RENOVATE-SIDNEY-KIMMEL-THEATER-UPGRADE-FREEDOM-RISING.html"
+   },
+   {
+    "text": "Reopened on June 14, 2016 after its renovation.",
+    "url": "https://www.globenewswire.com/news-release/2016/06/14/848532/10163497/en/NATIONAL-CONSTITUTION-CENTER-S-ALL-NEW-SIDNEY-KIMMEL-THEATER-PRESENTING-FREEDOM-RISING-REOPENS-ON-JUNE-14-2016.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6621982834",
+  "name": "Skyline Stage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Smaller open-air stage on the Highmark Mann campus in West Fairmount Park.",
+    "url": "https://en.wikipedia.org/wiki/Highmark_Mann"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6625430783",
+  "name": "SoundGarden Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Hosted electronic dance music shows at 520 North Columbus Boulevard starting in 2012.",
+    "url": "https://www.inquirer.com/philly/blogs/real-time/Soundgarden-Hall-evicted-for-unpaid-debt-.html"
+   },
+   {
+    "text": "Was evicted from its Old City building for failure to pay its debts.",
+    "url": "https://www.inquirer.com/philly/blogs/real-time/Soundgarden-Hall-evicted-for-unpaid-debt-.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49887256",
+  "name": "Strawberry Mansion Music Pavilion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed in 1905 by Horace Trumbauer.",
+    "url": "https://hiddencityphila.org/2022/10/the-truth-about-the-ruins-in-east-fairmount-park/"
+   },
+   {
+    "text": "Had about 3,000 bench seats and was replaced by Robin Hood Dell in 1930.",
+    "url": "https://hiddencityphila.org/2022/10/the-truth-about-the-ruins-in-east-fairmount-park/"
+   },
+   {
+    "text": "The brick arches across from the Dell Music Center are a 1930s restroom complex on its foundation.",
+    "url": "https://hiddencityphila.org/2022/10/the-truth-about-the-ruins-in-east-fairmount-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w297806451",
+  "name": "Suzanne Roberts Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Seats 365 people.",
+    "url": "https://en.wikipedia.org/wiki/Suzanne_Roberts_Theatre"
+   },
+   {
+    "text": "Named for Suzanne Roberts, an actress, playwright and director who hosted the TV program Seeking Solutions.",
+    "url": "https://en.wikipedia.org/wiki/Suzanne_Roberts_Theatre"
+   },
+   {
+    "text": "Her husband, Ralph J. Roberts, founded Comcast.",
+    "url": "https://en.wikipedia.org/wiki/Suzanne_Roberts_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w181926832",
+  "name": "Temple Performing Arts Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built as the Baptist Temple for the congregation led by pastor Russell Conwell.",
+    "url": "https://en.wikipedia.org/wiki/Grace_Baptist_Church_of_Philadelphia"
+   },
+   {
+    "text": "Sold to Temple University in 1974.",
+    "url": "https://en.wikipedia.org/wiki/Grace_Baptist_Church_of_Philadelphia"
+   },
+   {
+    "text": "Renovated in 2010 into a multipurpose performance venue with about 1,200 seats.",
+    "url": "https://en.wikipedia.org/wiki/Grace_Baptist_Church_of_Philadelphia"
+   },
+   {
+    "text": "Includes two spaces, Lew Klein Hall and the Chapel.",
+    "url": "https://en.wikipedia.org/wiki/Grace_Baptist_Church_of_Philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49887227",
+  "name": "The Dell Music Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w49916267",
+  "name": "The Mann Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1976 as Robin Hood Dell West, summer home of the Philadelphia Orchestra.",
+    "url": "https://en.wikipedia.org/wiki/Highmark_Mann"
+   },
+   {
+    "text": "Renamed Mann Music Center in 1979 in honor of Fredric R. Mann.",
+    "url": "https://en.wikipedia.org/wiki/Highmark_Mann"
+   },
+   {
+    "text": "Campus includes an amphitheater, TD Pavilion and the Skyline Stage.",
+    "url": "https://en.wikipedia.org/wiki/Highmark_Mann"
+   },
+   {
+    "text": "Signed a naming rights deal with Highmark in 2025.",
+    "url": "https://en.wikipedia.org/wiki/Highmark_Mann"
+   }
+  ]
+ },
+ {
+  "id": "osm-w335078446",
+  "name": "The Met",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1908 by impresario Oscar Hammerstein I as the ninth opera house he built.",
+    "url": "https://en.wikipedia.org/wiki/Metropolitan_Opera_House_(Philadelphia)"
+   },
+   {
+    "text": "Reopened on December 3, 2018 after a 2017-18 renovation.",
+    "url": "https://en.wikipedia.org/wiki/Metropolitan_Opera_House_(Philadelphia)"
+   },
+   {
+    "text": "Listed on the National Register of Historic Places.",
+    "url": "https://en.wikipedia.org/wiki/Metropolitan_Opera_House_(Philadelphia)"
+   },
+   {
+    "text": "Has three spaces: the Met Lobby, the Grand Salle and the theater.",
+    "url": "https://en.wikipedia.org/wiki/Metropolitan_Opera_House_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2125322048",
+  "name": "The Rotunda",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Building dates to 1911 and was originally built as a house of worship.",
+    "url": "https://sachsarts.org/spaces-places/the-rotunda/"
+   },
+   {
+    "text": "The University of Pennsylvania acquired the building in 1996.",
+    "url": "https://sachsarts.org/spaces-places/the-rotunda/"
+   },
+   {
+    "text": "A 1998 Urban Studies seminar led to the Foundation Community Arts Initiative, which began producing events there.",
+    "url": "https://sachsarts.org/spaces-places/the-rotunda/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w434649437",
+  "name": "The Tower Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1927 and opened the next year by John H. McClatchy as one of Upper Darby's first movie houses.",
+    "url": "https://en.wikipedia.org/wiki/Tower_Theater_(Upper_Darby_Township,_Pennsylvania)"
+   },
+   {
+    "text": "Showed both vaudeville acts and movies in its early years.",
+    "url": "https://en.wikipedia.org/wiki/Tower_Theater_(Upper_Darby_Township,_Pennsylvania)"
+   },
+   {
+    "text": "Named one of the ten best live music venues in the United States by Rolling Stone in 2018.",
+    "url": "https://en.wikipedia.org/wiki/Tower_Theater_(Upper_Darby_Township,_Pennsylvania)"
+   },
+   {
+    "text": "Seating capacity is 3,119.",
+    "url": "https://en.wikipedia.org/wiki/Tower_Theater_(Upper_Darby_Township,_Pennsylvania)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7450315070",
+  "name": "The Universal Sphere",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 360-degree dome theater in the Comcast Technology Center lobby at 1800 Arch Street.",
+    "url": "https://corporate.comcast.com/theuniversalsphere"
+   },
+   {
+    "text": "Created by Steven Spielberg, DreamWorks Animation, Universal Destinations & Experiences and Comcast Labs.",
+    "url": "https://corporate.comcast.com/theuniversalsphere"
+   },
+   {
+    "text": "Named a Certified Autism Center.",
+    "url": "https://corporate.comcast.com/press/releases/universal-sphere-comcast-center-campus-certified-autism-center"
+   }
+  ]
+ },
+ {
+  "id": "osm-w456365099",
+  "name": "Theatre Exile",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Won multiple awards at the 2015 Barrymore Awards.",
+    "url": "https://phillymag.com/ticket/2015/11/02/barrymore-awards-full-list"
+   }
+  ]
+ },
+ {
+  "id": "osm-w339557228",
+  "name": "Theatre of Living Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The building dates to the early 1900s as a nickelodeon.",
+    "url": "https://en.wikipedia.org/wiki/Theatre_of_Living_Arts"
+   },
+   {
+    "text": "Became a regional theater led by Andre Gregory in the 1960s, named Theatre of the Living Arts.",
+    "url": "https://en.wikipedia.org/wiki/Theatre_of_Living_Arts"
+   },
+   {
+    "text": "The Philadelphia Council for the Performing Arts acquired the derelict cinema in 1964.",
+    "url": "https://en.wikipedia.org/wiki/Theatre_of_Living_Arts"
+   },
+   {
+    "text": "Capacity is 800.",
+    "url": "https://en.wikipedia.org/wiki/Theatre_of_Living_Arts"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3864355363",
+  "name": "Venice Island Performing Arts and Recreational Facility",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened with a celebration of live music and art in October 2014.",
+    "url": "https://www.phillymag.com/things-to-do/2014/10/06/venice-island-performing-arts-recreation-center-makes-grand-debut-tomorrow/"
+   },
+   {
+    "text": "The transformation received a 2015 Groundbreaker Award.",
+    "url": "https://www.phillymag.com/property/2015/11/13/venice-island-performing-arts-center-manayunk/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w339752636",
+  "name": "Walnut Street Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1808 and the oldest operating theatre in the United States.",
+    "url": "https://en.wikipedia.org/wiki/Walnut_Street_Theatre"
+   },
+   {
+    "text": "Was the first theatre to install gas footlights, in 1837.",
+    "url": "https://en.wikipedia.org/wiki/Walnut_Street_Theatre"
+   },
+   {
+    "text": "Hosted the first presidential debate between Gerald Ford and Jimmy Carter on September 23, 1976.",
+    "url": "https://en.wikipedia.org/wiki/Walnut_Street_Theatre"
+   },
+   {
+    "text": "Has three stages: the Mainstage, Independence Studio on 3 and Studio 5.",
+    "url": "https://en.wikipedia.org/wiki/Walnut_Street_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3669307487",
+  "name": "Walter K Gordon Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 650-seat proscenium theater with an unobstructed view from every seat.",
+    "url": "https://mydowntowncamden.com/places/walter-k-gordon-theater/"
+   },
+   {
+    "text": "The hub of the performing arts at Rutgers-Camden.",
+    "url": "https://mydowntowncamden.com/places/walter-k-gordon-theater/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6436122925",
+  "name": "West-Wike Theatre",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w708931478",
+  "name": "Wiggins Riverfront Stage",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w320466671",
+  "name": "Wilma Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Current 296-seat theater opened in 1996 and was designed by Hugh Hardy.",
+    "url": "https://en.wikipedia.org/wiki/Wilma_Theater_(Philadelphia)"
+   },
+   {
+    "text": "Began in 1973 as the Wilma Project, which produced original material.",
+    "url": "https://en.wikipedia.org/wiki/Wilma_Theater_(Philadelphia)"
+   },
+   {
+    "text": "Blanka and Jiri Zizka joined in 1979 as artists-in-residence and later renamed it the Wilma Theater.",
+    "url": "https://en.wikipedia.org/wiki/Wilma_Theater_(Philadelphia)"
+   },
+   {
+    "text": "Received the 2024 Regional Theatre Tony Award.",
+    "url": "https://en.wikipedia.org/wiki/Wilma_Theater_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2876251699",
+  "name": "12 Steps Down",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A basement bar in Bella Vista.",
+    "url": "https://www.inquirer.com/food/restaurants/12-steps-down/"
+   },
+   {
+    "text": "Serves beer and cheesesteak.",
+    "url": "https://www.inquirer.com/food/restaurants/12-steps-down/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2752694980",
+  "name": "22nd & Tasker Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9424246613",
+  "name": "2637brew",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2752688769",
+  "name": "29th & Wharton Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located in Grays Ferry in front of the Peace Wall mural.",
+    "url": "https://www.eatwellguide.org/listings/70656/locations/24234"
+   },
+   {
+    "text": "Established in 2010.",
+    "url": "https://www.eatwellguide.org/listings/70656/locations/24234"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2752736446",
+  "name": "33rd & Diamond Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 2011 next to Mander Playground in Strawberry Mansion.",
+    "url": "https://www.eatwellguide.org/listings/70667"
+   },
+   {
+    "text": "Supported by community partner East Park Revitalization Alliance since its start.",
+    "url": "https://www.eatwellguide.org/listings/70667"
+   },
+   {
+    "text": "Produce comes from EPRA and PHS City Harvest gardens a few blocks away.",
+    "url": "https://www.eatwellguide.org/listings/70667"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2633142365",
+  "name": "52nd & Haverford Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 2005 in the Haddington neighborhood.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/52nd-haverford/"
+   },
+   {
+    "text": "Hosts weekly cooking demonstrations and nutrition education.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/52nd-haverford/"
+   },
+   {
+    "text": "Vendors include Hayday Farms from Bucks County.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/52nd-haverford/"
+   }
+  ]
+ }
+]
