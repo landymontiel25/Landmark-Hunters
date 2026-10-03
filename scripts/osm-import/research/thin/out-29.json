@@ -1,0 +1,237 @@
+[
+ {
+  "id": "osm-w104739787",
+  "name": "Memorial Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w90707883",
+  "name": "O’Hara Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w28023590",
+  "name": "Olson Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w42000667",
+  "name": "Shillingford Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Bryn Mawr College field hockey field built in 1982 and named for athletic director Jenepher Shillingford.",
+    "url": "https://www.brynmawr.edu/news/legendary-jenepher-shillingford-officially-rededicates-field-named-her-honor"
+   },
+   {
+    "text": "Rededicated after an upgrade to Polygras Paris GT Zero synthetic turf with a new scoreboard.",
+    "url": "https://www.brynmawr.edu/news/legendary-jenepher-shillingford-officially-rededicates-field-named-her-honor"
+   }
+  ]
+ },
+ {
+  "id": "osm-w219561175",
+  "name": "Albert A. Garthwaite Stadium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Multi-sports venue in Conshohocken with a capacity of 3,700, named for a former Lee Tire & Rubber president.",
+    "url": "https://en.wikipedia.org/wiki/Garthwaite_Stadium"
+   },
+   {
+    "text": "Fully renovated in 2012 with upgrades to the stands, facilities and floodlights.",
+    "url": "https://en.wikipedia.org/wiki/Garthwaite_Stadium"
+   },
+   {
+    "text": "Home field of the Philadelphia Fight rugby league team.",
+    "url": "https://en.wikipedia.org/wiki/Garthwaite_Stadium"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6436122925",
+  "name": "West-Wike Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 5,
+  "facts": []
+ },
+ {
+  "id": "osm-n10773712305",
+  "name": "LaScala's Fire",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Describes its food as classic Italian American reimagined, with a wood-fired kitchen.",
+    "url": "https://lascalasfire.com/villanova/"
+   },
+   {
+    "text": "Menu features wood-fired pizzas such as Margherita and Fig & Smoked Prosciutto.",
+    "url": "https://lascalasfire.com/villanova/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11236966179",
+  "name": "Little Basil",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu lists Chinese dishes such as lo mein, fried rice and noodles.",
+    "url": "https://www.littlebasilrosemont.com/"
+   },
+   {
+    "text": "Offers protein choices of chicken, pork, beef, seafood or vegetarian.",
+    "url": "https://www.littlebasilrosemont.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1687458235",
+  "name": "Rosemont Bakery",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n11307980347",
+  "name": "Rosie's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Coffee is roasted by House Cup Coffee, which helped develop the shop's Rosie's Blend.",
+    "url": "https://www.rosies.coffee/blends"
+   },
+   {
+    "text": "Located inside SEPTA's Villanova Station, on the outbound side of the tracks.",
+    "url": "https://www.rosies.coffee/parking"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11236966180",
+  "name": "Zesto Pizza & Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu includes hand tossed pizza, Sicilian style square pizza and a Grandma Pie with crispy square crust.",
+    "url": "https://zestopizza.com/menu"
+   },
+   {
+    "text": "Menu also lists cheesesteaks, buffalo wings, calzones, pasta, quesadillas and Greek specialties.",
+    "url": "https://zestopizza.com/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-w427856094",
+  "name": "Kennedy Ellipse",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w28526200",
+  "name": "Walker Prop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "The Walker Tract, a 0.37 acre parcel next to Emlen Tunnell Park, was bought by Radnor Township in 2003.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   },
+   {
+    "text": "Acquired to expand parking and access for Emlen Tunnell Park.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w686639637",
+  "name": "Carter Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Agnes Irwin School turf field with a Paris GT Zero surface, the choice of the U.S. National Field Hockey team.",
+    "url": "https://www.agnesirwin.org/news-detail-page/~board/2026-news/post/home-turf-agnes-irwins-new-fields-unlock-potential-for-owl-athletics"
+   },
+   {
+    "text": "Agnes Irwin is the only independent school in Pennsylvania with this type of field.",
+    "url": "https://www.agnesirwin.org/news-detail-page/~board/2026-news/post/home-turf-agnes-irwins-new-fields-unlock-potential-for-owl-athletics"
+   }
+  ]
+ },
+ {
+  "id": "osm-w686639641",
+  "name": "Phelps Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Multi-purpose artificial turf field for soccer, lacrosse and softball, completed in 2013.",
+    "url": "https://www.landtekgroup.com/portfolio/agnes-irwin-school-phelps-field/"
+   },
+   {
+    "text": "Resurfaced with RootZone 3D Series Astroturf, formulated for soccer and lacrosse.",
+    "url": "https://www.agnesirwin.org/news-detail-page/~board/2026-news/post/home-turf-agnes-irwins-new-fields-unlock-potential-for-owl-athletics"
+   }
+  ]
+ }
+]
