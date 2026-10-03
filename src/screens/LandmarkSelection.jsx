@@ -314,7 +314,17 @@ export default function LandmarkSelection() {
   }, [activeCategories, trip.customInterests, setActiveCategories]);
   // Tapping a row's thumbnail opens the photo full-screen.
   const [lightbox, setLightbox] = useState(null);
-  const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
+  const [search, setSearch, clearSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
+  // Leaving for the Map (or any other tab) drops the search; opening a
+  // landmark's page keeps it so Back returns to the same results. The router
+  // has already updated the URL by the time this cleanup runs.
+  useEffect(
+    () => () => {
+      if (!window.location.pathname.startsWith('/landmarks/')) clearSearch();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
   // New key so everyone lands on For Me (the default) once, instead of a
   // Popular choice saved back when that was the only default.
   const [savedSort, setSortBy] = usePersistentState('landmarks.sort.v2', 'forMe', { isEmpty: NEVER_EMPTY });
