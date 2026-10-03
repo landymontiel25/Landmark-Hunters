@@ -1,0 +1,423 @@
+[
+{
+"id": "osm-n3604617724",
+"name": "La Rosa Bakery",
+"category": "food",
+"kind": "bakery",
+"address": "4259 West Flagler Street",
+"city": "Miami",
+"lat": 25.77177,
+"lng": -80.26493,
+"website": "http://www.larosabakery.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 4259 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n6010865589",
+"name": "La Sandwicherie",
+"category": "food",
+"kind": "restaurant",
+"address": "34 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76608,
+"lng": -80.19407,
+"website": "https://www.lasandwicherie.com/",
+"knownFacts": [
+"Address: 34 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6091344845",
+"name": "La Sandwicherie Wynwood",
+"category": "food",
+"kind": "café",
+"address": "169 Northwest 23rd Street",
+"city": "Miami",
+"lat": 25.79931,
+"lng": -80.19847,
+"website": "https://www.lasandwicherie.com/",
+"knownFacts": [
+"Address: 169 Northwest 23rd Street, Miami"
+]
+},
+{
+"id": "osm-n5712856822",
+"name": "La Santa Taqueria",
+"category": "food",
+"kind": "restaurant",
+"address": "114 SW North River Dr",
+"city": null,
+"lat": 25.7723,
+"lng": -80.19959,
+"website": "https://www.lasantataqueria.com/",
+"knownFacts": [
+"Address: 114 SW North River Dr"
+]
+},
+{
+"id": "osm-n12409772928",
+"name": "La Trattoria",
+"category": "food",
+"kind": "pizza restaurant",
+"address": null,
+"city": null,
+"lat": 25.76218,
+"lng": -80.14435,
+"website": null,
+"knownFacts": [
+"Serves pizza"
+]
+},
+{
+"id": "osm-n11670287145",
+"name": "Lafayette Miami",
+"category": "food",
+"kind": "restaurant",
+"address": "1111 Southwest 1st Avenue",
+"city": "Miami",
+"lat": 25.76329,
+"lng": -80.19501,
+"website": "https://www.lafayette-miami.com/",
+"knownFacts": [
+"Address: 1111 Southwest 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-n6512066903",
+"name": "Laid Fresh",
+"category": "food",
+"kind": "café",
+"address": "240 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.79996,
+"lng": -80.20003,
+"website": null,
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 240 Northwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-n7844732306",
+"name": "Largo Bar & Grill",
+"category": "food",
+"kind": "seafood restaurant",
+"address": null,
+"city": null,
+"lat": 25.77917,
+"lng": -80.18651,
+"website": null,
+"knownFacts": [
+"Serves seafood"
+]
+},
+{
+"id": "osm-n4181168307",
+"name": "Las Olas",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77577,
+"lng": -80.13492,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4712412089",
+"name": "Latin American",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.75058,
+"lng": -80.21962,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4664689089",
+"name": "Latin American Cuisine",
+"category": "food",
+"kind": "Caribbean restaurant",
+"address": null,
+"city": null,
+"lat": 25.77758,
+"lng": -80.18595,
+"website": null,
+"knownFacts": [
+"Serves Caribbean food"
+]
+},
+{
+"id": "osm-w435584647",
+"name": "Latin Cafe - Taste of Cuba",
+"category": "food",
+"kind": "café",
+"address": "875 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.78024,
+"lng": -80.26376,
+"website": "https://www.latincafe.com/",
+"knownFacts": [
+"Address: 875 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n10111835504",
+"name": "Le Chick Miami",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79993,
+"lng": -80.20053,
+"website": "https://www.lechickmiami.com/",
+"knownFacts": []
+},
+{
+"id": "osm-n5906417801",
+"name": "Le Parc Café",
+"category": "food",
+"kind": "café",
+"address": "997 North Greenway Drive",
+"city": "Coral Gables",
+"lat": 25.75311,
+"lng": -80.2748,
+"website": "https://www.coralgablescountryclub.com/leparc-caf%C3%A9",
+"knownFacts": [
+"Serves French food",
+"Has outdoor seating",
+"Has Wi-Fi",
+"Address: 997 North Greenway Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n6060697697",
+"name": "Le Paris Cake Design Bakery",
+"category": "food",
+"kind": "bakery",
+"address": "6180 Southwest 8th Street",
+"city": "West Miami",
+"lat": 25.76299,
+"lng": -80.29528,
+"website": "http://www.lepariscakedesign.com/home.html",
+"knownFacts": [
+"Address: 6180 Southwest 8th Street, West Miami"
+]
+},
+{
+"id": "osm-n4326414090",
+"name": "Le petit café",
+"category": "food",
+"kind": "French restaurant",
+"address": "92 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74949,
+"lng": -80.25645,
+"website": null,
+"knownFacts": [
+"Serves French food",
+"Address: 92 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n7202237617",
+"name": "Lean Sushi Bar & Lounge",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1435 Alton Road",
+"city": "Miami Beach",
+"lat": 25.78647,
+"lng": -80.1408,
+"website": null,
+"knownFacts": [
+"Serves sushi",
+"Address: 1435 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-w436125444",
+"name": "Lil Greenhouse Grill",
+"category": "food",
+"kind": "restaurant",
+"address": "1300 Northwest 3rd Avenue",
+"city": "Miami",
+"lat": 25.78695,
+"lng": -80.20003,
+"website": null,
+"knownFacts": [
+"Address: 1300 Northwest 3rd Avenue, Miami"
+]
+},
+{
+"id": "osm-n5903091079",
+"name": "Lilly's Munchies",
+"category": "food",
+"kind": "bakery",
+"address": null,
+"city": null,
+"lat": 25.79714,
+"lng": -80.2795,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4937993728",
+"name": "Lime - Fresh Mexican Grill",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "9005 Southwest 72nd Place",
+"city": null,
+"lat": 25.68642,
+"lng": -80.31253,
+"website": null,
+"knownFacts": [
+"Serves Mexican food",
+"Address: 9005 Southwest 72nd Place"
+]
+},
+{
+"id": "osm-n7202237607",
+"name": "Lime - Fresh Mexican Grill",
+"category": "food",
+"kind": "restaurant",
+"address": "1439-B Alton Road",
+"city": "Miami Beach",
+"lat": 25.78653,
+"lng": -80.14093,
+"website": null,
+"knownFacts": [
+"Address: 1439-B Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4325638026",
+"name": "Limoncello Miami",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1334 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78487,
+"lng": -80.13223,
+"website": "https://www.limoncellomiamibeach.com/",
+"knownFacts": [
+"Serves Italian food",
+"Address: 1334 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n3243056761",
+"name": "Little Bread Cuban Sandwich Co",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "541 Southwest 12th Avenue",
+"city": "Miami",
+"lat": 25.76787,
+"lng": -80.21437,
+"website": null,
+"knownFacts": [
+"Serves Cuban food",
+"Address: 541 Southwest 12th Avenue, Miami"
+]
+},
+{
+"id": "osm-n4945712427",
+"name": "Lobster Bar Sea Grille",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77424,
+"lng": -80.13455,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2475853949",
+"name": "Lokal Burgers and Beer",
+"category": "food",
+"kind": "burger restaurant",
+"address": "3190 Commodore Plaza",
+"city": "Coconut Grove",
+"lat": 25.72776,
+"lng": -80.24506,
+"website": "https://www.lokalmiami.com/",
+"knownFacts": [
+"Serves burgers",
+"Address: 3190 Commodore Plaza, Coconut Grove"
+]
+},
+{
+"id": "osm-n3142367571",
+"name": "Lokum",
+"category": "food",
+"kind": "restaurant",
+"address": "1629 Alton Road",
+"city": null,
+"lat": 25.79005,
+"lng": -80.14101,
+"website": "http://lokummiami.com/",
+"knownFacts": [
+"Address: 1629 Alton Road"
+]
+},
+{
+"id": "osm-n3992927511",
+"name": "Lola Restaurant & Grill",
+"category": "food",
+"kind": "restaurant",
+"address": "1223 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79058,
+"lng": -80.14179,
+"website": null,
+"knownFacts": [
+"Address: 1223 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n14085790301",
+"name": "Lombardi's Italian Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": "Miamarina Parkway Drive",
+"city": null,
+"lat": 25.77728,
+"lng": -80.18501,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6028333314",
+"name": "Los Gallegos",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "6549 Bird Road",
+"city": "Miami",
+"lat": 25.73369,
+"lng": -80.30189,
+"website": null,
+"knownFacts": [
+"Serves Spanish food",
+"Address: 6549 Bird Road, Miami"
+]
+},
+{
+"id": "osm-w713805338",
+"name": "Los Jalapeños Coral Way",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "2090 Ludlam Road",
+"city": "Miami",
+"lat": 25.75137,
+"lng": -80.30395,
+"website": null,
+"knownFacts": [
+"Serves Mexican food",
+"Address: 2090 Ludlam Road, Miami"
+]
+}
+]

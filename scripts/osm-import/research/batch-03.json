@@ -1,0 +1,402 @@
+[
+{
+"id": "osm-n358730055",
+"name": "Cartagena Plaza",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.7051,
+"lng": -80.26172,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w624805560",
+"name": "Catalonia Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "807 Catalonia Avenue",
+"city": "Coral Gables",
+"lat": 25.74378,
+"lng": -80.27092,
+"website": null,
+"knownFacts": [
+"No dogs allowed",
+"Address: 807 Catalonia Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n358729233",
+"name": "Coconut Grove Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.7276,
+"lng": -80.24866,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w522198300",
+"name": "Continental Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "10000 Southwest 82nd Avenue",
+"city": "Kendall",
+"lat": 25.67645,
+"lng": -80.32709,
+"website": "https://www.miamidade.gov/parks/continental.asp",
+"knownFacts": [
+"Address: 10000 Southwest 82nd Avenue, Kendall"
+]
+},
+{
+"id": "osm-w184076406",
+"name": "Cooper Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75669,
+"lng": -80.28947,
+"website": null,
+"knownFacts": [
+"Run by City of West Miami"
+]
+},
+{
+"id": "osm-n10282144475",
+"name": "Coral Gables Waterway",
+"category": "parks-nature",
+"kind": "waterway",
+"address": null,
+"city": null,
+"lat": 25.70582,
+"lng": -80.26074,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w547367401",
+"name": "Coral Gables Wayside Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73848,
+"lng": -80.28692,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w470378974",
+"name": "Coral Gables Youth Center",
+"category": "parks-nature",
+"kind": "park",
+"address": "405 University Drive",
+"city": "Coral Gables",
+"lat": 25.74106,
+"lng": -80.26461,
+"website": null,
+"knownFacts": [
+"Address: 405 University Drive, Coral Gables"
+]
+},
+{
+"id": "osm-w184076407",
+"name": "Coral Gate Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75828,
+"lng": -80.2462,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w203053987",
+"name": "Coral Pine Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.67516,
+"lng": -80.30772,
+"website": "https://www.pinecrest-fl.gov/Government/Parks-Recreation/Parks-and-Facilities/Coral-Pine-Park",
+"knownFacts": []
+},
+{
+"id": "osm-w1118389214",
+"name": "Coral Villas Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "6398 Southwest 35th Street",
+"city": "Miami",
+"lat": 25.73739,
+"lng": -80.29873,
+"website": "https://www.miamidade.gov/parks/coral-villas.asp",
+"knownFacts": [
+"Address: 6398 Southwest 35th Street, Miami"
+]
+},
+{
+"id": "osm-r8719332",
+"name": "County Club Prado",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.7537,
+"lng": -80.28627,
+"website": null,
+"knownFacts": [
+"Run by City of Coral Gables"
+]
+},
+{
+"id": "osm-w300186528",
+"name": "Crandon Beach",
+"category": "parks-nature",
+"kind": "beach",
+"address": null,
+"city": null,
+"lat": 25.70807,
+"lng": -80.15279,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w314873704",
+"name": "Crandon Park Beach",
+"category": "parks-nature",
+"kind": "beach",
+"address": null,
+"city": null,
+"lat": 25.69163,
+"lng": -80.15591,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r11068182",
+"name": "Cuban Memorial Boulevard Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75845,
+"lng": -80.21636,
+"website": null,
+"knownFacts": [
+"Run by City of Miami"
+]
+},
+{
+"id": "osm-w364382505",
+"name": "Dan Paul Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78135,
+"lng": -80.18576,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r21226095",
+"name": "Dante B Fassell Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.6905,
+"lng": -80.28593,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358729223",
+"name": "Dinner Key Picnic Islands",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.725,
+"lng": -80.23169,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w467893318",
+"name": "Dorsey Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79224,
+"lng": -80.1961,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358729226",
+"name": "Douglas Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73927,
+"lng": -80.22949,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w230483553",
+"name": "Douglas Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "2755 Southwest 37th Avenue",
+"city": "Miami",
+"lat": 25.73976,
+"lng": -80.25311,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Douglas-Park",
+"knownFacts": [
+"Address: 2755 Southwest 37th Avenue, Miami"
+]
+},
+{
+"id": "osm-w624948510",
+"name": "Enrique “Henry” Cepero Memorial Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "4600 San Amaro Drive",
+"city": "Coral Gables",
+"lat": 25.72838,
+"lng": -80.28069,
+"website": null,
+"knownFacts": [
+"Address: 4600 San Amaro Drive, Coral Gables"
+]
+},
+{
+"id": "osm-w1531679816",
+"name": "Fairlawn Community Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "601 Southwest 63rd Court",
+"city": "Miami",
+"lat": 25.76455,
+"lng": -80.29841,
+"website": null,
+"knownFacts": [
+"Opened in 2024",
+"Run by Miami",
+"Run by City of Miami",
+"Address: 601 Southwest 63rd Court, Miami"
+]
+},
+{
+"id": "osm-r11107846",
+"name": "Ferdinand Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.74849,
+"lng": -80.2861,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w376900985",
+"name": "Flagler Grove Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "7551 Southwest 104th Street",
+"city": "Pinecrest",
+"lat": 25.67444,
+"lng": -80.31791,
+"website": "https://www.pinecrest-fl.gov/Government/Parks-Recreation/Parks-and-Facilities/Flagler-Grove-Park",
+"knownFacts": [
+"Address: 7551 Southwest 104th Street, Pinecrest"
+]
+},
+{
+"id": "osm-w23874184",
+"name": "Flagler Memorial Monument",
+"category": "parks-nature",
+"kind": "park",
+"address": "1 Flagler Memorial Island",
+"city": "Miami Beach",
+"lat": 25.78527,
+"lng": -80.15272,
+"website": null,
+"knownFacts": [
+"Established in 1920",
+"Named after Henry Morrison Flagler",
+"About 30 m (100 ft) tall",
+"Address: 1 Flagler Memorial Island, Miami Beach"
+]
+},
+{
+"id": "osm-w76684242",
+"name": "Flamingo Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "999 11th Street",
+"city": "Miami Beach",
+"lat": 25.78444,
+"lng": -80.13859,
+"website": "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/facility-info-flamingo-park/",
+"knownFacts": [
+"Run by City of Miami Beach Government",
+"Wheelchair accessible",
+"Address: 999 11th Street, Miami Beach"
+]
+},
+{
+"id": "osm-r9938238",
+"name": "Foote University Green",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72078,
+"lng": -80.27791,
+"website": null,
+"knownFacts": [
+"Official name: Edward T. Foote II University Green"
+]
+},
+{
+"id": "osm-n6110166485",
+"name": "Fossilized Reef View",
+"category": "parks-nature",
+"kind": "viewpoint",
+"address": null,
+"city": null,
+"lat": 25.72636,
+"lng": -80.14842,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w306044377",
+"name": "Fred B. Hartnett Ponce Circle Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "2810 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74598,
+"lng": -80.2585,
+"website": null,
+"knownFacts": [
+"Run by City of Coral Gables",
+"Address: 2810 Ponce de Leon Boulevard, Coral Gables"
+]
+}
+]

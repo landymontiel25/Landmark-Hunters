@@ -1,0 +1,422 @@
+[
+{
+"id": "osm-n6018223618",
+"name": "Barnes & Noble",
+"category": "local-life",
+"kind": "bookstore",
+"address": "152 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.7494,
+"lng": -80.25804,
+"website": "https://stores.barnesandnoble.com/store/2739",
+"knownFacts": [
+"Part of the Barnes & Noble chain",
+"Has Wi-Fi",
+"Wheelchair accessible",
+"Address: 152 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n763659225",
+"name": "Barracuda",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.72776,
+"lng": -80.24322,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1180266283",
+"name": "Blackmarket",
+"category": "local-life",
+"kind": "bar",
+"address": "168 Southeast 1st Street",
+"city": "Miami",
+"lat": 25.77324,
+"lng": -80.19044,
+"website": null,
+"knownFacts": [
+"Address: 168 Southeast 1st Street, Miami"
+]
+},
+{
+"id": "osm-w300463192",
+"name": "Blue Parrot Grill",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.76435,
+"lng": -80.18853,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5903100414",
+"name": "Booklink and Cafe",
+"category": "local-life",
+"kind": "bookstore",
+"address": null,
+"city": null,
+"lat": 25.79722,
+"lng": -80.27474,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6073264224",
+"name": "Books & Books",
+"category": "local-life",
+"kind": "bookstore",
+"address": "263 Aragon Avenue",
+"city": "Coral Gables",
+"lat": 25.75067,
+"lng": -80.25983,
+"website": null,
+"knownFacts": [
+"Address: 263 Aragon Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n5903100393",
+"name": "Books and Books",
+"category": "local-life",
+"kind": "bookstore",
+"address": null,
+"city": null,
+"lat": 25.79739,
+"lng": -80.27761,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7844732318",
+"name": "Brew Ville",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.77739,
+"lng": -80.18531,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n9805079269",
+"name": "Bud Light Lounge",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.7905,
+"lng": -80.2765,
+"website": null,
+"knownFacts": [
+"Brews its own beer",
+"Wheelchair accessible"
+]
+},
+{
+"id": "osm-n9934299819",
+"name": "Budweiser Brew House",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79227,
+"lng": -80.28129,
+"website": null,
+"knownFacts": [
+"Brews its own beer"
+]
+},
+{
+"id": "osm-n9934299830",
+"name": "Budweiser Brew House",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79128,
+"lng": -80.27902,
+"website": null,
+"knownFacts": [
+"Brews its own beer"
+]
+},
+{
+"id": "osm-n12703180901",
+"name": "Candela Bar Brickell",
+"category": "local-life",
+"kind": "bar",
+"address": "900 South Miami Avenue",
+"city": null,
+"lat": 25.76497,
+"lng": -80.19402,
+"website": "https://candelabarbrickell.com/",
+"knownFacts": [
+"Address: 900 South Miami Avenue"
+]
+},
+{
+"id": "osm-w960715591",
+"name": "Club Space",
+"category": "local-life",
+"kind": "nightclub",
+"address": "34 Northeast 11th Street",
+"city": "Miami",
+"lat": 25.78453,
+"lng": -80.19315,
+"website": "https://www.clubspace.com/",
+"knownFacts": [
+"Opened in 2000",
+"Run by Space Invaders LLC",
+"21 and over",
+"Address: 34 Northeast 11th Street, Miami"
+]
+},
+{
+"id": "osm-n5903100394",
+"name": "Clubhouse One",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.7974,
+"lng": -80.27711,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2498529919",
+"name": "CocoWalk",
+"category": "local-life",
+"kind": "mall",
+"address": "3015 Grand Avenue",
+"city": "Coconut Grove",
+"lat": 25.72864,
+"lng": -80.24204,
+"website": "https://www.cocowalk.net/",
+"knownFacts": [
+"Founded in 1990",
+"Address: 3015 Grand Avenue, Coconut Grove"
+]
+},
+{
+"id": "osm-n10119104371",
+"name": "Corona Beach House",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79098,
+"lng": -80.27363,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5903100399",
+"name": "Corona Beach House",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79741,
+"lng": -80.27652,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4770842824",
+"name": "Crabster",
+"category": "local-life",
+"kind": "bar",
+"address": "433 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79082,
+"lng": -80.13268,
+"website": null,
+"knownFacts": [
+"Has outdoor seating",
+"Also known as The Original Florida Crabster",
+"Address: 433 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4012033196",
+"name": "D'Vine Hookah Lounge",
+"category": "local-life",
+"kind": "bar",
+"address": "445 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79081,
+"lng": -80.13289,
+"website": "https://dvinelounge.com",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 445 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-w144051823",
+"name": "Dadeland Mall",
+"category": "local-life",
+"kind": "mall",
+"address": "7535 North Kendall Drive",
+"city": "Miami",
+"lat": 25.69065,
+"lng": -80.31249,
+"website": null,
+"knownFacts": [
+"Founded in 1962",
+"Owned by Simon Property Group",
+"Wheelchair accessible",
+"Address: 7535 North Kendall Drive, Miami"
+]
+},
+{
+"id": "osm-n13461562501",
+"name": "Daily Bread Marketplace",
+"category": "local-life",
+"kind": "market",
+"address": "2400 Southwest 27th Street",
+"city": "Miami",
+"lat": 25.74165,
+"lng": -80.23449,
+"website": "https://dailybreadmarketplace.com/",
+"knownFacts": [
+"Address: 2400 Southwest 27th Street, Miami"
+]
+},
+{
+"id": "osm-n6575836985",
+"name": "Deweys Tavern",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.77912,
+"lng": -80.14102,
+"website": null,
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-w1178292587",
+"name": "Do Not Sit On The Furniture",
+"category": "local-life",
+"kind": "nightclub",
+"address": "423 16th Street",
+"city": "Miami Beach",
+"lat": 25.78931,
+"lng": -80.13229,
+"website": "https://donotsitonthefurniture.com",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 423 16th Street, Miami Beach"
+]
+},
+{
+"id": "osm-n3839885752",
+"name": "Dot Fiftyone Gallery",
+"category": "local-life",
+"kind": "art shop",
+"address": "187 Northwest 27th Street",
+"city": "Miami",
+"lat": 25.80203,
+"lng": -80.19868,
+"website": "https://www.dotfiftyone.com/",
+"knownFacts": [
+"Address: 187 Northwest 27th Street, Miami"
+]
+},
+{
+"id": "osm-w435587983",
+"name": "E11EVEN",
+"category": "local-life",
+"kind": "nightclub",
+"address": "29 Northeast 11th Street",
+"city": "Miami",
+"lat": 25.78493,
+"lng": -80.19354,
+"website": "https://11miami.com/",
+"knownFacts": [
+"Run by 11USA Group",
+"Open 24 hours",
+"Address: 29 Northeast 11th Street, Miami"
+]
+},
+{
+"id": "osm-n6110293385",
+"name": "Edge Steak & Bar",
+"category": "local-life",
+"kind": "bar",
+"address": "1435 Brickell Avenue",
+"city": "Miami",
+"lat": 25.75894,
+"lng": -80.19223,
+"website": "https://www.restaurantji.com/fl/miami/edge-steak-and-bar-/",
+"knownFacts": [
+"Address: 1435 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-w435519270",
+"name": "Electric Lady",
+"category": "local-life",
+"kind": "nightclub",
+"address": "144 Northwest 23rd Street",
+"city": "Miami",
+"lat": 25.79902,
+"lng": -80.19803,
+"website": null,
+"knownFacts": [
+"Address: 144 Northwest 23rd Street, Miami"
+]
+},
+{
+"id": "osm-w1178292585",
+"name": "Exchange",
+"category": "local-life",
+"kind": "nightclub",
+"address": "1532 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78828,
+"lng": -80.13219,
+"website": null,
+"knownFacts": [
+"Address: 1532 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n12197880117",
+"name": "Fat Tuesday",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.69093,
+"lng": -80.31376,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4109762896",
+"name": "Finnegan's Road",
+"category": "local-life",
+"kind": "pub",
+"address": "942 Lincoln Road",
+"city": null,
+"lat": 25.79033,
+"lng": -80.13863,
+"website": "https://m.facebook.com/finnegansroad942",
+"knownFacts": [
+"Serves Irish food",
+"Address: 942 Lincoln Road"
+]
+}
+]

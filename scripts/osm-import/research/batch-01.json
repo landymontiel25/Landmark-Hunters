@@ -1,0 +1,411 @@
+[
+{
+"id": "osm-w435737408",
+"name": "The Congress Building",
+"category": "history-culture",
+"kind": "historic site",
+"address": null,
+"city": null,
+"lat": 25.77557,
+"lng": -80.19008,
+"website": null,
+"knownFacts": [
+"Designed by Martin L. Hampton",
+"Built in the Mediterranean Revival architecture style",
+"Listed on the U.S. National Register of Historic Places",
+"About 74 m (244 ft) tall",
+"21 stories tall"
+]
+},
+{
+"id": "osm-n6583012985",
+"name": "The Liberty Column",
+"category": "history-culture",
+"kind": "memorial",
+"address": null,
+"city": null,
+"lat": 25.77283,
+"lng": -80.18507,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4595581949",
+"name": "The Torch of Friendship",
+"category": "history-culture",
+"kind": "monument",
+"address": null,
+"city": null,
+"lat": 25.77765,
+"lng": -80.18764,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w993099871",
+"name": "Venetian Way",
+"category": "history-culture",
+"kind": "historic causeway",
+"address": "Venetian Causeway",
+"city": null,
+"lat": 25.79125,
+"lng": -80.15218,
+"website": null,
+"knownFacts": [
+"Open 24 hours",
+"Also known as Venetian Causeway"
+]
+},
+{
+"id": "osm-n4224000190",
+"name": "Alejandra von Hartz Gallery",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "2630 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80207,
+"lng": -80.19926,
+"website": null,
+"knownFacts": [
+"Address: 2630 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-w435738306",
+"name": "American Museum of the Cuban Diaspora",
+"category": "art-museums",
+"kind": "museum",
+"address": "1200 Coral Way",
+"city": "Miami",
+"lat": 25.75079,
+"lng": -80.21418,
+"website": "https://thecuban.org/",
+"knownFacts": [
+"About 15 m (49 ft) tall",
+"Address: 1200 Coral Way, Miami"
+]
+},
+{
+"id": "osm-n5770386029",
+"name": "Anthony Liggins Gallery 88",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "237 20th Street",
+"city": "Miami Beach",
+"lat": 25.79573,
+"lng": -80.13115,
+"website": "https://anthonyliggins.com/",
+"knownFacts": [
+"Address: 237 20th Street, #C, Miami Beach"
+]
+},
+{
+"id": "osm-n367819285",
+"name": "Ara Gallery Cultural Center",
+"category": "art-museums",
+"kind": "arts center",
+"address": null,
+"city": null,
+"lat": 25.76487,
+"lng": -80.25566,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w483322279",
+"name": "Bass Museum of Art",
+"category": "art-museums",
+"kind": "museum",
+"address": "2100 Collins Avenue",
+"city": "Miami Beach",
+"lat": 25.79757,
+"lng": -80.13011,
+"website": "https://thebass.org/",
+"knownFacts": [
+"Opened in 1963",
+"Designed by Arata Isozaki",
+"About 16 m (54 ft) tall",
+"Address: 2100 Collins Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n4110041150",
+"name": "Belairfineart",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "442 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.7905,
+"lng": -80.13283,
+"website": "https://www.belairfineart.com/en/galleries/miami",
+"knownFacts": [
+"Part of the Scotch & Soda chain",
+"Address: 442 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n367819312",
+"name": "Coral Gables International Art Center",
+"category": "art-museums",
+"kind": "arts center",
+"address": null,
+"city": null,
+"lat": 25.76386,
+"lng": -80.28428,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n367827368",
+"name": "Cuban Museum",
+"category": "art-museums",
+"kind": "museum",
+"address": null,
+"city": null,
+"lat": 25.7511,
+"lng": -80.25914,
+"website": "https://coralgablesmuseum.org/",
+"knownFacts": []
+},
+{
+"id": "osm-n4209523097",
+"name": "Dina Mitrani Art Gallery",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "2620 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80186,
+"lng": -80.19924,
+"website": "http://www.dinamitranigallery.com/",
+"knownFacts": [
+"Run by Dina Mitrani",
+"Address: 2620 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n4249047169",
+"name": "Gallery 2612",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "2612 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80181,
+"lng": -80.19923,
+"website": null,
+"knownFacts": [
+"Address: 2612 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n367819407",
+"name": "Garden Center Conservatory",
+"category": "art-museums",
+"kind": "arts center",
+"address": null,
+"city": null,
+"lat": 25.79593,
+"lng": -80.13548,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435748157",
+"name": "Historic Black Police Precinct Courthouse and Museum",
+"category": "art-museums",
+"kind": "museum",
+"address": "480 Northwest 11th Street",
+"city": "Miami",
+"lat": 25.78425,
+"lng": -80.20276,
+"website": null,
+"knownFacts": [
+"About 12 m (39 ft) tall",
+"Address: 480 Northwest 11th Street, Miami"
+]
+},
+{
+"id": "osm-n367827528",
+"name": "Latin American Art Museum",
+"category": "art-museums",
+"kind": "museum",
+"address": null,
+"city": null,
+"lat": 25.76472,
+"lng": -80.23111,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n367819294",
+"name": "Latin Quarter Cultural Center of Miami",
+"category": "art-museums",
+"kind": "arts center",
+"address": null,
+"city": null,
+"lat": 25.76557,
+"lng": -80.21922,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6359624487",
+"name": "Lik Gallery",
+"category": "art-museums",
+"kind": "museum",
+"address": null,
+"city": null,
+"lat": 25.79079,
+"lng": -80.13576,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13760426024",
+"name": "Lina Cerrone Gallery",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "2239 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.7988,
+"lng": -80.19888,
+"website": "https://linacerronegallery.com/",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 2239 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n367819328",
+"name": "Miami Art Center",
+"category": "art-museums",
+"kind": "arts center",
+"address": null,
+"city": null,
+"lat": 25.68861,
+"lng": -80.31889,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n367819296",
+"name": "Miami Dade Cultural Center",
+"category": "art-museums",
+"kind": "arts center",
+"address": null,
+"city": null,
+"lat": 25.77446,
+"lng": -80.19642,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1180991368",
+"name": "Museum of Illusions",
+"category": "art-museums",
+"kind": "museum",
+"address": "536 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79038,
+"lng": -80.13397,
+"website": "https://miaillusions.com/",
+"knownFacts": [
+"Address: 536 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n367827603",
+"name": "Museum of the Americas",
+"category": "art-museums",
+"kind": "museum",
+"address": null,
+"city": null,
+"lat": 25.76569,
+"lng": -80.20795,
+"website": "https://www.museumamericas.com/",
+"knownFacts": []
+},
+{
+"id": "osm-n903620843",
+"name": "Oolite Arts",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "924 Lincoln Road",
+"city": null,
+"lat": 25.79032,
+"lng": -80.13826,
+"website": "https://oolitearts.org",
+"knownFacts": [
+"Address: 924 Lincoln Road"
+]
+},
+{
+"id": "osm-n6091331640",
+"name": "PARADOX Museum Miami",
+"category": "art-museums",
+"kind": "museum",
+"address": "2301 North Miami Avenue",
+"city": "Miami",
+"lat": 25.7991,
+"lng": -80.19463,
+"website": "https://paradoxmuseummiami.com/",
+"knownFacts": [
+"Address: 2301 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-w1315447901",
+"name": "The Irving Korach Architecture Gallery",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "1215 Dickenson Drive",
+"city": "Coral Gables",
+"lat": 25.71682,
+"lng": -80.27906,
+"website": null,
+"knownFacts": [
+"Run by University of Miami",
+"Address: 1215 Dickenson Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n4205228308",
+"name": "The Screening Room",
+"category": "art-museums",
+"kind": "arts center",
+"address": "2626 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80192,
+"lng": -80.19924,
+"website": "http://www.thescreeningroommiami.com/",
+"knownFacts": [
+"Address: 2626 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-w1314522471",
+"name": "Thomas F. Daly Loggia",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "1215 Dickenson Drive",
+"city": "Coral Gables",
+"lat": 25.71683,
+"lng": -80.27917,
+"website": null,
+"knownFacts": [
+"Run by University of Miami",
+"Address: 1215 Dickenson Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n13610476795",
+"name": "Vossen",
+"category": "art-museums",
+"kind": "art gallery",
+"address": null,
+"city": null,
+"lat": 25.70512,
+"lng": -80.28597,
+"website": null,
+"knownFacts": []
+}
+]

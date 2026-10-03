@@ -1,0 +1,431 @@
+[
+{
+"id": "osm-n6418263113",
+"name": "Los Nuevos Jarritos",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77163,
+"lng": -80.23074,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n14041456704",
+"name": "Los Pinarenos Fruteria",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76582,
+"lng": -80.21671,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7844732322",
+"name": "Los Ranchos Steakhouse",
+"category": "food",
+"kind": "steak restaurant",
+"address": null,
+"city": null,
+"lat": 25.77955,
+"lng": -80.18653,
+"website": null,
+"knownFacts": [
+"Serves steak"
+]
+},
+{
+"id": "osm-n7149323685",
+"name": "Love Life Café",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80155,
+"lng": -80.20336,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n8537850496",
+"name": "Lucali Miami",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "1930 Bay Road",
+"city": "Miami Beach",
+"lat": 25.79519,
+"lng": -80.14392,
+"website": "https://lucali.com",
+"knownFacts": [
+"Serves Italian food, plus pizza",
+"Address: 1930 Bay Road, Miami Beach"
+]
+},
+{
+"id": "osm-n2475821298",
+"name": "Ludo's",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "3435 Main Highway",
+"city": "Coconut Grove",
+"lat": 25.72731,
+"lng": -80.24288,
+"website": "http://www.ludosristorante.com",
+"knownFacts": [
+"Serves Italian food",
+"Address: 3435 Main Highway, Coconut Grove"
+]
+},
+{
+"id": "osm-n9789284017",
+"name": "Luis Galindo Latin America Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": "Miami",
+"lat": 25.76298,
+"lng": -80.28803,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n11214375109",
+"name": "Luke's Lobster",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "701 South Miami Avenue",
+"city": "Miami",
+"lat": 25.7671,
+"lng": -80.19262,
+"website": "https://lukeslobster.com/pages/brickell-city-centre",
+"knownFacts": [
+"Serves seafood",
+"Address: 701 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n4289733001",
+"name": "Lulu",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.72694,
+"lng": -80.24378,
+"website": null,
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-n14085790201",
+"name": "Lulu's",
+"category": "food",
+"kind": "restaurant",
+"address": "Miamarina Parkway Drive",
+"city": null,
+"lat": 25.77732,
+"lng": -80.1851,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435748575",
+"name": "Lung Yai Thai Tappas",
+"category": "food",
+"kind": "Thai restaurant",
+"address": "1731 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76577,
+"lng": -80.2232,
+"website": null,
+"knownFacts": [
+"Serves Thai food",
+"Address: 1731 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6113770185",
+"name": "MIAM Cafe",
+"category": "food",
+"kind": "café",
+"address": "2750 Northwest 3rd Avenue",
+"city": "Miami",
+"lat": 25.80257,
+"lng": -80.20132,
+"website": "http://www.miamcafe.com/",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 2750 Northwest 3rd Avenue, Miami"
+]
+},
+{
+"id": "osm-n5625763425",
+"name": "Macaluso's",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1747 Alton Road",
+"city": null,
+"lat": 25.79301,
+"lng": -80.14099,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1747 Alton Road"
+]
+},
+{
+"id": "osm-n6579421395",
+"name": "Macchialina",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "820 Alton Road",
+"city": "Miami Beach",
+"lat": 25.7786,
+"lng": -80.14102,
+"website": "https://www.macchialina.com/",
+"knownFacts": [
+"Serves Italian food",
+"Has Wi-Fi",
+"Address: 820 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n12616316399",
+"name": "Macondo Coffee Roasters",
+"category": "food",
+"kind": "café",
+"address": "820 Southwest 20th Avenue",
+"city": "Miami",
+"lat": 25.76507,
+"lng": -80.2284,
+"website": "https://www.macondocoffee.com/locations",
+"knownFacts": [
+"Serves coffee",
+"Address: 820 Southwest 20th Avenue, Miami"
+]
+},
+{
+"id": "osm-n6085571280",
+"name": "Macondo Coffee Roasters",
+"category": "food",
+"kind": "café",
+"address": "240 North Miami Avenue",
+"city": "Miami",
+"lat": 25.77686,
+"lng": -80.19383,
+"website": "https://www.macondocoffee.com/locations",
+"knownFacts": [
+"Serves breakfast, burgers and coffee",
+"Address: 240 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n3203965631",
+"name": "Mad Butcher",
+"category": "food",
+"kind": "restaurant",
+"address": "2300 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.7996,
+"lng": -80.19924,
+"website": "https://www.madbutcher.com/",
+"knownFacts": [
+"Address: 2300 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n5912952894",
+"name": "Madrid Restaurant",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "545 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.77757,
+"lng": -80.26371,
+"website": null,
+"knownFacts": [
+"Serves Spanish food, plus tapas",
+"Address: 545 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n6074717989",
+"name": "Majestic Portuguese Bakehouse",
+"category": "food",
+"kind": "café",
+"address": "3340 Southwest 22nd Street",
+"city": "Miami",
+"lat": 25.74975,
+"lng": -80.24857,
+"website": "http://www.majesticbakehouse.com/",
+"knownFacts": [
+"Serves Portuguese food",
+"Has outdoor seating",
+"Address: 3340 Southwest 22nd Street, Miami"
+]
+},
+{
+"id": "osm-n13461561603",
+"name": "Malakor Thai Isaan",
+"category": "food",
+"kind": "Thai restaurant",
+"address": "90 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.7495,
+"lng": -80.25641,
+"website": "https://malakorthaiisaan.com/",
+"knownFacts": [
+"Serves Thai food",
+"Address: 90 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n6023406978",
+"name": "Maman",
+"category": "food",
+"kind": "café",
+"address": "5801 Southwest 72nd Street",
+"city": "South Miami",
+"lat": 25.70449,
+"lng": -80.2875,
+"website": null,
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 5801 Southwest 72nd Street, South Miami"
+]
+},
+{
+"id": "osm-n7844732326",
+"name": "Mambo Cafe",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.77729,
+"lng": -80.18522,
+"website": null,
+"knownFacts": [
+"Serves American food"
+]
+},
+{
+"id": "osm-n13812230058",
+"name": "Mammamia Gelato Italiano",
+"category": "food",
+"kind": "ice cream shop",
+"address": "834 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76572,
+"lng": -80.19346,
+"website": "https://www.mammamiagelatoitaliano.com/",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 834 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n6030985759",
+"name": "Mammamia Gelato Italiano",
+"category": "food",
+"kind": "ice cream shop",
+"address": "670 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79038,
+"lng": -80.13526,
+"website": "https://www.mammamiagelatoitaliano.com/",
+"knownFacts": [
+"Has outdoor seating",
+"Address: 670 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-w914498568",
+"name": "Mamá Choa",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77765,
+"lng": -80.25534,
+"website": null,
+"knownFacts": [
+"Run by Latin Kitchen"
+]
+},
+{
+"id": "osm-n13912569877",
+"name": "Mangal",
+"category": "food",
+"kind": "restaurant",
+"address": "2929 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.80478,
+"lng": -80.18912,
+"website": "https://mymangal.com/wp-content/uploads/2025/12/2025-10-02.webp",
+"knownFacts": [
+"Address: 2929 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n9882027534",
+"name": "Manolo & Rene Grill",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "188 Northeast 3rd Avenue",
+"city": null,
+"lat": 25.77608,
+"lng": -80.18877,
+"website": "https://www.manologrill.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Has outdoor seating",
+"Open 24 hours",
+"Address: 188 Northeast 3rd Avenue"
+]
+},
+{
+"id": "osm-n9791519417",
+"name": "Manta Miami",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80068,
+"lng": -80.19712,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n14077974641",
+"name": "Maple & Ash",
+"category": "food",
+"kind": "restaurant",
+"address": "699 Northeast 1st Avenue",
+"city": "Miami",
+"lat": 25.78082,
+"lng": -80.19156,
+"website": "https://www.mapleandash.com/miami/",
+"knownFacts": [
+"Address: 699 Northeast 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-n13119804234",
+"name": "Marabu Restaurant",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "701 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76684,
+"lng": -80.19393,
+"website": "https://www.maraburestaurant.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 701 South Miami Avenue, Unit Floor 4, Miami"
+]
+}
+]

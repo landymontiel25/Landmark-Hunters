@@ -1,0 +1,445 @@
+[
+{
+"id": "osm-n9397997801",
+"name": "Don Jediondo",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": null,
+"city": null,
+"lat": 25.69093,
+"lng": -80.31387,
+"website": null,
+"knownFacts": [
+"Serves Latin American food"
+]
+},
+{
+"id": "osm-n10235613996",
+"name": "Don Pan",
+"category": "food",
+"kind": "bakery",
+"address": "7702 North Kendall Drive",
+"city": "Miami",
+"lat": 25.68796,
+"lng": -80.31981,
+"website": "https://www.donpan.com/",
+"knownFacts": [
+"Wheelchair accessible",
+"Address: 7702 North Kendall Drive, Miami"
+]
+},
+{
+"id": "osm-n6446809493",
+"name": "Don Pan International Bakery",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "400 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.72599,
+"lng": -80.26201,
+"website": "https://donpan.com/",
+"knownFacts": [
+"Serves Mexican, Venezuelan and Latin American food",
+"Address: 400 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n4109661892",
+"name": "Doraku Sushi",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1104 Lincoln Road",
+"city": null,
+"lat": 25.7903,
+"lng": -80.14032,
+"website": "https://dorakusushi.com/store_locator/miami-beach/",
+"knownFacts": [
+"Serves sushi",
+"Address: 1104 Lincoln Road"
+]
+},
+{
+"id": "osm-n13530299002",
+"name": "Douceurs & Tralala",
+"category": "food",
+"kind": "bakery",
+"address": "1570 Alton Road",
+"city": null,
+"lat": 25.78869,
+"lng": -80.14134,
+"website": "https://douceurs-tralala.com/",
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 1570 Alton Road"
+]
+},
+{
+"id": "osm-n11214375114",
+"name": "Dr Smood",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76711,
+"lng": -80.19311,
+"website": null,
+"knownFacts": [
+"Has vegan options"
+]
+},
+{
+"id": "osm-n6110252485",
+"name": "Drunken Dragon",
+"category": "food",
+"kind": "Korean restaurant",
+"address": "1424 Alton Road",
+"city": null,
+"lat": 25.78607,
+"lng": -80.14135,
+"website": null,
+"knownFacts": [
+"Serves Korean food",
+"Address: 1424 Alton Road"
+]
+},
+{
+"id": "osm-n6110224085",
+"name": "Dōma",
+"category": "food",
+"kind": "restaurant",
+"address": "35 Northeast 26th Street",
+"city": null,
+"lat": 25.8018,
+"lng": -80.1942,
+"website": null,
+"knownFacts": [
+"Address: 35 Northeast 26th Street"
+]
+},
+{
+"id": "osm-n12198008213",
+"name": "Earls",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.68963,
+"lng": -80.31279,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Part of the Earls chain"
+]
+},
+{
+"id": "osm-n6076481676",
+"name": "Editor Pizza",
+"category": "food",
+"kind": "restaurant",
+"address": "803 5th Street",
+"city": "Miami Beach",
+"lat": 25.77482,
+"lng": -80.13632,
+"website": "https://editorpizza.com/",
+"knownFacts": [
+"Address: 803 5th Street, Miami Beach"
+]
+},
+{
+"id": "osm-n6082717129",
+"name": "El Atlacatl",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "466 Southwest 17th Avenue",
+"city": "Miami",
+"lat": 25.7687,
+"lng": -80.22283,
+"website": "http://orderelatlacatl.com/",
+"knownFacts": [
+"Serves Latin American and Salvadoran food",
+"Has outdoor seating",
+"Offers delivery",
+"Address: 466 Southwest 17th Avenue, Miami"
+]
+},
+{
+"id": "osm-n7535877337",
+"name": "El Atlacatl",
+"category": "food",
+"kind": "Salvadoran restaurant",
+"address": "3199 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76507,
+"lng": -80.2468,
+"website": "https://elatlacatlmiami.com/",
+"knownFacts": [
+"Serves Salvadoran and Latin American food",
+"Address: 3199 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-w435531263",
+"name": "El Carajo",
+"category": "food",
+"kind": "café",
+"address": "2437 Southwest 17th Avenue",
+"city": "Miami",
+"lat": 25.74679,
+"lng": -80.22153,
+"website": null,
+"knownFacts": [
+"Address: 2437 Southwest 17th Avenue, Miami"
+]
+},
+{
+"id": "osm-n1024679363",
+"name": "El Cartel Colombian Restaurant",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "194 Southeast 1st Avenue",
+"city": "Miami",
+"lat": 25.7726,
+"lng": -80.1919,
+"website": null,
+"knownFacts": [
+"Serves Latin American food",
+"Address: 194 Southeast 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-w1334847135",
+"name": "El Churrascaso Grill Bird Road",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.73394,
+"lng": -80.30106,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435848288",
+"name": "El Cristo",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "1543 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76591,
+"lng": -80.22038,
+"website": "https://www.elcristorestaurant.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 1543 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n5025200753",
+"name": "El Gallegazo",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": null,
+"city": null,
+"lat": 25.74848,
+"lng": -80.31699,
+"website": null,
+"knownFacts": [
+"Serves Spanish food"
+]
+},
+{
+"id": "osm-n12908249522",
+"name": "El Gran Inka",
+"category": "food",
+"kind": "Peruvian restaurant",
+"address": "606 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.68959,
+"lng": -80.16446,
+"website": "https://graninka.com",
+"knownFacts": [
+"Serves Peruvian food",
+"Address: 606 Crandon Boulevard, Key Biscayne"
+]
+},
+{
+"id": "osm-n7520589414",
+"name": "El Mago de las Fritas",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "5828 Southwest 8th Street",
+"city": "West Miami",
+"lat": 25.76328,
+"lng": -80.29081,
+"website": "http://www.elmagodelasfritas.com/",
+"knownFacts": [
+"Serves Cuban and Latin American food",
+"Has Wi-Fi",
+"Address: 5828 Southwest 8th Street, West Miami"
+]
+},
+{
+"id": "osm-n4661308690",
+"name": "El Nuevo Siglo",
+"category": "food",
+"kind": "international restaurant",
+"address": null,
+"city": null,
+"lat": 25.76587,
+"lng": -80.21646,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6059013271",
+"name": "El Palacio de los Jugos",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "5721 West Flagler Street",
+"city": "Miami",
+"lat": 25.77093,
+"lng": -80.28855,
+"website": "https://www.palaciodelosjugos.com/locations",
+"knownFacts": [
+"Serves Cuban and Latin American food",
+"Offers takeout",
+"Address: 5721 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-w436039688",
+"name": "El Patio Restaurant – Bar Habana – La Terraza Rooftop",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "660 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77652,
+"lng": -80.13421,
+"website": "https://elpatio-barhabana.com/",
+"knownFacts": [
+"Serves Mediterranean food",
+"Address: 660 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n6407975827",
+"name": "El Pub Restaurant",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "1548 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76555,
+"lng": -80.22039,
+"website": "https://www.elpubrestaurant.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 1548 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6820860987",
+"name": "El Rey de las Fritas",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "1821 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76579,
+"lng": -80.22517,
+"website": "https://www.elreydelasfritas.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 1821 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n9696314017",
+"name": "El Taquito",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "Southwest 8th Street",
+"city": null,
+"lat": 25.76562,
+"lng": -80.21834,
+"website": null,
+"knownFacts": [
+"Serves Mexican food"
+]
+},
+{
+"id": "osm-n4289732924",
+"name": "El Taquitos",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": null,
+"city": null,
+"lat": 25.72774,
+"lng": -80.24279,
+"website": null,
+"knownFacts": [
+"Serves Mexican food",
+"Offers takeout"
+]
+},
+{
+"id": "osm-n12507049138",
+"name": "Elia Cafe Pinecrest",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.66911,
+"lng": -80.28689,
+"website": null,
+"knownFacts": [
+"Serves Greek food",
+"Has outdoor seating",
+"Has Wi-Fi"
+]
+},
+{
+"id": "osm-n4886515021",
+"name": "Enriqueta's Sandwich Shop",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "186 Northeast 29th Street",
+"city": null,
+"lat": 25.80394,
+"lng": -80.19145,
+"website": "http://places.singleplatform.com/enriquetas-cafe/menu",
+"knownFacts": [
+"Serves Cuban food",
+"Offers takeout",
+"Address: 186 Northeast 29th Street"
+]
+},
+{
+"id": "osm-n13719776032",
+"name": "Española Cigar Bar & Lounge",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "409 Española Way",
+"city": "Miami Beach",
+"lat": 25.78702,
+"lng": -80.13212,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 409 Española Way, Miami Beach"
+]
+},
+{
+"id": "osm-n13719776028",
+"name": "Españolita Miami Beach",
+"category": "food",
+"kind": "Spanish restaurant",
+"address": "441 Española Way",
+"city": "Miami Beach",
+"lat": 25.78701,
+"lng": -80.1327,
+"website": null,
+"knownFacts": [
+"Serves Spanish food",
+"Address: 441 Española Way, Miami Beach"
+]
+}
+]

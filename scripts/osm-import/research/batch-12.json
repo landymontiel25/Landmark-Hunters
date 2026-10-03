@@ -1,0 +1,405 @@
+[
+{
+"id": "osm-n5192839521",
+"name": "The Butcher Shop",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.79936,
+"lng": -80.19814,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4220218039",
+"name": "The Clover Irish Pub",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79702,
+"lng": -80.28019,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4405152389",
+"name": "The Corner",
+"category": "local-life",
+"kind": "bar",
+"address": "1035 North Miami Avenue",
+"city": "Miami",
+"lat": 25.78466,
+"lng": -80.1939,
+"website": "https://www.thecornermiami.com/",
+"knownFacts": [
+"Address: 1035 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-w1491132836",
+"name": "The Dirty Rabbit Wynwood",
+"category": "local-life",
+"kind": "bar",
+"address": "151 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.8,
+"lng": -80.19801,
+"website": null,
+"knownFacts": [
+"21 and over",
+"Address: 151 Northwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-w316621085",
+"name": "The Electric Pickle",
+"category": "local-life",
+"kind": "nightclub",
+"address": null,
+"city": null,
+"lat": 25.80355,
+"lng": -80.19527,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w406011969",
+"name": "The Greenery Mall",
+"category": "local-life",
+"kind": "mall",
+"address": null,
+"city": null,
+"lat": 25.68749,
+"lng": -80.3203,
+"website": null,
+"knownFacts": [
+"Wheelchair accessible"
+]
+},
+{
+"id": "osm-n763658377",
+"name": "The Grove Spot",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.72933,
+"lng": -80.24177,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2319522352",
+"name": "The Islander Bar & Grill",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79788,
+"lng": -80.28426,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n7844732321",
+"name": "The Other Daiquiri Bar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.7775,
+"lng": -80.1857,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2182006237",
+"name": "The Regent Cocktail Club",
+"category": "local-life",
+"kind": "bar",
+"address": "1690 Collins Avenue",
+"city": null,
+"lat": 25.79211,
+"lng": -80.13056,
+"website": null,
+"knownFacts": [
+"Address: 1690 Collins Avenue"
+]
+},
+{
+"id": "osm-w436110281",
+"name": "The Shops at Mary Brickell Village",
+"category": "local-life",
+"kind": "mall",
+"address": "900: 901 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76497,
+"lng": -80.19379,
+"website": null,
+"knownFacts": [
+"Founded in 2006",
+"Address: 900: 901 South Miami Avenue, STE1-STE379, Miami"
+]
+},
+{
+"id": "osm-w1334918470",
+"name": "Thorn",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.73187,
+"lng": -80.30736,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n8436226417",
+"name": "Turkish Airlines Loudge",
+"category": "local-life",
+"kind": "pub",
+"address": null,
+"city": null,
+"lat": 25.79501,
+"lng": -80.27968,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435576204",
+"name": "Ultramont Mall",
+"category": "local-life",
+"kind": "mall",
+"address": "100 Southeast 1st Street",
+"city": "Miami",
+"lat": 25.77298,
+"lng": -80.19141,
+"website": null,
+"knownFacts": [
+"Address: 100 Southeast 1st Street, Miami"
+]
+},
+{
+"id": "osm-n12075008819",
+"name": "University of Miami Campus Store",
+"category": "local-life",
+"kind": "bookstore",
+"address": "1306 Stanford Drive",
+"city": "Coral Gables",
+"lat": 25.71999,
+"lng": -80.27778,
+"website": null,
+"knownFacts": [
+"Run by University of Miami",
+"Also known as University Bookstore",
+"Address: 1306 Stanford Drive, Unit 1500, Coral Gables"
+]
+},
+{
+"id": "osm-n13567619001",
+"name": "Vizcaya Farmer’s Market",
+"category": "local-life",
+"kind": "market",
+"address": null,
+"city": null,
+"lat": 25.74805,
+"lng": -80.21079,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4372003896",
+"name": "Wet Bar",
+"category": "local-life",
+"kind": "bar",
+"address": null,
+"city": null,
+"lat": 25.76554,
+"lng": -80.22305,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w315936260",
+"name": "Wood Tavern",
+"category": "local-life",
+"kind": "bar",
+"address": "2531 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.80132,
+"lng": -80.19894,
+"website": "https://www.woodtavernmiami.com/",
+"knownFacts": [
+"Address: 2531 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n9934299817",
+"name": "World Wine Market",
+"category": "local-life",
+"kind": "market",
+"address": null,
+"city": null,
+"lat": 25.79212,
+"lng": -80.28152,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n9934299831",
+"name": "World Wine Market",
+"category": "local-life",
+"kind": "market",
+"address": null,
+"city": null,
+"lat": 25.79146,
+"lng": -80.27894,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w310319091",
+"name": "Wynwood Warehouse Project",
+"category": "local-life",
+"kind": "art shop",
+"address": "450 Northwest 27th Street",
+"city": "Miami",
+"lat": 25.80157,
+"lng": -80.20256,
+"website": null,
+"knownFacts": [
+"Address: 450 Northwest 27th Street, Miami"
+]
+},
+{
+"id": "osm-n2697912555",
+"name": "Yardbird Southern Table & Bar",
+"category": "local-life",
+"kind": "bar",
+"address": "1600 Lenox Ave",
+"city": "Miami Beach",
+"lat": 25.78907,
+"lng": -80.14009,
+"website": "https://runchickenrun.com/",
+"knownFacts": [
+"Address: 1600 Lenox Ave, Miami Beach"
+]
+},
+{
+"id": "osm-n1670843023",
+"name": "3 Chefs Chinese & Vietnamese Food",
+"category": "food",
+"kind": "Chinese restaurant",
+"address": "1800 Biscayne Boulevard",
+"city": null,
+"lat": 25.79388,
+"lng": -80.18919,
+"website": null,
+"knownFacts": [
+"Serves Chinese food",
+"Wheelchair accessible",
+"Address: 1800 Biscayne Boulevard"
+]
+},
+{
+"id": "osm-n6440668419",
+"name": "305 Peruvian Modern Cuisine",
+"category": "food",
+"kind": "Peruvian restaurant",
+"address": null,
+"city": null,
+"lat": 25.74982,
+"lng": -80.24947,
+"website": null,
+"knownFacts": [
+"Serves Peruvian food"
+]
+},
+{
+"id": "osm-n8713382843",
+"name": "305 Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "151 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.79997,
+"lng": -80.1982,
+"website": "https://www.order305pizza.com",
+"knownFacts": [
+"Serves pizza",
+"Address: 151 Northwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-n4110108022",
+"name": "7 Spices Restaurant & Lounge",
+"category": "food",
+"kind": "restaurant",
+"address": "610 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79045,
+"lng": -80.13463,
+"website": "https://www.7spicesmiami.com",
+"knownFacts": [
+"Address: 610 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n5533485322",
+"name": "94th Aero Squadron Restaurant",
+"category": "food",
+"kind": "international restaurant",
+"address": null,
+"city": null,
+"lat": 25.78503,
+"lng": -80.28755,
+"website": "https://www.94miami.com/",
+"knownFacts": []
+},
+{
+"id": "osm-n4001955061",
+"name": "A La Folie Cafe",
+"category": "food",
+"kind": "French restaurant",
+"address": "516 Espanola Way",
+"city": "Miami Beach",
+"lat": 25.78683,
+"lng": -80.13341,
+"website": "https://alafoliecafe.com/",
+"knownFacts": [
+"Serves French food",
+"Address: 516 Espanola Way, Miami Beach"
+]
+},
+{
+"id": "osm-n11142824069",
+"name": "ALL DAY",
+"category": "food",
+"kind": "café",
+"address": "1035 North Miami Avenue",
+"city": "Miami",
+"lat": 25.78458,
+"lng": -80.19389,
+"website": null,
+"knownFacts": [
+"Address: 1035 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-w317881244",
+"name": "ALMA",
+"category": "food",
+"kind": "American restaurant",
+"address": "310 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.79989,
+"lng": -80.20053,
+"website": "https://www.almarestaurant.com/",
+"knownFacts": [
+"Serves American food",
+"Address: 310 Northwest 24th Street, Miami"
+]
+}
+]

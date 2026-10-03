@@ -1,0 +1,438 @@
+[
+{
+"id": "osm-n13719776030",
+"name": "CIAO AMORE Italian Gelato, Caffè & Bakery",
+"category": "food",
+"kind": "ice cream shop",
+"address": "417 Española Way",
+"city": "Miami Beach",
+"lat": 25.78703,
+"lng": -80.13224,
+"website": null,
+"knownFacts": [
+"Address: 417 Española Way, Miami Beach"
+]
+},
+{
+"id": "osm-n11036277180",
+"name": "CVI.CHE 105",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.6896,
+"lng": -80.3141,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3247965416",
+"name": "CVI.CHE 105",
+"category": "food",
+"kind": "Peruvian restaurant",
+"address": "105 Northeast 3rd Avenue",
+"city": "Miami",
+"lat": 25.77544,
+"lng": -80.18846,
+"website": "https://www.ceviche105.com/",
+"knownFacts": [
+"Serves Peruvian food",
+"Address: 105 Northeast 3rd Avenue, Miami"
+]
+},
+{
+"id": "osm-w1178446527",
+"name": "CVI.CHE 105",
+"category": "food",
+"kind": "restaurant",
+"address": "1245 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79064,
+"lng": -80.14227,
+"website": null,
+"knownFacts": [
+"Address: 1245 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n7194556907",
+"name": "Cachito Coffee & Bakery",
+"category": "food",
+"kind": "café",
+"address": "1542 Alton Road",
+"city": "Miami Beach",
+"lat": 25.78804,
+"lng": -80.14163,
+"website": "https://cachitocoffeeroasters.miami/",
+"knownFacts": [
+"Serves Argentinian food, plus coffee",
+"Has outdoor seating",
+"Address: 1542 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n11214375111",
+"name": "Cafe Americano",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.76724,
+"lng": -80.1928,
+"website": null,
+"knownFacts": [
+"Serves coffee"
+]
+},
+{
+"id": "osm-n8714713011",
+"name": "Cafe Bonjour",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.69974,
+"lng": -80.29406,
+"website": "https://www.cafebonjourmiamifl.com",
+"knownFacts": []
+},
+{
+"id": "osm-n4106805190",
+"name": "Cafe Charlotte",
+"category": "food",
+"kind": "restaurant",
+"address": "1497 Washington Avenue",
+"city": null,
+"lat": 25.78755,
+"lng": -80.13188,
+"website": null,
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 1497 Washington Avenue"
+]
+},
+{
+"id": "osm-n7844732317",
+"name": "Cafe Con Leche",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77832,
+"lng": -80.18668,
+"website": null,
+"knownFacts": [
+"Serves coffee"
+]
+},
+{
+"id": "osm-n6114217486",
+"name": "Cafe Croissant",
+"category": "food",
+"kind": "café",
+"address": "1684 Southwest 22nd Street",
+"city": "Miami",
+"lat": 25.75073,
+"lng": -80.22155,
+"website": null,
+"knownFacts": [
+"Address: 1684 Southwest 22nd Street, Miami"
+]
+},
+{
+"id": "osm-n6515317684",
+"name": "Cafe Del Mar",
+"category": "food",
+"kind": "café",
+"address": "Washington Avenue",
+"city": null,
+"lat": 25.77726,
+"lng": -80.13375,
+"website": null,
+"knownFacts": [
+"Serves sandwiches, breakfast and coffee",
+"Has Wi-Fi",
+"Open 24 hours"
+]
+},
+{
+"id": "osm-n6114013485",
+"name": "Cafe Galleria",
+"category": "food",
+"kind": "café",
+"address": "69 Southeast 1st Street",
+"city": null,
+"lat": 25.77346,
+"lng": -80.19218,
+"website": null,
+"knownFacts": [
+"Address: 69 Southeast 1st Street"
+]
+},
+{
+"id": "osm-n4235839089",
+"name": "Cafe Papillon",
+"category": "food",
+"kind": "café",
+"address": "276 Northeast 3rd Street",
+"city": null,
+"lat": 25.7771,
+"lng": -80.18853,
+"website": "http://www.TheCafePapillon.com",
+"knownFacts": [
+"Has Wi-Fi",
+"Address: 276 Northeast 3rd Street"
+]
+},
+{
+"id": "osm-n13767195648",
+"name": "Cafe Versailles",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79767,
+"lng": -80.28295,
+"website": null,
+"knownFacts": [
+"Serves coffee"
+]
+},
+{
+"id": "osm-n5903100412",
+"name": "Cafe Versailles",
+"category": "food",
+"kind": "Cuban café",
+"address": null,
+"city": null,
+"lat": 25.79725,
+"lng": -80.27488,
+"website": null,
+"knownFacts": [
+"Serves Cuban food"
+]
+},
+{
+"id": "osm-n5903100436",
+"name": "Cafe Versailles",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79823,
+"lng": -80.27178,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w118004049",
+"name": "Cafeteria",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.73166,
+"lng": -80.16317,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n2697912493",
+"name": "Caffe Di Mauro",
+"category": "food",
+"kind": "café",
+"address": "1464 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78744,
+"lng": -80.13196,
+"website": null,
+"knownFacts": [
+"Address: 1464 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w637377057",
+"name": "Caffe Vialetto",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "4019 Le Jeune Road",
+"city": "Coral Gables",
+"lat": 25.73431,
+"lng": -80.26187,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 4019 Le Jeune Road, Coral Gables"
+]
+},
+{
+"id": "osm-n12369742001",
+"name": "Café Bastille",
+"category": "food",
+"kind": "breakfast restaurant",
+"address": "538 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.77531,
+"lng": -80.13417,
+"website": "https://cafebastilledowntown.com/",
+"knownFacts": [
+"Serves French food, plus breakfast",
+"Address: 538 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n6029585123",
+"name": "Café Oriental Asian Kitchen",
+"category": "food",
+"kind": "Asian restaurant",
+"address": "9800 Southwest 77th Avenue",
+"city": "Miami",
+"lat": 25.67934,
+"lng": -80.31857,
+"website": null,
+"knownFacts": [
+"Serves Asian and Japanese food",
+"Address: 9800 Southwest 77th Avenue, Miami"
+]
+},
+{
+"id": "osm-n13447230901",
+"name": "Cajun Boil",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "141 Southwest 7th Street",
+"city": null,
+"lat": 25.76752,
+"lng": -80.1961,
+"website": null,
+"knownFacts": [
+"Serves seafood",
+"Has Wi-Fi",
+"Address: 141 Southwest 7th Street"
+]
+},
+{
+"id": "osm-n13148371488",
+"name": "Calista - Greek Seafood Taverna",
+"category": "food",
+"kind": "Greek restaurant",
+"address": "150 Giralda Avenue",
+"city": "Coral Gables",
+"lat": 25.75123,
+"lng": -80.25779,
+"website": "https://www.calistataverna.com/",
+"knownFacts": [
+"Serves Greek food",
+"Has outdoor seating",
+"Address: 150 Giralda Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n10232521783",
+"name": "Call Me Gaby",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "22 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.76894,
+"lng": -80.13567,
+"website": null,
+"knownFacts": [
+"Serves pizza",
+"Address: 22 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n1025659681",
+"name": "Camila's Restaurante Brasileiro",
+"category": "food",
+"kind": "Brazilian restaurant",
+"address": "129 Southeast 1st Avenue",
+"city": null,
+"lat": 25.77274,
+"lng": -80.19168,
+"website": null,
+"knownFacts": [
+"Serves Brazilian food",
+"Address: 129 Southeast 1st Avenue"
+]
+},
+{
+"id": "osm-n6020065937",
+"name": "Canton Rose Restaurant",
+"category": "food",
+"kind": "Chinese restaurant",
+"address": "4038 Southwest 67th Avenue",
+"city": "Miami",
+"lat": 25.73219,
+"lng": -80.3032,
+"website": null,
+"knownFacts": [
+"Serves Chinese food",
+"Address: 4038 Southwest 67th Avenue, Miami"
+]
+},
+{
+"id": "osm-n6010863676",
+"name": "Capital One Café at Brickell",
+"category": "food",
+"kind": "café",
+"address": "850 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76565,
+"lng": -80.19361,
+"website": "https://www.capitalone.com/local/southflorida-brickell/",
+"knownFacts": [
+"Serves coffee",
+"Has Wi-Fi",
+"Address: 850 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n13527511701",
+"name": "Capital One Café at Miami Beach",
+"category": "food",
+"kind": "café",
+"address": "1029 Lincoln Road",
+"city": null,
+"lat": 25.79066,
+"lng": -80.13954,
+"website": "https://www.capitalone.com/local/southflorida-miamibeach/",
+"knownFacts": [
+"Serves coffee and tea",
+"Has Wi-Fi",
+"Address: 1029 Lincoln Road"
+]
+},
+{
+"id": "osm-n2697912494",
+"name": "Captain's Tavern Restaurant",
+"category": "food",
+"kind": "restaurant",
+"address": "9625 S Dixie Hwy",
+"city": "Miami",
+"lat": 25.67973,
+"lng": -80.31589,
+"website": "captainstavernmiami.com",
+"knownFacts": [
+"Address: 9625 S Dixie Hwy, Miami"
+]
+},
+{
+"id": "osm-n4109876689",
+"name": "Carmelo Family Kitchen",
+"category": "food",
+"kind": "steak restaurant",
+"address": "920 Lincoln Road",
+"city": null,
+"lat": 25.79032,
+"lng": -80.13815,
+"website": "http://920grill.com",
+"knownFacts": [
+"Serves Argentinian food, plus steak",
+"Has outdoor seating",
+"Also known as Carmelo Latin Kitchen & Bar",
+"Address: 920 Lincoln Road"
+]
+}
+]

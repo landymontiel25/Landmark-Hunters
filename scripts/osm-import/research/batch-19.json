@@ -1,0 +1,440 @@
+[
+{
+"id": "osm-w481648944",
+"name": "Estiatorio Milos Miami",
+"category": "food",
+"kind": "Greek restaurant",
+"address": "730 1st Street",
+"city": "Miami Beach",
+"lat": 25.76967,
+"lng": -80.13572,
+"website": "https://www.estiatoriomilos.com/location/miami/",
+"knownFacts": [
+"Serves Greek and Mediterranean food",
+"Offers takeout",
+"Address: 730 1st Street, Miami Beach"
+]
+},
+{
+"id": "osm-n8694449286",
+"name": "Exupery Burger & Tacos",
+"category": "food",
+"kind": "burger restaurant",
+"address": "1782 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76544,
+"lng": -80.22419,
+"website": "https://www.exuperyburgertaco.com",
+"knownFacts": [
+"Serves burgers",
+"Address: 1782 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6091344818",
+"name": "FREEHOLD Miami",
+"category": "food",
+"kind": "restaurant",
+"address": "2219 Northwest 2nd Avenue",
+"city": "Miami",
+"lat": 25.79844,
+"lng": -80.19883,
+"website": "https://www.freeholdmiami.com/",
+"knownFacts": [
+"Address: 2219 Northwest 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-w1178446529",
+"name": "Fat Ronnie's",
+"category": "food",
+"kind": "restaurant",
+"address": "1233 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79065,
+"lng": -80.14201,
+"website": null,
+"knownFacts": [
+"Address: 1233 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n13564447901",
+"name": "Felice Brickell",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1450 Brickell Avenue",
+"city": null,
+"lat": 25.75911,
+"lng": -80.1929,
+"website": "https://felicerestaurants.com",
+"knownFacts": [
+"Serves Italian food",
+"Address: 1450 Brickell Avenue"
+]
+},
+{
+"id": "osm-n6418263841",
+"name": "Fiesta Café Shop",
+"category": "food",
+"kind": "Peruvian restaurant",
+"address": null,
+"city": null,
+"lat": 25.77231,
+"lng": -80.22316,
+"website": null,
+"knownFacts": [
+"Serves Peruvian food"
+]
+},
+{
+"id": "osm-w278812500",
+"name": "Fiola Miami",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1500 San Ignacio Avenue",
+"city": "Coral Gables",
+"lat": 25.70511,
+"lng": -80.2826,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1500 San Ignacio Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n9685760517",
+"name": "Firebelly’s Wings",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79759,
+"lng": -80.25271,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w316621086",
+"name": "Fireman Derek's World Famous Pies",
+"category": "food",
+"kind": "bakery",
+"address": "2818 North Miami Avenue",
+"city": "Miami",
+"lat": 25.8034,
+"lng": -80.19527,
+"website": null,
+"knownFacts": [
+"Address: 2818 North Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n610300308",
+"name": "First Watch",
+"category": "food",
+"kind": "American restaurant",
+"address": "5799 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.77832,
+"lng": -80.29037,
+"website": null,
+"knownFacts": [
+"Serves American food, plus breakfast",
+"Part of the First Watch chain",
+"Official name: First Watch The Daytime Cafe",
+"Address: 5799 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-n6047565081",
+"name": "Flanigan's Seafood Bar and Grill",
+"category": "food",
+"kind": "restaurant",
+"address": "11415 South Dixie Highway",
+"city": "Pinecrest",
+"lat": 25.66429,
+"lng": -80.32391,
+"website": "https://flanigans.net/",
+"knownFacts": [
+"Address: 11415 South Dixie Highway, Pinecrest"
+]
+},
+{
+"id": "osm-n6090251579",
+"name": "Flyfuel Food Co",
+"category": "food",
+"kind": "health food restaurant",
+"address": "154 Northeast 29th Street",
+"city": "Miami",
+"lat": 25.80388,
+"lng": -80.19233,
+"website": "https://www.eatflyfuel.com/",
+"knownFacts": [
+"Serves health food",
+"Address: 154 Northeast 29th Street, Miami"
+]
+},
+{
+"id": "osm-n2475858794",
+"name": "Focaccia Bistro",
+"category": "food",
+"kind": "restaurant",
+"address": "3111 Grand Avenue",
+"city": "Coconut Grove",
+"lat": 25.72823,
+"lng": -80.24376,
+"website": "http://www.focacciabistro.com",
+"knownFacts": [
+"Address: 3111 Grand Avenue, Coconut Grove"
+]
+},
+{
+"id": "osm-n10232521762",
+"name": "Fogo de Chão",
+"category": "food",
+"kind": "Brazilian restaurant",
+"address": "836 1st Street",
+"city": "Miami Beach",
+"lat": 25.76972,
+"lng": -80.1366,
+"website": "https://fogodechao.com/location/miami/",
+"knownFacts": [
+"Serves Brazilian food, plus steak",
+"Part of the Fogo de Chão chain",
+"Address: 836 1st Street, Miami Beach"
+]
+},
+{
+"id": "osm-n13176983078",
+"name": "Fogo de Chão",
+"category": "food",
+"kind": "Brazilian restaurant",
+"address": "8815 Southwest 72nd Place",
+"city": "Miami",
+"lat": 25.68846,
+"lng": -80.31277,
+"website": "https://fogodechao.com/location/miami-dadeland/",
+"knownFacts": [
+"Serves Brazilian food, plus steak",
+"Part of the Fogo de Chão chain",
+"Address: 8815 Southwest 72nd Place, Miami"
+]
+},
+{
+"id": "osm-n14191772987",
+"name": "Fogo de Chão",
+"category": "food",
+"kind": "Brazilian restaurant",
+"address": "2801 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74618,
+"lng": -80.258,
+"website": "https://fogodechao.com/location/coral-gables/",
+"knownFacts": [
+"Serves Brazilian food, plus steak",
+"Part of the Fogo de Chão chain",
+"Address: 2801 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-w435585818",
+"name": "Fonda La Chismosa",
+"category": "food",
+"kind": "restaurant",
+"address": "981 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76615,
+"lng": -80.21102,
+"website": null,
+"knownFacts": [
+"Address: 981 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6299289292",
+"name": "Fontana Italian Biltmore Hotel Miami",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1200 Anastasia Avenue",
+"city": "Coral Gables",
+"lat": 25.74058,
+"lng": -80.27836,
+"website": "https://www.biltmorehotel.com/dining/fontana/",
+"knownFacts": [
+"Serves Italian food",
+"Address: 1200 Anastasia Avenue, Suite C, Coral Gables"
+]
+},
+{
+"id": "osm-n12978737372",
+"name": "Food & Drink Station",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.70491,
+"lng": -80.28525,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13158539908",
+"name": "Food@Science",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.78493,
+"lng": -80.18827,
+"website": null,
+"knownFacts": [
+"Has outdoor seating"
+]
+},
+{
+"id": "osm-n13148371487",
+"name": "Freddo",
+"category": "food",
+"kind": "ice cream shop",
+"address": "176 Giralda Avenue",
+"city": "Coral Gables",
+"lat": 25.75119,
+"lng": -80.25829,
+"website": null,
+"knownFacts": [
+"Part of the Freddo chain",
+"Has outdoor seating",
+"Address: 176 Giralda Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n13149481090",
+"name": "Freddo",
+"category": "food",
+"kind": "ice cream shop",
+"address": "440 Española Way",
+"city": "Miami Beach",
+"lat": 25.78682,
+"lng": -80.13275,
+"website": null,
+"knownFacts": [
+"Part of the Freddo chain",
+"Has outdoor seating",
+"Address: 440 Española Way, Miami Beach"
+]
+},
+{
+"id": "osm-n13149501982",
+"name": "Freddo",
+"category": "food",
+"kind": "ice cream shop",
+"address": "1102 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76332,
+"lng": -80.19338,
+"website": "https://usa.freddo.com/",
+"knownFacts": [
+"Part of the Freddo chain",
+"Address: 1102 South Miami Avenue, Miami"
+]
+},
+{
+"id": "osm-n13478946650",
+"name": "Freddo",
+"category": "food",
+"kind": "ice cream shop",
+"address": null,
+"city": null,
+"lat": 25.68374,
+"lng": -80.3133,
+"website": null,
+"knownFacts": [
+"Part of the Freddo chain"
+]
+},
+{
+"id": "osm-n10951834366",
+"name": "French Bakery",
+"category": "food",
+"kind": "bakery",
+"address": null,
+"city": null,
+"lat": 25.68249,
+"lng": -80.3143,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3843167592",
+"name": "Frenchies Dinner",
+"category": "food",
+"kind": "French restaurant",
+"address": "2618 Galiano Street",
+"city": "Coral Gables",
+"lat": 25.74751,
+"lng": -80.25672,
+"website": "http://www.frenchiesdiner.com",
+"knownFacts": [
+"Serves French food",
+"Address: 2618 Galiano Street, Coral Gables"
+]
+},
+{
+"id": "osm-n5296701728",
+"name": "Fresh Attractions",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79561,
+"lng": -80.28419,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6076781683",
+"name": "Fritanga Caña Brava",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "2795 Northwest 7th Street",
+"city": "Miami",
+"lat": 25.77959,
+"lng": -80.2407,
+"website": "https://places.singleplatform.com/fritanga-cana-brava/menu",
+"knownFacts": [
+"Serves Latin American and Nicaraguan food",
+"Offers takeout",
+"Address: 2795 Northwest 7th Street, Miami"
+]
+},
+{
+"id": "osm-n3156408683",
+"name": "Fritz & Franz Bierhaus",
+"category": "food",
+"kind": "German restaurant",
+"address": "60 Merrick Way",
+"city": "Coral Gables",
+"lat": 25.75085,
+"lng": -80.2562,
+"website": "https://www.bierhaus.cc/",
+"knownFacts": [
+"Serves German and Austrian food",
+"Address: 60 Merrick Way, Coral Gables"
+]
+},
+{
+"id": "osm-n5647692922",
+"name": "Fuji Teriyaki Sushi Grill",
+"category": "food",
+"kind": "Japanese restaurant",
+"address": "1604 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.78943,
+"lng": -80.13201,
+"website": null,
+"knownFacts": [
+"Serves Japanese food",
+"Address: 1604 Washington Avenue, Unit A, Miami Beach"
+]
+}
+]

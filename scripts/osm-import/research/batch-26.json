@@ -1,0 +1,446 @@
+[
+{
+"id": "osm-n4003572489",
+"name": "Montalcino",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "831 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.7907,
+"lng": -80.13731,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Has outdoor seating",
+"Address: 831 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n7538874289",
+"name": "Montes de Oca",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "5241 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76398,
+"lng": -80.28058,
+"website": null,
+"knownFacts": [
+"Serves Cuban food",
+"Open 24 hours",
+"Address: 5241 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n2001812846",
+"name": "Monty's",
+"category": "food",
+"kind": "restaurant",
+"address": "2550 South Bayshore Drive",
+"city": "Miami",
+"lat": 25.73212,
+"lng": -80.23244,
+"website": null,
+"knownFacts": [
+"Address: 2550 South Bayshore Drive, Miami"
+]
+},
+{
+"id": "osm-w316611278",
+"name": "Morgan's",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.80373,
+"lng": -80.19446,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13461561701",
+"name": "Morton's The Steakhouse",
+"category": "food",
+"kind": "steak restaurant",
+"address": "2333 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74987,
+"lng": -80.25844,
+"website": "https://mortons.com/",
+"knownFacts": [
+"Serves steak",
+"Part of the Morton's The Steakhouse chain",
+"Address: 2333 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n4001775204",
+"name": "Moshi Moshi",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1448 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.7871,
+"lng": -80.13192,
+"website": "https://moshimoshi.fun/",
+"knownFacts": [
+"Serves sushi",
+"Offers delivery",
+"Address: 1448 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n9882027171",
+"name": "Motek - Mediterranean Cafe & Restaurant",
+"category": "food",
+"kind": "Mediterranean restaurant",
+"address": "36 NE 1st St",
+"city": null,
+"lat": 25.77491,
+"lng": -80.19286,
+"website": "https://motekcafe.com/",
+"knownFacts": [
+"Serves Mediterranean food",
+"Address: 36 NE 1st St, Unit 132"
+]
+},
+{
+"id": "osm-n7138149139",
+"name": "Mr Bing",
+"category": "food",
+"kind": "ice cream shop",
+"address": "927 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79068,
+"lng": -80.1383,
+"website": null,
+"knownFacts": [
+"Also known as Mr Bing shaved ice cream and bubble tea",
+"Address: 927 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4903184027",
+"name": "Mr. Bing",
+"category": "food",
+"kind": "café",
+"address": "56 Northwest 29th Street",
+"city": null,
+"lat": 25.80373,
+"lng": -80.19636,
+"website": null,
+"knownFacts": [
+"Serves ice cream",
+"Address: 56 Northwest 29th Street"
+]
+},
+{
+"id": "osm-n5903091081",
+"name": "My Ceviche",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79714,
+"lng": -80.27924,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n14068490445",
+"name": "My Cousin Nick",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.75179,
+"lng": -80.25852,
+"website": null,
+"knownFacts": [
+"Has vegan options",
+"Wheelchair accessible"
+]
+},
+{
+"id": "osm-w435745521",
+"name": "Mykonos",
+"category": "food",
+"kind": "Greek restaurant",
+"address": "1201 Coral Way",
+"city": "Miami",
+"lat": 25.7514,
+"lng": -80.21453,
+"website": null,
+"knownFacts": [
+"Serves Greek food",
+"Address: 1201 Coral Way, Miami"
+]
+},
+{
+"id": "osm-n3992860906",
+"name": "NaiYaRa",
+"category": "food",
+"kind": "restaurant",
+"address": "1854 Bay Road",
+"city": "Miami Beach",
+"lat": 25.79446,
+"lng": -80.14394,
+"website": null,
+"knownFacts": [
+"Address: 1854 Bay Road, Miami Beach"
+]
+},
+{
+"id": "osm-n12873587495",
+"name": "Narbona",
+"category": "food",
+"kind": "Uruguayan restaurant",
+"address": "260 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.69682,
+"lng": -80.16428,
+"website": null,
+"knownFacts": [
+"Serves Uruguayan and American food",
+"Address: 260 Crandon Boulevard, Unit 35, Key Biscayne"
+]
+},
+{
+"id": "osm-n13574849009",
+"name": "Navi Coffee & Flowers",
+"category": "food",
+"kind": "café",
+"address": "3213 Grand Avenue",
+"city": "Miami",
+"lat": 25.72808,
+"lng": -80.24609,
+"website": "https://www.navimiami.com",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 3213 Grand Avenue, Miami"
+]
+},
+{
+"id": "osm-n1025627486",
+"name": "New York Bagel Deli",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77435,
+"lng": -80.19096,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13884695746",
+"name": "New York Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": null,
+"city": null,
+"lat": 25.78845,
+"lng": -80.18984,
+"website": null,
+"knownFacts": [
+"Serves pizza"
+]
+},
+{
+"id": "osm-n8695151745",
+"name": "New York Roma Pizza",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "125 Southeast 2nd Avenue",
+"city": "Miami",
+"lat": 25.77283,
+"lng": -80.1901,
+"website": "https://miami.newyorkromapizzapasta.com",
+"knownFacts": [
+"Serves pizza",
+"Address: 125 Southeast 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n4000027371",
+"name": "Nexxt Cafe",
+"category": "food",
+"kind": "American restaurant",
+"address": "700 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79041,
+"lng": -80.13556,
+"website": "http://www.nexxtcafe.com",
+"knownFacts": [
+"Serves American food",
+"Has Wi-Fi",
+"Address: 700 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n11036277169",
+"name": "North Italia",
+"category": "food",
+"kind": "Italian restaurant",
+"address": null,
+"city": null,
+"lat": 25.68951,
+"lng": -80.31427,
+"website": null,
+"knownFacts": [
+"Serves Italian food"
+]
+},
+{
+"id": "osm-w1178752231",
+"name": "North Italia",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "900 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76468,
+"lng": -80.19362,
+"website": "https://www.northitalia.com/locations/miami-fl/",
+"knownFacts": [
+"Serves Italian food",
+"Address: 900 South Miami Avenue, Unit 111, Miami"
+]
+},
+{
+"id": "osm-n12873594359",
+"name": "Novecento",
+"category": "food",
+"kind": "Argentinian restaurant",
+"address": "260 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.69661,
+"lng": -80.1643,
+"website": null,
+"knownFacts": [
+"Serves Argentinian food",
+"Address: 260 Crandon Boulevard, Unit 30, Key Biscayne"
+]
+},
+{
+"id": "osm-n6933187385",
+"name": "Novikov",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "300 South Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.77137,
+"lng": -80.18772,
+"website": "https://novikovmiami.com/",
+"knownFacts": [
+"Serves seafood",
+"Address: 300 South Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n4326691491",
+"name": "Numéro 28 Pizzeria",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "432 Espanola Way",
+"city": null,
+"lat": 25.7868,
+"lng": -80.13475,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 432 Espanola Way"
+]
+},
+{
+"id": "osm-n5814849753",
+"name": "Nusr-Et",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76408,
+"lng": -80.19164,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13119702119",
+"name": "Oh! Mexico",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "1440 Washington Avenue",
+"city": "Miami Beach",
+"lat": 25.7868,
+"lng": -80.13193,
+"website": "https://www.ohmexicorestaurant.com/espanola-way/",
+"knownFacts": [
+"Serves Mexican food",
+"Address: 1440 Washington Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w1179534173",
+"name": "Okeydokey",
+"category": "food",
+"kind": "restaurant",
+"address": "268 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76596,
+"lng": -80.19885,
+"website": null,
+"knownFacts": [
+"Address: 268 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n12631824770",
+"name": "Old Lisbon - Coral Gables",
+"category": "food",
+"kind": "Portuguese restaurant",
+"address": "1698 Southwest 22nd Street",
+"city": "Miami",
+"lat": 25.75067,
+"lng": -80.22182,
+"website": "https://www.oldlisbonrestaurants.com/",
+"knownFacts": [
+"Serves Portuguese food",
+"Takes reservations",
+"Address: 1698 Southwest 22nd Street, Miami"
+]
+},
+{
+"id": "osm-n6023406956",
+"name": "Old Lisbon - South Miami",
+"category": "food",
+"kind": "Portuguese restaurant",
+"address": "5837 Sunset Drive;Southwest 72nd Street",
+"city": "South Miami",
+"lat": 25.70445,
+"lng": -80.28817,
+"website": "https://www.oldlisbonrestaurants.com/",
+"knownFacts": [
+"Serves Portuguese food",
+"Has outdoor seating",
+"Takes reservations",
+"Offers takeout",
+"Address: 5837 Sunset Drive;Southwest 72nd Street, South Miami"
+]
+},
+{
+"id": "osm-n6957495485",
+"name": "Old‘s Havana",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "1442 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.7656,
+"lng": -80.21925,
+"website": "https://oldshavana.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Offers delivery",
+"Takes reservations",
+"Address: 1442 Southwest 8th Street, Miami"
+]
+}
+]

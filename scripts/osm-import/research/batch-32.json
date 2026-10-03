@@ -1,0 +1,469 @@
+[
+{
+"id": "osm-n9397986186",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "7800 Southwest 104th Street",
+"city": "Miami Shores",
+"lat": 25.67262,
+"lng": -80.32267,
+"website": "https://www.starbucks.com/store-locator/store/1006020/target-miami-sw-104th-2843-7800-sw-104th-st-miami-shores-fl-33138-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 7800 Southwest 104th Street, Miami Shores"
+]
+},
+{
+"id": "osm-n9727052518",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79454,
+"lng": -80.25937,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Takeout only",
+"Official name: Starbucks Coffee"
+]
+},
+{
+"id": "osm-w301828287",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "2645 Southwest 22nd Street",
+"city": "Miami",
+"lat": 25.75056,
+"lng": -80.23801,
+"website": "https://www.starbucks.com/store-locator/store/6572/coral-way-and-sw-27-ave-2645-sw-22nd-st-miami-fl-331453405-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 2645 Southwest 22nd Street, Miami"
+]
+},
+{
+"id": "osm-w315245627",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "2937 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.80518,
+"lng": -80.18914,
+"website": "https://www.starbucks.com/store-locator/store/10576/biscayne-blvd-30th-2937-biscayne-blvd-miami-fl-331374121-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has outdoor seating",
+"Has Wi-Fi",
+"Wheelchair accessible",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 2937 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-w436109721",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "1701 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76584,
+"lng": -80.22276,
+"website": "https://www.starbucks.com/store-locator/store/67363-300633/calle-ocho-sw-17th-ave-1701-sw-8th-st-miami-fl-331353506-us8/calle-ocho-sw-17th-ave-1701-sw-8th-st-miami-fl-331353506-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has outdoor seating",
+"Has a drive-through",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 1701 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-w966826549",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "5660 Blue Lagoon Drive",
+"city": "Miami",
+"lat": 25.78163,
+"lng": -80.2881,
+"website": "https://www.starbucks.com/store-locator/store/1030841/blue-lagoon-57th-ave-5660-blue-lagoon-drive-miami-fl-331262191-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 5660 Blue Lagoon Drive, Miami"
+]
+},
+{
+"id": "osm-w1001443273",
+"name": "Stiltsville Fish Bar",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "1787 Purdy Avenue",
+"city": "Miami Beach",
+"lat": 25.79324,
+"lng": -80.14421,
+"website": null,
+"knownFacts": [
+"Serves seafood",
+"Address: 1787 Purdy Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w1000837487",
+"name": "Strada in the Grove",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "3176 Commodore Plaza",
+"city": "Miami",
+"lat": 25.72755,
+"lng": -80.24502,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 3176 Commodore Plaza, Miami"
+]
+},
+{
+"id": "osm-n4788863439",
+"name": "Suite Havana Café",
+"category": "food",
+"kind": "café",
+"address": "2609 North Miami Avenue",
+"city": null,
+"lat": 25.80188,
+"lng": -80.1949,
+"website": null,
+"knownFacts": [
+"Address: 2609 North Miami Avenue"
+]
+},
+{
+"id": "osm-n7185618906",
+"name": "Sukhothai Sushi + Asian Food",
+"category": "food",
+"kind": "Asian restaurant",
+"address": "1570C Alton Road",
+"city": null,
+"lat": 25.78858,
+"lng": -80.14135,
+"website": null,
+"knownFacts": [
+"Serves Asian food, plus sushi",
+"Address: 1570C Alton Road"
+]
+},
+{
+"id": "osm-n5602401025",
+"name": "Sunny Poke",
+"category": "food",
+"kind": "seafood restaurant",
+"address": "1784 West Avenue",
+"city": null,
+"lat": 25.79346,
+"lng": -80.14268,
+"website": "https://www.sunnypoke.com/",
+"knownFacts": [
+"Serves seafood",
+"Run by Sunny Oh",
+"Also known as Sunny Poke Sunset Harbor mia, fl",
+"Address: 1784 West Avenue"
+]
+},
+{
+"id": "osm-n3992884333",
+"name": "Sunset Juice Cafe",
+"category": "food",
+"kind": "restaurant",
+"address": "1940 Alton Road",
+"city": "Miami Beach",
+"lat": 25.79546,
+"lng": -80.14157,
+"website": null,
+"knownFacts": [
+"Address: 1940 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4945667521",
+"name": "Sushi Garage",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1784 West Avenue",
+"city": "Miami Beach",
+"lat": 25.79342,
+"lng": -80.1428,
+"website": "https://www.sushigarage.com/",
+"knownFacts": [
+"Serves sushi",
+"Accepts Bitcoin",
+"Address: 1784 West Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n10138489986",
+"name": "Sushi Garage Cocowalk",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "3015 Grand Avenue",
+"city": "Coconut Grove",
+"lat": 25.72851,
+"lng": -80.24187,
+"website": "https://www.sushigarage.com/",
+"knownFacts": [
+"Serves sushi",
+"Address: 3015 Grand Avenue, Coconut Grove"
+]
+},
+{
+"id": "osm-n13319044935",
+"name": "Sushi KONG",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "3000 Coral Way",
+"city": "Coral Gables",
+"lat": 25.74958,
+"lng": -80.24194,
+"website": "https://www.sushikong.com/",
+"knownFacts": [
+"Serves Asian fusion and Latin fusion food, plus sushi",
+"Opened in 2016",
+"Offers delivery",
+"Takes reservations",
+"Wheelchair accessible",
+"Address: 3000 Coral Way, Coral Gables"
+]
+},
+{
+"id": "osm-n12134973673",
+"name": "Sushi Maki",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1306 Stanford Drive",
+"city": "Coral Gables",
+"lat": 25.71992,
+"lng": -80.27853,
+"website": null,
+"knownFacts": [
+"Serves sushi",
+"Address: 1306 Stanford Drive, Coral Gables"
+]
+},
+{
+"id": "osm-n4220217956",
+"name": "Sushi Maki",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.79725,
+"lng": -80.27973,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n8699414058",
+"name": "Sushi Rock",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.66559,
+"lng": -80.3234,
+"website": "https://sushirocksuniland.menufy.com",
+"knownFacts": []
+},
+{
+"id": "osm-n1025684469",
+"name": "Sushi Sake",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76654,
+"lng": -80.19862,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3045461500",
+"name": "Sushi Siam",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76491,
+"lng": -80.19065,
+"website": "https://sushisiambrickell.menufy.com",
+"knownFacts": []
+},
+{
+"id": "osm-n8699039420",
+"name": "Sushi Siam",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.68909,
+"lng": -80.1644,
+"website": "https://sushisiankeybiscayne.menufy.com",
+"knownFacts": []
+},
+{
+"id": "osm-n11307728783",
+"name": "Sushi by Scratch Restaurant",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "3540 Main Highway",
+"city": "Miami",
+"lat": 25.72501,
+"lng": -80.24527,
+"website": "https://www.exploretock.com/sushi-by-scratch-restaurants-miami/",
+"knownFacts": [
+"Serves sushi",
+"Address: 3540 Main Highway, Miami"
+]
+},
+{
+"id": "osm-n4918537623",
+"name": "Suviche",
+"category": "food",
+"kind": "sushi restaurant",
+"address": null,
+"city": null,
+"lat": 25.80283,
+"lng": -80.19481,
+"website": null,
+"knownFacts": [
+"Serves sushi"
+]
+},
+{
+"id": "osm-n6018254533",
+"name": "Sweet Art by Lucila, Bird Road",
+"category": "food",
+"kind": "bakery",
+"address": "7120 Bird Road",
+"city": "Miami",
+"lat": 25.73285,
+"lng": -80.3094,
+"website": "https://www.lucilacakesmiami.com/",
+"knownFacts": [
+"Run by Esther Rieumont",
+"Address: 7120 Bird Road, Miami"
+]
+},
+{
+"id": "osm-n3637542604",
+"name": "Swensen's",
+"category": "food",
+"kind": "ice cream shop",
+"address": "1586 Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.70768,
+"lng": -80.28478,
+"website": null,
+"knownFacts": [
+"Serves ice cream",
+"Part of the Swensen's chain",
+"Address: 1586 Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n2584329465",
+"name": "Sylvano",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "1925 Liberty Avenue",
+"city": null,
+"lat": 25.79556,
+"lng": -80.13022,
+"website": "https://www.sylvanos.com/",
+"knownFacts": [
+"Serves Italian food",
+"Address: 1925 Liberty Avenue"
+]
+},
+{
+"id": "osm-n7557799364",
+"name": "TCBY",
+"category": "food",
+"kind": "ice cream shop",
+"address": "2720 South Dixie Highway",
+"city": "Miami",
+"lat": 25.73904,
+"lng": -80.2392,
+"website": "https://www.tcby.com/find-a-store/",
+"knownFacts": [
+"Serves frozen yogurt",
+"Part of the TCBY chain",
+"Has outdoor seating",
+"Offers takeout",
+"Address: 2720 South Dixie Highway, Unit B2, Miami"
+]
+},
+{
+"id": "osm-n10822431405",
+"name": "TGI Fridays",
+"category": "food",
+"kind": "American restaurant",
+"address": null,
+"city": null,
+"lat": 25.7972,
+"lng": -80.28152,
+"website": "https://locations.tgifridays.com/fl/miami/4200-nw-21st-st-gate-d-36.html",
+"knownFacts": [
+"Serves American food",
+"Part of the TGI Fridays chain"
+]
+},
+{
+"id": "osm-n5905304698",
+"name": "Taco Rico Tex Mex Cafe",
+"category": "food",
+"kind": "restaurant",
+"address": "473 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.72575,
+"lng": -80.26303,
+"website": null,
+"knownFacts": [
+"Address: 473 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n6010865603",
+"name": "Tacos Atarantados Brickell",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "1250 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76239,
+"lng": -80.19358,
+"website": "http://tacosatarantados.us/",
+"knownFacts": [
+"Serves Mexican food, plus tacos",
+"Has vegan options",
+"Has Wi-Fi",
+"Address: 1250 South Miami Avenue, Miami"
+]
+}
+]

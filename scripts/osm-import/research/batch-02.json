@@ -1,0 +1,393 @@
+[
+{
+"id": "osm-n6091344318",
+"name": "Waltman Ortega Fine Art",
+"category": "art-museums",
+"kind": "art gallery",
+"address": "2300 North Miami Avenue",
+"city": "Miami",
+"lat": 25.79944,
+"lng": -80.19512,
+"website": null,
+"knownFacts": [
+"Address: 2300 North Miami Avenue, Unit B, Miami"
+]
+},
+{
+"id": "osm-w808920657",
+"name": "1814 Brickell Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1814 Brickell Avenue",
+"city": "Miami",
+"lat": 25.75576,
+"lng": -80.19673,
+"website": "https://www.miamigov.com/Residents/Parks-Directory/1814-Brickell",
+"knownFacts": [
+"Run by City of Miami",
+"Address: 1814 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-w621264006",
+"name": "Airport Viewing Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78417,
+"lng": -80.3125,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w552493600",
+"name": "Alcazar Plaza",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75209,
+"lng": -80.26952,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w552197202",
+"name": "Alhambra Tower Plaza",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75247,
+"lng": -80.25789,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r19672044",
+"name": "Alice C Wainwright Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.74847,
+"lng": -80.20472,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w264463431",
+"name": "All-America Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "6820 Southwest 64th Avenue",
+"city": "South Miami",
+"lat": 25.70687,
+"lng": -80.2981,
+"website": "https://www.southmiamifl.gov/458/All-America-Park",
+"knownFacts": [
+"Address: 6820 Southwest 64th Avenue, South Miami"
+]
+},
+{
+"id": "osm-n358709813",
+"name": "Allapattah Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78927,
+"lng": -80.20866,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w230514499",
+"name": "Allapattah-Comstock Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.80073,
+"lng": -80.22505,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r15593002",
+"name": "Antonio Maceo Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77913,
+"lng": -80.27894,
+"website": "https://www.miamigov.com/Residents/Parks-and-Recreation/Parks-Directory/Antonio-Maceo-Park",
+"knownFacts": []
+},
+{
+"id": "osm-w624960700",
+"name": "Balboa Plaza",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.74819,
+"lng": -80.27111,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358730065",
+"name": "Banyan Drive Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.68844,
+"lng": -80.28311,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w805822608",
+"name": "Bay of Pigs Memorial Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "5665 Southwest 3rd Street",
+"city": "Miami",
+"lat": 25.76858,
+"lng": -80.28646,
+"website": null,
+"knownFacts": [
+"Opened in 2023",
+"Run by Miami",
+"Run by City of Miami",
+"Address: 5665 Southwest 3rd Street, Miami"
+]
+},
+{
+"id": "osm-w257950968",
+"name": "Bayshore Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "2500 Prairie Avenue",
+"city": "Miami Beach",
+"lat": 25.80263,
+"lng": -80.13146,
+"website": "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/bayshore-park/",
+"knownFacts": [
+"Run by City of Miami Beach",
+"Address: 2500 Prairie Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w76692181",
+"name": "Belle Isle Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79102,
+"lng": -80.14812,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w561127145",
+"name": "Betsy Adams and the Coral Gables Garden Club Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "4650 Alhambra Circle",
+"city": "Coral Gables",
+"lat": 25.72835,
+"lng": -80.28445,
+"website": null,
+"knownFacts": [
+"Address: 4650 Alhambra Circle, Coral Gables"
+]
+},
+{
+"id": "osm-w650795993",
+"name": "Bill Sadowski Critical Wildlife Area",
+"category": "parks-nature",
+"kind": "nature preserve",
+"address": "Virginia Key",
+"city": "Miami",
+"lat": 25.75,
+"lng": -80.16148,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w454144058",
+"name": "Biscayne Park (historical)",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.79424,
+"lng": -80.19296,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w522268809",
+"name": "Blanche Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "3045 Shipping Avenue",
+"city": "Miami",
+"lat": 25.73387,
+"lng": -80.24221,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Blanche-Park",
+"knownFacts": [
+"Address: 3045 Shipping Avenue, Miami"
+]
+},
+{
+"id": "osm-w1424150065",
+"name": "Brewer Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "6300 Southwest 56th Street",
+"city": "South Miami",
+"lat": 25.71801,
+"lng": -80.29626,
+"website": "https://www.southmiamifl.gov/461/Brewer-Park",
+"knownFacts": [
+"Run by City of South Miami",
+"Address: 6300 Southwest 56th Street, South Miami"
+]
+},
+{
+"id": "osm-w217385712",
+"name": "Brickell Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76797,
+"lng": -80.18906,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358709946",
+"name": "Brickell Plaza Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76473,
+"lng": -80.19261,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w184076408",
+"name": "Brothers to the Rescue Memorial Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "2420 Southwest 72nd Avenue",
+"city": "Miami",
+"lat": 25.74711,
+"lng": -80.3124,
+"website": "https://www.miamidade.gov/parks/brother-rescue-memorial.asp",
+"knownFacts": [
+"Address: 2420 Southwest 72nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n358709892",
+"name": "Broward Circle Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78899,
+"lng": -80.20922,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w522225995",
+"name": "Bryan Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "2301 Southwest 13th Street",
+"city": "Miami",
+"lat": 25.76079,
+"lng": -80.23259,
+"website": "https://www.miamigov.com/Residents/Parks-and-Recreation/Parks-Directory/Bryan-Park",
+"knownFacts": [
+"Run by City of Miami",
+"Address: 2301 Southwest 13th Street, Miami"
+]
+},
+{
+"id": "osm-w424780035",
+"name": "Buoy Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77755,
+"lng": -80.15064,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1311391869",
+"name": "Butterfly Garden",
+"category": "parks-nature",
+"kind": "garden",
+"address": null,
+"city": null,
+"lat": 25.71778,
+"lng": -80.2789,
+"website": null,
+"knownFacts": [
+"Run by University of Miami"
+]
+},
+{
+"id": "osm-w470378976",
+"name": "Butterfly Garden",
+"category": "parks-nature",
+"kind": "garden",
+"address": null,
+"city": null,
+"lat": 25.73907,
+"lng": -80.26589,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1180294934",
+"name": "Canopy Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "701 West Avenue",
+"city": "Miami Beach",
+"lat": 25.77645,
+"lng": -80.14142,
+"website": null,
+"knownFacts": [
+"Address: 701 West Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-w596154043",
+"name": "Carlos S. Kakouris Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72494,
+"lng": -80.27957,
+"website": null,
+"knownFacts": []
+}
+]

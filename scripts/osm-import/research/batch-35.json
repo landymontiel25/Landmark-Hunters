@@ -1,0 +1,266 @@
+[
+{
+"id": "osm-n12197880118",
+"name": "Yalla Yalla Lebanese Kitchen",
+"category": "food",
+"kind": "Middle Eastern restaurant",
+"address": null,
+"city": null,
+"lat": 25.691,
+"lng": -80.31389,
+"website": null,
+"knownFacts": [
+"Serves Middle Eastern food"
+]
+},
+{
+"id": "osm-n6440661590",
+"name": "Yambo",
+"category": "food",
+"kind": "Nicaraguan restaurant",
+"address": null,
+"city": null,
+"lat": 25.77254,
+"lng": -80.22222,
+"website": null,
+"knownFacts": [
+"Serves Nicaraguan food",
+"Open 24 hours"
+]
+},
+{
+"id": "osm-w475940178",
+"name": "Yard House",
+"category": "food",
+"kind": "American restaurant",
+"address": "1681 Lenox Avenue",
+"city": "Miami Beach",
+"lat": 25.79158,
+"lng": -80.13968,
+"website": null,
+"knownFacts": [
+"Serves American food",
+"Part of the Yard House chain",
+"Address: 1681 Lenox Avenue, Miami Beach"
+]
+},
+{
+"id": "osm-n6575655592",
+"name": "Yisell Bakery & Coffee",
+"category": "food",
+"kind": "bakery",
+"address": "1356",
+"city": null,
+"lat": 25.7656,
+"lng": -80.21767,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w406694191",
+"name": "Zucca",
+"category": "food",
+"kind": "restaurant",
+"address": "162 Alcazar Avenue",
+"city": "Coral Gables",
+"lat": 25.75287,
+"lng": -80.25841,
+"website": null,
+"knownFacts": [
+"Address: 162 Alcazar Avenue, Coral Gables"
+]
+},
+{
+"id": "osm-n6933187386",
+"name": "Zuma",
+"category": "food",
+"kind": "restaurant",
+"address": "270 Southeast 4th Street",
+"city": "Miami",
+"lat": 25.77039,
+"lng": -80.18906,
+"website": "https://www.zumarestaurant.com/en/miami",
+"knownFacts": [
+"Address: 270 Southeast 4th Street, Miami"
+]
+},
+{
+"id": "osm-n9982807519",
+"name": "abbale telavivian kitchen",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.7697,
+"lng": -80.13687,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n6037322170",
+"name": "cantinetta",
+"category": "food",
+"kind": "Italian restaurant",
+"address": "607 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79075,
+"lng": -80.13464,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Has outdoor seating",
+"Address: 607 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4232482001",
+"name": "clay hotel",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.78676,
+"lng": -80.13195,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13611867401",
+"name": "iBurger",
+"category": "food",
+"kind": "burger restaurant",
+"address": "275 Northeast 18th Street",
+"city": "Miami",
+"lat": 25.79377,
+"lng": -80.18934,
+"website": "http://iburgeronline.com",
+"knownFacts": [
+"Serves burgers",
+"Has Wi-Fi",
+"Address: 275 Northeast 18th Street, Miami"
+]
+},
+{
+"id": "osm-n3992884329",
+"name": "jugofresh",
+"category": "food",
+"kind": "restaurant",
+"address": "1935 20th Street",
+"city": "Miami Beach",
+"lat": 25.79546,
+"lng": -80.14233,
+"website": null,
+"knownFacts": [
+"Address: 1935 20th Street, Miami Beach"
+]
+},
+{
+"id": "osm-n7202237605",
+"name": "lulu's nitrogen ice cream",
+"category": "food",
+"kind": "ice cream shop",
+"address": null,
+"city": null,
+"lat": 25.78662,
+"lng": -80.14093,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n13461562102",
+"name": "maman",
+"category": "food",
+"kind": "café",
+"address": "98 Southeast 8th Street",
+"city": "Miami",
+"lat": 25.76626,
+"lng": -80.19226,
+"website": "http://mamannyc.com/locations/brickell",
+"knownFacts": [
+"Address: 98 Southeast 8th Street, Miami"
+]
+},
+{
+"id": "osm-n7144016024",
+"name": "oh! mexico",
+"category": "food",
+"kind": "Mexican restaurant",
+"address": "832 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79037,
+"lng": -80.1373,
+"website": "https://www.ohmexicorestaurant.com/taco-shop-lincoln-road/",
+"knownFacts": [
+"Serves Mexican food",
+"Address: 832 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n12777064091",
+"name": "openseas café",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.70458,
+"lng": -80.15484,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n3992924359",
+"name": "seventeen",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "1710 Alton Road",
+"city": "Miami Beach",
+"lat": 25.79237,
+"lng": -80.14145,
+"website": null,
+"knownFacts": [
+"Serves sushi",
+"Address: 1710 Alton Road, Miami Beach"
+]
+},
+{
+"id": "osm-n5352806021",
+"name": "sushi Maki",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "2334 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.75034,
+"lng": -80.25887,
+"website": null,
+"knownFacts": [
+"Serves sushi",
+"Address: 2334 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n7141713784",
+"name": "taste BAKERY cafe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79146,
+"lng": -80.13786,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w435376739",
+"name": "tinta y cafe",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.75919,
+"lng": -80.25848,
+"website": null,
+"knownFacts": [
+"Serves coffee and sandwiches"
+]
+}
+]

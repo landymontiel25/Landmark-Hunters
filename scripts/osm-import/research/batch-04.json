@@ -1,0 +1,388 @@
+[
+{
+"id": "osm-w548191548",
+"name": "Fuchs Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "6445 Southwest 81st Street",
+"city": "South Miami",
+"lat": 25.69605,
+"lng": -80.29811,
+"website": "https://www.southmiamifl.gov/465/Fuchs-Park",
+"knownFacts": [
+"Address: 6445 Southwest 81st Street, South Miami"
+]
+},
+{
+"id": "osm-w790427920",
+"name": "Garden Club Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75984,
+"lng": -80.30244,
+"website": null,
+"knownFacts": [
+"Run by City of West Miami"
+]
+},
+{
+"id": "osm-w466294472",
+"name": "Gerry Curtis Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1901 Northwest 24th Avenue",
+"city": "Miami",
+"lat": 25.79258,
+"lng": -80.23455,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Gerry-Curtis-Park",
+"knownFacts": [
+"Address: 1901 Northwest 24th Avenue, Miami"
+]
+},
+{
+"id": "osm-w468603405",
+"name": "Gibson Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "401 Northwest 12th Street",
+"city": "Miami",
+"lat": 25.78693,
+"lng": -80.20105,
+"website": null,
+"knownFacts": [
+"Address: 401 Northwest 12th Street, Miami"
+]
+},
+{
+"id": "osm-n13624142601",
+"name": "Giralda Plaza",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.75149,
+"lng": -80.25706,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w619930770",
+"name": "Granada Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72287,
+"lng": -80.27279,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358696733",
+"name": "Grand Avenue Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72316,
+"lng": -80.26061,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358730397",
+"name": "Grapeland Heights Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.72066,
+"lng": -80.257,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r20415275",
+"name": "Grapeland Heights Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78824,
+"lng": -80.25716,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w522222003",
+"name": "Grove Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78121,
+"lng": -80.22143,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1160185080",
+"name": "Hampton Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.6937,
+"lng": -80.16725,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w1197497913",
+"name": "Harbor Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "599 Harbor Drive",
+"city": "Key Biscayne",
+"lat": 25.69049,
+"lng": -80.17227,
+"website": null,
+"knownFacts": [
+"Run by Village of Key Biscayne",
+"Address: 599 Harbor Drive, Key Biscayne"
+]
+},
+{
+"id": "osm-w647825581",
+"name": "Henderson Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77609,
+"lng": -80.21007,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358709895",
+"name": "Highland Circle Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.78621,
+"lng": -80.20922,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w808935349",
+"name": "Hobie Island Beach",
+"category": "parks-nature",
+"kind": "beach",
+"address": null,
+"city": null,
+"lat": 25.74631,
+"lng": -80.19526,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358729861",
+"name": "Humble Mini Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73341,
+"lng": -80.31777,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n358730099",
+"name": "I T T - Snapper Creek Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.66149,
+"lng": -80.27061,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w464463259",
+"name": "Ichimura Miami Japanese Garden",
+"category": "parks-nature",
+"kind": "garden",
+"address": null,
+"city": null,
+"lat": 25.78359,
+"lng": -80.17353,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w292080820",
+"name": "Ingraham Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "4751 Ingraham Terrace",
+"city": "Coral Gables",
+"lat": 25.70667,
+"lng": -80.26023,
+"website": null,
+"knownFacts": [
+"Address: 4751 Ingraham Terrace, Coral Gables"
+]
+},
+{
+"id": "osm-r11106841",
+"name": "J. Fritz and Francis Gordon Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.76295,
+"lng": -80.28672,
+"website": null,
+"knownFacts": [
+"Run by City of Coral Gables"
+]
+},
+{
+"id": "osm-w570391073",
+"name": "Jade's Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1331 Brickell Bay Drive",
+"city": "Miami",
+"lat": 25.76048,
+"lng": -80.1894,
+"website": null,
+"knownFacts": [
+"Address: 1331 Brickell Bay Drive, Miami"
+]
+},
+{
+"id": "osm-w469161070",
+"name": "Jaycee Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "1230 Hardee Road",
+"city": "Coral Gables",
+"lat": 25.71152,
+"lng": -80.27788,
+"website": null,
+"knownFacts": [
+"Address: 1230 Hardee Road, Coral Gables"
+]
+},
+{
+"id": "osm-r15731755",
+"name": "Jean Willis Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "7220 Southwest 61st Court",
+"city": "South Miami",
+"lat": 25.70341,
+"lng": -80.2927,
+"website": null,
+"knownFacts": [
+"Address: 7220 Southwest 61st Court, South Miami"
+]
+},
+{
+"id": "osm-r12862396",
+"name": "John C. Gifford Arboretum",
+"category": "parks-nature",
+"kind": "garden",
+"address": null,
+"city": null,
+"lat": 25.72371,
+"lng": -80.2801,
+"website": null,
+"knownFacts": [
+"Established in 1947",
+"Run by University of Miami"
+]
+},
+{
+"id": "osm-w464453593",
+"name": "Jose Marti Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77014,
+"lng": -80.20004,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Jose-Marti-Park",
+"knownFacts": []
+},
+{
+"id": "osm-n358709835",
+"name": "Jose Marti Riverfront Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.77038,
+"lng": -80.19977,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w315979190",
+"name": "José de Diego Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.80507,
+"lng": -80.20434,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w143927801",
+"name": "Kendall Wayside Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.66738,
+"lng": -80.32283,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-r19410332",
+"name": "Kennedy Park",
+"category": "parks-nature",
+"kind": "park",
+"address": null,
+"city": null,
+"lat": 25.73482,
+"lng": -80.22883,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-w167158230",
+"name": "Kinloch Park",
+"category": "parks-nature",
+"kind": "park",
+"address": "455 Northwest 47th Avenue",
+"city": "Miami",
+"lat": 25.77646,
+"lng": -80.27096,
+"website": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Charlie-DeLucca-Park",
+"knownFacts": [
+"Address: 455 Northwest 47th Avenue, Miami"
+]
+}
+]

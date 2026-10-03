@@ -1,0 +1,439 @@
+[
+{
+"id": "osm-n13915805270",
+"name": "Juice Fountain 305",
+"category": "food",
+"kind": "café",
+"address": "1310 NE 1st Avenue",
+"city": "Miami",
+"lat": 25.78727,
+"lng": -80.19261,
+"website": null,
+"knownFacts": [
+"Serves juice",
+"Accepts Bitcoin",
+"Address: 1310 NE 1st Avenue, Miami"
+]
+},
+{
+"id": "osm-n4928813924",
+"name": "Juice and Java",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.7853,
+"lng": -80.13209,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4003562489",
+"name": "Juvia",
+"category": "food",
+"kind": "restaurant",
+"address": "1111 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79067,
+"lng": -80.14014,
+"website": "http://www.juviamiami.com",
+"knownFacts": [
+"Accepts Bitcoin",
+"Address: 1111 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n13812230057",
+"name": "Kan Sushi",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "900 South Miami Avenue",
+"city": "Miami",
+"lat": 25.7649,
+"lng": -80.19426,
+"website": "https://kan-sushi.com/",
+"knownFacts": [
+"Serves sushi",
+"Address: 900 South Miami Avenue, Unit 133, Miami"
+]
+},
+{
+"id": "osm-n7613832770",
+"name": "Kao Sushi & Grill",
+"category": "food",
+"kind": "sushi restaurant",
+"address": "127 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74987,
+"lng": -80.25737,
+"website": "https://www.kaosushigrill.com/location-contact/",
+"knownFacts": [
+"Serves sushi",
+"Address: 127 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n6268365485",
+"name": "Komodo",
+"category": "food",
+"kind": "restaurant",
+"address": "801 Brickell Ave",
+"city": "Miami",
+"lat": 25.76542,
+"lng": -80.19065,
+"website": "https://komodomiami.com/",
+"knownFacts": [
+"Address: 801 Brickell Ave, Miami"
+]
+},
+{
+"id": "osm-n5903100417",
+"name": "Ku Va Restaurant",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": null,
+"city": null,
+"lat": 25.7975,
+"lng": -80.27456,
+"website": null,
+"knownFacts": [
+"Serves Cuban food",
+"Has a bar"
+]
+},
+{
+"id": "osm-n12615913146",
+"name": "L'Artisane",
+"category": "food",
+"kind": "bakery",
+"address": "2526 Ponce de Leon Boulevard",
+"city": "Coral Gables",
+"lat": 25.74813,
+"lng": -80.25884,
+"website": "https://www.lartisanebakery.com/",
+"knownFacts": [
+"Fully vegan menu",
+"Address: 2526 Ponce de Leon Boulevard, Coral Gables"
+]
+},
+{
+"id": "osm-n12403653843",
+"name": "LAN Pan Asian Cafe",
+"category": "food",
+"kind": "Asian restaurant",
+"address": "8332 South Dixie Highway",
+"city": "Miami",
+"lat": 25.69295,
+"lng": -80.3053,
+"website": "https://www.lanpanasian.com/",
+"knownFacts": [
+"Serves Asian food",
+"Has vegetarian options",
+"Offers delivery",
+"Takes reservations",
+"Wheelchair accessible",
+"Offers takeout",
+"Has high chairs",
+"Address: 8332 South Dixie Highway, Miami"
+]
+},
+{
+"id": "osm-n12631825471",
+"name": "La Birra Bar (Wynwood)",
+"category": "food",
+"kind": "burger restaurant",
+"address": "250 Northwest 24th Street",
+"city": "Miami",
+"lat": 25.79998,
+"lng": -80.20021,
+"website": "https://www.labirrabarusa.com/",
+"knownFacts": [
+"Serves Argentinian food, plus burgers",
+"Address: 250 Northwest 24th Street, Miami"
+]
+},
+{
+"id": "osm-n2001778613",
+"name": "La Bottega",
+"category": "food",
+"kind": "café",
+"address": "1800 North Bayshore Drive",
+"city": "Miami",
+"lat": 25.79422,
+"lng": -80.18661,
+"website": null,
+"knownFacts": [
+"Serves Italian food",
+"Address: 1800 North Bayshore Drive, Miami"
+]
+},
+{
+"id": "osm-n13894240465",
+"name": "La Cabrera - Coconut Grove",
+"category": "food",
+"kind": "Argentinian restaurant",
+"address": "2895 McFarlane Road",
+"city": "Miami",
+"lat": 25.72749,
+"lng": -80.24114,
+"website": "https://lacabreramiami.com/",
+"knownFacts": [
+"Serves Argentinian food, plus steak",
+"Address: 2895 McFarlane Road, Miami"
+]
+},
+{
+"id": "osm-n4220218041",
+"name": "La Carreta",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "2100 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.79754,
+"lng": -80.28148,
+"website": "https://lacarreta.com/",
+"knownFacts": [
+"Serves Cuban and Latin American food",
+"Official name: La Carreta - Miami International Airport",
+"Address: 2100 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n13621553525",
+"name": "La Carreta - Inside Mercy Hospital",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "3663 Mercy Way",
+"city": "Miami",
+"lat": 25.7401,
+"lng": -80.21374,
+"website": "https://www.lacarreta.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 3663 Mercy Way, Miami"
+]
+},
+{
+"id": "osm-n6080057062",
+"name": "La Carreta Cuban Restaurant - Little Havana",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "3632 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76453,
+"lng": -80.25385,
+"website": "http://lacarreta.com/locations/",
+"knownFacts": [
+"Serves Cuban and Latin American food",
+"Address: 3632 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6068648576",
+"name": "La Casita Restaurant",
+"category": "food",
+"kind": "Cuban restaurant",
+"address": "3805 Southwest 8th Street",
+"city": "Coral Gables",
+"lat": 25.76476,
+"lng": -80.25745,
+"website": "http://lacasitamiami.com/",
+"knownFacts": [
+"Serves Cuban food",
+"Address: 3805 Southwest 8th Street, Coral Gables"
+]
+},
+{
+"id": "osm-n6114227986",
+"name": "La Colada Gourmet",
+"category": "food",
+"kind": "café",
+"address": "1518 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76556,
+"lng": -80.22003,
+"website": "https://www.lacoladagourmet.com/",
+"knownFacts": [
+"Address: 1518 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n6055664320",
+"name": "La Esquina del Pan con Bistec",
+"category": "food",
+"kind": "bakery",
+"address": "1190 West Flagler Street",
+"city": "Miami",
+"lat": 25.77331,
+"lng": -80.21447,
+"website": "https://www.elpanconbistec.com/",
+"knownFacts": [
+"Address: 1190 West Flagler Street, Miami"
+]
+},
+{
+"id": "osm-n13461562401",
+"name": "La Estacion Cafe",
+"category": "food",
+"kind": "restaurant",
+"address": "1390 Brickell Avenue",
+"city": "Miami",
+"lat": 25.76073,
+"lng": -80.19259,
+"website": "https://laestacioncafe.net/",
+"knownFacts": [
+"Address: 1390 Brickell Avenue, Miami"
+]
+},
+{
+"id": "osm-n10615715125",
+"name": "La Gazzetta",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.76397,
+"lng": -80.19357,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n4945457422",
+"name": "La Granja",
+"category": "food",
+"kind": "chicken restaurant",
+"address": "1199 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.78309,
+"lng": -80.26369,
+"website": null,
+"knownFacts": [
+"Serves Peruvian food, plus chicken and seafood",
+"Offers delivery",
+"Address: 1199 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n6211833167",
+"name": "La Granja",
+"category": "food",
+"kind": "restaurant",
+"address": "127 Southeast 2nd Avenue",
+"city": "Miami",
+"lat": 25.77273,
+"lng": -80.19008,
+"website": null,
+"knownFacts": [
+"Address: 127 Southeast 2nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n8688955185",
+"name": "La Licuadora",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.77505,
+"lng": -80.19016,
+"website": "https://www.lalicuadoramiamifl.com",
+"knownFacts": []
+},
+{
+"id": "osm-w391207342",
+"name": "La Mesa",
+"category": "food",
+"kind": "restaurant",
+"address": "7575 Northwest 12th Street",
+"city": "Miami",
+"lat": 25.78304,
+"lng": -80.31925,
+"website": null,
+"knownFacts": [
+"Address: 7575 Northwest 12th Street, Miami"
+]
+},
+{
+"id": "osm-n2937860391",
+"name": "La Moon",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "97 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76644,
+"lng": -80.19516,
+"website": null,
+"knownFacts": [
+"Serves Latin American and Colombian food",
+"Address: 97 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n7523588429",
+"name": "La Palma",
+"category": "food",
+"kind": "Latin American restaurant",
+"address": "6091 Southwest 8th Street",
+"city": "Miami",
+"lat": 25.76352,
+"lng": -80.29478,
+"website": null,
+"knownFacts": [
+"Serves Latin American and Cuban food",
+"Open 24 hours",
+"Offers takeout",
+"Address: 6091 Southwest 8th Street, Miami"
+]
+},
+{
+"id": "osm-n11225962637",
+"name": "La Patagonia Argentina",
+"category": "food",
+"kind": "Argentinian restaurant",
+"address": "4802 Northwest 7th Street",
+"city": null,
+"lat": 25.77837,
+"lng": -80.27407,
+"website": null,
+"knownFacts": [
+"Serves Argentinian food",
+"Address: 4802 Northwest 7th Street"
+]
+},
+{
+"id": "osm-n3163731737",
+"name": "La Provence",
+"category": "food",
+"kind": "bakery",
+"address": null,
+"city": null,
+"lat": 25.75112,
+"lng": -80.25896,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n1676975439",
+"name": "La Provence French Bakery",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79901,
+"lng": -80.18932,
+"website": null,
+"knownFacts": []
+},
+{
+"id": "osm-n5252165022",
+"name": "La Province",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.7744,
+"lng": -80.18907,
+"website": null,
+"knownFacts": []
+}
+]

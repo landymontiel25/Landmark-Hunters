@@ -1,0 +1,543 @@
+[
+{
+"id": "osm-n5903100402",
+"name": "Spring Chicken",
+"category": "food",
+"kind": "restaurant",
+"address": null,
+"city": null,
+"lat": 25.7973,
+"lng": -80.27564,
+"website": null,
+"knownFacts": [
+"Has a bar"
+]
+},
+{
+"id": "osm-n3142367572",
+"name": "Spris",
+"category": "food",
+"kind": "pizza restaurant",
+"address": "731 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79072,
+"lng": -80.13615,
+"website": "https://www.sprispizza.com/",
+"knownFacts": [
+"Serves pizza",
+"Address: 731 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n1025644161",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "110 Southeast 3rd Avenue",
+"city": "Miami",
+"lat": 25.77332,
+"lng": -80.1892,
+"website": "https://www.starbucks.com/store-locator/store/15353/se-3rd-ave-1st-street-110-se-3rd-ave-miami-fl-331312004-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 110 Southeast 3rd Avenue, Miami"
+]
+},
+{
+"id": "osm-n11200774722",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "9105 South Dadeland Boulevard",
+"city": "Miami",
+"lat": 25.68609,
+"lng": -80.31538,
+"website": "https://www.starbucks.com/store-locator/store/1030796/publix-miami-658-9105-s-dadeland-blvd-miami-fl-33156-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Wheelchair accessible",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 9105 South Dadeland Boulevard, Miami"
+]
+},
+{
+"id": "osm-n12197864998",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "7303 North Kendall Drive",
+"city": "Miami",
+"lat": 25.69058,
+"lng": -80.31236,
+"website": "https://www.starbucks.com/store-locator/store/56529-289519/macys-mens-dadeland-mall-east-7303-n-kendall-drive-miami-fl-33156-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 7303 North Kendall Drive, Miami"
+]
+},
+{
+"id": "osm-n13043848998",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "249 Northwest 6th Street",
+"city": "Miami",
+"lat": 25.77998,
+"lng": -80.19831,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 249 Northwest 6th Street, Unit 120, Miami"
+]
+},
+{
+"id": "osm-n13228798542",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "100 Chopin Plaza",
+"city": "Miami",
+"lat": 25.77238,
+"lng": -80.18625,
+"website": "https://www.starbucks.com/store-locator?map=25.766235,-80.20182,12z",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has outdoor seating",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 100 Chopin Plaza, Miami"
+]
+},
+{
+"id": "osm-n14068514333",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.75508,
+"lng": -80.25907,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee"
+]
+},
+{
+"id": "osm-n2941412390",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "401 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.77691,
+"lng": -80.18507,
+"website": "https://www.starbucks.com/store-locator/store/1040154/bayside-miami-401-biscayne-blvd-miami-fl-33132-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 401 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n3106608955",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "901 South Miami Avenue",
+"city": "Miami",
+"lat": 25.76519,
+"lng": -80.19309,
+"website": "https://www.starbucks.com/store-locator/store/1043106/brickell-city-centre-701-s-miami-ave-unit-b-350-miami-fl-331301963-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 901 South Miami Avenue, Unit 106, Miami"
+]
+},
+{
+"id": "osm-n3156225270",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "292 Miracle Mile",
+"city": "Coral Gables",
+"lat": 25.74927,
+"lng": -80.26057,
+"website": "https://www.starbucks.com/store-locator/store/1018110/292-miracle-mile-292-miracle-mile-coral-gables-fl-331345908-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 292 Miracle Mile, Coral Gables"
+]
+},
+{
+"id": "osm-n3203993858",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "1122 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.71647,
+"lng": -80.2741,
+"website": "https://www.starbucks.com/store-locator/store/15343/1122-s-dixie-hwy-1122-s-dixie-hwy-coral-gables-fl-331462901-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 1122 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n3448464000",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "4250 Northwest 20th Street",
+"city": "Miami",
+"lat": 25.79185,
+"lng": -80.27376,
+"website": "https://www.starbucks.com/store-locator/store/18630/mia-gate-j-7-4250-nw-20th-st-miami-fl-33126-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 4250 Northwest 20th Street, Miami"
+]
+},
+{
+"id": "osm-n3448464001",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "4200 Northwest 21st Street",
+"city": "Miami International Airport",
+"lat": 25.79219,
+"lng": -80.27679,
+"website": "https://www.starbucks.com/store-locator/store/14145/mia-gate-h-4-4200-nw-21st-street-miami-fl-331281984-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Takeout only",
+"Wheelchair accessible",
+"Official name: Starbucks Coffee",
+"Address: 4200 Northwest 21st Street, Miami International Airport"
+]
+},
+{
+"id": "osm-n3676868100",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.79215,
+"lng": -80.21105,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee"
+]
+},
+{
+"id": "osm-n3998497005",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "601 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79077,
+"lng": -80.13433,
+"website": "https://www.starbucks.com/store-locator/store/8012/lincoln-pennsylvania-601-lincoln-rd-miami-beach-fl-331392915-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 601 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n3998497007",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "826 Lincoln Road",
+"city": "Miami Beach",
+"lat": 25.79038,
+"lng": -80.13714,
+"website": "https://www.starbucks.com/store-locator/store/1027491/826-lincoln-rd-826-lincoln-rd-miami-beach-fl-331392880-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 826 Lincoln Road, Miami Beach"
+]
+},
+{
+"id": "osm-n4220217963",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "2100 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.79689,
+"lng": -80.28034,
+"website": "https://www.starbucks.com/store-locator/store/91890/mia-gate-d-32-2100-nw-42nd-ave-miami-fl-33126-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 2100 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n4220217965",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "2100 Northwest 42nd Avenue",
+"city": "Miami",
+"lat": 25.79555,
+"lng": -80.27933,
+"website": "https://www.starbucks.com/store-locator/store/113722/mia-conc-d-lower-level-intl-a-2100-nw-42nd-ave-miami-international-airport-conco",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 2100 Northwest 42nd Avenue, Miami"
+]
+},
+{
+"id": "osm-n4893958422",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "475 South Dixie Highway",
+"city": "Coral Gables",
+"lat": 25.72561,
+"lng": -80.26312,
+"website": "https://www.starbucks.com/store-locator/store/6947/475-s-dixie-hwy-475-south-dixie-hwy-coral-gables-fl-331462202-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 475 South Dixie Highway, Coral Gables"
+]
+},
+{
+"id": "osm-n5001792232",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.77978,
+"lng": -80.28884,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has Wi-Fi",
+"Offers takeout",
+"Official name: Starbucks Coffee"
+]
+},
+{
+"id": "osm-n5165237879",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "200 Crandon Boulevard",
+"city": "Key Biscayne",
+"lat": 25.6978,
+"lng": -80.16314,
+"website": "https://www.starbucks.com/store-locator/store/7565/200-crandon-blvd-200-crandon-blvd-key-biscayne-fl-331491567-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 200 Crandon Boulevard, Key Biscayne"
+]
+},
+{
+"id": "osm-n5882286038",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.71922,
+"lng": -80.27916,
+"website": "https://www.starbucks.com/store-locator/store/1005569/university-of-miami-student-un-1330-miller-drive-coral-gables-fl-33124-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee"
+]
+},
+{
+"id": "osm-n5903100430",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "4200 Northwest 21st Street",
+"city": "Miami",
+"lat": 25.7985,
+"lng": -80.27279,
+"website": "https://www.starbucks.com/store-locator/store/19110/mia-gate-d-10-4200-nw-21st-st-miami-fl-331281984-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 4200 Northwest 21st Street, Miami"
+]
+},
+{
+"id": "osm-n6020065924",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "6702 Southwest 40th Street",
+"city": "Miami",
+"lat": 25.73302,
+"lng": -80.30388,
+"website": "https://www.starbucks.com/store-locator/store/1008759/bird-ludlam-6702-bird-road-3-miami-fl-331553706-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 6702 Southwest 40th Street, Unit 3, Miami"
+]
+},
+{
+"id": "osm-n6025987202",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "6603 South Dixie Highway",
+"city": "Miami",
+"lat": 25.69497,
+"lng": -80.30027,
+"website": "https://www.starbucks.com/store-locator/store/17673/dixie-ludlam-6603-south-dixie-hwy-miami-fl-331437919-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 6603 South Dixie Highway, Miami"
+]
+},
+{
+"id": "osm-n6029584496",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "7708 North Kendall Drive",
+"city": "Miami",
+"lat": 25.68797,
+"lng": -80.31994,
+"website": "https://www.starbucks.com/store-locator/store/15339/7708-north-kendall-drive-7708-north-kendall-drive-space-b-5-miami-fl-331567",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Has Wi-Fi",
+"Wheelchair accessible",
+"Offers takeout",
+"Has high chairs",
+"Official name: Starbucks Coffee",
+"Address: 7708 North Kendall Drive, Unit B5, Miami"
+]
+},
+{
+"id": "osm-n6516457905",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "1776 Biscayne Boulevard",
+"city": "Miami",
+"lat": 25.79284,
+"lng": -80.18924,
+"website": "https://www.starbucks.com/store-locator/store/1022359/publix-miami-1397-1776-biscayne-blvd-miami-fl-33132-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Wheelchair accessible",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 1776 Biscayne Boulevard, Miami"
+]
+},
+{
+"id": "osm-n906018676",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": null,
+"city": null,
+"lat": 25.70422,
+"lng": -80.28726,
+"website": null,
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee"
+]
+},
+{
+"id": "osm-n9397980642",
+"name": "Starbucks",
+"category": "food",
+"kind": "café",
+"address": "7575 Southwest 88th Street",
+"city": "Miami",
+"lat": 25.69053,
+"lng": -80.31498,
+"website": "https://www.starbucks.com/store-locator/store/15410/dadeland-mall-macys-home-west-7575-sw-88th-street-miami-fl-331733562-us",
+"knownFacts": [
+"Serves coffee",
+"Part of the Starbucks chain",
+"Offers takeout",
+"Official name: Starbucks Coffee",
+"Address: 7575 Southwest 88th Street, Miami"
+]
+}
+]
