@@ -6,11 +6,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
-    "text": "Gallery of Miami artist Anthony Liggins, who paints mainly in acrylic.",
-    "url": "https://anthonyliggins.com/"
+    "text": "Specializes in works by Atlanta-Miami artist Anthony Liggins.",
+    "url": "https://www.yelp.com/biz/gallery-88-miami-beach"
+   },
+   {
+    "text": "Held the grand opening of the exhibition Pathways to a Sacred Soul.",
+    "url": "https://anthonyliggins.com/event/gallery-88-grand-opening-of-pathways-to-a-sacred-soul/"
    }
   ]
  },
@@ -70,7 +74,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -80,7 +84,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 3,
+  "searches": 4,
   "facts": []
  },
  {
@@ -90,23 +94,18 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 3,
+  "searches": 4,
   "facts": []
  },
  {
   "id": "osm-n367827603",
   "name": "Museum of the Americas",
-  "matched": true,
+  "matched": false,
   "closed": false,
   "closedSource": null,
-  "notFound": false,
-  "searches": 1,
-  "facts": [
-   {
-    "text": "Nonprofit contemporary art museum organization founded in Miami in 1991.",
-    "url": "https://www.miamiartguide.com/museum-of-the-americas/"
-   }
-  ]
+  "notFound": true,
+  "searches": 4,
+  "facts": []
  },
  {
   "id": "osm-n13610476795",
@@ -115,7 +114,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 3,
+  "searches": 4,
   "facts": []
  },
  {
@@ -125,28 +124,27 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Operates as a theater production company.",
-    "url": "https://local.yahoo.com/info-217003615-la-casa-del-teatro-productions-miami/"
+    "text": "Venue has two stages and hosts theater, concerts, book presentations and film premieres.",
+    "url": "http://www.lacasadelteatro.com/"
+   },
+   {
+    "text": "Created the Festival Internacional de la Escena Gay in 2014.",
+    "url": "http://www.lacasadelteatro.com/1er-festival-internacional-de-la-escena-gay-miami-2014/"
    }
   ]
  },
  {
   "id": "osm-n4770384121",
   "name": "Miami seaplane tour",
-  "matched": true,
+  "matched": false,
   "closed": false,
   "closedSource": null,
-  "notFound": false,
-  "searches": 1,
-  "facts": [
-   {
-    "text": "Offers narrated aerial tours of Miami and the beaches, plus seaplane charters to the Keys and Bahamas.",
-    "url": "https://www.miami.gov/Government/Buy-Miami/Buy-Miami-Discount-Listings/Miami-Seaplane-Tours-Inc"
-   }
-  ]
+  "notFound": true,
+  "searches": 4,
+  "facts": []
  },
  {
   "id": "osm-n11972505214",
@@ -155,7 +153,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -165,11 +163,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Menu covers Chinese, Thai and Vietnamese dishes, including pho and noodles.",
-    "url": "https://3chefschinesevietnamese.eat24hour.com/"
+    "text": "Menu spans Chinese and Vietnamese dishes, from noodle soups to seafood.",
+    "url": "https://www.3chefs-mia.com/"
+   },
+   {
+    "text": "Pho comes with beef, meatball, chicken, shrimp or vegetables.",
+    "url": "https://www.3chefs-mia.com/menu?menu=menu"
    }
   ]
  },
@@ -180,11 +182,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 4,
   "facts": [
    {
-    "text": "Cooks modern Peruvian dishes such as ceviche and lomo saltado, alongside sushi rolls.",
-    "url": "https://www.doordash.com/store/305-peruvian-modern-cuisine-miami-30679626/"
+    "text": "Menu pairs Peruvian dishes such as ceviche and lomo saltado with sushi rolls.",
+    "url": "https://www.restaurantji.com/fl/coral-gables/305-peruvian-modern-cuisine-/"
+   },
+   {
+    "text": "Cooks mostly seafood ceviche, grains, potatoes and noodles in modern takes on Peruvian classics.",
+    "url": "https://www.restaurantji.com/fl/coral-gables/305-peruvian-modern-cuisine-/"
    }
   ]
  },
@@ -205,7 +211,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
     "text": "Contemporary American restaurant led by Chef Coton Stine.",
@@ -224,7 +230,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -234,11 +240,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Patio overlooks the Miami River and passing boats.",
+    "text": "Patio overlooks the Miami River, with views of yachts and boats passing by.",
     "url": "https://americansocialbar.com/locations/miami/"
+   },
+   {
+    "text": "Offers a private events and dining space.",
+    "url": "https://americansocialbar.com/private-events/miami/"
    }
   ]
  },
@@ -249,11 +259,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Cooks its pizza in coal-fired ovens.",
+    "text": "Cooks its pizza in a coal-fired oven.",
     "url": "https://acfp.com/locations/pinecrest/"
+   },
+   {
+    "text": "Part of Anthony's Coal Fired Pizza, founded in Fort Lauderdale in 2002.",
+    "url": "https://acfp.com/about/"
    }
   ]
  },
@@ -264,11 +278,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 4,
   "facts": [
    {
-    "text": "Menu includes pupusas, gallo pinto and carne asada.",
-    "url": "https://www.doordash.com/store/antigua-guatemala-restaurant-miami-30780416/"
+    "text": "Menu includes pupusas, gallo pinto, queso frito and sweet corn tamales.",
+    "url": "https://www.yelp.com/biz/antigua-guatemala-restaurant-miami"
+   },
+   {
+    "text": "Menu also has fajitas de pollo, tostones and beef soup.",
+    "url": "https://www.yelp.com/biz/antigua-guatemala-restaurant-miami"
    }
   ]
  },
@@ -308,10 +326,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Argentine steakhouse from a restaurant group founded in 1999 in Miami Beach.",
+    "text": "Part of Baires Grill, founded in 1999 in Miami Beach.",
+    "url": "https://www.bairesgrill.com/"
+   },
+   {
+    "text": "Brand was relaunched in 2014 with a focus on Argentine steakhouse dining.",
     "url": "https://www.bairesgrill.com/"
    }
   ]
@@ -323,11 +345,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Argentine steakhouse and bistro, part of a group with locations in Miami, Orlando and New York.",
-    "url": "https://www.opentable.com/r/baires-bistro-coral-gables"
+    "text": "Part of Baires Grill, founded in 1999 in Miami Beach.",
+    "url": "https://www.bairesgrill.com/"
+   },
+   {
+    "text": "Group has nine locations across Miami, Orlando and New York.",
+    "url": "https://www.bairesgrill.com/"
    }
   ]
  }
