@@ -1,0 +1,87 @@
+[
+ {
+  "id": "osm-n12405215774",
+  "name": "Up-Ryes Bagel",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4236656391",
+  "name": "Vedge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9385011517",
+  "name": "Vernick Coffee Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w215322953",
+  "name": "Vic & Deans",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2611788967",
+  "name": "Villa Artigiano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989532164",
+  "name": "White Dog Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "White Dog Cafe has served local, seasonal and sustainable food since 1983.",
+    "url": "https://whitedog.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224489169",
+  "name": "Win Wah",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w335160210",
+  "name": "Yangming",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://patch.com/pennsylvania/brynmawr/bryn-mawr-chinese-eatery-yangming-close-report",
+  "facts": []
+ },
+ {
+  "id": "osm-n10974561754",
+  "name": "Yapple Yogurt",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11236966180",
+  "name": "Zesto Pizza & Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]
