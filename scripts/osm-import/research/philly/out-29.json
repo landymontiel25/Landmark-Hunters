@@ -29,7 +29,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Ken Pendery was a co-founder and longtime CEO of First Watch.",
+    "url": "https://investors.firstwatch.com/news-releases/news-release-details/first-watch-co-founder-longtime-ceo-and-former-chairman-ken-0"
+   },
+   {
+    "text": "First Watch has its corporate headquarters in Bradenton, Florida.",
+    "url": "https://investors.firstwatch.com/news-releases/news-release-details/first-watch-opens-doors-new-corporate-headquarters-bradenton"
+   }
+  ]
  },
  {
   "id": "osm-w224489965",
@@ -257,7 +266,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "JP Iberti is a co-founder of La Colombe.",
+    "url": "https://blog.lacolombe.com/2013/03/05/zagat-interview/"
+   }
+  ]
  },
  {
   "id": "osm-n10773712305",
