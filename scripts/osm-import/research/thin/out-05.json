@@ -6,14 +6,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 4,
+  "searches": 2,
   "facts": [
    {
-    "text": "Cuban restaurant and bar in Miami International Airport's North Terminal, Concourse D.",
+    "text": "Cuban restaurant and bar in Miami International Airport's Terminal D.",
     "url": "https://mindtrip.ai/restaurant/miami-florida/ku-va-restaurant-bar/re-OvPhwvgy"
    },
    {
-    "text": "Menu features lechon asado and ropa vieja, with mojitos.",
+    "text": "Menu features lechon asado and ropa vieja, with mojitos and a Bloody Mary bar.",
     "url": "https://mindtrip.ai/restaurant/miami-florida/ku-va-restaurant-bar/re-OvPhwvgy"
    }
   ]
@@ -25,14 +25,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Cuban restaurant inside Mercy Hospital that is also open to the general public.",
+    "text": "Cuban restaurant inside Mercy Hospital, used by both hospital visitors and locals.",
     "url": "https://mindtrip.ai/restaurant/miami-florida/la-carreta-inside-mercy-hospital/re-H7OTqh3m"
    },
    {
-    "text": "Menu includes Cuban sandwiches and empanadas.",
+    "text": "Menu includes Cuban sandwiches, empanadas, yuca croquettes and grilled chicken breast.",
     "url": "https://mindtrip.ai/restaurant/miami-florida/la-carreta-inside-mercy-hospital/re-H7OTqh3m"
    }
   ]
@@ -44,19 +44,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Cooks homestyle Cuban dishes in a spacious storefront dining room with white tablecloths.",
-    "url": "https://www.tripadvisor.com/Restaurant_Review-g34152-d4957693-Reviews-La_Casita_Cuban_Cuisine-Coral_Gables_Florida.html"
+    "text": "Homestyle Cuban cooking based on generations of family recipes, in business since 1990.",
+    "url": "https://lacasitacubancuisine.com/about-us/"
    },
    {
-    "text": "Has been in business since 1990.",
-    "url": "https://www.tripadvisor.com/Restaurant_Review-g34152-d4957693-Reviews-La_Casita_Cuban_Cuisine-Coral_Gables_Florida.html"
-   },
-   {
-    "text": "Menu includes vaca frita.",
-    "url": "https://www.theinfatuation.com/miami/reviews/la-casita-restaurant"
+    "text": "Dining room has white tablecloths and a menu of over 250 Cuban dishes.",
+    "url": "https://lacasitacubancuisine.com/"
    }
   ]
  },
@@ -67,15 +63,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Specializes in pan con bistec, a Cuban steak sandwich on toasted Cuban bread.",
-    "url": "https://www.elpanconbistec.com/"
+    "text": "Started by Alberto Suarez in 1966, making steak sandwiches the way Cuban immigrants did.",
+    "url": "https://www.elpanconbistec.com/our-story"
    },
    {
-    "text": "Corner takeout spot in Little Havana with no sit-down dining area.",
-    "url": "https://www.elpanconbistec.com/"
+    "text": "Specializes in pan con bistec, a Cuban steak sandwich, plus cortaditos and Cuban sandwiches.",
+    "url": "https://www.elpanconbistec.com/our-story"
    }
   ]
  },
@@ -86,15 +82,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Colombian cafeteria-style spot where the food is on display and you order at the counter.",
-    "url": "https://www.yelp.com/biz/la-estacion-cafe-miami"
+    "text": "Colombian fast-casual cafe with empanadas, arepas, pandebono and bandeja paisa.",
+    "url": "https://www.laestacioncafe.net/menu"
    },
    {
-    "text": "Opened in 2000 and focuses on breakfasts with eggs and omelettes plus daily lunches.",
-    "url": "https://www.yelp.com/biz/la-estacion-cafe-miami"
+    "text": "Breakfast menu centers on fried eggs, scrambled eggs and omelets.",
+    "url": "https://www.laestacioncafe.net/menu"
    }
   ]
  },
@@ -105,15 +101,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Peruvian restaurant that specializes in rotisserie chicken, steak and seafood.",
-    "url": "https://www.tripadvisor.com/Restaurant_Review-g34438-d12403813-Reviews-La_Granja-Miami_Florida.html"
+    "text": "Specializes in pollo a la brasa, Peruvian rotisserie chicken marinated in aji panca, garlic and cumin.",
+    "url": "https://lagranjarestaurants.com/blog/what-is-pollo-a-la-brasa-peruvian-rotisserie-chicken"
    },
    {
-    "text": "One location of the La Granja restaurant group.",
-    "url": "https://lagranjarestaurants.com/locations/lejeune"
+    "text": "Part of La Granja, a Peruvian rotisserie chicken chain established in 1993.",
+    "url": "https://lagranjarestaurants.com/"
    }
   ]
  },
@@ -124,15 +120,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Peruvian restaurant whose menu includes ceviche, lomo saltado and arroz chaufa.",
-    "url": "https://www.yelp.com/biz/la-granja-miami-4"
+    "text": "Downtown Miami branch of La Granja, which has served Peruvian food since 1993.",
+    "url": "https://lagranjarestaurants.com/locations/downtown-miami-2"
    },
    {
-    "text": "Downtown branch of the La Granja chain, which began in 1993.",
-    "url": "https://lagranjarestaurants.com/locations/downtown-miami"
+    "text": "Signature dish is pollo a la brasa, chicken slowly turned on an open rotisserie.",
+    "url": "https://lagranjarestaurants.com/locations/downtown-miami-2"
    }
   ]
  },
@@ -143,11 +139,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Latin American restaurant in Doral with live music and a full bar.",
-    "url": "https://lamesamiami.com/locations"
+    "text": "Latin American menu with Cuban sandwiches, ceviche, paella, churrasco and picanha.",
+    "url": "https://lamesamiami.com/food-menu"
+   },
+   {
+    "text": "Offers a Sunday brunch with unlimited mimosas, sangria and draft beer.",
+    "url": "https://lamesamiami.com/food-menu"
    }
   ]
  },
@@ -158,15 +158,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Cuban restaurant on Calle Ocho known for churros and hot chocolate served on the patio.",
+    "text": "West Miami Cuban restaurant with a cafecito window that draws crowds on cool nights.",
     "url": "https://www.timeout.com/miami/restaurants/la-palma"
    },
    {
-    "text": "Menu includes empanadas, tostones and churrasco.",
-    "url": "https://www.allmenus.com/fl/west-miami/379456-la-palma-restaurant/menu/"
+    "text": "Hot chocolate and churros are served on the patio, and the chocolate is sold by the gallon to go.",
+    "url": "https://www.timeout.com/miami/restaurants/la-palma"
    }
   ]
  },
@@ -177,15 +177,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Argentine restaurant open since 2001, with pastas, grilled meats and empanadas.",
-    "url": "https://www.opentable.com/r/la-patagonia-argentina-miami"
+    "text": "Argentine menu of hand-crafted empanadas, homemade pastas and grilled provolone.",
+    "url": "https://lapatagoniaargentina.shop/menu"
    },
    {
-    "text": "Its Instagram account is patagoniaparrilla2001.",
-    "url": "https://www.instagram.com/patagoniaparrilla2001/"
+    "text": "Also makes chorizo sausage, shrimp in garlic butter sauce and calamari with zucchini.",
+    "url": "https://lapatagoniaargentina.shop/menu"
    }
   ]
  },
@@ -196,7 +196,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 3,
+  "searches": 4,
   "facts": []
  },
  {
@@ -206,7 +206,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 3,
+  "searches": 4,
   "facts": []
  },
  {
@@ -216,47 +216,70 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Pan-Asian cafe opened in 2000 with dishes from Japan, China, Korea, Thailand and Vietnam.",
-    "url": "https://lanpanasian.com/"
+    "text": "Specializes in East and Southeast Asian dishes from Japan, China, Korea, Thailand and Vietnam.",
+    "url": "https://lanpanasian.com/about"
    },
    {
-    "text": "Has a sushi bar and a bubble tea bar.",
-    "url": "https://lanpanasian.com/"
+    "text": "Has a bubble tea bar billed as Miami's first, and a live sushi station.",
+    "url": "https://lanpanasian.com/about"
    }
   ]
  },
  {
   "id": "osm-n4181168307",
   "name": "Las Olas",
-  "matched": false,
+  "matched": true,
   "closed": false,
   "closedSource": null,
-  "notFound": true,
-  "searches": 3,
-  "facts": []
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Cuban ventanita and cafeteria in South Beach with a sidewalk window for cafecito and empanadas.",
+    "url": "https://www.theinfatuation.com/miami/reviews/las-olas-cafe"
+   },
+   {
+    "text": "Mostly a to-go spot with some seating inside, making thin Cuban sandwiches.",
+    "url": "https://www.theinfatuation.com/miami/reviews/las-olas-cafe"
+   }
+  ]
  },
  {
   "id": "osm-n4712412089",
   "name": "Latin American",
-  "matched": false,
+  "matched": true,
   "closed": false,
   "closedSource": null,
-  "notFound": true,
-  "searches": 3,
-  "facts": []
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Cuban and Latin American restaurant on Coral Way.",
+    "url": "https://www.yelp.com/biz/latin-american-coral-way-miami"
+   }
+  ]
  },
  {
   "id": "osm-n4664689089",
   "name": "Latin American Cuisine",
-  "matched": false,
+  "matched": true,
   "closed": false,
   "closedSource": null,
-  "notFound": true,
-  "searches": 1,
-  "facts": []
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Cuban restaurant at Bayside Marketplace with outdoor seating by the marina.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g34438-d2481049-Reviews-Latin_American_Cuban_Cuisine-Miami_Florida.html"
+   },
+   {
+    "text": "Menu includes a Cuban club sandwich and a traditional Cuban platter with pork, black beans and yuca.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g34438-d2481049-Reviews-Latin_American_Cuban_Cuisine-Miami_Florida.html"
+   }
+  ]
  },
  {
   "id": "osm-n6060697697",
@@ -265,15 +288,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Cake design bakery that also runs a Latin cafe.",
-    "url": "https://www.yellowpages.com/west-miami-fl/mip/le-paris-cake-design-bakery-481003218"
+    "text": "Bakes Cuban bread every half hour, along with pastries and Cuban coffee.",
+    "url": "https://lepariscakedesign.com/"
    },
    {
-    "text": "Makes custom cakes for every occasion.",
-    "url": "https://www.facebook.com/Lepariscafecakedesign/"
+    "text": "Makes fondant, meringue, buttercream and nata cakes, with custom cakes for baby showers and graduations.",
+    "url": "https://lepariscakedesign.com/"
    }
   ]
  },
@@ -284,15 +307,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Sells pavlovas, cakes and cookie cups baked to order.",
-    "url": "https://lillysmunchies.com/"
+    "text": "Known for handcrafted pavlovas with dulce de leche, nutella or pistachio, whipped cream and strawberries.",
+    "url": "https://lillysmunchies.com/shop"
    },
    {
     "text": "Has a shop in Miami International Airport's North Terminal, Concourse D.",
-    "url": "https://lillysmunchies.com/"
+    "url": "https://lillysmunchies.com/shop"
    }
   ]
  },
@@ -303,11 +326,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Italian restaurant and pizzeria with a wood-fired oven and fresh daily seafood.",
-    "url": "https://limoncellomiamibeach.com/"
+    "text": "Italian restaurant with homemade pasta, seafood risottos and daily fresh seafood.",
+    "url": "https://limoncellomiamibeach.com/limoncello-miami-beach/"
+   },
+   {
+    "text": "Wood oven pizza menu includes Margherita, Prosciutto and Burrata & Tartufo.",
+    "url": "https://limoncellomiamibeach.com/limoncello-miami-beach/"
    }
   ]
  },
@@ -315,11 +342,16 @@
   "id": "osm-n6418263113",
   "name": "Los Nuevos Jarritos",
   "matched": true,
-  "closed": true,
-  "closedSource": "https://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?InquiryType=EntityName&InquiryDirectionType=PreviousRecord&SearchTerm=LOS+NORTENOS+LLC&SearchNameOrder=LOSNUEVOSJARRITOSCAFERESTAURAN+P150000644660&ListNameOrder=LOSNORTENOS+L180001417940&Detail=FL.DOS.Corporations.Shared.Contracts.FilingRecord",
+  "closed": false,
+  "closedSource": null,
   "notFound": false,
-  "searches": 1,
-  "facts": []
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed on Yelp as Los Jarritos, a Mexican taqueria restaurant in Little Havana.",
+    "url": "https://www.yelp.com/biz/los-jarritos-miami"
+   }
+  ]
  },
  {
   "id": "osm-n2475821298",
@@ -328,8 +360,13 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
-  "facts": []
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Ludo's Ristorante Italiano, with a menu of salads and pasta entrees.",
+    "url": "https://www.allmenus.com/fl/coconut-grove/320509-ludos-ristorante-italiano/menu/"
+   }
+  ]
  },
  {
   "id": "osm-n9789284017",
@@ -338,10 +375,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Family-owned Latin American restaurant that opened in 1994 in West Miami.",
+    "text": "Family-owned restaurant established in 1994 in West Miami.",
+    "url": "https://www.yelp.com/biz/luis-galindo-latin-america-restaurant-west-miami"
+   },
+   {
+    "text": "Named in homage to the original founder of the family's restaurants.",
     "url": "https://www.yelp.com/biz/luis-galindo-latin-america-restaurant-west-miami"
    }
   ]
@@ -353,14 +394,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
     "text": "Latin American restaurant at Bayside Marketplace with live music, dancing and a private dining room.",
     "url": "https://baysidemarketplace.com/directory/news/surviving-the-summer-heat-cocktail-guide-2/"
    },
    {
-    "text": "Menu centers on seafood, ceviches and steaks.",
+    "text": "Menu is built around seafood, ceviches, steaks and regional Latin American specialties.",
     "url": "https://baysidemarketplace.com/directory/news/surviving-the-summer-heat-cocktail-guide-2/"
    }
   ]
@@ -372,15 +413,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Macondo's Little Havana Calle 8 branch, in a converted shipping container.",
-    "url": "https://joe.coffee/locations/fl/miami/macondo-coffee-roasters-little-havana-calle-8-miami/"
+    "text": "Part of Macondo Coffee Roasters, a family-owned Colombian immigrant business founded in 2015.",
+    "url": "https://www.macondocoffee.com/about"
    },
    {
-    "text": "Serves Colombian coffee with breakfast dishes like pancakes and avocado toast.",
-    "url": "https://www.yelp.com/biz/macondo-calle-8-miami-2"
+    "text": "Beans come from small Colombian farms and are roasted in small batches at its Doral facility.",
+    "url": "https://www.macondocoffee.com/about"
    }
   ]
  },
@@ -391,14 +432,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Downtown branch of Macondo Coffee Roasters, opened in 2024.",
-    "url": "https://www.city-data.com/restaurants/FL/MACONDO-COFFEE-ROASTERS-DOWNTOWN.html"
+    "text": "Part of Macondo Coffee Roasters, a Miami roaster and cafe inspired by Colombian coffee culture.",
+    "url": "https://www.macondocoffee.com/home"
    },
    {
-    "text": "Beans come from small Colombian farms and are roasted at the company's Doral facility.",
+    "text": "Menu mixes Latin American favorites with classic American breakfast and lunch dishes.",
     "url": "https://www.macondocoffee.com/home"
    }
   ]
