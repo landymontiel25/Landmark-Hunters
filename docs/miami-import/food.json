@@ -1,10 +1,10 @@
 {
  "category": "food",
- "count": 687,
+ "count": 550,
  "commonsPhotos": 35,
- "commonsPhotoPct": 5.1,
- "withFacts": 596,
- "withHours": 185,
+ "commonsPhotoPct": 6.4,
+ "withFacts": 522,
+ "withHours": 161,
  "photoSkips": [
   {
    "id": "osm-n12369742001",
@@ -89,318 +89,332 @@
  ],
  "sample": [
   {
-   "id": "osm-n6575655588",
-   "name": "Bottega Express",
-   "topic": "café",
-   "lat": 25.77615,
-   "lng": -80.196932,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6575655588"
-  },
-  {
-   "id": "osm-w316621086",
-   "name": "Fireman Derek's World Famous Pies",
-   "topic": "bakery",
-   "lat": 25.803403,
-   "lng": -80.195274,
+   "id": "osm-n6073275079",
+   "name": "Cava",
+   "topic": "Spanish restaurant",
+   "lat": 25.764427,
+   "lng": -80.258343,
    "photo": false,
    "facts": [
-    "Address: 2818 North Miami Avenue, Miami"
+    "Pairs Spanish cuisine with live flamenco performances.",
+    "Serves Spanish food",
+    "Part of the CAVA chain"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/316621086"
+   "osmUrl": "https://www.openstreetmap.org/node/6073275079"
   },
   {
-   "id": "osm-w435731406",
-   "name": "IHOP",
-   "topic": "breakfast restaurant",
-   "lat": 25.77481,
-   "lng": -80.263484,
-   "photo": false,
-   "facts": [
-    "Serves breakfast and pancakes",
-    "Part of the IHOP chain",
-    "Address: 285 North Le Jeune Road, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/435731406"
-  },
-  {
-   "id": "osm-n9397986186",
+   "id": "osm-n3676868100",
    "name": "Starbucks",
    "topic": "café",
-   "lat": 25.672621,
-   "lng": -80.322666,
+   "lat": 25.792148,
+   "lng": -80.211046,
    "photo": false,
    "facts": [
     "Serves coffee",
     "Part of the Starbucks chain",
     "Offers takeout"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/9397986186"
+   "osmUrl": "https://www.openstreetmap.org/node/3676868100"
   },
   {
-   "id": "osm-n7194556886",
-   "name": "China Moon",
-   "topic": "Chinese restaurant",
-   "lat": 25.788,
-   "lng": -80.141632,
+   "id": "osm-n13149501982",
+   "name": "Freddo",
+   "topic": "ice cream shop",
+   "lat": 25.763321,
+   "lng": -80.193375,
    "photo": false,
    "facts": [
-    "Serves Chinese food",
-    "Address: 1540 Alton Road"
+    "The Freddo chain began in 1969 in the Recoleta neighborhood of Buenos Aires, Argentina.",
+    "Part of the Freddo chain",
+    "Address: 1102 South Miami Avenue, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/7194556886"
+   "osmUrl": "https://www.openstreetmap.org/node/13149501982"
   },
   {
-   "id": "osm-w436125444",
-   "name": "Lil Greenhouse Grill",
+   "id": "osm-n6018262288",
+   "name": "Delicias de Espana",
+   "topic": "bakery",
+   "lat": 25.73254,
+   "lng": -80.314617,
+   "photo": false,
+   "facts": [
+    "Address: 7374 Southwest 40th Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6018262288"
+  },
+  {
+   "id": "osm-n13478946650",
+   "name": "Freddo",
+   "topic": "ice cream shop",
+   "lat": 25.683745,
+   "lng": -80.313304,
+   "photo": false,
+   "facts": [
+    "Located inside Dadeland Mall.",
+    "The Freddo chain began in 1969 in the Recoleta neighborhood of Buenos Aires, Argentina.",
+    "Part of the Freddo chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13478946650"
+  },
+  {
+   "id": "osm-w436033345",
+   "name": "Catch of the Day",
    "topic": "restaurant",
-   "lat": 25.786953,
-   "lng": -80.200027,
+   "lat": 25.782259,
+   "lng": -80.264415,
    "photo": false,
    "facts": [
-    "Address: 1300 Northwest 3rd Avenue, Miami"
+    "Opened on May 20, 1998, as a seafood bar and grill.",
+    "Address: 1050 Northwest 42nd Avenue, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/436125444"
+   "osmUrl": "https://www.openstreetmap.org/way/436033345"
   },
   {
-   "id": "osm-n5902548468",
-   "name": "Birdie's Bistro",
+   "id": "osm-n13355967389",
+   "name": "Claudie",
    "topic": "restaurant",
-   "lat": 25.752491,
-   "lng": -80.274753,
+   "lat": 25.763268,
+   "lng": -80.191099,
    "photo": false,
    "facts": [
-    "Wheelchair accessible",
-    "Address: 2001 Granada Boulevard, Coral Gables"
+    "French restaurant serving Southern France-inspired dishes, including escargot.",
+    "Address: 1101 Brickell Avenue, Unit S-113, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5902548468"
+   "osmUrl": "https://www.openstreetmap.org/node/13355967389"
   },
   {
-   "id": "osm-n14031225188",
-   "name": "Batch Gastropub",
-   "topic": "American restaurant",
-   "lat": 25.762341,
-   "lng": -80.193968,
+   "id": "osm-n3156408683",
+   "name": "Fritz & Franz Bierhaus",
+   "topic": "German restaurant",
+   "lat": 25.750851,
+   "lng": -80.256204,
    "photo": false,
    "facts": [
-    "Serves American food",
-    "Has vegan options",
-    "Address: 30 Southwest 12th Street, Miami"
+    "Serves German and Austrian food",
+    "Address: 60 Merrick Way, Coral Gables"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/14031225188"
+   "osmUrl": "https://www.openstreetmap.org/node/3156408683"
   },
   {
-   "id": "osm-n10615715125",
-   "name": "La Gazzetta",
-   "topic": "restaurant",
-   "lat": 25.763975,
-   "lng": -80.193572,
+   "id": "osm-n5674089068",
+   "name": "Gelateria 4D",
+   "topic": "ice cream shop",
+   "lat": 25.790781,
+   "lng": -80.133906,
+   "photo": false,
+   "facts": [
+    "Address: 551 Lincoln Road, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5674089068"
+  },
+  {
+   "id": "osm-n5296701728",
+   "name": "Fresh Attractions",
+   "topic": "café",
+   "lat": 25.795606,
+   "lng": -80.284189,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/10615715125"
+   "osmUrl": "https://www.openstreetmap.org/node/5296701728"
   },
   {
-   "id": "osm-n12197880121",
-   "name": "Ben's Pizza",
-   "topic": "pizza restaurant",
-   "lat": 25.691259,
-   "lng": -80.313738,
+   "id": "osm-n13530299002",
+   "name": "Douceurs & Tralala",
+   "topic": "bakery",
+   "lat": 25.788691,
+   "lng": -80.141344,
    "photo": false,
    "facts": [
-    "Serves pizza"
+    "Founded by Nathalie and Gregory Fournier-Bidoz.",
+    "Has Wi-Fi",
+    "Address: 1570 Alton Road"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/12197880121"
+   "osmUrl": "https://www.openstreetmap.org/node/13530299002"
   },
   {
-   "id": "osm-n4109661892",
-   "name": "Doraku Sushi",
-   "topic": "sushi restaurant",
-   "lat": 25.790296,
-   "lng": -80.140324,
+   "id": "osm-n13239228568",
+   "name": "Häagen-Dazs",
+   "topic": "ice cream shop",
+   "lat": 25.785323,
+   "lng": -80.220277,
    "photo": false,
    "facts": [
-    "Serves sushi",
-    "Address: 1104 Lincoln Road"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4109661892"
-  },
-  {
-   "id": "osm-n12197880119",
-   "name": "Islas Canarias Cuban Express",
-   "topic": "Latin American restaurant",
-   "lat": 25.691123,
-   "lng": -80.313896,
-   "photo": false,
-   "facts": [
-    "Serves Latin American food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12197880119"
-  },
-  {
-   "id": "osm-n10244984256",
-   "name": "Crema Gourmet",
-   "topic": "café",
-   "lat": 25.687539,
-   "lng": -80.312743,
-   "photo": true,
-   "facts": [
+    "Located in the River Landing Shops development.",
+    "Part of the Häagen-Dazs chain",
     "Has outdoor seating"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/10244984256"
+   "osmUrl": "https://www.openstreetmap.org/node/13239228568"
   },
   {
-   "id": "osm-n7844732313",
-   "name": "Brawy Seafood",
-   "topic": "seafood restaurant",
-   "lat": 25.777553,
-   "lng": -80.185711,
+   "id": "osm-n6076781683",
+   "name": "Fritanga Caña Brava",
+   "topic": "Latin American restaurant",
+   "lat": 25.779586,
+   "lng": -80.240703,
    "photo": false,
    "facts": [
-    "Serves seafood"
+    "The site once housed La Hacienda Restaurant, which opened in 1946.",
+    "Its tall roadside sign is a relic of La Hacienda, now marked with the Caña Brava name.",
+    "Serves Latin American and Nicaraguan food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/7844732313"
+   "osmUrl": "https://www.openstreetmap.org/node/6076781683"
   },
   {
-   "id": "osm-n9685760517",
-   "name": "Firebelly’s Wings",
-   "topic": "restaurant",
-   "lat": 25.797587,
-   "lng": -80.252712,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/9685760517"
-  },
-  {
-   "id": "osm-n10232521762",
-   "name": "Fogo de Chão",
-   "topic": "Brazilian restaurant",
-   "lat": 25.769715,
-   "lng": -80.136598,
-   "photo": false,
-   "facts": [
-    "Serves Brazilian food, plus steak",
-    "Part of the Fogo de Chão chain",
-    "Address: 836 1st Street, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/10232521762"
-  },
-  {
-   "id": "osm-n8501929075",
-   "name": "Carvel",
-   "topic": "ice cream shop",
-   "lat": 25.772255,
-   "lng": -80.256528,
-   "photo": false,
-   "facts": [
-    "Serves ice cream",
-    "Part of the Carvel chain",
-    "Offers takeout"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/8501929075"
-  },
-  {
-   "id": "osm-n6073738986",
-   "name": "Bodega Taqueria",
-   "topic": "Mexican restaurant",
-   "lat": 25.788769,
-   "lng": -80.141626,
-   "photo": false,
-   "facts": [
-    "Serves Mexican food",
-    "Address: 1220 16th Street, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6073738986"
-  },
-  {
-   "id": "osm-n12198008213",
-   "name": "Earls",
-   "topic": "American restaurant",
-   "lat": 25.689627,
-   "lng": -80.312789,
-   "photo": false,
-   "facts": [
-    "Serves American food",
-    "Part of the Earls chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12198008213"
-  },
-  {
-   "id": "osm-n13719776029",
-   "name": "Hosteria Romana",
+   "id": "osm-n12134973677",
+   "name": "Cucina Fresca",
    "topic": "Italian restaurant",
-   "lat": 25.787014,
-   "lng": -80.132467,
+   "lat": 25.719754,
+   "lng": -80.278231,
    "photo": false,
    "facts": [
     "Serves Italian food",
-    "Address: 429 Española Way, Miami Beach"
+    "Address: 1306 Stanford Drive, Coral Gables"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13719776029"
+   "osmUrl": "https://www.openstreetmap.org/node/12134973677"
   },
   {
-   "id": "osm-n1670843023",
-   "name": "3 Chefs Chinese & Vietnamese Food",
-   "topic": "Chinese restaurant",
-   "lat": 25.793883,
-   "lng": -80.189192,
+   "id": "osm-n12873594359",
+   "name": "Novecento",
+   "topic": "Argentinian restaurant",
+   "lat": 25.696611,
+   "lng": -80.164302,
    "photo": false,
    "facts": [
-    "Serves Chinese food",
-    "Wheelchair accessible",
-    "Address: 1800 Biscayne Boulevard"
+    "Serves Argentinian food",
+    "Address: 260 Crandon Boulevard, Unit 30, Key Biscayne"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1670843023"
+   "osmUrl": "https://www.openstreetmap.org/node/12873594359"
   },
   {
-   "id": "osm-n6020065937",
-   "name": "Canton Rose Restaurant",
-   "topic": "Chinese restaurant",
-   "lat": 25.732192,
-   "lng": -80.303202,
-   "photo": false,
-   "facts": [
-    "Serves Chinese food",
-    "Address: 4038 Southwest 67th Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6020065937"
-  },
-  {
-   "id": "osm-n6076481676",
-   "name": "Editor Pizza",
+   "id": "osm-n11090903666",
+   "name": "Comida de la Tierra Colombian Cuisine",
    "topic": "restaurant",
-   "lat": 25.774816,
-   "lng": -80.136321,
+   "lat": 25.775143,
+   "lng": -80.188974,
    "photo": false,
-   "facts": [
-    "Address: 803 5th Street, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6076481676"
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/11090903666"
   },
   {
-   "id": "osm-n3243056761",
-   "name": "Little Bread Cuban Sandwich Co",
-   "topic": "Cuban restaurant",
-   "lat": 25.767872,
-   "lng": -80.214368,
-   "photo": false,
-   "facts": [
-    "Serves Cuban food",
-    "Address: 541 Southwest 12th Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3243056761"
-  },
-  {
-   "id": "osm-w435537451",
-   "name": "Jackson Soul Food",
+   "id": "osm-w310637943",
+   "name": "Gustave",
    "topic": "restaurant",
-   "lat": 25.783471,
-   "lng": -80.199942,
+   "lat": 25.749036,
+   "lng": -80.262046,
    "photo": false,
    "facts": [
-    "Address: 950 Northwest 3rd Avenue, Miami"
+    "Launched by two Parisians, Quentin Dubois and Sam Dis.",
+    "Named for Gustave Eiffel, designer of the Eiffel Tower.",
+    "A French restaurant that also bakes baguettes, croissants and tarts."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/435537451"
+   "osmUrl": "https://www.openstreetmap.org/way/310637943"
+  },
+  {
+   "id": "osm-w300499403",
+   "name": "Mercado Japones",
+   "topic": "restaurant",
+   "lat": 25.763819,
+   "lng": -80.193409,
+   "photo": false,
+   "facts": [
+    "Address: 1036 South Miami Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/300499403"
+  },
+  {
+   "id": "osm-n9789284017",
+   "name": "Luis Galindo Latin America Restaurant",
+   "topic": "restaurant",
+   "lat": 25.762977,
+   "lng": -80.28803,
+   "photo": false,
+   "facts": [
+    "Serves food from Mexico, Central America, South America and the Caribbean, with a bakery."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9789284017"
+  },
+  {
+   "id": "osm-n6091344818",
+   "name": "FREEHOLD Miami",
+   "topic": "restaurant",
+   "lat": 25.798437,
+   "lng": -80.19883,
+   "photo": false,
+   "facts": [
+    "Second location of FREEHOLD, a hospitality concept that started in Brooklyn.",
+    "The space was designed by the architecture and design firm Rockwell Group.",
+    "Address: 2219 Northwest 2nd Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6091344818"
+  },
+  {
+   "id": "osm-n5676900198",
+   "name": "DOYA",
+   "topic": "restaurant",
+   "lat": 25.800107,
+   "lng": -80.201277,
+   "photo": false,
+   "facts": [
+    "Serves modern Aegean cuisine.",
+    "Listed in the Michelin Guide.",
+    "Featured on the PBS show Check Please! South Florida."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5676900198"
+  },
+  {
+   "id": "osm-w435748575",
+   "name": "Lung Yai Thai Tappas",
+   "topic": "Thai restaurant",
+   "lat": 25.765772,
+   "lng": -80.223205,
+   "photo": false,
+   "facts": [
+    "Listed in the 2026 MICHELIN Guide USA.",
+    "Run by chef and owner Veenuthri Trisransri.",
+    "Its khao soi is a coconut curry with a choice of protein, served with egg noodles."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435748575"
+  },
+  {
+   "id": "osm-n12616316399",
+   "name": "Macondo Coffee Roasters",
+   "topic": "café",
+   "lat": 25.765073,
+   "lng": -80.228399,
+   "photo": false,
+   "facts": [
+    "Serves coffee",
+    "Address: 820 Southwest 20th Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12616316399"
+  },
+  {
+   "id": "osm-n6113770185",
+   "name": "MIAM Cafe",
+   "topic": "café",
+   "lat": 25.80257,
+   "lng": -80.201318,
+   "photo": false,
+   "facts": [
+    "Combines a European-style cafe with a boutique.",
+    "Has outdoor seating",
+    "Address: 2750 Northwest 3rd Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6113770185"
+  },
+  {
+   "id": "osm-n6046793767",
+   "name": "Mayfair Grill",
+   "topic": "American restaurant",
+   "lat": 25.72876,
+   "lng": -80.241022,
+   "photo": false,
+   "facts": [
+    "Located inside the Mayfair House Hotel & Garden.",
+    "Chef Giorgio Rapicavoli was named its executive chef.",
+    "Focuses on wood-fired cooking."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6046793767"
   }
  ],
  "points": [
@@ -412,11 +426,6 @@
   [
    25.749815,
    -80.249472,
-   0
-  ],
-  [
-   25.799965,
-   -80.198199,
    0
   ],
   [
@@ -445,18 +454,8 @@
    0
   ],
   [
-   25.727493,
-   -80.243396,
-   0
-  ],
-  [
    25.78819,
    -80.131589,
-   0
-  ],
-  [
-   25.784584,
-   -80.193892,
    0
   ],
   [
@@ -472,11 +471,6 @@
   [
    25.806487,
    -80.185633,
-   0
-  ],
-  [
-   25.775285,
-   -80.192569,
    0
   ],
   [
@@ -520,11 +514,6 @@
    0
   ],
   [
-   25.760482,
-   -80.191211,
-   0
-  ],
-  [
    25.72088,
    -80.278748,
    0
@@ -555,11 +544,6 @@
    0
   ],
   [
-   25.764918,
-   -80.193802,
-   0
-  ],
-  [
    25.77695,
    -80.204565,
    0
@@ -585,11 +569,6 @@
    0
   ],
   [
-   25.790336,
-   -80.139349,
-   0
-  ],
-  [
    25.732538,
    -80.314315,
    0
@@ -597,11 +576,6 @@
   [
    25.795399,
    -80.143947,
-   0
-  ],
-  [
-   25.75584,
-   -80.259061,
    0
   ],
   [
@@ -645,11 +619,6 @@
    0
   ],
   [
-   25.787394,
-   -80.144104,
-   0
-  ],
-  [
    25.7331,
    -80.300665,
    0
@@ -657,11 +626,6 @@
   [
    25.790955,
    -80.131698,
-   0
-  ],
-  [
-   25.786672,
-   -80.140742,
    0
   ],
   [
@@ -685,11 +649,6 @@
    0
   ],
   [
-   25.802085,
-   -80.199564,
-   0
-  ],
-  [
    25.752491,
    -80.274753,
    0
@@ -710,18 +669,8 @@
    0
   ],
   [
-   25.734882,
-   -80.287751,
-   0
-  ],
-  [
    25.788769,
    -80.141626,
-   0
-  ],
-  [
-   25.749757,
-   -80.261152,
    0
   ],
   [
@@ -732,11 +681,6 @@
   [
    25.751169,
    -80.218567,
-   0
-  ],
-  [
-   25.777553,
-   -80.185711,
    0
   ],
   [
@@ -770,11 +714,6 @@
    0
   ],
   [
-   25.78755,
-   -80.131877,
-   0
-  ],
-  [
    25.778325,
    -80.186677,
    0
@@ -782,21 +721,6 @@
   [
    25.750727,
    -80.221549,
-   0
-  ],
-  [
-   25.777259,
-   -80.133748,
-   0
-  ],
-  [
-   25.773461,
-   -80.192184,
-   0
-  ],
-  [
-   25.679339,
-   -80.318571,
    0
   ],
   [
@@ -830,11 +754,6 @@
    0
   ],
   [
-   25.734313,
-   -80.261874,
-   0
-  ],
-  [
    25.767523,
    -80.196098,
    0
@@ -847,11 +766,6 @@
   [
    25.768943,
    -80.13567,
-   0
-  ],
-  [
-   25.772739,
-   -80.191675,
    0
   ],
   [
@@ -915,11 +829,6 @@
    0
   ],
   [
-   25.796689,
-   -80.318185,
-   0
-  ],
-  [
    25.740521,
    -80.278787,
    0
@@ -952,11 +861,6 @@
   [
    25.797146,
    -80.279325,
-   0
-  ],
-  [
-   25.766015,
-   -80.198587,
    0
   ],
   [
@@ -1025,11 +929,6 @@
    1
   ],
   [
-   25.773117,
-   -80.187831,
-   0
-  ],
-  [
    25.777313,
    -80.185534,
    0
@@ -1060,11 +959,6 @@
    0
   ],
   [
-   25.749348,
-   -80.258843,
-   0
-  ],
-  [
    25.79976,
    -80.199252,
    0
@@ -1090,18 +984,8 @@
    1
   ],
   [
-   25.7896,
-   -80.131643,
-   0
-  ],
-  [
    25.804569,
    -80.189168,
-   0
-  ],
-  [
-   25.778321,
-   -80.205932,
    0
   ],
   [
@@ -1140,11 +1024,6 @@
    0
   ],
   [
-   25.77943,
-   -80.140671,
-   0
-  ],
-  [
    25.73254,
    -80.314617,
    0
@@ -1152,11 +1031,6 @@
   [
    25.773186,
    -80.220771,
-   0
-  ],
-  [
-   25.794152,
-   -80.143903,
    0
   ],
   [
@@ -1220,16 +1094,6 @@
    0
   ],
   [
-   25.725986,
-   -80.262006,
-   0
-  ],
-  [
-   25.790296,
-   -80.140324,
-   0
-  ],
-  [
    25.788691,
    -80.141344,
    0
@@ -1240,23 +1104,8 @@
    0
   ],
   [
-   25.767105,
-   -80.193106,
-   0
-  ],
-  [
-   25.786066,
-   -80.141347,
-   0
-  ],
-  [
    25.689627,
    -80.312789,
-   0
-  ],
-  [
-   25.774816,
-   -80.136321,
    0
   ],
   [
@@ -1272,11 +1121,6 @@
   [
    25.746786,
    -80.221529,
-   0
-  ],
-  [
-   25.772604,
-   -80.191904,
    0
   ],
   [
@@ -1335,16 +1179,6 @@
    0
   ],
   [
-   25.727739,
-   -80.242788,
-   0
-  ],
-  [
-   25.669113,
-   -80.286894,
-   0
-  ],
-  [
    25.803938,
    -80.191453,
    0
@@ -1382,11 +1216,6 @@
   [
    25.772307,
    -80.223155,
-   0
-  ],
-  [
-   25.705111,
-   -80.282596,
    0
   ],
   [
@@ -1525,11 +1354,6 @@
    0
   ],
   [
-   25.779237,
-   -80.270495,
-   0
-  ],
-  [
    25.679249,
    -80.318611,
    0
@@ -1665,11 +1489,6 @@
    0
   ],
   [
-   25.777496,
-   -80.184459,
-   0
-  ],
-  [
    25.774235,
    -80.134434,
    0
@@ -1715,11 +1534,6 @@
    0
   ],
   [
-   25.790578,
-   -80.141722,
-   0
-  ],
-  [
    25.767432,
    -80.196432,
    0
@@ -1735,11 +1549,6 @@
    0
   ],
   [
-   25.794563,
-   -80.144279,
-   0
-  ],
-  [
    25.77481,
    -80.263484,
    0
@@ -1752,11 +1561,6 @@
   [
    25.771828,
    -80.185161,
-   0
-  ],
-  [
-   25.77323,
-   -80.189174,
    0
   ],
   [
@@ -1790,11 +1594,6 @@
    0
   ],
   [
-   25.77328,
-   -80.18922,
-   0
-  ],
-  [
    25.759184,
    -80.192212,
    1
@@ -1815,11 +1614,6 @@
    0
   ],
   [
-   25.795461,
-   -80.142326,
-   0
-  ],
-  [
    25.785297,
    -80.132088,
    0
@@ -1830,18 +1624,8 @@
    0
   ],
   [
-   25.790669,
-   -80.140142,
-   0
-  ],
-  [
    25.764902,
    -80.194262,
-   0
-  ],
-  [
-   25.749868,
-   -80.257368,
    0
   ],
   [
@@ -1855,18 +1639,8 @@
    0
   ],
   [
-   25.748126,
-   -80.258838,
-   0
-  ],
-  [
    25.799982,
    -80.200211,
-   0
-  ],
-  [
-   25.794215,
-   -80.186613,
    0
   ],
   [
@@ -1910,11 +1684,6 @@
    0
   ],
   [
-   25.763975,
-   -80.193572,
-   0
-  ],
-  [
    25.783093,
    -80.263693,
    0
@@ -1925,18 +1694,8 @@
    1
   ],
   [
-   25.775053,
-   -80.19016,
-   0
-  ],
-  [
    25.783043,
    -80.319255,
-   0
-  ],
-  [
-   25.766438,
-   -80.195158,
    0
   ],
   [
@@ -1950,28 +1709,8 @@
    0
   ],
   [
-   25.751123,
-   -80.25896,
-   0
-  ],
-  [
-   25.799013,
-   -80.189319,
-   0
-  ],
-  [
    25.774401,
    -80.189072,
-   0
-  ],
-  [
-   25.771773,
-   -80.264932,
-   0
-  ],
-  [
-   25.766077,
-   -80.194074,
    0
   ],
   [
@@ -1995,18 +1734,8 @@
    0
   ],
   [
-   25.799955,
-   -80.200028,
-   0
-  ],
-  [
    25.692953,
    -80.305301,
-   0
-  ],
-  [
-   25.779166,
-   -80.186514,
    0
   ],
   [
@@ -2045,16 +1774,6 @@
    1
   ],
   [
-   25.749494,
-   -80.256453,
-   0
-  ],
-  [
-   25.786474,
-   -80.140799,
-   0
-  ],
-  [
    25.786953,
    -80.200027,
    0
@@ -2070,38 +1789,13 @@
    1
   ],
   [
-   25.786527,
-   -80.14093,
-   0
-  ],
-  [
    25.784867,
    -80.13223,
    0
   ],
   [
-   25.767872,
-   -80.214368,
-   0
-  ],
-  [
-   25.774237,
-   -80.134545,
-   0
-  ],
-  [
    25.727759,
    -80.245062,
-   0
-  ],
-  [
-   25.790048,
-   -80.141011,
-   0
-  ],
-  [
-   25.790579,
-   -80.141786,
    0
   ],
   [
@@ -2115,11 +1809,6 @@
    0
   ],
   [
-   25.751374,
-   -80.303951,
-   0
-  ],
-  [
    25.771629,
    -80.230739,
    0
@@ -2127,11 +1816,6 @@
   [
    25.76582,
    -80.216714,
-   0
-  ],
-  [
-   25.779546,
-   -80.186532,
    0
   ],
   [
@@ -2160,28 +1844,13 @@
    0
   ],
   [
-   25.726941,
-   -80.243781,
-   0
-  ],
-  [
    25.777316,
    -80.185102,
    0
   ],
   [
-   25.786616,
-   -80.140934,
-   0
-  ],
-  [
    25.765772,
    -80.223205,
-   0
-  ],
-  [
-   25.793011,
-   -80.140993,
    0
   ],
   [
@@ -2197,11 +1866,6 @@
   [
    25.776859,
    -80.193833,
-   0
-  ],
-  [
-   25.799604,
-   -80.199237,
    0
   ],
   [
@@ -2232,11 +1896,6 @@
   [
    25.704491,
    -80.287503,
-   0
-  ],
-  [
-   25.777287,
-   -80.18522,
    0
   ],
   [
@@ -2295,11 +1954,6 @@
    0
   ],
   [
-   25.791314,
-   -80.14106,
-   0
-  ],
-  [
    25.792511,
    -80.141447,
    0
@@ -2310,18 +1964,8 @@
    0
   ],
   [
-   25.790707,
-   -80.136791,
-   0
-  ],
-  [
    25.72876,
    -80.241022,
-   0
-  ],
-  [
-   25.790668,
-   -80.138016,
    0
   ],
   [
@@ -2350,11 +1994,6 @@
    0
   ],
   [
-   25.801496,
-   -80.201803,
-   0
-  ],
-  [
    25.710368,
    -80.283193,
    0
@@ -2362,11 +2001,6 @@
   [
    25.766082,
    -80.193681,
-   0
-  ],
-  [
-   25.793293,
-   -80.190595,
    0
   ],
   [
@@ -2380,21 +2014,6 @@
    0
   ],
   [
-   25.749877,
-   -80.25688,
-   0
-  ],
-  [
-   25.751798,
-   -80.260296,
-   0
-  ],
-  [
-   25.777938,
-   -80.133611,
-   0
-  ],
-  [
    25.662983,
    -80.324539,
    0
@@ -2405,33 +2024,13 @@
    0
   ],
   [
-   25.801848,
-   -80.198715,
-   0
-  ],
-  [
    25.791711,
    -80.139174,
    0
   ],
   [
-   25.801175,
-   -80.198977,
-   0
-  ],
-  [
    25.702825,
    -80.285616,
-   0
-  ],
-  [
-   25.764364,
-   -80.272699,
-   0
-  ],
-  [
-   25.7907,
-   -80.137312,
    0
   ],
   [
@@ -2465,16 +2064,6 @@
    0
   ],
   [
-   25.790681,
-   -80.138302,
-   0
-  ],
-  [
-   25.803729,
-   -80.196358,
-   0
-  ],
-  [
    25.797144,
    -80.279237,
    0
@@ -2505,11 +2094,6 @@
    0
   ],
   [
-   25.774348,
-   -80.190959,
-   0
-  ],
-  [
    25.788447,
    -80.189843,
    0
@@ -2517,11 +2101,6 @@
   [
    25.772827,
    -80.190099,
-   0
-  ],
-  [
-   25.790414,
-   -80.135557,
    0
   ],
   [
@@ -2545,11 +2124,6 @@
    0
   ],
   [
-   25.786803,
-   -80.134746,
-   0
-  ],
-  [
    25.764078,
    -80.191642,
    0
@@ -2562,11 +2136,6 @@
   [
    25.786799,
    -80.131933,
-   0
-  ],
-  [
-   25.765956,
-   -80.198849,
    0
   ],
   [
@@ -2605,33 +2174,13 @@
    0
   ],
   [
-   25.764327,
-   -80.261382,
-   0
-  ],
-  [
    25.774214,
    -80.135238,
    0
   ],
   [
-   25.712666,
-   -80.278711,
-   0
-  ],
-  [
    25.790444,
    -80.134749,
-   0
-  ],
-  [
-   25.786952,
-   -80.134052,
-   0
-  ],
-  [
-   25.7511,
-   -80.258403,
    0
   ],
   [
@@ -2642,11 +2191,6 @@
   [
    25.765346,
    -80.1931,
-   0
-  ],
-  [
-   25.749716,
-   -80.264298,
    0
   ],
   [
@@ -2662,21 +2206,6 @@
   [
    25.787266,
    -80.131919,
-   0
-  ],
-  [
-   25.689965,
-   -80.164626,
-   0
-  ],
-  [
-   25.727646,
-   -80.241296,
-   0
-  ],
-  [
-   25.794653,
-   -80.144252,
    0
   ],
   [
@@ -2710,11 +2239,6 @@
    0
   ],
   [
-   25.726892,
-   -80.240578,
-   0
-  ],
-  [
    25.720889,
    -80.27876,
    0
@@ -2732,11 +2256,6 @@
   [
    25.691056,
    -80.313893,
-   0
-  ],
-  [
-   25.761207,
-   -80.20026,
    0
   ],
   [
@@ -2770,18 +2289,8 @@
    0
   ],
   [
-   25.697987,
-   -80.163993,
-   0
-  ],
-  [
    25.77336,
    -80.189152,
-   0
-  ],
-  [
-   25.789209,
-   -80.141432,
    0
   ],
   [
@@ -2840,23 +2349,8 @@
    0
   ],
   [
-   25.727575,
-   -80.242646,
-   0
-  ],
-  [
    25.77575,
    -80.188532,
-   0
-  ],
-  [
-   25.790641,
-   -80.14215,
-   0
-  ],
-  [
-   25.750351,
-   -80.231166,
    0
   ],
   [
@@ -2890,11 +2384,6 @@
    0
   ],
   [
-   25.790334,
-   -80.139192,
-   0
-  ],
-  [
    25.766607,
    -80.192762,
    0
@@ -2907,11 +2396,6 @@
   [
    25.679279,
    -80.318598,
-   0
-  ],
-  [
-   25.764441,
-   -80.251373,
    0
   ],
   [
@@ -2962,11 +2446,6 @@
   [
    25.735278,
    -80.25587,
-   0
-  ],
-  [
-   25.790753,
-   -80.134734,
    0
   ],
   [
@@ -3050,11 +2529,6 @@
    0
   ],
   [
-   25.793677,
-   -80.144266,
-   0
-  ],
-  [
    25.749676,
    -80.261301,
    1
@@ -3067,16 +2541,6 @@
   [
    25.711316,
    -80.283528,
-   0
-  ],
-  [
-   25.790328,
-   -80.13972,
-   0
-  ],
-  [
-   25.777731,
-   -80.186305,
    0
   ],
   [
@@ -3115,11 +2579,6 @@
    0
   ],
   [
-   25.802318,
-   -80.194237,
-   0
-  ],
-  [
    25.684887,
    -80.313291,
    0
@@ -3152,11 +2611,6 @@
   [
    25.804427,
    -80.204196,
-   0
-  ],
-  [
-   25.770419,
-   -80.135268,
    0
   ],
   [
@@ -3275,11 +2729,6 @@
    1
   ],
   [
-   25.790377,
-   -80.137139,
-   0
-  ],
-  [
    25.796888,
    -80.280343,
    0
@@ -3375,11 +2824,6 @@
    0
   ],
   [
-   25.793236,
-   -80.144207,
-   0
-  ],
-  [
    25.727553,
    -80.245022,
    0
@@ -3390,16 +2834,6 @@
    0
   ],
   [
-   25.788576,
-   -80.141345,
-   0
-  ],
-  [
-   25.793456,
-   -80.142683,
-   0
-  ],
-  [
    25.795461,
    -80.14157,
    0
@@ -3407,11 +2841,6 @@
   [
    25.725015,
    -80.245268,
-   0
-  ],
-  [
-   25.793421,
-   -80.142804,
    0
   ],
   [
@@ -3440,11 +2869,6 @@
    0
   ],
   [
-   25.665589,
-   -80.323397,
-   0
-  ],
-  [
    25.766536,
    -80.198624,
    0
@@ -3467,16 +2891,6 @@
   [
    25.732851,
    -80.309398,
-   0
-  ],
-  [
-   25.707677,
-   -80.284779,
-   0
-  ],
-  [
-   25.795562,
-   -80.130217,
    0
   ],
   [
@@ -3507,11 +2921,6 @@
   [
    25.791456,
    -80.137855,
-   0
-  ],
-  [
-   25.779397,
-   -80.141098,
    0
   ],
   [
@@ -3555,23 +2964,8 @@
    0
   ],
   [
-   25.733747,
-   -80.288444,
-   0
-  ],
-  [
    25.679307,
    -80.318583,
-   0
-  ],
-  [
-   25.790587,
-   -80.138318,
-   0
-  ],
-  [
-   25.787347,
-   -80.18937,
    0
   ],
   [
@@ -3580,18 +2974,8 @@
    0
   ],
   [
-   25.786306,
-   -80.13164,
-   0
-  ],
-  [
    25.790442,
    -80.134455,
-   0
-  ],
-  [
-   25.728286,
-   -80.242398,
    0
   ],
   [
@@ -3665,16 +3049,6 @@
    0
   ],
   [
-   25.7795,
-   -80.186734,
-   0
-  ],
-  [
-   25.774191,
-   -80.189061,
-   0
-  ],
-  [
    25.766431,
    -80.189886,
    0
@@ -3740,11 +3114,6 @@
    0
   ],
   [
-   25.799035,
-   -80.129145,
-   0
-  ],
-  [
    25.793639,
    -80.277738,
    0
@@ -3755,38 +3124,8 @@
    0
   ],
   [
-   25.695587,
-   -80.300881,
-   0
-  ],
-  [
-   25.799596,
-   -80.195854,
-   0
-  ],
-  [
    25.795096,
    -80.194286,
-   0
-  ],
-  [
-   25.77284,
-   -80.191796,
-   0
-  ],
-  [
-   25.801613,
-   -80.202592,
-   0
-  ],
-  [
-   25.801539,
-   -80.198995,
-   0
-  ],
-  [
-   25.801309,
-   -80.199321,
    0
   ],
   [
@@ -3815,18 +3154,8 @@
    0
   ],
   [
-   25.791583,
-   -80.139678,
-   0
-  ],
-  [
    25.765599,
    -80.217668,
-   0
-  ],
-  [
-   25.790785,
-   -80.13322,
    0
   ],
   [

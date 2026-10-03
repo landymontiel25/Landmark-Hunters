@@ -3,7 +3,7 @@
  "count": 27,
  "commonsPhotos": 3,
  "commonsPhotoPct": 11.1,
- "withFacts": 16,
+ "withFacts": 19,
  "withHours": 6,
  "photoSkips": [],
  "sample": [
@@ -39,6 +39,7 @@
    "lng": -80.199239,
    "photo": false,
    "facts": [
+    "New media exhibition and project space in the Mitrani Warehouse, directed by Rhonda Mitrani.",
     "Address: 2626 Northwest 2nd Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4205228308"
@@ -51,8 +52,9 @@
    "lng": -80.202758,
    "photo": false,
    "facts": [
-    "About 12 m (39 ft) tall",
-    "Address: 480 Northwest 11th Street, Miami"
+    "Built in 1950 because segregation barred Miami's Black officers from the main police station.",
+    "Designed by Miami architect Walter G. DeGarmo.",
+    "Miami hired its first five Black police officers in 1944."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/435748157"
   },
@@ -64,6 +66,7 @@
    "lng": -80.279166,
    "photo": false,
    "facts": [
+    "Part of the Perez Architecture Center, named for donor Thomas F. Daly.",
     "Run by University of Miami",
     "Address: 1215 Dickenson Drive, Coral Gables"
    ],
@@ -77,6 +80,7 @@
    "lng": -80.279064,
    "photo": false,
    "facts": [
+    "Funded by a gift from Marjorie Korach in memory of her husband, architect Irvin Korach.",
     "Run by University of Miami",
     "Address: 1215 Dickenson Drive, Coral Gables"
    ],
@@ -100,6 +104,7 @@
    "lng": -80.13397,
    "photo": false,
    "facts": [
+    "Interactive attraction with over 40 3D illusions inspired by movies, cartoons, art and current events.",
     "Address: 536 Lincoln Road, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1180991368"
@@ -111,7 +116,10 @@
    "lat": 25.774465,
    "lng": -80.19642,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "The complex at 101 West Flagler Street was designed by architect Philip Johnson.",
+    "Its raised plaza is framed by the Miami-Dade Public Library and HistoryMiami."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/367819296"
   },
   {
@@ -144,6 +152,7 @@
    "lng": -80.198875,
    "photo": false,
    "facts": [
+    "Contemporary fine art gallery co-founded by Lina Cerrone and filmmaker Fredric Lean.",
     "Accepts Bitcoin",
     "Address: 2239 Northwest 2nd Avenue, Miami"
    ],
@@ -156,7 +165,11 @@
    "lat": 25.795928,
    "lng": -80.135482,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The City of Miami Beach created the Garden Center here in 1962, now the Miami Beach Botanical Garden.",
+    "Four Miami Beach garden clubs used it for meetings, horticultural education and a glass conservatory.",
+    "Local residents formed the Miami Beach Garden Conservancy in 1996 to create a botanical garden."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/367819407"
   },
   {
@@ -167,6 +180,7 @@
    "lng": -80.199232,
    "photo": false,
    "facts": [
+    "Contemporary art gallery and event venue in the Wynwood Arts District that showcases local artists.",
     "Address: 2612 Northwest 2nd Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4249047169"
@@ -179,6 +193,8 @@
    "lng": -80.19512,
    "photo": false,
    "facts": [
+    "Opened in 2010 as a partnership of Paris gallerist Olivier Waltman and Miami gallerist Aliona Ortega.",
+    "A contemporary art gallery that opened in the Wynwood Art District.",
     "Address: 2300 North Miami Avenue, Unit B, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6091344318"
@@ -200,7 +216,10 @@
    "lat": 25.790788,
    "lng": -80.135759,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Fine art photography gallery showing the work of photographer Peter Lik on Lincoln Road.",
+    "Displays limited-edition landscape and cityscape prints, including backlit images."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6359624487"
   },
   {
@@ -211,8 +230,9 @@
    "lng": -80.199236,
    "photo": false,
    "facts": [
-    "Run by Dina Mitrani",
-    "Address: 2620 Northwest 2nd Avenue, Miami"
+    "Specializes in contemporary and classic photography by emerging and established photographers.",
+    "Housed in the Mitrani family complex, tied to their former women's wholesale apparel business in Wynwood.",
+    "Run by Dina Mitrani"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4209523097"
   },
@@ -224,7 +244,9 @@
    "lng": -80.138261,
    "photo": false,
    "facts": [
-    "Address: 924 Lincoln Road"
+    "Founded in 1984 by potter Ellie Schneiderman to give visual artists affordable workspace.",
+    "Originally ArtCenter/South Florida, it opened in 21 storefronts on a then dilapidated Lincoln Road.",
+    "Renamed for oolite, the local sedimentary rock made of shells, coral and other organic material."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/903620843"
   },
@@ -256,6 +278,8 @@
    "lng": -80.194626,
    "photo": false,
    "facts": [
+    "Held its grand opening on December 15, 2022.",
+    "Has over 70 paradox-based interactive exhibits; Miami was the first US city with a Paradox Museum.",
     "Address: 2301 North Miami Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6091331640"
@@ -282,6 +306,8 @@
    "lng": -80.19926,
    "photo": false,
    "facts": [
+    "Contemporary art gallery in the Wynwood area, founded in 2002.",
+    "Presents both established and emerging artists, including commissioned and site-specific works.",
     "Address: 2630 Northwest 2nd Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4224000190"

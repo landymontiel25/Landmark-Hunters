@@ -15,6 +15,7 @@
    "lng": -80.139615,
    "photo": false,
    "facts": [
+    "Field and track were renovated in 2013 with artificial turf and an eight-lane running track",
     "Grass surface"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/441800741"
@@ -27,9 +28,9 @@
    "lng": -80.282434,
    "photo": false,
    "facts": [
-    "Home of Miami Hurricanes women's soccer",
-    "Run by Miami Hurricanes",
-    "Run by University of Miami"
+    "Ground was broken on April 21, 1998",
+    "Named for Ambassador and Mrs. Charles E. Cobb",
+    "Soccer field sits inside an eight-lane rubber track"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1303862465"
   }

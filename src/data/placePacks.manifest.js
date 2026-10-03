@@ -7,20 +7,20 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "airports",
-    "file": "places/miami/airports.aafabbab81.json",
+    "file": "places/miami/airports.bd1d7184d4.json",
     "count": 2
   },
   {
     "region": "miami",
     "category": "art-museums",
-    "file": "places/miami/art-museums.eff74a8c8c.json",
+    "file": "places/miami/art-museums.717a2caa6a.json",
     "count": 27
   },
   {
     "region": "miami",
     "category": "entertainment",
-    "file": "places/miami/entertainment.30c43eac85.json",
-    "count": 27
+    "file": "places/miami/entertainment.0a13a28700.json",
+    "count": 24
   },
   {
     "region": "miami",
@@ -31,31 +31,31 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "local-life",
-    "file": "places/miami/local-life.ff05bf8f94.json",
-    "count": 124
+    "file": "places/miami/local-life.33bb0fb005.json",
+    "count": 108
   },
   {
     "region": "miami",
     "category": "parks-nature",
-    "file": "places/miami/parks-nature.f332093f69.json",
+    "file": "places/miami/parks-nature.d1b135cb00.json",
     "count": 160
   },
   {
     "region": "miami",
     "category": "sports",
-    "file": "places/miami/sports.b57a3aed92.json",
+    "file": "places/miami/sports.5b2e7284f1.json",
     "count": 6
   },
   {
     "region": "miami",
     "category": "stadiums",
-    "file": "places/miami/stadiums.08a8be382c.json",
+    "file": "places/miami/stadiums.2a2dd3e271.json",
     "count": 2
   },
   {
     "region": "miami",
     "category": "food",
-    "file": "places/miami/food.962d4d67d6.json",
-    "count": 687
+    "file": "places/miami/food.6c0f72824d.json",
+    "count": 550
   }
 ];

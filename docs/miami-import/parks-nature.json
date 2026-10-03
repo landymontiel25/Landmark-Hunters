@@ -3,7 +3,7 @@
  "count": 160,
  "commonsPhotos": 9,
  "commonsPhotoPct": 5.6,
- "withFacts": 70,
+ "withFacts": 121,
  "withHours": 11,
  "photoSkips": [
   {
@@ -65,7 +65,9 @@
    "lat": 25.713331,
    "lng": -80.303495,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Palmer Park is a City of South Miami park facility."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/236948940"
   },
   {
@@ -76,9 +78,9 @@
    "lng": -80.298408,
    "photo": false,
    "facts": [
-    "Opened in 2024",
-    "Run by Miami",
-    "Run by City of Miami"
+    "Features shaded playground areas, public art and an enclosed dog run.",
+    "Phase II added outdoor exercise equipment, walkways and lighting.",
+    "Opened in 2024"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1531679816"
   },
@@ -90,7 +92,9 @@
    "lng": -80.284452,
    "photo": false,
    "facts": [
-    "Address: 4650 Alhambra Circle, Coral Gables"
+    "Honors Betsy Adams and the Coral Gables Garden Club, who turned the lot into a flowering park.",
+    "Occupies a triangular plot of city land in front of the Venetian Pool.",
+    "The park was dedicated in 2018."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/561127145"
   },
@@ -112,9 +116,9 @@
    "lng": -80.294079,
    "photo": false,
    "facts": [
-    "Run by Miami",
-    "Run by City of Miami",
-    "Address: 6030 Southwest 2nd Street, Miami"
+    "The park was renamed to honor the late Miami Commissioner Manolo Reyes.",
+    "The City of Miami unveiled the renovated park in June 2025.",
+    "Run by Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/806235765"
   },
@@ -126,8 +130,9 @@
    "lng": -80.196733,
    "photo": false,
    "facts": [
-    "Run by City of Miami",
-    "Address: 1814 Brickell Avenue, Miami"
+    "Also known as Tibor and Sheila Hollo Park, rededicated in the Hollos' honor in 2023.",
+    "Designed by Enea Garden Design as a pocket park, completed in 2012.",
+    "Has an elevated lawn lined by an allee of magnolia trees."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/808920657"
   },
@@ -149,7 +154,9 @@
    "lng": -80.264608,
    "photo": false,
    "facts": [
-    "Address: 405 University Drive, Coral Gables"
+    "The facility is officially named the War Memorial Youth Center.",
+    "The 58,000 square foot center has a 13,244 square foot gymnasium and a fitness center.",
+    "Outdoor features include lighted basketball courts and a roller hockey rink."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/470378974"
   },
@@ -160,7 +167,11 @@
    "lat": 25.750002,
    "lng": -80.161476,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Established in 1990 and expanded in 1993 as a bird, seagrass and manatee sanctuary.",
+    "Managed by the Florida Fish and Wildlife Conservation Commission.",
+    "A manatee protection zone closed year-round to all vessels."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/650795993"
   },
   {
@@ -170,7 +181,10 @@
    "lat": 25.738475,
    "lng": -80.286916,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Its Mediterranean Revival towers were built in 1925 as the entrance to the planned community of Central Miami.",
+    "The entrance was added to the National Register of Historic Places in 1989."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/547367401"
   },
   {
@@ -180,7 +194,11 @@
    "lat": 25.748468,
    "lng": -80.204716,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "A 28-acre waterfront park and nature preserve on Biscayne Bay.",
+    "Named for Alice C. Wainwright, the first woman elected to the City of Miami Commission.",
+    "Built as part of the 1972 Parks for People Bond."
+   ],
    "osmUrl": "https://www.openstreetmap.org/relation/19672044"
   },
   {
@@ -204,9 +222,9 @@
    "lng": -80.28646,
    "photo": false,
    "facts": [
+    "A monument honoring Bay of Pigs veterans was unveiled here alongside park improvements.",
     "Opened in 2023",
-    "Run by Miami",
-    "Run by City of Miami"
+    "Run by Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/805822608"
   },
@@ -217,7 +235,9 @@
    "lat": 25.69163,
    "lng": -80.155906,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The park is named for County Commission Chairman Charles H. Crandon."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/314873704"
   },
   {
@@ -237,7 +257,9 @@
    "lat": 25.708071,
    "lng": -80.152787,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The park is named for County Commission Chairman Charles H. Crandon."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/300186528"
   },
   {
@@ -248,9 +270,9 @@
    "lng": -80.138595,
    "photo": false,
    "facts": [
-    "Run by City of Miami Beach Government",
-    "Wheelchair accessible",
-    "Address: 999 11th Street, Miami Beach"
+    "Includes tennis courts, a swimming pool and handball courts.",
+    "Its ballfield, Flamingo Field, hosted New York Giants spring training in 1934 and 1935.",
+    "Run by City of Miami Beach Government"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/76684242"
   },
@@ -261,7 +283,9 @@
    "lat": 25.727112,
    "lng": -80.238629,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The park's full name is Kenneth M. Myers Bayside Park."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/463514508"
   },
   {
@@ -295,6 +319,7 @@
    "lng": -80.267858,
    "photo": false,
    "facts": [
+    "Miami-Dade Parks broke ground on neighborhood park improvements here in December 2025.",
     "Address: 4430 Southwest 15th Terrace, Coral Gables"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/461405867"
@@ -307,6 +332,8 @@
    "lng": -80.152875,
    "photo": false,
    "facts": [
+    "The park has over 10 miles of mountain biking trails.",
+    "Amenities include BBQ areas, picnic tables, volleyball, walking trails and waterfront access.",
     "Address: 3515-3801 Rickenbacker Causeway, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/650168265"
@@ -319,6 +346,7 @@
    "lng": -80.242212,
    "photo": false,
    "facts": [
+    "Has a fenced dog park, a playground and picnic tables.",
     "Address: 3045 Shipping Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/522268809"
@@ -331,6 +359,8 @@
    "lng": -80.317915,
    "photo": false,
    "facts": [
+    "A three-acre sports park with lighted synthetic fields for soccer and lacrosse.",
+    "Also has a shaded tot lot and restrooms.",
     "Address: 7551 Southwest 104th Street, Pinecrest"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/376900985"
@@ -342,7 +372,9 @@
    "lat": 25.698157,
    "lng": -80.246717,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Tahiti Beach lies within the Cocoplum community of Coral Gables."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/358707549"
   }
  ],
