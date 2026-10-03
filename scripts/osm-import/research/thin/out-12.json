@@ -1,0 +1,397 @@
+[
+ {
+  "id": "osm-n358709946",
+  "name": "Brickell Plaza Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed by the City of Miami as a mini park at Brickell Plaza and SE 10th Street.",
+    "url": "https://archive.miamigov.com/parks/specialized.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358709892",
+  "name": "Broward Circle Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed by the City of Miami as a mini park at NW 8th Avenue and 15th Street.",
+    "url": "https://archive.miamigov.com/parks/specialized.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w424780035",
+  "name": "Buoy Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Long, narrow park on Star Island, bordered on all sides by Star Island Drive.",
+    "url": "https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/buoy-park/"
+   },
+   {
+    "text": "Has a walking route of about 0.7 miles.",
+    "url": "https://www.mypacer.com/routes/389052/buoy-park-walking-and-running-miami-beach-florida"
+   }
+  ]
+ },
+ {
+  "id": "osm-w470378976",
+  "name": "Butterfly Garden",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w548191548",
+  "name": "Fuchs Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Has a playground, a pavilion and a pro beach volleyball court.",
+    "url": "https://www.southmiamifl.gov/Facilities/Facility/Details/Fuchs-Park-5"
+   },
+   {
+    "text": "Has a rentable pavilion with three picnic tables and a grill.",
+    "url": "https://www.southmiamifl.gov/Facilities/Facility/Details/Fuchs-Park-5"
+   }
+  ]
+ },
+ {
+  "id": "osm-w466294472",
+  "name": "Gerry Curtis Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Has baseball, basketball, football and tennis facilities plus a racquetball court.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Gerry-Curtis-Park"
+   },
+   {
+    "text": "Has a stadium, a swimming pool, a playground and a recreation center.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Gerry-Curtis-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w619930770",
+  "name": "Granada Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358696733",
+  "name": "Grand Avenue Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358730397",
+  "name": "Grapeland Heights Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has baseball fields, a playground and a recreation center.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Grapeland-Heights-Park"
+   },
+   {
+    "text": "Has four baseball fields, two turf and two grass.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Grapeland-Heights-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w522222003",
+  "name": "Grove Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has a playground, a shelter and picnic tables with BBQ facilities.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Grove-Mini-Park"
+   },
+   {
+    "text": "Dogs are allowed on leash and the shelter can be reserved.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Grove-Mini-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1160185080",
+  "name": "Hampton Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Land was saved by the Henderson family, and a column urged naming the park for them.",
+    "url": "https://www.islandernews.com/blogs/name-401-hampton-park-after-henderson-family-that-saved-the-land-for-posterity-to-enjoy/article_d7f66a00-27c8-11e9-9b9c-83502f4acfcd.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w647825581",
+  "name": "Henderson Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Has basketball and tennis courts, a soccer field and a playground.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Henderson-Park"
+   },
+   {
+    "text": "Has a shelter with BBQ facilities and offers free fitness classes.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Henderson-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358709895",
+  "name": "Highland Circle Mini Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w808935349",
+  "name": "Hobie Island Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "North Hobie Island Beach reopened after being closed since 2017 for resilience and safety improvements.",
+    "url": "https://www.miamidade.gov/global/release.page?Mduid_release=rel1733427543831730"
+   },
+   {
+    "text": "Part of Hobie Beach was renamed Castaways Against Cancer Beach by Miami-Dade County.",
+    "url": "https://www.miamidade.gov/global/release.page?Mduid_release=rel1717862095955602"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358729861",
+  "name": "Humble Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358730099",
+  "name": "I T T - Snapper Creek Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w464463259",
+  "name": "Ichimura Miami Japanese Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founded by Kiyoshi Ichimura, founder of Ricoh in Japan, who sent carpenters and gardeners from Japan.",
+    "url": "https://friendsofjapanesegarden.com/history/"
+   },
+   {
+    "text": "The first garden was finished in 1961 and named San-Ai-En, meaning Three Loves Garden.",
+    "url": "https://friendsofjapanesegarden.com/history/"
+   },
+   {
+    "text": "Moved and reopened on Watson Island on April 29, 2004, under the name Ichimura-En.",
+    "url": "https://friendsofjapanesegarden.com/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w570391073",
+  "name": "Jade's Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w315979190",
+  "name": "José de Diego Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Also known as Robert E. Lee Park.",
+    "url": "https://aroundguides.com/20686088"
+   },
+   {
+    "text": "Named after José de Diego.",
+    "url": "https://aroundguides.com/20686088"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358709835",
+  "name": "Jose Marti Riverfront Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Has a playground, basketball and baseball courts and outdoor gym equipment.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Jose-Marti-Park"
+   },
+   {
+    "text": "Its adaptive redesign received WEDG waterfront design verification.",
+    "url": "https://miami.gov/files/assets/public/v/1/document-resources/pdf-docs/capital-improvements/2023.06.14-press-release-wedg-verification.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w143927801",
+  "name": "Kendall Wayside Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358729231",
+  "name": "Lincoln Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has a playground and a picnic shelter.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Lincoln-Park"
+   },
+   {
+    "text": "Has waterfront access, bike racks and picnic tables.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Lincoln-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w461404528",
+  "name": "Lisbon Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed by Coral Gables among its pet-friendly parks.",
+    "url": "https://www.coralgables.com/community-recreation/parks-open-spaces/our-parks/all-parks-open-spaces/pet-friendly-parks"
+   },
+   {
+    "text": "Micro park on a single lot with a walking path, a water feature and a drinking fountain.",
+    "url": "https://www.yelp.com/biz/lisbon-park-coral-gables-2"
+   }
+  ]
+ },
+ {
+  "id": "osm-w624805559",
+  "name": "Majorca Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed by Coral Gables among its pet-friendly parks.",
+    "url": "https://www.coralgables.com/community-recreation/parks-open-spaces/our-parks/all-parks-open-spaces/pet-friendly-parks"
+   },
+   {
+    "text": "Small park with a playground for young children and a large dog play area.",
+    "url": "https://www.atly.com/location/MajorcaPark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w189590701",
+  "name": "Margaret Pace Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Has a dog park, tennis courts, volleyball and basketball.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Margaret-Pace-Park"
+   },
+   {
+    "text": "Has outdoor gym equipment, walking trails, a playground and waterfront access.",
+    "url": "https://www.miami.gov/Parks-Public-Places/Parks-Directory/Margaret-Pace-Park"
+   }
+  ]
+ }
+]
