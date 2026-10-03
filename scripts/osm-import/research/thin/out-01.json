@@ -1,0 +1,401 @@
+[
+ {
+  "id": "osm-n4686160889",
+  "name": "Baires Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Argentine steakhouse that opened in 1999 and grills steaks and homemade empanadas.",
+    "url": "https://www.bairesgrill.com/brickell"
+   }
+  ]
+ },
+ {
+  "id": "osm-w648463778",
+  "name": "Bakan Wynwood",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in December 2018 as a large Wynwood restaurant focused on tequila and mezcal.",
+    "url": "https://www.theinfatuation.com/miami/reviews/bakan-wynwood"
+   },
+   {
+    "text": "Keeps a tequila and mezcal list of more than 500 choices.",
+    "url": "https://www.bakanwynwood.com/"
+   },
+   {
+    "text": "Seats up to 180 people in a space of almost 7,000 square feet.",
+    "url": "https://www.theinfatuation.com/miami/reviews/bakan-wynwood"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14031225188",
+  "name": "Batch Gastropub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 2012 and is known for brick oven pizzas and a list of rare whiskeys.",
+    "url": "https://www.opentable.com/r/batch-gastropub-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6073738986",
+  "name": "Bodega Taqueria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Sells street-style tacos and burritos from an Airstream, with a speakeasy lounge inside.",
+    "url": "https://www.bodegataqueria.com/location/southbeach/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6575655588",
+  "name": "Bottega Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Cafe in the Stephen P. Clark Government Center with Italian pasta, seafood, baked goods and coffee.",
+    "url": "https://www.atly.com/location/BottegaExpress"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12631824771",
+  "name": "Braga Portuguese Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu includes bacalhau, fried sardines, cod croquettes and grilled octopus.",
+    "url": "https://restaurantguru.com/Braga-Portuguese-Restaurant-Miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1813316250",
+  "name": "Bubba Gump Shrimp Company",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bubba-gump-shrimp-miami-3",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n6114217486",
+  "name": "Cafe Croissant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "French bakery cafe that bakes breads and desserts.",
+    "url": "https://www.facebook.com/frenchbakerycafe1684/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13767195648",
+  "name": "Cafe Versailles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Airport branch of Versailles, the Cuban restaurant founded by Felipe Valls Sr. in 1971.",
+    "url": "https://en.wikipedia.org/wiki/Versailles_(restaurant)"
+   },
+   {
+    "text": "Sells Cuban sandwiches, croquetas, empanadas and fresh pastries.",
+    "url": "https://miamiairport-mia.com/blog/cafe-versailles-miami-airport/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5903100412",
+  "name": "Cafe Versailles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Branch of Versailles, the Cuban restaurant founded by Felipe Valls Sr. in 1971.",
+    "url": "https://en.wikipedia.org/wiki/Versailles_(restaurant)"
+   },
+   {
+    "text": "Bakes Cuban sandwiches, sweet cakes and assorted baked goods.",
+    "url": "https://www.yelp.com/biz/caf%C3%A9-versailles-miami-4"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5903100436",
+  "name": "Cafe Versailles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Branch of Versailles, the Cuban restaurant founded by Felipe Valls Sr. in 1971.",
+    "url": "https://en.wikipedia.org/wiki/Versailles_(restaurant)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w118004049",
+  "name": "Cafeteria",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n6037322170",
+  "name": "cantinetta",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu spans Italian, European and Mediterranean dishes, including specialty pizzas.",
+    "url": "https://www.foodiestrip.com/en/restaurant/cantinetta-lincoln-rd-miami-beach-fl-usa-0"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6020065937",
+  "name": "Canton Rose Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-owned restaurant making American Chinese dishes in the Winn-Dixie shopping center.",
+    "url": "https://canton-rose.goto-restaurants.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13527511701",
+  "name": "Capital One Caf\u00e9 at Miami Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Capital One bank branch with a cafe and ATM on Lincoln Road.",
+    "url": "https://www.capitalone.com/local/southflorida-miamibeach/"
+   },
+   {
+    "text": "Offers meeting rooms that can be booked through LiquidSpace.",
+    "url": "https://liquidspace.com/us/fl/miami-beach/capital-one-cafe-miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12532491034",
+  "name": "Carrot Express",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n6073264223",
+  "name": "Carrot Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Chain founded by Mario Laufer in 1993 inside a Miami Beach gas station.",
+    "url": "https://carrotexpress.com/about-us/"
+   },
+   {
+    "text": "Menu has power bowls, salads, burgers, smoothies and a breakfast menu with acai.",
+    "url": "https://carrotexpress.com/locations/coral-gables-breakfast/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8501929075",
+  "name": "Carvel",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6059013230",
+  "name": "Casa Juan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Latin American and Cuban restaurant that also offers catering.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g34438-d2709042-Reviews-Casa_Juan_Restaurant-Miami_Florida.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435519440",
+  "name": "Casola's Pizzeria & Sub Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 1982 after Boston rivals Agustin Jose II and Ramon Casola joined forces in Miami.",
+    "url": "https://www.casolas.com/casolas-pizzeria-miami-fl.html"
+   },
+   {
+    "text": "Makes giant pizzas, subs, croissant sandwiches, steak phillys and jumbo wings.",
+    "url": "https://www.casolas.com/casolas-pizzeria-miami-fl.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6025987565",
+  "name": "Cecile",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-owned bakery and cafe opened by French pastry chef Franck Monnier.",
+    "url": "https://www.theinfatuation.com/miami/reviews/cecile-bakery"
+   },
+   {
+    "text": "Named after the owners' daughter.",
+    "url": "https://www.theinfatuation.com/miami/reviews/cecile-bakery"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6059013229",
+  "name": "Chicken Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Blue Lagoon location of the Chicken Kitchen chain.",
+    "url": "https://theburnmiami.com/2025/08/chicken-kitchen-closes-longtime-gables-location/"
+   },
+   {
+    "text": "Menu includes Wrapito burritos, quesadillas and Chop-Chop bowls.",
+    "url": "https://www.atly.com/location/ChickenKitchen26"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6446809494",
+  "name": "Chicken Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Chain known for its chicken chop chop bowls with yellow rice and pita bread.",
+    "url": "https://chickenkitchen.com/locations/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5924568809",
+  "name": "Chill-N",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Founded in 2012, mixing each order in front of the customer with liquid nitrogen.",
+    "url": "https://www.chillnicecream.com/locations"
+   },
+   {
+    "text": "Also makes coconut milk ice cream and two types of frozen yogurt, one fat free.",
+    "url": "https://www.findmeglutenfree.com/biz/chill-n-nitrogen-ice-cream/4940254316462080"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8691773632",
+  "name": "China Lee",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-owned Cantonese restaurant with roots in China, Venezuela and Miami.",
+    "url": "https://www.chinaleemiami.com/about-us"
+   },
+   {
+    "text": "Has served Chinese food in Miami for over 30 years.",
+    "url": "https://www.chinaleemiami.com/about-us"
+   }
+  ]
+ }
+]

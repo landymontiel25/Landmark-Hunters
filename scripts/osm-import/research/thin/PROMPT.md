@@ -23,8 +23,19 @@ villanova region: Villanova, Rosemont, Bryn Mawr, Wayne, Radnor).
   4. parks: name + city + "parks" (city parks department); others: name +
      town with allowed_domains set to one domain (the place's own website, or
      a news site whose result title is about this place).
+- Attribution: when a search returns a summary plus several links and you
+  cannot tell which link states a fact, run the next search with
+  allowed_domains set to that one domain (the place's own site first). A
+  fact counts only when that domain-limited result states it. Budget: the
+  session has a shared search cap, so average about 3 searches per place.
+- Chains (IHOP, Denny's, Starbucks, Fogo de Chao...): facts about this branch
+  (when it opened, which mall, food hall or terminal it is in) or, failing
+  that, one or two facts about the chain itself from the chain's own site
+  (founded where and when, what it is known for), worded as "Part of X,
+  founded in ...".
 - Confirm it is this place: same name AND same street, neighborhood, town or
-  park. A same-name place elsewhere does not count.
+  park. A same-name place elsewhere does not count. Places without an
+  address: a same-name place within about 600 m in the same neighborhood counts.
 - Each fact: one plain sentence, at most 120 characters, with the URL of the
   result that states it. Source rule: keep a fact only when one link's title
   or snippet states it, the summary cites that link, or exactly one returned
@@ -45,7 +56,14 @@ villanova region: Villanova, Rosemont, Bryn Mawr, Wayne, Radnor).
 - A result says it closed for good (permanently closed, shut down, replaced
   by another business): closed: true, closedSource: that URL, no facts.
 - After 4 searches nothing confirms this place exists: matched: false,
-  notFound: true, no facts.
+  notFound: true, no facts. notFound needs all 4 searches used (searches: 4);
+  fewer is not allowed. A matched place with fewer than 2 facts also keeps
+  searching until 4 searches are used.
+- The closedSource page must name this place at this address (a page for a
+  different business at the same address is fine only when its title or
+  snippet says it replaced this place).
+- No fact may rest on "the most obvious page". If no single link states it,
+  leave it out.
 
 ## Output
 

@@ -1,0 +1,334 @@
+[
+ {
+  "id": "osm-n5770386029",
+  "name": "Anthony Liggins Gallery 88",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Gallery of Miami artist Anthony Liggins, who paints mainly in acrylic.",
+    "url": "https://anthonyliggins.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n367819285",
+  "name": "Ara Gallery Cultural Center",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n4110041150",
+  "name": "Belairfineart",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Miami branch is the first U.S. opening of a contemporary art gallery group founded in 2004.",
+    "url": "https://www.belairfineart.com/en/galleries/miami-beach"
+   },
+   {
+    "text": "Shows pop art by Mr Brainwash, Alec Monopoly and Banksy, among others.",
+    "url": "https://www.belairfineart.com/en/galleries/miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n367819312",
+  "name": "Coral Gables International Art Center",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/coral-gables-international-art-center-inc-coral-gables",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n367827368",
+  "name": "Cuban Museum",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.tripadvisor.com/Attraction_Review-g34152-d8035973-Reviews-Cuban_Museum_Inc-Coral_Gables_Florida.html",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n367827528",
+  "name": "Latin American Art Museum",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n367819294",
+  "name": "Latin Quarter Cultural Center of Miami",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "facts": []
+ },
+ {
+  "id": "osm-n367819328",
+  "name": "Miami Art Center",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "facts": []
+ },
+ {
+  "id": "osm-n367827603",
+  "name": "Museum of the Americas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Nonprofit contemporary art museum organization founded in Miami in 1991.",
+    "url": "https://www.miamiartguide.com/museum-of-the-americas/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13610476795",
+  "name": "Vossen",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "facts": []
+ },
+ {
+  "id": "osm-n4587214222",
+  "name": "La Casa Del Teatro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Operates as a theater production company.",
+    "url": "https://local.yahoo.com/info-217003615-la-casa-del-teatro-productions-miami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4770384121",
+  "name": "Miami seaplane tour",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Offers narrated aerial tours of Miami and the beaches, plus seaplane charters to the Keys and Bahamas.",
+    "url": "https://www.miami.gov/Government/Buy-Miami/Buy-Miami-Discount-Listings/Miami-Seaplane-Tours-Inc"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11972505214",
+  "name": "Splash",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n1670843023",
+  "name": "3 Chefs Chinese & Vietnamese Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu covers Chinese, Thai and Vietnamese dishes, including pho and noodles.",
+    "url": "https://3chefschinesevietnamese.eat24hour.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6440668419",
+  "name": "305 Peruvian Modern Cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Cooks modern Peruvian dishes such as ceviche and lomo saltado, alongside sushi rolls.",
+    "url": "https://www.doordash.com/store/305-peruvian-modern-cuisine-miami-30679626/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435375489",
+  "name": "Alloy Bistro Gourmet",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/alloy-bistro-gourmet-miami-4?start=160",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-w317881244",
+  "name": "ALMA",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Contemporary American restaurant led by Chef Coton Stine.",
+    "url": "https://www.miamiandbeaches.com/l/eat-and-drink/alma-wynwood/63684"
+   },
+   {
+    "text": "Small plates include cashew pate and gochujang shrimp; larger plates include braised short rib and lamb chops.",
+    "url": "https://www.theinfatuation.com/miami/reviews/alma-wynwood"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8372106524",
+  "name": "American",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n6110274385",
+  "name": "American Social",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Patio overlooks the Miami River and passing boats.",
+    "url": "https://americansocialbar.com/locations/miami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11753966392",
+  "name": "Anthony's Coal Fired Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Cooks its pizza in coal-fired ovens.",
+    "url": "https://acfp.com/locations/pinecrest/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7527993810",
+  "name": "Antigua Guatemala",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu includes pupusas, gallo pinto and carne asada.",
+    "url": "https://www.doordash.com/store/antigua-guatemala-restaurant-miami-30780416/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5646280098",
+  "name": "Atlantica Seafood Restaurant and Market",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/atlantica-seafood-restaurant-and-market-miami",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n6114243285",
+  "name": "Atlantis Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Small family-owned cafe run by a mother and son since 2006.",
+    "url": "https://www.atlantis-cafe.com/about-us"
+   },
+   {
+    "text": "Makes Cuban daily specials and breakfast sandwiches on Cuban bread.",
+    "url": "https://www.atlantis-cafe.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6010863681",
+  "name": "Baires grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Argentine steakhouse from a restaurant group founded in 1999 in Miami Beach.",
+    "url": "https://www.bairesgrill.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13228803916",
+  "name": "Baires Grill - Coral Gables",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Argentine steakhouse and bistro, part of a group with locations in Miami, Orlando and New York.",
+    "url": "https://www.opentable.com/r/baires-bistro-coral-gables"
+   }
+  ]
+ }
+]

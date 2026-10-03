@@ -1,0 +1,373 @@
+[
+ {
+  "id": "osm-n7194556886",
+  "name": "China Moon",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.theinfatuation.com/miami/reviews/china-moon",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n13719776030",
+  "name": "CIAO AMORE Italian Gelato, Caffè & Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founded by Stefano and Claudia, who left Sardinia in 2023 to bring Italian gelato to Miami.",
+    "url": "https://ciaoamoreusa.com/"
+   },
+   {
+    "text": "Makes its gelato daily with imported Italian ingredients and offers vegan flavors.",
+    "url": "https://ciaoamoreusa.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10148027135",
+  "name": "Cilantro 27",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Peruvian ceviche bar led by Chef Nilton Castillo, serving ceviche and lomo saltado.",
+    "url": "https://lincolnroad.com/directory-location/cilantro-27/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7844732315",
+  "name": "CoCo Fresh Tea & Juice",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n11090903666",
+  "name": "Comida de la Tierra Colombian Cuisine",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7538861249",
+  "name": "Cono Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes pizza served in a cone.",
+    "url": "https://mindtrip.ai/restaurant/miami-florida/cono-pizza/re-Sn5wj3Hn"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11512949967",
+  "name": "Cortadito",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of a local Cuban coffee house chain with Miami Beach shops on Lincoln Road and Washington Avenue.",
+    "url": "https://whatnow.com/miami/restaurants/cortadito-coffee-house-brickell-location-revealed/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13119552527",
+  "name": "Cortadito Coffee House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of a local Cuban coffee house chain that also has Miami Beach shops on Lincoln Road and Washington Avenue.",
+    "url": "https://whatnow.com/miami/restaurants/cortadito-coffee-house-brickell-location-revealed/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w278812499",
+  "name": "Coyo Taco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Describes itself as a Mexican street food spot with handcrafted tortillas and smashed-to-order guacamole.",
+    "url": "https://www.doordash.com/store/coyo-taco-coral-gables-25244329/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12873595082",
+  "name": "Craft Key Biscayne",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founded by four Argentinian friends, including Nicolas Bleckwedel, with a comfort food concept.",
+    "url": "https://www.islandernews.com/food/taste/craft-key-biscayne-opens-with-a-promise-of-offering-delicious-comfort-food-to-patrons/article_ce9b583c-cdc5-11ee-a776-136dbb7eec1a.html"
+   },
+   {
+    "text": "Menu includes Neapolitan pizzas, burgers, salads and all-day brunch dishes.",
+    "url": "https://order.toasttab.com/online/craft-key-biscayne-260-crandon-blvd"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10244984256",
+  "name": "Crema Gourmet",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "facts": []
+ },
+ {
+  "id": "osm-n6085600910",
+  "name": "Crisppis | Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu includes chicken sandwiches, tenders, wings, and chicken and waffles.",
+    "url": "https://www.crisppischicken.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12134973677",
+  "name": "Cucina Fresca",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in August 2025 in the Hurricane Food Court at the University of Miami.",
+    "url": "https://themiamihurricane.com/2025/08/20/say-ciao-to-cucina-fresca-ums-newest-dining-option/"
+   },
+   {
+    "text": "Menu includes pizza, paninis, salads, baked ziti and gelato.",
+    "url": "https://themiamihurricane.com/2025/08/20/say-ciao-to-cucina-fresca-ums-newest-dining-option/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1178446527",
+  "name": "CVI.CHE 105",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Peruvian restaurant led by Lima-born chef Juan Chipoco, known for ceviche.",
+    "url": "https://www.experiencemiamibeach.com/businesses/cviche-105"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5645972221",
+  "name": "Cybr Caffe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Internet cafe that has operated since 2001, with printing, scanning and international calling.",
+    "url": "https://www.giftly.com/gift-card/cybr-caffe-miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6018262288",
+  "name": "Delicias de Espana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Spanish bakery making cakes, breads and pastries since 1997.",
+    "url": "https://deliciasdeespana.com/in-house-bakery/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13604472101",
+  "name": "Delicias en Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Latin American restaurant in Little Havana with tacos and empanadas on the menu.",
+    "url": "https://www.doordash.com/store/delicias-en-miami-miami-38864549/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4809918522",
+  "name": "Denny's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Open around the clock with breakfast skillets and Grand Slams served 24/7.",
+    "url": "https://dennys.com/location/75506"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6073265267",
+  "name": "Denny's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Serves breakfast, lunch and dinner around the clock, including Signature Breakfast Slams.",
+    "url": "https://locations.dennys.com/FL/CORAL-GABLES/209595"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6063741033",
+  "name": "Diced",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Health-focused spot serving customizable bowls, salads, juices and smoothies.",
+    "url": "https://dicedfood.com/diced67ave"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435528672",
+  "name": "Diced",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Health-focused spot serving customizable bowls, wraps and salads.",
+    "url": "https://www.doordash.com/en-US/store/diced-24843817/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6110224085",
+  "name": "Dōma",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Opened in 2018 in Wynwood, blending Southern Italian hospitality with contemporary cooking.",
+    "url": "https://domawynwood.com/"
+   },
+   {
+    "text": "Kitchen led by Chef Davide Porcaccio.",
+    "url": "https://domawynwood.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10235613996",
+  "name": "Don Pan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Traditional bakery cafe offering bakery, pastry and deli products.",
+    "url": "https://www.donpan.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6082717129",
+  "name": "El Atlacatl",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Salvadoran restaurant established in 2001, known for pupusas and ceviches.",
+    "url": "https://www.yelp.com/biz/el-atlacatl-miami-2"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435848288",
+  "name": "El Cristo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Cuban restaurant in Little Havana that has operated since 1972.",
+    "url": "https://www.miaminewtimes.com/location/el-cristo-6410096/"
+   }
+  ]
+ }
+]
