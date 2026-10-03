@@ -5,6 +5,7 @@ import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
 import { withCors } from './_lib/cors.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
+import { factsField } from './_lib/placeFacts.js';
 import { asksForDirections, directionsTarget, placesNamedIn } from '../src/lib/placeMatch.js';
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
@@ -425,8 +426,10 @@ async function handler(req, res) {
     );
     for (const l of named) validIds.add(`${l.regionId}/${l.id}`);
     const matching = named.length
-      ? 'MATCHING PLACES (everyday places the message names; use these region/id values as catalog stops):\n' +
-        named.map((l) => `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 140)}`).join('\n')
+      ? 'MATCHING PLACES (region/id | name | category | description | facts; everyday places the message names; use these region/id values as catalog stops):\n' +
+        named
+          .map((l) => `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 140)}${factsField(l, 300)}`)
+          .join('\n')
       : '';
 
     const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });

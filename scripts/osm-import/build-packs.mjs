@@ -9,6 +9,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { ALL_LANDMARKS } from '../../src/data/regions.js';
 import { PLACE_PACKS } from '../../src/data/placePacks.manifest.js';
+import { withWebFacts } from './transform.js';
 
 const category = process.argv[2];
 if (!category) throw new Error('usage: build-packs.mjs <category>');
@@ -17,38 +18,32 @@ const DIR = 'scripts/osm-import/data';
 const CHUNK = 1500;
 const LICENSE_OK = /^(public domain|cc0|cc[ -]by(?:[ -]sa)?\b|pd\b)/i;
 
-const staged = JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8')).filter((p) => p.categories[0] === category);
+// Photos rejected after looking at them (overrides.json rejectPhoto), and
+// places dropped by hand (drop), e.g. closed for good per web research.
+const overrides = JSON.parse(fs.readFileSync('scripts/osm-import/overrides.json', 'utf8'));
+// data/ is gitignored, so a fresh checkout has no staged.json. Without it the
+// current packs stand in for it: web facts come back off (they are re-applied
+// below from web-facts.json) and each place keeps the photo it already has.
+const fromPacks = !fs.existsSync(`${DIR}/staged.json`);
+if (fromPacks) console.log(`no ${DIR}/staged.json: rebuilding from the current packs (photos kept as they are)`);
+const keptCredits = new Map();
+const allStaged = fromPacks
+  ? PLACE_PACKS.filter((pack) => pack.region === REGION).flatMap((pack) =>
+      JSON.parse(fs.readFileSync(path.join('public', pack.file), 'utf8')).map(({ factSources, imageCredits, ...p }) => {
+        if (imageCredits) keptCredits.set(p.id, imageCredits);
+        return { ...p, facts: p.facts.filter((f) => !factSources?.[f]) };
+      })
+    )
+  : JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8'));
+const staged = allStaged.filter((p) => p.categories[0] === category && !overrides[p.id]?.drop);
 if (!staged.length) throw new Error(`no staged places in ${category}`);
 const found = fs.existsSync(`${DIR}/commons.found.json`) ? JSON.parse(fs.readFileSync(`${DIR}/commons.found.json`, 'utf8')) : [];
 const photoOf = new Map(found.filter((r) => r.status === 'found').map((r) => [r.id, r]));
 const sameName = new Map();
-for (const p of JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8'))) sameName.set(p.name, (sameName.get(p.name) || 0) + 1);
-// Photos rejected after looking at them (overrides.json rejectPhoto).
-const overrides = JSON.parse(fs.readFileSync('scripts/osm-import/overrides.json', 'utf8'));
+for (const p of allStaged) sameName.set(p.name, (sameName.get(p.name) || 0) + 1);
 // Facts found by web research (scripts/osm-import/web-facts.json), each with
-// the page that states it. They go first; OSM/Wikidata facts follow, with
-// the street address last.
+// the page that states it (transform.js withWebFacts).
 const webFacts = fs.existsSync('scripts/osm-import/web-facts.json') ? JSON.parse(fs.readFileSync('scripts/osm-import/web-facts.json', 'utf8')) : {};
-const withWebFacts = (p) => {
-  const web = (webFacts[p.id]?.facts || []).filter((f) => okWebFact(f));
-  if (!web.length) return p;
-  const seen = new Set(web.map((f) => f.text.toLowerCase()));
-  const own = p.facts.filter((f) => !seen.has(f.toLowerCase()));
-  const address = own.filter((f) => f.startsWith('Address: '));
-  const facts = [...web.map((f) => f.text), ...own.filter((f) => !f.startsWith('Address: '))].slice(0, 7).concat(address);
-  return { ...p, facts, factSources: Object.fromEntries(web.filter((f) => facts.includes(f.text)).map((f) => [f.text, f.url])) };
-};
-// Plain one-line statements with a real link; nothing that goes stale or
-// reads as an opinion (prices, hours, phone numbers, star ratings).
-export function okWebFact(f) {
-  const text = String(f?.text || '').trim();
-  return (
-    text.length >= 12 &&
-    text.length <= 160 &&
-    /^https:\/\/[^\s"'<>]+$/.test(String(f?.url || '')) &&
-    !/\$\s?\d|\b\d{3}[-.\s)]+\d{3}[-.\s]\d{4}\b|\b(stars?|rated|ratings?|reviews?|open(s)? (daily|from|until)|hours)\b|\u2014|\b(best|most popular|famous|iconic|must-visit|favorite)\b/i.test(text)
-  );
-}
 
 // A Commons file is used by one place only, across the catalog and every pack.
 const otherPackFiles = PLACE_PACKS.filter((p) => p.category !== category).map((p) => p.file);
@@ -56,9 +51,9 @@ const used = new Set(ALL_LANDMARKS.flatMap((l) => l.images || []));
 for (const f of otherPackFiles) for (const p of JSON.parse(fs.readFileSync(path.join('public', f), 'utf8'))) for (const u of p.images) used.add(u);
 
 const photoSkips = [];
-const places = staged.map(withWebFacts).map((p) => {
+const places = staged.map((p) => withWebFacts(p, webFacts)).map((p) => {
   const r = photoOf.get(p.id);
-  if (!r) return p;
+  if (!r) return keptCredits.has(p.id) ? { ...p, imageCredits: keptCredits.get(p.id) } : p;
   const skip = (why) => (photoSkips.push({ id: p.id, name: p.name, why }), p);
   if (overrides[p.id]?.rejectPhoto) return skip(`reviewed: ${overrides[p.id].rejectPhoto}`);
   // Chains: a file named "Chicken Kitchen" fits every branch, so only a
@@ -112,7 +107,8 @@ const report = {
   commonsPhotoPct: Math.round((withPhoto / places.length) * 1000) / 10,
   withFacts: places.filter((p) => p.facts.length).length,
   withHours: places.filter((p) => p.hours).length,
-  photoSkips,
+  // Without data/ no photo is re-checked, so the last real run's skips stay.
+  photoSkips: fromPacks && fs.existsSync(`docs/miami-import/${category}.json`) ? JSON.parse(fs.readFileSync(`docs/miami-import/${category}.json`, 'utf8')).photoSkips : photoSkips,
   sample: sample.map((p) => ({ id: p.id, name: p.name, topic: p.topic, lat: p.lat, lng: p.lng, photo: !!p.images.length, facts: p.facts.slice(0, 3), osmUrl: p.osmUrl })),
   points: places.map((p) => [p.lat, p.lng, p.images.length ? 1 : 0]),
 };

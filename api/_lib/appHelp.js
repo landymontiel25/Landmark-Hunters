@@ -77,6 +77,9 @@ export const APP_HELP =
   `- Ask Mapr how to get to a place ("How do I get to Hillstone?", "directions to Vizcaya") and it answers with that place's card, ` +
   `the same card as its recommendations: tap Directions on it for the route, or tap the card for the place's page. This works for the ` +
   `everyday places too (cafes, restaurants, parks and the rest). Mapr doesn't write out turn-by-turn steps in the chat.\n` +
+  `- Mapr reads each place's facts (the same ones on its page: when it opened, who built or runs it, what it serves, what it has, ` +
+  `like trails, courts or a playground) when it recommends places, writes Mapr Picks lines, or answers about a place you name. ` +
+  `Facts that came from web research link to their source on the place page.\n` +
   `- Mapr can act on your itineraries when you ask in chat: "add it to my itinerary", "put both on my Philly trip", "remove Wynwood", ` +
   `"make a new itinerary for Miami called Spring Break", "rename my trip to …", "add @username to my Villanova trip". It works for places ` +
   `from the catalog and places it found on the web. Each action shows a ✅ confirmation under Mapr's reply with Open and Undo. Mapr never ` +

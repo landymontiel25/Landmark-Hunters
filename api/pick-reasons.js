@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getLandmark, INTERESTS } from '../src/data/regions.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
+import { factsField } from './_lib/placeFacts.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { PICK_REASONS_MODEL } from './_lib/aiModels.js';
@@ -22,14 +23,14 @@ export const MAX_PICKS = 8;
 const INSTRUCTIONS =
   `You write one short line for each place on a traveler's "Picked for you right now" list in the app ` +
   `"Landmark Hunters". The places were already chosen by the app from the traveler's own ratings; do not judge ` +
-  `or reorder them. Each line in the list is "key | name | category | kind of pick | why it was picked | description".\n\n` +
+  `or reorder them. Each line in the list is "key | name | category | kind of pick | why it was picked | description | facts (when known)".\n\n` +
   `Kinds of pick:\n` +
   `- usual: a kind of place this traveler already rates highly.\n` +
   `- new: a kind of place they haven't tried much, that still fits their taste.\n` +
   `- chained: they usually go to this kind of place right after the kind named in "why it was picked".\n\n` +
   `Rules:\n` +
   `- Under 12 words, concrete, about the place itself and why it fits right now.\n` +
-  `- Never invent facts beyond the description. No hours, prices, or distances.\n` +
+  `- Never invent facts beyond the description and facts. No hours, prices, or distances.\n` +
   `- Only use keys from the list.\n\n` +
   `Reply with ONLY this JSON, no other text:\n` +
   `{"reasons": {"<key>": "<line>", ...}}`;
@@ -53,7 +54,7 @@ export function promptLines(picks) {
     const cat = l.categories?.[0] || '';
     const kind = p?.chainFrom ? 'chained' : p?.pickType === 'new' ? 'new' : 'usual';
     const why = p?.chainFrom ? `after ${LABELS[str(p.chainFrom, 30)] || 'their last stop'}` : LABELS[cat] || cat;
-    lines.push(`${key} | ${l.name} | ${LABELS[cat] || cat} | ${kind} | ${why} | ${(l.summary || '').slice(0, 160)}`);
+    lines.push(`${key} | ${l.name} | ${LABELS[cat] || cat} | ${kind} | ${why} | ${(l.summary || '').slice(0, 160)}${factsField(l, 200)}`);
   }
   return { lines, keys };
 }

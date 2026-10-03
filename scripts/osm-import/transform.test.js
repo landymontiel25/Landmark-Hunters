@@ -13,6 +13,8 @@ import {
   findCatalogDuplicate,
   dedupeImport,
   importPlaces,
+  okWebFact,
+  withWebFacts,
 } from './transform.js';
 import { isClosedNow } from '../../src/lib/nearbyPicks.js';
 import { tierQuestion } from '../../src/lib/ratingFlow.js';
@@ -297,5 +299,24 @@ describe('importPlaces', () => {
     expect(dropped.outside).toHaveLength(1);
     expect(dropped.notListed).toHaveLength(1);
     expect(dropped.duplicateOfCatalog[0].existing).toBe('miami/versailles-restaurant');
+  });
+});
+
+describe('web facts', () => {
+  const url = 'https://example.org/page';
+  it('keeps plain sourced facts and drops opinions, prices and plans', () => {
+    expect(okWebFact({ text: 'Opened in 1924 as a water tower.', url })).toBe(true);
+    expect(okWebFact({ text: 'The best Cuban sandwich in town.', url })).toBe(false);
+    expect(okWebFact({ text: 'Lunch specials start at $12 daily.', url })).toBe(false);
+    expect(okWebFact({ text: 'A new wing is under construction.', url })).toBe(false);
+    expect(okWebFact({ text: 'Opened in 1924 as a water tower.', url: 'http://example.org' })).toBe(false);
+  });
+
+  it('puts web facts first and the address last, with their sources', () => {
+    const p = { id: 'x', facts: ['Address: 1 Main St, Miami', 'Has a playground'] };
+    const out = withWebFacts(p, { x: { facts: [{ text: 'Built in 1950 by the city.', url }] } });
+    expect(out.facts).toEqual(['Built in 1950 by the city.', 'Has a playground', 'Address: 1 Main St, Miami']);
+    expect(out.factSources).toEqual({ 'Built in 1950 by the city.': url });
+    expect(withWebFacts(p, {})).toBe(p);
   });
 });

@@ -3,6 +3,7 @@ import { buildShortlist, swipeShortlist, noteKeywords } from '../src/lib/tagScor
 import { getRegion } from '../src/data/regions.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
+import { factsField } from './_lib/placeFacts.js';
 import { withCors } from './_lib/cors.js';
 import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
@@ -14,7 +15,7 @@ import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 const INSTRUCTIONS =
   `You are Mapr, the taste engine inside the app "Landmark Hunters". You get a SHORTLIST of real landmarks the ` +
   `traveler has NOT visited, already ranked by an internal score built from their ratings in this region, one per ` +
-  `line as "region/id | name | category | short description | fit score | ratings behind that score | check-ins | ` +
+  `line as "region/id | name | category | short description | facts (when known) | fit score | ratings behind that score | check-ins | ` +
   `distance", with WILDCARD at the end of some lines. You also get ` +
   `their few most recent ratings (for tone, not math), anything they told Mapr in their own words, and TAG NOTES: ` +
   `comments they left about a category they love. Pick the 8 shortlist landmarks this traveler is most likely to ` +
@@ -55,7 +56,7 @@ const SWIPE_INSTRUCTIONS =
   `You are Mapr, the taste engine inside the app "Landmark Hunters". A brand-new traveler just swiped through ` +
   `preference cards and (optionally) wrote a few words about what they love. You get a SHORTLIST built entirely ` +
   `from that swipe/notes signal -- nothing here came from generic city popularity or unrelated categories -- one ` +
-  `per line as "region/id | name | category | short description | fit score | check-ins | distance". You also get ` +
+  `per line as "region/id | name | category | short description | facts (when known) | fit score | check-ins | distance". You also get ` +
   `their own words verbatim. Pick the 8 shortlist landmarks this traveler is most likely to love, most confident first.\n\n` +
   `Rules:\n` +
   `- Trust the shortlist: every line already matched something they swiped "love it" on, or a word from their own ` +
@@ -175,9 +176,9 @@ async function handler(req, res) {
       const km = origin ? distanceKm(origin.lat, origin.lng, l.lat, l.lng) : null;
       const dist = km != null ? ` | ${km < 10 ? km.toFixed(1) : Math.round(km)} km` : '';
       return swipeOnly
-        ? `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}` +
+        ? `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}${factsField(l, 200)}` +
             ` | ${l.tagScore} | ${checkinCounts[l.id] || 0}${dist}`
-        : `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}` +
+        : `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 120)}${factsField(l, 200)}` +
             ` | ${l.tagScore} | ${l.tagRatings} | ${checkinCounts[l.id] || 0}${dist}` +
             (l.wildcard ? ' | WILDCARD' : '');
     };
@@ -206,8 +207,8 @@ async function handler(req, res) {
           '\n\n'
         : '') +
       (swipeOnly
-        ? 'SHORTLIST (region/id | name | category | description | fit score | check-ins | distance), best internal score first:\n'
-        : 'SHORTLIST (region/id | name | category | description | fit score | ratings behind it | check-ins | distance), best internal score first:\n') +
+        ? 'SHORTLIST (region/id | name | category | description | facts | fit score | check-ins | distance), best internal score first:\n'
+        : 'SHORTLIST (region/id | name | category | description | facts | fit score | ratings behind it | check-ins | distance), best internal score first:\n') +
       shortlist.map(shortlistLine).join('\n');
 
     const client = new Anthropic({ timeout: AI_TIMEOUT_MS, maxRetries: 0 });
