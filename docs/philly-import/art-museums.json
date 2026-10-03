@@ -1,8 +1,8 @@
 {
  "category": "art-museums",
  "count": 108,
- "commonsPhotos": 30,
- "commonsPhotoPct": 27.8,
+ "commonsPhotos": 31,
+ "commonsPhotoPct": 28.7,
  "withFacts": 99,
  "withHours": 29,
  "byRegion": {
@@ -553,7 +553,7 @@
   [
    39.950031,
    -75.146616,
-   0
+   1
   ],
   [
    39.950219,

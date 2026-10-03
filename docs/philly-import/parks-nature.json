@@ -1,8 +1,8 @@
 {
  "category": "parks-nature",
  "count": 138,
- "commonsPhotos": 0,
- "commonsPhotoPct": 0,
+ "commonsPhotos": 17,
+ "commonsPhotoPct": 12.3,
  "withFacts": 84,
  "withHours": 3,
  "byRegion": {
@@ -89,7 +89,7 @@
    "topic": "park",
    "lat": 39.947603,
    "lng": -75.179787,
-   "photo": false,
+   "photo": true,
    "facts": [],
    "osmUrl": "https://www.openstreetmap.org/way/183666855"
   },
@@ -176,7 +176,7 @@
    "topic": "park",
    "lat": 39.902027,
    "lng": -75.183436,
-   "photo": false,
+   "photo": true,
    "facts": [
     "FDR Park was originally named League Island Park and covers about 348 acres.",
     "Olmsted Brothers designed the park.",
@@ -202,7 +202,7 @@
    "topic": "park",
    "lat": 39.949713,
    "lng": -75.18681,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Penn Park is a 24-acre park on the University of Pennsylvania campus beside the Schuylkill River.",
     "Penn Park was completed in September 2011 and has two athletic fields, a tennis center and picnic areas.",
@@ -306,7 +306,7 @@
    "topic": "park",
    "lat": 39.95262,
    "lng": -75.164678,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Dilworth Park was rebuilt from Dilworth Plaza and opened on September 4, 2014.",
     "Pennsylvania Railroad's Broad Street Station occupied the site from 1881 until its demolition in 1953.",
@@ -334,7 +334,7 @@
   [
    40.03137,
    -75.322809,
-   0
+   1
   ],
   [
    40.072481,
@@ -409,7 +409,7 @@
   [
    40.031287,
    -75.391254,
-   0
+   1
   ],
   [
    39.947503,
@@ -429,7 +429,7 @@
   [
    40.025644,
    -75.180766,
-   0
+   1
   ],
   [
    40.048556,
@@ -439,7 +439,7 @@
   [
    39.95262,
    -75.164678,
-   0
+   1
   ],
   [
    40.029322,
@@ -449,7 +449,7 @@
   [
    39.963839,
    -75.178567,
-   0
+   1
   ],
   [
    39.991199,
@@ -514,17 +514,17 @@
   [
    39.947603,
    -75.179787,
-   0
+   1
   ],
   [
    39.968458,
    -75.167251,
-   0
+   1
   ],
   [
    39.902027,
    -75.183436,
-   0
+   1
   ],
   [
    39.955663,
@@ -544,7 +544,7 @@
   [
    39.952607,
    -75.146258,
-   0
+   1
   ],
   [
    40.035869,
@@ -629,7 +629,7 @@
   [
    40.017723,
    -75.210733,
-   0
+   1
   ],
   [
    40.079591,
@@ -644,7 +644,7 @@
   [
    39.958165,
    -75.170555,
-   0
+   1
   ],
   [
    40.07663,
@@ -664,7 +664,7 @@
   [
    40.018107,
    -75.187676,
-   0
+   1
   ],
   [
    40.046675,
@@ -674,7 +674,7 @@
   [
    39.994788,
    -75.250482,
-   0
+   1
   ],
   [
    40.047855,
@@ -734,7 +734,7 @@
   [
    39.949713,
    -75.18681,
-   0
+   1
   ],
   [
    39.966214,
@@ -814,7 +814,7 @@
   [
    40.007083,
    -75.311531,
-   0
+   1
   ],
   [
    40.012283,
@@ -874,7 +874,7 @@
   [
    39.944439,
    -75.141458,
-   0
+   1
   ],
   [
    40.070903,
@@ -984,7 +984,7 @@
   [
    39.987594,
    -75.281307,
-   0
+   1
   ],
   [
    39.986348,

@@ -61,7 +61,7 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "art-museums",
-    "file": "places/philly/art-museums.31375ae6a3.json",
+    "file": "places/philly/art-museums.62d33723a1.json",
     "count": 108
   },
   {
@@ -79,13 +79,13 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "history-culture",
-    "file": "places/philly/history-culture.bdab9c031e.json",
+    "file": "places/philly/history-culture.8b016708c5.json",
     "count": 139
   },
   {
     "region": "philly",
     "category": "local-life",
-    "file": "places/philly/local-life.ebdcc6fd41.json",
+    "file": "places/philly/local-life.5e10cdf57a.json",
     "count": 327
   },
   {
@@ -97,7 +97,7 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "parks-nature",
-    "file": "places/philly/parks-nature.d613819fcf.json",
+    "file": "places/philly/parks-nature.65c5ebfcc1.json",
     "count": 135
   },
   {
@@ -127,7 +127,7 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "food",
-    "file": "places/philly/food.5f0d522ce1.json",
+    "file": "places/philly/food.c4a5e0d49e.json",
     "count": 165
   },
   {

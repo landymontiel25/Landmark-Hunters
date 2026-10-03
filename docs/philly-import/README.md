@@ -42,18 +42,28 @@ has no OSM node yet, so it is not on the map.
 
 `<category>.json` here is each batch report from `build-packs.mjs`.
 
-## Web research (in progress)
+## Web research
 
-Batches 00-16 of 34 are researched (510 places: landmarks, culture, bars and
-markets; food and parks are in batches 17-33). 485 matched, 811 facts kept
-after `okWebFact`. 28 places dropped as closed for good, each with its
-source in `overrides.json` (among them One Liberty Observation Deck, the
-Bala and Anthony Wayne cinemas, SoundGarden Hall, Fluid, Finnigan's Wake and
-the University of the Arts venues). Insider places carry facts from the pages
-that tie them to Villanova.
+All 34 batches are researched (1,000 places), WebSearch only, under the rules
+in `scripts/osm-import/research/README.md`. Batches 00-16 (landmarks, culture,
+bars, markets): 485 matched, 811 facts. Batches 17-33 (bars, parks, food):
+375 facts after a hand review of every food and sports fact and 25 random
+local-life and parks facts removed 16 (picked among several pages of one
+site, stale news, menu trivia, a neighborhood fact on a park). Most bars and
+restaurants get several pages per search with no citation, so the source rule
+leaves many of them without web facts. 34 places dropped as closed for good,
+each with its source in `overrides.json` (among them One Liberty Observation
+Deck, the Bala and Anthony Wayne cinemas, Finnigan's Wake, the University of
+the Arts venues, Tango, The Grape Room, Varga, Conshohocken Italian Bakery and
+Yangming). Insider places carry facts from the pages that tie them to
+Villanova.
 
-## Photos (in progress)
+## Photos
 
-`find-commons-photos.mjs` has looked up 340 of the places so far. The first
-91 matches were reviewed by eye: 20 rejected (`overrides.json` rejectPhoto:
-people, artifacts, signs, a ticket, wrong buildings), 63 applied (the rest belong to dropped places or reuse a file another place already has).
+`find-commons-photos.mjs` has looked up every place without a photo (909;
+`data/philly/places.json` built from the packs, since `staged.json` is not in
+the repo). Every match was reviewed by eye: 97 matches, 63 accepted, 34
+rejected (`overrides.json` rejectPhoto: people, signs, plaques and markers,
+artifacts, a ticket, wrong buildings, an aerial view). 118 places carry a
+photo; a few accepted files stay out because their URL has an apostrophe
+(`build-packs.mjs` rejects those) or another place already uses the file.

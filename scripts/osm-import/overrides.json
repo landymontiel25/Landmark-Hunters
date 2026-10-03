@@ -909,10 +909,10 @@
     "source": "https://www.youredm.com/2016/06/23/soundgarden-hall-shutdown-failure-pay-debts/index.html"
   },
   "osm-w346886794": {
-    "rejectPhoto": "shows two people at an event"
+    "rejectPhoto": "two people at an event"
   },
   "osm-w356324418": {
-    "rejectPhoto": "aerial view of the city, not the house"
+    "rejectPhoto": "aerial view of the region"
   },
   "osm-w333776312": {
     "rejectPhoto": "a museum artifact, not the museum"
@@ -991,5 +991,47 @@
   "osm-w335160210": {
     "drop": "closed for good per web research: Yangming in Bryn Mawr closed",
     "source": "https://patch.com/pennsylvania/brynmawr/bryn-mawr-chinese-eatery-yangming-close-report"
+  },
+  "osm-n2613831462": {
+    "rejectPhoto": "a band on stage, not the place"
+  },
+  "osm-n4949327723": {
+    "rejectPhoto": "a person in the foreground"
+  },
+  "osm-n8318860194": {
+    "rejectPhoto": "sign close-up"
+  },
+  "osm-w705324151": {
+    "rejectPhoto": "plaque close-up"
+  },
+  "osm-w549814986": {
+    "rejectPhoto": "a bike share station, not the park"
+  },
+  "osm-w705322048": {
+    "rejectPhoto": "the subway station platform, not the square"
+  },
+  "osm-w1157957120": {
+    "rejectPhoto": "a private house in the development, not the park"
+  },
+  "osm-w688647034": {
+    "rejectPhoto": "a flower arrangement indoors"
+  },
+  "osm-w705317585": {
+    "rejectPhoto": "an office building facing the square"
+  },
+  "osm-w352696202": {
+    "rejectPhoto": "historical marker close-up"
+  },
+  "osm-n14027770476": {
+    "rejectPhoto": "historical marker, the prison is gone"
+  },
+  "osm-w333316182": {
+    "rejectPhoto": "name plaque close-up"
+  },
+  "osm-w338426286": {
+    "rejectPhoto": "plaque close-up"
+  },
+  "osm-n989532164": {
+    "rejectPhoto": "window sign close-up"
   }
 }

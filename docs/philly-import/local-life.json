@@ -1,8 +1,8 @@
 {
  "category": "local-life",
  "count": 328,
- "commonsPhotos": 0,
- "commonsPhotoPct": 0,
+ "commonsPhotos": 2,
+ "commonsPhotoPct": 0.6,
  "withFacts": 296,
  "withHours": 78,
  "byRegion": {
@@ -385,7 +385,7 @@
   [
    39.944541,
    -75.144606,
-   0
+   1
   ],
   [
    39.965521,
@@ -1975,7 +1975,7 @@
   [
    39.960644,
    -75.147227,
-   0
+   1
   ],
   [
    40.025436,

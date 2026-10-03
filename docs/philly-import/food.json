@@ -1,8 +1,8 @@
 {
  "category": "food",
  "count": 172,
- "commonsPhotos": 0,
- "commonsPhotoPct": 0,
+ "commonsPhotos": 2,
+ "commonsPhotoPct": 1.2,
  "withFacts": 164,
  "withHours": 84,
  "byRegion": {
@@ -507,7 +507,7 @@
   [
    39.966751,
    -75.160087,
-   0
+   1
   ],
   [
    39.949142,
@@ -772,7 +772,7 @@
   [
    39.942353,
    -75.141029,
-   0
+   1
   ],
   [
    40.007566,
