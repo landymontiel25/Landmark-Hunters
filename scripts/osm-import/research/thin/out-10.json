@@ -1,0 +1,401 @@
+[
+ {
+  "id": "osm-n8691614974",
+  "name": "The Original Crab House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Menu lists lobster bisque, fried whole snapper and shrimp fettuccine.",
+    "url": "https://www.theoriginalcrabhousemiami.com/"
+   },
+   {
+    "text": "Specializes in Maryland-style steamed blue crabs and garlic crabs.",
+    "url": "https://www.yelp.com/biz/the-original-crab-house-miami-5"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13577974501",
+  "name": "Tin Tin",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Blends Cuban flavors with French and Italian influences.",
+    "url": "https://www.tintinmiami.co/"
+   },
+   {
+    "text": "Is the sister restaurant to Tinta y Cafe.",
+    "url": "https://www.tintinmiami.co/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w453591591",
+  "name": "Truluck's Ocean's Finest Seafood and Crab",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Harvests its own Florida stone crab from a fishery off Naples.",
+    "url": "https://trulucks.com/locations/miami-florida/"
+   },
+   {
+    "text": "The Miami Brickell location opened in 2010.",
+    "url": "https://trulucks.com/locations/miami-florida/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4953857721",
+  "name": "Versailles Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Bakes Cuban pastries including guava and cream cheese pastelitos.",
+    "url": "https://www.yelp.com/biz/versailles-bakery-miami"
+   },
+   {
+    "text": "Also makes tres leches and key lime pie cakes.",
+    "url": "https://www.yelp.com/biz/versailles-bakery-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5554721613",
+  "name": "Vicky's Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Part of Vicky Bakery, founded in Hialeah in 1972 by Antonio and Gelasia Cao.",
+    "url": "https://vickybakery.com/our-story/"
+   },
+   {
+    "text": "The chain is a family business that has grown to 30+ locations using the same family pastelito recipe.",
+    "url": "https://vickybakery.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13847143611",
+  "name": "Wing Xscape by Hot Potato 1.2.3. Express",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12898889748",
+  "name": "Xpress Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6583012885",
+  "name": "Claude D. Pepper",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n4866286983",
+  "name": "Freedom Plaza",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6580864585",
+  "name": "The Bahama Dingy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Displays a Bahama dinghy donated by Bill Munroe, grandson of Commodore Ralph Munroe.",
+    "url": "https://www.hmdb.org/m.asp?m=134804"
+   },
+   {
+    "text": "Historical marker stands about 200 yards west of the Cape Florida Lighthouse.",
+    "url": "https://www.hmdb.org/m.asp?m=134804"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6583012985",
+  "name": "The Liberty Column",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Memorial column in Bayfront Park in downtown Miami.",
+    "url": "https://www.alamy.com/the-liberty-column-in-bayfront-park-miami-florida-usa-image360183711.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6299289301",
+  "name": "19th Hole Sports Bar & Grill",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n2273259029",
+  "name": "5 Diamond Delicacies",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n13606372603",
+  "name": "Alfaro's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened to the public on May 9, 2007.",
+    "url": "http://alfaroscalleocho.com/About-Us.html"
+   },
+   {
+    "text": "Hosts album releases, quinceaneras, banquets and other private events.",
+    "url": "http://alfaroscalleocho.com/About-Us.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10111847374",
+  "name": "Baby Jane Cocktail House & Noodle Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Pairs noodle dishes with handcrafted cocktails.",
+    "url": "https://www.opentable.com/r/baby-jane-cocktail-house-and-noodle-bar-miami"
+   },
+   {
+    "text": "Brings in DJs for late-night entertainment.",
+    "url": "https://www.opentable.com/r/baby-jane-cocktail-house-and-noodle-bar-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2355909380",
+  "name": "Bacardi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Mojito bar in the North Terminal, Concourse D, of Miami International Airport.",
+    "url": "https://miamism.com/mojito-review-bacardi-mojito-bar-mia/"
+   },
+   {
+    "text": "Menu features dishes by chef Lorena Garcia.",
+    "url": "https://miamism.com/mojito-review-bacardi-mojito-bar-mia/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6018223618",
+  "name": "Barnes & Noble",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Barnes & Noble, which traces to 1873 when Charles M. Barnes began selling books in Wheaton, Illinois.",
+    "url": "https://www.barnesandnobleinc.com/about-bn/history/"
+   },
+   {
+    "text": "Stocks books, toys, games and music.",
+    "url": "https://stores.barnesandnoble.com/store/2739"
+   }
+  ]
+ },
+ {
+  "id": "osm-n763659225",
+  "name": "Barracuda",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 1994 as a Crazy Flamingo franchise before taking the Barracuda name in 1995.",
+    "url": "https://www.miaminewtimes.com/food-drink/coolest-bar-in-coconut-grove-barracuda-celebrates-30-years-23295718/"
+   },
+   {
+    "text": "Lee Kessler, a longtime regular, took over the bar in 2012 and grew the taps to 52.",
+    "url": "https://www.miaminewtimes.com/food-drink/coolest-bar-in-coconut-grove-barracuda-celebrates-30-years-23295718/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10119104371",
+  "name": "Corona Beach House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has a location at Concourse D, Gate D23, of Miami International Airport.",
+    "url": "https://grovebayconcessions.com/corona-beach-house/"
+   },
+   {
+    "text": "Has a second airport location at Concourse J, Gate J11.",
+    "url": "https://miamiairport-mia.com/blog/corona-beach-house-at-miami-airport/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5903100399",
+  "name": "Corona Beach House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has a location at Concourse D, Gate D23, of Miami International Airport.",
+    "url": "https://grovebayconcessions.com/corona-beach-house/"
+   },
+   {
+    "text": "Has a second airport location at Concourse J, Gate J11.",
+    "url": "https://miamiairport-mia.com/blog/corona-beach-house-at-miami-airport/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6575836985",
+  "name": "Deweys Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Keeps a pool table and big-screen TVs.",
+    "url": "https://www.miaminewtimes.com/location/deweys-tavern-6413671/"
+   },
+   {
+    "text": "Hosts karaoke nights and weekly pool tournaments.",
+    "url": "https://www.miaminewtimes.com/location/deweys-tavern-6413671/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3839885752",
+  "name": "Dot Fiftyone Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Founded in 2003 by Alfredo Guzman and Isaac Perelman.",
+    "url": "https://dotfiftyone.com/ABOUT"
+   },
+   {
+    "text": "Focuses on contemporary art and represents artists from the Global South.",
+    "url": "https://dotfiftyone.com/ABOUT"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435519270",
+  "name": "Electric Lady",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Offers bottle service and hookah alongside DJ sets.",
+    "url": "https://www.electric23miami.com/"
+   },
+   {
+    "text": "Has a stage for performances and hosts private and corporate events.",
+    "url": "https://www.electric23miami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4109762896",
+  "name": "Finnegan's Road",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.miaminewtimes.com/food-drink/south-beach-bar-finnegans-road-closes-after-25-years-on-lincoln-road-22778834/",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n1454839975",
+  "name": "Gator Plaza",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ }
+]

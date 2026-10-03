@@ -1,0 +1,212 @@
+[
+ {
+  "id": "osm-n14167217001",
+  "name": "Yellow Bicycle Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Black box theater and indie cinema run by the nonprofit Yellow Bicycle Collective.",
+    "url": "https://yellowbicycle.com/landing/"
+   },
+   {
+    "text": "Has a 17 by 19 foot stage and about 50 seats for rentals.",
+    "url": "https://yellowbicycle.com/theater/rentals/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w410094918",
+  "name": "Centrix",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7204177385",
+  "name": "City Winery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Urban winery, live music venue and restaurant under one roof.",
+    "url": "https://citywinery.com/pages/locations/philadelphia"
+   },
+   {
+    "text": "Part of City Winery, founded by Michael Dorf and begun in New York City.",
+    "url": "https://citywinery.com/pages/locations/philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5281092754",
+  "name": "Fringe Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Began in 1997 as the Philadelphia Fringe Festival.",
+    "url": "https://fringearts.com/about/who-we-are/"
+   },
+   {
+    "text": "Moved in 2013 into a renovated 1903 fire pumping station.",
+    "url": "https://fringearts.com/about/who-we-are/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6507309542",
+  "name": "Kevin D. Marlo Little Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The Little Theatre was built in 1920 and reopened in 2011 as the Kevin D. Marlo Little Theatre.",
+    "url": "http://www.harcum.edu/theatre"
+   },
+   {
+    "text": "Named for an actor lost on 9/11; his family made a $250,000 lead gift for the restoration.",
+    "url": "http://www.harcum.edu/theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w691541843",
+  "name": "Louis Bluver Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Flexible 75-seat theater in the former ballroom of The Drake, home of InterAct Theatre Company.",
+    "url": "http://www.interacttheatre.org/plan-your-visit"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6695578169",
+  "name": "Morgan Family Amphitheater",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7348661043",
+  "name": "Randall and Tomlinson Theaters",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Temple theater venues: the 80-seat Randall Theater and the 425-seat Tomlinson Theater.",
+    "url": "https://tfma.temple.edu/academics/theater/graduate-programs/theater-playwriting-mfa/productions-facilities"
+   },
+   {
+    "text": "Part of the Annenberg Hall and Tomlinson Theater complex, which also has rehearsal rooms.",
+    "url": "https://tfma.temple.edu/academics/theater/graduate-programs/theater-playwriting-mfa/productions-facilities"
+   }
+  ]
+ },
+ {
+  "id": "osm-n445838150",
+  "name": "Reel Cinemas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The Narberth Theatre has been operating since 1927.",
+    "url": "https://cinematreasures.org/theaters/5596"
+   },
+   {
+    "text": "The original auditorium was split into two 212-seat screens.",
+    "url": "https://cinematreasures.org/theaters/5596"
+   },
+   {
+    "text": "David and Barbara Wax bought the theater from Franklin Enterprises in 1971.",
+    "url": "https://cinematreasures.org/theaters/5596"
+   }
+  ]
+ },
+ {
+  "id": "osm-w60928793",
+  "name": "Regal UA Main Street Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Regal theater in the Manayunk neighborhood.",
+    "url": "https://www.regmovies.com/theatres/regal-ua-main-street-theatre-1314"
+   },
+   {
+    "text": "Part of Regal, a circuit of 393 theatres in 41 states as of November 2025.",
+    "url": "https://www.regmovies.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49887227",
+  "name": "The Dell Music Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Opened in 1929 as Robin Hood Dell East, summer home of the Philadelphia Orchestra.",
+    "url": "https://thedellmusiccenter.com/venue/about-us/"
+   },
+   {
+    "text": "Open-air amphitheater in East Fairmount Park managed by Philadelphia Parks & Recreation.",
+    "url": "https://thedellmusiccenter.com/venue/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w708931478",
+  "name": "Wiggins Riverfront Stage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Outdoor Riverstage in Wiggins Waterfront Park on the Camden waterfront, beside a marina.",
+    "url": "https://www.camdencounty.com/service/parks/wiggins-waterfront-park/"
+   },
+   {
+    "text": "Outdoor riverside stage used for concerts along the Delaware River.",
+    "url": "https://feverup.com/en/philadelphia/venue/wiggins-waterfront-riverstage"
+   }
+  ]
+ }
+]
