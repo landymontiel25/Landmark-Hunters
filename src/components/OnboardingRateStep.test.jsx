@@ -54,13 +54,13 @@ describe('OnboardingRateStep', () => {
     ['I loved it', 'highly-recommend'],
     ['Ok', 'worth-trying'],
     ["I didn't like it", 'probably-skip'],
-  ])('"%s" saves a tier-only rating and moves to the next place', async (label, tier) => {
+  ])('"%s" saves a tier-only rating marked as onboarding and moves to the next place', async (label, tier) => {
     const { el } = await renderStep();
     const first = cardName(el);
     await click(button(el, label));
     expect(submit).toHaveBeenCalledTimes(1);
     const arg = submit.mock.calls[0][0];
-    expect(arg.rating).toEqual({ tier });
+    expect(arg.rating).toEqual({ tier, fromOnboarding: true });
     expect(arg.userId).toBe('u');
     expect(arg.landmark.name).toBe(first);
     expect(el.textContent).toContain('1 of 10');

@@ -147,6 +147,9 @@ export const TASTE_HALF_MISS_CREDIT = 1 - MISS_WEIGHTS['positive>negative'];
 // live score has TASTE_MIN_GUESSES guesses: replay starts once the user has
 // this many earlier ratings (same floor predictLevel itself needs).
 export const TASTE_ESTIMATE_MIN_HISTORY = PREDICTION_MIN_TOTAL_RATINGS;
+// Accounts from before onboarding ratings carried fromOnboarding: ratings
+// given within this long of signing up count as the sign-up onboarding's.
+export const ONBOARDING_RATING_WINDOW_MS = 2 * 60 * 60 * 1000;
 // Score history (users/{uid}/taste_history): a new snapshot is written after
 // an answer at most once per this long, or sooner once this many more ratings
 // sit behind the score than at the last snapshot.

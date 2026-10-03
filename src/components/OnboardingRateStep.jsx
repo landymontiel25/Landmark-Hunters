@@ -70,7 +70,7 @@ export default function OnboardingRateStep({ lovedTags = [], onDone, onLater }) 
         userId: user.uid,
         userName: myUsername || user.displayName || 'Explorer',
         landmark: place,
-        rating: { tier },
+        rating: { tier, fromOnboarding: true },
       });
       setAdded((a) => [...a, place.id]);
       reload().catch(() => {});

@@ -223,6 +223,10 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
           // scales how hard this rating moves tagScores (applyRating).
           visitFrequency: rating.visitFrequency || null,
           ratedAt,
+          // Given during sign-up onboarding: the taste score learns from it
+          // but never counts it as a guess (tasteEstimate.js). A later
+          // change of answer is an ordinary rating.
+          fromOnboarding: tierChanged ? false : hadTier ? pd.fromOnboarding === true : rating.fromOnboarding === true,
           ...priorFields,
           // A new answer that moved two levels says why; a re-rating without
           // such a change clears the old answer's explanation.

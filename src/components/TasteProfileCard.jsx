@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useRatings } from '../lib/RatingsContext';
-import { estimateTasteScore } from '../lib/tasteEstimate';
+import { estimateTasteScore, onboardingRatingTest } from '../lib/tasteEstimate';
 import { saveTasteBaseline, saveTasteIntro } from '../lib/friends';
 import { TASTE_WINDOW, TASTE_BAR_YELLOW_FROM, TASTE_BAR_GREEN_FROM } from '../lib/maprConstants';
 
@@ -116,9 +116,13 @@ export default function TasteProfileCard() {
   }, [user]);
 
   // Display-only estimate from the reviews already loaded (no reads, nothing
-  // saved). Only used while the live score is still learning.
+  // saved). Only used while the live score is still learning. Sign-up
+  // onboarding ratings teach it but are never guessed on.
   const { myReviews } = useRatings();
-  const estimate = useMemo(() => estimateTasteScore(myReviews), [myReviews]);
+  const estimate = useMemo(
+    () => estimateTasteScore(myReviews, { isOnboarding: onboardingRatingTest(myProfile) }),
+    [myReviews, myProfile]
+  );
 
   const profileStuck = useSlowLoad(!!user && !profileFresh && !justSaved && !editing);
 
