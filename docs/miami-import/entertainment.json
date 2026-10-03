@@ -1,9 +1,9 @@
 {
  "category": "entertainment",
- "count": 24,
+ "count": 22,
  "commonsPhotos": 2,
- "commonsPhotoPct": 8.3,
- "withFacts": 21,
+ "commonsPhotoPct": 9.1,
+ "withFacts": 22,
  "withHours": 1,
  "photoSkips": [
   {
@@ -19,18 +19,17 @@
  ],
  "sample": [
   {
-   "id": "osm-n13165171139",
-   "name": "Rooftop Cinema Club South Beach",
+   "id": "osm-n6935717880",
+   "name": "Silverspot Cinema",
    "topic": "movie theater",
-   "lat": 25.789316,
-   "lng": -80.14144,
+   "lat": 25.771394,
+   "lng": -80.188437,
    "photo": false,
    "facts": [
-    "Open-air cinema on a 6th-floor terrace at the western end of the Lincoln Road promenade",
-    "Guests hear the film through wireless headphones",
-    "Was announced in 2022 as South Beach's first rooftop movie theater"
+    "Has 17 screens",
+    "Address: 300 Southeast 3rd Street, Unit 100, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13165171139"
+   "osmUrl": "https://www.openstreetmap.org/node/6935717880"
   },
   {
    "id": "osm-w1274267731",
@@ -75,18 +74,18 @@
    "osmUrl": "https://www.openstreetmap.org/node/9173305501"
   },
   {
-   "id": "osm-n5025200754",
-   "name": "Teatro Trail",
-   "topic": "theater",
-   "lat": 25.764814,
-   "lng": -80.255562,
-   "photo": true,
+   "id": "osm-n8871944117",
+   "name": "Thriller Miami Speedboat Adventures",
+   "topic": "boat tour",
+   "lat": 25.777684,
+   "lng": -80.185741,
+   "photo": false,
    "facts": [
-    "Built in 1930 as the Trail Theater",
-    "Bought by Marco Gómez in 1963 and showed Spanish-language movies in the 1960s and 1970s",
-    "Comedian Armando Roblán staged his political satires here in the 1980s and 1990s"
+    "Has offered speedboat tours in Miami since 2006",
+    "Fleet includes three Thriller vessels and one Thriller Miami Hurricane",
+    "Address: 401 Biscayne Boulevard, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5025200754"
+   "osmUrl": "https://www.openstreetmap.org/node/8871944117"
   },
   {
    "id": "osm-w301237024",
@@ -103,17 +102,18 @@
    "osmUrl": "https://www.openstreetmap.org/way/301237024"
   },
   {
-   "id": "osm-n6935717880",
-   "name": "Silverspot Cinema",
-   "topic": "movie theater",
-   "lat": 25.771394,
-   "lng": -80.188437,
-   "photo": false,
+   "id": "osm-n5025200754",
+   "name": "Teatro Trail",
+   "topic": "theater",
+   "lat": 25.764814,
+   "lng": -80.255562,
+   "photo": true,
    "facts": [
-    "Has 17 screens",
-    "Address: 300 Southeast 3rd Street, Unit 100, Miami"
+    "Built in 1930 as the Trail Theater",
+    "Bought by Marco Gómez in 1963 and showed Spanish-language movies in the 1960s and 1970s",
+    "Comedian Armando Roblán staged his political satires here in the 1980s and 1990s"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6935717880"
+   "osmUrl": "https://www.openstreetmap.org/node/5025200754"
   },
   {
    "id": "osm-n9173305516",
@@ -128,24 +128,17 @@
    "osmUrl": "https://www.openstreetmap.org/node/9173305516"
   },
   {
-   "id": "osm-n4770384121",
-   "name": "Miami seaplane tour",
-   "topic": "seaplane tour",
-   "lat": 25.746674,
-   "lng": -80.177954,
+   "id": "osm-n4710861095",
+   "name": "O Cinema South Beach",
+   "topic": "movie theater",
+   "lat": 25.782493,
+   "lng": -80.132639,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4770384121"
-  },
-  {
-   "id": "osm-n11972505214",
-   "name": "Splash",
-   "topic": "water park",
-   "lat": 25.786921,
-   "lng": -80.175012,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11972505214"
+   "facts": [
+    "Has 1 screen",
+    "Address: 1130 Washington Avenue, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4710861095"
   },
   {
    "id": "osm-w590186839",
@@ -160,6 +153,20 @@
     "Designed by Russell T. Pancoast and Henry Hohauser"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/590186839"
+  },
+  {
+   "id": "osm-n3683239634",
+   "name": "Victor E. Clarke Recital Hall",
+   "topic": "theater",
+   "lat": 25.718589,
+   "lng": -80.280223,
+   "photo": false,
+   "facts": [
+    "Recital hall of the University of Miami Frost School of Music in the L. Austin Weeks Center",
+    "Designed by acoustician Charles Bonner, with draperies that adjust the acoustics",
+    "Named for Victor E. Clarke, a UM trustee and philanthropist"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3683239634"
   },
   {
    "id": "osm-w589360337",
@@ -216,20 +223,6 @@
    "osmUrl": "https://www.openstreetmap.org/way/366186665"
   },
   {
-   "id": "osm-n3683239634",
-   "name": "Victor E. Clarke Recital Hall",
-   "topic": "theater",
-   "lat": 25.718589,
-   "lng": -80.280223,
-   "photo": false,
-   "facts": [
-    "Recital hall of the University of Miami Frost School of Music in the L. Austin Weeks Center",
-    "Designed by acoustician Charles Bonner, with draperies that adjust the acoustics",
-    "Named for Victor E. Clarke, a UM trustee and philanthropist"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3683239634"
-  },
-  {
    "id": "osm-n6932414793",
    "name": "Landmark at Merrick Park",
    "topic": "movie theater",
@@ -256,20 +249,6 @@
     "It was renamed in 1982 for Dr. Manuel Artime Buesa, a leader of Cuban Brigade 2506."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/435585940"
-  },
-  {
-   "id": "osm-n8871944117",
-   "name": "Thriller Miami Speedboat Adventures",
-   "topic": "boat tour",
-   "lat": 25.777684,
-   "lng": -80.185741,
-   "photo": false,
-   "facts": [
-    "Has offered speedboat tours in Miami since 2006",
-    "Fleet includes three Thriller vessels and one Thriller Miami Hurricane",
-    "Address: 401 Biscayne Boulevard, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/8871944117"
   },
   {
    "id": "osm-n12179541636",
@@ -300,17 +279,18 @@
    "osmUrl": "https://www.openstreetmap.org/node/6912995626"
   },
   {
-   "id": "osm-n4710861095",
-   "name": "O Cinema South Beach",
+   "id": "osm-n13165171139",
+   "name": "Rooftop Cinema Club South Beach",
    "topic": "movie theater",
-   "lat": 25.782493,
-   "lng": -80.132639,
+   "lat": 25.789316,
+   "lng": -80.14144,
    "photo": false,
    "facts": [
-    "Has 1 screen",
-    "Address: 1130 Washington Avenue, Miami Beach"
+    "Open-air cinema on a 6th-floor terrace at the western end of the Lincoln Road promenade",
+    "Guests hear the film through wireless headphones",
+    "Was announced in 2022 as South Beach's first rooftop movie theater"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4710861095"
+   "osmUrl": "https://www.openstreetmap.org/node/13165171139"
   },
   {
    "id": "osm-w1178593087",
@@ -333,7 +313,10 @@
    "lat": 25.766311,
    "lng": -80.211418,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Venue has two stages and hosts theater, concerts, book presentations and film premieres.",
+    "Created the Festival Internacional de la Escena Gay in 2014."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4587214222"
   }
  ],
@@ -414,11 +397,6 @@
    1
   ],
   [
-   25.746674,
-   -80.177954,
-   0
-  ],
-  [
    25.782493,
    -80.132639,
    0
@@ -431,11 +409,6 @@
   [
    25.771394,
    -80.188437,
-   0
-  ],
-  [
-   25.786921,
-   -80.175012,
    0
   ],
   [

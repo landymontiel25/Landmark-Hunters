@@ -1,12 +1,12 @@
 {
  "category": "entertainment",
- "count": 62,
+ "count": 60,
  "commonsPhotos": 13,
- "commonsPhotoPct": 21,
- "withFacts": 55,
+ "commonsPhotoPct": 21.7,
+ "withFacts": 60,
  "withHours": 1,
  "byRegion": {
-  "philly": 61,
+  "philly": 59,
   "villanova": 1
  },
  "photoSkips": [
@@ -43,199 +43,18 @@
  ],
  "sample": [
   {
-   "id": "osm-n3669307487",
-   "name": "Walter K Gordon Theater",
+   "id": "osm-w320466671",
+   "name": "Wilma Theater",
    "topic": "theater",
-   "lat": 39.949092,
-   "lng": -75.121726,
-   "photo": false,
-   "facts": [
-    "A 650-seat proscenium theater with an unobstructed view from every seat.",
-    "The hub of the performing arts at Rutgers-Camden.",
-    "Run by Rutgers University–Camden"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3669307487"
-  },
-  {
-   "id": "osm-n13610275291",
-   "name": "Iron Gate Theater",
-   "topic": "theater",
-   "lat": 39.954736,
-   "lng": -75.196849,
-   "photo": false,
-   "facts": [
-    "Built in 1886 and designed by architect Theophilus Parsons Chandler.",
-    "Located in a national historic landmark building that also houses the Tabernacle Church and the Christian Association.",
-    "The former church sanctuary was converted to a theater without altering the interior."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13610275291"
-  },
-  {
-   "id": "osm-w340211249",
-   "name": "Philadelphia Shakespeare Theatre",
-   "topic": "theater",
-   "lat": 39.951755,
-   "lng": -75.17613,
-   "photo": false,
-   "facts": [
-    "Founded in 1989 as the Red Heel Theatre.",
-    "Changed its name and purpose in 1993.",
-    "Address: 2111 Sansom Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/340211249"
-  },
-  {
-   "id": "osm-w60928793",
-   "name": "Regal UA Main Street Theatre",
-   "topic": "movie theater",
-   "lat": 40.015386,
-   "lng": -75.210509,
-   "photo": false,
-   "facts": [
-    "Part of the Regal Cinemas chain",
-    "Address: 3720 Main Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/60928793"
-  },
-  {
-   "id": "osm-w334239535",
-   "name": "Prince Music Theatre",
-   "topic": "theater",
-   "lat": 39.950666,
-   "lng": -75.164723,
-   "photo": false,
-   "facts": [
-    "Bought by the Philadelphia Film Society in March 2015 and renamed Prince Theater.",
-    "Now operated by the Film Society as the Film Society Center.",
-    "Opened in 1921"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/334239535"
-  },
-  {
-   "id": "osm-w332786685",
-   "name": "Forrest Theatre",
-   "topic": "theater",
-   "lat": 39.948498,
-   "lng": -75.15961,
+   "lat": 39.947186,
+   "lng": -75.164304,
    "photo": true,
    "facts": [
-    "Named for the 19th century actor Edwin Forrest, who was born in Philadelphia.",
-    "Opened with a performance of The Red Robe.",
-    "Opened in 1928"
+    "Current 296-seat theater opened in 1996 and was designed by Hugh Hardy.",
+    "Began in 1973 as the Wilma Project, which produced original material.",
+    "Blanka and Jiri Zizka joined in 1979 as artists-in-residence and later renamed it the Wilma Theater."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/332786685"
-  },
-  {
-   "id": "osm-r14390914",
-   "name": "Adventure Aquarium",
-   "topic": "aquarium",
-   "lat": 39.945415,
-   "lng": -75.131305,
-   "photo": false,
-   "facts": [
-    "Formerly the Thomas H. Kean New Jersey State Aquarium.",
-    "Reopened in its current form on May 25, 2005.",
-    "Home to about 8,000 animals in freshwater, marine and semi-aquatic habitats."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/relation/14390914"
-  },
-  {
-   "id": "osm-n12228686821",
-   "name": "ComedySportz",
-   "topic": "theater",
-   "lat": 39.951341,
-   "lng": -75.174581,
-   "photo": false,
-   "facts": [
-    "Performs at The Adrienne Theater in the Rittenhouse section of Center City.",
-    "Flagship show is ComedySportz, a competitive improv comedy match.",
-    "Address: 2030 Sansom Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12228686821"
-  },
-  {
-   "id": "osm-n7301159961",
-   "name": "Kurtz Performing Arts Center",
-   "topic": "theater",
-   "lat": 40.021777,
-   "lng": -75.187324,
-   "photo": false,
-   "facts": [
-    "Opened in January 2010 at William Penn Charter School.",
-    "A LEED Gold certified building with a green roof.",
-    "Named by the Kurtz family in memory of David L. Kurtz."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/7301159961"
-  },
-  {
-   "id": "osm-n343293151",
-   "name": "Cinemark University City Penn 6",
-   "topic": "movie theater",
-   "lat": 39.953872,
-   "lng": -75.203285,
-   "photo": false,
-   "facts": [
-    "Has six screens and 1,179 seats.",
-    "Cinemark took over the theater in June 2013.",
-    "Part of the Cinemark chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/343293151"
-  },
-  {
-   "id": "osm-n3864355363",
-   "name": "Venice Island Performing Arts and Recreational Facility",
-   "topic": "theater",
-   "lat": 40.023421,
-   "lng": -75.222105,
-   "photo": false,
-   "facts": [
-    "Opened with a celebration of live music and art in October 2014.",
-    "The transformation received a 2015 Groundbreaker Award.",
-    "Address: 7 Lock Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3864355363"
-  },
-  {
-   "id": "osm-n988833918",
-   "name": "PFS Bourse Theater",
-   "topic": "movie theater",
-   "lat": 39.949333,
-   "lng": -75.147654,
-   "photo": false,
-   "facts": [
-    "Opened in 1990 as the Ritz at the Bourse.",
-    "Philadelphia Film Society took over operation in 2021 and renovated all five theaters.",
-    "Has 5 screens"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/988833918"
-  },
-  {
-   "id": "osm-w320330815",
-   "name": "Miller Theater",
-   "topic": "theater",
-   "lat": 39.947612,
-   "lng": -75.164943,
-   "photo": false,
-   "facts": [
-    "Originally the Sam S. Shubert Theatre, built by the Shubert brothers in 1918 to honor their late brother Sam.",
-    "Formerly the Merriam Theater, it was purchased by the Kimmel Center in November 2016.",
-    "Renamed for Alan B. Miller, a founding board member of the Kimmel Center."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/320330815"
-  },
-  {
-   "id": "osm-n5258005389",
-   "name": "Punch Line Philly",
-   "topic": "theater",
-   "lat": 39.965362,
-   "lng": -75.135387,
-   "photo": false,
-   "facts": [
-    "Comedy club in Fishtown with about 300 seats, booked by Live Nation's House of Blues Entertainment division.",
-    "Has a lobby bar serving craft beers and pub grub, plus an outdoor patio.",
-    "Hosts local talent showcases and burlesque shows."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5258005389"
+   "osmUrl": "https://www.openstreetmap.org/way/320466671"
   },
   {
    "id": "osm-w51469206",
@@ -252,110 +71,74 @@
    "osmUrl": "https://www.openstreetmap.org/way/51469206"
   },
   {
-   "id": "osm-n1697053207",
-   "name": "AMC Broadstreet 7",
-   "topic": "movie theater",
-   "lat": 39.977496,
-   "lng": -75.158479,
+   "id": "osm-w334239535",
+   "name": "Prince Music Theatre",
+   "topic": "theater",
+   "lat": 39.950666,
+   "lng": -75.164723,
    "photo": false,
    "facts": [
-    "Opened December 5, 2006 as the Pearl Theatre at Avenue North, next to Temple University.",
-    "Named for the former Pearl Theatre on Ridge Avenue and in memory of entertainer Pearl Bailey.",
-    "AMC took over management in September 2016."
+    "Bought by the Philadelphia Film Society in March 2015 and renamed Prince Theater.",
+    "Now operated by the Film Society as the Film Society Center.",
+    "Opened in 1921"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1697053207"
+   "osmUrl": "https://www.openstreetmap.org/way/334239535"
   },
   {
-   "id": "osm-n1940864146",
-   "name": "Ritz Five",
-   "topic": "movie theater",
-   "lat": 39.946833,
-   "lng": -75.145488,
+   "id": "osm-n1325818256",
+   "name": "Sidequest Theatre",
+   "topic": "theater",
+   "lat": 39.951343,
+   "lng": -75.174669,
    "photo": false,
    "facts": [
-    "Founded by Ramon L. Posel as a three-screen theatre in 1976 and expanded to five screens in 1985.",
-    "Premiered M. Night Shyamalan's debut feature Praying with Anger in 1992.",
-    "Ownership transferred to Landmark Theatres in March 2007."
+    "Grew out of Roll Play, an improvised comedy show paying tribute to tabletop role-playing games.",
+    "Opened in the former Adrienne Theater space, which became vacant in June 2023.",
+    "Offers improv and role-playing classes plus a summer camp for ages 11 to 14."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1940864146"
+   "osmUrl": "https://www.openstreetmap.org/node/1325818256"
   },
   {
-   "id": "osm-n5281092754",
-   "name": "Fringe Arts",
+   "id": "osm-n7450315072",
+   "name": "Ralph J. Roberts Forum",
    "topic": "theater",
-   "lat": 39.95337,
-   "lng": -75.140566,
-   "photo": true,
-   "facts": [
-    "Address: 140 North Christopher Columbus Boulevard, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5281092754"
-  },
-  {
-   "id": "osm-n6507309542",
-   "name": "Kevin D. Marlo Little Theatre",
-   "topic": "theater",
-   "lat": 40.022454,
-   "lng": -75.31475,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6507309542"
-  },
-  {
-   "id": "osm-w925366625",
-   "name": "Lantern Theater Company",
-   "topic": "theater",
-   "lat": 39.950824,
-   "lng": -75.156315,
-   "photo": true,
-   "facts": [
-    "Run by Lantern Theater Company",
-    "Also known as St. Stephen's Theater",
-    "Address: 923 Ludlow Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/925366625"
-  },
-  {
-   "id": "osm-n6944020715",
-   "name": "Bushfire Theatre of Performing Arts",
-   "topic": "theater",
-   "lat": 39.956066,
-   "lng": -75.225953,
+   "lat": 39.955048,
+   "lng": -75.170678,
    "photo": false,
    "facts": [
-    "Founded in 1977 by Alfred Simpkins as an African-American professional theatre company.",
-    "Housed in the old Locust Street Theater, a former vaudeville house turned movie house.",
-    "The 428-seat space on 52nd Street is home to its resident ensemble."
+    "Two-floor, 500-person amphitheater inside the Comcast Technology Center.",
+    "Named for Comcast founder Ralph J. Roberts.",
+    "Hosts movie premieres, keynote speakers, talent panels and book signings."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6944020715"
+   "osmUrl": "https://www.openstreetmap.org/node/7450315072"
   },
   {
-   "id": "osm-w339557228",
-   "name": "Theatre of Living Arts",
+   "id": "osm-w92484922",
+   "name": "Franklin Music Hall",
    "topic": "theater",
-   "lat": 39.941351,
-   "lng": -75.148758,
-   "photo": true,
+   "lat": 39.95918,
+   "lng": -75.149684,
+   "photo": false,
    "facts": [
-    "The building dates to the early 1900s as a nickelodeon.",
-    "Became a regional theater led by Andre Gregory in the 1960s, named Theatre of the Living Arts.",
-    "The Philadelphia Council for the Performing Arts acquired the derelict cinema in 1964."
+    "Formerly the Electric Factory, renamed in October 2018 after a public naming contest.",
+    "Housed in a former General Electric Switchgear Plant building from 1916.",
+    "Sold to The Bowery Presents in September 2018."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/339557228"
+   "osmUrl": "https://www.openstreetmap.org/way/92484922"
   },
   {
-   "id": "osm-w339752636",
-   "name": "Walnut Street Theatre",
-   "topic": "theater",
-   "lat": 39.948519,
-   "lng": -75.155458,
-   "photo": true,
+   "id": "osm-r14390914",
+   "name": "Adventure Aquarium",
+   "topic": "aquarium",
+   "lat": 39.945415,
+   "lng": -75.131305,
+   "photo": false,
    "facts": [
-    "Founded in 1808 and the oldest operating theatre in the United States.",
-    "Was the first theatre to install gas footlights, in 1837.",
-    "Hosted the first presidential debate between Gerald Ford and Jimmy Carter on September 23, 1976."
+    "Formerly the Thomas H. Kean New Jersey State Aquarium.",
+    "Reopened in its current form on May 25, 2005.",
+    "Home to about 8,000 animals in freshwater, marine and semi-aquatic habitats."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/339752636"
+   "osmUrl": "https://www.openstreetmap.org/relation/14390914"
   },
   {
    "id": "osm-n12170442410",
@@ -372,18 +155,237 @@
    "osmUrl": "https://www.openstreetmap.org/node/12170442410"
   },
   {
-   "id": "osm-w297806451",
-   "name": "Suzanne Roberts Theatre",
+   "id": "osm-w925366625",
+   "name": "Lantern Theater Company",
    "topic": "theater",
-   "lat": 39.945008,
-   "lng": -75.165626,
+   "lat": 39.950824,
+   "lng": -75.156315,
    "photo": true,
    "facts": [
-    "Seats 365 people.",
-    "Named for Suzanne Roberts, an actress, playwright and director who hosted the TV program Seeking Solutions.",
-    "Her husband, Ralph J. Roberts, founded Comcast."
+    "Run by Lantern Theater Company",
+    "Also known as St. Stephen's Theater",
+    "Address: 923 Ludlow Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/297806451"
+   "osmUrl": "https://www.openstreetmap.org/way/925366625"
+  },
+  {
+   "id": "osm-n7204177385",
+   "name": "City Winery",
+   "topic": "theater",
+   "lat": 39.952271,
+   "lng": -75.156091,
+   "photo": false,
+   "facts": [
+    "Urban winery, live music venue and restaurant under one roof.",
+    "Part of City Winery, founded by Michael Dorf and begun in New York City.",
+    "Address: 990 Filbert Street"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7204177385"
+  },
+  {
+   "id": "osm-n3669307487",
+   "name": "Walter K Gordon Theater",
+   "topic": "theater",
+   "lat": 39.949092,
+   "lng": -75.121726,
+   "photo": false,
+   "facts": [
+    "A 650-seat proscenium theater with an unobstructed view from every seat.",
+    "The hub of the performing arts at Rutgers-Camden.",
+    "Run by Rutgers University–Camden"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3669307487"
+  },
+  {
+   "id": "osm-w340211249",
+   "name": "Philadelphia Shakespeare Theatre",
+   "topic": "theater",
+   "lat": 39.951755,
+   "lng": -75.17613,
+   "photo": false,
+   "facts": [
+    "Founded in 1989 as the Red Heel Theatre.",
+    "Changed its name and purpose in 1993.",
+    "Address: 2111 Sansom Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/340211249"
+  },
+  {
+   "id": "osm-n7149312014",
+   "name": "Old Academy Players",
+   "topic": "theater",
+   "lat": 40.009813,
+   "lng": -75.189533,
+   "photo": false,
+   "facts": [
+    "Formed in 1923 as the Moment Musical Club by 19 members of the Falls Methodist Church.",
+    "Has used the Old Academy building in East Falls since 1932.",
+    "Grace Kelly began her acting career on its stage in 1942."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7149312014"
+  },
+  {
+   "id": "osm-n7348661043",
+   "name": "Randall and Tomlinson Theaters",
+   "topic": "theater",
+   "lat": 39.983461,
+   "lng": -75.155116,
+   "photo": false,
+   "facts": [
+    "Temple theater venues: the 80-seat Randall Theater and the 425-seat Tomlinson Theater.",
+    "Part of the Annenberg Hall and Tomlinson Theater complex, which also has rehearsal rooms."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7348661043"
+  },
+  {
+   "id": "osm-n6507309542",
+   "name": "Kevin D. Marlo Little Theatre",
+   "topic": "theater",
+   "lat": 40.022454,
+   "lng": -75.31475,
+   "photo": false,
+   "facts": [
+    "The Little Theatre was built in 1920 and reopened in 2011 as the Kevin D. Marlo Little Theatre.",
+    "Named for an actor lost on 9/11, whose family made the lead gift for its restoration."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6507309542"
+  },
+  {
+   "id": "osm-n1697053207",
+   "name": "AMC Broadstreet 7",
+   "topic": "movie theater",
+   "lat": 39.977496,
+   "lng": -75.158479,
+   "photo": false,
+   "facts": [
+    "Opened December 5, 2006 as the Pearl Theatre at Avenue North, next to Temple University.",
+    "Named for the former Pearl Theatre on Ridge Avenue and in memory of entertainer Pearl Bailey.",
+    "AMC took over management in September 2016."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1697053207"
+  },
+  {
+   "id": "osm-n12170442409",
+   "name": "Sidney Kimmel Theater",
+   "topic": "theater",
+   "lat": 39.954125,
+   "lng": -75.148864,
+   "photo": false,
+   "facts": [
+    "Hosts Freedom Rising, a 17-minute 360-degree multimedia show with a live narrator.",
+    "Reopened on June 14, 2016 after its renovation.",
+    "Run by National Constitution Center"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12170442409"
+  },
+  {
+   "id": "osm-n12228686817",
+   "name": "Helium Comedy Club",
+   "topic": "theater",
+   "lat": 39.95152,
+   "lng": -75.174738,
+   "photo": false,
+   "facts": [
+    "Hosts headline comedy shows and open mic nights.",
+    "Has two full-service bars and serves appetizers, sandwiches, entrees and desserts.",
+    "Address: 2031 Sansom Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12228686817"
+  },
+  {
+   "id": "osm-n7301159961",
+   "name": "Kurtz Performing Arts Center",
+   "topic": "theater",
+   "lat": 40.021777,
+   "lng": -75.187324,
+   "photo": false,
+   "facts": [
+    "Opened in January 2010 at William Penn Charter School.",
+    "A LEED Gold certified building with a green roof.",
+    "Named by the Kurtz family in memory of David L. Kurtz."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7301159961"
+  },
+  {
+   "id": "osm-w691541843",
+   "name": "Louis Bluver Theatre",
+   "topic": "theater",
+   "lat": 39.946531,
+   "lng": -75.167395,
+   "photo": false,
+   "facts": [
+    "Flexible 75-seat theater in the former ballroom of The Drake, home of InterAct Theatre Company.",
+    "Address: 302 South Hicks Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/691541843"
+  },
+  {
+   "id": "osm-n6944020715",
+   "name": "Bushfire Theatre of Performing Arts",
+   "topic": "theater",
+   "lat": 39.956066,
+   "lng": -75.225953,
+   "photo": false,
+   "facts": [
+    "Founded in 1977 by Alfred Simpkins as an African-American professional theatre company.",
+    "Housed in the old Locust Street Theater, a former vaudeville house turned movie house.",
+    "The 428-seat space on 52nd Street is home to its resident ensemble."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6944020715"
+  },
+  {
+   "id": "osm-w339752636",
+   "name": "Walnut Street Theatre",
+   "topic": "theater",
+   "lat": 39.948519,
+   "lng": -75.155458,
+   "photo": true,
+   "facts": [
+    "Founded in 1808 and the oldest operating theatre in the United States.",
+    "Was the first theatre to install gas footlights, in 1837.",
+    "Hosted the first presidential debate between Gerald Ford and Jimmy Carter on September 23, 1976."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/339752636"
+  },
+  {
+   "id": "osm-w708931478",
+   "name": "Wiggins Riverfront Stage",
+   "topic": "theater",
+   "lat": 39.943389,
+   "lng": -75.131969,
+   "photo": false,
+   "facts": [
+    "Outdoor Riverstage in Wiggins Waterfront Park on the Camden waterfront, beside a marina.",
+    "Outdoor riverside stage used for concerts along the Delaware River."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/708931478"
+  },
+  {
+   "id": "osm-w332786685",
+   "name": "Forrest Theatre",
+   "topic": "theater",
+   "lat": 39.948498,
+   "lng": -75.15961,
+   "photo": true,
+   "facts": [
+    "Named for the 19th century actor Edwin Forrest, who was born in Philadelphia.",
+    "Opened with a performance of The Red Robe.",
+    "Opened in 1928"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/332786685"
+  },
+  {
+   "id": "osm-w49887227",
+   "name": "The Dell Music Center",
+   "topic": "theater",
+   "lat": 39.996342,
+   "lng": -75.189872,
+   "photo": false,
+   "facts": [
+    "Opened in 1929 as Robin Hood Dell East, summer home of the Philadelphia Orchestra.",
+    "Open-air amphitheater in East Fairmount Park managed by Philadelphia Parks & Recreation."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/49887227"
   }
  ],
  "points": [
@@ -415,11 +417,6 @@
   [
    39.956066,
    -75.225953,
-   0
-  ],
-  [
-   39.961519,
-   -75.261831,
    0
   ],
   [
@@ -525,11 +522,6 @@
   [
    39.947612,
    -75.164943,
-   0
-  ],
-  [
-   40.013773,
-   -75.304779,
    0
   ],
   [

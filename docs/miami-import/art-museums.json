@@ -1,162 +1,25 @@
 {
  "category": "art-museums",
- "count": 27,
+ "count": 19,
  "commonsPhotos": 3,
- "commonsPhotoPct": 11.1,
+ "commonsPhotoPct": 15.8,
  "withFacts": 19,
  "withHours": 6,
  "photoSkips": [],
  "sample": [
   {
-   "id": "osm-w483322279",
-   "name": "Bass Museum of Art",
-   "topic": "museum",
-   "lat": 25.797569,
-   "lng": -80.130114,
-   "photo": true,
-   "facts": [
-    "The museum was founded in 1963 and opened to the public on April 7, 1964.",
-    "John and Johanna Bass gave the city a collection of more than 500 works including Old Master paintings.",
-    "An expansion designed by David Gauld added four galleries and reopened in October 2017."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/483322279"
-  },
-  {
-   "id": "osm-n367827368",
-   "name": "Cuban Museum",
-   "topic": "museum",
-   "lat": 25.751104,
-   "lng": -80.25914,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367827368"
-  },
-  {
-   "id": "osm-n4205228308",
-   "name": "The Screening Room",
-   "topic": "arts center",
-   "lat": 25.801921,
-   "lng": -80.199239,
-   "photo": false,
-   "facts": [
-    "New media exhibition and project space in the Mitrani Warehouse, directed by Rhonda Mitrani.",
-    "Address: 2626 Northwest 2nd Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4205228308"
-  },
-  {
-   "id": "osm-w435748157",
-   "name": "Historic Black Police Precinct Courthouse and Museum",
-   "topic": "museum",
-   "lat": 25.784248,
-   "lng": -80.202758,
-   "photo": false,
-   "facts": [
-    "Built in 1950 because segregation barred Miami's Black officers from the main police station.",
-    "Designed by Miami architect Walter G. DeGarmo.",
-    "Miami hired its first five Black police officers in 1944."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/435748157"
-  },
-  {
-   "id": "osm-w1314522471",
-   "name": "Thomas F. Daly Loggia",
+   "id": "osm-n4110041150",
+   "name": "Belairfineart",
    "topic": "art gallery",
-   "lat": 25.71683,
-   "lng": -80.279166,
+   "lat": 25.790503,
+   "lng": -80.132832,
    "photo": false,
    "facts": [
-    "Part of the Perez Architecture Center, named for donor Thomas F. Daly.",
-    "Run by University of Miami",
-    "Address: 1215 Dickenson Drive, Coral Gables"
+    "Miami branch is the first U.S. opening of a contemporary art gallery group founded in 2004.",
+    "Shows pop art by Mr Brainwash, Alec Monopoly and Banksy, among others.",
+    "Part of the Scotch & Soda chain"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/1314522471"
-  },
-  {
-   "id": "osm-w1315447901",
-   "name": "The Irving Korach Architecture Gallery",
-   "topic": "art gallery",
-   "lat": 25.716819,
-   "lng": -80.279064,
-   "photo": false,
-   "facts": [
-    "Funded by a gift from Marjorie Korach in memory of her husband, architect Irvin Korach.",
-    "Run by University of Miami",
-    "Address: 1215 Dickenson Drive, Coral Gables"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1315447901"
-  },
-  {
-   "id": "osm-n13610476795",
-   "name": "Vossen",
-   "topic": "art gallery",
-   "lat": 25.705117,
-   "lng": -80.285974,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/13610476795"
-  },
-  {
-   "id": "osm-w1180991368",
-   "name": "Museum of Illusions",
-   "topic": "museum",
-   "lat": 25.790379,
-   "lng": -80.13397,
-   "photo": false,
-   "facts": [
-    "Interactive attraction with over 40 3D illusions inspired by movies, cartoons, art and current events.",
-    "Address: 536 Lincoln Road, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1180991368"
-  },
-  {
-   "id": "osm-n367819296",
-   "name": "Miami Dade Cultural Center",
-   "topic": "arts center",
-   "lat": 25.774465,
-   "lng": -80.19642,
-   "photo": true,
-   "facts": [
-    "The complex at 101 West Flagler Street was designed by architect Philip Johnson.",
-    "Its raised plaza is framed by the Miami-Dade Public Library and HistoryMiami."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/367819296"
-  },
-  {
-   "id": "osm-n367819285",
-   "name": "Ara Gallery Cultural Center",
-   "topic": "arts center",
-   "lat": 25.764874,
-   "lng": -80.255662,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367819285"
-  },
-  {
-   "id": "osm-n5770386029",
-   "name": "Anthony Liggins Gallery 88",
-   "topic": "art gallery",
-   "lat": 25.795725,
-   "lng": -80.131145,
-   "photo": false,
-   "facts": [
-    "Address: 237 20th Street, #C, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5770386029"
-  },
-  {
-   "id": "osm-n13760426024",
-   "name": "Lina Cerrone Gallery",
-   "topic": "art gallery",
-   "lat": 25.798804,
-   "lng": -80.198875,
-   "photo": false,
-   "facts": [
-    "Contemporary fine art gallery co-founded by Lina Cerrone and filmmaker Fredric Lean.",
-    "Accepts Bitcoin",
-    "Address: 2239 Northwest 2nd Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13760426024"
+   "osmUrl": "https://www.openstreetmap.org/node/4110041150"
   },
   {
    "id": "osm-n367819407",
@@ -173,17 +36,17 @@
    "osmUrl": "https://www.openstreetmap.org/node/367819407"
   },
   {
-   "id": "osm-n4249047169",
-   "name": "Gallery 2612",
-   "topic": "art gallery",
-   "lat": 25.801806,
-   "lng": -80.199232,
-   "photo": false,
+   "id": "osm-n367819296",
+   "name": "Miami Dade Cultural Center",
+   "topic": "arts center",
+   "lat": 25.774465,
+   "lng": -80.19642,
+   "photo": true,
    "facts": [
-    "Contemporary art gallery and event venue in the Wynwood Arts District that showcases local artists.",
-    "Address: 2612 Northwest 2nd Avenue, Miami"
+    "The complex at 101 West Flagler Street was designed by architect Philip Johnson.",
+    "Its raised plaza is framed by the Miami-Dade Public Library and HistoryMiami."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4249047169"
+   "osmUrl": "https://www.openstreetmap.org/node/367819296"
   },
   {
    "id": "osm-n6091344318",
@@ -200,14 +63,74 @@
    "osmUrl": "https://www.openstreetmap.org/node/6091344318"
   },
   {
-   "id": "osm-n367819294",
-   "name": "Latin Quarter Cultural Center of Miami",
-   "topic": "arts center",
-   "lat": 25.765566,
-   "lng": -80.219218,
+   "id": "osm-w1314522471",
+   "name": "Thomas F. Daly Loggia",
+   "topic": "art gallery",
+   "lat": 25.71683,
+   "lng": -80.279166,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367819294"
+   "facts": [
+    "Part of the Perez Architecture Center, named for donor Thomas F. Daly.",
+    "Run by University of Miami",
+    "Address: 1215 Dickenson Drive, Coral Gables"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1314522471"
+  },
+  {
+   "id": "osm-w483322279",
+   "name": "Bass Museum of Art",
+   "topic": "museum",
+   "lat": 25.797569,
+   "lng": -80.130114,
+   "photo": true,
+   "facts": [
+    "The museum was founded in 1963 and opened to the public on April 7, 1964.",
+    "John and Johanna Bass gave the city a collection of more than 500 works including Old Master paintings.",
+    "An expansion designed by David Gauld added four galleries and reopened in October 2017."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/483322279"
+  },
+  {
+   "id": "osm-n5770386029",
+   "name": "Anthony Liggins Gallery 88",
+   "topic": "art gallery",
+   "lat": 25.795725,
+   "lng": -80.131145,
+   "photo": false,
+   "facts": [
+    "Specializes in works by Atlanta-Miami artist Anthony Liggins.",
+    "Held the grand opening of the exhibition Pathways to a Sacred Soul.",
+    "Address: 237 20th Street, #C, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5770386029"
+  },
+  {
+   "id": "osm-w1315447901",
+   "name": "The Irving Korach Architecture Gallery",
+   "topic": "art gallery",
+   "lat": 25.716819,
+   "lng": -80.279064,
+   "photo": false,
+   "facts": [
+    "Funded by a gift from Marjorie Korach in memory of her husband, architect Irvin Korach.",
+    "Run by University of Miami",
+    "Address: 1215 Dickenson Drive, Coral Gables"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1315447901"
+  },
+  {
+   "id": "osm-n13760426024",
+   "name": "Lina Cerrone Gallery",
+   "topic": "art gallery",
+   "lat": 25.798804,
+   "lng": -80.198875,
+   "photo": false,
+   "facts": [
+    "Contemporary fine art gallery co-founded by Lina Cerrone and filmmaker Fredric Lean.",
+    "Accepts Bitcoin",
+    "Address: 2239 Northwest 2nd Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13760426024"
   },
   {
    "id": "osm-n6359624487",
@@ -221,20 +144,6 @@
     "Displays limited-edition landscape and cityscape prints, including backlit images."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6359624487"
-  },
-  {
-   "id": "osm-n4209523097",
-   "name": "Dina Mitrani Art Gallery",
-   "topic": "art gallery",
-   "lat": 25.801862,
-   "lng": -80.199236,
-   "photo": false,
-   "facts": [
-    "Specializes in contemporary and classic photography by emerging and established photographers.",
-    "Housed in the Mitrani family complex, tied to their former women's wholesale apparel business in Wynwood.",
-    "Run by Dina Mitrani"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4209523097"
   },
   {
    "id": "osm-n903620843",
@@ -251,26 +160,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/903620843"
   },
   {
-   "id": "osm-n367827528",
-   "name": "Latin American Art Museum",
-   "topic": "museum",
-   "lat": 25.764722,
-   "lng": -80.231111,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367827528"
-  },
-  {
-   "id": "osm-n367819328",
-   "name": "Miami Art Center",
-   "topic": "arts center",
-   "lat": 25.688611,
-   "lng": -80.318889,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/367819328"
-  },
-  {
    "id": "osm-n6091331640",
    "name": "PARADOX Museum Miami",
    "topic": "museum",
@@ -283,6 +172,46 @@
     "Address: 2301 North Miami Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6091331640"
+  },
+  {
+   "id": "osm-w435748157",
+   "name": "Historic Black Police Precinct Courthouse and Museum",
+   "topic": "museum",
+   "lat": 25.784248,
+   "lng": -80.202758,
+   "photo": false,
+   "facts": [
+    "Built in 1950 because segregation barred Miami's Black officers from the main police station.",
+    "Designed by Miami architect Walter G. DeGarmo.",
+    "Miami hired its first five Black police officers in 1944."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435748157"
+  },
+  {
+   "id": "osm-w1180991368",
+   "name": "Museum of Illusions",
+   "topic": "museum",
+   "lat": 25.790379,
+   "lng": -80.13397,
+   "photo": false,
+   "facts": [
+    "Interactive attraction with over 40 3D illusions inspired by movies, cartoons, art and current events.",
+    "Address: 536 Lincoln Road, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1180991368"
+  },
+  {
+   "id": "osm-n4205228308",
+   "name": "The Screening Room",
+   "topic": "arts center",
+   "lat": 25.801921,
+   "lng": -80.199239,
+   "photo": false,
+   "facts": [
+    "New media exhibition and project space in the Mitrani Warehouse, directed by Rhonda Mitrani.",
+    "Address: 2626 Northwest 2nd Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4205228308"
   },
   {
    "id": "osm-w435738306",
@@ -313,17 +242,31 @@
    "osmUrl": "https://www.openstreetmap.org/node/4224000190"
   },
   {
-   "id": "osm-n4110041150",
-   "name": "Belairfineart",
+   "id": "osm-n4209523097",
+   "name": "Dina Mitrani Art Gallery",
    "topic": "art gallery",
-   "lat": 25.790503,
-   "lng": -80.132832,
+   "lat": 25.801862,
+   "lng": -80.199236,
    "photo": false,
    "facts": [
-    "Part of the Scotch & Soda chain",
-    "Address: 442 Lincoln Road, Miami Beach"
+    "Specializes in contemporary and classic photography by emerging and established photographers.",
+    "Housed in the Mitrani family complex, tied to their former women's wholesale apparel business in Wynwood.",
+    "Run by Dina Mitrani"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4110041150"
+   "osmUrl": "https://www.openstreetmap.org/node/4209523097"
+  },
+  {
+   "id": "osm-n4249047169",
+   "name": "Gallery 2612",
+   "topic": "art gallery",
+   "lat": 25.801806,
+   "lng": -80.199232,
+   "photo": false,
+   "facts": [
+    "Contemporary art gallery and event venue in the Wynwood Arts District that showcases local artists.",
+    "Address: 2612 Northwest 2nd Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4249047169"
   }
  ],
  "points": [
@@ -343,11 +286,6 @@
    0
   ],
   [
-   25.764874,
-   -80.255662,
-   0
-  ],
-  [
    25.797569,
    -80.130114,
    1
@@ -355,16 +293,6 @@
   [
    25.790503,
    -80.132832,
-   0
-  ],
-  [
-   25.763864,
-   -80.284283,
-   0
-  ],
-  [
-   25.751104,
-   -80.25914,
    0
   ],
   [
@@ -388,16 +316,6 @@
    0
   ],
   [
-   25.764722,
-   -80.231111,
-   0
-  ],
-  [
-   25.765566,
-   -80.219218,
-   0
-  ],
-  [
    25.790788,
    -80.135759,
    0
@@ -408,11 +326,6 @@
    0
   ],
   [
-   25.688611,
-   -80.318889,
-   0
-  ],
-  [
    25.774465,
    -80.19642,
    1
@@ -420,11 +333,6 @@
   [
    25.790379,
    -80.13397,
-   0
-  ],
-  [
-   25.765691,
-   -80.207946,
    0
   ],
   [
@@ -450,11 +358,6 @@
   [
    25.71683,
    -80.279166,
-   0
-  ],
-  [
-   25.705117,
-   -80.285974,
    0
   ],
   [

@@ -13,37 +13,37 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "art-museums",
-    "file": "places/miami/art-museums.717a2caa6a.json",
-    "count": 27
+    "file": "places/miami/art-museums.ea760ad658.json",
+    "count": 19
   },
   {
     "region": "miami",
     "category": "entertainment",
-    "file": "places/miami/entertainment.0a13a28700.json",
-    "count": 24
+    "file": "places/miami/entertainment.d0f9e8ae36.json",
+    "count": 22
   },
   {
     "region": "miami",
     "category": "history-culture",
-    "file": "places/miami/history-culture.6962906c50.json",
-    "count": 34
+    "file": "places/miami/history-culture.b06dddfe85.json",
+    "count": 33
   },
   {
     "region": "miami",
     "category": "local-life",
-    "file": "places/miami/local-life.33bb0fb005.json",
-    "count": 108
+    "file": "places/miami/local-life.1576e07071.json",
+    "count": 96
   },
   {
     "region": "miami",
     "category": "parks-nature",
-    "file": "places/miami/parks-nature.d1b135cb00.json",
-    "count": 160
+    "file": "places/miami/parks-nature.1873aca2fe.json",
+    "count": 143
   },
   {
     "region": "miami",
     "category": "sports",
-    "file": "places/miami/sports.5b2e7284f1.json",
+    "file": "places/miami/sports.235297be44.json",
     "count": 6
   },
   {
@@ -55,38 +55,38 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "food",
-    "file": "places/miami/food.6c0f72824d.json",
-    "count": 550
+    "file": "places/miami/food.8d2e9beeed.json",
+    "count": 524
   },
   {
     "region": "philly",
     "category": "art-museums",
-    "file": "places/philly/art-museums.62d33723a1.json",
+    "file": "places/philly/art-museums.2a1342114d.json",
     "count": 108
   },
   {
     "region": "philly",
     "category": "entertainment",
-    "file": "places/philly/entertainment.fa1b6261a9.json",
-    "count": 61
+    "file": "places/philly/entertainment.a668f7b176.json",
+    "count": 59
   },
   {
     "region": "villanova",
     "category": "entertainment",
-    "file": "places/villanova/entertainment.36f0b95036.json",
+    "file": "places/villanova/entertainment.7e738be3a9.json",
     "count": 1
   },
   {
     "region": "philly",
     "category": "history-culture",
-    "file": "places/philly/history-culture.8b016708c5.json",
-    "count": 139
+    "file": "places/philly/history-culture.d0c9758686.json",
+    "count": 137
   },
   {
     "region": "philly",
     "category": "local-life",
-    "file": "places/philly/local-life.5e10cdf57a.json",
-    "count": 327
+    "file": "places/philly/local-life.9464dbbf0c.json",
+    "count": 305
   },
   {
     "region": "villanova",
@@ -97,43 +97,43 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "parks-nature",
-    "file": "places/philly/parks-nature.65c5ebfcc1.json",
-    "count": 135
+    "file": "places/philly/parks-nature.61eb68fb32.json",
+    "count": 123
   },
   {
     "region": "villanova",
     "category": "parks-nature",
-    "file": "places/villanova/parks-nature.f6d0079fd4.json",
-    "count": 3
+    "file": "places/villanova/parks-nature.bfaf2caf61.json",
+    "count": 2
   },
   {
     "region": "philly",
     "category": "sports",
-    "file": "places/philly/sports.743d4f4d92.json",
-    "count": 13
+    "file": "places/philly/sports.b6a1125da9.json",
+    "count": 12
   },
   {
     "region": "villanova",
     "category": "sports",
-    "file": "places/villanova/sports.0b7c526ffc.json",
+    "file": "places/villanova/sports.42fd4f9510.json",
     "count": 3
   },
   {
     "region": "philly",
     "category": "stadiums",
-    "file": "places/philly/stadiums.8f11273e28.json",
+    "file": "places/philly/stadiums.63a8aaa61d.json",
     "count": 3
   },
   {
     "region": "philly",
     "category": "food",
-    "file": "places/philly/food.c4a5e0d49e.json",
-    "count": 165
+    "file": "places/philly/food.db65418cca.json",
+    "count": 157
   },
   {
     "region": "villanova",
     "category": "food",
-    "file": "places/villanova/food.66147e4330.json",
-    "count": 7
+    "file": "places/villanova/food.b2c12f459d.json",
+    "count": 6
   }
 ];

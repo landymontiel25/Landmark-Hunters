@@ -61,3 +61,15 @@ Regions, their shapes and which app region a place joins are in
 `../regions.js`; which staged places a region keeps is `../select.js`.
 `build-packs.mjs` takes photos from `data/<region>/commons.reviewed.json` when
 it exists (the results looked at so far), else `commons.found.json`.
+
+## Second pass: thin places
+
+`thin/select-thin.mjs` lists imported places in miami, philly and villanova
+whose facts are all generic (address, amenity or chain lines) and writes them
+as `thin/batch-NN.json`. Each batch runs as one agent following
+`thin/PROMPT.md` (up to 4 searches per place) and writes `thin/out-NN.json`;
+`batch-30` retried the places that matched but had no fact one link stated.
+`thin/merge-thin.mjs` merges facts into `../web-facts.json` (a later out file
+wins for the same id) and drops closed, unconfirmed and fact-less places
+through `../overrides.json`. Re-running `select-thin.mjs` should then find 0
+(it deletes and rewrites the batch files, so restore them with git after).

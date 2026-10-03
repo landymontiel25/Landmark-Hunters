@@ -1,16 +1,30 @@
 {
  "category": "parks-nature",
- "count": 138,
+ "count": 125,
  "commonsPhotos": 17,
- "commonsPhotoPct": 12.3,
- "withFacts": 84,
+ "commonsPhotoPct": 13.6,
+ "withFacts": 125,
  "withHours": 3,
  "byRegion": {
-  "philly": 135,
-  "villanova": 3
+  "philly": 123,
+  "villanova": 2
  },
  "photoSkips": [],
  "sample": [
+  {
+   "id": "osm-w743695066",
+   "name": "Spruce Hill Bird Sanctuary",
+   "topic": "park",
+   "lat": 39.953728,
+   "lng": -75.212576,
+   "photo": false,
+   "facts": [
+    "The Spruce Hill Community Association bought the lot in 1981.",
+    "Landscape architects Julie Bush and Ann Froehling designed the layout in 2011.",
+    "A Dept of Agriculture grant helped turn the lot into the sanctuary."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/743695066"
+  },
   {
    "id": "osm-w593495805",
    "name": "Cadwalader Tract",
@@ -18,7 +32,9 @@
    "lat": 39.985621,
    "lng": -75.289737,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Listed by Haverford Township among its parks as a designated nature area."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/593495805"
   },
   {
@@ -35,63 +51,31 @@
    "osmUrl": "https://www.openstreetmap.org/way/50108070"
   },
   {
-   "id": "osm-w789928930",
-   "name": "Henry Lane Park",
-   "topic": "nature preserve",
-   "lat": 40.047287,
-   "lng": -75.285811,
-   "photo": false,
-   "facts": [
-    "Covers 22.0 acres in Gladwyne.",
-    "Nature park with hiking and bridle trails.",
-    "Run by Lower Merion Township"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/789928930"
-  },
-  {
-   "id": "osm-w789938262",
-   "name": "Riverbend Environmental Education Center",
-   "topic": "nature preserve",
-   "lat": 40.06904,
-   "lng": -75.284038,
-   "photo": false,
-   "facts": [
-    "Address: 1950 North Spring Mill Road, Lower Merion Township"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/789938262"
-  },
-  {
-   "id": "osm-w1031861147",
-   "name": "Camden Children's Garden",
-   "topic": "garden",
-   "lat": 39.944166,
-   "lng": -75.130975,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/1031861147"
-  },
-  {
-   "id": "osm-w220643640",
-   "name": "Aubrey Collins Park",
-   "topic": "park",
-   "lat": 40.072481,
-   "lng": -75.303028,
-   "photo": false,
-   "facts": [
-    "Reopened after renovation on October 10, 2020.",
-    "Rededicated as Aubrey Collins Jr. Park."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/220643640"
-  },
-  {
    "id": "osm-w183666855",
    "name": "Fitler Square",
    "topic": "park",
    "lat": 39.947603,
    "lng": -75.179787,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "Created from a former brickyard by city ordinance in 1896.",
+    "Named for Edwin H. Fitler, Philadelphia mayor from 1887 to 1891.",
+    "Half-acre park maintained with the Fitler Square Improvement Association."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/183666855"
+  },
+  {
+   "id": "osm-w864023846",
+   "name": "Grays Ferry Crescent Trail Park",
+   "topic": "park",
+   "lat": 39.941262,
+   "lng": -75.200934,
+   "photo": false,
+   "facts": [
+    "The park is a former industrial site turned riverfront park and trail on the Schuylkill River.",
+    "Groundbreaking took place in 2009 after a capital campaign."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/864023846"
   },
   {
    "id": "osm-n3873345276",
@@ -107,6 +91,83 @@
    "osmUrl": "https://www.openstreetmap.org/node/3873345276"
   },
   {
+   "id": "osm-w1031861147",
+   "name": "Camden Children's Garden",
+   "topic": "garden",
+   "lat": 39.944166,
+   "lng": -75.130975,
+   "photo": false,
+   "facts": [
+    "Horticultural playground for children and families that opened in July 1999.",
+    "Includes the Philadelphia Eagles Four Seasons Butterfly House and a Dinosaur Garden, Maze and Tree House.",
+    "Also has a carousel and a train ride."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1031861147"
+  },
+  {
+   "id": "osm-w28526205",
+   "name": "West Wayne Preserve",
+   "topic": "park",
+   "lat": 40.041793,
+   "lng": -75.397332,
+   "photo": false,
+   "facts": [
+    "The preserve is part of a wooded wetlands restoration and habitat enhancement project."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28526205"
+  },
+  {
+   "id": "osm-r17381907",
+   "name": "Fernhill Park",
+   "topic": "park",
+   "lat": 40.018552,
+   "lng": -75.167514,
+   "photo": false,
+   "facts": [
+    "Community food forest started here in fall 2021 with the Philadelphia Orchard Project.",
+    "The 51-acre park in southwest Germantown has trees, sports courts and playgrounds."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/relation/17381907"
+  },
+  {
+   "id": "osm-w220643640",
+   "name": "Aubrey Collins Park",
+   "topic": "park",
+   "lat": 40.072481,
+   "lng": -75.303028,
+   "photo": false,
+   "facts": [
+    "Reopened after renovation on October 10, 2020.",
+    "Rededicated as Aubrey Collins Jr. Park."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/220643640"
+  },
+  {
+   "id": "osm-w219554130",
+   "name": "Mary Wood Park",
+   "topic": "park",
+   "lat": 40.07663,
+   "lng": -75.300872,
+   "photo": false,
+   "facts": [
+    "Mary Wood left the block to the borough in her will in 1919 for use as a public park.",
+    "Her house became the borough community center, formed in 1925."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/219554130"
+  },
+  {
+   "id": "osm-w688647034",
+   "name": "Shofuso Japanese House and Garden",
+   "topic": "garden",
+   "lat": 39.981301,
+   "lng": -75.212812,
+   "photo": false,
+   "facts": [
+    "Designed by Junzō Yoshimura"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/688647034"
+  },
+  {
    "id": "osm-w337138776",
    "name": "Bocce Grove",
    "topic": "park",
@@ -119,82 +180,84 @@
    "osmUrl": "https://www.openstreetmap.org/way/337138776"
   },
   {
-   "id": "osm-n6695578170",
-   "name": "Quadrangle",
-   "topic": "park",
-   "lat": 40.0136,
-   "lng": -75.305923,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6695578170"
-  },
-  {
-   "id": "osm-w545161403",
-   "name": "Preston Park",
-   "topic": "park",
-   "lat": 40.014223,
-   "lng": -75.312234,
+   "id": "osm-w789928930",
+   "name": "Henry Lane Park",
+   "topic": "nature preserve",
+   "lat": 40.047287,
+   "lng": -75.285811,
    "photo": false,
    "facts": [
-    "Preston Reading Room Association, a Quaker group, built a facility at Railroad Avenue and Buck Lane in 1891.",
-    "Richard Lloyd bought the private parcels in 1938 and donated them to the township.",
-    "Six parcels became Preston Park, later renamed Preston Field by the township."
+    "Covers 22.0 acres in Gladwyne.",
+    "Nature park with hiking and bridle trails.",
+    "Run by Lower Merion Township"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/545161403"
+   "osmUrl": "https://www.openstreetmap.org/way/789928930"
   },
   {
-   "id": "osm-r11115686",
-   "name": "Independence National Historical Park",
+   "id": "osm-w60990784",
+   "name": "Cloverly Park",
    "topic": "park",
-   "lat": 39.95043,
-   "lng": -75.14919,
-   "photo": false,
-   "facts": [
-    "Covers 55 acres in the Old City and Society Hill neighborhoods and is administered by the National Park Service.",
-    "Centered on Independence Hall, where the Declaration of Independence and Constitution were debated and adopted.",
-    "Nicknamed America's most historic square mile."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/relation/11115686"
-  },
-  {
-   "id": "osm-w1157957120",
-   "name": "Narbrook Park",
-   "topic": "park",
-   "lat": 40.00758,
-   "lng": -75.266129,
-   "photo": false,
-   "facts": [
-    "Added to the National Register of Historic Places in 2003.",
-    "Planned garden suburb developed between 1915 and 1938, also known as Narberth Garden.",
-    "Covers about 14 acres"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1157957120"
-  },
-  {
-   "id": "osm-w433062771",
-   "name": "Franklin Delano Roosevelt Park",
-   "topic": "park",
-   "lat": 39.902027,
-   "lng": -75.183436,
+   "lat": 40.025644,
+   "lng": -75.180766,
    "photo": true,
    "facts": [
-    "FDR Park was originally named League Island Park and covers about 348 acres.",
-    "Olmsted Brothers designed the park.",
-    "The American Swedish Historical Museum (1926) is one of the remains of the 1926 Exposition."
+    "Two-acre passive park on land the Edward White Clark family donated to the city in 1914.",
+    "Friends of Cloverly Park, an all-volunteer group, has cared for the park since 1986."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/433062771"
+   "osmUrl": "https://www.openstreetmap.org/way/60990784"
   },
   {
-   "id": "osm-w468558321",
-   "name": "Haines & Salvati Memorial Park",
+   "id": "osm-r16431192",
+   "name": "Gorgas Park",
    "topic": "park",
-   "lat": 40.075543,
-   "lng": -75.310346,
+   "lat": 40.035869,
+   "lng": -75.222172,
    "photo": false,
    "facts": [
-    "Address: 357 Wood Street, Conshohocken"
+    "Gorgas Park covers 20 acres along 6300 Ridge Avenue.",
+    "The park was dedicated on July 4, 1893 by the city of Philadelphia.",
+    "Friends of Gorgas Park was established in 1997 to restore the park."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/468558321"
+   "osmUrl": "https://www.openstreetmap.org/relation/16431192"
+  },
+  {
+   "id": "osm-w78288153",
+   "name": "Merwood Park",
+   "topic": "park",
+   "lat": 39.995355,
+   "lng": -75.30368,
+   "photo": false,
+   "facts": [
+    "Neighborhood park of about 5.8 acres in Haverford Township.",
+    "Has a ball field, basketball courts and a reservable picnic pavilion."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/78288153"
+  },
+  {
+   "id": "osm-w337138791",
+   "name": "Westover Park",
+   "topic": "park",
+   "lat": 40.049899,
+   "lng": -75.416809,
+   "photo": false,
+   "facts": [
+    "Run by Tredyffrin Township"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/337138791"
+  },
+  {
+   "id": "osm-w791961115",
+   "name": "Sharpe Park Bird Sanctuary",
+   "topic": "park",
+   "lat": 40.015102,
+   "lng": -75.300471,
+   "photo": false,
+   "facts": [
+    "Sharpe Park and Bird Sanctuary covers 2.3 acres at West Montgomery Avenue and Haverford Station Road.",
+    "The township classes it as a nature park and bird sanctuary, and leashed dogs are permitted.",
+    "Run by Lower Merion Township"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/791961115"
   },
   {
    "id": "osm-w156109656",
@@ -211,108 +274,71 @@
    "osmUrl": "https://www.openstreetmap.org/way/156109656"
   },
   {
-   "id": "osm-w50275070",
-   "name": "Penn Wynne Park",
-   "topic": "park",
-   "lat": 39.98617,
-   "lng": -75.270103,
+   "id": "osm-n13058728101",
+   "name": "Mom Rinker's Rock",
+   "topic": "viewpoint",
+   "lat": 40.035194,
+   "lng": -75.19977,
    "photo": false,
    "facts": [
-    "Address: 1300 Manoa Road, Wynnewood"
+    "Scenic outlook on a ridge in Wissahickon Valley Park, just north of the Walnut Lane Bridge.",
+    "Named for Molly Rinker, said to have watched British troop movements from the rock in the Revolutionary War."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/50275070"
+   "osmUrl": "https://www.openstreetmap.org/node/13058728101"
   },
   {
-   "id": "osm-w28526211",
-   "name": "Clem Macrone Park",
+   "id": "osm-r2588200",
+   "name": "Clarence H. Clark Park",
    "topic": "park",
-   "lat": 40.024877,
-   "lng": -75.342172,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/28526211"
-  },
-  {
-   "id": "osm-w291456005",
-   "name": "Ralph Brooks Park",
-   "topic": "park",
-   "lat": 39.931462,
-   "lng": -75.177727,
+   "lat": 39.947503,
+   "lng": -75.209935,
    "photo": false,
    "facts": [
-    "Redevelopment added a new basketball court with bleachers, a tot lot and pedestrian access points.",
-    "The park features murals by Stephen ESPO Powers through the Mural Arts Program.",
-    "It is one of four park revitalization projects completed by Make The World Better."
+    "Clark Park covers 9.1 acres between 43rd and 45th streets and Baltimore and Woodland Avenues.",
+    "The park was established in 1895 on land donated by banker Clarence Howard Clark.",
+    "It holds a life-sized 1890 sculpture of Charles Dickens."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/291456005"
+   "osmUrl": "https://www.openstreetmap.org/relation/2588200"
   },
   {
-   "id": "osm-w484364316",
-   "name": "Schuykill Center for Environmental Education",
-   "topic": "nature preserve",
-   "lat": 40.056205,
-   "lng": -75.25199,
+   "id": "osm-w705317585",
+   "name": "Washington Square",
+   "topic": "park",
+   "lat": 39.94705,
+   "lng": -75.152317,
    "photo": false,
    "facts": [
-    "The Schuylkill Center became an accredited arboretum.",
-    "Established in 1965",
-    "No dogs allowed"
+    "Originally laid out as Southeast Square, one of five squares in William Penn's plan for Philadelphia.",
+    "The square was planned by William Penn's surveyor Thomas Holme.",
+    "The park covers about 6.4 acres in Center City."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/484364316"
+   "osmUrl": "https://www.openstreetmap.org/way/705317585"
   },
   {
-   "id": "osm-w28526184",
-   "name": "Plant Ave Park",
+   "id": "osm-w557471144",
+   "name": "Gest Tract Park",
    "topic": "park",
-   "lat": 40.046751,
-   "lng": -75.384749,
+   "lat": 39.990915,
+   "lng": -75.291244,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/28526184"
-  },
-  {
-   "id": "osm-w385508434",
-   "name": "Center Green",
-   "topic": "park",
-   "lat": 40.037213,
-   "lng": -75.409581,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/385508434"
-  },
-  {
-   "id": "osm-w699107724",
-   "name": "Radnor Memorial Park",
-   "topic": "park",
-   "lat": 40.045947,
-   "lng": -75.359556,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/699107724"
-  },
-  {
-   "id": "osm-w776596303",
-   "name": "Newhall Park",
-   "topic": "park",
-   "lat": 40.027342,
-   "lng": -75.174477,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/776596303"
-  },
-  {
-   "id": "osm-w410095875",
-   "name": "Dilworth Park",
-   "topic": "park",
-   "lat": 39.95262,
-   "lng": -75.164678,
-   "photo": true,
    "facts": [
-    "Dilworth Park was rebuilt from Dilworth Plaza and opened on September 4, 2014.",
-    "Pennsylvania Railroad's Broad Street Station occupied the site from 1881 until its demolition in 1953.",
-    "Dilworth Plaza was completed in 1977 and named for Richardson Dilworth, twice mayor of Philadelphia."
+    "Neighborhood park of about 20 acres in Haverford Township, Delaware County.",
+    "Has swing sets and walking paths."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/410095875"
+   "osmUrl": "https://www.openstreetmap.org/way/557471144"
+  },
+  {
+   "id": "osm-n357369285",
+   "name": "Highland Farms Park",
+   "topic": "park",
+   "lat": 40.008445,
+   "lng": -75.329077,
+   "photo": false,
+   "facts": [
+    "Has tennis and pickleball courts and a playground.",
+    "Used as an activity location in the township's summer recreation programs."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/357369285"
   }
  ],
  "points": [
@@ -397,16 +423,6 @@
    0
   ],
   [
-   40.016173,
-   -75.263182,
-   0
-  ],
-  [
-   40.037213,
-   -75.409581,
-   0
-  ],
-  [
    40.031287,
    -75.391254,
    1
@@ -484,11 +500,6 @@
   [
    40.036651,
    -75.370158,
-   0
-  ],
-  [
-   40.049358,
-   -75.360582,
    0
   ],
   [
@@ -602,11 +613,6 @@
    0
   ],
   [
-   39.99078,
-   -75.271555,
-   0
-  ],
-  [
    40.037449,
    -75.368749,
    0
@@ -614,11 +620,6 @@
   [
    39.940912,
    -75.179295,
-   0
-  ],
-  [
-   40.021947,
-   -75.166629,
    0
   ],
   [
@@ -702,11 +703,6 @@
    0
   ],
   [
-   40.027342,
-   -75.174477,
-   0
-  ],
-  [
    40.002463,
    -75.300835,
    0
@@ -714,11 +710,6 @@
   [
    40.037573,
    -75.396034,
-   0
-  ],
-  [
-   40.045451,
-   -75.252436,
    0
   ],
   [
@@ -757,11 +748,6 @@
    0
   ],
   [
-   40.046751,
-   -75.384749,
-   0
-  ],
-  [
    40.016832,
    -75.31474,
    0
@@ -782,11 +768,6 @@
    0
   ],
   [
-   40.0136,
-   -75.305923,
-   0
-  ],
-  [
    40.045947,
    -75.359556,
    0
@@ -794,11 +775,6 @@
   [
    39.931462,
    -75.177727,
-   0
-  ],
-  [
-   40.027749,
-   -75.396662,
    0
   ],
   [
@@ -887,11 +863,6 @@
    0
   ],
   [
-   39.99505,
-   -75.186951,
-   0
-  ],
-  [
    40.083281,
    -75.305719,
    0
@@ -972,11 +943,6 @@
    0
   ],
   [
-   40.046914,
-   -75.384372,
-   0
-  ],
-  [
    40.003112,
    -75.273861,
    0
@@ -989,11 +955,6 @@
   [
    39.986348,
    -75.282731,
-   0
-  ],
-  [
-   40.036136,
-   -75.340943,
    0
   ],
   [

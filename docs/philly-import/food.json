@@ -1,16 +1,58 @@
 {
  "category": "food",
- "count": 172,
+ "count": 163,
  "commonsPhotos": 2,
  "commonsPhotoPct": 1.2,
- "withFacts": 164,
- "withHours": 84,
+ "withFacts": 163,
+ "withHours": 83,
  "byRegion": {
-  "philly": 165,
-  "villanova": 7
+  "philly": 157,
+  "villanova": 6
  },
  "photoSkips": [],
  "sample": [
+  {
+   "id": "osm-w587976074",
+   "name": "The Black Cat Cafe",
+   "topic": "restaurant",
+   "lat": 40.046577,
+   "lng": -75.41406,
+   "photo": false,
+   "facts": [
+    "Non-profit cat cafe owned and operated by the PALS pet rescue.",
+    "All proceeds fund care for homeless, injured and sick cats and kittens.",
+    "Address: 42 Berkeley Road, Devon"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/587976074"
+  },
+  {
+   "id": "osm-n7198791202",
+   "name": "La Colombe Coffee Roasters",
+   "topic": "café",
+   "lat": 40.023107,
+   "lng": -75.321346,
+   "photo": false,
+   "facts": [
+    "Featured in The Villanovan's guide to coffee shops near campus, about a mile away.",
+    "JP Iberti is a co-founder of La Colombe.",
+    "Serves coffee"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7198791202"
+  },
+  {
+   "id": "osm-n13424564301",
+   "name": "Felicia's Pizza Kitchen",
+   "topic": "pizza restaurant",
+   "lat": 40.007958,
+   "lng": -75.291817,
+   "photo": false,
+   "facts": [
+    "Makes brick oven pizzas, including a Felicia's Special with spinach, tomato, garlic and mozzarella.",
+    "Owner Tony often prepares the pizzas himself.",
+    "Serves pizza"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13424564301"
+  },
   {
    "id": "osm-w224409946",
    "name": "Izenberg's",
@@ -19,133 +61,123 @@
    "lng": -75.303394,
    "photo": false,
    "facts": [
+    "In business since 1995, and also does full-service catering and custom baked goods.",
+    "Menu includes hearty breakfasts, homemade soups, jumbo sandwiches and smoked fish.",
     "Address: 401 Fayette Street, Conshohocken"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/224409946"
   },
   {
-   "id": "osm-n9587719502",
-   "name": "Rudee's Thai cuisine",
-   "topic": "Thai restaurant",
-   "lat": 40.00235,
-   "lng": -75.27766,
+   "id": "osm-n5595478221",
+   "name": "HipCityVeg",
+   "topic": "American restaurant",
+   "lat": 39.950767,
+   "lng": -75.170422,
    "photo": false,
    "facts": [
-    "Serves Thai food",
-    "Address: 333 East Lancaster Avenue, Wynnewood"
+    "Led by CEO Nicole Marquis.",
+    "Serves American food, plus sandwiches and cheesesteak",
+    "Has vegan options"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/9587719502"
+   "osmUrl": "https://www.openstreetmap.org/node/5595478221"
   },
   {
-   "id": "osm-n1034623680",
-   "name": "Hana Japanese",
-   "topic": "restaurant",
-   "lat": 40.044823,
-   "lng": -75.399439,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/1034623680"
-  },
-  {
-   "id": "osm-n13625380376",
-   "name": "Erawan",
-   "topic": "Thai restaurant",
-   "lat": 39.951786,
-   "lng": -75.178216,
+   "id": "osm-n5968575687",
+   "name": "Fellini Cafe",
+   "topic": "Italian restaurant",
+   "lat": 40.02245,
+   "lng": -75.320849,
    "photo": false,
    "facts": [
-    "Serves Thai food",
-    "Has outdoor seating",
-    "Offers delivery"
+    "BYOB Italian restaurant run by Franco Raimondo and Pino D'Alto.",
+    "Franco Raimondo has 40 years of experience in hospitality.",
+    "Serves Italian food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13625380376"
+   "osmUrl": "https://www.openstreetmap.org/node/5968575687"
   },
   {
-   "id": "osm-n11904652055",
-   "name": "Ground Up Café & Coffee",
-   "topic": "café",
-   "lat": 39.926064,
-   "lng": -75.168123,
-   "photo": false,
-   "facts": [
-    "Serves coffee and breakfast",
-    "Has outdoor seating",
-    "Has Wi-Fi"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/11904652055"
-  },
-  {
-   "id": "osm-n10974561754",
-   "name": "Yapple Yogurt",
-   "topic": "ice cream shop",
-   "lat": 40.001734,
-   "lng": -75.273416,
-   "photo": false,
-   "facts": [
-    "Address: 50 East Wynnewood Road"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/10974561754"
-  },
-  {
-   "id": "osm-w224655232",
-   "name": "Spring Mill Cafe",
-   "topic": "café",
-   "lat": 40.075545,
-   "lng": -75.279483,
-   "photo": false,
-   "facts": [
-    "Address: 164 Barren Hill Road, Conshohocken"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/224655232"
-  },
-  {
-   "id": "osm-n9494216580",
-   "name": "Jasper's West Side",
-   "topic": "restaurant",
-   "lat": 40.068851,
-   "lng": -75.311532,
-   "photo": false,
-   "facts": [
-    "Took over the former Imbibe space in West Conshohocken."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9494216580"
-  },
-  {
-   "id": "osm-n9498198032",
-   "name": "Ogyu",
-   "topic": "Japanese restaurant",
-   "lat": 40.008637,
-   "lng": -75.297695,
-   "photo": false,
-   "facts": [
-    "Ogyu opened in Ardmore as an all-you-can-eat Japanese barbecue restaurant.",
-    "Serves Japanese food, plus barbecue",
-    "Address: 60 Greenfield Avenue, Ardmore"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9498198032"
-  },
-  {
-   "id": "osm-n12504780819",
-   "name": "Hu's Kitchen?",
-   "topic": "Chinese restaurant",
-   "lat": 40.022203,
-   "lng": -75.319535,
-   "photo": false,
-   "facts": [
-    "Serves Chinese food",
-    "Address: 841 1/2 West Lancaster Avenue"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12504780819"
-  },
-  {
-   "id": "osm-n1687458235",
-   "name": "Rosemont Bakery",
+   "id": "osm-n11738825357",
+   "name": "Little Blue Owl Baking Company",
    "topic": "bakery",
-   "lat": 40.025936,
-   "lng": -75.338044,
+   "lat": 40.005302,
+   "lng": -75.261801,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/1687458235"
+   "facts": [
+    "Successor to the longtime Narberth bakery Le Petit Mitron.",
+    "Owned by Angela and Andrew Ling, who took over in September 2022.",
+    "Specializes in viennoiserie such as croissants, brioche and pain au chocolat."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11738825357"
+  },
+  {
+   "id": "osm-n1479235293",
+   "name": "Gleaner's Cafe Gallery",
+   "topic": "café",
+   "lat": 39.93847,
+   "lng": -75.157889,
+   "photo": false,
+   "facts": [
+    "Serving Philadelphia since 2003 in the Italian Market area.",
+    "Specializes in bagel sandwiches.",
+    "Hosts monthly art shows."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1479235293"
+  },
+  {
+   "id": "osm-w225236916",
+   "name": "Masala Symphony",
+   "topic": "Indian restaurant",
+   "lat": 40.073705,
+   "lng": -75.305593,
+   "photo": false,
+   "facts": [
+    "Cooks North and South Indian dishes.",
+    "Menu includes lamb biryani, tandoori chicken, paneer butter masala and samosa chaat.",
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/225236916"
+  },
+  {
+   "id": "osm-w224489965",
+   "name": "Flanigan's Boat House",
+   "topic": "American restaurant",
+   "lat": 40.07407,
+   "lng": -75.305551,
+   "photo": false,
+   "facts": [
+    "Family restaurant operating since 1991.",
+    "Includes a Below Deck Bottle Shop with craft beers and wines.",
+    "Serves American food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/224489965"
+  },
+  {
+   "id": "osm-n13310029889",
+   "name": "Fleming's",
+   "topic": "steak restaurant",
+   "lat": 40.04158,
+   "lng": -75.367844,
+   "photo": false,
+   "facts": [
+    "Located in Radnor's Financial Center, close to I-76 and I-476.",
+    "Chef Partner at this location is Hugo Martinez.",
+    "Serves steak"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13310029889"
+  },
+  {
+   "id": "osm-w224489171",
+   "name": "Morning Talk Cafe",
+   "topic": "café",
+   "lat": 40.074292,
+   "lng": -75.306228,
+   "photo": false,
+   "facts": [
+    "Opened at 108 1/2 Fayette Street on June 14, 2022.",
+    "Occupies a space that was previously a candy shop.",
+    "Opened by the owner of neighboring Chiangmai Thai Cuisine and partners."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/224489171"
   },
   {
    "id": "osm-w988541362",
@@ -162,94 +194,32 @@
    "osmUrl": "https://www.openstreetmap.org/way/988541362"
   },
   {
-   "id": "osm-n5218983209",
-   "name": "Narberth Pizza",
-   "topic": "restaurant",
-   "lat": 40.01171,
-   "lng": -75.261789,
+   "id": "osm-w365541784",
+   "name": "El Limon",
+   "topic": "Mexican restaurant",
+   "lat": 40.073261,
+   "lng": -75.305179,
    "photo": false,
    "facts": [
-    "Address: 940 Montgomery Avenue, Narberth"
+    "BYOB taqueria with finely chopped chorizo tacos as a signature.",
+    "Part of El Limon Taqueria, which has other shops in Ambler, Malvern and Bryn Mawr.",
+    "Serves Mexican food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5218983209"
+   "osmUrl": "https://www.openstreetmap.org/way/365541784"
   },
   {
-   "id": "osm-n11307980347",
-   "name": "Rosie's Cafe",
-   "topic": "café",
-   "lat": 40.038815,
-   "lng": -75.342241,
+   "id": "osm-n12504780819",
+   "name": "Hu's Kitchen?",
+   "topic": "Chinese restaurant",
+   "lat": 40.022203,
+   "lng": -75.319535,
    "photo": false,
    "facts": [
-    "Address: 308 North Spring Mill Road, Villanova"
+    "Locally owned and operated.",
+    "Specializes in Shanghainese cuisine.",
+    "Makes handmade pan-fried pork buns and braised beef noodle soup."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/11307980347"
-  },
-  {
-   "id": "osm-w541206485",
-   "name": "Spread Bagelry",
-   "topic": "restaurant",
-   "lat": 40.001237,
-   "lng": -75.273115,
-   "photo": false,
-   "facts": [
-    "Spread Bagelry serves wood-fired bagels.",
-    "Serves coffee",
-    "Address: 50 East Wynnewood Road, Unit 7, Wynnewood"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/541206485"
-  },
-  {
-   "id": "osm-n12229810853",
-   "name": "Kung Fu Tea",
-   "topic": "café",
-   "lat": 39.956052,
-   "lng": -75.188015,
-   "photo": false,
-   "facts": [
-    "Serves bubble tea",
-    "Part of the Kung Fu Tea chain",
-    "Has vegetarian options"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12229810853"
-  },
-  {
-   "id": "osm-w1253777939",
-   "name": "Pietramala",
-   "topic": "creative restaurant",
-   "lat": 39.961454,
-   "lng": -75.141524,
-   "photo": false,
-   "facts": [
-    "Pietramala is a vegan restaurant in the Northern Liberties neighborhood.",
-    "Serves creative",
-    "Fully vegan menu"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1253777939"
-  },
-  {
-   "id": "osm-w685999287",
-   "name": "Spinagar",
-   "topic": "Indian restaurant",
-   "lat": 40.005465,
-   "lng": -75.262456,
-   "photo": false,
-   "facts": [
-    "Serves Indian food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/685999287"
-  },
-  {
-   "id": "osm-n11584990434",
-   "name": "Eat Greek",
-   "topic": "Greek restaurant",
-   "lat": 40.073835,
-   "lng": -75.305943,
-   "photo": false,
-   "facts": [
-    "Serves Greek food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/11584990434"
+   "osmUrl": "https://www.openstreetmap.org/node/12504780819"
   },
   {
    "id": "osm-n1479235296",
@@ -273,64 +243,123 @@
    "lng": -75.361774,
    "photo": false,
    "facts": [
+    "Contemporary American restaurant led by Chef Ross Essner.",
+    "Menus mix global influences with fresh, local, seasonal ingredients.",
     "Address: 333 Belrose Lane, Radnor"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/840299910"
   },
   {
-   "id": "osm-n5705646781",
-   "name": "First Watch",
-   "topic": "American restaurant",
-   "lat": 40.037003,
-   "lng": -75.351709,
+   "id": "osm-n11573781885",
+   "name": "Dandan",
+   "topic": "Chinese restaurant",
+   "lat": 40.04531,
+   "lng": -75.406798,
    "photo": false,
    "facts": [
-    "First Watch has its corporate headquarters in Bradenton, Florida.",
-    "Serves American food, plus breakfast",
-    "Part of the First Watch chain"
+    "Sichuan and Taiwanese restaurant.",
+    "Dan Dan noodles come with sesame paste, chili oil, minced pork and scallions.",
+    "Serves Chinese food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5705646781"
+   "osmUrl": "https://www.openstreetmap.org/node/11573781885"
   },
   {
-   "id": "osm-w221492162",
-   "name": "Coyote Crossing",
-   "topic": "Mexican restaurant",
-   "lat": 40.075767,
-   "lng": -75.292918,
+   "id": "osm-n10991108357",
+   "name": "The Choice",
+   "topic": "European restaurant",
+   "lat": 40.022287,
+   "lng": -75.319691,
    "photo": false,
    "facts": [
-    "Serves Mexican food",
-    "Has outdoor seating",
-    "Address: 800 Spring Mill Avenue, Conshohocken"
+    "Opened in December 2017 in the space formerly occupied by Vge Cafe.",
+    "Chef Volodymyr Hyvel co-owns it with his brother-in-law, Igor Hanushchak.",
+    "BYOB dining room of about 40 seats."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/221492162"
+   "osmUrl": "https://www.openstreetmap.org/node/10991108357"
   },
   {
-   "id": "osm-n2114069977",
-   "name": "Alif Brew & Mini Market",
-   "topic": "café",
-   "lat": 39.949163,
-   "lng": -75.21314,
-   "photo": false,
-   "facts": [
-    "Opened by Addis Ababa native Hayat Ali on Baltimore Avenue in 2020.",
-    "Specializes in Ethiopian coffee traditions.",
-    "Roasts its own coffee and serves it in a jebena pot."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2114069977"
-  },
-  {
-   "id": "osm-n10971360272",
-   "name": "Lola's Garden",
+   "id": "osm-w221498719",
+   "name": "The Tomato Shack",
    "topic": "restaurant",
-   "lat": 40.008932,
-   "lng": -75.289366,
+   "lat": 40.072173,
+   "lng": -75.30692,
    "photo": false,
    "facts": [
-    "Located in Suburban Square in Ardmore.",
-    "Address: 51 Saint Georges Road, Ardmore"
+    "Salad and pizza spin-off of the Couch Tomato Cafe, which opened in Manayunk in 2003.",
+    "This Conshohocken shop opened in 2022 as the model unit for the franchise concept.",
+    "Address: 2 Harry Street, Conshohocken"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/10971360272"
+   "osmUrl": "https://www.openstreetmap.org/way/221498719"
+  },
+  {
+   "id": "osm-w396266005",
+   "name": "Gryphon Cafe",
+   "topic": "café",
+   "lat": 40.044311,
+   "lng": -75.388247,
+   "photo": false,
+   "facts": [
+    "Part of Gryphon Coffee Co, a small batch coffee roaster.",
+    "Gryphon Coffee Co also runs cafes in Philadelphia and West Chester.",
+    "Serves coffee"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/396266005"
+  },
+  {
+   "id": "osm-n989578537",
+   "name": "Jules Thin Crust",
+   "topic": "pizza restaurant",
+   "lat": 40.043868,
+   "lng": -75.387263,
+   "photo": false,
+   "facts": [
+    "Makes its organic dough and sauces fresh in house every day.",
+    "Founded by John and Jan Ordway as a family friendly restaurant.",
+    "Serves pizza"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/989578537"
+  },
+  {
+   "id": "osm-n10884221880",
+   "name": "Tiffin Cuisine",
+   "topic": "Indian restaurant",
+   "lat": 40.001714,
+   "lng": -75.274272,
+   "photo": false,
+   "facts": [
+    "Part of Tiffin, which began in Northern Liberties in 2007 as a web and delivery service.",
+    "Fourth Tiffin location, opened after Mt. Airy and Elkins Park.",
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10884221880"
+  },
+  {
+   "id": "osm-n11307980347",
+   "name": "Rosie's Cafe",
+   "topic": "café",
+   "lat": 40.038815,
+   "lng": -75.342241,
+   "photo": false,
+   "facts": [
+    "Coffee is roasted by House Cup Coffee, which helped develop the shop's Rosie's Blend.",
+    "Located inside SEPTA's Villanova Station, on the outbound side of the tracks.",
+    "Address: 308 North Spring Mill Road, Villanova"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11307980347"
+  },
+  {
+   "id": "osm-n1208049189",
+   "name": "The Bakery House",
+   "topic": "bakery",
+   "lat": 40.018017,
+   "lng": -75.311596,
+   "photo": false,
+   "facts": [
+    "Opened in 1989, starting with cookies and pies before growing into a full bakery.",
+    "Bakes from recipes passed down by family and friends.",
+    "Address: 604 West Lancaster Avenue, Bryn Mawr"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1208049189"
   }
  ],
  "points": [
@@ -372,11 +401,6 @@
   [
    40.006715,
    -75.289719,
-   0
-  ],
-  [
-   40.006091,
-   -75.291474,
    0
   ],
   [
@@ -495,16 +519,6 @@
    0
   ],
   [
-   40.044613,
-   -75.398811,
-   0
-  ],
-  [
-   40.044586,
-   -75.398682,
-   0
-  ],
-  [
    39.966751,
    -75.160087,
    1
@@ -570,11 +584,6 @@
    0
   ],
   [
-   40.043928,
-   -75.397989,
-   0
-  ],
-  [
    40.04158,
    -75.367844,
    0
@@ -620,18 +629,8 @@
    0
   ],
   [
-   40.044823,
-   -75.399439,
-   0
-  ],
-  [
    39.993722,
    -75.297847,
-   0
-  ],
-  [
-   40.011644,
-   -75.315206,
    0
   ],
   [
@@ -925,11 +924,6 @@
    0
   ],
   [
-   40.00235,
-   -75.27766,
-   0
-  ],
-  [
    40.009947,
    -75.259231,
    0
@@ -1002,11 +996,6 @@
   [
    40.073805,
    -75.305721,
-   0
-  ],
-  [
-   40.005465,
-   -75.262456,
    0
   ],
   [
@@ -1177,11 +1166,6 @@
   [
    40.025397,
    -75.337323,
-   0
-  ],
-  [
-   40.025936,
-   -75.338044,
    0
   ],
   [

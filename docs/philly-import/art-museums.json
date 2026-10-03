@@ -3,7 +3,7 @@
  "count": 108,
  "commonsPhotos": 31,
  "commonsPhotoPct": 28.7,
- "withFacts": 99,
+ "withFacts": 108,
  "withHours": 29,
  "byRegion": {
   "philly": 108,
@@ -104,6 +104,7 @@
    "lng": -75.142145,
    "photo": false,
    "facts": [
+    "Founded in 2012 as an exhibition space for emerging and established artists in new contemporary art.",
     "Accepts Bitcoin",
     "Address: 109 Arch Street, Philadelphia"
    ],
@@ -116,7 +117,10 @@
    "lat": 39.957978,
    "lng": -75.159276,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Multidisciplinary arts center in Chinatown North with exhibitions, performances and artist residencies.",
+    "Occupies a multi-tenant building from 1906 that was once a film storage house and medical supply depot."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/346886794"
   },
   {
@@ -126,7 +130,10 @@
    "lat": 39.945693,
    "lng": -75.203736,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Neoclassical house at The Woodlands, former country seat of William Hamilton.",
+    "In 1840 the estate's core was bought to become a rural cemetery."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/32122035"
   },
   {
@@ -191,6 +198,8 @@
    "lng": -75.142806,
    "photo": false,
    "facts": [
+    "Housed in the former Engine Company 8 firehouse, occupied by the company in 1899.",
+    "Tells the history of firefighting in Philadelphia through artifacts and archives.",
     "Address: 147 North 2nd Street, Philadelphia"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/338550400"
@@ -202,7 +211,10 @@
    "lat": 39.952708,
    "lng": -75.142406,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Museum occupies houses 124 and 126 and is run by the Elfreth's Alley Association.",
+    "The alley dates to 1703 and has houses built between 1720 and 1836."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/338853375"
   },
   {
@@ -213,6 +225,8 @@
    "lng": -75.130578,
    "photo": false,
    "facts": [
+    "Founded by Tyler School of Art graduates in a North Philadelphia warehouse.",
+    "Combines artist studios, communal work space and exhibition space.",
     "Address: 3000 Hope Street, Philadelphia"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/5718906478"
@@ -225,6 +239,8 @@
    "lng": -75.282537,
    "photo": false,
    "facts": [
+    "Art studio focused on the professional development of artists with intellectual disabilities.",
+    "Studio programs include ceramics, painting, sculpture, printmaking, woodshop, fiber arts and music.",
     "Address: 241 East Lancaster Avenue, Wynnewood"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/11708172258"
@@ -307,6 +323,8 @@
    "lng": -75.147566,
    "photo": true,
    "facts": [
+    "Opened in 1976 as part of Philadelphia's Bicentennial celebration.",
+    "Exhibits costumes, oral histories, video and audio archives, and a strutting lesson.",
     "Address: 1100 South 2nd Street, Philadelphia"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/486443341"

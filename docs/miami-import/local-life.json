@@ -1,10 +1,10 @@
 {
  "category": "local-life",
- "count": 108,
+ "count": 96,
  "commonsPhotos": 10,
- "commonsPhotoPct": 9.3,
- "withFacts": 89,
- "withHours": 23,
+ "commonsPhotoPct": 10.4,
+ "withFacts": 96,
+ "withHours": 21,
  "photoSkips": [
   {
    "id": "osm-w960715591",
@@ -34,156 +34,31 @@
  ],
  "sample": [
   {
-   "id": "osm-n6023379408",
-   "name": "Miami Twice",
-   "topic": "antique shop",
-   "lat": 25.733195,
-   "lng": -80.301922,
+   "id": "osm-n13717744385",
+   "name": "ON & ON",
+   "topic": "bar",
+   "lat": 25.803043,
+   "lng": -80.200167,
    "photo": false,
    "facts": [
-    "Sells used, vintage and consignment goods.",
-    "Address: 6562 Southwest 40th Street, Miami"
+    "Music venue hosting ticketed Friday night events focused on hip-hop and R&B.",
+    "Opened in 2026",
+    "21 and over"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6023379408"
+   "osmUrl": "https://www.openstreetmap.org/node/13717744385"
   },
   {
-   "id": "osm-n9805079269",
-   "name": "Bud Light Lounge",
+   "id": "osm-n9934299830",
+   "name": "Budweiser Brew House",
    "topic": "pub",
-   "lat": 25.790505,
-   "lng": -80.276497,
+   "lat": 25.791281,
+   "lng": -80.279023,
    "photo": false,
    "facts": [
-    "Brews its own beer",
-    "Wheelchair accessible"
+    "Located inside Miami International Airport.",
+    "Brews its own beer"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/9805079269"
-  },
-  {
-   "id": "osm-n10111847374",
-   "name": "Baby Jane Cocktail House & Noodle Bar",
-   "topic": "bar",
-   "lat": 25.768426,
-   "lng": -80.190639,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/10111847374"
-  },
-  {
-   "id": "osm-n3839885175",
-   "name": "Grails",
-   "topic": "bar",
-   "lat": 25.803152,
-   "lng": -80.195241,
-   "photo": false,
-   "facts": [
-    "Opened in 2019 as Wynwood's first sports bar.",
-    "Its signature sneaker cocktail is served in a shoe-shaped vessel.",
-    "Accepts Bitcoin"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3839885175"
-  },
-  {
-   "id": "osm-w1178292587",
-   "name": "Do Not Sit On The Furniture",
-   "topic": "nightclub",
-   "lat": 25.789314,
-   "lng": -80.132288,
-   "photo": false,
-   "facts": [
-    "Owned by DJ Behrouz, a Miami Beach club owner.",
-    "Accepts Bitcoin",
-    "Address: 423 16th Street, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1178292587"
-  },
-  {
-   "id": "osm-n13401917278",
-   "name": "Live Like You Green It",
-   "topic": "market",
-   "lat": 25.727727,
-   "lng": -80.247289,
-   "photo": false,
-   "facts": [
-    "A skincare brand focused on products for sensitive skin.",
-    "Accepts Bitcoin",
-    "Address: 3300 Grand Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13401917278"
-  },
-  {
-   "id": "osm-n3213534391",
-   "name": "House of Art",
-   "topic": "art shop",
-   "lat": 25.801477,
-   "lng": -80.202169,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/3213534391"
-  },
-  {
-   "id": "osm-n5903100394",
-   "name": "Clubhouse One",
-   "topic": "bar",
-   "lat": 25.7974,
-   "lng": -80.277109,
-   "photo": false,
-   "facts": [
-    "A restaurant and bar near Concourse D at Miami International Airport."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100394"
-  },
-  {
-   "id": "osm-n5903100414",
-   "name": "Booklink and Cafe",
-   "topic": "bookstore",
-   "lat": 25.797222,
-   "lng": -80.274744,
-   "photo": false,
-   "facts": [
-    "A bookshop with a cafe inside Miami International Airport."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100414"
-  },
-  {
-   "id": "osm-n4980808353",
-   "name": "Area 31 - Epic Hotel",
-   "topic": "bar",
-   "lat": 25.770564,
-   "lng": -80.189253,
-   "photo": false,
-   "facts": [
-    "Rooftop bar and restaurant on the 16th floor of the Kimpton EPIC Hotel",
-    "Menu focuses on seafood, with some plates from the butcher",
-    "Address: 270 Biscayne Boulevard"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4980808353"
-  },
-  {
-   "id": "osm-n4340609410",
-   "name": "Librería San Pablo",
-   "topic": "bookstore",
-   "lat": 25.763286,
-   "lng": -80.290444,
-   "photo": false,
-   "facts": [
-    "Also operates as the St Paul Distribution Center.",
-    "Run by The Society of St Paul",
-    "Address: 5800 Southwest 8th Street, West Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4340609410"
-  },
-  {
-   "id": "osm-n13606372603",
-   "name": "Alfaro's",
-   "topic": "nightclub",
-   "lat": 25.765526,
-   "lng": -80.22076,
-   "photo": true,
-   "facts": [
-    "Address: 1604 Southwest 8th Street, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13606372603"
+   "osmUrl": "https://www.openstreetmap.org/node/9934299830"
   },
   {
    "id": "osm-n4166557069",
@@ -200,55 +75,200 @@
    "osmUrl": "https://www.openstreetmap.org/node/4166557069"
   },
   {
-   "id": "osm-n11163206124",
-   "name": "Siboney",
-   "topic": "nightclub",
-   "lat": 25.763563,
-   "lng": -80.294001,
-   "photo": false,
-   "facts": [
-    "Salsa dancing nightclub.",
-    "Address: 6051 Southwest 8th Street, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/11163206124"
-  },
-  {
-   "id": "osm-n9397996103",
-   "name": "Macy's",
-   "topic": "department store",
-   "lat": 25.690863,
-   "lng": -80.311729,
-   "photo": false,
-   "facts": [
-    "Part of the Macy's chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9397996103"
-  },
-  {
-   "id": "osm-w310319091",
-   "name": "Wynwood Warehouse Project",
-   "topic": "art shop",
-   "lat": 25.801567,
-   "lng": -80.202563,
-   "photo": false,
-   "facts": [
-    "It also operates as an art and framing shop.",
-    "Address: 450 Northwest 27th Street, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/310319091"
-  },
-  {
-   "id": "osm-n4405152389",
-   "name": "The Corner",
+   "id": "osm-n14092183681",
+   "name": "Las Rosas",
    "topic": "bar",
-   "lat": 25.784656,
-   "lng": -80.193897,
+   "lat": 25.803437,
+   "lng": -80.207466,
    "photo": false,
    "facts": [
-    "It sits in downtown Miami's Arts & Entertainment District.",
-    "Address: 1035 North Miami Avenue, Miami"
+    "A dive bar and live music venue in Allapattah.",
+    "Address: 2898 Northwest 7th Avenue, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4405152389"
+   "osmUrl": "https://www.openstreetmap.org/node/14092183681"
+  },
+  {
+   "id": "osm-w435587983",
+   "name": "E11EVEN",
+   "topic": "nightclub",
+   "lat": 25.784934,
+   "lng": -80.19354,
+   "photo": true,
+   "facts": [
+    "Created by founder Dennis DeGori.",
+    "Run by 11USA Group",
+    "Open 24 hours"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435587983"
+  },
+  {
+   "id": "osm-n4003573090",
+   "name": "LIK Miami",
+   "topic": "art shop",
+   "lat": 25.790728,
+   "lng": -80.135765,
+   "photo": false,
+   "facts": [
+    "A gallery showing the photography of Peter Lik.",
+    "Address: 701 Lincoln Road, Unit B, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4003573090"
+  },
+  {
+   "id": "osm-n10119104371",
+   "name": "Corona Beach House",
+   "topic": "pub",
+   "lat": 25.790979,
+   "lng": -80.273634,
+   "photo": false,
+   "facts": [
+    "Has a location at Concourse D, Gate D23, of Miami International Airport.",
+    "Has a second airport location at Concourse J, Gate J11."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10119104371"
+  },
+  {
+   "id": "osm-n5903100393",
+   "name": "Books and Books",
+   "topic": "bookstore",
+   "lat": 25.797388,
+   "lng": -80.277613,
+   "photo": false,
+   "facts": [
+    "A Books & Books branch inside Miami International Airport."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5903100393"
+  },
+  {
+   "id": "osm-n10111847374",
+   "name": "Baby Jane Cocktail House & Noodle Bar",
+   "topic": "bar",
+   "lat": 25.768426,
+   "lng": -80.190639,
+   "photo": false,
+   "facts": [
+    "Pairs noodle dishes with handcrafted cocktails.",
+    "Brings in DJs for late-night entertainment."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10111847374"
+  },
+  {
+   "id": "osm-n12022547872",
+   "name": "Love and gyros",
+   "topic": "bar",
+   "lat": 25.803398,
+   "lng": -80.195221,
+   "photo": false,
+   "facts": [
+    "Family-owned Greek street food restaurant.",
+    "Carves meats off a vertical rotisserie spit and makes its sauces in house."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12022547872"
+  },
+  {
+   "id": "osm-n4374603591",
+   "name": "Azucar Nightclub",
+   "topic": "nightclub",
+   "lat": 25.748102,
+   "lng": -80.245948,
+   "photo": false,
+   "facts": [
+    "LGBTQ+ nightclub known for drag entertainment"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4374603591"
+  },
+  {
+   "id": "osm-n763659225",
+   "name": "Barracuda",
+   "topic": "bar",
+   "lat": 25.727762,
+   "lng": -80.243216,
+   "photo": false,
+   "facts": [
+    "Opened in 1994 as a Crazy Flamingo franchise before taking the Barracuda name in 1995.",
+    "Lee Kessler, a longtime regular, took over the bar in 2012 and grew the taps to 52."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/763659225"
+  },
+  {
+   "id": "osm-n10959342065",
+   "name": "Floyd",
+   "topic": "bar",
+   "lat": 25.784669,
+   "lng": -80.193052,
+   "photo": false,
+   "facts": [
+    "Floyd opened on the first floor of the Club Space nightclub complex.",
+    "Address: 34 Northeast 11th Street, Suite B, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10959342065"
+  },
+  {
+   "id": "osm-n6030985494",
+   "name": "Lincoln Center",
+   "topic": "mall",
+   "lat": 25.790201,
+   "lng": -80.135286,
+   "photo": false,
+   "facts": [
+    "A circa-1935 complex with a two-story retail building, a courtyard and a three-story office building.",
+    "Address: 690 Lincoln Road, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6030985494"
+  },
+  {
+   "id": "osm-n5903100399",
+   "name": "Corona Beach House",
+   "topic": "bar",
+   "lat": 25.797408,
+   "lng": -80.276516,
+   "photo": false,
+   "facts": [
+    "Has a location at Concourse D, Gate D23, of Miami International Airport.",
+    "Has a second airport location at Concourse J, Gate J11."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5903100399"
+  },
+  {
+   "id": "osm-n7134733373",
+   "name": "Romero Britto",
+   "topic": "art shop",
+   "lat": 25.790301,
+   "lng": -80.140254,
+   "photo": false,
+   "facts": [
+    "Flagship gallery of artist Romero Britto.",
+    "The gallery has been on Lincoln Road since 1993.",
+    "Address: 1102 Lincoln Road, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7134733373"
+  },
+  {
+   "id": "osm-n7150191720",
+   "name": "Gemma Lounge",
+   "topic": "bar",
+   "lat": 25.790778,
+   "lng": -80.133702,
+   "photo": false,
+   "facts": [
+    "Lounge set one story above Lincoln Road.",
+    "Small lounge with a full bar and ambient music.",
+    "Address: 529 Lincoln Road, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7150191720"
+  },
+  {
+   "id": "osm-w435576204",
+   "name": "Ultramont Mall",
+   "topic": "mall",
+   "lat": 25.772976,
+   "lng": -80.191412,
+   "photo": true,
+   "facts": [
+    "It is in Miami's Central Business District.",
+    "Address: 100 Southeast 1st Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435576204"
   },
   {
    "id": "osm-w1178292585",
@@ -264,110 +284,89 @@
    "osmUrl": "https://www.openstreetmap.org/way/1178292585"
   },
   {
-   "id": "osm-n9882018349",
-   "name": "Saloni By Meraki",
+   "id": "osm-n5192839521",
+   "name": "The Butcher Shop",
    "topic": "bar",
-   "lat": 25.773006,
-   "lng": -80.192017,
+   "lat": 25.799364,
+   "lng": -80.198137,
    "photo": false,
    "facts": [
-    "Athens-inspired neighborhood bar in downtown Miami.",
-    "Opened in 2022",
-    "Address: 140 Southeast 1st Avenue, Miami"
+    "Its full name is The Butcher Shop Beer Garden & Grill.",
+    "The Wynwood original later spawned a sibling location in West Palm Beach."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/9882018349"
+   "osmUrl": "https://www.openstreetmap.org/node/5192839521"
   },
   {
-   "id": "osm-n5903100435",
-   "name": "Islander Bar & Grill",
-   "topic": "bar",
-   "lat": 25.798524,
-   "lng": -80.271934,
+   "id": "osm-n12075008819",
+   "name": "University of Miami Campus Store",
+   "topic": "bookstore",
+   "lat": 25.719989,
+   "lng": -80.277782,
    "photo": false,
    "facts": [
-    "Located in Miami International Airport's North Terminal, Concourse D East."
+    "Run by University of Miami",
+    "Also known as University Bookstore",
+    "Address: 1306 Stanford Drive, Unit 1500, Coral Gables"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100435"
+   "osmUrl": "https://www.openstreetmap.org/node/12075008819"
   },
   {
-   "id": "osm-r7554876",
-   "name": "Sunset Place",
-   "topic": "mall",
-   "lat": 25.705814,
-   "lng": -80.28644,
+   "id": "osm-n13401917278",
+   "name": "Live Like You Green It",
+   "topic": "market",
+   "lat": 25.727727,
+   "lng": -80.247289,
    "photo": false,
    "facts": [
-    "Opened on December 18, 1998.",
-    "Built on the former site of The Bakery Centre, which opened in 1986.",
-    "Founded in 1999"
+    "A skincare brand focused on products for sensitive skin.",
+    "Accepts Bitcoin",
+    "Address: 3300 Grand Avenue, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/relation/7554876"
+   "osmUrl": "https://www.openstreetmap.org/node/13401917278"
   },
   {
-   "id": "osm-n2498529919",
-   "name": "CocoWalk",
-   "topic": "mall",
-   "lat": 25.728644,
-   "lng": -80.242038,
-   "photo": true,
-   "facts": [
-    "Developed by Constructa Properties.",
-    "Designed by John Clark of Maryland.",
-    "Founded in 1990"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2498529919"
-  },
-  {
-   "id": "osm-w1334918470",
-   "name": "Thorn",
-   "topic": "bar",
-   "lat": 25.731872,
-   "lng": -80.30736,
-   "photo": false,
-   "facts": [
-    "It is the first liquor concept from the creators of Lincoln's Beard Brewery.",
-    "It opened as a restaurant and cocktail bar at the MiLine Ludlam Trail apartments."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1334918470"
-  },
-  {
-   "id": "osm-n9397973765",
-   "name": "Saks Fifth Avenue",
-   "topic": "department store",
-   "lat": 25.689614,
-   "lng": -80.31484,
-   "photo": true,
-   "facts": [
-    "Anchor department store at Dadeland Mall.",
-    "Part of the Saks Fifth Avenue chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9397973765"
-  },
-  {
-   "id": "osm-n4109762896",
-   "name": "Finnegan's Road",
+   "id": "osm-n5903100422",
+   "name": "Shula's Bar and Grill",
    "topic": "pub",
-   "lat": 25.790332,
-   "lng": -80.138631,
+   "lat": 25.797829,
+   "lng": -80.273614,
    "photo": false,
    "facts": [
-    "Serves Irish food",
-    "Address: 942 Lincoln Road"
+    "Located on Concourse D at Miami International Airport.",
+    "Opened at Miami International Airport in 2011."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4109762896"
+   "osmUrl": "https://www.openstreetmap.org/node/5903100422"
+  },
+  {
+   "id": "osm-n10138526560",
+   "name": "Minibar",
+   "topic": "bar",
+   "lat": 25.77412,
+   "lng": -80.136158,
+   "photo": false,
+   "facts": [
+    "A cocktail bar located at The Meridian in Miami Beach.",
+    "Accepts Bitcoin",
+    "Address: 418 Meridian Avenue, Miami Beach"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10138526560"
+  },
+  {
+   "id": "osm-w435513518",
+   "name": "Macy's",
+   "topic": "department store",
+   "lat": 25.791794,
+   "lng": -80.136117,
+   "photo": false,
+   "facts": [
+    "Part of Macy's, founded in 1858 by R.H. Macy.",
+    "Carries men's and women's clothing, shoes, jewelry, watches, handbags, luggage and home goods.",
+    "Part of the Macy's chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435513518"
   }
  ],
  "points": [
-  [
-   25.739828,
-   -80.279578,
-   0
-  ],
-  [
-   25.773742,
-   -80.140768,
-   0
-  ],
   [
    25.789038,
    -80.140294,
@@ -534,18 +533,8 @@
    0
   ],
   [
-   25.790332,
-   -80.138631,
-   0
-  ],
-  [
    25.784669,
    -80.193052,
-   0
-  ],
-  [
-   25.682988,
-   -80.313448,
    0
   ],
   [
@@ -569,18 +558,8 @@
    0
   ],
   [
-   25.801477,
-   -80.202169,
-   0
-  ],
-  [
    25.798524,
    -80.271934,
-   0
-  ],
-  [
-   25.787277,
-   -80.131565,
    0
   ],
   [
@@ -674,18 +653,8 @@
    0
   ],
   [
-   25.704614,
-   -80.154696,
-   0
-  ],
-  [
    25.771462,
    -80.139609,
-   0
-  ],
-  [
-   25.800837,
-   -80.201702,
    0
   ],
   [
@@ -761,11 +730,6 @@
   [
    25.763563,
    -80.294001,
-   0
-  ],
-  [
-   25.797326,
-   -80.281466,
    0
   ],
   [
@@ -876,21 +840,6 @@
   [
    25.748046,
    -80.210794,
-   0
-  ],
-  [
-   25.765542,
-   -80.223047,
-   0
-  ],
-  [
-   25.792121,
-   -80.281524,
-   0
-  ],
-  [
-   25.791461,
-   -80.278935,
    0
   ],
   [

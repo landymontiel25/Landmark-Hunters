@@ -1,12 +1,12 @@
 {
  "category": "history-culture",
- "count": 139,
+ "count": 137,
  "commonsPhotos": 53,
- "commonsPhotoPct": 38.1,
- "withFacts": 117,
+ "commonsPhotoPct": 38.7,
+ "withFacts": 137,
  "withHours": 3,
  "byRegion": {
-  "philly": 139,
+  "philly": 137,
   "villanova": 0
  },
  "photoSkips": [
@@ -51,148 +51,6 @@
    "osmUrl": "https://www.openstreetmap.org/way/265133931"
   },
   {
-   "id": "osm-w246698955",
-   "name": "Merion Tribute House",
-   "topic": "monument",
-   "lat": 39.998203,
-   "lng": -75.254313,
-   "photo": true,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/246698955"
-  },
-  {
-   "id": "osm-n7771182755",
-   "name": "Narberth Public School Bell",
-   "topic": "monument",
-   "lat": 40.005653,
-   "lng": -75.265174,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/7771182755"
-  },
-  {
-   "id": "osm-w368380121",
-   "name": "Philadelphia Job Corps Life Science Institute",
-   "topic": "historic site",
-   "lat": 39.916364,
-   "lng": -75.182332,
-   "photo": false,
-   "facts": [
-    "Address: 2810 South 20th Street, Unit 12, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/368380121"
-  },
-  {
-   "id": "osm-w229122063",
-   "name": "Saint Peter's Church",
-   "topic": "historic site",
-   "lat": 39.943137,
-   "lng": -75.147664,
-   "photo": false,
-   "facts": [
-    "Founded in 1761",
-    "Designed by Robert Smith",
-    "Designated: National Historic Landmark"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/229122063"
-  },
-  {
-   "id": "osm-w767732271",
-   "name": "Monastery Mansion",
-   "topic": "historic site",
-   "lat": 40.036156,
-   "lng": -75.203526,
-   "photo": false,
-   "facts": [
-    "Listed on the U.S. National Register of Historic Places",
-    "Also known as The Monastery",
-    "About 14 m (45 ft) tall"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/767732271"
-  },
-  {
-   "id": "osm-w338426286",
-   "name": "St. George's United Methodist Church",
-   "topic": "historic site",
-   "lat": 39.955243,
-   "lng": -75.145933,
-   "photo": false,
-   "facts": [
-    "Described as the oldest Methodist church in continuous use in the United States.",
-    "Congregation was founded in 1767 and moved into the current building in 1769.",
-    "Founded in 1763"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/338426286"
-  },
-  {
-   "id": "osm-w486980406",
-   "name": "Ohio House",
-   "topic": "historic site",
-   "lat": 39.984983,
-   "lng": -75.216179,
-   "photo": false,
-   "facts": [
-    "Also known as Ohio State Building",
-    "About 13 m (44 ft) tall",
-    "Address: 1700 Belmont Avenue, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/486980406"
-  },
-  {
-   "id": "osm-w786031989",
-   "name": "Thomas FitzSimons Junior High School",
-   "topic": "historic site",
-   "lat": 39.993851,
-   "lng": -75.174902,
-   "photo": false,
-   "facts": [
-    "About 34 m (110 ft) tall",
-    "Address: 2601 West Cumberland Street, Unit 31, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/786031989"
-  },
-  {
-   "id": "osm-w1022745337",
-   "name": "Memphis Street Academy Charter School at J.P. Jones",
-   "topic": "historic site",
-   "lat": 39.986248,
-   "lng": -75.112857,
-   "photo": true,
-   "facts": [
-    "Also known as Memphis Street Academy",
-    "About 20 m (66 ft) tall",
-    "Address: 2922 Memphis Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1022745337"
-  },
-  {
-   "id": "osm-n364867087",
-   "name": "Philadelphia Korean War Memorial",
-   "topic": "memorial",
-   "lat": 39.94491,
-   "lng": -75.14343,
-   "photo": true,
-   "facts": [
-    "Dedicated June 22, 2002 and rededicated on May 28, 2007.",
-    "Commemorates 610 servicemen from the Philadelphia area who died in the Korean War.",
-    "Features four black granite pillars listing casualties from each year of the war, 1950 to 1953."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/364867087"
-  },
-  {
-   "id": "osm-w954899378",
-   "name": "Pi Lambda Phi",
-   "topic": "historic site",
-   "lat": 39.960482,
-   "lng": -75.191483,
-   "photo": false,
-   "facts": [
-    "About 16 m (53 ft) tall",
-    "Address: 3405 Powelton Avenue, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/954899378"
-  },
-  {
    "id": "osm-w753358499",
    "name": "Alpha Pi Lambda",
    "topic": "historic site",
@@ -205,33 +63,6 @@
     "Home of the Drexel University chapter of the Alpha Pi Lambda fraternity."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/753358499"
-  },
-  {
-   "id": "osm-w657414356",
-   "name": "Pennsylvania Railroad, Connecting Railway Bridge",
-   "topic": "attraction",
-   "lat": 39.975954,
-   "lng": -75.194567,
-   "photo": false,
-   "facts": [
-    "Designed by chief engineer John A. Wilson and built by Thomas Seabrook.",
-    "Stone arch bridge with a longest span of 103 feet.",
-    "Appears in Thomas Eakins's painting Max Schmitt in a Single Scull (1871)."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/657414356"
-  },
-  {
-   "id": "osm-n3413417160",
-   "name": "Washington Grays Monument",
-   "topic": "statue",
-   "lat": 39.950055,
-   "lng": -75.16434,
-   "photo": false,
-   "facts": [
-    "Founded in 1908",
-    "Created by John A. Wilson"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3413417160"
   },
   {
    "id": "osm-w963558003",
@@ -266,32 +97,10 @@
    "lat": 39.998113,
    "lng": -75.263614,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/7707982156"
-  },
-  {
-   "id": "osm-n14027770476",
-   "name": "Moyamensing Prison",
-   "topic": "memorial",
-   "lat": 39.93189,
-   "lng": -75.161114,
-   "photo": false,
    "facts": [
-    "Founded in 1835",
-    "Designed by Thomas Ustick Walter",
-    "Built in the Gothic architecture style"
+    "Joseph Price built a saw mill on Indian Creek, in what is now Shortridge Park."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/14027770476"
-  },
-  {
-   "id": "osm-n8588157992",
-   "name": "U.S. Mint at Philadelphia Tour",
-   "topic": "attraction",
-   "lat": 39.952965,
-   "lng": -75.148149,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/8588157992"
+   "osmUrl": "https://www.openstreetmap.org/node/7707982156"
   },
   {
    "id": "osm-w244428094",
@@ -308,46 +117,18 @@
    "osmUrl": "https://www.openstreetmap.org/way/244428094"
   },
   {
-   "id": "osm-w1023749517",
-   "name": "William W. Bodine High School",
+   "id": "osm-w377438265",
+   "name": "Sweetbriar Mansion",
    "topic": "historic site",
-   "lat": 39.968202,
-   "lng": -75.143116,
-   "photo": false,
-   "facts": [
-    "Also known as Bodine High School for International Affairs",
-    "About 26 m (86 ft) tall",
-    "Address: 1101 North 4th Street, Unit 25, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1023749517"
-  },
-  {
-   "id": "osm-w261314260",
-   "name": "Second Bank of the United States",
-   "topic": "historic site",
-   "lat": 39.948572,
-   "lng": -75.14841,
+   "lat": 39.976977,
+   "lng": -75.200863,
    "photo": true,
    "facts": [
-    "Facades have eight Doric columns, and the design is based on the Parthenon.",
-    "Houses a permanent portrait gallery of over 150 founders' portraits, with over 100 by Charles Willson Peale.",
-    "Bank was authorized from 1816 to 1836 and the building is part of Independence National Historical Park."
+    "Federal style mansion built in 1797 in West Fairmount Park by Samuel Breck.",
+    "Named for the roses that grew on the property.",
+    "Became part of the park in 1869 and is headquarters of the Modern Club of Philadelphia."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/261314260"
-  },
-  {
-   "id": "osm-n364867083",
-   "name": "Philadelphia Vietnam Veterans Memorial",
-   "topic": "memorial",
-   "lat": 39.943915,
-   "lng": -75.142829,
-   "photo": true,
-   "facts": [
-    "Dedicated in 1987 at Penn's Landing.",
-    "Lists the names of 648 Philadelphia servicemen killed or missing in action in the Vietnam War.",
-    "Designed by architect Perry M. Morgan, selected in 1985."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/364867083"
+   "osmUrl": "https://www.openstreetmap.org/way/377438265"
   },
   {
    "id": "osm-w706570998",
@@ -362,6 +143,242 @@
     "Housed the Philadelphia School of Design for Women from 1880 until 1960."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/706570998"
+  },
+  {
+   "id": "osm-w767732271",
+   "name": "Monastery Mansion",
+   "topic": "historic site",
+   "lat": 40.036156,
+   "lng": -75.203526,
+   "photo": false,
+   "facts": [
+    "Listed on the U.S. National Register of Historic Places",
+    "Also known as The Monastery",
+    "About 14 m (45 ft) tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/767732271"
+  },
+  {
+   "id": "osm-w481283342",
+   "name": "Narberth War Memorial",
+   "topic": "memorial",
+   "lat": 40.00503,
+   "lng": -75.267711,
+   "photo": true,
+   "facts": [
+    "Installed on May 15, 1926 in front of the Narberth Community Building.",
+    "Moved to its present site on May 31, 1937.",
+    "Installed by Harold D. Speakman Post 356 of the American Legion."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/481283342"
+  },
+  {
+   "id": "osm-n3413417159",
+   "name": "1st Regiment Infantry National Guard of Philadelphia",
+   "topic": "statue",
+   "lat": 39.949843,
+   "lng": -75.164385,
+   "photo": false,
+   "facts": [
+    "Bronze statue by the American sculptor Henry Kirke Bush-Brown.",
+    "Founded in 1911",
+    "Also known as Spirit of ’61"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3413417159"
+  },
+  {
+   "id": "osm-w345044325",
+   "name": "George W. Nebinger School",
+   "topic": "historic site",
+   "lat": 39.936742,
+   "lng": -75.15388,
+   "photo": true,
+   "facts": [
+    "Designed by Irwin T. Catharine and built in 1924 to 1925 in the Art Deco style.",
+    "Four-story, nine-bay brick building on a raised basement.",
+    "Entrance portico has Doric columns, with a brick parapet at the roofline."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/345044325"
+  },
+  {
+   "id": "osm-n364867087",
+   "name": "Philadelphia Korean War Memorial",
+   "topic": "memorial",
+   "lat": 39.94491,
+   "lng": -75.14343,
+   "photo": true,
+   "facts": [
+    "Dedicated June 22, 2002 and rededicated on May 28, 2007.",
+    "Commemorates 610 servicemen from the Philadelphia area who died in the Korean War.",
+    "Features four black granite pillars listing casualties from each year of the war, 1950 to 1953."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/364867087"
+  },
+  {
+   "id": "osm-n11904233638",
+   "name": "Joey Giardello Statue",
+   "topic": "statue",
+   "lat": 39.926665,
+   "lng": -75.167117,
+   "photo": true,
+   "facts": [
+    "Bronze statue by sculptor Carl LeVotch, installed on a triangle at Passyunk Avenue and 13th Street.",
+    "Unveiled on May 21, 2011, honoring the 1963 world middleweight champion."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11904233638"
+  },
+  {
+   "id": "osm-n12178666501",
+   "name": "Expedition Escape",
+   "topic": "attraction",
+   "lat": 40.078829,
+   "lng": -75.35702,
+   "photo": false,
+   "facts": [
+    "Escape room venue with private adventures for groups of 2 to 68 players.",
+    "Games include Lucky Dice Diner, set in a 1950s diner, and The Blind Tiger Speakeasy, set in 1920s Prohibition.",
+    "Address: 601 South Henderson Road"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12178666501"
+  },
+  {
+   "id": "osm-w222135280",
+   "name": "Sedgley Porter House",
+   "topic": "historic site",
+   "lat": 39.974466,
+   "lng": -75.188871,
+   "photo": false,
+   "facts": [
+    "Stone porter's house designed by Benjamin Henry Latrobe, built around 1799 to 1802.",
+    "Latrobe's only surviving building in Philadelphia; the main Sedgeley mansion was demolished.",
+    "Served as a park guard house and jail for over a century before conversion to offices."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/222135280"
+  },
+  {
+   "id": "osm-w334264467",
+   "name": "Edwin M. Stanton School",
+   "topic": "historic site",
+   "lat": 39.940404,
+   "lng": -75.170775,
+   "photo": true,
+   "facts": [
+    "Designed by Irwin T. Catharine and built in 1925 to 1926 in the Art Deco style.",
+    "Entrance has a portico with Doric columns and terra cotta colored tiles.",
+    "Named for Edwin M. Stanton, who was Secretary of War under Abraham Lincoln."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/334264467"
+  },
+  {
+   "id": "osm-n6240921141",
+   "name": "Harbison's Dairy Milk Bottle",
+   "topic": "attraction",
+   "lat": 39.981567,
+   "lng": -75.13212,
+   "photo": false,
+   "facts": [
+    "The 30,000-gallon tank is built to look like a glass milk bottle.",
+    "Part of the Harbisons' Dairies complex; main building dates to 1895.",
+    "Added to the Philadelphia Register of Historic Places in 2018."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6240921141"
+  },
+  {
+   "id": "osm-w352696202",
+   "name": "Gloria Dei Church",
+   "topic": "historic church",
+   "lat": 39.934498,
+   "lng": -75.143505,
+   "photo": false,
+   "facts": [
+    "Founded in 1698",
+    "Listed on the U.S. National Register of Historic Places",
+    "Also known as Old Swedes' Church"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/352696202"
+  },
+  {
+   "id": "osm-n7182486950",
+   "name": "All Wars Memorial to Colored Soldiers and Sailors",
+   "topic": "memorial",
+   "lat": 39.958336,
+   "lng": -75.171797,
+   "photo": true,
+   "facts": [
+    "Sculpted by Philadelphia artist J. Otto Schweizer.",
+    "Stood hidden behind Memorial Hall in West Fairmount Park until moved to the Parkway in 1994.",
+    "Proposed by legislator Samuel Beecher Hart, with state funds appropriated in 1927."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7182486950"
+  },
+  {
+   "id": "osm-n6069134206",
+   "name": "Angel of the Resurrection",
+   "topic": "memorial",
+   "lat": 39.955662,
+   "lng": -75.181515,
+   "photo": true,
+   "facts": [
+    "Depicts an angel lifting a fallen soldier from flames.",
+    "Part of a monument to 1,307 Pennsylvania Railroad workers who died in World War II.",
+    "Founded in 1952"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6069134206"
+  },
+  {
+   "id": "osm-n3010332807",
+   "name": "Monument to Six Million Jewish Martyrs",
+   "topic": "statue",
+   "lat": 39.955,
+   "lng": -75.166975,
+   "photo": false,
+   "facts": [
+    "Sculpted by Nathan Rapoport.",
+    "Dates from 1964",
+    "Inscription: “NOW AND FOREVER ENSHRINED IN MEMORY ARE THE SIX MILLION JEWISH MARTYRS WHO PERISHED IN CONCENTRATION CAMPS GHETTOS AND GAS CHAMBERS.”"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3010332807"
+  },
+  {
+   "id": "osm-w334438176",
+   "name": "Old Federal Reserve Bank Building",
+   "topic": "historic site",
+   "lat": 39.950356,
+   "lng": -75.156502,
+   "photo": true,
+   "facts": [
+    "7 stories tall",
+    "Address: 925 Chestnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/334438176"
+  },
+  {
+   "id": "osm-w246698955",
+   "name": "Merion Tribute House",
+   "topic": "monument",
+   "lat": 39.998203,
+   "lng": -75.254313,
+   "photo": true,
+   "facts": [
+    "Funded by Eldridge Johnson, founder of the Victor Talking Machine Company, to honor 81 Merion men in service.",
+    "Designed by architects Karcher and Smith in Gothic patterns with local stone.",
+    "Ironwork and lamps were designed by craftsmen of Samuel Yellin."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/246698955"
+  },
+  {
+   "id": "osm-w764494930",
+   "name": "Boelson Cottage",
+   "topic": "historic site",
+   "lat": 39.989616,
+   "lng": -75.202983,
+   "photo": false,
+   "facts": [
+    "Also known as John Boelsen House",
+    "About 6 m (21 ft) tall",
+    "Address: 2128 Martin Luther King Drive, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/764494930"
   }
  ],
  "points": [
@@ -706,11 +723,6 @@
    0
   ],
   [
-   40.037648,
-   -75.242729,
-   0
-  ],
-  [
    39.951414,
    -75.160326,
    0
@@ -879,11 +891,6 @@
    39.995383,
    -75.176501,
    1
-  ],
-  [
-   39.982545,
-   -75.284575,
-   0
   ],
   [
    39.943137,
