@@ -74,6 +74,9 @@ export const APP_HELP =
   `submits by hand: it shows up on the Map, in Landmarks, in search, everywhere, right away, and can be checked into, rated and ` +
   `commented on immediately. Needs a signed-in, verified-email account; if that's not met or the place can't be found, the card says so ` +
   `and tapping it again retries, with a Source link and Directions still working either way.\n` +
+  `- Ask Mapr how to get to a place ("How do I get to Hillstone?", "directions to Vizcaya") and it answers with that place's card, ` +
+  `the same card as its recommendations: tap Directions on it for the route, or tap the card for the place's page. This works for the ` +
+  `everyday places too (cafes, restaurants, parks and the rest). Mapr doesn't write out turn-by-turn steps in the chat.\n` +
   `- Mapr can act on your itineraries when you ask in chat: "add it to my itinerary", "put both on my Philly trip", "remove Wynwood", ` +
   `"make a new itinerary for Miami called Spring Break", "rename my trip to …", "add @username to my Villanova trip". It works for places ` +
   `from the catalog and places it found on the web. Each action shows a ✅ confirmation under Mapr's reply with Open and Undo. Mapr never ` +

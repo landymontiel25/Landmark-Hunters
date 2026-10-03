@@ -4,6 +4,8 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
 import { withCors } from './_lib/cors.js';
+import { ensureServerPlacePacks } from './_lib/placePacks.js';
+import { directionsTarget, placesNamedIn } from './_lib/placeMatch.js';
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
@@ -103,6 +105,10 @@ const INSTRUCTIONS =
   `If it's genuinely unclear which of several itineraries they mean, ask instead, with their names as quickReplies. In ` +
   `"reply", say what you're doing in plain words ("Added Autana to your Philly itinerary."); the app confirms each ` +
   `action under your message. Checking in, rating, and account settings are not actions -- tell them where to tap.\n` +
+  `- If they ask how to get to, for directions to, or where a specific place is ("How do I get to Hillstone?"), return ` +
+  `that one place as a stop (its catalog or MATCHING PLACES region/id when it has one, else a web stop), even if you ` +
+  `suggested it earlier. Keep "reply" to one short line that points them to the card's Directions button ("Here's ` +
+  `Hillstone -- tap Directions to get there."), and never write out turn-by-turn directions yourself.\n` +
   `- When they push back or ask to adjust ("more nightlife", "skip the museum", "somewhere closer"), revise the picks accordingly.\n` +
   `- If they say they just left, just finished at, or are leaving a specific place ("I just left the shooting range, want to ` +
   `go somewhere for dinner", "done at Autana, what next?"), set "rate" to that place so the app can ask them how it was -- and ` +
@@ -145,6 +151,21 @@ function kmBetween(lat1, lng1, lat2, lng2) {
   const dLng = toRad(lng2 - lng1);
   const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// A catalog (or imported) landmark as a chat stop card. lat/lng ride along so
+// the card can show distance before the client has loaded the place packs.
+function catalogStop(landmark, reason) {
+  return {
+    region: landmark.regionId,
+    id: landmark.id,
+    name: landmark.name,
+    images: landmark.images || [],
+    categories: landmark.categories,
+    ...(Number.isFinite(landmark.lat) && Number.isFinite(landmark.lng) ? { lat: landmark.lat, lng: landmark.lng } : {}),
+    ...(landmark.source === 'osm' ? { source: 'osm' } : {}),
+    reason: String(reason || '').slice(0, 200),
+  };
 }
 
 function estimateCostUsd(usage) {
@@ -236,7 +257,13 @@ async function handler(req, res) {
       .filter(Boolean);
     const uniqueRegionIds = [...new Set(regionIds)];
     const regions = uniqueRegionIds.map((id) => getRegion(id)).filter(Boolean);
-    const pool = regions.length ? ALL_LANDMARKS.filter((l) => uniqueRegionIds.includes(l.regionId)) : ALL_LANDMARKS;
+    // The imported everyday places (public/places) join ALL_LANDMARKS here.
+    // They stay out of the cached CATALOG block (over a thousand cafes and
+    // parks would multiply its size); MATCHING PLACES below lists the ones a
+    // message names.
+    await ensureServerPlacePacks();
+    const curated = ALL_LANDMARKS.filter((l) => l.source !== 'osm');
+    const pool = regions.length ? curated.filter((l) => uniqueRegionIds.includes(l.regionId)) : curated;
 
     const validIds = new Set(pool.map((l) => `${l.regionId}/${l.id}`));
     const catalog =
@@ -334,7 +361,7 @@ async function handler(req, res) {
     if (loc && Number.isFinite(locLat) && Number.isFinite(locLng) && Math.abs(locLat) <= 90 && Math.abs(locLng) <= 180) {
       const label = str(loc.label, 120);
       const acc = Number(loc.accuracy);
-      const nearest = ALL_LANDMARKS.filter((l) => Number.isFinite(l.lat) && Number.isFinite(l.lng))
+      const nearest = curated.filter((l) => Number.isFinite(l.lat) && Number.isFinite(l.lng))
         .map((l) => ({ l, km: kmBetween(locLat, locLng, l.lat, l.lng) }))
         .sort((a, b) => a.km - b.km)
         .slice(0, 8)
@@ -386,6 +413,21 @@ async function handler(req, res) {
     }
     const profile = profileParts.length ? `TRAVELER PROFILE:\n${profileParts.join('\n\n')}` : '';
 
+    // Imported places the latest message names, so "How do I get to <a cafe>"
+    // can come back as that cafe's card.
+    const near = Number.isFinite(locLat) && Number.isFinite(locLng) ? { lat: locLat, lng: locLng } : null;
+    const lastText = turns[turns.length - 1].content;
+    const named = placesNamedIn(
+      lastText,
+      ALL_LANDMARKS.filter((l) => l.source === 'osm'),
+      { near, limit: 6 }
+    );
+    for (const l of named) validIds.add(`${l.regionId}/${l.id}`);
+    const matching = named.length
+      ? 'MATCHING PLACES (everyday places the message names; use these region/id values as catalog stops):\n' +
+        named.map((l) => `${l.regionId}/${l.id} | ${l.name} | ${l.categories?.[0] || ''} | ${(l.summary || '').slice(0, 140)}`).join('\n')
+      : '';
+
     const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({
@@ -396,6 +438,7 @@ async function handler(req, res) {
         { type: 'text', text: APP_HELP },
         { type: 'text', text: catalog, cache_control: { type: 'ephemeral' } },
         ...(profile ? [{ type: 'text', text: profile }] : []),
+        ...(matching ? [{ type: 'text', text: matching }] : []),
         ...(requestFor === 'group' ? [{ type: 'text', text: GROUP_REQUEST_TEXT }] : []),
         ...(insiderMode
           ? [
@@ -453,14 +496,7 @@ async function handler(req, res) {
         if (s?.match && validIds.has(s.match)) {
           const [rid, id] = s.match.split('/');
           const landmark = ALL_LANDMARKS.find((l) => l.regionId === rid && l.id === id);
-          return {
-            region: rid,
-            id,
-            name: landmark.name,
-            images: landmark.images || [],
-            categories: landmark.categories,
-            reason: String(s.reason || '').slice(0, 200),
-          };
+          return catalogStop(landmark, s.reason);
         }
         // A web-found stop instead of a catalog match -- needs a real name and
         // a source URL we can actually link back to; drop it otherwise rather
@@ -480,6 +516,12 @@ async function handler(req, res) {
       })
       .filter(Boolean)
       .slice(0, 4);
+    // "How do I get to Hillstone?" answered in text only: add the place's
+    // card anyway, so its Directions button is one tap away.
+    if (!stops.length) {
+      const target = directionsTarget(lastText, ALL_LANDMARKS, near);
+      if (target) stops.push(catalogStop(target, 'Tap Directions to get there.'));
+    }
 
     // Short tappable answers to whatever clarifying question "reply" just
     // asked (see the quickReplies rule above) -- e.g. ["Something new",

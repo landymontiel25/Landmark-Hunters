@@ -1,7 +1,8 @@
 {
   "functions": {
     "api/plan-ai.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "public/places/**"
     },
     "api/mapr-picks.js": {
       "maxDuration": 60,
