@@ -135,5 +135,138 @@
   "closed": false,
   "closedSource": null,
   "facts": []
+ },
+ {
+  "id": "osm-w624503577",
+  "name": "Taft Garden",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28526154",
+  "name": "Tunnell Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 5 acres and was formerly known as Converse Field.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   },
+   {
+    "text": "The park is owned by Radnor Township School District and leased to Radnor Township.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   },
+   {
+    "text": "It honors Emlen Tunnell, a Radnor High School graduate and Pro Football Hall of Fame member.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/12/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24007175",
+  "name": "Unkefer Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 1.5 acres and is a gateway to Radnor Township.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/60/33"
+   },
+   {
+    "text": "It is named for Ralph T. Unkefer, a Radnor parks and recreation board member who died in 1967.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/60/33"
+   },
+   {
+    "text": "A large rock in the park was donated by PennDOT in 1990 during Blue Route construction.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/60/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w545164952",
+  "name": "Vernon V. Young Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park includes a swimming pool, known as the Ardmore Pool.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/vernon-v-young-memorial-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468567049",
+  "name": "Veterans Memorial Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28526200",
+  "name": "Walker Prop",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w167097532",
+  "name": "Warner Avenue Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Lower Merion playground at Old Lancaster Road and Warner Avenue covers 0.8 acres.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/warner-ave-playground"
+   },
+   {
+    "text": "It has a basketball court, volleyball, a children's playground and a tot lot.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/warner-ave-playground"
+   }
+  ]
+ },
+ {
+  "id": "osm-w165746026",
+  "name": "Warren Filipone Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w705317585",
+  "name": "Washington Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Originally laid out as Southeast Square, one of five squares in William Penn's plan for Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Washington_Square_(Philadelphia)"
+   },
+   {
+    "text": "The square was planned by William Penn's surveyor Thomas Holme.",
+    "url": "https://en.wikipedia.org/wiki/Washington_Square_(Philadelphia)"
+   },
+   {
+    "text": "The park covers about 6.4 acres in Center City.",
+    "url": "https://en.wikipedia.org/wiki/Washington_Square_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-r16277006",
+  "name": "West Fairmount Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
  }
 ]
