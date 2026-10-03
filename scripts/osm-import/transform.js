@@ -37,8 +37,9 @@ const SHOPS_OF_INTEREST = ['mall', 'department_store', 'books', 'music', 'art', 
 const HISTORIC_KINDS = ['monument', 'memorial', 'building', 'castle', 'fort', 'ruins', 'ship', 'lighthouse', 'archaeological_site', 'manor', 'church'];
 
 // Overpass QL for everything in the shape. `out center tags` gives ways and
-// relations a single point.
-export function overpassQuery(shape = MIAMI_SHAPE) {
+// relations a single point. `extra` adds elements by id ("node/123"), for
+// places the rules above don't pull (overrides.json `include`).
+export function overpassQuery(shape = MIAMI_SHAPE, extra = []) {
   const poly = `poly:"${shape.map(([a, b]) => `${a} ${b}`).join(' ')}"`;
   const sel = [
     'nwr["amenity"~"^(restaurant|cafe|ice_cream|bar|pub|biergarten|nightclub|cinema|theatre|arts_centre|marketplace)$"]',
@@ -51,7 +52,15 @@ export function overpassQuery(shape = MIAMI_SHAPE) {
     'nwr["man_made"="lighthouse"]',
     'nwr["aeroway"="aerodrome"]["iata"]',
   ];
-  return `[out:json][timeout:180];\n(\n${sel.map((s) => `  ${s}(${poly});`).join('\n')}\n);\nout center tags;`;
+  const byType = { node: [], way: [], relation: [] };
+  for (const ref of extra) {
+    const [type, id] = String(ref).split('/');
+    if (byType[type] && /^\d+$/.test(id)) byType[type].push(id);
+  }
+  const ids = Object.entries(byType)
+    .filter(([, list]) => list.length)
+    .map(([type, list]) => `  ${type}(id:${list.join(',')});`);
+  return `[out:json][timeout:180];\n(\n${[...sel.map((s) => `  ${s}(${poly});`), ...ids].join('\n')}\n);\nout center tags;`;
 }
 
 // ---- Category and Mapr tag -------------------------------------------------
@@ -408,9 +417,11 @@ export function coordsOf(el) {
 }
 
 // `wikidataFacts` is the already-rendered list for this element (or []).
-export function toPlace(el, { region = 'miami', wikidataFacts = [] } = {}) {
+// `kind` stands in for classify() on a place the pull rules don't list
+// (overrides.json `include`, e.g. a student hangout tagged as a shop).
+export function toPlace(el, { region = 'miami', wikidataFacts = [], kind: forcedKind = null } = {}) {
   const t = el.tags || {};
-  const kind = classify(t);
+  const kind = classify(t) || forcedKind;
   const pos = coordsOf(el);
   const name = cleanName(t.name);
   if (!kind || !pos || !name) return null;
@@ -576,12 +587,13 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
     const t = el.tags || {};
     const pos = coordsOf(el);
     const label = `${el.type}/${el.id}`;
-    if (!classify(t)) {
+    const include = overrides[`osm-${TYPE_LETTER[el.type]}${el.id}`]?.include || null;
+    if (!classify(t) && !include) {
       dropped.notListed.push(label);
       continue;
     }
     if (!cleanName(t.name)) {
-      dropped.noName.push({ id: label, kind: classify(t).topic });
+      dropped.noName.push({ id: label, kind: (classify(t) || include).topic });
       continue;
     }
     if (!pos || !insideShape(pos.lat, pos.lng, shape)) {
@@ -600,7 +612,7 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
       dropped.chainStore.push({ id: label, name: t.name });
       continue;
     }
-    const place = toPlace(el, { region, wikidataFacts: wikidataFacts[t.wikidata] || [] });
+    const place = toPlace(el, { region, wikidataFacts: wikidataFacts[t.wikidata] || [], kind: include });
     if (!place) continue;
     const fix = overrides[place.id];
     if (fix?.drop) {

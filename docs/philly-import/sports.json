@@ -1,0 +1,269 @@
+{
+ "category": "sports",
+ "count": 16,
+ "commonsPhotos": 0,
+ "commonsPhotoPct": 0,
+ "withFacts": 6,
+ "withHours": 0,
+ "byRegion": {
+  "philly": 13,
+  "villanova": 3
+ },
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w905990686",
+   "name": "Barbara and Kathy Jordan's Family Court",
+   "topic": "tennis court",
+   "lat": 40.071147,
+   "lng": -75.352783,
+   "photo": false,
+   "facts": [
+    "Concrete surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/905990686"
+  },
+  {
+   "id": "osm-w112477131",
+   "name": "Walton Field",
+   "topic": "soccer field",
+   "lat": 40.007641,
+   "lng": -75.309045,
+   "photo": false,
+   "facts": [
+    "Artificial turf surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/112477131"
+  },
+  {
+   "id": "osm-w753448741",
+   "name": "Warren Filipone Memorial Park Tennis Courts",
+   "topic": "tennis court",
+   "lat": 40.041089,
+   "lng": -75.404299,
+   "photo": false,
+   "facts": [
+    "Artificial turf surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/753448741"
+  },
+  {
+   "id": "osm-w686639637",
+   "name": "Carter Field",
+   "topic": "soccer field",
+   "lat": 40.028474,
+   "lng": -75.347918,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/686639637"
+  },
+  {
+   "id": "osm-w201484369",
+   "name": "Edith Robb Dixon Field",
+   "topic": "soccer field",
+   "lat": 40.057175,
+   "lng": -75.377884,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/201484369"
+  },
+  {
+   "id": "osm-w986779013",
+   "name": "Pike Field",
+   "topic": "soccer field",
+   "lat": 40.037757,
+   "lng": -75.357128,
+   "photo": false,
+   "facts": [
+    "Grass surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/986779013"
+  },
+  {
+   "id": "osm-w42000667",
+   "name": "Shillingford Field",
+   "topic": "soccer field",
+   "lat": 40.028555,
+   "lng": -75.315938,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/42000667"
+  },
+  {
+   "id": "osm-w90707883",
+   "name": "O’Hara Field",
+   "topic": "soccer field",
+   "lat": 40.056546,
+   "lng": -75.389665,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/90707883"
+  },
+  {
+   "id": "osm-w104739787",
+   "name": "Memorial Field",
+   "topic": "soccer field",
+   "lat": 40.013766,
+   "lng": -75.303613,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/104739787"
+  },
+  {
+   "id": "osm-n12964773735",
+   "name": "The Proving Grounds",
+   "topic": "soccer field",
+   "lat": 40.084702,
+   "lng": -75.316077,
+   "photo": false,
+   "facts": [
+    "Address: 725 Conshohocken Road, Conshohocken"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12964773735"
+  },
+  {
+   "id": "osm-w686639641",
+   "name": "Phelps Field",
+   "topic": "soccer field",
+   "lat": 40.029059,
+   "lng": -75.34884,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/686639641"
+  },
+  {
+   "id": "osm-w880823702",
+   "name": "Barrack Field",
+   "topic": "soccer field",
+   "lat": 40.017276,
+   "lng": -75.327569,
+   "photo": false,
+   "facts": [
+    "Artificial turf surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/880823702"
+  },
+  {
+   "id": "osm-w28023590",
+   "name": "Olson Field",
+   "topic": "soccer field",
+   "lat": 40.051454,
+   "lng": -75.373237,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/28023590"
+  },
+  {
+   "id": "osm-r10132829",
+   "name": "Dixon Tennis Courts",
+   "topic": "tennis court",
+   "lat": 40.05414,
+   "lng": -75.375929,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/relation/10132829"
+  },
+  {
+   "id": "osm-w22173363",
+   "name": "Higgins Soccer Complex",
+   "topic": "soccer field",
+   "lat": 40.041846,
+   "lng": -75.345925,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/22173363"
+  },
+  {
+   "id": "osm-w201703799",
+   "name": "Dink City Pickleball Club",
+   "topic": "pickleball center",
+   "lat": 40.057342,
+   "lng": -75.390557,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/201703799"
+  }
+ ],
+ "points": [
+  [
+   40.071147,
+   -75.352783,
+   0
+  ],
+  [
+   40.017276,
+   -75.327569,
+   0
+  ],
+  [
+   40.028474,
+   -75.347918,
+   0
+  ],
+  [
+   40.057342,
+   -75.390557,
+   0
+  ],
+  [
+   40.05414,
+   -75.375929,
+   0
+  ],
+  [
+   40.057175,
+   -75.377884,
+   0
+  ],
+  [
+   40.041846,
+   -75.345925,
+   0
+  ],
+  [
+   40.013766,
+   -75.303613,
+   0
+  ],
+  [
+   40.056546,
+   -75.389665,
+   0
+  ],
+  [
+   40.051454,
+   -75.373237,
+   0
+  ],
+  [
+   40.029059,
+   -75.34884,
+   0
+  ],
+  [
+   40.037757,
+   -75.357128,
+   0
+  ],
+  [
+   40.028555,
+   -75.315938,
+   0
+  ],
+  [
+   40.084702,
+   -75.316077,
+   0
+  ],
+  [
+   40.007641,
+   -75.309045,
+   0
+  ],
+  [
+   40.041089,
+   -75.404299,
+   0
+  ]
+ ]
+}

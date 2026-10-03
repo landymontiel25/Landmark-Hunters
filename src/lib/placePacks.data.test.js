@@ -8,6 +8,7 @@ import path from 'node:path';
 import { PLACE_PACKS } from '../data/placePacks.manifest.js';
 import { ALL_LANDMARKS, INTERESTS, getRegion, registerPlaces, getLandmark } from '../data/regions.js';
 import { insideShape } from '../../scripts/osm-import/transform.js';
+import { IMPORT_REGIONS } from '../../scripts/osm-import/regions.js';
 import { isNearEnough } from './checkinRules.js';
 import { tierQuestion } from './ratingFlow.js';
 import { applyRating } from './tagScores.js';
@@ -52,8 +53,16 @@ describe.runIf(packs.length)('shipped place chunks', () => {
     }
   });
 
-  it('sit inside the Miami import shape', () => {
-    for (const l of all.filter((x) => x.region === 'miami')) expect(insideShape(l.lat, l.lng)).toBe(true);
+  it('sit inside their import region\'s shape, in the app region it assigns', () => {
+    for (const p of packs) {
+      const [id, region] = Object.entries(IMPORT_REGIONS).find(([, r]) => r.packRegions.includes(p.region)) || [];
+      expect(region, `no import region fills ${p.region}`).toBeTruthy();
+      for (const l of p.places) {
+        expect(l.region).toBe(p.region);
+        expect(insideShape(l.lat, l.lng, region.shape), `${l.name} (${id})`).toBe(true);
+        expect(region.packRegionOf(l.lat, l.lng)).toBe(l.region);
+      }
+    }
   });
 
   it('carry a Commons credit for every stored photo and nothing from Google', () => {
@@ -65,10 +74,11 @@ describe.runIf(packs.length)('shipped place chunks', () => {
         expect(c?.pageUrl).toMatch(/^https:\/\/commons\.wikimedia\.org\//);
       }
       // Google Places refs look like places/<id>; a researched fact's source
-      // page (factSources) may have /places/ in its own path.
-      const { factSources, ...rest } = l;
+      // page (factSources) or the place's own website may have /places/ in
+      // its path.
+      const { factSources, website, ...rest } = l;
       expect(JSON.stringify(rest)).not.toMatch(/googleapis|googleusercontent|places\//);
-      expect(JSON.stringify(factSources || {})).not.toMatch(/googleapis|googleusercontent/);
+      expect(JSON.stringify({ factSources, website })).not.toMatch(/googleapis|googleusercontent/);
       // A researched fact names the page it came from.
       for (const [fact, url] of Object.entries(l.factSources || {})) {
         expect(l.facts).toContain(fact);

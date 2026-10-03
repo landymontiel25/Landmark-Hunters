@@ -1,0 +1,519 @@
+[
+ {
+  "id": "osm-n7408327410",
+  "name": "Over the Top",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w874839726",
+  "name": "Overbrook Elementary School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built between 1905 and 1907 as a brick school faced with granite in the Colonial Revival style.",
+    "url": "https://en.wikipedia.org/wiki/Overbrook_Elementary_School"
+   },
+   {
+    "text": "An eight-bay addition was built between 1913 and 1914.",
+    "url": "https://en.wikipedia.org/wiki/Overbrook_Elementary_School"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1988.",
+    "url": "https://en.wikipedia.org/wiki/Overbrook_Elementary_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-w337844790",
+  "name": "Penn Treaty School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1927 and 1928 in the Late Gothic Revival style.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_School"
+   },
+   {
+    "text": "Added to the National Register of Historic Places on November 18, 1988.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_School"
+   },
+   {
+    "text": "Stands in the Fishtown area of Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-w657414356",
+  "name": "Pennsylvania Railroad, Connecting Railway Bridge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed by chief engineer John A. Wilson and built by Thomas Seabrook.",
+    "url": "https://en.wikipedia.org/wiki/Pennsylvania_Railroad,_Connecting_Railway_Bridge"
+   },
+   {
+    "text": "Stone arch bridge with a longest span of 103 feet.",
+    "url": "https://en.wikipedia.org/wiki/Pennsylvania_Railroad,_Connecting_Railway_Bridge"
+   },
+   {
+    "text": "Appears in Thomas Eakins's painting Max Schmitt in a Single Scull (1871).",
+    "url": "https://en.wikipedia.org/wiki/Pennsylvania_Railroad,_Connecting_Railway_Bridge"
+   }
+  ]
+ },
+ {
+  "id": "osm-w753358498",
+  "name": "Phi Sigma Sigma",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w295242835",
+  "name": "Philadelphia High School for the Creative and Performing Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1978 by John R. Vannoni as a district magnet school.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_High_School_for_the_Creative_and_Performing_Arts"
+   },
+   {
+    "text": "Occupies the former Ridgway Library, built 1873 to 1878 by architect Addison Hutton.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_High_School_for_the_Creative_and_Performing_Arts"
+   },
+   {
+    "text": "Library building was adapted as a high school in 1997 by Kise, Straw and Kolodner.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_High_School_for_the_Creative_and_Performing_Arts"
+   }
+  ]
+ },
+ {
+  "id": "osm-w368380121",
+  "name": "Philadelphia Job Corps Life Science Institute",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n364867087",
+  "name": "Philadelphia Korean War Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Dedicated June 22, 2002 and rededicated on May 28, 2007.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Korean_War_Memorial"
+   },
+   {
+    "text": "Commemorates 610 servicemen from the Philadelphia area who died in the Korean War.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Korean_War_Memorial"
+   },
+   {
+    "text": "Features four black granite pillars listing casualties from each year of the war, 1950 to 1953.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Korean_War_Memorial"
+   },
+   {
+    "text": "Owned by the city and leased to the nonprofit Friends of the Philadelphia Korean War Memorial.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Korean_War_Memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n364867083",
+  "name": "Philadelphia Vietnam Veterans Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Dedicated in 1987 at Penn's Landing.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Vietnam_Veterans_Memorial"
+   },
+   {
+    "text": "Lists the names of 648 Philadelphia servicemen killed or missing in action in the Vietnam War.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Vietnam_Veterans_Memorial"
+   },
+   {
+    "text": "Designed by architect Perry M. Morgan, selected in 1985.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Vietnam_Veterans_Memorial"
+   },
+   {
+    "text": "Amphitheater of polished charcoal grey Minnesota granite with ten panels depicting scenes of the war.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Vietnam_Veterans_Memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11106031305",
+  "name": "Philly Gun Range",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w954899378",
+  "name": "Pi Lambda Phi",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w87325590",
+  "name": "President's House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Site where President George Washington lived while Philadelphia was the capital.",
+    "url": "https://www.nps.gov/inde/planyourvisit/presidentshousesite.htm"
+   },
+   {
+    "text": "Washington's household included nine enslaved people, whose names are memorialized at the site.",
+    "url": "https://www.nps.gov/inde/planyourvisit/presidentshousesite.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1481633270",
+  "name": "Radnor Township War Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-r16397123",
+  "name": "Richmond School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed by Irwin T. Catharine and built between 1928 and 1929.",
+    "url": "https://en.wikipedia.org/wiki/Richmond_School_(Philadelphia,_Pennsylvania)"
+   },
+   {
+    "text": "Three-story brick building in the Late Gothic Revival style with a Tudor arch entryway.",
+    "url": "https://en.wikipedia.org/wiki/Richmond_School_(Philadelphia,_Pennsylvania)"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1988.",
+    "url": "https://en.wikipedia.org/wiki/Richmond_School_(Philadelphia,_Pennsylvania)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w764493687",
+  "name": "Ridgeland Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Stands in West Fairmount Park.",
+    "url": "https://en.wikipedia.org/wiki/Ridgeland_Mansion"
+   },
+   {
+    "text": "Land was bought by yeoman William Couch in 1718 and the house was likely built between 1752 and 1762.",
+    "url": "https://en.wikipedia.org/wiki/Ridgeland_Mansion"
+   },
+   {
+    "text": "Leased to the Cancer Support Community Greater Philadelphia through the Fairmount Park Conservancy.",
+    "url": "https://en.wikipedia.org/wiki/Ridgeland_Mansion"
+   }
+  ]
+ },
+ {
+  "id": "osm-w333316182",
+  "name": "Robert N.C. Nix, Sr. Federal Building",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Renamed in December 1985 for Robert N. C. Nix Sr., the first African-American congressman from Pennsylvania.",
+    "url": "https://en.wikipedia.org/wiki/Nix_Federal_Building"
+   },
+   {
+    "text": "Features sculptures and reliefs by Donald De Lue and Edmond Amateis.",
+    "url": "https://en.wikipedia.org/wiki/Nix_Federal_Building"
+   },
+   {
+    "text": "Added to the National Register of Historic Places on October 19, 1990.",
+    "url": "https://en.wikipedia.org/wiki/Nix_Federal_Building"
+   }
+  ]
+ },
+ {
+  "id": "osm-w786033092",
+  "name": "Rudolph Walton School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built between 1900 and 1901 in the Strawberry Mansion neighborhood.",
+    "url": "https://en.wikipedia.org/wiki/Rudolph_Walton_School"
+   },
+   {
+    "text": "Named for merchant Rudolph Walton (1826 to 1900).",
+    "url": "https://en.wikipedia.org/wiki/Rudolph_Walton_School"
+   },
+   {
+    "text": "Added to the National Register of Historic Places on December 4, 1986.",
+    "url": "https://en.wikipedia.org/wiki/Rudolph_Walton_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1687521435",
+  "name": "Ruins of Old Mill",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w229122063",
+  "name": "Saint Peter's Church",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "First service held on September 4, 1761 in Society Hill.",
+    "url": "https://en.wikipedia.org/wiki/St._Peter's_Episcopal_Church_(Philadelphia)"
+   },
+   {
+    "text": "Land was donated in 1757 by Thomas and Richard Penn, sons of William Penn.",
+    "url": "https://en.wikipedia.org/wiki/St._Peter's_Episcopal_Church_(Philadelphia)"
+   },
+   {
+    "text": "Shared a vestry and clergy with Christ Church until the two formally separated in 1832.",
+    "url": "https://en.wikipedia.org/wiki/St._Peter's_Episcopal_Church_(Philadelphia)"
+   },
+   {
+    "text": "Designated a National Historic Landmark in 1996.",
+    "url": "https://en.wikipedia.org/wiki/St._Peter's_Episcopal_Church_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w261314260",
+  "name": "Second Bank of the United States",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Facades have eight Doric columns, and the design is based on the Parthenon.",
+    "url": "https://en.wikipedia.org/wiki/Second_Bank_of_the_United_States"
+   },
+   {
+    "text": "Houses a permanent portrait gallery of over 150 founders' portraits, with over 100 by Charles Willson Peale.",
+    "url": "https://en.wikipedia.org/wiki/Second_Bank_of_the_United_States"
+   },
+   {
+    "text": "Bank was authorized from 1816 to 1836 and the building is part of Independence National Historical Park.",
+    "url": "https://en.wikipedia.org/wiki/Second_Bank_of_the_United_States"
+   }
+  ]
+ },
+ {
+  "id": "osm-w222135280",
+  "name": "Sedgley Porter House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3637751581",
+  "name": "Shakespeare Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Created in 1926 by Alexander Stirling Calder and installed in 1928 in Logan Square.",
+    "url": "https://www.associationforpublicart.org/artwork/shakespeare-memorial/"
+   },
+   {
+    "text": "Depicts two figures representing Comedy and Tragedy.",
+    "url": "https://www.associationforpublicart.org/artwork/shakespeare-memorial/"
+   },
+   {
+    "text": "Relocated in 1953 because of expressway construction.",
+    "url": "https://www.associationforpublicart.org/artwork/shakespeare-memorial/"
+   },
+   {
+    "text": "Maintained by the Association for Public Art.",
+    "url": "https://www.associationforpublicart.org/artwork/shakespeare-memorial/"
+   }
+  ]
+ },
+ {
+  "id": "osm-r21460341",
+  "name": "Smith Memorial Arch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built from 1897 to 1912 as a Civil War monument and gateway to West Fairmount Park.",
+    "url": "https://en.wikipedia.org/wiki/Smith_Memorial_Arch"
+   },
+   {
+    "text": "Funded by a $500,000 bequest from type founder Richard A. Smith.",
+    "url": "https://en.wikipedia.org/wiki/Smith_Memorial_Arch"
+   },
+   {
+    "text": "Adorned with 13 portrait sculptures, including equestrian statues of McClellan and Hancock.",
+    "url": "https://en.wikipedia.org/wiki/Smith_Memorial_Arch"
+   }
+  ]
+ },
+ {
+  "id": "osm-w428817657",
+  "name": "Southwark School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed by Henry deCoursey Richards and built between 1909 and 1911.",
+    "url": "https://en.wikipedia.org/wiki/Southwark_School"
+   },
+   {
+    "text": "Three-story granite-faced reinforced concrete building in the Tudor Revival style.",
+    "url": "https://en.wikipedia.org/wiki/Southwark_School"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1986.",
+    "url": "https://en.wikipedia.org/wiki/Southwark_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-w705302160",
+  "name": "Sparks Shot Tower",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1808 and built by Bishop & Sparks to produce lead shot.",
+    "url": "https://en.wikipedia.org/wiki/Sparks_Shot_Tower"
+   },
+   {
+    "text": "One of the first lead shot towers in the United States.",
+    "url": "https://en.wikipedia.org/wiki/Sparks_Shot_Tower"
+   },
+   {
+    "text": "The city bought the site in 1913 and turned the grounds into a playground.",
+    "url": "https://en.wikipedia.org/wiki/Sparks_Shot_Tower"
+   }
+  ]
+ },
+ {
+  "id": "osm-w338426286",
+  "name": "St. George's United Methodist Church",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Described as the oldest Methodist church in continuous use in the United States.",
+    "url": "https://en.wikipedia.org/wiki/St._George%27s_United_Methodist_Church_(Philadelphia)"
+   },
+   {
+    "text": "Congregation was founded in 1767 and moved into the current building in 1769.",
+    "url": "https://en.wikipedia.org/wiki/St._George%27s_United_Methodist_Church_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w805152704",
+  "name": "St. Malachy Catholic School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Building was originally the William Henry Harrison School, in the Yorktown neighborhood.",
+    "url": "https://en.wikipedia.org/wiki/William_H._Harrison_School"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1988.",
+    "url": "https://en.wikipedia.org/wiki/William_H._Harrison_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-w377438265",
+  "name": "Sweetbriar Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Federal style mansion built in 1797 in West Fairmount Park by Samuel Breck.",
+    "url": "https://en.wikipedia.org/wiki/Sweetbriar"
+   },
+   {
+    "text": "Named for the roses that grew on the property.",
+    "url": "https://en.wikipedia.org/wiki/Sweetbriar"
+   },
+   {
+    "text": "Became part of the park in 1869 and is headquarters of the Modern Club of Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Sweetbriar"
+   }
+  ]
+ },
+ {
+  "id": "osm-w753358504",
+  "name": "Tau Kappa Epsilon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w899173831",
+  "name": "The Cliffs",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Georgian country house in East Fairmount Park built by merchant Joshua Fisher.",
+    "url": "https://en.wikipedia.org/wiki/The_Cliffs"
+   },
+   {
+    "text": "Owned by the Fisher family until the city bought it in 1868.",
+    "url": "https://en.wikipedia.org/wiki/The_Cliffs"
+   },
+   {
+    "text": "Destroyed by an arsonist on February 22, 1986, leaving the masonry walls and chimneys.",
+    "url": "https://en.wikipedia.org/wiki/The_Cliffs"
+   }
+  ]
+ }
+]

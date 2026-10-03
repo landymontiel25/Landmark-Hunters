@@ -1,9 +1,11 @@
 # Web research for imported places
 
-`batch-NN.json` holds 30 places each (1,069 total), ordered landmarks first,
-food last. `done.json` lists the place ids already researched (all 1,069 as of
-2026-10-03); their facts are in `../web-facts.json`. Skip those when re-running
-a batch.
+Miami: `batch-NN.json` here holds 30 places each (1,069 total), ordered
+landmarks first, food last. `done.json` lists the place ids already researched
+(all 1,069 as of 2026-10-03). Philadelphia + Villanova: the same files in
+`philly/` (1,000 places, 34 batches). Facts from every region go into
+`../web-facts.json`, keyed by place id. Skip ids in `done.json` when
+re-running a batch.
 
 Each batch runs as one agent with WebSearch only (page fetching is blocked in
 the cloud environment). The session's web-search cap
@@ -37,7 +39,21 @@ about 1,200 more searches to finish.
 Then review samples by hand, merge into `../web-facts.json` (keyed by id),
 drop closed places through `../overrides.json`, and rebuild every category
 with `node scripts/osm-import/build-packs.mjs <category>`.
-`build-packs.mjs` filters facts again with `okWebFact` (transform.js). Without
-the gitignored `data/` folder it rebuilds from the current packs instead (web
-facts re-applied, photos kept, `overrides.json` drops applied), so run the
-categories in manifest order to keep `placePacks.manifest.js` stable.
+(add `--region philly` for that import). `build-packs.mjs` filters facts again
+with `okWebFact` (transform.js). Without the gitignored `data/<region>/` folder
+it rebuilds from the current packs instead (web facts re-applied, photos kept,
+`overrides.json` drops applied); each category keeps its place in
+`placePacks.manifest.js`.
+
+## Running an import region
+
+    node scripts/osm-import/fetch-osm.mjs --region philly
+    node scripts/osm-import/fetch-wikidata.mjs --region philly
+    node scripts/osm-import/stage.mjs --region philly
+    node scripts/find-commons-photos.mjs --region philly --places scripts/osm-import/data/philly/staged.json scripts/osm-import/data/philly/
+    node scripts/osm-import/build-packs.mjs <category> --region philly
+
+Regions, their shapes and which app region a place joins are in
+`../regions.js`; which staged places a region keeps is `../select.js`.
+`build-packs.mjs` takes photos from `data/<region>/commons.reviewed.json` when
+it exists (the results looked at so far), else `commons.found.json`.

@@ -1,0 +1,70 @@
+{
+ "category": "stadiums",
+ "count": 3,
+ "commonsPhotos": 0,
+ "commonsPhotoPct": 0,
+ "withFacts": 2,
+ "withHours": 0,
+ "byRegion": {
+  "philly": 3,
+  "villanova": 0
+ },
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w1340409771",
+   "name": "Meiklejohn Stadium",
+   "topic": "stadium",
+   "lat": 39.943753,
+   "lng": -75.193833,
+   "photo": false,
+   "facts": [
+    "Opened in 2000",
+    "Seats 850",
+    "Home of University of Pennsylvania"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1340409771"
+  },
+  {
+   "id": "osm-w51062785",
+   "name": "Class of 1923 Arena",
+   "topic": "stadium",
+   "lat": 39.951735,
+   "lng": -75.18703,
+   "photo": false,
+   "facts": [
+    "Opened in 1972",
+    "Seats 2,900",
+    "Home of Penn Quakers men's ice hockey"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/51062785"
+  },
+  {
+   "id": "osm-w219561175",
+   "name": "Albert A. Garthwaite Stadium",
+   "topic": "stadium",
+   "lat": 40.08167,
+   "lng": -75.295953,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/219561175"
+  }
+ ],
+ "points": [
+  [
+   40.08167,
+   -75.295953,
+   0
+  ],
+  [
+   39.951735,
+   -75.18703,
+   0
+  ],
+  [
+   39.943753,
+   -75.193833,
+   0
+  ]
+ ]
+}

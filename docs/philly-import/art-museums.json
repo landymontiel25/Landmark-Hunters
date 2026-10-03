@@ -1,0 +1,871 @@
+{
+ "category": "art-museums",
+ "count": 111,
+ "commonsPhotos": 0,
+ "commonsPhotoPct": 0,
+ "withFacts": 94,
+ "withHours": 29,
+ "byRegion": {
+  "philly": 111,
+  "villanova": 0
+ },
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-n14167217001",
+   "name": "Yellow Bicycle Theater",
+   "topic": "arts center",
+   "lat": 39.954853,
+   "lng": -75.164662,
+   "photo": false,
+   "facts": [
+    "Address: 1435 Arch Street"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/14167217001"
+  },
+  {
+   "id": "osm-n12188327106",
+   "name": "Arch Enemy Arts",
+   "topic": "art gallery",
+   "lat": 39.951908,
+   "lng": -75.142145,
+   "photo": false,
+   "facts": [
+    "Accepts Bitcoin",
+    "Address: 109 Arch Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12188327106"
+  },
+  {
+   "id": "osm-w346886794",
+   "name": "Asian Arts Initiative",
+   "topic": "arts center",
+   "lat": 39.957978,
+   "lng": -75.159276,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/346886794"
+  },
+  {
+   "id": "osm-n8765431380",
+   "name": "Gross McCleaf Gallery",
+   "topic": "art gallery",
+   "lat": 39.950219,
+   "lng": -75.167216,
+   "photo": false,
+   "facts": [
+    "Address: 127 South 16th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8765431380"
+  },
+  {
+   "id": "osm-w222122351",
+   "name": "Lemon Hill Mansion",
+   "topic": "museum",
+   "lat": 39.970725,
+   "lng": -75.187203,
+   "photo": false,
+   "facts": [
+    "Designed by Henry C. Pratt",
+    "Built in the Federal architecture style"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/222122351"
+  },
+  {
+   "id": "osm-w338853375",
+   "name": "Elfreth's Alley Museum",
+   "topic": "museum",
+   "lat": 39.952708,
+   "lng": -75.142406,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/338853375"
+  },
+  {
+   "id": "osm-w486443341",
+   "name": "Mummers Museum",
+   "topic": "museum",
+   "lat": 39.933447,
+   "lng": -75.147566,
+   "photo": false,
+   "facts": [
+    "Address: 1100 South 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/486443341"
+  },
+  {
+   "id": "osm-w353034105",
+   "name": "Betsy Ross House",
+   "topic": "museum",
+   "lat": 39.952277,
+   "lng": -75.144641,
+   "photo": false,
+   "facts": [
+    "2 stories tall",
+    "Address: 239 Arch Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/353034105"
+  },
+  {
+   "id": "osm-n1847081969",
+   "name": "Fairmount Water Works Interpretive Center",
+   "topic": "museum",
+   "lat": 39.966189,
+   "lng": -75.183525,
+   "photo": false,
+   "facts": [
+    "Run by Philadelphia Parks & Recreation and Philadelphia Water Department",
+    "Address: 640 Waterworks Drive, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1847081969"
+  },
+  {
+   "id": "osm-n11102457740",
+   "name": "Cosacosa",
+   "topic": "arts center",
+   "lat": 40.026392,
+   "lng": -75.225685,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/11102457740"
+  },
+  {
+   "id": "osm-w338550400",
+   "name": "Fireman's Hall Museum",
+   "topic": "museum",
+   "lat": 39.953296,
+   "lng": -75.142806,
+   "photo": false,
+   "facts": [
+    "Address: 147 North 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/338550400"
+  },
+  {
+   "id": "osm-n6775400144",
+   "name": "The Print Center",
+   "topic": "art gallery",
+   "lat": 39.948151,
+   "lng": -75.168554,
+   "photo": false,
+   "facts": [
+    "Address: 1614 Latimer Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6775400144"
+  },
+  {
+   "id": "osm-w356324418",
+   "name": "Cedar Grove",
+   "topic": "museum",
+   "lat": 39.979179,
+   "lng": -75.204424,
+   "photo": false,
+   "facts": [
+    "Run by Philadelphia Museum of Art",
+    "About 11 m (37 ft) tall",
+    "Address: 1 Lansdowne Drive, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/356324418"
+  },
+  {
+   "id": "osm-n13125217417",
+   "name": "Carpenters Museum",
+   "topic": "museum",
+   "lat": 39.963561,
+   "lng": -75.168598,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/13125217417"
+  },
+  {
+   "id": "osm-w356323017",
+   "name": "Mount Pleasant",
+   "topic": "museum",
+   "lat": 39.983379,
+   "lng": -75.19984,
+   "photo": false,
+   "facts": [
+    "Founded in 1762",
+    "Built in the Georgian architecture style",
+    "Designated: National Historic Landmark"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/356323017"
+  },
+  {
+   "id": "osm-w338691557",
+   "name": "Pentimenti Gallery",
+   "topic": "art gallery",
+   "lat": 39.953146,
+   "lng": -75.142688,
+   "photo": false,
+   "facts": [
+    "2 stories tall",
+    "Address: 145 North 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/338691557"
+  },
+  {
+   "id": "osm-r4141515",
+   "name": "American Swedish Historical Museum",
+   "topic": "museum",
+   "lat": 39.905953,
+   "lng": -75.181043,
+   "photo": false,
+   "facts": [
+    "Opened in 1938",
+    "Address: 1900 Pattison Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/relation/4141515"
+  },
+  {
+   "id": "osm-n6658146374",
+   "name": "Marvin Samson Center for the History of Pharmacy",
+   "topic": "museum",
+   "lat": 39.946499,
+   "lng": -75.208112,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6658146374"
+  },
+  {
+   "id": "osm-n11102457731",
+   "name": "Manayunk-Roxborough Art Center",
+   "topic": "arts center",
+   "lat": 40.032276,
+   "lng": -75.218068,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/11102457731"
+  },
+  {
+   "id": "osm-n8410366420",
+   "name": "The Philadelphia Masonic Temple, Library and Museum",
+   "topic": "museum",
+   "lat": 39.953569,
+   "lng": -75.162285,
+   "photo": false,
+   "facts": [
+    "Address: 1 North Broad Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8410366420"
+  },
+  {
+   "id": "osm-w333931830",
+   "name": "Pennsylvania Academy of the Fine Arts",
+   "topic": "museum",
+   "lat": 39.955237,
+   "lng": -75.163667,
+   "photo": false,
+   "facts": [
+    "Founded in 1805",
+    "Designed by Frank Furness",
+    "Built in the Second Empire architecture in the United States and Canada and Renaissance Revival architecture style"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/333931830"
+  },
+  {
+   "id": "osm-w40083567",
+   "name": "Old City Hall",
+   "topic": "museum",
+   "lat": 39.948865,
+   "lng": -75.149413,
+   "photo": false,
+   "facts": [
+    "Founded in 1790",
+    "Designed by William Strickland",
+    "About 3 m (10 ft) tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/40083567"
+  },
+  {
+   "id": "osm-w705808932",
+   "name": "Maguire Art Museum",
+   "topic": "museum",
+   "lat": 39.997859,
+   "lng": -75.240674,
+   "photo": false,
+   "facts": [
+    "Run by Saint Joseph's University",
+    "Also known as Barnes Arboretum"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/705808932"
+  },
+  {
+   "id": "osm-w377438263",
+   "name": "Laurel Hill Mansion",
+   "topic": "museum",
+   "lat": 39.991377,
+   "lng": -75.194853,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/377438263"
+  },
+  {
+   "id": "osm-n4150740084",
+   "name": "Fragments of Franklin Court",
+   "topic": "museum",
+   "lat": 39.949671,
+   "lng": -75.146595,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/4150740084"
+  }
+ ],
+ "points": [
+  [
+   39.948364,
+   -75.217738,
+   0
+  ],
+  [
+   39.956825,
+   -75.171264,
+   0
+  ],
+  [
+   39.953282,
+   -75.151785,
+   0
+  ],
+  [
+   39.905953,
+   -75.181043,
+   0
+  ],
+  [
+   39.951908,
+   -75.142145,
+   0
+  ],
+  [
+   39.99573,
+   -75.130578,
+   0
+  ],
+  [
+   40.035005,
+   -75.216637,
+   0
+  ],
+  [
+   39.957978,
+   -75.159276,
+   0
+  ],
+  [
+   40.007602,
+   -75.287352,
+   0
+  ],
+  [
+   39.940104,
+   -75.131957,
+   0
+  ],
+  [
+   39.949595,
+   -75.146786,
+   0
+  ],
+  [
+   39.952277,
+   -75.144641,
+   0
+  ],
+  [
+   39.953542,
+   -75.145061,
+   0
+  ],
+  [
+   39.967482,
+   -75.133751,
+   0
+  ],
+  [
+   39.948093,
+   -75.153041,
+   0
+  ],
+  [
+   39.959965,
+   -75.174598,
+   0
+  ],
+  [
+   39.949184,
+   -75.163927,
+   0
+  ],
+  [
+   39.963561,
+   -75.168598,
+   0
+  ],
+  [
+   39.979179,
+   -75.204424,
+   0
+  ],
+  [
+   40.003914,
+   -75.282537,
+   0
+  ],
+  [
+   39.952506,
+   -75.139056,
+   0
+  ],
+  [
+   39.948979,
+   -75.150645,
+   0
+  ],
+  [
+   40.026392,
+   -75.225685,
+   0
+  ],
+  [
+   39.952708,
+   -75.142406,
+   0
+  ],
+  [
+   39.966189,
+   -75.183525,
+   0
+  ],
+  [
+   39.953296,
+   -75.142806,
+   0
+  ],
+  [
+   39.99637,
+   -75.130578,
+   0
+  ],
+  [
+   39.97379,
+   -75.170157,
+   0
+  ],
+  [
+   39.949671,
+   -75.146595,
+   0
+  ],
+  [
+   39.950031,
+   -75.146616,
+   0
+  ],
+  [
+   39.950219,
+   -75.167216,
+   0
+  ],
+  [
+   39.945693,
+   -75.203736,
+   0
+  ],
+  [
+   39.944318,
+   -75.148392,
+   0
+  ],
+  [
+   39.951708,
+   -75.143485,
+   0
+  ],
+  [
+   39.947866,
+   -75.145842,
+   0
+  ],
+  [
+   39.945919,
+   -75.140488,
+   0
+  ],
+  [
+   39.951497,
+   -75.149908,
+   0
+  ],
+  [
+   39.954065,
+   -75.194773,
+   0
+  ],
+  [
+   39.970675,
+   -75.134311,
+   0
+  ],
+  [
+   40.043852,
+   -75.386976,
+   0
+  ],
+  [
+   39.951134,
+   -75.143337,
+   0
+  ],
+  [
+   39.991377,
+   -75.194853,
+   0
+  ],
+  [
+   39.970725,
+   -75.187203,
+   0
+  ],
+  [
+   39.997859,
+   -75.240674,
+   0
+  ],
+  [
+   40.015851,
+   -75.3097,
+   0
+  ],
+  [
+   40.032276,
+   -75.218068,
+   0
+  ],
+  [
+   40.026357,
+   -75.315487,
+   0
+  ],
+  [
+   39.946499,
+   -75.208112,
+   0
+  ],
+  [
+   40.076676,
+   -75.301264,
+   0
+  ],
+  [
+   39.947282,
+   -75.145972,
+   0
+  ],
+  [
+   39.97706,
+   -75.138996,
+   0
+  ],
+  [
+   39.983379,
+   -75.19984,
+   0
+  ],
+  [
+   40.007925,
+   -75.290374,
+   0
+  ],
+  [
+   39.933447,
+   -75.147566,
+   0
+  ],
+  [
+   39.951343,
+   -75.143544,
+   0
+  ],
+  [
+   39.953385,
+   -75.144856,
+   0
+  ],
+  [
+   39.950628,
+   -75.147452,
+   0
+  ],
+  [
+   39.949077,
+   -75.146841,
+   0
+  ],
+  [
+   39.942378,
+   -75.174946,
+   0
+  ],
+  [
+   39.967511,
+   -75.209051,
+   0
+  ],
+  [
+   39.948446,
+   -75.147235,
+   0
+  ],
+  [
+   39.986149,
+   -75.288875,
+   0
+  ],
+  [
+   39.948865,
+   -75.149413,
+   0
+  ],
+  [
+   39.988705,
+   -75.196283,
+   0
+  ],
+  [
+   39.950595,
+   -75.1457,
+   0
+  ],
+  [
+   39.956607,
+   -75.221406,
+   0
+  ],
+  [
+   39.949282,
+   -75.191286,
+   0
+  ],
+  [
+   39.955237,
+   -75.163667,
+   0
+  ],
+  [
+   39.953146,
+   -75.142688,
+   0
+  ],
+  [
+   39.948256,
+   -75.170839,
+   0
+  ],
+  [
+   39.987681,
+   -75.155444,
+   0
+  ],
+  [
+   39.962248,
+   -75.157461,
+   0
+  ],
+  [
+   39.963833,
+   -75.160878,
+   0
+  ],
+  [
+   39.948641,
+   -75.149453,
+   0
+  ],
+  [
+   39.979491,
+   -75.20904,
+   0
+  ],
+  [
+   39.948784,
+   -75.148381,
+   0
+  ],
+  [
+   39.945776,
+   -75.146984,
+   0
+  ],
+  [
+   39.94306,
+   -75.149908,
+   0
+  ],
+  [
+   40.048192,
+   -75.390216,
+   0
+  ],
+  [
+   40.029475,
+   -75.189724,
+   0
+  ],
+  [
+   39.96193,
+   -75.173951,
+   0
+  ],
+  [
+   39.947331,
+   -75.168326,
+   0
+  ],
+  [
+   39.939223,
+   -75.155363,
+   0
+  ],
+  [
+   40.055726,
+   -75.252146,
+   0
+  ],
+  [
+   39.949045,
+   -75.146474,
+   0
+  ],
+  [
+   40.005758,
+   -75.261138,
+   0
+  ],
+  [
+   40.024267,
+   -75.221125,
+   0
+  ],
+  [
+   39.955312,
+   -75.145722,
+   0
+  ],
+  [
+   39.948807,
+   -75.121782,
+   0
+  ],
+  [
+   39.994289,
+   -75.190613,
+   0
+  ],
+  [
+   39.943467,
+   -75.147306,
+   0
+  ],
+  [
+   40.022712,
+   -75.164506,
+   0
+  ],
+  [
+   39.947887,
+   -75.163168,
+   0
+  ],
+  [
+   39.932444,
+   -75.164706,
+   0
+  ],
+  [
+   39.992767,
+   -75.125582,
+   0
+  ],
+  [
+   39.953569,
+   -75.162285,
+   0
+  ],
+  [
+   39.948151,
+   -75.168554,
+   0
+  ],
+  [
+   39.947353,
+   -75.175023,
+   0
+  ],
+  [
+   39.961587,
+   -75.197758,
+   0
+  ],
+  [
+   39.952205,
+   -75.143359,
+   0
+  ],
+  [
+   39.959094,
+   -75.159011,
+   0
+  ],
+  [
+   39.990885,
+   -75.213664,
+   0
+  ],
+  [
+   39.95006,
+   -75.146448,
+   0
+  ],
+  [
+   39.980596,
+   -75.162898,
+   0
+  ],
+  [
+   39.948444,
+   -75.125253,
+   0
+  ],
+  [
+   39.942393,
+   -75.123466,
+   0
+  ],
+  [
+   40.002016,
+   -75.151905,
+   0
+  ],
+  [
+   39.950201,
+   -75.148461,
+   0
+  ],
+  [
+   39.99317,
+   -75.187843,
+   0
+  ],
+  [
+   39.949992,
+   -75.168004,
+   0
+  ],
+  [
+   39.954853,
+   -75.164662,
+   0
+  ]
+ ]
+}

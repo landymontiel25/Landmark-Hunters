@@ -1,0 +1,291 @@
+[
+ {
+  "id": "osm-n4175144392",
+  "name": "Italian Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6630334192",
+  "name": "James A. Garfield Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5912322905",
+  "name": "Joan of Arc",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11904233638",
+  "name": "Joey Giardello Statue",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Unveiled on May 21, 2011.",
+    "url": "http://www.phillyboxinghistory.com/fight_stories/stories/2011/20110521_statue_unveiled_01.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w798144908",
+  "name": "John Greenleaf Whittier School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9622632652",
+  "name": "June 5 Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Dedicated on June 5, 2018, the fifth anniversary of the Salvation Army store collapse.",
+    "url": "https://www.inquirer.com/philly/news/salvation-army-center-city-philly-thrift-store-collapse-5th-fifth-anniversary-memorial-park-dedication-20180605.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6509008579",
+  "name": "Kelpius Cave",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w963558003",
+  "name": "Kensington High School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w661891571",
+  "name": "King of Prussia Inn",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w481898277",
+  "name": "Lambda Chi Alpha",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w494289213",
+  "name": "Laurel Hill Cemetery Gatehouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w241085159",
+  "name": "Lock Tender's House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w42784724",
+  "name": "Loews Philadelphia Hotel",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w309294828",
+  "name": "Masonic Temple",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w454297590",
+  "name": "Mastery Charter School - Thomas Campus",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w798141594",
+  "name": "Mastery Charter School: Hardy Williams Campus",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w706571002",
+  "name": "Matthew Baird Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1022745337",
+  "name": "Memphis Street Academy Charter School at J.P. Jones",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w246698955",
+  "name": "Merion Tribute House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w767732271",
+  "name": "Monastery Mansion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3010332807",
+  "name": "Monument to Six Million Jewish Martyrs",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sculpted by Nathan Rapoport.",
+    "url": "https://muse.jhu.edu/article/625018"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14027770476",
+  "name": "Moyamensing Prison",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7771182755",
+  "name": "Narberth Public School Bell",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w481283342",
+  "name": "Narberth War Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Installed on May 15, 1926 in front of the Narberth Community Building.",
+    "url": "https://www.legion.org/memorials/united-states/pennsylvania/united-states-pennsylvania-narberth-war-memorial"
+   },
+   {
+    "text": "Moved to its present site on May 31, 1937.",
+    "url": "https://www.legion.org/memorials/united-states/pennsylvania/united-states-pennsylvania-narberth-war-memorial"
+   },
+   {
+    "text": "Installed by Harold D. Speakman Post 356 of the American Legion.",
+    "url": "https://www.legion.org/memorials/united-states/pennsylvania/united-states-pennsylvania-narberth-war-memorial"
+   },
+   {
+    "text": "A plaque honoring World War II and Korea service was added in 1955.",
+    "url": "https://www.legion.org/memorials/united-states/pennsylvania/united-states-pennsylvania-narberth-war-memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2249204474",
+  "name": "Newkirk Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Marks the completion of the Newkirk Viaduct over the Schuylkill River.",
+    "url": "https://en.wikipedia.org/wiki/Newkirk_Viaduct_Monument"
+   },
+   {
+    "text": "Dedicated to Matthew Newkirk.",
+    "url": "https://en.wikipedia.org/wiki/Newkirk_Viaduct_Monument"
+   },
+   {
+    "text": "Inscribed with the names of 51 railroad builders and executives.",
+    "url": "https://en.wikipedia.org/wiki/Newkirk_Viaduct_Monument"
+   },
+   {
+    "text": "White marble obelisk installed in 1839.",
+    "url": "https://en.wikipedia.org/wiki/Newkirk_Viaduct_Monument"
+   }
+  ]
+ },
+ {
+  "id": "osm-w769468352",
+  "name": "Oaks Cloister",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w486980406",
+  "name": "Ohio House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w334438176",
+  "name": "Old Federal Reserve Bank Building",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4860710733",
+  "name": "Old Mortality Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8591427665",
+  "name": "One Liberty Observation Deck",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.wfmz.com/news/area/southeastern-pa/attraction-that-offered-views-of-philly-beyond-closes/article_e49dd212-207b-11ec-b5f5-571edeb4a744.html",
+  "facts": []
+ }
+]

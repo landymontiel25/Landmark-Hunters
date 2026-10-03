@@ -1,12 +1,14 @@
 // Step 2: for every pulled place with a wikidata=Q... tag, read its Wikidata
 // claims and render the fact lines (factsFromWikidata) into
-// scripts/osm-import/data/wikidata-facts.json, keyed by Q-id.
-//   node scripts/osm-import/fetch-wikidata.mjs
+// scripts/osm-import/data/<region>/wikidata-facts.json, keyed by Q-id.
+//   node scripts/osm-import/fetch-wikidata.mjs [--region philly]   (default miami)
 import fs from 'node:fs';
 import { classify, factsFromWikidata } from './transform.js';
+import { regionFromArgs } from './regions.js';
 
-const OSM = 'scripts/osm-import/data/osm.json';
-const OUT = 'scripts/osm-import/data/wikidata-facts.json';
+const region = regionFromArgs(process.argv);
+const OSM = `${region.dataDir}/osm.json`;
+const OUT = `${region.dataDir}/wikidata-facts.json`;
 const API = 'https://www.wikidata.org/w/api.php';
 const UA = 'LandmarkHunters-osm-import/1.0 (https://landmarkhunters.com; https://github.com/landymontiel25/Landmark-Hunters)';
 const PROPS = ['P1619', 'P571', 'P84', 'P1083', 'P466', 'P138', 'P1435', 'P149', 'P170', 'P127', 'P137'];

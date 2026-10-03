@@ -1,0 +1,679 @@
+{
+ "category": "entertainment",
+ "count": 70,
+ "commonsPhotos": 0,
+ "commonsPhotoPct": 0,
+ "withFacts": 56,
+ "withHours": 1,
+ "byRegion": {
+  "philly": 69,
+  "villanova": 1
+ },
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w883119572",
+   "name": "Plays & Players Theatre",
+   "topic": "theater",
+   "lat": 39.946767,
+   "lng": -75.170402,
+   "photo": false,
+   "facts": [
+    "Address: 1712 Delancey Place, Unit 16, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/883119572"
+  },
+  {
+   "id": "osm-n1940867820",
+   "name": "PFS East Theater",
+   "topic": "movie theater",
+   "lat": 39.947495,
+   "lng": -75.14346,
+   "photo": false,
+   "facts": [
+    "Has 2 screens",
+    "Part of the Philadelphia Film Society chain",
+    "Address: 125 South 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1940867820"
+  },
+  {
+   "id": "osm-w92484922",
+   "name": "Franklin Music Hall",
+   "topic": "theater",
+   "lat": 39.95918,
+   "lng": -75.149684,
+   "photo": false,
+   "facts": [
+    "Wheelchair accessible",
+    "Address: 421 North 7th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/92484922"
+  },
+  {
+   "id": "osm-w336719777",
+   "name": "MilkBoy Philadelphia",
+   "topic": "theater",
+   "lat": 39.950004,
+   "lng": -75.158804,
+   "photo": false,
+   "facts": [
+    "Address: 1100 Chestnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/336719777"
+  },
+  {
+   "id": "osm-n343293151",
+   "name": "Cinemark University City Penn 6",
+   "topic": "movie theater",
+   "lat": 39.953872,
+   "lng": -75.203285,
+   "photo": false,
+   "facts": [
+    "Part of the Cinemark chain",
+    "Wheelchair accessible",
+    "Address: 4012 Walnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/343293151"
+  },
+  {
+   "id": "osm-r14390914",
+   "name": "Adventure Aquarium",
+   "topic": "aquarium",
+   "lat": 39.945415,
+   "lng": -75.131305,
+   "photo": false,
+   "facts": [
+    "Founded in 1992",
+    "Run by Herschend Family Entertainment",
+    "Address: 1 Riverside Drive, Camden"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/relation/14390914"
+  },
+  {
+   "id": "osm-n8587322047",
+   "name": "Caplan Studio Theater",
+   "topic": "theater",
+   "lat": 39.949066,
+   "lng": -75.163836,
+   "photo": false,
+   "facts": [
+    "Run by University of the Arts"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8587322047"
+  },
+  {
+   "id": "osm-n5281092754",
+   "name": "Fringe Arts",
+   "topic": "theater",
+   "lat": 39.95337,
+   "lng": -75.140566,
+   "photo": false,
+   "facts": [
+    "Address: 140 North Christopher Columbus Boulevard, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5281092754"
+  },
+  {
+   "id": "osm-n6944020715",
+   "name": "Bushfire Theatre of Performing Arts",
+   "topic": "theater",
+   "lat": 39.956066,
+   "lng": -75.225953,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6944020715"
+  },
+  {
+   "id": "osm-w211270270",
+   "name": "Mandell Theatre",
+   "topic": "theater",
+   "lat": 39.953358,
+   "lng": -75.188901,
+   "photo": false,
+   "facts": [
+    "Run by Drexel University",
+    "Address: 3220 Chestnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/211270270"
+  },
+  {
+   "id": "osm-w434649437",
+   "name": "The Tower Theater",
+   "topic": "theater",
+   "lat": 39.960859,
+   "lng": -75.258352,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/434649437"
+  },
+  {
+   "id": "osm-w925366625",
+   "name": "Lantern Theater Company",
+   "topic": "theater",
+   "lat": 39.950824,
+   "lng": -75.156315,
+   "photo": false,
+   "facts": [
+    "Run by Lantern Theater Company",
+    "Also known as St. Stephen's Theater",
+    "Address: 923 Ludlow Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/925366625"
+  },
+  {
+   "id": "osm-n7348661043",
+   "name": "Randall and Tomlinson Theaters",
+   "topic": "theater",
+   "lat": 39.983461,
+   "lng": -75.155116,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/7348661043"
+  },
+  {
+   "id": "osm-w29670885",
+   "name": "Freedom Mortgage Pavilion",
+   "topic": "theater",
+   "lat": 39.94075,
+   "lng": -75.129783,
+   "photo": false,
+   "facts": [
+    "Founded in 1995",
+    "Run by Live Nation Entertainment"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/29670885"
+  },
+  {
+   "id": "osm-n1697053207",
+   "name": "AMC Broadstreet 7",
+   "topic": "movie theater",
+   "lat": 39.977496,
+   "lng": -75.158479,
+   "photo": false,
+   "facts": [
+    "Part of the AMC chain",
+    "Address: 1600 North Broad Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1697053207"
+  },
+  {
+   "id": "osm-w334239535",
+   "name": "Prince Music Theatre",
+   "topic": "theater",
+   "lat": 39.950666,
+   "lng": -75.164723,
+   "photo": false,
+   "facts": [
+    "Opened in 1921",
+    "Address: 1412 Chestnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/334239535"
+  },
+  {
+   "id": "osm-n12170442410",
+   "name": "F. M. Kirby Auditorium",
+   "topic": "theater",
+   "lat": 39.953631,
+   "lng": -75.14954,
+   "photo": false,
+   "facts": [
+    "Run by National Constitution Center"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12170442410"
+  },
+  {
+   "id": "osm-n6639667866",
+   "name": "Freedom Theatre",
+   "topic": "theater",
+   "lat": 39.974243,
+   "lng": -75.159138,
+   "photo": false,
+   "facts": [
+    "Also known as New Freedom Theatre"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6639667866"
+  },
+  {
+   "id": "osm-w335078446",
+   "name": "The Met",
+   "topic": "theater",
+   "lat": 39.969831,
+   "lng": -75.160298,
+   "photo": false,
+   "facts": [
+    "Run by Live Nation"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/335078446"
+  },
+  {
+   "id": "osm-w339557228",
+   "name": "Theatre of Living Arts",
+   "topic": "theater",
+   "lat": 39.941351,
+   "lng": -75.148758,
+   "photo": false,
+   "facts": [
+    "Opened in 1908",
+    "Owned by Live Nation Entertainment",
+    "Also known as TLA"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/339557228"
+  },
+  {
+   "id": "osm-n988833918",
+   "name": "PFS Bourse Theater",
+   "topic": "movie theater",
+   "lat": 39.949333,
+   "lng": -75.147654,
+   "photo": false,
+   "facts": [
+    "Has 5 screens",
+    "Address: 400 Ranstead Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/988833918"
+  },
+  {
+   "id": "osm-w49916267",
+   "name": "The Mann Center",
+   "topic": "theater",
+   "lat": 39.983255,
+   "lng": -75.222832,
+   "photo": false,
+   "facts": [
+    "Also known as Mann Center for the Performing Arts",
+    "Address: 5201 Parkside Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/49916267"
+  },
+  {
+   "id": "osm-n8587340136",
+   "name": "Gershman Black Box Theater",
+   "topic": "theater",
+   "lat": 39.945145,
+   "lng": -75.164692,
+   "photo": false,
+   "facts": [
+    "Run by University of the Arts"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8587340136"
+  },
+  {
+   "id": "osm-w332757058",
+   "name": "Arden Theatre",
+   "topic": "theater",
+   "lat": 39.95121,
+   "lng": -75.143946,
+   "photo": false,
+   "facts": [
+    "Run by Arden Theatre Company",
+    "Address: 40 North 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/332757058"
+  },
+  {
+   "id": "osm-n1325818256",
+   "name": "Sidequest Theatre",
+   "topic": "theater",
+   "lat": 39.951343,
+   "lng": -75.174669,
+   "photo": false,
+   "facts": [
+    "Address: 2030 Sansom Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1325818256"
+  }
+ ],
+ "points": [
+  [
+   39.945415,
+   -75.131305,
+   0
+  ],
+  [
+   39.977496,
+   -75.158479,
+   0
+  ],
+  [
+   39.952251,
+   -75.157689,
+   0
+  ],
+  [
+   39.952949,
+   -75.196451,
+   0
+  ],
+  [
+   40.044545,
+   -75.388408,
+   0
+  ],
+  [
+   39.95121,
+   -75.143946,
+   0
+  ],
+  [
+   40.004703,
+   -75.23179,
+   0
+  ],
+  [
+   39.956066,
+   -75.225953,
+   0
+  ],
+  [
+   39.949117,
+   -75.163826,
+   0
+  ],
+  [
+   39.949066,
+   -75.163836,
+   0
+  ],
+  [
+   39.961519,
+   -75.261831,
+   0
+  ],
+  [
+   39.953872,
+   -75.203285,
+   0
+  ],
+  [
+   39.952271,
+   -75.156091,
+   0
+  ],
+  [
+   39.951341,
+   -75.174581,
+   0
+  ],
+  [
+   39.945132,
+   -75.164588,
+   0
+  ],
+  [
+   39.953631,
+   -75.14954,
+   0
+  ],
+  [
+   39.948498,
+   -75.15961,
+   0
+  ],
+  [
+   39.95918,
+   -75.149684,
+   0
+  ],
+  [
+   39.94075,
+   -75.129783,
+   0
+  ],
+  [
+   39.974243,
+   -75.159138,
+   0
+  ],
+  [
+   39.95337,
+   -75.140566,
+   0
+  ],
+  [
+   39.945145,
+   -75.164692,
+   0
+  ],
+  [
+   39.95152,
+   -75.174738,
+   0
+  ],
+  [
+   39.954736,
+   -75.196849,
+   0
+  ],
+  [
+   39.950899,
+   -75.192986,
+   0
+  ],
+  [
+   40.022454,
+   -75.31475,
+   0
+  ],
+  [
+   40.021777,
+   -75.187324,
+   0
+  ],
+  [
+   39.950824,
+   -75.156315,
+   0
+  ],
+  [
+   39.943256,
+   -75.16529,
+   0
+  ],
+  [
+   39.946531,
+   -75.167395,
+   0
+  ],
+  [
+   39.951318,
+   -75.174671,
+   0
+  ],
+  [
+   39.953358,
+   -75.188901,
+   0
+  ],
+  [
+   39.946747,
+   -75.165945,
+   0
+  ],
+  [
+   39.950004,
+   -75.158804,
+   0
+  ],
+  [
+   39.947612,
+   -75.164943,
+   0
+  ],
+  [
+   40.013773,
+   -75.304779,
+   0
+  ],
+  [
+   40.009813,
+   -75.189533,
+   0
+  ],
+  [
+   39.946599,
+   -75.165323,
+   0
+  ],
+  [
+   39.949333,
+   -75.147654,
+   0
+  ],
+  [
+   39.947495,
+   -75.14346,
+   0
+  ],
+  [
+   39.951755,
+   -75.17613,
+   0
+  ],
+  [
+   39.946767,
+   -75.170402,
+   0
+  ],
+  [
+   39.950666,
+   -75.164723,
+   0
+  ],
+  [
+   39.965362,
+   -75.135387,
+   0
+  ],
+  [
+   39.955048,
+   -75.170678,
+   0
+  ],
+  [
+   39.983461,
+   -75.155116,
+   0
+  ],
+  [
+   40.006446,
+   -75.260247,
+   0
+  ],
+  [
+   40.015386,
+   -75.210509,
+   0
+  ],
+  [
+   39.946833,
+   -75.145488,
+   0
+  ],
+  [
+   39.951343,
+   -75.174669,
+   0
+  ],
+  [
+   39.954125,
+   -75.148864,
+   0
+  ],
+  [
+   39.985205,
+   -75.222521,
+   0
+  ],
+  [
+   39.959773,
+   -75.137704,
+   0
+  ],
+  [
+   39.995158,
+   -75.189517,
+   0
+  ],
+  [
+   39.945008,
+   -75.165626,
+   0
+  ],
+  [
+   39.981442,
+   -75.156813,
+   0
+  ],
+  [
+   39.996342,
+   -75.189872,
+   0
+  ],
+  [
+   39.983255,
+   -75.222832,
+   0
+  ],
+  [
+   39.969831,
+   -75.160298,
+   0
+  ],
+  [
+   39.953833,
+   -75.203723,
+   0
+  ],
+  [
+   39.960859,
+   -75.258352,
+   0
+  ],
+  [
+   39.95491,
+   -75.169881,
+   0
+  ],
+  [
+   39.932862,
+   -75.165962,
+   0
+  ],
+  [
+   39.941351,
+   -75.148758,
+   0
+  ],
+  [
+   40.023421,
+   -75.222105,
+   0
+  ],
+  [
+   39.948519,
+   -75.155458,
+   0
+  ],
+  [
+   39.949092,
+   -75.121726,
+   0
+  ],
+  [
+   40.027856,
+   -75.350149,
+   0
+  ],
+  [
+   39.943389,
+   -75.131969,
+   0
+  ],
+  [
+   39.947186,
+   -75.164304,
+   0
+  ]
+ ]
+}
