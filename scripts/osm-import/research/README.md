@@ -32,7 +32,11 @@ about 1,200 more searches to finish.
 - Source rule: WebSearch answers with a summary plus links. Keep a fact only
   when one link's title or snippet states it, the summary cites that link, or
   exactly one returned link is a page about this place. Never pick "the most
-  likely" link among several.
+  likely" link among several. Several pages of one site count as several
+  links. When the first search leaves fewer than 2 facts, run the second with
+  `allowed_domains` set to one domain (the place's own site, or a news or
+  official site whose result title is about this place) so that one page
+  about the place can come back alone.
 - Output `out-NN.json`: `[{id, name, matched, closed, closedSource,
   facts: [{text, url}]}]`.
 

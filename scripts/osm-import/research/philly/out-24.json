@@ -1,0 +1,413 @@
+[
+ {
+  "id": "osm-r18197129",
+  "name": "Gulley Run Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 7.2 acres in Lower Merion Township.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14761"
+   },
+   {
+    "text": "Has picnic tables and BBQ grills.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14761"
+   }
+  ]
+ },
+ {
+  "id": "osm-n357373311",
+  "name": "Gypsy Wood Preserve",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w468558321",
+  "name": "Haines & Salvati Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w27474531",
+  "name": "Harford Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 30.8 acres off Gulph Creek Road in Radnor.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   },
+   {
+    "text": "Site of Harford Mansion, completed in 1880 and designed by Furness and Evans as a summer home for Judge John Hare.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   },
+   {
+    "text": "Radnor Township bought the Hare Estate in 1969 and renamed Hare Park to Harford Park in 1974.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   },
+   {
+    "text": "Designated a dog park in 1997.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/22/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w26944300",
+  "name": "Harriton Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 13.0 acres and includes the Harriton House Museum and a nature park.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/harriton-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w789928930",
+  "name": "Henry Lane Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 22.0 acres in Gladwyne.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14765"
+   },
+   {
+    "text": "Nature park with hiking and bridle trails.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14765"
+   }
+  ]
+ },
+ {
+  "id": "osm-n357369285",
+  "name": "Highland Farms Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1372037518",
+  "name": "Idlewild Farm Preserve",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Added to the National Register of Historic Places in 1983.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   },
+   {
+    "text": "Welsh farmer Robert Lloyd built a one-room house on the farm in 1700.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   },
+   {
+    "text": "Lawrence Saunders began the Bridlewild Trails Association on the farm in 1927.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   },
+   {
+    "text": "In 1992 Dorothy Saunders gave about 21 acres of the farm to Natural Lands.",
+    "url": "https://en.wikipedia.org/wiki/Idlewild_Farm_Complex"
+   }
+  ]
+ },
+ {
+  "id": "osm-r11115686",
+  "name": "Independence National Historical Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 55 acres in the Old City and Society Hill neighborhoods and is administered by the National Park Service.",
+    "url": "https://en.wikipedia.org/wiki/Independence_National_Historical_Park"
+   },
+   {
+    "text": "Centered on Independence Hall, where the Declaration of Independence and Constitution were debated and adopted.",
+    "url": "https://en.wikipedia.org/wiki/Independence_National_Historical_Park"
+   },
+   {
+    "text": "Nicknamed America's most historic square mile.",
+    "url": "https://en.wikipedia.org/wiki/Independence_National_Historical_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1141051788",
+  "name": "Indian Creek Basin Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w26661675",
+  "name": "John Capelli Golf Range",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w709564096",
+  "name": "Julian Abele Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w710791425",
+  "name": "Kay Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w607186936",
+  "name": "Kenealy Nature Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 87.0 acres in Gladwyne.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14769"
+   },
+   {
+    "text": "Nature park with hiking and bridle trails.",
+    "url": "https://lowermerionpa.myrec.com/info/facilities/details.aspx?FacilityID=14769"
+   }
+  ]
+ },
+ {
+  "id": "osm-w427856094",
+  "name": "Kennedy Ellipse",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w229771351",
+  "name": "La Noce Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w219535527",
+  "name": "Leeland Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w434794391",
+  "name": "Linwood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A passive mini-park of about 1.06 acres at Linwood and Athens Avenues in Ardmore.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/linwood-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-r21281848",
+  "name": "Logan Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Originally Northwest Square in William Penn's 1684 plan, renamed in 1825 for statesman James Logan.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   },
+   {
+    "text": "Site of the Great Sanitary Fair in 1864, which Abraham Lincoln visited.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   },
+   {
+    "text": "Jacques Greber converted the square into a circle as part of the Benjamin Franklin Parkway plan.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1981.",
+    "url": "https://en.wikipedia.org/wiki/Logan_Circle_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w219554130",
+  "name": "Mary Wood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w337138783",
+  "name": "Mazie B. Hall Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 2.3 acres on Upper Gulph Road in Tredyffrin Township.",
+    "url": "https://www.tredyffrin.org/Parks/Mazie-B.-Hall-Park"
+   },
+   {
+    "text": "Has a baseball field, two basketball courts, a tot lot, a picnic area and a walking path.",
+    "url": "https://www.tredyffrin.org/Parks/Mazie-B.-Hall-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468564941",
+  "name": "McKenzie Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by the Borough of West Conshohocken.",
+    "url": "https://www.westconsho.com/mackenziepark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w60928712",
+  "name": "McMichael Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28526203",
+  "name": "Memorial Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w502474106",
+  "name": "Merion Botanical Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Created in 1944 by residents who formed the Botanical Society of Lower Merion, which still manages it.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   },
+   {
+    "text": "Covers 13.5 acres at 100 Merion Road.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   },
+   {
+    "text": "Laura Barnes, wife of collector Albert C. Barnes, was among the founders.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   },
+   {
+    "text": "Contains azaleas, dogwoods, magnolias, redbuds, rhododendron and viburnum.",
+    "url": "https://en.wikipedia.org/wiki/Merion_Botanical_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526198",
+  "name": "Merryvale",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w78288153",
+  "name": "Merwood Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13058728101",
+  "name": "Mom Rinker's Rock",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Scenic outlook in Wissahickon Valley Park, just north of the Walnut Lane Bridge.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   },
+   {
+    "text": "Named for Molly Rinker, a bartender and spy during the American Revolutionary War.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   },
+   {
+    "text": "A marble statue carved by Herman Kirn was installed there by John Welsh in 1883.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   },
+   {
+    "text": "Novelist George Lippard was married on the rock in 1847.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker's_Rock"
+   }
+  ]
+ },
+ {
+  "id": "osm-w542264933",
+  "name": "Narberth Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a baseball diamond, basketball courts, a playground and a skate park.",
+    "url": "https://www.narberthpa.gov/departments/public_works/parks/index.php"
+   },
+   {
+    "text": "Has a reservable gazebo and picnic tables.",
+    "url": "https://www.narberthpa.gov/departments/public_works/parks/index.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1157957120",
+  "name": "Narbrook Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Added to the National Register of Historic Places in 2003.",
+    "url": "https://en.wikipedia.org/wiki/Narbrook_Park_Historic_District"
+   },
+   {
+    "text": "Planned garden suburb developed between 1915 and 1938, also known as Narberth Garden.",
+    "url": "https://en.wikipedia.org/wiki/Narbrook_Park_Historic_District"
+   },
+   {
+    "text": "Covers 14 acres, with mostly Bungalow and Dutch Colonial Revival homes.",
+    "url": "https://en.wikipedia.org/wiki/Narbrook_Park_Historic_District"
+   }
+  ]
+ }
+]

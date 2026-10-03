@@ -1,0 +1,291 @@
+[
+ {
+  "id": "osm-w1122789968",
+  "name": "Molly's Books & Records",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4949327723",
+  "name": "Monk's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1219528042",
+  "name": "Monkey Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5718906468",
+  "name": "Mostaza Sports Bar & Grill",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w909177967",
+  "name": "Murph's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11171814638",
+  "name": "Murphy's Tavern",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3763949888",
+  "name": "Narberth Bookshop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13151180984",
+  "name": "Narberth Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3042654511",
+  "name": "National Mechanics",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2727251803",
+  "name": "New Food Trust Farmer's Market",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2720252212",
+  "name": "Norris Square Park Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The market is run by the Norris Square Neighborhood Project at 2217 N 2nd Street.",
+    "url": "https://map.thefoodtrust.org/programs/norris-square-neighborhood-project-farmers-market/"
+   },
+   {
+    "text": "The market accepts WIC and Senior FMNP checks.",
+    "url": "https://map.thefoodtrust.org/programs/norris-square-neighborhood-project-farmers-market/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2699346739",
+  "name": "North Bowl",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "North Bowl has bowling lanes, an arcade, a bar and a restaurant.",
+    "url": "https://www.northbowlphilly.com/location/north-bowl/"
+   },
+   {
+    "text": "North Bowl hosts bowling leagues.",
+    "url": "https://www.northbowlphilly.com/leagues/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w345167316",
+  "name": "NOTO Philadelphia",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8116472552",
+  "name": "Nut Hut Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w963498924",
+  "name": "Old City Beer Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1712035844",
+  "name": "Oneal's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w966635306",
+  "name": "Ortlieb's Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4175142992",
+  "name": "Oscar's Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7383548306",
+  "name": "Other Half Brewing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2752459656",
+  "name": "Overbrook Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Overbrook Farmers Market was established in 2008.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   },
+   {
+    "text": "The market was held at Overbrook Presbyterian Church.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   },
+   {
+    "text": "The market closed after a 2024 fire at the church.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1606862187",
+  "name": "Paddy Whacks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12069137869",
+  "name": "Paddy\u2019s",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2745990725",
+  "name": "Palmer Park Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11055837200",
+  "name": "Peck Miller's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Peck Miller's is a dive bar at 6119 Ridge Avenue in Roxborough.",
+    "url": "https://www.yelp.com/biz/peck-millers-philadelphia"
+   },
+   {
+    "text": "The bar has a dart league.",
+    "url": "https://www.yelp.com/biz/peck-millers-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n360500734",
+  "name": "Penn Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w297788075",
+  "name": "Pennsy Flea Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12547061332",
+  "name": "Pentridge Station",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w789715192",
+  "name": "Philadelphia Brewing Company Peacock Room Bar & Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7383548287",
+  "name": "Philadelphia Distilling",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Philadelphia Distilling makes Bluecoat American Dry Gin.",
+    "url": "https://www.philadelphiadistilling.com/bluecoat-american-dry-gin"
+   },
+   {
+    "text": "It also makes Bluecoat Elderflower Gin and Bluecoat Barrel Finished Gin.",
+    "url": "https://www.philadelphiadistilling.com/bluecoat-elderflower-gin"
+   }
+  ]
+ },
+ {
+  "id": "osm-w908918547",
+  "name": "Philadelphia Record Exchange",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

@@ -1,118 +1,50 @@
 {
  "category": "food",
- "count": 174,
- "commonsPhotos": 0,
- "commonsPhotoPct": 0,
- "withFacts": 163,
+ "count": 172,
+ "commonsPhotos": 2,
+ "commonsPhotoPct": 1.2,
+ "withFacts": 164,
  "withHours": 84,
  "byRegion": {
-  "philly": 167,
+  "philly": 165,
   "villanova": 7
  },
  "photoSkips": [],
  "sample": [
   {
-   "id": "osm-w987745205",
-   "name": "Nudy's Cafe",
-   "topic": "café",
-   "lat": 40.048462,
-   "lng": -75.409765,
+   "id": "osm-w224409946",
+   "name": "Izenberg's",
+   "topic": "restaurant",
+   "lat": 40.076291,
+   "lng": -75.303394,
    "photo": false,
    "facts": [
-    "Address: 292 East Conestoga Road, Wayne"
+    "Address: 401 Fayette Street, Conshohocken"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/987745205"
+   "osmUrl": "https://www.openstreetmap.org/way/224409946"
   },
   {
-   "id": "osm-n10778956283",
-   "name": "maman",
-   "topic": "bakery",
-   "lat": 40.009009,
-   "lng": -75.290207,
+   "id": "osm-n9587719502",
+   "name": "Rudee's Thai cuisine",
+   "topic": "Thai restaurant",
+   "lat": 40.00235,
+   "lng": -75.27766,
    "photo": false,
    "facts": [
-    "Address: 49 Anderson Avenue, Ardmore"
+    "Serves Thai food",
+    "Address: 333 East Lancaster Avenue, Wynnewood"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/10778956283"
+   "osmUrl": "https://www.openstreetmap.org/node/9587719502"
   },
   {
-   "id": "osm-n3118475655",
-   "name": "Grindcore House",
-   "topic": "café",
-   "lat": 39.929033,
-   "lng": -75.151862,
+   "id": "osm-n1034623680",
+   "name": "Hana Japanese",
+   "topic": "restaurant",
+   "lat": 40.044823,
+   "lng": -75.399439,
    "photo": false,
-   "facts": [
-    "Serves coffee, sandwiches and dessert",
-    "Fully vegan menu",
-    "Has Wi-Fi"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3118475655"
-  },
-  {
-   "id": "osm-n12504780819",
-   "name": "Hu's Kitchen?",
-   "topic": "Chinese restaurant",
-   "lat": 40.022203,
-   "lng": -75.319535,
-   "photo": false,
-   "facts": [
-    "Serves Chinese food",
-    "Address: 841 1/2 West Lancaster Avenue"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12504780819"
-  },
-  {
-   "id": "osm-w224489965",
-   "name": "Flanigan's Boat House",
-   "topic": "American restaurant",
-   "lat": 40.07407,
-   "lng": -75.305551,
-   "photo": false,
-   "facts": [
-    "Serves American food",
-    "Address: 113 Fayette Street, Conshohocken"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/224489965"
-  },
-  {
-   "id": "osm-n923766375",
-   "name": "Gullifty's",
-   "topic": "American restaurant",
-   "lat": 40.02572,
-   "lng": -75.325758,
-   "photo": false,
-   "facts": [
-    "Serves American food",
-    "Address: 1149 Lancaster Avenue, Rosemont"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/923766375"
-  },
-  {
-   "id": "osm-n11584990432",
-   "name": "M&M Pho Mi",
-   "topic": "Vietnamese restaurant",
-   "lat": 40.073795,
-   "lng": -75.305877,
-   "photo": false,
-   "facts": [
-    "Serves Vietnamese food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/11584990432"
-  },
-  {
-   "id": "osm-n1479235293",
-   "name": "Gleaner's Cafe Gallery",
-   "topic": "café",
-   "lat": 39.93847,
-   "lng": -75.157889,
-   "photo": false,
-   "facts": [
-    "Serves coffee",
-    "Has outdoor seating",
-    "Fully vegetarian menu"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/1479235293"
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1034623680"
   },
   {
    "id": "osm-n13625380376",
@@ -129,57 +61,91 @@
    "osmUrl": "https://www.openstreetmap.org/node/13625380376"
   },
   {
-   "id": "osm-w584780298",
-   "name": "Green Engine Cafe",
+   "id": "osm-n11904652055",
+   "name": "Ground Up Café & Coffee",
    "topic": "café",
-   "lat": 40.013579,
-   "lng": -75.301239,
+   "lat": 39.926064,
+   "lng": -75.168123,
    "photo": false,
    "facts": [
-    "Featured in The Villanovan's guide to coffee shops near campus, 2.3 miles away."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/584780298"
-  },
-  {
-   "id": "osm-w484811222",
-   "name": "Jasper's Backyard",
-   "topic": "American restaurant",
-   "lat": 40.078094,
-   "lng": -75.300499,
-   "photo": false,
-   "facts": [
-    "Serves American food",
+    "Serves coffee and breakfast",
     "Has outdoor seating",
-    "Address: 101 East 7th Avenue, Conshohocken"
+    "Has Wi-Fi"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/484811222"
+   "osmUrl": "https://www.openstreetmap.org/node/11904652055"
   },
   {
-   "id": "osm-n5968575687",
-   "name": "Fellini Cafe",
-   "topic": "Italian restaurant",
-   "lat": 40.02245,
-   "lng": -75.320849,
+   "id": "osm-n10974561754",
+   "name": "Yapple Yogurt",
+   "topic": "ice cream shop",
+   "lat": 40.001734,
+   "lng": -75.273416,
    "photo": false,
    "facts": [
-    "Serves Italian food",
-    "Takes reservations",
-    "Address: 870 West Lancaster Avenue, Bryn Mawr"
+    "Address: 50 East Wynnewood Road"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5968575687"
+   "osmUrl": "https://www.openstreetmap.org/node/10974561754"
   },
   {
-   "id": "osm-n1043848933",
-   "name": "Haverford Market",
-   "topic": "sandwich restaurant",
-   "lat": 40.011644,
-   "lng": -75.315206,
+   "id": "osm-w224655232",
+   "name": "Spring Mill Cafe",
+   "topic": "café",
+   "lat": 40.075545,
+   "lng": -75.279483,
    "photo": false,
    "facts": [
-    "Serves sandwiches",
-    "Address: 701 Haverford Road"
+    "Address: 164 Barren Hill Road, Conshohocken"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1043848933"
+   "osmUrl": "https://www.openstreetmap.org/way/224655232"
+  },
+  {
+   "id": "osm-n9494216580",
+   "name": "Jasper's West Side",
+   "topic": "restaurant",
+   "lat": 40.068851,
+   "lng": -75.311532,
+   "photo": false,
+   "facts": [
+    "Took over the former Imbibe space in West Conshohocken."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9494216580"
+  },
+  {
+   "id": "osm-n9498198032",
+   "name": "Ogyu",
+   "topic": "Japanese restaurant",
+   "lat": 40.008637,
+   "lng": -75.297695,
+   "photo": false,
+   "facts": [
+    "Ogyu opened in Ardmore as an all-you-can-eat Japanese barbecue restaurant.",
+    "Serves Japanese food, plus barbecue",
+    "Address: 60 Greenfield Avenue, Ardmore"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9498198032"
+  },
+  {
+   "id": "osm-n12504780819",
+   "name": "Hu's Kitchen?",
+   "topic": "Chinese restaurant",
+   "lat": 40.022203,
+   "lng": -75.319535,
+   "photo": false,
+   "facts": [
+    "Serves Chinese food",
+    "Address: 841 1/2 West Lancaster Avenue"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12504780819"
+  },
+  {
+   "id": "osm-n1687458235",
+   "name": "Rosemont Bakery",
+   "topic": "bakery",
+   "lat": 40.025936,
+   "lng": -75.338044,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1687458235"
   },
   {
    "id": "osm-w988541362",
@@ -189,35 +155,101 @@
    "lng": -75.30037,
    "photo": false,
    "facts": [
+    "Opened at 812 Fayette Street in Conshohocken.",
+    "Introduced a coffee named for the meaning behind Conshohocken.",
     "Address: 812 Fayette Street, Conshohocken"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/988541362"
   },
   {
-   "id": "osm-n989613859",
-   "name": "Maison Lotus",
-   "topic": "Vietnamese restaurant",
-   "lat": 40.04411,
-   "lng": -75.385431,
+   "id": "osm-n5218983209",
+   "name": "Narberth Pizza",
+   "topic": "restaurant",
+   "lat": 40.01171,
+   "lng": -75.261789,
    "photo": false,
    "facts": [
-    "Serves Vietnamese food",
-    "Offers delivery",
-    "Takes reservations"
+    "Address: 940 Montgomery Avenue, Narberth"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/989613859"
+   "osmUrl": "https://www.openstreetmap.org/node/5218983209"
   },
   {
-   "id": "osm-n5534129527",
-   "name": "Eagle Pizza",
-   "topic": "pizza restaurant",
-   "lat": 39.993655,
-   "lng": -75.297749,
+   "id": "osm-n11307980347",
+   "name": "Rosie's Cafe",
+   "topic": "café",
+   "lat": 40.038815,
+   "lng": -75.342241,
    "photo": false,
    "facts": [
-    "Serves Italian food, plus pizza"
+    "Address: 308 North Spring Mill Road, Villanova"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5534129527"
+   "osmUrl": "https://www.openstreetmap.org/node/11307980347"
+  },
+  {
+   "id": "osm-w541206485",
+   "name": "Spread Bagelry",
+   "topic": "restaurant",
+   "lat": 40.001237,
+   "lng": -75.273115,
+   "photo": false,
+   "facts": [
+    "Spread Bagelry serves wood-fired bagels.",
+    "Serves coffee",
+    "Address: 50 East Wynnewood Road, Unit 7, Wynnewood"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/541206485"
+  },
+  {
+   "id": "osm-n12229810853",
+   "name": "Kung Fu Tea",
+   "topic": "café",
+   "lat": 39.956052,
+   "lng": -75.188015,
+   "photo": false,
+   "facts": [
+    "Serves bubble tea",
+    "Part of the Kung Fu Tea chain",
+    "Has vegetarian options"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12229810853"
+  },
+  {
+   "id": "osm-w1253777939",
+   "name": "Pietramala",
+   "topic": "creative restaurant",
+   "lat": 39.961454,
+   "lng": -75.141524,
+   "photo": false,
+   "facts": [
+    "Pietramala is a vegan restaurant in the Northern Liberties neighborhood.",
+    "Serves creative",
+    "Fully vegan menu"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1253777939"
+  },
+  {
+   "id": "osm-w685999287",
+   "name": "Spinagar",
+   "topic": "Indian restaurant",
+   "lat": 40.005465,
+   "lng": -75.262456,
+   "photo": false,
+   "facts": [
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/685999287"
+  },
+  {
+   "id": "osm-n11584990434",
+   "name": "Eat Greek",
+   "topic": "Greek restaurant",
+   "lat": 40.073835,
+   "lng": -75.305943,
+   "photo": false,
+   "facts": [
+    "Serves Greek food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11584990434"
   },
   {
    "id": "osm-n1479235296",
@@ -227,9 +259,9 @@
    "lng": -75.157766,
    "photo": false,
    "facts": [
+    "Family owned and operated for over 50 years.",
     "Serves coffee",
-    "Has outdoor seating",
-    "Offers takeout"
+    "Has outdoor seating"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/1479235296"
   },
@@ -246,30 +278,32 @@
    "osmUrl": "https://www.openstreetmap.org/way/840299910"
   },
   {
-   "id": "osm-n9508379539",
-   "name": "Legal Grounds",
-   "topic": "café",
-   "lat": 40.038575,
-   "lng": -75.339021,
+   "id": "osm-n5705646781",
+   "name": "First Watch",
+   "topic": "American restaurant",
+   "lat": 40.037003,
+   "lng": -75.351709,
    "photo": false,
    "facts": [
-    "Serves coffee",
-    "Address: 299 North Spring Mill Road, Villanova"
+    "First Watch has its corporate headquarters in Bradenton, Florida.",
+    "Serves American food, plus breakfast",
+    "Part of the First Watch chain"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/9508379539"
+   "osmUrl": "https://www.openstreetmap.org/node/5705646781"
   },
   {
-   "id": "osm-n989292632",
-   "name": "Cornerstone Bistro & Artisinal Market",
-   "topic": "restaurant",
-   "lat": 40.045387,
-   "lng": -75.388634,
+   "id": "osm-w221492162",
+   "name": "Coyote Crossing",
+   "topic": "Mexican restaurant",
+   "lat": 40.075767,
+   "lng": -75.292918,
    "photo": false,
    "facts": [
+    "Serves Mexican food",
     "Has outdoor seating",
-    "Address: 1 West Avenue, Wayne"
+    "Address: 800 Spring Mill Avenue, Conshohocken"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/989292632"
+   "osmUrl": "https://www.openstreetmap.org/way/221492162"
   },
   {
    "id": "osm-n2114069977",
@@ -279,62 +313,24 @@
    "lng": -75.21314,
    "photo": false,
    "facts": [
-    "Serves coffee",
-    "Has vegan options",
-    "Address: 4501 Baltimore Avenue, Philadelphia"
+    "Opened by Addis Ababa native Hayat Ali on Baltimore Avenue in 2020.",
+    "Specializes in Ethiopian coffee traditions.",
+    "Roasts its own coffee and serves it in a jebena pot."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/2114069977"
   },
   {
-   "id": "osm-n2003082513",
-   "name": "Bella Italia Pizza",
-   "topic": "pizza restaurant",
-   "lat": 40.007501,
-   "lng": -75.290568,
+   "id": "osm-n10971360272",
+   "name": "Lola's Garden",
+   "topic": "restaurant",
+   "lat": 40.008932,
+   "lng": -75.289366,
    "photo": false,
    "facts": [
-    "Serves pizza",
-    "Address: 12 East Lancaster Avenue, Ardmore"
+    "Located in Suburban Square in Ardmore.",
+    "Address: 51 Saint Georges Road, Ardmore"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/2003082513"
-  },
-  {
-   "id": "osm-n4658126868",
-   "name": "Insomnia Cookies",
-   "topic": "bakery",
-   "lat": 40.026417,
-   "lng": -75.328873,
-   "photo": false,
-   "facts": [
-    "Promised free cookies to visitors if Villanova won the national championship.",
-    "Part of the Insomnia Cookies chain",
-    "Address: 1084 East Lancaster Avenue, Bryn Mawr"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4658126868"
-  },
-  {
-   "id": "osm-n989516630",
-   "name": "Cafe Procopio",
-   "topic": "café",
-   "lat": 40.04569,
-   "lng": -75.387977,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/989516630"
-  },
-  {
-   "id": "osm-n4514675789",
-   "name": "Bar Bombon",
-   "topic": "Puerto Rican restaurant",
-   "lat": 39.950618,
-   "lng": -75.170447,
-   "photo": false,
-   "facts": [
-    "Serves Puerto Rican food",
-    "Fully vegan menu",
-    "Has a bar"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4514675789"
+   "osmUrl": "https://www.openstreetmap.org/node/10971360272"
   }
  ],
  "points": [
@@ -464,11 +460,6 @@
    0
   ],
   [
-   40.074584,
-   -75.29554,
-   0
-  ],
-  [
    39.951567,
    -75.203263,
    0
@@ -516,7 +507,7 @@
   [
    39.966751,
    -75.160087,
-   0
+   1
   ],
   [
    39.949142,
@@ -571,11 +562,6 @@
   [
    40.02245,
    -75.320849,
-   0
-  ],
-  [
-   40.037003,
-   -75.351709,
    0
   ],
   [
@@ -704,23 +690,8 @@
    0
   ],
   [
-   40.037628,
-   -75.351735,
-   0
-  ],
-  [
-   40.038575,
-   -75.339021,
-   0
-  ],
-  [
    40.00891,
    -75.28857,
-   0
-  ],
-  [
-   40.025397,
-   -75.337323,
    0
   ],
   [
@@ -801,7 +772,7 @@
   [
    39.942353,
    -75.141029,
-   0
+   1
   ],
   [
    40.007566,
@@ -951,16 +922,6 @@
   [
    40.044356,
    -75.386453,
-   0
-  ],
-  [
-   40.025936,
-   -75.338044,
-   0
-  ],
-  [
-   40.038815,
-   -75.342241,
    0
   ],
   [
@@ -1194,13 +1155,38 @@
    0
   ],
   [
-   40.022636,
-   -75.326105,
+   40.001734,
+   -75.273416,
    0
   ],
   [
-   40.001734,
-   -75.273416,
+   40.037003,
+   -75.351709,
+   0
+  ],
+  [
+   40.037628,
+   -75.351735,
+   0
+  ],
+  [
+   40.038575,
+   -75.339021,
+   0
+  ],
+  [
+   40.025397,
+   -75.337323,
+   0
+  ],
+  [
+   40.025936,
+   -75.338044,
+   0
+  ],
+  [
+   40.038815,
+   -75.342241,
    0
   ],
   [

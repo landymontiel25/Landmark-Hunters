@@ -1,0 +1,383 @@
+[
+ {
+  "id": "osm-n6672536425",
+  "name": "Voyeur Nightclub Mayfield Social Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1099974343",
+  "name": "Walnut Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Operates as a pop-up garden on Rittenhouse Row.",
+    "url": "https://www.phillyvoice.com/walnut-garden-pop-up-reopens-rittenhouse-code-violations/"
+   },
+   {
+    "text": "Reopened after resolving city code violations that had shut it down.",
+    "url": "https://www.phillyvoice.com/walnut-garden-pop-up-reopens-rittenhouse-code-violations/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1749989684",
+  "name": "Watkins Drinkery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1255724378",
+  "name": "Watusi Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11231061180",
+  "name": "Wissahickon Bar & Bistro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7383526243",
+  "name": "Wissahickon Brewing Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Second taproom of Wissahickon Brewing Co., opened in Olde Kensington.",
+    "url": "https://www.fox29.com/video/1659183"
+   },
+   {
+    "text": "Includes a kombucha brewery alongside the taproom.",
+    "url": "https://www.phillyvoice.com/wissahickon-brewing-olde-kensington-expand-taproom-kombucha/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7524084336",
+  "name": "Wissahickon Brewing Company",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8318860194",
+  "name": "Wooden Shoe Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Anarchist bookstore and infoshop founded in 1976 by members of Philadelphia Solidarity.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   },
+   {
+    "text": "Named for workers who threw wooden shoes (sabots) into machinery during the Industrial Revolution.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   },
+   {
+    "text": "Run by an all-volunteer worker collective.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   },
+   {
+    "text": "Moved to its current location at 7th and South Street in October 2009.",
+    "url": "https://en.wikipedia.org/wiki/Wooden_Shoe_Books_and_Records"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2822025477",
+  "name": "Woody's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5861898622",
+  "name": "Writer's Block Rehab",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1238160487",
+  "name": "Xanadu",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12989799655",
+  "name": "Yards Brewing Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1994 by friends Tom Kehoe and Jon Bovit.",
+    "url": "https://en.wikipedia.org/wiki/Yards_Brewing_Company"
+   },
+   {
+    "text": "A craft brewery specializing in ales, particularly in the English tradition.",
+    "url": "https://en.wikipedia.org/wiki/Yards_Brewing_Company"
+   }
+  ]
+ },
+ {
+  "id": "osm-w50108070",
+  "name": "48th & Woodland Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Its sprayground reopened after upgrades in July 2024.",
+    "url": "https://www.westphillylocal.com/2024/07/11/48th-woodland-sprayground-reopens-after-upgrades/"
+   },
+   {
+    "text": "The sprayground was redesigned around a learning theme.",
+    "url": "https://www.westphillylocal.com/2023/02/17/new-playful-and-learning-sprayground-coming-to-48th-and-woodland-vote-for-your-favorite-design/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w317949577",
+  "name": "Alan Wood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w791958594",
+  "name": "Appleford Estate",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 24-acre non-profit arboretum and country estate, also called the Parsons-Banks Arboretum.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   },
+   {
+    "text": "The estate was created in the 1920s by landscape architect Thomas Sears and architect R. Brognard Okie.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   },
+   {
+    "text": "Anabel Parsons donated the property to Lower Merion Township in 1973.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   },
+   {
+    "text": "Maintained as an arboretum and bird sanctuary with a pond, waterfall and formal gardens.",
+    "url": "https://en.wikipedia.org/wiki/Appleford/Parsons-Banks_Arboretum"
+   }
+  ]
+ },
+ {
+  "id": "osm-w23069891",
+  "name": "Ashbridge Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Covers 28.8 acres in Rosemont and includes the Ashbridge House.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/ashbridge-memorial-park"
+   },
+   {
+    "text": "Has 2 tennis courts, 4 pickleball courts, a walking path and a playground.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/ashbridge-memorial-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w220643640",
+  "name": "Aubrey Collins Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened after renovation on October 10, 2020.",
+    "url": "https://conshohockenpa.gov/resources/news/article/?id=4336"
+   },
+   {
+    "text": "Rededicated as Aubrey Collins Jr. Park.",
+    "url": "https://patch.com/pennsylvania/plymouthwhitemarsh/conshy-celebrates-aubrey-collins-jr-park-rededication"
+   }
+  ]
+ },
+ {
+  "id": "osm-w26944724",
+  "name": "Austin Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 2.3-acre nature park at Lancaster Avenue and Norwood Avenue in Rosemont.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/austin-memorial-park"
+   },
+   {
+    "text": "Part of the Lower Merion Township park system.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/austin-memorial-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468562730",
+  "name": "B-Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w227149221",
+  "name": "Bala Cynwyd Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has baseball, softball, basketball and tennis facilities plus a children's playground and tot lot.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/bala-cynwyd-park"
+   },
+   {
+    "text": "Its parking lot gives access to the Cynwyd Heritage Trail.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/bala-cynwyd-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w583250862",
+  "name": "Beechwood Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1237661428",
+  "name": "Bishop Richard Allen Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named in 2009 for Richard Allen, founder of the African Methodist Episcopal Church.",
+    "url": "https://radnorhistory.org/bishoprichardallenpark/"
+   },
+   {
+    "text": "Richard Allen stayed with Caesar and Phebe Waters in Radnor in 1784.",
+    "url": "https://radnorhistory.org/bishoprichardallenpark/"
+   },
+   {
+    "text": "An interpretive sign in the park was dedicated on June 25, 2023.",
+    "url": "https://radnorhistory.org/bishoprichardallenpark/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1327302144",
+  "name": "Black Rock Road Site",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 6.0-acre site at Black Rock Road and Dove Lake Road in Gladwyne.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/black-rock-road-site"
+   },
+   {
+    "text": "Classified by Lower Merion Township as undeveloped open space.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/black-rock-road-site"
+   }
+  ]
+ },
+ {
+  "id": "osm-w337138776",
+  "name": "Bocce Grove",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-r18200514",
+  "name": "Boone Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1320189395",
+  "name": "Brookline Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w593495805",
+  "name": "Cadwalader Tract",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1031861147",
+  "name": "Camden Children's Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Operated by the Camden City Garden Club and created in 1999.",
+    "url": "https://en.wikipedia.org/wiki/Camden_Children's_Garden"
+   },
+   {
+    "text": "A 4.5-acre garden with themed exhibits such as the Dinosaur Garden and Storybook Gardens.",
+    "url": "https://en.wikipedia.org/wiki/Camden_Children's_Garden"
+   },
+   {
+    "text": "Includes the Philadelphia Eagles Four Seasons Butterfly House.",
+    "url": "https://en.wikipedia.org/wiki/Camden_Children's_Garden"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1504511711",
+  "name": "Carol's Garden",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w385508434",
+  "name": "Center Green",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

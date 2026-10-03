@@ -1,0 +1,285 @@
+[
+ {
+  "id": "osm-w988626622",
+  "name": "Savona Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The mansion housing Savona dates to 1765 and was once headquarters of Aaron Burr.",
+    "url": "https://mainlinetoday.com/food/more-than-20-years-later-savona-remains-the-quintessence-of-fine-dining/"
+   },
+   {
+    "text": "Savona opened in 1997 as a Riviera-inspired restaurant.",
+    "url": "https://mainlinetoday.com/food/more-than-20-years-later-savona-remains-the-quintessence-of-fine-dining/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10760531991",
+  "name": "Saxbys",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Saxbys cafe at Community College of Philadelphia gives students leadership experience and college credit.",
+    "url": "https://www.ccp.edu/about-ccp/news-events/newsroom/2023-12-11/perfect-blend-saxbys-offers-students-leadership"
+   }
+  ]
+ },
+ {
+  "id": "osm-w366860352",
+  "name": "Scoops",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6507325262",
+  "name": "Silk Cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n523613930",
+  "name": "Snap Custom Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13310467662",
+  "name": "Sontuosa",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224640033",
+  "name": "Southern Cross Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w685999287",
+  "name": "Spinagar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w541206485",
+  "name": "Spread Bagelry",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spread Bagelry serves wood-fired bagels.",
+    "url": "https://www.spreadbagelry.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224655232",
+  "name": "Spring Mill Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1208049171",
+  "name": "Sub Valley Pizza and Catering",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Offers flatbread pizzas including Margarita, Greek, Mediterranean and BBQ chicken.",
+    "url": "https://www.sunvalleypizzacatering.com/"
+   },
+   {
+    "text": "Offers gluten-free pizza options and catering for events.",
+    "url": "https://www.sunvalleypizzacatering.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12504780826",
+  "name": "Sushi Land",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5605114326",
+  "name": "Sweet Freedom Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11177268782",
+  "name": "Sweet Stuff",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11610241969",
+  "name": "Taste of Chang'an",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989306169",
+  "name": "Teresa's Cafe and Next Door",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1208049189",
+  "name": "The Bakery House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w587976074",
+  "name": "The Black Cat Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6617897849",
+  "name": "The Cheese Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10991108357",
+  "name": "The Choice",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13384627661",
+  "name": "The Goat's Beard",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w988620453",
+  "name": "The Gypsy Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5605089962",
+  "name": "The Juice Merchant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3714274818",
+  "name": "The Pullman Restaurant and Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The restaurant opened in the former Bryn Mawr freight station.",
+    "url": "https://www.audacy.com/kywnewsradio/news/local/pullman-restaurant-bar-opens-bryn-mawr-dining-cars"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11573781870",
+  "name": "The Silverspoon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w221498719",
+  "name": "The Tomato Shack",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10991147767",
+  "name": "Tiffin",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Tiffin Indian Cuisine is a restaurant group with 10 locations across Pennsylvania and New Jersey.",
+    "url": "https://www.tiffin.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10884221880",
+  "name": "Tiffin Cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Tiffin Indian Cuisine is a restaurant group with 10 locations across Pennsylvania and New Jersey.",
+    "url": "https://www.tiffin.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224527451",
+  "name": "Tony & Joe's Pizzeria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w366662297",
+  "name": "Trattoria Totaro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

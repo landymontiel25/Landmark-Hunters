@@ -1,0 +1,372 @@
+[
+ {
+  "id": "osm-w905990686",
+  "name": "Barbara and Kathy Jordan's Family Court",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w880823702",
+  "name": "Barrack Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w686639637",
+  "name": "Carter Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w201703799",
+  "name": "Dink City Pickleball Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has 16 pickleball courts in Wayne.",
+    "url": "https://www.globalpickleball.network/pickleball-courts/courts/pickleball-court-page/court/4047-dink-city-pickleball"
+   }
+  ]
+ },
+ {
+  "id": "osm-r10132829",
+  "name": "Dixon Tennis Courts",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w201484369",
+  "name": "Edith Robb Dixon Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w22173363",
+  "name": "Higgins Soccer Complex",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2014 as a 1,000-seat soccer stadium.",
+    "url": "https://en.wikipedia.org/wiki/Higgins_Soccer_Complex"
+   },
+   {
+    "text": "Home to the Villanova men's and women's soccer teams.",
+    "url": "https://en.wikipedia.org/wiki/Higgins_Soccer_Complex"
+   }
+  ]
+ },
+ {
+  "id": "osm-w104739787",
+  "name": "Memorial Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w90707883",
+  "name": "O’Hara Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28023590",
+  "name": "Olson Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w686639641",
+  "name": "Phelps Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w986779013",
+  "name": "Pike Field",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w42000667",
+  "name": "Shillingford Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Developed as a competition-level turf field for field hockey at Bryn Mawr College.",
+    "url": "https://www.brynmawr.edu/inside/offices-services/facilities/our-departments/planning-projects/planned-upgrade-shillingford-applebee-fields"
+   },
+   {
+    "text": "Boulders set into the slope provide semi-formal spectator seating.",
+    "url": "https://www.brynmawr.edu/inside/offices-services/facilities/our-departments/planning-projects/planned-upgrade-shillingford-applebee-fields"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12964773735",
+  "name": "The Proving Grounds",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Multi sports complex in Conshohocken with turf fields.",
+    "url": "https://theprovinggroundspa.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w112477131",
+  "name": "Walton Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a grandstand with a capacity of 1,000, a press box and a filming deck.",
+    "url": "https://www.haverford.edu/campus-map/240172"
+   },
+   {
+    "text": "Hosts men's and women's soccer at Haverford College.",
+    "url": "https://www.haverford.edu/campus-map/240172"
+   }
+  ]
+ },
+ {
+  "id": "osm-w753448741",
+  "name": "Warren Filipone Memorial Park Tennis Courts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 10.2 acres next to Bo Connor Park on South Devon Avenue.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/32"
+   },
+   {
+    "text": "Named in May 1976 for Warren G. Filipone, a former township Parks Supervisor.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/32"
+   },
+   {
+    "text": "Has three tennis courts, four pickleball courts, two ball fields and a multipurpose field.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/32"
+   }
+  ]
+ },
+ {
+  "id": "osm-w988541362",
+  "name": "'feine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened at 812 Fayette Street in Conshohocken.",
+    "url": "https://morethanthecurve.com/feine-opens-at-812-fayette-street/"
+   },
+   {
+    "text": "Introduced a coffee named for the meaning behind Conshohocken.",
+    "url": "https://morethanthecurve.com/conshohockens-feine-introduces-coffee-named-for-the-meaning-behind-conshohocken/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w840299910",
+  "name": "333 Belrose",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1083626597",
+  "name": "A Taste of Britain",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has operated as a tea room on the Main Line since 1991.",
+    "url": "https://atobritain.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989613788",
+  "name": "Alessandro's Wood Fired Italian & Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in the space of Arde Osteria, which closed during the pandemic.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   },
+   {
+    "text": "Named for owner and executive chef Alessandro Fiorello.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   },
+   {
+    "text": "Serves Sicilian dishes such as Pasta Cu Sarde.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   },
+   {
+    "text": "Cooks in a wood burning oven imported from Naples, Italy.",
+    "url": "https://6abc.com/post/alessandro-fiorello-alessandro's-wood-fire-italian-sicilian-food-pizza/6851422/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2114069977",
+  "name": "Alif Brew & Mini Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by Addis Ababa native Hayat Ali on Baltimore Avenue in 2020.",
+    "url": "https://www.inquirer.com/food/alif-brew-mini-mart-west-philadelphia-ethiopian-restaurants-coffee-shops-20211029.html"
+   },
+   {
+    "text": "Specializes in Ethiopian coffee traditions.",
+    "url": "https://www.inquirer.com/food/alif-brew-mini-mart-west-philadelphia-ethiopian-restaurants-coffee-shops-20211029.html"
+   },
+   {
+    "text": "Roasts its own coffee and serves it in a jebena pot.",
+    "url": "https://www.inquirer.com/food/alif-brew-mini-mart-west-philadelphia-ethiopian-restaurants-coffee-shops-20211029.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13310029887",
+  "name": "Amada",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spanish tapas restaurant from Chef Jose Garces.",
+    "url": "https://www.phillyvoice.com/amada-randor-opening-jose-garces-spanish-tapas-restaurant/"
+   },
+   {
+    "text": "Third Amada location, opened in Radnor.",
+    "url": "https://www.phillyvoice.com/amada-randor-opening-jose-garces-spanish-tapas-restaurant/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1479235296",
+  "name": "Anthony's Italian Coffee & Chocolate House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Family owned and operated for over 50 years.",
+    "url": "https://italianmarketphilly.org/merchant/anthonys-italian-coffee-house/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w696448439",
+  "name": "Ardmore Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w696447945",
+  "name": "Ardmore Q",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n821207197",
+  "name": "Ardmore Station Cafe",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11573732465",
+  "name": "Autograph Brasserie",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w369570963",
+  "name": "Avril 50",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in September 1984 as a newsstand at 3406 Sansom Street.",
+    "url": "https://lampoonmagazine.com/article/2021/09/29/avril-50-philadelphia/"
+   },
+   {
+    "text": "Founded by Shahidi because few stores carried magazines and academic journals for students.",
+    "url": "https://lampoonmagazine.com/article/2021/09/29/avril-50-philadelphia/"
+   },
+   {
+    "text": "Sells magazines, academic journals, coffee, teas, chocolates and greeting cards.",
+    "url": "https://lampoonmagazine.com/article/2021/09/29/avril-50-philadelphia/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4514675789",
+  "name": "Bar Bombon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Plant-based Puerto Rican restaurant owned by Nicole Marquis.",
+    "url": "https://6abc.com/post/bar-bombon-puerto-rican-food-vegan-restaurants-philadelphia/6684751/"
+   },
+   {
+    "text": "Features a mezcal bar and empanadas stuffed with vegan Impossible meat.",
+    "url": "https://6abc.com/post/bar-bombon-puerto-rican-food-vegan-restaurants-philadelphia/6684751/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w367278709",
+  "name": "Bar Lucca",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

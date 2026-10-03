@@ -1,0 +1,284 @@
+[
+ {
+  "id": "osm-n9498198032",
+  "name": "Ogyu",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Guests grill premium A5 Wagyu and other meats at their table.",
+    "url": "https://www.ogyubbq.com/"
+   },
+   {
+    "text": "Ogyu opened in Ardmore as an all-you-can-eat Japanese barbecue restaurant.",
+    "url": "https://www.inquirer.com/food/restaurants/ogyu-japanese-bbq-opens-ardmore-iron-hill-20260709.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14210505720",
+  "name": "OSushi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12542098250",
+  "name": "Otto by Polpo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5534131133",
+  "name": "Pak Yue",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9710435817",
+  "name": "Paola's Cucina",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w225015993",
+  "name": "Pepperoncini",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11738825355",
+  "name": "Pho Losophy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1253777939",
+  "name": "Pietramala",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Pietramala is a vegan restaurant in the Northern Liberties neighborhood.",
+    "url": "https://www.pietramalaphl.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11137175405",
+  "name": "Pietro's Pizzeria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11554757108",
+  "name": "PJ Whelihan's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224528197",
+  "name": "Pop's Steaks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Pop's Steaks was founded by executive chef Nino Cordivari, who co-owns it with Mark Pagano.",
+    "url": "https://popssteaks.com/"
+   },
+   {
+    "text": "The kitchen fries in beef tallow and uses no seed oils.",
+    "url": "https://popssteaks.com/"
+   },
+   {
+    "text": "Pop's Steaks is a cheesesteak shop that opened in Conshohocken.",
+    "url": "https://patch.com/pennsylvania/plymouthwhitemarsh/pops-steaks-new-cheesesteak-joint-opens-conshohocken"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2611788971",
+  "name": "Positano Ristorante",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w587976077",
+  "name": "Pour Richard's Coffee Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12191875444",
+  "name": "Queen & Rook Game Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Queen & Rook is a board game cafe that relocated to South Street.",
+    "url": "https://www.nbcphiladelphia.com/entertainment/the-scene/queen-and-rook-new-location-south-street/3859043/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13988552514",
+  "name": "Raffs Fine Italian Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w372593386",
+  "name": "Real Pizza Narberth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w647047816",
+  "name": "Renata's Kitchen & Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11177268778",
+  "name": "Rosa Mexicano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13703618706",
+  "name": "Rosalie Italian Soul Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Rosalie is part of Fearless Restaurants.",
+    "url": "https://culinaryagents.com/entities/290268-Rosalie"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1687458235",
+  "name": "Rosemont Bakery",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11307980347",
+  "name": "Rosie's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9587719502",
+  "name": "Rudee's Thai cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w458781331",
+  "name": "Ryan Christophers BYOB",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10884033879",
+  "name": "Sabrina's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w944686673",
+  "name": "Saffron Indian Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224528195",
+  "name": "Saigon Noodle Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12482465051",
+  "name": "Sake Mian",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224489289",
+  "name": "Salt & Stone",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1376907581",
+  "name": "Sam's Brick Oven Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2687978760",
+  "name": "SangKee Asian Bistro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "SangKee Asian Bistro serves dim sum and Hong Kong dishes.",
+    "url": "https://sangkeeasianbistro.com/"
+   }
+  ]
+ }
+]

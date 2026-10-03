@@ -1,0 +1,267 @@
+[
+ {
+  "id": "osm-n10682365932",
+  "name": "Sammy's Sports Bar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11231061192",
+  "name": "Scanlon's Saloon",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2745593578",
+  "name": "Schuylkill River Park Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Managed by Evergreen Events as a producer-only market.",
+    "url": "https://map.thefoodtrust.org/programs/schuylkill-river-park-farmers-market/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12001487360",
+  "name": "Second District Brewing Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2931994044",
+  "name": "Señor Baynard's Bar & Grill",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w274894262",
+  "name": "Showcase Comics and Games",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w486628353",
+  "name": "Sit on It Bar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1700198702",
+  "name": "Smokey Joe's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has operated as a University of Pennsylvania bar since 1933.",
+    "url": "https://www.smokeyjoesbar.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12229584188",
+  "name": "Society Commons",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w456378263",
+  "name": "Solar Myth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in the former Boot & Saddle space as a cafe, wine bar and live music venue.",
+    "url": "https://www.inquirer.com/entertainment/solar-myth-ars-nova-collective-boot-saddle-20221025.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11073875079",
+  "name": "Somo Lounge",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2752798594",
+  "name": "South and Passyunk Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w269853604",
+  "name": "South Philadelphia Tap Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w250700251",
+  "name": "St. Stephen's Green",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5659717024",
+  "name": "State Bar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7383480662",
+  "name": "Stateside Urbancraft Vodka Tasting Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13911519701",
+  "name": "Stir Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5366495321",
+  "name": "Strangelove's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2760042238",
+  "name": "Suburban Station Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12862925001",
+  "name": "Supérette",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6775455858",
+  "name": "Superfolie",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6556392908",
+  "name": "Tango",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://wooderice.com/tango-in-chinatown-to-close-its-doors-this-weekend-after-15-years-of-philly-nightlife-memories/",
+  "facts": [
+   {
+    "text": "Operated in Chinatown for 15 years before closing.",
+    "url": "https://wooderice.com/tango-in-chinatown-to-close-its-doors-this-weekend-after-15-years-of-philly-nightlife-memories/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w270896130",
+  "name": "Tap Room on 19th",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12228642803",
+  "name": "Tapster",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1712034405",
+  "name": "Tattooed Mom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2002957445",
+  "name": "Temple University Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12288879226",
+  "name": "Tempo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5631483014",
+  "name": "Ten Stone",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12228786312",
+  "name": "The 700",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reported for sale in 2018 after 21 years in business in Northern Liberties.",
+    "url": "https://billypenn.com/2018/11/28/after-21-years-the-700-club-in-northern-liberties-is-for-sale/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989532234",
+  "name": "The Antique Store in Wayne",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

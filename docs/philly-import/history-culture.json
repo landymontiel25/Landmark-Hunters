@@ -1,8 +1,8 @@
 {
  "category": "history-culture",
  "count": 139,
- "commonsPhotos": 20,
- "commonsPhotoPct": 14.4,
+ "commonsPhotos": 53,
+ "commonsPhotoPct": 38.1,
  "withFacts": 117,
  "withHours": 3,
  "byRegion": {
@@ -56,7 +56,7 @@
    "topic": "monument",
    "lat": 39.998203,
    "lng": -75.254313,
-   "photo": false,
+   "photo": true,
    "facts": [],
    "osmUrl": "https://www.openstreetmap.org/way/246698955"
   },
@@ -157,7 +157,7 @@
    "topic": "historic site",
    "lat": 39.986248,
    "lng": -75.112857,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Also known as Memphis Street Academy",
     "About 20 m (66 ft) tall",
@@ -171,7 +171,7 @@
    "topic": "memorial",
    "lat": 39.94491,
    "lng": -75.14343,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Dedicated June 22, 2002 and rededicated on May 28, 2007.",
     "Commemorates 610 servicemen from the Philadelphia area who died in the Korean War.",
@@ -239,7 +239,7 @@
    "topic": "historic site",
    "lat": 39.984311,
    "lng": -75.126329,
-   "photo": false,
+   "photo": true,
    "facts": [
     "About 36 m (118 ft) tall",
     "Address: 2075 East Cumberland Street, Philadelphia"
@@ -299,7 +299,7 @@
    "topic": "historic site",
    "lat": 40.049428,
    "lng": -75.213237,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Also called the Livezey House; built around 1725 by Thomas Shoemaker.",
     "Sold in 1747 to Thomas Livezey Jr., who built a mill on the site.",
@@ -327,7 +327,7 @@
    "topic": "historic site",
    "lat": 39.948572,
    "lng": -75.14841,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Facades have eight Doric columns, and the design is based on the Parthenon.",
     "Houses a permanent portrait gallery of over 150 founders' portraits, with over 100 by Charles Willson Peale.",
@@ -341,7 +341,7 @@
    "topic": "memorial",
    "lat": 39.943915,
    "lng": -75.142829,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Dedicated in 1987 at Penn's Landing.",
     "Lists the names of 648 Philadelphia servicemen killed or missing in action in the Vietnam War.",
@@ -618,7 +618,7 @@
   [
    40.049428,
    -75.213237,
-   0
+   1
   ],
   [
    39.934498,
@@ -653,7 +653,7 @@
   [
    39.939009,
    -75.157835,
-   0
+   1
   ],
   [
    39.973875,
@@ -668,12 +668,12 @@
   [
    39.926665,
    -75.167117,
-   0
+   1
   ],
   [
    40.002298,
    -75.173699,
-   0
+   1
   ],
   [
    39.953787,
@@ -683,17 +683,17 @@
   [
    40.02403,
    -75.201412,
-   0
+   1
   ],
   [
    39.984311,
    -75.126329,
-   0
+   1
   ],
   [
    40.084328,
    -75.382802,
-   0
+   1
   ],
   [
    39.960509,
@@ -718,7 +718,7 @@
   [
    39.95362,
    -75.162657,
-   0
+   1
   ],
   [
    39.914838,
@@ -738,12 +738,12 @@
   [
    39.986248,
    -75.112857,
-   0
+   1
   ],
   [
    39.998203,
    -75.254313,
-   0
+   1
   ],
   [
    40.036156,
@@ -768,7 +768,7 @@
   [
    40.00503,
    -75.267711,
-   0
+   1
   ],
   [
    39.940014,
@@ -778,7 +778,7 @@
   [
    40.029723,
    -75.184533,
-   0
+   1
   ],
   [
    39.984983,
@@ -788,7 +788,7 @@
   [
    39.950356,
    -75.156502,
-   0
+   1
   ],
   [
    40.004156,
@@ -823,7 +823,7 @@
   [
    39.939413,
    -75.165327,
-   0
+   1
   ],
   [
    39.916364,
@@ -833,12 +833,12 @@
   [
    39.94491,
    -75.14343,
-   0
+   1
   ],
   [
    39.943915,
    -75.142829,
-   0
+   1
   ],
   [
    39.962052,
@@ -863,12 +863,12 @@
   [
    39.983508,
    -75.110555,
-   0
+   1
   ],
   [
    39.992631,
    -75.210187,
-   0
+   1
   ],
   [
    39.950609,
@@ -878,7 +878,7 @@
   [
    39.995383,
    -75.176501,
-   0
+   1
   ],
   [
    39.982545,
@@ -893,7 +893,7 @@
   [
    39.948572,
    -75.14841,
-   0
+   1
   ],
   [
    39.974466,
@@ -903,22 +903,22 @@
   [
    39.958762,
    -75.171211,
-   0
+   1
   ],
   [
    39.97748,
    -75.206537,
-   0
+   1
   ],
   [
    39.925982,
    -75.160132,
-   0
+   1
   ],
   [
    39.934805,
    -75.146342,
-   0
+   1
   ],
   [
    39.955243,
@@ -933,7 +933,7 @@
   [
    39.976977,
    -75.200863,
-   0
+   1
   ],
   [
    39.96044,
@@ -978,12 +978,12 @@
   [
    39.947095,
    -75.152708,
-   0
+   1
   ],
   [
    39.969982,
    -75.189847,
-   0
+   1
   ],
   [
    39.952965,
@@ -998,27 +998,27 @@
   [
    39.925798,
    -75.185662,
-   0
+   1
   ],
   [
    39.943533,
    -75.141171,
-   0
+   1
   ],
   [
    39.939465,
    -75.133057,
-   0
+   1
   ],
   [
    39.943506,
    -75.140997,
-   0
+   1
   ],
   [
    39.93389,
    -75.152951,
-   0
+   1
   ],
   [
    40.074643,
@@ -1043,7 +1043,7 @@
   [
    39.939643,
    -75.150815,
-   0
+   1
   ],
   [
    39.941823,
