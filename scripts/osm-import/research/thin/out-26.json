@@ -1,0 +1,428 @@
+[
+  {
+    "id": "osm-n11072156875",
+    "name": "United States Hotel Bar & Grill",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "facts": [
+      {
+        "text": "Reopened in April 2019 after a renovation led by Highland Hospitality Group, its new owners.",
+        "url": "https://www.inquirer.com/food/us-hotel-bar-grill-manayunk-bill-green-20190405.html"
+      },
+      {
+        "text": "The renovation kept the original bar, cabinets, floor tiles and doors.",
+        "url": "https://www.inquirer.com/food/us-hotel-bar-grill-manayunk-bill-green-20190405.html"
+      }
+    ]
+  },
+  {
+    "id": "osm-n6897200045",
+    "name": "Upland Beer & Deli",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Listed as a beer and ale shop and restaurant that also operates as a deli.",
+        "url": "https://www.yellowpages.com/philadelphia-pa/mip/upland-beer-deli-451968973"
+      }
+    ]
+  },
+  {
+    "id": "osm-w1314520584",
+    "name": "Urban Saloon",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "facts": [
+      {
+        "text": "Also trades as Urban Saloon Bar & Kitchen, with a menu of burgers, fish tacos and mac and cheese skillet.",
+        "url": "https://www.toasttab.com/local/order/urban-saloon-2120-fairmount-ave"
+      },
+      {
+        "text": "Menu includes an Impossible Burger, a double smash burger and a pulled pork sandwich.",
+        "url": "https://www.toasttab.com/local/order/urban-saloon-2120-fairmount-ave"
+      }
+    ]
+  },
+  {
+    "id": "osm-n6875587110",
+    "name": "Vanity Grand",
+    "matched": true,
+    "closed": true,
+    "closedSource": "https://www.yelp.com/biz/vanity-grand-cabaret-philadelphia",
+    "notFound": false,
+    "searches": 3,
+    "facts": []
+  },
+  {
+    "id": "osm-n2423064966",
+    "name": "Victory Beer Hall",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "facts": [
+      {
+        "text": "Part of the Xfinity Live! dining and entertainment complex, run in partnership with Victory Brewing Company.",
+        "url": "https://www.tripadvisor.com/Restaurant_Review-g60795-d6591466-Reviews-Victory_Beer_Hall_at_Xfinity_Live-Philadelphia_Pennsylvania.html"
+      },
+      {
+        "text": "Beer hall with long communal tables and a stage for live indoor entertainment.",
+        "url": "https://www.tripadvisor.com/Restaurant_Review-g60795-d6591466-Reviews-Victory_Beer_Hall_at_Xfinity_Live-Philadelphia_Pennsylvania.html"
+      },
+      {
+        "text": "Has a 2,000-square-foot patio with a fire pit and a view of the Philadelphia skyline.",
+        "url": "https://www.tripadvisor.com/Restaurant_Review-g60795-d6591466-Reviews-Victory_Beer_Hall_at_Xfinity_Live-Philadelphia_Pennsylvania.html"
+      }
+    ]
+  },
+  {
+    "id": "osm-n1204761128",
+    "name": "Vikings High School Club",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "facts": [
+      {
+        "text": "Clubhouse of the South Philly Vikings Mummers club, founded by Carmen \"Butchie\" D'Amato.",
+        "url": "https://southphillyvikingsnyb.com/"
+      },
+      {
+        "text": "The Vikings first marched in the Mummers Fancy Brigade Division in 1986.",
+        "url": "https://southphillyvikingsnyb.com/"
+      }
+    ]
+  },
+  {
+    "id": "osm-n11073875065",
+    "name": "Vira Vookah Lounge",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "facts": [
+      {
+        "text": "BYOB hookah lounge, described as the only hookah lounge in Manayunk.",
+        "url": "https://www.yelp.com/biz/vira-vookah-lounge-philadelphia"
+      },
+      {
+        "text": "Has a live DJ on Friday and Saturday nights.",
+        "url": "https://www.yelp.com/biz/vira-vookah-lounge-philadelphia"
+      },
+      {
+        "text": "Hosts a Sunday brunch with R&B day parties.",
+        "url": "https://www.yelp.com/biz/vira-vookah-lounge-philadelphia"
+      }
+    ]
+  },
+  {
+    "id": "osm-n6672536425",
+    "name": "Voyeur Nightclub Mayfield Social Club",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "facts": [
+      {
+        "text": "LGBTQ+ dance complex with five party areas over three floors, including a main dance floor and a mezzanine.",
+        "url": "https://www.visitphilly.com/things-to-do/attractions/voyeur/"
+      },
+      {
+        "text": "Has roots as a Prohibition-era speakeasy.",
+        "url": "https://www.visitphilly.com/things-to-do/attractions/voyeur/"
+      }
+    ]
+  },
+  {
+    "id": "osm-n1749989684",
+    "name": "Watkins Drinkery",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Second bar from Jonathan Klein, who also owns The Dive, opened in 2010.",
+        "url": "https://phillymag.com/foobooz/2010/09/21/watkins-drinkery-opening"
+      },
+      {
+        "text": "Upstairs has a pool table, a dart board and a vintage 1980s arcade.",
+        "url": "https://phillymag.com/foobooz/2010/09/21/watkins-drinkery-opening"
+      },
+      {
+        "text": "Put up for sale in 2024 alongside The Dive as barman Jonn Klein moved to Croatia.",
+        "url": "https://www.inquirer.com/food/the-dive-passyunk-watkins-drinkery-up-for-sale-south-philly-bars-20240207.html"
+      }
+    ]
+  },
+  {
+    "id": "osm-w1255724378",
+    "name": "Watusi Pub",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Neighborhood dive bar in the Walnut Hill area of West Philadelphia.",
+        "url": "https://www.yelp.com/biz/watutsi-pub-philadelphia"
+      }
+    ]
+  },
+  {
+    "id": "osm-n11231061180",
+    "name": "Wissahickon Bar & Bistro",
+    "matched": true,
+    "closed": true,
+    "closedSource": "https://www.yelp.com/biz/wissahickon-bar-and-bistro-philadelphia",
+    "notFound": false,
+    "searches": 1,
+    "facts": []
+  },
+  {
+    "id": "osm-n7524084336",
+    "name": "Wissahickon Brewing Company",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "facts": [
+      {
+        "text": "Family-owned and operated brewery started by the Gill family.",
+        "url": "https://www.wissahickonbrew.com/"
+      },
+      {
+        "text": "Opened its first location in East Falls in 2017; Olde Kensington and Maple Glen sites followed in 2025.",
+        "url": "https://www.wissahickonbrew.com/"
+      }
+    ]
+  },
+  {
+    "id": "osm-n2822025477",
+    "name": "Woody's Bar",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Queer bar and dance club that has served Philadelphia's queer community for over 40 years.",
+        "url": "https://woodysbar.com/"
+      },
+      {
+        "text": "Hosts the 13th Street Black Pride Block Party and supports local and national LGBTQIA organizations.",
+        "url": "https://woodysbar.com/woodys-mission/"
+      }
+    ]
+  },
+  {
+    "id": "osm-n5861898622",
+    "name": "Writer's Block Rehab",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Listed as a lounge and cocktail bar.",
+        "url": "https://www.yelp.com/biz/writers-block-rehab-philadelphia"
+      }
+    ]
+  },
+  {
+    "id": "osm-w1238160487",
+    "name": "Xanadu",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": []
+  },
+  {
+    "id": "osm-w317949577",
+    "name": "Alan Wood Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "facts": [
+      {
+        "text": "Small Plymouth Township park of 0.8 acre.",
+        "url": "https://www.plymouthtownship.org/greater-plymouth-community-center/parks/alan-wood-park/"
+      },
+      {
+        "text": "Has a basketball court, play apparatus, a small volleyball area and two picnic tables with grills.",
+        "url": "https://www.plymouthtownship.org/greater-plymouth-community-center/parks/alan-wood-park/"
+      }
+    ]
+  },
+  {
+    "id": "osm-w468562730",
+    "name": "B-Field",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "facts": [
+      {
+        "text": "Conshohocken borough field located behind A-Field Stadium, used for programs, events and rentals.",
+        "url": "https://www.conshohockenpa.gov/departments/recreation-services/parks/b-field/"
+      },
+      {
+        "text": "Has a small playground, picnic benches and a pavilion for parties and picnics.",
+        "url": "https://www.conshohockenpa.gov/departments/recreation-services/parks/b-field/"
+      }
+    ]
+  },
+  {
+    "id": "osm-w583250862",
+    "name": "Beechwood Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Site of the Beechwood Amusement Park, which operated from 1907 to 1909 beside the Beechwood station.",
+        "url": "https://www.havtrail.com/hht/site07.htm"
+      },
+      {
+        "text": "The old amusement park was built by the Philadelphia and Western Railway and covered 20 acres.",
+        "url": "https://www.havtrail.com/hht/site07.htm"
+      }
+    ]
+  },
+  {
+    "id": "osm-w1320189395",
+    "name": "Brookline Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Haverford Township is planning a neighborhood park on the site of the former Brookline Elementary School.",
+        "url": "https://www.havtwp.org/Brookline_Park_Planning_Updates.html"
+      }
+    ]
+  },
+  {
+    "id": "osm-w593495805",
+    "name": "Cadwalader Tract",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Listed by Haverford Township among its parks as a designated nature area.",
+        "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+      }
+    ]
+  },
+  {
+    "id": "osm-w1031861147",
+    "name": "Camden Children's Garden",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "facts": [
+      {
+        "text": "Horticultural playground for children and families that opened in July 1999.",
+        "url": "https://www.camdenchildrensgarden.org/about/"
+      },
+      {
+        "text": "Includes the Philadelphia Eagles Four Seasons Butterfly House and a Dinosaur Garden, Maze and Tree House.",
+        "url": "http://www.camdenchildrensgarden.org/at-the-garden"
+      },
+      {
+        "text": "Also has a carousel and a train ride.",
+        "url": "http://www.camdenchildrensgarden.org/at-the-garden"
+      }
+    ]
+  },
+  {
+    "id": "osm-w1504511711",
+    "name": "Carol's Garden",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 4,
+    "facts": []
+  },
+  {
+    "id": "osm-w385508434",
+    "name": "Center Green",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 4,
+    "facts": []
+  },
+  {
+    "id": "osm-w28526211",
+    "name": "Clem Macrone Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "facts": [
+      {
+        "text": "Radnor Township park of 9.4 acres, first called Rosemont Park and dedicated in 1991 to Clem Macrone.",
+        "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/8/33"
+      },
+      {
+        "text": "A 2017 renovation added a 0.4 mile walking path, a bandshell and a picnic pavilion.",
+        "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/8/33"
+      },
+      {
+        "text": "Has athletic fields, basketball courts, tennis courts, a playground and a nature trail.",
+        "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/8/33"
+      }
+    ]
+  },
+  {
+    "id": "osm-w49890663",
+    "name": "Clifford Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "facts": [
+      {
+        "text": "Park of about 33 acres in the Germantown area of Philadelphia.",
+        "url": "https://www.mypacer.com/parks/135600/clifford-park-philadelphia"
+      }
+    ]
+  }
+]
