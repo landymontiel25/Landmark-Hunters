@@ -1,0 +1,472 @@
+[
+ {
+  "id": "osm-n11608500946",
+  "name": "The Fallser Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 2022 as a nonprofit music venue by Felicite Moorman and Ryan Buchert.",
+    "url": "https://thefallserclub.org/our-story/"
+   },
+   {
+    "text": "Occupies the former Midvale Theatre, a silent film house that opened in November 1914.",
+    "url": "https://thefallserclub.org/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1712067122",
+  "name": "The Fire",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family business and music venue in Northern Liberties since 1988.",
+    "url": "https://www.firephilly.com/"
+   },
+   {
+    "text": "Describes itself as the city's original woman-owned music venue.",
+    "url": "https://www.firephilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w334890739",
+  "name": "The Garage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Stocks over 150 canned beers and has a pool table and skeeball.",
+    "url": "https://www.garagephilly.com/passyunk"
+   },
+   {
+    "text": "Has a food cart in the middle of the room and allows guests to bring their own cheesesteaks.",
+    "url": "https://www.garagephilly.com/passyunk"
+   }
+  ]
+ },
+ {
+  "id": "osm-w372593400",
+  "name": "The Greeks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has operated as a bar since 1922.",
+    "url": "https://www.facebook.com/TheGreeksofNarberth/"
+   },
+   {
+    "text": "Attached beer store, The Greeks Next Door, was added to the bar in 2012.",
+    "url": "https://www.yelp.com/biz/the-greeks-next-door-narberth-2"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3094702133",
+  "name": "The Irish Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 1983, three years after the owners' first Irish Pub on the 1100 block of Walnut Street.",
+    "url": "http://www.irishpubphilly.com/about.php"
+   },
+   {
+    "text": "Owned by Richard and Cathy Burke, who also run Irish Pub locations elsewhere.",
+    "url": "http://www.irishpubphilly.com/about.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2100740219",
+  "name": "The Last Word Bookshop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Used bookstore with a general-interest stock.",
+    "url": "https://www.newpages.com/bookstore/last-word-bookshop/"
+   },
+   {
+    "text": "Owner Larry Maltz buys stock from walk-in sellers and from people liquidating libraries.",
+    "url": "https://penntoday.upenn.edu/node/149517"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8410340131",
+  "name": "The Library Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Book-lined bar off the hotel lobby with a collection of rare books guests can browse.",
+    "url": "https://www.rittenhousehotel.com/dining/librarybar"
+   },
+   {
+    "text": "Hosts live jazz on Friday and Saturday nights.",
+    "url": "https://www.rittenhousehotel.com/blog/jazz-music-at-the-library-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3896676608",
+  "name": "The Monto",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Took over the former Mac's Tavern space in Old City.",
+    "url": "https://www.urbancraftandcrawl.com/blog/the-monto-is-open-in-old-city"
+   },
+   {
+    "text": "Run by Fergus Carey, who also owns Fergie's Pub and The Goat.",
+    "url": "https://www.urbancraftandcrawl.com/blog/the-monto-is-open-in-old-city"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989532196",
+  "name": "The Pembrook Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n3470849335",
+  "name": "The Plough & the Stars",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Name refers to the flag flown by the Irish Citizen Army in the 1916 Easter Rising.",
+    "url": "https://www.phillyvoice.com/irish-bars-philly-tir-na-nog-finn-mccool-fado-gaelic/"
+   },
+   {
+    "text": "Hosts a live traditional Irish music session on Sundays.",
+    "url": "https://ploughstars.com/events/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11352102723",
+  "name": "The Rook Manayunk",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sandwiches are made in a scratch kitchen.",
+    "url": "https://therookmanayunk.com/"
+   },
+   {
+    "text": "Cheesesteak uses shaved ribeye and Cooper Sharp on a seeded Sarcone's roll.",
+    "url": "https://therookmanayunk.com/philadelphia-the-rook-food-menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1980171513",
+  "name": "The SideCar Bar & Grille",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Sits on the corner of 22nd and Christian in the Graduate Hospital neighborhood.",
+    "url": "https://www.thesidecarbar.com/about"
+   },
+   {
+    "text": "Hosts drag brunch events.",
+    "url": "https://www.thesidecarbar.com/events/2024/1/27/drag-brunch-grzsp-7r7nj"
+   },
+   {
+    "text": "Runs quizzo trivia nights.",
+    "url": "https://www.thesidecarbar.com/events/2024/2/4/quizzo-night-c8j9d-hx5m7-m6rr8-z6dh6-mth5b-gw9d6-4tcf2-9s6dl-3854j-lgtsj-njy3d-zerem-nncbw-wftjk-2y8lm-xcskt-227zt-nmjbb-zk7g4-f5yxy"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10128661868",
+  "name": "The Title Page",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Established in 1980 and moved to its Franklin Avenue location in 1998.",
+    "url": "https://www.yelp.com/biz/the-title-page-bryn-mawr"
+   },
+   {
+    "text": "Specializes in used and rare books, including scholarly titles, literature and history.",
+    "url": "https://www.yelp.com/biz/the-title-page-bryn-mawr"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1099888899",
+  "name": "The Trestle Inn",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Located under the Reading Viaduct at 11th and Callowhill Streets.",
+    "url": "https://thetrestleinn.com/"
+   },
+   {
+    "text": "Hosts all-vinyl DJ dance parties with a go-go dance troupe, The Trestle Specials.",
+    "url": "https://thetrestleinn.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4649150190",
+  "name": "The Victor Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned tavern on the Camden waterfront that opened in March 2007.",
+    "url": "https://www.victorspub.com/about-us/"
+   },
+   {
+    "text": "Began as a high-end restaurant before changing its menu to suit its neighbors.",
+    "url": "https://www.victorspub.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n764531544",
+  "name": "Thomas Jefferson University East Falls Campus Store",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Located in the Kanbar Campus Center, which also holds mail services and a convenience store.",
+    "url": "https://www.jefferson.edu/east-falls/student-engagement/kanbar-campus-center.html"
+   },
+   {
+    "text": "Stocks course materials plus art, architecture and textile supplies, scrubs and lab coats.",
+    "url": "https://jeffersoncampusstore.com/site_about_us.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11225105222",
+  "name": "Throwbaxx Bar and Grille",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Building opened in 1910 as Geisers; owner Chas Esposito bought the bar in 2005.",
+    "url": "https://roxboroughpa.com/news/throwbaxx-bar-grille-much-more-than-a-sports-bar"
+   },
+   {
+    "text": "Patio was expanded into the adjacent barbershop space in 2021.",
+    "url": "https://roxboroughpa.com/news/throwbaxx-bar-grille-much-more-than-a-sports-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2457180088",
+  "name": "Tir na nOg",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Name means the land of eternal youth, from an Irish legend about the poet Oisin.",
+    "url": "https://www.phillyvoice.com/irish-bars-philly-tir-na-nog-finn-mccool-fado-gaelic/"
+   },
+   {
+    "text": "Has several rooms with different Irish design themes, some with private snugs.",
+    "url": "https://www.tirnanogphilly.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3527163511",
+  "name": "Tradesman's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Barbecue, American whiskeys and rotating craft beers are the focus in Midtown Village.",
+    "url": "https://craftconceptsgroup.com/tradesmans"
+   },
+   {
+    "text": "Part of Craft Concepts Group.",
+    "url": "https://craftconceptsgroup.com/tradesmans"
+   }
+  ]
+ },
+ {
+  "id": "osm-w883078030",
+  "name": "Tree House Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Giving library and literacy center that gives books away free; founded in 2005.",
+    "url": "https://www.treehousebooks.org/our-mission"
+   },
+   {
+    "text": "Also runs a Traveling Tree House bookmobile.",
+    "url": "https://www.treehousebooks.org/traveling-tree-house"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12363524534",
+  "name": "Triangle Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Open since 1933 at the corner of 10th, Reed and Passyunk Avenue.",
+    "url": "http://www.triangletavernphilly.com/about"
+   },
+   {
+    "text": "Menu centers on South Philly style Italian food and adult water ices.",
+    "url": "http://www.triangletavernphilly.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w335078433",
+  "name": "Triple Bottom Brewing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Woman-owned brewery and certified B Corp founded in 2019.",
+    "url": "https://triplebottombrewing.com/"
+   },
+   {
+    "text": "Fair chance employer that hires people who have faced homelessness or incarceration.",
+    "url": "https://triplebottombrewing.com/mission"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11156263980",
+  "name": "Twisted Gingers",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Manayunk taproom and brewery in a building more than 100 years old.",
+    "url": "https://twistedgingers.beer/our-story/"
+   },
+   {
+    "text": "Has a pizza kitchen alongside the taproom.",
+    "url": "https://twistedgingers.beer/pizza/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3892460932",
+  "name": "U-Bahn",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Underground bar below Brü, styled loosely after German subway stations.",
+    "url": "https://www.inquirer.com/philly/blogs/the-insider/U-Bahn-bar-1320-Chestnut.html"
+   },
+   {
+    "text": "Live music venue with a stage, booking local rock bands and singer-songwriters.",
+    "url": "https://www.phillymag.com/things-to-do/2015/04/09/what-to-expect-at-new-center-city-music-venues-u-bahn-and-franky-bradleys/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6222237222",
+  "name": "Ubar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of The Tavern Group, which runs several Philadelphia bars.",
+    "url": "https://www.ubarphilly.com/"
+   },
+   {
+    "text": "Pours eight rotating draft beers, mostly American and European brews.",
+    "url": "https://www.ubarphilly.com/"
+   }
+  ]
+ }
+]

@@ -1,0 +1,437 @@
+[
+ {
+  "id": "osm-n14167217001",
+  "name": "Yellow Bicycle Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Black box theater and indie cinema run by the nonprofit Yellow Bicycle Collective.",
+    "url": "https://yellowbicycle.com/landing/"
+   },
+   {
+    "text": "Has a 17 by 19 foot stage and about 50 seats for rentals.",
+    "url": "https://yellowbicycle.com/theater/rentals/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w410094918",
+  "name": "Centrix",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7204177385",
+  "name": "City Winery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Urban winery, live music venue and restaurant under one roof.",
+    "url": "https://citywinery.com/pages/locations/philadelphia"
+   },
+   {
+    "text": "Part of City Winery, founded by Michael Dorf and begun in New York City.",
+    "url": "https://citywinery.com/pages/locations/philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5281092754",
+  "name": "Fringe Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Began in 1997 as the Philadelphia Fringe Festival.",
+    "url": "https://fringearts.com/about/who-we-are/"
+   },
+   {
+    "text": "Moved in 2013 into a renovated 1903 fire pumping station.",
+    "url": "https://fringearts.com/about/who-we-are/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6507309542",
+  "name": "Kevin D. Marlo Little Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The Little Theatre was built in 1920 and reopened in 2011 as the Kevin D. Marlo Little Theatre.",
+    "url": "http://www.harcum.edu/theatre"
+   },
+   {
+    "text": "Named for an actor lost on 9/11, whose family made the lead gift for its restoration.",
+    "url": "http://www.harcum.edu/theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w691541843",
+  "name": "Louis Bluver Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Flexible 75-seat theater in the former ballroom of The Drake, home of InterAct Theatre Company.",
+    "url": "http://www.interacttheatre.org/plan-your-visit"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6695578169",
+  "name": "Morgan Family Amphitheater",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7348661043",
+  "name": "Randall and Tomlinson Theaters",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Temple theater venues: the 80-seat Randall Theater and the 425-seat Tomlinson Theater.",
+    "url": "https://tfma.temple.edu/academics/theater/graduate-programs/theater-playwriting-mfa/productions-facilities"
+   },
+   {
+    "text": "Part of the Annenberg Hall and Tomlinson Theater complex, which also has rehearsal rooms.",
+    "url": "https://tfma.temple.edu/academics/theater/graduate-programs/theater-playwriting-mfa/productions-facilities"
+   }
+  ]
+ },
+ {
+  "id": "osm-n445838150",
+  "name": "Reel Cinemas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The Narberth Theatre has been operating since 1927.",
+    "url": "https://cinematreasures.org/theaters/5596"
+   },
+   {
+    "text": "The original auditorium was split into two 212-seat screens.",
+    "url": "https://cinematreasures.org/theaters/5596"
+   },
+   {
+    "text": "David and Barbara Wax bought the theater from Franklin Enterprises in 1971.",
+    "url": "https://cinematreasures.org/theaters/5596"
+   }
+  ]
+ },
+ {
+  "id": "osm-w60928793",
+  "name": "Regal UA Main Street Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Regal theater in the Manayunk neighborhood.",
+    "url": "https://www.regmovies.com/theatres/regal-ua-main-street-theatre-1314"
+   },
+   {
+    "text": "Part of Regal, a circuit of 393 theatres in 41 states as of November 2025.",
+    "url": "https://www.regmovies.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49887227",
+  "name": "The Dell Music Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Opened in 1929 as Robin Hood Dell East, summer home of the Philadelphia Orchestra.",
+    "url": "https://thedellmusiccenter.com/venue/about-us/"
+   },
+   {
+    "text": "Open-air amphitheater in East Fairmount Park managed by Philadelphia Parks & Recreation.",
+    "url": "https://thedellmusiccenter.com/venue/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w708931478",
+  "name": "Wiggins Riverfront Stage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Outdoor Riverstage in Wiggins Waterfront Park on the Camden waterfront, beside a marina.",
+    "url": "https://www.camdencounty.com/service/parks/wiggins-waterfront-park/"
+   },
+   {
+    "text": "Outdoor riverside stage used for concerts along the Delaware River.",
+    "url": "https://feverup.com/en/philadelphia/venue/wiggins-waterfront-riverstage"
+   }
+  ]
+ },
+ {
+  "id": "osm-w840299910",
+  "name": "333 Belrose",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Contemporary American restaurant led by Chef Ross Essner.",
+    "url": "https://www.333belrose.com/"
+   },
+   {
+    "text": "Menus mix global influences with fresh, local, seasonal ingredients.",
+    "url": "https://www.333belrose.com/menus"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989613788",
+  "name": "Alessandro's Wood Fired Italian & Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Created by Sicilian-American chef Alessandro Fiorello, with modern takes on Southern Italian cooking.",
+    "url": "https://alessandroswoodfired.com/"
+   },
+   {
+    "text": "Finishes dishes in a wood-burning oven imported from Naples, Italy.",
+    "url": "https://alessandroswoodfired.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w696448439",
+  "name": "Ardmore Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Located in Ardmore's historic shopping and arts district and open for over 35 years.",
+    "url": "http://www.ardmorepizzaonline.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w696447945",
+  "name": "Ardmore Q",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/ardmoreq-ardmore",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n821207197",
+  "name": "Ardmore Station Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Makes French toast on thick challah bread.",
+    "url": "https://www.ardmorecafe.com/product/french-toast-on-classic-thick-challah-bread/55"
+   },
+   {
+    "text": "Menu includes pumpkin pancakes.",
+    "url": "https://www.ardmorecafe.com/product/pumpkin-pancakes/144"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11573732465",
+  "name": "Autograph Brasserie",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Contemporary American brasserie themed on autographs and pop culture memorabilia.",
+    "url": "https://www.autographbrasserie.com/"
+   },
+   {
+    "text": "Opened in 2016.",
+    "url": "https://www.autographbrasserie.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w367278709",
+  "name": "Bar Lucca",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Tuscan-inspired restaurant honoring the owner's family roots in Lucca, Italy.",
+    "url": "https://morethanthecurve.com/bar-lucca/"
+   },
+   {
+    "text": "Makes thin-crust pizzas in a wood-fired oven.",
+    "url": "https://morethanthecurve.com/bar-lucca/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2003082513",
+  "name": "Bella Italia Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Opened in 1982 under Vito and Maria Cilluffo, who emigrated from Sicily.",
+    "url": "https://www.bellaitaliapizza.com/"
+   },
+   {
+    "text": "Family owned, bringing New York City-style pizza in the Sicilian tradition.",
+    "url": "https://www.bellaitaliapizza.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12217246245",
+  "name": "Boba King",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Makes its own tapioca pearls from non-chemical ingredients.",
+    "url": "https://bobakingusa.com/about-us/"
+   },
+   {
+    "text": "Menu has milk teas, fruit teas, coffees, croissant desserts and toasts.",
+    "url": "https://bobakingusa.com/our-menu/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13436639863",
+  "name": "Brewroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Greek-owned coffee shop focused on Greek pastries and specialty coffees.",
+    "url": "https://www.thebrewroompa.com/about"
+   },
+   {
+    "text": "Menu lists vanilla, feta, and spinach and feta bougatsa.",
+    "url": "https://www.thebrewroompa.com/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224411728",
+  "name": "Brunch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "BYOB cafe that opened in 2017.",
+    "url": "https://www.brunchconshy.com/our-story"
+   },
+   {
+    "text": "Family owned and operated.",
+    "url": "https://www.brunchconshy.com/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11345251172",
+  "name": "Buena Vista",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu includes pescado michoacana, huevos rancheros and fish tacos.",
+    "url": "https://ardmore.buenavistamexonline.com/"
+   },
+   {
+    "text": "Sits next to the Ardmore Music Hall.",
+    "url": "https://ardmore.buenavistamexonline.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989516630",
+  "name": "Cafe Procopio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ }
+]

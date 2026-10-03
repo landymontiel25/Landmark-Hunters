@@ -1,10 +1,10 @@
 {
  "category": "food",
- "count": 550,
- "commonsPhotos": 35,
- "commonsPhotoPct": 6.4,
- "withFacts": 522,
- "withHours": 161,
+ "count": 524,
+ "commonsPhotos": 34,
+ "commonsPhotoPct": 6.5,
+ "withFacts": 524,
+ "withHours": 158,
  "photoSkips": [
   {
    "id": "osm-n12369742001",
@@ -89,46 +89,71 @@
  ],
  "sample": [
   {
-   "id": "osm-n6073275079",
-   "name": "Cava",
-   "topic": "Spanish restaurant",
-   "lat": 25.764427,
-   "lng": -80.258343,
-   "photo": false,
-   "facts": [
-    "Pairs Spanish cuisine with live flamenco performances.",
-    "Serves Spanish food",
-    "Part of the CAVA chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6073275079"
-  },
-  {
-   "id": "osm-n3676868100",
-   "name": "Starbucks",
+   "id": "osm-w435531263",
+   "name": "El Carajo",
    "topic": "café",
-   "lat": 25.792148,
-   "lng": -80.211046,
+   "lat": 25.746786,
+   "lng": -80.221529,
    "photo": false,
    "facts": [
-    "Serves coffee",
-    "Part of the Starbucks chain",
-    "Offers takeout"
+    "A Spanish restaurant and wine store set inside a gas station.",
+    "Address: 2437 Southwest 17th Avenue, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/3676868100"
+   "osmUrl": "https://www.openstreetmap.org/way/435531263"
   },
   {
-   "id": "osm-n13149501982",
-   "name": "Freddo",
-   "topic": "ice cream shop",
-   "lat": 25.763321,
-   "lng": -80.193375,
+   "id": "osm-n4661308690",
+   "name": "El Nuevo Siglo",
+   "topic": "international restaurant",
+   "lat": 25.765874,
+   "lng": -80.216462,
+   "photo": true,
+   "facts": [
+    "A small food counter with a few tables inside El Nuevo Siglo supermarket."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4661308690"
+  },
+  {
+   "id": "osm-n5903100412",
+   "name": "Cafe Versailles",
+   "topic": "Cuban café",
+   "lat": 25.797248,
+   "lng": -80.274884,
    "photo": false,
    "facts": [
-    "The Freddo chain began in 1969 in the Recoleta neighborhood of Buenos Aires, Argentina.",
-    "Part of the Freddo chain",
-    "Address: 1102 South Miami Avenue, Miami"
+    "Airport stall of Versailles, founded by Felipe Valls Sr. in 1971.",
+    "The original Versailles added an on-site bakery in 1998 that bakes pastries and breads in house.",
+    "Serves Cuban food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13149501982"
+   "osmUrl": "https://www.openstreetmap.org/node/5903100412"
+  },
+  {
+   "id": "osm-w435537451",
+   "name": "Jackson Soul Food",
+   "topic": "restaurant",
+   "lat": 25.783471,
+   "lng": -80.199942,
+   "photo": false,
+   "facts": [
+    "Menu includes smothered pork chops, fried catfish, grits and cornbread.",
+    "Walls are lined with old photos and news clips on the restaurant's history.",
+    "Address: 950 Northwest 3rd Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435537451"
+  },
+  {
+   "id": "osm-n13604478201",
+   "name": "Bite Sandwich",
+   "topic": "café",
+   "lat": 25.772207,
+   "lng": -80.221222,
+   "photo": false,
+   "facts": [
+    "Located in Little Havana.",
+    "Serves breakfast, coffee and sandwiches",
+    "Address: 1576 Southwest 1st Street"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13604478201"
   },
   {
    "id": "osm-n6018262288",
@@ -138,49 +163,25 @@
    "lng": -80.314617,
    "photo": false,
    "facts": [
+    "Spanish bakery founded in 1997 by Ernesto Llerandi and his wife, Isabel Miranda.",
+    "Bakes cakes, breads and pastries, including custom cakes and traditional Spanish desserts.",
     "Address: 7374 Southwest 40th Street, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6018262288"
   },
   {
-   "id": "osm-n13478946650",
-   "name": "Freddo",
-   "topic": "ice cream shop",
-   "lat": 25.683745,
-   "lng": -80.313304,
+   "id": "osm-n6773341638",
+   "name": "Opera House",
+   "topic": "pizza restaurant",
+   "lat": 25.792234,
+   "lng": -80.187117,
    "photo": false,
    "facts": [
-    "Located inside Dadeland Mall.",
-    "The Freddo chain began in 1969 in the Recoleta neighborhood of Buenos Aires, Argentina.",
-    "Part of the Freddo chain"
+    "Calls itself a sports brasserie with indoor and outdoor dining, a bar and a lounge in Edgewater.",
+    "Pizzas include a New York style square pan Grandpa Pie with house vodka sauce.",
+    "Burger menu is led by the Opera Burger, a half-pound all-beef patty."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13478946650"
-  },
-  {
-   "id": "osm-w436033345",
-   "name": "Catch of the Day",
-   "topic": "restaurant",
-   "lat": 25.782259,
-   "lng": -80.264415,
-   "photo": false,
-   "facts": [
-    "Opened on May 20, 1998, as a seafood bar and grill.",
-    "Address: 1050 Northwest 42nd Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/436033345"
-  },
-  {
-   "id": "osm-n13355967389",
-   "name": "Claudie",
-   "topic": "restaurant",
-   "lat": 25.763268,
-   "lng": -80.191099,
-   "photo": false,
-   "facts": [
-    "French restaurant serving Southern France-inspired dishes, including escargot.",
-    "Address: 1101 Brickell Avenue, Unit S-113, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13355967389"
+   "osmUrl": "https://www.openstreetmap.org/node/6773341638"
   },
   {
    "id": "osm-n3156408683",
@@ -190,148 +191,95 @@
    "lng": -80.256204,
    "photo": false,
    "facts": [
-    "Serves German and Austrian food",
-    "Address: 60 Merrick Way, Coral Gables"
+    "Established in 2002 as a German and Austrian restaurant and beer hall.",
+    "Home of the FC Bayern Munich fan club in South Florida.",
+    "Serves German and Austrian food"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/3156408683"
   },
   {
-   "id": "osm-n5674089068",
-   "name": "Gelateria 4D",
-   "topic": "ice cream shop",
-   "lat": 25.790781,
-   "lng": -80.133906,
+   "id": "osm-n8694449286",
+   "name": "Exupery Burger & Tacos",
+   "topic": "burger restaurant",
+   "lat": 25.765441,
+   "lng": -80.224192,
    "photo": false,
    "facts": [
-    "Address: 551 Lincoln Road, Miami Beach"
+    "Also listed under the name Exupery Burger & Pizza.",
+    "Serves burgers",
+    "Address: 1782 Southwest 8th Street, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5674089068"
+   "osmUrl": "https://www.openstreetmap.org/node/8694449286"
   },
   {
-   "id": "osm-n5296701728",
-   "name": "Fresh Attractions",
+   "id": "osm-n5903100430",
+   "name": "Starbucks",
    "topic": "café",
-   "lat": 25.795606,
-   "lng": -80.284189,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/5296701728"
-  },
-  {
-   "id": "osm-n13530299002",
-   "name": "Douceurs & Tralala",
-   "topic": "bakery",
-   "lat": 25.788691,
-   "lng": -80.141344,
+   "lat": 25.798504,
+   "lng": -80.272791,
    "photo": false,
    "facts": [
-    "Founded by Nathalie and Gregory Fournier-Bidoz.",
-    "Has Wi-Fi",
-    "Address: 1570 Alton Road"
+    "Located in Concourse D near Gate D10 at Miami International Airport.",
+    "Serves coffee",
+    "Part of the Starbucks chain"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13530299002"
+   "osmUrl": "https://www.openstreetmap.org/node/5903100430"
   },
   {
-   "id": "osm-n13239228568",
-   "name": "Häagen-Dazs",
-   "topic": "ice cream shop",
-   "lat": 25.785323,
-   "lng": -80.220277,
+   "id": "osm-n9882027534",
+   "name": "Manolo & Rene Grill",
+   "topic": "Cuban restaurant",
+   "lat": 25.776078,
+   "lng": -80.188771,
    "photo": false,
    "facts": [
-    "Located in the River Landing Shops development.",
-    "Part of the Häagen-Dazs chain",
+    "Has served downtown Miami on 3rd Avenue since 1977.",
+    "Serves Cuban food",
     "Has outdoor seating"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13239228568"
+   "osmUrl": "https://www.openstreetmap.org/node/9882027534"
   },
   {
-   "id": "osm-n6076781683",
-   "name": "Fritanga Caña Brava",
-   "topic": "Latin American restaurant",
-   "lat": 25.779586,
-   "lng": -80.240703,
+   "id": "osm-n6074717989",
+   "name": "Majestic Portuguese Bakehouse",
+   "topic": "café",
+   "lat": 25.749749,
+   "lng": -80.248571,
    "photo": false,
    "facts": [
-    "The site once housed La Hacienda Restaurant, which opened in 1946.",
-    "Its tall roadside sign is a relic of La Hacienda, now marked with the Caña Brava name.",
-    "Serves Latin American and Nicaraguan food"
+    "Bakes pastel de nata with croissant-style dough and an egg custard filling.",
+    "Makes a francesinha sandwich with steak, ham, bacon, chorizo and cheese.",
+    "Serves Portuguese food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6076781683"
+   "osmUrl": "https://www.openstreetmap.org/node/6074717989"
   },
   {
-   "id": "osm-n12134973677",
-   "name": "Cucina Fresca",
-   "topic": "Italian restaurant",
-   "lat": 25.719754,
-   "lng": -80.278231,
+   "id": "osm-n1025645943",
+   "name": "Pizza Hut",
+   "topic": "pizza restaurant",
+   "lat": 25.77336,
+   "lng": -80.189152,
    "photo": false,
    "facts": [
-    "Serves Italian food",
-    "Address: 1306 Stanford Drive, Coral Gables"
+    "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "Serves pizza"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/12134973677"
+   "osmUrl": "https://www.openstreetmap.org/node/1025645943"
   },
   {
-   "id": "osm-n12873594359",
-   "name": "Novecento",
-   "topic": "Argentinian restaurant",
-   "lat": 25.696611,
-   "lng": -80.164302,
-   "photo": false,
-   "facts": [
-    "Serves Argentinian food",
-    "Address: 260 Crandon Boulevard, Unit 30, Key Biscayne"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12873594359"
-  },
-  {
-   "id": "osm-n11090903666",
-   "name": "Comida de la Tierra Colombian Cuisine",
+   "id": "osm-w914498568",
+   "name": "Mamá Choa",
    "topic": "restaurant",
-   "lat": 25.775143,
-   "lng": -80.188974,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11090903666"
-  },
-  {
-   "id": "osm-w310637943",
-   "name": "Gustave",
-   "topic": "restaurant",
-   "lat": 25.749036,
-   "lng": -80.262046,
+   "lat": 25.777647,
+   "lng": -80.255339,
    "photo": false,
    "facts": [
-    "Launched by two Parisians, Quentin Dubois and Sam Dis.",
-    "Named for Gustave Eiffel, designer of the Eiffel Tower.",
-    "A French restaurant that also bakes baguettes, croissants and tarts."
+    "Named to honor Mama Choa and her homestyle Latin recipes.",
+    "Serves customizable bowls with sides like fritura de malanga and yuquitas.",
+    "Run by Latin Kitchen"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/310637943"
-  },
-  {
-   "id": "osm-w300499403",
-   "name": "Mercado Japones",
-   "topic": "restaurant",
-   "lat": 25.763819,
-   "lng": -80.193409,
-   "photo": false,
-   "facts": [
-    "Address: 1036 South Miami Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/300499403"
-  },
-  {
-   "id": "osm-n9789284017",
-   "name": "Luis Galindo Latin America Restaurant",
-   "topic": "restaurant",
-   "lat": 25.762977,
-   "lng": -80.28803,
-   "photo": false,
-   "facts": [
-    "Serves food from Mexico, Central America, South America and the Caribbean, with a bakery."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9789284017"
+   "osmUrl": "https://www.openstreetmap.org/way/914498568"
   },
   {
    "id": "osm-n6091344818",
@@ -348,73 +296,143 @@
    "osmUrl": "https://www.openstreetmap.org/node/6091344818"
   },
   {
-   "id": "osm-n5676900198",
-   "name": "DOYA",
-   "topic": "restaurant",
-   "lat": 25.800107,
-   "lng": -80.201277,
-   "photo": false,
-   "facts": [
-    "Serves modern Aegean cuisine.",
-    "Listed in the Michelin Guide.",
-    "Featured on the PBS show Check Please! South Florida."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5676900198"
-  },
-  {
-   "id": "osm-w435748575",
-   "name": "Lung Yai Thai Tappas",
-   "topic": "Thai restaurant",
-   "lat": 25.765772,
-   "lng": -80.223205,
-   "photo": false,
-   "facts": [
-    "Listed in the 2026 MICHELIN Guide USA.",
-    "Run by chef and owner Veenuthri Trisransri.",
-    "Its khao soi is a coconut curry with a choice of protein, served with egg noodles."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/435748575"
-  },
-  {
-   "id": "osm-n12616316399",
-   "name": "Macondo Coffee Roasters",
+   "id": "osm-n6575655588",
+   "name": "Bottega Express",
    "topic": "café",
-   "lat": 25.765073,
-   "lng": -80.228399,
+   "lat": 25.77615,
+   "lng": -80.196932,
    "photo": false,
    "facts": [
-    "Serves coffee",
-    "Address: 820 Southwest 20th Avenue, Miami"
+    "Express counter inside the Stephen P. Clark Government Center downtown.",
+    "Menu features a tuna sandwich."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/12616316399"
+   "osmUrl": "https://www.openstreetmap.org/node/6575655588"
   },
   {
-   "id": "osm-n6113770185",
-   "name": "MIAM Cafe",
+   "id": "osm-n6025987539",
+   "name": "Häagen-Dazs",
+   "topic": "ice cream shop",
+   "lat": 25.704229,
+   "lng": -80.287467,
+   "photo": false,
+   "facts": [
+    "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "Part of the Häagen-Dazs chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6025987539"
+  },
+  {
+   "id": "osm-n6076781683",
+   "name": "Fritanga Caña Brava",
+   "topic": "Latin American restaurant",
+   "lat": 25.779586,
+   "lng": -80.240703,
+   "photo": false,
+   "facts": [
+    "The site once housed La Hacienda Restaurant, which opened in 1946.",
+    "Its tall roadside sign is a relic of La Hacienda, now marked with the Caña Brava name.",
+    "Serves Latin American and Nicaraguan food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6076781683"
+  },
+  {
+   "id": "osm-n11512783470",
+   "name": "Salt & Straw",
+   "topic": "ice cream shop",
+   "lat": 25.790737,
+   "lng": -80.136424,
+   "photo": false,
+   "facts": [
+    "Brought to Lincoln Road in 2023 by developer Terranova.",
+    "Held its Lincoln Road grand opening on September 1st.",
+    "Part of the Salt & Straw chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11512783470"
+  },
+  {
+   "id": "osm-n6085600910",
+   "name": "Crisppis | Miami",
+   "topic": "burger restaurant",
+   "lat": 25.804569,
+   "lng": -80.189168,
+   "photo": false,
+   "facts": [
+    "Original chicken sandwich is fried chicken with pickles and Crisppi's secret sauce on a brioche bun.",
+    "Makes chicken tenders fresh, never frozen, with house-made dipping sauces.",
+    "Serves burgers, chicken and donuts"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6085600910"
+  },
+  {
+   "id": "osm-n4535082493",
+   "name": "Pollos & Jarras",
+   "topic": "Peruvian restaurant",
+   "lat": 25.77575,
+   "lng": -80.188532,
+   "photo": false,
+   "facts": [
+    "Specializes in Peruvian rotisserie chicken.",
+    "Opened by chef Juan Chipoco and sous chef Luis Hoyos of CVI.CHE 105.",
+    "Serves Peruvian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4535082493"
+  },
+  {
+   "id": "osm-n6112915271",
+   "name": "Beehive Juice Bar",
    "topic": "café",
-   "lat": 25.80257,
-   "lng": -80.201318,
+   "lat": 25.7331,
+   "lng": -80.300665,
    "photo": false,
    "facts": [
-    "Combines a European-style cafe with a boutique.",
-    "Has outdoor seating",
-    "Address: 2750 Northwest 3rd Avenue, Miami"
+    "The juice bar is part of the Beehive Natural Foods store.",
+    "Beehive Natural Foods operates as a natural foods grocery on Bird Road.",
+    "Address: 6490 Bird Road, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6113770185"
+   "osmUrl": "https://www.openstreetmap.org/node/6112915271"
   },
   {
-   "id": "osm-n6046793767",
-   "name": "Mayfair Grill",
-   "topic": "American restaurant",
-   "lat": 25.72876,
-   "lng": -80.241022,
+   "id": "osm-n14131315975",
+   "name": "Quinto Miami",
+   "topic": "South American restaurant",
+   "lat": 25.766607,
+   "lng": -80.192762,
    "photo": false,
    "facts": [
-    "Located inside the Mayfair House Hotel & Garden.",
-    "Chef Giorgio Rapicavoli was named its executive chef.",
-    "Focuses on wood-fired cooking."
+    "Opened in May 2016 as Quinto La Huella at EAST, Miami in Brickell City Centre.",
+    "Opened as the first U.S. outpost of the Uruguayan beachfront eatery Parador La Huella.",
+    "Serves South American and Latin American food, plus breakfast"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6046793767"
+   "osmUrl": "https://www.openstreetmap.org/node/14131315975"
+  },
+  {
+   "id": "osm-n13812230058",
+   "name": "Mammamia Gelato Italiano",
+   "topic": "ice cream shop",
+   "lat": 25.765719,
+   "lng": -80.193464,
+   "photo": false,
+   "facts": [
+    "Also sells crepes along with gelato and frozen yogurt.",
+    "Welcomes dogs.",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13812230058"
+  },
+  {
+   "id": "osm-n12957873701",
+   "name": "Ghee - Wynwood",
+   "topic": "Indian restaurant",
+   "lat": 25.800093,
+   "lng": -80.196502,
+   "photo": false,
+   "facts": [
+    "Run by FEAL Hospitality, led by chef Niven Patel and Mohamed Alkassar.",
+    "Wynwood outpost of Ghee Indian Kitchen, debuting in December 2024.",
+    "Serves modern farm-to-table Indian food from a James Beard-nominated duo."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12957873701"
   }
  ],
  "points": [
@@ -459,11 +477,6 @@
    0
   ],
   [
-   25.772741,
-   -80.192296,
-   0
-  ],
-  [
    25.79989,
    -80.20053,
    0
@@ -476,11 +489,6 @@
   [
    25.766043,
    -80.191169,
-   0
-  ],
-  [
-   25.77272,
-   -80.202863,
    0
   ],
   [
@@ -531,11 +539,6 @@
   [
    25.765621,
    -80.228036,
-   0
-  ],
-  [
-   25.743753,
-   -80.172022,
    0
   ],
   [
@@ -684,11 +687,6 @@
    0
   ],
   [
-   25.778325,
-   -80.187017,
-   1
-  ],
-  [
    25.748432,
    -80.258892,
    0
@@ -741,11 +739,6 @@
   [
    25.798232,
    -80.271777,
-   0
-  ],
-  [
-   25.731663,
-   -80.163174,
    0
   ],
   [
@@ -811,11 +804,6 @@
   [
    25.749701,
    -80.259932,
-   0
-  ],
-  [
-   25.772255,
-   -80.256528,
    0
   ],
   [
@@ -927,21 +915,6 @@
    25.786757,
    -80.131946,
    1
-  ],
-  [
-   25.777313,
-   -80.185534,
-   0
-  ],
-  [
-   25.775143,
-   -80.188974,
-   0
-  ],
-  [
-   25.759312,
-   -80.304005,
-   0
   ],
   [
    25.750561,
@@ -1219,11 +1192,6 @@
    0
   ],
   [
-   25.797587,
-   -80.252712,
-   0
-  ],
-  [
    25.803403,
    -80.195274,
    0
@@ -1241,11 +1209,6 @@
   [
    25.803877,
    -80.19233,
-   0
-  ],
-  [
-   25.728229,
-   -80.243763,
    0
   ],
   [
@@ -1271,11 +1234,6 @@
   [
    25.740579,
    -80.278365,
-   0
-  ],
-  [
-   25.704907,
-   -80.285251,
    0
   ],
   [
@@ -1309,11 +1267,6 @@
    0
   ],
   [
-   25.682495,
-   -80.314303,
-   0
-  ],
-  [
    25.747515,
    -80.256722,
    0
@@ -1339,11 +1292,6 @@
    0
   ],
   [
-   25.717948,
-   -80.277303,
-   0
-  ],
-  [
    25.749859,
    -80.25746,
    0
@@ -1364,11 +1312,6 @@
    0
   ],
   [
-   25.727795,
-   -80.242251,
-   0
-  ],
-  [
    25.791768,
    -80.136755,
    0
@@ -1376,11 +1319,6 @@
   [
    25.800093,
    -80.196502,
-   0
-  ],
-  [
-   25.774302,
-   -80.190563,
    0
   ],
   [
@@ -1411,11 +1349,6 @@
   [
    25.779061,
    -80.244013,
-   0
-  ],
-  [
-   25.740882,
-   -80.238124,
    0
   ],
   [
@@ -1584,11 +1517,6 @@
    0
   ],
   [
-   25.795072,
-   -80.280111,
-   0
-  ],
-  [
    25.728342,
    -80.242821,
    0
@@ -1611,11 +1539,6 @@
   [
    25.79728,
    -80.275952,
-   0
-  ],
-  [
-   25.785297,
-   -80.132088,
    0
   ],
   [
@@ -1709,11 +1632,6 @@
    0
   ],
   [
-   25.774401,
-   -80.189072,
-   0
-  ],
-  [
    25.799313,
    -80.198466,
    0
@@ -1721,11 +1639,6 @@
   [
    25.772297,
    -80.199591,
-   0
-  ],
-  [
-   25.762176,
-   -80.144349,
    0
   ],
   [
@@ -1971,11 +1884,6 @@
   [
    25.772956,
    -80.192146,
-   0
-  ],
-  [
-   25.763819,
-   -80.193409,
    0
   ],
   [
@@ -2229,11 +2137,6 @@
    0
   ],
   [
-   25.790494,
-   -80.132987,
-   0
-  ],
-  [
    25.735643,
    -80.239489,
    0
@@ -2441,11 +2344,6 @@
   [
    25.686682,
    -80.314805,
-   0
-  ],
-  [
-   25.735278,
-   -80.25587,
    0
   ],
   [
@@ -2869,11 +2767,6 @@
    0
   ],
   [
-   25.766536,
-   -80.198624,
-   0
-  ],
-  [
    25.764907,
    -80.190651,
    0
@@ -3121,11 +3014,6 @@
   [
    25.772611,
    -80.222464,
-   0
-  ],
-  [
-   25.795096,
-   -80.194286,
    0
   ],
   [

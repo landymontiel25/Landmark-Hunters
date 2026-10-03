@@ -1,0 +1,420 @@
+[
+ {
+  "id": "osm-n3042654511",
+  "name": "National Mechanics",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Occupies an 1837 bank building designed by architect William Strickland.",
+    "url": "https://www.nationalmechanics.com/about"
+   },
+   {
+    "text": "Has operated in Old City since 2006.",
+    "url": "https://www.nationalmechanics.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2727251803",
+  "name": "New Food Trust Farmer's Market",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w345167316",
+  "name": "NOTO Philadelphia",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Nightclub with three bars and bottle-service tables.",
+    "url": "https://noto-philadelphia.webflow.io/"
+   },
+   {
+    "text": "Books international guest DJs.",
+    "url": "https://noto-philadelphia.webflow.io/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8116472552",
+  "name": "Nut Hut Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Neighborhood corner bar in Fishtown with karaoke and live music.",
+    "url": "https://www.facebook.com/p/The-Nut-Hut-Saloon-100095312587988/"
+   },
+   {
+    "text": "Hosts karaoke on Friday and Saturday nights.",
+    "url": "https://www.opentable.com/r/nut-hut-saloon-philadelphia"
+   },
+   {
+    "text": "Holds Quizzo on Wednesday nights.",
+    "url": "https://www.opentable.com/r/nut-hut-saloon-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-w963498924",
+  "name": "Old City Beer Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has a covered seating area with air conditioning and heat.",
+    "url": "https://www.oldcitybeergarden.com/"
+   },
+   {
+    "text": "Pours over 20 canned and draft beers plus seltzers.",
+    "url": "https://www.oldcitybeergarden.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1712035844",
+  "name": "Oneal's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family-owned and operated Irish pub.",
+    "url": "https://onealspub.com/about/"
+   },
+   {
+    "text": "Has a Real Ale beer engine and over 100 bottles for six-pack takeout.",
+    "url": "https://onealspub.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4175142992",
+  "name": "Oscar's Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Opened in 1972 and still has its acoustic tile ceiling and vinyl booths.",
+    "url": "https://www.inquirer.com/philly/blogs/the_spot/Oscars-Tavern-Yes-its-1972.html"
+   },
+   {
+    "text": "Fitted out in 1972 with a bar package bought from Old City supplier The National.",
+    "url": "https://www.inquirer.com/philly/blogs/the_spot/Oscars-Tavern-Yes-its-1972.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7383548306",
+  "name": "Other Half Brewing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Taproom, brewery and kitchen with an outdoor beer garden in Fishtown.",
+    "url": "https://otherhalfbrewing.com/location/philadelphia/"
+   },
+   {
+    "text": "Part of Other Half Brewing, founded in Brooklyn, NY.",
+    "url": "https://otherhalfbrewing.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1606862187",
+  "name": "Paddy Whacks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Sports-centric Irish pub with draft beers, big screens and dancing on weekends.",
+    "url": "https://www.sevenrooms.com/explore/paddywhackspubsouthstreet/reservations/create/search/"
+   },
+   {
+    "text": "A house DJ plays on Fridays and Saturdays.",
+    "url": "https://book.toasttab.com/r/paddy-whacks-south-street-new"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12069137869",
+  "name": "Paddy\u2019s",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Creators of It's Always Sunny in Philadelphia drew inspiration from the pub.",
+    "url": "http://www.paddyspuboldcity.com/"
+   },
+   {
+    "text": "Beer list runs from domestics to local and regional craft beers.",
+    "url": "http://www.paddyspuboldcity.com/beer-list.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2745990725",
+  "name": "Palmer Park Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Market sits beside a play area, walking paths, a basketball court and a Dickens statue.",
+    "url": "https://www.farmersmarkets.io/market/palmer-park-farmers-market-philadelphia-pennsylvania"
+   },
+   {
+    "text": "Held at Frankford Avenue and East Palmer Street.",
+    "url": "https://bestfarmersmarkets.org/place/palmer-park-farmers-market-philadelphia-pa.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n360500734",
+  "name": "Penn Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Operated by Barnes and Noble.",
+    "url": "https://facilities.upenn.edu/maps/locations/bookstore-university-pennsylvania"
+   },
+   {
+    "text": "The PennCard Center and Penn Computer Connection are on the second level.",
+    "url": "https://facilities.upenn.edu/maps/locations/bookstore-university-pennsylvania"
+   }
+  ]
+ },
+ {
+  "id": "osm-w297788075",
+  "name": "Pennsy Flea Market",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/pennsy-flea-market-philadelphia",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-w789715192",
+  "name": "Philadelphia Brewing Company Peacock Room Bar & Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened in 2017 to mark the brewery's tenth anniversary.",
+    "url": "https://billypenn.com/2017/09/24/philadelphia-brewing-co-celebrates-10-years-by-opening-a-new-bar/"
+   },
+   {
+    "text": "Thirty-seat tavern pouring PBC beers and Commonwealth ciders.",
+    "url": "https://billypenn.com/2017/09/24/philadelphia-brewing-co-celebrates-10-years-by-opening-a-new-bar/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w908918547",
+  "name": "Philadelphia Record Exchange",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has been on Frankford Avenue in Fishtown since 1985.",
+    "url": "https://wmgk.com/2022/04/19/mgks-ultimate-record-store-guide-philadelphia-record-exchange/"
+   },
+   {
+    "text": "Stocks classic rock, hard rock, jazz and soundtracks.",
+    "url": "https://wmgk.com/2022/04/19/mgks-ultimate-record-store-guide-philadelphia-record-exchange/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w782572287",
+  "name": "Pop Pops 2",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Neighborhood bar that has served Roxborough for at least 40 years.",
+    "url": "https://www.fourdollarjacks.com/bars-near-me/pop-pops-2"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2012656012",
+  "name": "Pub Webb",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sports bar half a block from Temple University's main campus.",
+    "url": "https://pubwebb.com/about-us/"
+   },
+   {
+    "text": "Official Temple basketball pre-game and post-game headquarters.",
+    "url": "https://pubwebb.com/event/temple-basketball-pre-game-post-game-temple-v-south-florida-4/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w632064525",
+  "name": "Purple Orchid",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Gentlemen's club at the 61st and Passyunk intersection.",
+    "url": "https://purpleorchidphilly.wordpress.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w342742180",
+  "name": "Raven Lounge",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://philadelphia.gaycities.com/bars/1928-raven-lounge",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-w334264446",
+  "name": "Red Lounge",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/red-lounge-philadelphia",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n943210892",
+  "name": "Ryan's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Pub menu centers on chicken wings and pizza.",
+    "url": "https://ryans-pub-manayunk.goto-restaurants.com/"
+   },
+   {
+    "text": "Bartenders make espresso martinis.",
+    "url": "https://ryans-pub-manayunk.goto-restaurants.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7125160404",
+  "name": "Saint Joseph's University Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Sells apparel, gifts and textbooks, with textbook rentals.",
+    "url": "https://sju.bncollege.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10682365932",
+  "name": "Sammy's Sports Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Listed as a Black-owned sports bar.",
+    "url": "https://www.buyblack.org/united-states-of-america/philadelphia/nightlife/sammy-s-sports-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11231061192",
+  "name": "Scanlon's Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12001487360",
+  "name": "Second District Brewing Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "South Philly brewery with a mostly vegan menu.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/second-district-brewing"
+   },
+   {
+    "text": "Menu includes vegan dishes such as buffalo cauliflower and pierogies.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/second-district-brewing"
+   }
+  ]
+ }
+]

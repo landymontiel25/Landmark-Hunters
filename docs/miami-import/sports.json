@@ -3,7 +3,7 @@
  "count": 6,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 5,
+ "withFacts": 6,
  "withHours": 2,
  "photoSkips": [],
  "sample": [
@@ -28,7 +28,10 @@
    "lat": 25.801504,
    "lng": -80.194549,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Machine gun experience, museum and art gallery in the Wynwood district with over 25 fully automatic firearms.",
+    "The 14,000 square-foot facility has 24 air-conditioned lanes."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6540203185"
   },
   {

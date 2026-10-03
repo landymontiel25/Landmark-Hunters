@@ -1,0 +1,402 @@
+[
+ {
+  "id": "osm-n7194556886",
+  "name": "China Moon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Small Taiwanese and Szechuan restaurant run as a fast casual and takeout spot.",
+    "url": "https://culinaryagents.com/entities/769242-China-Moon"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13719776030",
+  "name": "CIAO AMORE Italian Gelato, Caffè & Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Founded by Stefano and Claudia, who left Sardinia in 2023 to bring Italian gelato to Miami.",
+    "url": "https://ciaoamoreusa.com/"
+   },
+   {
+    "text": "Makes its gelato daily with traditional recipes and ingredients imported from Italy.",
+    "url": "https://ciaoamoreusa.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10148027135",
+  "name": "Cilantro 27",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Peruvian ceviche bar led by Chef Nilton Castillo, mixing traditional flavors with modern techniques.",
+    "url": "https://lincolnroad.com/directory-location/cilantro-27/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7844732315",
+  "name": "CoCo Fresh Tea & Juice",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n11090903666",
+  "name": "Comida de la Tierra Colombian Cuisine",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7538861249",
+  "name": "Cono Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n11512949967",
+  "name": "Cortadito",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of a local Cuban coffee house chain with Miami Beach shops on Lincoln Road and Washington Avenue.",
+    "url": "https://whatnow.com/miami/restaurants/cortadito-coffee-house-brickell-location-revealed/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13119552527",
+  "name": "Cortadito Coffee House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of a local Cuban coffee house chain that also has Miami Beach shops on Lincoln Road and Washington Avenue.",
+    "url": "https://whatnow.com/miami/restaurants/cortadito-coffee-house-brickell-location-revealed/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w278812499",
+  "name": "Coyo Taco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Makes corn tortillas by hand on site and smashes its guacamole to order.",
+    "url": "https://www.doordash.com/store/coyo-taco-coral-gables-25244329/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12873595082",
+  "name": "Craft Key Biscayne",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Founded by four Argentinian friends, including Nicolas Bleckwedel, with a comfort food concept.",
+    "url": "https://www.islandernews.com/food/taste/craft-key-biscayne-opens-with-a-promise-of-offering-delicious-comfort-food-to-patrons/article_ce9b583c-cdc5-11ee-a776-136dbb7eec1a.html"
+   },
+   {
+    "text": "Menu includes Neapolitan pizzas, burgers and a breakfast and brunch section.",
+    "url": "https://order.toasttab.com/online/craft-key-biscayne-260-crandon-blvd"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10244984256",
+  "name": "Crema Gourmet",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Part of Crema Gourmet, co-founded by Greek-born Ioannis Sotiropoulos and Efthymios Paliouras.",
+    "url": "https://cremagourmet.com/about"
+   },
+   {
+    "text": "Part of Crema Gourmet, which started in 2012 as a neighborhood cafe.",
+    "url": "https://cremagourmet.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6085600910",
+  "name": "Crisppis | Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Original chicken sandwich is fried chicken with pickles and Crisppi's secret sauce on a brioche bun.",
+    "url": "https://www.crisppischicken.com/menu/"
+   },
+   {
+    "text": "Makes chicken tenders fresh, never frozen, with house-made dipping sauces.",
+    "url": "https://www.crisppischicken.com/menu/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12134973677",
+  "name": "Cucina Fresca",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened in August 2025 in the Hurricane Food Court at the University of Miami.",
+    "url": "https://themiamihurricane.com/2025/08/20/say-ciao-to-cucina-fresca-ums-newest-dining-option/"
+   },
+   {
+    "text": "Menu includes Roman-style pizza, paninis, baked ziti and gelato.",
+    "url": "https://themiamihurricane.com/2025/08/20/say-ciao-to-cucina-fresca-ums-newest-dining-option/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1178446527",
+  "name": "CVI.CHE 105",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Flagship concept of Peruvian chef Juan Chipoco.",
+    "url": "https://www.experiencemiamibeach.com/businesses/cviche-105"
+   },
+   {
+    "text": "Traditional Peruvian dishes in modern presentation.",
+    "url": "https://www.experiencemiamibeach.com/businesses/cviche-105"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5645972221",
+  "name": "Cybr Caffe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Internet cafe established in 2001 that offers printing, scanning, international calls and luggage storage.",
+    "url": "https://www.giftly.com/gift-card/cybr-caffe-miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6018262288",
+  "name": "Delicias de Espana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Spanish bakery founded in 1997 by Ernesto Llerandi and his wife, Isabel Miranda.",
+    "url": "https://deliciasdeespana.com/in-house-bakery/"
+   },
+   {
+    "text": "Bakes cakes, breads and pastries, including custom cakes and traditional Spanish desserts.",
+    "url": "https://deliciasdeespana.com/in-house-bakery/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13604472101",
+  "name": "Delicias en Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu includes empanadas, chalupas, hamburgers and pupusas.",
+    "url": "https://www.yelp.com/biz/delicias-en-miami-miami"
+   },
+   {
+    "text": "Family-friendly restaurant serving traditional Colombian food.",
+    "url": "https://www.yelp.com/biz/delicias-en-miami-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4809918522",
+  "name": "Denny's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Breakfast is available around the clock, including Signature Breakfast Slams and Sizzlin' Breakfast Skillets.",
+    "url": "https://locations.dennys.com/fl/coral-gables/248698"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6073265267",
+  "name": "Denny's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Breakfast is available all day, with items like the Berry Waffle Slam and Country Fried Steak & Eggs.",
+    "url": "https://locations.dennys.com/FL/CORAL-GABLES/209595"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6063741033",
+  "name": "Diced",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Healthy fast casual spot making made-to-order bowls, wraps and smoothies.",
+    "url": "https://dicedfood.com/67th-avenue"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435528672",
+  "name": "Diced",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Healthy spot with customizable bowls, wraps, stuffed wraps and build-your-own salads.",
+    "url": "https://dicedfood.com/dicedpinecrest"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6110224085",
+  "name": "Dōma",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The name dōma comes from the Latin word for home.",
+    "url": "https://domawynwood.com/"
+   },
+   {
+    "text": "Culinary and hospitality team all come from Italy, cooking Southern Italian cuisine.",
+    "url": "https://domawynwood.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10235613996",
+  "name": "Don Pan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "International bakery and Latin food shop selling Latin pastries, empanadas and coffee drinks.",
+    "url": "https://www.donpan.com/menus"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6082717129",
+  "name": "El Atlacatl",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Salvadoran restaurant established in 2001.",
+    "url": "https://www.yelp.com/biz/el-atlacatl-miami-2"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435848288",
+  "name": "El Cristo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founded in 1972 as a small cafe in Westchester before moving to Little Havana.",
+    "url": "https://www.elcristorestaurant.com/"
+   },
+   {
+    "text": "Cuban restaurant with a family-style setting that also offers catering.",
+    "url": "https://www.elcristorestaurant.com/"
+   }
+  ]
+ }
+]

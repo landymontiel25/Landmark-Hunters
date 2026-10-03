@@ -1,0 +1,438 @@
+[
+ {
+  "id": "osm-w534343920",
+  "name": "Glasshouse Café",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Cafe overlooking the Wings of the Tropics exhibit inside Fairchild Tropical Botanic Garden.",
+    "url": "http://archive.fairchildgarden.org/visit/shopping-dining/the-glasshouse-cafe"
+   },
+   {
+    "text": "Dining room hangs a golden and amber Chihuly chandelier.",
+    "url": "http://archive.fairchildgarden.org/visit/shopping-dining/the-glasshouse-cafe"
+   },
+   {
+    "text": "Menu includes soups, paninis, quiches and hand-crafted sodas.",
+    "url": "http://archive.fairchildgarden.org/visit/shopping-dining/the-glasshouse-cafe"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9996482852",
+  "name": "Groovys Pizza & Grill",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/groovys-pizza-and-grill-miami-2",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n8786362780",
+  "name": "GVA BOX",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Instant grocery delivery service rather than a sit-down cafe.",
+    "url": "https://gvabox.com/"
+   },
+   {
+    "text": "Promises delivery in 10 to 15 minutes within its first delivery zone.",
+    "url": "https://gvabox.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7844732323",
+  "name": "Gyro House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Menu includes gyro and chicken shawarma sandwiches plus chicken and kofta kebab platters.",
+    "url": "https://www.doordash.com/en/store/gyro-house-miami-474002/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4110014678",
+  "name": "Häagen-Dazs",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   },
+   {
+    "text": "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6025987539",
+  "name": "Häagen-Dazs",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   },
+   {
+    "text": "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6359624486",
+  "name": "Häagen-Dazs",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   },
+   {
+    "text": "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3999997102",
+  "name": "Havana 1957",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Lincoln Road location holds a live saxophone and mojito night on Thursdays.",
+    "url": "https://havana1957.com/locations/lincoln-road/"
+   },
+   {
+    "text": "Cuban restaurant themed on 1950s Havana, with a Mojito Bar and live music.",
+    "url": "https://havana1957.com/locations/lincoln-road/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9393163340",
+  "name": "Hiro's Sushi Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sushi spot where a robot delivers food to the table.",
+    "url": "https://www.atly.com/gluten-free/location/Hiro's-Sushi-Express-South-Beach"
+   },
+   {
+    "text": "Staff provide single-serve gluten-free soy sauce for gluten-sensitive guests.",
+    "url": "https://www.atly.com/gluten-free/location/Hiro's-Sushi-Express-South-Beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13719776029",
+  "name": "Hosteria Romana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Began operating in 2001 on Espanola Way in South Beach.",
+    "url": "https://hosteriaromana.com/about/"
+   },
+   {
+    "text": "Created to bring the culture and traditions of Trastevere, Rome to South Beach.",
+    "url": "https://hosteriaromana.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10138464476",
+  "name": "I Think She Is",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family-owned specialty coffee shop combining coffee, food, design and art.",
+    "url": "https://ithinksheis.com/"
+   },
+   {
+    "text": "Food menu includes stracciatella prosciutto toast, shakshuka and acai bowls.",
+    "url": "https://ithinksheis.com/miami-i-think-she-is-food-menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13611867401",
+  "name": "iBurger",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes a Mamma Mia burger.",
+    "url": "https://www.iburger.us/with-our-hands/mamma-mia.htm"
+   },
+   {
+    "text": "Offers a Beyond Burger in its iVegan menu section.",
+    "url": "https://www.iburger.us/ivegan/beyond-burger.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435731406",
+  "name": "IHOP",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of IHOP, which opened its first restaurant in Toluca Lake, California in 1958.",
+    "url": "https://www.ihop.com/en/about-ihop/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435883334",
+  "name": "IHOP",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of IHOP, which opened its first restaurant in Toluca Lake, California in 1958.",
+    "url": "https://www.ihop.com/en/about-ihop/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6933189191",
+  "name": "Il Gabbiano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened by a team from New York's Il Mulino, following its hearty Italian tradition.",
+    "url": "https://www.cigaraficionado.com/article/il-gabbiano-miami-3093"
+   },
+   {
+    "text": "Brings salami, parmigiano and bread to the table before menus arrive.",
+    "url": "https://www.cigaraficionado.com/article/il-gabbiano-miami-3093"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5070251324",
+  "name": "Iron Sushi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Menu lists a Dragon Roll with shrimp tempura, eel and avocado.",
+    "url": "https://ironsushimiami.com/"
+   },
+   {
+    "text": "Sushi group with 8 locations in South Florida.",
+    "url": "https://ironsushimiami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435537451",
+  "name": "Jackson Soul Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes smothered pork chops, fried catfish, grits and cornbread.",
+    "url": "https://www.theinfatuation.com/miami/reviews/jackson-soul-food"
+   },
+   {
+    "text": "Walls are lined with old photos and news clips on the restaurant's history.",
+    "url": "https://www.theinfatuation.com/miami/reviews/jackson-soul-food"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13767195636",
+  "name": "Jackson Square",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6641176985",
+  "name": "Joe & The Juice",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes protein shakes, breakfast bowls and porridge alongside juices and sandwiches.",
+    "url": "https://content.joejuice.com/locations/1451-brickell"
+   },
+   {
+    "text": "Sells cakes and muffins to go with coffee and tea.",
+    "url": "https://content.joejuice.com/locations/1451-brickell"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3839885170",
+  "name": "Joey's Italian Cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 2008 by Joey Goldman as the first restaurant in the Wynwood arts district.",
+    "url": "https://wynwoodmiami.com/businesses/joeys-italian-cafe/"
+   },
+   {
+    "text": "Describes itself as an Italian rosticceria and bar.",
+    "url": "https://joeyswynwood.com/miami-joey-s-italian-cafe-food-menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4993345421",
+  "name": "Juan Valdez Café",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Part of Juan Valdez Café, whose first store opened in 2002 at Bogota's El Dorado airport.",
+    "url": "https://www.juanvaldezcafe.com/en-us/our-brand/our-history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4928813924",
+  "name": "Juice and Java",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/juice-and-java-miami-beach",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n13915805270",
+  "name": "Juice Fountain 305",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Juice bar in the Canvas Building in Edgewater.",
+    "url": "https://juicefountainmiami.com/"
+   },
+   {
+    "text": "States its juices are always fresh and never frozen.",
+    "url": "https://juicefountainmiami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13812230057",
+  "name": "Kan Sushi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Offers an all-you-can-eat menu with tapas, Kan BBQ, sushi, sashimi, rolls and noodles.",
+    "url": "https://kan-sushi.com/"
+   },
+   {
+    "text": "Tenant of Mary Brickell Village in Brickell.",
+    "url": "https://www.marybrickellvillage.com/tenants/kan-sushi"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6268365485",
+  "name": "Komodo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Three-story Southeast Asian restaurant and lounge with 300 seats.",
+    "url": "https://komodomiami.com/about/"
+   },
+   {
+    "text": "Offers outdoor floating birds' nest seating.",
+    "url": "https://komodomiami.com/about/"
+   }
+  ]
+ }
+]

@@ -1,0 +1,470 @@
+[
+ {
+  "id": "osm-n2931994044",
+  "name": "Señor Baynard's Bar & Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Sits in the Point Breeze neighborhood of South Philadelphia.",
+    "url": "https://www.findlatitudeandlongitude.com/l/Se%C3%B1or+Baynard's+Bar+&+Grill,+1216,+South+17th+Street,+Point+Breeze,+Philadelphia,+Philadelphia+County,+Pennsylvania,+19146,+USA/6312128/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w274894262",
+  "name": "Showcase Comics and Games",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-run comic shop with a second store in Swarthmore.",
+    "url": "https://www.showcasecomicsandgames.net/"
+   },
+   {
+    "text": "Bryn Mawr store specializes in back issues, with a large selection of manga, RPGs and board games.",
+    "url": "https://www.showcasecomicsandgames.net/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w486628353",
+  "name": "Sit on It Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu includes a Tap Burger made with brisket, short rib and chuck blend.",
+    "url": "https://www.menupix.com/philadelphia/restaurants/3822014/Sit-On-It-Bar-Philadelphia-PA"
+   },
+   {
+    "text": "Makes a Wiz Wit cheesesteak with house-made cooper sharp wiz.",
+    "url": "https://www.menupix.com/philadelphia/restaurants/3822014/Sit-On-It-Bar-Philadelphia-PA"
+   },
+   {
+    "text": "Serves crab rangoon egg rolls and General Tso's cauliflower.",
+    "url": "https://www.menupix.com/philadelphia/restaurants/3822014/Sit-On-It-Bar-Philadelphia-PA"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12229584188",
+  "name": "Society Commons",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Restaurant and bar of the Philadelphia Marriott Old City hotel.",
+    "url": "https://www.oldcitydistrict.org/business/society-commons"
+   },
+   {
+    "text": "Has communal tables in the hotel's Greatroom Lobby and offers local craft beers.",
+    "url": "https://www.oldcitydistrict.org/business/society-commons"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11073875079",
+  "name": "Somo Lounge",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w269853604",
+  "name": "South Philadelphia Tap Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Pours from 14 taps and keeps a 70-bottle beer list.",
+    "url": "https://southphiladelphiataproom.com/"
+   },
+   {
+    "text": "Menu includes fettuccine ai gamberi with hand-cut semolina pasta and shrimp.",
+    "url": "https://southphiladelphiataproom.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w250700251",
+  "name": "St. Stephen's Green",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/st-stephens-green-philadelphia",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n5659717024",
+  "name": "State Bar",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/state-bar-camden-2",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n13911519701",
+  "name": "Stir Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "LGBTQ+ bar in the Center City and Rittenhouse area.",
+    "url": "https://stirphilly.com/"
+   },
+   {
+    "text": "Hosts bridal showers, birthday parties, office parties and fundraisers.",
+    "url": "https://stirphilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5366495321",
+  "name": "Strangelove's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu has more than 30 wing flavors and a gold leaf cheesesteak.",
+    "url": "https://www.strangelovesbeerbar.com/"
+   },
+   {
+    "text": "Has free-play arcade games, a photobooth, darts and a pool table.",
+    "url": "https://www.strangelovesbeerbar.com/"
+   },
+   {
+    "text": "Holds drag brunch karaoke on Sundays.",
+    "url": "https://www.strangelovesbeerbar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12862925001",
+  "name": "Supérette",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Wine shop that blends a cave a manger (bottle shop and eatery) with an epicerie (grocery).",
+    "url": "https://www.superettephl.com/"
+   },
+   {
+    "text": "Stocks about 120 wines from classic to more adventurous styles.",
+    "url": "https://www.superettephl.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6775455858",
+  "name": "Superfolie",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Wine bar in the Rittenhouse Square area that pours natural wine and martinis.",
+    "url": "https://www.superfoliephl.com/"
+   },
+   {
+    "text": "Menu includes roast oysters, hamachi crudo and mushroom tartine.",
+    "url": "https://www.superfoliephl.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w270896130",
+  "name": "Tap Room on 19th",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Owned by Pete Fry.",
+    "url": "http://www.taproomon19th.com/"
+   },
+   {
+    "text": "Pours 14 rotating draft beers, including one nitro and a cask engine, plus cans and bottles to go.",
+    "url": "http://www.taproomon19th.com/"
+   },
+   {
+    "text": "Runs weekly specials such as Burger Monday, Taco Tuesday and Wing Wednesday.",
+    "url": "http://www.taproomon19th.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12228642803",
+  "name": "Tapster",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Self-serve, pay-by-the-ounce bar with 57 taps.",
+    "url": "https://tapstertastingroom.com/"
+   },
+   {
+    "text": "Keeps non-alcoholic taps available at all times, rotated weekly.",
+    "url": "https://tapstertastingroom.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1712034405",
+  "name": "Tattooed Mom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Upstairs space works as a rotating street art gallery.",
+    "url": "https://www.tattooedmomphilly.com/"
+   },
+   {
+    "text": "Upstairs has long featured sticker art and houses the Sticky Art Machine.",
+    "url": "https://www.tattooedmomphilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2002957445",
+  "name": "Temple University Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Stocks textbooks, course materials, Temple apparel and gifts.",
+    "url": "https://finance.temple.edu/campus-connections/university-bookstore"
+   },
+   {
+    "text": "Sells new, used and digital books.",
+    "url": "https://finance.temple.edu/campus-connections/university-bookstore"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12288879226",
+  "name": "Tempo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sports bar by day that turns into a DJ nightlife venue.",
+    "url": "https://www.tempophilly.com/"
+   },
+   {
+    "text": "Has 20+ TVs for game days and offers VIP table service.",
+    "url": "https://www.tempophilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5631483014",
+  "name": "Ten Stone",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has operated for over twenty years in the Center City West community.",
+    "url": "https://tenstone.com/about/"
+   },
+   {
+    "text": "Opened while Graduate Hospital was still running.",
+    "url": "https://tenstone.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989532234",
+  "name": "The Antique Store in Wayne",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Antiques showroom of 6,500 square feet.",
+    "url": "https://www.theantiquestoreinwayne.com/"
+   },
+   {
+    "text": "Over 30 dealers specialize in porcelain, furniture, silver and jewelry.",
+    "url": "https://www.theantiquestoreinwayne.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1696268602",
+  "name": "The Bayou Bar and Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 1993 on Main Street in Manayunk.",
+    "url": "https://www.yelp.com/biz/the-bayou-bar-and-grill-philadelphia"
+   },
+   {
+    "text": "Sports bar with about 25 TVs.",
+    "url": "https://www.yelp.com/biz/the-bayou-bar-and-grill-philadelphia"
+   },
+   {
+    "text": "Specialties include steamed hardshell crabs and buffalo wings.",
+    "url": "https://www.yelp.com/biz/the-bayou-bar-and-grill-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-w750988129",
+  "name": "The Black Taxi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Irish pub in the Fairmount neighborhood, near the Philadelphia Art Museum.",
+    "url": "http://theblacktaxi.com/"
+   },
+   {
+    "text": "Menu includes bangers and mash and Guinness braised beef stew.",
+    "url": "http://theblacktaxi.com/"
+   },
+   {
+    "text": "Has 13 rotating beer taps and a range of Irish whiskeys.",
+    "url": "http://theblacktaxi.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12610634141",
+  "name": "The Book Trader",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Second-hand bookstore established in 1975.",
+    "url": "http://www.phillybooktrader.com/about-us"
+   },
+   {
+    "text": "Trade-based shop that gives store credit for books brought in.",
+    "url": "http://www.phillybooktrader.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1475234971",
+  "name": "The Dive Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 2005 and is independently owned by a native Philadelphian.",
+    "url": "https://www.yelp.com/biz/the-dive-bar-philadelphia"
+   },
+   {
+    "text": "Has a second-floor lounge with DJs Thursday to Saturday.",
+    "url": "https://www.yelp.com/biz/the-dive-bar-philadelphia"
+   },
+   {
+    "text": "Third-floor game room has pool, darts and classic video games.",
+    "url": "https://www.yelp.com/biz/the-dive-bar-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2613465619",
+  "name": "The Druid's Keep",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Dive bar in Northern Liberties with draft, microbrewed and craft beers.",
+    "url": "https://www.barsnorthernliberties.com/druids.html"
+   },
+   {
+    "text": "Has pool tables, darts, baggo and a jukebox.",
+    "url": "https://www.barsnorthernliberties.com/druids.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w373914374",
+  "name": "The Fairmount Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Serves hot dogs made with Dietz and Watson franks cooked on a roller grill.",
+    "url": "https://www.thefairmounttavern.com/menu/"
+   },
+   {
+    "text": "Has a second-floor bar that can be rented for private parties.",
+    "url": "https://www.thefairmounttavern.com/"
+   }
+  ]
+ }
+]

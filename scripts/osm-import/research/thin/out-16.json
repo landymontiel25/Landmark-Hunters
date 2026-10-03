@@ -1,0 +1,450 @@
+[
+ {
+  "id": "osm-w224489170",
+  "name": "Chiangmai",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Locally owned and operated Thai restaurant.",
+    "url": "https://mychiangmaithai.com/thai-food-about-us/"
+   },
+   {
+    "text": "Menu includes curries, noodle dishes and fried rice.",
+    "url": "https://mychiangmaithai.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9964922710",
+  "name": "Coco's Cookies and Creamery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Offers fried Oreos alongside ice cream and cookies.",
+    "url": "https://cocoscookiesandcreamery.com/order/cocos-cookies-creamery-3632-powelton-avenue/item-fried-oreos_84eb2073-41d7-4cf1-ac5b-f1c8dc7c5b62"
+   },
+   {
+    "text": "Shake flavors include Fruity Pebble and Cocoa Pebbles.",
+    "url": "https://cocoscookiesandcreamery.com/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2100740228",
+  "name": "Copabanana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Sidewalk cafe with large windows overlooking the Penn campus.",
+    "url": "https://www.opentable.com/r/copabanana-philadelphia"
+   },
+   {
+    "text": "Pairs margaritas with burgers, Spanish fries and Caribbean and Mexican dishes.",
+    "url": "https://www.opentable.com/r/copabanana-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989292632",
+  "name": "Cornerstone Bistro & Artisinal Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Owned by chef couple Christine and Nick Kondra, who draw on their Nantucket roots.",
+    "url": "https://www.cornerstonewayne.com/about/"
+   },
+   {
+    "text": "Opened in October 2015 as Cornerstone Cheese & Charcuterie.",
+    "url": "https://www.cornerstonewayne.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w221492162",
+  "name": "Coyote Crossing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founded in 1997 by owner Carlos Melendez.",
+    "url": "https://coyotecrossing.com/about/"
+   },
+   {
+    "text": "Menu is influenced by the owner's grandmother's recipes.",
+    "url": "https://coyotecrossing.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11573781885",
+  "name": "Dandan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sichuan and Taiwanese restaurant.",
+    "url": "https://mainlinetoday.com/food/dandan-wayne/"
+   },
+   {
+    "text": "Dan Dan noodles come with sesame paste, chili oil, minced pork and scallions.",
+    "url": "https://www.dandanrestaurant.com/menu/authentic-noodles-wayne/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989578532",
+  "name": "Delice et Chocolat",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned French bakery founded by brothers Joseph and Antonie Amrani.",
+    "url": "https://www.delicechocolat.com/about-us"
+   },
+   {
+    "text": "The Amranis come from Grenoble, France; Antonie trained at Ecole Ritz Escoffier in Paris.",
+    "url": "https://www.delicechocolat.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12995680862",
+  "name": "Di Bruno Bros",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.inquirer.com/food/dibruno-bros-closing-ardmore-wayne-franklin-residences-20260129.html",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n989626637",
+  "name": "DiMeo Pizza",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/dimeo-pizza-and-restaurant-wayne",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-w1255293162",
+  "name": "Doro Bet",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Fried chicken uses a teff flour batter, with Awaze or Alicha seasoning.",
+    "url": "https://www.alifamilyrestaurants.com/doro-bet"
+   },
+   {
+    "text": "Also makes chicken shawarma sandwiches and Doro Wot, a traditional Ethiopian chicken stew.",
+    "url": "https://www.alifamilyrestaurants.com/doro-bet"
+   }
+  ]
+ },
+ {
+  "id": "osm-w366860350",
+  "name": "Dragon & Phoenix Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family owned and operated Chinese restaurant, founded in 2009.",
+    "url": "https://dragonphoenixexpress.com/about/"
+   },
+   {
+    "text": "Focuses on takeout and delivery.",
+    "url": "https://dragonphoenixexpress.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5534129527",
+  "name": "Eagle Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Original Eagle Pizza is takeout only, with no seating.",
+    "url": "https://patch.com/pennsylvania/ardmore/original-eagle-pizza-go-for-the-supreme-the-souvlaki"
+   },
+   {
+    "text": "Pizza has a thicker Greek-style crust, and the menu includes grilled chicken souvlaki.",
+    "url": "https://patch.com/pennsylvania/ardmore/original-eagle-pizza-go-for-the-supreme-the-souvlaki"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11584990434",
+  "name": "Eat Greek",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-run Greek spot where menu items are prepared daily in-house.",
+    "url": "https://www.eatgreek.today/our-story"
+   },
+   {
+    "text": "Cooks with imported Greek olive oil, yogurt, spices and cheeses.",
+    "url": "https://www.eatgreek.today/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10991119964",
+  "name": "El Limon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Part of El Limon Taqueria, with other shops in Ambler and Malvern.",
+    "url": "https://ellimontaquerias.com/locations"
+   },
+   {
+    "text": "The group also runs locations in Conshohocken, Ardmore, West Chester, Norristown and Royersford.",
+    "url": "https://ellimontaquerias.com/locations"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13429423372",
+  "name": "El Limon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Part of El Limon Taqueria, which operates shops in Ambler, Ardmore and Conshohocken.",
+    "url": "https://ellimontaquerias.com/"
+   },
+   {
+    "text": "The group also runs locations in West Chester, Norristown and Royersford.",
+    "url": "https://ellimontaquerias.com/locations"
+   }
+  ]
+ },
+ {
+  "id": "osm-w365541784",
+  "name": "El Limon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "BYOB taqueria with finely chopped chorizo tacos as a signature.",
+    "url": "https://mainlinetoday.com/restaurant/el-limon-conshohocken/"
+   },
+   {
+    "text": "Part of El Limon Taqueria, which has other shops in Ambler, Malvern and Bryn Mawr.",
+    "url": "https://ellimontaquerias.com/locations"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989613786",
+  "name": "Elegance Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned bakery cafe for about 40 years.",
+    "url": "https://elegancecafe.com/about-us/"
+   },
+   {
+    "text": "First Elegance opened in 1980 in Haverford; the Wayne shop opened in 2008.",
+    "url": "https://elegancecafe.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13625380376",
+  "name": "Erawan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu includes drunken noodles, fried chive cakes and massaman curry.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/erawan-thai"
+   },
+   {
+    "text": "Chef's specialties include kor moo yang and crab fried rice.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/erawan-thai"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13424564301",
+  "name": "Felicia's Pizza Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Makes brick oven pizzas, including a Felicia's Special with spinach, tomato, garlic and mozzarella.",
+    "url": "https://mindtrip.ai/restaurant/ardmore-pennsylvania/felicias-pizza-kitchen/re-YcUAxI05"
+   },
+   {
+    "text": "Owner Tony often prepares the pizzas himself.",
+    "url": "https://mindtrip.ai/restaurant/ardmore-pennsylvania/felicias-pizza-kitchen/re-YcUAxI05"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5968575687",
+  "name": "Fellini Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "BYOB Italian restaurant run by Franco Raimondo and Pino D'Alto.",
+    "url": "https://www.fellinicafebrynmawr.com/about-us"
+   },
+   {
+    "text": "Franco Raimondo has 40 years of experience in hospitality.",
+    "url": "https://www.fellinicafebrynmawr.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224489965",
+  "name": "Flanigan's Boat House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family restaurant operating since 1991.",
+    "url": "https://boathousepa.com/story"
+   },
+   {
+    "text": "Includes a Below Deck Bottle Shop with craft beers and wines.",
+    "url": "https://boathousepa.com/about-us.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n877499152",
+  "name": "Flavor",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/flavor-wayne",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n13310029889",
+  "name": "Fleming's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Located in Radnor's Financial Center, close to I-76 and I-476.",
+    "url": "https://www.flemingssteakhouse.com/locations/pa/radnor"
+   },
+   {
+    "text": "Chef Partner at this location is Hugo Martinez.",
+    "url": "https://www.flemingssteakhouse.com/locations/pa/radnor"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11738825351",
+  "name": "Get Café",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Community coffee shop run by the nonprofit GETincluded.",
+    "url": "https://www.getincluded.org/the-cafe"
+   },
+   {
+    "text": "Created as a space where the community meets people who are neurodiverse or have a disability.",
+    "url": "https://www.getincluded.org/the-cafe"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13401642495",
+  "name": "Golden Bowl",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu is Hong Kong-style Chinese, with pork fried dumplings and wonton soup.",
+    "url": "https://www.restaurantji.com/pa/ardmore/golden-bowl-/"
+   },
+   {
+    "text": "Menu also covers vegetarian dishes and noodle plates.",
+    "url": "https://www.restaurantji.com/pa/ardmore/golden-bowl-/"
+   }
+  ]
+ }
+]

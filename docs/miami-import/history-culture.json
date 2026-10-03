@@ -1,9 +1,9 @@
 {
  "category": "history-culture",
- "count": 34,
+ "count": 33,
  "commonsPhotos": 10,
- "commonsPhotoPct": 29.4,
- "withFacts": 30,
+ "commonsPhotoPct": 30.3,
+ "withFacts": 33,
  "withHours": 2,
  "photoSkips": [
   {
@@ -14,17 +14,18 @@
  ],
  "sample": [
   {
-   "id": "osm-n1577578109",
-   "name": "Jose Marti Memorial",
-   "topic": "monument",
-   "lat": 25.764408,
-   "lng": -80.216429,
+   "id": "osm-n6583012889",
+   "name": "Julia B. Tuttle's Homestead",
+   "topic": "historic site",
+   "lat": 25.770915,
+   "lng": -80.19232,
    "photo": false,
    "facts": [
-    "A plaque marks the 100th anniversary of Jose Marti's death in 1995, donated by the Knights of Columbus.",
-    "The park also has a map of Cuba with a quote from Marti."
+    "Tuttle bought 644 acres on the north bank of the Miami River, including Fort Dallas.",
+    "Her home was a two-story stone building, built in 1849 as Fort Dallas officers' quarters.",
+    "A marker for Tuttle was erected in 2020 by Miami-Dade County at Fort Dallas Park."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1577578109"
+   "osmUrl": "https://www.openstreetmap.org/node/6583012889"
   },
   {
    "id": "osm-n6579421487",
@@ -81,6 +82,32 @@
    "osmUrl": "https://www.openstreetmap.org/node/358695896"
   },
   {
+   "id": "osm-n6583009086",
+   "name": "Julia Sturtevant Tuttle",
+   "topic": "statue",
+   "lat": 25.773447,
+   "lng": -80.185601,
+   "photo": false,
+   "facts": [
+    "The 10-foot bronze statue shows Tuttle holding oranges and blossoms.",
+    "Scenes from Miami's 1896 incorporation are engraved on the statue's skirt.",
+    "Unveiled July 28, 2010, by the Miami-Dade County Commission for Women and partners."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6583009086"
+  },
+  {
+   "id": "osm-n6583012985",
+   "name": "The Liberty Column",
+   "topic": "memorial",
+   "lat": 25.772833,
+   "lng": -80.185068,
+   "photo": false,
+   "facts": [
+    "Memorial column in Bayfront Park in downtown Miami."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6583012985"
+  },
+  {
    "id": "osm-n6594610104",
    "name": "Julia Deforest Tuttle",
    "topic": "memorial",
@@ -92,34 +119,6 @@
     "Tuttle is the only woman to found a major U.S. city."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6594610104"
-  },
-  {
-   "id": "osm-w435737408",
-   "name": "The Congress Building",
-   "topic": "historic site",
-   "lat": 25.775568,
-   "lng": -80.190081,
-   "photo": true,
-   "facts": [
-    "The first five stories were built in 1923 and 16 more were added in 1926.",
-    "The building was added to the National Register of Historic Places on March 14, 1985.",
-    "It was office space until 1999, when it was restored and converted to apartments."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/435737408"
-  },
-  {
-   "id": "osm-n6583012889",
-   "name": "Julia B. Tuttle's Homestead",
-   "topic": "historic site",
-   "lat": 25.770915,
-   "lng": -80.19232,
-   "photo": false,
-   "facts": [
-    "Tuttle bought 644 acres on the north bank of the Miami River, including Fort Dallas.",
-    "Her home was a two-story stone building, built in 1849 as Fort Dallas officers' quarters.",
-    "A marker for Tuttle was erected in 2020 by Miami-Dade County at Fort Dallas Park."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6583012889"
   },
   {
    "id": "osm-n13995056353",
@@ -148,111 +147,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/4587210554"
   },
   {
-   "id": "osm-n14099749569",
-   "name": "George Fink’s Studio",
-   "topic": "historic site",
-   "lat": 25.748337,
-   "lng": -80.258815,
-   "photo": false,
-   "facts": [
-    "Built in 1925 as the office of architect H. George Fink, a cousin of founder George Merrick.",
-    "Many early Coral Gables homes were designed here starting in 1925.",
-    "Address: 2506 Ponce de Leon Boulevard, Coral Gables"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/14099749569"
-  },
-  {
-   "id": "osm-n5613530547",
-   "name": "Mildred and Claude Pepper Fountain",
-   "topic": "fountain",
-   "lat": 25.774401,
-   "lng": -80.185476,
-   "photo": false,
-   "facts": [
-    "Designed by Isamu Noguchi as part of his 1980s redesign of Bayfront Park.",
-    "The fountain originally opened in 1990.",
-    "A renovation that began in July 2024 added over 800 water jets and 500 lights."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5613530547"
-  },
-  {
-   "id": "osm-n3245478362",
-   "name": "Spanish Navy Plaza",
-   "topic": "memorial",
-   "lat": 25.783359,
-   "lng": -80.186407,
-   "photo": false,
-   "facts": [
-    "Honors the Spanish Navy and its arrival in the Americas on October 12, 1492.",
-    "The monument was designed by Jose Feito."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3245478362"
-  },
-  {
-   "id": "osm-n6583012885",
-   "name": "Claude D. Pepper",
-   "topic": "statue",
-   "lat": 25.773323,
-   "lng": -80.185417,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6583012885"
-  },
-  {
-   "id": "osm-n1577578093",
-   "name": "General Antonio Macro memorial",
-   "topic": "monument",
-   "lat": 25.764167,
-   "lng": -80.216417,
-   "photo": false,
-   "facts": [
-    "The bust of Antonio Maceo by sculptor Tony Lopez stands at SW 13th Avenue and SW 8th Street.",
-    "It is described as the first Maceo monument in a public park in the United States.",
-    "Maceo (1845-1896) was second in command of the Cuban Army of Independence."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/1577578093"
-  },
-  {
-   "id": "osm-w120105957",
-   "name": "Lincoln Theatre",
-   "topic": "historic site",
-   "lat": 25.790888,
-   "lng": -80.134016,
-   "photo": false,
-   "facts": [
-    "Designed by Thomas W. Lamb with local architect Robert E. Collins.",
-    "Operated as a cinema until the 1980s.",
-    "The New World Symphony bought it in 1990 and performed there until 2011."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/120105957"
-  },
-  {
-   "id": "osm-n12507229031",
-   "name": "Section of the Berlin Wall",
-   "topic": "monument",
-   "lat": 25.777369,
-   "lng": -80.19054,
-   "photo": false,
-   "facts": [
-    "The segment is 12 feet tall, 3 feet wide and weighs four and a half tons.",
-    "Unveiled on November 9, 2014, at Miami Dade College's downtown campus."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12507229031"
-  },
-  {
-   "id": "osm-n6579421596",
-   "name": "Simon Bolivar",
-   "topic": "memorial",
-   "lat": 25.79692,
-   "lng": -80.130069,
-   "photo": false,
-   "facts": [
-    "A historical marker at the monument was erected in 1997 by the Comite Pro Busto Simon Bolivar.",
-    "Miami Beach holds an annual Simon Bolivar y Las Americas Day ceremony at the monument in Collins Park."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6579421596"
-  },
-  {
    "id": "osm-n5679960544",
    "name": "Iron Arrow Mound",
    "topic": "monument",
@@ -265,20 +159,6 @@
     "Inductees keep a 24-hour drum vigil and tend fires on the mound."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/5679960544"
-  },
-  {
-   "id": "osm-n6579421394",
-   "name": "Carlos J. Finlay",
-   "topic": "memorial",
-   "lat": 25.796966,
-   "lng": -80.129555,
-   "photo": false,
-   "facts": [
-    "The bust was sculpted by Ravenet in 1948 and dedicated in Collins Park on August 20, 1949.",
-    "The bust was presented to Miami Beach by the Republic of Cuba.",
-    "Finlay was a Cuban physician who found that mosquitoes transmit yellow fever."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6579421394"
   },
   {
    "id": "osm-n6594606196",
@@ -295,14 +175,56 @@
    "osmUrl": "https://www.openstreetmap.org/node/6594606196"
   },
   {
-   "id": "osm-n4866286983",
-   "name": "Freedom Plaza",
-   "topic": "monument",
-   "lat": 25.762243,
-   "lng": -80.257322,
+   "id": "osm-n6580864585",
+   "name": "The Bahama Dingy",
+   "topic": "attraction",
+   "lat": 25.666186,
+   "lng": -80.156993,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4866286983"
+   "facts": [
+    "Displays a Bahama dinghy donated by Bill Munroe, grandson of Commodore Ralph Munroe.",
+    "Historical marker stands about 200 yards west of the Cape Florida Lighthouse."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6580864585"
+  },
+  {
+   "id": "osm-n6583012885",
+   "name": "Claude D. Pepper",
+   "topic": "statue",
+   "lat": 25.773323,
+   "lng": -80.185417,
+   "photo": false,
+   "facts": [
+    "Monument to Claude D. Pepper in Bayfront Park, downtown Miami.",
+    "Pepper served Florida in the U.S. Senate 1936-1951 and the U.S. House 1963-1989."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6583012885"
+  },
+  {
+   "id": "osm-n14099749569",
+   "name": "George Fink’s Studio",
+   "topic": "historic site",
+   "lat": 25.748337,
+   "lng": -80.258815,
+   "photo": false,
+   "facts": [
+    "Built in 1925 as the office of architect H. George Fink, a cousin of founder George Merrick.",
+    "Many early Coral Gables homes were designed here starting in 1925.",
+    "Address: 2506 Ponce de Leon Boulevard, Coral Gables"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/14099749569"
+  },
+  {
+   "id": "osm-w564987068",
+   "name": "Lincoln-Drexel Building",
+   "topic": "historic site",
+   "lat": 25.790934,
+   "lng": -80.133011,
+   "photo": false,
+   "facts": [
+    "2 stories tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/564987068"
   },
   {
    "id": "osm-n4595581948",
@@ -316,6 +238,47 @@
     "It stands a little over 8 feet high at Bayfront Park."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4595581948"
+  },
+  {
+   "id": "osm-n10232512919",
+   "name": "South Pointe Park Lighthouse",
+   "topic": "attraction",
+   "lat": 25.766873,
+   "lng": -80.136664,
+   "photo": false,
+   "facts": [
+    "An art piece called Obstinate Lighthouse by German artist Tobias Rehberger.",
+    "Completed in 2011 as part of the city's Art in Public Places program.",
+    "The 55-foot tower has 16 staggered sections of aluminum, frosted glass and LED lights."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10232512919"
+  },
+  {
+   "id": "osm-n1577578109",
+   "name": "Jose Marti Memorial",
+   "topic": "monument",
+   "lat": 25.764408,
+   "lng": -80.216429,
+   "photo": false,
+   "facts": [
+    "A plaque marks the 100th anniversary of Jose Marti's death in 1995, donated by the Knights of Columbus.",
+    "The park also has a map of Cuba with a quote from Marti."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1577578109"
+  },
+  {
+   "id": "osm-n6579421394",
+   "name": "Carlos J. Finlay",
+   "topic": "memorial",
+   "lat": 25.796966,
+   "lng": -80.129555,
+   "photo": false,
+   "facts": [
+    "The bust was sculpted by Ravenet in 1948 and dedicated in Collins Park on August 20, 1949.",
+    "The bust was presented to Miami Beach by the Republic of Cuba.",
+    "Finlay was a Cuban physician who found that mosquitoes transmit yellow fever."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6579421394"
   },
   {
    "id": "osm-w435881982",
@@ -332,18 +295,58 @@
    "osmUrl": "https://www.openstreetmap.org/way/435881982"
   },
   {
-   "id": "osm-n4595581949",
-   "name": "The Torch of Friendship",
+   "id": "osm-n1577578093",
+   "name": "General Antonio Macro memorial",
    "topic": "monument",
-   "lat": 25.777651,
-   "lng": -80.187639,
+   "lat": 25.764167,
+   "lng": -80.216417,
+   "photo": false,
+   "facts": [
+    "The bust of Antonio Maceo by sculptor Tony Lopez stands at SW 13th Avenue and SW 8th Street.",
+    "It is described as the first Maceo monument in a public park in the United States.",
+    "Maceo (1845-1896) was second in command of the Cuban Army of Independence."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1577578093"
+  },
+  {
+   "id": "osm-n6579421596",
+   "name": "Simon Bolivar",
+   "topic": "memorial",
+   "lat": 25.79692,
+   "lng": -80.130069,
+   "photo": false,
+   "facts": [
+    "A historical marker at the monument was erected in 1997 by the Comite Pro Busto Simon Bolivar.",
+    "Miami Beach holds an annual Simon Bolivar y Las Americas Day ceremony at the monument in Collins Park."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6579421596"
+  },
+  {
+   "id": "osm-n12507229031",
+   "name": "Section of the Berlin Wall",
+   "topic": "monument",
+   "lat": 25.777369,
+   "lng": -80.19054,
+   "photo": false,
+   "facts": [
+    "The segment is 12 feet tall, 3 feet wide and weighs four and a half tons.",
+    "Unveiled on November 9, 2014, at Miami Dade College's downtown campus."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12507229031"
+  },
+  {
+   "id": "osm-w993099871",
+   "name": "Venetian Way",
+   "topic": "historic causeway",
+   "lat": 25.791247,
+   "lng": -80.15218,
    "photo": true,
    "facts": [
-    "The monument was dedicated in October 1960 to the city's friendship with Latin America.",
-    "The Torch of Friendship was re-dedicated in 1964 to the memory of President John F. Kennedy.",
-    "A wraparound wall holds the seals of the Latin American countries."
+    "The causeway follows the route of the Collins Bridge, a wooden bridge built in 1913.",
+    "The Venetian Causeway was listed on the National Register of Historic Places in 1989.",
+    "The causeway is 2.8 miles long and has two bascule bridges."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4595581949"
+   "osmUrl": "https://www.openstreetmap.org/way/993099871"
   }
  ],
  "points": [
@@ -395,11 +398,6 @@
   [
    25.785168,
    -80.152745,
-   0
-  ],
-  [
-   25.762243,
-   -80.257322,
    0
   ],
   [

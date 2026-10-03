@@ -1,0 +1,450 @@
+[
+ {
+  "id": "osm-n7389740902",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Menu lists Meat Lovers and Original Stuffed Crust pizzas, wings, pastas and desserts.",
+    "url": "https://locations.pizzahut.com/fl/miami/6500-sw-8th-st"
+   },
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas, by brothers Frank and Dan Carney.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9934299818",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Located inside Miami International Airport.",
+    "url": "https://www.yelp.com/biz/pizza-hut-miami-41"
+   },
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas, by brothers Frank and Dan Carney.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9934299832",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Located inside Miami International Airport.",
+    "url": "https://www.yelp.com/biz/pizza-hut-miami-41"
+   },
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas, by brothers Frank and Dan Carney.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13638460781",
+  "name": "Portobello Ristorante",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Old-fashioned Italian restaurant where the owner also cooks and serves.",
+    "url": "https://www.atly.com/location/PortobelloRistorante"
+   },
+   {
+    "text": "Opened in 1998 by Vladimir Rivas, with his wife Carolina Francis co-owning and leading the kitchen.",
+    "url": "https://www.yelp.com/biz/portobello-ristorante-miami"
+   },
+   {
+    "text": "Cooks Modern Italian and Latin Mediterranean fusion dishes from scratch.",
+    "url": "https://www.yelp.com/biz/portobello-ristorante-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5623515622",
+  "name": "Pubbelly Sushi Miami Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Flagship of the Pubbelly Sushi brand, in the Sunset Harbour area of Miami Beach.",
+    "url": "https://www.pubbellyglobal.com/location/miami-beach-pubbelly-sushi/"
+   },
+   {
+    "text": "Sushi and pan-Asian dishes by Chef Jose Mendin, paired with sake and microbrews.",
+    "url": "https://www.pubbellyglobal.com/location/miami-beach-pubbelly-sushi/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7535718885",
+  "name": "Rakachaka Grill y Más",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12038520897",
+  "name": "Raw South Juice Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Emphasizes organic, locally grown ingredients and filtered water, per the Templeton List.",
+    "url": "https://templetonlist.com/locations/raw-south-juice-co"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7523390744",
+  "name": "Rey's Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of Rey Pizza, whose first shop opened in 1985 on West Flagler Street.",
+    "url": "https://www.reypizza.com/"
+   },
+   {
+    "text": "Rey Pizza was started by Mr. Rodriguez and his wife Margarita Rodriguez.",
+    "url": "https://www.reypizza.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7535708746",
+  "name": "Rey's Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The original Rey Pizza, opened in 1985 at this address.",
+    "url": "https://www.reypizza.com/"
+   },
+   {
+    "text": "Started by Mr. Rodriguez and his wife Margarita; two more shops opened by 1987.",
+    "url": "https://www.reypizza.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13570383201",
+  "name": "Rico Bakery & Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Pastry selection includes cheesecake, tiramisu, opera cake, beignets and milhojas.",
+    "url": "https://www.ezcater.com/catering/rico-bakery-miami"
+   },
+   {
+    "text": "Offers mini Cuban pastries and mini empanadas.",
+    "url": "https://www.ezcater.com/catering/rico-bakery-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7524497735",
+  "name": "Rincon Antioqueño",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Shelves hold Colombian candies, chips and flour for making bunuelos.",
+    "url": "https://www.theinfatuation.com/miami/reviews/rincon-antioqueno"
+   },
+   {
+    "text": "Dishes include short rib sancocho, carne asada with tostones and morcilla.",
+    "url": "https://www.theinfatuation.com/miami/reviews/rincon-antioqueno"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4835401421",
+  "name": "Rincon Criollo Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family-owned Cuban restaurant that has been open since 1989.",
+    "url": "https://www.doordash.com/en/store/rincon-criollo-restaurant-miami-2111155/"
+   },
+   {
+    "text": "Cafeteria-style Cuban restaurant with breakfast, sandwiches and a bar.",
+    "url": "http://www.rinconcriollomiami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13011925719",
+  "name": "Rinconcito Dadeland Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w435387717",
+  "name": "Rinconcito Superlatino 4",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/riconcito-superlatino-4-miami",
+  "notFound": false,
+  "searches": 3,
+  "facts": []
+ },
+ {
+  "id": "osm-n4953853228",
+  "name": "Roma Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family owned and operated by Mirtha and Giacomo \"Jimmy\" Bianchi.",
+    "url": "http://www.romabakery.miami/aboutus.asp"
+   },
+   {
+    "text": "Runs as a bakery, catering service, coffee shop and Italian deli.",
+    "url": "http://www.romabakery.miami/aboutus.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5330199324",
+  "name": "Rosetta Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Founded by four friends from Milan who wanted an Italian neighborhood bakery in the U.S.",
+    "url": "https://www.rosettabakery.com/about-us/"
+   },
+   {
+    "text": "Italian bakers make everything daily, with ingredients sourced from Italy.",
+    "url": "https://www.rosettabakery.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4004627908",
+  "name": "Rosinella",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned trattoria on Lincoln Road since 1997.",
+    "url": "https://www.rosinella.net/"
+   },
+   {
+    "text": "Named after Mamma Rosinella, who grew up on a farm in southern Italy.",
+    "url": "https://www.rosinella.net/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13046001673",
+  "name": "Sabor Latino Café",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu includes ropa vieja, fricase de pollo, whole fried fish and bistec a la plancha.",
+    "url": "https://www.ubereats.com/store/sabor-latino-cafe-1223-west-flagler-street/_9Ibge5GVOGGrXUkfyjhVg"
+   },
+   {
+    "text": "Breakfast plates include huevos rancheros and bistec a caballo.",
+    "url": "https://www.ubereats.com/store/sabor-latino-cafe-1223-west-flagler-street/_9Ibge5GVOGGrXUkfyjhVg"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435729459",
+  "name": "Sabor Latino Cubano Criollo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu features churrasco, grilled chicken, roasted meats, fish and seafood.",
+    "url": "https://saborlatinorestaurantmiami.com/"
+   },
+   {
+    "text": "Describes itself as a Latin food restaurant on Bird Rd.",
+    "url": "https://saborlatinorestaurantmiami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14231772355",
+  "name": "Sakura Gables - Japanese Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu includes sushi and sashimi, vegetable rolls, noodles and rice dishes.",
+    "url": "https://www.sakuracoralgable.com/"
+   },
+   {
+    "text": "Delivers within about 10 miles of the restaurant.",
+    "url": "https://www.sakuracoralgable.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6025987444",
+  "name": "Salty Donut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Began in 2015 as a pop-up run from a vintage 1950s Aljoa camper.",
+    "url": "https://www.saltydonut.com/about"
+   },
+   {
+    "text": "Founded by Amanda Pizarro and Andy Rodriguez, who opened their first shop in Wynwood.",
+    "url": "https://www.saltydonut.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10291477421",
+  "name": "Siam Dragon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes Hurricane Roll, Godzilla Roll, Hibachi Shrimp and Dragon Lo Mein.",
+    "url": "https://www.siamdragonasianbistro.com/order"
+   },
+   {
+    "text": "Located in a strip mall near the end of Kendall Drive.",
+    "url": "https://www.yelp.com/biz/siam-dragon-asian-bistro-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9768317178",
+  "name": "Silverback Nutrition",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Healthy coffee and tea shop with space to eat, play, work or study.",
+    "url": "https://www.silverbacknutrimiami.com/"
+   },
+   {
+    "text": "Menu lists protein shakes, energy drinks, waffles, oats and wraps.",
+    "url": "https://www.ubereats.com/store/silverback-nutrition/zr4NUOsVXheRI0k278RPxg"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13808239206",
+  "name": "Smart Bowls Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Makes high-protein, macro-friendly Mediterranean bowls.",
+    "url": "https://smartbowlsmiami.com/"
+   },
+   {
+    "text": "Located in the Wynwood area, with delivery, pickup and dine-in.",
+    "url": "https://smartbowlsmiami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3142367572",
+  "name": "Spris",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founder Graziano Sbroggio grew up in a trattoria in Treviso, Italy.",
+    "url": "https://www.sprispizza.com/"
+   },
+   {
+    "text": "Italian pizza concept with five locations in the Miami area.",
+    "url": "https://www.sprispizza.com/"
+   }
+  ]
+ }
+]

@@ -1,266 +1,138 @@
 {
  "category": "local-life",
- "count": 328,
+ "count": 306,
  "commonsPhotos": 2,
- "commonsPhotoPct": 0.6,
- "withFacts": 296,
- "withHours": 78,
+ "commonsPhotoPct": 0.7,
+ "withFacts": 306,
+ "withHours": 75,
  "byRegion": {
-  "philly": 327,
+  "philly": 305,
   "villanova": 1
  },
  "photoSkips": [],
  "sample": [
   {
-   "id": "osm-n13426985662",
-   "name": "Marsha's South Street",
-   "topic": "bar",
-   "lat": 39.94168,
-   "lng": -75.150353,
-   "photo": false,
-   "facts": [
-    "Opened on September 19, 2025, by owner Chivonn Anderson.",
-    "Named for Marsha P. Johnson.",
-    "Interior includes repurposed bleacher seating from a vintage stadium."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13426985662"
-  },
-  {
-   "id": "osm-n2668016915",
-   "name": "Fairmount Farmers Market",
-   "topic": "market",
-   "lat": 39.967558,
-   "lng": -75.174033,
-   "photo": false,
-   "facts": [
-    "Established in 2004 with support from Bookhaven Used Book Store.",
-    "Sits across from Eastern State Penitentiary.",
-    "Vendors sell produce, poultry, eggs, baked goods, honey, cheese and flowers."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2668016915"
-  },
-  {
-   "id": "osm-w340038768",
-   "name": "CLC Book Center",
-   "topic": "bookstore",
-   "lat": 39.9494,
-   "lng": -75.153757,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/340038768"
-  },
-  {
-   "id": "osm-n3542577320",
-   "name": "Dilworth Park Farmer's Market",
-   "topic": "market",
-   "lat": 39.953174,
-   "lng": -75.164683,
-   "photo": false,
-   "facts": [
-    "Address: 1 South 15th Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3542577320"
-  },
-  {
-   "id": "osm-w542308533",
-   "name": "The Pub of Penn Valley",
-   "topic": "pub",
-   "lat": 40.011339,
-   "lng": -75.259471,
-   "photo": false,
-   "facts": [
-    "Also known as The Penn Valley Pub",
-    "Address: 863 East Montgomery Avenue, Lower Merion Township"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/542308533"
-  },
-  {
-   "id": "osm-n2760042645",
-   "name": "Jefferson Farmers Market",
-   "topic": "market",
-   "lat": 39.949815,
-   "lng": -75.156929,
-   "photo": false,
-   "facts": [
-    "Held at Jefferson University at 925 Chestnut Street.",
-    "Run by Farm to City Markets",
-    "Address: 995 Chestnut Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2760042645"
-  },
-  {
-   "id": "osm-n2760044052",
-   "name": "East Falls Farmers Market",
-   "topic": "market",
-   "lat": 40.007321,
-   "lng": -75.191773,
-   "photo": false,
-   "facts": [
-    "Held at 4100 Ridge Avenue between the Twin Bridges.",
-    "Hosts farmers, prepared food vendors, artisans, musicians and community groups.",
-    "Run by Farm to City Markets"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2760044052"
-  },
-  {
-   "id": "osm-w250863827",
-   "name": "Green Room",
-   "topic": "pub",
-   "lat": 39.96476,
-   "lng": -75.170602,
-   "photo": false,
-   "facts": [
-    "Bought in 1919 by Pop Plumer, who turned the original restaurant into the Cadillac Delicatessen.",
-    "Became a bar when Prohibition ended in 1933.",
-    "Has a pool table, two dart boards and a jukebox."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/250863827"
-  },
-  {
-   "id": "osm-n1078209701",
-   "name": "Jack McShea's Restaurant & Bar",
-   "topic": "pub",
-   "lat": 40.007163,
-   "lng": -75.289891,
-   "photo": false,
-   "facts": [
-    "Neighborhood restaurant and pub serving cheesesteaks, burgers, sandwiches and wings.",
-    "Offers online ordering with delivery and curbside pickup.",
-    "Address: 34 East Lancaster Avenue, Ardmore"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/1078209701"
-  },
-  {
-   "id": "osm-n4115044299",
-   "name": "Creep Records",
+   "id": "osm-n14148929201",
+   "name": "High Leverage",
    "topic": "record store",
-   "lat": 39.966678,
-   "lng": -75.139252,
+   "lat": 39.986763,
+   "lng": -75.123396,
    "photo": false,
    "facts": [
-    "Sits in The Piazza in Northern Liberties.",
-    "Focuses on rock, alternative and indie records and also sells audio equipment and merchandise.",
-    "Hosts local bands in the store and in The Piazza courtyard."
+    "Sells vinyl records in punk, hardcore, screamo and indie genres.",
+    "Carries rare and collectible punk records.",
+    "Address: 2644-2648 Coral Street"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4115044299"
+   "osmUrl": "https://www.openstreetmap.org/node/14148929201"
   },
   {
-   "id": "osm-n2760059634",
-   "name": "Fair Food Farmstand",
-   "topic": "market",
-   "lat": 39.95353,
-   "lng": -75.159384,
-   "photo": false,
-   "facts": [
-    "Run by Fair Food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2760059634"
-  },
-  {
-   "id": "osm-w428817661",
-   "name": "Grumpy's Tavern",
+   "id": "osm-n1033935437",
+   "name": "Mix Bar & Grill",
    "topic": "bar",
-   "lat": 39.929863,
-   "lng": -75.159648,
+   "lat": 39.95242,
+   "lng": -75.175525,
    "photo": false,
    "facts": [
-    "Hatch & Coop runs the kitchen, serving sandwiches, bowls and a cheesesteak.",
-    "Address: 1525 South 9th Street, Philadelphia"
+    "Sits at the corner of 21st and Chestnut Streets.",
+    "Centers on a large marble-topped bar and a brick oven.",
+    "Has a large front patio seating area."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/428817661"
+   "osmUrl": "https://www.openstreetmap.org/node/1033935437"
   },
   {
-   "id": "osm-n10938659887",
-   "name": "Bar Jawn",
+   "id": "osm-n11220871797",
+   "name": "JD McGillicuddy's",
    "topic": "pub",
-   "lat": 40.024587,
-   "lng": -75.221194,
+   "lat": 40.025567,
+   "lng": -75.222213,
    "photo": false,
    "facts": [
-    "Opened by David and Ana Lee, the owners of Pizza Jawn.",
-    "Occupies the former Manayunk Tavern at Main and Rector streets.",
-    "Sells Pizza Jawn pizzas for takeout and delivery."
+    "Sits at 111 Cotton Street, one block off Main Street in Manayunk.",
+    "Sports bar with quizzo, weekend live music and a menu of burgers, wings and flatbreads."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/10938659887"
+   "osmUrl": "https://www.openstreetmap.org/node/11220871797"
   },
   {
-   "id": "osm-w520719730",
-   "name": "House of Our Own Books",
-   "topic": "bookstore",
-   "lat": 39.951332,
-   "lng": -75.201889,
-   "photo": false,
-   "facts": [
-    "Occupies two floors of a Victorian house at the edge of the Penn campus.",
-    "Sells new and used general and scholarly books.",
-    "Address: 3920 Spruce Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/520719730"
-  },
-  {
-   "id": "osm-n2752762909",
-   "name": "58th & Chester Farmers Market",
-   "topic": "market",
-   "lat": 39.935524,
-   "lng": -75.22853,
-   "photo": false,
-   "facts": [
-    "Run by The Food Trust"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/2752762909"
-  },
-  {
-   "id": "osm-n3976315771",
-   "name": "Long in the Tooth",
-   "topic": "record store",
-   "lat": 39.951507,
-   "lng": -75.174648,
-   "photo": false,
-   "facts": [
-    "Address: 2027 Sansom Street"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3976315771"
-  },
-  {
-   "id": "osm-w81741957",
-   "name": "Lancaster County Farmers' Market",
-   "topic": "market",
-   "lat": 40.044903,
-   "lng": -75.400328,
-   "photo": false,
-   "facts": [
-    "Has operated for over 50 years.",
-    "Sells produce, baked goods, meats, cheeses and handmade items from over 30 vendors.",
-    "Address: 389 West Lancaster Avenue, Wayne"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/81741957"
-  },
-  {
-   "id": "osm-w1106481263",
-   "name": "Evil Genius Beer Company",
+   "id": "osm-n2182345789",
+   "name": "Flynn's Bar",
    "topic": "bar",
-   "lat": 39.975753,
-   "lng": -75.13383,
+   "lat": 39.957068,
+   "lng": -75.202499,
    "photo": false,
    "facts": [
-    "Taproom is a 165-seat pub with an outdoor beer garden.",
-    "Has pool and shuffleboard in the taproom.",
-    "Has outdoor seating"
+    "Has been in the same family since 1911.",
+    "Sits next to 40th Street Station in University City."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/1106481263"
+   "osmUrl": "https://www.openstreetmap.org/node/2182345789"
   },
   {
-   "id": "osm-n13332562796",
-   "name": "Bulletin Bar",
+   "id": "osm-n10916408098",
+   "name": "Henry James Saloon",
    "topic": "bar",
-   "lat": 39.955171,
-   "lng": -75.184214,
+   "lat": 40.029295,
+   "lng": -75.206728,
    "photo": false,
    "facts": [
-    "Bar inside Gather Food Hall at Schuylkill Yards, 3025 Market Street.",
-    "Address: 3025 Market Street, Suite 100, Philadelphia"
+    "Has been a neighborhood bar since 1989.",
+    "Has an outdoor patio and hosts live music nights."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13332562796"
+   "osmUrl": "https://www.openstreetmap.org/node/10916408098"
+  },
+  {
+   "id": "osm-n6875686018",
+   "name": "Jerry's Corner",
+   "topic": "market",
+   "lat": 39.919726,
+   "lng": -75.207992,
+   "photo": false,
+   "facts": [
+    "Indoor and outdoor flea market.",
+    "Vendors sell items ranging from clothing to home decor.",
+    "Address: 6039 Passyunk Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6875686018"
+  },
+  {
+   "id": "osm-n12228634297",
+   "name": "Khyber Pass Pub",
+   "topic": "pub",
+   "lat": 39.948598,
+   "lng": -75.144155,
+   "photo": false,
+   "facts": [
+    "Has a back bar crafted by German woodworkers and used in the 1876 Centennial celebration.",
+    "Serves New Orleans-inspired Southern, Cajun and Creole food with vegan options.",
+    "Has an upstairs space for live music, dancing and art shows."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12228634297"
+  },
+  {
+   "id": "osm-n8591448494",
+   "name": "Little Thai Market",
+   "topic": "market",
+   "lat": 39.953266,
+   "lng": -75.158871,
+   "photo": false,
+   "facts": [
+    "Merchant inside Reading Terminal Market selling Thai food, fresh Asian herbs and groceries.",
+    "Menu includes shrimp pad thai, basil chicken, spring rolls, coconut soup and salmon curry.",
+    "Stocks curry pastes and ingredients such as galangal, fish sauce and lime leaves."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8591448494"
+  },
+  {
+   "id": "osm-n11102457751",
+   "name": "CJ & Ecks",
+   "topic": "pub",
+   "lat": 40.025402,
+   "lng": -75.212949,
+   "photo": false,
+   "facts": [
+    "Sits on the corner of Shurs Lane and Pechin Street, a few blocks off Manayunk's Main Street.",
+    "Pours 12 rotating draft beers and has 21 flat screen TVs for sports.",
+    "Menu includes wings and Eck's-treme fries."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11102457751"
   },
   {
    "id": "osm-n1073734567",
@@ -274,18 +146,6 @@
     "Address: 421 North 7th Street, Philadelphia"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/1073734567"
-  },
-  {
-   "id": "osm-w439036334",
-   "name": "Bonnie's Capistrano Bar",
-   "topic": "bar",
-   "lat": 39.931274,
-   "lng": -75.165752,
-   "photo": false,
-   "facts": [
-    "Address: 1503 South 13th Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/439036334"
   },
   {
    "id": "osm-n11482992421",
@@ -302,43 +162,196 @@
    "osmUrl": "https://www.openstreetmap.org/node/11482992421"
   },
   {
-   "id": "osm-w1107321334",
-   "name": "JJ Mallons",
+   "id": "osm-n11901925862",
+   "name": "Barcade",
    "topic": "bar",
-   "lat": 39.968696,
-   "lng": -75.136143,
+   "lat": 39.950634,
+   "lng": -75.162934,
    "photo": false,
    "facts": [
-    "Address: 1155 North Front Street, Unit 57, Philadelphia"
+    "Second Philadelphia location of the retro arcade and bar Barcade, which began in New York.",
+    "Fills two floors of the historic Hale building with over 70 games and 24 craft beer lines.",
+    "Address: 1326 Chestnut Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/1107321334"
+   "osmUrl": "https://www.openstreetmap.org/node/11901925862"
   },
   {
-   "id": "osm-n12827420086",
-   "name": "Kitchen at Bala",
+   "id": "osm-n13426985662",
+   "name": "Marsha's South Street",
+   "topic": "bar",
+   "lat": 39.94168,
+   "lng": -75.150353,
+   "photo": false,
+   "facts": [
+    "Opened on September 19, 2025, by owner Chivonn Anderson.",
+    "Named for Marsha P. Johnson.",
+    "Interior includes repurposed bleacher seating from a vintage stadium."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13426985662"
+  },
+  {
+   "id": "osm-n2752762909",
+   "name": "58th & Chester Farmers Market",
+   "topic": "market",
+   "lat": 39.935524,
+   "lng": -75.22853,
+   "photo": false,
+   "facts": [
+    "Run by The Food Trust"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2752762909"
+  },
+  {
+   "id": "osm-n4779956683",
+   "name": "Brasil's Nightclub",
+   "topic": "bar",
+   "lat": 39.948179,
+   "lng": -75.143074,
+   "photo": false,
+   "facts": [
+    "Latin nightclub in Old City, open since 1997.",
+    "Offers salsa lessons on Wednesday, Friday and Saturday nights.",
+    "Wednesday lessons are taught by World Salsa Champion Sonya Elmore."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4779956683"
+  },
+  {
+   "id": "osm-n6556392900",
+   "name": "KTV",
+   "topic": "bar",
+   "lat": 39.953883,
+   "lng": -75.157442,
+   "photo": false,
+   "facts": [
+    "Lair KTV opened in 2016 and its owners later added the Sky Club lounge upstairs.",
+    "Sky Club has over 10 private luxury rooms, two holding up to 50 people.",
+    "Address: 1025 Arch Street"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6556392900"
+  },
+  {
+   "id": "osm-n2760042645",
+   "name": "Jefferson Farmers Market",
+   "topic": "market",
+   "lat": 39.949815,
+   "lng": -75.156929,
+   "photo": false,
+   "facts": [
+    "Held at Jefferson University at 925 Chestnut Street.",
+    "Run by Farm to City Markets",
+    "Address: 995 Chestnut Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2760042645"
+  },
+  {
+   "id": "osm-n8591425502",
+   "name": "Blue Bird Distilling - Center City Tasting Room",
+   "topic": "bar",
+   "lat": 39.952246,
+   "lng": -75.168287,
+   "photo": false,
+   "facts": [
+    "Tasting room run by Phoenixville's Bluebird Distilling."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8591425502"
+  },
+  {
+   "id": "osm-w81741957",
+   "name": "Lancaster County Farmers' Market",
+   "topic": "market",
+   "lat": 40.044903,
+   "lng": -75.400328,
+   "photo": false,
+   "facts": [
+    "Has operated for over 50 years.",
+    "Sells produce, baked goods, meats, cheeses and handmade items from over 30 vendors.",
+    "Address: 389 West Lancaster Avenue, Wayne"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/81741957"
+  },
+  {
+   "id": "osm-n11072156874",
+   "name": "Main St. Music",
+   "topic": "record store",
+   "lat": 40.02642,
+   "lng": -75.226207,
+   "photo": false,
+   "facts": [
+    "Independent record store selling new and used CDs, vinyl and DVDs.",
+    "Hosts performances by local and national acts.",
+    "Has its own label, MSM Records, which has released albums by local artists."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11072156874"
+  },
+  {
+   "id": "osm-n14071748046",
+   "name": "Little Big Planet",
+   "topic": "bar",
+   "lat": 39.948961,
+   "lng": -75.160079,
+   "photo": false,
+   "facts": [
+    "Hosts live music",
+    "Also known as LBP",
+    "Address: 1123 Walnut Street, Unit 2nd Fl, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/14071748046"
+  },
+  {
+   "id": "osm-w1238391053",
+   "name": "Marv Love's Too",
+   "topic": "bar",
+   "lat": 39.992934,
+   "lng": -75.134768,
+   "photo": false,
+   "facts": [
+    "Menu has fried and grilled fish platters, jumbo shrimp, mussels and crab legs.",
+    "Serves American food",
+    "Address: 2762 North 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1238391053"
+  },
+  {
+   "id": "osm-n7402711440",
+   "name": "Love City Brewing",
+   "topic": "bar",
+   "lat": 39.960296,
+   "lng": -75.155549,
+   "photo": false,
+   "facts": [
+    "Opened on April 19, 2018.",
+    "Founded by Melissa Walter, who worked as a therapist before opening the brewery.",
+    "Signature beer is Love City Lager, made with all-American ingredients."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7402711440"
+  },
+  {
+   "id": "osm-n10938659887",
+   "name": "Bar Jawn",
    "topic": "pub",
-   "lat": 40.000087,
-   "lng": -75.228535,
+   "lat": 40.024587,
+   "lng": -75.221194,
    "photo": false,
    "facts": [
-    "Black-owned business founded in 2019.",
-    "Led by a head chef who is an alumnus of the Auguste Escoffier School of Culinary Arts.",
-    "Offers catering, take-out and dine-in service."
+    "Opened by David and Ana Lee, the owners of Pizza Jawn.",
+    "Occupies the former Manayunk Tavern at Main and Rector streets.",
+    "Sells Pizza Jawn pizzas for takeout and delivery."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/12827420086"
+   "osmUrl": "https://www.openstreetmap.org/node/10938659887"
   },
   {
-   "id": "osm-n12879659842",
-   "name": "Canalside",
-   "topic": "beer garden",
-   "lat": 40.02327,
-   "lng": -75.220163,
+   "id": "osm-n2752736446",
+   "name": "33rd & Diamond Farmers Market",
+   "topic": "market",
+   "lat": 39.98886,
+   "lng": -75.187243,
    "photo": false,
    "facts": [
-    "Outdoor beer garden beside the canal in Manayunk, with waterside views.",
-    "Serves cocktails, craft beers and wines."
+    "Established in 2011 next to Mander Playground in Strawberry Mansion.",
+    "Supported by community partner East Park Revitalization Alliance since its start.",
+    "Produce comes from EPRA and PHS City Harvest gardens a few blocks away."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/12879659842"
+   "osmUrl": "https://www.openstreetmap.org/node/2752736446"
   }
  ],
  "points": [
@@ -378,11 +391,6 @@
    0
   ],
   [
-   39.933615,
-   -75.23129,
-   0
-  ],
-  [
    39.944541,
    -75.144606,
    1
@@ -395,16 +403,6 @@
   [
    39.936617,
    -75.173729,
-   0
-  ],
-  [
-   39.994994,
-   -75.138797,
-   0
-  ],
-  [
-   39.94732,
-   -75.166654,
    0
   ],
   [
@@ -445,11 +443,6 @@
   [
    39.951414,
    -75.169187,
-   0
-  ],
-  [
-   39.915237,
-   -75.175779,
    0
   ],
   [
@@ -555,11 +548,6 @@
   [
    40.005368,
    -75.261575,
-   0
-  ],
-  [
-   40.00762,
-   -75.29079,
    0
   ],
   [
@@ -683,11 +671,6 @@
    0
   ],
   [
-   40.044644,
-   -75.399378,
-   0
-  ],
-  [
    39.927209,
    -75.151196,
    0
@@ -720,11 +703,6 @@
   [
    40.007321,
    -75.191773,
-   0
-  ],
-  [
-   39.99445,
-   -75.121146,
    0
   ],
   [
@@ -813,11 +791,6 @@
    0
   ],
   [
-   39.927671,
-   -75.14689,
-   0
-  ],
-  [
    39.968638,
    -75.134171,
    0
@@ -830,11 +803,6 @@
   [
    39.953739,
    -75.175646,
-   0
-  ],
-  [
-   39.945091,
-   -75.17968,
    0
   ],
   [
@@ -1028,16 +996,6 @@
    0
   ],
   [
-   39.995358,
-   -75.129765,
-   0
-  ],
-  [
-   39.992353,
-   -75.130303,
-   0
-  ],
-  [
    40.044903,
    -75.400328,
    0
@@ -1148,11 +1106,6 @@
    0
   ],
   [
-   39.921957,
-   -75.150035,
-   0
-  ],
-  [
    39.921922,
    -75.149729,
    0
@@ -1203,11 +1156,6 @@
    0
   ],
   [
-   39.997572,
-   -75.129628,
-   0
-  ],
-  [
    39.968921,
    -75.133398,
    0
@@ -1230,11 +1178,6 @@
   [
    39.949548,
    -75.145966,
-   0
-  ],
-  [
-   40.004692,
-   -75.171881,
    0
   ],
   [
@@ -1310,11 +1253,6 @@
   [
    39.953382,
    -75.195067,
-   0
-  ],
-  [
-   39.934153,
-   -75.202047,
    0
   ],
   [
@@ -1418,11 +1356,6 @@
    0
   ],
   [
-   39.9507,
-   -75.169588,
-   0
-  ],
-  [
    39.934112,
    -75.158493,
    0
@@ -1440,11 +1373,6 @@
   [
    39.967081,
    -75.171506,
-   0
-  ],
-  [
-   39.936272,
-   -75.162188,
    0
   ],
   [
@@ -1538,11 +1466,6 @@
    0
   ],
   [
-   40.025009,
-   -75.222215,
-   0
-  ],
-  [
    39.94189,
    -75.150682,
    0
@@ -1550,16 +1473,6 @@
   [
    39.927265,
    -75.171459,
-   0
-  ],
-  [
-   39.964646,
-   -75.166051,
-   0
-  ],
-  [
-   39.953255,
-   -75.121682,
    0
   ],
   [
@@ -1898,11 +1811,6 @@
    0
   ],
   [
-   39.917088,
-   -75.211953,
-   0
-  ],
-  [
    39.904272,
    -75.169616,
    0
@@ -1935,11 +1843,6 @@
   [
    39.955289,
    -75.213902,
-   0
-  ],
-  [
-   40.017077,
-   -75.210585,
    0
   ],
   [

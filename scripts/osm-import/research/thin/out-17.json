@@ -1,0 +1,76 @@
+[
+{"id":"osm-n11904652055","name":"Ground Up Café & Coffee","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":4,"facts":[
+{"text":"Pours coffee from Elixr Coffee.","url":"https://www.yelp.com/biz/ground-up-cafe-and-coffee-philadelphia"},
+{"text":"Makes its own chicken salad for sandwiches.","url":"https://www.doordash.com/store/ground-up-cafe-and-coffee-philadelphia-24708820/"},
+{"text":"Pastry case includes blueberry beignets, cinnamon rolls and cheese danish.","url":"https://www.doordash.com/store/ground-up-cafe-and-coffee-philadelphia-24708820/"}]},
+{"id":"osm-w396266005","name":"Gryphon Cafe","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Part of Gryphon Coffee Co, a small batch coffee roaster.","url":"https://gryphoncoffee.com/"},
+{"text":"Gryphon Coffee Co also runs cafes in Philadelphia and West Chester.","url":"https://gryphoncoffee.com/"}]},
+{"id":"osm-n923766375","name":"Gullifty's","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Has served the Main Line since 1975.","url":"https://gulliftys.com/"},
+{"text":"Menu features hand-spun pizza, smash-style burgers and homemade ice cream.","url":"https://gulliftys.com/"}]},
+{"id":"osm-n1034623680","name":"Hana Japanese","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/hana-japanese-restaurant-wayne","notFound":false,"searches":2,"facts":[]},
+{"id":"osm-n5534132015","name":"Harusame","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":4,"facts":[
+{"text":"Sushi menu includes a Washington Roll with shrimp tempura, avocado, octopus and crab salad.","url":"https://patch.com/pennsylvania/ardmore/restaurant-review-harusame"},
+{"text":"Fire Roll is a California roll topped with tuna and the chef's spicy sauce.","url":"https://patch.com/pennsylvania/ardmore/restaurant-review-harusame"}]},
+{"id":"osm-n1043848933","name":"Haverford Market","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/haverford-market-haverford","notFound":false,"searches":1,"facts":[]},
+{"id":"osm-n12504780819","name":"Hu's Kitchen?","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":3,"facts":[
+{"text":"Locally owned and operated.","url":"https://huskitchen.com/chinese-food-about-us/"},
+{"text":"Specializes in Shanghainese cuisine.","url":"https://huskitchen.com/chinese-food-order-online"},
+{"text":"Makes handmade pan-fried pork buns and braised beef noodle soup.","url":"https://huskitchen.com/chinese-food-order-online"}]},
+{"id":"osm-w224409946","name":"Izenberg's","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"In business since 1995, and also does full-service catering and custom baked goods.","url":"https://www.izenbergs.com/"},
+{"text":"Menu includes hearty breakfasts, homemade soups, jumbo sandwiches and smoked fish.","url":"https://www.izenbergs.com/"}]},
+{"id":"osm-w484811222","name":"Jasper's Backyard","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"facts":[
+{"text":"Has an indoor dining room and a backyard with fire pits.","url":"https://jaspersbackyard.com/"},
+{"text":"Offers six private event areas.","url":"https://jaspersbackyard.com/"}]},
+{"id":"osm-n989578537","name":"Jules Thin Crust","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Makes its organic dough and sauces fresh in house every day.","url":"https://www.julesthincrust.com/ourstory"},
+{"text":"Founded by John and Jan Ordway as a family friendly restaurant.","url":"https://www.julesthincrust.com/ourstory"}]},
+{"id":"osm-n10974561755","name":"Kuma Sushi & Asian Fusion","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Menu includes poke bowls, chirashi and sashimi dinners.","url":"https://kuma.menufy.com/order"},
+{"text":"Kitchen entrees include Pad Thai and chicken karaage.","url":"https://kuma.menufy.com/order"}]},
+{"id":"osm-n12229810853","name":"Kung Fu Tea","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Part of Kung Fu Tea, founded in Queens, New York in 2010.","url":"https://www.kungfutea.com/about-kung-fu-tea/"},
+{"text":"The brand's founders set out to recreate the bubble tea they remembered from Taiwan.","url":"https://www.kungfutea.com/about-kung-fu-tea/"}]},
+{"id":"osm-n11738825357","name":"Little Blue Owl Baking Company","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Successor to the longtime Narberth bakery Le Petit Mitron.","url":"https://mainlinetoday.com/food/little-blue-owl/"},
+{"text":"Owned by Angela and Andrew Ling, who took over in September 2022.","url":"https://mainlinetoday.com/food/little-blue-owl/"},
+{"text":"Specializes in viennoiserie such as croissants, brioche and pain au chocolat.","url":"https://mainlinetoday.com/food/little-blue-owl/"}]},
+{"id":"osm-w1037766441","name":"Mad Anthony Wayne Cafe","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"facts":[
+{"text":"Housed in the Wayne train station, built 1882 to 1884 by the Pennsylvania Railroad.","url":"https://madanthonywaynecafe.com/"},
+{"text":"Menu includes panini and New York-style bagel sandwiches.","url":"https://madanthonywaynecafe.com/"}]},
+{"id":"osm-n2256040035","name":"Maggiano's","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"facts":[
+{"text":"Sits across from the Pennsylvania Convention Center and the Reading Terminal.","url":"https://locations.maggianos.com/locations/pennsylvania/philadelphia/1201-filbert-st./"},
+{"text":"Part of Maggiano's Little Italy, cooking Italian dishes inspired by Nonna's recipes.","url":"https://locations.maggianos.com/locations/pennsylvania/philadelphia/1201-filbert-st./"}]},
+{"id":"osm-n10778956283","name":"maman","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"facts":[
+{"text":"Cafe, bakery and event space with a menu of childhood favorites from the south of France and North America.","url":"https://mamannyc.com/locations/ardmore"},
+{"text":"Located steps from the Ardmore train station.","url":"https://mamannyc.com/locations/ardmore"}]},
+{"id":"osm-n10983343325","name":"Mango Mango","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Part of Mango Mango Dessert, a dessert shop built around mango.","url":"https://www.mangomangodessert.com/our-story"},
+{"text":"Uses Ataulfo mangoes sourced from Brazil.","url":"https://www.mangomangodessert.com/our-story"}]},
+{"id":"osm-w225236916","name":"Masala Symphony","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Cooks North and South Indian dishes.","url":"https://masalasymphony.com/"},
+{"text":"Menu includes lamb biryani, tandoori chicken, paneer butter masala and samosa chaat.","url":"https://masalasymphony.com/"}]},
+{"id":"osm-w224411729","name":"Masterpeace Grill","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"facts":[
+{"text":"Owner-operated by Mike Bottos, whose father opened Secane Pizza in 1955.","url":"https://www.masterpeacegrill.com/about"},
+{"text":"Owners previously ran Brookline Pizza in Havertown for 18 years.","url":"https://www.masterpeacegrill.com/about"}]},
+{"id":"osm-n877499112","name":"Minella's Diner","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"facts":[
+{"text":"A local diner since 1971.","url":"https://www.minellasdiner.com/about-minellas"},
+{"text":"Sold in 1998 to brothers Nick and Dennis Dellaportas, who remodeled and enlarged it.","url":"https://www.minellasdiner.com/about-minellas"}]},
+{"id":"osm-n1139520331","name":"Mom's Bake at Home Pizza","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Gourmet pizza list includes Mykonos Spinach, Portabella Special and Chicken Fajita.","url":"https://www.allmenus.com/pa/devon/289602-moms-bake-at-home-pizza/menu/"},
+{"text":"Sells strombolis filled with steak, spinach, ham or pepperoni.","url":"https://www.allmenus.com/pa/devon/289602-moms-bake-at-home-pizza/menu/"}]},
+{"id":"osm-n12484702919","name":"Mr Wish","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Menu features fresh fruit teas such as a Wish Special with passionfruit, pineapple, orange and lemon.","url":"https://www.doordash.com/store/mr.-wish-ardmore-2840786/"},
+{"text":"Also makes a Colorful Fruit Tea with apple, kiwi, pineapple and kumquat.","url":"https://www.doordash.com/store/mr.-wish-ardmore-2840786/"}]},
+{"id":"osm-n13151180977","name":"Nana's Kitchen & Catering","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Cooks Mediterranean and Latin American family recipes.","url":"https://www.nanask.com/"},
+{"text":"Caters schools, corporate events, places of worship and hospitals, with vegan and parve options.","url":"https://www.nanask.com/"}]},
+{"id":"osm-n2611788981","name":"Nanu's Hot Chicken","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"facts":[
+{"text":"Part of Nanu's Hot Chicken, started by a family from Pakistan led by Ikram Rashid.","url":"https://6abc.com/post/nanus-hot-chicken-finds-fast-growth-family-owned-nashville-style-eats/15492684/"},
+{"text":"The chain is named after the family's youngest brother Adnan, nicknamed Nanu.","url":"https://6abc.com/post/nanus-hot-chicken-finds-fast-growth-family-owned-nashville-style-eats/15492684/"}]},
+{"id":"osm-n5218983209","name":"Narberth Pizza","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":4,"facts":[
+{"text":"Family-owned pizzeria.","url":"https://mindtrip.ai/restaurant/narberth-pennsylvania/narberth-pizza-steaks/re-29Ou54iJ"},
+{"text":"Menu also includes calzones, cheesesteaks, salads and sandwiches.","url":"https://mindtrip.ai/restaurant/narberth-pennsylvania/narberth-pizza-steaks/re-29Ou54iJ"}]}
+]

@@ -1,0 +1,409 @@
+[
+ {
+  "id": "osm-n5025200753",
+  "name": "El Gallegazo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Focuses on traditional Spanish cooking, with black rice and seafood and grilled meat platters.",
+    "url": "https://elgallegazorestaurant.com/home/"
+   },
+   {
+    "text": "Menu includes several paellas, among them black paella with seafood, marinera and valenciana.",
+    "url": "https://www.toasttab.com/local/order/el-gallo-7463-coral-way"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12908249522",
+  "name": "El Gran Inka",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of the Gran Inka group, which built its menus around Peruvian cuisine with modern techniques.",
+    "url": "https://www.graninka.com/our-vision"
+   },
+   {
+    "text": "Menu centers on ceviches, lomo saltado and fresh seafood, with a pisco program.",
+    "url": "https://keybiscayneguide.com/restaurants/el-gran-inka/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6059013271",
+  "name": "El Palacio de los Jugos",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Began in 1977 as a takeout window opened by Apolonia Bermudez, selling chicharrones and fresh juices.",
+    "url": "https://es.palaciodelosjugos.com/about-us"
+   },
+   {
+    "text": "Founder's son Reinaldo now keeps her recipes; chicharrones are fried fresh daily.",
+    "url": "https://es.palaciodelosjugos.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6407975827",
+  "name": "El Pub Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family-owned Cuban restaurant on Calle Ocho in Little Havana with live music.",
+    "url": "https://www.elpubrestaurant.com/"
+   },
+   {
+    "text": "Has a ventanita walk-up window for a quick colada.",
+    "url": "https://www.theinfatuation.com/miami/reviews/el-pub-restaurant"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6820860987",
+  "name": "El Rey de las Fritas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Founded by Victoriano and Angelina Gonzalez, who opened the first shop in 1979 after leaving Cuba.",
+    "url": "https://www.elreydelasfritas.com/about"
+   },
+   {
+    "text": "Specializes in the frita cubana, a seasoned beef patty with onions and julienne fries on Cuban bread.",
+    "url": "https://www.elreydelasfritas.com/about"
+   },
+   {
+    "text": "Now run by the founders' children, Mercedes and Yamil Gonzalez.",
+    "url": "https://www.elreydelasfritas.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9696314017",
+  "name": "El Taquito",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n4886515021",
+  "name": "Enriqueta's Sandwich Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Cuban sandwich shop whose service window pours cafecito in espresso cups.",
+    "url": "https://www.foodnetwork.com/restaurants/fl/miami/enriquetas-sandwich-shop-restaurant"
+   },
+   {
+    "text": "Makes a croqueta preparada, a Cuban sandwich with croquetas pressed inside.",
+    "url": "https://www.miamiculinarytours.com/blog/enriquetas-sandwich-shop/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13719776032",
+  "name": "Española Cigar Bar & Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Started in 2016 as a boutique cigar shop before adding a bar, kitchen and lounge.",
+    "url": "https://espanolacigarbar.com/"
+   },
+   {
+    "text": "Combines cigars, cocktails, hookah and live music in an open-air lounge.",
+    "url": "https://espanolacigarbar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6418263841",
+  "name": "Fiesta Café Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Menu lists freshly brewed coffee, pastries and sandwiches.",
+    "url": "https://www.zmenu.com/fiesta-caf%C3%A9-shop-miami-online-menu/"
+   },
+   {
+    "text": "Listed as a coffee and tea shop in Little Havana.",
+    "url": "https://www.yelp.com/biz/fiesta-coffee-shop-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9685760517",
+  "name": "Firebelly’s Wings",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6047565081",
+  "name": "Flanigan's Seafood Bar and Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of the family-run Flanigan's group, which has operated in South Florida since 1959.",
+    "url": "https://www.flanigans.net/our-story/"
+   },
+   {
+    "text": "Flanigan's grew out of Joe \"Big Daddy\" Flanigan's lounges and liquor stores into over 20 restaurants.",
+    "url": "https://www.flanigans.net/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2475858794",
+  "name": "Focaccia Bistro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n13176983078",
+  "name": "Fogo de Chão",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened as the chain's third Miami-area restaurant, in Downtown Dadeland.",
+    "url": "https://communitynewspapers.com/kendallgazette/fogo-de-chao-opens-third-miami-location-in-downtown-dadeland/"
+   },
+   {
+    "text": "Has a dry-aged meat locker for aging cuts in house.",
+    "url": "https://fogodechao.com/location/miami-dadeland/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14191772987",
+  "name": "Fogo de Chão",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened as a new flagship Fogo de Chao restaurant in Coral Gables.",
+    "url": "https://www.miabites.com/home/fogo-de-chao-new-flagship-opens-in-coral-gables"
+   },
+   {
+    "text": "Sits within The Plaza Coral Gables, steps from Miracle Mile.",
+    "url": "https://fogodechao.com/location/coral-gables/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435585818",
+  "name": "Fonda La Chismosa",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Colombian menu lists ajiaco, mondongo, cazuela de frijoles and mojarra frita.",
+    "url": "https://mindtrip.ai/restaurant/miami-florida/fonda-la-chismosa/re-DlKmKOBo"
+   },
+   {
+    "text": "Menu lists bandeja paisa and stuffed arepas.",
+    "url": "https://www.zmenu.com/fonda-la-chismosa-miami-3-online-menu/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12978737372",
+  "name": "Food & Drink Station",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n10951834366",
+  "name": "French Bakery",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n5296701728",
+  "name": "Fresh Attractions",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Cafe located in Terminal E at Miami International Airport.",
+    "url": "https://restaurantguru.com/Fresh-Attractions-Miami-2"
+   },
+   {
+    "text": "Menu lists egg sandwiches, bagel sandwiches, salads and turkey sandwiches.",
+    "url": "https://restaurantguru.com/Fresh-Attractions-Miami-2/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3156408683",
+  "name": "Fritz & Franz Bierhaus",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Established in 2002 as a German and Austrian restaurant and beer hall.",
+    "url": "https://bierhaus.cc/"
+   },
+   {
+    "text": "Home of the FC Bayern Munich fan club in South Florida.",
+    "url": "https://bierhaus.cc/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5647692922",
+  "name": "Fuji Teriyaki Sushi Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Menu centers on teriyaki dishes, grilled meats and rice bowls.",
+    "url": "https://www.experiencemiamibeach.com/businesses/fuji-teriyaki-sushi-grill"
+   },
+   {
+    "text": "Offers specialty sushi rolls and teriyaki plates with chicken, beef or seafood.",
+    "url": "https://www.zmenu.com/fuji-teriyaki-sushi-grill-miami-beach-online-menu/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12081906813",
+  "name": "Fuku",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12038509112",
+  "name": "Gaetano's Pizza & Pasta",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Makes its pizza with homemade sauce and fresh ingredients.",
+    "url": "https://www.facebook.com/gaetanospizzamiami/"
+   },
+   {
+    "text": "Also makes calzones and a variety of pastas.",
+    "url": "https://www.facebook.com/gaetanospizzamiami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5674089068",
+  "name": "Gelateria 4D",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Shop of 4D Gelateria, an Italian gelato brand sold in North America, Europe and the Middle East.",
+    "url": "https://www.gelateria4d.it/about-4d-gelateria.php"
+   },
+   {
+    "text": "4D makes its gelato with natural ingredients and no coloring agents or additives.",
+    "url": "https://www.gelateria4d.it/about-4d-gelateria.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5356498124",
+  "name": "Genuine Pizza",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n1025619350",
+  "name": "Giardino Gourmet Salads",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/giardino-gourmet-salads-miami-19",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ }
+]

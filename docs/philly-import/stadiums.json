@@ -3,7 +3,7 @@
  "count": 3,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 2,
+ "withFacts": 3,
  "withHours": 0,
  "byRegion": {
   "philly": 3,
@@ -46,7 +46,11 @@
    "lat": 40.08167,
    "lng": -75.295953,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Multi-sports venue in Conshohocken with a capacity of 3,700, named for a former Lee Tire & Rubber president.",
+    "Fully renovated in 2012 with upgrades to the stands, facilities and floodlights.",
+    "Home field of the Philadelphia Fight rugby league team."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/219561175"
   }
  ],

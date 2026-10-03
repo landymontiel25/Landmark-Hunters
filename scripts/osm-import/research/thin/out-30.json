@@ -1,0 +1,331 @@
+[
+ {
+  "id": "osm-n7538861249",
+  "name": "Cono Pizza",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.cubaenmiami.com/en/pizzeria-cubana-de-miami-cono-pizza-cambia-de-nombre-y-ahora-se-llama-la-farandula-pizza-restaurant/",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n9696314017",
+  "name": "El Taquito",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Mexican restaurant in the Little Havana neighborhood.",
+    "url": "https://www.yelp.com/biz/el-taquito-miami-6"
+   },
+   {
+    "text": "Menu includes quesadillas, al pastor tacos and green chicken enchiladas.",
+    "url": "https://www.yelp.com/biz/el-taquito-miami-6"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2475858794",
+  "name": "Focaccia Bistro",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.tripadvisor.com/Restaurant_Review-g34438-d1997834-Reviews-Focaccia_Bistro-Miami_Florida.html",
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7535718885",
+  "name": "Rakachaka Grill y Más",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Nicaraguan fritanga with a clean, serve-yourself format.",
+    "url": "https://www.miaminewtimes.com/location/rakachaka-grill-y-mas-11188220/"
+   },
+   {
+    "text": "Nicaraguan barbecue grill serving carne asada with gallo pinto.",
+    "url": "https://www.yelp.com/biz/rakachaka-grill-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13011925719",
+  "name": "Rinconcito Dadeland Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Delivers Cuban food to Pinecrest.",
+    "url": "https://www.rinconcitodadeland.com/en/cuban-food-delivery-pinecrest"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12898889748",
+  "name": "Xpress Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Also listed for delivery under the name Xpress Food & Stuff.",
+    "url": "https://www.ubereats.com/store/xpress-food-&-stuff/Bdvniy9GSyCKILPTk5U3rw"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6583012885",
+  "name": "Claude D. Pepper",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Monument to Claude D. Pepper in Bayfront Park, downtown Miami.",
+    "url": "https://www.yelp.com/biz/claude-d-pepper-monument-miami"
+   },
+   {
+    "text": "Pepper served Florida in the U.S. Senate 1936-1951 and the U.S. House 1963-1989.",
+    "url": "https://en.wikipedia.org/wiki/Claude_Pepper"
+   }
+  ]
+ },
+ {
+  "id": "osm-w619930770",
+  "name": "Granada Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [],
+  "noFacts": true
+ },
+ {
+  "id": "osm-n358729861",
+  "name": "Humble Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Unincorporated Miami-Dade mini park near the Westchester area.",
+    "url": "https://mapcarta.com/20664458"
+   }
+  ]
+ },
+ {
+  "id": "osm-w624993920",
+  "name": "Rotary Centennial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Coral Gables presented a renovation design for the park to the community in October 2024.",
+    "url": "https://www.coralgables.com/events/design-presentation-rotary-centennial-park"
+   },
+   {
+    "text": "Listed by Coral Gables as a pet-friendly park.",
+    "url": "https://www.coralgables.com/community-recreation/parks-open-spaces/our-parks/all-parks-open-spaces/pet-friendly-parks"
+   }
+  ]
+ },
+ {
+  "id": "osm-w453575836",
+  "name": "Steele Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Mini park in the Coconut Grove area along South Bayshore Drive.",
+    "url": "https://www.triphobo.com/places/miami-united-states/steele-mini-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989516630",
+  "name": "Cafe Procopio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Coffee shop in Wayne.",
+    "url": "https://idelco.com/places/cafe-procopio-2/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11084813613",
+  "name": "Commodore Barry",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Bronze statue by sculptor Samuel Murray, unveiled March 16, 1907.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_John_Barry"
+   },
+   {
+    "text": "Commissioned by the Friendly Sons of St. Patrick and donated to the city.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_John_Barry"
+   },
+   {
+    "text": "Stands in Independence Square in front of Independence Hall.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_John_Barry"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1238355257",
+  "name": "Arecibo Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [],
+  "noFacts": true
+ },
+ {
+  "id": "osm-w1194592773",
+  "name": "L&G Cold Beer",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [],
+  "noFacts": true
+ },
+ {
+  "id": "osm-n11231061192",
+  "name": "Scanlon's Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Neighborhood bar established in 1976.",
+    "url": "https://www.yelp.com/biz/scanlons-saloon-philadelphia"
+   },
+   {
+    "text": "Has two pool tables, an electronic dart board and a shuffle bowl game.",
+    "url": "https://www.yelp.com/biz/scanlons-saloon-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989532196",
+  "name": "The Pembrook Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Antiques shop listed on Yelp as Pembroke Shop.",
+    "url": "https://www.yelp.com/biz/pembroke-shop-wayne"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1238160487",
+  "name": "Xanadu",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Business entity behind the bar is 3100 Xanadu, Inc.",
+    "url": "https://www.city-data.com/business-entities/PA/3100-XANADU-INC-3248597-PA.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w104739787",
+  "name": "Memorial Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Soccer field at The Haverford School, an 11v11 turf pitch.",
+    "url": "https://www.haverfordsoccer.org/welsh-cup/the-haverford-school"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28023590",
+  "name": "Olson Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Turf field at Eastern University that opened in October 2005.",
+    "url": "https://goeasterneagles.com/facilities/olson-field/2"
+   },
+   {
+    "text": "Named for alumnus Chip Olson '90, founder of Olson Research Group.",
+    "url": "https://goeasterneagles.com/facilities/olson-field/2"
+   },
+   {
+    "text": "Home field of Eastern's soccer and lacrosse teams.",
+    "url": "https://goeasterneagles.com/facilities/olson-field/2"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6436122925",
+  "name": "West-Wike Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Performing arts venue at The Agnes Irwin School.",
+    "url": "https://philadelphiadance.org/calendar/venue/the-agnes-irwin-school-west-wike-theater/"
+   }
+  ]
+ }
+]

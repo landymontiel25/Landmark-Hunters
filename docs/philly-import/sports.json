@@ -1,12 +1,12 @@
 {
  "category": "sports",
- "count": 16,
+ "count": 15,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 8,
+ "withFacts": 15,
  "withHours": 0,
  "byRegion": {
-  "philly": 13,
+  "philly": 12,
   "villanova": 3
  },
  "photoSkips": [],
@@ -24,26 +24,16 @@
    "osmUrl": "https://www.openstreetmap.org/way/905990686"
   },
   {
-   "id": "osm-w22173363",
-   "name": "Higgins Soccer Complex",
-   "topic": "soccer field",
-   "lat": 40.041846,
-   "lng": -75.345925,
-   "photo": false,
-   "facts": [
-    "Opened in 2014 as a 1,000-seat soccer stadium.",
-    "Home to the Villanova men's and women's soccer teams."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/22173363"
-  },
-  {
    "id": "osm-w686639641",
    "name": "Phelps Field",
    "topic": "soccer field",
    "lat": 40.029059,
    "lng": -75.34884,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Multi-purpose artificial turf field for soccer, lacrosse and softball, completed in 2013.",
+    "Resurfaced with RootZone 3D Series Astroturf, formulated for soccer and lacrosse."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/686639641"
   },
   {
@@ -65,22 +55,10 @@
    "lat": 40.013766,
    "lng": -75.303613,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/104739787"
-  },
-  {
-   "id": "osm-w112477131",
-   "name": "Walton Field",
-   "topic": "soccer field",
-   "lat": 40.007641,
-   "lng": -75.309045,
-   "photo": false,
    "facts": [
-    "Has a grandstand with a capacity of 1,000, a press box and a filming deck.",
-    "Hosts men's and women's soccer at Haverford College.",
-    "Artificial turf surface"
+    "Soccer field at The Haverford School, an 11v11 turf pitch."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/112477131"
+   "osmUrl": "https://www.openstreetmap.org/way/104739787"
   },
   {
    "id": "osm-w753448741",
@@ -97,6 +75,31 @@
    "osmUrl": "https://www.openstreetmap.org/way/753448741"
   },
   {
+   "id": "osm-w686639637",
+   "name": "Carter Field",
+   "topic": "soccer field",
+   "lat": 40.028474,
+   "lng": -75.347918,
+   "photo": false,
+   "facts": [
+    "Agnes Irwin School turf field with a Paris GT Zero surface."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/686639637"
+  },
+  {
+   "id": "osm-w42000667",
+   "name": "Shillingford Field",
+   "topic": "soccer field",
+   "lat": 40.028555,
+   "lng": -75.315938,
+   "photo": false,
+   "facts": [
+    "Bryn Mawr College field hockey field built in 1982 and named for athletic director Jenepher Shillingford.",
+    "Rededicated after an upgrade to Polygras Paris GT Zero synthetic turf with a new scoreboard."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/42000667"
+  },
+  {
    "id": "osm-w986779013",
    "name": "Pike Field",
    "topic": "soccer field",
@@ -109,24 +112,43 @@
    "osmUrl": "https://www.openstreetmap.org/way/986779013"
   },
   {
-   "id": "osm-w28023590",
-   "name": "Olson Field",
+   "id": "osm-w22173363",
+   "name": "Higgins Soccer Complex",
    "topic": "soccer field",
-   "lat": 40.051454,
-   "lng": -75.373237,
+   "lat": 40.041846,
+   "lng": -75.345925,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/28023590"
+   "facts": [
+    "Opened in 2014 as a 1,000-seat soccer stadium.",
+    "Home to the Villanova men's and women's soccer teams."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/22173363"
   },
   {
-   "id": "osm-w686639637",
-   "name": "Carter Field",
+   "id": "osm-w112477131",
+   "name": "Walton Field",
    "topic": "soccer field",
-   "lat": 40.028474,
-   "lng": -75.347918,
+   "lat": 40.007641,
+   "lng": -75.309045,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/686639637"
+   "facts": [
+    "Has a grandstand with a capacity of 1,000, a press box and a filming deck.",
+    "Hosts men's and women's soccer at Haverford College.",
+    "Artificial turf surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/112477131"
+  },
+  {
+   "id": "osm-w880823702",
+   "name": "Barrack Field",
+   "topic": "soccer field",
+   "lat": 40.017276,
+   "lng": -75.327569,
+   "photo": false,
+   "facts": [
+    "Artificial turf surface"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/880823702"
   },
   {
    "id": "osm-n12964773735",
@@ -142,46 +164,31 @@
    "osmUrl": "https://www.openstreetmap.org/node/12964773735"
   },
   {
-   "id": "osm-w880823702",
-   "name": "Barrack Field",
-   "topic": "soccer field",
-   "lat": 40.017276,
-   "lng": -75.327569,
-   "photo": false,
-   "facts": [
-    "Artificial turf surface"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/880823702"
-  },
-  {
-   "id": "osm-w42000667",
-   "name": "Shillingford Field",
-   "topic": "soccer field",
-   "lat": 40.028555,
-   "lng": -75.315938,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/42000667"
-  },
-  {
    "id": "osm-w201484369",
    "name": "Edith Robb Dixon Field",
    "topic": "soccer field",
    "lat": 40.057175,
    "lng": -75.377884,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "All-weather mini-stadium built in 2006 with seating for 700, lights and a press box.",
+    "Funded by Edith R. Dixon and her late husband F. Eugene Dixon Jr.; new turf was installed in 2015."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/201484369"
   },
   {
-   "id": "osm-w90707883",
-   "name": "O’Hara Field",
+   "id": "osm-w28023590",
+   "name": "Olson Field",
    "topic": "soccer field",
-   "lat": 40.056546,
-   "lng": -75.389665,
+   "lat": 40.051454,
+   "lng": -75.373237,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/90707883"
+   "facts": [
+    "Turf field at Eastern University that opened in October 2005.",
+    "Named for alumnus Chip Olson '90, founder of Olson Research Group.",
+    "Home field of Eastern's soccer and lacrosse teams."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28023590"
   },
   {
    "id": "osm-r10132829",
@@ -190,7 +197,10 @@
    "lat": 40.05414,
    "lng": -75.375929,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Four tennis courts that are home to Cabrini University's men's and women's tennis teams.",
+    "Open to Dixon Center members when the teams are not using them."
+   ],
    "osmUrl": "https://www.openstreetmap.org/relation/10132829"
   }
  ],
@@ -223,11 +233,6 @@
   [
    40.013766,
    -75.303613,
-   0
-  ],
-  [
-   40.056546,
-   -75.389665,
    0
   ],
   [

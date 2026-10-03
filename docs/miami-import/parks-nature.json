@@ -1,9 +1,9 @@
 {
  "category": "parks-nature",
- "count": 160,
+ "count": 143,
  "commonsPhotos": 9,
- "commonsPhotoPct": 5.6,
- "withFacts": 121,
+ "commonsPhotoPct": 6.3,
+ "withFacts": 143,
  "withHours": 11,
  "photoSkips": [
   {
@@ -59,68 +59,274 @@
  ],
  "sample": [
   {
-   "id": "osm-w236948940",
-   "name": "Palmer Park",
+   "id": "osm-w463514508",
+   "name": "Myres Bayside Park",
    "topic": "park",
-   "lat": 25.713331,
-   "lng": -80.303495,
+   "lat": 25.727112,
+   "lng": -80.238629,
    "photo": false,
    "facts": [
-    "Palmer Park is a City of South Miami park facility."
+    "The park's full name is Kenneth M. Myers Bayside Park."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/236948940"
+   "osmUrl": "https://www.openstreetmap.org/way/463514508"
   },
   {
-   "id": "osm-w1531679816",
-   "name": "Fairlawn Community Park",
-   "topic": "park",
-   "lat": 25.764546,
-   "lng": -80.298408,
+   "id": "osm-w76690420",
+   "name": "Miami Beach Botanical Garden",
+   "topic": "botanical garden",
+   "lat": 25.795683,
+   "lng": -80.135609,
+   "photo": true,
+   "facts": [
+    "The City of Miami Beach created the Garden Center here in 1962, opposite the Convention Center.",
+    "Three-acre garden with Japanese and Native gardens.",
+    "Landscape architect Raymond Jungles led a redesign focused on native plants and water conservation."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/76690420"
+  },
+  {
+   "id": "osm-w638374314",
+   "name": "Tropical Audubon Society",
+   "topic": "nature center",
+   "lat": 25.704218,
+   "lng": -80.284256,
    "photo": false,
    "facts": [
-    "Features shaded playground areas, public art and an enclosed dog run.",
-    "Phase II added outdoor exercise equipment, walkways and lighting.",
-    "Opened in 2024"
+    "The site includes the historic Doc Thomas House, which offers guided tours.",
+    "Run by Tropical Audubon Society",
+    "About 5 m (17 ft) tall"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/1531679816"
+   "osmUrl": "https://www.openstreetmap.org/way/638374314"
   },
   {
-   "id": "osm-w561127145",
-   "name": "Betsy Adams and the Coral Gables Garden Club Park",
+   "id": "osm-w1443103503",
+   "name": "Ludlam Park",
    "topic": "park",
-   "lat": 25.728349,
-   "lng": -80.284452,
+   "lat": 25.701742,
+   "lng": -80.299954,
    "photo": false,
    "facts": [
-    "Honors Betsy Adams and the Coral Gables Garden Club, who turned the lot into a flowering park.",
-    "Occupies a triangular plot of city land in front of the Venetian Pool.",
-    "The park was dedicated in 2018."
+    "The park now bears the name Vice Mayor Robert C. Welsh Jr. Park.",
+    "Address: 7435 Southwest 66th Avenue, South Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/561127145"
+   "osmUrl": "https://www.openstreetmap.org/way/1443103503"
   },
   {
-   "id": "osm-n358730099",
-   "name": "I T T - Snapper Creek Park",
+   "id": "osm-w416557590",
+   "name": "Merrick Park",
    "topic": "park",
-   "lat": 25.661492,
-   "lng": -80.270606,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/358730099"
-  },
-  {
-   "id": "osm-w806235765",
-   "name": "Manolo Reyes Park",
-   "topic": "park",
-   "lat": 25.767864,
-   "lng": -80.294079,
+   "lat": 25.748825,
+   "lng": -80.263136,
    "photo": false,
    "facts": [
-    "The park was renamed to honor the late Miami Commissioner Manolo Reyes.",
-    "The City of Miami unveiled the renovated park in June 2025.",
-    "Run by Miami"
+    "The Coral Gables Farmers Market is held at Merrick Park.",
+    "Address: 405 Biltmore Way, Coral Gables"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/806235765"
+   "osmUrl": "https://www.openstreetmap.org/way/416557590"
+  },
+  {
+   "id": "osm-w464453593",
+   "name": "Jose Marti Park",
+   "topic": "park",
+   "lat": 25.770139,
+   "lng": -80.200043,
+   "photo": false,
+   "facts": [
+    "The park covers 8.9 acres along the Miami River and is named for Cuban patriot and poet Jose Marti."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/464453593"
+  },
+  {
+   "id": "osm-w624805558",
+   "name": "Venetia Park",
+   "topic": "park",
+   "lat": 25.7589,
+   "lng": -80.277096,
+   "photo": false,
+   "facts": [
+    "Small neighborhood park, also listed as James T. Barker Park, with entrances on two opposite streets.",
+    "Has a bench swing, a log for children to play on and a water fountain.",
+    "Address: 1047 Venetia Avenue, Coral Gables"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/624805558"
+  },
+  {
+   "id": "osm-w464453612",
+   "name": "Lecuona Park",
+   "topic": "park",
+   "lat": 25.772002,
+   "lng": -80.210041,
+   "photo": false,
+   "facts": [
+    "Listed in the City of Miami parks directory as Ernesto Lecuona Park."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/464453612"
+  },
+  {
+   "id": "osm-w184076411",
+   "name": "Phillips Park",
+   "topic": "park",
+   "lat": 25.757649,
+   "lng": -80.256405,
+   "photo": false,
+   "facts": [
+    "Has tennis courts, a playground, a basketball court and an open field ringed by a running track."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/184076411"
+  },
+  {
+   "id": "osm-w258236772",
+   "name": "Maurice Gibb Memorial Park",
+   "topic": "park",
+   "lat": 25.792802,
+   "lng": -80.144785,
+   "photo": false,
+   "facts": [
+    "The park honors Maurice Gibb of the Bee Gees.",
+    "The park has a music-themed playground."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/258236772"
+  },
+  {
+   "id": "osm-w683973335",
+   "name": "Shenandoah Park",
+   "topic": "park",
+   "lat": 25.755341,
+   "lng": -80.229279,
+   "photo": false,
+   "facts": [
+    "The City of Miami held a ribbon cutting for the park's new pool and aquatic center.",
+    "Address: 1800 Southwest 21st Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/683973335"
+  },
+  {
+   "id": "osm-w955510747",
+   "name": "Palmetum",
+   "topic": "garden",
+   "lat": 25.722537,
+   "lng": -80.277087,
+   "photo": false,
+   "facts": [
+    "Established in 1999",
+    "Run by University of Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/955510747"
+  },
+  {
+   "id": "osm-n358729231",
+   "name": "Lincoln Park",
+   "topic": "park",
+   "lat": 25.734267,
+   "lng": -80.240883,
+   "photo": false,
+   "facts": [
+    "Has a playground and a picnic shelter.",
+    "Has waterfront access, bike racks and picnic tables."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/358729231"
+  },
+  {
+   "id": "osm-w167158230",
+   "name": "Kinloch Park",
+   "topic": "park",
+   "lat": 25.77646,
+   "lng": -80.27096,
+   "photo": false,
+   "facts": [
+    "Kinloch Park is also known as Charlie DeLucca Park.",
+    "Address: 455 Northwest 47th Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/167158230"
+  },
+  {
+   "id": "osm-w547376265",
+   "name": "Pittman Park",
+   "topic": "park",
+   "lat": 25.751973,
+   "lng": -80.257013,
+   "photo": false,
+   "facts": [
+    "Small corner park with mowed lawn, benches and scattered shade trees.",
+    "Has no restrooms on site.",
+    "Address: 115 Merrick Way, Coral Gables"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/547376265"
+  },
+  {
+   "id": "osm-r15789687",
+   "name": "Sewell Park",
+   "topic": "park",
+   "lat": 25.784833,
+   "lng": -80.224372,
+   "photo": false,
+   "facts": [
+    "E. G. Sewell Park is a 10.33-acre riverfront park on the Miami River.",
+    "The park is named for former Miami mayor E. G. Sewell."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/relation/15789687"
+  },
+  {
+   "id": "osm-w235922050",
+   "name": "Trinity Pineland County Park",
+   "topic": "park",
+   "lat": 25.698652,
+   "lng": -80.31255,
+   "photo": false,
+   "facts": [
+    "Pine rockland habitat of about 10 acres managed as an Environmentally Endangered Land site."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/235922050"
+  },
+  {
+   "id": "osm-w522268809",
+   "name": "Blanche Park",
+   "topic": "park",
+   "lat": 25.733872,
+   "lng": -80.242212,
+   "photo": false,
+   "facts": [
+    "Has a fenced dog park, a playground and picnic tables.",
+    "Address: 3045 Shipping Avenue, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/522268809"
+  },
+  {
+   "id": "osm-n6110166485",
+   "name": "Fossilized Reef View",
+   "topic": "viewpoint",
+   "lat": 25.726361,
+   "lng": -80.148424,
+   "photo": false,
+   "facts": [
+    "Crandon Park's exposed fossil reef is about 100 by 300 meters.",
+    "The reef is made of rhizoliths, fossilized remains of ancient mangrove roots."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6110166485"
+  },
+  {
+   "id": "osm-w790427920",
+   "name": "Garden Club Park",
+   "topic": "park",
+   "lat": 25.759844,
+   "lng": -80.302436,
+   "photo": false,
+   "facts": [
+    "Run by City of West Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/790427920"
+  },
+  {
+   "id": "osm-w486209295",
+   "name": "Rainbow Village Park",
+   "topic": "park",
+   "lat": 25.796423,
+   "lng": -80.202319,
+   "photo": false,
+   "facts": [
+    "It is a City of Miami park listed in the city's parks directory."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/486209295"
   },
   {
    "id": "osm-w808920657",
@@ -137,256 +343,50 @@
    "osmUrl": "https://www.openstreetmap.org/way/808920657"
   },
   {
-   "id": "osm-w189590701",
-   "name": "Margaret Pace Park",
+   "id": "osm-w236947942",
+   "name": "South Miami Park",
    "topic": "park",
-   "lat": 25.794149,
-   "lng": -80.186251,
-   "photo": true,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/189590701"
+   "lat": 25.730582,
+   "lng": -80.290494,
+   "photo": false,
+   "facts": [
+    "It is a City of South Miami park facility.",
+    "The park has rentable pavilions."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/236947942"
   },
   {
-   "id": "osm-w470378974",
-   "name": "Coral Gables Youth Center",
+   "id": "osm-w1424150065",
+   "name": "Brewer Park",
    "topic": "park",
-   "lat": 25.741057,
-   "lng": -80.264608,
+   "lat": 25.718011,
+   "lng": -80.296257,
    "photo": false,
    "facts": [
-    "The facility is officially named the War Memorial Youth Center.",
-    "The 58,000 square foot center has a 13,244 square foot gymnasium and a fitness center.",
-    "Outdoor features include lighted basketball courts and a roller hockey rink."
+    "A 1.3-acre park with tennis, handball and basketball courts and a playground.",
+    "A raised wooden observation deck and a gazebo overlook a small lake.",
+    "Run by City of South Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/470378974"
+   "osmUrl": "https://www.openstreetmap.org/way/1424150065"
   },
   {
-   "id": "osm-w650795993",
-   "name": "Bill Sadowski Critical Wildlife Area",
-   "topic": "nature preserve",
-   "lat": 25.750002,
-   "lng": -80.161476,
-   "photo": false,
-   "facts": [
-    "Established in 1990 and expanded in 1993 as a bird, seagrass and manatee sanctuary.",
-    "Managed by the Florida Fish and Wildlife Conservation Commission.",
-    "A manatee protection zone closed year-round to all vessels."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/650795993"
-  },
-  {
-   "id": "osm-w547367401",
-   "name": "Coral Gables Wayside Park",
-   "topic": "park",
-   "lat": 25.738475,
-   "lng": -80.286916,
-   "photo": false,
-   "facts": [
-    "Its Mediterranean Revival towers were built in 1925 as the entrance to the planned community of Central Miami.",
-    "The entrance was added to the National Register of Historic Places in 1989."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/547367401"
-  },
-  {
-   "id": "osm-r19672044",
-   "name": "Alice C Wainwright Park",
-   "topic": "park",
-   "lat": 25.748468,
-   "lng": -80.204716,
-   "photo": false,
-   "facts": [
-    "A 28-acre waterfront park and nature preserve on Biscayne Bay.",
-    "Named for Alice C. Wainwright, the first woman elected to the City of Miami Commission.",
-    "Built as part of the 1972 Parks for People Bond."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/relation/19672044"
-  },
-  {
-   "id": "osm-w167158230",
-   "name": "Kinloch Park",
-   "topic": "park",
-   "lat": 25.77646,
-   "lng": -80.27096,
-   "photo": false,
-   "facts": [
-    "Kinloch Park is also known as Charlie DeLucca Park.",
-    "Address: 455 Northwest 47th Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/167158230"
-  },
-  {
-   "id": "osm-w805822608",
-   "name": "Bay of Pigs Memorial Park",
-   "topic": "park",
-   "lat": 25.768579,
-   "lng": -80.28646,
-   "photo": false,
-   "facts": [
-    "A monument honoring Bay of Pigs veterans was unveiled here alongside park improvements.",
-    "Opened in 2023",
-    "Run by Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/805822608"
-  },
-  {
-   "id": "osm-w314873704",
-   "name": "Crandon Park Beach",
-   "topic": "beach",
-   "lat": 25.69163,
-   "lng": -80.155906,
-   "photo": false,
-   "facts": [
-    "The park is named for County Commission Chairman Charles H. Crandon."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/314873704"
-  },
-  {
-   "id": "osm-w184076415",
-   "name": "Schenly Park",
-   "topic": "park",
-   "lat": 25.745258,
-   "lng": -80.287694,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/184076415"
-  },
-  {
-   "id": "osm-w300186528",
-   "name": "Crandon Beach",
-   "topic": "beach",
-   "lat": 25.708071,
-   "lng": -80.152787,
-   "photo": false,
-   "facts": [
-    "The park is named for County Commission Chairman Charles H. Crandon."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/300186528"
-  },
-  {
-   "id": "osm-w76684242",
-   "name": "Flamingo Park",
-   "topic": "park",
-   "lat": 25.784444,
-   "lng": -80.138595,
-   "photo": false,
-   "facts": [
-    "Includes tennis courts, a swimming pool and handball courts.",
-    "Its ballfield, Flamingo Field, hosted New York Giants spring training in 1934 and 1935.",
-    "Run by City of Miami Beach Government"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/76684242"
-  },
-  {
-   "id": "osm-w463514508",
-   "name": "Myres Bayside Park",
-   "topic": "park",
-   "lat": 25.727112,
-   "lng": -80.238629,
-   "photo": false,
-   "facts": [
-    "The park's full name is Kenneth M. Myers Bayside Park."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/463514508"
-  },
-  {
-   "id": "osm-w955510747",
-   "name": "Palmetum",
+   "id": "osm-w1420651228",
+   "name": "The Kampong",
    "topic": "garden",
-   "lat": 25.722537,
-   "lng": -80.277087,
+   "lat": 25.715706,
+   "lng": -80.251279,
    "photo": false,
    "facts": [
-    "Established in 1999",
-    "Run by University of Miami"
+    "The Kampong is a botanical garden and one of the gardens of the National Tropical Botanical Garden.",
+    "Address: 4013 Douglas Road, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/955510747"
-  },
-  {
-   "id": "osm-n358709946",
-   "name": "Brickell Plaza Mini Park",
-   "topic": "park",
-   "lat": 25.764732,
-   "lng": -80.192609,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/358709946"
-  },
-  {
-   "id": "osm-w461405867",
-   "name": "San Jacinto Park",
-   "topic": "park",
-   "lat": 25.757689,
-   "lng": -80.267858,
-   "photo": false,
-   "facts": [
-    "Miami-Dade Parks broke ground on neighborhood park improvements here in December 2025.",
-    "Address: 4430 Southwest 15th Terrace, Coral Gables"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/461405867"
-  },
-  {
-   "id": "osm-w650168265",
-   "name": "Virginia Key Beach North Point Park",
-   "topic": "park",
-   "lat": 25.747793,
-   "lng": -80.152875,
-   "photo": false,
-   "facts": [
-    "The park has over 10 miles of mountain biking trails.",
-    "Amenities include BBQ areas, picnic tables, volleyball, walking trails and waterfront access.",
-    "Address: 3515-3801 Rickenbacker Causeway, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/650168265"
-  },
-  {
-   "id": "osm-w522268809",
-   "name": "Blanche Park",
-   "topic": "park",
-   "lat": 25.733872,
-   "lng": -80.242212,
-   "photo": false,
-   "facts": [
-    "Has a fenced dog park, a playground and picnic tables.",
-    "Address: 3045 Shipping Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/522268809"
-  },
-  {
-   "id": "osm-w376900985",
-   "name": "Flagler Grove Park",
-   "topic": "park",
-   "lat": 25.674438,
-   "lng": -80.317915,
-   "photo": false,
-   "facts": [
-    "A three-acre sports park with lighted synthetic fields for soccer and lacrosse.",
-    "Also has a shaded tot lot and restrooms.",
-    "Address: 7551 Southwest 104th Street, Pinecrest"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/376900985"
-  },
-  {
-   "id": "osm-n358707549",
-   "name": "Tahiti Beach",
-   "topic": "beach",
-   "lat": 25.698157,
-   "lng": -80.246717,
-   "photo": false,
-   "facts": [
-    "Tahiti Beach lies within the Cocoplum community of Coral Gables."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/358707549"
+   "osmUrl": "https://www.openstreetmap.org/way/1420651228"
   }
  ],
  "points": [
   [
    25.755756,
    -80.196733,
-   0
-  ],
-  [
-   25.784165,
-   -80.312496,
    0
   ],
   [
@@ -407,11 +407,6 @@
   [
    25.706872,
    -80.298095,
-   0
-  ],
-  [
-   25.789265,
-   -80.208659,
    0
   ],
   [
@@ -460,11 +455,6 @@
    0
   ],
   [
-   25.79424,
-   -80.192958,
-   0
-  ],
-  [
    25.733872,
    -80.242212,
    0
@@ -507,11 +497,6 @@
   [
    25.717777,
    -80.278897,
-   0
-  ],
-  [
-   25.739066,
-   -80.265887,
    0
   ],
   [
@@ -700,16 +685,6 @@
    1
   ],
   [
-   25.722867,
-   -80.272787,
-   0
-  ],
-  [
-   25.723157,
-   -80.260606,
-   0
-  ],
-  [
    25.720657,
    -80.256995,
    0
@@ -740,11 +715,6 @@
    0
   ],
   [
-   25.78621,
-   -80.209215,
-   0
-  ],
-  [
    25.746315,
    -80.195263,
    0
@@ -752,11 +722,6 @@
   [
    25.733413,
    -80.317768,
-   0
-  ],
-  [
-   25.661492,
-   -80.270606,
    0
   ],
   [
@@ -772,11 +737,6 @@
   [
    25.762952,
    -80.286717,
-   0
-  ],
-  [
-   25.760485,
-   -80.189402,
    0
   ],
   [
@@ -807,11 +767,6 @@
   [
    25.770377,
    -80.19977,
-   0
-  ],
-  [
-   25.66738,
-   -80.322835,
    0
   ],
   [
@@ -925,11 +880,6 @@
    0
   ],
   [
-   25.729421,
-   -80.244098,
-   0
-  ],
-  [
    25.719897,
    -80.268616,
    0
@@ -947,11 +897,6 @@
   [
    25.691426,
    -80.164122,
-   0
-  ],
-  [
-   25.766739,
-   -80.136084,
    0
   ],
   [
@@ -1080,11 +1025,6 @@
    0
   ],
   [
-   25.708157,
-   -80.253383,
-   0
-  ],
-  [
    25.760183,
    -80.228293,
    0
@@ -1120,18 +1060,8 @@
    0
   ],
   [
-   25.723915,
-   -80.278636,
-   0
-  ],
-  [
    25.7589,
    -80.277096,
-   0
-  ],
-  [
-   25.746393,
-   -80.273027,
    0
   ],
   [
@@ -1142,16 +1072,6 @@
   [
    25.730659,
    -80.250737,
-   0
-  ],
-  [
-   25.722601,
-   -80.261161,
-   0
-  ],
-  [
-   25.78463,
-   -80.176813,
    0
   ],
   [

@@ -1,0 +1,434 @@
+[
+ {
+  "id": "osm-n4686160889",
+  "name": "Baires Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Argentine steakhouse founded in 1999 that makes hand-cut steaks and house-made empanadas.",
+    "url": "https://www.bairesgrill.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w648463778",
+  "name": "Bakan Wynwood",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Mexican restaurant that specializes in tequila and mezcal.",
+    "url": "https://www.bakanwynwood.com/about/"
+   },
+   {
+    "text": "Keeps more than 500 mezcals and tequilas in a four-tiered glass case.",
+    "url": "https://www.bakanwynwood.com/menu/tequila-mezcal/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14031225188",
+  "name": "Batch Gastropub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Brickell pub with brick-oven pizza and a deep whiskey list.",
+    "url": "https://batchgastropub.com/miami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6073738986",
+  "name": "Bodega Taqueria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Flagship of the Bodega taqueria group, opened in December 2014.",
+    "url": "https://www.bodegataqueria.com/location/southbeach/"
+   },
+   {
+    "text": "Tacos come out of a signature Airstream turned taco truck, with a speakeasy bar inside.",
+    "url": "https://www.bodegataqueria.com/location/southbeach/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6575655588",
+  "name": "Bottega Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Express counter inside the Stephen P. Clark Government Center downtown.",
+    "url": "https://www.atly.com/location/BottegaExpress"
+   },
+   {
+    "text": "Menu features a tuna sandwich.",
+    "url": "https://www.atly.com/location/BottegaExpress"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12631824771",
+  "name": "Braga Portuguese Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in Miami in 2020 and named for the Portuguese city of Braga.",
+    "url": "https://bragarestaurant.com/quem-somos/"
+   },
+   {
+    "text": "Menu centers on bacalhau and also lists vegan, beef, pork, chicken and seafood dishes.",
+    "url": "https://bragarestaurant.com/quem-somos/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1813316250",
+  "name": "Bubba Gump Shrimp Company",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bubba-gump-shrimp-miami-3",
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6114217486",
+  "name": "Cafe Croissant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Bakes fresh bread, desserts and croissants every day, with breakfast all day.",
+    "url": "https://www.facebook.com/frenchbakerycafe1684/"
+   },
+   {
+    "text": "Pastry case includes fruit tarts, Napoleon pastries and quiches.",
+    "url": "https://www.facebook.com/frenchbakerycafe1684/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13767195648",
+  "name": "Cafe Versailles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Airport stall of Versailles, which began as a coffee window and sandwich shop in 1971.",
+    "url": "https://www.versaillesrestaurant.com/about"
+   },
+   {
+    "text": "The original Little Havana Versailles seats 370 people.",
+    "url": "https://www.versaillesrestaurant.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5903100412",
+  "name": "Cafe Versailles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Airport stall of Versailles, founded by Felipe Valls Sr. in 1971.",
+    "url": "https://www.versaillesrestaurant.com/about"
+   },
+   {
+    "text": "The original Versailles added an on-site bakery in 1998 that bakes pastries and breads in house.",
+    "url": "https://www.versaillesrestaurant.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5903100436",
+  "name": "Cafe Versailles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Airport stall of Versailles, the Little Havana restaurant that opened in 1971.",
+    "url": "https://www.versaillesrestaurant.com/about"
+   },
+   {
+    "text": "Versailles became a gathering place for Miami's Cuban exiles soon after opening.",
+    "url": "https://www.versaillesrestaurant.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w118004049",
+  "name": "Cafeteria",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6037322170",
+  "name": "cantinetta",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu covers Italian, European and Mediterranean dishes.",
+    "url": "https://www.foodiestrip.com/en/restaurant/cantinetta-lincoln-rd-miami-beach-fl-usa-0"
+   },
+   {
+    "text": "Also runs as a dessert and pastry shop.",
+    "url": "https://www.foodiestrip.com/en/restaurant/cantinetta-lincoln-rd-miami-beach-fl-usa-0"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6020065937",
+  "name": "Canton Rose Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned restaurant making American Chinese dishes such as Mongolian beef.",
+    "url": "https://canton-rose.goto-restaurants.com/"
+   },
+   {
+    "text": "Sits behind a McDonald's in the Winn-Dixie shopping center at Bird Road.",
+    "url": "https://canton-rose.goto-restaurants.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13527511701",
+  "name": "Capital One Café at Miami Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part bank, part cafe, with handcrafted drinks from Verve Coffee Roasters.",
+    "url": "https://www.capitalone.com/local/southflorida-miamibeach/"
+   },
+   {
+    "text": "Open to everyone, whether or not they bank with Capital One.",
+    "url": "https://www.capitalone.com/local/southflorida-miamibeach/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12532491034",
+  "name": "Carrot Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Downtown Dadeland branch of the healthy fast-casual chain, near Dadeland Mall.",
+    "url": "https://carrotexpress.com/locations/downtown-dadeland-breakfast/"
+   },
+   {
+    "text": "Part of Carrot Express, founded by Mario Laufer in 1993 inside a Miami Beach gas station.",
+    "url": "https://carrotexpress.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6073264223",
+  "name": "Carrot Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Carrot Express, founded by Mario Laufer in 1993 inside a Miami Beach gas station.",
+    "url": "https://carrotexpress.com/about-us/"
+   },
+   {
+    "text": "Chain now has more than 28 locations across Florida and New York City.",
+    "url": "https://carrotexpress.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8501929075",
+  "name": "Carvel",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6059013230",
+  "name": "Casa Juan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Cuban restaurant with a Cuban sampler platter, mofongo dishes and a breakfast menu.",
+    "url": "https://www.casajuanrestaurant.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435519440",
+  "name": "Casola's Pizzeria & Sub Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 1982 when Boston rivals Agustin Jose II and Ramon Casola joined forces in Miami.",
+    "url": "https://www.casolas.com/casolas-pizzeria-miami-fl.html"
+   },
+   {
+    "text": "Menu has giant pizzas, croissant sandwiches, subs, steak phillys and jumbo wings.",
+    "url": "https://www.casolas.com/casolas-pizzeria-miami-fl.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6025987565",
+  "name": "Cecile",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Named after the owner's grandmother, a name he also gave his daughter.",
+    "url": "https://www.cecilebakerycafe.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6059013229",
+  "name": "Chicken Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Blue Lagoon location of the Chicken Kitchen chain.",
+    "url": "https://theburnmiami.com/2025/08/chicken-kitchen-closes-longtime-gables-location/"
+   },
+   {
+    "text": "Part of Chicken Kitchen, whose first store opened in New York City in 1985.",
+    "url": "https://chickenkitchen.com/our-dna/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6446809494",
+  "name": "Chicken Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of Chicken Kitchen, whose first store opened in New York City in 1985.",
+    "url": "https://chickenkitchen.com/our-dna/"
+   },
+   {
+    "text": "The chain's original Chop-Chop recipe dates to 1989 and draws on French, Greek and Italian cooking.",
+    "url": "https://chickenkitchen.com/our-dna/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5924568809",
+  "name": "Chill-N",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Chill-N, founded in 2012 by Daniel Golik, who opened the first shop in Pinecrest in 2014.",
+    "url": "https://www.chillnicecream.com/our-story"
+   },
+   {
+    "text": "Flash freezes made-to-order ice cream with liquid nitrogen.",
+    "url": "https://www.chillnicecream.com/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8691773632",
+  "name": "China Lee",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-owned restaurant with over 30 years of service, begun by a family from rural China.",
+    "url": "https://www.chinaleemiami.com/about-us"
+   },
+   {
+    "text": "The family first ran a restaurant in La Guaira, Venezuela before moving to Miami.",
+    "url": "https://www.chinaleemiami.com/about-us"
+   }
+  ]
+ }
+]

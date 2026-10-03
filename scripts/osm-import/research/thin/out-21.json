@@ -1,0 +1,434 @@
+[
+ {
+  "id": "osm-w222135280",
+  "name": "Sedgley Porter House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Stone porter's house designed by Benjamin Henry Latrobe, built around 1799 to 1802.",
+    "url": "https://en.wikipedia.org/wiki/Sedgeley"
+   },
+   {
+    "text": "Latrobe's only surviving building in Philadelphia; the main Sedgeley mansion was demolished.",
+    "url": "https://en.wikipedia.org/wiki/Sedgeley"
+   },
+   {
+    "text": "Served as a park guard house and jail for over a century before conversion to offices.",
+    "url": "https://en.wikipedia.org/wiki/Sedgeley"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8588157992",
+  "name": "U.S. Mint at Philadelphia Tour",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Self-guided tour views coin production from 40 feet above the factory floor.",
+    "url": "https://www.usmint.gov/about/tours-and-locations/philadelphia/tour-philadelphia-mint"
+   },
+   {
+    "text": "Tour areas include the David Rittenhouse Theater and a third-floor gallery.",
+    "url": "https://www.usmint.gov/about/tours-and-locations/philadelphia/tour-philadelphia-mint"
+   },
+   {
+    "text": "Current building is the fourth Philadelphia coining facility.",
+    "url": "https://www.usmint.gov/news/press-releases/united-states-mint-marks-the-50th-anniversary-of-the-fourth-philadelphia-coining-facility"
+   }
+  ]
+ },
+ {
+  "id": "osm-w874867412",
+  "name": "Universal Alcorn Charter Elementary School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Building was originally the James Alcorn School, designed by Irwin T. Catharine.",
+    "url": "https://en.wikipedia.org/wiki/Universal_Alcorn_Charter_Elementary_School"
+   },
+   {
+    "text": "Built 1931 to 1932 in Late Gothic Revival style; listed on the National Register in 1988.",
+    "url": "https://en.wikipedia.org/wiki/Universal_Alcorn_Charter_Elementary_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224639182",
+  "name": "VFW Post 1074 Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Veterans Day ceremonies are held at the VFW 1074 Monument.",
+    "url": "https://post1074.com/"
+   },
+   {
+    "text": "Connected to VFW Post 1074, a veterans organization serving the Conshohocken area.",
+    "url": "https://post1074.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5247943539",
+  "name": "Washington Encampment 1777",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Marks where Washington's army encamped on September 14, 1777, before the Battle of Germantown.",
+    "url": "https://www.hmdb.org/m.asp?m=68748"
+   },
+   {
+    "text": "Marker was erected in 1896 by the Merion Chapter, Daughters of the American Revolution.",
+    "url": "https://www.hmdb.org/m.asp?m=68748"
+   }
+  ]
+ },
+ {
+  "id": "osm-w413156610",
+  "name": "William S. Peirce School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "School building designed by Irwin T. Catharine, built 1928 to 1929 in Late Gothic Revival style.",
+    "url": "https://en.wikipedia.org/wiki/William_S._Peirce_School"
+   },
+   {
+    "text": "Opened in 1928 as a K-8 school and has been closed since 2007; listed on the National Register in 1988.",
+    "url": "https://en.wikipedia.org/wiki/William_S._Peirce_School"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9424246613",
+  "name": "2637brew",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Pours 14 craft drafts listed on slate chalkboards.",
+    "url": "https://2637brew.com/"
+   },
+   {
+    "text": "Bar and restaurant in Brewerytown serving craft beer and artisan cocktails.",
+    "url": "https://2637brew.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6897200051",
+  "name": "60th St Pizza & Beer",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 5,
+  "facts": []
+ },
+ {
+  "id": "osm-w1238355257",
+  "name": "Arecibo Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n7431800654",
+  "name": "ASCII Cup XLI",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n6417151886",
+  "name": "Bar Ly",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sports bar in the Pitcairn Building in Chinatown, next to the convention center.",
+    "url": "https://www.yelp.com/biz/bar-ly-chinatown-philadelphia-3"
+   },
+   {
+    "text": "Draft list of about 60 beers paired with intercontinental bar food.",
+    "url": "https://www.yelp.com/biz/bar-ly-chinatown-philadelphia-3"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8410340130",
+  "name": "Bar210",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Hotel bar at The Rittenhouse, serving cocktails made with house-infused liquors.",
+    "url": "https://philly.thedrinknation.com/bars/profile/87-Bar-210"
+   },
+   {
+    "text": "Cocktail recipes are original to the bar and change seasonally.",
+    "url": "https://philly.thedrinknation.com/bars/profile/87-Bar-210"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11908737571",
+  "name": "Bardot",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Dining room has red velvet wallpaper, mirrors and dim twinkling lighting.",
+    "url": "https://www.opentable.com/r/bardot-philadelphia"
+   },
+   {
+    "text": "Wine list focuses on European regions, particularly France.",
+    "url": "https://www.opentable.com/r/bardot-philadelphia"
+   },
+   {
+    "text": "Also hosts Sunday brunch and comedy shows.",
+    "url": "https://www.opentable.com/r/bardot-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7613664316",
+  "name": "Bender City",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w439036334",
+  "name": "Bonnie's Capistrano Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Run by the same family for more than 50 years.",
+    "url": "https://www.inquirer.com/food/restaurants/bonnie-capistrano-east-passyunk/"
+   },
+   {
+    "text": "Veronica \"Bonnie\" Leone began running the bar in 1974.",
+    "url": "https://www.inquirer.com/food/restaurants/bonnie-capistrano-east-passyunk/"
+   },
+   {
+    "text": "Dive bar with no kitchen; snacks come from a vending machine.",
+    "url": "https://www.inquirer.com/food/restaurants/bonnie-capistrano-east-passyunk/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2003082507",
+  "name": "Calliope Music",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://calliopemusicstore.com/exciting-changes-at-calliope/",
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n5716245442",
+  "name": "Camuy's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Cash-only bar.",
+    "url": "https://www.restaurantji.com/pa/philadelphia/camuy-s-/"
+   },
+   {
+    "text": "Bar with dancing.",
+    "url": "https://www.restaurantji.com/pa/philadelphia/camuy-s-/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2419063592",
+  "name": "Carbon Copy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Combined brewery and winery, billed as the area's first, in a repurposed firehouse.",
+    "url": "https://culinaryagents.com/entities/718565-carbon-copy"
+   },
+   {
+    "text": "Makes house-brewed beer and housemade wine alongside a pizza-focused menu.",
+    "url": "https://culinaryagents.com/entities/718565-carbon-copy"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1554282902",
+  "name": "Chinatown Beer Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Pop-up beer garden in Chinatown.",
+    "url": "https://www.facebook.com/chinatownbeergarden/"
+   },
+   {
+    "text": "Serves beer and cocktails with tapas and Asian small plates.",
+    "url": "https://www.opentable.com/r/chinatown-beer-garden-philadelphia"
+   }
+  ]
+ },
+ {
+  "id": "osm-w340038768",
+  "name": "CLC Book Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Christian bookstore in operation at this site since 1949, formerly Grace Bookstore.",
+    "url": "https://mail.clcusa.org/locations/location.php"
+   },
+   {
+    "text": "CLC bought the store in July 2003.",
+    "url": "https://mail.clcusa.org/locations/location.php"
+   },
+   {
+    "text": "Stocks Sunday School curriculum every quarter.",
+    "url": "https://mail.clcusa.org/locations/location.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11352102724",
+  "name": "Dawson Street Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Live music Thursday through Saturday nights, with an open mic night on Wednesdays.",
+    "url": "http://beta.dawsonstreetpub.com/"
+   },
+   {
+    "text": "Holds a beer and cheese pairing with Founders Brewing on the first Thursday of the month.",
+    "url": "http://beta.dawsonstreetpub.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989626618",
+  "name": "Di Bruno Bros",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://delco.today/2026/02/di-bruno-bros-closing-wayne-store/",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n3542577320",
+  "name": "Dilworth Park Farmer's Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Farmers' market launched with vendors McCanns Farm, Philly Bread and La Divisa Meats.",
+    "url": "https://aldianews.com/en/local/philadelphia/dilworth-park-kicks-new"
+   },
+   {
+    "text": "Held in Dilworth Park, which is managed by the Center City District.",
+    "url": "https://centercityphila.org/explore/dilworth-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w393665824",
+  "name": "Dolphin Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Reopened in 2013; before that it was a go-go bar and first stop for sailors from the Navy Yard.",
+    "url": "https://www.dolphinphillyinfo.com/"
+   },
+   {
+    "text": "Mix of dive bar, tavern and lounge.",
+    "url": "https://www.dolphinphillyinfo.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1196030450",
+  "name": "El Paso Fino",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yellowpages.com/philadelphia-pa/mip/el-pasofino-bar-496237302",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ }
+]

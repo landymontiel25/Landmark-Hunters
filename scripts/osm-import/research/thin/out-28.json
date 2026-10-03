@@ -1,0 +1,423 @@
+[
+ {
+  "id": "osm-w767410384",
+  "name": "Ottinger Tract",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w50275070",
+  "name": "Penn Wynne Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Township-run active park of about 10 acres with a children's playground and tot lot.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/penn-wynne-park"
+   },
+   {
+    "text": "Has baseball, softball, basketball, tennis and soccer facilities plus a comfort station.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/penn-wynne-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526168",
+  "name": "Petrie Ave Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Township pocket park bought in November 1999 and formally opened in December 2000.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/42/33"
+   },
+   {
+    "text": "Main feature is a playground with swings, a sliding board and teeter totters.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/42/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526184",
+  "name": "Plant Ave Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 5,
+  "facts": []
+ },
+ {
+  "id": "osm-w335163357",
+  "name": "Polo Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Shared between Lower Merion and Haverford townships, with baseball, lacrosse, rugby and soccer fields.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/polo-fields"
+   },
+   {
+    "text": "Polo games were first played on this field in 1900 by the Bryn Mawr Polo Club, chartered in 1898.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Bryn-Mawr-Polo-Field-A-Space-at-the-Center-of-Our-History.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w553336182",
+  "name": "Powder Mill Valley Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Includes the Lawrence Cabin, a log cabin that was relocated into the park.",
+    "url": "https://www.havtrail.com/hht/site05.htm"
+   },
+   {
+    "text": "Park and neighboring Grange Field were built in 1946 and 1947.",
+    "url": "https://haverford.pastperfectonline.com/webobject/E8390C10-B1BF-4736-9DE2-029846619528"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6695578170",
+  "name": "Quadrangle",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w699107724",
+  "name": "Radnor Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Park is 13.75 acres with a multipurpose athletic field and a fitness walking path.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/46/33"
+   },
+   {
+    "text": "Named to memorialize youth sports players, coaches and administrators from Radnor who died while active.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/46/33"
+   },
+   {
+    "text": "An artificial turf field was installed in 2012 through an agreement with The Agnes Irwin School.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/46/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28531779",
+  "name": "Ravenscliff Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w1382319933",
+  "name": "Raymond Ludwig Weinmann Sr. Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Pocket park with benches on a short pathway, plantings and bike racks, next to the Schuylkill River Trail.",
+    "url": "https://www.conshohockenpa.gov/media/3430/2024-25_newsletter_fw_final.pdf"
+   },
+   {
+    "text": "Named for Raymond L. Weinmann, co-founder of the Meehan-Weinmann construction firm in Conshohocken.",
+    "url": "https://www.conshohockenpa.gov/media/3430/2024-25_newsletter_fw_final.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w789938262",
+  "name": "Riverbend Environmental Education Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Preserve of about 30 acres at the end of Spring Mill Road, named for the bend in the Schuylkill River.",
+    "url": "https://riverbendeec.org/who-we-are/spring-mill-road-preserve"
+   },
+   {
+    "text": "Operations are based in a 1923 Sears Roebuck catalog barn that houses a small animal collection.",
+    "url": "https://riverbendeec.org/who-we-are/spring-mill-road-preserve"
+   }
+  ]
+ },
+ {
+  "id": "osm-w458952454",
+  "name": "Sabine Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "One of three public parks maintained by Narberth Borough, about half an acre in size.",
+    "url": "https://www.narberthpa.gov/departments/public_works/parks/index.php"
+   },
+   {
+    "text": "Has a playground and picnic tables that can be reserved.",
+    "url": "https://www.narberthpa.gov/departments/public_works/parks/index.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49914026",
+  "name": "Schuylkill River Park Community Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Community garden with about 70 plots, started in 1982 on a former brickyard and railroad siding site.",
+    "url": "http://www.srpcg.org/"
+   },
+   {
+    "text": "Land is owned by the City of Philadelphia and leased to the Center City Residents' Association.",
+    "url": "http://www.srpcg.org/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w952732826",
+  "name": "Sheldon Lane Pollinator Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Garden of the Ardmore Progressive Civic Association, which received a 2021 Go for the Green Award for it.",
+    "url": "https://www.lowermerion.org/government/other-boards-and-commissions/environmental-advisory-council/go-for-the-green-awards-program/go-for-the-green-prior-recipients-and-past-awards"
+   }
+  ]
+ },
+ {
+  "id": "osm-w58250778",
+  "name": "South Ardmore Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Active township park of about 18 acres with baseball, soccer and softball fields.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/south-ardmore-park"
+   },
+   {
+    "text": "Tennis court is overlaid with pickleball lines; also has a children's playground and comfort stations.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/south-ardmore-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468565851",
+  "name": "St. Gerts Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Park of about 1.6 acres in West Conshohocken.",
+    "url": "https://www.mypacer.com/parks/250826/st-gerts-park-conshohocken"
+   },
+   {
+    "text": "Includes a playground, listed as St. Gert's Playground.",
+    "url": "https://www.yelp.com/biz/st-gerts-playground-west-conshohocken"
+   }
+  ]
+ },
+ {
+  "id": "osm-w705790704",
+  "name": "Strawberry Mansion Playground",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w219553994",
+  "name": "Sutcliffe Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Mary Jane Sutcliffe Park covers about 40 acres, with 37.5 acres donated by Frank Sutcliffe and his realty company.",
+    "url": "https://conshystuff.com/history-of-a-house-and-a-park/"
+   },
+   {
+    "text": "Named for Frank Sutcliffe's wife Mary Jane and used for community events since 1929.",
+    "url": "https://conshystuff.com/history-of-a-house-and-a-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1356509020",
+  "name": "Swedeland Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Township park with a pavilion, basketball court, baseball field and playground.",
+    "url": "https://www.umtownship.org/260/Park-Rentals"
+   },
+   {
+    "text": "Pavilion and field use requires a park permit from Upper Merion Township.",
+    "url": "https://www.umtownship.org/260/Park-Rentals"
+   }
+  ]
+ },
+ {
+  "id": "osm-w624503577",
+  "name": "Taft Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Began as a private garden next to the Deanery, home of Bryn Mawr president M. Carey Thomas.",
+    "url": "https://www.brynmawr.edu/bulletin/secret-garden"
+   },
+   {
+    "text": "Modified and renamed the Blanca Noel Taft Memorial Garden in 1974.",
+    "url": "https://www.brynmawr.edu/bulletin/secret-garden"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468567049",
+  "name": "Veterans Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Conshohocken borough memorial park for local service members, with a borough plaza project underway.",
+    "url": "https://www.conshohockenpa.gov/resources/news/article/?id=8466"
+   },
+   {
+    "text": "Borough project adds a memorial plaza, viewing plaza and amphitheater-style stage.",
+    "url": "https://www.conshohockenpa.gov/resources/news/article/?id=8466"
+   }
+  ]
+ },
+ {
+  "id": "osm-w165746026",
+  "name": "Warren Filipone Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Park is 10.2 acres, named in 1976 for Warren G. Filipone, a former township Parks Supervisor.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/33"
+   },
+   {
+    "text": "Has three tennis courts, four pickleball courts and baseball/softball fields.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/48/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526195",
+  "name": "Woodland Ave Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-r10132829",
+  "name": "Dixon Tennis Courts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Four tennis courts that are home to Cabrini University's men's and women's tennis teams.",
+    "url": "https://cabrini.villanova.com/facilities/dixon-tennis-courts/9"
+   },
+   {
+    "text": "Open to Dixon Center members when the teams are not using them.",
+    "url": "https://cabrini.villanova.com/facilities/dixon-tennis-courts/9"
+   }
+  ]
+ },
+ {
+  "id": "osm-w201484369",
+  "name": "Edith Robb Dixon Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "All-weather mini-stadium built in 2006 with seating for 700, lights and a press box.",
+    "url": "https://cabrini.villanova.com/facilities/edith-robb-dixon-field/7"
+   },
+   {
+    "text": "Funded by Edith R. Dixon and her late husband F. Eugene Dixon Jr.; new turf was installed in 2015.",
+    "url": "https://cabrini.villanova.com/facilities/edith-robb-dixon-field/7"
+   }
+  ]
+ }
+]

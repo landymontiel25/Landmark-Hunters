@@ -1,0 +1,476 @@
+[
+ {
+  "id": "osm-w224489289",
+  "name": "Salt & Stone",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Modern American restaurant with a menu spanning mezze, seafood, pasta and steak.",
+    "url": "https://saltandstoneconshy.com/"
+   },
+   {
+    "text": "Menu blends global influences and seasonal ingredients, drawing on over 25 years of culinary experience.",
+    "url": "https://saltandstoneconshy.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1376907581",
+  "name": "Sam's Brick Oven Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-owned pizzeria with a brick oven, craft beer and wine bar.",
+    "url": "https://samsbrickovenpizza.com/sams-brick-oven-pizza-ardmore/"
+   },
+   {
+    "text": "Same family also runs Sam's Boardwalk Style Pizzas & Dairy Bar in Drexel Hill.",
+    "url": "https://samsbrickovenpizza.com/1200-roosevelt-drive/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w366860352",
+  "name": "Scoops",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Ice cream shop with hand-dipped and soft-serve ice cream, including vegan flavors.",
+    "url": "https://www.restaurantji.com/pa/conshohocken/scoops-/"
+   },
+   {
+    "text": "Also makes milkshakes and water ices.",
+    "url": "https://www.restaurantji.com/pa/conshohocken/scoops-/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6507325262",
+  "name": "Silk Cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Thai restaurant that has operated on the Main Line for over 20 years.",
+    "url": "https://www.silk-cuisine.com/"
+   },
+   {
+    "text": "Dining room seats nearly 60 guests; bring-your-own-bottle with no corking fee.",
+    "url": "https://www.silk-cuisine.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n523613930",
+  "name": "Snap Custom Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Founders began by making homemade pizzas for friends and the Villanova rowing team in the mid-1990s.",
+    "url": "https://www.snapcustompizza.com/our-story/"
+   },
+   {
+    "text": "Makes its own cheese and dough daily and builds custom pizzas with in-season toppings.",
+    "url": "https://www.snapcustompizza.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13310467662",
+  "name": "Sontuosa",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Fusion restaurant blending flavors from Mexico, Italy, France and America.",
+    "url": "https://sontuosarestaurant.com/"
+   },
+   {
+    "text": "Menu includes flatbreads, slow-cooked brisket, lasagna and salmon.",
+    "url": "https://sontuosarestaurant.com/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224640033",
+  "name": "Southern Cross Kitchen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Brasserie serving Southern comfort food with a modern twist and craft cocktails.",
+    "url": "https://www.southerncrosskitchen.com/"
+   },
+   {
+    "text": "Run by the owners of Gypsy Saloon in West Conshohocken.",
+    "url": "https://www.southerncrosskitchen.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w685999287",
+  "name": "Spinagar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w224655232",
+  "name": "Spring Mill Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has served French country fare since 1978, starting in a back room with five tables.",
+    "url": "https://www.springmill.com/"
+   },
+   {
+    "text": "Building dates to 1831, when it was the general store and post office of Spring Mill.",
+    "url": "https://www.springmill.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12504780826",
+  "name": "Sushi Land",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Has served Japanese cuisine on the Main Line since 2004.",
+    "url": "https://www.sushiland.us/ver2/index.php"
+   },
+   {
+    "text": "Specialty rolls include the Bryn Mawr Roll, made with spicy salmon and crunch.",
+    "url": "https://sushiland.us/ver2/rolls.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11177268782",
+  "name": "Sweet Stuff",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-run business for over 30 years, selling gourmet chocolates and candies.",
+    "url": "https://www.sweetstuff.biz/aboutus"
+   },
+   {
+    "text": "Scoops Bassett's ice cream and sells Famous 4th Street Cookies.",
+    "url": "https://www.sweetstuff.biz/products"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11610241969",
+  "name": "Taste of Chang'an",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Specializes in hand-pulled biangbiang noodles made to order, a Xi'an style dish.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/taste-of-changan"
+   },
+   {
+    "text": "Orders are placed at a kiosk and it is counter service only.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/taste-of-changan"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989306169",
+  "name": "Teresa's Cafe and Next Door",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Opened in 1997 as an Italian restaurant.",
+    "url": "https://www.exploretock.com/teresas-cafe-wayne"
+   },
+   {
+    "text": "Added a Belgian themed bar in 2007 that focuses on European and craft beer.",
+    "url": "https://www.exploretock.com/teresas-cafe-wayne"
+   },
+   {
+    "text": "Also runs a natural and biodynamic wine shop.",
+    "url": "https://www.exploretock.com/teresas-cafe-wayne"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1208049189",
+  "name": "The Bakery House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Opened in 1989, starting with cookies and pies before growing into a full bakery.",
+    "url": "https://thebakeryhouse.net/about"
+   },
+   {
+    "text": "Bakes from recipes passed down by family and friends.",
+    "url": "https://thebakeryhouse.net/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w587976074",
+  "name": "The Black Cat Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Non-profit cat cafe owned and operated by the PALS pet rescue.",
+    "url": "https://www.theblackcatcafedevon.org/about"
+   },
+   {
+    "text": "All proceeds fund care for homeless, injured and sick cats and kittens.",
+    "url": "https://www.theblackcatcafedevon.org/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6617897849",
+  "name": "The Cheese Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Owned by Soheila Sobhani and stocks cheeses, breads, bagels, charcuterie and prepared sandwiches.",
+    "url": "https://thecheeseco.com/"
+   },
+   {
+    "text": "Also offers gift baskets and catering.",
+    "url": "https://thecheeseco.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10991108357",
+  "name": "The Choice",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened in December 2017 in the space formerly occupied by Vge Cafe.",
+    "url": "https://www.paeats.org/news/2018/the-choice-in-bryn-mawr/"
+   },
+   {
+    "text": "Chef Volodymyr Hyvel co-owns it with his brother-in-law, Igor Hanushchak.",
+    "url": "https://www.paeats.org/news/2018/the-choice-in-bryn-mawr/"
+   },
+   {
+    "text": "BYOB dining room of about 40 seats.",
+    "url": "https://www.paeats.org/news/2018/the-choice-in-bryn-mawr/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13384627661",
+  "name": "The Goat's Beard",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "New American restaurant working with local farmers and purveyors on seasonal menus.",
+    "url": "https://www.thegoatsbeardphilly.com/"
+   },
+   {
+    "text": "Wayne is the second location; the other is in Manayunk.",
+    "url": "https://www.thegoatsbeardphilly.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w988620453",
+  "name": "The Gypsy Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Founded by Kim Strengari and Marianne Gere, known as the Conshy Girls, who met bartending in 1990.",
+    "url": "https://www.gypsysaloon.com/about/"
+   },
+   {
+    "text": "Part of Conshy Girls Restaurant Group, which also runs Southern Cross Kitchen and a catering company.",
+    "url": "https://www.gypsysaloon.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11573781870",
+  "name": "The Silverspoon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Contemporary American dishes from classically trained chefs in a bouchon-style room.",
+    "url": "https://silverspoonwayne.com/about"
+   },
+   {
+    "text": "BYOB with no corkage fee, and offers event catering.",
+    "url": "https://silverspoonwayne.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w221498719",
+  "name": "The Tomato Shack",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Salad and pizza spin-off of the Couch Tomato Cafe, which opened in Manayunk in 2003.",
+    "url": "https://www.thetomatoshack.com/our-story"
+   },
+   {
+    "text": "This Conshohocken shop opened in 2022 as the model unit for the franchise concept.",
+    "url": "https://www.thetomatoshack.com/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10991147767",
+  "name": "Tiffin",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Tiffin, which began in Northern Liberties in 2007 as a web and delivery service.",
+    "url": "https://www.tiffin.com/indian-food-bryn-mawr-main-line-delware-county-montgomery-county-pa-locations/"
+   },
+   {
+    "text": "Opened after Tiffin's Mt. Airy, Elkins Park and Wynnewood locations.",
+    "url": "https://www.tiffin.com/indian-food-bryn-mawr-main-line-delware-county-montgomery-county-pa-locations/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10884221880",
+  "name": "Tiffin Cuisine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Tiffin, which began in Northern Liberties in 2007 as a web and delivery service.",
+    "url": "https://www.tiffin.com/indian-food-bryn-mawr-main-line-delware-county-montgomery-county-pa-locations/"
+   },
+   {
+    "text": "Fourth Tiffin location, opened after Mt. Airy and Elkins Park.",
+    "url": "https://www.tiffin.com/indian-food-bryn-mawr-main-line-delware-county-montgomery-county-pa-locations/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224527451",
+  "name": "Tony & Joe's Pizzeria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Family-run restaurant serving Italian cooking for about thirty years.",
+    "url": "https://www.tonyandjoespizza.com/"
+   },
+   {
+    "text": "Menu draws on family recipes for home-style pastas.",
+    "url": "https://www.tonyandjoespizza.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w366662297",
+  "name": "Trattoria Totaro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned BYOB restaurant that also does off-premise catering and private parties.",
+    "url": "https://www.trattoriatotarobyob.com/"
+   },
+   {
+    "text": "Sells its own Roasted Garlic Olive Oil in its online store.",
+    "url": "https://www.trattoriatotarobyob.com/store/p5/Roasted_Garlic_Olive_Oil_.html"
+   }
+  ]
+ }
+]

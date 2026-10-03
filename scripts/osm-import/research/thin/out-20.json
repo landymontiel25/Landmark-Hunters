@@ -1,0 +1,486 @@
+[
+ {
+  "id": "osm-n12405215774",
+  "name": "Up-Ryes Bagel",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Makes hand-rolled bagels and deli-style sandwiches.",
+    "url": "https://up-ryes.com/"
+   },
+   {
+    "text": "Offers breakfast and lunch catering for pickup or delivery.",
+    "url": "https://up-ryes.com/catering"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9385011517",
+  "name": "Vernick Coffee Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Run by James Beard Award-winning chef Greg Vernick.",
+    "url": "https://www.vernickcoffeebar.com/about/"
+   },
+   {
+    "text": "Pairs Caffe Umbria coffee with house-baked goods and fresh-pressed juices.",
+    "url": "https://www.vernickcoffeebar.com/"
+   },
+   {
+    "text": "Has a full-service 40-seat cafe beside the takeaway bakery and barista bar.",
+    "url": "https://www.vernickcoffeebar.com/menu/cafe-lunch/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w215322953",
+  "name": "Vic & Deans",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes stromboli, calzones, paninis, hoagies and grinders.",
+    "url": "https://vicanddeans.com/menu"
+   },
+   {
+    "text": "Makes cauliflower crust and gluten-free pizzas.",
+    "url": "https://vicanddeans.com/menu"
+   },
+   {
+    "text": "Makes cheesesteaks, including a chicken version.",
+    "url": "https://vicanddeans.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2611788967",
+  "name": "Villa Artigiano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Family-owned BYO Italian restaurant with dishes from various regions of Italy.",
+    "url": "https://www.villaartigiano.com/"
+   },
+   {
+    "text": "Also offers off-site catering and private events.",
+    "url": "https://www.villaartigiano.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224489169",
+  "name": "Win Wah",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Listed as an Asian BYOB restaurant.",
+    "url": "https://mainlinetoday.com/restaurant/win-wah/"
+   },
+   {
+    "text": "Established in 1982 and sells Chinese food and fresh sushi.",
+    "url": "https://www.yelp.com/biz/win-wah-conshohocken"
+   },
+   {
+    "text": "Current owner took over the business in 2011.",
+    "url": "https://www.yelp.com/biz/win-wah-conshohocken"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10974561754",
+  "name": "Yapple Yogurt",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Self-serve frozen yogurt shop with about 12 flavors that rotate every three weeks.",
+    "url": "https://patch.com/pennsylvania/ardmore/wynnewood-froyo-spotlight-yapple-yogurt"
+   },
+   {
+    "text": "Toppings range from fresh fruit to crushed Oreos and strawberry juice balls.",
+    "url": "https://patch.com/pennsylvania/ardmore/wynnewood-froyo-spotlight-yapple-yogurt"
+   }
+  ]
+ },
+ {
+  "id": "osm-r11107509",
+  "name": "Academy at Palumbo High School",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Art Deco brick school with terra cotta ornament, built in 1930 and designed by Irwin T. Catharine.",
+    "url": "https://en.wikipedia.org/wiki/Academy_at_Palumbo"
+   },
+   {
+    "text": "Formerly Bartlett School and Frank C. Palumbo Junior High School.",
+    "url": "https://en.wikipedia.org/wiki/Academy_at_Palumbo"
+   },
+   {
+    "text": "Added to the National Register of Historic Places in 1986.",
+    "url": "https://en.wikipedia.org/wiki/Academy_at_Palumbo"
+   },
+   {
+    "text": "Became a high school in 2006.",
+    "url": "https://en.wikipedia.org/wiki/Academy_at_Palumbo"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7182486950",
+  "name": "All Wars Memorial to Colored Soldiers and Sailors",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Sculpted by Philadelphia artist J. Otto Schweizer.",
+    "url": "https://www.associationforpublicart.org/artwork/all-wars-memorial-to-colored-soldiers-and-sailors/"
+   },
+   {
+    "text": "Stood hidden behind Memorial Hall in West Fairmount Park until moved to the Parkway in 1994.",
+    "url": "https://www.associationforpublicart.org/artwork/all-wars-memorial-to-colored-soldiers-and-sailors/"
+   },
+   {
+    "text": "Proposed by legislator Samuel Beecher Hart, with state funds appropriated in 1927.",
+    "url": "https://www.associationforpublicart.org/artwork/all-wars-memorial-to-colored-soldiers-and-sailors/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w486671294",
+  "name": "Chinatown Friendship Gate",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Designed by architect Sabrina Soong to symbolize friendship with sister city Tianjin.",
+    "url": "https://philadelphiaencyclopedia.org/artifacts/artifact-chinatown-friendship-gate/"
+   },
+   {
+    "text": "Made by artisans in Tianjin, China in 1983 and installed in 1984.",
+    "url": "https://philadelphiaencyclopedia.org/artifacts/artifact-chinatown-friendship-gate/"
+   },
+   {
+    "text": "Renovated in 2008.",
+    "url": "https://philadelphiaencyclopedia.org/artifacts/artifact-chinatown-friendship-gate/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11084813613",
+  "name": "Commodore Barry",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12178666501",
+  "name": "Expedition Escape",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Escape room venue with private adventures for groups of 2 to 68 players.",
+    "url": "https://expeditionescape.com/"
+   },
+   {
+    "text": "Games include Lucky Dice Diner, set in a 1950s diner, and The Blind Tiger Speakeasy, set in 1920s Prohibition.",
+    "url": "https://expeditionescape.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3590076337",
+  "name": "George Washington",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Bronze statue sculpted by Joseph Alexis Bailly and dedicated in October 1910.",
+    "url": "https://en.wikipedia.org/wiki/George_Washington_(Bailly)"
+   },
+   {
+    "text": "Cast by Roman Bronze Works; it replaced a marble original dedicated in 1869.",
+    "url": "https://en.wikipedia.org/wiki/George_Washington_(Bailly)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6240921141",
+  "name": "Harbison's Dairy Milk Bottle",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The 30,000-gallon tank is built to look like a glass milk bottle.",
+    "url": "https://www.phila.gov/media/20190401093015/2041-55-Coral-St-nomination.pdf"
+   },
+   {
+    "text": "Part of the Harbisons' Dairies complex; main building dates to 1895.",
+    "url": "https://www.phila.gov/media/20190401093015/2041-55-Coral-St-nomination.pdf"
+   },
+   {
+    "text": "Added to the Philadelphia Register of Historic Places in 2018.",
+    "url": "https://www.phila.gov/media/20190401093015/2041-55-Coral-St-nomination.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7707982156",
+  "name": "Historical Price sawmill dam?",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Joseph Price built a saw mill on Indian Creek, in what is now Shortridge Park.",
+    "url": "https://collections.lowermerionhistory.org/home/full-text/contents/joseph-price/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4175144392",
+  "name": "Italian Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Runs along 9th Street from Wharton to Fitzwater Streets.",
+    "url": "https://italianmarketphilly.org/history-2/"
+   },
+   {
+    "text": "Began in the 1880s when Antonio Palumbo opened a boarding house for Italian immigrants.",
+    "url": "https://italianmarketphilly.org/history-2/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11904233638",
+  "name": "Joey Giardello Statue",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Bronze statue by sculptor Carl LeVotch, installed on a triangle at Passyunk Avenue and 13th Street.",
+    "url": "https://www.phillyboxinghistory.com/giardello/joey_statue.htm"
+   },
+   {
+    "text": "Unveiled on May 21, 2011, honoring the 1963 world middleweight champion.",
+    "url": "http://www.phillyboxinghistory.com/fight_stories/stories/2011/20110521_statue_unveiled_01.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6509008579",
+  "name": "Kelpius Cave",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Linked to Johannes Kelpius, who led followers to the Wissahickon in 1694 to await the end of the world.",
+    "url": "https://fow.org/virtual-valley/trails-to-the-past/kelpius-cave/"
+   },
+   {
+    "text": "Historians have never confirmed its nature; it may be a springhouse or root cellar.",
+    "url": "https://fow.org/virtual-valley/trails-to-the-past/kelpius-cave/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w241085159",
+  "name": "Lock Tender's House",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w246698955",
+  "name": "Merion Tribute House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Funded by Eldridge Johnson, founder of the Victor Talking Machine Company, to honor 81 Merion men in service.",
+    "url": "https://www.tributehouse.com/history"
+   },
+   {
+    "text": "Designed by architects Karcher and Smith in Gothic patterns with local stone.",
+    "url": "https://www.tributehouse.com/history"
+   },
+   {
+    "text": "Ironwork and lamps were designed by craftsmen of Samuel Yellin.",
+    "url": "https://www.tributehouse.com/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7771182755",
+  "name": "Narberth Public School Bell",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Bell was placed outside the Community Building in 1995, Narberth's centennial year.",
+    "url": "https://narberthhistory.org/sources/narberth-second-hundred"
+   },
+   {
+    "text": "Came from Narberth Public School, a stone building put up around 1892 at Sabine and Essex Avenues.",
+    "url": "https://collections.lowermerionhistory.org/home/full-text/public-schools/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4860710733",
+  "name": "Old Mortality Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Three sandstone statues by Scottish sculptor James Thom, bought by the cemetery in 1836.",
+    "url": "https://www.philadelphiabuildings.org/pab/app/ho_display.cfm/1164614"
+   },
+   {
+    "text": "Shows Sir Walter Scott talking with Old Mortality, an old man who re-carved weathered gravestones.",
+    "url": "https://www.philadelphiabuildings.org/pab/app/ho_display.cfm/1164614"
+   }
+  ]
+ },
+ {
+  "id": "osm-w368380121",
+  "name": "Philadelphia Job Corps Life Science Institute",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Trains students in health care fields such as Certified Nurse Assistant and Pharmacy Technician.",
+    "url": "https://philadelphia.jobcorps.gov/train"
+   },
+   {
+    "text": "Offers Emergency Medical Technician and Clinical Medical Assistant training.",
+    "url": "https://philadelphia.jobcorps.gov/jobs/emergency-medical-technician-"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11106031305",
+  "name": "Philly Gun Range",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Indoor shooting range with 12 lanes, each 20 yards long.",
+    "url": "https://phillygunrange.com/"
+   },
+   {
+    "text": "Open to walk-in shooters, who can bring their own firearm or rent handguns and rifles.",
+    "url": "https://phillygunrange.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1481633270",
+  "name": "Radnor Township War Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Dedicated May 28, 1922, on ground given by the Chew family.",
+    "url": "https://radnorhistory.org/archive/articles/ytmt/?p=115"
+   },
+   {
+    "text": "Bronze relief by R. Tait McKenzie; architect Louis S. Adams designed the memorial.",
+    "url": "https://radnorhistory.org/archive/articles/ytmt/?p=115"
+   },
+   {
+    "text": "Moved in 1966 from Lancaster and Iven Avenues to South Wayne and Runnymede Avenues.",
+    "url": "https://radnorhistory.org/archive/articles/ytmt/?p=115"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1687521435",
+  "name": "Ruins of Old Mill",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ }
+]

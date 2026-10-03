@@ -1,0 +1,449 @@
+[
+ {
+  "id": "osm-w60990784",
+  "name": "Cloverly Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Two-acre passive park on land the Edward White Clark family donated to the city in 1914.",
+    "url": "http://www.friendsofcloverlypark.org/cloverly-park"
+   },
+   {
+    "text": "Friends of Cloverly Park, an all-volunteer group, has cared for the park since 1986.",
+    "url": "http://www.friendsofcloverlypark.org/cloverly-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w116522717",
+  "name": "Elwell Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has a playground, tennis courts and softball fields.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   },
+   {
+    "text": "A gate at the end of the field leads to the Haverford College Nature Trail.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526193",
+  "name": "Encke Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Formerly called Iven Field, renamed in 1974 for Ethel G. Encke, founder of the Radnor Recreation Department.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/14/33"
+   },
+   {
+    "text": "The 10.7-acre park was a township sewage plant site in the mid-1940s before becoming parkland.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/14/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526179",
+  "name": "Environmental Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w26986958",
+  "name": "Executive Estates Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has a playground, basketball court, pavilion, pond and tennis courts.",
+    "url": "https://swmontgomery.macaronikid.com/directory/5f0fd808ff876409454e06cc/executive-estates-park"
+   },
+   {
+    "text": "Listed as a named place in Upper Merion Township on the USGS Norristown map.",
+    "url": "https://pennsylvania.hometownlocator.com/pa/montgomery/executive-estates-park.cfm"
+   }
+  ]
+ },
+ {
+  "id": "osm-r17381907",
+  "name": "Fernhill Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Community food forest started here in fall 2021 with the Philadelphia Orchard Project.",
+    "url": "https://resolvephilly.org/gih/fernhill-food-forest/"
+   },
+   {
+    "text": "The 51-acre park in southwest Germantown has trees, sports courts and playgrounds.",
+    "url": "https://resolvephilly.org/gih/fernhill-food-forest/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w183666855",
+  "name": "Fitler Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Created from a former brickyard by city ordinance in 1896.",
+    "url": "https://www.fitlersquare.org/history/history-of-fitler-square-park/"
+   },
+   {
+    "text": "Named for Edwin H. Fitler, Philadelphia mayor from 1887 to 1891.",
+    "url": "https://www.fitlersquare.org/history/history-of-fitler-square-park/"
+   },
+   {
+    "text": "Half-acre park maintained with the Fitler Square Improvement Association.",
+    "url": "https://www.fitlersquare.org/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526165",
+  "name": "Friends of Radnor Trail Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Formerly the D'Antonio Tract, bought by the township in 2002 and opened as a park in May 2009.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/20/33"
+   },
+   {
+    "text": "The 3.1-acre park has a large grassy dog area and an access point to the Radnor Trail.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/20/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w557471144",
+  "name": "Gest Tract Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Neighborhood park of about 20 acres in Haverford Township, Delaware County.",
+    "url": "https://www.goodforpa.com/park/gest-tract/"
+   },
+   {
+    "text": "Has swing sets and walking paths.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468558321",
+  "name": "Haines & Salvati Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has two full basketball courts, playground equipment and a concession stand.",
+    "url": "https://conshohockenpa.gov/departments/recreation-services/parks/"
+   },
+   {
+    "text": "Has a fitness court open for public use.",
+    "url": "https://conshohockenpa.gov/departments/recreation-services/parks/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n357369285",
+  "name": "Highland Farms Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Has tennis and pickleball courts and a playground.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   },
+   {
+    "text": "Used as an activity location in the township's summer recreation programs.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1141051788",
+  "name": "Indian Creek Basin Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w26661675",
+  "name": "John Capelli Golf Range",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "A 22.5-acre driving range next to Encke Park, dedicated in January 1994 for former commissioner John Cappelli.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/34/33"
+   },
+   {
+    "text": "Cappelli, an avid golfer, served as a Radnor Township commissioner.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/34/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w709564096",
+  "name": "Julian Abele Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Named for Julian Abele, the architect known for Duke University's campus and the Philadelphia Museum of Art.",
+    "url": "https://julianabelepark.org/location/"
+   },
+   {
+    "text": "Listed among the Water Department's completed green stormwater infrastructure projects.",
+    "url": "https://water.phila.gov/wp-content/uploads/files/Year5_EAPCombinedAppendices_website.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w710791425",
+  "name": "Kay Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w219535527",
+  "name": "Leeland Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Three-acre neighborhood park in the Conshohocken section of Whitemarsh Township, renovated in 2025.",
+    "url": "https://www.whitemarshtwp.org/221/Leeland-Park"
+   },
+   {
+    "text": "Has a baseball/softball diamond, a full basketball court and a quarter-mile walking path.",
+    "url": "https://www.whitemarshtwp.org/221/Leeland-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w219554130",
+  "name": "Mary Wood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Mary Wood left the block to the borough in her will in 1919 for use as a public park.",
+    "url": "https://www.conshohockenhistoricalsociety.org/mary-wood-caretaker-house"
+   },
+   {
+    "text": "Her house became the borough community center, formed in 1925.",
+    "url": "https://www.conshohockenhistoricalsociety.org/mary-wood-caretaker-house"
+   }
+  ]
+ },
+ {
+  "id": "osm-w60928712",
+  "name": "McMichael Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Five-acre park in East Falls established in 1929, with a war memorial and a climbing turtle.",
+    "url": "https://www.parksontap.com/parks2022/mcmichaelpark"
+   },
+   {
+    "text": "Named for Morton McMichael, a former mayor of Philadelphia.",
+    "url": "https://www.parksontap.com/parks2022/mcmichaelpark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526203",
+  "name": "Memorial Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Radnor Memorial Park has a 7-acre multipurpose athletic field with an artificial turf surface installed in 2012.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/46/33"
+   },
+   {
+    "text": "Named to remember youth sports players, coaches and administrators who died while active; opened in 2002.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/46/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526198",
+  "name": "Merryvale",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Small walkway park of about 0.04 acres, named for the Merryvale Athletic Association that once used the land.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/36/33"
+   },
+   {
+    "text": "Sits at North Wayne Park, also known as Seneca Egbert Field.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/36/33"
+   }
+  ]
+ },
+ {
+  "id": "osm-w78288153",
+  "name": "Merwood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Neighborhood park of about 5.8 acres in Haverford Township.",
+    "url": "https://www.goodforpa.com/park/merwood-park/"
+   },
+   {
+    "text": "Has a ball field, basketball courts and a reservable picnic pavilion.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13058728101",
+  "name": "Mom Rinker's Rock",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Scenic outlook on a ridge in Wissahickon Valley Park, just north of the Walnut Lane Bridge.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker%27s_Rock"
+   },
+   {
+    "text": "Named for Molly Rinker, said to have watched British troop movements from the rock in the Revolutionary War.",
+    "url": "https://en.wikipedia.org/wiki/Mom_Rinker%27s_Rock"
+   }
+  ]
+ },
+ {
+  "id": "osm-w776596303",
+  "name": "Newhall Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w231710565",
+  "name": "Normandy Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Neighborhood park of about 2 acres in Haverford Township.",
+    "url": "https://www.goodforpa.com/park/normandy-park/"
+   },
+   {
+    "text": "Has a T-ball field.",
+    "url": "https://www.havtwp.org/Parks_and_Recreation/Township_Parks_&_Trails_Information.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28531703",
+  "name": "Odorisio Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "A 25-acre park, purchased by the township in 1962 and formerly a quarry sometimes called Quarry Park.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/38/33"
+   },
+   {
+    "text": "Named in 1967 for Rocco A. Odorisio, a former township commissioner.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/38/33"
+   },
+   {
+    "text": "Baseball field was dedicated in 2009 as Ralph DiMaio Field for Little League and American Legion service.",
+    "url": "https://www.radnor.com/Home/Components/FacilityDirectory/FacilityDirectory/38/33"
+   }
+  ]
+ }
+]
