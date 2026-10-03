@@ -241,7 +241,7 @@
  },
  {
   "id": "osm-n13527511701",
-  "name": "Capital One Caf\u00e9 at Miami Beach",
+  "name": "Capital One Café at Miami Beach",
   "matched": true,
   "closed": false,
   "closedSource": null,
@@ -351,10 +351,6 @@
   "facts": [
    {
     "text": "Named after the owner's grandmother, a name he also gave his daughter.",
-    "url": "https://www.cecilebakerycafe.com/about-us"
-   },
-   {
-    "text": "The only place to buy baker Franck Monnier's creations.",
     "url": "https://www.cecilebakerycafe.com/about-us"
    }
   ]

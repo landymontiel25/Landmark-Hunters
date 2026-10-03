@@ -12,7 +12,7 @@ const webFacts = JSON.parse(fs.readFileSync(FACTS, 'utf8'));
 const overrides = JSON.parse(fs.readFileSync(OVERRIDES, 'utf8'));
 const GENERIC_START = /^(Serves |Offers |Has |Takes reservations|Takeout only|Wheelchair|Partly wheelchair|Address: )/;
 
-const counts = { facts: 0, closed: 0, unconfirmed: 0, empty: [] };
+const counts = { facts: 0, closed: 0, unconfirmed: 0, noFacts: 0, empty: [] };
 for (const f of fs.readdirSync(DIR).filter((f) => /^out-\d+\.json$/.test(f)).sort()) {
   for (const r of JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8'))) {
     if (r.closed) {
@@ -24,6 +24,9 @@ for (const f of fs.readdirSync(DIR).filter((f) => /^out-\d+\.json$/.test(f)).sor
     if (facts.length) {
       webFacts[r.id] = { name: r.name, closed: false, closedSource: null, facts };
       counts.facts++;
+    } else if (r.noFacts) {
+      overrides[r.id] = { ...overrides[r.id], drop: 'no specific facts found online after 8 searches' };
+      counts.noFacts++;
     } else if (r.notFound || !r.matched) {
       overrides[r.id] = { ...overrides[r.id], drop: 'not found online after 4 searches' };
       counts.unconfirmed++;
@@ -32,5 +35,5 @@ for (const f of fs.readdirSync(DIR).filter((f) => /^out-\d+\.json$/.test(f)).sor
 }
 fs.writeFileSync(FACTS, JSON.stringify(webFacts, null, 1) + '\n');
 fs.writeFileSync(OVERRIDES, JSON.stringify(overrides, null, 2) + '\n');
-console.log(`facts ${counts.facts}, closed ${counts.closed}, unconfirmed ${counts.unconfirmed}, matched but no usable fact ${counts.empty.length}`);
+console.log(`facts ${counts.facts}, closed ${counts.closed}, unconfirmed ${counts.unconfirmed}, no facts ${counts.noFacts}, matched but no usable fact ${counts.empty.length}`);
 for (const e of counts.empty) console.log('  ' + e);

@@ -69,10 +69,6 @@
    {
     "text": "Macy's Children and Home store on the lower level of Dadeland Mall, facing the Palmetto Expressway.",
     "url": "https://www.simon.com/mall/dadeland-mall/stores/macys-children-and-home"
-   },
-   {
-    "text": "Best entrance is near Saks Fifth Avenue inside Dadeland Mall.",
-    "url": "https://www.simon.com/mall/dadeland-mall/stores/macys-children-and-home"
    }
   ]
  },
@@ -90,7 +86,7 @@
     "url": "https://www.simon.com/mall/dadeland-mall/stores/macys"
    },
    {
-    "text": "Dadeland Mall is anchored by Florida's largest Macy's.",
+    "text": "Anchor store of Dadeland Mall.",
     "url": "https://www.simon.com/mall/dadeland-mall/stores/macys"
    }
   ]
@@ -248,10 +244,6 @@
   "notFound": false,
   "searches": 1,
   "facts": [
-   {
-    "text": "Gastropub known for craft beers, cocktails and gourmet dishes.",
-    "url": "https://tap42.com/locations/coral-gables/"
-   },
    {
     "text": "Hosts a Saturday and Sunday bottomless brunch.",
     "url": "https://tap42.com/weekly-promotions/saturday-sunday-brunch/"
