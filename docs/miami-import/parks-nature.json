@@ -3,7 +3,7 @@
  "count": 160,
  "commonsPhotos": 9,
  "commonsPhotoPct": 5.6,
- "withFacts": 29,
+ "withFacts": 70,
  "withHours": 11,
  "photoSkips": [
   {
@@ -77,6 +77,7 @@
    "photo": false,
    "facts": [
     "Opened in 2024",
+    "Run by Miami",
     "Run by City of Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1531679816"
@@ -88,7 +89,9 @@
    "lat": 25.728349,
    "lng": -80.284452,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 4650 Alhambra Circle, Coral Gables"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/561127145"
   },
   {
@@ -109,7 +112,9 @@
    "lng": -80.294079,
    "photo": false,
    "facts": [
-    "Run by City of Miami"
+    "Run by Miami",
+    "Run by City of Miami",
+    "Address: 6030 Southwest 2nd Street, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/806235765"
   },
@@ -121,7 +126,8 @@
    "lng": -80.196733,
    "photo": false,
    "facts": [
-    "Run by City of Miami"
+    "Run by City of Miami",
+    "Address: 1814 Brickell Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/808920657"
   },
@@ -142,7 +148,9 @@
    "lat": 25.741057,
    "lng": -80.264608,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 405 University Drive, Coral Gables"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/470378974"
   },
   {
@@ -182,7 +190,10 @@
    "lat": 25.77646,
    "lng": -80.27096,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Kinloch Park is also known as Charlie DeLucca Park.",
+    "Address: 455 Northwest 47th Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/167158230"
   },
   {
@@ -194,6 +205,7 @@
    "photo": false,
    "facts": [
     "Opened in 2023",
+    "Run by Miami",
     "Run by City of Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/805822608"
@@ -237,7 +249,8 @@
    "photo": false,
    "facts": [
     "Run by City of Miami Beach Government",
-    "Wheelchair accessible"
+    "Wheelchair accessible",
+    "Address: 999 11th Street, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/76684242"
   },
@@ -281,7 +294,9 @@
    "lat": 25.757689,
    "lng": -80.267858,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 4430 Southwest 15th Terrace, Coral Gables"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/461405867"
   },
   {
@@ -291,7 +306,9 @@
    "lat": 25.747793,
    "lng": -80.152875,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 3515-3801 Rickenbacker Causeway, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/650168265"
   },
   {
@@ -301,7 +318,9 @@
    "lat": 25.733872,
    "lng": -80.242212,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 3045 Shipping Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/522268809"
   },
   {
@@ -311,7 +330,9 @@
    "lat": 25.674438,
    "lng": -80.317915,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 7551 Southwest 104th Street, Pinecrest"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/376900985"
   },
   {

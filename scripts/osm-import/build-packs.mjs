@@ -25,6 +25,30 @@ const sameName = new Map();
 for (const p of JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8'))) sameName.set(p.name, (sameName.get(p.name) || 0) + 1);
 // Photos rejected after looking at them (overrides.json rejectPhoto).
 const overrides = JSON.parse(fs.readFileSync('scripts/osm-import/overrides.json', 'utf8'));
+// Facts found by web research (scripts/osm-import/web-facts.json), each with
+// the page that states it. They go first; OSM/Wikidata facts follow, with
+// the street address last.
+const webFacts = fs.existsSync('scripts/osm-import/web-facts.json') ? JSON.parse(fs.readFileSync('scripts/osm-import/web-facts.json', 'utf8')) : {};
+const withWebFacts = (p) => {
+  const web = (webFacts[p.id]?.facts || []).filter((f) => okWebFact(f));
+  if (!web.length) return p;
+  const seen = new Set(web.map((f) => f.text.toLowerCase()));
+  const own = p.facts.filter((f) => !seen.has(f.toLowerCase()));
+  const address = own.filter((f) => f.startsWith('Address: '));
+  const facts = [...web.map((f) => f.text), ...own.filter((f) => !f.startsWith('Address: '))].slice(0, 7).concat(address);
+  return { ...p, facts, factSources: Object.fromEntries(web.filter((f) => facts.includes(f.text)).map((f) => [f.text, f.url])) };
+};
+// Plain one-line statements with a real link; nothing that goes stale or
+// reads as an opinion (prices, hours, phone numbers, star ratings).
+export function okWebFact(f) {
+  const text = String(f?.text || '').trim();
+  return (
+    text.length >= 12 &&
+    text.length <= 160 &&
+    /^https:\/\/[^\s"'<>]+$/.test(String(f?.url || '')) &&
+    !/\$\s?\d|\b\d{3}[-.\s)]+\d{3}[-.\s]\d{4}\b|\b(stars?|rated|ratings?|reviews?|open(s)? (daily|from|until)|hours)\b|\u2014|\b(best|most popular|famous|iconic|must-visit|favorite)\b/i.test(text)
+  );
+}
 
 // A Commons file is used by one place only, across the catalog and every pack.
 const otherPackFiles = PLACE_PACKS.filter((p) => p.category !== category).map((p) => p.file);
@@ -32,7 +56,7 @@ const used = new Set(ALL_LANDMARKS.flatMap((l) => l.images || []));
 for (const f of otherPackFiles) for (const p of JSON.parse(fs.readFileSync(path.join('public', f), 'utf8'))) for (const u of p.images) used.add(u);
 
 const photoSkips = [];
-const places = staged.map((p) => {
+const places = staged.map(withWebFacts).map((p) => {
   const r = photoOf.get(p.id);
   if (!r) return p;
   const skip = (why) => (photoSkips.push({ id: p.id, name: p.name, why }), p);

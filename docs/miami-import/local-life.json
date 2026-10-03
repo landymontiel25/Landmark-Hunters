@@ -3,7 +3,7 @@
  "count": 124,
  "commonsPhotos": 10,
  "commonsPhotoPct": 8.1,
- "withFacts": 31,
+ "withFacts": 79,
  "withHours": 24,
  "photoSkips": [
   {
@@ -40,7 +40,10 @@
    "lat": 25.795824,
    "lng": -80.192447,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "21 and over",
+    "Address: 111 Northeast 20th Street, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6090251576"
   },
   {
@@ -50,7 +53,9 @@
    "lat": 25.770564,
    "lng": -80.189253,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 270 Biscayne Boulevard"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4980808353"
   },
   {
@@ -90,7 +95,9 @@
    "lat": 25.784669,
    "lng": -80.193052,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 34 Northeast 11th Street, Suite B, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/10959342065"
   },
   {
@@ -133,7 +140,9 @@
    "lat": 25.799695,
    "lng": -80.195167,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2328 North Miami Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/11586521969"
   },
   {
@@ -154,7 +163,8 @@
    "lng": -80.136117,
    "photo": false,
    "facts": [
-    "Part of the Macy's chain"
+    "Part of the Macy's chain",
+    "Address: 1675 Meridian Avenue, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/435513518"
   },
@@ -176,7 +186,8 @@
    "lng": -80.135897,
    "photo": false,
    "facts": [
-    "Has Wi-Fi"
+    "Has Wi-Fi",
+    "Address: 407 Meridian Avenue, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/2082872477"
   },
@@ -197,7 +208,9 @@
    "lat": 25.784656,
    "lng": -80.193897,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 1035 North Miami Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4405152389"
   },
   {
@@ -239,7 +252,10 @@
    "lat": 25.727727,
    "lng": -80.247289,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Accepts Bitcoin",
+    "Address: 3300 Grand Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/13401917278"
   },
   {
@@ -261,7 +277,9 @@
    "lat": 25.801567,
    "lng": -80.202563,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 450 Northwest 27th Street, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/310319091"
   },
   {
@@ -293,7 +311,9 @@
    "lat": 25.802032,
    "lng": -80.198683,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 187 Northwest 27th Street, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/3839885752"
   }
  ],

@@ -3,7 +3,7 @@
  "count": 27,
  "commonsPhotos": 3,
  "commonsPhotoPct": 11.1,
- "withFacts": 12,
+ "withFacts": 18,
  "withHours": 1,
  "photoSkips": [
   {
@@ -35,7 +35,9 @@
    "lat": 25.719593,
    "lng": -80.280105,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 1312 Miller Road, Coral Gables"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/375165787"
   },
   {
@@ -60,7 +62,9 @@
    "lng": -80.279508,
    "photo": false,
    "facts": [
-    "Run by University of Miami"
+    "Run by University of Miami",
+    "Official name: Maurice Gusman Music Hall",
+    "Address: 1314 Miller Road, Coral Gables"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/366186665"
   },
@@ -71,7 +75,9 @@
    "lat": 25.789316,
    "lng": -80.14144,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 1212 Lincoln Road, Miami Beach"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/13165171139"
   },
   {
@@ -82,7 +88,8 @@
    "lng": -80.277237,
    "photo": false,
    "facts": [
-    "Run by University of Miami"
+    "Run by University of Miami",
+    "Official name: The Bill Cosford Cinema"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/12179541636"
   },
@@ -94,7 +101,8 @@
    "lng": -80.132639,
    "photo": false,
    "facts": [
-    "Has 1 screen"
+    "Has 1 screen",
+    "Address: 1130 Washington Avenue, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4710861095"
   },
@@ -126,7 +134,8 @@
    "lng": -80.140627,
    "photo": false,
    "facts": [
-    "Part of the Regal Cinemas chain"
+    "Part of the Regal Cinemas chain",
+    "Address: 1120 Lincoln Road, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/297682367"
   },
@@ -138,7 +147,8 @@
    "lng": -80.188437,
    "photo": false,
    "facts": [
-    "Has 17 screens"
+    "Has 17 screens",
+    "Address: 300 Southeast 3rd Street, Unit 100, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6935717880"
   },
@@ -174,7 +184,8 @@
    "photo": false,
    "facts": [
     "Founded in 1951",
-    "Designed by Russell T. Pancoast and Henry Hohauser"
+    "Designed by Russell T. Pancoast and Henry Hohauser",
+    "Address: 1700 Washington Avenue, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/590186839"
   },
@@ -195,7 +206,10 @@
    "lat": 25.776205,
    "lng": -80.18606,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Also known as Bayfront Park Amphitheatre",
+    "Address: 301 Biscayne Boulevard, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/301237024"
   },
   {
@@ -215,7 +229,9 @@
    "lat": 25.777684,
    "lng": -80.185741,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 401 Biscayne Boulevard, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/8871944117"
   },
   {
@@ -258,7 +274,9 @@
    "lat": 25.790206,
    "lng": -80.139788,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 1040 Lincoln Road, Miami Beach"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/589360337"
   },
   {
@@ -269,6 +287,7 @@
    "lng": -80.242366,
    "photo": false,
    "facts": [
+    "Owned by Cinépolis of the United States",
     "Has 14 screens",
     "Part of the Cinépolis chain"
    ],
@@ -281,7 +300,9 @@
    "lat": 25.772327,
    "lng": -80.209553,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "Address: 900 Southwest 1st Street"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/435585940"
   },
   {

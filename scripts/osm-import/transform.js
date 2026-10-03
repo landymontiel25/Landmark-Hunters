@@ -285,8 +285,59 @@ export function factsFromTags(tags, category) {
   else if (t.dog === 'yes') f.push('Dogs allowed');
   else if (t.dog === 'no') f.push('No dogs allowed');
   if (t.wheelchair === 'yes') f.push('Wheelchair accessible');
+  else if (t.wheelchair === 'limited') f.push('Partly wheelchair accessible');
   if (t.opening_hours === '24/7') f.push('Open 24 hours');
+  if (t.takeaway === 'yes') f.push('Offers takeout');
+  if (t.bar === 'yes' && t.amenity !== 'bar' && t.amenity !== 'pub') f.push('Has a bar');
+  if (['yes', 'only'].includes(t['payment:onchain']) || ['yes', 'only'].includes(t['payment:lightning'])) f.push('Accepts Bitcoin');
+  if (Number(t.min_age) >= 18) f.push(`${Number(t.min_age)} and over`);
+  if (t.highchair === 'yes') f.push('Has high chairs');
+  if (t.toilets === 'yes' && (category === 'parks-nature' || category === 'sports')) f.push('Has restrooms');
+  const official = cleanName(t.official_name);
+  if (official && nameKey(official) !== nameKey(t.name)) f.push(`Official name: ${official}`);
+  const alt = cleanName(String(t.alt_name || '').split(';')[0]);
+  if (alt && nameKey(alt) !== nameKey(t.name)) f.push(`Also known as ${alt}`);
+  const height = metersOf(t.height);
+  if (height >= 3 && (category === 'history-culture' || category === 'art-museums')) f.push(`About ${Math.round(height)} m (${Math.round(height * 3.281)} ft) tall`);
+  const levels = Number(t['building:levels']);
+  if (levels >= 2 && (category === 'history-culture' || category === 'art-museums')) f.push(`${levels} stories tall`);
+  const inscription = inscriptionOf(t.inscription);
+  if (inscription) f.push(`Inscription: \u201C${inscription}\u201D`);
+  const address = addressOf(t);
+  if (address) f.push(`Address: ${address}`);
   return [...new Set(f)];
+}
+
+// "12 m", "40'" or "12" (meters) as meters; NaN otherwise.
+function metersOf(v) {
+  const m = String(v || '').trim().match(/^(\d+(?:\.\d+)?)\s*(m|ft|')?$/);
+  if (!m) return NaN;
+  return m[2] === 'ft' || m[2] === "'" ? Number(m[1]) / 3.281 : Number(m[1]);
+}
+
+// A plaque's text on one line: OSM's line breaks become spaces, *markup* goes,
+// and a long one is cut at a word near 220 characters.
+function inscriptionOf(v) {
+  const text = String(v || '')
+    .replace(/\*/g, '')
+    .replace(/\s*\n\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/^["\u201C]+|["\u201D]+$/g, '')
+    .trim();
+  if (text.length < 8) return '';
+  if (text.length <= 220) return text;
+  return `${text.slice(0, 220).replace(/\s+\S*$/, '')}\u2026`;
+}
+
+// "1604 Washington Avenue, Unit A, Miami Beach" from the addr:* tags, when
+// the house number and street are both there.
+export function addressOf(t) {
+  const num = String(t['addr:housenumber'] || '').trim();
+  const street = String(t['addr:street'] || '').trim();
+  if (!num || !street) return '';
+  const unit = String(t['addr:unit'] || '').trim();
+  const city = String(t['addr:city'] || '').trim();
+  return [`${num} ${street}`, unit && (/^\d/.test(unit) ? `Unit ${unit}` : /^(unit|suite|ste|apt|#)/i.test(unit) ? unit : `Unit ${unit}`), city].filter(Boolean).join(', ');
 }
 
 // Facts from Wikidata claims (entity JSON from wbgetentities, plus the labels
@@ -313,6 +364,22 @@ export function factsFromWikidata(entity, labels = {}, category = null) {
   if (occupants.length) f.push(`Home of ${listJoin(occupants.slice(0, 3))}`);
   const named = vals('P138').map(label).filter(Boolean);
   if (named.length) f.push(`Named after ${named[0]}`);
+  const styles = vals('P149').map(label).filter(Boolean);
+  if (styles.length) f.push(`Built in the ${listJoin(styles.slice(0, 2))} style`);
+  const creators = vals('P170').map(label).filter(Boolean);
+  if (creators.length) f.push(`Created by ${listJoin(creators.slice(0, 2))}`);
+  const floors = Number(vals('P1101')[0]?.amount);
+  if (floors >= 2) f.push(`${Math.round(floors)} stories tall`);
+  const h = vals('P2048')[0];
+  const hm = h ? Number(h.amount) * (/Q3710$/.test(h.unit) ? 0.3048 : /Q11573$/.test(h.unit) ? 1 : NaN) : NaN;
+  if (hm >= 3) f.push(`About ${Math.round(hm)} m (${Math.round(hm * 3.281)} ft) tall`);
+  const a = vals('P2046')[0];
+  const acres = a ? Number(a.amount) * (/Q81292$/.test(a.unit) ? 1 : /Q35852$/.test(a.unit) ? 2.471 : /Q25343$/.test(a.unit) ? 1 / 4046.86 : NaN) : NaN;
+  if (acres >= 1 && category === 'parks-nature') f.push(`Covers about ${Math.round(acres).toLocaleString('en-US')} acres`);
+  const owners = vals('P127').map(label).filter(Boolean);
+  const operators = vals('P137').map(label).filter(Boolean);
+  if (operators.length) f.push(`Run by ${operators[0]}`);
+  else if (owners.length) f.push(`Owned by ${owners[0]}`);
   for (const v of vals('P1435').slice(0, 2)) {
     if (v.id === 'Q19558910') f.push('Listed on the U.S. National Register of Historic Places');
     else if (label(v)) f.push(`Designated: ${label(v)}`);

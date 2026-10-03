@@ -78,6 +78,15 @@ const FACTS_PREVIEW = 5;
 // starts every one fresh. Without it the previous landmark's rating, photos,
 // check-in and reviews lingered on the next one -- loadMyReview() returns
 // early when there's no review, leaving the old state in place.
+// "miamiherald.com" for a fact's source link.
+function sourceHost(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return 'source';
+  }
+}
+
 export default function LandmarkDetail() {
   const { region, id } = useParams();
   return <LandmarkDetailBody key={`${region}/${id}`} />;
@@ -875,6 +884,14 @@ function LandmarkDetailBody() {
           {(factsExpanded ? landmark.facts : landmark.facts.slice(0, FACTS_PREVIEW)).map((f, i) => (
             <li key={i} style={{ marginBottom: 8, lineHeight: 1.5 }}>
               {f}
+              {landmark.factSources?.[f] && (
+                <>
+                  {' '}
+                  <a className="fact-source" href={landmark.factSources[f]} target="_blank" rel="noreferrer">
+                    {sourceHost(landmark.factSources[f])}
+                  </a>
+                </>
+              )}
             </li>
           ))}
         </ul>
@@ -908,6 +925,7 @@ function LandmarkDetailBody() {
             </>
           )}
           {landmark.wikidata && ' · Facts include Wikidata (CC0)'}
+          {landmark.factSources && Object.keys(landmark.factSources).length > 0 && ' · Linked facts come from the pages shown beside them'}
         </p>
       )}
 

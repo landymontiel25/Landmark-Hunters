@@ -3,7 +3,7 @@
  "count": 27,
  "commonsPhotos": 3,
  "commonsPhotoPct": 11.1,
- "withFacts": 5,
+ "withFacts": 16,
  "withHours": 6,
  "photoSkips": [],
  "sample": [
@@ -15,8 +15,9 @@
    "lng": -80.130114,
    "photo": true,
    "facts": [
-    "Opened in 1963",
-    "Designed by Arata Isozaki"
+    "The museum was founded in 1963 and opened to the public on April 7, 1964.",
+    "John and Johanna Bass gave the city a collection of more than 500 works including Old Master paintings.",
+    "An expansion designed by David Gauld added four galleries and reopened in October 2017."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/483322279"
   },
@@ -37,7 +38,9 @@
    "lat": 25.801921,
    "lng": -80.199239,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2626 Northwest 2nd Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4205228308"
   },
   {
@@ -47,7 +50,10 @@
    "lat": 25.784248,
    "lng": -80.202758,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "About 12 m (39 ft) tall",
+    "Address: 480 Northwest 11th Street, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/435748157"
   },
   {
@@ -58,7 +64,8 @@
    "lng": -80.279166,
    "photo": false,
    "facts": [
-    "Run by University of Miami"
+    "Run by University of Miami",
+    "Address: 1215 Dickenson Drive, Coral Gables"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1314522471"
   },
@@ -70,7 +77,8 @@
    "lng": -80.279064,
    "photo": false,
    "facts": [
-    "Run by University of Miami"
+    "Run by University of Miami",
+    "Address: 1215 Dickenson Drive, Coral Gables"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1315447901"
   },
@@ -91,7 +99,9 @@
    "lat": 25.790379,
    "lng": -80.13397,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 536 Lincoln Road, Miami Beach"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/1180991368"
   },
   {
@@ -121,7 +131,9 @@
    "lat": 25.795725,
    "lng": -80.131145,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 237 20th Street, #C, Miami Beach"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/5770386029"
   },
   {
@@ -131,7 +143,10 @@
    "lat": 25.798804,
    "lng": -80.198875,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Accepts Bitcoin",
+    "Address: 2239 Northwest 2nd Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/13760426024"
   },
   {
@@ -151,7 +166,9 @@
    "lat": 25.801806,
    "lng": -80.199232,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2612 Northwest 2nd Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4249047169"
   },
   {
@@ -161,7 +178,9 @@
    "lat": 25.79944,
    "lng": -80.19512,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2300 North Miami Avenue, Unit B, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6091344318"
   },
   {
@@ -192,7 +211,8 @@
    "lng": -80.199236,
    "photo": false,
    "facts": [
-    "Run by Dina Mitrani"
+    "Run by Dina Mitrani",
+    "Address: 2620 Northwest 2nd Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4209523097"
   },
@@ -203,7 +223,9 @@
    "lat": 25.790316,
    "lng": -80.138261,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 924 Lincoln Road"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/903620843"
   },
   {
@@ -233,7 +255,9 @@
    "lat": 25.799103,
    "lng": -80.194626,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2301 North Miami Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6091331640"
   },
   {
@@ -243,7 +267,11 @@
    "lat": 25.750793,
    "lng": -80.21418,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "The museum, also called The Cuban, was established in 1996 by Dr. Ofelia Tabares and other community leaders.",
+    "Its building at 1200 Coral Way had a soft launch in 2016 and a grand opening in 2018.",
+    "The museum focuses on Cubans who settled in the United States after the 1959 Cuban Revolution."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/435738306"
   },
   {
@@ -253,7 +281,9 @@
    "lat": 25.802075,
    "lng": -80.19926,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2630 Northwest 2nd Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4224000190"
   },
   {
@@ -264,7 +294,8 @@
    "lng": -80.132832,
    "photo": false,
    "facts": [
-    "Part of the Scotch & Soda chain"
+    "Part of the Scotch & Soda chain",
+    "Address: 442 Lincoln Road, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4110041150"
   }
