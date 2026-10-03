@@ -157,7 +157,9 @@ body.pin-placing .map-picks {
 
 .mpp-sheet-scroll {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   padding: 4px 16px calc(var(--mpp-safe-bottom) + 16px);
   -webkit-overflow-scrolling: touch;
 }
@@ -434,6 +436,11 @@ body.pin-placing .map-picks {
   display: flex;
   gap: 10px;
   overflow-x: auto;
+  /* Sideways only. With overflow-y left to compute as auto, iPhone treated
+     each row as an up-and-down scroller too, so a vertical swipe that began
+     on a card moved that row a pixel or two and the sheet never scrolled. */
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   padding-bottom: 4px;
@@ -479,6 +486,52 @@ body.pin-placing .map-picks {
   display: flex;
   gap: 6px;
   margin: 10px 0;
+}
+
+.mpp-sort-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Carousel | List, as one segmented control beside the sort chips. */
+.mpp-view-toggle {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+}
+
+.mpp-view-toggle button {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.mpp-view-toggle button.active {
+  background: var(--mapr-blue-soft);
+  color: var(--text-primary);
+}
+
+/* List view: a short box that scrolls on its own. Kept well under the
+   sheet's height so a swipe anywhere else still scrolls the sheet down to
+   "Picked for you right now". */
+.mpp-mood-list {
+  max-height: min(230px, 28dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
 }
 
 .mpp-distance {

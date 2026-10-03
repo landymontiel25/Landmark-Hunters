@@ -1,14 +1,40 @@
 import { useMemo, useState } from 'react';
 import { MOODS, MOOD_SORTS, moodPlaces } from '../../lib/nearbyPicks';
 import { useReadyItems } from './useNearbyPicks';
-import PickCard from './PickCard';
+import PickCard, { PickRow } from './PickCard';
+import DirectionsButton from '../DirectionsButton';
+
+// Carousel (swipe sideways) or list (scroll a short box up and down). The
+// choice is remembered on this device.
+export const VIEW_KEY = 'lh.moodView';
+const VIEWS = [
+  { id: 'carousel', label: 'Carousel' },
+  { id: 'list', label: 'List' },
+];
+function readView() {
+  try {
+    return localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'carousel';
+  } catch {
+    return 'carousel';
+  }
+}
 
 // "What are you in the mood for?": swipe through moods, pick one, then
-// swipe its places, sorted closest or highest rated. `pool` is
+// swipe its places (or scroll them as a list), sorted closest or highest
+// rated. `pool` is
 // nearbyPicks.eligiblePlaces (already inside the distance filter).
 export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'closest', moods = MOODS }) {
   const [mood, setMood] = useState(initialMood);
   const [sort, setSort] = useState(initialSort);
+  const [view, setViewState] = useState(readView);
+  const setView = (v) => {
+    setViewState(v);
+    try {
+      localStorage.setItem(VIEW_KEY, v);
+    } catch {
+      /* private mode: the choice lasts until the page reloads */
+    }
+  };
   const places = useMemo(() => (mood ? moodPlaces({ moodId: mood, pool, sort, ratings, limit: 12, moods }) : []), [mood, pool, sort, ratings, moods]);
   const ready = useReadyItems(places, 8);
 
@@ -32,26 +58,58 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
       </div>
       {mood && (
         <>
-          <div className="mpp-sort" role="radiogroup" aria-label="Sort">
-            {MOOD_SORTS.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                role="radio"
-                aria-checked={sort === s.id}
-                className={`mpp-chip ${sort === s.id ? 'active' : ''}`}
-                onClick={() => setSort(s.id)}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-          {ready.length ? (
-            <div className="mpp-carousel">
-              {ready.map((p) => (
-                <PickCard key={`${p.region}/${p.id}`} pick={p} showTag={false} />
+          <div className="mpp-sort-row">
+            <div className="mpp-sort" role="radiogroup" aria-label="Sort">
+              {MOOD_SORTS.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={sort === s.id}
+                  className={`mpp-chip ${sort === s.id ? 'active' : ''}`}
+                  onClick={() => setSort(s.id)}
+                >
+                  {s.label}
+                </button>
               ))}
             </div>
+            <div className="mpp-view-toggle" role="radiogroup" aria-label="View">
+              {VIEWS.map((v) => (
+                <button
+                  key={v.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={view === v.id}
+                  className={view === v.id ? 'active' : ''}
+                  onClick={() => setView(v.id)}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          {ready.length ? (
+            view === 'list' ? (
+              <ul className="mpp-rows mpp-mood-list" aria-label="Places">
+                {ready.map((p) => (
+                  <PickRow
+                    key={`${p.region}/${p.id}`}
+                    pick={p}
+                    action={
+                      <DirectionsButton name={p.name} lat={p.lat} lng={p.lng} className="btn btn-ghost btn-sm">
+                        Directions
+                      </DirectionsButton>
+                    }
+                  />
+                ))}
+              </ul>
+            ) : (
+              <div className="mpp-carousel">
+                {ready.map((p) => (
+                  <PickCard key={`${p.region}/${p.id}`} pick={p} showTag={false} />
+                ))}
+              </div>
+            )
           ) : (
             <p className="mpp-note">{places.length ? 'Loading places…' : 'Nothing for that mood within your distance.'}</p>
           )}
