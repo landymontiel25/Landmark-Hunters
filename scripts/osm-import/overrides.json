@@ -223,5 +223,20 @@
   },
   "osm-n6010863676": {
     "rejectPhoto": "Commons match shows ATMs"
+  },
+  "osm-w263238667": {
+    "rejectPhoto": "Commons match is a skyline photo"
+  },
+  "osm-n4001931789": {
+    "rejectPhoto": "Commons match shows a person on the street"
+  },
+  "osm-n9397980642": {
+    "rejectPhoto": "Commons match shows a Macy's entrance"
+  },
+  "osm-w301828287": {
+    "rejectPhoto": "Commons match shows merchandise on a shelf"
+  },
+  "osm-n8501929077": {
+    "rejectPhoto": "Commons match is a group photo"
   }
 }
