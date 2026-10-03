@@ -1,0 +1,480 @@
+[
+ {
+  "id": "osm-n11036277169",
+  "name": "North Italia",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Makes pasta fresh daily and hand-tosses its pizzas.",
+    "url": "https://www.northitalia.com/locations/miami-fl-dadeland/"
+   },
+   {
+    "text": "Pasta menu includes a house Bolognese and Braised Short Rib Lumache.",
+    "url": "https://www.northitalia.com/locations/miami-fl-dadeland/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12873594359",
+  "name": "Novecento",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of a restaurant group with locations in Miami, Mexico City, Buenos Aires, Cordoba and Punta del Este.",
+    "url": "https://novecento.com/locations/key-biscayne/"
+   },
+   {
+    "text": "Run by a restaurant group with more than 25 years of experience.",
+    "url": "https://novecento.com/locations/key-biscayne/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7144016024",
+  "name": "oh! mexico",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Lets diners pick soft corn, soft blue corn or flour tortillas for their tacos.",
+    "url": "https://www.ohmexicorestaurant.com/lincoln-road/main-menu/"
+   },
+   {
+    "text": "Tacos include al pastor, carne asada and cochinita pibil.",
+    "url": "https://www.ohmexicorestaurant.com/lincoln-road/main-menu/"
+   },
+   {
+    "text": "Offers a chips and salsa sampler with homemade orejona and 12 chiles salsas.",
+    "url": "https://www.ohmexicorestaurant.com/lincoln-road/main-menu/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13119702119",
+  "name": "Oh! Mexico",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Has stood on the same corner of Espanola Way since 1997.",
+    "url": "https://ohmexicorestaurant.com/restaurant-tequileria/"
+   },
+   {
+    "text": "Stocks over 150 types of tequila, plus mezcals.",
+    "url": "https://ohmexicorestaurant.com/restaurant-tequileria/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12631824770",
+  "name": "Old Lisbon - Coral Gables",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Owner Carlos Silva arrived from Portugal in the 1990s and was the restaurant's first customer before buying it.",
+    "url": "https://www.oldlisbonrestaurants.com/about/"
+   },
+   {
+    "text": "Part of a three-location Portuguese restaurant group serving South Florida since 1991.",
+    "url": "https://www.oldlisbonrestaurants.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6023406956",
+  "name": "Old Lisbon - South Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of a three-location Portuguese restaurant group serving South Florida since 1991.",
+    "url": "https://www.oldlisbonrestaurants.com/about/"
+   },
+   {
+    "text": "Owner Carlos Silva was the restaurant's first customer before he bought it.",
+    "url": "https://www.oldlisbonrestaurants.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6957495485",
+  "name": "Old‘s Havana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Sits on Calle Ocho in Little Havana.",
+    "url": "https://www.oldshavana.com/"
+   },
+   {
+    "text": "Vintage decor and music recall pre-revolutionary Cuba.",
+    "url": "https://www.oldshavana.com/"
+   },
+   {
+    "text": "Pours handcrafted mojitos and has live Cuban music.",
+    "url": "https://www.oldshavana.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6773341638",
+  "name": "Opera House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Calls itself a sports brasserie with indoor and outdoor dining, a bar and a lounge in Edgewater.",
+    "url": "https://www.miamioperahouse.com/"
+   },
+   {
+    "text": "Pizzas include a New York style square pan Grandpa Pie with house vodka sauce.",
+    "url": "https://www.miamioperahouse.com/"
+   },
+   {
+    "text": "Burger menu is led by the Opera Burger, a half-pound all-beef patty.",
+    "url": "https://www.miamioperahouse.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4110134233",
+  "name": "Osmanlizadeler Baklava",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Sells baklava and other Ottoman-style pastries made fresh rather than frozen.",
+    "url": "https://wanderlog.com/place/details/9643792/osmanlizadeler-baklava-inc"
+   },
+   {
+    "text": "Also serves Turkish coffee.",
+    "url": "https://wanderlog.com/place/details/9643792/osmanlizadeler-baklava-inc"
+   }
+  ]
+ },
+ {
+  "id": "osm-w308601895",
+  "name": "Outback Steakhouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Located in Flagler Park Plaza.",
+    "url": "https://locations.outback.com/florida/miami/7705-w.-flagler-street"
+   },
+   {
+    "text": "Menu includes Aussie Cheese Fries.",
+    "url": "https://www.outback.com/menu/flagler/category/42426/product/96072068"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12560451572",
+  "name": "Pamplemousse on the Bay",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Owner Francois Patanchon co-founded Papagayo in San Diego.",
+    "url": "https://www.pamplemoussemiami.com/about"
+   },
+   {
+    "text": "Menu is shaped by French roots and Mediterranean influence.",
+    "url": "https://www.pamplemoussemiami.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5321121922",
+  "name": "Pane and Vino",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Sits at the entrance to Espanola Way in South Beach.",
+    "url": "https://www.theinfatuation.com/miami/reviews/pane-and-vino"
+   },
+   {
+    "text": "Makes pasta fresh in the restaurant's front window.",
+    "url": "https://www.theinfatuation.com/miami/reviews/pane-and-vino"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435234020",
+  "name": "Paperfish Sushi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Tokyo-inspired izakaya serving Nikkei cuisine, which blends Japanese and Peruvian flavors.",
+    "url": "https://paperfishsushi.com/location-brickell/"
+   },
+   {
+    "text": "Menu has creative sushi dishes, ceviche and cocktails.",
+    "url": "https://paperfishsushi.com/location-brickell/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4110067782",
+  "name": "Paul",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/paul-miami-beach-miami-beach",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n7538451829",
+  "name": "Pei Wei",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of Pei Wei, founded in 2000 in Scottsdale, Arizona.",
+    "url": "https://www.peiwei.com/info/who-we-are/"
+   },
+   {
+    "text": "Pei Wei serves Chinese and Pan-Asian recipes in a fast-service format.",
+    "url": "https://www.peiwei.com/info/who-we-are/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6047566531",
+  "name": "Pinecrest bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "The first Pinecrest Bakery opened in Pinecrest in 2012.",
+    "url": "https://pinecrestbakery.com/pages/p-team"
+   },
+   {
+    "text": "Founded by Joel Rodriguez and Efrain Valdes Jr., who met in Little Havana.",
+    "url": "https://pinecrestbakery.com/pages/p-team"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10279425294",
+  "name": "Pinecrest Bakery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pinecrest Bakery, whose first store opened in Pinecrest in 2012.",
+    "url": "https://pinecrestbakery.com/pages/p-team"
+   },
+   {
+    "text": "The chain was founded by Joel Rodriguez and Efrain Valdes Jr.",
+    "url": "https://pinecrestbakery.com/pages/p-team"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7206580385",
+  "name": "Pinecrest Bakery & Café",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pinecrest Bakery, run by families from the Little Havana area with a modern twist on Cuban tradition.",
+    "url": "https://www.experiencemiamibeach.com/businesses/pinecrest-bakery"
+   },
+   {
+    "text": "The first Pinecrest Bakery opened in December 2012.",
+    "url": "https://www.experiencemiamibeach.com/businesses/pinecrest-bakery"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10291477420",
+  "name": "Pita Fresh",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Beef shawarma is thin-sliced top sirloin marinated overnight in Middle Eastern spices.",
+    "url": "https://pitafreshflorida.com/order-now"
+   },
+   {
+    "text": "Roasted lamb gyro is sliced thin and cooked on a flat grill.",
+    "url": "https://pitafreshflorida.com/order-now"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1025645943",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   },
+   {
+    "text": "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4600361590",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   },
+   {
+    "text": "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6025987193",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   },
+   {
+    "text": "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6073277487",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   },
+   {
+    "text": "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6082726337",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   },
+   {
+    "text": "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6440664791",
+  "name": "Pizza Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   },
+   {
+    "text": "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "url": "https://blog.pizzahut.com/our-story/"
+   }
+  ]
+ }
+]

@@ -1,0 +1,464 @@
+[
+ {
+  "id": "osm-w1000837487",
+  "name": "Strada in the Grove",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 2013 on Commodore Plaza, later moving across the street to a larger space.",
+    "url": "https://www.stradainthegrove.com/"
+   },
+   {
+    "text": "Cooks from a wood burning oven at its current location.",
+    "url": "https://www.stradainthegrove.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3992884333",
+  "name": "Sunset Juice Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Makes freshly prepared juices alongside a breakfast and lunch menu.",
+    "url": "https://www.yelp.com/biz/sunset-juice-cafe-miami-beach"
+   },
+   {
+    "text": "Menu includes frittatas, salads, egg sandwiches and acai bowls.",
+    "url": "https://www.yelp.com/biz/sunset-juice-cafe-miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11307728783",
+  "name": "Sushi by Scratch Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Omakase-inspired tasting menu led by chef Phillip Frankland Lee.",
+    "url": "https://www.sushibyscratchrestaurants.com/miami"
+   },
+   {
+    "text": "Entrance is marked by a red lamp at the corner of Franklin Ave and Main Hwy.",
+    "url": "https://www.sushibyscratchrestaurants.com/miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10138489986",
+  "name": "Sushi Garage Cocowalk",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Japanese concept from the team behind Juvia, set inside CocoWalk.",
+    "url": "https://www.sushigarage.com/location/cocowalk/"
+   },
+   {
+    "text": "Offers a lunch bento box menu and creative cocktails.",
+    "url": "https://www.sushigarage.com/location/cocowalk/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5352806021",
+  "name": "sushi Maki",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Sushi Maki, founded in 2000 by Abe Ng and his family.",
+    "url": "https://www.sushimaki.com/our-story/"
+   },
+   {
+    "text": "The chain has over 25 South Florida locations, including Whole Foods stations and airport concessions.",
+    "url": "https://www.sushimaki.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1025684469",
+  "name": "Sushi Sake",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/sushi-sake-brickell-miami-2",
+  "notFound": false,
+  "searches": 1,
+  "facts": []
+ },
+ {
+  "id": "osm-n3045461500",
+  "name": "Sushi Siam",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Describes its menu as blending flavors, herbs and spices across Japanese and Thai dishes.",
+    "url": "https://www.facebook.com/sushisiambrickellavenue/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8699039420",
+  "name": "Sushi Siam",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Menu lists udon, yakisoba, fried rice and curries beside sushi rolls and nigiri.",
+    "url": "https://sushisiankeybiscayne.menufy.com/"
+   },
+   {
+    "text": "Dessert menu includes Thai donuts and ice cream.",
+    "url": "https://sushisiankeybiscayne.menufy.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4918537623",
+  "name": "Suviche",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Japanese-Peruvian restaurant and pisco bar.",
+    "url": "https://www.suviche.com/peruvian-ceviche-restaurants-miami-fort-lauderdale"
+   },
+   {
+    "text": "Wynwood branch has a pisco bar with house-made macerados, pisco infused with fruits and herbs.",
+    "url": "https://suviche.com/locations/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5905304698",
+  "name": "Taco Rico Tex Mex Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Small Tex-Mex spot in a strip mall, with enchiladas, tacos, burritos and fajitas.",
+    "url": "https://www.miaminewtimes.com/location/taco-rico-tex-mex-cafe-6410860/"
+   },
+   {
+    "text": "Menu includes a fiesta platter with chicken enchilada, steak quesadilla and taquitos.",
+    "url": "https://www.miaminewtimes.com/location/taco-rico-tex-mex-cafe-6410860/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13461562101",
+  "name": "Talavera Cocina Mexicana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Makes corn tortillas in house from Oaxacan criollo corn, hand-pressed and cooked on a comal.",
+    "url": "https://talaveracocinamexicana.com/about-us/"
+   },
+   {
+    "text": "Toasts its chips over cherry wood fire instead of frying them.",
+    "url": "https://talaveracocinamexicana.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4004622089",
+  "name": "Tapelia, Tapas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Spanish restaurant that cooks with ingredients from Spain.",
+    "url": "https://www.tapeliamiami.com/"
+   },
+   {
+    "text": "Menu lists paellas, croquetas, calamares and empanadas.",
+    "url": "https://www.tapeliamiami.com/menus"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7141713784",
+  "name": "taste BAKERY cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Offers all-day breakfast, wraps, flatbreads and rice and quinoa bowls.",
+    "url": "https://www.yelp.com/biz/taste-cafe-miami-beach"
+   },
+   {
+    "text": "Runs a fresh juice bar and a coffee house with signature smoothies.",
+    "url": "https://www.yelp.com/biz/taste-cafe-miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7207335158",
+  "name": "Taula",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Fresh Mediterranean spot with bowls, wraps and sides made daily.",
+    "url": "https://www.taulamediterranean.com/about/"
+   },
+   {
+    "text": "Says its mission is fresh, abundant, healthy Mediterranean food.",
+    "url": "https://www.taulamediterranean.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13610476799",
+  "name": "Tea & Poets",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Community tea lounge mixing tea, arts, crafts, poetry and music.",
+    "url": "https://www.teaandpoets.com/"
+   },
+   {
+    "text": "Has been operating since 2016.",
+    "url": "https://www.teaandpoets.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12198008216",
+  "name": "Texas de Brazil",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Brazilian-American steakhouse inside Dadeland Mall.",
+    "url": "https://texasdebrazil.com/locations/dadeland-mall/"
+   },
+   {
+    "text": "Offers churrasco to-go and catering.",
+    "url": "https://texasdebrazil.com/locations/dadeland-mall/to-go/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5929942285",
+  "name": "Texas de Brazil",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Brazilian steakhouse with rodizio-style meats carved tableside by gaucho chefs.",
+    "url": "https://texasdebrazil.com/locations/miami-beach/"
+   },
+   {
+    "text": "Has an open kitchen and a gourmet salad bar with Brazilian sides.",
+    "url": "https://texasdebrazil.com/locations/miami-beach/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4722198205",
+  "name": "Thank You Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Cocina and beerhouse established in 2021.",
+    "url": "https://thankyoumiami.com/"
+   },
+   {
+    "text": "Founded by chef Alex Valle.",
+    "url": "https://thankyoumiami.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6304801911",
+  "name": "The Arketekt by Aficionados",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened in January 2017 as the first restaurant from the Aficionados wine and spirits boutique.",
+    "url": "https://www.miamiculinarytours.com/blog/arketekt-january-2017/"
+   },
+   {
+    "text": "Culinary direction by chef Jean Paul Desmaison, formerly of La Cofradia in Coral Gables.",
+    "url": "https://www.miamiculinarytours.com/blog/arketekt-january-2017/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5164895529",
+  "name": "The Capital Grille",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of The Capital Grille, whose first restaurant opened in Providence in 1990.",
+    "url": "https://m.thecapitalgrille.com/about-us"
+   },
+   {
+    "text": "Part of Darden, a Fortune 500 restaurant company.",
+    "url": "https://careers.thecapitalgrille.com/Creative/About"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6018224354",
+  "name": "The Cheesecake Factory",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Stands at the corner of Ponce de Leon Blvd and Andalusia Ave in downtown Coral Gables.",
+    "url": "https://locations.thecheesecakefactory.com/fl/coral-gables-214.html"
+   },
+   {
+    "text": "Offers weekend brunch and a happy hour.",
+    "url": "https://locations.thecheesecakefactory.com/fl/coral-gables-214.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6029583840",
+  "name": "The Cheesecake Factory",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Located at Dadeland Mall, to the right of the main entrance.",
+    "url": "https://locations.thecheesecakefactory.com/fl/miami-22.html"
+   },
+   {
+    "text": "Menu has more than 250 items made from scratch daily.",
+    "url": "https://locations.thecheesecakefactory.com/fl/miami-22.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6010865904",
+  "name": "The Cocinita Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "The Cocinita Burger uses a 25 g pea protein patty, dairy-free cheese and cocinita sauce.",
+    "url": "https://www.getsauce.com/order/the-cocinita-miami/food-menu-e282/burgers-918b/dish/the-cocinita-burger-_187"
+   },
+   {
+    "text": "Burger list also has the Sassy burger and the Goody burger.",
+    "url": "https://www.getsauce.com/order/the-cocinita-miami/food-menu-e282/burgers-918b/dish/sassy-burger-_145"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6773371141",
+  "name": "The Daily Creative Food Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened in Edgewater in 2006 under owner Adam Meltzer.",
+    "url": "https://www.miaminewtimes.com/food-drink/longtime-edgewater-deli-thrives-after-20-years-40510545/"
+   },
+   {
+    "text": "Conceived as a mix of coffee shop, neighborhood diner and sandwich shop.",
+    "url": "https://www.miaminewtimes.com/food-drink/longtime-edgewater-deli-thrives-after-20-years-40510545/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6010864364",
+  "name": "The Henry",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Modern American restaurant with a coffee bar, in Brickell City Centre.",
+    "url": "https://www.thehenryrestaurant.com/locations/miami/"
+   },
+   {
+    "text": "Has a kids menu.",
+    "url": "https://www.thehenryrestaurant.com/locations/miami/menus/kids-menu/"
+   }
+  ]
+ }
+]

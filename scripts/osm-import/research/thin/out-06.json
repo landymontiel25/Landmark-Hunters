@@ -1,0 +1,480 @@
+[
+ {
+  "id": "osm-n5912952894",
+  "name": "Madrid Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Opened in 2013 as a Spanish tapas and wine restaurant.",
+    "url": "https://madridtapasyvinos.com/"
+   },
+   {
+    "text": "Hosts live flamenco on Friday and Saturday nights.",
+    "url": "https://madridtapasyvinos.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6074717989",
+  "name": "Majestic Portuguese Bakehouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Bakes pastel de nata with croissant-style dough and an egg custard filling.",
+    "url": "https://www.theinfatuation.com/miami/reviews/majestic-portuguese-bakehouse"
+   },
+   {
+    "text": "Makes a francesinha sandwich with steak, ham, bacon, chorizo and cheese.",
+    "url": "https://www.theinfatuation.com/miami/reviews/majestic-portuguese-bakehouse"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13812230058",
+  "name": "Mammamia Gelato Italiano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Also sells crepes along with gelato and frozen yogurt.",
+    "url": "https://www.yelp.com/biz/mammamia-gelato-brickell-miami"
+   },
+   {
+    "text": "Welcomes dogs.",
+    "url": "https://www.yelp.com/biz/mammamia-gelato-brickell-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9882027534",
+  "name": "Manolo & Rene Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Has served downtown Miami on 3rd Avenue since 1977.",
+    "url": "https://www.manologrill.com/"
+   },
+   {
+    "text": "Calls itself the oldest food establishment in downtown Miami.",
+    "url": "https://www.manologrill.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9791519417",
+  "name": "Manta Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Open-air Peruvian restaurant with Japanese Nikkei influences.",
+    "url": "https://wynwoodmiami.com/businesses/manta/"
+   },
+   {
+    "text": "Menu centers on shareable seafood portions and ceviche platters.",
+    "url": "https://wynwoodmiami.com/businesses/manta/"
+   },
+   {
+    "text": "Bar mixes pisco sours.",
+    "url": "https://wynwoodmiami.com/businesses/manta/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11167336902",
+  "name": "Margaritaville",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Dining room features an oversized blender and a suspended airplane.",
+    "url": "https://www.margaritavillemiamibayside.com/"
+   },
+   {
+    "text": "Has two levels of seating overlooking Biscayne Bay.",
+    "url": "https://www.margaritavillemiamibayside.com/"
+   },
+   {
+    "text": "Sits in Bayside Marketplace next to the Skyviews Miami Observation Wheel.",
+    "url": "https://www.margaritavillemiamibayside.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1179968253",
+  "name": "Mario the Baker Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Specialty pizzas include Veggie, Capri, BBQ and Chicken Bacon Ranch.",
+    "url": "https://mariothebakerpizza.com/downtown-miami-downtown-miami-mario-the-baker-food-menu"
+   },
+   {
+    "text": "Offers catering for events.",
+    "url": "https://mariothebakerpizza.com/downtown-miami-downtown-miami-mario-the-baker-catering"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3992924356",
+  "name": "Master's Pizza Pasta & Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Established in 1979, making homemade New York-style pizza to order.",
+    "url": "https://masterspizzapastagrill.com/"
+   },
+   {
+    "text": "Menu includes shrimp scampi, baked ziti, deep dish and pesto pizza.",
+    "url": "https://masterspizzapastagrill.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5289046671",
+  "name": "Matsuri",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Has served Japanese food for over 30 years.",
+    "url": "https://www.matsurimiami.com/"
+   },
+   {
+    "text": "Menu covers sushi, sashimi, noodles and izakaya dishes.",
+    "url": "https://www.matsurimiami.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6110284189",
+  "name": "Meraki Greek Bistro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Makes its gyro meat in house, in The Village area downtown.",
+    "url": "https://www.downtownmiami.com/listing/meraki-greek-bistro.html"
+   },
+   {
+    "text": "Menu has chicken, lamb and pork gyro pitas and a mixed gyro platter.",
+    "url": "http://www.merakigreekbistro.net/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-w300499403",
+  "name": "Mercado Japones",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n13119700534",
+  "name": "Mercato della Pescheria Miami Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Opened June 19, 2017 as the second Mercato della Pescheria after Las Vegas.",
+    "url": "https://www.mercatodellapescheria.com/miami-posts/miami-press-releases/ve-restaurant-group-opens-mercato-della-pescheria-in-miami-beach/"
+   },
+   {
+    "text": "Market-style stations include Pescheria, Macelleria, Pasta Mista and Formaggio.",
+    "url": "https://www.mercatodellapescheria.com/miami-posts/miami-press-releases/ve-restaurant-group-opens-mercato-della-pescheria-in-miami-beach/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6082723883",
+  "name": "Mi Rinconcito Mexicano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Run by sisters from Tulancigo, Hidalgo, Mexico, serving Little Havana since 2005.",
+    "url": "https://calleochonews.com/mi-rinconcito-mexicano-miami/"
+   },
+   {
+    "text": "Family owned and operated, known for gorditas and flour tortillas.",
+    "url": "https://calleochonews.com/mi-rinconcito-mexicano-miami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12803203179",
+  "name": "Midtown Boba",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Makes matcha milk tea with Uji matcha.",
+    "url": "https://www.midtownboba.com/menu/milk-teas/"
+   },
+   {
+    "text": "Fresh fruit teas include Super Fruit Tea and Strawberry Lemonade.",
+    "url": "https://www.midtownboba.com/menu/fresh-fruit-tea/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12572225794",
+  "name": "Mister 01",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Chef Renato Viola was raised in Southern Italy and apprenticed with pizza chefs by age 11.",
+    "url": "https://www.mistero1.com/"
+   },
+   {
+    "text": "Chef Viola settled in Miami Beach under the O1 visa for extraordinary ability.",
+    "url": "https://www.mistero1.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14055084501",
+  "name": "Mister 01",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Chef Renato Viola was raised in Southern Italy and apprenticed with pizza chefs by age 11.",
+    "url": "https://www.mistero1.com/"
+   },
+   {
+    "text": "Chef Viola settled in Miami Beach under the O1 visa for extraordinary ability.",
+    "url": "https://www.mistero1.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4001931789",
+  "name": "Mister O1",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Chef Renato Viola was raised in Southern Italy and apprenticed with pizza chefs by age 11.",
+    "url": "https://www.mistero1.com/"
+   },
+   {
+    "text": "Chef Viola settled in Miami Beach under the O1 visa for extraordinary ability.",
+    "url": "https://www.mistero1.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w316611278",
+  "name": "Morgan's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Brunch menu includes mascarpone and raspberry stuffed French toast.",
+    "url": "https://intentionalist.com/b/morgans-restaurant/"
+   },
+   {
+    "text": "Brunch menu includes frittata and fried chicken with biscuits and gravy.",
+    "url": "https://intentionalist.com/b/morgans-restaurant/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13461561701",
+  "name": "Morton's The Steakhouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Sits on Coral Gables' Miracle Mile, with an outdoor patio and a boardroom for private events.",
+    "url": "https://www.mortons.com/location/mortons-the-steakhouse-coral-gables-fl/"
+   },
+   {
+    "text": "Offers lunch, dinner and bar menus plus private dining and catering.",
+    "url": "https://www.mortons.com/location/mortons-the-steakhouse-coral-gables-fl/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4001775204",
+  "name": "Moshi Moshi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Established in 1997 as a late-night sushi spot.",
+    "url": "https://moshimoshi.fun/about/"
+   },
+   {
+    "text": "Makes its own kimchee and serves ceviches.",
+    "url": "https://moshimoshi.fun/about/"
+   },
+   {
+    "text": "Named for the Japanese phone greeting 'moshi moshi'.",
+    "url": "https://moshimoshi.fun/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5903091081",
+  "name": "My Ceviche",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "This branch is in Terminal D at Miami International Airport.",
+    "url": "https://myceviche.com/locations/"
+   },
+   {
+    "text": "Part of My Ceviche, whose first location opened in South Beach in March 2012.",
+    "url": "https://myceviche.com/story/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435745521",
+  "name": "Mykonos",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu features moussaka, spanakopita and lamb shank.",
+    "url": "https://www.theinfatuation.com/miami/reviews/mykonos-greek-restaurant"
+   },
+   {
+    "text": "Has a covered patio facing Coral Way.",
+    "url": "https://www.theinfatuation.com/miami/reviews/mykonos-greek-restaurant"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12873587495",
+  "name": "Narbona",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu lists pappardelle ragu, spinach ravioli, crab ravioli and potato gnocchi.",
+    "url": "https://keybiscayne.narbona.com/menu"
+   },
+   {
+    "text": "Makes chivito Uruguayo with tenderloin, ham, bacon and mozzarella.",
+    "url": "https://keybiscayne.narbona.com/menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13884695746",
+  "name": "New York Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Makes Brooklyn-style pizza in personal, large and extra-large sizes.",
+    "url": "https://www.newyorkpizzarestaurantmenu.com/"
+   },
+   {
+    "text": "Also makes calzones and strombolis.",
+    "url": "https://www.newyorkpizzarestaurantmenu.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8695151745",
+  "name": "New York Roma Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Menu includes Capresse pizza with buffalo mozzarella, tomatoes and ricotta.",
+    "url": "https://miami.newyorkromapizzapasta.com/"
+   },
+   {
+    "text": "Also makes calzones in cheese, pepperoni and deluxe versions.",
+    "url": "https://miami.newyorkromapizzapasta.com/"
+   }
+  ]
+ }
+]
