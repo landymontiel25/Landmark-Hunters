@@ -148,6 +148,9 @@ describe('close-solo-streak-day: Travel Picks answers', () => {
   it('does not close on 2 answers, repeats of one landmark, or answers from another day', async () => {
     const { default: handler } = await import('./close-solo-streak-day.js');
     cardsRated = false;
+    // An old last day: beforeEach's UTC yesterday IS the client's today in the
+    // evening (UTC-4 after 8 pm), which would read as "already closed".
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
     pickDocs = [answer('p1', localNoonMs()), answer('p1', localNoonMs()), answer('p2', localNoonMs() - 86400000), answer('p3', localNoonMs())];
     const out = await call(handler, { dayId: todayClient(), tzOffsetMin: tz });
     expect(out.closed).toBe(false);
@@ -156,6 +159,7 @@ describe('close-solo-streak-day: Travel Picks answers', () => {
   it('ignores Travel Picks answers when the client sends no usable timezone offset', async () => {
     const { default: handler } = await import('./close-solo-streak-day.js');
     cardsRated = false;
+    streakDoc.lastCompletedDay = key(new Date(Date.UTC(2020, 0, 1)));
     pickDocs = [answer('p1', localNoonMs()), answer('p2', localNoonMs()), answer('p3', localNoonMs())];
     expect((await call(handler, { dayId: todayClient() })).closed).toBe(false);
     expect((await call(handler, { dayId: todayClient(), tzOffsetMin: 99999 })).closed).toBe(false);
