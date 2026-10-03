@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { asksForDirections, directionsTarget, nameKeys, placesNamedIn } from './_lib/placeMatch.js';
+import { asksForDirections, directionsTarget, nameKeys, placesNamedIn } from './placeMatch.js';
 
 const hillstone = { id: 'hillstone', regionId: 'miami', name: 'Hillstone Restaurant', lat: 25.75, lng: -80.26 };
 const vizcaya = { id: 'vizcaya', regionId: 'miami', name: 'Vizcaya Museum & Gardens', lat: 25.744, lng: -80.21 };

@@ -5,7 +5,7 @@ import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
 import { withCors } from './_lib/cors.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
-import { directionsTarget, placesNamedIn } from './_lib/placeMatch.js';
+import { asksForDirections, directionsTarget, placesNamedIn } from '../src/lib/placeMatch.js';
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
@@ -106,7 +106,8 @@ const INSTRUCTIONS =
   `"reply", say what you're doing in plain words ("Added Autana to your Philly itinerary."); the app confirms each ` +
   `action under your message. Checking in, rating, and account settings are not actions -- tell them where to tap.\n` +
   `- If they ask how to get to, for directions to, or where a specific place is ("How do I get to Hillstone?"), return ` +
-  `that one place as a stop (its catalog or MATCHING PLACES region/id when it has one, else a web stop), even if you ` +
+  `that one place as a stop (its catalog or MATCHING PLACES region/id when it has one, else a web stop with the address ` +
+  `you find via web_search), even if you ` +
   `suggested it earlier. Keep "reply" to one short line that points them to the card's Directions button ("Here's ` +
   `Hillstone -- tap Directions to get there."), and never write out turn-by-turn directions yourself.\n` +
   `- When they push back or ask to adjust ("more nightlife", "skip the museum", "somewhere closer"), revise the picks accordingly.\n` +
@@ -490,6 +491,7 @@ async function handler(req, res) {
       return;
     }
 
+    const askedDirections = asksForDirections(lastText);
     const stops = (Array.isArray(parsed.stops) ? parsed.stops : [])
       .slice(0, 8)
       .map((s) => {
@@ -504,7 +506,10 @@ async function handler(req, res) {
         const name = String(s?.name || '').trim().slice(0, 120);
         let url = String(s?.url || '').trim();
         if (!/^https?:\/\//i.test(url)) url = '';
-        if (!name || !url) return null;
+        // A place they asked directions to is one they named themselves, so
+        // a name plus an address or area is enough for its card.
+        const located = String(s?.address || s?.place || '').trim();
+        if (!name || (!url && !(askedDirections && located))) return null;
         return {
           external: true,
           name,
