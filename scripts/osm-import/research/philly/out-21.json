@@ -29,7 +29,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Three generations of the Maglio family have run the Station Bar & Grill for more than 60 years.",
+    "url": "https://www.inquirer.com/news/philadelphia/station-bar-grill-south-philadelphia-complaints-vandalism-20210106.html"
+   }
+  ]
  },
  {
   "id": "osm-n10128661868",
@@ -61,7 +66,12 @@
   "matched": true,
   "closed": true,
   "closedSource": "https://www.inquirer.com/philly/blogs/the-insider/Wishing-Well-in-Bella-Vista-shuts-down.html",
-  "facts": []
+  "facts": [
+   {
+    "text": "The bar stood at Ninth and Catharine Streets in Bella Vista and closed after six years.",
+    "url": "https://www.inquirer.com/philly/blogs/the-insider/Wishing-Well-in-Bella-Vista-shuts-down.html"
+   }
+  ]
  },
  {
   "id": "osm-n764531544",
@@ -93,7 +103,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Tired Hands Fermentaria is paired with a General Store in Ardmore.",
+    "url": "https://tiredhands.com/pages/fermentaria"
+   }
+  ]
  },
  {
   "id": "osm-n3527163511",
@@ -157,7 +172,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Union Tap House serves chicken wings with more than 10 sauce choices, burgers and fresh cut fries.",
+    "url": "https://manayunk.com/business-directory/union-tap-house/"
+   }
+  ]
  },
  {
   "id": "osm-n11072156875",
@@ -197,14 +217,23 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Val's is a lesbian bar in Queen Village opened by co-owners Clover Gilfor and Julia Harris.",
+    "url": "https://www.inquirer.com/food/vals-lesbian-bar-philadelphia-20260320.html"
+   },
+   {
+    "text": "Val's has two floors with a bar on each, a patio, and about 2,000 square feet of space.",
+    "url": "https://www.inquirer.com/food/vals-lesbian-bar-philadelphia-20260320.html"
+   }
+  ]
  },
  {
   "id": "osm-n6875587110",
   "name": "Vanity Grand",
   "matched": true,
-  "closed": true,
-  "closedSource": "https://www.yelp.com/biz/vanity-grand-cabaret-philadelphia",
+  "closed": false,
+  "closedSource": null,
   "facts": []
  },
  {
@@ -212,8 +241,17 @@
   "name": "Varga",
   "matched": true,
   "closed": true,
-  "closedSource": "https://www.yelp.com/biz/varga-bar-philadelphia",
-  "facts": []
+  "closedSource": "https://www.inquirer.com/food/restaurants/known-associates-cocktail-bar-forsythia-chris-kearse-philadelphia-20260623.html",
+  "facts": [
+   {
+    "text": "Rich Colli was the owner of Varga Bar.",
+    "url": "https://www.inquirer.com/food/richi-colli-varga-bar-death-20250227.html"
+   },
+   {
+    "text": "Known Associates, a cocktail bar, took over the former Varga Bar space.",
+    "url": "https://www.inquirer.com/food/restaurants/known-associates-cocktail-bar-forsythia-chris-kearse-philadelphia-20260623.html"
+   }
+  ]
  },
  {
   "id": "osm-n2423064966",

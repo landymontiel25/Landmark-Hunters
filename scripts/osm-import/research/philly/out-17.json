@@ -85,7 +85,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "The market is run by the Norris Square Neighborhood Project at 2217 N 2nd Street.",
+    "url": "https://map.thefoodtrust.org/programs/norris-square-neighborhood-project-farmers-market/"
+   },
+   {
+    "text": "The market accepts WIC and Senior FMNP checks.",
+    "url": "https://map.thefoodtrust.org/programs/norris-square-neighborhood-project-farmers-market/"
+   }
+  ]
  },
  {
   "id": "osm-n2699346739",
@@ -93,7 +102,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "North Bowl has bowling lanes, an arcade, a bar and a restaurant.",
+    "url": "https://www.northbowlphilly.com/location/north-bowl/"
+   },
+   {
+    "text": "North Bowl hosts bowling leagues.",
+    "url": "https://www.northbowlphilly.com/leagues/"
+   }
+  ]
  },
  {
   "id": "osm-w345167316",
@@ -157,7 +175,20 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "The Overbrook Farmers Market was established in 2008.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   },
+   {
+    "text": "The market was held at Overbrook Presbyterian Church.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   },
+   {
+    "text": "The market closed after a 2024 fire at the church.",
+    "url": "https://thefoodtrust.org/what-we-do/farmers-markets/overbrook/"
+   }
+  ]
  },
  {
   "id": "osm-n1606862187",
@@ -189,7 +220,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Peck Miller's is a dive bar at 6119 Ridge Avenue in Roxborough.",
+    "url": "https://www.yelp.com/biz/peck-millers-philadelphia"
+   },
+   {
+    "text": "The bar has a dart league.",
+    "url": "https://www.yelp.com/biz/peck-millers-philadelphia"
+   }
+  ]
  },
  {
   "id": "osm-n360500734",
@@ -229,7 +269,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Philadelphia Distilling makes Bluecoat American Dry Gin.",
+    "url": "https://www.philadelphiadistilling.com/bluecoat-american-dry-gin"
+   },
+   {
+    "text": "It also makes Bluecoat Elderflower Gin and Bluecoat Barrel Finished Gin.",
+    "url": "https://www.philadelphiadistilling.com/bluecoat-elderflower-gin"
+   }
+  ]
  },
  {
   "id": "osm-w908918547",

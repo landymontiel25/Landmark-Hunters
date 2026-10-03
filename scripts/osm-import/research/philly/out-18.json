@@ -5,7 +5,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Opened its doors in 1971.",
+    "url": "https://philadium.com/"
+   },
+   {
+    "text": "Sports bar serving pub food and craft drinks, with indoor and outdoor seating.",
+    "url": "https://philadium.com/"
+   }
+  ]
  },
  {
   "id": "osm-n4629808956",
@@ -17,6 +26,10 @@
    {
     "text": "Philly AIDS Thrift took over Giovanni's Room in 2014.",
     "url": "https://www.phillymag.com/news/2014/08/21/philly-aids-thrift-re-open-giovannis-room-thrift-shop/"
+   },
+   {
+    "text": "Honored with a historical marker in 2011.",
+    "url": "https://epgn.com/2011/03/24/12478810-giovannis-room-honored-with-historical-marker/"
    }
   ]
  },
@@ -26,7 +39,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Celebrated 10 years as a PHS Pop Up Garden at South Street.",
+    "url": "https://phsonline.org/for-gardeners/gardeners-blog/10-years-phs-pop-up-garden-south-street"
+   }
+  ]
  },
  {
   "id": "osm-w747170433",
@@ -34,7 +52,24 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Designed in 2018 and built in 2020 on a 0.3 acre site.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   },
+   {
+    "text": "Built on a coal shoot site that had been an informal parking lot.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   },
+   {
+    "text": "Has a raised bed community garden whose harvest is donated to a local community center.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   },
+   {
+    "text": "Combines an outdoor restaurant and bar with public garden displays and food demonstration gardens.",
+    "url": "https://landezine-award.com/phs-pop-up-garden-at-manayunk/"
+   }
+  ]
  },
  {
   "id": "osm-n11102457755",
@@ -42,7 +77,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Chef Reuben Big Rube Harley brought his cooking to the pub in 2021.",
+    "url": "https://www.inquirer.com/food/big-rube-reuben-harley-food-pitchers-pub-20210802.html"
+   }
+  ]
  },
  {
   "id": "osm-n6669293565",
@@ -50,7 +90,20 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Located at 1225 South 28th Street.",
+    "url": "https://beermapping.com/location/21299"
+   },
+   {
+    "text": "Listed as offering cask beer and outdoor seating.",
+    "url": "https://beermapping.com/location/21299"
+   },
+   {
+    "text": "Received its brewing license and prepared its first brew.",
+    "url": "https://www.phillyvoice.com/point-breeze-brewing-company-now-licensed-readying-first-brew/"
+   }
+  ]
  },
  {
   "id": "osm-n13889733701",
@@ -60,7 +113,15 @@
   "closedSource": null,
   "facts": [
    {
-    "text": "Neighborhood bar in Kensington with takeout wine and culinary collaborations.",
+    "text": "Created by Matt Kuziemski, with cocktails curated by Leighton Phillips.",
+    "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
+   },
+   {
+    "text": "Operates as a takeout wine and beer shop where guests can also open a bottle on site.",
+    "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
+   },
+   {
+    "text": "Wine selection is mostly Italian and French, with some local bottles.",
     "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
    }
   ]
@@ -79,7 +140,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Independent farmers market organized and staffed by neighborhood volunteers.",
+    "url": "https://www.friendsofpretzelpark.org/the-pretzel-park-farmers-market-is-an-independent-farmers-market-organized-and-staffed-by-neighborhood-volunteers/"
+   }
+  ]
  },
  {
   "id": "osm-w589737134",
@@ -87,7 +153,20 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Owned by Anthony Daramola.",
+    "url": "https://6abc.com/post/prime-fusion-afro-grill-black-owned-restaurants-nigerian-african/13556799/"
+   },
+   {
+    "text": "Serves fried wings wrapped in 24k edible gold.",
+    "url": "https://6abc.com/post/prime-fusion-afro-grill-black-owned-restaurants-nigerian-african/13556799/"
+   },
+   {
+    "text": "Mixes Nigerian dishes with Caribbean and West African flavors.",
+    "url": "https://6abc.com/post/prime-fusion-afro-grill-black-owned-restaurants-nigerian-african/13556799/"
+   }
+  ]
  },
  {
   "id": "osm-n343293806",
@@ -95,7 +174,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Occupies a building that has been a pub since the 1800s.",
+    "url": "https://prohibitiontaproom.com/restaurant-pacific"
+   },
+   {
+    "text": "Has 13 taps, including a rotating local brewery hand pulled cask line.",
+    "url": "https://prohibitiontaproom.com/restaurant-pacific"
+   }
+  ]
  },
  {
   "id": "osm-w439036335",
@@ -103,7 +191,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Bar on East Passyunk with a menu of burgers and wings.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/the-pub-on-passyunk-east"
+   },
+   {
+    "text": "Has occasionally put a fried PB&J on the menu.",
+    "url": "https://www.theinfatuation.com/philadelphia/reviews/the-pub-on-passyunk-east"
+   }
+  ]
  },
  {
   "id": "osm-n2012656012",
@@ -119,7 +216,20 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Started as a weekend hobby by friends Patrick Coyne and John Riley.",
+    "url": "https://www.phillymag.com/restaurants/2019/07/31/punch-buggy-brewing-fishtown-kensington-philadelphia/"
+   },
+   {
+    "text": "Flagship beers include Smoky Tailpipe, Beetle Juice and Joyride.",
+    "url": "https://www.phillymag.com/restaurants/2019/07/31/punch-buggy-brewing-fishtown-kensington-philadelphia/"
+   },
+   {
+    "text": "Serves grilled cheeses inspired by bar bites, paired with homemade tomato soup.",
+    "url": "https://www.phillymag.com/restaurants/2019/07/31/punch-buggy-brewing-fishtown-kensington-philadelphia/"
+   }
+  ]
  },
  {
   "id": "osm-w632064525",
@@ -135,7 +245,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Reborn in 2018 as a cocktail bar from the Fishtown wine bar Root.",
+    "url": "https://www.phillymag.com/restaurants/2018/09/27/rd-cocktail-bar-fishtown-root/"
+   }
+  ]
  },
  {
   "id": "osm-w342742180",
@@ -151,7 +266,20 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Opened in 1938 by Anthony Ray Capozzoli, who greeted everyone with Happy Birthday.",
+    "url": "https://thehappybirthdaybar.com/"
+   },
+   {
+    "text": "Renamed Ray's Happy Birthday Bar by his son Lou after Ray died in 1997.",
+    "url": "https://thehappybirthdaybar.com/"
+   },
+   {
+    "text": "Has a rare oak and tile bar with a trough running along the base.",
+    "url": "https://thehappybirthdaybar.com/"
+   }
+  ]
  },
  {
   "id": "osm-n2752776496",
@@ -167,7 +295,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Soft opening was on September 12, 2019, run by Home Hospitality in the former G Lounge space.",
+    "url": "https://phillychitchat.com/2019/09/13/rec-royal-has-arrived-a-new-dance-club-adult-game-venue/"
+   },
+   {
+    "text": "Rec side is a gaming parlour and karaoke lounge, and Royal side is a boutique nightclub.",
+    "url": "https://phillychitchat.com/2019/09/13/rec-royal-has-arrived-a-new-dance-club-adult-game-venue/"
+   }
+  ]
  },
  {
   "id": "osm-w1314521388",
@@ -177,7 +314,15 @@
   "closedSource": null,
   "facts": [
    {
-    "text": "Opened by media veteran Gabriel Coan in the Fairmount neighborhood.",
+    "text": "Opened at 2036 Fairmount Avenue on November 1, 2024.",
+    "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
+   },
+   {
+    "text": "Owner Gabriel Coan spent 27 years in media, including KQED and WHYY.",
+    "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
+   },
+   {
+    "text": "Records are arranged by style, genre and scene time instead of alphabetically.",
     "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
    }
   ]
@@ -196,7 +341,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Open year-round at 18th and Walnut Streets.",
+    "url": "https://www.inquirer.com/food/restaurants/rittenhouse-farmers-market/"
+   },
+   {
+    "text": "Farm to City also runs winter markets in Chestnut Hill, Bryn Mawr, University City and Media.",
+    "url": "https://www.inquirer.com/food/restaurants/rittenhouse-farmers-market/"
+   }
+  ]
  },
  {
   "id": "osm-n12057913791",
@@ -217,7 +371,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Corner bar in Old City with New American cuisine.",
+    "url": "https://www.oldcitydistrict.org/business/rotten-ralphs-pub-eatery"
+   }
+  ]
  },
  {
   "id": "osm-n1475234787",
@@ -225,7 +384,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Reopened after a long renovation in November 2019.",
+    "url": "https://www.inquirer.com/food/royal-tavern-open-renovation-bella-vista-south-philadelphia-20191129.html"
+   },
+   {
+    "text": "Reopened in November 2023 after the pandemic.",
+    "url": "https://www.inquirer.com/food/restaurants/royal-tavern-reopens-south-philadelphia-bar-20231113.html"
+   }
+  ]
  },
  {
   "id": "osm-w964195883",
@@ -233,7 +401,16 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Dive bar where musicians perform and all genres of music are accepted.",
+    "url": "https://mainlineneighbors.com/venue/the-rusty-nail/"
+   },
+   {
+    "text": "Has wheelchair access and accessible parking and restrooms.",
+    "url": "https://mainlineneighbors.com/venue/the-rusty-nail/"
+   }
+  ]
  },
  {
   "id": "osm-n943210892",
@@ -249,7 +426,12 @@
   "matched": true,
   "closed": false,
   "closedSource": null,
-  "facts": []
+  "facts": [
+   {
+    "text": "Opened in Brewerytown as a bottle shop and sandwich shop.",
+    "url": "https://www.inquirer.com/philly/blogs/the-insider/Rybrew-opening-in-Brewerytown-.html"
+   }
+  ]
  },
  {
   "id": "osm-n7125160404",
