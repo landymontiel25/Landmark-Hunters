@@ -1,0 +1,262 @@
+[
+ {
+  "id": "osm-n3944590539",
+  "name": "Philadium Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4629808956",
+  "name": "Philly AIDS Thrift @ Giovanni's Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Philly AIDS Thrift took over Giovanni's Room in 2014.",
+    "url": "https://www.phillymag.com/news/2014/08/21/philly-aids-thrift-re-open-giovannis-room-thrift-shop/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w692349346",
+  "name": "PHS Pop Up Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w747170433",
+  "name": "PHS Pop Up Garden at Manayunk",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11102457755",
+  "name": "Pitchers Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6669293565",
+  "name": "Point Breeze Brewing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13889733701",
+  "name": "Ponder",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Neighborhood bar in Kensington with takeout wine and culinary collaborations.",
+    "url": "https://wooderice.com/ponder-opens-in-kensington-as-a-new-neighborhood-bar-featuring-takeout-wine-and-culinary-collaborations/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w782572287",
+  "name": "Pop Pops 2",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11107895468",
+  "name": "Pretzel Park Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w589737134",
+  "name": "Prime Fusion Afro Grill and Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n343293806",
+  "name": "Prohibition Taproom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w439036335",
+  "name": "Pub On Passyunk East",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2012656012",
+  "name": "Pub Webb",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7383526245",
+  "name": "Punch Buggy Brewing Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w632064525",
+  "name": "Purple Orchid",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8439601863",
+  "name": "R&D Cocktail Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w342742180",
+  "name": "Raven Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4267167928",
+  "name": "Ray's Happy Birthday Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2752776496",
+  "name": "Reading Terminal Farmers Market: 12th and Arch Streets",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10692148334",
+  "name": "Rec & Royal",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1314521388",
+  "name": "Records Forever",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by media veteran Gabriel Coan in the Fairmount neighborhood.",
+    "url": "https://www.broadstreetreview.com/features/media-veteran-gabriel-coans-next-venture-is-a-new-record-shop-in-fairmount"
+   }
+  ]
+ },
+ {
+  "id": "osm-w334264446",
+  "name": "Red Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2752788045",
+  "name": "Rittenhouse Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12057913791",
+  "name": "Rodin Garden Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Seasonal outdoor bar at the Rodin Museum along the Benjamin Franklin Parkway.",
+    "url": "https://www.phillyvoice.com/rodin-museum-garden-bar-beer-gardens-benjamin-franklin-parkway/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3470849327",
+  "name": "Rotten Ralph's Pub & Eatery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1475234787",
+  "name": "Royal Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w964195883",
+  "name": "Rusty Nail Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n943210892",
+  "name": "Ryan's Pub",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10784710893",
+  "name": "Rybrew",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7125160404",
+  "name": "Saint Joseph's University Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

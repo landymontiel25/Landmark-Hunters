@@ -1,0 +1,354 @@
+[
+ {
+  "id": "osm-n1696268602",
+  "name": "The Bayou Bar and Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w750988129",
+  "name": "The Black Taxi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12610634141",
+  "name": "The Book Trader",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Used bookstore in Old City, established in 1975.",
+    "url": "http://www.phillybooktrader.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11459691253",
+  "name": "The Brass Tap",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Franchise craft-beer bar and the chain's first Philadelphia location, in Manayunk.",
+    "url": "https://www.phillyvoice.com/manayunk-brass-tap-new-bar-franchise-craft-beer/"
+   },
+   {
+    "text": "Took over a corner bar property in Manayunk.",
+    "url": "https://www.phillyvoice.com/brass-tap-manayunk-craft-beer-restaurant-philadelphia/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11584990433",
+  "name": "The Cigar Republic",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cigar lounge, bar and retail shop with a walk-in cedar humidor, at 126 Fayette Street in Conshohocken.",
+    "url": "https://mainlinetoday.com/partner/faces-of-the-main-line/faces-main-line-2021/cigar-republic-conshohocken/"
+   },
+   {
+    "text": "The lounge covers 5,000 square feet.",
+    "url": "https://mainlinetoday.com/partner/faces-of-the-main-line/faces-main-line-2021/cigar-republic-conshohocken/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w336505649",
+  "name": "The Dandelion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "British pub serving British cuisine near Rittenhouse Square.",
+    "url": "https://thedandelionpub.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1475234971",
+  "name": "The Dive Bar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2613465619",
+  "name": "The Druid's Keep",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w401910417",
+  "name": "The El Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Fishtown bar with a large outdoor patio under the El train.",
+    "url": "https://www.phillymag.com/best-of-philly-archive/el-bar/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w373914374",
+  "name": "The Fairmount Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2572265673",
+  "name": "The Fairview Philly",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in Fairmount in the former Belgian Cafe space.",
+    "url": "https://www.phillyvoice.com/fairmount-bars-fairview-belgian-cafe-fergie-carey/"
+   },
+   {
+    "text": "Opened as a new bar in Fairmount by Fergie Carey.",
+    "url": "https://www.phillymag.com/foobooz/2020/01/14/fairmount-the-fairview-opening/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11608500946",
+  "name": "The Fallser Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1712067122",
+  "name": "The Fire",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3496961798",
+  "name": "The Fountain Porter",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Replaced the South Philadelphia restaurant 1601.",
+    "url": "https://www.phillymag.com/restaurants/2012/06/27/fountain-porter-replacing-1601/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w334890739",
+  "name": "The Garage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11073875052",
+  "name": "The Goat's Beard",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Whiskey bar and restaurant on Main Street in Manayunk.",
+    "url": "https://mainlinetoday.com/food/manayunk-restaurant-review-goats-beard-whiskey-bar/"
+   },
+   {
+    "text": "Has opened a second location.",
+    "url": "https://mainlinetoday.com/food/the-goats-beard-opens-a-second-location/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11220871802",
+  "name": "The Grape Room",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.inquirer.com/arts/grape-room-manayunk-music-closed-permanently-20240318.html",
+  "facts": [
+   {
+    "text": "Manayunk dive bar and music venue that closed in 2024 and was set to reopen under a new name.",
+    "url": "https://www.phillyvoice.com/manayunk-grape-room-reopening-bar-music-venue/"
+   },
+   {
+    "text": "Manayunk music venue that closed in March 2024 after years of spotlighting Philly musicians.",
+    "url": "https://www.inquirer.com/arts/grape-room-manayunk-music-closed-permanently-20240318.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w372593400",
+  "name": "The Greeks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n3094702133",
+  "name": "The Irish Pub",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2100740219",
+  "name": "The Last Word Bookshop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8410340131",
+  "name": "The Library Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10682204580",
+  "name": "The Living Room Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Lounge on the lobby level of The Inn at Penn, a Hilton hotel on the University of Pennsylvania campus.",
+    "url": "https://shopsatpenn.com/living-room-lounge"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7383406648",
+  "name": "The Lost Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Listed as Atlantis: Lost Bar, a bar established in 2004.",
+    "url": "https://www.phillymag.com/restaurant-finder/find/atlantis-lost-bar/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3896676608",
+  "name": "The Monto",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6625360703",
+  "name": "The Olde Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in January 2015 by chef Jose Garces.",
+    "url": "https://www.phillymag.com/foobooz/2015/01/09/jose-garces-olde-bar-opens-today/"
+   },
+   {
+    "text": "Located in the old Bookbinder's building in Old City.",
+    "url": "https://www.phillymag.com/best-of-philly-archive/the-olde-bar-at-bookbinders/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989532196",
+  "name": "The Pembrook Shop",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989544993",
+  "name": "The Philadelphia Print Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Moved from Chestnut Hill to Wayne under a new owner.",
+    "url": "https://patch.com/pennsylvania/chestnuthill/iconic-chestnut-hill-print-shop-moving-wayne-new-owner"
+   },
+   {
+    "text": "Founded in 1982 by Dr. Don Cresswell, originally in Chestnut Hill.",
+    "url": "https://philaprintshop.com/pages/about"
+   },
+   {
+    "text": "Reopened in Wayne in October 2020 under owner David Mackey.",
+    "url": "https://philaprintshop.com/pages/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3470849335",
+  "name": "The Plough & the Stars",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Irish pub in Old City, operating since 1997.",
+    "url": "https://ploughstars.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2633133902",
+  "name": "The Porch at 30th Street Station",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Food trucks have returned to the Porch at 30th Street.",
+    "url": "https://www.phillyvoice.com/food-trucks-will-return-porch-30th-street/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10682250887",
+  "name": "The Post",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Beer hall with an arcade in University City.",
+    "url": "https://www.phillyvoice.com/post-philadelphia-university-city-arcade-beer-hall-sports-bar-opening/"
+   }
+  ]
+ }
+]
