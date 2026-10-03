@@ -9,7 +9,7 @@ const OSM = 'scripts/osm-import/data/osm.json';
 const OUT = 'scripts/osm-import/data/wikidata-facts.json';
 const API = 'https://www.wikidata.org/w/api.php';
 const UA = 'LandmarkHunters-osm-import/1.0 (https://landmarkhunters.com; https://github.com/landymontiel25/Landmark-Hunters)';
-const PROPS = ['P1619', 'P571', 'P84', 'P1083', 'P466', 'P138', 'P1435'];
+const PROPS = ['P1619', 'P571', 'P84', 'P1083', 'P466', 'P138', 'P1435', 'P149', 'P170', 'P127', 'P137'];
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function entities(ids, props) {
