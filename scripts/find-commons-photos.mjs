@@ -3,8 +3,9 @@
 // internet access:
 //   node scripts/find-commons-photos.mjs out/            # writes out/commons.found.json
 //   node scripts/apply-commons-photos.mjs out/           # edits the landmark data + credits
-//   node scripts/find-commons-photos.mjs --places scripts/osm-import/data/staged.json scripts/osm-import/data/
+//   node scripts/find-commons-photos.mjs --places scripts/osm-import/data/miami/staged.json scripts/osm-import/data/miami/
 //                                                        # OSM import: build-packs.mjs applies the results
+//                                                        # (--region philly for another import region)
 // Then review the diff (git diff) before committing. Safe to re-run: landmarks
 // already found in the output file are skipped, so an interrupted run resumes.
 // A photo is only chosen when the file name/description/categories contain the
@@ -14,13 +15,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { toCandidate, scoreCandidate, pickBest, resultFor, localEnough } from '../src/lib/commonsMatch.js';
-
-// Imported places (--places) must also be shown to be in the right area.
-const MIAMI_AREA = /\b(miami|coral gables|key biscayne|coconut grove|little havana|wynwood|brickell|south beach|virginia key|pinecrest|doral|hialeah|westchester|kendall|sweetwater|dade|biscayne)\b/;
+import { regionFromArgs } from './osm-import/regions.js';
 
 // --places <file.json>: run over those places (the OSM import's staged list)
-// instead of the catalog's photo-less landmarks.
+// instead of the catalog's photo-less landmarks. Imported places must also
+// be shown to be in their import region's area (osm-import/regions.js).
 const args = process.argv.slice(2);
+const AREA = regionFromArgs(args).area;
 const placesArg = args.indexOf('--places');
 const placesFile = placesArg >= 0 ? args.splice(placesArg, 2)[1] : null;
 const outDir = args[0] || 'out';
@@ -97,7 +98,7 @@ async function findOne(l) {
   try {
     const cands = await candidatesFor(l);
     const scored = cands
-      .filter((c) => !placesFile || localEnough(l, c.candidate, c.near, MIAMI_AREA))
+      .filter((c) => !placesFile || localEnough(l, c.candidate, c.near, AREA))
       .map((c) => ({ candidate: c.candidate, near: c.near != null && c.near <= 150, score: scoreCandidate(l, c.candidate, c.near) }));
     result = resultFor(l, pickBest(l, scored));
     if (result.status === 'found') result.near = undefined;

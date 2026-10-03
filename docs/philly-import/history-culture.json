@@ -1,0 +1,1015 @@
+{
+ "category": "history-culture",
+ "count": 140,
+ "commonsPhotos": 0,
+ "commonsPhotoPct": 0,
+ "withFacts": 99,
+ "withHours": 3,
+ "byRegion": {
+  "philly": 140,
+  "villanova": 0
+ },
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w265133931",
+   "name": "Benjamin Cooper House",
+   "topic": "historic site",
+   "lat": 39.956219,
+   "lng": -75.124495,
+   "photo": false,
+   "facts": [
+    "Address: 60 Erie Street, Camden"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/265133931"
+  },
+  {
+   "id": "osm-w753358499",
+   "name": "Alpha Pi Lambda",
+   "topic": "historic site",
+   "lat": 39.960067,
+   "lng": -75.189665,
+   "photo": false,
+   "facts": [
+    "Also known as Poth Mansion"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/753358499"
+  },
+  {
+   "id": "osm-w963558003",
+   "name": "Kensington High School",
+   "topic": "historic site",
+   "lat": 39.984311,
+   "lng": -75.126329,
+   "photo": false,
+   "facts": [
+    "About 36 m (118 ft) tall",
+    "Address: 2075 East Cumberland Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/963558003"
+  },
+  {
+   "id": "osm-w334890702",
+   "name": "George W. Childs Elementary School",
+   "topic": "historic site",
+   "lat": 39.934926,
+   "lng": -75.17035,
+   "photo": false,
+   "facts": [
+    "About 29 m (96 ft) tall",
+    "Address: 1235 South 16th Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/334890702"
+  },
+  {
+   "id": "osm-w246698955",
+   "name": "Merion Tribute House",
+   "topic": "monument",
+   "lat": 39.998203,
+   "lng": -75.254313,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/246698955"
+  },
+  {
+   "id": "osm-w705302160",
+   "name": "Sparks Shot Tower",
+   "topic": "historic site",
+   "lat": 39.934805,
+   "lng": -75.146342,
+   "photo": false,
+   "facts": [
+    "About 43 m (141 ft) tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/705302160"
+  },
+  {
+   "id": "osm-n7707982156",
+   "name": "Historical Price sawmill dam?",
+   "topic": "ruins",
+   "lat": 39.998113,
+   "lng": -75.263614,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/7707982156"
+  },
+  {
+   "id": "osm-w244428094",
+   "name": "Glen Fern",
+   "topic": "historic site",
+   "lat": 40.049428,
+   "lng": -75.213237,
+   "photo": false,
+   "facts": [
+    "About 11 m (36 ft) tall",
+    "2 stories tall",
+    "Address: 1199 Livezey Lane, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/244428094"
+  },
+  {
+   "id": "osm-n7771182755",
+   "name": "Narberth Public School Bell",
+   "topic": "monument",
+   "lat": 40.005653,
+   "lng": -75.265174,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/7771182755"
+  },
+  {
+   "id": "osm-w706570998",
+   "name": "Edwin Forrest House",
+   "topic": "historic site",
+   "lat": 39.974352,
+   "lng": -75.15941,
+   "photo": false,
+   "facts": [
+    "Also known as Gaul-Forrest House"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/706570998"
+  },
+  {
+   "id": "osm-w295242835",
+   "name": "Philadelphia High School for the Creative and Performing Arts",
+   "topic": "historic site",
+   "lat": 39.939413,
+   "lng": -75.165327,
+   "photo": false,
+   "facts": [
+    "4 stories tall",
+    "Address: 901 South Broad Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/295242835"
+  },
+  {
+   "id": "osm-n3413417159",
+   "name": "1st Regiment Infantry National Guard of Philadelphia",
+   "topic": "statue",
+   "lat": 39.949843,
+   "lng": -75.164385,
+   "photo": false,
+   "facts": [
+    "Founded in 1911",
+    "Also known as Spirit of ’61"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3413417159"
+  },
+  {
+   "id": "osm-n1687521435",
+   "name": "Ruins of Old Mill",
+   "topic": "ruins",
+   "lat": 39.982545,
+   "lng": -75.284575,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/1687521435"
+  },
+  {
+   "id": "osm-w345044325",
+   "name": "George W. Nebinger School",
+   "topic": "historic site",
+   "lat": 39.936742,
+   "lng": -75.15388,
+   "photo": false,
+   "facts": [
+    "5 stories tall",
+    "Address: 601 Carpenter Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/345044325"
+  },
+  {
+   "id": "osm-w767732271",
+   "name": "Monastery Mansion",
+   "topic": "historic site",
+   "lat": 40.036156,
+   "lng": -75.203526,
+   "photo": false,
+   "facts": [
+    "Listed on the U.S. National Register of Historic Places",
+    "Also known as The Monastery",
+    "About 14 m (45 ft) tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/767732271"
+  },
+  {
+   "id": "osm-w786048658",
+   "name": "The U School",
+   "topic": "historic site",
+   "lat": 39.982326,
+   "lng": -75.146295,
+   "photo": false,
+   "facts": [
+    "About 30 m (98 ft) tall",
+    "Address: 2000 North 7th Street, Unit 46, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/786048658"
+  },
+  {
+   "id": "osm-w486980406",
+   "name": "Ohio House",
+   "topic": "historic site",
+   "lat": 39.984983,
+   "lng": -75.216179,
+   "photo": false,
+   "facts": [
+    "Also known as Ohio State Building",
+    "About 13 m (44 ft) tall",
+    "Address: 1700 Belmont Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/486980406"
+  },
+  {
+   "id": "osm-n11904233638",
+   "name": "Joey Giardello Statue",
+   "topic": "statue",
+   "lat": 39.926665,
+   "lng": -75.167117,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/11904233638"
+  },
+  {
+   "id": "osm-n5247943539",
+   "name": "Washington Encampment 1777",
+   "topic": "memorial",
+   "lat": 40.009768,
+   "lng": -75.25535,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/5247943539"
+  },
+  {
+   "id": "osm-n6212056670",
+   "name": "Turtle Rock Light",
+   "topic": "lighthouse",
+   "lat": 39.969982,
+   "lng": -75.189847,
+   "photo": false,
+   "facts": [
+    "Founded in 1887",
+    "Built in the Colonial Revival architecture style",
+    "Designated: National Register of Historic Places contributing property"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6212056670"
+  },
+  {
+   "id": "osm-w413156610",
+   "name": "William S. Peirce School",
+   "topic": "historic site",
+   "lat": 39.941823,
+   "lng": -75.183066,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/413156610"
+  },
+  {
+   "id": "osm-n12178666501",
+   "name": "Expedition Escape",
+   "topic": "attraction",
+   "lat": 40.078829,
+   "lng": -75.35702,
+   "photo": false,
+   "facts": [
+    "Address: 601 South Henderson Road"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12178666501"
+  },
+  {
+   "id": "osm-w334264467",
+   "name": "Edwin M. Stanton School",
+   "topic": "historic site",
+   "lat": 39.940404,
+   "lng": -75.170775,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/334264467"
+  },
+  {
+   "id": "osm-n6240921141",
+   "name": "Harbison's Dairy Milk Bottle",
+   "topic": "attraction",
+   "lat": 39.981567,
+   "lng": -75.13212,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/6240921141"
+  },
+  {
+   "id": "osm-w1022745337",
+   "name": "Memphis Street Academy Charter School at J.P. Jones",
+   "topic": "historic site",
+   "lat": 39.986248,
+   "lng": -75.112857,
+   "photo": false,
+   "facts": [
+    "Also known as Memphis Street Academy",
+    "About 20 m (66 ft) tall",
+    "Address: 2922 Memphis Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1022745337"
+  }
+ ],
+ "points": [
+  [
+   39.949843,
+   -75.164385,
+   0
+  ],
+  [
+   39.951873,
+   -75.16419,
+   0
+  ],
+  [
+   39.969571,
+   -75.184458,
+   0
+  ],
+  [
+   39.940051,
+   -75.161709,
+   0
+  ],
+  [
+   40.00377,
+   -75.187528,
+   0
+  ],
+  [
+   39.958098,
+   -75.172033,
+   0
+  ],
+  [
+   39.958336,
+   -75.171797,
+   0
+  ],
+  [
+   39.960067,
+   -75.189665,
+   0
+  ],
+  [
+   39.958349,
+   -75.212825,
+   0
+  ],
+  [
+   39.955662,
+   -75.181515,
+   0
+  ],
+  [
+   39.986453,
+   -75.242135,
+   0
+  ],
+  [
+   39.905277,
+   -75.18408,
+   0
+  ],
+  [
+   39.990958,
+   -75.213062,
+   0
+  ],
+  [
+   39.949378,
+   -75.155165,
+   0
+  ],
+  [
+   39.956219,
+   -75.124495,
+   0
+  ],
+  [
+   39.965765,
+   -75.174385,
+   0
+  ],
+  [
+   39.989616,
+   -75.202983,
+   0
+  ],
+  [
+   39.925218,
+   -75.160048,
+   0
+  ],
+  [
+   40.047864,
+   -75.36358,
+   0
+  ],
+  [
+   39.976166,
+   -75.158828,
+   0
+  ],
+  [
+   39.948142,
+   -75.147215,
+   0
+  ],
+  [
+   40.003787,
+   -75.19628,
+   0
+  ],
+  [
+   39.966212,
+   -75.181792,
+   0
+  ],
+  [
+   39.953719,
+   -75.156265,
+   0
+  ],
+  [
+   39.950726,
+   -75.14388,
+   0
+  ],
+  [
+   39.944648,
+   -75.141462,
+   0
+  ],
+  [
+   39.948247,
+   -75.163256,
+   0
+  ],
+  [
+   39.95119,
+   -75.191634,
+   0
+  ],
+  [
+   39.896757,
+   -75.17705,
+   0
+  ],
+  [
+   39.948338,
+   -75.150153,
+   0
+  ],
+  [
+   39.915427,
+   -75.163388,
+   0
+  ],
+  [
+   39.929473,
+   -75.181411,
+   0
+  ],
+  [
+   39.982735,
+   -75.193002,
+   0
+  ],
+  [
+   39.948247,
+   -75.163114,
+   0
+  ],
+  [
+   39.962031,
+   -75.149955,
+   0
+  ],
+  [
+   39.974352,
+   -75.15941,
+   0
+  ],
+  [
+   39.940404,
+   -75.170775,
+   0
+  ],
+  [
+   39.929931,
+   -75.15625,
+   0
+  ],
+  [
+   40.078829,
+   -75.35702,
+   0
+  ],
+  [
+   39.914408,
+   -75.176743,
+   0
+  ],
+  [
+   39.948068,
+   -75.146424,
+   0
+  ],
+  [
+   39.921009,
+   -75.160583,
+   0
+  ],
+  [
+   39.958925,
+   -75.14991,
+   0
+  ],
+  [
+   39.95854,
+   -75.169664,
+   0
+  ],
+  [
+   39.977694,
+   -75.174302,
+   0
+  ],
+  [
+   40.008173,
+   -75.310051,
+   0
+  ],
+  [
+   39.918784,
+   -75.151042,
+   0
+  ],
+  [
+   39.934926,
+   -75.17035,
+   0
+  ],
+  [
+   39.936742,
+   -75.15388,
+   0
+  ],
+  [
+   39.949047,
+   -75.149995,
+   0
+  ],
+  [
+   40.049428,
+   -75.213237,
+   0
+  ],
+  [
+   39.934498,
+   -75.143505,
+   0
+  ],
+  [
+   39.981567,
+   -75.13212,
+   0
+  ],
+  [
+   40.031968,
+   -75.187248,
+   0
+  ],
+  [
+   40.000801,
+   -75.14882,
+   0
+  ],
+  [
+   39.998113,
+   -75.263614,
+   0
+  ],
+  [
+   39.953886,
+   -75.182617,
+   0
+  ],
+  [
+   39.939009,
+   -75.157835,
+   0
+  ],
+  [
+   39.973875,
+   -75.190535,
+   0
+  ],
+  [
+   39.966488,
+   -75.179167,
+   0
+  ],
+  [
+   39.926665,
+   -75.167117,
+   0
+  ],
+  [
+   40.002298,
+   -75.173699,
+   0
+  ],
+  [
+   39.953787,
+   -75.1766,
+   0
+  ],
+  [
+   40.02403,
+   -75.201412,
+   0
+  ],
+  [
+   39.984311,
+   -75.126329,
+   0
+  ],
+  [
+   40.084328,
+   -75.382802,
+   0
+  ],
+  [
+   39.960509,
+   -75.191218,
+   0
+  ],
+  [
+   40.004195,
+   -75.187618,
+   0
+  ],
+  [
+   40.037648,
+   -75.242729,
+   0
+  ],
+  [
+   39.951414,
+   -75.160326,
+   0
+  ],
+  [
+   39.95362,
+   -75.162657,
+   0
+  ],
+  [
+   39.914838,
+   -75.163508,
+   0
+  ],
+  [
+   39.941746,
+   -75.226558,
+   0
+  ],
+  [
+   39.968571,
+   -75.160579,
+   0
+  ],
+  [
+   39.986248,
+   -75.112857,
+   0
+  ],
+  [
+   39.998203,
+   -75.254313,
+   0
+  ],
+  [
+   40.036156,
+   -75.203526,
+   0
+  ],
+  [
+   39.955,
+   -75.166975,
+   0
+  ],
+  [
+   39.93189,
+   -75.161114,
+   0
+  ],
+  [
+   40.005653,
+   -75.265174,
+   0
+  ],
+  [
+   40.00503,
+   -75.267711,
+   0
+  ],
+  [
+   39.940014,
+   -75.20633,
+   0
+  ],
+  [
+   40.029723,
+   -75.184533,
+   0
+  ],
+  [
+   39.984983,
+   -75.216179,
+   0
+  ],
+  [
+   39.950356,
+   -75.156502,
+   0
+  ],
+  [
+   40.004156,
+   -75.187948,
+   0
+  ],
+  [
+   39.952604,
+   -75.168391,
+   0
+  ],
+  [
+   39.960824,
+   -75.14126,
+   0
+  ],
+  [
+   39.98187,
+   -75.245573,
+   0
+  ],
+  [
+   39.972751,
+   -75.127138,
+   0
+  ],
+  [
+   39.975954,
+   -75.194567,
+   0
+  ],
+  [
+   39.960432,
+   -75.191919,
+   0
+  ],
+  [
+   39.939413,
+   -75.165327,
+   0
+  ],
+  [
+   39.916364,
+   -75.182332,
+   0
+  ],
+  [
+   39.94491,
+   -75.14343,
+   0
+  ],
+  [
+   39.943915,
+   -75.142829,
+   0
+  ],
+  [
+   39.962052,
+   -75.153789,
+   0
+  ],
+  [
+   39.960482,
+   -75.191483,
+   0
+  ],
+  [
+   39.950464,
+   -75.150089,
+   0
+  ],
+  [
+   40.042127,
+   -75.388012,
+   0
+  ],
+  [
+   39.983508,
+   -75.110555,
+   0
+  ],
+  [
+   39.992631,
+   -75.210187,
+   0
+  ],
+  [
+   39.950609,
+   -75.155736,
+   0
+  ],
+  [
+   39.995383,
+   -75.176501,
+   0
+  ],
+  [
+   39.982545,
+   -75.284575,
+   0
+  ],
+  [
+   39.943137,
+   -75.147664,
+   0
+  ],
+  [
+   39.948572,
+   -75.14841,
+   0
+  ],
+  [
+   39.974466,
+   -75.188871,
+   0
+  ],
+  [
+   39.958762,
+   -75.171211,
+   0
+  ],
+  [
+   39.97748,
+   -75.206537,
+   0
+  ],
+  [
+   39.925982,
+   -75.160132,
+   0
+  ],
+  [
+   39.934805,
+   -75.146342,
+   0
+  ],
+  [
+   39.955243,
+   -75.145933,
+   0
+  ],
+  [
+   39.972212,
+   -75.153478,
+   0
+  ],
+  [
+   39.976977,
+   -75.200863,
+   0
+  ],
+  [
+   39.96044,
+   -75.192134,
+   0
+  ],
+  [
+   39.979408,
+   -75.194094,
+   0
+  ],
+  [
+   39.949653,
+   -75.164937,
+   0
+  ],
+  [
+   39.99875,
+   -75.196461,
+   0
+  ],
+  [
+   39.976074,
+   -75.174248,
+   0
+  ],
+  [
+   39.982326,
+   -75.146295,
+   0
+  ],
+  [
+   39.993851,
+   -75.174902,
+   0
+  ],
+  [
+   39.950021,
+   -75.175673,
+   0
+  ],
+  [
+   39.947095,
+   -75.152708,
+   0
+  ],
+  [
+   39.969982,
+   -75.189847,
+   0
+  ],
+  [
+   39.952965,
+   -75.148149,
+   0
+  ],
+  [
+   39.935118,
+   -75.197713,
+   0
+  ],
+  [
+   39.925798,
+   -75.185662,
+   0
+  ],
+  [
+   39.943533,
+   -75.141171,
+   0
+  ],
+  [
+   39.939465,
+   -75.133057,
+   0
+  ],
+  [
+   39.943506,
+   -75.140997,
+   0
+  ],
+  [
+   39.93389,
+   -75.152951,
+   0
+  ],
+  [
+   40.074643,
+   -75.298861,
+   0
+  ],
+  [
+   40.009768,
+   -75.25535,
+   0
+  ],
+  [
+   39.950055,
+   -75.16434,
+   0
+  ],
+  [
+   39.97379,
+   -75.195199,
+   0
+  ],
+  [
+   39.939643,
+   -75.150815,
+   0
+  ],
+  [
+   39.941823,
+   -75.183066,
+   0
+  ],
+  [
+   39.968202,
+   -75.143116,
+   0
+  ],
+  [
+   39.994133,
+   -75.23041,
+   0
+  ]
+ ]
+}

@@ -35,6 +35,13 @@ describe('shape', () => {
     expect(q).toContain(`poly:"${MIAMI_SHAPE.map(([a, b]) => `${a} ${b}`).join(' ')}"`);
     expect(q).toContain('out center tags');
   });
+  it('adds hand-picked elements by id', () => {
+    const q = overpassQuery(MIAMI_SHAPE, ['node/12', 'way/34', 'node/56', 'bogus/1']);
+    expect(q).toContain('node(id:12,56);');
+    expect(q).toContain('way(id:34);');
+    expect(q).not.toContain('bogus');
+    expect(overpassQuery()).not.toContain('(id:');
+  });
 });
 
 describe('classify (category = Mapr tag)', () => {
@@ -299,6 +306,14 @@ describe('importPlaces', () => {
     expect(dropped.outside).toHaveLength(1);
     expect(dropped.notListed).toHaveLength(1);
     expect(dropped.duplicateOfCatalog[0].existing).toBe('miami/versailles-restaurant');
+  });
+
+  it('lists a place the rules skip when overrides.json includes it', () => {
+    const els = [node(7, { amenity: 'fast_food', name: 'Up-Ryes Bagel' })];
+    const overrides = { 'osm-n7': { include: { region: 'miami', category: 'food', topic: 'bagel shop', typicalMinutes: 20 } } };
+    expect(importPlaces(els).places).toHaveLength(0);
+    const [p] = importPlaces(els, { overrides }).places;
+    expect(p).toMatchObject({ id: 'osm-n7', categories: ['food'], topic: 'bagel shop', typicalMinutes: 20 });
   });
 });
 

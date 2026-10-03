@@ -704,5 +704,96 @@
   },
   "osm-n10781661352": {
     "drop": "tarot and love-spell business, not a restaurant (web research)"
+  },
+  "osm-n1017426704": {
+    "drop": "The Grog Grill, already in the Villanova catalog"
+  },
+  "osm-n2895900134": {
+    "drop": "mobile market pickup point, not a place to visit"
+  },
+  "osm-n2895934408": {
+    "drop": "mobile market pickup point, not a place to visit"
+  },
+  "osm-n2895958216": {
+    "drop": "mobile market pickup point, not a place to visit"
+  },
+  "osm-n3663515967": {
+    "drop": "exhibit inside Adventure Aquarium"
+  },
+  "osm-w1031846429": {
+    "drop": "exhibit inside Adventure Aquarium"
+  },
+  "osm-w268538299": {
+    "drop": "exhibit inside Adventure Aquarium"
+  },
+  "osm-w1031859709": {
+    "drop": "exhibit inside Adventure Aquarium"
+  },
+  "osm-n4783905227": {
+    "drop": "ride inside the Camden Children's Garden"
+  },
+  "osm-w361947218": {
+    "drop": "ride inside the Camden Children's Garden"
+  },
+  "osm-n12405215774": {
+    "include": {
+      "region": "philly",
+      "category": "food",
+      "topic": "bagel shop",
+      "typicalMinutes": 20
+    },
+    "why": "Villanova students' brunch spot per The Villanovan",
+    "source": "https://villanovan.com/2470/culture/a-brunch-of-good-food-villanova-students-favorite-brunch-spots/"
+  },
+  "osm-n5705646781": {
+    "include": {
+      "region": "philly",
+      "category": "food",
+      "topic": "American restaurant",
+      "typicalMinutes": 60
+    },
+    "why": "Villanova students' brunch spot per The Villanovan",
+    "source": "https://villanovan.com/2470/culture/a-brunch-of-good-food-villanova-students-favorite-brunch-spots/"
+  },
+  "osm-n7198791202": {
+    "include": {
+      "region": "philly",
+      "category": "food",
+      "topic": "café",
+      "typicalMinutes": 30
+    },
+    "why": "on The Villanovan's list of coffee shops near campus",
+    "source": "https://villanovan.com/25852/culture/catappetite-the-best-coffee-shops-near-villanova/"
+  },
+  "osm-w584780298": {
+    "include": {
+      "region": "philly",
+      "category": "food",
+      "topic": "café",
+      "typicalMinutes": 30
+    },
+    "why": "on The Villanovan's list of coffee shops near campus",
+    "source": "https://villanovan.com/25852/culture/catappetite-the-best-coffee-shops-near-villanova/"
+  },
+  "osm-n4658126868": {
+    "include": {
+      "region": "philly",
+      "category": "food",
+      "topic": "bakery",
+      "typicalMinutes": 20
+    },
+    "why": "the branch down the street from Villanova, which gave out free cookies for a Villanova title",
+    "source": "https://www.bakemag.com/articles/6295-philadelphia-insomnia-cookies-to-offer-free-cookies-if-villanova-wins-championship"
+  },
+  "osm-w690185364": {
+    "include": {
+      "region": "philly",
+      "category": "parks-nature",
+      "topic": "trail",
+      "typicalMinutes": 60,
+      "checkInRadiusMeters": 400
+    },
+    "why": "one of the 19085 hidden gems students named in The Villanovan",
+    "source": "https://villanovan.com/29858/opinion/radnor-roundup-wildcats-share-their-favorite-local-spots/"
   }
 }
