@@ -6,11 +6,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
     "text": "Focuses on traditional Spanish cooking, with black rice and seafood and grilled meat platters.",
     "url": "https://elgallegazorestaurant.com/home/"
+   },
+   {
+    "text": "Menu includes several paellas, among them black paella with seafood, marinera and valenciana.",
+    "url": "https://www.toasttab.com/local/order/el-gallo-7463-coral-way"
    }
   ]
  },
@@ -21,11 +25,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
     "text": "Part of the Gran Inka group, which built its menus around Peruvian cuisine with modern techniques.",
     "url": "https://www.graninka.com/our-vision"
+   },
+   {
+    "text": "Menu centers on ceviches, lomo saltado and fresh seafood, with a pisco program.",
+    "url": "https://keybiscayneguide.com/restaurants/el-gran-inka/"
    }
   ]
  },
@@ -55,11 +63,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
     "text": "Family-owned Cuban restaurant on Calle Ocho in Little Havana with live music.",
     "url": "https://www.elpubrestaurant.com/"
+   },
+   {
+    "text": "Has a ventanita walk-up window for a quick colada.",
+    "url": "https://www.theinfatuation.com/miami/reviews/el-pub-restaurant"
    }
   ]
  },
@@ -93,13 +105,8 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
-  "facts": [
-   {
-    "text": "Cuban-Mexican taqueria on Calle Ocho in Little Havana.",
-    "url": "https://www.facebook.com/ElTaquitoMayamesco/"
-   }
-  ]
+  "searches": 4,
+  "facts": []
  },
  {
   "id": "osm-n4886515021",
@@ -108,11 +115,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
-    "text": "Cuban sandwich shop in Midtown whose service window pours cafecito in espresso cups.",
+    "text": "Cuban sandwich shop whose service window pours cafecito in espresso cups.",
     "url": "https://www.foodnetwork.com/restaurants/fl/miami/enriquetas-sandwich-shop-restaurant"
+   },
+   {
+    "text": "Makes a croqueta preparada, a Cuban sandwich with croquetas pressed inside.",
+    "url": "https://www.miamiculinarytours.com/blog/enriquetas-sandwich-shop/"
    }
   ]
  },
@@ -142,8 +153,17 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
-  "facts": []
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Menu lists freshly brewed coffee, pastries and sandwiches.",
+    "url": "https://www.zmenu.com/fiesta-caf%C3%A9-shop-miami-online-menu/"
+   },
+   {
+    "text": "Listed as a coffee and tea shop in Little Havana.",
+    "url": "https://www.yelp.com/biz/fiesta-coffee-shop-miami"
+   }
+  ]
  },
  {
   "id": "osm-n9685760517",
@@ -152,7 +172,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -178,10 +198,10 @@
   "id": "osm-n2475858794",
   "name": "Focaccia Bistro",
   "matched": true,
-  "closed": true,
-  "closedSource": "https://www.tripadvisor.com/Restaurant_Review-g34438-d1997834-Reviews-Focaccia_Bistro-Miami_Florida.html",
+  "closed": false,
+  "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 4,
   "facts": []
  },
  {
@@ -191,11 +211,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
     "text": "Opened as the chain's third Miami-area restaurant, in Downtown Dadeland.",
     "url": "https://communitynewspapers.com/kendallgazette/fogo-de-chao-opens-third-miami-location-in-downtown-dadeland/"
+   },
+   {
+    "text": "Has a dry-aged meat locker for aging cuts in house.",
+    "url": "https://fogodechao.com/location/miami-dadeland/"
    }
   ]
  },
@@ -206,11 +230,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
     "text": "Opened as a new flagship Fogo de Chao restaurant in Coral Gables.",
     "url": "https://www.miabites.com/home/fogo-de-chao-new-flagship-opens-in-coral-gables"
+   },
+   {
+    "text": "Sits within The Plaza Coral Gables, steps from Miracle Mile.",
+    "url": "https://fogodechao.com/location/coral-gables/"
    }
   ]
  },
@@ -221,11 +249,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 3,
+  "searches": 4,
   "facts": [
    {
     "text": "Colombian menu lists ajiaco, mondongo, cazuela de frijoles and mojarra frita.",
     "url": "https://mindtrip.ai/restaurant/miami-florida/fonda-la-chismosa/re-DlKmKOBo"
+   },
+   {
+    "text": "Menu lists bandeja paisa and stuffed arepas.",
+    "url": "https://www.zmenu.com/fonda-la-chismosa-miami-3-online-menu/"
    }
   ]
  },
@@ -236,7 +268,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -246,7 +278,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -256,11 +288,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
     "text": "Cafe located in Terminal E at Miami International Airport.",
     "url": "https://restaurantguru.com/Fresh-Attractions-Miami-2"
+   },
+   {
+    "text": "Menu lists egg sandwiches, bagel sandwiches, salads and turkey sandwiches.",
+    "url": "https://restaurantguru.com/Fresh-Attractions-Miami-2/menu"
    }
   ]
  },
@@ -271,10 +307,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
     "text": "Established in 2002 as a German and Austrian restaurant and beer hall.",
+    "url": "https://bierhaus.cc/"
+   },
+   {
+    "text": "Home of the FC Bayern Munich fan club in South Florida.",
     "url": "https://bierhaus.cc/"
    }
   ]
@@ -286,11 +326,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Sushi rolls and teriyaki dishes served in a quick-service format.",
+    "text": "Menu centers on teriyaki dishes, grilled meats and rice bowls.",
     "url": "https://www.experiencemiamibeach.com/businesses/fuji-teriyaki-sushi-grill"
+   },
+   {
+    "text": "Offers specialty sushi rolls and teriyaki plates with chicken, beef or seafood.",
+    "url": "https://www.zmenu.com/fuji-teriyaki-sushi-grill-miami-beach-online-menu/"
    }
   ]
  },
@@ -301,7 +345,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": true,
-  "searches": 2,
+  "searches": 4,
   "facts": []
  },
  {
@@ -311,11 +355,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "facts": [
    {
-    "text": "Pizza shop making New York style pies and pasta dishes with house-made sauce.",
-    "url": "https://www.gaetanospizzamenu.com/"
+    "text": "Makes its pizza with homemade sauce and fresh ingredients.",
+    "url": "https://www.facebook.com/gaetanospizzamiami/"
+   },
+   {
+    "text": "Also makes calzones and a variety of pastas.",
+    "url": "https://www.facebook.com/gaetanospizzamiami/"
    }
   ]
  },
@@ -326,22 +374,26 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Shop of the Italian 4D Gelateria brand, which makes artisanal gelato.",
-    "url": "https://www.gelateria4d.it/551-lincoln-rd.php"
+    "text": "Shop of 4D Gelateria, an Italian gelato brand sold in North America, Europe and the Middle East.",
+    "url": "https://www.gelateria4d.it/about-4d-gelateria.php"
+   },
+   {
+    "text": "4D makes its gelato with natural ingredients and no coloring agents or additives.",
+    "url": "https://www.gelateria4d.it/about-4d-gelateria.php"
    }
   ]
  },
  {
   "id": "osm-n5356498124",
   "name": "Genuine Pizza",
-  "matched": true,
-  "closed": true,
-  "closedSource": "https://www.yelp.com/biz/harrys-pizzeria-coconut-grove-miami-2",
-  "notFound": false,
-  "searches": 1,
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
   "facts": []
  },
  {

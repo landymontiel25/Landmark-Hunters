@@ -6,11 +6,19 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Cafe inside Fairchild Tropical Botanic Garden, overlooking the butterfly conservatory.",
-    "url": "https://mindtrip.ai/restaurant/coral-gables-florida/glasshouse-cafe/re-XFHj5aEZ"
+    "text": "Cafe overlooking the Wings of the Tropics exhibit inside Fairchild Tropical Botanic Garden.",
+    "url": "http://archive.fairchildgarden.org/visit/shopping-dining/the-glasshouse-cafe"
+   },
+   {
+    "text": "Dining room hangs a golden and amber Chihuly chandelier.",
+    "url": "http://archive.fairchildgarden.org/visit/shopping-dining/the-glasshouse-cafe"
+   },
+   {
+    "text": "Menu includes soups, paninis, quiches and hand-crafted sodas.",
+    "url": "http://archive.fairchildgarden.org/visit/shopping-dining/the-glasshouse-cafe"
    }
   ]
  },
@@ -21,7 +29,7 @@
   "closed": true,
   "closedSource": "https://www.yelp.com/biz/groovys-pizza-and-grill-miami-2",
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": []
  },
  {
@@ -31,10 +39,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 4,
   "facts": [
    {
-    "text": "Runs an instant grocery delivery service rather than a sit-down cafe.",
+    "text": "Instant grocery delivery service rather than a sit-down cafe.",
+    "url": "https://gvabox.com/"
+   },
+   {
+    "text": "Promises delivery in 10 to 15 minutes within its first delivery zone.",
     "url": "https://gvabox.com/"
    }
   ]
@@ -46,14 +58,10 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 4,
   "facts": [
    {
-    "text": "Counter in the Bayside Marketplace food court cooking lamb on a rotating grill.",
-    "url": "https://www.yelp.com/biz/gyro-house-miami"
-   },
-   {
-    "text": "Menu includes gyro and falafel sandwiches plus chicken and kofta kebab platters.",
+    "text": "Menu includes gyro and chicken shawarma sandwiches plus chicken and kofta kebab platters.",
     "url": "https://www.doordash.com/en/store/gyro-house-miami-474002/"
    }
   ]
@@ -65,11 +73,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Scoop shop with ice cream and sorbet, sundaes, shakes and smoothies.",
-    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/shops/all-shops/lincoln-road-south-beach"
+    "text": "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   },
+   {
+    "text": "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
    }
   ]
  },
@@ -80,11 +92,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Sells ice cream pints, smoothies and milkshakes, with dairy-free options.",
-    "url": "https://www.doordash.com/en/store/h%C3%A4agen-dazs-south-miami-545041/"
+    "text": "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   },
+   {
+    "text": "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
    }
   ]
  },
@@ -95,11 +111,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Scoop shop with ice cream and sorbet, sundaes, shakes and smoothies.",
-    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/shops/all-shops/lincoln-road-ii"
+    "text": "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
+   },
+   {
+    "text": "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
+    "url": "https://www.icecream.com/us/en/brands/haagen-dazs/about/our-history"
    }
   ]
  },
@@ -110,14 +130,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Themed on 1950s Havana, with a menu of Cuban sandwich, ropa vieja and croquetas.",
+    "text": "Lincoln Road location holds a live saxophone and mojito night on Thursdays.",
     "url": "https://havana1957.com/locations/lincoln-road/"
    },
    {
-    "text": "Features live saxophone music on Thursday and Friday evenings.",
+    "text": "Cuban restaurant themed on 1950s Havana, with a Mojito Bar and live music.",
     "url": "https://havana1957.com/locations/lincoln-road/"
    }
   ]
@@ -129,14 +149,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Sushi spot where a robot delivers food to tables.",
+    "text": "Sushi spot where a robot delivers food to the table.",
     "url": "https://www.atly.com/gluten-free/location/Hiro's-Sushi-Express-South-Beach"
    },
    {
-    "text": "Menu also covers salads and yakisoba, with vegan and gluten-free options.",
+    "text": "Staff provide single-serve gluten-free soy sauce for gluten-sensitive guests.",
     "url": "https://www.atly.com/gluten-free/location/Hiro's-Sushi-Express-South-Beach"
    }
   ]
@@ -148,15 +168,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Opened in 2001 on Espanola Way in South Beach.",
-    "url": "https://hosteriaromana.com/"
+    "text": "Began operating in 2001 on Espanola Way in South Beach.",
+    "url": "https://hosteriaromana.com/about/"
    },
    {
-    "text": "Menu is Roman home cooking with handmade pasta and wood-burning oven pizza.",
-    "url": "https://hosteriaromana.com/"
+    "text": "Created to bring the culture and traditions of Trastevere, Rome to South Beach.",
+    "url": "https://hosteriaromana.com/about/"
    }
   ]
  },
@@ -167,15 +187,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Family-owned specialty coffee shop with locally roasted coffee.",
-    "url": "https://mindtrip.ai/restaurant/miami-florida/i-think-she-is/re-McOLc3v1"
+    "text": "Family-owned specialty coffee shop combining coffee, food, design and art.",
+    "url": "https://ithinksheis.com/"
    },
    {
-    "text": "Food menu includes acai bowls, sandwiches, pastries and shakshuka.",
-    "url": "https://mindtrip.ai/restaurant/miami-florida/i-think-she-is/re-McOLc3v1"
+    "text": "Food menu includes stracciatella prosciutto toast, shakshuka and acai bowls.",
+    "url": "https://ithinksheis.com/miami-i-think-she-is-food-menu"
    }
   ]
  },
@@ -186,15 +206,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Burger spot whose menu includes the Classic, Monster and Cryer burgers.",
-    "url": "https://www.doordash.com/store/iburger-miami-32658967/"
+    "text": "Menu includes a Mamma Mia burger and a Smookey Burger.",
+    "url": "https://www.iburger.us/with-our-hands/mamma-mia.htm"
    },
    {
-    "text": "Sides include truffle mac and cheese and cheese bites.",
-    "url": "https://www.doordash.com/store/iburger-miami-32658967/"
+    "text": "Offers a Beyond Burger in its iVegan menu section.",
+    "url": "https://www.iburger.us/ivegan/beyond-burger.htm"
    }
   ]
  },
@@ -205,8 +225,13 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
-  "facts": []
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of IHOP, which opened its first restaurant in Toluca Lake, California in 1958.",
+    "url": "https://www.ihop.com/en/about-ihop/history"
+   }
+  ]
  },
  {
   "id": "osm-w435883334",
@@ -215,8 +240,13 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
-  "facts": []
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Part of IHOP, which opened its first restaurant in Toluca Lake, California in 1958.",
+    "url": "https://www.ihop.com/en/about-ihop/history"
+   }
+  ]
  },
  {
   "id": "osm-n6933189191",
@@ -225,14 +255,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
     "text": "Opened by a team from New York's Il Mulino, following its hearty Italian tradition.",
     "url": "https://www.cigaraficionado.com/article/il-gabbiano-miami-3093"
    },
    {
-    "text": "Back patio looks out over Biscayne Bay.",
+    "text": "Brings salami, parmigiano and bread to the table before menus arrive.",
     "url": "https://www.cigaraficionado.com/article/il-gabbiano-miami-3093"
    }
   ]
@@ -244,11 +274,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 4,
   "facts": [
    {
-    "text": "Menu includes traditional and creative rolls such as the Dragon Roll and Tempura Volcano Roll.",
-    "url": "https://menupages.com/iron-sushi/840-washington-ave-miami-beach"
+    "text": "Menu lists a Dragon Roll with shrimp tempura, eel and avocado.",
+    "url": "https://ironsushimiami.com/"
+   },
+   {
+    "text": "Sushi group with 8 locations in South Florida.",
+    "url": "https://ironsushimiami.com/"
    }
   ]
  },
@@ -259,14 +293,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Overtown soul food restaurant known for fried catfish.",
+    "text": "Menu includes smothered pork chops, fried catfish, grits and cornbread.",
     "url": "https://www.theinfatuation.com/miami/reviews/jackson-soul-food"
    },
    {
-    "text": "Breakfast menu includes eggs and sausage, pancakes and breakfast sandwiches.",
+    "text": "Walls are lined with old photos and news clips on the restaurant's history.",
     "url": "https://www.theinfatuation.com/miami/reviews/jackson-soul-food"
    }
   ]
@@ -288,14 +322,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Copenhagen-born juice and coffee chain; this cafe is in the Brickell area.",
+    "text": "Menu includes protein shakes, breakfast bowls and porridge alongside juices and sandwiches.",
     "url": "https://content.joejuice.com/locations/1451-brickell"
    },
    {
-    "text": "Menu includes pressed juices, coffee, sandwiches and the Tunacado sandwich.",
+    "text": "Sells cakes and muffins to go with coffee and tea.",
     "url": "https://content.joejuice.com/locations/1451-brickell"
    }
   ]
@@ -307,14 +341,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Opened in 2008 as the first restaurant in the Wynwood Arts District.",
+    "text": "Opened in 2008 by Joey Goldman as the first restaurant in the Wynwood arts district.",
     "url": "https://wynwoodmiami.com/businesses/joeys-italian-cafe/"
    },
    {
-    "text": "Italian rosticceria with wood-fired roast meats and sandwiches on house-baked bread.",
+    "text": "Describes itself as an Italian rosticceria and bar.",
     "url": "https://joeyswynwood.com/miami-joey-s-italian-cafe-food-menu"
    }
   ]
@@ -323,11 +357,16 @@
   "id": "osm-n4993345421",
   "name": "Juan Valdez Café",
   "matched": true,
-  "closed": true,
-  "closedSource": "https://www.yelp.com/biz/juan-valdez-cafe-miami-4",
+  "closed": false,
+  "closedSource": null,
   "notFound": false,
-  "searches": 1,
-  "facts": []
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Part of Juan Valdez Café, whose first store opened in 2002 at Bogota's El Dorado airport.",
+    "url": "https://www.juanvaldezcafe.com/en-us/our-brand/our-history/"
+   }
+  ]
  },
  {
   "id": "osm-n4928813924",
@@ -336,7 +375,7 @@
   "closed": true,
   "closedSource": "https://www.yelp.com/biz/juice-and-java-miami-beach",
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": []
  },
  {
@@ -346,15 +385,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 2,
   "facts": [
    {
-    "text": "Juice bar in Edgewater that presses sugar cane fresh in front of customers.",
+    "text": "Juice bar in the Canvas Building in Edgewater.",
     "url": "https://juicefountainmiami.com/"
    },
    {
-    "text": "Sells ginger shots, including one with cayenne, turmeric, honey and lemon.",
-    "url": "https://www.ubereats.com/store/juice-fountain-305/qTUQ8_jLXS-1GztpY2Nzmw"
+    "text": "States its juices are always fresh and never frozen.",
+    "url": "https://juicefountainmiami.com/"
    }
   ]
  },
@@ -365,14 +404,14 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "All-you-can-eat sushi spot where food is brought to the table.",
-    "url": "https://www.lemon8-app.com/experience/top-rated-sushi-miami?region=us"
+    "text": "Offers an all-you-can-eat menu with tapas, Kan BBQ, sushi, sashimi, rolls and noodles.",
+    "url": "https://kan-sushi.com/"
    },
    {
-    "text": "Located in Mary Brickell Village.",
+    "text": "Tenant of Mary Brickell Village in Brickell.",
     "url": "https://www.marybrickellvillage.com/tenants/kan-sushi"
    }
   ]
@@ -384,15 +423,15 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 1,
+  "searches": 3,
   "facts": [
    {
-    "text": "Southeast Asian restaurant and lounge across three stories with about 300 seats.",
-    "url": "https://www.miamiandbeaches.com/restaurant/komodo/6324"
+    "text": "Three-story Southeast Asian restaurant and lounge with 300 seats.",
+    "url": "https://komodomiami.com/about/"
    },
    {
-    "text": "Known for outdoor floating birds' nests seating and dishes like Peking Duck and Lobster Dynamite.",
-    "url": "https://www.miamiandbeaches.com/restaurant/komodo/6324"
+    "text": "Offers outdoor floating birds' nest seating.",
+    "url": "https://komodomiami.com/about/"
    }
   ]
  }
