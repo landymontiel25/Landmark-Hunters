@@ -3,7 +3,7 @@
  "count": 6,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 4,
+ "withFacts": 5,
  "withHours": 2,
  "photoSkips": [],
  "sample": [
@@ -15,7 +15,8 @@
    "lng": -80.138091,
    "photo": false,
    "facts": [
-    "Run by City of Miami Beach Government"
+    "Run by City of Miami Beach Government",
+    "Address: 1245 Michigan Avenue, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/441800748"
   },
@@ -60,7 +61,9 @@
    "lat": 25.747316,
    "lng": -80.277969,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 1121 Andalusia Avenue, Coral Gables"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/5901147212"
   },
   {

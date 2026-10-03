@@ -3,7 +3,7 @@
  "count": 34,
  "commonsPhotos": 10,
  "commonsPhotoPct": 29.4,
- "withFacts": 4,
+ "withFacts": 30,
  "withHours": 2,
  "photoSkips": [
   {
@@ -20,7 +20,10 @@
    "lat": 25.764408,
    "lng": -80.216429,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "A plaque marks the 100th anniversary of Jose Marti's death in 1995, donated by the Knights of Columbus.",
+    "The park also has a map of Cuba with a quote from Marti."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/1577578109"
   },
   {
@@ -30,7 +33,9 @@
    "lat": 25.797,
    "lng": -80.129788,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "The bust in Collins Park was presented to Miami Beach by the city of Leon, Nicaragua, in 1959."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6579421487"
   },
   {
@@ -40,7 +45,11 @@
    "lat": 25.752712,
    "lng": -80.284978,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "Designed by H. George Fink and Denman Fink to look like a lighthouse.",
+    "Built in 1924, it conceals a steel water tank inside reinforced concrete.",
+    "Part of the city water supply until 1931, then abandoned."
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/435585913"
   },
   {
@@ -50,7 +59,11 @@
    "lat": 25.774038,
    "lng": -80.186048,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "Sculpted by Edward Codere and dedicated in Bayfront Park in 1943.",
+    "Depression Moderne structure topped by an eagle, listing Dade County World War II dead.",
+    "A 1990s update added the names of more than 500 Dade Countians."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4880364621"
   },
   {
@@ -60,7 +73,11 @@
    "lat": 25.785168,
    "lng": -80.152745,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "A 110-foot obelisk honoring Henry Flagler, who died in 1913.",
+    "Four 18-foot statues at its base represent education, industry, prosperity and pioneering spirit.",
+    "Commissioned by Carl Fisher and designed by sculptor H.P. Peterson."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/358695896"
   },
   {
@@ -70,7 +87,10 @@
    "lat": 25.793427,
    "lng": -80.191689,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Julia Tuttle is buried in the Miami City Cemetery.",
+    "Tuttle is the only woman to found a major U.S. city."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6594610104"
   },
   {
@@ -81,8 +101,9 @@
    "lng": -80.190081,
    "photo": true,
    "facts": [
-    "Designed by Martin L. Hampton",
-    "Listed on the U.S. National Register of Historic Places"
+    "The first five stories were built in 1923 and 16 more were added in 1926.",
+    "The building was added to the National Register of Historic Places on March 14, 1985.",
+    "It was office space until 1999, when it was restored and converted to apartments."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/435737408"
   },
@@ -93,7 +114,11 @@
    "lat": 25.770915,
    "lng": -80.19232,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Tuttle bought 644 acres on the north bank of the Miami River, including Fort Dallas.",
+    "Her home was a two-story stone building, built in 1849 as Fort Dallas officers' quarters.",
+    "A marker for Tuttle was erected in 2020 by Miami-Dade County at Fort Dallas Park."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6583012889"
   },
   {
@@ -103,7 +128,11 @@
    "lat": 25.768242,
    "lng": -80.18914,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "Built in 1924, it is the only surviving structure associated with the Brickell family.",
+    "Added to the National Register of Historic Places on January 4, 1989.",
+    "Stands in Mary Brickell Park at 501 Brickell Avenue."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/13995056353"
   },
   {
@@ -113,7 +142,9 @@
    "lat": 25.765644,
    "lng": -80.219973,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "Initiated in 1987 to honor Latin figures in entertainment, arts and public life."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4587210554"
   },
   {
@@ -123,7 +154,11 @@
    "lat": 25.748337,
    "lng": -80.258815,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Built in 1925 as the office of architect H. George Fink, a cousin of founder George Merrick.",
+    "Many early Coral Gables homes were designed here starting in 1925.",
+    "Address: 2506 Ponce de Leon Boulevard, Coral Gables"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/14099749569"
   },
   {
@@ -133,7 +168,11 @@
    "lat": 25.774401,
    "lng": -80.185476,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Designed by Isamu Noguchi as part of his 1980s redesign of Bayfront Park.",
+    "The fountain originally opened in 1990.",
+    "A renovation that began in July 2024 added over 800 water jets and 500 lights."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/5613530547"
   },
   {
@@ -143,7 +182,10 @@
    "lat": 25.783359,
    "lng": -80.186407,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Honors the Spanish Navy and its arrival in the Americas on October 12, 1492.",
+    "The monument was designed by Jose Feito."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/3245478362"
   },
   {
@@ -163,7 +205,11 @@
    "lat": 25.764167,
    "lng": -80.216417,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The bust of Antonio Maceo by sculptor Tony Lopez stands at SW 13th Avenue and SW 8th Street.",
+    "It is described as the first Maceo monument in a public park in the United States.",
+    "Maceo (1845-1896) was second in command of the Cuban Army of Independence."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/1577578093"
   },
   {
@@ -174,9 +220,9 @@
    "lng": -80.134016,
    "photo": false,
    "facts": [
-    "Founded in 1936",
-    "Designed by Thomas W. Lamb",
-    "Dates from 1936"
+    "Designed by Thomas W. Lamb with local architect Robert E. Collins.",
+    "Operated as a cinema until the 1980s.",
+    "The New World Symphony bought it in 1990 and performed there until 2011."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/120105957"
   },
@@ -187,7 +233,10 @@
    "lat": 25.777369,
    "lng": -80.19054,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The segment is 12 feet tall, 3 feet wide and weighs four and a half tons.",
+    "Unveiled on November 9, 2014, at Miami Dade College's downtown campus."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/12507229031"
   },
   {
@@ -197,7 +246,10 @@
    "lat": 25.79692,
    "lng": -80.130069,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "A historical marker at the monument was erected in 1997 by the Comite Pro Busto Simon Bolivar.",
+    "Miami Beach holds an annual Simon Bolivar y Las Americas Day ceremony at the monument in Collins Park."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6579421596"
   },
   {
@@ -207,7 +259,11 @@
    "lat": 25.720382,
    "lng": -80.277914,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Iron Arrow was founded in November 1926 by first University of Miami president Bowman Foster Ashe.",
+    "The society is based on the ideals and traditions of the Seminole Indian Nation.",
+    "Inductees keep a 24-hour drum vigil and tend fires on the mound."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/5679960544"
   },
   {
@@ -217,7 +273,11 @@
    "lat": 25.796966,
    "lng": -80.129555,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The bust was sculpted by Ravenet in 1948 and dedicated in Collins Park on August 20, 1949.",
+    "The bust was presented to Miami Beach by the Republic of Cuba.",
+    "Finlay was a Cuban physician who found that mosquitoes transmit yellow fever."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6579421394"
   },
   {
@@ -227,7 +287,11 @@
    "lat": 25.793392,
    "lng": -80.192667,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "The Confederate monument was erected in 1913 by the South Cross Chapter, United Daughters of the Confederacy.",
+    "It first stood outside the old Dade County Courthouse before moving to Miami City Cemetery.",
+    "Inscription: “United Daughters of the Confederacy”"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6594606196"
   },
   {
@@ -247,7 +311,10 @@
    "lat": 25.777387,
    "lng": -80.187618,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "The bronze statue was a gift from the government of Venezuela, dedicated in 1984.",
+    "It stands a little over 8 feet high at Bayfront Park."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4595581948"
   },
   {
@@ -258,9 +325,9 @@
    "lng": -80.134472,
    "photo": false,
    "facts": [
+    "The restaurant occupies a theater building at 550 Washington Avenue designed by Henry Hohauser.",
     "Dates from 1935",
-    "Designed by Henry Hohauser",
-    "Run by Mathieu Massa"
+    "Designed by Henry Hohauser"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/435881982"
   },
@@ -271,7 +338,11 @@
    "lat": 25.777651,
    "lng": -80.187639,
    "photo": true,
-   "facts": [],
+   "facts": [
+    "The monument was dedicated in October 1960 to the city's friendship with Latin America.",
+    "The Torch of Friendship was re-dedicated in 1964 to the memory of President John F. Kennedy.",
+    "A wraparound wall holds the seals of the Latin American countries."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/4595581949"
   }
  ],

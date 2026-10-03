@@ -3,7 +3,7 @@
  "count": 687,
  "commonsPhotos": 35,
  "commonsPhotoPct": 5.1,
- "withFacts": 467,
+ "withFacts": 596,
  "withHours": 185,
  "photoSkips": [
   {
@@ -105,7 +105,9 @@
    "lat": 25.803403,
    "lng": -80.195274,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 2818 North Miami Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/316621086"
   },
   {
@@ -117,7 +119,8 @@
    "photo": false,
    "facts": [
     "Serves breakfast and pancakes",
-    "Part of the IHOP chain"
+    "Part of the IHOP chain",
+    "Address: 285 North Le Jeune Road, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/435731406"
   },
@@ -130,7 +133,8 @@
    "photo": false,
    "facts": [
     "Serves coffee",
-    "Part of the Starbucks chain"
+    "Part of the Starbucks chain",
+    "Offers takeout"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/9397986186"
   },
@@ -142,7 +146,8 @@
    "lng": -80.141632,
    "photo": false,
    "facts": [
-    "Serves Chinese food"
+    "Serves Chinese food",
+    "Address: 1540 Alton Road"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/7194556886"
   },
@@ -153,7 +158,9 @@
    "lat": 25.786953,
    "lng": -80.200027,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 1300 Northwest 3rd Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/436125444"
   },
   {
@@ -164,7 +171,8 @@
    "lng": -80.274753,
    "photo": false,
    "facts": [
-    "Wheelchair accessible"
+    "Wheelchair accessible",
+    "Address: 2001 Granada Boulevard, Coral Gables"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/5902548468"
   },
@@ -177,7 +185,8 @@
    "photo": false,
    "facts": [
     "Serves American food",
-    "Has vegan options"
+    "Has vegan options",
+    "Address: 30 Southwest 12th Street, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/14031225188"
   },
@@ -211,7 +220,8 @@
    "lng": -80.140324,
    "photo": false,
    "facts": [
-    "Serves sushi"
+    "Serves sushi",
+    "Address: 1104 Lincoln Road"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4109661892"
   },
@@ -270,7 +280,8 @@
    "photo": false,
    "facts": [
     "Serves Brazilian food, plus steak",
-    "Part of the Fogo de Chão chain"
+    "Part of the Fogo de Chão chain",
+    "Address: 836 1st Street, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/10232521762"
   },
@@ -283,7 +294,8 @@
    "photo": false,
    "facts": [
     "Serves ice cream",
-    "Part of the Carvel chain"
+    "Part of the Carvel chain",
+    "Offers takeout"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/8501929075"
   },
@@ -295,7 +307,8 @@
    "lng": -80.141626,
    "photo": false,
    "facts": [
-    "Serves Mexican food"
+    "Serves Mexican food",
+    "Address: 1220 16th Street, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6073738986"
   },
@@ -320,7 +333,8 @@
    "lng": -80.132467,
    "photo": false,
    "facts": [
-    "Serves Italian food"
+    "Serves Italian food",
+    "Address: 429 Española Way, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/13719776029"
   },
@@ -333,7 +347,8 @@
    "photo": false,
    "facts": [
     "Serves Chinese food",
-    "Wheelchair accessible"
+    "Wheelchair accessible",
+    "Address: 1800 Biscayne Boulevard"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/1670843023"
   },
@@ -345,7 +360,8 @@
    "lng": -80.303202,
    "photo": false,
    "facts": [
-    "Serves Chinese food"
+    "Serves Chinese food",
+    "Address: 4038 Southwest 67th Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6020065937"
   },
@@ -356,7 +372,9 @@
    "lat": 25.774816,
    "lng": -80.136321,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 803 5th Street, Miami Beach"
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6076481676"
   },
   {
@@ -367,7 +385,8 @@
    "lng": -80.214368,
    "photo": false,
    "facts": [
-    "Serves Cuban food"
+    "Serves Cuban food",
+    "Address: 541 Southwest 12th Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/3243056761"
   },
@@ -378,7 +397,9 @@
    "lat": 25.783471,
    "lng": -80.199942,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Address: 950 Northwest 3rd Avenue, Miami"
+   ],
    "osmUrl": "https://www.openstreetmap.org/way/435537451"
   }
  ],
