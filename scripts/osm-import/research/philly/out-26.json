@@ -268,5 +268,135 @@
   "closed": false,
   "closedSource": null,
   "facts": []
+ },
+ {
+  "id": "osm-w605639670",
+  "name": "West Mill Creek Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 9.6 acres in Gladwyne.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/west-mill-creek-park"
+   },
+   {
+    "text": "Dogs can use designated off-leash areas of the park with a township permit.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/west-mill-creek-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526205",
+  "name": "West Wayne Preserve",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The preserve is part of a wooded wetlands restoration and habitat enhancement project.",
+    "url": "https://www.radnor.com/government/departments/parks-recreation/park-trails-projects/south-devon-avenue-area-project"
+   }
+  ]
+ },
+ {
+  "id": "osm-w337138791",
+  "name": "Westover Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w709564104",
+  "name": "Wharton Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1327302143",
+  "name": "Williamson Road Site",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The site is 3.0 acres of undeveloped open space in Gladwyne.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/williamson-road-site"
+   }
+  ]
+ },
+ {
+  "id": "osm-w690185364",
+  "name": "Winsor Trail",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28526195",
+  "name": "Woodland Ave Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w27053828",
+  "name": "Wynnewood Station Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "It is a 0.5-acre mini-park at Penn Road and Station Road.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-station-park"
+   },
+   {
+    "text": "The township added the park to its park system in 1995.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-station-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w551768611",
+  "name": "Wynnewood Valley Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 10.9 acres.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-valley-park"
+   },
+   {
+    "text": "It has a nature park, pavilion, playground, tennis and pickleball courts, and a garden for the blind.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/wynnewood-valley-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3873345276",
+  "name": "Wynnewood Valley Park: Garden for the Blind",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Ardmore Rotary Club built and dedicated the garden in 1977.",
+    "url": "https://archives.hud.gov/local/pa/goodstories/2011-05-31.cfm"
+   },
+   {
+    "text": "Reconstruction began in 2010, and the restored garden was rededicated on May 9, 2011.",
+    "url": "https://archives.hud.gov/local/pa/goodstories/2011-05-31.cfm"
+   },
+   {
+    "text": "A $100,000 HUD Community Development Block Grant helped fund the restoration.",
+    "url": "https://archives.hud.gov/local/pa/goodstories/2011-05-31.cfm"
+   }
+  ]
  }
 ]

@@ -1,0 +1,342 @@
+[
+ {
+  "id": "osm-n2003082513",
+  "name": "Bella Italia Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13401642500",
+  "name": "Bikini Burger",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Owned by local caterer Mia Robertson and located in downtown Ardmore.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   },
+   {
+    "text": "Uses never-frozen, double-ground 80/20 beef from a Lancaster County butcher.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   },
+   {
+    "text": "Serves burgers on Martin's potato rolls, with crinkle-cut fries and milkshakes.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   },
+   {
+    "text": "Debuted in late 2025.",
+    "url": "https://hoodline.com/2026/03/bikini-burger-splashes-into-ardmore-with-no-frills-classics/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12217246245",
+  "name": "Boba King",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13436639863",
+  "name": "Brewroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w224411728",
+  "name": "Brunch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11345251172",
+  "name": "Buena Vista",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989516630",
+  "name": "Cafe Procopio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8765431355",
+  "name": "Capital One Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves handcrafted beverages made with Verve Coffee Roasters coffee.",
+    "url": "https://www.capitalone.com/local/philadelphia-rittenhouse/"
+   },
+   {
+    "text": "Part bank and part cafe, with free Wi-Fi and outlets.",
+    "url": "https://www.capitalone.com/local/philadelphia-rittenhouse/"
+   },
+   {
+    "text": "Account holders can reserve a nook, a private workspace with tables and outlets.",
+    "url": "https://www.capitalone.com/local/philadelphia-rittenhouse/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w225131102",
+  "name": "Cerdo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The name is Spanish for pork, and it is the Pieris' third Conshohocken restaurant.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   },
+   {
+    "text": "Owned by Brian and Christina Pieri of Pieri Restaurant Group.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   },
+   {
+    "text": "Describes its menu as a celebration of Spanish and Italian pig culture.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   },
+   {
+    "text": "Carves hams barside and features wild boar throughout the menu.",
+    "url": "https://mainlinetoday.com/life-style/spanish-and-italian-flavors-flourish-at-conshohockens-cerdo/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224489170",
+  "name": "Chiangmai",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9964922710",
+  "name": "Coco's Cookies and Creamery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w296245913",
+  "name": "Conshohocken Italian Bakery",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/",
+  "facts": [
+   {
+    "text": "Closed after a 51-year run.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "Founded by Dominic Gambone and Frank Manze in a former tire shop.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "Known for hoagie rolls used by many cheesesteak shops in the Philadelphia region.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "Also baked kaiser rolls, bagels, tomato pies and Easter bread.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   },
+   {
+    "text": "The Gambone family continued the bakery after Manze died in 2010.",
+    "url": "https://www.phillyvoice.com/conshohocken-italian-bakery-closing-rolls-breads-tomato-pie/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2100740228",
+  "name": "Copabanana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989292632",
+  "name": "Cornerstone Bistro & Artisinal Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w221492162",
+  "name": "Coyote Crossing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11573781885",
+  "name": "Dandan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Szechuan and Taiwanese cuisine.",
+    "url": "https://mainlinetoday.com/food/dandan-wayne/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11582727182",
+  "name": "Dandan",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened as DanDan's third location, at Suburban Square in Ardmore.",
+    "url": "https://mainlinetoday.com/food/dandan-ardmore-location/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n989578532",
+  "name": "Delice et Chocolat",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n821207194",
+  "name": "DePaul's Table",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Italian steakhouse that replaced The Bercy in Ardmore.",
+    "url": "https://www.inquirer.com/food/depauls-table-ardmore-steakhouse-bercy-20210317.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12995680862",
+  "name": "Di Bruno Bros",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989626637",
+  "name": "DiMeo Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w435981433",
+  "name": "Divine Lorraine Hotel",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designed by architect Willis G. Hale and built between 1892 and 1894 as the Lorraine Apartments.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   },
+   {
+    "text": "Became the Lorraine Hotel in 1900 when the Metropolitan Hotel Company bought it.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   },
+   {
+    "text": "Father Divine bought it in 1948 and renamed it the Divine Lorraine Hotel.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   },
+   {
+    "text": "Listed on the National Register of Historic Places in 2002.",
+    "url": "https://en.wikipedia.org/wiki/Divine_Lorraine_Hotel"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1255293162",
+  "name": "Doro Bet",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w366860350",
+  "name": "Dragon & Phoenix Express",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5534129527",
+  "name": "Eagle Pizza",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11584990434",
+  "name": "Eat Greek",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10991119964",
+  "name": "El Limon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n13429423372",
+  "name": "El Limon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w365541784",
+  "name": "El Limon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n989613786",
+  "name": "Elegance Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

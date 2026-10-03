@@ -1,0 +1,357 @@
+[
+ {
+  "id": "osm-w776596303",
+  "name": "Newhall Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w231710565",
+  "name": "Normandy Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28531703",
+  "name": "Odorisio Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w767410384",
+  "name": "Ottinger Tract",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w722510824",
+  "name": "Packer Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Packer Park covers 2.1 acres and has a community garden and nature area.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/packer-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1492222360",
+  "name": "Peg Braun Memorial Hill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sledding hill at Youngs Ford Road and Merion Square Road in Gladwyne, across from Gladwyne Elementary School.",
+    "url": "https://www.lowermerion.org/?navid=751"
+   }
+  ]
+ },
+ {
+  "id": "osm-w156109656",
+  "name": "Penn Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Penn Park is a 24-acre park on the University of Pennsylvania campus beside the Schuylkill River.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Park"
+   },
+   {
+    "text": "Penn Park was completed in September 2011 and has two athletic fields, a tennis center and picnic areas.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Park"
+   },
+   {
+    "text": "Penn Park Orchard was started in fall 2014 with the Philadelphia Orchard Project.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-r13678142",
+  "name": "Penn Treaty Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Penn Treaty Park is on the Delaware River in Fishtown, on the site tied to William Penn's treaty with Tamanend.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_Park"
+   },
+   {
+    "text": "The park officially opened on October 28, 1893.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_Park"
+   },
+   {
+    "text": "A statue of William Penn by sculptor Frank Gaylord stands near the park's northern entrance.",
+    "url": "https://en.wikipedia.org/wiki/Penn_Treaty_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w50275070",
+  "name": "Penn Wynne Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n367961295",
+  "name": "Perry Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Perry Garden was created on the site of the former Perry House at Bryn Mawr College.",
+    "url": "https://www.brynmawr.edu/news/celebrate-opening-perry-garden-friday-april-28"
+   },
+   {
+    "text": "The garden honors generations of students of color who sustained Perry House as a Black Cultural Center.",
+    "url": "https://www.brynmawr.edu/news/celebrate-opening-perry-garden-friday-april-28"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28526168",
+  "name": "Petrie Ave Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w28526184",
+  "name": "Plant Ave Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w335163357",
+  "name": "Polo Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w553336182",
+  "name": "Powder Mill Valley Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w545161403",
+  "name": "Preston Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Preston Reading Room Association, a Quaker group, built a facility at Railroad Avenue and Buck Lane in 1891.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Preston-Field-in-Haverford-Township.pdf"
+   },
+   {
+    "text": "Richard Lloyd bought the private parcels in 1938 and donated them to the township.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Preston-Field-in-Haverford-Township.pdf"
+   },
+   {
+    "text": "Six parcels became Preston Park, later renamed Preston Field by the township.",
+    "url": "https://haverfordhistoricalsociety.org/wp-content/uploads/places/Preston-Field-in-Haverford-Township.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w197528040",
+  "name": "Pretzel Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park was officially named Manayunk Park from 1929 until 2004.",
+    "url": "https://en.wikipedia.org/wiki/Pretzel_Park"
+   },
+   {
+    "text": "A pretzel sculpture by Warren C. Holzman was installed in the park on November 28, 2005.",
+    "url": "https://en.wikipedia.org/wiki/Pretzel_Park"
+   },
+   {
+    "text": "The park has a partially fenced dog park and looped, pretzel-like pathways.",
+    "url": "https://en.wikipedia.org/wiki/Pretzel_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6695578170",
+  "name": "Quadrangle",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w699107724",
+  "name": "Radnor Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w291456005",
+  "name": "Ralph Brooks Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Redevelopment added a new basketball court with bleachers, a tot lot and pedestrian access points.",
+    "url": "https://www.mtwb.org/projects/ralph-brooks-park"
+   },
+   {
+    "text": "The park features murals by Stephen ESPO Powers through the Mural Arts Program.",
+    "url": "https://www.mtwb.org/projects/ralph-brooks-park"
+   },
+   {
+    "text": "It is one of four park revitalization projects completed by Make The World Better.",
+    "url": "https://www.mtwb.org/projects/ralph-brooks-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28531779",
+  "name": "Ravenscliff Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1382319933",
+  "name": "Raymond Ludwig Weinmann Sr. Memorial Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w789938262",
+  "name": "Riverbend Environmental Education Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w112477630",
+  "name": "Ryan Pinetum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w458952454",
+  "name": "Sabine Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w484364316",
+  "name": "Schuykill Center for Environmental Education",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Schuylkill Center became an accredited arboretum.",
+    "url": "https://schuylkillcenter.org/theschuylkillcenterbecomesaccreditedarboretum/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49914024",
+  "name": "Schuylkill River Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park is owned by the Philadelphia Department of Parks and Recreation.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   },
+   {
+    "text": "It has tennis courts, a playground, basketball courts and a recreation center.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   },
+   {
+    "text": "A pedestrian bridge linking the park to the Schuylkill River Trail was completed in October 2012.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   },
+   {
+    "text": "Friends of Schuylkill River Park works to improve the park, Markward Recreation Center and Taney Field.",
+    "url": "https://en.wikipedia.org/wiki/Schuylkill_River_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w49914026",
+  "name": "Schuylkill River Park Community Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w791961115",
+  "name": "Sharpe Park Bird Sanctuary",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sharpe Park and Bird Sanctuary covers 2.3 acres at West Montgomery Avenue and Haverford Station Road.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/sharpe-park-bird-sanctuary"
+   },
+   {
+    "text": "The township classes it as a nature park and bird sanctuary, and leashed dogs are permitted.",
+    "url": "https://www.lowermerion.org/departments/parks-and-recreation-department/township-parks/sharpe-park-bird-sanctuary"
+   }
+  ]
+ },
+ {
+  "id": "osm-w952732826",
+  "name": "Sheldon Lane Pollinator Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w688647034",
+  "name": "Shofuso Japanese House and Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]
