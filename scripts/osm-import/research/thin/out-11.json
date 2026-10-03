@@ -1,0 +1,378 @@
+[
+ {
+  "id": "osm-n7150191720",
+  "name": "Gemma Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Lounge set one story above Lincoln Road.",
+    "url": "https://www.timeout.com/miami/bars/gemma-lounge"
+   },
+   {
+    "text": "Small lounge with a full bar and ambient music.",
+    "url": "https://www.yelp.com/biz/gemma-lounge-miami-beach"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3213534391",
+  "name": "House of Art",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n4732841232",
+  "name": "Jenga bar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n12022547872",
+  "name": "Love and gyros",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Family-owned Greek street food restaurant.",
+    "url": "https://wynwoodmiami.com/businesses/love-n-gyros/"
+   },
+   {
+    "text": "Carves meats off a vertical rotisserie spit and makes its sauces in house.",
+    "url": "https://wynwoodmiami.com/businesses/love-n-gyros/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9397968961",
+  "name": "Macy's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Macy's Children and Home store on the lower level of Dadeland Mall, facing the Palmetto Expressway.",
+    "url": "https://www.simon.com/mall/dadeland-mall/stores/macys-children-and-home"
+   },
+   {
+    "text": "Best entrance is near Saks Fifth Avenue inside Dadeland Mall.",
+    "url": "https://www.simon.com/mall/dadeland-mall/stores/macys-children-and-home"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9397996103",
+  "name": "Macy's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Anchor store in the center of Dadeland Mall on the lower level.",
+    "url": "https://www.simon.com/mall/dadeland-mall/stores/macys"
+   },
+   {
+    "text": "Dadeland Mall is anchored by Florida's largest Macy's.",
+    "url": "https://www.simon.com/mall/dadeland-mall/stores/macys"
+   }
+  ]
+ },
+ {
+  "id": "osm-w435513518",
+  "name": "Macy's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of Macy's, founded in 1858 by R.H. Macy.",
+    "url": "https://www.macysinc.com/about/history"
+   },
+   {
+    "text": "Carries men's and women's clothing, shoes, jewelry, watches, handbags, luggage and home goods.",
+    "url": "https://www.macys.com/stores/fl/miamibeach/south-beach_773.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12777064092",
+  "name": "Monarch Lounge Bar",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w316609809",
+  "name": "Now Contemporary Art",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n11586521969",
+  "name": "Perro Negro Miami",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Part of the Perro Negro brand, founded in 2017 in Medellin to bring reggaeton to Miami and Madrid.",
+    "url": "https://clubperronegro.com/historia-perro-negro-historia/"
+   },
+   {
+    "text": "Perro Negro also runs a reggaeton club in the El Poblado neighborhood of Medellin.",
+    "url": "https://clubperronegro.com/historia-perro-negro-historia/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12717255501",
+  "name": "RedBar Brickell",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Cocktail bar with a crimson counter and art-filled walls.",
+    "url": "https://www.timeout.com/miami/bars/redbar-brickell"
+   },
+   {
+    "text": "Owned by Last Call Hospitality.",
+    "url": "https://www.timeout.com/miami/bars/redbar-brickell"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12022554470",
+  "name": "Rose skybar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Rooftop lounge on the 22nd floor of the AC and Element Hotel Miami Downtown.",
+    "url": "https://rosaskyrooftop.com/about-us/"
+   },
+   {
+    "text": "Rooftop lounge covers 4,000 square feet.",
+    "url": "https://rosaskyrooftop.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13767195631",
+  "name": "Samuel Adams",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Full bar next to Gate E7 in Terminal E at Miami International Airport.",
+    "url": "https://www.yelp.com/biz/samuel-adams-bar-miami"
+   },
+   {
+    "text": "Attached to the Pizza Hut Express next door.",
+    "url": "https://www.yelp.com/biz/samuel-adams-bar-miami"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10792782706",
+  "name": "Smoking Area",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w396472117",
+  "name": "Sunset Harbour Shops",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "facts": [
+   {
+    "text": "Holds 38,000 square feet of retail beneath a 4-story garage.",
+    "url": "https://robinscompanies.com/project/sunset-harbour-shops/"
+   },
+   {
+    "text": "Built in a former industrial warehouse district that sparked the neighborhood's revival.",
+    "url": "https://robinscompanies.com/project/sunset-harbour-shops/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11922704532",
+  "name": "Tap 42 Craft Kitchen & Bar - Coral Gables",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "facts": [
+   {
+    "text": "Gastropub known for craft beers, cocktails and gourmet dishes.",
+    "url": "https://tap42.com/locations/coral-gables/"
+   },
+   {
+    "text": "Hosts a Saturday and Sunday bottomless brunch.",
+    "url": "https://tap42.com/weekly-promotions/saturday-sunday-brunch/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8436226417",
+  "name": "Turkish Airlines Loudge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Lounge is roughly 10,000 square feet.",
+    "url": "https://onemileatatime.com/reviews/turkish-airlines-lounge-miami/"
+   },
+   {
+    "text": "Has an area with six daybeds and a play room for kids.",
+    "url": "https://onemileatatime.com/reviews/turkish-airlines-lounge-miami/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4372003896",
+  "name": "Wet Bar",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/wet-bar-miami",
+  "notFound": false,
+  "searches": 2,
+  "facts": []
+ },
+ {
+  "id": "osm-n9934299817",
+  "name": "World Wine Market",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n9934299831",
+  "name": "World Wine Market",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w621264006",
+  "name": "Airport Viewing Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-w552197202",
+  "name": "Alhambra Tower Plaza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "facts": [
+   {
+    "text": "Alhambra Towers is anchored by three towers in a Mediterranean-style design.",
+    "url": "https://alhambratowers.com/wp-content/uploads/2022/01/ALHAMBRA_BROCHURE.pdf"
+   },
+   {
+    "text": "The 16-story building sits at Ponce de Leon Boulevard, Alhambra Circle and Alhambra Plaza.",
+    "url": "https://alhambratowers.com/wp-content/uploads/2022/01/ALHAMBRA_BROCHURE.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358709813",
+  "name": "Allapattah Mini Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ },
+ {
+  "id": "osm-n358730065",
+  "name": "Banyan Drive Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "facts": [
+   {
+    "text": "Located off Kendall Drive and Southwest 57th Avenue near Coral Gables.",
+    "url": "https://www.miamidade.gov/global/recreation/park/banyan-drive-park.page"
+   },
+   {
+    "text": "Listed among Miami-Dade County parks with fitness facilities.",
+    "url": "https://www.miamidade.gov/parks/library/fitness-zones-map.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w454144058",
+  "name": "Biscayne Park (historical)",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "facts": []
+ }
+]
