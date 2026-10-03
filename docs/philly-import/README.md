@@ -46,7 +46,7 @@ has no OSM node yet, so it is not on the map.
 
 Batches 00-16 of 34 are researched (510 places: landmarks, culture, bars and
 markets; food and parks are in batches 17-33). 485 matched, 811 facts kept
-after `okWebFact`. 33 places dropped as closed for good, each with its
+after `okWebFact`. 28 places dropped as closed for good, each with its
 source in `overrides.json` (among them One Liberty Observation Deck, the
 Bala and Anthony Wayne cinemas, SoundGarden Hall, Fluid, Finnigan's Wake and
 the University of the Arts venues). Insider places carry facts from the pages
@@ -56,4 +56,4 @@ that tie them to Villanova.
 
 `find-commons-photos.mjs` has looked up 340 of the places so far. The first
 91 matches were reviewed by eye: 20 rejected (`overrides.json` rejectPhoto:
-people, artifacts, signs, a ticket, wrong buildings), the rest applied.
+people, artifacts, signs, a ticket, wrong buildings), 63 applied (the rest belong to dropped places or reuse a file another place already has).
