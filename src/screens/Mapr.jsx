@@ -29,6 +29,7 @@ import TripPlannerCard from '../components/TripPlannerCard';
 import OnScreen from '../components/OnScreen';
 import { makeSetId } from '../lib/setId';
 import { useShownLogger } from '../lib/useShownLogger';
+import { directionsStopFor } from '../lib/directionsStop';
 import MaprRateCard from '../components/MaprRateCard';
 import PickVoteButtons from '../components/PickVoteButtons';
 import { usePickVotes } from '../lib/usePickVotes';
@@ -573,7 +574,13 @@ export default function Mapr() {
         logPlanningEvent(user.uid, { generationMs, stopsCount: data.stops.length }).catch(() => {});
       }
 
-      const stops = data.stops || [];
+      let stops = data.stops || [];
+      // A directions question answered with no card: look for the place on
+      // the device too (it knows the places people added in the app).
+      if (!stops.length) {
+        const local = await directionsStopFor(text, coords);
+        if (local) stops = [local];
+      }
       // A compact record of what this reply actually said, fed back as this
       // turn's "content" next time so the AI remembers its own picks.
       // Run anything Mapr was asked to do (add to itinerary, rename, ...)

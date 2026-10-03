@@ -68,3 +68,14 @@ describe('plan-ai directions questions', () => {
     expect(r.stops[0]).toMatchObject({ id: cafe.id, name: 'Panther Coffee', source: 'osm' });
   });
 });
+
+describe('plan-ai directions to a place found on the web', () => {
+  it('keeps a web stop with an address even without a source link', async () => {
+    process.env.ANTHROPIC_API_KEY = 'test';
+    aiText = JSON.stringify({ reply: "Here's Artisans.", stops: [{ name: 'Artisans', address: '800 Lancaster Ave, Villanova, PA', reason: 'Tap Directions.' }] });
+    const r = await ask('How do I get to Artisans?');
+    expect(r.stops[0]).toMatchObject({ external: true, name: 'Artisans', address: '800 Lancaster Ave, Villanova, PA' });
+    // Outside a directions question, a web stop still needs its source link.
+    expect((await ask('Something to eat near Villanova')).stops).toEqual([]);
+  });
+});
