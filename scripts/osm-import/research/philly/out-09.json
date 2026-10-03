@@ -1,0 +1,539 @@
+[
+ {
+  "id": "osm-w332786685",
+  "name": "Forrest Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named for the 19th century actor Edwin Forrest, who was born in Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Forrest_Theatre"
+   },
+   {
+    "text": "Built at a cost of $2 million, with seating for 1,851.",
+    "url": "https://en.wikipedia.org/wiki/Forrest_Theatre"
+   },
+   {
+    "text": "Opened with a performance of The Red Robe.",
+    "url": "https://en.wikipedia.org/wiki/Forrest_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w92484922",
+  "name": "Franklin Music Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Formerly the Electric Factory, renamed in October 2018 after a public naming contest.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Music_Hall"
+   },
+   {
+    "text": "Housed in a former General Electric Switchgear Plant building from 1916.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Music_Hall"
+   },
+   {
+    "text": "Sold to The Bowery Presents in September 2018.",
+    "url": "https://en.wikipedia.org/wiki/Franklin_Music_Hall"
+   }
+  ]
+ },
+ {
+  "id": "osm-w29670885",
+  "name": "Freedom Mortgage Pavilion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Outdoor amphitheater and indoor theater complex on the Camden Waterfront, across the Delaware River from Philadelphia.",
+    "url": "https://en.wikipedia.org/wiki/Freedom_Mortgage_Pavilion"
+   },
+   {
+    "text": "Formerly the Blockbuster-Sony Music Entertainment Centre, Tweeter Center, Susquehanna Bank Center and BB&T Pavilion.",
+    "url": "https://en.wikipedia.org/wiki/Freedom_Mortgage_Pavilion"
+   },
+   {
+    "text": "Renamed Freedom Mortgage Pavilion in May 2022.",
+    "url": "https://en.wikipedia.org/wiki/Freedom_Mortgage_Pavilion"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6639667866",
+  "name": "Freedom Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "African-American theatre company founded in 1966 by John E. Allen Jr.",
+    "url": "https://en.wikipedia.org/wiki/New_Freedom_Theatre"
+   },
+   {
+    "text": "Moved in 1968 into the Edwin Forrest House on North Broad Street.",
+    "url": "https://en.wikipedia.org/wiki/New_Freedom_Theatre"
+   },
+   {
+    "text": "Pennsylvania's oldest African-American theatrical institution.",
+    "url": "https://en.wikipedia.org/wiki/New_Freedom_Theatre"
+   },
+   {
+    "text": "Includes a 299-seat proscenium theatre named for John E. Allen, Jr.",
+    "url": "https://en.wikipedia.org/wiki/Edwin_Forrest_House"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5281092754",
+  "name": "Fringe Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n8587340136",
+  "name": "Gershman Black Box Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n12228686817",
+  "name": "Helium Comedy Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Hosts headline comedy shows and open mic nights.",
+    "url": "https://philadelphia.heliumcomedy.com/"
+   },
+   {
+    "text": "Has two full-service bars and serves appetizers, sandwiches, entrees and desserts.",
+    "url": "https://philadelphia.heliumcomedy.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13610275291",
+  "name": "Iron Gate Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1886 and designed by architect Theophilus Parsons Chandler.",
+    "url": "https://facilities.upenn.edu/maps/locations/iron-gate-theatre"
+   },
+   {
+    "text": "Located in a national historic landmark building that also houses the Tabernacle Church and the Christian Association.",
+    "url": "https://facilities.upenn.edu/maps/locations/iron-gate-theatre"
+   },
+   {
+    "text": "The former church sanctuary was converted to a theater without altering the interior.",
+    "url": "https://facilities.upenn.edu/maps/locations/iron-gate-theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w51469206",
+  "name": "Irvine Auditorium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in May 1929 and built between 1926 and 1932.",
+    "url": "https://en.wikipedia.org/wiki/Irvine_Auditorium"
+   },
+   {
+    "text": "Houses the Curtis Organ, nearly 11,000 pipes, built for the 1926 Sesquicentennial Exposition and donated in 1928.",
+    "url": "https://en.wikipedia.org/wiki/Irvine_Auditorium"
+   },
+   {
+    "text": "Restored and renovated in 1997 to 2000 by Venturi, Scott Brown & Associates.",
+    "url": "https://en.wikipedia.org/wiki/Irvine_Auditorium"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6507309542",
+  "name": "Kevin D. Marlo Little Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named for Kevin D. Marlo, an actor killed in the September 11 attacks on the World Trade Center.",
+    "url": "http://www.harcum.edu/theatre"
+   },
+   {
+    "text": "Originally built in 1920 and restored and reopened in 2011 as part of Harcum College.",
+    "url": "http://www.harcum.edu/theatre"
+   },
+   {
+    "text": "Available for community use such as meetings, music and theater performances.",
+    "url": "http://www.harcum.edu/theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7301159961",
+  "name": "Kurtz Performing Arts Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in January 2010 at William Penn Charter School.",
+    "url": "https://www.penncharter.com/arts/performing-arts-at-penn-charter/kurtz-turns-10"
+   },
+   {
+    "text": "A LEED Gold certified building with a green roof.",
+    "url": "https://www.penncharter.com/arts/performing-arts-at-penn-charter/kurtz-turns-10"
+   },
+   {
+    "text": "Named by the Kurtz family in memory of David L. Kurtz.",
+    "url": "https://www.penncharter.com/arts/performing-arts-at-penn-charter/kurtz-turns-10"
+   }
+  ]
+ },
+ {
+  "id": "osm-w925366625",
+  "name": "Lantern Theater Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Lantern Theater Company was founded in 1994 by Charles McMahon and Michael Brophy.",
+    "url": "http://www.lanterntheater.org/about/index.html"
+   },
+   {
+    "text": "The company has been in residence at St. Stephen's Theater since 1996.",
+    "url": "http://www.lanterntheater.org/about/index.html"
+   },
+   {
+    "text": "Won the 2023 Barrymore Award for Outstanding Production of a Play.",
+    "url": "http://www.lanterntheater.org/about/index.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8587334401",
+  "name": "Laurie Beechman Cabaret Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located in the Arts Bank, a historic bank building at 601 South Broad Street.",
+    "url": "https://www.broadwayworld.com/philadelphia/article/School-of-Theatre-Arts-To-Open-Laurie-Beechman-Cabaret-Theatre-20080908"
+   },
+   {
+    "text": "Named in memory of Philadelphia native Laurie Beechman, a singer and actress.",
+    "url": "https://www.broadwayworld.com/philadelphia/article/School-of-Theatre-Arts-To-Open-Laurie-Beechman-Cabaret-Theatre-20080908"
+   }
+  ]
+ },
+ {
+  "id": "osm-w691541843",
+  "name": "Louis Bluver Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located in The Drake building, with its entrance on Hicks Street between Spruce and Pine.",
+    "url": "http://www.interacttheatre.org/plan-your-visit"
+   },
+   {
+    "text": "Shares the building with the Proscenium Theatre, home of InterAct Theatre Company.",
+    "url": "http://www.interacttheatre.org/plan-your-visit"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12228686820",
+  "name": "MacGuffin Theatre & Film Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Runs an after-school program for students.",
+    "url": "https://macguffintf.com/classes/after-school-program/"
+   },
+   {
+    "text": "Runs an acting camp.",
+    "url": "https://macguffintf.com/events/acting-camp/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w211270270",
+  "name": "Mandell Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 424-seat proscenium theater.",
+    "url": "https://drexel.edu/performingarts/about/facilities/mandell-theater/"
+   },
+   {
+    "text": "Primary performance venue for the Theater, Music and Dance programs at Drexel University.",
+    "url": "https://drexel.edu/performingarts/about/facilities/mandell-theater/"
+   },
+   {
+    "text": "Stands at the corner of 33rd and Chestnut Streets, between the Creese Student Center and MacAlister Hall.",
+    "url": "https://drexel.edu/performingarts/about/facilities/mandell-theater/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5207416788",
+  "name": "Marian Anderson Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Formerly Verizon Hall, renamed Marian Anderson Hall in June 2024.",
+    "url": "https://www.inquirer.com/arts/philadelphia-orchestra-kimmel-center-marian-anderson-hall-20240608.html"
+   },
+   {
+    "text": "Home of the Philadelphia Orchestra, named for contralto and civil rights activist Marian Anderson.",
+    "url": "https://symphony.org/philadelphia-orchestras-home-at-verizon-hall-to-be-renamed-for-contralto-and-civil-rights-activist-marian-anderson/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w336719777",
+  "name": "MilkBoy Philadelphia",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Created by Tommy Joyner and Jamie Lokoff of MilkBoy Recording Studio.",
+    "url": "https://independentvenueweek.com/us/venues-us/milkboy-philly/"
+   },
+   {
+    "text": "Combines a restaurant, bar and cafe with an upstairs live music venue.",
+    "url": "https://independentvenueweek.com/us/venues-us/milkboy-philly/"
+   },
+   {
+    "text": "Has two full bars.",
+    "url": "https://independentvenueweek.com/us/venues-us/milkboy-philly/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w320330815",
+  "name": "Miller Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Originally the Sam S. Shubert Theatre, built by the Shubert brothers in 1918 to honor their late brother Sam.",
+    "url": "https://en.wikipedia.org/wiki/Miller_Theater_(Philadelphia)"
+   },
+   {
+    "text": "Formerly the Merriam Theater, it was purchased by the Kimmel Center in November 2016.",
+    "url": "https://en.wikipedia.org/wiki/Miller_Theater_(Philadelphia)"
+   },
+   {
+    "text": "Renamed for Alan B. Miller, a founding board member of the Kimmel Center.",
+    "url": "https://en.wikipedia.org/wiki/Miller_Theater_(Philadelphia)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6695578169",
+  "name": "Morgan Family Amphitheater",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n7149312014",
+  "name": "Old Academy Players",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Formed in 1923 as the Moment Musical Club by 19 members of the Falls Methodist Church.",
+    "url": "https://oldacademyplayers.org/history/"
+   },
+   {
+    "text": "Has used the Old Academy building in East Falls since 1932.",
+    "url": "https://oldacademyplayers.org/history/"
+   },
+   {
+    "text": "Grace Kelly began her acting career on its stage in 1942.",
+    "url": "https://oldacademyplayers.org/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5207416789",
+  "name": "Perelman Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n988833918",
+  "name": "PFS Bourse Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1990 as the Ritz at the Bourse.",
+    "url": "https://filmadelphia.org/bourse-theater/"
+   },
+   {
+    "text": "Philadelphia Film Society took over operation in 2021 and renovated all five theaters.",
+    "url": "https://filmadelphia.org/bourse-theater/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1940867820",
+  "name": "PFS East Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1981 as the Budco Olde City 2 and became the Ritz East in 1999.",
+    "url": "https://filmadelphia.org/about/venues/film-society-east/"
+   },
+   {
+    "text": "Philadelphia Film Society acquired the theater in 2022.",
+    "url": "https://filmadelphia.org/about/venues/film-society-east/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w340211249",
+  "name": "Philadelphia Shakespeare Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1989 as the Red Heel Theatre.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Shakespeare_Theatre"
+   },
+   {
+    "text": "Changed its name and purpose in 1993.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Shakespeare_Theatre"
+   },
+   {
+    "text": "Renamed The Philadelphia Shakespeare Theatre in 2008 or 2009.",
+    "url": "https://en.wikipedia.org/wiki/Philadelphia_Shakespeare_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w883119572",
+  "name": "Plays & Players Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1911, one of the oldest professional theater companies in the United States.",
+    "url": "https://en.wikipedia.org/wiki/Plays_and_Players_Theatre"
+   },
+   {
+    "text": "Building designed in 1912 by architect Amos W. Barnes as a dramatic school.",
+    "url": "https://en.wikipedia.org/wiki/Plays_and_Players_Theatre"
+   },
+   {
+    "text": "Murals were added in 1923 by artist Edith Emerson.",
+    "url": "https://en.wikipedia.org/wiki/Plays_and_Players_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-w334239535",
+  "name": "Prince Music Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bought by the Philadelphia Film Society in March 2015 and renamed Prince Theater.",
+    "url": "https://en.wikipedia.org/wiki/Prince_Music_Theater"
+   },
+   {
+    "text": "Now operated by the Film Society as the Film Society Center.",
+    "url": "https://en.wikipedia.org/wiki/Prince_Music_Theater"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5258005389",
+  "name": "Punch Line Philly",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Comedy club in Fishtown with about 300 seats, booked by Live Nation's House of Blues Entertainment division.",
+    "url": "https://www.timeout.com/philadelphia/comedy/punch-line-philly"
+   },
+   {
+    "text": "Has a lobby bar serving craft beers and pub grub, plus an outdoor patio.",
+    "url": "https://www.timeout.com/philadelphia/comedy/punch-line-philly"
+   },
+   {
+    "text": "Hosts local talent showcases and burlesque shows.",
+    "url": "https://www.timeout.com/philadelphia/comedy/punch-line-philly"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7450315072",
+  "name": "Ralph J. Roberts Forum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Two-floor, 500-person amphitheater inside the Comcast Technology Center.",
+    "url": "https://comcastcentercampus.com/rjrforum/"
+   },
+   {
+    "text": "Named for Comcast founder Ralph J. Roberts.",
+    "url": "https://comcastcentercampus.com/rjrforum/"
+   },
+   {
+    "text": "Hosts movie premieres, keynote speakers, talent panels and book signings.",
+    "url": "https://comcastcentercampus.com/rjrforum/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7348661043",
+  "name": "Randall and Tomlinson Theaters",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]

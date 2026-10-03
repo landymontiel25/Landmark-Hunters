@@ -1,0 +1,77 @@
+[
+{"id":"osm-w541212625","name":"Brickbat Books","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Independent bookshop in the Queens Village neighborhood of South Philadelphia.","url":"https://14thstreetmagazine.com/2023/03/14/brickbat-books-is-an-eclectic-hidden-gem-in-south-philly/"},
+{"text":"Run by co-owners Noelle Egan and Patrick Richardson Graham.","url":"https://14thstreetmagazine.com/2023/03/14/brickbat-books-is-an-eclectic-hidden-gem-in-south-philly/"},
+{"text":"Hosts music events and poetry readings.","url":"https://14thstreetmagazine.com/2023/03/14/brickbat-books-is-an-eclectic-hidden-gem-in-south-philly/"}]},
+{"id":"osm-n2752679733","name":"Broad & Snyder's Farmers Market","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/broad-and-snyder-farmers-market-philadelphia","facts":[]},
+{"id":"osm-n2719571034","name":"Broad & South Farmers Market","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n2423132771","name":"Broad Street Bullies Pub","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Flyers-themed sports bar inside Stateside Live (formerly Xfinity Live!) in the South Philadelphia sports complex.","url":"https://www.forkandcity.com/restaurant/broad-street-bullies-pub"},
+{"text":"Displays memorabilia from the Flyers' Broad Street Bullies era.","url":"https://www.forkandcity.com/restaurant/broad-street-bullies-pub"}]},
+{"id":"osm-n3470849334","name":"Brownie's Pub","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Irish pub in the Old City neighborhood.","url":"https://www.oldcitydistrict.org/business/brownies-irish-pub"}]},
+{"id":"osm-n3527163512","name":"Brü Craft & Wurst","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Opened in 2013 as one of the first modern German beer halls in Philadelphia.","url":"https://bruphilly.com/"},
+{"text":"Serves German, Belgian and American beers alongside bratwursts and pretzels.","url":"https://bruphilly.com/"},
+{"text":"Has self-serve draft taps where guests pour their own beer with a Haus Key.","url":"https://bruphilly.com/"}]},
+{"id":"osm-n11020598865","name":"Buffalo Billiards","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Two-floor, 8,000 square foot bar in the Old City section of Philadelphia.","url":"https://www.buffalobilliardsphilly.com/"},
+{"text":"Has Brunswick pool tables, shuffleboard tables, dart boards, Pop-A-Shot, Buck Hunter and pinball.","url":"https://www.buffalobilliardsphilly.com/"},
+{"text":"Offers private room rentals for groups of up to 242 guests.","url":"https://www.buffalobilliardsphilly.com/"}]},
+{"id":"osm-n13332562796","name":"Bulletin Bar","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Bar inside Gather Food Hall at Schuylkill Yards, 3025 Market Street.","url":"https://www.universitycity.org/diningdays/bulletin-bar/"}]},
+{"id":"osm-n11018275014","name":"Butcher Bar","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Serves steaks, burgers and comfort food, including The Trough and a 50oz Tomahawk steak.","url":"https://butcherbarphilly.com/story"},
+{"text":"Butchery-inspired dining space with 16 beers on tap, draft wines and a whiskey-based cocktail program.","url":"https://butcherbarphilly.com/story"}]},
+{"id":"osm-n11738825360","name":"Butlers Antiques","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Small business in downtown Narberth that appraises and purchases antiques and precious metals.","url":"https://butlersfinemetals.com/"},
+{"text":"Buys coins, jewelry, watches, military items, artwork and flatware.","url":"https://butlersfinemetals.com/"}]},
+{"id":"osm-n2003082507","name":"Calliope Music","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n5716245442","name":"Camuy's Bar","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n12879659842","name":"Canalside","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Outdoor beer garden beside the canal in Manayunk, with waterside views.","url":"https://canalsidemanayunk.com/"},
+{"text":"Serves cocktails, craft beers and wines.","url":"https://canalsidemanayunk.com/"}]},
+{"id":"osm-n2419063592","name":"Carbon Copy","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w298458447","name":"Cavanaugh's Riverdeck","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Waterfront beer garden, bar, restaurant and nightclub.","url":"https://www.theriverdeck.com/"},
+{"text":"Large outdoor deck on the water with the Ben Franklin Bridge as a backdrop.","url":"https://www.theriverdeck.com/"},
+{"text":"Features rotating weekly DJs.","url":"https://www.theriverdeck.com/"}]},
+{"id":"osm-n2668017961","name":"Cecil B. Moore Farmers Market","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Held along Cecil B. Moore Avenue between Broad and 13th Streets.","url":"https://whyy.org/articles/cecil-b-moore-farmers-market-opens-this-afternoon/"},
+{"text":"Accepts EBT, WIC and senior FMNP vouchers and Philly Food Bucks.","url":"https://whyy.org/articles/cecil-b-moore-farmers-market-opens-this-afternoon/"}]},
+{"id":"osm-w340218757","name":"Cherry Street Tavern","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Sits at 22nd and Cherry Streets in the Logan Square neighborhood; it was previously Dever's Bar.","url":"https://en.wikipedia.org/wiki/Cherry_Street_Tavern"},
+{"text":"During Prohibition the bar was removed and the space became a barber shop.","url":"https://en.wikipedia.org/wiki/Cherry_Street_Tavern"},
+{"text":"Bought in 1972 by John \"Tex\" Flannery, who sold it to brothers Bill and Bob Loughery in 1990.","url":"https://en.wikipedia.org/wiki/Cherry_Street_Tavern"}]},
+{"id":"osm-n3944585958","name":"Chickie's and Pete's","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Flagship location of the chain, in the South Philadelphia Stadium District on Packer Avenue.","url":"https://www.chickiesandpetes.com/location/south-philadelphia-2"}]},
+{"id":"osm-w1554282902","name":"Chinatown Beer Garden","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n11102457751","name":"CJ & Ecks","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Sits on the corner of Shurs Lane and Pechin Street, a few blocks off Manayunk's Main Street.","url":"https://www.cjecksphilly.com/"},
+{"text":"Pours 12 rotating draft beers and has 21 flat screen TVs for sports.","url":"https://www.cjecksphilly.com/"},
+{"text":"Menu includes wings and Eck's-treme fries.","url":"https://www.cjecksphilly.com/"}]},
+{"id":"osm-n2123882252","name":"Clark Park Farmers Market","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-w340038768","name":"CLC Book Center","matched":true,"closed":false,"closedSource":null,"facts":[]},
+{"id":"osm-n6327451791","name":"Cleavers","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Opened in March 2016 with a modern twist on the Philly cheesesteak.","url":"https://www.cleaversphilly.com/"},
+{"text":"Sandwiches use 100% USDA domestic ribeye, and the owners have run a cheesesteak manufacturing company for over 40 years.","url":"https://www.cleaversphilly.com/"}]},
+{"id":"osm-n12537264512","name":"Common Beat","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"West Philadelphia shop for records, music supplies, used gear and instrument and electronics repair.","url":"https://www.commonbeatmusic.com/"},
+{"text":"Buys used records and musician gear and rents Technics 1200 turntables.","url":"https://www.commonbeatmusic.com/"}]},
+{"id":"osm-n1937637141","name":"Con Murphy's","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Created by Limerick men Liam Kelly and Maurice Collins with help from Irish craftsmen.","url":"https://conmurphyspub.com/about_con_murphys"},
+{"text":"Named as a tribute to an old friend from Ireland, Con Murphy.","url":"https://conmurphyspub.com/about_con_murphys"},
+{"text":"Located at the Windsor Suites, with one bar on the main level and another on the second floor.","url":"https://conmurphyspub.com/about_con_murphys"}]},
+{"id":"osm-w224641104","name":"Conshy Corner Tavern","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Serves cocktails and craft beers.","url":"https://www.conshycorner.com/"},
+{"text":"Hosts live music on Friday and Saturday nights.","url":"https://www.conshycorner.com/"}]},
+{"id":"osm-n1424271155","name":"Copabanana","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/copabanana-philadelphia","facts":[]},
+{"id":"osm-n5258029217","name":"Crabby Cafe & Sports Bar","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/crabby-cafe-and-sports-bar-philadelphia","facts":[]},
+{"id":"osm-n13607527781","name":"Craft Hall","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Opened in the former Yards Brewing Co. building at 901 N. Delaware Ave, vacant since late 2017.","url":"https://www.phillyvoice.com/craft-hall-beer-brewery-mainstay-independent-former-yards-brewery-location/"},
+{"text":"About 35,000 square feet with a bakery, two bars, a music stage and a playground for kids and adults.","url":"https://www.phillyvoice.com/craft-hall-beer-brewery-mainstay-independent-former-yards-brewery-location/"},
+{"text":"Concept came from Avram Hornik; beer is brewed by Mainstay Independent under Brian O'Reilly.","url":"https://www.phillyvoice.com/craft-hall-beer-brewery-mainstay-independent-former-yards-brewery-location/"}]},
+{"id":"osm-n13765688501","name":"Creep Records","matched":true,"closed":false,"closedSource":null,"facts":[
+{"text":"Record shop and independent label that sells its own releases and exclusive pressings.","url":"https://shopcreep.com/"},
+{"text":"Also has a second record store location in West Chester, PA.","url":"https://shopcreep.com/"}]}
+]

@@ -1,15 +1,41 @@
 {
  "category": "history-culture",
- "count": 140,
- "commonsPhotos": 0,
- "commonsPhotoPct": 0,
- "withFacts": 99,
+ "count": 139,
+ "commonsPhotos": 20,
+ "commonsPhotoPct": 14.4,
+ "withFacts": 117,
  "withHours": 3,
  "byRegion": {
-  "philly": 140,
+  "philly": 139,
   "villanova": 0
  },
- "photoSkips": [],
+ "photoSkips": [
+  {
+   "id": "osm-n5939920051",
+   "name": "Aero Memorial",
+   "why": "reviewed: walls only, not the memorial"
+  },
+  {
+   "id": "osm-n6632470609",
+   "name": "American Bandstand",
+   "why": "reviewed: a 1962 ticket, not a place"
+  },
+  {
+   "id": "osm-w261314259",
+   "name": "Carpenters' Hall",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-w440187021",
+   "name": "Delaplaine McDaniel School",
+   "why": "reviewed: cornerstone close-up"
+  },
+  {
+   "id": "osm-w352696199",
+   "name": "Edgar Allan Poe National Historic Site",
+   "why": "reviewed: plaque close-up"
+  }
+ ],
  "sample": [
   {
    "id": "osm-w265133931",
@@ -19,9 +45,152 @@
    "lng": -75.124495,
    "photo": false,
    "facts": [
+    "Being remade into an American Revolution museum.",
     "Address: 60 Erie Street, Camden"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/265133931"
+  },
+  {
+   "id": "osm-w246698955",
+   "name": "Merion Tribute House",
+   "topic": "monument",
+   "lat": 39.998203,
+   "lng": -75.254313,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/246698955"
+  },
+  {
+   "id": "osm-n7771182755",
+   "name": "Narberth Public School Bell",
+   "topic": "monument",
+   "lat": 40.005653,
+   "lng": -75.265174,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/7771182755"
+  },
+  {
+   "id": "osm-w368380121",
+   "name": "Philadelphia Job Corps Life Science Institute",
+   "topic": "historic site",
+   "lat": 39.916364,
+   "lng": -75.182332,
+   "photo": false,
+   "facts": [
+    "Address: 2810 South 20th Street, Unit 12, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/368380121"
+  },
+  {
+   "id": "osm-w229122063",
+   "name": "Saint Peter's Church",
+   "topic": "historic site",
+   "lat": 39.943137,
+   "lng": -75.147664,
+   "photo": false,
+   "facts": [
+    "Founded in 1761",
+    "Designed by Robert Smith",
+    "Designated: National Historic Landmark"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/229122063"
+  },
+  {
+   "id": "osm-w767732271",
+   "name": "Monastery Mansion",
+   "topic": "historic site",
+   "lat": 40.036156,
+   "lng": -75.203526,
+   "photo": false,
+   "facts": [
+    "Listed on the U.S. National Register of Historic Places",
+    "Also known as The Monastery",
+    "About 14 m (45 ft) tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/767732271"
+  },
+  {
+   "id": "osm-w338426286",
+   "name": "St. George's United Methodist Church",
+   "topic": "historic site",
+   "lat": 39.955243,
+   "lng": -75.145933,
+   "photo": false,
+   "facts": [
+    "Described as the oldest Methodist church in continuous use in the United States.",
+    "Congregation was founded in 1767 and moved into the current building in 1769.",
+    "Founded in 1763"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/338426286"
+  },
+  {
+   "id": "osm-w486980406",
+   "name": "Ohio House",
+   "topic": "historic site",
+   "lat": 39.984983,
+   "lng": -75.216179,
+   "photo": false,
+   "facts": [
+    "Also known as Ohio State Building",
+    "About 13 m (44 ft) tall",
+    "Address: 1700 Belmont Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/486980406"
+  },
+  {
+   "id": "osm-w786031989",
+   "name": "Thomas FitzSimons Junior High School",
+   "topic": "historic site",
+   "lat": 39.993851,
+   "lng": -75.174902,
+   "photo": false,
+   "facts": [
+    "About 34 m (110 ft) tall",
+    "Address: 2601 West Cumberland Street, Unit 31, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/786031989"
+  },
+  {
+   "id": "osm-w1022745337",
+   "name": "Memphis Street Academy Charter School at J.P. Jones",
+   "topic": "historic site",
+   "lat": 39.986248,
+   "lng": -75.112857,
+   "photo": false,
+   "facts": [
+    "Also known as Memphis Street Academy",
+    "About 20 m (66 ft) tall",
+    "Address: 2922 Memphis Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1022745337"
+  },
+  {
+   "id": "osm-n364867087",
+   "name": "Philadelphia Korean War Memorial",
+   "topic": "memorial",
+   "lat": 39.94491,
+   "lng": -75.14343,
+   "photo": false,
+   "facts": [
+    "Dedicated June 22, 2002 and rededicated on May 28, 2007.",
+    "Commemorates 610 servicemen from the Philadelphia area who died in the Korean War.",
+    "Features four black granite pillars listing casualties from each year of the war, 1950 to 1953."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/364867087"
+  },
+  {
+   "id": "osm-w954899378",
+   "name": "Pi Lambda Phi",
+   "topic": "historic site",
+   "lat": 39.960482,
+   "lng": -75.191483,
+   "photo": false,
+   "facts": [
+    "About 16 m (53 ft) tall",
+    "Address: 3405 Powelton Avenue, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/954899378"
   },
   {
    "id": "osm-w753358499",
@@ -31,9 +200,38 @@
    "lng": -75.189665,
    "photo": false,
    "facts": [
-    "Also known as Poth Mansion"
+    "Built by Dilks for Philadelphia brewer Frederick Poth in 1887.",
+    "Contains 16 bedrooms.",
+    "Home of the Drexel University chapter of the Alpha Pi Lambda fraternity."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/753358499"
+  },
+  {
+   "id": "osm-w657414356",
+   "name": "Pennsylvania Railroad, Connecting Railway Bridge",
+   "topic": "attraction",
+   "lat": 39.975954,
+   "lng": -75.194567,
+   "photo": false,
+   "facts": [
+    "Designed by chief engineer John A. Wilson and built by Thomas Seabrook.",
+    "Stone arch bridge with a longest span of 103 feet.",
+    "Appears in Thomas Eakins's painting Max Schmitt in a Single Scull (1871)."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/657414356"
+  },
+  {
+   "id": "osm-n3413417160",
+   "name": "Washington Grays Monument",
+   "topic": "statue",
+   "lat": 39.950055,
+   "lng": -75.16434,
+   "photo": false,
+   "facts": [
+    "Founded in 1908",
+    "Created by John A. Wilson"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3413417160"
   },
   {
    "id": "osm-w963558003",
@@ -62,28 +260,6 @@
    "osmUrl": "https://www.openstreetmap.org/way/334890702"
   },
   {
-   "id": "osm-w246698955",
-   "name": "Merion Tribute House",
-   "topic": "monument",
-   "lat": 39.998203,
-   "lng": -75.254313,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/246698955"
-  },
-  {
-   "id": "osm-w705302160",
-   "name": "Sparks Shot Tower",
-   "topic": "historic site",
-   "lat": 39.934805,
-   "lng": -75.146342,
-   "photo": false,
-   "facts": [
-    "About 43 m (141 ft) tall"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/705302160"
-  },
-  {
    "id": "osm-n7707982156",
    "name": "Historical Price sawmill dam?",
    "topic": "ruins",
@@ -94,6 +270,30 @@
    "osmUrl": "https://www.openstreetmap.org/node/7707982156"
   },
   {
+   "id": "osm-n14027770476",
+   "name": "Moyamensing Prison",
+   "topic": "memorial",
+   "lat": 39.93189,
+   "lng": -75.161114,
+   "photo": false,
+   "facts": [
+    "Founded in 1835",
+    "Designed by Thomas Ustick Walter",
+    "Built in the Gothic architecture style"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/14027770476"
+  },
+  {
+   "id": "osm-n8588157992",
+   "name": "U.S. Mint at Philadelphia Tour",
+   "topic": "attraction",
+   "lat": 39.952965,
+   "lng": -75.148149,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/node/8588157992"
+  },
+  {
    "id": "osm-w244428094",
    "name": "Glen Fern",
    "topic": "historic site",
@@ -101,21 +301,53 @@
    "lng": -75.213237,
    "photo": false,
    "facts": [
-    "About 11 m (36 ft) tall",
-    "2 stories tall",
-    "Address: 1199 Livezey Lane, Philadelphia"
+    "Also called the Livezey House; built around 1725 by Thomas Shoemaker.",
+    "Sold in 1747 to Thomas Livezey Jr., who built a mill on the site.",
+    "Livezey descendants lived there for more than 120 years."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/244428094"
   },
   {
-   "id": "osm-n7771182755",
-   "name": "Narberth Public School Bell",
-   "topic": "monument",
-   "lat": 40.005653,
-   "lng": -75.265174,
+   "id": "osm-w1023749517",
+   "name": "William W. Bodine High School",
+   "topic": "historic site",
+   "lat": 39.968202,
+   "lng": -75.143116,
    "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/7771182755"
+   "facts": [
+    "Also known as Bodine High School for International Affairs",
+    "About 26 m (86 ft) tall",
+    "Address: 1101 North 4th Street, Unit 25, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1023749517"
+  },
+  {
+   "id": "osm-w261314260",
+   "name": "Second Bank of the United States",
+   "topic": "historic site",
+   "lat": 39.948572,
+   "lng": -75.14841,
+   "photo": false,
+   "facts": [
+    "Facades have eight Doric columns, and the design is based on the Parthenon.",
+    "Houses a permanent portrait gallery of over 150 founders' portraits, with over 100 by Charles Willson Peale.",
+    "Bank was authorized from 1816 to 1836 and the building is part of Independence National Historical Park."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/261314260"
+  },
+  {
+   "id": "osm-n364867083",
+   "name": "Philadelphia Vietnam Veterans Memorial",
+   "topic": "memorial",
+   "lat": 39.943915,
+   "lng": -75.142829,
+   "photo": false,
+   "facts": [
+    "Dedicated in 1987 at Penn's Landing.",
+    "Lists the names of 648 Philadelphia servicemen killed or missing in action in the Vietnam War.",
+    "Designed by architect Perry M. Morgan, selected in 1985."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/364867083"
   },
   {
    "id": "osm-w706570998",
@@ -125,189 +357,11 @@
    "lng": -75.15941,
    "photo": false,
    "facts": [
-    "Also known as Gaul-Forrest House"
+    "Built in 1853 to 1854 for brewer William Gaul, designed by architect Stephen D. Button in the Italianate style.",
+    "Actor Edwin Forrest bought it a year after completion and lived there until his death in 1872.",
+    "Housed the Philadelphia School of Design for Women from 1880 until 1960."
    ],
    "osmUrl": "https://www.openstreetmap.org/way/706570998"
-  },
-  {
-   "id": "osm-w295242835",
-   "name": "Philadelphia High School for the Creative and Performing Arts",
-   "topic": "historic site",
-   "lat": 39.939413,
-   "lng": -75.165327,
-   "photo": false,
-   "facts": [
-    "4 stories tall",
-    "Address: 901 South Broad Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/295242835"
-  },
-  {
-   "id": "osm-n3413417159",
-   "name": "1st Regiment Infantry National Guard of Philadelphia",
-   "topic": "statue",
-   "lat": 39.949843,
-   "lng": -75.164385,
-   "photo": false,
-   "facts": [
-    "Founded in 1911",
-    "Also known as Spirit of ’61"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3413417159"
-  },
-  {
-   "id": "osm-n1687521435",
-   "name": "Ruins of Old Mill",
-   "topic": "ruins",
-   "lat": 39.982545,
-   "lng": -75.284575,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/1687521435"
-  },
-  {
-   "id": "osm-w345044325",
-   "name": "George W. Nebinger School",
-   "topic": "historic site",
-   "lat": 39.936742,
-   "lng": -75.15388,
-   "photo": false,
-   "facts": [
-    "5 stories tall",
-    "Address: 601 Carpenter Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/345044325"
-  },
-  {
-   "id": "osm-w767732271",
-   "name": "Monastery Mansion",
-   "topic": "historic site",
-   "lat": 40.036156,
-   "lng": -75.203526,
-   "photo": false,
-   "facts": [
-    "Listed on the U.S. National Register of Historic Places",
-    "Also known as The Monastery",
-    "About 14 m (45 ft) tall"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/767732271"
-  },
-  {
-   "id": "osm-w786048658",
-   "name": "The U School",
-   "topic": "historic site",
-   "lat": 39.982326,
-   "lng": -75.146295,
-   "photo": false,
-   "facts": [
-    "About 30 m (98 ft) tall",
-    "Address: 2000 North 7th Street, Unit 46, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/786048658"
-  },
-  {
-   "id": "osm-w486980406",
-   "name": "Ohio House",
-   "topic": "historic site",
-   "lat": 39.984983,
-   "lng": -75.216179,
-   "photo": false,
-   "facts": [
-    "Also known as Ohio State Building",
-    "About 13 m (44 ft) tall",
-    "Address: 1700 Belmont Avenue, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/486980406"
-  },
-  {
-   "id": "osm-n11904233638",
-   "name": "Joey Giardello Statue",
-   "topic": "statue",
-   "lat": 39.926665,
-   "lng": -75.167117,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11904233638"
-  },
-  {
-   "id": "osm-n5247943539",
-   "name": "Washington Encampment 1777",
-   "topic": "memorial",
-   "lat": 40.009768,
-   "lng": -75.25535,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/5247943539"
-  },
-  {
-   "id": "osm-n6212056670",
-   "name": "Turtle Rock Light",
-   "topic": "lighthouse",
-   "lat": 39.969982,
-   "lng": -75.189847,
-   "photo": false,
-   "facts": [
-    "Founded in 1887",
-    "Built in the Colonial Revival architecture style",
-    "Designated: National Register of Historic Places contributing property"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6212056670"
-  },
-  {
-   "id": "osm-w413156610",
-   "name": "William S. Peirce School",
-   "topic": "historic site",
-   "lat": 39.941823,
-   "lng": -75.183066,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/413156610"
-  },
-  {
-   "id": "osm-n12178666501",
-   "name": "Expedition Escape",
-   "topic": "attraction",
-   "lat": 40.078829,
-   "lng": -75.35702,
-   "photo": false,
-   "facts": [
-    "Address: 601 South Henderson Road"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12178666501"
-  },
-  {
-   "id": "osm-w334264467",
-   "name": "Edwin M. Stanton School",
-   "topic": "historic site",
-   "lat": 39.940404,
-   "lng": -75.170775,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/334264467"
-  },
-  {
-   "id": "osm-n6240921141",
-   "name": "Harbison's Dairy Milk Bottle",
-   "topic": "attraction",
-   "lat": 39.981567,
-   "lng": -75.13212,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/6240921141"
-  },
-  {
-   "id": "osm-w1022745337",
-   "name": "Memphis Street Academy Charter School at J.P. Jones",
-   "topic": "historic site",
-   "lat": 39.986248,
-   "lng": -75.112857,
-   "photo": false,
-   "facts": [
-    "Also known as Memphis Street Academy",
-    "About 20 m (66 ft) tall",
-    "Address: 2922 Memphis Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/1022745337"
   }
  ],
  "points": [
@@ -329,7 +383,7 @@
   [
    39.940051,
    -75.161709,
-   0
+   1
   ],
   [
    40.00377,
@@ -344,7 +398,7 @@
   [
    39.958336,
    -75.171797,
-   0
+   1
   ],
   [
    39.960067,
@@ -359,17 +413,17 @@
   [
    39.955662,
    -75.181515,
-   0
+   1
   ],
   [
    39.986453,
    -75.242135,
-   0
+   1
   ],
   [
    39.905277,
    -75.18408,
-   0
+   1
   ],
   [
    39.990958,
@@ -419,32 +473,32 @@
   [
    40.003787,
    -75.19628,
-   0
+   1
   ],
   [
    39.966212,
    -75.181792,
-   0
+   1
   ],
   [
    39.953719,
    -75.156265,
-   0
+   1
   ],
   [
    39.950726,
    -75.14388,
-   0
+   1
   ],
   [
    39.944648,
    -75.141462,
-   0
+   1
   ],
   [
    39.948247,
    -75.163256,
-   0
+   1
   ],
   [
    39.95119,
@@ -454,17 +508,17 @@
   [
    39.896757,
    -75.17705,
-   0
+   1
   ],
   [
    39.948338,
    -75.150153,
-   0
+   1
   ],
   [
    39.915427,
    -75.163388,
-   0
+   1
   ],
   [
    39.929473,
@@ -479,7 +533,7 @@
   [
    39.948247,
    -75.163114,
-   0
+   1
   ],
   [
    39.962031,
@@ -494,7 +548,7 @@
   [
    39.940404,
    -75.170775,
-   0
+   1
   ],
   [
    39.929931,
@@ -514,7 +568,7 @@
   [
    39.948068,
    -75.146424,
-   0
+   1
   ],
   [
    39.921009,
@@ -524,7 +578,7 @@
   [
    39.958925,
    -75.14991,
-   0
+   1
   ],
   [
    39.95854,
@@ -544,7 +598,7 @@
   [
    39.918784,
    -75.151042,
-   0
+   1
   ],
   [
    39.934926,
@@ -554,7 +608,7 @@
   [
    39.936742,
    -75.15388,
-   0
+   1
   ],
   [
    39.949047,
@@ -739,11 +793,6 @@
   [
    40.004156,
    -75.187948,
-   0
-  ],
-  [
-   39.952604,
-   -75.168391,
    0
   ],
   [

@@ -41,3 +41,19 @@ The Goat's Beard came in through the normal tiers. The Connelly Center Wawa
 has no OSM node yet, so it is not on the map.
 
 `<category>.json` here is each batch report from `build-packs.mjs`.
+
+## Web research (in progress)
+
+Batches 00-16 of 34 are researched (510 places: landmarks, culture, bars and
+markets; food and parks are in batches 17-33). 485 matched, 811 facts kept
+after `okWebFact`. 33 places dropped as closed for good, each with its
+source in `overrides.json` (among them One Liberty Observation Deck, the
+Bala and Anthony Wayne cinemas, SoundGarden Hall, Fluid, Finnigan's Wake and
+the University of the Arts venues). Insider places carry facts from the pages
+that tie them to Villanova.
+
+## Photos (in progress)
+
+`find-commons-photos.mjs` has looked up 340 of the places so far. The first
+91 matches were reviewed by eye: 20 rejected (`overrides.json` rejectPhoto:
+people, artifacts, signs, a ticket, wrong buildings), the rest applied.

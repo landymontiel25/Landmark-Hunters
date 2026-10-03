@@ -1,27 +1,100 @@
 {
  "category": "art-museums",
- "count": 111,
- "commonsPhotos": 0,
- "commonsPhotoPct": 0,
- "withFacts": 94,
+ "count": 108,
+ "commonsPhotos": 30,
+ "commonsPhotoPct": 27.8,
+ "withFacts": 99,
  "withHours": 29,
  "byRegion": {
-  "philly": 111,
+  "philly": 108,
   "villanova": 0
  },
- "photoSkips": [],
+ "photoSkips": [
+  {
+   "id": "osm-w346886794",
+   "name": "Asian Arts Initiative",
+   "why": "reviewed: shows two people at an event"
+  },
+  {
+   "id": "osm-w356324418",
+   "name": "Cedar Grove",
+   "why": "reviewed: aerial view of the city, not the house"
+  },
+  {
+   "id": "osm-w338853375",
+   "name": "Elfreth's Alley Museum",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-w338550400",
+   "name": "Fireman's Hall Museum",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-w352987980",
+   "name": "Franklin Print Shop",
+   "why": "file already used by another place"
+  },
+  {
+   "id": "osm-w333776312",
+   "name": "Independence Seaport Museum",
+   "why": "reviewed: a museum artifact, not the museum"
+  },
+  {
+   "id": "osm-w222122351",
+   "name": "Lemon Hill Mansion",
+   "why": "reviewed: old stereograph where the house is not visible"
+  },
+  {
+   "id": "osm-w356323017",
+   "name": "Mount Pleasant",
+   "why": "reviewed: interior detail, not the house"
+  },
+  {
+   "id": "osm-w261314255",
+   "name": "New Hall Military Museum",
+   "why": "reviewed: shows Carpenters' Hall, not New Hall"
+  },
+  {
+   "id": "osm-r5231601",
+   "name": "Penn Museum",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-w335308190",
+   "name": "Science History Institute",
+   "why": "reviewed: people at a meeting"
+  },
+  {
+   "id": "osm-w49887255",
+   "name": "Strawberry Mansion",
+   "why": "reviewed: a bridge, not the mansion"
+  },
+  {
+   "id": "osm-w805538962",
+   "name": "Thaddeus Kosciuszko National Memorial",
+   "why": "reviewed: entrance sign with old hours"
+  },
+  {
+   "id": "osm-n14075154301",
+   "name": "Underground Arts",
+   "why": "reviewed: dark stage shot"
+  }
+ ],
  "sample": [
   {
-   "id": "osm-n14167217001",
-   "name": "Yellow Bicycle Theater",
+   "id": "osm-n14075154301",
+   "name": "Underground Arts",
    "topic": "arts center",
-   "lat": 39.954853,
-   "lng": -75.164662,
+   "lat": 39.959094,
+   "lng": -75.159011,
    "photo": false,
    "facts": [
-    "Address: 1435 Arch Street"
+    "Started as a vision to open the basement of the Wolf Building as a space for free artistic expression.",
+    "Occupies 12,000 square feet with two rooms and a 650 capacity club.",
+    "Focuses mainly on live music and also hosts theater and fashion shows."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/14167217001"
+   "osmUrl": "https://www.openstreetmap.org/node/14075154301"
   },
   {
    "id": "osm-n12188327106",
@@ -47,64 +120,28 @@
    "osmUrl": "https://www.openstreetmap.org/way/346886794"
   },
   {
-   "id": "osm-n8765431380",
-   "name": "Gross McCleaf Gallery",
-   "topic": "art gallery",
-   "lat": 39.950219,
-   "lng": -75.167216,
-   "photo": false,
-   "facts": [
-    "Address: 127 South 16th Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/8765431380"
-  },
-  {
-   "id": "osm-w222122351",
-   "name": "Lemon Hill Mansion",
+   "id": "osm-w32122035",
+   "name": "Hamilton Mansion",
    "topic": "museum",
-   "lat": 39.970725,
-   "lng": -75.187203,
-   "photo": false,
-   "facts": [
-    "Designed by Henry C. Pratt",
-    "Built in the Federal architecture style"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/222122351"
-  },
-  {
-   "id": "osm-w338853375",
-   "name": "Elfreth's Alley Museum",
-   "topic": "museum",
-   "lat": 39.952708,
-   "lng": -75.142406,
+   "lat": 39.945693,
+   "lng": -75.203736,
    "photo": false,
    "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/338853375"
+   "osmUrl": "https://www.openstreetmap.org/way/32122035"
   },
   {
-   "id": "osm-w486443341",
-   "name": "Mummers Museum",
-   "topic": "museum",
-   "lat": 39.933447,
-   "lng": -75.147566,
+   "id": "osm-n12501040601",
+   "name": "Main Line Art Center",
+   "topic": "arts center",
+   "lat": 40.015851,
+   "lng": -75.3097,
    "photo": false,
    "facts": [
-    "Address: 1100 South 2nd Street, Philadelphia"
+    "Has served the community for over 75 years as an art school and gallery.",
+    "Offers up to ten exhibitions a year, including seasonal fine crafts shows.",
+    "Address: 746 Panmure Road"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/486443341"
-  },
-  {
-   "id": "osm-w353034105",
-   "name": "Betsy Ross House",
-   "topic": "museum",
-   "lat": 39.952277,
-   "lng": -75.144641,
-   "photo": false,
-   "facts": [
-    "2 stories tall",
-    "Address: 239 Arch Street, Philadelphia"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/353034105"
+   "osmUrl": "https://www.openstreetmap.org/node/12501040601"
   },
   {
    "id": "osm-n1847081969",
@@ -120,14 +157,31 @@
    "osmUrl": "https://www.openstreetmap.org/node/1847081969"
   },
   {
-   "id": "osm-n11102457740",
-   "name": "Cosacosa",
-   "topic": "arts center",
-   "lat": 40.026392,
-   "lng": -75.225685,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11102457740"
+   "id": "osm-n12235452452",
+   "name": "Museum for Art in Wood",
+   "topic": "museum",
+   "lat": 39.953385,
+   "lng": -75.144856,
+   "photo": true,
+   "facts": [
+    "Founded in 1986 and formerly called the Center for Art in Wood.",
+    "Permanent collection of about 1,200 handmade objects, from everyday items to sculpture.",
+    "Address: 141 North 3rd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12235452452"
+  },
+  {
+   "id": "osm-w353034105",
+   "name": "Betsy Ross House",
+   "topic": "museum",
+   "lat": 39.952277,
+   "lng": -75.144641,
+   "photo": true,
+   "facts": [
+    "2 stories tall",
+    "Address: 239 Arch Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/353034105"
   },
   {
    "id": "osm-w338550400",
@@ -142,16 +196,38 @@
    "osmUrl": "https://www.openstreetmap.org/way/338550400"
   },
   {
-   "id": "osm-n6775400144",
-   "name": "The Print Center",
+   "id": "osm-w338853375",
+   "name": "Elfreth's Alley Museum",
+   "topic": "museum",
+   "lat": 39.952708,
+   "lng": -75.142406,
+   "photo": false,
+   "facts": [],
+   "osmUrl": "https://www.openstreetmap.org/way/338853375"
+  },
+  {
+   "id": "osm-n5718906478",
+   "name": "FLUXSpace",
    "topic": "art gallery",
-   "lat": 39.948151,
-   "lng": -75.168554,
+   "lat": 39.99637,
+   "lng": -75.130578,
    "photo": false,
    "facts": [
-    "Address: 1614 Latimer Street, Philadelphia"
+    "Address: 3000 Hope Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6775400144"
+   "osmUrl": "https://www.openstreetmap.org/node/5718906478"
+  },
+  {
+   "id": "osm-n11708172258",
+   "name": "Center for Creative Works",
+   "topic": "arts center",
+   "lat": 40.003914,
+   "lng": -75.282537,
+   "photo": false,
+   "facts": [
+    "Address: 241 East Lancaster Avenue, Wynnewood"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11708172258"
   },
   {
    "id": "osm-w356324418",
@@ -168,41 +244,86 @@
    "osmUrl": "https://www.openstreetmap.org/way/356324418"
   },
   {
-   "id": "osm-n13125217417",
-   "name": "Carpenters Museum",
+   "id": "osm-n6639391809",
+   "name": "Philadelphia Museum of Jewish Art",
    "topic": "museum",
-   "lat": 39.963561,
-   "lng": -75.168598,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/13125217417"
-  },
-  {
-   "id": "osm-w356323017",
-   "name": "Mount Pleasant",
-   "topic": "museum",
-   "lat": 39.983379,
-   "lng": -75.19984,
+   "lat": 39.963833,
+   "lng": -75.160878,
    "photo": false,
    "facts": [
-    "Founded in 1762",
-    "Built in the Georgian architecture style",
-    "Designated: National Historic Landmark"
+    "Was founded in 1975 and is located within Congregation Rodeph Shalom.",
+    "Exhibits contemporary art that illuminates the Jewish experience.",
+    "Its permanent collection includes works by Chaim Gross, Tobi Kahn, Joan Snyder and Roman Vishniac."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/356323017"
+   "osmUrl": "https://www.openstreetmap.org/node/6639391809"
   },
   {
-   "id": "osm-w338691557",
-   "name": "Pentimenti Gallery",
+   "id": "osm-n10268934301",
+   "name": "Museum of Illusions Philadelphia",
+   "topic": "museum",
+   "lat": 39.950628,
+   "lng": -75.147452,
+   "photo": false,
+   "facts": [
+    "Part of the global Museum of Illusions group.",
+    "Has more than 60 exhibits including holograms, stereograms and immersive rooms.",
+    "Occupies about 5,000 square feet."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10268934301"
+  },
+  {
+   "id": "osm-n12193292355",
+   "name": "Twelve Gates Arts",
    "topic": "art gallery",
-   "lat": 39.953146,
-   "lng": -75.142688,
+   "lat": 39.952205,
+   "lng": -75.143359,
    "photo": false,
    "facts": [
-    "2 stories tall",
-    "Address: 145 North 2nd Street, Philadelphia"
+    "Founded in 2011 as an arts gallery in Old City.",
+    "Highlights South Asian diasporic artistic voices through quarterly visual exhibitions and community events.",
+    "Address: 106 North 2nd Street, Philadelphia"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/338691557"
+   "osmUrl": "https://www.openstreetmap.org/node/12193292355"
+  },
+  {
+   "id": "osm-w87325391",
+   "name": "Philosophical Hall",
+   "topic": "museum",
+   "lat": 39.948641,
+   "lng": -75.149453,
+   "photo": true,
+   "facts": [
+    "Built from 1785 to 1789 as the headquarters of the American Philosophical Society.",
+    "Is the only privately owned structure on Independence Square.",
+    "A loan from society member Benjamin Franklin provided the final money needed to finish construction."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/87325391"
+  },
+  {
+   "id": "osm-w486443341",
+   "name": "Mummers Museum",
+   "topic": "museum",
+   "lat": 39.933447,
+   "lng": -75.147566,
+   "photo": true,
+   "facts": [
+    "Address: 1100 South 2nd Street, Philadelphia"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/486443341"
+  },
+  {
+   "id": "osm-w334665979",
+   "name": "National Liberty Museum",
+   "topic": "museum",
+   "lat": 39.949077,
+   "lng": -75.146841,
+   "photo": false,
+   "facts": [
+    "Founded by publisher Irvin J. Borowsky and his daughter Gwen Borowsky.",
+    "Displays the 20-foot glass sculpture Flame of Liberty by Dale Chihuly.",
+    "Founded in 2000"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/334665979"
   },
   {
    "id": "osm-r4141515",
@@ -210,12 +331,54 @@
    "topic": "museum",
    "lat": 39.905953,
    "lng": -75.181043,
-   "photo": false,
+   "photo": true,
    "facts": [
     "Opened in 1938",
     "Address: 1900 Pattison Avenue, Philadelphia"
    ],
    "osmUrl": "https://www.openstreetmap.org/relation/4141515"
+  },
+  {
+   "id": "osm-w709564106",
+   "name": "The Rosenbach Museum & Library",
+   "topic": "museum",
+   "lat": 39.947353,
+   "lng": -75.175023,
+   "photo": false,
+   "facts": [
+    "Holds the collections of rare book dealers A. S. W. Rosenbach and his brother Philip H. Rosenbach.",
+    "Housed in two 19th-century townhouses at 2008-2010 Delancey Place near Rittenhouse Square.",
+    "The Rosenbach brothers lived at 2010 Delancey Place from 1926 to 1952."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/709564106"
+  },
+  {
+   "id": "osm-w333931830",
+   "name": "Pennsylvania Academy of the Fine Arts",
+   "topic": "museum",
+   "lat": 39.955237,
+   "lng": -75.163667,
+   "photo": true,
+   "facts": [
+    "Is the longest continuously operating art museum and art school in the United States.",
+    "Was founded by painter Charles Willson Peale, sculptor William Rush and other artists and business leaders.",
+    "The current building was designed by Frank Furness and George Hewitt, begun in 1871 and opened in 1876."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/333931830"
+  },
+  {
+   "id": "osm-w332786629",
+   "name": "Merchants' Exchange Building",
+   "topic": "museum",
+   "lat": 39.947282,
+   "lng": -75.145972,
+   "photo": true,
+   "facts": [
+    "Designed by William Strickland",
+    "Built in the Greek Revival architecture style",
+    "Designated: National Historic Landmark"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/332786629"
   },
   {
    "id": "osm-n6658146374",
@@ -224,91 +387,26 @@
    "lat": 39.946499,
    "lng": -75.208112,
    "photo": false,
-   "facts": [],
+   "facts": [
+    "Established in 1995 to coincide with the 175th anniversary of the Philadelphia College of Pharmacy.",
+    "Holds over 8,000 pharmaceutical and medical artifacts dating back to the 1600s.",
+    "Located on the first floor of Griffith Hall on the university's West Philadelphia campus."
+   ],
    "osmUrl": "https://www.openstreetmap.org/node/6658146374"
   },
   {
-   "id": "osm-n11102457731",
-   "name": "Manayunk-Roxborough Art Center",
-   "topic": "arts center",
-   "lat": 40.032276,
-   "lng": -75.218068,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/11102457731"
-  },
-  {
-   "id": "osm-n8410366420",
-   "name": "The Philadelphia Masonic Temple, Library and Museum",
+   "id": "osm-r5231601",
+   "name": "Penn Museum",
    "topic": "museum",
-   "lat": 39.953569,
-   "lng": -75.162285,
+   "lat": 39.949282,
+   "lng": -75.191286,
    "photo": false,
    "facts": [
-    "Address: 1 North Broad Street, Philadelphia"
+    "First phase completed in 1899 to house finds from the Nippur expedition.",
+    "Rotunda with Harrison Auditorium completed in 1915.",
+    "Coxe Memorial Wing by Charles Klauder opened in 1926 for the Egyptian collection."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/8410366420"
-  },
-  {
-   "id": "osm-w333931830",
-   "name": "Pennsylvania Academy of the Fine Arts",
-   "topic": "museum",
-   "lat": 39.955237,
-   "lng": -75.163667,
-   "photo": false,
-   "facts": [
-    "Founded in 1805",
-    "Designed by Frank Furness",
-    "Built in the Second Empire architecture in the United States and Canada and Renaissance Revival architecture style"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/333931830"
-  },
-  {
-   "id": "osm-w40083567",
-   "name": "Old City Hall",
-   "topic": "museum",
-   "lat": 39.948865,
-   "lng": -75.149413,
-   "photo": false,
-   "facts": [
-    "Founded in 1790",
-    "Designed by William Strickland",
-    "About 3 m (10 ft) tall"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/40083567"
-  },
-  {
-   "id": "osm-w705808932",
-   "name": "Maguire Art Museum",
-   "topic": "museum",
-   "lat": 39.997859,
-   "lng": -75.240674,
-   "photo": false,
-   "facts": [
-    "Run by Saint Joseph's University",
-    "Also known as Barnes Arboretum"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/705808932"
-  },
-  {
-   "id": "osm-w377438263",
-   "name": "Laurel Hill Mansion",
-   "topic": "museum",
-   "lat": 39.991377,
-   "lng": -75.194853,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/way/377438263"
-  },
-  {
-   "id": "osm-n4150740084",
-   "name": "Fragments of Franklin Court",
-   "topic": "museum",
-   "lat": 39.949671,
-   "lng": -75.146595,
-   "photo": false,
-   "facts": [],
-   "osmUrl": "https://www.openstreetmap.org/node/4150740084"
+   "osmUrl": "https://www.openstreetmap.org/relation/5231601"
   }
  ],
  "points": [
@@ -320,17 +418,17 @@
   [
    39.956825,
    -75.171264,
-   0
+   1
   ],
   [
    39.953282,
    -75.151785,
-   0
+   1
   ],
   [
    39.905953,
    -75.181043,
-   0
+   1
   ],
   [
    39.951908,
@@ -360,17 +458,17 @@
   [
    39.940104,
    -75.131957,
-   0
+   1
   ],
   [
    39.949595,
    -75.146786,
-   0
+   1
   ],
   [
    39.952277,
    -75.144641,
-   0
+   1
   ],
   [
    39.953542,
@@ -390,12 +488,7 @@
   [
    39.959965,
    -75.174598,
-   0
-  ],
-  [
-   39.949184,
-   -75.163927,
-   0
+   1
   ],
   [
    39.963561,
@@ -415,12 +508,12 @@
   [
    39.952506,
    -75.139056,
-   0
+   1
   ],
   [
    39.948979,
    -75.150645,
-   0
+   1
   ],
   [
    40.026392,
@@ -455,7 +548,7 @@
   [
    39.949671,
    -75.146595,
-   0
+   1
   ],
   [
    39.950031,
@@ -475,16 +568,11 @@
   [
    39.944318,
    -75.148392,
-   0
+   1
   ],
   [
    39.951708,
    -75.143485,
-   0
-  ],
-  [
-   39.947866,
-   -75.145842,
    0
   ],
   [
@@ -495,12 +583,12 @@
   [
    39.951497,
    -75.149908,
-   0
+   1
   ],
   [
    39.954065,
    -75.194773,
-   0
+   1
   ],
   [
    39.970675,
@@ -520,7 +608,7 @@
   [
    39.991377,
    -75.194853,
-   0
+   1
   ],
   [
    39.970725,
@@ -560,7 +648,7 @@
   [
    39.947282,
    -75.145972,
-   0
+   1
   ],
   [
    39.97706,
@@ -580,7 +668,7 @@
   [
    39.933447,
    -75.147566,
-   0
+   1
   ],
   [
    39.951343,
@@ -590,7 +678,7 @@
   [
    39.953385,
    -75.144856,
-   0
+   1
   ],
   [
    39.950628,
@@ -625,7 +713,7 @@
   [
    39.948865,
    -75.149413,
-   0
+   1
   ],
   [
    39.988705,
@@ -650,16 +738,11 @@
   [
    39.955237,
    -75.163667,
-   0
+   1
   ],
   [
    39.953146,
    -75.142688,
-   0
-  ],
-  [
-   39.948256,
-   -75.170839,
    0
   ],
   [
@@ -680,17 +763,17 @@
   [
    39.948641,
    -75.149453,
-   0
+   1
   ],
   [
    39.979491,
    -75.20904,
-   0
+   1
   ],
   [
    39.948784,
    -75.148381,
-   0
+   1
   ],
   [
    39.945776,
@@ -700,7 +783,7 @@
   [
    39.94306,
    -75.149908,
-   0
+   1
   ],
   [
    40.048192,
@@ -710,12 +793,12 @@
   [
    40.029475,
    -75.189724,
-   0
+   1
   ],
   [
    39.96193,
    -75.173951,
-   0
+   1
   ],
   [
    39.947331,
@@ -725,7 +808,7 @@
   [
    39.939223,
    -75.155363,
-   0
+   1
   ],
   [
    40.055726,
@@ -830,7 +913,7 @@
   [
    39.980596,
    -75.162898,
-   0
+   1
   ],
   [
    39.948444,
@@ -840,7 +923,7 @@
   [
    39.942393,
    -75.123466,
-   0
+   1
   ],
   [
    40.002016,
@@ -850,12 +933,12 @@
   [
    39.950201,
    -75.148461,
-   0
+   1
   ],
   [
    39.99317,
    -75.187843,
-   0
+   1
   ],
   [
    39.949992,

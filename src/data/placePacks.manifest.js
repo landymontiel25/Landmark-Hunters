@@ -61,14 +61,14 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "art-museums",
-    "file": "places/philly/art-museums.9fefdedbd0.json",
-    "count": 111
+    "file": "places/philly/art-museums.31375ae6a3.json",
+    "count": 108
   },
   {
     "region": "philly",
     "category": "entertainment",
-    "file": "places/philly/entertainment.a7229fa73b.json",
-    "count": 69
+    "file": "places/philly/entertainment.fa1b6261a9.json",
+    "count": 61
   },
   {
     "region": "villanova",
@@ -79,25 +79,25 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "history-culture",
-    "file": "places/philly/history-culture.083933ab47.json",
-    "count": 140
+    "file": "places/philly/history-culture.bdab9c031e.json",
+    "count": 139
   },
   {
     "region": "philly",
     "category": "local-life",
-    "file": "places/philly/local-life.55442abfd9.json",
-    "count": 347
+    "file": "places/philly/local-life.b0ac20c12d.json",
+    "count": 331
   },
   {
     "region": "villanova",
     "category": "local-life",
-    "file": "places/villanova/local-life.224e8c3729.json",
+    "file": "places/villanova/local-life.0fcae3c4bb.json",
     "count": 1
   },
   {
     "region": "philly",
     "category": "parks-nature",
-    "file": "places/philly/parks-nature.5d322c056c.json",
+    "file": "places/philly/parks-nature.67e549b90e.json",
     "count": 135
   },
   {
@@ -121,13 +121,13 @@ export const PLACE_PACKS = [
   {
     "region": "philly",
     "category": "stadiums",
-    "file": "places/philly/stadiums.2556afce93.json",
+    "file": "places/philly/stadiums.8f11273e28.json",
     "count": 3
   },
   {
     "region": "philly",
     "category": "food",
-    "file": "places/philly/food.b184dff3d2.json",
+    "file": "places/philly/food.003c923212.json",
     "count": 167
   },
   {
