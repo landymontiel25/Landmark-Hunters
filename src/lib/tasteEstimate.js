@@ -1,7 +1,7 @@
 import { applyRating, TAG_DELTAS } from './tagScores.js';
 import { predictLevel } from './maprPrediction.js';
 import { computeTasteScore, creditFor } from './tasteScore.js';
-import { TASTE_ESTIMATE_MIN_HISTORY } from './maprConstants.js';
+import { ONBOARDING_RATING_WINDOW_MS, TASTE_ESTIMATE_MIN_HISTORY } from './maprConstants.js';
 
 // Estimated taste score from past ratings (docs/taste-score.md, "Estimate").
 // DISPLAY ONLY, computed on the device from the user's own loaded reviews.
@@ -12,7 +12,9 @@ import { TASTE_ESTIMATE_MIN_HISTORY } from './maprConstants.js';
 // MIN_HISTORY earlier ratings are in), ask the real predictLevel what Mapr
 // would have guessed from tag scores built ONLY from the earlier ratings, then
 // credit it against the actual tier with the live score's credits. Ratings
-// Mapr would not have guessed on (predictLevel null) are skipped.
+// Mapr would not have guessed on (predictLevel null) are skipped. Ratings
+// from the sign-up onboarding are never guessed: they only teach the model,
+// and the guessing starts after onboarding.
 
 const LEVEL_OF_TIER = { 'highly-recommend': 'positive', 'worth-trying': 'neutral', 'probably-skip': 'negative' };
 
@@ -36,7 +38,8 @@ const whenOf = (r) => {
 // ratingTier, visitFrequency, ratedAt, updatedAt }.
 // Returns the replayed guesses (oldest first) as
 // { landmarkId, predicted, answered, credit, halfMiss, at }.
-export function replayGuesses(reviews, { minHistory = TASTE_ESTIMATE_MIN_HISTORY } = {}) {
+// isOnboarding(review): true for a rating given during sign-up onboarding.
+export function replayGuesses(reviews, { minHistory = TASTE_ESTIMATE_MIN_HISTORY, isOnboarding = null } = {}) {
   const list = (Array.isArray(reviews) ? reviews : Object.values(reviews || {}))
     .filter((r) => r && r.region && TAG_DELTAS[r.ratingTier])
     .map((r) => ({ r, at: whenOf(r) }))
@@ -44,7 +47,7 @@ export function replayGuesses(reviews, { minHistory = TASTE_ESTIMATE_MIN_HISTORY
   const profile = { tagScores: {}, tagScoresAt: {}, tagCounts: {} };
   const guesses = [];
   list.forEach(({ r, at }, i) => {
-    if (i >= minHistory) {
+    if (i >= minHistory && !isOnboarding?.(r)) {
       const predicted = predictLevel({ profile, region: r.region, tags: r.categories, nowMs: at });
       const answered = LEVEL_OF_TIER[r.ratingTier];
       const credit = predicted ? creditFor(predicted, answered) : null;
@@ -62,6 +65,14 @@ export function replayGuesses(reviews, { minHistory = TASTE_ESTIMATE_MIN_HISTORY
     profile.tagCounts[r.region] = { ...cur.counts, ...next.counts };
   });
   return guesses;
+}
+
+// Which ratings came from the sign-up onboarding: marked fromOnboarding when
+// saved, or, for accounts from before that mark, given within
+// ONBOARDING_RATING_WINDOW_MS of signing up through the sign-up flow.
+export function onboardingRatingTest(profile) {
+  const signupMs = String(profile?.onboardingSource || '').startsWith('signup') ? msOf(profile?.createdAt) : NaN;
+  return (r) => r?.fromOnboarding === true || (Number.isFinite(signupMs) && whenOf(r) <= signupMs + ONBOARDING_RATING_WINDOW_MS);
 }
 
 // { score (whole percent, same cap as live), percent, guesses, totalGuesses }

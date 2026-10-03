@@ -108,6 +108,14 @@ your past ratings)" (`src/lib/tasteEstimate.js`, tests in `tasteEstimate.test.js
   (`applyRating`, in memory, visit frequency included), then credited against
   the actual tier with the live credits (hit / small miss / big miss).
   Ratings `predictLevel` would not guess on (null) are skipped.
+- **Sign-up onboarding ratings are never guessed.** They join the history
+  (so they teach the model), but the replay makes no guess on them; guessing
+  starts after onboarding. `OnboardingRateStep` saves them with
+  `fromOnboarding: true` on the review; a later change of answer clears it.
+  Accounts rated before that marker existed: a rating given within
+  `ONBOARDING_RATING_WINDOW_MS` (2 hours) of `users/{uid}.createdAt`, on an
+  account whose `onboardingSource` starts with `signup`, counts as
+  onboarding (`onboardingRatingTest` in `tasteEstimate.js`).
 - Estimate = credit-weighted hits over the last `TASTE_WINDOW` replayed guesses,
   same 99% cap (`computeTasteScore`). Fewer than `TASTE_MIN_GUESSES` replayable
   guesses: no estimate, plain "Learning...".

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { estimateTasteScore, replayGuesses } from './tasteEstimate';
-import { TASTE_ESTIMATE_MIN_HISTORY, TASTE_MIN_GUESSES, TASTE_WINDOW } from './maprConstants';
+import { estimateTasteScore, onboardingRatingTest, replayGuesses } from './tasteEstimate';
+import { ONBOARDING_RATING_WINDOW_MS, TASTE_ESTIMATE_MIN_HISTORY, TASTE_MIN_GUESSES, TASTE_WINDOW } from './maprConstants';
 
 const DAY = 86400000;
 const T0 = Date.UTC(2026, 0, 1);
@@ -110,5 +110,37 @@ describe('estimateTasteScore', () => {
     const src = readFileSync(new URL('./tasteEstimate.js', import.meta.url), 'utf8');
     const imports = (src.match(/from '[^']+'/g) || []).join(' ');
     expect(imports).not.toMatch(/firebase|Store|recommendationLog|adminStats|matchRate|reviews/);
+  });
+});
+
+describe('sign-up onboarding ratings', () => {
+  it('teach the model but are never guessed on', () => {
+    // Ten onboarding likes, then two ratings after onboarding.
+    const onboarding = Array.from({ length: 10 }, (_, i) => rev('highly-recommend', i, { fromOnboarding: true }));
+    const after = [rev('highly-recommend', 20), rev('probably-skip', 21)];
+    const isOnboarding = onboardingRatingTest(null);
+    const g = replayGuesses([...onboarding, ...after], { isOnboarding });
+    // Only the two later ratings are guessed, from what onboarding taught.
+    expect(g.map((x) => [x.predicted, x.answered])).toEqual([
+      ['positive', 'positive'],
+      ['positive', 'negative'],
+    ]);
+    // Without the marker the onboarding ratings themselves were guessed too.
+    expect(replayGuesses([...onboarding, ...after]).length).toBe(onboarding.length + after.length - TASTE_ESTIMATE_MIN_HISTORY);
+  });
+
+  it('gives no estimate when every guessable rating came from onboarding', () => {
+    const onboarding = Array.from({ length: 12 }, (_, i) => rev('highly-recommend', i, { fromOnboarding: true }));
+    expect(estimateTasteScore(onboarding, { isOnboarding: onboardingRatingTest(null) })).toBeNull();
+  });
+
+  it('counts ratings from right after sign-up as onboarding for accounts without the marker', () => {
+    const profile = { onboardingSource: 'signup', createdAt: { seconds: T0 / 1000 } };
+    const test = onboardingRatingTest(profile);
+    expect(test({ ratedAt: T0 + 30 * 60 * 1000 })).toBe(true);
+    expect(test({ ratedAt: T0 + ONBOARDING_RATING_WINDOW_MS + 1 })).toBe(false);
+    expect(test({ ratedAt: T0 + 5 * DAY, fromOnboarding: true })).toBe(true);
+    // An account that never came through the sign-up flow has no window.
+    expect(onboardingRatingTest({ createdAt: { seconds: T0 / 1000 } })({ ratedAt: T0 + 60 * 1000 })).toBe(false);
   });
 });
