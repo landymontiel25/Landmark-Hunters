@@ -1,0 +1,139 @@
+[
+ {
+  "id": "osm-w27053762",
+  "name": "Shortridge Memorial Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has an arboretum listed with ArbNet.",
+    "url": "https://arbnet.org/morton-register/shortridge-memorial-park-arboretum/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w58250778",
+  "name": "South Ardmore Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-r2927352",
+  "name": "Spring Mill Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spring Mill Park is a Montgomery County-owned park of 38 acres of floodplain along the Schuylkill River.",
+    "url": "https://www.whitemarshtwp.org/515/Spring-Mill-Park"
+   },
+   {
+    "text": "The Schuylkill River Trail passes through the park.",
+    "url": "https://www.whitemarshtwp.org/515/Spring-Mill-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w743695066",
+  "name": "Spruce Hill Bird Sanctuary",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Spruce Hill Community Association bought the lot in 1981.",
+    "url": "https://www.sprucehillca.org/committees/bird-sanctuary/"
+   },
+   {
+    "text": "Landscape architects Julie Bush and Ann Froehling designed the layout in 2011.",
+    "url": "https://www.sprucehillca.org/committees/bird-sanctuary/"
+   },
+   {
+    "text": "A Dept of Agriculture grant helped turn the lot into the sanctuary.",
+    "url": "https://www.sprucehillca.org/committees/bird-sanctuary/"
+   }
+  ]
+ },
+ {
+  "id": "osm-r16691307",
+  "name": "Spruce Street Harbor Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park opened in 2014 at Penn's Landing.",
+    "url": "https://en.wikipedia.org/wiki/Spruce_Street_Harbor_Park"
+   },
+   {
+    "text": "It features a boardwalk along the Delaware River.",
+    "url": "https://en.wikipedia.org/wiki/Spruce_Street_Harbor_Park"
+   },
+   {
+    "text": "It has about 100 hammocks and thousands of LED lights hung in the trees.",
+    "url": "https://en.wikipedia.org/wiki/Spruce_Street_Harbor_Park"
+   },
+   {
+    "text": "Groundswell Design Group is credited with the park's design.",
+    "url": "https://landezine.com/spruce-street-harbor-park-by-groundswell-design-group/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w468565851",
+  "name": "St. Gerts Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w337138787",
+  "name": "Strafford Park & Library",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The park covers 13.6 acres.",
+    "url": "https://www.tredyffrin.org/Parks/Strafford-Park-and-Library"
+   },
+   {
+    "text": "It has four tennis courts and a tennis wall.",
+    "url": "https://www.tredyffrin.org/Parks/Strafford-Park-and-Library"
+   },
+   {
+    "text": "It also has a tot-lot, a baseball field and a basketball court.",
+    "url": "https://www.tredyffrin.org/Parks/Strafford-Park-and-Library"
+   }
+  ]
+ },
+ {
+  "id": "osm-w705790704",
+  "name": "Strawberry Mansion Playground",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w219553994",
+  "name": "Sutcliffe Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w1356509020",
+  "name": "Swedeland Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "facts": []
+ }
+]
