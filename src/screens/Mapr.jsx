@@ -895,7 +895,7 @@ export default function Mapr() {
                           onClick={() => openStop(m, idx, stop)}
                         >
                           {resolved ? (
-                            <LandmarkThumb landmark={{ id, name: stop.name, lat, lng, images, categories }} size={64} myPhoto={myPhotos[id]?.[0]} />
+                            <LandmarkThumb landmark={{ id, name: stop.name, lat, lng, images, categories, source: stop.source || catalogLm?.source }} size={64} myPhoto={myPhotos[id]?.[0]} />
                           ) : (
                             <div className="chatlab-stop-globe">{creating ? '\u{23F3}' : '\u{1F310}'}</div>
                           )}
