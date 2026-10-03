@@ -55,7 +55,7 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "food",
-    "file": "places/miami/food.3687680149.json",
+    "file": "places/miami/food.555d6f60b9.json",
     "count": 687
   }
 ];
