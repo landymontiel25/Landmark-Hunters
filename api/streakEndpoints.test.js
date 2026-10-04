@@ -6,6 +6,7 @@ let streakDoc;
 let checkinDocs = [];
 let pickDocs = [];
 let cardsRated = true;
+let entryRatings = { a: 'yes', b: 'yes', c: 'yes' };
 const award = vi.fn(async () => {});
 
 function ref(path) {
@@ -13,7 +14,7 @@ function ref(path) {
     path,
     get: async () => {
       if (path === 'streaks/me') return { exists: !!streakDoc, data: () => streakDoc };
-      if (path.endsWith('/entries/me')) return { exists: cardsRated, data: () => ({ ratings: { a: 'yes', b: 'yes', c: 'yes' } }) };
+      if (path.endsWith('/entries/me')) return { exists: cardsRated, data: () => ({ ratings: entryRatings }) };
       return { exists: false, data: () => undefined };
     },
     update: async (u) => Object.assign(streakDoc, u),
@@ -58,6 +59,7 @@ beforeEach(() => {
   checkinDocs = [];
   pickDocs = [];
   cardsRated = true;
+  entryRatings = { a: 'yes', b: 'yes', c: 'yes' };
   streakDoc = { mode: 'solo', memberIds: ['me'], cityId: 'x', count: 4, best: 4, lastCompletedDay: utcYesterday(), frozenDays: [] };
 });
 
@@ -77,6 +79,22 @@ describe('close-solo-streak-day', () => {
     expect(out.closed).toBe(false);
     expect(streakDoc.count).toBe(4);
     expect(award).not.toHaveBeenCalled();
+  });
+
+  it('counts 3 rated cards even when they differ from the 3 the server draws', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    entryRatings = { x: 'yes', y: 'no', z: 'yes' };
+    const out = await call(handler, { dayId: utcToday() });
+    expect(out.closed).toBe(true);
+    expect(streakDoc.count).toBe(5);
+  });
+
+  it('does not close on 2 rated cards that are not the server deck', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    entryRatings = { x: 'yes', y: 'no' };
+    const out = await call(handler, { dayId: utcToday() });
+    expect(out.closed).toBe(false);
+    expect(streakDoc.count).toBe(4);
   });
 
   it('rejects a malformed or far-off dayId', async () => {
