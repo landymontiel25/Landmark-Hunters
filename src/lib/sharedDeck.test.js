@@ -57,3 +57,15 @@ describe('sharedDeck', () => {
     expect(ids.length).toBe(3);
   });
 });
+
+describe('deckPool and imported places', () => {
+  it('draws only from the hand-picked catalog, so the app and the day-close agree', async () => {
+    const { deckPool } = await import('./sharedDeck.js');
+    const { getRegion, registerPlaces } = await import('../data/regions.js');
+    const before = deckPool('philly');
+    const sample = getRegion('philly').landmarks.find((l) => l.source !== 'osm');
+    registerPlaces([{ ...sample, id: 'osm-n999999999', name: 'Imported Test Cafe', source: 'osm', region: 'philly' }]);
+    expect(getRegion('philly').landmarks.some((l) => l.id === 'osm-n999999999')).toBe(true);
+    expect(deckPool('philly')).toEqual(before);
+  });
+});

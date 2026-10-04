@@ -90,7 +90,14 @@ async function handler(req, res) {
       const cardIds = pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds);
       const entrySnap = await streakRef.collection('days').doc(dayId).collection('entries').doc(account.uid).get();
       const entry = entrySnap.exists ? entrySnap.data() : null;
-      cardsDone = !!entry && cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id]);
+      // Today's 3 as the server draws them, or any 3 different landmarks rated
+      // in today's entry: if the app ever draws a different 3 (it once did,
+      // when imported places joined the deck only on the phone), rating the
+      // cards it showed still has to count.
+      const ratedIds = Object.keys(entry?.ratings || {}).filter((id) => entry.ratings[id]);
+      cardsDone =
+        !!entry &&
+        ((cardIds.length > 0 && cardIds.every((id) => entry.ratings?.[id])) || ratedIds.length >= SOLO_PICK_VOTES_REQUIRED);
     }
     const done = cardsDone || picksDone;
     if (!done) {

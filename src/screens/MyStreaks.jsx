@@ -606,7 +606,9 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const shownRating = (id) => optimisticRatings[id] ?? entry.ratings?.[id];
   const remainingToRate = deck.filter((l) => !shownRating(l.id));
   const myRatedCount = cardIds.filter((id) => entry.ratings?.[id]).length;
-  const dayDone = cardIds.length > 0 && myRatedCount === cardIds.length;
+  // The server's word wins: a day it already closed is done even if today's
+  // cards changed after the ratings went in.
+  const dayDone = streak.lastCompletedDay === today || (cardIds.length > 0 && myRatedCount === cardIds.length);
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
   // If the close call right after the last rating failed (a network blip --

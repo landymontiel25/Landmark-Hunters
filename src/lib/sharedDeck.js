@@ -42,11 +42,15 @@ export const DAILY_DECK_SIZE = 3;
 
 // Every rateable landmark id in a city, sorted -- the pool the deck draws
 // from. Exported so the UI can tell "no cards possible" (an empty/tiny
-// city) apart from "cards not generated yet".
+// city) apart from "cards not generated yet". Only the hand-picked catalog:
+// imported everyday places (source 'osm', loaded from public/places after
+// startup) join region.landmarks in the app but not in the day-close
+// functions, so drawing from them gave the phone a different 3 than the
+// server checks, and rating them never closed the day.
 export function deckPool(cityId) {
   const region = getRegion(cityId);
   if (!region) return [];
-  return region.landmarks.filter(isRateable).map((l) => l.id).sort();
+  return region.landmarks.filter((l) => l.source !== 'osm' && isRateable(l)).map((l) => l.id).sort();
 }
 
 // The 3 landmark ids both members of a pair see today, for this city.

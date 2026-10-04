@@ -132,6 +132,7 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
 // visiting Your Streaks once; it's idempotent, so calling it again there
 // too is harmless.
 function StreakBadge() {
+  const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
   const today = useTodayKey();
   const [streak, setStreak] = useState(null);
@@ -191,7 +192,19 @@ function StreakBadge() {
       </button>
       <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
         {!active ? (
-          <div>Rate 3 landmarks today to start a streak</div>
+          <>
+            <div>Rate 3 landmarks today to start a streak</div>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm streak-popover-cta"
+              onClick={() => {
+                setOpen(false);
+                navigate('/streaks');
+              }}
+            >
+              {'\u{1F525}'} Start it
+            </button>
+          </>
         ) : (
           <>
             <div className="points-popover-joined">
@@ -199,9 +212,16 @@ function StreakBadge() {
             </div>
             <CountdownClock ms={msLeft} secured={secured} />
             {!secured && (
-              <div className="streak-popover-hint">
-                Rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
-              </div>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm streak-popover-cta"
+                onClick={() => {
+                  setOpen(false);
+                  navigate('/streaks');
+                }}
+              >
+                {'\u{1F525}'} Keep it alive
+              </button>
             )}
           </>
         )}
