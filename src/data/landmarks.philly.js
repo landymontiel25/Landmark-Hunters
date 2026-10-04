@@ -1255,5 +1255,28 @@ export const PHILLY_LANDMARKS = [
     bookingUrl: null,
     typicalMinutes: 120
   },
+  {
+    id: "fogo-de-chao-philadelphia",
+    popularity: 3,
+    cost: "$$$",
+    neighborhood: "Center City",
+    images: [],
+    name: "Fogo de Chão",
+    region: 'philly',
+    lat: 39.9508621,
+    lng: -75.1629441,
+    checkInRadiusMeters: 80,
+    categories: ["food"],
+    summary: "The Center City location of Fogo de Chão, a Brazilian steakhouse chain, on Chestnut Street.",
+    // Facts from OpenStreetMap (node 2254889201) and Wikidata (Q5464133).
+    facts: [
+      "Serves Brazilian food and steaks",
+      "Part of the Fogo de Chão chain, founded in 1979",
+      "Address: 1337 Chestnut Street, Philadelphia",
+    ],
+    free: false,
+    bookingUrl: "https://fogodechao.com/location/philadelphia",
+    typicalMinutes: 90
+  },
 
 ];
