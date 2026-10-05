@@ -1,0 +1,458 @@
+[
+ {
+  "id": "osm-n4516193228",
+  "name": "The Crafty Fox",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A craft beer ale house with 36 rotating tap handles and small plates.",
+    "url": "https://craftyfoxsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3986887643",
+  "name": "The Devil's Acre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A cocktail bar from Future Bars, the group behind Bourbon & Branch and Rickhouse.",
+    "url": "https://insidescoopsf.sfgate.com/blog/2014/12/15/devils-acre-opens-in-north-beach/"
+   },
+   {
+    "text": "Opened in December 2014 in the former Jazz at Pearl's space on Columbus Avenue.",
+    "url": "https://insidescoopsf.sfgate.com/blog/2014/12/15/devils-acre-opens-in-north-beach/"
+   },
+   {
+    "text": "Styled after a Barbary Coast apothecary that served remedies by day and cocktails by night.",
+    "url": "https://insidescoopsf.sfgate.com/blog/2014/12/15/devils-acre-opens-in-north-beach/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1713269598",
+  "name": "The Dubliner",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood sports bar with 20 taps, 12 TVs, Tuesday trivia and Wednesday bar bingo.",
+    "url": "https://www.dublinerbarsf.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n632825392",
+  "name": "The Dubliner",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The building has been a bar since 1940, when it opened as the Road to Mandalay.",
+    "url": "https://divesofourlives.blog/2024/09/08/the-dubliner-west-portal/"
+   },
+   {
+    "text": "Was known as TK's before it became The Dubliner.",
+    "url": "https://divesofourlives.blog/2024/09/08/the-dubliner-west-portal/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2318796883",
+  "name": "The Edge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened around 1987 on a corner that earlier held Pipeline, Festus and the lesbian bar Francine's.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/the-edge-4149-18th/"
+   },
+   {
+    "text": "Bought in 2011 by the owners of QBar, who kept the name.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/the-edge-4149-18th/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n389443002",
+  "name": "The Endup",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened on November 15, 1973 as a variant of the RoundUp, a country western bar run by Al Hanken.",
+    "url": "https://en.wikipedia.org/wiki/The_EndUp"
+   },
+   {
+    "text": "Was included in San Francisco's Leather and LGBTQ Cultural District in 2018.",
+    "url": "https://en.wikipedia.org/wiki/The_EndUp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9659740450",
+  "name": "The European",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Page gives address 490 Geary St (Warwick Hotel), at the Tenderloin/Nob Hill border, near the given lat/lng.",
+  "facts": [
+   {
+    "text": "A cocktail bar inside the Warwick Hotel on Geary Street.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-european"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61677421",
+  "name": "The Gold Cane",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bar with a pool table, a jukebox and a small back patio.",
+    "url": "http://goldcanesf.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w216220325",
+  "name": "The Grand",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 10,000 square foot nightclub on two floors with five levels of elevation.",
+    "url": "https://www.grandnightclub.com/venue"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5612872169",
+  "name": "The Great Northern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A nightclub in an art deco style with a venue on Utah Street.",
+    "url": "https://feverup.com/en/san-francisco/venue/the-great-northern"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61676294",
+  "name": "The Green Heron",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Took over the Haight and Clayton corner in 2025, a space once home to Achilles Heel and Hobson's Choice.",
+    "url": "https://www.greenheronsf.com/history"
+   },
+   {
+    "text": "Has no kitchen, and guests may bring in food from nearby.",
+    "url": "https://www.greenheronsf.com/the-space"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5880291830",
+  "name": "The Halfway Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Inspired by Midwestern dives, neighborhood taverns and classic supper clubs.",
+    "url": "https://www.halfwayclub.com/theidea"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6831790677",
+  "name": "The Hearth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood bar with 15 drafts including German beers, a pool table and a dart board.",
+    "url": "https://www.sfstation.com/the-hearth-b39002074"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10303811690",
+  "name": "The Horseshoe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Page shows 2024 Chestnut St (Horseshoe Tavern), Marina, near the given lat/lng.",
+  "facts": [
+   {
+    "text": "Has two pool tables, a jukebox and a big-screen satellite TV.",
+    "url": "https://www.yelp.com/biz/horseshoe-tavern-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1581862143",
+  "name": "The Hyde Out",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood bar with second-floor seating.",
+    "url": "https://foursquare.com/v/the-hydeout/4a29f59bf964a520fa951fe3"
+   }
+  ]
+ },
+ {
+  "id": "osm-w174076537",
+  "name": "The Independent",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2004 as a live music venue with a capacity of 500.",
+    "url": "https://www.theindependentsf.com/venue-info/"
+   },
+   {
+    "text": "A general admission, standing room venue with a few first-come, first-serve seats.",
+    "url": "https://www.theindependentsf.com/venue-info/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w376761568",
+  "name": "The Kezar Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has been around since 1936, and current owner Cyril Hackett took it over in 1995.",
+    "url": "https://crawlsf.com/guides/kezar-pub/"
+   },
+   {
+    "text": "Sits across from Kezar Stadium, a spot for pre-game drinks when the 49ers played there.",
+    "url": "https://crawlsf.com/guides/kezar-pub/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4139840857",
+  "name": "The Knockout",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2005 by co-owner John Segura, who runs it with his brother DX.",
+    "url": "https://www.sfgate.com/sf-culture/article/knockout-san-francisco-concert-venue-17909722.php"
+   },
+   {
+    "text": "Began booking rockabilly and soul acts before becoming a punk rock venue.",
+    "url": "https://www.sfgate.com/sf-culture/article/knockout-san-francisco-concert-venue-17909722.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9657629728",
+  "name": "The Lark Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Moved to Market Street by the team behind Bottle Club Pub, Rickhouse and Pagan Idol.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-lark-bar"
+   },
+   {
+    "text": "Kept the sports memorabilia and the canoe from its original location.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-lark-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6440030071",
+  "name": "The Laughing Monk",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A brewery and gastropub with a menu of lumpia, pancit bihon, smashburgers and vegan dishes.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-laughing-monk"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2069104070",
+  "name": "The Liberties",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood pub since 2000.",
+    "url": "https://www.theliberties.com/"
+   },
+   {
+    "text": "Under new ownership since 2019, run by a former regular who took it over from the original owner.",
+    "url": "https://www.theliberties.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9593474639",
+  "name": "The Library",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Hidden room inside Bourbon & Branch, 501 Jones St, Tenderloin.",
+  "facts": [
+   {
+    "text": "A hidden room inside Bourbon & Branch, with floor-to-ceiling books.",
+    "url": "https://www.bourbonandbranch.com/library"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3674255693",
+  "name": "The Little Shamrock",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1893 by Julia Herzo Quigley and her first husband Antone Herzo.",
+    "url": "https://en.wikipedia.org/wiki/The_Little_Shamrock"
+   },
+   {
+    "text": "Stayed open through Prohibition as a soft-drink parlor that served alcohol in its back room.",
+    "url": "https://en.wikipedia.org/wiki/The_Little_Shamrock"
+   }
+  ]
+ },
+ {
+  "id": "osm-w264371921",
+  "name": "The Mad Dog in the Fog",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Moved here from the Lower Haight, into the former Michael Collins Irish Bar space.",
+    "url": "https://www.sfgate.com/food/article/sf-mad-dog-bar-reopens-17376947.php"
+   },
+   {
+    "text": "Has the same owners as the Kezar Pub.",
+    "url": "https://www.sfgate.com/food/article/sf-mad-dog-bar-reopens-17376947.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2624201230",
+  "name": "The Mix",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Page shows 4086 18th St, which matches the lat/lng.",
+  "facts": [
+   {
+    "text": "Opened as The Village in 1976, became Uncle Bert's in 1988, and The Mix around 2005.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/the-mix-4086-18th/"
+   },
+   {
+    "text": "Has an open-air back patio with a second bar and an internet jukebox.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/the-mix-4086-18th/"
+   }
+  ]
+ }
+]
