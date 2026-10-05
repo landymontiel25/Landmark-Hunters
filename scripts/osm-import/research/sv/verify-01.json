@@ -1,0 +1,342 @@
+[
+ {
+  "id": "osm-n2985663933",
+  "name": "Sara's Kitchen",
+  "address": "1595 Franklin St",
+  "city": "Santa Clara",
+  "facts": [
+   {
+    "text": "Founded on April 27, 1992 by Sara and Manny Manion as a burger and cheesesteak shop.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen"
+   },
+   {
+    "text": "Diner serving breakfast fare, pancakes, waffles and cheesesteak variations.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4882433705",
+  "name": "The Old Wagon Saloon & Grill",
+  "address": "73 North San Pedro Street",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Bar with an old west theme in San Pedro Square, serving American cuisine and BBQ.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill"
+   },
+   {
+    "text": "Smokes meats in-house in a smoker named Madame Stacie.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6300644385",
+  "name": "Miniboss",
+  "address": "52 E Santa Clara St",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Arcade bar with more than 30 classic arcade games and a dozen pinball machines.",
+    "url": "https://www.sanjose.org/listings/miniboss"
+   },
+   {
+    "text": "Serves Detroit-style pizzas and wings alongside inventive cocktails.",
+    "url": "https://www.sanjose.org/listings/miniboss"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1061223377",
+  "name": "Must be Thai Kitchen & Bar",
+  "address": "18 N San Pedro St",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Downtown branch of a Stevens Creek Thai restaurant serving home-style Thai food made modern.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar"
+   },
+   {
+    "text": "Menu includes Khao Soi, Pad Thai and Tom Yum Fried Rice.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-r10781180",
+  "name": "Pearson-Arastradero Preserve",
+  "address": "1530 Arastradero Rd",
+  "city": "Palo Alto",
+  "facts": [
+   {
+    "text": "The preserve covers 622 acres of grassland savanna, oak woodland and riparian habitat.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve"
+   },
+   {
+    "text": "The Palo Alto City Council bought 433 acres in 1976 after a developer proposed 1,776 houses.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve"
+   },
+   {
+    "text": "Arastradero Lake was once a ranch stock pond.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1409625173",
+  "name": "Redwood Grove Nature Preserve",
+  "address": "482 University Ave",
+  "city": "Los Altos",
+  "facts": [
+   {
+    "text": "The six-acre preserve was purchased in 1974.",
+    "url": "https://www.losaltosca.gov/756/Halsey-House"
+   },
+   {
+    "text": "The Halsey House inside the preserve was built in 1923 and is a local Historic Landmark.",
+    "url": "https://www.losaltosca.gov/756/Halsey-House"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1287279707",
+  "name": "Fayette Park",
+  "address": "2624 Fayette Dr",
+  "city": "Mountain View",
+  "facts": [
+   {
+    "text": "Fayette Park became the 45th park to open in Mountain View.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/146/671"
+   },
+   {
+    "text": "Public art there includes sculptures of two squirrels and a lizard by artist Colin Selig.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/146/671"
+   }
+  ]
+ },
+ {
+  "id": "osm-w19448302",
+  "name": "Las Palmas Park",
+  "address": "850 Russet Dr",
+  "city": "Sunnyvale",
+  "facts": [
+   {
+    "text": "A Polynesian-themed park with palm trees around a pond and a tropical island playground.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/51/260"
+   },
+   {
+    "text": "The 24.3-acre park is next to a city-owned tennis center with 16 courts.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/51/260"
+   }
+  ]
+ },
+ {
+  "id": "osm-w913403824",
+  "name": "Corn Palace Park",
+  "address": "1197 Lily Ave",
+  "city": "Sunnyvale",
+  "facts": [
+   {
+    "text": "The 2-acre park sits on former Francia family farmland that ran the Corn Palace farmstand from 1965 to 2015.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456"
+   },
+   {
+    "text": "The park opened on June 27, 2025.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456"
+   },
+   {
+    "text": "Won the 2026 APWA Silicon Valley Chapter Parks Project of the Year Award.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456"
+   }
+  ]
+ },
+ {
+  "id": "osm-w38259520",
+  "name": "Memorial Park",
+  "address": "21121 Stevens Creek Blvd",
+  "city": "Cupertino",
+  "facts": [
+   {
+    "text": "The 22-acre park has an amphitheater, a gazebo and the Cupertino Veterans Memorial.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/Memorial-Park-Specific-Plan"
+   },
+   {
+    "text": "The park is next to the Cupertino Senior Center, Quinlan Community Center and Cupertino Sports Center.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/Memorial-Park-Specific-Plan"
+   }
+  ]
+ },
+ {
+  "id": "osm-w37877930",
+  "name": "Central Park",
+  "address": "909 Kiely Blvd",
+  "city": "Santa Clara",
+  "facts": [
+   {
+    "text": "The 52-acre park includes a community amphitheater, the Veterans Memorial and the International Swim Center.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/150/15258"
+   },
+   {
+    "text": "Hosts the annual July 4th All-City Picnic and the Santa Clara Art & Wine Festival.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/150/15258"
+   }
+  ]
+ },
+ {
+  "id": "osm-w34852843",
+  "name": "San Jose Center for the Performing Arts",
+  "address": "255 Almaden Blvd",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Opened in 1972 and designed by the Frank Lloyd Wright Foundation.",
+    "url": "https://sanjosetheaters.org/center-for-the-performing-arts-2/"
+   },
+   {
+    "text": "The theater has 2,608 seats, 1,852 orchestra and 756 balcony.",
+    "url": "https://sanjosetheaters.org/center-for-the-performing-arts-2/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w163377931",
+  "name": "Los Altos History Museum",
+  "address": "51 S San Antonio Rd",
+  "city": "Los Altos",
+  "facts": [
+   {
+    "text": "The museum opened in 2001 in a three-level building built with private donations.",
+    "url": "https://en.wikipedia.org/wiki/Los_Altos_History_Museum"
+   },
+   {
+    "text": "The J. Gilbert Smith House, built in 1905, is a California Point of Historical Interest.",
+    "url": "https://punchmagazine.com/landmark-the-j-gilbert-smith-house/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2406392063",
+  "name": "Protégé",
+  "address": "250 California Ave",
+  "city": "Palo Alto",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   },
+   {
+    "text": "Founded by Chef Anthony Secviar and Master Sommelier Dennis Kelly, both French Laundry alumni.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   },
+   {
+    "text": "Launched in 2018 with a multicourse tasting menu and a separate a la carte lounge menu.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   }
+  ]
+ },
+ {
+  "id": "osm-w132746454",
+  "name": "Ettan",
+  "address": "518 Bryant St",
+  "city": "Palo Alto",
+  "facts": [
+   {
+    "text": "Chef Srijith Gopinathan cooks upscale Indian food with Californian ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan"
+   }
+  ]
+ },
+ {
+  "id": "osm-w132746416",
+  "name": "Zola",
+  "address": "585 Bryant St",
+  "city": "Palo Alto",
+  "facts": [
+   {
+    "text": "Serves an upscale French bistro menu with Californian flair.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/zola"
+   },
+   {
+    "text": "Listed in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/zola"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1781786926",
+  "name": "Madera",
+  "address": "2825 Sand Hill Rd",
+  "city": "Menlo Park",
+  "facts": [
+   {
+    "text": "The restaurant is inside the Rosewood Sand Hill hotel.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera"
+   },
+   {
+    "text": "Uses an almond wood-fired grill and an open kitchen.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13448480832",
+  "name": "Eylan",
+  "address": "500 El Camino Real",
+  "city": "Menlo Park",
+  "facts": [
+   {
+    "text": "A Bib Gourmand in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/eylan"
+   },
+   {
+    "text": "Chef Srijith Gopinathan blends regional Indian cooking with Californian ingredients on a wood-fired grill.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/eylan"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8910826908",
+  "name": "Aurum",
+  "address": "132 State St",
+  "city": "Los Altos",
+  "facts": [
+   {
+    "text": "Menu from Chef Manish Tyagi and owner Anupam Bhatia, serving Indian cuisine.",
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurant/aurum-1195363"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurant/aurum-1195363"
+   }
+  ]
+ },
+ {
+  "id": "osm-w257543153",
+  "name": "Chez TJ",
+  "address": "938 Villa St",
+  "city": "Mountain View",
+  "facts": [
+   {
+    "text": "Housed in a 19th-century Victorian building.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj"
+   },
+   {
+    "text": "Serves a contemporary French degustation menu.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj"
+   },
+   {
+    "text": "Listed in the 2025 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj"
+   }
+  ]
+ }
+]
