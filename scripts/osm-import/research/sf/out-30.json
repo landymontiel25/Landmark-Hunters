@@ -1,0 +1,435 @@
+[
+ {
+  "id": "osm-n4022691832",
+  "name": "Jackalope",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a loft with NES and Wii games that is free to use.",
+    "url": "https://www.jackalope-bar.com/games"
+   },
+   {
+    "text": "Has a Plinko Drinko bar game.",
+    "url": "https://www.jackalope-bar.com/games"
+   },
+   {
+    "text": "Describes itself as a neighborhood bar in the Lower Polk district.",
+    "url": "https://www.jackalope-bar.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n808930684",
+  "name": "Jasper's",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/jaspers-corner-tap-and-kitchen-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Operated as Jasper's Corner Tap and Kitchen at 401 Taylor St; Yelp title says CLOSED.",
+  "facts": []
+ },
+ {
+  "id": "osm-n808930729",
+  "name": "Johnny Foley's Irish House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1998 by founders Martin and Mary Connolly, originally from County Cork.",
+    "url": "https://www.johnnyfoleys.com/about"
+   },
+   {
+    "text": "Named for a local Irish tenor with a rebel streak.",
+    "url": "https://www.johnnyfoleys.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10635345334",
+  "name": "Jolenes Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Describes itself as a lesbian and queer bar, lesbian-owned and operated.",
+    "url": "https://www.jolenessf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4631708918",
+  "name": "Jonell's",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/jonells-cocktail-lounge-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Jonell's Cocktail Lounge at 401 Ellis St; Yelp title says CLOSED.",
+  "facts": []
+ },
+ {
+  "id": "osm-n1230343426",
+  "name": "Judnich's",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/new-judnichs-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Matched as New Judnich's at 2888 San Bruno Ave (no address in input); Yelp title says CLOSED.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4567543893",
+  "name": "Juicy News SF",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/juicy-news-sf-san-francisco-3",
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp title says CLOSED, 2181 Union St.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10158842727",
+  "name": "Kaiyō Rooftop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Describes itself as a Nikkei rooftop bar exploring Japanese culinary influence within Peruvian culture.",
+    "url": "https://www.kaiyosf.com/about"
+   },
+   {
+    "text": "The rooftop is fully open-air, including the dining area.",
+    "url": "https://www.kaiyosf.com/rooftop"
+   },
+   {
+    "text": "Located on the 12th floor of the Hyatt Place hotel.",
+    "url": "https://www.kaiyosf.com/rooftop"
+   }
+  ]
+ },
+ {
+  "id": "osm-n429631343",
+  "name": "Kayo Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Its own site lists 907 Post Street, input says 814 Post Street; same street and name.",
+  "facts": [
+   {
+    "text": "Open to the public since 1996.",
+    "url": "https://www.kayobooks.com/about.php"
+   },
+   {
+    "text": "Specializes in vintage paperbacks from the 1940s to the 1970s and pulps.",
+    "url": "https://www.kayobooks.com/about.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6679529685",
+  "name": "Kell’s",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/kells-irish-restaurant-and-pub-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Kells Irish Restaurant & Pub, 530 Jackson St; Yelp title says CLOSED. Input has no address.",
+  "facts": []
+ },
+ {
+  "id": "osm-n371251931",
+  "name": "Kennedy's Irish Pub & Curry House",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/restaurants/article/North-Beach-gem-Kennedy-s-Pub-Curry-House-is-14575567.php",
+  "notFound": false,
+  "searches": 2,
+  "note": "SF Chronicle article says Halloween was its last day; some undated delivery listings still exist.",
+  "facts": []
+ },
+ {
+  "id": "osm-n3931497663",
+  "name": "Key Klub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Described as a natural wine bar.",
+    "url": "https://www.keyklubsf.com/about"
+   },
+   {
+    "text": "Has handmade lighting and exposed brick.",
+    "url": "https://www.keyklubsf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n275723361",
+  "name": "Kilowatt",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1994 in a firehouse as a local hangout and music venue.",
+    "url": "https://kilowattbar.com/"
+   },
+   {
+    "text": "Stopped hosting bands in late 1997 and became a neighborhood bar.",
+    "url": "https://kilowattbar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4414004589",
+  "name": "Kinokuniya",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1969 in Japan Center, the first Kinokuniya bookstore in the US.",
+    "url": "https://usa.kinokuniya.com/stores-kinokuniya-san-francisco"
+   },
+   {
+    "text": "Started as a second-floor tenant and later expanded to part of the first floor.",
+    "url": "https://usa.kinokuniya.com/stores-kinokuniya-san-francisco"
+   },
+   {
+    "text": "The first floor holds the anime and manga section.",
+    "url": "https://usa.kinokuniya.com/stores-kinokuniya-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9502079156",
+  "name": "Kona’s Street Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named after the owner's pitbull Kona.",
+    "url": "https://www.konastreetmarket.com/about"
+   },
+   {
+    "text": "Named to Esquire's Best Bars in America list in 2021.",
+    "url": "https://www.konastreetmarket.com/about"
+   },
+   {
+    "text": "Pacific Cocktail Haven is its sister bar.",
+    "url": "https://www.konastreetmarket.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6210959985",
+  "name": "Kozy Kar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Matched at 1548 Polk St but no single source link stated a fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9046364948",
+  "name": "La Rocca's Corner",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Dates back to Prohibition, with more than 100 years of history.",
+    "url": "https://www-sfgate-com.translate.goog/sf-culture/article/sf-north-beach-dive-la-roccas-corner-19955788.php?_x_tr_sl=en&_x_tr_tl=id&_x_tr_hl=id&_x_tr_pto=tc"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13027417998",
+  "name": "Lagom Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Located at 945 Market St.",
+  "facts": [
+   {
+    "text": "Named after the Swedish concept of just the right amount.",
+    "url": "https://www.945market.com/en/eat-and-drink/lagom-bar"
+   },
+   {
+    "text": "Located on the ground floor of the Saluhall food hall.",
+    "url": "https://www.945market.com/en/eat-and-drink/lagom-bar"
+   },
+   {
+    "text": "Menu centers on spritzes and low- and no-alcohol drinks.",
+    "url": "https://www.945market.com/en/eat-and-drink/lagom-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13103796137",
+  "name": "Las Margaritas",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by Francisco Villalobos, who previously ran Spitfire Rose.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/las-margaritas-bar"
+   },
+   {
+    "text": "Sits next to the 24th St BART station.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/las-margaritas-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3393396123",
+  "name": "Last Drop Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Describes itself as a cocktail bar for dinner and late-night dining.",
+    "url": "https://lastdroptavernsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3853311617",
+  "name": "Last Rites",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A tiki bar from the team behind Horsefeather.",
+    "url": "https://www.sfchronicle.com/restaurants/article/Tiki-goes-creepy-at-Last-Rites-the-new-bar-from-13123793.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13176381001",
+  "name": "Laszlo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Is the bar of Foreign Cinema, with a vast vinyl collection.",
+    "url": "https://laszlobar.com/"
+   },
+   {
+    "text": "Its second floor hosts the Budapest Society for readings and community events.",
+    "url": "https://laszlobar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13768629906",
+  "name": "Latin American Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a ceiling covered in piñatas and serves large margaritas.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/latin-american-club"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2240869181",
+  "name": "Lava Restaurant & Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2007 as an Asian fusion restaurant and lounge.",
+    "url": "https://lavaonbryant.com/"
+   },
+   {
+    "text": "Grew out of KC Catering and Events, founded in 2001.",
+    "url": "https://lavaonbryant.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11436034122",
+  "name": "Left Door",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A second-floor cocktail lounge above the Bus Stop sports bar, under the same owners.",
+    "url": "https://www.leftdoor.com/"
+   }
+  ]
+ }
+]

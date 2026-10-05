@@ -43,6 +43,13 @@ already shown in the app from OpenStreetMap and Wikidata; do not repeat them).
   or snippet states it, the summary cites that link, or exactly one returned
   link is a page about this place. Never pick "the most likely" link among
   several. If no single link states it, leave the fact out.
+- WebSearch often answers with a summary plus a list of links and no
+  per-link snippets. Then you may not guess which link said what: run the
+  next search with allowed_domains set to one domain (the place's own site
+  first) so a page about this place comes back alone, and cite that page.
+  A fact you cannot tie to one page this way is left out.
+- Cite the original page, never a proxy or translation URL
+  (translate.goog, AMP caches, Google redirect links).
 - Good facts: opening or build year, founder, chef, owner or operator,
   architect, what the name honors, what it specializes in (signature dishes,
   cuisine style, house-made products, beer styles brewed on site), what kind
@@ -59,7 +66,13 @@ already shown in the app from OpenStreetMap and Wikidata; do not repeat them).
   "Serves" when knownFacts already has a "Serves" line; write a more specific
   fact instead ("Makes its tortillas by hand in house.").
 - Write in plain present or past tense, with the place as the implied
-  subject ("Opened in 1919 by ..."), no marketing tone.
+  subject ("Opened in 1919 by ..."), no marketing tone. Skip slogans and
+  self-descriptions ("Describes itself as ..."); state what the place has or
+  does instead ("A lesbian-owned bar."). No list placements (Esquire's best
+  bars, top-50 lists); a named award with its year is fine.
+- Matching a closure: with an address, the closure page must name this place
+  at this address. Without one, it must name this place in the neighborhood
+  given (check lat/lng); put the address the page shows in "note".
 
 ## Output
 
@@ -68,5 +81,5 @@ per input place, in input order:
   {"id", "name", "matched", "closed", "closedSource", "notFound", "searches", "note", "facts": [{"text", "url"}]}
 (searches = number of searches used; note may be null). Write the file after
 every 5 places so progress survives an interruption (rewrite the whole array
-each time). When done, reply with one line: counts of places with facts,
+each time); this is required, not optional. When done, reply with one line: counts of places with facts,
 closed, notFound.
