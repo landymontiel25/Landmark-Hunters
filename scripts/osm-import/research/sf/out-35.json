@@ -1,0 +1,432 @@
+[
+ {
+  "id": "osm-n9596331675",
+  "name": "Powerhouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The building housed earlier bars including the Cow Palace Saloon and the Brig (1978-1985).",
+    "url": "https://powerhousebar.com/history/"
+   },
+   {
+    "text": "Reopened as the Powerhouse in 1996 and was reopened again by owner Paul Langley in September 1997.",
+    "url": "https://powerhousebar.com/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1844915443",
+  "name": "Press Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A subterranean wine bar and lounge focused on small-production wineries and vineyard sustainability.",
+    "url": "https://www.pressclubsf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9181815639",
+  "name": "Propagation",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A garden-centric neighborhood bar in Lower Nob Hill that takes no reservations.",
+    "url": "https://www.propagationsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n825914928",
+  "name": "Providence",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A nightclub with an upstairs lounge area and a copper-topped bar.",
+    "url": "https://www.providencesf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260973315",
+  "name": "Public Works",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A nightclub and event space with a sprung hardwood dance floor and a Funktion-One sound system.",
+    "url": "https://publicsf.com/about/"
+   },
+   {
+    "text": "Runs a PW Union membership program and partners with local non-profits on events.",
+    "url": "https://publicsf.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12133091149",
+  "name": "Punsch Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Located upstairs at Saluhall, 945 Market St; matches lat/lng.",
+  "facts": [
+   {
+    "text": "A cocktail bar inside the Saluhall food hall, serving single drinks and shareable punch bowls.",
+    "url": "https://www.saluhallmarket.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2318141894",
+  "name": "QBar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened as QBar in January 2009 under new owners Tim Eicher and Rob Giljum.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/qbar/"
+   },
+   {
+    "text": "The space was Castro Station from 1977 to 1998 and Bar on Castro from 1998 to 2009.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/qbar/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9354883874",
+  "name": "R Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive and sports bar with many TVs that shows Cleveland Browns and Cavaliers games.",
+    "url": "https://www.sfstation.com/r-bar-b24369752"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12583335241",
+  "name": "Radio Habana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listed as Radio Habana Social Club.",
+  "facts": [
+   {
+    "text": "A Cuban bar and eatery hung floor to ceiling with art and trinkets.",
+    "url": "https://www.radiohabanasocialclub.com/"
+   },
+   {
+    "text": "Hosts a Cuban Rumba party with live music on the 2nd and 4th Sunday of each month.",
+    "url": "https://www.radiohabanasocialclub.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2337741914",
+  "name": "Raven Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A throwback nightclub with a live video DJ and a laser system over the dance floor.",
+    "url": "https://www.ravenbarsf.com/"
+   },
+   {
+    "text": "Has served the Folsom Street corridor since 2012.",
+    "url": "https://www.ravenbarsf.com/about-us/story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1083221110",
+  "name": "Red Jack Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "131 Bay St at Stockton per Gayot; within about 400 m of given coordinates.",
+  "facts": [
+   {
+    "text": "A bar for East Coast transplants with a Red Sox-friendly crowd.",
+    "url": "https://www.gayot.com/restaurants/red-jack-saloon-san-francisco-ca-94133_3sf060216.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4055481596",
+  "name": "Red's Place",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "672 Jackson St per source.",
+  "facts": [
+   {
+    "text": "Herman and Lisa Chan bought the bar in 1990.",
+    "url": "https://www.redsplacesf.com/"
+   },
+   {
+    "text": "The building was a barber shop, then a cigar store and saloon, before the bar opened.",
+    "url": "https://www.redsplacesf.com/"
+   },
+   {
+    "text": "The basement still has teller booths linked to the building's gambling past.",
+    "url": "https://www.redsplacesf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9659806929",
+  "name": "Resolute",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/resolute-san-francisco",
+  "notFound": false,
+  "searches": 3,
+  "note": "Yelp page for 678 Geary St titled CLOSED, updated Sept 2026; resolutesf.com (undated) still showed menus; newest dated result wins.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4814206526",
+  "name": "Richmond Republic Draught House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Pours local craft beer and a large whiskey selection, with burgers and chicken and waffles on the menu.",
+    "url": "https://www.richmondrepublicsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2941409392",
+  "name": "Rickhouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A whiskey bar built from salvaged barrel staves and brick from before the 1906 earthquake.",
+    "url": "https://www.rickhousebar.com/"
+   },
+   {
+    "text": "Keeps a collection of more than 400 bottles and hosts live music.",
+    "url": "https://www.rickhousebar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w172111611",
+  "name": "Rickshaw Stop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A music venue that opened in January 2004 on Fell Street.",
+    "url": "https://www.sfstation.com/rickshaw-stop-b1602"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12900325202",
+  "name": "Rikki's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "San Francisco's first women's sports bar.",
+    "url": "https://missionlocal.org/2025/01/san-franciscos-first-womens-sports-bar-will-open-in-the-castro/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1206794862",
+  "name": "Rite Spot Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A family-owned, woman-operated small business in the Mission for almost 70 years.",
+    "url": "https://ritespotcafe.net/"
+   },
+   {
+    "text": "Hosts live music, comedians and performers, and supports the local music, art and comedy scene.",
+    "url": "https://ritespotcafe.net/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w273580667",
+  "name": "Roccapulco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 21+ live music and event venue with DJ nights, salsa, bachata and live Latin bands.",
+    "url": "https://roccapulcosf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3441484302",
+  "name": "Rock Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar in Bernal Heights.",
+    "url": "https://www.sfstation.com/rock-bar-b38549172"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2054109855",
+  "name": "Rocks Den",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Rocks Den is at 4753 Mission St, Excelsior; matches lat/lng.",
+  "facts": [
+   {
+    "text": "A neighborhood bar with multiple big-screen TVs for watching games.",
+    "url": "http://www.rocksden.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12637192281",
+  "name": "Rooky Ricardo's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Owner Dick Vivian died July 2026 per Axios; shop reported still open.",
+  "facts": [
+   {
+    "text": "A record store in the Lower Haight that features mainly soul music 45 rpm records.",
+    "url": "https://en.wikipedia.org/wiki/Rooky_Ricardo's_Records"
+   },
+   {
+    "text": "Dick Vivian is the sole proprietor and owner.",
+    "url": "https://en.wikipedia.org/wiki/Rooky_Ricardo's_Records"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2167562335",
+  "name": "Rouge Night Club",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/rouge-nightclub-and-lounge-san-francisco",
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp page for Rouge Nightclub & Lounge, 1500 Broadway (Broadway and Polk, matches lat/lng), titled CLOSED, updated June 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n3611822692",
+  "name": "Route 101",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A local dive bar.",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g60713-d4744757-r282645971-Route_101-San_Francisco_California.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2627676156",
+  "name": "Royal Cuckoo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Officially The Royal Cuckoo Organ Lounge.",
+  "facts": [
+   {
+    "text": "A dive bar and live music venue with a Hammond B3 organ.",
+    "url": "https://www.sfstation.com/royal-cuckoo-b1302431"
+   }
+  ]
+ }
+]
