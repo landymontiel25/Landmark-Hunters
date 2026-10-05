@@ -1,0 +1,467 @@
+[
+ {
+  "id": "osm-n2166014681",
+  "name": "Monroe San Francisco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies the original home of The Jazz Workshop, a jazz club that opened in 1957.",
+    "url": "https://www.monroesf.com/history/"
+   },
+   {
+    "text": "Comedian Lenny Bruce was arrested onstage in 1959 when the space was The Jazz Workshop.",
+    "url": "https://www.monroesf.com/history/"
+   },
+   {
+    "text": "The city installed a historical marker honoring The Jazz Workshop in 2018.",
+    "url": "https://www.monroesf.com/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10095744878",
+  "name": "Moongate Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed with cues from Chinese garden moon gates and James Turrell skyspaces, with a skylight at its center.",
+    "url": "https://sfist.com/2019/03/07/moon-gate-lounge-upstairs-from-chinatown-hot-spot-mister-jius/"
+   },
+   {
+    "text": "Occupies the high-ceilinged former banquet room of the Four Seas restaurant.",
+    "url": "https://sfist.com/2019/03/07/moon-gate-lounge-upstairs-from-chinatown-hot-spot-mister-jius/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10555829843",
+  "name": "Mother",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A queer bar operated by Malia Spanyol.",
+    "url": "https://www.sfexaminer.com/news/the-city/embraced-by-a-mothers-love-at-this-queer-mission-bar/article_51a814a6-28d2-44dc-8050-e0024e43b057.html"
+   },
+   {
+    "text": "Opened in the former space of Esta Noche, which operated as a Latino gay bar from 1979 until 2014.",
+    "url": "https://www.sfexaminer.com/news/the-city/embraced-by-a-mothers-love-at-this-queer-mission-bar/article_51a814a6-28d2-44dc-8050-e0024e43b057.html"
+   },
+   {
+    "text": "One of the last few cash bars left in San Francisco.",
+    "url": "https://www.sfexaminer.com/news/the-city/embraced-by-a-mothers-love-at-this-queer-mission-bar/article_51a814a6-28d2-44dc-8050-e0024e43b057.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4114603089",
+  "name": "Mothership",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned by Joanna Ricco, Alicia Griffiths and Sean Mabry, with Mabry running day-to-day operations.",
+    "url": "https://www.mothershipbar.com/press"
+   },
+   {
+    "text": "Took over the space of the queer bar Virgil's Sea Room after it closed in early 2021.",
+    "url": "https://www.mothershipbar.com/press"
+   },
+   {
+    "text": "Has an outer-space-themed design.",
+    "url": "https://www.mothershipbar.com/press"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61692662",
+  "name": "Mr. Bing's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A North Beach dive bar.",
+    "url": "https://www.sfgate.com/bayarea/article/North-Beach-dive-bar-Mr-Bing-s-to-live-on-9284129.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7044799092",
+  "name": "Mr. Tipple's Recording Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A jazz bar with live music and nightcaps.",
+    "url": "https://www.sfgate.com/food/article/Live-jazz-and-nightcaps-at-Mr-Tipple-s-6803901.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3658310528",
+  "name": "Mucky Duck",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A lawsuit against the NFL over its Sunday Ticket package began at this bar.",
+    "url": "https://www.sfgate.com/49ers/article/nfl-sunday-ticket-lawsuit-mucky-duck-19497236.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2287521548",
+  "name": "Murio's Trophy Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A historic dive bar on upper Haight Street.",
+    "url": "https://sfist.com/2012/01/05/upper_haight_dive_bar_now_less_dive/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2249505215",
+  "name": "Murphy's",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/murphys-pub-san-francisco",
+  "notFound": false,
+  "searches": 2,
+  "note": "Murphy's Pub, 217 Kearny St (about 20 m from the point). Yelp title 'CLOSED - Updated September 2026' is newer than an April 2026 listing that was not marked closed; the newest dated result wins.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10312292563",
+  "name": "Nari",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Nari restaurant at 1625 Post St, Japantown (matches lat/lng).",
+  "facts": [
+   {
+    "text": "A Thai restaurant inside Hotel Kabuki, led by chef Pim Techamuanvivit.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nari"
+   },
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nari"
+   },
+   {
+    "text": "Serves family-style Thai dishes made with Californian ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nari"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3642090340",
+  "name": "Natoma Cabana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2014 by Dennis Leary and Eric Passetti in the former John Colins space.",
+    "url": "https://transbaydiaries.wordpress.com/2014/07/16/90-natoma-street-natoma-cabana/"
+   },
+   {
+    "text": "Occupies a building that was once a blacksmith shop.",
+    "url": "https://transbaydiaries.wordpress.com/2014/07/16/90-natoma-street-natoma-cabana/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4513023134",
+  "name": "Neck of the Woods",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Housed the Last Day Saloon from 1973 to 2011, then the Rockit Room, and took its current name in 2013.",
+    "url": "https://www.neckofthewoodssf.com/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3379321525",
+  "name": "Nectar Wine Lounge",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/nectar-wine-lounge-san-francisco?start=420",
+  "notFound": false,
+  "searches": 2,
+  "note": "Nectar Wine Lounge, 3330 Steiner St (Cow Hollow/Marina), Yelp title 'CLOSED - Updated April 2026'.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9943927508",
+  "name": "Nightingale",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/nightingale-bar-san-francisco",
+  "notFound": false,
+  "searches": 4,
+  "note": "Nightingale Bar, 239 Kearny St, Yelp title 'CLOSED - Updated June 2026'; alcademics.com titled 'Nightingale Bar to Become Shotski's Alpine Lodge' agrees.",
+  "facts": []
+ },
+ {
+  "id": "osm-n1243846554",
+  "name": "Nihon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Listed as Nihon Whisky Lounge at 1779 Folsom St.",
+  "facts": [
+   {
+    "text": "Pairs a single-malt whisky list with Japanese skewers.",
+    "url": "https://www.sfgate.com/restaurants/barbites/article/Nihon-Whisky-Lounge-Single-malt-and-skewers-3896925.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61672275",
+  "name": "Noc Noc",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1986 by Ernest Takai, originally in half of its current space.",
+    "url": "https://www.nocnocs.com/about-us/"
+   },
+   {
+    "text": "The name stands for Nocturnal Nocturne.",
+    "url": "https://www.nocnocs.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13859085701",
+  "name": "Noe Valley Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2024 by Katerina, Isaiah, Andrew and Kit.",
+    "url": "https://noevalleybooks.com/about-us"
+   },
+   {
+    "text": "Opened with $150,000 or more in community donations plus donated used books.",
+    "url": "https://noevalleybooks.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4349257699",
+  "name": "Noise Records",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Business name is NOISE.",
+  "facts": [
+   {
+    "text": "A family-run vinyl record shop that opened in 2015.",
+    "url": "https://richmondsunsetnews.com/2023/06/06/richmonds-throwback-record-shop-keeping-sfs-spirit-alive/"
+   },
+   {
+    "text": "Also operates as an art gallery and live music venue.",
+    "url": "https://richmondsunsetnews.com/2023/06/06/richmonds-throwback-record-shop-keeping-sfs-spirit-alive/"
+   },
+   {
+    "text": "Owned by saxophonist Daniel Brown, who does all of the record buying.",
+    "url": "https://richmondsunsetnews.com/2023/06/06/richmonds-throwback-record-shop-keeping-sfs-spirit-alive/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w29100414",
+  "name": "Northstar Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1882 as a speakeasy and moved in 1908 to the building it still uses.",
+    "url": "https://sfinsider.sfgate.com/what-is-unique-about-the-north-star-cafe-in-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3642082213",
+  "name": "Novela",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A book-themed bar with a chromatically arranged book collection.",
+    "url": "https://www.novelasf.com/about"
+   },
+   {
+    "text": "House cocktails are named after characters from literary works.",
+    "url": "https://www.novelasf.com/about"
+   },
+   {
+    "text": "Has a private event space called the Hemingway Room.",
+    "url": "https://www.novelasf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6836067589",
+  "name": "O'Keeffe's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Business name is O'Keeffe's Bar.",
+  "facts": [
+   {
+    "text": "An Irish bar at Fifth Avenue and Balboa Street, run by Annie O'Keeffe.",
+    "url": "https://www.sfchronicle.com/restaurants/article/When-a-neighborhood-bar-is-really-a-home-13537003.php"
+   },
+   {
+    "text": "Founded by her husband Tim, who died in 1997.",
+    "url": "https://www.sfchronicle.com/restaurants/article/When-a-neighborhood-bar-is-really-a-home-13537003.php"
+   },
+   {
+    "text": "Pours shots and beers only, with no cocktails and no draft beer.",
+    "url": "https://www.sfchronicle.com/restaurants/article/When-a-neighborhood-bar-is-really-a-home-13537003.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w228247742",
+  "name": "O'Reilly's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Was one of the seven gay bars on Haight Street, known for its restaurant and gay clientele.",
+    "url": "https://www.eyezen.org/queer-history-happened-here-blog/oreillys-pub"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256471158",
+  "name": "Oasis",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A drag and cabaret club at 11th and Folsom in South of Market.",
+    "url": "https://en.wikipedia.org/wiki/Oasis_(San_Francisco)"
+   },
+   {
+    "text": "Opened on New Year's Day 2015 by Heklina, D'Arcy Drollinger, Geoff Benjamin and Jason Beebout.",
+    "url": "https://en.wikipedia.org/wiki/Oasis_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4628492031",
+  "name": "Obscenity Bar & Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bar inside Hotel Emblem.",
+    "url": "https://www.hotelemblem.com/restaurants/obscenity-bar-lounge"
+   },
+   {
+    "text": "Built around a First Amendment, free-expression theme.",
+    "url": "https://www.hotelemblem.com/restaurants/obscenity-bar-lounge"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4331553009",
+  "name": "Ocean Ale House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Builds its menu around house-made and farm-grown ingredients where possible.",
+    "url": "https://oceanalehouse.com/food/"
+   }
+  ]
+ }
+]
