@@ -1,0 +1,393 @@
+[
+ {
+  "id": "osm-n10609477671",
+  "name": "Royal Cuckoo Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Houses a small bar inside a liquor and grocery market.",
+    "url": "https://sfist.com/2016/11/02/the_tiniest_new_bar_in_the_mission/"
+   },
+   {
+    "text": "The market carries small-batch spirits, natural wines, craft beers and ciders.",
+    "url": "http://www.royalcuckoomarket.com/home"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9869203374",
+  "name": "Royal Exchange",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has been in business since 1972.",
+    "url": "https://www.royalexchange.com/"
+   },
+   {
+    "text": "Pours beer from 72 taps.",
+    "url": "https://www.royalexchange.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5538811250",
+  "name": "Ruby Wine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A collectively run, worker-owned natural wine bar and retail shop.",
+    "url": "https://rubywinesf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9696861040",
+  "name": "Russian Hill Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began in 1974 as Sunset Bookstore, a small used bookshop in the Sunset District.",
+    "url": "https://www.russianhillbookstore.com/about"
+   },
+   {
+    "text": "Owned by Ben Bellouin and Jess Tsang.",
+    "url": "https://www.russianhillbookstore.com/about"
+   },
+   {
+    "text": "Recognized as a San Francisco Legacy Business.",
+    "url": "https://www.russianhillbookstore.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6242795781",
+  "name": "Ruth’s at Treat Street",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named in honor of Supreme Court Justice Ruth Bader Ginsburg.",
+    "url": "https://sfist.com/2022/02/08/the-former-blind-cat-bar-on-24th-street-gets-new-life-as/"
+   },
+   {
+    "text": "Took over the space of the former Blind Cat bar in 2022.",
+    "url": "https://sfist.com/2022/02/08/the-former-blind-cat-bar-on-24th-street-gets-new-life-as/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n725066841",
+  "name": "Rye",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Exists at 688 Geary St per several listings; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n12069089539",
+  "name": "Saison Cellar & Wine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Exists at 234 Townsend St per several listings; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n11032970208",
+  "name": "Sam's Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Tavern listed at 368 Bush St, next to Sam's Grill at 374 Bush St",
+  "facts": [
+   {
+    "text": "A casual tavern next door to Sam's Grill on Bush Street.",
+    "url": "https://downtownsf.org/go/sams-tavern"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9507011270",
+  "name": "San Francisco Brewing Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Ghirardelli Square tap room",
+  "facts": [
+   {
+    "text": "Founded in 2012 by Josh Leavy as a craft brewing company brewing small batches.",
+    "url": "https://ghirardelli.sfbrewingco.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9652999596",
+  "name": "San Francsco Brewing Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Mission Bay location on Hooper St",
+  "facts": [
+   {
+    "text": "Founded in 2012 by Josh Leavy as a craft brewing company brewing small batches.",
+    "url": "https://missionbay.sfbrewingco.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9536469191",
+  "name": "Savoy Tivoli",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 5,
+  "note": null,
+  "facts": [
+   {
+    "text": "Reopened in 2022 after a pause, with the Kozel family and Tito Avila relaunching it.",
+    "url": "https://sfstandard.com/arts-culture/the-most-famous-north-beach-club-youve-never-been-to-is-poised-to-reopen/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13613318657",
+  "name": "Scarlet Fox Wine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Address 1690 Hayes St (NoPa)",
+  "facts": [
+   {
+    "text": "An LGBTQ- and women-owned wine bar.",
+    "url": "https://scarletfoxsf.com/press-1/f/new-nopa-lgbtq-and-women-owned-wine-bar-seeks-to-be-a-safe-space"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1819811597",
+  "name": "Scarlet Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Exists at 408 Clement St per several listings; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n4614040696",
+  "name": "Score",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/score-bar-and-lounge-san-francisco",
+  "notFound": false,
+  "searches": 3,
+  "note": "Yelp title marks Score! Bar and Lounge at 490 Broadway (Broadway/Columbus, Chinatown-North Beach) as CLOSED, Sept 2026 listing",
+  "facts": []
+ },
+ {
+  "id": "osm-n10012048156",
+  "name": "Secret Bar & Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Secret Bar is a bar room inside Son & Garden at 700-708 Polk St; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n9592886313",
+  "name": "Sequoia Sake tasting room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Jake Myrick, Noriko Kamei and Warren Pfahl.",
+    "url": "https://sequoiasake.com/pages/about-us"
+   },
+   {
+    "text": "Makes sake from California rice and Yosemite watershed water.",
+    "url": "https://sequoiasake.com/pages/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11612234508",
+  "name": "Seven Square Taproom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "299 2nd St",
+  "facts": [
+   {
+    "text": "A restaurant and taproom inside The Clancy, an Autograph Collection hotel.",
+    "url": "https://www.theeastcut.org/retail-space/seven-square-taproom/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9596331674",
+  "name": "SF Eagle",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1981 by Bob Damron and Jay Levine.",
+    "url": "https://www.sfheritage.org/community/the-san-francisco-eagle/"
+   },
+   {
+    "text": "Added to San Francisco's Legacy Business Registry in 2017.",
+    "url": "https://www.sfheritage.org/community/the-san-francisco-eagle/"
+   },
+   {
+    "text": "Designated San Francisco Landmark no. 295 in 2021.",
+    "url": "https://www.sfheritage.org/community/the-san-francisco-eagle/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n412103360",
+  "name": "Shanghai Kelly's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "2064 Polk St, Polk and Broadway",
+  "facts": [
+   {
+    "text": "Run by father and son Mark and Johnny Jennings with two business partners.",
+    "url": "https://www.sfgate.com/food/article/sf-bar-spiritual-connection-house-prime-rib-21233470.php"
+   },
+   {
+    "text": "A group including the elder Jennings bought the bar in 1985.",
+    "url": "https://www.sfgate.com/food/article/sf-bar-spiritual-connection-house-prime-rib-21233470.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4069462418",
+  "name": "Shannon Arms",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Exists at 915 Taraval St per several listings; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n3641760242",
+  "name": "Shoji",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Created by chef Ingi \"Shota\" Son as a daytime cafe and evening bar and restaurant.",
+    "url": "https://www.verdictfoodservice.com/news/shoji-open-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n281652933",
+  "name": "Shotwell's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The corner has housed a saloon since 1891.",
+    "url": "https://www.shotwellsbar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2259028667",
+  "name": "Shovels Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Hotel Fusion bar on Ellis St; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n13594408375",
+  "name": "Silk Road Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Larkin St bar and grill; no single-link fact found",
+  "facts": []
+ },
+ {
+  "id": "osm-n4017234499",
+  "name": "Silver Spur",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Exists at 1914 Irving St per several listings; no single-link fact found",
+  "facts": []
+ }
+]
