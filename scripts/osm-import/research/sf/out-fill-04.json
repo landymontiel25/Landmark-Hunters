@@ -1,0 +1,654 @@
+[
+ {
+  "name": "Rich Table",
+  "area": "Hayes Valley",
+  "address": "199 Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Led by chefs Evan and Sarah Rich.",
+    "url": "https://www.richtablesf.com/location/rich-table/"
+   },
+   {
+    "text": "Has a sister restaurant, RT Bistro, on Oak Street.",
+    "url": "https://www.richtablesf.com/location/rt-bistro/"
+   }
+  ]
+ },
+ {
+  "name": "RT Bistro",
+  "area": "Hayes Valley",
+  "address": "205 Oak St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sister restaurant to Rich Table from chefs Evan and Sarah Rich.",
+    "url": "https://www.richtablesf.com/location/rt-bistro/"
+   },
+   {
+    "text": "Serves California bistro cooking with a la carte and chef's menu options.",
+    "url": "https://www.richtablesf.com/location/rt-bistro/"
+   }
+  ]
+ },
+ {
+  "name": "Robin",
+  "area": "Hayes Valley",
+  "address": "620 Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Listed in the MICHELIN Guide for Japanese and Californian cuisine.",
+    "url": "https://guide.michelin.com/my/en/california/san-francisco/restaurant/robin"
+   },
+   {
+    "text": "Serves a sushi-heavy omakase menu with a California treatment.",
+    "url": "http://robinsanfrancisco.com/"
+   }
+  ]
+ },
+ {
+  "name": "Loquat",
+  "area": "Hayes Valley",
+  "address": "198 Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by two Four Barrel Coffee partners and a former Tartine pastry chef.",
+    "url": "https://www.sfchronicle.com/food/article/sf-loquat-bakery-17436682.php"
+   },
+   {
+    "text": "Is a Jewish diaspora bakery that announced a second location.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/loquat-sf-bakery-expanding-22243090.php"
+   }
+  ]
+ },
+ {
+  "name": "Suppenküche",
+  "area": "Hayes Valley",
+  "address": "525 Laguna St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1993.",
+    "url": "https://www.hvsba.org/suppenkuche/"
+   },
+   {
+    "text": "Serves simple German cuisine.",
+    "url": "https://www.hvsba.org/suppenkuche/"
+   }
+  ]
+ },
+ {
+  "name": "La Boulangerie de San Francisco",
+  "area": "Hayes Valley",
+  "address": "500 Hayes St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "French bakery and cafe in Hayes Valley.",
+    "url": "https://www.sfstation.com/la-boulangerie-de-san-francisco-hayes-valley-b24976951"
+   }
+  ]
+ },
+ {
+  "name": "Arbor",
+  "area": "Hayes Valley",
+  "address": "384 Hayes St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Run by the Absinthe Group.",
+    "url": "https://arborsf.com/"
+   },
+   {
+    "text": "Serves burgers, sandwiches, salads and plant-based soft serve.",
+    "url": "https://arborsf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Lers Ros Thai",
+  "area": "Hayes Valley",
+  "address": "307 Hayes St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves refined Thai cuisine including exotic game dishes.",
+    "url": "https://lersros.com/Larkin.html"
+   },
+   {
+    "text": "Thai restaurant with three San Francisco locations.",
+    "url": "https://lersros.com/Larkin.html"
+   }
+  ]
+ },
+ {
+  "name": "Hayes Street Grill",
+  "area": "Hayes Valley",
+  "address": "320 Hayes St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1979 to serve dinner before the opera, ballet and symphony.",
+    "url": "https://www.hayesstreetgrill.com/about-hayes-street-grill/"
+   },
+   {
+    "text": "Uses only fresh, not frozen, fish.",
+    "url": "https://www.hayesstreetgrill.com/about-hayes-street-grill/"
+   },
+   {
+    "text": "Became a San Francisco Legacy Business in 2018.",
+    "url": "https://www.hayesstreetgrill.com/about-hayes-street-grill/"
+   }
+  ]
+ },
+ {
+  "name": "Absinthe Brasserie & Bar",
+  "area": "Hayes Valley",
+  "address": "398 Hayes St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1998 and run by The Absinthe Group.",
+    "url": "https://www.absinthe.com/about"
+   },
+   {
+    "text": "The Absinthe Group also runs Arbor, Arlequin Wine Merchant and Comstock Saloon.",
+    "url": "https://www.absinthe.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Hayes Valley Bakeworks",
+  "area": "Hayes Valley",
+  "address": "550 Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Bakery and cafe from Toolworks that employs and trains people with disabilities.",
+    "url": "https://toolworks.org/bakeworks"
+   },
+   {
+    "text": "Serves rustic baked goods.",
+    "url": "https://toolworks.org/bakeworks"
+   }
+  ]
+ },
+ {
+  "name": "Saigon Sandwich",
+  "area": "Tenderloin",
+  "address": "560 Larkin St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Family-run Vietnamese sandwich shop on Larkin Street since the 1980s.",
+    "url": "https://www.saigonsandwich.com/"
+   }
+  ]
+ },
+ {
+  "name": "Pho 2000",
+  "area": "Tenderloin",
+  "address": "637 Larkin St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Casual Vietnamese spot in Little Saigon serving pho, grilled meats and imperial rolls.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/pho-2000-sf"
+   }
+  ]
+ },
+ {
+  "name": "Brenda's French Soul Food",
+  "area": "Tenderloin",
+  "address": "652 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Brenda Buenviaje grew up near New Orleans and began cooking in its kitchens.",
+    "url": "https://frenchsoulfood.com/our-krewe/"
+   },
+   {
+    "text": "Opened in 2007 serving a mix of Southern, Creole and French cooking.",
+    "url": "https://frenchsoulfood.com/my-own-little-place/"
+   }
+  ]
+ },
+ {
+  "name": "Turtle Tower",
+  "area": "Tenderloin",
+  "address": "645 Larkin St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfstandard.com/2023/09/18/vietnamese-restaurant-turtle-tower-closes-in-tenderloin/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Miette",
+  "area": "Hayes Valley",
+  "address": "449 Octavia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/article/miette-san-francisco-fillmore-flagship-21039205.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Golden Era Vegan Restaurant",
+  "area": "Tenderloin",
+  "address": "395 Golden Gate Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves vegan Vietnamese cuisine.",
+    "url": "https://www.goldeneravegan.com/home"
+   }
+  ]
+ },
+ {
+  "name": "Bourbon & Branch",
+  "area": "Tenderloin",
+  "address": "501 Jones St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Operated as a speakeasy during Prohibition from 1921 to 1933.",
+    "url": "https://www.bourbonandbranch.com/"
+   },
+   {
+    "text": "A bar has operated at the Jones Street site since 1867.",
+    "url": "https://www.bourbonandbranch.com/"
+   }
+  ]
+ },
+ {
+  "name": "Black Cat",
+  "area": "Tenderloin",
+  "address": "400 Eddy St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Jazz club in the Tenderloin that gives young musicians a platform.",
+    "url": "https://www.sfchronicle.com/entertainment/music/article/black-cat-club-sf-18157983.php"
+   }
+  ]
+ },
+ {
+  "name": "Tenderloin Museum",
+  "area": "Tenderloin",
+  "address": "398 Eddy St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Museum about the history of the Tenderloin that opened in 2015.",
+    "url": "https://hoodline.com/2015/07/the-tenderloin-museum-opens-its-doors/"
+   }
+  ]
+ },
+ {
+  "name": "Warfield Theatre",
+  "area": "Tenderloin",
+  "address": "982 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened May 13, 1922 as the Loews Warfield, a vaudeville theater.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   },
+   {
+    "text": "Named after the actor David Warfield.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   },
+   {
+    "text": "Reopened in September 2008 as a live music venue.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   }
+  ]
+ },
+ {
+  "name": "Bill Graham Civic Auditorium",
+  "area": "Civic Center",
+  "address": "99 Grove St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1915 as part of the Panama-Pacific International Exposition.",
+    "url": "https://en.wikipedia.org/wiki/Bill_Graham_Civic_Auditorium"
+   },
+   {
+    "text": "Renamed in 1992 for rock promoter Bill Graham.",
+    "url": "https://en.wikipedia.org/wiki/Bill_Graham_Civic_Auditorium"
+   },
+   {
+    "text": "Hosted the 1920 Democratic National Convention.",
+    "url": "https://en.wikipedia.org/wiki/Bill_Graham_Civic_Auditorium"
+   }
+  ]
+ },
+ {
+  "name": "Herbst Theatre",
+  "area": "Civic Center",
+  "address": "401 Van Ness Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The United Nations Charter was signed on its stage on June 26, 1945.",
+    "url": "https://en.wikipedia.org/wiki/Herbst_Theatre"
+   },
+   {
+    "text": "Renamed in 1977 for brothers Herman and Maurice Herbst, whose foundation paid for renovations.",
+    "url": "https://en.wikipedia.org/wiki/Herbst_Theatre"
+   }
+  ]
+ },
+ {
+  "name": "Curran Theatre",
+  "area": "Theatre District",
+  "address": "445 Geary St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in February 1922 and named for its first owner, Homer Curran.",
+    "url": "https://en.wikipedia.org/wiki/Curran_Theatre"
+   },
+   {
+    "text": "Carole Shorenstein Hays and James Nederlander took over operation in 1977.",
+    "url": "https://en.wikipedia.org/wiki/Curran_Theatre"
+   }
+  ]
+ },
+ {
+  "name": "Hôtel Biron",
+  "area": "Hayes Valley",
+  "address": "45 Rose St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Wine bar and art gallery with rotating local artwork.",
+    "url": "https://hotelbironwinebar.com/"
+   },
+   {
+    "text": "Pours 20 to 25 wines by the glass.",
+    "url": "https://hotelbironwinebar.com/"
+   }
+  ]
+ },
+ {
+  "name": "Mr. Tipple's Recording Studio",
+  "area": "Civic Center",
+  "address": "39 Fell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Jazz bar with live music and cocktails.",
+    "url": "https://www.tablehopper.com/chatterbox/mr-tipples-recording-studio-now-open-with-cocktails-live-jazz-and-elevated-bar-bites/"
+   }
+  ]
+ },
+ {
+  "name": "Rickshaw Stop",
+  "area": "Hayes Valley",
+  "address": "155 Fell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Music venue that opened in 2004.",
+    "url": "https://rickshawstop.com/about/"
+   },
+   {
+    "text": "Occupies a 4,000-square-foot former TV studio with a balcony.",
+    "url": "https://rickshawstop.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Patricia's Green",
+  "area": "Hayes Valley",
+  "address": "Octavia Boulevard between Fell and Hayes Streets",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for Patricia Walkup, a neighborhood activist who died in 2006.",
+    "url": "https://en.wikipedia.org/wiki/Octavia_Boulevard"
+   },
+   {
+    "text": "Has a play structure and a changing exhibition of public art.",
+    "url": "https://en.wikipedia.org/wiki/Octavia_Boulevard"
+   }
+  ]
+ },
+ {
+  "name": "Boeddeker Park",
+  "area": "Tenderloin",
+  "address": "Eddy and Jones Streets",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Renovated and reopened in 2014.",
+    "url": "https://www.sfchronicle.com/bayarea/place/article/Tenderloin-residents-enjoying-reborn-Boeddeker-6424994.php"
+   }
+  ]
+ },
+ {
+  "name": "Hayes Valley Playground",
+  "area": "Hayes Valley",
+  "address": "Hayes and Buchanan Streets",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened in 2011 after a renovation with a new clubhouse with a living roof.",
+    "url": "https://sfrecpark.org/facilities/facility/details/hayesvalleyplayground-243"
+   },
+   {
+    "text": "Has tennis courts, a playground and a community garden.",
+    "url": "https://sfrecpark.org/facilities/facility/details/hayesvalleyplayground-243"
+   }
+  ]
+ }
+]
