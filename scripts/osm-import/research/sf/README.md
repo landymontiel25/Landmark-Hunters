@@ -42,3 +42,5 @@ a new session, then:
    then run `../thin/select-thin.mjs` (it covers san-francisco). It must find
    0 thin places.
 5. Run `liked-check.mjs` for the 15 "Because you liked" checks.
+6. Update the everyday-places bullet in `api/_lib/appHelp.js` (APP_HELP) to
+   name San Francisco and its final place count, in the same PR.
