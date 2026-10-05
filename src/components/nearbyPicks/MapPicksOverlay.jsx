@@ -225,7 +225,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         origin={origin}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
-        <BecauseYouLikedRow liked={liked} places={similar} />
+        <BecauseYouLikedRow liked={liked} places={similar} uid={uid} origin={origin} />
         {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} />}
         {!showRefresh && <MealCard places={meal} />}
         {!showRefresh && <NearbyInterestCard place={interest} />}
