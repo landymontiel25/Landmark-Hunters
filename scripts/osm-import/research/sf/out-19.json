@@ -1,0 +1,520 @@
+[
+ {
+  "id": "osm-r6061042",
+  "name": "Saint Mary's Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Matched as St. Mary's Recreation Center/Playground, Justin Drive near Bernal Heights.",
+  "facts": [
+   {
+    "text": "The city set aside 13 acres for the recreation area, which Mayor Elmer Robinson dedicated in 1951.",
+    "url": "https://www.foundsf.org/St_Mary's_Recreation_Center"
+   },
+   {
+    "text": "Works Progress Administration crews shaped the hillside land in the 1930s.",
+    "url": "https://www.foundsf.org/St_Mary's_Recreation_Center"
+   },
+   {
+    "text": "Built on three tiers of a steep hill, with a gymnasium, auditorium and baseball diamond on the first.",
+    "url": "https://www.foundsf.org/St_Mary's_Recreation_Center"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28841124",
+  "name": "Saint Mary's Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A rooftop park designed by Robert Royston in 1957 on top of a parking garage.",
+    "url": "https://www.tclf.org/landscapes/st-mary%E2%80%99s-square"
+   },
+   {
+    "text": "Has a statue of Sun Yat-sen by Beniamino Bufano, erected in 1937.",
+    "url": "https://en.wikipedia.org/wiki/Saint_Mary's_Square_(San_Francisco)"
+   },
+   {
+    "text": "Has a memorial plaque to Chinese Americans who died serving in World Wars I and II.",
+    "url": "https://en.wikipedia.org/wiki/Saint_Mary's_Square_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w120480164",
+  "name": "San Francisco Botanical Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Funded by a bequest from Helene Strybing, and planting began in 1937 with Works Progress Administration money.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Botanical_Garden"
+   },
+   {
+    "text": "Covers 55 acres with nearly 9,000 kinds of plants from around the world.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Botanical_Garden"
+   },
+   {
+    "text": "Was named Strybing Arboretum until 2004.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Botanical_Garden"
+   }
+  ]
+ },
+ {
+  "id": "osm-w367545863",
+  "name": "Shakespeare Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a bust of Shakespeare donated by James D. Phelan, a copy of the bust in Holy Trinity Church, Stratford-upon-Avon.",
+    "url": "https://richmondsunsetnews.com/2024/04/06/looking-back-shakespeare-garden/"
+   },
+   {
+    "text": "Plants are flowers mentioned in Shakespeare's works, with six bronze plaques of his quotes about flowers.",
+    "url": "https://richmondsunsetnews.com/2024/04/06/looking-back-shakespeare-garden/"
+   },
+   {
+    "text": "Friends of Recreation and Parks renovated it from December 1990 to June 1991.",
+    "url": "https://richmondsunsetnews.com/2024/04/06/looking-back-shakespeare-garden/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n810359162",
+  "name": "Shields Orizaba Rocky Outcrop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Also called Lakeview and Ashton Mini Park.",
+    "url": "https://sfrecpark.org/facilities/facility/details/lakeviewashtonminipark-183"
+   },
+   {
+    "text": "A rocky outcrop on a ridge of sandstone in the Merced and Ingleside Heights neighborhoods.",
+    "url": "https://sfrecpark.org/facilities/facility/details/lakeviewashtonminipark-183"
+   },
+   {
+    "text": "Native plants on its slopes include buckwheat, dudleya, farewell-to-spring, coast onion and soap plant.",
+    "url": "https://sfrecpark.org/facilities/facility/details/lakeviewashtonminipark-183"
+   }
+  ]
+ },
+ {
+  "id": "osm-w414035525",
+  "name": "Shoreview Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1979 by the San Francisco Redevelopment Agency as a mini-park for new Hunters Point Hill housing.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Shoreview-Park-444"
+   },
+   {
+    "text": "Reopened after a $3.3 million renovation with a new play area, picnic area and fitness equipment.",
+    "url": "https://sfrecpark.org/CivicAlerts.aspx?AID=534"
+   }
+  ]
+ },
+ {
+  "id": "osm-w103637554",
+  "name": "Sigmund Stern Recreation Grove",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 33-acre grove donated to the city in 1931 by Rosalie Meyer Stern and named for her husband Sigmund Stern.",
+    "url": "https://en.wikipedia.org/wiki/Sigmund_Stern_Recreation_Grove"
+   },
+   {
+    "text": "Dedicated on June 4, 1932, with landscaping and facilities built by the Works Progress Administration.",
+    "url": "https://en.wikipedia.org/wiki/Sigmund_Stern_Recreation_Grove"
+   },
+   {
+    "text": "Renovated in 2005 in a $15 million project designed by landscape architect Lawrence Halprin.",
+    "url": "https://en.wikipedia.org/wiki/Sigmund_Stern_Recreation_Grove"
+   }
+  ]
+ },
+ {
+  "id": "osm-w29285191",
+  "name": "Silver Terrace Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a baseball diamond, athletic field, outdoor basketball court, tennis courts and a children's playground.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Silver-Terrace-Playground-267"
+   }
+  ]
+ },
+ {
+  "id": "osm-w23750468",
+  "name": "South Beach Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Also called South Beach Harbor Park, between Pier 40 and Oracle Park on the Embarcadero.",
+    "url": "https://www.sfport.com/visit/parks-open-spaces/south-beach-harbor-park"
+   },
+   {
+    "text": "Has a 42,000 square foot lawn with a large sculpture by artist Mark di Suvero.",
+    "url": "https://www.sfport.com/visit/parks-open-spaces/south-beach-harbor-park"
+   },
+   {
+    "text": "Has a children's playground of about 4,000 square feet.",
+    "url": "https://www.sfport.com/visit/parks-open-spaces/south-beach-harbor-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w306787829",
+  "name": "Starr King Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Dedicated in 1984 on land cleared and given by Barratt Construction, developers of Parkview Heights.",
+    "url": "https://starrkingopenspace.org/about/"
+   },
+   {
+    "text": "A roughly 3.5 acre protected open space between 23rd and Carolina and 24th and De Haro.",
+    "url": "https://starrkingopenspace.org/about/"
+   },
+   {
+    "text": "Part of a line of serpentine grassland running across San Francisco.",
+    "url": "https://starrkingopenspace.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1948074360",
+  "name": "Strawberry Hill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A hill rising 412 feet that forms an island in Blue Heron Lake, formerly Stow Lake, connected by two bridges.",
+    "url": "https://en.wikipedia.org/wiki/Strawberry_Hill_(San_Francisco)"
+   },
+   {
+    "text": "Has Huntington Falls, a 110-foot waterfall named for Collis P. Huntington, who donated $25,000 toward it.",
+    "url": "https://en.wikipedia.org/wiki/Strawberry_Hill_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-r13790250",
+  "name": "Sue Bierman Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Formerly called Ferry Park, it is a 4.5-acre park named for civic activist and Supervisor Sue Bierman.",
+    "url": "https://en.wikipedia.org/wiki/Sue_Bierman_Park"
+   },
+   {
+    "text": "Built on the former footprint of the Embarcadero Freeway ramps.",
+    "url": "https://en.wikipedia.org/wiki/Sue_Bierman_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w226290099",
+  "name": "Sunnyside Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a community room, outdoor basketball court, tennis courts, picnic area and playground with a large sandbox.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Sunnyside-Playground-269"
+   }
+  ]
+ },
+ {
+  "id": "osm-w609650218",
+  "name": "Sunset Dunes",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A two-mile park along the Upper Great Highway from Sloat Boulevard to Lincoln Way.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Sunset-Dunes-467"
+   },
+   {
+    "text": "Features a skate park, a bike pump track and fitness equipment.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Sunset-Dunes-467"
+   },
+   {
+    "text": "Created after voters approved Proposition K in November 2024 to close the Upper Great Highway to cars.",
+    "url": "https://sfrecpark.org/1651/Sunset-Dunes-Background-Timeline"
+   }
+  ]
+ },
+ {
+  "id": "osm-w86124617",
+  "name": "Sunset Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Open to the Sunset community since 1940, on nearly four acres.",
+    "url": "https://sfrecpark.org/520/Sunset-Playground"
+   },
+   {
+    "text": "Has a gymnasium, baseball field, basketball court, two tennis courts and a table tennis room.",
+    "url": "https://sfrecpark.org/520/Sunset-Playground"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1293746848",
+  "name": "Sunset Reservoir Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has paved and unpaved walking paths along the north side of the Sunset Reservoir.",
+    "url": "https://www.alltrails.com/trail/us/california/sunset-reservoir-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w38224213",
+  "name": "Sunset Tunnel Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "Only the Sunset Tunnel (Muni) and nearby Duboce Park / Richard Gamble Memorial Park turned up; no source names a park called Sunset Tunnel Park.",
+  "facts": []
+ },
+ {
+  "id": "osm-w160025743",
+  "name": "Sutro Heights Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Created in 1885 by Adolph Sutro as a public garden of over twenty acres, and opened to the public free of charge.",
+    "url": "https://www.nps.gov/goga/learn/historyculture/sutro-heights.htm"
+   },
+   {
+    "text": "The Sutro family gave it to the city in 1920, and it passed to Golden Gate National Recreation Area in 1976.",
+    "url": "https://www.nps.gov/goga/learn/historyculture/sutro-heights.htm"
+   },
+   {
+    "text": "Sutro filled the garden with over 200 concrete replicas of Greek and Roman statues imported from Belgium.",
+    "url": "https://www.nps.gov/goga/learn/historyculture/sutro-heights.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w23916482",
+  "name": "Sydney G. Walton Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A two-acre park designed by Peter Walker as part of the Golden Gateway redevelopment.",
+    "url": "https://en.wikipedia.org/wiki/Sydney_Walton_Square"
+   },
+   {
+    "text": "Completed in 1966 and named for banker Sydney Grant Walton, a former vice chairman of the Redevelopment Agency.",
+    "url": "https://en.wikipedia.org/wiki/Sydney_Walton_Square"
+   },
+   {
+    "text": "Holds an arch from the Colombo Market and artworks by Jim Dine, Marisol and Joan Brown.",
+    "url": "https://en.wikipedia.org/wiki/Sydney_Walton_Square"
+   }
+  ]
+ },
+ {
+  "id": "osm-w26278429",
+  "name": "Tank Hill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 2.9-acre natural area on Twin Peaks Boulevard.",
+    "url": "https://sfrecpark.org/facilities/facility/details/tankhill-380"
+   },
+   {
+    "text": "Named for the Clarendon Heights Water Tank, built there in 1894 by the Spring Valley Water Company.",
+    "url": "https://sfrecpark.org/facilities/facility/details/tankhill-380"
+   },
+   {
+    "text": "The city bought the hill back for $650,000 after neighbors opposed a housing development.",
+    "url": "https://sfrecpark.org/facilities/facility/details/tankhill-380"
+   }
+  ]
+ },
+ {
+  "id": "osm-w48435281",
+  "name": "Terrace Green Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Owned by the St. Francis Homes Association for residents and their guests, so not a public city park.",
+  "facts": [
+   {
+    "text": "Designed by the Olmsted Brothers with lawns, tennis courts and a clubhouse; today has a basketball court and two tennis courts.",
+    "url": "https://www.stfranciswood.org/parks"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85891868",
+  "name": "Topaz Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "City page confirms Topaz Open Space is managed by SF Rec and Park; little else sourced.",
+  "facts": [
+   {
+    "text": "Also listed as a birding hotspot called Topaz Open Space/Gold Mine Hill in Diamond Heights.",
+    "url": "https://birdinghotspots.org/hotspot/L3847904"
+   }
+  ]
+ },
+ {
+  "id": "osm-w261988292",
+  "name": "Transamerica Redwood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed in 1969 by Thomas Galli and built in 1972 alongside the Transamerica Pyramid.",
+    "url": "https://www.tclf.org/landscapes/transamerica-redwood-park"
+   },
+   {
+    "text": "Planted with 80 mature redwoods from the Santa Cruz Mountains, of which 50 remain.",
+    "url": "https://www.tclf.org/landscapes/transamerica-redwood-park"
+   },
+   {
+    "text": "Has a sunken pool and fountain by Anthony Guzzardo and a bronze sculpture of running children by Glenna Goodacre added in 1989.",
+    "url": "https://www.tclf.org/landscapes/transamerica-redwood-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28689198",
+  "name": "Tulare Park",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "Only aggregator listings (mypacer, mapcarta) mention a Tulare Park near 1301 Indiana St; no city or news source found.",
+  "facts": []
+ },
+ {
+  "id": "osm-w534610947",
+  "name": "Tunnel Top Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Received the San Francisco Parks Alliance 2016 Innovative Project of the Year award.",
+    "url": "https://tunneltoppark.org/awards"
+   },
+   {
+    "text": "Has a labyrinth, murals and a mosaic seating wall.",
+    "url": "https://tunneltoppark.org/"
+   },
+   {
+    "text": "Has an S.P. Tunnels mural by Eli Lippert and Monica Magtoto based on a 1935 woodcut by Charles Surendorf.",
+    "url": "https://tunneltoppark.org/art-installations"
+   }
+  ]
+ }
+]
