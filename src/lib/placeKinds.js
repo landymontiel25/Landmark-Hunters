@@ -48,7 +48,7 @@ const KINDS = [
   ['wine', /\bwine\b/, OUT],
   ['nightclub', /nightclub|night club|dance club/, OUT],
   ['sports-bar', /sports bar/, OUT],
-  ['live-music', /live music|\bjazz\b|concert venue/, OUT],
+  ['live-music', /live music|\bjazz\b|concert venue|music venue/, OUT],
   // Places to see
   ['art', /art museum|\bgaller(y|ies)\b|\bart\b|sculpture|mural/, SEE],
   ['history', /histor|memorial|monument|\bfort\b/, SEE],

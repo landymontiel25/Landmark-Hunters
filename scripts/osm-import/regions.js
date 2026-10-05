@@ -30,21 +30,37 @@ export const VILLANOVA_BOX = { minLat: 40.025, minLng: -75.355, maxLat: 40.048, 
 export const inVillanovaBox = (lat, lng) =>
   lat >= VILLANOVA_BOX.minLat && lat <= VILLANOVA_BOX.maxLat && lng >= VILLANOVA_BOX.minLng && lng <= VILLANOVA_BOX.maxLng;
 
-// San Francisco city proper, clockwise from the Presidio's northwest corner:
-// the Golden Gate shore, Fisherman's Wharf, the Embarcadero, Mission Bay,
-// Hunters Point, Candlestick, then west along the county line to Lake Merced
-// and north up Ocean Beach. Treasure Island and the Farallones stay out.
+// San Francisco city proper, clockwise from Point Lobos: the north shore past
+// Baker Beach, the Golden Gate Bridge, Crissy Field, the Marina and Fort
+// Mason, Fisherman's Wharf and Pier 39, the Embarcadero piers, Mission Bay,
+// Pier 70, Hunters Point, Candlestick, then west along the San Mateo county
+// line (37.708) to Fort Funston and north up Ocean Beach. Each edge follows
+// the shoreline closely enough to keep the piers in and open water out;
+// Alcatraz, Treasure Island and the Farallones stay out.
 export const SF_SHAPE = [
-  [37.811, -122.515],
-  [37.8105, -122.475],
-  [37.8085, -122.41],
-  [37.7955, -122.392],
-  [37.77, -122.385],
-  [37.735, -122.372],
-  [37.708, -122.39],
-  [37.708, -122.502],
-  [37.735, -122.508],
-  [37.77, -122.512],
+  [37.778, -122.5155],
+  [37.7835, -122.5145],
+  [37.7885, -122.5055],
+  [37.7905, -122.4865],
+  [37.8115, -122.4795],
+  [37.8115, -122.474],
+  [37.8065, -122.455],
+  [37.8085, -122.43],
+  [37.8115, -122.42],
+  [37.8115, -122.408],
+  [37.806, -122.4],
+  [37.8035, -122.395],
+  [37.797, -122.389],
+  [37.787, -122.383],
+  [37.77, -122.382],
+  [37.755, -122.376],
+  [37.74, -122.37],
+  [37.728, -122.355],
+  [37.718, -122.36],
+  [37.708, -122.378],
+  [37.7081, -122.503],
+  [37.735, -122.509],
+  [37.76, -122.512],
 ];
 
 // Neighborhood centers, for spreading the restaurant/cafe/park fill across
@@ -127,7 +143,9 @@ export const IMPORT_REGIONS = {
     shape: SF_SHAPE,
     packRegions: ['san-francisco'],
     packRegionOf: () => 'san-francisco',
-    select: { target: 1000, neighborhoods: SF_NEIGHBORHOODS },
+    // Parks count from 0.6 acres (measured on their outline), Wikidata or not;
+    // San Francisco gives many mini parks and plazas a Wikidata item.
+    select: { target: 1300, neighborhoods: SF_NEIGHBORHOODS, minParkAcres: 0.6 },
     area: /\b(san francisco|sf|presidio|golden gate|mission district|north beach|chinatown|soma|hayes valley|castro|haight|richmond district|sunset district|marina|nob hill|russian hill|dogpatch|embarcadero|fisherman's wharf|tenderloin|bernal heights|noe valley|potrero|pacific heights|japantown|lands end|ocean beach|twin peaks|union square)\b/,
   },
 };

@@ -1,11 +1,12 @@
 // Second research pass: imported places whose facts are all generic (none,
-// or only address / amenity / chain lines). Writes batch-NN.json (25 places
-// each) next to this file in the same shape as ../batch-NN.json.
+// or only address / amenity / chain lines), in every import region. Writes
+// batch-NN.json (25 places each) next to this file in the same shape as
+// ../batch-NN.json.
 //   node scripts/osm-import/research/thin/select-thin.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 
-const REGIONS = ['miami', 'philly', 'villanova'];
+const REGIONS = ['miami', 'philly', 'villanova', 'san-francisco'];
 const BATCH = 25;
 const OUT = 'scripts/osm-import/research/thin';
 const GENERIC =

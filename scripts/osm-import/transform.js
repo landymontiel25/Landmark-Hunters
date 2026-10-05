@@ -30,6 +30,50 @@ export function distanceMeters(lat1, lng1, lat2, lng2) {
   return 2 * 6371000 * Math.asin(Math.sqrt(h));
 }
 
+// Area of a closed ring of [lat, lng] points, in acres (flat-earth
+// approximation, fine at city scale).
+export function ringAcres(ring) {
+  if (ring.length < 3) return 0;
+  const lat0 = (ring.reduce((s, [a]) => s + a, 0) / ring.length) * (Math.PI / 180);
+  const m = 111320;
+  let twice = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [ya, xa] = ring[j];
+    const [yb, xb] = ring[i];
+    twice += xa * m * Math.cos(lat0) * (yb * m) - xb * m * Math.cos(lat0) * (ya * m);
+  }
+  return Math.abs(twice / 2) / 4046.86;
+}
+
+// Outer rings of an Overpass `out geom` way or multipolygon relation, as
+// lists of [lat, lng]. A relation's outer member ways are joined end to end.
+export function outerRings(el) {
+  const pts = (g) => (g || []).map((p) => [p.lat, p.lon]);
+  if (el.type === 'way') return el.geometry?.length >= 4 ? [pts(el.geometry)] : [];
+  if (el.type !== 'relation') return [];
+  const key = ([a, b]) => `${a},${b}`;
+  let open = (el.members || []).filter((m) => m.type === 'way' && m.role !== 'inner' && m.geometry?.length >= 2).map((m) => pts(m.geometry));
+  const rings = [];
+  while (open.length) {
+    let ring = open.shift();
+    for (let grew = true; grew && key(ring[0]) !== key(ring[ring.length - 1]); ) {
+      grew = false;
+      for (let i = 0; i < open.length; i++) {
+        const w = open[i];
+        const end = key(ring[ring.length - 1]);
+        if (key(w[0]) === end) ring = ring.concat(w.slice(1));
+        else if (key(w[w.length - 1]) === end) ring = ring.concat([...w].reverse().slice(1));
+        else continue;
+        open.splice(i, 1);
+        grew = true;
+        break;
+      }
+    }
+    if (ring.length >= 4 && key(ring[0]) === key(ring[ring.length - 1])) rings.push(ring);
+  }
+  return rings;
+}
+
 // ---- What to pull ----------------------------------------------------------
 
 export const COURT_SPORTS = ['pickleball', 'basketball', 'tennis', 'soccer'];
@@ -40,9 +84,41 @@ const HISTORIC_KINDS = ['monument', 'memorial', 'building', 'castle', 'fort', 'r
 // relations a single point. `extra` adds elements by id ("node/123"), for
 // places the rules above don't pull (overrides.json `include`).
 export function overpassQuery(shape = MIAMI_SHAPE, extra = []) {
-  const poly = `poly:"${shape.map(([a, b]) => `${a} ${b}`).join(' ')}"`;
+  return wrapQuery(overpassSelectors(shape, extra));
+}
+
+// The same pull as one query per selector, for a mirror that times out on
+// the whole thing (fetch-osm.mjs --split). Each asks for the shape's bounding
+// box, which Overpass answers several times faster than a polygon; the import
+// (importPlaces) drops what lies outside the shape itself.
+export function overpassQueryParts(shape = MIAMI_SHAPE, extra = []) {
+  return overpassSelectors(shape, extra, true).map((s) => wrapQuery([s]));
+}
+
+// Outlines (`out geom`) of the parks, gardens, beaches and zoos in the
+// shape's bounding box, for measuring parks and finding places inside them
+// (fetch-osm.mjs --areas).
+export function overpassAreasQuery(shape = MIAMI_SHAPE) {
+  const lats = shape.map(([a]) => a);
+  const lngs = shape.map(([, b]) => b);
+  const bbox = `${Math.min(...lats)},${Math.min(...lngs)},${Math.max(...lats)},${Math.max(...lngs)}`;
+  return `[out:json][timeout:180];\n(\n  wr["leisure"~"^(park|nature_reserve|garden)$"](${bbox});\n  wr["natural"="beach"](${bbox});\n  wr["tourism"="zoo"](${bbox});\n);\nout geom;`;
+}
+
+const wrapQuery = (lines) => `[out:json][timeout:180];\n(\n${lines.join('\n')}\n);\nout center tags;`;
+
+function overpassSelectors(shape, extra, bbox = false) {
+  const lats = shape.map(([a]) => a);
+  const lngs = shape.map(([, b]) => b);
+  const poly = bbox
+    ? `${Math.min(...lats)},${Math.min(...lngs)},${Math.max(...lats)},${Math.max(...lngs)}`
+    : `poly:"${shape.map(([a, b]) => `${a} ${b}`).join(' ')}"`;
   const sel = [
-    'nwr["amenity"~"^(restaurant|cafe|ice_cream|bar|pub|biergarten|nightclub|cinema|theatre|arts_centre|marketplace)$"]',
+    // Three amenity lines, so a split pull (overpassQueryParts) asks for
+    // restaurants, cafes and the rest separately.
+    'nwr["amenity"="restaurant"]',
+    'nwr["amenity"~"^(cafe|ice_cream)$"]',
+    'nwr["amenity"~"^(bar|pub|biergarten|nightclub|music_venue|cinema|theatre|arts_centre|marketplace)$"]',
     'nwr["shop"~"^(bakery|' + SHOPS_OF_INTEREST.join('|') + ')$"]',
     'nwr["leisure"~"^(stadium|park|nature_reserve|garden|water_park)$"]',
     'nwr["leisure"~"^(pitch|sports_centre)$"]["sport"~"(' + COURT_SPORTS.join('|') + ')"]',
@@ -60,7 +136,7 @@ export function overpassQuery(shape = MIAMI_SHAPE, extra = []) {
   const ids = Object.entries(byType)
     .filter(([, list]) => list.length)
     .map(([type, list]) => `  ${type}(id:${list.join(',')});`);
-  return `[out:json][timeout:180];\n(\n${[...sel.map((s) => `  ${s}(${poly});`), ...ids].join('\n')}\n);\nout center tags;`;
+  return [...sel.map((s) => `  ${s}(${poly});`), ...ids];
 }
 
 // ---- Category and Mapr tag -------------------------------------------------
@@ -125,6 +201,8 @@ export function classify(tags) {
   if (a === 'marketplace') return { category: 'local-life', topic: 'market', typicalMinutes: 60, checkInRadiusMeters: 200 };
   if (a === 'bar' || a === 'pub' || a === 'biergarten') return { category: 'local-life', topic: a === 'pub' ? 'pub' : a === 'biergarten' ? 'beer garden' : 'bar', typicalMinutes: 90 };
   if (a === 'nightclub') return { category: 'local-life', topic: 'nightclub', typicalMinutes: 180 };
+  // The catalog files live-music venues under Local Life (a night out).
+  if (a === 'music_venue') return { category: 'local-life', topic: 'music venue', typicalMinutes: 150 };
   if (t.shop === 'mall' || t.shop === 'department_store')
     return { category: 'local-life', topic: t.shop === 'mall' ? 'mall' : 'department store', typicalMinutes: 120, checkInRadiusMeters: t.shop === 'mall' ? 400 : 150 };
   if (SHOPS_OF_INTEREST.includes(t.shop)) {

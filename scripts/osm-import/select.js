@@ -4,8 +4,12 @@
 //   nightlife  every named bar, pub, beer garden and nightclub
 //   wikidata   every place with a Wikidata item
 //   culture    museums, galleries, arts centers, theaters, cinemas, zoos,
-//              historic sites, statues, attractions, stadiums, markets,
-//              bookstores and record stores
+//              historic sites, statues, attractions, viewpoints, music
+//              venues, stadiums, markets, bookstores and record stores
+//   parks      with `minParkAcres` and park outlines (`areas`, from
+//              fetch-osm.mjs --areas): every park, garden, nature preserve
+//              and beach at least that big, Wikidata item or not; smaller
+//              ones never count
 //   nearby     everything within `anchorMeters` of an anchor (a campus or town)
 //   fill       the rest of the restaurants, cafes, bakeries and parks, richest
 //              OSM tags first (website, hours, cuisine...), until the region
@@ -18,15 +22,22 @@
 // plazas and other pocket parks; numbered or generic practice fields; chain
 // branches (a `brand` tag) outside the nightlife and culture tiers. An old
 // building tagged historic=building with nothing else (often a school or a
-// house) is no "historic site" unless it has a heritage listing.
-import { distanceMeters } from './transform.js';
+// house) is no "historic site" unless it has a heritage listing. With
+// `areas`, a park, garden, viewpoint or attraction inside the outline of
+// another selected place of at most 150 acres (a zoo exhibit, one bed of a
+// botanical garden) is part of that place, not a place of its own.
+import { distanceMeters, insideShape } from './transform.js';
 
 const NIGHTLIFE = new Set(['bar', 'pub', 'beer garden', 'nightclub']);
 const CULTURE_CATEGORIES = new Set(['art-museums', 'entertainment', 'stadiums']);
-const CULTURE_TOPICS = new Set(['market', 'bookstore', 'record store', 'historic site', 'attraction', 'monument', 'statue', 'ruins', 'historic ship', 'historic church', 'lighthouse', 'fort', 'archaeological site']);
+const CULTURE_TOPICS = new Set(['viewpoint', 'music venue', 'market', 'bookstore', 'record store', 'historic site', 'attraction', 'monument', 'statue', 'ruins', 'historic ship', 'historic church', 'lighthouse', 'fort', 'archaeological site']);
 const POCKET = /\b(community|tot lot|play ?lot|playground|pocket park|parklet|plaza|triangle|farm)\b|^\d/i;
 const PRACTICE_FIELD = /\b(field|court)s? \d+$|^(upper|lower|auxiliary|practice|paddle tennis) (field|court)$/i;
 const FILL_CATEGORIES = new Set(['food', 'parks-nature']);
+const MEASURED = new Set(['park', 'garden', 'nature preserve', 'beach']);
+const PART_TOPICS = new Set([...MEASURED, 'viewpoint', 'attraction']);
+const MAX_HOST_ACRES = 150;
+const isCommunityGarden = (place, tags) => tags['garden:type'] === 'community' || /\bcommunity garden\b/i.test(place.name);
 
 const plainOldBuilding = (tags) =>
   tags.historic === 'building' && !tags.heritage && !tags['ref:nrhp'] && !tags['heritage:operator'] && !tags.wikipedia && !tags.tourism;
@@ -50,8 +61,20 @@ export function richness(place, tags = {}) {
   return n + Math.min(place.facts.length, 8) * 0.25;
 }
 
-export function tierOf(place, tags = {}, { overrides = {}, anchors = [], anchorMeters = 3000 } = {}) {
+// A park measured against `minParkAcres`: 'parks', or null when too small
+// or a community garden; undefined when the rule doesn't apply.
+function measuredTier(place, tags, areas, minParkAcres) {
+  if (!minParkAcres || place.categories[0] !== 'parks-nature' || !MEASURED.has(place.topic)) return undefined;
+  if (isCommunityGarden(place, tags)) return null;
+  const acres = areas[place.id]?.acres;
+  if (acres == null) return place.wikidata ? 'wikidata' : null;
+  return acres >= minParkAcres ? 'parks' : null;
+}
+
+export function tierOf(place, tags = {}, { overrides = {}, anchors = [], anchorMeters = 3000, areas = {}, minParkAcres = 0 } = {}) {
   if (overrides[place.id]?.include) return 'insider';
+  const measured = measuredTier(place, tags, areas, minParkAcres);
+  if (measured !== undefined) return measured;
   if (place.wikidata) return NIGHTLIFE.has(place.topic) ? 'nightlife' : 'wikidata';
   if (isPocketPark(place, tags) || PRACTICE_FIELD.test(place.name) || plainOldBuilding(tags)) return null;
   if (NIGHTLIFE.has(place.topic)) return 'nightlife';
@@ -61,7 +84,12 @@ export function tierOf(place, tags = {}, { overrides = {}, anchors = [], anchorM
   return FILL_CATEGORIES.has(place.categories[0]) ? 'fill' : null;
 }
 
-export function whyNotSelected(place, tags = {}) {
+export function whyNotSelected(place, tags = {}, { areas = {}, minParkAcres = 0 } = {}) {
+  if (measuredTier(place, tags, areas, minParkAcres) === null) {
+    if (isCommunityGarden(place, tags)) return 'community garden';
+    const acres = areas[place.id]?.acres;
+    return acres == null ? 'park mapped as a point, size unknown' : `park under ${minParkAcres} acres (${acres})`;
+  }
   if (isPocketPark(place, tags)) return 'community garden or pocket park';
   if (PRACTICE_FIELD.test(place.name)) return 'numbered or generic practice field';
   if (plainOldBuilding(tags)) return 'old building with no heritage listing';
@@ -69,7 +97,21 @@ export function whyNotSelected(place, tags = {}) {
   return 'not a restaurant, cafe, bakery or park, and outside the other tiers';
 }
 
-export const TIERS = ['insider', 'nightlife', 'wikidata', 'culture', 'nearby', 'fill'];
+export const TIERS = ['insider', 'nightlife', 'wikidata', 'culture', 'parks', 'nearby', 'fill'];
+
+// The selected place (other than `place`) whose outline of at most
+// MAX_HOST_ACRES holds `place`'s point, if `place` is a park, garden,
+// viewpoint or attraction.
+function hostOf(place, hosts, areas) {
+  if (!PART_TOPICS.has(place.topic)) return null;
+  for (const h of hosts) {
+    if (h.id === place.id) continue;
+    const a = areas[h.id];
+    if (a.acres > MAX_HOST_ACRES || (areas[place.id] && areas[place.id].acres >= a.acres)) continue;
+    if (a.rings.some((r) => insideShape(place.lat, place.lng, r))) return h;
+  }
+  return null;
+}
 
 export const nearestNeighborhood = (place, neighborhoods) =>
   neighborhoods.reduce((best, n) => {
@@ -102,14 +144,21 @@ function spreadFill(fill, room, neighborhoods) {
   return out;
 }
 
-export function selectPlaces(places, { tagsById = new Map(), overrides = {}, anchors = [], anchorMeters = 3000, target = 1000, neighborhoods = null } = {}) {
+export function selectPlaces(places, { tagsById = new Map(), overrides = {}, anchors = [], anchorMeters = 3000, target = 1000, neighborhoods = null, areas = {}, minParkAcres = 0 } = {}) {
   const byTier = Object.fromEntries(TIERS.map((t) => [t, []]));
   const notSelected = [];
+  const tiered = [];
   for (const p of places) {
     const tags = tagsById.get(p.id) || {};
-    const tier = tierOf(p, tags, { overrides, anchors, anchorMeters });
-    if (tier) byTier[tier].push({ p, score: richness(p, tags) });
-    else notSelected.push({ ...p, why: whyNotSelected(p, tags) });
+    const tier = tierOf(p, tags, { overrides, anchors, anchorMeters, areas, minParkAcres });
+    if (tier) tiered.push({ p, tier, score: richness(p, tags) });
+    else notSelected.push({ ...p, why: whyNotSelected(p, tags, { areas, minParkAcres }) });
+  }
+  const hosts = tiered.map((x) => x.p).filter((p) => areas[p.id]);
+  for (const x of tiered) {
+    const host = x.tier === 'insider' ? null : hostOf(x.p, hosts, areas);
+    if (host) notSelected.push({ ...x.p, why: `part of ${host.name}` });
+    else byTier[x.tier].push(x);
   }
   const kept = TIERS.filter((t) => t !== 'fill').flatMap((t) => byTier[t].map((x) => x.p));
   const fill = byTier.fill.sort((a, b) => b.score - a.score || a.p.id.localeCompare(b.p.id));

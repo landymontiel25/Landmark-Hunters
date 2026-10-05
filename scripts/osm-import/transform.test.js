@@ -53,6 +53,7 @@ describe('classify (category = Mapr tag)', () => {
     [{ shop: 'bakery' }, 'food', 'bakery'],
     [{ amenity: 'bar' }, 'local-life', 'bar'],
     [{ amenity: 'nightclub' }, 'local-life', 'nightclub'],
+    [{ amenity: 'music_venue' }, 'local-life', 'music venue'],
     [{ shop: 'mall' }, 'local-life', 'mall'],
     [{ shop: 'books' }, 'local-life', 'bookstore'],
     [{ amenity: 'cinema' }, 'entertainment', 'movie theater'],

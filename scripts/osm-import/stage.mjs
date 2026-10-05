@@ -22,7 +22,10 @@ const dropped = imported.dropped;
 let places = imported.places.map((p) => ({ ...p, region: region.packRegionOf(p.lat, p.lng) }));
 if (region.select) {
   const tagsById = new Map(elements.map((el) => [`osm-${el.type[0]}${el.id}`, el.tags || {}]));
-  const { selected, notSelected, tiers } = selectPlaces(places, { tagsById, overrides, ...region.select });
+  // Park outlines (fetch-osm.mjs --areas), for regions that measure parks.
+  const areas = fs.existsSync(`${DIR}/areas.json`) ? JSON.parse(fs.readFileSync(`${DIR}/areas.json`, 'utf8')) : {};
+  if (region.select.minParkAcres && !Object.keys(areas).length) throw new Error(`run fetch-osm.mjs --region ${region.id} --areas first`);
+  const { selected, notSelected, tiers } = selectPlaces(places, { tagsById, overrides, areas, ...region.select });
   places = selected;
   dropped.notSelected = notSelected.map((p) => ({ id: p.id, name: p.name, category: p.categories[0], why: p.why }));
   console.log('selected by tier:', tiers);

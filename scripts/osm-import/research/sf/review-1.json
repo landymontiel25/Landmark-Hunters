@@ -1,0 +1,422 @@
+{
+ "_about": "Hand review of the San Francisco staging (2026-10-05): every bar, museum, park, theater, attraction and the food list read by name. Each entry: [name, drop reason | {category, topic}, optional id when the name repeats].",
+ "drop": [
+  [
+   "?",
+   "no name, only a question mark"
+  ],
+  [
+   "111 Minna",
+   "same place as 111 Minna Gallery (bar and gallery in one room)",
+   "osm-n2026996113"
+  ],
+  [
+   "Buriel Clay Theatre",
+   "stage inside the African American Art & Culture Complex (also in the set)"
+  ],
+  [
+   "Decker Theater",
+   "stage inside the New Conservatory Theatre Center (also in the set)"
+  ],
+  [
+   "Tucker Theater",
+   "stage inside the New Conservatory Theatre Center (also in the set)"
+  ],
+  [
+   "Walker Theater",
+   "stage inside the New Conservatory Theatre Center (also in the set)"
+  ],
+  [
+   "Osher Salon",
+   "hall inside the San Francisco Conservatory of Music (its Hume Concert Hall is in the set)"
+  ],
+  [
+   "Sol Joseph Recital Hall",
+   "hall inside the San Francisco Conservatory of Music (its Hume Concert Hall is in the set)"
+  ],
+  [
+   "Joe Henderson Lab",
+   "hall inside the SFJAZZ Center (also in the set)"
+  ],
+  [
+   "Robert N. Miner Auditorium",
+   "hall inside the SFJAZZ Center (also in the set)"
+  ],
+  [
+   "Phyllis Wattis Theater",
+   "theater inside SFMOMA (also in the set)"
+  ],
+  [
+   "Metreon",
+   "shopping center around the AMC Metreon 16 cinema (also in the set)"
+  ],
+  [
+   "Rhoda Goldman Concert Meadow",
+   "stage inside Sigmund Stern Recreation Grove (also in the set)"
+  ],
+  [
+   "Stern Grove",
+   "second pin of Sigmund Stern Recreation Grove (also in the set)"
+  ],
+  [
+   "John Foley's Dueling Piano Bar",
+   "same building as Johnny Foley's Irish House (also in the set)"
+  ],
+  [
+   "Mr. and Mrs. George F. Jewett, Jr. Exhibit Gallery",
+   "exhibit room inside the San Francisco Main Library"
+  ],
+  [
+   "Benedetti Diamond",
+   "ball field, not a park"
+  ],
+  [
+   "Ulrich Field",
+   "ball field, not a park"
+  ],
+  [
+   "Steinhart Aquarium",
+   "part of the California Academy of Sciences (in the catalog)"
+  ],
+  [
+   "Living Roof",
+   "part of the California Academy of Sciences (in the catalog)"
+  ],
+  [
+   "Hamon Tower",
+   "part of the de Young Museum (in the catalog)"
+  ],
+  [
+   "Salesforce Park Cable Car",
+   "exhibit inside Salesforce Park (in the catalog)"
+  ],
+  [
+   "Salesforce Park Amphitheater",
+   "stage inside Salesforce Park (in the catalog)"
+  ],
+  [
+   "Esplanade Main Stage",
+   "stage inside Yerba Buena Gardens (in the catalog)"
+  ],
+  [
+   "Ghirardelli Chocolate Experience",
+   "shop inside Ghirardelli Square (in the catalog)"
+  ],
+  [
+   "Pier 39 Sea Lions",
+   "part of Pier 39 (in the catalog)"
+  ],
+  [
+   "San Francisco Ferry Building",
+   "the catalog's Ferry Building"
+  ],
+  [
+   "Baker Beach (Nudist Area)",
+   "north end of Baker Beach (in the catalog)"
+  ],
+  [
+   "Bay Cruise Line",
+   "tour boat booth, not a place to visit"
+  ],
+  [
+   "Whale Tours",
+   "tour booth, not a place to visit"
+  ],
+  [
+   "Welcome Center",
+   "visitor booth with a generic name"
+  ],
+  [
+   "San Francisco Belle",
+   "charter event boat, not a place to visit"
+  ],
+  [
+   "Pride Barbie Doll Display in private windows",
+   "window display in a private home"
+  ],
+  [
+   "Jimmy Hendrix house",
+   "private house"
+  ],
+  [
+   "Boiler rooms",
+   "unlabeled ruin inside Sutro Baths (in the catalog)"
+  ],
+  [
+   "Main pool house",
+   "unlabeled ruin inside Sutro Baths (in the catalog)"
+  ],
+  [
+   "California and Powell streets",
+   "street corner, not a place"
+  ],
+  [
+   "Bradford Street",
+   "street, not a place"
+  ],
+  [
+   "Gambier Plaza",
+   "street plaza pin"
+  ],
+  [
+   "Bayside History Walk",
+   "sign trail pin"
+  ],
+  [
+   "Mutiny Radio.fm",
+   "radio station studio"
+  ],
+  [
+   "3-way Russian Hill view",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Alcatraz and Hyde St Pier ships",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Coit Tower & Bay Bridge view",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Coit Tower & East Bay",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Cityc",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Observation Deck",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "North Observation Deck",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "View on Golden Gate Bridge & Richardson Bay",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Watertower View",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Bay Lights Viewpoint",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Bay Bridge and Treasure Island Viewpoint",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Golden Gate Bridge overlook",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Golden Gate Overlook",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Pacific Overlook",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Fort Point Viewpoint",
+   "viewpoint pin beside Fort Point (in the catalog)"
+  ],
+  [
+   "Battery East",
+   "viewpoint pin with a descriptive name, not a named place"
+  ],
+  [
+   "Amal's Deli",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Amigos",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Anjotitos Patry",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Fida Market",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Mega Trading Co",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Mellow Mercado",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Simple",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Tuong Phong",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Win Yen Co",
+   "grocery store tagged as a market"
+  ],
+  [
+   "The Village Market",
+   "grocery store tagged as a market"
+  ],
+  [
+   "The SF Market",
+   "grocery store tagged as a market"
+  ],
+  [
+   "Lehr's German Specialties",
+   "grocery store tagged as a market"
+  ],
+  [
+   "CCSF Mission Campus Book Store",
+   "college campus store"
+  ],
+  [
+   "CCSF North Beach / Chinatown Bookstore",
+   "college campus store"
+  ],
+  [
+   "SFSU Bookstore",
+   "college campus store"
+  ],
+  [
+   "The PUB@SFSU",
+   "college campus pub"
+  ],
+  [
+   "Associated Students Farmer's Market",
+   "college campus market"
+  ],
+  [
+   "Koret Quad",
+   "university quad, not a public park"
+  ],
+  [
+   "Ella Hill Hutch Community Center",
+   "community center, not a park"
+  ],
+  [
+   "The City Club",
+   "private members' club"
+  ],
+  [
+   "Pacific Union Club",
+   "private members' club"
+  ],
+  [
+   "SF Citadel",
+   "adult members' event space"
+  ],
+  [
+   "Neiman Marcus",
+   "chain department store"
+  ],
+  [
+   "Mission Creek Park",
+   "second, smaller part of Mission Creek Park (the other part is in the set)",
+   "osm-w579664205"
+  ]
+ ],
+ "fix": [
+  [
+   "Restaurante-Pupusería Ilobasco",
+   {
+    "category": "food",
+    "topic": "Salvadoran restaurant"
+   }
+  ],
+  [
+   "Goemon Izakaya",
+   {
+    "category": "food",
+    "topic": "Japanese restaurant"
+   }
+  ],
+  [
+   "Noren Izakaya",
+   {
+    "category": "food",
+    "topic": "Japanese restaurant"
+   }
+  ],
+  [
+   "Papa Mak's Burgers",
+   {
+    "topic": "burger restaurant"
+   }
+  ],
+  [
+   "Yo También Cantina",
+   {
+    "topic": "Mexican restaurant"
+   }
+  ],
+  [
+   "Proposition Chicken",
+   {
+    "topic": "chicken restaurant"
+   }
+  ],
+  [
+   "The Independent",
+   {
+    "category": "local-life",
+    "topic": "music venue"
+   }
+  ],
+  [
+   "Brick and Mortar",
+   {
+    "category": "local-life",
+    "topic": "music venue"
+   }
+  ],
+  [
+   "Bottom of the Hill",
+   {
+    "topic": "music venue"
+   }
+  ],
+  [
+   "Bimbo's 365 Club",
+   {
+    "topic": "music venue"
+   }
+  ],
+  [
+   "The Chapel",
+   {
+    "topic": "music venue"
+   }
+  ],
+  [
+   "The Regency Ballroom",
+   {
+    "topic": "music venue"
+   }
+  ],
+  [
+   "Cafe du Nord",
+   {
+    "topic": "music venue"
+   }
+  ],
+  [
+   "Harding Park",
+   {
+    "topic": "golf course"
+   }
+  ]
+ ]
+}
