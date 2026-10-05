@@ -1,0 +1,452 @@
+[
+ {
+  "id": "osm-n10780794722",
+  "name": "Alchemist",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies a second-floor space one block from Oracle Park.",
+    "url": "https://alchemistsf.com/about-us/"
+   },
+   {
+    "text": "Led by owner-operator Phil Chen.",
+    "url": "https://alchemistsf.com/about-us/"
+   },
+   {
+    "text": "The cocktail menu uses tinctures, house-made infusions and hand-crafted syrups.",
+    "url": "https://alchemistsf.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w367586034",
+  "name": "Alemany Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded on August 12, 1943.",
+    "url": "http://kalw.org/post/get-know-your-farmer-california-s-first-farmers-market"
+   },
+   {
+    "text": "Has been at its current Alemany Boulevard site since 1947.",
+    "url": "http://kalw.org/post/get-know-your-farmer-california-s-first-farmers-market"
+   },
+   {
+    "text": "Runs every Saturday year-round, with many farmers selling there for generations.",
+    "url": "http://kalw.org/post/get-know-your-farmer-california-s-first-farmers-market"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3522863338",
+  "name": "Amazing Fantasy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Comic book shop",
+  "facts": [
+   {
+    "text": "A comic shop that has sold comics at this location since 1978.",
+    "url": "https://hoodline.com/2014/12/inside-amazing-fantasy-the-inner-sunset-s-comic-shop-since-1978/"
+   },
+   {
+    "text": "Owner Frank McGinn took over in 2000 and named it for Amazing Fantasy #15, Spider-Man's debut.",
+    "url": "https://hoodline.com/2014/12/inside-amazing-fantasy-the-inner-sunset-s-comic-shop-since-1978/"
+   },
+   {
+    "text": "Stocks more than 1,000 graphic novels.",
+    "url": "https://hoodline.com/2014/12/inside-amazing-fantasy-the-inner-sunset-s-comic-shop-since-1978/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3018753922",
+  "name": "Amélie",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A French-style wine bar co-owned by Germain Michel.",
+    "url": "https://www.vinography.com/2007/07/san_francisco_wine_bar_amelie"
+   },
+   {
+    "text": "Its lighting is made from chains of red frosted wine bottles, set against a red lacquer bar.",
+    "url": "https://www.vinography.com/2007/07/san_francisco_wine_bar_amelie"
+   }
+  ]
+ },
+ {
+  "id": "osm-w220338806",
+  "name": "Amoeba Music",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies the former Park Bowl bowling alley, which closed in August 1996.",
+    "url": "https://crawlsf.com/1855-haight-street-from-streetcars-to-records-a-haight-ashbury-landmark-lives-on/"
+   },
+   {
+    "text": "Took over the Haight Street space in 1997.",
+    "url": "https://crawlsf.com/1855-haight-street-from-streetcars-to-records-a-haight-ashbury-landmark-lives-on/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9655241060",
+  "name": "Anina",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Chronicle article gives May 2017 opening, Hoodline gives March 2017; opening date left out.",
+  "facts": [
+   {
+    "text": "Opened by the owners of the neighboring bar Brass Tacks.",
+    "url": "https://www.sfchronicle.com/entertainment/article/Anina-gives-Hayes-Valley-another-neighborhood-bar-11118937.php"
+   },
+   {
+    "text": "Its walls carry a floral mural by Argentine muralist Lucila Dominguez.",
+    "url": "https://www.sfchronicle.com/entertainment/article/Anina-gives-Hayes-Valley-another-neighborhood-bar-11118937.php"
+   },
+   {
+    "text": "Three of its five cocktail menu sections are low-proof drinks such as sherry, vermouth and spritzes.",
+    "url": "https://www.sfchronicle.com/entertainment/article/Anina-gives-Hayes-Valley-another-neighborhood-bar-11118937.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13765410525",
+  "name": "Arcana",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Naz Khorram as a plant shop that doubles as a wine bar, live music venue and art gallery.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/arcana-mission-district-bar-18391920.php"
+   },
+   {
+    "text": "Occupies a space that used to be a shoe store.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/arcana-mission-district-bar-18391920.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9397929868",
+  "name": "Argonaut Book Shop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1941 on Kearny Street by the elder Robert Haines.",
+    "url": "https://www.sfgate.com/living/article/Antiquarian-bookstore-was-favorite-Hitchcock-haunt-3469548.php"
+   },
+   {
+    "text": "Served as the model for the Argosy Book Store in Hitchcock's Vertigo.",
+    "url": "https://www.sfgate.com/living/article/Antiquarian-bookstore-was-favorite-Hitchcock-haunt-3469548.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3279458748",
+  "name": "Asiento",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A tapas bar that briefly rebranded as Madam Racecar in 2022 before reopening as Asiento.",
+    "url": "https://hoodline.com/2022/04/mission-district-tapas-bar-asiento-closing-permanently-saturday-but-promises-a-rebrand-is-coming/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1320562876",
+  "name": "Atlas Tap Room",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/atlas-tap-room-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp page for Atlas Tap Room, 606 Mission St, titled CLOSED, updated July 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n61678786",
+  "name": "Aub Zam Zam",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1941 by Assyrian-born Samson Mooshei as the Persian Aub Zam Zam.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/zam-zam/"
+   },
+   {
+    "text": "Named after a holy well in Saudi Arabia.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/zam-zam/"
+   },
+   {
+    "text": "Its Persian-inspired interior was designed by Assyrian architect Jon Oshanna, who also painted the mural.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/zam-zam/"
+   },
+   {
+    "text": "Samson's son Bruno took over in 1951; Robert Clarke bought it before Bruno died in 2000.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/zam-zam/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11699777854",
+  "name": "Aunt Charlies Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1987 in a space that had been a gay bar called the Queen Mary.",
+    "url": "https://www.ebar.com/story/27427"
+   },
+   {
+    "text": "Has hosted drag shows since the 1990s.",
+    "url": "https://www.ebar.com/story/27427"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1880217201",
+  "name": "Azucar Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Stocks more than 400 Mexican spirits, including tequilas and mezcals.",
+    "url": "https://www.azucarsf.com/menu-1"
+   },
+   {
+    "text": "Hosts agave tastings and monthly comedy nights.",
+    "url": "https://www.azucarsf.com/menu-1"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10309959742",
+  "name": "B-Side",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Located at 201 Franklin Street next to SFJAZZ, about 50 m from the given point.",
+  "facts": [
+   {
+    "text": "A lounge introduced in 2017 next to the SFJAZZ Center.",
+    "url": "http://www.b-sidesf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4467802664",
+  "name": "Balancoire",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://foursquare.com/v/balan%C3%A7oire/5126e6cce4b048ef8e74eed5",
+  "notFound": false,
+  "searches": 1,
+  "note": "Foursquare page titled Balancoire (Now Closed), Mission District.",
+  "facts": []
+ },
+ {
+  "id": "osm-n11345377375",
+  "name": "Ballast Point Tasting Room & Kitchen",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/ballast-point-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp page for Ballast Point Brewing San Francisco, 705 16th St (Mission Bay), titled CLOSED, updated August 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n12887090805",
+  "name": "Bamboo Hut",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "479 Broadway, North Beach edge of Chinatown.",
+  "facts": [
+   {
+    "text": "A tiki bar that opened in 1997 as part of the HiBall Lounge and spun off on its own in 2000.",
+    "url": "https://www.bamboohutsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2624201225",
+  "name": "Bar 49",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in June 2024 in the former Bagdad Cafe space.",
+    "url": "https://hoodline.com/2024/06/castro-restaurant-bar-bar49-opens-tonight-at-long-troubled-former-bagdad-cafe-space/"
+   },
+   {
+    "text": "Opened by Colm O'Brien, a Hi Tops alum.",
+    "url": "https://hoodline.com/2024/02/hi-tops-alum-opening-new-castro-restaurant-bar-at-long-troubled-former-bagdad-cafe-space/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4548639068",
+  "name": "Bar 821",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bar dedicated to amari, served neat, in cocktails and in flights.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/bar-821-divisadero-amaro-19406777.php"
+   },
+   {
+    "text": "Reopened after a four-year closure under owner Khaled Dajani.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/bar-821-divisadero-amaro-19406777.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1806978712",
+  "name": "Bar Agricole",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/article/Thad-Vogler-to-relocate-San-Francisco-s-Bar-15047612.php",
+  "notFound": false,
+  "searches": 2,
+  "note": "Closed at 355 11th St in March 2020 after 10 years and relocated; later locations also closed.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4839978312",
+  "name": "Bar Fluxus",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bar-fluxus-san-francisco-3",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp page for Bar Fluxus, 18 Harlan Pl, titled CLOSED, updated March 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4987099522",
+  "name": "Bar None",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bar-none-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp page for Bar None, 1980 Union St, titled CLOSED, updated September 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9684320117",
+  "name": "Bar Part Time",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A natural wine bar that opened in the Mission in September 2021 after starting as pandemic pop-up dance parties.",
+    "url": "https://www.sfchronicle.com/food/wine/article/bar-part-time-natural-wine-sf-rave-vibes-16938687.php"
+   },
+   {
+    "text": "Pours zero-zero natural wines, with nothing added or removed in winemaking.",
+    "url": "https://www.sfchronicle.com/food/wine/article/bar-part-time-natural-wine-sf-rave-vibes-16938687.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10600380560",
+  "name": "Bar TZA",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Features local live music and has a private event space.",
+    "url": "https://bartza.com/san-francisco-mission-district-bar-tza-about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11041008192",
+  "name": "Bar VIA",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The bar of Hotel VIA, with 19-foot windows facing Oracle Park.",
+    "url": "https://www.hotelviasf.com/the-hotel/bar"
+   }
+  ]
+ }
+]
