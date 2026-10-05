@@ -1,0 +1,418 @@
+[
+ {
+  "id": "osm-w32858754",
+  "name": "City Lights Booksellers",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designated San Francisco Landmark #228.",
+    "url": "https://noehill.com/sf/landmarks/sf228.asp"
+   },
+   {
+    "text": "Housed in a building built in 1907.",
+    "url": "https://noehill.com/sf/landmarks/sf228.asp"
+   },
+   {
+    "text": "Co-founded by Lawrence Ferlinghetti and Peter D. Martin.",
+    "url": "https://noehill.com/sf/landmarks/sf228.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9322450624",
+  "name": "Cityscape Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Located on the 46th floor of Tower 1 at the Hilton San Francisco Union Square.",
+    "url": "https://cityscapesf.com/?y_source=1_MTk1OTQ3MzYtODYwLWxvY2F0aW9uLndlYnNpdGU%3D"
+   },
+   {
+    "text": "Offers signature cocktails, champagne, local wines and beers, and small plates.",
+    "url": "https://cityscapesf.com/?y_source=1_MTk1OTQ3MzYtODYwLWxvY2F0aW9uLndlYnNpdGU%3D"
+   }
+  ]
+ },
+ {
+  "id": "osm-n806226986",
+  "name": "Clarion Music Center",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.theclarionsf.org/about-us",
+  "notFound": false,
+  "searches": 4,
+  "note": "Music store closed in 2016; Clara Hsu bought it back and it became Clarion Performing Arts Center at 2 Waverly Pl (page does not state 816 Sacramento).",
+  "facts": []
+ },
+ {
+  "id": "osm-w362162006",
+  "name": "Clement St. Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated by the Agricultural Institute of Marin.",
+    "url": "https://www.agriculturalinstitute.org/clement-st"
+   },
+   {
+    "text": "Held on Clement Street between 2nd and 4th Avenues.",
+    "url": "https://www.agriculturalinstitute.org/clement-st"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9322450623",
+  "name": "Clock Bar",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.gayot.com/restaurants/clock-bar-san-francisco-ca-94102_3sf080770-04.html",
+  "notFound": false,
+  "searches": 3,
+  "note": "Gayot page titled 'THIS RESTAURANT IS CLOSED Clock Bar' (335 Powell St, Westin St. Francis); undated, a 2025 search summary also says it closed during hotel renovation.",
+  "facts": []
+ },
+ {
+  "id": "osm-n582779493",
+  "name": "Clooney's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood dive bar.",
+    "url": "https://www.sfstation.com/clooneys-pub-b1460771"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4145232889",
+  "name": "Club 26 Mix",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Part neighborhood bar, part small dance club, with DJs.",
+    "url": "https://www.wheretraveler.com/san-francisco/26-mix"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10575981868",
+  "name": "Club Kristi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Listed at 782 O'Farrell St (between Larkin and Hyde), matching lat/lng.",
+  "facts": [
+   {
+    "text": "A dive bar.",
+    "url": "https://www.nlslimo.com/nightlife/profile/club-kristi/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6191250683",
+  "name": "Club Malibu",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Directories list Club Malibu at 3395 Mission St; no citable facts found.",
+  "facts": []
+ },
+ {
+  "id": "osm-n1616322287",
+  "name": "Club Mari's / Mogura",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://marismogura.com/",
+  "notFound": false,
+  "searches": 2,
+  "note": "Mari's Mogura site says it relocated to Waikiki, Honolulu. Other sources list Club Mari's at 1581 Webster St (Japantown mall), not 1825 Webster; address discrepancy.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10043936904",
+  "name": "Cold Drinks Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Located above the China Live restaurant.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/cold-drinks-bar"
+   },
+   {
+    "text": "Reached by an unmarked staircase leading to a yellow door.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/cold-drinks-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n440106745",
+  "name": "Columbus Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1935 at 430 Columbus Avenue, built for longshoremen and waterfront workers.",
+    "url": "https://columbuscafesf.com/"
+   },
+   {
+    "text": "Moved to its Green Street location in 1948.",
+    "url": "https://columbuscafesf.com/"
+   },
+   {
+    "text": "Bought in 2020 by three longtime employees.",
+    "url": "https://columbuscafesf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3931486659",
+  "name": "Comix Experience",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has operated from the same location under the same ownership since April Fool's Day 1989.",
+    "url": "https://brian-hibbs.squarespace.com/info"
+   },
+   {
+    "text": "Owner Brian Hibbs writes the comics retail column Tilting at Windmills.",
+    "url": "https://brian-hibbs.squarespace.com/info"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61690921",
+  "name": "Comstock Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Housed in a building that has held several bars since 1907.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   },
+   {
+    "text": "Predecessor in the space was San Francisco Brewing Company, 1985 to 2012.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   },
+   {
+    "text": "Owned by bartenders Jeff Hollinger and Jonny Raglin.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4614040551",
+  "name": "Convivium Enoteca",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/convivium-enoteca-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: 'CONVIVIUM ENOTECA - CLOSED - Updated February 2026 - 516 Green St'. Page for Convivium Enoteca at 516 Green St, North Beach, matching lat/lng.",
+  "facts": []
+ },
+ {
+  "id": "osm-n2318159223",
+  "name": "Copper",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Copper Bar Kitchen & Microbrewery at 4092 18th St.",
+  "facts": [
+   {
+    "text": "A bar and microbrewery that brews its beer on site.",
+    "url": "https://coppersf.com/"
+   },
+   {
+    "text": "An LGBTQ owned and operated business.",
+    "url": "https://coppersf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4086989798",
+  "name": "Cresta's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Cresta's Twenty Two Eleven Club at 2211 Polk St, between Vallejo and Green; matches lat/lng.",
+  "facts": [
+   {
+    "text": "Formally named Cresta's Twenty Two Eleven Club.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g60713-d7686283-Reviews-Cresta_s_Twenty_Two_Eleven_Club-San_Francisco_California.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n370196794",
+  "name": "Custom Lounge",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "No result names a Custom Lounge in SoMa near this location.",
+  "facts": []
+ },
+ {
+  "id": "osm-n1613829042",
+  "name": "DaDa Bar",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://hoodline.com/2016/03/popular-fidi-bar-dada-moving-tripling-its-size/",
+  "notFound": false,
+  "searches": 1,
+  "note": "DaDa left 86 2nd St in 2016 for 65 Post St (Hoodline 2016; 2017 article on the new Mechanics' Institute space).",
+  "facts": []
+ },
+ {
+  "id": "osm-n4516187333",
+  "name": "Dahlia",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a tequila and mezcal bar called the Tulum Room.",
+    "url": "https://dahliasf.com/"
+   },
+   {
+    "text": "The main bar has a DJ booth and a live music stage.",
+    "url": "https://dahliasf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n302448211",
+  "name": "Dalva",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a speakeasy called The Hideout in its back room.",
+    "url": "https://www.sfgate.com/food/article/san-francisco-speakeasy-hideout-returns-to-dalva-17390335.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61673273",
+  "name": "Danny Coyle's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named after Danny Coyle, the father of owner Brian Coyle.",
+    "url": "https://archives.sfexaminer.com/sanfrancisco/at-danny-coyles-each-bartender-is-a-new-experience/Content?oid=2176355"
+   },
+   {
+    "text": "Brian Coyle bought the bar in 2006, when it was called An Bodhran.",
+    "url": "https://archives.sfexaminer.com/sanfrancisco/at-danny-coyles-each-bartender-is-a-new-experience/Content?oid=2176355"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11328214993",
+  "name": "Dawn Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Dawn Club at 10 Annie St, matches lat/lng.",
+  "facts": [
+   {
+    "text": "The original Dawn Club was a 1930s and 1940s jazz venue in the Monadnock Building.",
+    "url": "https://www.dawnclub.com/history"
+   },
+   {
+    "text": "Its jazz shows were broadcast as Air Shots From The Dawn Club from 1940 to 1945.",
+    "url": "https://www.dawnclub.com/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10977609709",
+  "name": "Decant SF",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/decant-sf-bottle-shop-and-bar-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: 'DECANT SF BOTTLE SHOP & BAR - CLOSED - Updated September 2026 - 1168 Folsom St'.",
+  "facts": []
+ },
+ {
+  "id": "osm-n819444992",
+  "name": "DecoDance Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An Art Deco style cocktail bar.",
+    "url": "https://www.decodancesf.com/"
+   }
+  ]
+ }
+]
