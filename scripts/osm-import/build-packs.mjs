@@ -57,7 +57,9 @@ const used = new Set(ALL_LANDMARKS.flatMap((l) => l.images || []));
 for (const f of otherPackFiles) for (const p of JSON.parse(fs.readFileSync(path.join('public', f), 'utf8'))) for (const u of p.images) used.add(u);
 
 const photoSkips = [];
-const places = staged.map((p) => withWebFacts(p, webFacts)).map((p) => {
+// Underscore fields (stage.mjs `_area`) are working notes, not pack data.
+const strip = (p) => Object.fromEntries(Object.entries(p).filter(([k]) => !k.startsWith('_')));
+const places = staged.map((p) => withWebFacts(strip(p), webFacts)).map((p) => {
   const r = photoOf.get(p.id);
   if (!r) return keptCredits.has(p.id) ? { ...p, imageCredits: keptCredits.get(p.id) } : p;
   const skip = (why) => (photoSkips.push({ id: p.id, name: p.name, why }), p);

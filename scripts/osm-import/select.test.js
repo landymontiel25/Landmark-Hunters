@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { selectPlaces, tierOf, isPocketPark, richness } from './select.js';
-import { importRegion, inVillanovaBox, PHILLY_SHAPE } from './regions.js';
-import { insideShape } from './transform.js';
+import { selectPlaces, tierOf, isPocketPark, richness, selectCurated, curatedTierOf, curatedSkip, isChain, roundRobin } from './select.js';
+import { importRegion, inVillanovaBox, PHILLY_SHAPE, SF_SHAPE, SJ_DOWNTOWN_SHAPE, SV_TOWNS, nearestNeighborhood } from './regions.js';
+import { insideShape, overpassQuery } from './transform.js';
 
 const place = (id, name, category, topic, extra = {}) => ({ id, name, categories: [category], topic, facts: [], lat: 39.95, lng: -75.16, ...extra });
 const VILLANOVA = [40.0375, -75.3425];
@@ -93,5 +93,94 @@ describe('import regions', () => {
     expect(miami.packRegions).toEqual(['miami']);
     expect(miami.packRegionOf(25.77, -80.19)).toBe('miami');
     expect(() => importRegion('atlantis')).toThrow(/unknown import region/);
+  });
+});
+
+describe('curated selection (San Francisco, Silicon Valley)', () => {
+  const sfPlace = (id, name, category, topic, extra = {}) => place(id, name, category, topic, { lat: 37.77, lng: -122.42, ...extra });
+  const rich = { website: 'https://x', opening_hours: 'Mo-Su 08:00-17:00', cuisine: 'thai' };
+
+  it('ranks researched picks, Wikidata places and culture above bars and food', () => {
+    const overrides = { 'osm-n1': { include: { region: 'sf' } } };
+    expect(curatedTierOf(sfPlace('osm-n1', 'Starbucks Reserve', 'food', 'café'), { brand: 'Starbucks' }, { overrides })).toBe('curated');
+    expect(curatedTierOf(sfPlace('osm-n2', 'SFMOMA', 'art-museums', 'museum', { wikidata: 'Q1' }), {})).toBe('landmark');
+    expect(curatedTierOf(sfPlace('osm-n3', 'Small Gallery', 'art-museums', 'art gallery'), { website: 'https://g' })).toBe('culture');
+    expect(curatedTierOf(sfPlace('osm-n4', 'Bare Gallery', 'art-museums', 'art gallery'), {})).toBe(null);
+    expect(curatedTierOf(sfPlace('osm-n5', 'Trick Dog', 'local-life', 'bar'), rich)).toBe('nightlife');
+    expect(curatedTierOf(sfPlace('osm-n6', 'Kin Khao', 'food', 'Thai restaurant'), rich)).toBe('fill');
+  });
+
+  it('skips chains, members-only clubs, courts, malls and plaques', () => {
+    expect(curatedSkip(sfPlace('osm-n1', 'Starbucks', 'food', 'café'), {})).toBe('chain branch');
+    expect(curatedSkip(sfPlace('osm-n2', 'Corner Cafe', 'food', 'café'), { brand: 'Some Chain' })).toBe('chain branch');
+    expect(isChain(sfPlace('osm-n3', 'Tartine Manufactory', 'food', 'bakery'))).toBe(false);
+    expect(curatedSkip(sfPlace('osm-n4', 'The Battery', 'local-life', 'bar'), { access: 'members' })).toBe('private or members-only');
+    expect(curatedSkip(sfPlace('osm-n5', 'Moscone Rec Tennis Courts', 'sports', 'tennis court'), {})).toBe('court or field');
+    expect(curatedSkip(sfPlace('osm-n6', 'Westfield', 'local-life', 'mall'), {})).toBe('shop');
+    expect(curatedSkip(sfPlace('osm-n7', 'Some Plaque', 'history-culture', 'memorial'), {})).toMatch(/heritage/);
+    expect(curatedSkip(sfPlace('osm-n8', 'Old Mint', 'history-culture', 'historic site'), { 'ref:nrhp': '1' })).toBe(null);
+  });
+
+  it('spreads the fill across areas instead of filling from the densest one', () => {
+    const e = (id, area, score) => ({ p: { id, area }, score });
+    const picked = roundRobin([e('a1', 'A', 9), e('a2', 'A', 8), e('a3', 'A', 7), e('b1', 'B', 3), e('c1', 'C', 4)], 4, (p) => p.area);
+    expect(picked.map((x) => x.p.id).sort()).toEqual(['a1', 'a2', 'b1', 'c1']);
+  });
+
+  it('caps bars at their share, keeps bare records out and hits the target with food', () => {
+    const tagsById = new Map();
+    const places = [];
+    for (let i = 0; i < 10; i++) {
+      places.push(sfPlace(`osm-n${100 + i}`, `Bar ${i}`, 'local-life', 'bar'));
+      tagsById.set(`osm-n${100 + i}`, rich);
+      places.push(sfPlace(`osm-n${200 + i}`, `Food ${i}`, 'food', 'restaurant'));
+      tagsById.set(`osm-n${200 + i}`, i < 8 ? rich : {});
+    }
+    places.push(sfPlace('osm-n300', 'Museum', 'art-museums', 'museum', { wikidata: 'Q9' }));
+    const { selected, tiers, notSelected } = selectCurated(places, { tagsById, target: 10, nightlifeShare: 0.2, areaOf: () => 'x' });
+    expect(tiers).toEqual({ curated: 0, landmark: 1, culture: 0, nightlife: 2, fill: 7 });
+    expect(selected).toHaveLength(10);
+    expect(notSelected.find((p) => p.id === 'osm-n209').why).toBe('too few OSM details for its kind');
+  });
+});
+
+describe('San Francisco and Silicon Valley import areas', () => {
+  it('covers San Francisco city proper on land, and nothing past the county line or in the water', () => {
+    const sf = importRegion('sf');
+    expect(sf.packRegions).toEqual(['san-francisco']);
+    for (const [lat, lng] of [
+      [37.7956, -122.3935], // Ferry Building
+      [37.8087, -122.4098], // Pier 39
+      [37.8107, -122.4772], // Fort Point
+      [37.7804, -122.5137], // Sutro Baths
+      [37.7151, -122.4987], // Fort Funston
+      [37.7135, -122.3863], // Candlestick Point
+      [37.7286, -122.3577], // Hunters Point
+      [37.7598, -122.4148], // Mission
+      [37.7694, -122.4862], // Golden Gate Park
+      [37.7576, -122.3892], // Dogpatch
+    ])
+      expect(insideShape(lat, lng, SF_SHAPE)).toBe(true);
+    for (const [lat, lng] of [
+      [37.6879, -122.4702], // Daly City
+      [37.6808, -122.3999], // Brisbane
+      [37.8235, -122.3707], // Treasure Island
+      [37.8, -122.37], // the bay
+      [37.75, -122.53], // the ocean
+      [37.8267, -122.4233], // Alcatraz
+      [37.8044, -122.2712], // Oakland
+    ])
+      expect(insideShape(lat, lng, SF_SHAPE)).toBe(false);
+    expect(nearestNeighborhood(37.7599, -122.4148)).toBe('Mission');
+    expect(nearestNeighborhood(37.8008, -122.4098)).toBe('North Beach');
+  });
+
+  it('pulls Silicon Valley town by town plus downtown San Jose', () => {
+    const sv = importRegion('sv');
+    expect(sv.parts.map((p) => p.name)).toEqual([...SV_TOWNS, 'Downtown San Jose']);
+    expect(insideShape(37.3361, -121.8906, SJ_DOWNTOWN_SHAPE)).toBe(true); // Plaza de César Chávez
+    expect(insideShape(37.3333, -121.8907, SJ_DOWNTOWN_SHAPE)).toBe(true); // Tech Interactive
+    expect(insideShape(37.3209, -121.9473, SJ_DOWNTOWN_SHAPE)).toBe(false); // Santana Row
+    expect(overpassQuery(sv.shape, [], { town: 'Palo Alto' })).toContain('["admin_level"="8"]["name"="Palo Alto"](37.15,-122.55,37.7,-121.6)');
   });
 });
