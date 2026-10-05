@@ -1,0 +1,353 @@
+[
+ {
+  "id": "osm-n4628571737",
+  "name": "Gallery 444",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Confirmed at 444 Post St via listings; no single page tied to a fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-n2627794649",
+  "name": "Gallery Paule Anglim",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Anglim/Trimble (successor) is now at 1275 Minnesota St; no result states the Geary St gallery closed, so not marked closed.",
+  "facts": []
+ },
+ {
+  "id": "osm-n11511552469",
+  "name": "Gallery-O-Rama",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Located at 1920 Polk St (Polk Gulch).",
+  "facts": [
+   {
+    "text": "Female-owned, started by artists and educators.",
+    "url": "https://www.galleryorama.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9590578299",
+  "name": "Gefen Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Yelp title lists 315 Grant Ave as temporarily closed (June 2026); not treated as closed.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9849528031",
+  "name": "Glass Rice",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Held a 10th anniversary group exhibition at the gallery.",
+    "url": "https://www.artbae.info/openings-and-events/im-so-happy-you-are-here-10th-anniversary-group-exhibition-glass-rice-saxg8"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321383070",
+  "name": "GLBT History Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated by the GLBT Historical Society, which grew from a gay periodical archive started by Willie Walker and Greg Pennington.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1485978376",
+  "name": "Goethe Institut",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.goethe.de/ins/us/en/sta/sfr/ueb/new.html",
+  "notFound": false,
+  "searches": 3,
+  "note": "Goethe-Institut San Francisco moved from Bush Street to 657 Howard Street (reopened Oct 24, 2024); point is the old Bush St location, no address in input.",
+  "facts": []
+ },
+ {
+  "id": "osm-n13696195684",
+  "name": "Gray Area",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Confirmed at Grand Theater, 2665 Mission St; no single page tied to a fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-w288365549",
+  "name": "Greater Farallones Marine Sanctuary Visitor Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Presidio page gives address 991 Marine Dr (same site).",
+  "facts": [
+   {
+    "text": "Housed in a historic former Coast Guard station at the west end of Crissy Field.",
+    "url": "https://presidio.gov/explore/attractions/greater-farallones-national-marine-sanctuary-visitor-center"
+   },
+   {
+    "text": "Exhibits include a plankton microscope, serrated shark teeth, blue whale baleen and small aquariums.",
+    "url": "https://presidio.gov/explore/attractions/greater-farallones-national-marine-sanctuary-visitor-center"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256993595",
+  "name": "Haas-Lilienthal House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by Bavarian architect Peter R. Schmidt for William and Bertha Haas.",
+    "url": "https://en.wikipedia.org/wiki/Haas%E2%80%93Lilienthal_House"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12637192282",
+  "name": "Hailey Malaika Olympia Clarke",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "Only an artist studio website and Instagram (hmocstudios) found; no gallery at this spot confirmed.",
+  "facts": []
+ },
+ {
+  "id": "osm-n6242792043",
+  "name": "Hashimoto Contemporary",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.hashimotocontemporary.com/exhibitions/229-inaugural-minnesota-street-project-exhibition/",
+  "notFound": false,
+  "searches": 4,
+  "note": "Search summary says it opened at 1275 Minnesota St on March 4, 2023 after nine years at its Sutter St location; summary text, page title only names the Minnesota Street Project exhibition. Flag for review.",
+  "facts": []
+ },
+ {
+  "id": "osm-n6960882346",
+  "name": "Heaven Art Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Listing says 444 Grant Ave was most recently leased to Heaven Art Gallery and is offered for sale; business filing suspended; current status unclear, not marked closed.",
+  "facts": []
+ },
+ {
+  "id": "osm-n12996561466",
+  "name": "Hosfelt Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1996 by Todd Hosfelt.",
+    "url": "https://en.wikipedia.org/wiki/Hosfelt_Gallery"
+   },
+   {
+    "text": "Moved into its 8,900-square-foot Utah Street space in 2012.",
+    "url": "https://en.wikipedia.org/wiki/Hosfelt_Gallery"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10656580601",
+  "name": "House of Seiko",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Yelp title lists the watch-repair business as closed (Mar 2026), but gallery exhibitions ran at this address in 2025-2026; not marked closed.",
+  "facts": [
+   {
+    "text": "Hosted an exhibition by New York artist Jay Payton in early 2026.",
+    "url": "https://www.artbae.info/events/jay-payton-tom-koehler-house-of-seiko"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12637859034",
+  "name": "hugomento: Storied Art & Objects",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned and curated by Hugo Lai, who opened it in 2016 with pieces from his own collection.",
+    "url": "https://indogpatch.blogspot.com/2018/05/hugomento.html"
+   },
+   {
+    "text": "Sells ceramics and textiles in a hybrid gallery and concept shop format.",
+    "url": "https://indogpatch.blogspot.com/2018/05/hugomento.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13731317563",
+  "name": "Incline Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Confirmed at 766 Valencia St (rear); no single page tied to a fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-n5735235209",
+  "name": "Inclusions Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Confirmed at 627 Cortland Ave; no single page tied to a fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10610311544",
+  "name": "Ingleside Gallery",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.inglesidelight.com/ingleside-gallery-to-close-hold-blowout-art-sale/",
+  "notFound": false,
+  "searches": 3,
+  "note": "Left its 1507 Ocean Ave storefront in 2022 (closing sale Aug 12-14); continues only as pop-ups, e.g. at Ballast Coffee.",
+  "facts": []
+ },
+ {
+  "id": "osm-w288511103",
+  "name": "Institute of Contemporary Art San Francisco",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.kqed.org/arts/13983013/ica-san-francisco-nomadic-museum-cube-sf-art-week",
+  "notFound": false,
+  "searches": 3,
+  "note": "ICA SF left 345 Montgomery St (The Cube) after shows closed Dec 7, 2025 to become nomadic.",
+  "facts": []
+ },
+ {
+  "id": "osm-n5134506932",
+  "name": "International Art Museum of America",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Originally named the Superb Art Museum of America.",
+    "url": "https://en.wikipedia.org/wiki/International_Art_Museum_of_America"
+   },
+   {
+    "text": "Founded by artist H. H. Dorje Chang Buddha III, whose works it first displayed.",
+    "url": "https://en.wikipedia.org/wiki/International_Art_Museum_of_America"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6693646147",
+  "name": "Japantown Peace Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Housed in the former Uoki Sakai Fish Market building, headquarters of the National Japanese American Historical Society.",
+    "url": "https://en.wikipedia.org/wiki/National_Japanese_American_Historical_Society"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8727307961",
+  "name": "Jessica Silverman",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2008 by Jessica Silverman.",
+    "url": "https://artdealers.org/gallery/jessica-silverman"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4046025013",
+  "name": "John Pence Gallery",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/john-pence-gallery-san-francisco",
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp title (updated Feb 2026) marks 750 Post St as CLOSED; the gallery's own site is an old static page with no dates.",
+  "facts": []
+ },
+ {
+  "id": "osm-n12816785358",
+  "name": "Jonathan Carver Moore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Added an artist residency program to the gallery.",
+    "url": "https://www.kqed.org/arts/13955879/jonathan-carver-moore-gallery-residency-market-street"
+   }
+  ]
+ }
+]
