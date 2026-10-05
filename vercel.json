@@ -21,12 +21,17 @@
       "maxDuration": 30
     },
     "api/admin-stats.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "public/places/**"
     },
     "api/study-summary.js": {
       "maxDuration": 60
     },
     "api/pick-reasons.js": {
+      "includeFiles": "public/places/**"
+    },
+    "api/mapr-nightly.js": {
+      "maxDuration": 60,
       "includeFiles": "public/places/**"
     }
   },
@@ -34,6 +39,10 @@
     {
       "path": "/api/study-summary",
       "schedule": "17 6 * * *"
+    },
+    {
+      "path": "/api/mapr-nightly",
+      "schedule": "23 0 * * *"
     }
   ],
   "headers": [

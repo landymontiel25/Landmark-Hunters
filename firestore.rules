@@ -336,6 +336,29 @@ service cloud.firestore {
     match /study_summaries/{day} {
       allow read, write: if false;
     }
+    // Mapr Phase 1 (src/lib/maprRank, api/mapr-nightly.js). The nightly job
+    // writes all of these with the Admin SDK; no client ever writes.
+    // Shared model docs (NCF weights + landmark embeddings, trending counts,
+    // job status) and the per-region similarity matrices hold no per-user
+    // data, so any signed-in app can read them for on-device ranking.
+    match /mapr_models/{docId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+    match /mapr_similarity/{region} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+    // One user's own NCF embedding and stagnation flag: owner-only read; the
+    // owner may delete it (account deletion), never write it.
+    match /mapr_user_models/{uid} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if false;
+    }
+    // Daily Mapr metrics reports: server only, like study_summaries.
+    match /mapr_metrics/{day} {
+      allow read, write: if false;
+    }
     // Who the admin account's uid is, so a feature request / bug report can
     // notify them without anyone being able to look people up by email. Set
     // by the admin's own client at sign-in.

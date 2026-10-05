@@ -5,6 +5,9 @@ import { tierStars, isVisitedReview } from './ratingFlow';
 import { linksFrom, primaryCategory } from './preferenceChains';
 import { formatDistance } from './formatDistance';
 import { placeKinds, kindSimilarity, kindAffinity, kindBoost } from './placeKinds.js';
+import { scorePicks, planExploration } from './maprRank/rank.js';
+import { assignSlots } from './maprRank/exploration.js';
+import { FEATURES } from './maprRank/config.js';
 
 // "Picked for you right now": nearby picks ranked on-device from the saved
 // tag scores (tagScores.js usualPicks / discoveryPicks), filtered to what is
@@ -415,18 +418,25 @@ export function toPick(l, extra = {}) {
 //   fresh -- "something new": categories rated little or never (discoveryPicks)
 // Ranking spans every region inside the distance filter, since a 30-mile
 // circle around Miami also covers Coral Gables and Key Biscayne.
-// Distance is a real ranking factor: every mile away costs this many tag-
-// score points (one "Highly recommend" is worth 10), so between two places
-// the user likes about equally the closer one wins, and a far place needs a
-// clearly better fit to outrank a near one.
+// Distance is a real ranking factor. For signed-in users in the Phase 1
+// distance-decay rollout (src/lib/maprRank), the tag score is multiplied by
+// 1 / (1 + km / 1.5) -- see maprRank/rank.js scorePicks. Everyone else (and
+// any call without a uid) keeps the older rule below: every mile away costs
+// this many tag-score points (one "Highly recommend" is worth 10).
 export const DISTANCE_PENALTY_PER_MILE = 1.5;
 export const rankScore = (p) => (p.tagScore || 0) - (p.distanceMeters / METERS_PER_MILE) * DISTANCE_PENALTY_PER_MILE;
 
 // fillNew (the Test tab): "Something new" normally means a category you have
 // rated little in this region, so an active user can run out of them. With
 // fillNew, any place you have not rated counts as new once those run out.
-export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null, fillNew = false }) {
-  if (!origin) return { usual: [], fresh: [], favorites: [] };
+//
+// Phase 1 inputs (all optional; without them ranking is as before):
+//   uid         decides the user's feature variants (maprRank/experiments.js)
+//   models      { similarity, ncf, userEmbedding, signals } (maprRank/modelStore.js)
+//   visitedIds  landmark ids with a real check-in (telemetry `revisit`)
+//   explore     exploration context, see maprRank/rank.js planExploration
+export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, checkinCounts = {}, now = Date.now(), date = new Date(now), overrides = null, extraPlaces = null, fillNew = false, uid = null, models = null, visitedIds = null, explore = null, features = FEATURES }) {
+  if (!origin) return { usual: [], fresh: [], favorites: [], exploration: null, meta: null };
   const lowRated = lowRatedIds(myReviews);
   // Anything already rated AND visited (like Plan Your Trip and Mapr Travel
   // Picks) is not a pick: "Picked for you" shouldn't suggest a place they've
@@ -481,12 +491,37 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
     const boost = kindBoost(byKey.get(pickKey(p)) || p, affinity);
     if (boost) p.tagScore = Math.round(((p.tagScore || 0) + boost) * 10) / 10;
   }
-  const best = (a, b) => rankScore(b) - rankScore(a) || a.distanceMeters - b.distanceMeters;
   const usualKeys = new Set(usual.map(pickKey));
+  const scored = scorePicks({ usual, fresh: fresh.filter((p) => !usualKeys.has(pickKey(p))), uid, myReviews, models, visitedIds, features });
+  let exploration = null;
+  try {
+    exploration = uid
+      ? planExploration({
+          uid,
+          usual: scored.usual,
+          fresh: scored.fresh,
+          features,
+          ctx: {
+            myReviews,
+            now,
+            profileOf: (region) => effectiveTagScores(profile, region, now),
+            ...(explore || {}),
+            // Public ratings ({ [landmarkId]: { avg, count } }, RatingsContext).
+            ratingOf: (p) => explore?.ratings?.[p.id] || null,
+            trendOf: (p) => models?.signals?.trending?.[pickKey(p)] || 0,
+          },
+        })
+      : null;
+  } catch {
+    exploration = null;
+    scored.meta.fallbacks.push('exploration-error');
+  }
   return {
-    usual: usual.sort(best),
-    fresh: fresh.filter((p) => !usualKeys.has(pickKey(p))).sort(best),
+    usual: scored.usual,
+    fresh: scored.fresh,
     favorites: favoritePlaces({ origin, miles, myReviews, date, overrides, extraPlaces }),
+    exploration,
+    meta: scored.meta,
   };
 }
 
@@ -513,7 +548,14 @@ export function chainedPick({ usual = [], fresh = [], links = [], lastCategory =
 // next one in the same queue takes its place.
 //   order: usual, usual, new, usual -- so the three in the collapsed sheet
 //   are two usual + the one new, and the full four are three usual + one new.
-export function composePicks({ usual = [], fresh = [], chained = null, count = PICKS_SHOWN, isReady = hasPhoto }) {
+//
+// With `exploration` (the Phase 1 exploration treatment, see
+// maprRank/rank.js planExploration), the fixed "one new" slot is replaced by
+// epsilon-greedy: each open slot explores with probability epsilon (drawn
+// from `rng`), taking the next place from the exploration set; the rest take
+// the best exploitation pick. Either queue running dry falls back to the
+// other, so the set is always full.
+export function composePicks({ usual = [], fresh = [], chained = null, count = PICKS_SHOWN, isReady = hasPhoto, exploration = null, rng = Math.random }) {
   const ready = (p) => p && (!hasPhoto(p) || isReady(p));
   const used = new Set();
   const take = (queue) => {
@@ -523,6 +565,21 @@ export function composePicks({ usual = [], fresh = [], chained = null, count = P
   };
   const chain = ready(chained) ? chained : null;
   if (chain) used.add(pickKey(chain));
+  if (exploration?.explore) {
+    const slots = assignSlots(count - (chain ? 1 : 0), exploration.epsilon, rng);
+    const exploitQ = exploration.exploit?.length ? exploration.exploit : [...usual, ...fresh];
+    const list = chain ? [{ ...chain, slot: 'exploit' }] : [];
+    for (const slot of slots) {
+      const first = slot === 'explore' ? exploration.explore : exploitQ;
+      const second = slot === 'explore' ? exploitQ : exploration.explore;
+      const fromFirst = take(first);
+      const p = fromFirst || take(second);
+      if (!p) break;
+      const explored = fromFirst ? slot === 'explore' : slot !== 'explore';
+      list.push(explored ? { ...p, pickType: 'new', slot: 'explore' } : { ...p, slot: 'exploit' });
+    }
+    return list.slice(0, count);
+  }
   const newPick = chain?.pickType === 'new' ? null : take(fresh);
   // A chained pick that is itself "new" already fills the one new slot.
   const usualSlots = count - (chain ? 1 : 0) - (newPick ? 1 : 0);

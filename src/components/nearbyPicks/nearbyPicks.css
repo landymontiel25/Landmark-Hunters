@@ -685,3 +685,38 @@ body.pin-placing .map-picks {
 .mpp-sheet.dragging {
   transition: none;
 }
+
+/* "Shake things up?" (ShakeUpCard.jsx) */
+.mpp-shake-text {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.mpp-shake-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mpp-shake-btn,
+.mpp-shake-dismiss {
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mpp-shake-btn {
+  border: 1px solid var(--mapr-blue);
+  background: var(--mapr-blue-soft);
+  color: var(--text-primary);
+}
+
+.mpp-shake-dismiss {
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-secondary);
+}

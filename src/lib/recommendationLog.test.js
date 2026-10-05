@@ -65,3 +65,48 @@ describe('makeSetId', () => {
     expect(makeSetId('u', 5)).not.toBe(makeSetId('u', 5));
   });
 });
+
+describe('Mapr Phase 1 telemetry on shown rows', () => {
+  it('writes only known, typed telemetry fields', async () => {
+    const { telemetryFields } = await import('./recommendationLog');
+    const t = telemetryFields({
+      rankPosition: 2,
+      scoreBeforeDecay: 30,
+      distanceKm: 0.84,
+      decayMultiplier: 0.64,
+      scoreAfterDecay: 19.2,
+      collabBoost: 0.05,
+      ncfScore: 0.71,
+      finalScore: 0.6,
+      explore: true,
+      noveltyScore: 0.8,
+      epsilon: 0.2,
+      epsilonReason: 'base',
+      rankLatencyMs: 4.2,
+      revisit: false,
+      fallbacks: ['ncf-no-user', 42],
+      variants: { ncf: 'treatment', exploration: 'control', bogus: 'x', distanceDecay: 'weird' },
+      userEmail: 'nope@example.com',
+    });
+    expect(t).toMatchObject({ telemetry: true, rankPosition: 2, distanceKm: 0.84, ncfScore: 0.71, explore: true, fallbacks: ['ncf-no-user'], variants: { ncf: 'treatment', exploration: 'control' } });
+    expect(t.userEmail).toBeUndefined();
+    expect(telemetryFields({ ncfScore: 7, distanceKm: -1, rankPosition: 0 })).toMatchObject({ ncfScore: 1, distanceKm: 0, rankPosition: null });
+    expect(telemetryFields(null)).toEqual({});
+  });
+
+  it('adds them to a row only for picks that carry telemetry', () => {
+    const [withT, without] = recommendationEntries({
+      uid: 'u1',
+      source: 'map-picks',
+      surface: 'map-sheet',
+      setId: 's',
+      stops: [
+        { id: 'a', region: 'milan', telemetry: { distanceKm: 1, variants: { ncf: 'control' } } },
+        { id: 'b', region: 'milan' },
+      ],
+    });
+    expect(withT).toMatchObject({ telemetry: true, distanceKm: 1, variants: { ncf: 'control' } });
+    expect(without.telemetry).toBeUndefined();
+    expect(without.distanceKm).toBeUndefined();
+  });
+});

@@ -28,6 +28,7 @@ import {
   SIMILAR_MIN_MI,
   unratedPlaces,
   SHEET_PICKS,
+  regionsWithin,
 } from '../../lib/nearbyPicks';
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
 import { useUnits } from '../../lib/UnitsContext';
@@ -40,6 +41,10 @@ import BecauseYouLikedRow from './BecauseYouLikedRow';
 import MoodCarousel from './MoodCarousel';
 import MealCard from './MealCard';
 import NearbyInterestCard from './NearbyInterestCard';
+import ShakeUpCard from './ShakeUpCard';
+import { loadMaprModels } from '../../lib/maprRank/modelStore.js';
+import { readSeen } from '../../lib/maprRank/seenHistory.js';
+import { readLocalFeedback } from '../../lib/pickFeedback';
 import './nearbyPicks.css';
 
 // "Picked for you right now" over the Map tab's live map: the top three
@@ -135,7 +140,30 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
   const state = locked ? 'locked' : !origin && geoError ? 'no-location' : 'ready';
 
-  const { picks: builtPicks, setId, updating, slow, usual, showDifferent, refreshing } = useNearbyPicks({
+  // Mapr Phase 1 (src/lib/maprRank): the models the nightly job publishes,
+  // for the regions inside the distance; null until loaded (ranking works
+  // without them).
+  const regionKey = useMemo(() => (origin ? regionsWithin(origin, miles).sort().join(',') : ''), [origin, miles]);
+  const [models, setModels] = useState(null);
+  useEffect(() => {
+    if (!uid || locked || !regionKey) return undefined;
+    let cancelled = false;
+    loadMaprModels({ uid, regions: regionKey.split(',') })
+      .then((m) => !cancelled && setModels(m))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [uid, locked, regionKey]);
+  const visitedIds = useMemo(() => new Set(checkins.filter(isRealCheckin).map((c) => c.landmarkId)), [checkins]);
+  const createdAtMs = myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : Number.isFinite(myProfile?.createdAt) ? myProfile.createdAt : null;
+  // Re-read on each clock tick so a set built later sees what was shown since.
+  const explore = useMemo(
+    () => (uid ? { createdAtMs, shown: readSeen(uid), votes: readLocalFeedback(uid), ratings, serverStagnating: models?.serverStagnating === true } : null),
+    [uid, createdAtMs, ratings, models, now] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const { picks: builtPicks, setId, updating, slow, usual, showDifferent, refreshing, stagnating } = useNearbyPicks({
     uid,
     enabled: state === 'ready' && !!origin,
     online,
@@ -150,6 +178,9 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     overrides,
     extraPlaces: customLandmarks,
     fillNew: showRefresh,
+    models,
+    visitedIds,
+    explore,
   });
 
   // A saved set keeps the distances from when it was built, which is up to
@@ -239,6 +270,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         origin={origin}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
+        {!showRefresh && <ShakeUpCard uid={uid} show={stagnating && online} onShake={showDifferent} />}
         <BecauseYouLikedRow liked={liked} places={similar} uid={uid} origin={origin} />
         {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} />}
         {!showRefresh && <MealCard places={meal} />}

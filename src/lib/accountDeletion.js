@@ -3,6 +3,7 @@ import { ref, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { deleteMyReview } from './reviews';
 import { clearPickMarks } from './pickMarks';
+import { clearSeen } from './maprRank/seenHistory.js';
 import { clearLocalPickFeedback } from './pickFeedback';
 
 async function deletePhotoSafe(url) {
@@ -112,6 +113,7 @@ export async function deleteAccountData(uid) {
   await deleteWhere('blocks', 'blockerUid', uid);
   await deleteWhere('pick_feedback', 'userId', uid);
   clearPickMarks(uid); // the on-device pick memory (pickMarks.js)
+  clearSeen(uid); // the on-device "times shown" memory (maprRank/seenHistory.js)
   clearLocalPickFeedback(uid); // the device copy of taps and any still waiting to be sent (pickFeedback.js)
   await deleteWhere('planning_events', 'userId', uid);
   await deleteWhere('recommendation_log', 'userId', uid);
@@ -171,6 +173,13 @@ export async function deleteAccountData(uid) {
   // The taste score's history (users/{uid}/taste_history), same reason.
   try {
     await deleteAll(await getDocs(collection(db, 'users', uid, 'taste_history')));
+  } catch {
+    /* best-effort */
+  }
+  // Mapr's model doc for this user (NCF embedding, stagnation flag), written
+  // by the nightly job (mapr_user_models/{uid}).
+  try {
+    await deleteDoc(doc(db, 'mapr_user_models', uid));
   } catch {
     /* best-effort */
   }

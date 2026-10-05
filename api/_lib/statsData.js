@@ -56,6 +56,7 @@ export async function loadStatsData(db) {
         updatedAt: ms(x.updatedAt),
         createdAt: ms(x.createdAt),
         pickSetId: x.pickSetId,
+        region: x.region ?? null,
         disagreement: x.disagreement ? { reason: x.disagreement.reason } : null,
       };
     }),
@@ -75,11 +76,29 @@ export async function loadStatsData(db) {
         pickType: x.pickType ?? null,
         requestFor: x.requestFor,
         isTest: x.isTest === true,
+        // Mapr Phase 1 telemetry (src/lib/recommendationLog.js telemetryFields).
+        ...(x.telemetry === true
+          ? {
+              distanceKm: x.distanceKm ?? null,
+              scoreBeforeDecay: x.scoreBeforeDecay ?? null,
+              scoreAfterDecay: x.scoreAfterDecay ?? null,
+              collabBoost: x.collabBoost ?? null,
+              ncfScore: x.ncfScore ?? null,
+              finalScore: x.finalScore ?? null,
+              explore: x.explore === true,
+              noveltyScore: x.noveltyScore ?? null,
+              epsilon: x.epsilon ?? null,
+              rankLatencyMs: x.rankLatencyMs ?? null,
+              revisit: x.revisit === true,
+              fallbacks: Array.isArray(x.fallbacks) ? x.fallbacks : [],
+              variants: x.variants && typeof x.variants === 'object' ? x.variants : null,
+            }
+          : {}),
       };
     }),
     take('checkins', db.collection('checkins'), (d) => {
       const x = d.data();
-      return { userId: x.userId, createdAt: ms(x.createdAt), ratingOnly: x.ratingOnly === true };
+      return { userId: x.userId, createdAt: ms(x.createdAt), ratingOnly: x.ratingOnly === true, landmarkId: x.landmarkId ?? null, region: x.region ?? null };
     }),
     take('referrals', db.collection('referrals'), (d) => ({ referrerUid: d.data().referrerUid, referredUid: d.data().referredUid })),
     take('place_scores', db.collectionGroup('place_scores'), (d) => {
