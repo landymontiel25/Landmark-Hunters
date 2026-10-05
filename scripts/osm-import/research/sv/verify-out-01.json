@@ -210,5 +210,223 @@
     "note": "Page describes Community Recreation Node of these facilities"
    }
   ]
+ },
+ {
+  "id": "osm-w37877930",
+  "name": "Central Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The 52-acre park includes a community amphitheater, the Veterans Memorial and the International Swim Center.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/150/15258",
+    "verdict": "ok",
+    "note": "Facility page returned: 52 acres, amphitheater, Veterans Memorial; swim center is in the park (currently closed for rehab until 2027)"
+   },
+   {
+    "text": "Hosts the annual July 4th All-City Picnic and the Santa Clara Art & Wine Festival.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/150/15258",
+    "verdict": "unsupported",
+    "note": "Other santaclaraca.gov news pages state it; the cited facility page was not returned for this query"
+   }
+  ]
+ },
+ {
+  "id": "osm-w34852843",
+  "name": "San Jose Center for the Performing Arts",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1972 and designed by the Frank Lloyd Wright Foundation.",
+    "url": "https://sanjosetheaters.org/center-for-the-performing-arts-2/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The theater has 2,608 seats, 1,852 orchestra and 756 balcony.",
+    "url": "https://sanjosetheaters.org/center-for-the-performing-arts-2/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w163377931",
+  "name": "Los Altos History Museum",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The museum opened in 2001 in a three-level building built with private donations.",
+    "url": "https://en.wikipedia.org/wiki/Los_Altos_History_Museum",
+    "verdict": "unsupported",
+    "note": "Wikipedia result confirms opened 2001 only; three-level and private donations not stated there (they appear on losaltoshistory.org)"
+   },
+   {
+    "text": "The J. Gilbert Smith House, built in 1905, is a California Point of Historical Interest.",
+    "url": "https://punchmagazine.com/landmark-the-j-gilbert-smith-house/",
+    "verdict": "unsupported",
+    "note": "Punch result confirms California Historical Point of Interest but gives 1901 land purchase, not 1905 build date"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2406392063",
+  "name": "Prot\u00e9g\u00e9",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Founded by Chef Anthony Secviar and Master Sommelier Dennis Kelly, both French Laundry alumni.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Launched in 2018 with a multicourse tasting menu and a separate a la carte lounge menu.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w132746454",
+  "name": "Ettan",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Chef Srijith Gopinathan cooks upscale Indian food with Californian ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w132746416",
+  "name": "Zola",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Serves an upscale French bistro menu with Californian flair.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/zola",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/zola",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1781786926",
+  "name": "Madera",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The restaurant is inside the Rosewood Sand Hill hotel.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Uses an almond wood-fired grill and an open kitchen.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n13448480832",
+  "name": "Eylan",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A Bib Gourmand in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/eylan",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Chef Srijith Gopinathan blends regional Indian cooking with Californian ingredients on a wood-fired grill.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/eylan",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n8910826908",
+  "name": "Aurum",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Menu from Chef Manish Tyagi and owner Anupam Bhatia, serving Indian cuisine.",
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurant/aurum-1195363",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurant/aurum-1195363",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w257543153",
+  "name": "Chez TJ",
+  "closed": true,
+  "closedSource": "https://en.wikipedia.org/wiki/Chez_TJ (closed April 2026; Yelp also marks CLOSED)",
+  "facts": [
+   {
+    "text": "Housed in a 19th-century Victorian building.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves a contemporary French degustation menu.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the 2025 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
  }
 ]
