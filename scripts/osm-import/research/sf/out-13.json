@@ -1,0 +1,502 @@
+[
+ {
+  "id": "osm-n3375873393",
+  "name": "Un-Scripted Theater Company\u00ae",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Wikipedia uses past tense (2002 to 2020) but un-scripted.com is live, now titled SF Improv Theater, still at 533 Sutter St.",
+  "facts": [
+   {
+    "text": "An improvised theater company founded in 2002.",
+    "url": "https://en.wikipedia.org/wiki/The_Un-Scripted_Theater_Company"
+   },
+   {
+    "text": "Specializes in narrative and genre-based single-story improvised theater.",
+    "url": "https://en.wikipedia.org/wiki/The_Un-Scripted_Theater_Company"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260351423",
+  "name": "Victoria Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1908 as Brown's Opera House, a vaudeville house, by Edmund Joseph Brown.",
+    "url": "https://noehill.com/sf/landmarks/sf215.asp"
+   },
+   {
+    "text": "Renamed the 16th Street Theater in the 1930s and El Teatro Victoria in the 1950s, showing Spanish-language movies.",
+    "url": "https://noehill.com/sf/landmarks/sf215.asp"
+   },
+   {
+    "text": "Described as the oldest operating theatre in San Francisco.",
+    "url": "https://noehill.com/sf/landmarks/sf215.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n994226395",
+  "name": "Video Wave",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Matched to Video Wave of Noe Valley, 4027 24th St, near the given lat/lng.",
+  "facts": [
+   {
+    "text": "A video rental store that moved along 24th Street with customers helping fund and carry out the move.",
+    "url": "https://www.sfchronicle.com/bayarea/article/Customers-rescue-Noe-Valley-video-store-and-6486566.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w263646726",
+  "name": "Vogue Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1910 as the Elite Theatre, renamed Rex Theatre in 1919 and Plaza Theatre by 1932.",
+    "url": "https://cinematreasures.org/theaters/3394"
+   },
+   {
+    "text": "Reopened as the Vogue Theatre on July 1, 1938.",
+    "url": "https://cinematreasures.org/theaters/3394"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32865757",
+  "name": "War Memorial Veterans Building Herbst Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Site of the signing of the United Nations Charter on June 26, 1945.",
+    "url": "https://sfwarmemorial.org/herbst-theatre/"
+   },
+   {
+    "text": "Features Frank Brangwyn murals originally painted for the 1915 Panama-Pacific International Exposition.",
+    "url": "https://sfwarmemorial.org/herbst-theatre/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w206723692",
+  "name": "Warfield Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by architect G. Albert Lansburgh.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   },
+   {
+    "text": "Opened as the Loews Warfield, a vaudeville theater, and later became the Fox Warfield.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13293833298",
+  "name": "Westside Art House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Matched to Westside Art House, 540 Balboa St, near the given lat/lng; Yelp lists it updated Jan 2026 as a dance and movement studio.",
+  "facts": [
+   {
+    "text": "Opened in 2011 as part dance studio, part art gallery and part community center.",
+    "url": "https://richmondsfblog.com/2011/02/09/westside-art-house-opens-its-doors-on-balboa/"
+   },
+   {
+    "text": "Started by Marisa Gregory, a trained yoga instructor.",
+    "url": "https://richmondsfblog.com/2011/02/09/westside-art-house-opens-its-doors-on-balboa/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3860199126",
+  "name": "Wildlife Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched to the Wells Fargo Wildlife Theatre at San Francisco Zoo (lat/lng is at the zoo).",
+  "facts": [
+   {
+    "text": "Hosts summer wildlife shows on conservation and history, with free-flying birds of prey and animal ambassadors.",
+    "url": "https://www.sfzoo.org/wells-fargo-wildlife-theatre/"
+   },
+   {
+    "text": "Sits across from the Dentzel Carousel, next to Flamingo Lake.",
+    "url": "https://www.sfzoo.org/wells-fargo-wildlife-theatre/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4022645776",
+  "name": "Young Performers Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Located at Fort Mason Center, matching the given lat/lng.",
+  "facts": [
+   {
+    "text": "A nonprofit children's theatre founded by Matilda Kunin in 1983 in memory of her son Anthony.",
+    "url": "https://www.ypt.org/history"
+   },
+   {
+    "text": "Offers introductory acting classes to children as young as three.",
+    "url": "https://www.ypt.org/matilda-manning-kunin"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85888165",
+  "name": "29th & Diamond Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A small open space with a view over Noe Valley and beyond.",
+    "url": "https://sfrecpark.org/facilities/facility/details/29th-Diamond-Open-Space-322"
+   }
+  ]
+ },
+ {
+  "id": "osm-w68883459",
+  "name": "Adam Rodgers Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "City page names it Adam Rogers Park (Ingalls and Oakdale, Bayview).",
+  "facts": [
+   {
+    "text": "Has a community garden, basketball court, picnic area with built-in grills, and playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Adam-Rogers-Park-144"
+   }
+  ]
+ },
+ {
+  "id": "osm-w745183964",
+  "name": "Alamo Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a dual-level playground, an off-leash dog area, a tennis court, walking trails and a picnic area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alamo-Square-323/"
+   },
+   {
+    "text": "A renovation combining a restroom upgrade and water conservation work was completed in spring 2017.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alamo-Square-323/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w68886068",
+  "name": "Alice Chalmers Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a baseball diamond, basketball court, tennis courts and a community clubhouse with an after-school program.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alice-Chalmers-Playground-228"
+   },
+   {
+    "text": "Its playground was renovated, with a cubic fort tower, slide, swings and net climber installed by January 2020.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alice-Chalmers-Playground-228"
+   }
+  ]
+ },
+ {
+  "id": "osm-w68705976",
+  "name": "Allyne Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A quarter-acre park with a lawn area that can be reserved for picnics.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Allyne-Park-146"
+   }
+  ]
+ },
+ {
+  "id": "osm-w16751737",
+  "name": "Alta Plaza Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "The site of a former quarry, bought by the city in 1877 and established as a park in 1888.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alta-Plaza-Park-147"
+   },
+   {
+    "text": "Landscaped by Park Superintendent John McLaren, and has a tiered staircase up its terraced southern slope.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alta-Plaza-Park-147"
+   },
+   {
+    "text": "Has a children's playground, tennis courts, a basketball/pickleball court and a dog play area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alta-Plaza-Park-147"
+   }
+  ]
+ },
+ {
+  "id": "osm-w69032470",
+  "name": "Angelo Rossi Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "City page names it Angelo J. Rossi Playground (Anza Street and Arguello Boulevard).",
+  "facts": [
+   {
+    "text": "Has two baseball diamonds, an indoor swimming pool, tennis courts and bocce ball courts.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Angelo-J-Rossi-Playground-229"
+   },
+   {
+    "text": "A renovation of the pool building and maintenance storage facility was completed in January 2022.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Angelo-J-Rossi-Playground-229"
+   }
+  ]
+ },
+ {
+  "id": "osm-w48435252",
+  "name": "Aptos Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 4.81-acre playground with a baseball diamond, a tennis court and a large blacktop area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Aptos-Playground-230"
+   },
+   {
+    "text": "Reopened in 2006 after renovation.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Aptos-Playground-230"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32839638",
+  "name": "Aquatic Park Historic District",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built by the Works Progress Administration; the bathhouse was completed in 1939.",
+    "url": "https://en.wikipedia.org/wiki/Aquatic_Park_Historic_District"
+   },
+   {
+    "text": "The district includes a beach, bathhouse, municipal pier, stadia and two speaker towers.",
+    "url": "https://en.wikipedia.org/wiki/Aquatic_Park_Historic_District"
+   },
+   {
+    "text": "The Streamline Moderne bathhouse was designed by architects William Mooser Jr. and William Mooser III.",
+    "url": "https://en.wikipedia.org/wiki/Aquatic_Park_Historic_District"
+   }
+  ]
+ },
+ {
+  "id": "osm-w86124597",
+  "name": "Argonne Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1926.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Argonne-Playground-231"
+   },
+   {
+    "text": "Has modern play structures, a basketball court, a tennis court and a clubhouse.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Argonne-Playground-231"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24562831",
+  "name": "Balboa Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has Boxer Stadium, four ball fields, an indoor pool, a skate park and a dog play area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Balboa-Park-148"
+   },
+   {
+    "text": "About 1.1 million square feet, with exterior improvements including a renovated pool completed in February 2019.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Balboa-Park-148"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1329130170",
+  "name": "Bayfront Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Over five acres of open space with native plants, bio-retention gardens and a section of the Bay Trail.",
+    "url": "https://www.sfport.com/bayfrontpark"
+   },
+   {
+    "text": "Shade structures and furnishings reuse reclaimed steel from the old Bay Bridge.",
+    "url": "https://www.sfport.com/bayfrontpark"
+   },
+   {
+    "text": "Developed by Mission Bay Development Group and owned and maintained by the Port of San Francisco.",
+    "url": "https://www.sfport.com/bayfrontpark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w443135450",
+  "name": "Bayview Gateway",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Matched to Bayview Gateway Park (Port of SF) at Cargo Way and 3rd Street; given lat/lng is roughly 700 m north, so location is approximate.",
+  "facts": [
+   {
+    "text": "A Port of San Francisco park with a skateboarding area with raised platforms, picnic tables and benches.",
+    "url": "https://www.sfport.com/bayviewgatewaypark"
+   },
+   {
+    "text": "An active cargo rail line runs across the park, and Fire Department Station 25 is in it.",
+    "url": "https://www.sfport.com/bayviewgatewaypark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w82480966",
+  "name": "Bayview Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "In 1902 the city bought the hill's crest, and Charles Crocker offered his part of the ridge on condition that no isolation hospital be built there.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Bayview-Park-149"
+   },
+   {
+    "text": "Has coastal scrub, eucalyptus and oak groves, and the city's largest Islais cherry population.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Bayview-Park-149"
+   }
+  ]
+ },
+ {
+  "id": "osm-w82480067",
+  "name": "Bayview Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "City page names it Bayview K.C. Jones Playground (3rd and Armstrong).",
+  "facts": [
+   {
+    "text": "Officially named Bayview/K.C. Jones Playground in 2003, after the basketball player who grew up nearby.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Bay-View-Park-KC-Jones-Playground-232"
+   },
+   {
+    "text": "Reopened in January 2022 after a $6 million renovation with a new play area, ballfield and fitness equipment.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Bay-View-Park-KC-Jones-Playground-232"
+   }
+  ]
+ },
+ {
+  "id": "osm-w381074858",
+  "name": "Bernal Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a gymnasium, community rooms, a playground and an after-school program.",
+    "url": "https://sfrecpark.org/686/Bernal-Heights-Recreation-Center"
+   },
+   {
+    "text": "Its playground was renewed in a $1.3 million project completed in November 2025.",
+    "url": "https://sfrecpark.org/686/Bernal-Heights-Recreation-Center"
+   }
+  ]
+ }
+]
