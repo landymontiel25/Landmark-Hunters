@@ -1,0 +1,478 @@
+[
+ {
+  "id": "osm-w27146063",
+  "name": "Embarcadero Plaza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed as an inward-facing space to mask the sight and sound of the Embarcadero Freeway.",
+    "url": "https://www.embarcaderopark.com/history"
+   },
+   {
+    "text": "The Vaillancourt fountain was installed in 1971.",
+    "url": "https://www.embarcaderopark.com/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-w27239372",
+  "name": "Esprit Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as a corporate garden gifted to San Francisco by Esprit Corporation.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Esprit-Park-165"
+   },
+   {
+    "text": "Reopened after renovation with separate dog and people areas.",
+    "url": "https://www.sfchronicle.com/bayarea/article/esprit-park-remodel-dogpatch-20063854.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w690982876",
+  "name": "Eureka Valley Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The softball field is named for Rikki Streicher, a founder of the Gay Olympics; a plaque was dedicated in 1996.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Eureka-Valley-Recreation-Center-86"
+   },
+   {
+    "text": "The gymnasium was named for Mark Bingham in 2002.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Eureka-Valley-Recreation-Center-86"
+   }
+  ]
+ },
+ {
+  "id": "osm-w39335773",
+  "name": "Excelsior Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a sandbox and a separate gated playground with soft rubber flooring for small children.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Excelsior-Playground-238"
+   },
+   {
+    "text": "Also has a basketball court, a lighted tennis court and a baseball field.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Excelsior-Playground-238"
+   }
+  ]
+ },
+ {
+  "id": "osm-w86023454",
+  "name": "Fairmount Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Source calls it Fairmount Plaza; sfrecpark lists it as Fairmont Plaza.",
+  "facts": [
+   {
+    "text": "A hilltop open space with paths, box steps and a lookout between Fairmount Heights and Diamond Heights.",
+    "url": "https://www.glenparkassociation.org/take-a-hike-and-visit-a-newly-revitalized-local-park-with-an-amazing-view/"
+   },
+   {
+    "text": "Restored from a thicket of dying eucalyptus with hundreds of native plants such as yarrow, California sage and lupine.",
+    "url": "https://www.glenparkassociation.org/take-a-hike-and-visit-a-newly-revitalized-local-park-with-an-amazing-view/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w82207054",
+  "name": "Fort Mason",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The post was renamed Fort Mason in 1882 to honor Colonel Richard Barnes Mason.",
+    "url": "https://www.nps.gov/places/000/fort-mason.htm"
+   },
+   {
+    "text": "Served as headquarters of the San Francisco Port of Embarkation during both world wars.",
+    "url": "https://www.nps.gov/places/000/fort-mason.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w772905204",
+  "name": "Francisco Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built on the site of the Francisco Reservoir, constructed in 1859.",
+    "url": "https://franciscopark.org/history/"
+   },
+   {
+    "text": "Opened to the public on April 27, 2022.",
+    "url": "https://franciscopark.org/history/"
+   },
+   {
+    "text": "Built by the Francisco Park Conservancy and then transferred to the Recreation and Park Department.",
+    "url": "https://franciscopark.org/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24547823",
+  "name": "Franklin Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an athletic field, outdoor fitness equipment, a picnic area and a playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Franklin-Square-335"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85796801",
+  "name": "Fulton Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a sheltered sand playground, basketball and tennis courts and picnic tables.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Fulton-Playground-239"
+   },
+   {
+    "text": "The clubhouse runs an after-school program, teen nights and tiny tots classes.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Fulton-Playground-239"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24253472",
+  "name": "Garfield Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a swimming pool, athletic field, playground and courts.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441"
+   },
+   {
+    "text": "The pool and clubhouse building was renovated and reopened in 2021.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1215665327",
+  "name": "George and Judy Marcus Garden of Enchantment",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Garden at the de Young Museum in Golden Gate Park.",
+  "facts": [
+   {
+    "text": "Has gazebos covered in spiraling grapevines and a pond with water lilies.",
+    "url": "https://www.famsf.org/stories/5-spaces-for-contemplation-de-young"
+   },
+   {
+    "text": "Features a metal sculpture, Untitled (Pirate) from 2007, facing the pond.",
+    "url": "https://www.famsf.org/stories/5-spaces-for-contemplation-de-young"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85880982",
+  "name": "George Christopher Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for George Christopher, the 34th mayor of San Francisco.",
+    "url": "https://sfrecpark.org/facilities/facility/details/George-Christopher-Playground-240"
+   },
+   {
+    "text": "Has a playground, softball field, tennis courts and basketball courts.",
+    "url": "https://sfrecpark.org/facilities/facility/details/George-Christopher-Playground-240"
+   }
+  ]
+ },
+ {
+  "id": "osm-w93703754",
+  "name": "George Sterling Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for poet George Sterling, who was called the unofficial poet laureate of San Francisco.",
+    "url": "https://www.hmdb.org/m.asp?m=69985"
+   },
+   {
+    "text": "A historical marker with a panel of Sterling's poetry was erected in 2005 by Friends of Sterling Park and Russian Hill Neighbors.",
+    "url": "https://www.hmdb.org/m.asp?m=69985"
+   }
+  ]
+ },
+ {
+  "id": "osm-w692740286",
+  "name": "Gilman Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an outdoor basketball court, a baseball diamond, a playground and outdoor fitness equipment.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Gilman-Playground-241"
+   }
+  ]
+ },
+ {
+  "id": "osm-w35800082",
+  "name": "Glen Canyon Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 66.6-acre recreation area with hiking trails and open space.",
+    "url": "https://sfrecpark.org/511/Glen-Canyon-Park"
+   },
+   {
+    "text": "The land was once Adolph Sutro's Gum Tree Ranch and later a Crocker Real Estate Company picnic site and amusement park.",
+    "url": "https://sfrecpark.org/511/Glen-Canyon-Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w128241105",
+  "name": "Golden Gate Heights Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Combines a playground, tennis court and lawns with a hilltop dune showing San Francisco dune plant life.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Golden-Gate-Heights-Park-170"
+   },
+   {
+    "text": "The play equipment includes a net climbing structure.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Golden-Gate-Heights-Park-170"
+   }
+  ]
+ },
+ {
+  "id": "osm-w402061421",
+  "name": "Grand View Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "sfrecpark spells it Grandview Park.",
+  "facts": [
+   {
+    "text": "A hilltop park with a dune plant community atop 140-million-year-old Franciscan chert.",
+    "url": "https://sfrecpark.org/facilities/facility/details/grandviewpark-338"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1117035593",
+  "name": "Grandview Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Same hill as Grandview Park; facts from the Grandview Park page.",
+  "facts": [
+   {
+    "text": "A 0.2-mile trail climbs to the hilltop, mostly on wooden stairs.",
+    "url": "https://sfrecpark.org/facilities/facility/details/grandviewpark-338"
+   }
+  ]
+ },
+ {
+  "id": "osm-w27092661",
+  "name": "Grattan Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a renovated soccer field, two tennis courts and a basketball court.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Grattan-Playground-242"
+   },
+   {
+    "text": "Home to the non-profit Haight Ashbury Community Nursery School.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Grattan-Playground-242"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358767175",
+  "name": "Harding Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Now TPC Harding Park Golf Course.",
+  "facts": [
+   {
+    "text": "Named for President Warren G. Harding and opened on July 18, 1925.",
+    "url": "https://tpc.com/hardingpark/history/"
+   },
+   {
+    "text": "The original 18-hole course was designed by Willie Watson and Sam Whiting.",
+    "url": "https://tpc.com/hardingpark/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w389991180",
+  "name": "Hayes Valley Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A quarter-acre playground and clubhouse with a community room, basketball and tennis courts and outdoor fitness equipment.",
+    "url": "https://sfrecpark.org/facilities/facility/details/hayesvalleyplayground-243"
+   }
+  ]
+ },
+ {
+  "id": "osm-w69060030",
+  "name": "Helen Wills Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listed by sfrecpark as Helen Wills Playground, Broadway and Larkin.",
+  "facts": [
+   {
+    "text": "Has a multi-functional clubhouse, sports courts and its own boardwalk.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Helen-Wills-Playground-244"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28671926",
+  "name": "Heron's Head Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its EcoCenter serves as a classroom for local schools and community groups.",
+    "url": "https://sfrecpark.org/facilities/facility/details/The-EcoCenter-at-Herons-Head-Park-425"
+   },
+   {
+    "text": "Its Nature Exploration Area won UNICEF's 2021 Cities Inspires Award.",
+    "url": "https://sfrecpark.org/facilities/facility/details/The-EcoCenter-at-Herons-Head-Park-425"
+   }
+  ]
+ },
+ {
+  "id": "osm-w565996157",
+  "name": "Hillpoint Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a bay overlook, a large community lawn and a reservable picnic area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Hillpoint-Park-and-Picnic-Area-465"
+   }
+  ]
+ },
+ {
+  "id": "osm-w414033716",
+  "name": "Hilltop Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a 70-foot sundial whose base forms a stage for a surrounding amphitheater.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Hilltop-Park-172"
+   },
+   {
+    "text": "The city's first public skateboard park, and the skate bowl is still in use.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Hilltop-Park-172"
+   }
+  ]
+ }
+]

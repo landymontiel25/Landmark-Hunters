@@ -1,0 +1,474 @@
+[
+ {
+  "id": "osm-n6064744363",
+  "name": "National Cemetery Overlook",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Dedicated at a Veterans Day ceremony on November 11, 2009.",
+    "url": "https://presidio.gov/about/press/new-presidio-overlook-honors-nations-soldiers"
+   },
+   {
+    "text": "Made possible by a gift from Robert and Kathy Burke.",
+    "url": "https://presidio.gov/about/press/new-presidio-overlook-honors-nations-soldiers"
+   },
+   {
+    "text": "Has benches and stone walls inscribed with poetry, facing San Francisco National Cemetery.",
+    "url": "https://presidio.gov/explore/attractions/national-cemetery-overlook"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85687774",
+  "name": "Noe Valley Courts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a tennis court, a basketball court, a playground, a picnic area and restrooms.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Noe-Valley-Courts-357"
+   }
+  ]
+ },
+ {
+  "id": "osm-w162651466",
+  "name": "Ocean View Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built as a Works Progress Administration project with about 9 acres landscaped and tennis courts.",
+    "url": "https://livingnewdeal.org/sites/ocean-view-playground-san-francisco-ca/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1485542870",
+  "name": "Outpost Meadow",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 1.5-acre picnic area at Presidio Tunnel Tops with a large lawn surrounded by gardens.",
+    "url": "https://presidio.gov/explore/attractions/outpost-meadow"
+   },
+   {
+    "text": "Seats up to 240 people at picnic tables shaded by canopies of the Ancestral Futurism art project.",
+    "url": "https://presidio.gov/explore/attractions/outpost-meadow"
+   }
+  ]
+ },
+ {
+  "id": "osm-w39997532",
+  "name": "Palega Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Renamed in 1996 from Portola Playground in honor of Sululagi Palega Jr., a local sports figure.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Palega-Rec-Center-103"
+   },
+   {
+    "text": "Has a basketball court, soccer field, playground, tennis courts and picnic areas.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Palega-Rec-Center-103"
+   }
+  ]
+ },
+ {
+  "id": "osm-w330695712",
+  "name": "Palou Phelps Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Preserves a native wildflower grassland, with volunteer habitat restoration days each month.",
+    "url": "https://natureinthecity.org/palou-phelps"
+   },
+   {
+    "text": "Restoration is a collaboration between Friends of Palou Phelps Park, Nature in the City and Recreation and Parks.",
+    "url": "https://natureinthecity.org/palou-phelps"
+   }
+  ]
+ },
+ {
+  "id": "osm-w16751151",
+  "name": "Panhandle",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its basketball court was renovated in 2016 and named for Golden State Warriors player Nate Thurmond.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Panhandle-443"
+   },
+   {
+    "text": "The playground reopened in fall 2019 after a renovation under the Let's Play SF! initiative.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Panhandle-443"
+   },
+   {
+    "text": "A narrow park three-quarters of a mile long and one block wide, connecting to Golden Gate Park.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Panhandle-443"
+   }
+  ]
+ },
+ {
+  "id": "osm-w446183018",
+  "name": "Parklab",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as a series of 1-acre future development sites in the middle of Mission Bay, used as interim open space.",
+    "url": "https://www.parklab.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-w103637793",
+  "name": "Parkside Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has the city's first completely ADA-accessible playground, part of a 7.5-acre recreation complex bordering Stern Grove.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Parkside-Square-196"
+   },
+   {
+    "text": "Has a baseball diamond, four tennis courts, an outdoor basketball court and a community garden.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Parkside-Square-196"
+   }
+  ]
+ },
+ {
+  "id": "osm-w215139414",
+  "name": "Pier 94 Wetlands",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A restored tidal marsh that began in 2002 as an oil spill mitigation project, managed by Golden Gate Bird Alliance.",
+    "url": "https://goldengatebirdalliance.org/conservation/wetlands/pier-94/"
+   },
+   {
+    "text": "Restored on a site that was filled in during the early 20th century and became an informal dumping ground.",
+    "url": "https://goldengatebirdalliance.org/conservation/wetlands/pier-94/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w103637565",
+  "name": "Pine Lake Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "One of the few remaining natural lakes in San Francisco, fed by the same aquifer as Lake Merced.",
+    "url": "https://sfrecpark.org/facilities/facility/details/pinelakepark-197"
+   },
+   {
+    "text": "A trail circles the lake and links to the trail network through Stern Grove.",
+    "url": "https://sfrecpark.org/facilities/facility/details/pinelakepark-197"
+   }
+  ]
+ },
+ {
+  "id": "osm-w224941774",
+  "name": "Pioneer Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Surrounds Coit Tower, on the former site of Telegraph Hill's signal station.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Telegraph-Hill-Pioneer-Park-381"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24445970",
+  "name": "Potrero Del Sol Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Covers 3.8 acres and has a skate park that opened in 2008.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Potrero-Del-Sol-365"
+   },
+   {
+    "text": "Has a playground, a performance space, athletic field and a nearby community garden.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Potrero-Del-Sol-365"
+   }
+  ]
+ },
+ {
+  "id": "osm-w116771007",
+  "name": "Potrero Hill Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a baseball field, basketball court, tennis court, dog park, playground and community garden.",
+    "url": "https://www.sfparksalliance.org/our-parks/parks/potrero-hill-playground-rec-center"
+   }
+  ]
+ },
+ {
+  "id": "osm-w23908184",
+  "name": "Precita Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Became a neighborhood park in 1894 on two acres, and was renamed Precita Park in 1973.",
+    "url": "https://www.sfparksalliance.org/our-parks/parks/precita-park"
+   },
+   {
+    "text": "Named for the family of Juan Francisco Bernal, who owned the Rincon de las Salinas land grant.",
+    "url": "https://www.sfparksalliance.org/our-parks/parks/precita-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w545408838",
+  "name": "Raymond Kimbell Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Got a $3.3 million renovation funded by the 2008 parks bond, completed in June 2015.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Raymond-Kimbell-Playground-263"
+   },
+   {
+    "text": "Has a clubhouse, a children's play area and three baseball fields with bleacher seating.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Raymond-Kimbell-Playground-263"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85796807",
+  "name": "Richmond Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Renovated under the Let's Play SF! initiative, with a new children's play area and upgraded restrooms.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Richmond-Playground-264"
+   },
+   {
+    "text": "Has two full basketball courts and a tennis court.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Richmond-Playground-264"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85796808",
+  "name": "Richmond Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Offers classes such as ballroom dance, tap dance, tai chi and pickleball.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Richmond-Rec-Center-105"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32862802",
+  "name": "Rincon Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Cupid's Span, a Claes Oldenburg and Coosje van Bruggen sculpture, was installed here in 2002.",
+    "url": "https://en.wikipedia.org/wiki/Cupid's_Span"
+   },
+   {
+    "text": "The sculpture was commissioned by Gap Inc. founders Donald and Doris F. Fisher.",
+    "url": "https://en.wikipedia.org/wiki/Cupid's_Span"
+   }
+  ]
+ },
+ {
+  "id": "osm-w103654951",
+  "name": "Robert Pender Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named Robert Pender Park on Robert Pender Day, May 3, 2009, by the Board of Supervisors.",
+    "url": "https://www.sfparksalliance.org/our-parks/parks/robert-pender-park"
+   },
+   {
+    "text": "A circular park in the middle of Juan Bautista Circle.",
+    "url": "https://www.sfparksalliance.org/our-parks/parks/robert-pender-park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w52243885",
+  "name": "Rochambeau Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a dual-level playground with a sandpit, a clubhouse, two basketball courts and a tennis court.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Rochambeau-Playground-265"
+   }
+  ]
+ },
+ {
+  "id": "osm-w303422138",
+  "name": "Rocky Outcrop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A natural area of exposed bedrock that supports native plants such as leather-leaf fern and crevice heuchera.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Rocky-Outcrop-369"
+   }
+  ]
+ },
+ {
+  "id": "osm-w111573499",
+  "name": "Rolph Nicol Jr Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A three-acre green space surrounded by eucalyptus trees.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Rolph-Nicol-Jr-Playground-266"
+   }
+  ]
+ },
+ {
+  "id": "osm-w23881517",
+  "name": "Rolph Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for James Rolph, mayor of San Francisco from 1912 to 1931 and governor of California from 1931 to 1934.",
+    "url": "https://www.potreroview.net/whats-in-a-name-potrero-hills-parks-and-schools/"
+   },
+   {
+    "text": "Opened by Mayor Rolph in 1912 with about 6,000 people at the ceremonies.",
+    "url": "https://www.potreroview.net/whats-in-a-name-potrero-hills-parks-and-schools/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w120479804",
+  "name": "Rose Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A roughly two-acre rose garden in Golden Gate Park with 64 rose beds.",
+    "url": "https://goldengatepark.org/special-gardens"
+   },
+   {
+    "text": "Designed by Roy Hudson and dedicated on January 8, 1961.",
+    "url": "https://goldengatepark.org/special-gardens"
+   }
+  ]
+ }
+]
