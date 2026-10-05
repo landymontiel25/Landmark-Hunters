@@ -1,0 +1,450 @@
+[
+ {
+  "id": "osm-n11162058141",
+  "name": "Harrington's Bar & Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Located at 245 Front St; closed in Oct 2020, reopened 2024 per CrawlSF.",
+  "facts": [
+   {
+    "text": "Has served the Financial District since 1935.",
+    "url": "https://crawlsf.com/harringtons-bar-grill-set-to-reopen-in-downtown-san-francisco/"
+   },
+   {
+    "text": "Reopened in 2024 after closing in October 2020, run by a third-generation Harrington family owner and The Tonic Group.",
+    "url": "https://crawlsf.com/harringtons-bar-grill-set-to-reopen-in-downtown-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9254580053",
+  "name": "Harry's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1984.",
+    "url": "https://www.harrysbarsf.com/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4199804694",
+  "name": "Harvest Books & Gifts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A Christian bookstore selling Bibles, books, gifts, cards, music, DVDs and church supplies.",
+    "url": "https://www.yelp.com/biz/harvest-books-and-gifts-san-francisco"
+   },
+   {
+    "text": "Has served San Francisco since 1977.",
+    "url": "https://www.yelp.com/biz/harvest-books-and-gifts-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-w147633860",
+  "name": "Hawthorn",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Nightclub is at 46 Geary Street (one block east of Union Square), OSM says Grant Avenue; same spot by coordinates.",
+  "facts": [
+   {
+    "text": "A nightclub and lounge.",
+    "url": "https://hawthornsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11043132735",
+  "name": "Heartwood",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A nature-inspired cocktail bar and restaurant celebrating the trees of California.",
+    "url": "https://downtownsf.org/go/heartwood"
+   },
+   {
+    "text": "Serves cocktails made with flavors from plants, fruits, herbs and spices, plus seasonal American food.",
+    "url": "https://downtownsf.org/go/heartwood"
+   }
+  ]
+ },
+ {
+  "id": "osm-w104600008",
+  "name": "Hi Dive",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Confirmed open at Pier 28 1/2; no fact could be tied to a single page.",
+  "facts": []
+ },
+ {
+  "id": "osm-n2624201223",
+  "name": "Hi Tops",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2012 in the space previously occupied by Lime, which operated from 2004 to 2012.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/hi-tops-2247-market/"
+   },
+   {
+    "text": "A gay sports bar opened by co-owners Jesse Woodward, Dana Gleim and Matt Kajiwara.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/hi-tops-2247-market/"
+   },
+   {
+    "text": "Has 16 flat screen televisions that always play sporting events.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/hi-tops-2247-market/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2698395558",
+  "name": "Hi-Lo Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Pours 12 California beers on tap.",
+    "url": "https://www.sfstation.com/hi-lo-club-b1746541"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6791676291",
+  "name": "High Treason",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A wine bar and wine shop.",
+    "url": "https://www.hightreasonsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w287411301",
+  "name": "Hockey Haven",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its original owner in 1949 was a pro player.",
+    "url": "https://www.sfstation.com/hockey-haven-b39007892"
+   },
+   {
+    "text": "Has a pool table and a jukebox.",
+    "url": "https://www.sfstation.com/hockey-haven-b39007892"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11777394327",
+  "name": "Hole In The Wall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Hole In the Wall Saloon at 1369 Folsom Street.",
+  "facts": [
+   {
+    "text": "A bar owned and run by gay bikers.",
+    "url": "http://www.holeinthewallsaloon.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11065812183",
+  "name": "Holy Virgin Cathedral Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in the 1960s with the blessing of Saint John of Shanghai and San Francisco.",
+    "url": "https://hvcbookstore.com/index.php?route=information%2Finformation&information_id=4"
+   },
+   {
+    "text": "Specializes in products associated with St. John, whose relics rest in the Cathedral.",
+    "url": "https://hvcbookstore.com/index.php?route=information%2Finformation&information_id=4"
+   },
+   {
+    "text": "All profit from the bookstore supports the Cathedral.",
+    "url": "https://hvcbookstore.com/index.php?route=information%2Finformation&information_id=4"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1914749996",
+  "name": "Holy Water",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Decor is religious themed, with a baptism mural and holy water bottles.",
+    "url": "https://punchdrink.com/venues/holy-water/"
+   },
+   {
+    "text": "Starts an \"11th hour\" offering at 11 p.m. each night, such as magnums of rare beer or a stump-the-bartender challenge.",
+    "url": "https://punchdrink.com/venues/holy-water/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3975094188",
+  "name": "HolyCraft Brewery",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/holycraft-brewery-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp page for 787 Broadway is titled CLOSED; Foursquare also says Now Closed.",
+  "facts": []
+ },
+ {
+  "id": "osm-n2131702647",
+  "name": "Homestead",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "The Homestead, 2301 Folsom Street (matches lat/lng).",
+  "facts": [
+   {
+    "text": "A Victorian-era themed bar with a wood-burning stove.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-homestead"
+   },
+   {
+    "text": "Serves baskets of peanuts and lets guests drop the shells on the floor.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-homestead"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11806415064",
+  "name": "Hop Oast",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Hop Oast Pub & Brewery.",
+  "facts": [
+   {
+    "text": "Brews its beer in house on a 3-barrel nano brewery run by owner Aron Deorsey.",
+    "url": "https://hopoast.com/"
+   },
+   {
+    "text": "Bakes its soft pretzels in house from scratch.",
+    "url": "https://hopoast.com/"
+   },
+   {
+    "text": "Established in 2018.",
+    "url": "https://hopoast.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9662065899",
+  "name": "Hôtel Biron",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Confirmed at 45 Rose Street, but no fact could be tied to a single page.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10245940482",
+  "name": "Hotel Utah Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1908 as a saloon and hotel in the Edwardian style.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   },
+   {
+    "text": "A San Francisco Designated Landmark.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   },
+   {
+    "text": "Known for open mic nights that have drawn performers who later became famous.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n479491671",
+  "name": "House of Shields",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as a men's club that admitted no women until the early 1970s.",
+    "url": "https://savingplaces.org/stories/the-house-of-shields-in-san-francisco"
+   },
+   {
+    "text": "Owner Dennis Leary took over in 2010 and restored the interior woodwork and brass chandeliers.",
+    "url": "https://savingplaces.org/stories/the-house-of-shields-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12951004302",
+  "name": "Indie Darling",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Real venue at 537 Stevenson St but not yet open (opening dates found: Fall 2026 per whatnow.com, Spring 2027 per indiedarlingsf.com); no facts to avoid pre-opening claims.",
+  "facts": []
+ },
+ {
+  "id": "osm-n1777418695",
+  "name": "International Sports Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Listed as The International at 1000 Columbus Ave.",
+  "facts": [
+   {
+    "text": "A dive and sports bar with a jukebox and a fish tank.",
+    "url": "https://www.sfstation.com/the-international-b6849"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1940405912",
+  "name": "Ireland's 32",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "At 3920 Geary Blvd (matches lat/lng).",
+  "facts": [
+   {
+    "text": "Named for the 32 counties of Ireland.",
+    "url": "https://www.sfstation.com/irelands-32-b1608"
+   },
+   {
+    "text": "Has pool tables and darts upstairs.",
+    "url": "https://www.sfstation.com/irelands-32-b1608"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2249504566",
+  "name": "Irish Bank",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "The Irish Bank Bar & Restaurant.",
+  "facts": [
+   {
+    "text": "Has a whitewashed cottage facade with brass plaques and a 19th century water pump.",
+    "url": "http://www.theirishbank.com/"
+   },
+   {
+    "text": "The interior holds antiques such as church pews, antique mirrors, sewing machines and barrels.",
+    "url": "http://www.theirishbank.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61692712",
+  "name": "Irish Times",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A family-owned Irish pub.",
+    "url": "https://downtownsf.org/go/irish-times"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3873879804",
+  "name": "Isotope - The Comic Book Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Co-founded in 2001 by owners James Sime and Kirsten Baldock.",
+    "url": "https://comicbook.com/comicbook/news/local-comics-store-spotlight-isotope-the-comic-book-lounge/"
+   }
+  ]
+ }
+]
