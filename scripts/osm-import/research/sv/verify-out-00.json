@@ -1,0 +1,396 @@
+[
+ {
+  "id": "osm-n4559150502",
+  "name": "Bar Underdog",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in September 2025 on California Avenue from the team behind Michelin-starred Prot\u00e9g\u00e9.",
+    "url": "https://www.paloaltoonline.com/food/2025/09/22/the-team-behind-palo-altos-michelin-starred-protege-debuts-bar-underdog-along-california-avenue/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Operates as part of DNA Hospitality.",
+    "url": "https://culinaryagents.com/entities/908151-Bar-Underdog",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4826510577",
+  "name": "iTalico",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Holds a Michelin Bib Gourmand.",
+    "url": "https://www.italicorestaurant.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Co-owned by Franco and Maico Campilongo, who were born in southern Italy.",
+    "url": "https://www.italicorestaurant.com/about",
+    "verdict": "ok",
+    "note": "Supported via about-page search summary (Franco and Maico, born southern Italy)."
+   }
+  ]
+ },
+ {
+  "id": "osm-n2620593447",
+  "name": "Camper",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Californian and contemporary cuisine in a window-lined corner space.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/camper?amp=&amp=",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the MICHELIN Guide for California.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/camper?amp=&amp=",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2407184266",
+  "name": "Cafe Borrone",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Roy and Rose Borrone started the cafe in 1979 on Broadway Street in Redwood City.",
+    "url": "https://www.cafeborrone.com/family",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Moved to its current location with a large patio after Menlo Center was built in 1989.",
+    "url": "https://www.cafeborrone.com/family",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n14244889000",
+  "name": "Sultana Mediterranean",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2006 in the former Le Pot au Feu site, a Menlo Park restaurant for 33 years.",
+    "url": "https://www.almanacnews.com/uncategorized/2006/05/03/food-drink-talking-turkey-new-sultana-restaurant-adds-a-touch-of-the-exotic-to-restaurant-scene/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves Turkish cuisine, with manti as the only pasta on the menu.",
+    "url": "https://www.almanacnews.com/uncategorized/2006/05/03/food-drink-talking-turkey-new-sultana-restaurant-adds-a-touch-of-the-exotic-to-restaurant-scene/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n516267488",
+  "name": "The Village Bakery and Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened July 24, 2017, replacing the Woodside Bakery & Cafe that closed in 2016.",
+    "url": "https://www.almanacnews.com/news/2017/07/17/woodside-long-awaited-village-bakery--cafe-opens-monday/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Operated by Bacchus Management Group, which also owns The Village Pub in Woodside.",
+    "url": "https://www.almanacnews.com/news/2017/07/17/woodside-long-awaited-village-bakery--cafe-opens-monday/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w382930142",
+  "name": "Roberts Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "W.F. Roberts founded the family business as a butcher shop in San Francisco in 1889.",
+    "url": "https://www.robertsmarket.com/about-us/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The family took over Caldwell's General Store in Woodside around 1960 and renamed it Roberts Market.",
+    "url": "https://www.robertsmarket.com/about-us/",
+    "verdict": "unsupported",
+    "note": "Search of robertsmarket.com returned the about page but nothing about Caldwell's General Store or 1960"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2619982755",
+  "name": "Urfa Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named for Urfa, a city in southeastern Turkey, with dishes drawing on Kurdish, Arabic and Armenian cooking.",
+    "url": "https://urfabistro.com/about-us",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The chef has 20 years of experience cooking in fine restaurants.",
+    "url": "https://urfabistro.com/about-us",
+    "verdict": "unsupported",
+    "note": "about-us page not returned for this query; no result states the chef claim"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14244879816",
+  "name": "State Street Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened as a food hall in a repurposed 1950s grocery store building.",
+    "url": "https://www.losaltosonline.com/business/massive-overhaul-of-state-st-building-nears-completion/article_e92db482-d3aa-11eb-aea9-b33d515045c0.html",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Billed as the first food hall on the Peninsula when it opened.",
+    "url": "https://www.sfchronicle.com/food/article/What-to-know-about-the-Peninsula-s-splashy-new-16441344.php",
+    "verdict": "unsupported",
+    "note": "Chronicle result says it was hailed as the first food hall but notes the earlier long-closed Liddicoat's; billing not confirmed by snippet"
+   }
+  ]
+ },
+ {
+  "id": "osm-w162342024",
+  "name": "Cafe Baklava",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Mediterranean restaurant serving Mountain View since 2005.",
+    "url": "https://www.cafebaklava.online/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Its chefs use traditional cooking techniques passed down through generations.",
+    "url": "https://www.cafebaklava.online/about",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w28459300",
+  "name": "Heritage Oaks Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Michael McKenzie planted the land with apricots, prunes, pears, walnuts and apples.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Concrete abutments of McKenzie's irrigation dam are still visible in Permanente Creek here.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n9933059818",
+  "name": "Emelina's Plus",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Peruvian home cooking including ceviches and seafood.",
+    "url": "https://emelinassunnyvale.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The bar features Peruvian spirits such as the Pisco Sour.",
+    "url": "https://emelinassunnyvale.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2235551631",
+  "name": "Leigh's Favorite Books",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2004 by Leigh Odum as a new and used bookstore.",
+    "url": "https://www.svvoice.com/getting-to-know-leigh-odum-co-owner-of-sunnyvales-leighs-favorite-books-and-bookasaurus/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Its children's sister store Bookasaurus opened in 2012 next door.",
+    "url": "https://www.svvoice.com/getting-to-know-leigh-odum-co-owner-of-sunnyvales-leighs-favorite-books-and-bookasaurus/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n692631229",
+  "name": "The Blue Pheasant",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served classic American cuisine since 1974 next to the Blackberry Farm golf course.",
+    "url": "https://cupertinomuseum.org/bluePheasant.html",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "A tank house built in 1882 by orchardist Nathan Hall stands behind the restaurant.",
+    "url": "https://cupertinomuseum.org/bluePheasant.html",
+    "verdict": "ok",
+    "note": "Source says tank house belonged to Nathan Hall, built 1882; builder not stated."
+   }
+  ]
+ },
+ {
+  "id": "osm-w399358860",
+  "name": "Blackberry Farm",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Includes a Native Restoration Village with Ohlone shelters behind the Blackberry Cafe.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Aquatics-and-Golf/Blackberry-Farm",
+    "verdict": "unsupported",
+    "note": "Search of cupertino.gov did not return the Blackberry Farm page; other pages only"
+   },
+   {
+    "text": "Has a nine-hole golf course, picnic areas and access to Stevens Creek Corridor trails.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Aquatics-and-Golf/Blackberry-Farm",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w24429367",
+  "name": "Serra Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A riverboat-themed park with a babbling brook running through it.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/59/456",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Has four reservable picnic sites, four tennis courts and a water play area.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/59/456",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w336684229",
+  "name": "MACLA",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1989 out of a community mobilization on behalf of multicultural arts.",
+    "url": "https://maclaarte.org/about/mission-history/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Contemporary arts space grounded in the Chicano and Latino experience.",
+    "url": "https://maclaarte.org/about/mission-history/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w336684228",
+  "name": "City Lights Theater Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has staged plays and musicals in downtown San Jose since 1982.",
+    "url": "https://sofadistrict.org/city-lights/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3606791587",
+  "name": "Mezcal",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Oaxacan regional cuisine from family recipes passed down through generations.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Specializes in homemade moles including Estofado, Coloradito and Mole Negro.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3634565755",
+  "name": "Scott's Seafood",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves oysters, crab cakes, grilled fish and cioppino with a full bar.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Offers indoor and outdoor patio seating plus private dining spaces.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ }
+]
