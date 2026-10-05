@@ -9,7 +9,7 @@ import { regionFromArgs } from './regions.js';
 
 const region = regionFromArgs(process.argv);
 const OUT = `${region.dataDir}/osm.json`;
-const ENDPOINTS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
+const ENDPOINTS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://overpass.private.coffee/api/interpreter'];
 const UA = 'LandmarkHunters-osm-import/1.0 (https://landmarkhunters.com)';
 
 fs.mkdirSync(region.dataDir, { recursive: true });
