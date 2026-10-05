@@ -1,0 +1,491 @@
+[
+ {
+  "id": "osm-n61692857",
+  "name": "Old Ship Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built into the hull of the grounded ship Arkansas in Jackson Square.",
+    "url": "https://en.wikipedia.org/wiki/The_Old_Ship_Saloon"
+   },
+   {
+    "text": "Bill Duffy acquired the bar in 1992 and restored the Old Ship Saloon name.",
+    "url": "https://en.wikipedia.org/wiki/The_Old_Ship_Saloon"
+   },
+   {
+    "text": "A stop on the Barbary Coast Trail.",
+    "url": "https://en.wikipedia.org/wiki/The_Old_Ship_Saloon"
+   }
+  ]
+ },
+ {
+  "id": "osm-w939437493",
+  "name": "Omg Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Conflict: travelgay.com lists OMG as closed (undated), while the club's own site shows current events; no dated closure found, so kept open.",
+  "facts": [
+   {
+    "text": "A gay Latin club with a different DJ each day.",
+    "url": "https://clubomgsf.com/"
+   },
+   {
+    "text": "Hosts a comedy open mic on Tuesday evenings.",
+    "url": "http://www.clubomgsf.com/events/comedy-open-mic/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3454181858",
+  "name": "Omnivore: Books on Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2008.",
+    "url": "https://www.omnivorebooks.com/"
+   },
+   {
+    "text": "A female-owned and LGBTQIA+-owned bookstore.",
+    "url": "https://www.omnivorebooks.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4199813991",
+  "name": "oneup bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has pool tables and darts.",
+    "url": "https://oneupbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13168483731",
+  "name": "OneUP Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Located on the mezzanine level of the Grand Hyatt San Francisco.",
+    "url": "https://sanfrancisco.grand.hyatt.com/en/hotel/dining/OneUPLounge.html"
+   },
+   {
+    "text": "Serves wine, cocktails and small bites.",
+    "url": "https://sanfrancisco.grand.hyatt.com/en/hotel/dining/OneUPLounge.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10128454136",
+  "name": "Ora Wine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by the husband and wife behind North Beach tapas restaurant Bask.",
+    "url": "https://hoodline.com/2022/02/polk-gulch-s-newest-wine-bar-is-a-love-letter-to-globally-sourced-vinos/"
+   },
+   {
+    "text": "Pours international wines from places such as Corsica and the Canary Islands.",
+    "url": "https://hoodline.com/2022/02/polk-gulch-s-newest-wine-bar-is-a-love-letter-to-globally-sourced-vinos/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6645406770",
+  "name": "Originals Vinyl",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned and run by brothers Dominic and Matthew Siracusa.",
+    "url": "https://originalsvinyl.com/about-originals-vinyl/"
+   },
+   {
+    "text": "Its first storefront opened in April 2015 on 18th Street in the Mission.",
+    "url": "https://originalsvinyl.com/about-originals-vinyl/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6839009628",
+  "name": "Overtime",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/overtime-sports-bar-and-restaurant-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Overtime Sports Bar & Restaurant, 4134 Geary Blvd (Inner Richmond, opened 2017 per hoodline); Yelp title says CLOSED. A different Overtime on 7th St is not this place.",
+  "facts": []
+ },
+ {
+  "id": "osm-n621793529",
+  "name": "Owl Tree",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Run by Bobby Cook for over 30 years before a 2008 renovation.",
+    "url": "https://www.owltreesf.com/about"
+   },
+   {
+    "text": "Reopened in 2008 with a mahogany bar and black leather booths, keeping some owls from its earlier decor.",
+    "url": "https://www.owltreesf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4533347390",
+  "name": "Pacific Cocktail Haven",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2016 by bartender Kevin Diedrich.",
+    "url": "https://www.pacificcocktailsf.com/about"
+   },
+   {
+    "text": "Named Best American Cocktail Bar at the 2020 Spirited Awards.",
+    "url": "https://www.pacificcocktailsf.com/about"
+   },
+   {
+    "text": "A 2024 James Beard Award finalist for Outstanding Bar.",
+    "url": "https://www.pacificcocktailsf.com/about"
+   },
+   {
+    "text": "Draws its cocktails from the ingredients and cultures of Asia and the Pacific.",
+    "url": "https://www.pacificcocktailsf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4143685674",
+  "name": "Pagan Idol",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in February 2018 by the team behind Bourbon & Branch.",
+    "url": "https://www.paganidol.com/press/2018/10/17/pagan-idol-now-open-a-new-tiki-bar-from-the-team-behind-bourbon-amp-branch"
+   },
+   {
+    "text": "Occupies the space that was once Tiki Bob's Mainland Rendezvous.",
+    "url": "https://www.paganidol.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2879135420",
+  "name": "Pandora Karaoke Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Now at 50 Mason St; its earlier home was 177 Eddy St (Yelp lists that one closed).",
+  "facts": [
+   {
+    "text": "Reopened in a new Tenderloin location in 2019.",
+    "url": "https://hoodline.com/2019/04/pandora-karaoke-reopens-in-a-new-tenderloin-home/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12887035377",
+  "name": "Paris 75",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "515 Broadway.",
+  "facts": [
+   {
+    "text": "A French lounge that opened in 2019 on Broadway.",
+    "url": "https://lppsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w71209436",
+  "name": "Pasha",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listed as Pasha SF at 673 Geary St.",
+  "facts": [
+   {
+    "text": "A Mediterranean restaurant and lounge with hookah service.",
+    "url": "https://www.yelp.com/biz/pasha-sf-san-francisco"
+   },
+   {
+    "text": "Has belly dancing entertainment.",
+    "url": "https://www.yelp.com/biz/pasha-sf-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4618173073",
+  "name": "Patriot House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "2 Embarcadero Center.",
+  "facts": [
+   {
+    "text": "Owned by four Irish sisters.",
+    "url": "https://www.patriothousepub.com/"
+   },
+   {
+    "text": "Took over and refurbished The Holding Company, which was in Embarcadero Center for 39 years.",
+    "url": "https://www.patriothousepub.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w71515257",
+  "name": "Peacekeeper",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2019 by the team behind the Polk Street bar Harper & Rye.",
+    "url": "https://www.sfchronicle.com/food/article/Harper-Rye-team-debut-Oaxaca-inspired-bar-13760961.php"
+   },
+   {
+    "text": "Its drinks are Oaxaca-inspired.",
+    "url": "https://www.sfchronicle.com/food/article/Harper-Rye-team-debut-Oaxaca-inspired-bar-13760961.php"
+   },
+   {
+    "text": "Has an open-air space and billiards in Lower Nob Hill.",
+    "url": "https://hoodline.com/2019/04/peacekeeper-brings-open-air-bar-and-billiards-space-to-lower-nob-hill/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5182461992",
+  "name": "Peacock Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as a private social hall for the Black Masons of the Unity Masonic Hall upstairs.",
+    "url": "https://www.thebolditalic.com/unlocking-the-lore-of-the-peacock-lounge-the-bold-italic-san-francisco/"
+   },
+   {
+    "text": "The name came from a sign that Unity members' wives found and reused.",
+    "url": "https://www.thebolditalic.com/unlocking-the-lore-of-the-peacock-lounge-the-bold-italic-san-francisco/"
+   },
+   {
+    "text": "Started a Jazz Fridays series in late 2023.",
+    "url": "https://sfbayview.com/2023/12/the-peacock-lounge-revitalizes-itself-with-jazz-fridays/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9328656115",
+  "name": "Persona",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by Juan Loredo, Jose Natividad and Keith Goodman.",
+    "url": "https://secretsanfrancisco.com/persona-cocktail-bar-sf/"
+   },
+   {
+    "text": "Has a subterranean underground social club setting beneath Sutter Street.",
+    "url": "https://secretsanfrancisco.com/persona-cocktail-bar-sf/"
+   },
+   {
+    "text": "Its cocktails rework classic drinks with unconventional ingredients.",
+    "url": "https://secretsanfrancisco.com/persona-cocktail-bar-sf/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3622464002",
+  "name": "Philosophers Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Added to San Francisco's Legacy Business Registry in 2026.",
+    "url": "https://richmondsunsetnews.com/2026/06/17/78-year-old-west-portal-bar-philosophers-club-honored-with-legacy-status/"
+   },
+   {
+    "text": "A ceiling mural painted in 2010 shows 29 philosophers and thinkers.",
+    "url": "https://richmondsunsetnews.com/2026/06/17/78-year-old-west-portal-bar-philosophers-club-honored-with-legacy-status/"
+   },
+   {
+    "text": "Was called Philosopher's Inn until the name changed to Philosopher's Club in 1975.",
+    "url": "https://richmondsunsetnews.com/2026/06/17/78-year-old-west-portal-bar-philosophers-club-honored-with-legacy-status/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4343745976",
+  "name": "Pied Piper",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for the 1909 Maxfield Parrish painting The Pied Piper of Hamelin, made for the Palace Hotel.",
+    "url": "https://www.piedpipersf.com/about-us"
+   },
+   {
+    "text": "Located in the Palace Hotel.",
+    "url": "https://www.piedpipersf.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n459507719",
+  "name": "Pilsner Inn",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened as a gay bar on October 3, 1980 by Pat Conlon.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/the-pilsner-inn/"
+   },
+   {
+    "text": "Was a straight bar from the 1940s before becoming a gay bar.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/the-pilsner-inn/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2026996037",
+  "name": "Pink Elephant",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.kron4.com/news/bay-area/sf-brunch-spot-known-for-bottomless-mimosas-to-close-cites-rent-dispute-with-landlord/",
+  "notFound": false,
+  "searches": 1,
+  "note": "Pink Elephant at 142 Minna St (brunch spot) announced closure over a rent dispute; last day June 29 (2025 by article age). Address from other search results, not the KRON4 snippet.",
+  "facts": []
+ },
+ {
+  "id": "osm-n2054109906",
+  "name": "Pissed Off Pete's",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://foursquare.com/v/pissed-off-petes/4a3ae39af964a52064a01fe3",
+  "notFound": false,
+  "searches": 1,
+  "note": "Foursquare title says Now Closed, Excelsior; 4528 Mission St per SF Examiner; Recovery Room dive bar took the space (hoodline 2018/05).",
+  "facts": []
+ },
+ {
+  "id": "osm-n960935983",
+  "name": "Pittsburgh's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar with two pool tables and a pinball machine.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/pittsburghs-pub"
+   }
+  ]
+ },
+ {
+  "id": "osm-n265506505",
+  "name": "Pops",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened on 24th Street in 1937.",
+    "url": "https://hoodline.com/2022/10/historied-mission-district-bar-recently-named-legacy-business-in-sf/"
+   },
+   {
+    "text": "Certified a San Francisco Legacy Business in September 2022.",
+    "url": "https://hoodline.com/2022/10/historied-mission-district-bar-recently-named-legacy-business-in-sf/"
+   },
+   {
+    "text": "Owned since 2014 by Michael Spike Krouse and Tom Tierney.",
+    "url": "https://hoodline.com/2022/10/historied-mission-district-bar-recently-named-legacy-business-in-sf/"
+   }
+  ]
+ }
+]
