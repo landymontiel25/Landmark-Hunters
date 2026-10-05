@@ -1,0 +1,805 @@
+[
+  {
+    "name": "Art's Cafe",
+    "area": "Inner Sunset",
+    "address": "747 Irving St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Ran in the Inner Sunset for 30 years before closing.",
+        "url": "https://www.sfgate.com/food/article/Art-s-Cafe-closes-after-30-years-in-San-Francisco-15420925.php"
+      },
+      {
+        "text": "Its Samurai omelet lives on after the diner reopened in the Sunset District.",
+        "url": "https://www.sfchronicle.com/food/article/Art-s-Cafe-and-its-Samurai-omelet-live-on-as-15928111.php"
+      }
+    ]
+  },
+  {
+    "name": "Lavash",
+    "area": "Inner Sunset",
+    "address": "511 Irving St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "One of few Persian restaurants in San Francisco.",
+        "url": "https://www.sfchronicle.com/food/article/Long-road-ahead-for-Lavash-one-of-few-Persian-14995766.php"
+      },
+      {
+        "text": "Reopened after a two-year closure following a kitchen fire.",
+        "url": "https://www.sfgate.com/food/article/Lavash-restuarant-reopens-Inner-Sunset-14945100.php"
+      }
+    ]
+  },
+  {
+    "name": "Ebisu",
+    "area": "Inner Sunset",
+    "address": "1283 9th Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Owned and operated by Steve and Koko Fujii.",
+        "url": "https://ebisusushi.com/about-ebisu-san-francisco"
+      },
+      {
+        "text": "Has been a Japanese and sushi restaurant in the Bay Area for more than 40 years.",
+        "url": "https://ebisusushi.com/about-ebisu-san-francisco"
+      }
+    ]
+  },
+  {
+    "name": "San Tung",
+    "area": "Inner Sunset",
+    "address": "1031 Irving St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Established in 1986 and serves Northern Style Chinese cooking.",
+        "url": "https://www.santungsf.com/"
+      },
+      {
+        "text": "Specializes in spicy chicken wings, dumplings and noodles.",
+        "url": "https://www.santungsf.com/"
+      }
+    ]
+  },
+  {
+    "name": "Um.ma",
+    "area": "Inner Sunset",
+    "address": "1220 9th Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Chef Chris Oh opened Um.ma in 2019 as a homage to his mother's Korean cooking.",
+        "url": "https://intentionalist.com/b/um-ma/"
+      },
+      {
+        "text": "Makes its own kimchi and serves Korean fried chicken.",
+        "url": "https://intentionalist.com/b/um-ma/"
+      },
+      {
+        "text": "Expanded with two takeout-only restaurants.",
+        "url": "https://www.sfchronicle.com/food/article/S-F-Korean-hit-Um-ma-is-expanding-with-2-playful-15961764.php"
+      }
+    ]
+  },
+  {
+    "name": "Hook Fish Co.",
+    "area": "Outer Sunset",
+    "address": "4542 Irving St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Brings sustainable seafood to the Outer Sunset.",
+        "url": "https://hoodline.com/2017/06/hook-fish-co-brings-sustainable-seafood-to-the-outer-sunset/"
+      },
+      {
+        "text": "Planned as a market and restaurant in the former Cajun Pacific space.",
+        "url": "https://hoodline.com/2016/10/hook-fish-co-plans-market-restaurant-inside-former-cajun-pacific/"
+      }
+    ]
+  },
+  {
+    "name": "Thanh Long",
+    "area": "Outer Sunset",
+    "address": "4101 Judah St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Established in 1971 as a family-run restaurant on Judah Street.",
+        "url": "https://www.thanhlongsf.com/"
+      },
+      {
+        "text": "Became the city's first Vietnamese restaurant.",
+        "url": "https://www.thanhlongsf.com/"
+      },
+      {
+        "text": "Garlic noodles with tiger prawns and whole-roasted Dungeness crab first came to life here.",
+        "url": "https://www.thanhlongsf.com/"
+      }
+    ]
+  },
+  {
+    "name": "Celia's by the Beach",
+    "area": "Outer Sunset",
+    "address": "4019 Judah St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Celebrated its 60th year anniversary.",
+        "url": "https://www.celiasbythebeach.com/60thyearanniversary.html"
+      },
+      {
+        "text": "One of many same-named Celia's Mexican restaurants around the Bay Area.",
+        "url": "https://www.sfgate.com/food/article/mystery-of-bay-area-celias-mexican-restaurants-sf-19527781.php"
+      }
+    ]
+  },
+  {
+    "name": "Devil's Teeth Baking Company",
+    "area": "Outer Sunset",
+    "address": "3876 Noriega St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Opened in April 2011 by Outer Sunset resident Hilary Passman.",
+        "url": "https://hoodline.com/2016/02/inside-devil-s-teeth-baking-company-an-outer-sunset-favorite/"
+      },
+      {
+        "text": "Passman set out to give neighbors a low-priced breakfast sandwich.",
+        "url": "https://hoodline.com/2016/02/inside-devil-s-teeth-baking-company-an-outer-sunset-favorite/"
+      }
+    ]
+  },
+  {
+    "name": "Java Beach Cafe",
+    "area": "Outer Sunset",
+    "address": "1396 La Playa St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Has been an Outer Sunset institution for 23 years as of 2016.",
+        "url": "https://hoodline.com/2016/02/23-years-of-java-beach-cafe-an-outer-sunset-institution/"
+      },
+      {
+        "text": "Also has a second location on Sloat Blvd.",
+        "url": "https://javabeachcafe.com/page/locations"
+      }
+    ]
+  },
+  {
+    "name": "The Riptide",
+    "area": "Outer Sunset",
+    "address": "3639 Taraval St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The building dates to 1941, when it opened as a seaside tavern.",
+        "url": "https://www.riptidesf.com/"
+      },
+      {
+        "text": "Hosts live music, DJs and karaoke and has a fireplace.",
+        "url": "https://www.riptidesf.com/"
+      }
+    ]
+  },
+  {
+    "name": "Little Original Joe's",
+    "area": "West Portal",
+    "address": "393 West Portal Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Opened in December 2020 for pizza and pasta takeout.",
+        "url": "https://hoodline.com/2020/12/little-original-joe-s-opens-for-pizza-and-pasta-takeout-in-west-portal/"
+      },
+      {
+        "text": "A spinoff of the historic Italian restaurant Original Joe's.",
+        "url": "https://www.sfchronicle.com/food/article/Historic-Italian-restaurant-Original-Joe-s-opens-15803671.php"
+      }
+    ]
+  },
+  {
+    "name": "Tunnel Records",
+    "area": "Parkside",
+    "address": "3614 Taraval St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Founded in 2017 by Ben Wintroub, who runs the record shop with a beach goods shop run by Andrea de Francisco.",
+        "url": "https://richmondsunsetnews.com/2024/07/03/tunnel-records-serves-up-tunes-and-community-to-the-west-side/"
+      },
+      {
+        "text": "Wintroub is the great nephew of jazz producer Orrin Keepnews.",
+        "url": "https://richmondsunsetnews.com/2024/07/03/tunnel-records-serves-up-tunes-and-community-to-the-west-side/"
+      }
+    ]
+  },
+  {
+    "name": "Andytown Coffee Roasters",
+    "area": "Outer Sunset",
+    "address": "3655 Lawton St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Founded in 2014 by Michael McCrory and Lauren Crabbe in a small space on Lawton Street.",
+        "url": "https://andytownsf.com/pages/about-us"
+      },
+      {
+        "text": "The name comes from Andersontown, Ireland, where McCrory's grandmother's soda bread recipe originates.",
+        "url": "https://andytownsf.com/pages/about-us"
+      },
+      {
+        "text": "Known for its Irish soda bread.",
+        "url": "https://www.sfchronicle.com/food/restaurants/article/andytown-irish-soda-bread-20226313.php"
+      }
+    ]
+  },
+  {
+    "name": "Gold Mirror",
+    "area": "Parkside",
+    "address": "800 Taraval St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Began as the Gold Mirror Cocktail Lounge on Fillmore Street in 1940 and moved to Taraval Street in 1953.",
+        "url": "https://thegoldmirrorsf.com/about/"
+      },
+      {
+        "text": "Chef Giuseppe Di Grande bought the restaurant in 1969 and his sons now run the kitchen.",
+        "url": "https://thegoldmirrorsf.com/about/"
+      },
+      {
+        "text": "Reopened in October 2025 after a two-year remodel.",
+        "url": "https://missionlocal.org/2025/10/sf-sunset-gold-mirror-reopens/"
+      }
+    ]
+  },
+  {
+    "name": "Arizmendi Bakery",
+    "area": "Inner Sunset",
+    "address": "1331 9th Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A worker-owned cooperative.",
+        "url": "https://www.arizmendibakery.com/"
+      },
+      {
+        "text": "Specializes in morning pastries, artisan breads and gourmet pizza.",
+        "url": "https://www.arizmendibakery.com/"
+      }
+    ]
+  },
+  {
+    "name": "Marnee Thai",
+    "area": "Inner Sunset",
+    "address": "1243 9th Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Chef Chai Siriyarn opened Marnee Thai in 1986.",
+        "url": "https://www.marneethaisf.com/about-5"
+      },
+      {
+        "text": "Recommended in the San Francisco Michelin Guide from 2011 to 2014.",
+        "url": "https://www.marneethaisf.com/about-5"
+      }
+    ]
+  },
+  {
+    "name": "Woods Outbound",
+    "area": "Outer Sunset",
+    "address": "4045 Judah St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Opened in early 2017 as the fifth brewpub run by Jim Woods in San Francisco and Oakland.",
+        "url": "https://hoodline.com/2017/01/outbound-brewpub-set-to-open-in-outer-sunset-next-month/"
+      },
+      {
+        "text": "Its opening menu centered on empanadas.",
+        "url": "https://hoodline.com/2017/01/outbound-brewpub-set-to-open-in-outer-sunset-next-month/"
+      }
+    ]
+  },
+  {
+    "name": "Sigmund Stern Recreation Grove",
+    "area": "Parkside",
+    "address": "19th Avenue and Sloat Boulevard",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Rosalie Meyer Stern donated the site to the city in 1931 and named it for her late husband.",
+        "url": "https://en.wikipedia.org/wiki/Sigmund_Stern_Recreation_Grove"
+      },
+      {
+        "text": "Dedicated June 4, 1932, with the first open-air symphony concert two weeks later.",
+        "url": "https://en.wikipedia.org/wiki/Sigmund_Stern_Recreation_Grove"
+      },
+      {
+        "text": "Original landscaping and facilities were built by the Works Progress Administration.",
+        "url": "https://en.wikipedia.org/wiki/Sigmund_Stern_Recreation_Grove"
+      }
+    ]
+  },
+  {
+    "name": "Fort Funston",
+    "area": "Outer Sunset",
+    "address": "Skyline Boulevard at John Muir Drive",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Began as San Francisco's most remote defense post in 1900.",
+        "url": "https://www.parksconservancy.org/parks/fort-funston"
+      },
+      {
+        "text": "Barracks, gun emplacements, antiaircraft guns and NIKE missiles protected the southern approach to the Bay.",
+        "url": "https://www.parksconservancy.org/parks/fort-funston"
+      }
+    ]
+  },
+  {
+    "name": "Pine Lake Park",
+    "area": "Parkside",
+    "address": "Sloat Boulevard and Vale Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Pine Lake is one of the few remaining natural lakes in San Francisco.",
+        "url": "https://sfrecpark.org/facilities/facility/details/pinelakepark-197"
+      },
+      {
+        "text": "A trail circles the lake and joins the Stern Grove trail network and a segment of the Bay Area Ridge Trail.",
+        "url": "https://sfrecpark.org/facilities/facility/details/pinelakepark-197"
+      }
+    ]
+  },
+  {
+    "name": "Carl Larsen Park",
+    "area": "Parkside",
+    "address": "19th Avenue and Vicente Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Carl Larsen donated the land, the site of his former chicken ranch, in 1926.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Carl-Larsen-Park-157"
+      },
+      {
+        "text": "Known as the airplane park for the decommissioned jets used as play structures from 1959 to 1993.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Carl-Larsen-Park-157"
+      }
+    ]
+  },
+  {
+    "name": "Parkside Square",
+    "area": "Parkside",
+    "address": "28th Avenue and Vicente Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Part of a 7.5-acre recreation complex bordering Stern Grove.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Parkside-Square-196"
+      },
+      {
+        "text": "Has the city's first completely ADA-accessible playground.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Parkside-Square-196"
+      }
+    ]
+  },
+  {
+    "name": "Grandview Park",
+    "area": "Outer Sunset",
+    "address": "Moraga Street and 14th Avenue",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Hilltop dune plant community on 140-million-year-old Franciscan chert.",
+        "url": "https://sfrecpark.org/facilities/facility/details/grandviewpark-338"
+      },
+      {
+        "text": "One of San Francisco's last remaining dune communities.",
+        "url": "https://sfrecpark.org/facilities/facility/details/grandviewpark-338"
+      }
+    ]
+  },
+  {
+    "name": "Hidden Garden Steps",
+    "area": "Inner Sunset",
+    "address": "16th Avenue between Kirkham and Lawton Streets",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A mosaic project that transformed the 16th Avenue steps between Kirkham and Lawton.",
+        "url": "http://hiddengardensteps.org/"
+      },
+      {
+        "text": "A project of the San Francisco Parks Alliance and the Public Works Street Parks program.",
+        "url": "http://hiddengardensteps.org/"
+      }
+    ]
+  },
+  {
+    "name": "Golden Gate Heights Park",
+    "area": "Outer Sunset",
+    "address": "12th Avenue and Rockridge Drive",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Cafe owner and chicken rancher Carl Larsen donated the land that became the park.",
+        "url": "https://www.sfchronicle.com/totalsf/article/golden-gate-heights-park-sunset-20011788.php"
+      },
+      {
+        "text": "Its playground was renovated and reopened.",
+        "url": "https://sf.funcheap.com/city-guide/sfs-newest-playground-reopening-golden-gate-heights/"
+      }
+    ]
+  },
+  {
+    "name": "Sunset Playground",
+    "area": "Outer Sunset",
+    "address": "2201 Lawton St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Residents have used Sunset Playground since 1940.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Sunset-Rec-Center-110"
+      },
+      {
+        "text": "Includes a recreation center, gymnasium, ping pong room, baseball field and two tennis courts.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Sunset-Rec-Center-110"
+      }
+    ]
+  },
+  {
+    "name": "Sunset Reservoir Park",
+    "area": "Parkside",
+    "address": "24th Avenue and Ortega Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The city's largest reservoir, completed in 1960 as an 11-acre subterranean concrete basin.",
+        "url": "https://en.wikipedia.org/wiki/Sunset_Reservoir"
+      },
+      {
+        "text": "Its North Basin holds a 5 MW solar farm that became operational in 2010.",
+        "url": "https://cleanview.co/power-projects/operating/solar-farms/california/57559/sunset-reservoir-north-basin"
+      }
+    ]
+  },
+  {
+    "name": "Sunset Branch Library",
+    "area": "Inner Sunset",
+    "address": "1305 18th Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Designated San Francisco Landmark 239 as the Carnegie Library Sunset.",
+        "url": "https://noehill.com/sf/landmarks/sf239.asp"
+      },
+      {
+        "text": "One of the Carnegie libraries of California.",
+        "url": "https://www.carnegie-libraries.org/california/sf-sunset.html"
+      }
+    ]
+  },
+  {
+    "name": "Ortega Branch Library",
+    "area": "Outer Sunset",
+    "address": "3223 Ortega St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The original branch opened in 1956 and was designed by Appleton and Wolfard.",
+        "url": "https://sfpl.org/locations/ortega/ortega-library-history"
+      },
+      {
+        "text": "The current building opened September 10, 2011 on the same site.",
+        "url": "https://sfpl.org/locations/ortega/ortega-library-history"
+      }
+    ]
+  },
+  {
+    "name": "Sunset Dunes",
+    "area": "Outer Sunset",
+    "address": "Great Highway between Lincoln Way and Sloat Boulevard",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Opened April 12, 2025 as a 2-mile, 50-acre park on the former Great Highway.",
+        "url": "https://sfrecpark.org/1555/Sunset-Dunes"
+      },
+      {
+        "text": "Voters approved Proposition K in November 2024 to make the Upper Great Highway a permanent park.",
+        "url": "https://sfrecpark.org/1555/Sunset-Dunes"
+      }
+    ]
+  },
+  {
+    "name": "San Francisco Zoo",
+    "area": "Outer Sunset",
+    "address": "Sloat Boulevard",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Fleishhacker bought a 30-acre site from the Spring Valley Water Company in 1922.",
+        "url": "https://www.sfzoo.org/our-history-1922-the-zoo-finds-a-home/"
+      },
+      {
+        "text": "The first major exhibits were built in the 1930s by the Works Progress Administration.",
+        "url": "https://www.sfzoo.org/our-history-1930s-our-wpa-roots/"
+      }
+    ]
+  },
+  {
+    "name": "After Hours",
+    "area": "Parkside",
+    "address": "3044 Taraval St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": true,
+    "closedSource": "https://www.yelp.com/biz/after-hours-san-francisco-2",
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "Parkside Tavern",
+    "area": "Parkside",
+    "address": "1940 Taraval St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": true,
+    "closedSource": "https://www.yelp.com/biz/parkside-tavern-san-francisco",
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "King of Noodles",
+    "area": "Inner Sunset",
+    "address": "1639 Irving St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Serves handmade dumplings and noodle soups.",
+        "url": "https://kingofnoodlessf.com/"
+      }
+    ]
+  }
+]
