@@ -693,13 +693,8 @@
   "area": "Menlo Park",
   "address": "75 Arbor Rd",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-w129672962",
-  "how": "within 75 m of the address",
-  "town": "Menlo Park",
-  "lat": 37.4417809,
-  "lng": -122.1792038,
-  "osmName": "Allied Arts Guild"
+  "status": "NOT_FOUND",
+  "why": "no OSM object with this name"
  },
  {
   "name": "The Village Bakery and Cafe",
@@ -861,7 +856,7 @@
   "address": "1100 Kings Mountain Rd",
   "tier": "everyday",
   "status": "NOT_FOUND",
-  "why": "outside the region"
+  "why": "named OSM object not at the researched address"
  },
  {
   "name": "Wunderlich Park",
@@ -870,7 +865,7 @@
   "address": "4040 Woodside Rd",
   "tier": "everyday",
   "status": "NOT_FOUND",
-  "why": "named OSM object not at the researched address"
+  "why": "no OSM object with this name"
  },
  {
   "name": "Coal Creek Preserve",
@@ -1301,7 +1296,7 @@
   "address": "Shoreline Park to L'Avenida Avenue",
   "tier": "everyday",
   "status": "NOT_FOUND",
-  "why": "researched address not found and OSM address differs"
+  "why": "no OSM object with this name"
  },
  {
   "name": "Fibbar MaGees",
@@ -1988,7 +1983,7 @@
   "address": null,
   "tier": "everyday",
   "status": "NOT_FOUND",
-  "why": "researched address not found and OSM address differs"
+  "why": "no OSM object with this name"
  },
  {
   "name": "Stanford Live",
@@ -2206,13 +2201,8 @@
   "area": "Palo Alto",
   "address": "1530 Arastradero Rd",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-r10781180",
-  "how": "within 75 m of the address",
-  "town": "Palo Alto",
-  "lat": 37.3764639,
-  "lng": -122.1867808,
-  "osmName": "Enid Pearson-Arastradero Preserve"
+  "status": "NOT_FOUND",
+  "why": "named OSM object not at the researched address"
  },
  {
   "name": "Song Sparrow Spur Trail, Shoreline",
@@ -2589,13 +2579,8 @@
   "area": "Cupertino",
   "address": "11401 Stevens Canyon Rd",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-r21200565",
-  "how": "within 75 m of the address",
-  "town": "Cupertino",
-  "lat": 37.3351123,
-  "lng": -122.0647106,
-  "osmName": "Stevens Creek"
+  "status": "NOT_FOUND",
+  "why": "named OSM object not at the researched address"
  },
  {
   "name": "Central Park",
@@ -2862,13 +2847,8 @@
   "area": "Los Altos",
   "address": "51 S San Antonio Rd",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-w163377931",
-  "how": "osm address",
-  "town": "Los Altos",
-  "lat": 37.3808744,
-  "lng": -122.1120038,
-  "osmName": "Los Altos History Museum"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Protégé",
@@ -3019,13 +2999,8 @@
   "area": "Mountain View",
   "address": "938 Villa St",
   "tier": "acclaimed",
-  "status": "FOUND",
-  "id": "osm-w257543153",
-  "how": "osm address",
-  "town": "Mountain View",
-  "lat": 37.3946741,
-  "lng": -122.0804165,
-  "osmName": "Chez TJ"
+  "status": "CLOSED",
+  "why": "https://en.wikipedia.org/wiki/Chez_TJ (closed April 2026; Yelp also marks CLOSED)"
  },
  {
   "name": "Alexander's Steakhouse",

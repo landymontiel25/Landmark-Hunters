@@ -1,0 +1,736 @@
+[
+  {
+    "name": "Wild Side West",
+    "area": "Bernal Heights",
+    "address": "424 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Founded in 1962 by Pat Ramseyer and Nancy White, it began in Oakland.",
+        "url": "https://en.wikipedia.org/wiki/Wild_Side_West"
+      },
+      {
+        "text": "Moved to Bernal Heights in 1977 and bought an 1890s Italianate-style building.",
+        "url": "https://en.wikipedia.org/wiki/Wild_Side_West"
+      },
+      {
+        "text": "Named after the 1962 film Walk on the Wild Side.",
+        "url": "https://en.wikipedia.org/wiki/Wild_Side_West"
+      }
+    ]
+  },
+  {
+    "name": "3rd Cousin",
+    "area": "Bernal Heights",
+    "address": "919 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Chef and owner Greg Lutes opened the restaurant in 2015.",
+        "url": "https://missionlocal.org/2025/01/3rd-cousin-rustic-elegant-cuisine-in-bernal/"
+      },
+      {
+        "text": "The menu is seasonal and hyper-local, with French, Italian and Asian leanings.",
+        "url": "https://missionlocal.org/2025/01/3rd-cousin-rustic-elegant-cuisine-in-bernal/"
+      }
+    ]
+  },
+  {
+    "name": "Nute's",
+    "area": "Bernal Heights",
+    "address": "903 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Serves Japanese and Thai noodles, including khao soi and ramen.",
+        "url": "https://www.theinfatuation.com/san-francisco/reviews/nutes"
+      },
+      {
+        "text": "Its tonkotsu ramen is flavored with roasted black garlic oil.",
+        "url": "https://www.theinfatuation.com/san-francisco/reviews/nutes"
+      }
+    ]
+  },
+  {
+    "name": "Black Jet Baking Co.",
+    "area": "Bernal Heights",
+    "address": "833 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A woman-owned and operated bakery run by baker and owner Gillian Shaw Lundgren.",
+        "url": "https://www.blackjetbakery.com/"
+      },
+      {
+        "text": "Sits at the corner of Cortland and Gates in Bernal Heights.",
+        "url": "https://www.blackjetbakery.com/"
+      }
+    ]
+  },
+  {
+    "name": "Pinhole Coffee",
+    "area": "Bernal Heights",
+    "address": "231 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A multi-roaster cafe founded by JoEllen Depakakibo.",
+        "url": "https://sprudge.com/build-outs-summer-pinhole-coffee-bernal-heights-san-francisco-56921.html"
+      },
+      {
+        "text": "Opened in 2014 on Cortland Avenue in Bernal Heights.",
+        "url": "https://sprudge.com/build-outs-summer-pinhole-coffee-bernal-heights-san-francisco-56921.html"
+      }
+    ]
+  },
+  {
+    "name": "Holy Water",
+    "area": "Bernal Heights",
+    "address": "309 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Its cocktails are built from three to four ingredients.",
+        "url": "https://punchdrink.com/venues/holy-water/"
+      },
+      {
+        "text": "Runs an 11th hour offering each night at 11 p.m., such as rare beer or stump-the-bartender.",
+        "url": "https://punchdrink.com/venues/holy-water/"
+      }
+    ]
+  },
+  {
+    "name": "Avedano's Holly Park Market",
+    "area": "Bernal Heights",
+    "address": "235 Cortland Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Sells pasture-raised meat from small farms in Northern California.",
+        "url": "https://avedanos.com/new2019/"
+      },
+      {
+        "text": "Occupies a Bernal Heights shop that first opened nearly a century ago.",
+        "url": "https://avedanos.com/new2019/"
+      },
+      {
+        "text": "Has a private event space next door called The Udder Room.",
+        "url": "https://avedanos.com/new2019/the-udder-room/"
+      }
+    ]
+  },
+  {
+    "name": "The Halfway Club",
+    "area": "Excelsior",
+    "address": "1166 Geneva Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A Midwestern-inspired bar that pours a Wisconsin Old-Fashioned with Argonaut Brandy.",
+        "url": "https://www.theinfatuation.com/san-francisco/reviews/the-halfway-club"
+      },
+      {
+        "text": "Hosts weekly trivia nights, jazz performances and patio concerts.",
+        "url": "https://www.theinfatuation.com/san-francisco/reviews/the-halfway-club"
+      }
+    ]
+  },
+  {
+    "name": "Breakfast at Tiffany's",
+    "area": "Portola",
+    "address": "2499 San Bruno Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Diner open since 1978, started by Gerald \"Gerry\" Adan.",
+        "url": "https://www.breakfastattiffanyssf.com/our-story"
+      },
+      {
+        "text": "Named for the original owner's niece, Tiffany.",
+        "url": "https://www.breakfastattiffanyssf.com/our-story"
+      },
+      {
+        "text": "Reopened in November 2014 with longtime chef Dennis Baca at the stove.",
+        "url": "https://www.breakfastattiffanyssf.com/our-story"
+      }
+    ]
+  },
+  {
+    "name": "Excelsior Coffee",
+    "area": "Excelsior",
+    "address": "4495 Mission St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Describes itself as a hard working coffee joint in love with its neighborhood.",
+        "url": "https://www.xlcrsf.com/about"
+      },
+      {
+        "text": "Its store blends coffee and moto culture, inspired by engines and espresso.",
+        "url": "https://www.xlcrsf.com/about"
+      }
+    ]
+  },
+  {
+    "name": "Ocean Ale House",
+    "area": "Ingleside",
+    "address": "1314 Ocean Ave",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Makes its pub food with as many house made and farm grown ingredients as possible.",
+        "url": "https://oceanalehouse.com/"
+      },
+      {
+        "text": "Hosts regular live music events.",
+        "url": "https://oceanalehouse.com/"
+      }
+    ]
+  },
+  {
+    "name": "Scoma's",
+    "area": "Fisherman's Wharf",
+    "address": "Al Scoma Way",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Brothers Albert and Joseph Scoma opened it on Pier 47 in May 1965.",
+        "url": "https://scomas.com/history/"
+      },
+      {
+        "text": "It started by taking over a six-stool coffee shop that served fishermen.",
+        "url": "https://scomas.com/history/"
+      },
+      {
+        "text": "Jones Alley was renamed Al Scoma Way, with a dedication in 2002.",
+        "url": "https://scomas.com/history/"
+      }
+    ]
+  },
+  {
+    "name": "Fog Harbor Fish House",
+    "area": "Fisherman's Wharf",
+    "address": "Pier 39",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A family-owned restaurant at the entrance of Pier 39, on the second level.",
+        "url": "https://fogharbor.com/"
+      },
+      {
+        "text": "Bakes its sourdough bread in-house every hour.",
+        "url": "https://fogharbor.com/"
+      },
+      {
+        "text": "Says its seafood is 100% sustainable.",
+        "url": "https://fogharbor.com/"
+      }
+    ]
+  },
+  {
+    "name": "Musée Mécanique",
+    "area": "Fisherman's Wharf",
+    "address": "Pier 45",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Holds a privately owned collection of coin-operated instruments and antique arcade machines in working order.",
+        "url": "http://www.museemecaniquesf.com/image.php?img=%2Fimages%2Fmachines%2FIMG_8962.jpg"
+      },
+      {
+        "text": "The collection includes a Wurlitzer orchestrion from about 1912.",
+        "url": "http://www.museemecaniquesf.com/image.php?img=%2Fimages%2Fmachines%2FIMG_8962.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Gary Danko",
+    "area": "Fisherman's Wharf",
+    "address": "800 North Point St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The dining room opened in 1999.",
+        "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/gary-danko"
+      },
+      {
+        "text": "Known for its large cheese trolley.",
+        "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/gary-danko"
+      }
+    ]
+  },
+  {
+    "name": "Boudin Bakery & Museum",
+    "area": "Fisherman's Wharf",
+    "address": "160 Jefferson St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Isidore Boudin began baking San Francisco sourdough in 1849.",
+        "url": "https://boudinbakery.com/our-story/our-history/"
+      },
+      {
+        "text": "Still bakes with mother dough cultivated from a gold miner's sourdough starter.",
+        "url": "https://boudinbakery.com/our-story/our-history/"
+      },
+      {
+        "text": "The Fisherman's Wharf location is the flagship and home of the mother dough.",
+        "url": "https://boudinbakery.com/location/boudin-bakery-bakers-hall/"
+      }
+    ]
+  },
+  {
+    "name": "Eagle Cafe",
+    "area": "Fisherman's Wharf",
+    "address": "Pier 39",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Opened in 1928 at the corner of Powell and Embarcadero.",
+        "url": "https://www.pier39.com/attraction/eagle-cafe/"
+      },
+      {
+        "text": "Moved in 1978 to its current spot atop the entrance of Pier 39.",
+        "url": "https://www.pier39.com/attraction/eagle-cafe/"
+      }
+    ]
+  },
+  {
+    "name": "Cioppino's",
+    "area": "Fisherman's Wharf",
+    "address": "400 Jefferson St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Has served Italian and seafood dishes at Fisherman's Wharf since 1997.",
+        "url": "https://www.fishermanswharf.org/italian-history/cioppinos-restaurant/"
+      },
+      {
+        "text": "Owned by fifth-generation native San Franciscans.",
+        "url": "https://www.fishermanswharf.org/italian-history/cioppinos-restaurant/"
+      }
+    ]
+  },
+  {
+    "name": "Blue Mermaid",
+    "area": "Fisherman's Wharf",
+    "address": "471 Jefferson St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Located in the Argonaut Hotel.",
+        "url": "https://www.fishermanswharf.org/listing/blue-mermaid/107/"
+      },
+      {
+        "text": "Serves house-made chowders in three bowl sizes, including a bread bowl.",
+        "url": "https://www.fishermanswharf.org/listing/blue-mermaid/107/"
+      }
+    ]
+  },
+  {
+    "name": "Precita Eyes Mural Arts and Visitors Center",
+    "area": "Mission District",
+    "address": "2981 24th St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Precita Eyes Muralists Association was founded in 1977 by Susan and Luis Cervantes.",
+        "url": "https://en.wikipedia.org/wiki/Precita_Eyes"
+      },
+      {
+        "text": "Bought the 24th Street building in 1998, near Balmy Alley.",
+        "url": "https://en.wikipedia.org/wiki/Precita_Eyes"
+      },
+      {
+        "text": "The first organization added to the Legacy Business Registry, in 2015.",
+        "url": "https://en.wikipedia.org/wiki/Precita_Eyes"
+      }
+    ]
+  },
+  {
+    "name": "El Rio",
+    "area": "Mission District",
+    "address": "3158 Mission St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Established in 1978 by Malcolm Thornley and Robert Nett.",
+        "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+      },
+      {
+        "text": "Recognized as a Legacy Business by the San Francisco Small Business Commission.",
+        "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+      },
+      {
+        "text": "The first gay bar to debut queer salsa in San Francisco.",
+        "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+      }
+    ]
+  },
+  {
+    "name": "Crocker Amazon Playground",
+    "area": "Excelsior",
+    "address": "Moscow Street and Geneva Avenue",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Has four dedicated pickleball courts.",
+        "url": "https://sfrecpark.org/m/newsflash/home/detail/2408"
+      },
+      {
+        "text": "The baseball and softball complex was approved to be named Willie Mays Fields of Champions.",
+        "url": "https://sfrecpark.org/m/newsflash/home/detail/2832"
+      }
+    ]
+  },
+  {
+    "name": "Lake Merced Park",
+    "area": "Lake Merced",
+    "address": "",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The lake anchors a 614-acre park.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Lake-Merced-349"
+      },
+      {
+        "text": "A 4.5-mile paved trail circles the lake.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Lake-Merced-349"
+      },
+      {
+        "text": "Has a boathouse, fishing pier and boat launch.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Lake-Merced-349"
+      }
+    ]
+  },
+  {
+    "name": "Brooks Park",
+    "area": "Excelsior",
+    "address": "373 Ramsell St",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The hilltop has views of the Pacific Ocean, the Farallones and Mt. Tamalpais.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Brooks-Park-153"
+      },
+      {
+        "text": "A $1.3 million grant approved in 1994 let the park grow by six surrounding acres.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Brooks-Park-153"
+      },
+      {
+        "text": "Has a community garden and native plant restoration.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Brooks-Park-153"
+      }
+    ]
+  },
+  {
+    "name": "Excelsior Playground",
+    "area": "Excelsior",
+    "address": "Russia Avenue and Madrid Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Has a baseball diamond, tennis courts and a clubhouse.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Excelsior-Playground-238"
+      },
+      {
+        "text": "The clubhouse offers year-round programs in multiple languages.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Excelsior-Playground-238"
+      }
+    ]
+  },
+  {
+    "name": "Holly Park",
+    "area": "Bernal Heights",
+    "address": "Holly Park Circle",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "One of the city's oldest public parks.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Holly-Park-173"
+      },
+      {
+        "text": "A path around the perimeter gives views of the city from the hilltop.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Holly-Park-173"
+      }
+    ]
+  },
+  {
+    "name": "John McLaren Park",
+    "area": "Excelsior",
+    "address": "",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Includes the Jerry Garcia Amphitheater.",
+        "url": "https://sfrecpark.org/882/John-McLaren-Park---Jerry-Garcia-Amphith"
+      },
+      {
+        "text": "Has miles of walking trails.",
+        "url": "https://sfrecpark.org/454/McLaren-Park-Trails"
+      }
+    ]
+  },
+  {
+    "name": "Alemany Farm",
+    "area": "Bernal Heights",
+    "address": "700 Alemany Boulevard",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A 3.5 acre organic farm managed by Friends of Alemany Farm.",
+        "url": "https://alemanyfarm.org/about-us/"
+      },
+      {
+        "text": "All produce is given away for free rather than sold.",
+        "url": "https://alemanyfarm.org/about-us/"
+      },
+      {
+        "text": "Describes itself as the largest agricultural site in San Francisco.",
+        "url": "https://alemanyfarm.org/about-us/"
+      }
+    ]
+  },
+  {
+    "name": "Balboa Park",
+    "area": "Excelsior",
+    "address": "511 Havelock Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Home to Boxer Stadium, four ball fields and an indoor pool.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Balboa-Park-148"
+      },
+      {
+        "text": "Includes a skateboard park and a children's play area.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Balboa-Park-148"
+      }
+    ]
+  },
+  {
+    "name": "Merced Heights Playground",
+    "area": "Merced Heights",
+    "address": "Byxbee Street and Shields Street",
+    "city": "San Francisco",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A neighborhood park of just over one acre.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Merced-Heights-Playground-256"
+      },
+      {
+        "text": "A lower lawn terrace renovation was completed in May 2023.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Merced-Heights-Playground-256"
+      }
+    ]
+  }
+]

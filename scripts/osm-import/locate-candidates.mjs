@@ -61,12 +61,13 @@ const webFacts = JSON.parse(fs.readFileSync(FACTS, 'utf8'));
 for (const c of rows.values()) {
   // "acclaimed" needs a current award or list (2025 or 2026) among its facts;
   // an older one stays a fact, and the place an everyday one.
-  const current = (c.facts || []).some((x) => /\b(2025|2026)\b/.test(x.text || ''));
+  const kept = (c.facts || []).filter((x) => okWebFact(x) && x.text.length <= 120 && !OPINION.test(x.text) && !rejected.has(`${key(c.name)}|${x.text.trim()}`));
+  const current = kept.some((x) => /\b(2025|2026)\b/.test(x.text || ''));
   const tier = c.tier === 'acclaimed' && !current ? 'everyday' : c.tier === 'insider' && !(c.reason?.text && c.reason?.url) ? 'everyday' : c.tier || 'everyday';
   const base = { name: c.name, file: c.file, area: c.area || null, address: c.address || null, tier };
   if (c.closed || closedByVerify.has(key(c.name))) { located.push({ ...base, status: 'CLOSED', why: c.closedSource || closedByVerify.get(key(c.name)) || 'closed per research' }); continue; }
   if (c.notFound || c.matched === false) { located.push({ ...base, status: 'UNCONFIRMED', why: 'research found no result confirming it' }); continue; }
-  const facts = (c.facts || []).filter((x) => okWebFact(x) && x.text.length <= 120 && !OPINION.test(x.text) && !rejected.has(`${key(c.name)}|${x.text.trim()}`));
+  const facts = kept;
   if (!facts.length) { located.push({ ...base, status: 'NO_FACTS', why: 'no sourced fact passed the fact rules' }); continue; }
   let results = await nominatim({ q: c.name, viewbox: box, bounded: '1' });
   let geo = null;
