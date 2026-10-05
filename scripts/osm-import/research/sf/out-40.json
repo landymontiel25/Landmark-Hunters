@@ -1,0 +1,444 @@
+[
+ {
+  "id": "osm-n725096449",
+  "name": "The Mortimer",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for Mortimer A. Samuel, who built the Hotel Adagio in 1929.",
+    "url": "https://www.thehoteladagio.com/the-mortimer-bar-and-lounge"
+   },
+   {
+    "text": "Serves signature craft cocktails and small plates in a prohibition-era style.",
+    "url": "https://www.thehoteladagio.com/the-mortimer-bar-and-lounge"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3540160996",
+  "name": "The Music Store",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1998.",
+    "url": "https://www.yelp.ca/biz/the-music-store-san-francisco"
+   },
+   {
+    "text": "Sells records, CDs, DVDs, tapes, games and comics across two floors.",
+    "url": "https://www.yelp.ca/biz/the-music-store-san-francisco"
+   },
+   {
+    "text": "Also offers music lessons in guitar, bass, ukulele and piano.",
+    "url": "https://www.yelp.ca/biz/the-music-store-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9416928749",
+  "name": "The Nag's Head",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A small bar with a counter running the full length of the room.",
+    "url": "https://divesofourlives.blog/2024/03/31/the-nags-head-san-francisco/"
+   },
+   {
+    "text": "Has a dart area whose tables fold down on hinges when a game starts.",
+    "url": "https://divesofourlives.blog/2024/03/31/the-nags-head-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4934823007",
+  "name": "The Napper Tandy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Woman-owned and family-operated Irish bar and grill.",
+    "url": "https://thenappertandysf.com/"
+   },
+   {
+    "text": "Serves Irish pub food built on family recipes.",
+    "url": "https://thenappertandysf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3675574681",
+  "name": "The Nite Cap",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a historic neon sign and picture-frame showcase windows.",
+    "url": "http://nitecapsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2248286001",
+  "name": "The Occidental Cigar Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sells cigars by the box or individually, along with wine, beer and spirits.",
+    "url": "https://downtownsf.org/go/occidental-cigar-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n529771968",
+  "name": "The Orbit Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "SFist (2015) reported the original Orbit Room closed in April 2015; site shows events in 2026, so open now.",
+  "facts": [
+   {
+    "text": "Serves pizza and craft cocktails made with house-made ingredients.",
+    "url": "https://www.orbitroomsf.com/"
+   },
+   {
+    "text": "Hosts comedy showcases and trivia nights.",
+    "url": "https://www.orbitroomsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n731989581",
+  "name": "The Outsider",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar in the Tenderloin with a jukebox.",
+    "url": "https://thesanfranciscobarexperiment.wordpress.com/2010/02/01/the-outsider-tenderloin/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n61674029",
+  "name": "The Page",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has 24 beers on tap, plus cocktails and wine.",
+    "url": "https://www.thepagebar.com/"
+   },
+   {
+    "text": "Brings in pizza from neighboring Bus Stop Pizza to the table.",
+    "url": "https://www.thepagebar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1713269638",
+  "name": "The Peaks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A small neighborhood dive bar that has operated since 1938.",
+    "url": "https://www.gofundme.com/f/helpthepeaksbar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2879135417",
+  "name": "The Phone Booth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A very small dive bar with a jukebox.",
+    "url": "https://www.timeout.com/san-francisco/bars/phone-booth"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1982439159",
+  "name": "The Pig & Whistle",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "An English-style pub that specializes in ales from around the world.",
+    "url": "http://www.pig-and-whistle.com/"
+   },
+   {
+    "text": "Sponsors its own soccer and cricket teams.",
+    "url": "http://www.pig-and-whistle.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13699453819",
+  "name": "The Plastic Pancake",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sells secondhand vinyl records, including blues, rockabilly and classic rock.",
+    "url": "https://www.atly.com/location/ThePlasticPancake"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5840675540",
+  "name": "The Plough and the Stars",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts traditional Irish music sessions and Irish set dancing.",
+    "url": "https://theploughandstars.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13019496826",
+  "name": "The Red Tail",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Input has no address; the bar's site shows 545 Irving Street, matching the Inner Sunset location.",
+  "facts": [
+   {
+    "text": "A neighborhood beer and wine bar with rotating craft beers and weekly trivia.",
+    "url": "https://www.redtailsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3611826293",
+  "name": "The Regency Ballroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The Regency Center building dates to 1909 and follows Scottish Rite temple architecture.",
+    "url": "https://www.theregencyballroom.com/"
+   },
+   {
+    "text": "The Regency Center has three venues: the Regency Ballroom, Social Hall SF and The Lodge.",
+    "url": "https://www.theregencyballroom.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w287720563",
+  "name": "The Riptide",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The building dates to 1941, when it opened as a seaside tavern.",
+    "url": "https://www.riptidesf.com/"
+   },
+   {
+    "text": "Has a wood fireplace and hosts live music, DJs and karaoke with no cover.",
+    "url": "https://www.riptidesf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n412089163",
+  "name": "The Royal Oak",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.insidehook.com/san-francisco/remembering-royal-oak-fern-bars",
+  "notFound": false,
+  "searches": 4,
+  "note": "InsideHook article on the loss of Royal Oak (2201 Polk St); Yelp page (m.yelp.com/biz/royal-oak-san-francisco) titled CLOSED, updated July 2026, outranks the undated site royaloak-sf.com. Address shown by sources: 2201 Polk St.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4299448689",
+  "name": "The Royale",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts cover-free live music on stage every weekend.",
+    "url": "https://www.theroyalesf.com/about-1"
+   },
+   {
+    "text": "Sits in a historical building at the foot of Nob Hill, with a wrap-around bar and upstairs mezzanine.",
+    "url": "https://www.theroyalesf.com/about-1"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4312016590",
+  "name": "The Rumpus Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts Tuesday karaoke, open mic comedy and DJ nights.",
+    "url": "https://www.therumpusroomsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4071080789",
+  "name": "The Sage & Drifter",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A cocktail bar.",
+    "url": "https://restaurantguru.com/The-Sage-and-Drifter-San-Francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1607230272",
+  "name": "The Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1861 as Wagner's Beer Hall, founded by Ferdinand E. Wagner.",
+    "url": "https://en.wikipedia.org/wiki/The_Saloon"
+   },
+   {
+    "text": "Its wooden bar was built outside the US and installed in 1860.",
+    "url": "https://en.wikipedia.org/wiki/The_Saloon"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12288987452",
+  "name": "The Sea Star",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dog-friendly bar with 10 rotating taps of craft beer.",
+    "url": "https://www.theseastarsf.com/"
+   },
+   {
+    "text": "Hosts free live acoustic music on Tuesdays.",
+    "url": "https://www.theseastarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3540161001",
+  "name": "The Sherwood Cocktails and Lounge",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/the-sherwood-cocktails-and-lounge-san-francisco-2",
+  "notFound": false,
+  "searches": 3,
+  "note": "Yelp page for The Sherwood Cocktails and Lounge, 179 W Portal Ave, titled CLOSED, updated June 2026; it outranks the undated sherwoodsf.com.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9845699052",
+  "name": "The Social Study",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A day and evening lounge serving Four Barrel coffee by day and winetails, beertails and sangria at night.",
+    "url": "http://www.thesocialstudysf.com/"
+   }
+  ]
+ }
+]
