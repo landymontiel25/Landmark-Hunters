@@ -1,0 +1,483 @@
+[
+ {
+  "id": "osm-n2339601284",
+  "name": "Presidio Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Originally called El Presidio and designed in the Streamline Moderne style.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/cinema-treasures-in-the-marina/"
+   },
+   {
+    "text": "Reopened on Christmas Day 2004 as a four-screen cinema after a remodel by Lee Neighborhood Theaters.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/cinema-treasures-in-the-marina/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32650566",
+  "name": "Presidio Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Source dates the original building to 1939; OSM says 1938.",
+  "facts": [
+   {
+    "text": "Built by the U.S. Army with WPA funding, as a theater for soldiers and their families.",
+    "url": "https://www.presidiotheatre.org/history"
+   },
+   {
+    "text": "Reopened as a performing arts center after a $44 million renovation that began in 2017.",
+    "url": "https://www.presidiotheatre.org/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-w104682197",
+  "name": "Punch Line Comedy Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1978.",
+    "url": "https://en.wikipedia.org/wiki/Punch_Line_San_Francisco"
+   },
+   {
+    "text": "Has Legacy Business status from the City of San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Punch_Line_San_Francisco"
+   },
+   {
+    "text": "Has a sister club in Sacramento.",
+    "url": "https://en.wikipedia.org/wiki/Punch_Line_San_Francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10610255657",
+  "name": "Regal Stonestown Galleria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has RPX with HDR by Barco and a ScreenX auditorium.",
+    "url": "https://www.regmovies.com/theatres/regal-stonestown-galleria-1464"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2042397283",
+  "name": "Roxie",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Little Roxie is at 3125 16th St; main Roxie is at 3117 16th St.",
+  "facts": [
+   {
+    "text": "Became a stand-alone nonprofit 501(c)(3) in 2009.",
+    "url": "https://roxie.com/about-us/history/"
+   },
+   {
+    "text": "Taken over in March 1976 and turned into an art and independent film house.",
+    "url": "https://roxie.com/about-us/history/"
+   },
+   {
+    "text": "A second screen, the Little Roxie, opened in 2003.",
+    "url": "https://roxie.com/about-us/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n381948427",
+  "name": "San Francisco Playhouse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "No address given; matched to current home at 450 Post Street, about 100 m away.",
+  "facts": [
+   {
+    "text": "A nonprofit theater company founded in 2003 by Bill English and Susi Damilano.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Playhouse"
+   },
+   {
+    "text": "Received the American Theatre Wing's National Theatre Company Grant in 2015.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Playhouse"
+   },
+   {
+    "text": "Runs a Rising Star Program that provides theater tickets to under-served youth.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Playhouse"
+   }
+  ]
+ },
+ {
+  "id": "osm-w404847048",
+  "name": "San Francisco Zoo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Covers about 100 acres in the southwest corner of the city, next to Lake Merced and the Great Highway.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Zoo"
+   },
+   {
+    "text": "Owned by the city Recreation and Park Department and managed by the nonprofit San Francisco Zoological Society.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Zoo"
+   },
+   {
+    "text": "Birthplace of Koko the gorilla.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Zoo"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11725217803",
+  "name": "Shelton Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1993 by Matt Shelton and part of the Shelton Studios arts community, founded in 1961.",
+    "url": "https://sheltontheater.org/about/"
+   },
+   {
+    "text": "Hosts stand-up comedy, improv and art shows in two venues of 102 and 70 seats.",
+    "url": "https://sheltontheater.org/about/"
+   },
+   {
+    "text": "Also offers acting and improvisation classes.",
+    "url": "https://sheltontheater.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11423890645",
+  "name": "Skystar Wheel - Fisherman’s Wharf",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Moved to Fisherman's Wharf from its earlier site in Golden Gate Park.",
+    "url": "https://www.sfgate.com/local/article/sf-ferris-wheel-move-golden-gate-park-fishermans-18381239.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11390824776",
+  "name": "Smartwater Stage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts free daily street performer shows, weather permitting, at the bay end of Pier 39.",
+    "url": "https://www.pier39.com/street-performers-musicians/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4022626945",
+  "name": "Southside Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an elevated proscenium stage and seats 162.",
+    "url": "https://thevendry.com/venue/21108/fort-mason-center-for-arts-culture-san-francisco-ca/space/1308"
+   },
+   {
+    "text": "Located in Building D of Fort Mason Center.",
+    "url": "https://www.theatermania.com/venue/fort-mason-center-southside-theatre-bldg-d/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w30896932",
+  "name": "Spreckels Temple of Music",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Paid for by Claus Spreckels after his son Adolph, Park Commission president, persuaded him to fund a larger bandshell.",
+    "url": "https://en.wikipedia.org/wiki/Spreckels_Temple_of_Music"
+   },
+   {
+    "text": "Its two relief sculptures are by Robert Ingersoll Aitken.",
+    "url": "https://en.wikipedia.org/wiki/Spreckels_Temple_of_Music"
+   },
+   {
+    "text": "Damaged in the 1906 and 1989 earthquakes and renovated several times.",
+    "url": "https://en.wikipedia.org/wiki/Spreckels_Temple_of_Music"
+   }
+  ]
+ },
+ {
+  "id": "osm-w255960461",
+  "name": "Strand Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A.C.T. bought the historic cinema in February 2012 and reopened it as a theater in spring 2015.",
+    "url": "https://www.act-sf.org/your-visit/our-venues/the-strand-theater"
+   },
+   {
+    "text": "Has a 283-seat theater and a 120-seat event and performance space, the Rueff Cabaret Space.",
+    "url": "https://www.act-sf.org/your-visit/our-venues/the-strand-theater"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1706520453",
+  "name": "The Alcove Theater",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/the-alcove-theater-san-francisco",
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp title marks 414 Mason St as CLOSED (updated May 2026); snippet says New Musical Theater of San Francisco is focusing on site-specific work.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9728292933",
+  "name": "The Flyer",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A flying-theater ride at the entrance to Pier 39 that takes riders over San Francisco landmarks.",
+    "url": "https://theflyer-sanfrancisco.com/the-flyer/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11001104751",
+  "name": "The Lost Church",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Moved here from the Mission after the founders found a basement space on a 15-year lease.",
+    "url": "https://www.sfchronicle.com/entertainment/music/article/sf-venue-lost-church-anniversary-17769903.php"
+   },
+   {
+    "text": "Began presenting shows in this North Beach space in August 2022.",
+    "url": "https://www.sfchronicle.com/entertainment/music/article/sf-venue-lost-church-anniversary-17769903.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256857775",
+  "name": "The Lost Church",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://thelostchurch.org/august-17-2022/",
+  "notFound": false,
+  "searches": 4,
+  "note": "Page title: '65 Capp is now Bane Gallery'; the venue moved to 988 Columbus Ave in North Beach.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4022613415",
+  "name": "The Magic Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "No address given; Fort Mason Center, same building as Southside Theater.",
+  "facts": [
+   {
+    "text": "Founded in 1967 and one of Fort Mason's first resident nonprofit companies, from 1976.",
+    "url": "https://en.wikipedia.org/wiki/Magic_Theatre"
+   },
+   {
+    "text": "Staged the world premieres of Sam Shepard's Buried Child in 1978 and True West in 1980.",
+    "url": "https://en.wikipedia.org/wiki/Magic_Theatre"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9706087526",
+  "name": "The Marrakech Magic Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Confirmed open at 419 O'Farrell St via Yelp listing updated September 2026; no single-page facts available.",
+  "facts": []
+ },
+ {
+  "id": "osm-n3740701751",
+  "name": "The Marsh",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began in 1989 as a Monday night performance series at the Hotel Utah.",
+    "url": "https://en.wikipedia.org/wiki/The_Marsh"
+   },
+   {
+    "text": "Moved to this Valencia Street building in December 1992 and bought the whole building in 1996.",
+    "url": "https://en.wikipedia.org/wiki/The_Marsh"
+   },
+   {
+    "text": "Also has a second venue in Berkeley.",
+    "url": "https://en.wikipedia.org/wiki/The_Marsh"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32947040",
+  "name": "The Masonic",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by architect Albert Roller and opened in 1958 as the Grand Masonic Auditorium.",
+    "url": "https://en.wikipedia.org/wiki/SF_Masonic_Auditorium"
+   },
+   {
+    "text": "Hosts the annual meeting of the Masons of California and is a concert venue the rest of the year.",
+    "url": "https://en.wikipedia.org/wiki/SF_Masonic_Auditorium"
+   },
+   {
+    "text": "Its facade carries a frieze by Emile Norman.",
+    "url": "https://en.wikipedia.org/wiki/SF_Masonic_Auditorium"
+   }
+  ]
+ },
+ {
+  "id": "osm-w274332610",
+  "name": "The Midway",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 40,000-square-foot nightclub and performance venue with a warehouse and an outdoor stage.",
+    "url": "https://www.sfchronicle.com/entertainment/article/how-one-san-francisco-venue-is-partying-through-21177853.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6471401827",
+  "name": "The Rabbit Hole Theater Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A children's theater offering pretend-play theater classes, camps and productions.",
+    "url": "https://www.therabbitholetheater.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9149956415",
+  "name": "Théâtre du LFSF",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The renovated theater was inaugurated in March 2018.",
+    "url": "https://www.lelycee.org/about/news/news-post/~board/lfsf-news/post/inauguration-of-the-renovated-theater-of-the-lyce-franais-de-san-francisco-press-release"
+   },
+   {
+    "text": "Also called the Theatre Erick Moreau.",
+    "url": "https://www.lelycee.org/about/news/news-post/~board/lfsf-news/post/save-the-date-inauguration-of-the-thtre-erick-moreau"
+   }
+  ]
+ },
+ {
+  "id": "osm-w71504438",
+  "name": "Toni Rembe Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1910 as the Columbia Theater and long known as the Geary Theater.",
+    "url": "https://www.kqed.org/arts/13919294/geary-theater-new-name-toni-rembe-act"
+   },
+   {
+    "text": "Renamed for Toni Rembe after a $35 million anonymous gift, the largest in A.C.T. history.",
+    "url": "https://www.kqed.org/arts/13919294/geary-theater-new-name-toni-rembe-act"
+   }
+  ]
+ }
+]
