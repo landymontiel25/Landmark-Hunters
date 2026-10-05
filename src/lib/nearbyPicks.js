@@ -4,6 +4,7 @@ import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
 import { tierStars, isVisitedReview } from './ratingFlow';
 import { linksFrom, primaryCategory } from './preferenceChains';
 import { formatDistance } from './formatDistance';
+import { placeKinds, kindSimilarity, kindAffinity, kindBoost } from './placeKinds.js';
 
 // "Picked for you right now": nearby picks ranked on-device from the saved
 // tag scores (tagScores.js usualPicks / discoveryPicks), filtered to what is
@@ -42,6 +43,8 @@ export const PICKS_SHEET_H = {
   moodExpanded: '50dvh',
 };
 export const SIMILAR_LIMIT = 4;
+// "Because you liked" looks at least this far (miles) for the same kind of place.
+export const SIMILAR_MIN_MI = 25;
 export const MEAL_LIMIT = 3;
 // "You're near something you love" only fires this close.
 export const NEARBY_INTEREST_MI = 1;
@@ -470,6 +473,14 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
       fresh.push(toPick({ ...e, pickType: 'new', tagScore }));
     }
   }
+  // Within a category, the KIND of place matters too (placeKinds.js): a loved
+  // steakhouse lifts other steakhouses, a disliked kind sinks its places.
+  const byKey = new Map(landmarksForKinds().map((l) => [`${l.regionId}/${l.id}`, l]));
+  const affinity = kindAffinity(myReviews, (r) => byKey.get(`${r.region}/${r.landmarkId}`) || null);
+  for (const p of [...usual, ...fresh]) {
+    const boost = kindBoost(byKey.get(pickKey(p)) || p, affinity);
+    if (boost) p.tagScore = Math.round(((p.tagScore || 0) + boost) * 10) / 10;
+  }
   const best = (a, b) => rankScore(b) - rankScore(a) || a.distanceMeters - b.distanceMeters;
   const usualKeys = new Set(usual.map(pickKey));
   return {
@@ -478,6 +489,10 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
     favorites: favoritePlaces({ origin, miles, myReviews, date, overrides, extraPlaces }),
   };
 }
+
+// Every place, imported ones included, read when it's needed (place packs
+// join ALL_LANDMARKS after startup).
+const landmarksForKinds = () => ALL_LANDMARKS;
 
 // A pick backed by a preference chain: the user's last check-in was in
 // category A, and they have a real A -> B link, so the best B place wins a
@@ -589,12 +604,19 @@ export function unratedPlaces(pool, myReviews) {
 
 // Up to `limit` places like `liked`: same main category first, then any
 // shared category, closest first within each. `pool` is eligiblePlaces.
+// "Like it" means the same KIND of place (placeKinds.js), not just the same
+// category: after a steakhouse, other steakhouses, never a cookie shop just
+// because both are food. A liked place with no recognizable kind falls back
+// to its category. Nothing of the same kind nearby means no row at all.
 export function similarPlaces({ liked, pool = [], exclude = [], limit = SIMILAR_LIMIT }) {
   if (!liked) return [];
   const skip = new Set([pickKey({ ...liked, region: liked.regionId }), ...exclude]);
   const main = primaryCategory(liked.categories);
   const cats = new Set(liked.categories || []);
-  const score = (l) => (primaryCategory(l.categories) === main ? 2 : (l.categories || []).some((c) => cats.has(c)) ? 1 : 0);
+  const likedKinds = placeKinds(liked);
+  const score = likedKinds.size
+    ? (l) => (primaryCategory(l.categories) === main ? kindSimilarity(liked, l) : 0)
+    : (l) => (primaryCategory(l.categories) === main ? 2 : (l.categories || []).some((c) => cats.has(c)) ? 1 : 0);
   return pool
     .filter((l) => !skip.has(`${l.regionId}/${l.id}`) && score(l) > 0)
     .sort((a, b) => score(b) - score(a) || a.distanceMeters - b.distanceMeters)
