@@ -1,0 +1,214 @@
+[
+ {
+  "id": "osm-n2985663933",
+  "name": "Sara's Kitchen",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded on April 27, 1992 by Sara and Manny Manion as a burger and cheesesteak shop.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen",
+    "verdict": "ok",
+    "note": "About page states it"
+   },
+   {
+    "text": "Diner serving breakfast fare, pancakes, waffles and cheesesteak variations.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen",
+    "verdict": "ok",
+    "note": "Site describes classic diner, breakfast, waffles, pancakes, cheesesteaks"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4882433705",
+  "name": "The Old Wagon Saloon & Grill",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Bar with an old west theme in San Pedro Square, serving American cuisine and BBQ.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill",
+    "verdict": "ok",
+    "note": "Listing: modern bar with old west charm, San Pedro Square, American BBQ"
+   },
+   {
+    "text": "Smokes meats in-house in a smoker named Madame Stacie.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n6300644385",
+  "name": "Miniboss",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Arcade bar with more than 30 classic arcade games and a dozen pinball machines.",
+    "url": "https://www.sanjose.org/listings/miniboss",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves Detroit-style pizzas and wings alongside inventive cocktails.",
+    "url": "https://www.sanjose.org/listings/miniboss",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w1061223377",
+  "name": "Must be Thai Kitchen & Bar",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Downtown branch of a Stevens Creek Thai restaurant serving home-style Thai food made modern.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Menu includes Khao Soi, Pad Thai and Tom Yum Fried Rice.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-r10781180",
+  "name": "Pearson-Arastradero Preserve",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The preserve covers 622 acres of grassland savanna, oak woodland and riparian habitat.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The Palo Alto City Council bought 433 acres in 1976 after a developer proposed 1,776 houses.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve",
+    "verdict": "ok",
+    "note": "Page returned; summary states 433 acres 1976, 1,776 houses (history text)"
+   },
+   {
+    "text": "Arastradero Lake was once a ranch stock pond.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve",
+    "verdict": "ok",
+    "note": "Page returned; summary states once a ranch stock pond"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1409625173",
+  "name": "Redwood Grove Nature Preserve",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The six-acre preserve was purchased in 1974.",
+    "url": "https://www.losaltosca.gov/756/Halsey-House",
+    "verdict": "ok",
+    "note": "Halsey House page returned; summary states purchased 1974"
+   },
+   {
+    "text": "The Halsey House inside the preserve was built in 1923 and is a local Historic Landmark.",
+    "url": "https://www.losaltosca.gov/756/Halsey-House",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w1287279707",
+  "name": "Fayette Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Fayette Park became the 45th park to open in Mountain View.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/146/671",
+    "verdict": "ok",
+    "note": "Source says will become 45th park"
+   },
+   {
+    "text": "Public art there includes sculptures of two squirrels and a lizard by artist Colin Selig.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/146/671",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w19448302",
+  "name": "Las Palmas Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A Polynesian-themed park with palm trees around a pond and a tropical island playground.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/51/260",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The 24.3-acre park is next to a city-owned tennis center with 16 courts.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/51/260",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w913403824",
+  "name": "Corn Palace Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The 2-acre park sits on former Francia family farmland that ran the Corn Palace farmstand from 1965 to 2015.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The park opened on June 27, 2025.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456",
+    "verdict": "ok",
+    "note": "Page says opening ceremony June 27, 2025"
+   },
+   {
+    "text": "Won the 2026 APWA Silicon Valley Chapter Parks Project of the Year Award.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456",
+    "verdict": "unsupported",
+    "note": "Award statement surfaced but cited to Sunnyvale City Awards page, not this facility page"
+   }
+  ]
+ },
+ {
+  "id": "osm-w38259520",
+  "name": "Memorial Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The 22-acre park has an amphitheater, a gazebo and the Cupertino Veterans Memorial.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/Memorial-Park-Specific-Plan",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The park is next to the Cupertino Senior Center, Quinlan Community Center and Cupertino Sports Center.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/Memorial-Park-Specific-Plan",
+    "verdict": "ok",
+    "note": "Page describes Community Recreation Node of these facilities"
+   }
+  ]
+ }
+]

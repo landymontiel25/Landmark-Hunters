@@ -134,7 +134,8 @@ export function curatedSkip(place, tags = {}) {
 // Tartine is a local institution, so only the other skips apply to them.
 const RESEARCHED_PICKS = new Set(['acclaimed', 'insider']);
 
-export function curatedTierOf(place, tags = {}, { overrides = {}, minCultureScore = 2 } = {}) {
+// `bonus` adds to the place's OSM richness (its sourced web facts, selectCurated).
+export function curatedTierOf(place, tags = {}, { overrides = {}, minCultureScore = 2, bonus = 0 } = {}) {
   if (overrides[place.id]?.include) return 'curated';
   if (RESEARCHED_PICKS.has(place._tier)) {
     const skip = curatedSkip(place, tags);
@@ -144,7 +145,7 @@ export function curatedTierOf(place, tags = {}, { overrides = {}, minCultureScor
   if (place.wikidata) return 'landmark';
   const cat = place.categories[0];
   if (cat === 'art-museums' || cat === 'entertainment' || cat === 'stadiums' || CURATED_CULTURE_TOPICS.has(place.topic) || cat === 'history-culture')
-    return richness(place, tags) >= minCultureScore ? 'culture' : null;
+    return richness(place, tags) + bonus >= minCultureScore ? 'culture' : null;
   if (NIGHTLIFE.has(place.topic)) return 'nightlife';
   return FILL_CATEGORIES.has(cat) ? 'fill' : null;
 }
@@ -176,8 +177,8 @@ export function selectCurated(places, { tagsById = new Map(), overrides = {}, ta
   const notSelected = [];
   for (const p of places) {
     const tags = tagsById.get(p.id) || {};
-    const tier = curatedTierOf(p, tags, { overrides, minCultureScore });
     const facts = webFactsOf(p);
+    const tier = curatedTierOf(p, tags, { overrides, minCultureScore, bonus: Math.min(facts, 4) });
     if (tier && minWebFacts && facts < (tier === 'curated' ? 1 : minWebFacts)) notSelected.push({ ...p, why: `fewer than ${tier === 'curated' ? 1 : minWebFacts} sourced facts` });
     else if (tier) byTier[tier].push({ p, score: richness(p, tags) + Math.min(facts, 4) });
     else notSelected.push({ ...p, why: curatedSkip(p, tags) || 'too few OSM details for its kind' });

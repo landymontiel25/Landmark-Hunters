@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseAddress, streetKey, sameName, addressMatches, nearAddress, pickMatch, areaOf, tagsOf, elementOf, extraKind, viewbox } from './locate.js';
+import { parseAddress, streetKey, sameName, addressMatches, nearAddress, pickMatch, placeLike, areaOf, tagsOf, elementOf, extraKind, viewbox } from './locate.js';
 import { importRegion } from './regions.js';
 
 const zuni = {
@@ -83,6 +83,14 @@ describe('pickMatch', () => {
     const park = { ...zuni, category: 'leisure', type: 'park', name: 'Bernal Heights Park', namedetails: { name: 'Bernal Heights Park' }, address: {}, lat: '37.743', lon: '-122.414', boundingbox: ['37.739', '37.747', '-122.419', '-122.409'] };
     expect(pickMatch({ name: 'Bernal Heights Park', address: 'Bernal Heights Blvd' }, [park], { geo: { lat: 37.7405, lng: -122.4176 } }).status).toBe('FOUND');
     expect(nearAddress({ ...park, osm_type: 'node' }, { lat: 37.7405, lng: -122.4176 })).toBe(false);
+  });
+  it('skips streams, roads and huge areas that share the name', () => {
+    const stream = { ...zuni, osm_type: 'relation', category: 'waterway', type: 'stream', name: 'Stevens Creek', namedetails: { name: 'Stevens Creek' }, address: {}, boundingbox: ['37.2', '37.45', '-122.2', '-122.0'] };
+    expect(pickMatch({ name: 'Stevens Creek County Park', address: '11401 Stevens Canyon Rd' }, [stream], { geo: { lat: 37.3, lng: -122.07 } }).why).toBe('no OSM object with this name');
+    const bigPark = { ...stream, category: 'leisure', type: 'park' };
+    expect(nearAddress(bigPark, { lat: 37.3, lng: -122.07 })).toBe(false);
+    expect(placeLike({ category: 'building', extratags: { historic: 'building' } })).toBe(true);
+    expect(placeLike({ category: 'building', extratags: {} })).toBe(false);
   });
   it('drops a match outside the region', () => {
     expect(pickMatch(candidate, [zuni], { inArea: () => false }).why).toBe('outside the region');

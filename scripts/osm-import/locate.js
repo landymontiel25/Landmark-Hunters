@@ -86,12 +86,15 @@ export const pointOf = (r) => ({ lat: Number(r.lat), lng: Number(r.lon) });
 
 // Within `meters` of the geocoded address; for an area (a park, a campus)
 // the address may also fall inside its bounding box grown by `meters`.
+// The box only counts for an area up to 3 km across: a stream or a long
+// road's box holds half a town.
 export function nearAddress(r, geo, meters = 75) {
   if (!geo) return false;
   const p = pointOf(r);
   if (distanceMeters(p.lat, p.lng, geo.lat, geo.lng) <= meters) return true;
   if (r.osm_type === 'node' || !Array.isArray(r.boundingbox)) return false;
   const [s, n, w, e] = r.boundingbox.map(Number);
+  if (distanceMeters(s, w, n, e) > 3000) return false;
   const dLat = meters / 111320;
   const dLng = meters / (111320 * Math.cos((geo.lat * Math.PI) / 180));
   return geo.lat >= s - dLat && geo.lat <= n + dLat && geo.lng >= w - dLng && geo.lng <= e + dLng;
@@ -120,6 +123,7 @@ const EXTRA_KINDS = [
   ['shop', 'chocolate', { category: 'food', topic: 'chocolate shop', typicalMinutes: 20 }],
   ['shop', 'ice_cream', { category: 'food', topic: 'ice cream shop', typicalMinutes: 20 }],
   ['shop', 'deli', { category: 'food', topic: 'deli', typicalMinutes: 30 }],
+  ['shop', 'butcher', { category: 'food', topic: 'butcher shop', typicalMinutes: 20 }],
   ['shop', 'wine', { category: 'local-life', topic: 'wine shop', typicalMinutes: 30 }],
   ['amenity', 'food_court', { category: 'food', topic: 'food hall', typicalMinutes: 60, checkInRadiusMeters: 150 }],
   ['amenity', 'music_venue', { category: 'entertainment', topic: 'music venue', typicalMinutes: 150 }],
@@ -145,9 +149,17 @@ const rankOf = (r) => (KIND_KEYS.includes(r.category) ? 0 : 1);
 // Picks the result that is this candidate, or says why none is.
 // `geo` is the geocoded researched address ({lat, lng}) or null; `inArea(r)`
 // says whether a result lies in the region (and names its town).
+// Only things a place can be: not a stream, road, rail line or town that
+// shares the name ("Stevens Creek" for Stevens Creek County Park). A
+// building counts when its tags say it is historic or a sight.
+export const placeLike = (r) =>
+  KIND_KEYS.includes(r.category) ||
+  (r.category === 'boundary' && r.type === 'protected_area') ||
+  (r.category === 'building' && !!(r.extratags?.historic || r.extratags?.tourism || r.extratags?.heritage));
+
 export function pickMatch(candidate, results, { geo = null, inArea = () => true } = {}) {
   const parsed = parseAddress(candidate.address);
-  const named = results.filter((r) => nameMatches(candidate.name, r));
+  const named = results.filter((r) => placeLike(r) && nameMatches(candidate.name, r));
   if (!named.length) return { status: 'NOT_FOUND', why: results.length ? 'no OSM object with this name' : 'no OSM result' };
   const placed = named.filter((r) => addressMatches(parsed, r) || nearAddress(r, geo));
   if (!placed.length) return { status: 'NOT_FOUND', why: geo ? 'named OSM object not at the researched address' : 'researched address not found and OSM address differs' };

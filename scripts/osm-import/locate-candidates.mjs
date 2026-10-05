@@ -43,6 +43,17 @@ const rows = new Map();
 for (const f of fs.readdirSync(RESEARCH).filter((f) => /^out-.*\.json$/.test(f)).sort())
   for (const r of JSON.parse(fs.readFileSync(`${RESEARCH}/${f}`, 'utf8'))) if (r?.name) rows.set(key(r.name), { ...r, file: f });
 
+// The second pass (research/<region>/verify-out-*.json, VERIFY-PROMPT.md):
+// a fact it found wrong or unsupported stays out, and a place it found
+// closed is dropped.
+const rejected = new Set();
+const closedByVerify = new Map();
+for (const f of fs.readdirSync(RESEARCH).filter((f) => /^verify-out-\d+\.json$/.test(f)))
+  for (const v of JSON.parse(fs.readFileSync(`${RESEARCH}/${f}`, 'utf8'))) {
+    if (v.closed) closedByVerify.set(key(v.name), v.closedSource || 'closed per the second pass');
+    for (const x of v.facts || []) if (x.verdict && x.verdict !== 'ok') rejected.add(`${key(v.name)}|${x.text.trim()}`);
+  }
+
 const box = viewbox(region.shape);
 const located = [];
 const elements = new Map();
@@ -53,9 +64,9 @@ for (const c of rows.values()) {
   const current = (c.facts || []).some((x) => /\b(2025|2026)\b/.test(x.text || ''));
   const tier = c.tier === 'acclaimed' && !current ? 'everyday' : c.tier === 'insider' && !(c.reason?.text && c.reason?.url) ? 'everyday' : c.tier || 'everyday';
   const base = { name: c.name, file: c.file, area: c.area || null, address: c.address || null, tier };
-  if (c.closed) { located.push({ ...base, status: 'CLOSED', why: c.closedSource || 'closed per research' }); continue; }
+  if (c.closed || closedByVerify.has(key(c.name))) { located.push({ ...base, status: 'CLOSED', why: c.closedSource || closedByVerify.get(key(c.name)) || 'closed per research' }); continue; }
   if (c.notFound || c.matched === false) { located.push({ ...base, status: 'UNCONFIRMED', why: 'research found no result confirming it' }); continue; }
-  const facts = (c.facts || []).filter((x) => okWebFact(x) && x.text.length <= 120 && !OPINION.test(x.text));
+  const facts = (c.facts || []).filter((x) => okWebFact(x) && x.text.length <= 120 && !OPINION.test(x.text) && !rejected.has(`${key(c.name)}|${x.text.trim()}`));
   if (!facts.length) { located.push({ ...base, status: 'NO_FACTS', why: 'no sourced fact passed the fact rules' }); continue; }
   let results = await nominatim({ q: c.name, viewbox: box, bounded: '1' });
   let geo = null;
