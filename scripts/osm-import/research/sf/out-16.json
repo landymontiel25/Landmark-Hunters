@@ -1,0 +1,501 @@
+[
+  {
+    "id": "osm-w272711313",
+    "name": "Hippie Hill",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Named for its role as a gathering spot for hippies in the 1960s.",
+        "url": "https://goldengatepark.com/hippie-hill.html"
+      },
+      {
+        "text": "Hand drumming circles have gathered here on weekends since the 1960s.",
+        "url": "https://goldengatepark.com/hippie-hill.html"
+      },
+      {
+        "text": "Sits on the east side of Golden Gate Park between the Conservatory of Flowers and Haight Street.",
+        "url": "https://goldengatepark.com/hippie-hill.html"
+      }
+    ]
+  },
+  {
+    "id": "osm-w16752409",
+    "name": "Holly Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Has an outdoor basketball court and a tennis court.",
+        "url": "https://www.sfrecpark.org/facilities/facility/details/Holly-Park-173"
+      },
+      {
+        "text": "Has a renovated children's playground with slides, swings and climbing ropes.",
+        "url": "https://www.sfrecpark.org/facilities/facility/details/Holly-Park-173"
+      },
+      {
+        "text": "A path runs around the perimeter of the park, and a hill rises above it.",
+        "url": "https://www.sfrecpark.org/facilities/facility/details/Holly-Park-173"
+      }
+    ]
+  },
+  {
+    "id": "osm-w881786125",
+    "name": "Hunters Point Community Youth Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Also called Aunt Bea Park.",
+        "url": "https://www.facebook.com/p/Hunters-Point-Community-Youth-Park-HPYP-AKA-Aunt-Bea-Park-100082397835405/"
+      },
+      {
+        "text": "Its basketball court was renovated in 2018 with the Kevin Durant Charity Foundation.",
+        "url": "https://sfbayview.com/2018/10/mayor-breed-and-kevin-durant-charity-foundation-unveil-newly-renovated-hunters-point-youth-park/"
+      }
+    ]
+  },
+  {
+    "id": "osm-w32946958",
+    "name": "Huntington Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Occupies the Nob Hill site of General David D. Colton's 1872 mansion, later bought by Collis P. Huntington.",
+        "url": "https://nobhillassociation.org/huntington-park/"
+      },
+      {
+        "text": "Arabella Huntington donated the whole block to the city in 1915 to become a public park.",
+        "url": "https://nobhillassociation.org/huntington-park/"
+      },
+      {
+        "text": "Home to the Fountain of the Tortoises, donated by the four Crocker children in 1954.",
+        "url": "https://nobhillassociation.org/huntington-park/"
+      }
+    ]
+  },
+  {
+    "id": "osm-n665689214",
+    "name": "Immigrant Point Overlook",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Built in 2008 with a gift from the Sarlo Foundation of the Jewish Community Endowment Fund.",
+        "url": "https://presidio.gov/explore/attractions/immigrant-point-overlook"
+      },
+      {
+        "text": "Honors those who came through the Golden Gate to a new country to make their home.",
+        "url": "https://presidio.gov/explore/attractions/immigrant-point-overlook"
+      },
+      {
+        "text": "A stone wall is carved with words from President Woodrow Wilson about opening the gates to all the world.",
+        "url": "https://presidio.gov/explore/attractions/immigrant-point-overlook"
+      }
+    ]
+  },
+  {
+    "id": "osm-w414887522",
+    "name": "In Chan Kaajal Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Opened on June 23, 2017, as the first new neighborhood park built by SF Rec and Park in over a decade.",
+        "url": "https://sfrecpark.org/1436/In-Chan-Kaajal-Park"
+      },
+      {
+        "text": "Formerly called 17th & Folsom Street Park.",
+        "url": "https://sfrecpark.org/1436/In-Chan-Kaajal-Park"
+      },
+      {
+        "text": "Has a playground, a community garden and a small performance stage.",
+        "url": "https://sfrecpark.org/1436/In-Chan-Kaajal-Park"
+      }
+    ]
+  },
+  {
+    "id": "osm-w114151121",
+    "name": "Ina Coolbrith Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "A small 0.8-acre hillside park on Russian Hill.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Ina-Coolbrith-Park-175"
+      }
+    ]
+  },
+  {
+    "id": "osm-w233459930",
+    "name": "India Basin Open Space",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "note": "Park exists per sfrecpark.org results but no single link tied to a fact",
+    "facts": []
+  },
+  {
+    "id": "osm-n332786657",
+    "name": "Inspiration Point",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "The first scenic overlook built in the Presidio, completed in 2001.",
+        "url": "https://presidio.gov/explore/attractions/inspiration-point-overlook"
+      },
+      {
+        "text": "Built with a gift from the James R. Harvey Presidio Restoration Fund.",
+        "url": "https://presidio.gov/explore/attractions/inspiration-point-overlook"
+      }
+    ]
+  },
+  {
+    "id": "osm-w353551814",
+    "name": "J.P. Murphy Playground",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Has a play structure, three tennis courts and a basketball court.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/JP-Murphy-Playground-246"
+      }
+    ]
+  },
+  {
+    "id": "osm-w23750483",
+    "name": "Jackson Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "A 5-acre park with two baseball diamonds, lit fields, basketball and tennis courts.",
+        "url": "https://www.friendsofjacksonpark.org/"
+      },
+      {
+        "text": "Has a historic clubhouse and a community garden.",
+        "url": "https://www.friendsofjacksonpark.org/"
+      }
+    ]
+  },
+  {
+    "id": "osm-w546510348",
+    "name": "Japan Town Peace Plaza",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Created in the mid-1960s as a gift from San Francisco's sister city Osaka.",
+        "url": "https://sfrecpark.org/881/Japantown-Peace-Plaza"
+      },
+      {
+        "text": "Designed by Japanese architect Yoshiro Taniguchi.",
+        "url": "https://sfrecpark.org/881/Japantown-Peace-Plaza"
+      },
+      {
+        "text": "Its 100-foot Peace Pagoda was completed in 1968.",
+        "url": "https://sfrecpark.org/881/Japantown-Peace-Plaza"
+      }
+    ]
+  },
+  {
+    "id": "osm-w681436082",
+    "name": "Jefferson Square",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Has an off-leash dog play area and lawns with views toward City Hall.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Jefferson-Square-343"
+      }
+    ]
+  },
+  {
+    "id": "osm-w35065721",
+    "name": "Joe DiMaggio Playground",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "note": null,
+    "facts": [
+      {
+        "text": "A two-acre park with a children's play area, tennis courts, bocce courts and a pool building.",
+        "url": "https://sfpublicworks.org/project/joe-dimaggio-playground-improvement-project"
+      },
+      {
+        "text": "Reopened in November 2015 after a $7.3 million renovation.",
+        "url": "https://sfpublicworks.org/project/joe-dimaggio-playground-improvement-project"
+      }
+    ]
+  },
+  {
+    "id": "osm-w28716696",
+    "name": "John McLaren Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Has a 9-hole golf course that opened in 1961.",
+        "url": "https://en.wikipedia.org/wiki/John_McLaren_Park"
+      },
+      {
+        "text": "Its amphitheater, built in 1970, was renamed the Jerry Garcia Amphitheater in 2005.",
+        "url": "https://en.wikipedia.org/wiki/John_McLaren_Park"
+      }
+    ]
+  },
+  {
+    "id": "osm-w48537425",
+    "name": "Junipero Serra Playground",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Renovated in 2008 with a new playground and an 1,800-square-foot clubhouse.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Junipero-Serra-Playground-252"
+      },
+      {
+        "text": "Has a baseball diamond, an outdoor basketball court and a tennis court.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Junipero-Serra-Playground-252"
+      },
+      {
+        "text": "Two Islamic tile murals by Laurey Finneran decorate the clubhouse walls.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Junipero-Serra-Playground-252"
+      }
+    ]
+  },
+  {
+    "id": "osm-w106952544",
+    "name": "Kelloch-Velasco Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "A small neighborhood park with a children's play area, an outdoor basketball court and a picnic area.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Kelloch-Velasco-Mini-Park-179"
+      }
+    ]
+  },
+  {
+    "id": "osm-w34856612",
+    "name": "Kite Hill Open Space",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "A 2.87-acre natural area at 350 feet elevation, named for its gusty winds.",
+        "url": "https://en.wikipedia.org/wiki/Kite_Hill,_San_Francisco"
+      },
+      {
+        "text": "The city bought it and added it to the Natural Areas Program in 1977.",
+        "url": "https://en.wikipedia.org/wiki/Kite_Hill,_San_Francisco"
+      }
+    ]
+  },
+  {
+    "id": "osm-w153905784",
+    "name": "Koshland Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Has a community garden, an outdoor basketball court and a playground.",
+        "url": "https://sfrecpark.org/facilities/facility/details/koshlandpark-181"
+      }
+    ]
+  },
+  {
+    "id": "osm-w16751838",
+    "name": "Lafayette Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "A 12.5-acre hilltop park with two tennis courts, a children's playground and an off-leash dog area.",
+        "url": "https://en.wikipedia.org/wiki/Lafayette_Park_(San_Francisco)"
+      }
+    ]
+  },
+  {
+    "id": "osm-w404847043",
+    "name": "Lake Merced Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Surrounded by three golf courses and home to the Pacific Rowing Club.",
+        "url": "https://en.wikipedia.org/wiki/Lake_Merced"
+      },
+      {
+        "text": "San Francisco State University runs a paddling program on the lake.",
+        "url": "https://en.wikipedia.org/wiki/Lake_Merced"
+      }
+    ]
+  },
+  {
+    "id": "osm-r2142026",
+    "name": "Lands End",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "The Yelamu Ohlone lived here in seasonal settlements long before Europeans arrived.",
+        "url": "https://www.nps.gov/goga/learn/historyculture/lands-end.htm"
+      },
+      {
+        "text": "In the 1880s Adolph Sutro bought land here and built a steam train line to it from downtown.",
+        "url": "https://www.nps.gov/goga/learn/historyculture/lands-end.htm"
+      },
+      {
+        "text": "Sutro funded the Sutro Heights gardens, the Sutro Baths and the 1896 Cliff House.",
+        "url": "https://www.nps.gov/goga/learn/historyculture/lands-end.htm"
+      }
+    ]
+  },
+  {
+    "id": "osm-w402978882",
+    "name": "Larsen Park",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Carl Larsen donated the land, the site of his chicken ranch, in 1926.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Carl-Larsen-Park-157"
+      },
+      {
+        "text": "Known as the airplane park for the retired jets used as play structures from 1959 to 1993.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Carl-Larsen-Park-157"
+      },
+      {
+        "text": "Has a baseball diamond, a pickleball complex, a playground and a swimming pool.",
+        "url": "https://sfrecpark.org/facilities/facility/details/Carl-Larsen-Park-157"
+      }
+    ]
+  },
+  {
+    "id": "osm-w99687086",
+    "name": "Laurel Hill Playground",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "note": null,
+    "facts": [
+      {
+        "text": "Has a playground, tennis court, baseball diamond, basketball court and clubhouse.",
+        "url": "https://sfrecpark.org/Facilities/Facility/Details/Laurel-Hill-Playground-253"
+      }
+    ]
+  },
+  {
+    "id": "osm-w25751184",
+    "name": "Levi's Plaza",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "note": null,
+    "facts": [
+      {
+        "text": "Designed by landscape architect Lawrence Halprin in 1979-82 and dedicated in 1982 to Levi Strauss employees.",
+        "url": "https://www.tclf.org/landscapes/levis-plaza"
+      },
+      {
+        "text": "Two parks are linked by a crosswalk: a hard plaza with a water garden and a soft lawn with an artificial stream.",
+        "url": "https://www.tclf.org/landscapes/levis-plaza"
+      }
+    ]
+  }
+]
