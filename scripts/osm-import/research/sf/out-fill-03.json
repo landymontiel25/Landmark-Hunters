@@ -1,0 +1,1139 @@
+[
+ {
+  "name": "Rooh",
+  "area": "SoMa",
+  "address": "333 Brannan St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/kr/ko/california/san-francisco/restaurant/rooh"
+   },
+   {
+    "text": "Serves modern Indian cuisine made with fresh California produce.",
+    "url": "https://guide.michelin.com/kr/ko/california/san-francisco/restaurant/rooh"
+   }
+  ]
+ },
+ {
+  "name": "Mission Rock Resort",
+  "area": "Mission Bay",
+  "address": "817 Terry A Francois Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened in August 2012 under restaurateur Peter Osborne after Kelly's Mission Rock went bankrupt.",
+    "url": "https://www.sfgate.com/restaurants/article/Mission-Rock-Resort-honors-tradition-4649304.php"
+   },
+   {
+    "text": "The site began in the early 1960s as a bait shop and burger joint.",
+    "url": "https://www.missionrockresort.com/"
+   }
+  ]
+ },
+ {
+  "name": "Red's Java House",
+  "area": "South Beach",
+  "address": "Pier 30, The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Brothers Tom and Mike McGarvey bought Franco's Lunch in 1955 and renamed it Red's Java House.",
+    "url": "https://www.redsjavahouse.com/history"
+   },
+   {
+    "text": "The shack survived a 1984 fire that destroyed the surrounding pier.",
+    "url": "https://www.redsjavahouse.com/history"
+   },
+   {
+    "text": "Tiffany Pisoni bought Red's Java House in 2009.",
+    "url": "https://www.redsjavahouse.com/history"
+   }
+  ]
+ },
+ {
+  "name": "DNA Lounge",
+  "area": "SoMa",
+  "address": "375 11th St",
+  "city": "San Francisco",
+  "tier": "insider",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": {
+   "text": "Owner Jamie Zawinski is a former Netscape programmer who bought the club in 1999.",
+   "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+  },
+  "facts": [
+   {
+    "text": "Opened on November 22, 1985.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   },
+   {
+    "text": "Owner Jamie Zawinski, a former Netscape programmer, bought the club in 1999.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   },
+   {
+    "text": "The building dates to 1920 and became a nightclub in 1983 as the leather bar Chaps.",
+    "url": "https://www.dnalounge.com/directions/"
+   }
+  ]
+ },
+ {
+  "name": "Sextant Coffee Roasters",
+  "area": "SoMa",
+  "address": "1415 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Kinani Ahmed, a first-generation Ethiopian.",
+    "url": "https://sextantcoffee.com/pages/about-us"
+   },
+   {
+    "text": "Works directly with farmers across Ethiopia, Kenya and Colombia.",
+    "url": "https://sextantcoffee.com/pages/about-us"
+   }
+  ]
+ },
+ {
+  "name": "Telescope Coffee",
+  "area": "SoMa",
+  "address": "345 6th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2021 by two childhood best friends born and raised in San Francisco.",
+    "url": "https://somawestcbd.org/go/telescope-coffee"
+   },
+   {
+    "text": "Moved from 451 9th St to a larger space on 6th St in 2023.",
+    "url": "https://dailycoffeenews.com/2023/10/12/telescope-coffee-stretches-out-with-new-san-francisco-cafe/"
+   },
+   {
+    "text": "Serves Vietnamese coffee brewed with a phin filter.",
+    "url": "https://www.modernluxury.com/soma-poc-women-run-telescope-coffee/"
+   }
+  ]
+ },
+ {
+  "name": "Saltwater Bakeshop",
+  "area": "SoMa",
+  "address": "1309 Howard St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened its first permanent storefront on Howard St in May 2026 after years at farmers markets.",
+    "url": "https://sfstandard.com/2026/05/11/saltwater-bakeshop-new-cafe-open/"
+   },
+   {
+    "text": "Owner Brittany Dunn Holden bakes sourdough, croissants and pastries.",
+    "url": "https://hoodline.com/2026/05/soma-snags-giant-saltwater-bakeshop-cafe-after-years-in-the-oven/"
+   }
+  ]
+ },
+ {
+  "name": "SOMArts Cultural Center",
+  "area": "SoMa",
+  "address": "934 Brannan St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established as a nonprofit in 1979 out of the Neighborhood Arts Movement.",
+    "url": "https://somarts.org/somarts-historical-timeline/"
+   },
+   {
+    "text": "Hosted the first large-scale Burning Man art installations in 1994.",
+    "url": "https://somarts.org/somarts-historical-timeline/"
+   },
+   {
+    "text": "Changed its name from SOMAR to SOMArts in 1998.",
+    "url": "https://somarts.org/somarts-historical-timeline/"
+   }
+  ]
+ },
+ {
+  "name": "Yerba Buena Center for the Arts",
+  "area": "SoMa",
+  "address": "701 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1993 as part of the Yerba Buena Gardens redevelopment.",
+    "url": "https://en.wikipedia.org/wiki/Yerba_Buena_Center_for_the_Arts"
+   },
+   {
+    "text": "The Galleries and Forum were designed by architect Fumihiko Maki.",
+    "url": "https://en.wikipedia.org/wiki/Yerba_Buena_Center_for_the_Arts"
+   },
+   {
+    "text": "Includes the 757-seat Blue Shield of California Theater.",
+    "url": "https://en.wikipedia.org/wiki/Yerba_Buena_Center_for_the_Arts"
+   }
+  ]
+ },
+ {
+  "name": "Heron Arts",
+  "area": "SoMa",
+  "address": "7 Heron St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Gallery occupies a converted generator house.",
+    "url": "https://somawestcbd.org/go/heron-arts"
+   },
+   {
+    "text": "Shows contemporary work and supports community arts programming.",
+    "url": "https://somawestcbd.org/go/heron-arts"
+   }
+  ]
+ },
+ {
+  "name": "ATwater Tavern",
+  "area": "Mission Bay",
+  "address": "295 Terry A Francois Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sits between Oracle Park and Chase Center with views of the Bay and Bay Bridge.",
+    "url": "https://www.atwatertavern.com/"
+   },
+   {
+    "text": "Serves American, steak and shellfish dishes.",
+    "url": "https://www.opentable.com/r/atwater-tavern-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Rincon Park",
+  "area": "Rincon Hill",
+  "address": "The Embarcadero between Howard and Harrison",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Home to Cupid's Span, installed in 2002 by Claes Oldenburg and Coosje van Bruggen.",
+    "url": "https://en.wikipedia.org/wiki/Cupid%27s_Span"
+   },
+   {
+    "text": "Gap founders Donald and Doris Fisher commissioned Cupid's Span.",
+    "url": "https://en.wikipedia.org/wiki/Cupid%27s_Span"
+   },
+   {
+    "text": "The bow stands 60 feet tall and the arrow measures 140 feet.",
+    "url": "https://en.wikipedia.org/wiki/Cupid%27s_Span"
+   }
+  ]
+ },
+ {
+  "name": "Society of California Pioneers",
+  "area": "SoMa",
+  "address": "300 4th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1850 as a museum, library and cultural organization on early California history.",
+    "url": "https://www.californiapioneers.org/"
+   },
+   {
+    "text": "Its Alice Phelan Sullivan Library holds over 10,000 books and manuscripts.",
+    "url": "https://www.californiapioneers.org/"
+   }
+  ]
+ },
+ {
+  "name": "Town Hall",
+  "area": "Rincon Hill",
+  "address": "342 Howard St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served Southern-inspired dishes since 2003.",
+    "url": "https://www.opentable.com/r/town-hall-san-francisco"
+   },
+   {
+    "text": "Menu includes fried chicken, BBQ shrimp and St. Louis ribs.",
+    "url": "https://www.opentable.com/r/town-hall-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Waterbar",
+  "area": "South Beach",
+  "address": "399 The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served seafood on the waterfront since 2008.",
+    "url": "https://www.waterbarsf.com/"
+   },
+   {
+    "text": "Features floor-to-ceiling circular aquariums with Pacific marine life.",
+    "url": "https://www.opentable.com/r/waterbar-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "1015 Folsom",
+  "area": "SoMa",
+  "address": "1015 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The building was a gay bathhouse until a city order closed it in 1984.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   },
+   {
+    "text": "Ira Sandler opened it as Das Klub in 1986; it became 1015 Folsom in 1989.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   },
+   {
+    "text": "Its weeklies Spundae and Release featured electronic music from the 1990s.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   }
+  ]
+ },
+ {
+  "name": "The Stud",
+  "area": "SoMa",
+  "address": "1123 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1966 by George Matson and a business partner.",
+    "url": "https://en.wikipedia.org/wiki/The_Stud_(bar)"
+   },
+   {
+    "text": "Stud collective members bought the bar and revived it as a co-op in 2017.",
+    "url": "https://en.wikipedia.org/wiki/The_Stud_(bar)"
+   },
+   {
+    "text": "Reopened on April 20, 2024, at 1123 Folsom St after closing in 2020.",
+    "url": "https://en.wikipedia.org/wiki/The_Stud_(bar)"
+   }
+  ]
+ },
+ {
+  "name": "SF Eagle",
+  "area": "SoMa",
+  "address": "398 12th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Bob Damron and Jay Levine opened the bar on April 8, 1981.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Eagle"
+   },
+   {
+    "text": "Named a San Francisco Landmark in October 2021, the city's first leather bar landmark.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Eagle"
+   },
+   {
+    "text": "Has the only outdoor patio among SoMa leather bars.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Eagle"
+   }
+  ]
+ },
+ {
+  "name": "Little Skillet",
+  "area": "SoMa",
+  "address": "360 Ritch St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Jay Foster and Deanna Sison and serving since 2008.",
+    "url": "https://intentionalist.com/b/little-skillet/"
+   },
+   {
+    "text": "Specializes in fried chicken and Belgian waffles.",
+    "url": "https://intentionalist.com/b/little-skillet/"
+   }
+  ]
+ },
+ {
+  "name": "HK Lounge Bistro",
+  "area": "SoMa",
+  "address": "1136 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened in SoMa after Hong Kong Lounge II in the Richmond burned in 2019.",
+    "url": "https://sfstandard.com/2023/02/13/acclaimed-sf-dim-sum-restaurant-has-been-reborn-in-another-neighborhood/"
+   },
+   {
+    "text": "Serves handmade dim sum and Hong Kong-style family dishes.",
+    "url": "https://blog.resy.com/2023/03/hong-kong-lounge-bistro-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "Akari Japanese Bistro",
+  "area": "SoMa",
+  "address": "1155 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2022 with head chef Makoto Kanemaru.",
+    "url": "https://www.akari-japanese.com/"
+   },
+   {
+    "text": "Chef Kanemaru cooked for former Emperor Akihito as executive chef at a Nagano resort hotel.",
+    "url": "https://www.akari-japanese.com/chef"
+   },
+   {
+    "text": "Specializes in kaiseki, a chef-designed tasting menu.",
+    "url": "https://www.akari-japanese.com/chef"
+   }
+  ]
+ },
+ {
+  "name": "Crown Point Press",
+  "area": "SoMa",
+  "address": "20 Hawthorne St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1962 by Kathan Brown.",
+    "url": "https://en.wikipedia.org/wiki/Kathan_Brown"
+   },
+   {
+    "text": "Publishes etchings and shows the prints in a gallery beside its studios and bookstore.",
+    "url": "https://www.sfstation.com/crown-point-press-gallery-b382"
+   }
+  ]
+ },
+ {
+  "name": "Rincon Center",
+  "area": "Rincon Hill",
+  "address": "101 Spear St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 1940 Rincon Annex Post Office lobby holds 27 Anton Refregier murals painted from 1941 to 1948.",
+    "url": "https://en.wikipedia.org/wiki/Rincon_Center"
+   },
+   {
+    "text": "The Streamline Moderne building was designed by Gilbert S. Underwood.",
+    "url": "https://en.wikipedia.org/wiki/Rincon_Center"
+   },
+   {
+    "text": "Designated a San Francisco Landmark in 1980.",
+    "url": "https://en.wikipedia.org/wiki/Rincon_Center"
+   }
+  ]
+ },
+ {
+  "name": "Gallery Wendi Norris",
+  "area": "SoMa",
+  "address": "161 Jessie St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Wendi Norris started the gallery in 2011.",
+    "url": "https://gallerymonthly.com/gallery-interviews/gi-009-gallery-wendi-norris/"
+   },
+   {
+    "text": "Holds long relationships with Leonora Carrington, Dorothea Tanning and Remedios Varo.",
+    "url": "https://artdealers.org/gallery/gallery-wendi-norris"
+   },
+   {
+    "text": "The ground-floor space measures 5,000 square feet, one block from SFMOMA.",
+    "url": "https://www.sfstation.com/gallery-wendi-norris-b38588622"
+   }
+  ]
+ },
+ {
+  "name": "Tempest",
+  "area": "SoMa",
+  "address": "431 Natoma St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has operated since 1986 in Natoma Alley off 5th Street.",
+    "url": "https://tempest.pourguys.com/"
+   },
+   {
+    "text": "The bar has a rustic brick interior and shares a kitchen with Box Kitchen.",
+    "url": "https://www.exploretock.com/tempestbar"
+   }
+  ]
+ },
+ {
+  "name": "Mint Plaza",
+  "area": "SoMa",
+  "address": "Jessie St at Mint St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Closed a stretch of Jessie St to cars, the first privately funded street-to-plaza conversion in the city.",
+    "url": "https://www.sfgate.com/bayarea/article/SAN-FRANCISCO-Alleys-of-transformation-A-2588024.php"
+   },
+   {
+    "text": "Won an EPA Smart Growth Award for Civic Spaces in 2010.",
+    "url": "https://www.cmgsite.com/places/mint-plaza/"
+   }
+  ]
+ },
+ {
+  "name": "EPIC Steak",
+  "area": "South Beach",
+  "address": "369 The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 2008 on the Embarcadero waterfront.",
+    "url": "https://www.epicsteak.com/"
+   },
+   {
+    "text": "Chef Parke Ulrich leads the kitchen.",
+    "url": "https://www.epicsteak.com/"
+   }
+  ]
+ },
+ {
+  "name": "Victoria Manalo Draves Park",
+  "area": "SoMa",
+  "address": "Folsom St between 6th and 7th Sts",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in October 2006 on the former site of Bessie Carmichael School.",
+    "url": "https://somawestcbd.org/go/victoria-manalo-draves-park"
+   },
+   {
+    "text": "Named for Olympic diver Victoria Manalo Draves, who grew up in SoMa.",
+    "url": "https://somawestcbd.org/go/victoria-manalo-draves-park"
+   },
+   {
+    "text": "Has a ball field, community garden and children's play area.",
+    "url": "https://somawestcbd.org/go/victoria-manalo-draves-park"
+   }
+  ]
+ },
+ {
+  "name": "Hole in the Wall Saloon",
+  "area": "SoMa",
+  "address": "1369 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in April 1994 on 8th Street and moved to Folsom Street in 2008.",
+    "url": "https://www.ebar.com/story/43992"
+   },
+   {
+    "text": "Owners John Gardner and Joe Banks wanted a biker bar playing rock music.",
+    "url": "https://www.ebar.com/story/43992"
+   }
+  ]
+ },
+ {
+  "name": "Mission Bay Commons",
+  "area": "Mission Bay",
+  "address": "450 Mission Bay Blvd South",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Spans more than two acres of lawn bookended by coastal redwoods.",
+    "url": "https://www.sfstation.com/mission-bay-commons-b39008766"
+   },
+   {
+    "text": "San Francisco Recreation and Parks took over its management on July 1, 2023.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Mission-Bay-Commons-455"
+   }
+  ]
+ },
+ {
+  "name": "Fang",
+  "area": "Rincon Hill",
+  "address": "660 Howard St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sister restaurant of House of Nanking.",
+    "url": "https://www.opentable.com/fang"
+   },
+   {
+    "text": "Executive chef Peter Fang launched House of Nanking on Kearny Street in 1988.",
+    "url": "https://www.opentable.com/fang"
+   }
+  ]
+ },
+ {
+  "name": "Tu Lan",
+  "area": "SoMa",
+  "address": "8 6th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened around 1976 as one of the first Vietnamese restaurants in San Francisco.",
+    "url": "https://www.7x7.com/10-legacy-businesses-san-francisco-2661380340/tu-lan"
+   },
+   {
+    "text": "Founded by Thao Nguyen and his sister Thu Hang Nguyen.",
+    "url": "https://www.7x7.com/10-legacy-businesses-san-francisco-2661380340/tu-lan"
+   },
+   {
+    "text": "Joined the San Francisco Legacy Business Registry in December 2021.",
+    "url": "https://hoodline.com/2022/01/beloved-soma-vietnamese-dive-tu-lan-gets-legacy-business-designation/"
+   }
+  ]
+ },
+ {
+  "name": "AK Subs",
+  "area": "SoMa",
+  "address": "397 8th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served sandwiches at 8th and Harrison since 1993.",
+    "url": "https://www.sfstation.com/ak-subs-b267268"
+   },
+   {
+    "text": "Written up in SF Weekly's Cheap Eats and the Chronicle's Bargain Bites.",
+    "url": "https://www.sfstation.com/ak-subs-b267268"
+   }
+  ]
+ },
+ {
+  "name": "Brannan Street Wharf",
+  "area": "South Beach",
+  "address": "Brannan St at The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in July 2013 as a two-acre park at the former sites of Piers 34 and 36.",
+    "url": "https://www.baycrossings.com/brannan-street-wharf-now-open-to-the-public/"
+   },
+   {
+    "text": "Includes a 52-foot interpretive exhibit on maritime shipping, Chinese immigration and labor.",
+    "url": "https://www.baycrossings.com/brannan-street-wharf-now-open-to-the-public/"
+   }
+  ]
+ },
+ {
+  "name": "Mission Bay Kids Park",
+  "area": "Mission Bay",
+  "address": "Long Bridge St at China Basin St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has separate toddler and grade-school playgrounds, a sandbox and a nature area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Mission-Bay-Kids-Park-454"
+   },
+   {
+    "text": "San Francisco Recreation and Parks took over maintenance on July 1, 2023.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Mission-Bay-Kids-Park-454"
+   }
+  ]
+ },
+ {
+  "name": "Lone Star Saloon",
+  "area": "SoMa",
+  "address": "1354 Harrison St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1989 and widely credited as the birthplace of the international bear movement.",
+    "url": "https://www.travelgay.com/venue/lone-star-saloon-san-francisco"
+   },
+   {
+    "text": "Moved to Harrison St after the Loma Prieta earthquake damaged its Howard St site.",
+    "url": "https://www.sfheritage.org/event/heritage-happy-hour-lone-star-saloon-september-10/"
+   },
+   {
+    "text": "The first gay bar in the city to earn Legacy Business status.",
+    "url": "https://www.sfheritage.org/event/heritage-happy-hour-lone-star-saloon-september-10/"
+   }
+  ]
+ },
+ {
+  "name": "Guy Place Mini Park",
+  "area": "Rincon Hill",
+  "address": "Guy Place",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in July 2020 on a 3,500-square-foot site near the Bay Bridge approach.",
+    "url": "https://sfrecpark.org/m/newsflash/Archive/Item/331?arcId=530"
+   },
+   {
+    "text": "Features the Geologic Ghost fence by artist Adriane Colburn.",
+    "url": "https://sf.streetsblog.org/2020/07/20/guy-place-mini-park-opens"
+   }
+  ]
+ },
+ {
+  "name": "Children's Creativity Museum",
+  "area": "SoMa",
+  "address": "221 4th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in October 1998 in Yerba Buena Gardens.",
+    "url": "https://www.510families.com/childrens-creativity-sf/"
+   },
+   {
+    "text": "Houses the 1906 carousel built by Charles Looff, renamed the LeRoy King Carousel in 2014.",
+    "url": "https://yerbabuenagardens.org/explore/fun-zone-carousel/"
+   }
+  ]
+ },
+ {
+  "name": "Mission Bay Branch Library",
+  "area": "Mission Bay",
+  "address": "960 4th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on July 8, 2006.",
+    "url": "https://sfpl.org/locations/mission-bay/mission-bay-library-history"
+   },
+   {
+    "text": "Designed by Santos Prescott and Associates.",
+    "url": "https://sfpl.org/locations/mission-bay/mission-bay-library-history"
+   }
+  ]
+ },
+ {
+  "name": "South Beach Harbor",
+  "area": "South Beach",
+  "address": "Pier 40, The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1986 by the San Francisco Redevelopment Agency.",
+    "url": "https://www.sfport.com/media/5510/download"
+   },
+   {
+    "text": "Has 700 slips, a guest dock and the Pier 40 Maritime Center.",
+    "url": "https://www.sfport.com/media/5510/download"
+   }
+  ]
+ },
+ {
+  "name": "Bellota",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/bellota-sf-spanish-closing-19596981.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Zero Zero",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/zero-zero-closing-17553890.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Slim's",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://variety.com/2020/music/news/slims-san-francisco-venue-closing-1203541227/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Bloodhound",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bloodhound-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Hard Water",
+  "area": "South Beach",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfgate.com/food/article/Charles-Phan-Hard-Water-closes-17144836.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Mourad",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfstandard.com/2024/10/26/mourad-restaurant-closes-after-10-years-in-san-francisco/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "California Historical Society",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfgate.com/local/article/california-historical-society-sf-stanford-20066233.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Anchor Public Taps",
+  "area": "Potrero Hill",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/anchor-public-taps-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "21st Amendment Brewery",
+  "area": "South Beach",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://en.wikipedia.org/wiki/21st_Amendment_Brewery",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Pier 24 Photography",
+  "area": "South Beach",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/sf/article/pier-24-photography-closure-17747049.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Brainwash Cafe & Laundromat",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://hoodline.com/2017/12/after-28-years-soma-s-brainwash-cafe-spins-down/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]
