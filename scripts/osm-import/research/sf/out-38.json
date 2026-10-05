@@ -1,0 +1,422 @@
+[
+ {
+  "id": "osm-n1617288110",
+  "name": "Sutter Station Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has served the same Financial District location for over forty years.",
+    "url": "https://sutterstationtavern.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n418540495",
+  "name": "Swig",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts a Sunday night blues jam that has run since 1947, from when the venue was The Blue Lamp.",
+    "url": "https://www.swigbar.com/entertainment/j8j7s2dkbk5xpll-3fze2-3m86k"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260152109",
+  "name": "Teeth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood bar with a back patio.",
+    "url": "https://www.teethbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n366705487",
+  "name": "Telegraph Hill Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "An independent bookstore on the corner of Grant Avenue and Union Street.",
+    "url": "https://northbeachlive.com/venue/telegraph-hill-books/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n346585378",
+  "name": "Tempest",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar open in SoMa since 1986.",
+    "url": "https://tempest.pourguys.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3674104340",
+  "name": "Temple Night Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2007 by entrepreneur Paul Hemming.",
+    "url": "https://en.wikipedia.org/wiki/Temple_(nightclub)"
+   },
+   {
+    "text": "Opened at the former location of Club DV8.",
+    "url": "https://en.wikipedia.org/wiki/Temple_(nightclub)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9538820439",
+  "name": "Terminus",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "An all-day cafe and bar at the end of the California Street cable car line.",
+    "url": "https://www.urbandaddy.com/articles/27403/san-francisco/cafe-terminus-terminus-velocity-breakfasting-and-cocktailing-on-california-street"
+   }
+  ]
+ },
+ {
+  "id": "osm-w223616923",
+  "name": "The Alembic",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Place confirmed at 1725 Haight St but no single page tied to a fact",
+  "facts": []
+ },
+ {
+  "id": "osm-n3577376253",
+  "name": "The Bar on Dolores",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A sports bar centered on Chicago teams, with NFL and MLB packages.",
+    "url": "https://www.thebarondolores.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4616136997",
+  "name": "The Barrel Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A women-owned wine bar and restaurant.",
+    "url": "https://downtownsf.org/go/the-barrel-room"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9403976636",
+  "name": "The Beehive",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A mid-century-modern cocktail bar that opened in the former Range space.",
+    "url": "https://missionlocal.org/2018/07/the-beehive-can-you-dig-it-baby/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13621532285",
+  "name": "The Best Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by authors Paul Bradley Carr and Sarah Lacy.",
+    "url": "https://www.sfchronicle.com/entertainment/article/union-square-new-bookstore-21208161.php"
+   },
+   {
+    "text": "Opened in November 2025 through the city's Vacant to Vibrant program.",
+    "url": "https://www.sfchronicle.com/entertainment/article/union-square-new-bookstore-21208161.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1819811599",
+  "name": "The Bitter End",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Page gives 441 Clement St, Inner Richmond; input has no address",
+  "facts": [
+   {
+    "text": "A neighborhood bar and grill established in 1996.",
+    "url": "https://www.thebitterendsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6486930284",
+  "name": "The Blarney Stone",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Place confirmed at 5625 Geary Blvd; no single page tied to a fact",
+  "facts": []
+ },
+ {
+  "id": "osm-n4259746694",
+  "name": "The Blue Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listed as Stookey's Blue Room at 891 Bush St",
+  "facts": [
+   {
+    "text": "Opened next to Stookey's Club Moderne in February 2024 by that bar's owners.",
+    "url": "https://www.sfchronicle.com/food/wine/article/blue-room-bar-sf-18649708.php"
+   },
+   {
+    "text": "Features regular live music from jazz to punk.",
+    "url": "https://www.sfchronicle.com/food/wine/article/blue-room-bar-sf-18649708.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n366723406",
+  "name": "The Boardroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Sources show address as 1600 Powell St, North Beach",
+  "facts": [
+   {
+    "text": "Moved into the former Capp's Corner space in 2018.",
+    "url": "https://boardroomsf.com/2018/04/11/north-beach-sports-bar-standby-completes-move-into-old-capps-corner/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6780093118",
+  "name": "The Booksmith",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in October 1976 on Haight Street.",
+    "url": "https://en.wikipedia.org/wiki/Booksmith"
+   },
+   {
+    "text": "Sold in 2007 to Christin Evans and Praveen Madan.",
+    "url": "https://en.wikipedia.org/wiki/Booksmith"
+   },
+   {
+    "text": "Moved to 1727 Haight in 2021.",
+    "url": "https://en.wikipedia.org/wiki/Booksmith"
+   },
+   {
+    "text": "Added to San Francisco's Legacy Business Registry in 2016.",
+    "url": "https://hoodline.com/2016/10/haight-street-s-the-booksmith-named-sf-legacy-business/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w263264445",
+  "name": "The Brick Yard",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.ca/biz/the-brick-yard-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp listing for The Brick Yard at 1787 Union St is titled CLOSED (updated Oct 2024); later Yelp copies through Dec 2025 also say CLOSED",
+  "facts": []
+ },
+ {
+  "id": "osm-n3799946959",
+  "name": "The Brixton",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Open in Cow Hollow since 2010.",
+    "url": "https://www.brixtonsf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2963068433",
+  "name": "The Buccaneer",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Place confirmed at 2155 Polk St; no single page tied to a fact",
+  "facts": []
+ },
+ {
+  "id": "osm-w260188930",
+  "name": "The Chapel",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Also known as Preservation Hall West.",
+    "url": "https://www.7x7.com/the-chapel-the-missions-most-ambitious-music-venue-1783805346.html"
+   },
+   {
+    "text": "Housed in a 1914 Tudor-style building that was formerly a mortuary.",
+    "url": "https://www.7x7.com/the-chapel-the-missions-most-ambitious-music-venue-1783805346.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n621179351",
+  "name": "The Chieftain Irish Pub & Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Housed in a landmark building built in 1912, originally the M&M Tavern.",
+    "url": "https://www.thechieftain.com/our-story/"
+   },
+   {
+    "text": "Founded by the Nagle brothers of County Kerry and the McVeigh brothers of County Clare.",
+    "url": "https://www.thechieftain.com/our-story/"
+   },
+   {
+    "text": "Has operated as The Chieftain since 2001.",
+    "url": "https://www.thechieftain.com/our-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4024246508",
+  "name": "The Cinch Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1974 as one of San Francisco's queer bars.",
+    "url": "https://www.sfgate.com/local/article/cinch-saloon-san-francisco-polk-street-queer-bar-20361751.php"
+   },
+   {
+    "text": "Named for its western facade dating to the 1939 Golden Gate International Exposition.",
+    "url": "https://www.sfgate.com/local/article/cinch-saloon-san-francisco-polk-street-queer-bar-20361751.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12247275391",
+  "name": "The Comet Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Comet Club at 3111 Fillmore St, Cow Hollow (Union Street Association directory)",
+  "facts": [
+   {
+    "text": "Has a small dance floor and weekly comedy performances.",
+    "url": "https://unionstreetsf.com/directory/comet-club/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1229920524",
+  "name": "The Connection",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "The Connection at 5740 Mission St; input has no address",
+  "facts": [
+   {
+    "text": "A dive bar in the Outer Mission near the Daly City border.",
+    "url": "https://www.yelp.com/biz/the-connection-san-francisco"
+   }
+  ]
+ }
+]
