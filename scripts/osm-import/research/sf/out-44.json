@@ -1,0 +1,183 @@
+[
+ {
+  "id": "osm-n4412503666",
+  "name": "Angie's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Makes its pizza dough with sourdough starter and 40% fresh-milled heirloom whole grain flour from Capay Mills.",
+    "url": "https://angiespizzasf.com/"
+   },
+   {
+    "text": "Makes its ice cream in house.",
+    "url": "https://angiespizzasf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w574650035",
+  "name": "Atwater Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Set in a waterfront building constructed in 1923.",
+    "url": "https://culinaryagents.com/entities/46544-Atwater-Tavern"
+   },
+   {
+    "text": "Cooks seasonal dishes with ingredients from local ranches and farms.",
+    "url": "https://culinaryagents.com/entities/46544-Atwater-Tavern"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13956116296",
+  "name": "Ay Caray Taqueria",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A family-owned and operated taqueria.",
+    "url": "https://www.instagram.com/taqueriaaycaray/"
+   },
+   {
+    "text": "Has a second location in San Mateo.",
+    "url": "https://www.instagram.com/taqueriaaycaray/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5280910181",
+  "name": "Balompié Cafe No. 3",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The Balompie Cafe family of cafes first opened in 1987, as a tribute to soccer.",
+    "url": "https://www.balompie3.com/about-us"
+   },
+   {
+    "text": "Uses local ingredients along with ingredients imported from El Salvador.",
+    "url": "https://www.balompie3.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4018792797",
+  "name": "Bangkok House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6693680673",
+  "name": "BANGKOK STREET Thai Street Food",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Chef Big Nuttapong leads the kitchen, with a decade of Thai cooking experience in Thailand, Hong Kong and Australia.",
+    "url": "https://www.bangkokstreetsf.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9875708649",
+  "name": "Barrio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Makes its taco tortillas in house from heirloom blue corn.",
+    "url": "https://www.barriosf.com/location/barrio-ghirardelli-square/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3595467793",
+  "name": "Basil Canteen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Located in the historic Jackson Brewery building.",
+    "url": "https://www.basilcanteen.com/"
+   },
+   {
+    "text": "From the owners of nearby Basil Thai.",
+    "url": "https://www.sfstation.com/basil-canteen-b24386032"
+   }
+  ]
+ },
+ {
+  "id": "osm-n417235672",
+  "name": "Beach Chalet",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "First-floor frescoes of 1930s San Francisco figures were painted by Lucien Labaudt in 1936.",
+    "url": "https://www.beachchalet.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2338836841",
+  "name": "Bean Bag Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n974267676",
+  "name": "Beit Rima",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": []
+ }
+]

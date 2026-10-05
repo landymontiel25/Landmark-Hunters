@@ -1,0 +1,14 @@
+{
+ "_about": "Second hand review, from what the research batches found (2026-10-05). Same format as review-1.json.",
+ "drop": [
+  ["Galileo Gymnaseum", "high school gymnasium (Galileo High School), per out-00.json"],
+  ["Mayer Family Field", "high school athletic field (Archbishop Riordan), per out-00.json"],
+  ["Terrace Green Park", "private park for St. Francis Wood residents, per out-19.json"],
+  ["The Fuzzy Place", "members-only arts space, per out-05.json"],
+  ["23rd Street Studio", "private figure drawing studio, per out-00.json"],
+  ["Boardroom", "same bar as The Boardroom at 1609 Powell Street (also in the set), per out-22.json", "osm-n4453775089"],
+  ["Indie Darling", "not open yet, per out-29.json"],
+  ["Speakeasy Ales & Lagers", "brewery stopped operating in 2017, per out-37.json"],
+  ["Sunshine Coast: Hookah Fusion Bar", "tobacco shop, not a bar, per out-37.json"]
+ ]
+}

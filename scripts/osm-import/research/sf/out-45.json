@@ -1,0 +1,143 @@
+[
+ {
+  "id": "osm-n331389010",
+  "name": "Caffe Trieste",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Giovanni Giotta, who took over Piccola Cafe and renamed it after the city of Trieste.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5512661856",
+  "name": "Casey's Pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Started as a pizza business in 2009 and first sold pies on the streets of Hayes Valley in 2010.",
+    "url": "https://www.caseyspizzas.com/about"
+   },
+   {
+    "text": "Began as a food truck in 2012; the Mission Bay restaurant opened in 2017.",
+    "url": "https://www.caseyspizzas.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3171572682",
+  "name": "CDXX",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/cdxx-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: CDXX - CLOSED, 5800 Third St, Updated April 2024",
+  "facts": []
+ },
+ {
+  "id": "osm-n1932984609",
+  "name": "Cha Cha Cha",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1984 by Philip Bellber and Leon Pak.",
+    "url": "https://media.api.sf.gov/documents/Item_2a._LBR-2024-25-032_Cha_Cha_Cha.pdf"
+   },
+   {
+    "text": "Has a second location in the Mission District.",
+    "url": "https://media.api.sf.gov/documents/Item_2a._LBR-2024-25-032_Cha_Cha_Cha.pdf"
+   },
+   {
+    "text": "Staff recommended it for the Legacy Business Registry in a January 2025 report.",
+    "url": "https://media.api.sf.gov/documents/Item_2a._LBR-2024-25-032_Cha_Cha_Cha.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13099721635",
+  "name": "Chacho Sushi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Took over the former Kanpai Sushi House space.",
+    "url": "https://whatnow.com/san-francisco/restaurants/new-sushi-spot-debuting-in-san-franciscos-excelsior-neighborhood/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10007858866",
+  "name": "Chambers",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2936612050",
+  "name": "Chez Maman East",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Menu includes French onion soup, mussels and fries, and roast chicken.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/chez-maman-east"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4934847364",
+  "name": "Chili Cha Cha 2",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Menu includes tom kha soup, larb salad, pad thai and green curry.",
+    "url": "https://missionlocal.org/2016/03/chili-cha-cha-2-thai-food-in-their-house-or-yours/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n440104799",
+  "name": "Chubby Noodle",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/bay-area-closures-april-2025-20269071.php",
+  "notFound": false,
+  "searches": 2,
+  "note": "SF Chronicle closures article titled 'Chubby Noodle closes in San Francisco'; summary says North Beach closure April 30, 2025; address not shown in title. Earlier Chronicle article says it moved to 570 Green St.",
+  "facts": []
+ }
+]

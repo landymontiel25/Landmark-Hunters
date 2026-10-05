@@ -1699,5 +1699,32 @@
   },
   "osm-n358767175": {
     "topic": "golf course"
+  },
+  "osm-w32839512": {
+    "drop": "high school gymnasium (Galileo High School), per out-00.json"
+  },
+  "osm-w1457105301": {
+    "drop": "high school athletic field (Archbishop Riordan), per out-00.json"
+  },
+  "osm-w48435281": {
+    "drop": "private park for St. Francis Wood residents, per out-19.json"
+  },
+  "osm-n11777394307": {
+    "drop": "members-only arts space, per out-05.json"
+  },
+  "osm-n2027091592": {
+    "drop": "private figure drawing studio, per out-00.json"
+  },
+  "osm-n4453775089": {
+    "drop": "same bar as The Boardroom at 1609 Powell Street (also in the set), per out-22.json"
+  },
+  "osm-n12951004302": {
+    "drop": "not open yet, per out-29.json"
+  },
+  "osm-w264254814": {
+    "drop": "brewery stopped operating in 2017, per out-37.json"
+  },
+  "osm-n3275185914": {
+    "drop": "tobacco shop, not a bar, per out-37.json"
   }
 }

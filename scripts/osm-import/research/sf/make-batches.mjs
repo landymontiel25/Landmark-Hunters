@@ -1,7 +1,9 @@
 // San Francisco web research, step 1: every staged SF place as
 // batch-NN.json here (25 places each), landmarks first and food last, in the
 // shape PROMPT.md describes. Ids in done.json (already researched) are left out.
-//   node scripts/osm-import/research/sf/make-batches.mjs
+//   node scripts/osm-import/research/sf/make-batches.mjs [--start 52]
+// --start N keeps the existing batch files and numbers the new ones from N
+// (a resumed run: a later out-NN.json replaces an earlier result per place).
 import fs from 'node:fs';
 import path from 'node:path';
 import { SF_NEIGHBORHOODS } from '../../regions.js';
@@ -29,9 +31,11 @@ const places = staged
     website: p.website || null,
     knownFacts: p.facts.filter((f) => !f.startsWith('Address: ')),
   }));
-for (const f of fs.readdirSync(DIR)) if (/^batch-\d+\.json$/.test(f)) fs.unlinkSync(path.join(DIR, f));
+const startAt = process.argv.indexOf('--start');
+const first = startAt >= 0 ? Number(process.argv[startAt + 1]) : 0;
+if (!first) for (const f of fs.readdirSync(DIR)) if (/^batch-\d+\.json$/.test(f)) fs.unlinkSync(path.join(DIR, f));
 for (let i = 0; i < places.length; i += BATCH) {
-  const n = String(i / BATCH).padStart(2, '0');
+  const n = String(first + i / BATCH).padStart(2, '0');
   fs.writeFileSync(path.join(DIR, `batch-${n}.json`), '[' + places.slice(i, i + BATCH).map((p) => JSON.stringify(p)).join(',\n') + ']\n');
 }
-console.log(`${places.length} places in ${Math.ceil(places.length / BATCH)} batches`);
+console.log(`${places.length} places in ${Math.ceil(places.length / BATCH)} batches from batch-${String(first).padStart(2, '0')}`);
