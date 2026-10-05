@@ -1,0 +1,487 @@
+[
+ {
+  "id": "osm-w1216690688",
+  "name": "Barebottle Brew Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in December 2022 as a taproom in Salesforce Park.",
+    "url": "https://beerbybart.com/2022/12/22/up-up-and-away-barebottle-opens-atop-salesforce-park/"
+   },
+   {
+    "text": "The kiosk is built from two customized cargo containers lifted onto the park.",
+    "url": "https://beerbybart.com/2022/12/22/up-up-and-away-barebottle-opens-atop-salesforce-park/"
+   },
+   {
+    "text": "A satellite taproom of the Barebottle brewery in Bernal Heights.",
+    "url": "https://beerbybart.com/2022/12/22/up-up-and-away-barebottle-opens-atop-salesforce-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9592981167",
+  "name": "Barebottle Taproom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Co-founded by Lester Koga, Michael Seitz and Ben Sterling, who met at Cornell business school.",
+    "url": "https://www.barebottle.com/our-story"
+   },
+   {
+    "text": "The brewery has operated in San Francisco since 2016.",
+    "url": "https://www.barebottle.com/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4498256594",
+  "name": "Bartlett Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Home to Bartlett Brewing Co., a seven-barrel brewery run by head brewer Nick Mamere.",
+    "url": "http://bartletthall.com/about/team/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4261666983",
+  "name": "Beauty Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Closed April 2024; reopened January 2026 under new ownership per sfstandard.",
+  "facts": [
+   {
+    "text": "Opened in 1998 at Mission and 19th Streets, in a former dive bar.",
+    "url": "https://www.sfchronicle.com/sf/article/beauty-bar-sf-mission-district-closed-19404458.php"
+   },
+   {
+    "text": "Its retro interior came from a salon on Long Island.",
+    "url": "https://www.sfchronicle.com/sf/article/beauty-bar-sf-mission-district-closed-19404458.php"
+   },
+   {
+    "text": "Reopened in January 2026 under new ownership after two years closed.",
+    "url": "https://sfstandard.com/2026/01/17/beauty-bar-mission-cocktails-open/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4927522422",
+  "name": "Bell Tower",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned in 1995 by Barbara Tice, a former Pat O'Shea's bartender.",
+    "url": "https://www.sfgate.com/news/article/DINING-UPDATES-Good-Food-Rings-True-At-the-2312175.php"
+   },
+   {
+    "text": "Has a long wooden bar and shows sports games.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/bell-tower"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2538427496",
+  "name": "Bender's Bar and Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2003, the day Johnny Cash died.",
+    "url": "https://hoodline.com/2016/06/inside-bender-s-bar-and-grill-the-mission-s-last-bastion-of-freaks-and-weirdos/"
+   },
+   {
+    "text": "A 2005 fire shut it down for 15 months.",
+    "url": "https://hoodline.com/2016/06/inside-bender-s-bar-and-grill-the-mission-s-last-bastion-of-freaks-and-weirdos/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w247085040",
+  "name": "Biergarten",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in October 2011 as an outdoor offshoot of Suppenkuche.",
+    "url": "https://sfist.com/2011/10/19/important_beer_garden_news_suppenku/"
+   },
+   {
+    "text": "Menu includes pretzels and schnitzel, with imported German beers.",
+    "url": "https://www.biergartensf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w262435071",
+  "name": "Bimbo's 365 Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1931 by Agostino Giuntoli and Monk Young during Prohibition.",
+    "url": "https://www.sf.gov/sites/default/files/2024-08/item_2a._lbr-2019-20-032_bimbos_365_club.pdf"
+   },
+   {
+    "text": "Still owned and operated by the founding family, three generations on.",
+    "url": "https://www.sf.gov/sites/default/files/2024-08/item_2a._lbr-2019-20-032_bimbos_365_club.pdf"
+   },
+   {
+    "text": "Moved from Market Street in 1951 into a Timothy Pflueger Art Deco building, the former Bal Tabarin.",
+    "url": "https://www.sfheritage.org/legacy-businesses/the-legacy-of-bimbos-365-club/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n632817679",
+  "name": "Binu Bonu",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by former La Ciccia owners Lorella Degan and Massimiliano Conti.",
+    "url": "https://hoodline.com/2024/02/former-la-ciccia-owners-to-open-binu-bonu-wine-bar-in-san-francisco-s-west-portal/"
+   },
+   {
+    "text": "A wine bar with Italian wines from small producers and light fare, no full kitchen.",
+    "url": "https://hoodline.com/2024/02/former-la-ciccia-owners-to-open-binu-bonu-wine-bar-in-san-francisco-s-west-portal/"
+   },
+   {
+    "text": "Took over the space previously held by Que Syrah wine bar.",
+    "url": "https://hoodline.com/2024/02/former-la-ciccia-owners-to-open-binu-bonu-wine-bar-in-san-francisco-s-west-portal/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4081556948",
+  "name": "Birba",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A wine bar with a covered, plant-filled back patio.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/birba"
+   },
+   {
+    "text": "The food menu includes charcuterie boards, dips and tinned fish.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/birba"
+   }
+  ]
+ },
+ {
+  "id": "osm-w197626871",
+  "name": "Bird and Beckett",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The bookshop was established in 1999.",
+    "url": "https://www.bayimproviser.com/venue/132/bird-and-beckett-books-and-records"
+   },
+   {
+    "text": "Its nonprofit Cultural Legacy Project, set up in 2007, runs live concert and poetry series.",
+    "url": "https://www.bayimproviser.com/venue/132/bird-and-beckett-books-and-records"
+   },
+   {
+    "text": "Sells vintage jazz vinyl and CDs by local artists alongside new and used books.",
+    "url": "https://www.bayimproviser.com/venue/132/bird-and-beckett-books-and-records"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2287535863",
+  "name": "Bistro Gambrinus",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 2009.",
+    "url": "https://www.bistrogambrinus.com/"
+   },
+   {
+    "text": "Menu mixes American comfort food with Eastern European dishes.",
+    "url": "https://www.bistrogambrinus.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w277830597",
+  "name": "Black Bird Book Store",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Kathryn Grantham, who opened the bookstore in June 2017.",
+    "url": "https://blackbirdsf.com/pages/our-story"
+   },
+   {
+    "text": "Moved to a larger space on Irving Street in 2022 and added a coffee shop inside.",
+    "url": "https://blackbirdsf.com/pages/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6371909286",
+  "name": "Black cat",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A jazz club with an upstairs cocktail bar and a downstairs music room called the catacombs.",
+    "url": "https://visittenderloin.com/entertainment/black-cat"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5729139186",
+  "name": "Black Hammer Brewing",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/black-hammer-brewing-company-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title marks 544 Bryant St as CLOSED; other result (brokeassstuart.com) is titled 'Beloved Black Hammer Brewing is Saying Goodbye'.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4613888431",
+  "name": "Black Magic Voodoo Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Open since 1962.",
+    "url": "https://blackmagicvoodoosf.com/"
+   },
+   {
+    "text": "A gathering spot for New Orleans Saints fans during football season.",
+    "url": "https://blackmagicvoodoosf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256710553",
+  "name": "Blackbird",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A literary-themed bar with a back room of small round tables.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/blackbird-bar"
+   },
+   {
+    "text": "Added parklet seating outside.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/blackbird-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10538343245",
+  "name": "Blind Pig",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://hoodline.com/2024/04/speakeasy-charm-returns-to-polk-street-with-the-blind-pig-s-grand-reopening-in-san-francisco/",
+  "notFound": false,
+  "searches": 4,
+  "note": "Moved from 718 California St (Cathay House, Chinatown) to 1113 Polk St; reopened there March 29, 2024 per hoodline/Eater.",
+  "facts": []
+ },
+ {
+  "id": "osm-n13816468428",
+  "name": "Blondies Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in April 1991.",
+    "url": "https://blondiesbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n761906611",
+  "name": "Bloodhound",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bloodhound-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: BLOODHOUND - CLOSED - Updated June 2026, 1145 Folsom St.",
+  "facts": []
+ },
+ {
+  "id": "osm-n5538811245",
+  "name": "Blooms Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood bar with a pool table and well drinks.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/blooms-saloon"
+   },
+   {
+    "text": "Has a vintage glass-brick facade.",
+    "url": "https://archives.sfweekly.com/sanfrancisco/blooms-saloon/Location?oid=2195353"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2318141915",
+  "name": "Blush! Wine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A spacious wine bar with couches, weekly tarot readings and live music.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/blush-wine-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4453775089",
+  "name": "Boardroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Matched to The Boardroom at 1609 Powell St, about 150 m from the given lat/lng (neighborhood hint Chinatown; SF Station lists it in North Beach).",
+  "facts": [
+   {
+    "text": "A sports bar set up for watching surfing, snowboarding, football and hockey.",
+    "url": "https://www.sfstation.com/the-boardroom-b24493342"
+   },
+   {
+    "text": "Decor includes seven paintings by New Orleans artist James Michalopoulos.",
+    "url": "https://www.sfstation.com/the-boardroom-b24493342"
+   },
+   {
+    "text": "Menu includes homemade corn dogs and hand-cut sweet potato fries.",
+    "url": "https://www.sfstation.com/the-boardroom-b24493342"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9039255113",
+  "name": "Bodega Wine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a neon sign reading \"Wet Your Lips\".",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/bodega"
+   },
+   {
+    "text": "Makes its own sausage in house and sells breakfast burritos on Saturdays.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/bodega"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260345813",
+  "name": "Bolerium Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Started as a mail-order catalog in 1981; the Mission store opened in 1985.",
+    "url": "https://www.sfgate.com/local/article/san-francisco-shop-bolerium-books-17674102.php"
+   },
+   {
+    "text": "Focuses on titles about American social movements, especially labor and radicalism.",
+    "url": "https://www.sfgate.com/local/article/san-francisco-shop-bolerium-books-17674102.php"
+   },
+   {
+    "text": "Occupies the third floor of a building on Mission Street.",
+    "url": "https://www.sfgate.com/local/article/san-francisco-shop-bolerium-books-17674102.php"
+   }
+  ]
+ }
+]

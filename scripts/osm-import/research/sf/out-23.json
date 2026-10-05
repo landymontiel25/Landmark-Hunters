@@ -1,0 +1,361 @@
+[
+ {
+  "id": "osm-w1189071463",
+  "name": "Book Passage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Shelf Awareness (Sept 2026) says it moved to a larger space inside the Ferry Building; same building, not closed.",
+  "facts": [
+   {
+    "text": "Moved to a larger space in the Ferry Building in 2026.",
+    "url": "https://www.shelf-awareness.com/theshelf/2026-09-09/book_passage_san_francisco_moves_to_larger_ferry_building_space.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3379996810",
+  "name": "Books Inc",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 5,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4085027890",
+  "name": "Books Inc",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4567543892",
+  "name": "Books Inc",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4419680995",
+  "name": "Boom Boom Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by blues musician John Lee Hooker.",
+    "url": "https://www.sfgate.com/news/article/party-opens-hooker-s-boom-boom-room-3097677.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6502703601",
+  "name": "Boomerang",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/boomerang-cocktail-lounge-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Boomerang Cocktail Lounge, 1430 Noriega St; Yelp page titled CLOSED, updated September 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n2292493555",
+  "name": "Borderlands Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Specializes in science fiction, fantasy and horror books.",
+    "url": "https://en.wikipedia.org/wiki/Borderlands_Books"
+   },
+   {
+    "text": "Alan Beatts opened it in 1997 in Hayes Valley as a used-only bookstore.",
+    "url": "https://en.wikipedia.org/wiki/Borderlands_Books"
+   }
+  ]
+ },
+ {
+  "id": "osm-n725096448",
+  "name": "Bottle Club Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w267242909",
+  "name": "Bottom of the Hill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Wikipedia says the club announced in January 2026 it will close by end of 2026; still open as of now.",
+  "facts": [
+   {
+    "text": "Opened in September 1991 by Dave Benetti.",
+    "url": "https://en.wikipedia.org/wiki/Bottom_of_the_Hill"
+   },
+   {
+    "text": "Has a large antique bar, a kitchen serving hot food and a patio.",
+    "url": "https://en.wikipedia.org/wiki/Bottom_of_the_Hill"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4346343442",
+  "name": "Bound Together Anarchist Collective Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Moved to Haight Street in 1983 and took the name Bound Together: An Anarchist Collective Bookstore.",
+    "url": "https://en.wikipedia.org/wiki/Bound_Together"
+   },
+   {
+    "text": "Run by a volunteer collective that includes longtime members.",
+    "url": "https://en.wikipedia.org/wiki/Bound_Together"
+   },
+   {
+    "text": "Its Prisoners' Literature Project sends books to jails.",
+    "url": "https://en.wikipedia.org/wiki/Bound_Together"
+   }
+  ]
+ },
+ {
+  "id": "osm-n529777817",
+  "name": "Bourbon and Branch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n4106923141",
+  "name": "Bow Bow Cocktails",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Bow Bow Cocktail Lounge, 1155 Grant Ave, Chinatown.",
+  "facts": [
+   {
+    "text": "A Chinatown karaoke dive bar whose owner is known as Mama Candy.",
+    "url": "https://www.sfgate.com/bars/article/Bow-Bow-Cocktail-Lounge-Chinatown-Mama-Candy-14550764.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3458525149",
+  "name": "Brass Tacks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w182809251",
+  "name": "Brick & Beam",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The restaurant and bar of the Hyatt Centric Fisherman's Wharf hotel.",
+    "url": "https://fishermanswharf.centric.hyatt.com/en/hotel/dining/brick-and-beam.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4631667292",
+  "name": "Brick and Mortar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6598019730",
+  "name": "Browser Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Green Apple Books took over ownership from Stephen Damon on October 1, 2019, keeping the Browser name and staff.",
+    "url": "https://greenapplebooks.com/welcome-browser-books"
+   }
+  ]
+ },
+ {
+  "id": "osm-n610183472",
+  "name": "Buckshot",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/buckshot-bar-and-gameroom-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Buckshot Bar and Gameroom, 3848 Geary Blvd; Yelp page titled CLOSED, updated June 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4039511536",
+  "name": "Buddha",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Buddha Lounge, 901 Grant Ave, Chinatown.",
+  "facts": [
+   {
+    "text": "A Chinatown dive bar with a bottle-shaped door.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/buddha-lounge"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10558070235",
+  "name": "Buddy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11777326258",
+  "name": "Buena Vida Cantina",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Official site shows Temporarily Closed; not treated as permanent closure.",
+  "facts": [
+   {
+    "text": "A Yucatan-style cantina.",
+    "url": "https://www.buenavidacantina.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n388205890",
+  "name": "Buena Vista",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Buena Vista Cafe, 2765 Hyde St.",
+  "facts": [
+   {
+    "text": "Opened in 1916 when the first floor of a boardinghouse was converted into a saloon.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Cafe"
+   },
+   {
+    "text": "Credited with introducing Irish coffee to the United States in 1952.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Cafe"
+   },
+   {
+    "text": "Began serving its Irish coffee on November 10, 1952.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Cafe"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2167447455",
+  "name": "Bullitt",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/bullitt-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Bullitt, 2209 Polk St; Yelp page titled CLOSED (Aug 2026); Hoodline 2019 headline says Bullitt says goodbye after 10 years.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4482434591",
+  "name": "Bus Stop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1612773733",
+  "name": "Butter",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Open since 1999.",
+    "url": "https://somawestcbd.org/go/butter"
+   }
+  ]
+ },
+ {
+  "id": "osm-w132605452",
+  "name": "Buzzworks",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ }
+]
