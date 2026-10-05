@@ -26747,20 +26747,20 @@
   ]
  },
  "osm-w206723692": {
-  "name": "The Warfield",
+  "name": "Warfield Theatre",
   "closed": false,
   "closedSource": null,
   "facts": [
    {
-    "text": "Opened May 13, 1922 as Loew's Warfield, named for David Warfield.",
+    "text": "Opened May 13, 1922 as the Loews Warfield, a vaudeville theater.",
     "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
    },
    {
-    "text": "Designed by architect G. Albert Lansburgh in a Baroque style.",
+    "text": "Named after the actor David Warfield.",
     "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
    },
    {
-    "text": "Became a concert hall in 1979 with a run of Bob Dylan concerts.",
+    "text": "Reopened in September 2008 as a live music venue.",
     "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
    }
   ]
@@ -28807,6 +28807,2697 @@
    {
     "text": "Serves Japanese fusion tapas such as clay pot rice, sashimi and Japanese-style pizza.",
     "url": "https://www.gochifusiontapas.com/cupertino-gochi-fusion-tapas/"
+   }
+  ]
+ },
+ "osm-n2338837948": {
+  "name": "Foreign Cinema",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1999 in the Mission District.",
+    "url": "https://foreigncinema.com/about-us/"
+   },
+   {
+    "text": "Gayle Pirie and John Clark took over the kitchen in 2001.",
+    "url": "https://foreigncinema.com/about-us/"
+   },
+   {
+    "text": "Named to the San Francisco Chronicle Top 100 Restaurants for twenty consecutive years.",
+    "url": "https://foreigncinema.com/about-us/"
+   }
+  ]
+ },
+ "osm-n2340735754": {
+  "name": "St. Francis Fountain",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1918 by James Christakes, an immigrant from Sparta, Greece.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_3i._packet_lbr-2016-17-004_st._francis_fountain.pdf"
+   },
+   {
+    "text": "It is the oldest continuously operating business on 24th Street.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_3i._packet_lbr-2016-17-004_st._francis_fountain.pdf"
+   },
+   {
+    "text": "Still sells vintage candies from its original 1920s candy case.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_3i._packet_lbr-2016-17-004_st._francis_fountain.pdf"
+   }
+  ]
+ },
+ "osm-n540452285": {
+  "name": "Delfina",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Craig and Annie Stoll opened Delfina in 1998.",
+    "url": "https://www.delfinasf.com/about-us"
+   },
+   {
+    "text": "Reopened in October 2022 after a renovation by Fucinaro Architects.",
+    "url": "https://www.delfinasf.com/about-us"
+   }
+  ]
+ },
+ "osm-n2656775528": {
+  "name": "La Mejor Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Carmen Elias opened the Mexican bakery in 1993 after retiring from Bank of America.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery"
+   },
+   {
+    "text": "Named a San Francisco legacy business in 2024.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery"
+   },
+   {
+    "text": "The storefront window art is hand painted each month by a local artist.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery"
+   }
+  ]
+ },
+ "osm-w112757637": {
+  "name": "Zeitgeist",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The bar dates to 1972 as the Rainbow Cattle Company.",
+    "url": "https://www.sfheritage.org/events/heritage-happy-hour-at-zeitgeist/"
+   },
+   {
+    "text": "Added to San Francisco's Legacy Business Registry on October 3, 2016.",
+    "url": "https://www.sfheritage.org/events/heritage-happy-hour-at-zeitgeist/"
+   },
+   {
+    "text": "Has a large outdoor beer garden with picnic tables.",
+    "url": "https://www.sfheritage.org/events/heritage-happy-hour-at-zeitgeist/"
+   }
+  ]
+ },
+ "osm-n9403944439": {
+  "name": "Dandelion Chocolate",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Todd Masonis and Cameron Ring founded the bean-to-bar chocolate maker in 2010.",
+    "url": "https://ec2.dandelionchocolate.com/press/press-release-november-9-2012/"
+   },
+   {
+    "text": "The Valencia Street space combines a chocolate factory, cafe and retail shop.",
+    "url": "https://blog.dandelionchocolate.com/2012/11/06/valencia-or-bust/"
+   },
+   {
+    "text": "The building was formerly Excellent Automotive Service and Repair.",
+    "url": "https://blog.dandelionchocolate.com/2012/11/06/valencia-or-bust/"
+   }
+  ]
+ },
+ "osm-n3903390511": {
+  "name": "Curio",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened on June 22, 2018 next to The Chapel.",
+    "url": "https://www.sfgate.com/insidescoop/article/Curio-debuts-in-the-Mission-with-seafood-quirky-13018497.php"
+   },
+   {
+    "text": "Created by Jack Knowles of A Cote in Rockridge.",
+    "url": "https://www.sfgate.com/insidescoop/article/Curio-debuts-in-the-Mission-with-seafood-quirky-13018497.php"
+   },
+   {
+    "text": "The address once housed a mortuary, and the bar keeps a neon afterlife sign.",
+    "url": "https://www.sfgate.com/insidescoop/article/Curio-debuts-in-the-Mission-with-seafood-quirky-13018497.php"
+   }
+  ]
+ },
+ "osm-n3881392635": {
+  "name": "Lolo",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Jorge Martinez and Lorena Zertuche founded the restaurant in 2007.",
+    "url": "https://www.lolosf.com/about"
+   },
+   {
+    "text": "The original opened in a smaller space nearby before moving to Valencia Street in 2013.",
+    "url": "https://www.lolosf.com/about"
+   },
+   {
+    "text": "Lorena Zertuche is a self-taught mixed media artist who helped design the interiors.",
+    "url": "https://www.lolosf.com/about"
+   }
+  ]
+ },
+ "osm-w260351423": {
+  "name": "Victoria Theatre",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1908 as Brown's Opera House.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco"
+   },
+   {
+    "text": "Named a San Francisco Designated Landmark (no. 215) in 1996.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco"
+   },
+   {
+    "text": "It is the oldest operational theatre in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco"
+   }
+  ]
+ },
+ "osm-n6242792452": {
+  "name": "Brava Theater Center",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The theater has 360 seats.",
+    "url": "https://en.wikipedia.org/wiki/List_of_theatres_in_San_Francisco"
+   },
+   {
+    "text": "It is dedicated to the expression of women, people of color, youth and LGBTQ artists.",
+    "url": "https://en.wikipedia.org/wiki/List_of_theatres_in_San_Francisco"
+   }
+  ]
+ },
+ "osm-w1283827372": {
+  "name": "Garfield Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a swimming pool, athletic field, playground and courts.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441"
+   },
+   {
+    "text": "The Garfield Center clubhouse and pool building was renovated in 2021.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441"
+   }
+  ]
+ },
+ "osm-w1111843035": {
+  "name": "Mission Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has the only public outdoor pool in San Francisco.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   },
+   {
+    "text": "Includes a clubhouse, open lawn, soccer field, and tennis and basketball courts.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   }
+  ]
+ },
+ "osm-w23908184": {
+  "name": "Precita Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A two-acre park between Bernal Heights and Cesar Chavez Street.",
+    "url": "https://sfrecpark.org/898/Precita-Park"
+   },
+   {
+    "text": "Has a playground, butterfly garden, grass field and picnic areas.",
+    "url": "https://sfrecpark.org/898/Precita-Park"
+   }
+  ]
+ },
+ "osm-n1193723957": {
+  "name": "Beretta",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2008 and serves thin crust pizzas and Italian dishes.",
+    "url": "https://sfstandard.com/2025/08/21/beretta-valencia-italian-renovation-late-night/"
+   },
+   {
+    "text": "Reopened in 2025 after a seven-week restoration with a new menu.",
+    "url": "https://sfstandard.com/2025/08/21/beretta-valencia-italian-renovation-late-night/"
+   }
+  ]
+ },
+ "osm-w224919831": {
+  "name": "Mission Bowling Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in March 2012.",
+    "url": "https://foodgps.com/mission-bowling-club-san-francisco/"
+   },
+   {
+    "text": "Anthony Myint of Mission Chinese Food was the food partner at opening.",
+    "url": "https://foodgps.com/mission-bowling-club-san-francisco/"
+   }
+  ]
+ },
+ "osm-n10650803521": {
+  "name": "Medicine for Nightmares Bookstore & Gallery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Combines a bookstore and an art gallery.",
+    "url": "https://sfpl.org/locations/external/medicine-nightmares-bookstore-gallery-0"
+   },
+   {
+    "text": "Took over the storefront previously occupied by Alley Cat Bookstore & Gallery.",
+    "url": "https://sfpl.org/locations/external/medicine-nightmares-bookstore-gallery-0"
+   }
+  ]
+ },
+ "osm-n2053166642": {
+  "name": "Paprika",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A beer hall pouring German and Czech beers alongside sausages and goulash.",
+    "url": "https://www.sfweekly.com/dining/where-to-eat-on-24th-street-in-the-mission/article_99373259-83b4-5c39-b1d7-5a5733b7dee4.html"
+   }
+  ]
+ },
+ "osm-n3811475327": {
+  "name": "Bi-Rite Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The market was built by brothers Joe and Bill Cordano in 1940.",
+    "url": "https://biritemarket.com/about-us/history/"
+   },
+   {
+    "text": "Jack and Ned Mogannam bought the market in 1964.",
+    "url": "https://biritemarket.com/about-us/history/"
+   },
+   {
+    "text": "Sam Mogannam has led the business since 1998.",
+    "url": "https://biritemarket.com/about-us/history/"
+   },
+   {
+    "text": "The building has an art deco facade and original glazed tiles.",
+    "url": "https://biritemarket.com/about-us/history/"
+   }
+  ]
+ },
+ "osm-n2485515167": {
+  "name": "Taqueria Cancun",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "First opened in 1991 on Market Street.",
+    "url": "https://www.taqueriacancunsf.net/who.html"
+   },
+   {
+    "text": "Started by two alumni of El Farolito.",
+    "url": "https://www.taqueriacancunsf.net/who.html"
+   }
+  ]
+ },
+ "osm-n331389010": {
+  "name": "Caffe Trieste",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1956 when Giovanni Giotta took over the Piccola Cafe and renamed it for Trieste.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   },
+   {
+    "text": "Francis Ford Coppola wrote much of The Godfather screenplay at the cafe.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   },
+   {
+    "text": "Its Saturday concert, started in 1971, is the longest running musical show in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   }
+  ]
+ },
+ "osm-n4833466622": {
+  "name": "Liguria Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Ambrogio Soracco opened the bakery in 1911 with two brothers from Liguria.",
+    "url": "https://en.wikipedia.org/wiki/Liguria_Bakery"
+   },
+   {
+    "text": "It has made only focaccia since 1984.",
+    "url": "https://en.wikipedia.org/wiki/Liguria_Bakery"
+   },
+   {
+    "text": "The Soracco family's third generation runs the bakery.",
+    "url": "https://en.wikipedia.org/wiki/Liguria_Bakery"
+   }
+  ]
+ },
+ "osm-n4614040548": {
+  "name": "Golden Boy Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Peter Sodini opened the first Golden Boy on Green Street in 1978 at age 19.",
+    "url": "https://www.goldenboypizza.com/history"
+   },
+   {
+    "text": "Serves square slices on a focaccia dough crust.",
+    "url": "https://www.goldenboypizza.com/history"
+   }
+  ]
+ },
+ "osm-n331666407": {
+  "name": "Tommaso's Ristorante Italiano",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1935 as Lupo's by the Cantalupo family from Naples.",
+    "url": "https://hoodline.com/2015/10/tommasos-celebrates-80-years-in-north-beach/"
+   },
+   {
+    "text": "Has used the same wood-burning pizza oven since 1935.",
+    "url": "https://hoodline.com/2015/10/tommasos-celebrates-80-years-in-north-beach/"
+   },
+   {
+    "text": "Awarded San Francisco Legacy Business status in 2017.",
+    "url": "https://www.sfchronicle.com/news/article/Slice-of-culinary-history-pizza-destination-12414432.php"
+   }
+  ]
+ },
+ "osm-n366701342": {
+  "name": "Original Joe's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1937 as a 14-stool counter in the Tenderloin.",
+    "url": "https://en.wikipedia.org/wiki/Original_Joe%27s"
+   },
+   {
+    "text": "Reopened in North Beach in 2012 after a 2007 fire at the original site.",
+    "url": "https://en.wikipedia.org/wiki/Original_Joe%27s"
+   }
+  ]
+ },
+ "osm-w32866034": {
+  "name": "Club Fugazi",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1913 inside Casa Fugazi, a community center for San Francisco's Italian colony.",
+    "url": "https://en.wikipedia.org/wiki/Club_Fugazi"
+   },
+   {
+    "text": "Thelonious Monk recorded the album Thelonious Alone in San Francisco here in 1959.",
+    "url": "https://en.wikipedia.org/wiki/Club_Fugazi"
+   },
+   {
+    "text": "Beach Blanket Babylon played here until its final show in December 2019.",
+    "url": "https://en.wikipedia.org/wiki/Club_Fugazi"
+   }
+  ]
+ },
+ "osm-n4156154835": {
+  "name": "Good Mong Kok Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Takeout dim sum counter serving har gow, pork siu mai and baked barbecue pork buns.",
+    "url": "https://goodmongkokbakery.com/"
+   }
+  ]
+ },
+ "osm-n1308317902": {
+  "name": "Golden Gate Fortune Cookie Factory",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1962 with a mission to keep hand-folding fortune cookies.",
+    "url": "https://www.goldengatefortunecookies.com/history"
+   }
+  ]
+ },
+ "osm-n9347722230": {
+  "name": "Red Blossom Tea Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 1985.",
+    "url": "https://redblossomtea.com/pages/our-showroom"
+   },
+   {
+    "text": "Sources single-origin teas directly from farmers in China and Taiwan.",
+    "url": "https://redblossomtea.com/pages/our-showroom"
+   }
+  ]
+ },
+ "osm-n4393034455": {
+  "name": "House of Nanking",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1988 by Peter and Lily Fang, who moved from Shanghai in 1980.",
+    "url": "https://www.houseofnankingsf.com/about/"
+   },
+   {
+    "text": "Their daughter, chef Kathy Fang, is a two-time Chopped champion.",
+    "url": "https://www.houseofnankingsf.com/about/"
+   }
+  ]
+ },
+ "osm-w224941774": {
+  "name": "Pioneer Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 1876 on the site of the former Marine Telegraph Station.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Telegraph-Hill-Pioneer-Park-381"
+   },
+   {
+    "text": "The park surrounds Coit Tower, completed in 1933.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Telegraph-Hill-Pioneer-Park-381"
+   }
+  ]
+ },
+ "osm-n366703620": {
+  "name": "Mama's on Washington Square",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Started in 1951 as an ice cream shop called Herbert's Sherbet.",
+    "url": "https://en.wikipedia.org/wiki/Mama%27s_(restaurant)"
+   },
+   {
+    "text": "Expanded into a restaurant with sandwiches, salads and omelets in 1969.",
+    "url": "https://en.wikipedia.org/wiki/Mama%27s_(restaurant)"
+   }
+  ]
+ },
+ "osm-n3064415733": {
+  "name": "Caffe Greco",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1988.",
+    "url": "https://www.sf.gov/sites/default/files/2023-01/Item%202b.%20LBR-2015-16-062%20Caffe%20Greco.pdf"
+   },
+   {
+    "text": "Makes its own panforte and tiramisu.",
+    "url": "https://www.sfstation.com/caff-greco-b24528491"
+   }
+  ]
+ },
+ "osm-n3663863508": {
+  "name": "Mario's Bohemian Cigar Store Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1971 when Mario and Liliana Crismani bought the Bohemian Cigar Store.",
+    "url": "https://legacybusiness.org/business/marios-bohemian-cigar-store-cafe"
+   },
+   {
+    "text": "Serves oven-baked focaccia sandwiches on bread from Liguria Bakery.",
+    "url": "https://legacybusiness.org/business/marios-bohemian-cigar-store-cafe"
+   },
+   {
+    "text": "The building dates from 1909.",
+    "url": "https://legacybusiness.org/business/marios-bohemian-cigar-store-cafe"
+   }
+  ]
+ },
+ "osm-n61690921": {
+  "name": "Comstock Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Restored in 2010 in a building from the Barbary Coast era.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   },
+   {
+    "text": "Has an 18-foot mahogany bar top dating to the late 1890s.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   }
+  ]
+ },
+ "osm-w29902626": {
+  "name": "Saints Peter and Paul Church",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The present church was completed in 1924 with twin spires rising 191 feet.",
+    "url": "https://en.wikipedia.org/wiki/Saints_Peter_and_Paul_Church,_San_Francisco"
+   },
+   {
+    "text": "Joe DiMaggio married here in 1939.",
+    "url": "https://en.wikipedia.org/wiki/Saints_Peter_and_Paul_Church,_San_Francisco"
+   }
+  ]
+ },
+ "osm-n806240639": {
+  "name": "Chinese Historical Society of America Museum",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Housed in the Julia Morgan designed Chinatown YWCA building completed in 1932.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   },
+   {
+    "text": "The society was established in 1962.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   }
+  ]
+ },
+ "osm-n3702219083": {
+  "name": "Tony's Pizza Napoletana",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2009 by Tony Gemignani.",
+    "url": "https://en.wikipedia.org/wiki/Tony%27s_Pizza_Napoletana"
+   },
+   {
+    "text": "Ranked third among U.S. pizzerias by 50 Top Pizza in 2025.",
+    "url": "https://www.axios.com/local/san-francisco/2025/08/26/tonys-pizza-san-francisco-best-usa"
+   }
+  ]
+ },
+ "osm-n4196313093": {
+  "name": "R&G Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1985 as a one-story restaurant in a basement.",
+    "url": "https://chinatownmerchantssf.org/?hp_listing=r-g-lounge"
+   },
+   {
+    "text": "Has since grown to three dining floors.",
+    "url": "https://chinatownmerchantssf.org/?hp_listing=r-g-lounge"
+   }
+  ]
+ },
+ "osm-n3189513327": {
+  "name": "Great Eastern Restaurant",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "President Barack Obama picked up dim sum takeout here on February 16, 2012.",
+    "url": "https://obamawhitehouse.archives.gov/photos-and-video/photo/2012/02/president-obama-great-eastern-restaurant"
+   }
+  ]
+ },
+ "osm-n10002564375": {
+  "name": "Chinese Culture Center of San Francisco",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1965.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Culture_Center"
+   },
+   {
+    "text": "Its 2,935-square-foot gallery and 299-seat auditorium sit on the third floor.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Culture_Center"
+   }
+  ]
+ },
+ "osm-n3702219079": {
+  "name": "Tony Nik's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1933 as Tony Nicco's Cafe, among the first North Beach bars licensed after Prohibition.",
+    "url": "https://www.sf.gov/sites/default/files/2023-02/Item%202c.%20LBR-2022-23-018%20Tony%20Nik%E2%80%99s%20Caf%C3%A9.pdf"
+   },
+   {
+    "text": "A mural by Nadine Torrance from the 1949 remodel is still on the back wall.",
+    "url": "https://www.sf.gov/sites/default/files/2023-02/Item%202c.%20LBR-2022-23-018%20Tony%20Nik%E2%80%99s%20Caf%C3%A9.pdf"
+   }
+  ]
+ },
+ "osm-n4164208232": {
+  "name": "Golden Gate Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Its egg custard tart, a dan-tat, built the bakery's following over more than 50 years.",
+    "url": "https://www.cbsnews.com/sanfrancisco/news/golden-gate-bakery-san-francisco-chinatown-hours-a-bit-of-a-mystery/"
+   },
+   {
+    "text": "Reopened after a long pandemic closure.",
+    "url": "https://www.cbsnews.com/sanfrancisco/news/golden-gate-bakery-san-francisco-chinatown-hours-a-bit-of-a-mystery/"
+   }
+  ]
+ },
+ "osm-w35065721": {
+  "name": "Joe DiMaggio Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1910 as the North Beach Playground.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground"
+   },
+   {
+    "text": "Vince, Joe and Dom DiMaggio grew up playing baseball here in the 1920s.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground"
+   },
+   {
+    "text": "A renovation was completed in November 2015.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground"
+   }
+  ]
+ },
+ "osm-w66642590": {
+  "name": "Willie \"Woo Woo\" Wong Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1927 as the Chinese Playground and renamed in 2006 for USF basketball player Willie Wong.",
+    "url": "https://www.510families.com/willie-woo-woo-wong-playground/"
+   }
+  ]
+ },
+ "osm-n4625310683": {
+  "name": "Trattoria Contadina",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Vincent Correnti opened it in 1984; three generations of his family have owned it.",
+    "url": "https://www.sf.gov/sites/default/files/2022-05/Item%202d.%20LBR-2021-22-007%20Trattoria%20Contadina.pdf"
+   },
+   {
+    "text": "Joined the San Francisco Legacy Business Registry on May 23, 2022.",
+    "url": "https://www.sf.gov/sites/default/files/2022-05/Item%202d.%20LBR-2021-22-007%20Trattoria%20Contadina.pdf"
+   }
+  ]
+ },
+ "osm-n4614040547": {
+  "name": "Gino & Carlo",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1942 in a 1907 Edwardian building.",
+    "url": "https://www.sfchronicle.com/style/article/At-75-Gino-Carlo-in-North-Beach-a-bar-for-the-12485088.php"
+   },
+   {
+    "text": "Donato and Frank Rossi bought the bar in 1954, and it is still family-owned.",
+    "url": "https://www.sfchronicle.com/style/article/At-75-Gino-Carlo-in-North-Beach-a-bar-for-the-12485088.php"
+   }
+  ]
+ },
+ "osm-n2071294615": {
+  "name": "Yuet Lee",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cantonese seafood restaurant open since the 1970s.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/yuet-lee-seafood-restaurant"
+   },
+   {
+    "text": "Serves whole steamed fish, salt and pepper prawns and clams in black bean sauce.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/yuet-lee-seafood-restaurant"
+   }
+  ]
+ },
+ "osm-w606005383": {
+  "name": "Grace Marchant Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Created by Grace Marchant, a former Hollywood stuntwoman who moved to Telegraph Hill in 1949.",
+    "url": "https://gracemarchantgarden.com/about-3/"
+   },
+   {
+    "text": "The gardens flank both sides of the Filbert Street Steps.",
+    "url": "https://www.foundsf.org/Filbert_Steps_and_Grace_Marchant_Gardens"
+   }
+  ]
+ },
+ "osm-w288485994": {
+  "name": "Sentinel Building",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Completed in 1907 and listed as San Francisco Designated Landmark No. 33.",
+    "url": "https://noehill.com/sf/landmarks/sf033.asp"
+   },
+   {
+    "text": "Francis Ford Coppola bought it in 1973; it houses his film studio American Zoetrope.",
+    "url": "https://en.wikipedia.org/wiki/Columbus_Tower_(San_Francisco)"
+   }
+  ]
+ },
+ "osm-n3123266787": {
+  "name": "Victoria Pastry Co.",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1914 by seven bakers who combined four competing North Beach bakeries.",
+    "url": "https://www.starkinsider.com/2009/05/cookie-victoria-pastry-co-pastry-tasting-north-beach-san-francisco.html"
+   },
+   {
+    "text": "Moved to Filbert Street in 2012 after nearly 100 years at Stockton and Vallejo.",
+    "url": "https://gianni.tv/victoria-pastry-moving-steps-of-rome-closed/"
+   }
+  ]
+ },
+ "osm-w260523829": {
+  "name": "Kong Chow Temple",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Temple to the god Guan Di, relocated to the Kong Chow Building in 1977.",
+    "url": "https://en.wikipedia.org/wiki/Kong_Chow_Temple"
+   },
+   {
+    "text": "The original Pine Street temple was destroyed in the 1906 earthquake and fire.",
+    "url": "https://en.wikipedia.org/wiki/Kong_Chow_Temple"
+   }
+  ]
+ },
+ "osm-n10874913809": {
+  "name": "Rooh",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/kr/ko/california/san-francisco/restaurant/rooh"
+   },
+   {
+    "text": "Serves modern Indian cuisine made with fresh California produce.",
+    "url": "https://guide.michelin.com/kr/ko/california/san-francisco/restaurant/rooh"
+   }
+  ]
+ },
+ "osm-w266673467": {
+  "name": "Mission Rock Resort",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened in August 2012 under restaurateur Peter Osborne after Kelly's Mission Rock went bankrupt.",
+    "url": "https://www.sfgate.com/restaurants/article/Mission-Rock-Resort-honors-tradition-4649304.php"
+   },
+   {
+    "text": "The site began in the early 1960s as a bait shop and burger joint.",
+    "url": "https://www.missionrockresort.com/"
+   }
+  ]
+ },
+ "osm-w132605490": {
+  "name": "DNA Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened on November 22, 1985.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   },
+   {
+    "text": "Owner Jamie Zawinski, a former Netscape programmer, bought the club in 1999.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   },
+   {
+    "text": "The building dates to 1920 and became a nightclub in 1983 as the leather bar Chaps.",
+    "url": "https://www.dnalounge.com/directions/"
+   }
+  ]
+ },
+ "osm-n2956095526": {
+  "name": "Sextant Coffee Roasters",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Kinani Ahmed, a first-generation Ethiopian.",
+    "url": "https://sextantcoffee.com/pages/about-us"
+   },
+   {
+    "text": "Works directly with farmers across Ethiopia, Kenya and Colombia.",
+    "url": "https://sextantcoffee.com/pages/about-us"
+   }
+  ]
+ },
+ "osm-n12008496242": {
+  "name": "Telescope Coffee",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Moved from 451 9th St to a larger space on 6th St in 2023.",
+    "url": "https://dailycoffeenews.com/2023/10/12/telescope-coffee-stretches-out-with-new-san-francisco-cafe/"
+   },
+   {
+    "text": "Serves Vietnamese coffee brewed with a phin filter.",
+    "url": "https://www.modernluxury.com/soma-poc-women-run-telescope-coffee/"
+   }
+  ]
+ },
+ "osm-n3799971168": {
+  "name": "Saltwater Bakeshop",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened its first permanent storefront on Howard St in May 2026 after years at farmers markets.",
+    "url": "https://sfstandard.com/2026/05/11/saltwater-bakeshop-new-cafe-open/"
+   },
+   {
+    "text": "Owner Brittany Dunn Holden bakes sourdough, croissants and pastries.",
+    "url": "https://hoodline.com/2026/05/soma-snags-giant-saltwater-bakeshop-cafe-after-years-in-the-oven/"
+   }
+  ]
+ },
+ "osm-w24563077": {
+  "name": "Yerba Buena Center for the Arts",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 1993 as part of the Yerba Buena Gardens redevelopment.",
+    "url": "https://en.wikipedia.org/wiki/Yerba_Buena_Center_for_the_Arts"
+   },
+   {
+    "text": "The Galleries and Forum were designed by architect Fumihiko Maki.",
+    "url": "https://en.wikipedia.org/wiki/Yerba_Buena_Center_for_the_Arts"
+   },
+   {
+    "text": "Includes the 757-seat Blue Shield of California Theater.",
+    "url": "https://en.wikipedia.org/wiki/Yerba_Buena_Center_for_the_Arts"
+   }
+  ]
+ },
+ "osm-w574650035": {
+  "name": "ATwater Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sits between Oracle Park and Chase Center with views of the Bay and Bay Bridge.",
+    "url": "https://www.atwatertavern.com/"
+   },
+   {
+    "text": "Serves American, steak and shellfish dishes.",
+    "url": "https://www.opentable.com/r/atwater-tavern-san-francisco"
+   }
+  ]
+ },
+ "osm-w260241908": {
+  "name": "1015 Folsom",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The building was a gay bathhouse until a city order closed it in 1984.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   },
+   {
+    "text": "Ira Sandler opened it as Das Klub in 1986; it became 1015 Folsom in 1989.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   },
+   {
+    "text": "Its weeklies Spundae and Release featured electronic music from the 1990s.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   }
+  ]
+ },
+ "osm-n13057323401": {
+  "name": "The Stud",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1966 by George Matson and a business partner.",
+    "url": "https://en.wikipedia.org/wiki/The_Stud_(bar)"
+   },
+   {
+    "text": "Stud collective members bought the bar and revived it as a co-op in 2017.",
+    "url": "https://en.wikipedia.org/wiki/The_Stud_(bar)"
+   },
+   {
+    "text": "Reopened on April 20, 2024, at 1123 Folsom St after closing in 2020.",
+    "url": "https://en.wikipedia.org/wiki/The_Stud_(bar)"
+   }
+  ]
+ },
+ "osm-n9596331674": {
+  "name": "SF Eagle",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bob Damron and Jay Levine opened the bar on April 8, 1981.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Eagle"
+   },
+   {
+    "text": "Named a San Francisco Landmark in October 2021, the city's first leather bar landmark.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Eagle"
+   },
+   {
+    "text": "Has the only outdoor patio among SoMa leather bars.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Eagle"
+   }
+  ]
+ },
+ "osm-n1280995609": {
+  "name": "Little Skillet",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Jay Foster and Deanna Sison and serving since 2008.",
+    "url": "https://intentionalist.com/b/little-skillet/"
+   },
+   {
+    "text": "Specializes in fried chicken and Belgian waffles.",
+    "url": "https://intentionalist.com/b/little-skillet/"
+   }
+  ]
+ },
+ "osm-n10861038483": {
+  "name": "HK Lounge Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened in SoMa after Hong Kong Lounge II in the Richmond burned in 2019.",
+    "url": "https://sfstandard.com/2023/02/13/acclaimed-sf-dim-sum-restaurant-has-been-reborn-in-another-neighborhood/"
+   },
+   {
+    "text": "Serves handmade dim sum and Hong Kong-style family dishes.",
+    "url": "https://blog.resy.com/2023/03/hong-kong-lounge-bistro-san-francisco/"
+   }
+  ]
+ },
+ "osm-w251379303": {
+  "name": "Akari Japanese Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2022 with head chef Makoto Kanemaru.",
+    "url": "https://www.akari-japanese.com/"
+   },
+   {
+    "text": "Chef Kanemaru cooked for former Emperor Akihito as executive chef at a Nagano resort hotel.",
+    "url": "https://www.akari-japanese.com/chef"
+   },
+   {
+    "text": "Specializes in kaiseki, a chef-designed tasting menu.",
+    "url": "https://www.akari-japanese.com/chef"
+   }
+  ]
+ },
+ "osm-n11008350407": {
+  "name": "Crown Point Press",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1962 by Kathan Brown.",
+    "url": "https://en.wikipedia.org/wiki/Kathan_Brown"
+   },
+   {
+    "text": "Publishes etchings and shows the prints in a gallery beside its studios and bookstore.",
+    "url": "https://www.sfstation.com/crown-point-press-gallery-b382"
+   }
+  ]
+ },
+ "osm-w1191767995": {
+  "name": "Rincon Center",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The 1940 Rincon Annex Post Office lobby holds 27 Anton Refregier murals painted from 1941 to 1948.",
+    "url": "https://en.wikipedia.org/wiki/Rincon_Center"
+   },
+   {
+    "text": "The Streamline Moderne building was designed by Gilbert S. Underwood.",
+    "url": "https://en.wikipedia.org/wiki/Rincon_Center"
+   },
+   {
+    "text": "Designated a San Francisco Landmark in 1980.",
+    "url": "https://en.wikipedia.org/wiki/Rincon_Center"
+   }
+  ]
+ },
+ "osm-n346585378": {
+  "name": "Tempest",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has operated since 1986 in Natoma Alley off 5th Street.",
+    "url": "https://tempest.pourguys.com/"
+   },
+   {
+    "text": "The bar has a rustic brick interior and shares a kitchen with Box Kitchen.",
+    "url": "https://www.exploretock.com/tempestbar"
+   }
+  ]
+ },
+ "osm-n1990302438": {
+  "name": "EPIC Steak",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 2008 on the Embarcadero waterfront.",
+    "url": "https://www.epicsteak.com/"
+   },
+   {
+    "text": "Chef Parke Ulrich leads the kitchen.",
+    "url": "https://www.epicsteak.com/"
+   }
+  ]
+ },
+ "osm-w48569996": {
+  "name": "Mission Bay Commons",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Spans more than two acres of lawn bookended by coastal redwoods.",
+    "url": "https://www.sfstation.com/mission-bay-commons-b39008766"
+   },
+   {
+    "text": "San Francisco Recreation and Parks took over its management on July 1, 2023.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Mission-Bay-Commons-455"
+   }
+  ]
+ },
+ "osm-n1856001179": {
+  "name": "Fang",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sister restaurant of House of Nanking.",
+    "url": "https://www.opentable.com/fang"
+   },
+   {
+    "text": "Executive chef Peter Fang launched House of Nanking on Kearny Street in 1988.",
+    "url": "https://www.opentable.com/fang"
+   }
+  ]
+ },
+ "osm-n370198231": {
+  "name": "Tu Lan",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened around 1976 as one of the first Vietnamese restaurants in San Francisco.",
+    "url": "https://www.7x7.com/10-legacy-businesses-san-francisco-2661380340/tu-lan"
+   },
+   {
+    "text": "Founded by Thao Nguyen and his sister Thu Hang Nguyen.",
+    "url": "https://www.7x7.com/10-legacy-businesses-san-francisco-2661380340/tu-lan"
+   },
+   {
+    "text": "Joined the San Francisco Legacy Business Registry in December 2021.",
+    "url": "https://hoodline.com/2022/01/beloved-soma-vietnamese-dive-tu-lan-gets-legacy-business-designation/"
+   }
+  ]
+ },
+ "osm-w247957676": {
+  "name": "AK Subs",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served sandwiches at 8th and Harrison since 1993.",
+    "url": "https://www.sfstation.com/ak-subs-b267268"
+   },
+   {
+    "text": "Written up in SF Weekly's Cheap Eats and the Chronicle's Bargain Bites.",
+    "url": "https://www.sfstation.com/ak-subs-b267268"
+   }
+  ]
+ },
+ "osm-w577315288": {
+  "name": "Mission Bay Kids Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has separate toddler and grade-school playgrounds, a sandbox and a nature area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Mission-Bay-Kids-Park-454"
+   },
+   {
+    "text": "San Francisco Recreation and Parks took over maintenance on July 1, 2023.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Mission-Bay-Kids-Park-454"
+   }
+  ]
+ },
+ "osm-n10158817989": {
+  "name": "Lone Star Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 1989 and widely credited as the birthplace of the international bear movement.",
+    "url": "https://www.travelgay.com/venue/lone-star-saloon-san-francisco"
+   },
+   {
+    "text": "Moved to Harrison St after the Loma Prieta earthquake damaged its Howard St site.",
+    "url": "https://www.sfheritage.org/event/heritage-happy-hour-lone-star-saloon-september-10/"
+   },
+   {
+    "text": "The first gay bar in the city to earn Legacy Business status.",
+    "url": "https://www.sfheritage.org/event/heritage-happy-hour-lone-star-saloon-september-10/"
+   }
+  ]
+ },
+ "osm-n317124778": {
+  "name": "Mission Bay Branch Library",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened on July 8, 2006.",
+    "url": "https://sfpl.org/locations/mission-bay/mission-bay-library-history"
+   },
+   {
+    "text": "Designed by Santos Prescott and Associates.",
+    "url": "https://sfpl.org/locations/mission-bay/mission-bay-library-history"
+   }
+  ]
+ },
+ "osm-n4534900789": {
+  "name": "Rich Table",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Led by chefs Evan and Sarah Rich.",
+    "url": "https://www.richtablesf.com/location/rich-table/"
+   },
+   {
+    "text": "Has a sister restaurant, RT Bistro, on Oak Street.",
+    "url": "https://www.richtablesf.com/location/rt-bistro/"
+   }
+  ]
+ },
+ "osm-n2474058021": {
+  "name": "RT Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sister restaurant to Rich Table from chefs Evan and Sarah Rich.",
+    "url": "https://www.richtablesf.com/location/rt-bistro/"
+   },
+   {
+    "text": "Serves California bistro cooking with a la carte and chef's menu options.",
+    "url": "https://www.richtablesf.com/location/rt-bistro/"
+   }
+  ]
+ },
+ "osm-n10270407011": {
+  "name": "Robin",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Listed in the MICHELIN Guide for Japanese and Californian cuisine.",
+    "url": "https://guide.michelin.com/my/en/california/san-francisco/restaurant/robin"
+   }
+  ]
+ },
+ "osm-n6726234885": {
+  "name": "Loquat",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by two Four Barrel Coffee partners and a former Tartine pastry chef.",
+    "url": "https://www.sfchronicle.com/food/article/sf-loquat-bakery-17436682.php"
+   },
+   {
+    "text": "Is a Jewish diaspora bakery that announced a second location.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/loquat-sf-bakery-expanding-22243090.php"
+   }
+  ]
+ },
+ "osm-n529772421": {
+  "name": "Suppenküche",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Established in 1993.",
+    "url": "https://www.hvsba.org/suppenkuche/"
+   },
+   {
+    "text": "Serves simple German cuisine.",
+    "url": "https://www.hvsba.org/suppenkuche/"
+   }
+  ]
+ },
+ "osm-n3317123885": {
+  "name": "La Boulangerie de San Francisco",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "French bakery and cafe in Hayes Valley.",
+    "url": "https://www.sfstation.com/la-boulangerie-de-san-francisco-hayes-valley-b24976951"
+   }
+  ]
+ },
+ "osm-n9994017064": {
+  "name": "Arbor",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by the Absinthe Group.",
+    "url": "https://arborsf.com/"
+   },
+   {
+    "text": "Serves burgers, sandwiches, salads and plant-based soft serve.",
+    "url": "https://arborsf.com/"
+   }
+  ]
+ },
+ "osm-n2937336925": {
+  "name": "Hayes Street Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1979 to serve dinner before the opera, ballet and symphony.",
+    "url": "https://www.hayesstreetgrill.com/about-hayes-street-grill/"
+   },
+   {
+    "text": "Uses only fresh, not frozen, fish.",
+    "url": "https://www.hayesstreetgrill.com/about-hayes-street-grill/"
+   },
+   {
+    "text": "Became a San Francisco Legacy Business in 2018.",
+    "url": "https://www.hayesstreetgrill.com/about-hayes-street-grill/"
+   }
+  ]
+ },
+ "osm-n3317120154": {
+  "name": "Absinthe Brasserie & Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1998 and run by The Absinthe Group.",
+    "url": "https://www.absinthe.com/about"
+   },
+   {
+    "text": "The Absinthe Group also runs Arbor, Arlequin Wine Merchant and Comstock Saloon.",
+    "url": "https://www.absinthe.com/about"
+   }
+  ]
+ },
+ "osm-n2544305120": {
+  "name": "Hayes Valley Bakeworks",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bakery and cafe from Toolworks that employs and trains people with disabilities.",
+    "url": "https://toolworks.org/bakeworks"
+   },
+   {
+    "text": "Serves rustic baked goods.",
+    "url": "https://toolworks.org/bakeworks"
+   }
+  ]
+ },
+ "osm-n2623903547": {
+  "name": "Saigon Sandwich",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Family-run Vietnamese sandwich shop on Larkin Street since the 1980s.",
+    "url": "https://www.saigonsandwich.com/"
+   }
+  ]
+ },
+ "osm-n3648551975": {
+  "name": "Pho 2000",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Casual Vietnamese spot in Little Saigon serving pho, grilled meats and imperial rolls.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/pho-2000-sf"
+   }
+  ]
+ },
+ "osm-w256045025": {
+  "name": "Brenda's French Soul Food",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef Brenda Buenviaje grew up near New Orleans and began cooking in its kitchens.",
+    "url": "https://frenchsoulfood.com/our-krewe/"
+   },
+   {
+    "text": "Opened in 2007 serving a mix of Southern, Creole and French cooking.",
+    "url": "https://frenchsoulfood.com/my-own-little-place/"
+   }
+  ]
+ },
+ "osm-n9995643238": {
+  "name": "Golden Era Vegan Restaurant",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves vegan Vietnamese cuisine.",
+    "url": "https://www.goldeneravegan.com/home"
+   }
+  ]
+ },
+ "osm-n529777817": {
+  "name": "Bourbon & Branch",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Operated as a speakeasy during Prohibition from 1921 to 1933.",
+    "url": "https://www.bourbonandbranch.com/"
+   },
+   {
+    "text": "A bar has operated at the Jones Street site since 1867.",
+    "url": "https://www.bourbonandbranch.com/"
+   }
+  ]
+ },
+ "osm-n6371909286": {
+  "name": "Black Cat",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Jazz club in the Tenderloin that gives young musicians a platform.",
+    "url": "https://www.sfchronicle.com/entertainment/music/article/black-cat-club-sf-18157983.php"
+   }
+  ]
+ },
+ "osm-n5134621034": {
+  "name": "Tenderloin Museum",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Museum about the history of the Tenderloin that opened in 2015.",
+    "url": "https://hoodline.com/2015/07/the-tenderloin-museum-opens-its-doors/"
+   }
+  ]
+ },
+ "osm-w25759141": {
+  "name": "Bill Graham Civic Auditorium",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1915 as part of the Panama-Pacific International Exposition.",
+    "url": "https://en.wikipedia.org/wiki/Bill_Graham_Civic_Auditorium"
+   },
+   {
+    "text": "Renamed in 1992 for rock promoter Bill Graham.",
+    "url": "https://en.wikipedia.org/wiki/Bill_Graham_Civic_Auditorium"
+   },
+   {
+    "text": "Hosted the 1920 Democratic National Convention.",
+    "url": "https://en.wikipedia.org/wiki/Bill_Graham_Civic_Auditorium"
+   }
+  ]
+ },
+ "osm-w32865757": {
+  "name": "Herbst Theatre",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The United Nations Charter was signed on its stage on June 26, 1945.",
+    "url": "https://en.wikipedia.org/wiki/Herbst_Theatre"
+   },
+   {
+    "text": "Renamed in 1977 for brothers Herman and Maurice Herbst, whose foundation paid for renovations.",
+    "url": "https://en.wikipedia.org/wiki/Herbst_Theatre"
+   }
+  ]
+ },
+ "osm-n9662065899": {
+  "name": "Hôtel Biron",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Wine bar and art gallery with rotating local artwork.",
+    "url": "https://hotelbironwinebar.com/"
+   },
+   {
+    "text": "Pours 20 to 25 wines by the glass.",
+    "url": "https://hotelbironwinebar.com/"
+   }
+  ]
+ },
+ "osm-n3684500782": {
+  "name": "Moby Dick",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Received San Francisco Legacy Business status in 2016.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_5e._packet_lbr-2015-16-048_moby_dick.pdf"
+   },
+   {
+    "text": "Reopened in May 2021 after a 14-month closure.",
+    "url": "https://hoodline.com/2021/05/castro-neighborhood-bar-moby-dick-reopens-after-14-month-hiatus/"
+   }
+  ]
+ },
+ "osm-n2318141907": {
+  "name": "Twin Peaks Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Designated San Francisco Landmark #264.",
+    "url": "https://noehill.com/sf/landmarks/sf264.asp"
+   },
+   {
+    "text": "First opened in 1935 and became a gay bar with open plate glass windows in 1972.",
+    "url": "https://en.wikipedia.org/wiki/Twin_Peaks_Tavern"
+   }
+  ]
+ },
+ "osm-n6970138687": {
+  "name": "Frances",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef Melissa Perello's restaurant won a Michelin star.",
+    "url": "https://hoodline.com/2013/01/which-castro-restaurant-is-best-critics-michelin-star-winner-frances/"
+   },
+   {
+    "text": "Reopened in June 2021 after a pandemic closure.",
+    "url": "https://www.sfgate.com/food/article/Michelin-starred-Frances-returns-to-San-Francisco-17264130.php"
+   }
+  ]
+ },
+ "osm-n2330907328": {
+  "name": "Starbelly",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2009 by Deborah Blum and Adriano Paganini, who also run Beretta.",
+    "url": "https://www.sfchronicle.com/food/article/Starbelly-in-S-F-s-Castro-2302780.php"
+   },
+   {
+    "text": "Took over the former Asquew Grill space.",
+    "url": "https://www.sfchronicle.com/food/article/Starbelly-in-S-F-s-Castro-2302780.php"
+   }
+  ]
+ },
+ "osm-n2321299132": {
+  "name": "Fable",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves seasonal Californian cuisine in a heated back garden patio.",
+    "url": "https://fablesf.com/"
+   }
+  ]
+ },
+ "osm-w222862962": {
+  "name": "Cliff's Variety",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1936 by Hilario DeBaca and still run by the family.",
+    "url": "https://en.wikipedia.org/wiki/Cliff%27s_Variety_Store"
+   },
+   {
+    "text": "Moved to 479 Castro St in 1971, a building erected in 1910 as a theater.",
+    "url": "https://www.cliffsvariety.com/our-history"
+   }
+  ]
+ },
+ "osm-n2853929583": {
+  "name": "Noe Valley Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1995 by Michael and Mary Gassen as a full-line neighborhood artisan bakery.",
+    "url": "https://noevalleybakery.com/pages/noe-valley"
+   }
+  ]
+ },
+ "osm-n360451646": {
+  "name": "Firefly",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 1993 by Brad Levy and Veva Edelson in a former Spanish restaurant.",
+    "url": "https://www.sfchronicle.com/food/article/The-glories-and-challenges-of-a-middle-aged-13555913.php"
+   }
+  ]
+ },
+ "osm-n3022661942": {
+  "name": "La Ciccia",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Bay Area Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/la-ciccia/"
+   },
+   {
+    "text": "Founders Massimiliano Conti and Lorella Degan sold it to a restaurant group.",
+    "url": "https://www.sfgate.com/food/article/Sardinian-restaurant-La-Ciccia-to-be-sold-17009368.php"
+   }
+  ]
+ },
+ "osm-n360464463": {
+  "name": "Lovejoy's Tea Room",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves afternoon tea in a parlor with Union Jacks on the walls and mismatched china.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/lovejoys-tea-room"
+   }
+  ]
+ },
+ "osm-n3454181858": {
+  "name": "Omnivore Books on Food",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A culinary bookshop in a former butcher shop, run by owner Celia Sack.",
+    "url": "https://www.frommers.com/destinations/san-francisco/shopping/omnivore-books-on-food/"
+   }
+  ]
+ },
+ "osm-w197626871": {
+  "name": "Bird & Beckett Books & Records",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Moved to Chenery Street in September 2008 after nine years on Diamond Street.",
+    "url": "https://www.bayimproviser.com/venue/132/bird-and-beckett-books-and-records"
+   },
+   {
+    "text": "Its Cultural Legacy Project is a nonprofit presenting concerts and literary events.",
+    "url": "https://birdbeckett.com/the-cultural-legacy-project/"
+   }
+  ]
+ },
+ "osm-n4284609495": {
+  "name": "Gialina",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef-owner Sharon Ardiana named it after her grandmother Nonni Lina.",
+    "url": "https://www.glenparkassociation.org/gialina-owner-glen-park-is-a-tiny-neighborhood-fierce-in-its-restaurant-loyalties/"
+   },
+   {
+    "text": "Serves thin-crust wood-fired pizzas.",
+    "url": "https://foodgps.com/gialina-san-francisco/"
+   }
+  ]
+ },
+ "osm-n1713269625": {
+  "name": "The Valley Tavern",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a multi-level back patio with picnic tables.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/valley-tavern"
+   }
+  ]
+ },
+ "osm-w85891397": {
+  "name": "Billy Goat Hill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Became a city park in 1975 and covers 3.5 acres.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   },
+   {
+    "text": "The Beacon Trail connecting it to Walter Haas Playground opened in July 2016.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   }
+  ]
+ },
+ "osm-w388982396": {
+  "name": "Douglass Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built on the site of the Blue Rock Quarry, which the Gray Brothers ran in the 1890s.",
+    "url": "https://hoodline.com/2016/06/great-explorations-douglass-playground-and-upper-douglass-dog-play-area/"
+   },
+   {
+    "text": "The city acquired the old quarry for a park in 1926.",
+    "url": "https://hoodline.com/2016/06/great-explorations-douglass-playground-and-upper-douglass-dog-play-area/"
+   }
+  ]
+ },
+ "osm-w35800082": {
+  "name": "Glen Canyon Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 66.6-acre park centered on a forested canyon with Islais Creek running through it.",
+    "url": "https://en.wikipedia.org/wiki/Glen_Canyon_Park"
+   },
+   {
+    "text": "Has a 3.7-mile trail network and is a Significant Natural Resource Area.",
+    "url": "https://en.wikipedia.org/wiki/Glen_Canyon_Park"
+   }
+  ]
+ },
+ "osm-n3009030188": {
+  "name": "Martha & Bros. Coffee",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by Nicaraguan siblings for nearly four decades.",
+    "url": "https://abc7news.com/post/hispanic-heritage-month-nicaraguan-siblings-behind-san-franciscos-popular-martha-bros-coffee-reflect-38-years-business/15427718/"
+   }
+  ]
+ },
+ "osm-n2318141884": {
+  "name": "Castro Coffee Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A family-run shop selling over 50 varieties of coffee beans ground to order.",
+    "url": "https://www.findmeglutenfree.com/biz/castro-coffee-company/6188199963131904"
+   }
+  ]
+ },
+ "osm-w256710553": {
+  "name": "Blackbird",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Reopened in July 2009 under owners Doug Murphy and Shawn Vergara after a four-month renovation.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/blackbird-2124-market/"
+   },
+   {
+    "text": "The space was previously The Expansion for many years.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/blackbird-2124-market/"
+   }
+  ]
+ },
+ "osm-n4987893178": {
+  "name": "Orphan Andy's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A Castro diner known for its 24-hour breakfast.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/orphan-andys"
+   }
+  ]
+ },
+ "osm-n7671115302": {
+  "name": "Poesia",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "An osteria serving Calabrian and regional Italian dishes with handmade pastas.",
+    "url": "https://poesiasf.com/"
+   }
+  ]
+ },
+ "osm-n13042316852": {
+  "name": "Billingsgate",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A seafood market and oyster bar named after London's fish market.",
+    "url": "https://www.sfchronicle.com/food/article/Billingsgate-a-seafood-market-and-oyster-bar-to-13757127.php"
+   }
+  ]
+ },
+ "osm-n14007250976": {
+  "name": "Falasteen",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Palestinian restaurant from chef Lamees Dahbour, named for the Arabic word for Palestine.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/falasteen-palestinian-sf-19958119.php"
+   },
+   {
+    "text": "Owned by Samir Salameh, founder of home design company Room Service.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/falasteen-palestinian-sf-19958119.php"
+   }
+  ]
+ },
+ "osm-n6471379575": {
+  "name": "Vive La Tarte",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by self-taught baker Julie Vandermeersch and her husband Arnaud Goethals.",
+    "url": "https://www.sfchronicle.com/food/article/Tacro-creator-Vive-La-Tarte-looks-to-expand-to-13340407.php"
+   },
+   {
+    "text": "Created the tacro, a croissant folded and filled like a taco.",
+    "url": "https://www.sfchronicle.com/food/article/Tacro-creator-Vive-La-Tarte-looks-to-expand-to-13340407.php"
+   }
+  ]
+ },
+ "osm-n1713269606": {
+  "name": "Bernie's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Partnered with a bookstore for a new chapter instead of closing.",
+    "url": "https://www.sfchronicle.com/entertainment/article/sf-bernies-coffee-shop-bookstore-20177713.php"
+   }
+  ]
+ },
+ "osm-n1713269566": {
+  "name": "Noe Bagel",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A bagel shop on 24th Street serving bagels and breakfast sandwiches.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/noe-bagel"
+   }
+  ]
+ },
+ "osm-n3557413732": {
+  "name": "Manzoni",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened on December 19, 2011.",
+    "url": "https://www.glenparkassociation.org/manzoni-restaurant-finally-opens/"
+   },
+   {
+    "text": "An Italian restaurant two blocks from Glen Park BART.",
+    "url": "https://www.manzonisf.com/about"
+   }
+  ]
+ },
+ "osm-n974352510": {
+  "name": "Bello Coffee & Tea",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served Glen Park since 2004.",
+    "url": "https://www.bello.coffee/"
+   },
+   {
+    "text": "Roasts its coffee on a zero-emission electric roaster.",
+    "url": "https://www.bello.coffee/"
+   }
+  ]
+ },
+ "osm-n4284609497": {
+  "name": "Glen Park Station",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A dive bar with darts, pinball, a fireplace and a back patio.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/glen-park-station"
+   }
+  ]
+ },
+ "osm-n1901021509": {
+  "name": "L'Ardoise Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef-owner Thierry Clement moved to San Francisco from France in 1998.",
+    "url": "https://hoodline.com/2016/05/meet-l-ardoise-a-duboce-triangle-favorite-for-french-comfort-food/"
+   },
+   {
+    "text": "Has served classic French bistro dishes in a 42-seat space since 2008.",
+    "url": "https://hoodline.com/2016/05/meet-l-ardoise-a-duboce-triangle-favorite-for-french-comfort-food/"
+   }
+  ]
+ },
+ "osm-n12784660546": {
+  "name": "La Mediterranee",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served the Castro since 1981.",
+    "url": "https://lamednoe.com/"
+   },
+   {
+    "text": "Menu is inspired by Armenian and Lebanese family recipes.",
+    "url": "https://lamednoe.com/"
+   }
+  ]
+ },
+ "osm-n5352315989": {
+  "name": "Churchill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A World War II-themed cocktail bar with a wide whisky selection and a back pool table.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/churchill"
+   }
+  ]
+ },
+ "osm-n2321299158": {
+  "name": "Castro Tarts",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A cafe and bakery serving baked goods and Vietnamese staples.",
+    "url": "https://castrotarts.squarespace.com/"
+   }
+  ]
+ },
+ "osm-n6493825925": {
+  "name": "Glen Park Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A breakfast and brunch spot serving American dishes and bagels.",
+    "url": "https://www.yelp.com/biz/glen-park-cafe-san-francisco-2"
+   }
+  ]
+ },
+ "osm-n510816002": {
+  "name": "Hot Cookie",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1997 by Dan Glazer in the former original Double Rainbow Ice Cream space.",
+    "url": "https://hotcookie.com/about-us/our-story/"
+   },
+   {
+    "text": "Glazer sold the business to Paul Perretta and Tony Roug in 2015.",
+    "url": "https://hoodline.com/2015/10/castro-favorite-hot-cookie-has-been-sold/"
+   }
+  ]
+ },
+ "osm-n5895195934": {
+  "name": "Wooden Spoon",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 inside the Swedish American Hall as a brunch spot.",
+    "url": "https://www.sfstation.com/2018/05/21/new-castro-boozy-brunch-spot-wooden-spoon-opens-in-swedish-american-hall/"
+   }
+  ]
+ },
+ "osm-w690982876": {
+  "name": "Eureka Valley Recreation Center",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A city recreation center with a gym, playground, tennis and pickleball courts, and an off-leash dog area.",
+    "url": "https://sfrecpark.org/688/Eureka-Valley-Recreation-Center"
+   }
+  ]
+ },
+ "osm-w261292748": {
+  "name": "Nopa",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/nopa/"
+   }
+  ]
+ },
+ "osm-n2655466372": {
+  "name": "Nopalito",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/nopalito/"
+   }
+  ]
+ },
+ "osm-n4618078389": {
+  "name": "Pork Store Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Calls itself San Francisco's original breakfast spot, serving since 1916.",
+    "url": "https://www.porkstorecafe.com/"
+   },
+   {
+    "text": "Specializes in American comfort food for breakfast and lunch.",
+    "url": "https://www.porkstorecafe.com/"
+   }
+  ]
+ },
+ "osm-n3790822863": {
+  "name": "Zazie",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in Cole Valley in 1992 by Catherine Opoix.",
+    "url": "https://www.zaziesf.com/about-us.html"
+   },
+   {
+    "text": "Named for the main character of Louis Malle's film Zazie dans le Metro.",
+    "url": "https://www.zaziesf.com/about-us.html"
+   },
+   {
+    "text": "Jennifer Piallat bought the restaurant in 2005 and sold it to three employees in 2020.",
+    "url": "https://www.zaziesf.com/about-us.html"
+   }
+  ]
+ },
+ "osm-n647656805": {
+  "name": "Indian Oven",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served northern Indian cuisine in San Francisco since 1988.",
+    "url": "https://www.indianovensf.com/about-indian-oven.htm"
+   },
+   {
+    "text": "Cooks in an open-view kitchen with a tandoori clay oven.",
+    "url": "https://www.indianovensf.com/about-indian-oven.htm"
+   }
+  ]
+ },
+ "osm-n1932984609": {
+  "name": "Cha Cha Cha",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Is an approved San Francisco Legacy Business serving Caribbean tapas.",
+    "url": "https://www.chachachasf.com/"
+   },
+   {
+    "text": "Has operated since 1984.",
+    "url": "https://www.chachachasf.com/"
+   }
+  ]
+ },
+ "osm-n647656796": {
+  "name": "Memphis Minnie's BBQ Joint",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Calls itself San Francisco's longest continuously running barbecue restaurant.",
+    "url": "https://www.memphisminnies.com/"
+   },
+   {
+    "text": "Has been at its Lower Haight location since 2000.",
+    "url": "https://www.memphisminnies.com/"
+   },
+   {
+    "text": "Smokes Southern-style barbecue slowly and serves pastrami only on Wednesdays.",
+    "url": "https://www.memphisminnies.com/"
+   }
+  ]
+ },
+ "osm-n1369329145": {
+  "name": "Bar Crudo",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Oyster and seafood restaurant serving oysters, crudo and marinated mussels.",
+    "url": "https://www.barcrudo.com/"
+   }
+  ]
+ },
+ "osm-n2786939583": {
+  "name": "The Mill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in July 2014.",
+    "url": "https://www.themillsf.com/news/2014/7/1/the-mill-is-open"
+   },
+   {
+    "text": "Is a joint venture of Four Barrel Coffee and Josey Baker Bread, which began in 2010.",
+    "url": "https://www.themillsf.com/our-team"
+   }
+  ]
+ },
+ "osm-w223616923": {
+  "name": "The Alembic",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Christin Evans and Mikha Diaz acquired the bar in 2018.",
+    "url": "https://alembicsf.com/christin-evans/"
+   },
+   {
+    "text": "Serves spirits, craft beers, local wines and plates.",
+    "url": "https://alembicsf.com/"
+   }
+  ]
+ },
+ "osm-n4839249789": {
+  "name": "Madrone Art Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Operates as a changing site-specific installation art environment with live music.",
+    "url": "https://independentvenueweek.com/us/venues-us/madrone-art-bar/"
+   },
+   {
+    "text": "Has been open since 2004.",
+    "url": "https://independentvenueweek.com/us/venues-us/madrone-art-bar/"
+   }
+  ]
+ },
+ "osm-n3790822662": {
+  "name": "Crepes on Cole",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Family-owned crepe restaurant in Cole Valley, open since 1994.",
+    "url": "https://www.crepesoncole.com/"
+   }
+  ]
+ },
+ "osm-w1284238897": {
+  "name": "Koshland Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Koshland family worked with the Trust for Public Land to create it in honor of their father.",
+    "url": "https://sfrecpark.org/facilities/facility/details/koshlandpark-181"
+   },
+   {
+    "text": "Has a community garden, basketball court and playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/koshlandpark-181"
+   }
+  ]
+ },
+ "osm-w27092661": {
+  "name": "Grattan Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has an athletic field, tennis courts, basketball court and playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Grattan-Playground-242"
+   },
+   {
+    "text": "Is home to the Haight Ashbury Community Nursery School.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Grattan-Playground-242"
+   }
+  ]
+ },
+ "osm-w545146502": {
+  "name": "Raymond Kimbell Playground",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has baseball diamonds, athletic fields and a playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Raymond-Kimbell-Playground-263"
+   },
+   {
+    "text": "Playground renovation was completed in June 2015.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Raymond-Kimbell-Playground-263"
+   }
+  ]
+ },
+ "osm-n1847720030": {
+  "name": "Eddie's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves breakfast, brunch and Southern food.",
+    "url": "https://www.sfstation.com/eddies-cafe-b1282"
+   }
+  ]
+ },
+ "osm-n2338836841": {
+  "name": "Bean Bag Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served the neighborhood since 1992.",
+    "url": "https://beanbag.cafe/"
+   }
+  ]
+ },
+ "osm-n647656739": {
+  "name": "Bar Jabroni",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by the owners of Palm City Wines.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/bar-jabroni-haight-menu-18761416.php"
+   }
+  ]
+ },
+ "osm-n647656785": {
+  "name": "Cafe International",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Is a Black-owned cafe serving coffee, tea, sandwiches and bagels.",
+    "url": "https://accelerator.eatokra.com/businesses/cafe-international"
+   }
+  ]
+ },
+ "osm-n10245940482": {
+  "name": "Hotel Utah Saloon",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Built in 1908 as a residential hotel with ground-floor storefronts.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   },
+   {
+    "text": "Listed as a San Francisco Designated Landmark since November 2, 2018.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   }
+  ]
+ },
+ "osm-n13030734579": {
+  "name": "Casanova Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Mixes cocktails such as Greyhounds, Palomas and Mission Margaritas.",
+    "url": "https://www.casanovasf.com/"
+   }
+  ]
+ },
+ "osm-n3018753922": {
+  "name": "Amélie",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Started on Polk Street in 2006 as the original Amélie wine bar.",
+    "url": "https://www.ameliewinebar.com/"
+   },
+   {
+    "text": "Serves wine flights, cocktails and small plates with live music and DJs.",
+    "url": "https://www.ameliewinebar.com/"
+   },
+   {
+    "text": "Has since opened locations in New York and Washington, D.C.",
+    "url": "https://www.ameliewinebar.com/"
+   }
+  ]
+ },
+ "osm-n4436674292": {
+  "name": "Benu",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2010 by chef Corey Lee, formerly of The French Laundry.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   },
+   {
+    "text": "Became the first San Francisco restaurant to receive three Michelin stars, in 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   },
+   {
+    "text": "Has held three Michelin stars every year since 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   }
+  ]
+ },
+ "osm-n9583974523": {
+  "name": "Birdsong",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef Christopher Bleidorn cooks meats and fish over live fire.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong"
+   },
+   {
+    "text": "Holds two Michelin stars in the 2024 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong"
+   }
+  ]
+ },
+ "osm-n2840137601": {
+  "name": "Angler SF",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by chef Joshua Skenes of Saison.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   },
+   {
+    "text": "Cooks seafood on a 32-foot wood-burning hearth.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   },
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   }
+  ]
+ },
+ "osm-n8999232929": {
+  "name": "Sorrel",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef Alexander Hong trained at Quince and serves contemporary Italian cooking.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sorrel"
+   },
+   {
+    "text": "A rooftop garden supplies herbs, edible flowers and seasonal vegetables.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sorrel"
+   }
+  ]
+ },
+ "osm-n4085672797": {
+  "name": "Ssal",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal"
+   },
+   {
+    "text": "Hyunyoung and Junsoo Bae run this Korean tasting menu restaurant.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal"
+   }
+  ]
+ },
+ "osm-n4436673798": {
+  "name": "State Bird Provisions",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions"
+   },
+   {
+    "text": "Serves seasonal California dishes from carts in a dim sum style.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions"
+   }
+  ]
+ },
+ "osm-n4531532689": {
+  "name": "The Progress",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Californian shared plates in a two-story space with skylights.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/the-progress"
+   },
+   {
+    "text": "Cooks Liberty Farms duck with peanut fried rice.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/the-progress"
+   }
+  ]
+ },
+ "osm-n8851950180": {
+  "name": "Dumpling Home",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home"
+   },
+   {
+    "text": "Cooks hand-wrap and fold the soup dumplings from open to close.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home"
+   }
+  ]
+ },
+ "osm-n8660771080": {
+  "name": "Okane",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane"
+   },
+   {
+    "text": "Serves Japanese izakaya dishes such as cod marinated in sake lees.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane"
+   }
+  ]
+ },
+ "osm-n2657930588": {
+  "name": "Good Good Culture Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club"
+   },
+   {
+    "text": "Blends Southeast Asian flavors with Californian ones, in dishes like Lao-style sausage.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club"
+   }
+  ]
+ },
+ "osm-n3189511930": {
+  "name": "Z & Y",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Sichuan cooking led by owner and executive chef Lijun Han.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/z-y"
+   },
+   {
+    "text": "Dishes include tea-smoked duck and fish filet in chili oil.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/z-y"
+   }
+  ]
+ },
+ "osm-n3969664044": {
+  "name": "Trestle",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle"
+   },
+   {
+    "text": "Serves a prix fixe Californian menu with two seasonal options per course.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle"
+   }
+  ]
+ },
+ "osm-n2321299142": {
+  "name": "Anchor Oyster Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served oysters, clam chowder and sustainable seafood on Castro Street since 1977.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar"
+   },
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar"
+   }
+  ]
+ },
+ "osm-n3201049452": {
+  "name": "Yank Sing",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has been a San Francisco dim sum restaurant since 1958.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/yank-sing"
+   },
+   {
+    "text": "A third-generation, family-owned restaurant serving dim sum from pushcarts.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/yank-sing"
+   }
+  ]
+ },
+ "osm-n3380825006": {
+  "name": "A16",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16"
+   },
+   {
+    "text": "Serves rustic Italian cooking and a wide selection of pizzas.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16"
+   }
+  ]
+ },
+ "osm-n1819811607": {
+  "name": "Kitchen Istanbul",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul"
+   },
+   {
+    "text": "Serves Turkish dishes with Californian touches, such as börek and künefe kadayif.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul"
+   }
+  ]
+ },
+ "osm-n960938593": {
+  "name": "Outerlands",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands"
+   },
+   {
+    "text": "Known for house-baked sourdough bread and fried mortadella sandwiches.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands"
+   }
+  ]
+ },
+ "osm-n2240869167": {
+  "name": "Marlowe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2010 as a New American bistro.",
+    "url": "https://www.marlowesf.com/our-story/"
+   },
+   {
+    "text": "Created by chef Jennifer Puccio and designer Ken Fulk.",
+    "url": "https://www.marlowesf.com/"
+   }
+  ]
+ },
+ "osm-n10814627845": {
+  "name": "Colibri Mexican Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Located inside the Presidio Officers' Club.",
+    "url": "https://presidio.gov/explore/attractions/colibri-mexican-bistro"
+   },
+   {
+    "text": "Makes fresh handmade tortillas on an outdoor comal.",
+    "url": "https://presidio.gov/explore/attractions/colibri-mexican-bistro"
+   }
+  ]
+ },
+ "osm-n1607797501": {
+  "name": "Cafe Zoetrope",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has occupied part of the Sentinel Building ground floor since 1999.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   },
+   {
+    "text": "Serves Italian food and Inglenook Estate wine, with memorabilia from Coppola's films.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   },
+   {
+    "text": "The Sentinel Building has been home to American Zoetrope since 1972.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   }
+  ]
+ },
+ "osm-n6874544918": {
+  "name": "Avenues San Francisco",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by Eddie Choi on Taraval Street in 2018.",
+    "url": "https://www.sfexaminer.com/culture/food-and-drink/outer-sunset-coffee-shops-find-home-on-west-side-of-the-city/article_4d496153-1fde-41ba-bd3b-ddb67d0e3dc7.html"
+   },
+   {
+    "text": "Serves musubi and a horchata cold brew made in-house.",
+    "url": "https://www.sfexaminer.com/culture/food-and-drink/outer-sunset-coffee-shops-find-home-on-west-side-of-the-city/article_4d496153-1fde-41ba-bd3b-ddb67d0e3dc7.html"
+   }
+  ]
+ },
+ "osm-n1097231657": {
+  "name": "Velo Rouge Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A bike-themed cafe a block from the Arguello entrance to Golden Gate Park.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/velo-rouge-cafe"
+   },
+   {
+    "text": "Serves breakfast burritos, bagels and a tuna melt panini.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/velo-rouge-cafe"
+   }
+  ]
+ },
+ "osm-n12978817101": {
+  "name": "Mission Blue",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A cafe and gift shop serving Saint Frank's coffee.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/mission-blue"
+   },
+   {
+    "text": "Sells gifts from San Francisco artists and makers.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/mission-blue"
+   },
+   {
+    "text": "Its lavender latte uses lavender from the owner's garden.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/mission-blue"
+   }
+  ]
+ },
+ "osm-n4071080690": {
+  "name": "The Game Parlour",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 as San Francisco's first board game cafe.",
+    "url": "https://www.thegameparlour.com/"
+   },
+   {
+    "text": "Pairs food with tabletop games for people of all ages.",
+    "url": "https://www.thegameparlour.com/"
+   }
+  ]
+ },
+ "osm-n5910543624": {
+  "name": "Neighbor's Corner",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A cafe in residential Eureka Valley serving espresso drinks and breakfast sandwiches.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/neighbors-corner"
+   },
+   {
+    "text": "The drink menu leans toward Japanese-influenced coffee, including hojicha lattes and matcha.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/neighbors-corner"
    }
   ]
  }
