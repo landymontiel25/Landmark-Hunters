@@ -949,13 +949,8 @@
   "area": "SoMa",
   "address": "333 Brannan St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-n10874913809",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7811883,
-  "lng": -122.3926454,
-  "osmName": "Rooh"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Mission Rock Resort",
@@ -2351,13 +2346,8 @@
   "area": "Glen Park",
   "address": "2816 Diamond St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-n4284609497",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7341553,
-  "lng": -122.4341305,
-  "osmName": "Glen Park Station"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "L'Ardoise Bistro",
@@ -2393,13 +2383,8 @@
   "area": "Duboce Triangle",
   "address": "198 Church St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-n5352315989",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7678473,
-  "lng": -122.4291843,
-  "osmName": "Churchill"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Castro Tarts",
@@ -4412,13 +4397,8 @@
   "area": "Lower Pacific Heights",
   "address": "1914 Fillmore St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-n6655857285",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7874727,
-  "lng": -122.433392,
-  "osmName": "Woodhouse Fish Co."
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Tonga Room & Hurricane Bar",
@@ -4913,13 +4893,8 @@
   "area": "Potrero Hill",
   "address": "248 Utah St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-n12996561467",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7663526,
-  "lng": -122.4068203,
-  "osmName": "Catharine Clark Gallery"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Hosfelt Gallery",
@@ -5998,7 +5973,7 @@
   "file": "out-seed-00.json",
   "area": "Jackson Square",
   "address": "470 Pacific Ave",
-  "tier": "acclaimed",
+  "tier": "everyday",
   "status": "FOUND",
   "id": "osm-n2166132822",
   "how": "within 75 m of the address",
@@ -6577,13 +6552,8 @@
   "area": "Presidio Heights",
   "address": "3290 Sacramento St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-w263646726",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7884344,
-  "lng": -122.4467244,
-  "osmName": "Vogue Theatre"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Balboa Theatre",
@@ -6716,13 +6686,8 @@
   "area": "Tenderloin",
   "address": "101 Hyde St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-w260146990",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7818278,
-  "lng": -122.4158905,
-  "osmName": "La Cocina Municipal Marketplace"
+  "status": "CLOSED",
+  "why": "https://sfstandard.com/2023/07/13/la-cocina-to-close-tenderloin-food-hall-in-september/"
  },
  {
   "name": "The Market at 1355 Market",
@@ -6968,13 +6933,8 @@
   "area": "Mission",
   "address": "777 Valencia St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-w260188930",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.7604879,
-  "lng": -122.421201,
-  "osmName": "The Chapel"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Corona Heights Park",
@@ -7371,13 +7331,8 @@
   "area": "Outer Sunset",
   "address": "1222 Noriega St",
   "tier": "everyday",
-  "status": "FOUND",
-  "id": "osm-w129903304",
-  "how": "osm address",
-  "town": "San Francisco",
-  "lat": 37.754425,
-  "lng": -122.4770101,
-  "osmName": "Home Coffee Roasters"
+  "status": "NO_FACTS",
+  "why": "no sourced fact passed the fact rules"
  },
  {
   "name": "Golden Goat Coffee",

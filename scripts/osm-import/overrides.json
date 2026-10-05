@@ -1478,5 +1478,47 @@
   },
   "osm-w30829777": {
     "drop": "hand review (Silicon Valley): neighborhood park with little for a visitor"
+  },
+  "osm-w28745328": {
+    "rejectPhoto": "general Baylands view, not the center"
+  },
+  "osm-w132666336": {
+    "rejectPhoto": "a sign from the collection, not the museum"
+  },
+  "osm-n8364028860": {
+    "rejectPhoto": "a 1917 yearbook scan"
+  },
+  "osm-w484497570": {
+    "rejectPhoto": "untitled panoramio frame, not shown to be the museum"
+  },
+  "osm-n1700572859": {
+    "rejectPhoto": "Firehouse No. 1 building; not shown to be this bar"
+  },
+  "osm-w30857619": {
+    "rejectPhoto": "an information panel"
+  },
+  "osm-w28799664": {
+    "rejectPhoto": "a protest, not the park"
+  },
+  "osm-w28640922": {
+    "rejectPhoto": "a map sign"
+  },
+  "osm-w37312428": {
+    "include": {
+      "region": "sf",
+      "why": "local institution: the bakery started in San Francisco in 1849 (sourced facts in web-facts.json)"
+    }
+  },
+  "osm-w220338806": {
+    "include": {
+      "region": "sf",
+      "why": "local institution: the Haight Street store, a San Francisco record-store landmark"
+    }
+  },
+  "osm-w288394771": {
+    "drop": "hand review: branch library, a city service rather than a place to visit"
+  },
+  "osm-n317124778": {
+    "drop": "hand review: branch library, a city service rather than a place to visit"
   }
 }

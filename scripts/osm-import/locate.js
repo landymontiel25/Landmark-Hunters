@@ -125,6 +125,10 @@ const EXTRA_KINDS = [
   ['shop', 'deli', { category: 'food', topic: 'deli', typicalMinutes: 30 }],
   ['shop', 'butcher', { category: 'food', topic: 'butcher shop', typicalMinutes: 20 }],
   ['shop', 'wine', { category: 'local-life', topic: 'wine shop', typicalMinutes: 30 }],
+  ['shop', 'records', { category: 'local-life', topic: 'record store', typicalMinutes: 30 }],
+  // Independent counters only: chains stay out (select.js isChain).
+  ['amenity', 'fast_food', { category: 'food', topic: 'counter-service spot', typicalMinutes: 20 }],
+  ['amenity', 'place_of_worship', { category: 'history-culture', topic: 'historic house of worship', typicalMinutes: 30 }],
   ['amenity', 'food_court', { category: 'food', topic: 'food hall', typicalMinutes: 60, checkInRadiusMeters: 150 }],
   ['amenity', 'music_venue', { category: 'entertainment', topic: 'music venue', typicalMinutes: 150 }],
   ['amenity', 'events_venue', { category: 'entertainment', topic: 'event venue', typicalMinutes: 150 }],

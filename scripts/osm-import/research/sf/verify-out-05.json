@@ -1,0 +1,346 @@
+[
+ {
+  "id": "osm-n9684320117",
+  "name": "Bar Part Time",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A natural wine bar and nightclub run by founders Justin Dolezal, Jeremy Castillo and Dan Small.",
+    "url": "https://ra.co/news/76103",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Opened in September 2021 with a party featuring LCD Soundsystem's James Murphy.",
+    "url": "https://ra.co/news/76103",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "The dance floor has a Danley soundsystem.",
+    "url": "https://ra.co/news/76103",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n4020353440",
+  "name": "Fool's Errand",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 2018 by owner John Dampeer.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Dampeer previously ran Caskhouse in Noe Valley and Hamlet.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "A cellar-like bar between Hayes and Grove streets.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-w1189071465",
+  "name": "Parachute",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened at the Ferry Building on September 4, 2025.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/parachute-bakery-sf-ferry-building-20886851.php",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Founded by Alex Hong and Joel Wilkerson of Michelin-starred Sorrel, with head baker Nasir Armar.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/parachute-bakery-sf-ferry-building-20886851.php",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n4436674292",
+  "name": "Benu",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 2010 by chef Corey Lee, formerly of The French Laundry.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Became the first San Francisco restaurant to receive three Michelin stars, in 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Has held three Michelin stars every year since 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)",
+    "verdict": "ok",
+    "note": "Wikipedia: three stars since 2014, ten consecutive years celebrated in 2024."
+   }
+  ]
+ },
+ {
+  "id": "osm-n9583974523",
+  "name": "Birdsong",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Chef Christopher Bleidorn cooks meats and fish over live fire.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong",
+    "verdict": "ok",
+    "note": "Michelin page says live fire with flame-kissed meats; fish only implied (dried fish, trout)."
+   },
+   {
+    "text": "Holds two Michelin stars in the 2024 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n2840137601",
+  "name": "Angler SF",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened by chef Joshua Skenes of Saison.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Cooks seafood on a 32-foot wood-burning hearth.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n4085672797",
+  "name": "Ssal",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Hyunyoung and Junsoo Bae run this Korean tasting menu restaurant.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n4436673798",
+  "name": "State Bird Provisions",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Serves seasonal California dishes from carts in a dim sum style.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n8851950180",
+  "name": "Dumpling Home",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Cooks hand-wrap and fold the soup dumplings from open to close.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n8660771080",
+  "name": "Okane",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Serves Japanese izakaya dishes such as cod marinated in sake lees.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n2657930588",
+  "name": "Good Good Culture Club",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Blends Southeast Asian flavors with Californian ones, in dishes like Lao-style sausage.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n3969664044",
+  "name": "Trestle",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Serves a prix fixe Californian menu with two seasonal options per course.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321299142",
+  "name": "Anchor Oyster Bar",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has served oysters, clam chowder and sustainable seafood on Castro Street since 1977.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n3380825006",
+  "name": "A16",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Serves rustic Italian cooking and a wide selection of pizzas.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n1819811607",
+  "name": "Kitchen Istanbul",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Serves Turkish dishes with Californian touches, such as börek and künefe kadayif.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ },
+ {
+  "id": "osm-n960938593",
+  "name": "Outerlands",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   },
+   {
+    "text": "Known for house-baked sourdough bread and fried mortadella sandwiches.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands",
+    "verdict": "ok",
+    "note": "Result from the cited page states it."
+   }
+  ]
+ }
+]

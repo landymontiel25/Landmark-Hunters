@@ -1,0 +1,438 @@
+[
+ {
+  "id": "osm-w345644274",
+  "name": "Lavash",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "One of few Persian restaurants in San Francisco.",
+    "url": "https://www.sfchronicle.com/food/article/Long-road-ahead-for-Lavash-one-of-few-Persian-14995766.php",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Reopened after a two-year closure following a kitchen fire.",
+    "url": "https://www.sfgate.com/food/article/Lavash-restuarant-reopens-Inner-Sunset-14945100.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2441003265",
+  "name": "Um.ma",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Chef Chris Oh opened Um.ma in 2019 as a homage to his mother's Korean cooking.",
+    "url": "https://intentionalist.com/b/um-ma/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Makes its own kimchi and serves Korean fried chicken.",
+    "url": "https://intentionalist.com/b/um-ma/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Expanded with two takeout-only restaurants.",
+    "url": "https://www.sfchronicle.com/food/article/S-F-Korean-hit-Um-ma-is-expanding-with-2-playful-15961764.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w287720563",
+  "name": "The Riptide",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The building dates to 1941, when it opened as a seaside tavern.",
+    "url": "https://www.riptidesf.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Hosts live music, DJs and karaoke and has a fireplace.",
+    "url": "https://www.riptidesf.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3674255646",
+  "name": "Marnee Thai",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Chef Chai Siriyarn opened Marnee Thai in 1986.",
+    "url": "https://www.marneethaisf.com/about-5",
+    "verdict": "unsupported",
+    "note": "Open-check search elsewhere said family owned since 1985, but cited page states 1986 (reviewer: sources conflict, treated as unsupported)"
+   },
+   {
+    "text": "Recommended in the San Francisco Michelin Guide from 2011 to 2014.",
+    "url": "https://www.marneethaisf.com/about-5",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n5876905615",
+  "name": "Woods Outbound",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in early 2017 as the fifth brewpub run by Jim Woods in San Francisco and Oakland.",
+    "url": "https://hoodline.com/2017/01/outbound-brewpub-set-to-open-in-outer-sunset-next-month/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Its opening menu centered on empanadas.",
+    "url": "https://hoodline.com/2017/01/outbound-brewpub-set-to-open-in-outer-sunset-next-month/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w272547338",
+  "name": "Balboa Cafe",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has operated since 1913, starting out as a working-man's saloon.",
+    "url": "https://www.balboacafesf.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Gavin Newsom's PlumpJack Group partners acquired it in 1994 and reopened it in 1995.",
+    "url": "https://www.balboacafesf.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Keeps its original bar, signage and historic photos.",
+    "url": "https://www.balboacafesf.com/about",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w272647179",
+  "name": "Lucca Delicatessen",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded in 1929 by Marc \"Mike\" Bosco.",
+    "url": "https://www.sfgate.com/food/article/sf-lucca-delicatessen-classic-italian-deli-19714902.php",
+    "verdict": "unsupported",
+    "note": "sfgate says founded 1929 by Marco \"Mike\" Bosco (name spelled Marco, not Marc) (reviewer: sources conflict, treated as unsupported)"
+   },
+   {
+    "text": "Now in its third generation of Bosco family owners, siblings Paul Bosco and Linda Bosco-Fioretti.",
+    "url": "https://www.sfgate.com/food/article/sf-lucca-delicatessen-classic-italian-deli-19714902.php",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Known for fresh ravioli, a staple since it opened.",
+    "url": "https://www.sfgate.com/food/article/sf-lucca-delicatessen-classic-italian-deli-19714902.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n8083426867",
+  "name": "El Polin Spring",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Provided fresh water to the Ramaytush Ohlone, Spanish soldiers and the U.S. Army.",
+    "url": "https://presidio.gov/explore/attractions/el-polin-spring",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "By 1812 colonial families had adobe houses here, making it San Francisco's first suburb.",
+    "url": "https://presidio.gov/explore/attractions/el-polin-spring",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Juana Briones lived here with her family in the early 1800s.",
+    "url": "https://presidio.gov/explore/attractions/el-polin-spring",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4548821898",
+  "name": "Delarosa",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "First opened in 2010 on Chestnut Street.",
+    "url": "https://www.delarosasf.com/location/marina/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves thin-crust Roman pizza, fresh pasta and craft cocktails.",
+    "url": "https://www.delarosasf.com/location/marina/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Created by Ruggero Gadaldi, Adriano Paganini and Deborah Blum, the trio behind Beretta.",
+    "url": "https://www.sfgate.com/food/article/Delarosa-opens-in-the-Marina-3279491.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n11990890065",
+  "name": "Boichik Bagels",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened its second San Francisco location in the former Glaze Teriyaki Grill space.",
+    "url": "https://sfist.com/2024/06/18/boichik-bagels-opens-second-sf-location-on-upper-fillmore/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The Fillmore Street shop has seating in an interior courtyard.",
+    "url": "https://sfist.com/2024/06/18/boichik-bagels-opens-second-sf-location-on-upper-fillmore/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n11347413054",
+  "name": "Chouquet's",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "French bistro that has been open since 2004.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/choquets",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Has a covered parklet and sidewalk seating.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/choquets",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n9254580053",
+  "name": "Harry's Bar",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Established in 1984.",
+    "url": "https://www.harrysbarsf.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Founded by Harry Denton.",
+    "url": "https://newfillmore.com/fillmore-classics/50-years-on-fillmore/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The space was earlier the Silvertone Club, the Mardi Gras Tavern and Tommy Lynaugh's 2020.",
+    "url": "https://newfillmore.com/fillmore-classics/50-years-on-fillmore/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4226101094",
+  "name": "Sweet Maple",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded in 2010.",
+    "url": "https://www.sweetmaplesf.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves American breakfast and brunch with an Asian influence, including Millionaire's Bacon.",
+    "url": "https://www.sweetmaplesf.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1897361436",
+  "name": "Fillmore Bakeshop",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Family owned and operated bakery with a contemporary European-American baking style.",
+    "url": "https://fillmorestreetsf.com/dining/bakery-desserts/fillmore-bakeshop/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Bakes cakes, tarts, pies, cookies and wedding cakes from scratch.",
+    "url": "https://fillmorestreetsf.com/dining/bakery-desserts/fillmore-bakeshop/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n6655857285",
+  "name": "Woodhouse Fish Co.",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "East Coast-style seafood restaurant serving lobster rolls, oysters and cioppino.",
+    "url": "https://www.woodhousefish.com/",
+    "verdict": "unsupported",
+    "note": "Result confirms lobster rolls, oysters, cioppino but not \"East Coast-style\" (Infatuation says New England-style)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1478520956",
+  "name": "Abrazo",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in the former Zarzuela space on Hyde Street.",
+    "url": "https://hoodline.com/2019/01/new-spanish-spot-abrazo-replaces-zarzuela-in-russian-hill/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Run by chef Michael Pawlik and co-owner Amanda Banks Barker.",
+    "url": "https://hoodline.com/2019/01/new-spanish-spot-abrazo-replaces-zarzuela-in-russian-hill/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves Spanish small plates and seafood paella.",
+    "url": "https://hoodline.com/2019/01/new-spanish-spot-abrazo-replaces-zarzuela-in-russian-hill/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2698395558",
+  "name": "Hi-Lo Club",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened by the Koko Cocktails team after they left their original space.",
+    "url": "https://www.urbandaddy.com/articles/18240/san-francisco/hi-lo-club-hi-times-a-vintage-cocktail-sanctuary-on-polk",
+    "verdict": "ok",
+    "note": "Urbandaddy says from the Koko Cocktails crew; \"after they left original space\" only implied"
+   },
+   {
+    "text": "The bar rail came from the original Koko's.",
+    "url": "https://www.urbandaddy.com/articles/18240/san-francisco/hi-lo-club-hi-times-a-vintage-cocktail-sanctuary-on-polk",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Booths are built from cable-car benches.",
+    "url": "https://www.urbandaddy.com/articles/18240/san-francisco/hi-lo-club-hi-times-a-vintage-cocktail-sanctuary-on-polk",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1238299633",
+  "name": "Dogpatch Saloon",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has served the Dogpatch since 1912.",
+    "url": "https://www.potrerodogpatch.com/PDMA-Member-Businesses/dogpatch-saloon",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Counted among San Francisco's 100-year-old bars by InsideHook.",
+    "url": "https://www.insidehook.com/culture-san-francisco/san-francisco-historic-bars",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3666337500",
+  "name": "Plow",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded in 2010 by Joel Bleskacek and Maxine Siu, who met at Oliveto in Oakland.",
+    "url": "https://www.eatatplow.com/about-us",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Built out a vacant architect studio in Potrero Hill with local contractors and Bay Area materials.",
+    "url": "https://www.eatatplow.com/about-us",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n12996561467",
+  "name": "Catharine Clark Gallery",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Established in 1991 and reopened at 248 Utah Street in July 2013.",
+    "url": "https://en.wikipedia.org/wiki/Catharine_Clark_Gallery",
+    "verdict": "wrong",
+    "note": "Established 1991 ok, but Wikipedia says new Utah St location opened September 7, 2013, not July"
+   }
+  ]
+ }
+]
