@@ -1,0 +1,514 @@
+[
+ {
+  "id": "osm-r8510184",
+  "name": "Lincoln Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built on the site of a cemetery that operated from 1868 until 1909.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Lincoln-Park-186"
+   },
+   {
+    "text": "More than 4,000 Chinese residents were among those buried in its former cemetery.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Lincoln-Park-186"
+   }
+  ]
+ },
+ {
+  "id": "osm-w217583813",
+  "name": "Little Hollywood Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a basketball court, a playground and a picnic area with barbecue grills.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Little-Hollywood-Park-187"
+   },
+   {
+    "text": "Renovated in 2015.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Little-Hollywood-Park-187"
+   }
+  ]
+ },
+ {
+  "id": "osm-w69020319",
+  "name": "Little Marina Green",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Also called Marina Green West, it lies between Fort Mason and the Presidio.",
+    "url": "https://sfrecpark.org/890/Marina-Green---West-Little-Marina"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358803681",
+  "name": "Louis Sutter Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has two tennis courts, a full basketball court, a soccer pitch and two baseball fields.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Louis-Sutter-Playground-254"
+   },
+   {
+    "text": "Sits near McNab Lake, where ducks and birds can be watched.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Louis-Sutter-Playground-254"
+   },
+   {
+    "text": "The clubhouse can be rented for private events.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Louis-Sutter-Playground-254"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7221410485",
+  "name": "Lyon Steps",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1916 by architect Louis M. Upton.",
+    "url": "https://www.sfgate.com/local/article/lyon-street-steps-17901439.php"
+   },
+   {
+    "text": "Built to connect different parts of Pacific Heights.",
+    "url": "https://www.sfgate.com/local/article/lyon-street-steps-17901439.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w681436080",
+  "name": "Margaret S. Hayward Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Covers about 6 acres and was rebuilt in a $28 million renovation.",
+    "url": "https://sfrecpark.org/facilities/facility/details/margaretshaywardplayground-255"
+   },
+   {
+    "text": "The renovated park has a clubhouse with a teaching kitchen.",
+    "url": "https://sfrecpark.org/facilities/facility/details/margaretshaywardplayground-255"
+   },
+   {
+    "text": "A plaza in the park doubles as a stage for neighborhood performances.",
+    "url": "https://sfrecpark.org/facilities/facility/details/margaretshaywardplayground-255"
+   }
+  ]
+ },
+ {
+  "id": "osm-w16761472",
+  "name": "Marina Green",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its grass areas are used for youth soccer.",
+    "url": "https://sfrecpark.org/837/Marina-Green"
+   }
+  ]
+ },
+ {
+  "id": "osm-w352690312",
+  "name": "Mariposa Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by landscape architecture firm WRT, with James K. Stickley as lead landscape architect.",
+    "url": "https://asla-ncc.org/portfolio-items/mariposa-park/"
+   },
+   {
+    "text": "Borders Dogpatch, Potrero Hill and Mission Bay.",
+    "url": "https://asla-ncc.org/portfolio-items/mariposa-park/"
+   },
+   {
+    "text": "Received a Merit Award from the ASLA Northern California Chapter.",
+    "url": "https://asla-ncc.org/portfolio-items/mariposa-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w170797902",
+  "name": "Marshall's Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A water flume was built on its bluffs in the 1850s to carry Lobos Creek water to Fort Mason.",
+    "url": "https://www.nps.gov/places/000/marshalls-beach.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w16750270",
+  "name": "McCoppin Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "An 8.29-acre park with tennis courts, walking paths and a field used for soccer and baseball.",
+    "url": "https://sfrecpark.org/513/McCoppin-Square"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24547834",
+  "name": "McKinley Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an off-leash dog play area, a picnic area and a playground.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/McKinley-Square-352"
+   }
+  ]
+ },
+ {
+  "id": "osm-w162651463",
+  "name": "Merced Heights Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A $1.67 million renovation of its lower lawn terrace added a fenced dog play area and a butterfly and hummingbird garden.",
+    "url": "https://sfrecpark.org/m/newsflash/home/detail/1517"
+   },
+   {
+    "text": "The lower lawn terrace design was shaped by advocacy from senior community members.",
+    "url": "https://sfrecpark.org/m/newsflash/home/detail/1517"
+   },
+   {
+    "text": "Most of the park reopened in 2021 after a LetsPlaySF! playground renovation.",
+    "url": "https://sfrecpark.org/m/newsflash/home/detail/1517"
+   }
+  ]
+ },
+ {
+  "id": "osm-w261129576",
+  "name": "Midtown Terrace Park and Sutro Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The east bank of the park is an earthen dam, and Adolph Sutro once kept his cattle here.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Midtown-Terrace-Playground-258"
+   },
+   {
+    "text": "Has a play structure with a sandbox, basketball courts and a grass field.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Midtown-Terrace-Playground-258"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358803706",
+  "name": "Milton Myer Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 6,
+  "note": "Used 6 searches (exceeded 4) to pin the source. State parks EIR PDF places it on Kiska Road; spelled Milton Myer there.",
+  "facts": [
+   {
+    "text": "A multipurpose facility with meeting spaces, an indoor gymnasium, outdoor game courts and a children's playground.",
+    "url": "https://demo2.parks.ca.gov/pages/21491/files/eir-recreation_section_iii_p.pdf"
+   }
+  ]
+ },
+ {
+  "id": "osm-w401508551",
+  "name": "Miraloma Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The ball field has been completely renovated.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Miraloma-Playground-259"
+   },
+   {
+    "text": "Has basketball and tennis courts and a sand pit play area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Miraloma-Playground-259"
+   },
+   {
+    "text": "The recreation center runs after-school and Tiny Tots programs.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Miraloma-Playground-259"
+   }
+  ]
+ },
+ {
+  "id": "osm-w48569996",
+  "name": "Mission Bay Commons",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A linear park of turf spaces running from Terry Francois Boulevard west to Third Street.",
+    "url": "https://missionbayparks.com/commons.html"
+   },
+   {
+    "text": "Part of the Mission Bay park system.",
+    "url": "https://missionbayparks.com/commons.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w375747149",
+  "name": "Mission Bay Kids Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A play park for toddlers to school-age children themed around water, exploration and discovery.",
+    "url": "https://missionbayparks.com/childrens-park/"
+   },
+   {
+    "text": "Natural play zone has logs, earth mounds, boulders, a willow hut and arches, and carved sculptures.",
+    "url": "https://missionbayparks.com/childrens-park/"
+   },
+   {
+    "text": "Has redwood trunk benches and a fenced playground.",
+    "url": "https://missionbayparks.com/childrens-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w27369705",
+  "name": "Mission Creek Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 1.2-acre stormwater park that treats runoff from 9.6 acres of adjacent streets and open space.",
+    "url": "https://www.landscapeperformance.org/case-study-briefs/mission-creek"
+   },
+   {
+    "text": "Uses bioretention basins and bioswales for stormwater treatment.",
+    "url": "https://www.landscapeperformance.org/case-study-briefs/mission-creek"
+   }
+  ]
+ },
+ {
+  "id": "osm-w23871270",
+  "name": "Mission Dolores Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Stands on land that was once a Jewish cemetery.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mission-Dolores-Park-188"
+   },
+   {
+    "text": "Served in 1906 as a refugee camp for more than 1,600 people made homeless by the earthquake and fire.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mission-Dolores-Park-188"
+   },
+   {
+    "text": "The City bought the property in 1905.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mission-Dolores-Park-188"
+   }
+  ]
+ },
+ {
+  "id": "osm-w147777246",
+  "name": "Mission Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Home to the only public outdoor pool in San Francisco.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   },
+   {
+    "text": "Completed a $7.5 million renovation that upgraded the clubhouse, play area and athletic courts.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24562872",
+  "name": "Moscone Recreation Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has four tennis courts, six pickleball courts, four ball diamonds and a gymnasium.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Moscone-Rec-Center-101"
+   }
+  ]
+ },
+ {
+  "id": "osm-r16800880",
+  "name": "Mount Davidson Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched by name; park page lists Mt. Davidson Park.",
+  "facts": [
+   {
+    "text": "At 938 feet, it is the highest point in San Francisco.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mt-Davidson-Park-190"
+   },
+   {
+    "text": "A 103-foot concrete cross at the peak was erected in 1934.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mt-Davidson-Park-190"
+   },
+   {
+    "text": "Renamed in 1911 for geographer George Davidson, at the urging of the Sierra Club.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mt-Davidson-Park-190"
+   }
+  ]
+ },
+ {
+  "id": "osm-r3307684",
+  "name": "Mount Sutro Open Space Reserve",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Covers 61 acres with more than 5 miles of public multi-use trails.",
+    "url": "https://www.ucsf.edu/about/locations/mount-sutro-open-space-reserve"
+   },
+   {
+    "text": "Named for Adolph Sutro, who began planting the hill with trees in 1886 for San Francisco's first Arbor Day.",
+    "url": "https://www.ucsf.edu/about/locations/mount-sutro-open-space-reserve"
+   },
+   {
+    "text": "UCSF bought a 90-acre parcel in 1953, most of which is now the reserve.",
+    "url": "https://www.ucsf.edu/about/locations/mount-sutro-open-space-reserve"
+   }
+  ]
+ },
+ {
+  "id": "osm-w401354283",
+  "name": "Mountain Lake Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has four tennis courts, a basketball half-court and an off-leash dog play area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mountain-Lake-Park-189"
+   },
+   {
+    "text": "Has a sand-floor playground and a walking and jogging path along the lake.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mountain-Lake-Park-189"
+   }
+  ]
+ },
+ {
+  "id": "osm-w30899551",
+  "name": "Music Concourse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Cites the Golden Gate Park history page; it states the Midwinter Fair footprint became the Music Concourse.",
+  "facts": [
+   {
+    "text": "Grew from the Grand Court of the 1894 California Midwinter International Exposition.",
+    "url": "https://sfrecpark.org/1119/History-of-Golden-Gate-Park"
+   },
+   {
+    "text": "The De Young Museum, established in 1895, stands beside it.",
+    "url": "https://sfrecpark.org/1119/History-of-Golden-Gate-Park"
+   },
+   {
+    "text": "The California Academy of Sciences, first opened in 1923, also stands beside it.",
+    "url": "https://sfrecpark.org/1119/History-of-Golden-Gate-Park"
+   }
+  ]
+ }
+]
