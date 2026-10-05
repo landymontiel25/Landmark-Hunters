@@ -32552,5 +32552,824 @@
     "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/57/456"
    }
   ]
+ },
+ "osm-n2619982755": {
+  "name": "Urfa Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named for Urfa, a city in southeastern Turkey, with dishes drawing on Kurdish, Arabic and Armenian cooking.",
+    "url": "https://urfabistro.com/about-us"
+   },
+   {
+    "text": "The chef has 20 years of experience cooking in fine restaurants.",
+    "url": "https://urfabistro.com/about-us"
+   }
+  ]
+ },
+ "osm-n2642087064": {
+  "name": "Rustic House Oyster Bar & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in early 2018 at the corner of Main and Second streets.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2018/01/15/rustic-house-oyster-bar-and-grill-opens-in-los-altos/"
+   },
+   {
+    "text": "Chef Paul Cohen leads the kitchen.",
+    "url": "https://www.paloaltoonline.com/ae/2018/12/06/happiness-on-the-half-shell/"
+   }
+  ]
+ },
+ "osm-n1770222328": {
+  "name": "The Post",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Housed in the Copeland Building, built around 1911 and listed as a Los Altos Historic Landmark.",
+    "url": "https://www.losaltosonline.com/business/a-familiar-face-takes-the-post-at-main-street-bar/article_3fe02c89-4247-59f1-9310-14ebbf9e340b.html"
+   },
+   {
+    "text": "The name honors the building's past as the Los Altos Post Office.",
+    "url": "https://www.losaltosonline.com/business/a-familiar-face-takes-the-post-at-main-street-bar/article_3fe02c89-4247-59f1-9310-14ebbf9e340b.html"
+   },
+   {
+    "text": "Owner Vickie Breslin combined two neighboring Main Street storefronts for it.",
+    "url": "https://www.thepostlosaltos.com/news"
+   }
+  ]
+ },
+ "osm-n12206963101": {
+  "name": "Barbayani Greek Taverna",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Named for Barba Yani, a black-bearded innkeeper who welcomed travelers.",
+    "url": "https://barbayanitaverna.com/about-us/"
+   },
+   {
+    "text": "Opened September 30, 2023 by chef-owner Allen Isik and co-owner Dino Tekdemir.",
+    "url": "https://www.paloaltoonline.com/blogs/2023/12/23/barbayani-in-los-altos-wants-its-diners-to-feel-like-youre-in-greece/"
+   }
+  ]
+ },
+ "osm-n3098142629": {
+  "name": "Sumika",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Japanese izakaya serving charcoal-grilled skewers, in the Bay Area since 2008.",
+    "url": "https://www.sumikagrill.com/"
+   },
+   {
+    "text": "Owner Kuiko Osawa later opened a second restaurant, Orenchi Ramen in Santa Clara.",
+    "url": "https://www.paloaltoonline.com/uncategorized/2013/03/15/yakitori-shines-at-sumika/"
+   }
+  ]
+ },
+ "osm-n2637444293": {
+  "name": "Cafe Nur",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Middle Eastern, Turkish and Greek cuisines.",
+    "url": "https://cafenur.net/"
+   },
+   {
+    "text": "Shares an owner with Cafe 220 in downtown Palo Alto.",
+    "url": "https://cafenur.net/"
+   }
+  ]
+ },
+ "osm-n14244879816": {
+  "name": "State Street Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened as a food hall in a repurposed 1950s grocery store building.",
+    "url": "https://www.losaltosonline.com/business/massive-overhaul-of-state-st-building-nears-completion/article_e92db482-d3aa-11eb-aea9-b33d515045c0.html"
+   },
+   {
+    "text": "Billed as the first food hall on the Peninsula when it opened.",
+    "url": "https://www.sfchronicle.com/food/article/What-to-know-about-the-Peninsula-s-splashy-new-16441344.php"
+   }
+  ]
+ },
+ "osm-n2637248141": {
+  "name": "Manresa Bread",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Started in 2013 as a farmers' market pop-up from the kitchens of Manresa restaurant, led by head baker Avery Ruzicka.",
+    "url": "https://www.manresabread.com/our-story"
+   },
+   {
+    "text": "Mills its own organic flours for its sourdough breads.",
+    "url": "https://www.manresabread.com/our-story"
+   },
+   {
+    "text": "The Los Altos bakery opened in June 2016.",
+    "url": "https://www.mv-voice.com/blogs/2016/05/31/opening-alert-manresa-bread-in-los-altos/"
+   }
+  ]
+ },
+ "osm-n1440032358": {
+  "name": "Amber India",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Vijay Bist; after 20 years in Mountain View it moved across El Camino Real to Los Altos.",
+    "url": "https://www.amber-india.com/about"
+   },
+   {
+    "text": "The Los Altos restaurant is in a hacienda-style building with a patio and banquet room.",
+    "url": "https://www.amber-india.com/los-altos"
+   }
+  ]
+ },
+ "osm-w115590408": {
+  "name": "Los Altos Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Part of the Hillstone Restaurant Group.",
+    "url": "https://losaltosgrill.com/"
+   },
+   {
+    "text": "Specialties include Carolina-style beef ribs and rotisserie chicken.",
+    "url": "https://losaltosgrill.com/"
+   }
+  ]
+ },
+ "osm-n4837889880": {
+  "name": "Dana Street Roasting Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1992.",
+    "url": "https://roastersmap.com/coffee-roasters-california/mountain-view/dana-street-roasting-company/"
+   }
+  ]
+ },
+ "osm-w205809028": {
+  "name": "Steins Beer Garden",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in March 2013, conceived by founder Ted Kim after visiting German beer gardens.",
+    "url": "https://www.steinsbeergarden.com/our-story/"
+   },
+   {
+    "text": "Hosted the official Mountain View Oktoberfest until 2025.",
+    "url": "https://www.steinsbeergarden.com/our-story/"
+   },
+   {
+    "text": "Ricky Singh took over as owner in 2025, just before the planned March closure.",
+    "url": "https://www.paloaltoonline.com/mountain-view/2025/03/26/steins-is-saved-mountain-view-beer-garden-gets-new-owner-in-the-nick-of-time/"
+   }
+  ]
+ },
+ "osm-w162342024": {
+  "name": "Cafe Baklava",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Mediterranean restaurant serving Mountain View since 2005.",
+    "url": "https://www.cafebaklava.online/about"
+   },
+   {
+    "text": "Its chefs use traditional cooking techniques passed down through generations.",
+    "url": "https://www.cafebaklava.online/about"
+   }
+  ]
+ },
+ "osm-n1578531270": {
+  "name": "Sakoon",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The name is the Indian word for peace.",
+    "url": "https://sakoonrestaurant.com/about-us/"
+   },
+   {
+    "text": "The dining room has hand-carved wooden Buddha panels and a waterfall into a pool of lotus petals.",
+    "url": "https://sakoonrestaurant.com/mountainview/"
+   }
+  ]
+ },
+ "osm-n2207131289": {
+  "name": "Ristorante Don Giovanni",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served Italian cuisine on Castro Street since 1997.",
+    "url": "https://dongiovannis.com/"
+   },
+   {
+    "text": "Has a full bar, an extensive wine list and a large banquet room.",
+    "url": "https://dongiovannis.com/"
+   }
+  ]
+ },
+ "osm-w124473271": {
+  "name": "Dittmer's Gourmet Meats & Wurst-Haus",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founder Dittmer Bubert began at 14 in his family's delicatessen in Hamburg, Germany.",
+    "url": "https://www.dittmers.com/about"
+   },
+   {
+    "text": "Opened in Mountain View in 1978 and reopened in Los Altos after a 2011 fire.",
+    "url": "https://www.losaltosonline.com/business/dittmer-s-gourmet-meats-old-world-meets-new-realities/article_6a69e452-992a-11ee-9444-df25991c71f5.html"
+   },
+   {
+    "text": "Run today by his daughter Petra Silva.",
+    "url": "https://www.dittmers.com/about"
+   }
+  ]
+ },
+ "osm-n2641692549": {
+  "name": "Gallery 9",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Artist cooperative founded in 1970 by nine artists, moved to Los Altos in 1973.",
+    "url": "https://www.losaltosonline.com/community/gallery-9-celebrates-50-years-in-los-altos/article_c65109f5-95be-5e8c-8986-524d8f2e9772.html"
+   },
+   {
+    "text": "Owned and operated by its member artists, with a new member show each month.",
+    "url": "https://www.losaltoshistory.org/exhibit/gallery-9/"
+   }
+  ]
+ },
+ "osm-n1975950766": {
+  "name": "Le Petit Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Open since 1989, owned and run by chef Jean-Michel Peuvrelle.",
+    "url": "https://lepetitbistromountainview.com/mountain-view-mountain-view-le-petit-bistro-about"
+   },
+   {
+    "text": "Peuvrelle was born in Pas-de-Calais, France, the son of a charcutier.",
+    "url": "https://lepetitbistromountainview.com/mountain-view-mountain-view-le-petit-bistro-about"
+   }
+  ]
+ },
+ "osm-n11363994842": {
+  "name": "Little Blue Door",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened April 6, 2022 by chef Srijith Gopinathan and Ayesha Thapar of Ettan.",
+    "url": "https://www.losaltosonline.com/business/little-blue-door-opens-on-state-street-in-los-altos/article_d8c4e066-ba0e-11ec-9a1f-7f4d97ae1894.html"
+   },
+   {
+    "text": "Serves Indian street food and family recipes with seasonal California ingredients.",
+    "url": "https://calindiacollective.com/little-blue-door"
+   }
+  ]
+ },
+ "osm-w37415749": {
+  "name": "Grant Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The community center has four classrooms and a multi-purpose room with a kitchen and stage.",
+    "url": "https://www.losaltosca.gov/facilities/facility/details/Grant-Park-Community-Center-3"
+   },
+   {
+    "text": "The park has a basketball court, playground, soccer field and public art.",
+    "url": "https://www.losaltosca.gov/facilities/facility/details/Grant-Park-Community-Center-3"
+   }
+  ]
+ },
+ "osm-w454439458": {
+  "name": "Rosita Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A renovation added three tennis courts and a concessions building with restrooms.",
+    "url": "https://www.losaltosonline.com/news/rositas-renaissance-renovated-park-boasts-an-array-of-upgrades/article_b69a87f9-8728-55b5-ba66-dd2551b540cd.html"
+   },
+   {
+    "text": "The renovation planted more than 100 new trees, including ginkgo and red maple.",
+    "url": "https://www.losaltosonline.com/news/rositas-renaissance-renovated-park-boasts-an-array-of-upgrades/article_b69a87f9-8728-55b5-ba66-dd2551b540cd.html"
+   }
+  ]
+ },
+ "osm-w28459062": {
+  "name": "McKenzie Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The land came from pioneer orchardist Michael McKenzie's property in southern Los Altos.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   },
+   {
+    "text": "It shares the McKenzie orchard origin with nearby Heritage Oaks Park.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   }
+  ]
+ },
+ "osm-w28459300": {
+  "name": "Heritage Oaks Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Michael McKenzie planted the land with apricots, prunes, pears, walnuts and apples.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   },
+   {
+    "text": "Concrete abutments of McKenzie's irrigation dam are still visible in Permanente Creek here.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   }
+  ]
+ },
+ "osm-w40657398": {
+  "name": "Bubb Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The 3.6-acre park sits next to Bubb Elementary School.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/168"
+   },
+   {
+    "text": "It has an off-leash dog area, shuffleboard and a water sand play feature.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/168"
+   }
+  ]
+ },
+ "osm-w275403474": {
+  "name": "Mariposa Park",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Butterfly theme, with white concrete spheres that suggest butterfly eggs.",
+    "url": "https://landscapearchitect.com/landscape-articles/mariposa-park-mountain-view-california"
+   },
+   {
+    "text": "The site held a Victorian house and barn built in 1910; the house stood until 2010.",
+    "url": "https://landscapearchitect.com/landscape-articles/mariposa-park-mountain-view-california"
+   }
+  ]
+ },
+ "osm-n571237618": {
+  "name": "Caravan Lounge",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Began inside the San Jose Greyhound station as one of several Caravan Lounges in California bus terminals.",
+    "url": "https://scoundrelsfieldguide.com/california/san-jose/caravan-lounge/"
+   },
+   {
+    "text": "Owner Leo Chargin opened the current location in 1964 on a former used car lot.",
+    "url": "https://scoundrelsfieldguide.com/california/san-jose/caravan-lounge/"
+   },
+   {
+    "text": "Focuses on live music, karaoke and comedy nights.",
+    "url": "https://scoundrelsfieldguide.com/california/san-jose/caravan-lounge/"
+   }
+  ]
+ },
+ "osm-n3458835606": {
+  "name": "The Farmers Union",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Farmers Union Corporation was established in this building in 1874 as an agricultural cooperative and bank.",
+    "url": "https://www.hmdb.org/m.asp?m=52658"
+   },
+   {
+    "text": "In 1961 president John P. McEnery developed the corporation's holdings into the new San Pedro Square.",
+    "url": "https://www.hmdb.org/m.asp?m=52658"
+   }
+  ]
+ },
+ "osm-w165327330": {
+  "name": "Anno Domini",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Started by graphic designers Cherri Lakey and Brian Eder.",
+    "url": "https://en.wikipedia.org/wiki/Anno_Domini_(gallery)"
+   },
+   {
+    "text": "Shows street art, zine culture and tattoo art by emerging and international artists.",
+    "url": "https://en.wikipedia.org/wiki/Anno_Domini_(gallery)"
+   }
+  ]
+ },
+ "osm-w38341935": {
+  "name": "San Jose Museum of Quilts & Textiles",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1977 by members of the Santa Clara Valley Quilt Association.",
+    "url": "https://sj-mqt.org/mission"
+   },
+   {
+    "text": "Described as the first museum in the United States to focus solely on quilts and textiles.",
+    "url": "https://sj-mqt.org/mission"
+   },
+   {
+    "text": "Bought its 13,000 square foot SoFA building in 2005 in partnership with the City of San Jose.",
+    "url": "https://sj-mqt.org/mission"
+   }
+  ]
+ },
+ "osm-n10052566494": {
+  "name": "WORKS/San Jose",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Began in October 1977 as a group of artists and San Jose State University faculty and students.",
+    "url": "https://en.wikipedia.org/wiki/WORKS_San_Jos%C3%A9"
+   },
+   {
+    "text": "Has presented performance art, music, film, theater, spoken word and visual art.",
+    "url": "https://en.wikipedia.org/wiki/WORKS_San_Jos%C3%A9"
+   }
+  ]
+ },
+ "osm-w336684229": {
+  "name": "MACLA",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 1989 out of a community mobilization on behalf of multicultural arts.",
+    "url": "https://maclaarte.org/about/mission-history/"
+   },
+   {
+    "text": "Contemporary arts space grounded in the Chicano and Latino experience.",
+    "url": "https://maclaarte.org/about/mission-history/"
+   }
+  ]
+ },
+ "osm-w294262096": {
+  "name": "San Jose Stage Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Was the first group in San Jose to secure and manage its own theater facility.",
+    "url": "https://www.sanjose.org/listings/san-jose-stage-company"
+   },
+   {
+    "text": "Opened its 200-seat three-quarter thrust venue in 1990.",
+    "url": "https://www.sanjose.org/listings/san-jose-stage-company"
+   }
+  ]
+ },
+ "osm-w336684228": {
+  "name": "City Lights Theater Company",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has staged plays and musicals in downtown San Jose since 1982.",
+    "url": "https://sofadistrict.org/city-lights/"
+   }
+  ]
+ },
+ "osm-n4909298584": {
+  "name": "Hedley Club",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cocktail lounge and wine bar inside the Hotel De Anza with art-deco design.",
+    "url": "https://www.sanjose.org/listings/hedley-club"
+   },
+   {
+    "text": "Hotel De Anza, home of the lounge, is a 1920s art deco building.",
+    "url": "https://www.sanjose.org/listings/hotel-de-anza"
+   },
+   {
+    "text": "Hosts live music many nights of the week.",
+    "url": "https://www.sanjose.org/listings/hedley-club"
+   }
+  ]
+ },
+ "osm-n3624046602": {
+  "name": "Paper Plane",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cocktail bar on South First Street serving artisan-style cocktails plus wine and beer.",
+    "url": "https://www.sanjose.org/listings/paper-plane"
+   },
+   {
+    "text": "Pairs its drinks with a small food menu.",
+    "url": "https://www.sanjose.org/listings/paper-plane"
+   }
+  ]
+ },
+ "osm-n3217635376": {
+  "name": "Bijan Bakery & Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bijan Abachizadeh and his family have made pastries, cakes and croissants here since 1986.",
+    "url": "https://www.sanjose.org/listings/bijan-bakery-cafe"
+   },
+   {
+    "text": "Uses mostly imported European ingredients and no preservatives or trans fats.",
+    "url": "https://www.sanjose.org/listings/bijan-bakery-cafe"
+   }
+  ]
+ },
+ "osm-n4797416829": {
+  "name": "The Continental Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Occupies the former location of Brix/Hunters and Sal & Luigi's/Mac's next to the California Theatre.",
+    "url": "https://www.sanjose.org/listings/continental-bar"
+   },
+   {
+    "text": "Has a patio and hosts live music and DJs.",
+    "url": "https://www.sanjose.org/listings/continental-bar"
+   }
+  ]
+ },
+ "osm-n3606791587": {
+  "name": "Mezcal",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Oaxacan regional cuisine from family recipes passed down through generations.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant"
+   },
+   {
+    "text": "Specializes in homemade moles including Estofado, Coloradito and Mole Negro.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant"
+   }
+  ]
+ },
+ "osm-n3634565755": {
+  "name": "Scott's Seafood",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves oysters, crab cakes, grilled fish and cioppino with a full bar.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0"
+   },
+   {
+    "text": "Offers indoor and outdoor patio seating plus private dining spaces.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0"
+   }
+  ]
+ },
+ "osm-w158245358": {
+  "name": "Parque de los Pobladores",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A 0.2 acre park in SoFA at Market Street and South 1st Street.",
+    "url": "https://en.wikipedia.org/wiki/Parque_de_los_Pobladores"
+   },
+   {
+    "text": "Holds a 1997 monument to the founding of the Pueblo de San Jose de Guadalupe by the Anza Expedition settlers.",
+    "url": "https://en.wikipedia.org/wiki/Parque_de_los_Pobladores"
+   },
+   {
+    "text": "Redeveloped in 2012 under the city's Pavement to Plaza program.",
+    "url": "https://en.wikipedia.org/wiki/Parque_de_los_Pobladores"
+   }
+  ]
+ },
+ "osm-n3573968505": {
+  "name": "The Pressroom",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Housed in the 1884 Lyndon Building, once home to the San Jose Mercury News.",
+    "url": "https://www.sanjose.org/listings/pressroom"
+   },
+   {
+    "text": "Serves California cuisine and cocktails.",
+    "url": "https://www.sanjose.org/listings/pressroom"
+   }
+  ]
+ },
+ "osm-n3678180879": {
+  "name": "55 South",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bar with live music and big screen TVs, serving American and Mediterranean dishes.",
+    "url": "https://www.sanjose.org/listings/55-south"
+   },
+   {
+    "text": "Serves bottomless mimosas and french toast kebabs on Sundays.",
+    "url": "https://www.sanjose.org/listings/55-south"
+   }
+  ]
+ },
+ "osm-n9840220776": {
+  "name": "Guildhouse",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Social gaming venue for adult gamers combining drinks and table-top games.",
+    "url": "https://www.sanjose.org/listings/guildhouse-1"
+   },
+   {
+    "text": "Offers themed cocktails and gaming tournaments.",
+    "url": "https://www.sanjose.org/listings/guildhouse-1"
+   }
+  ]
+ },
+ "osm-n3608158853": {
+  "name": "El Cabron Kitchen & Cantina",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Mexican cantina established in 2018.",
+    "url": "https://www.sanjose.org/listings/el-cabron-kitchen-cantina"
+   },
+   {
+    "text": "Menu includes molcajetes, carne asada, quesabirria tacos and spicy mango margaritas.",
+    "url": "https://www.sanjose.org/listings/el-cabron-kitchen-cantina"
+   }
+  ]
+ },
+ "osm-n3595854578": {
+  "name": "Fuji Sushi",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves sushi made from fresh fish.",
+    "url": "https://www.sanjose.org/listings/fuji-sushi"
+   },
+   {
+    "text": "Menu lists more than 100 rolls.",
+    "url": "https://www.sanjose.org/listings/fuji-sushi"
+   }
+  ]
+ },
+ "osm-n1700572859": {
+  "name": "District",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bar in San Pedro Square serving small shareable plates, pizza and house-made charcuterie.",
+    "url": "https://www.sanjose.org/listings/district"
+   },
+   {
+    "text": "Runs an extensive wine and whiskey program.",
+    "url": "https://www.sanjose.org/listings/district"
+   }
+  ]
+ },
+ "osm-n2985663933": {
+  "name": "Sara's Kitchen",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded on April 27, 1992 by Sara and Manny Manion as a burger and cheesesteak shop.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen"
+   },
+   {
+    "text": "Diner serving breakfast fare, pancakes, waffles and cheesesteak variations.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen"
+   }
+  ]
+ },
+ "osm-n4882433705": {
+  "name": "The Old Wagon Saloon & Grill",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bar with an old west theme in San Pedro Square, serving American cuisine and BBQ.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill"
+   },
+   {
+    "text": "Smokes meats in-house in a smoker named Madame Stacie.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill"
+   }
+  ]
+ },
+ "osm-n5675220172": {
+  "name": "Three Sisters Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Craft cocktail bar inside San Pedro Square Market with 18 beer taps.",
+    "url": "https://www.sanjose.org/listings/three-sisters-bar"
+   },
+   {
+    "text": "Stocks a wide variety of whiskey.",
+    "url": "https://www.sanjose.org/listings/three-sisters-bar"
+   }
+  ]
+ },
+ "osm-n6300644385": {
+  "name": "Miniboss",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Arcade bar with more than 30 classic arcade games and a dozen pinball machines.",
+    "url": "https://www.sanjose.org/listings/miniboss"
+   },
+   {
+    "text": "Serves Detroit-style pizzas and wings alongside inventive cocktails.",
+    "url": "https://www.sanjose.org/listings/miniboss"
+   }
+  ]
+ },
+ "osm-n12813626055": {
+  "name": "Strata",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Chef-driven California restaurant with a seasonal menu inspired by Northern California.",
+    "url": "https://www.sanjose.org/listings/strata"
+   },
+   {
+    "text": "Beverage program pairs cocktails with a curated wine selection.",
+    "url": "https://www.sanjose.org/listings/strata"
+   }
+  ]
+ },
+ "osm-w1061223377": {
+  "name": "Must be Thai Kitchen & Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Downtown branch of a Stevens Creek Thai restaurant serving home-style Thai food made modern.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar"
+   },
+   {
+    "text": "Menu includes Khao Soi, Pad Thai and Tom Yum Fried Rice.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar"
+   }
+  ]
+ },
+ "osm-n9634233103": {
+  "name": "SoFA Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Food hall in the SoFA District with locally-owned eateries, cafes and small vendors.",
+    "url": "https://www.sanjose.org/listings/sofa-market"
+   },
+   {
+    "text": "Vendors include Vietnoms, Pizza Way, Umi Handroll Bar and Habana Cuba.",
+    "url": "https://www.sanjose.org/listings/sofa-market"
+   }
+  ]
  }
 }
