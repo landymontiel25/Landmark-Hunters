@@ -1,0 +1,577 @@
+[
+ {
+  "id": "osm-r1735771",
+  "name": "United Nations Plaza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 2.6-acre plaza dedicated to commemorate the formation of the United Nations.",
+    "url": "https://en.wikipedia.org/wiki/United_Nations_Plaza_(San_Francisco)"
+   },
+   {
+    "text": "Lawrence Halprin designed the large sunken fountain.",
+    "url": "https://en.wikipedia.org/wiki/United_Nations_Plaza_(San_Francisco)"
+   },
+   {
+    "text": "Hosts the Heart-of-the-City Farmers Market on Wednesdays and Sundays, held there since 1981.",
+    "url": "https://en.wikipedia.org/wiki/United_Nations_Plaza_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-r19306325",
+  "name": "US Court of Appeals 9 Circuit",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built as the U.S. Courthouse and Post Office, with groundbreaking in 1897.",
+    "url": "https://www.gsa.gov/real-estate/historic-preservation/explore-historic-buildings/find-a-building/james-r-browning-us-court-of-appeals-building-san-francisco-ca"
+   },
+   {
+    "text": "Supervising Architect James Knox Taylor played a lead role in the design.",
+    "url": "https://www.gsa.gov/real-estate/historic-preservation/explore-historic-buildings/find-a-building/james-r-browning-us-court-of-appeals-building-san-francisco-ca"
+   },
+   {
+    "text": "A steel-framed building clad in white Sierra granite.",
+    "url": "https://www.gsa.gov/real-estate/historic-preservation/explore-historic-buildings/find-a-building/james-r-browning-us-court-of-appeals-building-san-francisco-ca"
+   },
+   {
+    "text": "Renamed for Judge James R. Browning, who served as a circuit judge for four decades.",
+    "url": "https://www.gsa.gov/real-estate/historic-preservation/explore-historic-buildings/find-a-building/james-r-browning-us-court-of-appeals-building-san-francisco-ca"
+   },
+   {
+    "text": "One of only two buildings south of Market Street to survive the 1906 earthquake and fires, with the 1874 U.S. Mint.",
+    "url": "https://www.gsa.gov/real-estate/historic-preservation/explore-historic-buildings/find-a-building/james-r-browning-us-court-of-appeals-building-san-francisco-ca"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358803480",
+  "name": "USS San Francisco Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Consists of a shell-pocked section of the cruiser USS San Francisco's bridge wings.",
+    "url": "https://en.wikipedia.org/wiki/USS_San_Francisco_Memorial"
+   },
+   {
+    "text": "A plaque honors about 100 sailors and seven Marines who died aboard the cruiser.",
+    "url": "https://en.wikipedia.org/wiki/USS_San_Francisco_Memorial"
+   },
+   {
+    "text": "Oriented towards Guadalcanal.",
+    "url": "https://en.wikipedia.org/wiki/USS_San_Francisco_Memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5135754623",
+  "name": "Verdi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Dedicated on March 23, 1914, as a monument to composer Giuseppe Verdi in Golden Gate Park.",
+    "url": "https://sfplamr.blogspot.com/2012/05/verdi-statue-in-golden-gate-park.html"
+   },
+   {
+    "text": "Ettore Patrizi, editor of L'Italia, led the subscription fund that raised $15,000 for it.",
+    "url": "https://sfplamr.blogspot.com/2012/05/verdi-statue-in-golden-gate-park.html"
+   },
+   {
+    "text": "About 24 feet high and 52 tons, with a base of red and black Baveno granite from Italy.",
+    "url": "https://sfplamr.blogspot.com/2012/05/verdi-statue-in-golden-gate-park.html"
+   },
+   {
+    "text": "Restored in 2003, when the bust of Verdi at the top was regilded.",
+    "url": "https://sfplamr.blogspot.com/2012/05/verdi-statue-in-golden-gate-park.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8744048933",
+  "name": "Whaling Out of San Francisco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Erected by the San Francisco Art Commission for the Waterfront Transportation Projects.",
+    "url": "https://www.hmdb.org/m.asp?m=92816"
+   },
+   {
+    "text": "The marker text says whaling by open boats from San Francisco ended in 1910.",
+    "url": "https://www.hmdb.org/m.asp?m=92816"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1155753228",
+  "name": "William McKinley Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sculpted by Robert Ingersoll Aitken, as a statue of a female figure representing the Republic.",
+    "url": "https://en.wikipedia.org/wiki/William_McKinley_Memorial"
+   },
+   {
+    "text": "Theodore Roosevelt broke ground for the monument in Golden Gate Park on May 13, 1903.",
+    "url": "https://en.wikipedia.org/wiki/William_McKinley_Memorial"
+   },
+   {
+    "text": "Unveiled on November 24, 1904, at the entrance to the Panhandle.",
+    "url": "https://en.wikipedia.org/wiki/William_McKinley_Memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n281555367",
+  "name": "World War II Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The World War II West Coast Memorial honors servicemen lost or buried at sea in Pacific waters in 1941-1945.",
+    "url": "https://presidio.gov/explore/attractions/world-war-ii-west-coast-memorial"
+   },
+   {
+    "text": "A curved granite wall inscribed with the names of 413 servicemen, dedicated November 29, 1960.",
+    "url": "https://presidio.gov/explore/attractions/world-war-ii-west-coast-memorial"
+   },
+   {
+    "text": "Designed by architects Hervey Parke Clark and John F. Beuttler.",
+    "url": "https://presidio.gov/explore/attractions/world-war-ii-west-coast-memorial"
+   },
+   {
+    "text": "Features a statue of Columbia by French sculptor Jean De Marco.",
+    "url": "https://presidio.gov/explore/attractions/world-war-ii-west-coast-memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2074158492",
+  "name": "4 Star Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1913 as La Bonita and renamed the Star in 1927.",
+    "url": "https://www.outsidelands.org/fourstar.php"
+   },
+   {
+    "text": "Renamed the 4 Star in 1946 after new owners took over and upgraded it.",
+    "url": "https://www.outsidelands.org/fourstar.php"
+   },
+   {
+    "text": "Became an art house offering independent and foreign films.",
+    "url": "https://www.outsidelands.org/fourstar.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4611835607",
+  "name": "7D Experience",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 20-seat attraction combining motion seats, a giant 3D screen and laser blasters.",
+    "url": "https://flyerthrillzone.com/7d-experience/"
+   },
+   {
+    "text": "Scenarios include battling zombies, werewolves, demented clowns or road fighters.",
+    "url": "https://flyerthrillzone.com/7d-experience/"
+   }
+  ]
+ },
+ {
+  "id": "osm-r20579467",
+  "name": "Alamo Drafthouse Cinema",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Timothy Pflueger remodeled the theater in Art Deco style in 1932 for the Nasser Brothers circuit.",
+    "url": "https://en.wikipedia.org/wiki/New_Mission_Theater,_San_Francisco"
+   },
+   {
+    "text": "Has a 70-foot marquee sign that is a local landmark.",
+    "url": "https://en.wikipedia.org/wiki/New_Mission_Theater,_San_Francisco"
+   },
+   {
+    "text": "Closed in 1993 and became a furniture store before Alamo Drafthouse renovated it.",
+    "url": "https://en.wikipedia.org/wiki/New_Mission_Theater,_San_Francisco"
+   },
+   {
+    "text": "Reopened as a movie theater, restaurant and bar in December 2015, keeping the name New Mission Theater.",
+    "url": "https://en.wikipedia.org/wiki/New_Mission_Theater,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-w33570646",
+  "name": "Alcazar Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built as the Islam Temple for the Shriners, used for their meetings and ceremonies from 1918 to 1970.",
+    "url": "https://noehill.com/sf/landmarks/sf195.asp"
+   },
+   {
+    "text": "The facade has Byzantine arches and filigree lattice work in polychrome terra cotta.",
+    "url": "https://noehill.com/sf/landmarks/sf195.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n420514871",
+  "name": "AMC Dine-In Kabuki 8",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed as a Kabuki theater with a revolving stage and trap doors, serving dinner to the audience.",
+    "url": "https://en.wikipedia.org/wiki/Sundance_Kabuki"
+   },
+   {
+    "text": "Was the first multiplex in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Sundance_Kabuki"
+   },
+   {
+    "text": "Has screened films for the San Francisco International Film Festival and shows San Francisco Opera performances.",
+    "url": "https://en.wikipedia.org/wiki/Sundance_Kabuki"
+   }
+  ]
+ },
+ {
+  "id": "osm-n302742486",
+  "name": "AMC Loews Metreon 16",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened June 16, 1999 as Sony Theatres Metreon; later run by Loews Cineplex, then AMC.",
+    "url": "https://cinematreasures.org/theaters/10326"
+   },
+   {
+    "text": "Designed by David Rockwell.",
+    "url": "https://cinematreasures.org/theaters/10326"
+   },
+   {
+    "text": "Recliner seats were added in 2020, reducing capacity to 1,727.",
+    "url": "https://cinematreasures.org/theaters/10326"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9354357657",
+  "name": "Apple Cinemas Van Ness",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened July 10, 1998 as the AMC 1000 Van Ness multiplex.",
+    "url": "https://cinematreasures.org/theaters/8114"
+   },
+   {
+    "text": "Operated as CGV Cinemas San Francisco from September 2021 until it closed in February 2023.",
+    "url": "https://cinematreasures.org/theaters/8114"
+   },
+   {
+    "text": "Apple Cinemas took it over in June 2025 and reopened it on July 10, 2025.",
+    "url": "https://cinematreasures.org/theaters/8114"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6675956469",
+  "name": "Audium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A sound art event presented weekly since 1967, with its first public performance on May 26, 1967.",
+    "url": "https://en.wikipedia.org/wiki/Audium_(theater)"
+   },
+   {
+    "text": "Created by composer Stan Shaff and performed on equipment designed by Doug McEachern.",
+    "url": "https://en.wikipedia.org/wiki/Audium_(theater)"
+   },
+   {
+    "text": "Works are sculpted in space through 176 speakers in a completely dark theater.",
+    "url": "https://en.wikipedia.org/wiki/Audium_(theater)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1834964005",
+  "name": "Balboa Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened February 27, 1926 with 800 seats, named after Vasco Nunez de Balboa.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   },
+   {
+    "text": "Founded by Samuel H. Levin, whose family ran it until February 2001.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   },
+   {
+    "text": "Part of the CinemaSFBay chain since 2012.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3375877708",
+  "name": "BATS Improv",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as Bay Area Theatresports after a November 10, 1986 workshop led by Rebecca Stockley.",
+    "url": "https://www.improv.org/about-us/history/"
+   },
+   {
+    "text": "Took up permanent residency at the Bayfront Theater in Fort Mason Center in 1997.",
+    "url": "https://www.improv.org/about-us/history/"
+   },
+   {
+    "text": "Renamed BATS Improv in 2001.",
+    "url": "https://www.improv.org/about-us/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288836717",
+  "name": "Bayview Opera House Ruth Williams Memorial Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built by the Masons, and described as the oldest standing theater in San Francisco.",
+    "url": "https://sfpublicworks.org/project/bayview-opera-house"
+   },
+   {
+    "text": "Operated by the nonprofit Bayview Opera House, Inc., which provides arts education for youth.",
+    "url": "https://sfpublicworks.org/project/bayview-opera-house"
+   },
+   {
+    "text": "A $5.7 million renovation led by the Arts Commission added a plaza with a wooden stage.",
+    "url": "https://sfpublicworks.org/project/bayview-opera-house"
+   }
+  ]
+ },
+ {
+  "id": "osm-w25759141",
+  "name": "Bill Graham Civic Auditorium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated by Another Planet Entertainment, which hosts over 100 concerts and events a year.",
+    "url": "https://sfciviccenter.org/places/bill-graham-civic-auditorium/"
+   },
+   {
+    "text": "Joseph Kosuth's neon work W.F.T. (San Francisco) is on the exterior of the western side.",
+    "url": "https://sfciviccenter.org/places/bill-graham-civic-auditorium/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8707461392",
+  "name": "Blue Shield of California Theater at YBCA",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A proscenium theater with two-tier seating and 757 seats.",
+    "url": "https://thevendry.com/venue/24564/yerba-buena-center-for-the-arts-san-francisco-ca/space/1327"
+   },
+   {
+    "text": "Designed by architects James Stewart Polshek and Todd Schliemann.",
+    "url": "https://thevendry.com/venue/24564/yerba-buena-center-for-the-arts-san-francisco-ca/space/1327"
+   }
+  ]
+ },
+ {
+  "id": "osm-w676621358",
+  "name": "Boom & Bust Course",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "An 18-hole mini golf course themed on the West's story of boom and bust.",
+    "url": "https://www.sfgate.com/mommyfiles/article/Parklab-Gardens-Stagecoach-Greens-Mini-Golf-SF-13163635.php"
+   },
+   {
+    "text": "Built by the Bayview fabrication shop One Hat One Hand, with 150 local artists.",
+    "url": "https://www.sfgate.com/mommyfiles/article/Parklab-Gardens-Stagecoach-Greens-Mini-Golf-SF-13163635.php"
+   },
+   {
+    "text": "Includes a replica of Chinatown's Dragon Gate and a recreated Gold Rush-era saloon.",
+    "url": "https://www.sfgate.com/mommyfiles/article/Parklab-Gardens-Stagecoach-Greens-Mini-Golf-SF-13163635.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6242792452",
+  "name": "Brava Theater Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Brava for Women in the Arts bought the shuttered York Theater, built in 1926, and renamed it in 1996.",
+    "url": "https://www.brava.org/history"
+   },
+   {
+    "text": "A $3 million renovation created a 360-seat main theater and a 60-seat studio.",
+    "url": "https://www.brava.org/history"
+   },
+   {
+    "text": "Run by Brava for Women in the Arts, founded in 1986 by Ellen Gavin with 75 women artists.",
+    "url": "https://www.brava.org/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8752101308",
+  "name": "Caroline H. Hume Concert Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Created in a renovated historic grand ballroom in the Ann Getty Center for Education.",
+    "url": "https://sfcm.edu/caroline-h-hume-concert-hall"
+   },
+   {
+    "text": "Seats an audience of 348.",
+    "url": "https://sfcm.edu/caroline-h-hume-concert-hall"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10276807527",
+  "name": "Chorus Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A performance venue with 224 retractable seats and a full performance stage.",
+    "url": "https://www.chorushall.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w197382805",
+  "name": "CinéArts at the Empire",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://datebook.sfchronicle.com/movies-tv/cinearts-empire-west-portal-movie-theater-that-opened-in-1925-closes-permanently",
+  "notFound": false,
+  "searches": 2,
+  "note": "Closed permanently in January 2021; 2026 results discuss demolition for housing.",
+  "facts": []
+ }
+]

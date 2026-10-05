@@ -1,0 +1,434 @@
+[
+ {
+  "id": "osm-w1501253434",
+  "name": "City Grazing Goat Cuddle Zone",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Run by City Grazing, a San Francisco nonprofit that uses goat grazing for land management.",
+    "url": "https://www.citygrazing.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32866034",
+  "name": "Club Fugazi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Beach Blanket Babylon played here for 45 years, from 1974.",
+    "url": "https://www.clubfugazisf.com/history"
+   },
+   {
+    "text": "The Grateful Dead held their first album release party here in 1967.",
+    "url": "https://www.clubfugazisf.com/history"
+   },
+   {
+    "text": "Thelonious Monk recorded Thelonious Alone in San Francisco here in 1959.",
+    "url": "https://www.clubfugazisf.com/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2106473327",
+  "name": "Cobb's Comedy Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1982 as Cobb's Pub on Chestnut Street in the Marina District.",
+    "url": "https://www.cobbscomedy.com/history"
+   },
+   {
+    "text": "Moved to the Cannery at Fisherman's Wharf in 1987, then to Columbus Avenue in 2002 after a fire.",
+    "url": "https://www.cobbscomedy.com/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11535347491",
+  "name": "CounterPulse",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated as 848 Performance Space from 1991 to 2005 before becoming CounterPulse.",
+    "url": "https://counterpulse.org/mission-history/"
+   },
+   {
+    "text": "Opened at its Turk Street home in spring 2016 through a lease-to-purchase with the Community Arts Stabilization Trust.",
+    "url": "https://counterpulse.org/mission-history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w71504452",
+  "name": "Curran Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named after Homer Curran, who partnered with Shubert Incorporated to build it.",
+    "url": "https://sfcurran.com/about/"
+   },
+   {
+    "text": "Reopened in January 2017 with Fun Home after a major restoration.",
+    "url": "https://sfcurran.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11704719855",
+  "name": "Cutting Ball Theater",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.kqed.org/arts/13961349/farewell-to-cutting-ball-theater-a-bastion-of-fearless-experimentation",
+  "notFound": false,
+  "searches": 3,
+  "note": "KQED farewell article and SF Chronicle 'Cutting Ball Theater is closing' (search result titles) say the company ceased operations at end of 2024.",
+  "facts": []
+ },
+ {
+  "id": "osm-n368171372",
+  "name": "Diego Rivera Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched at CCSF Ocean Campus; new Diego Rivera Performing Arts Center broke ground Jan 2026, no single-page fact tied.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10554070515",
+  "name": "Eclectic Box",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Intersection for the Arts ran the building as a theater from 1990 to 2011.",
+    "url": "https://www.eclecticboxsf.com/eb-history"
+   },
+   {
+    "text": "Ty Mckenzie ran it as Stage Werx from 2012 until handing it to the Eclectic Box collective in 2023.",
+    "url": "https://www.eclecticboxsf.com/eb-history"
+   },
+   {
+    "text": "The building was Mancuso Brothers Furniture Store for almost sixty years.",
+    "url": "https://www.eclecticboxsf.com/eb-history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11806415048",
+  "name": "Endgames Improv",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An improv comedy theater that also teaches a five-level core improv curriculum.",
+    "url": "https://endgamesimprov.com/classes/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1280482847",
+  "name": "Founders Amphitheatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Located at Southeast Community Center (1550 Evans Ave); no result tied to Founders Amphitheatre name by a single page.",
+  "facts": []
+ },
+ {
+  "id": "osm-n1617289728",
+  "name": "Gateway Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "42nd Street Moon took over the lease after the venue was renamed the Gateway Theatre.",
+    "url": "https://www.broadwayworld.com/san-francisco/article/42nd-Street-Moon-Assumes-Lease-of-Newly-Renamed-Gateway-Theatre-20170712"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260129387",
+  "name": "Golden Gate Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by G. Albert Lansburgh for the Radio-Keith-Orpheum circuit and opened as a vaudeville house.",
+    "url": "https://www.goldengatetheatresf.com/information/"
+   },
+   {
+    "text": "Closed in 1972 and was reopened as a performing arts venue in 1979.",
+    "url": "https://www.goldengatetheatresf.com/information/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256733182",
+  "name": "Great Star Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1925 as the Great China Theatre, built for Chinese opera.",
+    "url": "https://www.greatstartheater.org/blog/2025/century-of-cultural-heritage"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4659836677",
+  "name": "House of Air",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An indoor trampoline park in a historic former airplane hangar in the Presidio.",
+    "url": "https://houseofair.com/blog/2010/03/catch-big-air-in-the-presidio-historic-former-airplane-hangar-to-house-indoor-trampoline-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w430142484",
+  "name": "Jerry Garcia Memorial Amphitheater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A Greek-style amphitheater in McLaren Park that opened in 1971.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Jerry-Garcia-Amphitheater-421"
+   },
+   {
+    "text": "Named for Jerry Garcia by the Recreation and Park Commission in 2005.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Jerry-Garcia-Amphitheater-421"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12957765950",
+  "name": "John A. and Cynthia Fry Gunn Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A theater inside the Legion of Honor museum in Lincoln Park.",
+    "url": "https://www.sfcv.org/venues/legion-honor-gunn-theater"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2076966501",
+  "name": "Marina Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1928; it was renamed Cinema 21 in 1965 and reopened in 2008 as a two-screen second-floor theater.",
+    "url": "https://www.sfheritage.org/heritage-in-the-neighborhoods/cinema-treasures-in-the-marina/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n621851565",
+  "name": "Marine's Memorial Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1926 as part of the Marines' Memorial Club building.",
+    "url": "https://marinesmemorial.org/theatre/"
+   },
+   {
+    "text": "Former home of the Actors Workshop and the American Conservatory Theatre.",
+    "url": "https://marinesmemorial.org/theatre/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256732461",
+  "name": "Nourse Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Now named the Sydney Goldstein Theater (renamed after the OSM name); still open.",
+  "facts": [
+   {
+    "text": "Opened in 1926 as a high school auditorium and reopened in 2013 as a home for City Arts & Lectures.",
+    "url": "https://sfciviccenter.org/places/the-sydney-goldstein-theater/"
+   },
+   {
+    "text": "Now called the Sydney Goldstein Theater.",
+    "url": "https://sfciviccenter.org/places/the-sydney-goldstein-theater/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w261105865",
+  "name": "ODC Theater",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Brenda Way of ODC and a presenter of dance and performance since 1976.",
+    "url": "https://odc.dance/about-theater"
+   }
+  ]
+ },
+ {
+  "id": "osm-n140982581",
+  "name": "Opera Plaza Cinema",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated by Landmark Theatres since 1991 and reopened in November 2021 after a renovation.",
+    "url": "https://lmt.landmarktheatres.com/san-francisco/opera-plaza-cinema/info"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11100318800",
+  "name": "Orpheum Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Pre-Broadway runs here included Evita and Mamma Mia!",
+    "url": "https://sfciviccenter.org/places/orpheum-theater/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10110433994",
+  "name": "Palace of Fine Arts Theatre",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The Palace of Fine Arts Theatre opened in 1970, after the Palace of Fine Arts League formed in 1962 to restore the Palace.",
+    "url": "https://www.palaceoffinearts.org/history/"
+   },
+   {
+    "text": "The Palace was designed by Bernard Maybeck for the 1915 Panama-Pacific International Exposition.",
+    "url": "https://www.palaceoffinearts.org/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5506466397",
+  "name": "Potrero Stage",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 99-seat venue run by PlayGround that was founded by Thick Description as Thick House in 1999.",
+    "url": "https://potrerostage.org/about/"
+   },
+   {
+    "text": "Reopened in 2017 as Potrero Stage after a 2016 renovation.",
+    "url": "https://potrerostage.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7700034688",
+  "name": "Presidio Dance Theatre",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://presidio.gov/about/press/presidio-dance-theatre-opens-new-home-on-the-main-post",
+  "notFound": false,
+  "searches": 2,
+  "note": "Press page says the company moved from its old home near Doyle Drive to the Presidio Performing Arts Center on the Main Post (2011); OSM point is the old location.",
+  "facts": []
+ }
+]
