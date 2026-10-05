@@ -1,0 +1,404 @@
+[
+ {
+  "id": "osm-w121024973",
+  "name": "Cafe du Nord",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 320-person capacity music venue in the basement of the Swedish American Hall.",
+    "url": "https://en.wikipedia.org/wiki/Cafe_Du_Nord"
+   },
+   {
+    "text": "Won a 2013 Nightey Award for live music venue in San Francisco under 400 capacity.",
+    "url": "https://en.wikipedia.org/wiki/Cafe_Du_Nord"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3969606065",
+  "name": "Cafe Muse",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "Only Cafe Muse found was at 785 8th Ave (Inner Richmond, closed), not Nob Hill; Cafe Meuse is a different place.",
+  "facts": []
+ },
+ {
+  "id": "osm-n4403707689",
+  "name": "Café Prague",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/cafe-prague-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n366711368",
+  "name": "Cafe Tosca",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listed as Tosca Cafe at 242 Columbus Ave.",
+  "facts": [
+   {
+    "text": "Opened in 1919 by Gesualdo Francesconi with brothers Ugo and Nando Pieri.",
+    "url": "https://www.toscacafe-sf.com/about/"
+   },
+   {
+    "text": "Named after the founder's daughter.",
+    "url": "https://www.toscacafe-sf.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9341171152",
+  "name": "California Wine Merchant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1974 by Greg O'Flynn, who runs it with Deborah O'Flynn.",
+    "url": "http://www.californiawinemerchant.com/about-us"
+   },
+   {
+    "text": "A wine shop, wine bar and wine club that focuses on small California producers.",
+    "url": "http://www.californiawinemerchant.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-w148175381",
+  "name": "Calle-11",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/calle-11-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp (Updated September 2026) lists it CLOSED; the official site still appears live but is undated, so the dated result wins.",
+  "facts": []
+ },
+ {
+  "id": "osm-n3379996811",
+  "name": "Campus - San Francisco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Campus at 2241 Chestnut St, Marina.",
+  "facts": [
+   {
+    "text": "Opened in 2011 in the former Delaney's Bar space on Chestnut Street.",
+    "url": "https://sfist.com/2011/09/26/important_marina_bar_scene_news_the/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2240839554",
+  "name": "Candlestick Park Sports Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A sports bar themed around SF sports history, including the 49ers, Giants and Warriors.",
+    "url": "https://www.candlestickbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1211157016",
+  "name": "Casa Barajas / Chug Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Casa Barajas itself is listed closed on Yelp (Dec 2025) but Chug Pub is listed open (Updated April 2026).",
+  "facts": [
+   {
+    "text": "Casa Barajas, a Mexican eatery, operated out of the pub's kitchen.",
+    "url": "https://hoodline.com/2018/05/sunset-romance-mexican-eatery-moves-in-with-sports-bar/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13030734579",
+  "name": "Casanova Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned by Don Alan, who sources the vintage oil paintings on its walls with his wife.",
+    "url": "https://punchdrink.com/venues/casanova-lounge/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11806415039",
+  "name": "Casements",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A modern Irish bar that opened in January 2020.",
+    "url": "https://casementsbar.com/about"
+   },
+   {
+    "text": "Opened by industry veterans Gillian Fitzgerald, Sean O'Donovan and Chris Hastings.",
+    "url": "https://casementsbar.com/about"
+   },
+   {
+    "text": "Named after Roger Casement, the Irish-born poet and human rights pioneer.",
+    "url": "https://casementsbar.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1788820322",
+  "name": "Cat Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has two dance floors, a smoking alley and a go-go cage.",
+    "url": "https://www.sfcatclub.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2340019960",
+  "name": "Cellar Door",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/cellar-door-sf-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp lists Cellar Door SF CLOSED at 3131 Fillmore.",
+  "facts": []
+ },
+ {
+  "id": "osm-n13715184385",
+  "name": "Cellarmaker",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Mission St location listed as 3193 Mission St (Cellarmaker House of Pizza).",
+  "facts": [
+   {
+    "text": "Cellarmaker House of Pizza serves Detroit-style pizza alongside its beer.",
+    "url": "https://cellarmakerbrewing.com/house-of-pizza/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2629113680",
+  "name": "Cervecería de MateVeza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Now listed on Yelp as Woods Cerveceria at the same address (June 2026), still open.",
+  "facts": [
+   {
+    "text": "Opened in 2012 by Jim Woods, founder of MateVeza beer, and Matt Coelho.",
+    "url": "https://missionlocal.org/2012/04/18th-streets-latest-brew-mateveza/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6371947786",
+  "name": "Charmaine's rooftop bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Charmaine's at Proper Hotel, 1100 Market St.",
+  "facts": [
+   {
+    "text": "A rooftop lounge on the San Francisco Proper Hotel, 120 feet above Market Street.",
+    "url": "https://www.properhotel.com/san-francisco/restaurants-bars/charmaines/"
+   },
+   {
+    "text": "Has an indoor living room lounge and an outdoor patio with fire pits.",
+    "url": "https://www.properhotel.com/san-francisco/restaurants-bars/charmaines/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1485992620",
+  "name": "Chelsea Place",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp shows Chelsea Place at 641 Bush St, Union Square.",
+  "facts": [
+   {
+    "text": "A dive bar.",
+    "url": "https://www.yelp.com/biz/chelsea-place-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4614040398",
+  "name": "Chief Sullivan's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named after San Francisco fire chief Dennis Sullivan, who served during the 1906 earthquake.",
+    "url": "https://www.sfstation.com/chief-sullivans-b38992461"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5538811235",
+  "name": "Christopher's Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1991 by Christopher Ellison.",
+    "url": "https://www.potreroview.net/christophers-books-celebrates-25th-anniversary/"
+   },
+   {
+    "text": "Owner Tee Minot bought the store from Ellison in 1994.",
+    "url": "https://www.potreroview.net/christophers-books-celebrates-25th-anniversary/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1282135989",
+  "name": "Chronicle Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The store sits at the publisher's headquarters and stocks titles from partners such as Laurence King and Hardie Grant.",
+    "url": "https://www.chroniclebooks.com/pages/retail-locations"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4567603391",
+  "name": "Chronicle Books",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/chronicle-books-san-francisco-7",
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1680714458",
+  "name": "Church Key",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/church-key-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n5352315989",
+  "name": "Churchill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The pub at this corner dates to the 1940s, when it was known as Dudley's.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/former-castro-gay-bars/churchill/"
+   },
+   {
+    "text": "Was The Transfer from the 1980s and reopened as Churchill in 2011.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/former-castro-gay-bars/churchill/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n371007095",
+  "name": "Cigar Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Located in the Jackson Square Historic District.",
+    "url": "https://www.cigarbarandgrill.com/index.php/about-cbg"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2253031247",
+  "name": "Cinnabar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar and sports bar.",
+    "url": "https://www.sfstation.com/cinnabar-b38994614"
+   }
+  ]
+ }
+]
