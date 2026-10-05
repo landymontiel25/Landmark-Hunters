@@ -6,7 +6,7 @@
   "closedSource": null,
   "facts": [
    {
-    "text": "Opened in September 2025 on California Avenue from the team behind Michelin-starred Prot\u00e9g\u00e9.",
+    "text": "Opened in September 2025 on California Avenue from the team behind Michelin-starred Protégé.",
     "url": "https://www.paloaltoonline.com/food/2025/09/22/the-team-behind-palo-altos-michelin-starred-protege-debuts-bar-underdog-along-california-avenue/",
     "verdict": "ok",
     "note": ""
@@ -34,8 +34,8 @@
    {
     "text": "Co-owned by Franco and Maico Campilongo, who were born in southern Italy.",
     "url": "https://www.italicorestaurant.com/about",
-    "verdict": "ok",
-    "note": "Supported via about-page search summary (Franco and Maico, born southern Italy)."
+    "verdict": "unsupported",
+    "note": "Supported via about-page search summary (Franco and Maico, born southern Italy). (reviewer: treated as unsupported)"
    }
   ]
  },
@@ -274,8 +274,8 @@
    {
     "text": "A tank house built in 1882 by orchardist Nathan Hall stands behind the restaurant.",
     "url": "https://cupertinomuseum.org/bluePheasant.html",
-    "verdict": "ok",
-    "note": "Source says tank house belonged to Nathan Hall, built 1882; builder not stated."
+    "verdict": "unsupported",
+    "note": "Source says tank house belonged to Nathan Hall, built 1882; builder not stated. (reviewer: treated as unsupported)"
    }
   ]
  },
