@@ -1,0 +1,351 @@
+[
+ {
+  "name": "Fibbar MaGees",
+  "area": "Downtown Sunnyvale",
+  "address": "156 S Murphy Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1994 as an Irish pub on historic Murphy Avenue.",
+    "url": "https://www.fibbars.com/"
+   },
+   {
+    "text": "Serves craft beers and Irish fare with a large selection of Irish whiskeys.",
+    "url": "https://www.fibbars.com/"
+   }
+  ]
+ },
+ {
+  "name": "Emelina's Plus",
+  "area": "Downtown Sunnyvale",
+  "address": "100 S Murphy Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Peruvian home cooking including ceviches and seafood.",
+    "url": "https://emelinassunnyvale.com/"
+   },
+   {
+    "text": "The bar features Peruvian spirits such as the Pisco Sour.",
+    "url": "https://emelinassunnyvale.com/"
+   }
+  ]
+ },
+ {
+  "name": "Moods Wine Bar & Bistro",
+  "area": "Downtown Sunnyvale",
+  "address": "111 W Evelyn Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in Palo Alto in 2017 by Mahmood and KC Saljooqi, then moved to Sunnyvale.",
+    "url": "https://www.mv-voice.com/food/feature-food/2025/07/09/the-peninsulas-wine-scene-gets-a-cozy-refresh-with-two-spots-focused-on-connection-curation-and-comfort/"
+   },
+   {
+    "text": "Menu features Afghan dishes such as khorma and aushak dumplings.",
+    "url": "https://www.mv-voice.com/food/feature-food/2025/07/09/the-peninsulas-wine-scene-gets-a-cozy-refresh-with-two-spots-focused-on-connection-curation-and-comfort/"
+   }
+  ]
+ },
+ {
+  "name": "Leigh's Favorite Books",
+  "area": "Downtown Sunnyvale",
+  "address": "121 S Murphy Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2004 by Leigh Odum as a new and used bookstore.",
+    "url": "https://www.svvoice.com/getting-to-know-leigh-odum-co-owner-of-sunnyvales-leighs-favorite-books-and-bookasaurus/"
+   },
+   {
+    "text": "Its children's sister store Bookasaurus opened in 2012 next door.",
+    "url": "https://www.svvoice.com/getting-to-know-leigh-odum-co-owner-of-sunnyvales-leighs-favorite-books-and-bookasaurus/"
+   }
+  ]
+ },
+ {
+  "name": "Duke of Edinburgh",
+  "area": "Cupertino",
+  "address": "10801 N Wolfe Rd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1983 by English expats Stan Gamble, David Neale and Robert Gaines Cooper, with Bob Blair.",
+    "url": "https://sanjosespotlight.com/beloved-cupertino-bar-pub-duke-of-edinburgh-could-face-last-call/"
+   },
+   {
+    "text": "The pub interior was built by craftsmen in Suffolk and shipped to California in two containers.",
+    "url": "https://sanjosespotlight.com/beloved-cupertino-bar-pub-duke-of-edinburgh-could-face-last-call/"
+   }
+  ]
+ },
+ {
+  "name": "Picchetti Winery",
+  "area": "Cupertino",
+  "address": "13100 Montebello Road",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Picchetti brothers began making their own wine in 1896.",
+    "url": "https://en.wikipedia.org/wiki/Picchetti_Brothers_Winery"
+   },
+   {
+    "text": "Leslie Pantling took over the winery in 1998 and resumed production.",
+    "url": "https://en.wikipedia.org/wiki/Picchetti_Brothers_Winery"
+   },
+   {
+    "text": "The 1989 film Blood Red was filmed at the winery.",
+    "url": "https://en.wikipedia.org/wiki/Picchetti_Brothers_Winery"
+   }
+  ]
+ },
+ {
+  "name": "The Blue Pheasant",
+  "area": "Cupertino",
+  "address": "22100 Stevens Creek Blvd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served classic American cuisine since 1974 next to the Blackberry Farm golf course.",
+    "url": "https://cupertinomuseum.org/bluePheasant.html"
+   },
+   {
+    "text": "A tank house built in 1882 by orchardist Nathan Hall stands behind the restaurant.",
+    "url": "https://cupertinomuseum.org/bluePheasant.html"
+   }
+  ]
+ },
+ {
+  "name": "TANTO Japanese Restaurant",
+  "area": "Sunnyvale",
+  "address": "1063 E El Camino Real",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The first Tanto opened in September 2000 on Saratoga Ave before moving to Sunnyvale.",
+    "url": "https://tantoizakayasunnyvale.com/"
+   },
+   {
+    "text": "Run as a Japanese izakaya serving sashimi and grilled specialties.",
+    "url": "https://tantoizakayasunnyvale.com/"
+   }
+  ]
+ },
+ {
+  "name": "Murphy Park",
+  "area": "Sunnyvale",
+  "address": "260 N Sunnyvale Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has a lawn bowling green, two horseshoe pits and two playgrounds.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/52/456"
+   },
+   {
+    "text": "Displays a restored Hendy Iron Works stamp mill once used for gold mining.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/52/456"
+   }
+  ]
+ },
+ {
+  "name": "McClellan Ranch Preserve",
+  "area": "Cupertino",
+  "address": "22221 McClellan Road",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An 18-acre preserve on a former horse ranch from the 1930s and 40s.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/McClellan-Ranch-Preserve"
+   },
+   {
+    "text": "Home to the Environmental Education Center and a recreated Baer Blacksmith Shop.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/McClellan-Ranch-Preserve"
+   }
+  ]
+ },
+ {
+  "name": "Blackberry Farm",
+  "area": "Cupertino",
+  "address": "21979 San Fernando Ave",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Includes a Native Restoration Village with Ohlone shelters behind the Blackberry Cafe.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Aquatics-and-Golf/Blackberry-Farm"
+   },
+   {
+    "text": "Has a nine-hole golf course, picnic areas and access to Stevens Creek Corridor trails.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Aquatics-and-Golf/Blackberry-Farm"
+   }
+  ]
+ },
+ {
+  "name": "Serra Park",
+  "area": "Sunnyvale",
+  "address": "730 The Dalles Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A riverboat-themed park with a babbling brook running through it.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/59/456"
+   },
+   {
+    "text": "Has four reservable picnic sites, four tennis courts and a water play area.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/59/456"
+   }
+  ]
+ },
+ {
+  "name": "Lakewood Park",
+  "area": "Sunnyvale",
+  "address": "834 Lakechime Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has two playgrounds, skateboard ramps and two reservable ballfields.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/50/260"
+   },
+   {
+    "text": "Connects to the John W. Christian Greenbelt pathway.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/50/260"
+   }
+  ]
+ },
+ {
+  "name": "De Anza Park",
+  "area": "Sunnyvale",
+  "address": "1150 Lime Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 10.5-acre park with two picnic sites, two horseshoe pits and a handball court.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/46/456"
+   },
+   {
+    "text": "Shares adjacent school property with ball fields when school is not in session.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/46/456"
+   }
+  ]
+ },
+ {
+  "name": "Raynor Park",
+  "area": "Sunnyvale",
+  "address": "1565 Quail Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An 11.9-acre park with dinosaur-themed play areas and four picnic sites.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/57/456"
+   },
+   {
+    "text": "Has two horseshoe pits, basketball courts and a multi-use field with two ballfields.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/57/456"
+   }
+  ]
+ }
+]
