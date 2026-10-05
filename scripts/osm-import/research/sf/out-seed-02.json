@@ -1,0 +1,849 @@
+[
+ {
+  "name": "Lincoln Park Steps",
+  "area": "Outer Richmond",
+  "address": "California St at 33rd Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Art deco-style mosaic stairway of stylized plant designs by artist Aileen Barr.",
+    "url": "https://roadtrippers.com/magazine/san-francisco-mosaic-stairways/"
+   },
+   {
+    "text": "The 52 concrete steps were built in 1916 and later transformed into mosaic artwork.",
+    "url": "https://roadtrippers.com/magazine/san-francisco-mosaic-stairways/"
+   }
+  ]
+ },
+ {
+  "name": "Tompkins Stairway Garden",
+  "area": "Bernal Heights",
+  "address": "200 Putnam St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sits one block above the Alemany Farmers' Market and Flea Market.",
+    "url": "https://ucanr.edu/site/uc-master-gardeners-san-mateo-san-francisco-counties/tompkins-stairway-garden"
+   },
+   {
+    "text": "A trash-strewn hillside became a garden of low-water plants with a tiled stairway.",
+    "url": "https://ucanr.edu/site/uc-master-gardeners-san-mateo-san-francisco-counties/tompkins-stairway-garden"
+   },
+   {
+    "text": "Neighbors led the cleanup, and Master Gardeners assist volunteers at monthly workdays.",
+    "url": "https://ucanr.edu/site/uc-master-gardeners-san-mateo-san-francisco-counties/tompkins-stairway-garden"
+   }
+  ]
+ },
+ {
+  "name": "Greenwich Steps",
+  "area": "Telegraph Hill",
+  "address": "Greenwich St at Sansome St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The stairs climb Telegraph Hill to the entrance of Coit Tower.",
+    "url": "https://www.sfgate.com/local/article/greenwich-steps-18295387.php"
+   },
+   {
+    "text": "A viewpoint at Greenwich and Montgomery looks to Treasure Island, Yerba Buena Island and the Bay Bridge.",
+    "url": "https://www.sfgate.com/local/article/greenwich-steps-18295387.php"
+   }
+  ]
+ },
+ {
+  "name": "Vulcan Steps",
+  "area": "Castro",
+  "address": "Vulcan Stairway, off Ord St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A public stairway serving private homes with tree- and flower-filled gardens.",
+    "url": "https://www.foundsf.org/Vulcan_and_Saturn_Steps"
+   },
+   {
+    "text": "Offers a scenic alternative route between the Castro and the Haight.",
+    "url": "https://www.foundsf.org/Vulcan_and_Saturn_Steps"
+   }
+  ]
+ },
+ {
+  "name": "Macondray Lane",
+  "area": "Russian Hill",
+  "address": "Macondray Ln, between Leavenworth St and Taylor St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Listed on the National Register of Historic Places in 1988 as the Russian Hill-Macondray Lane District.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane"
+   },
+   {
+    "text": "Inspired Barbary Lane in Armistead Maupin's Tales of the City.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane"
+   },
+   {
+    "text": "Views from the lane extend north to Alcatraz Island and the Bay.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane"
+   }
+  ]
+ },
+ {
+  "name": "Minnesota Street Project",
+  "area": "Dogpatch",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2016 in Dogpatch by Andy and Deborah Rappaport.",
+    "url": "https://en.wikipedia.org/wiki/Minnesota_Street_Project"
+   },
+   {
+    "text": "1275 Minnesota Street houses ten charter galleries, a restaurant and an atrium for public programs.",
+    "url": "https://en.wikipedia.org/wiki/Minnesota_Street_Project"
+   },
+   {
+    "text": "1240 Minnesota Street houses 35 private artist studios.",
+    "url": "https://en.wikipedia.org/wiki/Minnesota_Street_Project"
+   }
+  ]
+ },
+ {
+  "name": "Anglim Trimble Gallery",
+  "area": "Dogpatch",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Paule Anglim in the early 1970s.",
+    "url": "https://en.wikipedia.org/wiki/Anglim_Trimble_Gallery"
+   },
+   {
+    "text": "Renamed Anglim Trimble Gallery under director Shannon Trimble after Ed Gilbert died in 2020.",
+    "url": "https://en.wikipedia.org/wiki/Anglim_Trimble_Gallery"
+   },
+   {
+    "text": "Shows West Coast art movements and has been at Minnesota Street Project since spring 2016.",
+    "url": "https://en.wikipedia.org/wiki/Anglim_Trimble_Gallery"
+   }
+  ]
+ },
+ {
+  "name": "bitforms gallery",
+  "area": "Dogpatch",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in November 2001, showing artists working in digital, internet and new media art.",
+    "url": "https://www.artbasel.com/catalog/gallery/2915/bitforms-gallery"
+   },
+   {
+    "text": "Opened a San Francisco satellite at Minnesota Street Project in 2020 that became permanent in 2021.",
+    "url": "https://www.bitforms.art/exhibition/bitforms-gallery-sf"
+   }
+  ]
+ },
+ {
+  "name": "Casemore Kirkeby",
+  "area": "Dogpatch",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established a San Francisco presence in 2015 with a program on new methods of photography.",
+    "url": "https://www.platformart.com/galleries/casemore-kirkeby"
+   },
+   {
+    "text": "Holds annual thematic group exhibitions that stretch the definition of photography.",
+    "url": "https://www.platformart.com/galleries/casemore-kirkeby"
+   }
+  ]
+ },
+ {
+  "name": "Adrian Rosenfeld Gallery",
+  "area": "Dogpatch",
+  "address": "1150 25th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Adrian Rosenfeld, who left a major role at Matthew Marks Gallery to open it in San Francisco.",
+    "url": "https://www.sfchronicle.com/art/article/N-Y-art-gallerist-Adrian-Rosenfeld-to-open-9957172.php"
+   },
+   {
+    "text": "The entry is a library with walnut shelves of books on collecting and collectors.",
+    "url": "https://www.sfchronicle.com/art/article/N-Y-art-gallerist-Adrian-Rosenfeld-to-open-9957172.php"
+   }
+  ]
+ },
+ {
+  "name": "Jack Fischer Gallery",
+  "area": "Dogpatch",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Organizes mostly solo exhibitions, showing a majority of American artists.",
+    "url": "https://visualartsource.com/index2.php/venue/view/1326-jack-fischer-gallery"
+   }
+  ]
+ },
+ {
+  "name": "Orpheum Theatre",
+  "area": "Civic Center",
+  "address": "1192 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1926 as the Pantages Theatre, designed by B. Marcus Priteca.",
+    "url": "https://en.wikipedia.org/wiki/Orpheum_Theatre_(San_Francisco)"
+   },
+   {
+    "text": "The facade is patterned after a 12th-century French cathedral.",
+    "url": "https://en.wikipedia.org/wiki/Orpheum_Theatre_(San_Francisco)"
+   },
+   {
+    "text": "Designated San Francisco Landmark No. 94.",
+    "url": "https://noehill.com/sf/landmarks/sf094.asp"
+   }
+  ]
+ },
+ {
+  "name": "Curran Theatre",
+  "area": "Theater District",
+  "address": "445 Geary St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in February 1922 and named for its first owner, Homer Curran.",
+    "url": "https://en.wikipedia.org/wiki/Curran_Theatre"
+   },
+   {
+    "text": "Architect Alfred Henry Jacobs designed it.",
+    "url": "https://en.wikipedia.org/wiki/Curran_Theatre"
+   },
+   {
+    "text": "Hosted pre-Broadway runs including Fences in 1987 and Wicked in 2003.",
+    "url": "https://en.wikipedia.org/wiki/Curran_Theatre"
+   }
+  ]
+ },
+ {
+  "name": "Geary Theater (American Conservatory Theater)",
+  "area": "Theater District",
+  "address": "415 Geary St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1910 as the Columbia Theatre after the 1906 earthquake.",
+    "url": "https://theclio.com/entry/39997"
+   },
+   {
+    "text": "Designed by Bliss and Faville with a facade of yellow brick and glazed terra-cotta.",
+    "url": "https://noehill.com/sf/landmarks/sf082.asp"
+   },
+   {
+    "text": "Became the home of American Conservatory Theater in 1967.",
+    "url": "https://en.wikipedia.org/wiki/American_Conservatory_Theater"
+   }
+  ]
+ },
+ {
+  "name": "Marines' Memorial Theatre",
+  "area": "Theater District",
+  "address": "609 Sutter St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1926 as a 564-seat theatre.",
+    "url": "https://bartable.bart.gov/featured/marines-memorial-theatre-sf"
+   },
+   {
+    "text": "Former home of the Actors Workshop and American Conservatory Theatre.",
+    "url": "https://bartable.bart.gov/featured/marines-memorial-theatre-sf"
+   }
+  ]
+ },
+ {
+  "name": "Bottom of the Hill",
+  "area": "Potrero Hill",
+  "address": "1233 17th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/entertainment/article/bottom-of-the-hill-21273602.php",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "The Independent",
+  "area": "NoPa",
+  "address": "628 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in its current form on Feb. 27, 2004.",
+    "url": "https://www.sfchronicle.com/entertainment/article/independent-20th-anniversary-san-francisco-18624461.php"
+   },
+   {
+    "text": "The space was earlier the Half Note jazz club, the Kennel Club and the Justice League.",
+    "url": "https://www.7x7.com/the-jazzy-legacy-behind-the-independent-1786822617.html"
+   }
+  ]
+ },
+ {
+  "name": "Rickshaw Stop",
+  "area": "Hayes Valley",
+  "address": "155 Fell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in January 2004 on Fell Street in Hayes Valley.",
+    "url": "https://www.sfstation.com/rickshaw-stop-b1602"
+   },
+   {
+    "text": "The venue occupies a former TV studio with a mezzanine.",
+    "url": "https://www.sfstation.com/rickshaw-stop-b1602"
+   }
+  ]
+ },
+ {
+  "name": "The Warfield",
+  "area": "Mid-Market",
+  "address": "982 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened May 13, 1922 as Loew's Warfield, named for David Warfield.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   },
+   {
+    "text": "Designed by architect G. Albert Lansburgh in a Baroque style.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   },
+   {
+    "text": "Became a concert hall in 1979 with a run of Bob Dylan concerts.",
+    "url": "https://en.wikipedia.org/wiki/Warfield_Theatre"
+   }
+  ]
+ },
+ {
+  "name": "Regency Ballroom",
+  "area": "Van Ness",
+  "address": "1300 Van Ness Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1909 as a Scottish Rite Masonic temple designed by Albert Roller.",
+    "url": "https://en.wikipedia.org/wiki/Regency_Center"
+   },
+   {
+    "text": "Reopened as the Regency Center in 2002 after decades as a movie theater.",
+    "url": "https://en.wikipedia.org/wiki/Regency_Center"
+   }
+  ]
+ },
+ {
+  "name": "Bimbo's 365 Club",
+  "area": "North Beach",
+  "address": "1025 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started in 1931 as the 365 Club at 365 Market Street, founded by Agostino Giuntoli and Monk Young.",
+    "url": "https://en.wikipedia.org/wiki/Bimbo's_365_Club"
+   },
+   {
+    "text": "Moved to its Art Deco Columbus Avenue building in 1951.",
+    "url": "https://en.wikipedia.org/wiki/Bimbo's_365_Club"
+   },
+   {
+    "text": "The bar's girl-in-a-fishbowl illusion moved with the club and remains.",
+    "url": "https://en.wikipedia.org/wiki/Bimbo's_365_Club"
+   }
+  ]
+ },
+ {
+  "name": "Cafe du Nord",
+  "area": "Duboce Triangle",
+  "address": "2170 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Occupies the basement of the Swedish American Hall, completed in 1907 and designed by August Nordin.",
+    "url": "https://en.wikipedia.org/wiki/Cafe_Du_Nord"
+   },
+   {
+    "text": "Operated as a rock club from 1991 through 2014.",
+    "url": "https://en.wikipedia.org/wiki/Cafe_Du_Nord"
+   },
+   {
+    "text": "Reopened in 2015 as a cocktail bar, with live shows returning two years later.",
+    "url": "https://en.wikipedia.org/wiki/Cafe_Du_Nord"
+   }
+  ]
+ },
+ {
+  "name": "Neck of the Woods",
+  "area": "Inner Richmond",
+  "address": "406 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A two-story venue with a downstairs bar and an upstairs performance floor.",
+    "url": "https://mindtrip.ai/attraction/san-francisco-california/neck-woods/at-7FE0WkMp"
+   },
+   {
+    "text": "The location has hosted live bands since 1973.",
+    "url": "https://mindtrip.ai/attraction/san-francisco-california/neck-woods/at-7FE0WkMp"
+   }
+  ]
+ },
+ {
+  "name": "The Chapel",
+  "area": "Mission",
+  "address": "777 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in a 1914 building originally built as a mortuary.",
+    "url": "https://www.kalw.org/show/crosscurrents/2018-10-31/from-mortuary-to-music-venue-is-the-chapel-haunted"
+   },
+   {
+    "text": "Renovated by Bay Area developer and restaurateur Jack Knowles.",
+    "url": "https://www.sfstation.com/the-chapel-b38598992"
+   }
+  ]
+ },
+ {
+  "name": "Grandview Park",
+  "area": "Inner Sunset",
+  "address": "16th Ave at Moraga St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Also known as Turtle Hill.",
+    "url": "https://rovingvails.com/city-escapes/san-francisco/mosaic-stairs-grandview-park-views/"
+   },
+   {
+    "text": "The Moraga mosaic steps, made in 2005, were designed by Aileen Barr and Colette Crutcher.",
+    "url": "https://rovingvails.com/city-escapes/san-francisco/mosaic-stairs-grandview-park-views/"
+   },
+   {
+    "text": "The summit views take in the Pacific, the Marin Headlands and the length of Golden Gate Park.",
+    "url": "https://rovingvails.com/city-escapes/san-francisco/mosaic-stairs-grandview-park-views/"
+   }
+  ]
+ },
+ {
+  "name": "Corona Heights Park",
+  "area": "Castro",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 13.2-acre park with a craggy summit of about 520 feet above the Castro.",
+    "url": "https://en.wikipedia.org/wiki/Corona_Heights_Park"
+   },
+   {
+    "text": "Preserves exposed Franciscan chert bedrock and includes Bill Kraus Meadow and an off-leash dog area.",
+    "url": "https://en.wikipedia.org/wiki/Corona_Heights_Park"
+   },
+   {
+    "text": "The Randall Museum on its east side reopened in 2018 after a $9 million renovation.",
+    "url": "https://en.wikipedia.org/wiki/Corona_Heights_Park"
+   }
+  ]
+ },
+ {
+  "name": "Sutro Heights Park",
+  "area": "Outer Richmond",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Adolph Sutro bought 22 acres in 1881 overlooking the Cliff House and named the estate Sutro Heights.",
+    "url": "https://en.wikipedia.org/wiki/Sutro_Heights_Park"
+   },
+   {
+    "text": "Sutro opened the Italian-style gardens to the public in 1885.",
+    "url": "https://en.wikipedia.org/wiki/Sutro_Heights_Park"
+   },
+   {
+    "text": "Became a city park in 1938 and passed to the National Park Service in 1976.",
+    "url": "https://en.wikipedia.org/wiki/Sutro_Heights_Park"
+   }
+  ]
+ },
+ {
+  "name": "Ina Coolbrith Park",
+  "area": "Russian Hill",
+  "address": "Vallejo St at Taylor St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 0.8-acre terraced park named for Ina Coolbrith, California's first Poet Laureate.",
+    "url": "https://www.sfchronicle.com/totalsf/article/ina-coolbrith-park-sf-19524580.php"
+   },
+   {
+    "text": "Offers views of downtown, the Bay Bridge and the East Bay.",
+    "url": "https://www.sfgate.com/local/article/sf-ina-coolbrith-park-has-the-best-views-18189303.php"
+   }
+  ]
+ },
+ {
+  "name": "Black Point Historic Gardens",
+  "area": "Fort Mason",
+  "address": "Fort Mason, behind the General's Residence",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Gardens and pathways were developed on the site in the 1850s, with Jessie Fremont credited with starting them.",
+    "url": "https://www.parksconservancy.org/programs/black-point-historic-gardens"
+   },
+   {
+    "text": "Alcatraz prisoners built walls and paths here after the military reclaimed the land in 1863.",
+    "url": "https://www.parksconservancy.org/programs/black-point-historic-gardens"
+   },
+   {
+    "text": "Restoration began in 2017 with the Parks Conservancy and the National Park Service.",
+    "url": "https://www.parksconservancy.org/programs/black-point-historic-gardens"
+   }
+  ]
+ },
+ {
+  "name": "San Francisco Botanical Garden",
+  "area": "Golden Gate Park",
+  "address": "1199 9th Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 55-acre garden showing about 8,000 kinds of plants, opened in May 1940.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Botanical_Garden"
+   },
+   {
+    "text": "Funded by a 1927 bequest from Helene Strybing, with planting begun in 1937 using WPA funds.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Botanical_Garden"
+   },
+   {
+    "text": "A stone courtyard near the 9th Avenue entrance uses stones from Hearst's Spanish monastery.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Botanical_Garden"
+   }
+  ]
+ },
+ {
+  "name": "Blue Heron Lake (formerly Stow Lake)",
+  "area": "Golden Gate Park",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Created in 1893 as a boating lake and reservoir for park irrigation.",
+    "url": "https://www.sftourismtips.com/stow-lake.html"
+   },
+   {
+    "text": "A 12-acre lake circling Strawberry Hill Island.",
+    "url": "https://www.sftourismtips.com/stow-lake.html"
+   },
+   {
+    "text": "Collis P. Huntington donated $25,000 for Huntington Falls.",
+    "url": "https://www.sftourismtips.com/stow-lake.html"
+   }
+  ]
+ },
+ {
+  "name": "Red Window",
+  "area": "North Beach",
+  "address": "500 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Spanish-style tapas and pintxos with low-proof cocktails built on vermouth, amaro and sherry.",
+    "url": "https://www.7x7.com/first-taste-red-window-restaurant-north-beach-sf-2651273484.html"
+   },
+   {
+    "text": "Run by bar manager Elmer Mejicanos and chef Adam Rosenblum, a Causwells alum.",
+    "url": "https://www.7x7.com/first-taste-red-window-restaurant-north-beach-sf-2651273484.html"
+   }
+  ]
+ },
+ {
+  "name": "Li Po Cocktail Lounge",
+  "area": "Chinatown",
+  "address": "916 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has operated at 916 Grant Avenue since 1937.",
+    "url": "https://www.sfgate.com/food/article/san-francisco-chinatown-dive-bar-17509928.php"
+   },
+   {
+    "text": "Known for a house Chinese Mai Tai made with baijiu.",
+    "url": "https://www.timeout.com/san-francisco/bars/li-po"
+   }
+  ]
+ },
+ {
+  "name": "Moongate Lounge",
+  "area": "Chinatown",
+  "address": "28 Waverly Pl",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened above Mister Jiu's by the same team.",
+    "url": "https://www.sfchronicle.com/food/article/Mister-Jiu-s-sequel-Moongate-Lounge-opens-in-13664777.php"
+   },
+   {
+    "text": "Its menu of six cocktails follows the Chinese agrarian calendar and rotates every two to three weeks.",
+    "url": "https://www.sfweekly.com/dining/fly-to-the-moongate-lounge-atop-mister-jius-in-sf-chinatown/article_c0e19ed9-75f6-4f21-8ddb-90cbf546665c.html"
+   }
+  ]
+ },
+ {
+  "name": "The Snug",
+  "area": "Pacific Heights",
+  "address": "2301 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/the-snug-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]

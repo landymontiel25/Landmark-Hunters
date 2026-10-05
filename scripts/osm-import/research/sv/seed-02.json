@@ -1,0 +1,433 @@
+[
+ {
+  "name": "Plaza de Cesar Chavez",
+  "area": "Downtown San Jose",
+  "address": "Market Street",
+  "leads": [
+   {
+    "list": "Visit San Jose",
+    "year": null,
+    "url": "https://www.sanjoseca.gov/your-government/departments-offices/cultural-affairs/special-events/venues-contacts-resources/venues"
+   }
+  ]
+ },
+ {
+  "name": "Triton Museum of Art",
+  "area": "Santa Clara",
+  "address": "1505 Warburton Ave",
+  "leads": [
+   {
+    "list": "Santa Clara city museums",
+    "year": null,
+    "url": "https://www.santaclaraca.gov/recreation-community/visit-santa-clara/museums"
+   }
+  ]
+ },
+ {
+  "name": "Sunnyvale Heritage Park Museum",
+  "area": "Sunnyvale",
+  "address": "570 E. Remington Dr",
+  "leads": [
+   {
+    "list": "Sunnyvale museums",
+    "year": null,
+    "url": "https://en.wikipedia.org/wiki/Sunnyvale_Heritage_Park_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Orchard Heritage Park",
+  "area": "Sunnyvale",
+  "address": "Next to Heritage Park Museum",
+  "leads": [
+   {
+    "list": "Sunnyvale museums",
+    "year": null,
+    "url": "https://en.wikipedia.org/wiki/Sunnyvale_Heritage_Park_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Sunnyvale Theatre (Sunnyvale Community Players)",
+  "area": "Sunnyvale",
+  "address": null,
+  "leads": [
+   {
+    "list": "Sunnyvale performing arts",
+    "year": null,
+    "url": "https://www.sunnyvale.ca.gov/recreation-and-community/community-centers/community-center"
+   }
+  ]
+ },
+ {
+  "name": "Cupertino Historical Society & Museum",
+  "area": "Cupertino",
+  "address": "10185 N. Stelling Rd, Quinlan Community Center",
+  "leads": [
+   {
+    "list": "Santa Clara County museums",
+    "year": null,
+    "url": "https://nahc.ca.gov/santa-clara-county-museums/"
+   }
+  ]
+ },
+ {
+  "name": "Los Altos History Museum",
+  "area": "Los Altos",
+  "address": null,
+  "leads": [
+   {
+    "list": "Los Altos museums",
+    "year": null,
+    "url": "https://en.wikipedia.org/wiki/Los_Altos_History_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Protégé",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin 1 star",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   }
+  ]
+ },
+ {
+  "name": "Ettan",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan"
+   }
+  ]
+ },
+ {
+  "name": "Ethel's Fancy",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ethel-s-fancy"
+   }
+  ]
+ },
+ {
+  "name": "Evvia",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/evvia"
+   }
+  ]
+ },
+ {
+  "name": "Vina Enoteca",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurants"
+   }
+  ]
+ },
+ {
+  "name": "Zola",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurants"
+   }
+  ]
+ },
+ {
+  "name": "Madera",
+  "area": "Menlo Park",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurants"
+   }
+  ]
+ },
+ {
+  "name": "Flea St. Cafe",
+  "area": "Menlo Park",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurants"
+   }
+  ]
+ },
+ {
+  "name": "Eylan",
+  "area": "Menlo Park",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin Bib Gourmand",
+    "year": 2025,
+    "url": "https://www.almanacnews.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/"
+   },
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "Yeobo, Darling",
+  "area": "Menlo Park",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": 2026,
+    "url": "https://www.almanacnews.com/menlo-park/2026/03/25/yeobo-darling-menlo-park-michelin-guide/"
+   }
+  ]
+ },
+ {
+  "name": "Aurum",
+  "area": "Los Altos",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurants"
+   }
+  ]
+ },
+ {
+  "name": "Selby's",
+  "area": "Atherton",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin 1 star",
+    "year": 2025,
+    "url": "https://www.almanacnews.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/"
+   }
+  ]
+ },
+ {
+  "name": "Chez TJ",
+  "area": "Mountain View",
+  "address": null,
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": 2025,
+    "url": "https://www.mv-voice.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/"
+   }
+  ]
+ },
+ {
+  "name": "Alexander's Steakhouse",
+  "area": "Cupertino",
+  "address": "19379 Stevens Creek Blvd",
+  "leads": [
+   {
+    "list": "Michelin recommended",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse"
+   }
+  ]
+ },
+ {
+  "name": "Petiscos",
+  "area": "Downtown San Jose",
+  "address": "399 S. 1st St.",
+  "leads": [
+   {
+    "list": "Michelin Bib Gourmand",
+    "year": null,
+    "url": "https://guide.michelin.com/us/en/california/san-jose/restaurant/petiscos"
+   }
+  ]
+ },
+ {
+  "name": "Kunjip",
+  "area": "Santa Clara",
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2025,
+    "url": "https://www.sfchronicle.com/projects/2025/top-100-best-restaurants-san-francisco-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "Mrs Khan Uyghur Cuisine",
+  "area": "Menlo Park",
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2025,
+    "url": "https://www.sfchronicle.com/projects/2025/top-100-best-restaurants-san-francisco-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "La Bodeguita del Medio",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Flea Street",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   },
+   {
+    "list": "SFGate Silicon Valley restaurants",
+    "year": null,
+    "url": "https://www.sfgate.com/food/article/flea-street-restaurant-silicon-valley-billionaires-19821178.php",
+    "note": "SFGate says Mark Zuckerberg met Sheryl Sandberg at Flea Street when recruiting her to Facebook and Sand Hill Road venture capitalists are among its clientele."
+   }
+  ]
+ },
+ {
+  "name": "Ada's Cafe",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Douce France",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Tamarine Restaurant & Gallery",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Zareen's",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Terùn",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Palo Alto Sol",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Sundance The Steakhouse",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Fuki Sushi",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ },
+ {
+  "name": "Lotus Thai Bistro",
+  "area": "Palo Alto",
+  "address": null,
+  "leads": [
+   {
+    "list": "Palo Alto Online Best Of 2025",
+    "year": 2025,
+    "url": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/"
+   }
+  ]
+ }
+]

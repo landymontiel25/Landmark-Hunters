@@ -1,0 +1,886 @@
+[
+ {
+  "name": "Four Kings",
+  "area": "Chinatown",
+  "address": "710 Commercial St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened after a year of sold-out pop-ups, serving Cantonese dishes like fried squab and XO butter escargot.",
+    "url": "https://www.itsfourkings.com/about"
+   },
+   {
+    "text": "Chef Franky Ho previously cooked at Mister Jiu's, where he became chef de cuisine at age 28.",
+    "url": "https://www.itsfourkings.com/about"
+   },
+   {
+    "text": "Named a Top 100 restaurant by the San Francisco Chronicle.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/four-kings-fun-sf-20176208.php"
+   }
+  ]
+ },
+ {
+  "name": "Flour + Water",
+  "area": "Mission District",
+  "address": "2401 Harrison St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2009 in the Mission District, with a menu influenced by traditions throughout Italy and California.",
+    "url": "https://www.flourandwater.com/"
+   },
+   {
+    "text": "Led by co-chefs Thomas McNaughton and Ryan Pollnow.",
+    "url": "https://www.flourandwater.com/"
+   },
+   {
+    "text": "Focuses on fresh handmade pastas formed at its Pasta Shop, plus Neapolitan-style pizzas.",
+    "url": "https://www.flourandwater.com/"
+   },
+   {
+    "text": "Published a pasta cookbook.",
+    "url": "https://www.flourandwater.com/"
+   }
+  ]
+ },
+ {
+  "name": "La Taqueria",
+  "area": "Mission District",
+  "address": "2889 Mission St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1973 on Mission Street between 24th and 25th.",
+    "url": "https://en.wikipedia.org/wiki/La_Taqueria"
+   },
+   {
+    "text": "Named one of America's Classics by the James Beard Foundation in 2017.",
+    "url": "https://en.wikipedia.org/wiki/La_Taqueria"
+   },
+   {
+    "text": "Serves Mission-style burritos whose recipes do not include rice.",
+    "url": "https://en.wikipedia.org/wiki/La_Taqueria"
+   }
+  ]
+ },
+ {
+  "name": "Kin Khao",
+  "area": "Union Square",
+  "address": "55 Cyril Magnin St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2014 by chef-owner Pim Techamuanvivit.",
+    "url": "https://en.wikipedia.org/wiki/Kin_Khao"
+   },
+   {
+    "text": "Received a Michelin star in 2015, a year after opening.",
+    "url": "https://en.wikipedia.org/wiki/Kin_Khao"
+   }
+  ]
+ },
+ {
+  "name": "Hilda and Jesse",
+  "area": "North Beach",
+  "address": "701 Union St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/hilda-and-jesse"
+   },
+   {
+    "text": "The name honors the grandparents of co-owners Ollie Liedags and Rachel Sillcocks.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/hilda-and-jesse"
+   },
+   {
+    "text": "Serves a surprise tasting menu with brunch-focused cooking.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/hilda-and-jesse"
+   }
+  ]
+ },
+ {
+  "name": "Lazy Bear",
+  "area": "Mission District",
+  "address": "3416 19th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began in 2009 as an underground restaurant in chef David Barzelay's apartment.",
+    "url": "https://www.lazybearsf.com/story/"
+   },
+   {
+    "text": "Moved to its current Mission District location in 2014.",
+    "url": "https://www.lazybearsf.com/story/"
+   },
+   {
+    "text": "Holds two Michelin stars.",
+    "url": "https://www.lazybearsf.com/story/"
+   },
+   {
+    "text": "Chef David Barzelay was named a Best New Chef by Food & Wine in 2016.",
+    "url": "https://www.lazybearsf.com/story/"
+   }
+  ]
+ },
+ {
+  "name": "Via Aurelia",
+  "area": "Mission Rock",
+  "address": "300 Toni Stone Xing, Suite A",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2025 from the team behind Che Fico.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/via-aurelia-restaurant-21044787.php"
+   },
+   {
+    "text": "Serves Tuscan fine dining at Mission Rock.",
+    "url": "https://www.opentable.com/blog/via-aurelia-sf/"
+   }
+  ]
+ },
+ {
+  "name": "Quince",
+  "area": "Jackson Square",
+  "address": "470 Pacific Ave",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds three Michelin stars in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/quince"
+   },
+   {
+    "text": "Founded in 2003 and run by Michael and Lindsay Tusk.",
+    "url": "https://www.quincerestaurant.com/"
+   },
+   {
+    "text": "Serves nightly-changing tasting menus built on a partnership with Fresh Run Farm in Bolinas.",
+    "url": "https://www.quincerestaurant.com/"
+   }
+  ]
+ },
+ {
+  "name": "Abacá",
+  "area": "Fisherman's Wharf",
+  "address": "2700 Jones St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Filipino-Californian restaurant led by chef Francis Ang and director of operations Dian Ang.",
+    "url": "https://www.restaurantabaca.com/"
+   },
+   {
+    "text": "Spin-off of chef Francis Ang's pop-up Pinoy Heritage.",
+    "url": "https://www.restaurantabaca.com/"
+   },
+   {
+    "text": "Has a Panaderia Abacá counter for pastries and ensaymada.",
+    "url": "https://www.restaurantabaca.com/"
+   }
+  ]
+ },
+ {
+  "name": "Sotto Mare",
+  "area": "North Beach",
+  "address": "552 Green St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The building dates to 1919 and was a winery and cigar store during Prohibition.",
+    "url": "https://www.sottomaresf.com/about"
+   },
+   {
+    "text": "Opened as Sotto Mare Oysteria & Seafood on March 17, 2007.",
+    "url": "https://www.sottomaresf.com/about"
+   },
+   {
+    "text": "The Azzolino family bought the restaurant in 2014.",
+    "url": "https://www.sottomaresf.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Nisei",
+  "area": "Polk Gulch",
+  "address": "2316 Polk St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nisei"
+   },
+   {
+    "text": "Chef-owner David Yoshimura is nisei himself, an American-born child of Japanese immigrants.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nisei"
+   }
+  ]
+ },
+ {
+  "name": "China Live",
+  "area": "Chinatown",
+  "address": "644 Broadway",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by George and Cindy Chen as a large Chinese marketplace with restaurants and bars.",
+    "url": "https://en.wikipedia.org/wiki/China_Live"
+   },
+   {
+    "text": "George Chen was previously involved in Betelnut, Xanadu and Shanghai 1930.",
+    "url": "https://en.wikipedia.org/wiki/China_Live"
+   }
+  ]
+ },
+ {
+  "name": "Mister Jiu's",
+  "area": "Chinatown",
+  "address": "28 Waverly Pl",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has held one Michelin star for nine consecutive years.",
+    "url": "https://www.misterjius.com/about"
+   },
+   {
+    "text": "Chef-owner Brandon Jew won the 2022 James Beard Award for Best Chef: California.",
+    "url": "https://www.misterjius.com/about"
+   },
+   {
+    "text": "Housed in a landmark building that once held the Four Seas and Hang Far Low restaurants.",
+    "url": "https://www.misterjius.com/about"
+   }
+  ]
+ },
+ {
+  "name": "House of Prime Rib",
+  "area": "Nob Hill",
+  "address": "1906 Van Ness Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The original House of Prime Rib opened in 1949.",
+    "url": "https://houseofprimerib.net/"
+   },
+   {
+    "text": "Serves 21-day aged prime rib in the English tradition.",
+    "url": "https://houseofprimerib.net/"
+   }
+  ]
+ },
+ {
+  "name": "Boulevard",
+  "area": "Embarcadero",
+  "address": "1 Mission St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef and owner Nancy Oakes opened it in 1993 in the Audiffred building on the Embarcadero.",
+    "url": "https://www.boulevardrestaurant.com/about/"
+   },
+   {
+    "text": "Nancy Oakes won the 2001 James Beard Award for Best Chef: California.",
+    "url": "https://www.boulevardrestaurant.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Sons & Daughters",
+  "area": "Mission District",
+  "address": "2875 18th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds two Michelin stars in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sons-daughters"
+   },
+   {
+    "text": "Reopened in November 2025 in the former Osito space on 18th Street in the Mission.",
+    "url": "https://sfist.com/2025/11/05/sons-daughters-debuts-new-digs-in-the-former-osito-space-this-weekend/"
+   },
+   {
+    "text": "Described as San Francisco's only New Nordic restaurant.",
+    "url": "https://sfstandard.com/2026/03/14/sons-and-daughters-new-nordic-michelin-stars/"
+   }
+  ]
+ },
+ {
+  "name": "Octavia",
+  "area": "Lower Pacific Heights",
+  "address": "1701 Octavia St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2015 as the second restaurant from chef-owner Melissa Perello.",
+    "url": "https://guide.michelin.com/us/en/article/people/melissa-perello-chef-octavia-san-francisco"
+   },
+   {
+    "text": "Was awarded a Michelin star within its first year of business.",
+    "url": "https://guide.michelin.com/us/en/article/people/melissa-perello-chef-octavia-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Mandalay",
+  "area": "Richmond District",
+  "address": "4348 California St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on February 4, 1984 and is the oldest running Burmese restaurant in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)"
+   },
+   {
+    "text": "Named an America's Classic by the James Beard Foundation in 2024.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)"
+   },
+   {
+    "text": "Serves tea leaf salad, paratha, mohinga and samusa soup.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)"
+   }
+  ]
+ },
+ {
+  "name": "Birdbox",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.birdsongsf.com/birdbox",
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Aziza",
+  "area": "Richmond District",
+  "address": "5800 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Aziza was the first Moroccan restaurant in the United States to earn a Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/aziza"
+   },
+   {
+    "text": "Chef Mourad Lahlou serves Moroccan cooking with California ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/aziza"
+   }
+  ]
+ },
+ {
+  "name": "Californios",
+  "area": "SoMa",
+  "address": "355 11th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Awarded three Michelin stars in 2026, the first Mexican restaurant in the world to earn three.",
+    "url": "https://guide.michelin.com/us/en/article/michelin-guide-ceremony/how-californios-became-the-first-three-michelin-star-mexican-restaurant-in-the-world"
+   },
+   {
+    "text": "Chef Val Cantu cooks Mexican flavors with a Californian flair.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/californios"
+   }
+  ]
+ },
+ {
+  "name": "Izakaya Rintaro",
+  "area": "Mission District",
+  "address": "82 14th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand by the MICHELIN Guide in 2026.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/izakaya-rintaro"
+   },
+   {
+    "text": "Wood-framed booths are made from redwood wine casks, with a Hinoki cedar bar.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/izakaya-rintaro"
+   },
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2017.",
+    "url": "https://projects.sfchronicle.com/2017/top-100-restaurants/izakaya-rintaro/"
+   }
+  ]
+ },
+ {
+  "name": "Beit Rima",
+  "area": "Duboce Triangle",
+  "address": "138 Church St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Created by a son who reinvented his father's burger joint to showcase their Palestinian heritage.",
+    "url": "https://www.beitrimasf.com/"
+   },
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2019.",
+    "url": "https://beitrimasf.com/accolades/"
+   },
+   {
+    "text": "Serves Palestinian and Levantine dishes such as hummus, falafel and musakhan.",
+    "url": "https://www.beitrimasf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Prubechu",
+  "area": "Mission District",
+  "address": "2224 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started in 2014 by chef Shawn Naputi and business partner Shawn Camacho, both raised on Guam.",
+    "url": "https://www.prubechu.com/"
+   },
+   {
+    "text": "Serves classic flavors from Guam and the Mariana Islands.",
+    "url": "https://www.prubechu.com/"
+   },
+   {
+    "text": "Described in 2020 as San Francisco's only Chamorro restaurant.",
+    "url": "https://peninsulapress.com/2020/12/01/san-franciscos-only-chamorro-restaurant-persists-amid-pandemic/"
+   }
+  ]
+ },
+ {
+  "name": "San Ho Won",
+  "area": "Mission District",
+  "address": "2170 Bryant St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/san-ho-won"
+   },
+   {
+    "text": "Korean restaurant with chefs Corey Lee and Jeong-In Hwang.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/san-ho-won"
+   }
+  ]
+ },
+ {
+  "name": "True Laurel",
+  "area": "Mission District",
+  "address": "753 Alabama St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named The Best Bar in North America in the 2026 North America's 50 Best Bars.",
+    "url": "https://www.theworlds50best.com/bars/best-in-north-america/the-list/true-laurel.html"
+   },
+   {
+    "text": "Comes from the team behind Lazy Bear.",
+    "url": "https://www.theworlds50best.com/bars/best-in-north-america/the-list/true-laurel.html"
+   },
+   {
+    "text": "Bar director Nicolas Torres builds science-forward cocktails around local flora.",
+    "url": "https://www.theworlds50best.com/bars/best-in-north-america/the-list/true-laurel.html"
+   }
+  ]
+ },
+ {
+  "name": "Besharam",
+  "area": "Dogpatch",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 inside the Minnesota Street Project, led by chef Heena Patel.",
+    "url": "https://besharamrestaurant.com/about.html"
+   },
+   {
+    "text": "Besharam is Gujarati for shameless; the menu pairs Gujarati vegetarian cooking with California ingredients.",
+    "url": "https://besharamrestaurant.com/about.html"
+   },
+   {
+    "text": "Named Eater San Francisco's Restaurant of the Year in 2019.",
+    "url": "https://besharamrestaurant.com/about.html"
+   }
+  ]
+ },
+ {
+  "name": "Chisai Sushi Club",
+  "area": "Bernal Heights",
+  "address": "3369 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef and owner Erik Aplin opened it in September 2021.",
+    "url": "https://chisaisushiclub.com/about-us/"
+   },
+   {
+    "text": "Serves omakase in a 22-seat dining room, including an all-vegetarian 13-course option.",
+    "url": "https://chisaisushiclub.com/about-us/"
+   }
+  ]
+ },
+ {
+  "name": "Esmeralda Slide Park",
+  "area": "Bernal Heights",
+  "address": "Winfield St and Esmeralda Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The metal slides were built in 1979 beside the Esmeralda street stairs.",
+    "url": "https://www.atlasobscura.com/places/winfield-street-slides"
+   },
+   {
+    "text": "At the dedication, Mayor Dianne Feinstein raced supervisor Lee Dolson down the slides.",
+    "url": "https://www.atlasobscura.com/places/winfield-street-slides"
+   },
+   {
+    "text": "Community volunteers saved the slides from dismantling in 1997-98.",
+    "url": "https://www.atlasobscura.com/places/winfield-street-slides"
+   }
+  ]
+ },
+ {
+  "name": "Wood Line",
+  "area": "Presidio",
+  "address": "Lovers' Lane, Presidio",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Andy Goldsworthy's 1,200-foot sculpture of eucalyptus branches, completed in 2011.",
+    "url": "https://presidio.gov/explore/attractions/andy-goldsworthys-wood-line"
+   },
+   {
+    "text": "Built from branches cleared in the Presidio's forest rejuvenation program.",
+    "url": "https://presidio.gov/explore/attractions/andy-goldsworthys-wood-line"
+   },
+   {
+    "text": "Intended to fade back into the earth over time.",
+    "url": "https://presidio.gov/explore/attractions/andy-goldsworthys-wood-line"
+   }
+  ]
+ },
+ {
+  "name": "Audium Theatre of Sound-Sculptured Space",
+  "area": "Lower Pacific Heights",
+  "address": "1616 Bush St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Created by composer Stanley Shaff and equipment designer Doug McEachern, and co-founded in 1967.",
+    "url": "https://www.audium.org/stan-shaff-looking-ahead/"
+   },
+   {
+    "text": "Constructed specifically for sound movement, with a 176-speaker space.",
+    "url": "https://www.audium.org/stan-shaff-looking-ahead/"
+   }
+  ]
+ },
+ {
+  "name": "Institute of Illegal Images",
+  "area": "Mission District",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Home of Mark McCloud's collection of acid blotter art, housed in a Victorian in the Mission District.",
+    "url": "https://www.atlasobscura.com/places/institute-illegal-images"
+   },
+   {
+    "text": "Mark McCloud's gallery of chemically inactive blotter sheets is open by appointment.",
+    "url": "https://www.atlasobscura.com/places/institute-illegal-images"
+   }
+  ]
+ },
+ {
+  "name": "Peephole Cinema",
+  "area": "Mission District",
+  "address": "280 Orange Alley",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2013 by animator Laurie O'Brien, with a peephole in the wall of her home.",
+    "url": "https://en.wikipedia.org/wiki/Peephole_Cinema"
+   },
+   {
+    "text": "Shows short silent films through a peephole, free and available around the clock.",
+    "url": "https://en.wikipedia.org/wiki/Peephole_Cinema"
+   },
+   {
+    "text": "Operated until 2020 and reopened in 2025.",
+    "url": "https://en.wikipedia.org/wiki/Peephole_Cinema"
+   }
+  ]
+ },
+ {
+  "name": "Paxton Gate",
+  "area": "Mission District",
+  "address": "824 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1992 by Sean Quigley and named after the British gardener Sir Joseph Paxton.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate"
+   },
+   {
+    "text": "Moved from Stevenson Street to Valencia Street in 1999.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate"
+   },
+   {
+    "text": "Sells natural science curiosities, taxidermy and carnivorous plants.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate"
+   }
+  ]
+ },
+ {
+  "name": "Bix",
+  "area": "Jackson Square",
+  "address": "56 Gold St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Doug \"Bix\" Biederbeck founded it in 1988 in an alley off Montgomery Street.",
+    "url": "https://bixrestaurant.com/"
+   },
+   {
+    "text": "Serves modern American cuisine with live jazz in a two-story dining room.",
+    "url": "https://bixrestaurant.com/"
+   }
+  ]
+ }
+]
