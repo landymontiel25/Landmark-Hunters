@@ -318,7 +318,8 @@ async function handler(req, res) {
       profileParts.push('RATING HISTORY: none yet.');
     }
     if (interests.length) profileParts.push(`Saved interests: ${interests.join(', ')}`);
-    // Per-city category scores learned from ratings (src/lib/tagScores.js),
+    // Category scores learned from ratings (src/lib/tagScores.js), one
+    // overall set ("all") or, for older accounts, per city,
     // and the time-slot table for weighing them by when a plan is for.
     const tagLines = Object.entries(taste.tagScoreSummary && typeof taste.tagScoreSummary === 'object' ? taste.tagScoreSummary : {})
       .slice(0, 3)
@@ -334,7 +335,7 @@ async function handler(req, res) {
       .filter(Boolean);
     if (tagLines.length) {
       profileParts.push(
-        'TAG SCORES (learned per city from their ratings; about -100 to 150, higher = stronger, negative = dislikes):\n' +
+        'TAG SCORES (learned from their ratings; "all" is their one overall taste, the same in every city; about -100 to 150, higher = stronger, negative = dislikes):\n' +
           tagLines.join('\n')
       );
     }

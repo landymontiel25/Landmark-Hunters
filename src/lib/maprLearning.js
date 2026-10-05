@@ -13,7 +13,7 @@ import {
   RATING_TAG_DELTA,
   TAP_TAG_DELTA,
 } from './maprConstants.js';
-import { applyRating, applyTagDeltas, applyVote, revertRating, revertTagDeltas, revertVote } from './tagScores.js';
+import { applyRating, applyTagDeltas, applyVote, revertRating, revertTagDeltas, revertVote, GLOBAL_TASTE, hasGlobalTaste } from './tagScores.js';
 import { commentTagDeltas } from './commentSignals.js';
 import { reasonKind } from './rerating.js';
 
@@ -218,29 +218,32 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
     Object.assign(m.counts, r.counts || {});
     if (Object.keys(r.scores || {}).length) touched = true;
   };
+  // Every change also lands in the one overall taste (GLOBAL_TASTE) once the
+  // account has it, the same way, so undoing an edit stays exact there too.
+  const keysFor = (r) => (hasGlobalTaste(user) ? [r, GLOBAL_TASTE] : [r]);
+  const apply = (r, op) => {
+    for (const k of keysFor(r)) {
+      const m = get(k);
+      merge(m, op(m));
+    }
+  };
   if (tapChanged && old.tap?.delta && old.tap.region) {
-    const m = get(old.tap.region);
-    merge(m, revertVote(m, old.tap.categories, old.tap.delta));
+    apply(old.tap.region, (m) => revertVote(m, old.tap.categories, old.tap.delta));
   }
   if (typeChanged && old.rating?.region) {
-    const m = get(old.rating.region);
-    merge(m, revertRating(m, old.rating.categories, old.rating.tier, old.rating.frequency, old.rating.factor, old.rating.delta));
+    apply(old.rating.region, (m) => revertRating(m, old.rating.categories, old.rating.tier, old.rating.frequency, old.rating.factor, old.rating.delta));
   }
   if (commentChanged && old.comment.region && Object.keys(old.comment.deltas).length) {
-    const m = get(old.comment.region);
-    merge(m, revertTagDeltas(m, old.comment.deltas));
+    apply(old.comment.region, (m) => revertTagDeltas(m, old.comment.deltas));
   }
   if (typeChanged && typeSpec?.region) {
-    const m = get(region);
-    merge(m, applyRating(m, typeSpec.categories, typeSpec.tier, nowMs, typeSpec.frequency, typeSpec.factor, typeSpec.delta));
+    apply(region, (m) => applyRating(m, typeSpec.categories, typeSpec.tier, nowMs, typeSpec.frequency, typeSpec.factor, typeSpec.delta));
   }
   if (tapChanged && newTap?.delta && region) {
-    const m = get(region);
-    merge(m, applyVote(m, newTap.categories, VERDICT_OF_LEVEL[newTap.level], nowMs, newTap.delta));
+    apply(region, (m) => applyVote(m, newTap.categories, VERDICT_OF_LEVEL[newTap.level], nowMs, newTap.delta));
   }
   if (commentChanged && region && Object.keys(commentTypeDeltas).length) {
-    const m = get(region);
-    merge(m, applyTagDeltas(m, commentTypeDeltas, nowMs));
+    apply(region, (m) => applyTagDeltas(m, commentTypeDeltas, nowMs));
   }
   let userPatch = null;
   if (touched) {
