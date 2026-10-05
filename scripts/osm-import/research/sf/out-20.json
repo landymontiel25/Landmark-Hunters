@@ -1,0 +1,439 @@
+[
+ {
+  "id": "osm-w43100742",
+  "name": "Victoria Manalo Draves Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an athletic field, baseball diamond, community garden, basketball court and playground.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Victoria-Manalo-Draves-Park-386"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85891396",
+  "name": "Walter Haas Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a playground, an outdoor basketball court, a reservable picnic area and an off-leash dog play area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Walter-Haas-Playground-387"
+   }
+  ]
+ },
+ {
+  "id": "osm-w27239292",
+  "name": "Warm Water Cove Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A small waterfront park in the Dogpatch with a paved path through a grove of trees, picnic seating and a fishing pier.",
+    "url": "https://www.sfport.com/warmwatercove"
+   },
+   {
+    "text": "Part of the Blue Greenway, managed by the Port of San Francisco.",
+    "url": "https://www.sfport.com/warmwatercove"
+   }
+  ]
+ },
+ {
+  "id": "osm-w86124618",
+  "name": "West Portal Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a children's play area, tennis courts, an off-leash dog play area, a community room and a reservable picnic area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/West-Portal-Playground-389"
+   },
+   {
+    "text": "A renovation with new play equipment, accessible surfacing and a nature nook was completed in October 2020.",
+    "url": "https://sfrecpark.org/1131/West-Portal-Playground-Renovation-Projec"
+   }
+  ]
+ },
+ {
+  "id": "osm-w86124624",
+  "name": "West Sunset Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a clubhouse, children's play area, tennis and basketball courts, a baseball diamond and athletic fields.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/West-Sunset-Playground-391"
+   },
+   {
+    "text": "Renovation of the sports courts, turf fields, bleachers and restrooms was completed in November 2017.",
+    "url": "https://sfrecpark.org/580/West-Sunset-Playground"
+   }
+  ]
+ },
+ {
+  "id": "osm-w389262420",
+  "name": "Yik Oi Huang Peace and Friendship Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Formerly Visitacion Valley Playground; renamed in 2022 to honor community advocate Yik Oi Huang.",
+    "url": "https://sfrecpark.org/CivicAlerts.aspx?AID=727"
+   },
+   {
+    "text": "Has a playground, basketball court, baseball diamond, multipurpose field and a clubhouse.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Yik-Oi-Huang-Peace-Friendship-Park-Visit-270"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1052927678",
+  "name": "Yosemite Slough",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Part of Candlestick Point State Recreation Area, restored as a Living Shoreline wetland for birds and wildlife.",
+    "url": "https://www.calparks.org/blog/celebrating-yosemite-slough"
+   }
+  ]
+ },
+ {
+  "id": "osm-w86303734",
+  "name": "Youngblood-Coleman Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has lit artificial turf soccer and softball fields, a baseball diamond, tennis and basketball courts, and a playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Youngblood-Coleman-Playground-273"
+   },
+   {
+    "text": "Home of Bayview United Soccer Club, described as the city's first primarily Black youth soccer team.",
+    "url": "https://sfrecpark.org/1895/Bayview-United-Soccer-Club"
+   }
+  ]
+ },
+ {
+  "id": "osm-r4792985",
+  "name": "Cox Stadium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Home to San Francisco State soccer and track and field, with a natural grass playing surface.",
+    "url": "https://sfstategators.com/facilities/cox-stadium/2"
+   },
+   {
+    "text": "The track was resurfaced in 2019 and the bleachers were upgraded in 2022.",
+    "url": "https://sfstategators.com/facilities/cox-stadium/2"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9536469196",
+  "name": "101 Music",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Chronicle article says Grant Ave store stayed open when the Green St store closed; article is older.",
+  "facts": [
+   {
+    "text": "The Grant Avenue store has operated since 1985; a second store on Green Street closed after 24 years.",
+    "url": "https://www.sfchronicle.com/business/article/101-Music-record-store-to-shutter-one-of-two-13581982.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260241908",
+  "name": "1015 Folsom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The building was a gay bathhouse until a 1984 city order shut it down, then became the dance club Das Klub in 1986.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   },
+   {
+    "text": "Reopened as 1015 Folsom in 1989, days before the Loma Prieta earthquake.",
+    "url": "https://en.wikipedia.org/wiki/1015_Folsom"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4425675189",
+  "name": "111 Minna Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An art gallery and event space that holds art exhibitions and has two bars.",
+    "url": "https://111minnagallery.com/"
+   },
+   {
+    "text": "Won Best Art Gallery from SF Weekly in 2018 and 2019.",
+    "url": "https://111minnagallery.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n366713190",
+  "name": "15 Romolo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Closed for renovation since 2024; SF Standard (Jan 2026 article, Oct 2026 update) says it is reopening, so not permanently closed.",
+  "facts": [
+   {
+    "text": "Occupies a building that was once a brothel and later a boarding house called the Basque Hotel.",
+    "url": "https://punchdrink.com/venues/15-romolo/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6426948685",
+  "name": "20 Spot",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A wine bar in a space that was once a punk record shop.",
+    "url": "https://missionlocal.org/2024/11/food-review-20-spot-your-neighborhood-spot/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n344975908",
+  "name": "21st Amendment Brewery",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfgate.com/food/article/sf-brewery-oracle-park-shutting-down-21031443.php",
+  "notFound": false,
+  "searches": 2,
+  "note": "SFGate (shutdown after 25 years) and Beer Street Journal say the original Second Street brewpub and the San Leandro plant closed; New School Beer (Apr 2026) only says beers are being distributed by Evil Genius, not that the brewpub reopened.",
+  "facts": []
+ },
+ {
+  "id": "osm-w260322174",
+  "name": "500 Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar with original leather booths and a jukebox of rock and country classics.",
+    "url": "https://punchdrink.com/venues/500-club/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4161865223",
+  "name": "540 Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp lists 540 Club as closed (Mar 2026), but the bar continues at 540 Clement under new owners as 540 Rogues / 540 Bar; treated as a rename, not a closure.",
+  "facts": [
+   {
+    "text": "Four of its former bartenders bought the bar and kept it open.",
+    "url": "https://www.sfchronicle.com/food/article/How-4-bartenders-saved-540-Club-the-Richmond-16497764.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2240869184",
+  "name": "58 Social",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Formerly called Public House; a pub with a direct entrance into Oracle Park, open on gamedays only.",
+    "url": "https://www.mlb.com/giants/ballpark/public-house"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1626468365",
+  "name": "620 Jones",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an 8,000-square-foot rooftop-style garden patio.",
+    "url": "https://620-jones.com/about-620-jones/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n378440021",
+  "name": "ABV",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by bartender friends; its cocktails are made fresh rather than pre-batched.",
+    "url": "https://www.sfexaminer.com/news/the-city/how-mission-district-bar-abv-crafts-its-unique-cocktail-menu/article_9135ce6a-42ec-4633-9324-3a11021cecbf.html"
+   },
+   {
+    "text": "Everyone on staff, including servers and food runners, works as a bartender.",
+    "url": "https://www.sfexaminer.com/news/the-city/how-mission-district-bar-abv-crafts-its-unique-cocktail-menu/article_9135ce6a-42ec-4633-9324-3a11021cecbf.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n381972334",
+  "name": "Aces",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2005.",
+    "url": "https://www.acesbarsf.com/"
+   },
+   {
+    "text": "Home bar of the Bay Area Badgers, a Wisconsin Badgers fan group.",
+    "url": "https://www.acesbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6032494975",
+  "name": "Adobe Books and Arts Cooperative",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1989 by Andrew McKinley at 3166 16th Street.",
+    "url": "http://www.adobebooks.com/about-adobe-books"
+   },
+   {
+    "text": "Became a worker-owned cooperative and moved to 24th Street in 2013 after a rent increase on 16th Street.",
+    "url": "http://www.adobebooks.com/about-adobe-books"
+   },
+   {
+    "text": "Its Backroom Gallery opened in 2001 in a former storage room.",
+    "url": "http://www.adobebooks.com/about-adobe-books"
+   }
+  ]
+ },
+ {
+  "id": "osm-n718375673",
+  "name": "After Hours SF",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/after-hours-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: AFTER HOURS - CLOSED, 3044 Taraval St (sports bar); address now hosts After Hours Ramen / Cafe.",
+  "facts": []
+ },
+ {
+  "id": "osm-n3873879798",
+  "name": "Afterwork Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by the Back of the House restaurant group as a 1990s throwback bar.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/Hayes-Valley-just-got-a-chill-new-90s-throwback-16312438.php"
+   },
+   {
+    "text": "Its food menu is a collaboration between Super Duper Burgers and The Bird.",
+    "url": "https://www.afterworkbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n983388331",
+  "name": "AJ's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Confirmed at 1250 Market St Suite 101; no specific history facts found.",
+  "facts": []
+ }
+]
