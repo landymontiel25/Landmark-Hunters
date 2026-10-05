@@ -1,0 +1,510 @@
+[
+ {
+  "id": "osm-w85891397",
+  "name": "Billy Goat Hill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Remains of a quarry mined by the Gray Brothers in the late 1800s and early 1900s.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   },
+   {
+    "text": "Became an official city park in 1975.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   },
+   {
+    "text": "The park covers about 3.5 acres and has a small network of trails.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-w33619301",
+  "name": "Boeddeker Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The park was renovated and reopened in 2014.",
+    "url": "https://en.wikipedia.org/wiki/Boeddeker_Park"
+   },
+   {
+    "text": "Won an American Institute of Architects San Francisco Honor Award for its design.",
+    "url": "https://en.wikipedia.org/wiki/Boeddeker_Park"
+   },
+   {
+    "text": "Has a basketball court, outdoor fitness equipment, youth play equipment and a clubhouse.",
+    "url": "https://en.wikipedia.org/wiki/Boeddeker_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w479424639",
+  "name": "Bosworth Street Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Source is the Glen Park Community Plan page; thin match",
+  "facts": [
+   {
+    "text": "Vacant City-owned parcels along Bosworth Street serve as an informal trail and greenway through Glen Park.",
+    "url": "https://generalplan.sfplanning.org/Glen_Park.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w207811319",
+  "name": "Brannan Street Wharf",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in July 2013 as a two-acre public park on the Embarcadero.",
+    "url": "https://www.baycrossings.com/brannan-street-wharf-now-open-to-the-public/"
+   },
+   {
+    "text": "Built where Piers 34 and 36 stood.",
+    "url": "https://www.baycrossings.com/brannan-street-wharf-now-open-to-the-public/"
+   },
+   {
+    "text": "Has a neighborhood green, a waterside walkway with seating and picnic tables, and a shade structure.",
+    "url": "https://www.baycrossings.com/brannan-street-wharf-now-open-to-the-public/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w193055100",
+  "name": "Brooks Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sits on the southwestern-most hill in San Francisco.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Brooks-Park-153"
+   },
+   {
+    "text": "The city bought the Brooks family property as parkland in 1978.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Brooks-Park-153"
+   },
+   {
+    "text": "Friends of Brooks Park formed in 1987 to clean up the park.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Brooks-Park-153"
+   }
+  ]
+ },
+ {
+  "id": "osm-r8820057",
+  "name": "Brotherhood-Head Mini Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "SFRPD lists it as Head & Brotherhood Mini Park",
+  "facts": [
+   {
+    "text": "Has an outdoor basketball court and a playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/headbrotheroodminipark-171"
+   }
+  ]
+ },
+ {
+  "id": "osm-w7459901",
+  "name": "Buena Vista Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1867 as Hill Park and later renamed Buena Vista.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Park"
+   },
+   {
+    "text": "Covers 38.3 acres and its hill peaks at 575 feet.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Park"
+   },
+   {
+    "text": "Gutters along the west paths were built by WPA workers from headstones of Lone Mountain Cemetery.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w162518012",
+  "name": "Cabrillo Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a clubhouse, a tennis court, two basketball courts and two children's play areas.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Cabrillo-Playground-233"
+   }
+  ]
+ },
+ {
+  "id": "osm-w40060675",
+  "name": "Candlestick Point State Recreation Area",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The state bought the land in 1973 and it became California's first urban recreation area.",
+    "url": "https://en.wikipedia.org/wiki/Candlestick_Point_State_Recreation_Area"
+   },
+   {
+    "text": "Has two fishing piers, picnic areas and hiking trails.",
+    "url": "https://en.wikipedia.org/wiki/Candlestick_Point_State_Recreation_Area"
+   }
+  ]
+ },
+ {
+  "id": "osm-w68854101",
+  "name": "Cayuga Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "SFRPD lists it as Cayuga Playground, 301 Naglee Ave; coordinates not verified against it",
+  "facts": [
+   {
+    "text": "Former park gardener Demetrio Braceros created themed gardens and woodcarvings here, shown on PBS.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Cayuga-Playground-234"
+   }
+  ]
+ },
+ {
+  "id": "osm-w27656676",
+  "name": "China Basin Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies a five-acre waterfront site across from Oracle Park.",
+    "url": "https://www.sfport.com/chinabasinpark"
+   },
+   {
+    "text": "Designed by SCAPE, with a one-acre sculpted lawn and a section of the Bay Trail.",
+    "url": "https://www.sfport.com/chinabasinpark"
+   }
+  ]
+ },
+ {
+  "id": "osm-r2173408",
+  "name": "China Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A small cove between Baker Beach and Lands End, part of the Golden Gate National Recreation Area.",
+    "url": "https://en.wikipedia.org/wiki/China_Beach,_San_Francisco"
+   },
+   {
+    "text": "Once a campsite for Chinese fishermen, with a monument to them at the trailhead.",
+    "url": "https://en.wikipedia.org/wiki/China_Beach,_San_Francisco"
+   },
+   {
+    "text": "Swimming is not considered safe and there are no lifeguards.",
+    "url": "https://en.wikipedia.org/wiki/China_Beach,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n599157316",
+  "name": "Christmas Tree Point",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for a giant Christmas tree the San Francisco Examiner put up here in 1927 as a promotion.",
+    "url": "https://www.opensfhistory.org/osfhcrucible/2017/12/17/examiner-christmas-tree-a-closer-look/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w284764947",
+  "name": "Civic Center Plaza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 4.53-acre plaza designed by John Galen Howard, east of City Hall.",
+    "url": "https://en.wikipedia.org/wiki/Civic_Center_Plaza"
+   },
+   {
+    "text": "Also called Joseph Alioto Piazza.",
+    "url": "https://en.wikipedia.org/wiki/Civic_Center_Plaza"
+   },
+   {
+    "text": "Hosts parades and events including the Pride Parade and Earth Day celebration.",
+    "url": "https://en.wikipedia.org/wiki/Civic_Center_Plaza"
+   }
+  ]
+ },
+ {
+  "id": "osm-w120480366",
+  "name": "Conservatory Valley",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "The lawns in front of the Conservatory of Flowers, with patterned flower beds since at least the 1890s.",
+    "url": "https://www.outsidelands.org/streetwise-conservatory-of-flowers-in-golden-gate-park.php"
+   },
+   {
+    "text": "Dozens of outdoor floral clocks have been displayed here over the years.",
+    "url": "https://www.outsidelands.org/streetwise-conservatory-of-flowers-in-golden-gate-park.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w225182880",
+  "name": "Corona Heights Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Covers 13.2 acres and includes the Randall Museum and a fenced dog play area.",
+    "url": "https://en.wikipedia.org/wiki/Corona_Heights_Park"
+   },
+   {
+    "text": "The hill was the site of a quarry and brick factory in the 1800s, closed by the 1920s.",
+    "url": "https://en.wikipedia.org/wiki/Corona_Heights_Park"
+   },
+   {
+    "text": "Purchased in 1941 and officially named Corona Heights.",
+    "url": "https://en.wikipedia.org/wiki/Corona_Heights_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w853562207",
+  "name": "Crane Cove Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built on land that was once part of the area's shipbuilding past.",
+    "url": "https://www.sfport.com/cranecovepark"
+   },
+   {
+    "text": "Has a beach with bay access for kayaking and paddle boarding, two children's play areas and an off-leash dog run.",
+    "url": "https://www.sfport.com/cranecovepark"
+   }
+  ]
+ },
+ {
+  "id": "osm-w82480273",
+  "name": "Crocker Amazon Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has five full-size lighted soccer fields plus baseball and softball fields.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Crocker-Amazon-Playground-236"
+   },
+   {
+    "text": "Also has tennis, basketball and bocce courts, a skate park, a community garden and a dog play area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Crocker-Amazon-Playground-236"
+   }
+  ]
+ },
+ {
+  "id": "osm-w534677321",
+  "name": "Daggett Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A one-acre park built on a former street right-of-way, completed in 2016.",
+    "url": "https://www.cmgsite.com/places/daggett-park/"
+   },
+   {
+    "text": "Has a large lawn, a fenced dog park and two sculptural play and seating features.",
+    "url": "https://www.cmgsite.com/places/daggett-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85686582",
+  "name": "Dorothy W. Erskine Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Dedicated in 1979 and named for Dorothy Erskine, founder of SPUR and Greenbelt Alliance.",
+    "url": "https://www.glenparkassociation.org/dorothy-w-erskine-park/"
+   },
+   {
+    "text": "Part of San Francisco's Natural Areas Program, with volunteers planting native shrubs on the southern slope.",
+    "url": "https://www.glenparkassociation.org/dorothy-w-erskine-park/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85684053",
+  "name": "Douglass Playground",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Two parks in one: an upper terrace dog play area and a lower terrace with a playground and courts.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Douglass-Playground-237"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24562854",
+  "name": "Duboce Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designated as park land in 1858 but not built until 1902.",
+    "url": "https://en.wikipedia.org/wiki/Duboce_Park"
+   },
+   {
+    "text": "Served as a refuge camp for a year after the 1906 earthquake and fire.",
+    "url": "https://en.wikipedia.org/wiki/Duboce_Park"
+   },
+   {
+    "text": "Has a meditation labyrinth completed in 2007 and San Francisco's official weather observation site.",
+    "url": "https://en.wikipedia.org/wiki/Duboce_Park"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85689113",
+  "name": "Duncan-Castro Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A half-acre Significant Natural Resource Area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Duncan-Castro-Open-Space-330"
+   }
+  ]
+ },
+ {
+  "id": "osm-w69342329",
+  "name": "East Beach",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Matched to East Beach at Crissy Field (GGNRA) by name and Marina location",
+  "facts": [
+   {
+    "text": "Part of Crissy Field with a picnic site with BBQ grills, a seasonal beach mat and two beach wheelchairs.",
+    "url": "https://www.nps.gov/places/east-beach-at-crissy-field.htm"
+   },
+   {
+    "text": "A boardsailing site for windsurfing and kiteboarding.",
+    "url": "https://www.nps.gov/places/east-beach-at-crissy-field.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w85676254",
+  "name": "Edgehill Mountain Open Space",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 2.3-acre Natural Area across Portola Drive from Mount Davidson, covered mostly by blue gum forest.",
+    "url": "https://sfrecpark.org/DocumentCenter/View/8543/625EdgehillMtn"
+   },
+   {
+    "text": "Pygmy nuthatch is reported to nest here.",
+    "url": "https://sfrecpark.org/DocumentCenter/View/8543/625EdgehillMtn"
+   }
+  ]
+ }
+]
