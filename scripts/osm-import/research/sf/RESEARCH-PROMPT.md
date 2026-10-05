@@ -33,6 +33,22 @@ outside the area (San Francisco: the city only, no Treasure Island; Silicon
 Valley: Palo Alto, Menlo Park, Atherton, Woodside, Portola Valley, Los Altos,
 Mountain View, Sunnyvale, Cupertino, Santa Clara, downtown San Jose only).
 
+## OpenStreetMap check first (saves searches)
+
+A place counts only if OpenStreetMap has it. Before any web search on a
+place, check it (Bash, from /home/user/Landmark-Hunters; up to 15 names per
+call; it waits for its turn, so a call can take a while):
+
+    node scripts/osm-import/osm-check.mjs --region sf "Name One" "Name Two"
+
+(`--region sv` for Silicon Valley.) It prints each name's OSM matches with
+kind and street, or NOT IN OSM. Research only names with a match; try one
+other spelling the place goes by before giving up on it. Do not output
+places NOT IN OSM (seed batches: output them with `notInOsm: true`, no
+searches). The OSM street shown is a hint for your search; the address you
+output must still come from a web result. If the web address and the OSM
+street disagree, the place may have moved: check that it is open there.
+
 ## Per place
 
 - Up to 4 searches, each a different query; most places need 1 or 2. The

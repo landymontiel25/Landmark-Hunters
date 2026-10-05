@@ -1,0 +1,790 @@
+[
+ {
+  "name": "Anderson Collection at Stanford",
+  "area": "Palo Alto",
+  "address": "314 Lomita Dr",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The museum building opened in September 2014 on the Stanford campus.",
+    "url": "https://anderson.stanford.edu/in-the-news/6635/"
+   },
+   {
+    "text": "Harry and Mary Margaret Anderson and their daughter gave 121 works of modern and contemporary American art.",
+    "url": "https://anderson.stanford.edu/in-the-news/6635/"
+   },
+   {
+    "text": "The building was designed by Richard Olcott of Ennead Architects.",
+    "url": "https://anderson.stanford.edu/in-the-news/6635/"
+   }
+  ]
+ },
+ {
+  "name": "Gallery House",
+  "area": "Menlo Park",
+  "address": null,
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Gallery House is a cooperative gallery founded in 1958 in Palo Alto.",
+    "url": "https://www.almanacnews.com/ae/2024/05/23/longtime-peninsula-gallery-opens-new-chapter-in-menlo-park/"
+   },
+   {
+    "text": "It opened a new location on Santa Cruz Avenue in Menlo Park in May 2024.",
+    "url": "https://www.almanacnews.com/ae/2024/05/23/longtime-peninsula-gallery-opens-new-chapter-in-menlo-park/"
+   },
+   {
+    "text": "Its first home was Mary Field's living room and porch, which gave the gallery its name.",
+    "url": "https://www.almanacnews.com/ae/2024/05/23/longtime-peninsula-gallery-opens-new-chapter-in-menlo-park/"
+   }
+  ]
+ },
+ {
+  "name": "Stanford Live",
+  "area": "Palo Alto",
+  "address": "327 Lasuen St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Stanford Live is based at Bing Concert Hall and Frost Amphitheater.",
+    "url": "https://live.stanford.edu/your-visit/venues/bing-concert-hall/"
+   },
+   {
+    "text": "The Studio is a performance space on the lower floor of Bing Concert Hall.",
+    "url": "https://live.stanford.edu/your-visit/venues/bing-concert-hall/"
+   }
+  ]
+ },
+ {
+  "name": "The Guild Theatre",
+  "area": "Menlo Park",
+  "address": "949 El Camino Real",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The building opened in 1926 as the Menlo Theatre and was renamed the Guild in the late 1940s.",
+    "url": "https://www.almanacnews.com/news/2022/02/24/menlo-park-movie-palace-gets-rock-star-treatment-in-35m-renovation/"
+   },
+   {
+    "text": "It was rebuilt as a nonprofit live music venue in a $35 million renovation.",
+    "url": "https://www.almanacnews.com/news/2022/02/24/menlo-park-movie-palace-gets-rock-star-treatment-in-35m-renovation/"
+   },
+   {
+    "text": "The Peninsula Arts Guild, led by Drew Dunlevie and backed by Pete Briger and Thomas Layton, drove the project.",
+    "url": "https://www.almanacnews.com/news/2022/02/24/menlo-park-movie-palace-gets-rock-star-treatment-in-35m-renovation/"
+   }
+  ]
+ },
+ {
+  "name": "Palo Alto Players at Lucie Stern Theatre",
+  "area": "Palo Alto",
+  "address": "1305 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Palo Alto Players formed in 1931 and has produced theatre in Palo Alto continuously since.",
+    "url": "https://paplayers.org/our-history/"
+   },
+   {
+    "text": "The company has been based at the Lucie Stern Theatre since 1933.",
+    "url": "https://paplayers.org/our-history/"
+   },
+   {
+    "text": "Patron Lucie Stern donated funds to give the Players a permanent home.",
+    "url": "https://paplayers.org/our-history/"
+   }
+  ]
+ },
+ {
+  "name": "Palo Alto Children's Theatre",
+  "area": "Palo Alto",
+  "address": "1305 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Palo Alto Children's Theatre is the oldest operating children's theatre in the country.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Arts-Sciences/Palo-Alto-Childrens-Theatre"
+   },
+   {
+    "text": "The Lucie Stern Community Center that houses it was designed by Birge Clark and built in 1934.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Arts-Sciences/Palo-Alto-Childrens-Theatre"
+   }
+  ]
+ },
+ {
+  "name": "NODE (digital art center)",
+  "area": "Palo Alto",
+  "address": "180 University Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "NODE is a nonprofit foundation for digital art, founded in 2024.",
+    "url": "https://www.almanacnews.com/ae/features/2026/05/28/downtown-palo-altos-node-is-dedicated-to-digital-art/"
+   },
+   {
+    "text": "Investors Micky Malka and Becky Kleiner gave a $25 million foundational grant.",
+    "url": "https://www.almanacnews.com/ae/features/2026/05/28/downtown-palo-altos-node-is-dedicated-to-digital-art/"
+   },
+   {
+    "text": "Its first exhibition, in January 2026, centered on CryptoPunks.",
+    "url": "https://www.almanacnews.com/ae/features/2026/05/28/downtown-palo-altos-node-is-dedicated-to-digital-art/"
+   }
+  ]
+ },
+ {
+  "name": "Downtown Palo Alto Farmers Market",
+  "area": "Palo Alto",
+  "address": "Gilman St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The market is a volunteer nonprofit that has run since 1981.",
+    "url": "https://www.pafarmersmarket.org/about"
+   },
+   {
+    "text": "It started after downtown Palo Alto lost its last grocery store, created by Avenidas board and staff.",
+    "url": "https://www.pafarmersmarket.org/about"
+   },
+   {
+    "text": "The market donates its proceeds to Avenidas, which helps older adults.",
+    "url": "https://www.pafarmersmarket.org/about"
+   }
+  ]
+ },
+ {
+  "name": "Menlo Park Farmers Market",
+  "area": "Menlo Park",
+  "address": "1050 Chestnut St",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The market opened in 1992 and is sponsored by the Menlo Park Live Oak Lions Club.",
+    "url": "https://www.smcgov.org/agwm/location/menlo-park-certified-farmers-market"
+   },
+   {
+    "text": "It runs year round on Sundays in a parking lot on Chestnut Street.",
+    "url": "https://www.smcgov.org/agwm/location/menlo-park-certified-farmers-market"
+   }
+  ]
+ },
+ {
+  "name": "Landmark Aquarius Theatre",
+  "area": "Palo Alto",
+  "address": "430 Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Aquarius Theatre was built in 1969 and has been operated by Landmark since 1985.",
+    "url": "https://www.landmarktheatres.com/our-locations/x00tm-landmark-aquarius-theatre-palo-alto/"
+   },
+   {
+    "text": "Film debuts by Haskell Wexler and Francis Ford Coppola were among the first films shown there.",
+    "url": "https://www.landmarktheatres.com/our-locations/x00tm-landmark-aquarius-theatre-palo-alto/"
+   },
+   {
+    "text": "Both auditoriums were renovated in 2015.",
+    "url": "https://www.landmarktheatres.com/our-locations/x00tm-landmark-aquarius-theatre-palo-alto/"
+   }
+  ]
+ },
+ {
+  "name": "Kepler's Books",
+  "area": "Menlo Park",
+  "address": "1010 El Camino Real",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Peace activist Roy Kepler founded the bookstore in May 1955.",
+    "url": "https://keplers.com/our-story"
+   },
+   {
+    "text": "It helped lead the Bay Area paperback revolution alongside Cody's and City Lights.",
+    "url": "https://keplers.com/our-story"
+   },
+   {
+    "text": "The store moved to its current Menlo Center location in 1989.",
+    "url": "https://keplers.com/our-story"
+   }
+  ]
+ },
+ {
+  "name": "Feldman's Books",
+  "area": "Menlo Park",
+  "address": "1075 Curtis Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Brothers Jack and Steve Feldman founded the used bookstore in 1996.",
+    "url": "https://stanforddaily.com/2025/02/05/feldmans-books-menlo-park-creative-hub/"
+   },
+   {
+    "text": "The store hosts live music, speaker series, book clubs and drum circles.",
+    "url": "https://stanforddaily.com/2025/02/05/feldmans-books-menlo-park-creative-hub/"
+   }
+  ]
+ },
+ {
+  "name": "Books Inc. Palo Alto",
+  "area": "Palo Alto",
+  "address": "855 El Camino Real #74",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Books Inc. is a Bay Area independent bookseller with a store in Town and Country Village.",
+    "url": "https://booksinc.net/event/2025-08-23/winnie-m-li-books-inc-palo-alto"
+   },
+   {
+    "text": "The store hosts regular author events and book clubs.",
+    "url": "https://booksinc.net/event/2025-08-23/winnie-m-li-books-inc-palo-alto"
+   }
+  ]
+ },
+ {
+  "name": "Books Inc. Mountain View",
+  "area": "Mountain View",
+  "address": "301 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Books Inc. describes itself as the West's oldest independent bookseller.",
+    "url": "https://www.booksinc.net/event/devi-s-laskar-books-inc-mountain-view"
+   },
+   {
+    "text": "The store hosts author events on Castro Street.",
+    "url": "https://www.booksinc.net/event/devi-s-laskar-books-inc-mountain-view"
+   }
+  ]
+ },
+ {
+  "name": "Linden Tree Books",
+  "area": "Los Altos",
+  "address": "265 State St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Linda and Dennis Ronberg started Linden Tree in 1981 and opened a Los Altos storefront in 1984.",
+    "url": "https://www.lindentreebooks.com/service/about/"
+   },
+   {
+    "text": "The store moved to its current State Street location in 2011.",
+    "url": "https://www.lindentreebooks.com/service/about/"
+   },
+   {
+    "text": "Chris Saccheri and Flo Grosskurth bought the store in September 2019.",
+    "url": "https://www.lindentreebooks.com/service/about/"
+   }
+  ]
+ },
+ {
+  "name": "Bell's Book Store",
+  "area": "Palo Alto",
+  "address": "Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Herbert Bell founded Bell's Books in 1935 during the Great Depression.",
+    "url": "https://midpenpost.org/2021/07/04/palo-alto-bells-books-continues-decades-long-mission-to-match-the-right-books-with-the-right-people/"
+   },
+   {
+    "text": "The store moved four times before settling on Emerson Street.",
+    "url": "https://midpenpost.org/2021/07/04/palo-alto-bells-books-continues-decades-long-mission-to-match-the-right-books-with-the-right-people/"
+   },
+   {
+    "text": "An upstairs history room holds titles on California, Americana and Stanford history.",
+    "url": "https://midpenpost.org/2021/07/04/palo-alto-bells-books-continues-decades-long-mission-to-match-the-right-books-with-the-right-people/"
+   }
+  ]
+ },
+ {
+  "name": "Arizona Cactus Garden",
+  "area": "Palo Alto",
+  "address": "Quarry Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The garden was built between 1881 and 1883 for Leland and Jane Stanford.",
+    "url": "https://www.atlasobscura.com/places/arizona-cactus-garden"
+   },
+   {
+    "text": "It was designed by landscape architect Rudolf Ulrich.",
+    "url": "https://www.atlasobscura.com/places/arizona-cactus-garden"
+   },
+   {
+    "text": "The garden holds over 500 species of cacti and succulents.",
+    "url": "https://www.atlasobscura.com/places/arizona-cactus-garden"
+   }
+  ]
+ },
+ {
+  "name": "The Frenchman's Tower",
+  "area": "Palo Alto",
+  "address": "Old Page Mill Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "French refugee Paulin Caperon, who used the name Peter Coutts, built the tower in 1875.",
+    "url": "https://en.wikipedia.org/wiki/Frenchman's_Tower"
+   },
+   {
+    "text": "Caperon sold the land to Leland Stanford in 1882.",
+    "url": "https://en.wikipedia.org/wiki/Frenchman's_Tower"
+   }
+  ]
+ },
+ {
+  "name": "Shrine of Our Lady of Peace",
+  "area": "Santa Clara",
+  "address": "2800 Mission College Blvd",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 32-foot steel statue of the Virgin Mary by sculptor Charles C. Parks anchors the shrine.",
+    "url": "https://www.atlasobscura.com/places/shrine-of-our-lady-of-peace"
+   },
+   {
+    "text": "Parks completed the statue in 1983 and Bishop Pierre DuMaine dedicated it.",
+    "url": "https://www.atlasobscura.com/places/shrine-of-our-lady-of-peace"
+   },
+   {
+    "text": "The outdoor shrine is open to visitors 24 hours a day.",
+    "url": "https://www.atlasobscura.com/places/shrine-of-our-lady-of-peace"
+   }
+  ]
+ },
+ {
+  "name": "Lupe the Mammoth",
+  "area": "Downtown San Jose",
+  "address": null,
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Electronics Flea Market",
+  "area": "Cupertino",
+  "address": null,
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.electronicsfleamarket.com/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Foothills Nature Preserve",
+  "area": "Los Altos Hills",
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Pearson-Arastradero Preserve",
+  "area": "Palo Alto",
+  "address": "1530 Arastradero Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The preserve covers 622 acres of grassland savanna, oak woodland and riparian habitat.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve"
+   },
+   {
+    "text": "The Palo Alto City Council bought 433 acres in 1976 after a developer proposed 1,776 houses.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve"
+   },
+   {
+    "text": "Arastradero Lake was once a ranch stock pond.",
+    "url": "https://www.paloalto.gov/Departments/Community-Services/Parks-Open-Space-Golf-Division/Neighborhood-Parks/Pearson-Arastradero-Preserve"
+   }
+  ]
+ },
+ {
+  "name": "Song Sparrow Spur Trail, Shoreline",
+  "area": "Mountain View",
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfbayws.org/2026/02/24/new-trail-at-pond-a2w-in-mountain-view/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Rancho San Antonio Preserve",
+  "area": null,
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Windy Hill Open Space Preserve",
+  "area": "Portola Valley",
+  "address": "Skyline Blvd",
+  "city": "Portola Valley",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Midpen added 537 acres at Windy Hill in 1980 with Peninsula Open Space Trust support.",
+    "url": "https://www.openspace.org/preserves/windy-hill"
+   },
+   {
+    "text": "A 0.6-mile trail links the two parking areas, passing the summit and the Herb Grench overlook.",
+    "url": "https://www.openspace.org/preserves/windy-hill"
+   },
+   {
+    "text": "The summit has 360-degree views of the Bay and the Pacific Ocean.",
+    "url": "https://www.openspace.org/preserves/windy-hill"
+   }
+  ]
+ },
+ {
+  "name": "Monte Bello Open Space Preserve",
+  "area": null,
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Los Trancos Open Space Preserve",
+  "area": null,
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Fremont Older Open Space Preserve",
+  "area": null,
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Foothills Open Space Preserve",
+  "area": "Los Altos Hills",
+  "address": null,
+  "city": null,
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Picchetti Ranch Preserve",
+  "area": "Cupertino",
+  "address": "Montebello Rd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 308-acre preserve includes the historic Picchetti Winery and homestead.",
+    "url": "https://www.openspace.org/preserves/picchetti-ranch"
+   },
+   {
+    "text": "Winemaking began in 1877 and the main winery was built in 1896.",
+    "url": "https://www.openspace.org/preserves/picchetti-ranch"
+   },
+   {
+    "text": "The Zinfandel Trail connects the preserve with Stevens Creek County Park.",
+    "url": "https://www.openspace.org/preserves/picchetti-ranch"
+   }
+  ]
+ },
+ {
+  "name": "Redwood Grove Nature Preserve",
+  "area": "Los Altos",
+  "address": "482 University Ave",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The six-acre preserve was purchased in 1974.",
+    "url": "https://www.losaltosca.gov/756/Halsey-House"
+   },
+   {
+    "text": "The Halsey House inside the preserve was built in 1923 and is a local Historic Landmark.",
+    "url": "https://www.losaltosca.gov/756/Halsey-House"
+   }
+  ]
+ },
+ {
+  "name": "Cuesta Park",
+  "area": "Mountain View",
+  "address": "615 Cuesta Dr",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has a bocce court, off-leash dog area, playground and tennis court.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/20/671"
+   },
+   {
+    "text": "A free outdoor Fitness Court with 10 pieces of equipment was added with a grant from El Camino Health.",
+    "url": "https://www.mountainview.gov/Home/Components/News/News/930/284"
+   }
+  ]
+ },
+ {
+  "name": "Shoreline Parklands",
+  "area": "Mountain View",
+  "address": null,
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The regional park opened in 1983 on the site of a former landfill, auto wrecking yard and hog farm.",
+    "url": "https://www.mountainview.gov/our-city/departments/community-services/shoreline-at-mountain-view"
+   },
+   {
+    "text": "The 750-acre park has a 50-acre sailing lake, a golf course and the historic Rengstorff House.",
+    "url": "https://www.mountainview.gov/our-city/departments/community-services/shoreline-at-mountain-view"
+   },
+   {
+    "text": "The California Legislature established the Shoreline Park District in 1969.",
+    "url": "https://www.mountainview.gov/our-city/departments/community-services/shoreline-at-mountain-view"
+   }
+  ]
+ },
+ {
+  "name": "Fayette Park",
+  "area": "Mountain View",
+  "address": "2624 Fayette Dr",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Fayette Park became the 45th park to open in Mountain View.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/146/671"
+   },
+   {
+    "text": "Public art there includes sculptures of two squirrels and a lizard by artist Colin Selig.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/146/671"
+   }
+  ]
+ }
+]

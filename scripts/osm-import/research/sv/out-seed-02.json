@@ -1,0 +1,1243 @@
+[
+ {
+  "name": "Plaza de César Chávez",
+  "area": "Downtown San Jose",
+  "address": "Market Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Part of the original plaza of the 1797 Pueblo de San José.",
+    "url": "https://en.wikipedia.org/wiki/Plaza_de_C%C3%A9sar_Ch%C3%A1vez"
+   },
+   {
+    "text": "The park was renamed in 1993 in honor of labor leader César Chávez.",
+    "url": "https://en.wikipedia.org/wiki/Plaza_de_C%C3%A9sar_Ch%C3%A1vez"
+   },
+   {
+    "text": "The first California State Capitol stood on its eastern edge in 1849.",
+    "url": "https://en.wikipedia.org/wiki/Plaza_de_C%C3%A9sar_Ch%C3%A1vez"
+   }
+  ]
+ },
+ {
+  "name": "Triton Museum of Art",
+  "area": "Santa Clara",
+  "address": "1505 Warburton Ave",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1965 by rancher and lawyer W. Robert Morgan and his wife June.",
+    "url": "https://en.wikipedia.org/wiki/Triton_Museum_of_Art"
+   },
+   {
+    "text": "It was the first non-university art museum in Santa Clara County.",
+    "url": "https://en.wikipedia.org/wiki/Triton_Museum_of_Art"
+   },
+   {
+    "text": "The current building was completed in October 1987.",
+    "url": "https://en.wikipedia.org/wiki/Triton_Museum_of_Art"
+   }
+  ]
+ },
+ {
+  "name": "Sunnyvale Heritage Park Museum",
+  "area": "Sunnyvale",
+  "address": "570 E Remington Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The museum building is a replica of Martin Murphy Jr.'s Bay View Ranch house.",
+    "url": "https://en.wikipedia.org/wiki/Sunnyvale_Heritage_Park_Museum"
+   },
+   {
+    "text": "The museum opened in September 2008.",
+    "url": "https://en.wikipedia.org/wiki/Sunnyvale_Heritage_Park_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Orchard Heritage Park",
+  "area": "Sunnyvale",
+  "address": "E Remington Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The city preserved ten acres of Blenheim apricot trees here in 1994.",
+    "url": "https://www.atlasobscura.com/places/orchard-heritage-park"
+   },
+   {
+    "text": "The orchard holds about 800 Blenheim apricot trees.",
+    "url": "https://www.atlasobscura.com/places/orchard-heritage-park"
+   }
+  ]
+ },
+ {
+  "name": "Sunnyvale Theatre (Sunnyvale Community Players)",
+  "area": "Sunnyvale",
+  "address": "550 E Remington Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sunnyvale Community Players was established in 1969 as a nonprofit theater company.",
+    "url": "https://members.theatrebayarea.org/theatredirectory/Details/sunnyvale-community-players-4478424"
+   },
+   {
+    "text": "The Sunnyvale Theatre sits in the Community Center and hosts a resident theatre company.",
+    "url": "https://www.sunnyvale.ca.gov/recreation-and-community/community-centers/theatre-and-performing-arts"
+   }
+  ]
+ },
+ {
+  "name": "Cupertino Historical Society & Museum",
+  "area": "Cupertino",
+  "address": "10185 N Stelling Rd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The museum was established in 1966.",
+    "url": "https://mindtrip.ai/attraction/cupertino-california/cupertino-historical-society-museum/at-S9ghAEMa"
+   },
+   {
+    "text": "It is housed in the Quinlan Community Center.",
+    "url": "https://nahc.ca.gov/santa-clara-county-museums/"
+   }
+  ]
+ },
+ {
+  "name": "Los Altos History Museum",
+  "area": "Los Altos",
+  "address": "51 S San Antonio Rd",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The museum opened in 2001 in a three-level building built with private donations.",
+    "url": "https://en.wikipedia.org/wiki/Los_Altos_History_Museum"
+   },
+   {
+    "text": "The J. Gilbert Smith House, built in 1905, is a California Point of Historical Interest.",
+    "url": "https://punchmagazine.com/landmark-the-j-gilbert-smith-house/"
+   }
+  ]
+ },
+ {
+  "name": "Protégé",
+  "area": "Palo Alto",
+  "address": "250 California Ave",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   },
+   {
+    "text": "Founded by Chef Anthony Secviar and Master Sommelier Dennis Kelly, both French Laundry alumni.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   },
+   {
+    "text": "Launched in 2018 with a multicourse tasting menu and a separate a la carte lounge menu.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege"
+   }
+  ]
+ },
+ {
+  "name": "Ettan",
+  "area": "Palo Alto",
+  "address": "518 Bryant St",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Srijith Gopinathan cooks upscale Indian food with Californian ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan"
+   }
+  ]
+ },
+ {
+  "name": "Ethel's Fancy",
+  "area": "Palo Alto",
+  "address": "550 Waverley St",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Scott Nishiyama, former executive chef of Chez TJ, opened it in 2022.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ethel-s-fancy"
+   },
+   {
+    "text": "The name honors the shared name of his mother and grandmother.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ethel-s-fancy"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ethel-s-fancy"
+   }
+  ]
+ },
+ {
+  "name": "Evvia",
+  "area": "Palo Alto",
+  "address": "420 Emerson St",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Greek and Californian menu built around a wood-fired grill.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/evvia"
+   },
+   {
+    "text": "The dining room has rustic wood beams, copper pots and a wood-burning fireplace.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/evvia"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/evvia"
+   }
+  ]
+ },
+ {
+  "name": "Vina Enoteca",
+  "area": "Palo Alto",
+  "address": "700 Welch Rd Unit 110",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Run by Rocco Scordella, a native of Italy.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/vina-enoteca"
+   },
+   {
+    "text": "Pastas, pizzas and bread are made in-house.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/vina-enoteca"
+   },
+   {
+    "text": "Most greens and vegetables come from the Stanford Education Farm.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/vina-enoteca"
+   }
+  ]
+ },
+ {
+  "name": "Zola",
+  "area": "Palo Alto",
+  "address": "585 Bryant St",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves an upscale French bistro menu with Californian flair.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/zola"
+   },
+   {
+    "text": "Listed in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/zola"
+   }
+  ]
+ },
+ {
+  "name": "Madera",
+  "area": "Menlo Park",
+  "address": "2825 Sand Hill Rd",
+  "city": "Menlo Park",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The restaurant is inside the Rosewood Sand Hill hotel.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera"
+   },
+   {
+    "text": "Uses an almond wood-fired grill and an open kitchen.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/madera"
+   }
+  ]
+ },
+ {
+  "name": "Flea St. Cafe",
+  "area": "Menlo Park",
+  "address": "3607 Alameda de las Pulgas",
+  "city": "Menlo Park",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served diners since 1980 in a house with small rooms.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe"
+   },
+   {
+    "text": "Builds a seasonal farm-to-table menu around produce from nearby farms and the coast.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe"
+   }
+  ]
+ },
+ {
+  "name": "Eylan",
+  "area": "Menlo Park",
+  "address": "500 El Camino Real",
+  "city": "Menlo Park",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Bib Gourmand in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/eylan"
+   },
+   {
+    "text": "Chef Srijith Gopinathan blends regional Indian cooking with Californian ingredients on a wood-fired grill.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/eylan"
+   },
+   {
+    "text": "The bar team won the MICHELIN Guide California 2025 Exceptional Cocktails Award.",
+    "url": "https://guide.michelin.com/us/en/article/michelin-guide-ceremony/bar-team-eylan-cocktail-award-michelin-star-guide-ceremony-california"
+   }
+  ]
+ },
+ {
+  "name": "Yeobo, Darling",
+  "area": "Menlo Park",
+  "address": "827 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Run by Meichih and Michael Kim, with Korean and Taiwanese flavors.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/yeobo-darling"
+   },
+   {
+    "text": "Added to the MICHELIN Guide in March 2026.",
+    "url": "https://guide.michelin.com/us/en/california/menlo-park/restaurant/yeobo-darling"
+   }
+  ]
+ },
+ {
+  "name": "Aurum",
+  "area": "Los Altos",
+  "address": "132 State St",
+  "city": "Los Altos",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Menu from Chef Manish Tyagi and owner Anupam Bhatia, serving Indian cuisine.",
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurant/aurum-1195363"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/los-altos/restaurant/aurum-1195363"
+   }
+  ]
+ },
+ {
+  "name": "Selby's",
+  "area": "Atherton",
+  "address": "3001 El Camino Real",
+  "city": "Atherton",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/atherton/restaurant/selby-s"
+   },
+   {
+    "text": "Draws on SMIP Ranch, the restaurant's private farm.",
+    "url": "https://guide.michelin.com/us/en/california/atherton/restaurant/selby-s"
+   },
+   {
+    "text": "Serves modern takes on classic American cuisine.",
+    "url": "https://guide.michelin.com/us/en/california/atherton/restaurant/selby-s"
+   }
+  ]
+ },
+ {
+  "name": "Chez TJ",
+  "area": "Mountain View",
+  "address": "938 Villa St",
+  "city": "Mountain View",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in a 19th-century Victorian building.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj"
+   },
+   {
+    "text": "Serves a contemporary French degustation menu.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj"
+   },
+   {
+    "text": "Listed in the 2025 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/en/california/mountain-view/restaurant/chez-tj"
+   }
+  ]
+ },
+ {
+  "name": "Alexander's Steakhouse",
+  "area": "Cupertino",
+  "address": "19379 Stevens Creek Blvd",
+  "city": "Cupertino",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has a glass-enclosed dry-aging room and serves Japanese Wagyu and dry-aged domestic steaks.",
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse"
+   },
+   {
+    "text": "Located in the Main Street Cupertino center.",
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse"
+   }
+  ]
+ },
+ {
+  "name": "Petiscos",
+  "area": "Downtown San Jose",
+  "address": "399 S 1st St",
+  "city": "San Jose",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Bib Gourmand in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-jose/restaurant/petiscos"
+   },
+   {
+    "text": "Serves Portuguese cooking such as codfish croquettes, octopus salad and grilled sardines.",
+    "url": "https://guide.michelin.com/us/en/california/san-jose/restaurant/petiscos"
+   }
+  ]
+ },
+ {
+  "name": "Kunjip",
+  "area": "Santa Clara",
+  "address": "1066 Kiely Blvd",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Featured in the San Francisco Chronicle's Top Korean Restaurants in the Bay Area guide.",
+    "url": "https://www.sfchronicle.com/project/best-korean-food-restaurants-sf-bay-area/"
+   },
+   {
+    "text": "Known for seolleongtang, rice noodles in an oxtail beef broth.",
+    "url": "https://www.sfchronicle.com/project/best-korean-food-restaurants-sf-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "Mrs Khan Uyghur Cuisine",
+  "area": "Menlo Park",
+  "address": "712 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by sisters Almira and Kalbi, serving homestyle Uyghur cooking.",
+    "url": "https://www.mrskhanuyghur.com/about"
+   },
+   {
+    "text": "Has served hand-pulled noodles since 2022.",
+    "url": "https://www.opentable.com/r/mrs-khan-uyghur-cuisine-menlo-park"
+   }
+  ]
+ },
+ {
+  "name": "La Bodeguita del Medio",
+  "area": "Palo Alto",
+  "address": "463 S California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Cuban restaurant on California Avenue with an outdoor patio.",
+    "url": "https://mindtrip.ai/restaurant/palo-alto-california/la-bodeguita-del-medio/re-XGPwOwlH"
+   },
+   {
+    "text": "Established in 1997.",
+    "url": "https://www.novacircle.com/spots/north-america/united-states/california/palo-alto/palo-alto-ca/la-bodeguita-del-medio-945cf0"
+   }
+  ]
+ },
+ {
+  "name": "Flea Street",
+  "area": "Menlo Park",
+  "address": "3607 Alameda de las Pulgas",
+  "city": "Menlo Park",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 0,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served diners since 1980 in a house with small rooms.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe"
+   },
+   {
+    "text": "Builds a seasonal farm-to-table menu around produce from nearby farms and the coast.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe"
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe"
+   }
+  ]
+ },
+ {
+  "name": "Ada's Cafe",
+  "area": "Palo Alto",
+  "address": "3700 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Nonprofit cafe that employs people with disabilities and others facing barriers to work.",
+    "url": "https://www.guidestar.org/profile/26-2775579"
+   },
+   {
+    "text": "Located next to the Mitchell Park Community Center and library.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g32849-d7389285-Reviews-Ada_s_Cafe-Palo_Alto_California.html"
+   }
+  ]
+ },
+ {
+  "name": "Douce France",
+  "area": "Palo Alto",
+  "address": "855 El Camino Real #104",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Locally owned and operated in Palo Alto since 1981.",
+    "url": "https://www.cafedoucefrance.com/"
+   },
+   {
+    "text": "Specializes in Alsatian style pastries made by French bakers.",
+    "url": "https://www.cafedoucefrance.com/"
+   },
+   {
+    "text": "Located in Town & Country Village.",
+    "url": "https://www.cafedoucefrance.com/location"
+   }
+  ]
+ },
+ {
+  "name": "Tamarine Restaurant & Gallery",
+  "area": "Palo Alto",
+  "address": "546 University Ave",
+  "city": "Palo Alto",
+  "tier": "insider",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": {
+   "text": "Apple CEO Tim Cook and Google CEO Sundar Pichai had a private dinner at Tamarine in March 2017.",
+   "url": "https://fortune.com/2017/03/10/apple-tim-cook-sundar-pichai-dinner/"
+  },
+  "facts": [
+   {
+    "text": "Opened in 2002 by Chef Tammy Huynh.",
+    "url": "https://www.tamarinerestaurant.com/about-us"
+   },
+   {
+    "text": "Her mother, Chac Do, opened Vung Tau in downtown San Jose in 1985.",
+    "url": "https://www.tamarinerestaurant.com/about-us"
+   },
+   {
+    "text": "Apple's Tim Cook and Google's Sundar Pichai were photographed having dinner here in March 2017.",
+    "url": "https://fortune.com/2017/03/10/apple-tim-cook-sundar-pichai-dinner/"
+   }
+  ]
+ },
+ {
+  "name": "Zareen's",
+  "area": "Palo Alto",
+  "address": null,
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by husband and wife Zareen and Umair Khan, who opened the Mountain View location in 2012.",
+    "url": "https://www.almanacnews.com/blogs/2016/07/05/zareens-pakistani-restaurant-to-open-in-palo-alto/"
+   },
+   {
+    "text": "The Palo Alto location opened in 2014, serving Pakistani and North Indian food.",
+    "url": "https://www.paloaltoonline.com/newsletter/qa-with-zareen-and-umair-khan-on-their-new-cookbook/"
+   }
+  ]
+ },
+ {
+  "name": "Terùn",
+  "area": "Palo Alto",
+  "address": "448 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in Palo Alto in February 2013 by Franco Campilongo with his brother Maico and cousin Kristyan d'Angelo.",
+    "url": "https://www.terunpizza.com/about"
+   },
+   {
+    "text": "Certified Verace Pizza Napoletana, baked in an imported wood-fired Marra Forni oven.",
+    "url": "https://www.terunpizza.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Palo Alto Sol",
+  "area": "Palo Alto",
+  "address": "408 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owners Hector and Helena Sol bring cooking from their hometown of Puebla.",
+    "url": "https://www.opentable.com/r/palo-alto-sol-palo-alto"
+   },
+   {
+    "text": "It is a daughter restaurant of La Fiesta in Mountain View.",
+    "url": "https://www.opentable.com/r/palo-alto-sol-palo-alto"
+   }
+  ]
+ },
+ {
+  "name": "Sundance The Steakhouse",
+  "area": "Palo Alto",
+  "address": "1921 El Camino Real",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in December 1974 as Sundance Mining Co.",
+    "url": "https://www.sundancethesteakhouse.com/our-story/history/"
+   },
+   {
+    "text": "Renamed Sundance The Steakhouse in 1999.",
+    "url": "https://www.sundancethesteakhouse.com/our-story/history/"
+   },
+   {
+    "text": "The building was the Carrousel Drive-In in the 1940s.",
+    "url": "https://www.sundancethesteakhouse.com/our-story/history/"
+   }
+  ]
+ },
+ {
+  "name": "Fuki Sushi",
+  "area": "Palo Alto",
+  "address": "4119 El Camino Real",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1978 as the first Japanese restaurant in Palo Alto.",
+    "url": "https://fukisushi.square.site/"
+   },
+   {
+    "text": "Family owned, with chefs trained and licensed in Japan.",
+    "url": "https://fukisushi.square.site/"
+   }
+  ]
+ },
+ {
+  "name": "Lotus Thai Bistro",
+  "area": "Palo Alto",
+  "address": "425 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Family owned and operated Thai restaurant.",
+    "url": "https://www.lotusthaibistro.com/"
+   },
+   {
+    "text": "Voted Palo Alto Weekly's Best Thai Restaurant in 2022, 2023, 2025 and 2026.",
+    "url": "https://www.lotusthaibistro.com/"
+   },
+   {
+    "text": "Donates meals monthly to the WeHOPE shelter in East Palo Alto.",
+    "url": "https://www.lotusthaibistro.com/"
+   }
+  ]
+ },
+ {
+  "name": "Nola Restaurant & Bar",
+  "area": "Palo Alto",
+  "address": "535 Ramona St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in June 1996 as a tribute to New Orleans.",
+    "url": "https://www.nolas.com/"
+   },
+   {
+    "text": "Occupies the Pedro de Lemos building, dating to 1908.",
+    "url": "https://www.nolas.com/"
+   },
+   {
+    "text": "Holds one of the largest collections of Southern folk art in the country.",
+    "url": "https://www.nolas.com/"
+   }
+  ]
+ },
+ {
+  "name": "Joanie's Cafe",
+  "area": "Palo Alto",
+  "address": "405 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Run by the husband-and-wife team of Bernard and Joan Cartal.",
+    "url": "https://www.paloaltoonline.com/morgue/restaurants/1994_Jul_8.EATOUT8.html"
+   }
+  ]
+ },
+ {
+  "name": "Izzy's Brooklyn Bagels",
+  "area": "Palo Alto",
+  "address": "477 S California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1996.",
+    "url": "https://www.izzysbrooklynbagels.com/aboutus"
+   },
+   {
+    "text": "Kosher, supervised by the Vaad Hakashrus of Northern California.",
+    "url": "https://www.izzysbrooklynbagels.com/aboutus"
+   }
+  ]
+ },
+ {
+  "name": "Chef Chu's",
+  "area": "Los Altos",
+  "address": "San Antonio Rd at El Camino Real",
+  "city": "Los Altos",
+  "tier": "insider",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": {
+   "text": "Silicon Valley figures including Steve Jobs, Gordon Moore and Mark Zuckerberg have eaten at Chef Chu's.",
+   "url": "https://www.kqed.org/news/12067747/chef-chus-the-family-owned-chinese-restaurant-that-grew-up-with-silicon-valley"
+  },
+  "facts": [
+   {
+    "text": "Lawrence Chu opened the restaurant in 1970.",
+    "url": "https://en.wikipedia.org/wiki/Chef_Chu's"
+   },
+   {
+    "text": "Chu is the father of film director Jon M. Chu.",
+    "url": "https://en.wikipedia.org/wiki/Chef_Chu's"
+   },
+   {
+    "text": "Silicon Valley figures including Steve Jobs, Gordon Moore and Mark Zuckerberg have eaten at Chef Chu's.",
+    "url": "https://www.kqed.org/news/12067747/chef-chus-the-family-owned-chinese-restaurant-that-grew-up-with-silicon-valley"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Vitale",
+  "area": "Los Altos",
+  "address": "987 Fremont Ave",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Located in Loyola Corners and has been at the same spot for forty years.",
+    "url": "https://www.losaltosonline.com/food/now-thats-italian-loyola-corners-welcomes-new-cafe-vitale/article_5658fed6-3a22-5a44-ad94-ad21d25388d4.html"
+   },
+   {
+    "text": "Serves gluten-free pasta and pizza.",
+    "url": "https://www.atly.com/gluten-free/location/CafeVitale1"
+   }
+  ]
+ },
+ {
+  "name": "Pasta Grotto",
+  "area": "Los Altos",
+  "address": "2310 Homestead Rd",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.losaltosonline.com/news/sections/news/219-business/stocks/36259-J32898",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Haru",
+  "area": "Los Altos",
+  "address": "325 Main St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on May 22, 2026.",
+    "url": "https://www.paloaltoonline.com/los-altos/2026/06/01/haru-japanese-restaurant-brings-gozen-dry-aged-fish-to-downtown-los-altos/"
+   },
+   {
+    "text": "Specializes in gozen, a formal Japanese set meal served on a single tray.",
+    "url": "https://www.paloaltoonline.com/los-altos/2026/06/01/haru-japanese-restaurant-brings-gozen-dry-aged-fish-to-downtown-los-altos/"
+   },
+   {
+    "text": "From the team behind omakase restaurant Sushi Jin.",
+    "url": "https://www.paloaltoonline.com/los-altos/2026/06/01/haru-japanese-restaurant-brings-gozen-dry-aged-fish-to-downtown-los-altos/"
+   }
+  ]
+ },
+ {
+  "name": "Cascal",
+  "area": "Mountain View",
+  "address": "400 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Created by restaurateur Don Durante, the man behind Birk's Restaurant.",
+    "url": "https://cascalmv.com/about/"
+   },
+   {
+    "text": "Serves tapas, paellas and regional Latin American dishes.",
+    "url": "https://cascalmv.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Doppio Zero",
+  "area": "Mountain View",
+  "address": "160 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Neapolitan pizza guided by Chef Angelo Sannino.",
+    "url": "https://www.finedininglovers.com/restaurants/doppio-zero-pizza-napoletana"
+   },
+   {
+    "text": "Certified by Vera Pizza Napoletana, baked in a wood-fired oven.",
+    "url": "https://www.finedininglovers.com/restaurants/doppio-zero-pizza-napoletana"
+   }
+  ]
+ },
+ {
+  "name": "Sushi Tomi",
+  "area": "Mountain View",
+  "address": "635 W Dana St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Amarin Thai",
+  "area": "Mountain View",
+  "address": "147 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "La Fiesta Restaurant",
+  "area": "Mountain View",
+  "address": "240 Villa St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in September 1977 by Rosalina and Arturo Garcia.",
+    "url": "http://www.lafiestamexicancuisine.com/story"
+   },
+   {
+    "text": "The Garcia family later opened other restaurants including Palo Alto Sol.",
+    "url": "http://www.lafiestamexicancuisine.com/story"
+   }
+  ]
+ },
+ {
+  "name": "Pho To Chau 999",
+  "area": "Mountain View",
+  "address": "853 Villa St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Garden Fresh",
+  "area": "Mountain View",
+  "address": "1245 El Camino Real",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Gochi Japanese Fusion Tapas",
+  "area": "Cupertino",
+  "address": "19980 E Homestead Rd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Japanese fusion tapas such as clay pot rice, sashimi and Japanese-style pizza.",
+    "url": "https://www.gochifusiontapas.com/cupertino-gochi-fusion-tapas/"
+   }
+  ]
+ },
+ {
+  "name": "Cin-Cin Wine Bar & Restaurant",
+  "area": null,
+  "address": null,
+  "city": "Los Gatos",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Woodside Bakery",
+  "area": "Woodside",
+  "address": null,
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.opentable.com/woodside-bakery-and-cafe-permanently-closed",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Tamarine Restaurant",
+  "area": "Palo Alto",
+  "address": "546 University Ave",
+  "city": "Palo Alto",
+  "tier": "insider",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 0,
+  "reason": {
+   "text": "Apple CEO Tim Cook and Google CEO Sundar Pichai had a private dinner at Tamarine in March 2017.",
+   "url": "https://fortune.com/2017/03/10/apple-tim-cook-sundar-pichai-dinner/"
+  },
+  "facts": [
+   {
+    "text": "Opened in 2002 by Chef Tammy Huynh.",
+    "url": "https://www.tamarinerestaurant.com/about-us"
+   },
+   {
+    "text": "Her mother, Chac Do, opened Vung Tau in downtown San Jose in 1985.",
+    "url": "https://www.tamarinerestaurant.com/about-us"
+   },
+   {
+    "text": "Apple's Tim Cook and Google's Sundar Pichai were photographed having dinner here in March 2017.",
+    "url": "https://fortune.com/2017/03/10/apple-tim-cook-sundar-pichai-dinner/"
+   }
+  ]
+ }
+]

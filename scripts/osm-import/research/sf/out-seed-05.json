@@ -1,0 +1,1140 @@
+[
+ {
+  "name": "Hotel Utah Saloon",
+  "area": "SoMa",
+  "address": "500 4th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1908 as a residential hotel with ground-floor storefronts.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   },
+   {
+    "text": "Listed as a San Francisco Designated Landmark since November 2, 2018.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   },
+   {
+    "text": "Known for live music and open mic nights that launched later-famous performers.",
+    "url": "https://en.wikipedia.org/wiki/Hotel_Utah_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "name": "Specs'",
+  "area": "North Beach",
+  "address": "12 William Saroyan Pl",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The space dates to 1850, was rebuilt in 1911, and served as a speakeasy from 1919 to 1933.",
+    "url": "https://en.wikipedia.org/wiki/Specs'_Twelve_Adler_Museum_Cafe"
+   },
+   {
+    "text": "Named a San Francisco legacy business in 2016.",
+    "url": "https://en.wikipedia.org/wiki/Specs'_Twelve_Adler_Museum_Cafe"
+   },
+   {
+    "text": "Its one food item is Edam cheese cut from a large wheel, served with saltines.",
+    "url": "https://en.wikipedia.org/wiki/Specs'_Twelve_Adler_Museum_Cafe"
+   }
+  ]
+ },
+ {
+  "name": "Casanova Lounge",
+  "area": "Mission",
+  "address": "527 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Mixes cocktails such as Greyhounds, Palomas and Mission Margaritas.",
+    "url": "https://www.casanovasf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Amélie",
+  "area": "Polk Street",
+  "address": "1754 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started on Polk Street in 2006 as the original Amélie wine bar.",
+    "url": "https://www.ameliewinebar.com/"
+   },
+   {
+    "text": "Serves wine flights, cocktails and small plates with live music and DJs.",
+    "url": "https://www.ameliewinebar.com/"
+   },
+   {
+    "text": "Has since opened locations in New York and Washington, D.C.",
+    "url": "https://www.ameliewinebar.com/"
+   }
+  ]
+ },
+ {
+  "name": "San Francisco Wine Society",
+  "area": "Financial District",
+  "address": "408 Merchant St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed to be intimate, with no TVs or WiFi.",
+    "url": "https://www.sanfranciscowinesociety.com/location/san-francisco-wine-society/"
+   },
+   {
+    "text": "Spaces include a main bar, a communal room, a parklet and a bocce court patio.",
+    "url": "https://www.sanfranciscowinesociety.com/private-events-venue/bocci-court-patio/"
+   }
+  ]
+ },
+ {
+  "name": "Atelier Crenn",
+  "area": "Cow Hollow",
+  "address": "3127 Fillmore St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in January 2011 by chef Dominique Crenn.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/atelier-crenn"
+   },
+   {
+    "text": "Holds three Michelin stars; Crenn was the first female chef in the U.S. to earn three.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/atelier-crenn"
+   },
+   {
+    "text": "The pescatarian menu uses produce from partner Bleu Belle Farm in Sonoma.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/atelier-crenn"
+   }
+  ]
+ },
+ {
+  "name": "Benu",
+  "area": "SoMa",
+  "address": "22 Hawthorne St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2010 by chef Corey Lee, formerly of The French Laundry.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   },
+   {
+    "text": "Became the first San Francisco restaurant to receive three Michelin stars, in 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   },
+   {
+    "text": "Has held three Michelin stars every year since 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   }
+  ]
+ },
+ {
+  "name": "Acquerello",
+  "area": "Polk Gulch",
+  "address": "1722 Sacramento St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Suzette Gresham has run the dining room since 1989.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/acquerello"
+   },
+   {
+    "text": "Holds two Michelin stars in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/acquerello"
+   },
+   {
+    "text": "Serves handmade pastas such as rabbit marubini in prosciutto brodo.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/acquerello"
+   }
+  ]
+ },
+ {
+  "name": "Birdsong",
+  "area": "SoMa",
+  "address": "1085 Mission St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Christopher Bleidorn cooks meats and fish over live fire.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong"
+   },
+   {
+    "text": "Holds two Michelin stars in the 2024 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong"
+   }
+  ]
+ },
+ {
+  "name": "Kiln",
+  "area": "Hayes Valley",
+  "address": "149 Fell St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds two Michelin stars in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kiln-1210355"
+   },
+   {
+    "text": "Chef John Wesley blends Californian and Nordic influences in a warehouse space.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kiln-1210355"
+   },
+   {
+    "text": "Chef John Wesley won the 2024 MICHELIN Guide California Young Chef Award.",
+    "url": "https://guide.michelin.com/us/en/article/michelin-guide-ceremony/john-wesley-kiln-young-chef-award-michelin-star-guide-ceremony-california"
+   }
+  ]
+ },
+ {
+  "name": "Saison",
+  "area": "SoMa",
+  "address": "178 Townsend St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds two Michelin stars in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/saison"
+   },
+   {
+    "text": "The cooking centers on a roaring hearth in a warehouse setting.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/saison"
+   },
+   {
+    "text": "Chef Richard Lee directs the kitchen.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/saison"
+   }
+  ]
+ },
+ {
+  "name": "7 Adams",
+  "area": "Western Addition",
+  "address": "1963 Sutter St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chefs Serena and David Fisher run it as an intimate tasting menu restaurant.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/7-adams"
+   },
+   {
+    "text": "Awarded a Michelin star in the 2024 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/7-adams"
+   },
+   {
+    "text": "The railway-style room has an open kitchen.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/7-adams"
+   }
+  ]
+ },
+ {
+  "name": "Angler SF",
+  "area": "SoMa",
+  "address": "132 The Embarcadero",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by chef Joshua Skenes of Saison.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   },
+   {
+    "text": "Cooks seafood on a 32-foot wood-burning hearth.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   },
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   }
+  ]
+ },
+ {
+  "name": "Naides",
+  "area": "Nob Hill",
+  "address": "708 Bush St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named after chef Patrick Gabon's mother.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/naides"
+   },
+   {
+    "text": "Serves a modern Filipino tasting menu using foraged Californian herbs and flowers.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/naides"
+   },
+   {
+    "text": "One of only a few Michelin-starred Filipino restaurants.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/naides"
+   }
+  ]
+ },
+ {
+  "name": "Nari",
+  "area": "Japantown",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Pim Techamuanvivit cooks contemporary Thai food with Californian ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nari"
+   },
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nari"
+   },
+   {
+    "text": "Located within Hotel Kabuki.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nari"
+   }
+  ]
+ },
+ {
+  "name": "Niku Steakhouse",
+  "area": "SoMa",
+  "address": "61 Division St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/niku-steakhouse"
+   },
+   {
+    "text": "Has an 18-seat chef's counter where Chef Dustin Falcon cooks over coals.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/niku-steakhouse"
+   }
+  ]
+ },
+ {
+  "name": "Sorrel",
+  "area": "Pacific Heights",
+  "address": "3228 Sacramento St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Alexander Hong trained at Quince and serves contemporary Italian cooking.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sorrel"
+   },
+   {
+    "text": "A rooftop garden supplies herbs, edible flowers and seasonal vegetables.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sorrel"
+   }
+  ]
+ },
+ {
+  "name": "Ssal",
+  "area": "Russian Hill",
+  "address": "2226 Polk St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal"
+   },
+   {
+    "text": "Hyunyoung and Junsoo Bae run this Korean tasting menu restaurant.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal"
+   }
+  ]
+ },
+ {
+  "name": "State Bird Provisions",
+  "area": "Western Addition",
+  "address": "1529 Fillmore St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions"
+   },
+   {
+    "text": "Serves seasonal California dishes from carts in a dim sum style.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions"
+   }
+  ]
+ },
+ {
+  "name": "The Progress",
+  "area": "Western Addition",
+  "address": "1525 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Californian shared plates in a two-story space with skylights.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/the-progress"
+   },
+   {
+    "text": "Cooks Liberty Farms duck with peanut fried rice.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/the-progress"
+   }
+  ]
+ },
+ {
+  "name": "Wolfsbane",
+  "area": "Dogpatch",
+  "address": "2495 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves contemporary Californian dishes such as Dungeness crab with sweet potato and sauce Maltaise.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/wolfsbane"
+   }
+  ]
+ },
+ {
+  "name": "Dumpling Home",
+  "area": "Civic Center",
+  "address": "298 Gough St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home"
+   },
+   {
+    "text": "Cooks hand-wrap and fold the soup dumplings from open to close.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home"
+   }
+  ]
+ },
+ {
+  "name": "Bansang",
+  "area": "Western Addition",
+  "address": "1560 Fillmore St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/bansang"
+   },
+   {
+    "text": "The name refers to the Joseon royal court style of serving a communal Korean meal.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/bansang"
+   }
+  ]
+ },
+ {
+  "name": "Izakaya Rintaro",
+  "area": "Mission",
+  "address": "82 14th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/izakaya-rintaro"
+   },
+   {
+    "text": "Booths are built from redwood wine casks, with a Hinoki cedar bar.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/izakaya-rintaro"
+   }
+  ]
+ },
+ {
+  "name": "Okane",
+  "area": "SoMa",
+  "address": "669 Townsend St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane"
+   },
+   {
+    "text": "Serves Japanese izakaya dishes such as cod marinated in sake lees.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane"
+   }
+  ]
+ },
+ {
+  "name": "Good Good Culture Club",
+  "area": "Mission",
+  "address": "3560 18th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club"
+   },
+   {
+    "text": "Blends Southeast Asian flavors with Californian ones, in dishes like Lao-style sausage.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club"
+   }
+  ]
+ },
+ {
+  "name": "Z & Y",
+  "area": "Chinatown",
+  "address": "655 Jackson St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Sichuan cooking led by owner and executive chef Lijun Han.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/z-y"
+   },
+   {
+    "text": "Dishes include tea-smoked duck and fish filet in chili oil.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/z-y"
+   }
+  ]
+ },
+ {
+  "name": "Trestle",
+  "area": "Jackson Square",
+  "address": "531 Jackson St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle"
+   },
+   {
+    "text": "Serves a prix fixe Californian menu with two seasonal options per course.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle"
+   }
+  ]
+ },
+ {
+  "name": "Anchor Oyster Bar",
+  "area": "Castro",
+  "address": "579 Castro St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served oysters, clam chowder and sustainable seafood on Castro Street since 1977.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar"
+   },
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar"
+   }
+  ]
+ },
+ {
+  "name": "Yank Sing",
+  "area": "Financial District",
+  "address": "101 Spear St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has been a San Francisco dim sum restaurant since 1958.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/yank-sing"
+   },
+   {
+    "text": "A third-generation, family-owned restaurant serving dim sum from pushcarts.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/yank-sing"
+   }
+  ]
+ },
+ {
+  "name": "A16",
+  "area": "Marina",
+  "address": "2355 Chestnut St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16"
+   },
+   {
+    "text": "Serves rustic Italian cooking and a wide selection of pizzas.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16"
+   }
+  ]
+ },
+ {
+  "name": "Kitchen Istanbul",
+  "area": "Inner Richmond",
+  "address": "349 Clement St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul"
+   },
+   {
+    "text": "Serves Turkish dishes with Californian touches, such as börek and künefe kadayif.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul"
+   }
+  ]
+ },
+ {
+  "name": "Outerlands",
+  "area": "Outer Sunset",
+  "address": "4001 Judah St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands"
+   },
+   {
+    "text": "Known for house-baked sourdough bread and fried mortadella sandwiches.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands"
+   }
+  ]
+ },
+ {
+  "name": "John's Grill",
+  "area": "Union Square",
+  "address": "Ellis St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1908, two years after the 1906 earthquake.",
+    "url": "https://www.johnsgrill.com/history/"
+   },
+   {
+    "text": "Appears in Dashiell Hammett's The Maltese Falcon, which has Sam Spade ordering chops here.",
+    "url": "https://www.johnsgrill.com/history/"
+   },
+   {
+    "text": "Has a private dining room named Hammett's Den.",
+    "url": "https://www.johnsgrill.com/"
+   }
+  ]
+ },
+ {
+  "name": "Marlowe",
+  "area": "SoMa",
+  "address": "500 Brannan St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2010 as a New American bistro.",
+    "url": "https://www.marlowesf.com/our-story/"
+   },
+   {
+    "text": "Created by chef Jennifer Puccio and designer Ken Fulk.",
+    "url": "https://www.marlowesf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Alta CA",
+  "area": "SoMa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Dalida",
+  "area": "Presidio",
+  "address": "101 Montgomery St, Ste. 100",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Co-chefs and married couple Laura and Sayat Ozyilmaz run the restaurant.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dalida"
+   },
+   {
+    "text": "The menu is Eastern Mediterranean, drawing inspiration from Istanbul.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dalida"
+   }
+  ]
+ },
+ {
+  "name": "Colibri Mexican Bistro",
+  "area": "Presidio",
+  "address": "50 Moraga Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Located inside the Presidio Officers' Club.",
+    "url": "https://presidio.gov/explore/attractions/colibri-mexican-bistro"
+   },
+   {
+    "text": "Makes fresh handmade tortillas on an outdoor comal.",
+    "url": "https://presidio.gov/explore/attractions/colibri-mexican-bistro"
+   }
+  ]
+ },
+ {
+  "name": "Piccino",
+  "area": "Presidio",
+  "address": "1 Letterman Dr",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Located in Building D of the Letterman Digital Arts Center.",
+    "url": "https://www.piccinopresidio.com/find-us"
+   },
+   {
+    "text": "Sources produce from its own farm in Healdsburg.",
+    "url": "https://www.piccinopresidio.com/find-us"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Zoetrope",
+  "area": "North Beach",
+  "address": "916 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has occupied part of the Sentinel Building ground floor since 1999.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   },
+   {
+    "text": "Serves Italian food and Inglenook Estate wine, with memorabilia from Coppola's films.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   },
+   {
+    "text": "The Sentinel Building has been home to American Zoetrope since 1972.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   }
+  ]
+ },
+ {
+  "name": "Equator Coffees",
+  "area": "San Francisco",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1995 by Helen Russell and Brooke McDonnell, who began roasting in a Marin garage.",
+    "url": "https://www.equatorcoffees.com/pages/about"
+   },
+   {
+    "text": "Became the first Certified B Corporation coffee roaster in California in 2011.",
+    "url": "https://www.equatorcoffees.com/pages/about"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Reveille",
+  "area": "Mission Bay",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owned by brothers Christopher and Thomas Newbury.",
+    "url": "https://www.domino.com/content/cafe-reveille-san-francisco/"
+   },
+   {
+    "text": "The first location opened in Mission Bay, with a coffee roasting operation on site.",
+    "url": "https://www.domino.com/content/cafe-reveille-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "Cumaica Coffee",
+  "area": "Outer Mission",
+  "address": "4726 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Avenues San Francisco",
+  "area": "Outer Sunset",
+  "address": "3606 Taraval St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by Eddie Choi on Taraval Street in 2018.",
+    "url": "https://www.sfexaminer.com/culture/food-and-drink/outer-sunset-coffee-shops-find-home-on-west-side-of-the-city/article_4d496153-1fde-41ba-bd3b-ddb67d0e3dc7.html"
+   },
+   {
+    "text": "Serves musubi and a horchata cold brew made in-house.",
+    "url": "https://www.sfexaminer.com/culture/food-and-drink/outer-sunset-coffee-shops-find-home-on-west-side-of-the-city/article_4d496153-1fde-41ba-bd3b-ddb67d0e3dc7.html"
+   }
+  ]
+ },
+ {
+  "name": "Velo Rouge Cafe",
+  "area": "Inner Richmond",
+  "address": "798 Arguello Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A bike-themed cafe a block from the Arguello entrance to Golden Gate Park.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/velo-rouge-cafe"
+   },
+   {
+    "text": "Serves breakfast burritos, bagels and a tuna melt panini.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/velo-rouge-cafe"
+   }
+  ]
+ },
+ {
+  "name": "Mission Blue",
+  "area": "Visitacion Valley",
+  "address": "144 Leland Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A cafe and gift shop serving Saint Frank's coffee.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/mission-blue"
+   },
+   {
+    "text": "Sells gifts from San Francisco artists and makers.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/mission-blue"
+   },
+   {
+    "text": "Its lavender latte uses lavender from the owner's garden.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/mission-blue"
+   }
+  ]
+ },
+ {
+  "name": "The Game Parlour",
+  "area": "Sunset",
+  "address": "1342 Irving St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 as San Francisco's first board game cafe.",
+    "url": "https://www.thegameparlour.com/"
+   },
+   {
+    "text": "Pairs food with tabletop games for people of all ages.",
+    "url": "https://www.thegameparlour.com/"
+   }
+  ]
+ },
+ {
+  "name": "Neighbor's Corner",
+  "area": "Eureka Valley",
+  "address": "499 Douglass St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A cafe in residential Eureka Valley serving espresso drinks and breakfast sandwiches.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/neighbors-corner"
+   },
+   {
+    "text": "The drink menu leans toward Japanese-influenced coffee, including hojicha lattes and matcha.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/neighbors-corner"
+   }
+  ]
+ }
+]

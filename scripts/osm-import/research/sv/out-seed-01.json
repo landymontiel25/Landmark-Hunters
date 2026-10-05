@@ -1,0 +1,785 @@
+[
+ {
+  "name": "Rengstorff Park",
+  "area": "Mountain View",
+  "address": "201 S Rengstorff Ave",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened as Mountain View Recreation Center Park and was renamed Rengstorff Park in 1970.",
+    "url": "https://www.mountainviewhistorical.org/castro-city-rengstorff-park/"
+   },
+   {
+    "text": "Rengstorff Avenue was called Pastoria Avenue until 1929, after the Castro family's Rancho Pastoria de las Borregas.",
+    "url": "https://www.mountainviewhistorical.org/castro-city-rengstorff-park/"
+   }
+  ]
+ },
+ {
+  "name": "Sylvan Park",
+  "area": "Mountain View",
+  "address": "500 Sylvan Ave",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has four tennis courts, volleyball courts, a playground and a walking path.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/88/"
+   }
+  ]
+ },
+ {
+  "name": "Charleston Park",
+  "area": "Mountain View",
+  "address": "1500 Charleston Rd",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The city installed benches made from retired wind turbine blades here.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/8/34"
+   },
+   {
+    "text": "One of the turbine-blade benches was painted as a mural by local artist Hannah Pike.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/8/34"
+   }
+  ]
+ },
+ {
+  "name": "Stevenson Park",
+  "area": "Mountain View",
+  "address": "750 San Pierre Way",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has athletic fields, a playground and three tennis courts.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/86/671"
+   },
+   {
+    "text": "The city maintains the school fields here and schedules community group use of them.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/86/671"
+   }
+  ]
+ },
+ {
+  "name": "Las Palmas Park",
+  "area": "Sunnyvale",
+  "address": "850 Russet Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Polynesian-themed park with palm trees around a pond and a tropical island playground.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/51/260"
+   },
+   {
+    "text": "The 24.3-acre park is next to a city-owned tennis center with 16 courts.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/51/260"
+   }
+  ]
+ },
+ {
+  "name": "Ortega Park",
+  "area": "Sunnyvale",
+  "address": "636 Harrow Way",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Victorian-themed park of 18.16 acres with shuffleboard, horseshoe pits and a reservable gazebo.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/54/260"
+   },
+   {
+    "text": "A cricket pitch is available on the adjacent school site when school is not in session.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/54/260"
+   }
+  ]
+ },
+ {
+  "name": "Muwékma Park",
+  "area": "Sunnyvale",
+  "address": "1035 Indian Wells Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 6.5-acre park has a dog park with separate areas for small and large dogs.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/94/260"
+   },
+   {
+    "text": "The park also has ping pong tables, outdoor fitness equipment and a jogging trail.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/94/260"
+   }
+  ]
+ },
+ {
+  "name": "Baylands Park",
+  "area": "Sunnyvale",
+  "address": "999 E Caribbean Dr",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has over 70 acres of developed parkland plus a 105-acre seasonal wetlands preserve.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/41/260"
+   },
+   {
+    "text": "Santa Clara County owns the property and the City of Sunnyvale manages the park.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/41/260"
+   },
+   {
+    "text": "The park has an outdoor turf amphitheater and access to the San Francisco Bay Trail.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/41/260"
+   }
+  ]
+ },
+ {
+  "name": "Corn Palace Park",
+  "area": "Sunnyvale",
+  "address": "1197 Lily Ave",
+  "city": "Sunnyvale",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 2-acre park sits on former Francia family farmland that ran the Corn Palace farmstand from 1965 to 2015.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456"
+   },
+   {
+    "text": "The park opened on June 27, 2025.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456"
+   },
+   {
+    "text": "Won the 2026 APWA Silicon Valley Chapter Parks Project of the Year Award.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/98/456"
+   }
+  ]
+ },
+ {
+  "name": "Washington Park",
+  "area": "Sunnyvale",
+  "address": "840 W Washington Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 11.9-acre park has a swimming pool, two ballfields and two playgrounds.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/61/456"
+   },
+   {
+    "text": "Hosts the city's Sunset Movie Series and family night events.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/61/456"
+   }
+  ]
+ },
+ {
+  "name": "Ponderosa Park",
+  "area": "Sunnyvale",
+  "address": "811 Henderson Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Western-themed park of 9.1 acres with horseshoe pits, a bocce ball court and a sand volleyball court.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/56/456"
+   }
+  ]
+ },
+ {
+  "name": "Braly Park",
+  "area": "Sunnyvale",
+  "address": "704 Daffodil Ct",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Japanese-themed park of 5.6 acres with shuffleboard, horseshoe pits and a sand volleyball court.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/43/456"
+   }
+  ]
+ },
+ {
+  "name": "Seven Seas Park",
+  "area": "Sunnyvale",
+  "address": "1010 Morse Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An ocean-themed park of 5.3 acres with a pirate ship play structure.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/70/260"
+   },
+   {
+    "text": "The park has a dog park and a water play area.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/70/260"
+   }
+  ]
+ },
+ {
+  "name": "Jollyman Park",
+  "area": "Cupertino",
+  "address": "1000 S Stelling Rd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Cupertino's first all-inclusive playground opened here in 2025 after construction began in July 2024.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/All-Inclusive-Playground-at-Jollyman-Park"
+   },
+   {
+    "text": "The playground has a slide hill, accessible swings, a sand play area and a net climber.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/All-Inclusive-Playground-at-Jollyman-Park"
+   }
+  ]
+ },
+ {
+  "name": "Memorial Park",
+  "area": "Cupertino",
+  "address": "21121 Stevens Creek Blvd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 22-acre park has an amphitheater, a gazebo and the Cupertino Veterans Memorial.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/Memorial-Park-Specific-Plan"
+   },
+   {
+    "text": "The park is next to the Cupertino Senior Center, Quinlan Community Center and Cupertino Sports Center.",
+    "url": "https://www.cupertino.gov/Your-City/Departments/Public-Works/Capital-Improvement-Programs-Projects/Memorial-Park-Specific-Plan"
+   }
+  ]
+ },
+ {
+  "name": "Portal Park",
+  "area": "Cupertino",
+  "address": "N Portal Ave",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has a playground and a picnic area with barbecue pits.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Parks-and-Facilities/Picnic-Area-Rentals"
+   }
+  ]
+ },
+ {
+  "name": "Creekside Park",
+  "area": "Cupertino",
+  "address": "10455 Miller Ave",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has a playground, an open grass field and three soccer fields.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Parks-and-Facilities/Picnic-Area-Rentals"
+   }
+  ]
+ },
+ {
+  "name": "Somerset Park",
+  "area": "Cupertino",
+  "address": "10798 Stokes Ave",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Wilson Park",
+  "area": "Cupertino",
+  "address": "19784 Wintergreen Dr",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has baseball and soccer fields available for reservation.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Parks-and-Facilities/Athletic-Fields-and-Courts"
+   }
+  ]
+ },
+ {
+  "name": "Stevens Creek County Park",
+  "area": "Cupertino",
+  "address": "11401 Stevens Canyon Rd",
+  "city": "Cupertino",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The county acquired the 400-acre parcel on January 24, 1924.",
+    "url": "https://parks.santaclaracounty.gov/locations/stevens-creek-county-park"
+   },
+   {
+    "text": "The park has a 28-station archery course and a boat launch entrance.",
+    "url": "https://parks.santaclaracounty.gov/locations/stevens-creek-county-park"
+   }
+  ]
+ },
+ {
+  "name": "Central Park",
+  "area": "Santa Clara",
+  "address": "909 Kiely Blvd",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 52-acre park includes a community amphitheater, the Veterans Memorial and the International Swim Center.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/150/15258"
+   },
+   {
+    "text": "Hosts the annual July 4th All-City Picnic and the Santa Clara Art & Wine Festival.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/150/15258"
+   }
+  ]
+ },
+ {
+  "name": "Steve Carli Park",
+  "area": "Santa Clara",
+  "address": "1045 Los Padres Blvd",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Formerly Sunnybrae Park, renamed in 1973 in memory of Steve Carli, a boy active in the Westside Little League.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/178/15258?npage=4"
+   }
+  ]
+ },
+ {
+  "name": "Meadow Park",
+  "area": "Santa Clara",
+  "address": "3355 Octavius Dr",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park has BBQ facilities, fitness equipment, picnic tables and a playground.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/171/15258"
+   }
+  ]
+ },
+ {
+  "name": "Homeridge Park",
+  "area": "Santa Clara",
+  "address": "2985 Stevenson St",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The six-acre neighborhood park was renovated in 2020.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/162/15258?selamenityid=22"
+   },
+   {
+    "text": "Has reservable picnic areas and a hydration station with a dog water bowl near the playground.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/162/15258?selamenityid=22"
+   }
+  ]
+ },
+ {
+  "name": "Henry Schmidt Park",
+  "area": "Santa Clara",
+  "address": "555 Los Padres Blvd",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The eight-acre park is named for Henry Schmidt, who trained athletes for over 40 years including 49ers teams.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/161/15258?npage=3"
+   },
+   {
+    "text": "The neighborhood building holds the Walls of Fame, a tribute to Henry Schmidt.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/161/15258?npage=3"
+   }
+  ]
+ },
+ {
+  "name": "Bowers Park",
+  "area": "Santa Clara",
+  "address": "2582 Cabrillo Ave",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A seven-acre community park next to Bowers Elementary and Cabrillo Middle School.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/148/15258"
+   }
+  ]
+ },
+ {
+  "name": "Everett Alvarez Jr. Park",
+  "area": "Santa Clara",
+  "address": "2280 Rosita Ave",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for Navy Lt. Cdr. Everett Alvarez Jr., the longest-held American POW of the Vietnam War.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/155/15258?npage=2"
+   },
+   {
+    "text": "The park is one and a half acres.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/155/15258?npage=2"
+   }
+  ]
+ },
+ {
+  "name": "Magical Bridge Playground",
+  "area": "Sunnyvale",
+  "address": "540 N Fair Oaks Ave",
+  "city": "Sunnyvale",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The inclusive playground in Fair Oaks Park opened in 2022.",
+    "url": "https://www.magicalbridge.org/sunnyvale-playground"
+   },
+   {
+    "text": "Designed for children and adults with physical and cognitive disabilities, autism and sensory differences.",
+    "url": "https://www.magicalbridge.org/sunnyvale-playground"
+   }
+  ]
+ },
+ {
+  "name": "California Theatre",
+  "area": "Downtown San Jose",
+  "address": "345 S First St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1927 as a movie palace and closed in 1973.",
+    "url": "https://www.symphonysanjose.org/explore/our-venues/california-theatre/history/"
+   },
+   {
+    "text": "Reopened in 2001 after a $75 million renovation as a 1,100-seat hall.",
+    "url": "https://www.symphonysanjose.org/explore/our-venues/california-theatre/history/"
+   },
+   {
+    "text": "Symphony San Jose moved into the restored theatre in 2004.",
+    "url": "https://www.symphonysanjose.org/explore/our-venues/california-theatre/history/"
+   }
+  ]
+ },
+ {
+  "name": "San Jose Center for the Performing Arts",
+  "area": "Downtown San Jose",
+  "address": "255 Almaden Blvd",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1972 and designed by the Frank Lloyd Wright Foundation.",
+    "url": "https://sanjosetheaters.org/center-for-the-performing-arts-2/"
+   },
+   {
+    "text": "The theater has 2,608 seats, 1,852 orchestra and 756 balcony.",
+    "url": "https://sanjosetheaters.org/center-for-the-performing-arts-2/"
+   }
+  ]
+ },
+ {
+  "name": "Montgomery Theater",
+  "area": "Downtown San Jose",
+  "address": "271 S Market St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1936, the 500-seat theater is home to CMT San Jose.",
+    "url": "https://sanjosetheaters.org/theaters/montgomery-theater/"
+   },
+   {
+    "text": "Has a courtyard with a built-in fire pit that connects to the San Jose Civic courtyard.",
+    "url": "https://sanjosetheaters.org/theaters/montgomery-theater/"
+   }
+  ]
+ },
+ {
+  "name": "San Jose Civic",
+  "area": "Downtown San Jose",
+  "address": "135 W San Carlos St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1936, designed by Binder & Curtis in the Spanish California Mission style.",
+    "url": "https://sanjosetheaters.org/theaters/san-jose-civic/"
+   },
+   {
+    "text": "The Who launched their first headlining U.S. tour here in 1968.",
+    "url": "https://sanjosetheaters.org/theaters/san-jose-civic/"
+   },
+   {
+    "text": "Completed a renovation in 2012.",
+    "url": "https://sanjosetheaters.org/theaters/san-jose-civic/"
+   }
+  ]
+ },
+ {
+  "name": "San Jose Improv",
+  "area": "Downtown San Jose",
+  "address": "62 S Second St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The building opened in 1904 as the Jose Theater, the oldest theater in San Jose.",
+    "url": "https://en.wikipedia.org/wiki/San_Jose_Improv"
+   },
+   {
+    "text": "Construction began in 1903 under owner David Jacks, the Monterey landowner behind Monterey Jack cheese.",
+    "url": "https://en.wikipedia.org/wiki/San_Jose_Improv"
+   }
+  ]
+ },
+ {
+  "name": "San Jose Institute of Contemporary Art",
+  "area": "Downtown San Jose",
+  "address": "560 S First St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Artists incorporated it in October 1980, and its first exhibition opened October 19, 1980.",
+    "url": "https://www.icasanjose.org/about-us/history/"
+   },
+   {
+    "text": "Bought its 7,500-square-foot building in the SoFA district in April 2006.",
+    "url": "https://www.icasanjose.org/about-us/history/"
+   }
+  ]
+ },
+ {
+  "name": "Children's Discovery Museum of San Jose",
+  "area": "Downtown San Jose",
+  "address": "180 Woz Way",
+  "city": "San Jose",
+  "tier": "insider",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": {
+   "text": "Apple co-founder Steve Wozniak was the largest private donor of the museum's original capital campaign.",
+   "url": "https://en.wikipedia.org/wiki/Children's_Discovery_Museum_of_San_Jose"
+  },
+  "facts": [
+   {
+    "text": "Opened in 1990 in a purple building designed by architect Ricardo Legorreta.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Discovery_Museum_of_San_Jose"
+   },
+   {
+    "text": "Woz Way is named for Steve Wozniak, the largest private donor of the original capital campaign.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Discovery_Museum_of_San_Jose"
+   },
+   {
+    "text": "A half-acre outdoor nature play space opened in 2017.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Discovery_Museum_of_San_Jose"
+   }
+  ]
+ }
+]

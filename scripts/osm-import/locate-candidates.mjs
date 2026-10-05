@@ -12,42 +12,18 @@
 // naming the app, and every reply cached (data/<region>/nominatim/) so a
 // rerun doesn't ask again.
 import fs from 'node:fs';
-import crypto from 'node:crypto';
 import { regionFromArgs } from './regions.js';
 import { pickMatch, areaOf, viewbox, elementOf, parseAddress, OPINION, core } from './locate.js';
 import { normName } from '../../src/lib/placeMatch.js';
 import { okWebFact } from './transform.js';
+import { nominatim as nominatimSearch } from './nominatim.mjs';
 
 const region = regionFromArgs(process.argv);
 const RESEARCH = `scripts/osm-import/research/${region.id}`;
 const CACHE = `${region.dataDir}/nominatim`;
 const FACTS = 'scripts/osm-import/web-facts.json';
-const UA = 'LandmarkHunters-osm-import/1.0 (https://landmarkhunters.com; https://github.com/landymontiel25/Landmark-Hunters)';
-const API = 'https://nominatim.openstreetmap.org/search';
 fs.mkdirSync(CACHE, { recursive: true });
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-let last = 0;
-async function nominatim(params) {
-  const q = new URLSearchParams({ format: 'jsonv2', addressdetails: '1', extratags: '1', namedetails: '1', limit: '10', countrycodes: 'us', ...params });
-  const file = `${CACHE}/${crypto.createHash('sha1').update(q.toString()).digest('hex')}.json`;
-  if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf8'));
-  for (let attempt = 1; ; attempt++) {
-    await sleep(Math.max(0, last + 1100 - Date.now()));
-    last = Date.now();
-    try {
-      const r = await fetch(`${API}?${q}`, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30000) });
-      if (!r.ok) throw new Error(`Nominatim ${r.status}`);
-      const data = await r.json();
-      fs.writeFileSync(file, JSON.stringify(data));
-      return data;
-    } catch (e) {
-      if (attempt >= 5) throw e;
-      console.warn(`retry ${attempt}: ${e.message}`);
-      await sleep(5000 * attempt);
-    }
-  }
-}
+const nominatim = (params) => nominatimSearch(CACHE, params);
 
 // The researched address, geocoded (structured search), or null.
 async function geocode(c) {
