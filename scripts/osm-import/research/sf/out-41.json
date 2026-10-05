@@ -1,0 +1,486 @@
+[
+ {
+  "id": "osm-n11423890573",
+  "name": "The Socialite",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Address shown by search results: 79 Jefferson St (permit listed 77 Jefferson St), Fisherman's Wharf",
+  "facts": [
+   {
+    "text": "A brewpub that brews its own beer on site at its Fisherman's Wharf location.",
+    "url": "https://whatnow.com/san-francisco/restaurants/the-socialite-crafthouse-kitchen-expanding-in-san-francisco/"
+   },
+   {
+    "text": "The Fisherman's Wharf location was previously home to Fire & Brew.",
+    "url": "https://whatnow.com/san-francisco/restaurants/the-socialite-crafthouse-kitchen-expanding-in-san-francisco/"
+   },
+   {
+    "text": "Its original location is on Brannan Street.",
+    "url": "https://whatnow.com/san-francisco/restaurants/the-socialite-crafthouse-kitchen-expanding-in-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13057323401",
+  "name": "The Stud",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1966 by George Matson and Alexis Muir.",
+    "url": "https://www.sfheritage.org/community/the-stud/"
+   },
+   {
+    "text": "Run as a collectively owned queer bar since 2016, under The Stud Collective.",
+    "url": "https://www.sfheritage.org/community/the-stud/"
+   },
+   {
+    "text": "Closed in 2020 during the COVID-19 pandemic and reopened in 2024 at this location.",
+    "url": "https://www.sfheritage.org/community/the-stud/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2249505473",
+  "name": "The Summer Place",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Reopened in 2021 under new owners after about 10 months of renovations.",
+    "url": "https://www.sfweekly.com/dining/summer-place-feels-like-home-to-lower-nob-hill-residents/article_9cc40d73-885f-478e-8deb-c600b89a07f2.html"
+   },
+   {
+    "text": "A neighborhood bar in the lower Nob Hill area.",
+    "url": "https://www.sfweekly.com/dining/summer-place-feels-like-home-to-lower-nob-hill-residents/article_9cc40d73-885f-478e-8deb-c600b89a07f2.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2454979580",
+  "name": "The Sycamore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts a pub quiz every Monday night.",
+    "url": "https://thesycamoresf.com/events"
+   },
+   {
+    "text": "Serves weekend brunch with bottomless mimosas.",
+    "url": "https://thesycamoresf.com/brunch-menu"
+   }
+  ]
+ },
+ {
+  "id": "osm-w148174267",
+  "name": "The Temple Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts live jazz.",
+    "url": "https://www.jazznearyou.com/sanfrancisco/venues/the-temple-bar"
+   },
+   {
+    "text": "An Irish pub that also hosts live music, trivia and bingo.",
+    "url": "https://www.yelp.com/biz/the-temple-bar-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4129601492",
+  "name": "The Treasury",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies a 1916 Beaux Arts space that was formerly home to the original Standard Oil Company.",
+    "url": "http://www.thetreasurysf.com/"
+   },
+   {
+    "text": "A sherry-focused bar with about 30 sherries by the glass.",
+    "url": "https://www.sherry.wine/enjoying-sherry/sherry-spots/treasury"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1713269625",
+  "name": "The Valley Tavern",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a multi-level back patio with picnic tables and TVs on each level.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/valley-tavern"
+   },
+   {
+    "text": "A sports bar with U-shaped booths facing large TVs.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/valley-tavern"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11043335423",
+  "name": "The Vault Garden",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A heated, covered outdoor dining space open year-round.",
+    "url": "https://www.hineighborsf.com/hn-thevaultgarden"
+   },
+   {
+    "text": "Owned and operated by Hi Neighbor Hospitality Group, which also runs The Vault Steakhouse.",
+    "url": "https://www.hineighborsf.com/hn-thevaultgarden"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1612808193",
+  "name": "The View Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sits on the 39th floor of the San Francisco Marriott Marquis.",
+    "url": "https://www.sfgate.com/food/article/sf-view-lounge-marriott-hotel-18395679.php"
+   },
+   {
+    "text": "Its signature martini, the Ten/89, is named after the hotel's opening story.",
+    "url": "https://www.sfgate.com/food/article/sf-view-lounge-marriott-hotel-18395679.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n281652616",
+  "name": "The Wooden Nickel",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/the-wooden-nickel-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title lists 1900 Folsom St as CLOSED; SFGate article (sfgate.com/food/article/wooden-nickel-sf-bar-closed-17882649.php) reports it will not reopen after flood damage",
+  "facts": []
+ },
+ {
+  "id": "osm-n6475537098",
+  "name": "Thee Parkside",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfexaminer.com/culture/thee-parkside-closes-and-san-francisco-loses-a-piece-of-itself/article_776e601e-b6b2-4bb1-93b5-a78e31a65d7e.html",
+  "notFound": false,
+  "searches": 1,
+  "note": "SF Examiner and SF Chronicle report it served its last pint July 5 after 26 years; building at 1600 17th St sold to a developer",
+  "facts": []
+ },
+ {
+  "id": "osm-n10558492785",
+  "name": "Third Rail",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Chef Phil West and bartender Jeff Lyon, who worked together at Range.",
+    "url": "https://www.thirdrailbarsf.com/about-us"
+   },
+   {
+    "text": "A cocktail bar that also makes its own jerky, some smoked and some vegetarian.",
+    "url": "https://www.thirdrailbarsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w216220336",
+  "name": "Thriller Social Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies two levels with three bars in about 10,000 square feet.",
+    "url": "https://www.thrillersocialclub.com/about-us"
+   },
+   {
+    "text": "Its food menu is made in partnership with Stag Dining Group.",
+    "url": "https://www.thrillersocialclub.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4199804593",
+  "name": "Tiki Haven",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The signature drink is the Fire Bowl, a blended rum, vodka and gin punch served in a volcano tiki bowl.",
+    "url": "http://tikihavensf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321383079",
+  "name": "Toad Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "The site at 4146 18th Street was formerly home to The Pendulum bar.",
+    "url": "https://en.wikipedia.org/wiki/Toad_Hall_Bar"
+   },
+   {
+    "text": "The building's facade was restored in 2008 for the filming of Milk.",
+    "url": "https://en.wikipedia.org/wiki/Toad_Hall_Bar"
+   },
+   {
+    "text": "An LGBTQ dance and video bar with a patio.",
+    "url": "https://en.wikipedia.org/wiki/Toad_Hall_Bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4750382901",
+  "name": "Together Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Formerly named Gather Dogpatch, under the same team.",
+    "url": "https://www.togetherloungesf.com/about-3"
+   },
+   {
+    "text": "Pours low-intervention wines, many certified organic or biodynamic.",
+    "url": "https://www.togetherloungesf.com/about-3"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2071647991",
+  "name": "Tonga Room & Hurricane Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its lagoon was built from the Fairmont's Terrace Plunge swimming pool, installed in 1929.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   },
+   {
+    "text": "MGM set director Mel Melvin was hired to convert the pool into the Tonga Room.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   },
+   {
+    "text": "Simulated rainstorms with thunder and lightning fall over the lagoon.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   }
+  ]
+ },
+ {
+  "id": "osm-n412087372",
+  "name": "Tonic",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://hoodline.com/2018/04/tonic-to-close-reopen-at-undisclosed-lower-nob-hill-location/",
+  "notFound": false,
+  "searches": 1,
+  "note": "Hoodline reports Tonic closed its Polk and Union location in April 2018 and moved to Lower Nob Hill; address tonicbar-sf.com/OSM is stale",
+  "facts": []
+ },
+ {
+  "id": "osm-n3702219079",
+  "name": "Tony Nik's Cafe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened as Tony Nicco's Cafe right after Prohibition ended in 1933, in a building that had housed Madame Nicco's French Laundry.",
+    "url": "https://www.tonyniks.com/history/"
+   },
+   {
+    "text": "Charles 'Butch' Lavagnino bought it in 1951 and renamed it Tony Nik's.",
+    "url": "https://www.tonyniks.com/history/"
+   },
+   {
+    "text": "Sold in 2000 to owners including Tony Nicco's grandson.",
+    "url": "https://www.tonyniks.com/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1417639584",
+  "name": "Top of the Mark",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Address null; lounge is atop the InterContinental Mark Hopkins",
+  "facts": [
+   {
+    "text": "Hotel owner George D. Smith converted the Mark Hopkins penthouse on the 19th floor into a glass-walled cocktail lounge.",
+    "url": "https://en.wikipedia.org/wiki/Top_of_the_Mark"
+   },
+   {
+    "text": "The name came from friends' reply when Smith said he did not know what to call the top of The Mark.",
+    "url": "https://en.wikipedia.org/wiki/Top_of_the_Mark"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2250378561",
+  "name": "Tope",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/tope-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: TOPE - CLOSED, 1326 Grant Ave; Updated June 2026",
+  "facts": []
+ },
+ {
+  "id": "osm-n61671096",
+  "name": "Toronado",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned by Dave Keene.",
+    "url": "https://www.beerandbrewing.com/love-handles-toronado"
+   },
+   {
+    "text": "Pours from 50 taps and three cask handpulls.",
+    "url": "https://www.beerandbrewing.com/love-handles-toronado"
+   },
+   {
+    "text": "Holds an annual barleywine festival.",
+    "url": "https://www.beerandbrewing.com/love-handles-toronado"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1618687933",
+  "name": "Trad'r Sam",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A tiki bar that opened in 1937.",
+    "url": "https://www.signsunited.com/tradrsam"
+   },
+   {
+    "text": "Has been run by the same family for over 30 years.",
+    "url": "https://www.signsunited.com/tradrsam"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4030143560",
+  "name": "Trick Dog",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Josh Harris of Bon Vivants Hospitality.",
+    "url": "https://punchdrink.com/venues/trick-dog/"
+   },
+   {
+    "text": "Changes its cocktail menu theme each season, including zodiac signs and neighborhood-themed drinks.",
+    "url": "https://punchdrink.com/venues/trick-dog/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10635333073",
+  "name": "True Laurel",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "From bar director Nicolas Torres and chef David Barzelay, the team behind Lazy Bear.",
+    "url": "https://barmagazine.com/bars/true-laurel"
+   },
+   {
+    "text": "Makes drinks with California ingredients such as pinecone distillate and redwood tips.",
+    "url": "https://barmagazine.com/bars/true-laurel"
+   }
+  ]
+ }
+]
