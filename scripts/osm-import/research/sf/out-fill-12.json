@@ -1,0 +1,636 @@
+[
+ {
+  "name": "Wooly Pig",
+  "area": "Dogpatch",
+  "address": "2295 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Held the grand opening of its Dogpatch cafe in June 2018.",
+    "url": "https://hoodline.com/2018/06/wooly-pig-cafe-celebrates-dogpatch-grand-opening/"
+   },
+   {
+    "text": "Relocated to Dogpatch from the Inner Sunset.",
+    "url": "https://woolypigsf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Dogpatch Saloon",
+  "area": "Dogpatch",
+  "address": "2496 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served the Dogpatch since 1912.",
+    "url": "https://www.potrerodogpatch.com/PDMA-Member-Businesses/dogpatch-saloon"
+   },
+   {
+    "text": "Counted among San Francisco's 100-year-old bars by InsideHook.",
+    "url": "https://www.insidehook.com/culture-san-francisco/san-francisco-historic-bars"
+   }
+  ]
+ },
+ {
+  "name": "Sam Jordan's Bar",
+  "area": "Bayview-Hunters Point",
+  "address": "4004 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/sam-jordans-bar-and-grill-san-francisco-3",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Auntie April's Chicken-n-Waffles",
+  "area": "Bayview-Hunters Point",
+  "address": "4618 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/auntie-aprils-chicken-n-waffles-san-francisco-2",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Radio Africa & Kitchen",
+  "area": "Bayview-Hunters Point",
+  "address": "4800 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Eskender Aseged started Radio Africa as a pop-up in 2004 before opening the Bayview restaurant.",
+    "url": "https://offthegrid.com/blog/the-story-behind-radio-africa-kitchen"
+   },
+   {
+    "text": "The name comes from neighbors in Ethiopia gathering around the town radio for meals.",
+    "url": "https://offthegrid.com/blog/the-story-behind-radio-africa-kitchen"
+   },
+   {
+    "text": "Aseged worked with chefs including Jeremiah Tower and Joyce Goldstein.",
+    "url": "https://offthegrid.com/blog/the-story-behind-radio-africa-kitchen"
+   }
+  ]
+ },
+ {
+  "name": "All Good Pizza",
+  "area": "Bayview-Hunters Point",
+  "address": "1605 Jerrold Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Open since 2012 and woman owned.",
+    "url": "https://www.allgoodpizza.com/"
+   },
+   {
+    "text": "Serves Neapolitan-style brick oven pizza in a 7,000-square-foot beer garden.",
+    "url": "https://www.allgoodpizza.com/"
+   },
+   {
+    "text": "Hosts the Bayview Community Market in its garden on Saturdays from May to October.",
+    "url": "https://www.allgoodpizza.com/"
+   }
+  ]
+ },
+ {
+  "name": "Gumbo Social",
+  "area": "Bayview-Hunters Point",
+  "address": "5176 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began as a pop-up and became a first brick-and-mortar restaurant in the Bayview.",
+    "url": "https://www.gumbosocial.com/post/gumbo-social-ready-to-open-first-brick-and-mortar-restaurant-in-the-bayview-san-francisco"
+   },
+   {
+    "text": "Chef Dontaye Ball took ownership of Cafe Melange at San Francisco City Hall.",
+    "url": "https://www.gumbosocial.com/post/chef-dontaye-ball-of-gumbo-social-takes-ownership-of-cafe-melange-at-san-francisco-city-hall"
+   }
+  ]
+ },
+ {
+  "name": "Museum of Craft and Design",
+  "area": "Dogpatch",
+  "address": "2569 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2004 as the San Francisco Museum of Craft+Design.",
+    "url": "https://sfmcd.org/aboutmcd/"
+   },
+   {
+    "text": "Moved to the American Industrial Center in Dogpatch in April 2013.",
+    "url": "https://sfmcd.org/aboutmcd/"
+   },
+   {
+    "text": "Its building was originally the American Can Company plant from 1915.",
+    "url": "https://sfmcd.org/aboutmcd/"
+   }
+  ]
+ },
+ {
+  "name": "Bayview Opera House",
+  "area": "Bayview-Hunters Point",
+  "address": "4705 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1888 and reputed to be the oldest existing theatre in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Bayview_Opera_House"
+   },
+   {
+    "text": "Renamed in 1995 for playwright and actress Ruth Williams, who helped prevent its demolition.",
+    "url": "https://en.wikipedia.org/wiki/Bayview_Opera_House"
+   },
+   {
+    "text": "Listed on the National Register of Historic Places in 2011.",
+    "url": "https://en.wikipedia.org/wiki/Bayview_Opera_House"
+   }
+  ]
+ },
+ {
+  "name": "Goat Hill Pizza",
+  "area": "Potrero Hill",
+  "address": "300 Connecticut St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1975 by five friends.",
+    "url": "https://www.sfheritage.org/news/sflegacybiz-spotlight-goat-hill-pizza/"
+   },
+   {
+    "text": "Named for the neighborhood's history as hilly pastureland.",
+    "url": "https://www.sfheritage.org/news/sflegacybiz-spotlight-goat-hill-pizza/"
+   },
+   {
+    "text": "Goat hoofprints from around 1920 are preserved in the sidewalk outside.",
+    "url": "https://www.sfheritage.org/news/sflegacybiz-spotlight-goat-hill-pizza/"
+   }
+  ]
+ },
+ {
+  "name": "Plow",
+  "area": "Potrero Hill",
+  "address": "1299 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2010 by Joel Bleskacek and Maxine Siu, who met at Oliveto in Oakland.",
+    "url": "https://www.eatatplow.com/about-us"
+   },
+   {
+    "text": "Built out a vacant architect studio in Potrero Hill with local contractors and Bay Area materials.",
+    "url": "https://www.eatatplow.com/about-us"
+   }
+  ]
+ },
+ {
+  "name": "Chez Maman East",
+  "area": "Potrero Hill",
+  "address": "1401 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves French comfort food such as roast chicken, crepes and French onion soup.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/chez-maman-east"
+   }
+  ]
+ },
+ {
+  "name": "La Connessa",
+  "area": "Potrero Hill",
+  "address": "1695 Mariposa St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Run by Bacchus Management Group, the company behind Spruce and Village Pub.",
+    "url": "https://www.sfchronicle.com/food/article/This-hit-Bay-Area-restaurant-group-is-opening-17427945.php"
+   },
+   {
+    "text": "One of three side-by-side Bacchus Management Group restaurants planned for Potrero Hill.",
+    "url": "https://sfist.com/2022/09/09/restaurant-group-behind-spruce-and-village-pub-to-open-three-new-restaurants-potrero-hill/"
+   }
+  ]
+ },
+ {
+  "name": "Farley's",
+  "area": "Potrero Hill",
+  "address": "1315 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Celebrated 30 years as a Potrero Hill coffee shop.",
+    "url": "https://www.potreroview.net/farleys-celebrates-30-years-of-coffee-community/"
+   },
+   {
+    "text": "Profiled by SFGate as Potrero Hill's third place.",
+    "url": "https://www.sfgate.com/food/article/Farleys-coffee-is-potrero-hill-gathering-place-16575017.php"
+   }
+  ]
+ },
+ {
+  "name": "Old Skool Cafe",
+  "area": "Bayview-Hunters Point",
+  "address": "1429 Mendell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has trained and employed at-risk and formerly incarcerated youth for more than 20 years.",
+    "url": "https://www.oldskoolcafe.org/about"
+   },
+   {
+    "text": "Runs as a 1920s-themed supper club with live jazz.",
+    "url": "https://www.sfgate.com/food/article/sf-unique-dining-experience-1920s-supper-club-20168602.php"
+   }
+  ]
+ },
+ {
+  "name": "Catharine Clark Gallery",
+  "area": "Potrero Hill",
+  "address": "248 Utah St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1991 and reopened at 248 Utah Street in July 2013.",
+    "url": "https://en.wikipedia.org/wiki/Catharine_Clark_Gallery"
+   }
+  ]
+ },
+ {
+  "name": "Hosfelt Gallery",
+  "area": "Potrero Hill",
+  "address": "260 Utah St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1996 by Todd Hosfelt.",
+    "url": "https://en.wikipedia.org/wiki/Hosfelt_Gallery"
+   },
+   {
+    "text": "Moved to an 8,900-square-foot space on Utah Street in 2012.",
+    "url": "https://en.wikipedia.org/wiki/Hosfelt_Gallery"
+   }
+  ]
+ },
+ {
+  "name": "Harmonic Brewing",
+  "area": "Dogpatch",
+  "address": "1050 26th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/harmonic-brewing-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Serpentine",
+  "area": "Dogpatch",
+  "address": "2495 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/serpentine-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Cafe Envy",
+  "area": "Bayview-Hunters Point",
+  "address": "1701 Yosemite Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/cafe-envy-san-francisco?start=40",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Hazel's Kitchen",
+  "area": "Potrero Hill",
+  "address": "1319 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Papito",
+  "area": "Potrero Hill",
+  "address": "1457 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Marcella's Lasagneria",
+  "area": "Dogpatch",
+  "address": "1099 Tennessee St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Esprit Park",
+  "area": "Dogpatch",
+  "address": "Indiana St between 19th St and 20th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1982 as a private park for employees of the clothing company Esprit.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Esprit-Park-165"
+   },
+   {
+    "text": "Transferred to the Recreation and Park Department in 2001.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Esprit-Park-165"
+   },
+   {
+    "text": "A full renovation was completed in 2025 and added an off-leash dog play area.",
+    "url": "https://sfrecpark.org/1136/Esprit-Park-Renovation-Project"
+   }
+  ]
+ },
+ {
+  "name": "Heron's Head Park",
+  "area": "Bayview-Hunters Point",
+  "address": "32 Jennings St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Its EcoCenter was certified LEED Platinum by the U.S. Green Building Council in 2013.",
+    "url": "https://sfrecpark.org/1226/The-EcoCenter-at-Herons-Head-Park"
+   },
+   {
+    "text": "The EcoCenter runs off the grid with solar power and a living roof.",
+    "url": "https://sfrecpark.org/1226/The-EcoCenter-at-Herons-Head-Park"
+   },
+   {
+    "text": "Its Nature Exploration Area won UNICEF's 2021 Cities Inspires Award.",
+    "url": "https://sfrecpark.org/1226/The-EcoCenter-at-Herons-Head-Park"
+   }
+  ]
+ },
+ {
+  "name": "Crane Cove Park",
+  "area": "Dogpatch",
+  "address": "Illinois St at 19th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A waterfront park of about 7 acres next to the Pier 70 shipyard.",
+    "url": "https://sfrecpark.org/DocumentCenter/View/1613/Crane-Cove-Park-PDF"
+   },
+   {
+    "text": "Plans include restoration of historic cranes and a human-powered boating facility.",
+    "url": "https://sfrecpark.org/DocumentCenter/View/1613/Crane-Cove-Park-PDF"
+   }
+  ]
+ },
+ {
+  "name": "Potrero Hill Recreation Center",
+  "area": "Potrero Hill",
+  "address": "801 Arkansas St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has a gymnasium, auditorium, two lighted tennis courts and a dog play area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Potrero-Hill-Rec-Center-275"
+   }
+  ]
+ },
+ {
+  "name": "Hilltop Park",
+  "area": "Bayview-Hunters Point",
+  "address": "Bayview Hill",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sits at the highest point of Bayview Hill and is known for its 78-foot sundial.",
+    "url": "https://sfrecpark.org/615/Hilltop-Park"
+   },
+   {
+    "text": "Home to the city's first skatepark; the park was renovated and reopened in December 2016.",
+    "url": "https://sfrecpark.org/615/Hilltop-Park"
+   }
+  ]
+ },
+ {
+  "name": "McKinley Square",
+  "area": "Potrero Hill",
+  "address": "20th St and Vermont St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has an off-leash dog area, picnic area and playground.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/McKinley-Square-352"
+   },
+   {
+    "text": "Hosts the Potrero Hill Community Garden.",
+    "url": "https://sfrecpark.org/1101/Potrero-Hill-Community-Garden"
+   }
+  ]
+ },
+ {
+  "name": "Youngblood-Coleman Playground",
+  "area": "Bayview-Hunters Point",
+  "address": "1400 Hudson St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Home field of the Bayview United Soccer Club.",
+    "url": "https://sfrecpark.org/1895/Bayview-United-Soccer-Club"
+   },
+   {
+    "text": "Has lit artificial turf soccer and softball fields, a baseball diamond and tennis courts.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Youngblood-Coleman-Playground-273"
+   }
+  ]
+ }
+]
