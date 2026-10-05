@@ -1,0 +1,444 @@
+[
+ {
+  "id": "osm-n621818366",
+  "name": "Level III",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Marriott lists the bar at the JW Marriott San Francisco Union Square.",
+  "facts": [
+   {
+    "text": "Pours handcrafted cocktails and Northern California wines, with light bites.",
+    "url": "https://www.marriott.com/en-us/dining/restaurant-bar/sfojw-jw-marriott-san-francisco-union-square/6907655-level-iii-bar.mi"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4108029915",
+  "name": "Li Po Cocktail Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its Chinese Mai Tai recipe includes Chinese wine.",
+    "url": "https://www.kqed.org/food/1337525/chinatowns-li-po-lounge-is-a-portal-into-the-past"
+   },
+   {
+    "text": "Has vintage neon and red vinyl booths.",
+    "url": "https://www.kqed.org/food/1337525/chinatowns-li-po-lounge-is-a-portal-into-the-past"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12522217338",
+  "name": "Libreria Palabra de Dios",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Store at 2862 Mission St (Libreria Cristiana Palabra de Dios).",
+  "facts": [
+   {
+    "text": "A Christian bookstore that opened in the Mission in about 2010 as a second location after San Pablo.",
+    "url": "https://palabradediossf.com/"
+   },
+   {
+    "text": "Founded in San Pablo in 2000 by Indalecio and Ana Alicia Caballero.",
+    "url": "https://palabradediossf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6598000073",
+  "name": "Libreria Pino",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://hoodline.com/2022/06/north-beach-s-libreria-pino-moves-to-striking-new-location/",
+  "notFound": false,
+  "searches": 2,
+  "note": "Moved from Union Street to 1501 Grant Avenue in 2022.",
+  "facts": []
+ },
+ {
+  "id": "osm-n6744788662",
+  "name": "Lincoln Park Bar & Grill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Exists at 300 34th Ave near Lincoln Park golf course; no single-source facts found.",
+  "facts": []
+ },
+ {
+  "id": "osm-n12408404346",
+  "name": "Linden Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Nightbird site places the bar at 292 Linden St, next to Nightbird at 330 Gough St.",
+  "facts": [
+   {
+    "text": "A craft cocktail bar run by the team behind Nightbird, chef Kim Alter's restaurant.",
+    "url": "https://www.nightbirdrestaurant.com/linden-room/"
+   },
+   {
+    "text": "Seating is first come, first served for cocktails, in a small space.",
+    "url": "https://www.nightbirdrestaurant.com/linden-room/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9602091692",
+  "name": "Lion's Den Bar & Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has two full bars and two levels of lounge seating.",
+    "url": "https://www.lionsdenbarandlounge.com/"
+   },
+   {
+    "text": "Carries on Chinatown's live music nightclub tradition, with live bands followed by a DJ.",
+    "url": "https://www.lionsdenbarandlounge.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6450218486",
+  "name": "Liquid Gold",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A craft beer, wine and cider tap room and bottle shop, open since 2014.",
+    "url": "https://www.liquidgoldsf.com/"
+   },
+   {
+    "text": "Has no kitchen, and guests may bring their own food.",
+    "url": "https://www.liquidgoldsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w262397366",
+  "name": "Liverpool Lil's",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfist.com/2016/02/26/unable_to_recover_following_fire_li/",
+  "notFound": false,
+  "searches": 1,
+  "note": "SFist (2016) title says Liverpool Lil's closed for good after a fire; Yelp lists it as closed at 2942 Lyon St.",
+  "facts": []
+ },
+ {
+  "id": "osm-n3061387376",
+  "name": "Local Edition",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sits in the former Examiner printing room in the basement of the Hearst Building.",
+    "url": "https://www.localeditionsf.com/introduction"
+   },
+   {
+    "text": "Decor draws on 1950s and 1960s newspaper offices, with vintage paper presses.",
+    "url": "https://www.localeditionsf.com/introduction"
+   }
+  ]
+ },
+ {
+  "id": "osm-n317124810",
+  "name": "Local Tap",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A sports bar and grill near Oracle Park with more than a dozen TVs.",
+    "url": "https://www.localtapsf.com/"
+   },
+   {
+    "text": "Has more than 20 beers on draft.",
+    "url": "https://www.localtapsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3663976016",
+  "name": "Lone Palm",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The building was a grocery store, possibly built in 1895.",
+    "url": "https://brokeassstuart.com/2022/11/02/the-long-strange-history-of-the-lone-palm-in-san-francisco/"
+   },
+   {
+    "text": "Jane Seabrook and Mark Green bought the bar in 1991 and planted the palm tree out front.",
+    "url": "https://brokeassstuart.com/2022/11/02/the-long-strange-history-of-the-lone-palm-in-san-francisco/"
+   },
+   {
+    "text": "Danny Boyle ran the bar as Ireland's 32 from 1962 to 1982.",
+    "url": "https://brokeassstuart.com/2022/11/02/the-long-strange-history-of-the-lone-palm-in-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10158817989",
+  "name": "Lone Star Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1989 at Howard and 7th, and was demolished after the Loma Prieta earthquake.",
+    "url": "https://www.lonestarsf.com/about"
+   },
+   {
+    "text": "Rebuilt at its current Harrison Street spot, where the bear scene merged with the biker crowd.",
+    "url": "https://www.lonestarsf.com/about"
+   },
+   {
+    "text": "Founded by Rick Redewill.",
+    "url": "https://www.lonestarsf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1493721688",
+  "name": "Lookout",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Hosts Jock Sundays, a weekly party that benefits a different LGBT sports team each week.",
+    "url": "http://www.lookoutsf.com/events/occurrence/19/2026/5/3/13/30/0/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288538918",
+  "name": "Lost & Found",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Its cocktail program is themed on San Francisco landmarks and destinations.",
+    "url": "https://sunsetstrong.com/business/lost-and-found/"
+   },
+   {
+    "text": "Pairs cocktails with comfort bar food.",
+    "url": "https://sunsetstrong.com/business/lost-and-found/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n621818383",
+  "name": "Lost Cat",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2022 in Lower Nob Hill as a cocktail bar and restaurant.",
+    "url": "https://www.lostcatsf.com/about"
+   },
+   {
+    "text": "Makes handmade cocktails with contemporary techniques and fresh ingredients.",
+    "url": "https://www.lostcatsf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11342634169",
+  "name": "Lost Marbles",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A brewpub that makes its own beers and Spice Girls-inspired cocktails.",
+    "url": "https://www.sfchronicle.com/food/wine/article/S-F-s-newest-brewpub-is-here-with-Spice-16754955.php"
+   },
+   {
+    "text": "Decorated with a sea creature theme.",
+    "url": "https://www.sfchronicle.com/food/wine/article/S-F-s-newest-brewpub-is-here-with-Spice-16754955.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n806236999",
+  "name": "Louie Brothers Book Store",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/louie-bros-book-store-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: Louie Bros Book Store - CLOSED, 754 Washington St (Chinatown, matches lat/lng).",
+  "facts": []
+ },
+ {
+  "id": "osm-n12115120001",
+  "name": "Louie's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar in a brick-walled space.",
+    "url": "https://downtownsf.org/go/louies-bar"
+   },
+   {
+    "text": "Serves pub grub and draft beer, with food available late.",
+    "url": "https://downtownsf.org/go/louies-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1940798155",
+  "name": "Love + Propaganda",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/love-propaganda-san-francisco?start=320",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: Love + Propaganda - CLOSED, 85 Campton Pl.",
+  "facts": []
+ },
+ {
+  "id": "osm-n9023334561",
+  "name": "Luau Lounge Tiki Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Located inside Players arcade on Pier 39 (Fisherman's Wharf), within about 400 m of the given point.",
+  "facts": [
+   {
+    "text": "Opened in 2012 inside the Players arcade on Pier 39.",
+    "url": "https://mytiki.life/tiki-bars/luau-lounge"
+   },
+   {
+    "text": "Decorated with tapa cloth, beachcomber lamps and tikis.",
+    "url": "https://mytiki.life/tiki-bars/luau-lounge"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4139840864",
+  "name": "Lucita Niteclub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Lucita's Nightclub at 3247 Mission St (at 29th) confirmed by LocalWiki; no single-source facts.",
+  "facts": []
+ },
+ {
+  "id": "osm-w272564476",
+  "name": "Lucky Horseshoe",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A live music bar with weekly bluegrass, blues and jazz jams.",
+    "url": "https://www.theluckyhorseshoebar.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n819444936",
+  "name": "Lush Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The bar is built from reclaimed wood from a 150-year-old farmhouse.",
+    "url": "https://lushloungesf.com/venue"
+   },
+   {
+    "text": "Has a fireplace against an exposed brick wall and sliding front windows.",
+    "url": "https://lushloungesf.com/venue"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1613924529",
+  "name": "Madarae",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A cocktail lounge focused on handcrafted drinks and seasonal ingredients.",
+    "url": "https://www.madarae.com/about"
+   },
+   {
+    "text": "The space was once a leftist HQ and printing press, a Prohibition speakeasy and a pirate radio station.",
+    "url": "https://www.madarae.com/about"
+   }
+  ]
+ }
+]
