@@ -121,6 +121,21 @@ describe('curated selection (San Francisco, Silicon Valley)', () => {
     expect(curatedSkip(sfPlace('osm-n8', 'Old Mint', 'history-culture', 'historic site'), { 'ref:nrhp': '1' })).toBe(null);
   });
 
+  it('takes researched award and tech picks as curated, chain names included, but not courts', () => {
+    expect(curatedTierOf(sfPlace('osm-n1', 'Tartine', 'food', 'bakery', { _tier: 'acclaimed' }), {})).toBe('curated');
+    expect(curatedTierOf(sfPlace('osm-n2', 'Tartine', 'food', 'bakery', { _tier: 'everyday' }), {})).toBe(null);
+    expect(curatedTierOf(sfPlace('osm-n3', 'Tennis Club', 'sports', 'tennis court', { _tier: 'insider' }), {})).toBe(null);
+  });
+
+  it('keeps out places with too few sourced facts', () => {
+    const places = [sfPlace('osm-n1', 'Award', 'food', 'restaurant', { _tier: 'acclaimed' }), sfPlace('osm-n2', 'Thin', 'food', 'restaurant'), sfPlace('osm-n3', 'Full', 'food', 'restaurant')];
+    const counts = { 'osm-n1': 1, 'osm-n2': 1, 'osm-n3': 2 };
+    const tagsById = new Map([['osm-n2', rich], ['osm-n3', rich]]);
+    const { selected, notSelected } = selectCurated(places, { tagsById, target: 10, minWebFacts: 2, webFactsOf: (p) => counts[p.id] });
+    expect(selected.map((p) => p.id)).toEqual(['osm-n1', 'osm-n3']);
+    expect(notSelected.find((p) => p.id === 'osm-n2').why).toBe('fewer than 2 sourced facts');
+  });
+
   it('spreads the fill across areas instead of filling from the densest one', () => {
     const e = (id, area, score) => ({ p: { id, area }, score });
     const picked = roundRobin([e('a1', 'A', 9), e('a2', 'A', 8), e('a3', 'A', 7), e('b1', 'B', 3), e('c1', 'C', 4)], 4, (p) => p.area);

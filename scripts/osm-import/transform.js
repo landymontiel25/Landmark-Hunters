@@ -599,7 +599,9 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
     const t = el.tags || {};
     const pos = coordsOf(el);
     const label = `${el.type}/${el.id}`;
-    const include = overrides[`osm-${TYPE_LETTER[el.type]}${el.id}`]?.include || null;
+    // A hand-added place's kind (overrides.json include), or a located
+    // candidate's kind the pull rules lack (locate.js extraKind).
+    const include = overrides[`osm-${TYPE_LETTER[el.type]}${el.id}`]?.include || el.kind || null;
     if (!classify(t) && !include) {
       dropped.notListed.push(label);
       continue;
@@ -653,7 +655,8 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
 // Plain one-line statements with a real link; nothing that goes stale or
 // reads as an opinion (prices, hours, phone numbers, star ratings, plans).
 export function okWebFact(f) {
-  const text = String(f?.text || '').trim();
+  // A Michelin star is an award, not a rating.
+  const text = String(f?.text || '').trim().replace(/\bMichelin stars?\b/gi, 'Michelin award');
   return (
     text.length >= 12 &&
     text.length <= 160 &&

@@ -171,7 +171,7 @@ export const IMPORT_REGIONS = {
     // Curated for people who live and work in the city (select.js
     // selectCurated): researched picks first, then Wikidata places, culture
     // and the best-documented bars and food, spread across neighborhoods.
-    curated: { target: 800, nightlifeShare: 0.16, minFillScore: 3, minCultureScore: 2 },
+    curated: { target: 1000, nightlifeShare: 0.16, minFillScore: 3, minCultureScore: 2, minWebFacts: 2 },
     area: /\b(san francisco|sf|mission district|north beach|chinatown|soma|hayes valley|castro|haight|richmond district|sunset district|marina|pacific heights|nob hill|russian hill|dogpatch|jackson square|presidio|golden gate park|embarcadero|fisherman's wharf|noe valley|bernal heights|potrero hill|japantown|mission bay)\b/,
   },
   sv: {
@@ -181,7 +181,7 @@ export const IMPORT_REGIONS = {
     parts: [...SV_TOWNS.map((name) => ({ name, town: name })), { name: 'Downtown San Jose', shape: SJ_DOWNTOWN_SHAPE }],
     packRegions: ['silicon-valley'],
     packRegionOf: () => 'silicon-valley',
-    curated: { target: 340, nightlifeShare: 0.14, minFillScore: 3, minCultureScore: 2 },
+    curated: { target: 400, nightlifeShare: 0.14, minFillScore: 3, minCultureScore: 2, minWebFacts: 2 },
     area: /\b(palo alto|menlo park|atherton|woodside|portola valley|los altos|mountain view|sunnyvale|cupertino|santa clara|san jose|stanford|silicon valley)\b/,
   },
 };

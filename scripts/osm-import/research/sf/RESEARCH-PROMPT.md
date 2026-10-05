@@ -21,7 +21,10 @@ Your task gives you one of two inputs:
   Jose Spotlight, city park pages): restaurants, cafes, bakeries, bars,
   bookstores, galleries, venues, parks. Spread them across the area's
   neighborhoods or towns and across kinds. Skip names in the skip file and
-  in the region's catalog-names.json.
+  in the region's catalog-names.json. Prefer places open at least two
+  years: they are the ones OpenStreetMap has mapped, and a place OSM lacks
+  gets dropped. Restaurants, bars, cafes and shops need a street address
+  with a house number from a result, or they are dropped.
 
 Skip (do not output): chains and fast food (unless a result calls it a local
 institution or it started here), hotels themselves (their public restaurants

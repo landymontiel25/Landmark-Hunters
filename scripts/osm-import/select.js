@@ -127,8 +127,19 @@ export function curatedSkip(place, tags = {}) {
   return null;
 }
 
+// A researched candidate (locate-candidates.mjs) carries its research tier
+// as `_tier`: "acclaimed" (an award or critics' list, sourced) and
+// "insider" (a sourced tech or founder link) go in as curated picks. The
+// critics' list or the tech link is the evidence a chain name like
+// Tartine is a local institution, so only the other skips apply to them.
+const RESEARCHED_PICKS = new Set(['acclaimed', 'insider']);
+
 export function curatedTierOf(place, tags = {}, { overrides = {}, minCultureScore = 2 } = {}) {
   if (overrides[place.id]?.include) return 'curated';
+  if (RESEARCHED_PICKS.has(place._tier)) {
+    const skip = curatedSkip(place, tags);
+    return !skip || skip === 'chain branch' ? 'curated' : null;
+  }
   if (curatedSkip(place, tags)) return null;
   if (place.wikidata) return 'landmark';
   const cat = place.categories[0];
@@ -156,13 +167,19 @@ export function roundRobin(entries, room, areaOf) {
   return out;
 }
 
-export function selectCurated(places, { tagsById = new Map(), overrides = {}, target = 800, nightlifeShare = 0.15, minFillScore = 3, minCultureScore = 2, areaOf = () => '' } = {}) {
+// `webFactsOf(place)` counts the place's sourced web-research facts
+// (web-facts.json). With `minWebFacts`, a place needs that many to be kept
+// (curated picks one: their award or tech link), so nothing comes in with
+// only generic lines; each fact also adds a point to its fill score.
+export function selectCurated(places, { tagsById = new Map(), overrides = {}, target = 800, nightlifeShare = 0.15, minFillScore = 3, minCultureScore = 2, minWebFacts = 0, webFactsOf = () => 0, areaOf = () => '' } = {}) {
   const byTier = Object.fromEntries(CURATED_TIERS.map((t) => [t, []]));
   const notSelected = [];
   for (const p of places) {
     const tags = tagsById.get(p.id) || {};
     const tier = curatedTierOf(p, tags, { overrides, minCultureScore });
-    if (tier) byTier[tier].push({ p, score: richness(p, tags) });
+    const facts = webFactsOf(p);
+    if (tier && minWebFacts && facts < (tier === 'curated' ? 1 : minWebFacts)) notSelected.push({ ...p, why: `fewer than ${tier === 'curated' ? 1 : minWebFacts} sourced facts` });
+    else if (tier) byTier[tier].push({ p, score: richness(p, tags) + Math.min(facts, 4) });
     else notSelected.push({ ...p, why: curatedSkip(p, tags) || 'too few OSM details for its kind' });
   }
   const kept = [...byTier.curated, ...byTier.landmark, ...byTier.culture];
