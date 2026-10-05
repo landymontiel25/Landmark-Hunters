@@ -1,0 +1,404 @@
+[
+ {
+  "id": "osm-n7876524201",
+  "name": "Friend's Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar with a pool table.",
+    "url": "https://divesofourlives.blog/2024/08/25/friends-bar-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6604085446",
+  "name": "Friends Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Friends of the SFPL bookstore at the Main Library, 100 Larkin St, matches lat/lng",
+  "facts": [
+   {
+    "text": "A used bookstore with a general interest focus, run by the Friends of the SFPL.",
+    "url": "https://www.newpages.com/bookstore/san-francisco-friends-sf-public-library-bookstore/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3388665493",
+  "name": "Gambit Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A cocktail bar at Hayes and Laguna.",
+    "url": "https://workitberk.blogspot.com/2023/12/eat-in-san-francisco-gambit-lounge.html?m=1"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10832358131",
+  "name": "Garden Bookstore",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Matches the San Francisco Botanical Garden bookstore, 1199 9th Ave",
+  "facts": [
+   {
+    "text": "Sells books and plants as part of the Gardens of Golden Gate Park shop.",
+    "url": "https://gggp.org/shop/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n731946793",
+  "name": "Geary Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar with an original wood bar top.",
+    "url": "https://wanderlog.com/place/details/441314/the-geary-club"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3376884814",
+  "name": "Geneva Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Yelp lists 1196 Geneva Ave; no address in input",
+  "facts": [
+   {
+    "text": "Has pool tables.",
+    "url": "https://www.yelp.com/biz/geneva-pub-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4614040547",
+  "name": "Gino and Carlo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1942 inside a former North Beach boarding house.",
+    "url": "https://ginoandcarlo.com/pages/our-story"
+   },
+   {
+    "text": "Taken over in 1956 by Donato Rossi and bocce player Aldino Cuneo.",
+    "url": "https://ginoandcarlo.com/pages/our-story"
+   },
+   {
+    "text": "Added to the city's Legacy Business Registry in 2017.",
+    "url": "https://ginoandcarlo.com/pages/our-story"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4284609497",
+  "name": "Glen Park Station",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood dive with a fireplace and a back patio.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/glen-park-station"
+   },
+   {
+    "text": "Gives out free hot dogs on football game days.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/glen-park-station"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3802986675",
+  "name": "Globus Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1971 by Vladimir Azar.",
+    "url": "https://www.globusbooks.com/about.php"
+   },
+   {
+    "text": "Specializes in books on Russia, in Russian and English.",
+    "url": "https://www.globusbooks.com/about.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4055481599",
+  "name": "gogo Music & Books",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/go-go-music-and-books-inc-san-francisco",
+  "notFound": false,
+  "searches": 2,
+  "note": "Yelp title: GO GO MUSIC & BOOKS INC. - CLOSED, 675 Jackson St, Chinatown",
+  "facts": []
+ },
+ {
+  "id": "osm-n3637499305",
+  "name": "Golden Gate Tap Room",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A game hall with shuffleboard, SkeeBall, foosball, arcade games and pool tables.",
+    "url": "https://www.ggtaproom.com/about-us"
+   },
+   {
+    "text": "Serves over 100 beers, from draught to bottles.",
+    "url": "https://www.ggtaproom.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n366722014",
+  "name": "Grant and Green",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/grant-and-green-saloon-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: GRANT & GREEN SALOON - CLOSED, 1371 Grant Ave",
+  "facts": []
+ },
+ {
+  "id": "osm-n3985400820",
+  "name": "Grasslands Bar & Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Confirmed at 905 Kearny St via Yelp/Instagram listings; no single source stating a further fact",
+  "facts": []
+ },
+ {
+  "id": "osm-n13191190420",
+  "name": "Green Apple Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Lat/lng matches a Green Apple Books pop-up at Sacramento and Front streets reported by SF Chronicle (2023); not confirmed still open, no single source",
+  "facts": []
+ },
+ {
+  "id": "osm-n1819811589",
+  "name": "Green Apple Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Richard Savoy.",
+    "url": "https://greenapplebooks.com/store-history"
+   },
+   {
+    "text": "Staff began buying the business in a gradual buy-out in 1999.",
+    "url": "https://greenapplebooks.com/store-history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3277678658",
+  "name": "Green Apple Books on the Park",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began in 2014 as a partnership with the Le Video store, which stayed upstairs.",
+    "url": "https://en.wikipedia.org/wiki/Green_Apple_Books_&_Music"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4631842574",
+  "name": "Green Sports Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listed as Greens Sports Bar, 2239 Polk St, Russian Hill; matches lat/lng",
+  "facts": [
+   {
+    "text": "Decorated with sports photos and memorabilia, and has pool tables.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/greens-sports-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2521390677",
+  "name": "Grooves Inspiralled Vinyl",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by lifelong San Franciscan Ray Andersen more than 30 years ago.",
+    "url": "https://groovesrecords.com/"
+   },
+   {
+    "text": "Sells vinyl records.",
+    "url": "https://groovesrecords.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n731989588",
+  "name": "Ha-Ra",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1947 by Hank, a wrestler, and Ralph, a boxer, whose names make up the name.",
+    "url": "https://www.harasf.com/"
+   },
+   {
+    "text": "Keeps the original phone booth, art deco front door and old boxing gloves.",
+    "url": "https://www.harasf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w148175385",
+  "name": "Halcyon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Confirmed at 314 11th St; several pages about it, no single source chosen",
+  "facts": []
+ },
+ {
+  "id": "osm-n732005635",
+  "name": "Hanaro",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Source is a 2010 blog review",
+  "facts": [
+   {
+    "text": "Has a jukebox and a foosball table.",
+    "url": "https://thesanfranciscobarexperiment.wordpress.com/2010/01/10/hanaro-tenderloin/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3985401493",
+  "name": "Happy Billiard",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Confirmed at 931 Kearny St via Yelp/own site; several own-site pages, no single source chosen",
+  "facts": []
+ },
+ {
+  "id": "osm-n6515692972",
+  "name": "Happy Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A dive bar with a pool table.",
+    "url": "https://divesofourlives.blog/2024/09/08/happy-lounge-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9723884775",
+  "name": "Harmonic Brewing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Harmonic Brewing Thrive City taproom at Chase Center",
+  "facts": [
+   {
+    "text": "Part of a family-owned brewery operating since 2015 that started in Dogpatch.",
+    "url": "http://harmonicbrewing.com/about-page"
+   }
+  ]
+ },
+ {
+  "id": "osm-n412109202",
+  "name": "Harper & Rye",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named after one of the owners' children, with a nod to rye whiskey.",
+    "url": "https://www.sfstation.com/harper-and-rye-b38986017"
+   }
+  ]
+ }
+]

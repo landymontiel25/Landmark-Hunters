@@ -1,0 +1,448 @@
+[
+ {
+  "id": "osm-n4937368172",
+  "name": "Evil Eye",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a pool table and pinball and 1970s-inspired decor.",
+    "url": "https://www.evileyesf.com/"
+   },
+   {
+    "text": "Serves inventive cocktails and eclectic small plates.",
+    "url": "https://www.evileyesf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1676994251",
+  "name": "Executive Order",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched to 868 Mission St in SoMa. Yelp lists it as temporarily closed (not a permanent closure).",
+  "facts": [
+   {
+    "text": "Owned by John Eric Sanchez, with a menu tied to Filipino-American heritage.",
+    "url": "https://www.usfca.edu/news/usf-alumnus-john-eric-sanchez-pioneers-filipino-food-soma"
+   },
+   {
+    "text": "Opened in 2018 as the first large-scale Filipino-American-owned business in the SoMa Pilipinas Cultural District.",
+    "url": "https://www.usfca.edu/news/usf-alumnus-john-eric-sanchez-pioneers-filipino-food-soma"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10538343244",
+  "name": "EZ5 Cocktails",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/ez5-san-francisco",
+  "notFound": false,
+  "searches": 3,
+  "note": "Yelp title lists EZ5 at 684 Commercial St as CLOSED (Sept 2026).",
+  "facts": []
+ },
+ {
+  "id": "osm-n10861603640",
+  "name": "F8",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A SoMa nightclub with music from house and techno to drum and bass.",
+    "url": "http://www.feightsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6426948686",
+  "name": "Fabulosa Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Replaced Dog Eared Books Castro in the same storefront, reopened as Fabulosa Books.",
+    "url": "https://www.shelf-awareness.com/theshelf/2021-08-26/dog_eared_books_on_castro_st._becoming_fabulosa_books.html"
+   },
+   {
+    "text": "A general-interest neighborhood bookstore with an emphasis on LGBTQ+ titles.",
+    "url": "https://www.fabulosabooks.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4550110115",
+  "name": "Family",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Matched to Family Billiards at 2807 Geary Blvd. A Dec 2024 article says it is slated to close for redevelopment; no closure confirmed yet (Yelp updated Aug 2026 lists it open).",
+  "facts": [
+   {
+    "text": "A pool hall whose owner Delbert Wong took it over in 1987.",
+    "url": "https://sfstandard.com/2024/12/15/this-is-my-fing-home-pool-hall-diehards-react-to-closure-news/"
+   },
+   {
+    "text": "Has Brunswick Gold Crown pool tables.",
+    "url": "https://sfstandard.com/2024/12/15/this-is-my-fing-home-pool-hall-diehards-react-to-closure-news/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1230343464",
+  "name": "Fat Beli Deli",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "OSM lists it as a pub; the site shows a deli at 2598 San Bruno Ave in Portola, near the given coordinates.",
+  "facts": [
+   {
+    "text": "A deli serving sandwiches and coffee since 2006.",
+    "url": "https://www.fatbelideli.com/about"
+   },
+   {
+    "text": "Makes fresh-squeezed juices, including a signature mix of carrot, beet, apple and ginger.",
+    "url": "https://www.fatbelideli.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4139840856",
+  "name": "Fat Cat x The Mantis",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Shares a space with the Fat Cat wine bar and The Mantis, a Vietnamese American restaurant.",
+    "url": "https://www.kqed.org/arts/13992488/fat-cat-mantis-vietnamese-food-wine-bar-review-late-night-sf-bernal-heights"
+   },
+   {
+    "text": "Chef Kevin Tang cooks the Vietnamese American menu.",
+    "url": "https://www.kqed.org/arts/13992488/fat-cat-mantis-vietnamese-food-wine-bar-review-late-night-sf-bernal-heights"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9581952684",
+  "name": "Fermentation Lab",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Japantown location.",
+  "facts": [
+   {
+    "text": "The second location of the Civic Center gastropub, opened in 2023.",
+    "url": "https://sfstandard.com/2022/11/30/popular-gastropub-to-add-second-location-in-japantown/"
+   },
+   {
+    "text": "Has a full bar with 21 taps of beer and wine and nitro-infused cocktails.",
+    "url": "https://sfstandard.com/2022/11/30/popular-gastropub-to-add-second-location-in-japantown/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9647295026",
+  "name": "Fermentation Lab",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/fermentation-lab-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title at 1230 Market St reads CLOSED (updated July 2026).",
+  "facts": []
+ },
+ {
+  "id": "osm-n10651024023",
+  "name": "Ferry Plaza Farmers Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated by Foodwise at the Ferry Building on Saturdays, Tuesdays and Thursdays.",
+    "url": "https://foodwise.org/markets/ferry-plaza-farmers-market/"
+   },
+   {
+    "text": "Has served as a link between city residents and local farmers since 1993.",
+    "url": "https://foodwise.org/markets/ferry-plaza-farmers-market/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9200292442",
+  "name": "Festa Wine & Cocktail Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Lease at 1825A Post St expires in December 2026 per Standard (Apr 2026); still listed open on Yelp in Aug 2026, so not marked closed.",
+  "facts": [
+   {
+    "text": "A Japantown karaoke bar that opened about two decades ago.",
+    "url": "https://sfstandard.com/2026/04/21/festa-closing-karaoke-bar-japantown/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6314144277",
+  "name": "Fillmore Billiards",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Listings show 1528 Fillmore St, next to the given address.",
+  "facts": [
+   {
+    "text": "A pool hall with five pool tables and a table tennis table.",
+    "url": "https://pooltrips.com/pool-places/fillmore-billiard/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5796524756",
+  "name": "Final final",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched to The Final Final at Baker and Lombard Streets.",
+  "facts": [
+   {
+    "text": "A sports bar open since 1934.",
+    "url": "https://www.ktvu.com/news/final-final-91-year-old-san-francisco-sports-bar-reopen"
+   },
+   {
+    "text": "Reopened under new owners after a 7-month renovation.",
+    "url": "https://www.ktvu.com/news/final-final-91-year-old-san-francisco-sports-bar-reopen"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3790822673",
+  "name": "Finnegans Wake",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in Noe Valley in 1976 and moved to Cole Street in 1989.",
+    "url": "https://www.finneganssf.com/"
+   },
+   {
+    "text": "Its Cole Street space was formerly Maud's, a lesbian bar that opened in 1966.",
+    "url": "https://www.finneganssf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3667880931",
+  "name": "Fireside Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a fireplace at the center of the bar.",
+    "url": "https://www.yelp.com/biz/fireside-bar-san-francisco"
+   },
+   {
+    "text": "Allows dogs inside.",
+    "url": "https://www.yelp.com/biz/fireside-bar-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11050075244",
+  "name": "Fizzees",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched to Fizzee's at 3954 Geary Blvd, Inner Richmond.",
+  "facts": [
+   {
+    "text": "A neighborhood dive bar with a jukebox and pool.",
+    "url": "https://www.yelp.com/biz/fizzees-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4214319494",
+  "name": "Flanahan's Pub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established around 1978 by Mike Soden.",
+    "url": "https://flanahans.com/"
+   },
+   {
+    "text": "The space was previously an ice cream shop, then storage for the neighboring liquor store.",
+    "url": "https://flanahans.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1784908622",
+  "name": "Fly Bar & Restaurant",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Offers a large craft beer selection and pub food.",
+    "url": "https://www.flybardivis.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3667700926",
+  "name": "Foghorn Taproom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Specializes in chicken wings and Nashville Hot chicken sandwiches made in house from scratch.",
+    "url": "https://www.foghorntaproom.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4020353440",
+  "name": "Fool's Errand",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bar with a selection of natural wines, including Rieslings.",
+    "url": "https://www.raisin.digital/en/explore/united-states/california/venues/fools-errand-7501/"
+   },
+   {
+    "text": "A beer and wine bar.",
+    "url": "https://foolserrandsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8957596837",
+  "name": "Forest Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A used book store.",
+    "url": "https://www.sfstation.com/forest-books-b142397"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1478520965",
+  "name": "Fort Mason Farmer's Market",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched to the Fort Mason Center Farmers' Market near the given coordinates.",
+  "facts": [
+   {
+    "text": "A Sunday market run by the California Farmers' Markets Association.",
+    "url": "https://www.cafarmersmkts.com/fort-mason-center-farmers-market"
+   },
+   {
+    "text": "Has more than 50 farmers and vendors.",
+    "url": "https://www.cafarmersmkts.com/fort-mason-center-farmers-market"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11263551593",
+  "name": "Fort Point Beer Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Matched to the Fort Point Ferry Building beer garden at the Ferry Building.",
+  "facts": [
+   {
+    "text": "A beer garden at the Ferry Building with all outdoor seating and a kiosk.",
+    "url": "https://fortpointbeer.com/pages/fort-point-ferry-building"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9405810158",
+  "name": "Fort Point Beer Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2019, closed soon after because of COVID-19, and reopened in February 2022.",
+    "url": "https://www.brewbound.com/news/fort-point-beer-company-reopens-flagship-beer-hall-fort-point-valencia/"
+   }
+  ]
+ }
+]
