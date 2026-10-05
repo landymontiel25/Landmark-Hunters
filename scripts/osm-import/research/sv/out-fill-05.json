@@ -1,0 +1,866 @@
+[
+ {
+  "name": "Caravan Lounge",
+  "area": "SoFA",
+  "address": "98 Almaden Ave",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began inside the San Jose Greyhound station as one of several Caravan Lounges in California bus terminals.",
+    "url": "https://scoundrelsfieldguide.com/california/san-jose/caravan-lounge/"
+   },
+   {
+    "text": "Owner Leo Chargin opened the current location in 1964 on a former used car lot.",
+    "url": "https://scoundrelsfieldguide.com/california/san-jose/caravan-lounge/"
+   },
+   {
+    "text": "Focuses on live music, karaoke and comedy nights.",
+    "url": "https://scoundrelsfieldguide.com/california/san-jose/caravan-lounge/"
+   }
+  ]
+ },
+ {
+  "name": "The Farmers Union",
+  "area": "San Pedro Square",
+  "address": "151 West Santa Clara Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Farmers Union Corporation was established in this building in 1874 as an agricultural cooperative and bank.",
+    "url": "https://www.hmdb.org/m.asp?m=52658"
+   },
+   {
+    "text": "In 1961 president John P. McEnery developed the corporation's holdings into the new San Pedro Square.",
+    "url": "https://www.hmdb.org/m.asp?m=52658"
+   }
+  ]
+ },
+ {
+  "name": "Anno Domini",
+  "area": "SoFA",
+  "address": "366 S 1st St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started by graphic designers Cherri Lakey and Brian Eder.",
+    "url": "https://en.wikipedia.org/wiki/Anno_Domini_(gallery)"
+   },
+   {
+    "text": "Shows street art, zine culture and tattoo art by emerging and international artists.",
+    "url": "https://en.wikipedia.org/wiki/Anno_Domini_(gallery)"
+   }
+  ]
+ },
+ {
+  "name": "San Jose Museum of Quilts & Textiles",
+  "area": "SoFA",
+  "address": "520 S 1st St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1977 by members of the Santa Clara Valley Quilt Association.",
+    "url": "https://sj-mqt.org/mission"
+   },
+   {
+    "text": "Described as the first museum in the United States to focus solely on quilts and textiles.",
+    "url": "https://sj-mqt.org/mission"
+   },
+   {
+    "text": "Bought its 13,000 square foot SoFA building in 2005 in partnership with the City of San Jose.",
+    "url": "https://sj-mqt.org/mission"
+   }
+  ]
+ },
+ {
+  "name": "WORKS/San Jose",
+  "area": "SoFA",
+  "address": "38 S 2nd St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began in October 1977 as a group of artists and San Jose State University faculty and students.",
+    "url": "https://en.wikipedia.org/wiki/WORKS_San_Jos%C3%A9"
+   },
+   {
+    "text": "Has presented performance art, music, film, theater, spoken word and visual art.",
+    "url": "https://en.wikipedia.org/wiki/WORKS_San_Jos%C3%A9"
+   }
+  ]
+ },
+ {
+  "name": "MACLA",
+  "area": "SoFA",
+  "address": "510 S 1st St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1989 out of a community mobilization on behalf of multicultural arts.",
+    "url": "https://maclaarte.org/about/mission-history/"
+   },
+   {
+    "text": "Contemporary arts space grounded in the Chicano and Latino experience.",
+    "url": "https://maclaarte.org/about/mission-history/"
+   }
+  ]
+ },
+ {
+  "name": "San Jose Stage Company",
+  "area": "SoFA",
+  "address": "490 S 1st St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Was the first group in San Jose to secure and manage its own theater facility.",
+    "url": "https://www.sanjose.org/listings/san-jose-stage-company"
+   },
+   {
+    "text": "Opened its 200-seat three-quarter thrust venue in 1990.",
+    "url": "https://www.sanjose.org/listings/san-jose-stage-company"
+   }
+  ]
+ },
+ {
+  "name": "City Lights Theater Company",
+  "area": "SoFA",
+  "address": "529 S 2nd St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has staged plays and musicals in downtown San Jose since 1982.",
+    "url": "https://sofadistrict.org/city-lights/"
+   }
+  ]
+ },
+ {
+  "name": "Peralta Adobe",
+  "area": "San Pedro Square",
+  "address": "San Pedro Square",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1797 by Jose Manuel Gonzales and is the oldest building in San Jose.",
+    "url": "https://en.wikipedia.org/wiki/Peralta_Adobe"
+   },
+   {
+    "text": "Named for Luis Maria Peralta, a Spanish Army sergeant who owned it from 1808.",
+    "url": "https://en.wikipedia.org/wiki/Peralta_Adobe"
+   },
+   {
+    "text": "Is San Jose Historic Landmark #1 and California Historical Landmark #866.",
+    "url": "https://en.wikipedia.org/wiki/Peralta_Adobe"
+   }
+  ]
+ },
+ {
+  "name": "Fallon House",
+  "area": "San Pedro Square",
+  "address": "San Pedro Square",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Italianate mansion built in 1855 by Thomas Fallon, who was San Jose mayor from 1859 to 1860.",
+    "url": "https://en.wikipedia.org/wiki/Fallon_House"
+   },
+   {
+    "text": "Preserved as a museum across from the Peralta Adobe and run by History San Jose.",
+    "url": "https://en.wikipedia.org/wiki/Fallon_House"
+   }
+  ]
+ },
+ {
+  "name": "Trinity Episcopal Cathedral",
+  "area": "Downtown San Jose",
+  "address": "North Second Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is the oldest church building in continuous use in San Jose.",
+    "url": "https://en.wikipedia.org/wiki/Trinity_Episcopal_Cathedral_(San_Jose,_California)"
+   },
+   {
+    "text": "Designed by retired sea captain James W. Hammond and built of redwood from the Santa Cruz Mountains.",
+    "url": "https://en.wikipedia.org/wiki/Trinity_Episcopal_Cathedral_(San_Jose,_California)"
+   },
+   {
+    "text": "Expanded its bells to a 24-bell carillon in 2017, the third carillon in the Bay Area.",
+    "url": "https://en.wikipedia.org/wiki/Trinity_Episcopal_Cathedral_(San_Jose,_California)"
+   }
+  ]
+ },
+ {
+  "name": "de Saisset Museum",
+  "area": "Santa Clara University",
+  "address": "500 El Camino Real",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1955 after Isabel de Saisset bequeathed her estate to the university.",
+    "url": "https://en.wikipedia.org/wiki/De_Saisset_Museum"
+   },
+   {
+    "text": "Holds nearly 10,000 art pieces and artifacts, including a collection of California mission artifacts.",
+    "url": "https://en.wikipedia.org/wiki/De_Saisset_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Hedley Club",
+  "area": "Downtown San Jose",
+  "address": "233 West Santa Clara Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Cocktail lounge and wine bar inside the Hotel De Anza with art-deco design.",
+    "url": "https://www.sanjose.org/listings/hedley-club"
+   },
+   {
+    "text": "Hotel De Anza, home of the lounge, is a 1920s art deco building.",
+    "url": "https://www.sanjose.org/listings/hotel-de-anza"
+   },
+   {
+    "text": "Hosts live music many nights of the week.",
+    "url": "https://www.sanjose.org/listings/hedley-club"
+   }
+  ]
+ },
+ {
+  "name": "Paper Plane",
+  "area": "SoFA",
+  "address": "72 South 1st Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Cocktail bar on South First Street serving artisan-style cocktails plus wine and beer.",
+    "url": "https://www.sanjose.org/listings/paper-plane"
+   },
+   {
+    "text": "Pairs its drinks with a small food menu.",
+    "url": "https://www.sanjose.org/listings/paper-plane"
+   }
+  ]
+ },
+ {
+  "name": "Bijan Bakery & Cafe",
+  "area": "Downtown San Jose",
+  "address": "170 South Market Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Bijan Abachizadeh and his family have made pastries, cakes and croissants here since 1986.",
+    "url": "https://www.sanjose.org/listings/bijan-bakery-cafe"
+   },
+   {
+    "text": "Uses mostly imported European ingredients and no preservatives or trans fats.",
+    "url": "https://www.sanjose.org/listings/bijan-bakery-cafe"
+   }
+  ]
+ },
+ {
+  "name": "The Continental Bar",
+  "area": "SoFA",
+  "address": "349 South 1st Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Occupies the former location of Brix/Hunters and Sal & Luigi's/Mac's next to the California Theatre.",
+    "url": "https://www.sanjose.org/listings/continental-bar"
+   },
+   {
+    "text": "Has a patio and hosts live music and DJs.",
+    "url": "https://www.sanjose.org/listings/continental-bar"
+   }
+  ]
+ },
+ {
+  "name": "Mezcal",
+  "area": "Downtown San Jose",
+  "address": "25 West San Fernando Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Oaxacan regional cuisine from family recipes passed down through generations.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant"
+   },
+   {
+    "text": "Specializes in homemade moles including Estofado, Coloradito and Mole Negro.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant"
+   }
+  ]
+ },
+ {
+  "name": "Scott's Seafood",
+  "area": "SoFA",
+  "address": "200 S First St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves oysters, crab cakes, grilled fish and cioppino with a full bar.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0"
+   },
+   {
+    "text": "Offers indoor and outdoor patio seating plus private dining spaces.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0"
+   }
+  ]
+ },
+ {
+  "name": "Pellier Park",
+  "area": "San Pedro Square",
+  "address": "San Pedro Square",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Site of Louis Pellier's City Gardens nursery, founded in 1850.",
+    "url": "https://en.wikipedia.org/wiki/Pellier_Park"
+   },
+   {
+    "text": "Pellier introduced the French prune to California in 1856; the site is California Historical Landmark No. 434.",
+    "url": "https://en.wikipedia.org/wiki/Pellier_Park"
+   },
+   {
+    "text": "Reopened after renovation in a public ceremony on October 18, 2023.",
+    "url": "https://en.wikipedia.org/wiki/Pellier_Park"
+   }
+  ]
+ },
+ {
+  "name": "Parque de los Pobladores",
+  "area": "SoFA",
+  "address": "Market Street and South 1st Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 0.2 acre park in SoFA at Market Street and South 1st Street.",
+    "url": "https://en.wikipedia.org/wiki/Parque_de_los_Pobladores"
+   },
+   {
+    "text": "Holds a 1997 monument to the founding of the Pueblo de San Jose de Guadalupe by the Anza Expedition settlers.",
+    "url": "https://en.wikipedia.org/wiki/Parque_de_los_Pobladores"
+   },
+   {
+    "text": "Redeveloped in 2012 under the city's Pavement to Plaza program.",
+    "url": "https://en.wikipedia.org/wiki/Parque_de_los_Pobladores"
+   }
+  ]
+ },
+ {
+  "name": "The Pressroom",
+  "area": "Downtown San Jose",
+  "address": "189 W Santa Clara St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in the 1884 Lyndon Building, once home to the San Jose Mercury News.",
+    "url": "https://www.sanjose.org/listings/pressroom"
+   },
+   {
+    "text": "Serves California cuisine and cocktails.",
+    "url": "https://www.sanjose.org/listings/pressroom"
+   }
+  ]
+ },
+ {
+  "name": "55 South",
+  "area": "SoFA",
+  "address": "55 South 1st Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Bar with live music and big screen TVs, serving American and Mediterranean dishes.",
+    "url": "https://www.sanjose.org/listings/55-south"
+   },
+   {
+    "text": "Serves bottomless mimosas and french toast kebabs on Sundays.",
+    "url": "https://www.sanjose.org/listings/55-south"
+   }
+  ]
+ },
+ {
+  "name": "Guildhouse",
+  "area": "SoFA",
+  "address": "420 South 1st Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Social gaming venue for adult gamers combining drinks and table-top games.",
+    "url": "https://www.sanjose.org/listings/guildhouse-1"
+   },
+   {
+    "text": "Offers themed cocktails and gaming tournaments.",
+    "url": "https://www.sanjose.org/listings/guildhouse-1"
+   }
+  ]
+ },
+ {
+  "name": "El Cabron Kitchen & Cantina",
+  "area": "Downtown San Jose",
+  "address": "155 W. San Fernando Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Mexican cantina established in 2018.",
+    "url": "https://www.sanjose.org/listings/el-cabron-kitchen-cantina"
+   },
+   {
+    "text": "Menu includes molcajetes, carne asada, quesabirria tacos and spicy mango margaritas.",
+    "url": "https://www.sanjose.org/listings/el-cabron-kitchen-cantina"
+   }
+  ]
+ },
+ {
+  "name": "Fuji Sushi",
+  "area": "Downtown San Jose",
+  "address": "56 West Santa Clara Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves sushi made from fresh fish.",
+    "url": "https://www.sanjose.org/listings/fuji-sushi"
+   },
+   {
+    "text": "Menu lists more than 100 rolls.",
+    "url": "https://www.sanjose.org/listings/fuji-sushi"
+   }
+  ]
+ },
+ {
+  "name": "District",
+  "area": "San Pedro Square",
+  "address": "65 North San Pedro Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Bar in San Pedro Square serving small shareable plates, pizza and house-made charcuterie.",
+    "url": "https://www.sanjose.org/listings/district"
+   },
+   {
+    "text": "Runs an extensive wine and whiskey program.",
+    "url": "https://www.sanjose.org/listings/district"
+   }
+  ]
+ },
+ {
+  "name": "Santa Clara Women's Club Adobe",
+  "area": "Santa Clara",
+  "address": "3260 The Alameda",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Adobe dating to about 1800, the sole surviving house of the Mission Santa Clara Rancheria.",
+    "url": "https://en.wikipedia.org/wiki/Santa_Clara_Women's_Club_Adobe"
+   },
+   {
+    "text": "The Santa Clara Woman's Club bought it in 1913 and opened it as its clubhouse on June 24, 1914.",
+    "url": "https://en.wikipedia.org/wiki/Santa_Clara_Women's_Club_Adobe"
+   },
+   {
+    "text": "Registered as California Historical Landmark #249 in 1937.",
+    "url": "https://en.wikipedia.org/wiki/Santa_Clara_Women's_Club_Adobe"
+   }
+  ]
+ },
+ {
+  "name": "Civic Center Park",
+  "area": "Santa Clara",
+  "address": "Lincoln St. & El Camino Real",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Three-acre park along El Camino Real in front of Santa Clara City Hall.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/152/15258"
+   },
+   {
+    "text": "Features flower beds, a reflecting pool and fountains.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/152/15258"
+   },
+   {
+    "text": "A bronze Statue of Saint Clare by Anne Van Kleeck was installed in 1965.",
+    "url": "https://www.santaclaraca.gov/Home/Components/FacilityDirectory/FacilityDirectory/152/15258"
+   }
+  ]
+ },
+ {
+  "name": "Sara's Kitchen",
+  "area": "Santa Clara",
+  "address": "1595 Franklin St",
+  "city": "Santa Clara",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded on April 27, 1992 by Sara and Manny Manion as a burger and cheesesteak shop.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen"
+   },
+   {
+    "text": "Diner serving breakfast fare, pancakes, waffles and cheesesteak variations.",
+    "url": "https://www.saraskitchensc.com/about-saras-kitchen"
+   }
+  ]
+ },
+ {
+  "name": "Trials Pub",
+  "area": "Downtown San Jose",
+  "address": "265 North First Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in May 1997 by British couple Robert and Tracy McVeigh.",
+    "url": "http://www.trialspub.com/abouttrials.html"
+   },
+   {
+    "text": "Located in a building dating to 1894.",
+    "url": "http://www.trialspub.com/abouttrials.html"
+   },
+   {
+    "text": "Sells 20 ounce imperial pints of British beers and British food.",
+    "url": "http://www.trialspub.com/"
+   }
+  ]
+ },
+ {
+  "name": "The Old Wagon Saloon & Grill",
+  "area": "San Pedro Square",
+  "address": "73 North San Pedro Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Bar with an old west theme in San Pedro Square, serving American cuisine and BBQ.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill"
+   },
+   {
+    "text": "Smokes meats in-house in a smoker named Madame Stacie.",
+    "url": "https://www.sanjose.org/listings/old-wagon-saloon-grill"
+   }
+  ]
+ },
+ {
+  "name": "Three Sisters Bar",
+  "area": "San Pedro Square",
+  "address": "170 W. St. John St.",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Craft cocktail bar inside San Pedro Square Market with 18 beer taps.",
+    "url": "https://www.sanjose.org/listings/three-sisters-bar"
+   },
+   {
+    "text": "Stocks a wide variety of whiskey.",
+    "url": "https://www.sanjose.org/listings/three-sisters-bar"
+   }
+  ]
+ },
+ {
+  "name": "Miniboss",
+  "area": "Downtown San Jose",
+  "address": "52 E Santa Clara St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Arcade bar with more than 30 classic arcade games and a dozen pinball machines.",
+    "url": "https://www.sanjose.org/listings/miniboss"
+   },
+   {
+    "text": "Serves Detroit-style pizzas and wings alongside inventive cocktails.",
+    "url": "https://www.sanjose.org/listings/miniboss"
+   }
+  ]
+ },
+ {
+  "name": "Strata",
+  "area": "Downtown San Jose",
+  "address": "181 E. Santa Clara St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef-driven California restaurant with a seasonal menu inspired by Northern California.",
+    "url": "https://www.sanjose.org/listings/strata"
+   },
+   {
+    "text": "Beverage program pairs cocktails with a curated wine selection.",
+    "url": "https://www.sanjose.org/listings/strata"
+   }
+  ]
+ },
+ {
+  "name": "Must be Thai Kitchen & Bar",
+  "area": "San Pedro Square",
+  "address": "18 N San Pedro St",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Downtown branch of a Stevens Creek Thai restaurant serving home-style Thai food made modern.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar"
+   },
+   {
+    "text": "Menu includes Khao Soi, Pad Thai and Tom Yum Fried Rice.",
+    "url": "https://www.sanjose.org/listings/must-be-thai-kitchen-bar"
+   }
+  ]
+ },
+ {
+  "name": "SoFA Market",
+  "area": "SoFA",
+  "address": "387 South 1st Street",
+  "city": "San Jose",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Food hall in the SoFA District with locally-owned eateries, cafes and small vendors.",
+    "url": "https://www.sanjose.org/listings/sofa-market"
+   },
+   {
+    "text": "Vendors include Vietnoms, Pizza Way, Umi Handroll Bar and Habana Cuba.",
+    "url": "https://www.sanjose.org/listings/sofa-market"
+   }
+  ]
+ }
+]
