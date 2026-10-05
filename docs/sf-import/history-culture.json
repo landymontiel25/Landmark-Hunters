@@ -1,0 +1,70 @@
+{
+ "category": "history-culture",
+ "count": 3,
+ "commonsPhotos": 3,
+ "commonsPhotoPct": 100,
+ "withFacts": 3,
+ "withHours": 0,
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w260523829",
+   "name": "Kong Chow Temple",
+   "topic": "historic house of worship",
+   "lat": 37.793888,
+   "lng": -122.408084,
+   "photo": true,
+   "facts": [
+    "Temple to the god Guan Di, relocated to the Kong Chow Building in 1977.",
+    "The original Pine Street temple was destroyed in the 1906 earthquake and fire.",
+    "About 16 m (52 ft) tall"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/260523829"
+  },
+  {
+   "id": "osm-w29902626",
+   "name": "Saints Peter and Paul Church",
+   "topic": "historic house of worship",
+   "lat": 37.801627,
+   "lng": -122.410229,
+   "photo": true,
+   "facts": [
+    "The present church was completed in 1924 with twin spires rising 191 feet.",
+    "Joe DiMaggio married here in 1939.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/29902626"
+  },
+  {
+   "id": "osm-w288485994",
+   "name": "Sentinel Building",
+   "topic": "historic site",
+   "lat": 37.79655,
+   "lng": -122.405048,
+   "photo": true,
+   "facts": [
+    "Completed in 1907 and listed as San Francisco Designated Landmark No. 33.",
+    "Francis Ford Coppola bought it in 1973; it houses his film studio American Zoetrope.",
+    "Founded in 1907"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/288485994"
+  }
+ ],
+ "points": [
+  [
+   37.793888,
+   -122.408084,
+   1
+  ],
+  [
+   37.801627,
+   -122.410229,
+   1
+  ],
+  [
+   37.79655,
+   -122.405048,
+   1
+  ]
+ ]
+}

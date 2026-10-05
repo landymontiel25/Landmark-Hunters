@@ -1,0 +1,146 @@
+{
+ "category": "entertainment",
+ "count": 7,
+ "commonsPhotos": 5,
+ "commonsPhotoPct": 71.4,
+ "withFacts": 7,
+ "withHours": 0,
+ "photoSkips": [],
+ "sample": [
+  {
+   "id": "osm-w28517688",
+   "name": "California Theatre",
+   "topic": "theater",
+   "lat": 37.330598,
+   "lng": -121.887219,
+   "photo": true,
+   "facts": [
+    "Opened in 1927 as a movie palace and closed in 1973.",
+    "Symphony San Jose moved into the restored theatre in 2004.",
+    "Home of Opera San José"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28517688"
+  },
+  {
+   "id": "osm-w111762120",
+   "name": "Guild",
+   "topic": "theater",
+   "lat": 37.452408,
+   "lng": -122.181279,
+   "photo": false,
+   "facts": [
+    "The building opened in 1926 as the Menlo Theatre and was renamed the Guild in the late 1940s.",
+    "The Peninsula Arts Guild, led by Drew Dunlevie and backed by Pete Briger and Thomas Layton, drove the project.",
+    "Address: 949 El Camino Real, Menlo Park"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/111762120"
+  },
+  {
+   "id": "osm-w972052899",
+   "name": "San Jose Improv Comedy Club",
+   "topic": "theater",
+   "lat": 37.335629,
+   "lng": -121.888285,
+   "photo": false,
+   "facts": [
+    "The building opened in 1904 as the Jose Theater, the oldest theater in San Jose.",
+    "Construction began in 1903 under owner David Jacks, the Monterey landowner behind Monterey Jack cheese.",
+    "Address: 62 South 2nd Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/972052899"
+  },
+  {
+   "id": "osm-n9115664628",
+   "name": "Montgomery Theater",
+   "topic": "theater",
+   "lat": 37.330936,
+   "lng": -121.889297,
+   "photo": true,
+   "facts": [
+    "Built in 1936, the 500-seat theater is home to CMT San Jose.",
+    "Has a courtyard with a built-in fire pit that connects to the San Jose Civic courtyard.",
+    "Run by Team San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9115664628"
+  },
+  {
+   "id": "osm-w294262096",
+   "name": "San Jose Stage Company",
+   "topic": "theater",
+   "lat": 37.328948,
+   "lng": -121.884778,
+   "photo": true,
+   "facts": [
+    "Was the first group in San Jose to secure and manage its own theater facility.",
+    "Opened its 200-seat three-quarter thrust venue in 1990.",
+    "Address: 490 South 1st Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/294262096"
+  },
+  {
+   "id": "osm-w34852843",
+   "name": "San Jose Center for the Performing Arts",
+   "topic": "theater",
+   "lat": 37.32966,
+   "lng": -121.892519,
+   "photo": true,
+   "facts": [
+    "Opened in 1972 and designed by the Frank Lloyd Wright Foundation.",
+    "The theater has 2,608 seats, 1,852 orchestra and 756 balcony.",
+    "Designed by Taliesin Associated Architects"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/34852843"
+  },
+  {
+   "id": "osm-n9115664372",
+   "name": "San Jose Civic",
+   "topic": "theater",
+   "lat": 37.330794,
+   "lng": -121.889701,
+   "photo": true,
+   "facts": [
+    "Opened in 1936, designed by Binder & Curtis in the Spanish California Mission style.",
+    "The Who launched their first headlining U.S. tour here in 1968.",
+    "Completed a renovation in 2012."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9115664372"
+  }
+ ],
+ "points": [
+  [
+   37.330598,
+   -121.887219,
+   1
+  ],
+  [
+   37.452408,
+   -122.181279,
+   0
+  ],
+  [
+   37.330936,
+   -121.889297,
+   1
+  ],
+  [
+   37.32966,
+   -121.892519,
+   1
+  ],
+  [
+   37.330794,
+   -121.889701,
+   1
+  ],
+  [
+   37.335629,
+   -121.888285,
+   0
+  ],
+  [
+   37.328948,
+   -121.884778,
+   1
+  ]
+ ]
+}

@@ -1,0 +1,798 @@
+{
+ "category": "local-life",
+ "count": 77,
+ "commonsPhotos": 9,
+ "commonsPhotoPct": 11.7,
+ "withFacts": 77,
+ "withHours": 28,
+ "photoSkips": [
+  {
+   "id": "osm-w260241908",
+   "name": "1015 Folsom",
+   "why": "reviewed: performers, not the club"
+  },
+  {
+   "id": "osm-w121024973",
+   "name": "Cafe du Nord",
+   "why": "reviewed: a band on stage"
+  },
+  {
+   "id": "osm-n1819811589",
+   "name": "Green Apple Books",
+   "why": "reviewed: dice on a shelf"
+  },
+  {
+   "id": "osm-n10245940482",
+   "name": "Hotel Utah Saloon",
+   "why": "reviewed: a performer"
+  },
+  {
+   "id": "osm-n10095744878",
+   "name": "Moongate Lounge",
+   "why": "reviewed: a logo"
+  },
+  {
+   "id": "osm-w172111611",
+   "name": "Rickshaw Stop",
+   "why": "reviewed: a band on stage"
+  },
+  {
+   "id": "osm-n9596331674",
+   "name": "SF Eagle",
+   "why": "reviewed: a band on stage"
+  },
+  {
+   "id": "osm-n9538820439",
+   "name": "Terminus",
+   "why": "reviewed: cable cars at a line terminus, not the bar"
+  },
+  {
+   "id": "osm-n3611826293",
+   "name": "The Regency Ballroom",
+   "why": "reviewed: a band on stage"
+  },
+  {
+   "id": "osm-n10558492785",
+   "name": "Third Rail",
+   "why": "reviewed: a train at a station, not the bar"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n4548821898",
+   "name": "delarosa",
+   "topic": "bar",
+   "lat": 37.80036,
+   "lng": -122.439075,
+   "photo": false,
+   "facts": [
+    "First opened in 2010 on Chestnut Street.",
+    "Serves thin-crust Roman pizza, fresh pasta and craft cocktails.",
+    "Created by Ruggero Gadaldi, Adriano Paganini and Deborah Blum, the trio behind Beretta."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4548821898"
+  },
+  {
+   "id": "osm-w256710553",
+   "name": "Blackbird",
+   "topic": "pub",
+   "lat": 37.76733,
+   "lng": -122.429672,
+   "photo": false,
+   "facts": [
+    "Reopened in July 2009 under owners Doug Murphy and Shawn Vergara after a four-month renovation.",
+    "The space was previously The Expansion for many years.",
+    "Address: 2124 Market Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/256710553"
+  },
+  {
+   "id": "osm-n1914749996",
+   "name": "Holy Water",
+   "topic": "bar",
+   "lat": 37.739319,
+   "lng": -122.418283,
+   "photo": false,
+   "facts": [
+    "Its cocktails are built from three to four ingredients.",
+    "Runs an 11th hour offering each night at 11 p.m., such as rare beer or stump-the-bartender.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1914749996"
+  },
+  {
+   "id": "osm-n2317662705",
+   "name": "El Rio",
+   "topic": "bar",
+   "lat": 37.74675,
+   "lng": -122.419329,
+   "photo": false,
+   "facts": [
+    "Established in 1978 and recognized as a Legacy Business by the San Francisco Small Business Commission.",
+    "Founded by Malcolm Thornley and Robert Nett, inspired by leather motorcycles and Brazil.",
+    "Salsa Sundays, a live Latin music party, has run for over 30 years."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2317662705"
+  },
+  {
+   "id": "osm-n2941409392",
+   "name": "Rickhouse",
+   "topic": "bar",
+   "lat": 37.790496,
+   "lng": -122.403818,
+   "photo": false,
+   "facts": [
+    "Built from salvaged Kentucky barrel staves and charred pre-1906 brick.",
+    "Specializes in whiskeys from around the world, with live music on weekends.",
+    "Address: 246 Kearny Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2941409392"
+  },
+  {
+   "id": "osm-w121024973",
+   "name": "Cafe du Nord",
+   "topic": "pub",
+   "lat": 37.766718,
+   "lng": -122.430545,
+   "photo": false,
+   "facts": [
+    "Occupies the basement of the Swedish American Hall, completed in 1907 and designed by August Nordin.",
+    "Operated as a rock club from 1991 through 2014.",
+    "Reopened in 2015 as a cocktail bar, with live shows returning two years later."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/121024973"
+  },
+  {
+   "id": "osm-n632817679",
+   "name": "Binu Bonu",
+   "topic": "bar",
+   "lat": 37.738647,
+   "lng": -122.468548,
+   "photo": false,
+   "facts": [
+    "Italian wine bar from Massimiliano Conti and Lorella Degan, former owners of La Ciccia.",
+    "The name means good wine in Sardo, the language of Sardinia.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/632817679"
+  },
+  {
+   "id": "osm-n9684320117",
+   "name": "Bar Part Time",
+   "topic": "bar",
+   "lat": 37.768153,
+   "lng": -122.424176,
+   "photo": false,
+   "facts": [
+    "A natural wine bar and nightclub run by founders Justin Dolezal, Jeremy Castillo and Dan Small.",
+    "Opened in September 2021 with a party featuring LCD Soundsystem's James Murphy.",
+    "The dance floor has a Danley soundsystem."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9684320117"
+  },
+  {
+   "id": "osm-n2318141907",
+   "name": "Twin Peaks Tavern",
+   "topic": "bar",
+   "lat": 37.762401,
+   "lng": -122.434998,
+   "photo": true,
+   "facts": [
+    "Designated San Francisco Landmark #264.",
+    "First opened in 1935 and became a gay bar with open plate glass windows in 1972.",
+    "Address: 401 Castro Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2318141907"
+  },
+  {
+   "id": "osm-w223616923",
+   "name": "The Alembic",
+   "topic": "bar",
+   "lat": 37.769256,
+   "lng": -122.451127,
+   "photo": false,
+   "facts": [
+    "Christin Evans and Mikha Diaz acquired the bar in 2018.",
+    "Serves spirits, craft beers, local wines and plates.",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/223616923"
+  },
+  {
+   "id": "osm-n3455071284",
+   "name": "Woods Polk Station",
+   "topic": "pub",
+   "lat": 37.797695,
+   "lng": -122.422273,
+   "photo": false,
+   "facts": [
+    "Sister location to Cerveceria MateVeza, pouring its own WOODS beers.",
+    "Serves empanadas from El Porteno alongside eight rotating taps.",
+    "Address: 2255 Polk Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3455071284"
+  },
+  {
+   "id": "osm-n6598019730",
+   "name": "Browser Books",
+   "topic": "bookstore",
+   "lat": 37.789642,
+   "lng": -122.434154,
+   "photo": false,
+   "facts": [
+    "Has served the neighborhood since 1976.",
+    "Green Apple Books bought it in 2019 and kept the Browser name.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6598019730"
+  },
+  {
+   "id": "osm-n9502079156",
+   "name": "Kona’s Street Market",
+   "topic": "bar",
+   "lat": 37.787084,
+   "lng": -122.403284,
+   "photo": false,
+   "facts": [
+    "Opened by the team behind Pacific Cocktail Haven.",
+    "Drinks are inspired by street markets around the world.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9502079156"
+  },
+  {
+   "id": "osm-n5840675540",
+   "name": "The Plough and the Stars",
+   "topic": "pub",
+   "lat": 37.783255,
+   "lng": -122.460514,
+   "photo": false,
+   "facts": [
+    "The pub opened April 30, 1975 as an Irish pub and live music venue.",
+    "The building was constructed in 1905 and housed a French laundry for most of its history.",
+    "Address: 116 Clement Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5840675540"
+  },
+  {
+   "id": "osm-n10651024023",
+   "name": "Ferry Plaza Farmers Market",
+   "topic": "market",
+   "lat": 37.795275,
+   "lng": -122.39237,
+   "photo": false,
+   "facts": [
+    "A weekly Saturday market began May 22, 1993 in front of the Ferry Building.",
+    "Run by CUESA, a nonprofit established in 1994."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10651024023"
+  },
+  {
+   "id": "osm-n4108029915",
+   "name": "Li Po Cocktail Lounge",
+   "topic": "bar",
+   "lat": 37.795423,
+   "lng": -122.406455,
+   "photo": false,
+   "facts": [
+    "Has operated at 916 Grant Avenue since 1937.",
+    "Known for a house Chinese Mai Tai made with baijiu.",
+    "Opened in 1937"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4108029915"
+  },
+  {
+   "id": "osm-n1618687933",
+   "name": "Trad'r Sam",
+   "topic": "bar",
+   "lat": 37.780241,
+   "lng": -122.485657,
+   "photo": false,
+   "facts": [
+    "Poured its first mai tai in 1937, the year the Golden Gate Bridge opened.",
+    "Reopened in November 2023 after a temporary closure.",
+    "Has Wi-Fi"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1618687933"
+  },
+  {
+   "id": "osm-n479491671",
+   "name": "House of Shields",
+   "topic": "bar",
+   "lat": 37.788237,
+   "lng": -122.401287,
+   "photo": true,
+   "facts": [
+    "Opened in 1908 and operated as a speakeasy during Prohibition.",
+    "Has never had a clock on the premises.",
+    "Address: 39 New Montgomery Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/479491671"
+  },
+  {
+   "id": "osm-n346585378",
+   "name": "Tempest",
+   "topic": "pub",
+   "lat": 37.781226,
+   "lng": -122.406257,
+   "photo": false,
+   "facts": [
+    "Has operated since 1986 in Natoma Alley off 5th Street.",
+    "The bar has a rustic brick interior and shares a kitchen with Box Kitchen.",
+    "Address: 431 Natoma Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/346585378"
+  },
+  {
+   "id": "osm-n4024246508",
+   "name": "The Cinch Saloon",
+   "topic": "bar",
+   "lat": 37.792736,
+   "lng": -122.421252,
+   "photo": false,
+   "facts": [
+    "Sold in 2025 to Scott Taylor, beverage director at nearby Harris' Restaurant.",
+    "Robby Morgenstein and Bob Thornton owned the bar from 1998.",
+    "Address: 1723 Polk Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4024246508"
+  },
+  {
+   "id": "osm-n7044799092",
+   "name": "Mr. Tipple's Recording Studio",
+   "topic": "bar",
+   "lat": 37.776374,
+   "lng": -122.418569,
+   "photo": false,
+   "facts": [
+    "Owned by Jay Bordeleau, who also created the restaurant Maven.",
+    "Has a speakeasy-style back entrance on a side street.",
+    "Offers live jazz with craft cocktails."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7044799092"
+  },
+  {
+   "id": "osm-n13057323401",
+   "name": "The Stud",
+   "topic": "bar",
+   "lat": 37.776165,
+   "lng": -122.408364,
+   "photo": false,
+   "facts": [
+    "Opened in 1966 by George Matson and a business partner.",
+    "Stud collective members bought the bar and revived it as a co-op in 2017.",
+    "Reopened on April 20, 2024, at 1123 Folsom St after closing in 2020."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13057323401"
+  },
+  {
+   "id": "osm-n3702219079",
+   "name": "Tony Nik's Cafe",
+   "topic": "bar",
+   "lat": 37.800025,
+   "lng": -122.408984,
+   "photo": false,
+   "facts": [
+    "Opened in 1933 as Tony Nicco's Cafe, among the first North Beach bars licensed after Prohibition.",
+    "A mural by Nadine Torrance from the 1949 remodel is still on the back wall.",
+    "Address: 1534 Stockton Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3702219079"
+  },
+  {
+   "id": "osm-n10558492785",
+   "name": "Third Rail",
+   "topic": "bar",
+   "lat": 37.76063,
+   "lng": -122.388354,
+   "photo": false,
+   "facts": [
+    "Serves only cocktails and jerky.",
+    "The Red Eye cocktail is spiked with coffee and chili.",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10558492785"
+  },
+  {
+   "id": "osm-n10558070235",
+   "name": "Buddy",
+   "topic": "bar",
+   "lat": 37.75545,
+   "lng": -122.417108,
+   "photo": false,
+   "facts": [
+    "Opened by Alvaro Rojas, Nicolas Torres, Nora Furst and Claire Sprouse.",
+    "Focuses on low-ABV cocktails, natural wine and coffee, in the former Californios space.",
+    "Address: 3115 22nd Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10558070235"
+  }
+ ],
+ "points": [
+  [
+   37.778041,
+   -122.405683,
+   0
+  ],
+  [
+   37.793101,
+   -122.421082,
+   0
+  ],
+  [
+   37.768937,
+   -122.452645,
+   1
+  ],
+  [
+   37.768153,
+   -122.424176,
+   0
+  ],
+  [
+   37.738647,
+   -122.468548,
+   0
+  ],
+  [
+   37.734398,
+   -122.432982,
+   0
+  ],
+  [
+   37.76733,
+   -122.429672,
+   0
+  ],
+  [
+   37.785912,
+   -122.413163,
+   0
+  ],
+  [
+   37.789642,
+   -122.434154,
+   0
+  ],
+  [
+   37.75545,
+   -122.417108,
+   0
+  ],
+  [
+   37.806517,
+   -122.420774,
+   1
+  ],
+  [
+   37.771301,
+   -122.412895,
+   0
+  ],
+  [
+   37.766718,
+   -122.430545,
+   0
+  ],
+  [
+   37.75943,
+   -122.418987,
+   0
+  ],
+  [
+   37.796964,
+   -122.405643,
+   1
+  ],
+  [
+   37.80036,
+   -122.439075,
+   0
+  ],
+  [
+   37.771088,
+   -122.412613,
+   1
+  ],
+  [
+   37.758389,
+   -122.421416,
+   0
+  ],
+  [
+   37.758036,
+   -122.388526,
+   0
+  ],
+  [
+   37.757512,
+   -122.409439,
+   0
+  ],
+  [
+   37.74675,
+   -122.419329,
+   0
+  ],
+  [
+   37.795275,
+   -122.39237,
+   0
+  ],
+  [
+   37.775557,
+   -122.438059,
+   0
+  ],
+  [
+   37.799719,
+   -122.408142,
+   0
+  ],
+  [
+   37.783071,
+   -122.464706,
+   0
+  ],
+  [
+   37.788337,
+   -122.433581,
+   0
+  ],
+  [
+   37.78995,
+   -122.420685,
+   0
+  ],
+  [
+   37.782842,
+   -122.464108,
+   0
+  ],
+  [
+   37.739319,
+   -122.418283,
+   0
+  ],
+  [
+   37.773607,
+   -122.421868,
+   0
+  ],
+  [
+   37.779383,
+   -122.398106,
+   0
+  ],
+  [
+   37.788237,
+   -122.401287,
+   1
+  ],
+  [
+   37.789958,
+   -122.411332,
+   0
+  ],
+  [
+   37.787084,
+   -122.403284,
+   0
+  ],
+  [
+   37.767813,
+   -122.429452,
+   0
+  ],
+  [
+   37.795423,
+   -122.406455,
+   0
+  ],
+  [
+   37.787575,
+   -122.403201,
+   0
+  ],
+  [
+   37.772157,
+   -122.410848,
+   0
+  ],
+  [
+   37.774199,
+   -122.437497,
+   0
+  ],
+  [
+   37.79737,
+   -122.435697,
+   0
+  ],
+  [
+   37.752705,
+   -122.41269,
+   0
+  ],
+  [
+   37.760868,
+   -122.433773,
+   0
+  ],
+  [
+   37.793672,
+   -122.406576,
+   0
+  ],
+  [
+   37.776374,
+   -122.418569,
+   0
+  ],
+  [
+   37.783126,
+   -122.463712,
+   0
+  ],
+  [
+   37.724167,
+   -122.45677,
+   0
+  ],
+  [
+   37.790704,
+   -122.403638,
+   0
+  ],
+  [
+   37.790496,
+   -122.403818,
+   0
+  ],
+  [
+   37.77599,
+   -122.420475,
+   0
+  ],
+  [
+   37.796684,
+   -122.421775,
+   0
+  ],
+  [
+   37.769993,
+   -122.413337,
+   0
+  ],
+  [
+   37.781226,
+   -122.406257,
+   0
+  ],
+  [
+   37.793767,
+   -122.396722,
+   0
+  ],
+  [
+   37.769256,
+   -122.451127,
+   0
+  ],
+  [
+   37.769337,
+   -122.451261,
+   0
+  ],
+  [
+   37.792736,
+   -122.421252,
+   0
+  ],
+  [
+   37.714367,
+   -122.436924,
+   0
+  ],
+  [
+   37.783255,
+   -122.460514,
+   0
+  ],
+  [
+   37.787818,
+   -122.421576,
+   0
+  ],
+  [
+   37.741586,
+   -122.505344,
+   0
+  ],
+  [
+   37.798555,
+   -122.407095,
+   0
+  ],
+  [
+   37.776165,
+   -122.408364,
+   0
+  ],
+  [
+   37.76063,
+   -122.388354,
+   0
+  ],
+  [
+   37.741937,
+   -122.422418,
+   0
+  ],
+  [
+   37.792141,
+   -122.410008,
+   1
+  ],
+  [
+   37.800025,
+   -122.408984,
+   0
+  ],
+  [
+   37.791624,
+   -122.410408,
+   1
+  ],
+  [
+   37.780241,
+   -122.485657,
+   0
+  ],
+  [
+   37.759497,
+   -122.411489,
+   0
+  ],
+  [
+   37.741871,
+   -122.505015,
+   0
+  ],
+  [
+   37.762401,
+   -122.434998,
+   1
+  ],
+  [
+   37.771828,
+   -122.431871,
+   0
+  ],
+  [
+   37.741879,
+   -122.504859,
+   0
+  ],
+  [
+   37.73903,
+   -122.417153,
+   1
+  ],
+  [
+   37.760315,
+   -122.505593,
+   0
+  ],
+  [
+   37.797695,
+   -122.422273,
+   0
+  ],
+  [
+   37.770037,
+   -122.42212,
+   0
+  ]
+ ]
+}

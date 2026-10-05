@@ -135,5 +135,71 @@ export const PLACE_PACKS = [
     "category": "food",
     "file": "places/villanova/food.b2c12f459d.json",
     "count": 6
+  },
+  {
+    "region": "silicon-valley",
+    "category": "art-museums",
+    "file": "places/silicon-valley/art-museums.453fed0a30.json",
+    "count": 11
+  },
+  {
+    "region": "silicon-valley",
+    "category": "entertainment",
+    "file": "places/silicon-valley/entertainment.3f727e9818.json",
+    "count": 7
+  },
+  {
+    "region": "silicon-valley",
+    "category": "food",
+    "file": "places/silicon-valley/food.15d648c976.json",
+    "count": 63
+  },
+  {
+    "region": "silicon-valley",
+    "category": "local-life",
+    "file": "places/silicon-valley/local-life.fafffff048.json",
+    "count": 21
+  },
+  {
+    "region": "silicon-valley",
+    "category": "parks-nature",
+    "file": "places/silicon-valley/parks-nature.ca8685c5fd.json",
+    "count": 16
+  },
+  {
+    "region": "san-francisco",
+    "category": "art-museums",
+    "file": "places/san-francisco/art-museums.124f4bb10b.json",
+    "count": 17
+  },
+  {
+    "region": "san-francisco",
+    "category": "entertainment",
+    "file": "places/san-francisco/entertainment.cab6499ab0.json",
+    "count": 13
+  },
+  {
+    "region": "san-francisco",
+    "category": "food",
+    "file": "places/san-francisco/food.d99a6d95e1.json",
+    "count": 211
+  },
+  {
+    "region": "san-francisco",
+    "category": "history-culture",
+    "file": "places/san-francisco/history-culture.f51e2d8452.json",
+    "count": 3
+  },
+  {
+    "region": "san-francisco",
+    "category": "local-life",
+    "file": "places/san-francisco/local-life.97360f7645.json",
+    "count": 77
+  },
+  {
+    "region": "san-francisco",
+    "category": "parks-nature",
+    "file": "places/san-francisco/parks-nature.97420f71be.json",
+    "count": 15
   }
 ];

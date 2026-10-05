@@ -1,0 +1,165 @@
+{
+ "sf": {
+  "places": 336,
+  "byCategory": {
+   "food": 211,
+   "local-life": 77,
+   "art-museums": 17,
+   "parks-nature": 15,
+   "entertainment": 13,
+   "history-culture": 3
+  },
+  "byArea": {
+   "Mission": 30,
+   "Hayes Valley": 22,
+   "Inner Richmond": 21,
+   "SoMa": 19,
+   "Chinatown": 17,
+   "Jackson Square": 17,
+   "Financial District": 16,
+   "Union Square": 16,
+   "Bernal Heights": 15,
+   "Japantown": 13,
+   "Castro": 12,
+   "Outer Sunset": 12,
+   "Inner Sunset": 11,
+   "North Beach": 11,
+   "Russian Hill": 10,
+   "Nob Hill": 9,
+   "Pacific Heights": 8,
+   "Outer Richmond": 8,
+   "Dogpatch": 7,
+   "Bayview": 6,
+   "Marina": 6,
+   "Glen Park": 6,
+   "Fisherman's Wharf": 6,
+   "Haight": 6,
+   "Presidio": 5,
+   "Tenderloin": 5,
+   "NoPa": 5,
+   "Potrero Hill": 4,
+   "Lake Merced": 4,
+   "Mission Bay": 4,
+   "Excelsior": 3,
+   "Noe Valley": 2
+  },
+  "byTier": {
+   "everyday": 326,
+   "acclaimed": 9,
+   "insider": 1
+  },
+  "insider": [
+   {
+    "name": "DNA Lounge",
+    "reason": {
+     "text": "Owner Jamie Zawinski is a former Netscape programmer who bought the club in 1999.",
+     "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+    }
+   }
+  ],
+  "acclaimed": [
+   "Anchor Oyster Bar",
+   "Dumpling Home",
+   "Good Good Culture Club",
+   "Hilda and Jesse",
+   "Kitchen Istanbul",
+   "Okane",
+   "San Ho Won",
+   "SSAL",
+   "Trestle"
+  ],
+  "withPhoto": 64,
+  "avgSourcedFacts": 2.31,
+  "avgFacts": 4.61,
+  "researched": 694,
+  "located": {
+   "FOUND": 437,
+   "NOT_FOUND": 166,
+   "CLOSED": 54,
+   "NO_FACTS": 32,
+   "UNCONFIRMED": 4,
+   "DUPLICATE": 1
+  },
+  "stageDrops": {
+   "closedPerOsmTags": 2,
+   "osmKindNotListed": 28,
+   "catalogDuplicate": 0,
+   "handReview": 2,
+   "fewer than 2 sourced facts": 58,
+   "community garden or pocket park": 4,
+   "chain branch": 2,
+   "memorial or old building without a heritage listing": 2,
+   "too few OSM details for its kind": 2,
+   "court or field": 1
+  }
+ },
+ "sv": {
+  "places": 118,
+  "byCategory": {
+   "food": 63,
+   "local-life": 21,
+   "parks-nature": 16,
+   "art-museums": 11,
+   "entertainment": 7
+  },
+  "byArea": {
+   "Palo Alto": 33,
+   "Downtown San Jose": 30,
+   "Menlo Park": 14,
+   "Los Altos": 14,
+   "Mountain View": 10,
+   "Sunnyvale": 7,
+   "Cupertino": 5,
+   "Woodside": 3,
+   "Santa Clara": 2
+  },
+  "byTier": {
+   "everyday": 113,
+   "acclaimed": 3,
+   "insider": 2
+  },
+  "insider": [
+   {
+    "name": "Chef Chu's",
+    "reason": {
+     "text": "Silicon Valley figures including Steve Jobs, Gordon Moore and Mark Zuckerberg have eaten at Chef Chu's.",
+     "url": "https://www.kqed.org/news/12067747/chef-chus-the-family-owned-chinese-restaurant-that-grew-up-with-silicon-valley"
+    }
+   },
+   {
+    "name": "Tamarine",
+    "reason": {
+     "text": "Apple CEO Tim Cook and Google CEO Sundar Pichai had a private dinner at Tamarine in March 2017.",
+     "url": "https://fortune.com/2017/03/10/apple-tim-cook-sundar-pichai-dinner/"
+    }
+   }
+  ],
+  "acclaimed": [
+   "Eylan",
+   "Petiscos Adega",
+   "Zola"
+  ],
+  "withPhoto": 23,
+  "avgSourcedFacts": 2.26,
+  "avgFacts": 4.31,
+  "researched": 275,
+  "located": {
+   "FOUND": 181,
+   "NOT_FOUND": 63,
+   "NO_FACTS": 13,
+   "UNCONFIRMED": 10,
+   "CLOSED": 7,
+   "DUPLICATE": 1
+  },
+  "stageDrops": {
+   "closedPerOsmTags": 3,
+   "osmKindNotListed": 2,
+   "catalogDuplicate": 1,
+   "handReview": 29,
+   "fewer than 2 sourced facts": 25,
+   "chain branch": 1,
+   "shop": 1,
+   "community garden or pocket park": 1
+  }
+ }
+}

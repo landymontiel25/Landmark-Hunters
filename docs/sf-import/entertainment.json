@@ -1,0 +1,281 @@
+{
+ "category": "entertainment",
+ "count": 13,
+ "commonsPhotos": 5,
+ "commonsPhotoPct": 38.5,
+ "withFacts": 13,
+ "withHours": 1,
+ "photoSkips": [
+  {
+   "id": "osm-w25759141",
+   "name": "Bill Graham Civic Auditorium",
+   "why": "reviewed: a DJ on stage"
+  },
+  {
+   "id": "osm-w174076537",
+   "name": "The Independent",
+   "why": "reviewed: a band on stage"
+  },
+  {
+   "id": "osm-w260351423",
+   "name": "Victoria Theatre",
+   "why": "reviewed: an old flour advertisement"
+  },
+  {
+   "id": "osm-w206723692",
+   "name": "Warfield Theatre",
+   "why": "reviewed: a singer on stage"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-w32865757",
+   "name": "War Memorial Veterans Building Herbst Theatre",
+   "topic": "theater",
+   "lat": 37.779535,
+   "lng": -122.421033,
+   "photo": false,
+   "facts": [
+    "The United Nations Charter was signed on its stage on June 26, 1945.",
+    "Renamed in 1977 for brothers Herman and Maurice Herbst, whose foundation paid for renovations.",
+    "Opened in 1915"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/32865757"
+  },
+  {
+   "id": "osm-w288836717",
+   "name": "Bayview Opera House Ruth Williams Memorial Theatre",
+   "topic": "theater",
+   "lat": 37.735147,
+   "lng": -122.390167,
+   "photo": false,
+   "facts": [
+    "Built in 1888 and reputed to be the oldest existing theatre in San Francisco.",
+    "Renamed in 1995 for playwright and actress Ruth Williams, who helped prevent its demolition.",
+    "Listed on the National Register of Historic Places in 2011."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/288836717"
+  },
+  {
+   "id": "osm-w174076537",
+   "name": "The Independent",
+   "topic": "theater",
+   "lat": 37.775528,
+   "lng": -122.437641,
+   "photo": false,
+   "facts": [
+    "Opened in its current form on Feb. 27, 2004.",
+    "The space was earlier the Half Note jazz club, the Kennel Club and the Justice League.",
+    "Address: 628 Divisadero Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/174076537"
+  },
+  {
+   "id": "osm-n2042397283",
+   "name": "Roxie",
+   "topic": "movie theater",
+   "lat": 37.764757,
+   "lng": -122.422363,
+   "photo": false,
+   "facts": [
+    "Has operated under the name Roxie since 1933.",
+    "Four film lovers bought and remodeled it as an independent film center in March 1976.",
+    "Operates as a nonprofit arthouse cinema."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2042397283"
+  },
+  {
+   "id": "osm-w25759141",
+   "name": "Bill Graham Civic Auditorium",
+   "topic": "theater",
+   "lat": 37.77805,
+   "lng": -122.417308,
+   "photo": false,
+   "facts": [
+    "Built in 1915 as part of the Panama-Pacific International Exposition.",
+    "Renamed in 1992 for rock promoter Bill Graham.",
+    "Hosted the 1920 Democratic National Convention."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/25759141"
+  },
+  {
+   "id": "osm-n11100318800",
+   "name": "Orpheum Theatre",
+   "topic": "theater",
+   "lat": 37.779162,
+   "lng": -122.414735,
+   "photo": true,
+   "facts": [
+    "Opened in 1926 as the Pantages Theatre, designed by B. Marcus Priteca.",
+    "The facade is patterned after a 12th-century French cathedral.",
+    "Designated San Francisco Landmark No. 94."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11100318800"
+  },
+  {
+   "id": "osm-w260351423",
+   "name": "Victoria Theatre",
+   "topic": "theater",
+   "lat": 37.76489,
+   "lng": -122.418892,
+   "photo": false,
+   "facts": [
+    "Built in 1908 as Brown's Opera House.",
+    "Named a San Francisco Designated Landmark (no. 215) in 1996.",
+    "It is the oldest operational theatre in San Francisco."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/260351423"
+  },
+  {
+   "id": "osm-n6242792452",
+   "name": "Brava Theater Center",
+   "topic": "theater",
+   "lat": 37.752773,
+   "lng": -122.407963,
+   "photo": false,
+   "facts": [
+    "The theater has 360 seats.",
+    "It is dedicated to the expression of women, people of color, youth and LGBTQ artists.",
+    "Address: 2781 24th Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6242792452"
+  },
+  {
+   "id": "osm-w404847048",
+   "name": "San Francisco Zoo",
+   "topic": "zoo",
+   "lat": 37.732748,
+   "lng": -122.502392,
+   "photo": true,
+   "facts": [
+    "Fleishhacker bought a 30-acre site from the Spring Valley Water Company in 1922.",
+    "The first major exhibits were built in the 1930s by the Works Progress Administration.",
+    "Founded in 1929"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/404847048"
+  },
+  {
+   "id": "osm-w32650566",
+   "name": "Presidio Theatre",
+   "topic": "theater",
+   "lat": 37.798894,
+   "lng": -122.460537,
+   "photo": true,
+   "facts": [
+    "Built in 1939 as the Presidio's first dedicated movie theatre.",
+    "Was funded through the Works Progress Administration.",
+    "Reopened in September 2019 after a rehabilitation funded by the Margaret E. Haas Fund."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/32650566"
+  },
+  {
+   "id": "osm-w32866034",
+   "name": "Club Fugazi",
+   "topic": "theater",
+   "lat": 37.799646,
+   "lng": -122.410278,
+   "photo": true,
+   "facts": [
+    "Opened in 1913 inside Casa Fugazi, a community center for San Francisco's Italian colony.",
+    "Thelonious Monk recorded the album Thelonious Alone in San Francisco here in 1959.",
+    "Beach Blanket Babylon played here until its final show in December 2019."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/32866034"
+  },
+  {
+   "id": "osm-w71504452",
+   "name": "Curran Theatre",
+   "topic": "theater",
+   "lat": 37.786831,
+   "lng": -122.410604,
+   "photo": true,
+   "facts": [
+    "Opened in February 1922 and named for its first owner, Homer Curran.",
+    "Architect Alfred Henry Jacobs designed it.",
+    "Hosted pre-Broadway runs including Fences in 1987 and Wicked in 2003."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/71504452"
+  },
+  {
+   "id": "osm-w206723692",
+   "name": "Warfield Theatre",
+   "topic": "theater",
+   "lat": 37.782622,
+   "lng": -122.410342,
+   "photo": false,
+   "facts": [
+    "Opened May 13, 1922 as the Loews Warfield, a vaudeville theater.",
+    "Named after the actor David Warfield.",
+    "Reopened in September 2008 as a live music venue."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/206723692"
+  }
+ ],
+ "points": [
+  [
+   37.735147,
+   -122.390167,
+   0
+  ],
+  [
+   37.77805,
+   -122.417308,
+   0
+  ],
+  [
+   37.752773,
+   -122.407963,
+   0
+  ],
+  [
+   37.799646,
+   -122.410278,
+   1
+  ],
+  [
+   37.786831,
+   -122.410604,
+   1
+  ],
+  [
+   37.779162,
+   -122.414735,
+   1
+  ],
+  [
+   37.798894,
+   -122.460537,
+   1
+  ],
+  [
+   37.764757,
+   -122.422363,
+   0
+  ],
+  [
+   37.732748,
+   -122.502392,
+   1
+  ],
+  [
+   37.775528,
+   -122.437641,
+   0
+  ],
+  [
+   37.76489,
+   -122.418892,
+   0
+  ],
+  [
+   37.779535,
+   -122.421033,
+   0
+  ],
+  [
+   37.782622,
+   -122.410342,
+   0
+  ]
+ ]
+}

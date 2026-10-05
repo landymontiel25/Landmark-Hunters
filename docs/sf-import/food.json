@@ -1,0 +1,1464 @@
+{
+ "category": "food",
+ "count": 211,
+ "commonsPhotos": 34,
+ "commonsPhotoPct": 16.1,
+ "withFacts": 211,
+ "withHours": 109,
+ "photoSkips": [
+  {
+   "id": "osm-w229326455",
+   "name": "Cioppino's",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n1901021509",
+   "name": "L'ardoise Bistro",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n366703620",
+   "name": "Mama's on Washington Square",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n4364025826",
+   "name": "Mister Jiu's",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n9181415310",
+   "name": "On the Bridge",
+   "why": "reviewed: untitled frame"
+  },
+  {
+   "id": "osm-n366701342",
+   "name": "Original Joe's",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n1478520961",
+   "name": "Swensen's Ice Cream",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n3702219083",
+   "name": "Tony's Pizza Napoletana",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-n370198231",
+   "name": "Tú Lan",
+   "why": "reviewed: a street corner"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n4852448020",
+   "name": "Hahdough",
+   "topic": "bakery",
+   "lat": 37.773831,
+   "lng": -122.438327,
+   "photo": false,
+   "facts": [
+    "A German konditorei owned by Ha Do, who grew up in Germany.",
+    "Ha Do and her husband sold at Bay Area farmers markets for three years before opening the shop.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4852448020"
+  },
+  {
+   "id": "osm-n11347413054",
+   "name": "Chouquet's",
+   "topic": "French restaurant",
+   "lat": 37.791707,
+   "lng": -122.434603,
+   "photo": false,
+   "facts": [
+    "French bistro that has been open since 2004.",
+    "Has a covered parklet and sidewalk seating.",
+    "Serves French food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11347413054"
+  },
+  {
+   "id": "osm-n4809154327",
+   "name": "3rd Cousin",
+   "topic": "restaurant",
+   "lat": 37.739056,
+   "lng": -122.413681,
+   "photo": false,
+   "facts": [
+    "Chef and owner Greg Lutes opened the restaurant in 2015.",
+    "The menu is seasonal and hyper-local, with French, Italian and Asian leanings.",
+    "Address: 919 Cortland Avenue, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4809154327"
+  },
+  {
+   "id": "osm-n8851950180",
+   "name": "Dumpling Home",
+   "topic": "Chinese restaurant",
+   "lat": 37.775869,
+   "lng": -122.422666,
+   "photo": false,
+   "facts": [
+    "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "Cooks hand-wrap and fold the soup dumplings from open to close.",
+    "Serves Chinese food, plus dumpling"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8851950180"
+  },
+  {
+   "id": "osm-n6791676299",
+   "name": "Café Bunn Mi",
+   "topic": "café",
+   "lat": 37.782868,
+   "lng": -122.463715,
+   "photo": false,
+   "facts": [
+    "Known for a crispy duck banh mi with house-made aioli and coleslaw.",
+    "Its Vietnamese coffee is made with Cafe du Monde.",
+    "Serves Vietnamese food, plus sandwiches"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6791676299"
+  },
+  {
+   "id": "osm-w288391506",
+   "name": "Scoma's",
+   "topic": "seafood restaurant",
+   "lat": 37.808948,
+   "lng": -122.418434,
+   "photo": false,
+   "facts": [
+    "Brothers Albert and Joseph Scoma opened it on Pier 47 in May 1965.",
+    "It started by taking over a six-stool coffee shop that served fishermen.",
+    "Jones Alley was renamed Al Scoma Way, with a dedication in 2002."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/288391506"
+  },
+  {
+   "id": "osm-n4152507432",
+   "name": "Devil's Teeth Baking Company",
+   "topic": "bakery",
+   "lat": 37.753127,
+   "lng": -122.50503,
+   "photo": false,
+   "facts": [
+    "Opened in April 2011 by Outer Sunset resident Hilary Passman.",
+    "Passman set out to give neighbors a low-priced breakfast sandwich.",
+    "Address: 3876 Noriega Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4152507432"
+  },
+  {
+   "id": "osm-n5276126259",
+   "name": "Sheba Piano Lounge",
+   "topic": "ethiopian restaurant",
+   "lat": 37.782919,
+   "lng": -122.432775,
+   "photo": false,
+   "facts": [
+    "Opened in 2006 in the Fillmore District by chef Net Alemayehu.",
+    "Serves Ethiopian dishes alongside live music.",
+    "A wall in the dining room is built to resemble the Bet Giorgis church in Lalibela."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5276126259"
+  },
+  {
+   "id": "osm-n4852810421",
+   "name": "All Good Pizza",
+   "topic": "pizza restaurant",
+   "lat": 37.738702,
+   "lng": -122.389698,
+   "photo": true,
+   "facts": [
+    "Open since 2012 and woman owned.",
+    "Serves Neapolitan-style brick oven pizza in a 7,000-square-foot beer garden.",
+    "Hosts the Bayview Community Market in its garden on Saturdays from May to October."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4852810421"
+  },
+  {
+   "id": "osm-n3609388693",
+   "name": "Frascati",
+   "topic": "Mediterranean restaurant",
+   "lat": 37.798375,
+   "lng": -122.419032,
+   "photo": false,
+   "facts": [
+    "Chef Michael Pawlik runs the kitchen of this Hyde Street neighborhood restaurant.",
+    "Known for russet potato gnocchi with tomato, corn and asparagus.",
+    "The dining room has a mezzanine overlooking the main floor."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3609388693"
+  },
+  {
+   "id": "osm-n3380825006",
+   "name": "A16",
+   "topic": "Italian restaurant",
+   "lat": 37.79996,
+   "lng": -122.442104,
+   "photo": false,
+   "facts": [
+    "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "Serves rustic Italian cooking and a wide selection of pizzas.",
+    "Founded in 2004"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3380825006"
+  },
+  {
+   "id": "osm-n2485515167",
+   "name": "Taqueria Cancun",
+   "topic": "Mexican restaurant",
+   "lat": 37.760463,
+   "lng": -122.419399,
+   "photo": true,
+   "facts": [
+    "First opened in 1991 on Market Street.",
+    "Started by two alumni of El Farolito.",
+    "Serves Mexican food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2485515167"
+  },
+  {
+   "id": "osm-n1616458201",
+   "name": "Joe's Ice Cream",
+   "topic": "ice cream shop",
+   "lat": 37.780608,
+   "lng": -122.477725,
+   "photo": false,
+   "facts": [
+    "Joe Politz started it in 1959 at 5351 Geary Blvd.",
+    "Moved half a block to its current location in 2010 after a rent increase.",
+    "Serves ice cream, burgers and hot dogs"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1616458201"
+  },
+  {
+   "id": "osm-n2340735754",
+   "name": "St Francis Fountain",
+   "topic": "American restaurant",
+   "lat": 37.752754,
+   "lng": -122.408319,
+   "photo": false,
+   "facts": [
+    "Founded in 1918 by James Christakes, an immigrant from Sparta, Greece.",
+    "It is the oldest continuously operating business on 24th Street.",
+    "Still sells vintage candies from its original 1920s candy case."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2340735754"
+  },
+  {
+   "id": "osm-n4534900789",
+   "name": "Rich Table",
+   "topic": "Italian restaurant",
+   "lat": 37.774893,
+   "lng": -122.422737,
+   "photo": true,
+   "facts": [
+    "Led by chefs Evan and Sarah Rich.",
+    "Has a sister restaurant, RT Bistro, on Oak Street.",
+    "Serves Italian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4534900789"
+  },
+  {
+   "id": "osm-n1393930504",
+   "name": "The Sentinel",
+   "topic": "sandwich restaurant",
+   "lat": 37.788312,
+   "lng": -122.401366,
+   "photo": false,
+   "facts": [
+    "Established in 2008 by chef Dennis Leary.",
+    "Occupies an old cigar shop across from the Palace Hotel.",
+    "Serves sandwiches"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1393930504"
+  },
+  {
+   "id": "osm-n725100831",
+   "name": "Biscuits & Blues",
+   "topic": "restaurant",
+   "lat": 37.787316,
+   "lng": -122.410057,
+   "photo": false,
+   "facts": [
+    "Opened in 1995 on Mason Street, a block from Union Square.",
+    "Founded by Mississippi-born chef Regina Charboneau, who named it for her biscuit recipe.",
+    "Address: 401 Mason Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/725100831"
+  },
+  {
+   "id": "osm-n4349256223",
+   "name": "Simple Pleasures Cafe",
+   "topic": "café",
+   "lat": 37.775911,
+   "lng": -122.495803,
+   "photo": false,
+   "facts": [
+    "Sandy Berger opened it in 1978 as a bohemian coffee shop.",
+    "Ahmed Riad bought it in 1994 and still owns it.",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4349256223"
+  },
+  {
+   "id": "osm-n4343745977",
+   "name": "The Garden Court",
+   "topic": "restaurant",
+   "lat": 37.787938,
+   "lng": -122.401904,
+   "photo": true,
+   "facts": [
+    "Covered by a stained glass dome with more than 70,000 pieces of colored glass.",
+    "The Palace Hotel opened on its present site on December 19, 1909.",
+    "Address: 2 New Montgomery St, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4343745977"
+  },
+  {
+   "id": "osm-w247957676",
+   "name": "AK Subs",
+   "topic": "counter-service spot",
+   "lat": 37.774047,
+   "lng": -122.408531,
+   "photo": false,
+   "facts": [
+    "Has served sandwiches at 8th and Harrison since 1993.",
+    "Written up in SF Weekly's Cheap Eats and the Chronicle's Bargain Bites.",
+    "Serves burgers"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/247957676"
+  },
+  {
+   "id": "osm-n529772421",
+   "name": "Suppenküche",
+   "topic": "German restaurant",
+   "lat": 37.776352,
+   "lng": -122.426373,
+   "photo": false,
+   "facts": [
+    "Established in 1993.",
+    "Serves simple German cuisine.",
+    "Serves German food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/529772421"
+  },
+  {
+   "id": "osm-n1769223517",
+   "name": "Hong Kong Lounge",
+   "topic": "Chinese restaurant",
+   "lat": 37.780643,
+   "lng": -122.476636,
+   "photo": false,
+   "facts": [
+    "Serves Cantonese dim sum including baked pork buns, siu mai and fried sticky rice.",
+    "Offers Peking duck on demand, in half or whole orders.",
+    "Serves Chinese food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1769223517"
+  },
+  {
+   "id": "osm-n3201049452",
+   "name": "Yank Sing",
+   "topic": "Chinese restaurant",
+   "lat": 37.792592,
+   "lng": -122.393038,
+   "photo": true,
+   "facts": [
+    "Has been a San Francisco dim sum restaurant since 1958.",
+    "A third-generation, family-owned restaurant serving dim sum from pushcarts.",
+    "Serves Chinese food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3201049452"
+  },
+  {
+   "id": "osm-n2441003265",
+   "name": "um.ma",
+   "topic": "Japanese restaurant",
+   "lat": 37.765501,
+   "lng": -122.466299,
+   "photo": false,
+   "facts": [
+    "Chef Chris Oh opened Um.ma in 2019 as a homage to his mother's Korean cooking.",
+    "Makes its own kimchi and serves Korean fried chicken.",
+    "Expanded with two takeout-only restaurants."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2441003265"
+  },
+  {
+   "id": "osm-n3674255675",
+   "name": "Ebisu",
+   "topic": "Japanese restaurant",
+   "lat": 37.764448,
+   "lng": -122.46652,
+   "photo": false,
+   "facts": [
+    "Owned and operated by Steve and Koko Fujii.",
+    "Has been a Japanese and sushi restaurant in the Bay Area for more than 40 years.",
+    "Serves Japanese food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3674255675"
+  }
+ ],
+ "points": [
+  [
+   37.739056,
+   -122.413681,
+   0
+  ],
+  [
+   37.79996,
+   -122.442104,
+   0
+  ],
+  [
+   37.799333,
+   -122.418948,
+   0
+  ],
+  [
+   37.777038,
+   -122.422855,
+   0
+  ],
+  [
+   37.774047,
+   -122.408531,
+   0
+  ],
+  [
+   37.77564,
+   -122.408847,
+   0
+  ],
+  [
+   37.738702,
+   -122.389698,
+   1
+  ],
+  [
+   37.759697,
+   -122.434747,
+   1
+  ],
+  [
+   37.756716,
+   -122.502318,
+   0
+  ],
+  [
+   37.793083,
+   -122.392177,
+   1
+  ],
+  [
+   37.777017,
+   -122.422676,
+   0
+  ],
+  [
+   37.763405,
+   -122.466421,
+   1
+  ],
+  [
+   37.763927,
+   -122.466023,
+   0
+  ],
+  [
+   37.774259,
+   -122.387174,
+   1
+  ],
+  [
+   37.739554,
+   -122.418934,
+   0
+  ],
+  [
+   37.741877,
+   -122.504929,
+   0
+  ],
+  [
+   37.780415,
+   -122.481665,
+   0
+  ],
+  [
+   37.787893,
+   -122.440821,
+   1
+  ],
+  [
+   37.783004,
+   -122.460679,
+   0
+  ],
+  [
+   37.798794,
+   -122.436098,
+   0
+  ],
+  [
+   37.769474,
+   -122.510218,
+   1
+  ],
+  [
+   37.768731,
+   -122.429262,
+   0
+  ],
+  [
+   37.733809,
+   -122.433966,
+   0
+  ],
+  [
+   37.785462,
+   -122.39908,
+   0
+  ],
+  [
+   37.753835,
+   -122.420699,
+   0
+  ],
+  [
+   37.754281,
+   -122.38972,
+   0
+  ],
+  [
+   37.779436,
+   -122.410421,
+   0
+  ],
+  [
+   37.787316,
+   -122.410057,
+   0
+  ],
+  [
+   37.796846,
+   -122.402926,
+   0
+  ],
+  [
+   37.739005,
+   -122.414133,
+   0
+  ],
+  [
+   37.807553,
+   -122.420028,
+   0
+  ],
+  [
+   37.787853,
+   -122.433494,
+   0
+  ],
+  [
+   37.808522,
+   -122.414897,
+   0
+  ],
+  [
+   37.782624,
+   -122.474408,
+   0
+  ],
+  [
+   37.730453,
+   -122.404622,
+   0
+  ],
+  [
+   37.782906,
+   -122.418897,
+   0
+  ],
+  [
+   37.781243,
+   -122.463767,
+   0
+  ],
+  [
+   37.782913,
+   -122.462565,
+   1
+  ],
+  [
+   37.782868,
+   -122.463715,
+   0
+  ],
+  [
+   37.790481,
+   -122.405465,
+   1
+  ],
+  [
+   37.786993,
+   -122.399731,
+   0
+  ],
+  [
+   37.791215,
+   -122.403624,
+   0
+  ],
+  [
+   37.79658,
+   -122.405055,
+   1
+  ],
+  [
+   37.798963,
+   -122.408495,
+   0
+  ],
+  [
+   37.798673,
+   -122.407296,
+   1
+  ],
+  [
+   37.769233,
+   -122.452022,
+   0
+  ],
+  [
+   37.795126,
+   -122.421756,
+   0
+  ],
+  [
+   37.797914,
+   -122.407877,
+   0
+  ],
+  [
+   37.742719,
+   -122.421578,
+   0
+  ],
+  [
+   37.791707,
+   -122.434603,
+   0
+  ],
+  [
+   37.808015,
+   -122.419332,
+   0
+  ],
+  [
+   37.747053,
+   -122.418778,
+   0
+  ],
+  [
+   37.797625,
+   -122.459184,
+   0
+  ],
+  [
+   37.797441,
+   -122.403529,
+   0
+  ],
+  [
+   37.760603,
+   -122.421318,
+   0
+  ],
+  [
+   37.761039,
+   -122.421698,
+   0
+  ],
+  [
+   37.781049,
+   -122.400219,
+   0
+  ],
+  [
+   37.761415,
+   -122.424342,
+   0
+  ],
+  [
+   37.753127,
+   -122.50503,
+   0
+  ],
+  [
+   37.780479,
+   -122.480632,
+   0
+  ],
+  [
+   37.775869,
+   -122.422666,
+   0
+  ],
+  [
+   37.808729,
+   -122.41038,
+   1
+  ],
+  [
+   37.79376,
+   -122.406098,
+   1
+  ],
+  [
+   37.764448,
+   -122.46652,
+   0
+  ],
+  [
+   37.790749,
+   -122.389353,
+   0
+  ],
+  [
+   37.726306,
+   -122.433398,
+   0
+  ],
+  [
+   37.751491,
+   -122.432444,
+   0
+  ],
+  [
+   37.785818,
+   -122.399723,
+   0
+  ],
+  [
+   37.786923,
+   -122.433299,
+   0
+  ],
+  [
+   37.797552,
+   -122.421961,
+   0
+  ],
+  [
+   37.787513,
+   -122.433775,
+   0
+  ],
+  [
+   37.758927,
+   -122.41238,
+   0
+  ],
+  [
+   37.808874,
+   -122.410358,
+   1
+  ],
+  [
+   37.75642,
+   -122.419137,
+   0
+  ],
+  [
+   37.798375,
+   -122.419032,
+   0
+  ],
+  [
+   37.758671,
+   -122.420464,
+   0
+  ],
+  [
+   37.805813,
+   -122.420564,
+   0
+  ],
+  [
+   37.733986,
+   -122.434152,
+   0
+  ],
+  [
+   37.762406,
+   -122.397648,
+   0
+  ],
+  [
+   37.743311,
+   -122.474824,
+   0
+  ],
+  [
+   37.799726,
+   -122.408075,
+   1
+  ],
+  [
+   37.796414,
+   -122.40686,
+   1
+  ],
+  [
+   37.780468,
+   -122.39441,
+   0
+  ],
+  [
+   37.76173,
+   -122.422948,
+   0
+  ],
+  [
+   37.731131,
+   -122.392225,
+   0
+  ],
+  [
+   37.773831,
+   -122.438327,
+   0
+  ],
+  [
+   37.782933,
+   -122.467787,
+   0
+  ],
+  [
+   37.795074,
+   -122.422874,
+   0
+  ],
+  [
+   37.777141,
+   -122.421869,
+   0
+  ],
+  [
+   37.778564,
+   -122.423168,
+   0
+  ],
+  [
+   37.800107,
+   -122.410956,
+   0
+  ],
+  [
+   37.776172,
+   -122.408856,
+   0
+  ],
+  [
+   37.780643,
+   -122.476636,
+   0
+  ],
+  [
+   37.762389,
+   -122.506864,
+   0
+  ],
+  [
+   37.762319,
+   -122.434999,
+   1
+  ],
+  [
+   37.796506,
+   -122.405364,
+   0
+  ],
+  [
+   37.793391,
+   -122.422544,
+   1
+  ],
+  [
+   37.771696,
+   -122.430522,
+   0
+  ],
+  [
+   37.792691,
+   -122.434433,
+   0
+  ],
+  [
+   37.783775,
+   -122.434276,
+   0
+  ],
+  [
+   37.760449,
+   -122.508978,
+   1
+  ],
+  [
+   37.780608,
+   -122.477725,
+   0
+  ],
+  [
+   37.758745,
+   -122.415228,
+   0
+  ],
+  [
+   37.785031,
+   -122.409272,
+   0
+  ],
+  [
+   37.782891,
+   -122.463201,
+   0
+  ],
+  [
+   37.796995,
+   -122.399691,
+   0
+  ],
+  [
+   37.785375,
+   -122.42946,
+   0
+  ],
+  [
+   37.766596,
+   -122.433199,
+   0
+  ],
+  [
+   37.741999,
+   -122.426657,
+   0
+  ],
+  [
+   37.763555,
+   -122.400332,
+   0
+  ],
+  [
+   37.764482,
+   -122.433283,
+   0
+  ],
+  [
+   37.750874,
+   -122.418158,
+   1
+  ],
+  [
+   37.764033,
+   -122.463439,
+   0
+  ],
+  [
+   37.760317,
+   -122.419767,
+   0
+  ],
+  [
+   37.798905,
+   -122.422225,
+   0
+  ],
+  [
+   37.801496,
+   -122.409285,
+   0
+  ],
+  [
+   37.736584,
+   -122.470344,
+   0
+  ],
+  [
+   37.778884,
+   -122.393983,
+   0
+  ],
+  [
+   37.757371,
+   -122.421313,
+   0
+  ],
+  [
+   37.774926,
+   -122.422445,
+   0
+  ],
+  [
+   37.800763,
+   -122.438409,
+   0
+  ],
+  [
+   37.782175,
+   -122.478851,
+   0
+  ],
+  [
+   37.801486,
+   -122.409553,
+   0
+  ],
+  [
+   37.782809,
+   -122.464766,
+   0
+  ],
+  [
+   37.785224,
+   -122.464325,
+   1
+  ],
+  [
+   37.80025,
+   -122.409872,
+   0
+  ],
+  [
+   37.778354,
+   -122.396798,
+   1
+  ],
+  [
+   37.772064,
+   -122.431664,
+   0
+  ],
+  [
+   37.712304,
+   -122.406339,
+   0
+  ],
+  [
+   37.763917,
+   -122.416705,
+   1
+  ],
+  [
+   37.76544,
+   -122.386604,
+   0
+  ],
+  [
+   37.793717,
+   -122.406662,
+   0
+  ],
+  [
+   37.74421,
+   -122.422792,
+   0
+  ],
+  [
+   37.780543,
+   -122.479008,
+   0
+  ],
+  [
+   37.755558,
+   -122.438758,
+   0
+  ],
+  [
+   37.739038,
+   -122.413847,
+   0
+  ],
+  [
+   37.787946,
+   -122.427042,
+   0
+  ],
+  [
+   37.770606,
+   -122.402961,
+   0
+  ],
+  [
+   37.734237,
+   -122.390519,
+   0
+  ],
+  [
+   37.785135,
+   -122.431356,
+   0
+  ],
+  [
+   37.800326,
+   -122.409326,
+   0
+  ],
+  [
+   37.76035,
+   -122.505006,
+   1
+  ],
+  [
+   37.781507,
+   -122.493301,
+   0
+  ],
+  [
+   37.752106,
+   -122.419167,
+   0
+  ],
+  [
+   37.785537,
+   -122.396394,
+   0
+  ],
+  [
+   37.796102,
+   -122.393972,
+   0
+  ],
+  [
+   37.797729,
+   -122.431304,
+   0
+  ],
+  [
+   37.739575,
+   -122.419017,
+   0
+  ],
+  [
+   37.783706,
+   -122.482999,
+   0
+  ],
+  [
+   37.762535,
+   -122.395394,
+   0
+  ],
+  [
+   37.787876,
+   -122.410895,
+   0
+  ],
+  [
+   37.753452,
+   -122.497777,
+   0
+  ],
+  [
+   37.770022,
+   -122.446241,
+   1
+  ],
+  [
+   37.783656,
+   -122.432939,
+   0
+  ],
+  [
+   37.761327,
+   -122.419497,
+   0
+  ],
+  [
+   37.797458,
+   -122.403402,
+   0
+  ],
+  [
+   37.794097,
+   -122.404903,
+   0
+  ],
+  [
+   37.794683,
+   -122.406496,
+   0
+  ],
+  [
+   37.79979,
+   -122.40923,
+   0
+  ],
+  [
+   37.774893,
+   -122.422737,
+   1
+  ],
+  [
+   37.797008,
+   -122.436999,
+   0
+  ],
+  [
+   37.774852,
+   -122.422948,
+   0
+  ],
+  [
+   37.774689,
+   -122.413303,
+   0
+  ],
+  [
+   37.759577,
+   -122.41021,
+   1
+  ],
+  [
+   37.763672,
+   -122.468986,
+   1
+  ],
+  [
+   37.793915,
+   -122.398756,
+   0
+  ],
+  [
+   37.808948,
+   -122.418434,
+   0
+  ],
+  [
+   37.788773,
+   -122.408664,
+   0
+  ],
+  [
+   37.772501,
+   -122.413001,
+   0
+  ],
+  [
+   37.782919,
+   -122.432775,
+   0
+  ],
+  [
+   37.775911,
+   -122.495803,
+   0
+  ],
+  [
+   37.758301,
+   -122.421428,
+   0
+  ],
+  [
+   37.763071,
+   -122.466129,
+   0
+  ],
+  [
+   37.793169,
+   -122.421069,
+   0
+  ],
+  [
+   37.788418,
+   -122.446268,
+   0
+  ],
+  [
+   37.799719,
+   -122.408321,
+   0
+  ],
+  [
+   37.797323,
+   -122.421932,
+   0
+  ],
+  [
+   37.752754,
+   -122.408319,
+   0
+  ],
+  [
+   37.76414,
+   -122.432563,
+   0
+  ],
+  [
+   37.783706,
+   -122.432948,
+   1
+  ],
+  [
+   37.776352,
+   -122.426373,
+   0
+  ],
+  [
+   37.785752,
+   -122.435045,
+   0
+  ],
+  [
+   37.799075,
+   -122.419178,
+   0
+  ],
+  [
+   37.760463,
+   -122.419399,
+   1
+  ],
+  [
+   37.778088,
+   -122.404816,
+   0
+  ],
+  [
+   37.760288,
+   -122.506065,
+   0
+  ],
+  [
+   37.799291,
+   -122.43244,
+   0
+  ],
+  [
+   37.763905,
+   -122.472468,
+   0
+  ],
+  [
+   37.787938,
+   -122.401904,
+   1
+  ],
+  [
+   37.776457,
+   -122.437912,
+   0
+  ],
+  [
+   37.788312,
+   -122.401366,
+   0
+  ],
+  [
+   37.775363,
+   -122.458271,
+   0
+  ],
+  [
+   37.797784,
+   -122.405295,
+   0
+  ],
+  [
+   37.779984,
+   -122.483129,
+   0
+  ],
+  [
+   37.800333,
+   -122.409051,
+   0
+  ],
+  [
+   37.782772,
+   -122.46352,
+   0
+  ],
+  [
+   37.800167,
+   -122.412372,
+   0
+  ],
+  [
+   37.7962,
+   -122.404518,
+   0
+  ],
+  [
+   37.781877,
+   -122.410081,
+   0
+  ],
+  [
+   37.765501,
+   -122.466299,
+   0
+  ],
+  [
+   37.801259,
+   -122.41122,
+   0
+  ],
+  [
+   37.751487,
+   -122.43254,
+   0
+  ],
+  [
+   37.782938,
+   -122.461548,
+   0
+  ],
+  [
+   37.808317,
+   -122.470711,
+   1
+  ],
+  [
+   37.792142,
+   -122.399912,
+   0
+  ],
+  [
+   37.782818,
+   -122.464633,
+   1
+  ],
+  [
+   37.760627,
+   -122.388401,
+   0
+  ],
+  [
+   37.792592,
+   -122.393038,
+   1
+  ],
+  [
+   37.7978,
+   -122.408504,
+   0
+  ],
+  [
+   37.796008,
+   -122.406051,
+   0
+  ],
+  [
+   37.765262,
+   -122.450019,
+   0
+  ]
+ ]
+}

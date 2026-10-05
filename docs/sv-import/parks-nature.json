@@ -1,0 +1,333 @@
+{
+ "category": "parks-nature",
+ "count": 16,
+ "commonsPhotos": 9,
+ "commonsPhotoPct": 56.3,
+ "withFacts": 16,
+ "withHours": 0,
+ "photoSkips": [
+  {
+   "id": "osm-w30857619",
+   "name": "Rengstorff Park",
+   "why": "reviewed: an information panel"
+  },
+  {
+   "id": "osm-w28799664",
+   "name": "Rinconada Park",
+   "why": "reviewed: a protest, not the park"
+  },
+  {
+   "id": "osm-w28640922",
+   "name": "Sunnyvale Baylands Park",
+   "why": "reviewed: a map sign"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-w28799664",
+   "name": "Rinconada Park",
+   "topic": "park",
+   "lat": 37.443562,
+   "lng": -122.14121,
+   "photo": false,
+   "facts": [
+    "Established in 1922 as Waterworks and renamed Rinconada two years later.",
+    "Home to the city's municipal swimming pool.",
+    "Address: 777 Embarcadero Rd, Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28799664"
+  },
+  {
+   "id": "osm-w28570810",
+   "name": "Bedwell Bayfront Park",
+   "topic": "park",
+   "lat": 37.492028,
+   "lng": -122.17283,
+   "photo": true,
+   "facts": [
+    "A 160-acre nature park built on a capped landfill, with construction from 1982 to 1995.",
+    "A 2.3-mile perimeter trail is part of the San Francisco Bay Trail.",
+    "Surrounded on three sides by the Don Edwards San Francisco Bay National Wildlife Refuge."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28570810"
+  },
+  {
+   "id": "osm-w28640922",
+   "name": "Sunnyvale Baylands Park",
+   "topic": "park",
+   "lat": 37.41259,
+   "lng": -121.99694,
+   "photo": false,
+   "facts": [
+    "Has over 70 acres of developed parkland plus a 105-acre seasonal wetlands preserve.",
+    "Santa Clara County owns the property and the City of Sunnyvale manages the park.",
+    "The park has an outdoor turf amphitheater and access to the San Francisco Bay Trail."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28640922"
+  },
+  {
+   "id": "osm-w17753335",
+   "name": "Cuesta Park",
+   "topic": "park",
+   "lat": 37.372602,
+   "lng": -122.082028,
+   "photo": true,
+   "facts": [
+    "The park has a bocce court, off-leash dog area, playground and tennis court.",
+    "A free outdoor Fitness Court with 10 pieces of equipment was added with a grant from El Camino Health.",
+    "Address: 615 Cuesta Dr, Mountain View"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/17753335"
+  },
+  {
+   "id": "osm-w30012022",
+   "name": "Peers Park",
+   "topic": "park",
+   "lat": 37.43197,
+   "lng": -122.147294,
+   "photo": false,
+   "facts": [
+    "Has redwoods grown from seeds that orbited aboard Space Shuttle Challenger in 1985.",
+    "Named for Alexander Peers, first president of Mayfield's bank.",
+    "Address: 1899 Park Blvd, Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/30012022"
+  },
+  {
+   "id": "osm-w399358861",
+   "name": "McClellan Ranch Preserve",
+   "topic": "park",
+   "lat": 37.314114,
+   "lng": -122.063171,
+   "photo": false,
+   "facts": [
+    "An 18-acre preserve on a former horse ranch from the 1930s and 40s.",
+    "Home to the Environmental Education Center and a recreated Baer Blacksmith Shop.",
+    "Address: 22221 McClellan Road, Cupertino"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/399358861"
+  },
+  {
+   "id": "osm-w28834601",
+   "name": "Eleanor Pardee Park",
+   "topic": "park",
+   "lat": 37.449866,
+   "lng": -122.142274,
+   "photo": true,
+   "facts": [
+    "A 9.6-acre neighborhood park with community gardens.",
+    "Named for Eleanor Pardee; her mother deeded the property to the city in 1920.",
+    "Address: 851 Center Dr, Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28834601"
+  },
+  {
+   "id": "osm-w158245358",
+   "name": "Parque de los Pobladores",
+   "topic": "park",
+   "lat": 37.327958,
+   "lng": -121.884554,
+   "photo": true,
+   "facts": [
+    "A 0.2 acre park in SoFA at Market Street and South 1st Street.",
+    "Holds a 1997 monument to the founding of the Pueblo de San Jose de Guadalupe by the Anza Expedition settlers.",
+    "Redeveloped in 2012 under the city's Pavement to Plaza program."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/158245358"
+  },
+  {
+   "id": "osm-w131995316",
+   "name": "Elizabeth F. Gamble Garden",
+   "topic": "garden",
+   "lat": 37.439955,
+   "lng": -122.148174,
+   "photo": true,
+   "facts": [
+    "Elizabeth Gamble left her house and garden to the city on her death in 1981.",
+    "Became a public garden in 1985, supported by a nonprofit horticultural foundation.",
+    "Elizabeth Gamble was the granddaughter of Procter & Gamble co-founder James Gamble."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/131995316"
+  },
+  {
+   "id": "osm-w913403824",
+   "name": "Corn Palace Park",
+   "topic": "park",
+   "lat": 37.362128,
+   "lng": -121.996976,
+   "photo": false,
+   "facts": [
+    "The 2-acre park sits on former Francia family farmland that ran the Corn Palace farmstand from 1965 to 2015.",
+    "The park opened on June 27, 2025.",
+    "Run by City of Sunnyvale"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/913403824"
+  },
+  {
+   "id": "osm-w1409625173",
+   "name": "Redwood Grove Nature Preserve",
+   "topic": "nature preserve",
+   "lat": 37.372908,
+   "lng": -122.119526,
+   "photo": true,
+   "facts": [
+    "The six-acre preserve was purchased in 1974.",
+    "The Halsey House inside the preserve was built in 1923 and is a local Historic Landmark.",
+    "Established in 1974"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/1409625173"
+  },
+  {
+   "id": "osm-w835856941",
+   "name": "Byxbee Park",
+   "topic": "park",
+   "lat": 37.447966,
+   "lng": -122.106368,
+   "photo": true,
+   "facts": [
+    "Opened in 1991 with earthworks by Peter Richards and Michael Oppenheimer.",
+    "Designated as an art park within the Baylands Preserve.",
+    "Run by City of Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/835856941"
+  },
+  {
+   "id": "osm-w38259520",
+   "name": "Memorial Park",
+   "topic": "park",
+   "lat": 37.324942,
+   "lng": -122.045117,
+   "photo": true,
+   "facts": [
+    "The 22-acre park has an amphitheater, a gazebo and the Cupertino Veterans Memorial.",
+    "The park is next to the Cupertino Senior Center, Quinlan Community Center and Cupertino Sports Center.",
+    "Address: 21121 Stevens Creek Blvd, Cupertino"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/38259520"
+  },
+  {
+   "id": "osm-w39456327",
+   "name": "Bol Park",
+   "topic": "park",
+   "lat": 37.410432,
+   "lng": -122.139045,
+   "photo": true,
+   "facts": [
+    "A 13.8-acre park in Barron Park bordered by Matadero Creek.",
+    "Named for Stanford physicist Cornelis Bol, who bought the donkey pasture in the 1930s.",
+    "Opened to the public in April 1974."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/39456327"
+  },
+  {
+   "id": "osm-w39107231",
+   "name": "Heritage Park",
+   "topic": "park",
+   "lat": 37.44408,
+   "lng": -122.156761,
+   "photo": false,
+   "facts": [
+    "Opened on March 12, 2006 on the former Palo Alto Medical Foundation site.",
+    "A sentinel redwood anchors the 2.01-acre park.",
+    "Address: 300 Homer Ave, Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/39107231"
+  },
+  {
+   "id": "osm-w30857619",
+   "name": "Rengstorff Park",
+   "topic": "park",
+   "lat": 37.400206,
+   "lng": -122.09635,
+   "photo": false,
+   "facts": [
+    "Opened as Mountain View Recreation Center Park and was renamed Rengstorff Park in 1970.",
+    "Rengstorff Avenue was called Pastoria Avenue until 1929, after the Castro family's Rancho Pastoria de las Borregas.",
+    "Address: 201 S Rengstorff Ave, Mountain View"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/30857619"
+  }
+ ],
+ "points": [
+  [
+   37.492028,
+   -122.17283,
+   1
+  ],
+  [
+   37.410432,
+   -122.139045,
+   1
+  ],
+  [
+   37.447966,
+   -122.106368,
+   1
+  ],
+  [
+   37.362128,
+   -121.996976,
+   0
+  ],
+  [
+   37.372602,
+   -122.082028,
+   1
+  ],
+  [
+   37.449866,
+   -122.142274,
+   1
+  ],
+  [
+   37.439955,
+   -122.148174,
+   1
+  ],
+  [
+   37.44408,
+   -122.156761,
+   0
+  ],
+  [
+   37.314114,
+   -122.063171,
+   0
+  ],
+  [
+   37.324942,
+   -122.045117,
+   1
+  ],
+  [
+   37.327958,
+   -121.884554,
+   1
+  ],
+  [
+   37.43197,
+   -122.147294,
+   0
+  ],
+  [
+   37.372908,
+   -122.119526,
+   1
+  ],
+  [
+   37.400206,
+   -122.09635,
+   0
+  ],
+  [
+   37.443562,
+   -122.14121,
+   0
+  ],
+  [
+   37.41259,
+   -121.99694,
+   0
+  ]
+ ]
+}
