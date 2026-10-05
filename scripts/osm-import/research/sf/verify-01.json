@@ -1,0 +1,286 @@
+[
+ {
+  "id": "osm-w85891397",
+  "name": "Billy Goat Hill",
+  "address": "30th St and Laidley St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Became a city park in 1975 and covers 3.5 acres.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   },
+   {
+    "text": "The Beacon Trail connecting it to Walter Haas Playground opened in July 2016.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14007250976",
+  "name": "Falasteen",
+  "address": "4018 24th St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Palestinian restaurant from chef Lamees Dahbour, named for the Arabic word for Palestine.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/falasteen-palestinian-sf-19958119.php"
+   },
+   {
+    "text": "Owned by Samir Salameh, founder of home design company Room Service.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/falasteen-palestinian-sf-19958119.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1713269606",
+  "name": "Bernie's",
+  "address": "3966 24th St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Partnered with a bookstore for a new chapter instead of closing.",
+    "url": "https://www.sfchronicle.com/entertainment/article/sf-bernies-coffee-shop-bookstore-20177713.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1713269566",
+  "name": "Noe Bagel",
+  "address": "3933 24th St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "A bagel shop on 24th Street serving bagels and breakfast sandwiches.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/noe-bagel"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3557413732",
+  "name": "Manzoni",
+  "address": "2788 Diamond St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened on December 19, 2011.",
+    "url": "https://www.glenparkassociation.org/manzoni-restaurant-finally-opens/"
+   },
+   {
+    "text": "An Italian restaurant two blocks from Glen Park BART.",
+    "url": "https://www.manzonisf.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4284609497",
+  "name": "Glen Park Station",
+  "address": "2816 Diamond St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "A dive bar with darts, pinball, a fireplace and a back patio.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/glen-park-station"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5352315989",
+  "name": "Churchill",
+  "address": "198 Church St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "A World War II-themed cocktail bar with a wide whisky selection and a back pool table.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/churchill"
+   }
+  ]
+ },
+ {
+  "id": "osm-w261292748",
+  "name": "Nopa",
+  "address": "560 Divisadero St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/nopa/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2655466372",
+  "name": "Nopalito",
+  "address": "306 Broderick St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/nopalito/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4618078389",
+  "name": "Pork Store Cafe",
+  "address": "1451 Haight St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Calls itself San Francisco's original breakfast spot, serving since 1916.",
+    "url": "https://www.porkstorecafe.com/"
+   },
+   {
+    "text": "Specializes in American comfort food for breakfast and lunch.",
+    "url": "https://www.porkstorecafe.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n647656805",
+  "name": "Indian Oven",
+  "address": "233 Fillmore St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Has served northern Indian cuisine in San Francisco since 1988.",
+    "url": "https://www.indianovensf.com/about-indian-oven.htm"
+   },
+   {
+    "text": "Cooks in an open-view kitchen with a tandoori clay oven.",
+    "url": "https://www.indianovensf.com/about-indian-oven.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1369329145",
+  "name": "Bar Crudo",
+  "address": "655 Divisadero St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Oyster and seafood restaurant serving oysters, crudo and marinated mussels.",
+    "url": "https://www.barcrudo.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2338836841",
+  "name": "Bean Bag Cafe",
+  "address": "601 Divisadero St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Has served the neighborhood since 1992.",
+    "url": "https://beanbag.cafe/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1769223515",
+  "name": "Burma Superstar",
+  "address": "309 Clement St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened its original Clement Street location in 1992.",
+    "url": "https://www.burmasuperstar.com/heritage"
+   },
+   {
+    "text": "Has since opened additional locations in Alameda and Oakland.",
+    "url": "https://www.burmasuperstar.com/heritage"
+   },
+   {
+    "text": "Owners Desmond Htunlin and Joycelyn Lee bought it when it was set to close.",
+    "url": "https://foodgps.com/b-star-bar-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1616458202",
+  "name": "Moscow & Tbilisi Bakery",
+  "address": "5540 Geary Blvd",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Sells Russian and Georgian baked goods, including cheese blintzes and poppy seed rolls.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/moscow-tbilisi-russian-bakery"
+   },
+   {
+    "text": "Chebureki, deep-fried turnovers filled with ground beef, are a staple.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/moscow-tbilisi-russian-bakery"
+   }
+  ]
+ },
+ {
+  "id": "osm-w275041540",
+  "name": "Wako",
+  "address": "211 Clement St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Awarded one Michelin star in the 2019 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/san-francisco/wako/restaurant"
+   },
+   {
+    "text": "Offers two omakase options: a sushi tasting menu and a full omakase.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/wako"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9046808515",
+  "name": "The Coffee Movement",
+  "address": "1030 Washington St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Founded in 2016 by Bryan Overstreet and Reef Bessette in a 1969 VW bus used as a mobile cafe.",
+    "url": "https://www.thecoffeemovement.com/about-us"
+   },
+   {
+    "text": "Has a second location at 1737 Balboa Street in the Inner Richmond.",
+    "url": "https://www.thecoffeemovement.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9311433649",
+  "name": "Mamahuhu",
+  "address": "517 Clement St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Chef Brandon Jew of Mister Jiu's opened it in 2020 as a homage to Chinese takeout.",
+    "url": "https://www.sfgate.com/food/article/Brandon-Jew-Mamahuhu-Chinese-takeout-San-Francisco-14975003.php"
+   },
+   {
+    "text": "Jew has since opened a second Mamahuhu location in San Francisco.",
+    "url": "https://www.sfgate.com/food/article/Mamahuhu-opening-second-SF-location-17246185.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w287350584",
+  "name": "Hakka Restaurant",
+  "address": "4401 Cabrillo St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Serves Chinese dishes such as Peking spareribs, ma po tofu and mu shu chicken.",
+    "url": "https://hakkasanfrancisco.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1769223514",
+  "name": "Blue Danube Coffee House",
+  "address": "306 Clement St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Reopened in May 2016 after being closed just over a year for flood damage and repairs.",
+    "url": "https://richmondsfblog.com/2016/05/07/blue-danube-on-clement-to-finally-re-open-this-sunday/"
+   }
+  ]
+ }
+]

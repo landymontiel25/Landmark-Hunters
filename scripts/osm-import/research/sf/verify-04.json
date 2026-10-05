@@ -1,0 +1,342 @@
+[
+ {
+  "id": "osm-w260018192",
+  "name": "Mandalay",
+  "address": "4348 California St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened on February 4, 1984 and is the oldest running Burmese restaurant in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)"
+   },
+   {
+    "text": "Named an America's Classic by the James Beard Foundation in 2024.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)"
+   },
+   {
+    "text": "Serves tea leaf salad, paratha, mohinga and samusa soup.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10790894143",
+  "name": "Aziza",
+  "address": "5800 Geary Blvd",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Aziza was the first Moroccan restaurant in the United States to earn a Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/aziza"
+   },
+   {
+    "text": "Chef Mourad Lahlou serves Moroccan cooking with California ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/aziza"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1106966263",
+  "name": "Beit Rima",
+  "address": "138 Church St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Created by a son who reinvented his father's burger joint to showcase their Palestinian heritage.",
+    "url": "https://www.beitrimasf.com/"
+   },
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2019.",
+    "url": "https://beitrimasf.com/accolades/"
+   },
+   {
+    "text": "Serves Palestinian and Levantine dishes such as hummus, falafel and musakhan.",
+    "url": "https://www.beitrimasf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4148116889",
+  "name": "Prubechu",
+  "address": "2224 Mission St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Started in 2014 by chef Shawn Naputi and business partner Shawn Camacho, both raised on Guam.",
+    "url": "https://www.prubechu.com/"
+   },
+   {
+    "text": "Serves classic flavors from Guam and the Mariana Islands.",
+    "url": "https://www.prubechu.com/"
+   },
+   {
+    "text": "Described in 2020 as San Francisco's only Chamorro restaurant.",
+    "url": "https://peninsulapress.com/2020/12/01/san-franciscos-only-chamorro-restaurant-persists-amid-pandemic/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w505189954",
+  "name": "San Ho Won",
+  "address": "2170 Bryant St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/san-ho-won"
+   },
+   {
+    "text": "Korean restaurant with chefs Corey Lee and Jeong-In Hwang.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/san-ho-won"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10769120405",
+  "name": "Besharam",
+  "address": "1275 Minnesota St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened in 2018 inside the Minnesota Street Project, led by chef Heena Patel.",
+    "url": "https://besharamrestaurant.com/about.html"
+   },
+   {
+    "text": "Besharam is Gujarati for shameless; the menu pairs Gujarati vegetarian cooking with California ingredients.",
+    "url": "https://besharamrestaurant.com/about.html"
+   },
+   {
+    "text": "Named Eater San Francisco's Restaurant of the Year in 2019.",
+    "url": "https://besharamrestaurant.com/about.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1609599968",
+  "name": "Paxton Gate",
+  "address": "824 Valencia St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Founded in 1992 by Sean Quigley and named after the British gardener Sir Joseph Paxton.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate"
+   },
+   {
+    "text": "Moved from Stevenson Street to Valencia Street in 1999.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate"
+   },
+   {
+    "text": "Sells natural science curiosities, taxidermy and carnivorous plants.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6780338385",
+  "name": "Dog Eared Books",
+  "address": "900 Valencia St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Has sold new, used and remaindered books since 1992.",
+    "url": "https://www.pw.org/literary_places/dog_eared_books_valencia"
+   },
+   {
+    "text": "Specializes in Beat, off-beat, small press and local literature.",
+    "url": "https://www.pw.org/literary_places/dog_eared_books_valencia"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321383070",
+  "name": "GLBT Historical Society Museum",
+  "address": "4127 18th St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "The society was founded in 1985.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society"
+   },
+   {
+    "text": "The museum opened in January 2011 as the first stand-alone LGBTQ history museum in the US.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society"
+   }
+  ]
+ },
+ {
+  "id": "osm-w263646726",
+  "name": "Vogue Theatre",
+  "address": "3290 Sacramento St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened in 1910 as the Elite Theatre and became the Vogue in 1939.",
+    "url": "https://cinematreasures.org/theaters/3394/comments"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1834964005",
+  "name": "Balboa Theatre",
+  "address": "3630 Balboa St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened on February 27, 1926.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   },
+   {
+    "text": "Designed by the Reid Brothers, who also designed the original Cliff House and the Fairmont Hotel.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   },
+   {
+    "text": "A 1978 fire led to the single auditorium being split into two screens.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n140982581",
+  "name": "Landmark's Opera Plaza Cinema",
+  "address": "601 Van Ness Ave",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened on November 16, 1984 as a four-screen art-house cinema.",
+    "url": "https://cinematreasures.org/theaters/7015"
+   },
+   {
+    "text": "Developed by Allen Michaan as part of a shopping and office plaza.",
+    "url": "https://cinematreasures.org/theaters/7015"
+   },
+   {
+    "text": "Renovated in 2021 with new recliner seats.",
+    "url": "https://cinematreasures.org/theaters/7015"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9536469196",
+  "name": "101 Music",
+  "address": "1414 Grant Ave",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Has two stores, on Grant Avenue and on Green Street, stocked with vintage vinyl.",
+    "url": "https://www.sfstation.com/101-music-b988"
+   }
+  ]
+ },
+ {
+  "id": "osm-n993412550",
+  "name": "Thrillhouse Records",
+  "address": "3422 Mission St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "A volunteer-run, not-for-profit punk record store.",
+    "url": "https://localwiki.org/sf/Thrillhouse_Records"
+   },
+   {
+    "text": "Also hosts small punk shows.",
+    "url": "https://localwiki.org/sf/Thrillhouse_Records"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260146990",
+  "name": "La Cocina Municipal Marketplace",
+  "address": "101 Hyde St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened in April 2021 in the Tenderloin.",
+    "url": "https://www.thesfnews.com/la-cocina-municipal-marketplace-opens-in-tenderloin/75894"
+   },
+   {
+    "text": "Described as the country's first women-led food hall.",
+    "url": "https://www.forbes.com/sites/chelseadavis/2022/03/23/the-entrepreneurs-of-la-cocinas-municipal-marketplace-the-countrys-first-ever-women-led-food-hall-in-san-francisco/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358805395",
+  "name": "Macondray Lane",
+  "address": "Macondray Ln, between Leavenworth St and Taylor St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Listed on the National Register of Historic Places in 1988 as the Russian Hill-Macondray Lane District.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane"
+   },
+   {
+    "text": "Inspired Barbary Lane in Armistead Maupin's Tales of the City.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane"
+   },
+   {
+    "text": "Views from the lane extend north to Alcatraz Island and the Bay.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane"
+   }
+  ]
+ },
+ {
+  "id": "osm-w260188930",
+  "name": "The Chapel",
+  "address": "777 Valencia St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Housed in a 1914 building originally built as a mortuary.",
+    "url": "https://www.kalw.org/show/crosscurrents/2018-10-31/from-mortuary-to-music-venue-is-the-chapel-haunted"
+   },
+   {
+    "text": "Renovated by Bay Area developer and restaurateur Jack Knowles.",
+    "url": "https://www.sfstation.com/the-chapel-b38598992"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10674834861",
+  "name": "B. Patisserie",
+  "address": "2821 California St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened in 2013 by pastry chef Belinda Leong with Michel Suas of the San Francisco Baking Institute.",
+    "url": "https://en.wikipedia.org/wiki/Belinda_Leong"
+   },
+   {
+    "text": "Belinda Leong won the 2018 James Beard Award for Outstanding Baker.",
+    "url": "https://en.wikipedia.org/wiki/Belinda_Leong"
+   },
+   {
+    "text": "Leong was previously pastry chef at Gary Danko.",
+    "url": "https://bpatisserie.com/story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6566538586",
+  "name": "Craftsman and Wolves",
+  "address": "746 Valencia St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "French-inspired contemporary patisserie and cafe.",
+    "url": "https://craftsman-wolves.com/san-francisco-mission-craftsman-and-wolves-about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w129903304",
+  "name": "Home Coffee Roasters",
+  "address": "1222 Noriega St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Known for creative espresso drinks such as red velvet and lavender lattes.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/home-coffee-roasters"
+   }
+  ]
+ }
+]
