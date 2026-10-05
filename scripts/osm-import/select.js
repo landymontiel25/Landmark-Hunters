@@ -9,7 +9,11 @@
 //   nearby     everything within `anchorMeters` of an anchor (a campus or town)
 //   fill       the rest of the restaurants, cafes, bakeries and parks, richest
 //              OSM tags first (website, hours, cuisine...), until the region
-//              holds `target` places
+//              holds `target` places. With `neighborhoods` ([name, lat, lng]
+//              centers), the fill takes turns between neighborhoods (each
+//              place counts toward the nearest center), and within one it
+//              prefers a kind (topic) it has fewer of: a place's score drops
+//              by 1.5 for each pick of the same topic already made there.
 // Without a Wikidata item, these never count: community gardens, playgrounds,
 // plazas and other pocket parks; numbered or generic practice fields; chain
 // branches (a `brand` tag) outside the nightlife and culture tiers. An old
@@ -67,7 +71,38 @@ export function whyNotSelected(place, tags = {}) {
 
 export const TIERS = ['insider', 'nightlife', 'wikidata', 'culture', 'nearby', 'fill'];
 
-export function selectPlaces(places, { tagsById = new Map(), overrides = {}, anchors = [], anchorMeters = 3000, target = 1000 } = {}) {
+export const nearestNeighborhood = (place, neighborhoods) =>
+  neighborhoods.reduce((best, n) => {
+    const d = distanceMeters(place.lat, place.lng, n[1], n[2]);
+    return d < best.d ? { name: n[0], d } : best;
+  }, { name: null, d: Infinity }).name;
+
+// Round-robin over neighborhoods (in list order), best adjusted score first.
+function spreadFill(fill, room, neighborhoods) {
+  const queues = new Map(neighborhoods.map((n) => [n[0], []]));
+  for (const x of fill) queues.get(nearestNeighborhood(x.p, neighborhoods)).push(x);
+  const topicCount = new Map(neighborhoods.map((n) => [n[0], new Map()]));
+  const out = [];
+  while (out.length < room) {
+    let took = false;
+    for (const [hood, q] of queues) {
+      if (out.length >= room) break;
+      const seen = topicCount.get(hood);
+      const adjusted = (x) => x.score - 1.5 * (seen.get(x.p.topic) || 0);
+      let bi = -1;
+      for (let i = 0; i < q.length; i++) if (bi < 0 || adjusted(q[i]) > adjusted(q[bi]) || (adjusted(q[i]) === adjusted(q[bi]) && q[i].p.id < q[bi].p.id)) bi = i;
+      if (bi < 0) continue;
+      const [x] = q.splice(bi, 1);
+      seen.set(x.p.topic, (seen.get(x.p.topic) || 0) + 1);
+      out.push(x);
+      took = true;
+    }
+    if (!took) break;
+  }
+  return out;
+}
+
+export function selectPlaces(places, { tagsById = new Map(), overrides = {}, anchors = [], anchorMeters = 3000, target = 1000, neighborhoods = null } = {}) {
   const byTier = Object.fromEntries(TIERS.map((t) => [t, []]));
   const notSelected = [];
   for (const p of places) {
@@ -80,7 +115,9 @@ export function selectPlaces(places, { tagsById = new Map(), overrides = {}, anc
   const fill = byTier.fill.sort((a, b) => b.score - a.score || a.p.id.localeCompare(b.p.id));
   const room = Math.max(0, target - kept.length);
   // Only places with something to say fill the gap.
-  const filled = fill.slice(0, room).filter((x) => x.score >= 2);
+  const filled = neighborhoods
+    ? spreadFill(fill.filter((x) => x.score >= 2), room, neighborhoods)
+    : fill.slice(0, room).filter((x) => x.score >= 2);
   const filledIds = new Set(filled.map((x) => x.p.id));
   for (const x of fill) if (!filledIds.has(x.p.id)) notSelected.push({ ...x.p, why: 'below the fill line (fewer OSM details)' });
   const keep = new Set([...kept, ...filled.map((x) => x.p)].map((p) => p.id));

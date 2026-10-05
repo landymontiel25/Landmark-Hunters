@@ -30,6 +30,69 @@ export const VILLANOVA_BOX = { minLat: 40.025, minLng: -75.355, maxLat: 40.048, 
 export const inVillanovaBox = (lat, lng) =>
   lat >= VILLANOVA_BOX.minLat && lat <= VILLANOVA_BOX.maxLat && lng >= VILLANOVA_BOX.minLng && lng <= VILLANOVA_BOX.maxLng;
 
+// San Francisco city proper, clockwise from the Presidio's northwest corner:
+// the Golden Gate shore, Fisherman's Wharf, the Embarcadero, Mission Bay,
+// Hunters Point, Candlestick, then west along the county line to Lake Merced
+// and north up Ocean Beach. Treasure Island and the Farallones stay out.
+export const SF_SHAPE = [
+  [37.811, -122.515],
+  [37.8105, -122.475],
+  [37.8085, -122.41],
+  [37.7955, -122.392],
+  [37.77, -122.385],
+  [37.735, -122.372],
+  [37.708, -122.39],
+  [37.708, -122.502],
+  [37.735, -122.508],
+  [37.77, -122.512],
+];
+
+// Neighborhood centers, for spreading the restaurant/cafe/park fill across
+// the city (select.js `spread`): each place counts toward the nearest one.
+export const SF_NEIGHBORHOODS = [
+  ['Mission', 37.7599, -122.4148],
+  ['North Beach', 37.8061, -122.4103],
+  ['Chinatown', 37.7941, -122.4078],
+  ['SoMa', 37.7785, -122.4056],
+  ['Hayes Valley', 37.7759, -122.4245],
+  ['Castro', 37.7609, -122.435],
+  ['Haight-Ashbury', 37.7692, -122.4481],
+  ['Inner Richmond', 37.7802, -122.4644],
+  ['Outer Richmond', 37.7775, -122.495],
+  ['Inner Sunset', 37.7602, -122.4683],
+  ['Outer Sunset', 37.755, -122.494],
+  ['Parkside', 37.74, -122.49],
+  ['Marina', 37.8037, -122.4368],
+  ['Cow Hollow', 37.7975, -122.435],
+  ['Nob Hill', 37.793, -122.4161],
+  ['Russian Hill', 37.8011, -122.4194],
+  ['Fisherman\'s Wharf', 37.808, -122.4177],
+  ['Financial District', 37.7946, -122.3999],
+  ['Union Square', 37.788, -122.4075],
+  ['Tenderloin', 37.7847, -122.4141],
+  ['Pacific Heights', 37.7925, -122.4382],
+  ['Japantown', 37.7854, -122.4294],
+  ['Western Addition', 37.7814, -122.433],
+  ['Lower Haight', 37.774, -122.438],
+  ['Laurel Heights', 37.786, -122.45],
+  ['Presidio', 37.7989, -122.4662],
+  ['Sea Cliff', 37.785, -122.495],
+  ['Golden Gate Park', 37.7694, -122.4862],
+  ['Noe Valley', 37.7502, -122.4337],
+  ['Twin Peaks', 37.748, -122.443],
+  ['Glen Park', 37.734, -122.433],
+  ['Bernal Heights', 37.7389, -122.4152],
+  ['Potrero Hill', 37.7605, -122.4009],
+  ['Dogpatch', 37.7609, -122.388],
+  ['Mission Bay', 37.7706, -122.3915],
+  ['Bayview', 37.729, -122.3925],
+  ['Excelsior', 37.7244, -122.4268],
+  ['Visitacion Valley', 37.713, -122.408],
+  ['Ingleside', 37.721, -122.456],
+  ['West Portal', 37.7405, -122.4663],
+  ['Lake Merced', 37.72, -122.49],
+];
+
 export const IMPORT_REGIONS = {
   miami: {
     shape: MIAMI_SHAPE,
@@ -59,6 +122,13 @@ export const IMPORT_REGIONS = {
       ],
     },
     area: /\b(philadelphia|philly|villanova|radnor|wayne|rosemont|bryn mawr|haverford|ardmore|narberth|wynnewood|merion|conshohocken|manayunk|roxborough|east falls|fishtown|kensington|northern liberties|old city|society hill|center city|rittenhouse|fairmount|university city|south philly|passyunk|delaware county|montgomery county|main line)\b/,
+  },
+  'san-francisco': {
+    shape: SF_SHAPE,
+    packRegions: ['san-francisco'],
+    packRegionOf: () => 'san-francisco',
+    select: { target: 1000, neighborhoods: SF_NEIGHBORHOODS },
+    area: /\b(san francisco|sf|presidio|golden gate|mission district|north beach|chinatown|soma|hayes valley|castro|haight|richmond district|sunset district|marina|nob hill|russian hill|dogpatch|embarcadero|fisherman's wharf|tenderloin|bernal heights|noe valley|potrero|pacific heights|japantown|lands end|ocean beach|twin peaks|union square)\b/,
   },
 };
 
