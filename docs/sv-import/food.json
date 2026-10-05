@@ -1,0 +1,683 @@
+{
+ "category": "food",
+ "count": 63,
+ "commonsPhotos": 2,
+ "commonsPhotoPct": 3.2,
+ "withFacts": 63,
+ "withHours": 20,
+ "photoSkips": [
+  {
+   "id": "osm-w513453786",
+   "name": "Alice's Restaurant",
+   "why": "bad imageUrl"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n9634233103",
+   "name": "SoFA Market",
+   "topic": "food hall",
+   "lat": 37.330233,
+   "lng": -121.88648,
+   "photo": false,
+   "facts": [
+    "Food hall in the SoFA District with locally-owned eateries, cafes and small vendors.",
+    "Vendors include Vietnoms, Pizza Way, Umi Handroll Bar and Habana Cuba.",
+    "Address: 387 South 1st Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9634233103"
+  },
+  {
+   "id": "osm-n13412735418",
+   "name": "Sweet Maple",
+   "topic": "American restaurant",
+   "lat": 37.44402,
+   "lng": -122.163009,
+   "photo": false,
+   "facts": [
+    "Serves Millionaire's Bacon, a trademarked brunch dish.",
+    "Brought its brunch menu to downtown Palo Alto in 2022.",
+    "Serves American food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13412735418"
+  },
+  {
+   "id": "osm-n4283857364",
+   "name": "Alexander's Steakhouse",
+   "topic": "steak restaurant",
+   "lat": 37.323326,
+   "lng": -122.009853,
+   "photo": false,
+   "facts": [
+    "Has a glass-enclosed dry-aging room and serves Japanese Wagyu and dry-aged domestic steaks.",
+    "Located in the Main Street Cupertino center.",
+    "Listed in the MICHELIN Guide California."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4283857364"
+  },
+  {
+   "id": "osm-n1432253334",
+   "name": "Naschmarkt",
+   "topic": "Austrian restaurant",
+   "lat": 37.427859,
+   "lng": -122.144561,
+   "photo": false,
+   "facts": [
+    "Named after the largest open-air produce market in Vienna.",
+    "Focuses on Austrian and German cuisine.",
+    "The Palo Alto location opened on May 17, 2022."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1432253334"
+  },
+  {
+   "id": "osm-n3217635376",
+   "name": "Bijan Bakery and Café",
+   "topic": "bakery",
+   "lat": 37.332474,
+   "lng": -121.888772,
+   "photo": false,
+   "facts": [
+    "Bijan Abachizadeh and his family have made pastries, cakes and croissants here since 1986.",
+    "Uses mostly imported European ingredients and no preservatives or trans fats.",
+    "Serves European food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3217635376"
+  },
+  {
+   "id": "osm-w513453786",
+   "name": "Alice's Restaurant",
+   "topic": "restaurant",
+   "lat": 37.386692,
+   "lng": -122.265399,
+   "photo": false,
+   "facts": [
+    "Has been a restaurant since the 1950s and was named for owner Alice Taylor and the Arlo Guthrie song.",
+    "Family owned and operated since the 1970s at the Four Corners intersection on Skyline Boulevard.",
+    "Address: 17299 Skyline Blvd"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/513453786"
+  },
+  {
+   "id": "osm-n1975950766",
+   "name": "Le Petit Bistro",
+   "topic": "French restaurant",
+   "lat": 37.388889,
+   "lng": -122.090755,
+   "photo": false,
+   "facts": [
+    "Open since 1989, owned and run by chef Jean-Michel Peuvrelle.",
+    "Peuvrelle was born in Pas-de-Calais, France, the son of a charcutier.",
+    "Serves French food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1975950766"
+  },
+  {
+   "id": "osm-n12206963101",
+   "name": "Barbayani Greek Taverna",
+   "topic": "Greek restaurant",
+   "lat": 37.378022,
+   "lng": -122.117637,
+   "photo": false,
+   "facts": [
+    "Named for Barba Yani, a black-bearded innkeeper who welcomed travelers.",
+    "Opened September 30, 2023 by chef-owner Allen Isik and co-owner Dino Tekdemir.",
+    "Serves Greek food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12206963101"
+  },
+  {
+   "id": "osm-n2620593447",
+   "name": "Camper",
+   "topic": "American restaurant",
+   "lat": 37.450009,
+   "lng": -122.186116,
+   "photo": false,
+   "facts": [
+    "Serves Californian and contemporary cuisine in a window-lined corner space.",
+    "Listed in the MICHELIN Guide for California.",
+    "Serves American food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2620593447"
+  },
+  {
+   "id": "osm-w132746454",
+   "name": "Ettan",
+   "topic": "Indian restaurant",
+   "lat": 37.445366,
+   "lng": -122.161363,
+   "photo": false,
+   "facts": [
+    "Chef Srijith Gopinathan cooks upscale Indian food with Californian ingredients.",
+    "Listed in the MICHELIN Guide California.",
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/132746454"
+  },
+  {
+   "id": "osm-w132883425",
+   "name": "Cafe Venetia",
+   "topic": "Italian restaurant",
+   "lat": 37.447503,
+   "lng": -122.16041,
+   "photo": false,
+   "facts": [
+    "Opened to bring the northern Italian coffee tradition to Palo Alto.",
+    "Sells Gardini chocolates.",
+    "Sells Italian roasted coffee beans."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/132883425"
+  },
+  {
+   "id": "osm-n1350930646",
+   "name": "Izzy's Brooklyn Bagels",
+   "topic": "bagel restaurant",
+   "lat": 37.425417,
+   "lng": -122.145389,
+   "photo": false,
+   "facts": [
+    "Established in 1996.",
+    "Kosher, supervised by the Vaad Hakashrus of Northern California.",
+    "Serves bagels"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1350930646"
+  },
+  {
+   "id": "osm-w124473271",
+   "name": "Dittmer's Gourmet Meats & Wurst-Haus",
+   "topic": "butcher shop",
+   "lat": 37.401511,
+   "lng": -122.114941,
+   "photo": false,
+   "facts": [
+    "Founder Dittmer Bubert began at 14 in his family's delicatessen in Hamburg, Germany.",
+    "Opened in Mountain View in 1978 and reopened in Los Altos after a 2011 fire.",
+    "Run today by his daughter Petra Silva."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/124473271"
+  },
+  {
+   "id": "osm-n1578531270",
+   "name": "Sakoon",
+   "topic": "Indian restaurant",
+   "lat": 37.391688,
+   "lng": -122.080085,
+   "photo": false,
+   "facts": [
+    "The name is the Indian word for peace.",
+    "The dining room has hand-carved wooden Buddha panels and a waterfall into a pool of lotus petals.",
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1578531270"
+  },
+  {
+   "id": "osm-w162342024",
+   "name": "Cafe Baklava",
+   "topic": "Mediterranean restaurant",
+   "lat": 37.391924,
+   "lng": -122.079761,
+   "photo": false,
+   "facts": [
+    "Mediterranean restaurant serving Mountain View since 2005.",
+    "Its chefs use traditional cooking techniques passed down through generations.",
+    "Serves Mediterranean food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/162342024"
+  },
+  {
+   "id": "osm-n12832185553",
+   "name": "Vina Enoteca",
+   "topic": "Italian restaurant",
+   "lat": 37.437356,
+   "lng": -122.173259,
+   "photo": false,
+   "facts": [
+    "Run by Rocco Scordella, a native of Italy.",
+    "Pastas, pizzas and bread are made in-house.",
+    "Most greens and vegetables come from the Stanford Education Farm."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12832185553"
+  },
+  {
+   "id": "osm-n2985663933",
+   "name": "Sara's Kitchen",
+   "topic": "diner restaurant",
+   "lat": 37.347649,
+   "lng": -121.951557,
+   "photo": false,
+   "facts": [
+    "Founded on April 27, 1992 by Sara and Manny Manion as a burger and cheesesteak shop.",
+    "Diner serving breakfast fare, pancakes, waffles and cheesesteak variations.",
+    "Serves diner"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2985663933"
+  },
+  {
+   "id": "osm-n11363994842",
+   "name": "Little Blue Door",
+   "topic": "Indian restaurant",
+   "lat": 37.380098,
+   "lng": -122.116142,
+   "photo": false,
+   "facts": [
+    "Opened April 6, 2022 by chef Srijith Gopinathan and Ayesha Thapar of Ettan.",
+    "Serves Indian street food and family recipes with seasonal California ingredients.",
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11363994842"
+  },
+  {
+   "id": "osm-n1440032358",
+   "name": "Amber India",
+   "topic": "Indian restaurant",
+   "lat": 37.397288,
+   "lng": -122.107824,
+   "photo": false,
+   "facts": [
+    "Founded by Vijay Bist; after 20 years in Mountain View it moved across El Camino Real to Los Altos.",
+    "The Los Altos restaurant is in a hacienda-style building with a patio and banquet room.",
+    "Serves Indian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1440032358"
+  },
+  {
+   "id": "osm-n4128541512",
+   "name": "Flea Street Cafe",
+   "topic": "American restaurant",
+   "lat": 37.4318,
+   "lng": -122.201155,
+   "photo": false,
+   "facts": [
+    "Has served diners since 1980 in a house with small rooms.",
+    "Builds a seasonal farm-to-table menu around produce from nearby farms and the coast.",
+    "Listed in the MICHELIN Guide California."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4128541512"
+  },
+  {
+   "id": "osm-w168944932",
+   "name": "Fuki Sushi",
+   "topic": "Japanese restaurant",
+   "lat": 37.413907,
+   "lng": -122.125756,
+   "photo": false,
+   "facts": [
+    "Established in 1978 as the first Japanese restaurant in Palo Alto.",
+    "Family owned, with chefs trained and licensed in Japan.",
+    "Serves Japanese food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/168944932"
+  },
+  {
+   "id": "osm-n303809267",
+   "name": "Palo Alto Sol",
+   "topic": "Mexican restaurant",
+   "lat": 37.426594,
+   "lng": -122.144866,
+   "photo": false,
+   "facts": [
+    "Owners Hector and Helena Sol bring cooking from their hometown of Puebla.",
+    "It is a daughter restaurant of La Fiesta in Mountain View.",
+    "Serves Mexican food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/303809267"
+  },
+  {
+   "id": "osm-n2161946493",
+   "name": "Chef Chu's",
+   "topic": "Chinese restaurant",
+   "lat": 37.400668,
+   "lng": -122.113611,
+   "photo": false,
+   "facts": [
+    "Silicon Valley figures including Steve Jobs, Gordon Moore and Mark Zuckerberg have eaten at Chef Chu's.",
+    "Serves Chinese food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2161946493"
+  },
+  {
+   "id": "osm-w115590408",
+   "name": "Los Altos Grill",
+   "topic": "American restaurant",
+   "lat": 37.378214,
+   "lng": -122.11485,
+   "photo": false,
+   "facts": [
+    "Part of the Hillstone Restaurant Group.",
+    "Specialties include Carolina-style beef ribs and rotisserie chicken.",
+    "Serves American food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/115590408"
+  },
+  {
+   "id": "osm-n3634565755",
+   "name": "Scott’s Seafood",
+   "topic": "seafood restaurant",
+   "lat": 37.332888,
+   "lng": -121.887943,
+   "photo": false,
+   "facts": [
+    "Serves oysters, crab cakes, grilled fish and cioppino with a full bar.",
+    "Offers indoor and outdoor patio seating plus private dining spaces.",
+    "Serves seafood"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3634565755"
+  }
+ ],
+ "points": [
+  [
+   37.323326,
+   -122.009853,
+   0
+  ],
+  [
+   37.386692,
+   -122.265399,
+   0
+  ],
+  [
+   37.397288,
+   -122.107824,
+   0
+  ],
+  [
+   37.380143,
+   -122.115692,
+   0
+  ],
+  [
+   37.378022,
+   -122.117637,
+   0
+  ],
+  [
+   37.446476,
+   -122.161422,
+   0
+  ],
+  [
+   37.332474,
+   -121.888772,
+   0
+  ],
+  [
+   37.452557,
+   -122.183574,
+   0
+  ],
+  [
+   37.453817,
+   -122.18267,
+   0
+  ],
+  [
+   37.391924,
+   -122.079761,
+   0
+  ],
+  [
+   37.453667,
+   -122.182305,
+   1
+  ],
+  [
+   37.378578,
+   -122.116525,
+   0
+  ],
+  [
+   37.447503,
+   -122.16041,
+   0
+  ],
+  [
+   37.459233,
+   -122.152728,
+   0
+  ],
+  [
+   37.450009,
+   -122.186116,
+   0
+  ],
+  [
+   37.391188,
+   -122.080942,
+   0
+  ],
+  [
+   37.400668,
+   -122.113611,
+   0
+  ],
+  [
+   37.401511,
+   -122.114941,
+   0
+  ],
+  [
+   37.394383,
+   -122.078829,
+   0
+  ],
+  [
+   37.377346,
+   -122.02977,
+   0
+  ],
+  [
+   37.445366,
+   -122.161363,
+   0
+  ],
+  [
+   37.451017,
+   -122.177115,
+   0
+  ],
+  [
+   37.424264,
+   -122.144818,
+   0
+  ],
+  [
+   37.4318,
+   -122.201155,
+   0
+  ],
+  [
+   37.33564,
+   -121.891205,
+   0
+  ],
+  [
+   37.413907,
+   -122.125756,
+   0
+  ],
+  [
+   37.425417,
+   -122.145389,
+   0
+  ],
+  [
+   37.388889,
+   -122.090755,
+   0
+  ],
+  [
+   37.380098,
+   -122.116142,
+   0
+  ],
+  [
+   37.454317,
+   -122.182602,
+   0
+  ],
+  [
+   37.445803,
+   -122.162109,
+   0
+  ],
+  [
+   37.378214,
+   -122.11485,
+   0
+  ],
+  [
+   37.443073,
+   -122.165613,
+   1
+  ],
+  [
+   37.450845,
+   -122.185399,
+   0
+  ],
+  [
+   37.379176,
+   -122.117109,
+   0
+  ],
+  [
+   37.443302,
+   -122.161043,
+   0
+  ],
+  [
+   37.33428,
+   -121.889743,
+   0
+  ],
+  [
+   37.335604,
+   -121.893024,
+   0
+  ],
+  [
+   37.427859,
+   -122.144561,
+   0
+  ],
+  [
+   37.445074,
+   -122.161557,
+   0
+  ],
+  [
+   37.426594,
+   -122.144866,
+   0
+  ],
+  [
+   37.330072,
+   -121.886222,
+   0
+  ],
+  [
+   37.427895,
+   -122.143753,
+   0
+  ],
+  [
+   37.445133,
+   -122.163055,
+   0
+  ],
+  [
+   37.393354,
+   -122.079029,
+   0
+  ],
+  [
+   37.3783,
+   -122.116509,
+   0
+  ],
+  [
+   37.391688,
+   -122.080085,
+   0
+  ],
+  [
+   37.347649,
+   -121.951557,
+   0
+  ],
+  [
+   37.332888,
+   -121.887943,
+   0
+  ],
+  [
+   37.330233,
+   -121.88648,
+   0
+  ],
+  [
+   37.338086,
+   -121.887216,
+   0
+  ],
+  [
+   37.453741,
+   -122.18369,
+   0
+  ],
+  [
+   37.379136,
+   -122.116664,
+   0
+  ],
+  [
+   37.428569,
+   -122.149665,
+   0
+  ],
+  [
+   37.44402,
+   -122.163009,
+   0
+  ],
+  [
+   37.448832,
+   -122.158344,
+   0
+  ],
+  [
+   37.442142,
+   -122.159053,
+   0
+  ],
+  [
+   37.335157,
+   -121.893207,
+   0
+  ],
+  [
+   37.428906,
+   -122.252553,
+   0
+  ],
+  [
+   37.377762,
+   -122.117556,
+   0
+  ],
+  [
+   37.42984,
+   -122.25503,
+   0
+  ],
+  [
+   37.437356,
+   -122.173259,
+   0
+  ],
+  [
+   37.445391,
+   -122.160432,
+   0
+  ]
+ ]
+}

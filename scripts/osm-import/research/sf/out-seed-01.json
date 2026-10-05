@@ -1,0 +1,805 @@
+[
+ {
+  "name": "SFJAZZ Center",
+  "area": "Hayes Valley",
+  "address": "201 Franklin St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in January 2013 at Fell and Franklin streets.",
+    "url": "https://www.sfjazz.org/visit/sfjazz-center/"
+   },
+   {
+    "text": "Described as the first stand-alone structure in the country built specifically for jazz.",
+    "url": "https://www.sfjazz.org/visit/sfjazz-center/"
+   },
+   {
+    "text": "Designed by architect Mark Cavagnero, with a 700-seat auditorium and a 100-seat lab.",
+    "url": "https://www.sfjazz.org/visit/sfjazz-center/"
+   }
+  ]
+ },
+ {
+  "name": "Keys Jazz Bistro",
+  "area": "North Beach",
+  "address": "498 Broadway",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in November 2022 in North Beach.",
+    "url": "https://hoodline.com/2022/11/keys-jazz-bistro-celebrates-grand-opening-in-north-beach/"
+   },
+   {
+    "text": "Occupies the building that once housed the 1950s nightclub El Matador.",
+    "url": "https://hoodline.com/2022/11/keys-jazz-bistro-celebrates-grand-opening-in-north-beach/"
+   },
+   {
+    "text": "Co-owner Simon Rowe is a pianist and organist and former head of the Brubeck Institute.",
+    "url": "https://hoodline.com/2022/11/keys-jazz-bistro-celebrates-grand-opening-in-north-beach/"
+   }
+  ]
+ },
+ {
+  "name": "The Dawn Club",
+  "area": "Financial District",
+  "address": "10 Annie St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A jazz bar on Annie Street behind the Palace Hotel.",
+    "url": "https://www.dawnclub.com/history"
+   },
+   {
+    "text": "Named for the 1930s Dawn Club, home of Lu Watters' Yerba Buena Jazz Band.",
+    "url": "https://www.dawnclub.com/history"
+   },
+   {
+    "text": "The original Dawn Club was a Prohibition-era speakeasy on Annie Street.",
+    "url": "https://www.dawnclub.com/history"
+   }
+  ]
+ },
+ {
+  "name": "Sheba Piano Lounge",
+  "area": "Fillmore",
+  "address": "1419 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2006 in the Fillmore District by chef Net Alemayehu.",
+    "url": "https://www.shebapianolounge.com/eat-together-1"
+   },
+   {
+    "text": "Serves Ethiopian dishes alongside live music.",
+    "url": "https://www.shebapianolounge.com/eat-together-1-1"
+   },
+   {
+    "text": "A wall in the dining room is built to resemble the Bet Giorgis church in Lalibela.",
+    "url": "https://www.shebapianolounge.com/eat-together-1-1"
+   }
+  ]
+ },
+ {
+  "name": "Mr. Tipple's Recording Studio",
+  "area": "Civic Center",
+  "address": "39 Fell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owned by Jay Bordeleau, who also created the restaurant Maven.",
+    "url": "https://mrtipplessf.com/story/"
+   },
+   {
+    "text": "Has a speakeasy-style back entrance on a side street.",
+    "url": "https://mrtipplessf.com/story/"
+   },
+   {
+    "text": "Offers live jazz with craft cocktails.",
+    "url": "https://mrtipplessf.com/story/"
+   }
+  ]
+ },
+ {
+  "name": "Green Apple Books",
+  "area": "Inner Richmond",
+  "address": "506 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1967 by Richard Savoy at Clement Street and Sixth Avenue.",
+    "url": "https://en.wikipedia.org/wiki/Green_Apple_Books_&_Music"
+   },
+   {
+    "text": "Bought its neighbor Revolver Records in 1996.",
+    "url": "https://en.wikipedia.org/wiki/Green_Apple_Books_&_Music"
+   },
+   {
+    "text": "Bought Browser Books on Fillmore Street in 2019.",
+    "url": "https://en.wikipedia.org/wiki/Green_Apple_Books_&_Music"
+   }
+  ]
+ },
+ {
+  "name": "The Booksmith",
+  "area": "Haight-Ashbury",
+  "address": "1727 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in October 1976 at 1746 Haight Street.",
+    "url": "https://en.wikipedia.org/wiki/Booksmith"
+   },
+   {
+    "text": "Moved to 1727 Haight in 2021, the former site of its sister store the Bindery.",
+    "url": "https://en.wikipedia.org/wiki/Booksmith"
+   },
+   {
+    "text": "Christin Evans and Praveen Madan bought it from founder Gary Frank in 2007.",
+    "url": "https://en.wikipedia.org/wiki/Booksmith"
+   }
+  ]
+ },
+ {
+  "name": "Dog Eared Books",
+  "area": "Mission",
+  "address": "900 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has sold new, used and remaindered books since 1992.",
+    "url": "https://www.pw.org/literary_places/dog_eared_books_valencia"
+   },
+   {
+    "text": "Specializes in Beat, off-beat, small press and local literature.",
+    "url": "https://www.pw.org/literary_places/dog_eared_books_valencia"
+   }
+  ]
+ },
+ {
+  "name": "Borderlands Books",
+  "area": "Mission",
+  "address": "866 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Alan Beatts opened it in 1997 in Hayes Valley as a used-only bookstore.",
+    "url": "https://en.wikipedia.org/wiki/Borderlands_Books"
+   },
+   {
+    "text": "Moved to 866 Valencia in 2001.",
+    "url": "https://en.wikipedia.org/wiki/Borderlands_Books"
+   },
+   {
+    "text": "Specializes in science fiction, fantasy and horror.",
+    "url": "https://en.wikipedia.org/wiki/Borderlands_Books"
+   }
+  ]
+ },
+ {
+  "name": "Browser Books",
+  "area": "Pacific Heights",
+  "address": "2195 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served the neighborhood since 1976.",
+    "url": "https://greenapplebooks.com/store/3"
+   },
+   {
+    "text": "Green Apple Books bought it in 2019 and kept the Browser name.",
+    "url": "https://greenapplebooks.com/store/3"
+   }
+  ]
+ },
+ {
+  "name": "American Bookbinders Museum",
+  "area": "South of Market",
+  "address": "355 Clementina St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened as a private museum in 2009.",
+    "url": "https://en.wikipedia.org/wiki/American_Bookbinders_Museum"
+   },
+   {
+    "text": "Relocated in 2015 to a larger space in South of Market, opening to the public.",
+    "url": "https://en.wikipedia.org/wiki/American_Bookbinders_Museum"
+   },
+   {
+    "text": "Covers the history and tools of bookbinding from the colonial era to the early 20th century.",
+    "url": "https://en.wikipedia.org/wiki/American_Bookbinders_Museum"
+   }
+  ]
+ },
+ {
+  "name": "The Beat Museum",
+  "area": "North Beach",
+  "address": "540 Broadway",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.kerouac.com/the-beat-museum-is-closed-temporarily-for-earthquake-retrofit/",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Letterform Archive",
+  "area": "Dogpatch",
+  "address": "2325 Third St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2014 by graphic designer Rob Saunders from his private collection.",
+    "url": "https://en.wikipedia.org/wiki/Letterform_Archive"
+   },
+   {
+    "text": "Opened to visitors in February 2015.",
+    "url": "https://en.wikipedia.org/wiki/Letterform_Archive"
+   },
+   {
+    "text": "Collects materials on the history of lettering, typography, printing and graphic design.",
+    "url": "https://en.wikipedia.org/wiki/Letterform_Archive"
+   }
+  ]
+ },
+ {
+  "name": "Gregangelo Museum",
+  "area": "Balboa Terrace",
+  "address": "225 San Leandro Way",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An installation art project in a 1920s Mediterranean-style house.",
+    "url": "https://en.wikipedia.org/wiki/Gregangelo_Museum"
+   },
+   {
+    "text": "Gregangelo Herrera converted the house into an art project during the 1980s.",
+    "url": "https://en.wikipedia.org/wiki/Gregangelo_Museum"
+   },
+   {
+    "text": "Designated a San Francisco Landmark on June 21, 2024.",
+    "url": "https://en.wikipedia.org/wiki/Gregangelo_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Museum of the Money of the American West",
+  "area": "Financial District",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.coinbooks.org/v26/esylum_v26n49a16.html",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "GLBT Historical Society Museum",
+  "area": "Castro",
+  "address": "4127 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The society was founded in 1985.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society"
+   },
+   {
+    "text": "The museum opened in January 2011 as the first stand-alone LGBTQ history museum in the US.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society"
+   }
+  ]
+ },
+ {
+  "name": "Contemporary Jewish Museum",
+  "area": "Yerba Buena",
+  "address": "736 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://en.wikipedia.org/wiki/Contemporary_Jewish_Museum",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Museum of the African Diaspora",
+  "area": "Yerba Buena",
+  "address": "685 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Occupies the first three floors of the St. Regis Museum Tower.",
+    "url": "https://en.wikipedia.org/wiki/Museum_of_the_African_Diaspora"
+   },
+   {
+    "text": "Has no permanent collection and presents rotating exhibitions by artists of the African diaspora.",
+    "url": "https://en.wikipedia.org/wiki/Museum_of_the_African_Diaspora"
+   },
+   {
+    "text": "A Smithsonian Affiliate.",
+    "url": "https://en.wikipedia.org/wiki/Museum_of_the_African_Diaspora"
+   }
+  ]
+ },
+ {
+  "name": "Cartoon Art Museum",
+  "area": "Fisherman's Wharf",
+  "address": "781 Beach St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://en.wikipedia.org/wiki/Cartoon_Art_Museum",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Roxie Theater",
+  "area": "Mission",
+  "address": "3117 16th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has operated under the name Roxie since 1933.",
+    "url": "https://en.wikipedia.org/wiki/Roxie_Theater"
+   },
+   {
+    "text": "Four film lovers bought and remodeled it as an independent film center in March 1976.",
+    "url": "https://en.wikipedia.org/wiki/Roxie_Theater"
+   },
+   {
+    "text": "Operates as a nonprofit arthouse cinema.",
+    "url": "https://en.wikipedia.org/wiki/Roxie_Theater"
+   }
+  ]
+ },
+ {
+  "name": "Vogue Theatre",
+  "area": "Presidio Heights",
+  "address": "3290 Sacramento St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1910 as the Elite Theatre and became the Vogue in 1939.",
+    "url": "https://cinematreasures.org/theaters/3394/comments"
+   }
+  ]
+ },
+ {
+  "name": "Balboa Theatre",
+  "area": "Outer Richmond",
+  "address": "3630 Balboa St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on February 27, 1926.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   },
+   {
+    "text": "Designed by the Reid Brothers, who also designed the original Cliff House and the Fairmont Hotel.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   },
+   {
+    "text": "A 1978 fire led to the single auditorium being split into two screens.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "name": "Landmark's Opera Plaza Cinema",
+  "area": "Civic Center",
+  "address": "601 Van Ness Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on November 16, 1984 as a four-screen art-house cinema.",
+    "url": "https://cinematreasures.org/theaters/7015"
+   },
+   {
+    "text": "Developed by Allen Michaan as part of a shopping and office plaza.",
+    "url": "https://cinematreasures.org/theaters/7015"
+   },
+   {
+    "text": "Renovated in 2021 with new recliner seats.",
+    "url": "https://cinematreasures.org/theaters/7015"
+   }
+  ]
+ },
+ {
+  "name": "AMC Kabuki 8",
+  "area": "Japantown",
+  "address": "1881 Post St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1960 as a dinner theater and was San Francisco's first multiplex.",
+    "url": "https://en.wikipedia.org/wiki/AMC_Kabuki_8"
+   },
+   {
+    "text": "Operated as Sundance Kabuki from 2007 until it became AMC in 2017.",
+    "url": "https://en.wikipedia.org/wiki/AMC_Kabuki_8"
+   },
+   {
+    "text": "Part of the Japan Center complex.",
+    "url": "https://en.wikipedia.org/wiki/AMC_Kabuki_8"
+   }
+  ]
+ },
+ {
+  "name": "The Cut Outdoor Cinema",
+  "area": "East Cut",
+  "address": "250 Main St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in August 2022.",
+    "url": "https://sf.funcheap.com/event-series/cut-sfs-outdoor-cinema-grand-opening/"
+   }
+  ]
+ },
+ {
+  "name": "Amoeba Music",
+  "area": "Haight-Ashbury",
+  "address": "1855 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The San Francisco store opened on November 15, 1997.",
+    "url": "https://en.wikipedia.org/wiki/Amoeba_Music"
+   },
+   {
+    "text": "Occupies the former Park Bowl bowling alley near Golden Gate Park.",
+    "url": "https://en.wikipedia.org/wiki/Amoeba_Music"
+   }
+  ]
+ },
+ {
+  "name": "101 Music",
+  "area": "North Beach",
+  "address": "1414 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has two stores, on Grant Avenue and on Green Street, stocked with vintage vinyl.",
+    "url": "https://www.sfstation.com/101-music-b988"
+   }
+  ]
+ },
+ {
+  "name": "The Explorist International",
+  "area": "Mission",
+  "address": "3174 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/the-explorist-international-records-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Thrillhouse Records",
+  "area": "Bernal Heights",
+  "address": "3422 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A volunteer-run, not-for-profit punk record store.",
+    "url": "https://localwiki.org/sf/Thrillhouse_Records"
+   },
+   {
+    "text": "Also hosts small punk shows.",
+    "url": "https://localwiki.org/sf/Thrillhouse_Records"
+   }
+  ]
+ },
+ {
+  "name": "Vinyl Dreams",
+  "area": "Lower Haight",
+  "address": "593 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owner Mike Battaglia worked about 15 years at Amoeba Music before starting it.",
+    "url": "https://hoodline.com/2013/05/new-in-the-neighborhood-vinyl-dreams/"
+   },
+   {
+    "text": "Opened a brick-and-mortar store in June 2013 after starting as online-only in 2011.",
+    "url": "https://hoodline.com/2013/05/new-in-the-neighborhood-vinyl-dreams/"
+   }
+  ]
+ },
+ {
+  "name": "Stranded Records",
+  "area": "Mission",
+  "address": "1055 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The retail arm of the archival reissue label Superior Viaduct.",
+    "url": "https://www.strandedrecords.com/pages/contact"
+   }
+  ]
+ },
+ {
+  "name": "La Cocina Municipal Marketplace",
+  "area": "Tenderloin",
+  "address": "101 Hyde St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in April 2021 in the Tenderloin.",
+    "url": "https://www.thesfnews.com/la-cocina-municipal-marketplace-opens-in-tenderloin/75894"
+   },
+   {
+    "text": "Described as the country's first women-led food hall.",
+    "url": "https://www.forbes.com/sites/chelseadavis/2022/03/23/the-entrepreneurs-of-la-cocinas-municipal-marketplace-the-countrys-first-ever-women-led-food-hall-in-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "The Market at 1355 Market",
+  "area": "Civic Center",
+  "address": "1355 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/the-market-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Hidden Garden Steps",
+  "area": "Inner Sunset",
+  "address": "16th Ave between Kirkham St and Lawton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed by Aileen Barr and Colette Crutcher, who also made the Moraga Steps.",
+    "url": "https://www.sftourismtips.com/hidden-garden-steps.html"
+   },
+   {
+    "text": "Opened in December 2013 with nine mosaic sections and 148 steps.",
+    "url": "https://www.sftourismtips.com/hidden-garden-steps.html"
+   }
+  ]
+ },
+ {
+  "name": "16th Avenue Tiled Steps",
+  "area": "Golden Gate Heights",
+  "address": "Moraga St at 16th Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on August 27, 2005 with 163 mosaic steps.",
+    "url": "https://en.wikipedia.org/wiki/16th_Avenue_Tiled_Steps"
+   },
+   {
+    "text": "Artists Aileen Barr and Colette Crutcher designed the mosaic with the community.",
+    "url": "https://en.wikipedia.org/wiki/16th_Avenue_Tiled_Steps"
+   },
+   {
+    "text": "The mosaic runs from sea creatures at the bottom to the moon and sun at the top.",
+    "url": "https://en.wikipedia.org/wiki/16th_Avenue_Tiled_Steps"
+   }
+  ]
+ }
+]

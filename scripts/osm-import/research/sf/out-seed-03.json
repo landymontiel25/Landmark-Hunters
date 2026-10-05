@@ -1,0 +1,813 @@
+[
+ {
+  "name": "House of Shields",
+  "area": "Financial District",
+  "address": "39 New Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1908 and operated as a speakeasy during Prohibition.",
+    "url": "https://www.thehouseofshields.com/story.html"
+   },
+   {
+    "text": "Has never had a clock on the premises.",
+    "url": "https://www.thehouseofshields.com/story.html"
+   }
+  ]
+ },
+ {
+  "name": "Bar Iris",
+  "area": "Russian Hill",
+  "address": "2310 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Japanese-inspired cocktail bar attached to the restaurant Nisei.",
+    "url": "https://www.bar-iris.com/"
+   },
+   {
+    "text": "Presented by David Yoshimura and Ilya Romanov.",
+    "url": "https://www.bar-iris.com/"
+   }
+  ]
+ },
+ {
+  "name": "Third Rail",
+  "area": "Dogpatch",
+  "address": "628 20th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves only cocktails and jerky.",
+    "url": "https://www.urbandaddy.com/articles/28852/san-francisco/third-rail-third-base-bourbon-and-dried-meats-by-the-ounce-in-dogpatch"
+   },
+   {
+    "text": "The Red Eye cocktail is spiked with coffee and chili.",
+    "url": "https://www.urbandaddy.com/articles/28852/san-francisco/third-rail-third-base-bourbon-and-dried-meats-by-the-ounce-in-dogpatch"
+   }
+  ]
+ },
+ {
+  "name": "Trick Dog",
+  "area": "Mission",
+  "address": "3010 20th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2013 by Josh Harris in a warehouse space.",
+    "url": "https://www.theworlds50best.com/discovery/Establishments/US/San-Francisco/Trick-Dog.html"
+   },
+   {
+    "text": "Ranked No. 71 on North America's 50 Best Bars 2025.",
+    "url": "https://www.theworlds50best.com/discovery/Establishments/US/San-Francisco/Trick-Dog.html"
+   }
+  ]
+ },
+ {
+  "name": "White Cap",
+  "area": "Outer Sunset",
+  "address": "3608 Taraval St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Surf-themed cocktail bar named for the waves, two blocks from the ocean.",
+    "url": "https://www.sfchronicle.com/food/article/White-Cap-brings-great-cocktails-and-surfer-vibe-12485007.php"
+   },
+   {
+    "text": "Features the bartending of Carlos Yturria.",
+    "url": "https://www.sfchronicle.com/food/article/White-Cap-brings-great-cocktails-and-surfer-vibe-12485007.php"
+   }
+  ]
+ },
+ {
+  "name": "Kona's Street Market",
+  "area": "SoMa",
+  "address": "32 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by the team behind Pacific Cocktail Haven.",
+    "url": "https://www.sfchronicle.com/food/article/Pacific-Cocktail-Haven-s-all-star-team-opens-new-15979532.php"
+   },
+   {
+    "text": "Drinks are inspired by street markets around the world.",
+    "url": "https://www.sfchronicle.com/food/article/Pacific-Cocktail-Haven-s-all-star-team-opens-new-15979532.php"
+   }
+  ]
+ },
+ {
+  "name": "Tommy's Mexican Restaurant",
+  "area": "Richmond District",
+  "address": "5929 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1965 by Tommy and Elmy Bermejo; their son Julio now runs it.",
+    "url": "https://www.sfgate.com/restaurants/barbites/article/tommy-s-mexican-restaurant-s-f-3510253.php"
+   },
+   {
+    "text": "Serves only 100% agave tequila, with a collection of 300+ brands.",
+    "url": "https://www.sfgate.com/restaurants/barbites/article/tommy-s-mexican-restaurant-s-f-3510253.php"
+   },
+   {
+    "text": "The Tommy's Margarita was created here and swaps sour mix for fresh lime and agave syrup.",
+    "url": "https://www.sfgate.com/bars/article/San-Francisco-iconic-Tommys-Margarita-history-16257891.php"
+   }
+  ]
+ },
+ {
+  "name": "Smuggler's Cove",
+  "area": "Hayes Valley",
+  "address": "650 Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2009 by Martin Cate and opened to the public on December 8, 2009.",
+    "url": "https://en.wikipedia.org/wiki/Smuggler's_Cove_(bar)"
+   },
+   {
+    "text": "Offers the largest selection of rums of any bar in the US, over 1,300 as of 2025.",
+    "url": "https://en.wikipedia.org/wiki/Smuggler's_Cove_(bar)"
+   },
+   {
+    "text": "Martin and Rebecca Cate published the bar's book on rum and tiki cocktails in 2016.",
+    "url": "https://en.wikipedia.org/wiki/Smuggler's_Cove_(bar)"
+   }
+  ]
+ },
+ {
+  "name": "Last Rites",
+  "area": "Duboce Triangle",
+  "address": "718 14th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Polynesian noir tiki bar that opened in June 2018.",
+    "url": "https://mytiki.life/tiki-bars/last-rites"
+   },
+   {
+    "text": "The room is styled as the fuselage of a crashed plane in a jungle.",
+    "url": "https://mytiki.life/tiki-bars/last-rites"
+   }
+  ]
+ },
+ {
+  "name": "ABV",
+  "area": "Mission",
+  "address": "3174 16th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Ranked No. 39 on North America's 50 Best Bars 2022.",
+    "url": "https://www.theworlds50best.com/discovery/Establishments/US/San-Francisco/ABV.html"
+   },
+   {
+    "text": "Run by three bartending friends, with cocktails organized by spirit.",
+    "url": "https://www.theworlds50best.com/discovery/Establishments/US/San-Francisco/ABV.html"
+   }
+  ]
+ },
+ {
+  "name": "Casements Bar",
+  "area": "Mission",
+  "address": "2351 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by industry veterans Gillian Fitzgerald, Sean O'Donovan and Chris Hastings.",
+    "url": "https://casementsbar.com/about"
+   },
+   {
+    "text": "Irish bar with a large outdoor patio, live music and a large whiskey collection.",
+    "url": "https://casementsbar.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Buddy",
+  "area": "Mission",
+  "address": "3115 22nd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by Alvaro Rojas, Nicolas Torres, Nora Furst and Claire Sprouse.",
+    "url": "https://whatnowsf.com/all-day-bar-buddy-to-open-in-former-californios-space/"
+   },
+   {
+    "text": "Focuses on low-ABV cocktails, natural wine and coffee, in the former Californios space.",
+    "url": "https://whatnowsf.com/all-day-bar-buddy-to-open-in-former-californios-space/"
+   }
+  ]
+ },
+ {
+  "name": "Pacific Cocktail Haven",
+  "area": "Union Square",
+  "address": "550 Sutter St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2016 by Kevin Diedrich.",
+    "url": "https://www.pacificcocktailsf.com/about"
+   },
+   {
+    "text": "Named Best American Cocktail Bar at the 2020 Tales of the Cocktail Spirited Awards.",
+    "url": "https://www.pacificcocktailsf.com/about"
+   },
+   {
+    "text": "Named one of North America's 50 Best Bars in 2023.",
+    "url": "https://www.sfgate.com/food/article/sf-bar-makes-north-america-50-best-bars-18086728.php"
+   }
+  ]
+ },
+ {
+  "name": "Arsicault Bakery",
+  "area": "Inner Richmond",
+  "address": "397 Arguello Blvd",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named the best new bakery in America by Bon Appetit in 2016.",
+    "url": "https://www.sfgate.com/food/article/Arsicault-Bon-Appetit-Bakery-Best-Year-2016-9136288.php"
+   },
+   {
+    "text": "Takes its name from a family boulangerie in France, revived by Armando Lacayo.",
+    "url": "https://arsicault-bakery.com/"
+   }
+  ]
+ },
+ {
+  "name": "B. Patisserie",
+  "area": "Lower Pacific Heights",
+  "address": "2821 California St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2013 by pastry chef Belinda Leong with Michel Suas of the San Francisco Baking Institute.",
+    "url": "https://en.wikipedia.org/wiki/Belinda_Leong"
+   },
+   {
+    "text": "Belinda Leong won the 2018 James Beard Award for Outstanding Baker.",
+    "url": "https://en.wikipedia.org/wiki/Belinda_Leong"
+   },
+   {
+    "text": "Leong was previously pastry chef at Gary Danko.",
+    "url": "https://bpatisserie.com/story/"
+   }
+  ]
+ },
+ {
+  "name": "Craftsman and Wolves",
+  "area": "Mission",
+  "address": "746 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "French-inspired contemporary patisserie and cafe.",
+    "url": "https://craftsman-wolves.com/san-francisco-mission-craftsman-and-wolves-about"
+   },
+   {
+    "text": "Its Rebel Within muffin has been featured on Food Network's Best Thing I Ever Ate.",
+    "url": "https://craftsman-wolves.com/san-francisco-mission-craftsman-and-wolves-about"
+   }
+  ]
+ },
+ {
+  "name": "Jane the Bakery",
+  "area": "Lower Pacific Heights",
+  "address": "1881 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in late 2016 to expand the Jane bakery program.",
+    "url": "https://www.itsjane.com/who-is-jane/"
+   },
+   {
+    "text": "Founded by Amanda Michael, who opened Jane on Fillmore in February 2011.",
+    "url": "https://www.itsjane.com/who-is-jane/"
+   },
+   {
+    "text": "Largest Jane location, with a view of sourdough loaves coming out of the oven.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/jane-the-bakery"
+   }
+  ]
+ },
+ {
+  "name": "Snowbird Coffee",
+  "area": "Inner Sunset",
+  "address": "1352A 9th Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in fall 2014 between Judah and Irving.",
+    "url": "https://hoodline.com/2014/12/snowbird-coffee-stakes-its-claim-among-inner-sunset-cafes/"
+   },
+   {
+    "text": "Serves cafe bombons, two espresso shots over condensed milk.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/snowbird-coffee"
+   }
+  ]
+ },
+ {
+  "name": "Delah Coffee",
+  "area": "SoMa",
+  "address": "370 4th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "San Francisco's first Yemeni cafe, opened on July 15 on 4th Street.",
+    "url": "https://www.sfgate.com/food/article/delah-brings-yemeni-coffee-house-to-sf-17338633.php"
+   },
+   {
+    "text": "Family-run, led by Majed Mohamed, with roasts infused with cinnamon and cardamom.",
+    "url": "https://www.sfgate.com/food/article/delah-brings-yemeni-coffee-house-to-sf-17338633.php"
+   },
+   {
+    "text": "Menu includes Sana'ani, a black coffee with cardamom.",
+    "url": "https://delahcoffee.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "CoffeeShop",
+  "area": "Bernal Heights",
+  "address": "3139 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Takeout coffee counter that also has a location in the Mission.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/coffeeshop"
+   },
+   {
+    "text": "Uses coffee ice cubes and sells housemade pastries.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/coffeeshop"
+   }
+  ]
+ },
+ {
+  "name": "Flywheel Coffee Roasters",
+  "area": "Haight-Ashbury",
+  "address": "672 Stanyan St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Aquiles Guerrero, who was born on a coffee farm in Nicaragua.",
+    "url": "https://flywheelcoffee.com/pages/story"
+   },
+   {
+    "text": "Has roasted its coffee on site since 2012.",
+    "url": "https://flywheelcoffee.com/pages/story"
+   }
+  ]
+ },
+ {
+  "name": "Home Coffee Roasters",
+  "area": "Outer Sunset",
+  "address": "1222 Noriega St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Known for creative espresso drinks such as red velvet and lavender lattes.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/home-coffee-roasters"
+   }
+  ]
+ },
+ {
+  "name": "The Coffee Movement",
+  "area": "Chinatown",
+  "address": "1030 Washington St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2016 by Bryan Overstreet and Reef Bessette in a 1969 VW bus used as a mobile cafe.",
+    "url": "https://www.thecoffeemovement.com/about-us"
+   },
+   {
+    "text": "Has a second location at 1737 Balboa Street in the Inner Richmond.",
+    "url": "https://www.thecoffeemovement.com/about-us"
+   }
+  ]
+ },
+ {
+  "name": "Golden Goat Coffee",
+  "area": "SoMa",
+  "address": "599 3rd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Family-owned multi-roaster that opened in August 2019.",
+    "url": "https://www.goldengoatcoffee.com/faq"
+   },
+   {
+    "text": "Sits in the Varney Place alley, near South Park.",
+    "url": "https://www.goldengoatcoffee.com/visit"
+   }
+  ]
+ },
+ {
+  "name": "Paper Son Coffee",
+  "area": "SoMa",
+  "address": "303 2nd St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves locally roasted coffee and Asian American-inspired drinks.",
+    "url": "https://papersoncoffee.com/about"
+   },
+   {
+    "text": "The name honors the paper son immigration history of the founder's family.",
+    "url": "https://papersoncoffee.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Shoji",
+  "area": "SoMa",
+  "address": "140 New Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named the Bay Area's best new bar of 2025 by the San Francisco Chronicle.",
+    "url": "https://www.sfchronicle.com/food/wine/article/shoji-bar-drink-san-francisco-21197526.php"
+   },
+   {
+    "text": "Opened by the owner of the restaurant Shota as a cafe by day and bar by night.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/shoji-bar-cafe-sf-20267863.php"
+   }
+  ]
+ },
+ {
+  "name": "Bar Brucato",
+  "area": "Mission",
+  "address": "275 S Van Ness Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by the couple behind Brucato Amaro, a bitter liqueur brand.",
+    "url": "https://www.sfchronicle.com/food/wine/article/bar-brucato-amaro-sf-20173425.php"
+   },
+   {
+    "text": "Included in the San Francisco Chronicle's best new bars of 2025.",
+    "url": "https://www.sfchronicle.com/food/wine/article/best-new-bars-2025-21223733.php"
+   }
+  ]
+ },
+ {
+  "name": "Valley Club",
+  "area": "Union Square",
+  "address": "398 Geary St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Cocktail lounge on the mezzanine of Hotel G.",
+    "url": "https://www.glifesf.com/the-valley-club"
+   },
+   {
+    "text": "Named Best New Bar by Eater SF and SF Standard for 2025, per Hotel G.",
+    "url": "https://www.glifesf.com/the-valley-club"
+   },
+   {
+    "text": "Included in the San Francisco Chronicle's best new bars of 2025.",
+    "url": "https://www.sfchronicle.com/food/wine/article/best-new-bars-2025-21223733.php"
+   }
+  ]
+ },
+ {
+  "name": "Bar Maritime",
+  "area": "Union Square",
+  "address": "417 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Seafood bar inside Palihotel San Francisco, with a raw bar.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/bar-maritime"
+   },
+   {
+    "text": "The same team runs the seasonal Maritime Boat Club.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/bar-maritime"
+   }
+  ]
+ },
+ {
+  "name": "Jilli",
+  "area": "Mission",
+  "address": "1503 15th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Korean drinking spot focused on makgeolli, a milky rice wine.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/jilli-15-th-st"
+   },
+   {
+    "text": "Began in Los Angeles and has a lunchtime fried chicken pop-up called Chimmelier.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/jilli-15-th-st"
+   }
+  ]
+ },
+ {
+  "name": "Big Finish Wine Tavern",
+  "area": "Mission",
+  "address": "3141 16th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Pours 48 wines on tap.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/big-finish-wine-tavern"
+   },
+   {
+    "text": "Serves low-ABV cocktails and entrees such as pappardelle with pork shoulder.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/big-finish-wine-tavern"
+   }
+  ]
+ },
+ {
+  "name": "Bar Bibi",
+  "area": "Nob Hill",
+  "address": "1448 Pacific Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Natural wine bar with two floors of seating and sidewalk tables.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/bar-bibi"
+   },
+   {
+    "text": "Opened as a new wine bar in Nob Hill.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/bar-bibi-sf-20816176.php"
+   }
+  ]
+ },
+ {
+  "name": "Binu Bonu",
+  "area": "West Portal",
+  "address": "230 W Portal Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Italian wine bar from Massimiliano Conti and Lorella Degan, former owners of La Ciccia.",
+    "url": "https://www.sfchronicle.com/food/wine/article/binu-bonu-la-ciccia-18684792.php"
+   },
+   {
+    "text": "The name means good wine in Sardo, the language of Sardinia.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/sf-restaurant-openings-19497274.php"
+   }
+  ]
+ },
+ {
+  "name": "15 Romolo",
+  "area": "North Beach",
+  "address": "15 Romolo Pl",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfstandard.com/2026/01/13/15romolo-north-beach-bar-reopens/",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Junior",
+  "area": "Mission",
+  "address": "2545 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/junior-san-francisco-3",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ }
+]

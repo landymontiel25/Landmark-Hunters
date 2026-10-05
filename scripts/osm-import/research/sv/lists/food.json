@@ -1,0 +1,425 @@
+[
+ {
+  "name": "Protégé",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Michelin 1 star",
+  "year": 2026,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/protege",
+  "note": null
+ },
+ {
+  "name": "Ettan",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ettan",
+  "note": null
+ },
+ {
+  "name": "Ethel's Fancy",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/ethel-s-fancy",
+  "note": null
+ },
+ {
+  "name": "Evvia",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/palo-alto/restaurant/evvia",
+  "note": null
+ },
+ {
+  "name": "Vina Enoteca",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/palo-alto/restaurants",
+  "note": null
+ },
+ {
+  "name": "Zola",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/palo-alto/restaurants",
+  "note": null
+ },
+ {
+  "name": "Madera",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/menlo-park/restaurants",
+  "note": null
+ },
+ {
+  "name": "Flea St. Cafe",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/menlo-park/restaurants",
+  "note": null
+ },
+ {
+  "name": "Eylan",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "Michelin Bib Gourmand",
+  "year": 2025,
+  "sourceUrl": "https://www.almanacnews.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/",
+  "note": null
+ },
+ {
+  "name": "Eylan",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "SF Chronicle Top 100",
+  "year": 2026,
+  "sourceUrl": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/",
+  "note": null
+ },
+ {
+  "name": "Yeobo, Darling",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": 2026,
+  "sourceUrl": "https://www.almanacnews.com/menlo-park/2026/03/25/yeobo-darling-menlo-park-michelin-guide/",
+  "note": null
+ },
+ {
+  "name": "Aurum",
+  "area": "Los Altos",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/los-altos/restaurants",
+  "note": null
+ },
+ {
+  "name": "Selby's",
+  "area": "Atherton",
+  "address": null,
+  "list": "Michelin 1 star",
+  "year": 2025,
+  "sourceUrl": "https://www.almanacnews.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/",
+  "note": null
+ },
+ {
+  "name": "The Village Pub",
+  "area": "Woodside",
+  "address": null,
+  "list": "Michelin 1 star",
+  "year": 2025,
+  "sourceUrl": "https://www.almanacnews.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/",
+  "note": null
+ },
+ {
+  "name": "Chez TJ",
+  "area": "Mountain View",
+  "address": null,
+  "list": "Michelin recommended",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/food/2025/06/26/at-the-california-michelin-awards-a-palo-alto-restaurant-lands-in-the-michelin-guide-for-the-first-time-while-a-peninsula-favorite-loses-its-star/",
+  "note": null
+ },
+ {
+  "name": "Alexander's Steakhouse",
+  "area": "Cupertino",
+  "address": "19379 Stevens Creek Blvd",
+  "list": "Michelin recommended",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse",
+  "note": null
+ },
+ {
+  "name": "Petiscos",
+  "area": "Downtown San Jose",
+  "address": "399 S. 1st St.",
+  "list": "Michelin Bib Gourmand",
+  "year": null,
+  "sourceUrl": "https://guide.michelin.com/us/en/california/san-jose/restaurant/petiscos",
+  "note": null
+ },
+ {
+  "name": "Kunjip",
+  "area": "Santa Clara",
+  "address": null,
+  "list": "SF Chronicle Top 100",
+  "year": 2025,
+  "sourceUrl": "https://www.sfchronicle.com/projects/2025/top-100-best-restaurants-san-francisco-bay-area/",
+  "note": null
+ },
+ {
+  "name": "Mrs Khan Uyghur Cuisine",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "SF Chronicle Top 100",
+  "year": 2025,
+  "sourceUrl": "https://www.sfchronicle.com/projects/2025/top-100-best-restaurants-san-francisco-bay-area/",
+  "note": null
+ },
+ {
+  "name": "La Bodeguita del Medio",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Flea Street",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Ada's Cafe",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Douce France",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Tamarine Restaurant & Gallery",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Zareen's",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Terùn",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Evvia Estiatorio",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Palo Alto Sol",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Sundance The Steakhouse",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Fuki Sushi",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Lotus Thai Bistro",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Nola Restaurant & Bar",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-food-drink/",
+  "note": null
+ },
+ {
+  "name": "Joanie's Cafe",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-food-drink/",
+  "note": null
+ },
+ {
+  "name": "Izzy's Brooklyn Bagels",
+  "area": "Palo Alto",
+  "address": "477 S. California Avenue",
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-food-drink/",
+  "note": null
+ },
+ {
+  "name": "Chef Chu's",
+  "area": "Los Altos",
+  "address": null,
+  "list": "Palo Alto Online Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.paloaltoonline.com/best-of/2025-best-of/2025/07/19/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Cafe Vitale",
+  "area": "Los Altos",
+  "address": null,
+  "list": "Los Altos Town Crier",
+  "year": null,
+  "sourceUrl": "https://www.losaltosonline.com/food/let-s-talk-about-the-jewel-of-italian-restaurants-in-los-altos/article_af97d000-b840-491a-805d-e99f538998b2.html",
+  "note": null
+ },
+ {
+  "name": "Pasta Grotto",
+  "area": "Los Altos",
+  "address": null,
+  "list": "Los Altos Town Crier",
+  "year": null,
+  "sourceUrl": "https://www.losaltosonline.com/archives/pasta-grotto-homemade-pasta-great-service-a-local-gem/article_b41004fd-d9e5-5a84-a099-0ad5e7dcd01a.html",
+  "note": null
+ },
+ {
+  "name": "Haru",
+  "area": "Los Altos",
+  "address": null,
+  "list": "Los Altos Town Crier",
+  "year": null,
+  "sourceUrl": "https://www.losaltosonline.com/business/los-altos-latest-japanese-restaurant-focuses-on-affordable-approachable-experience/article_74bc2fcb-a333-4a90-b4bb-4953aa9a1dc3.html",
+  "note": null
+ },
+ {
+  "name": "Cascal",
+  "area": "Mountain View",
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Doppio Zero",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Red Rock Coffee",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Sushi Tomi",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Amarin Thai",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "La Fiesta Restaurant",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Pho To Chau 999",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Garden Fresh",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ },
+ {
+  "name": "Gochi Japanese Fusion Tapas",
+  "area": null,
+  "address": null,
+  "list": "Mountain View Voice Best Of 2025",
+  "year": 2025,
+  "sourceUrl": "https://www.mv-voice.com/best-of/2025-best-of/2025/07/25/best-of-2025-restaurants/",
+  "note": null
+ }
+]

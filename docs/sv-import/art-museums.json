@@ -1,0 +1,243 @@
+{
+ "category": "art-museums",
+ "count": 11,
+ "commonsPhotos": 4,
+ "commonsPhotoPct": 36.4,
+ "withFacts": 11,
+ "withHours": 4,
+ "photoSkips": [
+  {
+   "id": "osm-w28745328",
+   "name": "Lucy Evans Baylands Nature Interpretive Center",
+   "why": "reviewed: general Baylands view, not the center"
+  },
+  {
+   "id": "osm-w132666336",
+   "name": "Museum of American Heritage",
+   "why": "reviewed: a sign from the collection, not the museum"
+  },
+  {
+   "id": "osm-n8364028860",
+   "name": "Sunnyvale Heritage Park Museum",
+   "why": "reviewed: a 1917 yearbook scan"
+  },
+  {
+   "id": "osm-w484497570",
+   "name": "Triton Museum of Art",
+   "why": "reviewed: untitled panoramio frame, not shown to be the museum"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-w132666336",
+   "name": "Museum of American Heritage",
+   "topic": "museum",
+   "lat": 37.444477,
+   "lng": -122.157527,
+   "photo": false,
+   "facts": [
+    "A history of technology museum in the 1907 Williams house, designed by Ernest Coxhead.",
+    "Rhona Williams left the home and garden to Palo Alto in 1989 for cultural use.",
+    "Founded in 1990"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/132666336"
+  },
+  {
+   "id": "osm-w38341935",
+   "name": "San Jose Museum of Quilts & Textiles",
+   "topic": "museum",
+   "lat": 37.328242,
+   "lng": -121.884237,
+   "photo": true,
+   "facts": [
+    "Founded in 1977 by members of the Santa Clara Valley Quilt Association.",
+    "Described as the first museum in the United States to focus solely on quilts and textiles.",
+    "Bought its 13,000 square foot SoFA building in 2005 in partnership with the City of San Jose."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/38341935"
+  },
+  {
+   "id": "osm-w336684229",
+   "name": "Movimiento de Arte y Cultura Latino Americana",
+   "topic": "arts center",
+   "lat": 37.328512,
+   "lng": -121.884428,
+   "photo": true,
+   "facts": [
+    "Founded in 1989 out of a community mobilization on behalf of multicultural arts.",
+    "Contemporary arts space grounded in the Chicano and Latino experience.",
+    "Founded in 1989"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/336684229"
+  },
+  {
+   "id": "osm-w28745328",
+   "name": "Lucy Evans Baylands Nature Interpretive Center",
+   "topic": "museum",
+   "lat": 37.459623,
+   "lng": -122.106335,
+   "photo": false,
+   "facts": [
+    "Occupies an A-frame barn built by Dr. Russel V. Lee, who bought the land in 1941.",
+    "Sits within the 1,940-acre Baylands Nature Preserve.",
+    "Run by City of Palo Alto's Open Space, Parks and Golf Administration"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28745328"
+  },
+  {
+   "id": "osm-n10052566494",
+   "name": "Works/San José",
+   "topic": "art gallery",
+   "lat": 37.33592,
+   "lng": -121.888756,
+   "photo": false,
+   "facts": [
+    "Began in October 1977 as a group of artists and San Jose State University faculty and students.",
+    "Has presented performance art, music, film, theater, spoken word and visual art.",
+    "Founded in 1977"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/10052566494"
+  },
+  {
+   "id": "osm-w484497570",
+   "name": "Triton Museum of Art",
+   "topic": "museum",
+   "lat": 37.35622,
+   "lng": -121.955078,
+   "photo": false,
+   "facts": [
+    "Founded in 1965 by rancher and lawyer W. Robert Morgan and his wife June.",
+    "It was the first non-university art museum in Santa Clara County.",
+    "The current building was completed in October 1987."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/484497570"
+  },
+  {
+   "id": "osm-n8364028860",
+   "name": "Sunnyvale Heritage Park Museum",
+   "topic": "museum",
+   "lat": 37.356469,
+   "lng": -122.025481,
+   "photo": false,
+   "facts": [
+    "The museum building is a replica of Martin Murphy Jr.'s Bay View Ranch house.",
+    "The museum opened in September 2008.",
+    "Founded in 2008"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8364028860"
+  },
+  {
+   "id": "osm-w38341937",
+   "name": "Institute of Contemporary Art San José",
+   "topic": "arts center",
+   "lat": 37.327845,
+   "lng": -121.883934,
+   "photo": false,
+   "facts": [
+    "Artists incorporated it in October 1980, and its first exhibition opened October 19, 1980.",
+    "Bought its 7,500-square-foot building in the SoFA district in April 2006.",
+    "Founded in 1980"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/38341937"
+  },
+  {
+   "id": "osm-w165327330",
+   "name": "Anno Domini Gallery",
+   "topic": "art gallery",
+   "lat": 37.330685,
+   "lng": -121.886092,
+   "photo": false,
+   "facts": [
+    "Started by graphic designers Cherri Lakey and Brian Eder.",
+    "Shows street art, zine culture and tattoo art by emerging and international artists.",
+    "Address: 366 South 1st Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/165327330"
+  },
+  {
+   "id": "osm-n11412794266",
+   "name": "Pacific Art League",
+   "topic": "arts center",
+   "lat": 37.443797,
+   "lng": -122.160068,
+   "photo": true,
+   "facts": [
+    "Founded in 1921 as the Palo Alto Art Club.",
+    "Has owned its Birge Clark designed Spanish Revival building since 1965.",
+    "Address: 668 Ramona Street, Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11412794266"
+  },
+  {
+   "id": "osm-w231246592",
+   "name": "Palo Alto Art Center",
+   "topic": "arts center",
+   "lat": 37.443972,
+   "lng": -122.139001,
+   "photo": true,
+   "facts": [
+    "Runs Project Look, a school tour program in its contemporary art gallery.",
+    "Keeps an archive of its exhibitions dating back to 1971.",
+    "Run by City of Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/231246592"
+  }
+ ],
+ "points": [
+  [
+   37.330685,
+   -121.886092,
+   0
+  ],
+  [
+   37.327845,
+   -121.883934,
+   0
+  ],
+  [
+   37.459623,
+   -122.106335,
+   0
+  ],
+  [
+   37.328512,
+   -121.884428,
+   1
+  ],
+  [
+   37.444477,
+   -122.157527,
+   0
+  ],
+  [
+   37.443797,
+   -122.160068,
+   1
+  ],
+  [
+   37.443972,
+   -122.139001,
+   1
+  ],
+  [
+   37.328242,
+   -121.884237,
+   1
+  ],
+  [
+   37.356469,
+   -122.025481,
+   0
+  ],
+  [
+   37.35622,
+   -121.955078,
+   0
+  ],
+  [
+   37.33592,
+   -121.888756,
+   0
+  ]
+ ]
+}

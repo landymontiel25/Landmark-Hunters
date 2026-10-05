@@ -1,0 +1,274 @@
+[
+ {
+  "id": "osm-n9684320117",
+  "name": "Bar Part Time",
+  "address": "496 14th St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "A natural wine bar and nightclub run by founders Justin Dolezal, Jeremy Castillo and Dan Small.",
+    "url": "https://ra.co/news/76103"
+   },
+   {
+    "text": "Opened in September 2021 with a party featuring LCD Soundsystem's James Murphy.",
+    "url": "https://ra.co/news/76103"
+   },
+   {
+    "text": "The dance floor has a Danley soundsystem.",
+    "url": "https://ra.co/news/76103"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4020353440",
+  "name": "Fool's Errand",
+  "address": "639A Divisadero St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened in 2018 by owner John Dampeer.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice"
+   },
+   {
+    "text": "Dampeer previously ran Caskhouse in Noe Valley and Hamlet.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice"
+   },
+   {
+    "text": "A cellar-like bar between Hayes and Grove streets.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1189071465",
+  "name": "Parachute",
+  "address": "Ferry Building",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened at the Ferry Building on September 4, 2025.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/parachute-bakery-sf-ferry-building-20886851.php"
+   },
+   {
+    "text": "Founded by Alex Hong and Joel Wilkerson of Michelin-starred Sorrel, with head baker Nasir Armar.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/parachute-bakery-sf-ferry-building-20886851.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4436674292",
+  "name": "Benu",
+  "address": "22 Hawthorne St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened in 2010 by chef Corey Lee, formerly of The French Laundry.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   },
+   {
+    "text": "Became the first San Francisco restaurant to receive three Michelin stars, in 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   },
+   {
+    "text": "Has held three Michelin stars every year since 2014.",
+    "url": "https://en.wikipedia.org/wiki/Benu_(restaurant)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9583974523",
+  "name": "Birdsong",
+  "address": "1085 Mission St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Chef Christopher Bleidorn cooks meats and fish over live fire.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong"
+   },
+   {
+    "text": "Holds two Michelin stars in the 2024 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/birdsong"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2840137601",
+  "name": "Angler SF",
+  "address": "132 The Embarcadero",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Opened by chef Joshua Skenes of Saison.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   },
+   {
+    "text": "Cooks seafood on a 32-foot wood-burning hearth.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   },
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/angler-sf"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4085672797",
+  "name": "Ssal",
+  "address": "2226 Polk St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal"
+   },
+   {
+    "text": "Hyunyoung and Junsoo Bae run this Korean tasting menu restaurant.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/ssal"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4436673798",
+  "name": "State Bird Provisions",
+  "address": "1529 Fillmore St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Holds one Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions"
+   },
+   {
+    "text": "Serves seasonal California dishes from carts in a dim sum style.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/state-bird-provisions"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8851950180",
+  "name": "Dumpling Home",
+  "address": "298 Gough St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home"
+   },
+   {
+    "text": "Cooks hand-wrap and fold the soup dumplings from open to close.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/dumpling-home"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8660771080",
+  "name": "Okane",
+  "address": "669 Townsend St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane"
+   },
+   {
+    "text": "Serves Japanese izakaya dishes such as cod marinated in sake lees.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/okane"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2657930588",
+  "name": "Good Good Culture Club",
+  "address": "3560 18th St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club"
+   },
+   {
+    "text": "Blends Southeast Asian flavors with Californian ones, in dishes like Lao-style sausage.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/good-good-culture-club"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3969664044",
+  "name": "Trestle",
+  "address": "531 Jackson St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle"
+   },
+   {
+    "text": "Serves a prix fixe Californian menu with two seasonal options per course.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/trestle"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321299142",
+  "name": "Anchor Oyster Bar",
+  "address": "579 Castro St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Has served oysters, clam chowder and sustainable seafood on Castro Street since 1977.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar"
+   },
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/anchor-oyster-bar"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3380825006",
+  "name": "A16",
+  "address": "2355 Chestnut St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16"
+   },
+   {
+    "text": "Serves rustic Italian cooking and a wide selection of pizzas.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/a16"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1819811607",
+  "name": "Kitchen Istanbul",
+  "address": "349 Clement St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul"
+   },
+   {
+    "text": "Serves Turkish dishes with Californian touches, such as börek and künefe kadayif.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/kitchen-istanbul"
+   }
+  ]
+ },
+ {
+  "id": "osm-n960938593",
+  "name": "Outerlands",
+  "address": "4001 Judah St",
+  "city": "San Francisco",
+  "facts": [
+   {
+    "text": "Recognized as a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands"
+   },
+   {
+    "text": "Known for house-baked sourdough bread and fried mortadella sandwiches.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/outerlands"
+   }
+  ]
+ }
+]

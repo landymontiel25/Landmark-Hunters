@@ -1,0 +1,352 @@
+{
+ "category": "art-museums",
+ "count": 17,
+ "commonsPhotos": 7,
+ "commonsPhotoPct": 41.2,
+ "withFacts": 17,
+ "withHours": 5,
+ "photoSkips": [
+  {
+   "id": "osm-n2321383070",
+   "name": "GLBT History Museum",
+   "why": "reviewed: a speaker, not the museum"
+  },
+  {
+   "id": "osm-w256720482",
+   "name": "SFJAZZ Center",
+   "why": "reviewed: a performer on stage"
+  },
+  {
+   "id": "osm-w24563077",
+   "name": "Yerba Buena Center for the Arts",
+   "why": "reviewed: untitled plant close-up"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-n12863098201",
+   "name": "Fraenkel Gallery",
+   "topic": "art gallery",
+   "lat": 37.787746,
+   "lng": -122.404297,
+   "photo": false,
+   "facts": [
+    "Founded by Jeffrey Fraenkel on September 11, 1979.",
+    "Its first exhibition showed 19th-century California photographs by Carleton Watkins.",
+    "Address: 49 Geary Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12863098201"
+  },
+  {
+   "id": "osm-n12996561466",
+   "name": "Hosfelt Gallery",
+   "topic": "art gallery",
+   "lat": 37.766263,
+   "lng": -122.406812,
+   "photo": false,
+   "facts": [
+    "Founded in 1996 by Todd Hosfelt.",
+    "Moved to an 8,900-square-foot space on Utah Street in 2012.",
+    "Address: 260 Utah Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/12996561466"
+  },
+  {
+   "id": "osm-n2340730649",
+   "name": "Precita Eyes Mural Arts and Visitors Center",
+   "topic": "arts center",
+   "lat": 37.75257,
+   "lng": -122.41153,
+   "photo": false,
+   "facts": [
+    "Precita Eyes Muralists Association was founded in 1977 by Susan and Luis Cervantes.",
+    "Bought the 24th Street building in 1998, near Balmy Alley.",
+    "The first organization added to the Legacy Business Registry, in 2015."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2340730649"
+  },
+  {
+   "id": "osm-n11008350407",
+   "name": "Crown Point Press",
+   "topic": "art gallery",
+   "lat": 37.785527,
+   "lng": -122.399109,
+   "photo": false,
+   "facts": [
+    "Founded in 1962 by Kathan Brown.",
+    "Publishes etchings and shows the prints in a gallery beside its studios and bookstore.",
+    "Address: 20 Hawthorne Street, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11008350407"
+  },
+  {
+   "id": "osm-n806240639",
+   "name": "Chinese Historical Society of America",
+   "topic": "museum",
+   "lat": 37.793857,
+   "lng": -122.40882,
+   "photo": true,
+   "facts": [
+    "Housed in the Julia Morgan designed Chinatown YWCA building completed in 1932.",
+    "The society was established in 1962.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/806240639"
+  },
+  {
+   "id": "osm-n9443918151",
+   "name": "Wood Line",
+   "topic": "public art",
+   "lat": 37.794027,
+   "lng": -122.449431,
+   "photo": false,
+   "facts": [
+    "Andy Goldsworthy's 1,200-foot sculpture of eucalyptus branches, completed in 2011.",
+    "Built from branches cleared in the Presidio's forest rejuvenation program.",
+    "Intended to fade back into the earth over time."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9443918151"
+  },
+  {
+   "id": "osm-n415567060",
+   "name": "Museum of the African Diaspora",
+   "topic": "museum",
+   "lat": 37.786469,
+   "lng": -122.401473,
+   "photo": true,
+   "facts": [
+    "Occupies the first three floors of the St. Regis Museum Tower.",
+    "Has no permanent collection and presents rotating exhibitions by artists of the African diaspora.",
+    "A Smithsonian Affiliate."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/415567060"
+  },
+  {
+   "id": "osm-n4057348983",
+   "name": "Museum of Craft and Design",
+   "topic": "museum",
+   "lat": 37.756927,
+   "lng": -122.387959,
+   "photo": false,
+   "facts": [
+    "Founded in 2004 as the San Francisco Museum of Craft+Design.",
+    "Moved to the American Industrial Center in Dogpatch in April 2013.",
+    "Its building was originally the American Can Company plant from 1915."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4057348983"
+  },
+  {
+   "id": "osm-w256720482",
+   "name": "SFJAZZ Center",
+   "topic": "arts center",
+   "lat": 37.776378,
+   "lng": -122.421569,
+   "photo": false,
+   "facts": [
+    "Opened in January 2013 at Fell and Franklin streets.",
+    "Described as the first stand-alone structure in the country built specifically for jazz.",
+    "Designed by architect Mark Cavagnero, with a 700-seat auditorium and a 100-seat lab."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/256720482"
+  },
+  {
+   "id": "osm-w288340246",
+   "name": "Walt Disney Family Museum",
+   "topic": "museum",
+   "lat": 37.801363,
+   "lng": -122.458721,
+   "photo": true,
+   "facts": [
+    "Opened to the public in October 2009.",
+    "The Disney family, led by Diane Disney Miller, funded the reuse of three historic Presidio buildings.",
+    "Is the first museum dedicated to the life and work of Walt Disney."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/288340246"
+  },
+  {
+   "id": "osm-n8973091799",
+   "name": "Letterform Archive",
+   "topic": "museum",
+   "lat": 37.759825,
+   "lng": -122.388244,
+   "photo": true,
+   "facts": [
+    "Founded in 2014 by graphic designer Rob Saunders from his private collection.",
+    "Opened to visitors in February 2015.",
+    "Collects materials on the history of lettering, typography, printing and graphic design."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8973091799"
+  },
+  {
+   "id": "osm-n386591692",
+   "name": "San Francisco Railway Museum",
+   "topic": "museum",
+   "lat": 37.793802,
+   "lng": -122.393674,
+   "photo": true,
+   "facts": [
+    "Market Street Railway opened it in 2006 across from the Ferry Building.",
+    "Exhibits cover F-line streetcars, cable cars and the 1906 earthquake; admission is free.",
+    "Founded in 2006"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/386591692"
+  },
+  {
+   "id": "osm-w24563077",
+   "name": "Yerba Buena Center for the Arts",
+   "topic": "arts center",
+   "lat": 37.785096,
+   "lng": -122.401252,
+   "photo": false,
+   "facts": [
+    "Established in 1993 as part of the Yerba Buena Gardens redevelopment.",
+    "The Galleries and Forum were designed by architect Fumihiko Maki.",
+    "Includes the 757-seat Blue Shield of California Theater."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/24563077"
+  },
+  {
+   "id": "osm-w173886707",
+   "name": "American Bookbinders Museum",
+   "topic": "museum",
+   "lat": 37.781342,
+   "lng": -122.402774,
+   "photo": true,
+   "facts": [
+    "Opened as a private museum in 2009.",
+    "Relocated in 2015 to a larger space in South of Market, opening to the public.",
+    "Covers the history and tools of bookbinding from the colonial era to the early 20th century."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/173886707"
+  },
+  {
+   "id": "osm-n6381489728",
+   "name": "African American Art & Culture Complex",
+   "topic": "arts center",
+   "lat": 37.778195,
+   "lng": -122.42925,
+   "photo": false,
+   "facts": [
+    "Formed in 1989 when the Wajumbe Cultural Institution and the SF African American Historical Society joined forces.",
+    "Includes art galleries, performance spaces, dance studios and a library and archives.",
+    "Address: 762 Fulton St, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6381489728"
+  },
+  {
+   "id": "osm-n2321383070",
+   "name": "GLBT History Museum",
+   "topic": "museum",
+   "lat": 37.760766,
+   "lng": -122.435607,
+   "photo": false,
+   "facts": [
+    "The society was founded in 1985.",
+    "The museum opened in January 2011 as the first stand-alone LGBTQ history museum in the US.",
+    "Founded in 1985"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2321383070"
+  },
+  {
+   "id": "osm-w256993595",
+   "name": "Haas-Lilienthal House",
+   "topic": "museum",
+   "lat": 37.793276,
+   "lng": -122.424985,
+   "photo": true,
+   "facts": [
+    "Queen Anne house designed by Peter R. Schmidt and built in 1886 for William Haas.",
+    "The Haas-Lilienthal family lived here until 1973, when the house went to SF Heritage.",
+    "San Francisco Landmark #69 and listed on the National Register of Historic Places."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/256993595"
+  }
+ ],
+ "points": [
+  [
+   37.778195,
+   -122.42925,
+   0
+  ],
+  [
+   37.781342,
+   -122.402774,
+   1
+  ],
+  [
+   37.793857,
+   -122.40882,
+   1
+  ],
+  [
+   37.785527,
+   -122.399109,
+   0
+  ],
+  [
+   37.787746,
+   -122.404297,
+   0
+  ],
+  [
+   37.760766,
+   -122.435607,
+   0
+  ],
+  [
+   37.793276,
+   -122.424985,
+   1
+  ],
+  [
+   37.766263,
+   -122.406812,
+   0
+  ],
+  [
+   37.759825,
+   -122.388244,
+   1
+  ],
+  [
+   37.756927,
+   -122.387959,
+   0
+  ],
+  [
+   37.786469,
+   -122.401473,
+   1
+  ],
+  [
+   37.75257,
+   -122.41153,
+   0
+  ],
+  [
+   37.793802,
+   -122.393674,
+   1
+  ],
+  [
+   37.776378,
+   -122.421569,
+   0
+  ],
+  [
+   37.801363,
+   -122.458721,
+   1
+  ],
+  [
+   37.794027,
+   -122.449431,
+   0
+  ],
+  [
+   37.785096,
+   -122.401252,
+   0
+  ]
+ ]
+}

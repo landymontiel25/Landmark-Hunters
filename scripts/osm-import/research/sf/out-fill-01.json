@@ -1,0 +1,767 @@
+[
+ {
+  "name": "Foreign Cinema",
+  "area": "Mission District",
+  "address": "2534 Mission St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1999 in the Mission District.",
+    "url": "https://foreigncinema.com/about-us/"
+   },
+   {
+    "text": "Gayle Pirie and John Clark took over the kitchen in 2001.",
+    "url": "https://foreigncinema.com/about-us/"
+   },
+   {
+    "text": "Named to the San Francisco Chronicle Top 100 Restaurants for twenty consecutive years.",
+    "url": "https://foreigncinema.com/about-us/"
+   }
+  ]
+ },
+ {
+  "name": "St. Francis Fountain",
+  "area": "Mission District",
+  "address": "2801 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1918 by James Christakes, an immigrant from Sparta, Greece.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_3i._packet_lbr-2016-17-004_st._francis_fountain.pdf"
+   },
+   {
+    "text": "It is the oldest continuously operating business on 24th Street.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_3i._packet_lbr-2016-17-004_st._francis_fountain.pdf"
+   },
+   {
+    "text": "Still sells vintage candies from its original 1920s candy case.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_3i._packet_lbr-2016-17-004_st._francis_fountain.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Delfina",
+  "area": "Mission District",
+  "address": "3621 18th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Craig and Annie Stoll opened Delfina in 1998.",
+    "url": "https://www.delfinasf.com/about-us"
+   },
+   {
+    "text": "Craig Stoll was named a Food & Wine Best New Chef in 2001.",
+    "url": "https://www.delfinasf.com/about-us"
+   },
+   {
+    "text": "Craig Stoll won the 2008 James Beard Award for Best Chef: Pacific.",
+    "url": "https://www.delfinasf.com/about-us"
+   },
+   {
+    "text": "Reopened in October 2022 after a renovation by Fucinaro Architects.",
+    "url": "https://www.delfinasf.com/about-us"
+   }
+  ]
+ },
+ {
+  "name": "La Mejor Bakery",
+  "area": "Mission District",
+  "address": "3329 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Carmen Elias opened the Mexican bakery in 1993 after retiring from Bank of America.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery"
+   },
+   {
+    "text": "Named a San Francisco legacy business in 2024.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery"
+   },
+   {
+    "text": "The storefront window art is hand painted each month by a local artist.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery"
+   }
+  ]
+ },
+ {
+  "name": "Zeitgeist",
+  "area": "Mission District",
+  "address": "199 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The bar dates to 1972 as the Rainbow Cattle Company.",
+    "url": "https://www.sfheritage.org/events/heritage-happy-hour-at-zeitgeist/"
+   },
+   {
+    "text": "Added to San Francisco's Legacy Business Registry on October 3, 2016.",
+    "url": "https://www.sfheritage.org/events/heritage-happy-hour-at-zeitgeist/"
+   },
+   {
+    "text": "Has a large outdoor beer garden with picnic tables.",
+    "url": "https://www.sfheritage.org/events/heritage-happy-hour-at-zeitgeist/"
+   }
+  ]
+ },
+ {
+  "name": "Dandelion Chocolate",
+  "area": "Mission District",
+  "address": "740 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Todd Masonis and Cameron Ring founded the bean-to-bar chocolate maker in 2010.",
+    "url": "https://ec2.dandelionchocolate.com/press/press-release-november-9-2012/"
+   },
+   {
+    "text": "The Valencia Street space combines a chocolate factory, cafe and retail shop.",
+    "url": "https://blog.dandelionchocolate.com/2012/11/06/valencia-or-bust/"
+   },
+   {
+    "text": "The building was formerly Excellent Automotive Service and Repair.",
+    "url": "https://blog.dandelionchocolate.com/2012/11/06/valencia-or-bust/"
+   }
+  ]
+ },
+ {
+  "name": "Pancho Villa Taqueria",
+  "area": "Mission District",
+  "address": "3071 16th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served Mexican food since 1985.",
+    "url": "https://www.sfpanchovilla.com/blank"
+   },
+   {
+    "text": "Started after the owners' earlier restaurant, El Toro Taqueria.",
+    "url": "https://www.sfpanchovilla.com/blank"
+   },
+   {
+    "text": "Meats are grilled on a traditional parrilla and salsas are made from scratch.",
+    "url": "https://www.sfpanchovilla.com/blank"
+   }
+  ]
+ },
+ {
+  "name": "Wise Sons Jewish Delicatessen",
+  "area": "Mission District",
+  "address": "3150 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by brothers Evan and Ari Bloom and friend Leo Beckerman.",
+    "url": "https://en.wikipedia.org/wiki/Wise_Sons"
+   },
+   {
+    "text": "The deli began at 22nd and Mission Street in the Mission District.",
+    "url": "https://en.wikipedia.org/wiki/Wise_Sons"
+   }
+  ]
+ },
+ {
+  "name": "The Women's Building",
+  "area": "Mission District",
+  "address": "18th St at Lapidge St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The MaestraPeace mural was painted in 1994 by women artists including Juana Alicia and Miranda Bergman.",
+    "url": "https://en.wikipedia.org/wiki/The_Women's_Building_(San_Francisco)"
+   },
+   {
+    "text": "The mural covers the exterior and the interior entrance hall and stairway.",
+    "url": "https://en.wikipedia.org/wiki/The_Women's_Building_(San_Francisco)"
+   },
+   {
+    "text": "A $130,000 restoration of the mural was completed in 2012.",
+    "url": "https://en.wikipedia.org/wiki/The_Women's_Building_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "name": "Curio",
+  "area": "Mission District",
+  "address": "775 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on June 22, 2018 next to The Chapel.",
+    "url": "https://www.sfgate.com/insidescoop/article/Curio-debuts-in-the-Mission-with-seafood-quirky-13018497.php"
+   },
+   {
+    "text": "Created by Jack Knowles of A Cote in Rockridge.",
+    "url": "https://www.sfgate.com/insidescoop/article/Curio-debuts-in-the-Mission-with-seafood-quirky-13018497.php"
+   },
+   {
+    "text": "The address once housed a mortuary, and the bar keeps a neon afterlife sign.",
+    "url": "https://www.sfgate.com/insidescoop/article/Curio-debuts-in-the-Mission-with-seafood-quirky-13018497.php"
+   }
+  ]
+ },
+ {
+  "name": "Lolo",
+  "area": "Mission District",
+  "address": "974 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Jorge Martinez and Lorena Zertuche founded the restaurant in 2007.",
+    "url": "https://www.lolosf.com/about"
+   },
+   {
+    "text": "The original opened in a smaller space nearby before moving to Valencia Street in 2013.",
+    "url": "https://www.lolosf.com/about"
+   },
+   {
+    "text": "Lorena Zertuche is a self-taught mixed media artist who helped design the interiors.",
+    "url": "https://www.lolosf.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Victoria Theatre",
+  "area": "Mission District",
+  "address": "2961 16th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1908 as Brown's Opera House.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco"
+   },
+   {
+    "text": "Named a San Francisco Designated Landmark (no. 215) in 1996.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco"
+   },
+   {
+    "text": "It is the oldest operational theatre in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "name": "Brava Theater Center",
+  "area": "Mission District",
+  "address": "2781 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The theater has 360 seats.",
+    "url": "https://en.wikipedia.org/wiki/List_of_theatres_in_San_Francisco"
+   },
+   {
+    "text": "It is dedicated to the expression of women, people of color, youth and LGBTQ artists.",
+    "url": "https://en.wikipedia.org/wiki/List_of_theatres_in_San_Francisco"
+   }
+  ]
+ },
+ {
+  "name": "Garfield Square",
+  "area": "Mission District",
+  "address": "26th St and Harrison St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has a swimming pool, athletic field, playground and courts.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441"
+   },
+   {
+    "text": "The Garfield Center clubhouse and pool building was renovated in 2021.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441"
+   }
+  ]
+ },
+ {
+  "name": "Mission Playground",
+  "area": "Mission District",
+  "address": "19th St and Linda St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has the only public outdoor pool in San Francisco.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   },
+   {
+    "text": "Includes a clubhouse, open lawn, soccer field, and tennis and basketball courts.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   },
+   {
+    "text": "Underwent a $7.5 million renovation.",
+    "url": "https://sfrecpark.org/516/Mission-Playground"
+   }
+  ]
+ },
+ {
+  "name": "Precita Park",
+  "area": "Bernal Heights",
+  "address": "3200 Folsom St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A two-acre park between Bernal Heights and Cesar Chavez Street.",
+    "url": "https://sfrecpark.org/898/Precita-Park"
+   },
+   {
+    "text": "Has a playground, butterfly garden, grass field and picnic areas.",
+    "url": "https://sfrecpark.org/898/Precita-Park"
+   }
+  ]
+ },
+ {
+  "name": "El Rio",
+  "area": "Mission District",
+  "address": "3158 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1978 by Malcolm Thornley and Robert Nett.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   },
+   {
+    "text": "Approved for San Francisco Legacy Business status in 2017.",
+    "url": "https://hoodline.com/2017/11/mission-s-el-rio-awarded-legacy-business-status/"
+   },
+   {
+    "text": "Has a back patio garden with large lemon trees.",
+    "url": "https://hoodline.com/2017/11/mission-s-el-rio-awarded-legacy-business-status/"
+   }
+  ]
+ },
+ {
+  "name": "La Victoria SF",
+  "area": "Mission District",
+  "address": "3249 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Gabriel Maldonado founded La Victoria in 1951 on 24th Street.",
+    "url": "https://www.victoriasf.com/our-story/"
+   },
+   {
+    "text": "Reopened at 24th and Capp streets in 2019 after leaving its longtime corner.",
+    "url": "https://www.victoriasf.com/our-story/"
+   },
+   {
+    "text": "Added to San Francisco's Legacy Business Registry in 2025.",
+    "url": "https://media.api.sf.gov/documents/Item_3b._LBR-2024-25-054_La_Victoria_SF.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Adobe Books",
+  "area": "Mission District",
+  "address": "3130 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1989 by Andrew McKinley on 16th Street.",
+    "url": "http://www.adobebooks.com/about-adobe-books"
+   },
+   {
+    "text": "Became a cooperative in 2012 and crowdfunded $60,000 for its 24th Street storefront.",
+    "url": "http://www.adobebooks.com/about-adobe-books"
+   }
+  ]
+ },
+ {
+  "name": "Beretta",
+  "area": "Mission District",
+  "address": "1199 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2008 and serves thin crust pizzas and Italian dishes.",
+    "url": "https://sfstandard.com/2025/08/21/beretta-valencia-italian-renovation-late-night/"
+   },
+   {
+    "text": "Reopened in 2025 after a seven-week restoration with a new menu.",
+    "url": "https://sfstandard.com/2025/08/21/beretta-valencia-italian-renovation-late-night/"
+   }
+  ]
+ },
+ {
+  "name": "Mission Bowling Club",
+  "area": "Mission District",
+  "address": "3176 17th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in March 2012.",
+    "url": "https://foodgps.com/mission-bowling-club-san-francisco/"
+   },
+   {
+    "text": "Anthony Myint of Mission Chinese Food was the food partner at opening.",
+    "url": "https://foodgps.com/mission-bowling-club-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "Medicine for Nightmares Bookstore & Gallery",
+  "area": "Mission District",
+  "address": "3036 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Combines a bookstore and an art gallery.",
+    "url": "https://sfpl.org/locations/external/medicine-nightmares-bookstore-gallery-0"
+   },
+   {
+    "text": "Took over the storefront previously occupied by Alley Cat Bookstore & Gallery.",
+    "url": "https://sfpl.org/locations/external/medicine-nightmares-bookstore-gallery-0"
+   }
+  ]
+ },
+ {
+  "name": "Paprika",
+  "area": "Mission District",
+  "address": "3324 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A beer hall pouring German and Czech beers alongside sausages and goulash.",
+    "url": "https://www.sfweekly.com/dining/where-to-eat-on-24th-street-in-the-mission/article_99373259-83b4-5c39-b1d7-5a5733b7dee4.html"
+   }
+  ]
+ },
+ {
+  "name": "Bi-Rite Market",
+  "area": "Mission District",
+  "address": "3639 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The market was built by brothers Joe and Bill Cordano in 1940.",
+    "url": "https://biritemarket.com/about-us/history/"
+   },
+   {
+    "text": "Jack and Ned Mogannam bought the market in 1964.",
+    "url": "https://biritemarket.com/about-us/history/"
+   },
+   {
+    "text": "Sam Mogannam has led the business since 1998.",
+    "url": "https://biritemarket.com/about-us/history/"
+   },
+   {
+    "text": "The building has an art deco facade and original glazed tiles.",
+    "url": "https://biritemarket.com/about-us/history/"
+   }
+  ]
+ },
+ {
+  "name": "Taqueria Cancun",
+  "area": "Mission District",
+  "address": "2288 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First opened in 1991 on Market Street.",
+    "url": "https://www.taqueriacancunsf.net/who.html"
+   },
+   {
+    "text": "Started by two alumni of El Farolito.",
+    "url": "https://www.taqueriacancunsf.net/who.html"
+   }
+  ]
+ },
+ {
+  "name": "Voss Gallery",
+  "area": "Mission District",
+  "address": "3344 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://vossgallery.art/pages/about",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Bissap Baobab",
+  "area": "Mission District",
+  "address": "3372 19th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.kqed.org/checkplease/47/bissap-baobab-restaurant-info",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Southern Pacific Brewing",
+  "area": "Mission District",
+  "address": "620 Treat Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfgate.com/food/article/San-Francisco-brewery-for-sale-Southern-Pacific-15569878.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Gracias Madre",
+  "area": "Mission District",
+  "address": "2211 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/gracias-madre-closed-18335017.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Mission Pie",
+  "area": "Mission District",
+  "address": "2901 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/mission-pie-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Elbo Room",
+  "area": "Mission District",
+  "address": "Valencia St between 17th St and 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/article/There-aren-t-many-places-like-this-left-13489113.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Alley Cat Books",
+  "area": "Mission District",
+  "address": "3036 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.librarything.com/venue/78641/Defunct-Alley-Cat-Books",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Mission Cultural Center for Latino Arts",
+  "area": "Mission District",
+  "address": "2868 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/entertainment/article/mission-cultural-center-latino-arts-closes-21320470.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Weird Fish",
+  "area": "Mission District",
+  "address": "2193 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.gayot.com/restaurants/dantes-weird-fish-san-francisco-ca-94110_3sf0706201.html",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]

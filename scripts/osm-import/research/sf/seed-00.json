@@ -1,0 +1,483 @@
+[
+ {
+  "name": "Four Kings",
+  "area": "Chinatown",
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "Flour + Water",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   },
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "La Taqueria",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "Kin Khao",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   },
+   {
+    "list": "Michelin 1 star",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/1-star-michelin"
+   }
+  ]
+ },
+ {
+  "name": "Hilda and Jesse",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   },
+   {
+    "list": "Michelin 1 star",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/1-star-michelin"
+   }
+  ]
+ },
+ {
+  "name": "Lazy Bear",
+  "area": null,
+  "address": "3416 19th St.",
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   },
+   {
+    "list": "Michelin 2 stars",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/2-stars-michelin"
+   }
+  ]
+ },
+ {
+  "name": "Via Aurelia",
+  "area": "Mission Rock",
+  "address": "300 Toni Stone Xing, Suite A",
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   }
+  ]
+ },
+ {
+  "name": "Quince",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "SF Chronicle Top 100",
+    "year": 2026,
+    "url": "https://www.sfchronicle.com/projects/2026/top-100-best-restaurants-san-francisco-bay-area/"
+   },
+   {
+    "list": "Michelin 3 stars",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/3-stars-michelin"
+   }
+  ]
+ },
+ {
+  "name": "Abacá",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Sotto Mare",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Nisei",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "Michelin 1 star",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/1-star-michelin"
+   }
+  ]
+ },
+ {
+  "name": "China Live",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Mister Jiu's",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "Michelin 1 star",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/1-star-michelin"
+   }
+  ]
+ },
+ {
+  "name": "House of Prime Rib",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Boulevard",
+  "area": "Embarcadero",
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "SF power lunch",
+    "year": null,
+    "url": "https://www.sfgate.com/food/article/Power-lunch-places-in-San-Francisco-9226186.php",
+    "note": "Boulevard on Mission Street is described as a restaurant for conducting business lunches."
+   }
+  ]
+ },
+ {
+  "name": "Sons & Daughters",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "Michelin 2 stars",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/2-stars-michelin"
+   }
+  ]
+ },
+ {
+  "name": "Octavia",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Mandalay",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Birdbox",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Aziza",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Californios",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "Michelin 3 stars",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/3-stars-michelin"
+   }
+  ]
+ },
+ {
+  "name": "Rintaro",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Beit Rima Castro",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Prubechu",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "San Ho Won",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "Michelin 1 star",
+    "year": 2026,
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurants/1-star-michelin"
+   }
+  ]
+ },
+ {
+  "name": "True Laurel",
+  "area": "Mission",
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   },
+   {
+    "list": "North America's 50 Best Bars",
+    "year": 2025,
+    "url": "https://www.theworlds50best.com/stories/News/north-americas-50-best-bars-2025-the-list-revealed.html"
+   }
+  ]
+ },
+ {
+  "name": "Besharam",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Chisai Sushi Club",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Eater SF essential",
+    "year": null,
+    "url": "https://thevendry.com/list/NGE7G7/the-38-essential-restaurants-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "name": "Esmeralda Slide Park",
+  "area": "Bernal Heights",
+  "address": null,
+  "leads": [
+   {
+    "list": "Atlas Obscura San Francisco",
+    "year": null,
+    "url": "https://www.atlasobscura.com/things-to-do/san-francisco-california/places"
+   }
+  ]
+ },
+ {
+  "name": "Wood Line",
+  "area": "Presidio",
+  "address": null,
+  "leads": [
+   {
+    "list": "Atlas Obscura San Francisco",
+    "year": null,
+    "url": "https://www.atlasobscura.com/things-to-do/san-francisco-california/places"
+   }
+  ]
+ },
+ {
+  "name": "Audium Theatre of Sound-Sculptured Space",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Atlas Obscura San Francisco",
+    "year": null,
+    "url": "https://www.atlasobscura.com/things-to-do/san-francisco-california/places"
+   }
+  ]
+ },
+ {
+  "name": "Institute of Illegal Images",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Atlas Obscura San Francisco",
+    "year": null,
+    "url": "https://www.atlasobscura.com/things-to-do/san-francisco-california/places"
+   }
+  ]
+ },
+ {
+  "name": "Peephole Cinema",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Atlas Obscura San Francisco",
+    "year": null,
+    "url": "https://www.atlasobscura.com/things-to-do/san-francisco-california/places"
+   }
+  ]
+ },
+ {
+  "name": "Paxton Gate",
+  "area": null,
+  "address": null,
+  "leads": [
+   {
+    "list": "Atlas Obscura San Francisco",
+    "year": null,
+    "url": "https://www.atlasobscura.com/things-to-do/san-francisco-california/places"
+   }
+  ]
+ },
+ {
+  "name": "Bix",
+  "area": "Jackson Square",
+  "address": null,
+  "leads": [
+   {
+    "list": "SF jazz clubs",
+    "year": null,
+    "url": "https://wanderlog.com/list/geoCategory/816451/best-jazz-bars-and-jazz-clubs-in-san-francisco"
+   }
+  ]
+ }
+]

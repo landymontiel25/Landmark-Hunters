@@ -1,0 +1,432 @@
+[
+ {
+  "id": "osm-w260018192",
+  "name": "Mandalay",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened on February 4, 1984 and is the oldest running Burmese restaurant in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)",
+    "verdict": "ok",
+    "note": "Wikipedia result states Feb 4, 1984 and oldest running Burmese in SF"
+   },
+   {
+    "text": "Named an America's Classic by the James Beard Foundation in 2024.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)",
+    "verdict": "ok",
+    "note": "stated"
+   },
+   {
+    "text": "Serves tea leaf salad, paratha, mohinga and samusa soup.",
+    "url": "https://en.wikipedia.org/wiki/Mandalay_(restaurant)",
+    "verdict": "ok",
+    "note": "stated"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10790894143",
+  "name": "Aziza",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Aziza was the first Moroccan restaurant in the United States to earn a Michelin star.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/aziza",
+    "verdict": "ok",
+    "note": "Michelin result states first Moroccan restaurant in US to earn a Michelin star"
+   },
+   {
+    "text": "Chef Mourad Lahlou serves Moroccan cooking with California ingredients.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/aziza",
+    "verdict": "ok",
+    "note": "Michelin: Moroccan fare, California staples"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1106966263",
+  "name": "Beit Rima",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Created by a son who reinvented his father's burger joint to showcase their Palestinian heritage.",
+    "url": "https://www.beitrimasf.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2019.",
+    "url": "https://beitrimasf.com/accolades/",
+    "verdict": "ok",
+    "note": "accolades page: SF Chronicle 2019 Top 100"
+   },
+   {
+    "text": "Serves Palestinian and Levantine dishes such as hummus, falafel and musakhan.",
+    "url": "https://www.beitrimasf.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4148116889",
+  "name": "Prubechu",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Started in 2014 by chef Shawn Naputi and business partner Shawn Camacho, both raised on Guam.",
+    "url": "https://www.prubechu.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves classic flavors from Guam and the Mariana Islands.",
+    "url": "https://www.prubechu.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Described in 2020 as San Francisco's only Chamorro restaurant.",
+    "url": "https://peninsulapress.com/2020/12/01/san-franciscos-only-chamorro-restaurant-persists-amid-pandemic/",
+    "verdict": "ok",
+    "note": "article title says only Chamorro restaurant, Dec 2020"
+   }
+  ]
+ },
+ {
+  "id": "osm-w505189954",
+  "name": "San Ho Won",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/san-ho-won",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Korean restaurant with chefs Corey Lee and Jeong-In Hwang.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/san-ho-won",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1609599968",
+  "name": "Paxton Gate",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded in 1992 by Sean Quigley and named after the British gardener Sir Joseph Paxton.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Moved from Stevenson Street to Valencia Street in 1999.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate",
+    "verdict": "ok",
+    "note": "Wikipedia: 1999 relocation from Stevenson St to Valencia"
+   },
+   {
+    "text": "Sells natural science curiosities, taxidermy and carnivorous plants.",
+    "url": "https://en.wikipedia.org/wiki/Paxton_Gate",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n6780338385",
+  "name": "Dog Eared Books",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has sold new, used and remaindered books since 1992.",
+    "url": "https://www.pw.org/literary_places/dog_eared_books_valencia",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Specializes in Beat, off-beat, small press and local literature.",
+    "url": "https://www.pw.org/literary_places/dog_eared_books_valencia",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321383070",
+  "name": "GLBT Historical Society Museum",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The society was founded in 1985.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society",
+    "verdict": "ok",
+    "note": "Wikipedia: formed March 1985"
+   },
+   {
+    "text": "The museum opened in January 2011 as the first stand-alone LGBTQ history museum in the US.",
+    "url": "https://en.wikipedia.org/wiki/GLBT_Historical_Society",
+    "verdict": "ok",
+    "note": "Wikipedia: grand opening Jan 13, 2011; first stand-alone"
+   }
+  ]
+ },
+ {
+  "id": "osm-w263646726",
+  "name": "Vogue Theatre",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1910 as the Elite Theatre and became the Vogue in 1939.",
+    "url": "https://cinematreasures.org/theaters/3394/comments",
+    "verdict": "unsupported",
+    "note": "cinematreasures comments result states 1910 Elite, Vogue 1939 (same result also says reopened as Vogue July 1938; other sources say 1912 opening) (reviewer: sources conflict, treated as unsupported)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1834964005",
+  "name": "Balboa Theatre",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened on February 27, 1926.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Designed by the Reid Brothers, who also designed the original Cliff House and the Fairmont Hotel.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)",
+    "verdict": "unsupported",
+    "note": "Wikipedia Balboa page says Reid & Reid; Cliff House/Fairmont credit appears only on Reid & Reid page, not the Balboa page (reviewer: sources conflict, treated as unsupported)"
+   },
+   {
+    "text": "A 1978 fire led to the single auditorium being split into two screens.",
+    "url": "https://en.wikipedia.org/wiki/Balboa_Theater_(San_Francisco)",
+    "verdict": "unsupported",
+    "note": "no result stated a 1978 fire or conversion to two screens"
+   }
+  ]
+ },
+ {
+  "id": "osm-n140982581",
+  "name": "Landmark's Opera Plaza Cinema",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened on November 16, 1984 as a four-screen art-house cinema.",
+    "url": "https://cinematreasures.org/theaters/7015",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Developed by Allen Michaan as part of a shopping and office plaza.",
+    "url": "https://cinematreasures.org/theaters/7015",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Renovated in 2021 with new recliner seats.",
+    "url": "https://cinematreasures.org/theaters/7015",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n9536469196",
+  "name": "101 Music",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has two stores, on Grant Avenue and on Green Street, stocked with vintage vinyl.",
+    "url": "https://www.sfstation.com/101-music-b988",
+    "verdict": "ok",
+    "note": "sfstation: two stores on Grant and Green, vintage vinyl"
+   }
+  ]
+ },
+ {
+  "id": "osm-n993412550",
+  "name": "Thrillhouse Records",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A volunteer-run, not-for-profit punk record store.",
+    "url": "https://localwiki.org/sf/Thrillhouse_Records",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Also hosts small punk shows.",
+    "url": "https://localwiki.org/sf/Thrillhouse_Records",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w260146990",
+  "name": "La Cocina Municipal Marketplace",
+  "closed": true,
+  "closedSource": "https://sfstandard.com/2023/07/13/la-cocina-to-close-tenderloin-food-hall-in-september/",
+  "facts": [
+   {
+    "text": "Opened in April 2021 in the Tenderloin.",
+    "url": "https://www.thesfnews.com/la-cocina-municipal-marketplace-opens-in-tenderloin/75894",
+    "verdict": "ok",
+    "note": "thesfnews: opened April 5, 2021 in Tenderloin"
+   },
+   {
+    "text": "Described as the country's first women-led food hall.",
+    "url": "https://www.forbes.com/sites/chelseadavis/2022/03/23/the-entrepreneurs-of-la-cocinas-municipal-marketplace-the-countrys-first-ever-women-led-food-hall-in-san-francisco/",
+    "verdict": "ok",
+    "note": "Forbes title/snippet: country's first-ever women-led food hall"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358805395",
+  "name": "Macondray Lane",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Listed on the National Register of Historic Places in 1988 as the Russian Hill-Macondray Lane District.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Inspired Barbary Lane in Armistead Maupin's Tales of the City.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane",
+    "verdict": "ok",
+    "note": "Wikipedia result states Maupin confirmed inspiration"
+   },
+   {
+    "text": "Views from the lane extend north to Alcatraz Island and the Bay.",
+    "url": "https://en.wikipedia.org/wiki/Macondray_Lane",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w260188930",
+  "name": "The Chapel",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Housed in a 1914 building originally built as a mortuary.",
+    "url": "https://www.kalw.org/show/crosscurrents/2018-10-31/from-mortuary-to-music-venue-is-the-chapel-haunted",
+    "verdict": "unsupported",
+    "note": "KALW result covers mortuary history but no returned snippet states 1914"
+   },
+   {
+    "text": "Renovated by Bay Area developer and restaurateur Jack Knowles.",
+    "url": "https://www.sfstation.com/the-chapel-b38598992",
+    "verdict": "unsupported",
+    "note": "sfstation result did not mention Jack Knowles"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10674834861",
+  "name": "B. Patisserie",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 2013 by pastry chef Belinda Leong with Michel Suas of the San Francisco Baking Institute.",
+    "url": "https://en.wikipedia.org/wiki/Belinda_Leong",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Belinda Leong won the 2018 James Beard Award for Outstanding Baker.",
+    "url": "https://en.wikipedia.org/wiki/Belinda_Leong",
+    "verdict": "ok",
+    "note": "Wikipedia: won 2018 with Michel Suas"
+   },
+   {
+    "text": "Leong was previously pastry chef at Gary Danko.",
+    "url": "https://bpatisserie.com/story/",
+    "verdict": "ok",
+    "note": "bpatisserie story: Gary Danko pastry chef"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6566538586",
+  "name": "Craftsman and Wolves",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "French-inspired contemporary patisserie and cafe.",
+    "url": "https://craftsman-wolves.com/san-francisco-mission-craftsman-and-wolves-about",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w129903304",
+  "name": "Home Coffee Roasters",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Known for creative espresso drinks such as red velvet and lavender lattes.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/home-coffee-roasters",
+    "verdict": "unsupported",
+    "note": "cited Infatuation review page not returned; only guide pages came back (they do state red velvet and lavender lattes)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10769120405",
+  "name": "Besharam",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 2018 inside the Minnesota Street Project, led by chef Heena Patel.",
+    "url": "https://besharamrestaurant.com/about.html",
+    "verdict": "ok",
+    "note": "besharamrestaurant.com result: opened 2018 in Minnesota Street Project"
+   },
+   {
+    "text": "Besharam is Gujarati for shameless; the menu pairs Gujarati vegetarian cooking with California ingredients.",
+    "url": "https://besharamrestaurant.com/about.html",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named Eater San Francisco's Restaurant of the Year in 2019.",
+    "url": "https://besharamrestaurant.com/about.html",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ }
+]

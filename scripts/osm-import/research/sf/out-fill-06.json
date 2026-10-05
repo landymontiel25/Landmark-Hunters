@@ -1,0 +1,722 @@
+[
+ {
+  "name": "Nopa",
+  "area": "NoPa",
+  "address": "560 Divisadero St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/nopa/"
+   }
+  ]
+ },
+ {
+  "name": "Che Fico",
+  "area": "Alamo Square",
+  "address": "838 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/che-fico",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Nopalito",
+  "area": "NoPa",
+  "address": "306 Broderick St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/nopalito/"
+   }
+  ]
+ },
+ {
+  "name": "Kate's Kitchen",
+  "area": "Lower Haight",
+  "address": "471 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves pancakes, French toast, biscuits and gravy, hash, omelets and shakshuka.",
+    "url": "http://orderkateskitchen.com/"
+   }
+  ]
+ },
+ {
+  "name": "Pork Store Cafe",
+  "area": "Haight-Ashbury",
+  "address": "1451 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Calls itself San Francisco's original breakfast spot, serving since 1916.",
+    "url": "https://www.porkstorecafe.com/"
+   },
+   {
+    "text": "Specializes in American comfort food for breakfast and lunch.",
+    "url": "https://www.porkstorecafe.com/"
+   }
+  ]
+ },
+ {
+  "name": "Zazie",
+  "area": "Cole Valley",
+  "address": "941 Cole St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in Cole Valley in 1992 by Catherine Opoix.",
+    "url": "https://www.zaziesf.com/about-us.html"
+   },
+   {
+    "text": "Named for the main character of Louis Malle's film Zazie dans le Metro.",
+    "url": "https://www.zaziesf.com/about-us.html"
+   },
+   {
+    "text": "Jennifer Piallat bought the restaurant in 2005 and sold it to three employees in 2020.",
+    "url": "https://www.zaziesf.com/about-us.html"
+   }
+  ]
+ },
+ {
+  "name": "Indian Oven",
+  "area": "Lower Haight",
+  "address": "233 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served northern Indian cuisine in San Francisco since 1988.",
+    "url": "https://www.indianovensf.com/about-indian-oven.htm"
+   },
+   {
+    "text": "Cooks in an open-view kitchen with a tandoori clay oven.",
+    "url": "https://www.indianovensf.com/about-indian-oven.htm"
+   }
+  ]
+ },
+ {
+  "name": "Cha Cha Cha",
+  "area": "Haight-Ashbury",
+  "address": "1801 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is an approved San Francisco Legacy Business serving Caribbean tapas.",
+    "url": "https://www.chachachasf.com/"
+   },
+   {
+    "text": "Has operated since 1984.",
+    "url": "https://www.chachachasf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Memphis Minnie's BBQ Joint",
+  "area": "Lower Haight",
+  "address": "576 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Calls itself San Francisco's longest continuously running barbecue restaurant.",
+    "url": "https://www.memphisminnies.com/"
+   },
+   {
+    "text": "Has been at its Lower Haight location since 2000.",
+    "url": "https://www.memphisminnies.com/"
+   },
+   {
+    "text": "Smokes Southern-style barbecue slowly and serves pastrami only on Wednesdays.",
+    "url": "https://www.memphisminnies.com/"
+   }
+  ]
+ },
+ {
+  "name": "Bar Crudo",
+  "area": "NoPa",
+  "address": "655 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Oyster and seafood restaurant serving oysters, crudo and marinated mussels.",
+    "url": "https://www.barcrudo.com/"
+   }
+  ]
+ },
+ {
+  "name": "The Mill",
+  "area": "NoPa",
+  "address": "736 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in July 2014.",
+    "url": "https://www.themillsf.com/news/2014/7/1/the-mill-is-open"
+   },
+   {
+    "text": "Is a joint venture of Four Barrel Coffee and Josey Baker Bread, which began in 2010.",
+    "url": "https://www.themillsf.com/our-team"
+   }
+  ]
+ },
+ {
+  "name": "Toronado",
+  "area": "Lower Haight",
+  "address": "547 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "The Alembic",
+  "area": "Haight-Ashbury",
+  "address": "1725 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Christin Evans and Mikha Diaz acquired the bar in 2018.",
+    "url": "https://alembicsf.com/christin-evans/"
+   },
+   {
+    "text": "Serves spirits, craft beers, local wines and plates.",
+    "url": "https://alembicsf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Madrone Art Bar",
+  "area": "NoPa",
+  "address": "500 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Operates as a changing site-specific installation art environment with live music.",
+    "url": "https://independentvenueweek.com/us/venues-us/madrone-art-bar/"
+   },
+   {
+    "text": "Has been open since 2004.",
+    "url": "https://independentvenueweek.com/us/venues-us/madrone-art-bar/"
+   }
+  ]
+ },
+ {
+  "name": "Noc Noc",
+  "area": "Lower Haight",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "The Mad Dog in the Fog",
+  "area": "Haight-Ashbury",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "The Page",
+  "area": "NoPa",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Boom Boom Room",
+  "area": "Western Addition",
+  "address": "1601 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Rooky Ricardo's Records",
+  "area": "Lower Haight",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Record store specializing in soul music.",
+    "url": "https://rookyricardos.com/"
+   }
+  ]
+ },
+ {
+  "name": "Crepes on Cole",
+  "area": "Cole Valley",
+  "address": "100 Carl St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Family-owned crepe restaurant in Cole Valley, open since 1994.",
+    "url": "https://www.crepesoncole.com/"
+   }
+  ]
+ },
+ {
+  "name": "Alamo Square",
+  "area": "Alamo Square",
+  "address": "Hayes St and Steiner St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has the Painted Ladies of Postcard Row along its edge.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alamo-Square-323/"
+   },
+   {
+    "text": "Has a playground, tennis court and dog play area.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alamo-Square-323/"
+   }
+  ]
+ },
+ {
+  "name": "Buena Vista Park",
+  "area": "Haight-Ashbury",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is the oldest park in San Francisco.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Buena-Vista-Park-155"
+   },
+   {
+    "text": "Has winding trails and one of the city's few remaining coast live oak groves.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Buena-Vista-Park-155"
+   }
+  ]
+ },
+ {
+  "name": "Duboce Park",
+  "area": "Lower Haight",
+  "address": "Duboce Ave and Scott St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is home to the Harvey Milk Recreational Arts Center.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Duboce-Park-164"
+   },
+   {
+    "text": "Has a dog play area and a basketball court.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Duboce-Park-164"
+   }
+  ]
+ },
+ {
+  "name": "The Panhandle",
+  "area": "Haight-Ashbury",
+  "address": "Oak St and Fell St, Stanyan St to Baker St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Runs about three-quarters of a mile from Stanyan to Baker Streets.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Panhandle-443"
+   },
+   {
+    "text": "Was designed as a winding access road to Golden Gate Park protected from the wind.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Panhandle-443"
+   }
+  ]
+ },
+ {
+  "name": "Jefferson Square",
+  "area": "Western Addition",
+  "address": "Eddy St and Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The south half became the Margaret S. Hayward Playground after her death in 1918.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Jefferson-Square-343"
+   },
+   {
+    "text": "Has an off-leash dog play area and views of City Hall.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Jefferson-Square-343"
+   }
+  ]
+ },
+ {
+  "name": "Tank Hill",
+  "area": "Cole Valley",
+  "address": "Twin Peaks Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is a 2.9-acre natural area named for the Clarendon Heights Water Tank.",
+    "url": "https://sfrecpark.org/facilities/facility/details/tankhill-380"
+   },
+   {
+    "text": "Has a native grassland plant community and city views.",
+    "url": "https://sfrecpark.org/facilities/facility/details/tankhill-380"
+   }
+  ]
+ },
+ {
+  "name": "Koshland Park",
+  "area": "Lower Haight",
+  "address": "Page St and Buchanan St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Koshland family worked with the Trust for Public Land to create it in honor of their father.",
+    "url": "https://sfrecpark.org/facilities/facility/details/koshlandpark-181"
+   },
+   {
+    "text": "Has a community garden, basketball court and playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/koshlandpark-181"
+   }
+  ]
+ },
+ {
+  "name": "Grattan Playground",
+  "area": "Cole Valley",
+  "address": "1180 Stanyan St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has an athletic field, tennis courts, basketball court and playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Grattan-Playground-242"
+   },
+   {
+    "text": "Is home to the Haight Ashbury Community Nursery School.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Grattan-Playground-242"
+   }
+  ]
+ },
+ {
+  "name": "Raymond Kimbell Playground",
+  "area": "Western Addition",
+  "address": "Geary Blvd and Steiner St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has baseball diamonds, athletic fields and a playground.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Raymond-Kimbell-Playground-263"
+   },
+   {
+    "text": "Playground renovation was completed in June 2015.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Raymond-Kimbell-Playground-263"
+   }
+  ]
+ },
+ {
+  "name": "Aub Zam Zam",
+  "area": "Haight-Ashbury",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owner Bruno Mooshei ran the bar until his death.",
+    "url": "https://www.sfgate.com/news/article/Bruno-Mooshei-Legendary-Haight-St-Bar-Owner-Dies-2724429.php"
+   }
+  ]
+ },
+ {
+  "name": "Eddie's Cafe",
+  "area": "Western Addition",
+  "address": "800 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves breakfast, brunch and Southern food.",
+    "url": "https://www.sfstation.com/eddies-cafe-b1282"
+   }
+  ]
+ },
+ {
+  "name": "Wholesome Bakery",
+  "area": "Lower Haight",
+  "address": "299 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/wholesome-bakery-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Bean Bag Cafe",
+  "area": "NoPa",
+  "address": "601 Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served the neighborhood since 1992.",
+    "url": "https://beanbag.cafe/"
+   }
+  ]
+ },
+ {
+  "name": "Matching Half Cafe",
+  "area": "Western Addition",
+  "address": "1799 McAllister St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Bar Jabroni",
+  "area": "Lower Haight",
+  "address": "698 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by the owners of Palm City Wines.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/bar-jabroni-haight-menu-18761416.php"
+   }
+  ]
+ },
+ {
+  "name": "Cafe International",
+  "area": "Haight-Ashbury",
+  "address": "508 Haight St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is a Black-owned cafe serving coffee, tea, sandwiches and bagels.",
+    "url": "https://accelerator.eatokra.com/businesses/cafe-international"
+   }
+  ]
+ }
+]

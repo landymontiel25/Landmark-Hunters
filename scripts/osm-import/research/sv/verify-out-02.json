@@ -1,0 +1,154 @@
+[
+ {
+  "id": "osm-n4283857364",
+  "name": "Alexander's Steakhouse",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has a glass-enclosed dry-aging room and serves Japanese Wagyu and dry-aged domestic steaks.",
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Located in the Main Street Cupertino center.",
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/en/california/cupertino/restaurant/alexander-s-steakhouse",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4797406237",
+  "name": "Petiscos",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A Bib Gourmand in the 2026 MICHELIN Guide.",
+    "url": "https://guide.michelin.com/us/en/california/san-jose/restaurant/petiscos",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves Portuguese cooking such as codfish croquettes, octopus salad and grilled sardines.",
+    "url": "https://guide.michelin.com/us/en/california/san-jose/restaurant/petiscos",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w160294032",
+  "name": "La Bodeguita del Medio",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Cuban restaurant on California Avenue with an outdoor patio.",
+    "url": "https://mindtrip.ai/restaurant/palo-alto-california/la-bodeguita-del-medio/re-XGPwOwlH",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Established in 1997.",
+    "url": "https://www.novacircle.com/spots/north-america/united-states/california/palo-alto/palo-alto-ca/la-bodeguita-del-medio-945cf0",
+    "verdict": "unsupported",
+    "note": "novacircle result did not state 1997 (other sources do)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4128541512",
+  "name": "Flea Street",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has served diners since 1980 in a house with small rooms.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Builds a seasonal farm-to-table menu around produce from nearby farms and the coast.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Listed in the MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/flea-st-cafe",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n8512288132",
+  "name": "Ada's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Nonprofit cafe that employs people with disabilities and others facing barriers to work.",
+    "url": "https://www.guidestar.org/profile/26-2775579",
+    "verdict": "unsupported",
+    "note": "GuideStar says nonprofit training/jobs for adults with developmental disabilities; 'others facing barriers to work' not stated"
+   },
+   {
+    "text": "Located next to the Mitchell Park Community Center and library.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g32849-d7389285-Reviews-Ada_s_Cafe-Palo_Alto_California.html",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n452568752",
+  "name": "Nola Restaurant & Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in June 1996 as a tribute to New Orleans.",
+    "url": "https://www.nolas.com/",
+    "verdict": "unsupported",
+    "note": "nolas.com result states 1908 building, not June 1996 opening or New Orleans tribute"
+   },
+   {
+    "text": "Occupies the Pedro de Lemos building, dating to 1908.",
+    "url": "https://www.nolas.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Holds one of the largest collections of Southern folk art in the country.",
+    "url": "https://www.nolas.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1350903567",
+  "name": "Joanie's Cafe",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by the husband-and-wife team of Bernard and Joan Cartal.",
+    "url": "https://www.paloaltoonline.com/morgue/restaurants/1994_Jul_8.EATOUT8.html",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ }
+]

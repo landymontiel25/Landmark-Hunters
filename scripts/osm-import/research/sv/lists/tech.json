@@ -1,0 +1,47 @@
+[
+ {
+  "name": "Cin-Cin Wine Bar & Restaurant",
+  "area": "Los Altos",
+  "address": null,
+  "list": "Where the tech deals are made",
+  "year": null,
+  "sourceUrl": "https://www.sfgate.com/restaurants/article/where-the-tech-deals-are-made-5483804.php",
+  "note": "SFGate says Cin-Cin is a favorite haunt of Google, Apple, Netflix, Cisco and eBay staff and is co-owned by Google's first marketing director."
+ },
+ {
+  "name": "Joanie's Cafe",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Cafes for spotting VCs",
+  "year": null,
+  "sourceUrl": "https://theculturetrip.com/north-america/usa/california/articles/top-5-cafes-for-spotting-venture-capitalists-in-silicon-valley",
+  "note": "Culture Trip says VC partners frequently hold breakfast meetings with startup founders at Joanie's Cafe on California Avenue."
+ },
+ {
+  "name": "Woodside Bakery",
+  "area": "Woodside",
+  "address": null,
+  "list": "Cafes for spotting VCs",
+  "year": null,
+  "sourceUrl": "https://theculturetrip.com/north-america/usa/california/articles/top-5-cafes-for-spotting-venture-capitalists-in-silicon-valley",
+  "note": "Culture Trip says Woodside Bakery is filled with people talking about angel funding and venture capital."
+ },
+ {
+  "name": "Flea Street",
+  "area": "Menlo Park",
+  "address": null,
+  "list": "SFGate Silicon Valley restaurants",
+  "year": null,
+  "sourceUrl": "https://www.sfgate.com/food/article/flea-street-restaurant-silicon-valley-billionaires-19821178.php",
+  "note": "SFGate says Mark Zuckerberg met Sheryl Sandberg at Flea Street when recruiting her to Facebook and Sand Hill Road venture capitalists are among its clientele."
+ },
+ {
+  "name": "Tamarine Restaurant",
+  "area": "Palo Alto",
+  "address": null,
+  "list": "Silicon Valley tech restaurants",
+  "year": null,
+  "sourceUrl": "https://dc.fortune.com/2017/03/10/apple-tim-cook-sundar-pichai-dinner",
+  "note": "Fortune reports Apple CEO Tim Cook and Google CEO Sundar Pichai were seen having a private dinner at Tamarine."
+ }
+]

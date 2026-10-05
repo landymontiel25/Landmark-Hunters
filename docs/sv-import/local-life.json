@@ -1,0 +1,418 @@
+{
+ "category": "local-life",
+ "count": 21,
+ "commonsPhotos": 3,
+ "commonsPhotoPct": 14.3,
+ "withFacts": 21,
+ "withHours": 7,
+ "photoSkips": [
+  {
+   "id": "osm-n1700572859",
+   "name": "District",
+   "why": "reviewed: Firehouse No. 1 building; not shown to be this bar"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-w360795620",
+   "name": "Picchetti Winery",
+   "topic": "winery",
+   "lat": 37.29406,
+   "lng": -122.090463,
+   "photo": false,
+   "facts": [
+    "The Picchetti brothers began making their own wine in 1896.",
+    "Leslie Pantling took over the winery in 1998 and resumed production.",
+    "The 1989 film Blood Red was filmed at the winery."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/360795620"
+  },
+  {
+   "id": "osm-n9840220776",
+   "name": "Guildhouse",
+   "topic": "bar",
+   "lat": 37.329691,
+   "lng": -121.885485,
+   "photo": false,
+   "facts": [
+    "Social gaming venue for adult gamers combining drinks and table-top games.",
+    "Offers themed cocktails and gaming tournaments.",
+    "Has Wi-Fi"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9840220776"
+  },
+  {
+   "id": "osm-n11412826374",
+   "name": "The Wine Room",
+   "topic": "bar",
+   "lat": 37.444934,
+   "lng": -122.161858,
+   "photo": false,
+   "facts": [
+    "Housed in a Ramona Street building designed by Pedro de Lemos.",
+    "Pours boutique wines from around the world by the glass.",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11412826374"
+  },
+  {
+   "id": "osm-n6300644385",
+   "name": "Miniboss",
+   "topic": "bar",
+   "lat": 37.336589,
+   "lng": -121.889186,
+   "photo": false,
+   "facts": [
+    "Arcade bar with more than 30 classic arcade games and a dozen pinball machines.",
+    "Serves Detroit-style pizzas and wings alongside inventive cocktails.",
+    "Address: 52 East Santa Clara Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6300644385"
+  },
+  {
+   "id": "osm-n1976649036",
+   "name": "Duke of Edinburgh",
+   "topic": "pub",
+   "lat": 37.334919,
+   "lng": -122.014819,
+   "photo": false,
+   "facts": [
+    "Founded in 1983 by English expats Stan Gamble, David Neale and Robert Gaines Cooper, with Bob Blair.",
+    "The pub interior was built by craftsmen in Suffolk and shipped to California in two containers.",
+    "Address: 10801 N Wolfe Rd, Cupertino"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1976649036"
+  },
+  {
+   "id": "osm-n1700572859",
+   "name": "District",
+   "topic": "bar",
+   "lat": 37.336192,
+   "lng": -121.893879,
+   "photo": false,
+   "facts": [
+    "Bar in San Pedro Square serving small shareable plates, pizza and house-made charcuterie.",
+    "Runs an extensive wine and whiskey program.",
+    "Address: 65 North San Pedro Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1700572859"
+  },
+  {
+   "id": "osm-n2629297044",
+   "name": "Kepler's Books",
+   "topic": "bookstore",
+   "lat": 37.453572,
+   "lng": -122.182219,
+   "photo": false,
+   "facts": [
+    "Peace activist Roy Kepler founded the bookstore in May 1955.",
+    "It helped lead the Bay Area paperback revolution alongside Cody's and City Lights.",
+    "The store moved to its current Menlo Center location in 1989."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2629297044"
+  },
+  {
+   "id": "osm-n2235551631",
+   "name": "Leigh's Favorite Books",
+   "topic": "bookstore",
+   "lat": 37.377283,
+   "lng": -122.030193,
+   "photo": false,
+   "facts": [
+    "Opened in 2004 by Leigh Odum as a new and used bookstore.",
+    "Its children's sister store Bookasaurus opened in 2012 next door.",
+    "Address: 121 South Murphy Avenue, Sunnyvale"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2235551631"
+  },
+  {
+   "id": "osm-n4797416829",
+   "name": "The Continental",
+   "topic": "bar",
+   "lat": 37.330651,
+   "lng": -121.886701,
+   "photo": false,
+   "facts": [
+    "Occupies the former location of Brix/Hunters and Sal & Luigi's/Mac's next to the California Theatre.",
+    "Has a patio and hosts live music and DJs.",
+    "Address: 349 South 1st Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4797416829"
+  },
+  {
+   "id": "osm-n4027106607",
+   "name": "Fibbar MaGees",
+   "topic": "pub",
+   "lat": 37.376677,
+   "lng": -122.030039,
+   "photo": false,
+   "facts": [
+    "Opened in 1994 as an Irish pub on historic Murphy Avenue.",
+    "Serves craft beers and Irish fare with a large selection of Irish whiskeys.",
+    "Opened in 1994"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4027106607"
+  },
+  {
+   "id": "osm-n4909298584",
+   "name": "Hedley Club",
+   "topic": "bar",
+   "lat": 37.334342,
+   "lng": -121.894928,
+   "photo": false,
+   "facts": [
+    "Cocktail lounge and wine bar inside the Hotel De Anza with art-deco design.",
+    "Hotel De Anza, home of the lounge, is a 1920s art deco building.",
+    "Hosts live music many nights of the week."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4909298584"
+  },
+  {
+   "id": "osm-n4559150502",
+   "name": "Bar Underdog",
+   "topic": "bar",
+   "lat": 37.4274,
+   "lng": -122.143719,
+   "photo": false,
+   "facts": [
+    "Opened in September 2025 on California Avenue from the team behind Michelin-starred Protégé.",
+    "Operates as part of DNA Hospitality.",
+    "Address: 299 California Ave, Palo Alto"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4559150502"
+  },
+  {
+   "id": "osm-n3624046602",
+   "name": "Paper Plane",
+   "topic": "bar",
+   "lat": 37.335001,
+   "lng": -121.889476,
+   "photo": true,
+   "facts": [
+    "Cocktail bar on South First Street serving artisan-style cocktails plus wine and beer.",
+    "Pairs its drinks with a small food menu.",
+    "Run by Barrel Proof, Incorporated"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3624046602"
+  },
+  {
+   "id": "osm-n3678180879",
+   "name": "55 South",
+   "topic": "bar",
+   "lat": 37.335078,
+   "lng": -121.890013,
+   "photo": false,
+   "facts": [
+    "Bar with live music and big screen TVs, serving American and Mediterranean dishes.",
+    "Serves bottomless mimosas and french toast kebabs on Sundays.",
+    "Brews its own beer"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3678180879"
+  },
+  {
+   "id": "osm-n2619982669",
+   "name": "Linden Tree Books",
+   "topic": "bookstore",
+   "lat": 37.37924,
+   "lng": -122.116976,
+   "photo": false,
+   "facts": [
+    "Linda and Dennis Ronberg started Linden Tree in 1981 and opened a Los Altos storefront in 1984.",
+    "The store moved to its current State Street location in 2011.",
+    "Chris Saccheri and Flo Grosskurth bought the store in September 2019."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2619982669"
+  },
+  {
+   "id": "osm-n4882433705",
+   "name": "The Old Wagon Saloon & Grill",
+   "topic": "bar",
+   "lat": 37.336402,
+   "lng": -121.894048,
+   "photo": false,
+   "facts": [
+    "Bar with an old west theme in San Pedro Square, serving American cuisine and BBQ.",
+    "Smokes meats in-house in a smoker named Madame Stacie.",
+    "Address: 73 North San Pedro Street, San Jose"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4882433705"
+  },
+  {
+   "id": "osm-w205809028",
+   "name": "Steins Beer Garden",
+   "topic": "beer garden",
+   "lat": 37.393952,
+   "lng": -122.079936,
+   "photo": false,
+   "facts": [
+    "Opened in March 2013, conceived by founder Ted Kim after visiting German beer gardens.",
+    "Hosted the official Mountain View Oktoberfest until 2025.",
+    "Ricky Singh took over as owner in 2025, just before the planned March closure."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/205809028"
+  },
+  {
+   "id": "osm-n571237618",
+   "name": "The Caravan Lounge",
+   "topic": "bar",
+   "lat": 37.333004,
+   "lng": -121.892373,
+   "photo": false,
+   "facts": [
+    "Began inside the San Jose Greyhound station as one of several Caravan Lounges in California bus terminals.",
+    "Owner Leo Chargin opened the current location in 1964 on a former used car lot.",
+    "Focuses on live music, karaoke and comedy nights."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/571237618"
+  },
+  {
+   "id": "osm-n1598674116",
+   "name": "Menlo Park Farmers Market",
+   "topic": "market",
+   "lat": 37.450801,
+   "lng": -122.184289,
+   "photo": true,
+   "facts": [
+    "The market opened in 1992 and is sponsored by the Menlo Park Live Oak Lions Club.",
+    "It runs year round on Sundays in a parking lot on Chestnut Street.",
+    "Opened in 1992"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1598674116"
+  },
+  {
+   "id": "osm-n2159964973",
+   "name": "Books, Inc",
+   "topic": "bookstore",
+   "lat": 37.392168,
+   "lng": -122.079783,
+   "photo": true,
+   "facts": [
+    "Books Inc. describes itself as the West's oldest independent bookseller.",
+    "The store hosts author events on Castro Street.",
+    "Wheelchair accessible"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/2159964973"
+  },
+  {
+   "id": "osm-n344024850",
+   "name": "Moods Wine Bar & Bistro",
+   "topic": "bar",
+   "lat": 37.377679,
+   "lng": -122.029419,
+   "photo": false,
+   "facts": [
+    "Opened in Palo Alto in 2017 by Mahmood and KC Saljooqi, then moved to Sunnyvale.",
+    "Menu features Afghan dishes such as khorma and aushak dumplings.",
+    "Address: 111 West Evelyn Avenue, Sunnyvale"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/344024850"
+  }
+ ],
+ "points": [
+  [
+   37.335078,
+   -121.890013,
+   0
+  ],
+  [
+   37.4274,
+   -122.143719,
+   0
+  ],
+  [
+   37.392168,
+   -122.079783,
+   1
+  ],
+  [
+   37.336192,
+   -121.893879,
+   0
+  ],
+  [
+   37.334919,
+   -122.014819,
+   0
+  ],
+  [
+   37.376677,
+   -122.030039,
+   0
+  ],
+  [
+   37.329691,
+   -121.885485,
+   0
+  ],
+  [
+   37.334342,
+   -121.894928,
+   0
+  ],
+  [
+   37.453572,
+   -122.182219,
+   0
+  ],
+  [
+   37.377283,
+   -122.030193,
+   0
+  ],
+  [
+   37.37924,
+   -122.116976,
+   0
+  ],
+  [
+   37.450801,
+   -122.184289,
+   1
+  ],
+  [
+   37.336589,
+   -121.889186,
+   0
+  ],
+  [
+   37.377679,
+   -122.029419,
+   0
+  ],
+  [
+   37.335001,
+   -121.889476,
+   1
+  ],
+  [
+   37.29406,
+   -122.090463,
+   0
+  ],
+  [
+   37.393952,
+   -122.079936,
+   0
+  ],
+  [
+   37.333004,
+   -121.892373,
+   0
+  ],
+  [
+   37.330651,
+   -121.886701,
+   0
+  ],
+  [
+   37.336402,
+   -121.894048,
+   0
+  ],
+  [
+   37.444934,
+   -122.161858,
+   0
+  ]
+ ]
+}

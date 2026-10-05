@@ -1,0 +1,318 @@
+[
+ {
+  "id": "osm-n4559150502",
+  "name": "Bar Underdog",
+  "address": "299 California Ave",
+  "city": "Palo Alto",
+  "facts": [
+   {
+    "text": "Opened in September 2025 on California Avenue from the team behind Michelin-starred Protégé.",
+    "url": "https://www.paloaltoonline.com/food/2025/09/22/the-team-behind-palo-altos-michelin-starred-protege-debuts-bar-underdog-along-california-avenue/"
+   },
+   {
+    "text": "Operates as part of DNA Hospitality.",
+    "url": "https://culinaryagents.com/entities/908151-Bar-Underdog"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4826510577",
+  "name": "iTalico",
+  "address": "341 California Ave",
+  "city": "Palo Alto",
+  "facts": [
+   {
+    "text": "Holds a Michelin Bib Gourmand.",
+    "url": "https://www.italicorestaurant.com/about"
+   },
+   {
+    "text": "Co-owned by Franco and Maico Campilongo, who were born in southern Italy.",
+    "url": "https://www.italicorestaurant.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2620593447",
+  "name": "Camper",
+  "address": "898 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "facts": [
+   {
+    "text": "Serves Californian and contemporary cuisine in a window-lined corner space.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/camper?amp=&amp="
+   },
+   {
+    "text": "Listed in the MICHELIN Guide for California.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/camper?amp=&amp="
+   }
+  ]
+ },
+ {
+  "id": "osm-n2407184266",
+  "name": "Cafe Borrone",
+  "address": "1010 El Camino Real",
+  "city": "Menlo Park",
+  "facts": [
+   {
+    "text": "Roy and Rose Borrone started the cafe in 1979 on Broadway Street in Redwood City.",
+    "url": "https://www.cafeborrone.com/family"
+   },
+   {
+    "text": "Moved to its current location with a large patio after Menlo Center was built in 1989.",
+    "url": "https://www.cafeborrone.com/family"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14244889000",
+  "name": "Sultana Mediterranean",
+  "address": "1149 El Camino Real",
+  "city": "Menlo Park",
+  "facts": [
+   {
+    "text": "Opened in 2006 in the former Le Pot au Feu site, a Menlo Park restaurant for 33 years.",
+    "url": "https://www.almanacnews.com/uncategorized/2006/05/03/food-drink-talking-turkey-new-sultana-restaurant-adds-a-touch-of-the-exotic-to-restaurant-scene/"
+   },
+   {
+    "text": "Serves Turkish cuisine, with manti as the only pasta on the menu.",
+    "url": "https://www.almanacnews.com/uncategorized/2006/05/03/food-drink-talking-turkey-new-sultana-restaurant-adds-a-touch-of-the-exotic-to-restaurant-scene/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n516267488",
+  "name": "The Village Bakery and Cafe",
+  "address": "3052 Woodside Rd",
+  "city": "Woodside",
+  "facts": [
+   {
+    "text": "Opened July 24, 2017, replacing the Woodside Bakery & Cafe that closed in 2016.",
+    "url": "https://www.almanacnews.com/news/2017/07/17/woodside-long-awaited-village-bakery--cafe-opens-monday/"
+   },
+   {
+    "text": "Operated by Bacchus Management Group, which also owns The Village Pub in Woodside.",
+    "url": "https://www.almanacnews.com/news/2017/07/17/woodside-long-awaited-village-bakery--cafe-opens-monday/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w382930142",
+  "name": "Roberts Market",
+  "address": "3015 Woodside Rd",
+  "city": "Woodside",
+  "facts": [
+   {
+    "text": "W.F. Roberts founded the family business as a butcher shop in San Francisco in 1889.",
+    "url": "https://www.robertsmarket.com/about-us/"
+   },
+   {
+    "text": "The family took over Caldwell's General Store in Woodside around 1960 and renamed it Roberts Market.",
+    "url": "https://www.robertsmarket.com/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2619982755",
+  "name": "Urfa Bistro",
+  "address": "233 State St",
+  "city": "Los Altos",
+  "facts": [
+   {
+    "text": "Named for Urfa, a city in southeastern Turkey, with dishes drawing on Kurdish, Arabic and Armenian cooking.",
+    "url": "https://urfabistro.com/about-us"
+   },
+   {
+    "text": "The chef has 20 years of experience cooking in fine restaurants.",
+    "url": "https://urfabistro.com/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n14244879816",
+  "name": "State Street Market",
+  "address": "170 State St",
+  "city": "Los Altos",
+  "facts": [
+   {
+    "text": "Opened as a food hall in a repurposed 1950s grocery store building.",
+    "url": "https://www.losaltosonline.com/business/massive-overhaul-of-state-st-building-nears-completion/article_e92db482-d3aa-11eb-aea9-b33d515045c0.html"
+   },
+   {
+    "text": "Billed as the first food hall on the Peninsula when it opened.",
+    "url": "https://www.sfchronicle.com/food/article/What-to-know-about-the-Peninsula-s-splashy-new-16441344.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-w162342024",
+  "name": "Cafe Baklava",
+  "address": "341 Castro St",
+  "city": "Mountain View",
+  "facts": [
+   {
+    "text": "Mediterranean restaurant serving Mountain View since 2005.",
+    "url": "https://www.cafebaklava.online/about"
+   },
+   {
+    "text": "Its chefs use traditional cooking techniques passed down through generations.",
+    "url": "https://www.cafebaklava.online/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w28459300",
+  "name": "Heritage Oaks Park",
+  "address": "1305 McKenzie Ave",
+  "city": "Los Altos",
+  "facts": [
+   {
+    "text": "Michael McKenzie planted the land with apricots, prunes, pears, walnuts and apples.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   },
+   {
+    "text": "Concrete abutments of McKenzie's irrigation dam are still visible in Permanente Creek here.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9933059818",
+  "name": "Emelina's Plus",
+  "address": "100 S Murphy Ave",
+  "city": "Sunnyvale",
+  "facts": [
+   {
+    "text": "Serves Peruvian home cooking including ceviches and seafood.",
+    "url": "https://emelinassunnyvale.com/"
+   },
+   {
+    "text": "The bar features Peruvian spirits such as the Pisco Sour.",
+    "url": "https://emelinassunnyvale.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2235551631",
+  "name": "Leigh's Favorite Books",
+  "address": "121 S Murphy Ave",
+  "city": "Sunnyvale",
+  "facts": [
+   {
+    "text": "Opened in 2004 by Leigh Odum as a new and used bookstore.",
+    "url": "https://www.svvoice.com/getting-to-know-leigh-odum-co-owner-of-sunnyvales-leighs-favorite-books-and-bookasaurus/"
+   },
+   {
+    "text": "Its children's sister store Bookasaurus opened in 2012 next door.",
+    "url": "https://www.svvoice.com/getting-to-know-leigh-odum-co-owner-of-sunnyvales-leighs-favorite-books-and-bookasaurus/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n692631229",
+  "name": "The Blue Pheasant",
+  "address": "22100 Stevens Creek Blvd",
+  "city": "Cupertino",
+  "facts": [
+   {
+    "text": "Has served classic American cuisine since 1974 next to the Blackberry Farm golf course.",
+    "url": "https://cupertinomuseum.org/bluePheasant.html"
+   },
+   {
+    "text": "A tank house built in 1882 by orchardist Nathan Hall stands behind the restaurant.",
+    "url": "https://cupertinomuseum.org/bluePheasant.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w399358860",
+  "name": "Blackberry Farm",
+  "address": "21979 San Fernando Ave",
+  "city": "Cupertino",
+  "facts": [
+   {
+    "text": "Includes a Native Restoration Village with Ohlone shelters behind the Blackberry Cafe.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Aquatics-and-Golf/Blackberry-Farm"
+   },
+   {
+    "text": "Has a nine-hole golf course, picnic areas and access to Stevens Creek Corridor trails.",
+    "url": "https://www.cupertino.gov/Parks-Recreation/Aquatics-and-Golf/Blackberry-Farm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w24429367",
+  "name": "Serra Park",
+  "address": "730 The Dalles Ave",
+  "city": "Sunnyvale",
+  "facts": [
+   {
+    "text": "A riverboat-themed park with a babbling brook running through it.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/59/456"
+   },
+   {
+    "text": "Has four reservable picnic sites, four tennis courts and a water play area.",
+    "url": "https://www.sunnyvale.ca.gov/Home/Components/FacilityDirectory/FacilityDirectory/59/456"
+   }
+  ]
+ },
+ {
+  "id": "osm-w336684229",
+  "name": "MACLA",
+  "address": "510 S 1st St",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Founded in 1989 out of a community mobilization on behalf of multicultural arts.",
+    "url": "https://maclaarte.org/about/mission-history/"
+   },
+   {
+    "text": "Contemporary arts space grounded in the Chicano and Latino experience.",
+    "url": "https://maclaarte.org/about/mission-history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w336684228",
+  "name": "City Lights Theater Company",
+  "address": "529 S 2nd St",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Has staged plays and musicals in downtown San Jose since 1982.",
+    "url": "https://sofadistrict.org/city-lights/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3606791587",
+  "name": "Mezcal",
+  "address": "25 West San Fernando Street",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Serves Oaxacan regional cuisine from family recipes passed down through generations.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant"
+   },
+   {
+    "text": "Specializes in homemade moles including Estofado, Coloradito and Mole Negro.",
+    "url": "https://www.sanjose.org/listings/mezcal-restaurant"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3634565755",
+  "name": "Scott's Seafood",
+  "address": "200 S First St",
+  "city": "Downtown San Jose",
+  "facts": [
+   {
+    "text": "Serves oysters, crab cakes, grilled fish and cioppino with a full bar.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0"
+   },
+   {
+    "text": "Offers indoor and outdoor patio seating plus private dining spaces.",
+    "url": "https://www.sanjose.org/listings/scotts-seafood-0"
+   }
+  ]
+ }
+]

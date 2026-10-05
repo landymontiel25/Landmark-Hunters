@@ -1,0 +1,311 @@
+{
+ "category": "parks-nature",
+ "count": 15,
+ "commonsPhotos": 6,
+ "commonsPhotoPct": 40,
+ "withFacts": 15,
+ "withHours": 1,
+ "photoSkips": [
+  {
+   "id": "osm-w35800082",
+   "name": "Glen Canyon Park",
+   "why": "reviewed: a bark close-up"
+  },
+  {
+   "id": "osm-w28671926",
+   "name": "Heron's Head Park",
+   "why": "bad imageUrl"
+  },
+  {
+   "id": "osm-w23908184",
+   "name": "Precita Park",
+   "why": "reviewed: not shown to be this park"
+  }
+ ],
+ "sample": [
+  {
+   "id": "osm-w120480164",
+   "name": "San Francisco Botanical Garden",
+   "topic": "garden",
+   "lat": 37.767359,
+   "lng": -122.469678,
+   "photo": true,
+   "facts": [
+    "A 55-acre garden showing about 8,000 kinds of plants, opened in May 1940.",
+    "Funded by a 1927 bequest from Helene Strybing, with planting begun in 1937 using WPA funds.",
+    "A stone courtyard near the 9th Avenue entrance uses stones from Hearst's Spanish monastery."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/120480164"
+  },
+  {
+   "id": "osm-w85891397",
+   "name": "Billy Goat Hill",
+   "topic": "park",
+   "lat": 37.741409,
+   "lng": -122.433269,
+   "photo": true,
+   "facts": [
+    "Became a city park in 1975 and covers 3.5 acres.",
+    "The Beacon Trail connecting it to Walter Haas Playground opened in July 2016."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/85891397"
+  },
+  {
+   "id": "osm-w35800082",
+   "name": "Glen Canyon Park",
+   "topic": "park",
+   "lat": 37.74039,
+   "lng": -122.442014,
+   "photo": false,
+   "facts": [
+    "A 66.6-acre park centered on a forested canyon with Islais Creek running through it.",
+    "Has a 3.7-mile trail network and is a Significant Natural Resource Area.",
+    "Established in 1922"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/35800082"
+  },
+  {
+   "id": "osm-w48569996",
+   "name": "Mission Bay Commons",
+   "topic": "park",
+   "lat": 37.771023,
+   "lng": -122.387986,
+   "photo": false,
+   "facts": [
+    "Spans more than two acres of lawn bookended by coastal redwoods.",
+    "San Francisco Recreation and Parks took over its management on July 1, 2023.",
+    "Address: 450 Mission Bay Blvd South, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/48569996"
+  },
+  {
+   "id": "osm-w16752409",
+   "name": "Holly Park",
+   "topic": "park",
+   "lat": 37.737217,
+   "lng": -122.419947,
+   "photo": true,
+   "facts": [
+    "One of the city's oldest public parks.",
+    "A path around the perimeter gives views of the city from the hilltop."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/16752409"
+  },
+  {
+   "id": "osm-w128241105",
+   "name": "Golden Gate Heights Park",
+   "topic": "park",
+   "lat": 37.749991,
+   "lng": -122.469568,
+   "photo": false,
+   "facts": [
+    "Cafe owner and chicken rancher Carl Larsen donated the land that became the park.",
+    "Its playground was renovated and reopened.",
+    "Run by San Francisco Recreation & Park Department"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/128241105"
+  },
+  {
+   "id": "osm-n665689214",
+   "name": "Immigrant Point Overlook",
+   "topic": "viewpoint",
+   "lat": 37.796168,
+   "lng": -122.477875,
+   "photo": false,
+   "facts": [
+    "Built in 2008 with a gift from the Sarlo Foundation of the Jewish Community Endowment Fund.",
+    "Honors those who made the journey to the United States.",
+    "Has a Woodrow Wilson quote about opening the gates to all the world engraved in stone."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/665689214"
+  },
+  {
+   "id": "osm-w606005383",
+   "name": "Grace Marchant Garden",
+   "topic": "garden",
+   "lat": 37.802063,
+   "lng": -122.403937,
+   "photo": false,
+   "facts": [
+    "Created by Grace Marchant, a former Hollywood stuntwoman who moved to Telegraph Hill in 1949.",
+    "The gardens flank both sides of the Filbert Street Steps."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/606005383"
+  },
+  {
+   "id": "osm-w93703754",
+   "name": "George Sterling Park",
+   "topic": "park",
+   "lat": 37.801441,
+   "lng": -122.420343,
+   "photo": false,
+   "facts": [
+    "Named for poet George Sterling (1869-1926).",
+    "Shares its site with the Alice Marble Tennis Courts, named for the champion.",
+    "Address: 1249 Greenwich St, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/93703754"
+  },
+  {
+   "id": "osm-w224941774",
+   "name": "Pioneer Park",
+   "topic": "park",
+   "lat": 37.802692,
+   "lng": -122.406026,
+   "photo": true,
+   "facts": [
+    "Established in 1876 on the site of the former Marine Telegraph Station.",
+    "The park surrounds Coit Tower, completed in 1933.",
+    "Established in 1876"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/224941774"
+  },
+  {
+   "id": "osm-w853562207",
+   "name": "Crane Cove Park",
+   "topic": "park",
+   "lat": 37.762551,
+   "lng": -122.387112,
+   "photo": true,
+   "facts": [
+    "A waterfront park of about 7 acres next to the Pier 70 shipyard.",
+    "Plans include restoration of historic cranes and a human-powered boating facility.",
+    "Covers about 7 acres"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/853562207"
+  },
+  {
+   "id": "osm-w32946958",
+   "name": "Huntington Park",
+   "topic": "park",
+   "lat": 37.792175,
+   "lng": -122.412176,
+   "photo": true,
+   "facts": [
+    "The land was donated to the city in 1915 by Arabella Huntington.",
+    "Occupies the site of the Huntington house destroyed in the 1906 earthquake and fire.",
+    "Has a replica of the Fontana delle Tartarughe fountain, installed in 1954."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/32946958"
+  },
+  {
+   "id": "osm-w193055100",
+   "name": "Brooks Park",
+   "topic": "park",
+   "lat": 37.717323,
+   "lng": -122.466711,
+   "photo": false,
+   "facts": [
+    "The hilltop has views of the Pacific Ocean, the Farallones and Mt. Tamalpais.",
+    "Has a community garden and native plant restoration.",
+    "Address: 373 Ramsell St, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/193055100"
+  },
+  {
+   "id": "osm-w28671926",
+   "name": "Heron's Head Park",
+   "topic": "park",
+   "lat": 37.738892,
+   "lng": -122.374643,
+   "photo": false,
+   "facts": [
+    "Its EcoCenter was certified LEED Platinum by the U.S. Green Building Council in 2013.",
+    "The EcoCenter runs off the grid with solar power and a living roof.",
+    "Its Nature Exploration Area won UNICEF's 2021 Cities Inspires Award."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/28671926"
+  },
+  {
+   "id": "osm-w23908184",
+   "name": "Precita Park",
+   "topic": "park",
+   "lat": 37.747093,
+   "lng": -122.41209,
+   "photo": false,
+   "facts": [
+    "A two-acre park between Bernal Heights and Cesar Chavez Street.",
+    "Has a playground, butterfly garden, grass field and picnic areas.",
+    "Address: 3200 Folsom St, San Francisco"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/23908184"
+  }
+ ],
+ "points": [
+  [
+   37.741409,
+   -122.433269,
+   1
+  ],
+  [
+   37.717323,
+   -122.466711,
+   0
+  ],
+  [
+   37.762551,
+   -122.387112,
+   1
+  ],
+  [
+   37.801441,
+   -122.420343,
+   0
+  ],
+  [
+   37.74039,
+   -122.442014,
+   0
+  ],
+  [
+   37.749991,
+   -122.469568,
+   0
+  ],
+  [
+   37.802063,
+   -122.403937,
+   0
+  ],
+  [
+   37.738892,
+   -122.374643,
+   0
+  ],
+  [
+   37.737217,
+   -122.419947,
+   1
+  ],
+  [
+   37.792175,
+   -122.412176,
+   1
+  ],
+  [
+   37.796168,
+   -122.477875,
+   0
+  ],
+  [
+   37.771023,
+   -122.387986,
+   0
+  ],
+  [
+   37.802692,
+   -122.406026,
+   1
+  ],
+  [
+   37.747093,
+   -122.41209,
+   0
+  ],
+  [
+   37.767359,
+   -122.469678,
+   1
+  ]
+ ]
+}

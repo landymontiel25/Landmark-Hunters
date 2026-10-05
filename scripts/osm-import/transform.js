@@ -38,9 +38,19 @@ const HISTORIC_KINDS = ['monument', 'memorial', 'building', 'castle', 'fort', 'r
 
 // Overpass QL for everything in the shape. `out center tags` gives ways and
 // relations a single point. `extra` adds elements by id ("node/123"), for
-// places the rules above don't pull (overrides.json `include`).
-export function overpassQuery(shape = MIAMI_SHAPE, extra = []) {
-  const poly = `poly:"${shape.map(([a, b]) => `${a} ${b}`).join(' ')}"`;
+// places the rules above don't pull (overrides.json `include`). `town`
+// pulls one town's admin_level 8 boundary instead of the shape, looked up
+// by name inside the shape's bounding box (Silicon Valley, regions.js).
+export function overpassQuery(shape = MIAMI_SHAPE, extra = [], { town = null } = {}) {
+  let poly = `poly:"${shape.map(([a, b]) => `${a} ${b}`).join(' ')}"`;
+  let head = '';
+  if (town) {
+    const lats = shape.map(([a]) => a);
+    const lngs = shape.map(([, b]) => b);
+    const bbox = [Math.min(...lats), Math.min(...lngs), Math.max(...lats), Math.max(...lngs)].join(',');
+    head = `rel["boundary"="administrative"]["admin_level"="8"]["name"="${town.replace(/"/g, '')}"](${bbox});\nmap_to_area->.town;\n`;
+    poly = 'area.town';
+  }
   const sel = [
     'nwr["amenity"~"^(restaurant|cafe|ice_cream|bar|pub|biergarten|nightclub|cinema|theatre|arts_centre|marketplace)$"]',
     'nwr["shop"~"^(bakery|' + SHOPS_OF_INTEREST.join('|') + ')$"]',
@@ -60,7 +70,7 @@ export function overpassQuery(shape = MIAMI_SHAPE, extra = []) {
   const ids = Object.entries(byType)
     .filter(([, list]) => list.length)
     .map(([type, list]) => `  ${type}(id:${list.join(',')});`);
-  return `[out:json][timeout:180];\n(\n${[...sel.map((s) => `  ${s}(${poly});`), ...ids].join('\n')}\n);\nout center tags;`;
+  return `[out:json][timeout:180];\n${head}(\n${[...sel.map((s) => `  ${s}(${poly});`), ...ids].join('\n')}\n);\nout center tags;`;
 }
 
 // ---- Category and Mapr tag -------------------------------------------------
@@ -580,14 +590,18 @@ export function dedupeImport(places) {
 
 // Runs the whole element list through the rules and says why each drop
 // happened, for the final report.
-export function importPlaces(elements, { catalog = [], region = 'miami', shape = MIAMI_SHAPE, wikidataFacts = {}, overrides = {}, now = new Date() } = {}) {
+// `inside(lat, lng, el)` replaces the shape test when given (a region pulled
+// town by town keeps what each town's pull returned).
+export function importPlaces(elements, { catalog = [], region = 'miami', shape = MIAMI_SHAPE, inside = null, wikidataFacts = {}, overrides = {}, now = new Date() } = {}) {
   const dropped = { noName: [], genericName: [], chainStore: [], closed: [], outside: [], notListed: [], reviewed: [], duplicateInImport: [], duplicateOfCatalog: [] };
   const candidates = [];
   for (const el of elements || []) {
     const t = el.tags || {};
     const pos = coordsOf(el);
     const label = `${el.type}/${el.id}`;
-    const include = overrides[`osm-${TYPE_LETTER[el.type]}${el.id}`]?.include || null;
+    // A hand-added place's kind (overrides.json include), or a located
+    // candidate's kind the pull rules lack (locate.js extraKind).
+    const include = overrides[`osm-${TYPE_LETTER[el.type]}${el.id}`]?.include || el.kind || null;
     if (!classify(t) && !include) {
       dropped.notListed.push(label);
       continue;
@@ -596,7 +610,7 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
       dropped.noName.push({ id: label, kind: (classify(t) || include).topic });
       continue;
     }
-    if (!pos || !insideShape(pos.lat, pos.lng, shape)) {
+    if (!pos || !(inside ? inside(pos.lat, pos.lng, el) : insideShape(pos.lat, pos.lng, shape))) {
       dropped.outside.push({ id: label, name: t.name });
       continue;
     }
@@ -641,7 +655,8 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
 // Plain one-line statements with a real link; nothing that goes stale or
 // reads as an opinion (prices, hours, phone numbers, star ratings, plans).
 export function okWebFact(f) {
-  const text = String(f?.text || '').trim();
+  // A Michelin star is an award, not a rating.
+  const text = String(f?.text || '').trim().replace(/\bMichelin stars?\b/gi, 'Michelin award');
   return (
     text.length >= 12 &&
     text.length <= 160 &&

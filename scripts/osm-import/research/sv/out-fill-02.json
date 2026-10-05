@@ -1,0 +1,635 @@
+[
+ {
+  "name": "Camper",
+  "area": "Menlo Park",
+  "address": "898 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Californian and contemporary cuisine in a window-lined corner space.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/camper?amp=&amp="
+   },
+   {
+    "text": "Listed in the MICHELIN Guide for California.",
+    "url": "https://guide.michelin.com/en/california/menlo-park/restaurant/camper?amp=&amp="
+   }
+  ]
+ },
+ {
+  "name": "Cafe Borrone",
+  "area": "Menlo Park",
+  "address": "1010 El Camino Real",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Roy and Rose Borrone started the cafe in 1979 on Broadway Street in Redwood City.",
+    "url": "https://www.cafeborrone.com/family"
+   },
+   {
+    "text": "Moved to its current location with a large patio after Menlo Center was built in 1989.",
+    "url": "https://www.cafeborrone.com/family"
+   }
+  ]
+ },
+ {
+  "name": "Bistro Vida",
+  "area": "Menlo Park",
+  "address": "641 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Ali El Safy opened the French bistro in 1998.",
+    "url": "https://www.almanacnews.com/express-newsletter-content/2024/04/10/bistro-vidas-owner-is-ready-for-an-encore-opening-a-new-cocktail-bar-in-a-spot-made-famous-by-the-grateful-dead/"
+   },
+   {
+    "text": "Specializes in classic French dishes such as cassoulet and boeuf bourguignon.",
+    "url": "https://www.almanacnews.com/express-newsletter-content/2024/04/10/bistro-vidas-owner-is-ready-for-an-encore-opening-a-new-cocktail-bar-in-a-spot-made-famous-by-the-grateful-dead/"
+   },
+   {
+    "text": "Added the adjoining cocktail bar Loretta next door in 2024.",
+    "url": "https://www.almanacnews.com/express-newsletter-content/2024/04/10/bistro-vidas-owner-is-ready-for-an-encore-opening-a-new-cocktail-bar-in-a-spot-made-famous-by-the-grateful-dead/"
+   }
+  ]
+ },
+ {
+  "name": "Mademoiselle Colette",
+  "area": "Menlo Park",
+  "address": "816 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2015 as a French patisserie in the former Sugar Shack space.",
+    "url": "https://www.paloaltoonline.com/blogs/2015/10/07/mademoiselle-colette-now-open-in-downtown-menlo-park/"
+   },
+   {
+    "text": "Founded by Debora Ferrand, an Atherton resident trained at Le Cordon Bleu.",
+    "url": "https://www.paloaltoonline.com/blogs/2015/10/07/mademoiselle-colette-now-open-in-downtown-menlo-park/"
+   },
+   {
+    "text": "Known for butter-rich croissants, now a four-location operation.",
+    "url": "https://www.paloaltoonline.com/menlo-park/2025/10/15/mademoiselle-colette-marks-10-sweet-years-on-the-peninsula/"
+   }
+  ]
+ },
+ {
+  "name": "British Bankers Club",
+  "area": "Menlo Park",
+  "address": "555 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The building was constructed in 1925 and served as Menlo Park city hall before becoming a restaurant.",
+    "url": "https://www.almanacnews.com/news/2016/12/23/at-long-last-menlo-parks-bbc-holds-soft-stealth-opening/"
+   },
+   {
+    "text": "The British Bankers Club opened in the building in 1977.",
+    "url": "https://www.almanacnews.com/news/2016/12/23/at-long-last-menlo-parks-bbc-holds-soft-stealth-opening/"
+   },
+   {
+    "text": "Reopened in December 2016 after a multi-year renovation.",
+    "url": "https://www.almanacnews.com/news/2016/12/23/at-long-last-menlo-parks-bbc-holds-soft-stealth-opening/"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Zoe",
+  "area": "Menlo Park",
+  "address": "1929 Menalto Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for the daughter of owner Kathleen Daly and run for 15 years before changing hands in 2023.",
+    "url": "https://www.almanacnews.com/news/2023/06/28/after-15-years-as-a-menlo-park-hub-mother-daughter-team-is-handing-off-cafe-zo/"
+   },
+   {
+    "text": "Hosts live music and open mic nights in the Willows neighborhood.",
+    "url": "https://www.almanacnews.com/news/2023/06/28/after-15-years-as-a-menlo-park-hub-mother-daughter-team-is-handing-off-cafe-zo/"
+   }
+  ]
+ },
+ {
+  "name": "Sultana Mediterranean",
+  "area": "Menlo Park",
+  "address": "1149 El Camino Real",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2006 in the former Le Pot au Feu site, a Menlo Park restaurant for 33 years.",
+    "url": "https://www.almanacnews.com/uncategorized/2006/05/03/food-drink-talking-turkey-new-sultana-restaurant-adds-a-touch-of-the-exotic-to-restaurant-scene/"
+   },
+   {
+    "text": "Serves Turkish cuisine, with manti as the only pasta on the menu.",
+    "url": "https://www.almanacnews.com/uncategorized/2006/05/03/food-drink-talking-turkey-new-sultana-restaurant-adds-a-touch-of-the-exotic-to-restaurant-scene/"
+   }
+  ]
+ },
+ {
+  "name": "Little Sky Bakery",
+  "area": "Menlo Park",
+  "address": "506 Santa Cruz Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened its permanent Menlo Park shop in 2022 after starting as a pop-up.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2022/04/06/popular-pop-up-little-sky-bakery-opens-permanent-shop-in-menlo-park/"
+   },
+   {
+    "text": "Owner Tian Mayimin started baking from her Menlo Park home in 2017.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2022/04/06/popular-pop-up-little-sky-bakery-opens-permanent-shop-in-menlo-park/"
+   },
+   {
+    "text": "Specializes in naturally leavened artisanal loaves and large cookies.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2022/04/06/popular-pop-up-little-sky-bakery-opens-permanent-shop-in-menlo-park/"
+   }
+  ]
+ },
+ {
+  "name": "Allied Arts Guild",
+  "area": "Menlo Park",
+  "address": "75 Arbor Rd",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Spanish Colonial buildings designed by architect Pedro de Lemos, built in 1929.",
+    "url": "https://www.almanacnews.com/ae/2014/08/20/saturday-allied-arts-guild-holds-open-house/"
+   },
+   {
+    "text": "Founders Delight and Garfield Merner modeled the gardens on those of Granada, Spain.",
+    "url": "https://www.paloaltoonline.com/environment/2023/04/13/seven-secret-gardens-of-the-650/"
+   },
+   {
+    "text": "Owned by an auxiliary that supports uncompensated care at Lucile Packard Children's Hospital.",
+    "url": "https://www.almanacnews.com/ae/2014/08/20/saturday-allied-arts-guild-holds-open-house/"
+   }
+  ]
+ },
+ {
+  "name": "The Village Bakery and Cafe",
+  "area": "Woodside",
+  "address": "3052 Woodside Rd",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened July 24, 2017, replacing the Woodside Bakery & Cafe that closed in 2016.",
+    "url": "https://www.almanacnews.com/news/2017/07/17/woodside-long-awaited-village-bakery--cafe-opens-monday/"
+   },
+   {
+    "text": "Operated by Bacchus Management Group, which also owns The Village Pub in Woodside.",
+    "url": "https://www.almanacnews.com/news/2017/07/17/woodside-long-awaited-village-bakery--cafe-opens-monday/"
+   }
+  ]
+ },
+ {
+  "name": "Alice's Restaurant",
+  "area": "Woodside",
+  "address": "17299 Skyline Blvd",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has been a restaurant since the 1950s and was named for owner Alice Taylor and the Arlo Guthrie song.",
+    "url": "https://www.almanacnews.com/news/2019/08/24/if-its-breakfast-you-want-you-can-get-it-at-alices-restaurant/"
+   },
+   {
+    "text": "Family owned and operated since the 1970s at the Four Corners intersection on Skyline Boulevard.",
+    "url": "https://www.almanacnews.com/news/2019/08/24/if-its-breakfast-you-want-you-can-get-it-at-alices-restaurant/"
+   }
+  ]
+ },
+ {
+  "name": "The Firehouse Bistro",
+  "area": "Woodside",
+  "address": "2991 Woodside Rd",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in a building that was originally Woodside's firehouse.",
+    "url": "https://www.almanacnews.com/news/2020/08/27/compromise-on-woodside-restaurants-outdoor-seating/"
+   },
+   {
+    "text": "Owned by LeeAnn and Bill Gilbert, who opened it in a building they had owned for many years.",
+    "url": "https://www.almanacnews.com/news/2020/08/27/compromise-on-woodside-restaurants-outdoor-seating/"
+   }
+  ]
+ },
+ {
+  "name": "Roberts Market",
+  "area": "Woodside",
+  "address": "3015 Woodside Rd",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "W.F. Roberts founded the family business as a butcher shop in San Francisco in 1889.",
+    "url": "https://www.robertsmarket.com/about-us/"
+   },
+   {
+    "text": "The family took over Caldwell's General Store in Woodside around 1960 and renamed it Roberts Market.",
+    "url": "https://www.robertsmarket.com/about-us/"
+   }
+  ]
+ },
+ {
+  "name": "Woodside Store",
+  "area": "Woodside",
+  "address": "",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1854 by Dr. Robert Orville Tripp and partners; it served as store, post office and dental office.",
+    "url": "https://www.almanacnews.com/woodside/2025/05/06/old-woodside-store-day-brings-people-back-to-1800s/"
+   },
+   {
+    "text": "Purchased by the county in 1940 and listed as a California Historical Landmark in 1949.",
+    "url": "https://parks.smcgov.org/woodside-store"
+   }
+  ]
+ },
+ {
+  "name": "Burgess Park",
+  "area": "Menlo Park",
+  "address": "701 Laurel St",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 9.31-acre park that anchors a civic campus with the library, gymnasium and pool.",
+    "url": "https://www.menlopark.gov/Parks/Burgess-Park"
+   },
+   {
+    "text": "Has athletic fields, courts for racquet sports, a skate park and a duck pond.",
+    "url": "https://www.menlopark.gov/Parks/Burgess-Park"
+   }
+  ]
+ },
+ {
+  "name": "Bedwell Bayfront Park",
+  "area": "Menlo Park",
+  "address": "Marsh Rd",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 160-acre nature park built on a capped landfill, with construction from 1982 to 1995.",
+    "url": "https://www.menlopark.gov/Parks/Bedwell-Bayfront-Park"
+   },
+   {
+    "text": "A 2.3-mile perimeter trail is part of the San Francisco Bay Trail.",
+    "url": "https://www.menlopark.gov/Parks/Bedwell-Bayfront-Park"
+   },
+   {
+    "text": "Surrounded on three sides by the Don Edwards San Francisco Bay National Wildlife Refuge.",
+    "url": "https://www.menlopark.gov/Parks/Bedwell-Bayfront-Park"
+   }
+  ]
+ },
+ {
+  "name": "Sharon Park",
+  "area": "Menlo Park",
+  "address": "1100 Monte Rosa Dr",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 9.83-acre park in Sharon Heights with a lake, gazebo and wooded natural areas.",
+    "url": "https://www.menlopark.gov/Parks/Sharon-Park"
+   }
+  ]
+ },
+ {
+  "name": "Nealon Park",
+  "area": "Menlo Park",
+  "address": "800 Middle Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Renamed in 1948 for James J. Nealon, who organized basketball and baseball for local boys.",
+    "url": "https://www.menlopark.gov/Parks/Nealon-Park"
+   },
+   {
+    "text": "Has a softball field, tennis and pickleball courts, a dog park and an all-abilities playground.",
+    "url": "https://www.menlopark.gov/Parks/Nealon-Park"
+   }
+  ]
+ },
+ {
+  "name": "Willow Oaks Park",
+  "area": "Menlo Park",
+  "address": "490 Willow Rd",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 2.63-acre park with tennis courts, a playground and an enclosed off-leash dog park.",
+    "url": "https://www.menlopark.gov/Parks/Willow-Oaks-Park"
+   },
+   {
+    "text": "Reopened in June 2024 after upgrades that included a new restroom building.",
+    "url": "https://www.menlopark.gov/Parks/Willow-Oaks-Park"
+   }
+  ]
+ },
+ {
+  "name": "Karl E. Clark Park",
+  "area": "Menlo Park",
+  "address": "Belle Haven",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A one-acre park dedicated in 2018 for Karl E. Clark, a WWII veteran and community leader.",
+    "url": "https://www.menlopark.gov/Parks/Karl-E.-Clark-Park"
+   }
+  ]
+ },
+ {
+  "name": "Holbrook-Palmer Park",
+  "area": "Atherton",
+  "address": "",
+  "city": "Atherton",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 22-acre park was given to the town in 1950 by Olive Holbrook-Palmer.",
+    "url": "https://www.almanacnews.com/news/2015/09/25/holbrook-palmer-park-buildings-could-get-national-historic-status/"
+   },
+   {
+    "text": "The park's carriage house (1897) and water tower (1883) are on the National Register of Historic Places.",
+    "url": "https://www.almanacnews.com/news/2015/09/25/holbrook-palmer-park-buildings-could-get-national-historic-status/"
+   }
+  ]
+ },
+ {
+  "name": "Huddart Park",
+  "area": "Woodside",
+  "address": "1100 Kings Mountain Rd",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A San Mateo County park with coast redwood forest, picnic areas, a playground and hiking and riding trails.",
+    "url": "https://parks.smcgov.org/huddart-park"
+   },
+   {
+    "text": "The Kings Mountain Trail begins above Woodside and enters the park near Kings Mountain Road.",
+    "url": "https://parks.smcgov.org/kings-mountain-trail"
+   }
+  ]
+ },
+ {
+  "name": "Wunderlich Park",
+  "area": "Woodside",
+  "address": "4040 Woodside Rd",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Contains the former Folger family ranch, bought by James A. Folger II in 1902.",
+    "url": "https://parks.smcgov.org/wunderlich-park-history"
+   },
+   {
+    "text": "Martin Wunderlich deeded 942 acres to San Mateo County in 1974 for park and open space.",
+    "url": "https://parks.smcgov.org/wunderlich-park-history"
+   },
+   {
+    "text": "The century-old Folger Stable offers trail rides, lessons and a Carriage Room museum.",
+    "url": "https://parks.smcgov.org/wunderlich-park"
+   }
+  ]
+ },
+ {
+  "name": "Coal Creek Preserve",
+  "area": "Portola Valley",
+  "address": "Alpine Rd",
+  "city": "Portola Valley",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A roughly 500-acre Midpen preserve once used by Native Americans to grind acorns and seeds.",
+    "url": "https://www.openspace.org/preserves/coal-creek"
+   },
+   {
+    "text": "Its purchase by Midpen kept the land from becoming a residential subdivision.",
+    "url": "https://www.openspace.org/preserves/coal-creek"
+   }
+  ]
+ },
+ {
+  "name": "Thornewood Preserve",
+  "area": "Woodside",
+  "address": "La Honda Rd (Highway 84)",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 167-acre Midpen preserve above Woodside with an easy walk to Schilling Lake.",
+    "url": "https://www.openspace.org/preserves/thornewood"
+   },
+   {
+    "text": "Architect Gardner Dailey designed the Thornewood house in the 1920s for Julian and Edna Thorne.",
+    "url": "https://www.openspace.org/preserves/thornewood/history"
+   }
+  ]
+ },
+ {
+  "name": "Ravenswood Preserve",
+  "area": "Menlo Park",
+  "address": "University Ave",
+  "city": "Menlo Park",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 376-acre Midpen preserve in bayside wetlands between East Palo Alto and Menlo Park.",
+    "url": "https://www.openspace.org/preserves/ravenswood-preserve"
+   },
+   {
+    "text": "The Bay Trail connection to University Avenue opened in August 2020.",
+    "url": "https://www.openspace.org/what-we-do/projects/ravenswood-bay-trail-project"
+   }
+  ]
+ },
+ {
+  "name": "Jasper Ridge Biological Preserve",
+  "area": "Woodside",
+  "address": "",
+  "city": "Woodside",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [],
+  "skipReason": "research preserve closed to the public except guided tours"
+ }
+]

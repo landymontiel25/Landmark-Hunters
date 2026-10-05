@@ -1,0 +1,994 @@
+[
+ {
+  "name": "Greens Restaurant",
+  "area": "Marina",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1979 under the San Francisco Zen Center.",
+    "url": "https://en.wikipedia.org/wiki/Greens_Restaurant"
+   },
+   {
+    "text": "Deborah Madison was the founding chef.",
+    "url": "https://en.wikipedia.org/wiki/Greens_Restaurant"
+   },
+   {
+    "text": "Occupies a converted warehouse at Fort Mason Center overlooking the Golden Gate Bridge.",
+    "url": "https://en.wikipedia.org/wiki/Greens_Restaurant"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Perry's",
+  "area": "Cow Hollow",
+  "address": "1944 Union St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Perry Butler opened it in August 1969 as a place for burgers and wine.",
+    "url": "https://www.sfchronicle.com/restaurants/article/Memories-of-Perry-s-as-the-Union-Street-14304996.php"
+   },
+   {
+    "text": "Marked its 50th anniversary on Union Street in 2019.",
+    "url": "https://www.sfchronicle.com/restaurants/article/Memories-of-Perry-s-as-the-Union-Street-14304996.php"
+   }
+  ]
+ },
+ {
+  "name": "Rose's Cafe",
+  "area": "Cow Hollow",
+  "address": "2298 Union St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has operated in Cow Hollow since 1997.",
+    "url": "https://www.rosescafesf.com/about"
+   },
+   {
+    "text": "Ava Rosemary Nicolai took ownership of Rose's Cafe and sister restaurant Terzo in December 2025.",
+    "url": "https://www.rosescafesf.com/about"
+   },
+   {
+    "text": "Cooks Italian-rooted dishes with seasonal Northern California ingredients.",
+    "url": "https://www.rosescafesf.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Balboa Cafe",
+  "area": "Cow Hollow",
+  "address": "3199 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has operated since 1913, starting out as a working-man's saloon.",
+    "url": "https://www.balboacafesf.com/about"
+   },
+   {
+    "text": "Gavin Newsom's PlumpJack Group partners acquired it in 1994 and reopened it in 1995.",
+    "url": "https://www.balboacafesf.com/about"
+   },
+   {
+    "text": "Keeps its original bar, signage and historic photos.",
+    "url": "https://www.balboacafesf.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Lucca Delicatessen",
+  "area": "Marina",
+  "address": "2120 Chestnut St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1929 by Marc \"Mike\" Bosco.",
+    "url": "https://www.sfgate.com/food/article/sf-lucca-delicatessen-classic-italian-deli-19714902.php"
+   },
+   {
+    "text": "Now in its third generation of Bosco family owners, siblings Paul Bosco and Linda Bosco-Fioretti.",
+    "url": "https://www.sfgate.com/food/article/sf-lucca-delicatessen-classic-italian-deli-19714902.php"
+   },
+   {
+    "text": "Known for fresh ravioli, a staple since it opened.",
+    "url": "https://www.sfgate.com/food/article/sf-lucca-delicatessen-classic-italian-deli-19714902.php"
+   }
+  ]
+ },
+ {
+  "name": "The Brazen Head",
+  "area": "Cow Hollow",
+  "address": "3166 Buchanan St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves a continental menu with escargot, French onion soup and a pepper steak.",
+    "url": "https://www.brazenheadsf.com/about"
+   },
+   {
+    "text": "Describes itself as a talking bar in the heart of Cow Hollow.",
+    "url": "https://www.brazenheadsf.com/about"
+   },
+   {
+    "text": "Has served over three generations of patrons.",
+    "url": "https://www.brazenheadsf.com/about"
+   }
+  ]
+ },
+ {
+  "name": "The Walt Disney Family Museum",
+  "area": "Presidio",
+  "address": "104 Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened to the public in October 2009.",
+    "url": "https://presidio.gov/explore/attractions/the-walt-disney-family-museum"
+   },
+   {
+    "text": "The Disney family, led by Diane Disney Miller, funded the reuse of three historic Presidio buildings.",
+    "url": "https://presidio.gov/explore/attractions/the-walt-disney-family-museum"
+   },
+   {
+    "text": "Is the first museum dedicated to the life and work of Walt Disney.",
+    "url": "https://presidio.gov/explore/attractions/the-walt-disney-family-museum"
+   }
+  ]
+ },
+ {
+  "name": "Presidio Officers' Club",
+  "area": "Presidio",
+  "address": "50 Moraga Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Stands where Spanish colonists first established their military presence at the Golden Gate in 1776.",
+    "url": "https://presidio.gov/explore/attractions/presidio-officers-club"
+   },
+   {
+    "text": "Surviving adobe brick walls from the early 1800s were restored in a 2014 rehabilitation with Perkins + Will.",
+    "url": "https://presidio.gov/explore/attractions/presidio-officers-club"
+   },
+   {
+    "text": "Moraga Hall was added in the 1880s for dances, performances and receptions.",
+    "url": "https://presidio.gov/explore/attractions/presidio-officers-club"
+   }
+  ]
+ },
+ {
+  "name": "Presidio Theatre",
+  "area": "Presidio",
+  "address": "99 Moraga Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1939 as the Presidio's first dedicated movie theatre.",
+    "url": "https://presidio.gov/explore/attractions/presidio-theatre"
+   },
+   {
+    "text": "Was funded through the Works Progress Administration.",
+    "url": "https://presidio.gov/explore/attractions/presidio-theatre"
+   },
+   {
+    "text": "Reopened in September 2019 after a rehabilitation funded by the Margaret E. Haas Fund.",
+    "url": "https://presidio.gov/explore/attractions/presidio-theatre"
+   }
+  ]
+ },
+ {
+  "name": "Magic Theatre",
+  "area": "Marina",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1967 by John Lion in Berkeley.",
+    "url": "https://en.wikipedia.org/wiki/Magic_Theatre"
+   },
+   {
+    "text": "Named for a location in Hermann Hesse's novel Steppenwolf.",
+    "url": "https://en.wikipedia.org/wiki/Magic_Theatre"
+   },
+   {
+    "text": "Became one of Fort Mason's first resident nonprofit companies in 1976.",
+    "url": "https://en.wikipedia.org/wiki/Magic_Theatre"
+   },
+   {
+    "text": "Premiered Sam Shepard's Buried Child in 1978.",
+    "url": "https://en.wikipedia.org/wiki/Magic_Theatre"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Immigrant Point Overlook",
+  "area": "Presidio",
+  "address": "Washington Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 2008 with a gift from the Sarlo Foundation of the Jewish Community Endowment Fund.",
+    "url": "https://presidio.gov/explore/attractions/immigrant-point-overlook"
+   },
+   {
+    "text": "Honors those who made the journey to the United States.",
+    "url": "https://presidio.gov/explore/attractions/immigrant-point-overlook"
+   },
+   {
+    "text": "Has a Woodrow Wilson quote about opening the gates to all the world engraved in stone.",
+    "url": "https://presidio.gov/explore/attractions/immigrant-point-overlook"
+   }
+  ]
+ },
+ {
+  "name": "Inspiration Point Overlook",
+  "area": "Presidio",
+  "address": "Arguello Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Looks out over the bay, the Palace of Fine Arts, Alcatraz and Angel Island.",
+    "url": "https://presidio.gov/explore/attractions/inspiration-point-overlook"
+   },
+   {
+    "text": "Is the starting plaza for the 1.4-mile Ecology Trail.",
+    "url": "https://presidio.gov/explore/attractions/inspiration-point-overlook"
+   },
+   {
+    "text": "Is reached by entering the Presidio at the Arguello Gate.",
+    "url": "https://presidio.gov/explore/attractions/inspiration-point-overlook"
+   }
+  ]
+ },
+ {
+  "name": "Mountain Lake Park",
+  "area": "Presidio",
+  "address": "Park Presidio Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Juan Bautista de Anza's expedition camped near the lake in 1776.",
+    "url": "https://presidio.gov/explore/attractions/mountain-lake"
+   },
+   {
+    "text": "Fill from the late 1930s Park Presidio Boulevard construction cut the lake's size by about 40%.",
+    "url": "https://presidio.gov/explore/attractions/mountain-lake"
+   },
+   {
+    "text": "Restoration dredged 15,600 cubic meters of sediment and reintroduced the native three-spine stickleback.",
+    "url": "https://presidio.gov/explore/attractions/mountain-lake"
+   }
+  ]
+ },
+ {
+  "name": "Batteries to Bluffs Trail",
+  "area": "Presidio",
+  "address": "25th Avenue Gate",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has 470 stairs along the coastal bluffs.",
+    "url": "https://presidio.gov/explore/attractions/batteries-to-bluffs-trail"
+   },
+   {
+    "text": "Leads to Battery Crosby, a historic gun battery.",
+    "url": "https://presidio.gov/explore/attractions/batteries-to-bluffs-trail"
+   },
+   {
+    "text": "Connects by path to Marshall's Beach.",
+    "url": "https://presidio.gov/explore/attractions/batteries-to-bluffs-trail"
+   }
+  ]
+ },
+ {
+  "name": "San Francisco National Cemetery",
+  "area": "Presidio",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designated a national cemetery on December 12, 1884.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_National_Cemetery"
+   },
+   {
+    "text": "Was the first national cemetery established on the West Coast.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_National_Cemetery"
+   },
+   {
+    "text": "General Frederick Funston, Presidio commander during the 1906 earthquake, is buried there.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_National_Cemetery"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Presidio Pet Cemetery",
+  "area": "Presidio",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Was laid out around 1952 across from the post veterinarian.",
+    "url": "https://presidio.gov/explore/attractions/presidio-pet-cemetery"
+   },
+   {
+    "text": "Has been closed to new burials since 1963.",
+    "url": "https://presidio.gov/explore/attractions/presidio-pet-cemetery"
+   },
+   {
+    "text": "A 2007 survey found more than 420 headstones for pets including cats, dogs and goldfish.",
+    "url": "https://presidio.gov/explore/attractions/presidio-pet-cemetery"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Museo ItaloAmericano",
+  "area": "Marina",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Giuliana Nardelli Haight on August 17, 1978, above Caffe Malvina in North Beach.",
+    "url": "https://en.wikipedia.org/wiki/Museo_ItaloAmericano"
+   },
+   {
+    "text": "Moved to Fort Mason Center in 1985.",
+    "url": "https://en.wikipedia.org/wiki/Museo_ItaloAmericano"
+   },
+   {
+    "text": "Offers Italian language classes from beginner to advanced.",
+    "url": "https://en.wikipedia.org/wiki/Museo_ItaloAmericano"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Warming Hut",
+  "area": "Presidio",
+  "address": "983 Marine Dr",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in a historic U.S. Engineer Storehouse reborn as a park store in 2001.",
+    "url": "https://presidio.gov/explore/attractions/warming-hut-park-store"
+   },
+   {
+    "text": "Sells coffee, hot chocolate, packaged snacks, park books and clothing.",
+    "url": "https://presidio.gov/explore/attractions/warming-hut-park-store"
+   }
+  ]
+ },
+ {
+  "name": "Crissy Field Center",
+  "area": "Presidio",
+  "address": "1199 East Beach",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First opened in 2001 after the revitalization of Crissy Field.",
+    "url": "https://presidio.gov/explore/attractions/crissy-field-center"
+   },
+   {
+    "text": "Reopened in 2022 in a fully remodeled building.",
+    "url": "https://presidio.gov/explore/attractions/crissy-field-center"
+   },
+   {
+    "text": "Is an environmental youth education center offering field trips and leadership training.",
+    "url": "https://presidio.gov/explore/attractions/crissy-field-center"
+   }
+  ]
+ },
+ {
+  "name": "Lovers' Lane",
+  "area": "Presidio",
+  "address": "Presidio Gate to Main Post",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is San Francisco's oldest footpath, running 0.6 miles from the Presidio Gate to the Main Post.",
+    "url": "https://presidio.gov/explore/attractions/lovers-lane-trail"
+   },
+   {
+    "text": "Was first used by Spanish soldiers and Franciscan missionaries.",
+    "url": "https://presidio.gov/explore/attractions/lovers-lane-trail"
+   },
+   {
+    "text": "A brick footbridge in MacArthur Meadow dates to around 1885.",
+    "url": "https://presidio.gov/explore/attractions/lovers-lane-trail"
+   }
+  ]
+ },
+ {
+  "name": "Marina Branch Library",
+  "area": "Marina",
+  "address": "1890 Chestnut St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Was the 23rd branch of the San Francisco Public Library system, opening in 1954.",
+    "url": "https://sfpl.org/locations/marina/marina-library-history"
+   },
+   {
+    "text": "Designed by the architectural firm Appleton and Wolfard.",
+    "url": "https://sfpl.org/locations/marina/marina-library-history"
+   },
+   {
+    "text": "Cost $156,742 to build.",
+    "url": "https://sfpl.org/locations/marina/marina-library-history"
+   }
+  ]
+ },
+ {
+  "name": "Fort Mason",
+  "area": "Marina",
+  "address": "Marina Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began as a Civil War coastal defense site and was named for Richard Barnes Mason in 1882.",
+    "url": "https://en.wikipedia.org/wiki/Fort_Mason"
+   },
+   {
+    "text": "Served as the principal Pacific port of embarkation in World War II.",
+    "url": "https://en.wikipedia.org/wiki/Fort_Mason"
+   },
+   {
+    "text": "Lower Fort Mason became the nonprofit Fort Mason Center in 1976.",
+    "url": "https://en.wikipedia.org/wiki/Fort_Mason"
+   }
+  ]
+ },
+ {
+  "name": "Battery Chamberlin",
+  "area": "Presidio",
+  "address": "Battery Chamberlin Rd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Completed near Baker Beach in 1904.",
+    "url": "https://presidio.gov/explore/attractions/battery-chamberlin"
+   },
+   {
+    "text": "Displays a 6-inch, 50-ton disappearing gun donated by the Smithsonian Institution in 1977.",
+    "url": "https://presidio.gov/explore/attractions/battery-chamberlin"
+   },
+   {
+    "text": "Has an underground cartridge room with exhibits on coastal defenses.",
+    "url": "https://presidio.gov/explore/attractions/battery-chamberlin"
+   }
+  ]
+ },
+ {
+  "name": "Battery Godfrey",
+  "area": "Presidio",
+  "address": "Lincoln Blvd at Merchant Rd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Completed in 1895 and active until 1943.",
+    "url": "https://presidio.gov/explore/blog/then-now-batteries-godfrey-boutelle-and-marcus-miller"
+   },
+   {
+    "text": "Housed three 12-inch guns and the first 12-inch artillery platform in the country.",
+    "url": "https://presidio.gov/explore/blog/then-now-batteries-godfrey-boutelle-and-marcus-miller"
+   },
+   {
+    "text": "Named for Captain George J. Godfrey, killed in the Philippines in 1899.",
+    "url": "https://presidio.gov/explore/blog/then-now-batteries-godfrey-boutelle-and-marcus-miller"
+   }
+  ]
+ },
+ {
+  "name": "Battery Boutelle",
+  "area": "Presidio",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1900 and named for Lieutenant Henry M. Boutelle, killed in the Philippines in 1899.",
+    "url": "https://presidio.gov/explore/blog/then-now-batteries-godfrey-boutelle-and-marcus-miller"
+   },
+   {
+    "text": "Had three five-inch rapid-fire guns.",
+    "url": "https://presidio.gov/explore/blog/then-now-batteries-godfrey-boutelle-and-marcus-miller"
+   },
+   {
+    "text": "Its guns were removed in 1918 and it was never rearmed.",
+    "url": "https://presidio.gov/explore/blog/then-now-batteries-godfrey-boutelle-and-marcus-miller"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Torpedo Wharf",
+  "area": "Presidio",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First built in 1854 to aid in the construction of Fort Point.",
+    "url": "https://presidio.gov/explore/attractions/torpedo-wharf"
+   },
+   {
+    "text": "Named for the submarine mine depot the Army built around 1907 to 1909.",
+    "url": "https://presidio.gov/explore/attractions/torpedo-wharf"
+   },
+   {
+    "text": "The current wharf dates to 1941.",
+    "url": "https://presidio.gov/explore/attractions/torpedo-wharf"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "Marshall's Beach",
+  "area": "Presidio",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Is the closest beach to the Golden Gate Bridge.",
+    "url": "https://presidio.gov/explore/attractions/marshalls-beach"
+   },
+   {
+    "text": "Is reached only via the Batteries to Bluffs Trail.",
+    "url": "https://presidio.gov/explore/attractions/marshalls-beach"
+   },
+   {
+    "text": "Lies just north of Baker Beach.",
+    "url": "https://presidio.gov/explore/attractions/marshalls-beach"
+   }
+  ],
+  "addressNote": "address not from a web result: removed"
+ },
+ {
+  "name": "El Polin Spring",
+  "area": "Presidio",
+  "address": "El Polin Loop",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Provided fresh water to the Ramaytush Ohlone, Spanish soldiers and the U.S. Army.",
+    "url": "https://presidio.gov/explore/attractions/el-polin-spring"
+   },
+   {
+    "text": "By 1812 colonial families had adobe houses here, making it San Francisco's first suburb.",
+    "url": "https://presidio.gov/explore/attractions/el-polin-spring"
+   },
+   {
+    "text": "Juana Briones lived here with her family in the early 1800s.",
+    "url": "https://presidio.gov/explore/attractions/el-polin-spring"
+   }
+  ]
+ },
+ {
+  "name": "Delarosa",
+  "area": "Marina",
+  "address": "2175 Chestnut St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First opened in 2010 on Chestnut Street.",
+    "url": "https://www.delarosasf.com/location/marina/"
+   },
+   {
+    "text": "Serves thin-crust Roman pizza, fresh pasta and craft cocktails.",
+    "url": "https://www.delarosasf.com/location/marina/"
+   },
+   {
+    "text": "Created by Ruggero Gadaldi, Adriano Paganini and Deborah Blum, the trio behind Beretta.",
+    "url": "https://www.sfgate.com/food/article/Delarosa-opens-in-the-Marina-3279491.php"
+   }
+  ]
+ },
+ {
+  "name": "Mauna Loa",
+  "area": "Cow Hollow",
+  "address": "3009 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "John and Marie Martin opened the bar in 1939 as the Silk Hat.",
+    "url": "https://www.sfgate.com/food/article/SF-dive-bar-Moana-Loa-called-after-volcano-erupted-17621661.php"
+   },
+   {
+    "text": "Was renamed Mauna Loa in 1949.",
+    "url": "https://www.sfgate.com/food/article/SF-dive-bar-Moana-Loa-called-after-volcano-erupted-17621661.php"
+   },
+   {
+    "text": "Moved to its current Fillmore Street location on June 1, 1950.",
+    "url": "https://www.sfgate.com/food/article/SF-dive-bar-Moana-Loa-called-after-volcano-erupted-17621661.php"
+   }
+  ]
+ },
+ {
+  "name": "Golden Gate Overlook",
+  "area": "Presidio",
+  "address": "Langdon Court off Lincoln Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 2012 to honor the 75th anniversary of the Golden Gate Bridge.",
+    "url": "https://presidio.gov/explore/attractions/golden-gate-overlook"
+   },
+   {
+    "text": "Is a curved concrete plaza mimicking the former artillery platforms around it.",
+    "url": "https://presidio.gov/explore/attractions/golden-gate-overlook"
+   },
+   {
+    "text": "Lines up both bridge towers between historic cypress trees.",
+    "url": "https://presidio.gov/explore/attractions/golden-gate-overlook"
+   }
+  ]
+ },
+ {
+  "name": "Pacific Overlook",
+  "area": "Presidio",
+  "address": "Lincoln Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 2012 alongside the Golden Gate Overlook.",
+    "url": "https://presidio.gov/about/press/new-presidio-overlooks-offer-golden-views"
+   },
+   {
+    "text": "Is linked to Golden Gate Overlook by an upgraded section of the California Coastal Trail.",
+    "url": "https://presidio.gov/about/press/new-presidio-overlooks-offer-golden-views"
+   }
+  ]
+ },
+ {
+  "name": "Presidio Wall Playground",
+  "area": "Presidio",
+  "address": "West Pacific Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has slides, swings, a baseball diamond, basketball, pickleball and tennis courts.",
+    "url": "https://presidio.gov/explore/attractions/presidio-wall-playground"
+   },
+   {
+    "text": "Sits near the Mountain Lake Trail, Ecology Trail and Lovers' Lane.",
+    "url": "https://presidio.gov/explore/attractions/presidio-wall-playground"
+   }
+  ]
+ },
+ {
+  "name": "Tennessee Hollow Trail",
+  "area": "Presidio",
+  "address": "Presidio Wall Playground to Crissy Field East Beach",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Runs 1.5 miles through the Presidio's largest watershed.",
+    "url": "https://presidio.gov/explore/attractions/tennessee-hollow-trail"
+   },
+   {
+    "text": "Thompson Reach, restored in 2006, was the first creek in the watershed to be daylighted.",
+    "url": "https://presidio.gov/explore/attractions/tennessee-hollow-trail"
+   },
+   {
+    "text": "MacArthur Meadow was restored in 2017 with 23,000 plants of 60 native species.",
+    "url": "https://presidio.gov/explore/attractions/tennessee-hollow-trail"
+   }
+  ]
+ },
+ {
+  "name": "Presidio Visitor Center",
+  "area": "Presidio",
+  "address": "210 Lincoln Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Building 210 was built in 1900 as a guardhouse for the Army post.",
+    "url": "https://presidio.gov/explore/blog/then-now-the-new-presidio-visitor-center"
+   },
+   {
+    "text": "Draft resisters and suspected spies were held there during World War I.",
+    "url": "https://presidio.gov/explore/blog/then-now-the-new-presidio-visitor-center"
+   },
+   {
+    "text": "Was converted in 1951 into a bank and post office.",
+    "url": "https://presidio.gov/explore/blog/then-now-the-new-presidio-visitor-center"
+   }
+  ]
+ },
+ {
+  "name": "Cow Hollow Playground",
+  "area": "Cow Hollow",
+  "address": "1 Miley St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed for toddlers and young school-age children, a block from the Union Street shops.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Cow-Hollow-Playground-235"
+   },
+   {
+    "text": "Has a clubhouse, restrooms and a reservable picnic table.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Cow-Hollow-Playground-235"
+   }
+  ]
+ },
+ {
+  "name": "Mamacita",
+  "area": "Marina",
+  "address": "2317 Chestnut St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfist.com/2017/03/20/mamacita_abruptly_shutters_after_12/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "The Tipsy Pig",
+  "area": "Marina",
+  "address": "2231 Chestnut St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfgate.com/food/article/popular-sf-gastropub-closes-after-16-years-20349516.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]

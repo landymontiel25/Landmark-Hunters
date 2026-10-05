@@ -1,0 +1,885 @@
+[
+ {
+  "name": "Burma Superstar",
+  "area": "Inner Richmond",
+  "address": "309 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened its original Clement Street location in 1992.",
+    "url": "https://www.burmasuperstar.com/heritage"
+   },
+   {
+    "text": "Has since opened additional locations in Alameda and Oakland.",
+    "url": "https://www.burmasuperstar.com/heritage"
+   },
+   {
+    "text": "Owners Desmond Htunlin and Joycelyn Lee bought it when it was set to close.",
+    "url": "https://foodgps.com/b-star-bar-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "Toy Boat Dessert Cafe",
+  "area": "Inner Richmond",
+  "address": "401 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Jesse Fink opened it in 1982 with his girlfriend at the time, Roberta.",
+    "url": "https://jweekly.com/2020/06/08/after-38-years-gregarious-toy-boat-dessert-cafe-owner-sets-sail/"
+   },
+   {
+    "text": "The cafe had vintage toys and a 1950s mechanical horse named Butterscotch that kids could ride.",
+    "url": "https://jweekly.com/2020/06/08/after-38-years-gregarious-toy-boat-dessert-cafe-owner-sets-sail/"
+   },
+   {
+    "text": "Reopened in June 2025 as Toy Boat by Jane, with baked goods from Jane.",
+    "url": "https://hoodline.com/2025/06/clement-street-ice-cream-nostalgia-gem-toy-boat-by-jane-reopens-in-sf/"
+   }
+  ]
+ },
+ {
+  "name": "Pizzetta 211",
+  "area": "Outer Richmond",
+  "address": "211 23rd Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves thin-crust pizzettas on a menu that changes every two weeks.",
+    "url": "https://www.pizzetta211.com/weekly-menu"
+   },
+   {
+    "text": "Opened in 1999 by Ria Ramsey and Sher Rogat, neither formally trained as chefs.",
+    "url": "https://goop.com/place/california/san-francisco/richmond-district-restaurants/pizzetta-211/"
+   }
+  ]
+ },
+ {
+  "name": "Hong Kong Lounge",
+  "area": "Outer Richmond",
+  "address": "5322 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Cantonese dim sum including baked pork buns, siu mai and fried sticky rice.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/hong-kong-lounge"
+   },
+   {
+    "text": "Offers Peking duck on demand, in half or whole orders.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/hong-kong-lounge"
+   }
+  ]
+ },
+ {
+  "name": "Breadbelly",
+  "area": "Inner Richmond",
+  "address": "1408 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by chefs James Wong, Clement Hsu and Katherine Campecino-Wong, who come from fine dining.",
+    "url": "https://www.breadbellysf.com/about"
+   },
+   {
+    "text": "Serves kaya toast, coconut jam piped on house-baked milk bread.",
+    "url": "https://www.breadbellysf.com/info/kaya-toast"
+   },
+   {
+    "text": "Has a second location in Dogpatch.",
+    "url": "https://www.breadbellysf.com/location"
+   }
+  ]
+ },
+ {
+  "name": "Beach Chalet",
+  "area": "Outer Richmond",
+  "address": "1000 Great Highway",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed by architect Willis Polk and opened in 1925 as a city-run restaurant with beach changing rooms.",
+    "url": "https://en.wikipedia.org/wiki/Beach_Chalet"
+   },
+   {
+    "text": "The first-floor fresco murals were painted by Lucien Labaudt in 1936 and 1937 as a WPA project.",
+    "url": "https://livingnewdeal.org/sites/beach-chalet-fresco-mural-cycle-san-francisco-ca/"
+   },
+   {
+    "text": "It is San Francisco City Landmark #179.",
+    "url": "https://noehill.com/sf/landmarks/sf179.asp"
+   }
+  ]
+ },
+ {
+  "name": "Mile Rock Beach",
+  "area": "Lands End",
+  "address": "Lands End Trail",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The beach sits between the gun fortifications of Battery Lands End and the searchlight of Battery Buck.",
+    "url": "https://www.nps.gov/goga/learn/historyculture/vestiges-lands-end-trail.htm"
+   },
+   {
+    "text": "A spur trail from the Lands End trail leads to Mile Rock Point and views of the Golden Gate.",
+    "url": "https://www.nps.gov/places/000/lands-end-trailhead.htm"
+   }
+  ]
+ },
+ {
+  "name": "Eagle's Point Overlook",
+  "area": "Lands End",
+  "address": "Lands End Coastal Trail",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Lands End stretch of the Coastal Trail runs from the Merrie Way lot to Eagle Point Overlook near Sea Cliff.",
+    "url": "https://www.nps.gov/goga/planyourvisit/landsend.htm"
+   },
+   {
+    "text": "Past Eagles Point the Coastal Trail follows the 1880s roadbed of the Ferries and Cliffhouse Railroad.",
+    "url": "https://www.nps.gov/places/000/eagle-point-trailhead.htm"
+   }
+  ]
+ },
+ {
+  "name": "USS San Francisco Memorial",
+  "area": "Lands End",
+  "address": "Lands End Coastal Trail",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A shrapnel-scarred piece of the cruiser's bridge stands here with plaques and a flagpole.",
+    "url": "https://www.nps.gov/places/000/uss-san-francisco-memorial.htm"
+   },
+   {
+    "text": "The cruiser took 45 hits and 25 fires at the Battle of Guadalcanal in 1942.",
+    "url": "https://www.nps.gov/places/000/uss-san-francisco-memorial.htm"
+   }
+  ]
+ },
+ {
+  "name": "Mountain Lake Park",
+  "area": "Inner Richmond",
+  "address": "Lake St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 15.2-acre park between the Presidio to the north and Lake Street to the south.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Mountain-Lake-Park-189"
+   },
+   {
+    "text": "Its playground was renovated with the 2012 Clean and Safe Neighborhood Parks Bond.",
+    "url": "https://sfrecpark.org/570/Mountain-Lake-Park-Playground-Improvemen"
+   },
+   {
+    "text": "Has nature trails and a dog play area among wooded knolls.",
+    "url": "https://sfrecpark.org/676/Mountain-Lake-Park-Dog-Play-Area"
+   }
+  ]
+ },
+ {
+  "name": "China Beach",
+  "area": "Sea Cliff",
+  "address": "Sea Cliff Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A small cove between Lands End and Baker Beach with a picnic area and views of the Marin Headlands.",
+    "url": "https://www.parksconservancy.org/parks/china-beach"
+   },
+   {
+    "text": "Local legend says it was named for Chinese fishermen who anchored their junks in the cove.",
+    "url": "https://www.parksconservancy.org/parks/china-beach"
+   }
+  ]
+ },
+ {
+  "name": "Camera Obscura",
+  "area": "Lands End",
+  "address": "1096 Point Lobos Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Floyd Jennings built the Giant Camera in 1946 as part of the Playland At The Beach amusement park.",
+    "url": "https://en.wikipedia.org/wiki/Camera_Obscura_(San_Francisco)"
+   },
+   {
+    "text": "It was added to the National Register of Historic Places on April 20, 2001.",
+    "url": "https://noehill.com/sf/landmarks/nat2001000522.asp"
+   }
+  ]
+ },
+ {
+  "name": "Lincoln Park Golf Course",
+  "area": "Lincoln Park",
+  "address": "300 Legion of Honor Dr",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The full 18-hole course was finished in 1917, after a 3-hole layout in 1902.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Lincoln-Park-Golf-Course-41"
+   },
+   {
+    "text": "It was the city's only municipal golf course for 23 years.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Lincoln-Park-Golf-Course-41"
+   }
+  ]
+ },
+ {
+  "name": "Pacific Cafe",
+  "area": "Outer Richmond",
+  "address": "7000 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/pacific-cafe-richmond-san-francisco-22403480.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "House of Bagels",
+  "area": "Inner Richmond",
+  "address": "5030 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/house-of-bagels-san-francisco-3",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Trad'r Sam",
+  "area": "Outer Richmond",
+  "address": "6150 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Poured its first mai tai in 1937, the year the Golden Gate Bridge opened.",
+    "url": "https://sfstandard.com/2023/11/22/san-francisco-tiki-bar-tradr-sam-richmond-district-reopened/"
+   },
+   {
+    "text": "Reopened in November 2023 after a temporary closure.",
+    "url": "https://sfstandard.com/2023/11/22/san-francisco-tiki-bar-tradr-sam-richmond-district-reopened/"
+   }
+  ]
+ },
+ {
+  "name": "The Plough and the Stars",
+  "area": "Inner Richmond",
+  "address": "116 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The pub opened April 30, 1975 as an Irish pub and live music venue.",
+    "url": "https://www.outsidelands.org/history-stop-116-clement.php"
+   },
+   {
+    "text": "The building was constructed in 1905 and housed a French laundry for most of its history.",
+    "url": "https://www.outsidelands.org/history-stop-116-clement.php"
+   }
+  ]
+ },
+ {
+  "name": "Wing Lee Bakery",
+  "area": "Inner Richmond",
+  "address": "503 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Brandon Jew of Mister Jiu's goes here for a dumpling his grandmother used to make.",
+    "url": "https://www.sfgate.com/food/article/where-michelin-starred-sf-chef-gets-dumplings-19610684.php"
+   },
+   {
+    "text": "Jew opened Mamahuhu two doors down in 2020.",
+    "url": "https://www.sfgate.com/food/article/where-michelin-starred-sf-chef-gets-dumplings-19610684.php"
+   }
+  ]
+ },
+ {
+  "name": "Moscow & Tbilisi Bakery",
+  "area": "Outer Richmond",
+  "address": "5540 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sells Russian and Georgian baked goods, including cheese blintzes and poppy seed rolls.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/moscow-tbilisi-russian-bakery"
+   },
+   {
+    "text": "Chebureki, deep-fried turnovers filled with ground beef, are a staple.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/moscow-tbilisi-russian-bakery"
+   }
+  ]
+ },
+ {
+  "name": "Wooden Charcoal Korean Village Barbecue House",
+  "area": "Inner Richmond",
+  "address": "4611 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Diners grill meat at the table over real wood charcoal.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/wooden-charcoal-korean-village-barbecue-house"
+   },
+   {
+    "text": "The two-person meal comes with ten banchan and a green onion pancake.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/wooden-charcoal-korean-village-barbecue-house"
+   }
+  ]
+ },
+ {
+  "name": "Jin Pot Shabu House",
+  "area": "Inner Richmond",
+  "address": "5158 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves all-you-can-eat shabu shabu hot pot for 90 minutes.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/jin-pot-shabu-house"
+   },
+   {
+    "text": "The first floor has a cat theme and the second floor a dog theme.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/jin-pot-shabu-house"
+   }
+  ]
+ },
+ {
+  "name": "Giorgio's Pizzeria",
+  "area": "Inner Richmond",
+  "address": "151 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Giorgio Anastasio opened it at 151 Clement St around 1972.",
+    "url": "https://commissions.sfplanning.org/hpcpackets/2020-010197LBR.pdf"
+   },
+   {
+    "text": "Anastasio sold it in 1978 to brothers Tony and Victor Contini, whose family still runs it.",
+    "url": "https://commissions.sfplanning.org/hpcpackets/2020-010197LBR.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Wako",
+  "area": "Inner Richmond",
+  "address": "211 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Awarded one Michelin star in the 2019 MICHELIN Guide California.",
+    "url": "https://guide.michelin.com/us/san-francisco/wako/restaurant"
+   },
+   {
+    "text": "Offers two omakase options: a sushi tasting menu and a full omakase.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/wako"
+   }
+  ]
+ },
+ {
+  "name": "The Coffee Movement",
+  "area": "Inner Richmond",
+  "address": "1737 Balboa St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2014; the Balboa Street shop is larger than the original Nob Hill location.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-coffee-movement-richmond"
+   },
+   {
+    "text": "Serves a coffee flight of one single-origin prepared as drip, espresso and cortado.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/the-coffee-movement-richmond"
+   }
+  ]
+ },
+ {
+  "name": "Simple Pleasures Cafe",
+  "area": "Outer Richmond",
+  "address": "3434 Balboa St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sandy Berger opened it in 1978 as a bohemian coffee shop.",
+    "url": "https://richmondsunsetnews.com/2024/04/04/outer-richmonds-simple-pleasures-cafe-a-balboa-street-landmark-since-1978/"
+   },
+   {
+    "text": "Ahmed Riad bought it in 1994 and still owns it.",
+    "url": "https://richmondsunsetnews.com/2024/04/04/outer-richmonds-simple-pleasures-cafe-a-balboa-street-landmark-since-1978/"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Bunn Mi",
+  "area": "Inner Richmond",
+  "address": "417 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Known for a crispy duck banh mi with house-made aioli and coleslaw.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/cafe-bunn-mi"
+   },
+   {
+    "text": "Its Vietnamese coffee is made with Cafe du Monde.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/cafe-bunn-mi"
+   }
+  ]
+ },
+ {
+  "name": "The Laundromat",
+  "area": "Outer Richmond",
+  "address": "3725 Balboa St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in a former laundromat and serves Detroit-style pizza and bagels.",
+    "url": "https://www.thebolditalic.com/former-laundromat-turned-idyllic-neighborhood-hang-for-detroit-pizza-sips-bagels/"
+   }
+  ]
+ },
+ {
+  "name": "Hamburger Haven",
+  "area": "Inner Richmond",
+  "address": "800 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 1960s-era Richmond District diner that reopened in June 2022.",
+    "url": "https://www.sfheritage.org/legacy-businesses/1960s-era-richmond-district-diner-hamburger-haven-to-reopen-in-june-2022/"
+   },
+   {
+    "text": "It is on San Francisco's Legacy Business Registry.",
+    "url": "https://richmondsunsetnews.com/2024/03/03/legacy-business-hamburger-haven-bounces-back-after-covid-19/"
+   }
+  ]
+ },
+ {
+  "name": "Eats",
+  "area": "Inner Richmond",
+  "address": "50 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served breakfast and lunch on Clement Street for nearly 45 years as of 2019.",
+    "url": "https://richmondsunsetnews.com/2019/11/03/eats-has-been-feeding-hungry-richmond-diners-for-nearly-45-years/"
+   }
+  ]
+ },
+ {
+  "name": "Mamahuhu",
+  "area": "Inner Richmond",
+  "address": "517 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Brandon Jew of Mister Jiu's opened it in 2020 as a homage to Chinese takeout.",
+    "url": "https://www.sfgate.com/food/article/Brandon-Jew-Mamahuhu-Chinese-takeout-San-Francisco-14975003.php"
+   },
+   {
+    "text": "Jew has since opened a second Mamahuhu location in San Francisco.",
+    "url": "https://www.sfgate.com/food/article/Mamahuhu-opening-second-SF-location-17246185.php"
+   }
+  ]
+ },
+ {
+  "name": "Dragon Beaux",
+  "area": "Outer Richmond",
+  "address": "5700 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves dim sum such as charcoal sponge cake rolls and squid ink black truffle xiao long bao.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/dragon-beaux"
+   },
+   {
+    "text": "Offers all-you-can-eat hot pot at dinner.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/dragon-beaux"
+   }
+  ]
+ },
+ {
+  "name": "Argonne Playground",
+  "area": "Inner Richmond",
+  "address": "18th Ave and Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park was established in 1926.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Argonne-Playground-231"
+   },
+   {
+    "text": "Has tennis courts, an outdoor basketball court, a clubhouse and a picnic area.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Argonne-Playground-231"
+   }
+  ]
+ },
+ {
+  "name": "Joe's Ice Cream",
+  "area": "Outer Richmond",
+  "address": "5420 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Joe Politz started it in 1959 at 5351 Geary Blvd.",
+    "url": "https://www.sf.gov/sites/default/files/2024-09/item_3c._lbr-2016-17-042_joes_ice_cream.pdf"
+   },
+   {
+    "text": "Moved half a block to its current location in 2010 after a rent increase.",
+    "url": "https://www.sf.gov/sites/default/files/2024-09/item_3c._lbr-2016-17-042_joes_ice_cream.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Pagan Restaurant",
+  "area": "Outer Richmond",
+  "address": "3199 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Burmese and Thai classics in a sit-down space.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/pagan-restaurant"
+   },
+   {
+    "text": "Named after the city of Pagan in Burma.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/pagan-restaurant"
+   }
+  ]
+ },
+ {
+  "name": "B Star Bar",
+  "area": "Inner Richmond",
+  "address": "127 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owned by Desmond Htunlin and Joycelyn Lee, who also own Burma Superstar and Eats.",
+    "url": "https://foodgps.com/b-star-bar-san-francisco/"
+   },
+   {
+    "text": "Opened down the street to absorb overflow crowds from Burma Superstar.",
+    "url": "https://foodgps.com/b-star-bar-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "Brothers Restaurant",
+  "area": "Inner Richmond",
+  "address": "4128 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1987 by two siblings and now run by three generations of the family.",
+    "url": "https://brothersrestaurantsf.com/about-us"
+   },
+   {
+    "text": "Makes its dwen-jang soybean paste in-house, a process that can take up to 6 months.",
+    "url": "https://brothersrestaurantsf.com/about-us"
+   },
+   {
+    "text": "Cooks on mesquite wood charcoal grills.",
+    "url": "https://brothersrestaurantsf.com/about-us"
+   }
+  ]
+ },
+ {
+  "name": "Genki Crepes & Mini Mart",
+  "area": "Inner Richmond",
+  "address": "330 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Combines a crepe counter with a Japanese mini mart.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/genki-crepes-maritime-boat-club-20814048.php"
+   }
+  ]
+ },
+ {
+  "name": "Hakka Restaurant",
+  "area": "Outer Richmond",
+  "address": "4401 Cabrillo St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Chinese dishes such as Peking spareribs, ma po tofu and mu shu chicken.",
+    "url": "https://hakkasanfrancisco.com/"
+   }
+  ]
+ },
+ {
+  "name": "Blue Danube Coffee House",
+  "area": "Inner Richmond",
+  "address": "306 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened in May 2016 after being closed just over a year for flood damage and repairs.",
+    "url": "https://richmondsfblog.com/2016/05/07/blue-danube-on-clement-to-finally-re-open-this-sunday/"
+   }
+  ]
+ }
+]

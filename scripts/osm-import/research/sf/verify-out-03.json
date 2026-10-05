@@ -1,0 +1,450 @@
+[
+ {
+  "id": "osm-w28671926",
+  "name": "Heron's Head Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Its EcoCenter was certified LEED Platinum by the U.S. Green Building Council in 2013.",
+    "url": "https://sfrecpark.org/1226/The-EcoCenter-at-Herons-Head-Park",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The EcoCenter runs off the grid with solar power and a living roof.",
+    "url": "https://sfrecpark.org/1226/The-EcoCenter-at-Herons-Head-Park",
+    "verdict": "ok",
+    "note": "Off-grid solar and living roof confirmed on sfrecpark EcoCenter pages (1197/1226)."
+   },
+   {
+    "text": "Its Nature Exploration Area won UNICEF's 2021 Cities Inspires Award.",
+    "url": "https://sfrecpark.org/1226/The-EcoCenter-at-Herons-Head-Park",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w853562207",
+  "name": "Crane Cove Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A waterfront park of about 7 acres next to the Pier 70 shipyard.",
+    "url": "https://sfrecpark.org/DocumentCenter/View/1613/Crane-Cove-Park-PDF",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Plans include restoration of historic cranes and a human-powered boating facility.",
+    "url": "https://sfrecpark.org/DocumentCenter/View/1613/Crane-Cove-Park-PDF",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1355379951",
+  "name": "Cotogna",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Casual sibling of Quince, run by Michael and Lindsay Tusk.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/cotogna",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Pastas include agnolotti del plin stuffed with rabbit, veal and pork.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/cotogna",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The dining room has exposed brickwork and a copper counter and bar.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/cotogna",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4343745977",
+  "name": "The Garden Court",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Covered by a stained glass dome with more than 70,000 pieces of colored glass.",
+    "url": "https://www.sfpalace.com/history/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The Palace Hotel opened on its present site on December 19, 1909.",
+    "url": "https://en.wikipedia.org/wiki/Palace_Hotel,_San_Francisco",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w225380578",
+  "name": "Sue Bierman Park",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A 4.5-acre park on land once used by Embarcadero Freeway ramps.",
+    "url": "https://en.wikipedia.org/wiki/Sue_Bierman_Park",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named for civic activist and Supervisor Sue Bierman, a leader of the Freeway Revolt.",
+    "url": "https://en.wikipedia.org/wiki/Sue_Bierman_Park",
+    "verdict": "ok",
+    "note": "Name and civic activist/Supervisor confirmed; Freeway Revolt role stated on the Sue Bierman article."
+   }
+  ]
+ },
+ {
+  "id": "osm-w151195286",
+  "name": "Hallidie Building",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Designed by Willis Polk and built in 1917; considered the first U.S. glass curtain-wall building.",
+    "url": "https://en.wikipedia.org/wiki/Hallidie_Building",
+    "verdict": "wrong",
+    "note": "Wikipedia says it is one of the country's first glass curtain walls (predated by a 1909 Kansas City building), and opened 1918 (built 1917-1918); not \"the first\"."
+   },
+   {
+    "text": "Named for cable car pioneer Andrew Smith Hallidie.",
+    "url": "https://en.wikipedia.org/wiki/Hallidie_Building",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3214153061",
+  "name": "Wild Side West",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded in 1962 by Pat Ramseyer and Nancy White, it began in Oakland.",
+    "url": "https://en.wikipedia.org/wiki/Wild_Side_West",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Moved to Bernal Heights in 1977 and bought an 1890s Italianate-style building.",
+    "url": "https://en.wikipedia.org/wiki/Wild_Side_West",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named after the 1962 film Walk on the Wild Side.",
+    "url": "https://en.wikipedia.org/wiki/Wild_Side_West",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4809154327",
+  "name": "3rd Cousin",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Chef and owner Greg Lutes opened the restaurant in 2015.",
+    "url": "https://missionlocal.org/2025/01/3rd-cousin-rustic-elegant-cuisine-in-bernal/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The menu is seasonal and hyper-local, with French, Italian and Asian leanings.",
+    "url": "https://missionlocal.org/2025/01/3rd-cousin-rustic-elegant-cuisine-in-bernal/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n12240482801",
+  "name": "Nute's",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Serves Japanese and Thai noodles, including khao soi and ramen.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/nutes",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Its tonkotsu ramen is flavored with roasted black garlic oil.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/nutes",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4782532483",
+  "name": "Pinhole Coffee",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "A multi-roaster cafe founded by JoEllen Depakakibo.",
+    "url": "https://sprudge.com/build-outs-summer-pinhole-coffee-bernal-heights-san-francisco-56921.html",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Opened in 2014 on Cortland Avenue in Bernal Heights.",
+    "url": "https://sprudge.com/build-outs-summer-pinhole-coffee-bernal-heights-san-francisco-56921.html",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n10656577670",
+  "name": "Excelsior Coffee",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Describes itself as a hard working coffee joint in love with its neighborhood.",
+    "url": "https://www.xlcrsf.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Its store blends coffee and moto culture, inspired by engines and espresso.",
+    "url": "https://www.xlcrsf.com/about",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w229326455",
+  "name": "Cioppino's",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has served Italian and seafood dishes at Fisherman's Wharf since 1997.",
+    "url": "https://www.fishermanswharf.org/italian-history/cioppinos-restaurant/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Owned by fifth-generation native San Franciscans.",
+    "url": "https://www.fishermanswharf.org/italian-history/cioppinos-restaurant/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3202476750",
+  "name": "La Taqueria",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Established in 1973 on Mission Street between 24th and 25th.",
+    "url": "https://en.wikipedia.org/wiki/La_Taqueria",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named one of America's Classics by the James Beard Foundation in 2017.",
+    "url": "https://en.wikipedia.org/wiki/La_Taqueria",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves Mission-style burritos whose recipes do not include rice.",
+    "url": "https://en.wikipedia.org/wiki/La_Taqueria",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n10648027954",
+  "name": "Kin Khao",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 2014 by chef-owner Pim Techamuanvivit.",
+    "url": "https://en.wikipedia.org/wiki/Kin_Khao",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Received a Michelin star in 2015, a year after opening.",
+    "url": "https://en.wikipedia.org/wiki/Kin_Khao",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n9326297143",
+  "name": "Hilda and Jesse",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Holds one Michelin star in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/hilda-and-jesse",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The name honors the grandparents of co-owners Ollie Liedags and Rachel Sillcocks.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/hilda-and-jesse",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves a surprise tasting menu with brunch-focused cooking.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/hilda-and-jesse",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4534868891",
+  "name": "Lazy Bear",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Began in 2009 as an underground restaurant in chef David Barzelay's apartment.",
+    "url": "https://www.lazybearsf.com/story/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Moved to its current Mission District location in 2014.",
+    "url": "https://www.lazybearsf.com/story/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Holds two Michelin stars.",
+    "url": "https://www.lazybearsf.com/story/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2166132822",
+  "name": "Quince",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Holds three Michelin stars in the 2026 MICHELIN Guide USA.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/quince",
+    "verdict": "unsupported",
+    "note": "Quince Michelin restaurant page not returned; other michelin.com pages say three stars in 2026 guide."
+   },
+   {
+    "text": "Founded in 2003 and run by Michael and Lindsay Tusk.",
+    "url": "https://www.quincerestaurant.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Serves nightly-changing tasting menus built on a partnership with Fresh Run Farm in Bolinas.",
+    "url": "https://www.quincerestaurant.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n440110077",
+  "name": "Sotto Mare",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "The building dates to 1919 and was a winery and cigar store during Prohibition.",
+    "url": "https://www.sottomaresf.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Opened as Sotto Mare Oysteria & Seafood on March 17, 2007.",
+    "url": "https://www.sottomaresf.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The Azzolino family bought the restaurant in 2014.",
+    "url": "https://www.sottomaresf.com/about",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4364025826",
+  "name": "Mister Jiu's",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has held one Michelin star for nine consecutive years.",
+    "url": "https://www.misterjius.com/about",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Housed in a landmark building that once held the Four Seas and Hang Far Low restaurants.",
+    "url": "https://www.misterjius.com/about",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n9656743737",
+  "name": "Octavia",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 2015 as the second restaurant from chef-owner Melissa Perello.",
+    "url": "https://guide.michelin.com/us/en/article/people/melissa-perello-chef-octavia-san-francisco",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Was awarded a Michelin star within its first year of business.",
+    "url": "https://guide.michelin.com/us/en/article/people/melissa-perello-chef-octavia-san-francisco",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ }
+]

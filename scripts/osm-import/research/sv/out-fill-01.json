@@ -1,0 +1,1033 @@
+[
+ {
+  "name": "Sweet Maple",
+  "area": "Downtown Palo Alto",
+  "address": "150 University Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Millionaire's Bacon, a trademarked brunch dish.",
+    "url": "https://www.paloaltoonline.com/ae/2022/02/11/hungry-for-sweet-maples-trademarked-millionaires-bacon-wait-in-line/"
+   },
+   {
+    "text": "Brought its brunch menu to downtown Palo Alto in 2022.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2022/02/09/sweet-maple-brings-its-millionaires-bacon-and-other-brunch-hits-to-downtown-palo-alto/"
+   }
+  ]
+ },
+ {
+  "name": "Meyhouse",
+  "area": "Downtown Palo Alto",
+  "address": "640 Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves contemporary Turkish cuisine rooted in Anatolian heritage, built around meze and grilled dishes.",
+    "url": "https://www.meyhouserestaurant.com/palo-alto"
+   },
+   {
+    "text": "Has a performance room designed with SFJazz for live music.",
+    "url": "https://www.meyhouserestaurant.com/jazzvenue"
+   }
+  ]
+ },
+ {
+  "name": "Fambrini's Cafe",
+  "area": "Midtown",
+  "address": "2500 El Camino Real",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served the Palo Alto neighborhood since 2011.",
+    "url": "https://www.fambriniscafe.com/about-us"
+   },
+   {
+    "text": "Grills and marinates chicken, tri tip and seafood on site for its salads, bowls and sandwiches.",
+    "url": "https://www.fambriniscafe.com/about-us"
+   }
+  ]
+ },
+ {
+  "name": "Bar Underdog",
+  "area": "California Avenue",
+  "address": "299 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in September 2025 on California Avenue from the team behind Michelin-starred Protégé.",
+    "url": "https://www.paloaltoonline.com/food/2025/09/22/the-team-behind-palo-altos-michelin-starred-protege-debuts-bar-underdog-along-california-avenue/"
+   },
+   {
+    "text": "Operates as part of DNA Hospitality.",
+    "url": "https://culinaryagents.com/entities/908151-Bar-Underdog"
+   }
+  ]
+ },
+ {
+  "name": "Sun of Wolf",
+  "area": "California Avenue",
+  "address": "406 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Covered by Palo Alto Online in 2020 for blending old-world roots with a modern sensibility.",
+    "url": "https://www.paloaltoonline.com/ae/2020/03/05/old-world-roots-meet-modern-sensibility-at-sun-of-wolf/"
+   }
+  ]
+ },
+ {
+  "name": "Naschmarkt",
+  "area": "California Avenue",
+  "address": "2323 Birch St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named after the largest open-air produce market in Vienna.",
+    "url": "https://naschmarktpaloalto.com/"
+   },
+   {
+    "text": "Focuses on Austrian and German cuisine.",
+    "url": "https://naschmarktpaloalto.com/"
+   },
+   {
+    "text": "The Palo Alto location opened on May 17, 2022.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2022/05/12/palo-alto-location-of-popular-austrian-restaurant-naschmarkt-opens-may-17/"
+   }
+  ]
+ },
+ {
+  "name": "Mademoiselle Colette",
+  "area": "Downtown Palo Alto",
+  "address": "499 Lytton Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "French patisserie and cafe with locations in Palo Alto and Atherton.",
+    "url": "https://www.mademoisellecolette.com/locations/"
+   },
+   {
+    "text": "Makes cakes and tarts alongside its pastries and cafe menu.",
+    "url": "https://www.mademoisellecolette.com/cakes-and-tarts/"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Venetia",
+  "area": "Downtown Palo Alto",
+  "address": "419 University Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened to bring the northern Italian coffee tradition to Palo Alto.",
+    "url": "https://www.cafevenetia.com/"
+   },
+   {
+    "text": "Sells Gardini chocolates.",
+    "url": "https://www.cafevenetia.com/whats-new/welcoming-the-award-winning-chocolates-by-gardini"
+   },
+   {
+    "text": "Sells Italian roasted coffee beans.",
+    "url": "https://www.cafevenetia.com/store/c3/OUR_COFFEES.html"
+   }
+  ]
+ },
+ {
+  "name": "Reposado",
+  "area": "Downtown Palo Alto",
+  "address": "236 Hamilton Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Mexican food with a tequila and mezcal program that includes flights.",
+    "url": "http://www.reposadorestaurant.com/about"
+   },
+   {
+    "text": "Makes its margaritas with 100% blue agave tequila and fresh squeezed lime juice.",
+    "url": "http://www.reposadorestaurant.com/about"
+   }
+  ]
+ },
+ {
+  "name": "The Rose & Crown",
+  "area": "Downtown Palo Alto",
+  "address": "547 Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves English pub food and ale.",
+    "url": "https://www.tripadvisor.com/Restaurant_Review-g32849-d3786190-Reviews-The_Rose_Crown_English_Food_Ale_House-Palo_Alto_California.html"
+   }
+  ]
+ },
+ {
+  "name": "Local Union 271",
+  "area": "Downtown Palo Alto",
+  "address": "271 University Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Describes itself as a circle of farms, ranches, dairies, bakeries, fisheries, breweries and wineries.",
+    "url": "https://localunion271.com/palo-alto-local-union-271-about-us"
+   },
+   {
+    "text": "Sources from Happy Boy Farms, Tomales Bay Oyster Co. and Straus Family Creamery among others.",
+    "url": "https://localunion271.com/palo-alto-local-union-271-about-us"
+   }
+  ]
+ },
+ {
+  "name": "Taverna",
+  "area": "Downtown Palo Alto",
+  "address": "800 Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in April 2018 in downtown Palo Alto.",
+    "url": "https://www.tavernarestaurant.net/"
+   },
+   {
+    "text": "Founded by longtime friends Thanasis Pashalidis and Hakan Bala.",
+    "url": "https://www.tavernarestaurant.net/"
+   },
+   {
+    "text": "Serves Hellenic cuisine using local seasonal ingredients.",
+    "url": "https://www.tavernarestaurant.net/"
+   }
+  ]
+ },
+ {
+  "name": "Jin Sho",
+  "area": "California Avenue",
+  "address": "454 S California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Run by executive chefs Noriomi Kaneko and Ichiro Takahashi, who come from Nobu in New York.",
+    "url": "https://www.shoppaloalto.com/jinsho"
+   }
+  ]
+ },
+ {
+  "name": "MacArthur Park",
+  "area": "Downtown Palo Alto",
+  "address": "27 University Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Occupies a building designed by Julia Morgan as a World War I YWCA Hostess House.",
+    "url": "https://macpark.com/about/"
+   },
+   {
+    "text": "The building served visiting families of soldiers at Camp Fremont before moving to Palo Alto.",
+    "url": "https://macpark.com/about/"
+   },
+   {
+    "text": "Has operated as a restaurant since 1981.",
+    "url": "https://macpark.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Bevri",
+  "area": "Downtown Palo Alto",
+  "address": "335 University Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 as the Bay Area's first Georgian restaurant.",
+    "url": "https://www.bevri.com/about"
+   },
+   {
+    "text": "The name means \"a lot\" in Georgian.",
+    "url": "https://www.bevri.com/about"
+   },
+   {
+    "text": "Serves wood-oven khachapuri and hand-folded khinkali.",
+    "url": "https://www.bevri.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Pacific Art League",
+  "area": "Downtown Palo Alto",
+  "address": "668 Ramona St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1921 as the Palo Alto Art Club.",
+    "url": "https://www.pacificartleague.org/mission"
+   },
+   {
+    "text": "Has owned its Birge Clark designed Spanish Revival building since 1965.",
+    "url": "https://www.pacificartleague.org/mission"
+   }
+  ]
+ },
+ {
+  "name": "Palo Alto Art Center",
+  "area": "Palo Alto",
+  "address": "1313 Newell Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Runs Project Look, a school tour program in its contemporary art gallery.",
+    "url": "https://www.cityofpaloalto.org/files/assets/public/v/1/community-services/art-center/art-center-programs/project-look-childrens-education/project_look_brochure_web.pdf"
+   },
+   {
+    "text": "Keeps an archive of its exhibitions dating back to 1971.",
+    "url": "https://www.cityofpaloalto.org/files/assets/public/v/1/community-services/art-center/exhibitions/palo-alto-art-center-exhibition-archive-1971-2021.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Museum of American Heritage",
+  "area": "Professorville",
+  "address": "351 Homer Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A history of technology museum in the 1907 Williams house, designed by Ernest Coxhead.",
+    "url": "https://www.moah.org/who-we-are"
+   },
+   {
+    "text": "Rhona Williams left the home and garden to Palo Alto in 1989 for cultural use.",
+    "url": "https://www.moah.org/who-we-are"
+   }
+  ]
+ },
+ {
+  "name": "Palo Alto Junior Museum & Zoo",
+  "area": "Palo Alto",
+  "address": "1451 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Its expanded building reopened in November 2021.",
+    "url": "https://www.paloaltoonline.com/news/2021/10/29/its-back-expanded-junior-museum-and-zoo-to-reopen-on-nov-12-3/"
+   }
+  ]
+ },
+ {
+  "name": "Lucy Evans Baylands Nature Interpretive Center",
+  "area": "Baylands",
+  "address": "2775 Embarcadero Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Occupies an A-frame barn built by Dr. Russel V. Lee, who bought the land in 1941.",
+    "url": "https://www.cityofpaloalto.org/gov/depts/csd/parks/preserves/baylands.asp"
+   },
+   {
+    "text": "Sits within the 1,940-acre Baylands Nature Preserve.",
+    "url": "https://www.cityofpaloalto.org/gov/depts/csd/parks/preserves/baylands.asp"
+   }
+  ]
+ },
+ {
+  "name": "Mitchell Park",
+  "area": "Midtown",
+  "address": null,
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 21.4-acre district park that opened in 1957.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Mitchell-Park"
+   },
+   {
+    "text": "Home to Magical Bridge Playground, an inclusive playground that opened in April 2015.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Mitchell-Park"
+   }
+  ],
+  "addressNote": "address was a search term, not from a result: removed"
+ },
+ {
+  "name": "Rinconada Park",
+  "area": "Old Palo Alto",
+  "address": "777 Embarcadero Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1922 as Waterworks and renamed Rinconada two years later.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Rinconada-Park"
+   },
+   {
+    "text": "Home to the city's municipal swimming pool.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Rinconada-Park"
+   }
+  ]
+ },
+ {
+  "name": "Eleanor Pardee Park",
+  "area": "Palo Alto",
+  "address": "851 Center Dr",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 9.6-acre neighborhood park with community gardens.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Eleanor-Pardee-Park"
+   },
+   {
+    "text": "Named for Eleanor Pardee; her mother deeded the property to the city in 1920.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Eleanor-Pardee-Park"
+   }
+  ]
+ },
+ {
+  "name": "Hoover Park",
+  "area": "Palo Alto",
+  "address": "2901 Cowper St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for Herbert Hoover, the 31st president.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Hoover-Park"
+   },
+   {
+    "text": "A 4.2-acre park bordered by Matadero Creek.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Hoover-Park"
+   }
+  ]
+ },
+ {
+  "name": "Esther Clark Park",
+  "area": "Palo Alto",
+  "address": "Old Adobe Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A nature preserve of grassland and oak trees.",
+    "url": "https://www.cityofpaloalto.org/files/assets/public/v/2/public-works/engineering-services/webpages/pf-93009-ada-transition-plan/ada-transition-plan-reports/ada-transition-plan-esther-clark-park-preserve-20210414.pdf"
+   },
+   {
+    "text": "Dr. Esther Clark sold the land to the city on the condition it stay open space.",
+    "url": "https://www.cityofpaloalto.org/files/assets/public/v/2/public-works/engineering-services/webpages/pf-93009-ada-transition-plan/ada-transition-plan-reports/ada-transition-plan-esther-clark-park-preserve-20210414.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Bol Park",
+  "area": "Barron Park",
+  "address": "3590 Laguna Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 13.8-acre park in Barron Park bordered by Matadero Creek.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Bol-Park"
+   },
+   {
+    "text": "Named for Stanford physicist Cornelis Bol, who bought the donkey pasture in the 1930s.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Bol-Park"
+   },
+   {
+    "text": "Opened to the public in April 1974.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Bol-Park"
+   }
+  ]
+ },
+ {
+  "name": "Johnson Park",
+  "area": "Downtown North",
+  "address": "268 Waverley St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 2.5-acre park, renamed in 1986 for Dr. Edith Eugenie Johnson.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Johnson-Park"
+   },
+   {
+    "text": "Originally called Downtown Park North.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Johnson-Park"
+   }
+  ]
+ },
+ {
+  "name": "Byxbee Park",
+  "area": "Baylands",
+  "address": "2375 Embarcadero Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1991 with earthworks by Peter Richards and Michael Oppenheimer.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Byxbee-Park"
+   },
+   {
+    "text": "Designated as an art park within the Baylands Preserve.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Byxbee-Park"
+   }
+  ]
+ },
+ {
+  "name": "Gamble Garden",
+  "area": "Old Palo Alto",
+  "address": "1431 Waverley St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Elizabeth Gamble left her house and garden to the city on her death in 1981.",
+    "url": "https://www.gamblegarden.org/about/mission-and-history/"
+   },
+   {
+    "text": "Became a public garden in 1985, supported by a nonprofit horticultural foundation.",
+    "url": "https://www.gamblegarden.org/about/mission-and-history/"
+   },
+   {
+    "text": "Elizabeth Gamble was the granddaughter of Procter & Gamble co-founder James Gamble.",
+    "url": "https://www.gamblegarden.org/about/mission-and-history/"
+   }
+  ]
+ },
+ {
+  "name": "Lucie Stern Community Center",
+  "area": "Palo Alto",
+  "address": "1305 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed by Birge Clark and built in 1934.",
+    "url": "http://www.cityofpaloalto.org/luciestern"
+   },
+   {
+    "text": "Its theatre is used by TheatreWorks, the Palo Alto Players and West Bay Opera.",
+    "url": "http://www.cityofpaloalto.org/luciestern"
+   }
+  ]
+ },
+ {
+  "name": "Peers Park",
+  "area": "Evergreen Park",
+  "address": "1899 Park Blvd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has redwoods grown from seeds that orbited aboard Space Shuttle Challenger in 1985.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Peers-Park"
+   },
+   {
+    "text": "Named for Alexander Peers, first president of Mayfield's bank.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Peers-Park"
+   }
+  ]
+ },
+ {
+  "name": "El Camino Park",
+  "area": "Palo Alto",
+  "address": "El Camino Real",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1914 as Palo Alto's oldest park.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/El-Camino-Park"
+   },
+   {
+    "text": "Sits on Stanford land that the city has leased since 1915.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/El-Camino-Park"
+   }
+  ]
+ },
+ {
+  "name": "Ramos Park",
+  "area": "Palo Alto",
+  "address": "800 East Meadow Dr",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1958 and named for Don Jesus Ramos.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Ramos-Park"
+   },
+   {
+    "text": "A 4.4-acre neighborhood park.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Ramos-Park"
+   }
+  ]
+ },
+ {
+  "name": "Robles Park",
+  "area": "Palo Alto",
+  "address": "4116 Park Blvd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First called Mayfield, then renamed in 1968.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Robles-Park"
+   },
+   {
+    "text": "Named for Don Secundino Robles, who bought Rancho Rincon de San Francisquito in 1847.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Robles-Park"
+   }
+  ]
+ },
+ {
+  "name": "Heritage Park",
+  "area": "Professorville",
+  "address": "300 Homer Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on March 12, 2006 on the former Palo Alto Medical Foundation site.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Heritage-Park"
+   },
+   {
+    "text": "A sentinel redwood anchors the 2.01-acre park.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Heritage-Park"
+   }
+  ]
+ },
+ {
+  "name": "Greer Park",
+  "area": "Palo Alto",
+  "address": "1098 Amarillo Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 22-acre multipurpose park.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Greer-Park"
+   },
+   {
+    "text": "Its skate bowl, built in 1990, is among the oldest on the West Coast.",
+    "url": "https://www.cityofpaloalto.org/Departments/Community-Services/Open-Space-Parks/Neighborhood-Parks/Greer-Park"
+   }
+  ]
+ },
+ {
+  "name": "Baylands Golf Links",
+  "area": "Baylands",
+  "address": "1875 Embarcadero Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened in May 2018 after a two-year reconfiguration of the municipal course.",
+    "url": "https://www.cityofpaloalto.org/Residents/Recreation/Baylands-Golf-Links"
+   },
+   {
+    "text": "Uses recycled water on salt-tolerant paspalum fairways.",
+    "url": "https://www.cityofpaloalto.org/Residents/Recreation/Baylands-Golf-Links"
+   }
+  ]
+ },
+ {
+  "name": "Cubberley Community Center Theatre",
+  "area": "Palo Alto",
+  "address": "4000 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 317-seat theatre added in the early 1960s.",
+    "url": "http://www.cityofpaloalto.org/gov/depts/csd/facilities/cubberley_theatre.asp"
+   },
+   {
+    "text": "The city has leased the former Cubberley High School site since 1989.",
+    "url": "http://www.cityofpaloalto.org/gov/depts/csd/facilities/cubberley_theatre.asp"
+   }
+  ]
+ },
+ {
+  "name": "Mitchell Park Library",
+  "area": "Midtown",
+  "address": "3700 Middlefield Rd",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The joint library and community center opened on December 6, 2014.",
+    "url": "https://library.cityofpaloalto.org/locations/m/"
+   },
+   {
+    "text": "Achieved LEED Platinum certification.",
+    "url": "https://library.cityofpaloalto.org/blogs/post/mitchell-park-library-community-center-10-year-anniversary/"
+   }
+  ]
+ },
+ {
+  "name": "iTalico",
+  "area": "California Avenue",
+  "address": "341 California Ave",
+  "city": "Palo Alto",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Holds a Michelin Bib Gourmand.",
+    "url": "https://www.italicorestaurant.com/about"
+   },
+   {
+    "text": "Co-owned by Franco and Maico Campilongo, who were born in southern Italy.",
+    "url": "https://www.italicorestaurant.com/about"
+   }
+  ]
+ },
+ {
+  "name": "The Wine Room",
+  "area": "Downtown Palo Alto",
+  "address": "520 Ramona St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in a Ramona Street building designed by Pedro de Lemos.",
+    "url": "https://www.paloaltoonline.com/uncategorized/2008/03/07/the-jewel-of-ramona-street/"
+   },
+   {
+    "text": "Pours boutique wines from around the world by the glass.",
+    "url": "https://thepawineroom.com/"
+   }
+  ]
+ },
+ {
+  "name": "Scotty's Bar & Grill",
+  "area": "Downtown Palo Alto",
+  "address": "548 Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A neighborhood bar and grill in downtown Palo Alto.",
+    "url": "https://www.scottysbarpa.com/"
+   }
+  ]
+ },
+ {
+  "name": "Sancho's Taqueria",
+  "area": "Downtown Palo Alto",
+  "address": "491 Lytton Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves fish tacos and California burritos.",
+    "url": "https://sanchostaqueria.com/lytton-ave"
+   }
+  ]
+ },
+ {
+  "name": "Rangoon Ruby",
+  "area": "Downtown Palo Alto",
+  "address": "445 Emerson St",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Burmese food from Chef Max Lee, including tea leaf salad.",
+    "url": "https://rangoonrubypa.com/palo-alto-burma-ruby-rangoon-ruby-palo-alto-about"
+   },
+   {
+    "text": "Its bar serves tiki cocktails.",
+    "url": "https://rangoonrubypa.com/palo-alto-burma-ruby-rangoon-ruby-palo-alto-about"
+   }
+  ]
+ },
+ {
+  "name": "Antonio's Nut House",
+  "area": "California Avenue",
+  "address": "321 California Ave",
+  "city": "Palo Alto",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.paloaltoonline.com/news/2022/01/05/new-plan-would-refurbish-partially-demolish-nut-house-building/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]

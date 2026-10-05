@@ -1,5 +1,9 @@
 # Web research for imported places
 
+San Francisco and Silicon Valley work the other way round (research first,
+then OpenStreetMap): see `docs/sf-import/README.md` and the prompts in
+`sf/`.
+
 Miami: `batch-NN.json` here holds 30 places each (1,069 total), ordered
 landmarks first, food last. `done.json` lists the place ids already researched
 (all 1,069 as of 2026-10-03). Philadelphia + Villanova: the same files in

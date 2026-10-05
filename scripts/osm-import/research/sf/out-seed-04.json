@@ -1,0 +1,825 @@
+[
+ {
+  "name": "April Jean",
+  "area": "North Beach",
+  "address": "1371 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in the longtime home of the Grant & Green Saloon.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/april-jean-bar-sf-19523598.php"
+   },
+   {
+    "text": "Owned by Jamal Blake-Williams and Nate Valentine of Harper & Rye and Peacekeeper, with Joe Poz.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/april-jean-bar-sf-19523598.php"
+   },
+   {
+    "text": "Named for the owners' mothers, with photos of them inside the bar.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/april-jean-bar-sf-19523598.php"
+   }
+  ]
+ },
+ {
+  "name": "Céleste",
+  "area": "Cow Hollow",
+  "address": "2165 Union St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in the former West Coast Wine & Cheese space on Union Street.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/celeste-wine-bar-18418413.php"
+   },
+   {
+    "text": "Comes from Lalo Luevano and Paria Sedigh, partners behind Bodega and Key Klub.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/celeste-wine-bar-18418413.php"
+   },
+   {
+    "text": "The kitchen serves Greek coast-inspired dishes such as fish crudo and barbecued skewers.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/celeste-wine-bar-18418413.php"
+   }
+  ]
+ },
+ {
+  "name": "Bar Part Time",
+  "area": "Mission",
+  "address": "496 14th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A natural wine bar and nightclub run by founders Justin Dolezal, Jeremy Castillo and Dan Small.",
+    "url": "https://ra.co/news/76103"
+   },
+   {
+    "text": "Opened in September 2021 with a party featuring LCD Soundsystem's James Murphy.",
+    "url": "https://ra.co/news/76103"
+   },
+   {
+    "text": "The dance floor has a Danley soundsystem.",
+    "url": "https://ra.co/news/76103"
+   }
+  ]
+ },
+ {
+  "name": "El Rio",
+  "area": "Mission",
+  "address": "3158 Mission St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1978 and recognized as a Legacy Business by the San Francisco Small Business Commission.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   },
+   {
+    "text": "Founded by Malcolm Thornley and Robert Nett, inspired by leather motorcycles and Brazil.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   },
+   {
+    "text": "Salsa Sundays, a live Latin music party, has run for over 30 years.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   }
+  ]
+ },
+ {
+  "name": "Pagan Idol",
+  "area": "Financial District",
+  "address": "375 Bush St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A tiki bar in the former home of Tiki Bob's Mainland Rendezvous.",
+    "url": "https://www.paganidol.com/"
+   },
+   {
+    "text": "Comes from the team behind Bourbon & Branch, Tradition and Rickhouse.",
+    "url": "https://www.paganidol.com/"
+   },
+   {
+    "text": "The front bar is built like the inside of a wooden ship.",
+    "url": "https://www.paganidol.com/"
+   }
+  ]
+ },
+ {
+  "name": "Cavaña",
+  "area": "Mission Bay",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Key Klub",
+  "area": "Lower Nob Hill",
+  "address": "850 Bush St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Soft-opened in Lower Nob Hill in December 2021.",
+    "url": "https://sfist.com/2021/12/09/key-klub-a-new-wine-bar/"
+   },
+   {
+    "text": "Revives the name of a 1950s nightclub that was at the same address.",
+    "url": "https://www.sfchronicle.com/food/wine/article/SF-natural-wine-17117847.php"
+   }
+  ]
+ },
+ {
+  "name": "Bar Gemini",
+  "area": "Mission",
+  "address": "2845 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owned by Dominique Henderson and Alex Pomerantz, who also own Gemini Bottle Co.",
+    "url": "https://www.sfchronicle.com/food/wine/article/bar-gemini-mission-district-18100811.php"
+   },
+   {
+    "text": "Food comes from chef Brandon Rice of the Michelin-recognized Ernest nearby.",
+    "url": "https://www.sfchronicle.com/food/wine/article/bar-gemini-mission-district-18100811.php"
+   },
+   {
+    "text": "The wine list is organic or biodynamic wines with no additions.",
+    "url": "https://www.sfchronicle.com/food/wine/article/bar-gemini-mission-district-18100811.php"
+   }
+  ]
+ },
+ {
+  "name": "High Treason",
+  "area": "Inner Richmond",
+  "address": "443 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on Clement Street in early 2016.",
+    "url": "https://richmondsfblog.com/2016/02/08/high-treason-new-clement-street-wine-bar-is-open-for-business/"
+   },
+   {
+    "text": "Opened by sommeliers Michael Ireland, formerly of Meadowood and Quince, and John Vuong, of Ame and Gary Danko.",
+    "url": "https://www.sfgate.com/restaurants/article/High-Treason-is-a-wine-bar-that-s-just-right-7243941.php"
+   }
+  ]
+ },
+ {
+  "name": "Birba",
+  "area": "Hayes Valley",
+  "address": "458 Grove St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in spring 2015 by owner Angela Valgiusti, a longtime San Francisco sommelier.",
+    "url": "http://www.birbawine.com/"
+   },
+   {
+    "text": "Birba means little troublemaker; the bar has a garden patio.",
+    "url": "http://www.birbawine.com/"
+   }
+  ]
+ },
+ {
+  "name": "Arlequin Wine Merchant",
+  "area": "Hayes Valley",
+  "address": "384A Hayes St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A wine shop that is part of The Absinthe Group.",
+    "url": "https://www.arlequinwinemerchant.com/"
+   }
+  ]
+ },
+ {
+  "name": "Fool's Errand",
+  "area": "NoPa",
+  "address": "639A Divisadero St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 by owner John Dampeer.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice"
+   },
+   {
+    "text": "Dampeer previously ran Caskhouse in Noe Valley and Hamlet.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice"
+   },
+   {
+    "text": "A cellar-like bar between Hayes and Grove streets.",
+    "url": "https://sf.gazetteer.co/drinking-companion-fools-errand-is-the-wise-choice"
+   }
+  ]
+ },
+ {
+  "name": "El Chato",
+  "area": "Mission",
+  "address": "2301 Bryant St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A walk-in-only Spanish taberna serving wines by the glass and vermouth.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/el-chato"
+   },
+   {
+    "text": "The menu has tapas, pintxos and cured meats, and guests are handed a porron.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/el-chato"
+   }
+  ]
+ },
+ {
+  "name": "Parachute",
+  "area": "Ferry Building",
+  "address": "Ferry Building",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened at the Ferry Building on September 4, 2025.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/parachute-bakery-sf-ferry-building-20886851.php"
+   },
+   {
+    "text": "Founded by Alex Hong and Joel Wilkerson of Michelin-starred Sorrel, with head baker Nasir Armar.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/parachute-bakery-sf-ferry-building-20886851.php"
+   },
+   {
+    "text": "Won the Best Croissant San Francisco 2026 competition.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/best-croissant-san-francisco-2026-parachute-bakery-22295970.php"
+   }
+  ]
+ },
+ {
+  "name": "Hahdough",
+  "area": "NoPa",
+  "address": "1221 Fell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A German konditorei owned by Ha Do, who grew up in Germany.",
+    "url": "https://sfstandard.com/2022/07/29/konditorei-hahdough-approaches-the-pastry-business-with-german-precision/"
+   },
+   {
+    "text": "Ha Do and her husband sold at Bay Area farmers markets for three years before opening the shop.",
+    "url": "https://sfstandard.com/2022/07/29/konditorei-hahdough-approaches-the-pastry-business-with-german-precision/"
+   }
+  ]
+ },
+ {
+  "name": "Kahnfections",
+  "area": "Mission",
+  "address": "3321 20th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founder Judy Kahn opened the bakery in May 2017.",
+    "url": "https://kahnfections.com/about-us-mission-district-source-for-classic-breakfast-pastries/"
+   },
+   {
+    "text": "Kahn trained at Tante Marie's Cooking School and interned at Tartine.",
+    "url": "https://kahnfections.com/about-us-mission-district-source-for-classic-breakfast-pastries/"
+   }
+  ]
+ },
+ {
+  "name": "Lung Fung Bakery",
+  "area": "Inner Richmond",
+  "address": "1823 Clement St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Chinese bakery known for baked BBQ pork buns.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/lung-fung"
+   },
+   {
+    "text": "Also makes ham and corn buns and green onion buns.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/lung-fung"
+   }
+  ]
+ },
+ {
+  "name": "Eastern Bakery",
+  "area": "Chinatown",
+  "address": "720 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1924 by the Lee family; it is the oldest bakery in Chinatown.",
+    "url": "https://www.sfgate.com/food/article/Chinatown-oldest-Eastern-bakery-San-Francisco-15662074.php"
+   },
+   {
+    "text": "President Bill Clinton stopped by in 1996 to buy pastries.",
+    "url": "https://www.sfgate.com/food/article/Chinatown-oldest-Eastern-bakery-San-Francisco-15662074.php"
+   }
+  ]
+ },
+ {
+  "name": "Mitchell's Ice Cream",
+  "area": "Noe Valley",
+  "address": "688 San Jose Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Brothers Larry and Jack Mitchell opened it on June 6, 1953.",
+    "url": "https://mitchellsicecream.com/about/"
+   },
+   {
+    "text": "In the early 1960s it was the first to introduce mango ice cream to the Bay Area.",
+    "url": "https://mitchellsicecream.com/about/"
+   },
+   {
+    "text": "Still owned and operated by the Mitchell family.",
+    "url": "https://mitchellsicecream.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Swensen's",
+  "area": "Russian Hill",
+  "address": "1999 Hyde St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1948 by Earle Swensen at the corner of Union and Hyde.",
+    "url": "https://swensensofsf.com/about-us/"
+   },
+   {
+    "text": "Current owner Richard Campana started working there at age fifteen.",
+    "url": "https://swensensofsf.com/about-us/"
+   }
+  ]
+ },
+ {
+  "name": "Humphry Slocombe",
+  "area": "Mission",
+  "address": "2790A Harrison St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/humphry-slocombe-closes-19846651.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Garden Creamery",
+  "area": "Mission",
+  "address": "3566 20th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Ice cream is made with Straus organic dairy.",
+    "url": "https://gardencreamery.com/products/"
+   },
+   {
+    "text": "Sorbets and vegan ice creams are coconut-based and sweetened with organic agave nectar.",
+    "url": "https://gardencreamery.com/products/"
+   }
+  ]
+ },
+ {
+  "name": "Smitten Ice Cream",
+  "area": "Mission",
+  "address": "904 Valencia St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founder Robyn Sue Fisher invented the Brrr machine, which makes ice cream to order with liquid nitrogen.",
+    "url": "https://www.smittenicecream.com/brrr-machine/"
+   },
+   {
+    "text": "Fisher started in 2009 as a street cart vendor with a prototype machine on a Radio Flyer wagon.",
+    "url": "https://www.smittenicecream.com/origin-story/"
+   },
+   {
+    "text": "The Valencia Street shop reopened in November 2023 after a vandalism closure.",
+    "url": "https://missionlocal.org/2023/11/smitten-ice-creamery-reopens-after-vandalism/"
+   }
+  ]
+ },
+ {
+  "name": "Lush Gelato",
+  "area": "North Beach",
+  "address": "520 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The first facility licensed by California to make gelato from scratch in San Francisco.",
+    "url": "https://www.lushgelato.com/about"
+   },
+   {
+    "text": "Production moved to the North Beach shop in 2020.",
+    "url": "https://www.lushgelato.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Polly Ann Ice Cream",
+  "area": "Outer Sunset",
+  "address": "3138 Noriega St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An Outer Sunset ice cream parlor since 1955.",
+    "url": "https://www.pollyann.com/about/"
+   },
+   {
+    "text": "Known for Asian-inspired flavors and featured on Anthony Bourdain's TV show.",
+    "url": "https://www.pollyann.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Lillie Coit's",
+  "area": "North Beach",
+  "address": "1707 Powell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in the former Washington Square Bar & Grill space.",
+    "url": "https://sfstandard.com/arts-culture/landmark-sf-bar-will-be-new-lillie-coit-themed-restaurant/"
+   },
+   {
+    "text": "Owned by Nick Floulis, who also owns Hole in the Wall coffee.",
+    "url": "https://sfstandard.com/arts-culture/landmark-sf-bar-will-be-new-lillie-coit-themed-restaurant/"
+   },
+   {
+    "text": "Named for San Francisco firewoman Lillie Coit.",
+    "url": "https://sfstandard.com/arts-culture/landmark-sf-bar-will-be-new-lillie-coit-themed-restaurant/"
+   }
+  ]
+ },
+ {
+  "name": "Frankie's",
+  "area": "Marina",
+  "address": "3213 Pierce St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for chef Kait Bauman's English Labrador, Franklin.",
+    "url": "https://sfstandard.com/2026/03/06/frankies-marina-norcina-martini-bar/"
+   },
+   {
+    "text": "A martini bar a few doors down from Norcina, run by Kait Bauman and Angelo De Lorenzi.",
+    "url": "https://sfstandard.com/2026/03/06/frankies-marina-norcina-martini-bar/"
+   }
+  ]
+ },
+ {
+  "name": "The Lucky Spot",
+  "area": "North Beach",
+  "address": "1431 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened a shuttered 80-year-old bar as a cocktail bar.",
+    "url": "https://sfstandard.com/2025/10/16/lucky-spot-elevated-dive-cocktail-bar-north-beach/"
+   },
+   {
+    "text": "Owner Barry John Walsh also owns the Marina bar For the Record.",
+    "url": "https://sfstandard.com/2025/10/16/lucky-spot-elevated-dive-cocktail-bar-north-beach/"
+   }
+  ]
+ },
+ {
+  "name": "Barebottle Brewing Company",
+  "area": "Bernal Heights",
+  "address": "1525 Cortland Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Co-founded by Lester Koga, Michael Seitz and Ben Sterling, friends from Cornell Business School.",
+    "url": "https://www.barebottle.com/our-story"
+   },
+   {
+    "text": "The taproom pours 20 to 30 rotating beers and hosts food trucks.",
+    "url": "https://www.barebottle.com/bernal-heights-brewery-taproom"
+   }
+  ]
+ },
+ {
+  "name": "Cellarmaker Brewing Co.",
+  "area": "SoMa",
+  "address": "1150 Howard St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started in 2013 as a small San Francisco brewery making one beer at a time.",
+    "url": "https://cellarmakerbrewing.com/about/"
+   },
+   {
+    "text": "Took over The Rare Barrel, a Berkeley sour beer producer, in 2022.",
+    "url": "https://cellarmakerbrewing.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Standard Deviant Brewing",
+  "area": "Mission",
+  "address": "280 14th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in August 2016 on 14th Street just off Mission Street.",
+    "url": "https://beergeek.com/now-open-standard-deviant-brewing-mission-district-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "Laughing Monk Brewing",
+  "area": "Bayview",
+  "address": "1439 Egbert Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The Bayview production facility and original taproom were established in 2016.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/laughing-monk-brewing-barrel-head-20383231.php"
+   },
+   {
+    "text": "Focuses on Belgian styles such as dubbels, tripels and witbiers.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/laughing-monk-brewing-barrel-head-20383231.php"
+   }
+  ]
+ },
+ {
+  "name": "BuzzWorks",
+  "area": "SoMa",
+  "address": "365 11th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A SoMa sports bar and microbrewery between Slim's and DNA Lounge.",
+    "url": "https://www.sfbuzzworks.com/press"
+   },
+   {
+    "text": "Has 40 rotating taps and 30 screens.",
+    "url": "https://www.sfbuzzworks.com/press"
+   }
+  ]
+ },
+ {
+  "name": "The Saloon",
+  "area": "North Beach",
+  "address": "1232 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First opened in 1861 and originally owned by Ferdinand E. Wagner.",
+    "url": "https://en.wikipedia.org/wiki/The_Saloon"
+   },
+   {
+    "text": "Began as Wagner's Beer Hall and was later renamed the Saloon.",
+    "url": "https://en.wikipedia.org/wiki/The_Saloon"
+   }
+  ]
+ },
+ {
+  "name": "Buena Vista Cafe",
+  "area": "Fisherman's Wharf",
+  "address": "2765 Hyde St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Credited with introducing Irish coffee to the United States in 1952.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Cafe"
+   },
+   {
+    "text": "Travel writer Stanton Delaplane and owner Jack Koeppler worked out the recipe together.",
+    "url": "https://en.wikipedia.org/wiki/Buena_Vista_Cafe"
+   }
+  ]
+ }
+]

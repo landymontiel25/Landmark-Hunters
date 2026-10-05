@@ -1,0 +1,155 @@
+[
+ {
+  "name": "John's Grill",
+  "area": "Union Square",
+  "address": null,
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://www.sfgate.com/food/article/sf-power-lunch-continues-classic-restaurants-19763993.php",
+  "note": "John's Grill hosts a roster of politicians and techies who come in for the power lunch."
+ },
+ {
+  "name": "Marlowe",
+  "area": "SoMa",
+  "address": "500 Brannan St",
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://www.sfgate.com/food/article/Power-lunch-places-in-San-Francisco-9226186.php",
+  "note": "Marlowe on Brannan Street is described as a business lunch spot whose burger is popular with tech executives and venture capitalists."
+ },
+ {
+  "name": "Alta CA",
+  "area": "SoMa",
+  "address": null,
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://www.sfgate.com/food/article/Power-lunch-places-in-San-Francisco-9226186.php",
+  "note": "Alta CA is located across from the Twitter building and caters largely to the tech crowd."
+ },
+ {
+  "name": "Boulevard",
+  "area": "Embarcadero",
+  "address": null,
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://www.sfgate.com/food/article/Power-lunch-places-in-San-Francisco-9226186.php",
+  "note": "Boulevard on Mission Street is described as a restaurant for conducting business lunches."
+ },
+ {
+  "name": "Dalida",
+  "area": "Presidio",
+  "address": null,
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://sfstandard.com/2025/10/28/san-francisco-has-new-power-address-venture-capitalists/",
+  "note": "Dalida is named as a power lunch option in the Presidio, which is described as San Francisco's newest venture capital hub."
+ },
+ {
+  "name": "Colibri Mexican Bistro",
+  "area": "Presidio",
+  "address": null,
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://sfstandard.com/2025/10/28/san-francisco-has-new-power-address-venture-capitalists/",
+  "note": "Colibri Mexican Bistro is named as a power lunch option in the Presidio, described as a new venture capital hub."
+ },
+ {
+  "name": "Piccino",
+  "area": "Presidio",
+  "address": null,
+  "list": "SF power lunch",
+  "year": null,
+  "sourceUrl": "https://sfstandard.com/2025/10/28/san-francisco-has-new-power-address-venture-capitalists/",
+  "note": "Piccino is named as a power lunch option in the Presidio, described as a new venture capital hub."
+ },
+ {
+  "name": "Cafe Zoetrope",
+  "area": "Jackson Square",
+  "address": null,
+  "list": "SF Standard",
+  "year": null,
+  "sourceUrl": "https://sfstandard.com/2025/10/28/san-francisco-has-new-power-address-venture-capitalists/",
+  "note": "An announcement involving OpenAI CEO Sam Altman was made at the Cafe Zoetrope bartop over coffee."
+ },
+ {
+  "name": "CoffeeShop",
+  "area": "SoMa",
+  "address": null,
+  "list": "Founder coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.fastcompany.com/91462325/inside-san-franciscos-coffee-shop-ai-scene-where-million-dollar-deals-happen-over-cortados",
+  "note": "Fast Company lists CoffeeShop among the top five coffee shops powering founders in San Francisco by transaction data."
+ },
+ {
+  "name": "Equator Coffees",
+  "area": "San Francisco",
+  "address": null,
+  "list": "Founder coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.fastcompany.com/91462325/inside-san-franciscos-coffee-shop-ai-scene-where-million-dollar-deals-happen-over-cortados",
+  "note": "Fast Company lists Equator among the top five coffee shops powering founders in San Francisco by transaction data."
+ },
+ {
+  "name": "Cafe Reveille",
+  "area": "San Francisco",
+  "address": null,
+  "list": "Founder coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.fastcompany.com/91462325/inside-san-franciscos-coffee-shop-ai-scene-where-million-dollar-deals-happen-over-cortados",
+  "note": "Fast Company says a $500,000 investment term sheet was negotiated over a cortado at Cafe Reveille."
+ },
+ {
+  "name": "Cumaica Coffee",
+  "area": "Mission District",
+  "address": null,
+  "list": "VC meeting coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.tryperdiem.com/guide/best-coffee-shops-san-francisco-vc-meetings",
+  "note": "Per Diem lists Cumaica Coffee among San Francisco coffee shops that draw founders and investors."
+ },
+ {
+  "name": "Avenues San Francisco",
+  "area": "Outer Sunset",
+  "address": null,
+  "list": "VC meeting coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.tryperdiem.com/guide/best-coffee-shops-san-francisco-vc-meetings",
+  "note": "Per Diem lists Avenues San Francisco among coffee shops for investor-founder conversations."
+ },
+ {
+  "name": "Velo Rouge Cafe",
+  "area": "San Francisco",
+  "address": null,
+  "list": "VC meeting coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.tryperdiem.com/guide/best-coffee-shops-san-francisco-vc-meetings",
+  "note": "Per Diem lists Velo Rouge Cafe as a cafe that appeals to founders and tech professionals."
+ },
+ {
+  "name": "Mission Blue",
+  "area": "San Francisco",
+  "address": null,
+  "list": "VC meeting coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.tryperdiem.com/guide/best-coffee-shops-san-francisco-vc-meetings",
+  "note": "Per Diem lists Mission Blue among coffee shops for founder and investor meetings."
+ },
+ {
+  "name": "The Game Parlour",
+  "area": "Castro",
+  "address": null,
+  "list": "VC meeting coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.tryperdiem.com/guide/best-coffee-shops-san-francisco-vc-meetings",
+  "note": "Per Diem describes The Game Parlour as a meeting ground for creatives, founders and younger investors."
+ },
+ {
+  "name": "Neighbor's Corner",
+  "area": "Castro",
+  "address": null,
+  "list": "VC meeting coffee shops",
+  "year": null,
+  "sourceUrl": "https://www.tryperdiem.com/guide/best-coffee-shops-san-francisco-vc-meetings",
+  "note": "Per Diem lists Neighbor's Corner among San Francisco coffee shops for networking with venture capitalists."
+ }
+]

@@ -1,0 +1,557 @@
+[
+ {
+  "name": "Tonga Room & Hurricane Bar",
+  "area": "Nob Hill",
+  "address": "950 Mason St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1945 inside the Fairmont San Francisco hotel.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   },
+   {
+    "text": "Built over the Terrace Plunge, an indoor pool installed in 1929, which became its lagoon.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   },
+   {
+    "text": "Features a bandstand on a floating barge and artificial thunderstorms.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   },
+   {
+    "text": "A city Planning Department report calls it a historical resource and a high-style tiki bar.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   }
+  ]
+ },
+ {
+  "name": "Top of the Mark",
+  "area": "Nob Hill",
+  "address": "999 California St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1939 when the Mark Hopkins penthouse became a glass-walled cocktail lounge.",
+    "url": "https://en.wikipedia.org/wiki/Top_of_the_Mark"
+   },
+   {
+    "text": "In World War II servicemen had a farewell drink here before shipping out.",
+    "url": "https://en.wikipedia.org/wiki/Top_of_the_Mark"
+   },
+   {
+    "text": "The northwest corner was nicknamed Weeper's Corner.",
+    "url": "https://en.wikipedia.org/wiki/Top_of_the_Mark"
+   }
+  ]
+ },
+ {
+  "name": "Abrazo",
+  "area": "Russian Hill",
+  "address": "2000 Hyde St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in the former Zarzuela space on Hyde Street.",
+    "url": "https://hoodline.com/2019/01/new-spanish-spot-abrazo-replaces-zarzuela-in-russian-hill/"
+   },
+   {
+    "text": "Run by chef Michael Pawlik and co-owner Amanda Banks Barker.",
+    "url": "https://hoodline.com/2019/01/new-spanish-spot-abrazo-replaces-zarzuela-in-russian-hill/"
+   },
+   {
+    "text": "Serves Spanish small plates and seafood paella.",
+    "url": "https://hoodline.com/2019/01/new-spanish-spot-abrazo-replaces-zarzuela-in-russian-hill/"
+   }
+  ]
+ },
+ {
+  "name": "Russian Hill Bookstore",
+  "area": "Russian Hill",
+  "address": "2162 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1974 as a used and new bookstore.",
+    "url": "https://www.russianhillbookstore.com/about"
+   },
+   {
+    "text": "Independently owned by Ben Bellouin and Jess Tsang.",
+    "url": "https://www.russianhillbookstore.com/about"
+   }
+  ]
+ },
+ {
+  "name": "The Cinch Saloon",
+  "area": "Polk Gulch",
+  "address": "1723 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sold in 2025 to Scott Taylor, beverage director at nearby Harris' Restaurant.",
+    "url": "https://www.sfgate.com/local/article/cinch-saloon-san-francisco-polk-street-queer-bar-20361751.php"
+   },
+   {
+    "text": "Robby Morgenstein and Bob Thornton owned the bar from 1998.",
+    "url": "https://www.sfgate.com/local/article/cinch-saloon-san-francisco-polk-street-queer-bar-20361751.php"
+   }
+  ]
+ },
+ {
+  "name": "Huntington Park",
+  "area": "Nob Hill",
+  "address": "1050 Taylor St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The land was donated to the city in 1915 by Arabella Huntington.",
+    "url": "https://en.wikipedia.org/wiki/Huntington_Park_(San_Francisco)"
+   },
+   {
+    "text": "Occupies the site of the Huntington house destroyed in the 1906 earthquake and fire.",
+    "url": "https://en.wikipedia.org/wiki/Huntington_Park_(San_Francisco)"
+   },
+   {
+    "text": "Has a replica of the Fontana delle Tartarughe fountain, installed in 1954.",
+    "url": "https://en.wikipedia.org/wiki/Huntington_Park_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "name": "Allyne Park",
+  "area": "Russian Hill",
+  "address": "Green St at Gough St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Open to the public since 1966 on the site of the Allyne family mansion.",
+    "url": "https://hoodline.com/2016/04/great-explorations-allyne-park/"
+   },
+   {
+    "text": "The mansion, built in 1871, was home to sisters Edith and Lucy Allyne into the early 1960s.",
+    "url": "https://hoodline.com/2016/04/great-explorations-allyne-park/"
+   },
+   {
+    "text": "The house was demolished in 1966 after the city bought the property for a park.",
+    "url": "https://hoodline.com/2016/04/great-explorations-allyne-park/"
+   }
+  ]
+ },
+ {
+  "name": "George Sterling Park",
+  "area": "Russian Hill",
+  "address": "1249 Greenwich St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for poet George Sterling (1869-1926).",
+    "url": "https://www.hmdb.org/m.asp?m=69986"
+   },
+   {
+    "text": "Shares its site with the Alice Marble Tennis Courts, named for the champion.",
+    "url": "https://www.hmdb.org/m.asp?m=69986"
+   }
+  ]
+ },
+ {
+  "name": "Bob's Donuts",
+  "area": "Polk Gulch",
+  "address": "1720 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Offers the Bob's Donut Challenge, a timed contest to eat a giant donut.",
+    "url": "https://en.wikipedia.org/wiki/Bob's_Donuts"
+   },
+   {
+    "text": "Moved in 2025 to a building across from its original 1621 Polk site.",
+    "url": "https://en.wikipedia.org/wiki/Bob's_Donuts"
+   }
+  ]
+ },
+ {
+  "name": "Tommy's Joynt",
+  "area": "Polk Gulch",
+  "address": "1101 Geary Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A hofbrau open since 1947, founded by Tommy Harris and Al Pollack.",
+    "url": "http://tommysjoynt.com/about"
+   },
+   {
+    "text": "Describes itself as the last hofbrau in San Francisco.",
+    "url": "http://tommysjoynt.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Harris' Restaurant",
+  "area": "Polk Gulch",
+  "address": "2100 Van Ness Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1984 by Ann Lee Harris with chef Goetz Boje.",
+    "url": "https://www.harrisrestaurant.com/history"
+   },
+   {
+    "text": "Occupies the former Grison's Steakhouse at Van Ness and Pacific.",
+    "url": "https://www.harrisrestaurant.com/history"
+   },
+   {
+    "text": "Chef Michael Buhagiar became sole owner in 2018.",
+    "url": "https://www.harrisrestaurant.com/history"
+   }
+  ]
+ },
+ {
+  "name": "Frascati",
+  "area": "Russian Hill",
+  "address": "1901 Hyde St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Michael Pawlik runs the kitchen of this Hyde Street neighborhood restaurant.",
+    "url": "https://www.sfchronicle.com/restaurants/article/Update-Frascati-still-has-a-place-in-Russian-Hill-6540993.php"
+   },
+   {
+    "text": "Known for russet potato gnocchi with tomato, corn and asparagus.",
+    "url": "https://www.sfchronicle.com/restaurants/article/Update-Frascati-still-has-a-place-in-Russian-Hill-6540993.php"
+   },
+   {
+    "text": "The dining room has a mezzanine overlooking the main floor.",
+    "url": "https://www.sfchronicle.com/restaurants/article/Update-Frascati-still-has-a-place-in-Russian-Hill-6540993.php"
+   }
+  ]
+ },
+ {
+  "name": "Sorella",
+  "area": "Polk Gulch",
+  "address": "1760 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sister restaurant to Acquerello, serving Californian cooking by way of Northern Italy.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sorella-1200631"
+   },
+   {
+    "text": "House-made pastas anchor the menu, with cicchetti and cocktails at the bar.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/sorella-1200631"
+   }
+  ]
+ },
+ {
+  "name": "Hi-Lo Club",
+  "area": "Polk Gulch",
+  "address": "1423 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by the Koko Cocktails team after they left their original space.",
+    "url": "https://www.urbandaddy.com/articles/18240/san-francisco/hi-lo-club-hi-times-a-vintage-cocktail-sanctuary-on-polk"
+   },
+   {
+    "text": "The bar rail came from the original Koko's.",
+    "url": "https://www.urbandaddy.com/articles/18240/san-francisco/hi-lo-club-hi-times-a-vintage-cocktail-sanctuary-on-polk"
+   },
+   {
+    "text": "Booths are built from cable-car benches.",
+    "url": "https://www.urbandaddy.com/articles/18240/san-francisco/hi-lo-club-hi-times-a-vintage-cocktail-sanctuary-on-polk"
+   }
+  ]
+ },
+ {
+  "name": "Cheese Plus",
+  "area": "Russian Hill",
+  "address": "2001 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2005 by owner Ray Bair at Polk and Pacific.",
+    "url": "https://fabriquedelices.com/meet-ray-bair-owner-cheese-plus-store/"
+   },
+   {
+    "text": "Owner Ray Bair was previously director of cheese, wine and specialty foods at Whole Foods Market.",
+    "url": "https://fabriquedelices.com/meet-ray-bair-owner-cheese-plus-store/"
+   }
+  ]
+ },
+ {
+  "name": "SF Masonic Auditorium",
+  "area": "Nob Hill",
+  "address": "California St at Taylor St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1958, designed by architect Albert Roller.",
+    "url": "https://en.wikipedia.org/wiki/SF_Masonic_Auditorium"
+   },
+   {
+    "text": "Clad in Vermont marble and built as a memorial to Masons lost in the two world wars.",
+    "url": "https://en.wikipedia.org/wiki/SF_Masonic_Auditorium"
+   },
+   {
+    "text": "Hosts concerts and houses the Henry Wilson Coil Library and Museum of Freemasonry.",
+    "url": "https://en.wikipedia.org/wiki/SF_Masonic_Auditorium"
+   }
+  ]
+ },
+ {
+  "name": "Woods Polk Station",
+  "area": "Russian Hill",
+  "address": "2255 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sister location to Cerveceria MateVeza, pouring its own WOODS beers.",
+    "url": "https://www.urbandaddy.com/articles/29542/san-francisco/woods-polk-station-woods-you-rather-a-small-place-with-so-much-beer-and-empanadas"
+   },
+   {
+    "text": "Serves empanadas from El Porteno alongside eight rotating taps.",
+    "url": "https://www.urbandaddy.com/articles/29542/san-francisco/woods-polk-station-woods-you-rather-a-small-place-with-so-much-beer-and-empanadas"
+   }
+  ]
+ },
+ {
+  "name": "Washington/Hyde Mini Park",
+  "area": "Russian Hill",
+  "address": "Washington St between Hyde and Leavenworth",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1983 after the city acquired two lots for a play park.",
+    "url": "https://hoodline.com/2016/05/great-explorations-washington-hyde-mini-park/"
+   },
+   {
+    "text": "The site once held La Gaite Francaise, a 150-seat French theater, in the 1920s.",
+    "url": "https://hoodline.com/2016/05/great-explorations-washington-hyde-mini-park/"
+   },
+   {
+    "text": "Designed as a child-sized city of building facades with slides and a tire swing.",
+    "url": "https://hoodline.com/2016/05/great-explorations-washington-hyde-mini-park/"
+   }
+  ]
+ },
+ {
+  "name": "Fiorella Polk",
+  "area": "Russian Hill",
+  "address": "2238 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened March 2019 in the former Gioia Pizzeria space as a sister to the Richmond District Fiorella.",
+    "url": "https://hoodline.com/2019/03/fiorella-brings-wood-fired-pizza-pasta-more-to-russian-hill-this-week/"
+   },
+   {
+    "text": "Serves wood-fired pizza and calzones with seasonal fillings, led by chef Eli Franco.",
+    "url": "https://hoodline.com/2019/03/fiorella-brings-wood-fired-pizza-pasta-more-to-russian-hill-this-week/"
+   }
+  ]
+ },
+ {
+  "name": "PLS on Post",
+  "area": "Lower Nob Hill",
+  "address": "545 Post St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in late August 2022 by Sage Hospitality Group on the ground floor of Hotel Zeppelin.",
+    "url": "https://en.wikipedia.org/wiki/PLS_on_Post"
+   },
+   {
+    "text": "The name stands for peace, love, and soul, honoring 1960s San Francisco counterculture.",
+    "url": "https://en.wikipedia.org/wiki/PLS_on_Post"
+   }
+  ]
+ },
+ {
+  "name": "Leopold's",
+  "area": "Russian Hill",
+  "address": "2400 Polk St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2011 by brothers Albert and Klaus Rainer, named for their grandfather Leopold.",
+    "url": "https://sfstandard.com/2023/05/11/after-a-long-hiatus-this-beloved-and-rowdy-german-gasthaus-is-back/"
+   },
+   {
+    "text": "Reopened in 2023 after a three-year pandemic hiatus.",
+    "url": "https://sfstandard.com/2023/05/11/after-a-long-hiatus-this-beloved-and-rowdy-german-gasthaus-is-back/"
+   }
+  ]
+ },
+ {
+  "name": "Lord Stanley",
+  "area": "Russian Hill",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://en.wikipedia.org/wiki/Lord_Stanley_(restaurant)",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Crustacean",
+  "area": "Polk Gulch",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://sfist.com/2025/03/20/venerable-polk-street-vietnamese-spot-crustacean-to-open-in-new-downtown-location-shortly/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]

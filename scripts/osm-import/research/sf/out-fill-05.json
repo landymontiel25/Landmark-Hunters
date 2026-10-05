@@ -1,0 +1,881 @@
+[
+ {
+  "name": "Moby Dick",
+  "area": "Castro",
+  "address": "4049 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Received San Francisco Legacy Business status in 2016.",
+    "url": "https://www.sf.gov/sites/default/files/2024-11/item_5e._packet_lbr-2015-16-048_moby_dick.pdf"
+   },
+   {
+    "text": "Reopened in May 2021 after a 14-month closure.",
+    "url": "https://hoodline.com/2021/05/castro-neighborhood-bar-moby-dick-reopens-after-14-month-hiatus/"
+   }
+  ]
+ },
+ {
+  "name": "Twin Peaks Tavern",
+  "area": "Castro",
+  "address": "401 Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designated San Francisco Landmark #264.",
+    "url": "https://noehill.com/sf/landmarks/sf264.asp"
+   },
+   {
+    "text": "First opened in 1935 and became a gay bar with open plate glass windows in 1972.",
+    "url": "https://en.wikipedia.org/wiki/Twin_Peaks_Tavern"
+   }
+  ]
+ },
+ {
+  "name": "Frances",
+  "area": "Castro",
+  "address": "3870 17th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Melissa Perello's restaurant won a Michelin star.",
+    "url": "https://hoodline.com/2013/01/which-castro-restaurant-is-best-critics-michelin-star-winner-frances/"
+   },
+   {
+    "text": "Reopened in June 2021 after a pandemic closure.",
+    "url": "https://www.sfgate.com/food/article/Michelin-starred-Frances-returns-to-San-Francisco-17264130.php"
+   }
+  ]
+ },
+ {
+  "name": "Starbelly",
+  "area": "Castro",
+  "address": "3583 16th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2009 by Deborah Blum and Adriano Paganini, who also run Beretta.",
+    "url": "https://www.sfchronicle.com/food/article/Starbelly-in-S-F-s-Castro-2302780.php"
+   },
+   {
+    "text": "Took over the former Asquew Grill space.",
+    "url": "https://www.sfchronicle.com/food/article/Starbelly-in-S-F-s-Castro-2302780.php"
+   }
+  ]
+ },
+ {
+  "name": "Fable",
+  "area": "Castro",
+  "address": "558 Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves seasonal Californian cuisine in a heated back garden patio.",
+    "url": "https://fablesf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Catch French Bistro",
+  "area": "Castro",
+  "address": "2362 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in May 2024 under owner Mina Habil in the former Catch space.",
+    "url": "https://hoodline.com/2024/05/inside-catch-french-bistro-new-ownership-rebrands-longtime-castro-favorite/"
+   },
+   {
+    "text": "The original seafood restaurant Catch opened there in 2002 and closed in March 2024.",
+    "url": "https://hoodline.com/2024/05/inside-catch-french-bistro-new-ownership-rebrands-longtime-castro-favorite/"
+   }
+  ]
+ },
+ {
+  "name": "Cliff's Variety",
+  "area": "Castro",
+  "address": "479 Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1936 by Hilario DeBaca and still run by the family.",
+    "url": "https://en.wikipedia.org/wiki/Cliff%27s_Variety_Store"
+   },
+   {
+    "text": "Moved to 479 Castro St in 1971, a building erected in 1910 as a theater.",
+    "url": "https://www.cliffsvariety.com/our-history"
+   }
+  ]
+ },
+ {
+  "name": "Noe Valley Bakery",
+  "area": "Noe Valley",
+  "address": "4073 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1995 by Michael and Mary Gassen as a full-line neighborhood artisan bakery.",
+    "url": "https://noevalleybakery.com/pages/noe-valley"
+   }
+  ]
+ },
+ {
+  "name": "Firefly",
+  "area": "Noe Valley",
+  "address": "4288 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1993 by Brad Levy and Veva Edelson in a former Spanish restaurant.",
+    "url": "https://www.sfchronicle.com/food/article/The-glories-and-challenges-of-a-middle-aged-13555913.php"
+   },
+   {
+    "text": "Celebrated its 20th anniversary in 2013.",
+    "url": "https://www.sfstation.com/2013/10/16/noe-valleys-firefly-celebrates-20th-anniversary/"
+   }
+  ]
+ },
+ {
+  "name": "La Ciccia",
+  "area": "Noe Valley",
+  "address": "291 30th St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Bay Area Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/la-ciccia/"
+   },
+   {
+    "text": "Founders Massimiliano Conti and Lorella Degan sold it to a restaurant group.",
+    "url": "https://www.sfgate.com/food/article/Sardinian-restaurant-La-Ciccia-to-be-sold-17009368.php"
+   }
+  ]
+ },
+ {
+  "name": "Lovejoy's Tea Room",
+  "area": "Noe Valley",
+  "address": "1351 Church St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves afternoon tea in a parlor with Union Jacks on the walls and mismatched china.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/lovejoys-tea-room"
+   }
+  ]
+ },
+ {
+  "name": "Omnivore Books on Food",
+  "area": "Noe Valley",
+  "address": "3885A Cesar Chavez St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A culinary bookshop in a former butcher shop, run by owner Celia Sack.",
+    "url": "https://www.frommers.com/destinations/san-francisco/shopping/omnivore-books-on-food/"
+   }
+  ]
+ },
+ {
+  "name": "Bird & Beckett Books & Records",
+  "area": "Glen Park",
+  "address": "653 Chenery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Moved to Chenery Street in September 2008 after nine years on Diamond Street.",
+    "url": "https://www.bayimproviser.com/venue/132/bird-and-beckett-books-and-records"
+   },
+   {
+    "text": "Its Cultural Legacy Project is a nonprofit presenting concerts and literary events.",
+    "url": "https://birdbeckett.com/the-cultural-legacy-project/"
+   }
+  ]
+ },
+ {
+  "name": "Gialina",
+  "area": "Glen Park",
+  "address": "2842 Diamond St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef-owner Sharon Ardiana named it after her grandmother Nonni Lina.",
+    "url": "https://www.glenparkassociation.org/gialina-owner-glen-park-is-a-tiny-neighborhood-fierce-in-its-restaurant-loyalties/"
+   },
+   {
+    "text": "Serves thin-crust wood-fired pizzas.",
+    "url": "https://foodgps.com/gialina-san-francisco/"
+   }
+  ]
+ },
+ {
+  "name": "The Valley Tavern",
+  "area": "Noe Valley",
+  "address": "4054 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has a multi-level back patio with picnic tables.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/valley-tavern"
+   }
+  ]
+ },
+ {
+  "name": "Duboce Park",
+  "area": "Duboce Triangle",
+  "address": "Duboce Ave between Scott St and Steiner St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Its off-leash Multi-Use Area for dogs officially opened on March 8, 2008.",
+    "url": "https://en.wikipedia.org/wiki/Duboce_Park"
+   },
+   {
+    "text": "A labyrinth along Scott Street was completed in 2007.",
+    "url": "https://en.wikipedia.org/wiki/Duboce_Park"
+   }
+  ]
+ },
+ {
+  "name": "Billy Goat Hill",
+  "area": "Noe Valley",
+  "address": "30th St and Laidley St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Became a city park in 1975 and covers 3.5 acres.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   },
+   {
+    "text": "The Beacon Trail connecting it to Walter Haas Playground opened in July 2016.",
+    "url": "https://en.wikipedia.org/wiki/Billy_Goat_Hill,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "name": "Harvey Milk Plaza",
+  "area": "Castro",
+  "address": "Market St and Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 20-by-30-foot Rainbow Flag was raised here on November 7, 1997.",
+    "url": "https://en.wikipedia.org/wiki/Harvey_Milk_Plaza"
+   },
+   {
+    "text": "Commemorates Harvey Milk and serves as the south entrance to Castro station.",
+    "url": "https://en.wikipedia.org/wiki/Harvey_Milk_Plaza"
+   }
+  ]
+ },
+ {
+  "name": "Douglass Playground",
+  "area": "Noe Valley",
+  "address": "Douglass St between Clipper St and 27th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built on the site of the Blue Rock Quarry, which the Gray Brothers ran in the 1890s.",
+    "url": "https://hoodline.com/2016/06/great-explorations-douglass-playground-and-upper-douglass-dog-play-area/"
+   },
+   {
+    "text": "The city acquired the old quarry for a park in 1926.",
+    "url": "https://hoodline.com/2016/06/great-explorations-douglass-playground-and-upper-douglass-dog-play-area/"
+   }
+  ]
+ },
+ {
+  "name": "Glen Canyon Park",
+  "area": "Glen Park",
+  "address": "Elk St and Chenery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 66.6-acre park centered on a forested canyon with Islais Creek running through it.",
+    "url": "https://en.wikipedia.org/wiki/Glen_Canyon_Park"
+   },
+   {
+    "text": "Has a 3.7-mile trail network and is a Significant Natural Resource Area.",
+    "url": "https://en.wikipedia.org/wiki/Glen_Canyon_Park"
+   }
+  ]
+ },
+ {
+  "name": "Martha & Bros. Coffee",
+  "area": "Noe Valley",
+  "address": "3868 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in December 1987 at 3868 24th St as the San Francisco Coffee Company.",
+    "url": "http://www.noevalleyvoice.com/1999/March/marthas.html"
+   },
+   {
+    "text": "Run by Nicaraguan siblings for nearly four decades.",
+    "url": "https://abc7news.com/post/hispanic-heritage-month-nicaraguan-siblings-behind-san-franciscos-popular-martha-bros-coffee-reflect-38-years-business/15427718/"
+   }
+  ]
+ },
+ {
+  "name": "Castro Coffee Company",
+  "area": "Castro",
+  "address": "427 Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A family-run shop selling over 50 varieties of coffee beans ground to order.",
+    "url": "https://www.findmeglutenfree.com/biz/castro-coffee-company/6188199963131904"
+   }
+  ]
+ },
+ {
+  "name": "Blackbird",
+  "area": "Castro",
+  "address": "2124 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reopened in July 2009 under owners Doug Murphy and Shawn Vergara after a four-month renovation.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/blackbird-2124-market/"
+   },
+   {
+    "text": "The space was previously The Expansion for many years.",
+    "url": "https://www.sfgayhistory.com/neighborhoods/castro/castro-gay-bars/blackbird-2124-market/"
+   }
+  ]
+ },
+ {
+  "name": "Orphan Andy's",
+  "area": "Castro",
+  "address": "3991 17th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Castro diner known for its 24-hour breakfast.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/orphan-andys"
+   }
+  ]
+ },
+ {
+  "name": "Poesia",
+  "area": "Castro",
+  "address": "4072 18th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An osteria serving Calabrian and regional Italian dishes with handmade pastas.",
+    "url": "https://poesiasf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Billingsgate",
+  "area": "Noe Valley",
+  "address": "3859 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A seafood market and oyster bar named after London's fish market.",
+    "url": "https://www.sfchronicle.com/food/article/Billingsgate-a-seafood-market-and-oyster-bar-to-13757127.php"
+   },
+   {
+    "text": "Founded by the chefs behind Four Star Seafood.",
+    "url": "https://www.fourstarseafood.com/pages/billingsgate"
+   }
+  ]
+ },
+ {
+  "name": "Falasteen",
+  "area": "Noe Valley",
+  "address": "4018 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Palestinian restaurant from chef Lamees Dahbour, named for the Arabic word for Palestine.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/falasteen-palestinian-sf-19958119.php"
+   },
+   {
+    "text": "Owned by Samir Salameh, founder of home design company Room Service.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/falasteen-palestinian-sf-19958119.php"
+   }
+  ]
+ },
+ {
+  "name": "Vive La Tarte",
+  "area": "Noe Valley",
+  "address": "4026 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by self-taught baker Julie Vandermeersch and her husband Arnaud Goethals.",
+    "url": "https://www.sfchronicle.com/food/article/Tacro-creator-Vive-La-Tarte-looks-to-expand-to-13340407.php"
+   },
+   {
+    "text": "Created the tacro, a croissant folded and filled like a taco.",
+    "url": "https://www.sfchronicle.com/food/article/Tacro-creator-Vive-La-Tarte-looks-to-expand-to-13340407.php"
+   }
+  ]
+ },
+ {
+  "name": "Bernie's",
+  "area": "Noe Valley",
+  "address": "3966 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Partnered with a bookstore for a new chapter instead of closing.",
+    "url": "https://www.sfchronicle.com/entertainment/article/sf-bernies-coffee-shop-bookstore-20177713.php"
+   }
+  ]
+ },
+ {
+  "name": "Noe Bagel",
+  "area": "Noe Valley",
+  "address": "3933 24th St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A bagel shop on 24th Street serving bagels and breakfast sandwiches.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/noe-bagel"
+   }
+  ]
+ },
+ {
+  "name": "Manzoni",
+  "area": "Glen Park",
+  "address": "2788 Diamond St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on December 19, 2011.",
+    "url": "https://www.glenparkassociation.org/manzoni-restaurant-finally-opens/"
+   },
+   {
+    "text": "An Italian restaurant two blocks from Glen Park BART.",
+    "url": "https://www.manzonisf.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Bello Coffee & Tea",
+  "area": "Glen Park",
+  "address": "2885 Diamond St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served Glen Park since 2004.",
+    "url": "https://www.bello.coffee/"
+   },
+   {
+    "text": "Roasts its coffee on a zero-emission electric roaster.",
+    "url": "https://www.bello.coffee/"
+   }
+  ]
+ },
+ {
+  "name": "Glen Park Station",
+  "area": "Glen Park",
+  "address": "2816 Diamond St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A dive bar with darts, pinball, a fireplace and a back patio.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/glen-park-station"
+   }
+  ]
+ },
+ {
+  "name": "L'Ardoise Bistro",
+  "area": "Duboce Triangle",
+  "address": "151 Noe St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef-owner Thierry Clement moved to San Francisco from France in 1998.",
+    "url": "https://hoodline.com/2016/05/meet-l-ardoise-a-duboce-triangle-favorite-for-french-comfort-food/"
+   },
+   {
+    "text": "Has served classic French bistro dishes in a 42-seat space since 2008.",
+    "url": "https://hoodline.com/2016/05/meet-l-ardoise-a-duboce-triangle-favorite-for-french-comfort-food/"
+   }
+  ]
+ },
+ {
+  "name": "La Mediterranee",
+  "area": "Castro",
+  "address": "288 Noe St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served the Castro since 1981.",
+    "url": "https://lamednoe.com/"
+   },
+   {
+    "text": "Menu is inspired by Armenian and Lebanese family recipes.",
+    "url": "https://lamednoe.com/"
+   }
+  ]
+ },
+ {
+  "name": "Churchill",
+  "area": "Duboce Triangle",
+  "address": "198 Church St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A World War II-themed cocktail bar with a wide whisky selection and a back pool table.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/churchill"
+   }
+  ]
+ },
+ {
+  "name": "Castro Tarts",
+  "area": "Castro",
+  "address": "564 Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A cafe and bakery serving baked goods and Vietnamese staples.",
+    "url": "https://castrotarts.squarespace.com/"
+   }
+  ]
+ },
+ {
+  "name": "Glen Park Cafe",
+  "area": "Glen Park",
+  "address": "2798 Diamond St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A breakfast and brunch spot serving American dishes and bagels.",
+    "url": "https://www.yelp.com/biz/glen-park-cafe-san-francisco-2"
+   }
+  ]
+ },
+ {
+  "name": "Hot Cookie",
+  "area": "Castro",
+  "address": "407 Castro St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1997 by Dan Glazer in the former original Double Rainbow Ice Cream space.",
+    "url": "https://hotcookie.com/about-us/our-story/"
+   },
+   {
+    "text": "Glazer sold the business to Paul Perretta and Tony Roug in 2015.",
+    "url": "https://hoodline.com/2015/10/castro-favorite-hot-cookie-has-been-sold/"
+   }
+  ]
+ },
+ {
+  "name": "Wooden Spoon",
+  "area": "Duboce Triangle",
+  "address": "2172 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2018 inside the Swedish American Hall as a brunch spot.",
+    "url": "https://www.sfstation.com/2018/05/21/new-castro-boozy-brunch-spot-wooden-spoon-opens-in-swedish-american-hall/"
+   }
+  ]
+ },
+ {
+  "name": "Eureka Valley Recreation Center",
+  "area": "Castro",
+  "address": "100 Collingwood St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A city recreation center with a gym, playground, tennis and pickleball courts, and an off-leash dog area.",
+    "url": "https://sfrecpark.org/688/Eureka-Valley-Recreation-Center"
+   }
+  ]
+ }
+]

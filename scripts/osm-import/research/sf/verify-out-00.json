@@ -1,0 +1,414 @@
+[
+ {
+  "id": "osm-n2338837948",
+  "name": "Foreign Cinema",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1999 in the Mission District.",
+    "url": "https://foreigncinema.com/about-us/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Gayle Pirie and John Clark took over the kitchen in 2001.",
+    "url": "https://foreigncinema.com/about-us/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named to the San Francisco Chronicle Top 100 Restaurants for twenty consecutive years.",
+    "url": "https://foreigncinema.com/about-us/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2656775528",
+  "name": "La Mejor Bakery",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Carmen Elias opened the Mexican bakery in 1993 after retiring from Bank of America.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named a San Francisco legacy business in 2024.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The storefront window art is hand painted each month by a local artist.",
+    "url": "https://en.wikipedia.org/wiki/La_Mejor_Bakery",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w260351423",
+  "name": "Victoria Theatre",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Built in 1908 as Brown's Opera House.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Named a San Francisco Designated Landmark (no. 215) in 1996.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "It is the oldest operational theatre in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Victoria_Theatre,_San_Francisco",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w1283827372",
+  "name": "Garfield Square",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has a swimming pool, athletic field, playground and courts.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The Garfield Center clubhouse and pool building was renovated in 2021.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Garfield-Recreation-Center-441",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n331389010",
+  "name": "Caffe Trieste",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1956 when Giovanni Giotta took over the Piccola Cafe and renamed it for Trieste.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Francis Ford Coppola wrote much of The Godfather screenplay at the cafe.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Its Saturday concert, started in 1971, is the longest running musical show in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste",
+    "verdict": "unsupported",
+    "note": "Search returned the page but only said opera singers perform on Saturdays; no 1971 start or longest-running claim."
+   }
+  ]
+ },
+ {
+  "id": "osm-n331666407",
+  "name": "Tommaso's Ristorante Italiano",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1935 as Lupo's by the Cantalupo family from Naples.",
+    "url": "https://hoodline.com/2015/10/tommasos-celebrates-80-years-in-north-beach/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Has used the same wood-burning pizza oven since 1935.",
+    "url": "https://hoodline.com/2015/10/tommasos-celebrates-80-years-in-north-beach/",
+    "verdict": "unsupported",
+    "note": "Hoodline 2015 page returned but no result states the same oven has been used since 1935; only that a brick oven was installed in 1935."
+   },
+   {
+    "text": "Awarded San Francisco Legacy Business status in 2017.",
+    "url": "https://www.sfchronicle.com/news/article/Slice-of-culinary-history-pizza-destination-12414432.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4156154835",
+  "name": "Good Mong Kok Bakery",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Takeout dim sum counter serving har gow, pork siu mai and baked barbecue pork buns.",
+    "url": "https://goodmongkokbakery.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w35065721",
+  "name": "Joe DiMaggio Playground",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1910 as the North Beach Playground.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground",
+    "verdict": "unsupported",
+    "note": "Page returned; no result states a 1910 opening, only renaming in 2000 and the 2015 renovation."
+   },
+   {
+    "text": "Vince, Joe and Dom DiMaggio grew up playing baseball here in the 1920s.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground",
+    "verdict": "unsupported",
+    "note": "No result mentions Vince, Dom or 1920s; only that Joe DiMaggio played at North Beach and other parks."
+   },
+   {
+    "text": "A renovation was completed in November 2015.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n4625310683",
+  "name": "Trattoria Contadina",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Vincent Correnti opened it in 1984; three generations of his family have owned it.",
+    "url": "https://www.sf.gov/sites/default/files/2022-05/Item%202d.%20LBR-2021-22-007%20Trattoria%20Contadina.pdf",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Joined the San Francisco Legacy Business Registry on May 23, 2022.",
+    "url": "https://www.sf.gov/sites/default/files/2022-05/Item%202d.%20LBR-2021-22-007%20Trattoria%20Contadina.pdf",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w260523829",
+  "name": "Kong Chow Temple",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Temple to the god Guan Di, relocated to the Kong Chow Building in 1977.",
+    "url": "https://en.wikipedia.org/wiki/Kong_Chow_Temple",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "The original Pine Street temple was destroyed in the 1906 earthquake and fire.",
+    "url": "https://en.wikipedia.org/wiki/Kong_Chow_Temple",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n10874913809",
+  "name": "Rooh",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named a Bib Gourmand by the MICHELIN Guide.",
+    "url": "https://guide.michelin.com/kr/ko/california/san-francisco/restaurant/rooh",
+    "verdict": "unsupported",
+    "note": "Michelin page lists Rooh as a MICHELIN restaurant ($$$) but no result shows a Bib Gourmand designation."
+   },
+   {
+    "text": "Serves modern Indian cuisine made with fresh California produce.",
+    "url": "https://guide.michelin.com/kr/ko/california/san-francisco/restaurant/rooh",
+    "verdict": "unsupported",
+    "note": "Michelin snippet says modern Indian fusing flavors with oysters, pork belly, burrata; no mention of California produce."
+   }
+  ]
+ },
+ {
+  "id": "osm-n1990302438",
+  "name": "EPIC Steak",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Established in 2008 on the Embarcadero waterfront.",
+    "url": "https://www.epicsteak.com/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Chef Parke Ulrich leads the kitchen.",
+    "url": "https://www.epicsteak.com/",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-w247957676",
+  "name": "AK Subs",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has served sandwiches at 8th and Harrison since 1993.",
+    "url": "https://www.sfstation.com/ak-subs-b267268",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Written up in SF Weekly's Cheap Eats and the Chronicle's Bargain Bites.",
+    "url": "https://www.sfstation.com/ak-subs-b267268",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n10270407011",
+  "name": "Robin",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Listed in the MICHELIN Guide for Japanese and Californian cuisine.",
+    "url": "https://guide.michelin.com/my/en/california/san-francisco/restaurant/robin",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n6726234885",
+  "name": "Loquat",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Founded by two Four Barrel Coffee partners and a former Tartine pastry chef.",
+    "url": "https://www.sfchronicle.com/food/article/sf-loquat-bakery-17436682.php",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Is a Jewish diaspora bakery that announced a second location.",
+    "url": "https://www.sfchronicle.com/food/restaurants/article/loquat-sf-bakery-expanding-22243090.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n2318141907",
+  "name": "Twin Peaks Tavern",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Designated San Francisco Landmark #264.",
+    "url": "https://noehill.com/sf/landmarks/sf264.asp",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "First opened in 1935 and became a gay bar with open plate glass windows in 1972.",
+    "url": "https://en.wikipedia.org/wiki/Twin_Peaks_Tavern",
+    "verdict": "ok",
+    "note": "Wikipedia: opened 1935; oversized windows unveiled 1972 (one snippet says window coverings removed a year later)."
+   }
+  ]
+ },
+ {
+  "id": "osm-n6970138687",
+  "name": "Frances",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Chef Melissa Perello's restaurant won a Michelin star.",
+    "url": "https://hoodline.com/2013/01/which-castro-restaurant-is-best-critics-michelin-star-winner-frances/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Reopened in June 2021 after a pandemic closure.",
+    "url": "https://www.sfgate.com/food/article/Michelin-starred-Frances-returns-to-San-Francisco-17264130.php",
+    "verdict": "wrong",
+    "note": "SFGate says Frances reopened Thursday June 23 with a prix-fixe format (Hoodline 2022/06 matches), i.e. 2022, not June 2021."
+   }
+  ]
+ },
+ {
+  "id": "osm-n2853929583",
+  "name": "Noe Valley Bakery",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Opened in 1995 by Michael and Mary Gassen as a full-line neighborhood artisan bakery.",
+    "url": "https://noevalleybakery.com/pages/noe-valley",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n3022661942",
+  "name": "La Ciccia",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Named to the San Francisco Chronicle's Top 100 Bay Area Restaurants in 2018.",
+    "url": "https://projects.sfchronicle.com/2018/top-100-restaurants/la-ciccia/",
+    "verdict": "ok",
+    "note": ""
+   },
+   {
+    "text": "Founders Massimiliano Conti and Lorella Degan sold it to a restaurant group.",
+    "url": "https://www.sfgate.com/food/article/Sardinian-restaurant-La-Ciccia-to-be-sold-17009368.php",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ },
+ {
+  "id": "osm-n1713269625",
+  "name": "The Valley Tavern",
+  "closed": false,
+  "closedSource": "",
+  "facts": [
+   {
+    "text": "Has a multi-level back patio with picnic tables.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/valley-tavern",
+    "verdict": "ok",
+    "note": ""
+   }
+  ]
+ }
+]

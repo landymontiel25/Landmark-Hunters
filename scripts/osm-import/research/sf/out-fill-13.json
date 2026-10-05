@@ -1,0 +1,897 @@
+[
+ {
+  "name": "Perbacco",
+  "area": "Financial District",
+  "address": "230 California St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Owner Umberto Gibin has run Perbacco in the Financial District since 2006.",
+    "url": "https://www.perbaccosf.com/umberto-gibin/"
+   },
+   {
+    "text": "The menu focuses on Northern Italian cooking inspired by Piemonte and Liguria.",
+    "url": "https://www.perbaccosf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Cotogna",
+  "area": "Jackson Square",
+  "address": "490 Pacific Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Casual sibling of Quince, run by Michael and Lindsay Tusk.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/cotogna"
+   },
+   {
+    "text": "Pastas include agnolotti del plin stuffed with rabbit, veal and pork.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/cotogna"
+   },
+   {
+    "text": "The dining room has exposed brickwork and a copper counter and bar.",
+    "url": "https://guide.michelin.com/us/en/california/san-francisco/restaurant/cotogna"
+   }
+  ]
+ },
+ {
+  "name": "Kokkari Estiatorio",
+  "area": "Jackson Square",
+  "address": "200 Jackson St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Open in the Financial District since 1998.",
+    "url": "https://www.finedininglovers.com/restaurants/kokkari-estiatorio"
+   },
+   {
+    "text": "Named for a fishing village on the Aegean island of Samos.",
+    "url": "https://www.finedininglovers.com/restaurants/kokkari-estiatorio"
+   },
+   {
+    "text": "Serves modern Greek cooking that draws on Northern California ingredients.",
+    "url": "https://kokkari.com/"
+   }
+  ]
+ },
+ {
+  "name": "Fog City Diner",
+  "area": "Embarcadero",
+  "address": "1300 Battery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/fog-city-restaurant-closure-20355454.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Sears Fine Food",
+  "area": "Union Square",
+  "address": "439 Powell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1938 by Hilbur and Ben Sears on Powell Street near Union Square.",
+    "url": "https://www.searsfinefood.com/our-history"
+   },
+   {
+    "text": "Known for its 18 Swedish pancakes made from the Sears family recipe.",
+    "url": "https://www.searsfinefood.com/our-history"
+   },
+   {
+    "text": "Reopened in August 2004 after closing in 2003.",
+    "url": "https://www.searsfinefood.com/our-history"
+   }
+  ]
+ },
+ {
+  "name": "Tonga Room & Hurricane Bar",
+  "area": "Union Square",
+  "address": "950 Mason St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1945 in the Fairmont's former Terrace Plunge swimming pool.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   },
+   {
+    "text": "Has a bandstand on a floating barge and artificial thunderstorms.",
+    "url": "https://en.wikipedia.org/wiki/Tonga_Room"
+   }
+  ]
+ },
+ {
+  "name": "Rickhouse",
+  "area": "Financial District",
+  "address": "246 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built from salvaged Kentucky barrel staves and charred pre-1906 brick.",
+    "url": "https://www.rickhousebar.com/"
+   },
+   {
+    "text": "Specializes in whiskeys from around the world, with live music on weekends.",
+    "url": "https://www.rickhousebar.com/"
+   }
+  ]
+ },
+ {
+  "name": "Local Edition",
+  "area": "Financial District",
+  "address": "691 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Sits in the basement of the former Hearst Building, once home to San Francisco Examiner printing.",
+    "url": "https://www.localeditionsf.com/introduction"
+   },
+   {
+    "text": "Décor draws on 1950s and 1960s newspapers, with vintage presses and archive clippings.",
+    "url": "https://www.localeditionsf.com/introduction"
+   }
+  ]
+ },
+ {
+  "name": "Café de la Presse",
+  "area": "Union Square",
+  "address": "352 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in September 2005 by Laurent Manrique, Jean Claude Persais and Steve Mayer.",
+    "url": "https://www.cafedelapresse.com/"
+   },
+   {
+    "text": "Has a newsstand with more than 500 international titles.",
+    "url": "https://www.cafedelapresse.com/"
+   }
+  ]
+ },
+ {
+  "name": "Schroeder's",
+  "area": "Financial District",
+  "address": "240 Front St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1893 by Henry Schroeder; rebuilt after the 1906 fire at Front Street.",
+    "url": "https://sfdames.com/2013/10/12/schroeders/"
+   },
+   {
+    "text": "Called the oldest and largest German restaurant on the West Coast.",
+    "url": "https://sfdames.com/2013/10/12/schroeders/"
+   },
+   {
+    "text": "Admitted only men at lunch until the 1970s.",
+    "url": "https://www.sfgate.com/food/history/article/Schroeders-Front-Street-Men-lunch-Weintraub-Kniesc-15841531.php"
+   }
+  ]
+ },
+ {
+  "name": "Wayfare Tavern",
+  "area": "Financial District",
+  "address": "201 Pine St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Chef Tyler Florence moved it here in spring 2025 after 14 years on Sacramento Street.",
+    "url": "https://www.wayfaretavern.com/about"
+   },
+   {
+    "text": "The menu is American food inspired by local cuisine of the early 1900s.",
+    "url": "https://www.wayfaretavern.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Tiramisu",
+  "area": "Financial District",
+  "address": "28 Belden Place",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1991 on Belden Place.",
+    "url": "https://www.nlslimo.com/restaurants/profile/cafe-tiramisu/"
+   },
+   {
+    "text": "Northern Italian menu with house-made pasta and cioppino.",
+    "url": "https://www.nlslimo.com/restaurants/profile/cafe-tiramisu/"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Madeleine",
+  "area": "Financial District",
+  "address": "149 New Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1999 as a downtown bakery and cafe.",
+    "url": "https://cafemadeleinesf.com/"
+   },
+   {
+    "text": "Makes French-style pastries and cakes baked daily in San Francisco.",
+    "url": "https://cafemadeleinesf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Pier 23 Cafe",
+  "area": "Embarcadero",
+  "address": "Pier 23, The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began as a coffee house for longshoremen working the docks.",
+    "url": "https://www.pier23cafe.com/about"
+   },
+   {
+    "text": "Family owned on the Embarcadero since 1985.",
+    "url": "https://www.pier23cafe.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Lefty O'Doul's",
+  "area": "Union Square",
+  "address": "333 Geary St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfgate.com/bayarea/article/Lefty-O-Doul-s-closes-its-doors-on-Geary-10902196.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "The Sentinel",
+  "area": "Financial District",
+  "address": "37 New Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 2008 by chef Dennis Leary.",
+    "url": "https://www.thesentinelsf.com/"
+   },
+   {
+    "text": "Occupies an old cigar shop across from the Palace Hotel.",
+    "url": "https://www.7x7.com/q-a-dennis-leary-downsizes-with-the-sentinel-1779080916.html"
+   }
+  ]
+ },
+ {
+  "name": "The Garden Court",
+  "area": "Financial District",
+  "address": "2 New Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Covered by a stained glass dome with more than 70,000 pieces of colored glass.",
+    "url": "https://www.sfpalace.com/history/"
+   },
+   {
+    "text": "The Palace Hotel opened on its present site on December 19, 1909.",
+    "url": "https://en.wikipedia.org/wiki/Palace_Hotel,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "name": "Biscuits and Blues",
+  "area": "Theater District",
+  "address": "401 Mason St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1995 on Mason Street, a block from Union Square.",
+    "url": "https://www.sfchronicle.com/entertainment/article/biscuits-blues-jazz-club-19466008.php"
+   },
+   {
+    "text": "Founded by Mississippi-born chef Regina Charboneau, who named it for her biscuit recipe.",
+    "url": "https://www.sfcv.org/articles/feature/legendary-san-francisco-blues-spot-reopens"
+   }
+  ]
+ },
+ {
+  "name": "Terminus",
+  "area": "Embarcadero",
+  "address": "16 California St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "European-style cafe and bar modeled after a train station.",
+    "url": "https://www.terminussf.com/"
+   },
+   {
+    "text": "Stands at the end of the California Street cable car line.",
+    "url": "https://www.terminussf.com/"
+   }
+  ]
+ },
+ {
+  "name": "Fraenkel Gallery",
+  "area": "Union Square",
+  "address": "49 Geary St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Jeffrey Fraenkel on September 11, 1979.",
+    "url": "https://en.wikipedia.org/wiki/Fraenkel_Gallery"
+   },
+   {
+    "text": "Its first exhibition showed 19th-century California photographs by Carleton Watkins.",
+    "url": "https://en.wikipedia.org/wiki/Fraenkel_Gallery"
+   }
+  ]
+ },
+ {
+  "name": "Maritime Plaza",
+  "area": "Financial District",
+  "address": "Washington St at Battery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 2-acre elevated roof garden designed in 1967 by Sasaki, Walker and Associates.",
+    "url": "https://en.wikipedia.org/wiki/Maritime_Plaza"
+   },
+   {
+    "text": "Holds sculptures by Marino Marini, Henry Moore and Charles Perry.",
+    "url": "https://en.wikipedia.org/wiki/Maritime_Plaza"
+   }
+  ]
+ },
+ {
+  "name": "Sue Bierman Park",
+  "area": "Embarcadero",
+  "address": "Washington St at The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 4.5-acre park on land once used by Embarcadero Freeway ramps.",
+    "url": "https://en.wikipedia.org/wiki/Sue_Bierman_Park"
+   },
+   {
+    "text": "Named for civic activist and Supervisor Sue Bierman, a leader of the Freeway Revolt.",
+    "url": "https://en.wikipedia.org/wiki/Sue_Bierman_Park"
+   }
+  ]
+ },
+ {
+  "name": "Sydney G. Walton Square",
+  "area": "Jackson Square",
+  "address": "Jackson St at Front St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 2-acre park designed by Peter Walker to suggest an alpine meadow.",
+    "url": "https://en.wikipedia.org/wiki/Sydney_Walton_Square"
+   },
+   {
+    "text": "Holds an arch from the Colombo Market, the last structure of the old produce district.",
+    "url": "https://en.wikipedia.org/wiki/Sydney_Walton_Square"
+   }
+  ]
+ },
+ {
+  "name": "Transamerica Redwood Park",
+  "area": "Financial District",
+  "address": "Montgomery St at Washington St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A half-acre redwood grove planted in 1972 beside the Transamerica Pyramid.",
+    "url": "https://www.tclf.org/landscapes/transamerica-redwood-park"
+   },
+   {
+    "text": "The site once held the Montgomery Block, demolished in 1959.",
+    "url": "https://www.tclf.org/landscapes/transamerica-redwood-park"
+   }
+  ]
+ },
+ {
+  "name": "Hallidie Plaza",
+  "area": "Union Square",
+  "address": "Market St at Powell St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1973 as part of the Market Street remodel that followed BART construction.",
+    "url": "https://en.wikipedia.org/wiki/Hallidie_Plaza"
+   },
+   {
+    "text": "Named for Andrew Smith Hallidie, who developed the first cable car system in 1873.",
+    "url": "https://en.wikipedia.org/wiki/Hallidie_Plaza"
+   }
+  ]
+ },
+ {
+  "name": "Embarcadero Plaza",
+  "area": "Embarcadero",
+  "address": "Market St at The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 4.1-acre plaza designed by Lawrence Halprin, called Justin Herman Plaza until 2017.",
+    "url": "https://en.wikipedia.org/wiki/Embarcadero_Plaza"
+   },
+   {
+    "text": "Its focal point is Armand Vaillancourt's 40-foot concrete fountain, Quebec Libre!",
+    "url": "https://en.wikipedia.org/wiki/Embarcadero_Plaza"
+   }
+  ]
+ },
+ {
+  "name": "Hotaling Building",
+  "area": "Jackson Square",
+  "address": "451 Jackson St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1866 by Anson Parsons Hotaling and later used as a whiskey warehouse.",
+    "url": "https://en.wikipedia.org/wiki/Hotaling_Building"
+   },
+   {
+    "text": "The building survived the 1906 earthquake and fire.",
+    "url": "https://en.wikipedia.org/wiki/Hotaling_Building"
+   }
+  ]
+ },
+ {
+  "name": "Pier 7",
+  "area": "Embarcadero",
+  "address": "The Embarcadero at Broadway",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A pier has stood here since 1901; the current one was dedicated in October 1990.",
+    "url": "https://www.foundsf.org/index.php?title=Pier_7"
+   },
+   {
+    "text": "A pedestrian-only fishing pier with views of the Bay Bridge.",
+    "url": "https://www.foundsf.org/index.php?title=Pier_7"
+   }
+  ]
+ },
+ {
+  "name": "Lotta's Fountain",
+  "area": "Union Square",
+  "address": "Market St at Geary St and Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A cast-iron fountain given to the city by actress Lotta Crabtree and dedicated September 9, 1875.",
+    "url": "https://en.wikipedia.org/wiki/Lotta%27s_Fountain"
+   },
+   {
+    "text": "Served as a meeting point after the 1906 earthquake.",
+    "url": "https://en.wikipedia.org/wiki/Lotta%27s_Fountain"
+   }
+  ]
+ },
+ {
+  "name": "Flood Building",
+  "area": "Union Square",
+  "address": "870 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Completed in 1904 for James L. Flood to a Beaux-Arts design by Albert Pissis.",
+    "url": "https://en.wikipedia.org/wiki/Flood_Building"
+   },
+   {
+    "text": "Built in honor of his father, James Clair Flood, whose initials mark the entrance.",
+    "url": "https://en.wikipedia.org/wiki/Flood_Building"
+   }
+  ]
+ },
+ {
+  "name": "Hallidie Building",
+  "area": "Financial District",
+  "address": "130 Sutter St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed by Willis Polk and built in 1917; considered the first U.S. glass curtain-wall building.",
+    "url": "https://en.wikipedia.org/wiki/Hallidie_Building"
+   },
+   {
+    "text": "Named for cable car pioneer Andrew Smith Hallidie.",
+    "url": "https://en.wikipedia.org/wiki/Hallidie_Building"
+   }
+  ]
+ },
+ {
+  "name": "Pacific Telephone Building",
+  "area": "Financial District",
+  "address": "140 New Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened May 30, 1925, designed by Miller and Pflueger.",
+    "url": "https://noehill.com/sf/landmarks/poi_pacific_telephone_and_telegraph.asp"
+   },
+   {
+    "text": "Was the city's tallest building until the Russ Building matched its height in 1927.",
+    "url": "http://www.sfmuseum.org/hist8/140telco.html"
+   }
+  ]
+ },
+ {
+  "name": "San Francisco Railway Museum",
+  "area": "Embarcadero",
+  "address": "77 Steuart St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Market Street Railway opened it in 2006 across from the Ferry Building.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Railway_Museum"
+   },
+   {
+    "text": "Exhibits cover F-line streetcars, cable cars and the 1906 earthquake; admission is free.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Railway_Museum"
+   }
+  ]
+ },
+ {
+  "name": "Audiffred Building",
+  "area": "Embarcadero",
+  "address": "100 The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1889 by Hippolyte d'Audiffred in a Parisian Second Empire style.",
+    "url": "https://en.wikipedia.org/wiki/Audiffred_Building"
+   },
+   {
+    "text": "San Francisco Landmark No. 7, listed on the National Register of Historic Places in 1979.",
+    "url": "https://en.wikipedia.org/wiki/Audiffred_Building"
+   }
+  ]
+ },
+ {
+  "name": "Hobart Building",
+  "area": "Financial District",
+  "address": "582 Market St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed by Willis Polk and built in 1914 for the Hobart Estate Company.",
+    "url": "https://en.wikipedia.org/wiki/Hobart_Building"
+   },
+   {
+    "text": "Designated a San Francisco landmark in 1983 and listed on the National Register in 2021.",
+    "url": "https://en.wikipedia.org/wiki/Hobart_Building"
+   }
+  ]
+ },
+ {
+  "name": "Jackson Square Historic District",
+  "area": "Jackson Square",
+  "address": "Jackson St at Montgomery St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Listed on the National Register of Historic Places on November 18, 1971.",
+    "url": "https://en.wikipedia.org/wiki/Jackson_Square,_San_Francisco"
+   },
+   {
+    "text": "Holds the city's surviving Gold Rush-era commercial buildings, built on landfill from abandoned ships.",
+    "url": "https://en.wikipedia.org/wiki/Jackson_Square,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "name": "V. C. Morris Gift Shop",
+  "area": "Union Square",
+  "address": "140 Maiden Lane",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Designed by Frank Lloyd Wright in 1948 and used as a prototype for the Guggenheim ramp.",
+    "url": "https://en.wikipedia.org/wiki/V._C._Morris_Gift_Shop"
+   },
+   {
+    "text": "Wright's only fully realized design in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/V._C._Morris_Gift_Shop"
+   }
+  ]
+ },
+ {
+  "name": "Ferry Plaza Farmers Market",
+  "area": "Embarcadero",
+  "address": "Ferry Plaza, The Embarcadero",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A weekly Saturday market began May 22, 1993 in front of the Ferry Building.",
+    "url": "https://foodwise.org/articles/25-moments-in-cuesa-history/"
+   },
+   {
+    "text": "Run by CUESA, a nonprofit established in 1994.",
+    "url": "https://foodwise.org/articles/25-moments-in-cuesa-history/"
+   }
+  ]
+ },
+ {
+  "name": "Mechanics Monument",
+  "area": "Financial District",
+  "address": "Market St at Battery St and Bush St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A bronze group by sculptor Douglas Tilden, dedicated May 15, 1901.",
+    "url": "https://en.wikipedia.org/wiki/Mechanics_Monument"
+   },
+   {
+    "text": "Shows five figures operating a punching machine, representing the five ages of man.",
+    "url": "https://en.wikipedia.org/wiki/Mechanics_Monument"
+   }
+  ]
+ }
+]

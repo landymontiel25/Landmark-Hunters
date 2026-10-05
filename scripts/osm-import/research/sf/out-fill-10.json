@@ -1,0 +1,363 @@
+[
+ {
+  "name": "Boichik Bagels",
+  "area": "Lower Pacific Heights",
+  "address": "1946 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened its second San Francisco location in the former Glaze Teriyaki Grill space.",
+    "url": "https://sfist.com/2024/06/18/boichik-bagels-opens-second-sf-location-on-upper-fillmore/"
+   },
+   {
+    "text": "The Fillmore Street shop has seating in an interior courtyard.",
+    "url": "https://sfist.com/2024/06/18/boichik-bagels-opens-second-sf-location-on-upper-fillmore/"
+   }
+  ]
+ },
+ {
+  "name": "Florio Bar & Cafe",
+  "area": "Lower Pacific Heights",
+  "address": "1915 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in December 1998 by Doug Biederbeck.",
+    "url": "https://fillmorestreetsf.com/dining/restaurants/florio/"
+   },
+   {
+    "text": "Mediterranean-style bistro with French and Italian specialties such as house made pate and steak frites.",
+    "url": "https://fillmorestreetsf.com/dining/restaurants/florio/"
+   }
+  ]
+ },
+ {
+  "name": "Chouquet's",
+  "area": "Pacific Heights",
+  "address": "2500 Washington St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "French bistro that has been open since 2004.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/choquets"
+   },
+   {
+    "text": "Has a covered parklet and sidewalk seating.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/choquets"
+   }
+  ]
+ },
+ {
+  "name": "Jackson Fillmore Trattoria",
+  "area": "Pacific Heights",
+  "address": "2506 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened on December 11, 1985 by Jack Krietzman.",
+    "url": "https://www.sf.gov/sites/default/files/2024-10/item_3b._lbr-2015-16-018_jackson_fillmore.pdf"
+   },
+   {
+    "text": "Opened as Jack's on Fillmore and was renamed after Jack's Restaurant's attorney made contact.",
+    "url": "https://www.sf.gov/sites/default/files/2024-10/item_3b._lbr-2015-16-018_jackson_fillmore.pdf"
+   },
+   {
+    "text": "Got two mentions in Herb Caen's column soon after opening.",
+    "url": "https://www.sf.gov/sites/default/files/2024-10/item_3b._lbr-2015-16-018_jackson_fillmore.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Kui Shin Bo",
+  "area": "Japantown",
+  "address": "22 Peace Plaza",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The name kuishinbo means a person who loves to eat.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/kui-shin-bo/"
+   },
+   {
+    "text": "Located in the Japan Center Malls, serving sushi and ramen.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/kui-shin-bo/"
+   }
+  ]
+ },
+ {
+  "name": "Kinokuniya Bookstore",
+  "area": "Japantown",
+  "address": "1581 Webster St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened at this location in 1969 as the first Kinokuniya bookstore in the US.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/kinokuniya-bookstore/"
+   },
+   {
+    "text": "Began as a second-floor tenant and later expanded to the first floor, now the manga and anime section.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/kinokuniya-bookstore/"
+   }
+  ]
+ },
+ {
+  "name": "Harry's Bar",
+  "area": "Pacific Heights",
+  "address": "2020 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1984.",
+    "url": "https://www.harrysbarsf.com/"
+   },
+   {
+    "text": "Founded by Harry Denton.",
+    "url": "https://newfillmore.com/fillmore-classics/50-years-on-fillmore/"
+   },
+   {
+    "text": "The space was earlier the Silvertone Club, the Mardi Gras Tavern and Tommy Lynaugh's 2020.",
+    "url": "https://newfillmore.com/fillmore-classics/50-years-on-fillmore/"
+   }
+  ]
+ },
+ {
+  "name": "Lafayette Park",
+  "area": "Pacific Heights",
+  "address": "Laguna, Sacramento, Gough and Washington Streets",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The city set aside the land in 1855 and officially established the park in 1867.",
+    "url": "https://sfrecpark.org/512/Lafayette-Park"
+   },
+   {
+    "text": "George Davidson built the first astronomical observatory on the West Coast here in 1879.",
+    "url": "https://sfrecpark.org/512/Lafayette-Park"
+   },
+   {
+    "text": "The St. Regis Apartments are the only privately owned building in a San Francisco public park.",
+    "url": "https://sfrecpark.org/512/Lafayette-Park"
+   }
+  ]
+ },
+ {
+  "name": "Alta Plaza Park",
+  "area": "Pacific Heights",
+  "address": null,
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The park was established in 1888 on the site of a former quarry.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alta-Plaza-Park-147"
+   },
+   {
+    "text": "John McLaren implemented the terraces designed by Rudolph Ulrich.",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alta-Plaza-Park-147"
+   },
+   {
+    "text": "Cars were driven down the grand staircase in the 1971 film What's Up, Doc?",
+    "url": "https://sfrecpark.org/facilities/facility/details/Alta-Plaza-Park-147"
+   }
+  ]
+ },
+ {
+  "name": "Haas-Lilienthal House",
+  "area": "Pacific Heights",
+  "address": "2007 Franklin St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Queen Anne house designed by Peter R. Schmidt and built in 1886 for William Haas.",
+    "url": "https://www.sfheritage.org/haas-lilienthal-house/"
+   },
+   {
+    "text": "The Haas-Lilienthal family lived here until 1973, when the house went to SF Heritage.",
+    "url": "https://www.sfheritage.org/haas-lilienthal-house/"
+   },
+   {
+    "text": "San Francisco Landmark #69 and listed on the National Register of Historic Places.",
+    "url": "https://www.sfheritage.org/haas-lilienthal-house/"
+   }
+  ]
+ },
+ {
+  "name": "Sweet Maple",
+  "area": "Lower Pacific Heights",
+  "address": "2101 Sutter St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 2010.",
+    "url": "https://www.sweetmaplesf.com/"
+   },
+   {
+    "text": "Serves American breakfast and brunch with an Asian influence, including Millionaire's Bacon.",
+    "url": "https://www.sweetmaplesf.com/"
+   }
+  ]
+ },
+ {
+  "name": "African American Art & Culture Complex",
+  "area": "Western Addition",
+  "address": "762 Fulton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Formed in 1989 when the Wajumbe Cultural Institution and the SF African American Historical Society joined forces.",
+    "url": "https://aaacc.org/about/"
+   },
+   {
+    "text": "Includes art galleries, performance spaces, dance studios and a library and archives.",
+    "url": "https://aaacc.org/about/"
+   }
+  ]
+ },
+ {
+  "name": "On the Bridge",
+  "area": "Japantown",
+  "address": "1581 Webster St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves okonomiyaki pizza and 23 types of Japanese pasta.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/on-the-bridge/"
+   },
+   {
+    "text": "Sits on the bridge between Japantown East and West.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/on-the-bridge/"
+   }
+  ]
+ },
+ {
+  "name": "Fillmore Bakeshop",
+  "area": "Lower Pacific Heights",
+  "address": "1890 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Family owned and operated bakery with a contemporary European-American baking style.",
+    "url": "https://fillmorestreetsf.com/dining/bakery-desserts/fillmore-bakeshop/"
+   },
+   {
+    "text": "Bakes cakes, tarts, pies, cookies and wedding cakes from scratch.",
+    "url": "https://fillmorestreetsf.com/dining/bakery-desserts/fillmore-bakeshop/"
+   }
+  ]
+ },
+ {
+  "name": "Woodhouse Fish Co.",
+  "area": "Lower Pacific Heights",
+  "address": "1914 Fillmore St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "East Coast-style seafood restaurant serving lobster rolls, oysters and cioppino.",
+    "url": "https://www.woodhousefish.com/"
+   }
+  ]
+ }
+]

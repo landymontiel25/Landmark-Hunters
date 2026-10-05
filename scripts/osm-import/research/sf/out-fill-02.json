@@ -1,0 +1,978 @@
+[
+ {
+  "name": "Caffe Trieste",
+  "area": "North Beach",
+  "address": "601 Vallejo St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1956 when Giovanni Giotta took over the Piccola Cafe and renamed it for Trieste.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   },
+   {
+    "text": "Francis Ford Coppola wrote much of The Godfather screenplay at the cafe.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   },
+   {
+    "text": "Its Saturday concert, started in 1971, is the longest running musical show in San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Caffe_Trieste"
+   }
+  ]
+ },
+ {
+  "name": "Liguria Bakery",
+  "area": "North Beach",
+  "address": "1700 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Ambrogio Soracco opened the bakery in 1911 with two brothers from Liguria.",
+    "url": "https://en.wikipedia.org/wiki/Liguria_Bakery"
+   },
+   {
+    "text": "It has made only focaccia since 1984.",
+    "url": "https://en.wikipedia.org/wiki/Liguria_Bakery"
+   },
+   {
+    "text": "The Soracco family's third generation runs the bakery.",
+    "url": "https://en.wikipedia.org/wiki/Liguria_Bakery"
+   }
+  ]
+ },
+ {
+  "name": "Molinari Delicatessen",
+  "area": "North Beach",
+  "address": "373 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1896 by P.G. Molinari, who came from the Piedmont region of Italy.",
+    "url": "https://en.wikipedia.org/wiki/Molinari's"
+   },
+   {
+    "text": "Moved to Columbus Avenue after the 1906 earthquake.",
+    "url": "https://en.wikipedia.org/wiki/Molinari's"
+   },
+   {
+    "text": "Makes its own brand of salami, sold nationwide.",
+    "url": "https://en.wikipedia.org/wiki/Molinari's"
+   }
+  ]
+ },
+ {
+  "name": "Stella Pastry & Cafe",
+  "area": "North Beach",
+  "address": "446 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1942 in North Beach.",
+    "url": "http://stellapastry.com.mytempweb.com/our-history/our-history.aspx"
+   },
+   {
+    "text": "Its Sacripantina, a rum and zabaglione layered sponge cake, has been on the menu since 1942.",
+    "url": "http://stellapastry.com.mytempweb.com/our-history/our-history.aspx"
+   }
+  ]
+ },
+ {
+  "name": "Golden Boy Pizza",
+  "area": "North Beach",
+  "address": "542 Green St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Peter Sodini opened the first Golden Boy on Green Street in 1978 at age 19.",
+    "url": "https://www.goldenboypizza.com/history"
+   },
+   {
+    "text": "Serves square slices on a focaccia dough crust.",
+    "url": "https://www.goldenboypizza.com/history"
+   }
+  ]
+ },
+ {
+  "name": "Tommaso's Ristorante Italiano",
+  "area": "North Beach",
+  "address": "1042 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1935 as Lupo's by the Cantalupo family from Naples.",
+    "url": "https://hoodline.com/2015/10/tommasos-celebrates-80-years-in-north-beach/"
+   },
+   {
+    "text": "Has used the same wood-burning pizza oven since 1935.",
+    "url": "https://hoodline.com/2015/10/tommasos-celebrates-80-years-in-north-beach/"
+   },
+   {
+    "text": "Awarded San Francisco Legacy Business status in 2017.",
+    "url": "https://www.sfchronicle.com/news/article/Slice-of-culinary-history-pizza-destination-12414432.php"
+   }
+  ]
+ },
+ {
+  "name": "Original Joe's",
+  "area": "North Beach",
+  "address": "601 Union St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1937 as a 14-stool counter in the Tenderloin.",
+    "url": "https://en.wikipedia.org/wiki/Original_Joe%27s"
+   },
+   {
+    "text": "Reopened in North Beach in 2012 after a 2007 fire at the original site.",
+    "url": "https://en.wikipedia.org/wiki/Original_Joe%27s"
+   }
+  ]
+ },
+ {
+  "name": "Club Fugazi",
+  "area": "North Beach",
+  "address": "678 Green St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1913 inside Casa Fugazi, a community center for San Francisco's Italian colony.",
+    "url": "https://en.wikipedia.org/wiki/Club_Fugazi"
+   },
+   {
+    "text": "Thelonious Monk recorded the album Thelonious Alone in San Francisco here in 1959.",
+    "url": "https://en.wikipedia.org/wiki/Club_Fugazi"
+   },
+   {
+    "text": "Beach Blanket Babylon played here until its final show in December 2019.",
+    "url": "https://en.wikipedia.org/wiki/Club_Fugazi"
+   }
+  ]
+ },
+ {
+  "name": "Good Mong Kok Bakery",
+  "area": "Chinatown",
+  "address": "1039 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Takeout dim sum counter serving har gow, pork siu mai and baked barbecue pork buns.",
+    "url": "https://goodmongkokbakery.com/"
+   }
+  ]
+ },
+ {
+  "name": "Golden Gate Fortune Cookie Factory",
+  "area": "Chinatown",
+  "address": "56 Ross Alley",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1962 with a mission to keep hand-folding fortune cookies.",
+    "url": "https://www.goldengatefortunecookies.com/history"
+   },
+   {
+    "text": "Celebrated its 60th year in 2022 and is a San Francisco Legacy Business.",
+    "url": "https://en.wikipedia.org/wiki/Golden_Gate_Fortune_Cookie_Company"
+   }
+  ]
+ },
+ {
+  "name": "Hang Ah Tea Room",
+  "area": "Chinatown",
+  "address": "1 Pagoda Pl",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1920 at the end of Hang Ah Alley.",
+    "url": "https://www.sfchronicle.com/restaurants/article/S-F-s-100-year-old-Hang-Ah-the-country-s-15941254.php"
+   },
+   {
+    "text": "The San Francisco Chronicle calls it the country's oldest dim sum restaurant.",
+    "url": "https://www.sfchronicle.com/restaurants/article/S-F-s-100-year-old-Hang-Ah-the-country-s-15941254.php"
+   }
+  ]
+ },
+ {
+  "name": "Red Blossom Tea Company",
+  "area": "Chinatown",
+  "address": "831 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1985.",
+    "url": "https://redblossomtea.com/pages/our-showroom"
+   },
+   {
+    "text": "Sources single-origin teas directly from farmers in China and Taiwan.",
+    "url": "https://redblossomtea.com/pages/our-showroom"
+   }
+  ]
+ },
+ {
+  "name": "House of Nanking",
+  "area": "Chinatown",
+  "address": "919 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1988 by Peter and Lily Fang, who moved from Shanghai in 1980.",
+    "url": "https://www.houseofnankingsf.com/about/"
+   },
+   {
+    "text": "Their daughter, chef Kathy Fang, is a two-time Chopped champion.",
+    "url": "https://www.houseofnankingsf.com/about/"
+   }
+  ]
+ },
+ {
+  "name": "Pioneer Park",
+  "area": "Telegraph Hill",
+  "address": "Telegraph Hill Blvd",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Established in 1876 on the site of the former Marine Telegraph Station.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Telegraph-Hill-Pioneer-Park-381"
+   },
+   {
+    "text": "The park surrounds Coit Tower, completed in 1933.",
+    "url": "https://sfrecpark.org/Facilities/Facility/Details/Telegraph-Hill-Pioneer-Park-381"
+   }
+  ]
+ },
+ {
+  "name": "Mama's on Washington Square",
+  "area": "North Beach",
+  "address": "1701 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started in 1951 as an ice cream shop called Herbert's Sherbet.",
+    "url": "https://en.wikipedia.org/wiki/Mama%27s_(restaurant)"
+   },
+   {
+    "text": "Expanded into a restaurant with sandwiches, salads and omelets in 1969.",
+    "url": "https://en.wikipedia.org/wiki/Mama%27s_(restaurant)"
+   }
+  ]
+ },
+ {
+  "name": "Caffe Greco",
+  "area": "North Beach",
+  "address": "423 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1988.",
+    "url": "https://www.sf.gov/sites/default/files/2023-01/Item%202b.%20LBR-2015-16-062%20Caffe%20Greco.pdf"
+   },
+   {
+    "text": "Makes its own panforte and tiramisu.",
+    "url": "https://www.sfstation.com/caff-greco-b24528491"
+   }
+  ]
+ },
+ {
+  "name": "Mario's Bohemian Cigar Store Cafe",
+  "area": "North Beach",
+  "address": "566 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1971 when Mario and Liliana Crismani bought the Bohemian Cigar Store.",
+    "url": "https://legacybusiness.org/business/marios-bohemian-cigar-store-cafe"
+   },
+   {
+    "text": "Serves oven-baked focaccia sandwiches on bread from Liguria Bakery.",
+    "url": "https://legacybusiness.org/business/marios-bohemian-cigar-store-cafe"
+   },
+   {
+    "text": "The building dates from 1909.",
+    "url": "https://legacybusiness.org/business/marios-bohemian-cigar-store-cafe"
+   }
+  ]
+ },
+ {
+  "name": "Comstock Saloon",
+  "area": "North Beach",
+  "address": "155 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Restored in 2010 in a building from the Barbary Coast era.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   },
+   {
+    "text": "Has an 18-foot mahogany bar top dating to the late 1890s.",
+    "url": "https://en.wikipedia.org/wiki/Comstock_Saloon"
+   }
+  ]
+ },
+ {
+  "name": "Old St. Mary's Cathedral",
+  "area": "Chinatown",
+  "address": "660 California St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Built in 1854 as the first cathedral of the Archdiocese of San Francisco.",
+    "url": "https://en.wikipedia.org/wiki/Old_St._Mary's_Cathedral"
+   },
+   {
+    "text": "Built with brick brought around Cape Horn and granite cut in China.",
+    "url": "https://en.wikipedia.org/wiki/Old_St._Mary's_Cathedral"
+   },
+   {
+    "text": "Designated a San Francisco Landmark on April 11, 1968.",
+    "url": "https://en.wikipedia.org/wiki/Old_St._Mary's_Cathedral"
+   }
+  ]
+ },
+ {
+  "name": "Saints Peter and Paul Church",
+  "area": "North Beach",
+  "address": "666 Filbert St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The present church was completed in 1924 with twin spires rising 191 feet.",
+    "url": "https://en.wikipedia.org/wiki/Saints_Peter_and_Paul_Church,_San_Francisco"
+   },
+   {
+    "text": "Joe DiMaggio married here in 1939.",
+    "url": "https://en.wikipedia.org/wiki/Saints_Peter_and_Paul_Church,_San_Francisco"
+   }
+  ]
+ },
+ {
+  "name": "Chinese Historical Society of America Museum",
+  "area": "Chinatown",
+  "address": "965 Clay St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in the Julia Morgan designed Chinatown YWCA building completed in 1932.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   },
+   {
+    "text": "The society was established in 1962.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   }
+  ]
+ },
+ {
+  "name": "Cobb's Comedy Club",
+  "area": "North Beach",
+  "address": "915 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1982 at 2069 Chestnut Street in the Marina.",
+    "url": "https://en.wikipedia.org/wiki/Cobb's_Comedy_Club"
+   },
+   {
+    "text": "Moved to Columbus Avenue in 2002 after a fire at its Fisherman's Wharf location.",
+    "url": "https://en.wikipedia.org/wiki/Cobb's_Comedy_Club"
+   }
+  ]
+ },
+ {
+  "name": "Tony's Pizza Napoletana",
+  "area": "North Beach",
+  "address": "1570 Stockton St",
+  "city": "San Francisco",
+  "tier": "acclaimed",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 2009 by Tony Gemignani.",
+    "url": "https://en.wikipedia.org/wiki/Tony%27s_Pizza_Napoletana"
+   },
+   {
+    "text": "Ranked third among U.S. pizzerias by 50 Top Pizza in 2025.",
+    "url": "https://www.axios.com/local/san-francisco/2025/08/26/tonys-pizza-san-francisco-best-usa"
+   }
+  ]
+ },
+ {
+  "name": "Empress by Boon",
+  "area": "Chinatown",
+  "address": "733 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in June 2021 in the former Empress of China space.",
+    "url": "https://www.forbes.com/sites/chelseadavis/2021/06/17/san-franciscos-chinatown-welcomes-new-culinary-destination-empress-by-boon/"
+   },
+   {
+    "text": "Chef Ho Chee Boon previously served as international executive chef of Hakkasan.",
+    "url": "https://www.forbes.com/sites/chelseadavis/2021/06/17/san-franciscos-chinatown-welcomes-new-culinary-destination-empress-by-boon/"
+   }
+  ]
+ },
+ {
+  "name": "R&G Lounge",
+  "area": "Chinatown",
+  "address": "631 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1985 as a one-story restaurant in a basement.",
+    "url": "https://chinatownmerchantssf.org/?hp_listing=r-g-lounge"
+   },
+   {
+    "text": "Has since grown to three dining floors.",
+    "url": "https://chinatownmerchantssf.org/?hp_listing=r-g-lounge"
+   }
+  ]
+ },
+ {
+  "name": "Great Eastern Restaurant",
+  "area": "Chinatown",
+  "address": "649 Jackson St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "President Barack Obama picked up dim sum takeout here on February 16, 2012.",
+    "url": "https://obamawhitehouse.archives.gov/photos-and-video/photo/2012/02/president-obama-great-eastern-restaurant"
+   }
+  ]
+ },
+ {
+  "name": "National Shrine of St. Francis of Assisi",
+  "area": "North Beach",
+  "address": "610 Vallejo St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began as a parish in June 1849, before California became a state.",
+    "url": "https://en.wikipedia.org/wiki/Saint_Francis_of_Assisi_Church_(San_Francisco)"
+   },
+   {
+    "text": "The Norman Gothic church was dedicated on March 17, 1860.",
+    "url": "https://en.wikipedia.org/wiki/Saint_Francis_of_Assisi_Church_(San_Francisco)"
+   },
+   {
+    "text": "Named a National Shrine in 1999.",
+    "url": "https://en.wikipedia.org/wiki/Saint_Francis_of_Assisi_Church_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "name": "Chinese Culture Center of San Francisco",
+  "area": "Chinatown",
+  "address": "750 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1965.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Culture_Center"
+   },
+   {
+    "text": "Its 2,935-square-foot gallery and 299-seat auditorium sit on the third floor.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Culture_Center"
+   }
+  ]
+ },
+ {
+  "name": "Tony Nik's Cafe",
+  "area": "North Beach",
+  "address": "1534 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1933 as Tony Nicco's Cafe, among the first North Beach bars licensed after Prohibition.",
+    "url": "https://www.sf.gov/sites/default/files/2023-02/Item%202c.%20LBR-2022-23-018%20Tony%20Nik%E2%80%99s%20Caf%C3%A9.pdf"
+   },
+   {
+    "text": "A mural by Nadine Torrance from the 1949 remodel is still on the back wall.",
+    "url": "https://www.sf.gov/sites/default/files/2023-02/Item%202c.%20LBR-2022-23-018%20Tony%20Nik%E2%80%99s%20Caf%C3%A9.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Golden Gate Bakery",
+  "area": "Chinatown",
+  "address": "1029 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Its egg custard tart, a dan-tat, built the bakery's following over more than 50 years.",
+    "url": "https://www.cbsnews.com/sanfrancisco/news/golden-gate-bakery-san-francisco-chinatown-hours-a-bit-of-a-mystery/"
+   },
+   {
+    "text": "Reopened after a long pandemic closure.",
+    "url": "https://www.cbsnews.com/sanfrancisco/news/golden-gate-bakery-san-francisco-chinatown-hours-a-bit-of-a-mystery/"
+   }
+  ]
+ },
+ {
+  "name": "Joe DiMaggio Playground",
+  "area": "North Beach",
+  "address": "651 Lombard St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1910 as the North Beach Playground.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground"
+   },
+   {
+    "text": "Vince, Joe and Dom DiMaggio grew up playing baseball here in the 1920s.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground"
+   },
+   {
+    "text": "A renovation was completed in November 2015.",
+    "url": "https://sfrecpark.org/565/Joe-DiMaggio-Playground"
+   }
+  ]
+ },
+ {
+  "name": "Willie \"Woo Woo\" Wong Playground",
+  "area": "Chinatown",
+  "address": "830 Sacramento St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1927 as the Chinese Playground and renamed in 2006 for USF basketball player Willie Wong.",
+    "url": "https://www.510families.com/willie-woo-woo-wong-playground/"
+   },
+   {
+    "text": "A $14.5 million renovation finished in February 2021 with a water dragon and phoenix sculpture.",
+    "url": "https://www.sfexaminer.com/news/city-unveils-renovated-playground-in-chinatown-just-in-time-for-lunar-new-year/article_fff43d1c-82a5-5d9c-9b87-bec6e23733a1.html"
+   }
+  ]
+ },
+ {
+  "name": "Trattoria Contadina",
+  "area": "North Beach",
+  "address": "1800 Mason St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Vincent Correnti opened it in 1984; three generations of his family have owned it.",
+    "url": "https://www.sf.gov/sites/default/files/2022-05/Item%202d.%20LBR-2021-22-007%20Trattoria%20Contadina.pdf"
+   },
+   {
+    "text": "Joined the San Francisco Legacy Business Registry on May 23, 2022.",
+    "url": "https://www.sf.gov/sites/default/files/2022-05/Item%202d.%20LBR-2021-22-007%20Trattoria%20Contadina.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Gino & Carlo",
+  "area": "North Beach",
+  "address": "548 Green St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in 1942 in a 1907 Edwardian building.",
+    "url": "https://www.sfchronicle.com/style/article/At-75-Gino-Carlo-in-North-Beach-a-bar-for-the-12485088.php"
+   },
+   {
+    "text": "Donato and Frank Rossi bought the bar in 1954, and it is still family-owned.",
+    "url": "https://www.sfchronicle.com/style/article/At-75-Gino-Carlo-in-North-Beach-a-bar-for-the-12485088.php"
+   }
+  ]
+ },
+ {
+  "name": "Vital Tea Leaf",
+  "area": "Chinatown",
+  "address": "1044 Grant Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Tea shop modeled after a wine bar, with tastings before purchase.",
+    "url": "https://www.justluxe.com/travel/san-francisco-news__1405329.php"
+   },
+   {
+    "text": "Carries more than 400 teas from China, Taiwan and Japan.",
+    "url": "https://www.justluxe.com/travel/san-francisco-news__1405329.php"
+   }
+  ]
+ },
+ {
+  "name": "Yuet Lee",
+  "area": "Chinatown",
+  "address": "1300 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Cantonese seafood restaurant open since the 1970s.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/yuet-lee-seafood-restaurant"
+   },
+   {
+    "text": "Serves whole steamed fish, salt and pepper prawns and clams in black bean sauce.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/yuet-lee-seafood-restaurant"
+   }
+  ]
+ },
+ {
+  "name": "Grace Marchant Garden",
+  "area": "Telegraph Hill",
+  "address": "Filbert Steps",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Created by Grace Marchant, a former Hollywood stuntwoman who moved to Telegraph Hill in 1949.",
+    "url": "https://gracemarchantgarden.com/about-3/"
+   },
+   {
+    "text": "The gardens flank both sides of the Filbert Street Steps.",
+    "url": "https://www.foundsf.org/Filbert_Steps_and_Grace_Marchant_Gardens"
+   }
+  ]
+ },
+ {
+  "name": "Sentinel Building",
+  "area": "North Beach",
+  "address": "916 Kearny St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Completed in 1907 and listed as San Francisco Designated Landmark No. 33.",
+    "url": "https://noehill.com/sf/landmarks/sf033.asp"
+   },
+   {
+    "text": "Francis Ford Coppola bought it in 1973; it houses his film studio American Zoetrope.",
+    "url": "https://en.wikipedia.org/wiki/Columbus_Tower_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "name": "Victoria Pastry Co.",
+  "area": "North Beach",
+  "address": "700 Filbert St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in 1914 by seven bakers who combined four competing North Beach bakeries.",
+    "url": "https://www.starkinsider.com/2009/05/cookie-victoria-pastry-co-pastry-tasting-north-beach-san-francisco.html"
+   },
+   {
+    "text": "Moved to Filbert Street in 2012 after nearly 100 years at Stockton and Vallejo.",
+    "url": "https://gianni.tv/victoria-pastry-moving-steps-of-rome-closed/"
+   }
+  ]
+ },
+ {
+  "name": "Kong Chow Temple",
+  "area": "Chinatown",
+  "address": "855 Stockton St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Temple to the god Guan Di, relocated to the Kong Chow Building in 1977.",
+    "url": "https://en.wikipedia.org/wiki/Kong_Chow_Temple"
+   },
+   {
+    "text": "The original Pine Street temple was destroyed in the 1906 earthquake and fire.",
+    "url": "https://en.wikipedia.org/wiki/Kong_Chow_Temple"
+   }
+  ]
+ },
+ {
+  "name": "Rose Pistola",
+  "area": "North Beach",
+  "address": "532 Columbus Ave",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://hoodline.com/2017/02/after-20-years-north-beach-fixture-rose-pistola-has-shuttered/",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Cafe Jacqueline",
+  "area": "North Beach",
+  "address": "Grant Ave at Union St",
+  "city": "San Francisco",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/food/restaurants/article/cafe-jacqueline-closes-north-beach-sf-listed-for-s-21278324.php",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ }
+]

@@ -1,0 +1,699 @@
+[
+ {
+  "name": "Urfa Bistro",
+  "area": "Los Altos",
+  "address": "233 State St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for Urfa, a city in southeastern Turkey, with dishes drawing on Kurdish, Arabic and Armenian cooking.",
+    "url": "https://urfabistro.com/about-us"
+   },
+   {
+    "text": "The chef has 20 years of experience cooking in fine restaurants.",
+    "url": "https://urfabistro.com/about-us"
+   }
+  ]
+ },
+ {
+  "name": "Rustic House Oyster Bar & Grill",
+  "area": "Los Altos",
+  "address": "295 Main St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in early 2018 at the corner of Main and Second streets.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2018/01/15/rustic-house-oyster-bar-and-grill-opens-in-los-altos/"
+   },
+   {
+    "text": "Chef Paul Cohen leads the kitchen.",
+    "url": "https://www.paloaltoonline.com/ae/2018/12/06/happiness-on-the-half-shell/"
+   }
+  ]
+ },
+ {
+  "name": "The Post",
+  "area": "Los Altos",
+  "address": "395 Main St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Housed in the Copeland Building, built around 1911 and listed as a Los Altos Historic Landmark.",
+    "url": "https://www.losaltosonline.com/business/a-familiar-face-takes-the-post-at-main-street-bar/article_3fe02c89-4247-59f1-9310-14ebbf9e340b.html"
+   },
+   {
+    "text": "The name honors the building's past as the Los Altos Post Office.",
+    "url": "https://www.losaltosonline.com/business/a-familiar-face-takes-the-post-at-main-street-bar/article_3fe02c89-4247-59f1-9310-14ebbf9e340b.html"
+   },
+   {
+    "text": "Owner Vickie Breslin combined two neighboring Main Street storefronts for it.",
+    "url": "https://www.thepostlosaltos.com/news"
+   }
+  ]
+ },
+ {
+  "name": "Barbayani Greek Taverna",
+  "area": "Los Altos",
+  "address": "388 Main St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Named for Barba Yani, a black-bearded innkeeper who welcomed travelers.",
+    "url": "https://barbayanitaverna.com/about-us/"
+   },
+   {
+    "text": "Opened September 30, 2023 by chef-owner Allen Isik and co-owner Dino Tekdemir.",
+    "url": "https://www.paloaltoonline.com/blogs/2023/12/23/barbayani-in-los-altos-wants-its-diners-to-feel-like-youre-in-greece/"
+   }
+  ]
+ },
+ {
+  "name": "Sumika",
+  "area": "Los Altos",
+  "address": "236 Plaza Central",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Japanese izakaya serving charcoal-grilled skewers, in the Bay Area since 2008.",
+    "url": "https://www.sumikagrill.com/"
+   },
+   {
+    "text": "Owner Kuiko Osawa later opened a second restaurant, Orenchi Ramen in Santa Clara.",
+    "url": "https://www.paloaltoonline.com/uncategorized/2013/03/15/yakitori-shines-at-sumika/"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Nur",
+  "area": "Los Altos",
+  "address": "280 Main St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Serves Middle Eastern, Turkish and Greek cuisines.",
+    "url": "https://cafenur.net/"
+   },
+   {
+    "text": "Shares an owner with Cafe 220 in downtown Palo Alto.",
+    "url": "https://cafenur.net/"
+   }
+  ]
+ },
+ {
+  "name": "State Street Market",
+  "area": "Los Altos",
+  "address": "170 State St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened as a food hall in a repurposed 1950s grocery store building.",
+    "url": "https://www.losaltosonline.com/business/massive-overhaul-of-state-st-building-nears-completion/article_e92db482-d3aa-11eb-aea9-b33d515045c0.html"
+   },
+   {
+    "text": "Billed as the first food hall on the Peninsula when it opened.",
+    "url": "https://www.sfchronicle.com/food/article/What-to-know-about-the-Peninsula-s-splashy-new-16441344.php"
+   }
+  ]
+ },
+ {
+  "name": "Manresa Bread",
+  "area": "Los Altos",
+  "address": "271 State St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Started in 2013 as a farmers' market pop-up from the kitchens of Manresa restaurant, led by head baker Avery Ruzicka.",
+    "url": "https://www.manresabread.com/our-story"
+   },
+   {
+    "text": "Mills its own organic flours for its sourdough breads.",
+    "url": "https://www.manresabread.com/our-story"
+   },
+   {
+    "text": "The Los Altos bakery opened in June 2016.",
+    "url": "https://www.mv-voice.com/blogs/2016/05/31/opening-alert-manresa-bread-in-los-altos/"
+   }
+  ]
+ },
+ {
+  "name": "Amber India",
+  "area": "Los Altos",
+  "address": "4926 W El Camino Real",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded by Vijay Bist; after 20 years in Mountain View it moved across El Camino Real to Los Altos.",
+    "url": "https://www.amber-india.com/about"
+   },
+   {
+    "text": "The Los Altos restaurant is in a hacienda-style building with a patio and banquet room.",
+    "url": "https://www.amber-india.com/los-altos"
+   }
+  ]
+ },
+ {
+  "name": "Los Altos Grill",
+  "area": "Los Altos",
+  "address": "233 3rd St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Part of the Hillstone Restaurant Group.",
+    "url": "https://losaltosgrill.com/"
+   },
+   {
+    "text": "Specialties include Carolina-style beef ribs and rotisserie chicken.",
+    "url": "https://losaltosgrill.com/"
+   }
+  ]
+ },
+ {
+  "name": "Dana Street Roasting Company",
+  "area": "Mountain View",
+  "address": "744 W Dana St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Roasts specialty coffee beans and serves espresso drinks and pastries in downtown Mountain View.",
+    "url": "http://www.danastreetroasting.com/"
+   },
+   {
+    "text": "Founded in 1992.",
+    "url": "https://roastersmap.com/coffee-roasters-california/mountain-view/dana-street-roasting-company/"
+   }
+  ]
+ },
+ {
+  "name": "Steins Beer Garden",
+  "area": "Mountain View",
+  "address": "895 Villa St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened in March 2013, conceived by founder Ted Kim after visiting German beer gardens.",
+    "url": "https://www.steinsbeergarden.com/our-story/"
+   },
+   {
+    "text": "Hosted the official Mountain View Oktoberfest until 2025.",
+    "url": "https://www.steinsbeergarden.com/our-story/"
+   },
+   {
+    "text": "Ricky Singh took over as owner in 2025, just before the planned March closure.",
+    "url": "https://www.paloaltoonline.com/mountain-view/2025/03/26/steins-is-saved-mountain-view-beer-garden-gets-new-owner-in-the-nick-of-time/"
+   }
+  ]
+ },
+ {
+  "name": "Cafe Baklava",
+  "area": "Mountain View",
+  "address": "341 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Mediterranean restaurant serving Mountain View since 2005.",
+    "url": "https://www.cafebaklava.online/about"
+   },
+   {
+    "text": "Its chefs use traditional cooking techniques passed down through generations.",
+    "url": "https://www.cafebaklava.online/about"
+   }
+  ]
+ },
+ {
+  "name": "Sakoon",
+  "area": "Mountain View",
+  "address": "357 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The name is the Indian word for peace.",
+    "url": "https://sakoonrestaurant.com/about-us/"
+   },
+   {
+    "text": "The dining room has hand-carved wooden Buddha panels and a waterfall into a pool of lotus petals.",
+    "url": "https://sakoonrestaurant.com/mountainview/"
+   }
+  ]
+ },
+ {
+  "name": "Ristorante Don Giovanni",
+  "area": "Mountain View",
+  "address": "235 Castro St",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Has served Italian cuisine on Castro Street since 1997.",
+    "url": "https://dongiovannis.com/"
+   },
+   {
+    "text": "Has a full bar, an extensive wine list and a large banquet room.",
+    "url": "https://dongiovannis.com/"
+   }
+  ]
+ },
+ {
+  "name": "Dittmer's Gourmet Meats & Wurst-Haus",
+  "area": "Los Altos",
+  "address": "4540 W El Camino Real",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founder Dittmer Bubert began at 14 in his family's delicatessen in Hamburg, Germany.",
+    "url": "https://www.dittmers.com/about"
+   },
+   {
+    "text": "Opened in Mountain View in 1978 and reopened in Los Altos after a 2011 fire.",
+    "url": "https://www.losaltosonline.com/business/dittmer-s-gourmet-meats-old-world-meets-new-realities/article_6a69e452-992a-11ee-9444-df25991c71f5.html"
+   },
+   {
+    "text": "Run today by his daughter Petra Silva.",
+    "url": "https://www.dittmers.com/about"
+   }
+  ]
+ },
+ {
+  "name": "Los Altos Stage Company",
+  "area": "Los Altos",
+  "address": "97 Hillview Ave",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Founded in June 1995 after the Los Altos Conservatory Theatre closed, as the Bus Barn Stage Company.",
+    "url": "https://losaltosstage.org/about/"
+   },
+   {
+    "text": "Started with seed money from the David and Lucile Packard Foundation and the Los Altos Community Foundation.",
+    "url": "https://losaltosstage.org/about/"
+   }
+  ]
+ },
+ {
+  "name": "Gallery 9",
+  "area": "Los Altos",
+  "address": "143 Main St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Artist cooperative founded in 1970 by nine artists, moved to Los Altos in 1973.",
+    "url": "https://www.losaltosonline.com/community/gallery-9-celebrates-50-years-in-los-altos/article_c65109f5-95be-5e8c-8986-524d8f2e9772.html"
+   },
+   {
+    "text": "Owned and operated by its member artists, with a new member show each month.",
+    "url": "https://www.losaltoshistory.org/exhibit/gallery-9/"
+   }
+  ]
+ },
+ {
+  "name": "Savvy Cellar Wine Bar & Wine Shop",
+  "area": "Mountain View",
+  "address": "750 W Evelyn Ave",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Launched on May 20, 2010.",
+    "url": "https://www.savvycellar.com/our-story"
+   },
+   {
+    "text": "New owners Jim Yang, Dave Koehler and Rick Menard took over in January 2021.",
+    "url": "https://www.paloaltoonline.com/peninsula-foodist/2021/03/02/mountain-views-savvy-cellar-wine-bar-reopens-under-new-owners/"
+   }
+  ]
+ },
+ {
+  "name": "Le Petit Bistro",
+  "area": "Mountain View",
+  "address": "1405 W El Camino Real",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Open since 1989, owned and run by chef Jean-Michel Peuvrelle.",
+    "url": "https://lepetitbistromountainview.com/mountain-view-mountain-view-le-petit-bistro-about"
+   },
+   {
+    "text": "Peuvrelle was born in Pas-de-Calais, France, the son of a charcutier.",
+    "url": "https://lepetitbistromountainview.com/mountain-view-mountain-view-le-petit-bistro-about"
+   }
+  ]
+ },
+ {
+  "name": "Little Blue Door",
+  "area": "Los Altos",
+  "address": "170 State St",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened April 6, 2022 by chef Srijith Gopinathan and Ayesha Thapar of Ettan.",
+    "url": "https://www.losaltosonline.com/business/little-blue-door-opens-on-state-street-in-los-altos/article_d8c4e066-ba0e-11ec-9a1f-7f4d97ae1894.html"
+   },
+   {
+    "text": "Serves Indian street food and family recipes with seasonal California ingredients.",
+    "url": "https://calindiacollective.com/little-blue-door"
+   }
+  ]
+ },
+ {
+  "name": "Hobee's Restaurant",
+  "area": "Mountain View",
+  "address": "2312 Central Expy",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://n2v.almanacnews.com/blogs/p/2023/11/14/hobees-mountain-view-is-closing-after-nearly-a-half-century-in-business",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Grant Park",
+  "area": "Los Altos",
+  "address": "1575 Holt Ave",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The community center has four classrooms and a multi-purpose room with a kitchen and stage.",
+    "url": "https://www.losaltosca.gov/facilities/facility/details/Grant-Park-Community-Center-3"
+   },
+   {
+    "text": "The park has a basketball court, playground, soccer field and public art.",
+    "url": "https://www.losaltosca.gov/facilities/facility/details/Grant-Park-Community-Center-3"
+   }
+  ]
+ },
+ {
+  "name": "Lincoln Park",
+  "area": "Los Altos",
+  "address": "Foothill Expressway at Lincoln, University and Edith avenues",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The city bought the strip along Foothill Expressway from the county.",
+    "url": "https://www.losaltosonline.com/news/sections/news/199-city-affairs/52778-city-purchases-lincoln-park-from-county"
+   },
+   {
+    "text": "The park has a gazebo, a large lawn and several sculptures.",
+    "url": "https://julianalee.com/los-altos/los-altos-lincoln-park.htm"
+   }
+  ]
+ },
+ {
+  "name": "Rosita Park",
+  "area": "Los Altos",
+  "address": "401 Rosita Ave",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A renovation added three tennis courts and a concessions building with restrooms.",
+    "url": "https://www.losaltosonline.com/news/rositas-renaissance-renovated-park-boasts-an-array-of-upgrades/article_b69a87f9-8728-55b5-ba66-dd2551b540cd.html"
+   },
+   {
+    "text": "The renovation planted more than 100 new trees, including ginkgo and red maple.",
+    "url": "https://www.losaltosonline.com/news/rositas-renaissance-renovated-park-boasts-an-array-of-upgrades/article_b69a87f9-8728-55b5-ba66-dd2551b540cd.html"
+   }
+  ]
+ },
+ {
+  "name": "McKenzie Park",
+  "area": "Los Altos",
+  "address": "Altos Oaks Drive",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The land came from pioneer orchardist Michael McKenzie's property in southern Los Altos.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   },
+   {
+    "text": "It shares the McKenzie orchard origin with nearby Heritage Oaks Park.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   }
+  ]
+ },
+ {
+  "name": "Heritage Oaks Park",
+  "area": "Los Altos",
+  "address": "1305 McKenzie Ave",
+  "city": "Los Altos",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 0,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Michael McKenzie planted the land with apricots, prunes, pears, walnuts and apples.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   },
+   {
+    "text": "Concrete abutments of McKenzie's irrigation dam are still visible in Permanente Creek here.",
+    "url": "https://www.losaltosonline.com/archives/the-mckenzie-legacy-one-orchard-two-los-altos-parks/article_3c726bf2-30a1-55d9-a809-a8744ce19622.html"
+   }
+  ]
+ },
+ {
+  "name": "Bubb Park",
+  "area": "Mountain View",
+  "address": "680 Barbara Ave",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The 3.6-acre park sits next to Bubb Elementary School.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/168"
+   },
+   {
+    "text": "It has an off-leash dog area, shuffleboard and a water sand play feature.",
+    "url": "https://www.mountainview.gov/Home/Components/FacilityDirectory/FacilityDirectory/168"
+   }
+  ]
+ },
+ {
+  "name": "Mariposa Park",
+  "area": "Mountain View",
+  "address": "301 Mariposa Ave",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Butterfly theme, with white concrete spheres that suggest butterfly eggs.",
+    "url": "https://landscapearchitect.com/landscape-articles/mariposa-park-mountain-view-california"
+   },
+   {
+    "text": "The site held a Victorian house and barn built in 1910; the house stood until 2010.",
+    "url": "https://landscapearchitect.com/landscape-articles/mariposa-park-mountain-view-california"
+   }
+  ]
+ },
+ {
+  "name": "Stevens Creek Trail",
+  "area": "Mountain View",
+  "address": "Shoreline Park to L'Avenida Avenue",
+  "city": "Mountain View",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Reach 1, from Shoreline to L'Avenida Avenue, was completed in 1991.",
+    "url": "https://stevenscreektrail.org/FAQs/08097777.shtml"
+   },
+   {
+    "text": "Reach 4, Segment 1 over Highway 237 was dedicated on October 12, 2002.",
+    "url": "https://stevenscreektrail.org/FAQs/08097777.shtml"
+   }
+  ]
+ }
+]
