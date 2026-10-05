@@ -1,0 +1,437 @@
+[
+ {
+  "id": "osm-n13762262896",
+  "name": "Blue Stream Gallery & Wine",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10016621434",
+  "name": "Book & Job Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-w172250597",
+  "name": "Caldwell Synder Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n415567011",
+  "name": "California Historical Society Museum & Bookstore",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.kqed.org/arts/13970919/california-historical-society-closes-collection-stanford-university",
+  "notFound": false,
+  "searches": 2,
+  "note": "KQED: society permanently closed and its 678 Mission St building was sold.",
+  "facts": []
+ },
+ {
+  "id": "osm-n317081601",
+  "name": "California Society of Pioneers Museum and Library",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfstation.com/society-of-california-pioneers-b38401661",
+  "notFound": false,
+  "searches": 3,
+  "note": "Society moved from the Presidio (101 Montgomery) back to 300 Fourth Street; SF Station listing is titled with the new address.",
+  "facts": []
+ },
+ {
+  "id": "osm-n5038430321",
+  "name": "Cartoon Art Museum",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.cartoonart.org/press-releases/2026/7/31/cartoon-art-museum-update-closing-a-chapter",
+  "notFound": false,
+  "searches": 2,
+  "note": "Museum did not renew its 781 Beach Street lease; last day there Aug 2, 2026.",
+  "facts": []
+ },
+ {
+  "id": "osm-n12996561467",
+  "name": "Catharine Clark Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1991 in Hayes Valley before moving several times.",
+    "url": "https://en.wikipedia.org/wiki/Catharine_Clark_Gallery"
+   },
+   {
+    "text": "Opened its Utah Street location on September 7, 2013.",
+    "url": "https://en.wikipedia.org/wiki/Catharine_Clark_Gallery"
+   }
+  ]
+ },
+ {
+  "id": "osm-w205655753",
+  "name": "CCA Wattis Institute for Contemporary Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1998 by Lawrence Rinder as part of California College of the Arts.",
+    "url": "https://en.wikipedia.org/wiki/Wattis_Institute_for_Contemporary_Arts"
+   },
+   {
+    "text": "Renamed in 2002 after philanthropist Phyllis C. Wattis.",
+    "url": "https://en.wikipedia.org/wiki/Wattis_Institute_for_Contemporary_Arts"
+   },
+   {
+    "text": "Opened its Kansas Street location in January 2013.",
+    "url": "https://en.wikipedia.org/wiki/Wattis_Institute_for_Contemporary_Arts"
+   },
+   {
+    "text": "Runs the Capp Street Project artist residency.",
+    "url": "https://en.wikipedia.org/wiki/Wattis_Institute_for_Contemporary_Arts"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288716388",
+  "name": "Children's Creativity Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened as Zeum on October 31, 1998.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Creativity_Museum"
+   },
+   {
+    "text": "Renamed Children's Creativity Museum in 2011.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Creativity_Museum"
+   },
+   {
+    "text": "Built on top of the Moscone Convention Center, with a 200-seat theatre.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Creativity_Museum"
+   },
+   {
+    "text": "Offers stop-motion animation, robot programming and music video workshops for kids aged 2 to 12.",
+    "url": "https://en.wikipedia.org/wiki/Children's_Creativity_Museum"
+   }
+  ]
+ },
+ {
+  "id": "osm-n806240639",
+  "name": "Chinese Historical Society of America",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Incorporated on January 5, 1963.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   },
+   {
+    "text": "The museum opened in November 2001 in the Chinatown YWCA building designed by Julia Morgan.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   },
+   {
+    "text": "Won a National Preservation Honor Award in 2004 for restoring the 1932 building.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   },
+   {
+    "text": "Displays the James Leong mural One Hundred Years: History of the Chinese in America.",
+    "url": "https://en.wikipedia.org/wiki/Chinese_Historical_Society_of_America"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10239425288",
+  "name": "Chloe Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Page shows address 434 Post Street.",
+  "facts": [
+   {
+    "text": "Moved to its Union Square space at Post Street and Powell.",
+    "url": "https://www.chloefinearts.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13062333961",
+  "name": "City Art Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1998 as a cooperative gallery owned and run by local artists.",
+    "url": "https://www.cityartgallery.org/about"
+   },
+   {
+    "text": "Artist members show work in monthly exhibits that open on the first Friday of each month.",
+    "url": "https://www.cityartgallery.org/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11558519652",
+  "name": "Clayroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": "Clayroom SoMa at 375 9th St.",
+  "facts": [
+   {
+    "text": "Added woodworking classes when it expanded to South of Market in 2020.",
+    "url": "https://hoodline.com/2020/02/pottery-studio-clayroom-to-expand-to-soma-add-woodworking-classes/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13127292304",
+  "name": "Clayroom",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n9602225644",
+  "name": "CMAC Edge on the Square",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Run by the Chinatown Media and Arts Collaborative, founded in 2017 by six Asian American organizations.",
+    "url": "https://www.edgeonthesquare.org/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10087741500",
+  "name": "Col Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2023 by Callie Jones and Julia Li.",
+    "url": "https://www.colgallery.com/about"
+   },
+   {
+    "text": "Named in honor of the late sculptor Richard Nonas.",
+    "url": "https://www.colgallery.com/about"
+   },
+   {
+    "text": "A project-based contemporary gallery inside Ghirardelli Square.",
+    "url": "https://www.colgallery.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4359145394",
+  "name": "Counterculture Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by the founders and management of The Beat Museum.",
+    "url": "https://counterculturemuseum.org/about/"
+   },
+   {
+    "text": "Exhibits cover the Beat Generation, hippies, the anti-war movement, civil rights and LGBTQ+ liberation.",
+    "url": "https://counterculturemuseum.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11008350407",
+  "name": "Crown Point Press",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1962 by Kathan Brown in a storefront in Richmond, California.",
+    "url": "https://crownpoint.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12550746946",
+  "name": "Eden Fine Art",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Eden's own site lists no San Francisco location; no source found confirming it is open or closed here.",
+  "facts": []
+ },
+ {
+  "id": "osm-n13154200801",
+  "name": "Et al. Gallery and Bookshop",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Et al. began in 2013 in the basement of Union Cleaners in Chinatown; this Mission storefront opened in 2017.",
+    "url": "https://etaletc.com/infoa"
+   },
+   {
+    "text": "Directed by Jackie Im and Aaron Harbour.",
+    "url": "https://etaletc.com/infoa"
+   }
+  ]
+ },
+ {
+  "id": "osm-n718375841",
+  "name": "Far Out Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Gallery still active per its own site (August 2026 notice); a March 2020 closure was temporary (COVID).",
+  "facts": []
+ },
+ {
+  "id": "osm-w1078027190",
+  "name": "Field Station",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Presidio Field Station; presidio.gov lists it at 603 Mason St.",
+  "facts": [
+   {
+    "text": "A science classroom in the Presidio whose experiences change weekly, monthly and with the seasons.",
+    "url": "https://presidio.gov/explore/attractions/field-station"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10543783374",
+  "name": "Foster Gwin Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1984 in Jackson Square by Shannon Collier Gwin.",
+    "url": "https://fostergwin.com/about-fostergwin/"
+   },
+   {
+    "text": "Began with 16th to 18th century European antiques and now focuses on Bay Area Abstract Expressionism.",
+    "url": "https://fostergwin.com/about-fostergwin/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12863098201",
+  "name": "Fraenkel Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Jeffrey Fraenkel, opening September 11, 1979 at 55 Grant Avenue.",
+    "url": "https://en.wikipedia.org/wiki/Fraenkel_Gallery"
+   },
+   {
+    "text": "Moved to 49 Geary Street in 1991 into a space designed by architect David Robinson.",
+    "url": "https://en.wikipedia.org/wiki/Fraenkel_Gallery"
+   },
+   {
+    "text": "Focuses on photography and also publishes books and posters.",
+    "url": "https://en.wikipedia.org/wiki/Fraenkel_Gallery"
+   }
+  ]
+ },
+ {
+  "id": "osm-w273575059",
+  "name": "Gadar Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Served as headquarters of the Hindustan Gadar Party, nicknamed Gadar Ashram.",
+    "url": "https://www.cgisf.gov.in/page/gadar-memorial-hall/"
+   },
+   {
+    "text": "Handed over to the Government of India in 1949.",
+    "url": "https://www.cgisf.gov.in/page/gadar-memorial-hall/"
+   },
+   {
+    "text": "Memorial inaugurated by Ambassador T.N. Kaul in March 1975.",
+    "url": "https://www.cgisf.gov.in/page/gadar-memorial-hall/"
+   }
+  ]
+ }
+]

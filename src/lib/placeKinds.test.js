@@ -33,6 +33,27 @@ describe('placeKinds', () => {
     expect(placeKinds(depauls).has('steakhouse')).toBe(true);
   });
 
+  it('reads no kind from a street name', () => {
+    const pub = { name: 'Irish Times', categories: ['local-life'], topic: 'pub', summary: 'Pub on Sacramento Street.' };
+    expect([...placeKinds(pub)]).toEqual(['bar']);
+    const bar = { name: "AJ's Bar", categories: ['local-life'], topic: 'bar', summary: 'Bar on Market Street.' };
+    expect(placeKinds(bar).has('food-hall')).toBe(false);
+    const ramen = food('Waraku', { topic: 'ramen restaurant', summary: 'Ramen restaurant on Market Street, San Francisco.' });
+    expect(placeKinds(ramen).has('japanese')).toBe(true);
+  });
+
+  it('does not call a bar named "Cafe" a coffee shop, or a bookstore a restaurant', () => {
+    const vesuvio = { name: 'Vesuvio Cafe', categories: ['local-life'], topic: 'bar', summary: 'Beat-era bar in North Beach.' };
+    expect(placeKinds(vesuvio).has('coffee')).toBe(false);
+    expect(placeKinds(vesuvio).has('bar')).toBe(true);
+    const trieste = food('Caffe Trieste', { topic: 'café', summary: 'Café on Vallejo Street.' });
+    expect(placeKinds(trieste).has('coffee')).toBe(true);
+    const books = { name: 'Sino American Books & Arts', categories: ['local-life'], topic: 'bookstore', summary: 'Bookstore.' };
+    expect(placeKinds(books).size).toBe(0);
+    const club = { name: 'Latin American Club', categories: ['local-life'], topic: 'bar', summary: 'Bar.' };
+    expect(placeKinds(club).has('american')).toBe(false);
+  });
+
   it('keeps kinds inside their category group', () => {
     const museum = { name: 'History Museum', categories: ['history-culture'], summary: 'A museum of local history with a cafe.' };
     expect(placeKinds(museum).has('coffee')).toBe(false);

@@ -1,0 +1,463 @@
+[
+ {
+  "id": "osm-w216220326",
+  "name": "Oasis Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The Oasis nightclub merged with the nonprofit Oasis Arts.",
+    "url": "https://www.ebar.com/story/154711"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11579822221",
+  "name": "Paul Thiebaud Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2001 by art dealer Paul Thiebaud, son of painter Wayne Thiebaud.",
+    "url": "https://en.wikipedia.org/wiki/Paul_Thiebaud"
+   }
+  ]
+ },
+ {
+  "id": "osm-w186071977",
+  "name": "Pier 24",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.sfchronicle.com/sf/article/pier-24-photography-closure-17747049.php",
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n1713279729",
+  "name": "Pixie Hall Studios",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/pixie-hall-studios-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2340730649",
+  "name": "Precita Eyes Mural Arts and Visitors Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1977 by Susan and Luis Cervantes.",
+    "url": "https://en.wikipedia.org/wiki/Precita_Eyes"
+   },
+   {
+    "text": "Runs mural tours from the visitors center and has a small mural art supply store.",
+    "url": "https://en.wikipedia.org/wiki/Precita_Eyes"
+   }
+  ]
+ },
+ {
+  "id": "osm-w935627816",
+  "name": "Proxy",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2011 as a temporary use of vacant lots left by the removed Central Freeway.",
+    "url": "http://proxysf.net/about/"
+   },
+   {
+    "text": "Created by ENVELOPE Architecture + Design using renovated shipping containers.",
+    "url": "http://proxysf.net/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1990455819",
+  "name": "Psychedelic SF",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened on April 19, 2022, on the corner of Haight and Masonic.",
+    "url": "https://www.psychedelicsfartgallery.com/about"
+   },
+   {
+    "text": "Grew out of Visionary Art Exchange, founded by Michael Acevedo in 2017.",
+    "url": "https://www.psychedelicsfartgallery.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6466845883",
+  "name": "Public Glass",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A nonprofit glass studio and school in the Bayview.",
+    "url": "https://www.publicglass.org/about-us"
+   },
+   {
+    "text": "Holds the Hot Glass Cold Beer fundraiser to support studio programs.",
+    "url": "https://www.publicglass.org/hgcb"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2321299145",
+  "name": "Queer Arts Featured",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies the storefront that once housed Harvey Milk's Castro Camera.",
+    "url": "https://www.queerartsfeatured.com/"
+   },
+   {
+    "text": "Began as a six month popup in 2022.",
+    "url": "https://www.queerartsfeatured.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w705309578",
+  "name": "Randall Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as the Junior Museum in 1937 in the city's old jail on Ocean Avenue.",
+    "url": "https://en.wikipedia.org/wiki/Randall_Museum"
+   },
+   {
+    "text": "The 1951 building was designed by William Merchant.",
+    "url": "https://en.wikipedia.org/wiki/Randall_Museum"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13666699035",
+  "name": "Real Old Paper",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Specializes in original vintage posters.",
+    "url": "https://realoldpaper.com/pages/about-us"
+   },
+   {
+    "text": "Owned by Bay Area native Andrew England.",
+    "url": "https://realoldpaper.com/pages/about-us"
+   },
+   {
+    "text": "Opened first in North Beach in 2016, later moving to Beach Street.",
+    "url": "https://realoldpaper.com/pages/about-us"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9849528027",
+  "name": "Rebecca Camacho Presents",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://datebook.sfchronicle.com/datebook-pick/rebecca-camacho-presents-opens-in-jackson-square-with-anne-buckwalter-show",
+  "notFound": false,
+  "searches": 3,
+  "note": "Gallery moved from 794 Sutter St to 526 Washington St in Jackson Square (opened Sept 2024)",
+  "facts": []
+ },
+ {
+  "id": "osm-n4173572889",
+  "name": "Red Poppy Art House",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2003 by Alexander Allende and Todd Brown as Porfilio Is-Mission Art House.",
+    "url": "https://redpoppyarthouse.org/about/art-house-story/"
+   },
+   {
+    "text": "Has had fiscal sponsorship through Intersection for the Arts since 2007.",
+    "url": "https://redpoppyarthouse.org/about/art-house-story/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288473102",
+  "name": "Ripley's Believe it or Not",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Search results report it will close before the end of 2026 but still open as of Sept 25, 2026; no closing date given",
+  "facts": [
+   {
+    "text": "Has a 3D mirror maze and hundreds of artifacts, interactive games and stories.",
+    "url": "https://www.ripleys.com/attractions/ripleys-believe-it-or-not-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6690681482",
+  "name": "San Francisco Center for the Book (SFCB)",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A nonprofit founded in 1996 by Mary Austin and Kathleen Burch.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Center_for_the_Book"
+   },
+   {
+    "text": "Offers classes in bookbinding, letterpress printing, artist's books and calligraphy.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Center_for_the_Book"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4022645779",
+  "name": "San Francisco Children's Art Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "No address given; located at Fort Mason Center, 2 Marina Blvd, Building C",
+  "facts": [
+   {
+    "text": "A nonprofit that has operated at Fort Mason Center since 1978.",
+    "url": "https://www.childrensartcenter.org/about"
+   },
+   {
+    "text": "Teaches art to children ages 2 to 10 and runs artist residencies in schools.",
+    "url": "https://www.childrensartcenter.org/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-w36950438",
+  "name": "San Francisco Fire Department Pioneer Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Exhibits cover the history of the city's fire, police, sheriff and EMS departments.",
+    "url": "https://guardiansofthecity.org/mission.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n368173977",
+  "name": "San Francisco Historical Society Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The society was founded in 1988 by historian Charles A. Fracchia.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Historical_Society"
+   },
+   {
+    "text": "Moved into this site of the first branch mint in the West in 2019.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Historical_Society"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7045575485",
+  "name": "San Francisco Maritime Visitor Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Housed in the Haslett Warehouse, a city landmark built in 1907.",
+    "url": "https://www.nps.gov/safr/planyourvisit/the-visitor-center.htm"
+   },
+   {
+    "text": "Displays a first-order Fresnel lens from the Farallon Islands Lighthouse.",
+    "url": "https://www.nps.gov/safr/planyourvisit/the-visitor-center.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-w41692824",
+  "name": "San Francisco Museum of Modern Art",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Reopened May 14, 2016, after a three-year closure for an expansion.",
+    "url": "https://www.sfmoma.org/about/our-expansion-2016/"
+   },
+   {
+    "text": "The expansion added a 10-story building designed by Snøhetta.",
+    "url": "https://www.sfmoma.org/about/our-expansion-2016/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n386591692",
+  "name": "San Francisco Railway Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has a full-size replica of the motorman's platform of a 1911 San Francisco streetcar.",
+    "url": "https://www.streetcar.org/museum/"
+   },
+   {
+    "text": "Opened in 2006 by the nonprofit Market Street Railway.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Railway_Museum"
+   }
+  ]
+ },
+ {
+  "id": "osm-n417275631",
+  "name": "San Francisco Sea Scout Base",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "No address given; page describes the Sea Scout base at Aquatic Park by Fisherman's Wharf",
+  "facts": [
+   {
+    "text": "The U.S. Army built the base in World War II as a landing craft maintenance facility.",
+    "url": "https://seascouts.ggacbsa.org/san-francisco-sea-scout-base-a-brief-history/"
+   },
+   {
+    "text": "The Army gave the keys to the Sea Scouts in 1947.",
+    "url": "https://seascouts.ggacbsa.org/san-francisco-sea-scout-base-a-brief-history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3667881627",
+  "name": "San Francisco Women Artist Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1887 as the Sketch Club.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Women_Artists"
+   },
+   {
+    "text": "A designated San Francisco Legacy Business.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Women_Artists"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9544205106",
+  "name": "Serge Sorokko Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Gallery now also based in Napa (opened June 2025); no source says the Grant Avenue space closed",
+  "facts": [
+   {
+    "text": "Founded in San Francisco in 1984 by Serge Sorokko.",
+    "url": "https://www.sorokko.com/"
+   },
+   {
+    "text": "Has published photography and fine art prints since 2000.",
+    "url": "https://www.sorokko.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w256720482",
+  "name": "SFJAZZ Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by Mark Cavagnero Associates.",
+    "url": "https://en.wikipedia.org/wiki/SFJAZZ_Center"
+   },
+   {
+    "text": "Has the Robert N. Miner Auditorium and the Joe Henderson Lab.",
+    "url": "https://en.wikipedia.org/wiki/SFJAZZ_Center"
+   }
+  ]
+ }
+]

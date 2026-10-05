@@ -16,7 +16,8 @@ const KINDS = [
   ['steakhouse', /steak ?house|steak restaurant|(serves|plus) steak\b|churrasc|chophouse|rodizio|prime steaks|dry-aged/, EAT],
   ['cheesesteak', /cheese ?steak|philly steak/, EAT],
   ['sushi', /sushi|omakase|sashimi|nigiri/, EAT],
-  ['japanese', /japanese|ramen|izakaya|teriyaki|\budon\b|hibachi/, EAT],
+  // \bramen\b: "Sacramento Street" holds "ramen".
+  ['japanese', /japanese|\bramen\b|izakaya|teriyaki|\budon\b|hibachi/, EAT],
   ['burgers', /burger/, EAT],
   ['pizza', /pizz/, EAT],
   ['mexican', /mexican|\btacos?\b|taqueria|burrito|cantina/, EAT],
@@ -35,11 +36,13 @@ const KINDS = [
   ['sandwiches', /sandwich|\bdeli\b|hoagie|sub shop|bagel/, EAT],
   ['breakfast', /breakfast|brunch|pancake|\bdiner\b/, EAT],
   ['food-hall', /food hall|\bmarket\b/, EAT],
-  ['american', /\bamerican\b|gastropub/, EAT],
+  // Not "Latin American" or "Sino American".
+  ['american', /(?<!(latin|sino|african|asian|native) )\bamerican\b|gastropub/, EAT],
   ['bakery', /bakery|bakeries|pastr|croissant|patisserie|\bbread\b/, EAT],
   ['sweets', /cookie|donut|doughnut|cupcake|\bcakes?\b|dessert|candy|chocolate|cheesecake/, EAT],
   ['ice-cream', /ice cream|gelato|frozen yogurt|creamery|italian ice|water ice/, EAT],
-  ['coffee', /coffee|espresso|\bcaf[eé]\b|roaster|bubble tea|boba|tea house/, EAT],
+  // "café": é is no word character, so \b can't close it.
+  ['coffee', /coffee|espresso|\bcaf(?:e\b|é)|\bcaffe\b|roaster|bubble tea|boba|tea house/, EAT],
   ['vegan', /vegan|vegetarian|plant-based/, EAT],
   // Drinks and nights out
   ['bar', /\bbar\b|\bpub\b|tavern|saloon/, OUT],
@@ -59,6 +62,13 @@ const KINDS = [
   ['garden', /\bgardens?\b|botanical|arboretum/, SEE],
 ];
 
+// Bars and clubs named "Cafe" or "Market" (Vesuvio Cafe, Royal Cuckoo
+// Market) are not coffee shops or food halls; shops get no eating kinds.
+const DRINKS_FIRST = new Set(['bar', 'nightclub', 'live-music', 'brewery', 'cocktails', 'wine']);
+const NOT_FOR_BARS = new Set(['coffee', 'food-hall']);
+const SHOP_TOPICS = /^(bookstore|record store|art shop|antique shop|mall|department store)$/;
+const EAT_KINDS = new Set(KINDS.filter(([, , group]) => group === EAT).map(([k]) => k));
+
 const KINDS_KEY = Symbol('kinds');
 const WEIGHTS_KEY = Symbol('kindWeights');
 
@@ -68,7 +78,10 @@ const clean = (parts) =>
     .join(' ')
     .toLowerCase()
     // "cheesesteak" is its own kind, never a steakhouse.
-    .replace(/cheese ?steaks?/g, 'cheesesteak');
+    .replace(/cheese ?steaks?/g, 'cheesesteak')
+    // Street names say where, not what: "Bar on Market Street" is no market,
+    // "Pub on Sacramento Street" serves no ramen.
+    .replace(/\b(on|at|off|near) ([\w'’.-]+ ){1,3}(street|st|avenue|ave|boulevard|blvd|way|place|alley|road|drive|lane|terrace)\b/g, ' ');
 const factsOf = (l) => (Array.isArray(l?.facts) ? l.facts : []);
 
 // Strong evidence of what a place IS: its name, topic, summary and the
@@ -95,6 +108,8 @@ export function placeKinds(l) {
   const strong = match(describe(l));
   const weights = new Map([...match(textOf(l))].map((k) => [k, 1]));
   for (const k of strong) weights.set(k, 2);
+  if (!cats.includes('food') && [...strong].some((k) => DRINKS_FIRST.has(k))) for (const k of NOT_FOR_BARS) weights.delete(k);
+  if (SHOP_TOPICS.test(l.topic || '')) for (const k of EAT_KINDS) weights.delete(k);
   const kinds = new Set(weights.keys());
   try {
     Object.defineProperty(l, KINDS_KEY, { value: kinds, enumerable: false });
