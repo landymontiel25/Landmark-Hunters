@@ -1,0 +1,464 @@
+[
+ {
+  "id": "osm-n8893626637",
+  "name": "Philo T Farnsworth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Statue is at the Letterman Digital Arts Center, Presidio",
+  "facts": [
+   {
+    "text": "Sculpted by Lawrence Noble and installed in October 2008 at the Letterman Digital Arts Center.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_Philo_Farnsworth"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4265327027",
+  "name": "Philosopher's Hill and Labyrinth",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A spiral labyrinth made of rocks and found objects, with a wooden bench at its center.",
+    "url": "http://hillbabiessf.blogspot.com/2011/01/labyrinth-of-mclaren-park.html"
+   },
+   {
+    "text": "Sits at the highest point of McLaren Park, on the ridgeline.",
+    "url": "http://hillbabiessf.blogspot.com/2011/01/labyrinth-of-mclaren-park.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1206800348",
+  "name": "Pier 45",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Place confirmed as a Fisherman's Wharf pier but no single page tied to a fact",
+  "facts": []
+ },
+ {
+  "id": "osm-w120479798",
+  "name": "Pioneer Log Cabin",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1911 as a meeting house for the Association of Pioneer Women of California.",
+    "url": "https://noehill.com/sf/landmarks/poi_pioneer_log_cabin.asp"
+   },
+   {
+    "text": "Built of unpeeled redwood logs from Humboldt County, with two rustic masonry chimneys.",
+    "url": "https://noehill.com/sf/landmarks/poi_pioneer_log_cabin.asp"
+   },
+   {
+    "text": "Extensively restored, with the work completed in 1995.",
+    "url": "https://noehill.com/sf/landmarks/poi_pioneer_log_cabin.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-w550601226",
+  "name": "Pioneer Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Granite monument with bronze figures and reliefs, financed by the estate of James Lick.",
+    "url": "https://en.wikipedia.org/wiki/Pioneer_Monument_(San_Francisco)"
+   },
+   {
+    "text": "Topped by a bronze figure of Minerva beside a California grizzly bear.",
+    "url": "https://en.wikipedia.org/wiki/Pioneer_Monument_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5135797823",
+  "name": "Pioneer Mother Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze sculpture by Charles Grafly, rediscovered in the 1930s and installed in the park in 1940.",
+    "url": "https://en.wikipedia.org/wiki/Pioneer_Mother_(Grafly)"
+   },
+   {
+    "text": "Restoration was funded by groups including the Native Daughters of the Golden West.",
+    "url": "https://en.wikipedia.org/wiki/Pioneer_Mother_(Grafly)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13111181571",
+  "name": "Portrait of a Phenomenal Woman",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze monument to Dr. Maya Angelou, installed at the San Francisco Main Library.",
+    "url": "https://www.sfartscommission.org/our-role-impact/press-room/press-release/new-monument-honoring-dr-maya-angelou-unveiled-san"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1350891714",
+  "name": "President Garfield",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A statue of President James Garfield sculpted in Munich by Frank Happersberger in 1885.",
+    "url": "https://en.wikipedia.org/wiki/Garfield_Monument_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6453421870",
+  "name": "Roald Amundsen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A memorial to the polar explorer Roald Amundsen, by sculptor Sigvald Asbjornsen.",
+    "url": "https://en.wikipedia.org/wiki/Roald_Amundsen_Memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6468753208",
+  "name": "Robert Burns",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A statue of the poet Robert Burns by Melvin Earl Cummings, erected in 1908.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_Robert_Burns_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6471296690",
+  "name": "Robert Emmet",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze statue by Jerome Connor, dedicated in San Francisco on July 20, 1919.",
+    "url": "https://en.wikipedia.org/wiki/Robert_Emmet_(Connor)"
+   },
+   {
+    "text": "Stands on the Music Concourse in front of the California Academy of Sciences.",
+    "url": "https://en.wikipedia.org/wiki/Robert_Emmet_(Connor)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6468818536",
+  "name": "Roman Gladiator",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Made to mark the ground-breaking for the 1894 Midwinter Exposition.",
+    "url": "https://en.wikipedia.org/wiki/Roman_Gladiator_(sculpture)"
+   },
+   {
+    "text": "Shows a nude man with a sword, cloak and helmet; administered by the SF Arts Commission.",
+    "url": "https://en.wikipedia.org/wiki/Roman_Gladiator_(sculpture)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9595951803",
+  "name": "Saint Francis of Assisi",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze St. Francis by Clara Huntington, shown at the 1939 Golden Gate International Exposition.",
+    "url": "https://artandarchitecture-sf.com/st-francis-of-assisi-in-the-fragrance-garden.html"
+   },
+   {
+    "text": "Stands in the Fragrance Garden in Golden Gate Park.",
+    "url": "https://artandarchitecture-sf.com/st-francis-of-assisi-in-the-fragrance-garden.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w605977669",
+  "name": "San Francisco Veterans Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A stone octagon memorial between Herbst Theatre and the War Memorial Opera House.",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Veterans_Memorial"
+   },
+   {
+    "text": "Inscribed with Archibald MacLeish's poem \"The Young Dead Soldiers Do Not Speak\".",
+    "url": "https://en.wikipedia.org/wiki/San_Francisco_Veterans_Memorial"
+   }
+  ]
+ },
+ {
+  "id": "osm-w281243360",
+  "name": "Santa Rosa",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A Steel Electric-class ferry built in 1927 for the Northwestern Pacific Railroad.",
+    "url": "https://en.wikipedia.org/wiki/Ferryboat_Santa_Rosa"
+   },
+   {
+    "text": "Bought by Hornblower Cruises in 1989 and now used as office space.",
+    "url": "https://en.wikipedia.org/wiki/Ferryboat_Santa_Rosa"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288485994",
+  "name": "Sentinel Building",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Francis Ford Coppola bought and renovated it, and American Zoetrope has been based here since 1972.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   },
+   {
+    "text": "San Francisco Designated Landmark No. 33.",
+    "url": "https://en.wikipedia.org/wiki/Sentinel_Building"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1364891448",
+  "name": "Seward Street Slides",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Two long concrete slides built in 1973 at Seward Mini Park.",
+    "url": "https://sfrecpark.org/facilities/facility/details/sewardminipark-203"
+   },
+   {
+    "text": "The slide was designed by 14-year-old Kim Clark, who won a contest run by sculptor Ruth Asawa.",
+    "url": "https://sfrecpark.org/facilities/facility/details/sewardminipark-203"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2496738466",
+  "name": "Sun Yat-sen's statue",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A sculpture of red granite and stainless steel by Beniamino Bufano, 14 feet tall.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_Sun_Yat-sen_(San_Francisco)"
+   },
+   {
+    "text": "Installed in 1937 in Saint Mary's Square.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_Sun_Yat-sen_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w262577281",
+  "name": "Swedenborgian Church of San Francisco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Bernard Maybeck, William Keith and Bruce Porter also contributed to the design.",
+    "url": "https://en.wikipedia.org/wiki/Swedenborgian_Church_(San_Francisco)"
+   },
+   {
+    "text": "Designated a National Historic Landmark in 2004.",
+    "url": "https://en.wikipedia.org/wiki/Swedenborgian_Church_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1350854610",
+  "name": "Sweeny Observatory Ruins",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An observatory of red-tinted concrete atop Strawberry Hill, dedicated September 19, 1891.",
+    "url": "https://www.sanfranciscostory.com/sweenys-observatory/"
+   },
+   {
+    "text": "Paid for by Thomas U. Sweeny, who gave $8,000 for it.",
+    "url": "https://www.sanfranciscostory.com/sweenys-observatory/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6463327128",
+  "name": "T.G. Masaryk",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bust by Josef Maratka, set in the rose garden area of Golden Gate Park.",
+    "url": "https://en.wikipedia.org/wiki/Bust_of_Tom%C3%A1%C5%A1_Garrigue_Masaryk_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4548821893",
+  "name": "The Lilac Mural Project",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A curated street art project started by Lisa and Randolph Bowes in Lilac Alley.",
+    "url": "https://streetartnyc.org/blog/2018/11/20/at-the-mission-districts-lilac-mural-project-and-gallery-with-mark-bode-crayone-twick-icp-nite-owl-and-more/"
+   },
+   {
+    "text": "The curated project has grown to cover 14 blocks of the Mission.",
+    "url": "https://streetartnyc.org/blog/2018/11/20/at-the-mission-districts-lilac-mural-project-and-gallery-with-mark-bode-crayone-twick-icp-nite-owl-and-more/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6468763557",
+  "name": "Thomas Starr King",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze statue of Thomas Starr King by Daniel Chester French, dated 1892, on a granite base.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_Thomas_Starr_King_(San_Francisco)"
+   },
+   {
+    "text": "Stands facing JFK Drive near the de Young Museum.",
+    "url": "https://en.wikipedia.org/wiki/Statue_of_Thomas_Starr_King_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11423890620",
+  "name": "Umbrella Alley",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://umbrellaalley.com/umbrella-alley-is-back-now-open-at-new-location-with-7-murals-in-fishermans-wharf/",
+  "notFound": false,
+  "searches": 3,
+  "note": "Official site says the original alley closed and reopened at a new location, 366 Jefferson Street; a second page with the same title also exists",
+  "facts": []
+ },
+ {
+  "id": "osm-w257338714",
+  "name": "Union Iron Works Office",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built as an office for Union Iron Works, a red-brick building with a central arch forming a tunnel-like entry.",
+    "url": "https://www.potreroview.net/y-combinator-draws-techies-to-dogpatch/"
+   },
+   {
+    "text": "Now part of the Y Combinator campus.",
+    "url": "https://www.potreroview.net/y-combinator-draws-techies-to-dogpatch/"
+   }
+  ]
+ }
+]

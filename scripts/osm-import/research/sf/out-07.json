@@ -1,0 +1,453 @@
+[
+ {
+  "id": "osm-w257338315",
+  "name": "Bethlehem Steel Administrative Building",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by architect Frederick H. Meyer and built in 1917 as the main office building of Bethlehem Steel.",
+    "url": "https://artandarchitecture-sf.com/bethlehem-steel-building.html"
+   },
+   {
+    "text": "A Classical Revival building at the entry to Pier 70, also called Building 101.",
+    "url": "https://artandarchitecture-sf.com/bethlehem-steel-building.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7212382894",
+  "name": "Cable Car Turntable (Hyde & Beach)",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Place exists (sfmta.com Hyde and Beach Cable Car Turnaround) but no single result stated a usable fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-n7212382895",
+  "name": "Cable Car Turntable (Taylor & Bay)",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Place exists but no single result stated a usable fact.",
+  "facts": []
+ },
+ {
+  "id": "osm-n358803219",
+  "name": "California Volunteers Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Installed in 1906 as a memorial to Spanish-American War veterans from California.",
+    "url": "https://en.wikipedia.org/wiki/California_Volunteers_(sculpture)"
+   },
+   {
+    "text": "A bronze and granite sculpture standing 26 feet high at Market and Dolores streets.",
+    "url": "https://en.wikipedia.org/wiki/California_Volunteers_(sculpture)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w168942987",
+  "name": "Camera Obscura",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in 1946 by Floyd Jennings next to the Cliff House.",
+    "url": "https://www.nps.gov/places/000/camera-obscura.htm"
+   },
+   {
+    "text": "Its exterior was remodeled in 1957 to resemble a giant camera.",
+    "url": "https://www.nps.gov/places/000/camera-obscura.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5269471549",
+  "name": "Carlos III",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze statue of King Carlos III by Spanish sculptor Federico Coullaut-Valera.",
+    "url": "https://kiosk.sfartscommission.org/objects-1/info/2494?query=_ID+%3D+%22ALL%22+and+Disp_Obj_Type+%3D+%22Sculpture%22&sort=9&page=370"
+   },
+   {
+    "text": "A gift from the government of Spain to San Francisco in 1976.",
+    "url": "https://kiosk.sfartscommission.org/objects-1/info/2494?query=_ID+%3D+%22ALL%22+and+Disp_Obj_Type+%3D+%22Sculpture%22&sort=9&page=370"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6550499869",
+  "name": "Chaplain William D. McKinnon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze statue by sculptor John A. MacQuarrie, completed in 1927.",
+    "url": "https://www.si.edu/object/chaplain-william-d-mckinnon-sculpture:siris_ari_341900"
+   },
+   {
+    "text": "Shows McKinnon in a Spanish-American War uniform with a cape, a bamboo staff and a scroll.",
+    "url": "https://www.si.edu/object/chaplain-william-d-mckinnon-sculpture:siris_ari_341900"
+   }
+  ]
+ },
+ {
+  "id": "osm-w120479810",
+  "name": "Chinese Pavillion",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A gift from San Francisco's sister city, Taipei, dedicated in 1981.",
+    "url": "https://goldengatepark.com/weddings-at-stow-lake-chinese-pavilion.html"
+   },
+   {
+    "text": "Stands on the shore of Stow Lake in Golden Gate Park.",
+    "url": "https://goldengatepark.com/weddings-at-stow-lake-chinese-pavilion.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4127224067",
+  "name": "Colombo Market Arch",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sole survivor of the Colombo produce market, which took root at this location in 1874.",
+    "url": "https://www.foundsf.org/Colombo_Market_Arch"
+   },
+   {
+    "text": "Escaped demolition when the Golden Gateway was built and now stands in Sydney Walton Park.",
+    "url": "https://www.foundsf.org/Colombo_Market_Arch"
+   }
+  ]
+ },
+ {
+  "id": "osm-w616479962",
+  "name": "Dewey Monument",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Commemorates Admiral George Dewey's victory in the Battle of Manila Bay.",
+    "url": "https://en.wikipedia.org/wiki/Dewey_Monument"
+   },
+   {
+    "text": "An 85-foot column topped by a 9-foot statue of Nike, the Greek goddess of victory.",
+    "url": "https://en.wikipedia.org/wiki/Dewey_Monument"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8722361747",
+  "name": "Down to the Seas in Ships",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "No search result mentioned this marker.",
+  "facts": []
+ },
+ {
+  "id": "osm-n65328703",
+  "name": "Dragon Gate",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built in the style of a traditional Chinese pailou, with materials donated by the Republic of China (Taiwan).",
+    "url": "https://en.wikipedia.org/wiki/Dragon_Gate_(San_Francisco)"
+   },
+   {
+    "text": "Dedicated on October 18, 1970, with a parade and ceremony.",
+    "url": "https://en.wikipedia.org/wiki/Dragon_Gate_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w287921407",
+  "name": "Dutch Windmill",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Built to pump groundwater to irrigate Golden Gate Park, at 30,000 gallons per hour.",
+    "url": "https://en.wikipedia.org/wiki/Dutch_Windmill_(Golden_Gate_Park)"
+   },
+   {
+    "text": "Electric pumps replaced it in 1913, and it was restored in 1981.",
+    "url": "https://en.wikipedia.org/wiki/Dutch_Windmill_(Golden_Gate_Park)"
+   },
+   {
+    "text": "The Queen Wilhelmina Tulip Garden lies next to it.",
+    "url": "https://en.wikipedia.org/wiki/Dutch_Windmill_(Golden_Gate_Park)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n7221410486",
+  "name": "Eadweard James Muybridge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Statue exists at Letterman Digital Arts Center, Presidio; no single result tied a fact to one page.",
+  "facts": []
+ },
+ {
+  "id": "osm-w276641708",
+  "name": "Earthquake Refugee Cottage. San Francisco Landmark No. 171",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 1906 earthquake refugee shack, with three relief cottages combined into the main house.",
+    "url": "https://noehill.com/sf/landmarks/sf171.asp"
+   }
+  ]
+ },
+ {
+  "id": "osm-n140982962",
+  "name": "Fort Winfield Scott",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established on June 19, 1912 as an independent coast artillery post, headquarters of the Artillery District of San Francisco.",
+    "url": "https://www.militarymuseum.org/FtScott.html"
+   },
+   {
+    "text": "Built 1909 to 1912, with Mission Revival style barracks around a parade ground.",
+    "url": "https://www.militarymuseum.org/FtScott.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32946083",
+  "name": "Fugazi Bank Building",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Designed by architect Charles Peter Paff in the Classical Revival style, faced in white terra cotta.",
+    "url": "https://en.wikipedia.org/wiki/Fugazi_Bank_Building"
+   },
+   {
+    "text": "Built for Giovanni Fugazi's Banca Popolare Operaia Italiana, later headquarters of A.P. Giannini's Transamerica.",
+    "url": "https://en.wikipedia.org/wiki/Fugazi_Bank_Building"
+   },
+   {
+    "text": "A San Francisco Designated Landmark since March 5, 1973.",
+    "url": "https://en.wikipedia.org/wiki/Fugazi_Bank_Building"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3297579562",
+  "name": "General John J. Pershing",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Dedicated on Armistice Day, November 11, 1922, at the Music Concourse in Golden Gate Park.",
+    "url": "https://www.outsidelands.org/ggp-pershing.php"
+   },
+   {
+    "text": "Commissioned by benefactor Dr. Morris Herzstein.",
+    "url": "https://www.outsidelands.org/ggp-pershing.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358803277",
+  "name": "George Sterling Memorial",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A memorial plaque carries lines from Sterling's poem \"The Cool, Grey City of Love\".",
+    "url": "https://phyllisawhitney.com/Features/tremblinghills/pages/sterlingplaque.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12863137601",
+  "name": "Gilbert Baker Memorial Rainbow Flag",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The Board of Supervisors voted unanimously in 2024 to make the flag installation a city landmark.",
+    "url": "https://www.ebar.com/story/334646"
+   },
+   {
+    "text": "Stands at Harvey Milk Plaza and is Gilbert Baker's only permanent art installation of its kind.",
+    "url": "https://www.ebar.com/story/334646"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3297583624",
+  "name": "Goethe & Schiller",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A bronze copy of Ernst Rietschel's 1857 Goethe and Schiller monument in Weimar, commissioned by German-Americans.",
+    "url": "https://en.wikipedia.org/wiki/Goethe%E2%80%93Schiller_Monument_(San_Francisco)"
+   },
+   {
+    "text": "Dedicated on August 11, 1901, in Golden Gate Park.",
+    "url": "https://en.wikipedia.org/wiki/Goethe%E2%80%93Schiller_Monument_(San_Francisco)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1308317902",
+  "name": "Golden Gate Fortune Cookie Factory",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1962 and makes its fortune cookies by hand.",
+    "url": "https://www.goldengatefortunecookies.com/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-r7776399",
+  "name": "Golden White House",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "No search result mentioned a place by this name in the Marina.",
+  "facts": []
+ },
+ {
+  "id": "osm-w28839856",
+  "name": "Greenwich Steps",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A brick stairway 120 feet high, one of the few brick stairways in the city.",
+    "url": "https://www.sfstairways.com/stairways/greenwich-street-montgomery-street-to-telegraph-hill-boulevard/"
+   },
+   {
+    "text": "Together with the Sansome to Montgomery section, a 280-foot climb to the Coit Tower parking lot.",
+    "url": "https://www.sfstairways.com/stairways/greenwich-street-montgomery-street-to-telegraph-hill-boulevard/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13289891501",
+  "name": "Gregangelo Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Installation art in a 1920s Mediterranean-style house, turned into an art project in the 1980s by Gregangelo Herrera.",
+    "url": "https://en.wikipedia.org/wiki/Gregangelo_Museum"
+   },
+   {
+    "text": "Has twenty-seven themed rooms and doubles as headquarters of Velocity Circus.",
+    "url": "https://en.wikipedia.org/wiki/Gregangelo_Museum"
+   }
+  ]
+ }
+]
