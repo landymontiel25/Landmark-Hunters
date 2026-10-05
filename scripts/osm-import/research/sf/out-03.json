@@ -1,0 +1,457 @@
+[
+ {
+  "id": "osm-n4632081523",
+  "name": "King's and Co",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": "Matched to King & Co Works of Art, 140 Sansome St (Financial District); name differs slightly",
+  "facts": [
+   {
+    "text": "A gallery of Asian art, with some pieces centuries old.",
+    "url": "https://www.yelp.com/biz/king-and-co-works-of-art-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4370295596",
+  "name": "Langton Labs",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/langton-labs-san-francisco",
+  "notFound": false,
+  "searches": 4,
+  "note": "Closure page lists Langton Labs at 9 Langton St, not 32 Langton St (Yelp lists a different business, Escama, at 32 Langton); same short SoMa street and same name",
+  "facts": []
+ },
+ {
+  "id": "osm-n8973091799",
+  "name": "Letterform Archive",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Rob Saunders to share his private collection of letter arts with the public.",
+    "url": "https://letterformarchive.org/about/"
+   },
+   {
+    "text": "Moved to the American Industrial Center in Dogpatch in 2020, gaining its first exhibition gallery.",
+    "url": "https://en.wikipedia.org/wiki/Letterform_Archive"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13646434401",
+  "name": "Lomauro Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Site confirms San Francisco studio but not the 6th Avenue address",
+  "facts": [
+   {
+    "text": "Founded by artist and designer Robyn Lomauro Grenning, who makes abstract paintings and sculptural wall art.",
+    "url": "https://lomaurostudio.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10695669958",
+  "name": "Luggage Store Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An artist-run nonprofit arts organization founded in 1987 by Tenderloin artists and residents.",
+    "url": "https://cast-sf.org/partnership/the-luggage-store-gallery-aka-509-cultural-center/"
+   },
+   {
+    "text": "Operated from the top floor of the Walker Building at 1007 Market Street since 1991.",
+    "url": "https://cast-sf.org/partnership/the-luggage-store-gallery-aka-509-cultural-center/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11976847196",
+  "name": "Lynette Nicole Betancur",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "The studio of Colombian-American sculptor and designer Lynette Nicole Betancur.",
+    "url": "https://lynettenicolebetancur.com/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12550746942",
+  "name": "Made in San Francisco",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Sells art, jewelry, gifts and home decor made by San Francisco artists and makers.",
+    "url": "https://goldengatefurniture.com/made-in-san-francisco"
+   },
+   {
+    "text": "Run by Golden Gate Furniture, which makes pieces from reclaimed 1930s Golden Gate Bridge handrail steel.",
+    "url": "https://goldengatefurniture.com/made-in-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10733880549",
+  "name": "Maracuja Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Found as Maracuja SF at 635 Texas Street, Suite C (Potrero Hill)",
+  "facts": [
+   {
+    "text": "A private gallery, community creative space and virtual reality studio.",
+    "url": "https://maracuja-sf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n416343746",
+  "name": "Maybaum Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 20,000 square foot satellite space in the former Barneys building hosting rotating group exhibitions.",
+    "url": "https://www.sfada.com/events/maybaum-gallerys-satellite-gallery-48-stockton-san-franciscos-union-square/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288376862",
+  "name": "Military Intelligence Service Historic Learning Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Building 640 housed the secret MIS language school, whose first classes began on November 1, 1941.",
+    "url": "https://www.njahs.org/building-640/"
+   },
+   {
+    "text": "Set up as an interpretive center in 2013 through adaptive reuse of Building 640.",
+    "url": "https://www.njahs.org/building-640/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9659806925",
+  "name": "Mini Mart",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Artist studios with a gallery space for local artists, started by Brent Hayden, Jennika Bastian and Nick Maltagliati.",
+    "url": "https://www.minimartsf.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11590449585",
+  "name": "Misalignment Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by Audrey Kim to show contemporary art that raises awareness of the dangers of artificial intelligence.",
+    "url": "https://misalignmentmuseum.com/"
+   },
+   {
+    "text": "A 501(c)(3) nonprofit organization.",
+    "url": "https://misalignmentmuseum.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w504335247",
+  "name": "Mission Cultural Center for Latino Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 1977 by artists and community activists to promote Chicano, Central American, South American and Caribbean experiences.",
+    "url": "https://en.wikipedia.org/wiki/Mission_Cultural_Center_for_Latino_Arts"
+   },
+   {
+    "text": "The building was a furniture store called The Shaft before it became the cultural center.",
+    "url": "https://en.wikipedia.org/wiki/Mission_Cultural_Center_for_Latino_Arts"
+   },
+   {
+    "text": "Offers music and arts classes, workshops and gallery exhibits.",
+    "url": "https://missionculturalcenter.org/exhibitions"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9996421217",
+  "name": "Modern Eden Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2010 by artists Kim Larson and Bradley Platz as a gallery of representational art.",
+    "url": "https://www.moderneden.com/pages/about-us-1"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10623964563",
+  "name": "Modernism",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Modernism Inc., 724 Ellis St (per Yelp/SF Station results), Tenderloin; still listed as open",
+  "facts": [
+   {
+    "text": "Occupies a 1947 building that began as a safe and lock manufacturer's outpost, renovated by Aidlin Darling Design.",
+    "url": "https://interiordesign.net/projects/aidlin-darling-design-revamps-san-francisco-s-modernism-gallery/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9339899671",
+  "name": "Montague Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A contemporary fine art glass gallery.",
+    "url": "https://www.haute-lifestyle.com/arts-culture/art-museums-galleries/2830-montague-gallery-a-san-francisco-contemporary-fine-art-house-presents-prima-vista-by-lino-tagliapietra.html"
+   },
+   {
+    "text": "Its inaugural exhibition was Prima Vista by glassblower Lino Tagliapietra.",
+    "url": "https://www.haute-lifestyle.com/arts-culture/art-museums-galleries/2830-montague-gallery-a-san-francisco-contemporary-fine-art-house-presents-prima-vista-by-lino-tagliapietra.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13058206962",
+  "name": "Moth Belly Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An artist-owned gallery started by local artists John Vochatzer and KT Seibert in fall 2020.",
+    "url": "https://www.mothbelly.org/about"
+   },
+   {
+    "text": "Has held monthly exhibits since October 2021 and organizes the Tenderloin First Thursday Art Walks.",
+    "url": "https://www.mothbelly.org/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4022645781",
+  "name": "Museo Italo Americano",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by Giuliana Nardelli Haight above Caffe Malvina in North Beach.",
+    "url": "https://en.wikipedia.org/wiki/Museo_ItaloAmericano"
+   },
+   {
+    "text": "Moved to Fort Mason Center in 1985.",
+    "url": "https://en.wikipedia.org/wiki/Museo_ItaloAmericano"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10991177405",
+  "name": "Museum of 3D Illusions",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Had its grand opening on March 1, 2019.",
+    "url": "https://www.newswire.com/news/museum-of-3d-illusions-grand-opening-20849581"
+   },
+   {
+    "text": "Has more than 40 exhibits of painted 3D scenes and props, some set in Bay Area locations.",
+    "url": "https://www.newswire.com/news/museum-of-3d-illusions-grand-opening-20849581"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4057348983",
+  "name": "Museum of Craft and Design",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Co-founded by JoAnn Edwards and her brother Seb Hamamjian.",
+    "url": "https://sfmcd.org/aboutmcd/"
+   },
+   {
+    "text": "Originally opened on Sutter Street near Union Square before moving to Dogpatch.",
+    "url": "https://sfmcd.org/aboutmcd/"
+   },
+   {
+    "text": "Reopened in the American Industrial Center in Dogpatch on April 6, 2013.",
+    "url": "https://sfmcd.org/museum-of-craft-and-design-opens-april-6-2013/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n368173975",
+  "name": "Museum of Russian Culture",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1948 at the Russian Center and incorporated in 1953 as an independent nonprofit.",
+    "url": "http://www.mrcsf.org/home/19/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n415567060",
+  "name": "Museum of the African Diaspora",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies the first three floors of the St. Regis Museum Tower in the Yerba Buena Arts District.",
+    "url": "https://en.wikipedia.org/wiki/Museum_of_the_African_Diaspora"
+   },
+   {
+    "text": "A nonprofit and Smithsonian Affiliate that presents artists of the African diaspora.",
+    "url": "https://en.wikipedia.org/wiki/Museum_of_the_African_Diaspora"
+   }
+  ]
+ },
+ {
+  "id": "osm-w32839686",
+  "name": "National Maritime Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "San Francisco Maritime Museum in the Aquatic Park Bathhouse",
+  "facts": [
+   {
+    "text": "Housed in the Aquatic Park Bathhouse, a Streamline Moderne building designed by William Mooser III.",
+    "url": "https://www.nps.gov/safr/learn/historyculture/aquatic-park-bathhouse.htm"
+   },
+   {
+    "text": "The Bathhouse was built by the WPA between 1936 and 1939.",
+    "url": "https://www.nps.gov/safr/learn/historyculture/aquatic-park-bathhouse.htm"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13756518071",
+  "name": "Nelson Duni",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A Mission District gallery that works with artists and estates.",
+    "url": "https://nelsonduni.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w35174721",
+  "name": "New Conservatory Theatre Center",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Started as a theatre arts conservatory for low-income youth, founded by Ed Decker, a former ACT Young Conservatory director.",
+    "url": "https://en.wikipedia.org/wiki/New_Conservatory_Theatre_Center"
+   }
+  ]
+ }
+]

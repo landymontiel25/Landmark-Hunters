@@ -1,0 +1,441 @@
+[
+ {
+  "id": "osm-w32839512",
+  "name": "Galileo Gymnaseum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A gymnasium building of Galileo High School.",
+    "url": "https://calisphere.org/item/46ce3afb2b23cdf08bb847daef1e8e33/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1457105303",
+  "name": "George M. Rush Stadium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Renamed George M. Rush Stadium in November 2015.",
+    "url": "https://ccsfathletics.com/sports/fball/2015-16/news_stories/CCSF_To_Change_Football_Stadium_Name_11-04-2015_SF_Gate"
+   }
+  ]
+ },
+ {
+  "id": "osm-w476267889",
+  "name": "Golden Gate Park Polo Field and Stadium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened July 4, 1906, as the Golden Gate Park Stadium.",
+    "url": "https://en.wikipedia.org/wiki/Polo_Fields"
+   }
+  ]
+ },
+ {
+  "id": "osm-w290533574",
+  "name": "Matthew J. Boxer Soccer Stadium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened September 27, 1953, as the Balboa Park Soccer Stadium.",
+    "url": "https://en.wikipedia.org/wiki/Boxer_Stadium"
+   },
+   {
+    "text": "Renamed in the 1990s for Matthew J. Boxer, a San Francisco Soccer Football League president.",
+    "url": "https://en.wikipedia.org/wiki/Boxer_Stadium"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1457105301",
+  "name": "Mayer Family Field",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Athletic field at Archbishop Riordan High School.",
+    "url": "https://untappd.com/v/archbishop-riordan-athletic-field-mayer-family-field/11912340"
+   }
+  ]
+ },
+ {
+  "id": "osm-n358857211",
+  "name": "Negoesco Stadium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Named for Stephen Negoesco, a longtime University of San Francisco soccer coach.",
+    "url": "https://en.wikipedia.org/wiki/Negoesco_Stadium"
+   },
+   {
+    "text": "Hosted a U.S. Open Cup game between the LA Galaxy and San Jose Earthquakes.",
+    "url": "https://en.wikipedia.org/wiki/Negoesco_Stadium"
+   }
+  ]
+ },
+ {
+  "id": "osm-w1457105297",
+  "name": "Sebastian C. Passanisi, Sr. Memorial Stadium",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n2027091592",
+  "name": "23rd Street Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A private figure drawing studio run by artist Michael Markowitz.",
+    "url": "https://hoodline.com/2016/06/meet-the-23rd-street-studio-a-figure-drawing-haven-in-noe-valley/"
+   },
+   {
+    "text": "Offers figure drawing sessions both with and without instruction.",
+    "url": "https://hoodline.com/2016/06/meet-the-23rd-street-studio-a-figure-drawing-haven-in-noe-valley/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9398686060",
+  "name": "41ross",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Launched in 2014 as a collaboration between the Chinatown Community Development Center and the Chinese Culture Center.",
+    "url": "https://www.cccsf.us/41-ross-artist-in-residence"
+   },
+   {
+    "text": "Runs an artist-in-residence program for API and BIPOC artists.",
+    "url": "https://www.cccsf.us/41-ross-artist-in-residence"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10917024146",
+  "name": "63 Bluxome Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n11725811776",
+  "name": "688 Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "A gallery of Academy of Art University.",
+    "url": "https://www.sfstation.com/688-sutter-gallery-academy-of-art-b2683"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10653835784",
+  "name": "Acción Latina",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A Latino cultural nonprofit founded in 1970.",
+    "url": "https://accionlatina.org/en/about-us/"
+   },
+   {
+    "text": "Publishes El Tecolote, a bilingual Spanish and English newspaper.",
+    "url": "https://accionlatina.org/en/about-us/"
+   },
+   {
+    "text": "Opened the Juan R. Fuentes Gallery in late 2015.",
+    "url": "https://accionlatina.org/en/about-us/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6381489728",
+  "name": "African American Art & Culture Complex",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Home to the 206-seat Buriel Clay Theater.",
+    "url": "https://aaacc.org/about/"
+   },
+   {
+    "text": "Has the Sargent Johnson and Hall of Culture galleries.",
+    "url": "https://aaacc.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4370393289",
+  "name": "Alter Space",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://alterspace.co/",
+  "notFound": false,
+  "searches": 2,
+  "note": "Page says artist-run gallery at 1158 Howard St operated about 2012 to 2018.",
+  "facts": []
+ },
+ {
+  "id": "osm-w173886707",
+  "name": "American Bookbinders Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened as a private museum in 2009.",
+    "url": "https://en.wikipedia.org/wiki/American_Bookbinders_Museum"
+   },
+   {
+    "text": "Moved to a larger South of Market location in 2015 and opened to the public.",
+    "url": "https://en.wikipedia.org/wiki/American_Bookbinders_Museum"
+   },
+   {
+    "text": "Started by Bay Area bookbinder Tim James.",
+    "url": "https://en.wikipedia.org/wiki/American_Bookbinders_Museum"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10179921398",
+  "name": "Andrea Schwartz Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 1982.",
+    "url": "https://www.sfada.com/galleries/andreaschwartzgallery/"
+   },
+   {
+    "text": "A member of the San Francisco Art Dealers Association.",
+    "url": "https://www.sfada.com/galleries/andreaschwartzgallery/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13109439483",
+  "name": "Antique Vibrator Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A 300-square-foot museum in the back of the Good Vibrations shop.",
+    "url": "https://theclio.com/entry/16003"
+   },
+   {
+    "text": "Displays vibrators from the 1800s to the 1970s.",
+    "url": "https://theclio.com/entry/16003"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3789606760",
+  "name": "arc gallery & studios",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies the former location of the New Langton Arts Foundation, which closed in 2009.",
+    "url": "https://www.arc-sf.com/about.html"
+   },
+   {
+    "text": "Established in 2010 by partners Mike Yochum and Priscilla Otani.",
+    "url": "https://www.arc-sf.com/about.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13724354404",
+  "name": "Artists Television Access",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Launched programming in 1984 and received tax-exempt status in 1985.",
+    "url": "https://www.atasite.org/about/history/"
+   },
+   {
+    "text": "Moved to its Valencia Street space in early 1987 after a 1986 fire left its SoMa space uninhabitable.",
+    "url": "https://www.atasite.org/about/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5427706522",
+  "name": "Autodesk Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened at One Market to showcase the design process.",
+    "url": "https://investors.autodesk.com/news-releases/news-release-details/autodesk-gallery-one-market-opens-san-francisco-showcasing"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11009374817",
+  "name": "Avenue 12 Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 2016 by Vince Meyer and Rachel Murray Meyer.",
+    "url": "https://avenue12gallery.com/about-avenue-12-gallery/"
+   },
+   {
+    "text": "The space was formerly Lake Market, then a Japanese antique store from 2005.",
+    "url": "https://avenue12gallery.com/about-avenue-12-gallery/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10017145718",
+  "name": "Balay Kreative Studios",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://balaykreative.org/stories-content/balay-kreative-is-pressing-pause",
+  "notFound": false,
+  "searches": 2,
+  "note": "Page says the 863 Mission Street studio space wound down at the end of February 2025 to make way for construction of Republika.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10103442907",
+  "name": "Berggruen Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by John Berggruen in spring 1970 on Grant Avenue.",
+    "url": "https://berggruen.com/contact/history/"
+   },
+   {
+    "text": "Opened its 10 Hawthorne Street space on January 13, 2017.",
+    "url": "https://berggruen.com/contact/history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11495567280",
+  "name": "Berz Gallery Of African Art",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/berz-gallery-of-african-art-san-francisco-3",
+  "notFound": false,
+  "searches": 1,
+  "note": "Page title: CLOSED, 1534 Grant Ave, San Francisco (North Beach).",
+  "facts": []
+ },
+ {
+  "id": "osm-n12572136430",
+  "name": "Birdhouse Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Owned by Ben Frombgen, an architect who lives and works in the building.",
+    "url": "https://richmondsunsetnews.com/2026/03/12/the-birdhouse-with-an-open-door-ben-frombgen-creates-community-for-artists/"
+   },
+   {
+    "text": "The 360-square-foot space was once a driveway of a neighboring pet store that boarded and sold birds.",
+    "url": "https://richmondsunsetnews.com/2026/03/12/the-birdhouse-with-an-open-door-ben-frombgen-creates-community-for-artists/"
+   }
+  ]
+ }
+]

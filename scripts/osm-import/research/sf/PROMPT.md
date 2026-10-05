@@ -83,3 +83,9 @@ per input place, in input order:
 every 5 places so progress survives an interruption (rewrite the whole array
 each time); this is required, not optional. When done, reply with one line: counts of places with facts,
 closed, notFound.
+
+## Scratch files
+
+Several batches run at once. Keep any helper script or temporary file in
+/tmp/claude-0/sf-batch-NN/ (your own batch number) and nowhere else; never
+touch another batch's files.
