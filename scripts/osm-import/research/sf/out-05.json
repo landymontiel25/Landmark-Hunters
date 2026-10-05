@@ -1,0 +1,413 @@
+[
+ {
+  "id": "osm-w112433952",
+  "name": "Sharon Art Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Housed in the Sharon Building, a sandstone building built in 1888 in the Richardsonian Romanesque style.",
+    "url": "https://goldengatepark.com/sharon-building-sharon-arts-studio.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10656846904",
+  "name": "Sirron Norris Studio & Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Exists at 2860 24th St per search summaries, but no single link tied to a fact",
+  "facts": []
+ },
+ {
+  "id": "osm-n10833332996",
+  "name": "Siy Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in January 2020 by Nounie Siy.",
+    "url": "https://somawestcbd.org/go/siy-gallery"
+   },
+   {
+    "text": "A contemporary art gallery that shows professional artists' work alongside stories of their creative journeys with mental illness.",
+    "url": "https://somawestcbd.org/go/siy-gallery"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10602156460",
+  "name": "Smaart Gallery & Studio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2012 and offers art and pottery classes and workshops.",
+    "url": "https://www.sfstation.com/smaart-gallery-and-studio-b38999613"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9408415651",
+  "name": "Soft Times",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "A search summary said it closed Feb 24, 2024, but no returned link states it, so closure not recorded",
+  "facts": []
+ },
+ {
+  "id": "osm-n2960339704",
+  "name": "SOMArts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The city bought the 26,000-square-foot Brannan Street building, which housed Support Services for the Arts.",
+    "url": "https://somarts.org/somarts-historical-timeline/"
+   },
+   {
+    "text": "Grew out of the Neighborhood Arts Program, created by the San Francisco Arts Commission in 1967.",
+    "url": "https://somarts.org/somarts-historical-timeline/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5128563699",
+  "name": "Southern Exposure",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Began as a cooperative art gallery tied to Project Artaud, a live/work artist community.",
+    "url": "https://en.wikipedia.org/wiki/Southern_Exposure_(art_space)"
+   },
+   {
+    "text": "Moved away from Project Artaud in 2006 and since then has supported offsite public art projects.",
+    "url": "https://en.wikipedia.org/wiki/Southern_Exposure_(art_space)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4625205008",
+  "name": "Speciality Shops Art Gallery",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n6693595728",
+  "name": "Studio Gen",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Established in 2022 with the Japan Center Malls as a community space for visual artists and traditional performing arts classes.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/studio-gen/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5134621034",
+  "name": "Tenderloin Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened on July 16, 2015.",
+    "url": "https://www.7x7.com/new-tenderloin-museum-showcases-the-heart-of-a-forgotten-neighborhood-1787197155.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5581588797",
+  "name": "The Beat Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "kerouac.com says temporarily closed for seismic retrofitting (not permanent)",
+  "facts": [
+   {
+    "text": "Founded by Jerry and Estelle Cimino.",
+    "url": "https://www.kerouac.com/about/"
+   },
+   {
+    "text": "The permanent home is across the street from City Lights Books.",
+    "url": "https://www.kerouac.com/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n5175561848",
+  "name": "The Faight Collective",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has an upstairs gallery space called Upper Faight.",
+    "url": "https://www.earlymusicamerica.org/locations/the-faight-collective-sf/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11777394307",
+  "name": "The Fuzzy Place",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A members-only immersive arts space; members join through an invitation process.",
+    "url": "https://fuzzy.place/about"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10251330871",
+  "name": "The Great Highway",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A contemporary art gallery and printing studio, founded in 2011 by John Lindsey.",
+    "url": "https://thegreathighway.com/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3672691124",
+  "name": "The Lab",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded as Co-LAB by five San Francisco State University art students and renamed The Lab in 1985.",
+    "url": "https://en.wikipedia.org/wiki/The_Lab_(organization)"
+   },
+   {
+    "text": "Started on Divisadero Street and moved to the Redstone Building in the Mission in 1995.",
+    "url": "https://en.wikipedia.org/wiki/The_Lab_(organization)"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9672970883",
+  "name": "Tint Gallery",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 2021 and highlights women artists working across media.",
+    "url": "https://www.hvsba.org/tint-gallery/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n368173972",
+  "name": "Truhlsen-Marmor Museum of the Eye",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded on November 2, 1980 as the Museum of Ophthalmology at the American Academy of Ophthalmology.",
+    "url": "https://www.aao.org/museum/history"
+   },
+   {
+    "text": "Opened its public gallery in July 2021; before that the collection was open by appointment only.",
+    "url": "https://www.aao.org/museum/history"
+   }
+  ]
+ },
+ {
+  "id": "osm-n8707835784",
+  "name": "Ute and William K. Bowes, Jr. Center for Performing Arts",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Has three performance spaces: Cha Chi Ming Recital Hall, Barbro Osher Recital Hall and Technology Hall.",
+    "url": "https://sfcm.edu/discover/campus-life/bowes-center"
+   },
+   {
+    "text": "Inaugurated on November 12, 2021.",
+    "url": "https://www.broadwayworld.com/san-francisco/article/The-San-Francisco-Conservatory-of-MusicCelebrates-the-Inauguration-of-the-Ute-and-William-K-Bowes-Jr-Center-for-Performing-Arts-20211112"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9408415650",
+  "name": "Vanitas Contemporary",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Held its inaugural group exhibition, Simply Introductions, with an opening reception on July 23, 2021.",
+    "url": "https://sf.funcheap.com/vanitas-contemporary-gallery-previewopening-july-2331/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n10656556517",
+  "name": "Vista Point",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "A panorama photography studio and gallery run by photographer Jeff Chen Kuo Chih.",
+    "url": "https://www.vistapointstudio.com/the-artist"
+   }
+  ]
+ },
+ {
+  "id": "osm-w288340246",
+  "name": "Walt Disney Family Museum",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Occupies three historic Presidio buildings; Building 104 holds the permanent galleries.",
+    "url": "https://presidio.gov/explore/attractions/the-walt-disney-family-museum"
+   }
+  ]
+ },
+ {
+  "id": "osm-n12790993497",
+  "name": "Wang Qi Art Institute",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Exists at 916 Clement St per search results, but no single link tied to a fact",
+  "facts": []
+ },
+ {
+  "id": "osm-n368167435",
+  "name": "Western Addition Cultural Center",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": "Coordinates match the African American Art & Culture Complex, 762 Fulton St, but no returned link states the name Western Addition Cultural Center for it",
+  "facts": []
+ },
+ {
+  "id": "osm-n6856410837",
+  "name": "Workshop SF",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded in 2009 by Kelly Malone and David Knight.",
+    "url": "https://workshopsf.org/about/"
+   },
+   {
+    "text": "A DIY school for adults with classes taught by local artists and makers.",
+    "url": "https://workshopsf.org/about/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n6960980687",
+  "name": "WWII Pacific War Memorial Hall",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Founded by publisher and philanthropist Florence Fang.",
+    "url": "https://www.sfpacificwar.org/about"
+   },
+   {
+    "text": "Inaugurated on August 15, 2015, the 70th anniversary of Japan's surrender in World War II.",
+    "url": "https://www.sfpacificwar.org/about"
+   }
+  ]
+ }
+]
