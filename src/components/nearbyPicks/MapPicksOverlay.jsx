@@ -25,6 +25,7 @@ import {
   pickKey,
   ratingsCountOf,
   similarPlaces,
+  SIMILAR_MIN_MI,
   unratedPlaces,
   SHEET_PICKS,
 } from '../../lib/nearbyPicks';
@@ -174,7 +175,20 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const shownKeys = useMemo(() => (picks || []).map(pickKey), [picks]);
   const liked = useMemo(() => lovedSeed(myReviews), [myReviews]);
   const unrated = useMemo(() => unratedPlaces(pool, myReviews), [pool, myReviews]);
-  const similar = useMemo(() => similarPlaces({ liked, pool: unrated, exclude: shownKeys }), [liked, unrated, shownKeys]);
+  // "Because you liked X" wants the same kind of place (another steakhouse),
+  // which is rarer than "any food", so it looks out to SIMILAR_MIN_MI even
+  // when the picks distance is smaller.
+  const similarPool = useMemo(
+    () =>
+      state === 'ready' && origin
+        ? miles >= SIMILAR_MIN_MI
+          ? pool
+          : eligiblePlaces({ origin, miles: SIMILAR_MIN_MI, lowRated, date: new Date(now), overrides, extraPlaces: customLandmarks })
+        : [],
+    [state, origin, miles, pool, lowRated, now, overrides, customLandmarks]
+  );
+  const similarUnrated = useMemo(() => unratedPlaces(similarPool, myReviews), [similarPool, myReviews]);
+  const similar = useMemo(() => similarPlaces({ liked, pool: similarUnrated, exclude: shownKeys }), [liked, similarUnrated, shownKeys]);
   const meal = useMemo(() => (isMealTime(new Date(now)) ? mealPicks({ pool: unrated, ratings }) : []), [unrated, ratings, now]);
   const interest = useMemo(() => {
     const p = nearbyInterest({ usual: usual.filter((u) => !shownKeys.includes(pickKey(u))) });
