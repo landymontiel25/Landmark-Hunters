@@ -8,6 +8,7 @@
 // whose facts mention "history" isn't a history place.
 const EAT = ['food', 'local-life'];
 const OUT = ['local-life', 'entertainment', 'food'];
+const SHOP = ['local-life'];
 const SEE = null; // any category except the eating ones
 const KINDS = [
   // Food
@@ -26,6 +27,10 @@ const KINDS = [
   ['indian', /\bindian\b|\bcurry\b|tandoor|masala/, EAT],
   ['vietnamese', /vietnamese|\bpho\b|banh mi/, EAT],
   ['korean', /korean|bibimbap/, EAT],
+  ['spanish', /spanish|\btapas\b|paella|basque/, EAT],
+  ['french', /french|brasserie|cr[eê]pe|patisserie/, EAT],
+  ['caribbean', /caribbean|jamaican|haitian|trinidad|puerto rican/, EAT],
+  ['poke', /\bpok[eé]\b|hawaiian/, EAT],
   ['mediterranean', /mediterranean|greek|gyro|falafel|middle eastern|lebanese|turkish|shawarma|kebab/, EAT],
   ['seafood', /seafood|oyster|lobster|\bcrabs?\b|raw bar|ceviche|fish market/, EAT],
   ['bbq', /barbecue|\bbbq\b|smokehouse|brisket/, EAT],
@@ -34,12 +39,15 @@ const KINDS = [
   ['chicken', /fried chicken|chicken wings|\bwings\b|rotisserie chicken|hot chicken/, EAT],
   ['sandwiches', /sandwich|\bdeli\b|hoagie|sub shop|bagel/, EAT],
   ['breakfast', /breakfast|brunch|pancake|\bdiner\b/, EAT],
-  ['food-hall', /food hall|\bmarket\b/, EAT],
-  ['american', /\bamerican\b|gastropub/, EAT],
+  // Not "Market Street" (San Francisco's main avenue) or "Italian Market area".
+  ['food-hall', /food hall|public market|farmers'? market|fish market|\bmarket\b(?!\s+(street|st|area|district)\b)/, EAT],
+  ['american', /american (restaurant|food|cuisine|grill|bistro|tavern|kitchen|comfort)|new american|gastropub|\bdiner\b/, EAT],
   ['bakery', /bakery|bakeries|pastr|croissant|patisserie|\bbread\b/, EAT],
   ['sweets', /cookie|donut|doughnut|cupcake|\bcakes?\b|dessert|candy|chocolate|cheesecake/, EAT],
   ['ice-cream', /ice cream|gelato|frozen yogurt|creamery|italian ice|water ice/, EAT],
-  ['coffee', /coffee|espresso|\bcaf[eé]\b|roaster|bubble tea|boba|tea house/, EAT],
+  // "Café" in a restaurant's name doesn't make it a coffee shop; its topic does
+  // (see describe()).
+  ['coffee', /coffee|espresso|roaster|bubble tea|boba|tea house|cortadito|cafecito|\bcoffeehouse\b|\bcaf[eé] (topic)\b/, EAT],
   ['vegan', /vegan|vegetarian|plant-based/, EAT],
   // Drinks and nights out
   ['bar', /\bbar\b|\bpub\b|tavern|saloon/, OUT],
@@ -49,14 +57,19 @@ const KINDS = [
   ['nightclub', /nightclub|night club|dance club/, OUT],
   ['sports-bar', /sports bar/, OUT],
   ['live-music', /live music|\bjazz\b|concert venue/, OUT],
-  // Places to see
-  ['art', /art museum|\bgaller(y|ies)\b|\bart\b|sculpture|mural/, SEE],
-  ['history', /histor|memorial|monument|\bfort\b/, SEE],
-  ['science', /science|planetarium|natural history|aquarium/, SEE],
-  ['beach', /\bbeach\b/, SEE],
+  // Shops
+  ['bookstore', /book ?(store|shop|s\b)|librer[ií]a|\bbooks\b/, SHOP],
+  ['shopping', /\bmall\b|shopping|\bshops\b|shoppes|department store|outlet/, SHOP],
+  ['gallery', /\bgaller(y|ies)\b|art dealer|\bart\b/, SHOP],
+  // Places to see: only the place's own type words, since landmark
+  // descriptions mention everything around them ("Art Deco", "flower beds").
+  ['art', /art museum|museum of (modern |contemporary )?art|\bgaller(y|ies)\b|sculpture garden|street art|murals\b/, SEE],
+  ['history', /historic (site|district|house|landmark)|history museum|memorial|monument|\bfort\b|national historic/, SEE],
+  ['science', /science (center|museum)|planetarium|natural history|\baquarium\b/, SEE],
+  ['beach', /\bbeach\b(?! (house|club|hotel))/, SEE],
   ['dog-park', /dog park/, SEE],
-  ['trails', /\btrails?\b|hiking|nature preserve/, SEE],
-  ['garden', /\bgardens?\b|botanical|arboretum/, SEE],
+  ['trails', /\btrails?\b|hiking|nature preserve|state park|national park/, SEE],
+  ['garden', /botanical|arboretum|\bgardens?\b(?! court)/, SEE],
 ];
 
 const KINDS_KEY = Symbol('kinds');
@@ -74,7 +87,11 @@ const factsOf = (l) => (Array.isArray(l?.facts) ? l.facts : []);
 // Strong evidence of what a place IS: its name, topic, summary and the
 // "Serves ..." line (from its map cuisine tag).
 function describe(l) {
-  return clean([l?.name, l?.landmarkName, l?.topic, l?.summary, ...factsOf(l).filter((f) => /^serves /i.test(f))]);
+  // A topic of "café" (an imported coffee shop) is the one place "café" means
+  // coffee; spelled out so the coffee pattern can tell it from a restaurant
+  // that just has Café in its name.
+  const topic = /^caf[eé]$/i.test(String(l?.topic || '')) ? 'café topic' : l?.topic;
+  return clean([l?.name, l?.landmarkName, topic, l?.summary, ...factsOf(l).filter((f) => /^serves /i.test(f))]);
 }
 
 // Weak evidence: the other facts, which also mention side items and
@@ -129,9 +146,17 @@ export function mainKinds(l) {
 // clearly is, how clearly the other place is that too. A steakhouse scores
 // 2 against another steakhouse and 1 against a place whose facts call it an
 // "Italian steakhouse"; 0 means not the same kind at all.
+const DRINK_KINDS = new Set(KINDS.filter(([, , g]) => g === OUT).map(([k]) => k));
 export function kindSimilarity(liked, other) {
+  // For a restaurant, what it serves decides; its cocktail list doesn't (an
+  // Italian place with a bar is matched to Italian places, not bars).
+  let kinds = mainKinds(liked);
+  if ((liked?.categories || [])[0] === 'food') {
+    const food = kinds.filter((k) => !DRINK_KINDS.has(k));
+    if (food.length) kinds = food;
+  }
   let score = 0;
-  for (const k of mainKinds(liked)) score += kindWeight(other, k);
+  for (const k of kinds) score += kindWeight(other, k);
   return score;
 }
 

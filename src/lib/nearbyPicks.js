@@ -614,12 +614,25 @@ export function similarPlaces({ liked, pool = [], exclude = [], limit = SIMILAR_
   const main = primaryCategory(liked.categories);
   const cats = new Set(liked.categories || []);
   const likedKinds = placeKinds(liked);
-  const score = likedKinds.size
+  // Places to eat and drink must share a kind; sights and parks only rank by
+  // it (another history site after a history site first), since their kinds
+  // are looser.
+  const strict = likedKinds.size > 0 && ['food', 'local-life'].includes(main);
+  const categoryScore = (l) => (primaryCategory(l.categories) === main ? 2 : (l.categories || []).some((c) => cats.has(c)) ? 1 : 0);
+  const score = strict
     ? (l) => (primaryCategory(l.categories) === main ? kindSimilarity(liked, l) : 0)
-    : (l) => (primaryCategory(l.categories) === main ? 2 : (l.categories || []).some((c) => cats.has(c)) ? 1 : 0);
+    : (l) => (categoryScore(l) ? categoryScore(l) * 10 + (likedKinds.size ? kindSimilarity(liked, l) : 0) : 0);
+  // One per name: three branches of the same chain aren't three suggestions.
+  const names = new Set([String(liked.name || '').toLowerCase()]);
   return pool
     .filter((l) => !skip.has(`${l.regionId}/${l.id}`) && score(l) > 0)
     .sort((a, b) => score(b) - score(a) || a.distanceMeters - b.distanceMeters)
+    .filter((l) => {
+      const n = String(l.name || '').toLowerCase();
+      if (names.has(n)) return false;
+      names.add(n);
+      return true;
+    })
     .slice(0, limit)
     .map((l) => toPick(l));
 }

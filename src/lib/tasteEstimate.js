@@ -1,4 +1,4 @@
-import { applyRating, TAG_DELTAS } from './tagScores.js';
+import { applyRating, TAG_DELTAS, GLOBAL_TASTE } from './tagScores.js';
 import { predictLevel } from './maprPrediction.js';
 import { computeTasteScore, creditFor } from './tasteScore.js';
 import { ONBOARDING_RATING_WINDOW_MS, TASTE_ESTIMATE_MIN_HISTORY } from './maprConstants.js';
@@ -54,15 +54,16 @@ export function replayGuesses(reviews, { minHistory = TASTE_ESTIMATE_MIN_HISTORY
       if (credit != null) guesses.push({ landmarkId: r.landmarkId, predicted, answered, credit, halfMiss: false, at });
     }
     // Only now does this rating join the history (leave-forward).
+    // One overall taste, the same as the live app (tagScores.GLOBAL_TASTE).
     const cur = {
-      scores: profile.tagScores[r.region] || {},
-      at: profile.tagScoresAt[r.region] || {},
-      counts: profile.tagCounts[r.region] || {},
+      scores: profile.tagScores[GLOBAL_TASTE] || {},
+      at: profile.tagScoresAt[GLOBAL_TASTE] || {},
+      counts: profile.tagCounts[GLOBAL_TASTE] || {},
     };
     const next = applyRating(cur, r.categories, r.ratingTier, at || Date.now(), r.visitFrequency || null);
-    profile.tagScores[r.region] = { ...cur.scores, ...next.scores };
-    profile.tagScoresAt[r.region] = { ...cur.at, ...next.at };
-    profile.tagCounts[r.region] = { ...cur.counts, ...next.counts };
+    profile.tagScores[GLOBAL_TASTE] = { ...cur.scores, ...next.scores };
+    profile.tagScoresAt[GLOBAL_TASTE] = { ...cur.at, ...next.at };
+    profile.tagCounts[GLOBAL_TASTE] = { ...cur.counts, ...next.counts };
   });
   return guesses;
 }
