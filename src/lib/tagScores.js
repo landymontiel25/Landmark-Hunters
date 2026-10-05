@@ -55,6 +55,15 @@ export const IGNORE_DELTA = -3;
 // Bump when the stored shape or deltas change, so clients rebuild from reviews.
 // 5: how often you visit (FREQUENCY_MULTIPLIER) scales a rating's delta.
 export const TAG_SCORES_VERSION = 5;
+// One taste per traveler, not one per city: every rating, tap and comment
+// lands in tagScores[GLOBAL_TASTE] and every reader uses it, so not liking
+// museums in Miami means not liking museums in Paris. The per-city maps are
+// still written (older app versions read them) but no longer read once the
+// global map exists. Accounts from before get it rebuilt once from
+// everything they told Mapr (rebuildGlobalTaste, see useGlobalTaste.js).
+export const GLOBAL_TASTE = 'all';
+export const GLOBAL_TASTE_VERSION = 1;
+export const hasGlobalTaste = (profile) => !!profile?.tagScores?.[GLOBAL_TASTE];
 // A ✓/✗ on a Mapr Pick is a lighter signal than a full rating, and doesn't
 // count as a rating behind a tag (tagCounts).
 export const VOTE_DELTAS = { yes: TAP_TAG_DELTA.positive, no: TAP_TAG_DELTA.negative };
@@ -187,6 +196,44 @@ export function rebuildTagScores(reviews, votes = []) {
   return out;
 }
 
+// One overall taste rebuilt from everything the traveler told Mapr, oldest
+// first, with the same math as the live paths (maprLearning.js): ratings
+// (with visit frequency and the comment's tag deltas), Travel Picks / pick
+// votes, and the sign-up swipe answers once (not once per city, as the old
+// per-city seed did). Returns the maps for tagScores/tagScoresAt/tagCounts
+// [GLOBAL_TASTE].
+export function rebuildGlobalTaste({ reviews = [], votes = [], seedDeltas = {}, seedAtMs = null, commentDeltas = () => ({}), nowMs = Date.now() } = {}) {
+  const toMs = (r) => {
+    for (const t of [r.ratedAt, r.updatedAt, r.updatedAtMs]) {
+      const ms = typeof t === 'number' ? t : t?.toMillis ? t.toMillis() : typeof t?.seconds === 'number' ? t.seconds * 1000 : NaN;
+      if (Number.isFinite(ms)) return ms;
+    }
+    return 0;
+  };
+  const events = [
+    ...(reviews || []).filter((r) => TAG_DELTAS[r?.ratingTier]).map((r) => ({ r, ms: toMs(r) })),
+    ...(votes || []).filter((v) => VOTE_DELTAS[v?.verdict]).map((v) => ({ v, ms: v.at || 0 })),
+  ].sort((a, b) => a.ms - b.ms);
+  let m = { scores: {}, at: {}, counts: {} };
+  const merge = (next) => {
+    m = { scores: { ...m.scores, ...(next.scores || {}) }, at: { ...m.at, ...(next.at || {}) }, counts: { ...m.counts, ...(next.counts || {}) } };
+  };
+  if (seedDeltas && Object.keys(seedDeltas).length) {
+    merge(applyTagDeltas(m, seedDeltas, seedAtMs ?? events[0]?.ms ?? nowMs));
+  }
+  for (const { r, v, ms } of events) {
+    const at = ms || nowMs;
+    if (r) {
+      merge(applyRating(m, r.categories || [], r.ratingTier, at, r.visitFrequency || null));
+      const c = r.comment ? commentDeltas(r.comment, r.categories || []) : {};
+      if (Object.keys(c).length) merge(applyTagDeltas(m, c, at));
+    } else {
+      merge(applyVote(m, v.categories || [], v.verdict, at));
+    }
+  }
+  return m;
+}
+
 function decayedRegion(profile, region, nowMs) {
   const scores = profile?.tagScores?.[region] || {};
   const at = profile?.tagScoresAt?.[region] || {};
@@ -197,8 +244,11 @@ function decayedRegion(profile, region, nowMs) {
   return out;
 }
 
+// Ratings behind each tag: the overall taste's once the account has one.
+export const tasteCounts = (profile, region) => profile?.tagCounts?.[hasGlobalTaste(profile) ? GLOBAL_TASTE : region] || {};
+
 export function localRatingCount(profile, region) {
-  return Object.values(profile?.tagCounts?.[region] || {}).reduce((s, n) => s + (Number(n) || 0), 0);
+  return Object.values(tasteCounts(profile, region)).reduce((s, n) => s + (Number(n) || 0), 0);
 }
 
 // Weight other regions lend this one: 40% with no local ratings, 0 at 15.
@@ -214,6 +264,14 @@ export function warmStartWeight(profile, region, base = WARM_START_WEIGHT) {
 // WARM_START_WEIGHT); the hidden prediction uses a fuller loan, see
 // maprPrediction.js.
 export function effectiveTagScores(profile, region, nowMs = Date.now(), opts = {}) {
+  // The one overall taste, the same in every city.
+  if (hasGlobalTaste(profile)) {
+    const out = {};
+    for (const [tag, v] of Object.entries(decayedRegion(profile, GLOBAL_TASTE, nowMs))) {
+      out[tag] = v > 0 && capAnswer(profile, tag) === 'yes' ? v * BOOST_MULTIPLIER : v;
+    }
+    return out;
+  }
   const local = decayedRegion(profile, region, nowMs);
   const w = warmStartWeight(profile, region, opts.warmStartWeight ?? WARM_START_WEIGHT);
   const borrowed = {};
@@ -430,7 +488,7 @@ export function buildShortlist({ profile, region, now = Date.now(), ...rest }) {
       ? scoreShortlist({
           scores,
           region,
-          tagCounts: profile?.tagCounts?.[region] || {},
+          tagCounts: tasteCounts(profile, region),
           boostedTags: boostedTagsFor(profile),
           ...rest,
         })
@@ -581,6 +639,9 @@ export function settleShownPicks(profile, { engagedIds = [], today, nowMs = Date
     }
   }
   const scorePatch = {};
+  // With one overall taste the nudge lands there too (the city map is still
+  // kept up for older app versions).
+  if (hasGlobalTaste(profile)) for (const { tag } of [...nudges]) nudges.push({ region: GLOBAL_TASTE, tag });
   for (const { region, tag } of nudges) {
     const key = `${region}/${tag}`;
     const cur = scorePatch[key] || {
@@ -630,9 +691,9 @@ export function applyTimeSlot(scores, boosts) {
 // rankings over the user's saved tag scores -- no AI call is made to rank.
 //
 // A tag counts as "new" to someone while it has at most NEW_PICK_MAX_RATINGS
-// ratings behind it IN THIS REGION: taste varies city to city (someone can
-// love museums in Paris and never have rated one in Brussels), so a category
-// rated 20 times in Miami is still new to them in Villanova.
+// ratings behind it in the traveler's one overall taste (tasteCounts), so a
+// category rated 20 times in Miami isn't new to them in Villanova. Accounts
+// not moved to one taste yet still count per city.
 export const NEW_PICK_MAX_RATINGS = WILDCARD_MAX_RATINGS;
 // "Something new" spreads across categories instead of five of one kind.
 export const NEW_PICK_PER_TAG = 2;
@@ -656,7 +717,7 @@ export function usualPicks({ profile, region, excludeIds = [], checkinCounts = {
   return scoreShortlist({
     scores,
     region,
-    tagCounts: profile?.tagCounts?.[region] || {},
+    tagCounts: tasteCounts(profile, region),
     excludeIds,
     checkinCounts,
     boostedTags: boostedTagsFor(profile),
@@ -669,14 +730,14 @@ export function usualPicks({ profile, region, excludeIds = [], checkinCounts = {
 }
 
 // "Something new": landmarks whose main category the user has rated little
-// or never IN THIS REGION (NEW_PICK_MAX_RATINGS), with nothing they've
+// or never (NEW_PICK_MAX_RATINGS, see tasteCounts), with nothing they've
 // disliked on them, ranked by how close they still land to the user's taste
-// -- the warm start from other regions and any liked secondary category push
-// a place up, so it's new territory here that still fits their taste.
+// -- any liked secondary category pushes a place up, so it's new territory
+// that still fits their taste.
 export function discoveryPicks({ profile, region, excludeIds = [], checkinCounts = {}, limit = 6, now = Date.now() }) {
   if (!region) return [];
   const scores = effectiveTagScores(profile, region, now);
-  const counts = profile?.tagCounts?.[region] || {};
+  const counts = tasteCounts(profile, region);
   const demand = byDemand(checkinCounts);
   const scoreOf = (l) => (l.categories || []).reduce((s, t) => s + (scores[t] || 0), 0);
   const ranked = candidates(region, excludeIds)

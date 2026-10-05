@@ -143,7 +143,7 @@ async function handler(req, res) {
     const swipeOnly = body.mode === 'swipeOnly';
     const tasteIntroPre = str(body.tasteIntro, 4000);
     const { coldStart, shortlist } = swipeOnly
-      ? { coldStart: false, shortlist: swipeShortlist({ region, tagDeltas: profile.tagScores[region] || {}, keywords: noteKeywords(tasteIntroPre), excludeIds, checkinCounts }) }
+      ? { coldStart: false, shortlist: swipeShortlist({ region, tagDeltas: profile.tagScores.all || profile.tagScores[region] || {}, keywords: noteKeywords(tasteIntroPre), excludeIds, checkinCounts }) }
       : buildShortlist({
           profile,
           region,

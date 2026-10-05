@@ -21,6 +21,7 @@ import StreakWarningBanner from './components/StreakWarningBanner';
 import CheckInReview from './components/CheckInReview';
 import LoveReasonPrompt from './components/LoveReasonPrompt';
 import TagCapPrompt from './components/TagCapPrompt';
+import GlobalTasteSync from './lib/useGlobalTaste';
 import HabitPlacePrompt from './components/HabitPlacePrompt';
 import CelebrationOverlay from './components/CelebrationOverlay';
 import AdminModeBadge from './components/AdminModeBadge';
@@ -272,6 +273,7 @@ export default function App() {
           <BackgroundLocationSync />
           <PushNotificationsSync />
           <OnboardingNoticeSync />
+          <Soft><GlobalTasteSync /></Soft>
           {/* Each always-on piece gets its own boundary: without one, a crash
               in any of them (they sit outside the per-screen boundary) takes
               down the whole app to a blank white page. */}

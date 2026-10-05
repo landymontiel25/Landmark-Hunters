@@ -11,7 +11,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useRatings } from '../lib/RatingsContext';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
-import { effectiveTagScores, pickRegion } from '../lib/tagScores';
+import { effectiveTagScores, pickRegion, GLOBAL_TASTE, hasGlobalTaste } from '../lib/tagScores';
 import { useMaprChat } from '../lib/MaprChatContext';
 import MaprChatsPanel from '../components/MaprChatsPanel';
 import MultiRegionSearch from '../components/MultiRegionSearch';
@@ -514,8 +514,10 @@ export default function Mapr() {
       const tagRegions = regions.length
         ? regions.map((reg) => reg.id)
         : [pickRegion({ origin: coords, fallbackRegions: [trip.activeRegion] })].filter(Boolean);
+      // One overall taste (tagScores.GLOBAL_TASTE) is the same in every
+      // city, so it goes once.
       const tagScoreSummary = Object.fromEntries(
-        tagRegions
+        (hasGlobalTaste(myProfile) ? [GLOBAL_TASTE] : tagRegions)
           .slice(0, 3)
           .map((id) => [
             id,
