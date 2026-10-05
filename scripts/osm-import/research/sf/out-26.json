@@ -1,0 +1,444 @@
+[
+ {
+  "id": "osm-n4548821898",
+  "name": "delarosa",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Menu includes pizzas, burrata and fava bean bruschetta.",
+    "url": "https://www.theinfatuation.com/san-francisco/reviews/delarosa"
+   }
+  ]
+ },
+ {
+  "id": "osm-n528511748",
+  "name": "Delirium",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Sources show address as 3139 16th St at Albion.",
+  "facts": [
+   {
+    "text": "Has operated on 16th Street at Albion since 2002.",
+    "url": "https://www.sfgate.com/bars/article/delirium-dive-bar-bathroom-mission-sf-16755567.php"
+   },
+   {
+    "text": "Opened in 2002 by Wayne and Tommy.",
+    "url": "https://www.sfgate.com/bars/article/delirium-dive-bar-bathroom-mission-sf-16755567.php"
+   },
+   {
+    "text": "The space was previously a dive bar called the Albion.",
+    "url": "https://www.sfgate.com/bars/article/delirium-dive-bar-bathroom-mission-sf-16755567.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1616322282",
+  "name": "Dimples",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A karaoke bar with a stage that hosts weekly live performances.",
+    "url": "https://www.sfjapantown.org/directory-jpndirectory/listing/dimples/"
+   }
+  ]
+ },
+ {
+  "id": "osm-w132605490",
+  "name": "DNA Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Operated as a leather bar called Chaps from 1983 before becoming DNA Lounge.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   },
+   {
+    "text": "Bought by Jamie Zawinski in 1999 and reopened on July 13, 2001 after remodeling.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   },
+   {
+    "text": "An all-ages nightclub, restaurant and cafe.",
+    "url": "https://en.wikipedia.org/wiki/DNA_Lounge"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4548821700",
+  "name": "Doc's Clock",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Open; sources show it relocated here from 2575 Mission St, but no single-page source for facts.",
+  "facts": []
+ },
+ {
+  "id": "osm-n6780338385",
+  "name": "Dog Eared Books",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1992 by Kate Rosenberger.",
+    "url": "https://localwiki.org/sf/Dog_Eared_Books"
+   },
+   {
+    "text": "Moved to this spot in 1996 from 1173 Valencia Street.",
+    "url": "https://localwiki.org/sf/Dog_Eared_Books"
+   },
+   {
+    "text": "Received Legacy Business status from San Francisco in 2016.",
+    "url": "https://hoodline.com/2016/10/valencia-street-s-dog-eared-books-receives-legacy-business-status/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n1238299633",
+  "name": "Dogpatch Saloon",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": "Page shows 2496 3rd St at 22nd.",
+  "facts": [
+   {
+    "text": "Has served the neighborhood since 1912.",
+    "url": "https://www.potrerodogpatch.com/PDMA-Member-Businesses/dogpatch-saloon"
+   }
+  ]
+ },
+ {
+  "id": "osm-n582781745",
+  "name": "Dovre Club",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "An Irish bar founded by Paddy Nolan in 1966.",
+    "url": "https://www.craicmap.ie/bars/dovre-club-san-francisco"
+   },
+   {
+    "text": "Opened in a former Norwegian social hall.",
+    "url": "https://www.craicmap.ie/bars/dovre-club-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3562957694",
+  "name": "Dragon Lounge",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/dragon-lounge-san-francisco",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: DRAGON LOUNGE - CLOSED, 1355 Taraval St.",
+  "facts": []
+ },
+ {
+  "id": "osm-n11777394339",
+  "name": "Driftwood",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood cocktail bar with local beers.",
+    "url": "https://somawestcbd.org/go/driftwood"
+   }
+  ]
+ },
+ {
+  "id": "osm-w276641699",
+  "name": "Durty Nelly's",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Fact from an older SFGate article.",
+  "facts": [
+   {
+    "text": "Has a fireplace and a map of the counties of Ireland inside.",
+    "url": "https://www.sfgate.com/restaurants/article/Nelly-s-Pushes-Pub-Grub-2712549.php"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4616010834",
+  "name": "Duster's",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ },
+ {
+  "id": "osm-n10635824452",
+  "name": "El Chato",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in the former Cafe Murano space.",
+    "url": "https://whatnowsf.com/el-chato-becomes-the-missions-new-spanish-destination-early-2022/"
+   },
+   {
+    "text": "Founded by Erin Rickenbaker and Rafa Saenz.",
+    "url": "https://whatnowsf.com/el-chato-becomes-the-missions-new-spanish-destination-early-2022/"
+   },
+   {
+    "text": "Focuses on an Iberian wine list, with sherry and vermouth on tap.",
+    "url": "https://whatnowsf.com/el-chato-becomes-the-missions-new-spanish-destination-early-2022/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4548821706",
+  "name": "El Farolito Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Shelves hold soccer league and pool tournament trophies.",
+    "url": "https://www.yelp.com/biz/el-farolito-bar-san-francisco"
+   },
+   {
+    "text": "Shows soccer games, including World Cup and Mexico matches.",
+    "url": "https://www.yelp.com/biz/el-farolito-bar-san-francisco"
+   }
+  ]
+ },
+ {
+  "id": "osm-n825915019",
+  "name": "El Lopo",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "A neighborhood bar specializing in sherry, vermouth, cider and wine.",
+    "url": "https://www.sherry.wine/enjoying-sherry/sherry-spots/el-lopo"
+   }
+  ]
+ },
+ {
+  "id": "osm-n2317662705",
+  "name": "El Rio",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened in 1978 as a leather Brazilian gay bar.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   },
+   {
+    "text": "Founded by Malcolm Thornley and Robert Nett, who owned it until 1997.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   },
+   {
+    "text": "Dawn Huston took over the bar in 1997.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   },
+   {
+    "text": "Recognized as a Legacy Business by the San Francisco Small Business Commission.",
+    "url": "https://en.wikipedia.org/wiki/El_Rio_(gay_bar)"
+   }
+  ]
+ },
+ {
+  "id": "osm-w290559578",
+  "name": "El Toro Nightclub",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "A Latin dance club that hosts Latin music events.",
+    "url": "https://www.songkick.com/venues/2798398-el-toro-night-club"
+   }
+  ]
+ },
+ {
+  "id": "osm-n4937360419",
+  "name": "El Trebol",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": "Listed as El Trebol Bar No 3.",
+  "facts": [
+   {
+    "text": "Shares an owner with Taqueria Vallarta.",
+    "url": "https://missionlocal.org/2023/04/vallarta-trebol-owner-buys-historic-sam-jordans-in-bayview/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n9328898384",
+  "name": "Elements Bar and Lounge",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Located on the fourth floor of the ONE65 restaurant building.",
+    "url": "https://one65sf.com/concept/elements/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n295082904",
+  "name": "Elixir",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "The current building dates from 1907, after the 1906 fire destroyed the original saloon.",
+    "url": "https://missionlocal.org/2017/03/elixir-bar-a-deep-fount-of-mission-history/"
+   },
+   {
+    "text": "Operated as a soda fountain during Prohibition.",
+    "url": "https://missionlocal.org/2017/03/elixir-bar-a-deep-fount-of-mission-history/"
+   },
+   {
+    "text": "Was a merchant marine bar called Swede's in the 1960s.",
+    "url": "https://missionlocal.org/2017/03/elixir-bar-a-deep-fount-of-mission-history/"
+   },
+   {
+    "text": "Was the gay Latino bar La Corona Club from 1985 to 1989, then Jack's Elixir Bar.",
+    "url": "https://missionlocal.org/2017/03/elixir-bar-a-deep-fount-of-mission-history/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n11232217086",
+  "name": "Emperor Norton's Boozeland",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "note": null,
+  "facts": [
+   {
+    "text": "Opened by the people behind the Mission dive bar Bender's.",
+    "url": "https://www.7x7.com/the-weeknighter-emperor-nortons-boozeland-1786590078.html"
+   },
+   {
+    "text": "Took over the space previously occupied by Deco.",
+    "url": "https://www.7x7.com/the-weeknighter-emperor-nortons-boozeland-1786590078.html"
+   },
+   {
+    "text": "Has a purple pool table, shuffleboard and a back patio.",
+    "url": "https://www.7x7.com/the-weeknighter-emperor-nortons-boozeland-1786590078.html"
+   }
+  ]
+ },
+ {
+  "id": "osm-n3635648154",
+  "name": "Encore Karaoke",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/encore-karaoke-lounge-san-francisco?start=320",
+  "notFound": false,
+  "searches": 1,
+  "note": "Yelp title: ENCORE KARAOKE LOUNGE - CLOSED, 1550 California St.",
+  "facts": []
+ },
+ {
+  "id": "osm-n10000755452",
+  "name": "ENO Wine Bar",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/eno-wine-bar-san-francisco-3",
+  "notFound": false,
+  "searches": 2,
+  "note": "No address in input; Yelp title ENO WINE BAR - CLOSED shows 320 Geary St, matching Union Square location.",
+  "facts": []
+ },
+ {
+  "id": "osm-n11362887388",
+  "name": "Enterprise Brewing Company",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": [
+   {
+    "text": "Revives the name of a brewery that is about 150 years old.",
+    "url": "https://sfstandard.com/2023/08/01/historic-enterprise-brewing-company-rises-again-in-san-francisco-soma/"
+   }
+  ]
+ },
+ {
+  "id": "osm-n13631146967",
+  "name": "Etcetera Wine Bar",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 4,
+  "note": null,
+  "facts": []
+ }
+]
