@@ -87,7 +87,12 @@ street disagree, the place may have moved: check that it is open there.
   celebrated, hidden gem), "coming soon", anything inferred or from memory.
   No em dashes. Do not restate the street address as a fact. A Michelin star
   is an award, so "Michelin star" is fine; "4.5 stars" is not.
-- tier: "acclaimed" when a fact you kept is an award or a critics' list
+- Every award fact states its year ("in 2013"); an award without a year
+  from the result stays out. A place with only 1 fact after its first
+  search gets a second search: places with fewer than 2 facts are dropped.
+- tier: "acclaimed" only for an award or list from 2025 or 2026; older
+  awards are fine as facts (with their year) but the tier stays "everyday".
+  "acclaimed" when a fact you kept is an award or a critics' list
   (Michelin, James Beard, Chronicle Top 100, World's/North America's 50 Best,
   Eater essential); "insider" when `reason` is set; else "everyday".
 - No confirming result after 4 searches: notFound: true, no facts. A place
