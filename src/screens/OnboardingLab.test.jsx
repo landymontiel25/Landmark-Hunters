@@ -69,7 +69,7 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Create Account');
     expect(el.textContent).toContain('Terms of Service');
     await signUp(el);
-    expect(el.textContent).toContain("Tell us the 10 places you visit most, and we'll help you discover new spots you'll love.");
+    expect(el.textContent).toContain("Tell us up to 10 places you visit most, and we'll help you discover new spots you'll love.");
     await click(button(el, 'Skip for now'));
     expect(el.textContent).toContain('Rate a few things you');
 

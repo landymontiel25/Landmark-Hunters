@@ -1,6 +1,6 @@
 import { doc, setDoc, updateDoc, deleteDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
-import { PICKABLE_REGIONS } from '../data/regions';
+import { PICKABLE_REGIONS, getLandmark } from '../data/regions';
 import { allSwipeCards, tagDeltasFromAnswers, placesIntro } from './onboardingCards';
 import { TAG_CAP, TAG_FLOOR, decayFactor, GLOBAL_TASTE, hasGlobalTaste } from './tagScores';
 import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, onboardingNoticeId } from './onboardingVersion';
@@ -113,15 +113,43 @@ export function swipeSummary(answers, places = []) {
   return parts.join(' ').replace(/\.$/, '');
 }
 
+// The places saved by saveOnboardingPlaces, as catalog landmarks again.
+export const placesFromProfile = (profile) =>
+  (Array.isArray(profile?.onboardingPlaces) ? profile.onboardingPlaces : [])
+    .map((p) => getLandmark(p.regionId, p.id))
+    .filter(Boolean);
+
+// Saves the "up to 10 places you visit most" step the moment it is done, on
+// its own, so Mapr reads it whether or not the cards get finished. Works from
+// the swipes already on the account, so the two saves never undo each other.
+export async function saveOnboardingPlaces(uid, profile, places) {
+  if (!db || !uid) return;
+  const answers = pairsToAnswers(profile?.swipeAnswers);
+  const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers, Date.now(), undefined, places);
+  await setDoc(
+    doc(db, 'users', uid),
+    {
+      onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })),
+      swipeSummary: swipeSummary(answers, places),
+      onboardingSwipeDeltas: deltas,
+      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt } : {}),
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true }
+  );
+}
+
 // Writes the swipes to the account: the raw answers, the summary Mapr reads
 // and the tag-score seed, so Mapr uses whatever was answered even if the deck
 // wasn't finished. Only `complete` records the version that clears the
 // notification and banner. Progress stays until the whole flow is done.
 //
-// `places` is the "10 places you visit most" step (landmarks with name and
-// categories). They count toward the tag-score seed and the text Mapr reads,
+// `places` is the "up to 10 places you visit most" step (landmarks with name and
+// categories). When the caller passes none they default to the ones already
+// saved on the account (saveOnboardingPlaces), so saving the swipes never drops
+// them. They count toward the tag-score seed and the text Mapr reads,
 // and are stored as { regionId, id, name } so the step can be pre-filled.
-export async function saveOnboardingResults(uid, profile, answers, { complete, places = [] }) {
+export async function saveOnboardingResults(uid, profile, answers, { complete, places = placesFromProfile(profile) }) {
   if (!db || !uid) return;
   const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(

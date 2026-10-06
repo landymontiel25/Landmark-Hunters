@@ -8,6 +8,7 @@ import { ALL_LANDMARKS, INTERESTS, getRegion } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS, PLACE_DELTA } from '../lib/onboardingCards';
 import { searchScore } from '../lib/search';
+import OnboardingPlaces from '../components/OnboardingPlaces';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
@@ -141,7 +142,7 @@ export default function OnboardingLab() {
         />
       )}
       {id === 'places' && (
-        <LabPlaces
+        <OnboardingPlaces
           places={data.places}
           onChange={(places, what) => {
             note(what);
@@ -185,102 +186,6 @@ export default function OnboardingLab() {
       )}
       {id === 'checkin' && <LabCheckIn data={data} set={set} onDone={(how) => go('done', how)} />}
       {id === 'done' && <LabSummary data={data} log={log} onRestart={restart} />}
-    </div>
-  );
-}
-
-const MAX_PLACES = 10;
-
-// Profile step: "Tell us the 10 places you visit most". Typing a name pops
-// up matching places from the catalog; Tab or Enter takes the top match and
-// tapping any row adds that one. Local state only, like the rest of the Lab.
-function LabPlaces({ places, onChange, onDone }) {
-  const [term, setTerm] = useState('');
-  const q = term.trim();
-  const full = places.length >= MAX_PLACES;
-  const suggestions = useMemo(() => {
-    if (!q) return [];
-    const taken = new Set(places.map((l) => `${l.regionId}/${l.id}`));
-    return ALL_LANDMARKS.filter((l) => !taken.has(`${l.regionId}/${l.id}`))
-      .map((l) => ({ l, score: searchScore(l.name, getRegion(l.regionId)?.name || '', q) }))
-      .filter((x) => x.score > 0)
-      .sort((a, b) => b.score - a.score || a.l.name.localeCompare(b.l.name))
-      .slice(0, 6)
-      .map((x) => x.l);
-  }, [q, places]);
-  const top = suggestions[0];
-
-  const add = (l) => {
-    if (full) return;
-    onChange([...places, l], `Added place: ${l.name}`);
-    setTerm('');
-  };
-  const remove = (l) => onChange(places.filter((p) => p !== l), `Removed place: ${l.name}`);
-  const onKeyDown = (e) => {
-    if ((e.key === 'Tab' || e.key === 'Enter') && top && !full) {
-      e.preventDefault();
-      add(top);
-    }
-  };
-  // Greyed-out rest of the top match's name, so Tab visibly completes it.
-  const ghost = top && top.name.toLowerCase().startsWith(term.toLowerCase()) ? top.name.slice(term.length) : '';
-
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F4CD}'}</span> Your places
-      </h1>
-      <p className="screen-subtitle">Tell us the 10 places you visit most, and we'll help you discover new spots you'll love.</p>
-      <div className="field lab-place-search">
-        <label htmlFor="lab-place">
-          Place {places.length} of {MAX_PLACES}
-        </label>
-        <div className="lab-place-input">
-          {ghost && (
-            <span className="lab-place-ghost" aria-hidden="true">
-              <span style={{ visibility: 'hidden' }}>{term}</span>
-              {ghost}
-            </span>
-          )}
-          <input
-            id="lab-place"
-            type="search"
-            autoComplete="off"
-            placeholder={full ? 'That is 10, nice' : 'Start typing a place name'}
-            disabled={full}
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            onKeyDown={onKeyDown}
-          />
-        </div>
-        {suggestions.length > 0 && (
-          <ul className="lab-log lab-place-suggestions" role="listbox">
-            {suggestions.map((l) => (
-              <li key={`${l.regionId}/${l.id}`}>
-                <button type="button" role="option" aria-selected={l === top} className="btn btn-ghost btn-block" onClick={() => add(l)}>
-                  {l.name} <span className="screen-subtitle">{getRegion(l.regionId)?.name}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-        {q && suggestions.length === 0 && !full && <p className="screen-subtitle">No place matches “{q}”.</p>}
-      </div>
-      {places.length > 0 && (
-        <ol className="lab-log lab-place-list">
-          {places.map((l) => (
-            <li key={`${l.regionId}/${l.id}`}>
-              {l.name}{' '}
-              <button type="button" className="btn btn-ghost btn-sm" aria-label={`Remove ${l.name}`} onClick={() => remove(l)}>
-                {'\u{2715}'}
-              </button>
-            </li>
-          ))}
-        </ol>
-      )}
-      <button type="button" className="btn btn-primary btn-block" style={{ marginTop: 20 }} onClick={onDone}>
-        {places.length ? 'Continue' : 'Skip for now'} {'\u{2192}'}
-      </button>
     </div>
   );
 }
