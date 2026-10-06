@@ -6,7 +6,7 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { isAdmin } from '../lib/admins';
 import { ALL_LANDMARKS, INTERESTS, getRegion } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
-import { allSwipeCards, tagDeltasFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
+import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS, PLACE_DELTA } from '../lib/onboardingCards';
 import { searchScore } from '../lib/search';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
@@ -439,7 +439,8 @@ function LabCheckIn({ data, set, onDone }) {
 
 function LabSummary({ data, log, onRestart }) {
   const tagLabel = (id) => INTERESTS.find((i) => i.id === id)?.label || id;
-  const deltas = tagDeltasFromAnswers(data.answers);
+  const deltas = tagDeltasFromAnswers(data.answers, data.places);
+  const intro = tasteIntroFromAnswers(data.answers, data.notes, data.places);
   const count = (a) => data.answers.filter((x) => x.answer === a).length;
   const answerLabel = { love: 'love it', dislike: "don't like it", unsure: 'not sure' };
   return (
@@ -478,7 +479,9 @@ function LabSummary({ data, log, onRestart }) {
             <strong>tagScores changes</strong>
             <p className="screen-subtitle" style={{ margin: '4px 0 8px' }}>
               Love it {SWIPE_DELTAS.love > 0 ? '+' : ''}
-              {SWIPE_DELTAS.love}, don't like it {SWIPE_DELTAS.dislike}, not sure 0 — summed per tag.
+              {SWIPE_DELTAS.love}, don't like it {SWIPE_DELTAS.dislike}, not sure 0, each place you visit most{' '}
+              {PLACE_DELTA > 0 ? '+' : ''}
+              {PLACE_DELTA} on each of its tags — summed per tag.
             </p>
             {Object.keys(deltas).length ? (
               <ul className="lab-log">
@@ -510,6 +513,16 @@ function LabSummary({ data, log, onRestart }) {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="card section">
+            <strong>What Mapr reads</strong>
+            <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>
+              {intro || 'nothing'}
+            </p>
+            <p className="screen-subtitle" style={{ fontSize: '0.75rem' }}>
+              The same text goes to every Mapr surface: the Map sheet, Travel Picks, chat, the trip planner and the landmark list.
+            </p>
           </div>
 
           <div className="card section">

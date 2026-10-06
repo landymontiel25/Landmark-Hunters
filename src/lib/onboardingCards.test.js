@@ -1,6 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { INTERESTS } from '../data/regions';
-import { ALL_SWIPE_CARDS, SWIPE_GROUPS, allSwipeCards, pickSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
+import {
+  ALL_SWIPE_CARDS,
+  SWIPE_GROUPS,
+  allSwipeCards,
+  pickSwipeCards, tagDeltasFromAnswers,
+  tagDeltasFromPlaces,
+  tasteIntroFromAnswers,
+  placesIntro,
+  PLACE_DELTA,
+} from './onboardingCards';
 
 describe('onboarding swipe cards', () => {
   it('deals every card, once each, grouped by category in the declared order', () => {
@@ -90,5 +99,17 @@ describe('card photos', () => {
       for (const u of c.photoPages) expect(u).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     }
     expect(ALL_SWIPE_CARDS.find((c) => c.word === 'Arcades/bowling').photos).toHaveLength(2);
+  });
+
+  it('counts the places you visit most as taste, on every category tag of each place', () => {
+    const places = [
+      { name: 'A', categories: ['food', 'local-life'] },
+      { name: 'B', categories: ['food'] },
+    ];
+    expect(tagDeltasFromPlaces(places)).toEqual({ food: 2 * PLACE_DELTA, 'local-life': PLACE_DELTA });
+    expect(tagDeltasFromAnswers([], places)).toEqual(tagDeltasFromPlaces(places));
+    expect(placesIntro(places)).toBe('Visits most: A, B.');
+    expect(tasteIntroFromAnswers([], 'hi', places)).toBe('Visits most: A, B. Also said: hi');
+    expect(tagDeltasFromPlaces([])).toEqual({});
   });
 });

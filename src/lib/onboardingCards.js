@@ -187,21 +187,40 @@ export function allSwipeCards() {
   return [...ALL_SWIPE_CARDS];
 }
 
+// "The 10 places you visit most": each place is a strong signal, so each of
+// its category tags gets the same push as a swiped "love it".
+export const PLACE_DELTA = SWIPE_DELTAS.love;
+
+export function tagDeltasFromPlaces(places = []) {
+  const out = {};
+  for (const l of places) {
+    for (const tag of new Set(l.categories || [])) out[tag] = (out[tag] || 0) + PLACE_DELTA;
+  }
+  return out;
+}
+
+// In prose, for Mapr's "in their own words" context, like the card words.
+export function placesIntro(places = []) {
+  return places.length ? `Visits most: ${places.map((l) => l.name).join(', ')}.` : '';
+}
+
 // The card words themselves, in prose for Mapr's "in their own words" context:
 // tagScores alone can't tell Steak from Sushi, Mapr reading this can.
-export function tasteIntroFromAnswers(answers, notes = '') {
+export function tasteIntroFromAnswers(answers, notes = '', places = []) {
   const words = (a) => answers.filter((x) => x.answer === a).map((x) => x.card.word);
   const parts = [];
   if (words('love').length) parts.push(`Loves: ${words('love').join(', ')}.`);
   if (words('dislike').length) parts.push(`Doesn't like: ${words('dislike').join(', ')}.`);
   if (words('unsure').length) parts.push(`Not sure about: ${words('unsure').join(', ')}.`);
+  if (places.length) parts.push(placesIntro(places));
   if (notes.trim()) parts.push(`Also said: ${notes.trim()}`);
   return parts.join(' ');
 }
 
-// Net change per tag from a set of answers ({ card, answer }).
-export function tagDeltasFromAnswers(answers) {
-  const out = {};
+// Net change per tag from a set of answers ({ card, answer }) plus, when
+// given, the places they visit most.
+export function tagDeltasFromAnswers(answers, places = []) {
+  const out = tagDeltasFromPlaces(places);
   for (const { card, answer } of answers) {
     const d = SWIPE_DELTAS[answer] || 0;
     if (d) out[card.tag] = (out[card.tag] || 0) + d;
