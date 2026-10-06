@@ -114,6 +114,15 @@ describe('Firestore over REST with the service account', () => {
   });
 });
 
+describe('jobs proxy errors', () => {
+  it('names the host and what a non-JSON answer said', async () => {
+    const f = (async () => new Response('<html><title>Authentication Required</title><body>Log in to Vercel</body></html>', { status: 403 })) as never;
+    const out = await forwardJob('mapr-run', { appUrl: 'https://my-app-abc.vercel.app/', secret: 's', fetchImpl: f });
+    expect(out.status).toBe(403);
+    expect((out.body as { error: string }).error).toMatch(/my-app-abc\.vercel\.app answered 403 .*Authentication Required.*Deployment Protection/);
+  });
+});
+
 describe('proxy (route guard)', () => {
   it('redirects pages to /login and answers 401 to APIs without a session', async () => {
     const { proxy } = await import('@/proxy');
