@@ -3,10 +3,12 @@ import { ALL_LANDMARKS } from '../../src/data/regions.js';
 import { placeKinds } from '../../src/lib/placeKinds.js';
 import { loadStatsData } from './statsData.js';
 import {
+  FEATURES,
   METRICS,
   METRICS_COLLECTION,
   MODEL_COLLECTION,
   NCF,
+  NCF_V2,
   SIMILARITY_COLLECTION,
   TRENDING_LIMIT,
   USER_MODEL_COLLECTION,
@@ -22,6 +24,9 @@ import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
 //   weekly  similarity matrix per region -> mapr_similarity/{region}
 //           NCF training -> mapr_models/ncf (+ ncf_prev), user embeddings ->
 //           mapr_user_models/{uid}, trending -> mapr_models/signals
+//           Mapr v2 (while FEATURES.maprV2 is on): a second model with the
+//           v2 training -> mapr_models/ncf_v2 (+ ncf_v2_prev), its user
+//           embeddings under versions "v2-<time>" in the same user docs
 // Totals only in mapr_metrics; per-user data only in owner-only user docs.
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -143,21 +148,43 @@ export function ncfActiveUsers(positives, { now = Date.now(), windowDays = NCF.w
 
 // Week 3: train, then promote / keep / roll back. Whatever ends up live gets
 // `active` (more than NCF.autoEnableAboveUsers users) and `activeUsers`.
+// cfg picks the model family: NCF (v1, mapr_models/ncf) or NCF_V2
+// (mapr_models/ncf_v2). Each family is promoted and rolled back on its own.
 export async function runNcfWeekly(db, ds, { now = Date.now(), cfg = NCF } = {}) {
   const positives = ncfPositives(ds);
   const activeUsers = ncfActiveUsers(positives, { now, windowDays: cfg.windowDays });
   const active = activeUsers > cfg.autoEnableAboveUsers;
   const gate = { active, activeUsers, activeThreshold: cfg.autoEnableAboveUsers };
   const out = await trainAndPublish(db, positives, { now, cfg, gate });
-  const live = await db.collection(MODEL_COLLECTION).doc('ncf').get();
-  if (live.exists) await db.collection(MODEL_COLLECTION).doc('ncf').set(gate, { merge: true });
-  return { ...out, ...gate };
+  const live = await db.collection(MODEL_COLLECTION).doc(cfg.modelDoc || 'ncf').get();
+  if (live.exists) await db.collection(MODEL_COLLECTION).doc(cfg.modelDoc || 'ncf').set(gate, { merge: true });
+  return { ...out, ...gate, family: cfg.family || 'v1' };
+}
+
+// Mapr v2 trains only while its rollout is on.
+export const maprV2Enabled = (features = FEATURES) => features.maprV2?.enabled === true && features.maprV2.rollout > 0;
+
+// Version strings: v1 "v<time>", v2 "v2-<time>".
+const familyOf = (version) => (String(version).startsWith('v2-') ? 'v2' : 'v1');
+export const versionFor = (cfg, now) => (cfg.family === 'v2' ? `v2-${now}` : `v${now}`);
+
+// A user's embeddings after adding `version`: its own family keeps the
+// latest keep - 1 older versions (a rollback still finds one); the other
+// family's versions stay as they are.
+export function pruneVersions(prior, version, keep = NCF.keepVersions) {
+  const fam = familyOf(version);
+  const entries = Object.entries(prior || {});
+  const same = entries.filter(([v]) => familyOf(v) === fam && v !== version).sort(([a], [b]) => (a < b ? -1 : 1)).slice(-(keep - 1));
+  const other = entries.filter(([v]) => familyOf(v) !== fam);
+  return { ...Object.fromEntries(other), ...Object.fromEntries(same) };
 }
 
 async function trainAndPublish(db, positives, { now, cfg, gate }) {
   const result = trainNcf(positives, { now, cfg, budgetMs: cfg.trainBudgetMs });
   const ref = db.collection(MODEL_COLLECTION);
-  const liveSnap = await ref.doc('ncf').get();
+  const liveDoc = cfg.modelDoc || 'ncf';
+  const prevDoc = cfg.prevDoc || 'ncf_prev';
+  const liveSnap = await ref.doc(liveDoc).get();
   const live = liveSnap.exists ? liveSnap.data() : null;
   const userDocs = await readUserModels(db);
   const summary = { trainedAt: now, counts: result.counts, ok: result.ok, reason: result.reason ?? null, evaluation: result.evaluation ? { ...result.evaluation, history: undefined } : null };
@@ -170,23 +197,21 @@ async function trainAndPublish(db, positives, { now, cfg, gate }) {
     const liveEmb = Object.fromEntries(Object.entries(userDocs).map(([u, d]) => [u, d.byVersion?.[live?.version]]).filter(([, e]) => Array.isArray(e)));
     const liveAcc = liveAccuracy(live, liveEmb, positives, { now, cfg });
     if (hasDrifted(liveAcc, prevAcc, cfg.maxDriftDrop)) {
-      const prev = await ref.doc('ncf_prev').get();
+      const prev = await ref.doc(prevDoc).get();
       if (prev.exists) {
-        await ref.doc('ncf').set({ ...prev.data(), rolledBackAt: now, rolledBackFrom: live?.version ?? null });
+        await ref.doc(liveDoc).set({ ...prev.data(), rolledBackAt: now, rolledBackFrom: live?.version ?? null });
         return { action: 'rolled-back', liveAcc, ...summary };
       }
     }
     return { action: 'kept-previous', liveAcc, ...summary };
   }
 
-  const version = `v${now}`;
-  const { shared, users } = serializeModel(result, { meta: { version, trainedAt: now, evaluation: summary.evaluation, counts: result.counts, ...gate } });
-  if (live) await ref.doc('ncf_prev').set(live);
-  await ref.doc('ncf').set(JSON.parse(JSON.stringify(shared)));
+  const version = versionFor(cfg, now);
+  const { shared, users } = serializeModel(result, { meta: { version, family: cfg.family || 'v1', trainedAt: now, evaluation: summary.evaluation, counts: result.counts, ...gate } });
+  if (live) await ref.doc(prevDoc).set(live);
+  await ref.doc(liveDoc).set(JSON.parse(JSON.stringify(shared)));
   const writes = Object.entries(users).map(([uid, emb]) => (batch) => {
-    const prior = userDocs[uid]?.byVersion || {};
-    const keep = Object.keys(prior).sort().slice(-(cfg.keepVersions - 1));
-    const byVersion = { ...Object.fromEntries(keep.map((v) => [v, prior[v]])), [version]: emb };
+    const byVersion = { ...pruneVersions(userDocs[uid]?.byVersion, version, cfg.keepVersions), [version]: emb };
     batch.set(db.collection(USER_MODEL_COLLECTION).doc(uid), { byVersion, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
   });
   await commitInBatches(db, writes);
@@ -212,10 +237,11 @@ export async function runWeekly(db, { now = Date.now(), ds = null, landmarks = A
   const data = ds || (await loadStatsData(db));
   const similarity = await runSimilarityWeekly(db, data, { now, landmarks });
   const ncf = await runNcfWeekly(db, data, { now });
+  const ncfV2 = maprV2Enabled() ? await runNcfWeekly(db, data, { now, cfg: NCF_V2 }) : null;
   await db.collection(MODEL_COLLECTION).doc('signals').set({ trending: trendingCounts(data, now), computedAt: now });
-  const status = JSON.parse(JSON.stringify({ similarity: { computedAt: similarity.computedAt, ms: similarity.ms, regions: Object.keys(similarity.regions).length }, ncf }));
+  const status = JSON.parse(JSON.stringify({ similarity: { computedAt: similarity.computedAt, ms: similarity.ms, regions: Object.keys(similarity.regions).length }, ncf, ncfV2 }));
   await db.collection(MODEL_COLLECTION).doc('status').set({ ...status, updatedAt: now });
-  await writeDashboardModels(db, { ncf, similarity }, { now });
+  await writeDashboardModels(db, { ncf, ncfV2, similarity }, { now });
   return status;
 }
 
@@ -239,11 +265,16 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   const data = ds || (await loadStatsData(db));
   const statusSnap = await db.collection(MODEL_COLLECTION).doc('status').get();
   const status = statusSnap.exists ? statusSnap.data() : {};
-  data.models = { ncf: status.ncf ? { trainedAt: status.ncf.action === 'promoted' ? status.ncf.trainedAt : null, evaluation: status.ncf.evaluation, version: status.ncf.version } : null, similarity: status.similarity || null };
+  data.models = {
+    ncf: status.ncf ? { trainedAt: status.ncf.action === 'promoted' ? status.ncf.trainedAt : null, evaluation: status.ncf.evaluation, version: status.ncf.version } : null,
+    ncfV2: status.ncfV2 ? { trainedAt: status.ncfV2.action === 'promoted' ? status.ncfV2.trainedAt : null, evaluation: status.ncfV2.evaluation, version: status.ncfV2.version ?? null, active: status.ncfV2.active === true } : null,
+    similarity: status.similarity || null,
+  };
   // A model kept from an earlier week still counts as trained then.
-  if (data.models.ncf && !data.models.ncf.trainedAt) {
-    const live = await db.collection(MODEL_COLLECTION).doc('ncf').get();
-    if (live.exists) data.models.ncf.trainedAt = live.data().trainedAt ?? null;
+  for (const [key, cfg] of [['ncf', NCF], ['ncfV2', NCF_V2]]) {
+    if (!data.models[key] || data.models[key].trainedAt) continue;
+    const live = await db.collection(MODEL_COLLECTION).doc(cfg.modelDoc).get();
+    if (live.exists) data.models[key].trainedAt = live.data().trainedAt ?? null;
   }
   const date = dateUtc(now - DAY_MS);
   const report = computeDailyReport(data, { date, now });

@@ -1,4 +1,4 @@
-import { EXPERIMENT_SALTS, FEATURES } from './config.js';
+import { EXPERIMENT_SALTS, FEATURES, NCF, NCF_V2 } from './config.js';
 
 // Stable user bucketing for feature rollouts and A/B tests. A uid is a
 // string, so `user_id % 100` becomes a 32-bit FNV-1a hash of salt + uid, mod
@@ -34,6 +34,14 @@ export const isOn = (uid, feature, features = FEATURES) => variantFor(uid, featu
 // Every feature's variant for one user, as saved on each telemetry row.
 export function variantsFor(uid, features = FEATURES) {
   return Object.fromEntries(Object.keys(features).map((k) => [k, variantFor(uid, k, features)]));
+}
+
+// The NCF model doc a user's phone and server ranking load: the v2 model for
+// users in the Mapr v2 rollout, v1 for everyone else. If the v2 doc does not
+// exist yet (before its first weekly run), callers fall back to v1, and the
+// v1 blend comes with it (rank.js reads the blend from the loaded model).
+export function ncfDocFor(uid, features = FEATURES) {
+  return variantFor(uid, 'maprV2', features) === 'treatment' ? NCF_V2.modelDoc : NCF.modelDoc;
 }
 
 // Small seeded PRNG (mulberry32), so a built set's exploration draws can be

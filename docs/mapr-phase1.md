@@ -111,6 +111,40 @@ joining the row to `pick_feedback`, `reviews` and `checkins` within 7 days.
   embeddings of the last two versions, so a rollback still finds them.
 - To revert a component, set `enabled: false` and deploy. No data migration.
 
+## Mapr v2 rollout (`FEATURES.maprV2`, 20%)
+
+Mapr v2 changes how NCF trains and how its score blends in, on every Mapr
+surface at once (they all rank through `scorePicks` and load models through
+`loadMaprModels` / `loadServerModels`): the map sheet and its rows, Mapr
+chat, Travel Picks, the trip planner and the landmark list.
+
+- Training (`NCF_V2` in `config.js`): BPR on the logits instead of the
+  sigmoid outputs, negatives drawn from the positive's own region
+  (`regionPools`; a region under 5 places falls back to every place), and
+  early stopping on validation pairwise accuracy instead of loss.
+- Blend: `0.8 x base / max|base| + 0.2 x NCF`. A disliked place keeps its
+  negative tag score. v1 stays `0.4 x max(0, base) / max(base) + 0.6 x NCF`.
+- The weekly job trains v1 into `mapr_models/ncf` and, while the rollout is
+  on, v2 into `mapr_models/ncf_v2` (+ `ncf_v2_prev`), each with a 20 s
+  budget, each promoted and rolled back on its own. User embeddings for
+  both sit in the same `mapr_user_models/{uid}` doc: v1 versions are
+  `v<time>`, v2 versions `v2-<time>`.
+- Users in the 20% load `ncf_v2`; if it is missing they fall back to `ncf`.
+  The loaded model's `family` picks the blend, so a fallback gets the v1
+  blend with the v1 model. Picks log `variants.maprV2` and `ncfModel`.
+- The same `active` gate applies: until more than 10 people have a check-in
+  or loved rating in 90 days, neither model ranks and both arms see tag +
+  similarity ranking.
+- Monitoring: the admin dashboard's Mapr Phase 1 page, "Mapr v2 rollout"
+  card. v1 and v2 holdout accuracy against any place and against places in
+  the same region; the live A/B overall, for new users (under 5 ratings
+  when the pick was shown) and per region; and the share of treatment
+  picks the v2 model ranked. `experiments.maprV2` in `mapr_metrics/{date}`.
+- Grow it by raising `rollout`; turn it off with `enabled: false` (the job
+  then stops training v2 and every user loads `ncf`).
+- Evidence: `mapr-synthetic-trainer/SCALE-RESULTS.md` and
+  `VALIDATION-RESULTS.md` (synthetic travelers only).
+
 ## Where this differs from the spec, and why
 
 - **Decay multipliers.** The spec's table (0.5 km → 3.0x, 1.5 km → 1.0x) does

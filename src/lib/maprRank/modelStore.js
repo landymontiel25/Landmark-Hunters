@@ -1,12 +1,15 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { MODEL_CACHE_MS, MODEL_COLLECTION, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from './config.js';
+import { FEATURES, MODEL_CACHE_MS, MODEL_COLLECTION, NCF, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from './config.js';
+import { ncfDocFor } from './experiments.js';
+import { ncfFromDoc } from './ncf.js';
 import { decodeNeighbors } from './similarity.js';
 
 // Loads what the nightly job publishes (api/mapr-nightly.js) for on-device
 // ranking, and keeps it on the device for MODEL_CACHE_MS:
 //   similarity   mapr_similarity/{region}   (signed-in read)
-//   ncf          mapr_models/ncf            (signed-in read)
+//   ncf          mapr_models/ncf, or mapr_models/ncf_v2 for users in the
+//                Mapr v2 rollout (signed-in read; falls back to ncf)
 //   signals      mapr_models/signals        (signed-in read: check-ins this week per place)
 //   userEmbedding mapr_user_models/{uid}    (owner-only read)
 // Any doc that is missing or fails to load is just null: ranking falls back
@@ -59,11 +62,16 @@ const defaultRead = async ([col, id]) => {
   return snap.exists() ? snap.data() : null;
 };
 
-export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), read = defaultRead } = {}) {
+export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), read = defaultRead, features = FEATURES } = {}) {
   if (!uid) return null;
   const opts = { nowMs, read };
+  const docName = ncfDocFor(uid, features);
+  const loadNcf = async () => {
+    const m = await cachedDoc(docName, [MODEL_COLLECTION, docName], ncfFromDoc, opts);
+    return m || docName === NCF.modelDoc ? m : cachedDoc(NCF.modelDoc, [MODEL_COLLECTION, NCF.modelDoc], ncfFromDoc, opts);
+  };
   const [ncf, signals, user, ...sims] = await Promise.all([
-    cachedDoc('ncf', [MODEL_COLLECTION, 'ncf'], (d) => (d.layers && d.items ? { dim: d.dim, layers: d.layers, items: d.items, version: d.version ?? null, active: d.active === true, activeUsers: d.activeUsers ?? null } : null), opts),
+    loadNcf(),
     cachedDoc('signals', [MODEL_COLLECTION, 'signals'], (d) => ({ trending: d.trending || {} }), opts),
     cachedDoc(`user:${uid}`, [USER_MODEL_COLLECTION, uid], (d) => ({ byVersion: d.byVersion && typeof d.byVersion === 'object' ? d.byVersion : {}, stagnating: d.stagnating === true }), opts),
     ...regions.map((r) => cachedDoc(`sim:${r}`, [SIMILARITY_COLLECTION, r], (d) => decodeNeighbors(d.neighbors), opts)),

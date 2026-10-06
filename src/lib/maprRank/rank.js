@@ -1,4 +1,4 @@
-import { FEATURES, NCF as NCF_CFG, EXPLORATION as EXPLORE_CFG, COLLAB_LIKED_MIN_STARS } from './config.js';
+import { FEATURES, NCF as NCF_CFG, NCF_V2, EXPLORATION as EXPLORE_CFG, COLLAB_LIKED_MIN_STARS } from './config.js';
 import { applyDecay, decayMultiplier } from './distanceDecay.js';
 import { collabBoost } from './similarity.js';
 import { prepareScorer } from './ncf.js';
@@ -91,7 +91,9 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
     else {
       let overBudget = false;
       for (const r of rows) {
-        const k = `${uid}|${keyOf(r.p)}`;
+        // Keyed by model version too: a v2 user who falls back to v1, or a
+        // new week's model, never gets the other model's cached score.
+        const k = `${uid}|${models.ncf.version ?? ''}|${keyOf(r.p)}`;
         if (!overBudget && clock() - ncfStart > NCF_CFG.maxInferenceMs) overBudget = true;
         if (overBudget) {
           r.ncf = ncfCache.has(k) ? ncfCache.get(k) : null;
@@ -118,11 +120,18 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
     if (clock() - ncfStart > NCF_CFG.maxInferenceMs && !fallbacks.includes('ncf-latency')) fallbacks.push('ncf-slow');
   }
 
-  const maxBase = Math.max(0, ...rows.map((r) => r.base));
+  // The loaded model's family picks the blend, so a v2 user whose v2 model
+  // is missing falls back to the v1 model and the v1 blend together.
+  //   v1: 0.4 x max(0, base) / max(base) + 0.6 x NCF
+  //   v2: 0.8 x base / max|base| + 0.2 x NCF (a disliked place keeps its
+  //       negative score instead of tying with a neutral one at 0)
+  const ncfModel = ncfUsed ? (models?.ncf?.family === 'v2' ? 'v2' : 'v1') : null;
+  const blend = ncfModel === 'v2' ? NCF_V2 : NCF_CFG;
+  const maxBase = blend.signedBase ? Math.max(0, ...rows.map((r) => Math.abs(r.base))) : Math.max(0, ...rows.map((r) => r.base));
   for (const r of rows) {
     if (ncfUsed) {
-      const norm = maxBase > 0 ? Math.max(0, r.base) / maxBase : 0;
-      r.final = NCF_CFG.baseWeight * norm + NCF_CFG.ncfWeight * (r.ncf ?? r.ncfImputed);
+      const norm = maxBase > 0 ? (blend.signedBase ? r.base : Math.max(0, r.base)) / maxBase : 0;
+      r.final = blend.baseWeight * norm + blend.ncfWeight * (r.ncf ?? r.ncfImputed);
     } else r.final = r.base;
   }
 
@@ -136,6 +145,7 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
       scoreAfterDecay: round(r.afterDecay),
       collabBoost: round(r.boost),
       ncfScore: round(r.ncf),
+      ncfModel,
       finalScore: round(r.final),
       revisit: visited.has(r.p.id),
     };
@@ -144,7 +154,7 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
   const best = (a, b) => b.finalScore - a.finalScore || (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0);
   out.usual.sort(best);
   out.fresh.sort(best);
-  return { ...out, meta: { variants, fallbacks, latencyMs, ncfUsed } };
+  return { ...out, meta: { variants, fallbacks, latencyMs, ncfUsed, ncfModel } };
 }
 
 // Week 4: the exploration side of one request. Null for users outside the

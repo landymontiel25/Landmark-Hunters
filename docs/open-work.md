@@ -3,41 +3,23 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Mapr synthetic training: findings to act on (needs an owner decision)
+## Mapr v2 rollout (shipped at 20%, waiting on users)
 
-`mapr-synthetic-trainer/` trains the production Mapr code offline on 10,000
-synthetic travelers (results: `mapr-synthetic-trainer/RESULTS.md`). Nothing
-was deployed and no production code changed. What it found:
+The three NCF fixes and the signed `0.8 / 0.2` blend ship behind
+`FEATURES.maprV2` at 20% on every Mapr surface (`docs/mapr-phase1.md`,
+"Mapr v2 rollout"). Evidence so far is synthetic only
+(`mapr-synthetic-trainer/SCALE-RESULTS.md`, `VALIDATION-RESULTS.md`: 60 of
+60 runs won over tag + similarity). Left open:
 
-- The full blend (`0.4 x base + 0.6 x NCF`) ranks below tag score +
-  similarity alone at every scale tested (75.2% vs 77.7% at 10,000 users).
-  Options: give NCF less weight until it beats the base on real holdout
-  data, or gate it on that comparison instead of on user count
-  (`NCF.autoEnableAboveUsers`).
-- Production NCF applies BPR to sigmoid outputs; the sigmoid saturates and
-  the gradients vanish. The tiny values also slow the nightly job's
-  training (subnormal floats) inside its 30 s budget. Early stopping
-  watches validation loss, which picks near-untrained models when the loss
-  is switched to plain BPR on logits. Tested over 30 simulations
-  (`mapr-synthetic-trainer/FIX-RESULTS.md`): BPR on logits + same-city
-  negatives + early stopping on accuracy beat production NCF in 25 of 30
-  but beat tag + similarity in only 4 of 30, so it is not deployed. All 4
-  wins kept a barely trained NCF: at 0.6 weight a trained NCF overrides
-  the tag score. Re-scored at weights 0.3/0.2/0.1
-  (`mapr-synthetic-trainer/WEIGHTS-RESULTS.md`): weight alone wins at most
-  9 of 30, because the blend also clips negative base scores to 0. With the
-  sign kept, `0.8 x base / max|base| + 0.2 x NCF` beat tag + similarity in
-  28 of 30 and new users gained 1.5 points. At scale
-  (`mapr-synthetic-trainer/SCALE-RESULTS.md`) it won 30 of 30 at 10k, 50k
-  and 100k users (+0.8, +1.6, +1.6 points; new users +2.0 at 100k). Waiting
-  on the owner's go to ship the three NCF fixes plus that blend to every
-  Mapr surface in one PR (CLAUDE.md), staged behind a rollout.
-  Independent validation on fresh seeds 7001-7010
-  (`mapr-synthetic-trainer/VALIDATION-RESULTS.md`): 30 of 30 again (+0.7,
-  +1.3, +1.7 points at 10k, 50k, 100k).
+- Neither model ranks until more than 10 people have a check-in or loved
+  rating in 90 days (`NCF.autoEnableAboveUsers`). Until then the A/B arms
+  rank the same way; the dashboard's "v2 model ranked" share stays at 0%.
+- Once NCF is on: watch the "Mapr v2 rollout" card. Grow the rollout
+  (`FEATURES.maprV2.rollout`) when the A/B says promote; when v2 reaches
+  100%, make `NCF_V2` the only model and remove v1 training.
 - Pre-trained models gave brand-new users no lift over today's cold start,
-  so `deploy-to-production.js` has not been run and nothing reads
-  `mapr_pretrained_*`. Run it only after a change makes pre-training help.
+  so `mapr-synthetic-trainer/deploy-to-production.js` has not been run and
+  nothing reads `mapr_pretrained_*`.
 
 ## Admin dashboard setup (owner, once)
 

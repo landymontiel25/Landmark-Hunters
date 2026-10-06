@@ -29,6 +29,27 @@ describe('loadMaprModels', () => {
     expect(m.ncf.active).toBe(false); // the doc has no `active`: off
   });
 
+  it('loads mapr_models/ncf_v2 for a Mapr v2 user, and ncf for everyone else', async () => {
+    const v2docs = { ...docs, 'mapr_models/ncf_v2': { ...docs['mapr_models/ncf'], version: 'v2-9', family: 'v2' }, 'mapr_user_models/u1': { byVersion: { v2: [0.5, 0.5], 'v2-9': [0.1, 0.2] } } };
+    const read = vi.fn(async ([c, id]) => v2docs[`${c}/${id}`] ?? null);
+    const on = { maprV2: { enabled: true, rollout: 100 } };
+    const m = await loadMaprModels({ uid: 'u1', nowMs: NOW, read, features: on });
+    expect(m.ncf).toMatchObject({ family: 'v2', version: 'v2-9' });
+    expect(m.userEmbedding).toEqual([0.1, 0.2]);
+    _resetModelMemory();
+    localStorage.clear();
+    const off = await loadMaprModels({ uid: 'u1', nowMs: NOW, read, features: { maprV2: { enabled: false, rollout: 0 } } });
+    expect(off.ncf).toMatchObject({ family: 'v1', version: 'v2' });
+  });
+
+  it('falls back to the v1 model when the v2 model is not published yet', async () => {
+    const read = vi.fn(async ([c, id]) => docs[`${c}/${id}`] ?? null);
+    const m = await loadMaprModels({ uid: 'u1', nowMs: NOW, read, features: { maprV2: { enabled: true, rollout: 100 } } });
+    expect(read.mock.calls.map(([[, id]]) => id)).toEqual(expect.arrayContaining(['ncf_v2', 'ncf']));
+    expect(m.ncf).toMatchObject({ family: 'v1', version: 'v2' });
+    expect(m.userEmbedding).toEqual([0.5, 0.5]);
+  });
+
   it('caches on the device for 12 hours', async () => {
     const read = vi.fn(async ([c, id]) => docs[`${c}/${id}`] ?? null);
     await loadMaprModels({ uid: 'u1', regions: ['milan'], nowMs: NOW, read });

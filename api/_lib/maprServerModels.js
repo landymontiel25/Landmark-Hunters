@@ -1,5 +1,7 @@
 import { adminDb } from './firebaseAdmin.js';
-import { MODEL_CACHE_MS, MODEL_COLLECTION, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from '../../src/lib/maprRank/config.js';
+import { MODEL_CACHE_MS, MODEL_COLLECTION, NCF, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from '../../src/lib/maprRank/config.js';
+import { ncfDocFor } from '../../src/lib/maprRank/experiments.js';
+import { ncfFromDoc } from '../../src/lib/maprRank/ncf.js';
 import { decodeNeighbors } from '../../src/lib/maprRank/similarity.js';
 
 // The Mapr Phase 1 models for server-side ranking (Mapr chat), read with the
@@ -28,10 +30,13 @@ export async function loadServerModels({ uid, regions = [], now = Date.now(), db
     return snap.exists ? snap.data() : null;
   };
   const [ncf, signals, user, ...sims] = await Promise.all([
-    cached('ncf', async () => {
-      const d = await get(MODEL_COLLECTION, 'ncf');
-      return d?.layers && d?.items ? { dim: d.dim, layers: d.layers, items: d.items, version: d.version ?? null, active: d.active === true } : null;
-    }, now),
+    (async () => {
+      // Mapr v2 users get mapr_models/ncf_v2, falling back to ncf.
+      const docName = uid ? ncfDocFor(uid) : NCF.modelDoc;
+      const load = (name) => cached(name, async () => ncfFromDoc(await get(MODEL_COLLECTION, name)), now);
+      const m = await load(docName);
+      return m || docName === NCF.modelDoc ? m : load(NCF.modelDoc);
+    })(),
     cached('signals', async () => ({ trending: (await get(MODEL_COLLECTION, 'signals'))?.trending || {} }), now),
     uid ? cached(`user:${uid}`, () => get(USER_MODEL_COLLECTION, uid), now) : null,
     ...regions.map((r) => cached(`sim:${r}`, async () => decodeNeighbors((await get(SIMILARITY_COLLECTION, r))?.neighbors), now)),

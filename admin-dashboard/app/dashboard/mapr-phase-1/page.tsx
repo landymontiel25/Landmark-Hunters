@@ -4,6 +4,7 @@ import { Grid, Page, Two } from '@/components/Page';
 import { MetricCard } from '@/components/MetricCard';
 import { TrendChart } from '@/components/Chart';
 import { AlertBanner, ListenerError } from '@/components/AlertBanner';
+import { MaprV2Rollout } from '@/components/MaprV2Rollout';
 import { useMaprMetrics, useMaprNCFModel, useMaprSimilarity } from '@/lib/listeners';
 import { bytes, deviationAlerts, num, pct, trendOf, when } from '@/lib/metrics';
 
@@ -119,6 +120,7 @@ export default function MaprPhase1() {
           <p className="text-sm muted">Not running: every component is on for everyone while the app has two users.</p>
         )}
       </section>
+      <MaprV2Rollout ab={m?.experiments?.maprV2} model={n} loading={mapr.loading || ncf.loading} />
     </Page>
   );
 }
