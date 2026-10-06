@@ -1,18 +1,15 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { isAdmin } from '../lib/admins';
-import { ALL_LANDMARKS, INTERESTS, PICKABLE_REGIONS, getLandmark } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS, getRegion } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
-import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
-import { localSwipePicks, noteKeywords, pickRegion } from '../lib/tagScores';
-import { authHeaders } from '../lib/apiAuth';
-import { fetchJson, friendlyError } from '../lib/friendlyError';
+import { allSwipeCards, tagDeltasFromAnswers, SWIPE_DELTAS } from '../lib/onboardingCards';
+import { searchScore } from '../lib/search';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
-import { API_BASE } from '../lib/apiBase';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
 
 export { progressTier };
@@ -26,6 +23,7 @@ export { progressTier };
 const SIGNUP_ON = false;
 const STEPS = [
   ...(SIGNUP_ON ? [{ id: 'signup', label: 'Sign up' }] : []),
+  { id: 'places', label: 'Your places' },
   { id: 'prompt', label: 'Rate prompt' },
   { id: 'howto', label: 'Instructions' },
   { id: 'cards', label: 'Cards' },
@@ -42,6 +40,7 @@ const empty = () => ({
   age: false,
   via: null,
   skippedRating: false,
+  places: [],
   // All 39 here so every card gets tested; real signups get 15-18 (pickSwipeCards).
   cards: allSwipeCards(),
   answers: [],
@@ -132,6 +131,16 @@ export default function OnboardingLab() {
           }}
         />
       )}
+      {id === 'places' && (
+        <LabPlaces
+          places={data.places}
+          onChange={(places, what) => {
+            note(what);
+            set({ places });
+          }}
+          onDone={() => go('prompt', data.places.length ? `Added ${data.places.length} places` : 'Skipped places')}
+        />
+      )}
       {id === 'prompt' && (
         <LabRatePrompt
           onSkip={() => {
@@ -167,6 +176,102 @@ export default function OnboardingLab() {
       )}
       {id === 'checkin' && <LabCheckIn data={data} set={set} onDone={(how) => go('done', how)} />}
       {id === 'done' && <LabSummary data={data} log={log} onRestart={restart} />}
+    </div>
+  );
+}
+
+const MAX_PLACES = 10;
+
+// Profile step: "Tell us the 10 places you visit most". Typing a name pops
+// up matching places from the catalog; Tab or Enter takes the top match and
+// tapping any row adds that one. Local state only, like the rest of the Lab.
+function LabPlaces({ places, onChange, onDone }) {
+  const [term, setTerm] = useState('');
+  const q = term.trim();
+  const full = places.length >= MAX_PLACES;
+  const suggestions = useMemo(() => {
+    if (!q) return [];
+    const taken = new Set(places.map((l) => `${l.regionId}/${l.id}`));
+    return ALL_LANDMARKS.filter((l) => !taken.has(`${l.regionId}/${l.id}`))
+      .map((l) => ({ l, score: searchScore(l.name, getRegion(l.regionId)?.name || '', q) }))
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score || a.l.name.localeCompare(b.l.name))
+      .slice(0, 6)
+      .map((x) => x.l);
+  }, [q, places]);
+  const top = suggestions[0];
+
+  const add = (l) => {
+    if (full) return;
+    onChange([...places, l], `Added place: ${l.name}`);
+    setTerm('');
+  };
+  const remove = (l) => onChange(places.filter((p) => p !== l), `Removed place: ${l.name}`);
+  const onKeyDown = (e) => {
+    if ((e.key === 'Tab' || e.key === 'Enter') && top && !full) {
+      e.preventDefault();
+      add(top);
+    }
+  };
+  // Greyed-out rest of the top match's name, so Tab visibly completes it.
+  const ghost = top && top.name.toLowerCase().startsWith(term.toLowerCase()) ? top.name.slice(term.length) : '';
+
+  return (
+    <div>
+      <h1 className="screen-title">
+        <span>{'\u{1F4CD}'}</span> Your places
+      </h1>
+      <p className="screen-subtitle">Tell us the 10 places you visit most, and we'll help you discover new spots you'll love.</p>
+      <div className="field lab-place-search">
+        <label htmlFor="lab-place">
+          Place {places.length} of {MAX_PLACES}
+        </label>
+        <div className="lab-place-input">
+          {ghost && (
+            <span className="lab-place-ghost" aria-hidden="true">
+              <span style={{ visibility: 'hidden' }}>{term}</span>
+              {ghost}
+            </span>
+          )}
+          <input
+            id="lab-place"
+            type="search"
+            autoComplete="off"
+            placeholder={full ? 'That is 10, nice' : 'Start typing a place name'}
+            disabled={full}
+            value={term}
+            onChange={(e) => setTerm(e.target.value)}
+            onKeyDown={onKeyDown}
+          />
+        </div>
+        {suggestions.length > 0 && (
+          <ul className="lab-log lab-place-suggestions" role="listbox">
+            {suggestions.map((l) => (
+              <li key={`${l.regionId}/${l.id}`}>
+                <button type="button" role="option" aria-selected={l === top} className="btn btn-ghost btn-block" onClick={() => add(l)}>
+                  {l.name} <span className="screen-subtitle">{getRegion(l.regionId)?.name}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {q && suggestions.length === 0 && !full && <p className="screen-subtitle">No place matches “{q}”.</p>}
+      </div>
+      {places.length > 0 && (
+        <ol className="lab-log lab-place-list">
+          {places.map((l) => (
+            <li key={`${l.regionId}/${l.id}`}>
+              {l.name}{' '}
+              <button type="button" className="btn btn-ghost btn-sm" aria-label={`Remove ${l.name}`} onClick={() => remove(l)}>
+                {'\u{2715}'}
+              </button>
+            </li>
+          ))}
+        </ol>
+      )}
+      <button type="button" className="btn btn-primary btn-block" style={{ marginTop: 20 }} onClick={onDone}>
+        {places.length ? 'Continue' : 'Skip for now'} {'\u{2192}'}
+      </button>
     </div>
   );
 }
@@ -344,6 +449,9 @@ function LabSummary({ data, log, onRestart }) {
           </p>
         )}
         <p>
+          <strong>Places you visit most:</strong> {data.places.length ? data.places.map((l) => l.name).join(', ') : 'none'}
+        </p>
+        <p>
           <strong>First check-in:</strong> {data.checkedIn ? 'yes' : 'skipped'}
         </p>
       </div>
@@ -388,8 +496,6 @@ function LabSummary({ data, log, onRestart }) {
             </ul>
           </div>
 
-          <LabRecommendations data={data} deltas={deltas} />
-
           <div className="card section">
             <strong>Onboarding notes</strong>
             <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>
@@ -414,104 +520,6 @@ function LabSummary({ data, log, onRestart }) {
       )}
       <button type="button" className="btn btn-primary btn-block" onClick={onRestart}>
         {'\u{21BA}'} Restart
-      </button>
-    </div>
-  );
-}
-
-// What Mapr Picks would show right after this signup. "Instant" is the
-// on-device tag scorer (tag scores only). "Ask Mapr" sends the same profile
-// plus the card words and notes to the real /api/mapr-picks, which only
-// reads what it's sent -- nothing is saved.
-function LabRecommendations({ data, deltas }) {
-  const { coords } = useGeo();
-  const [region, setRegion] = useState(() => pickRegion({ origin: coords, fallbackRegions: ['miami'] }) || 'miami');
-  const [ai, setAi] = useState({ status: 'idle', picks: [], error: '' });
-  const now = Date.now();
-  const counts = {};
-  for (const { card, answer } of data.answers) if (answer !== 'unsure') counts[card.tag] = (counts[card.tag] || 0) + 1;
-  const profile = {
-    tagScores: { [region]: deltas },
-    tagScoresAt: { [region]: Object.fromEntries(Object.keys(deltas).map((t) => [t, now])) },
-    tagCounts: { [region]: counts },
-  };
-  const tasteIntro = tasteIntroFromAnswers(data.answers, data.notes);
-  const keywords = noteKeywords(tasteIntro);
-  const instant = localSwipePicks({ region, tagDeltas: deltas, keywords, limit: 8, now });
-
-  const changeRegion = (r) => {
-    setRegion(r);
-    setAi({ status: 'idle', picks: [], error: '' });
-  };
-
-  const askMapr = async () => {
-    setAi({ status: 'loading', picks: [], error: '' });
-    try {
-      const body = await fetchJson(`${API_BASE}/api/mapr-picks`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-        body: JSON.stringify({ region, ...profile, tasteIntro, origin: coords || null, mode: 'swipeOnly' }),
-      });
-      setAi({ status: 'done', picks: body.picks || [], error: '' });
-    } catch (e) {
-      setAi({ status: 'error', picks: [], error: friendlyError(e, 'Mapr request failed.') });
-    }
-  };
-
-  const row = (p) => {
-    const l = getLandmark(p.region, p.id) || { id: p.id, name: p.name, images: p.image ? [p.image] : [], categories: p.categories };
-    return (
-      <li key={p.id} className="lab-rec">
-        <LandmarkThumb landmark={l} size={48} />
-        <div>
-          <strong>{p.name}</strong> <span className="tag">{p.matchPercentage}%</span>
-          {p.wildcard && <span className="tag">wildcard</span>}
-          <div className="screen-subtitle" style={{ margin: 0, fontSize: '0.8rem' }}>
-            {(p.categories || []).join(', ')} — {p.oneLineSummary}
-          </div>
-        </div>
-      </li>
-    );
-  };
-
-  return (
-    <div className="card section">
-      <strong>What Mapr would recommend</strong>
-      <div className="field" style={{ margin: '8px 0' }}>
-        <label htmlFor="lab-rec-region">City</label>
-        <select id="lab-rec-region" value={region} onChange={(e) => changeRegion(e.target.value)}>
-          {PICKABLE_REGIONS.map((r) => (
-            <option key={r.id} value={r.id}>
-              {r.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <p className="screen-subtitle" style={{ margin: '0 0 6px', fontSize: '0.8rem' }}>
-        <strong>Mapr reads:</strong> {tasteIntro || 'nothing (no answers)'}
-      </p>
-      <p className="screen-subtitle" style={{ margin: '0 0 10px', fontSize: '0.8rem' }}>
-        Only places matching a swiped "love it" category or a word from your notes show up below -- nothing from
-        popularity alone.
-      </p>
-
-      <p style={{ margin: '12px 0 4px' }}>
-        <strong>Instant picks</strong> <span className="screen-subtitle">(swipes + notes only, no AI)</span>
-      </p>
-      {instant.length ? <ul className="lab-recs">{instant.map(row)}</ul> : <p className="screen-subtitle">Nothing matches what you swiped or wrote yet.</p>}
-
-      <p style={{ margin: '12px 0 4px' }}>
-        <strong>Mapr AI picks</strong> <span className="screen-subtitle">(same swipes + notes only, picked and explained by Claude)</span>
-      </p>
-      {ai.status === 'done' &&
-        (ai.picks.length ? <ul className="lab-recs">{ai.picks.map(row)}</ul> : <p className="screen-subtitle">Mapr returned no picks.</p>)}
-      {ai.status === 'error' && (
-        <p className="tag tag-error" role="alert" style={{ display: 'block' }}>
-          {ai.error}
-        </p>
-      )}
-      <button type="button" className="btn btn-primary btn-block" disabled={ai.status === 'loading'} onClick={askMapr}>
-        {ai.status === 'loading' ? 'Asking Mapr…' : ai.status === 'done' ? 'Ask Mapr again' : 'Ask Mapr'}
       </button>
     </div>
   );

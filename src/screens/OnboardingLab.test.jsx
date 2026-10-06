@@ -59,6 +59,8 @@ describe('OnboardingLab', () => {
   it('walks the whole flow and restarts', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
     expect(el.textContent).not.toContain('Create Account');
+    expect(el.textContent).toContain("Tell us the 10 places you visit most, and we'll help you discover new spots you'll love.");
+    await click(button(el, 'Skip for now'));
     expect(el.textContent).toContain('Rate a few things you');
 
     await click(button(el, 'Next'));
@@ -91,22 +93,43 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Onboarding finished');
     expect(el.textContent).toContain('1 love it');
     expect(el.textContent).toContain('+10');
-    expect(el.textContent).toContain('What Mapr would recommend');
-    expect(el.textContent).toContain('Loves: ');
-    expect(el.querySelectorAll('.lab-rec').length).toBeGreaterThan(0);
+    expect(el.textContent).not.toContain('What Mapr would recommend');
+    expect(el.querySelectorAll('.lab-rec').length).toBe(0);
 
     await click(button(el, 'Restart'));
-    expect(el.textContent).toContain('Rate a few things you');
+    expect(el.textContent).toContain('Tell us the 10 places you visit most');
   }, 30000);
+
+  it('suggests places while typing and Tab adds the top match', async () => {
+    const el = await renderAs('landymontiel25@gmail.com');
+    const input = el.querySelector('#lab-place');
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+    await act(async () => {
+      setter.call(input, 'liberty');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    const options = el.querySelectorAll('[role="option"]');
+    expect(options.length).toBeGreaterThan(0);
+    const topName = options[0].textContent;
+    await act(async () => {
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
+    });
+    expect(el.querySelector('.lab-place-list').textContent).toContain(topName.split(' ')[0]);
+    expect(el.textContent).toContain('Place 1 of 10');
+    await click(el.querySelector('[aria-label^="Remove"]'));
+    expect(el.querySelector('.lab-place-list')).toBeNull();
+  });
 
   it('Skip on the rate prompt goes straight to the end with no preference data', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
+    await click(button(el, 'Skip for now'));
     await click([...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Skip'));
     expect(el.textContent).toContain('no preference data yet');
   });
 
   it('Undo brings back the last card and drops its answer', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
+    await click(button(el, 'Skip for now'));
     await click(button(el, 'Next'));
     await click(button(el, 'Start'));
     expect(button(el, 'Undo').disabled).toBe(true);
