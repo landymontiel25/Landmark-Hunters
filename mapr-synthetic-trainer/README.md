@@ -4,7 +4,7 @@ Offline simulation that trains and tests Mapr Phase 1 on 10,000 synthetic
 travelers. It runs on your machine, reads nothing from production and writes
 nothing to it. The optional Firestore writes go only to the local emulator.
 
-Results of the full run: [`RESULTS.md`](RESULTS.md). Screenshots: [`screenshots/`](screenshots/).
+Results of the full run: [`RESULTS.md`](RESULTS.md). NCF fix test (30 simulations): [`FIX-RESULTS.md`](FIX-RESULTS.md). Screenshots: [`screenshots/`](screenshots/).
 
 ## Run it
 
@@ -15,6 +15,8 @@ npm start                 # dashboard on http://localhost:3000 + full run (about
 npm run quick             # same pipeline, small: 2 sims, 300/600/1,000 users, 4 epochs (under a minute)
 npm run train             # full run, console only
 node server.js --view     # dashboard only, following a run started with npm run train
+node pipeline.js --fixed   # same run with the three NCF fixes (use MAPR_OUT_DIR=output-fix)
+node compare-runs.js      # per-simulation comparison of output/ vs output-fix/
 node experiments.js       # diagnostics: loss and negative-sampling variants (output/experiments.json)
 npm test                  # unit tests (from the repo root's vitest)
 ```

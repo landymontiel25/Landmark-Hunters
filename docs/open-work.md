@@ -18,11 +18,13 @@ was deployed and no production code changed. What it found:
   the gradients vanish. The tiny values also slow the nightly job's
   training (subnormal floats) inside its 30 s budget. Early stopping
   watches validation loss, which picks near-untrained models when the loss
-  is switched to plain BPR on logits. In one diagnostic run, BPR on logits
-  plus negatives from the user's own city lifted the blend to 79.1% (tag +
-  similarity 76.4%). Next: confirm over all 10 simulations with early
-  stopping on validation accuracy, then change production. That changes
-  how Mapr learns, so it goes to every Mapr surface in one PR (CLAUDE.md).
+  is switched to plain BPR on logits. Tested over 30 simulations
+  (`mapr-synthetic-trainer/FIX-RESULTS.md`): BPR on logits + same-city
+  negatives + early stopping on accuracy beat production NCF in 25 of 30
+  but beat tag + similarity in only 4 of 30, so it is not deployed. All 4
+  wins kept a barely trained NCF: at 0.6 weight a trained NCF overrides
+  the tag score. Next: re-score with NCF weight 0.1-0.3 or as a tie-break.
+  Any production change goes to every Mapr surface in one PR (CLAUDE.md).
 - Pre-trained models gave brand-new users no lift over today's cold start,
   so `deploy-to-production.js` has not been run and nothing reads
   `mapr_pretrained_*`. Run it only after a change makes pre-training help.
