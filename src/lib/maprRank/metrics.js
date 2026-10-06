@@ -163,7 +163,7 @@ function experimentReport(name, annotated, ds, date) {
 // Mapr v2 rollout (FEATURES.maprV2): the A/B above plus the cuts the
 // rollout is judged on. Same test window as the A/B.
 //   servedV2Share  treatment picks actually ranked by the v2 model (NCF only
-//                  ranks once the model is active, over 10 active users)
+//                  ranks once the model is active, NCF.autoEnableAboveUsers)
 //   overall        every pick, with the same fields as the cuts below
 //   newUsers       picks shown to a user with under NEW_USER_RATINGS ratings
 //                  at the time, and the rest as `established`

@@ -40,7 +40,7 @@ export function MaprV2Rollout({ ab, model, loading }: { ab: MaprExperiment | und
     <section className="card p-4 space-y-3" aria-label="Mapr v2 rollout">
       <h2 className="font-medium">Mapr v2 rollout · {ROLLOUT_PERCENT}% of users</h2>
       <p className="text-sm secondary">
-        Training on logits, same-city negatives and early stopping on accuracy, ranked with 0.8 × tag score + 0.2 × NCF. NCF only ranks once the model is on (more than {model?.active_threshold ?? 10} active users); until then both arms rank the same.
+        Training on logits, same-city negatives and early stopping on accuracy, ranked with 0.8 × tag score + 0.2 × NCF. NCF only ranks once the model is on (more than {model?.active_threshold ?? 0} active users); until then both arms rank the same.
       </p>
       <div className="overflow-x-auto">
         <table className="w-full text-sm tabular">

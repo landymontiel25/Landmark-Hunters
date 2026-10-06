@@ -11,9 +11,10 @@ The three NCF fixes and the signed `0.8 / 0.2` blend ship behind
 (`mapr-synthetic-trainer/SCALE-RESULTS.md`, `VALIDATION-RESULTS.md`: 60 of
 60 runs won over tag + similarity). Left open:
 
-- Neither model ranks until more than 10 people have a check-in or loved
-  rating in 90 days (`NCF.autoEnableAboveUsers`). Until then the A/B arms
-  rank the same way; the dashboard's "v2 model ranked" share stays at 0%.
+- `NCF.autoEnableAboveUsers` is 0 while the owner tests with one other
+  person, so the model ranks as soon as anyone has a check-in or loved
+  rating. A model trained on two people mostly memorizes them: raise it
+  back to 10 before real users arrive.
 - The owner moved it from 20% to 100% while the app is just two testers,
   so the "Mapr v2 rollout" card has no control group. With real users,
   either lower `FEATURES.maprV2.rollout` to run an A/B test, or make
@@ -42,8 +43,6 @@ annotations.
 
 Phase 1 is live on every Mapr surface (`docs/mapr-phase1.md`). Left open:
 
-- The NCF model ranks nothing until more than 10 users have a check-in or a
-  loved rating in 90 days (`NCF.autoEnableAboveUsers`). It switches itself on.
 - The spec's outcome targets (match rate 65% to 75%, A/B significance,
   retention) need real traffic. Watch the admin dashboard's Mapr Phase 1 page and the
   daily Slack message. Once there are enough users, lower a rollout below

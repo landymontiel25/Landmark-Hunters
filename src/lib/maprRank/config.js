@@ -100,7 +100,10 @@ export const NCF = {
   // job counts them and writes `active` on mapr_models/ncf; the phone skips
   // the model while it is false. Below that, a model trained on a handful of
   // people mostly memorizes them. Re-checked every week, both ways.
-  autoEnableAboveUsers: 10,
+  // 0 while the owner and one other person test the app (October 2026): on
+  // as soon as anyone has a check-in or loved rating. Raise it back (10)
+  // once real users arrive.
+  autoEnableAboveUsers: 0,
   seed: 1337,
   // Wall-clock budget for one weekly training (split run + refit), so the
   // nightly function finishes inside Vercel's 60 s limit. Training stops at

@@ -100,9 +100,10 @@ joining the row to `pick_feedback`, `reviews` and `checkins` within 7 days.
   rollout to run a real A/B test once there are enough users.
 - NCF switches itself on: each week the job counts users with at least one
   real check-in or "I loved it" rating in the last 90 days, and writes
-  `active` on `mapr_models/ncf` (true above `NCF.autoEnableAboveUsers`, 10).
+  `active` on `mapr_models/ncf` (true above `NCF.autoEnableAboveUsers`: 0
+  while the owner tests the app with one other person, 10 before that).
   The phone skips the model while it is false (fallback `ncf-inactive`). The
-  model still trains every week, so it is ready the week the count passes 10,
+  model still trains every week, so it is ready the week the count passes it,
   and it switches back off if the count drops. Phones see the change within
   12 hours (model cache).
 - NCF promotion: a new weekly model is not promoted if its holdout accuracy is
@@ -134,9 +135,8 @@ chat, Travel Picks, the trip planner and the landmark list.
   2026), so there is no control group; lower `rollout` to run an A/B test.
   The loaded model's `family` picks the blend, so a fallback gets the v1
   blend with the v1 model. Picks log `variants.maprV2` and `ncfModel`.
-- The same `active` gate applies: until more than 10 people have a check-in
-  or loved rating in 90 days, neither model ranks and both arms see tag +
-  similarity ranking.
+- The same `active` gate applies (`NCF.autoEnableAboveUsers`, 0 for now):
+  below it, neither model ranks and both arms see tag + similarity ranking.
 - Monitoring: the admin dashboard's Mapr Phase 1 page, "Mapr v2 rollout"
   card. v1 and v2 holdout accuracy against any place and against places in
   the same region; the live A/B overall, for new users (under 5 ratings
