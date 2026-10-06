@@ -12,7 +12,7 @@ route any more.
   page scripts can't read. `proxy.ts` guards every `/dashboard` page and API.
 - **Firestore stays locked.** After login the server mints a Firebase custom
   token for the uid `admin-dashboard` with the claim `dashboardAdmin: true`
-  (only the Admin SDK, holding the service-account key, can mint it).
+  (only a holder of the service-account key can mint it; `lib/firebaseAdmin.js` signs it with `jose`, no firebase-admin).
   `firestore.rules` `isDashboard()` lets only that identity read the stats
   collections. App users and the app's public Firebase key can't.
 - **Admin jobs go server to server.** The Tools page calls this dashboard's
