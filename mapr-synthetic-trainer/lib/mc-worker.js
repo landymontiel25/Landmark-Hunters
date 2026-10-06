@@ -8,7 +8,7 @@ import { runBatch } from '../batch-trainer.js';
 parentPort.on('message', async (job) => {
   try {
     const catalog = await loadCatalog();
-    const ds = buildDataset(catalog, { seed: job.seed, variation: job.variation, users: job.users, coldUsers: job.coldUsers });
+    const ds = buildDataset(catalog, { seed: job.seed, variation: job.variation, users: job.users, coldUsers: job.coldUsers, ...(job.coldOffset != null ? { coldOffset: job.coldOffset } : {}) });
     const result = await runBatch({
       catalog,
       ds,
@@ -17,6 +17,8 @@ parentPort.on('message', async (job) => {
       sim: job.sim,
       ncfConfig: job.ncfConfig,
       blendWeights: job.blendWeights || [],
+      labBlend: job.labBlend,
+      extended: job.extended,
       evalUsers: job.evalUsers,
       exportDir: job.exportDir,
       onEpoch: (row) => parentPort.postMessage({ type: 'epoch', row }),

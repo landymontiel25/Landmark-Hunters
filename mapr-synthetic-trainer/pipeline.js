@@ -40,7 +40,16 @@ export function parseArgs(argv = process.argv.slice(2)) {
     else if (a === '--view') opt.view = true;
     else if (a === '--port') opt.port = Number(argv[++k]);
     // The three fixes from the first diagnostic run, all at once.
-    else if (a === '--blend-weights') opt.blendWeights = argv[++k].split(',').map(Number);
+    // Extended validation: custom batches ("D:50000,E:100000"), cold-start
+    // users moved past the largest batch, no 1 GB data files, the winning
+    // signed 0.2 blend in the lab and the extended metrics.
+    else if (a === '--batches') opt.batches = argv[++k].split(',').map((x) => ({ name: x.split(':')[0], users: Number(x.split(':')[1]) }));
+    else if (a === '--cold-offset') opt.coldOffset = Number(argv[++k]);
+    else if (a === '--no-data-files') opt.noDataFiles = true;
+    else if (a === '--extended') {
+      opt.extended = { key: 'mapr_signed_w0.2', reveals: [5, 10, 20, 35] };
+      opt.labBlend = { weight: 0.2, signed: true };
+    } else if (a === '--blend-weights') opt.blendWeights = argv[++k].split(',').map(Number);
     else if (a === '--fixed') opt.ncf = { ...opt.ncf, bpr_on: 'logit', negative_sampling: 'area', early_stopping_on: 'accuracy' };
     else if (a === '--bpr-on') opt.ncf = { ...opt.ncf, bpr_on: argv[++k] };
     else if (a === '--negatives') opt.ncf = { ...opt.ncf, negative_sampling: argv[++k] };
@@ -62,13 +71,13 @@ async function writeJsonArray(file, items, toJson, onProgress) {
   await once(out, 'finish');
 }
 
-export async function runPipeline({ quick = false, sims = SIMS, workers, epochs, ncf = {}, blendWeights = [], emit = () => {} } = {}) {
+export async function runPipeline({ quick = false, sims = SIMS, workers, epochs, ncf = {}, blendWeights = [], batches: customBatches = null, coldOffset, noDataFiles = false, extended = null, labBlend, emit = () => {} } = {}) {
   mkdirSync(OUT_DIR, { recursive: true });
   const t0 = Date.now();
-  const batches = quick ? [{ name: 'A', users: 300 }, { name: 'B', users: 600 }, { name: 'C', users: 1000 }] : BATCHES;
+  const batches = customBatches || (quick ? [{ name: 'A', users: 300 }, { name: 'B', users: 600 }, { name: 'C', users: 1000 }] : BATCHES);
   const nSims = quick ? Math.min(sims, 2) : sims;
   const ncfConfig = { ...ncf, ...(epochs || quick ? { epochs: epochs || 4 } : {}) };
-  const config = { batches, sims: nSims, cold_users: COLD_USERS, interactions_per_user: PER_USER, archetypes: ARCHETYPES.length, ncf: ncfConfig, quick, blend_weights: blendWeights };
+  const config = { batches, sims: nSims, cold_users: COLD_USERS, interactions_per_user: PER_USER, archetypes: ARCHETYPES.length, ncf: ncfConfig, quick, blend_weights: blendWeights, cold_offset: coldOffset ?? null, extended, lab_blend: labBlend ?? null };
   emit({ type: 'phase', phase: 'generation', config });
 
   // ---- 1. Generation (simulation 1's population, saved as the canonical set)
@@ -102,8 +111,8 @@ export async function runPipeline({ quick = false, sims = SIMS, workers, epochs,
   };
   emit({ type: 'log', text: `Generated ${generation.users.toLocaleString()} synthetic users with ${generation.interactions.toLocaleString()} total interactions (${generation.archetypes_used} archetypes, ${generation.places.toLocaleString()} real places)` });
 
-  emit({ type: 'log', text: 'Writing output/synthetic-users.json and output/synthetic-interactions.json' });
-  await writeJsonArray(path.join(OUT_DIR, 'synthetic-users.json'), ds.users, (u) => {
+  if (!noDataFiles) emit({ type: 'log', text: 'Writing output/synthetic-users.json and output/synthetic-interactions.json' });
+  if (!noDataFiles) await writeJsonArray(path.join(OUT_DIR, 'synthetic-users.json'), ds.users, (u) => {
     const { n: _n, ...profile } = u;
     return profile;
   });
@@ -115,7 +124,7 @@ export async function runPipeline({ quick = false, sims = SIMS, workers, epochs,
     const u = ds.users[ds.user[r]];
     return { user_id: u.user_id, archetype: u.archetype, landmark_id: `${place(r).region}/${place(r).id}`, landmark_name: place(r).name, rating: ds.rating[r] || null, love: ds.love[r] === 1, skip: ds.rating[r] === 0, step: r - ds.start[ds.user[r]] };
   };
-  await writeJsonArray(path.join(OUT_DIR, 'synthetic-interactions.json'), rowsIter(), rowJson, (k) => emit({ type: 'generation-write', file: 'synthetic-interactions.json', rows: k, total: ds.item.length }));
+  if (!noDataFiles) await writeJsonArray(path.join(OUT_DIR, 'synthetic-interactions.json'), rowsIter(), rowJson, (k) => emit({ type: 'generation-write', file: 'synthetic-interactions.json', rows: k, total: ds.item.length }));
 
   // ---- 2. Firestore Emulator (optional, local only) ----------------------
   const db = emulatorDb();
@@ -134,7 +143,7 @@ export async function runPipeline({ quick = false, sims = SIMS, workers, epochs,
 
   // ---- 3. Monte Carlo training ---------------------------------------------
   emit({ type: 'phase', phase: 'training' });
-  const results = await runMonteCarlo({ blendWeights, lab: true, sims: nSims, batches, workers, ncfConfig, outDir: OUT_DIR, emit });
+  const results = await runMonteCarlo({ blendWeights, coldOffset, extended, labBlend, exportFrom: { batch: batches.at(-1).name, sim: 1 }, lab: true, sims: nSims, batches, workers, ncfConfig, outDir: OUT_DIR, emit });
 
   // ---- 4. Reports ------------------------------------------------------------
   const summary = writeReports(OUT_DIR, results, { config, generation });

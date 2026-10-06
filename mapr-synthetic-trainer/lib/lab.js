@@ -22,8 +22,9 @@ export const LAB_USERS = 800;
 const PAIRS_PER_USER = 3;
 const CARDS = 12;
 
-// users: [{ n, user, likedRows, otherRows, baseOf: Map(item -> base), maxBase }]
-export function buildLab({ ds, places, users }) {
+// users: [{ n, user, likedRows, otherRows, baseOf: Map(item -> base), maxBase, maxAbsBase }]
+// blend: { weight, signed } -- production is { weight: 0.6, signed: false }.
+export function buildLab({ ds, places, users, blend = { weight: PROD_NCF.ncfWeight, signed: false } }) {
   const pairs = [];
   for (const u of users) {
     let k = 0;
@@ -32,7 +33,7 @@ export function buildLab({ ds, places, users }) {
         if (k++ >= PAIRS_PER_USER) break;
         const ia = ds.item[a];
         const ib = ds.item[b];
-        const norm = (i) => (u.maxBase > 0 ? Math.max(0, u.baseOf.get(i)) / u.maxBase : 0);
+        const norm = blend.signed ? (i) => (u.maxAbsBase > 0 ? u.baseOf.get(i) / u.maxAbsBase : 0) : (i) => (u.maxBase > 0 ? Math.max(0, u.baseOf.get(i)) / u.maxBase : 0);
         pairs.push({
           n: u.n,
           liked: ia,
@@ -51,7 +52,7 @@ export function buildLab({ ds, places, users }) {
       }
     }
   }
-  return { pairs, tick: 0 };
+  return { pairs, tick: 0, blend };
 }
 
 // Scores every lab pair with the model as it is now.
@@ -59,13 +60,17 @@ export function labSnapshot(lab, ncf, { batch, sim, epoch }) {
   if (!lab.pairs.length) return null;
   let ncfRight = 0;
   let maprRight = 0;
+  let baseRight = 0;
+  const w = lab.blend?.weight ?? PROD_NCF.ncfWeight;
   const outcome = new Array(lab.pairs.length);
   lab.pairs.forEach((p, k) => {
     const sl = ncf.score(p.n, p.liked);
     const so = ncf.score(p.n, p.other);
     if (sl > so) ncfRight++;
-    const ml = PROD_NCF.baseWeight * p.baseLiked + PROD_NCF.ncfWeight * sl;
-    const mo = PROD_NCF.baseWeight * p.baseOther + PROD_NCF.ncfWeight * so;
+    if (p.baseLiked > p.baseOther) baseRight++;
+    else if (p.baseLiked === p.baseOther) baseRight += 0.5;
+    const ml = (1 - w) * p.baseLiked + w * sl;
+    const mo = (1 - w) * p.baseOther + w * so;
     const right = ml > mo;
     if (right) maprRight++;
     outcome[k] = right;
@@ -80,5 +85,5 @@ export function labSnapshot(lab, ncf, { batch, sim, epoch }) {
     const p = lab.pairs[k];
     cards.push({ ...p.card, picked: outcome[k] ? 'liked' : 'other', correct: outcome[k] });
   }
-  return { batch, sim, epoch, pairs: lab.pairs.length, mapr_accuracy: maprRight / lab.pairs.length, ncf_accuracy: ncfRight / lab.pairs.length, cards };
+  return { batch, sim, epoch, pairs: lab.pairs.length, mapr_accuracy: maprRight / lab.pairs.length, base_accuracy: baseRight / lab.pairs.length, ncf_accuracy: ncfRight / lab.pairs.length, cards };
 }
