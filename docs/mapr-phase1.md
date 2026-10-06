@@ -17,8 +17,8 @@ rankNearbyCandidates (nearbyPicks.js)        tag-score queues, as before
   └─ scorePicks (maprRank/rank.js)
        Week 1  after_decay = tag_score / (1 + km / 1.5)
        Week 2  base = after_decay * (1 + item_item_boost)     boost ≤ 0.2
-       Week 3  final = 0.4 * base / max(base) + 0.6 * ncf     NCF treatment only
-  └─ planExploration (rank.js)                                 exploration treatment only
+       Week 3  final = 0.4 * base / max(base) + 0.6 * ncf     once > 10 active users
+  └─ planExploration (rank.js)
        epsilon from user state, 20-place exploration set
 composePicks (nearbyPicks.js)
        treatment: each slot explores with probability epsilon
@@ -80,7 +80,16 @@ joining the row to `pick_feedback`, `reviews` and `checkins` within 7 days.
   `rollout` (0-100) sets the share of users. Users are bucketed by a salted
   FNV-1a hash of the uid, so the same user always gets the same variant and
   growing a rollout keeps everyone already in it.
-- Defaults: distance decay 100%, item similarity 100%, NCF 20% (A/B), exploration 20% (A/B).
+- Defaults: every component at 100%. The app has two users (October 2026),
+  so an A/B split would put one person in each arm and prove nothing. Lower a
+  rollout to run a real A/B test once there are enough users.
+- NCF switches itself on: each week the job counts users with at least one
+  real check-in or "I loved it" rating in the last 90 days, and writes
+  `active` on `mapr_models/ncf` (true above `NCF.autoEnableAboveUsers`, 10).
+  The phone skips the model while it is false (fallback `ncf-inactive`). The
+  model still trains every week, so it is ready the week the count passes 10,
+  and it switches back off if the count drops. Phones see the change within
+  12 hours (model cache).
 - NCF promotion: a new weekly model is not promoted if its holdout accuracy is
   more than 5% below the live one. If the live model has drifted more than 10%
   on this week's data, the job rolls back to `ncf_prev`. User docs keep the

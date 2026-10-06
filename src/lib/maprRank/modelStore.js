@@ -63,7 +63,7 @@ export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), re
   if (!uid) return null;
   const opts = { nowMs, read };
   const [ncf, signals, user, ...sims] = await Promise.all([
-    cachedDoc('ncf', [MODEL_COLLECTION, 'ncf'], (d) => (d.layers && d.items ? { dim: d.dim, layers: d.layers, items: d.items, version: d.version ?? null } : null), opts),
+    cachedDoc('ncf', [MODEL_COLLECTION, 'ncf'], (d) => (d.layers && d.items ? { dim: d.dim, layers: d.layers, items: d.items, version: d.version ?? null, active: d.active === true, activeUsers: d.activeUsers ?? null } : null), opts),
     cachedDoc('signals', [MODEL_COLLECTION, 'signals'], (d) => ({ trending: d.trending || {} }), opts),
     cachedDoc(`user:${uid}`, [USER_MODEL_COLLECTION, uid], (d) => ({ byVersion: d.byVersion && typeof d.byVersion === 'object' ? d.byVersion : {}, stagnating: d.stagnating === true }), opts),
     ...regions.map((r) => cachedDoc(`sim:${r}`, [SIMILARITY_COLLECTION, r], (d) => decodeNeighbors(d.neighbors), opts)),

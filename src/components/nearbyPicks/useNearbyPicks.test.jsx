@@ -9,6 +9,13 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 vi.mock('../../lib/pickReasonsApi', () => ({ fetchPickReasons: vi.fn(async () => ({})) }));
 vi.mock('../../lib/recommendationLog', () => ({ logRecommendations: vi.fn(async () => []) }));
+// These tests pin the classic composition (usual, usual, new, usual). Phase 1
+// exploration replaces it with random slots, so it is off here; its own
+// composition is tested in src/lib/maprRank/pipeline.test.js.
+vi.mock('../../lib/maprRank/config.js', async (orig) => {
+  const real = await orig();
+  return { ...real, FEATURES: { ...real.FEATURES, exploration: { enabled: false, rollout: 0 } } };
+});
 
 import { useNearbyPicks } from './useNearbyPicks';
 

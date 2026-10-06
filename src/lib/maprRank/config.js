@@ -7,13 +7,15 @@
 // Each component can be switched off on its own. `rollout` is the share of
 // users (0-100, by a stable hash of the uid, see experiments.js) who get it,
 // so a component can go to a small group before everyone.
-// The NCF and exploration rollouts ARE the A/B tests: users inside the
-// rollout are 'treatment', everyone else 'control'.
+// A rollout under 100 is an A/B test: users inside it are 'treatment',
+// everyone else 'control'. With two users (Oct 2026) an A/B split tells
+// nothing, so everything is at 100%. NCF is also gated on the user count
+// (NCF.autoEnableAboveUsers): below it the model trains but is not used.
 export const FEATURES = {
   distanceDecay: { enabled: true, rollout: 100 },
   itemSimilarity: { enabled: true, rollout: 100 },
-  ncf: { enabled: true, rollout: 20 },
-  exploration: { enabled: true, rollout: 20 },
+  ncf: { enabled: true, rollout: 100 },
+  exploration: { enabled: true, rollout: 100 },
 };
 
 // Salts, so the two A/B tests split users independently of each other and
@@ -85,6 +87,12 @@ export const NCF = {
   storeDecimals: 4,
   // Implicit positives: real check-ins, plus "I loved it" ratings.
   positiveTiers: ['highly-recommend'],
+  // NCF only ranks picks once MORE than this many users have at least one
+  // real check-in or "I loved it" rating in the last windowDays. The weekly
+  // job counts them and writes `active` on mapr_models/ncf; the phone skips
+  // the model while it is false. Below that, a model trained on a handful of
+  // people mostly memorizes them. Re-checked every week, both ways.
+  autoEnableAboveUsers: 10,
   seed: 1337,
   // Wall-clock budget for one weekly training (split run + refit), so the
   // nightly function finishes inside Vercel's 60 s limit. Training stops at

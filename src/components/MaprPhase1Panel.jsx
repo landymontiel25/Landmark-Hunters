@@ -150,7 +150,7 @@ export default function MaprPhase1Panel({ data, onRun, run }) {
                   ['Within 1.5 km / 3 km', `${pct(r.distance?.within1_5km)} / ${pct(r.distance?.within3km)}`, `${pct(TARGETS.near1_5km)} / ${pct(TARGETS.near3km)}`],
                   ['Distance p50 / p90', `${num(r.distance?.p50, ' km')} / ${num(r.distance?.p90, ' km')}`, '—'],
                   ['Boosted by similarity', pct(r.boost?.n ? 1 - (r.boost.zero ?? 1) : null), '—'],
-                  ['Exploration share', pct(r.exploration?.share), '20% in the test group'],
+                  ['Exploration share', pct(r.exploration?.share), 'about 20% (up to 50% in a quiet week)'],
                   ['Stagnating users', `${pct(r.stagnation?.share)} of ${r.stagnation?.activeUsers ?? 0}`, 'under 20%'],
                   ['Ranking latency p50 / p99', `${num(r.latency?.p50Ms, ' ms')} / ${num(r.latency?.p99Ms, ' ms')}`, `under ${TARGETS.latencyP99Ms} ms`, r.targets?.latency],
                   ['Dwell time', 'Not tracked', '—'],
@@ -203,7 +203,8 @@ export default function MaprPhase1Panel({ data, onRun, run }) {
       )}
       {status && (
         <p className="as-p">
-          Models: NCF {status.ncf?.action || '—'}
+          Models: NCF {status.ncf?.active ? 'on' : 'off'}
+          {status.ncf?.activeUsers != null ? ` (${status.ncf.activeUsers} active users; turns on above ${status.ncf.activeThreshold})` : ''}, last run {status.ncf?.action || '—'}
           {status.ncf?.evaluation?.testAccuracy != null ? `, holdout accuracy ${pct(status.ncf.evaluation.testAccuracy)}` : ''}
           {status.ncf?.trainedAt ? `, ${new Date(status.ncf.trainedAt).toLocaleDateString()}` : ''}. Similarity: {status.similarity?.regions ?? 0} regions in {status.similarity?.ms ?? '—'} ms.
         </p>

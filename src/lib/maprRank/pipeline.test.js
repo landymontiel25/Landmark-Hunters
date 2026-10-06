@@ -100,7 +100,7 @@ describe('Week 3: NCF blend and fallbacks', () => {
   for (let u = 0; u < 12; u++) for (let k = 0; k < 6; k++) positives.push({ userId: u === 0 ? 'user-1' : `u${u}`, itemKey: keys[(u * 3 + k * 5) % keys.length], at: NOW - (k * 13 + u) * 86400000 });
   const trained = trainNcf(positives, { now: NOW, budgetMs: 10_000 });
   const { shared, users } = serializeModel(trained, { meta: { version: 'v1' } });
-  const models = { ncf: { ...shared, version: 'v1' }, userEmbedding: users['user-1'] };
+  const models = { ncf: { ...shared, version: 'v1', active: true }, userEmbedding: users['user-1'] };
 
   it('final = 0.4 * normalized base + 0.6 * ncf, within [0, 1]', () => {
     const { usual, meta } = run({ features: only('distanceDecay', 'ncf'), models });
@@ -136,6 +136,13 @@ describe('Week 3: NCF blend and fallbacks', () => {
     const r = scorePicks({ usual, uid: 'user-1', models, features: only('distanceDecay', 'ncf'), clock: slowClock });
     expect(r.meta.fallbacks).toContain('ncf-latency');
     expect(r.usual.filter((p) => p.telemetry.ncfScore != null).length).toBeGreaterThan(2);
+  });
+
+  it('skips the model until the weekly job switches it on (too few users)', () => {
+    const r = run({ features: only('distanceDecay', 'ncf'), models: { ...models, ncf: { ...models.ncf, active: false } } });
+    expect(r.meta.ncfUsed).toBe(false);
+    expect(r.meta.fallbacks).toContain('ncf-inactive');
+    expect(r.usual.every((p) => p.telemetry.ncfScore === null)).toBe(true);
   });
 
   it('control users never touch the model', () => {

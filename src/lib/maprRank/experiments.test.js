@@ -18,22 +18,22 @@ describe('A/B assignment', () => {
     }
   });
 
+  const at20 = { ...FEATURES, ncf: { enabled: true, rollout: 20 }, exploration: { enabled: true, rollout: 20 } };
+
   it('sends about 20% to treatment at a 20% rollout (user_id % 100 >= 80 rule, by hash)', () => {
-    const share = uids.filter((u) => variantFor(u, 'ncf') === 'treatment').length / uids.length;
-    expect(FEATURES.ncf.rollout).toBe(20);
+    const share = uids.filter((u) => variantFor(u, 'ncf', at20) === 'treatment').length / uids.length;
     expect(share).toBeGreaterThan(0.18);
     expect(share).toBeLessThan(0.22);
   });
 
   it('splits the two tests independently (different salts)', () => {
-    const both = uids.filter((u) => isOn(u, 'ncf') && isOn(u, 'exploration')).length / uids.length;
+    const both = uids.filter((u) => isOn(u, 'ncf', at20) && isOn(u, 'exploration', at20)).length / uids.length;
     // 20% x 20% = 4% if independent.
     expect(both).toBeGreaterThan(0.03);
     expect(both).toBeLessThan(0.05);
   });
 
   it('keeps users in treatment when a rollout grows', () => {
-    const at20 = { ...FEATURES, ncf: { enabled: true, rollout: 20 } };
     const at50 = { ...FEATURES, ncf: { enabled: true, rollout: 50 } };
     for (const u of uids.slice(0, 2000)) if (variantFor(u, 'ncf', at20) === 'treatment') expect(variantFor(u, 'ncf', at50)).toBe('treatment');
   });
@@ -54,6 +54,10 @@ describe('A/B assignment', () => {
 
   it('puts everyone in a 100% rollout', () => {
     expect(uids.slice(0, 500).every((u) => variantFor(u, 'distanceDecay') === 'treatment')).toBe(true);
+  });
+
+  it('ships with every component on for everyone (two users: no A/B split)', () => {
+    for (const f of Object.values(FEATURES)) expect(f).toEqual({ enabled: true, rollout: 100 });
   });
 });
 

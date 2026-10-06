@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: { serverTimestamp: () => 'TS' }, FieldPath: { documentId: () => '__id__' } }));
 
-const { computeAllSimilarity, liveAccuracy, ncfPositives, postToSlack, runDaily, runNcfWeekly, runWeekly, trendingCounts } = await import('./maprNightly.js');
+const { computeAllSimilarity, liveAccuracy, ncfActiveUsers, ncfPositives, postToSlack, runDaily, runNcfWeekly, runWeekly, trendingCounts } = await import('./maprNightly.js');
 
 const DAY = 86400000;
 const NOW = Date.parse('2026-10-05T00:30:00Z'); // a Monday
@@ -134,6 +134,24 @@ describe('runWeekly', () => {
     expect(out.action).toBe('rolled-back');
     expect(out.liveAcc).toBe(0);
     expect(db.store.get('mapr_models').get('ncf')).toMatchObject({ version: 'vPrev', rolledBackFrom: 'vLive' });
+  }, 60_000);
+
+  it('turns NCF on only above 10 active users, and back off below', async () => {
+    const ds = dataset(); // 16 users with check-ins
+    let out = await runNcfWeekly(db, ds, { now: NOW });
+    expect(out).toMatchObject({ active: true, activeUsers: 16, activeThreshold: 10 });
+    expect(db.store.get('mapr_models').get('ncf')).toMatchObject({ active: true, activeUsers: 16 });
+    const few = { ...ds, checkins: ds.checkins.filter((c) => ['u0', 'u1'].includes(c.userId)), reviews: [] };
+    out = await runNcfWeekly(db, few, { now: NOW + 7 * DAY });
+    expect(out).toMatchObject({ active: false, activeUsers: 2 });
+    expect(db.store.get('mapr_models').get('ncf').active).toBe(false);
+  }, 60_000);
+
+  it('counts active users over the 90-day window, exactly 10 is still off', async () => {
+    const pos = Array.from({ length: 10 }, (_, u) => ({ userId: `u${u}`, itemKey: 'r/x', at: NOW - DAY }));
+    expect(ncfActiveUsers([...pos, { userId: 'old', itemKey: 'r/x', at: NOW - 100 * DAY }], { now: NOW })).toBe(10);
+    const out = await runNcfWeekly(db, { checkins: pos.map((p) => ({ userId: p.userId, landmarkId: 'x', region: 'r', createdAt: p.at })), reviews: [] }, { now: NOW });
+    expect(out.active).toBe(false);
   }, 60_000);
 
   it('skips training with no data', async () => {

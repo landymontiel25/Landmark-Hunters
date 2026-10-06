@@ -26,6 +26,7 @@ describe('loadMaprModels', () => {
     expect(m.similarity).toEqual({ milan: { a: [['b', 0.5]] } });
     expect(m.signals.trending['milan/a']).toBe(3);
     expect(m.serverStagnating).toBe(true);
+    expect(m.ncf.active).toBe(false); // the doc has no `active`: off
   });
 
   it('caches on the device for 12 hours', async () => {

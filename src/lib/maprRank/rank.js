@@ -79,12 +79,15 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
   if (on('ncf')) {
     const ncfStart = clock();
     let scorer = null;
+    // The weekly job switches the model on only once enough people use the
+    // app (config NCF.autoEnableAboveUsers); until then it is skipped.
+    const inactive = models?.ncf && models.ncf.active !== true;
     try {
-      scorer = models?.ncf && models?.userEmbedding ? prepareScorer(models.ncf, models.userEmbedding) : null;
+      scorer = models?.ncf && !inactive && models?.userEmbedding ? prepareScorer(models.ncf, models.userEmbedding) : null;
     } catch {
       scorer = null;
     }
-    if (!scorer) fallbacks.push(models?.ncf ? 'ncf-no-user' : 'ncf-no-model');
+    if (!scorer) fallbacks.push(inactive ? 'ncf-inactive' : models?.ncf ? 'ncf-no-user' : 'ncf-no-model');
     else {
       let overBudget = false;
       for (const r of rows) {

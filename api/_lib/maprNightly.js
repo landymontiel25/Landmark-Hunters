@@ -132,9 +132,27 @@ async function readUserModels(db) {
   return out;
 }
 
-// Week 3: train, then promote / keep / roll back.
+// Users with at least one positive (real check-in or loved rating) in the
+// training window: the count behind NCF's on/off switch.
+export function ncfActiveUsers(positives, { now = Date.now(), windowDays = NCF.windowDays } = {}) {
+  const since = now - windowDays * DAY_MS;
+  return new Set(positives.filter((p) => p.at >= since && p.at <= now).map((p) => p.userId)).size;
+}
+
+// Week 3: train, then promote / keep / roll back. Whatever ends up live gets
+// `active` (more than NCF.autoEnableAboveUsers users) and `activeUsers`.
 export async function runNcfWeekly(db, ds, { now = Date.now(), cfg = NCF } = {}) {
   const positives = ncfPositives(ds);
+  const activeUsers = ncfActiveUsers(positives, { now, windowDays: cfg.windowDays });
+  const active = activeUsers > cfg.autoEnableAboveUsers;
+  const gate = { active, activeUsers, activeThreshold: cfg.autoEnableAboveUsers };
+  const out = await trainAndPublish(db, positives, { now, cfg, gate });
+  const live = await db.collection(MODEL_COLLECTION).doc('ncf').get();
+  if (live.exists) await db.collection(MODEL_COLLECTION).doc('ncf').set(gate, { merge: true });
+  return { ...out, ...gate };
+}
+
+async function trainAndPublish(db, positives, { now, cfg, gate }) {
   const result = trainNcf(positives, { now, cfg, budgetMs: cfg.trainBudgetMs });
   const ref = db.collection(MODEL_COLLECTION);
   const liveSnap = await ref.doc('ncf').get();
@@ -160,7 +178,7 @@ export async function runNcfWeekly(db, ds, { now = Date.now(), cfg = NCF } = {})
   }
 
   const version = `v${now}`;
-  const { shared, users } = serializeModel(result, { meta: { version, trainedAt: now, evaluation: summary.evaluation, counts: result.counts } });
+  const { shared, users } = serializeModel(result, { meta: { version, trainedAt: now, evaluation: summary.evaluation, counts: result.counts, ...gate } });
   if (live) await ref.doc('ncf_prev').set(live);
   await ref.doc('ncf').set(JSON.parse(JSON.stringify(shared)));
   const writes = Object.entries(users).map(([uid, emb]) => (batch) => {
