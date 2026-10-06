@@ -78,12 +78,12 @@ const clamp = (v) => Math.max(TAG_FLOOR, Math.min(TAG_CAP, v));
 // account as a whole, not per city, so each pickable region gets the same
 // seed. Redoing onboarding applies only the change from last time
 // (previousDeltas), so a repeat never doubles up.
-export function seedTagScores(profile, answers, now = Date.now(), cityRegions = PICKABLE_REGIONS.map((r) => r.id)) {
+export function seedTagScores(profile, answers, now = Date.now(), cityRegions = PICKABLE_REGIONS.map((r) => r.id), places = []) {
   // The one overall taste (tagScores.GLOBAL_TASTE) gets the seed once, like
   // any city map; until an account has it, useGlobalTaste builds it with the
   // swipe answers included.
   const regions = hasGlobalTaste(profile) ? [...cityRegions, GLOBAL_TASTE] : cityRegions;
-  const deltas = tagDeltasFromAnswers(answers);
+  const deltas = tagDeltasFromAnswers(answers, places);
   const previous = profile?.onboardingSwipeDeltas || {};
   const tags = new Set([...Object.keys(deltas), ...Object.keys(previous)]);
   const tagScores = {};
