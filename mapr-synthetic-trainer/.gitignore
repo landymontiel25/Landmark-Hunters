@@ -7,4 +7,5 @@ output/trained-similarity-matrix.json
 output/trained-tag-scores.json
 output/events.jsonl
 output/*.log
+output/experiments.log
 *-debug.log
