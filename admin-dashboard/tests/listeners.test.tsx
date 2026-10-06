@@ -1,90 +1,93 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { act, cleanup, render, renderHook, screen } from '@testing-library/react';
+import { act, cleanup, render, renderHook, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 
-// A fake onSnapshot that the test drives: each subscription is recorded, and
-// emit() pushes a snapshot (or an error) to it, like Firestore would.
-type Sub = { path: string; next: (s: unknown) => void; error: (e: Error) => void; unsubscribed: boolean };
-const subs: Sub[] = [];
-vi.mock('firebase/firestore', () => ({
-  collection: (_db: unknown, name: string) => ({ path: name }),
-  doc: (_db: unknown, col: string, id: string) => ({ path: `${col}/${id}`, isDoc: true }),
-  query: (c: { path: string }) => c,
-  orderBy: () => ({}),
-  limit: () => ({}),
-  onSnapshot: (ref: { path: string }, next: Sub['next'], error: Sub['error']) => {
-    const s: Sub = { path: ref.path, next, error, unsubscribed: false };
-    subs.push(s);
-    return () => {
-      s.unsubscribed = true;
-    };
-  },
-}));
+// The server answers /api/firestore-read; the test scripts each response.
+type Call = { payload: Record<string, unknown> };
+const calls: Call[] = [];
+let respond: (payload: Record<string, unknown>) => { status: number; body: unknown } = () => ({ status: 200, body: { docs: [] } });
+const fakeFetch = vi.fn(async (_url: string, init?: RequestInit) => {
+  const payload = JSON.parse(String(init?.body));
+  calls.push({ payload });
+  const { status, body } = respond(payload);
+  return new Response(JSON.stringify(body), { status });
+});
 
 const { FirebaseGateValue } = await import('@/lib/FirebaseGate');
-const { useGrowthMetrics, useMaprNCFModel } = await import('@/lib/listeners');
+const { useGrowthMetrics, useMaprNCFModel, POLL_MS } = await import('@/lib/listeners');
 const { _resetHealth, getHealth, healthSummary } = await import('@/lib/listenerHealth');
 const { ErrorBoundary } = await import('@/components/ErrorBoundary');
 const { MetricCard } = await import('@/components/MetricCard');
 
-const querySnap = (rows: Record<string, unknown>[]) => ({
-  docs: rows.map((r) => ({ id: String(r.date), data: () => r })),
-  docChanges: () => rows,
-});
 const wrapper = (ready = true) =>
   function W({ children }: { children: ReactNode }) {
-    return <FirebaseGateValue value={{ db: ready ? ({} as never) : null, ready, error: null }}>{children}</FirebaseGateValue>;
+    return <FirebaseGateValue value={{ ready, error: null }}>{children}</FirebaseGateValue>;
   };
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 beforeEach(() => {
-  subs.length = 0;
+  calls.length = 0;
+  respond = () => ({ status: 200, body: { docs: [] } });
+  vi.stubGlobal('fetch', fakeFetch);
   _resetHealth();
   vi.spyOn(console, 'log').mockImplementation(() => {});
   vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
-describe('live listener hooks', () => {
-  it('subscribe → snapshot → newest last → unsubscribe on unmount', () => {
+describe('server-read hooks', () => {
+  it('fetch -> newest last -> re-read on the poll timer -> stop on unmount', async () => {
+    vi.useFakeTimers();
+    respond = () => ({ status: 200, body: { docs: [{ id: '2026-10-02', date: '2026-10-02', active_users: 2 }, { id: '2026-10-01', date: '2026-10-01', active_users: 1 }] } });
     const { result, unmount } = renderHook(() => useGrowthMetrics(30), { wrapper: wrapper() });
     expect(result.current.loading).toBe(true);
-    expect(subs[0].path).toBe('growth_metrics');
-    act(() => subs[0].next(querySnap([{ date: '2026-10-02', active_users: 2 }, { date: '2026-10-01', active_users: 1 }])));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(calls[0].payload).toMatchObject({ kind: 'latest', col: 'growth_metrics', field: 'date', n: 30 });
     expect(result.current.loading).toBe(false);
-    expect(result.current.data.map((d) => d.date)).toEqual(['2026-10-01', '2026-10-02']);
     expect(getHealth().growth_metrics).toMatchObject({ subscribed: true, reads: 2, errors: 0 });
-    // A later change arrives on its own: no polling.
-    act(() => subs[0].next(querySnap([{ date: '2026-10-03', active_users: 5 }])));
+    respond = () => ({ status: 200, body: { docs: [{ id: '2026-10-03', date: '2026-10-03', active_users: 5 }] } });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(POLL_MS);
+    });
     expect(result.current.data[0].active_users).toBe(5);
     unmount();
-    expect(subs[0].unsubscribed).toBe(true);
     expect(getHealth().growth_metrics.subscribed).toBe(false);
+    const n = calls.length;
+    await vi.advanceTimersByTimeAsync(POLL_MS * 2);
+    expect(calls.length).toBe(n);
   });
 
-  it('reports a listener error (Firestore down, rules) without throwing', () => {
+  it('turns { _ms } timestamps into objects with toMillis()', async () => {
+    respond = () => ({ status: 200, body: { docs: [{ id: 'a', reported_at: { _ms: 1234 } }] } });
+    const { result } = renderHook(() => useGrowthMetrics(1), { wrapper: wrapper() });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect((result.current.data[0] as unknown as { reported_at: { toMillis: () => number } }).reported_at.toMillis()).toBe(1234);
+  });
+
+  it('reports a server error (Firestore down, key rejected) without throwing', async () => {
+    respond = () => ({ status: 503, body: { error: 'Google refused the service-account key (invalid_grant).' } });
     const { result } = renderHook(() => useMaprNCFModel(), { wrapper: wrapper() });
-    act(() => subs[0].error(new Error('Missing or insufficient permissions.')));
-    expect(result.current).toMatchObject({ loading: false, error: 'Missing or insufficient permissions.' });
-    expect(getHealth()['mapr_ncf_model/current']).toMatchObject({ errors: 1, subscribed: false });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current).toMatchObject({ error: 'Google refused the service-account key (invalid_grant).' });
+    expect(getHealth()['mapr_ncf_model/current']).toMatchObject({ errors: 1 });
   });
 
-  it('does not subscribe before the Firebase sign-in is ready', () => {
+  it('does not fetch before the server check is ready', () => {
     renderHook(() => useGrowthMetrics(), { wrapper: wrapper(false) });
-    expect(subs).toHaveLength(0);
+    expect(calls).toHaveLength(0);
   });
 
-  it('load: 10 open dashboards x 4 listeners take a 30-day update each well under 200 ms', () => {
-    const rows = Array.from({ length: 30 }, (_, i) => ({ date: `2026-09-${String(i + 1).padStart(2, '0')}`, active_users: i }));
-    for (let i = 0; i < 40; i++) renderHook(() => useGrowthMetrics(30), { wrapper: wrapper() });
-    expect(subs).toHaveLength(40);
-    const t0 = performance.now();
-    act(() => {
-      for (const s of subs) s.next(querySnap(rows));
-    });
-    const ms = performance.now() - t0;
-    expect(ms / 40).toBeLessThan(200);
-    expect(healthSummary().reads).toBe(1200);
+  it('a missing doc is null, not an error', async () => {
+    respond = () => ({ status: 200, body: { doc: null } });
+    const { result } = renderHook(() => useMaprNCFModel(), { wrapper: wrapper() });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current).toMatchObject({ data: null, error: null });
   });
 });
 

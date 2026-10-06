@@ -13,5 +13,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/firebase-token', '/api/jobs'],
+  matcher: ['/dashboard/:path*', '/api/firestore-read', '/api/jobs'],
 };

@@ -2,9 +2,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { _resetLoginLimits, SESSION_COOKIE, signSession } from '@/lib/auth';
 import { forwardJob } from '@/lib/jobs';
-import { decodeProtectedHeader, importSPKI, jwtVerify } from 'jose';
+import { importSPKI, jwtVerify } from 'jose';
 import { createPublicKey, generateKeyPairSync } from 'node:crypto';
 import { deadKeyProblem, keyFromEnv, parseServiceAccount } from '@/lib/firebaseAdmin';
+import { _resetTokenCache, accessToken, decodeValue, readDoc, readLatest, saveReview } from '@/lib/firestoreServer';
 
 const PASSWORD = 'p'.repeat(32);
 beforeEach(() => {
@@ -35,26 +36,81 @@ describe('POST /api/auth/login', () => {
   });
 });
 
-describe('POST /api/firebase-token', () => {
-  it('needs a session, then returns a JWT token', async () => {
-    process.env.FIRESTORE_ADMIN_KEY = JSON.stringify(TEST_ACCOUNT);
-    vi.stubGlobal('fetch', async () => new Response(JSON.stringify({ kid1: 'cert' }), { status: 200 }));
-    const { POST } = await import('@/app/api/firebase-token/route');
-    expect((await POST(req('/api/firebase-token'))).status).toBe(401);
-    const res = await POST(req('/api/firebase-token', undefined, await signSession()));
-    expect(res.status).toBe(200);
-    const body = await res.json();
-    expect(body.token).toBeDefined();
-    expect(typeof body.token).toBe('string');
-    expect(body.token.split('.').length).toBe(3);
-    vi.unstubAllGlobals();
+describe('POST /api/firestore-read', () => {
+  const post = async (body: unknown, cookie?: string) => {
+    const { POST } = await import('@/app/api/firestore-read/route');
+    return POST(req('/api/firestore-read', body, cookie));
+  };
+  it('needs a session', async () => {
+    expect((await post({ kind: 'ping' })).status).toBe(401);
   });
-  it('answers 503 and names the missing env var when no key is configured', async () => {
+  it('rejects unknown collections and bad input before touching Firestore', async () => {
+    process.env.FIRESTORE_ADMIN_KEY = JSON.stringify(TEST_ACCOUNT);
+    const c = await signSession();
+    expect((await post({ kind: 'latest', col: 'users', field: 'date', n: 5 }, c)).status).toBe(400);
+    expect((await post({ kind: 'latest', col: 'growth_metrics', field: 'a/b', n: 5 }, c)).status).toBe(400);
+    expect((await post({ kind: 'doc', col: 'app_metrics', id: '../x' }, c)).status).toBe(400);
+    expect((await post({ kind: 'review', id: 'a', status: 'deleted' }, c)).status).toBe(400);
+    expect((await post({ nope: 1 }, c)).status).toBe(400);
+  });
+  it('answers 503 and says what is missing when no key is configured', async () => {
     delete process.env.FIRESTORE_ADMIN_KEY;
-    const { POST } = await import('@/app/api/firebase-token/route');
-    const res = await POST(req('/api/firebase-token', undefined, await signSession()));
+    const res = await post({ kind: 'ping' }, await signSession());
     expect(res.status).toBe(503);
     expect((await res.json()).error).toContain('No service-account key found');
+  });
+});
+
+describe('Firestore over REST with the service account', () => {
+  const doc = (id: string, fields: Record<string, unknown>) => ({ name: `projects/p/databases/(default)/documents/growth_metrics/${id}`, fields });
+  const router = (calls: { url: string; init?: RequestInit }[] = []) =>
+    (async (url: string, init?: RequestInit) => {
+      calls.push({ url, init });
+      if (url === 'https://oauth2.googleapis.com/token') return new Response(JSON.stringify({ access_token: 'tok', expires_in: 3600 }), { status: 200 });
+      if (url.endsWith(':runQuery')) return new Response(JSON.stringify([{ document: doc('2026-10-02', { active_users: { integerValue: '2' } }) }, { document: doc('2026-10-01', { active_users: { integerValue: '1' }, at: { timestampValue: '2026-10-01T00:00:00Z' } }) }]), { status: 200 });
+      if (url.includes('/app_metrics/missing')) return new Response('{}', { status: 404 });
+      if (init?.method === 'PATCH') return new Response('{}', { status: 200 });
+      return new Response(JSON.stringify(doc('latest', { users: { integerValue: '7' } })), { status: 200 });
+    }) as never;
+  beforeEach(() => _resetTokenCache());
+
+  it('exchanges a signed JWT for an access token (verifiable with the key) and caches it', async () => {
+    const calls: { url: string; init?: RequestInit }[] = [];
+    const f = router(calls);
+    expect(await accessToken(TEST_ACCOUNT, f)).toBe('tok');
+    await accessToken(TEST_ACCOUNT, f);
+    expect(calls.filter((c) => c.url.includes('oauth2')).length).toBe(1);
+    const form = new URLSearchParams(String((calls[0].init as RequestInit).body));
+    expect(form.get('grant_type')).toBe('urn:ietf:params:oauth:grant-type:jwt-bearer');
+    const pub = await importSPKI(createPublicKey(TEST_PEM).export({ type: 'spki', format: 'pem' }) as string, 'RS256');
+    const { payload } = await jwtVerify(form.get('assertion')!, pub, { audience: 'https://oauth2.googleapis.com/token', issuer: TEST_ACCOUNT.client_email });
+    expect(payload.scope).toBe('https://www.googleapis.com/auth/datastore');
+  });
+  it('explains a refused key', async () => {
+    const f = (async () => new Response(JSON.stringify({ error: 'invalid_grant', error_description: 'Invalid JWT Signature.' }), { status: 400 })) as never;
+    await expect(accessToken(TEST_ACCOUNT, f)).rejects.toThrow(/Google refused the service-account key \(invalid_grant: Invalid JWT Signature/);
+  });
+  it('reads the latest docs oldest first, decodes types, and handles missing docs', async () => {
+    const calls: { url: string; init?: RequestInit }[] = [];
+    const f = router(calls);
+    const rows = await readLatest('growth_metrics', 'date', 2, TEST_ACCOUNT, f);
+    expect(rows.map((r) => r.id)).toEqual(['2026-10-01', '2026-10-02']);
+    expect(rows[0]).toMatchObject({ active_users: 1, at: { _ms: Date.parse('2026-10-01T00:00:00Z') } });
+    const q = JSON.parse(String(calls.find((c) => c.url.endsWith(':runQuery'))!.init!.body));
+    expect(q.structuredQuery).toMatchObject({ from: [{ collectionId: 'growth_metrics' }], limit: 2, orderBy: [{ field: { fieldPath: 'date' }, direction: 'DESCENDING' }] });
+    expect(await readDoc('app_metrics', 'latest', TEST_ACCOUNT, f)).toMatchObject({ id: 'latest', users: 7 });
+    expect(await readDoc('app_metrics', 'missing', TEST_ACCOUNT, f)).toBeNull();
+  });
+  it('decodes nested maps and arrays', () => {
+    expect(decodeValue({ mapValue: { fields: { a: { arrayValue: { values: [{ doubleValue: 1.5 }, { nullValue: null }] } } } } })).toEqual({ a: [1.5, null] });
+  });
+  it('saves a review with only the four allowed fields, on an existing doc', async () => {
+    const calls: { url: string; init?: RequestInit }[] = [];
+    await saveReview('abc', 'resolved', 'fixed', TEST_ACCOUNT, router(calls));
+    const patch = calls.find((c) => c.init?.method === 'PATCH')!;
+    expect(patch.url).toContain('/big_misses/abc?');
+    expect(patch.url).toContain('currentDocument.exists=true');
+    expect(Object.keys(JSON.parse(String(patch.init!.body)).fields).sort()).toEqual(['resolution', 'reviewed', 'reviewedAt', 'status']);
   });
 });
 
@@ -98,20 +154,6 @@ describe('service account key', () => {
     expect(parseServiceAccount(Buffer.from(json).toString('base64')).client_email).toBe(TEST_ACCOUNT.client_email);
     expect(() => parseServiceAccount('')).toThrow(/No service-account key found/);
     expect(() => parseServiceAccount(JSON.stringify({ a: 1 }))).toThrow(/missing client_email or private_key/);
-  });
-});
-
-describe('mintDashboardToken (no firebase-admin)', () => {
-  it('signs a Firebase custom token that verifies against the key\'s public half', async () => {
-    const { mintDashboardToken } = await vi.importActual<typeof import('@/lib/firebaseAdmin')>('@/lib/firebaseAdmin');
-    const token = await mintDashboardToken(TEST_ACCOUNT);
-    const pub = await importSPKI(createPublicKey(TEST_PEM).export({ type: 'spki', format: 'pem' }) as string, 'RS256');
-    const { payload } = await jwtVerify(token, pub, { audience: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit', issuer: TEST_ACCOUNT.client_email });
-    expect(payload.sub).toBe(TEST_ACCOUNT.client_email);
-    expect(payload.uid).toBe('admin-dashboard');
-    expect(payload.claims).toEqual({ dashboardAdmin: true });
-    expect(payload.exp! - payload.iat!).toBeLessThanOrEqual(3600);
-    expect(decodeProtectedHeader(token)).toMatchObject({ alg: 'RS256', kid: 'kid1' });
   });
 });
 

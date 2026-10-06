@@ -1,13 +1,7 @@
-import { importPKCS8, SignJWT } from 'jose';
-
-// Server only. A Firebase custom token is an RS256 JWT signed with the
-// service-account private key, so we sign it here with jose instead of the
-// firebase-admin SDK (which Vercel's bundler cannot load). No network call.
+// Server only. Loads the service-account key for lib/firestoreServer.ts.
 //
 // Key source: the FIRESTORE_ADMIN_KEY env var (raw JSON or base64, see
 // README). No key is stored in the repo.
-
-const AUDIENCE = 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit';
 
 // Names accepted for the key, in order. The README says FIRESTORE_ADMIN_KEY;
 // the others are the names people reach for.
@@ -48,22 +42,4 @@ export async function deadKeyProblem(account, fetchImpl = fetch) {
     }
   } catch { /* offline or timed out: skip the check */ }
   return null;
-}
-
-// The dashboard's own Firebase identity. firestore.rules isDashboard()
-// allows reads only for a token carrying this claim, which only the
-// service-account key can mint.
-export const DASHBOARD_UID = 'admin-dashboard';
-export const DASHBOARD_CLAIMS = { dashboardAdmin: true };
-
-export async function mintDashboardToken(account = parseServiceAccount()) {
-  const key = await importPKCS8(account.private_key.replace(/\\n/g, '\n'), 'RS256');
-  return new SignJWT({ uid: DASHBOARD_UID, claims: DASHBOARD_CLAIMS })
-    .setProtectedHeader({ alg: 'RS256', typ: 'JWT', ...(account.private_key_id ? { kid: account.private_key_id } : {}) })
-    .setIssuer(account.client_email)
-    .setSubject(account.client_email)
-    .setAudience(AUDIENCE)
-    .setIssuedAt()
-    .setExpirationTime('1h')
-    .sign(key);
 }

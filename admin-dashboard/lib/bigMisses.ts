@@ -1,19 +1,12 @@
 'use client';
-import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
-import { clientFirebase } from './firestore';
 import type { MissStatus } from './types';
 
-// Saves a big miss's review. firestore.rules lets the dashboard identity
-// change only reviewed / status / resolution / reviewedAt.
+// Saves a big miss's review through the server (/api/firestore-read), which
+// changes only reviewed / status / resolution / reviewedAt.
 export async function saveMissReview(id: string, status: MissStatus, resolution: string) {
-  const fb = clientFirebase();
-  if (!fb) throw new Error('Firebase is not configured.');
-  await updateDoc(doc(fb.db, 'big_misses', id), {
-    status,
-    reviewed: status !== 'pending',
-    resolution: resolution.slice(0, 2000),
-    reviewedAt: serverTimestamp(),
-  });
+  const r = await fetch('/api/firestore-read', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ kind: 'review', id, status, resolution: resolution.slice(0, 2000) }) });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.error || `Could not save the review (${r.status}).`);
 }
 
 export const statusLabel = (s?: MissStatus) => (s === 'resolved' ? 'Resolved' : s === 'duplicate' ? 'Duplicate' : 'Pending review');
