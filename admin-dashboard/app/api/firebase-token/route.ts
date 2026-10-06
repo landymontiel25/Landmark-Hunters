@@ -8,8 +8,16 @@ import { mintDashboardToken } from '@/lib/firebaseAdmin';
 export async function POST(req: NextRequest) {
   if (!(await verifySession(req.cookies.get(SESSION_COOKIE)?.value))) return NextResponse.json({ error: 'Sign in first.' }, { status: 401 });
   try {
-    return NextResponse.json({ token: await mintDashboardToken() }, { headers: { 'Cache-Control': 'no-store' } });
+    // Timeout after 5 seconds to prevent hanging
+    const tokenPromise = mintDashboardToken();
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Firebase token creation timed out (5s)')), 5000)
+    );
+    const token = await Promise.race([tokenPromise, timeoutPromise]);
+    return NextResponse.json({ token }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (e) {
-    return NextResponse.json({ error: `Could not create the Firebase sign-in: ${String((e as Error)?.message || e)}` }, { status: 503 });
+    const msg = (e as Error)?.message || String(e);
+    console.error('firebase-token error:', msg);
+    return NextResponse.json({ error: `Could not create the Firebase sign-in: ${msg}` }, { status: 503 });
   }
 }
