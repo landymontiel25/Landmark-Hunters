@@ -149,6 +149,64 @@ describe('computeDailyReport', () => {
   });
 });
 
+describe('Mapr v2 rollout report', () => {
+  const v = (arm) => ({ distanceDecay: 'treatment', itemSimilarity: 'treatment', ncf: 'treatment', exploration: 'control', maprV2: arm });
+  const prior = (userId, n) => Array.from({ length: n }, (_, k) => ({ userId, landmarkId: `p${k}`, ratingTier: 'worth-trying', ratedAt: T - (k + 2) * DAY }));
+  const ds = {
+    users: [],
+    openDays: [],
+    recommendationLog: [
+      // New users (no ratings before): one per arm.
+      row('n1', 'l1', { variants: v('control'), setId: 'a' }),
+      row('n2', 'l1', { variants: v('treatment'), ncfModel: 'v2', setId: 'b' }),
+      // Established users (5+ ratings before), in Madrid.
+      row('e1', 'l2', { region: 'madrid', variants: v('control'), setId: 'c' }),
+      row('e2', 'l2', { region: 'madrid', variants: v('treatment'), ncfModel: 'v1', setId: 'd' }),
+    ],
+    pickFeedback: [{ userId: 'n2', landmarkId: 'l1', verdict: 'yes', at: T + 1000 }],
+    reviews: [...prior('e1', 5), ...prior('e2', 6), { userId: 'e2', landmarkId: 'l2', ratingTier: 'highly-recommend', ratedAt: T + 2000 }],
+    checkins: [{ userId: 'e2', landmarkId: 'l2', createdAt: T + 1500 }],
+    models: { ncf: { evaluation: { testAccuracy: 0.7, testAccuracyCatalog: 0.7, testAccuracyRegion: 0.6 } }, ncfV2: { trainedAt: T - DAY, version: 'v2-1', active: false, evaluation: { testAccuracyCatalog: 0.72, testAccuracyRegion: 0.66 } } },
+  };
+  const r = computeDailyReport(ds, { date: D, now: T + 10 * DAY });
+  const e = r.experiments.maprV2;
+
+  it('runs the A/B on the maprV2 arm', () => {
+    expect(e.started).toBe(D);
+    expect(e.arms.control).toMatchObject({ shown: 2, clicked: 0 });
+    expect(e.arms.treatment).toMatchObject({ shown: 2, clicked: 2 });
+    expect(e.overall.gain.ctr).toBe(1);
+  });
+
+  it('reports how many treatment picks the v2 model ranked', () => {
+    expect(e.servedV2Share).toBe(0.5);
+  });
+
+  it('splits new users (under 5 ratings) from established ones', () => {
+    expect(e.newUsers.control).toMatchObject({ shown: 1, users: 1, ctr: 0 });
+    expect(e.newUsers.treatment).toMatchObject({ shown: 1, ctr: 1 });
+    expect(e.newUsers.gain.ctr).toBe(1);
+    expect(e.established.treatment).toMatchObject({ shown: 1, visitLoveRate: 1, avgPickRating: 5 });
+    expect(e.established.gain.visitLoveRate).toBe(1);
+  });
+
+  it('gives each region its own A/B', () => {
+    expect(Object.keys(e.byRegion)).toEqual(['madrid', 'milan']);
+    expect(e.byRegion.madrid.gain.ctr).toBe(1);
+    expect(e.byRegion.milan.control.shown).toBe(1);
+  });
+
+  it('puts v1 and v2 holdout accuracy side by side', () => {
+    expect(r.models).toMatchObject({ ncfTestAccuracyCatalog: 0.7, ncfTestAccuracyRegion: 0.6, ncfV2TestAccuracyCatalog: 0.72, ncfV2TestAccuracyRegion: 0.66, ncfV2Version: 'v2-1', ncfV2Active: false });
+  });
+
+  it('adds a Slack line and never carries a uid', () => {
+    expect(slackMessage(r)).toMatch(/MAPRV2 A\/B day 1/);
+    const json = JSON.stringify(r);
+    for (const uid of ['"n1"', '"n2"', '"e1"', '"e2"']) expect(json).not.toContain(uid);
+  });
+});
+
 describe('alerts', () => {
   const quiet = { latency: { p99Ms: 20 }, skipRate: 0.1, exploration: { skipRate: 0.1 }, repeatRate: 0.1, stagnation: { share: 0.1 }, fallbacks: {}, models: { ncfTrainedDaysAgo: 2, similarityComputedDaysAgo: 2 } };
   it('is empty when everything is in range', () => {

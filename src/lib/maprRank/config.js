@@ -16,6 +16,12 @@ export const FEATURES = {
   itemSimilarity: { enabled: true, rollout: 100 },
   ncf: { enabled: true, rollout: 100 },
   exploration: { enabled: true, rollout: 100 },
+  // Mapr v2 (NCF_V2 below): the fixed NCF training and the 0.8 / 0.2 signed
+  // blend. Validated offline in 60 of 60 synthetic simulations
+  // (mapr-synthetic-trainer/SCALE-RESULTS.md, VALIDATION-RESULTS.md). Users
+  // in the rollout load the v2 model (mapr_models/ncf_v2); everyone else keeps
+  // v1. Watch the admin dashboard's Mapr page before raising it to 100.
+  maprV2: { enabled: true, rollout: 20 },
 };
 
 // Salts, so the two A/B tests split users independently of each other and
@@ -25,6 +31,7 @@ export const EXPERIMENT_SALTS = {
   itemSimilarity: 'mapr-p1-collab',
   ncf: 'mapr-p1-ncf',
   exploration: 'mapr-p1-explore',
+  maprV2: 'mapr-v2',
 };
 
 // --- Week 1: distance decay ---------------------------------------------------
@@ -96,11 +103,50 @@ export const NCF = {
   seed: 1337,
   // Wall-clock budget for one weekly training (split run + refit), so the
   // nightly function finishes inside Vercel's 60 s limit. Training stops at
-  // the best epoch so far when it runs out.
-  trainBudgetMs: 30_000,
+  // the best epoch so far when it runs out. v1 and v2 each get 20 s while
+  // both models train.
+  trainBudgetMs: 20_000,
   // User embeddings kept per user (this version and the one before, so a
   // rollback still finds them).
   keepVersions: 2,
+  // v1: BPR on sigmoid outputs, negatives from every place, early stopping
+  // on validation loss, final = 0.4 x max(0, base) / max(base) + 0.6 x NCF.
+  family: 'v1',
+  modelDoc: 'ncf',
+  prevDoc: 'ncf_prev',
+  bprOn: 'probability',
+  negativeSampling: 'catalog',
+  earlyStoppingOn: 'loss',
+  signedBase: false,
+  flushTiny: false,
+};
+
+// Mapr v2: the same network, trained and blended with the three fixes the
+// synthetic tests found (mapr-synthetic-trainer/FIX-RESULTS.md,
+// WEIGHTS-RESULTS.md):
+//   bprOn 'logit'            softplus(-(z_i - z_j)); BPR on sigmoid outputs
+//                            saturates and its gradients vanish
+//   negativeSampling 'region' negatives from the positive's own region, so
+//                            the model learns taste rather than geography
+//   earlyStoppingOn 'accuracy' keep the epoch with the best validation ranking
+//                            accuracy (logit BPR's loss rises while ranking
+//                            still improves)
+//   final = 0.8 x base / max|base| + 0.2 x NCF, negative bases kept (the v1
+//   clip to 0 tied every place the user's history says they dislike)
+//   flushTiny                tiny Adam values become 0 (subnormal floats are
+//                            slow and change nothing)
+export const NCF_V2 = {
+  ...NCF,
+  family: 'v2',
+  modelDoc: 'ncf_v2',
+  prevDoc: 'ncf_v2_prev',
+  bprOn: 'logit',
+  negativeSampling: 'region',
+  earlyStoppingOn: 'accuracy',
+  baseWeight: 0.8,
+  ncfWeight: 0.2,
+  signedBase: true,
+  flushTiny: true,
 };
 
 // --- Week 4: epsilon-greedy exploration --------------------------------------
@@ -195,7 +241,7 @@ export const AB = {
 // --- Storage ----------------------------------------------------------------
 // Firestore paths written by api/mapr-nightly.js (Admin SDK) and read by the
 // app (see firestore.rules).
-export const MODEL_COLLECTION = 'mapr_models'; // ncf, ncf_prev, signals, status
+export const MODEL_COLLECTION = 'mapr_models'; // ncf, ncf_prev, ncf_v2, ncf_v2_prev, signals, status
 export const SIMILARITY_COLLECTION = 'mapr_similarity'; // one doc per region
 export const USER_MODEL_COLLECTION = 'mapr_user_models'; // one doc per uid, owner-only
 export const METRICS_COLLECTION = 'mapr_metrics'; // one doc per UTC day, server-only

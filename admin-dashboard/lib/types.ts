@@ -22,7 +22,45 @@ export interface MaprMetric {
   latency?: { p50Ms: number | null; p99Ms: number | null };
   alerts?: string[];
   distance?: { within1_5km: number | null; within3km: number | null; p50: number | null };
-  experiments?: Record<string, { started: string | null; days: number; decision: string; arms: Record<string, { shown: number; clicked: number; ctr: number | null; users: number }>; ctr: { lift: number | null; pValue: number | null; ci: [number, number] | null; significant: boolean } }>;
+  experiments?: Record<string, MaprExperiment>;
+  models?: { ncfTestAccuracyCatalog?: number | null; ncfTestAccuracyRegion?: number | null; ncfV2TestAccuracyCatalog?: number | null; ncfV2TestAccuracyRegion?: number | null; ncfV2Active?: boolean | null };
+  mapr_v2_control_ctr?: number | null;
+  mapr_v2_treatment_ctr?: number | null;
+  mapr_v2_new_user_ctr_gain?: number | null;
+  mapr_v2_served_share?: number | null;
+  mapr_v2_decision?: string | null;
+}
+
+export interface MaprExperiment {
+  started: string | null;
+  days: number;
+  decision: string;
+  arms: Record<string, { shown: number; clicked: number; ctr: number | null; users: number }>;
+  ctr: { lift: number | null; pValue: number | null; ci: [number, number] | null; significant: boolean };
+  // Mapr v2 rollout only (experiments.maprV2).
+  servedV2Share?: number | null;
+  overall?: MaprArmsGain;
+  newUserRatings?: number;
+  newUsers?: MaprArmsGain;
+  established?: MaprArmsGain;
+  byRegion?: Record<string, MaprArmsGain>;
+}
+
+export interface MaprArmSummary {
+  shown: number;
+  users: number;
+  ctr: number | null;
+  skipRate: number | null;
+  visitLoveRate: number | null;
+  rated: number;
+  avgPickRating: number | null;
+  rating4plusShare: number | null;
+}
+
+export interface MaprArmsGain {
+  control: MaprArmSummary;
+  treatment: MaprArmSummary;
+  gain: { ctr: number | null; visitLoveRate: number | null; avgPickRating: number | null; rating4plusShare: number | null };
 }
 
 export interface GrowthMetric {
@@ -107,6 +145,22 @@ export interface MaprNCFModel {
   active: boolean;
   active_users: number | null;
   active_threshold: number | null;
+  test_accuracy_catalog?: number | null;
+  test_accuracy_region?: number | null;
+  // Mapr v2 (mapr_models/ncf_v2), null while its rollout is off.
+  v2?: {
+    last_trained?: number | null;
+    last_run: number | null;
+    last_action: string | null;
+    validation_accuracy: number | null;
+    test_accuracy_catalog: number | null;
+    test_accuracy_region: number | null;
+    model_version: string | null;
+    active: boolean;
+    stopped_by: string | null;
+    best_epoch: number | null;
+    train_ms: number | null;
+  } | null;
 }
 
 export interface MaprSimilarity {

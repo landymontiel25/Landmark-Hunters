@@ -13,6 +13,9 @@ import { seededRandom } from './experiments.js';
 //   loss = -log(sigmoid(score(u,i) - score(u,j))) + L2
 // Adam (lr 0.001), batch 32, up to 50 epochs, early stopping on validation
 // loss (patience 5). Embeddings are updated lazily (only rows in the batch).
+// v1 (config NCF) uses score = the sigmoid output. v2 (config NCF_V2) uses the
+// logit, samples negatives from the positive's own region and stops on
+// validation ranking accuracy; see config.js for why.
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const sigmoid = (x) => (x >= 0 ? 1 / (1 + Math.exp(-x)) : Math.exp(x) / (1 + Math.exp(x)));
@@ -83,7 +86,7 @@ function forwardPair(m, u, i, { dropout = 0, rng = null } = {}) {
     }
     if (k === last) {
       const y = sigmoid(z[0]);
-      return { y, acts, masks };
+      return { y, z: z[0], acts, masks };
     }
     const mask = new Float64Array(out);
     const keep = 1 - dropout;
@@ -99,10 +102,11 @@ function forwardPair(m, u, i, { dropout = 0, rng = null } = {}) {
   return { y: NaN, acts, masks };
 }
 
-// Adds d(loss)/d(params) for one pair into `g`, given dL/dy.
-function backwardPair(m, u, i, cache, dy, g) {
+// Adds d(loss)/d(params) for one pair into `g`, given dL/dy (or dL/dz,
+// the logit, with onLogit).
+function backwardPair(m, u, i, cache, dy, g, onLogit = false) {
   const { y, acts, masks } = cache;
-  let delta = new Float64Array([dy * y * (1 - y)]); // through the sigmoid
+  let delta = new Float64Array([onLogit ? dy : dy * y * (1 - y)]); // through the sigmoid
   for (let k = m.layers.length - 1; k >= 0; k--) {
     const { W, out } = m.layers[k];
     const h = acts[k];
@@ -142,11 +146,16 @@ export function scorePair(m, u, i) {
   return forwardPair(m, u, i).y;
 }
 
-// BPR loss for a list of triples, no dropout, no L2 (validation).
-export function bprLoss(m, triples) {
+// BPR loss for a list of triples, no dropout, no L2 (validation). onLogit:
+// the v2 loss, on the logits.
+export function bprLoss(m, triples, onLogit = false) {
   if (!triples.length) return NaN;
   let total = 0;
-  for (const [u, i, j] of triples) total += softplus(-(scorePair(m, u, i) - scorePair(m, u, j)));
+  for (const [u, i, j] of triples) {
+    const a = forwardPair(m, u, i);
+    const b = forwardPair(m, u, j);
+    total += softplus(onLogit ? -(a.z - b.z) : -(a.y - b.y));
+  }
   return total / triples.length;
 }
 
@@ -174,7 +183,11 @@ const B1 = 0.9;
 const B2 = 0.999;
 const EPS = 1e-8;
 
-function adamStep(params, grads, mArr, vArr, t, lr, offset = 0, n = params.length) {
+// flushTiny: values under FTZ become 0. Vanishing gradients otherwise leave
+// Adam's state in the subnormal float range, where every multiply is many
+// times slower; nothing that small moves a weight.
+const FTZ = 1e-250;
+function adamStep(params, grads, mArr, vArr, t, lr, offset = 0, n = params.length, flushTiny = false) {
   const c1 = 1 - B1 ** t;
   const c2 = 1 - B2 ** t;
   for (let k = 0; k < n; k++) {
@@ -183,10 +196,15 @@ function adamStep(params, grads, mArr, vArr, t, lr, offset = 0, n = params.lengt
     mArr[p] = B1 * mArr[p] + (1 - B1) * gk;
     vArr[p] = B2 * vArr[p] + (1 - B2) * gk * gk;
     params[p] -= (lr * (mArr[p] / c1)) / (Math.sqrt(vArr[p] / c2) + EPS);
+    if (flushTiny) {
+      if (mArr[p] < FTZ && mArr[p] > -FTZ) mArr[p] = 0;
+      if (vArr[p] < FTZ) vArr[p] = 0;
+      if (params[p] < FTZ && params[p] > -FTZ) params[p] = 0;
+    }
   }
 }
 
-function applyGrads(m, opt, g, batchSize, { lr, l2 }) {
+function applyGrads(m, opt, g, batchSize, { lr, l2, flushTiny = false }) {
   opt.t += 1;
   const scale = 1 / batchSize;
   m.layers.forEach((layer, k) => {
@@ -194,8 +212,8 @@ function applyGrads(m, opt, g, batchSize, { lr, l2 }) {
     const gb = g.layers[k].b;
     for (let j = 0; j < gW.length; j++) gW[j] = gW[j] * scale + l2 * layer.W[j];
     for (let j = 0; j < gb.length; j++) gb[j] *= scale;
-    adamStep(layer.W, gW, opt.layers[k].mW, opt.layers[k].vW, opt.t, lr);
-    adamStep(layer.b, gb, opt.layers[k].mb, opt.layers[k].vb, opt.t, lr);
+    adamStep(layer.W, gW, opt.layers[k].mW, opt.layers[k].vW, opt.t, lr, 0, gW.length, flushTiny);
+    adamStep(layer.b, gb, opt.layers[k].mb, opt.layers[k].vb, opt.t, lr, 0, gb.length, flushTiny);
   });
   const d = m.dim;
   for (const [table, grads, state] of [[m.U, g.U, opt.U], [m.I, g.I, opt.I]]) {
@@ -203,7 +221,7 @@ function applyGrads(m, opt, g, batchSize, { lr, l2 }) {
       const off = row * d;
       for (let j = 0; j < d; j++) gr[j] = gr[j] * scale + l2 * table[off + j];
       state.t[row] += 1; // lazy Adam: each row keeps its own step count
-      adamStep(table, gr, state.m, state.v, state.t[row], lr, off, d);
+      adamStep(table, gr, state.m, state.v, state.t[row], lr, off, d, flushTiny);
     }
   }
 }
@@ -255,22 +273,43 @@ function indexPairs(list, index) {
 }
 
 // For each positive, `k` items the user has no positive on (uniform). A
-// user who has every item gets no negatives.
-export function sampleNegatives(pairs, positivesOf, numItems, k, rng) {
+// user who has every item gets no negatives. poolOf(i), when given, returns
+// the item indexes negatives for positive i are drawn from (v2: i's region);
+// null means every item.
+export function sampleNegatives(pairs, positivesOf, numItems, k, rng, poolOf = null) {
   const triples = [];
   for (const [u, i] of pairs) {
     const own = positivesOf.get(u) || new Set();
-    if (own.size >= numItems) continue;
+    const pool = poolOf ? poolOf(i) : null;
+    const size = pool ? pool.length : numItems;
+    if (own.size >= numItems || size < 1) continue;
     for (let n = 0; n < k; n++) {
       let j;
       let guard = 0;
       do {
-        j = Math.floor(rng() * numItems);
+        j = pool ? pool[Math.floor(rng() * size)] : Math.floor(rng() * numItems);
       } while (own.has(j) && ++guard < 1000);
       if (!own.has(j)) triples.push([u, i, j]);
     }
   }
   return triples;
+}
+
+// v2 negatives: the items of the positive's own region (item keys are
+// "region/id"). A region with fewer than minSize items falls back to every
+// item, so a tiny region still gets negatives.
+export function regionPools(items, minSize = 5) {
+  const byRegion = new Map();
+  items.forEach((key, n) => {
+    const region = String(key).split('/')[0];
+    if (!byRegion.has(region)) byRegion.set(region, []);
+    byRegion.get(region).push(n);
+  });
+  const regionOf = items.map((key) => String(key).split('/')[0]);
+  return (i) => {
+    const pool = byRegion.get(regionOf[i]);
+    return pool && pool.length >= minSize ? pool : null;
+  };
 }
 
 function shuffle(a, rng) {
@@ -285,17 +324,20 @@ function shuffle(a, rng) {
 
 // One run of BPR training. trainPairs: [[u, i]]; valTriples fixed. Returns
 // the best model by validation loss (or the last one with no validation).
-export function trainModel({ model, trainPairs, positivesOf, valTriples = [], cfg = CFG, maxEpochs = cfg.epochs, budgetMs = Infinity, rng = seededRandom(cfg.seed + 1), onEpoch = null }) {
+export function trainModel({ model, trainPairs, positivesOf, valTriples = [], cfg = CFG, maxEpochs = cfg.epochs, budgetMs = Infinity, rng = seededRandom(cfg.seed + 1), onEpoch = null, poolOf = null }) {
   const opt = createAdam(model);
   const started = Date.now();
+  const onLogit = cfg.bprOn === 'logit';
+  const onAccuracy = cfg.earlyStoppingOn === 'accuracy' && valTriples.length > 0;
   let best = null;
   let bestLoss = Infinity;
+  let bestMetric = -Infinity;
   let bestEpoch = 0;
   let sinceBest = 0;
   const history = [];
   let stoppedBy = 'epochs';
   for (let epoch = 1; epoch <= maxEpochs; epoch++) {
-    const triples = shuffle(sampleNegatives(trainPairs, positivesOf, model.numItems, cfg.negativesPerPositive, rng), rng);
+    const triples = shuffle(sampleNegatives(trainPairs, positivesOf, model.numItems, cfg.negativesPerPositive, rng, poolOf), rng);
     let trainLoss = 0;
     for (let s = 0; s < triples.length; s += cfg.batchSize) {
       const batch = triples.slice(s, s + cfg.batchSize);
@@ -303,19 +345,24 @@ export function trainModel({ model, trainPairs, positivesOf, valTriples = [], cf
       for (const [u, i, j] of batch) {
         const pos = forwardPair(model, u, i, { dropout: cfg.dropout, rng });
         const neg = forwardPair(model, u, j, { dropout: cfg.dropout, rng });
-        const x = pos.y - neg.y;
+        const x = onLogit ? pos.z - neg.z : pos.y - neg.y;
         trainLoss += softplus(-x);
         const dx = sigmoid(x) - 1; // d(-log sigmoid(x))/dx
-        backwardPair(model, u, i, pos, dx, g);
-        backwardPair(model, u, j, neg, -dx, g);
+        backwardPair(model, u, i, pos, dx, g, onLogit);
+        backwardPair(model, u, j, neg, -dx, g, onLogit);
       }
-      applyGrads(model, opt, g, batch.length, { lr: cfg.learningRate, l2: cfg.l2 });
+      applyGrads(model, opt, g, batch.length, { lr: cfg.learningRate, l2: cfg.l2, flushTiny: cfg.flushTiny === true });
     }
     trainLoss = triples.length ? trainLoss / triples.length : NaN;
-    const valLoss = valTriples.length ? bprLoss(model, valTriples) : trainLoss;
-    history.push({ epoch, trainLoss, valLoss });
-    onEpoch?.({ epoch, trainLoss, valLoss });
-    if (valLoss < bestLoss - 1e-6) {
+    const valLoss = valTriples.length ? bprLoss(model, valTriples, onLogit) : trainLoss;
+    const valAccuracy = onAccuracy ? pairwiseAccuracy(model, valTriples) : null;
+    history.push({ epoch, trainLoss, valLoss, ...(onAccuracy ? { valAccuracy } : {}) });
+    onEpoch?.({ epoch, trainLoss, valLoss, valAccuracy });
+    // Higher is better for both: v1 keeps the lowest validation loss, v2 the
+    // best validation ranking accuracy.
+    const metric = onAccuracy ? valAccuracy : -valLoss;
+    if (metric > bestMetric + 1e-6) {
+      bestMetric = metric;
       bestLoss = valLoss;
       bestEpoch = epoch;
       best = cloneModel(model);
@@ -342,10 +389,12 @@ export function trainNcf(positives, { now = Date.now(), cfg = CFG, budgetMs = 30
   const split = temporalSplit(positives, { now, windowDays: cfg.windowDays, split: cfg.split });
   const index = buildIndex(split.train, cfg.maxLandmarks);
   const rng = seededRandom(cfg.seed + 2);
-  const evalTriples = (list) => {
+  const regional = cfg.negativeSampling === 'region';
+  const poolOf = regional ? regionPools(index.items) : null;
+  const evalTriples = (list, pool = poolOf, r = rng) => {
     const trainSet = new Set(indexPairs(split.train, index).map(([u, i]) => `${u}|${i}`));
     const pairs = indexPairs(list, index).filter(([u, i]) => !trainSet.has(`${u}|${i}`));
-    return sampleNegatives(pairs, allPositivesOf, index.items.length, cfg.negativesPerPositive, rng);
+    return sampleNegatives(pairs, allPositivesOf, index.items.length, cfg.negativesPerPositive, r, pool);
   };
   const allPositivesOf = positivesByUser(indexPairs([...split.train, ...split.val, ...split.test], index));
   const trainPairs = indexPairs(split.train, index);
@@ -357,17 +406,23 @@ export function trainNcf(positives, { now = Date.now(), cfg = CFG, budgetMs = 30
   const valTriples = evalTriples(split.val);
   const testTriples = evalTriples(split.test);
   const model = createModel({ numUsers: index.users.length, numItems: index.items.length, dim: cfg.embeddingDim, hidden: cfg.hidden, seed: cfg.seed });
-  const run = trainModel({ model, trainPairs, positivesOf: positivesByUser(trainPairs), valTriples, cfg, budgetMs: refit ? budgetMs / 2 : budgetMs });
+  const run = trainModel({ model, trainPairs, positivesOf: positivesByUser(trainPairs), valTriples, cfg, budgetMs: refit ? budgetMs / 2 : budgetMs, poolOf });
   const testAccuracy = pairwiseAccuracy(run.model, testTriples);
   const valAccuracy = pairwiseAccuracy(run.model, valTriples);
-  const evaluation = { bestEpoch: run.bestEpoch, bestValLoss: run.bestLoss, stoppedBy: run.stoppedBy, valAccuracy, testAccuracy, testTriples: testTriples.length, valTriples: valTriples.length, history: run.history, trainMs: run.ms };
+  // The same holdout scored both ways, so v1 and v2 compare like for like on
+  // the dashboard: against any place (v1's own test) and against places in
+  // the positive's region (v2's own test; the harder, taste-only question).
+  const otherRng = seededRandom(cfg.seed + 3);
+  const testAccuracyCatalog = regional ? pairwiseAccuracy(run.model, evalTriples(split.test, null, otherRng)) : testAccuracy;
+  const testAccuracyRegion = regional ? testAccuracy : pairwiseAccuracy(run.model, evalTriples(split.test, regionPools(index.items), otherRng));
+  const evaluation = { family: cfg.family || 'v1', bestEpoch: run.bestEpoch, bestValLoss: run.bestLoss, stoppedBy: run.stoppedBy, earlyStoppingOn: cfg.earlyStoppingOn || 'loss', valAccuracy, testAccuracy, testAccuracyCatalog, testAccuracyRegion, testTriples: testTriples.length, valTriples: valTriples.length, history: run.history, trainMs: run.ms };
   if (!refit) return { ...base, ok: true, model: run.model, index, evaluation };
 
   const full = [...split.train, ...split.val, ...split.test];
   const fullIndex = buildIndex(full, cfg.maxLandmarks);
   const fullPairs = indexPairs(full, fullIndex);
   const fullModel = createModel({ numUsers: fullIndex.users.length, numItems: fullIndex.items.length, dim: cfg.embeddingDim, hidden: cfg.hidden, seed: cfg.seed });
-  const refitRun = trainModel({ model: fullModel, trainPairs: fullPairs, positivesOf: positivesByUser(fullPairs), cfg, maxEpochs: Math.max(1, run.bestEpoch), budgetMs: budgetMs / 2 });
+  const refitRun = trainModel({ model: fullModel, trainPairs: fullPairs, positivesOf: positivesByUser(fullPairs), cfg, maxEpochs: Math.max(1, run.bestEpoch), budgetMs: budgetMs / 2, poolOf: regional ? regionPools(fullIndex.items) : null });
   evaluation.refitEpochs = refitRun.history.length;
   evaluation.refitMs = refitRun.ms;
   return { ...base, ok: true, model: refitRun.model, index: fullIndex, evaluation };
@@ -415,6 +470,12 @@ export function serializeModel({ model, index }, { dp = CFG.storeDecimals, meta 
 }
 
 // ---- Serving --------------------------------------------------------------------
+
+// A stored model doc (mapr_models/ncf or ncf_v2) as the ranking reads it.
+// family says which blend goes with it (rank.js): v1 unless the doc says v2.
+export function ncfFromDoc(d) {
+  return d?.layers && d?.items ? { dim: d.dim, layers: d.layers, items: d.items, version: d.version ?? null, family: d.family === 'v2' ? 'v2' : 'v1', active: d.active === true, activeUsers: d.activeUsers ?? null } : null;
+}
 
 // A ready-to-score model on the phone: the user's half of the first layer is
 // computed once, so each landmark costs one 32-wide half plus the rest of

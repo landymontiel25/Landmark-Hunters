@@ -2,7 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: { serverTimestamp: () => 'TS' }, FieldPath: { documentId: () => '__id__' } }));
 
-const { computeAllSimilarity, liveAccuracy, ncfActiveUsers, ncfPositives, postToSlack, runDaily, runNcfWeekly, runWeekly, trendingCounts } = await import('./maprNightly.js');
+const { computeAllSimilarity, liveAccuracy, maprV2Enabled, ncfActiveUsers, ncfPositives, postToSlack, pruneVersions, runDaily, runNcfWeekly, runWeekly, trendingCounts, versionFor } = await import('./maprNightly.js');
+const { NCF, NCF_V2 } = await import('../../src/lib/maprRank/config.js');
 
 const DAY = 86400000;
 const NOW = Date.parse('2026-10-05T00:30:00Z'); // a Monday
@@ -164,6 +165,48 @@ describe('runWeekly', () => {
     await runNcfWeekly(db, dataset(), { now: NOW });
     expect(Object.keys(db.store.get('mapr_user_models').get('u1').byVersion).sort()).toEqual(['v0', `v${NOW}`]);
   }, 60_000);
+});
+
+describe('Mapr v2 weekly training', () => {
+  it('trains v2 next to v1 into its own docs, and both embeddings live side by side', async () => {
+    const db = fakeDb();
+    const status = await runWeekly(db, { now: NOW, ds: dataset(), landmarks });
+    const v2 = db.store.get('mapr_models').get('ncf_v2');
+    expect(v2).toMatchObject({ version: `v2-${NOW}`, family: 'v2' });
+    expect(v2.evaluation).toMatchObject({ family: 'v2', earlyStoppingOn: 'accuracy' });
+    expect(db.store.get('mapr_models').get('ncf')).toMatchObject({ version: `v${NOW}`, family: 'v1' });
+    const user = db.store.get('mapr_user_models').get('u1');
+    expect(user.byVersion[`v${NOW}`]).toHaveLength(32);
+    expect(user.byVersion[`v2-${NOW}`]).toHaveLength(32);
+    expect(status.ncfV2).toMatchObject({ action: 'promoted', family: 'v2' });
+    const dash = db.store.get('mapr_ncf_model').get('current');
+    expect(dash.v2).toMatchObject({ last_action: 'promoted', model_version: `v2-${NOW}`, last_trained: NOW });
+    expect(dash.v2.test_accuracy_region).toBeGreaterThan(0);
+    expect(dash.test_accuracy_catalog).toBeGreaterThan(0);
+  }, 120_000);
+
+  it('keeps v2 promotion and rollback separate from v1', async () => {
+    const db = fakeDb({ mapr_models: { ncf_v2: { version: 'v2-1', family: 'v2', evaluation: { testAccuracy: 1.2 }, dim: 32, layers: [], items: {} } } });
+    const out = await runNcfWeekly(db, dataset(), { now: NOW, cfg: NCF_V2 });
+    expect(out.action).toBe('kept-previous');
+    expect(db.store.get('mapr_models').get('ncf_v2').version).toBe('v2-1');
+    expect(db.store.get('mapr_models').has('ncf')).toBe(false);
+  }, 60_000);
+
+  it('prunes each family on its own', () => {
+    const prior = { v100: [1], v200: [2], v300: [3], 'v2-100': [4], 'v2-200': [5] };
+    expect(Object.keys(pruneVersions(prior, 'v400', 2)).sort()).toEqual(['v2-100', 'v2-200', 'v300']);
+    expect(Object.keys(pruneVersions(prior, 'v2-300', 2)).sort()).toEqual(['v100', 'v2-200', 'v200', 'v300']);
+    expect(versionFor(NCF, 5)).toBe('v5');
+    expect(versionFor(NCF_V2, 5)).toBe('v2-5');
+  });
+
+  it('trains v2 only while the rollout is on', () => {
+    expect(maprV2Enabled({ maprV2: { enabled: true, rollout: 20 } })).toBe(true);
+    expect(maprV2Enabled({ maprV2: { enabled: false, rollout: 20 } })).toBe(false);
+    expect(maprV2Enabled({ maprV2: { enabled: true, rollout: 0 } })).toBe(false);
+    expect(maprV2Enabled({})).toBe(false);
+  });
 });
 
 describe('runDaily', () => {

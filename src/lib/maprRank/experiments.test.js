@@ -56,8 +56,10 @@ describe('A/B assignment', () => {
     expect(uids.slice(0, 500).every((u) => variantFor(u, 'distanceDecay') === 'treatment')).toBe(true);
   });
 
-  it('ships with every component on for everyone (two users: no A/B split)', () => {
-    for (const f of Object.values(FEATURES)) expect(f).toEqual({ enabled: true, rollout: 100 });
+  it('ships the Phase 1 components on for everyone and Mapr v2 to a 20% rollout', () => {
+    const { maprV2, ...phase1 } = FEATURES;
+    for (const f of Object.values(phase1)) expect(f).toEqual({ enabled: true, rollout: 100 });
+    expect(maprV2).toEqual({ enabled: true, rollout: 20 });
   });
 });
 

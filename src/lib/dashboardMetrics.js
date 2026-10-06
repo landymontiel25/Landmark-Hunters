@@ -228,6 +228,7 @@ export function bigMissDocs(ds, landmarkName = () => null, annotated = annotateS
 // daily report (src/lib/maprRank/metrics.js computeDailyReport).
 export function maprFlatFields(report) {
   const ncf = report.experiments?.ncf;
+  const v2 = report.experiments?.maprV2;
   return {
     match_rate: report.matchRate ?? null,
     skip_rate: report.skipRate ?? null,
@@ -241,6 +242,11 @@ export function maprFlatFields(report) {
     a_b_treatment_n: ncf?.arms?.treatment?.shown ?? 0,
     a_b_p_value: ncf?.ctr?.pValue ?? null,
     a_b_days: ncf?.days ?? 0,
+    mapr_v2_control_ctr: v2?.arms?.control?.ctr ?? null,
+    mapr_v2_treatment_ctr: v2?.arms?.treatment?.ctr ?? null,
+    mapr_v2_new_user_ctr_gain: v2?.newUsers?.gain?.ctr ?? null,
+    mapr_v2_served_share: v2?.servedV2Share ?? null,
+    mapr_v2_decision: v2?.decision ?? null,
   };
 }
 

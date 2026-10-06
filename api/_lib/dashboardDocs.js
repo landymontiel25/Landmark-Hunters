@@ -67,8 +67,9 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now() } =
 }
 
 // After the weekly models: the NCF and similarity status docs.
-export async function writeDashboardModels(db, { ncf, similarity }, { now = Date.now() } = {}) {
+export async function writeDashboardModels(db, { ncf, ncfV2 = null, similarity }, { now = Date.now() } = {}) {
   const ev = ncf?.evaluation || {};
+  const ev2 = ncfV2?.evaluation || {};
   const writes = [
     [
       'mapr_ncf_model',
@@ -86,6 +87,28 @@ export async function writeDashboardModels(db, { ncf, similarity }, { now = Date
         active_threshold: ncf?.activeThreshold ?? null,
         stopped_by: ev.stoppedBy ?? null,
         train_ms: ev.trainMs ?? null,
+        // The same holdout scored against any place and against places in
+        // the same region, so v1 and v2 compare like for like.
+        test_accuracy_catalog: ev.testAccuracyCatalog ?? ev.testAccuracy ?? null,
+        test_accuracy_region: ev.testAccuracyRegion ?? null,
+        // Mapr v2 (mapr_models/ncf_v2), null while its rollout is off.
+        v2: ncfV2
+          ? {
+              // Left out when the week kept the old model, so the merge keeps
+              // the date it was really trained.
+              ...(ncfV2.action === 'promoted' ? { last_trained: now } : {}),
+              last_run: now,
+              last_action: ncfV2.action ?? null,
+              validation_accuracy: ev2.valAccuracy ?? null,
+              test_accuracy_catalog: ev2.testAccuracyCatalog ?? null,
+              test_accuracy_region: ev2.testAccuracyRegion ?? ev2.testAccuracy ?? null,
+              model_version: ncfV2.version ?? null,
+              active: ncfV2.active === true,
+              stopped_by: ev2.stoppedBy ?? null,
+              best_epoch: ev2.bestEpoch ?? null,
+              train_ms: ev2.trainMs ?? null,
+            }
+          : null,
       }),
       { merge: true },
     ],

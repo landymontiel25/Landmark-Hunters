@@ -160,6 +160,50 @@ function experimentReport(name, annotated, ds, date) {
   return { started, days, arms, ctr: ctrTest, guardrails, decision, note: 'Unit is the shown pick; picks from one user are not independent, so treat p-values near the line with care.' };
 }
 
+// Mapr v2 rollout (FEATURES.maprV2): the A/B above plus the cuts the
+// rollout is judged on. Same test window as the A/B.
+//   servedV2Share  treatment picks actually ranked by the v2 model (NCF only
+//                  ranks once the model is active, over 10 active users)
+//   overall        every pick, with the same fields as the cuts below
+//   newUsers       picks shown to a user with under NEW_USER_RATINGS ratings
+//                  at the time, and the rest as `established`
+//   byRegion       one A/B per region
+const NEW_USER_RATINGS = 5;
+function armSummary(rows) {
+  const s = summarizeRows(rows);
+  return { shown: s.shown, users: new Set(rows.map((r) => r.userId)).size, ctr: s.ctr, skipRate: s.skipRate, visitLoveRate: s.visitLoveRate, rated: s.rated, avgPickRating: s.avgPickRating, rating4plusShare: s.rating4plusShare };
+}
+function armsGain(rows) {
+  const control = armSummary(rows.filter((r) => r.variants.maprV2 === 'control'));
+  const treatment = armSummary(rows.filter((r) => r.variants.maprV2 === 'treatment'));
+  const diff = (k) => (control[k] != null && treatment[k] != null ? r4(treatment[k] - control[k]) : null);
+  return { control, treatment, gain: { ctr: diff('ctr'), visitLoveRate: diff('visitLoveRate'), avgPickRating: diff('avgPickRating'), rating4plusShare: diff('rating4plusShare') } };
+}
+function maprV2Report(annotated, ds, date) {
+  const ab = experimentReport('maprV2', annotated, ds, date);
+  const end = dayStart(date) + DAY_MS;
+  const from = ab.started ? dayStart(ab.started) : Infinity;
+  const rows = annotated.filter((r) => r.variants?.maprV2 && r.shownAt >= from && r.shownAt < end);
+  const treated = rows.filter((r) => r.variants.maprV2 === 'treatment');
+  const ratedAt = new Map();
+  for (const x of ds.reviews || []) {
+    if (!x?.userId || !TIER_STARS[x.ratingTier] || !Number.isFinite(ratingAt(x))) continue;
+    if (!ratedAt.has(x.userId)) ratedAt.set(x.userId, []);
+    ratedAt.get(x.userId).push(ratingAt(x));
+  }
+  const isNew = (r) => (ratedAt.get(r.userId) || []).filter((t) => t < r.shownAt).length < NEW_USER_RATINGS;
+  const regions = [...new Set(rows.map((r) => r.region).filter(Boolean))].sort();
+  return {
+    ...ab,
+    servedV2Share: r4(ratio(treated.filter((r) => r.ncfModel === 'v2').length, treated.length)),
+    overall: armsGain(rows),
+    newUserRatings: NEW_USER_RATINGS,
+    newUsers: armsGain(rows.filter(isNew)),
+    established: armsGain(rows.filter((r) => !isNew(r))),
+    byRegion: Object.fromEntries(regions.map((g) => [g, armsGain(rows.filter((r) => r.region === g))])),
+  };
+}
+
 // Per built set, one latency value.
 function setLatencies(rows) {
   const by = new Map();
@@ -262,7 +306,7 @@ export function computeDailyReport(ds, { date = dateUtc(Date.now() - DAY_MS), no
     latency: { sets: latencies.length, p50Ms: percentile(latencies, 50), p99Ms: percentile(latencies, 99) },
     fallbacks: fallbackCounts,
     models: modelHealth(ds.models, now),
-    experiments: { ncf: experimentReport('ncf', annotated, ds, date), exploration: experimentReport('exploration', annotated, ds, date) },
+    experiments: { ncf: experimentReport('ncf', annotated, ds, date), exploration: experimentReport('exploration', annotated, ds, date), maprV2: maprV2Report(annotated, ds, date) },
   };
   report.alerts = alertsFor(report);
   report.targets = targetStatus(report);
@@ -290,6 +334,13 @@ function modelHealth(models, now) {
     ncfTestAccuracy: r4(models?.ncf?.evaluation?.testAccuracy),
     ncfTrainMs: models?.ncf?.evaluation?.trainMs ?? null,
     ncfVersion: models?.ncf?.version ?? null,
+    ncfTestAccuracyCatalog: r4(models?.ncf?.evaluation?.testAccuracyCatalog),
+    ncfTestAccuracyRegion: r4(models?.ncf?.evaluation?.testAccuracyRegion),
+    ncfV2TrainedDaysAgo: age(models?.ncfV2?.trainedAt),
+    ncfV2TestAccuracyCatalog: r4(models?.ncfV2?.evaluation?.testAccuracyCatalog),
+    ncfV2TestAccuracyRegion: r4(models?.ncfV2?.evaluation?.testAccuracyRegion),
+    ncfV2Version: models?.ncfV2?.version ?? null,
+    ncfV2Active: models?.ncfV2 ? models.ncfV2.active === true : null,
     similarityComputedDaysAgo: age(models?.similarity?.computedAt),
     similarityComputeMs: models?.similarity?.ms ?? null,
   };
@@ -360,7 +411,7 @@ export function slackMessage(report, trend = []) {
   const line = (label, value, pick) => `• ${label}: *${value}*  ${sparkline(series.map(pick))}`;
   const ab = (name) => {
     const e = report.experiments[name];
-    if (!e.started) return `• ${name.toUpperCase()} A/B: not started`;
+    if (!e?.started) return `• ${name.toUpperCase()} A/B: not started`;
     return `• ${name.toUpperCase()} A/B day ${e.days}: CTR ${pct(e.ctr.pA)} → ${pct(e.ctr.pB)} (lift ${pct(e.ctr.lift)}, p=${e.ctr.pValue ?? 'n/a'}) → ${e.decision}`;
   };
   return [
@@ -375,6 +426,7 @@ export function slackMessage(report, trend = []) {
     `• Latency p99: *${report.latency.p99Ms ?? 'n/a'} ms*  • Exploration share: *${pct(report.exploration.share)}*`,
     ab('ncf'),
     ab('exploration'),
+    ab('maprV2'),
     report.alerts.length ? `:warning: ${report.alerts.join('\n:warning: ')}` : ':white_check_mark: No alerts',
   ].join('\n');
 }

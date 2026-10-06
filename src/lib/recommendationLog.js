@@ -40,10 +40,11 @@ import { recordSeen } from './maprRank/seenHistory.js';
 //   collabBoost        item-item similarity boost (0..0.2)
 //   ncfScore           NCF model score (0..1) or null
 //   finalScore         the score the set was ranked by
+//   ncfModel           'v1' | 'v2': the NCF model and blend that ranked it, null without NCF
 //   explore            true when an exploration slot produced this pick
 //   noveltyScore       its novelty score (exploration picks only)
 //   epsilon / epsilonReason   the set's exploration rate and why
-//   variants           { distanceDecay, itemSimilarity, ncf, exploration }: 'control' | 'treatment'
+//   variants           { distanceDecay, itemSimilarity, ncf, exploration, maprV2 }: 'control' | 'treatment'
 //   fallbacks          steps that fell back for this set ('ncf-no-model', ...)
 //   rankLatencyMs      on-device ranking time for the set
 //   revisit            the user had already checked in here
@@ -57,7 +58,7 @@ const catsOf = (s) => (s.categories && s.categories.length ? s.categories : getL
 export { makeSetId };
 
 const num = (v, lo = -1e9, hi = 1e9) => (typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : null);
-const VARIANT_KEYS = ['distanceDecay', 'itemSimilarity', 'ncf', 'exploration'];
+const VARIANT_KEYS = ['distanceDecay', 'itemSimilarity', 'ncf', 'exploration', 'maprV2'];
 // Only known, well-typed telemetry fields reach Firestore.
 export function telemetryFields(t) {
   if (!t || typeof t !== 'object') return {};
@@ -70,6 +71,7 @@ export function telemetryFields(t) {
     collabBoost: num(t.collabBoost, 0, 1),
     ncfScore: num(t.ncfScore, 0, 1),
     finalScore: num(t.finalScore),
+    ncfModel: ['v1', 'v2'].includes(t.ncfModel) ? t.ncfModel : null,
     explore: t.explore === true,
     noveltyScore: num(t.noveltyScore, 0, 1),
     epsilon: num(t.epsilon, 0, 1),

@@ -145,6 +145,38 @@ describe('Week 3: NCF blend and fallbacks', () => {
     expect(r.usual.every((p) => p.telemetry.ncfScore === null)).toBe(true);
   });
 
+  it('Mapr v2: final = 0.8 * base / max|base| + 0.2 * ncf, keeping negative tag scores', () => {
+    const v2 = { ...models, ncf: { ...models.ncf, family: 'v2' } };
+    // The first place is one the user dislikes: a negative tag score.
+    const usual = base.map((p, n) => ({ ...p, tagScore: n === 0 ? -3 * Math.abs(base[1].tagScore || 1) : p.tagScore }));
+    const r = scorePicks({ usual, uid: 'user-1', models: v2, features: only('distanceDecay', 'ncf') });
+    expect(r.meta.ncfModel).toBe('v2');
+    const maxAbs = Math.max(...r.usual.map((p) => Math.abs(p.telemetry.scoreAfterDecay)));
+    const scored = r.usual.filter((p) => p.telemetry.ncfScore != null);
+    expect(scored.length).toBeGreaterThan(5);
+    for (const p of scored) {
+      expect(p.finalScore).toBeCloseTo(0.8 * (p.telemetry.scoreAfterDecay / maxAbs) + 0.2 * p.telemetry.ncfScore, 3);
+      expect(p.telemetry.ncfModel).toBe('v2');
+    }
+    const disliked = r.usual.find((p) => p.id === base[0].id);
+    expect(disliked.telemetry.scoreAfterDecay).toBeLessThan(0);
+    expect(disliked.finalScore).toBeLessThan(0);
+    expect(r.usual.at(-1).id).toBe(base[0].id);
+  });
+
+  it('a v1 model keeps the v1 blend (a v2 user whose v2 model is missing)', () => {
+    const r = scorePicks({ usual: base.map((p) => ({ ...p })), uid: 'user-1', models, features: only('distanceDecay', 'ncf') });
+    expect(r.meta.ncfModel).toBe('v1');
+    for (const p of r.usual) expect(p.finalScore).toBeGreaterThanOrEqual(0);
+    expect(r.usual[0].telemetry.ncfModel).toBe('v1');
+  });
+
+  it('logs no model without NCF', () => {
+    const r = run({ features: only('distanceDecay'), models });
+    expect(r.meta.ncfModel).toBeNull();
+    expect(r.usual[0].telemetry.ncfModel).toBeNull();
+  });
+
   it('control users never touch the model', () => {
     const r = run({ features: only('distanceDecay'), models });
     expect(r.meta.variants.ncf).toBe('control');

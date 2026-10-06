@@ -94,6 +94,12 @@ describe('Mapr Phase 1 telemetry on shown rows', () => {
     expect(telemetryFields(null)).toEqual({});
   });
 
+  it('keeps the Mapr v2 arm and which model ranked the pick', async () => {
+    const { telemetryFields } = await import('./recommendationLog');
+    expect(telemetryFields({ ncfModel: 'v2', finalScore: -0.4, variants: { maprV2: 'treatment' } })).toMatchObject({ ncfModel: 'v2', finalScore: -0.4, variants: { maprV2: 'treatment' } });
+    expect(telemetryFields({ ncfModel: 'v9' }).ncfModel).toBeNull();
+  });
+
   it('adds them to a row only for picks that carry telemetry', () => {
     const [withT, without] = recommendationEntries({
       uid: 'u1',
