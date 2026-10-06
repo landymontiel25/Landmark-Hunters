@@ -36,6 +36,12 @@ describe('api/admin-jobs (server to server from the admin dashboard)', () => {
     expect(runWeekly).toHaveBeenCalledOnce();
     expect(runDaily).toHaveBeenCalledOnce();
     expect((await call(auth, { action: 'backfill' })).body).toEqual({ done: true });
+    runDaily.mockClear();
+    runWeekly.mockClear();
+    expect((await call(auth, { action: 'refresh' })).body).toMatchObject({ ok: true });
+    expect(runWeekly).not.toHaveBeenCalled();
+    const [, opts] = runDaily.mock.calls[0];
+    expect(await opts.slack('x')).toEqual({ posted: false, skipped: true });
     expect((await call(auth, { action: 'nope' })).code).toBe(400);
     expect((await call(auth, {}, 'GET')).code).toBe(405);
   });

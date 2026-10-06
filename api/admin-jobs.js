@@ -13,6 +13,8 @@ import { ALL_LANDMARKS } from '../src/data/regions.js';
 // `Authorization: Bearer ${ADMIN_JOBS_SECRET}`; the secret never reaches a
 // browser. With ADMIN_JOBS_SECRET unset this answers 503 (never open).
 //   POST { action: 'mapr-run' }        Mapr nightly job now, weekly models included
+//   POST { action: 'refresh' }         rebuild the dashboard numbers only: no model
+//                                      training, no Slack message (auto-refresh)
 //   POST { action: 'backfill' }        sign-up date backfill (users.createdAt)
 //   POST { action: 'photo-backfill' }  one batch of the Google place-ID backfill
 // Returns summaries only (counts, statuses), never user data.
@@ -48,6 +50,13 @@ export default async function handler(req, res) {
       const models = await runWeekly(db, { now, ds });
       const daily = await runDaily(db, { now, ds });
       res.status(200).json({ ok: true, daily, models });
+      return;
+    }
+    if (body.action === 'refresh') {
+      const ds = await loadStatsData(db);
+      await ensureServerPlacePacks();
+      const daily = await runDaily(db, { now: Date.now(), ds, slack: async () => ({ posted: false, skipped: true }) });
+      res.status(200).json({ ok: true, daily });
       return;
     }
     if (body.action === 'backfill') {

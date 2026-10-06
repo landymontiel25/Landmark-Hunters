@@ -7,8 +7,6 @@ import { Page } from '@/components/Page';
 // the shared secret.
 const TOOLS = [
   { action: 'mapr-run', title: 'Mapr: run now', text: 'Runs the nightly job now, weekly models included: similarity matrix, NCF training, the daily report, every dashboard collection, and the Slack message. Takes up to a minute.' },
-  { action: 'backfill', title: 'Sign-up dates (one-time)', text: 'Fills in the sign-up date for users created before it was saved. Safe to run more than once; run it again until it says done.' },
-  { action: 'photo-backfill', title: 'Landmark photos (one batch)', text: "Finds and saves Google place IDs for landmarks with no stored photo, one batch per press (up to 300 searches a day). Saves IDs only, never images." },
 ] as const;
 
 export default function Tools() {
@@ -25,8 +23,8 @@ export default function Tools() {
     }
   };
   return (
-    <Page title="Tools" subtitle="Admin jobs. Results show below each button; the pages update live once a job writes.">
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+    <Page title="Tools" subtitle="Admin jobs. Results show below the button. The dashboard also refreshes its numbers by itself every few minutes while it is open.">
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
         {TOOLS.map((t) => (
           <section key={t.action} className="card p-4 space-y-3" aria-label={t.title}>
             <h2 className="font-medium">{t.title}</h2>

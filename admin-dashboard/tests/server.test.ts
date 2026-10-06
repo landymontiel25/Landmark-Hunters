@@ -148,8 +148,8 @@ describe('jobs proxy', () => {
     expect(url).toBe('https://app.example/api/admin-jobs');
     expect((init.headers as Record<string, string>).Authorization).toBe('Bearer s');
     expect((await forwardJob('rm -rf', { appUrl: 'x', secret: 's', fetchImpl: fetchImpl as never })).status).toBe(400);
-    expect((await forwardJob('backfill', { appUrl: '', secret: '', fetchImpl: fetchImpl as never })).status).toBe(503);
-    expect((await forwardJob('backfill', { appUrl: 'x', secret: 's', fetchImpl: (async () => { throw new Error('down'); }) as never })).status).toBe(502);
+    expect((await forwardJob('refresh', { appUrl: '', secret: '', fetchImpl: fetchImpl as never })).status).toBe(503);
+    expect((await forwardJob('refresh', { appUrl: 'x', secret: 's', fetchImpl: (async () => { throw new Error('down'); }) as never })).status).toBe(502);
   });
 });
 
