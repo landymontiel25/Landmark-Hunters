@@ -5,7 +5,9 @@ import { num, pct, when } from '@/lib/metrics';
 // Mapr v2 rollout (FEATURES.maprV2 in src/lib/maprRank/config.js): the v2
 // model's holdout accuracy next to v1's, and the live A/B overall, for new
 // users and per region. Gains are treatment minus control, in points.
-const ROLLOUT_PERCENT = 20;
+// Keep in step with FEATURES.maprV2.rollout. At 100% there is no control
+// group, so the A/B rows show only the v2 side.
+const ROLLOUT_PERCENT = 100;
 
 const points = (v: number | null | undefined) => (v == null || !Number.isFinite(v) ? '—' : `${v >= 0 ? '+' : ''}${(v * 100).toFixed(1)} pts`);
 const stars = (v: number | null | undefined) => (v == null || !Number.isFinite(v) ? '—' : `${v >= 0 ? '+' : ''}${num(v, 2)}`);

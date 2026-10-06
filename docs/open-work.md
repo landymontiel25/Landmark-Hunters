@@ -3,10 +3,10 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Mapr v2 rollout (shipped at 20%, waiting on users)
+## Mapr v2 rollout (shipped at 100%, waiting on users)
 
 The three NCF fixes and the signed `0.8 / 0.2` blend ship behind
-`FEATURES.maprV2` at 20% on every Mapr surface (`docs/mapr-phase1.md`,
+`FEATURES.maprV2` at 100% on every Mapr surface (`docs/mapr-phase1.md`,
 "Mapr v2 rollout"). Evidence so far is synthetic only
 (`mapr-synthetic-trainer/SCALE-RESULTS.md`, `VALIDATION-RESULTS.md`: 60 of
 60 runs won over tag + similarity). Left open:
@@ -14,9 +14,10 @@ The three NCF fixes and the signed `0.8 / 0.2` blend ship behind
 - Neither model ranks until more than 10 people have a check-in or loved
   rating in 90 days (`NCF.autoEnableAboveUsers`). Until then the A/B arms
   rank the same way; the dashboard's "v2 model ranked" share stays at 0%.
-- Once NCF is on: watch the "Mapr v2 rollout" card. Grow the rollout
-  (`FEATURES.maprV2.rollout`) when the A/B says promote; when v2 reaches
-  100%, make `NCF_V2` the only model and remove v1 training.
+- The owner moved it from 20% to 100% while the app is just two testers,
+  so the "Mapr v2 rollout" card has no control group. With real users,
+  either lower `FEATURES.maprV2.rollout` to run an A/B test, or make
+  `NCF_V2` the only model and remove v1 training.
 - Pre-trained models gave brand-new users no lift over today's cold start,
   so `mapr-synthetic-trainer/deploy-to-production.js` has not been run and
   nothing reads `mapr_pretrained_*`.

@@ -20,8 +20,9 @@ export const FEATURES = {
   // blend. Validated offline in 60 of 60 synthetic simulations
   // (mapr-synthetic-trainer/SCALE-RESULTS.md, VALIDATION-RESULTS.md). Users
   // in the rollout load the v2 model (mapr_models/ncf_v2); everyone else keeps
-  // v1. Watch the admin dashboard's Mapr page before raising it to 100.
-  maprV2: { enabled: true, rollout: 20 },
+  // v1. At 100% while the app has two users (October 2026, owner's call):
+  // there is no control group, so lower it to run a real A/B test later.
+  maprV2: { enabled: true, rollout: 100 },
 };
 
 // Salts, so the two A/B tests split users independently of each other and
