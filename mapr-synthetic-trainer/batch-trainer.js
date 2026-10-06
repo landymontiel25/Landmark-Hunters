@@ -40,7 +40,7 @@ export const RANKERS = {
   oracle: "True taste, no noise (ceiling: the simulator's own match score)",
 };
 
-export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}, evalUsers = EVAL_USERS, onEpoch = null, onLab = null, log = () => {}, exportDir = null }) {
+export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}, blendWeights = [], evalUsers = EVAL_USERS, onEpoch = null, onLab = null, log = () => {}, exportDir = null }) {
   const started = Date.now();
   const places = catalog.places;
   const numItems = places.length;
@@ -172,7 +172,8 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
 
   // ---- Evaluation -----------------------------------------------------------
   const ev0 = Date.now();
-  const sums = Object.fromEntries(Object.keys(RANKERS).map((k) => [k, new MetricSum()]));
+  const blendKeys = blendWeights.flatMap((w) => [`mapr_w${w}`, `mapr_signed_w${w}`]);
+  const sums = Object.fromEntries([...Object.keys(RANKERS), ...blendKeys].map((k) => [k, new MetricSum()]));
   const byArchetype = new Map();
   const scoreBuf = new Float64Array(2000);
 
@@ -213,6 +214,7 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
       ncfScores = cand.map((i, k) => (hasEmbedding[i] ? buf[k] : mean));
     }
     const maxBase = Math.max(0, ...base);
+    const maxAbsBase = Math.max(0, ...base.map(Math.abs));
     const scores = {
       random: cand.map(() => urng()),
       popularity: cand.map((i) => popCount[i]),
@@ -222,6 +224,14 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
       mapr: ncfScores ? cand.map((_, k) => PROD_NCF.baseWeight * (maxBase > 0 ? Math.max(0, base[k]) / maxBase : 0) + PROD_NCF.ncfWeight * ncfScores[k]) : null,
       oracle: cand.map((i) => trueMatch(user, places[i].features)),
     };
+    // Re-scored blends: (1 - w) x base + w x NCF, same models, same users.
+    for (const w of blendWeights) {
+      scores[`mapr_w${w}`] = ncfScores ? cand.map((_, k) => (1 - w) * (maxBase > 0 ? Math.max(0, base[k]) / maxBase : 0) + w * ncfScores[k]) : null;
+      // Diagnostic: production clips negative bases to 0 before blending,
+      // which ties every place the user's history says they dislike. This
+      // keeps the sign: base / max |base|.
+      scores[`mapr_signed_w${w}`] = ncfScores ? cand.map((_, k) => (1 - w) * (maxAbsBase > 0 ? base[k] / maxAbsBase : 0) + w * ncfScores[k]) : null;
+    }
     for (const [name, s] of Object.entries(scores)) {
       if (!s || !sumsFor[name]) continue;
       const rm = rankingMetrics(s, rel);
@@ -247,7 +257,7 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
   }
 
   // Cold start: users the model never saw.
-  const coldSums = Object.fromEntries(['popularity', 'tag', 'tag_sim', 'ncf', 'mapr', 'oracle'].map((k) => [k, new MetricSum()]));
+  const coldSums = Object.fromEntries(['popularity', 'tag', 'tag_sim', 'ncf', 'mapr', 'oracle', ...blendKeys].map((k) => [k, new MetricSum()]));
   let foldedIn = 0;
   for (let n = ds.trainUsers; n < ds.trainUsers + ds.coldUsers; n++) {
     const user = ds.users[n];
@@ -263,7 +273,7 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
   const rankers = Object.fromEntries(Object.entries(sums).map(([k, s]) => [k, s.result()]));
   const cold = Object.fromEntries(Object.entries(coldSums).map(([k, s]) => [k, s.result()]));
   const archetypes = {};
-  for (const [name, a] of byArchetype) archetypes[name] = { users: a.users, ...Object.fromEntries(Object.entries(a.sums).filter(([k]) => ['ncf', 'mapr', 'tag_sim', 'oracle'].includes(k)).map(([k, s]) => [k, s.result()])) };
+  for (const [name, a] of byArchetype) archetypes[name] = { users: a.users, ...Object.fromEntries(Object.entries(a.sums).filter(([k]) => ['ncf', 'mapr', 'tag_sim', 'oracle', ...blendKeys].includes(k)).map(([k, s]) => [k, s.result()])) };
 
   const result = {
     batch,

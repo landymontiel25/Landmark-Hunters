@@ -16,6 +16,7 @@ parentPort.on('message', async (job) => {
       batch: job.batch,
       sim: job.sim,
       ncfConfig: job.ncfConfig,
+      blendWeights: job.blendWeights || [],
       evalUsers: job.evalUsers,
       exportDir: job.exportDir,
       onEpoch: (row) => parentPort.postMessage({ type: 'epoch', row }),

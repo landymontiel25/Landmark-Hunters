@@ -23,8 +23,13 @@ was deployed and no production code changed. What it found:
   negatives + early stopping on accuracy beat production NCF in 25 of 30
   but beat tag + similarity in only 4 of 30, so it is not deployed. All 4
   wins kept a barely trained NCF: at 0.6 weight a trained NCF overrides
-  the tag score. Next: re-score with NCF weight 0.1-0.3 or as a tie-break.
-  Any production change goes to every Mapr surface in one PR (CLAUDE.md).
+  the tag score. Re-scored at weights 0.3/0.2/0.1
+  (`mapr-synthetic-trainer/WEIGHTS-RESULTS.md`): weight alone wins at most
+  9 of 30, because the blend also clips negative base scores to 0. With the
+  sign kept, `0.8 x base / max|base| + 0.2 x NCF` beat tag + similarity in
+  28 of 30 and new users gained 1.5 points. Waiting on the owner's go to
+  ship the three NCF fixes plus that blend to every Mapr surface in one PR
+  (CLAUDE.md), staged behind a rollout.
 - Pre-trained models gave brand-new users no lift over today's cold start,
   so `deploy-to-production.js` has not been run and nothing reads
   `mapr_pretrained_*`. Run it only after a change makes pre-training help.
