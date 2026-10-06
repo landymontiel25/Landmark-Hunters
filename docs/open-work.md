@@ -7,10 +7,13 @@ the PR that finishes it.
 
 Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us the 10
 places you visit most" with autocomplete, then the cards. The Mapr side is
-done (`tagDeltasFromPlaces`, `placesIntro`, `seedTagScores(..., places)` in
-`src/lib/onboardingCards.js` / `onboardingSave.js`). Left open: add the step
-to the real flow (`screens/Onboarding.jsx`), save the chosen places on the
-account, and pass them to `seedTagScores` and the saved taste text. Until
+done and the save path is wired:
+`saveOnboardingResults(uid, profile, answers, { complete, places })` seeds
+tagScores (and `onboardingSwipeDeltas`, which global taste reads), writes
+the text Mapr reads (`swipeSummary`) and stores `onboardingPlaces`. Left
+open: only the UI. Add the step to `screens/Onboarding.jsx`, pre-fill it from
+`profile.onboardingPlaces`, and pass the chosen places to
+`saveOnboardingResults`. Until
 then no real account carries places.
 
 ## Mapr v2 rollout (shipped at 100%, waiting on users)

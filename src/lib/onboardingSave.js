@@ -1,7 +1,7 @@
 import { doc, setDoc, updateDoc, deleteDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { PICKABLE_REGIONS } from '../data/regions';
-import { allSwipeCards, tagDeltasFromAnswers } from './onboardingCards';
+import { allSwipeCards, tagDeltasFromAnswers, placesIntro } from './onboardingCards';
 import { TAG_CAP, TAG_FLOOR, decayFactor, GLOBAL_TASTE, hasGlobalTaste } from './tagScores';
 import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, onboardingNoticeId } from './onboardingVersion';
 
@@ -103,11 +103,12 @@ export function seedTagScores(profile, answers, now = Date.now(), cityRegions = 
 
 // Same wording the Test tab feeds Mapr: the card words in prose. The free-text
 // notes live in tasteIntro, saved by their own step, so only the words go here.
-export function swipeSummary(answers) {
+export function swipeSummary(answers, places = []) {
   const words = (a) => answers.filter((x) => x.answer === a).map((x) => x.card.word);
   const parts = [];
   if (words('love').length) parts.push(`Loves: ${words('love').join(', ')}.`);
   if (words('dislike').length) parts.push(`Doesn't like: ${words('dislike').join(', ')}.`);
+  if (places.length) parts.push(placesIntro(places));
   // No trailing period: composeTasteIntro joins the pieces with ". ".
   return parts.join(' ').replace(/\.$/, '');
 }
@@ -116,15 +117,20 @@ export function swipeSummary(answers) {
 // and the tag-score seed, so Mapr uses whatever was answered even if the deck
 // wasn't finished. Only `complete` records the version that clears the
 // notification and banner. Progress stays until the whole flow is done.
-export async function saveOnboardingResults(uid, profile, answers, { complete }) {
+//
+// `places` is the "10 places you visit most" step (landmarks with name and
+// categories). They count toward the tag-score seed and the text Mapr reads,
+// and are stored as { regionId, id, name } so the step can be pre-filled.
+export async function saveOnboardingResults(uid, profile, answers, { complete, places = [] }) {
   if (!db || !uid) return;
-  const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers);
+  const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(
     doc(db, 'users', uid),
     {
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
       swipeAnswers: answersToPairs(answers),
-      swipeSummary: swipeSummary(answers),
+      swipeSummary: swipeSummary(answers, places),
+      ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
       onboardingSwipeDeltas: deltas,
       ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt } : {}),
       updatedAt: serverTimestamp(),

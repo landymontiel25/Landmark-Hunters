@@ -35,6 +35,18 @@ describe('seedTagScores', () => {
   });
 });
 
+describe('places you visit most', () => {
+  const places = [{ regionId: 'miami', id: 'x', name: 'Cafe X', categories: ['food'] }];
+
+  it('seed tag scores and the text Mapr reads, on top of the swipes', () => {
+    const out = seedTagScores({}, [ans('Steak', 'love')], NOW, ['miami'], places);
+    const tag = card('Steak').tag;
+    expect(out.tagScores.miami.food).toBe(tag === 'food' ? 20 : 10);
+    expect(out.deltas.food).toBeGreaterThan(0);
+    expect(swipeSummary([ans('Steak', 'love')], places)).toBe('Loves: Steak. Visits most: Cafe X');
+  });
+});
+
 describe('prefillAnswers', () => {
   const words = ['Steak', 'Museums', 'Golf'];
 
