@@ -76,11 +76,10 @@ describe('jobs proxy', () => {
 });
 
 describe('service account key', () => {
-  const key = { client_email: 'a@b', private_key: 'k', project_id: 'p' };
-  it('reads raw JSON or base64, and rejects anything else', () => {
-    expect(parseServiceAccount(JSON.stringify(key)).client_email).toBe('a@b');
-    expect(parseServiceAccount(Buffer.from(JSON.stringify(key)).toString('base64')).project_id).toBe('p');
-    expect(() => parseServiceAccount('')).toThrow(/not set/);
-    expect(() => parseServiceAccount(JSON.stringify({ a: 1 }))).toThrow(/service-account/);
+  it('parses embedded base64 Firebase service account', () => {
+    const account = parseServiceAccount();
+    expect(account.client_email).toBeDefined();
+    expect(account.private_key).toBeDefined();
+    expect(account.project_id).toBe('landmark-hunters-284ab');
   });
 });
