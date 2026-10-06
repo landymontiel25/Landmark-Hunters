@@ -198,3 +198,40 @@ describe('taste score average', () => {
     expect(byId(run({}), 'tasteScoreAvg').status).toBe('unknown');
   });
 });
+
+describe('metrics for the Horowitz Andreesen Academy tab', () => {
+  const U = (uid, createdDay) => ({ uid, createdAt: day(createdDay) });
+  it('Day 7 retention counts users who opened the app on day 7', () => {
+    const ds = { users: [U('a', 1), U('b', 1)], openDays: [{ uid: 'a', date: dateUtc(day(1)) }, { uid: 'a', date: dateUtc(day(8)) }, { uid: 'b', date: dateUtc(day(1)) }] };
+    const m = byId(run(ds), 'retentionD7');
+    expect(m).toMatchObject({ value: 50, n: 2, status: 'info' });
+  });
+  it('ratings per active user per week: last 7 days only', () => {
+    const t = NOW - STATS_DAY_MS;
+    const ds = {
+      openDays: [{ uid: 'a', date: dateUtc(t) }],
+      reviews: [
+        { userId: 'a', landmarkId: 'x', updatedAt: t },
+        { userId: 'a', landmarkId: 'y', updatedAt: t },
+        { userId: 'b', landmarkId: 'z', updatedAt: t },
+        { userId: 'a', landmarkId: 'old', updatedAt: NOW - 30 * STATS_DAY_MS },
+      ],
+    };
+    expect(byId(run(ds), 'ratingsPerActiveUserWeek')).toMatchObject({ value: 1.5, n: 2 });
+    expect(byId(run({}), 'ratingsPerActiveUserWeek').value).toBeNull();
+  });
+  it('weekly users: active and new people per 7-day window, newest last', () => {
+    const t = (daysAgo) => NOW - daysAgo * STATS_DAY_MS;
+    const ds = {
+      users: [{ uid: 'a', createdAt: t(2) }, { uid: 'b', createdAt: t(9) }, { uid: 'c', createdAt: t(40) }],
+      openDays: [{ uid: 'a', date: dateUtc(t(1)) }, { uid: 'b', date: dateUtc(t(1)) }, { uid: 'b', date: dateUtc(t(8)) }, { uid: 'c', date: dateUtc(t(30)) }],
+      reviews: [{ userId: 'c', landmarkId: 'x', updatedAt: t(3) }],
+    };
+    const m = byId(run(ds), 'weeklyUsers');
+    expect(m.weekly).toHaveLength(6);
+    expect(m.weekly[5]).toMatchObject({ active: 3, newUsers: 1 }); // a, b opened; c rated
+    expect(m.weekly[4]).toMatchObject({ active: 1, newUsers: 1 }); // b opened on day 8; b joined day 9
+    expect(m).toMatchObject({ value: 3, newUsers: 1, status: 'info', n: 3 });
+    expect(byId(run({}), 'weeklyUsers').status).toBe('unknown');
+  });
+});

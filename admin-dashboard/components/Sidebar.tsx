@@ -6,6 +6,7 @@ import { RealtimeStatus } from './RealtimeStatus';
 
 export const NAV = [
   { href: '/dashboard', label: 'Overview' },
+  { href: '/dashboard/horowitz-andreesen-academy', label: 'Horowitz Andreesen Academy' },
   { href: '/dashboard/mapr-phase-1', label: 'Mapr Phase 1' },
   { href: '/dashboard/growth', label: 'Growth' },
   { href: '/dashboard/retention', label: 'Retention' },
