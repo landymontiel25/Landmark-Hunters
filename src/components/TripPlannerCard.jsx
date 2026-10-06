@@ -23,6 +23,9 @@ import {
   readPlanCache,
   writePlanCache,
 } from '../lib/tripPlanner';
+import { loadMaprModels } from '../lib/maprRank/modelStore.js';
+import { readSeen } from '../lib/maprRank/seenHistory.js';
+import { readLocalFeedback } from '../lib/pickFeedback';
 import ChatWizard from './ChatWizard';
 import LocationAutocomplete, { HomeStartPrefill } from './LocationAutocomplete';
 import MultiRegionSearch from './MultiRegionSearch';
@@ -219,6 +222,8 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     const rankRegions = regionIds.length
       ? regionIds
       : [trip.activeRegion || pickRegion({ origin, fallbackRegions: [] })].filter(Boolean);
+    // Mapr Phase 1 models for these cities (null on failure: ranking still works).
+    const models = pickType && user?.uid ? await loadMaprModels({ uid: user.uid, regions: rankRegions }).catch(() => null) : null;
     const ranked = rankTripPicks({
       pickType,
       profile: myProfile,
@@ -226,6 +231,11 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
       // Rated-and-visited places only: a place rated without a visit is still
       // somewhere new to go.
       excludeIds: visitedReviewIds(myReviews),
+      uid: user?.uid || null,
+      origin,
+      myReviews,
+      models,
+      explore: user?.uid ? { createdAtMs: myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : null, shown: readSeen(user.uid), votes: readLocalFeedback(user.uid), serverStagnating: models?.serverStagnating === true } : null,
     });
     const message = composePlanMessage({
       mood: wizard.mood,

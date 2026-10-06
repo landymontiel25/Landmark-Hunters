@@ -6,9 +6,24 @@ cron with the Admin SDK, storage in Firestore. Everything sits behind feature
 flags in `src/lib/maprRank/config.js`, the one place that holds every
 hyperparameter and threshold.
 
-Scope: the Map tab's "Picked for you right now" sheet (the `map-sheet`
-surface). Mapr chat, Travel Picks (`api/mapr-picks.js`) and the trip planner
-rank the way they did before.
+Scope: every Mapr surface (CLAUDE.md requires it). The Map sheet's main
+picks go through `rankNearbyCandidates`; everything else calls
+`rankPlaces` in `src/lib/maprRank/surfaces.js`:
+
+| Surface | Where | What Phase 1 does there |
+|---|---|---|
+| Map sheet "Picked for you" | `nearbyPicks.js`, `useNearbyPicks.js` | all four weeks, logged `map-sheet` |
+| Because you liked X | `MapPicksOverlay.jsx` | same-kind gate kept, then decay + similarity + NCF; logged `map-sheet` / `because-you-liked` |
+| Moods | `MoodCarousel.jsx` | new default sort "For you"; logged `map-sheet` / `mood` |
+| Time to eat | `MapPicksOverlay.jsx` | food places in Mapr's order, public rating as tie-break; logged `map-sheet` / `meal` |
+| Nearby interest | `nearbyPicks.js nearbyInterest` | best finalScore within 1 mi; logged `map-sheet` / `nearby-interest` |
+| Travel Picks | `MaprPicksCarousel.jsx` | Mapr's order (was popularity) + exploration slots; logged `travel-picks` |
+| Trip planner | `tripPlanner.js rankTripPicks` | decay from your location, similarity, NCF; exploration for "Something new" |
+| Landmarks "For Me" | `LandmarkSelection.jsx` | decay + similarity + NCF over the For Me fit (not logged: a list, not picks) |
+| Mapr chat | `api/plan-ai.js`, `api/_lib/maprChatRanking.js` | top 15 of Mapr's ranking (with NEW FOR YOU exploration lines) in the prompt; telemetry returned and logged with chat stops |
+
+Not Mapr recommendations, left alone: onboarding's rate queue, the daily
+streak cards, search.
 
 ## Pipeline
 

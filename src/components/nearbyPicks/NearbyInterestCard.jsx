@@ -1,12 +1,14 @@
 import { categoryLabel } from '../../lib/nearbyPicks';
 import { primaryCategory } from '../../lib/preferenceChains';
 import { useReadyItems } from './useNearbyPicks';
+import { useShownEffect } from './useShownEffect';
 import PickCard from './PickCard';
 
 // "You're near something you'd like": the closest place in one of the
 // user's top categories (nearbyPicks.nearbyInterest). Hidden when none.
-export default function NearbyInterestCard({ place }) {
+export default function NearbyInterestCard({ place, onShown = null }) {
   const ready = useReadyItems(place ? [place] : [], 1);
+  useShownEffect(onShown, ready);
   const p = ready[0];
   if (!p) return null;
   return (

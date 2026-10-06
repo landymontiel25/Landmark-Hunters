@@ -1,12 +1,14 @@
 import { MEAL_LIMIT } from '../../lib/nearbyPicks';
 import { useReadyItems } from './useNearbyPicks';
+import { useShownEffect } from './useShownEffect';
 import { PickRow } from './PickCard';
 import DirectionsButton from '../DirectionsButton';
 
 // "Time to eat? Here are your top 3 nearby". `places` is
 // nearbyPicks.mealPicks; the parent decides when it's meal time.
-export default function MealCard({ places, limit = MEAL_LIMIT }) {
+export default function MealCard({ places, limit = MEAL_LIMIT, onShown = null }) {
   const ready = useReadyItems(places, limit);
+  useShownEffect(onShown, ready);
   if (!ready.length) return null;
   return (
     <section className="mpp-section mpp-callout">

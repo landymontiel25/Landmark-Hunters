@@ -7,6 +7,9 @@ import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useFriends } from '../lib/FriendsContext';
+import { loadMaprModels } from '../lib/maprRank/modelStore.js';
+import { rankPlaces } from '../lib/maprRank/surfaces.js';
+import { regionsWithin } from '../lib/nearbyPicks';
 import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
@@ -275,7 +278,7 @@ export default function LandmarkSelection() {
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { applyEdit } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
-  const { ratings } = useRatings();
+  const { ratings, myReviews } = useRatings();
   const { myProfile } = useFriends();
   const navigate = useNavigate();
 
@@ -298,6 +301,23 @@ export default function LandmarkSelection() {
   // "picked by hand" flag kept GPS from ever correcting it. Pick a city
   // from the dropdown to narrow the list for this visit.
   const [cityFilter, setCityFilter] = useState('all');
+  // Mapr Phase 1 models for "For Me" (maprRank/surfaces.js): the chosen city,
+  // or the cities within 30 miles of you. Null until loaded.
+  const modelRegions = useMemo(
+    () => (cityFilter !== 'all' ? cityFilter : coords ? regionsWithin({ lat: coords.lat, lng: coords.lng }, 30).sort().join(',') : ''),
+    [cityFilter, coords?.lat != null ? Math.round(coords.lat * 10) : null, coords?.lng != null ? Math.round(coords.lng * 10) : null] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+  const [maprModels, setMaprModels] = useState(null);
+  useEffect(() => {
+    if (!user?.uid || !modelRegions) return undefined;
+    let cancelled = false;
+    loadMaprModels({ uid: user.uid, regions: modelRegions.split(',') })
+      .then((m) => !cancelled && setMaprModels(m))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid, modelRegions]);
   // Default to every interest picked on Setup -- built-in categories AND custom
   // ones you typed in -- so "Choose Landmarks" opens already narrowed to what you
   // said you wanted instead of dumping every landmark on you. Empty selection (no
@@ -437,6 +457,23 @@ export default function LandmarkSelection() {
       const interests = new Set(trip.savedInterests || []);
       const scoresByRegion = new Map();
       const score = new Map(filtered.map((l) => [l, forMeScore(l, myProfile, interests, scoresByRegion)]));
+      // Signed in: Mapr's ranking (maprRank/surfaces.js) over this fit --
+      // distance decay keeps liked places first, then neutral, then disliked,
+      // nearer first within each; plus similar places and the model. Ties
+      // keep the Popular order.
+      if (user?.uid) {
+        const byPopular = [...filtered].sort((a, b) => popularScore(b, ratings) - popularScore(a, ratings) || a.name.localeCompare(b.name));
+        const ranked = rankPlaces({
+          places: byPopular.map((l) => ({ ...l, _src: l })),
+          uid: user.uid,
+          profile: myProfile,
+          myReviews,
+          origin: coords ? { lat: coords.lat, lng: coords.lng } : null,
+          models: maprModels,
+          scoreOf: (p) => score.get(p._src) || 0,
+        }).ranked;
+        return ranked.map((p) => p._src);
+      }
       // Places that fit your taste first, then neutral ones, then categories
       // you've rated down -- closest first within each group. Without a
       // location yet, fall back to the strongest match first.
@@ -460,6 +497,9 @@ export default function LandmarkSelection() {
     );
   }, [
     myProfile,
+    myReviews,
+    maprModels,
+    user?.uid,
     trip.savedInterests,
     cityFilter,
     activeCategories,

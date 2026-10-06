@@ -4,6 +4,8 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
 import { withCors } from './_lib/cors.js';
+import { chatRanking, CHAT_NEAR_KM } from './_lib/maprChatRanking.js';
+import { loadServerModels } from './_lib/maprServerModels.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { factsField } from './_lib/placeFacts.js';
 import { asksForDirections, directionsTarget, placesNamedIn } from '../src/lib/placeMatch.js';
@@ -234,7 +236,8 @@ async function handler(req, res) {
     return;
   }
   // A tight limit -- web_search makes each call more expensive.
-  if (!(await guardAiRequest(req, res, { key: 'plan-ai', limit: 10, windowMs: 10 * 60 * 1000 }))) return;
+  const account = await guardAiRequest(req, res, { key: 'plan-ai', limit: 10, windowMs: 10 * 60 * 1000 });
+  if (!account) return;
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
@@ -433,6 +436,21 @@ async function handler(req, res) {
           .join('\n')
       : '';
 
+    // Mapr Phase 1 (api/_lib/maprChatRanking.js): Mapr's own ranked list
+    // for this traveler, the same pipeline as every other Mapr surface.
+    let ranking = null;
+    if (requestFor !== 'group') {
+      try {
+        const candidateRegions = regions.length ? uniqueRegionIds : near ? [...new Set(curated.filter((l) => Number.isFinite(l.lat) && kmBetween(near.lat, near.lng, l.lat, l.lng) <= CHAT_NEAR_KM).map((l) => l.regionId))] : [];
+        const models = candidateRegions.length ? await loadServerModels({ uid: account.uid, regions: candidateRegions }) : null;
+        ranking = chatRanking({ uid: account.uid, pool, curated, regionsChosen: regions.length > 0, near, tagScoreSummary: taste.tagScoreSummary, reviews: taste.reviews, maprContext: body.maprContext, models, requestFor });
+      } catch (e) {
+        console.warn('mapr chat ranking skipped:', e?.message || e);
+        ranking = null;
+      }
+      for (const id of ranking?.ids || []) validIds.add(id);
+    }
+
     const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({
@@ -443,6 +461,7 @@ async function handler(req, res) {
         { type: 'text', text: APP_HELP },
         { type: 'text', text: catalog, cache_control: { type: 'ephemeral' } },
         ...(profile ? [{ type: 'text', text: profile }] : []),
+        ...(ranking ? [{ type: 'text', text: ranking.text }] : []),
         ...(matching ? [{ type: 'text', text: matching }] : []),
         ...(requestFor === 'group' ? [{ type: 'text', text: GROUP_REQUEST_TEXT }] : []),
         ...(insiderMode
@@ -581,6 +600,11 @@ async function handler(req, res) {
       actions,
       rate,
       cost: costUsd,
+      // Mapr Phase 1 telemetry for stops that came from Mapr's ranked list,
+      // keyed "region/id"; the app logs it with each stop when shown.
+      ...(ranking
+        ? { ranking: Object.fromEntries(stops.filter((s) => !s.external && ranking.telemetry[`${s.region}/${s.id}`]).map((s) => [`${s.region}/${s.id}`, ranking.telemetry[`${s.region}/${s.id}`]])) }
+        : {}),
     });
   } catch (err) {
     const f = aiFailure(err, { busy: 'The AI is busy right now — try again in a moment.', failed: 'AI request failed. Please try again.' });

@@ -691,7 +691,9 @@ export function similarPlaces({ liked, pool = [], exclude = [], limit = SIMILAR_
       return true;
     })
     .slice(0, limit)
-    .map((l) => toPick(l));
+    // `similarity` is the row's own fit; Phase 1 ranking (maprRank/surfaces.js)
+    // uses it as the base score before distance, similarity and NCF.
+    .map((l) => toPick(l, { similarity: score(l) }));
 }
 
 // ---- Mood ask --------------------------------------------------------------
@@ -718,7 +720,11 @@ export const TEST_MOODS = [
 ];
 // Where the Test tab's picks start, until someone taps a distance chip.
 export const TEST_DEFAULT_DISTANCE_MI = 5;
+// 'foryou' (the default) is Mapr's ranking (maprRank/surfaces.js rankPlaces):
+// taste, distance, similar places and the model. moodPlaces itself returns
+// closest-first for it; the caller re-ranks.
 export const MOOD_SORTS = [
+  { id: 'foryou', label: 'For you' },
   { id: 'closest', label: 'Closest' },
   { id: 'rated', label: 'Highest rated' },
 ];
@@ -752,15 +758,17 @@ export function mealPicks({ pool = [], ratings = {}, limit = MEAL_LIMIT }) {
   return moodPlaces({ moodId: 'eat', pool, sort: 'rated', ratings, limit });
 }
 
-// The closest place (within NEARBY_INTEREST_MI) in one of the user's
-// top-scoring categories. usual is rankNearbyCandidates().usual.
+// The best place (within NEARBY_INTEREST_MI) in one of the user's
+// top-scoring categories. usual is rankNearbyCandidates().usual, already in
+// Mapr's order (finalScore); without scores, the closest wins.
 export function nearbyInterest({ usual = [], maxMiles = NEARBY_INTEREST_MI }) {
   const max = maxMiles * METERS_PER_MILE;
   const topCats = new Set(usual.slice(0, 8).map((p) => primaryCategory(p.categories)).filter(Boolean));
+  const score = (p) => (Number.isFinite(p.finalScore) ? p.finalScore : -Infinity);
   return (
     usual
       .filter((p) => p.distanceMeters <= max && topCats.has(primaryCategory(p.categories)))
-      .sort((a, b) => a.distanceMeters - b.distanceMeters)[0] || null
+      .sort((a, b) => score(b) - score(a) || a.distanceMeters - b.distanceMeters)[0] || null
   );
 }
 
