@@ -4,7 +4,7 @@ import { _resetLoginLimits, SESSION_COOKIE, signSession } from '@/lib/auth';
 import { forwardJob } from '@/lib/jobs';
 import { decodeProtectedHeader, importSPKI, jwtVerify } from 'jose';
 import { createPublicKey, generateKeyPairSync } from 'node:crypto';
-import { parseServiceAccount } from '@/lib/firebaseAdmin';
+import { deadKeyProblem, keyFromEnv, parseServiceAccount } from '@/lib/firebaseAdmin';
 
 const PASSWORD = 'p'.repeat(32);
 beforeEach(() => {
@@ -38,6 +38,7 @@ describe('POST /api/auth/login', () => {
 describe('POST /api/firebase-token', () => {
   it('needs a session, then returns a JWT token', async () => {
     process.env.FIRESTORE_ADMIN_KEY = JSON.stringify(TEST_ACCOUNT);
+    vi.stubGlobal('fetch', async () => new Response(JSON.stringify({ kid1: 'cert' }), { status: 200 }));
     const { POST } = await import('@/app/api/firebase-token/route');
     expect((await POST(req('/api/firebase-token'))).status).toBe(401);
     const res = await POST(req('/api/firebase-token', undefined, await signSession()));
@@ -46,13 +47,14 @@ describe('POST /api/firebase-token', () => {
     expect(body.token).toBeDefined();
     expect(typeof body.token).toBe('string');
     expect(body.token.split('.').length).toBe(3);
+    vi.unstubAllGlobals();
   });
   it('answers 503 and names the missing env var when no key is configured', async () => {
     delete process.env.FIRESTORE_ADMIN_KEY;
     const { POST } = await import('@/app/api/firebase-token/route');
     const res = await POST(req('/api/firebase-token', undefined, await signSession()));
     expect(res.status).toBe(503);
-    expect((await res.json()).error).toContain('FIRESTORE_ADMIN_KEY is not set');
+    expect((await res.json()).error).toContain('No service-account key found');
   });
 });
 
@@ -94,8 +96,8 @@ describe('service account key', () => {
     const json = JSON.stringify(TEST_ACCOUNT);
     expect(parseServiceAccount(json).project_id).toBe('landmark-hunters-284ab');
     expect(parseServiceAccount(Buffer.from(json).toString('base64')).client_email).toBe(TEST_ACCOUNT.client_email);
-    expect(() => parseServiceAccount('')).toThrow(/FIRESTORE_ADMIN_KEY is not set/);
-    expect(() => parseServiceAccount(JSON.stringify({ a: 1 }))).toThrow(/not a service-account key/);
+    expect(() => parseServiceAccount('')).toThrow(/No service-account key found/);
+    expect(() => parseServiceAccount(JSON.stringify({ a: 1 }))).toThrow(/missing client_email or private_key/);
   });
 });
 
@@ -110,5 +112,20 @@ describe('mintDashboardToken (no firebase-admin)', () => {
     expect(payload.claims).toEqual({ dashboardAdmin: true });
     expect(payload.exp! - payload.iat!).toBeLessThanOrEqual(3600);
     expect(decodeProtectedHeader(token)).toMatchObject({ alg: 'RS256', kid: 'kid1' });
+  });
+});
+
+describe('key lookup and revoked-key detection', () => {
+  it('finds the key under the alternate variable names', () => {
+    expect(keyFromEnv({ FIREBASE_ADMIN_KEY: '{"a":1}' })).toBe('{"a":1}');
+    expect(keyFromEnv({ FIREBASE_SERVICE_ACCOUNT: 'x' })).toBe('x');
+    expect(keyFromEnv({})).toBe('');
+  });
+  it('flags a key whose id Google no longer publishes, and passes a live one', async () => {
+    const live = (async () => new Response(JSON.stringify({ kid1: 'cert' }), { status: 200 })) as never;
+    expect(await deadKeyProblem(TEST_ACCOUNT, live)).toBeNull();
+    const gone = (async () => new Response(JSON.stringify({ other: 'cert' }), { status: 200 })) as never;
+    expect(await deadKeyProblem(TEST_ACCOUNT, gone)).toMatch(/deleted or revoked/);
+    expect(await deadKeyProblem(TEST_ACCOUNT, (async () => { throw new Error('offline'); }) as never)).toBeNull();
   });
 });

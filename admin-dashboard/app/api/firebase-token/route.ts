@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { SESSION_COOKIE, verifySession } from '@/lib/auth';
-import { mintDashboardToken } from '@/lib/firebaseAdmin';
+import { deadKeyProblem, mintDashboardToken, parseServiceAccount } from '@/lib/firebaseAdmin';
 
 // Signed-in dashboard only (proxy.ts checks too): a Firebase custom token
 // carrying dashboardAdmin: true, the only identity firestore.rules lets read
@@ -8,8 +8,11 @@ import { mintDashboardToken } from '@/lib/firebaseAdmin';
 export async function POST(req: NextRequest) {
   if (!(await verifySession(req.cookies.get(SESSION_COOKIE)?.value))) return NextResponse.json({ error: 'Sign in first.' }, { status: 401 });
   try {
+    const account = parseServiceAccount();
+    const dead = await deadKeyProblem(account);
+    if (dead) throw new Error(dead);
     // Timeout after 5 seconds to prevent hanging
-    const tokenPromise = mintDashboardToken();
+    const tokenPromise = mintDashboardToken(account);
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('Firebase token creation timed out (5s)')), 5000)
     );
