@@ -19,6 +19,7 @@ parentPort.on('message', async (job) => {
       evalUsers: job.evalUsers,
       exportDir: job.exportDir,
       onEpoch: (row) => parentPort.postMessage({ type: 'epoch', row }),
+      onLab: job.lab ? (lab) => lab && parentPort.postMessage({ type: 'lab', lab }) : null,
       log: (text) => parentPort.postMessage({ type: 'log', text }),
     });
     parentPort.postMessage({ type: 'done', result });

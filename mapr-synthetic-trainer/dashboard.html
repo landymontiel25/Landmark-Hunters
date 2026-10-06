@@ -89,6 +89,85 @@
   .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; background: var(--accent-bg); font-size: 12px; }
   .status { color: var(--text-secondary); font-size: 12px; }
   @media (max-width: 600px) { header, main, nav { padding-left: 16px; padding-right: 16px; } .grid { grid-template-columns: 1fr; } }
+  /* ---- Testing lab ---- */
+  .lab-intro { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; color: var(--text-secondary); }
+  .lab-intro b { color: var(--text-primary); }
+  .batchbar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 6px; }
+  .bseg { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
+  .bseg .t { font-size: 12px; color: var(--text-secondary); display: flex; justify-content: space-between; }
+  .bseg .ticks { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin-top: 6px; }
+  .bseg .ticks i { height: 8px; border-radius: 3px; background: var(--grid); transition: background .4s; }
+  .bseg .ticks i.run { background: var(--series-4); animation: pulse 1s ease-in-out infinite; }
+  .bseg .ticks i.done { background: var(--series-3); }
+  .bseg.active { border-color: var(--series-1); box-shadow: 0 0 0 2px var(--accent-bg); }
+  #lab-now { font-size: 12px; color: var(--text-secondary); margin: 0 0 14px; min-height: 18px; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .lab-top { display: grid; gap: 16px; grid-template-columns: minmax(300px, 1.1fr) minmax(280px, 1fr); margin-bottom: 16px; }
+  @media (max-width: 760px) { .lab-top { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .batchbar { grid-template-columns: 1fr; } }
+  .gauge-card { text-align: center; }
+  .gauge-card svg { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto; }
+  #needle { transform-origin: 200px 200px; transition: transform 1.1s cubic-bezier(.34, 1.56, .64, 1); }
+  .gauge-val { font-size: 44px; font-weight: 750; font-variant-numeric: tabular-nums; line-height: 1; margin-top: -8px; }
+  .gauge-sub { color: var(--text-secondary); font-size: 12px; margin-top: 6px; }
+  .zone-label { font-size: 11px; fill: var(--text-muted); }
+  .lb { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 500px) { .lb { grid-template-columns: 1fr; } }
+  .lb h3 { font-size: 12px; margin: 0 0 6px; color: var(--text-secondary); }
+  .lb ol { list-style: none; margin: 0; padding: 0; }
+  .lb li { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 12px; margin-bottom: 7px; animation: slidein .4s ease; }
+  .lb li .barbg { grid-column: 1 / -1; height: 6px; background: var(--grid); border-radius: 3px; overflow: hidden; }
+  .lb li .barbg div { height: 100%; border-radius: 3px; transition: width .6s; }
+  .lb .best .barbg div { background: var(--good); }
+  .lb .worst .barbg div { background: var(--critical); }
+  @keyframes slidein { from { opacity: 0; transform: translateX(-8px); } }
+  .desks { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); margin-bottom: 16px; }
+  .desk { position: relative; background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 10px 12px 12px; overflow: hidden; min-height: 196px; }
+  .desk .scene { height: 62px; display: flex; align-items: flex-end; gap: 10px; }
+  .desk .scene svg { width: 74px; height: 62px; flex: none; }
+  .desk .scene > div { padding-right: 40px; min-width: 0; }
+  .desk .who { font-size: 13px; font-weight: 650; line-height: 1.2; }
+  .desk .arch { font-size: 11px; color: var(--text-muted); }
+  .desk .q { font-size: 12px; margin-top: 8px; color: var(--text-secondary); }
+  .desk .pick { font-weight: 650; color: var(--text-primary); }
+  .desk .stars { font-size: 15px; letter-spacing: 1px; color: var(--series-4); min-height: 20px; }
+  .desk .stars .off { color: var(--grid); }
+  .desk .vs { font-size: 11px; color: var(--text-muted); }
+  .desk .stamp { position: absolute; right: 10px; top: 8px; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; font-weight: 800; color: #fff; transform: scale(0); }
+  .desk .stamp.show { animation: stamp .45s cubic-bezier(.34, 1.56, .64, 1) forwards; }
+  .desk .stamp.ok { background: var(--good); }
+  .desk .stamp.bad { background: var(--critical); }
+  .desk.flash-ok { animation: glow-ok .9s ease; }
+  .desk.flash-bad { animation: glow-bad .9s ease; }
+  @keyframes stamp { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1) rotate(0); } }
+  @keyframes glow-ok { 30% { box-shadow: 0 0 0 3px var(--good); } }
+  @keyframes glow-bad { 30% { box-shadow: 0 0 0 3px var(--critical); } }
+  .desk .tally { position: absolute; right: 12px; bottom: 8px; font-size: 11px; color: var(--text-muted); }
+  .worker .head { animation: bob 1.6s ease-in-out infinite; transform-origin: 30px 26px; }
+  .worker .arm { animation: type .35s ease-in-out infinite alternate; }
+  .worker .arm.r { animation-delay: .17s; }
+  .worker .screen { animation: screen 2.2s linear infinite; }
+  .desk.thinking .worker .dots { opacity: 1; }
+  .worker .dots { opacity: 0; transition: opacity .3s; }
+  .worker .dots circle { animation: dot 1s infinite; }
+  .worker .dots circle:nth-child(2) { animation-delay: .2s; }
+  .worker .dots circle:nth-child(3) { animation-delay: .4s; }
+  @keyframes bob { 50% { transform: translateY(-2px) rotate(-3deg); } }
+  @keyframes type { to { transform: translateY(-3px); } }
+  @keyframes screen { 50% { opacity: .55; } }
+  @keyframes dot { 50% { transform: translateY(-3px); opacity: .4; } }
+  .ticker { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; white-space: nowrap; padding: 8px 0; font-size: 13px; }
+  .ticker .track { display: inline-block; padding-left: 100%; animation: tick 40s linear infinite; }
+  .ticker .track span { margin-right: 40px; }
+  .ticker .track span::before { content: "●"; color: var(--series-1); margin-right: 8px; font-size: 10px; }
+  @keyframes tick { to { transform: translateX(-100%); } }
+  .lab-count { display: flex; gap: 16px; justify-content: center; font-size: 13px; margin-top: 10px; color: var(--text-secondary); }
+  .lab-count b { font-size: 18px; color: var(--text-primary); }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+  .banner { position: fixed; left: 50%; top: 22%; transform: translate(-50%, -50%) scale(0); background: var(--surface-1); border: 2px solid var(--series-3); border-radius: 16px; padding: 18px 26px; font-size: 22px; font-weight: 750; z-index: 51; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.25); transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
+  .banner.show { transform: translate(-50%, -50%) scale(1); }
+  .banner small { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-top: 4px; }
+  @media (prefers-reduced-motion: reduce) { .worker *, .ticker .track, .bseg .ticks i.run { animation: none !important; } #needle { transition: none; } }
 </style>
 </head>
 <body>
@@ -98,7 +177,37 @@
 </header>
 <nav role="tablist" id="tabs"></nav>
 <main>
-  <section id="page-gen">
+  <section id="page-lab">
+    <div class="lab-intro"><b>What you're watching:</b> Mapr is learning from 10,000 made-up travelers. Each one rated 50 real places. Mapr studies 35 of those ratings, then gets quizzed on places it hasn't seen: <b>"This traveler loved one of these two and not the other. Which one should we suggest?"</b> ✓ means Mapr suggested the place they rated higher; ✗ means it got it backwards. Every desk shows a real question from the model training right now.</div>
+    <div class="batchbar" id="lab-batches"></div>
+    <p id="lab-now">Waiting for training to start…</p>
+    <div class="lab-top">
+      <div class="card gauge-card">
+        <h2>How often Mapr guesses right</h2>
+        <p class="note">All quiz questions on the desks right now, averaged over the simulations in training. A coin flip gets 50%.</p>
+        <svg viewBox="0 0 400 230" role="img" aria-label="Accuracy meter">
+          <path id="z-red" fill="none" stroke-width="30"></path>
+          <path id="z-yellow" fill="none" stroke-width="30"></path>
+          <path id="z-green" fill="none" stroke-width="30"></path>
+          <g id="gauge-ticks"></g>
+          <g id="needle"><path d="M200 200 L196 196 L200 52 L204 196 Z" fill="var(--text-primary)"></path></g>
+          <circle cx="200" cy="200" r="11" fill="var(--text-primary)"></circle>
+          <circle cx="200" cy="200" r="4" fill="var(--surface-1)"></circle>
+        </svg>
+        <div class="gauge-val" id="gauge-val">–</div>
+        <div class="gauge-sub" id="gauge-sub">&nbsp;</div>
+        <div class="lab-count"><span>✓ right <b id="cnt-ok">0</b></span><span>✗ wrong <b id="cnt-bad">0</b></span><span>shown on desks</span></div>
+      </div>
+      <div class="card">
+        <h2>Who Mapr understands</h2>
+        <p class="note" id="lb-note">Traveler types, from the finished simulations of the latest batch (held-out test, full Mapr blend).</p>
+        <div class="lb"><div><h3>Best understood</h3><ol class="best" id="lb-best"><li style="grid-template-columns:1fr">Waiting for the first simulation to finish…</li></ol></div><div><h3>Hardest to read</h3><ol class="worst" id="lb-worst"></ol></div></div>
+      </div>
+    </div>
+    <div class="desks" id="desks"></div>
+    <div class="ticker" aria-live="off"><div class="track" id="ticker">Getting the lab ready…</div></div>
+  </section>
+  <section id="page-gen" hidden>
     <div class="tiles">
       <div class="tile"><div class="k">Synthetic users</div><div class="v" id="g-users">0</div><div class="bar"><div id="g-ubar"></div></div><div class="s" id="g-users-s"></div></div>
       <div class="tile"><div class="k">Simulated interactions</div><div class="v" id="g-int">0</div><div class="bar"><div id="g-ibar"></div></div><div class="s" id="g-int-s"></div></div>
@@ -139,7 +248,7 @@ const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v
 const fmt = (x, d = 1) => (x == null || !isFinite(x) ? '–' : (x * 100).toFixed(d) + '%');
 const n0 = (x) => (x == null ? '–' : Number(x).toLocaleString());
 const BATCHES = ['A', 'B', 'C'];
-const PAGES = [['gen', 'Generation'], ['A', 'Batch A'], ['B', 'Batch B'], ['C', 'Batch C'], ['curve', 'Learning curve'], ['health', 'Model health']];
+const PAGES = [['lab', 'Testing lab'], ['gen', 'Generation'], ['A', 'Batch A'], ['B', 'Batch B'], ['C', 'Batch C'], ['curve', 'Learning curve'], ['health', 'Model health']];
 const SERIES = { ncf: ['NCF alone', '--series-1'], mapr: ['Full Mapr blend', '--series-2'], tag_sim: ['Tag + similarity', '--series-3'], popularity: ['Popularity', '--series-4'], oracle: ['True-taste ceiling', '--series-5'] };
 
 // ---- tabs ----
@@ -163,7 +272,7 @@ function show(id) {
 for (const b of BATCHES) {
   document.getElementById('page-' + b).innerHTML = `
     <div class="tiles">
-      <div class="tile"><div class="k">Monte Carlo simulations</div><div class="v" id="${b}-done">0 / 10</div><div class="bar"><div id="${b}-bar"></div></div><div class="s" id="${b}-users"></div></div>
+      <div class="tile"><div class="k">Monte Carlo simulations</div><div class="v" id="${b}-done">0</div><div class="bar"><div id="${b}-bar"></div></div><div class="s" id="${b}-users"></div></div>
       <div class="tile"><div class="k">NCF held-out accuracy</div><div class="v" id="${b}-ncf">–</div><div class="s">mean ± sd so far</div></div>
       <div class="tile"><div class="k">Full Mapr blend</div><div class="v" id="${b}-mapr">–</div><div class="s">0.4 × base + 0.6 × NCF</div></div>
       <div class="tile"><div class="k">Tag score + similarity</div><div class="v" id="${b}-tag">–</div><div class="s">Weeks 1–2, no NCF</div></div>
@@ -241,10 +350,12 @@ function log(id, text) {
   el.scrollTop = el.scrollHeight;
 }
 let dirty = new Set();
+let replaying = false;
 function handle(e) {
+  window.labHandle?.(e, replaying);
   switch (e.type) {
     case 'reset': location.reload(); break;
-    case 'phase': if (e.phase === 'generation') log('gen', `Run started ${new Date(e.at).toLocaleString()} · ${e.config.sims} simulations · batches ${e.config.batches.map((b) => b.name + '=' + b.users).join(', ')}`); break;
+    case 'phase': if (e.phase === 'generation') state.sims = e.config.sims; if (e.phase === 'generation') log('gen', `Run started ${new Date(e.at).toLocaleString()} · ${e.config.sims} simulations · batches ${e.config.batches.map((b) => b.name + '=' + b.users).join(', ')}`); break;
     case 'generation': state.genProgress = e; dirty.add('gen'); if (e.users % 1000 === 0) log('gen', `Generated ${e.archetype} #${e.users}, ${n0(e.interactions)} interactions so far`); break;
     case 'generation-write': state.genWrite = e; dirty.add('gen'); break;
     case 'emulator-write': state.emu = e; dirty.add('gen'); break;
@@ -261,7 +372,7 @@ function handle(e) {
       const r = e.result.rankers;
       log(e.job.batch, `MC Simulation ${e.job.sim}: NCF ${fmt(r.ncf.accuracy)}, Mapr blend ${fmt(r.mapr.accuracy)}, tag+similarity ${fmt(r.tag_sim.accuracy)} (stopped at epoch ${e.result.ncf.epochs_run}, ${e.result.ncf.stopped_by})`);
       const done = Object.values(state.jobs).filter((x) => x.batch === e.job.batch && x.status === 'done');
-      if (done.length === 10) { const s = stats(done.map((x) => x.result.rankers.ncf.accuracy)); log(e.job.batch, `BATCH ${e.job.batch} COMPLETE: NCF ${fmt(s.mean)} ± ${fmt(s.sd)}`); }
+      if (done.length === (state.sims || 10)) { const s = stats(done.map((x) => x.result.rankers.ncf.accuracy)); log(e.job.batch, `BATCH ${e.job.batch} COMPLETE: NCF ${fmt(s.mean)} ± ${fmt(s.sd)}`); }
       break;
     }
     case 'job-error': log(e.job.batch, 'ERROR ' + e.error); break;
@@ -301,9 +412,10 @@ function renderBatch(b) {
   const js = Object.values(state.jobs).filter((j) => j.batch === b).sort((x, y) => x.sim - y.sim);
   if (!js.length) return;
   const done = js.filter((j) => j.status === 'done');
-  document.getElementById(`${b}-done`).textContent = `${done.length} / 10`;
-  document.getElementById(`${b}-bar`).style.width = done.length * 10 + '%';
-  document.getElementById(`${b}-users`).textContent = `${n0(js[0].users)} users · ${js.filter((j) => j.status === 'running').map((j) => 'sim ' + j.sim + ' training').join(', ') || (done.length === 10 ? 'complete' : 'queued')}`;
+  const sims = state.sims || 10;
+  document.getElementById(`${b}-done`).textContent = `${done.length} / ${sims}`;
+  document.getElementById(`${b}-bar`).style.width = (100 * done.length) / sims + '%';
+  document.getElementById(`${b}-users`).textContent = `${n0(js[0].users)} users · ${js.filter((j) => j.status === 'running').map((j) => 'sim ' + j.sim + ' training').join(', ') || (done.length === sims ? 'complete' : 'queued')}`;
   const pick = (k) => stats(done.map((j) => j.result.rankers[k]?.accuracy));
   document.getElementById(`${b}-ncf`).innerHTML = pm(pick('ncf'));
   document.getElementById(`${b}-mapr`).innerHTML = pm(pick('mapr'));
@@ -315,7 +427,7 @@ function renderBatch(b) {
   mc.data.labels = done.map((j) => 'sim ' + j.sim);
   mc.data.datasets.forEach((ds) => (ds.data = done.map((j) => j.result.rankers[ds.key]?.accuracy)));
   mc.update();
-  document.getElementById('dot-' + b).className = 'dot ' + (done.length === 10 ? 'done' : 'run');
+  document.getElementById('dot-' + b).className = 'dot ' + (done.length === sims ? 'done' : 'run');
 }
 
 function renderSummary() {
@@ -381,12 +493,212 @@ function connect() {
   ws.onclose = () => { conn.textContent = 'disconnected, retrying…'; setTimeout(() => location.reload(), 3000); };
   ws.onmessage = (m) => {
     const e = JSON.parse(m.data);
-    if (e.type === 'replay') { e.events.forEach(handle); dirty = new Set(['gen', ...BATCHES, 'summary']); render(); const last = [...e.events].reverse().find((x) => x.type === 'job-start'); let tab = 'gen'; try { tab = localStorage.getItem('mapr-tab') || tab; } catch {} show(state.summary && tab === 'gen' ? 'curve' : last && tab === 'gen' ? last.job.batch : tab); }
+    if (e.type === 'replay') { replaying = true; e.events.forEach(handle); replaying = false; window.labAfterReplay?.(); dirty = new Set(['gen', ...BATCHES, 'summary']); render(); let tab = 'lab'; try { tab = localStorage.getItem('mapr-tab') || tab; } catch {} show(tab); }
     else handle(e);
   };
 }
-show('gen');
+show('lab');
 connect();
+</script>
+<script>
+// ---- Testing lab ----------------------------------------------------------
+(() => {
+  const G = { min: 0.4, max: 1.0 };
+  const ZONES = [['z-red', 0.4, 0.6, '--critical'], ['z-yellow', 0.6, 0.75, '--series-4'], ['z-green', 0.75, 1.0, '--good']];
+  const ang = (v) => Math.PI * (1 - (Math.min(G.max, Math.max(G.min, v)) - G.min) / (G.max - G.min)); // radians, pi = left
+  const pt = (a, r) => [200 + r * Math.cos(a), 200 - r * Math.sin(a)];
+  for (const [id, a, b, color] of ZONES) {
+    const [x1, y1] = pt(ang(a), 150); const [x2, y2] = pt(ang(b), 150);
+    const el = document.getElementById(id);
+    el.setAttribute('d', `M${x1} ${y1} A150 150 0 0 1 ${x2} ${y2}`);
+    el.setAttribute('stroke', `var(${color})`);
+  }
+  const ticks = document.getElementById('gauge-ticks');
+  for (let v = 0.4; v <= 1.0001; v += 0.1) {
+    const [x1, y1] = pt(ang(v), 128); const [x2, y2] = pt(ang(v), 118); const [tx, ty] = pt(ang(v), 103);
+    ticks.insertAdjacentHTML('beforeend', `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--text-muted)" stroke-width="2"/><text x="${tx}" y="${ty + 4}" text-anchor="middle" class="zone-label">${Math.round(v * 100)}%</text>`);
+  }
+
+  // desks
+  const N_DESKS = 10;
+  const deskEl = document.getElementById('desks');
+  const workerSvg = (k) => `<svg class="worker" viewBox="0 0 74 62" aria-hidden="true">
+    <rect x="0" y="50" width="74" height="6" rx="2" fill="var(--border)"/>
+    <rect x="44" y="30" width="26" height="18" rx="2" fill="var(--text-secondary)"/><rect class="screen" x="46" y="32" width="22" height="13" rx="1" fill="var(--accent-bg)"/>
+    <rect x="52" y="48" width="10" height="2" fill="var(--text-secondary)"/>
+    <path d="M16 50 Q16 34 30 34 Q44 34 44 50 Z" fill="var(${['--series-1', '--series-2', '--series-3', '--series-5', '--series-4'][k % 5]})"/>
+    <g class="head"><circle cx="30" cy="24" r="9" fill="#f2c9a0"/><path d="M21 22 Q22 13 30 14 Q39 14 39 22 Q34 18 21 22Z" fill="#4a3a2a"/></g>
+    <rect class="arm" x="36" y="40" width="12" height="4" rx="2" fill="#f2c9a0"/><rect class="arm r" x="34" y="43" width="12" height="4" rx="2" fill="#f2c9a0"/>
+    <g class="dots" fill="var(--text-muted)"><circle cx="50" cy="12" r="2.2"/><circle cx="57" cy="12" r="2.2"/><circle cx="64" cy="12" r="2.2"/></g></svg>`;
+  const desks = Array.from({ length: N_DESKS }, (_, k) => {
+    const el = document.createElement('div');
+    el.className = 'desk thinking';
+    el.innerHTML = `<div class="scene">${workerSvg(k)}<div><div class="who">Desk ${k + 1}</div><div class="arch">waiting for a traveler…</div></div></div><div class="q"></div><div class="stars"></div><div class="vs"></div><div class="stamp"></div><div class="tally"></div>`;
+    deskEl.appendChild(el);
+    return { el, ok: 0, bad: 0 };
+  });
+  const CITY = { miami: 'Miami', philly: 'Philly', 'san-francisco': 'San Francisco', 'silicon-valley': 'Silicon Valley', nyc: 'NYC', madrid: 'Madrid', milan: 'Milan' };
+  const starStr = (n) => (n ? '★'.repeat(n) + `<span class="off">${'★'.repeat(5 - n)}</span>` : '<span style="color:var(--text-muted);font-size:12px;letter-spacing:0">skipped it</span>');
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  let queue = [];
+  let shownOk = 0, shownBad = 0;
+  function seat(d, c) {
+    const picked = c.picked === 'liked' ? c.liked : c.other;
+    const skipped = c.picked === 'liked' ? c.other : c.liked;
+    d.el.className = 'desk thinking';
+    d.el.querySelector('.who').textContent = c.user;
+    d.el.querySelector('.arch').textContent = `${c.archetype} · ${CITY[c.city] || c.city}`;
+    d.el.querySelector('.q').innerHTML = `Mapr suggests <span class="pick">${esc(picked.name)}</span>`;
+    d.el.querySelector('.stars').innerHTML = '';
+    d.el.querySelector('.vs').textContent = '';
+    const stamp = d.el.querySelector('.stamp');
+    stamp.className = 'stamp';
+    setTimeout(() => {
+      d.el.classList.remove('thinking');
+      d.el.querySelector('.stars').innerHTML = `${starStr(picked.stars)}${picked.love ? ' <span title="loved it">❤️</span>' : ''}`;
+      d.el.querySelector('.vs').textContent = `instead of ${skipped.name} (${skipped.stars ? skipped.stars + '★' : 'skipped'})`;
+      stamp.textContent = c.correct ? '✓' : '✗';
+      stamp.className = `stamp show ${c.correct ? 'ok' : 'bad'}`;
+      d.el.classList.add(c.correct ? 'flash-ok' : 'flash-bad');
+      if (c.correct) { d.ok++; shownOk++; } else { d.bad++; shownBad++; }
+      d.el.querySelector('.tally').textContent = `${d.ok} ✓ · ${d.bad} ✗`;
+      document.getElementById('cnt-ok').textContent = shownOk.toLocaleString();
+      document.getElementById('cnt-bad').textContent = shownBad.toLocaleString();
+    }, 1100);
+  }
+  let deskTurn = 0;
+  let lastCards = [];
+  setInterval(() => {
+    // Between snapshots (and after the run), desks replay the latest real questions.
+    if (!queue.length && lastCards.length) queue = lastCards.slice();
+    if (!queue.length) return;
+    seat(desks[deskTurn % N_DESKS], queue.shift());
+    deskTurn++;
+  }, 650);
+
+  // gauge + state from events
+  const latestLab = new Map(); // job id -> snapshot
+  const jobs = new Map(); // id -> { batch, sim, status, epoch }
+  let currentBatch = null;
+  const doneByBatch = { A: [], B: [], C: [] };
+  const sizes = { A: 1000, B: 5000, C: 10000 };
+  let nSims = 10;
+  let tickerItems = [];
+  const fmtp = (x) => (x == null ? '–' : (x * 100).toFixed(1) + '%');
+  function setGauge() {
+    const snaps = [...latestLab.entries()].filter(([id]) => jobs.get(id)?.batch === currentBatch && jobs.get(id)?.status === 'running').map(([, s]) => s);
+    const use = snaps.length ? snaps : [...latestLab.values()].filter((s) => s.batch === currentBatch);
+    if (!use.length) return;
+    const m = use.reduce((a, s) => a + s.mapr_accuracy, 0) / use.length;
+    const n = use.reduce((a, s) => a + s.ncf_accuracy, 0) / use.length;
+    document.getElementById('needle').style.transform = `rotate(${90 - (ang(m) * 180) / Math.PI}deg)`;
+    const v = document.getElementById('gauge-val');
+    v.textContent = fmtp(m);
+    v.style.color = m >= 0.75 ? 'var(--good)' : m >= 0.6 ? 'var(--series-4)' : 'var(--critical)';
+    const ep = use.map((s) => s.epoch);
+    document.getElementById('gauge-sub').textContent = `Batch ${currentBatch} · ${use.length} simulation${use.length > 1 ? 's' : ''} at epoch ${Math.min(...ep)}–${Math.max(...ep)} · NCF part alone: ${fmtp(n)}`;
+  }
+  function renderBatches() {
+    document.getElementById('lab-batches').innerHTML = ['A', 'B', 'C'].map((b) => {
+      const js = [...jobs.values()].filter((j) => j.batch === b);
+      const ticks = Array.from({ length: nSims }, (_, k) => { const j = js.find((x) => x.sim === k + 1); return `<i class="${j ? (j.status === 'done' ? 'done' : 'run') : ''}"></i>`; }).join('');
+      return `<div class="bseg ${b === currentBatch ? 'active' : ''}"><div class="t"><b>Batch ${b}</b><span>${sizes[b].toLocaleString()} travelers · ${js.filter((j) => j.status === 'done').length}/${nSims}</span></div><div class="ticks" style="grid-template-columns:repeat(${nSims},1fr)">${ticks}</div></div>`;
+    }).join('');
+    const running = [...jobs.values()].filter((j) => j.status === 'running');
+    document.getElementById('lab-now').textContent = running.length ? `Now training: ${running.map((j) => `Batch ${j.batch} sim ${j.sim} (study round ${j.epoch || 0} of 50)`).join(' · ')}` : currentBatch ? 'Between runs…' : 'Waiting for training to start…';
+  }
+  function renderLeaderboard() {
+    const b = ['C', 'B', 'A'].find((x) => doneByBatch[x].length);
+    if (!b) return;
+    const pooled = new Map();
+    for (const r of doneByBatch[b]) for (const [name, a] of Object.entries(r.archetypes)) {
+      if (!a.mapr) continue;
+      const e = pooled.get(name) || { right: 0, pairs: 0 };
+      e.right += a.mapr.accuracy * a.mapr.pairs; e.pairs += a.mapr.pairs; pooled.set(name, e);
+    }
+    const rows = [...pooled].filter(([, e]) => e.pairs >= 40).map(([name, e]) => ({ name, acc: e.right / e.pairs, pairs: e.pairs })).sort((x, y) => y.acc - x.acc);
+    const li = (r) => `<li><span>${esc(r.name)}</span><b>${fmtp(r.acc)}</b><div class="barbg"><div style="width:${Math.max(0, (r.acc - 0.4) / 0.6) * 100}%"></div></div></li>`;
+    document.getElementById('lb-best').innerHTML = rows.slice(0, 5).map(li).join('');
+    document.getElementById('lb-worst').innerHTML = rows.slice(-5).reverse().map(li).join('');
+    document.getElementById('lb-note').textContent = `Traveler types in Batch ${b}, from ${doneByBatch[b].length} finished simulation${doneByBatch[b].length > 1 ? 's' : ''} (held-out test, full Mapr blend, at least 40 quiz questions each).`;
+  }
+  function ticker(text) {
+    tickerItems.push(text);
+    tickerItems = tickerItems.slice(-8);
+  }
+  setInterval(() => {
+    const el = document.getElementById('ticker');
+    const html = tickerItems.map((t) => `<span>${esc(t)}</span>`).join('');
+    if (html && el.dataset.html !== html) { el.dataset.html = html; el.innerHTML = html; }
+  }, 4000);
+
+  // confetti
+  const canvas = document.createElement('canvas'); canvas.id = 'confetti'; document.body.appendChild(canvas);
+  const banner = document.createElement('div'); banner.className = 'banner'; document.body.appendChild(banner);
+  function confetti(title, sub) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    banner.innerHTML = `${esc(title)}<small>${esc(sub)}</small>`; banner.classList.add('show');
+    setTimeout(() => banner.classList.remove('show'), 3800);
+    const ctx = canvas.getContext('2d'); canvas.width = innerWidth; canvas.height = innerHeight;
+    const colors = ['--series-1', '--series-2', '--series-3', '--series-4', '--series-5'].map((v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+    const parts = Array.from({ length: 180 }, () => ({ x: innerWidth / 2 + (Math.random() - 0.5) * 200, y: innerHeight * 0.25, vx: (Math.random() - 0.5) * 14, vy: -Math.random() * 12 - 4, r: Math.random() * 6 + 4, c: colors[Math.floor(Math.random() * colors.length)], a: Math.random() * 6, s: (Math.random() - 0.5) * 0.3 }));
+    const t0 = performance.now();
+    (function frame(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of parts) { p.vy += 0.35; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.s; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); ctx.restore(); }
+      if (t - t0 < 4000) requestAnimationFrame(frame); else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    })(t0);
+  }
+
+  window.labHandle = (e, replaying) => {
+    switch (e.type) {
+      case 'reset': latestLab.clear(); jobs.clear(); break;
+      case 'phase':
+        if (e.phase === 'generation') { nSims = e.config.sims; for (const b of e.config.batches) sizes[b.name] = b.users; }
+        if (e.phase === 'generation') ticker('Creating 10,000 made-up travelers from 111 personality types…');
+        if (e.phase === 'done' && !replaying) confetti('Training complete! 🎉', 'Every simulation finished. See the Learning curve tab.');
+        break;
+      case 'generation-done': ticker(`${e.generation.users.toLocaleString()} travelers rated ${e.generation.interactions.toLocaleString()} real places`); break;
+      case 'job-start':
+        jobs.set(e.job.id, { batch: e.job.batch, sim: e.job.sim, status: 'running', epoch: 0 });
+        currentBatch = e.job.batch;
+        ticker(`Batch ${e.job.batch}: simulation ${e.job.sim} starts with ${e.job.users.toLocaleString()} new travelers`);
+        renderBatches();
+        break;
+      case 'epoch': {
+        const j = jobs.get(e.job.id); if (j) j.epoch = e.row.epoch;
+        if (e.row.epoch % 10 === 0) ticker(`Batch ${e.job.batch} sim ${e.job.sim}: study round ${e.row.epoch}, training loss ${e.row.trainLoss.toFixed(3)}`);
+        if (!replaying) renderBatches();
+        break;
+      }
+      case 'lab':
+        latestLab.set(e.job.id, e.lab);
+        if (e.lab.batch === currentBatch) {
+          lastCards = e.lab.cards.slice();
+          if (!replaying) { queue.push(...e.lab.cards.slice(0, 4)); queue = queue.slice(-30); }
+          else queue = e.lab.cards.slice();
+          setGauge();
+        }
+        if (e.lab.epoch === 0) ticker(`Batch ${e.lab.batch} sim ${e.lab.sim}: before any NCF training, Mapr gets ${fmtp(e.lab.mapr_accuracy)} right from tag scores alone`);
+        break;
+      case 'job-done': {
+        const j = jobs.get(e.job.id); if (j) j.status = 'done';
+        doneByBatch[e.job.batch].push(e.result);
+        ticker(`Batch ${e.job.batch} sim ${e.job.sim} finished: final test ${fmtp(e.result.rankers.mapr.accuracy)} right (NCF alone ${fmtp(e.result.rankers.ncf.accuracy)})`);
+        renderBatches(); renderLeaderboard();
+        if (doneByBatch[e.job.batch].length === nSims) {
+          const accs = doneByBatch[e.job.batch].map((r) => r.rankers.mapr.accuracy);
+          const mean = accs.reduce((a, b) => a + b, 0) / accs.length;
+          ticker(`🎉 Batch ${e.job.batch} complete: Mapr ${fmtp(mean)} right on average across 10 simulations`);
+          if (!replaying) confetti(`Batch ${e.job.batch} complete! 🎉`, `${sizes[e.job.batch].toLocaleString()} travelers · Mapr right ${fmtp(mean)} of the time`);
+        }
+        break;
+      }
+    }
+  };
+  window.labAfterReplay = () => { renderBatches(); renderLeaderboard(); setGauge(); };
+  renderBatches();
+})();
 </script>
 </body>
 </html>

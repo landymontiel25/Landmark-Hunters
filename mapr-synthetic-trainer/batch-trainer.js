@@ -9,6 +9,7 @@ import { archetypeTagPriors, featureLift, tagScore, userTagProfile } from './tag
 import { MetricSum, gradedNdcg, pairwiseAccuracy, rankingMetrics } from './evaluator.js';
 import { isPositive } from './lib/dataset.js';
 import { trueMatch } from './interaction-simulator.js';
+import { LAB_USERS, buildLab, labSnapshot } from './lib/lab.js';
 
 // One training run: the first `nUsers` users of a simulated population,
 // every Mapr component trained on them, then evaluated.
@@ -39,7 +40,7 @@ export const RANKERS = {
   oracle: "True taste, no noise (ceiling: the simulator's own match score)",
 };
 
-export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}, evalUsers = EVAL_USERS, onEpoch = null, log = () => {}, exportDir = null }) {
+export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}, evalUsers = EVAL_USERS, onEpoch = null, onLab = null, log = () => {}, exportDir = null }) {
   const started = Date.now();
   const places = catalog.places;
   const numItems = places.length;
@@ -103,26 +104,11 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
   const valTriples = Int32Array.from(valList);
   log(`Batch ${batch} sim ${sim}: ${nUsers.toLocaleString()} users, ${interactions.toLocaleString()} interactions, ${(trainPos.length / 2).toLocaleString()} training positives, ${(valTriples.length / 3).toLocaleString()} validation triples`);
 
-  // ---- NCF ----------------------------------------------------------------
-  const ncf = new NCFModel(ncfConfig).init(nUsers, numItems);
-  const t0 = Date.now();
-  const training = await ncf.train({
-    positives: Int32Array.from(trainPos),
-    positivesOf: trainPositivesOf,
-    valTriples,
-    negativePool,
-    onEpoch: (row) => onEpoch?.(row),
-  });
-  const ncfMs = Date.now() - t0;
-  ncf.prepareRanking();
-
   // ---- Similarity -----------------------------------------------------------
   const sim0 = Date.now();
   const similarity = computeSimilarity(catalog, simPositives);
   const similarityMs = Date.now() - sim0;
 
-  // ---- Evaluation -----------------------------------------------------------
-  const ev0 = Date.now();
   const order = Array.from({ length: nUsers }, (_, n) => n);
   const erng = seededRandom(ds.seed * 13 + 7);
   for (let t = order.length - 1; t > 0; t--) {
@@ -130,6 +116,62 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
     [order[t], order[s]] = [order[s], order[t]];
   }
   const evalSet = order.slice(0, Math.min(evalUsers, nUsers));
+
+  // Tag score and base (tag x similarity boost) of a place for a user, from
+  // the rows Mapr knows about. Same as production rank.js minus distance.
+  const baseScorer = (known) => {
+    const profile = userTagProfile(known.map((r) => ({ place: places[ds.item[r]], rating: ds.rating[r], love: ds.love[r] === 1 })));
+    const likedByRegion = {};
+    for (const r of known) {
+      const stars = ds.love[r] || ds.rating[r] >= 4 ? LIKED_TIER_STARS : ds.rating[r] === 3 ? 3 : 1;
+      if (stars < COLLAB_LIKED_MIN_STARS) continue;
+      const p = places[ds.item[r]];
+      (likedByRegion[p.region] ||= []).push(p.id);
+    }
+    return (i) => {
+      const p = places[i];
+      const t = tagScore(profile, p);
+      const nb = similarity.regions[p.region];
+      const boost = nb ? collabBoost(nb, p.id, (likedByRegion[p.region] || []).filter((id) => id !== p.id)) : 0;
+      return { tag: t, base: t >= 0 ? t * (1 + boost) : t / (1 + boost) };
+    };
+  };
+
+  // ---- Testing lab (dashboard only) --------------------------------------
+  let lab = null;
+  if (onLab) {
+    const labUsers = evalSet.slice(0, LAB_USERS).map((n) => {
+      const rows = rowsOf(n);
+      const known = rows.slice(0, TRAIN_STEPS);
+      const val = rows.slice(TRAIN_STEPS, VAL_END);
+      const score = baseScorer(known);
+      const knownItems = new Set(known.map((r) => ds.item[r]));
+      let maxBase = 0;
+      for (const i of catalog.byArea[ds.users[n].city]) if (!knownItems.has(i)) maxBase = Math.max(maxBase, score(i).base);
+      return { n, user: ds.users[n], likedRows: val.filter((r) => isPositive(ds, r)), otherRows: val.filter((r) => !isPositive(ds, r)), baseOf: new Map(val.map((r) => [ds.item[r], score(ds.item[r]).base])), maxBase };
+    });
+    lab = buildLab({ ds, places, users: labUsers });
+  }
+
+  // ---- NCF ----------------------------------------------------------------
+  const ncf = new NCFModel(ncfConfig).init(nUsers, numItems);
+  if (lab) onLab(labSnapshot(lab, ncf, { batch, sim, epoch: 0 }));
+  const t0 = Date.now();
+  const training = await ncf.train({
+    positives: Int32Array.from(trainPos),
+    positivesOf: trainPositivesOf,
+    valTriples,
+    negativePool,
+    onEpoch: (row) => {
+      onEpoch?.(row);
+      if (lab) onLab(labSnapshot(lab, ncf, { batch, sim, epoch: row.epoch }));
+    },
+  });
+  const ncfMs = Date.now() - t0;
+  ncf.prepareRanking();
+
+  // ---- Evaluation -----------------------------------------------------------
+  const ev0 = Date.now();
   const sums = Object.fromEntries(Object.keys(RANKERS).map((k) => [k, new MetricSum()]));
   const byArchetype = new Map();
   const scoreBuf = new Float64Array(2000);
@@ -152,21 +194,10 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
     // 5 stars 3, plus 1 for a love.
     const testGain = test.map((r) => Math.max(0, ds.rating[r] - 2) + ds.love[r]);
 
-    const profile = userTagProfile(known.map((r) => ({ place: places[ds.item[r]], rating: ds.rating[r], love: ds.love[r] === 1 })));
-    const likedByRegion = {};
-    for (const r of known) {
-      const stars = ds.love[r] || ds.rating[r] >= 4 ? LIKED_TIER_STARS : ds.rating[r] === 3 ? 3 : 1;
-      if (stars < COLLAB_LIKED_MIN_STARS) continue;
-      const p = places[ds.item[r]];
-      (likedByRegion[p.region] ||= []).push(p.id);
-    }
-    const tag = cand.map((i) => tagScore(profile, places[i]));
-    const base = cand.map((i, k) => {
-      const p = places[i];
-      const nb = similarity.regions[p.region];
-      const boost = nb ? collabBoost(nb, p.id, (likedByRegion[p.region] || []).filter((id) => id !== p.id)) : 0;
-      return tag[k] >= 0 ? tag[k] * (1 + boost) : tag[k] / (1 + boost);
-    });
+    const score = baseScorer(known);
+    const scored = cand.map((i) => score(i));
+    const tag = scored.map((x) => x.tag);
+    const base = scored.map((x) => x.base);
     let ncfScores = null;
     if (userVec) {
       const buf = scoreBuf.length >= cand.length ? scoreBuf : new Float64Array(cand.length);

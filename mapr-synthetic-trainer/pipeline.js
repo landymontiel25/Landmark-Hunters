@@ -12,7 +12,9 @@ import { writeReports } from './report.js';
 // The whole run: generate -> (emulator) -> Monte Carlo training -> reports.
 // emit(event) feeds the dashboard (server.js) or the console.
 
-export const OUT_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'output');
+// MAPR_OUT_DIR moves every output file (used to try a run without
+// overwriting the last full one).
+export const OUT_DIR = process.env.MAPR_OUT_DIR ? path.resolve(process.env.MAPR_OUT_DIR) : path.join(path.dirname(fileURLToPath(import.meta.url)), 'output');
 // Every event of the current run, one JSON line each, so a dashboard started
 // later (or restarted) can replay the run and keep following it.
 export const EVENTS_FILE = path.join(OUT_DIR, 'events.jsonl');
@@ -126,7 +128,7 @@ export async function runPipeline({ quick = false, sims = SIMS, workers, epochs,
 
   // ---- 3. Monte Carlo training ---------------------------------------------
   emit({ type: 'phase', phase: 'training' });
-  const results = await runMonteCarlo({ sims: nSims, batches, workers, ncfConfig, outDir: OUT_DIR, emit });
+  const results = await runMonteCarlo({ lab: true, sims: nSims, batches, workers, ncfConfig, outDir: OUT_DIR, emit });
 
   // ---- 4. Reports ------------------------------------------------------------
   const summary = writeReports(OUT_DIR, results, { config, generation });

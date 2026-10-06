@@ -41,10 +41,10 @@ const WORKER = path.join(path.dirname(fileURLToPath(import.meta.url)), 'lib', 'm
 
 // emit(event) receives: job-start, epoch, log, job-done, job-error.
 // Resolves to { [batchName]: [result per sim] }.
-export function runMonteCarlo({ sims = SIMS, batches = BATCHES, workers = Math.max(1, Math.min(4, cpus().length)), ncfConfig = {}, evalUsers, outDir, exportFrom = { batch: 'C', sim: 1 }, emit = () => {} }) {
+export function runMonteCarlo({ lab = false, sims = SIMS, batches = BATCHES, workers = Math.max(1, Math.min(4, cpus().length)), ncfConfig = {}, evalUsers, outDir, exportFrom = { batch: 'C', sim: 1 }, emit = () => {} }) {
   const plans = simulationPlans(sims);
   const jobs = [];
-  for (const b of batches) for (const p of plans) jobs.push({ id: `${b.name}${p.sim}`, batch: b.name, users: b.users, ...p, coldUsers: COLD_USERS, ncfConfig, evalUsers, exportDir: b.name === exportFrom.batch && p.sim === exportFrom.sim ? outDir : null });
+  for (const b of batches) for (const p of plans) jobs.push({ id: `${b.name}${p.sim}`, batch: b.name, users: b.users, ...p, coldUsers: COLD_USERS, ncfConfig, evalUsers, lab, exportDir: b.name === exportFrom.batch && p.sim === exportFrom.sim ? outDir : null });
   const results = Object.fromEntries(batches.map((b) => [b.name, []]));
   let next = 0;
   let running = 0;
@@ -65,7 +65,7 @@ export function runMonteCarlo({ sims = SIMS, batches = BATCHES, workers = Math.m
       const w = new Worker(WORKER);
       running++;
       w.on('message', (msg) => {
-        if (msg.type === 'epoch' || msg.type === 'log') emit({ ...msg, job: strip(w.busy) });
+        if (msg.type === 'epoch' || msg.type === 'log' || msg.type === 'lab') emit({ ...msg, job: strip(w.busy) });
         else if (msg.type === 'done') {
           results[w.busy.batch].push(msg.result);
           results[w.busy.batch].sort((a, b) => a.sim - b.sim);
