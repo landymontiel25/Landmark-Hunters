@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { RealtimeStatus } from './RealtimeStatus';
-import { dashboardSignOut } from '@/lib/firestore';
 
 export const NAV = [
   { href: '/dashboard', label: 'Overview' },
@@ -22,7 +21,6 @@ export function Sidebar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const logout = async () => {
-    await dashboardSignOut();
     await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
     router.replace('/login');
   };

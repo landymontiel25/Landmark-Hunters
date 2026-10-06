@@ -10,11 +10,11 @@ route any more.
   (constant-time compare, 5 tries per 15 minutes per IP) and sets a signed
   session (`JWT_SECRET`) in an httpOnly, Secure, SameSite=Strict cookie that
   page scripts can't read. `proxy.ts` guards every `/dashboard` page and API.
-- **Firestore stays locked.** After login the server mints a Firebase custom
-  token for the uid `admin-dashboard` with the claim `dashboardAdmin: true`
-  (only a holder of the service-account key can mint it; `lib/firebaseAdmin.js` signs it with `jose`, no firebase-admin).
-  `firestore.rules` `isDashboard()` lets only that identity read the stats
-  collections. App users and the app's public Firebase key can't.
+- **Firestore stays locked.** The browser never talks to Firestore or holds
+  a Firebase key. After login it asks `/api/firestore-read` (session
+  required, fixed list of collections), and the server reads Firestore over
+  REST with the service-account key (`FIRESTORE_ADMIN_KEY`, server only).
+  App users and the app's public Firebase key can't reach the stats.
 - **Admin jobs go server to server.** The Tools page calls this dashboard's
   `/api/jobs`, which calls the app's `api/admin-jobs.js` with
   `ADMIN_JOBS_SECRET`. The secret never reaches a browser.
@@ -44,10 +44,6 @@ time, errors) shows on the Overview page and in the sidebar.
 1. **Vercel project.** vercel.com/new → import `landymontiel25/Landmark-Hunters`
    → **Root Directory: `admin-dashboard`** → Framework: Next.js → Deploy.
 2. **Environment variables** (Project Settings → Environment Variables, Production):
-   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID` = `landmark-hunters-284ab`
-   - `NEXT_PUBLIC_FIREBASE_CONFIG` = the web config as one line of JSON
-     (Firebase Console → Project settings → Your apps → Config), e.g.
-     `{"apiKey":"…","authDomain":"landmark-hunters-284ab.firebaseapp.com","projectId":"landmark-hunters-284ab","appId":"…"}`
    - `ADMIN_SECRET_TOKEN` = your login password (`openssl rand -hex 16`)
    - `JWT_SECRET` = another random value, 32+ characters (`openssl rand -hex 32`)
    - `FIRESTORE_ADMIN_KEY` = the same service-account JSON as the app's
@@ -63,9 +59,12 @@ time, errors) shows on the Overview page and in the sidebar.
    `https://<dashboard>/login`, sign in, and press Tools → "Mapr: run now"
    to fill every page.
 
-If sign-in to Firestore fails with "requests from referer … are blocked", the
-Firebase API key has website restrictions: add the dashboard's domain under
-Google Cloud Console → APIs & Services → Credentials → that key.
+If the dashboard shows "Can't connect to Firestore", the message names the
+cause: no key found (it lists the Firebase-related variable names the
+deployment sees), a deleted or revoked key, or Google refusing the key. Fix
+`FIRESTORE_ADMIN_KEY` for the environment you are viewing (Production or
+Preview) and redeploy. No browser API key or Authorized-domains setting is
+involved.
 
 ## Develop and test
 

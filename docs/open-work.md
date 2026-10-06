@@ -31,6 +31,12 @@ was deployed and no production code changed. What it found:
 
 ## Admin dashboard setup (owner, once)
 
+The dashboard reads Firestore on the server with `FIRESTORE_ADMIN_KEY` (a
+live service-account key; no browser key, no Firebase sign-in). If it shows
+"Can't connect to Firestore", the banner names the cause. The old key that
+was committed to the repo is revoked; rotate any key that was ever in git.
+
+
 The stats moved out of the app into `admin-dashboard/` (its own Vercel
 project). Until the owner does the setup in `admin-dashboard/README.md`
 (new Vercel project with Root Directory `admin-dashboard`, its env vars,

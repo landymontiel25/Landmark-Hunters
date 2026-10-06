@@ -1,33 +1,34 @@
 'use client';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { clientFirebase, ensureDashboardSignIn } from './firestore';
-import type { Firestore } from 'firebase/firestore';
 
-// Signs the browser in as the dashboard once, then hands Firestore to every
-// listener hook. Until then (or if it fails) hooks don't subscribe and pages
-// show the reason.
-type GateState = { db: Firestore | null; ready: boolean; error: string | null };
-const Ctx = createContext<GateState>({ db: null, ready: false, error: null });
+// Checks once that the server can reach Firestore, then lets the listener
+// hooks start. Until then (or if it fails) hooks don't fetch and pages show
+// the reason the server gave.
+type GateState = { ready: boolean; error: string | null };
+const Ctx = createContext<GateState>({ ready: false, error: null });
 export const useFirebaseGate = () => useContext(Ctx);
 
-export function FirebaseGate({ children, signIn = ensureDashboardSignIn }: { children: ReactNode; signIn?: () => Promise<void> }) {
-  const [state, setState] = useState<GateState>({ db: null, ready: false, error: null });
+export async function pingServer(fetchImpl: typeof fetch = fetch): Promise<void> {
+  const r = await fetchImpl('/api/firestore-read', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ kind: 'ping' }) });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.error || `Firestore check failed (${r.status}).`);
+}
+
+export function FirebaseGate({ children, check = pingServer }: { children: ReactNode; check?: () => Promise<void> }) {
+  const [state, setState] = useState<GateState>({ ready: false, error: null });
   useEffect(() => {
     let cancelled = false;
-    signIn()
-      .then(() => {
-        const fb = clientFirebase();
-        if (!cancelled) setState({ db: fb?.db || null, ready: !!fb, error: fb ? null : 'Firebase is not configured.' });
-      })
-      .catch((e) => !cancelled && setState({ db: null, ready: false, error: String(e?.message || e) }));
+    check()
+      .then(() => !cancelled && setState({ ready: true, error: null }))
+      .catch((e) => !cancelled && setState({ ready: false, error: String(e?.message || e) }));
     return () => {
       cancelled = true;
     };
-  }, [signIn]);
+  }, [check]);
   return <Ctx.Provider value={state}>{children}</Ctx.Provider>;
 }
 
-// For tests and previews: a ready gate around a given Firestore.
+// For tests and previews: a gate in a given state.
 export function FirebaseGateValue({ value, children }: { value: GateState; children: ReactNode }) {
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

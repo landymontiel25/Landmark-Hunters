@@ -1,14 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { collection, doc, limit as limitTo, onSnapshot, orderBy, query, type DocumentData, type Firestore } from 'firebase/firestore';
 import { useFirebaseGate } from './FirebaseGate';
 import { reportListenerError, reportListenerUpdate, reportPaint, reportSubscribed, reportUnsubscribed } from './listenerHealth';
 import type { AccuracyDoc, AppMetrics, BigMiss, EngagementMetric, GrowthMetric, MaprMetric, MaprNCFModel, MaprSimilarity, RetentionCohort, TasteScore } from './types';
 
-// Live Firestore listeners. Every hook returns { data, loading, error },
-// logs its health (listenerHealth.ts), and unsubscribes on unmount. No
-// polling: onSnapshot pushes each change, and Firestore charges reads only
-// for documents that changed.
+// Live hooks. Every hook returns { data, loading, error }, logs its health
+// (listenerHealth.ts), and stops on unmount. The server reads Firestore
+// (/api/firestore-read); the nightly job writes once a day, so each hook
+// re-reads every POLL_MS and on window focus.
+
+export const POLL_MS = 60_000;
 
 export interface Live<T> {
   data: T;
@@ -22,62 +23,77 @@ function measurePaint(name: string, t0: number) {
   requestAnimationFrame(() => reportPaint(name, performance.now() - t0));
 }
 
-// The latest `n` docs of a collection ordered by `field` (newest last).
-export function useLatestDocs<T>(name: string, field: string, n: number): Live<T[]> {
-  const { db, ready } = useFirebaseGate();
-  const [state, setState] = useState<Live<T[]>>({ data: [], loading: true, error: null });
+// Timestamps come back as { _ms }; give them the toMillis() the pages use.
+function revive(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(revive);
+  if (v && typeof v === 'object') {
+    const o = v as Record<string, unknown>;
+    if (typeof o._ms === 'number' && Object.keys(o).length === 1) return { toMillis: () => o._ms as number };
+    return Object.fromEntries(Object.entries(o).map(([k, x]) => [k, revive(x)]));
+  }
+  return v;
+}
+
+async function ask(payload: Record<string, unknown>, fetchImpl: typeof fetch = fetch) {
+  const r = await fetchImpl('/api/firestore-read', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.error || `Firestore read failed (${r.status}).`);
+  return body;
+}
+
+// Runs `load` now, every POLL_MS, and when the tab regains focus.
+function usePolled<T>(name: string, ready: boolean, initial: T, load: () => Promise<{ value: T; changes: number }>, deps: unknown[]): Live<T> {
+  const [state, setState] = useState<Live<T>>({ data: initial, loading: true, error: null });
   useEffect(() => {
-    if (!ready || !db) return undefined;
+    if (!ready) return undefined;
+    let alive = true;
     reportSubscribed(name);
-    const unsubscribe = onSnapshot(
-      query(collection(db as Firestore, name), orderBy(field, 'desc'), limitTo(n)),
-      (snap) => {
+    const run = async () => {
+      try {
+        const { value, changes } = await load();
+        if (!alive) return;
         const t0 = performance.now();
-        const docs = snap.docs.map((d) => ({ id: d.id, ...(d.data() as DocumentData) }) as T).reverse();
-        reportListenerUpdate(name, snap.docChanges().length);
-        setState({ data: docs, loading: false, error: null });
+        reportListenerUpdate(name, changes);
+        setState({ data: value, loading: false, error: null });
         measurePaint(name, t0);
-      },
-      (err) => {
-        reportListenerError(name, err.message);
-        setState((s) => ({ ...s, loading: false, error: err.message }));
+      } catch (e) {
+        if (!alive) return;
+        const message = (e as Error).message;
+        reportListenerError(name, message);
+        setState((s) => ({ ...s, loading: false, error: message }));
       }
-    );
+    };
+    run();
+    const timer = setInterval(run, POLL_MS);
+    const onFocus = () => document.visibilityState === 'visible' && run();
+    document.addEventListener('visibilitychange', onFocus);
     return () => {
-      unsubscribe();
+      alive = false;
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', onFocus);
       reportUnsubscribed(name);
     };
-  }, [db, ready, name, field, n]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, name, ...deps]);
   return state;
 }
 
-// One document, live.
+// The latest `n` docs of a collection ordered by `field` (newest last).
+export function useLatestDocs<T>(name: string, field: string, n: number): Live<T[]> {
+  const { ready } = useFirebaseGate();
+  return usePolled<T[]>(name, ready, [], async () => {
+    const { docs } = await ask({ kind: 'latest', col: name, field, n });
+    return { value: revive(docs) as T[], changes: docs.length };
+  }, [field, n]);
+}
+
+// One document.
 export function useLiveDoc<T>(col: string, id: string): Live<T | null> {
-  const { db, ready } = useFirebaseGate();
-  const name = `${col}/${id}`;
-  const [state, setState] = useState<Live<T | null>>({ data: null, loading: true, error: null });
-  useEffect(() => {
-    if (!ready || !db) return undefined;
-    reportSubscribed(name);
-    const unsubscribe = onSnapshot(
-      doc(db as Firestore, col, id),
-      (snap) => {
-        const t0 = performance.now();
-        reportListenerUpdate(name, 1);
-        setState({ data: snap.exists() ? (snap.data() as T) : null, loading: false, error: null });
-        measurePaint(name, t0);
-      },
-      (err) => {
-        reportListenerError(name, err.message);
-        setState((s) => ({ ...s, loading: false, error: err.message }));
-      }
-    );
-    return () => {
-      unsubscribe();
-      reportUnsubscribed(name);
-    };
-  }, [db, ready, col, id, name]);
-  return state;
+  const { ready } = useFirebaseGate();
+  return usePolled<T | null>(`${col}/${id}`, ready, null, async () => {
+    const { doc } = await ask({ kind: 'doc', col, id });
+    return { value: doc ? (revive(doc) as T) : null, changes: doc ? 1 : 0 };
+  }, [col, id]);
 }
 
 // The spec's hooks.
