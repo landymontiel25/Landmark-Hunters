@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## "Your places" onboarding step (test tab only)
+
+Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us the 10
+places you visit most" with autocomplete, then the cards. The Mapr side is
+done (`tagDeltasFromPlaces`, `placesIntro`, `seedTagScores(..., places)` in
+`src/lib/onboardingCards.js` / `onboardingSave.js`). Left open: add the step
+to the real flow (`screens/Onboarding.jsx`), save the chosen places on the
+account, and pass them to `seedTagScores` and the saved taste text. Until
+then no real account carries places.
+
 ## Mapr v2 rollout (shipped at 100%, waiting on users)
 
 The three NCF fixes and the signed `0.8 / 0.2` blend ship behind
