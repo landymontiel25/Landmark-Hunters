@@ -17,7 +17,7 @@ export default function Overview() {
   const m = mapr.data[mapr.data.length - 1];
   const series = useMemo(() => mapr.data as unknown as Record<string, unknown>[], [mapr.data]);
   return (
-    <Page title="Overview" subtitle={`Latest day: ${m?.date || g?.date || '—'}. Every number updates by itself when the nightly job writes.`}>
+    <Page title="Overview" subtitle={`Latest day: ${m?.date || g?.date || '—'}.`}>
       <ListenerError error={mapr.error || growth.error || engagement.error} />
       <Grid>
         <MetricCard title="Active users" value={g?.active_users ?? '—'} trend={trendOf(growth.data as never, 'active_users')} loading={growth.loading} />
