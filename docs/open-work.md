@@ -5,16 +5,22 @@ the PR that finishes it.
 
 ## "Your places" onboarding step (test tab only)
 
-Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us the 10
-places you visit most" with autocomplete, then the cards. The Mapr side is
-done and the save path is wired:
-`saveOnboardingResults(uid, profile, answers, { complete, places })` seeds
-tagScores (and `onboardingSwipeDeltas`, which global taste reads), writes
-the text Mapr reads (`swipeSummary`) and stores `onboardingPlaces`. Left
-open: only the UI. Add the step to `screens/Onboarding.jsx`, pre-fill it from
-`profile.onboardingPlaces`, and pass the chosen places to
-`saveOnboardingResults`. Until
-then no real account carries places.
+Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us up to
+10 places you visit most" with autocomplete, then the cards. The step is the
+shared component `src/components/OnboardingPlaces.jsx`. Given `uid` and
+`profile`, Continue saves to the account by itself (`saveOnboardingPlaces`:
+tagScores seed, `onboardingSwipeDeltas`, the text Mapr reads, and
+`onboardingPlaces`), and `saveOnboardingResults` keeps those places when the
+cards are saved later. Left open: render `<OnboardingPlaces uid profile places
+onChange onDone />` in `screens/Onboarding.jsx`, keep `places` in the flow's
+progress, and pre-fill it from `placesFromProfile(profile)`. Mapr needs no
+further wiring.
+
+Owner asked that Mapr learn from every action from sign-up on. Today it
+learns from ratings, pick votes, rating comments and the swipe cards only
+(`src/lib/maprLearning.js`). Not yet learned from: the user's own check-ins
+without a rating, itinerary adds, favorites, opens, directions taps, habit
+visits. Needs the owner to pick which signals and their weights.
 
 ## Mapr v2 rollout (shipped at 100%, waiting on users)
 

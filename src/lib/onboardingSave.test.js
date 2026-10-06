@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ALL_SWIPE_CARDS } from './onboardingCards';
-import { answersToPairs, pairsToAnswers, prefillAnswers, seedTagScores, swipeSummary } from './onboardingSave';
+import { ALL_LANDMARKS } from '../data/regions';
+import { placesFromProfile, answersToPairs, pairsToAnswers, prefillAnswers, seedTagScores, swipeSummary } from './onboardingSave';
 
 const card = (word) => ALL_SWIPE_CARDS.find((c) => c.word === word);
 const ans = (word, answer) => ({ card: card(word), answer });
@@ -44,6 +45,15 @@ describe('places you visit most', () => {
     expect(out.tagScores.miami.food).toBe(tag === 'food' ? 20 : 10);
     expect(out.deltas.food).toBeGreaterThan(0);
     expect(swipeSummary([ans('Steak', 'love')], places)).toBe('Loves: Steak. Visits most: Cafe X');
+  });
+});
+
+describe('placesFromProfile', () => {
+  it('turns the saved places back into catalog landmarks and drops unknown ones', () => {
+    const l = ALL_LANDMARKS[0];
+    const out = placesFromProfile({ onboardingPlaces: [{ regionId: l.regionId, id: l.id, name: l.name }, { regionId: 'x', id: 'nope', name: 'Gone' }] });
+    expect(out.map((p) => p.id)).toEqual([l.id]);
+    expect(placesFromProfile({})).toEqual([]);
   });
 });
 
