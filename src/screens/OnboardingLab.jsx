@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
@@ -18,9 +18,8 @@ export { progressTier };
 // local state: no account is created, nothing is written to Firestore or the
 // saved trip, and "Restart" wipes it. The results screen shows what a real
 // signup would have saved (tagScores changes and notes) without saving it.
-// Off while we're only testing the cards; flip back to true to bring the
-// sign-up screen back as step 1.
-const SIGNUP_ON = false;
+// Sign-up is step 1, then "Your places", then the rating cards.
+const SIGNUP_ON = true;
 const STEPS = [
   ...(SIGNUP_ON ? [{ id: 'signup', label: 'Sign up' }] : []),
   { id: 'places', label: 'Your places' },
@@ -127,7 +126,7 @@ export default function OnboardingLab() {
           set={set}
           onDone={(via) => {
             set({ via });
-            go('prompt', `Signed up (${via})`);
+            go('places', `Signed up (${via})`);
           }}
         />
       )}
@@ -366,6 +365,13 @@ function LabSignUp({ data, set, onDone }) {
           <input type="checkbox" checked={data.age} onChange={(e) => set({ age: e.target.checked })} />
           <span>I am 13 years of age or older.</span>
         </label>
+        <p style={{ textAlign: 'center', fontSize: '0.72rem', color: 'var(--color-parchment-dim)', margin: '0 0 10px' }}>
+          By creating an account, you agree to our{' '}
+          <Link to="/legal" style={{ color: 'var(--color-parchment-dim)' }}>
+            Terms of Service &amp; Privacy Policy
+          </Link>
+          .
+        </p>
         <button className="btn btn-primary btn-block" type="submit">
           Create Account
         </button>

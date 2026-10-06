@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation, useNavigationType } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import { AuthProvider } from './lib/AuthContext';
 import { MaprChatProvider } from './lib/MaprChatContext';
 import { CheckInProvider } from './lib/CheckInContext';
@@ -26,8 +26,6 @@ import HabitPlacePrompt from './components/HabitPlacePrompt';
 import CelebrationOverlay from './components/CelebrationOverlay';
 import AdminModeBadge from './components/AdminModeBadge';
 import { ScreenSkeleton } from './components/Skeleton';
-import { useAuth } from './lib/AuthContext';
-import { isAdmin } from './lib/admins';
 import { ToastProvider } from './lib/ToastContext';
 import { useBackgroundLocationSync } from './lib/useBackgroundLocationSync';
 import { usePushNotificationsSync } from './lib/usePushNotificationsSync';
@@ -160,15 +158,6 @@ const NotFound = lazyScreen(() => import('./screens/NotFound'));
 // Keyed by path so a crash's fallback UI clears itself on the next
 // navigation (React Router doesn't remount the boundary just because the
 // matched route changed -- only re-keying it does).
-// The Test tab: an admin-only copy of the Map where new things get tried
-// before they go on the real one. Anyone else is sent to the real Map.
-function TestMap() {
-  const { user, loading } = useAuth();
-  if (loading) return <ScreenSkeleton />;
-  if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
-  return <MapExplore experiments />;
-}
-
 
 function AppRoutes() {
   const location = useLocation();
@@ -200,7 +189,7 @@ function AppRoutes() {
           <Route path="/report-bug" element={<ReportBug />} />
           <Route path="/mapr" element={<Mapr />} />
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/test" element={<TestMap />} />
+          <Route path="/test" element={<OnboardingLab />} />
           <Route path="/test/onboarding" element={<OnboardingLab />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
