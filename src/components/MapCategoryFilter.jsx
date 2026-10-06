@@ -2,6 +2,11 @@ import { useState } from 'react';
 import { INTERESTS } from '../data/regions';
 import { matchesSearch } from '../lib/search';
 
+// Categories hidden from this filter for now. Their landmarks still show
+// on the map under "All landmarks"; remove an id here to bring it back.
+const HIDDEN_CATEGORIES = new Set(['formula-1', 'benches']);
+const FILTER_INTERESTS = INTERESTS.filter((i) => !HIDDEN_CATEGORIES.has(i.id));
+
 // The map's category filter: one solid control naming what's showing
 // ("All landmarks", one category, or "3 categories"). Tapping it drops
 // down a searchable list; tap rows to add or remove categories.
@@ -9,7 +14,7 @@ export default function MapCategoryFilter({ selected, onToggle, onClear }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
 
-  const only = selected.size === 1 ? INTERESTS.find((i) => selected.has(i.id)) : null;
+  const only = selected.size === 1 ? FILTER_INTERESTS.find((i) => selected.has(i.id)) : null;
   const label =
     selected.size === 0 ? (
       <>
@@ -22,7 +27,7 @@ export default function MapCategoryFilter({ selected, onToggle, onClear }) {
     ) : (
       `${selected.size} categories`
     );
-  const shown = INTERESTS.filter((i) => matchesSearch(i.label, query));
+  const shown = FILTER_INTERESTS.filter((i) => matchesSearch(i.label, query));
 
   return (
     <div className="map-cat-filter">
