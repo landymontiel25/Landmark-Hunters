@@ -41,10 +41,10 @@ const WORKER = path.join(path.dirname(fileURLToPath(import.meta.url)), 'lib', 'm
 
 // emit(event) receives: job-start, epoch, log, job-done, job-error.
 // Resolves to { [batchName]: [result per sim] }.
-export function runMonteCarlo({ blendWeights = [], lab = false, sims = SIMS, batches = BATCHES, workers = Math.max(1, Math.min(4, cpus().length)), ncfConfig = {}, evalUsers, outDir, exportFrom = { batch: 'C', sim: 1 }, emit = () => {} }) {
+export function runMonteCarlo({ coldOffset, extended = null, labBlend, blendWeights = [], lab = false, sims = SIMS, batches = BATCHES, workers = Math.max(1, Math.min(4, cpus().length)), ncfConfig = {}, evalUsers, outDir, exportFrom = { batch: 'C', sim: 1 }, emit = () => {} }) {
   const plans = simulationPlans(sims);
   const jobs = [];
-  for (const b of batches) for (const p of plans) jobs.push({ id: `${b.name}${p.sim}`, batch: b.name, users: b.users, ...p, coldUsers: COLD_USERS, ncfConfig, blendWeights, evalUsers, lab, exportDir: b.name === exportFrom.batch && p.sim === exportFrom.sim ? outDir : null });
+  for (const b of batches) for (const p of plans) jobs.push({ id: `${b.name}${p.sim}`, batch: b.name, users: b.users, ...p, coldUsers: COLD_USERS, ncfConfig, blendWeights, coldOffset, extended, labBlend, evalUsers, lab, exportDir: b.name === exportFrom.batch && p.sim === exportFrom.sim ? outDir : null });
   const results = Object.fromEntries(batches.map((b) => [b.name, []]));
   let next = 0;
   let running = 0;

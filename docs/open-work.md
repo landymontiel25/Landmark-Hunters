@@ -27,9 +27,11 @@ was deployed and no production code changed. What it found:
   (`mapr-synthetic-trainer/WEIGHTS-RESULTS.md`): weight alone wins at most
   9 of 30, because the blend also clips negative base scores to 0. With the
   sign kept, `0.8 x base / max|base| + 0.2 x NCF` beat tag + similarity in
-  28 of 30 and new users gained 1.5 points. Waiting on the owner's go to
-  ship the three NCF fixes plus that blend to every Mapr surface in one PR
-  (CLAUDE.md), staged behind a rollout.
+  28 of 30 and new users gained 1.5 points. At scale
+  (`mapr-synthetic-trainer/SCALE-RESULTS.md`) it won 30 of 30 at 10k, 50k
+  and 100k users (+0.8, +1.6, +1.6 points; new users +2.0 at 100k). Waiting
+  on the owner's go to ship the three NCF fixes plus that blend to every
+  Mapr surface in one PR (CLAUDE.md), staged behind a rollout.
 - Pre-trained models gave brand-new users no lift over today's cold start,
   so `deploy-to-production.js` has not been run and nothing reads
   `mapr_pretrained_*`. Run it only after a change makes pre-training help.

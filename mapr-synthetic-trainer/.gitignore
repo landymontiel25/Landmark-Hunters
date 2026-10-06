@@ -23,3 +23,8 @@ output-weights/trained-similarity-matrix.json
 output-weights/trained-tag-scores.json
 output-weights/events.jsonl
 output-weights/*.log
+output-scale/trained-ncf-model.json
+output-scale/trained-similarity-matrix.json
+output-scale/trained-tag-scores.json
+output-scale/events.jsonl
+output-scale/*.log

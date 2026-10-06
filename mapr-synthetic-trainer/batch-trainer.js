@@ -6,7 +6,7 @@ import { collabBoost } from '../src/lib/maprRank/similarity.js';
 import { NCFModel } from './ncf-model.js';
 import { computeSimilarity, matrixBytes } from './similarity-matrix.js';
 import { archetypeTagPriors, featureLift, tagScore, userTagProfile } from './tag-scoring.js';
-import { MetricSum, gradedNdcg, pairwiseAccuracy, rankingMetrics } from './evaluator.js';
+import { MetricSum, gradedNdcg, pairwiseAccuracy, rankingMetrics, topK } from './evaluator.js';
 import { isPositive } from './lib/dataset.js';
 import { trueMatch } from './interaction-simulator.js';
 import { LAB_USERS, buildLab, labSnapshot } from './lib/lab.js';
@@ -40,7 +40,7 @@ export const RANKERS = {
   oracle: "True taste, no noise (ceiling: the simulator's own match score)",
 };
 
-export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}, blendWeights = [], evalUsers = EVAL_USERS, onEpoch = null, onLab = null, log = () => {}, exportDir = null }) {
+export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}, blendWeights = [], labBlend = undefined, extended = null, evalUsers = EVAL_USERS, onEpoch = null, onLab = null, log = () => {}, exportDir = null }) {
   const started = Date.now();
   const places = catalog.places;
   const numItems = places.length;
@@ -147,10 +147,16 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
       const score = baseScorer(known);
       const knownItems = new Set(known.map((r) => ds.item[r]));
       let maxBase = 0;
-      for (const i of catalog.byArea[ds.users[n].city]) if (!knownItems.has(i)) maxBase = Math.max(maxBase, score(i).base);
-      return { n, user: ds.users[n], likedRows: val.filter((r) => isPositive(ds, r)), otherRows: val.filter((r) => !isPositive(ds, r)), baseOf: new Map(val.map((r) => [ds.item[r], score(ds.item[r]).base])), maxBase };
+      let maxAbsBase = 0;
+      for (const i of catalog.byArea[ds.users[n].city]) {
+        if (knownItems.has(i)) continue;
+        const b = score(i).base;
+        maxBase = Math.max(maxBase, b);
+        maxAbsBase = Math.max(maxAbsBase, Math.abs(b));
+      }
+      return { n, user: ds.users[n], likedRows: val.filter((r) => isPositive(ds, r)), otherRows: val.filter((r) => !isPositive(ds, r)), baseOf: new Map(val.map((r) => [ds.item[r], score(ds.item[r]).base])), maxBase, maxAbsBase };
     });
-    lab = buildLab({ ds, places, users: labUsers });
+    lab = buildLab({ ds, places, users: labUsers, blend: labBlend });
   }
 
   // ---- NCF ----------------------------------------------------------------
@@ -177,7 +183,58 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
   const byArchetype = new Map();
   const scoreBuf = new Float64Array(2000);
 
-  const rankUser = ({ user, known, test, userVec, sumsFor, archetypeSums = null }) => {
+  // Extended metrics (extended = { key, reveals }): only for the chosen blend
+  // and tag + similarity, on the evaluation users.
+  const ext = extended
+    ? {
+        diversity: {},
+        agreement: { pairs: 0, both_right: 0, both_wrong: 0, blend_only: 0, tag_only: 0 },
+        confidence: { bins: [0.02, 0.05, 0.1, Infinity].map((max) => ({ max, pairs: 0, right: 0 })) },
+        regions: {},
+      }
+    : null;
+  const extKeys = extended ? [extended.key, 'tag_sim'] : [];
+  const extRecord = (user, known, cand, scores, testIdx, testPositive) => {
+    const knownKinds = new Set(known.flatMap((r) => places[ds.item[r]].kinds));
+    const knownCats = new Set(known.map((r) => places[ds.item[r]].categories[0]));
+    for (const kk of extKeys) {
+      const s = scores[kk];
+      if (!s) continue;
+      const items = topK(s, 10).map((k) => cand[k]);
+      const d = (ext.diversity[kk] ||= { users: 0, categories: 0, kinds: 0, local: 0, outside_history: 0 });
+      d.users++;
+      d.categories += new Set(items.map((i) => places[i].categories[0])).size;
+      d.kinds += new Set(items.flatMap((i) => places[i].kinds)).size;
+      d.local += items.filter((i) => places[i].popularity <= 1).length / items.length;
+      d.outside_history += items.filter((i) => !places[i].kinds.some((k) => knownKinds.has(k)) && !knownCats.has(places[i].categories[0])).length / items.length;
+      const reg = ((ext.regions[user.city] ||= {})[kk] ||= new MetricSum());
+      reg.addPairs(pairwiseAccuracy(testIdx.map((k) => s[k]), testPositive));
+    }
+    const sb = scores[extended.key];
+    const st = scores.tag_sim;
+    if (!sb) return;
+    for (let a = 0; a < testIdx.length; a++) {
+      if (!testPositive[a]) continue;
+      for (let b = 0; b < testIdx.length; b++) {
+        if (testPositive[b]) continue;
+        const db = sb[testIdx[a]] - sb[testIdx[b]];
+        const dt = st[testIdx[a]] - st[testIdx[b]];
+        const br = db > 0;
+        const tr = dt > 0;
+        const g = ext.agreement;
+        g.pairs++;
+        if (br && tr) g.both_right++;
+        else if (!br && !tr) g.both_wrong++;
+        else if (br) g.blend_only++;
+        else g.tag_only++;
+        const bin = ext.confidence.bins.find((x) => Math.abs(db) < x.max);
+        bin.pairs++;
+        if (br) bin.right++;
+      }
+    }
+  };
+
+  const rankUser = ({ user, known, test, userVec, sumsFor, archetypeSums = null, record = false }) => {
     const knownItems = new Set(known.map((r) => ds.item[r]));
     const testPos = new Set(test.filter((r) => isPositive(ds, r)).map((r) => ds.item[r]));
     const testItems = test.map((r) => ds.item[r]);
@@ -232,6 +289,7 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
       // keeps the sign: base / max |base|.
       scores[`mapr_signed_w${w}`] = ncfScores ? cand.map((_, k) => (1 - w) * (maxAbsBase > 0 ? base[k] / maxAbsBase : 0) + w * ncfScores[k]) : null;
     }
+    if (record && ext) extRecord(user, known, cand, scores, testIdx, testPositive);
     for (const [name, s] of Object.entries(scores)) {
       if (!s || !sumsFor[name]) continue;
       const rm = rankingMetrics(s, rel);
@@ -253,7 +311,7 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
     if (!byArchetype.has(user.archetype)) byArchetype.set(user.archetype, { users: 0, sums: {} });
     const a = byArchetype.get(user.archetype);
     a.users++;
-    rankUser({ user, known: rows.slice(0, TRAIN_STEPS), test: rows.slice(VAL_END), userVec: ncf.userVector(n), sumsFor: sums, archetypeSums: a.sums });
+    rankUser({ user, known: rows.slice(0, TRAIN_STEPS), test: rows.slice(VAL_END), userVec: ncf.userVector(n), sumsFor: sums, archetypeSums: a.sums, record: true });
   }
 
   // Cold start: users the model never saw.
@@ -267,6 +325,21 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
     if (likedItems.length) foldedIn++;
     const vec = ncf.foldIn(likedItems, pool, { seed: n });
     rankUser({ user, known, test: rows.slice(COLD_REVEAL), userVec: vec, sumsFor: coldSums });
+  }
+  // New users with more history: k known interactions, always tested on the
+  // same last 15 (steps 35-49), so the curve compares like with like.
+  const reveals = {};
+  if (extended?.reveals) {
+    for (const k of extended.reveals) {
+      const rs = Object.fromEntries(['tag_sim', 'ncf', extended.key].map((x) => [x, new MetricSum()]));
+      for (let n = ds.trainUsers; n < ds.trainUsers + ds.coldUsers; n++) {
+        const rows = rowsOf(n);
+        const known = rows.slice(0, k);
+        const liked = known.filter((r) => isPositive(ds, r)).map((r) => ds.item[r]).filter((i) => hasEmbedding[i]);
+        rankUser({ user: ds.users[n], known, test: rows.slice(TRAIN_STEPS), userVec: ncf.foldIn(liked, pool, { seed: n * 7 + k }), sumsFor: rs });
+      }
+      reveals[k] = Object.fromEntries(Object.entries(rs).map(([x, s]) => [x, s.result()]));
+    }
   }
   const evalMs = Date.now() - ev0;
 
@@ -299,6 +372,16 @@ export async function runBatch({ catalog, ds, nUsers, batch, sim, ncfConfig = {}
     similarity: { ms: similarityMs, bytes: matrixBytes(similarity.regions), rows: Object.values(similarity.regions).reduce((s, r) => s + Object.keys(r).length, 0) },
     rankers,
     cold,
+    extended: ext
+      ? {
+          key: extended.key,
+          diversity: ext.diversity,
+          agreement: ext.agreement,
+          confidence: ext.confidence.bins.map((b) => ({ below: b.max, pairs: b.pairs, right: b.right })),
+          regions: Object.fromEntries(Object.entries(ext.regions).map(([c, m]) => [c, Object.fromEntries(Object.entries(m).map(([k, s]) => [k, s.result()]))])),
+          reveals,
+        }
+      : null,
     archetypes,
     timing: { total_ms: Date.now() - started, ncf_ms: ncfMs, similarity_ms: similarityMs, eval_ms: evalMs },
   };
