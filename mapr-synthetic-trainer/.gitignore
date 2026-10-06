@@ -9,3 +9,10 @@ output/events.jsonl
 output/*.log
 output/experiments.log
 *-debug.log
+output-fix/synthetic-users.json
+output-fix/synthetic-interactions.json
+output-fix/trained-ncf-model.json
+output-fix/trained-similarity-matrix.json
+output-fix/trained-tag-scores.json
+output-fix/events.jsonl
+output-fix/*.log

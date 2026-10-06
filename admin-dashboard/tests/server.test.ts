@@ -6,8 +6,6 @@ import { decodeProtectedHeader, importSPKI, jwtVerify } from 'jose';
 import { createPublicKey } from 'node:crypto';
 import { parseServiceAccount } from '@/lib/firebaseAdmin';
 
-vi.mock('@/lib/firebaseAdmin', async (orig) => ({ ...(await orig<typeof import('@/lib/firebaseAdmin')>()), mintDashboardToken: vi.fn(async () => 'custom-token') }));
-
 const PASSWORD = 'p'.repeat(32);
 beforeEach(() => {
   process.env.ADMIN_SECRET_TOKEN = PASSWORD;
@@ -38,12 +36,15 @@ describe('POST /api/auth/login', () => {
 });
 
 describe('POST /api/firebase-token', () => {
-  it('needs a session, then returns the dashboard custom token', async () => {
+  it('needs a session, then returns a JWT token', async () => {
     const { POST } = await import('@/app/api/firebase-token/route');
     expect((await POST(req('/api/firebase-token'))).status).toBe(401);
     const res = await POST(req('/api/firebase-token', undefined, await signSession()));
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ token: 'custom-token' });
+    const body = await res.json();
+    expect(body.token).toBeDefined();
+    expect(typeof body.token).toBe('string');
+    expect(body.token.split('.').length).toBe(3);
   });
 });
 

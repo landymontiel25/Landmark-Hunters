@@ -41,8 +41,11 @@ export const DEFAULT_CONFIG = {
   //          'logit'        softplus(-(z_i - z_j))                      textbook BPR
   //   negative_sampling 'catalog'  any place with an embedding        production
   //                     'area'     places in the user's own area
+  //   early_stopping_on 'loss'      keep the epoch with the lowest validation loss  production
+  //                     'accuracy'  keep the epoch with the best validation ranking accuracy
   bpr_on: 'probability',
   negative_sampling: 'catalog',
+  early_stopping_on: 'loss',
   seed: PROD.seed,
 };
 
@@ -292,6 +295,7 @@ export class NCFModel {
     const order = new Uint32Array(nPos * k);
     let best = null;
     let bestLoss = Infinity;
+    let bestMetric = -Infinity;
     let bestEpoch = 0;
     let sinceBest = 0;
     let stoppedBy = 'epochs';
@@ -353,7 +357,11 @@ export class NCFModel {
       const val = valTriples?.length ? this.evaluateTriples(valTriples) : { loss: trainLoss, accuracy: null };
       const row = { epoch, trainLoss, valLoss: val.loss, valAccuracy: val.accuracy, ms: Date.now() - t0, triples: n };
       history.push(row);
-      if (val.loss < bestLoss - 1e-6) {
+      // Higher is better for both after the sign flip.
+      const onAccuracy = c.early_stopping_on === 'accuracy' && val.accuracy != null;
+      const metric = onAccuracy ? val.accuracy : -val.loss;
+      if (metric > bestMetric + 1e-6) {
+        bestMetric = metric;
         bestLoss = val.loss;
         bestEpoch = epoch;
         best = snapshot(m);

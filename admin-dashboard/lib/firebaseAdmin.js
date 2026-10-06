@@ -25,7 +25,7 @@ export const DASHBOARD_UID = 'admin-dashboard';
 export const DASHBOARD_CLAIMS = { dashboardAdmin: true };
 
 export async function mintDashboardToken(account = parseServiceAccount()) {
-  const key = await importPKCS8(account.private_key, 'RS256');
+  const key = await importPKCS8(account.private_key.replace(/\\n/g, '\n'), 'RS256');
   return new SignJWT({ uid: DASHBOARD_UID, claims: DASHBOARD_CLAIMS })
     .setProtectedHeader({ alg: 'RS256', typ: 'JWT', ...(account.private_key_id ? { kid: account.private_key_id } : {}) })
     .setIssuer(account.client_email)
