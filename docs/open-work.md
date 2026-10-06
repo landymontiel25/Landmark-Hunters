@@ -3,6 +3,30 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Mapr synthetic training: findings to act on (needs an owner decision)
+
+`mapr-synthetic-trainer/` trains the production Mapr code offline on 10,000
+synthetic travelers (results: `mapr-synthetic-trainer/RESULTS.md`). Nothing
+was deployed and no production code changed. What it found:
+
+- The full blend (`0.4 x base + 0.6 x NCF`) ranks below tag score +
+  similarity alone at every scale tested (75.2% vs 77.7% at 10,000 users).
+  Options: give NCF less weight until it beats the base on real holdout
+  data, or gate it on that comparison instead of on user count
+  (`NCF.autoEnableAboveUsers`).
+- Production NCF applies BPR to sigmoid outputs; the sigmoid saturates and
+  the gradients vanish. The tiny values also slow the nightly job's
+  training (subnormal floats) inside its 30 s budget. Early stopping
+  watches validation loss, which picks near-untrained models when the loss
+  is switched to plain BPR on logits. In one diagnostic run, BPR on logits
+  plus negatives from the user's own city lifted the blend to 79.1% (tag +
+  similarity 76.4%). Next: confirm over all 10 simulations with early
+  stopping on validation accuracy, then change production. That changes
+  how Mapr learns, so it goes to every Mapr surface in one PR (CLAUDE.md).
+- Pre-trained models gave brand-new users no lift over today's cold start,
+  so `deploy-to-production.js` has not been run and nothing reads
+  `mapr_pretrained_*`. Run it only after a change makes pre-training help.
+
 ## Admin dashboard setup (owner, once)
 
 The stats moved out of the app into `admin-dashboard/` (its own Vercel

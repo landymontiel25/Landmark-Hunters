@@ -1,0 +1,24 @@
+{
+  "name": "mapr-synthetic-trainer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Offline synthetic-user training and evaluation of Mapr Phase 1 (NCF, similarity, tag scores). Never touches production.",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "train": "node pipeline.js",
+    "quick": "node pipeline.js --quick",
+    "emulator": "bash emulator-setup.sh",
+    "test": "cd .. && npx vitest run mapr-synthetic-trainer/test"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "express": "^5.1.0",
+    "firebase-admin": "^14.5.0",
+    "papaparse": "^5.5.3",
+    "ws": "^8.18.3"
+  }
+}
