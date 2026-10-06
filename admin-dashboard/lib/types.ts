@@ -180,6 +180,10 @@ export interface AppMetricCard {
   goal?: string;
   note?: string;
   n?: number;
+  nLabel?: string;
+  baseline?: { value: number; unit?: string; label?: string } | null;
+  newUsers?: number;
+  weekly?: { weekEnding: string; active: number; newUsers: number }[];
 }
 export interface AppMetrics {
   generatedAt: number;

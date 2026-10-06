@@ -244,6 +244,21 @@ export function computeMetrics(ds, now = Date.now()) {
     }),
   );
 
+  const d7 = retention(ds, 7, now);
+  out.push(
+    metric({
+      id: 'retentionD7',
+      label: 'Day 7 retention',
+      value: round1(d7.pct),
+      unit: '%',
+      goal: '',
+      status: d7.pct == null ? 'unknown' : 'info',
+      n: d7.cohort,
+      nLabel: 'users old enough',
+      note: trackNote || (d7.cohort ? '' : 'No one who signed up since tracking began has reached day 7 yet.'),
+    }),
+  );
+
   // ---- Sessions: ratings and check-ins per open day -------------------------
   const opens = openDaySets(ds);
   let openCount = 0;
@@ -282,6 +297,69 @@ export function computeMetrics(ds, now = Date.now()) {
       n: openCount,
       nLabel: 'user-days',
       note: openCount ? 'Real check-ins (not rating-only) per user-day the app was opened.' : 'Needs the daily open record.',
+    }),
+  );
+
+  // ---- Ratings per active user per week -------------------------------------
+  const weekAgoMs = now - STATS_WEEK_MS;
+  const weekAgoDate = dateUtc(weekAgoMs);
+  const activeWeek = new Set();
+  for (const [uid, days] of opens) for (const d of days) if (d >= weekAgoDate) activeWeek.add(uid);
+  let ratingsWeek = 0;
+  for (const r of reviews) {
+    const t = ratingTime(r);
+    if (r?.userId && t != null && t >= weekAgoMs && t <= now) {
+      ratingsWeek += 1;
+      activeWeek.add(r.userId);
+    }
+  }
+  const perActiveWeek = activeWeek.size ? ratingsWeek / activeWeek.size : null;
+  out.push(
+    metric({
+      id: 'ratingsPerActiveUserWeek',
+      label: 'Ratings per active user per week',
+      value: round2(perActiveWeek),
+      unit: '',
+      goal: '',
+      status: perActiveWeek == null ? 'unknown' : 'info',
+      n: activeWeek.size,
+      nLabel: 'active users, last 7 days',
+      note: activeWeek.size ? 'Ratings in the last 7 days divided by users who opened the app or rated in that time.' : 'No active users in the last 7 days.',
+    }),
+  );
+
+  // ---- Active and new users per week ----------------------------------------
+  // Counts of real people over the last 6 weeks (each window is 7 days, the
+  // newest ends now). Active = opened the app or rated in the window.
+  const weekly = [];
+  for (let k = 5; k >= 0; k -= 1) {
+    const endMs = now - k * STATS_WEEK_MS;
+    const startMs = endMs - STATS_WEEK_MS;
+    const from = dateUtc(startMs);
+    const to = dateUtc(endMs);
+    const active = new Set();
+    for (const [uid, days] of opens) for (const d of days) if (d > from && d <= to) active.add(uid);
+    for (const r of reviews) {
+      const t = ratingTime(r);
+      if (r?.userId && t != null && t > startMs && t <= endMs) active.add(r.userId);
+    }
+    const newUsers = users.filter((u) => u?.createdAt != null && u.createdAt > startMs && u.createdAt <= endMs).length;
+    weekly.push({ weekEnding: to, active: active.size, newUsers });
+  }
+  const thisWeek = weekly[weekly.length - 1];
+  out.push(
+    metric({
+      id: 'weeklyUsers',
+      label: 'Active and new users per week',
+      value: users.length || thisWeek.active ? thisWeek.active : null,
+      unit: '',
+      goal: '',
+      status: users.length || thisWeek.active ? 'info' : 'unknown',
+      n: users.length,
+      nLabel: 'accounts in total',
+      newUsers: thisWeek.newUsers,
+      weekly,
+      note: 'Counts of people, not percentages. Active = opened the app or rated in the 7 days.',
     }),
   );
 

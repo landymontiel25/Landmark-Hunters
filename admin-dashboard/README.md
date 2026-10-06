@@ -37,6 +37,7 @@ time, errors) shows on the Overview page and in the sidebar.
 | Accuracy | `accuracy_by_category`, `accuracy_by_city` |
 | Taste | `taste_score`, `big_misses` (review status and notes are editable) |
 | App metrics | `app_metrics/latest` (the old in-app admin stats and the long study) |
+| Horowitz Andreesen Academy | Five real numbers for the reviewers: Mapr match rate, retention (day 1/7/30), active and new users per week, ratings per active user per week, invite rate. Each shows how many people it is based on; missing data reads "Not measured yet". |
 | Tools | Mapr run now (full job: models + Slack). The dashboard also runs a light refresh every 5 minutes while open. |
 
 ## Setup (once)
