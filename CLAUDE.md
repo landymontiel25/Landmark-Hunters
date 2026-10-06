@@ -35,3 +35,27 @@ iCloud, not any local folder.
   branch, open the PR, and merge it into `main` once tests, lint and build
   pass (Vercel deploys `main`). Never leave finished work on a branch waiting
   for the owner to merge it.
+- Read `docs/open-work.md` at the start of a session. It lists unfinished work
+  and the decisions behind it. Update it in the same PR when you finish an
+  item or leave one half done.
+
+# Importing places (Miami, Philly, Villanova, SF, Silicon Valley)
+
+Each region's process is written up: `docs/sf-import/README.md` (SF and
+Silicon Valley, research first) and `scripts/osm-import/research/README.md`
+(Miami, Philly, Villanova, OpenStreetMap first). Read the one you need before
+touching `public/places/` or `scripts/osm-import/`. The owner's standing rules:
+
+- Every fact cites the URL that states it. A fact without a source stays out.
+  No prices, hours, ratings, rankings or opinion words (best, famous, iconic).
+- A place counts as acclaimed only with a 2025 or 2026 award or list, and the
+  fact names the year.
+- No coordinate is typed by hand. A place goes on the map only when
+  OpenStreetMap (Nominatim) returns it at the researched address.
+- A new region's import must leave every other region's pack files unchanged.
+  Check `git diff` on `public/places/` and `src/data/placePacks.manifest.js`.
+- Long research runs go in their own cloud session with a dollar budget the
+  owner sets ($180 for SF + Silicon Valley, which used $96). Commit each
+  finished batch so a usage limit or crash loses nothing, and stop at a
+  clean, merged point if the run heads well past the budget.
+- Report times to the owner in Eastern Time.
