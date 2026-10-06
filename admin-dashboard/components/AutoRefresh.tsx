@@ -19,7 +19,7 @@ export function AutoRefresh({ everyMs = AUTO_REFRESH_MS, fetchImpl = fetch }: { 
   const [now, setNow] = useState(() => Date.now());
   const [nextAt, setNextAt] = useState(() => Date.now());
   const [running, setRunning] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState<string | null>(null);
   const busy = useRef(false);
   const nextAtRef = useRef(nextAt);
   nextAtRef.current = nextAt;
@@ -30,9 +30,13 @@ export function AutoRefresh({ everyMs = AUTO_REFRESH_MS, fetchImpl = fetch }: { 
     setRunning(true);
     try {
       const r = await fetchImpl('/api/jobs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'refresh' }) });
-      setFailed(!r.ok);
-    } catch {
-      setFailed(true);
+      if (r.ok) setFailed(null);
+      else {
+        const body = await r.json().catch(() => ({}));
+        setFailed(String(body?.error || `HTTP ${r.status}`).slice(0, 140));
+      }
+    } catch (e) {
+      setFailed(String((e as Error)?.message || 'network error').slice(0, 140));
     } finally {
       busy.current = false;
       setRunning(false);
@@ -52,7 +56,7 @@ export function AutoRefresh({ everyMs = AUTO_REFRESH_MS, fetchImpl = fetch }: { 
   return (
     <p className="text-xs muted tabular" role="status" aria-live="off" data-testid="auto-refresh">
       <span className={`inline-block w-2 h-2 rounded-full mr-1.5 ${running ? '' : 'live-dot'}`} style={{ background: failed ? 'var(--critical)' : 'var(--good-mark)' }} aria-hidden="true" />
-      {running ? 'Refreshing numbers…' : failed ? `Refresh failed, retrying in ${clock(nextAt - now)}` : `Numbers refresh automatically · next in ${clock(nextAt - now)}`}
+      {running ? 'Refreshing numbers…' : failed ? `Refresh failed (${failed}), retrying in ${clock(nextAt - now)}` : `Numbers refresh automatically · next in ${clock(nextAt - now)}`}
     </p>
   );
 }
