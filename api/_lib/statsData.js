@@ -76,6 +76,7 @@ export async function loadStatsData(db) {
         pickType: x.pickType ?? null,
         requestFor: x.requestFor,
         isTest: x.isTest === true,
+        categories: Array.isArray(x.categories) ? x.categories.slice(0, 3) : [],
         // Mapr Phase 1 telemetry (src/lib/recommendationLog.js telemetryFields).
         ...(x.telemetry === true
           ? {

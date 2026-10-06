@@ -35,6 +35,11 @@ iCloud, not any local folder.
   branch, open the PR, and merge it into `main` once tests, lint and build
   pass (Vercel deploys `main`). Never leave finished work on a branch waiting
   for the owner to merge it.
+- Owner stats never go in the app. They live in the separate admin
+  dashboard (`admin-dashboard/`, its own Vercel project, README there). New
+  admin metrics: write them from the nightly job (`api/_lib/dashboardDocs.js`),
+  add a read rule using `isDashboard()` in `firestore.rules`, and show them on
+  a dashboard page. Admin actions go through `api/admin-jobs.js`.
 - Read `docs/open-work.md` at the start of a session. It lists unfinished work
   and the decisions behind it. Update it in the same PR when you finish an
   item or leave one half done.

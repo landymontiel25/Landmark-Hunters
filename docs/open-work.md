@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Admin dashboard setup (owner, once)
+
+The stats moved out of the app into `admin-dashboard/` (its own Vercel
+project). Until the owner does the setup in `admin-dashboard/README.md`
+(new Vercel project with Root Directory `admin-dashboard`, its env vars,
+`ADMIN_JOBS_SECRET` + `DASHBOARD_URL` on the main app, publish
+`firestore.rules`), there is no way to see the stats. Phase 2, not built:
+Firebase Auth login instead of the shared password, date ranges, chart
+annotations.
+
 ## Mapr Phase 1 follow-ups (shipped, waiting on users or the owner)
 
 Phase 1 is live on every Mapr surface (`docs/mapr-phase1.md`). Left open:
@@ -10,7 +20,7 @@ Phase 1 is live on every Mapr surface (`docs/mapr-phase1.md`). Left open:
 - The NCF model ranks nothing until more than 10 users have a check-in or a
   loved rating in 90 days (`NCF.autoEnableAboveUsers`). It switches itself on.
 - The spec's outcome targets (match rate 65% to 75%, A/B significance,
-  retention) need real traffic. Watch Admin stats → Mapr Phase 1 and the
+  retention) need real traffic. Watch the admin dashboard's Mapr Phase 1 page and the
   daily Slack message. Once there are enough users, lower a rollout below
   100 in `src/lib/maprRank/config.js` to run a real A/B test.
 - Not built, needs an owner decision: the optional "preference reset" for

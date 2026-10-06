@@ -60,7 +60,7 @@ Unconfirmed: the SKU details page (`/billing-and-pricing/sku-details`) could not
 
 ## Admin photo backfill (one-time)
 
-`Admin stats` page, "Landmark photos (one-time)", button **Run photo backfill** (`POST /api/admin-stats {action: 'photo-backfill'}`, code in `api/_lib/photoBackfill.js`).
+Admin dashboard, Tools page, "Landmark photos (one batch)", button **Run** (`POST /api/admin-jobs {action: 'photo-backfill'}` via the dashboard's server, code in `api/_lib/photoBackfill.js`).
 
 - For every landmark with no stored photo it runs the same strict Text Search match as `api/place-photo.js` (shared code in `api/_lib/placeLookup.js`) and saves the result to `place_ids`: a place ID, or a "no match" marker (kept 30 days). It saves **place IDs only**. It never fetches or stores an image, photo name or photo link, and makes no Place Details calls.
 - One batch (20 landmarks) per call. The page repeats the call every 2.5 minutes while the tab is open (8 searches a minute, under the 90 per 10 minutes limit), shows progress (checked, Google has a photo, no match, failed this run, searches today) and has a Stop button.

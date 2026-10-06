@@ -61,7 +61,7 @@ always fills.
 | Daily metrics, A/B stats, alerts, CSV, Slack text | `src/lib/maprRank/metrics.js` |
 | Nightly + weekly batch work | `api/_lib/maprNightly.js` |
 | Cron route (00:23 UTC daily) | `api/mapr-nightly.js` |
-| Admin dashboard panel | `src/components/MaprPhase1Panel.jsx` (Admin stats page) |
+| Admin dashboard page | `admin-dashboard/app/dashboard/mapr-phase-1/page.tsx` (separate dashboard) |
 | "Shake things up?" card | `src/components/nearbyPicks/ShakeUpCard.jsx` |
 
 ## Firestore
@@ -86,7 +86,7 @@ joining the row to `pick_feedback`, `reviews` and `checkins` within 7 days.
 2. Vercel env: `CRON_SECRET` and `FIREBASE_SERVICE_ACCOUNT` (both already used
    by the study summary). Add `SLACK_WEBHOOK_URL` (a Slack incoming webhook)
    for the daily message; without it the job runs and skips Slack.
-3. After the deploy, press **Run now** in Admin stats → Mapr Phase 1, so the
+3. After the deploy, press Tools → **Mapr: run now** on the admin dashboard, so the
    models exist before the first Monday retrain.
 
 ## Rollout and rollback

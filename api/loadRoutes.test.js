@@ -24,13 +24,14 @@ describe('api routes load under plain Node', () => {
     const out = run(`
       const call = async (f) => { const m = await import(f); let code; const res = { status: (c) => { code = c; return res; }, json: () => res, end: () => res, setHeader() {} };
         await m.default({ method: 'GET', headers: {}, body: {} }, res); return code; };
-      const a = await call('./admin-stats.js');
+      const a = await call('./admin-jobs.js');
       const b = await call('./study-summary.js');
       const fa = await import('./_lib/firebaseAdmin.js');
       console.log(JSON.stringify([a, b, typeof fa.adminAuth, typeof fa.adminMessaging]));
     `);
     const [a, b] = JSON.parse(out.trim().split('\n').pop());
-    expect(a).toBe(401);
+    // admin-jobs: 503 when ADMIN_JOBS_SECRET is unset, 401 with it set; never open.
+    expect([401, 503]).toContain(a);
     expect([401, 403, 503]).toContain(b);
   });
 });
