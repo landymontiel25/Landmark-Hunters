@@ -21,7 +21,7 @@ export async function mintDashboardToken() {
   const key = await importPKCS8(privateKeyLines, 'RS256');
 
   const now = Math.floor(Date.now() / 1000);
-  return new SignJWT(DASHBOARD_CLAIMS)
+  return new SignJWT({ ...DASHBOARD_CLAIMS, uid: DASHBOARD_UID })
     .setProtectedHeader({ alg: 'RS256', typ: 'JWT' })
     .setIssuedAt(now)
     .setExpirationTime(now + 3600)
