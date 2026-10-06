@@ -120,7 +120,7 @@ const INSTRUCTIONS =
   `of their message as usual. Use its catalog region/id as "match" when it's in the catalog or NEAREST CATALOG LANDMARKS, ` +
   `otherwise its real name plus any address you know. Only when they clearly say they were there -- never guess, and not for a ` +
   `place they merely mention or plan to visit. If they already said how it was, still set "rate" (the app lets them save it).\n` +
-  `- They can rate right in this chat. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone", "I'm at the range, rate it"), set "rate" to that place (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place). Say yes in one short line ("Sure -- how was it?"); never tell them to go to the landmark's page. The app shows the rating buttons, and every rating teaches Mapr their taste.\n` +
+  `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. Say yes in one short line ("Sure -- tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
   `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search, and must include the source URL.\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
   `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
@@ -533,7 +533,7 @@ async function handler(req, res) {
         }
         fallback = raw.trimStart().startsWith('{') ? recovered : raw;
       }
-      res.status(200).json({ reply: fallback || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
+      res.status(200).json({ reply: conciseReply(fallback, lastText) || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
       return;
     }
 
@@ -616,12 +616,14 @@ async function handler(req, res) {
       else if (str(pr.name, 120)) rate = { name: str(pr.name, 120), address: str(pr.address, 160) };
     }
 
-    // "Can I rate here?": if the model didn't set the card, point it at the
-    // catalog landmark they are standing at.
+    // "Can I rate here?": show the catalog landmark they are standing at as a
+    // stop, whose card carries the I'd go / Not sure / Not for me buttons.
     let replyText = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
-    if (!rate && hereLandmark && asksToRateHere(lastText)) {
-      rate = { region: hereLandmark.regionId, id: hereLandmark.id, name: hereLandmark.name };
-      replyText = `Sure -- how was ${hereLandmark.name}?`;
+    if (hereLandmark && asksToRateHere(lastText) && !stops.some((st) => st.id === hereLandmark.id)) {
+      stops.length = 0;
+      quickReplies.length = 0;
+      stops.push(catalogStop(hereLandmark, "You're here."));
+      replyText = 'Sure -- tap how it sounds.';
     }
 
     res.status(200).json({

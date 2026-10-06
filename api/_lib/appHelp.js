@@ -86,7 +86,7 @@ export const APP_HELP =
   `creates an itinerary on its own: anything that would start a new one shows "Start a new … itinerary?" with Create it / No thanks, and ` +
   `only happens if you tap Create it. It can't check in, rate, or change account settings ` +
   `for you.\n` +
-  `- You can rate right in Mapr chat: ask "can I rate here?" (it uses the place you are standing at), name a place ("rate Hillstone"), or say you just left one ("I just left the shooting range, where should I eat?"), and Mapr asks how it was with a card under ` +
+  `- You can rate right in Mapr chat: ask "can I rate here?" (it shows the place you are standing at as a card with "I'd go" / "Not sure" / "Not for me" buttons that teach Mapr), name a place ("rate Hillstone"), or say you just left one ("I just left the shooting range, where should I eat?"), and Mapr asks how it was with a card under ` +
   `its reply with "I loved it" / "Ok" / "I didn't like it". One tap opens the usual rating (tier already picked, plus a ` +
   `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr (the middle tab; the Map tab is the home screen): a live AI chat — type or describe what you're up for (a vibe, a time budget, an ` +
   `interest) and it replies with 0-4 real stops, from the curated catalog or the live web. It reads your rating history and taste profile, so it ` +
