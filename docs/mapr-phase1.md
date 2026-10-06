@@ -111,7 +111,7 @@ joining the row to `pick_feedback`, `reviews` and `checkins` within 7 days.
   embeddings of the last two versions, so a rollback still finds them.
 - To revert a component, set `enabled: false` and deploy. No data migration.
 
-## Mapr v2 rollout (`FEATURES.maprV2`, 20%)
+## Mapr v2 rollout (`FEATURES.maprV2`, 100%)
 
 Mapr v2 changes how NCF trains and how its score blends in, on every Mapr
 surface at once (they all rank through `scorePicks` and load models through
@@ -129,7 +129,9 @@ chat, Travel Picks, the trip planner and the landmark list.
   budget, each promoted and rolled back on its own. User embeddings for
   both sit in the same `mapr_user_models/{uid}` doc: v1 versions are
   `v<time>`, v2 versions `v2-<time>`.
-- Users in the 20% load `ncf_v2`; if it is missing they fall back to `ncf`.
+- Users in the rollout load `ncf_v2`; if it is missing they fall back to `ncf`.
+  The rollout is 100% while the app has two users (owner's call, October
+  2026), so there is no control group; lower `rollout` to run an A/B test.
   The loaded model's `family` picks the blend, so a fallback gets the v1
   blend with the v1 model. Picks log `variants.maprV2` and `ncfModel`.
 - The same `active` gate applies: until more than 10 people have a check-in
