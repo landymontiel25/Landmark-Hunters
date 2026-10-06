@@ -60,3 +60,7 @@ export function accuracyRows(map: Record<string, { match_rate: number | null; sk
     .map(([name, r]) => ({ name, ...r }))
     .sort((a, b) => (b.match_rate ?? -1) - (a.match_rate ?? -1) || b.sample_size - a.sample_size);
 }
+
+// Whole-card tint for a goal metric: green when met, red when missed, none
+// (the normal gray card) when it can't be measured or has no goal.
+export const goalCardClass = (status?: string) => (status === 'met' ? 'card card-met' : status === 'missed' ? 'card card-missed' : 'card');

@@ -22,6 +22,7 @@
   --warning: #fab219;
   --critical: #d03b3b;
   --critical-wash: #fdecec;
+  --good-wash: #e4f4e4;
   --accent: #2a78d6;
 }
 @media (prefers-color-scheme: dark) {
@@ -41,6 +42,7 @@
     --series-3: #199e70;
     --good: #0ca30c;
     --critical-wash: #3a1717;
+    --good-wash: #12301a;
     --accent: #3987e5;
   }
 }
@@ -53,6 +55,14 @@ body {
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+.card.card-met {
+  background: var(--good-wash);
+  border-color: var(--good-mark);
+}
+.card.card-missed {
+  background: var(--critical-wash);
+  border-color: var(--critical);
 }
 .card {
   background: var(--surface-1);
