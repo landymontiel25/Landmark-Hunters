@@ -187,9 +187,10 @@ export function allSwipeCards() {
   return [...ALL_SWIPE_CARDS];
 }
 
-// "The 10 places you visit most": each place is a strong signal, so each of
-// its category tags gets the same push as a swiped "love it".
-export const PLACE_DELTA = SWIPE_DELTAS.love;
+// "Up to 10 places you visit most": we already know they love these, so each
+// place pushes every one of its category tags twice as hard as a swiped
+// "love it" (and as a first rating).
+export const PLACE_DELTA = SWIPE_DELTAS.love * 2;
 
 export function tagDeltasFromPlaces(places = []) {
   const out = {};

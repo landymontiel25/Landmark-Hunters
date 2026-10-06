@@ -188,7 +188,8 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Rated without a visit still counts as somewhere new to go (the rating
   // itself keeps teaching the taste model above).
   const reviewedIds = new Set(reviews.filter(isVisitedReview).map((r) => r.landmarkId).filter(Boolean));
-  const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback).filter((id) => !touched.has(id)), ...removed]);
+  const savedPlaceIds = (myProfile?.onboardingPlaces || []).map((p) => p.id);
+  const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...savedPlaceIds, ...votedIds(feedback).filter((id) => !touched.has(id)), ...removed]);
   const landmarks = ranked.filter((l) => !excludeIds.has(l.id)).slice(0, RESERVE);
 
   // Saved to the database first (usePickVotes); the card reacts to the

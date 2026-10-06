@@ -368,3 +368,21 @@ describe('rated without a visit is not "been there"', () => {
     expect([...after.usual, ...after.fresh].map((p) => p.id)).not.toContain(id);
   });
 });
+
+describe('places told at sign-up (profile.onboardingPlaces)', () => {
+  const l = ALL_LANDMARKS[0];
+  const profile = { onboardingPlaces: [{ regionId: l.regionId, id: l.id, name: l.name }] };
+
+  it('count as visited, so they are never picks', async () => {
+    const { visitedReviewIds, unratedPlaces } = await import('./nearbyPicks');
+    expect(visitedReviewIds({}, profile)).toEqual([l.id]);
+    expect(unratedPlaces([l], {}, profile)).toEqual([]);
+    expect(unratedPlaces([l], {})).toEqual([l]);
+  });
+
+  it('seed "Because you liked" until a loved rating exists', async () => {
+    const { lovedSeed } = await import('./nearbyPicks');
+    expect(lovedSeed({}, undefined, profile)).toBe(l);
+    expect(lovedSeed({}, undefined, null)).toBeNull();
+  });
+});

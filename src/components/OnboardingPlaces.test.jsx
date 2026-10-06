@@ -28,6 +28,7 @@ describe('OnboardingPlaces', () => {
   it('asks for up to 10 places', async () => {
     const { el } = await render({ places: [] });
     expect(el.textContent).toContain('Tell us up to 10 places you visit most');
+    expect(el.textContent).toContain('Mapr gets smarter with every rating you give. Rate for you, and your next picks improve.');
   });
 
   it('with an account, Continue saves the places for Mapr, then moves on', async () => {

@@ -68,6 +68,7 @@ export default function OnboardingPlaces({ places, onChange, onDone, uid = null,
         <span>{'\u{1F4CD}'}</span> Your places
       </h1>
       <p className="screen-subtitle">Tell us up to 10 places you visit most, and we'll help you discover new spots you'll love.</p>
+      <p className="screen-subtitle">Mapr gets smarter with every rating you give. Rate for you, and your next picks improve.</p>
       <div className="field lab-place-search">
         <label htmlFor="lab-place">
           Place {places.length} of {MAX_PLACES}
