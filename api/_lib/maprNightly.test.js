@@ -137,13 +137,14 @@ describe('runWeekly', () => {
     expect(db.store.get('mapr_models').get('ncf')).toMatchObject({ version: 'vPrev', rolledBackFrom: 'vLive' });
   }, 60_000);
 
-  it('turns NCF on only above 10 active users, and back off below', async () => {
+  it('turns NCF on only above the threshold (10 here), and back off below', async () => {
+    const cfg = { ...NCF, autoEnableAboveUsers: 10 };
     const ds = dataset(); // 16 users with check-ins
-    let out = await runNcfWeekly(db, ds, { now: NOW });
+    let out = await runNcfWeekly(db, ds, { now: NOW, cfg });
     expect(out).toMatchObject({ active: true, activeUsers: 16, activeThreshold: 10 });
     expect(db.store.get('mapr_models').get('ncf')).toMatchObject({ active: true, activeUsers: 16 });
     const few = { ...ds, checkins: ds.checkins.filter((c) => ['u0', 'u1'].includes(c.userId)), reviews: [] };
-    out = await runNcfWeekly(db, few, { now: NOW + 7 * DAY });
+    out = await runNcfWeekly(db, few, { now: NOW + 7 * DAY, cfg });
     expect(out).toMatchObject({ active: false, activeUsers: 2 });
     expect(db.store.get('mapr_models').get('ncf').active).toBe(false);
   }, 60_000);
@@ -151,8 +152,15 @@ describe('runWeekly', () => {
   it('counts active users over the 90-day window, exactly 10 is still off', async () => {
     const pos = Array.from({ length: 10 }, (_, u) => ({ userId: `u${u}`, itemKey: 'r/x', at: NOW - DAY }));
     expect(ncfActiveUsers([...pos, { userId: 'old', itemKey: 'r/x', at: NOW - 100 * DAY }], { now: NOW })).toBe(10);
-    const out = await runNcfWeekly(db, { checkins: pos.map((p) => ({ userId: p.userId, landmarkId: 'x', region: 'r', createdAt: p.at })), reviews: [] }, { now: NOW });
+    const out = await runNcfWeekly(db, { checkins: pos.map((p) => ({ userId: p.userId, landmarkId: 'x', region: 'r', createdAt: p.at })), reviews: [] }, { now: NOW, cfg: { ...NCF, autoEnableAboveUsers: 10 } });
     expect(out.active).toBe(false);
+  }, 60_000);
+
+  it('while testing (threshold 0), one active user turns NCF on, none keeps it off', async () => {
+    expect(NCF.autoEnableAboveUsers).toBe(0);
+    const one = { checkins: [{ userId: 'me', landmarkId: 'x', region: 'r', createdAt: NOW - DAY }], reviews: [] };
+    expect((await runNcfWeekly(db, one, { now: NOW })).active).toBe(true);
+    expect((await runNcfWeekly(db, { checkins: [], reviews: [] }, { now: NOW })).active).toBe(false);
   }, 60_000);
 
   it('skips training with no data', async () => {

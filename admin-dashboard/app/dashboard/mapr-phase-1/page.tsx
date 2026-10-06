@@ -55,7 +55,7 @@ export default function MaprPhase1() {
           {n ? (
             <dl className="grid grid-cols-2 gap-2 text-sm tabular">
               <dt className="secondary">Switch</dt>
-              <dd>{n.active ? 'On' : `Off until more than ${n.active_threshold ?? 10} active users (now ${n.active_users ?? 0})`}</dd>
+              <dd>{n.active ? 'On' : `Off until more than ${n.active_threshold ?? 0} active users (now ${n.active_users ?? 0})`}</dd>
               <dt className="secondary">Last trained</dt>
               <dd>{when(n.last_trained)}</dd>
               <dt className="secondary">Last weekly run</dt>
