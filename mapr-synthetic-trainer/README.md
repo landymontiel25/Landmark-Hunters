@@ -4,7 +4,7 @@ Offline simulation that trains and tests Mapr Phase 1 on 10,000 synthetic
 travelers. It runs on your machine, reads nothing from production and writes
 nothing to it. The optional Firestore writes go only to the local emulator.
 
-Results of the full run: [`RESULTS.md`](RESULTS.md). NCF fix test (30 simulations): [`FIX-RESULTS.md`](FIX-RESULTS.md). Blend weights: [`WEIGHTS-RESULTS.md`](WEIGHTS-RESULTS.md). Scale test (10k/50k/100k): [`SCALE-RESULTS.md`](SCALE-RESULTS.md). Screenshots: [`screenshots/`](screenshots/).
+Results of the full run: [`RESULTS.md`](RESULTS.md). NCF fix test (30 simulations): [`FIX-RESULTS.md`](FIX-RESULTS.md). Blend weights: [`WEIGHTS-RESULTS.md`](WEIGHTS-RESULTS.md). Scale test (10k/50k/100k): [`SCALE-RESULTS.md`](SCALE-RESULTS.md). Fresh-seed validation: [`VALIDATION-RESULTS.md`](VALIDATION-RESULTS.md). Screenshots: [`screenshots/`](screenshots/).
 
 ## Run it
 

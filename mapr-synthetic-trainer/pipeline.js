@@ -44,6 +44,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     // users moved past the largest batch, no 1 GB data files, the winning
     // signed 0.2 blend in the lab and the extended metrics.
     else if (a === '--batches') opt.batches = argv[++k].split(',').map((x) => ({ name: x.split(':')[0], users: Number(x.split(':')[1]) }));
+    else if (a === '--seed-base') opt.seedBase = Number(argv[++k]);
     else if (a === '--cold-offset') opt.coldOffset = Number(argv[++k]);
     else if (a === '--no-data-files') opt.noDataFiles = true;
     else if (a === '--extended') {
@@ -71,18 +72,18 @@ async function writeJsonArray(file, items, toJson, onProgress) {
   await once(out, 'finish');
 }
 
-export async function runPipeline({ quick = false, sims = SIMS, workers, epochs, ncf = {}, blendWeights = [], batches: customBatches = null, coldOffset, noDataFiles = false, extended = null, labBlend, emit = () => {} } = {}) {
+export async function runPipeline({ quick = false, sims = SIMS, workers, epochs, ncf = {}, blendWeights = [], batches: customBatches = null, seedBase, coldOffset, noDataFiles = false, extended = null, labBlend, emit = () => {} } = {}) {
   mkdirSync(OUT_DIR, { recursive: true });
   const t0 = Date.now();
   const batches = customBatches || (quick ? [{ name: 'A', users: 300 }, { name: 'B', users: 600 }, { name: 'C', users: 1000 }] : BATCHES);
   const nSims = quick ? Math.min(sims, 2) : sims;
   const ncfConfig = { ...ncf, ...(epochs || quick ? { epochs: epochs || 4 } : {}) };
-  const config = { batches, sims: nSims, cold_users: COLD_USERS, interactions_per_user: PER_USER, archetypes: ARCHETYPES.length, ncf: ncfConfig, quick, blend_weights: blendWeights, cold_offset: coldOffset ?? null, extended, lab_blend: labBlend ?? null };
+  const config = { batches, sims: nSims, cold_users: COLD_USERS, interactions_per_user: PER_USER, archetypes: ARCHETYPES.length, ncf: ncfConfig, quick, blend_weights: blendWeights, seed_base: seedBase ?? 1000, cold_offset: coldOffset ?? null, extended, lab_blend: labBlend ?? null };
   emit({ type: 'phase', phase: 'generation', config });
 
   // ---- 1. Generation (simulation 1's population, saved as the canonical set)
   const catalog = await loadCatalog();
-  const plan = simulationPlans(1)[0];
+  const plan = simulationPlans(1, { seedBase })[0];
   const total = batches.at(-1).users;
   const g0 = Date.now();
   const ds = buildDataset(catalog, {
@@ -143,7 +144,7 @@ export async function runPipeline({ quick = false, sims = SIMS, workers, epochs,
 
   // ---- 3. Monte Carlo training ---------------------------------------------
   emit({ type: 'phase', phase: 'training' });
-  const results = await runMonteCarlo({ blendWeights, coldOffset, extended, labBlend, exportFrom: { batch: batches.at(-1).name, sim: 1 }, lab: true, sims: nSims, batches, workers, ncfConfig, outDir: OUT_DIR, emit });
+  const results = await runMonteCarlo({ seedBase, blendWeights, coldOffset, extended, labBlend, exportFrom: { batch: batches.at(-1).name, sim: 1 }, lab: true, sims: nSims, batches, workers, ncfConfig, outDir: OUT_DIR, emit });
 
   // ---- 4. Reports ------------------------------------------------------------
   const summary = writeReports(OUT_DIR, results, { config, generation });

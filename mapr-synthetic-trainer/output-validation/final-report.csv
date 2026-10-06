@@ -1,0 +1,673 @@
+section,item,metric,value,sd,n
+batch C (10000 users),random,accuracy,0.5003,0.0049,10
+batch C (10000 users),random,ndcg_10,0.0216,0.002,10
+batch C (10000 users),random,map_10,0.0107,0.0013,10
+batch C (10000 users),random,recall_10,0.0364,0.0039,10
+batch C (10000 users),random,hit_rate_10,0.0914,0.007,10
+batch C (10000 users),random,heldout_ndcg_10,0.6782,0.0036,10
+batch C (10000 users),popularity,accuracy,0.6123,0.0085,10
+batch C (10000 users),popularity,ndcg_10,0.0407,0.0034,10
+batch C (10000 users),popularity,map_10,0.0228,0.0025,10
+batch C (10000 users),popularity,recall_10,0.0694,0.0057,10
+batch C (10000 users),popularity,hit_rate_10,0.1419,0.0092,10
+batch C (10000 users),popularity,heldout_ndcg_10,0.7155,0.0037,10
+batch C (10000 users),tag,accuracy,0.7703,0.0069,10
+batch C (10000 users),tag,ndcg_10,0.0729,0.0056,10
+batch C (10000 users),tag,map_10,0.0434,0.0045,10
+batch C (10000 users),tag,recall_10,0.1236,0.0081,10
+batch C (10000 users),tag,hit_rate_10,0.2261,0.0126,10
+batch C (10000 users),tag,heldout_ndcg_10,0.7833,0.0035,10
+batch C (10000 users),tag_sim,accuracy,0.7744,0.0071,10
+batch C (10000 users),tag_sim,ndcg_10,0.0739,0.0044,10
+batch C (10000 users),tag_sim,map_10,0.0441,0.0038,10
+batch C (10000 users),tag_sim,recall_10,0.1245,0.0076,10
+batch C (10000 users),tag_sim,hit_rate_10,0.2287,0.0107,10
+batch C (10000 users),tag_sim,heldout_ndcg_10,0.7849,0.0032,10
+batch C (10000 users),ncf,accuracy,0.6219,0.0229,10
+batch C (10000 users),ncf,ndcg_10,0.0381,0.0036,10
+batch C (10000 users),ncf,map_10,0.0209,0.0024,10
+batch C (10000 users),ncf,recall_10,0.0649,0.0064,10
+batch C (10000 users),ncf,hit_rate_10,0.1368,0.0128,10
+batch C (10000 users),ncf,heldout_ndcg_10,0.7169,0.0057,10
+batch C (10000 users),mapr,accuracy,0.7676,0.0148,10
+batch C (10000 users),mapr,ndcg_10,0.0689,0.0054,10
+batch C (10000 users),mapr,map_10,0.0407,0.004,10
+batch C (10000 users),mapr,recall_10,0.1153,0.0091,10
+batch C (10000 users),mapr,hit_rate_10,0.217,0.0128,10
+batch C (10000 users),mapr,heldout_ndcg_10,0.7783,0.0108,10
+batch C (10000 users),oracle,accuracy,0.95,0.0037,10
+batch C (10000 users),oracle,ndcg_10,0.1214,0.0072,10
+batch C (10000 users),oracle,map_10,0.0757,0.0058,10
+batch C (10000 users),oracle,recall_10,0.2121,0.0108,10
+batch C (10000 users),oracle,hit_rate_10,0.3335,0.0138,10
+batch C (10000 users),oracle,heldout_ndcg_10,0.8839,0.0026,10
+batch C (10000 users),mapr_w0.2,accuracy,0.7796,0.008,10
+batch C (10000 users),mapr_w0.2,ndcg_10,0.0741,0.0053,10
+batch C (10000 users),mapr_w0.2,map_10,0.0438,0.0045,10
+batch C (10000 users),mapr_w0.2,recall_10,0.126,0.0072,10
+batch C (10000 users),mapr_w0.2,hit_rate_10,0.2315,0.0136,10
+batch C (10000 users),mapr_w0.2,heldout_ndcg_10,0.7857,0.0039,10
+batch C (10000 users),mapr_signed_w0.2,accuracy,0.7818,0.0075,10
+batch C (10000 users),mapr_signed_w0.2,ndcg_10,0.0735,0.0055,10
+batch C (10000 users),mapr_signed_w0.2,map_10,0.0431,0.0045,10
+batch C (10000 users),mapr_signed_w0.2,recall_10,0.1258,0.0079,10
+batch C (10000 users),mapr_signed_w0.2,hit_rate_10,0.2304,0.0144,10
+batch C (10000 users),mapr_signed_w0.2,heldout_ndcg_10,0.7867,0.0034,10
+"batch C cold start (never-trained users, 5 ratings known)",popularity,accuracy,0.6175,0.005,10
+"batch C cold start (never-trained users, 5 ratings known)",popularity,ndcg_10,0.064,0.0066,10
+"batch C cold start (never-trained users, 5 ratings known)",popularity,map_10,0.0296,0.0045,10
+"batch C cold start (never-trained users, 5 ratings known)",popularity,recall_10,0.0652,0.0085,10
+"batch C cold start (never-trained users, 5 ratings known)",popularity,hit_rate_10,0.3181,0.0232,10
+"batch C cold start (never-trained users, 5 ratings known)",popularity,heldout_ndcg_10,0.3746,0.0075,10
+"batch C cold start (never-trained users, 5 ratings known)",tag,accuracy,0.6586,0.0117,10
+"batch C cold start (never-trained users, 5 ratings known)",tag,ndcg_10,0.0677,0.0084,10
+"batch C cold start (never-trained users, 5 ratings known)",tag,map_10,0.0319,0.0048,10
+"batch C cold start (never-trained users, 5 ratings known)",tag,recall_10,0.0671,0.0089,10
+"batch C cold start (never-trained users, 5 ratings known)",tag,hit_rate_10,0.3111,0.0279,10
+"batch C cold start (never-trained users, 5 ratings known)",tag,heldout_ndcg_10,0.4028,0.0093,10
+"batch C cold start (never-trained users, 5 ratings known)",tag_sim,accuracy,0.6604,0.0117,10
+"batch C cold start (never-trained users, 5 ratings known)",tag_sim,ndcg_10,0.0687,0.0058,10
+"batch C cold start (never-trained users, 5 ratings known)",tag_sim,map_10,0.0328,0.0034,10
+"batch C cold start (never-trained users, 5 ratings known)",tag_sim,recall_10,0.068,0.0082,10
+"batch C cold start (never-trained users, 5 ratings known)",tag_sim,hit_rate_10,0.3115,0.0206,10
+"batch C cold start (never-trained users, 5 ratings known)",tag_sim,heldout_ndcg_10,0.4054,0.0091,10
+"batch C cold start (never-trained users, 5 ratings known)",ncf,accuracy,0.5836,0.0246,10
+"batch C cold start (never-trained users, 5 ratings known)",ncf,ndcg_10,0.0549,0.0082,10
+"batch C cold start (never-trained users, 5 ratings known)",ncf,map_10,0.0243,0.0047,10
+"batch C cold start (never-trained users, 5 ratings known)",ncf,recall_10,0.0566,0.0097,10
+"batch C cold start (never-trained users, 5 ratings known)",ncf,hit_rate_10,0.2892,0.0325,10
+"batch C cold start (never-trained users, 5 ratings known)",ncf,heldout_ndcg_10,0.346,0.0222,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr,accuracy,0.6643,0.0189,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr,ndcg_10,0.0747,0.0072,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr,map_10,0.0356,0.0049,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr,recall_10,0.0749,0.0064,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr,hit_rate_10,0.3405,0.0136,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr,heldout_ndcg_10,0.4139,0.0129,10
+"batch C cold start (never-trained users, 5 ratings known)",oracle,accuracy,0.9523,0.004,10
+"batch C cold start (never-trained users, 5 ratings known)",oracle,ndcg_10,0.195,0.0164,10
+"batch C cold start (never-trained users, 5 ratings known)",oracle,map_10,0.1129,0.0118,10
+"batch C cold start (never-trained users, 5 ratings known)",oracle,recall_10,0.2374,0.022,10
+"batch C cold start (never-trained users, 5 ratings known)",oracle,hit_rate_10,0.6316,0.0291,10
+"batch C cold start (never-trained users, 5 ratings known)",oracle,heldout_ndcg_10,0.7888,0.0071,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_w0.2,accuracy,0.6605,0.0172,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_w0.2,ndcg_10,0.0733,0.0075,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_w0.2,map_10,0.0356,0.0046,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_w0.2,recall_10,0.0722,0.0075,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_w0.2,hit_rate_10,0.3263,0.0216,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_w0.2,heldout_ndcg_10,0.4128,0.014,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,accuracy,0.6796,0.015,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,ndcg_10,0.0764,0.0073,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,map_10,0.0371,0.0046,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,recall_10,0.077,0.0073,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,hit_rate_10,0.3382,0.0191,10
+"batch C cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,heldout_ndcg_10,0.4208,0.0131,10
+batch C model health,ncf,epochs_run,19.8,15.6,10
+batch C model health,ncf,stopped_by,"{""early-stopping"":10}",,
+batch C model health,ncf,train_loss_epoch_1,0.6753,0.0007,10
+batch C model health,ncf,train_loss_best_epoch,0.4396,0.2498,10
+batch C model health,ncf,train_minutes,4.89,3.67,10
+batch C model health,similarity,matrix_bytes,1778185,1385,10
+batch D (50000 users),random,accuracy,0.4998,0.0063,10
+batch D (50000 users),random,ndcg_10,0.0207,0.0025,10
+batch D (50000 users),random,map_10,0.0104,0.0016,10
+batch D (50000 users),random,recall_10,0.0338,0.0053,10
+batch D (50000 users),random,hit_rate_10,0.0883,0.0079,10
+batch D (50000 users),random,heldout_ndcg_10,0.6802,0.0038,10
+batch D (50000 users),popularity,accuracy,0.6305,0.0064,10
+batch D (50000 users),popularity,ndcg_10,0.0424,0.004,10
+batch D (50000 users),popularity,map_10,0.0246,0.0026,10
+batch D (50000 users),popularity,recall_10,0.0703,0.0073,10
+batch D (50000 users),popularity,hit_rate_10,0.1445,0.0112,10
+batch D (50000 users),popularity,heldout_ndcg_10,0.725,0.0024,10
+batch D (50000 users),tag,accuracy,0.7731,0.0087,10
+batch D (50000 users),tag,ndcg_10,0.071,0.0051,10
+batch D (50000 users),tag,map_10,0.0422,0.0039,10
+batch D (50000 users),tag,recall_10,0.1204,0.0091,10
+batch D (50000 users),tag,hit_rate_10,0.2199,0.0106,10
+batch D (50000 users),tag,heldout_ndcg_10,0.7852,0.003,10
+batch D (50000 users),tag_sim,accuracy,0.7781,0.0086,10
+batch D (50000 users),tag_sim,ndcg_10,0.072,0.0048,10
+batch D (50000 users),tag_sim,map_10,0.0425,0.0037,10
+batch D (50000 users),tag_sim,recall_10,0.1231,0.0091,10
+batch D (50000 users),tag_sim,hit_rate_10,0.2261,0.0106,10
+batch D (50000 users),tag_sim,heldout_ndcg_10,0.7868,0.0034,10
+batch D (50000 users),ncf,accuracy,0.7078,0.009,10
+batch D (50000 users),ncf,ndcg_10,0.0445,0.0042,10
+batch D (50000 users),ncf,map_10,0.0237,0.0027,10
+batch D (50000 users),ncf,recall_10,0.0777,0.0075,10
+batch D (50000 users),ncf,hit_rate_10,0.1614,0.0116,10
+batch D (50000 users),ncf,heldout_ndcg_10,0.7473,0.0052,10
+batch D (50000 users),mapr,accuracy,0.7878,0.008,10
+batch D (50000 users),mapr,ndcg_10,0.0725,0.0054,10
+batch D (50000 users),mapr,map_10,0.0427,0.0041,10
+batch D (50000 users),mapr,recall_10,0.123,0.0086,10
+batch D (50000 users),mapr,hit_rate_10,0.2272,0.0097,10
+batch D (50000 users),mapr,heldout_ndcg_10,0.7865,0.0031,10
+batch D (50000 users),oracle,accuracy,0.9511,0.005,10
+batch D (50000 users),oracle,ndcg_10,0.119,0.0097,10
+batch D (50000 users),oracle,map_10,0.0737,0.0069,10
+batch D (50000 users),oracle,recall_10,0.2098,0.019,10
+batch D (50000 users),oracle,hit_rate_10,0.3307,0.0222,10
+batch D (50000 users),oracle,heldout_ndcg_10,0.8833,0.0037,10
+batch D (50000 users),mapr_w0.2,accuracy,0.7982,0.008,10
+batch D (50000 users),mapr_w0.2,ndcg_10,0.0733,0.0059,10
+batch D (50000 users),mapr_w0.2,map_10,0.0432,0.0048,10
+batch D (50000 users),mapr_w0.2,recall_10,0.1257,0.0098,10
+batch D (50000 users),mapr_w0.2,hit_rate_10,0.2283,0.0095,10
+batch D (50000 users),mapr_w0.2,heldout_ndcg_10,0.7922,0.0037,10
+batch D (50000 users),mapr_signed_w0.2,accuracy,0.7914,0.0086,10
+batch D (50000 users),mapr_signed_w0.2,ndcg_10,0.0733,0.0049,10
+batch D (50000 users),mapr_signed_w0.2,map_10,0.0431,0.004,10
+batch D (50000 users),mapr_signed_w0.2,recall_10,0.126,0.0079,10
+batch D (50000 users),mapr_signed_w0.2,hit_rate_10,0.2277,0.0079,10
+batch D (50000 users),mapr_signed_w0.2,heldout_ndcg_10,0.7905,0.0037,10
+"batch D cold start (never-trained users, 5 ratings known)",popularity,accuracy,0.6342,0.005,10
+"batch D cold start (never-trained users, 5 ratings known)",popularity,ndcg_10,0.0698,0.0051,10
+"batch D cold start (never-trained users, 5 ratings known)",popularity,map_10,0.0327,0.0036,10
+"batch D cold start (never-trained users, 5 ratings known)",popularity,recall_10,0.0734,0.0084,10
+"batch D cold start (never-trained users, 5 ratings known)",popularity,hit_rate_10,0.3341,0.0222,10
+"batch D cold start (never-trained users, 5 ratings known)",popularity,heldout_ndcg_10,0.39,0.0085,10
+"batch D cold start (never-trained users, 5 ratings known)",tag,accuracy,0.6586,0.0117,10
+"batch D cold start (never-trained users, 5 ratings known)",tag,ndcg_10,0.0677,0.0084,10
+"batch D cold start (never-trained users, 5 ratings known)",tag,map_10,0.0319,0.0048,10
+"batch D cold start (never-trained users, 5 ratings known)",tag,recall_10,0.0671,0.0089,10
+"batch D cold start (never-trained users, 5 ratings known)",tag,hit_rate_10,0.3111,0.0279,10
+"batch D cold start (never-trained users, 5 ratings known)",tag,heldout_ndcg_10,0.4028,0.0093,10
+"batch D cold start (never-trained users, 5 ratings known)",tag_sim,accuracy,0.6605,0.0118,10
+"batch D cold start (never-trained users, 5 ratings known)",tag_sim,ndcg_10,0.069,0.0071,10
+"batch D cold start (never-trained users, 5 ratings known)",tag_sim,map_10,0.0329,0.0041,10
+"batch D cold start (never-trained users, 5 ratings known)",tag_sim,recall_10,0.0685,0.009,10
+"batch D cold start (never-trained users, 5 ratings known)",tag_sim,hit_rate_10,0.3115,0.0242,10
+"batch D cold start (never-trained users, 5 ratings known)",tag_sim,heldout_ndcg_10,0.4062,0.0093,10
+"batch D cold start (never-trained users, 5 ratings known)",ncf,accuracy,0.594,0.0166,10
+"batch D cold start (never-trained users, 5 ratings known)",ncf,ndcg_10,0.0589,0.0061,10
+"batch D cold start (never-trained users, 5 ratings known)",ncf,map_10,0.0273,0.0034,10
+"batch D cold start (never-trained users, 5 ratings known)",ncf,recall_10,0.0635,0.0081,10
+"batch D cold start (never-trained users, 5 ratings known)",ncf,hit_rate_10,0.2893,0.0232,10
+"batch D cold start (never-trained users, 5 ratings known)",ncf,heldout_ndcg_10,0.3642,0.013,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr,accuracy,0.6625,0.0112,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr,ndcg_10,0.0763,0.0068,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr,map_10,0.0367,0.0035,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr,recall_10,0.0792,0.0079,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr,hit_rate_10,0.3409,0.031,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr,heldout_ndcg_10,0.4223,0.0097,10
+"batch D cold start (never-trained users, 5 ratings known)",oracle,accuracy,0.9523,0.004,10
+"batch D cold start (never-trained users, 5 ratings known)",oracle,ndcg_10,0.195,0.0164,10
+"batch D cold start (never-trained users, 5 ratings known)",oracle,map_10,0.1129,0.0118,10
+"batch D cold start (never-trained users, 5 ratings known)",oracle,recall_10,0.2374,0.022,10
+"batch D cold start (never-trained users, 5 ratings known)",oracle,hit_rate_10,0.6316,0.0291,10
+"batch D cold start (never-trained users, 5 ratings known)",oracle,heldout_ndcg_10,0.7888,0.0071,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_w0.2,accuracy,0.658,0.0119,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_w0.2,ndcg_10,0.0754,0.0064,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_w0.2,map_10,0.0365,0.0034,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_w0.2,recall_10,0.0766,0.0071,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_w0.2,hit_rate_10,0.3324,0.0247,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_w0.2,heldout_ndcg_10,0.4172,0.0097,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,accuracy,0.6757,0.0129,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,ndcg_10,0.0784,0.0075,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,map_10,0.0386,0.0038,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,recall_10,0.0805,0.0095,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,hit_rate_10,0.3403,0.0303,10
+"batch D cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,heldout_ndcg_10,0.4241,0.0099,10
+batch D model health,ncf,epochs_run,14.6,4,10
+batch D model health,ncf,stopped_by,"{""early-stopping"":10}",,
+batch D model health,ncf,train_loss_epoch_1,0.6694,0.0005,10
+batch D model health,ncf,train_loss_best_epoch,0.4209,0.0426,10
+batch D model health,ncf,train_minutes,17.17,4.45,10
+batch D model health,similarity,matrix_bytes,1796742,781,10
+batch E (100000 users),random,accuracy,0.5004,0.0063,10
+batch E (100000 users),random,ndcg_10,0.02,0.0024,10
+batch E (100000 users),random,map_10,0.0097,0.0015,10
+batch E (100000 users),random,recall_10,0.0344,0.0048,10
+batch E (100000 users),random,hit_rate_10,0.0877,0.0085,10
+batch E (100000 users),random,heldout_ndcg_10,0.679,0.0036,10
+batch E (100000 users),popularity,accuracy,0.631,0.0054,10
+batch E (100000 users),popularity,ndcg_10,0.0424,0.0049,10
+batch E (100000 users),popularity,map_10,0.0237,0.0033,10
+batch E (100000 users),popularity,recall_10,0.0726,0.0081,10
+batch E (100000 users),popularity,hit_rate_10,0.1499,0.0145,10
+batch E (100000 users),popularity,heldout_ndcg_10,0.7228,0.0042,10
+batch E (100000 users),tag,accuracy,0.773,0.0063,10
+batch E (100000 users),tag,ndcg_10,0.0728,0.0048,10
+batch E (100000 users),tag,map_10,0.0431,0.0037,10
+batch E (100000 users),tag,recall_10,0.123,0.0088,10
+batch E (100000 users),tag,hit_rate_10,0.2265,0.0095,10
+batch E (100000 users),tag,heldout_ndcg_10,0.7838,0.0046,10
+batch E (100000 users),tag_sim,accuracy,0.7783,0.0066,10
+batch E (100000 users),tag_sim,ndcg_10,0.0739,0.0055,10
+batch E (100000 users),tag_sim,map_10,0.0439,0.0044,10
+batch E (100000 users),tag_sim,recall_10,0.1261,0.0091,10
+batch E (100000 users),tag_sim,hit_rate_10,0.2278,0.0113,10
+batch E (100000 users),tag_sim,heldout_ndcg_10,0.7856,0.0045,10
+batch E (100000 users),ncf,accuracy,0.7356,0.007,10
+batch E (100000 users),ncf,ndcg_10,0.0505,0.0056,10
+batch E (100000 users),ncf,map_10,0.0282,0.0042,10
+batch E (100000 users),ncf,recall_10,0.0855,0.0088,10
+batch E (100000 users),ncf,hit_rate_10,0.1747,0.0133,10
+batch E (100000 users),ncf,heldout_ndcg_10,0.7552,0.0035,10
+batch E (100000 users),mapr,accuracy,0.8022,0.0069,10
+batch E (100000 users),mapr,ndcg_10,0.0746,0.0069,10
+batch E (100000 users),mapr,map_10,0.0439,0.0053,10
+batch E (100000 users),mapr,recall_10,0.1275,0.0114,10
+batch E (100000 users),mapr,hit_rate_10,0.2323,0.0131,10
+batch E (100000 users),mapr,heldout_ndcg_10,0.7908,0.0051,10
+batch E (100000 users),oracle,accuracy,0.9513,0.004,10
+batch E (100000 users),oracle,ndcg_10,0.1184,0.0051,10
+batch E (100000 users),oracle,map_10,0.0739,0.0041,10
+batch E (100000 users),oracle,recall_10,0.2067,0.0085,10
+batch E (100000 users),oracle,hit_rate_10,0.3265,0.0118,10
+batch E (100000 users),oracle,heldout_ndcg_10,0.8841,0.0029,10
+batch E (100000 users),mapr_w0.2,accuracy,0.8033,0.0069,10
+batch E (100000 users),mapr_w0.2,ndcg_10,0.0744,0.0061,10
+batch E (100000 users),mapr_w0.2,map_10,0.0441,0.0046,10
+batch E (100000 users),mapr_w0.2,recall_10,0.1266,0.0095,10
+batch E (100000 users),mapr_w0.2,hit_rate_10,0.2299,0.0113,10
+batch E (100000 users),mapr_w0.2,heldout_ndcg_10,0.7919,0.0047,10
+batch E (100000 users),mapr_signed_w0.2,accuracy,0.7955,0.0071,10
+batch E (100000 users),mapr_signed_w0.2,ndcg_10,0.0753,0.0062,10
+batch E (100000 users),mapr_signed_w0.2,map_10,0.0446,0.0049,10
+batch E (100000 users),mapr_signed_w0.2,recall_10,0.1286,0.0094,10
+batch E (100000 users),mapr_signed_w0.2,hit_rate_10,0.2323,0.0111,10
+batch E (100000 users),mapr_signed_w0.2,heldout_ndcg_10,0.7912,0.0039,10
+"batch E cold start (never-trained users, 5 ratings known)",popularity,accuracy,0.6374,0.0052,10
+"batch E cold start (never-trained users, 5 ratings known)",popularity,ndcg_10,0.0715,0.005,10
+"batch E cold start (never-trained users, 5 ratings known)",popularity,map_10,0.0337,0.0037,10
+"batch E cold start (never-trained users, 5 ratings known)",popularity,recall_10,0.0758,0.0084,10
+"batch E cold start (never-trained users, 5 ratings known)",popularity,hit_rate_10,0.3364,0.0223,10
+"batch E cold start (never-trained users, 5 ratings known)",popularity,heldout_ndcg_10,0.3915,0.0071,10
+"batch E cold start (never-trained users, 5 ratings known)",tag,accuracy,0.6586,0.0117,10
+"batch E cold start (never-trained users, 5 ratings known)",tag,ndcg_10,0.0677,0.0084,10
+"batch E cold start (never-trained users, 5 ratings known)",tag,map_10,0.0319,0.0048,10
+"batch E cold start (never-trained users, 5 ratings known)",tag,recall_10,0.0671,0.0089,10
+"batch E cold start (never-trained users, 5 ratings known)",tag,hit_rate_10,0.3111,0.0279,10
+"batch E cold start (never-trained users, 5 ratings known)",tag,heldout_ndcg_10,0.4028,0.0093,10
+"batch E cold start (never-trained users, 5 ratings known)",tag_sim,accuracy,0.6606,0.0119,10
+"batch E cold start (never-trained users, 5 ratings known)",tag_sim,ndcg_10,0.0691,0.007,10
+"batch E cold start (never-trained users, 5 ratings known)",tag_sim,map_10,0.033,0.004,10
+"batch E cold start (never-trained users, 5 ratings known)",tag_sim,recall_10,0.0685,0.0091,10
+"batch E cold start (never-trained users, 5 ratings known)",tag_sim,hit_rate_10,0.3102,0.0216,10
+"batch E cold start (never-trained users, 5 ratings known)",tag_sim,heldout_ndcg_10,0.4064,0.0095,10
+"batch E cold start (never-trained users, 5 ratings known)",ncf,accuracy,0.6281,0.0193,10
+"batch E cold start (never-trained users, 5 ratings known)",ncf,ndcg_10,0.0664,0.0066,10
+"batch E cold start (never-trained users, 5 ratings known)",ncf,map_10,0.0318,0.0039,10
+"batch E cold start (never-trained users, 5 ratings known)",ncf,recall_10,0.071,0.0077,10
+"batch E cold start (never-trained users, 5 ratings known)",ncf,hit_rate_10,0.306,0.0258,10
+"batch E cold start (never-trained users, 5 ratings known)",ncf,heldout_ndcg_10,0.3839,0.0111,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr,accuracy,0.6761,0.0138,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr,ndcg_10,0.0796,0.0082,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr,map_10,0.0387,0.0051,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr,recall_10,0.0818,0.0082,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr,hit_rate_10,0.3457,0.0214,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr,heldout_ndcg_10,0.4282,0.0101,10
+"batch E cold start (never-trained users, 5 ratings known)",oracle,accuracy,0.9523,0.004,10
+"batch E cold start (never-trained users, 5 ratings known)",oracle,ndcg_10,0.195,0.0164,10
+"batch E cold start (never-trained users, 5 ratings known)",oracle,map_10,0.1129,0.0118,10
+"batch E cold start (never-trained users, 5 ratings known)",oracle,recall_10,0.2374,0.022,10
+"batch E cold start (never-trained users, 5 ratings known)",oracle,hit_rate_10,0.6316,0.0291,10
+"batch E cold start (never-trained users, 5 ratings known)",oracle,heldout_ndcg_10,0.7888,0.0071,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_w0.2,accuracy,0.669,0.0132,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_w0.2,ndcg_10,0.0772,0.0082,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_w0.2,map_10,0.0376,0.0052,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_w0.2,recall_10,0.0784,0.008,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_w0.2,hit_rate_10,0.3371,0.0205,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_w0.2,heldout_ndcg_10,0.4227,0.0103,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,accuracy,0.6811,0.0133,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,ndcg_10,0.0789,0.0072,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,map_10,0.0386,0.0044,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,recall_10,0.0806,0.007,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,hit_rate_10,0.3422,0.0206,10
+"batch E cold start (never-trained users, 5 ratings known)",mapr_signed_w0.2,heldout_ndcg_10,0.428,0.0105,10
+batch E model health,ncf,epochs_run,11.2,1.2,10
+batch E model health,ncf,stopped_by,"{""early-stopping"":10}",,
+batch E model health,ncf,train_loss_epoch_1,0.6681,0.0006,10
+batch E model health,ncf,train_loss_best_epoch,0.4811,0.0268,10
+batch E model health,ncf,train_minutes,26.49,2.87,10
+batch E model health,similarity,matrix_bytes,1794403,845,10
+"archetypes (batch E, pooled over simulations)",Local Life Seeker,ncf_accuracy,0.8596,0.0549,164
+"archetypes (batch E, pooled over simulations)",Local Life Seeker,mapr_accuracy,0.9293,,164
+"archetypes (batch E, pooled over simulations)",Local Life Seeker,tag_sim_accuracy,0.8796,,164
+"archetypes (batch E, pooled over simulations)",Seasoned Local,ncf_accuracy,0.8529,0.0547,190
+"archetypes (batch E, pooled over simulations)",Seasoned Local,mapr_accuracy,0.9125,,190
+"archetypes (batch E, pooled over simulations)",Seasoned Local,tag_sim_accuracy,0.8541,,190
+"archetypes (batch E, pooled over simulations)",Dive Bar Regular,ncf_accuracy,0.8415,0.0268,199
+"archetypes (batch E, pooled over simulations)",Dive Bar Regular,mapr_accuracy,0.8786,,199
+"archetypes (batch E, pooled over simulations)",Dive Bar Regular,tag_sim_accuracy,0.8382,,199
+"archetypes (batch E, pooled over simulations)",Nightlife Person,ncf_accuracy,0.8379,0.0441,181
+"archetypes (batch E, pooled over simulations)",Nightlife Person,mapr_accuracy,0.8908,,181
+"archetypes (batch E, pooled over simulations)",Nightlife Person,tag_sim_accuracy,0.8281,,181
+"archetypes (batch E, pooled over simulations)",Weekend Party Group,ncf_accuracy,0.8369,0.046,203
+"archetypes (batch E, pooled over simulations)",Weekend Party Group,mapr_accuracy,0.8952,,203
+"archetypes (batch E, pooled over simulations)",Weekend Party Group,tag_sim_accuracy,0.8697,,203
+"archetypes (batch E, pooled over simulations)",Religious Heritage Traveler,ncf_accuracy,0.8287,0.0554,190
+"archetypes (batch E, pooled over simulations)",Religious Heritage Traveler,mapr_accuracy,0.9191,,190
+"archetypes (batch E, pooled over simulations)",Religious Heritage Traveler,tag_sim_accuracy,0.92,,190
+"archetypes (batch E, pooled over simulations)",Pub Crawler,ncf_accuracy,0.8282,0.034,200
+"archetypes (batch E, pooled over simulations)",Pub Crawler,mapr_accuracy,0.8925,,200
+"archetypes (batch E, pooled over simulations)",Pub Crawler,tag_sim_accuracy,0.8548,,200
+"archetypes (batch E, pooled over simulations)",Craft Beer Nerd,ncf_accuracy,0.8265,0.06,162
+"archetypes (batch E, pooled over simulations)",Craft Beer Nerd,mapr_accuracy,0.8704,,162
+"archetypes (batch E, pooled over simulations)",Craft Beer Nerd,tag_sim_accuracy,0.8114,,162
+"archetypes (batch E, pooled over simulations)",Royal Palace Visitor,ncf_accuracy,0.8247,0.0498,161
+"archetypes (batch E, pooled over simulations)",Royal Palace Visitor,mapr_accuracy,0.8909,,161
+"archetypes (batch E, pooled over simulations)",Royal Palace Visitor,tag_sim_accuracy,0.8536,,161
+"archetypes (batch E, pooled over simulations)",Architecture Fan,ncf_accuracy,0.8115,0.0561,200
+"archetypes (batch E, pooled over simulations)",Architecture Fan,mapr_accuracy,0.887,,200
+"archetypes (batch E, pooled over simulations)",Architecture Fan,tag_sim_accuracy,0.8818,,200
+"archetypes (batch E, pooled over simulations)",Outdoor Enthusiast,ncf_accuracy,0.8111,0.077,179
+"archetypes (batch E, pooled over simulations)",Outdoor Enthusiast,mapr_accuracy,0.9115,,179
+"archetypes (batch E, pooled over simulations)",Outdoor Enthusiast,tag_sim_accuracy,0.9232,,179
+"archetypes (batch E, pooled over simulations)",History Buff,ncf_accuracy,0.811,0.0692,178
+"archetypes (batch E, pooled over simulations)",History Buff,mapr_accuracy,0.8792,,178
+"archetypes (batch E, pooled over simulations)",History Buff,tag_sim_accuracy,0.8857,,178
+"archetypes (batch E, pooled over simulations)",Birdwatcher,ncf_accuracy,0.8105,0.046,193
+"archetypes (batch E, pooled over simulations)",Birdwatcher,mapr_accuracy,0.9215,,193
+"archetypes (batch E, pooled over simulations)",Birdwatcher,tag_sim_accuracy,0.914,,193
+"archetypes (batch E, pooled over simulations)",Retiree,ncf_accuracy,0.8089,0.0333,195
+"archetypes (batch E, pooled over simulations)",Retiree,mapr_accuracy,0.8794,,195
+"archetypes (batch E, pooled over simulations)",Retiree,tag_sim_accuracy,0.8972,,195
+"archetypes (batch E, pooled over simulations)",Monument Collector,ncf_accuracy,0.8033,0.0873,177
+"archetypes (batch E, pooled over simulations)",Monument Collector,mapr_accuracy,0.8843,,177
+"archetypes (batch E, pooled over simulations)",Monument Collector,tag_sim_accuracy,0.8748,,177
+"archetypes (batch E, pooled over simulations)",Garden Lover,ncf_accuracy,0.7983,0.0578,155
+"archetypes (batch E, pooled over simulations)",Garden Lover,mapr_accuracy,0.8896,,155
+"archetypes (batch E, pooled over simulations)",Garden Lover,tag_sim_accuracy,0.8622,,155
+"archetypes (batch E, pooled over simulations)",Picnic Planner,ncf_accuracy,0.7951,0.041,185
+"archetypes (batch E, pooled over simulations)",Picnic Planner,mapr_accuracy,0.8836,,185
+"archetypes (batch E, pooled over simulations)",Picnic Planner,tag_sim_accuracy,0.8701,,185
+"archetypes (batch E, pooled over simulations)",Coffee & Books,ncf_accuracy,0.7878,0.0562,172
+"archetypes (batch E, pooled over simulations)",Coffee & Books,mapr_accuracy,0.8434,,172
+"archetypes (batch E, pooled over simulations)",Coffee & Books,tag_sim_accuracy,0.7676,,172
+"archetypes (batch E, pooled over simulations)",Literary Tourist,ncf_accuracy,0.7852,0.0572,182
+"archetypes (batch E, pooled over simulations)",Literary Tourist,mapr_accuracy,0.859,,182
+"archetypes (batch E, pooled over simulations)",Literary Tourist,tag_sim_accuracy,0.842,,182
+"archetypes (batch E, pooled over simulations)",Neighborhood Wanderer,ncf_accuracy,0.7852,0.0581,171
+"archetypes (batch E, pooled over simulations)",Neighborhood Wanderer,mapr_accuracy,0.8469,,171
+"archetypes (batch E, pooled over simulations)",Neighborhood Wanderer,tag_sim_accuracy,0.8183,,171
+"archetypes (batch E, pooled over simulations)",First-Time Visitor,ncf_accuracy,0.7851,0.037,187
+"archetypes (batch E, pooled over simulations)",First-Time Visitor,mapr_accuracy,0.8518,,187
+"archetypes (batch E, pooled over simulations)",First-Time Visitor,tag_sim_accuracy,0.8554,,187
+"archetypes (batch E, pooled over simulations)",Business Traveler,ncf_accuracy,0.7823,0.0538,190
+"archetypes (batch E, pooled over simulations)",Business Traveler,mapr_accuracy,0.7944,,190
+"archetypes (batch E, pooled over simulations)",Business Traveler,tag_sim_accuracy,0.7099,,190
+"archetypes (batch E, pooled over simulations)",Hiker,ncf_accuracy,0.7822,0.0742,157
+"archetypes (batch E, pooled over simulations)",Hiker,mapr_accuracy,0.887,,157
+"archetypes (batch E, pooled over simulations)",Hiker,tag_sim_accuracy,0.8915,,157
+"archetypes (batch E, pooled over simulations)",Park & Ice Cream,ncf_accuracy,0.7821,0.073,181
+"archetypes (batch E, pooled over simulations)",Park & Ice Cream,mapr_accuracy,0.9044,,181
+"archetypes (batch E, pooled over simulations)",Park & Ice Cream,tag_sim_accuracy,0.8919,,181
+"archetypes (batch E, pooled over simulations)",Garden & Tea,ncf_accuracy,0.7768,0.0783,186
+"archetypes (batch E, pooled over simulations)",Garden & Tea,mapr_accuracy,0.8035,,186
+"archetypes (batch E, pooled over simulations)",Garden & Tea,tag_sim_accuracy,0.7069,,186
+"archetypes (batch E, pooled over simulations)",Coffee Snob,ncf_accuracy,0.7766,0.0598,178
+"archetypes (batch E, pooled over simulations)",Coffee Snob,mapr_accuracy,0.8332,,178
+"archetypes (batch E, pooled over simulations)",Coffee Snob,tag_sim_accuracy,0.7654,,178
+"archetypes (batch E, pooled over simulations)",Luxury Traveler,ncf_accuracy,0.7722,0.0495,194
+"archetypes (batch E, pooled over simulations)",Luxury Traveler,mapr_accuracy,0.797,,194
+"archetypes (batch E, pooled over simulations)",Luxury Traveler,tag_sim_accuracy,0.7272,,194
+"archetypes (batch E, pooled over simulations)",Late-Night Eater,ncf_accuracy,0.7712,0.046,150
+"archetypes (batch E, pooled over simulations)",Late-Night Eater,mapr_accuracy,0.8323,,150
+"archetypes (batch E, pooled over simulations)",Late-Night Eater,tag_sim_accuracy,0.7894,,150
+"archetypes (batch E, pooled over simulations)",Bakery Hunter,ncf_accuracy,0.7709,0.0624,162
+"archetypes (batch E, pooled over simulations)",Bakery Hunter,mapr_accuracy,0.8187,,162
+"archetypes (batch E, pooled over simulations)",Bakery Hunter,tag_sim_accuracy,0.767,,162
+"archetypes (batch E, pooled over simulations)",Family with Kids,ncf_accuracy,0.7696,0.0496,198
+"archetypes (batch E, pooled over simulations)",Family with Kids,mapr_accuracy,0.8776,,198
+"archetypes (batch E, pooled over simulations)",Family with Kids,tag_sim_accuracy,0.8687,,198
+"archetypes (batch E, pooled over simulations)",Culture Vulture,ncf_accuracy,0.7695,0.0753,182
+"archetypes (batch E, pooled over simulations)",Culture Vulture,mapr_accuracy,0.8877,,182
+"archetypes (batch E, pooled over simulations)",Culture Vulture,tag_sim_accuracy,0.9373,,182
+"archetypes (batch E, pooled over simulations)",Dog Owner,ncf_accuracy,0.7666,0.0371,193
+"archetypes (batch E, pooled over simulations)",Dog Owner,mapr_accuracy,0.8683,,193
+"archetypes (batch E, pooled over simulations)",Dog Owner,tag_sim_accuracy,0.8752,,193
+"archetypes (batch E, pooled over simulations)",Solo Wanderer,ncf_accuracy,0.7664,0.0548,171
+"archetypes (batch E, pooled over simulations)",Solo Wanderer,mapr_accuracy,0.803,,171
+"archetypes (batch E, pooled over simulations)",Solo Wanderer,tag_sim_accuracy,0.7803,,171
+"archetypes (batch E, pooled over simulations)",Brunch Enthusiast,ncf_accuracy,0.7639,0.0559,161
+"archetypes (batch E, pooled over simulations)",Brunch Enthusiast,mapr_accuracy,0.7964,,161
+"archetypes (batch E, pooled over simulations)",Brunch Enthusiast,tag_sim_accuracy,0.6982,,161
+"archetypes (batch E, pooled over simulations)",Runner,ncf_accuracy,0.7636,0.0468,178
+"archetypes (batch E, pooled over simulations)",Runner,mapr_accuracy,0.8811,,178
+"archetypes (batch E, pooled over simulations)",Runner,tag_sim_accuracy,0.878,,178
+"archetypes (batch E, pooled over simulations)",Cuban Coffee Regular,ncf_accuracy,0.761,0.0704,165
+"archetypes (batch E, pooled over simulations)",Cuban Coffee Regular,mapr_accuracy,0.8291,,165
+"archetypes (batch E, pooled over simulations)",Cuban Coffee Regular,tag_sim_accuracy,0.7851,,165
+"archetypes (batch E, pooled over simulations)",Wellness Traveler,ncf_accuracy,0.761,0.076,196
+"archetypes (batch E, pooled over simulations)",Wellness Traveler,mapr_accuracy,0.8064,,196
+"archetypes (batch E, pooled over simulations)",Wellness Traveler,tag_sim_accuracy,0.7331,,196
+"archetypes (batch E, pooled over simulations)",Wine Lover,ncf_accuracy,0.7572,0.0414,177
+"archetypes (batch E, pooled over simulations)",Wine Lover,mapr_accuracy,0.7953,,177
+"archetypes (batch E, pooled over simulations)",Wine Lover,tag_sim_accuracy,0.7076,,177
+"archetypes (batch E, pooled over simulations)",Thai Food Fan,ncf_accuracy,0.7551,0.1106,192
+"archetypes (batch E, pooled over simulations)",Thai Food Fan,mapr_accuracy,0.788,,192
+"archetypes (batch E, pooled over simulations)",Thai Food Fan,tag_sim_accuracy,0.7024,,192
+"archetypes (batch E, pooled over simulations)",Foodie Historian,ncf_accuracy,0.7498,0.0496,153
+"archetypes (batch E, pooled over simulations)",Foodie Historian,mapr_accuracy,0.8224,,153
+"archetypes (batch E, pooled over simulations)",Foodie Historian,tag_sim_accuracy,0.8336,,153
+"archetypes (batch E, pooled over simulations)",Sweet Tooth,ncf_accuracy,0.7492,0.0752,187
+"archetypes (batch E, pooled over simulations)",Sweet Tooth,mapr_accuracy,0.7952,,187
+"archetypes (batch E, pooled over simulations)",Sweet Tooth,tag_sim_accuracy,0.7368,,187
+"archetypes (batch E, pooled over simulations)",Jazz & Lounge Night,ncf_accuracy,0.7458,0.036,175
+"archetypes (batch E, pooled over simulations)",Jazz & Lounge Night,mapr_accuracy,0.796,,175
+"archetypes (batch E, pooled over simulations)",Jazz & Lounge Night,tag_sim_accuracy,0.7213,,175
+"archetypes (batch E, pooled over simulations)",Fine Dining Collector,ncf_accuracy,0.7455,0.0871,180
+"archetypes (batch E, pooled over simulations)",Fine Dining Collector,mapr_accuracy,0.7668,,180
+"archetypes (batch E, pooled over simulations)",Fine Dining Collector,tag_sim_accuracy,0.6895,,180
+"archetypes (batch E, pooled over simulations)",Vintage Hunter,ncf_accuracy,0.7441,0.0561,173
+"archetypes (batch E, pooled over simulations)",Vintage Hunter,mapr_accuracy,0.8098,,173
+"archetypes (batch E, pooled over simulations)",Vintage Hunter,tag_sim_accuracy,0.8024,,173
+"archetypes (batch E, pooled over simulations)",Photographer,ncf_accuracy,0.7433,0.0743,174
+"archetypes (batch E, pooled over simulations)",Photographer,mapr_accuracy,0.8288,,174
+"archetypes (batch E, pooled over simulations)",Photographer,tag_sim_accuracy,0.8564,,174
+"archetypes (batch E, pooled over simulations)",Seafood & Sunsets,ncf_accuracy,0.7432,0.0972,159
+"archetypes (batch E, pooled over simulations)",Seafood & Sunsets,mapr_accuracy,0.7713,,159
+"archetypes (batch E, pooled over simulations)",Seafood & Sunsets,tag_sim_accuracy,0.6982,,159
+"archetypes (batch E, pooled over simulations)",Tech Pilgrim,ncf_accuracy,0.7398,0.0545,193
+"archetypes (batch E, pooled over simulations)",Tech Pilgrim,mapr_accuracy,0.8065,,193
+"archetypes (batch E, pooled over simulations)",Tech Pilgrim,tag_sim_accuracy,0.776,,193
+"archetypes (batch E, pooled over simulations)",Science Nerd,ncf_accuracy,0.7391,0.0754,184
+"archetypes (batch E, pooled over simulations)",Science Nerd,mapr_accuracy,0.8556,,184
+"archetypes (batch E, pooled over simulations)",Science Nerd,tag_sim_accuracy,0.853,,184
+"archetypes (batch E, pooled over simulations)",Steakhouse Regular,ncf_accuracy,0.738,0.0708,170
+"archetypes (batch E, pooled over simulations)",Steakhouse Regular,mapr_accuracy,0.7688,,170
+"archetypes (batch E, pooled over simulations)",Steakhouse Regular,tag_sim_accuracy,0.6772,,170
+"archetypes (batch E, pooled over simulations)",Digital Nomad,ncf_accuracy,0.7371,0.0673,183
+"archetypes (batch E, pooled over simulations)",Digital Nomad,mapr_accuracy,0.7819,,183
+"archetypes (batch E, pooled over simulations)",Digital Nomad,tag_sim_accuracy,0.7466,,183
+"archetypes (batch E, pooled over simulations)",Latin Food Explorer,ncf_accuracy,0.7342,0.089,172
+"archetypes (batch E, pooled over simulations)",Latin Food Explorer,mapr_accuracy,0.7871,,172
+"archetypes (batch E, pooled over simulations)",Latin Food Explorer,tag_sim_accuracy,0.7473,,172
+"archetypes (batch E, pooled over simulations)",NYC Art Person,ncf_accuracy,0.7334,0.0724,165
+"archetypes (batch E, pooled over simulations)",NYC Art Person,mapr_accuracy,0.8434,,165
+"archetypes (batch E, pooled over simulations)",NYC Art Person,tag_sim_accuracy,0.8594,,165
+"archetypes (batch E, pooled over simulations)",Pho & Banh Mi Fan,ncf_accuracy,0.7323,0.1092,191
+"archetypes (batch E, pooled over simulations)",Pho & Banh Mi Fan,mapr_accuracy,0.7323,,191
+"archetypes (batch E, pooled over simulations)",Pho & Banh Mi Fan,tag_sim_accuracy,0.6208,,191
+"archetypes (batch E, pooled over simulations)",Tapas Crawler,ncf_accuracy,0.732,0.0385,164
+"archetypes (batch E, pooled over simulations)",Tapas Crawler,mapr_accuracy,0.7721,,164
+"archetypes (batch E, pooled over simulations)",Tapas Crawler,tag_sim_accuracy,0.6971,,164
+"archetypes (batch E, pooled over simulations)",Korean Food Fan,ncf_accuracy,0.7294,0.0932,188
+"archetypes (batch E, pooled over simulations)",Korean Food Fan,mapr_accuracy,0.7732,,188
+"archetypes (batch E, pooled over simulations)",Korean Food Fan,tag_sim_accuracy,0.7211,,188
+"archetypes (batch E, pooled over simulations)",Road Tripper,ncf_accuracy,0.7287,0.0591,175
+"archetypes (batch E, pooled over simulations)",Road Tripper,mapr_accuracy,0.7346,,175
+"archetypes (batch E, pooled over simulations)",Road Tripper,tag_sim_accuracy,0.6389,,175
+"archetypes (batch E, pooled over simulations)",Mediterranean Diet,ncf_accuracy,0.727,0.0981,196
+"archetypes (batch E, pooled over simulations)",Mediterranean Diet,mapr_accuracy,0.7384,,196
+"archetypes (batch E, pooled over simulations)",Mediterranean Diet,tag_sim_accuracy,0.656,,196
+"archetypes (batch E, pooled over simulations)",Honeymooners,ncf_accuracy,0.7252,0.0645,174
+"archetypes (batch E, pooled over simulations)",Honeymooners,mapr_accuracy,0.7624,,174
+"archetypes (batch E, pooled over simulations)",Honeymooners,tag_sim_accuracy,0.6697,,174
+"archetypes (batch E, pooled over simulations)",Fried Chicken Fan,ncf_accuracy,0.7241,0.1225,176
+"archetypes (batch E, pooled over simulations)",Fried Chicken Fan,mapr_accuracy,0.7725,,176
+"archetypes (batch E, pooled over simulations)",Fried Chicken Fan,tag_sim_accuracy,0.7561,,176
+"archetypes (batch E, pooled over simulations)",Beach & Cocktails,ncf_accuracy,0.7169,0.0434,174
+"archetypes (batch E, pooled over simulations)",Beach & Cocktails,mapr_accuracy,0.7325,,174
+"archetypes (batch E, pooled over simulations)",Beach & Cocktails,tag_sim_accuracy,0.6569,,174
+"archetypes (batch E, pooled over simulations)",Italian Foodie,ncf_accuracy,0.716,0.1052,183
+"archetypes (batch E, pooled over simulations)",Italian Foodie,mapr_accuracy,0.7826,,183
+"archetypes (batch E, pooled over simulations)",Italian Foodie,tag_sim_accuracy,0.7308,,183
+"archetypes (batch E, pooled over simulations)",Cheesesteak Purist,ncf_accuracy,0.7154,0.0704,188
+"archetypes (batch E, pooled over simulations)",Cheesesteak Purist,mapr_accuracy,0.7652,,188
+"archetypes (batch E, pooled over simulations)",Cheesesteak Purist,tag_sim_accuracy,0.6564,,188
+"archetypes (batch E, pooled over simulations)",History & Pubs,ncf_accuracy,0.715,0.0688,196
+"archetypes (batch E, pooled over simulations)",History & Pubs,mapr_accuracy,0.8171,,196
+"archetypes (batch E, pooled over simulations)",History & Pubs,tag_sim_accuracy,0.7985,,196
+"archetypes (batch E, pooled over simulations)",Live Music Junkie,ncf_accuracy,0.714,0.0613,211
+"archetypes (batch E, pooled over simulations)",Live Music Junkie,mapr_accuracy,0.8071,,211
+"archetypes (batch E, pooled over simulations)",Live Music Junkie,tag_sim_accuracy,0.8345,,211
+"archetypes (batch E, pooled over simulations)",Active Sports Player,ncf_accuracy,0.7136,0.0884,153
+"archetypes (batch E, pooled over simulations)",Active Sports Player,mapr_accuracy,0.841,,153
+"archetypes (batch E, pooled over simulations)",Active Sports Player,tag_sim_accuracy,0.8992,,153
+"archetypes (batch E, pooled over simulations)",Pasta & Gelato Romantic,ncf_accuracy,0.7136,0.0559,167
+"archetypes (batch E, pooled over simulations)",Pasta & Gelato Romantic,mapr_accuracy,0.7503,,167
+"archetypes (batch E, pooled over simulations)",Pasta & Gelato Romantic,tag_sim_accuracy,0.733,,167
+"archetypes (batch E, pooled over simulations)",Accessibility-Minded Senior,ncf_accuracy,0.7126,0.0784,152
+"archetypes (batch E, pooled over simulations)",Accessibility-Minded Senior,mapr_accuracy,0.7779,,152
+"archetypes (batch E, pooled over simulations)",Accessibility-Minded Senior,tag_sim_accuracy,0.7502,,152
+"archetypes (batch E, pooled over simulations)",French Bistro Lover,ncf_accuracy,0.7114,0.0546,187
+"archetypes (batch E, pooled over simulations)",French Bistro Lover,mapr_accuracy,0.7526,,187
+"archetypes (batch E, pooled over simulations)",French Bistro Lover,tag_sim_accuracy,0.7001,,187
+"archetypes (batch E, pooled over simulations)",Bookworm,ncf_accuracy,0.7111,0.06,182
+"archetypes (batch E, pooled over simulations)",Bookworm,mapr_accuracy,0.7877,,182
+"archetypes (batch E, pooled over simulations)",Bookworm,tag_sim_accuracy,0.7666,,182
+"archetypes (batch E, pooled over simulations)",Sandwich & Deli Fan,ncf_accuracy,0.708,0.0681,187
+"archetypes (batch E, pooled over simulations)",Sandwich & Deli Fan,mapr_accuracy,0.7754,,187
+"archetypes (batch E, pooled over simulations)",Sandwich & Deli Fan,tag_sim_accuracy,0.7358,,187
+"archetypes (batch E, pooled over simulations)",Food Hall Grazer,ncf_accuracy,0.7078,0.0868,180
+"archetypes (batch E, pooled over simulations)",Food Hall Grazer,mapr_accuracy,0.7543,,180
+"archetypes (batch E, pooled over simulations)",Food Hall Grazer,tag_sim_accuracy,0.6952,,180
+"archetypes (batch E, pooled over simulations)",BBQ Pilgrim,ncf_accuracy,0.7062,0.0609,194
+"archetypes (batch E, pooled over simulations)",BBQ Pilgrim,mapr_accuracy,0.7588,,194
+"archetypes (batch E, pooled over simulations)",BBQ Pilgrim,tag_sim_accuracy,0.7015,,194
+"archetypes (batch E, pooled over simulations)",Cocktail Connoisseur,ncf_accuracy,0.7055,0.0807,157
+"archetypes (batch E, pooled over simulations)",Cocktail Connoisseur,mapr_accuracy,0.743,,157
+"archetypes (batch E, pooled over simulations)",Cocktail Connoisseur,tag_sim_accuracy,0.7065,,157
+"archetypes (batch E, pooled over simulations)",Pizza Purist,ncf_accuracy,0.7043,0.0552,190
+"archetypes (batch E, pooled over simulations)",Pizza Purist,mapr_accuracy,0.7522,,190
+"archetypes (batch E, pooled over simulations)",Pizza Purist,tag_sim_accuracy,0.7341,,190
+"archetypes (batch E, pooled over simulations)",Vegan Foodie,ncf_accuracy,0.7032,0.0655,187
+"archetypes (batch E, pooled over simulations)",Vegan Foodie,mapr_accuracy,0.7544,,187
+"archetypes (batch E, pooled over simulations)",Vegan Foodie,tag_sim_accuracy,0.72,,187
+"archetypes (batch E, pooled over simulations)",Market Lover,ncf_accuracy,0.7017,0.0705,179
+"archetypes (batch E, pooled over simulations)",Market Lover,mapr_accuracy,0.7991,,179
+"archetypes (batch E, pooled over simulations)",Market Lover,tag_sim_accuracy,0.7906,,179
+"archetypes (batch E, pooled over simulations)",Taco Hunter,ncf_accuracy,0.7003,0.0824,181
+"archetypes (batch E, pooled over simulations)",Taco Hunter,mapr_accuracy,0.7506,,181
+"archetypes (batch E, pooled over simulations)",Taco Hunter,tag_sim_accuracy,0.7271,,181
+"archetypes (batch E, pooled over simulations)",Ice Cream Chaser,ncf_accuracy,0.7002,0.082,178
+"archetypes (batch E, pooled over simulations)",Ice Cream Chaser,mapr_accuracy,0.7667,,178
+"archetypes (batch E, pooled over simulations)",Ice Cream Chaser,tag_sim_accuracy,0.7111,,178
+"archetypes (batch E, pooled over simulations)",Museum & Cafe,ncf_accuracy,0.6995,0.0718,176
+"archetypes (batch E, pooled over simulations)",Museum & Cafe,mapr_accuracy,0.8213,,176
+"archetypes (batch E, pooled over simulations)",Museum & Cafe,tag_sim_accuracy,0.8202,,176
+"archetypes (batch E, pooled over simulations)",Comfort Food American,ncf_accuracy,0.6985,0.052,214
+"archetypes (batch E, pooled over simulations)",Comfort Food American,mapr_accuracy,0.7634,,214
+"archetypes (batch E, pooled over simulations)",Comfort Food American,tag_sim_accuracy,0.6936,,214
+"archetypes (batch E, pooled over simulations)",Shopaholic,ncf_accuracy,0.6981,0.0832,200
+"archetypes (batch E, pooled over simulations)",Shopaholic,mapr_accuracy,0.8509,,200
+"archetypes (batch E, pooled over simulations)",Shopaholic,tag_sim_accuracy,0.8816,,200
+"archetypes (batch E, pooled over simulations)",Science & Sushi,ncf_accuracy,0.6956,0.0667,179
+"archetypes (batch E, pooled over simulations)",Science & Sushi,mapr_accuracy,0.7774,,179
+"archetypes (batch E, pooled over simulations)",Science & Sushi,tag_sim_accuracy,0.7556,,179
+"archetypes (batch E, pooled over simulations)",Bakery & Bookshop Stroll,ncf_accuracy,0.695,0.0652,189
+"archetypes (batch E, pooled over simulations)",Bakery & Bookshop Stroll,mapr_accuracy,0.7173,,189
+"archetypes (batch E, pooled over simulations)",Bakery & Bookshop Stroll,tag_sim_accuracy,0.6929,,189
+"archetypes (batch E, pooled over simulations)",Burger Tracker,ncf_accuracy,0.6945,0.0822,189
+"archetypes (batch E, pooled over simulations)",Burger Tracker,mapr_accuracy,0.7534,,189
+"archetypes (batch E, pooled over simulations)",Burger Tracker,tag_sim_accuracy,0.7314,,189
+"archetypes (batch E, pooled over simulations)",Beach Vacationer,ncf_accuracy,0.693,0.0593,190
+"archetypes (batch E, pooled over simulations)",Beach Vacationer,mapr_accuracy,0.7835,,190
+"archetypes (batch E, pooled over simulations)",Beach Vacationer,tag_sim_accuracy,0.812,,190
+"archetypes (batch E, pooled over simulations)",Art & Wine,ncf_accuracy,0.6909,0.0775,181
+"archetypes (batch E, pooled over simulations)",Art & Wine,mapr_accuracy,0.7688,,181
+"archetypes (batch E, pooled over simulations)",Art & Wine,tag_sim_accuracy,0.7487,,181
+"archetypes (batch E, pooled over simulations)",Live Music & BBQ,ncf_accuracy,0.6901,0.088,204
+"archetypes (batch E, pooled over simulations)",Live Music & BBQ,mapr_accuracy,0.7293,,204
+"archetypes (batch E, pooled over simulations)",Live Music & BBQ,tag_sim_accuracy,0.7086,,204
+"archetypes (batch E, pooled over simulations)",Street Food Grazer,ncf_accuracy,0.6901,0.0554,204
+"archetypes (batch E, pooled over simulations)",Street Food Grazer,mapr_accuracy,0.688,,204
+"archetypes (batch E, pooled over simulations)",Street Food Grazer,tag_sim_accuracy,0.6084,,204
+"archetypes (batch E, pooled over simulations)",Pizza & Beer Night,ncf_accuracy,0.69,0.0754,179
+"archetypes (batch E, pooled over simulations)",Pizza & Beer Night,mapr_accuracy,0.7522,,179
+"archetypes (batch E, pooled over simulations)",Pizza & Beer Night,tag_sim_accuracy,0.6849,,179
+"archetypes (batch E, pooled over simulations)",Museum Marathoner,ncf_accuracy,0.69,0.0756,180
+"archetypes (batch E, pooled over simulations)",Museum Marathoner,mapr_accuracy,0.807,,180
+"archetypes (batch E, pooled over simulations)",Museum Marathoner,tag_sim_accuracy,0.8316,,180
+"archetypes (batch E, pooled over simulations)",Ramen & Izakaya Fan,ncf_accuracy,0.6896,0.0788,176
+"archetypes (batch E, pooled over simulations)",Ramen & Izakaya Fan,mapr_accuracy,0.7056,,176
+"archetypes (batch E, pooled over simulations)",Ramen & Izakaya Fan,tag_sim_accuracy,0.6663,,176
+"archetypes (batch E, pooled over simulations)",Street Art Hunter,ncf_accuracy,0.6887,0.0695,167
+"archetypes (batch E, pooled over simulations)",Street Art Hunter,mapr_accuracy,0.7198,,167
+"archetypes (batch E, pooled over simulations)",Street Art Hunter,tag_sim_accuracy,0.6957,,167
+"archetypes (batch E, pooled over simulations)",Student on a Budget,ncf_accuracy,0.6875,0.036,180
+"archetypes (batch E, pooled over simulations)",Student on a Budget,mapr_accuracy,0.7515,,180
+"archetypes (batch E, pooled over simulations)",Student on a Budget,tag_sim_accuracy,0.7395,,180
+"archetypes (batch E, pooled over simulations)",Club Hopper,ncf_accuracy,0.6849,0.0798,172
+"archetypes (batch E, pooled over simulations)",Club Hopper,mapr_accuracy,0.7233,,172
+"archetypes (batch E, pooled over simulations)",Club Hopper,tag_sim_accuracy,0.7157,,172
+"archetypes (batch E, pooled over simulations)",Caribbean Flavor,ncf_accuracy,0.6771,0.1094,169
+"archetypes (batch E, pooled over simulations)",Caribbean Flavor,mapr_accuracy,0.7305,,169
+"archetypes (batch E, pooled over simulations)",Caribbean Flavor,tag_sim_accuracy,0.7219,,169
+"archetypes (batch E, pooled over simulations)",Gallery Hopper,ncf_accuracy,0.6747,0.0671,157
+"archetypes (batch E, pooled over simulations)",Gallery Hopper,mapr_accuracy,0.7209,,157
+"archetypes (batch E, pooled over simulations)",Gallery Hopper,tag_sim_accuracy,0.739,,157
+"archetypes (batch E, pooled over simulations)",Seafood Lover,ncf_accuracy,0.6703,0.084,177
+"archetypes (batch E, pooled over simulations)",Seafood Lover,mapr_accuracy,0.7022,,177
+"archetypes (batch E, pooled over simulations)",Seafood Lover,tag_sim_accuracy,0.6745,,177
+"archetypes (batch E, pooled over simulations)",Latin Night Out,ncf_accuracy,0.6697,0.0512,154
+"archetypes (batch E, pooled over simulations)",Latin Night Out,mapr_accuracy,0.7698,,154
+"archetypes (batch E, pooled over simulations)",Latin Night Out,tag_sim_accuracy,0.7753,,154
+"archetypes (batch E, pooled over simulations)",Gallery & Brunch,ncf_accuracy,0.6675,0.0873,179
+"archetypes (batch E, pooled over simulations)",Gallery & Brunch,mapr_accuracy,0.7147,,179
+"archetypes (batch E, pooled over simulations)",Gallery & Brunch,tag_sim_accuracy,0.7474,,179
+"archetypes (batch E, pooled over simulations)",Spice Seeker,ncf_accuracy,0.6623,0.1141,161
+"archetypes (batch E, pooled over simulations)",Spice Seeker,mapr_accuracy,0.6937,,161
+"archetypes (batch E, pooled over simulations)",Spice Seeker,tag_sim_accuracy,0.6947,,161
+"archetypes (batch E, pooled over simulations)",Sports Fan,ncf_accuracy,0.6568,0.0906,172
+"archetypes (batch E, pooled over simulations)",Sports Fan,mapr_accuracy,0.7544,,172
+"archetypes (batch E, pooled over simulations)",Sports Fan,tag_sim_accuracy,0.7806,,172
+"archetypes (batch E, pooled over simulations)",Brews & Trails,ncf_accuracy,0.6532,0.0832,175
+"archetypes (batch E, pooled over simulations)",Brews & Trails,mapr_accuracy,0.718,,175
+"archetypes (batch E, pooled over simulations)",Brews & Trails,tag_sim_accuracy,0.7556,,175
+"archetypes (batch E, pooled over simulations)",Sushi Devotee,ncf_accuracy,0.6468,0.0928,194
+"archetypes (batch E, pooled over simulations)",Sushi Devotee,mapr_accuracy,0.7085,,194
+"archetypes (batch E, pooled over simulations)",Sushi Devotee,tag_sim_accuracy,0.6609,,194
+"archetypes (batch E, pooled over simulations)",Sports Bar Fan,ncf_accuracy,0.6419,0.1126,203
+"archetypes (batch E, pooled over simulations)",Sports Bar Fan,mapr_accuracy,0.7182,,203
+"archetypes (batch E, pooled over simulations)",Sports Bar Fan,tag_sim_accuracy,0.7888,,203
+"archetypes (batch E, pooled over simulations)",Dim Sum Regular,ncf_accuracy,0.6351,0.1383,179
+"archetypes (batch E, pooled over simulations)",Dim Sum Regular,mapr_accuracy,0.731,,179
+"archetypes (batch E, pooled over simulations)",Dim Sum Regular,tag_sim_accuracy,0.7247,,179
+"archetypes (batch E, pooled over simulations)",Budget Backpacker,ncf_accuracy,0.6235,0.0433,177
+"archetypes (batch E, pooled over simulations)",Budget Backpacker,mapr_accuracy,0.6782,,177
+"archetypes (batch E, pooled over simulations)",Budget Backpacker,tag_sim_accuracy,0.672,,177
+"archetypes (batch E, pooled over simulations)",Theater Buff,ncf_accuracy,0.619,0.1012,167
+"archetypes (batch E, pooled over simulations)",Theater Buff,mapr_accuracy,0.7239,,167
+"archetypes (batch E, pooled over simulations)",Theater Buff,tag_sim_accuracy,0.7667,,167
+"archetypes (batch E, pooled over simulations)",Film & Entertainment Fan,ncf_accuracy,0.6111,0.0674,211
+"archetypes (batch E, pooled over simulations)",Film & Entertainment Fan,mapr_accuracy,0.7963,,211
+"archetypes (batch E, pooled over simulations)",Film & Entertainment Fan,tag_sim_accuracy,0.822,,211
+"archetypes (batch E, pooled over simulations)",Teen Traveler,ncf_accuracy,0.6062,0.0581,195
+"archetypes (batch E, pooled over simulations)",Teen Traveler,mapr_accuracy,0.73,,195
+"archetypes (batch E, pooled over simulations)",Teen Traveler,tag_sim_accuracy,0.7419,,195
+"archetypes (batch E, pooled over simulations)",Indecisive Tourist,ncf_accuracy,0.5609,0.0639,190
+"archetypes (batch E, pooled over simulations)",Indecisive Tourist,mapr_accuracy,0.6162,,190
+"archetypes (batch E, pooled over simulations)",Indecisive Tourist,tag_sim_accuracy,0.6154,,190
+"archetypes (batch E, pooled over simulations)",Generalist Explorer,ncf_accuracy,0.533,0.0286,167
+"archetypes (batch E, pooled over simulations)",Generalist Explorer,mapr_accuracy,0.5594,,167
+"archetypes (batch E, pooled over simulations)",Generalist Explorer,tag_sim_accuracy,0.5757,,167
+most predictive taste features (lift),k:wine,lift,1.719,,82247
+most predictive taste features (lift),k:cocktails,lift,1.568,,164778
+most predictive taste features (lift),k:brewery,lift,1.477,,83238
+most predictive taste features (lift),k:coffee,lift,1.445,,309884
+most predictive taste features (lift),k:chicken,lift,1.444,,46626
+most predictive taste features (lift),k:sports-bar,lift,1.433,,16656
+most predictive taste features (lift),k:sandwiches,lift,1.426,,120515
+most predictive taste features (lift),k:burgers,lift,1.404,,80039
+most predictive taste features (lift),k:gallery,lift,1.4,,32784
+most predictive taste features (lift),k:bakery,lift,1.357,,204879
+most predictive taste features (lift),k:breakfast,lift,1.341,,122301
+most predictive taste features (lift),k:bar,lift,1.341,,702553
+most predictive taste features (lift),k:french,lift,1.307,,80257
+most predictive taste features (lift),k:cuban,lift,1.307,,80048
+most predictive taste features (lift),k:caribbean,lift,1.297,,10195

@@ -28,3 +28,8 @@ output-scale/trained-similarity-matrix.json
 output-scale/trained-tag-scores.json
 output-scale/events.jsonl
 output-scale/*.log
+output-validation/trained-ncf-model.json
+output-validation/trained-similarity-matrix.json
+output-validation/trained-tag-scores.json
+output-validation/events.jsonl
+output-validation/*.log
