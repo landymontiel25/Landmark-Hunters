@@ -61,6 +61,25 @@ describe('ncf diagnostics', () => {
   });
 });
 
+describe('early stopping on validation accuracy', () => {
+  it('keeps the epoch with the best validation accuracy, not the lowest loss', async () => {
+    const pos = [];
+    const of = [];
+    for (let u = 0; u < 30; u++) {
+      const s = new Set([u % 6, (u % 6) + 6]);
+      of.push(s);
+      for (const i of s) pos.push(u, i);
+    }
+    const val = [];
+    for (let u = 0; u < 30; u++) val.push(u, u % 6, 12 + (u % 4));
+    const m = new NCFModel({ bpr_on: 'logit', early_stopping_on: 'accuracy', epochs: 10, early_stopping_patience: 50 }).init(30, 16);
+    const run = await m.train({ positives: Int32Array.from(pos), positivesOf: of, valTriples: Int32Array.from(val) });
+    const bestAcc = Math.max(...run.history.map((h) => h.valAccuracy));
+    expect(run.history.find((h) => h.epoch === run.bestEpoch).valAccuracy).toBe(bestAcc);
+    expect(run.history.findIndex((h) => h.valAccuracy === bestAcc) + 1).toBe(run.bestEpoch);
+  });
+});
+
 describe('emulator guard', () => {
   it('refuses a non-local Firestore host', () => {
     const prev = process.env.FIRESTORE_EMULATOR_HOST;
