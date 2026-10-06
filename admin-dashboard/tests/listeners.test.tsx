@@ -91,6 +91,39 @@ describe('server-read hooks', () => {
   });
 });
 
+describe('AutoRefresh', () => {
+  it('refreshes on open and every interval, counts down, never overlaps, and waits while hidden', async () => {
+    vi.useFakeTimers();
+    const { AutoRefresh, clock } = await import('@/components/AutoRefresh');
+    expect(clock(272_000)).toBe('4:32');
+    let release: () => void = () => {};
+    const f = vi.fn(() => new Promise<Response>((res) => { release = () => res(new Response('{}', { status: 200 })); }));
+    render(<AutoRefresh everyMs={10_000} fetchImpl={f as never} />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(1000); });
+    expect(f).toHaveBeenCalledTimes(1); // on open
+    expect(JSON.parse(String((f.mock.calls[0] as unknown as [string, RequestInit])[1].body))).toEqual({ action: 'refresh' });
+    expect(screen.getByTestId('auto-refresh').textContent).toContain('Refreshing');
+    await act(async () => { release(); await vi.advanceTimersByTimeAsync(0); });
+    await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
+    expect(screen.getByTestId('auto-refresh').textContent).toMatch(/next in 0:0[5-9]|next in 0:10/);
+    Object.defineProperty(document, 'visibilityState', { value: 'hidden', configurable: true });
+    await act(async () => { await vi.advanceTimersByTimeAsync(20_000); });
+    expect(f).toHaveBeenCalledTimes(1); // hidden: waits
+    Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
+    await act(async () => { await vi.advanceTimersByTimeAsync(1000); });
+    expect(f).toHaveBeenCalledTimes(2); // catches up when shown
+    await act(async () => { await vi.advanceTimersByTimeAsync(5000); });
+    expect(f).toHaveBeenCalledTimes(2); // still running: no overlap
+  });
+  it('says so when a refresh fails', async () => {
+    vi.useFakeTimers();
+    const { AutoRefresh } = await import('@/components/AutoRefresh');
+    render(<AutoRefresh everyMs={60_000} fetchImpl={(async () => new Response('{}', { status: 503 })) as never} />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(1500); });
+    expect(screen.getByTestId('auto-refresh').textContent).toContain('Refresh failed');
+  });
+});
+
 describe('components', () => {
   it('ErrorBoundary shows a fallback instead of crashing the page', () => {
     const Boom = () => {

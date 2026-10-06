@@ -37,7 +37,7 @@ time, errors) shows on the Overview page and in the sidebar.
 | Accuracy | `accuracy_by_category`, `accuracy_by_city` |
 | Taste | `taste_score`, `big_misses` (review status and notes are editable) |
 | App metrics | `app_metrics/latest` (the old in-app admin stats and the long study) |
-| Tools | Mapr run now, sign-up date backfill, photo backfill |
+| Tools | Mapr run now (full job: models + Slack). The dashboard also runs a light refresh every 5 minutes while open. |
 
 ## Setup (once)
 
