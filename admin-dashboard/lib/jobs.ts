@@ -13,8 +13,16 @@ export async function forwardJob(action: unknown, { appUrl = process.env.APP_URL
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
       body: JSON.stringify({ action }),
     });
-    const body = await r.json().catch(() => ({ error: `The app answered ${r.status}.` }));
-    return { status: r.status, body };
+    const text = await r.text().catch(() => '');
+    try {
+      return { status: r.status, body: JSON.parse(text) };
+    } catch {
+      // Not the app's own JSON: usually Vercel (Deployment Protection) or a wrong address.
+      const host = new URL(appUrl).host;
+      const said = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+      const hint = r.status === 401 || r.status === 403 ? ' Vercel Deployment Protection may be blocking server requests, or APP_URL points at the wrong deployment.' : '';
+      return { status: r.status, body: { error: `${host} answered ${r.status}${said ? ` (“${said}”)` : ' with no message'}.${hint}` } };
+    }
   } catch (e) {
     return { status: 502, body: { error: `Could not reach the app: ${String((e as Error)?.message || e)}` } };
   }
