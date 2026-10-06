@@ -24,14 +24,17 @@ export const SIMS = 10;
 export const COLD_USERS = 500;
 const MASTER_SEED = 2026;
 
-export function simulationPlans(sims = SIMS) {
-  const rng = seededRandom(MASTER_SEED);
+// seedBase: simulation k uses seed seedBase + k (default 1001-1010). A
+// different seedBase also draws the per-simulation variations from a different
+// master seed, so every traveler and every variation is new.
+export function simulationPlans(sims = SIMS, { seedBase = 1000 } = {}) {
+  const rng = seededRandom(seedBase === 1000 ? MASTER_SEED : seedBase);
   return Array.from({ length: sims }, (_, k) => {
     const pref = DEFAULT_VARIATION.prefVariance * (1 + (rng() * 2 - 1) * 0.05);
     const noise = DEFAULT_VARIATION.noiseScale * (1 + (rng() * 2 - 1) * 0.1);
     return {
       sim: k + 1,
-      seed: 1000 + k + 1,
+      seed: seedBase + k + 1,
       variation: { mixVariation: DEFAULT_VARIATION.mixVariation, prefVariance: Math.round(pref * 10000) / 10000, noiseScale: Math.round(noise * 10000) / 10000 },
     };
   });
@@ -41,8 +44,8 @@ const WORKER = path.join(path.dirname(fileURLToPath(import.meta.url)), 'lib', 'm
 
 // emit(event) receives: job-start, epoch, log, job-done, job-error.
 // Resolves to { [batchName]: [result per sim] }.
-export function runMonteCarlo({ coldOffset, extended = null, labBlend, blendWeights = [], lab = false, sims = SIMS, batches = BATCHES, workers = Math.max(1, Math.min(4, cpus().length)), ncfConfig = {}, evalUsers, outDir, exportFrom = { batch: 'C', sim: 1 }, emit = () => {} }) {
-  const plans = simulationPlans(sims);
+export function runMonteCarlo({ seedBase, coldOffset, extended = null, labBlend, blendWeights = [], lab = false, sims = SIMS, batches = BATCHES, workers = Math.max(1, Math.min(4, cpus().length)), ncfConfig = {}, evalUsers, outDir, exportFrom = { batch: 'C', sim: 1 }, emit = () => {} }) {
+  const plans = simulationPlans(sims, { seedBase });
   const jobs = [];
   for (const b of batches) for (const p of plans) jobs.push({ id: `${b.name}${p.sim}`, batch: b.name, users: b.users, ...p, coldUsers: COLD_USERS, ncfConfig, blendWeights, coldOffset, extended, labBlend, evalUsers, lab, exportDir: b.name === exportFrom.batch && p.sim === exportFrom.sim ? outDir : null });
   const results = Object.fromEntries(batches.map((b) => [b.name, []]));
