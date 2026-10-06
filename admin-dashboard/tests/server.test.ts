@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { _resetLoginLimits, SESSION_COOKIE, signSession } from '@/lib/auth';
 import { forwardJob } from '@/lib/jobs';
+import { decodeProtectedHeader, importSPKI, jwtVerify } from 'jose';
+import { createPublicKey } from 'node:crypto';
 import { parseServiceAccount } from '@/lib/firebaseAdmin';
 
 const PASSWORD = 'p'.repeat(32);
@@ -82,5 +84,25 @@ describe('service account key', () => {
     expect(account.client_email).toBeDefined();
     expect(account.private_key).toBeDefined();
     expect(account.project_id).toBe('landmark-hunters-284ab');
+  });
+});
+
+describe('mintDashboardToken (no firebase-admin)', () => {
+  it('signs a Firebase custom token that verifies against the service account public key', async () => {
+    const account = parseServiceAccount();
+    const { mintDashboardToken } = await vi.importActual<typeof import('@/lib/firebaseAdmin')>('@/lib/firebaseAdmin');
+    const token = await mintDashboardToken();
+    const pub = await importSPKI(createPublicKey(account.private_key).export({ type: 'spki', format: 'pem' }) as string, 'RS256');
+    const { payload } = await jwtVerify(token, pub, { audience: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit', issuer: account.client_email });
+    expect(payload.sub).toBe(account.client_email);
+    expect(payload.uid).toBe('admin-dashboard');
+    expect(payload.claims).toEqual({ dashboardAdmin: true });
+    expect(payload.exp! - payload.iat!).toBeLessThanOrEqual(3600);
+    expect(decodeProtectedHeader(token).alg).toBe('RS256');
+  });
+  it('prefers FIRESTORE_ADMIN_KEY (raw JSON or base64) over the embedded key', () => {
+    const fake = JSON.stringify({ client_email: 'x@y.z', private_key: 'k' });
+    expect(parseServiceAccount(fake).client_email).toBe('x@y.z');
+    expect(parseServiceAccount(Buffer.from(fake).toString('base64')).client_email).toBe('x@y.z');
   });
 });
