@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { accuracyRows, bytes, deviationAlerts, num, pct, toCsv, trendOf } from '@/lib/metrics';
+import { accuracyRows, bytes, deviationAlerts, goalCardClass, num, pct, toCsv, trendOf } from '@/lib/metrics';
 
 describe('formatting', () => {
   it('pct, num, bytes', () => {
@@ -40,4 +40,14 @@ it('toCsv quotes commas, quotes and newlines', () => {
 it('accuracyRows sorts by match rate, unmeasured last', () => {
   const rows = accuracyRows({ food: { match_rate: 0.5, skip_rate: 0, repeat_rate: 0, sample_size: 4 }, art: { match_rate: 0.9, skip_rate: 0, repeat_rate: 0, sample_size: 2 }, none: { match_rate: null, skip_rate: 1, repeat_rate: 0, sample_size: 1 } });
   expect(rows.map((r) => r.name)).toEqual(['art', 'food', 'none']);
+});
+
+describe('goal card tint', () => {
+  it('green when met, red when missed, plain otherwise', () => {
+    expect(goalCardClass('met')).toBe('card card-met');
+    expect(goalCardClass('missed')).toBe('card card-missed');
+    expect(goalCardClass('unknown')).toBe('card');
+    expect(goalCardClass('info')).toBe('card');
+    expect(goalCardClass(undefined)).toBe('card');
+  });
 });
