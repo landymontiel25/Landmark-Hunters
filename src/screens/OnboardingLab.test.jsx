@@ -52,6 +52,13 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
+  it('shows one centered Onboarding bubble above the test', async () => {
+    const el = await renderAs('landymontiel25@gmail.com');
+    const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
+    expect(tabs.map((t) => t.textContent)).toEqual(['Onboarding']);
+    expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+  });
+
   it('sends non-admins away', async () => {
     const el = await renderAs('someone@example.com');
     expect(el.textContent).toContain('home');
