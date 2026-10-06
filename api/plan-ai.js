@@ -32,7 +32,7 @@ const INSTRUCTIONS =
   `anything before -- their own rating history and saved interests. A traveler is chatting with you about what they ` +
   `want to do. Reply to their latest message given the conversation so far.\n\n` +
   `Rules:\n` +
-  `- Keep "reply" short by default, always: the direct answer plus at most one short sentence of why, never a paragraph. ` +
+  `- Keep "reply" EXTREMELY short by default, always: 1-2 short sentences, about 30 words at most, plain text only (no bold, no bullets, no numbered lists, no headings, no emoji lists). Give the single best answer, not every tip. Never end with a menu of offers; at most one short follow-up question. Never a paragraph. ` +
   `No throat-clearing, no restating their question, no listing every possible caveat. This applies to EVERY kind of ` +
   `reply -- recommending stops, answering a question about the app or a place, telling them about their own taste, ` +
   `just chatting. Only go longer when they explicitly ask for it ("tell me more", "explain", "give me details", "what ` +
@@ -199,6 +199,23 @@ export function trimTurns(incoming) {
 
 // Who the request is for. Asked in the app before every request: 'solo' (just
 // the traveler) or 'group'. Only 'group' is special; anything else is solo.
+// Mapr answers stay short unless the traveler asks for more. The prompt says so;
+// this enforces it when the model runs long anyway: no markdown, first two
+// sentences, 260 characters. Asking to "explain", "tell me more", "details" etc.
+// lifts the cap.
+export const ASKS_FOR_LONGER = /\b(tell me more|more (detail|info|about)|details?|explain|elaborate|in depth|in detail|step[- ]by[- ]step|longer|full (list|hours|schedule)|everything)\b/i;
+export function conciseReply(reply, userText = '') {
+  const plain = String(reply || '')
+    .replace(/\*\*|__|`/g, '')
+    .replace(/^\s*(?:[-*\u2022]|\d+[.)])\s+/gm, '')
+    .trim();
+  if (ASKS_FOR_LONGER.test(String(userText))) return plain;
+  const sentences = plain.split(/(?<=[.!?])\s+/).filter(Boolean);
+  let out = sentences.slice(0, 2).join(' ');
+  if (out.length > 260) out = sentences[0].length <= 260 ? sentences[0] : `${out.slice(0, 257).trimEnd()}...`;
+  return out || plain;
+}
+
 export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 'solo');
 
 // The traveler's own taste, as sent by the client. For a GROUP request none of
@@ -594,7 +611,7 @@ async function handler(req, res) {
     }
 
     res.status(200).json({
-      reply: String(parsed.reply || '').slice(0, 1500) || "Here's what I found:",
+      reply: conciseReply(String(parsed.reply || '').slice(0, 1500), lastText) || "Here's what I found:",
       stops,
       quickReplies,
       actions,

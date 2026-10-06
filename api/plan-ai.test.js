@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { trimTurns } from './plan-ai.js';
+import { trimTurns, conciseReply } from './plan-ai.js';
 
 describe('plan-ai trimTurns', () => {
   it('never starts with an assistant turn once a chat is long (the API rejects that)', () => {
@@ -15,5 +15,27 @@ describe('plan-ai trimTurns', () => {
       { role: 'user', content: 'hi' },
     ]);
     expect(trimTurns(undefined)).toEqual([]);
+  });
+});
+
+describe('plan-ai conciseReply', () => {
+  const long =
+    "Your taste score improves when Mapr guesses right. **Rate places I suggest** to give me data. Answer pick cards honestly. Be specific in comments. The more you rate the better.";
+
+  it('cuts a long answer to two plain sentences', () => {
+    expect(conciseReply(long, 'how can i bring up my taste score')).toBe(
+      'Your taste score improves when Mapr guesses right. Rate places I suggest to give me data.'
+    );
+  });
+
+  it('keeps the full answer when they ask for more', () => {
+    expect(conciseReply(long, 'explain how my taste score works')).toContain('The more you rate the better.');
+    expect(conciseReply(long, 'tell me more')).not.toContain('**');
+  });
+
+  it('strips list markers and leaves short replies alone', () => {
+    expect(conciseReply('- One thing', 'hi')).toBe('One thing');
+    expect(conciseReply('Try Hillstone.', 'dinner?')).toBe('Try Hillstone.');
+    expect(conciseReply('', 'x')).toBe('');
   });
 });
