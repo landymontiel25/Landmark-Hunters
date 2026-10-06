@@ -32,6 +32,9 @@ was deployed and no production code changed. What it found:
   and 100k users (+0.8, +1.6, +1.6 points; new users +2.0 at 100k). Waiting
   on the owner's go to ship the three NCF fixes plus that blend to every
   Mapr surface in one PR (CLAUDE.md), staged behind a rollout.
+  Independent validation on fresh seeds 7001-7010
+  (`mapr-synthetic-trainer/VALIDATION-RESULTS.md`): 30 of 30 again (+0.7,
+  +1.3, +1.7 points at 10k, 50k, 100k).
 - Pre-trained models gave brand-new users no lift over today's cold start,
   so `deploy-to-production.js` has not been run and nothing reads
   `mapr_pretrained_*`. Run it only after a change makes pre-training help.
