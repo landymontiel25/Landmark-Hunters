@@ -2,11 +2,13 @@ import { cert, getApps, initializeApp, type App } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { fileURLToPath } from 'url';
 
-// Server only. Reads firebase-key.json from the project root at runtime.
+// Server only. Reads firebase-key.json from the admin-dashboard root at runtime.
 export function parseServiceAccount(): Record<string, string> {
   try {
-    const keyPath = join(process.cwd(), 'firebase-key.json');
+    const __dirname = join(fileURLToPath(import.meta.url), '..');
+    const keyPath = join(__dirname, '..', 'firebase-key.json');
     const raw = readFileSync(keyPath, 'utf-8');
     const json = JSON.parse(raw);
     if (!json.client_email || !json.private_key) throw new Error('firebase-key.json is not a service-account key.');
