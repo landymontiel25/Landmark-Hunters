@@ -16,3 +16,10 @@ output-fix/trained-similarity-matrix.json
 output-fix/trained-tag-scores.json
 output-fix/events.jsonl
 output-fix/*.log
+output-weights/synthetic-users.json
+output-weights/synthetic-interactions.json
+output-weights/trained-ncf-model.json
+output-weights/trained-similarity-matrix.json
+output-weights/trained-tag-scores.json
+output-weights/events.jsonl
+output-weights/*.log
