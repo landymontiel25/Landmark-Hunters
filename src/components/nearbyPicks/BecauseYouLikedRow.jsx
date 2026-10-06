@@ -1,6 +1,7 @@
 import { SIMILAR_LIMIT } from '../../lib/nearbyPicks';
 import { usePickVotes } from '../../lib/usePickVotes';
 import { useReadyItems } from './useNearbyPicks';
+import { useShownEffect } from './useShownEffect';
 import PickCard from './PickCard';
 import PickVoteButtons from '../PickVoteButtons';
 
@@ -8,10 +9,11 @@ import PickVoteButtons from '../PickVoteButtons';
 // (nearbyPicks.similarPlaces). Hidden when nothing similar is ready. Signed
 // in, each card asks "Would you go?" with the same Not for me / Not sure /
 // I'd go buttons as Mapr Travel Picks; "Not for me" takes the card out.
-export default function BecauseYouLikedRow({ liked, places, limit = SIMILAR_LIMIT, uid = null, origin = null }) {
+export default function BecauseYouLikedRow({ liked, places, limit = SIMILAR_LIMIT, uid = null, origin = null, onShown = null }) {
   const ready = useReadyItems(places, limit);
   const { votes, removed, vote, retry } = usePickVotes({ uid, origin });
   const shown = ready.filter((p) => !removed.has(p.id));
+  useShownEffect(liked ? onShown : null, shown);
   if (!liked || !shown.length) return null;
   return (
     <section className="mpp-section">

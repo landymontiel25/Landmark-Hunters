@@ -19,6 +19,8 @@ import DirectionsButton from '../components/DirectionsButton';
 import { reverseLocality } from '../lib/geocode';
 import { computeTasteConfidence, hasInsiderMode, votesAsReviews } from '../lib/tasteProfile';
 import { readLocalFeedback } from '../lib/pickFeedback';
+import { isVisitedReview } from '../lib/ratingFlow';
+import { readSeen } from '../lib/maprRank/seenHistory.js';
 import { composeTasteIntro, baselineToSyntheticReviews } from '../lib/tasteQuestions';
 import { logPlanningEvent } from '../lib/timeSaved';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
@@ -129,7 +131,8 @@ export default function Mapr() {
   const logStopShown = (m, idx, stop) => {
     if (m.role !== 'assistant' || !m.setId || !liveSets.current.has(m.setId)) return;
     const meta = liveSets.current.get(m.setId);
-    const stopWithRank = { ...stop, rank: idx + 1 };
+    const telemetry = rankTelemetry.current.get(`${stop.region}/${stop.id}`);
+    const stopWithRank = { ...stop, rank: idx + 1, ...(telemetry ? { telemetry } : {}) };
     const requestFor = requestForSet.current.get(m.setId) || m.requestFor || null;
     if (meta) logPlanner(m.setId, [stopWithRank], { source: meta.source, pickType: meta.pickType, rankedIds: meta.rankedIds, requestFor });
     else logChat(m.setId, [stopWithRank], { requestFor });
@@ -138,6 +141,8 @@ export default function Mapr() {
   // setId -> 'solo' | 'group': who the request behind each reply was for, so
   // the picks logged when its cards are shown carry requestFor.
   const requestForSet = useRef(new Map());
+  // "region/id" -> Mapr Phase 1 telemetry the server sent for a chat stop.
+  const rankTelemetry = useRef(new Map());
   const [retrying, setRetrying] = useState({});
   // Retries exactly the one action that failed -- no retyping the whole
   // request, and no repeating whatever else was in the same reply that
@@ -492,6 +497,10 @@ export default function Mapr() {
           // Folds in loveNotes -- the "why do you love this place" answers
           // from repeat visits -- alongside the rating's own comment.
           comment: [r.comment, ...(r.loveNotes || [])].filter(Boolean).join('. '),
+          // For Mapr's ranking on the server (similar places, skipping visited ones).
+          landmarkId: r.landmarkId,
+          region: r.region || null,
+          visited: isVisitedReview(r),
         }));
       // Insider Mode (src/lib/tasteProfile.js): unlocked once Mapr's own
       // leave-one-out predictions are actually confident about this
@@ -557,6 +566,21 @@ export default function Mapr() {
             insiderMode,
             tagScoreSummary,
           }),
+          // Mapr Phase 1 exploration on the server: account age and how often
+          // each place has been shown to this user (device history).
+          ...(requestFor === 'group' || !user
+            ? {}
+            : {
+                maprContext: {
+                  createdAtMs: myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : null,
+                  seen: Object.fromEntries(
+                    Object.entries(readSeen(user.uid))
+                      .sort((a, b) => (b[1].lastShownAt || 0) - (a[1].lastShownAt || 0))
+                      .slice(0, 300)
+                      .map(([id, s]) => [id, s.count || 0])
+                  ),
+                },
+              }),
           itineraries: itinerarySummary(trip, tripApi, groupTrips),
           project: activeProject ? { name: activeProject.name, instructions: activeProject.instructions } : null,
           location,
@@ -577,6 +601,7 @@ export default function Mapr() {
       }
 
       let stops = data.stops || [];
+      for (const [k, t] of Object.entries(data.ranking || {})) rankTelemetry.current.set(k, t);
       // A directions question answered with no card: look for the place on
       // the device too (it knows the places people added in the app).
       if (!stops.length) {

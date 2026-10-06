@@ -5,6 +5,7 @@ import { makeSetId } from './setId';
 import { predictLevel } from './maprPrediction';
 import { REQUEST_FOR_VALUES, SHOWN_MEMORY_LIMIT, SURFACES } from './maprConstants';
 import { rememberShownPicks } from './pickMarks';
+import { recordSeen } from './maprRank/seenHistory.js';
 
 // One row per place Mapr recommended, in Firestore recommendation_log/
 // {auto-id}. pickType records which kind of pick produced it -- 'usual',
@@ -29,12 +30,59 @@ import { rememberShownPicks } from './pickMarks';
 //   requestFor  'solo' | 'group', for picks that answer a Mapr chat request
 //            (asked before every request). Absent on picks from other surfaces.
 // Rows from older app builds are written at build time without these fields.
+//
+// Mapr Phase 1 telemetry (src/lib/maprRank), on picks built by the ranking
+// pipeline, all optional:
+//   rankPosition       1-based place in the built set (before favorites)
+//   scoreBeforeDecay   tag score before distance decay
+//   distanceKm         haversine distance when the set was built
+//   decayMultiplier / scoreAfterDecay
+//   collabBoost        item-item similarity boost (0..0.2)
+//   ncfScore           NCF model score (0..1) or null
+//   finalScore         the score the set was ranked by
+//   explore            true when an exploration slot produced this pick
+//   noveltyScore       its novelty score (exploration picks only)
+//   epsilon / epsilonReason   the set's exploration rate and why
+//   variants           { distanceDecay, itemSimilarity, ncf, exploration }: 'control' | 'treatment'
+//   fallbacks          steps that fell back for this set ('ncf-no-model', ...)
+//   rankLatencyMs      on-device ranking time for the set
+//   revisit            the user had already checked in here
+// user_action / rating / dwell are not stored on the row: the metrics job
+// joins the row to pick_feedback, reviews and check-ins (maprRank/metrics.js).
 
 export const PICK_TYPES = ['usual', 'new'];
 
 const catsOf = (s) => (s.categories && s.categories.length ? s.categories : getLandmark(s.region, s.id)?.categories) || [];
 
 export { makeSetId };
+
+const num = (v, lo = -1e9, hi = 1e9) => (typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : null);
+const VARIANT_KEYS = ['distanceDecay', 'itemSimilarity', 'ncf', 'exploration'];
+// Only known, well-typed telemetry fields reach Firestore.
+export function telemetryFields(t) {
+  if (!t || typeof t !== 'object') return {};
+  const out = {
+    rankPosition: Number.isInteger(t.rankPosition) && t.rankPosition >= 1 && t.rankPosition <= 100 ? t.rankPosition : null,
+    scoreBeforeDecay: num(t.scoreBeforeDecay),
+    distanceKm: num(t.distanceKm, 0, 50000),
+    decayMultiplier: num(t.decayMultiplier, 0, 1),
+    scoreAfterDecay: num(t.scoreAfterDecay),
+    collabBoost: num(t.collabBoost, 0, 1),
+    ncfScore: num(t.ncfScore, 0, 1),
+    finalScore: num(t.finalScore),
+    explore: t.explore === true,
+    noveltyScore: num(t.noveltyScore, 0, 1),
+    epsilon: num(t.epsilon, 0, 1),
+    epsilonReason: typeof t.epsilonReason === 'string' ? t.epsilonReason.slice(0, 60) : null,
+    rankLatencyMs: num(t.rankLatencyMs, 0, 600000),
+    revisit: t.revisit === true,
+    fallbacks: Array.isArray(t.fallbacks) ? t.fallbacks.filter((f) => typeof f === 'string').slice(0, 10).map((f) => f.slice(0, 40)) : [],
+  };
+  if (t.variants && typeof t.variants === 'object') {
+    out.variants = Object.fromEntries(VARIANT_KEYS.filter((k) => ['control', 'treatment'].includes(t.variants[k])).map((k) => [k, t.variants[k]]));
+  }
+  return { telemetry: true, ...out };
+}
 export function recommendationEntries({ uid, source, surface, setId, profile, pickType, stops, rankedIds = [], isTest = false, requestFor = null, at = Date.now() }) {
   const ranked = new Set(rankedIds);
   const withRank = (stops || []).map((s, i) => (s && s.rank == null ? { ...s, rank: i + 1 } : s));
@@ -56,6 +104,7 @@ export function recommendationEntries({ uid, source, surface, setId, profile, pi
         at,
         // 'solo' | 'group': who the Mapr request behind this pick was for.
         ...(REQUEST_FOR_VALUES.includes(requestFor) ? { requestFor } : {}),
+        ...(s.telemetry ? telemetryFields(s.telemetry) : {}),
         ...(setId
           ? {
               setId,
@@ -121,6 +170,9 @@ export async function logShownPicks({ uid, setId, stops, log = logRecommendation
   const at = rest.at ?? Date.now();
   // Remember these as picks so a later tap or rating on one is marked (see
   // pickMarks.js). Test surfaces never count, so they are not remembered.
-  if (rest.isTest !== true) rememberShownPicks({ uid, setId, surface: rest.surface, stops: fresh, at });
+  if (rest.isTest !== true) {
+    rememberShownPicks({ uid, setId, surface: rest.surface, stops: fresh, at });
+    recordSeen(uid, fresh, at);
+  }
   return log({ uid, setId, stops: fresh, ...rest, at });
 }

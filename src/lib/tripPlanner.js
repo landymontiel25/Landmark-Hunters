@@ -1,6 +1,7 @@
 import { distanceMeters } from './geo';
 import { readPersisted, writePersisted } from './usePersistentState';
 import { discoveryPicks, usualPicks } from './tagScores';
+import { rankPlaces } from './maprRank/surfaces.js';
 
 // Plain logic behind Mapr's Plan Your Trip wizard (TripPlannerCard): the
 // fixed step order, the message it hands Mapr, and the cached last plan.
@@ -73,20 +74,40 @@ export function composePlanMessage({
 }
 
 // On-device ranking for "The usual" / "Something new", across the plan's
-// cities (at most three), best first. Pure code over saved tag scores.
-export function rankTripPicks({ pickType, profile, regionIds = [], excludeIds = [], limit = MAX_HINT_NAMES, now = Date.now() }) {
+// cities (at most three), best first. The candidates are the saved tag
+// scores' own queues (usualPicks / discoveryPicks); Mapr Phase 1
+// (maprRank/surfaces.js) then orders them: distance from `origin`, similar
+// places, the model once switched on, and for "Something new" exploration
+// slots (novel and unexpected places). Without a uid this is the older
+// interleaved tag-score order.
+export const TRIP_CANDIDATES_PER_CITY = 40;
+export function rankTripPicks({ pickType, profile, regionIds = [], excludeIds = [], limit = MAX_HINT_NAMES, now = Date.now(), uid = null, origin = null, myReviews = {}, models = null, explore = null, rng = Math.random }) {
   if (pickType !== 'usual' && pickType !== 'new') return [];
   const rank = pickType === 'usual' ? usualPicks : discoveryPicks;
   const ids = [...new Set(regionIds.filter(Boolean))].slice(0, 3);
   if (!ids.length) return [];
-  const per = Math.max(2, Math.ceil(limit / ids.length));
+  const per = uid ? TRIP_CANDIDATES_PER_CITY : Math.max(2, Math.ceil(limit / ids.length));
   const lists = ids.map((region) => rank({ profile, region, excludeIds, limit: per, now }));
   // Interleave so one city doesn't take every slot.
   const out = [];
-  for (let i = 0; out.length < limit && lists.some((l) => l[i]); i++) {
-    for (const l of lists) if (l[i] && out.length < limit) out.push(l[i]);
+  const cap = uid ? Infinity : limit;
+  for (let i = 0; out.length < cap && lists.some((l) => l[i]); i++) {
+    for (const l of lists) if (l[i] && out.length < cap) out.push(l[i]);
   }
-  return out;
+  if (!uid) return out;
+  return rankPlaces({
+    places: out,
+    uid,
+    profile,
+    myReviews,
+    origin,
+    models,
+    now,
+    scoreOf: (p) => p.tagScore || 0,
+    count: pickType === 'new' ? limit : null,
+    explore,
+    rng,
+  }).picks.slice(0, limit);
 }
 
 // ---- Cached last plan -----------------------------------------------------

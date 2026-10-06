@@ -4,6 +4,7 @@ import { API_BASE } from '../lib/apiBase';
 import { authHeaders } from '../lib/apiAuth';
 import { ADMIN_STATS_POLL_MS, GROWTH_GOALS, PHOTO_BACKFILL_GAP_MS, STUDY_FLAT_MAX_GAIN } from '../lib/statsConstants';
 import { useVisibleInterval } from '../lib/useVisibleInterval';
+import MaprPhase1Panel from '../components/MaprPhase1Panel';
 import '../styles/admin-stats.css';
 
 // Owner-only (the route re-checks admin; the server checks again). Totals only:
@@ -283,6 +284,30 @@ export default function AdminStats() {
     }
   };
 
+  // Mapr Phase 1: run the nightly job now (api/admin-stats POST {action:
+  // 'mapr-run'}), weekly models included.
+  const [maprRun, setMaprRun] = useState({ running: false, text: '' });
+  const runMapr = async () => {
+    setMaprRun({ running: true, text: 'Running… this can take up to a minute.' });
+    try {
+      const r = await fetch(`${API_BASE}/api/admin-stats`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+        body: JSON.stringify({ action: 'mapr-run' }),
+      });
+      const body = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(body.error || `The route answered ${r.status}.`);
+      const ncf = body.models?.ncf;
+      setMaprRun({
+        running: false,
+        text: `Report for ${body.daily?.date}: ${body.daily?.shown ?? 0} shown picks, ${body.daily?.alerts ?? 0} alerts. NCF: ${ncf?.action || '—'}${ncf?.reason ? ` (${ncf.reason})` : ''}. Similarity: ${body.models?.similarity?.regions ?? 0} regions. Slack: ${body.daily?.slack?.posted ? 'posted' : body.daily?.slack?.reason || 'not posted'}.`,
+      });
+      load();
+    } catch (e) {
+      setMaprRun({ running: false, text: String(e.message || e) });
+    }
+  };
+
   // The one-time landmark photo backfill (api/admin-stats POST {action:
   // 'photo-backfill'}): finds and saves each photo-less landmark's Google place
   // ID, one batch per call. This loop calls again after PHOTO_BACKFILL_GAP_MS
@@ -398,6 +423,7 @@ export default function AdminStats() {
         </p>
       )}
       {data?.study && <Study study={data.study} />}
+      {data && <MaprPhase1Panel data={data.maprPhase1} onRun={runMapr} run={maprRun} />}
       <section className="as-card" aria-label="Sign-up date backfill">
         <p className="as-label">Sign-up dates (one-time)</p>
         <p className="as-p">Fills in the sign-up date for users created before it was saved. Safe to run more than once.</p>

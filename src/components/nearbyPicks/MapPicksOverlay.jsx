@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../lib/AuthContext';
 import { useFriends } from '../../lib/FriendsContext';
 import { useRatings } from '../../lib/RatingsContext';
@@ -28,6 +28,7 @@ import {
   SIMILAR_MIN_MI,
   unratedPlaces,
   SHEET_PICKS,
+  regionsWithin,
 } from '../../lib/nearbyPicks';
 import { buildPreferenceChains, checkinTimeMs, primaryCategory } from '../../lib/preferenceChains';
 import { useUnits } from '../../lib/UnitsContext';
@@ -40,6 +41,12 @@ import BecauseYouLikedRow from './BecauseYouLikedRow';
 import MoodCarousel from './MoodCarousel';
 import MealCard from './MealCard';
 import NearbyInterestCard from './NearbyInterestCard';
+import ShakeUpCard from './ShakeUpCard';
+import { loadMaprModels } from '../../lib/maprRank/modelStore.js';
+import { readSeen } from '../../lib/maprRank/seenHistory.js';
+import { readLocalFeedback } from '../../lib/pickFeedback';
+import { rankPlaces, loggable } from '../../lib/maprRank/surfaces.js';
+import { makeSetId } from '../../lib/setId';
 import './nearbyPicks.css';
 
 // "Picked for you right now" over the Map tab's live map: the top three
@@ -135,7 +142,30 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   // Still waiting on the first GPS fix: skeletons, not "turn on location".
   const state = locked ? 'locked' : !origin && geoError ? 'no-location' : 'ready';
 
-  const { picks: builtPicks, setId, updating, slow, usual, showDifferent, refreshing } = useNearbyPicks({
+  // Mapr Phase 1 (src/lib/maprRank): the models the nightly job publishes,
+  // for the regions inside the distance; null until loaded (ranking works
+  // without them).
+  const regionKey = useMemo(() => (origin ? regionsWithin(origin, miles).sort().join(',') : ''), [origin, miles]);
+  const [models, setModels] = useState(null);
+  useEffect(() => {
+    if (!uid || locked || !regionKey) return undefined;
+    let cancelled = false;
+    loadMaprModels({ uid, regions: regionKey.split(',') })
+      .then((m) => !cancelled && setModels(m))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [uid, locked, regionKey]);
+  const visitedIds = useMemo(() => new Set(checkins.filter(isRealCheckin).map((c) => c.landmarkId)), [checkins]);
+  const createdAtMs = myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : Number.isFinite(myProfile?.createdAt) ? myProfile.createdAt : null;
+  // Re-read on each clock tick so a set built later sees what was shown since.
+  const explore = useMemo(
+    () => (uid ? { createdAtMs, shown: readSeen(uid), votes: readLocalFeedback(uid), ratings, serverStagnating: models?.serverStagnating === true } : null),
+    [uid, createdAtMs, ratings, models, now] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const { picks: builtPicks, setId, updating, slow, usual, showDifferent, refreshing, stagnating } = useNearbyPicks({
     uid,
     enabled: state === 'ready' && !!origin,
     online,
@@ -150,6 +180,9 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     overrides,
     extraPlaces: customLandmarks,
     fillNew: showRefresh,
+    models,
+    visitedIds,
+    explore,
   });
 
   // A saved set keeps the distances from when it was built, which is up to
@@ -188,8 +221,20 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     [state, origin, miles, pool, lowRated, now, overrides, customLandmarks]
   );
   const similarUnrated = useMemo(() => unratedPlaces(similarPool, myReviews), [similarPool, myReviews]);
-  const similar = useMemo(() => similarPlaces({ liked, pool: similarUnrated, exclude: shownKeys }), [liked, similarUnrated, shownKeys]);
-  const meal = useMemo(() => (isMealTime(new Date(now)) ? mealPicks({ pool: unrated, ratings }) : []), [unrated, ratings, now]);
+  // Mapr Phase 1 on the sheet's other rows too (maprRank/surfaces.js): each
+  // row keeps its own meaning (same kind as X, this mood, food) and Mapr
+  // orders it by taste, distance, similar places and the model.
+  const rankRow = useCallback(
+    (items, scoreOf = null) =>
+      rankPlaces({ places: items || [], uid, profile: myProfile, myReviews, origin, models, visitedIds, now, ...(scoreOf ? { scoreOf } : {}) }).ranked,
+    [uid, myProfile, myReviews, origin, models, visitedIds, now]
+  );
+  const similar = useMemo(
+    () => rankRow(similarPlaces({ liked, pool: similarUnrated, exclude: shownKeys, limit: 12 }), (p) => p.similarity || 0),
+    [liked, similarUnrated, shownKeys, rankRow]
+  );
+  // Public rating order stays the tie-break (ranking keeps the incoming order on ties).
+  const meal = useMemo(() => (isMealTime(new Date(now)) ? rankRow(mealPicks({ pool: unrated, ratings, limit: 12 })) : []), [unrated, ratings, now, rankRow]);
   const interest = useMemo(() => {
     const p = nearbyInterest({ usual: usual.filter((u) => !shownKeys.includes(pickKey(u))) });
     return p ? { ...p, reason: 'One of your favorite kinds of places, just around the corner.' } : null;
@@ -206,6 +251,17 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
 
   // Log each card once, the first time it is on screen in this set.
   const logShown = useShownLogger({ uid, profile: myProfile, surface: 'map-sheet', source: 'map-picks', isTest: showRefresh });
+  // The other rows log their cards as picks too (same surface, own source),
+  // one set per distinct list a row shows.
+  const logRow = useShownLogger({ uid, profile: myProfile, surface: 'map-sheet', isTest: showRefresh });
+  const rowLogger = useCallback(
+    (source) => (hidden ? null : (items) => logRow(makeSetId(uid), items.map((p, i) => loggable(p, i + 1)), { source })),
+    [hidden, logRow, uid]
+  );
+  const onSimilarShown = useMemo(() => rowLogger('because-you-liked'), [rowLogger]);
+  const onMoodShown = useMemo(() => rowLogger('mood'), [rowLogger]);
+  const onMealShown = useMemo(() => rowLogger('meal'), [rowLogger]);
+  const onInterestShown = useMemo(() => rowLogger('nearby-interest'), [rowLogger]);
   const onShown = useMemo(
     () => (hidden || !setId ? null : (visible) => logShown(setId, visible)),
     [hidden, setId, logShown]
@@ -231,7 +287,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         onWiden={chooseDistance}
         ratingsCount={ratingsCount}
         layout={showRefresh ? 'mood-first' : 'default'}
-        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} moods={TEST_MOODS} /> : null}
+        moodSlot={showRefresh ? <MoodCarousel pool={pool} ratings={ratings} moods={TEST_MOODS} rank={rankRow} onShown={onMoodShown} /> : null}
         onRefresh={showRefresh && online ? showDifferent : null}
         refreshing={refreshing}
         onShown={onShown}
@@ -239,10 +295,11 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         origin={origin}
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
-        <BecauseYouLikedRow liked={liked} places={similar} uid={uid} origin={origin} />
-        {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} />}
-        {!showRefresh && <MealCard places={meal} />}
-        {!showRefresh && <NearbyInterestCard place={interest} />}
+        {!showRefresh && <ShakeUpCard uid={uid} show={stagnating && online} onShake={showDifferent} />}
+        <BecauseYouLikedRow liked={liked} places={similar} uid={uid} origin={origin} onShown={onSimilarShown} />
+        {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} rank={rankRow} onShown={onMoodShown} />}
+        {!showRefresh && <MealCard places={meal} onShown={onMealShown} />}
+        {!showRefresh && <NearbyInterestCard place={interest} onShown={onInterestShown} />}
       </PicksBottomSheet>
     </div>
   );

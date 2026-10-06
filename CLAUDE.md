@@ -20,6 +20,21 @@ iCloud, not any local folder.
   the only thing Mapr (the app's one AI assistant, `api/plan-ai.js`) knows
   about how the app works — it goes stale fast if this is skipped, and Mapr
   then confidently tells users a shipped feature doesn't exist.
+- Mapr changes apply to EVERY Mapr surface, never just one. Mapr is every
+  place the app recommends or ranks places for a user: the Map tab's
+  "Picked for you" sheet and its rows (Because you liked, moods, meal,
+  nearby interest), Mapr chat (`api/plan-ai.js`), Travel Picks
+  (`api/mapr-picks.js`), the trip planner ("The usual" / "Something new"),
+  the landmark list's ordering, and any surface added later. When a change
+  touches how Mapr scores, ranks, learns or logs, wire it into all of them
+  in the same PR through the shared pipeline in `src/lib/maprRank/`, and
+  list each surface in the PR description. Don't ask whether to include the
+  others; the answer is always yes.
+- Permanent rule from the owner: for EVERY change they ask for, always open a
+  PR and then merge and deploy it yourself, without asking. Commit, push the
+  branch, open the PR, and merge it into `main` once tests, lint and build
+  pass (Vercel deploys `main`). Never leave finished work on a branch waiting
+  for the owner to merge it.
 - Read `docs/open-work.md` at the start of a session. It lists unfinished work
   and the decisions behind it. Update it in the same PR when you finish an
   item or leave one half done.

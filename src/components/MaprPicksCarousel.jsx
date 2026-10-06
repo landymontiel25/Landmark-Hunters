@@ -20,11 +20,18 @@ import PickVoteButtons from './PickVoteButtons';
 import RegionSearch from './RegionSearch';
 import RateLandmarkSearch from './RateLandmarkSearch';
 import MaprPickImage from './MaprPickImage';
+import { loadMaprModels } from '../lib/maprRank/modelStore.js';
+import { readSeen } from '../lib/maprRank/seenHistory.js';
+import { rankPlaces, loggable } from '../lib/maprRank/surfaces.js';
+import { seededRandom } from '../lib/maprRank/experiments.js';
 
 // "Mapr Travel Picks": city-first curation, not AI-suggested picks. Step 1
 // is choosing a city (defaults to wherever `pickRegion` thinks you are);
 // step 2 is swiping that city's rateable landmarks. Capped at RESERVE on
 // screen at once so the row never turns into a full city directory.
+// Mapr orders them (maprRank/surfaces.js rankPlaces: taste, distance when
+// you are in that city, similar places, the model once switched on, and
+// exploration slots), with catalog popularity as the tie-break.
 //
 // Voting is the same three buttons every Mapr pick has (PickVoteButtons.jsx):
 // a tap is saved to pick_feedback FIRST and the card changes only once that
@@ -127,6 +134,43 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   const setId = useMemo(() => (user?.uid ? makeSetId(user.uid) : null), [user?.uid, regionId]);
   const logShown = useShownLogger({ uid: user?.uid, profile: myProfile, surface: 'travel-picks', source: 'travel-picks' });
 
+  // Mapr Phase 1 models for this city (null until loaded; ranking works without).
+  const [models, setModels] = useState(null);
+  useEffect(() => {
+    if (!user?.uid || !regionId) return undefined;
+    let cancelled = false;
+    loadMaprModels({ uid: user.uid, regions: [regionId] })
+      .then((m) => !cancelled && setModels(m))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid, regionId]);
+  const myReviews = useMemo(() => Object.fromEntries(reviews.filter((r) => r?.landmarkId).map((r) => [r.landmarkId, r])), [reviews]);
+  const lat = coords?.lat != null ? Math.round(coords.lat * 100) / 100 : null;
+  const lng = coords?.lng != null ? Math.round(coords.lng * 100) / 100 : null;
+  // Ranked once per city, models and taste; votes during this visit only
+  // remove cards (below), so the row doesn't reshuffle under your thumb.
+  const ranked = useMemo(() => {
+    if (!region || !user?.uid) return [];
+    const places = region.landmarks
+      .map((l) => ({ ...l, regionId: region.id }))
+      .filter((l) => isRateable(l))
+      .sort((a, b) => (b.popularity || 0) - (a.popularity || 0) || a.name.localeCompare(b.name));
+    return rankPlaces({
+      places,
+      uid: user.uid,
+      profile: myProfile,
+      myReviews,
+      origin: lat != null ? { lat, lng } : null,
+      models,
+      visitedIds: checkedInIds,
+      count: places.length,
+      explore: { createdAtMs: myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : null, shown: readSeen(user.uid), votes: feedback, serverStagnating: models?.serverStagnating === true },
+      rng: seededRandom(`${user.uid}|${region.id}|${setId}`),
+    }).picks;
+  }, [region, user?.uid, myProfile, myReviews, lat, lng, models, checkedInIds, setId]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Reconciles with Firestore feedback (a vote made on another device) once,
   // on top of the instant localStorage copy above.
   useEffect(() => {
@@ -145,13 +189,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // itself keeps teaching the taste model above).
   const reviewedIds = new Set(reviews.filter(isVisitedReview).map((r) => r.landmarkId).filter(Boolean));
   const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...votedIds(feedback).filter((id) => !touched.has(id)), ...removed]);
-  const landmarks = region
-    ? region.landmarks
-        .map((l) => ({ ...l, regionId: region.id }))
-        .filter((l) => isRateable(l) && !excludeIds.has(l.id))
-        .sort((a, b) => (b.popularity || 0) - (a.popularity || 0) || a.name.localeCompare(b.name))
-        .slice(0, RESERVE)
-    : [];
+  const landmarks = ranked.filter((l) => !excludeIds.has(l.id)).slice(0, RESERVE);
 
   // Saved to the database first (usePickVotes); the card reacts to the
   // result. onSaved refreshes actionsToday the moment a day's Nth vote lands,
@@ -218,7 +256,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
             className="mapr-pick"
             data-pick-key={`${l.regionId}/${l.id}`}
             onSeen={() =>
-              logShown(setId, [{ id: l.id, region: l.regionId, name: l.name, categories: l.categories, rank: i + 1 }])
+              logShown(setId, [loggable(l, i + 1)])
             }
           >
             <button type="button" className="mapr-pick-main" onClick={() => navigate(`/landmarks/${l.regionId}/${l.id}`)}>

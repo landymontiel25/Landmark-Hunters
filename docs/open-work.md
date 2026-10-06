@@ -3,6 +3,20 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Mapr Phase 1 follow-ups (shipped, waiting on users or the owner)
+
+Phase 1 is live on every Mapr surface (`docs/mapr-phase1.md`). Left open:
+
+- The NCF model ranks nothing until more than 10 users have a check-in or a
+  loved rating in 90 days (`NCF.autoEnableAboveUsers`). It switches itself on.
+- The spec's outcome targets (match rate 65% to 75%, A/B significance,
+  retention) need real traffic. Watch Admin stats → Mapr Phase 1 and the
+  daily Slack message. Once there are enough users, lower a rollout below
+  100 in `src/lib/maprRank/config.js` to run a real A/B test.
+- Not built, needs an owner decision: the optional "preference reset" for
+  stagnating users (drops the oldest 30% of ratings, so it deletes data).
+- Dwell time is not tracked (the app records arrivals, not departures).
+
 ## Photos for imported places (started, not finished)
 
 Share of places with a photo, on main as of 2026-10-05:

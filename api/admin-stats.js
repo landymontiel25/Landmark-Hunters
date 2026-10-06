@@ -8,11 +8,16 @@ import { runPhotoBackfill } from './_lib/photoBackfill.js';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { isAdmin } from '../src/lib/admins.js';
 import { STATS_CACHE_MS } from '../src/lib/statsConstants.js';
+import { runDaily, runWeekly } from './_lib/maprNightly.js';
+import { ensureServerPlacePacks } from './_lib/placePacks.js';
+import { loadStatsData } from './_lib/statsData.js';
+import { METRICS_COLLECTION, MODEL_COLLECTION } from '../src/lib/maprRank/config.js';
 
 // Owner-only. GET -> the stats summary (totals only). POST {action:
 // 'backfill'} -> fills users.createdAt for accounts that predate it. POST
 // {action: 'photo-backfill'} -> one batch of the Google place-ID backfill
-// (api/_lib/photoBackfill.js).
+// (api/_lib/photoBackfill.js). POST {action: 'mapr-run'} -> runs the Mapr
+// Phase 1 nightly job now, weekly models included (api/_lib/maprNightly.js).
 //
 // Needs FIREBASE_SERVICE_ACCOUNT in Vercel (the Admin SDK reads Firestore past
 // the rules); without it this answers 503 with that message instead of
@@ -52,6 +57,20 @@ async function handler(req, res) {
         res.status(200).json(await runPhotoBackfill(db, ALL_LANDMARKS, { apiKey: process.env.GOOGLE_PLACES_API_KEY }));
         return;
       }
+      if (action === 'mapr-run') {
+        if (isRateLimited(req, 'mapr-run', { limit: 3, windowMs: 10 * 60 * 1000, id: account.uid })) {
+          res.status(429).json({ error: 'The Mapr job ran a few times already. Wait a few minutes.' });
+          return;
+        }
+        const now = Date.now();
+        const ds = await loadStatsData(db);
+        await ensureServerPlacePacks();
+        const models = await runWeekly(db, { now, ds });
+        const daily = await runDaily(db, { now, ds });
+        cache = null;
+        res.status(200).json({ ok: true, daily, models });
+        return;
+      }
       if (action !== 'backfill') {
         res.status(400).json({ error: 'Unknown action.' });
         return;
@@ -69,6 +88,7 @@ async function handler(req, res) {
       const { points, days } = await storedSeries(db);
       summary.study.series = mergeSeries(summary.study.series, points);
       summary.study.storedDays = days;
+      summary.maprPhase1 = await maprPhase1(db);
       cache = { at: now, value: summary };
     }
     res.status(200).json(cache.value);
@@ -81,6 +101,24 @@ async function handler(req, res) {
     console.error('admin-stats failed:', msg);
     // Safe to show: only a verified admin reaches this line (401/403 above).
     res.status(500).json({ error: `Could not build the stats: ${msg}` });
+  }
+}
+
+// The Mapr Phase 1 daily reports (totals only) and the weekly job status.
+async function maprPhase1(db) {
+  try {
+    const [reports, status] = await Promise.all([
+      db.collection(METRICS_COLLECTION).orderBy('date', 'desc').limit(14).get(),
+      db.collection(MODEL_COLLECTION).doc('status').get(),
+    ]);
+    const clean = (d) => {
+      const { createdAt, ...rest } = d.data() || {};
+      void createdAt;
+      return rest;
+    };
+    return { reports: reports.docs.map(clean).reverse(), status: status.exists ? status.data() : null };
+  } catch (e) {
+    return { reports: [], status: null, error: String(e?.message || e) };
   }
 }
 

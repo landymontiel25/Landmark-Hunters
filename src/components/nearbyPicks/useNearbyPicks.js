@@ -16,6 +16,7 @@ import {
 } from '../../lib/nearbyPicks';
 import { fetchPickReasons } from '../../lib/pickReasonsApi';
 import { makeSetId } from '../../lib/setId';
+import { seededRandom } from '../../lib/maprRank/experiments.js';
 
 // How long to wait for candidate photos before composing with whatever has
 // loaded. A card whose photo is still loading after this is skipped.
@@ -91,6 +92,11 @@ export function useNearbyPicks({
   extraPlaces = null,
   fillNew = false,
   fetchReasons = fetchPickReasons,
+  // Mapr Phase 1 (src/lib/maprRank): published models, check-in ids, and
+  // the exploration context (createdAtMs, shown, votes). All optional.
+  models = null,
+  visitedIds = null,
+  explore = null,
 }) {
   const [refreshToken, setRefreshToken] = useState(0);
   const [result, setResult] = useState(null); // { key, picks }
@@ -107,12 +113,12 @@ export function useNearbyPicks({
     return key ? readNearbyPicksCache(key, now) : null;
   }, [key, now, refreshToken]);
 
-  const { usual, fresh, favorites } = useMemo(
+  const { usual, fresh, favorites, exploration, meta } = useMemo(
     () =>
       enabled && lat != null
-        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides, extraPlaces, fillNew })
-        : { usual: [], fresh: [], favorites: [] },
-    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces, fillNew]
+        ? rankNearbyCandidates({ profile, origin: { lat, lng }, miles, myReviews, checkinCounts, now, overrides, extraPlaces, fillNew, uid, models, visitedIds, explore })
+        : { usual: [], fresh: [], favorites: [], exploration: null, meta: null },
+    [enabled, profile, lat, lng, miles, myReviews, checkinCounts, now, overrides, extraPlaces, fillNew, uid, models, visitedIds, explore]
   );
   // "Show different places": what was on screen before the last refresh is
   // skipped, so the same top places don't come straight back.
@@ -121,6 +127,10 @@ export function useNearbyPicks({
   const usualQ = useMemo(() => unseenFirst(usual, seen), [usual, seen]);
   const freshQ = useMemo(() => unseenFirst(fresh, seen), [fresh, seen]);
   const chained = useMemo(() => chainedPick({ usual: usualQ, fresh: freshQ, links, lastCategory }), [usualQ, freshQ, links, lastCategory]);
+  const explorationQ = useMemo(
+    () => (exploration ? { ...exploration, exploit: unseenFirst(exploration.exploit, seen), explore: unseenFirst(exploration.explore, seen) } : null),
+    [exploration, seen]
+  );
 
   const live = enabled && online && !!key;
   const sessionStale =
@@ -128,8 +138,11 @@ export function useNearbyPicks({
   const buildTag = sessionStale ? `${key}@${result.at}` : key;
   const needFresh = live && (sessionStale || (!(cached && !cached.stale) && result?.key !== key));
   const urls = useMemo(
-    () => (needFresh ? [chained?.image, ...usualQ.slice(0, 10).map((p) => p.image), ...freshQ.slice(0, 5).map((p) => p.image)] : []),
-    [needFresh, chained, usualQ, freshQ]
+    () =>
+      needFresh
+        ? [chained?.image, ...usualQ.slice(0, 10).map((p) => p.image), ...freshQ.slice(0, 5).map((p) => p.image), ...(explorationQ?.explore || []).slice(0, 5).map((p) => p.image)]
+        : [],
+    [needFresh, chained, usualQ, freshQ, explorationQ]
   );
   const { status, settled } = useImageStatus(urls, { enabled: needFresh });
 
@@ -146,17 +159,48 @@ export function useNearbyPicks({
   useEffect(() => {
     if (!needFresh || !settled || inflight.current === buildTag) return;
     inflight.current = buildTag;
-    const composed = composePicks({ usual: usualQ, fresh: freshQ, chained, isReady: (p) => status[p.image] === 'loaded' });
+    const composed = composePicks({
+      usual: usualQ,
+      fresh: freshQ,
+      chained,
+      isReady: (p) => status[p.image] === 'loaded',
+      exploration: explorationQ,
+      rng: seededRandom(`${buildTag}|${Date.now()}`),
+    });
+    // Set-level decisions, logged with every shown pick of this set.
+    const setTelemetry = meta
+      ? {
+          variants: meta.variants,
+          fallbacks: meta.fallbacks,
+          rankLatencyMs: meta.latencyMs,
+          epsilon: explorationQ ? explorationQ.epsilon : null,
+          epsilonReason: explorationQ ? explorationQ.reason : null,
+        }
+      : null;
     (composed.length ? Promise.resolve(fetchReasons(composed)).catch(() => ({})) : Promise.resolve({})).then((reasons) => {
       if (!mounted.current || inflight.current !== buildTag) return;
       const setId = makeSetId(uid);
-      const picks = withReasons(composed, reasons).map((p) => ({ ...p, setId }));
+      const picks = withReasons(composed, reasons).map((p, i) => ({
+        ...p,
+        setId,
+        ...(setTelemetry
+          ? {
+              telemetry: {
+                ...(p.telemetry || {}),
+                ...setTelemetry,
+                rankPosition: i + 1,
+                explore: p.slot === 'explore',
+                noveltyScore: p.slot === 'explore' ? p.noveltyScore ?? null : null,
+              },
+            }
+          : {}),
+      }));
       // An empty set (nothing nearby, or no photo loaded) isn't worth keeping.
       if (picks.length) writeNearbyPicksCache(key, picks);
       setResult({ key, picks, at: Math.max(Date.now(), Number.isFinite(now) ? now : 0) });
       setPending(false);
     });
-  }, [needFresh, settled, key, buildTag, now, usualQ, freshQ, chained, status, fetchReasons, uid]);
+  }, [needFresh, settled, key, buildTag, now, usualQ, freshQ, chained, status, fetchReasons, uid, explorationQ, meta]);
 
   const refresh = useCallback(() => {
     if (key) {
@@ -202,5 +246,19 @@ export function useNearbyPicks({
   // stable one derived from when it was cached.
   const setId = picks?.find((p) => p.setId)?.setId || (picks?.length && uid ? `${uid}-legacy-${cached?.at ?? 0}` : null);
 
-  return { picks: shown, setId, updating, slow, usual, fresh, favorites, chained, cachedAt: cached?.at ?? null, refresh, showDifferent, refreshing: pending };
+  return {
+    picks: shown,
+    setId,
+    updating,
+    slow,
+    usual,
+    fresh,
+    favorites,
+    chained,
+    cachedAt: cached?.at ?? null,
+    refresh,
+    showDifferent,
+    refreshing: pending,
+    stagnating: !!exploration?.stagnating,
+  };
 }

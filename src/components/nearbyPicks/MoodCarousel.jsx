@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { MOODS, MOOD_SORTS, moodPlaces } from '../../lib/nearbyPicks';
 import { useReadyItems } from './useNearbyPicks';
+import { useShownEffect } from './useShownEffect';
 import PickCard, { PickRow } from './PickCard';
 import DirectionsButton from '../DirectionsButton';
 
@@ -23,7 +24,10 @@ function readView() {
 // swipe its places (or scroll them as a list), sorted closest or highest
 // rated. `pool` is
 // nearbyPicks.eligiblePlaces (already inside the distance filter).
-export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'closest', moods = MOODS }) {
+// rank(places) is Mapr's ranking for the "For you" sort (MapPicksOverlay
+// passes maprRank/surfaces.js rankPlaces); without it, For you is closest.
+// onShown(places) is called with the places on screen (logged as picks).
+export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'foryou', moods = MOODS, rank = null, onShown = null }) {
   const [mood, setMood] = useState(initialMood);
   const [sort, setSort] = useState(initialSort);
   const [view, setViewState] = useState(readView);
@@ -35,8 +39,13 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
       /* private mode: the choice lasts until the page reloads */
     }
   };
-  const places = useMemo(() => (mood ? moodPlaces({ moodId: mood, pool, sort, ratings, limit: 12, moods }) : []), [mood, pool, sort, ratings, moods]);
+  const places = useMemo(() => {
+    if (!mood) return [];
+    if (sort !== 'foryou' || !rank) return moodPlaces({ moodId: mood, pool, sort: sort === 'foryou' ? 'closest' : sort, ratings, limit: 12, moods });
+    return rank(moodPlaces({ moodId: mood, pool, sort: 'closest', ratings, limit: 60, moods })).slice(0, 12);
+  }, [mood, pool, sort, ratings, moods, rank]);
   const ready = useReadyItems(places, 8);
+  useShownEffect(onShown, ready);
 
   return (
     <section className="mpp-section">
