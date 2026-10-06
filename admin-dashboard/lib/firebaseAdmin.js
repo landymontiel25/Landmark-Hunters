@@ -4,18 +4,50 @@ import { importPKCS8, SignJWT } from 'jose';
 // service-account private key, so we sign it here with jose instead of the
 // firebase-admin SDK (which Vercel's bundler cannot load). No network call.
 //
-// Key source: FIRESTORE_ADMIN_KEY (raw JSON or base64, see README). The
-// embedded copy below is a fallback so production keeps working until that
-// variable is set on Vercel; delete it after the key is rotated.
-const FIREBASE_KEY_B64 ='ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAibGFuZG1hcmstaHVudGVycy0yODRhYiIsCiAgInByaXZhdGVfa2V5X2lkIjogIjhiYzg0YTJjOWRiN2NiY2M2NDYyZGYyZTYwOGY2OWJmMzg5NTkyYmUiLAogICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRRHhDVzZ5dTNob3hnelJcbkFaUksyR0w3aHJzRm9PU0dYUWdyNFdJalFiaXpjRU1qNDgzMlp4bHIxbW5Nd2lpeW50cUF2V2prSHl4Mk1DQlZcbjdRbjh1ekMzNTdURFNBVDA5Q0xTWG5oWVhIbG5RNjBhcEIxWkgwVE1pUEJBMGNQWDU0NXRBbTh1d3FKbVJ6RHlcbnUrcThSSGx6Vzd5Wi80ZFpiMGxydWNKbkIvaUMrRW1oOEUrdUNnb3FaMFZrUVFxY0FvVnF3Q2piNDYyWStoYldcbnlSVEtBa3V3dmVLWFRuc01sdGhWTmMySjlGRjg4cTI0eVB0cUdDamlod1R4VWViTU5SQ09zWkppTzJub1RaR3ZcbitXNHBWUnN2RGRDd0ZEMFNUaDBtLzdyT2JKeUJRRWNpWG5sSlpzZUtnem5rUkFMSzZ4elI2UHVoZUxpSk1QRS9cblVOWko2Mkw5QWdNQkFBRUNnZ0VBQXJJbFQ5Qnk5MUVId2FxdjJ1cHlxUGVIemZkUHR3VUJXMlJJOGJZQmQ5aFFcbmwrMHJWNDh0cEp3Z1VNNzNINUJSUjFGWEEvNHBSQ1VqcDNKZ1F6aGd3aDNRVXNMU2MxN3JxTWl2dGVWSzRsSEtcbmROclREVFVoVXR4Uk81aGRCV1FzbnFHQlZ0ZU1jM0ptWk1DZlRuM0JrZjI3clVsRFhVZTJYWU1WWG91alJ1dTBcbmNCaUpKZVFGQlF4emFyQ2NraEQ4bEEwMTZzMmZyRGwwQTNHZXNMUUpGYVQ1Vmk3cmx4V01sL3JSRUJkcWYzd3JcbllQMlJOV0R1QUdrSkJsQWhsMzRWR0FFZm4xMndTSWYrSm9GNjg4MDhvM3kzUkZxUVU5d2ZvSDdYdWpNaXZ3NUZcbmt3ZlBJUUJYZGhNclkrVWJEcldTenVqQSt4ZGx5YmJORTVOZHRBMXV6UUtCZ1FEL05NbkFRaDg5QWszcnFLU0Vcbm1ZcjZxaWF0TjZKRE42WForZk11OEtnZkZHVzRDUnVQSUdIemhYU0lYOWlQeHNlSHdhbERCNnRWdWhGQ3lIejJcbmxEM1FmQ0JwOGNmSkJhYTU3dm5XaU9odk5UM0ZsYkFVd3Y0NmZtTE1xVnc1RGVGUE5OVkMranFrQ2wxbFBUK2ZcbkF0SmZqaG1EMU9WSmFHYVQyaVJUcGQrQzB3S0JnUUR4eVZ5YjJIbXRBSGd2RTBOZnRHUENSUW56eDFkQWhmVFBcbk8vV2grMU5EYkhvTTBIZDBJT1VITTlpbnIxckQxM2FpUGdwWXRYK05NSHJZWTh6d1dadUt5Qm5ZU2taWk5tQU9cbmFYYzVsSHZpamg2MTNLSVdBRGxkQjNIbERLb1R3VDlRNFljUG05Zk8xakV4aDhLL1dZTnQwUTlyUjdxWG1oK25cbnAyQnplaGJBN3dLQmdRRHh2bzllRDBTSUJpYkpsSFpESlM4QlF5eGY2Tk5MMk9yQ0VJTExkQ3ZOUlFVVno0ckxcbmlXRS96S3NXZzdRZ2ZhdUViVzVva0ZzOFdZVUFQZW9ocVVya3NyQUJxNFlVWmNZSld0Wk80bUZLOXFRTkJqNUZcbmJIQmwrRktlaTg5UVBGV3hNZHJTRnpaMUxWeExDam01NW5KaEVib1pweEdLOTlvek0vQTFUR3J0QVFLQmdRQytcbnpOMDA2cVpTUEcyYkVJTjVVYnZyZ1ZteU0xdUtRbXVHNGRVYngxM1VkaFQyYWNmcUwwOHMyT0FlcTRWZnlIY0lcbjN4YUJISEVVZE81c05vMXlHZlJobHppMTh4OENwYU0xbkVxR2VNTXViR0tWdHc5OWR4M05hT09iRWR4aERIMnZcbmtObHBHdDA1anROeE42WWFKRVJQODh0TUtHVjUzeGtkenpxUXhnYVFwd0tCZ0FvNk9lZS9VMk11T3FBTThmMHFcbnlyYUZzN0o2MDh1NWJHMFNJaTNSeWpCQ1pZYzNjMXVyWk5Qa3VZWEVFK2pFL0M1dnF5SXVYeWovVDFtMnM1NVVcblJRamt1STZ0MzMwVHBHNTcwT0Myek5vMGZOTDU1d1VvZkRLa2ViZ0h1SVZ0OTdLdnJzT0hCTlpoSmtodVZEaVZcblR3L0xuRjlIS2tHdlMzRTBQUDVOM2E0UVxuLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLVxuIiwKICAiY2xpZW50X2VtYWlsIjogImZpcmViYXNlLWFkbWluc2RrLWZic3ZjQGxhbmRtYXJrLWh1bnRlcnMtMjg0YWIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICJjbGllbnRfaWQiOiAiMTE4MTg5OTQwOTcxNjQ3NjQ5MjA5IiwKICAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLAogICJ0b2tlbl91cmkiOiAiaHR0cHM6Ly9vYXV0aDIuZ29vZ2xlYXBpcy5jb20vdG9rZW4iLAogICJhdXRoX3Byb3ZpZGVyX3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vb2F1dGgyL3YxL2NlcnRzIiwKICAiY2xpZW50X3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vcm9ib3QvdjEvbWV0YWRhdGEveDUwOS9maXJlYmFzZS1hZG1pbnNkay1mYnN2YyU0MGxhbmRtYXJrLWh1bnRlcnMtMjg0YWIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICJ1bml2ZXJzZV9kb21haW4iOiAiZ29vZ2xlYXBpcy5jb20iCn0K';
+// Key source: the FIRESTORE_ADMIN_KEY env var (raw JSON or base64, see
+// README). No key is stored in the repo.
 
 const AUDIENCE = 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit';
 
-export function parseServiceAccount(raw = process.env.FIRESTORE_ADMIN_KEY) {
-  const text = raw && raw.trim() ? raw.trim() : Buffer.from(FIREBASE_KEY_B64, 'base64').toString('utf-8');
-  const json = JSON.parse(text.startsWith('{') ? text : Buffer.from(text, 'base64').toString('utf-8'));
-  if (!json.client_email || !json.private_key) throw new Error('Firebase key is not a service-account key.');
+// Names accepted for the key, in order. The README says FIRESTORE_ADMIN_KEY;
+// the others are the names people reach for.
+export const KEY_ENV_NAMES = ['FIRESTORE_ADMIN_KEY', 'FIREBASE_ADMIN_KEY', 'FIREBASE_SERVICE_ACCOUNT', 'FIREBASE_SERVICE_ACCOUNT_KEY', 'GOOGLE_SERVICE_ACCOUNT'];
+
+export function keyFromEnv(env = process.env) {
+  for (const name of KEY_ENV_NAMES) if (env[name] && env[name].trim()) return env[name];
+  return '';
+}
+
+export function parseServiceAccount(raw = keyFromEnv()) {
+  if (!raw || !raw.trim()) {
+    const seen = Object.keys(process.env).filter((n) => /FIRE|GOOGLE|SERVICE/i.test(n) && !n.startsWith('NEXT_PUBLIC')).join(', ') || 'none';
+    throw new Error(`No service-account key found. Set ${KEY_ENV_NAMES[0]} in this Vercel project's environment variables for this deployment's environment (Production vs Preview) and redeploy. Firebase-related variable names this deployment can see: ${seen}.`);
+  }
+  const text = raw.trim();
+  let json;
+  try {
+    json = JSON.parse(text.startsWith('{') ? text : Buffer.from(text, 'base64').toString('utf-8'));
+  } catch {
+    throw new Error('The service-account key variable is set but is not valid JSON (or base64 of JSON). Paste the whole downloaded .json file.');
+  }
+  if (!json.client_email || !json.private_key) throw new Error('The service-account key variable is missing client_email or private_key. Paste the whole downloaded .json file.');
   return json;
+}
+
+// Google publishes the live public keys of every service account. A key
+// that was deleted or revoked is absent, and Firebase then rejects every
+// token it signs with auth/invalid-custom-token. Returns null when the key
+// is live or the check could not run.
+export async function deadKeyProblem(account, fetchImpl = fetch) {
+  try {
+    const r = await fetchImpl('https://www.googleapis.com/robot/v1/metadata/x509/' + encodeURIComponent(account.client_email), { signal: AbortSignal.timeout(3000) });
+    if (!r.ok) return null;
+    const certs = await r.json();
+    if (account.private_key_id && !(account.private_key_id in certs)) {
+      return `The key in the environment variable (id ${String(account.private_key_id).slice(0, 8)}…, ${account.client_email}) is deleted or revoked in Google Cloud. Generate a new key and replace the variable.`;
+    }
+  } catch { /* offline or timed out: skip the check */ }
+  return null;
 }
 
 // The dashboard's own Firebase identity. firestore.rules isDashboard()

@@ -3,8 +3,8 @@ import { NextRequest } from 'next/server';
 import { _resetLoginLimits, SESSION_COOKIE, signSession } from '@/lib/auth';
 import { forwardJob } from '@/lib/jobs';
 import { decodeProtectedHeader, importSPKI, jwtVerify } from 'jose';
-import { createPublicKey } from 'node:crypto';
-import { parseServiceAccount } from '@/lib/firebaseAdmin';
+import { createPublicKey, generateKeyPairSync } from 'node:crypto';
+import { deadKeyProblem, keyFromEnv, parseServiceAccount } from '@/lib/firebaseAdmin';
 
 const PASSWORD = 'p'.repeat(32);
 beforeEach(() => {
@@ -37,6 +37,8 @@ describe('POST /api/auth/login', () => {
 
 describe('POST /api/firebase-token', () => {
   it('needs a session, then returns a JWT token', async () => {
+    process.env.FIRESTORE_ADMIN_KEY = JSON.stringify(TEST_ACCOUNT);
+    vi.stubGlobal('fetch', async () => new Response(JSON.stringify({ kid1: 'cert' }), { status: 200 }));
     const { POST } = await import('@/app/api/firebase-token/route');
     expect((await POST(req('/api/firebase-token'))).status).toBe(401);
     const res = await POST(req('/api/firebase-token', undefined, await signSession()));
@@ -45,6 +47,14 @@ describe('POST /api/firebase-token', () => {
     expect(body.token).toBeDefined();
     expect(typeof body.token).toBe('string');
     expect(body.token.split('.').length).toBe(3);
+    vi.unstubAllGlobals();
+  });
+  it('answers 503 and names the missing env var when no key is configured', async () => {
+    delete process.env.FIRESTORE_ADMIN_KEY;
+    const { POST } = await import('@/app/api/firebase-token/route');
+    const res = await POST(req('/api/firebase-token', undefined, await signSession()));
+    expect(res.status).toBe(503);
+    expect((await res.json()).error).toContain('No service-account key found');
   });
 });
 
@@ -78,31 +88,44 @@ describe('jobs proxy', () => {
   });
 });
 
+const { privateKey: TEST_PEM } = generateKeyPairSync('rsa', { modulusLength: 2048, privateKeyEncoding: { type: 'pkcs8', format: 'pem' }, publicKeyEncoding: { type: 'spki', format: 'pem' } });
+const TEST_ACCOUNT = { type: 'service_account', project_id: 'landmark-hunters-284ab', private_key_id: 'kid1', private_key: TEST_PEM, client_email: 'svc@landmark-hunters-284ab.iam.gserviceaccount.com' };
+
 describe('service account key', () => {
-  it('parses embedded base64 Firebase service account', () => {
-    const account = parseServiceAccount();
-    expect(account.client_email).toBeDefined();
-    expect(account.private_key).toBeDefined();
-    expect(account.project_id).toBe('landmark-hunters-284ab');
+  it('parses raw JSON or base64 from FIRESTORE_ADMIN_KEY and rejects a missing or bad key', () => {
+    const json = JSON.stringify(TEST_ACCOUNT);
+    expect(parseServiceAccount(json).project_id).toBe('landmark-hunters-284ab');
+    expect(parseServiceAccount(Buffer.from(json).toString('base64')).client_email).toBe(TEST_ACCOUNT.client_email);
+    expect(() => parseServiceAccount('')).toThrow(/No service-account key found/);
+    expect(() => parseServiceAccount(JSON.stringify({ a: 1 }))).toThrow(/missing client_email or private_key/);
   });
 });
 
 describe('mintDashboardToken (no firebase-admin)', () => {
-  it('signs a Firebase custom token that verifies against the service account public key', async () => {
-    const account = parseServiceAccount();
+  it('signs a Firebase custom token that verifies against the key\'s public half', async () => {
     const { mintDashboardToken } = await vi.importActual<typeof import('@/lib/firebaseAdmin')>('@/lib/firebaseAdmin');
-    const token = await mintDashboardToken();
-    const pub = await importSPKI(createPublicKey(account.private_key).export({ type: 'spki', format: 'pem' }) as string, 'RS256');
-    const { payload } = await jwtVerify(token, pub, { audience: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit', issuer: account.client_email });
-    expect(payload.sub).toBe(account.client_email);
+    const token = await mintDashboardToken(TEST_ACCOUNT);
+    const pub = await importSPKI(createPublicKey(TEST_PEM).export({ type: 'spki', format: 'pem' }) as string, 'RS256');
+    const { payload } = await jwtVerify(token, pub, { audience: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit', issuer: TEST_ACCOUNT.client_email });
+    expect(payload.sub).toBe(TEST_ACCOUNT.client_email);
     expect(payload.uid).toBe('admin-dashboard');
     expect(payload.claims).toEqual({ dashboardAdmin: true });
     expect(payload.exp! - payload.iat!).toBeLessThanOrEqual(3600);
-    expect(decodeProtectedHeader(token).alg).toBe('RS256');
+    expect(decodeProtectedHeader(token)).toMatchObject({ alg: 'RS256', kid: 'kid1' });
   });
-  it('prefers FIRESTORE_ADMIN_KEY (raw JSON or base64) over the embedded key', () => {
-    const fake = JSON.stringify({ client_email: 'x@y.z', private_key: 'k' });
-    expect(parseServiceAccount(fake).client_email).toBe('x@y.z');
-    expect(parseServiceAccount(Buffer.from(fake).toString('base64')).client_email).toBe('x@y.z');
+});
+
+describe('key lookup and revoked-key detection', () => {
+  it('finds the key under the alternate variable names', () => {
+    expect(keyFromEnv({ FIREBASE_ADMIN_KEY: '{"a":1}' })).toBe('{"a":1}');
+    expect(keyFromEnv({ FIREBASE_SERVICE_ACCOUNT: 'x' })).toBe('x');
+    expect(keyFromEnv({})).toBe('');
+  });
+  it('flags a key whose id Google no longer publishes, and passes a live one', async () => {
+    const live = (async () => new Response(JSON.stringify({ kid1: 'cert' }), { status: 200 })) as never;
+    expect(await deadKeyProblem(TEST_ACCOUNT, live)).toBeNull();
+    const gone = (async () => new Response(JSON.stringify({ other: 'cert' }), { status: 200 })) as never;
+    expect(await deadKeyProblem(TEST_ACCOUNT, gone)).toMatch(/deleted or revoked/);
+    expect(await deadKeyProblem(TEST_ACCOUNT, (async () => { throw new Error('offline'); }) as never)).toBeNull();
   });
 });
