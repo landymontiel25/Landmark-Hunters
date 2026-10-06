@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { trimTurns, conciseReply } from './plan-ai.js';
+import { trimTurns, conciseReply, asksToRateHere } from './plan-ai.js';
 
 describe('plan-ai trimTurns', () => {
   it('never starts with an assistant turn once a chat is long (the API rejects that)', () => {
@@ -37,5 +37,18 @@ describe('plan-ai conciseReply', () => {
     expect(conciseReply('- One thing', 'hi')).toBe('One thing');
     expect(conciseReply('Try Hillstone.', 'dinner?')).toBe('Try Hillstone.');
     expect(conciseReply('', 'x')).toBe('');
+  });
+});
+
+describe('plan-ai asksToRateHere', () => {
+  it('spots a request to rate where they are', () => {
+    expect(asksToRateHere('can i rate here')).toBe(true);
+    expect(asksToRateHere('Can I rate this place?')).toBe(true);
+    expect(asksToRateHere('i want to rate where i am')).toBe(true);
+  });
+  it('ignores everything else', () => {
+    expect(asksToRateHere('where should I eat here')).toBe(false);
+    expect(asksToRateHere('rate Hillstone')).toBe(false);
+    expect(asksToRateHere('')).toBe(false);
   });
 });

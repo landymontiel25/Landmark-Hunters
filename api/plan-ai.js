@@ -120,6 +120,7 @@ const INSTRUCTIONS =
   `of their message as usual. Use its catalog region/id as "match" when it's in the catalog or NEAREST CATALOG LANDMARKS, ` +
   `otherwise its real name plus any address you know. Only when they clearly say they were there -- never guess, and not for a ` +
   `place they merely mention or plan to visit. If they already said how it was, still set "rate" (the app lets them save it).\n` +
+  `- They can rate right in this chat. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone", "I'm at the range, rate it"), set "rate" to that place (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place). Say yes in one short line ("Sure -- how was it?"); never tell them to go to the landmark's page. The app shows the rating buttons, and every rating teaches Mapr their taste.\n` +
   `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search, and must include the source URL.\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
   `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
@@ -215,6 +216,9 @@ export function conciseReply(reply, userText = '') {
   if (out.length > 260) out = sentences[0].length <= 260 ? sentences[0] : `${out.slice(0, 257).trimEnd()}...`;
   return out || plain;
 }
+
+// "can i rate here", "rate this place": a request to rate wherever they are.
+export const asksToRateHere = (text) => /\brate\b[^.?!]{0,30}\b(here|this (place|spot|one)|where i am)\b/i.test(String(text || ''));
 
 export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 'solo');
 
@@ -378,6 +382,7 @@ async function handler(req, res) {
     // Live GPS from the traveler's device (Mapr.jsx), with the town it
     // resolves to. Also lists the closest catalog landmarks, so "near me"
     // can land on real in-app stops before reaching for web search.
+    let hereLandmark = null;
     const loc = body.location && typeof body.location === 'object' ? body.location : null;
     const locLat = Number(loc?.lat);
     const locLng = Number(loc?.lng);
@@ -389,6 +394,7 @@ async function handler(req, res) {
         .sort((a, b) => a.km - b.km)
         .slice(0, 8)
         .filter((x) => x.km <= 80);
+      if (nearest[0] && nearest[0].km < 0.3) hereLandmark = nearest[0].l;
       profileParts.push(
         `CURRENT LOCATION: ${label || 'unknown town'} (${locLat.toFixed(4)}, ${locLng.toFixed(4)}` +
           (Number.isFinite(acc) && acc > 0 ? `, accurate to about ${Math.round(acc)} m` : '') +
@@ -610,8 +616,16 @@ async function handler(req, res) {
       else if (str(pr.name, 120)) rate = { name: str(pr.name, 120), address: str(pr.address, 160) };
     }
 
+    // "Can I rate here?": if the model didn't set the card, point it at the
+    // catalog landmark they are standing at.
+    let replyText = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
+    if (!rate && hereLandmark && asksToRateHere(lastText)) {
+      rate = { region: hereLandmark.regionId, id: hereLandmark.id, name: hereLandmark.name };
+      replyText = `Sure -- how was ${hereLandmark.name}?`;
+    }
+
     res.status(200).json({
-      reply: conciseReply(String(parsed.reply || '').slice(0, 1500), lastText) || "Here's what I found:",
+      reply: replyText || "Here's what I found:",
       stops,
       quickReplies,
       actions,
