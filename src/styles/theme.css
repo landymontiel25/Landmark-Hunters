@@ -6195,6 +6195,30 @@ h2,
   margin-left: 4px;
 }
 
+.lab-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.lab-tab {
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.14));
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.lab-tab.active {
+  background: var(--color-gold, #c9a227);
+  border-color: transparent;
+  color: #14110a;
+  font-weight: 600;
+}
 .lab-place-input {
   position: relative;
 }

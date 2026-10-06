@@ -30,6 +30,9 @@ const STEPS = [
   { id: 'checkin', label: 'First check-in' },
   { id: 'done', label: 'Done' },
 ];
+// The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
+// entry here (and render it below) for each new test.
+const TESTS = [{ id: 'onboarding', label: 'Onboarding' }];
 const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
 const empty = () => ({
@@ -85,6 +88,13 @@ export default function OnboardingLab() {
 
   return (
     <div>
+      <div className="lab-tabs" role="tablist" aria-label="Tests">
+        {TESTS.map((t) => (
+          <button key={t.id} type="button" role="tab" aria-selected className="lab-tab active">
+            {t.label}
+          </button>
+        ))}
+      </div>
       <div className="card section lab-controls">
         <div className="lab-controls-head">
           <strong>{'\u{1F9EA}'} Onboarding test</strong>
