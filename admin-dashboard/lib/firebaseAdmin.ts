@@ -1,13 +1,19 @@
 import { cert, getApps, initializeApp, type App } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-// Server only. FIRESTORE_ADMIN_KEY is the service-account JSON, raw or base64.
-export function parseServiceAccount(raw = process.env.FIRESTORE_ADMIN_KEY): Record<string, string> {
-  if (!raw) throw new Error('FIRESTORE_ADMIN_KEY is not set.');
-  const text = raw.trim().startsWith('{') ? raw : Buffer.from(raw, 'base64').toString('utf8');
-  const json = JSON.parse(text);
-  if (!json.client_email || !json.private_key) throw new Error('FIRESTORE_ADMIN_KEY is not a service-account key.');
-  return json;
+// Server only. Reads firebase-key.json from the project root at runtime.
+export function parseServiceAccount(): Record<string, string> {
+  try {
+    const keyPath = join(process.cwd(), 'firebase-key.json');
+    const raw = readFileSync(keyPath, 'utf-8');
+    const json = JSON.parse(raw);
+    if (!json.client_email || !json.private_key) throw new Error('firebase-key.json is not a service-account key.');
+    return json;
+  } catch (e) {
+    throw new Error(`Failed to load firebase-key.json: ${e instanceof Error ? e.message : String(e)}`);
+  }
 }
 
 function adminApp(): App {
