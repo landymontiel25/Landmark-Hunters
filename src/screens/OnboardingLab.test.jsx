@@ -36,6 +36,7 @@ async function renderAs(email, { nothingToTest = false } = {}) {
 
 const click = (el) => act(async () => el.click());
 const button = (el, text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+const signUp = (el) => click(button(el, 'Sign up with Google'));
 
 describe('OnboardingLab', () => {
   it('says there is nothing to test while the sandbox is switched off', async () => {
@@ -58,7 +59,9 @@ describe('OnboardingLab', () => {
 
   it('walks the whole flow and restarts', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
-    expect(el.textContent).not.toContain('Create Account');
+    expect(el.textContent).toContain('Create Account');
+    expect(el.textContent).toContain('Terms of Service');
+    await signUp(el);
     expect(el.textContent).toContain("Tell us the 10 places you visit most, and we'll help you discover new spots you'll love.");
     await click(button(el, 'Skip for now'));
     expect(el.textContent).toContain('Rate a few things you');
@@ -97,11 +100,12 @@ describe('OnboardingLab', () => {
     expect(el.querySelectorAll('.lab-rec').length).toBe(0);
 
     await click(button(el, 'Restart'));
-    expect(el.textContent).toContain('Tell us the 10 places you visit most');
+    expect(el.textContent).toContain('Create Account');
   }, 30000);
 
   it('suggests places while typing and Tab adds the top match', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
+    await signUp(el);
     const input = el.querySelector('#lab-place');
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
     await act(async () => {
@@ -122,6 +126,7 @@ describe('OnboardingLab', () => {
 
   it('Skip on the rate prompt goes straight to the end with no preference data', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
+    await signUp(el);
     await click(button(el, 'Skip for now'));
     await click([...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Skip'));
     expect(el.textContent).toContain('no preference data yet');
@@ -129,6 +134,7 @@ describe('OnboardingLab', () => {
 
   it('Undo brings back the last card and drops its answer', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
+    await signUp(el);
     await click(button(el, 'Skip for now'));
     await click(button(el, 'Next'));
     await click(button(el, 'Start'));
