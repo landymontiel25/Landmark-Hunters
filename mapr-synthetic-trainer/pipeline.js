@@ -39,6 +39,11 @@ export function parseArgs(argv = process.argv.slice(2)) {
     else if (a === '--epochs') opt.epochs = Number(argv[++k]);
     else if (a === '--view') opt.view = true;
     else if (a === '--port') opt.port = Number(argv[++k]);
+    // The three fixes from the first diagnostic run, all at once.
+    else if (a === '--fixed') opt.ncf = { ...opt.ncf, bpr_on: 'logit', negative_sampling: 'area', early_stopping_on: 'accuracy' };
+    else if (a === '--bpr-on') opt.ncf = { ...opt.ncf, bpr_on: argv[++k] };
+    else if (a === '--negatives') opt.ncf = { ...opt.ncf, negative_sampling: argv[++k] };
+    else if (a === '--stop-on') opt.ncf = { ...opt.ncf, early_stopping_on: argv[++k] };
   }
   return opt;
 }
@@ -56,12 +61,12 @@ async function writeJsonArray(file, items, toJson, onProgress) {
   await once(out, 'finish');
 }
 
-export async function runPipeline({ quick = false, sims = SIMS, workers, epochs, emit = () => {} } = {}) {
+export async function runPipeline({ quick = false, sims = SIMS, workers, epochs, ncf = {}, emit = () => {} } = {}) {
   mkdirSync(OUT_DIR, { recursive: true });
   const t0 = Date.now();
   const batches = quick ? [{ name: 'A', users: 300 }, { name: 'B', users: 600 }, { name: 'C', users: 1000 }] : BATCHES;
   const nSims = quick ? Math.min(sims, 2) : sims;
-  const ncfConfig = epochs || quick ? { epochs: epochs || 4 } : {};
+  const ncfConfig = { ...ncf, ...(epochs || quick ? { epochs: epochs || 4 } : {}) };
   const config = { batches, sims: nSims, cold_users: COLD_USERS, interactions_per_user: PER_USER, archetypes: ARCHETYPES.length, ncf: ncfConfig, quick };
   emit({ type: 'phase', phase: 'generation', config });
 
