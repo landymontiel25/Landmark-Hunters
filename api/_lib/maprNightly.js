@@ -14,6 +14,8 @@ import {
 import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../../src/lib/maprRank/similarity.js';
 import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf } from '../../src/lib/maprRank/ncf.js';
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
+import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
+import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -194,12 +196,16 @@ async function trainAndPublish(db, positives, { now, cfg, gate }) {
 export async function runSimilarityWeekly(db, ds, { now = Date.now(), landmarks = ALL_LANDMARKS } = {}) {
   const { regions, ms } = computeAllSimilarity(ds, { now, landmarks });
   const stats = {};
+  let sizeBytes = 0;
+  let top = null;
   for (const [region, res] of Object.entries(regions)) {
     const { json, keptPerRow } = encodeNeighbors(res.neighbors);
     await db.collection(SIMILARITY_COLLECTION).doc(region).set({ neighbors: json, keptPerRow, computedAt: now, stats: res.stats });
     stats[region] = { ...res.stats, keptPerRow };
+    sizeBytes += json.length;
+    for (const [id, row] of Object.entries(res.neighbors)) if (!top || row.length > top.neighbors) top = { region, id, neighbors: row.length };
   }
-  return { computedAt: now, ms, regions: stats };
+  return { computedAt: now, ms, regions: stats, sizeBytes, top };
 }
 
 export async function runWeekly(db, { now = Date.now(), ds = null, landmarks = ALL_LANDMARKS } = {}) {
@@ -209,6 +215,7 @@ export async function runWeekly(db, { now = Date.now(), ds = null, landmarks = A
   await db.collection(MODEL_COLLECTION).doc('signals').set({ trending: trendingCounts(data, now), computedAt: now });
   const status = JSON.parse(JSON.stringify({ similarity: { computedAt: similarity.computedAt, ms: similarity.ms, regions: Object.keys(similarity.regions).length }, ncf }));
   await db.collection(MODEL_COLLECTION).doc('status').set({ ...status, updatedAt: now });
+  await writeDashboardModels(db, { ncf, similarity }, { now });
   return status;
 }
 
@@ -243,7 +250,16 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   const clean = JSON.parse(JSON.stringify(report));
   await db.collection(METRICS_COLLECTION).doc(date).set({ ...clean, createdAt: FieldValue.serverTimestamp() });
   const trend = await recentReports(db, date);
-  const slackResult = await slack(slackMessage(report, trend));
+  // The admin dashboard's collections (api/_lib/dashboardDocs.js).
+  let dashboardWrites = 0;
+  try {
+    dashboardWrites = await writeDashboardDaily(db, data, report, { now });
+  } catch (e) {
+    console.error('dashboard docs failed:', e?.message || e);
+  }
+  const extra = slackAlerts(report, trend[trend.length - 1], status.ncf);
+  const link = process.env.DASHBOARD_URL ? `\n<${process.env.DASHBOARD_URL}/dashboard|Open the dashboard>` : '';
+  const slackResult = await slack(slackMessage(report, trend) + (extra.length ? `\n:rotating_light: ${extra.join('\n:rotating_light: ')}` : '') + link);
 
   // Stagnation flags, owner-only (the app raises epsilon and offers "Shake
   // things up?"). Cleared for users who are no longer stagnating.
@@ -254,5 +270,5 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   for (const d of existing.docs) if (!flagged.has(d.id)) writes.push((b) => b.set(d.ref, { stagnating: false }, { merge: true }));
   for (const uid of flagged) if (!already.has(uid)) writes.push((b) => b.set(db.collection(USER_MODEL_COLLECTION).doc(uid), { stagnating: true, stagnatingSince: now }, { merge: true }));
   await commitInBatches(db, writes);
-  return { date, shown: report.totals.shown, alerts: report.alerts.length, slack: slackResult, stagnating: flagged.size };
+  return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites };
 }

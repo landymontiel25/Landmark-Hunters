@@ -1432,12 +1432,6 @@ export default function MapExplore({ experiments = false }) {
           {'\u{1F9EA}'} Test version
         </span>
       )}
-      {experiments && (
-        // Owner-only page (the /admin-stats route re-checks admin itself).
-        <button type="button" className="map-test-admin-link" onClick={() => navigate('/admin-stats')}>
-          Admin stats
-        </button>
-      )}
 
       {picksReady && (
         <MapPicksOverlay

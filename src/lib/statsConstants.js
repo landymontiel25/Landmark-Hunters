@@ -1,5 +1,5 @@
-// Every number behind the owner-only admin stats page (api/admin-stats.js,
-// src/screens/AdminStats.jsx) and the daily study summary
+// Every number behind the owner-only admin stats (written nightly to
+// app_metrics/latest by api/_lib/dashboardDocs.js, shown on admin-dashboard/) and the daily study summary
 // (api/study-summary.js). Nothing here is shown to normal users and nothing
 // here is known to Mapr (api/_lib/appHelp.js stays free of it).
 
