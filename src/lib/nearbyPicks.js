@@ -215,10 +215,16 @@ export function favoriteReviews(myReviews) {
 
 // Landmark ids with a review AND a real visit. A review alone is not proof
 // of a visit: rating a place needs no check-in (see isVisitedReview).
-export function visitedReviewIds(myReviews) {
-  return Object.values(myReviews || {})
-    .filter((r) => r?.landmarkId && isVisitedReview(r))
-    .map((r) => r.landmarkId);
+//
+// `profile` adds the places they told us they visit most at sign-up
+// (profile.onboardingPlaces): known visits, so never picks.
+export function visitedReviewIds(myReviews, profile = null) {
+  return [
+    ...Object.values(myReviews || {})
+      .filter((r) => r?.landmarkId && isVisitedReview(r))
+      .map((r) => r.landmarkId),
+    ...(Array.isArray(profile?.onboardingPlaces) ? profile.onboardingPlaces.map((p) => p.id) : []),
+  ];
 }
 
 export function ratingsCountOf(myReviews) {
@@ -443,7 +449,7 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
   // been to. A place rated without a visit (rating needs no check-in) still
   // counts as somewhere new to go; if they rated it "didn't like it" it is
   // already out through lowRated.
-  const ratedIds = visitedReviewIds(myReviews);
+  const ratedIds = visitedReviewIds(myReviews, profile);
   const eligible = new Map(eligiblePlaces({ origin, miles, lowRated, date, overrides, extraPlaces }).map((l) => [`${l.regionId}/${l.id}`, l]));
   const regions = [...new Set([...eligible.values()].map((l) => l.regionId))];
   const usual = [];
@@ -638,13 +644,20 @@ export function withReasons(picks, reasons = {}) {
 // ---- "Because you liked X" ----------------------------------------------
 
 // The most recent place the user loved, as a catalog landmark.
-export function lovedSeed(myReviews, landmarks = ALL_LANDMARKS) {
+//
+// With no loved rating yet, the places they told us they visit most at
+// sign-up stand in: we already know they love those.
+export function lovedSeed(myReviews, landmarks = ALL_LANDMARKS, profile = null) {
   const toMs = (r) => (r.updatedAt?.seconds ? r.updatedAt.seconds * 1000 : r.updatedAtMs || 0);
   const loved = Object.values(myReviews || {})
     .filter((r) => r?.ratingTier === 'highly-recommend')
     .sort((a, b) => toMs(b) - toMs(a));
   for (const r of loved) {
     const l = landmarks.find((x) => x.id === r.landmarkId && (!r.region || x.regionId === r.region));
+    if (l) return l;
+  }
+  for (const p of Array.isArray(profile?.onboardingPlaces) ? profile.onboardingPlaces : []) {
+    const l = landmarks.find((x) => x.id === p.id && x.regionId === p.regionId);
     if (l) return l;
   }
   return null;
@@ -654,8 +667,8 @@ export function lovedSeed(myReviews, landmarks = ALL_LANDMARKS) {
 // those (rankNearbyCandidates), and so must the rows built from the same pool
 // that suggest a place ("Because you liked", "Time to eat?") -- otherwise they
 // recommend the restaurant you are standing in.
-export function unratedPlaces(pool, myReviews) {
-  const rated = new Set(visitedReviewIds(myReviews));
+export function unratedPlaces(pool, myReviews, profile = null) {
+  const rated = new Set(visitedReviewIds(myReviews, profile));
   return (pool || []).filter((l) => !rated.has(l.id));
 }
 

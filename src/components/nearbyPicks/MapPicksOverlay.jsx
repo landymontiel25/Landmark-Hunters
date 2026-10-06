@@ -206,8 +206,8 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     [state, origin, miles, lowRated, now, overrides, customLandmarks]
   );
   const shownKeys = useMemo(() => (picks || []).map(pickKey), [picks]);
-  const liked = useMemo(() => lovedSeed(myReviews), [myReviews]);
-  const unrated = useMemo(() => unratedPlaces(pool, myReviews), [pool, myReviews]);
+  const liked = useMemo(() => lovedSeed(myReviews, undefined, myProfile), [myReviews, myProfile]);
+  const unrated = useMemo(() => unratedPlaces(pool, myReviews, myProfile), [pool, myReviews, myProfile]);
   // "Because you liked X" wants the same kind of place (another steakhouse),
   // which is rarer than "any food", so it looks out to SIMILAR_MIN_MI even
   // when the picks distance is smaller.
@@ -220,7 +220,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         : [],
     [state, origin, miles, pool, lowRated, now, overrides, customLandmarks]
   );
-  const similarUnrated = useMemo(() => unratedPlaces(similarPool, myReviews), [similarPool, myReviews]);
+  const similarUnrated = useMemo(() => unratedPlaces(similarPool, myReviews, myProfile), [similarPool, myReviews, myProfile]);
   // Mapr Phase 1 on the sheet's other rows too (maprRank/surfaces.js): each
   // row keeps its own meaning (same kind as X, this mood, food) and Mapr
   // orders it by taste, distance, similar places and the model.

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ALL_SWIPE_CARDS } from './onboardingCards';
+import { ALL_SWIPE_CARDS, PLACE_DELTA } from './onboardingCards';
 import { ALL_LANDMARKS } from '../data/regions';
 import { placesFromProfile, answersToPairs, pairsToAnswers, prefillAnswers, seedTagScores, swipeSummary } from './onboardingSave';
 
@@ -42,7 +42,7 @@ describe('places you visit most', () => {
   it('seed tag scores and the text Mapr reads, on top of the swipes', () => {
     const out = seedTagScores({}, [ans('Steak', 'love')], NOW, ['miami'], places);
     const tag = card('Steak').tag;
-    expect(out.tagScores.miami.food).toBe(tag === 'food' ? 20 : 10);
+    expect(out.tagScores.miami.food).toBe(PLACE_DELTA + (tag === 'food' ? 10 : 0));
     expect(out.deltas.food).toBeGreaterThan(0);
     expect(swipeSummary([ans('Steak', 'love')], places)).toBe('Loves: Steak. Visits most: Cafe X');
   });

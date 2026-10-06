@@ -230,7 +230,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
       regionIds: rankRegions,
       // Rated-and-visited places only: a place rated without a visit is still
       // somewhere new to go.
-      excludeIds: visitedReviewIds(myReviews),
+      excludeIds: visitedReviewIds(myReviews, myProfile),
       uid: user?.uid || null,
       origin,
       myReviews,

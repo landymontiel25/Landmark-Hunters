@@ -16,6 +16,11 @@ onChange onDone />` in `screens/Onboarding.jsx`, keep `places` in the flow's
 progress, and pre-fill it from `placesFromProfile(profile)`. Mapr needs no
 further wiring.
 
+Once a place is saved on the account (`profile.onboardingPlaces`) Mapr
+treats it as a known love: 2x a swiped "love it" on every category tag
+(`PLACE_DELTA`), never recommended back (`visitedReviewIds`, Travel Picks
+exclusion), and the "Because you liked" anchor until a loved rating exists.
+
 Owner asked that Mapr learn from every action from sign-up on. Today it
 learns from ratings, pick votes, rating comments and the swipe cards only
 (`src/lib/maprLearning.js`). Not yet learned from: the user's own check-ins
