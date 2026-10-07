@@ -53,18 +53,23 @@ export async function backfillCreatedAt(db, auth, { max = BACKFILL_MAX_USERS } =
   }
 
   const authTime = new Map();
+  // A failed Auth lookup says nothing about whether the account exists, so
+  // those users are left for the next call rather than given the (only
+  // upper-bound) first-rating date, which would then never be replaced.
+  const authFailed = new Set();
   for (let i = 0; i < todo.length; i += 100) {
     const chunk = todo.slice(i, i + 100);
     try {
       const res = await auth.getUsers(chunk.map((d) => ({ uid: d.id })));
       for (const u of res.users || []) authTime.set(u.uid, u.metadata?.creationTime);
     } catch {
-      /* Auth unavailable for this chunk: fall back to first ratings below */
+      for (const d of chunk) authFailed.add(d.id);
     }
   }
 
-  const result = { scanned, updated: 0, fromAuth: 0, fromFirstRating: 0, noSource: 0, done: false };
+  const result = { scanned, updated: 0, fromAuth: 0, fromFirstRating: 0, noSource: 0, authFailed: authFailed.size, done: false };
   for (const d of todo) {
+    if (authFailed.has(d.id)) continue;
     const pick = chooseCreatedAt({
       authCreationTime: authTime.get(d.id),
       firstRatingMs: authTime.get(d.id) ? null : await firstRatingMs(db, d.id),
@@ -80,6 +85,6 @@ export async function backfillCreatedAt(db, auth, { max = BACKFILL_MAX_USERS } =
   }
   // Users with no source (no Auth account, no ratings) can never be filled, so they
   // must not keep the job "not done" forever.
-  result.done = exhausted && todo.length < max;
+  result.done = exhausted && todo.length < max && authFailed.size === 0;
   return result;
 }
