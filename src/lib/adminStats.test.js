@@ -220,6 +220,12 @@ describe('metrics for the Horowitz Andreesen Academy tab', () => {
     expect(byId(run(ds), 'ratingsPerActiveUserWeek')).toMatchObject({ value: 1.5, n: 2 });
     expect(byId(run({}), 'ratingsPerActiveUserWeek').value).toBeNull();
   });
+  it('ratings per active user per week uses the same 7 dates as weekly users', () => {
+    // An open on the date exactly 7 days ago is outside both windows.
+    const ds = { openDays: [{ uid: 'a', date: dateUtc(NOW - 7 * STATS_DAY_MS) }] };
+    expect(byId(run(ds), 'weeklyUsers').weekly[5].active).toBe(0);
+    expect(byId(run(ds), 'ratingsPerActiveUserWeek').n).toBe(0);
+  });
   it('weekly users: active and new people per 7-day window, newest last', () => {
     const t = (daysAgo) => NOW - daysAgo * STATS_DAY_MS;
     const ds = {
