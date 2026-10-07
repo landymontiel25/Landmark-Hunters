@@ -66,14 +66,14 @@ describe('TasteProfileCard estimate', () => {
     h.reviews = mk(20);
     h.summary = { state: 'learning', score: null };
     const text = await mount();
-    expect(text()).toContain('Mapr knows your taste: ~99%');
+    expect(text()).toContain('Mapr Score: ~99%');
     expect(text()).toContain('(estimated from your past ratings)');
     expect(text()).not.toContain('Learning...');
 
     await act(async () => {
       window.dispatchEvent(new CustomEvent('lh-taste-answer', { detail: { state: 'ready', score: 62 } }));
     });
-    expect(text()).toContain('Mapr knows your taste: 62%');
+    expect(text()).toContain('Mapr Score: 62%');
     expect(text()).not.toContain('~');
     expect(text()).not.toContain('estimated from your past ratings');
   });

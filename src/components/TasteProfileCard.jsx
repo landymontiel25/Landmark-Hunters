@@ -203,7 +203,7 @@ export default function TasteProfileCard() {
     <div className="card section taste-profile-card">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
         <h3 style={{ margin: 0, fontSize: '0.95rem' }}>
-          {'\u{1F9E9}'} Mapr knows your taste: {learning ? (estimated != null ? `~${estimated}%` : 'Learning...') : `${score}%`}
+          {'\u{1F9E9}'} Mapr Score: {learning ? (estimated != null ? `~${estimated}%` : 'Learning...') : `${score}%`}
           {estimated != null && (
             <span className="screen-subtitle" style={{ fontWeight: 400, marginLeft: 6 }}>
               (estimated from your past ratings)
@@ -235,11 +235,14 @@ export default function TasteProfileCard() {
       {shownPct != null && (
         <p className={`taste-bar-word taste-bar-${tone.key}`}>{tone.label}</p>
       )}
+      <p className="taste-raise-hint" style={{ margin: '6px 0 0', fontSize: '0.85rem', fontWeight: 600 }}>
+        Raise your score and Mapr understands you better. Rate places and answer picks to climb.
+      </p>
       <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
         {learning && estimated != null
           ? 'Rate the places Mapr suggests and this will switch to scoring its real guesses.'
           : learning
-          ? 'Rate the places Mapr suggests and it will start scoring how well it knows your taste.'
+          ? 'Rate the places Mapr suggests and it will start scoring how well it understands you.'
           : `How often Mapr guessed your answer right on its last ${TASTE_WINDOW} picks. Your newest answer on a place is the one that counts.`}
       </p>
     </div>

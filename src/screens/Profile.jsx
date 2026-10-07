@@ -439,7 +439,7 @@ export default function Profile() {
         <div className="rating-progress">
           {ratingsCount >= RATING_GOAL ? (
             <>
-              <strong>{ratingsCount} rated</strong> — Mapr knows your taste.
+              <strong>{ratingsCount} rated</strong> — Mapr understands you.
             </>
           ) : (
             <>

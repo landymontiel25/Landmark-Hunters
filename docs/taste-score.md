@@ -88,7 +88,7 @@ rounded to a whole number.
 
 ### Where it shows
 
-Only the Taste Profile card on the Mapr tab ("Mapr knows your taste: N%" or
+Only the Taste Profile card on the Mapr tab ("Mapr Score: N%" or
 "Learning..."). The card never shows what any pick's guess was; it only gets
 the score. It reads the user's own `recommendation_log` rows (filtered to rows
 with a guess) and own `place_scores`, and refreshes after an answer
@@ -98,7 +98,7 @@ with a guess) and own `place_scores`, and refreshes after an answer
 
 Past ratings have no saved guess, so a user with many ratings but few live
 guesses would see "Learning...". Until the live score has `TASTE_MIN_GUESSES`
-guesses, the card shows **"Mapr knows your taste: ~N%"** with "(estimated from
+guesses, the card shows **"Mapr Score: ~N%"** with "(estimated from
 your past ratings)" (`src/lib/tasteEstimate.js`, tests in `tasteEstimate.test.js`).
 
 - Replay the user's reviews (already loaded in `RatingsContext`, memoized)
