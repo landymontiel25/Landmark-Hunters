@@ -20,7 +20,7 @@ import PlacePhotoCredit from './PlacePhotoCredit';
 export default function LandmarkThumb({ landmark, size = 52, width, height, myPhoto }) {
   const [failed, setFailed] = useState(() => new Set());
   const [loaded, setLoaded] = useState(null);
-  const image = [myPhoto, landmark.images?.[0]].find((src) => src && !failed.has(src));
+  const image = [myPhoto, ...(landmark.images || [])].find((src) => src && !failed.has(src));
   const wantsFallback = !myPhoto && !landmark.images?.length;
   // Imported places only look up a Google photo when opened (detail page,
   // pick and swipe cards), so scrolling a long list can't spend the day's
