@@ -32,6 +32,13 @@ function fullError() {
 // write that creates the trip -- e.g. from Trip Setup's friend picker --
 // instead of creating an owner-only trip and then calling addGroupMember in
 // a loop right after.
+// Firestore refuses a write holding `undefined` anywhere (a member with no
+// name yet, a place with no address), failing the whole create. A missing
+// name is stored as null (shown as "A traveler"); a place's undefined fields
+// are left out, so the stored map still equals the one passed in.
+const nameOrNull = (n) => (n === undefined ? null : n);
+export const cleanPlace = (p) => Object.fromEntries(Object.entries(p || {}).filter(([, v]) => v !== undefined));
+
 export async function createGroupTrip({ ownerUid, ownerName, name, regionId, landmarkIds = [], places = [], initialMembers = [] }) {
   if (1 + initialMembers.length > MAX_GROUP_MEMBERS) throw fullError();
   const ref = await addDoc(collection(db, 'group_trips'), {
@@ -40,11 +47,11 @@ export async function createGroupTrip({ ownerUid, ownerName, name, regionId, lan
     regionId,
     memberUids: [ownerUid, ...initialMembers.map((m) => m.uid)],
     memberNames: {
-      [ownerUid]: ownerName,
-      ...Object.fromEntries(initialMembers.map((m) => [m.uid, m.name])),
+      [ownerUid]: nameOrNull(ownerName),
+      ...Object.fromEntries(initialMembers.map((m) => [m.uid, nameOrNull(m.name)])),
     },
     landmarkIds,
-    places,
+    places: places.map(cleanPlace),
     createdAt: serverTimestamp(),
   });
   // Let each invited friend know right away -- best-effort, since a
@@ -125,7 +132,7 @@ export async function addGroupMember(trip, memberUid, memberName) {
   if ((trip.memberUids || []).length >= MAX_GROUP_MEMBERS) throw fullError();
   await updateDoc(doc(db, 'group_trips', trip.id), {
     memberUids: arrayUnion(memberUid),
-    [`memberNames.${memberUid}`]: memberName,
+    [`memberNames.${memberUid}`]: nameOrNull(memberName),
   });
   notifyUser(memberUid, {
     type: 'group_invite',
@@ -158,7 +165,7 @@ export async function renameGroupTrip(trip, name) {
 // whole trip. place: { id, name, address, lat, lng, url }
 export async function addGroupPlace(trip, place) {
   if ((trip.places || []).some((p) => p.id === place.id)) return;
-  await updateDoc(doc(db, 'group_trips', trip.id), { places: arrayUnion(place) });
+  await updateDoc(doc(db, 'group_trips', trip.id), { places: arrayUnion(cleanPlace(place)) });
 }
 
 export async function removeGroupPlace(trip, placeId) {

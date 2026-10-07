@@ -10,13 +10,14 @@ vi.mock('firebase/firestore', () => ({
   collection: vi.fn(),
   query: vi.fn(),
   where: vi.fn(),
-  serverTimestamp: vi.fn(),
-  arrayUnion: vi.fn(),
+  serverTimestamp: vi.fn(() => 'ts'),
+  arrayUnion: vi.fn((...a) => ({ union: a })),
   arrayRemove: vi.fn(),
 }));
 vi.mock('./firebase', () => ({ db: {} }));
 vi.mock('./notifications', () => ({ notifyUser: vi.fn(async () => {}) }));
 
+import { addDoc, updateDoc } from 'firebase/firestore';
 import { createGroupTrip, addGroupMember, MAX_GROUP_MEMBERS, withUnshownIds } from './groupTrips';
 
 describe('group trip member cap', () => {
@@ -45,5 +46,29 @@ describe('withUnshownIds (group route reorder)', () => {
   });
   it('handles a trip with no landmarkIds', () => {
     expect(withUnshownIds(['a'], undefined)).toEqual(['a']);
+  });
+});
+
+describe('no undefined in group trip writes (Firestore refuses the whole write)', () => {
+  const hasUndefined = (v) => v === undefined || (v && typeof v === 'object' && Object.values(v).some(hasUndefined));
+  it('create: a nameless member or a place with no address', async () => {
+    addDoc.mockClear();
+    await createGroupTrip({
+      ownerUid: 'o',
+      ownerName: undefined,
+      name: 'T',
+      regionId: 'r',
+      places: [{ id: 'p1', name: 'P', address: undefined, lat: 1, lng: 2, url: undefined }],
+      initialMembers: [{ uid: 'f', name: undefined }],
+    });
+    const data = addDoc.mock.calls[0][1];
+    expect(hasUndefined(data)).toBe(false);
+    expect(data.memberNames).toEqual({ o: null, f: null });
+    expect(data.places).toEqual([{ id: 'p1', name: 'P', lat: 1, lng: 2 }]);
+  });
+  it('add member with no name', async () => {
+    updateDoc.mockClear();
+    await addGroupMember({ id: 't', memberUids: ['o'] }, 'x', undefined);
+    expect(hasUndefined(updateDoc.mock.calls[0][1])).toBe(false);
   });
 });
