@@ -160,8 +160,8 @@ export const APP_HELP =
   `it instead of starting cold the next time you open the app -- uses iOS's "Always" location permission and some extra battery. Off means Mapr ` +
   `only knows your location while the app is open, same as before this existed. Turning it on can be declined at the iOS permission prompt; the ` +
   `toggle says so and doesn't turn on if you decline.\n` +
-  `- Push Notifications (Settings): opt-in, off by default, and infrastructure only right now -- nothing in the app sends one yet (that's coming with ` +
-  `the shared streak feature). Turning it on asks for the iOS notification permission and registers this device; a "Send test notification" button ` +
+  `- Push Notifications (Settings): opt-in, off by default. The only push the app sends right now is the Dual Streak partner one ` +
+  `(see "Streak partner push notification" below). Turning it on asks for the iOS notification permission and registers this device; a "Send test notification" button ` +
   `appears once it's on, to check the whole pipeline actually works.\n` +
   `- Trip Setup: no longer its own tab. The Itinerary tab's empty/overview state leads with "🧭 Use Mapr (recommended)", which jumps straight to ` +
   `Mapr's Plan Your Trip chat (see above) — a "➕ Create New Trip" modal (a one-page starting location/region/interests form, plus a full solo-vs-group ` +
