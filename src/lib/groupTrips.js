@@ -11,6 +11,7 @@ import {
   serverTimestamp,
   arrayUnion,
   arrayRemove,
+  deleteField,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { notifyUser } from './notifications';
@@ -141,13 +142,13 @@ export async function addGroupMember(trip, memberUid, memberName) {
   }).catch(() => {});
 }
 
+// arrayRemove/deleteField rather than writing this screen's copy of the
+// lists back: someone another member invited a moment ago (not in that copy
+// yet) would otherwise be dropped too.
 export async function removeGroupMember(trip, memberUid) {
-  const memberNames = { ...trip.memberNames };
-  delete memberNames[memberUid];
   await updateDoc(doc(db, 'group_trips', trip.id), {
-    memberUids: (trip.memberUids || []).filter((u) => u !== memberUid),
-    memberNames,
-    name: trip.name,
+    memberUids: arrayRemove(memberUid),
+    [`memberNames.${memberUid}`]: deleteField(),
   });
 }
 

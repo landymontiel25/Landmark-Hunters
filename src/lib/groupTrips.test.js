@@ -12,13 +12,14 @@ vi.mock('firebase/firestore', () => ({
   where: vi.fn(),
   serverTimestamp: vi.fn(() => 'ts'),
   arrayUnion: vi.fn((...a) => ({ union: a })),
-  arrayRemove: vi.fn(),
+  arrayRemove: vi.fn((...a) => ({ remove: a })),
+  deleteField: vi.fn(() => 'DELETE'),
 }));
 vi.mock('./firebase', () => ({ db: {} }));
 vi.mock('./notifications', () => ({ notifyUser: vi.fn(async () => {}) }));
 
 import { addDoc, updateDoc } from 'firebase/firestore';
-import { createGroupTrip, addGroupMember, MAX_GROUP_MEMBERS, withUnshownIds } from './groupTrips';
+import { createGroupTrip, addGroupMember, removeGroupMember, MAX_GROUP_MEMBERS, withUnshownIds } from './groupTrips';
 
 describe('group trip member cap', () => {
   it('refuses 25 invited friends (26 people) with a readable message', async () => {
@@ -70,5 +71,13 @@ describe('no undefined in group trip writes (Firestore refuses the whole write)'
     updateDoc.mockClear();
     await addGroupMember({ id: 't', memberUids: ['o'] }, 'x', undefined);
     expect(hasUndefined(updateDoc.mock.calls[0][1])).toBe(false);
+  });
+});
+
+describe('removeGroupMember', () => {
+  it("removes just that member, not a list copy that could drop someone invited meanwhile", async () => {
+    updateDoc.mockClear();
+    await removeGroupMember({ id: 't', name: 'T', memberUids: ['o', 'a'], memberNames: { o: 'O', a: 'A' } }, 'a');
+    expect(updateDoc.mock.calls[0][1]).toEqual({ memberUids: { remove: ['a'] }, 'memberNames.a': 'DELETE' });
   });
 });
