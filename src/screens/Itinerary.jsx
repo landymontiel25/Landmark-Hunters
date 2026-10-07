@@ -492,11 +492,13 @@ export default function Itinerary() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeOrigin, selectedLandmarks, sort, ratings, customOrder.join(',')]);
 
-  const [drivingRoute, setDrivingRoute] = useState([]);
+  // Driving-time results are tagged with the route they were computed for,
+  // so after a re-sort the list never shows the old order while OSRM answers.
+  const [drivingRoute, setDrivingRoute] = useState({ forRoute: null, stops: [] });
 
   useEffect(() => {
     if (!routeOrigin || !route.length) {
-      setDrivingRoute([]);
+      setDrivingRoute({ forRoute: null, stops: [] });
       return;
     }
     let cancelled = false;
@@ -506,7 +508,7 @@ export default function Itinerary() {
       .catch(() => route)
       .then((enhanced) => {
         if (!cancelled) {
-          setDrivingRoute(enhanced);
+          setDrivingRoute({ forRoute: route, stops: enhanced });
         }
       });
     return () => {
@@ -514,7 +516,8 @@ export default function Itinerary() {
     };
   }, [routeOrigin, route]);
 
-  const displayRoute = drivingRoute.length === route.length ? drivingRoute : route;
+  const displayRoute =
+    drivingRoute.forRoute === route && drivingRoute.stops.length === route.length ? drivingRoute.stops : route;
 
   // Hold-and-drag reorder (the grip on each stop card), only offered while
   // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
