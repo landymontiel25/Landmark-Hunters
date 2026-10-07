@@ -588,7 +588,11 @@ function LandmarkDetailBody() {
         setMyPhotos(checkinPhotosNewestFirst(myCheckin));
       },
       commit: async () => {
-        await deleteMyReview(user.uid, reviewDocIdRef.current || landmark.id);
+        // Saving over a review kept under a pre-rename id writes a new doc and
+        // leaves the old one, so Remove clears every id this place has had
+        // (a missing doc is a no-op) -- otherwise the old one comes back.
+        const ids = [...new Set([reviewDocIdRef.current || landmark.id, landmark.id, ...legacyLandmarkIds(landmark.id, regionId)])];
+        for (const id of ids) await deleteMyReview(user.uid, id);
         reviewDocIdRef.current = landmark.id;
         Promise.all([reloadRatings(), loadReviews({ quiet: true }), reloadMyPhotos()]).catch(() => {});
       },
