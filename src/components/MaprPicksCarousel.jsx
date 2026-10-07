@@ -51,7 +51,10 @@ import { seededRandom } from '../lib/maprRank/experiments.js';
 // path the spec describes for everyone until pairing ships.
 const RESERVE = 10;
 
-export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [] }) {
+// homeCityId: start on this city instead of the GPS / last-city default (the
+// Streaks page passes the city you are in). scope 'streak' keeps a city
+// picked there to that visit, apart from the Itinerary tab's saved choice.
+export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], regionIds = [], homeCityId = null, scope = 'travel' }) {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const { coords } = useGeo();
@@ -66,10 +69,10 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   const [touched, setTouched] = useState(() => new Set());
 
   const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
-  const [cityOverride, setCityOverride] = usePersistentState(user ? `mapr-travel-picks-city.${user.uid}` : null, null);
+  const [cityOverride, setCityOverride] = usePersistentState(user && scope === 'travel' ? `mapr-travel-picks-city.${user.uid}` : null, null);
   // Most-recently-active city first, so switching cities on Itinerary/Group
   // Trip is reflected here even before a fresh GPS fix comes in.
-  const defaultRegionId = pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
+  const defaultRegionId = homeCityId || pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
   const regionId = cityOverride || defaultRegionId;
   const { votes, removed, answeredIds, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
@@ -269,9 +272,14 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
           </OnScreen>
         ))}
         {region && landmarks.length === 0 && (
-          <p className="taste-card-note" style={{ margin: '10px 0 0' }}>
-            You've voted on everything Mapr has for {region.name} so far -- check back later or pick another city.
-          </p>
+          <div className="taste-card-note" style={{ margin: '10px 0 0' }}>
+            <p style={{ margin: '0 0 8px' }}>
+              {'\u{1F389}'} You've rated every place in {region.name}. Pick another city to keep going, or stay here and check back for new spots.
+            </p>
+            <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPickerOpen(true)}>
+              Choose another city
+            </button>
+          </div>
         )}
       </div>
       {landmarks.length > 1 && (
