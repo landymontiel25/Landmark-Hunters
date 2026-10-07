@@ -35,3 +35,22 @@ describe('removing a Mapr-found place', () => {
     await act(async () => root.unmount());
   });
 });
+
+describe('loading a saved trip', () => {
+  it("keeps one copy of a stop saved under both a renamed landmark's old and new id", async () => {
+    localStorage.setItem(
+      'landmarkhunters.trip.v1',
+      JSON.stringify({ byRegion: { 'san-francisco': ['the-battery', 'the-battery-sf', 'coit-tower'] } })
+    );
+    const root = createRoot(document.createElement('div'));
+    await act(async () => {
+      root.render(
+        <TripProvider>
+          <Grab />
+        </TripProvider>
+      );
+    });
+    expect(api.trip.byRegion['san-francisco']).toEqual(['the-battery-sf', 'coit-tower']);
+    await act(async () => root.unmount());
+  });
+});
