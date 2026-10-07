@@ -96,23 +96,3 @@ export function dailyDeck(pairId, dayId, cityId, excludeIds = []) {
   const ids = new Set(pickDailyCardIds(pairId, dayId, cityId, excludeIds));
   return region.landmarks.filter((l) => ids.has(l.id)).map((l) => ({ ...l, regionId: cityId }));
 }
-
-// Extra cards after today's 3: more places to rate for people who want to keep
-// going and teach Mapr more. Phone-only (the server checks just the real 3).
-// `visitedIds` is what the real deck uses, so the 3 core cards come out the
-// same here; `alsoExclude` adds places already rated or voted on, so a bonus
-// card is never one you have answered. Same order every render for a day.
-export function bonusDeck(pairId, dayId, cityId, visitedIds = [], alsoExclude = [], count = 10) {
-  const region = getRegion(cityId);
-  if (!region) return [];
-  const core = new Set(pickDailyCardIds(pairId, dayId, cityId, visitedIds));
-  const skip = new Set([...visitedIds, ...alsoExclude]);
-  const remaining = deckPool(cityId).filter((id) => !skip.has(id) && !core.has(id));
-  const rand = mulberry32(hashSeed(`${pairId}:${dayId}:${cityId}:bonus`));
-  const ids = [];
-  for (let i = 0; i < count && remaining.length; i++) {
-    ids.push(remaining.splice(Math.floor(rand() * remaining.length), 1)[0]);
-  }
-  const byId = new Map(region.landmarks.map((l) => [l.id, l]));
-  return ids.map((id) => ({ ...byId.get(id), regionId: cityId }));
-}

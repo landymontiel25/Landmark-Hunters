@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
@@ -27,10 +27,11 @@ import {
   spendSoloFreeze,
   SOLO_FREEZES_PER_MONTH,
 } from '../lib/soloStreaks';
-import { bonusDeck, dailyDeck } from '../lib/sharedDeck';
+import { dailyDeck } from '../lib/sharedDeck';
+import MaprPicksCarousel from '../components/MaprPicksCarousel';
+import { nearestPickableCity } from '../lib/nearestCity';
 import { usePickVotes } from '../lib/usePickVotes';
 import { useRatings } from '../lib/RatingsContext';
-import { readLocalFeedback } from '../lib/pickFeedback';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
@@ -570,11 +571,9 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const [entriesError, setEntriesError] = useState(null);
   const [voteError, setVoteError] = useState(null);
   const [closeMsg, setCloseMsg] = useState(null);
-  // Past the 3 that secure the day: as many more as you like. Every answer,
-  // core or bonus, also teaches Mapr (pickVotes), like any pick answer.
-  const BONUS_STEP = 10;
-  const [bonusCount, setBonusCount] = useState(BONUS_STEP);
-  const [optimisticBonus, setOptimisticBonus] = useState({});
+  // Every answer on today's cards also teaches Mapr (pickVotes), like any
+  // pick answer. Past the 3, the Travel Picks carousel for the city you are
+  // in takes over, so you can rate as many more as you like.
   const { myReviews } = useRatings();
   const pickVotes = usePickVotes({ uid: user.uid, origin: coords ? { lat: coords.lat, lng: coords.lng } : null, removeOnAnyVote: true });
   const teachMapr = (landmark, verdict) => {
@@ -631,36 +630,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const dayDone = streak.lastCompletedDay === today || (cardIds.length > 0 && myRatedCount === cardIds.length);
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
-  // Places you already rated, voted on or checked into never come back.
-  const answeredKey = useMemo(
-    () => [...Object.keys(myReviews || {}), ...Object.keys(readLocalFeedback(user.uid) || {}), ...Object.keys(entry.ratings || {})].sort().join(','),
-    [myReviews, user.uid, entry.ratings]
-  );
-  const bonus = useMemo(
-    () =>
-      streak.cityId && visitedIds && dayDone
-        ? bonusDeck(streak.id, today, streak.cityId, visitedIds, answeredKey ? answeredKey.split(',') : [], bonusCount)
-        : [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [streak.id, today, streak.cityId, visitedIds, dayDone, answeredKey, bonusCount]
-  );
-  const remainingBonus = bonus.filter((l) => !optimisticBonus[l.id]);
-
-  const handleBonusRate = async (landmarkId, verdict) => {
-    setVoteError(null);
-    setOptimisticBonus((cur) => ({ ...cur, [landmarkId]: verdict }));
-    try {
-      await submitSoloCardRating(streak.id, landmarkId, verdict);
-      teachMapr(bonus.find((l) => l.id === landmarkId), verdict);
-    } catch (e) {
-      setOptimisticBonus((cur) => {
-        const next = { ...cur };
-        delete next[landmarkId];
-        return next;
-      });
-      throw e;
-    }
-  };
+  // The city you are in right now (GPS), else the streak's own city.
+  const hereCity = nearestPickableCity(coords ? { lat: coords.lat, lng: coords.lng } : null, 30) || streak.cityId;
 
   // If the close call right after the last rating failed (a network blip --
   // it's also what used to throw the rating back out of the optimistic
@@ -784,23 +755,14 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
           <p className="screen-subtitle" style={{ margin: 0 }}>
             {'✓'} You've rated all 3 today.{closeMsg ? ` ${closeMsg}` : ''} Keep going: every place you rate teaches Mapr more.
           </p>
-          {remainingBonus.length > 0 && (
-            <div className="mapr-picks-track" style={{ marginTop: 10 }}>
-              {remainingBonus.map((landmark) => (
-                <VoteCard key={landmark.id} streak={streak} landmark={landmark} onVote={handleBonusRate} onError={setVoteError} />
-              ))}
-            </div>
-          )}
-          {bonus.length >= bonusCount && (
-            <button type="button" className="btn btn-ghost btn-sm" style={{ marginTop: 8 }} onClick={() => setBonusCount((n) => n + BONUS_STEP)}>
-              {'\u{2795}'} More places
-            </button>
-          )}
-          {bonus.length < bonusCount && remainingBonus.length === 0 && (
-            <p className="screen-subtitle" style={{ margin: '8px 0 0' }}>
-              That's every place here for today. New ones tomorrow.
-            </p>
-          )}
+          <div style={{ marginTop: 12 }}>
+            <MaprPicksCarousel
+              reviews={Object.values(myReviews || {})}
+              checkedInIds={[...(visitedIds || [])]}
+              homeCityId={hereCity}
+              scope="streak"
+            />
+          </div>
         </>
       )}
 

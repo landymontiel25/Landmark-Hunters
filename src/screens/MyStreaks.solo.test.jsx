@@ -36,6 +36,7 @@ const submitSoloCardRatingMock = vi.fn(async (id, landmarkId, verdict) => {
 const closeSoloTodayMock = vi.fn(async () => ({ ok: true, closed: true, already: false, count: 5, pointsAwarded: 20, milestoneAwarded: 0 }));
 const spendSoloFreezeMock = vi.fn(async () => ({ freezesLeft: 0 }));
 
+vi.mock('../components/MaprPicksCarousel', () => ({ default: (p) => <div className="carousel-stub">{p.homeCityId}</div> }));
 vi.mock('../lib/RatingsContext', () => ({ useRatings: () => ({ myReviews: {} }) }));
 vi.mock('../lib/usePickVotes', () => ({ usePickVotes: () => ({ vote: () => Promise.resolve(null) }) }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true }) }));
@@ -149,14 +150,10 @@ describe('MyStreaks - solo streak', () => {
     expect(container.textContent).toContain("You've rated all 3 today");
     expect(closeSoloTodayMock).toHaveBeenCalledTimes(1);
     expect(container.textContent).toContain('+20 pts');
-    // Past the 3: more places to rate, none of them one of today's 3.
+    // Past the 3: the Travel Picks carousel for the city you are in.
     expect(container.textContent).toContain('Keep going');
-    expect(container.querySelectorAll('.mapr-pick-name').length).toBeGreaterThan(0);
+    expect(container.querySelector('.carousel-stub')).toBeTruthy();
     expect(closeSoloTodayMock).toHaveBeenCalledTimes(1);
-    const first = container.querySelector('.mapr-pick-name').textContent;
-    await act(async () => container.querySelector('.mapr-pick-vote.love').dispatchEvent(new MouseEvent('click', { bubbles: true })));
-    expect([...container.querySelectorAll('.mapr-pick-name')].map((n) => n.textContent)).not.toContain(first);
-    expect(closeSoloTodayMock).toHaveBeenCalledTimes(1); // a bonus rating never re-closes the day
   });
 
   it('opens the dual streak picker from the solo detail\'s invite button, without touching the solo count', async () => {
