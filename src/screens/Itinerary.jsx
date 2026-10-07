@@ -313,17 +313,24 @@ export default function Itinerary() {
   const [groupsLoading, setGroupsLoading] = useState(!!user);
   const [groupsError, setGroupsError] = useState(null);
 
+  // Only the newest load may land: after an account switch (or sign-out) a
+  // slower load for the previous account would otherwise list its trips.
+  const groupsLoadSeq = useRef(0);
   const loadGroupTrips = () => {
+    const seq = ++groupsLoadSeq.current;
     if (!user) {
+      setGroupTrips([]);
+      setGroupsError(null);
       setGroupsLoading(false);
       return;
     }
     setGroupsLoading(true);
     setGroupsError(null);
+    const current = () => seq === groupsLoadSeq.current;
     listMyGroupTrips(user.uid)
-      .then(setGroupTrips)
-      .catch(setGroupsError)
-      .finally(() => setGroupsLoading(false));
+      .then((list) => current() && setGroupTrips(list))
+      .catch((e) => current() && setGroupsError(e))
+      .finally(() => current() && setGroupsLoading(false));
   };
   useEffect(() => {
     loadGroupTrips();
