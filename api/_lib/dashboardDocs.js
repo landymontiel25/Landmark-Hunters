@@ -75,7 +75,9 @@ export async function writeDashboardModels(db, { ncf, ncfV2 = null, similarity }
       'mapr_ncf_model',
       'current',
       clean({
-        last_trained: ncf?.action === 'promoted' ? now : null,
+        // Left out when the week kept the old model, so the merge keeps the
+        // date it was really trained (same as v2 below).
+        ...(ncf?.action === 'promoted' ? { last_trained: now } : {}),
         last_run: now,
         last_action: ncf?.action ?? null,
         training_loss: ev.bestValLoss ?? null,
