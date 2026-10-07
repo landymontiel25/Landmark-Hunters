@@ -223,10 +223,12 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const similarUnrated = useMemo(() => unratedPlaces(similarPool, myReviews, myProfile), [similarPool, myReviews, myProfile]);
   // Mapr Phase 1 on the sheet's other rows too (maprRank/surfaces.js): each
   // row keeps its own meaning (same kind as X, this mood, food) and Mapr
-  // orders it by taste, distance, similar places and the model.
+  // orders it by taste, distance, similar places and the model. `.picks`
+  // (no count: the whole ranked list, same order) carries the set telemetry
+  // (variants, fallbacks, latency) the dashboard splits logged rows by.
   const rankRow = useCallback(
     (items, scoreOf = null) =>
-      rankPlaces({ places: items || [], uid, profile: myProfile, myReviews, origin, models, visitedIds, now, ...(scoreOf ? { scoreOf } : {}) }).ranked,
+      rankPlaces({ places: items || [], uid, profile: myProfile, myReviews, origin, models, visitedIds, now, ...(scoreOf ? { scoreOf } : {}) }).picks,
     [uid, myProfile, myReviews, origin, models, visitedIds, now]
   );
   const similar = useMemo(
