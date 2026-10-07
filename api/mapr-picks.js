@@ -6,6 +6,7 @@ import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { factsField } from './_lib/placeFacts.js';
 import { withCors } from './_lib/cors.js';
 import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
+import { logAiCall } from './_lib/aiCallLog.js';
 
 // "Your Mapr Picks" on Profile. The internal tag scorer (src/lib/tagScores.js)
 // ranks the traveler's current region down to a 30-landmark shortlist from
@@ -222,6 +223,8 @@ async function handler(req, res) {
       system: [{ type: 'text', text: swipeOnly ? SWIPE_INSTRUCTIONS : INSTRUCTIONS, cache_control: { type: 'ephemeral' } }],
       messages: [{ role: 'user', content: prompt }],
     });
+    // msg.model names the model that actually answered (the fallback, if used).
+    await logAiCall({ feature: 'mapr-picks', model: msg.model || 'claude-opus-5', usage: msg.usage }).catch(() => {});
 
     if (msg.stop_reason === 'refusal') {
       res.status(200).json({ picks: [] });
