@@ -1,5 +1,6 @@
 import { doc, setDoc, updateDoc, deleteDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
+import { settleWrite } from './offlineWrite';
 import { PICKABLE_REGIONS, getLandmark } from '../data/regions';
 import { allSwipeCards, tagDeltasFromAnswers, placesIntro } from './onboardingCards';
 import { TAG_CAP, TAG_FLOOR, decayFactor, GLOBAL_TASTE, hasGlobalTaste } from './tagScores';
@@ -152,7 +153,9 @@ export async function saveOnboardingPlaces(uid, profile, places) {
 export async function saveOnboardingResults(uid, profile, answers, { complete, places = placesFromProfile(profile) }) {
   if (!db || !uid) return;
   const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers, Date.now(), undefined, places);
-  await setDoc(
+  // settleWrite: offline, a plain setDoc never settles and the notes step sat
+  // on "Saving…" with Skip disabled. Queued, it syncs on reconnect.
+  await settleWrite(setDoc(
     doc(db, 'users', uid),
     {
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
@@ -164,7 +167,7 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
       updatedAt: serverTimestamp(),
     },
     { merge: true }
-  );
+  ));
 }
 
 // "Onboarding has been updated" for accounts that predate this version.
