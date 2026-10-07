@@ -198,6 +198,21 @@ describe('use-solo-streak-freeze', () => {
   });
 });
 
+describe('pair endpoints reject a solo streak doc', () => {
+  for (const file of ['./use-streak-freeze.js', './close-streak-day.js', './complete-recovery-mission.js']) {
+    it(file, async () => {
+      const { default: handler } = await import(file);
+      streakDoc.recoveryOpenUntil = Date.now() + 1e6;
+      const before = JSON.stringify(streakDoc);
+      const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
+      await handler({ method: 'POST', headers: {}, body: { pairId: 'me', dayId: utcToday() } }, res);
+      expect(res.status).toHaveBeenCalledWith(403);
+      expect(JSON.stringify(streakDoc)).toBe(before);
+      expect(award).not.toHaveBeenCalled();
+    });
+  }
+});
+
 describe('dual streak fixes', () => {
   it('recovery mission restores prior count plus days completed since the break', async () => {
     const { default: handler } = await import('./complete-recovery-mission.js');

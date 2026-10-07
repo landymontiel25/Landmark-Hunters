@@ -71,7 +71,9 @@ async function handler(req, res) {
       return;
     }
     const streak = streakSnap.data();
-    if (!(streak.memberIds || []).includes(account.uid)) {
+    // A solo streak's doc id is the uid, so it could be passed as a pairId;
+    // only pair streaks belong here (an old pair doc may predate `mode`).
+    if (streak.mode === 'solo' || !(streak.memberIds || []).includes(account.uid)) {
       res.status(403).json({ error: "That's not your streak." });
       return;
     }
