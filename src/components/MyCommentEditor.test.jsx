@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 import { createRoot } from 'react-dom/client';
-import { act } from 'react';
+import { act, useState } from 'react';
 
 const saveMyComment = vi.fn(async ({ comment }) => comment.trim());
 vi.mock('../lib/reviews', () => ({ saveMyComment: (...a) => saveMyComment(...a) }));
@@ -99,5 +99,30 @@ describe('MyCommentEditor', () => {
     await mount(<MyCommentEditor userId="me" landmark={landmark} comment="Fun" tier="highly-recommend" />);
     await click('Edit comment');
     expect(container.querySelector('.rating-tier')).toBeNull();
+  });
+
+  it('shows the newest comment when another row for the same place was edited later', async () => {
+    // Two check-in rows for one place share one comment (CheckinsGallery).
+    function TwoRows() {
+      const [comment, setComment] = useState('');
+      return (
+        <>
+          <div id="a"><MyCommentEditor userId="me" landmark={landmark} comment={comment} tier="worth-trying" onSaved={setComment} /></div>
+          <div id="b"><MyCommentEditor userId="me" landmark={landmark} comment={comment} tier="worth-trying" onSaved={setComment} /></div>
+        </>
+      );
+    }
+    await mount(<TwoRows />);
+    const row = (id) => container.querySelector(`#${id}`);
+    const clickIn = (id, text) =>
+      act(async () => [...row(id).querySelectorAll('button')].find((b) => b.textContent.includes(text)).click());
+    await clickIn('a', 'Add a comment');
+    await type('First');
+    await clickIn('a', 'Save');
+    await clickIn('b', 'Edit comment');
+    await type('Second');
+    await clickIn('b', 'Save');
+    expect(row('a').textContent).toContain('Second');
+    expect(row('a').textContent).not.toContain('First');
   });
 });
