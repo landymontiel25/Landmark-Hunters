@@ -910,7 +910,7 @@ export default function MapExplore({ experiments = false }) {
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit, packsVersion]
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit, packsVersion, myPhotos]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
