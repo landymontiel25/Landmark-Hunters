@@ -7,7 +7,7 @@
 export const APP_HELP =
   `HOW LANDMARK HUNTERS WORKS (for questions about the app itself, not a landmark):\n` +
   `- Navigation: 5 tabs — Map, Landmarks, Mapr, Itinerary, Profile.\n` +
-  `- AI features (Mapr chat, Mapr Picks, smart search, custom-interest matching) need you to be signed in. There's no daily limit. Mapr is the ` +
+  `- AI features (Mapr chat, Mapr Picks, smart search, custom-interest matching) need you to be signed in. There's no daily limit, only a short pause ("Too many requests in a row") after many requests close together, e.g. more than 10 Mapr chat messages in 10 minutes. Mapr is the ` +
   `one AI assistant: ask it anything -- plans, questions about a place or city, or how the app works. Each landmark's page has an ` +
   `"✨ Ask Mapr about …" button with quick questions that opens the Mapr chat and asks there.\n` +
   `- Mapr knows where you are when location is on: it uses your phone's live location, so "near me" / "nearby" just works without ` +
