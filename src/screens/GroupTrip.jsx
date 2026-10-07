@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useNavigationType, useParams } from 'react-router-dom';
-import { saveListReturn, takeListReturn } from '../lib/listReturn';
+import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
 import { useAuth } from '../lib/AuthContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
@@ -86,12 +86,7 @@ export default function GroupTrip() {
   useEffect(() => {
     if (!returned || scrolledBack.current || status !== 'ready') return;
     scrolledBack.current = true;
-    const y = Number(returned.y) || 0;
-    requestAnimationFrame(() => {
-      window.scrollTo(0, y);
-      // Photos and addresses finishing their layout can nudge it; once more settles it.
-      setTimeout(() => window.scrollTo(0, y), 150);
-    });
+    return restoreScroll(Number(returned.y) || 0);
   }, [returned, status]);
   // Landmark ticks you've made that the server hasn't confirmed yet, so the
   // checkbox flips the instant you tap it. { [landmarkId]: true | false }
