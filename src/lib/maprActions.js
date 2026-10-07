@@ -89,14 +89,20 @@ function resolveStop(ref, conversationStops) {
     if (l) return { kind: 'landmark', regionId, id, name: l.name };
   }
   const n = norm(text);
+  // norm() of a non-Latin or emoji-only name is '', and every string
+  // .includes('') -- so only an exact name counts for those, never a guess.
+  const exact = text.toLowerCase();
   const match =
-    conversationStops.find((s) => norm(s.name) === n) ||
-    conversationStops.find((s) => norm(s.name).includes(n) || n.includes(norm(s.name)));
+    conversationStops.find((s) => String(s.name || '').trim().toLowerCase() === exact) ||
+    (n
+      ? conversationStops.find((s) => norm(s.name) === n) ||
+        conversationStops.find((s) => norm(s.name) && (norm(s.name).includes(n) || n.includes(norm(s.name))))
+      : null);
   if (match) {
     if (!match.external) return { kind: 'landmark', regionId: match.region, id: match.id, name: match.name };
     return { kind: 'place', name: match.name, address: match.address || '', place: match.place || '', url: match.url || '' };
   }
-  const l = ALL_LANDMARKS.find((x) => norm(x.name) === n);
+  const l = n ? ALL_LANDMARKS.find((x) => norm(x.name) === n) : null;
   return l ? { kind: 'landmark', regionId: l.regionId, id: l.id, name: l.name } : null;
 }
 
