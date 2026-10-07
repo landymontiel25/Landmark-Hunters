@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { landmarkCountText } from '../lib/landmarkCountText';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigationType } from 'react-router-dom';
+import { saveListReturn, takeListReturn } from '../lib/listReturn';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
@@ -160,8 +161,8 @@ function CityDropdown({ value, onChange }) {
 // so the screen appears fast and stays scrollable while it completes.
 const FIRST_ROWS = 30;
 const ROWS_PER_FRAME = 120;
-function useProgressiveCount(total) {
-  const [count, setCount] = useState(FIRST_ROWS);
+function useProgressiveCount(total, initial = FIRST_ROWS) {
+  const [count, setCount] = useState(Math.max(FIRST_ROWS, initial));
   useEffect(() => {
     if (count >= total) return undefined;
     const id = requestAnimationFrame(() => setCount((c) => c + ROWS_PER_FRAME));
@@ -281,6 +282,13 @@ export default function LandmarkSelection() {
   const { ratings, myReviews } = useRatings();
   const { myProfile } = useFriends();
   const navigate = useNavigate();
+  // Back from a landmark's page lands on the rows you were looking at, in
+  // the city you had picked, not the top of the list. Only on Back (POP).
+  const navType = useNavigationType();
+  const [returned] = useState(() => {
+    const saved = takeListReturn('landmarks');
+    return navType === 'POP' ? saved : null;
+  });
 
   // User-submitted landmarks (via "Add a Landmark") -- merged in below so
   // they're searchable/browsable here too, not just visible on the map.
@@ -300,7 +308,7 @@ export default function LandmarkSelection() {
   // (e.g. San Francisco) came back on every later visit, and a saved
   // "picked by hand" flag kept GPS from ever correcting it. Pick a city
   // from the dropdown to narrow the list for this visit.
-  const [cityFilter, setCityFilter] = useState('all');
+  const [cityFilter, setCityFilter] = useState(returned?.city || 'all');
   // Mapr Phase 1 models for "For Me" (maprRank/surfaces.js): the chosen city,
   // or the cities within 30 miles of you. Null until loaded.
   const modelRegions = useMemo(
@@ -518,7 +526,11 @@ export default function LandmarkSelection() {
   latest.current = { toggleLandmark, checkIn, navigate };
   const stableToggle = useCallback((landmark) => latest.current.toggleLandmark(landmark.id, landmark.regionId), []);
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
-  const stableInfo = useCallback((landmark) => latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`), []);
+  const stableInfo = useCallback((landmark) => {
+    const { cityFilter: city, shownCount: count } = latest.current;
+    saveListReturn('landmarks', { y: window.scrollY, city, count });
+    latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
+  }, []);
 
   // AI fallback when the word search finds little (catalog searched on the
   // server; community-added landmarks sent along), same filters applied.
@@ -569,7 +581,20 @@ export default function LandmarkSelection() {
     () => [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])],
     [landmarks, smartLandmarks]
   );
-  const shownCount = useProgressiveCount(allRows.length);
+  const shownCount = useProgressiveCount(allRows.length, returned?.count);
+  latest.current.cityFilter = cityFilter;
+  latest.current.shownCount = shownCount;
+  const scrolledBack = useRef(false);
+  useEffect(() => {
+    if (!returned || scrolledBack.current || !allRows.length || shownCount < Math.min(returned.count || 0, allRows.length)) return;
+    scrolledBack.current = true;
+    const y = Number(returned.y) || 0;
+    requestAnimationFrame(() => {
+      window.scrollTo(0, y);
+      // Photos finishing their layout can nudge it; once more settles it.
+      setTimeout(() => window.scrollTo(0, y), 150);
+    });
+  }, [returned, shownCount, allRows.length]);
 
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
