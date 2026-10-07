@@ -83,10 +83,14 @@ export default function GroupTrip() {
   const [attempt, setAttempt] = useState(0);
   const [showAdd, setShowAdd] = useState(false);
   const scrolledBack = useRef(false);
+  // The scroll retry outlives later re-runs of the effect below; it's
+  // cancelled on unmount.
+  const cancelScrollBack = useRef(null);
+  useEffect(() => () => cancelScrollBack.current?.(), []);
   useEffect(() => {
     if (!returned || scrolledBack.current || status !== 'ready') return;
     scrolledBack.current = true;
-    return restoreScroll(Number(returned.y) || 0);
+    cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
   }, [returned, status]);
   // Landmark ticks you've made that the server hasn't confirmed yet, so the
   // checkbox flips the instant you tap it. { [landmarkId]: true | false }

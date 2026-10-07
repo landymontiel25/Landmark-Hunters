@@ -601,10 +601,14 @@ export default function LandmarkSelection() {
   latest.current.cityFilter = cityFilter;
   latest.current.shownCount = shownCount;
   const scrolledBack = useRef(false);
+  // The scroll retry outlives later re-runs of the effect below (more rows
+  // arriving would otherwise cancel it mid-way); it's cancelled on unmount.
+  const cancelScrollBack = useRef(null);
+  useEffect(() => () => cancelScrollBack.current?.(), []);
   useEffect(() => {
     if (!returned || scrolledBack.current || !allRows.length || shownCount < Math.min(returned.count || 0, allRows.length)) return;
     scrolledBack.current = true;
-    return restoreScroll(Number(returned.y) || 0);
+    cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
   }, [returned, shownCount, allRows.length]);
 
   // Total across every city; and the count within the currently filtered city.
