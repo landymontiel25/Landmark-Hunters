@@ -15,6 +15,10 @@ export async function verifyIdToken(req) {
   try {
     const r = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`, {
       method: 'POST',
+      // A hung Identity Toolkit call would otherwise hold every signed-in
+      // request until the function itself times out; a timeout reads as
+      // signed out (null) like any other failure.
+      signal: AbortSignal.timeout(5000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ idToken }),
     });
