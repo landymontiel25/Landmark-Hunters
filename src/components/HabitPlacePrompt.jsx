@@ -42,6 +42,9 @@ export default function HabitPlacePrompt() {
   const lastRecordedAtRef = useRef(0);
   const notifiedIdRef = useRef(null);
   const relatedFetchedIdRef = useRef(null);
+  // Cluster ids whose name lookup is in flight: GPS fixes keep arriving while
+  // it runs, and each one would otherwise start another paid lookup.
+  const lookupsInFlightRef = useRef(new Set());
 
   const isAlreadyTracked = (lat, lng) =>
     ALL_LANDMARKS.some((l) => distanceMeters(lat, lng, l.lat, l.lng) <= ALREADY_TRACKED_RADIUS_METERS);
@@ -60,10 +63,15 @@ export default function HabitPlacePrompt() {
     if (!due) return;
 
     if (!due.name) {
-      reverseGeocodePlace(due.lat, due.lng).then((place) => {
-        if (place) resolveClusterName(uid, due.id, place);
-        else markLookupFailed(uid, due.id);
-      });
+      const inFlight = lookupsInFlightRef.current;
+      if (inFlight.has(due.id)) return;
+      inFlight.add(due.id);
+      reverseGeocodePlace(due.lat, due.lng)
+        .then((place) => {
+          if (place) resolveClusterName(uid, due.id, place);
+          else markLookupFailed(uid, due.id);
+        })
+        .finally(() => inFlight.delete(due.id));
       return;
     }
 
