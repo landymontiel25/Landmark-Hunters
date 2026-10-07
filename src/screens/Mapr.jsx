@@ -382,6 +382,11 @@ export default function Mapr() {
     return promise;
   };
 
+  // Each stop is tried automatically once per visit to this screen: a stop
+  // that fails (createFailed) is left for the traveler to tap, instead of
+  // being retried on every message update (each try costs a Places lookup
+  // and a Firestore write).
+  const autoTriedRef = useRef(new Set());
   useEffect(() => {
     if (!user) return;
     for (const m of messages) {
@@ -389,7 +394,8 @@ export default function Mapr() {
       m.stops.forEach((stop, idx) => {
         if (!stop.external || stop.createdId) return;
         const key = stopKey(m.id, idx, stop.name);
-        if (creatingPromisesRef.current.has(key)) return;
+        if (creatingPromisesRef.current.has(key) || autoTriedRef.current.has(key)) return;
+        autoTriedRef.current.add(key);
         ensureStopCreated(m, idx, stop).catch(() => {});
       });
     }

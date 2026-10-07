@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn() }));
+const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn() }));
 
 const stub = () => () => null;
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1', displayName: 'Ann' }, resendVerification: () => {} }) }));
@@ -86,7 +86,7 @@ vi.mock('../lib/maprActions', () => ({
   registerConversationStops: () => {},
   getConversationStops: () => [],
 }));
-vi.mock('../lib/placeLandmarks', () => ({ landmarkForRating: async () => ({}) }));
+vi.mock('../lib/placeLandmarks', () => ({ landmarkForRating: (...a) => h.landmarkForRating(...a) }));
 for (const f of [
   'LandmarkThumb',
   'MaprChatsPanel',
@@ -111,6 +111,8 @@ beforeEach(async () => {
   window.HTMLElement.prototype.scrollIntoView = () => {};
   h.fetchJson.mockReset();
   h.saveVote.mockReset();
+  h.landmarkForRating.mockReset();
+  h.landmarkForRating.mockResolvedValue({});
   h.saveVote.mockResolvedValue({ status: 'saved', entry: { landmarkId: 'a', verdict: 'yes' } });
   h.logged.length = 0;
   localStorage.clear();
@@ -287,5 +289,22 @@ describe('addresses in a reply', () => {
     expect(container.textContent).toContain("Sure, here's the");
     expect(container.textContent).not.toContain('{{address');
     expect(container.querySelector('p').textContent).not.toContain('1711');
+  });
+});
+
+describe('places Mapr found on the web', () => {
+  it('tries to set up a failing stop once on its own, and again only when tapped', async () => {
+    h.landmarkForRating.mockRejectedValue(new Error('not on the map'));
+    h.fetchJson.mockResolvedValue({ reply: 'Try this.', stops: [{ external: true, name: 'Autana Arepas', place: 'Miami', reason: 'Arepas' }], quickReplies: [] });
+    await setValue('arepas');
+    await submit();
+    expect(h.landmarkForRating).toHaveBeenCalledTimes(1);
+    expect(container.textContent).toContain("Couldn't open this one");
+    h.fetchJson.mockResolvedValue({ reply: 'Anything else?', stops: [], quickReplies: [] });
+    await setValue('thanks');
+    await submit();
+    expect(h.landmarkForRating).toHaveBeenCalledTimes(1);
+    await act(async () => container.querySelector('.chatlab-stop-card-main').dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(h.landmarkForRating).toHaveBeenCalledTimes(2);
   });
 });
