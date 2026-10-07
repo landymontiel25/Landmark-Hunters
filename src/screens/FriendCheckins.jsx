@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserStats } from '../lib/leaderboard';
 import { getUserProfile } from '../lib/friends';
@@ -7,11 +7,15 @@ import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 
+// Stable props: CheckinsGallery reloads every check-in when these change identity.
+const NO_CLAIMS = {};
+
 // A friend's check-ins gallery as its own page, reached from FriendStats'
 // "check-ins" tile -- self-sufficient (fetches its own name/points) so it
 // survives a direct link or a browser refresh, not just in-app navigation.
 export default function FriendCheckins() {
   const { uid } = useParams();
+  const friendUser = useMemo(() => ({ uid }), [uid]);
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
@@ -64,8 +68,8 @@ export default function FriendCheckins() {
       )}
       {loaded && (
         <CheckinsGallery
-          user={{ uid }}
-          claimedMap={{}}
+          user={friendUser}
+          claimedMap={NO_CLAIMS}
           navigate={navigate}
           totalPoints={totalPoints}
           title={`${name}'s Check-ins`}
