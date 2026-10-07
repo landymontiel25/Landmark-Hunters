@@ -74,6 +74,18 @@ function annotateCheckin(c, customLandmarksById) {
   };
 }
 
+// byRegion also holds Mapr-found places' ids once Edit List has saved an
+// order; only catalog landmarks count toward the badge.
+function countTripLandmarks(byRegion) {
+  return Math.max(
+    0,
+    ...Object.entries(byRegion || {}).map(([rid, ids]) => {
+      const known = new Set((getRegion(rid)?.landmarks || []).map((l) => l.id));
+      return ids.filter((id) => known.has(id)).length;
+    })
+  );
+}
+
 export function BadgesProvider({ children }) {
   const { user, firebaseEnabled } = useAuth();
   const { claimedMap } = useCheckIn();
@@ -95,7 +107,7 @@ export function BadgesProvider({ children }) {
   // leaderboard.js helpers for how each one is actually derived. Best-effort
   // as a whole: a failure here degrades to "nothing new earned this load"
   // rather than breaking the rest of Profile/Full Stats.
-  const [extra, setExtra] = useState({});
+  const [loadedExtra, setExtra] = useState({});
   // Badges this session has seen freshly persisted (not yet in
   // myProfile.badgeEarnedAt at the moment they were computed) -- consumed
   // by CelebrationOverlay, which dismisses each one after showing it.
@@ -109,6 +121,11 @@ export function BadgesProvider({ children }) {
   // on the same device.
   const uidRef = useRef(null);
   uidRef.current = user?.uid ?? null;
+  // The trip only feeds one count, which is derived locally below. Read it
+  // through a ref so editing the trip doesn't rerun the whole multi-read
+  // badge pass (stats, check-ins, reviews, every custom landmark...).
+  const tripByRegionRef = useRef(trip.byRegion);
+  tripByRegionRef.current = trip.byRegion;
   // Same for the previous account's stats: until this account's own load
   // lands they would otherwise be what the badge writer below compares
   // against this account's profile.
@@ -182,16 +199,6 @@ export function BadgesProvider({ children }) {
       ]);
       if (stale()) return;
 
-      // byRegion also holds Mapr-found places' ids once Edit List has saved an
-      // order; only catalog landmarks count toward the badge.
-      const tripLandmarks = Math.max(
-        0,
-        ...Object.entries(trip.byRegion || {}).map(([rid, ids]) => {
-          const known = new Set((getRegion(rid)?.landmarks || []).map((l) => l.id));
-          return ids.filter((id) => known.has(id)).length;
-        })
-      );
-
       setExtra({
         photoCheckins: countPhotoCheckins(rows),
         // Reviewer needs a place you actually visited: you can rate places
@@ -206,7 +213,7 @@ export function BadgesProvider({ children }) {
         regionMax: maxRegionCheckins(rows),
         states: countDistinctStates(annotated),
         countries: countDistinctCountries(annotated),
-        tripLandmarks,
+        tripLandmarks: countTripLandmarks(tripByRegionRef.current),
         allStarWeek: hasAllStarWeek(annotated),
         cuisineTypes: countCuisineTypes(annotated),
         nightOwl: hasNightOwlCheckin(rows),
@@ -218,7 +225,7 @@ export function BadgesProvider({ children }) {
       if (stale()) return;
       setExtra({});
     }
-  }, [firebaseEnabled, user, friendUids, trip.byRegion]);
+  }, [firebaseEnabled, user, friendUids]);
 
   // On launch the friend list, trips and check-in map each arrive a moment
   // apart and each changes `load`; running the whole multi-read badge pass once
@@ -253,6 +260,13 @@ export function BadgesProvider({ children }) {
   // versa, purely because of whatever's keeping the Firestore flag from
   // sticking.
   const onboardingDone = !!myProfile?.onboardingCompleted || (!!user && hasCompletedOnboardingLocally(user.uid));
+  // Kept live from the trip once a load has filled `extra` (a failed or
+  // pending load still leaves `extra` empty, as before).
+  const tripLandmarks = useMemo(() => countTripLandmarks(trip.byRegion), [trip.byRegion]);
+  const extra = useMemo(
+    () => ('tripLandmarks' in loadedExtra && loadedExtra.tripLandmarks !== tripLandmarks ? { ...loadedExtra, tripLandmarks } : loadedExtra),
+    [loadedExtra, tripLandmarks]
+  );
   const badges = useMemo(() => {
     if (!stats) return [];
     return computeBadges({
