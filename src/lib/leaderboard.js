@@ -267,15 +267,21 @@ export function addLeaderboardPointsToBatch(batch, userId, userName, points) {
  */
 export async function backfillUserName(userId, userName) {
   if (!db || !userId || !userName) return;
-  const batch = writeBatch(db);
   const [checkins, entries] = await Promise.all([
     getDocs(query(collection(db, 'checkins'), where('userId', '==', userId))),
     getDocs(query(collection(db, 'leaderboard_entries'), where('userId', '==', userId))),
   ]);
-  checkins.docs.forEach((d) => batch.update(d.ref, { userName }));
-  entries.docs.forEach((d) => batch.update(d.ref, { userName }));
-  await batch.commit();
+  // Only docs that still show another name, in batches under Firestore's
+  // 500-writes-per-batch limit (one batch for everything failed for anyone
+  // with more than ~500 check-ins and entries).
+  const stale = [...checkins.docs, ...entries.docs].filter((d) => d.data()?.userName !== userName);
+  for (let i = 0; i < stale.length; i += BACKFILL_BATCH_SIZE) {
+    const batch = writeBatch(db);
+    stale.slice(i, i + BACKFILL_BATCH_SIZE).forEach((d) => batch.update(d.ref, { userName }));
+    await batch.commit();
+  }
 }
+const BACKFILL_BATCH_SIZE = 450;
 
 /**
  * Saves a photo from the check-in moment onto the check-in
