@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // accepted when it constrains hidden == false (and userId == them, as a
 // friend). A bare where('userId', '==', friend) is rejected whole.
 const calls = [];
+let nextDocs = [];
 vi.mock('firebase/firestore', () => ({
   doc: vi.fn(),
   collection: (_db, name) => ({ name }),
@@ -11,7 +12,9 @@ vi.mock('firebase/firestore', () => ({
   query: (c, ...constraints) => ({ c, constraints }),
   getDocs: async (q) => {
     calls.push(q.constraints);
-    return { docs: [] };
+    const docs = nextDocs;
+    nextDocs = [];
+    return { docs };
   },
   getDoc: vi.fn(),
   runTransaction: vi.fn(),
@@ -45,5 +48,14 @@ describe('getUserReviews', () => {
   it('keeps your own reviews unfiltered (reported-hidden ones still count)', async () => {
     await getUserReviews('me');
     expect(calls[0]).toEqual([{ field: 'userId', op: '==', value: 'me' }]);
+  });
+
+  it('keeps the stored landmark id as rawLandmarkId when canonicalizing a legacy id', async () => {
+    nextDocs = [
+      { id: 'legacy_washington-square-park', data: () => ({ landmarkId: 'washington-square-park', region: 'san-francisco' }) },
+    ];
+    const [r] = await getUserReviews('legacy');
+    expect(r.landmarkId).toBe('washington-square-park-sf');
+    expect(r.rawLandmarkId).toBe('washington-square-park');
   });
 });

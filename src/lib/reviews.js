@@ -327,7 +327,9 @@ export async function getUserReviews(userId, { other = false } = {}) {
     );
     return snap.docs.map((d) => {
       const r = { id: d.id, ...d.data() };
-      return { ...r, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
+      // rawLandmarkId is what the doc id (`${uid}_${id}`) and aggregate were
+      // written under -- deletes must target that, not the canonical id.
+      return { ...r, rawLandmarkId: r.landmarkId, landmarkId: canonicalLandmarkId(r.landmarkId, r.region) };
     });
   });
 }
