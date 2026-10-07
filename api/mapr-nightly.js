@@ -31,11 +31,24 @@ export default async function handler(req, res) {
     const weekly = new Date(now).getUTCDay() === RETRAIN_WEEKDAY || String(req.query?.weekly || '') === '1';
     const ds = await loadStatsData(db);
     let models = null;
+    let weeklyError = null;
     if (weekly) {
-      await ensureServerPlacePacks();
-      models = await runWeekly(db, { now, ds });
+      // A failed weekly step (training, a similarity write) must not also
+      // cost the night's daily report, Slack message and stagnation flags.
+      try {
+        await ensureServerPlacePacks();
+        models = await runWeekly(db, { now, ds });
+      } catch (e) {
+        weeklyError = String(e?.message || e);
+        if (weeklyError.includes(SERVICE_ACCOUNT_MISSING)) throw e;
+        console.error('mapr-nightly weekly failed:', weeklyError);
+      }
     }
     const daily = await runDaily(db, { now, ds });
+    if (weeklyError) {
+      res.status(500).json({ error: 'The Mapr weekly models failed; the daily report ran.', daily, truncated: ds.truncated });
+      return;
+    }
     res.status(200).json({ ok: true, daily, models, truncated: ds.truncated });
   } catch (e) {
     const msg = String(e?.message || e);
