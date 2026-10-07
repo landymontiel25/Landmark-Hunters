@@ -21,6 +21,7 @@ import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import MapCategoryFilter from '../components/MapCategoryFilter';
+import { setMapView } from '../lib/nearestCity';
 import { searchScore, proximityBonus } from '../lib/search';
 import CheckInButton from '../components/CheckInButton';
 import DirectionsButton from '../components/DirectionsButton';
@@ -167,6 +168,14 @@ function InitialView({ coords, lastKnown, bounds, regionBounds, stopBounds, focu
   useMapEvents({
     dragstart: () => {
       userMoved.current = true;
+    },
+    // Where the map is looking at city scale, so the Landmarks tab can show
+    // that city (zoom into San Francisco here, see San Francisco there).
+    moveend: () => {
+      if (map.getZoom() >= 9) {
+        const c = map.getCenter();
+        setMapView({ lat: c.lat, lng: c.lng });
+      }
     },
   });
 
