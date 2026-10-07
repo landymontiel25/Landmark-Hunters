@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getLandmark, getRegion, INTERESTS } from '../data/regions';
 import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
@@ -220,6 +220,13 @@ function LandmarkDetailBody() {
   // Photos already saved on my review: new ones append, 3 total at most.
   const [reviewPhotoCount, setReviewPhotoCount] = useState(0);
   const [photoPreviews, setPhotoPreviews] = useState([]);
+  // Release whatever preview blob URLs are still showing when the page
+  // unmounts (each holds the full photo in memory until revoked).
+  const photoPreviewsRef = useRef(photoPreviews);
+  useEffect(() => {
+    photoPreviewsRef.current = photoPreviews;
+  }, [photoPreviews]);
+  useEffect(() => () => photoPreviewsRef.current.forEach((u) => URL.revokeObjectURL(u)), []);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState(null);
   const [saveError, setSaveError] = useState(null);

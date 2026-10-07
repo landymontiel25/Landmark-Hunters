@@ -121,6 +121,8 @@ export default function AddLandmark() {
   const [categories, setCategories] = useState(() => savedDraft?.categories || []);
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
+  // Release the preview blob URL when it's replaced or the screen unmounts.
+  useEffect(() => () => photoPreview && URL.revokeObjectURL(photoPreview), [photoPreview]);
   const [facts, setFacts] = useState(() => savedDraft?.facts || []);
   const [factDraft, setFactDraft] = useState(() => savedDraft?.factDraft || '');
   const [stage, setStage] = useState('idle'); // idle | verifying | saving
