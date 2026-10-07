@@ -4,7 +4,7 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { INTEREST_CLASSIFIER_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
-import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
+import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
 
 // Custom interests (typed in on Setup, e.g. "nightlife", "racing") don't map to
 // any of the app's four built-in categories, so they can't filter Choose
@@ -63,7 +63,10 @@ async function handler(req, res) {
       'CATALOG (region/id | name | description):\n' +
       ALL_LANDMARKS.map((l) => `${l.regionId}/${l.id} | ${l.name} | ${(l.summary || '').slice(0, 140)}`).join('\n');
 
-    const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
+    // Reads ANTHROPIC_API_KEY from env. A long reply (up to 6000 tokens) needs
+    // the long budget; without one the SDK waits 10 minutes and retries, so
+    // Vercel kills the function with a non-JSON page first.
+    const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({
       model: INTEREST_CLASSIFIER_MODEL,
