@@ -271,3 +271,12 @@ export function googleMapsMultiStopLegs(stops, origin, mode = 'driving') {
   }
   return links;
 }
+
+// Sorts ids by their position in `saved`; ids not in it keep their order, last.
+export function orderBySaved(ids, saved) {
+  const pos = new Map(saved.map((id, i) => [id, i]));
+  return ids
+    .map((id, i) => ({ id, i, p: pos.has(id) ? pos.get(id) : Infinity }))
+    .sort((a, b) => a.p - b.p || a.i - b.i)
+    .map((x) => x.id);
+}

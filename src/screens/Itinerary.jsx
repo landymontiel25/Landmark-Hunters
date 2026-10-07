@@ -24,6 +24,7 @@ import { distanceMeters } from '../lib/geo';
 import { matchesSearch } from '../lib/search';
 import {
   orderStops,
+  orderBySaved,
   annotateRoute,
   enhanceRouteWithDrivingTimes,
   fetchDirections,
@@ -390,7 +391,11 @@ export default function Itinerary() {
         ownerName: myUsername || user.displayName || 'Explorer',
         name: itineraryName(region.id),
         regionId: region.id,
-        landmarkIds: selectedLandmarks.filter((l) => !l.external).map((l) => l.id),
+        // Same stops, in the order you saved them (byRegion), not catalog order.
+        landmarkIds: orderBySaved(
+          selectedLandmarks.filter((l) => !l.external).map((l) => l.id),
+          trip.byRegion[region.id] || []
+        ),
         places: (trip.placesByRegion?.[region.id] || []).map(({ id: pid, name, address, lat, lng, url }) => ({
           id: pid,
           name,

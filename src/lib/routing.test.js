@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SORT_OPTIONS, orderStops, annotateRoute, estimateTravelMinutes } from './routing';
+import { SORT_OPTIONS, orderStops, annotateRoute, estimateTravelMinutes, orderBySaved } from './routing';
 
 // Origin at (0,0); stops laid out on a line so straight-line distances are
 // unambiguous: A is 1km away, B 2km, C 3km, D 4km.
@@ -135,5 +135,12 @@ describe('googleMapsMultiStopLegs', () => {
     const { googleMapsMultiStopLegs } = await import('./routing');
     expect(googleMapsMultiStopLegs([], null)).toEqual([]);
     expect(googleMapsMultiStopLegs([{ lat: 1, lng: 2 }], null)).toHaveLength(1);
+  });
+});
+
+describe('orderBySaved', () => {
+  it('orders ids by the saved order and keeps unsaved ids last, in place', () => {
+    expect(orderBySaved(['a', 'b', 'c', 'x'], ['c', 'a', 'b'])).toEqual(['c', 'a', 'b', 'x']);
+    expect(orderBySaved(['a', 'b'], [])).toEqual(['a', 'b']);
   });
 });
