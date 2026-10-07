@@ -17,8 +17,10 @@ afterEach(() => {
   vi.resetModules();
 });
 
+const authState = { user: { uid: 'u' } };
 async function renderBanner(profile, { fresh = true, variant } = {}) {
-  vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u' } }) }));
+  authState.user = { uid: 'u' };
+  vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: authState.user }) }));
   vi.doMock('../lib/FriendsContext', () => ({ useFriends: () => ({ myProfile: profile, profileFresh: fresh }) }));
   ({ default: OnboardingBanner } = await import('./OnboardingBanner.jsx'));
   container = document.createElement('div');
@@ -108,5 +110,20 @@ describe('OnboardingBanner', () => {
   it('reserves nothing once onboarding is done', async () => {
     await renderBanner({ onboardingVersion: ONBOARDING_VERSION }, { variant: 'fixed' });
     expect(document.documentElement.style.getPropertyValue('--banner-h')).toBe('');
+  });
+
+  it("one account's dismissal doesn't hide the banner for the next account in the same session", async () => {
+    const el = await renderBanner({});
+    await act(async () => el.querySelector('[aria-label="Dismiss for now"]').click());
+    expect(el.textContent).toBe('');
+    authState.user = { uid: 'other' };
+    await act(async () => {
+      root.render(
+        <MemoryRouter>
+          <OnboardingBanner />
+        </MemoryRouter>
+      );
+    });
+    expect(el.textContent).toContain('Finish the swipe cards');
   });
 });
