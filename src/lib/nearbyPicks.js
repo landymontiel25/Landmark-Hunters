@@ -169,8 +169,17 @@ export function isClosedNow(l, date = new Date()) {
   const yesterday = (day + 6) % 7;
   let sawRange = false;
   let closedToday = false;
-  for (const seg of hours.split(/[,;]/)) {
+  // "Mon–Thu, Sun 11am–10pm": a piece with days but no time range (and no
+  // "closed") shares the range of the piece after it, so carry it forward.
+  let carry = '';
+  for (const piece of hours.split(/[,;]/)) {
+    const seg = carry ? `${carry}, ${piece}` : piece;
+    carry = '';
     const days = daysIn(seg);
+    if (days && !/\bclosed\b/i.test(seg) && !parseRange(seg)) {
+      carry = seg;
+      continue;
+    }
     const appliesToday = !days || days.has(day);
     if (/\bclosed\b/i.test(seg)) {
       if (days && days.has(day)) closedToday = true;
