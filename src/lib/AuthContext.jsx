@@ -112,10 +112,24 @@ export function AuthProvider({ children }) {
   // navigation to Profile. That churn was the real source of badges
   // re-celebrating: enough incidental re-fetching for a client-side
   // "did this just complete" heuristic to occasionally race itself.
+  //
+  // reload() mutates auth.currentUser in place, and `user` is usually that
+  // same object (onAuthStateChanged hands it over), so the "before" value
+  // has to be captured before reloading -- comparing afterwards always saw
+  // them equal and the verify-your-email banner never cleared. Nothing
+  // calls methods on the context `user` (apiAuth uses auth.currentUser), so
+  // a plain-object copy is fine, same as signUpEmail does.
   const refreshUser = async () => {
-    if (!auth.currentUser) return;
-    await reload(auth.currentUser);
-    setUser((prev) => (prev && prev.emailVerified === auth.currentUser.emailVerified ? prev : { ...auth.currentUser }));
+    const cur = auth.currentUser;
+    if (!cur) return;
+    const wasVerified = cur.emailVerified;
+    await reload(cur);
+    // Also covers `user` being an older copy (signUpEmail stores one).
+    setUser((prev) => {
+      if (!prev || prev.uid !== cur.uid) return prev;
+      const changed = cur.emailVerified !== wasVerified || prev.emailVerified !== cur.emailVerified;
+      return changed ? { ...cur } : prev;
+    });
   };
 
   const signOutUser = async () => {
