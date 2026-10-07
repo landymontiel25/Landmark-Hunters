@@ -29,7 +29,7 @@ export default function MyCheckins() {
       <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
         {'←'} Back to Profile
       </button>
-      <CheckinsGallery user={user} claimedMap={claimedMap} navigate={navigate} totalPoints={stats?.totalPoints || 0} />
+      <CheckinsGallery user={user} claimedMap={claimedMap} navigate={navigate} totalPoints={stats?.failed ? '–' : stats ? stats.totalPoints || 0 : null} />
     </div>
   );
 }

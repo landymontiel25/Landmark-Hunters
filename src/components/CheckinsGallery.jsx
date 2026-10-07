@@ -12,7 +12,7 @@ import { isAdmin } from '../lib/admins';
 import { useAuth } from '../lib/AuthContext';
 import { regionTimezone, tzAbbrev, toZonedInputValue, fromZonedInputValue } from '../lib/timezones';
 import { friendlyError } from '../lib/friendlyError';
-import { SkeletonGrid, SkeletonList } from './Skeleton';
+import { Skeleton, SkeletonGrid, SkeletonList } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
 import MyCommentEditor from './MyCommentEditor';
 import { matchesSearch } from '../lib/search';
@@ -251,7 +251,13 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
     <div className="section">
       <div className="card" style={{ textAlign: 'center', marginBottom: 14 }}>
         <div className="rank-hero-pts" style={{ fontSize: '1.8rem' }}>
-          {totalPoints.toLocaleString()} <span>total points</span>
+          {/* null = stats still loading; a string (e.g. '–') = couldn't load. */}
+          {totalPoints == null ? (
+            <Skeleton className="skeleton-inline" width={72} height={26} />
+          ) : (
+            totalPoints.toLocaleString()
+          )}{' '}
+          <span>total points</span>
         </div>
       </div>
 
