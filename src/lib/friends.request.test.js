@@ -48,4 +48,12 @@ describe('sendFriendRequest', () => {
     await sendFriendRequest(me, them);
     expect(setDoc).toHaveBeenCalledTimes(1);
   });
+
+  it("never puts the sender's full email or an undefined toName on the request", async () => {
+    const { sendFriendRequest, setDoc } = await load();
+    await sendFriendRequest({ uid: 'me', email: 'secret.person@example.com' }, { uid: 'them' });
+    const data = setDoc.mock.calls[0][1];
+    expect(data.fromName).toBe('secret.person');
+    expect(data.toName).toBe('Explorer');
+  });
 });
