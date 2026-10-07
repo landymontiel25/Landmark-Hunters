@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn() }));
+const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn(), runMaprActions: vi.fn(), retryMaprAction: vi.fn() }));
 
 const stub = () => () => null;
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1', displayName: 'Ann' }, resendVerification: () => {} }) }));
@@ -77,8 +77,8 @@ vi.mock('../lib/useShownLogger', () => ({
   useShownLogger: () => (setId, stops, overrides) => h.logged.push({ setId, stops, ...overrides }),
 }));
 vi.mock('../lib/maprActions', () => ({
-  runMaprActions: async () => [],
-  retryMaprAction: async () => ({}),
+  runMaprActions: (...a) => h.runMaprActions(...a),
+  retryMaprAction: (...a) => h.retryMaprAction(...a),
   itinerarySummary: () => [],
   registerUndo: () => {},
   getUndo: () => null,
@@ -113,6 +113,10 @@ beforeEach(async () => {
   h.saveVote.mockReset();
   h.landmarkForRating.mockReset();
   h.landmarkForRating.mockResolvedValue({});
+  h.runMaprActions.mockReset();
+  h.runMaprActions.mockResolvedValue([]);
+  h.retryMaprAction.mockReset();
+  h.retryMaprAction.mockResolvedValue({ ok: true, text: 'Added.' });
   h.saveVote.mockResolvedValue({ status: 'saved', entry: { landmarkId: 'a', verdict: 'yes' } });
   h.logged.length = 0;
   localStorage.clear();
@@ -306,5 +310,19 @@ describe('places Mapr found on the web', () => {
     expect(h.landmarkForRating).toHaveBeenCalledTimes(1);
     await act(async () => container.querySelector('.chatlab-stop-card-main').dispatchEvent(new MouseEvent('click', { bubbles: true })));
     expect(h.landmarkForRating).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('retrying a failed Mapr action', () => {
+  it("resolves against the chat's saved stops when the in-memory list is gone (reopened chat)", async () => {
+    const stops = [{ id: 'a', region: 'villanova', name: 'Autana', reason: 'Great food', categories: ['food'] }];
+    h.runMaprActions.mockResolvedValue([{ ok: false, text: 'That failed.', action: { type: 'add_stop', stop: 'Autana' } }]);
+    h.fetchJson.mockResolvedValue({ reply: 'Adding it.', stops, actions: [{ type: 'add_stop', stop: 'Autana' }], quickReplies: [] });
+    await setValue('add autana');
+    await submit();
+    await click('Try again');
+    expect(h.retryMaprAction).toHaveBeenCalledTimes(1);
+    expect(h.retryMaprAction.mock.calls[0][1].conversationStops).toEqual([expect.objectContaining({ id: 'a', name: 'Autana' })]);
+    expect(container.textContent).toContain('Added.');
   });
 });

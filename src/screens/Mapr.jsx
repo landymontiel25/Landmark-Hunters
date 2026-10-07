@@ -196,6 +196,15 @@ export default function Mapr() {
   // "region/id" -> Mapr Phase 1 telemetry the server sent for a chat stop.
   const rankTelemetry = useRef(new Map());
   const [retrying, setRetrying] = useState({});
+  // The stops a reply's actions were resolved against. Kept in memory only,
+  // so a chat reopened after a reload falls back to the stops saved on its
+  // messages up to and including that reply (what the actions first saw).
+  const stopsForRetry = (msgId) => {
+    const registered = getConversationStops(msgId);
+    if (registered.length) return registered;
+    const end = messages.findIndex((m) => m.id === msgId);
+    return end < 0 ? [] : messages.slice(0, end + 1).flatMap((m) => m.stops || []);
+  };
   // Retries exactly the one action that failed -- no retyping the whole
   // request, and no repeating whatever else was in the same reply that
   // already went through.
@@ -214,7 +223,7 @@ export default function Mapr() {
         resendVerification,
         ownerName: myUsername || user?.displayName || 'Explorer',
         coords,
-        conversationStops: getConversationStops(msgId),
+        conversationStops: stopsForRetry(msgId),
         onGroupsChanged: loadGroupTrips,
       }, { allowCreate });
       if (fresh.undo) registerUndo(key, fresh.undo);
