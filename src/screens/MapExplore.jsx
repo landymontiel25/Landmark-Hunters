@@ -347,7 +347,9 @@ export default function MapExplore({ experiments = false }) {
     const from = coordsRef.current;
     if (!from) {
       if (geoError) {
-        setNav((cur) => cur && { ...cur, loading: false, error: 'Turn on location to get directions on the map.' });
+        // waitingForFix: a slow GPS reports a timeout before its first fix;
+        // the effect below picks the request back up once a fix comes in.
+        setNav((cur) => cur && { ...cur, loading: false, error: 'Turn on location to get directions on the map.', waitingForFix: true });
       }
       return undefined;
     }
@@ -374,7 +376,14 @@ export default function MapExplore({ experiments = false }) {
     document.body.classList.toggle('map-nav-open', !!nav);
     return () => document.body.classList.remove('map-nav-open');
   }, [nav]);
-  const refreshNav = () => setNav((cur) => cur && { ...cur, loading: true, error: null, req: cur.req + 1 });
+  const refreshNav = () => setNav((cur) => cur && { ...cur, loading: true, error: null, waitingForFix: false, req: cur.req + 1 });
+  // Gave up for lack of a location (a watch timeout counts as an error before
+  // the first fix): route as soon as a fix arrives, instead of leaving
+  // "Turn on location" up while your pin is already on the map.
+  useEffect(() => {
+    if (hasFix && nav?.waitingForFix) refreshNav();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasFix, nav?.waitingForFix]);
 
   // Ordered once you have a location (GPS, else where you last were); the
   // order doesn't reshuffle as you move.
