@@ -120,7 +120,7 @@ const INSTRUCTIONS =
   `of their message as usual. Use its catalog region/id as "match" when it's in the catalog or NEAREST CATALOG LANDMARKS, ` +
   `otherwise its real name plus any address you know. Only when they clearly say they were there -- never guess, and not for a ` +
   `place they merely mention or plan to visit. If they already said how it was, still set "rate" (the app lets them save it).\n` +
-  `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. Say yes in one short line ("Sure -- tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
+  `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. If they ask to rate without naming a place and you are not at one, return NO stops and a one-line reply: the app then shows a carousel of places they have not rated yet. Say yes in one short line ("Sure -- tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
   `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search, and must include the source URL.\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
   `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
@@ -219,6 +219,14 @@ export function conciseReply(reply, userText = '') {
 
 // "can i rate here", "rate this place": a request to rate wherever they are.
 export const asksToRateHere = (text) => /\brate\b[^.?!]{0,30}\b(here|this (place|spot|one)|where i am)\b/i.test(String(text || ''));
+
+// Any ask to rate, not tied to one named place ("can I rate?", "let me rate
+// some places", "places to rate"). Together with asksToRateHere, and when Mapr
+// has no single place to show, the app puts up a carousel of places they have
+// not rated yet.
+export const asksToRate = (text) =>
+  asksToRateHere(text) ||
+  /\b(can|could|let|want|wanna|like|how do|how can)\b[^.?!]{0,25}\brate\b|\brate (some|a few|more|places|landmarks|stuff)\b|\bplaces? to rate\b/i.test(String(text || ''));
 
 export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 'solo');
 
@@ -626,8 +634,18 @@ async function handler(req, res) {
       replyText = 'Sure -- tap how it sounds.';
     }
 
+    // They want to rate but there is no one place to show: the app shows a
+    // carousel of places they haven't rated, voted on or checked into (so
+    // every one counts toward the daily streak).
+    const ratePicks = !rate && !stops.length && asksToRate(lastText);
+    if (ratePicks) {
+      replyText = 'Tap any place below to rate it.';
+      quickReplies.length = 0;
+    }
+
     res.status(200).json({
       reply: replyText || "Here's what I found:",
+      ratePicks,
       stops,
       quickReplies,
       actions,

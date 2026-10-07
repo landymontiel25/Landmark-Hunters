@@ -33,6 +33,7 @@ import { makeSetId } from '../lib/setId';
 import { useShownLogger } from '../lib/useShownLogger';
 import { directionsStopFor } from '../lib/directionsStop';
 import MaprRateCard from '../components/MaprRateCard';
+import MaprRatePicks from '../components/MaprRatePicks';
 import PickVoteButtons from '../components/PickVoteButtons';
 import { usePickVotes } from '../lib/usePickVotes';
 import { authHeaders } from '../lib/apiAuth';
@@ -650,7 +651,7 @@ export default function Mapr() {
       // an earlier session from logging its old cards as shown again.
       const setId = makeSetId(user?.uid);
       requestForSet.current.set(setId, requestFor);
-      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null, setId, requestFor };
+      const reply = { id: msgId, role: 'assistant', text: data.reply, stops, raw, quickReplies: data.quickReplies || [], actionResults, rate: data.rate || null, ratePicks: !!data.ratePicks, setId, requestFor };
       let logMeta = null;
       if (onReply) {
         try {
@@ -980,6 +981,7 @@ export default function Mapr() {
                 </div>
               )}
               {m.rate && <MaprRateCard place={m.rate} />}
+              {m.ratePicks && <MaprRatePicks />}
               {m.error && m.retryText && i === messages.length - 1 && !busy && (
                 <div className="chatlab-error-actions">
                   <button type="button" className="btn btn-sm btn-ghost" onClick={() => send(null, m.retryText, { retry: true, requestFor: m.requestFor })}>
