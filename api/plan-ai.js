@@ -677,8 +677,9 @@ async function handler(req, res) {
     const shortReply = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
     // None of the model's stops survived but the directions card was added:
     // its address token means that card.
+    const tokenNs = new Set([...shortReply.matchAll(/\{\{address:(\d+)\}\}/g)].map((m) => m[1]));
     let replyText =
-      !keptStops.length && stops.length === 1
+      !keptStops.length && stops.length === 1 && tokenNs.size === 1
         ? shortReply.replace(/\{\{address:\d+\}\}/g, '{{address:1}}')
         : remapAddressTokens(shortReply, keptStops.map((k) => k.from));
     if (hereLandmark && asksToRateHere(lastText) && !stops.some((st) => st.id === hereLandmark.id)) {
