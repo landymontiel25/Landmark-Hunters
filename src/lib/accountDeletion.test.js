@@ -78,7 +78,7 @@ vi.mock('firebase/storage', () => ({
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./reviews', () => ({ deleteMyReview: vi.fn() }));
 
-import { deleteAccountData } from './accountDeletion';
+import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
 
 beforeEach(() => {
   updates.length = 0;
@@ -180,5 +180,29 @@ describe('deleteAccountData wipe coverage', () => {
     const [, patch] = updates.find(([p]) => p === 'group_trips/joined');
     expect(patch).toEqual({ memberUids: ['x'], 'memberNames.u1': 'DELETE_FIELD' });
     expect(deletedFiles).toContain('img1');
+  });
+});
+
+describe('clearLocalAccountStorage', () => {
+  it("removes the deleted account's cached profile and uid-keyed entries, leaving others", () => {
+    localStorage.clear();
+    localStorage.setItem('landmarkhunters.profile.v1', JSON.stringify({ uid: 'u1', username: 'a' }));
+    localStorage.setItem('homeAddress.u1', '1 Main');
+    localStorage.setItem('landmarkhunters.onboarded.u1', '1');
+    localStorage.setItem('homeAddress.u2', 'keep');
+    localStorage.setItem('unrelated', 'keep');
+    clearLocalAccountStorage('u1');
+    expect(localStorage.getItem('landmarkhunters.profile.v1')).toBeNull();
+    expect(localStorage.getItem('homeAddress.u1')).toBeNull();
+    expect(localStorage.getItem('landmarkhunters.onboarded.u1')).toBeNull();
+    expect(localStorage.getItem('homeAddress.u2')).toBe('keep');
+    expect(localStorage.getItem('unrelated')).toBe('keep');
+  });
+
+  it("keeps a cached profile that belongs to another account", () => {
+    localStorage.clear();
+    localStorage.setItem('landmarkhunters.profile.v1', JSON.stringify({ uid: 'u2' }));
+    clearLocalAccountStorage('u1');
+    expect(localStorage.getItem('landmarkhunters.profile.v1')).not.toBeNull();
   });
 });

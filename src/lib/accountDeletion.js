@@ -203,3 +203,30 @@ export async function deleteAccountData(uid) {
     /* best-effort */
   }
 }
+
+// Device-side leftovers of a deleted account: the cached profile (only when
+// it is this account's) and every localStorage key carrying the uid
+// (homeAddress.<uid>, tasteIntro.<uid>, landmarkhunters.onboarded.<uid>, ...).
+// Run after deleteUser succeeds. Storage can be blocked, so never throws.
+const PROFILE_CACHE_KEY = 'landmarkhunters.profile.v1';
+export function clearLocalAccountStorage(uid) {
+  if (!uid) return;
+  try {
+    const ls = globalThis.localStorage;
+    if (!ls) return;
+    try {
+      const cached = JSON.parse(ls.getItem(PROFILE_CACHE_KEY) || 'null');
+      if (cached && cached.uid === uid) ls.removeItem(PROFILE_CACHE_KEY);
+    } catch {
+      /* unreadable cache -- leave it */
+    }
+    const doomed = [];
+    for (let i = 0; i < ls.length; i += 1) {
+      const k = ls.key(i);
+      if (k && k.includes(uid)) doomed.push(k);
+    }
+    doomed.forEach((k) => ls.removeItem(k));
+  } catch {
+    /* blocked storage -- nothing to clean */
+  }
+}

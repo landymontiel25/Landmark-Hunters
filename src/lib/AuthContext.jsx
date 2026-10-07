@@ -18,7 +18,7 @@ import {
   getAdditionalUserInfo,
 } from 'firebase/auth';
 import { auth, firebaseEnabled } from './firebase';
-import { deleteAccountData } from './accountDeletion';
+import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
 import { recordReferralIfPending } from './referrals';
 import { touchLastActive } from './friends';
 import { recordOpenDay } from './openDays';
@@ -167,6 +167,7 @@ export function AuthProvider({ children }) {
     }
     await deleteAccountData(current.uid);
     await deleteUser(current);
+    clearLocalAccountStorage(current.uid);
   };
 
   const changePassword = async (currentPassword, newPassword) => {

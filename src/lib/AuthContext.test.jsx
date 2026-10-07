@@ -38,7 +38,7 @@ async function setup(authMock = {}, extra = {}) {
     getAdditionalUserInfo: vi.fn(),
     ...authMock,
   }));
-  vi.doMock('./accountDeletion', () => ({ deleteAccountData: async () => {} }));
+  vi.doMock('./accountDeletion', () => ({ deleteAccountData: async () => {}, clearLocalAccountStorage: () => {} }));
   vi.doMock('./referrals', () => ({ recordReferralIfPending: calls.recordReferralIfPending }));
   vi.doMock('./friends', () => ({ touchLastActive: async () => {} }));
   vi.doMock('./openDays', () => ({ recordOpenDay: async () => {} }));
