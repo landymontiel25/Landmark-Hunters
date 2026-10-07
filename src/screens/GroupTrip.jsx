@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useNavigate, useNavigationType, useParams } from 'react-router-dom';
+import { saveListReturn, takeListReturn } from '../lib/listReturn';
 import { useAuth } from '../lib/AuthContext';
 import { useTrip } from '../lib/TripContext';
 import { useCheckIn } from '../lib/useCheckIn';
@@ -64,12 +65,34 @@ export default function GroupTrip() {
   const { user, loading: authLoading } = useAuth();
   const toast = useToast();
   const [trip, setTrip] = useState(null);
+  // Back from a landmark's page lands where you were on this trip (the Add
+  // Landmarks list is long), not at the top. Only on Back (POP).
+  const navType = useNavigationType();
+  const [returned] = useState(() => {
+    const saved = takeListReturn(`group:${tripId}`);
+    return navType === 'POP' ? saved : null;
+  });
+  const openLandmark = (regionId, landmarkId) => {
+    saveListReturn(`group:${tripId}`, { y: window.scrollY });
+    navigate(`/landmarks/${regionId}/${landmarkId}`);
+  };
   // 'loading' | 'ready' | 'missing' (deleted, or you're not a member --
   // Firestore can't tell us which) | 'error' (couldn't reach it; retryable)
   const [status, setStatus] = useState('loading');
   const [loadError, setLoadError] = useState(null);
   const [attempt, setAttempt] = useState(0);
   const [showAdd, setShowAdd] = useState(false);
+  const scrolledBack = useRef(false);
+  useEffect(() => {
+    if (!returned || scrolledBack.current || status !== 'ready') return;
+    scrolledBack.current = true;
+    const y = Number(returned.y) || 0;
+    requestAnimationFrame(() => {
+      window.scrollTo(0, y);
+      // Photos and addresses finishing their layout can nudge it; once more settles it.
+      setTimeout(() => window.scrollTo(0, y), 150);
+    });
+  }, [returned, status]);
   // Landmark ticks you've made that the server hasn't confirmed yet, so the
   // checkbox flips the instant you tap it. { [landmarkId]: true | false }
   const [pendingLandmarks, setPendingLandmarks] = useState({});
@@ -441,7 +464,7 @@ export default function GroupTrip() {
                   <button
                     type="button"
                     className="route-stop-link"
-                    onClick={() => navigate(`/landmarks/${region.id}/${l.id}`)}
+                    onClick={() => openLandmark(region.id, l.id)}
                     title={`Open ${l.name}`}
                   >
                     <LandmarkThumb landmark={l} size={44} />
@@ -522,7 +545,7 @@ export default function GroupTrip() {
               <button
                 type="button"
                 className="shared-landmark-link"
-                onClick={() => navigate(`/landmarks/${region.id}/${l.id}`)}
+                onClick={() => openLandmark(region.id, l.id)}
                 title={`Open ${l.name}`}
               >
                 {l.name}
