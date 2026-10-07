@@ -312,7 +312,11 @@ export default function LandmarkSelection() {
   // change it for this visit.
   // Where the Map tab was looking (city scale) wins over where you are.
   const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
-  const [cityFilter, setCityFilter] = useState(returned?.city || mapCity || 'all');
+  // "All cities" is kept on Back only when it was picked by hand; as a mere
+  // default it yields to the Map's city like a fresh open (#598).
+  const [cityFilter, setCityFilter] = useState(
+    returned?.city && (returned.city !== 'all' || returned.picked) ? returned.city : mapCity || 'all'
+  );
   const cityPickedByHand = useRef(false);
   const gpsLat = coords?.lat ?? null;
   const gpsLng = coords?.lng ?? null;
@@ -544,7 +548,7 @@ export default function LandmarkSelection() {
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
   const stableInfo = useCallback((landmark) => {
     const { cityFilter: city, shownCount: count } = latest.current;
-    saveListReturn('landmarks', { y: window.scrollY, city, count });
+    saveListReturn('landmarks', { y: window.scrollY, city, count, picked: cityPickedByHand.current });
     latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
   }, []);
 
