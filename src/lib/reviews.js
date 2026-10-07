@@ -11,7 +11,6 @@ import {
   limit,
   updateDoc,
   deleteDoc,
-  addDoc,
   arrayUnion,
   serverTimestamp,
 } from 'firebase/firestore';
@@ -74,7 +73,7 @@ function legacyRatingOf(pd) {
     : null;
 }
 
-function writeLearning(tx, { uid, userRef, placeRef, userSnap, placeSnap, pd, landmark, next, nowMs }) {
+function writeLearning(tx, { userRef, placeRef, userSnap, placeSnap, pd, landmark, next, nowMs }) {
   const { userPatch, ledger } = planLearning({
     user: userSnap?.exists() ? userSnap.data() : {},
     prev: placeSnap?.exists() ? placeSnap.data() : null,

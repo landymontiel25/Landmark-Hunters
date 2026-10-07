@@ -22,7 +22,7 @@ export function PairStreakProvider({ children }) {
       return undefined;
     }
     return subscribeMyStreaks(user.uid, setStreaks, () => {});
-  }, [user?.uid]);
+  }, [user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const value = {
     streaks,

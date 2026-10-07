@@ -92,7 +92,7 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
         if (res.status === 'pending') patch(landmark.id, { status: 'pending', tryingVerdict: verdict });
         else applySaved(res.entry);
         return res;
-      } catch (e) {
+      } catch {
         patch(landmark.id, { status: 'error', tryingVerdict: verdict });
         return null;
       }

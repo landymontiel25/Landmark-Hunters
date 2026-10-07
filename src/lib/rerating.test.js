@@ -33,7 +33,10 @@ vi.mock('firebase/firestore', () => {
         },
         delete: (ref) => writes.set(ref.path, null),
       });
-      for (const [p, v] of writes) (v ? store.set(p, v) : store.delete(p));
+      for (const [p, v] of writes) {
+        if (v) store.set(p, v);
+        else store.delete(p);
+      }
       return result;
     },
     setDoc: async (ref, data) => {

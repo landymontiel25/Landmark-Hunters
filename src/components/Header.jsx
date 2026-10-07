@@ -65,6 +65,9 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
   // of the header -- a wide one ran off the left of the screen. Measured
   // after render and nudged back inside the viewport.
   const [clampedLeft, setClampedLeft] = useState(null);
+  // Runs after every render on purpose (the popover's width follows its
+  // content). React skips the re-render when the value is unchanged.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     if (!open || !rect || !popoverRef.current) return;
     const width = popoverRef.current.offsetWidth;

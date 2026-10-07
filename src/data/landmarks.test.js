@@ -114,6 +114,8 @@ describe('catalog text and image hygiene', () => {
   const textOf = (l) => [l.name, l.summary, l.tip, l.neighborhood, l.cost, ...(l.facts || [])].filter((s) => typeof s === 'string');
 
   it('has no escape/entity artifacts or placeholder text in user-visible strings', () => {
+    // Control characters are what this check looks for.
+    // eslint-disable-next-line no-control-regex
     const ARTIFACT = /&(?:[a-z]+|#\d+|#x[0-9a-f]+);|[a-z]x(?:27|22|26)[a-z]|\\u[0-9a-f]{4}|\\[nt"']|%[0-9A-F]{2}|\*\*|`|\bundefined\b|\bnull\b|\bNaN\b|\bTODO\b|lorem ipsum|[\u0000-\u001f ​�]/i;
     const bad = [];
     for (const l of ALL_LANDMARKS)
