@@ -140,8 +140,8 @@ describe('landmark page rating section', () => {
       const c = await mountPage();
       expect(c.textContent).not.toMatch(/Check in here first/);
       expect(c.textContent).toMatch(/Rate this place/);
-      expect(c.textContent).toMatch(/rate it without checking in/);
-      expect(c.textContent).toMatch(/asked to rate it again/);
+      expect(c.textContent).toMatch(/Mapr gets smarter with every rating you give\. Rate for you, and your next picks improve\./);
+      expect(c.textContent).not.toMatch(/rate it without checking in/);
       expect(btn(c, /Submit Rating/)).toBeTruthy();
     } finally {
       stable.ratings.myReviews = saved;

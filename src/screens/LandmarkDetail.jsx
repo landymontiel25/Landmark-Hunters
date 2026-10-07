@@ -1167,19 +1167,13 @@ function LandmarkDetailBody() {
             <p className="screen-subtitle" style={{ margin: 0 }}>Sign in to rate this place.</p>
           ) : (
             <>
-              {!checkedInHere && (
-                <p className="screen-subtitle" style={{ marginTop: 0 }}>
-                  You can rate it without checking in — it helps Mapr learn your taste. When you do check in here,
-                  you'll be asked to rate it again, and that rating replaces this one.
-                </p>
-              )}
               {savedRating && (
                 <p className="screen-subtitle" style={{ marginTop: 0 }}>
                   {'\u{2713}'} Already rated — change anything below to update it.
                 </p>
               )}
               <p className="screen-subtitle" style={{ marginTop: 0, marginBottom: 12 }}>
-                Rate for yourself, not others. This is just so we learn your taste.
+                Mapr gets smarter with every rating you give. Rate for you, and your next picks improve.
               </p>
               <RatingFlow
                 key={`${landmark.id}:${commentRev}`}
