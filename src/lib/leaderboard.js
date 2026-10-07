@@ -633,7 +633,8 @@ export async function getRegionalLeaderboard(period, regionId, topN = 100) {
     const sec = x.createdAt?.seconds;
     if (!sec) continue;
     if (periodKeys(new Date(sec * 1000))[period] !== key) continue;
-    const cur = totals.get(x.userId) || { userId: x.userId, userName: x.userName, points: 0 };
+    // `id` keys the board rows, same as the other two board reads.
+    const cur = totals.get(x.userId) || { id: x.userId, userId: x.userId, userName: x.userName, points: 0 };
     cur.points += x.points || 0;
     cur.userName = x.userName || cur.userName;
     totals.set(x.userId, cur);
