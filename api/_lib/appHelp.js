@@ -138,7 +138,7 @@ export const APP_HELP =
   `- Mapr chat can offer a city's own specialty even outside your usual taste -- Rome's architecture and ruins, Paris's art museums, Tokyo's ` +
   `street food -- but only when you have no real signal either way in that category (no rating, nothing you've said you love or dislike), and only ` +
   `as a question with quick-tap Yes/No, not a silent addition. It never does this for a category you've told it you dislike, generally or for that city.\n` +
-  `- Mapr Travel Picks (on the Itinerary tab, under your trips): city-first, not AI-suggested -- pick a city (it defaults to wherever you are right now, or your most recent ` +
+  `- Mapr Travel Picks (on the Itinerary tab, under your trips; an answer on a place more than 50 miles from where you are counts half toward your taste, so liking museums on a trip does not steer your hometown picks): city-first, not AI-suggested -- pick a city (it defaults to wherever you are right now, or your most recent ` +
   `saved city with no GPS fix) and swipe through up to 10 of that city's landmarks you haven't voted on, rated, or checked into yet, in Mapr's order for you (your taste, how close they are when you are in that city, and a few places you ` +
   `haven't seen mixed in), most-visited first among equals. Since these are places you haven't necessarily been, each card asks "would you go?", not "how was it?" -- tap "✓ I'd go" / "🤷 Not sure" / ` +
   `"✗ Not for me" right on the card. This is the exact same lightweight ✓/✗/🤷 vote every Mapr Pick has always used: no check-in, no modal, nothing ` +

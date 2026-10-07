@@ -3,6 +3,7 @@ import { db } from './firebase';
 import { pickMarkFields } from './pickMarks';
 import { PICK_VOTE_PENDING_LIMIT, PICK_VOTE_RETRY_BASE_MS, PICK_VOTE_SAVE_ATTEMPTS, REQUEST_FOR_VALUES } from './maprConstants';
 import { levelOfVerdict, planLearning } from './maprLearning';
+import { voteWeight } from './tagScores';
 import { scheduleTasteRecompute } from './tasteScoreStore';
 
 export const PICK_VOTE_EVENT = 'lh-pick-vote';
@@ -116,7 +117,7 @@ function recordSaved(uid, entry, landmark) {
   // rating on the place's tags, plus the place's own score. Changing the tap
   // later takes the old tap's effect back out first.
   if (levelOfVerdict(entry.verdict) && landmark.region && db) {
-    applyTapToProfile(uid, landmark, entry.verdict, entry.at, prior).catch(() => {});
+    applyTapToProfile(uid, landmark, entry.verdict, entry.at, prior, voteWeight(entry.near, entry.region, entry.landmarkId, landmark)).catch(() => {});
   }
 }
 
@@ -176,7 +177,7 @@ export async function setPickFeedback({ uid, landmark, verdict, origin, requestF
   return { status: 'saved', entry };
 }
 
-async function applyTapToProfile(uid, landmark, verdict, nowMs, priorVerdict) {
+async function applyTapToProfile(uid, landmark, verdict, nowMs, priorVerdict, tapWeight = 1) {
   const userRef = doc(db, 'users', uid);
   const placeRef = doc(db, 'users', uid, 'place_scores', landmark.id);
   await runTransaction(db, async (tx) => {
@@ -189,7 +190,7 @@ async function applyTapToProfile(uid, landmark, verdict, nowMs, priorVerdict) {
       // (applyVote); this lets a change of mind take that back out.
       legacy: priorVerdict ? { tap: { verdict: priorVerdict, region: landmark.region, categories: landmark.categories || [] } } : {},
       landmark,
-      next: { tap: levelOfVerdict(verdict) },
+      next: { tap: levelOfVerdict(verdict), tapWeight },
       nowMs,
     });
     if (userPatch) tx.set(userRef, userPatch, { merge: true });

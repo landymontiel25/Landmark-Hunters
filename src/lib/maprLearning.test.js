@@ -322,3 +322,17 @@ describe('through the real write paths (taps, ratings, comments, delete)', () =>
     expect(food()).toBe(solo);
   });
 });
+
+describe('taps far from where you were count half', () => {
+  it('a weighted tap moves the type by the weighted delta and stores it, so undo is exact', () => {
+    const half = planLearning({ landmark: LM, next: { tap: 'positive', tapWeight: 0.5 }, nowMs: 1 });
+    expect(half.userPatch.tagScores.r.food).toBe(TAP_TAG_DELTA.positive * 0.5);
+    expect(half.ledger.tapDelta).toBe(TAP_TAG_DELTA.positive * 0.5);
+    const undone = planLearning({ user: half.userPatch, prev: half.ledger, landmark: LM, next: { tap: null }, nowMs: 2 });
+    expect(undone.userPatch.tagScores.r.food).toBe(0);
+  });
+  it('a full-weight tap is unchanged', () => {
+    const full = planLearning({ landmark: LM, next: { tap: 'negative' }, nowMs: 1 });
+    expect(full.userPatch.tagScores.r.food).toBe(TAP_TAG_DELTA.negative);
+  });
+});

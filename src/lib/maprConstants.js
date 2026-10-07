@@ -72,6 +72,11 @@ export const MATCH_ELIGIBLE_MIN_RATINGS = 10;
 // points added to each of the place's tags. A tap is lighter than a rating.
 export const RATING_TAG_DELTA = { positive: 10, neutral: 2, negative: -15 };
 export const TAP_TAG_DELTA = { positive: 4, neutral: 0, negative: -6 };
+// A tap on a place far from where you were when you tapped it (Travel Picks
+// for another city, planning a trip abroad) counts this fraction of a normal
+// tap, so liking museums on a trip doesn't steer your hometown picks.
+export const AWAY_VOTE_MILES = 50;
+export const AWAY_VOTE_WEIGHT = 0.5;
 
 // Comment text (src/data/commentLexicon.js): points per matched phrase on the
 // tag it maps to, the most one rating's comment can move any one tag, and how
