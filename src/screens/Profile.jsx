@@ -41,8 +41,8 @@ const TABS = [
 // The Ranks tabs you last picked stick (this device, no expiry) -- the
 // period key is shared with Full Leaderboard's tabs.
 const REMEMBER = { ttlMs: 0 };
-// subscribeLeaderboard has no error callback: a listener that never
-// delivers a first snapshot is how a failed global read shows up.
+// subscribeLeaderboard's onError catches a listener that fails outright;
+// this catches one that never delivers a first snapshot at all.
 const STALL_MS = 15000;
 const MEDAL = ['\u{1F947}', '\u{1F948}', '\u{1F949}'];
 
