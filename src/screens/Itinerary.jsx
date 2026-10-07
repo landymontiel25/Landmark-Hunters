@@ -544,6 +544,7 @@ export default function Itinerary() {
     const landmarks = [...(trip.byRegion[rid] || [])];
     const places = [...(trip.placesByRegion?.[rid] || [])];
     const customName = trip.itineraryNames?.[rid] || '';
+    const manualStatus = trip.itineraryStatus?.[rid] || null; // a manual Past/Current move
     removeItinerary(rid);
     setConfirmDelete(false);
     setOpenRegion(null);
@@ -553,6 +554,7 @@ export default function Itinerary() {
         if (landmarks.length) setRegionSelection(rid, landmarks);
         places.forEach((pl) => addPlace(rid, pl));
         if (customName) renameItinerary(rid, customName);
+        if (manualStatus) setItineraryStatus(rid, manualStatus);
         setOpenRegion(rid);
       },
     });
