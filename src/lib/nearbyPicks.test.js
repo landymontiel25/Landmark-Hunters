@@ -27,6 +27,7 @@ import {
   optionToMiles,
   withinDistance,
   writeNearbyPicksCache,
+  NEARBY_PICKS_CACHE_LIMIT,
 } from './nearbyPicks';
 
 afterEach(() => localStorage.clear());
@@ -284,6 +285,22 @@ describe('mood sort and the cached set', () => {
     expect(readNearbyPicksCache(key, 1000 + 60_000)).toMatchObject({ stale: false, picks: [{ id: 'a' }] });
     expect(readNearbyPicksCache(key, 1000 + PICKS_CACHE_TTL_MS + 1)).toMatchObject({ stale: true, picks: [{ id: 'a' }] });
     expect(pickKey(pick('a'))).toBe('test/a');
+  });
+
+  it('keeps only the newest few saved sets as ratings and places change', () => {
+    localStorage.setItem('other-setting', 'x');
+    const keys = [];
+    for (let n = 0; n < 40; n++) {
+      const key = nearbyPicksCacheKey({ uid: 'u', ratingsCount: n, origin: ORIGIN, miles: 10 });
+      keys.push(key);
+      writeNearbyPicksCache(key, [pick('a')], 1000 + n);
+    }
+    const saved = Object.keys(localStorage).filter((k) => k.startsWith('lh-nearby-picks:'));
+    expect(saved).toHaveLength(NEARBY_PICKS_CACHE_LIMIT);
+    expect(readNearbyPicksCache(keys[39], 2000)).toMatchObject({ picks: [{ id: 'a' }] });
+    expect(readNearbyPicksCache(keys[39 - NEARBY_PICKS_CACHE_LIMIT + 1], 2000)).not.toBeNull();
+    expect(readNearbyPicksCache(keys[0], 2000)).toBeNull();
+    expect(localStorage.getItem('other-setting')).toBe('x');
   });
 });
 
