@@ -96,4 +96,8 @@ describe('plan-ai unparsedReply', () => {
     expect(unparsedReply('Searching now.\n{"reply": "Try Autana.", "stops": [')).toBe('Try Autana.');
     expect(unparsedReply('{"reply": "cut off mid')).toBe('');
   });
+  it('keeps a plain reply whole when it has address tokens or a stray brace', () => {
+    expect(unparsedReply("Sure, here's the {{address:1}}. It's open until 10pm.")).toBe("Sure, here's the {{address:1}}. It's open until 10pm.");
+    expect(unparsedReply("Try the {secret} menu at Joe's.")).toBe("Try the {secret} menu at Joe's.");
+  });
 });

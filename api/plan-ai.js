@@ -254,7 +254,9 @@ export function remapAddressTokens(reply, keptFrom = []) {
 // else whatever came before the JSON, else '' (the caller's retry line).
 export function unparsedReply(raw) {
   const text = String(raw || '');
-  const brace = text.indexOf('{');
+  // Only a brace that opens a JSON object ({"...) starts the blob; a plain
+  // reply can hold {{address:1}} tokens or a stray "{" in its prose.
+  const brace = text.search(/\{\s*"/);
   if (brace === -1) return text.trim();
   const m = text.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
   if (m) {
@@ -672,10 +674,13 @@ async function handler(req, res) {
 
     // "Can I rate here?": show the catalog landmark they are standing at as a
     // stop, whose card carries the I'd go / Not sure / Not for me buttons.
-    let replyText = remapAddressTokens(
-      conciseReply(String(parsed.reply || '').slice(0, 1500), lastText),
-      keptStops.map((k) => k.from)
-    );
+    const shortReply = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
+    // None of the model's stops survived but the directions card was added:
+    // its address token means that card.
+    let replyText =
+      !keptStops.length && stops.length === 1
+        ? shortReply.replace(/\{\{address:\d+\}\}/g, '{{address:1}}')
+        : remapAddressTokens(shortReply, keptStops.map((k) => k.from));
     if (hereLandmark && asksToRateHere(lastText) && !stops.some((st) => st.id === hereLandmark.id)) {
       stops.length = 0;
       quickReplies.length = 0;
