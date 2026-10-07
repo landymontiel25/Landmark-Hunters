@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn(), runMaprActions: vi.fn(), retryMaprAction: vi.fn() }));
+const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn(), runMaprActions: vi.fn(), retryMaprAction: vi.fn(), initialBusy: false, setBusy: null }));
 
 const stub = () => () => null;
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1', displayName: 'Ann' }, resendVerification: () => {} }) }));
@@ -34,7 +34,8 @@ vi.mock('../lib/MaprChatContext', async () => {
       const [messages, setMessages] = React.useState([]);
       const [draft, setDraft] = React.useState('');
       const [regions, setRegions] = React.useState([]);
-      const [busy, setBusyState] = React.useState(false);
+      const [busy, setBusyState] = React.useState(h.initialBusy);
+      h.setBusy = setBusyState;
       const [showPlanner, setShowPlanner] = React.useState(false);
       return {
         messages,
@@ -134,6 +135,7 @@ beforeEach(async () => {
   );
 });
 afterEach(() => {
+  h.initialBusy = false;
   act(() => root.unmount());
   document.body.removeChild(container);
 });
@@ -324,5 +326,24 @@ describe('retrying a failed Mapr action', () => {
     expect(h.retryMaprAction).toHaveBeenCalledTimes(1);
     expect(h.retryMaprAction.mock.calls[0][1].conversationStops).toEqual([expect.objectContaining({ id: 'a', name: 'Autana' })]);
     expect(container.textContent).toContain('Added.');
+  });
+});
+
+describe('"Ask Mapr about" from a landmark page', () => {
+  it('waits for a reply already in flight instead of dropping the question', async () => {
+    act(() => root.unmount());
+    h.initialBusy = true;
+    root = createRoot(container);
+    await act(async () =>
+      root.render(
+        <MemoryRouter initialEntries={[{ pathname: '/mapr', state: { ask: 'Tell me about Autana' } }]}>
+          <Mapr />
+        </MemoryRouter>
+      )
+    );
+    expect(h.fetchJson).not.toHaveBeenCalled();
+    await act(async () => h.setBusy(false));
+    expect(h.fetchJson).toHaveBeenCalledTimes(1);
+    expect(lastBody().messages.at(-1)).toEqual({ role: 'user', content: 'Tell me about Autana' });
   });
 });

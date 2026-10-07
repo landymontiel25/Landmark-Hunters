@@ -464,16 +464,20 @@ export default function Mapr() {
   }, []);
 
   // "Ask Mapr about …" from a landmark's page: arrives with the question
-  // and sends it straight away, once per navigation.
+  // and sends it straight away, once per navigation. If a reply is still
+  // coming in, the question waits for it to finish instead of being dropped.
   const pendingAskRef = useRef(location.state?.ask || null);
   useEffect(() => {
-    const ask = pendingAskRef.current;
-    if (!ask) return;
-    pendingAskRef.current = null;
-    navigate(location.pathname, { replace: true, state: {} });
-    send(null, ask);
+    if (pendingAskRef.current) navigate(location.pathname, { replace: true, state: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const ask = pendingAskRef.current;
+    if (!ask || busy) return;
+    pendingAskRef.current = null;
+    send(null, ask);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busy]);
 
   useEffect(() => {
     function handleClickOutside(e) {
