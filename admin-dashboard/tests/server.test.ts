@@ -130,8 +130,16 @@ describe('jobs proxy errors', () => {
   it('names the host and what a non-JSON answer said', async () => {
     const f = (async () => new Response('<html><title>Authentication Required</title><body>Log in to Vercel</body></html>', { status: 403 })) as never;
     const out = await forwardJob('mapr-run', { appUrl: 'https://my-app-abc.vercel.app/', secret: 's', fetchImpl: f });
-    expect(out.status).toBe(403);
+    // 502, not 403/401: the dashboard session is fine, so the page must not
+    // treat it as signed out and loop back to /login.
+    expect(out.status).toBe(502);
     expect((out.body as { error: string }).error).toMatch(/my-app-abc\.vercel\.app answered 403 .*Authentication Required.*Deployment Protection/);
+  });
+  it('turns the app refusing the secret (401 JSON) into 502 with its message', async () => {
+    const f = (async () => new Response(JSON.stringify({ error: 'Unauthorized.' }), { status: 401 })) as never;
+    const out = await forwardJob('refresh', { appUrl: 'https://app.example/', secret: 'wrong', fetchImpl: f });
+    expect(out.status).toBe(502);
+    expect(out.body).toEqual({ error: 'Unauthorized.' });
   });
 });
 
