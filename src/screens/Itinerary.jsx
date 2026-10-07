@@ -417,6 +417,9 @@ export default function Itinerary() {
   // your live GPS, refreshed only once you've actually moved > the region's
   // center as a last resort before any of that is available. No starting
   // location is required — landmarks you've added always show a route.
+  // The typed address is geocoded in its own effect, so a GPS update (which
+  // can't change the answer) never re-geocodes it or flashes the skeleton.
+  const geocodedRegionRef = useRef(null);
   useEffect(() => {
     let cancelled = false;
 
@@ -432,11 +435,14 @@ export default function Itinerary() {
     }
 
     if (trip.startingLocation) {
-      setGeocoding(true);
+      // Only show the full-screen skeleton when there's no origin for this
+      // city yet; re-geocoding an edited address keeps the current route up.
+      if (geocodedRegionRef.current !== region.id) setGeocoding(true);
       geocodeLocation(trip.startingLocation, region)
         .catch(() => null)
         .then((geocoded) => {
           if (!cancelled) {
+            geocodedRegionRef.current = region.id;
             setOrigin(geocoded || region.center);
             setGeocoding(false);
           }
@@ -445,7 +451,11 @@ export default function Itinerary() {
         cancelled = true;
       };
     }
+  }, [region, trip.startingLocation, trip.startingCoords]);
 
+  // No pin or typed address: follow live GPS, refreshed only once you've moved.
+  useEffect(() => {
+    if (!region || trip.startingCoords || trip.startingLocation) return;
     const fallback = coords || region.center;
     const last = autoOriginRef.current;
     const moved = !last || distanceMeters(last.lat, last.lng, fallback.lat, fallback.lng) > AUTO_ORIGIN_REFRESH_METERS;
