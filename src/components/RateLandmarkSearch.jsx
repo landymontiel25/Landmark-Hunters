@@ -151,17 +151,23 @@ export default function RateLandmarkSearch() {
     }
     setRemoteLoading(true);
     setRemoteError(null);
+    // A slow earlier search must not overwrite the newer one's results (or
+    // flip the spinner off) after the user has kept typing.
+    let cancelled = false;
     const handle = setTimeout(async () => {
       try {
         const suggestions = await searchPlaces(term, null, sessionTokenRef.current);
-        setRemoteResults(suggestions);
+        if (!cancelled) setRemoteResults(suggestions);
       } catch (e) {
-        setRemoteError(e);
+        if (!cancelled) setRemoteError(e);
       } finally {
-        setRemoteLoading(false);
+        if (!cancelled) setRemoteLoading(false);
       }
     }, 300);
-    return () => clearTimeout(handle);
+    return () => {
+      cancelled = true;
+      clearTimeout(handle);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term, results.length, open, remoteAttempt]);
 
