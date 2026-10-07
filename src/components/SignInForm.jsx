@@ -120,6 +120,7 @@ export default function SignInForm({ onSignedUp }) {
               enterKeyHint="next"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              maxLength={200}
               required
             />
           </div>

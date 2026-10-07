@@ -60,7 +60,10 @@ export function AuthProvider({ children }) {
     return () => document.removeEventListener('visibilitychange', onVisible);
   }, [user?.uid]);
 
-  const signUpEmail = async (email, password, displayName) => {
+  const signUpEmail = async (email, password, rawDisplayName) => {
+    // firestore.rules caps userName (copied from displayName onto check-ins
+    // and leaderboard rows) at 200 chars; longer would fail every check-in.
+    const displayName = (rawDisplayName || '').trim().slice(0, 200);
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     // First thing after the account exists, so the profile is already marked
     // as a sign-up by the time anything reads it (see onboardingStatus).

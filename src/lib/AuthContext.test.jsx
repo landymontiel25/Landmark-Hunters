@@ -113,3 +113,15 @@ describe('signUpEmail', () => {
     errSpy.mockRestore();
   });
 });
+
+describe('signUpEmail display name', () => {
+  it('trims and caps the name at 200 chars (the firestore.rules userName limit)', async () => {
+    const updateProfile = vi.fn(async () => {});
+    const { fb, probe } = await setup({ updateProfile });
+    fb.auth.currentUser = { uid: 'N', emailVerified: false };
+    await act(async () => {
+      await probe.ctx.signUpEmail('a@b.co', 'pw123456', `  ${'x'.repeat(300)}  `);
+    });
+    expect(updateProfile.mock.calls[0][1].displayName).toBe('x'.repeat(200));
+  });
+});
