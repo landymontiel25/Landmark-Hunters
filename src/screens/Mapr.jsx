@@ -282,6 +282,11 @@ export default function Mapr() {
   const [renamingTitle, setRenamingTitle] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editDraft, setEditDraft] = useState('');
+  // An edit in progress belongs to the chat it was started in.
+  useEffect(() => {
+    setEditingIndex(null);
+    setEditDraft('');
+  }, [activeChat.id]);
   const [regionOpen, setRegionOpen] = useState(false);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
   const feedEndRef = useRef(null);
