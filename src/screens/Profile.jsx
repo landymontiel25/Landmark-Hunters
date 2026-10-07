@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useTrip } from '../lib/TripContext';
-import { useCheckIn } from '../lib/useCheckIn';
 import {
   subscribeLeaderboard,
   getFriendsLeaderboard,
@@ -27,7 +26,6 @@ import SignInForm from '../components/SignInForm';
 import Onboarding from './Onboarding';
 import FriendPopoverName from '../components/FriendPopoverName';
 import RegionSearch from '../components/RegionSearch';
-import MaprPicksCarousel from '../components/MaprPicksCarousel';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
@@ -98,7 +96,6 @@ export default function Profile() {
   const { trip } = useTrip();
   const navigate = useNavigate();
   const { stats, reload: reloadStats } = useBadges();
-  const { claimedMap } = useCheckIn();
   // Solo streak's own doc (mode: 'solo', streaks/{uid}) -- kept live here
   // the same way Header's badge and the streak-risk banner below do, so
   // this tile can never show a different number than either of those.
@@ -456,12 +453,15 @@ export default function Profile() {
             />
           </div>
         </div>
-        <MaprPicksCarousel
-          reviews={myReviews}
-          interests={trip.savedInterests}
-          checkedInIds={Object.keys(claimedMap)}
-          regionIds={[...(stats?.cityIds || []), ...(trip.activeRegion ? [trip.activeRegion] : [])]}
-        />
+        <div className="streak-focus">
+          <p style={{ margin: '0 0 4px', fontWeight: 700 }}>{'\u{1F525}'} Today's landmarks</p>
+          <p className="screen-subtitle" style={{ margin: '0 0 10px' }}>
+            Rate {PICKS_STREAK_THRESHOLD} places in your city to keep your streak, and as many more as you like to teach Mapr.
+          </p>
+          <button type="button" className="btn btn-primary btn-block" onClick={() => navigate('/streaks')}>
+            Rate today's landmarks {'\u{2192}'}
+          </button>
+        </div>
 
         {soloStreakAtRisk && (
           <p className="tag tag-error" style={{ display: 'block', marginTop: 14, whiteSpace: 'normal' }}>

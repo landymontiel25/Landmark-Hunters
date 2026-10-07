@@ -16,6 +16,8 @@ const subscribe = vi.fn((uid, onStreak) => {
 });
 let ensure = async () => ({});
 
+vi.mock('../lib/RatingsContext', () => ({ useRatings: () => ({ myReviews: {} }) }));
+vi.mock('../lib/usePickVotes', () => ({ usePickVotes: () => ({ vote: () => Promise.resolve(null) }) }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true }) }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 25.77, lng: -80.19 } }) }));
 vi.mock('../lib/FriendsContext', () => ({ useFriends: () => ({ myUsername: 'me' }) }));
