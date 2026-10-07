@@ -70,6 +70,14 @@ export default function CheckInReview() {
     };
   }, []);
 
+  // The check-in this modal is showing right now. Background saves compare
+  // against it so a late error from an earlier check-in can't land on the
+  // next one's modal.
+  const currentCheckIn = useRef(justCheckedIn);
+  useEffect(() => {
+    currentCheckIn.current = justCheckedIn;
+  }, [justCheckedIn]);
+
   useEffect(() => {
     if (justCheckedIn) {
       // No setRating(null) here: RatingFlow (mounted in this same commit)
@@ -164,6 +172,10 @@ export default function CheckInReview() {
     setPosted(true);
     setBlast(!ratingOnly);
     setSaving(false);
+    const thisCheckIn = justCheckedIn;
+    const setBgMsg = (m) => {
+      if (currentCheckIn.current === thisCheckIn) setMsg(m);
+    };
 
     if (rateable) {
       // The draft stays in storage until the save lands (so a failure keeps
@@ -184,11 +196,11 @@ export default function CheckInReview() {
           clearPersisted(draftKey);
           unmarkDraftSubmitting(draftKey);
           await Promise.all([reloadRatings(), reloadMyPhotos()]).catch(() => {});
-          if (res?.photoFailed) setMsg("Your photo couldn't upload — you can try again from the landmark page.");
+          if (res?.photoFailed) setBgMsg("Your photo couldn't upload — you can try again from the landmark page.");
         })
         .catch(() => {
           unmarkDraftSubmitting(draftKey);
-          setMsg("Your rating couldn't save — you can try rating it again from the landmark page.");
+          setBgMsg("Your rating couldn't save — you can try rating it again from the landmark page.");
         });
     } else if (photoFiles.length) {
       // No rating here, so the photo lives on the check-in doc instead.
@@ -203,7 +215,7 @@ export default function CheckInReview() {
           }
         }
         await reloadMyPhotos().catch(() => {});
-        if (failed) setMsg("Some photos couldn't upload — you can try again from the landmark page.");
+        if (failed) setBgMsg("Some photos couldn't upload — you can try again from the landmark page.");
       })();
     }
   };

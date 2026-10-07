@@ -29,6 +29,7 @@ vi.mock('../lib/leaderboard', () => ({ attachCheckinPhoto: vi.fn() }));
 vi.mock('../lib/imageUtils', () => ({ pickPhoto: vi.fn() }));
 
 import CheckInReview from './CheckInReview';
+import { submitReview } from '../lib/reviews';
 
 describe('CheckInReview with a pre-picked tier (Mapr "How was it?")', () => {
   it('leaves Post enabled when the tier is already selected', async () => {
@@ -113,5 +114,29 @@ describe('CheckInReview from Rate a Landmark on an unrateable place', () => {
     expect(commit).not.toHaveBeenCalled();
     expect(container.textContent).toContain("can't be rated");
     expect(container.textContent).not.toContain('Rated!');
+  });
+});
+
+describe('CheckInReview background save errors', () => {
+  it("don't show on the next check-in's modal", async () => {
+    let rejectSave;
+    submitReview.mockImplementation(() => new Promise((_, rej) => (rejectSave = rej)));
+    checkInState.justCheckedIn = { id: 'lmA', name: 'Place A', region: 'r', categories: ['food'] };
+    checkInState.checkInOptions = { ratingOnly: true, requireComment: false, initialTier: 'highly-recommend' };
+    checkInState.commitCheckIn = async () => {};
+    ratingsState.myReviews = {};
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    await act(async () => root.render(<CheckInReview />));
+    const post = [...container.querySelectorAll('button')].find((b) => b.textContent === 'Post');
+    await act(async () => post.click());
+    expect(container.textContent).toContain('Rated!');
+    // A new check-in opens before A's background save fails.
+    checkInState.justCheckedIn = { id: 'lmB', name: 'Place B', region: 'r', categories: ['food'] };
+    await act(async () => root.render(<CheckInReview />));
+    await act(async () => rejectSave(new Error('offline')));
+    expect(container.textContent).toContain('Place B');
+    expect(container.textContent).not.toContain("couldn't save");
   });
 });
