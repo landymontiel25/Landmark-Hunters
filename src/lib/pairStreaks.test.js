@@ -69,6 +69,15 @@ describe('submitCardRating / submitCardGuess writes', () => {
     expect(data.guesses).toEqual({ landmarkA: 'yes' });
     expect(Object.keys(data)).not.toContain('guesses.landmarkA');
   });
+
+  it("writes to the day whose deck was shown when one is passed (rated just after midnight)", async () => {
+    setDocMock.mockClear();
+    await submitCardRating('pair1', 'me', 'landmarkA', 'no', '2026-9-6');
+    expect(setDocMock.mock.calls[0][0]).toContain('days/2026-9-6/entries/me');
+    getDocMock.mockResolvedValueOnce({ data: () => ({}) });
+    await submitCardGuess('pair1', 'me', 'landmarkA', 'yes', ['landmarkA'], '2026-9-6');
+    expect(setDocMock.mock.calls[1][0]).toContain('days/2026-9-6/entries/me');
+  });
 });
 
 // Regression test for a real production bug: subscribeMyStreaks/

@@ -74,9 +74,11 @@ export function todaysSoloCardIds(uid, cityId) {
   return pickDailyCardIds(uid, dayKey(new Date()), cityId);
 }
 
-export async function submitSoloCardRating(uid, landmarkId, verdict) {
+// dayId: the day whose deck is on screen (MyStreaks' useTodayKey), so a card
+// rated just after midnight lands on the day it was shown for.
+export async function submitSoloCardRating(uid, landmarkId, verdict, dayId = dayKey(new Date())) {
   if (!db) return;
-  const today = dayKey(new Date());
+  const today = dayId;
   await setDoc(
     doc(db, 'streaks', uid, 'days', today, 'entries', uid),
     { uid, ratings: { [landmarkId]: verdict }, updatedAt: serverTimestamp() },
@@ -99,8 +101,8 @@ export function subscribeSoloDayEntry(uid, dayId, onEntry, onError) {
 // caller. Points (for a secured day, and any milestone bonus) are awarded
 // server-side in that same call, not reported back for the client to
 // award a second time.
-export async function closeSoloToday() {
-  const today = dayKey(new Date());
+export async function closeSoloToday(dayId = dayKey(new Date())) {
+  const today = dayId;
   const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
