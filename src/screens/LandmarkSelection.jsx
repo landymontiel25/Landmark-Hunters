@@ -13,6 +13,7 @@ import { rankPlaces } from '../lib/maprRank/surfaces.js';
 import { regionsWithin } from '../lib/nearbyPicks';
 import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
+import { getMapView, nearestPickableCity, setMapView } from '../lib/nearestCity';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
 import AdmissionTag from '../components/AdmissionTag';
@@ -303,12 +304,27 @@ export default function LandmarkSelection() {
   useEffect(() => {
     loadCustomLandmarks();
   }, [loadCustomLandmarks]);
-  // Always opens on every landmark. It used to start on trip.activeRegion,
-  // which is saved per device and never expires -- so a city browsed once
-  // (e.g. San Francisco) came back on every later visit, and a saved
-  // "picked by hand" flag kept GPS from ever correcting it. Pick a city
-  // from the dropdown to narrow the list for this visit.
-  const [cityFilter, setCityFilter] = useState(returned?.city || 'all');
+  // Opens on the city you are in (GPS, within 30 miles), and Back from a
+  // landmark returns to it too; every landmark when there is no fix or no
+  // city nearby. It never starts from trip.activeRegion: that is saved per
+  // device and never expires, so a city browsed once (e.g. San Francisco)
+  // came back on every later visit. Pick a city from the dropdown to
+  // change it for this visit.
+  // Where the Map tab was looking (city scale) wins over where you are.
+  const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
+  const [cityFilter, setCityFilter] = useState(returned?.city && returned.city !== 'all' ? returned.city : mapCity || 'all');
+  const cityPickedByHand = useRef(false);
+  const gpsLat = coords?.lat ?? null;
+  const gpsLng = coords?.lng ?? null;
+  const gpsCity = useMemo(
+    () => nearestPickableCity(gpsLat != null && gpsLng != null ? { lat: gpsLat, lng: gpsLng } : null, 30),
+    [gpsLat, gpsLng]
+  );
+  // No map view and no pick yet: open on the city you are in once GPS answers.
+  useEffect(() => {
+    if (cityPickedByHand.current || mapCity || returned?.city || !gpsCity) return;
+    setCityFilter(gpsCity);
+  }, [gpsCity, mapCity, returned]);
   // Mapr Phase 1 models for "For Me" (maprRank/surfaces.js): the chosen city,
   // or the cities within 30 miles of you. Null until loaded.
   const modelRegions = useMemo(
@@ -670,11 +686,30 @@ export default function LandmarkSelection() {
             Clear ({scopeCount})
           </button>
         )}
+        {/* Back to the city you are in, after following the Map somewhere
+            else or picking another city. */}
+        {gpsCity && gpsCity !== cityFilter && (
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            title="Back to the city you're in"
+            aria-label="Back to the city you're in"
+            onClick={() => {
+              cityPickedByHand.current = false;
+              setMapView(null);
+              setSuggestedSnapshot(null);
+              setCityFilter(gpsCity);
+            }}
+          >
+            {'\u{27A4}'}
+          </button>
+        )}
       </div>
 
       <CityDropdown
         value={cityFilter}
         onChange={(id) => {
+          cityPickedByHand.current = true;
           setCityFilter(id);
           // Remember the city being browsed (so the Map opens on it too) and
           // that it was picked by hand, so GPS won't quietly override it later.
