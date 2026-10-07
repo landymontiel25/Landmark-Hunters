@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId } from './regions';
+import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId, legacyLandmarkIds } from './regions';
 
 const KNOWN = new Set(INTERESTS.map((i) => i.id));
 
@@ -202,6 +202,12 @@ describe('canonicalLandmarkId (renamed San Francisco ids)', () => {
     expect(canonicalLandmarkId('ferry-building', 'san-francisco')).toBe('ferry-building');
     const sfIds = new Set(ALL_LANDMARKS.filter((l) => l.regionId === 'san-francisco').map((l) => l.id));
     expect(sfIds.has(canonicalLandmarkId('the-battery', 'san-francisco'))).toBe(true);
+  });
+
+  it('lists the old ids a renamed landmark was stored under', () => {
+    expect(legacyLandmarkIds('washington-square-park-sf', 'san-francisco')).toEqual(['washington-square-park']);
+    expect(legacyLandmarkIds('ferry-building', 'san-francisco')).toEqual([]);
+    expect(legacyLandmarkIds('the-battery-sf', 'nyc')).toEqual([]);
   });
 });
 
