@@ -91,3 +91,10 @@ describe('gibberish', () => {
     expect(matchesSearch('Philadelphia', 'filadelfia')).toBe(true);
   });
 });
+
+describe('apostrophes', () => {
+  it("treats a curly apostrophe (iPhone keyboard) and a straight one as the same", () => {
+    expect(matchesSearch("Joe's Pizza", 'joe’s')).toBe(true);
+    expect(matchesSearch('Joe’s Pizza', "joe's pizza")).toBe(true);
+  });
+});

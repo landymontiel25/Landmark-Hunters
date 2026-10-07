@@ -18,13 +18,17 @@
 // in the haystack (or the start of one, for a half-typed word) within 1
 // edit -- 2 for 7+ letters -- counting a swapped pair of letters as one
 // edit. "eifel towr" finds the Eiffel Tower. Accents are ignored ("cafe"
-// finds "Café"). Shorter words ("f1", "nyc") still need an exact match.
+// finds "Café"), and so is the kind of apostrophe (' vs ’). Shorter words
+// ("f1", "nyc") still need an exact match.
 
 const fold = (s) =>
   String(s || '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+    .replace(/[\u0300-\u036f]/g, '')
+    // iPhone keyboards type a curly apostrophe ("Joe’s"); the catalog has
+    // both kinds. One form, so either spelling finds the other.
+    .replace(/[\u2018\u2019\u02bc`\u00b4]/g, "'");
 
 // Optimal string alignment distance (Levenshtein + adjacent transpositions),
 // giving up early once it can't come in at or under `max`.
