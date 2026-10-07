@@ -162,16 +162,17 @@ export default function Mapr() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.uid]);
   // Marks one action result as undone (kept in the saved chat, so it stays
-  // marked after leaving and coming back).
-  const markUndone = (msgId, idx) =>
-    setMessages((cur) =>
+  // marked after leaving and coming back). chatId: the chat the result is
+  // in -- an undo or retry can finish after you've switched chats.
+  const markUndone = (msgId, idx, chatId = activeChat.id) =>
+    setMessagesFor(chatId, (cur) =>
       cur.map((m) =>
         m.id === msgId ? { ...m, actionResults: m.actionResults.map((r, j) => (j === idx ? { ...r, undone: true } : r)) } : m
       )
     );
 
-  const setActionResult = (msgId, idx, next) =>
-    setMessages((cur) =>
+  const setActionResult = (msgId, idx, next, chatId = activeChat.id) =>
+    setMessagesFor(chatId, (cur) =>
       cur.map((m) => (m.id === msgId ? { ...m, actionResults: m.actionResults.map((r, j) => (j === idx ? next : r)) } : m))
     );
 
@@ -213,6 +214,7 @@ export default function Mapr() {
     if (retrying[key]) return;
     const current = messages.find((m) => m.id === msgId)?.actionResults?.[idx];
     if (!current?.action) return;
+    const chatId = activeChat.id;
     setRetrying((cur) => ({ ...cur, [key]: true }));
     try {
       const fresh = await retryMaprAction(current.action, {
@@ -233,7 +235,7 @@ export default function Mapr() {
         link: fresh.link || null,
         action: fresh.action,
         needsConfirm: !!fresh.needsConfirm,
-      });
+      }, chatId);
     } catch (err) {
       toast.show(friendlyError(err, "That didn't go through. Try again."));
     } finally {
@@ -1157,10 +1159,11 @@ export default function Mapr() {
                             <button
                               type="button"
                               onClick={async () => {
+                                const chatId = activeChat.id;
                                 try {
                                   await getUndo(key)();
                                   forgetUndo(key);
-                                  markUndone(m.id, idx);
+                                  markUndone(m.id, idx, chatId);
                                 } catch (err) {
                                   toast.show(friendlyError(err, "Couldn't undo that. Try again."));
                                 }
