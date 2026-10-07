@@ -67,6 +67,7 @@ export function placeScoreOf({ tap = null, tapOff = false, rating = null, rating
 //         { tap: 'positive'|'neutral'|'negative'|null,
 //           rating: { tier, frequency } | null,
 //           comment: string,
+//           tapWeight: 0..1 (a tap far from where you were counts less; voteWeight),
 //           resolution: { reason, oldLevel, oldKind } }
 //   resolution comes with a new `rating` when the user's own answers were two
 //   levels apart and they said why (rerating.js, docs/rerating.md): it decides
@@ -175,7 +176,7 @@ export function planLearning({ user = {}, prev = null, legacy = {}, landmark, ne
   const newTap = tapLevel
     ? {
         level: tapLevel,
-        delta: tapDrop ? 0 : old.tap?.level === tapLevel && old.tap.region === region && sameCats(old.tap.categories, cats) ? old.tap.delta : TAP_TAG_DELTA[tapLevel] || 0,
+        delta: tapDrop ? 0 : old.tap?.level === tapLevel && old.tap.region === region && sameCats(old.tap.categories, cats) ? old.tap.delta : (TAP_TAG_DELTA[tapLevel] || 0) * (next.tapWeight ?? 1),
         region,
         categories: cats,
       }

@@ -5,6 +5,14 @@ and the comment on a rating. Levels: positive = "I'd go" tap / "I loved it"
 rating; neutral = "Not sure" / "It was ok"; negative = "Not for me" / "Didn't
 like it". All numbers are in `src/lib/maprConstants.js`.
 
+Taps far from home count half: a tap on a place more than `AWAY_VOTE_MILES`
+(50) from where you were when you tapped (the vote's rounded `near`) moves the
+type score by `AWAY_VOTE_WEIGHT` (0.5) of a normal tap (`voteWeight` in
+`tagScores.js`). The live path passes it to `planLearning` as `tapWeight`,
+the ledger's `tapDelta` stores the weighted amount so undo stays exact, and
+`rebuildTagScores` / `rebuildGlobalTaste` derive the same weight from the
+stored vote. Ratings are never weighted: a rating means you were there.
+
 ## Audit: what the code did before this change
 
 (a) Rating -> tag scores. `reviews.js` ran `tagScoreUpdate` inside the review

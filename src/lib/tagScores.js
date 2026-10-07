@@ -1,5 +1,5 @@
 import { ALL_LANDMARKS } from '../data/regions.js';
-import { RATING_TAG_DELTA, TAP_TAG_DELTA } from './maprConstants.js';
+import { AWAY_VOTE_MILES, AWAY_VOTE_WEIGHT, RATING_TAG_DELTA, TAP_TAG_DELTA } from './maprConstants.js';
 
 // Per-region tag scoring for Mapr Picks. A "tag" is a landmark's category id
 // (food, history-culture, ...), the same ids signup interests use. Everything
@@ -67,6 +67,29 @@ export const hasGlobalTaste = (profile) => !!profile?.tagScores?.[GLOBAL_TASTE];
 // A ✓/✗ on a Mapr Pick is a lighter signal than a full rating, and doesn't
 // count as a rating behind a tag (tagCounts).
 export const VOTE_DELTAS = { yes: TAP_TAG_DELTA.positive, no: TAP_TAG_DELTA.negative };
+
+// How much one tap counts: AWAY_VOTE_WEIGHT when the place is more than
+// AWAY_VOTE_MILES from where you were (pick_feedback's rounded `near`), else 1.
+// Unknown position or place counts in full. Derived from data every vote
+// already stores, so the live path and the rebuilds always agree.
+let byIdCache = { size: -1, map: new Map() };
+function landmarkById() {
+  if (byIdCache.size !== ALL_LANDMARKS.length) {
+    byIdCache = { size: ALL_LANDMARKS.length, map: new Map(ALL_LANDMARKS.map((l) => [`${l.regionId}/${l.id}`, l])) };
+  }
+  return byIdCache.map;
+}
+export function voteWeight(near, region, landmarkId, place = null) {
+  const l = place && Number.isFinite(place.lat) ? place : landmarkById().get(`${region}/${landmarkId}`);
+  if (!near || !Number.isFinite(near.lat) || !Number.isFinite(near.lng) || !l || !Number.isFinite(l.lat) || !Number.isFinite(l.lng)) return 1;
+  const toRad = (d) => (d * Math.PI) / 180;
+  const dLat = toRad(l.lat - near.lat);
+  const dLng = toRad(l.lng - near.lng);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(near.lat)) * Math.cos(toRad(l.lat)) * Math.sin(dLng / 2) ** 2;
+  const miles = 3958.8 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return miles > AWAY_VOTE_MILES ? AWAY_VOTE_WEIGHT : 1;
+}
+const weightedVoteDelta = (v) => (VOTE_DELTAS[v.verdict] || 0) * voteWeight(v.near, v.region, v.landmarkId);
 // A rating from someone who keeps coming back is stronger proof of taste
 // than a single visit -- scales the tier delta before it's applied. Applies
 // both directions: someone who comes here a lot saying "not for me" is just
@@ -188,7 +211,7 @@ export function rebuildTagScores(reviews, votes = []) {
     };
     const next = r
       ? applyRating(cur, r.categories, r.ratingTier, ms || Date.now(), r.visitFrequency || null)
-      : applyVote(cur, v.categories, v.verdict, ms || Date.now());
+      : applyVote(cur, v.categories, v.verdict, ms || Date.now(), weightedVoteDelta(v));
     out.tagScores[region] = { ...cur.scores, ...next.scores };
     out.tagScoresAt[region] = { ...cur.at, ...next.at };
     out.tagCounts[region] = { ...cur.counts, ...next.counts };
@@ -228,7 +251,7 @@ export function rebuildGlobalTaste({ reviews = [], votes = [], seedDeltas = {}, 
       const c = r.comment ? commentDeltas(r.comment, r.categories || []) : {};
       if (Object.keys(c).length) merge(applyTagDeltas(m, c, at));
     } else {
-      merge(applyVote(m, v.categories || [], v.verdict, at));
+      merge(applyVote(m, v.categories || [], v.verdict, at, weightedVoteDelta(v)));
     }
   }
   return m;
