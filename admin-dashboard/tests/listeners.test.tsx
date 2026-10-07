@@ -16,7 +16,7 @@ const fakeFetch = vi.fn(async (_url: string, init?: RequestInit) => {
 
 const { FirebaseGateValue } = await import('@/lib/FirebaseGate');
 const { useGrowthMetrics, useMaprNCFModel, POLL_MS } = await import('@/lib/listeners');
-const { _resetHealth, getHealth, healthSummary } = await import('@/lib/listenerHealth');
+const { _resetHealth, getHealth } = await import('@/lib/listenerHealth');
 const { ErrorBoundary } = await import('@/components/ErrorBoundary');
 const { MetricCard } = await import('@/components/MetricCard');
 
