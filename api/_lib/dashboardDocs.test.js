@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: { serverTimestamp: () => 'ts' } }));
 
-const { writeDashboardModels } = await import('./dashboardDocs.js');
+const { safeDocId, writeDashboardModels } = await import('./dashboardDocs.js');
 
 function fakeDb() {
   const sets = [];
@@ -24,5 +24,13 @@ describe('writeDashboardModels', () => {
     const promoted = fakeDb();
     await writeDashboardModels(promoted, { ncf: { action: 'promoted' }, similarity: {} }, { now: 2000 });
     expect(promoted.sets.find((s) => s.col === 'mapr_ncf_model').data.last_trained).toBe(2000);
+  });
+});
+
+describe('safeDocId', () => {
+  it('keeps normal ids and swaps a slash out of a client-written one', () => {
+    expect(safeDocId('nyc__ChIJabc')).toBe('nyc__ChIJabc');
+    expect(safeDocId('nyc__a/b')).toBe('nyc__a_b');
+    expect(safeDocId('x'.repeat(2000)).length).toBe(500);
   });
 });
