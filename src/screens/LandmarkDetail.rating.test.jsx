@@ -225,4 +225,11 @@ describe('landmark page rating section', () => {
       lb.getMyCheckin.mockResolvedValue(null);
     }
   });
+
+  it('opens a renamed landmark from a link that still has its old id', async () => {
+    claimed = {};
+    const c = await mountPage('/landmarks/san-francisco/the-battery');
+    expect(c.textContent).not.toMatch(/couldn't find that landmark/);
+    expect(c.querySelector('h1')?.textContent).toMatch(/Battery/);
+  });
 });

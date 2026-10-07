@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getLandmark, getRegion, INTERESTS, legacyLandmarkIds } from '../data/regions';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { canonicalLandmarkId, getLandmark, getRegion, INTERESTS, legacyLandmarkIds } from '../data/regions';
 import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import { ensurePlacePacks, isPlacePackId, usePlacePacksVersion } from '../lib/placePacks';
 import { useAdminMode } from '../lib/AdminModeContext';
@@ -73,11 +73,6 @@ function fmtCheckinTime(seconds) {
 
 const FACTS_PREVIEW = 5;
 
-// Keyed by landmark so stepping between landmarks (the check-in gallery's
-// ‹ › buttons navigate with `replace`, which keeps this same screen mounted)
-// starts every one fresh. Without it the previous landmark's rating, photos,
-// check-in and reviews lingered on the next one -- loadMyReview() returns
-// early when there's no review, leaving the old state in place.
 // "miamiherald.com" for a fact's source link.
 function sourceHost(url) {
   try {
@@ -87,8 +82,20 @@ function sourceHost(url) {
   }
 }
 
+// Keyed by landmark so stepping between landmarks (the check-in gallery's
+// ‹ › buttons navigate with `replace`, which keeps this same screen mounted)
+// starts every one fresh. Without it the previous landmark's rating, photos,
+// check-in and reviews lingered on the next one -- loadMyReview() returns
+// early when there's no review, leaving the old state in place.
 export default function LandmarkDetail() {
   const { region, id } = useParams();
+  const location = useLocation();
+  // A link shared before a landmark was renamed (washington-square-park ->
+  // washington-square-park-sf) opens the landmark, not "couldn't find".
+  const canonical = canonicalLandmarkId(id, region);
+  if (canonical !== id) {
+    return <Navigate replace to={`/landmarks/${region}/${canonical}`} state={location.state} />;
+  }
   return <LandmarkDetailBody key={`${region}/${id}`} />;
 }
 
