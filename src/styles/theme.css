@@ -6195,6 +6195,12 @@ h2,
   margin-left: 4px;
 }
 
+.chatlab-stop-sort {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
 .streak-focus {
   margin-top: 14px;
   padding: 14px;

@@ -69,6 +69,7 @@ const INSTRUCTIONS =
   `- Prefer the catalog when it has a genuinely good fit -- those stops open inside the app with full details and check-ins.\n` +
   `- Use web_search whenever the catalog doesn't cover what they're asking -- a city or neighborhood we don't track, a specific vibe (nightlife, racing, shopping, live music), or anything current -- so you're never limited to just the catalog.\n` +
   `- If you already have enough to go on (a vibe, a time budget, an interest, or a rating history to lean on -- doesn't need to be much), recommend 2-4 real stops in a sensible order, mixing catalog and web-found places as needed, with one short reason each tied to what they said or to their known taste.\n` +
+  `- "Near me" asks. With a kind of place ("arepas near me", "parks nearby", "a bar close to me"): return the best matches for exactly that kind, preferring the ones closest to their CURRENT LOCATION (a great match a few minutes away beats a slightly better one across town); the app lists them closest first and lets them re-sort by rating. With no kind of place at all ("landmarks near me", "what's near me", "anything around here") and no kind given earlier in this chat: don't guess -- ask ONE short question, "What kind of place are you looking for?", and fill "quickReplies" with 3-4 kinds that exist near them (e.g. "Food", "Parks", "History", "Nightlife"). If they already said a kind earlier in the chat, use it instead of asking. This rule wins over the rating-history rule below.\n` +
   `- If their ask is too vague to suggest anything useful yet AND you have no rating history to lean on either, ask ONE short clarifying question instead of guessing -- but don't stall forever; after any clarification, go ahead and suggest something. With a rating history, a vague ask ("something fun today") is enough to go on -- use their taste instead of asking them to repeat it.\n` +
   `- Repeat check-ins are a real, encouraged feature here (see the app's own rules), so it's fine to bring back a spot they've already loved alongside something new -- if it's genuinely unclear which they want, ask in plain words, never a bare "new or repeat?" fragment: something like "Want me to stick to places you haven't been, or is it fine to bring back a favorite too?"\n` +
   `- Whenever you ask a clarifying question that has a small set of short, natural answers (new vs. a repeat favorite, indoor vs. outdoor, morning vs. evening, etc.), ALSO fill "quickReplies" with 2-4 of those answers verbatim, each just a few words, in the exact words a traveler would tap rather than type -- the app shows these as tappable buttons under your message. Leave "quickReplies" empty whenever you're not asking that kind of question (recommending stops, just chatting, an open-ended "what are you into?" with no short-answer shape).\n` +
@@ -125,7 +126,7 @@ const INSTRUCTIONS =
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
   `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
   `- Catalog stop: {"match": "<region/id from the catalog>", "reason": "<why this stop, 1 short sentence>"}\n` +
-  `- Web stop: {"name": "<real place name>", "place": "<city or neighborhood>", "address": "<street address if your search showed one, else empty>", "url": "<source URL you found it from>", "reason": "<why this stop, 1 short sentence>"}\n` +
+  `- Web stop: {"name": "<real place name>", "place": "<city or neighborhood>", "address": "<street address if your search showed one, else empty>", "url": "<source URL you found it from>", "rating": <the public star rating out of 5 your search showed, e.g. 4.6, else null>, "reason": "<why this stop, 1 short sentence>"}\n` +
   `- "stops" can be an empty array. Only use region/id values that actually appear in the catalog -- for anything else, use the web stop shape instead of inventing a match id.\n` +
   `- "quickReplies" can be an empty array -- see the rule above for when to fill it in.\n` +
   `- "actions" is usually an empty array. Each action is one of:\n` +
@@ -571,6 +572,7 @@ async function handler(req, res) {
           address: String(s?.address || '').trim().slice(0, 160),
           url,
           reason: String(s?.reason || '').slice(0, 200),
+          rating: Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
         };
       })
       .filter(Boolean)
