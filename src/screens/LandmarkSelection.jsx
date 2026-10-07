@@ -312,7 +312,7 @@ export default function LandmarkSelection() {
   // change it for this visit.
   // Where the Map tab was looking (city scale) wins over where you are.
   const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
-  const [cityFilter, setCityFilter] = useState(returned?.city && returned.city !== 'all' ? returned.city : mapCity || 'all');
+  const [cityFilter, setCityFilter] = useState(returned?.city || mapCity || 'all');
   const cityPickedByHand = useRef(false);
   const gpsLat = coords?.lat ?? null;
   const gpsLng = coords?.lng ?? null;
