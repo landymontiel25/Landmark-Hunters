@@ -12,7 +12,7 @@ import { SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
 import { useVisibleInterval } from '../lib/useVisibleInterval';
-import { msUntilStreakLapse, dayKey } from '../lib/streaks';
+import { msUntilStreakLapse, dayKey, isDayHeld } from '../lib/streaks';
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -34,7 +34,8 @@ function StreakCountdown({ createdAt }) {
     if (!user) return undefined;
     return subscribeMySoloStreak(user.uid, setSoloStreak, () => {});
   }, [user]);
-  const checkedInToday = !!soloStreak && soloStreak.lastCompletedDay === dayKey(new Date());
+  // isDayHeld, like Header: a freeze spent today keeps the streak too.
+  const checkedInToday = isDayHeld(soloStreak, dayKey(new Date()));
   const sentMs = createdAt?.seconds ? createdAt.seconds * 1000 : Date.now();
   const lapseAt = sentMs + msUntilStreakLapse(new Date(sentMs));
   const [now, setNow] = useState(() => Date.now());
