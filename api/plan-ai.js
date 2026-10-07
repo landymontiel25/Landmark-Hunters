@@ -122,6 +122,7 @@ const INSTRUCTIONS =
   `otherwise its real name plus any address you know. Only when they clearly say they were there -- never guess, and not for a ` +
   `place they merely mention or plan to visit. If they already said how it was, still set "rate" (the app lets them save it).\n` +
   `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. If they ask to rate without naming a place and you are not at one, return NO stops and a one-line reply: the app then shows a carousel of places they have not rated yet. Say yes in one short line ("Sure -- tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
+  `- Never write a street address in "reply". When they ask where a place is or for its address, return that place as a stop and write {{address:N}} where the address would go (N = its position in "stops", starting at 1), e.g. "Sure, here's the {{address:1}}." The app shows it as a link that opens maps. Also no "about 0.5 km away" in the reply: the card shows the distance.\n` +
   `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search, and must include the source URL.\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
   `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
@@ -216,6 +217,24 @@ export function conciseReply(reply, userText = '') {
   let out = sentences.slice(0, 2).join(' ');
   if (out.length > 260) out = sentences[0].length <= 260 ? sentences[0] : `${out.slice(0, 257).trimEnd()}...`;
   return out || plain;
+}
+
+// Street addresses never appear in a reply as text: each one becomes an
+// {{address:N}} token (N = the 1-based stop it belongs to) or, for an address
+// with no matching stop, {{addressq:<text>}}. The app shows the word
+// "address" as a link that opens Open in Map / Google Maps / Apple Maps.
+const STREET = /\b\d{1,6}\s+(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:,\s*[A-Z][\w .'-]*){0,3}?(?:,\s*[A-Z]{2}(?:\s+\d{5})?)?/g;
+export function linkAddresses(reply, stops = []) {
+  let out = String(reply || '');
+  stops.forEach((st, i) => {
+    const addr = String(st?.address || '').trim();
+    if (!addr) return;
+    for (const piece of [addr, addr.split(',')[0]]) {
+      if (piece.length >= 6 && out.includes(piece)) out = out.split(piece).join(`{{address:${i + 1}}}`);
+    }
+  });
+  out = out.replace(STREET, (m) => `{{addressq:${encodeURIComponent(m.trim())}}}`);
+  return out.replace(/(\{\{address:\d+\}\})(?:[,\s]*\{\{address:\d+\}\})+/g, '$1');
 }
 
 // "can i rate here", "rate this place": a request to rate wherever they are.
@@ -644,6 +663,8 @@ async function handler(req, res) {
       replyText = 'Tap any place below to rate it.';
       quickReplies.length = 0;
     }
+
+    replyText = linkAddresses(replyText, stops);
 
     res.status(200).json({
       reply: replyText || "Here's what I found:",

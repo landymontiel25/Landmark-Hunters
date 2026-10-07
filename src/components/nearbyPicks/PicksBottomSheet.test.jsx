@@ -120,7 +120,7 @@ describe('PicksBottomSheet', () => {
     expect(sheetButton('Directions')).toBeTruthy();
     // Directions opens the app's usual Get Directions choices.
     await click(sheetButton('Directions'));
-    expect(document.body.textContent).toContain('Use Google Maps');
+    expect(document.body.textContent).toContain('Open in Google Maps');
     document.querySelectorAll('.modal-backdrop').forEach((m) => m.remove());
     container.remove();
 
@@ -131,11 +131,11 @@ describe('PicksBottomSheet', () => {
     expect(document.querySelector('.modal-card')).toBeNull();
   });
 
-  it('"Use the Map" from a pick closes the pick sheet instead of leaving it over the route', async () => {
+  it('"Open in Map" from a pick closes the pick sheet instead of leaving it over the route', async () => {
     const el = await render({ picks: PICKS });
     await click(el.querySelector('.mpp-row-main'));
     await click(sheetButton('Directions'));
-    const useMap = [...document.querySelectorAll('.modal-card button')].find((b) => b.textContent.includes('Use the Map'));
+    const useMap = [...document.querySelectorAll('.modal-card button')].find((b) => b.textContent.includes('Open in Map'));
     await click(useMap);
     expect(document.querySelector('.modal-backdrop')).toBeNull();
   });

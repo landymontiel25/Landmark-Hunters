@@ -273,3 +273,19 @@ describe('ordering the places in a reply', () => {
     expect(button('Closest').getAttribute('aria-pressed')).toBe('true');
   });
 });
+
+describe('addresses in a reply', () => {
+  it('shows the word address (the map-choices button), never the street text or the token', async () => {
+    h.fetchJson.mockResolvedValue({
+      reply: "Sure, here's the {{address:1}}.",
+      stops: [{ id: 'a', region: 'villanova', name: 'Autana', reason: 'Great food', categories: ['food'], address: '1711 Coral Way' }],
+      quickReplies: [],
+    });
+    await setValue('where is Autana');
+    await submit();
+    // DirectionsButton is stubbed in this file; the link itself is its trigger.
+    expect(container.textContent).toContain("Sure, here's the");
+    expect(container.textContent).not.toContain('{{address');
+    expect(container.querySelector('p').textContent).not.toContain('1711');
+  });
+});

@@ -12,7 +12,7 @@ export const APP_HELP =
   `"✨ Ask Mapr about …" button with quick questions that opens the Mapr chat and asks there.\n` +
   `- Mapr knows where you are when location is on: it uses your phone's live location, so "near me" / "nearby" just works without ` +
   `naming a city. If location is off, it asks which city you're in. Every place Mapr suggests from the web has a Directions link that opens ` +
-  `the same three choices as everywhere else (Use the Map, Google Maps, Apple Maps).\n` +
+  `the same three choices as everywhere else (Open in Map, Google Maps, Apple Maps).\n` +
   `- Mapr chats: like Claude, you can have many chats. The bar at the top of Mapr shows the open chat's name (tap it to rename), ` +
   `☰ opens your chat list (search, open, rename, move to a project, delete) and ➕ starts a new chat. A new chat is named after ` +
   `your first message. Chats sync to your account, so they're on every device you sign in on. An "Edit" link under any message ` +
@@ -88,7 +88,8 @@ export const APP_HELP =
   `for you.\n` +
   `- You can rate right in Mapr chat: ask "can I rate?" and a carousel of places you have not rated, voted on or checked into appears under Mapr's reply (like Travel Picks, so every answer is a new place and counts toward the daily streak); or ask "can I rate here?" (it shows the place you are standing at as a card with "I'd go" / "Not sure" / "Not for me" buttons that teach Mapr), name a place ("rate Hillstone"), or say you just left one ("I just left the shooting range, where should I eat?"), and Mapr asks how it was with a card under ` +
   `its reply with "I loved it" / "Ok" / "I didn't like it". One tap opens the usual rating (tier already picked, plus a ` +
-  `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr chat place cards: when you ask for places near you they are listed closest first, with buttons above them to switch to Top rated (stars from the web, or from app ratings) or back to Mapr's own order; each card shows its distance and star rating when known. Ask for a kind of place near you and you get the best matches for it, nearest first; ask \"what's near me\" with no kind and Mapr asks what kind of place you want, with tappable answers.\n` +
+  `short why) as a 0-point rating, no check-in needed -- works for catalog landmarks and for real places the app hasn't seen yet.\n` +  `- Mapr chat never writes out a street address: ask where a place is and it says something like \"Sure, here's the address\", with \"address\" as a blue link that opens the usual choices (Open in Map, Open in Google Maps, Open in Apple Maps).\n` +
+  `- Mapr chat place cards: when you ask for places near you they are listed closest first, with buttons above them to switch to Top rated (stars from the web, or from app ratings) or back to Mapr's own order; each card shows its distance and star rating when known. Ask for a kind of place near you and you get the best matches for it, nearest first; ask \"what's near me\" with no kind and Mapr asks what kind of place you want, with tappable answers.\n` +
   `- Mapr (the middle tab; the Map tab is the home screen): a live AI chat — type or describe what you're up for (a vibe, a time budget, an ` +
   `interest) and it replies with 0-4 real stops, from the curated catalog or the live web. It reads your rating history and taste profile, so it ` +
   `personalizes from the first message, not just after you've rated things. It also weighs the CURRENT message's timing/mood ("Saturday night in the ` +
@@ -262,7 +263,7 @@ export const APP_HELP =
   `- Inviting friends: Profile has an "Invite Friends" button that shares your username/link; once someone signs up through it AND verifies their email, both of you get 50 ` +
   `bonus points (credited quietly into your point total — there's no separate referral display anymore).\n` +
   `- Directions: every "Get Directions" button in the app (Map tab pins, Landmarks list, a landmark's page, itineraries) opens the same ` +
-  `choice: "🗺️ Use the Map", "🌐 Use Google Maps", or "🍎 Use Apple Maps". "Use the Map" keeps you in the app: it draws the real road ` +
+  `choice: "🗺️ Open in Map", "🌐 Open in Google Maps", or "🍎 Open in Apple Maps". "Open in Map" keeps you in the app: it draws the real road ` +
   `route from your live location with turn-by-turn steps, total distance and ETA (on the Map tab, or right on the itinerary's own map when ` +
   `you're in an itinerary). Short hops (about 1.2 km / 0.75 mi or less) are walking directions; longer ones are driving, with the ETA ` +
   `including live traffic and a note on how many minutes traffic is adding. On the Map tab it needs location turned on; on an itinerary, ` +

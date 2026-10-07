@@ -81,6 +81,51 @@ function dismissTasteNudge(uid) {
 // the same thread instead of starting over. Reads the same rating history
 // (myReviews) and saved interests Mapr Picks does, so it's never guessing
 // at a traveler's taste from nothing when it already knows.
+// Mapr never shows a street address as text: the server turns each one into
+// {{address:N}} (the reply's Nth place) or {{addressq:<text>}}. Each shows as
+// a blue "address" link that opens Open in Map / Google Maps / Apple Maps.
+const ADDRESS_TOKEN = /\{\{address(?::(\d+)|q:([^}]*))\}\}/g;
+function ReplyText({ text, stops = [], near }) {
+  const str = String(text || '');
+  if (!str.includes('{{address')) return str;
+  const out = [];
+  let last = 0;
+  for (const match of str.matchAll(ADDRESS_TOKEN)) {
+    out.push(str.slice(last, match.index));
+    last = match.index + match[0].length;
+    const stop = match[1] ? stops?.[Number(match[1]) - 1] : null;
+    const lm = stop && !stop.external ? getLandmark(stop.region, stop.id) : null;
+    const lat = stop?.lat ?? lm?.lat;
+    const lng = stop?.lng ?? lm?.lng;
+    let query = null;
+    try {
+      query = match[2] ? decodeURIComponent(match[2]) : stop ? [stop.name, stop.address || stop.place].filter(Boolean).join(', ') : null;
+    } catch {
+      query = match[2] || null;
+    }
+    if (!stop && !query) {
+      out.push('address');
+      continue;
+    }
+    const hasCoords = Number.isFinite(lat) && Number.isFinite(lng);
+    out.push(
+      <DirectionsButton
+        key={match.index}
+        name={stop?.name || query}
+        lat={hasCoords ? lat : undefined}
+        lng={hasCoords ? lng : undefined}
+        query={hasCoords ? undefined : query}
+        near={near}
+        className="chat-address-link"
+      >
+        address
+      </DirectionsButton>
+    );
+  }
+  out.push(str.slice(last));
+  return out;
+}
+
 // "near me", "nearby", "closest"...: the reply's places open closest first.
 const NEAR_ME_ASK = /\b(near me|nearby|near here|around me|around here|close to me|closest|nearest|walking distance)\b/i;
 
@@ -886,7 +931,7 @@ export default function Mapr() {
                 </form>
               ) : (
                 <>
-                  <p>{m.text}</p>
+                  <p>{m.role === 'assistant' ? <ReplyText text={m.text} stops={m.stops} near={coords} /> : m.text}</p>
                   {m.role === 'user' && !busy && (
                     <button
                       type="button"

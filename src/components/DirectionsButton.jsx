@@ -12,7 +12,7 @@ import { lookupPlace } from '../lib/placeLookup';
 // the directions panel itself.
 //
 // Places without coordinates (Mapr's web-found stops) pass `query` instead:
-// Google/Apple Maps search it by text right away, and "Use the Map" looks the
+// Google/Apple Maps search it by text right away, and "Open in Map" looks the
 // spot up (Google Places, biased toward `near`, the traveler's location)
 // when the sheet opens.
 export default function DirectionsButton({
@@ -83,7 +83,7 @@ export default function DirectionsButton({
                     onClick={openOnMap}
                     disabled={destLat == null || destLng == null}
                   >
-                    {'\u{1F5FA}\u{FE0F}'} {lookup === 'looking' ? 'Finding it on the map…' : 'Use the Map'}
+                    {'\u{1F5FA}\u{FE0F}'} {lookup === 'looking' ? 'Finding it on the map…' : 'Open in Map'}
                   </button>
                   {lookup === 'failed' && (
                     <p className="screen-subtitle" style={{ margin: '-4px 0 10px', fontSize: '0.82rem' }}>
@@ -96,10 +96,10 @@ export default function DirectionsButton({
                 </>
               )}
               <a className="btn btn-primary btn-block directions-choice" href={googleMapsLink(destText, destLat, destLng)} target="_blank" rel="noreferrer" onClick={close}>
-                {'\u{1F310}'} Use Google Maps
+                {'\u{1F310}'} Open in Google Maps
               </a>
               <a className="btn btn-primary btn-block directions-choice" href={appleMapsLink(destText, destLat, destLng)} target="_blank" rel="noreferrer" onClick={close}>
-                {'\u{1F34E}'} Use Apple Maps
+                {'\u{1F34E}'} Open in Apple Maps
               </a>
               <button type="button" className="btn btn-ghost btn-block" onClick={close}>
                 Cancel
