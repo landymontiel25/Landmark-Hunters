@@ -245,6 +245,10 @@ describe('postToSlack', () => {
   it('reports a network failure instead of throwing', async () => {
     expect(await postToSlack('hi', { url: 'https://x', fetchImpl: async () => { throw new Error('down'); } })).toMatchObject({ posted: false, reason: 'down' });
   });
+  it('gives up on a webhook that never answers', async () => {
+    const fetchImpl = (_url, { signal }) => new Promise((_, reject) => signal.addEventListener('abort', () => reject(signal.reason)));
+    expect(await postToSlack('hi', { url: 'https://x', fetchImpl, timeoutMs: 20 })).toMatchObject({ posted: false });
+  });
 });
 
 it('liveAccuracy is null without a usable live model', () => {
