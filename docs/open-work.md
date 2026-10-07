@@ -27,6 +27,16 @@ learns from ratings, pick votes, rating comments and the swipe cards only
 without a rating, itinerary adds, favorites, opens, directions taps, habit
 visits. Needs the owner to pick which signals and their weights.
 
+## Travel Picks at half weight away from home (not built)
+
+Owner agreed Travel Picks answers for a city you are not in should count about
+half as much toward your taste, so liking museums on a trip does not steer
+your hometown picks. Not built: it needs a weight carried through
+`planLearning` (`maprLearning.js`, the `TAP_TAG_DELTA` branches), its
+`place_scores` ledger (`tapDelta` already stores what was applied, so undo
+works) and `rebuildGlobalTaste`. Travel Picks moved to the Itinerary tab and
+Profile now leads with the streak; the weighting is the remaining piece.
+
 ## Mapr v2 rollout (shipped at 100%, waiting on users)
 
 The three NCF fixes and the signed `0.8 / 0.2` blend ship behind

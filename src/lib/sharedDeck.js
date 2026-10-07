@@ -62,6 +62,13 @@ export function deckPool(cityId) {
 // real check-in ids themselves (client: leaderboard.js's
 // getUserCheckedInLandmarkIds; server: close-streak-day.js, admin SDK).
 export function pickDailyCardIds(pairId, dayId, cityId, excludeIds = [], count = DAILY_DECK_SIZE) {
+  return pickOrderedCardIds(pairId, dayId, cityId, excludeIds, count).sort();
+}
+
+// The same draw in pick order. The first DAILY_DECK_SIZE of any larger draw
+// are the day's real cards, so the server (which draws 3) and the phone agree
+// on them whatever `count` the phone asks for.
+function pickOrderedCardIds(pairId, dayId, cityId, excludeIds, count) {
   const exclude = excludeIds instanceof Set ? excludeIds : new Set(excludeIds);
   const fullPool = deckPool(cityId);
   const unvisited = fullPool.filter((id) => !exclude.has(id));
@@ -69,7 +76,7 @@ export function pickDailyCardIds(pairId, dayId, cityId, excludeIds = [], count =
   // the full pool rather than leaving the deck empty; a repeat is the
   // lesser problem next to "no cards at all".
   const source = unvisited.length > 0 ? unvisited : fullPool;
-  if (source.length <= count) return source;
+  if (source.length <= count) return [...source];
   const rand = mulberry32(hashSeed(`${pairId}:${dayId}:${cityId}`));
   const remaining = [...source];
   const picked = [];
@@ -77,7 +84,7 @@ export function pickDailyCardIds(pairId, dayId, cityId, excludeIds = [], count =
     const idx = Math.floor(rand() * remaining.length);
     picked.push(remaining.splice(idx, 1)[0]);
   }
-  return picked.sort();
+  return picked;
 }
 
 // Full landmark objects (with regionId attached, matching ALL_LANDMARKS'
@@ -88,4 +95,24 @@ export function dailyDeck(pairId, dayId, cityId, excludeIds = []) {
   if (!region) return [];
   const ids = new Set(pickDailyCardIds(pairId, dayId, cityId, excludeIds));
   return region.landmarks.filter((l) => ids.has(l.id)).map((l) => ({ ...l, regionId: cityId }));
+}
+
+// Extra cards after today's 3: more places to rate for people who want to keep
+// going and teach Mapr more. Phone-only (the server checks just the real 3).
+// `visitedIds` is what the real deck uses, so the 3 core cards come out the
+// same here; `alsoExclude` adds places already rated or voted on, so a bonus
+// card is never one you have answered. Same order every render for a day.
+export function bonusDeck(pairId, dayId, cityId, visitedIds = [], alsoExclude = [], count = 10) {
+  const region = getRegion(cityId);
+  if (!region) return [];
+  const core = new Set(pickDailyCardIds(pairId, dayId, cityId, visitedIds));
+  const skip = new Set([...visitedIds, ...alsoExclude]);
+  const remaining = deckPool(cityId).filter((id) => !skip.has(id) && !core.has(id));
+  const rand = mulberry32(hashSeed(`${pairId}:${dayId}:${cityId}:bonus`));
+  const ids = [];
+  for (let i = 0; i < count && remaining.length; i++) {
+    ids.push(remaining.splice(Math.floor(rand() * remaining.length), 1)[0]);
+  }
+  const byId = new Map(region.landmarks.map((l) => [l.id, l]));
+  return ids.map((id) => ({ ...byId.get(id), regionId: cityId }));
 }

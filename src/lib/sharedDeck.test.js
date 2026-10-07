@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { pickDailyCardIds, dailyDeck, deckPool } from './sharedDeck';
+import { pickDailyCardIds, dailyDeck, deckPool, bonusDeck } from './sharedDeck';
 import { ALL_LANDMARKS } from '../data/regions';
 
 describe('sharedDeck', () => {
@@ -67,5 +67,33 @@ describe('deckPool and imported places', () => {
     registerPlaces([{ ...sample, id: 'osm-n999999999', name: 'Imported Test Cafe', source: 'osm', region: 'philly' }]);
     expect(getRegion('philly').landmarks.some((l) => l.id === 'osm-n999999999')).toBe(true);
     expect(deckPool('philly')).toEqual(before);
+  });
+});
+
+describe('bonusDeck', () => {
+  it('never repeats the real 3, anything visited, or anything already answered', () => {
+    const visited = new Set(deckPool('miami').slice(0, 5));
+    const core = new Set(pickDailyCardIds('solo1', '2026-10-7', 'miami', visited));
+    const answered = deckPool('miami').slice(5, 10);
+    const bonus = bonusDeck('solo1', '2026-10-7', 'miami', visited, answered, 10);
+    expect(bonus.length).toBe(10);
+    for (const l of bonus) {
+      expect(core.has(l.id)).toBe(false);
+      expect(visited.has(l.id)).toBe(false);
+      expect(answered.includes(l.id)).toBe(false);
+      expect(l.regionId).toBe('miami');
+    }
+    expect(new Set(bonus.map((l) => l.id)).size).toBe(10);
+  });
+
+  it('is the same list on every render for a given day, and the real 3 do not change', () => {
+    const a = bonusDeck('solo1', '2026-10-7', 'miami', [], [], 6).map((l) => l.id);
+    const b = bonusDeck('solo1', '2026-10-7', 'miami', [], [], 6).map((l) => l.id);
+    expect(a).toEqual(b);
+    expect(pickDailyCardIds('solo1', '2026-10-7', 'miami')).toHaveLength(3);
+  });
+
+  it('is empty for an unknown city', () => {
+    expect(bonusDeck('solo1', '2026-10-7', 'nowhere')).toEqual([]);
   });
 });
