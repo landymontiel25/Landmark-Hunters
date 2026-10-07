@@ -57,6 +57,8 @@ async function mount() {
   await act(async () => root.render(<HabitPlacePrompt />));
 }
 const rerender = () => act(async () => root.render(<HabitPlacePrompt />));
+const click = (text) =>
+  act(async () => [...container.querySelectorAll('button')].find((b) => b.textContent.includes(text)).click());
 
 describe('HabitPlacePrompt', () => {
   it('looks a place name up once while GPS fixes keep arriving', async () => {
@@ -75,5 +77,23 @@ describe('HabitPlacePrompt', () => {
     coords = { lat: 1.00003, lng: 1 };
     await rerender();
     expect(reverseGeocodePlace).toHaveBeenCalledTimes(2);
+  });
+
+  it("doesn't show a late nearby-stop answer inside the next place's prompt", async () => {
+    let answerA;
+    findRelatedStop.mockImplementationOnce(() => new Promise((r) => (answerA = r)));
+    findRelatedStop.mockImplementation(() => new Promise(() => {}));
+    due = { id: 'A', name: 'Dunkin', lat: 1, lng: 1, days: [1, 2, 3] };
+    await mount();
+    expect(container.textContent).toContain('Dunkin');
+    due = null;
+    await click('Not now');
+    await act(async () => answerA({ name: 'Shooting Range' }));
+
+    due = { id: 'B', name: 'Gym', lat: 2, lng: 2, days: [1, 2, 3] };
+    coords = { lat: 2, lng: 2 };
+    await rerender();
+    expect(container.textContent).toContain('Gym');
+    expect(container.textContent).not.toContain('Shooting Range');
   });
 });

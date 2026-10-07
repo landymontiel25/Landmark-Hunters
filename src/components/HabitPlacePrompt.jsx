@@ -103,13 +103,16 @@ export default function HabitPlacePrompt() {
       savedInterests,
       regionId: nearestRegionId(suggestion.lat, suggestion.lng),
     }).then((stop) => {
-      if (stop) setRelatedStop(stop);
+      // Tagged with its suggestion: an answer that lands after this prompt
+      // was closed must not show up later inside a different place's prompt.
+      if (stop) setRelatedStop({ ...stop, forSuggestionId: suggestion.id });
     });
   }, [suggestion, trip.savedInterests, myProfile]);
 
   if (!suggestion) return null;
 
   const timeLabel = typicalTimeLabel(suggestion);
+  const related = relatedStop?.forSuggestionId === suggestion.id ? relatedStop : null;
 
   const close = () => {
     setSuggestion(null);
@@ -197,7 +200,7 @@ export default function HabitPlacePrompt() {
           {'\u{1F6AB}'} Don't track this place
         </button>
 
-        {relatedStop && !relatedAdded && (
+        {related && !relatedAdded && (
           <div className="card section" style={{ marginTop: 16, marginBottom: 0 }}>
             <p className="screen-subtitle" style={{ marginTop: 0 }}>
               {'\u{2728}'} Since you're into that -- <strong>{relatedStop.name}</strong> is nearby or on the way.
@@ -218,7 +221,7 @@ export default function HabitPlacePrompt() {
         )}
         {relatedAdded && (
           <p className="screen-subtitle" style={{ marginTop: 16, marginBottom: 0 }}>
-            {'\u{2705}'} Added {relatedStop.name} to your itinerary too.
+            {'\u{2705}'} Added {related?.name} to your itinerary too.
           </p>
         )}
       </div>
