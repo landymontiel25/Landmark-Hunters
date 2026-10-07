@@ -17,6 +17,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { getLandmarkOverrides, saveLandmarkPosition } from '../lib/landmarkOverrides';
 import { getCustomLandmarks, deleteCustomLandmark, updateCustomLandmark } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
+import { createPositionCache } from '../lib/positionCache';
 import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -294,6 +295,8 @@ export default function MapExplore({ experiments = false }) {
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const packsVersion = usePlacePacksVersion();
+  // Stable [lat, lng] per pin so a markers rebuild doesn't move (re-cluster) every pin.
+  const [stablePosition] = useState(createPositionCache);
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
@@ -845,7 +848,9 @@ export default function MapExplore({ experiments = false }) {
         const isClaimed = !!claimedMap[l.id];
         const goToDetails = () => navigate(`/landmarks/${l.regionId}/${l.id}`);
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
-        const position = savedPos ? [savedPos.lat, savedPos.lng] : [l.lat, l.lng];
+        const position = savedPos
+          ? stablePosition(`${l.regionId}/${l.id}`, savedPos.lat, savedPos.lng)
+          : stablePosition(`${l.regionId}/${l.id}`, l.lat, l.lng);
         return (
           <Marker
             key={`${l.regionId}/${l.id}`}
@@ -966,7 +971,7 @@ export default function MapExplore({ experiments = false }) {
         return (
           <Marker
             key={l.docId}
-            position={[l.lat, l.lng]}
+            position={stablePosition(`custom/${l.docId}`, l.lat, l.lng)}
             icon={pinIcon(isClaimed, isSelected)}
             draggable={adminMode}
             eventHandlers={adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : undefined}
