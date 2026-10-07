@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { trimTurns, conciseReply, asksToRateHere, asksToRate, linkAddresses } from './plan-ai.js';
+import { trimTurns, conciseReply, asksToRateHere, asksToRate, linkAddresses, remapAddressTokens } from './plan-ai.js';
 
 describe('plan-ai trimTurns', () => {
   it('never starts with an assistant turn once a chat is long (the API rejects that)', () => {
@@ -73,5 +73,17 @@ describe('plan-ai linkAddresses', () => {
   it('turns any other street address into a search token, and leaves plain numbers alone', () => {
     expect(linkAddresses('Doggi is at 1246 Coral Way.')).toBe('Doggi is at {{addressq:1246%20Coral%20Way}}.');
     expect(linkAddresses('It is 5 km away, founded in 1999.')).toBe('It is 5 km away, founded in 1999.');
+  });
+});
+
+describe('plan-ai remapAddressTokens', () => {
+  it("points the model's {{address:N}} at the stop it meant after some stops were dropped", () => {
+    // Model stops 1 and 3 were dropped; kept stops came from model positions 2 and 4.
+    expect(remapAddressTokens('A {{address:2}} and B {{address:4}}.', [2, 4])).toBe('A {{address:1}} and B {{address:2}}.');
+  });
+  it('turns a token for a dropped or missing stop into plain "address"', () => {
+    expect(remapAddressTokens("Here's the {{address:1}}.", [2])).toBe("Here's the address.");
+    expect(remapAddressTokens("Here's the {{address:9}}.", [])).toBe("Here's the address.");
+    expect(remapAddressTokens('No tokens, {{addressq:x}} kept.', [1])).toBe('No tokens, {{addressq:x}} kept.');
   });
 });

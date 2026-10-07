@@ -237,6 +237,17 @@ export function linkAddresses(reply, stops = []) {
   return out.replace(/(\{\{address:\d+\}\})(?:[,\s]*\{\{address:\d+\}\})+/g, '$1');
 }
 
+// The model's {{address:N}} counts in ITS stops list, but some of those are
+// dropped (unknown ids, no source URL, past the first 4). keptFrom[i] is the
+// model's 1-based position of the i-th kept stop: point each token at the
+// kept stop it meant, and a token for a dropped stop becomes plain "address".
+export function remapAddressTokens(reply, keptFrom = []) {
+  return String(reply || '').replace(/\{\{address:(\d+)\}\}/g, (_, n) => {
+    const kept = keptFrom.indexOf(Number(n));
+    return kept === -1 ? 'address' : `{{address:${kept + 1}}}`;
+  });
+}
+
 // "can i rate here", "rate this place": a request to rate wherever they are.
 export const asksToRateHere = (text) => /\brate\b[^.?!]{0,30}\b(here|this (place|spot|one)|where i am)\b/i.test(String(text || ''));
 
@@ -566,36 +577,42 @@ async function handler(req, res) {
     }
 
     const askedDirections = asksForDirections(lastText);
-    const stops = (Array.isArray(parsed.stops) ? parsed.stops : [])
+    const toStop = (s) => {
+      if (s?.match && validIds.has(s.match)) {
+        const [rid, id] = s.match.split('/');
+        const landmark = ALL_LANDMARKS.find((l) => l.regionId === rid && l.id === id);
+        return catalogStop(landmark, s.reason);
+      }
+      // A web-found stop instead of a catalog match -- needs a real name and
+      // a source URL we can actually link back to; drop it otherwise rather
+      // than show an unverifiable suggestion.
+      const name = String(s?.name || '').trim().slice(0, 120);
+      let url = String(s?.url || '').trim();
+      if (!/^https?:\/\//i.test(url)) url = '';
+      // A place they asked directions to is one they named themselves, so
+      // a name plus an address or area is enough for its card.
+      const located = String(s?.address || s?.place || '').trim();
+      if (!name || (!url && !(askedDirections && located))) return null;
+      return {
+        external: true,
+        name,
+        place: String(s?.place || '').trim().slice(0, 80),
+        address: String(s?.address || '').trim().slice(0, 160),
+        url,
+        reason: String(s?.reason || '').slice(0, 200),
+        rating: Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
+      };
+    };
+    const keptStops = (Array.isArray(parsed.stops) ? parsed.stops : [])
       .slice(0, 8)
-      .map((s) => {
-        if (s?.match && validIds.has(s.match)) {
-          const [rid, id] = s.match.split('/');
-          const landmark = ALL_LANDMARKS.find((l) => l.regionId === rid && l.id === id);
-          return catalogStop(landmark, s.reason);
-        }
-        // A web-found stop instead of a catalog match -- needs a real name and
-        // a source URL we can actually link back to; drop it otherwise rather
-        // than show an unverifiable suggestion.
-        const name = String(s?.name || '').trim().slice(0, 120);
-        let url = String(s?.url || '').trim();
-        if (!/^https?:\/\//i.test(url)) url = '';
-        // A place they asked directions to is one they named themselves, so
-        // a name plus an address or area is enough for its card.
-        const located = String(s?.address || s?.place || '').trim();
-        if (!name || (!url && !(askedDirections && located))) return null;
-        return {
-          external: true,
-          name,
-          place: String(s?.place || '').trim().slice(0, 80),
-          address: String(s?.address || '').trim().slice(0, 160),
-          url,
-          reason: String(s?.reason || '').slice(0, 200),
-          rating: Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
-        };
+      .map((s, i) => {
+        const stop = toStop(s);
+        // Remember the model's own 1-based position, for its {{address:N}}.
+        return stop ? { stop, from: i + 1 } : null;
       })
       .filter(Boolean)
       .slice(0, 4);
+    const stops = keptStops.map((k) => k.stop);
     // "How do I get to Hillstone?" answered in text only: add the place's
     // card anyway, so its Directions button is one tap away.
     if (!stops.length) {
@@ -647,7 +664,10 @@ async function handler(req, res) {
 
     // "Can I rate here?": show the catalog landmark they are standing at as a
     // stop, whose card carries the I'd go / Not sure / Not for me buttons.
-    let replyText = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
+    let replyText = remapAddressTokens(
+      conciseReply(String(parsed.reply || '').slice(0, 1500), lastText),
+      keptStops.map((k) => k.from)
+    );
     if (hereLandmark && asksToRateHere(lastText) && !stops.some((st) => st.id === hereLandmark.id)) {
       stops.length = 0;
       quickReplies.length = 0;
