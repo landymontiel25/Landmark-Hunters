@@ -94,29 +94,6 @@ describe('CheckInReview checking in at a place rated before visiting', () => {
   });
 });
 
-describe('CheckInReview from Rate a Landmark on an unrateable place', () => {
-  it('shows an error and does not claim a check-in', async () => {
-    const commit = vi.fn();
-    checkInState.justCheckedIn = { id: 'dorm1', name: 'Some Dorm', region: 'r', categories: ['campus'] };
-    checkInState.checkInOptions = { ratingOnly: true, requireComment: true };
-    checkInState.commitCheckIn = commit;
-    ratingsState.myReviews = {};
-    const container = document.createElement('div');
-    document.body.appendChild(container);
-    const root = createRoot(container);
-    await act(async () => {
-      root.render(<CheckInReview />);
-    });
-    const btn = [...container.querySelectorAll('button')].find((b) => /Confirm check-in/.test(b.textContent));
-    await act(async () => {
-      btn.click();
-    });
-    expect(commit).not.toHaveBeenCalled();
-    expect(container.textContent).toContain("can't be rated");
-    expect(container.textContent).not.toContain('Rated!');
-  });
-});
-
 describe('CheckInReview background save errors', () => {
   it("don't show on the next check-in's modal", async () => {
     let rejectSave;

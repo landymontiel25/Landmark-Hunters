@@ -126,13 +126,6 @@ export default function CheckInReview() {
   };
 
   const submit = async () => {
-    // Rate a Landmark on a place with no rating flow (e.g. a campus spot
-    // added from Google): there's nothing to rate, and claiming it would
-    // just record a 0-point check-in under a "Rated!" banner.
-    if (ratingOnly && !rateable) {
-      setMsg("This place can't be rated.");
-      return;
-    }
     if (rateable && !rating) {
       setMsg('Pick one of the three first.');
       return;
