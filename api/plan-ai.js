@@ -248,6 +248,26 @@ export function remapAddressTokens(reply, keptFrom = []) {
   });
 }
 
+// The model's output didn't parse as JSON -- usually a long answer cut off
+// at max_tokens mid-object, sometimes after a line of narration ("Let me
+// search..."). Never show that raw blob: the reply text if it got that far,
+// else whatever came before the JSON, else '' (the caller's retry line).
+export function unparsedReply(raw) {
+  const text = String(raw || '');
+  const brace = text.indexOf('{');
+  if (brace === -1) return text.trim();
+  const m = text.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  if (m) {
+    try {
+      const recovered = JSON.parse(`"${m[1]}"`);
+      if (String(recovered).trim()) return String(recovered).trim();
+    } catch {
+      /* fall through */
+    }
+  }
+  return text.slice(0, brace).trim();
+}
+
 // "can i rate here", "rate this place": a request to rate wherever they are.
 export const asksToRateHere = (text) => /\brate\b[^.?!]{0,30}\b(here|this (place|spot|one)|where i am)\b/i.test(String(text || ''));
 
@@ -559,20 +579,8 @@ async function handler(req, res) {
     try {
       parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     } catch {
-      // A long answer can hit max_tokens mid-JSON. Never show that raw blob:
-      // pull out the reply text if it got that far, else a plain retry line.
-      let fallback = raw;
-      if (raw.includes('{')) {
-        const m = raw.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
-        let recovered = '';
-        try {
-          recovered = m ? JSON.parse(`"${m[1]}"`) : '';
-        } catch {
-          recovered = '';
-        }
-        fallback = raw.trimStart().startsWith('{') ? recovered : raw;
-      }
-      res.status(200).json({ reply: conciseReply(fallback, lastText) || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
+      const fallback = linkAddresses(remapAddressTokens(conciseReply(unparsedReply(raw), lastText), []), []);
+      res.status(200).json({ reply: fallback || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
       return;
     }
 

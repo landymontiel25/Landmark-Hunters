@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { trimTurns, conciseReply, asksToRateHere, asksToRate, linkAddresses, remapAddressTokens } from './plan-ai.js';
+import { trimTurns, conciseReply, asksToRateHere, asksToRate, linkAddresses, remapAddressTokens, unparsedReply } from './plan-ai.js';
 
 describe('plan-ai trimTurns', () => {
   it('never starts with an assistant turn once a chat is long (the API rejects that)', () => {
@@ -85,5 +85,15 @@ describe('plan-ai remapAddressTokens', () => {
     expect(remapAddressTokens("Here's the {{address:1}}.", [2])).toBe("Here's the address.");
     expect(remapAddressTokens("Here's the {{address:9}}.", [])).toBe("Here's the address.");
     expect(remapAddressTokens('No tokens, {{addressq:x}} kept.', [1])).toBe('No tokens, {{addressq:x}} kept.');
+  });
+});
+
+describe('plan-ai unparsedReply', () => {
+  it('keeps plain text, recovers a cut-off reply, and never shows the JSON blob', () => {
+    expect(unparsedReply('Just plain words.')).toBe('Just plain words.');
+    expect(unparsedReply('{"reply": "Try Autana.", "stops": [{"match": "mia')).toBe('Try Autana.');
+    expect(unparsedReply('Let me search for that.\n{"reply": "Here are some spots, like')).toBe('Let me search for that.');
+    expect(unparsedReply('Searching now.\n{"reply": "Try Autana.", "stops": [')).toBe('Try Autana.');
+    expect(unparsedReply('{"reply": "cut off mid')).toBe('');
   });
 });
