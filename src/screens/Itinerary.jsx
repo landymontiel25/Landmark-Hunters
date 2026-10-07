@@ -110,13 +110,17 @@ function FitRoute({ points }) {
     const id = requestAnimationFrame(() => map.invalidateSize());
     return () => cancelAnimationFrame(id);
   }, [map]);
+  // `points` is a new array every render (e.g. each GPS tick), so refit only
+  // when the coordinates themselves change, not on every re-render.
+  const pointsKey = points.map((p) => `${p[0]},${p[1]}`).join(';');
   useEffect(() => {
     if (points.length === 1) {
       map.setView(points[0], 13);
     } else if (points.length > 1) {
       map.fitBounds(points, { padding: [40, 40] });
     }
-  }, [map, points]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, pointsKey]);
   return null;
 }
 
