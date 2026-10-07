@@ -65,9 +65,15 @@ export function AuthProvider({ children }) {
     // First thing after the account exists, so the profile is already marked
     // as a sign-up by the time anything reads it (see onboardingStatus).
     markNewSignup(cred.user.uid).catch(() => {});
+    // A failed display-name save must not abort the rest: the account
+    // already exists and is signed in, so verification + referral still run.
     if (displayName) {
-      await updateProfile(cred.user, { displayName });
-      setUser({ ...cred.user, displayName });
+      try {
+        await updateProfile(cred.user, { displayName });
+        setUser({ ...cred.user, displayName });
+      } catch (err) {
+        console.error('updateProfile after sign-up failed:', err?.code, err?.message);
+      }
     }
     // Best-effort -- a signup that succeeds shouldn't fail just because the
     // verification email didn't send. resendVerification lets them retry.

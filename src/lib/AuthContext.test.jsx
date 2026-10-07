@@ -93,3 +93,23 @@ describe('refreshUser', () => {
     expect(probe.ctx.user).toBe(before);
   });
 });
+
+describe('signUpEmail', () => {
+  it('still sends verification and records the referral when updateProfile fails', async () => {
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { fb, probe, calls } = await setup({
+      updateProfile: async () => {
+        throw new Error('network');
+      },
+    });
+    fb.auth.currentUser = { uid: 'N', emailVerified: false };
+    let result;
+    await act(async () => {
+      result = await probe.ctx.signUpEmail('a@b.co', 'pw123456', 'Ann');
+    });
+    expect(result.uid).toBe('N');
+    expect(calls.sendEmailVerification).toHaveBeenCalled();
+    expect(calls.recordReferralIfPending).toHaveBeenCalled();
+    errSpy.mockRestore();
+  });
+});
