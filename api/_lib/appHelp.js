@@ -24,7 +24,7 @@ export const APP_HELP =
   `person added gets a notification. Only the owner can remove people or delete the project; deleting it keeps its chats ` +
   `as regular chats.\n` +
   `- Your progress is saved on this device as you go: the Mapr conversation, half-typed messages and questions, a landmark you were adding, a ` +
-  `rating in progress, feature-request drafts, and your Landmarks search and sort come back if you close the app. Category filters (Map and Landmarks) last while the app is open and reset every launch, and Landmarks opens on the city you are in (or the city the Map tab is zoomed into, or All Cities when there is neither); a small arrow button next to Clear jumps back to the city you are in. If something fails to load or ` +
+  `rating in progress, feature-request drafts, and your Landmarks search and sort come back if you close the app. Category filters (Map and Landmarks) last while the app is open and reset every launch, and Landmarks opens on the city the Map tab is zoomed into (else the city you are in, or All Cities when there is neither); a small arrow button next to Clear jumps back to the city you are in. If something fails to load or ` +
   `save, the app says what happened in plain words and shows a Try again button; nothing you typed is cleared.\n` +
   `- Trip planning (Plan Your Trip's "Type an address" step and Create New Trip) fills in your starting location from your saved home address when home is in the ` +
   `city you picked, with a Clear option. "Use My Current Location" fills in the street address you're at (or the business, ` +
