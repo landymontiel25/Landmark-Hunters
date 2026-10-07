@@ -13,7 +13,14 @@ const cache = new Map();
 async function cached(key, load, now) {
   const hit = cache.get(key);
   if (hit && now - hit.at < MODEL_CACHE_MS) return hit.value;
-  const value = await load().catch(() => null);
+  let value;
+  try {
+    value = await load();
+  } catch {
+    // A failed read (network, quota) is not cached: the next request retries
+    // instead of ranking without the model for MODEL_CACHE_MS.
+    return null;
+  }
   cache.set(key, { at: now, value });
   return value;
 }
