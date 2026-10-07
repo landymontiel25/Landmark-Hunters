@@ -13,6 +13,10 @@ dist
 .env
 .env.local
 .env.*.local
+# Service-account / private keys
+*-key.json
+firebase-key.json
+*service-account*.json
 
 # Vercel
 .vercel
