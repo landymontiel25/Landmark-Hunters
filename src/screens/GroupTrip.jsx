@@ -12,6 +12,7 @@ import {
   toggleGroupLandmark,
   setGroupLandmarks,
   reorderGroupLandmarks,
+  withUnshownIds,
   addGroupMember,
   removeGroupMember,
   deleteGroupTrip,
@@ -184,11 +185,16 @@ export default function GroupTrip() {
   }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
+  // Read at write time (a drag's release handler holds the render it started in).
+  const latestIds = useRef(null);
+  latestIds.current = { landmarkIds: landmarkIdsSafe, pending: pendingLandmarks };
+  const fullOrder = (ids) =>
+    withUnshownIds(ids, latestIds.current.landmarkIds, (id) => latestIds.current.pending[id] === false);
   const { order: dragOrder, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     // A refused/dropped write used to vanish silently, leaving the new order
     // on screen for you while everyone else (and a reopen) still had the old one.
     if (trip) {
-      reorderGroupLandmarks(trip, newIds).catch((e) =>
+      reorderGroupLandmarks(trip, fullOrder(newIds)).catch((e) =>
         toast.show(friendlyError(e, "Couldn't save the new order. Try again."))
       );
     }
@@ -409,7 +415,7 @@ export default function GroupTrip() {
                     setEditing(false);
                   } else {
                     if (trip) {
-                      reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch((e) =>
+                      reorderGroupLandmarks(trip, fullOrder(orderedRoute.map((s) => s.id))).catch((e) =>
                         toast.show(friendlyError(e, "Couldn't save your list order. Try again."))
                       );
                     }

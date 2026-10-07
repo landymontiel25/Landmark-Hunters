@@ -107,6 +107,15 @@ export async function setGroupLandmarks(trip, landmarkIds, add) {
 // Two members dragging at the same moment can race and one write wins;
 // acceptable here since a reorder is a personal convenience, not data
 // that must never be lost the way a landmark selection is.
+// The route only shows this city's catalog stops, so a reorder built from it
+// would drop every other id on the trip (custom landmarks, ones that don't
+// render). Keeps those, after the new order, except ids in `removed` (ones
+// the user just unticked and whose removal is still saving).
+export function withUnshownIds(orderedIds, currentIds, removed = () => false) {
+  const shown = new Set(orderedIds);
+  return [...orderedIds, ...(currentIds || []).filter((id) => !shown.has(id) && !removed(id))];
+}
+
 export async function reorderGroupLandmarks(trip, orderedIds) {
   await updateDoc(doc(db, 'group_trips', trip.id), { landmarkIds: orderedIds });
 }
