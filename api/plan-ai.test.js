@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { trimTurns, conciseReply, asksToRateHere, asksToRate } from './plan-ai.js';
+import { trimTurns, conciseReply, asksToRateHere, asksToRate, linkAddresses } from './plan-ai.js';
 
 describe('plan-ai trimTurns', () => {
   it('never starts with an assistant turn once a chat is long (the API rejects that)', () => {
@@ -61,5 +61,17 @@ describe('plan-ai asksToRate', () => {
   it('leaves other talk alone', () => {
     for (const t of ['how do i increase my taste score', 'what should I eat', 'rate Hillstone', 'accurate map'])
       expect(asksToRate(t)).toBe(false);
+  });
+});
+
+describe('plan-ai linkAddresses', () => {
+  it("turns a stop's address into a token for that stop", () => {
+    const stops = [{ name: 'Dale', address: '1711 Coral Way, Miami, FL 33145' }];
+    expect(linkAddresses("Sure, it's at 1711 Coral Way, Miami, FL 33145.", stops)).toBe("Sure, it's at {{address:1}}.");
+    expect(linkAddresses('Dale is on 1711 Coral Way near the park.', stops)).toBe('Dale is on {{address:1}} near the park.');
+  });
+  it('turns any other street address into a search token, and leaves plain numbers alone', () => {
+    expect(linkAddresses('Doggi is at 1246 Coral Way.')).toBe('Doggi is at {{addressq:1246%20Coral%20Way}}.');
+    expect(linkAddresses('It is 5 km away, founded in 1999.')).toBe('It is 5 km away, founded in 1999.');
   });
 });

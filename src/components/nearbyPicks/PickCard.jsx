@@ -66,7 +66,7 @@ export function PickActionsSheet({ pick, onClose }) {
     <div className="modal-backdrop" onClick={close}>
       <div className="modal-card directions-sheet" role="dialog" aria-label={pick.name} onClick={(e) => e.stopPropagation()}>
         <h3 style={{ marginTop: 0 }}>{pick.name}</h3>
-        {/* "Use the Map" navigates to the Map tab, which is where this sheet
+        {/* "Open in Map" navigates to the Map tab, which is where this sheet
             already is -- without closing it here it stayed up over the route. */}
         <DirectionsButton
           name={pick.name}

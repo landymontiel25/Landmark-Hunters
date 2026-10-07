@@ -304,7 +304,7 @@ export default function MapExplore({ experiments = false }) {
   const [satellite] = useState(true);
   const toast = useToast();
 
-  // "Use the Map" from any Get Directions sheet (DirectionsButton) lands
+  // "Open in Map" from any Get Directions sheet (DirectionsButton) lands
   // here with location.state.directionsTo. The route runs from your live
   // location, so a request waits for the GPS fix if it hasn't come in yet.
   // active: live navigation (following you, next turn up top). queue: the
