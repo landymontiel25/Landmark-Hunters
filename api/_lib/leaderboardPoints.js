@@ -34,6 +34,16 @@ function dateFromDayId(dayId) {
 
 export { periodKeys };
 
+// A display name from a client (or a doc a client once wrote) ends up on the
+// public leaderboard: only a short non-empty string is kept, anything else
+// (an object, a huge string) falls back to the app's usual 'A traveler'.
+export function cleanUserName(name) {
+  if (typeof name !== 'string') return 'A traveler';
+  const trimmed = name.trim();
+  if (!trimmed || trimmed.length > 200) return 'A traveler';
+  return trimmed;
+}
+
 const PERIODS = ['weekly', 'monthly', 'yearly'];
 
 // Awarded server-side, from the same endpoint that decides a streak day
@@ -55,7 +65,7 @@ export async function awardLeaderboardPointsServer(db, userId, userName, points,
     const ref = db.collection('leaderboard_entries').doc(`${period}_${keys[period]}_${userId}`);
     batch.set(
       ref,
-      { userId, userName: userName || 'A traveler', period, periodKey: keys[period], points: FieldValue.increment(points), updatedAt: FieldValue.serverTimestamp() },
+      { userId, userName: cleanUserName(userName), period, periodKey: keys[period], points: FieldValue.increment(points), updatedAt: FieldValue.serverTimestamp() },
       { merge: true }
     );
   }

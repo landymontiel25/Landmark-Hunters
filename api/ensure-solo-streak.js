@@ -4,6 +4,7 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { monthKey, previousDayKey, localDayKey } from './_lib/streakDay.js';
 import { withCors } from './_lib/cors.js';
+import { cleanUserName } from './_lib/leaderboardPoints.js';
 
 const PICKS_STREAK_THRESHOLD = 3;
 export const SOLO_FREEZES_PER_MONTH = 1;
@@ -199,7 +200,7 @@ async function handler(req, res) {
     const data = {
       mode: 'solo',
       memberIds: [account.uid],
-      memberNames: { [account.uid]: userName || 'A traveler' },
+      memberNames: { [account.uid]: cleanUserName(userName) },
       cityId: null,
       count: seededCount,
       // No historical "best" was ever tracked for the old live-computed
