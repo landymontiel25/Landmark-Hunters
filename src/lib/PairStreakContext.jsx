@@ -17,10 +17,11 @@ export function PairStreakProvider({ children }) {
   const [streaks, setStreaks] = useState([]);
 
   useEffect(() => {
-    if (!user) {
-      setStreaks([]);
-      return undefined;
-    }
+    // Cleared on every account change, not just sign-out, so the header
+    // never shows the previous account's pair streaks until the new
+    // snapshot lands.
+    setStreaks([]);
+    if (!user) return undefined;
     return subscribeMyStreaks(user.uid, setStreaks, () => {});
   }, [user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
