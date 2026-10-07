@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
-import { previousDayKey, validClientDayKey, isDayBefore, monthKeyOfDay } from './_lib/streakDay.js';
+import { previousDayKey, validClientDayKey, isDayBefore, monthKeyOfDay, monthKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
@@ -171,7 +171,10 @@ async function handler(req, res) {
       // use-streak-freeze.js), so a stored 0 from last month really means a
       // fresh allowance this month -- don't open a recovery mission then.
       const freezesNow = fresh.freezeMonth === monthKeyOfDay(dayId) ? fresh.freezesLeft ?? 0 : 2;
-      if (broke && freezesNow <= 0) {
+      // Once a month: complete-recovery-mission.js refuses a second one in the
+      // same month (its own monthKey(new Date())), so don't open one it can't
+      // ever complete.
+      if (broke && freezesNow <= 0 && fresh.recoveryUsedMonth !== monthKey(new Date())) {
         update.recoveryOpenUntil = Date.now() + 24 * 60 * 60 * 1000;
         update.recoveryPriorCount = fresh.count || 0;
       }

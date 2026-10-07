@@ -245,4 +245,22 @@ describe('dual streak fixes', () => {
     expect(streakDoc.count).toBe(1);
     expect(streakDoc.recoveryOpenUntil).toBeUndefined();
   });
+
+  it("does not open a recovery mission when this month's was already used", async () => {
+    const { default: handler } = await import('./close-streak-day.js');
+    const n = new Date();
+    const today = utcToday();
+    const [y, m] = today.split('-');
+    streakDoc = {
+      mode: 'dual', memberIds: ['me'], cityId: 'x', count: 6, best: 6, lastCompletedDay: '2000-0-1',
+      freezesLeft: 0, freezeMonth: `${y}-${m}`, frozenDays: [], recoveryUsedMonth: `${n.getFullYear()}-${n.getMonth()}`,
+    };
+    await call(handler, { pairId: 'me', dayId: today });
+    expect(streakDoc.count).toBe(1);
+    expect(streakDoc.recoveryOpenUntil).toBeUndefined();
+    // Control: same state without the used month does open one.
+    streakDoc = { ...streakDoc, count: 6, lastCompletedDay: '2000-0-1', recoveryUsedMonth: null };
+    await call(handler, { pairId: 'me', dayId: today });
+    expect(streakDoc.recoveryOpenUntil).toBeGreaterThan(Date.now());
+  });
 });
