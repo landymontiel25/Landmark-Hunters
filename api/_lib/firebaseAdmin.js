@@ -43,6 +43,9 @@ export async function adminAuth() {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ localId: identifiers.map((x) => x.uid) }),
+        // The backfill runs under a 60 s function limit; a hung lookup fails
+        // this chunk (retried next call) instead of the whole job.
+        signal: AbortSignal.timeout(10000),
       });
       if (!r.ok) throw new Error(`Auth lookup failed (${r.status}).`);
       const body = await r.json();
