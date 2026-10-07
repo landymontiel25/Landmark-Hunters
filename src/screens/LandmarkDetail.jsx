@@ -199,7 +199,7 @@ function LandmarkDetailBody() {
   );
   const { ratings, myReviews, reload: reloadRatings } = useRatings();
   const { reload: reloadMyPhotos } = useMyPhotos();
-  const { myUsername, friendUids } = useFriends();
+  const { myUsername, friendUids, reload: reloadFriends } = useFriends();
   const toast = useToast();
   const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
   // myRating: live RatingFlow payload (null until a tier's picked).
@@ -728,6 +728,8 @@ function LandmarkDetailBody() {
       commit: async () => {
         await blockUser(user.uid, rv.userId, rv.userName);
         loadReviews({ quiet: true });
+        // Drops a pending friend request from them (FriendsContext hides those).
+        reloadFriends?.().catch(() => {});
       },
       rollback: () =>
         setBlockedNow((s) => {

@@ -12,6 +12,7 @@ import {
   publishAdminPointer,
   claimUsername,
 } from './friends';
+import { listBlockedUsers } from './blocks';
 import { isAdmin } from './admins';
 import { backfillUserName } from './leaderboard';
 import { syncMyReviewVisibility } from './reviews';
@@ -133,10 +134,18 @@ export function FriendsProvider({ children }) {
         setMyProfile((cur) => cur ?? loadCachedProfile(user.uid));
       }
     );
-    const [, f, r] = await Promise.allSettled([profileDone, listFriends(uid), listIncomingRequests(uid)]);
+    const [, f, r, b] = await Promise.allSettled([
+      profileDone,
+      listFriends(uid),
+      listIncomingRequests(uid),
+      listBlockedUsers(uid),
+    ]);
     if (stale()) return;
     if (f.status === 'fulfilled') setFriendUids(new Set((f.value || []).map((x) => x.friend)));
-    if (r.status === 'fulfilled') setRequests(r.value || []);
+    // A request someone sent before you blocked them is still in Firestore
+    // (and the rules would still let you accept it) -- don't list it.
+    const blockedUids = new Set(b.status === 'fulfilled' ? (b.value || []).map((x) => x.blockedUid) : []);
+    if (r.status === 'fulfilled') setRequests((r.value || []).filter((req) => !blockedUids.has(req.from)));
   }, [user]);
 
   useEffect(() => {
