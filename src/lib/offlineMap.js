@@ -22,8 +22,12 @@ function latToTileY(lat, z) {
   return Math.floor(((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2) * 2 ** z);
 }
 
-/** Every {z,x,y} tile covering a viewbox across a zoom range. */
-export function tilesForViewbox(viewbox, minZoom, maxZoom) {
+/**
+ * Every {z,x,y} tile covering a viewbox across a zoom range, in zoom/x/y
+ * order, stopping once `max` tiles are collected (a whole-world viewbox
+ * would otherwise build hundreds of millions of tiles before any cap).
+ */
+export function tilesForViewbox(viewbox, minZoom, maxZoom, max = Infinity) {
   const tiles = [];
   for (let z = minZoom; z <= maxZoom; z++) {
     const xMin = lonToTileX(viewbox.minLng, z);
@@ -32,6 +36,7 @@ export function tilesForViewbox(viewbox, minZoom, maxZoom) {
     const yMax = latToTileY(viewbox.minLat, z);
     for (let x = xMin; x <= xMax; x++) {
       for (let y = yMin; y <= yMax; y++) {
+        if (tiles.length >= max) return tiles;
         tiles.push({ z, x, y });
       }
     }
@@ -48,7 +53,7 @@ export function tilesForViewbox(viewbox, minZoom, maxZoom) {
  * enormous download.
  */
 export async function downloadRegionTiles(region, { minZoom = 12, maxZoom = 15, onProgress } = {}) {
-  const tiles = tilesForViewbox(region.viewbox, minZoom, maxZoom).slice(0, 1500);
+  const tiles = tilesForViewbox(region.viewbox, minZoom, maxZoom, 1500);
   const cache = await caches.open(TILE_CACHE);
   let done = 0;
   let saved = 0;
