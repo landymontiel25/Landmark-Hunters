@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { landmarkCountText } from '../lib/landmarkCountText';
 import { useNavigate, useNavigationType } from 'react-router-dom';
-import { saveListReturn, takeListReturn } from '../lib/listReturn';
+import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
 import { useCheckIn } from '../lib/useCheckIn';
@@ -588,12 +588,7 @@ export default function LandmarkSelection() {
   useEffect(() => {
     if (!returned || scrolledBack.current || !allRows.length || shownCount < Math.min(returned.count || 0, allRows.length)) return;
     scrolledBack.current = true;
-    const y = Number(returned.y) || 0;
-    requestAnimationFrame(() => {
-      window.scrollTo(0, y);
-      // Photos finishing their layout can nudge it; once more settles it.
-      setTimeout(() => window.scrollTo(0, y), 150);
-    });
+    return restoreScroll(Number(returned.y) || 0);
   }, [returned, shownCount, allRows.length]);
 
   // Total across every city; and the count within the currently filtered city.
