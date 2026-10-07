@@ -252,7 +252,7 @@ export default function CheckInReview() {
                   </p>
                 )}
                 <p className="screen-subtitle" style={{ marginTop: -10, fontSize: '0.78rem' }}>
-                  Rate for yourself, not others. This is just so we learn your taste.
+                  Mapr gets smarter with every rating you give. Rate for you, and your next picks improve.
                 </p>
                 {(() => {
                   const hint = diversityHint(Object.values(myReviews));
