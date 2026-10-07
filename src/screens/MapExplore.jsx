@@ -652,7 +652,7 @@ export default function MapExplore({ experiments = false }) {
       [Math.min(...lats), Math.min(...lngs)],
       [Math.max(...lats), Math.max(...lngs)],
     ];
-  }, [trip.activeRegion]);
+  }, [mapFocus]);
 
   // Opened from an itinerary: frame all of its stops (captured once, so
   // later changes don't yank the map around while you're using it).
