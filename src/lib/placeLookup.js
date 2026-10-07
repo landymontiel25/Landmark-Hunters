@@ -43,11 +43,15 @@ export function nearestRegionId(lat, lng, maxKm = 120) {
  * the cluster unnamed and tries again later.
  */
 export async function reverseGeocodePlace(lat, lng) {
+  // A hung request would keep the caller from ever falling back.
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 15000);
   try {
     const r = await fetch(`${API_BASE}/api/places-nearby`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ lat, lng }),
+      signal: ctrl.signal,
     });
     if (!r.ok) return null;
     const data = await r.json();
@@ -55,6 +59,8 @@ export async function reverseGeocodePlace(lat, lng) {
     return { name: data.name, address: data.address || '', lat: data.lat ?? lat, lng: data.lng ?? lng, placeId: data.placeId || '' };
   } catch {
     return null;
+  } finally {
+    clearTimeout(timer);
   }
 }
 

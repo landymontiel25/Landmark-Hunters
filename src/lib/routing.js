@@ -171,9 +171,12 @@ const OSRM_DRIVING_BASE = 'https://router.project-osrm.org/route/v1/driving';
  * to the straight-line estimate.
  */
 export async function fetchDrivingRoute(origin, dest) {
+  // The public OSRM demo can hang; give up after 10s and keep the estimate.
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
   try {
     const url = `${OSRM_DRIVING_BASE}/${origin.lng},${origin.lat};${dest.lng},${dest.lat}?overview=false`;
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: ctrl.signal });
     if (!res.ok) return null;
     const data = await res.json();
     const leg = data?.routes?.[0];
@@ -181,6 +184,8 @@ export async function fetchDrivingRoute(origin, dest) {
     return { distanceMeters: Math.round(leg.distance), durationSeconds: leg.duration };
   } catch {
     return null;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
