@@ -3,6 +3,13 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Nightly scan 2026-10-07: 21 owner questions
+
+`docs/landmark-hunters-scan-2026-10-07.md`, section 5, lists 21 changes that
+need the owner's decision (Mapr chat exploration rate, offline maps, Book Now
+links, streak rules, Firestore rules hardening, and others). Each has options
+and a recommendation. Remove this item once they are answered.
+
 ## "Your places" onboarding step (test tab only)
 
 Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us up to
