@@ -220,13 +220,16 @@ async function removeStop(action, ctx) {
   const target = findItinerary(action.itinerary, ctx);
   const stop = resolveStop(action.stop, ctx.conversationStops);
   const n = norm(action.stop);
+  // A name with nothing left after norm() (empty, emoji, non-Latin) would
+  // match every place via .includes('') -- don't guess which one.
+  if (!n && !stop) return { ok: false, text: `Couldn't tell which place "${action.stop}" is. Try naming it exactly.` };
   if (target?.kind === 'group') {
     const trip = target.trip;
     if (stop?.kind === 'landmark' && (trip.landmarkIds || []).includes(stop.id)) {
       await setGroupLandmarks(trip, [stop.id], false);
       return { ok: true, text: `Removed ${stop.name} from ${trip.name}.`, undo: () => setGroupLandmarks(trip, [stop.id], true), link: groupLink(trip.id) };
     }
-    const place = (trip.places || []).find((p) => norm(p.name) === n || norm(p.name).includes(n));
+    const place = n ? (trip.places || []).find((p) => norm(p.name) === n || norm(p.name).includes(n)) : null;
     if (place) {
       await removeGroupPlace(trip, place.id);
       return { ok: true, text: `Removed ${place.name} from ${trip.name}.`, undo: () => addGroupPlace({ ...trip, places: [] }, place), link: groupLink(trip.id) };
@@ -239,7 +242,7 @@ async function removeStop(action, ctx) {
       ctx.tripApi.removeLandmark(stop.id, regionId);
       return { ok: true, text: `Removed ${stop.name} from your ${ctx.tripApi.itineraryName(regionId)} itinerary.`, undo: () => ctx.tripApi.addLandmark(stop.id, regionId), link: soloLink(regionId) };
     }
-    const place = (ctx.trip.placesByRegion?.[regionId] || []).find((p) => norm(p.name) === n || norm(p.name).includes(n));
+    const place = n ? (ctx.trip.placesByRegion?.[regionId] || []).find((p) => norm(p.name) === n || norm(p.name).includes(n)) : null;
     if (place) {
       ctx.tripApi.removePlace(regionId, place.id);
       return { ok: true, text: `Removed ${place.name} from your ${ctx.tripApi.itineraryName(regionId)} itinerary.`, undo: () => ctx.tripApi.addPlace(regionId, place), link: soloLink(regionId) };

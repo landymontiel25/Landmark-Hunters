@@ -112,6 +112,16 @@ describe('Mapr actions', () => {
     expect(t.trip.byRegion.miami).toEqual([]);
   });
 
+  it('does not remove a saved place for a name with no Latin letters or digits', async () => {
+    t.api.addPlace('miami', { id: 'p1', name: 'Autana Arepas' });
+    for (const stop of ['', '東京タワー']) {
+      const [r] = await runMaprActions([{ type: 'remove_stop', stop, itinerary: 'miami' }], ctx());
+      expect(r.ok).toBe(false);
+      expect(r.text).toMatch(/Couldn't tell which place/);
+    }
+    expect(t.trip.placesByRegion.miami).toHaveLength(1);
+  });
+
   it('adds a catalog stop to a group trip in the same city', async () => {
     const group = { id: 'g1', name: 'Crew Trip', regionId: 'miami', landmarkIds: [], memberUids: ['me'] };
     const [r] = await runMaprActions([{ type: 'add_stop', stop: miamiLandmark.name, itinerary: 'g1' }], ctx({ groupTrips: [group] }));
