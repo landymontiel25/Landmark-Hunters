@@ -94,7 +94,10 @@ export function RatingsProvider({ children }) {
   }, [reload]);
 
   const myReviewsLoaded = !!user && loadedFor === user.uid && claimedLoaded;
-  return <RatingsContext.Provider value={{ ratings, myReviews, myReviewsLoaded, reload }}>{children}</RatingsContext.Provider>;
+  // Re-rendered whenever CheckInContext changes (checking-in spinner, friends
+  // reloads...); keep the value stable unless ratings themselves change.
+  const value = useMemo(() => ({ ratings, myReviews, myReviewsLoaded, reload }), [ratings, myReviews, myReviewsLoaded, reload]);
+  return <RatingsContext.Provider value={value}>{children}</RatingsContext.Provider>;
 }
 
 export function useRatings() {
