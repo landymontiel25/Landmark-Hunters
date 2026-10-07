@@ -154,6 +154,8 @@ export default function Settings() {
     setSigningOut(true);
     try {
       await signOutUser();
+    } catch (err) {
+      console.error('Sign out failed:', err?.code, err?.message);
     } finally {
       setSigningOut(false);
     }
@@ -162,7 +164,7 @@ export default function Settings() {
   // Catches "verified in another tab, then came back to Settings" without
   // requiring a full sign-out/sign-in.
   useEffect(() => {
-    if (user && !user.emailVerified) refreshUser();
+    if (user && !user.emailVerified) refreshUser().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

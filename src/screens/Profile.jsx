@@ -92,6 +92,20 @@ function FinishOnboardingCard({ onStartOnboarding }) {
 
 export default function Profile() {
   const { user, loading: authLoading, firebaseEnabled, signOutUser } = useAuth();
+  // Same guard as Settings: a double tap must not start two sign-outs, and a
+  // failure must not surface as an unhandled rejection.
+  const [signingOut, setSigningOut] = useState(false);
+  const handleSignOut = async () => {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await signOutUser();
+    } catch (err) {
+      console.error('Sign out failed:', err?.code, err?.message);
+    } finally {
+      setSigningOut(false);
+    }
+  };
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
   const navigate = useNavigate();
@@ -642,7 +656,7 @@ export default function Profile() {
       <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
         {'\u{2699}\u{FE0F}'} Settings
       </Link>
-      <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={signOutUser}>
+      <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} disabled={signingOut} onClick={handleSignOut}>
         Sign Out
       </button>
     </div>

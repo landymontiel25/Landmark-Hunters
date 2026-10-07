@@ -14,11 +14,17 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-async function renderSettings({ providers = ['password'], deleteAccount = vi.fn(async () => {}) } = {}) {
+async function renderSettings({
+  providers = ['password'],
+  deleteAccount = vi.fn(async () => {}),
+  emailVerified = true,
+  refreshUser = async () => {},
+  signOutUser = vi.fn(),
+} = {}) {
   const user = {
     uid: 'u1',
     email: 'a@b.co',
-    emailVerified: true,
+    emailVerified,
     providerData: providers.map((providerId) => ({ providerId })),
   };
   vi.doMock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => false }, registerPlugin: () => ({}) }));
@@ -26,9 +32,9 @@ async function renderSettings({ providers = ['password'], deleteAccount = vi.fn(
     useAuth: () => ({
       user,
       firebaseEnabled: true,
-      signOutUser: vi.fn(),
+      signOutUser,
       resendVerification: vi.fn(),
-      refreshUser: async () => {},
+      refreshUser,
       changePassword: vi.fn(),
       deleteAccount,
     }),
@@ -128,5 +134,23 @@ describe('Settings > Delete Account', () => {
     await type(document.getElementById('delete-confirm'), 'DELETE');
     await act(async () => byText('Delete My Account').click());
     expect(deleteAccount).toHaveBeenCalledWith(undefined);
+  });
+});
+
+describe('Settings auth failures', () => {
+  it('swallows a failed refreshUser on mount and a failed sign-out (no unhandled rejection), and re-enables Sign Out', async () => {
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const refreshUser = vi.fn(async () => {
+      throw new Error('offline');
+    });
+    const signOutUser = vi.fn(async () => {
+      throw new Error('offline');
+    });
+    await renderSettings({ emailVerified: false, refreshUser, signOutUser });
+    expect(refreshUser).toHaveBeenCalled();
+    await act(async () => byText('Sign Out').click());
+    expect(signOutUser).toHaveBeenCalledTimes(1);
+    expect(byText('Sign Out').disabled).toBe(false);
+    errSpy.mockRestore();
   });
 });
