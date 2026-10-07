@@ -247,3 +247,29 @@ describe('the three pick buttons on Mapr chat suggestion cards', () => {
     expect(vbtn('Autana', "I'd go").getAttribute('aria-pressed')).toBe('false');
   });
 });
+
+describe('ordering the places in a reply', () => {
+  const stops = [
+    { id: 'a', region: 'villanova', name: 'Autana', reason: 'Great food', categories: ['food'], rating: 4.1 },
+    { id: 'b', region: 'villanova', name: 'Bistro', reason: 'Nice', categories: ['food'], rating: 4.8 },
+  ];
+  const names = () => [...container.querySelectorAll('.chatlab-stop-text strong')].map((n) => n.textContent);
+
+  it("keeps Mapr's order for a general ask, and Top rated puts the best stars first", async () => {
+    h.fetchJson.mockResolvedValue({ reply: 'Try these.', stops, quickReplies: [] });
+    await setValue('somewhere fun');
+    await submit();
+    expect(names()).toEqual(['Autana', 'Bistro']);
+    expect(button("Mapr's order").getAttribute('aria-pressed')).toBe('true');
+    await click('Top rated');
+    expect(names()).toEqual(['Bistro', 'Autana']);
+    expect(container.textContent).toContain('★ 4.8');
+  });
+
+  it('starts on Closest when they asked for places near them', async () => {
+    h.fetchJson.mockResolvedValue({ reply: 'Here you go.', stops, quickReplies: [] });
+    await setValue('arepas near me');
+    await submit();
+    expect(button('Closest').getAttribute('aria-pressed')).toBe('true');
+  });
+});

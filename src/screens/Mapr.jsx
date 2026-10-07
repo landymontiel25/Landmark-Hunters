@@ -81,6 +81,9 @@ function dismissTasteNudge(uid) {
 // the same thread instead of starting over. Reads the same rating history
 // (myReviews) and saved interests Mapr Picks does, so it's never guessing
 // at a traveler's taste from nothing when it already knows.
+// "near me", "nearby", "closest"...: the reply's places open closest first.
+const NEAR_ME_ASK = /\b(near me|nearby|near here|around me|around here|close to me|closest|nearest|walking distance)\b/i;
+
 export default function Mapr() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -89,7 +92,10 @@ export default function Mapr() {
   const { myProfile, profileFresh, myUsername } = useFriends();
   const toast = useToast();
   const { myPhotos } = useMyPhotos();
-  const { myReviews } = useRatings();
+  const { myReviews, ratings: communityRatings } = useRatings();
+  // How each reply's place cards are ordered: 'closest', 'rated' or 'mapr'
+  // (the order Mapr gave). Unset means the default for that reply.
+  const [stopSort, setStopSort] = useState({});
   const tripApi = useTrip();
   const { trip } = tripApi;
   // Your group trips, so Mapr can add to / rename / invite people to them.
@@ -896,9 +902,46 @@ export default function Mapr() {
                   )}
                 </>
               )}
-              {m.stops?.length > 0 && (
+              {m.stops?.length > 0 && (() => {
+                // Closest first by default when they asked for places near
+                // them; tap Top rated to order by stars instead.
+                const asked = [...messages.slice(0, i)].reverse().find((x) => x.role === 'user')?.text || '';
+                const sortBy = stopSort[m.id] || (NEAR_ME_ASK.test(asked) ? 'closest' : 'mapr');
+                const entries = m.stops.map((stop, idx) => {
+                  const lm = !stop.external ? getLandmark(stop.region, stop.id) : null;
+                  const sLat = stop.lat ?? lm?.lat;
+                  const sLng = stop.lng ?? lm?.lng;
+                  const meters = coords && Number.isFinite(sLat) && Number.isFinite(sLng) ? distanceMeters(coords.lat, coords.lng, sLat, sLng) : null;
+                  const community = communityRatings?.[stop.createdId || stop.id];
+                  const stars = stop.rating ?? (community?.count ? Math.round(community.avg * 10) / 10 : null);
+                  return { stop, idx, meters, stars };
+                });
+                const far = (e) => (e.meters == null ? Infinity : e.meters);
+                if (sortBy === 'closest') entries.sort((a, b) => far(a) - far(b) || a.idx - b.idx);
+                if (sortBy === 'rated') entries.sort((a, b) => (b.stars ?? -1) - (a.stars ?? -1) || far(a) - far(b));
+                const canSort = m.stops.length > 1;
+                return (
                 <div className="chatlab-stops">
-                  {m.stops.map((stop, idx) => {
+                  {canSort && (
+                    <div className="chatlab-stop-sort" role="group" aria-label="Order these places">
+                      {[
+                        ['closest', 'Closest'],
+                        ['rated', 'Top rated'],
+                        ['mapr', "Mapr's order"],
+                      ].map(([key, label]) => (
+                        <button
+                          key={key}
+                          type="button"
+                          className={`btn btn-sm ${sortBy === key ? 'btn-primary' : 'btn-ghost'}`}
+                          aria-pressed={sortBy === key}
+                          onClick={() => setStopSort((cur) => ({ ...cur, [m.id]: key }))}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {entries.map(({ stop, idx, stars }) => {
                     // Every card is tappable right away, whether it's a
                     // catalog stop, one Mapr already turned into a real
                     // landmark (createdId/createdRegion), or one still
@@ -940,9 +983,17 @@ export default function Mapr() {
                               {!resolved && stop.place ? ` — ${stop.place}` : ''}
                             </strong>
                             {stop.address && <span className="chatlab-stop-address">{'\u{1F4CD}'} {stop.address}</span>}
-                            {(distance || creating) && (
+                            {(distance || creating || stars != null) && (
                               <span className="chatlab-stop-meta">
-                                {creating ? <span>Give me a couple seconds while I set this up…</span> : <span>{distance}</span>}
+                                {creating ? (
+                                  <span>Give me a couple seconds while I set this up…</span>
+                                ) : (
+                                  <span>
+                                    {distance}
+                                    {distance && stars != null ? ' · ' : ''}
+                                    {stars != null ? `\u{2605} ${stars.toFixed(1)}` : ''}
+                                  </span>
+                                )}
                               </span>
                             )}
                             <span>{stop.reason}</span>
@@ -979,7 +1030,8 @@ export default function Mapr() {
                     );
                   })}
                 </div>
-              )}
+                );
+              })()}
               {m.rate && <MaprRateCard place={m.rate} />}
               {m.ratePicks && <MaprRatePicks />}
               {m.error && m.retryText && i === messages.length - 1 && !busy && (
