@@ -61,6 +61,19 @@ function readStreetCache() {
   }
 }
 
+// GPS start points are keyed to ~1 m, so nearly every one is a new entry;
+// keep the newest few hundred (oldest first, in insertion order) so the
+// cache can't grow without end.
+export const STREET_CACHE_LIMIT = 500;
+export function withStreetEntry(cache, key, label) {
+  const next = { ...cache };
+  delete next[key];
+  next[key] = label;
+  const keys = Object.keys(next);
+  for (const k of keys.slice(0, Math.max(0, keys.length - STREET_CACHE_LIMIT))) delete next[k];
+  return next;
+}
+
 const streetKey = (lat, lng) => `${lat.toFixed(5)},${lng.toFixed(5)}`;
 
 /** The cached street address for a point, if this device has looked it up before. */
@@ -93,7 +106,7 @@ export async function streetAddress(lat, lng) {
     const label = [building, street, town, a.state].filter(Boolean).join(', ') || null;
     if (label) {
       try {
-        localStorage.setItem(STREET_CACHE_KEY, JSON.stringify({ ...readStreetCache(), [key]: label }));
+        localStorage.setItem(STREET_CACHE_KEY, JSON.stringify(withStreetEntry(readStreetCache(), key, label)));
       } catch {
         /* storage full -- still return it */
       }
