@@ -235,6 +235,19 @@ describe('dual streak fixes', () => {
     expect(streakDoc.best).toBe(9);
   });
 
+  it('reset works on an older pair doc with no mode field, and still refuses a solo doc', async () => {
+    const { default: handler } = await import('./reset-dual-streak.js');
+    streakDoc = { memberIds: ['me', 'you'], count: 5, best: 9 };
+    const out = await call(handler, { pairId: 'me', confirm: 'RESET' });
+    expect(out.ok).toBe(true);
+    expect(streakDoc.count).toBe(0);
+    streakDoc = { mode: 'solo', memberIds: ['me'], count: 5, best: 9 };
+    const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
+    await handler({ method: 'POST', headers: {}, body: { pairId: 'me', confirm: 'RESET' } }, res);
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(streakDoc.count).toBe(5);
+  });
+
   it('does not open a recovery mission when freezes were last refreshed in an earlier month', async () => {
     const { default: handler } = await import('./close-streak-day.js');
     streakDoc = {
