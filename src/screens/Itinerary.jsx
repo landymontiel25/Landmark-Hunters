@@ -511,11 +511,11 @@ export default function Itinerary() {
 
   // Driving-time results are tagged with the route they were computed for,
   // so after a re-sort the list never shows the old order while OSRM answers.
-  const [drivingRoute, setDrivingRoute] = useState({ forRoute: null, stops: [] });
+  const [drivingRoute, setDrivingRoute] = useState({ forRoute: null, legs: [] });
 
   useEffect(() => {
     if (!routeOrigin || !route.length) {
-      setDrivingRoute({ forRoute: null, stops: [] });
+      setDrivingRoute({ forRoute: null, legs: [] });
       return;
     }
     let cancelled = false;
@@ -525,7 +525,11 @@ export default function Itinerary() {
       .catch(() => route)
       .then((enhanced) => {
         if (!cancelled) {
-          setDrivingRoute({ forRoute: routeOrderKey(route), stops: enhanced });
+          // Keep only the legs OSRM actually refined (null = estimate kept).
+          const legs = enhanced.map((e, i) =>
+            e === route[i] ? null : { distanceFromPrevMeters: e.distanceFromPrevMeters, travelMinutesFromPrev: e.travelMinutesFromPrev }
+          );
+          setDrivingRoute({ forRoute: routeOrderKey(route), legs });
         }
       });
     return () => {
@@ -533,8 +537,13 @@ export default function Itinerary() {
     };
   }, [routeOrigin, route]);
 
-  const displayRoute =
-    drivingRoute.forRoute === routeOrderKey(route) && drivingRoute.stops.length === route.length ? drivingRoute.stops : route;
+  // The current stops, with the driving legs laid over them when they were
+  // computed for this same stop order.
+  const displayRoute = useMemo(() => {
+    const { forRoute, legs } = drivingRoute;
+    if (forRoute !== routeOrderKey(route) || legs.length !== route.length || !legs.some(Boolean)) return route;
+    return route.map((stop, i) => (legs[i] ? { ...stop, ...legs[i] } : stop));
+  }, [drivingRoute, route]);
 
   // Hold-and-drag reorder (the grip on each stop card), only offered while
   // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
