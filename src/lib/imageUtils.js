@@ -33,7 +33,14 @@ export async function pickPhoto() {
     return null;
   }
   if (!photo.webPath) return null;
-  const blob = await (await fetch(photo.webPath)).blob();
+  let blob;
+  try {
+    blob = await (await fetch(photo.webPath)).blob();
+  } finally {
+    // The web fallback hands back a URL.createObjectURL() blob: URL; we've
+    // copied the bytes, so free it or every pick leaks the full photo.
+    if (photo.webPath.startsWith('blob:')) URL.revokeObjectURL(photo.webPath);
+  }
   const ext = photo.format || 'jpeg';
   const original = new File([blob], `photo.${ext}`, { type: blob.type || `image/${ext}` });
   const file = await downscalePhoto(original);
