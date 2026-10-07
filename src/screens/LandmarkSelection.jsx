@@ -317,7 +317,8 @@ export default function LandmarkSelection() {
   const [cityFilter, setCityFilter] = useState(
     returned?.city && (returned.city !== 'all' || returned.picked) ? returned.city : mapCity || 'all'
   );
-  const cityPickedByHand = useRef(false);
+  // Back from a landmark keeps a hand-picked city hand-picked.
+  const cityPickedByHand = useRef(!!returned?.picked);
   const gpsLat = coords?.lat ?? null;
   const gpsLng = coords?.lng ?? null;
   const gpsCity = useMemo(
@@ -326,7 +327,7 @@ export default function LandmarkSelection() {
   );
   // No map view and no pick yet: open on the city you are in once GPS answers.
   useEffect(() => {
-    if (cityPickedByHand.current || mapCity || returned?.city || !gpsCity) return;
+    if (cityPickedByHand.current || mapCity || (returned?.city && (returned.city !== 'all' || returned.picked)) || !gpsCity) return;
     setCityFilter(gpsCity);
   }, [gpsCity, mapCity, returned]);
   // Mapr Phase 1 models for "For Me" (maprRank/surfaces.js): the chosen city,
