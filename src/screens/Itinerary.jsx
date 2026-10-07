@@ -239,6 +239,11 @@ function TravelPicksSection() {
   );
 }
 
+// Driving times match a route by its stop order, not its array identity:
+// the route is recomputed on small GPS moves and ratings reloads with the
+// same order, and those shouldn't drop back to estimates.
+const routeOrderKey = (route) => route.map((s) => s.id).join('|');
+
 export default function Itinerary() {
   const {
     trip,
@@ -513,7 +518,7 @@ export default function Itinerary() {
       .catch(() => route)
       .then((enhanced) => {
         if (!cancelled) {
-          setDrivingRoute({ forRoute: route, stops: enhanced });
+          setDrivingRoute({ forRoute: routeOrderKey(route), stops: enhanced });
         }
       });
     return () => {
@@ -522,7 +527,7 @@ export default function Itinerary() {
   }, [routeOrigin, route]);
 
   const displayRoute =
-    drivingRoute.forRoute === route && drivingRoute.stops.length === route.length ? drivingRoute.stops : route;
+    drivingRoute.forRoute === routeOrderKey(route) && drivingRoute.stops.length === route.length ? drivingRoute.stops : route;
 
   // Hold-and-drag reorder (the grip on each stop card), only offered while
   // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
