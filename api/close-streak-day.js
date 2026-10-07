@@ -4,6 +4,7 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { previousDayKey, validClientDayKey, isDayBefore, monthKeyOfDay, monthKey } from './_lib/streakDay.js';
 import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
+import { canonicalLandmarkId } from '../src/data/regions.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
 import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
@@ -95,7 +96,14 @@ async function handler(req, res) {
       (streak.memberIds || []).map((uid) => db.collection('checkins').where('userId', '==', uid).get())
     );
     const visitedIds = new Set(
-      checkinsByMember.flatMap((snap) => snap.docs.map((d) => d.data()).filter(isRealCheckin).map((c) => c.landmarkId))
+      checkinsByMember.flatMap((snap) =>
+        snap.docs
+          .map((d) => d.data())
+          .filter(isRealCheckin)
+          // Same ids the phone excludes (getUserCheckedInLandmarkIds), or a
+          // legacy-id check-in leaves the two decks different for good.
+          .map((c) => canonicalLandmarkId(c.landmarkId, c.region))
+      )
     );
     const cardIds = pickDailyCardIds(pairId, dayId, streak.cityId, visitedIds);
     const entriesSnap = await streakRef.collection('days').doc(dayId).collection('entries').get();
