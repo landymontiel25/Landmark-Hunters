@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { trimTurns, conciseReply, asksToRateHere } from './plan-ai.js';
+import { trimTurns, conciseReply, asksToRateHere, asksToRate } from './plan-ai.js';
 
 describe('plan-ai trimTurns', () => {
   it('never starts with an assistant turn once a chat is long (the API rejects that)', () => {
@@ -50,5 +50,16 @@ describe('plan-ai asksToRateHere', () => {
     expect(asksToRateHere('where should I eat here')).toBe(false);
     expect(asksToRateHere('rate Hillstone')).toBe(false);
     expect(asksToRateHere('')).toBe(false);
+  });
+});
+
+describe('plan-ai asksToRate', () => {
+  it('spots any ask to rate', () => {
+    for (const t of ['can i rate here', 'No, can I rate here?', 'can I rate a landmark', 'let me rate some places', 'I want to rate', 'give me places to rate', 'rate more places'])
+      expect(asksToRate(t)).toBe(true);
+  });
+  it('leaves other talk alone', () => {
+    for (const t of ['how do i increase my taste score', 'what should I eat', 'rate Hillstone', 'accurate map'])
+      expect(asksToRate(t)).toBe(false);
   });
 });
