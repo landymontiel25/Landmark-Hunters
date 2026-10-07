@@ -94,7 +94,7 @@ export async function runPhotoBackfill(
     }
     streak = 0;
     if (!found.match) {
-      await writePlaceId(key, { status: 'no-match', placeId: null, matchedName: null, lat: Number(l.lat), lng: Number(l.lng) });
+      await writePlaceId(key, { status: 'no-match', placeId: null, matchedName: String(l.name || '').slice(0, 200), lat: Number(l.lat), lng: Number(l.lng) });
       out.noMatch += 1;
     } else {
       await writePlaceId(key, {

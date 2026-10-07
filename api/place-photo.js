@@ -116,7 +116,7 @@ async function handler(req, res) {
         return;
       }
       if (!found.match) {
-        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: null, lat, lng });
+        if (cacheKey) await writePlaceId(cacheKey, { status: 'no-match', placeId: null, matchedName: name.slice(0, 200), lat, lng });
         noPhoto();
         return;
       }

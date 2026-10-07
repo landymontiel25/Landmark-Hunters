@@ -176,6 +176,25 @@ describe('place-ID cache', () => {
     expect(store.get(KEY)).toMatchObject({ status: 'ok', placeId: 'ChIJnew' });
   });
 
+  it('a no-match from a different (junk) name does not hide the real landmark', async () => {
+    mockApi({ places: [] });
+    await call({ ...CQ, name: 'zzzz junk' });
+    expect(store.get(KEY)).toMatchObject({ status: 'no-match', matchedName: 'zzzz junk' });
+    mockApi();
+    const r = await call(CQ);
+    expect(calls('searchText')).toHaveLength(1);
+    expect(r.json.url).toBe(PHOTO_URI);
+    expect(store.get(KEY)).toMatchObject({ status: 'ok', placeId: 'ChIJnew' });
+  });
+
+  it('an old no-match doc without a name is searched again once', async () => {
+    store.set(KEY, { status: 'no-match', placeId: null, matchedName: null, lat: Number(CQ.lat), lng: Number(CQ.lng), verifiedAt: { toMillis: () => Date.now() } });
+    mockApi();
+    const r = await call(CQ);
+    expect(calls('searchText')).toHaveLength(1);
+    expect(r.json.url).toBe(PHOTO_URI);
+  });
+
   it('ignores a stored ID when the request no longer describes the same place', async () => {
     store.set(KEY, seeded());
     mockApi();
