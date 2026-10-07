@@ -440,7 +440,7 @@ export function itinerarySummary(trip, tripApi, groupTrips) {
     ref: g.id,
     name: g.name,
     city: getRegion(g.regionId)?.name || g.regionId,
-    members: Object.values(g.memberNames || {}).slice(0, 10),
+    members: Object.values(g.memberNames || {}).map((n) => n || 'A traveler').slice(0, 10),
     stops: [
       ...(g.landmarkIds || []).map((id) => ALL_LANDMARKS.find((l) => l.regionId === g.regionId && l.id === id)?.name).filter(Boolean),
       ...(g.places || []).map((p) => p.name),
