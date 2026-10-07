@@ -85,6 +85,7 @@ export async function loadStatsData(db) {
               scoreAfterDecay: x.scoreAfterDecay ?? null,
               collabBoost: x.collabBoost ?? null,
               ncfScore: x.ncfScore ?? null,
+              ncfModel: x.ncfModel ?? null,
               finalScore: x.finalScore ?? null,
               explore: x.explore === true,
               noveltyScore: x.noveltyScore ?? null,
