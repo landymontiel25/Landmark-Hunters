@@ -568,6 +568,17 @@ await t('place_backfill_usage: no client (signed out, user, admin) can read, lis
   }
 });
 
+console.log('custom_landmarks: list for everyone, get hides reported pins');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'custom_landmarks/ok'), { name: 'Ok pin', createdBy: 'alice', reportedBy: [] });
+  await setDoc(doc(db, 'custom_landmarks/bad'), { name: 'Reported pin', createdBy: 'alice', reportedBy: ['x', 'y'] });
+});
+await t('a normal user can list custom landmarks (the app filters reported ones)', () => assertSucceeds(getDocs(collection(as('bob'), 'custom_landmarks'))));
+await t('signed out can list custom landmarks', () => assertSucceeds(getDocs(collection(env.unauthenticatedContext().firestore(), 'custom_landmarks'))));
+await t('a reported pin cannot be fetched by someone else', () => assertFails(getDoc(doc(as('bob'), 'custom_landmarks/bad'))));
+await t('its creator can still fetch it', () => assertSucceeds(getDoc(doc(as('alice'), 'custom_landmarks/bad'))));
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {

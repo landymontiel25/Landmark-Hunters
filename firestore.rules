@@ -854,10 +854,14 @@ service cloud.firestore {
     }
     match /custom_landmarks/{id} {
       // Same reportedBy hide-past-threshold rule as reviews, unless you're
-      // the submitter or an admin.
-      allow read: if resource.data.get('reportedBy', []).size() < 2
+      // the submitter or an admin. That check can only apply to a single-doc
+      // get: Firestore refuses a whole list query whose filters can't prove
+      // it, so the app's unfiltered list (customLandmarks.js, which applies
+      // the same hide rule itself) failed for everyone but the admin.
+      allow get: if resource.data.get('reportedBy', []).size() < 2
         || (request.auth != null
             && (resource.data.createdBy == request.auth.uid || isAdmin()));
+      allow list: if true;
       // A brand-new submission always starts "pending" -- enforced here, not
       // just in the app's own code, so calling the database directly can't
       // skip the approval queue and self-publish as "approved".
