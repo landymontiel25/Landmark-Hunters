@@ -315,6 +315,17 @@ export const MAX_CHECKIN_PHOTOS = 9;
  */
 async function _addCheckinPhoto(userId, landmarkId, file) {
   if (!db || !storage || !userId || !landmarkId || !file) return null;
+  // The gallery holds MAX_CHECKIN_PHOTOS. The check-in popup adds up to 3
+  // per visit, so without this a few visits filled it past the cap (and the
+  // landmark page then hid "Add photo" with no word why).
+  const existing = await getDoc(doc(db, 'checkins', `${userId}_${landmarkId}`)).catch(() => null);
+  const data = existing?.exists() ? existing.data() : null;
+  const have = (data?.photoURLs?.length || 0) + (data?.photoURL && !(data.photoURLs || []).includes(data.photoURL) ? 1 : 0);
+  if (have >= MAX_CHECKIN_PHOTOS) {
+    const err = new Error(`This check-in already has ${MAX_CHECKIN_PHOTOS} photos, the most it can hold.`);
+    err.userMessage = err.message;
+    throw err;
+  }
   const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${Math.floor(Math.random() * 1000)}.jpg`);
   await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
   const photoURL = await getDownloadURL(storageRef);
