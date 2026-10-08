@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     if (body.action === 'refresh') {
       const ds = await loadStatsData(db);
       await ensureServerPlacePacks();
-      const daily = await runDaily(db, { now: Date.now(), ds, slack: async () => ({ posted: false, skipped: true }) });
+      const daily = await runDaily(db, { now: Date.now(), ds, slack: async () => ({ posted: false, skipped: true }), stagnation: false });
       res.status(200).json({ ok: true, daily });
       return;
     }
