@@ -320,7 +320,8 @@ async function _addCheckinPhoto(userId, landmarkId, file) {
   // landmark page then hid "Add photo" with no word why).
   const existing = await getDoc(doc(db, 'checkins', `${userId}_${landmarkId}`)).catch(() => null);
   const data = existing?.exists() ? existing.data() : null;
-  const have = (data?.photoURLs?.length || 0) + (data?.photoURL && !(data.photoURLs || []).includes(data.photoURL) ? 1 : 0);
+  // Counted like the landmark page's "Add photo (N/9)".
+  const have = (data?.photoURLs || (data?.photoURL ? [data.photoURL] : [])).length;
   if (have >= MAX_CHECKIN_PHOTOS) {
     const err = new Error(`This check-in already has ${MAX_CHECKIN_PHOTOS} photos, the most it can hold.`);
     err.userMessage = err.message;
