@@ -96,6 +96,20 @@ describe('Mapr actions', () => {
     expect(t.trip.placesByRegion.miami?.[0]).toMatchObject({ name: 'Autana Arepas', url: 'https://x.test' });
   });
 
+  it('does not pick a non-Latin-named chat place for some other name, or any place for an unreadable one', async () => {
+    t.api.renameItinerary('miami', 'Miami');
+    const stops = [
+      { external: true, name: '東京タワー', place: 'Tokyo', address: '', url: 'https://x.test/a' },
+      { external: true, name: 'Autana Arepas', place: 'Miami', address: '2520 NW 2nd Ave', url: 'https://x.test/b' },
+    ];
+    const [r] = await runMaprActions([{ type: 'add_stop', stop: 'Autana Arepas', itinerary: 'miami' }], ctx({ conversationStops: stops }));
+    expect(r.ok).toBe(true);
+    expect(t.trip.placesByRegion.miami?.[0]).toMatchObject({ name: 'Autana Arepas' });
+    const [bad] = await runMaprActions([{ type: 'add_stop', stop: '🍕', itinerary: 'miami' }], ctx({ conversationStops: stops.slice(1) }));
+    expect(bad.ok).toBe(false);
+    expect(t.trip.placesByRegion.miami).toHaveLength(1);
+  });
+
   it('refuses a stop it cannot identify', async () => {
     const [r] = await runMaprActions([{ type: 'add_stop', stop: 'Nowhere Diner', itinerary: 'new' }], ctx());
     expect(r.ok).toBe(false);
@@ -110,6 +124,16 @@ describe('Mapr actions', () => {
     const [r] = await runMaprActions([{ type: 'remove_stop', stop: miamiLandmark.name, itinerary: 'miami' }], ctx());
     expect(r.ok).toBe(true);
     expect(t.trip.byRegion.miami).toEqual([]);
+  });
+
+  it('does not remove a saved place for a name with no Latin letters or digits', async () => {
+    t.api.addPlace('miami', { id: 'p1', name: 'Autana Arepas' });
+    for (const stop of ['', '東京タワー']) {
+      const [r] = await runMaprActions([{ type: 'remove_stop', stop, itinerary: 'miami' }], ctx());
+      expect(r.ok).toBe(false);
+      expect(r.text).toMatch(/Couldn't tell which place/);
+    }
+    expect(t.trip.placesByRegion.miami).toHaveLength(1);
   });
 
   it('adds a catalog stop to a group trip in the same city', async () => {

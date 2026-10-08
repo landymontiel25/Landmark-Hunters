@@ -178,16 +178,17 @@ export default function Mapr() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.uid]);
   // Marks one action result as undone (kept in the saved chat, so it stays
-  // marked after leaving and coming back).
-  const markUndone = (msgId, idx) =>
-    setMessages((cur) =>
+  // marked after leaving and coming back). chatId: the chat the result is
+  // in -- an undo or retry can finish after you've switched chats.
+  const markUndone = (msgId, idx, chatId = activeChat.id) =>
+    setMessagesFor(chatId, (cur) =>
       cur.map((m) =>
         m.id === msgId ? { ...m, actionResults: m.actionResults.map((r, j) => (j === idx ? { ...r, undone: true } : r)) } : m
       )
     );
 
-  const setActionResult = (msgId, idx, next) =>
-    setMessages((cur) =>
+  const setActionResult = (msgId, idx, next, chatId = activeChat.id) =>
+    setMessagesFor(chatId, (cur) =>
       cur.map((m) => (m.id === msgId ? { ...m, actionResults: m.actionResults.map((r, j) => (j === idx ? next : r)) } : m))
     );
 
@@ -212,6 +213,15 @@ export default function Mapr() {
   // "region/id" -> Mapr Phase 1 telemetry the server sent for a chat stop.
   const rankTelemetry = useRef(new Map());
   const [retrying, setRetrying] = useState({});
+  // The stops a reply's actions were resolved against. Kept in memory only,
+  // so a chat reopened after a reload falls back to the stops saved on its
+  // messages up to and including that reply (what the actions first saw).
+  const stopsForRetry = (msgId) => {
+    const registered = getConversationStops(msgId);
+    if (registered.length) return registered;
+    const end = messages.findIndex((m) => m.id === msgId);
+    return end < 0 ? [] : messages.slice(0, end + 1).flatMap((m) => m.stops || []);
+  };
   // Retries exactly the one action that failed -- no retyping the whole
   // request, and no repeating whatever else was in the same reply that
   // already went through.
@@ -220,6 +230,7 @@ export default function Mapr() {
     if (retrying[key]) return;
     const current = messages.find((m) => m.id === msgId)?.actionResults?.[idx];
     if (!current?.action) return;
+    const chatId = activeChat.id;
     setRetrying((cur) => ({ ...cur, [key]: true }));
     try {
       const fresh = await retryMaprAction(current.action, {
@@ -230,7 +241,7 @@ export default function Mapr() {
         resendVerification,
         ownerName: myUsername || user?.displayName || 'Explorer',
         coords,
-        conversationStops: getConversationStops(msgId),
+        conversationStops: stopsForRetry(msgId),
         onGroupsChanged: loadGroupTrips,
       }, { allowCreate });
       if (fresh.undo) registerUndo(key, fresh.undo);
@@ -240,7 +251,7 @@ export default function Mapr() {
         link: fresh.link || null,
         action: fresh.action,
         needsConfirm: !!fresh.needsConfirm,
-      });
+      }, chatId);
     } catch (err) {
       toast.show(friendlyError(err, "That didn't go through. Try again."));
     } finally {
@@ -292,6 +303,11 @@ export default function Mapr() {
   const [renamingTitle, setRenamingTitle] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editDraft, setEditDraft] = useState('');
+  // An edit in progress belongs to the chat it was started in.
+  useEffect(() => {
+    setEditingIndex(null);
+    setEditDraft('');
+  }, [activeChat.id]);
   const [regionOpen, setRegionOpen] = useState(false);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
   const feedEndRef = useRef(null);
@@ -403,6 +419,11 @@ export default function Mapr() {
     return promise;
   };
 
+  // Each stop is tried automatically once per visit to this screen: a stop
+  // that fails (createFailed) is left for the traveler to tap, instead of
+  // being retried on every message update (each try costs a Places lookup
+  // and a Firestore write).
+  const autoTriedRef = useRef(new Set());
   useEffect(() => {
     if (!user) return;
     for (const m of messages) {
@@ -410,7 +431,8 @@ export default function Mapr() {
       m.stops.forEach((stop, idx) => {
         if (!stop.external || stop.createdId) return;
         const key = stopKey(m.id, idx, stop.name);
-        if (creatingPromisesRef.current.has(key)) return;
+        if (creatingPromisesRef.current.has(key) || autoTriedRef.current.has(key)) return;
+        autoTriedRef.current.add(key);
         ensureStopCreated(m, idx, stop).catch(() => {});
       });
     }
@@ -463,16 +485,20 @@ export default function Mapr() {
   }, []);
 
   // "Ask Mapr about …" from a landmark's page: arrives with the question
-  // and sends it straight away, once per navigation.
+  // and sends it straight away, once per navigation. If a reply is still
+  // coming in, the question waits for it to finish instead of being dropped.
   const pendingAskRef = useRef(location.state?.ask || null);
   useEffect(() => {
-    const ask = pendingAskRef.current;
-    if (!ask) return;
-    pendingAskRef.current = null;
-    navigate(location.pathname, { replace: true, state: {} });
-    send(null, ask);
+    if (pendingAskRef.current) navigate(location.pathname, { replace: true, state: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const ask = pendingAskRef.current;
+    if (!ask || busy) return;
+    pendingAskRef.current = null;
+    send(null, ask);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busy]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -1162,10 +1188,11 @@ export default function Mapr() {
                             <button
                               type="button"
                               onClick={async () => {
+                                const chatId = activeChat.id;
                                 try {
                                   await getUndo(key)();
                                   forgetUndo(key);
-                                  markUndone(m.id, idx);
+                                  markUndone(m.id, idx, chatId);
                                 } catch (err) {
                                   toast.show(friendlyError(err, "Couldn't undo that. Try again."));
                                 }

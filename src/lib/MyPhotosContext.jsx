@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { getUserReviewPhotos } from './reviews';
 import { getUserCheckins } from './leaderboard';
@@ -14,9 +14,15 @@ const MyPhotosContext = createContext(null);
 export function MyPhotosProvider({ children }) {
   const { user, firebaseEnabled } = useAuth();
   const [myPhotos, setMyPhotos] = useState({});
+  // Only the newest reload() may write, so a slow read for account A can't
+  // land after sign-out or a switch to B. photosUidRef = whose photos we hold.
+  const reqRef = useRef(0);
+  const photosUidRef = useRef(null);
 
   const reload = useCallback(async () => {
+    const req = ++reqRef.current;
     if (!firebaseEnabled || !user) {
+      photosUidRef.current = null;
       setMyPhotos({});
       return;
     }
@@ -39,9 +45,15 @@ export function MyPhotosProvider({ children }) {
         const fresh = checkinPhotos.filter((url) => !existing.includes(url));
         if (fresh.length) map[c.landmarkId] = [...fresh, ...existing];
       }
+      if (req !== reqRef.current) return;
+      photosUidRef.current = user.uid;
       setMyPhotos(map);
     } catch {
-      /* offline / rules not set yet -- leave it empty */
+      /* offline / rules not set yet -- keep what we had, if it's this account's */
+      if (req === reqRef.current && photosUidRef.current !== user.uid) {
+        photosUidRef.current = user.uid;
+        setMyPhotos({});
+      }
     }
   }, [firebaseEnabled, user]);
 

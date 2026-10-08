@@ -17,6 +17,13 @@ export default function MyCommentEditor({ userId, userName, landmark, comment, t
   const [error, setError] = useState(null);
   // What you just saved shows right away, before the parent reloads.
   const [savedText, setSavedText] = useState(null);
+  // Once the parent passes a newer comment (e.g. another row for the same
+  // place was edited), that wins over what this editor saved earlier.
+  const [prevComment, setPrevComment] = useState(comment);
+  if (comment !== prevComment) {
+    setPrevComment(comment);
+    setSavedText(null);
+  }
   const shown = savedText ?? comment ?? '';
 
   const start = () => {

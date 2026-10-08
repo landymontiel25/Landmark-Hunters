@@ -22,7 +22,7 @@ Note: because the endpoint requires an `Authorization` header, the Vercel edge m
 
 Firestore collection `place_ids/{region}__{landmarkId}`, read and written only by the Admin SDK in `api/place-photo.js` (needs `FIREBASE_SERVICE_ACCOUNT`). `firestore.rules` denies all client access (`allow read, write: if false`). It holds no user data, so account deletion is unaffected.
 
-Doc: `{ placeId, matchedName, lat, lng, verifiedAt (server time), source: 'text-search', status: 'ok' | 'no-match' }`. Nothing else is ever written: no photo bytes, photo names, photoUris or attributions (a test asserts the exact field list).
+Doc: `{ placeId, matchedName, lat, lng, verifiedAt (server time), source: 'text-search', status: 'ok' | 'no-match' }`. On a `no-match` doc, `matchedName` is the name that was searched, and the doc is only trusted for that same name (an old one without it is searched again once). Nothing else is ever written: no photo bytes, photo names, photoUris or attributions (a test asserts the exact field list).
 
 The client sends `region` and `id` along with name/lat/lng. The server only trusts a stored doc if the request's name still matches `matchedName` and the coordinates are within 250 m of the stored ones (the query string is client-supplied). Requests without a safe region/id skip the cache and behave as before.
 

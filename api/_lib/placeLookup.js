@@ -140,11 +140,18 @@ export function verifiedMs(doc) {
 export const isFresh = (doc, windowMs) => Date.now() - verifiedMs(doc) < windowMs;
 
 // The request's name/coordinates come from the client, so only trust a stored
-// doc when they still describe the place it was verified for.
+// doc when they still describe the place it was verified for. A no-match doc
+// stores the name that was searched (matchedName) and is only trusted for that
+// same name, so a request with a junk name can't hide a real landmark's photo;
+// an older no-match doc without a name is searched again once.
 export function sameLandmark(doc, name, lat, lng) {
   if (!Number.isFinite(doc?.lat) || !Number.isFinite(doc?.lng)) return false;
   if (distanceMeters(lat, lng, doc.lat, doc.lng) > MAX_DISTANCE_M) return false;
-  return doc.status === 'no-match' || namesMatch(name, doc.matchedName);
+  if (doc.status === 'no-match') {
+    const searched = normalizeName(doc.matchedName);
+    return !!searched && searched === normalizeName(name);
+  }
+  return namesMatch(name, doc.matchedName);
 }
 
 // One short line per failed Google step, so a 502 can be diagnosed from

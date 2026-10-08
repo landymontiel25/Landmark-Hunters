@@ -27,6 +27,7 @@ import {
   optionToMiles,
   withinDistance,
   writeNearbyPicksCache,
+  NEARBY_PICKS_CACHE_LIMIT,
 } from './nearbyPicks';
 
 afterEach(() => localStorage.clear());
@@ -197,6 +198,15 @@ describe('closed places and low ratings', () => {
     expect(isClosedNow({ permanentlyClosed: true }, tuesday(12))).toBe(true);
   });
 
+  it('reads a day list split by a comma as sharing the next range', () => {
+    const hours = 'Mon–Thu, Sun 11am–10pm; Fri–Sat 11am–11pm';
+    expect(isClosedNow({ hours }, new Date(2026, 8, 28, 19, 0))).toBe(false); // Mon 7pm
+    expect(isClosedNow({ hours }, new Date(2026, 9, 1, 22, 30))).toBe(true); // Thu 10:30pm
+    expect(isClosedNow({ hours }, new Date(2026, 9, 3, 22, 30))).toBe(false); // Sat 10:30pm
+    expect(isClosedNow({ hours }, new Date(2026, 9, 4, 19, 0))).toBe(false); // Sun 7pm
+    expect(isClosedNow({ hours }, tuesday(9))).toBe(true);
+  });
+
   it('reads a bare "9-5" as 9am-5pm, and "12-8pm" as noon to 8pm', () => {
     expect(isClosedNow({ hours: '9-5' }, tuesday(3))).toBe(true);
     expect(isClosedNow({ hours: '9-5' }, tuesday(12))).toBe(false);
@@ -275,6 +285,22 @@ describe('mood sort and the cached set', () => {
     expect(readNearbyPicksCache(key, 1000 + 60_000)).toMatchObject({ stale: false, picks: [{ id: 'a' }] });
     expect(readNearbyPicksCache(key, 1000 + PICKS_CACHE_TTL_MS + 1)).toMatchObject({ stale: true, picks: [{ id: 'a' }] });
     expect(pickKey(pick('a'))).toBe('test/a');
+  });
+
+  it('keeps only the newest few saved sets as ratings and places change', () => {
+    localStorage.setItem('other-setting', 'x');
+    const keys = [];
+    for (let n = 0; n < 40; n++) {
+      const key = nearbyPicksCacheKey({ uid: 'u', ratingsCount: n, origin: ORIGIN, miles: 10 });
+      keys.push(key);
+      writeNearbyPicksCache(key, [pick('a')], 1000 + n);
+    }
+    const saved = Object.keys(localStorage).filter((k) => k.startsWith('lh-nearby-picks:'));
+    expect(saved).toHaveLength(NEARBY_PICKS_CACHE_LIMIT);
+    expect(readNearbyPicksCache(keys[39], 2000)).toMatchObject({ picks: [{ id: 'a' }] });
+    expect(readNearbyPicksCache(keys[39 - NEARBY_PICKS_CACHE_LIMIT + 1], 2000)).not.toBeNull();
+    expect(readNearbyPicksCache(keys[0], 2000)).toBeNull();
+    expect(localStorage.getItem('other-setting')).toBe('x');
   });
 });
 

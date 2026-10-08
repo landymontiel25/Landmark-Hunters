@@ -169,8 +169,17 @@ export function isClosedNow(l, date = new Date()) {
   const yesterday = (day + 6) % 7;
   let sawRange = false;
   let closedToday = false;
-  for (const seg of hours.split(/[,;]/)) {
+  // "Mon–Thu, Sun 11am–10pm": a piece with days but no time range (and no
+  // "closed") shares the range of the piece after it, so carry it forward.
+  let carry = '';
+  for (const piece of hours.split(/[,;]/)) {
+    const seg = carry ? `${carry}, ${piece}` : piece;
+    carry = '';
     const days = daysIn(seg);
+    if (days && !/\bclosed\b/i.test(seg) && !parseRange(seg)) {
+      carry = seg;
+      continue;
+    }
     const appliesToday = !days || days.has(day);
     if (/\bclosed\b/i.test(seg)) {
       if (days && days.has(day)) closedToday = true;
@@ -813,7 +822,35 @@ export function readNearbyPicksCache(key, now = Date.now()) {
   }
 }
 
+// Every rating, ~1 km move, distance or category change makes a new key, and
+// nothing else ever removes the old ones; keep only the newest few sets so
+// they can't pile up until localStorage is full (which would also break the
+// trip and every other saved setting).
+export const NEARBY_PICKS_CACHE_LIMIT = 12;
+
+function pruneNearbyPicksCache(keep) {
+  const entries = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith(`${CACHE_PREFIX}:`) || k === keep) continue;
+    let at = 0;
+    try {
+      at = Number(JSON.parse(localStorage.getItem(k))?.at) || 0;
+    } catch {
+      /* unreadable: oldest */
+    }
+    entries.push([k, at]);
+  }
+  entries.sort((a, b) => b[1] - a[1]);
+  for (const [k] of entries.slice(NEARBY_PICKS_CACHE_LIMIT - 1)) localStorage.removeItem(k);
+}
+
 export function writeNearbyPicksCache(key, picks, at = Date.now()) {
+  try {
+    pruneNearbyPicksCache(key);
+  } catch {
+    /* storage blocked */
+  }
   try {
     localStorage.setItem(key, JSON.stringify({ at, picks }));
   } catch {

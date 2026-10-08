@@ -98,14 +98,14 @@ afterEach(() => {
   container = null;
 });
 
-async function mountPage() {
+async function mountPage(path = '/landmarks/miami/south-beach') {
   const { default: LandmarkDetail } = await import('./LandmarkDetail.jsx');
   container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
   await act(async () => {
     root.render(
-      <MemoryRouter initialEntries={['/landmarks/miami/south-beach']}>
+      <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route path="/landmarks/:region/:id" element={<LandmarkDetail />} />
         </Routes>
@@ -200,5 +200,36 @@ describe('landmark page rating section', () => {
     await click(btn(c, /Update Rating/));
     await act(async () => {});
     expect(btn(c, /Add photo \(\d+\/3\)/)).toBeFalsy();
+  });
+
+  it('finds, deletes and adds photos to records saved under a pre-rename San Francisco id', async () => {
+    claimed = { 'washington-square-park-sf': true };
+    const rv = await import('../lib/reviews');
+    const lb = await import('../lib/leaderboard');
+    const legacy = { ratingTier: 'highly-recommend', stars: 5, highlights: [], lovedOrder: [], dislikedOrder: [], comment: 'Old' };
+    rv.getMyReview.mockImplementation((_uid, lid) => Promise.resolve(lid === 'washington-square-park' ? legacy : null));
+    lb.getMyCheckin.mockImplementation((_uid, lid) =>
+      Promise.resolve(lid === 'washington-square-park' ? { id: 'me_washington-square-park', createdAt: { seconds: 1 } } : null)
+    );
+    lb.addCheckinPhoto.mockResolvedValue('https://x/p.jpg');
+    deleteMyReview.mockResolvedValue(undefined);
+    try {
+      const c = await mountPage('/landmarks/san-francisco/washington-square-park-sf');
+      expect(c.textContent).toMatch(/Already rated/);
+      await click(btn(c, /Add photo \(0\/9\)/));
+      await act(async () => {});
+      expect(lb.addCheckinPhoto).toHaveBeenCalledWith('me', 'washington-square-park', expect.anything());
+      await click(btn(c, /Remove my rating/));
+      expect(deleteMyReview).toHaveBeenCalledWith('me', 'washington-square-park');
+    } finally {
+      lb.getMyCheckin.mockResolvedValue(null);
+    }
+  });
+
+  it('opens a renamed landmark from a link that still has its old id', async () => {
+    claimed = {};
+    const c = await mountPage('/landmarks/san-francisco/the-battery');
+    expect(c.textContent).not.toMatch(/couldn't find that landmark/);
+    expect(c.querySelector('h1')?.textContent).toMatch(/Battery/);
   });
 });

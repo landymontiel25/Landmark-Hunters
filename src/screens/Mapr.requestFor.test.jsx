@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn() }));
+const h = vi.hoisted(() => ({ fetchJson: vi.fn(), logged: [], saveVote: vi.fn(), landmarkForRating: vi.fn(), runMaprActions: vi.fn(), retryMaprAction: vi.fn(), initialBusy: false, setBusy: null }));
 
 const stub = () => () => null;
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u1', displayName: 'Ann' }, resendVerification: () => {} }) }));
@@ -34,7 +34,8 @@ vi.mock('../lib/MaprChatContext', async () => {
       const [messages, setMessages] = React.useState([]);
       const [draft, setDraft] = React.useState('');
       const [regions, setRegions] = React.useState([]);
-      const [busy, setBusyState] = React.useState(false);
+      const [busy, setBusyState] = React.useState(h.initialBusy);
+      h.setBusy = setBusyState;
       const [showPlanner, setShowPlanner] = React.useState(false);
       return {
         messages,
@@ -77,8 +78,8 @@ vi.mock('../lib/useShownLogger', () => ({
   useShownLogger: () => (setId, stops, overrides) => h.logged.push({ setId, stops, ...overrides }),
 }));
 vi.mock('../lib/maprActions', () => ({
-  runMaprActions: async () => [],
-  retryMaprAction: async () => ({}),
+  runMaprActions: (...a) => h.runMaprActions(...a),
+  retryMaprAction: (...a) => h.retryMaprAction(...a),
   itinerarySummary: () => [],
   registerUndo: () => {},
   getUndo: () => null,
@@ -86,7 +87,7 @@ vi.mock('../lib/maprActions', () => ({
   registerConversationStops: () => {},
   getConversationStops: () => [],
 }));
-vi.mock('../lib/placeLandmarks', () => ({ landmarkForRating: async () => ({}) }));
+vi.mock('../lib/placeLandmarks', () => ({ landmarkForRating: (...a) => h.landmarkForRating(...a) }));
 for (const f of [
   'LandmarkThumb',
   'MaprChatsPanel',
@@ -111,6 +112,12 @@ beforeEach(async () => {
   window.HTMLElement.prototype.scrollIntoView = () => {};
   h.fetchJson.mockReset();
   h.saveVote.mockReset();
+  h.landmarkForRating.mockReset();
+  h.landmarkForRating.mockResolvedValue({});
+  h.runMaprActions.mockReset();
+  h.runMaprActions.mockResolvedValue([]);
+  h.retryMaprAction.mockReset();
+  h.retryMaprAction.mockResolvedValue({ ok: true, text: 'Added.' });
   h.saveVote.mockResolvedValue({ status: 'saved', entry: { landmarkId: 'a', verdict: 'yes' } });
   h.logged.length = 0;
   localStorage.clear();
@@ -128,6 +135,7 @@ beforeEach(async () => {
   );
 });
 afterEach(() => {
+  h.initialBusy = false;
   act(() => root.unmount());
   document.body.removeChild(container);
 });
@@ -287,5 +295,55 @@ describe('addresses in a reply', () => {
     expect(container.textContent).toContain("Sure, here's the");
     expect(container.textContent).not.toContain('{{address');
     expect(container.querySelector('p').textContent).not.toContain('1711');
+  });
+});
+
+describe('places Mapr found on the web', () => {
+  it('tries to set up a failing stop once on its own, and again only when tapped', async () => {
+    h.landmarkForRating.mockRejectedValue(new Error('not on the map'));
+    h.fetchJson.mockResolvedValue({ reply: 'Try this.', stops: [{ external: true, name: 'Autana Arepas', place: 'Miami', reason: 'Arepas' }], quickReplies: [] });
+    await setValue('arepas');
+    await submit();
+    expect(h.landmarkForRating).toHaveBeenCalledTimes(1);
+    expect(container.textContent).toContain("Couldn't open this one");
+    h.fetchJson.mockResolvedValue({ reply: 'Anything else?', stops: [], quickReplies: [] });
+    await setValue('thanks');
+    await submit();
+    expect(h.landmarkForRating).toHaveBeenCalledTimes(1);
+    await act(async () => container.querySelector('.chatlab-stop-card-main').dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(h.landmarkForRating).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('retrying a failed Mapr action', () => {
+  it("resolves against the chat's saved stops when the in-memory list is gone (reopened chat)", async () => {
+    const stops = [{ id: 'a', region: 'villanova', name: 'Autana', reason: 'Great food', categories: ['food'] }];
+    h.runMaprActions.mockResolvedValue([{ ok: false, text: 'That failed.', action: { type: 'add_stop', stop: 'Autana' } }]);
+    h.fetchJson.mockResolvedValue({ reply: 'Adding it.', stops, actions: [{ type: 'add_stop', stop: 'Autana' }], quickReplies: [] });
+    await setValue('add autana');
+    await submit();
+    await click('Try again');
+    expect(h.retryMaprAction).toHaveBeenCalledTimes(1);
+    expect(h.retryMaprAction.mock.calls[0][1].conversationStops).toEqual([expect.objectContaining({ id: 'a', name: 'Autana' })]);
+    expect(container.textContent).toContain('Added.');
+  });
+});
+
+describe('"Ask Mapr about" from a landmark page', () => {
+  it('waits for a reply already in flight instead of dropping the question', async () => {
+    act(() => root.unmount());
+    h.initialBusy = true;
+    root = createRoot(container);
+    await act(async () =>
+      root.render(
+        <MemoryRouter initialEntries={[{ pathname: '/mapr', state: { ask: 'Tell me about Autana' } }]}>
+          <Mapr />
+        </MemoryRouter>
+      )
+    );
+    expect(h.fetchJson).not.toHaveBeenCalled();
+    await act(async () => h.setBusy(false));
+    expect(h.fetchJson).toHaveBeenCalledTimes(1);
+    expect(lastBody().messages.at(-1)).toEqual({ role: 'user', content: 'Tell me about Autana' });
   });
 });

@@ -34,6 +34,18 @@ describe('POST /api/auth/login', () => {
     delete process.env.ADMIN_SECRET_TOKEN;
     expect((await POST(req('/api/auth/login', { token: PASSWORD }, undefined, '2.2.2.2'))).status).toBe(503);
   });
+  it('503 with a clear message when the password or JWT secret is too short', async () => {
+    const { POST } = await import('@/app/api/auth/login/route');
+    process.env.ADMIN_SECRET_TOKEN = 'short';
+    let res = await POST(req('/api/auth/login', { token: 'short' }, undefined, '3.3.3.3'));
+    expect(res.status).toBe(503);
+    expect((await res.json()).error).toMatch(/ADMIN_SECRET_TOKEN must be at least 16/);
+    process.env.ADMIN_SECRET_TOKEN = PASSWORD;
+    process.env.JWT_SECRET = 'j'.repeat(20);
+    res = await POST(req('/api/auth/login', { token: PASSWORD }, undefined, '4.4.4.4'));
+    expect(res.status).toBe(503);
+    expect((await res.json()).error).toMatch(/JWT_SECRET must be at least 32/);
+  });
 });
 
 describe('POST /api/firestore-read', () => {
@@ -118,8 +130,16 @@ describe('jobs proxy errors', () => {
   it('names the host and what a non-JSON answer said', async () => {
     const f = (async () => new Response('<html><title>Authentication Required</title><body>Log in to Vercel</body></html>', { status: 403 })) as never;
     const out = await forwardJob('mapr-run', { appUrl: 'https://my-app-abc.vercel.app/', secret: 's', fetchImpl: f });
-    expect(out.status).toBe(403);
+    // 502, not 403/401: the dashboard session is fine, so the page must not
+    // treat it as signed out and loop back to /login.
+    expect(out.status).toBe(502);
     expect((out.body as { error: string }).error).toMatch(/my-app-abc\.vercel\.app answered 403 .*Authentication Required.*Deployment Protection/);
+  });
+  it('turns the app refusing the secret (401 JSON) into 502 with its message', async () => {
+    const f = (async () => new Response(JSON.stringify({ error: 'Unauthorized.' }), { status: 401 })) as never;
+    const out = await forwardJob('refresh', { appUrl: 'https://app.example/', secret: 'wrong', fetchImpl: f });
+    expect(out.status).toBe(502);
+    expect(out.body).toEqual({ error: 'Unauthorized.' });
   });
 });
 

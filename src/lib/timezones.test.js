@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { regionTimezone, tzAbbrev, toZonedInputValue, fromZonedInputValue } from './timezones';
+import { REGIONS } from '../data/regions';
 
 describe('regionTimezone', () => {
   it('maps known regions to their real IANA timezone', () => {
@@ -7,6 +8,12 @@ describe('regionTimezone', () => {
     expect(regionTimezone('san-francisco')).toBe('America/Los_Angeles');
     expect(regionTimezone('switzerland')).toBe('Europe/Zurich');
     expect(regionTimezone('frankfurt')).toBe('Europe/Berlin');
+    expect(regionTimezone('paris')).toBe('Europe/Paris');
+  });
+
+  it('has an exact zone for every single-place region', () => {
+    const missing = REGIONS.filter((r) => !r.worldwide).map((r) => r.id).filter((id) => regionTimezone(id, 0) === 'Etc/UTC');
+    expect(missing).toEqual([]);
   });
 
   it('falls back to the browser timezone for an unknown region with no longitude', () => {

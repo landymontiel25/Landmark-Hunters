@@ -42,6 +42,9 @@ export default function HabitPlacePrompt() {
   const lastRecordedAtRef = useRef(0);
   const notifiedIdRef = useRef(null);
   const relatedFetchedIdRef = useRef(null);
+  // Cluster ids whose name lookup is in flight: GPS fixes keep arriving while
+  // it runs, and each one would otherwise start another paid lookup.
+  const lookupsInFlightRef = useRef(new Set());
 
   const isAlreadyTracked = (lat, lng) =>
     ALL_LANDMARKS.some((l) => distanceMeters(lat, lng, l.lat, l.lng) <= ALREADY_TRACKED_RADIUS_METERS);
@@ -60,10 +63,15 @@ export default function HabitPlacePrompt() {
     if (!due) return;
 
     if (!due.name) {
-      reverseGeocodePlace(due.lat, due.lng).then((place) => {
-        if (place) resolveClusterName(uid, due.id, place);
-        else markLookupFailed(uid, due.id);
-      });
+      const inFlight = lookupsInFlightRef.current;
+      if (inFlight.has(due.id)) return;
+      inFlight.add(due.id);
+      reverseGeocodePlace(due.lat, due.lng)
+        .then((place) => {
+          if (place) resolveClusterName(uid, due.id, place);
+          else markLookupFailed(uid, due.id);
+        })
+        .finally(() => inFlight.delete(due.id));
       return;
     }
 
@@ -95,13 +103,16 @@ export default function HabitPlacePrompt() {
       savedInterests,
       regionId: nearestRegionId(suggestion.lat, suggestion.lng),
     }).then((stop) => {
-      if (stop) setRelatedStop(stop);
+      // Tagged with its suggestion: an answer that lands after this prompt
+      // was closed must not show up later inside a different place's prompt.
+      if (stop) setRelatedStop({ ...stop, forSuggestionId: suggestion.id });
     });
   }, [suggestion, trip.savedInterests, myProfile]);
 
   if (!suggestion) return null;
 
   const timeLabel = typicalTimeLabel(suggestion);
+  const related = relatedStop?.forSuggestionId === suggestion.id ? relatedStop : null;
 
   const close = () => {
     setSuggestion(null);
@@ -189,7 +200,7 @@ export default function HabitPlacePrompt() {
           {'\u{1F6AB}'} Don't track this place
         </button>
 
-        {relatedStop && !relatedAdded && (
+        {related && !relatedAdded && (
           <div className="card section" style={{ marginTop: 16, marginBottom: 0 }}>
             <p className="screen-subtitle" style={{ marginTop: 0 }}>
               {'\u{2728}'} Since you're into that -- <strong>{relatedStop.name}</strong> is nearby or on the way.
@@ -210,7 +221,7 @@ export default function HabitPlacePrompt() {
         )}
         {relatedAdded && (
           <p className="screen-subtitle" style={{ marginTop: 16, marginBottom: 0 }}>
-            {'\u{2705}'} Added {relatedStop.name} to your itinerary too.
+            {'\u{2705}'} Added {related?.name} to your itinerary too.
           </p>
         )}
       </div>

@@ -37,7 +37,7 @@ vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 vi.mock('./_lib/firebaseAdmin.js', () => ({ adminDb: () => fakeDb }));
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: { serverTimestamp: () => 'ts', delete: () => 'del' } }));
 vi.mock('../src/lib/sharedDeck.js', () => ({ pickDailyCardIds: () => ['a', 'b', 'c'] }));
-vi.mock('./_lib/leaderboardPoints.js', () => ({ awardLeaderboardPointsServer: (...a) => award(...a) }));
+vi.mock('./_lib/leaderboardPoints.js', () => ({ awardLeaderboardPointsServer: (...a) => award(...a), cleanUserName: (n) => n || 'A traveler' }));
 
 const call = async (handler, body) => {
   const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
@@ -198,6 +198,21 @@ describe('use-solo-streak-freeze', () => {
   });
 });
 
+describe('pair endpoints reject a solo streak doc', () => {
+  for (const file of ['./use-streak-freeze.js', './close-streak-day.js', './complete-recovery-mission.js']) {
+    it(file, async () => {
+      const { default: handler } = await import(file);
+      streakDoc.recoveryOpenUntil = Date.now() + 1e6;
+      const before = JSON.stringify(streakDoc);
+      const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
+      await handler({ method: 'POST', headers: {}, body: { pairId: 'me', dayId: utcToday() } }, res);
+      expect(res.status).toHaveBeenCalledWith(403);
+      expect(JSON.stringify(streakDoc)).toBe(before);
+      expect(award).not.toHaveBeenCalled();
+    });
+  }
+});
+
 describe('dual streak fixes', () => {
   it('recovery mission restores prior count plus days completed since the break', async () => {
     const { default: handler } = await import('./complete-recovery-mission.js');
@@ -220,6 +235,19 @@ describe('dual streak fixes', () => {
     expect(streakDoc.best).toBe(9);
   });
 
+  it('reset works on an older pair doc with no mode field, and still refuses a solo doc', async () => {
+    const { default: handler } = await import('./reset-dual-streak.js');
+    streakDoc = { memberIds: ['me', 'you'], count: 5, best: 9 };
+    const out = await call(handler, { pairId: 'me', confirm: 'RESET' });
+    expect(out.ok).toBe(true);
+    expect(streakDoc.count).toBe(0);
+    streakDoc = { mode: 'solo', memberIds: ['me'], count: 5, best: 9 };
+    const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
+    await handler({ method: 'POST', headers: {}, body: { pairId: 'me', confirm: 'RESET' } }, res);
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(streakDoc.count).toBe(5);
+  });
+
   it('does not open a recovery mission when freezes were last refreshed in an earlier month', async () => {
     const { default: handler } = await import('./close-streak-day.js');
     streakDoc = {
@@ -229,5 +257,23 @@ describe('dual streak fixes', () => {
     await call(handler, { pairId: 'me', dayId: utcToday() });
     expect(streakDoc.count).toBe(1);
     expect(streakDoc.recoveryOpenUntil).toBeUndefined();
+  });
+
+  it("does not open a recovery mission when this month's was already used", async () => {
+    const { default: handler } = await import('./close-streak-day.js');
+    const n = new Date();
+    const today = utcToday();
+    const [y, m] = today.split('-');
+    streakDoc = {
+      mode: 'dual', memberIds: ['me'], cityId: 'x', count: 6, best: 6, lastCompletedDay: '2000-0-1',
+      freezesLeft: 0, freezeMonth: `${y}-${m}`, frozenDays: [], recoveryUsedMonth: `${n.getFullYear()}-${n.getMonth()}`,
+    };
+    await call(handler, { pairId: 'me', dayId: today });
+    expect(streakDoc.count).toBe(1);
+    expect(streakDoc.recoveryOpenUntil).toBeUndefined();
+    // Control: same state without the used month does open one.
+    streakDoc = { ...streakDoc, count: 6, lastCompletedDay: '2000-0-1', recoveryUsedMonth: null };
+    await call(handler, { pairId: 'me', dayId: today });
+    expect(streakDoc.recoveryOpenUntil).toBeGreaterThan(Date.now());
   });
 });

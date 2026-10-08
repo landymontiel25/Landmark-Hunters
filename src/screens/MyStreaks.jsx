@@ -273,14 +273,14 @@ function StreakDetail({ streak, onBack, onLeave }) {
   useEffect(() => {
     if (!bothDone || streak.lastCompletedDay === today || closeRetriedFor.current === today) return;
     closeRetriedFor.current = today;
-    closeToday(streak.id);
+    closeToday(streak.id, today);
   }, [bothDone, streak.lastCompletedDay, streak.id, today, closeToday]);
 
   const handleRate = async (landmarkId, verdict) => {
     setVoteError(null);
     setOptimisticRatings((cur) => ({ ...cur, [landmarkId]: verdict }));
     try {
-      await submitCardRating(streak.id, user.uid, landmarkId, verdict);
+      await submitCardRating(streak.id, user.uid, landmarkId, verdict, today);
     } catch (e) {
       setOptimisticRatings((cur) => {
         const next = { ...cur };
@@ -295,8 +295,8 @@ function StreakDetail({ streak, onBack, onLeave }) {
     setVoteError(null);
     setOptimisticGuesses((cur) => ({ ...cur, [landmarkId]: verdict }));
     try {
-      const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds);
-      if (done) closeToday(streak.id);
+      const done = await submitCardGuess(streak.id, user.uid, landmarkId, verdict, cardIds, today);
+      if (done) closeToday(streak.id, today);
     } catch (e) {
       setOptimisticGuesses((cur) => {
         const next = { ...cur };
@@ -653,7 +653,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   useEffect(() => {
     if (!dayDone || streak.lastCompletedDay === today || closeRetriedFor.current === today) return;
     closeRetriedFor.current = today;
-    closeSoloToday()
+    closeSoloToday(today)
       .then((res) => {
         if (!res?.ok) closeRetriedFor.current = null;
       })
@@ -672,12 +672,12 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
     // send a second close and swallow the "+20 pts" result of this one.
     if (willBeDone) closeRetriedFor.current = today;
     try {
-      await submitSoloCardRating(streak.id, landmarkId, verdict);
+      await submitSoloCardRating(streak.id, landmarkId, verdict, today);
       teachMapr(deck.find((l) => l.id === landmarkId), verdict);
       if (willBeDone) {
         // The rating itself already saved -- a failed close ping must not throw it
         // back out of the optimistic overlay; the effect above retries it.
-        const r = await closeSoloToday().catch(() => null);
+        const r = await closeSoloToday(today).catch(() => null);
         if (!r?.ok) {
           closeRetriedFor.current = null;
           setCloseRetryTick((n) => n + 1);

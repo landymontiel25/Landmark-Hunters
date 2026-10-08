@@ -60,6 +60,22 @@ describe('navProgress', () => {
     expect(navProgress(r, { lat: 40.003, lng: -75.0 }).next.instruction).toBe('Turn right onto Oak Ave');
   });
 
+  it('a step with no instruction does not show "Arrive" partway along the route', () => {
+    // Main St split in two by the API, the second half with no instruction.
+    const mid = [40.005, -75.0];
+    const r = prepareRoute({
+      ...data,
+      steps: [
+        { instruction: 'Head north on Main St', distanceMeters: 556, end: mid, maneuver: 'DEPART' },
+        { instruction: '', distanceMeters: 556, end: corner, maneuver: '' },
+        data.steps[1],
+      ],
+    });
+    const p = navProgress(r, { lat: 40.003, lng: -75.0, accuracy: 10 });
+    expect(p.next.instruction).toBe('Turn right onto Oak Ave');
+    expect(p.metersToNext).toBeGreaterThan(700);
+  });
+
   it('picks an arrow for each maneuver', () => {
     expect(maneuverIcon('TURN_LEFT')).toBe('\u{2B05}\u{FE0F}');
     expect(maneuverIcon('TURN_RIGHT')).toBe('\u{27A1}\u{FE0F}');

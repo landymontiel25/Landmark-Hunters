@@ -9,8 +9,22 @@ export const SESSION_COOKIE = 'lh_admin_session';
 export const SESSION_DAYS = 30;
 const ISSUER = 'landmark-hunters-admin';
 
+export const MIN_PASSWORD_CHARS = 16;
+export const MIN_JWT_SECRET_CHARS = 32;
+
+// What is wrong with the login settings, or null when they can work. A short
+// password could never match (passwordMatches) and a short JWT_SECRET makes
+// signSession throw, so the login route reports these instead.
+export function authConfigProblem(env: Record<string, string | undefined> = process.env): string | null {
+  const missing = ['ADMIN_SECRET_TOKEN', 'JWT_SECRET'].filter((k) => !env[k]);
+  if (missing.length) return `${missing.join(' and ')} must be set on the server.`;
+  if (env.ADMIN_SECRET_TOKEN!.length < MIN_PASSWORD_CHARS) return `ADMIN_SECRET_TOKEN must be at least ${MIN_PASSWORD_CHARS} characters.`;
+  if (env.JWT_SECRET!.length < MIN_JWT_SECRET_CHARS) return `JWT_SECRET must be at least ${MIN_JWT_SECRET_CHARS} characters.`;
+  return null;
+}
+
 const key = (secret = process.env.JWT_SECRET) => {
-  if (!secret || secret.length < 32) throw new Error('JWT_SECRET must be set to at least 32 characters.');
+  if (!secret || secret.length < MIN_JWT_SECRET_CHARS) throw new Error('JWT_SECRET must be set to at least 32 characters.');
   return new TextEncoder().encode(secret);
 };
 
@@ -35,7 +49,7 @@ export async function verifySession(token: string | undefined | null, secret?: s
 
 // Constant-time compare (no early exit on the first wrong character).
 export function passwordMatches(given: unknown, expected = process.env.ADMIN_SECRET_TOKEN): boolean {
-  if (typeof given !== 'string' || !expected || expected.length < 16) return false;
+  if (typeof given !== 'string' || !expected || expected.length < MIN_PASSWORD_CHARS) return false;
   const a = new TextEncoder().encode(given);
   const b = new TextEncoder().encode(expected);
   let diff = a.length ^ b.length;

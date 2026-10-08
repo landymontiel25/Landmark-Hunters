@@ -13,8 +13,8 @@ const PERIOD_LABEL = { weekly: 'This Week', monthly: 'This Month', yearly: 'This
 // Shared with Profile's period tabs, so "This Month" stays picked across
 // both screens and across visits.
 const PERIOD_KEY = 'leaderboard.period';
-// subscribeLeaderboard has no error callback -- a listener that never
-// delivers a first snapshot is how a failed read shows up here.
+// subscribeLeaderboard's onError catches a listener that fails outright;
+// this catches one that never delivers a first snapshot at all.
 const STALL_MS = 15000;
 const TABS = [
   { id: 'weekly', label: 'This Week' },

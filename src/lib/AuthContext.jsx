@@ -18,7 +18,7 @@ import {
   getAdditionalUserInfo,
 } from 'firebase/auth';
 import { auth, firebaseEnabled } from './firebase';
-import { deleteAccountData } from './accountDeletion';
+import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
 import { recordReferralIfPending } from './referrals';
 import { touchLastActive } from './friends';
 import { recordOpenDay } from './openDays';
@@ -60,14 +60,23 @@ export function AuthProvider({ children }) {
     return () => document.removeEventListener('visibilitychange', onVisible);
   }, [user?.uid]);
 
-  const signUpEmail = async (email, password, displayName) => {
+  const signUpEmail = async (email, password, rawDisplayName) => {
+    // firestore.rules caps userName (copied from displayName onto check-ins
+    // and leaderboard rows) at 200 chars; longer would fail every check-in.
+    const displayName = (rawDisplayName || '').trim().slice(0, 200);
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     // First thing after the account exists, so the profile is already marked
     // as a sign-up by the time anything reads it (see onboardingStatus).
     markNewSignup(cred.user.uid).catch(() => {});
+    // A failed display-name save must not abort the rest: the account
+    // already exists and is signed in, so verification + referral still run.
     if (displayName) {
-      await updateProfile(cred.user, { displayName });
-      setUser({ ...cred.user, displayName });
+      try {
+        await updateProfile(cred.user, { displayName });
+        setUser({ ...cred.user, displayName });
+      } catch (err) {
+        console.error('updateProfile after sign-up failed:', err?.code, err?.message);
+      }
     }
     // Best-effort -- a signup that succeeds shouldn't fail just because the
     // verification email didn't send. resendVerification lets them retry.
@@ -112,10 +121,24 @@ export function AuthProvider({ children }) {
   // navigation to Profile. That churn was the real source of badges
   // re-celebrating: enough incidental re-fetching for a client-side
   // "did this just complete" heuristic to occasionally race itself.
+  //
+  // reload() mutates auth.currentUser in place, and `user` is usually that
+  // same object (onAuthStateChanged hands it over), so the "before" value
+  // has to be captured before reloading -- comparing afterwards always saw
+  // them equal and the verify-your-email banner never cleared. Nothing
+  // calls methods on the context `user` (apiAuth uses auth.currentUser), so
+  // a plain-object copy is fine, same as signUpEmail does.
   const refreshUser = async () => {
-    if (!auth.currentUser) return;
-    await reload(auth.currentUser);
-    setUser((prev) => (prev && prev.emailVerified === auth.currentUser.emailVerified ? prev : { ...auth.currentUser }));
+    const cur = auth.currentUser;
+    if (!cur) return;
+    const wasVerified = cur.emailVerified;
+    await reload(cur);
+    // Also covers `user` being an older copy (signUpEmail stores one).
+    setUser((prev) => {
+      if (!prev || prev.uid !== cur.uid) return prev;
+      const changed = cur.emailVerified !== wasVerified || prev.emailVerified !== cur.emailVerified;
+      return changed ? { ...cur } : prev;
+    });
   };
 
   const signOutUser = async () => {
@@ -144,6 +167,7 @@ export function AuthProvider({ children }) {
     }
     await deleteAccountData(current.uid);
     await deleteUser(current);
+    clearLocalAccountStorage(current.uid);
   };
 
   const changePassword = async (currentPassword, newPassword) => {

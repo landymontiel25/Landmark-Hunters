@@ -46,6 +46,15 @@ describe('api/admin-jobs (server to server from the admin dashboard)', () => {
     expect((await call(auth, {}, 'GET')).code).toBe(405);
   });
 
+  it('answers 400 JSON for a body that is not JSON', async () => {
+    const auth = { authorization: 'Bearer s3cret' };
+    const r = await call(auth, '{not json');
+    expect(r.code).toBe(400);
+    expect(r.body).toEqual({ error: 'Body must be JSON.' });
+    expect((await call(auth, 'null')).code).toBe(400); // parsed, but no action
+    expect((await call(auth, '{"action":"backfill"}')).body).toEqual({ done: true });
+  });
+
   it('compares the secret in constant time and rejects other shapes', () => {
     expect(secretOk('Bearer abc', 'abc')).toBe(true);
     expect(secretOk('Bearer abd', 'abc')).toBe(false);

@@ -171,9 +171,12 @@ const OSRM_DRIVING_BASE = 'https://router.project-osrm.org/route/v1/driving';
  * to the straight-line estimate.
  */
 export async function fetchDrivingRoute(origin, dest) {
+  // The public OSRM demo can hang; give up after 10s and keep the estimate.
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 10000);
   try {
     const url = `${OSRM_DRIVING_BASE}/${origin.lng},${origin.lat};${dest.lng},${dest.lat}?overview=false`;
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: ctrl.signal });
     if (!res.ok) return null;
     const data = await res.json();
     const leg = data?.routes?.[0];
@@ -181,6 +184,8 @@ export async function fetchDrivingRoute(origin, dest) {
     return { distanceMeters: Math.round(leg.distance), durationSeconds: leg.duration };
   } catch {
     return null;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -270,4 +275,13 @@ export function googleMapsMultiStopLegs(stops, origin, mode = 'driving') {
     from = chunk[chunk.length - 1];
   }
   return links;
+}
+
+// Sorts ids by their position in `saved`; ids not in it keep their order, last.
+export function orderBySaved(ids, saved) {
+  const pos = new Map(saved.map((id, i) => [id, i]));
+  return ids
+    .map((id, i) => ({ id, i, p: pos.has(id) ? pos.get(id) : Infinity }))
+    .sort((a, b) => a.p - b.p || a.i - b.i)
+    .map((x) => x.id);
 }

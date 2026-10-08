@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WRITE_QUEUED_EVENT, WRITE_REJECTED_EVENT, QUEUED_MESSAGE, REJECTED_MESSAGE } from './offlineWrite';
 
 // Small, bottom-of-screen messages for things that happened off-screen --
@@ -35,8 +35,12 @@ export function ToastProvider({ children }) {
     };
   }, [show]);
 
+  // Stable across toast show/dismiss, so a toast doesn't re-render every
+  // screen that holds useToast().
+  const value = useMemo(() => ({ show, dismiss }), [show, dismiss]);
+
   return (
-    <ToastContext.Provider value={{ show, dismiss }}>
+    <ToastContext.Provider value={value}>
       {children}
       <div className="toast-stack" aria-live="polite">
         {toasts.map((t) => (

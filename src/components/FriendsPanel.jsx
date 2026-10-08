@@ -64,6 +64,8 @@ export default function FriendsPanel() {
       commit: async () => {
         await unblockUser(user.uid, b.blockedUid);
         await loadBlocked();
+        // Brings back a pending request from them that the block was hiding.
+        reload().catch(() => {});
       },
       rollback: () => setBlocked((cur) => (cur.some((x) => x.blockedUid === b.blockedUid) ? cur : [...cur, b])),
       toast,

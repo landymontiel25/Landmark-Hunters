@@ -63,7 +63,9 @@ function loadTrip() {
     t.byRegion = Object.fromEntries(
       Object.entries(t.byRegion || {}).map(([region, ids]) => [
         region,
-        Array.isArray(ids) ? ids.map((id) => canonicalLandmarkId(id, region)) : ids,
+        // Deduped: a list saved with both a renamed landmark's old id and its
+        // new one would otherwise show that stop twice.
+        Array.isArray(ids) ? [...new Set(ids.map((id) => canonicalLandmarkId(id, region)))] : ids,
       ])
     );
     t.itineraryNames = t.itineraryNames || {};

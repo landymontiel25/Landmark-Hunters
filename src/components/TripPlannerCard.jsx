@@ -211,54 +211,58 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     }
 
     setPlanning(true);
-    // The one optional extra AI call: only when something was typed.
-    const specific = wizard.specific.trim();
-    let matchIds = [];
-    if (specific) {
-      const { matches } = await classifyInterest(specific);
-      matchIds = regionIds.length ? matches.filter((m) => regionIds.includes(m.split('/')[0])) : matches;
+    // try/finally: a failed lookup must not leave the card stuck on "Planning...".
+    try {
+      // The one optional extra AI call: only when something was typed.
+      const specific = wizard.specific.trim();
+      let matchIds = [];
+      if (specific) {
+        const { matches } = await classifyInterest(specific);
+        matchIds = regionIds.length ? matches.filter((m) => regionIds.includes(m.split('/')[0])) : matches;
+      }
+      // "The usual" / "Something new": on-device ranking from saved tag scores.
+      const rankRegions = regionIds.length
+        ? regionIds
+        : [trip.activeRegion || pickRegion({ origin, fallbackRegions: [] })].filter(Boolean);
+      // Mapr Phase 1 models for these cities (null on failure: ranking still works).
+      const models = pickType && user?.uid ? await loadMaprModels({ uid: user.uid, regions: rankRegions }).catch(() => null) : null;
+      const ranked = rankTripPicks({
+        pickType,
+        profile: myProfile,
+        regionIds: rankRegions,
+        // Rated-and-visited places only: a place rated without a visit is still
+        // somewhere new to go.
+        excludeIds: visitedReviewIds(myReviews, myProfile),
+        uid: user?.uid || null,
+        origin,
+        myReviews,
+        models,
+        explore: user?.uid ? { createdAtMs: myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : null, shown: readSeen(user.uid), votes: readLocalFeedback(user.uid), serverStagnating: models?.serverStagnating === true } : null,
+      });
+      const message = composePlanMessage({
+        mood: wizard.mood,
+        tripMode: wizard.tripMode,
+        startingLocation: trip.startingLocation,
+        regionNames: regions.map((r) => r.name),
+        pickType,
+        rankedNames: ranked.map((l) => l.name),
+        specific,
+        specificMatchNames: matchIds.map((id) => getLandmark(...id.split('/'))?.name).filter(Boolean),
+      });
+      const rankedIds = ranked.map((l) => `${l.regionId}/${l.id}`);
+      const uid = user?.uid;
+      reset();
+      onPlan(message, {
+        requestFor,
+        onReply: (reply) => {
+          writePlanCache(uid, { answersKey, origin, message, reply, pickType });
+          // Not logged here: a pick is logged when its card is on screen (Mapr.jsx).
+          return { source: 'trip-planner', pickType, rankedIds };
+        },
+      });
+    } finally {
+      setPlanning(false);
     }
-    // "The usual" / "Something new": on-device ranking from saved tag scores.
-    const rankRegions = regionIds.length
-      ? regionIds
-      : [trip.activeRegion || pickRegion({ origin, fallbackRegions: [] })].filter(Boolean);
-    // Mapr Phase 1 models for these cities (null on failure: ranking still works).
-    const models = pickType && user?.uid ? await loadMaprModels({ uid: user.uid, regions: rankRegions }).catch(() => null) : null;
-    const ranked = rankTripPicks({
-      pickType,
-      profile: myProfile,
-      regionIds: rankRegions,
-      // Rated-and-visited places only: a place rated without a visit is still
-      // somewhere new to go.
-      excludeIds: visitedReviewIds(myReviews, myProfile),
-      uid: user?.uid || null,
-      origin,
-      myReviews,
-      models,
-      explore: user?.uid ? { createdAtMs: myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : null, shown: readSeen(user.uid), votes: readLocalFeedback(user.uid), serverStagnating: models?.serverStagnating === true } : null,
-    });
-    const message = composePlanMessage({
-      mood: wizard.mood,
-      tripMode: wizard.tripMode,
-      startingLocation: trip.startingLocation,
-      regionNames: regions.map((r) => r.name),
-      pickType,
-      rankedNames: ranked.map((l) => l.name),
-      specific,
-      specificMatchNames: matchIds.map((id) => getLandmark(...id.split('/'))?.name).filter(Boolean),
-    });
-    const rankedIds = ranked.map((l) => `${l.regionId}/${l.id}`);
-    const uid = user?.uid;
-    setPlanning(false);
-    reset();
-    onPlan(message, {
-      requestFor,
-      onReply: (reply) => {
-        writePlanCache(uid, { answersKey, origin, message, reply, pickType });
-        // Not logged here: a pick is logged when its card is on screen (Mapr.jsx).
-        return { source: 'trip-planner', pickType, rankedIds };
-      },
-    });
   };
 
   const locationStatus =

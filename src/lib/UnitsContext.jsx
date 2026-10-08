@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGeo } from './GeoContext';
 import { reverseCountryCode } from './geocode';
 import { formatDistance } from './formatDistance';
@@ -92,10 +92,11 @@ export function UnitsProvider({ children }) {
   }, [!!coords]);
 
   const units = resolveUnits({ mode, country: autoCountry });
+  // This provider re-renders on every GPS fix (useGeo above); a fresh value
+  // object each time would re-render every distance label in the app too.
+  const value = useMemo(() => ({ units, mode, setMode, autoCountry }), [units, mode, autoCountry]);
 
-  return (
-    <UnitsContext.Provider value={{ units, mode, setMode, autoCountry }}>{children}</UnitsContext.Provider>
-  );
+  return <UnitsContext.Provider value={value}>{children}</UnitsContext.Provider>;
 }
 
 export function useUnits() {

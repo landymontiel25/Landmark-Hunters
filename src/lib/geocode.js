@@ -61,6 +61,19 @@ function readStreetCache() {
   }
 }
 
+// GPS start points are keyed to ~1 m, so nearly every one is a new entry;
+// keep the newest few hundred (oldest first, in insertion order) so the
+// cache can't grow without end.
+export const STREET_CACHE_LIMIT = 500;
+export function withStreetEntry(cache, key, label) {
+  const next = { ...cache };
+  delete next[key];
+  next[key] = label;
+  const keys = Object.keys(next);
+  for (const k of keys.slice(0, Math.max(0, keys.length - STREET_CACHE_LIMIT))) delete next[k];
+  return next;
+}
+
 const streetKey = (lat, lng) => `${lat.toFixed(5)},${lng.toFixed(5)}`;
 
 /** The cached street address for a point, if this device has looked it up before. */
@@ -122,7 +135,7 @@ async function lookupStreetAddress(lat, lng, key) {
     const label = [building, street, town, a.state].filter(Boolean).join(', ') || null;
     if (label) {
       try {
-        localStorage.setItem(STREET_CACHE_KEY, JSON.stringify({ ...readStreetCache(), [key]: label }));
+        localStorage.setItem(STREET_CACHE_KEY, JSON.stringify(withStreetEntry(readStreetCache(), key, label)));
       } catch {
         /* storage full -- still return it */
       }
@@ -134,6 +147,8 @@ async function lookupStreetAddress(lat, lng, key) {
     clearTimeout(t);
   }
 }
+
+export const GEOCODE_TIMEOUT_MS = 8000;
 
 export async function geocodeLocation(text, region) {
   if (!text || !text.trim()) return null;
@@ -150,9 +165,14 @@ export async function geocodeLocation(text, region) {
     params.set('bounded', '1');
   }
 
+  // A hung Nominatim call would leave Trip Setup's "Checking..." and the
+  // Itinerary's loading skeleton up forever; give up like any other failure.
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), GEOCODE_TIMEOUT_MS);
   try {
     const res = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`, {
       headers: { Accept: 'application/json' },
+      signal: controller.signal,
     });
     if (!res.ok) return null;
     const results = await res.json();
@@ -160,6 +180,8 @@ export async function geocodeLocation(text, region) {
     return { lat: parseFloat(results[0].lat), lng: parseFloat(results[0].lon) };
   } catch {
     return region?.center ?? null;
+  } finally {
+    clearTimeout(t);
   }
 }
 

@@ -52,7 +52,9 @@ async function handler(req, res) {
       return;
     }
     const streak = streakSnap.data();
-    if (streak.mode !== 'dual' || !(streak.memberIds || []).includes(account.uid)) {
+    // Only pair streaks: a pair doc created before `mode` existed has none,
+    // so reject solo docs rather than requiring mode === 'dual'.
+    if (streak.mode === 'solo' || !(streak.memberIds || []).includes(account.uid)) {
       res.status(403).json({ error: "That's not your streak." });
       return;
     }

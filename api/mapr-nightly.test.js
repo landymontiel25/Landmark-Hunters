@@ -40,4 +40,12 @@ describe('api/mapr-nightly', () => {
     expect(runWeekly).toHaveBeenCalledTimes(2);
     vi.useRealTimers();
   });
+
+  it('still runs the daily report when the weekly models fail', async () => {
+    runWeekly.mockImplementationOnce(async () => { throw new Error('training blew up'); });
+    const r = await call({ authorization: 'Bearer sekret' }, { weekly: '1' });
+    expect(runDaily).toHaveBeenCalledOnce();
+    expect(r.code).toBe(500);
+    expect(r.body.daily).toEqual({ date: '2026-10-04' });
+  });
 });

@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { redirectIfSignedOut } from '@/lib/session';
 
 // Rebuilds the dashboard numbers by itself while a dashboard tab is open: one
 // light "refresh" job (no model training, no Slack message) when the page
@@ -31,6 +32,7 @@ export function AutoRefresh({ everyMs = AUTO_REFRESH_MS, fetchImpl = fetch }: { 
     try {
       const r = await fetchImpl('/api/jobs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'refresh' }) });
       if (r.ok) setFailed(null);
+      else if (redirectIfSignedOut(r.status)) setFailed('Signed out');
       else {
         const body = await r.json().catch(() => ({}));
         setFailed(String(body?.error || `HTTP ${r.status}`).slice(0, 140));

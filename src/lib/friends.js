@@ -434,9 +434,11 @@ export async function sendFriendRequest(fromUser, toUser) {
   }
   await settleWrite(setDoc(doc(db, 'friend_requests', `${fromUser.uid}_${toUser.uid}`), {
     from: fromUser.uid,
-    fromName: fromUser.username || fromUser.displayName || fromUser.email,
+    // Never the full email (the recipient would see it) and never undefined
+    // (Firestore rejects it) -- same fallbacks as upsertUserProfile.
+    fromName: fromUser.username || fromUser.displayName || (fromUser.email || '').split('@')[0] || 'Explorer',
     to: toUser.uid,
-    toName: toUser.username || toUser.displayName || toUser.email,
+    toName: toUser.username || toUser.displayName || 'Explorer',
     status: 'pending',
     createdAt: serverTimestamp(),
   }));

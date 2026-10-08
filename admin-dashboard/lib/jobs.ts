@@ -14,14 +14,18 @@ export async function forwardJob(action: unknown, { appUrl = process.env.APP_URL
       body: JSON.stringify({ action }),
     });
     const text = await r.text().catch(() => '');
+    // The app (or Vercel in front of it) refusing the server-to-server call
+    // is not the dashboard session expiring: answer 502 so the page shows the
+    // reason instead of treating a 401 as "signed out" and looping to /login.
+    const status = r.status === 401 || r.status === 403 ? 502 : r.status;
     try {
-      return { status: r.status, body: JSON.parse(text) };
+      return { status, body: JSON.parse(text) };
     } catch {
       // Not the app's own JSON: usually Vercel (Deployment Protection) or a wrong address.
       const host = new URL(appUrl).host;
       const said = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
       const hint = r.status === 401 || r.status === 403 ? ' Vercel Deployment Protection may be blocking server requests, or APP_URL points at the wrong deployment.' : '';
-      return { status: r.status, body: { error: `${host} answered ${r.status}${said ? ` (“${said}”)` : ' with no message'}.${hint}` } };
+      return { status, body: { error: `${host} answered ${r.status}${said ? ` (“${said}”)` : ' with no message'}.${hint}` } };
     }
   } catch (e) {
     return { status: 502, body: { error: `Could not reach the app: ${String((e as Error)?.message || e)}` } };

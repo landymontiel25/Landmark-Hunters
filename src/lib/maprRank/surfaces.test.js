@@ -45,6 +45,14 @@ describe('rankPlaces (shared by every Mapr surface)', () => {
     expect(explored).toBeGreaterThan(0);
   });
 
+  it('without a count, picks is the ranked list in the same order with set telemetry (Map sheet rows log these)', () => {
+    const { ranked, picks } = rankPlaces({ places: milan, uid: 'u1', profile, origin: MILAN, now: NOW, features: ON });
+    expect(picks.map((p) => p.id)).toEqual(ranked.map((p) => p.id));
+    expect(picks[0].telemetry.variants).toBeTruthy();
+    expect(picks[0].telemetry.rankPosition).toBe(1);
+    expect(ranked[0].telemetry.variants).toBeUndefined();
+  });
+
   it('mixExploration fills every slot even when a queue runs dry', () => {
     const out = mixExploration([{ id: 'a', region: 'r' }], { epsilon: 1, explore: [{ id: 'b', region: 'r' }] }, 3);
     expect(out.map((p) => p.id)).toEqual(['b', 'a']);

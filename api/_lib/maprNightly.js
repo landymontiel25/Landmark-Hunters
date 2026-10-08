@@ -251,10 +251,13 @@ async function recentReports(db, before, days = METRICS.trendDays) {
   return snap.docs.map((d) => d.data()).filter((r) => r?.date && r.date < before).slice(0, days).reverse();
 }
 
-export async function postToSlack(text, { url = process.env.SLACK_WEBHOOK_URL, fetchImpl = globalThis.fetch } = {}) {
+// A hung webhook must not eat the job's 60 s (the stagnation flags come after it).
+export const SLACK_TIMEOUT_MS = 10000;
+
+export async function postToSlack(text, { url = process.env.SLACK_WEBHOOK_URL, fetchImpl = globalThis.fetch, timeoutMs = SLACK_TIMEOUT_MS } = {}) {
   if (!url) return { posted: false, reason: 'SLACK_WEBHOOK_URL is not set' };
   try {
-    const r = await fetchImpl(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+    const r = await fetchImpl(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }), signal: AbortSignal.timeout(timeoutMs) });
     return { posted: r.ok, status: r.status };
   } catch (e) {
     return { posted: false, reason: String(e?.message || e) };

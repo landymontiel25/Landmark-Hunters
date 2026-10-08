@@ -44,6 +44,12 @@ async function writeAll(db, writes) {
 
 const clean = (o) => JSON.parse(JSON.stringify(o));
 
+// big_misses ids come from client-written recommendation_log fields (rules
+// only check they are strings). A '/' would make doc() throw and lose every
+// dashboard doc that night, so it is swapped out; ids are also kept under
+// Firestore's 1500-byte limit.
+export const safeDocId = (id) => String(id).replace(/\//g, '_').slice(0, 500);
+
 export async function writeDashboardDaily(db, ds, report, { now = Date.now() } = {}) {
   const ts = FieldValue.serverTimestamp();
   const yesterday = report.date;
@@ -59,7 +65,7 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now() } =
   writes.push(['accuracy_by_city', yesterday, { ...clean(acc.byCity), createdAt: ts }]);
   for (const m of bigMissDocs(ds, (region, id) => getLandmark(region, id)?.name || null, annotated)) {
     const { id, ...stats } = m;
-    writes.push(['big_misses', id, { ...clean(stats), reported_at: ts }, { merge: true }]);
+    writes.push(['big_misses', safeDocId(id), { ...clean(stats), reported_at: ts }, { merge: true }]);
   }
   writes.push(['mapr_metrics', yesterday, clean(maprFlatFields(report)), { merge: true }]);
   writes.push(['mapr_ncf_model', 'current', { last_inference_latency_ms: report.latency?.p99Ms ?? null, latency_date: yesterday }, { merge: true }]);
@@ -77,7 +83,9 @@ export async function writeDashboardModels(db, { ncf, ncfV2 = null, similarity }
       'mapr_ncf_model',
       'current',
       clean({
-        last_trained: ncf?.action === 'promoted' ? now : null,
+        // Left out when the week kept the old model, so the merge keeps the
+        // date it was really trained (same as v2 below).
+        ...(ncf?.action === 'promoted' ? { last_trained: now } : {}),
         last_run: now,
         last_action: ncf?.action ?? null,
         training_loss: ev.bestValLoss ?? null,

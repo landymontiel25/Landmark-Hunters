@@ -12,6 +12,13 @@ category back, remove `'formula-1'` from `HIDDEN_INTEREST_IDS` in
 `src/data/regions.js` (and from `HIDDEN_CATEGORIES` in
 `src/components/MapCategoryFilter.jsx` for the map).
 
+## Nightly scan 2026-10-07: 21 owner questions
+
+`docs/landmark-hunters-scan-2026-10-07.md`, section 5, lists 21 changes that
+need the owner's decision (Mapr chat exploration rate, offline maps, Book Now
+links, streak rules, Firestore rules hardening, and others). Each has options
+and a recommendation. Remove this item once they are answered.
+
 ## "Your places" onboarding step (test tab only)
 
 Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us up to

@@ -58,15 +58,26 @@ export function CheckInProvider({ children }) {
     return unsub;
   }, [user, firebaseEnabled]);
 
+  // Whose check-ins claimedMap holds. A different account starts from an
+  // empty map, so the last account's "checked in" marks never show (or stay,
+  // if this account's read fails) for the next one.
+  const claimedUidRef = useRef(null);
   useEffect(() => {
     setClaimedLoaded(false);
     if (!user || !firebaseEnabled) {
+      claimedUidRef.current = null;
       setClaimedMap({});
       return;
     }
+    if (claimedUidRef.current !== user.uid) {
+      claimedUidRef.current = user.uid;
+      setClaimedMap({});
+    }
     let cancelled = false;
     getUserCheckedInLandmarkIds(user.uid).then((ids) => {
-      if (!cancelled) setClaimedMap(Object.fromEntries(ids.map((id) => [id, true])));
+      // Merge rather than replace: a check-in posted while this read was in
+      // flight is already marked and may not be in `ids` yet.
+      if (!cancelled) setClaimedMap((m) => ({ ...Object.fromEntries(ids.map((id) => [id, true])), ...m }));
     }).catch(() => {}).finally(() => {
       if (!cancelled) setClaimedLoaded(true);
     });

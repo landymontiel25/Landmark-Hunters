@@ -71,6 +71,13 @@ input[type='range']:focus-visible {
 .bottom-nav .nav-icon {
   font-size: min(1.25rem, 26px);
 }
+/* Under 360px five equal tabs are ~55px and "Landmarks" (~59px) got clipped
+   to ".andmarks"; let each tab start from its label's width instead. */
+@media (max-width: 359px) {
+  .bottom-nav a {
+    flex: 1 1 auto;
+  }
+}
 
 /* The Mapr composer hides its input's own focus style (the pill is the
    field), so show focus on the pill. */

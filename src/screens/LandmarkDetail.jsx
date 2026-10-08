@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getLandmark, getRegion, INTERESTS } from '../data/regions';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { canonicalLandmarkId, getLandmark, getRegion, INTERESTS, legacyLandmarkIds } from '../data/regions';
 import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import { ensurePlacePacks, isPlacePackId, usePlacePacksVersion } from '../lib/placePacks';
 import { useAdminMode } from '../lib/AdminModeContext';
@@ -73,11 +73,6 @@ function fmtCheckinTime(seconds) {
 
 const FACTS_PREVIEW = 5;
 
-// Keyed by landmark so stepping between landmarks (the check-in gallery's
-// ‹ › buttons navigate with `replace`, which keeps this same screen mounted)
-// starts every one fresh. Without it the previous landmark's rating, photos,
-// check-in and reviews lingered on the next one -- loadMyReview() returns
-// early when there's no review, leaving the old state in place.
 // "miamiherald.com" for a fact's source link.
 function sourceHost(url) {
   try {
@@ -87,8 +82,20 @@ function sourceHost(url) {
   }
 }
 
+// Keyed by landmark so stepping between landmarks (the check-in gallery's
+// ‹ › buttons navigate with `replace`, which keeps this same screen mounted)
+// starts every one fresh. Without it the previous landmark's rating, photos,
+// check-in and reviews lingered on the next one -- loadMyReview() returns
+// early when there's no review, leaving the old state in place.
 export default function LandmarkDetail() {
   const { region, id } = useParams();
+  const location = useLocation();
+  // A link shared before a landmark was renamed (washington-square-park ->
+  // washington-square-park-sf) opens the landmark, not "couldn't find".
+  const canonical = canonicalLandmarkId(id, region);
+  if (canonical !== id) {
+    return <Navigate replace to={`/landmarks/${region}/${canonical}`} state={location.state} />;
+  }
   return <LandmarkDetailBody key={`${region}/${id}`} />;
 }
 
@@ -192,7 +199,7 @@ function LandmarkDetailBody() {
   );
   const { ratings, myReviews, reload: reloadRatings } = useRatings();
   const { reload: reloadMyPhotos } = useMyPhotos();
-  const { myUsername, friendUids } = useFriends();
+  const { myUsername, friendUids, reload: reloadFriends } = useFriends();
   const toast = useToast();
   const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
   // myRating: live RatingFlow payload (null until a tier's picked).
@@ -220,6 +227,13 @@ function LandmarkDetailBody() {
   // Photos already saved on my review: new ones append, 3 total at most.
   const [reviewPhotoCount, setReviewPhotoCount] = useState(0);
   const [photoPreviews, setPhotoPreviews] = useState([]);
+  // Release whatever preview blob URLs are still showing when the page
+  // unmounts (each holds the full photo in memory until revoked).
+  const photoPreviewsRef = useRef(photoPreviews);
+  useEffect(() => {
+    photoPreviewsRef.current = photoPreviews;
+  }, [photoPreviews]);
+  useEffect(() => () => photoPreviewsRef.current.forEach((u) => URL.revokeObjectURL(u)), []);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState(null);
   const [saveError, setSaveError] = useState(null);
@@ -288,18 +302,38 @@ function LandmarkDetailBody() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, landmark]);
 
+  // The landmark id your review / check-in doc is actually stored under:
+  // landmark.id, or a pre-rename id (washington-square-park for
+  // washington-square-park-sf) for one written before the rename. Deletes
+  // and photo edits must target that doc, not a missing one.
+  const reviewDocIdRef = useRef(null);
+  const checkinDocIdRef = useRef(null);
+
   const loadMyReview = useCallback(async () => {
     if (!firebaseEnabled || !user || !landmark) return;
     // Best-effort pre-fill: if this read fails the card still works, it
     // just starts blank (and saving overwrites correctly either way).
     let failed = false;
-    const r = await getMyReview(user.uid, landmark.id).catch(() => {
-      failed = true;
-      return null;
-    });
+    const read = (lid) =>
+      getMyReview(user.uid, lid).catch(() => {
+        failed = true;
+        return null;
+      });
+    let r = await read(landmark.id);
+    let docLandmarkId = landmark.id;
+    for (const old of (r || failed) ? [] : legacyLandmarkIds(landmark.id, regionId)) {
+      const legacy = await read(old);
+      if (failed) break;
+      if (legacy) {
+        r = legacy;
+        docLandmarkId = old;
+        break;
+      }
+    }
     // A failed read is not "no review": keep what's on screen (the photo
     // count would otherwise reset to 0 and let a 4th photo be added).
     if (failed) return;
+    reviewDocIdRef.current = docLandmarkId;
     setMyComment(r?.comment || '');
     setHasMyReview(!!r);
     setReviewPhotoCount(r ? r.photoURLs?.length || (r.photoURL ? 1 : 0) : 0);
@@ -323,7 +357,7 @@ function LandmarkDetailBody() {
         : null
     );
     setMyPhotos(r.photoURLs?.length ? r.photoURLs : r.photoURL ? [r.photoURL] : []);
-  }, [firebaseEnabled, user, landmark]);
+  }, [firebaseEnabled, user, landmark, regionId]);
 
   useEffect(() => {
     loadMyReview();
@@ -350,14 +384,22 @@ function LandmarkDetailBody() {
       return;
     }
     let cancelled = false;
-    getVisitCount(user.uid, landmark.id)
-      .then((n) => {
-        if (!cancelled) setVisitCount(n);
+    const ids = [landmark.id, ...legacyLandmarkIds(landmark.id, regionId)];
+    Promise.all(ids.map((lid) => getVisitCount(user.uid, lid)))
+      .then((counts) => {
+        if (!cancelled) setVisitCount(counts.reduce((a, b) => a + b, 0));
       })
       .catch(() => {});
-    getMyCheckin(user.uid, landmark.id)
-      .then((c) => {
+    (async () => {
+      for (const lid of ids) {
+        const c = await getMyCheckin(user.uid, lid);
+        if (c) return [c, lid];
+      }
+      return [null, landmark.id];
+    })()
+      .then(([c, lid]) => {
         if (cancelled) return;
+        checkinDocIdRef.current = lid;
         setMyCheckin(c);
         // Prepended ahead of whatever's already here (review photos), so a
         // photo you added after checking in stays the landmark's lead photo
@@ -374,7 +416,7 @@ function LandmarkDetailBody() {
     return () => {
       cancelled = true;
     };
-  }, [firebaseEnabled, user, landmark, checkedInHere, checkinTick]);
+  }, [firebaseEnabled, user, landmark, checkedInHere, regionId, checkinTick]);
 
   // quiet: a refresh after your own save/delete keeps the current list on
   // screen (and a failure there leaves it as-is) rather than flashing a
@@ -546,7 +588,12 @@ function LandmarkDetailBody() {
         setMyPhotos(checkinPhotosNewestFirst(myCheckin));
       },
       commit: async () => {
-        await deleteMyReview(user.uid, landmark.id);
+        // Saving over a review kept under a pre-rename id writes a new doc and
+        // leaves the old one, so Remove clears every id this place has had
+        // (a missing doc is a no-op) -- otherwise the old one comes back.
+        const ids = [...new Set([reviewDocIdRef.current || landmark.id, landmark.id, ...legacyLandmarkIds(landmark.id, regionId)])];
+        for (const id of ids) await deleteMyReview(user.uid, id);
+        reviewDocIdRef.current = landmark.id;
         Promise.all([reloadRatings(), loadReviews({ quiet: true }), reloadMyPhotos()]).catch(() => {});
       },
       rollback: () => {
@@ -585,7 +632,7 @@ function LandmarkDetailBody() {
     setCheckinDateSaving(true);
     setCheckinDateError('');
     try {
-      await updateCheckinTimestamp(myCheckin?.visitDocId || `${user.uid}_${landmark.id}`, date);
+      await updateCheckinTimestamp(myCheckin?.visitDocId || myCheckin?.id || `${user.uid}_${landmark.id}`, date);
       setMyCheckin((cur) => ({ ...cur, createdAt: { seconds: Math.floor(date.getTime() / 1000) } }));
       setEditingCheckinDate(false);
     } catch (e) {
@@ -602,7 +649,7 @@ function LandmarkDetailBody() {
     setCheckinPhotoError(null);
     setFailedCheckinPhoto(null);
     try {
-      const url = await addCheckinPhoto(user.uid, landmark.id, f);
+      const url = await addCheckinPhoto(user.uid, checkinDocIdRef.current || landmark.id, f);
       setMyCheckin((prev) => ({ ...prev, photoURLs: [...(prev?.photoURLs || []), url] }));
       setMyPhotos((prev) => (prev.includes(url) ? prev : [url, ...prev]));
       reloadMyPhotos().catch(() => {});
@@ -642,7 +689,7 @@ function LandmarkDetailBody() {
         if (lightboxSrc === url) setLightboxSrc(null);
       },
       commit: async () => {
-        await removeCheckinPhoto(user.uid, landmark.id, url);
+        await removeCheckinPhoto(user.uid, checkinDocIdRef.current || landmark.id, url);
         reloadMyPhotos().catch(() => {});
       },
       rollback: () => {
@@ -681,6 +728,8 @@ function LandmarkDetailBody() {
       commit: async () => {
         await blockUser(user.uid, rv.userId, rv.userName);
         loadReviews({ quiet: true });
+        // Drops a pending friend request from them (FriendsContext hides those).
+        reloadFriends?.().catch(() => {});
       },
       rollback: () =>
         setBlockedNow((s) => {

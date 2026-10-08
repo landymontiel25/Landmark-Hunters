@@ -25,6 +25,7 @@ import { distanceMeters } from '../lib/geo';
 import { matchesSearch } from '../lib/search';
 import {
   orderStops,
+  orderBySaved,
   annotateRoute,
   enhanceRouteWithDrivingTimes,
   fetchDirections,
@@ -111,13 +112,17 @@ function FitRoute({ points }) {
     const id = requestAnimationFrame(() => map.invalidateSize());
     return () => cancelAnimationFrame(id);
   }, [map]);
+  // `points` is a new array every render (e.g. each GPS tick), so refit only
+  // when the coordinates themselves change, not on every re-render.
+  const pointsKey = points.map((p) => `${p[0]},${p[1]}`).join(';');
   useEffect(() => {
     if (points.length === 1) {
       map.setView(points[0], 13);
     } else if (points.length > 1) {
       map.fitBounds(points, { padding: [40, 40] });
     }
-  }, [map, points]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, pointsKey]);
   return null;
 }
 
@@ -235,6 +240,11 @@ function TravelPicksSection() {
   );
 }
 
+// Driving times match a route by its stop order, not its array identity:
+// the route is recomputed on small GPS moves and ratings reloads with the
+// same order, and those shouldn't drop back to estimates.
+const routeOrderKey = (route) => route.map((s) => s.id).join('|');
+
 export default function Itinerary() {
   const {
     trip,
@@ -304,17 +314,24 @@ export default function Itinerary() {
   const [groupsLoading, setGroupsLoading] = useState(!!user);
   const [groupsError, setGroupsError] = useState(null);
 
+  // Only the newest load may land: after an account switch (or sign-out) a
+  // slower load for the previous account would otherwise list its trips.
+  const groupsLoadSeq = useRef(0);
   const loadGroupTrips = () => {
+    const seq = ++groupsLoadSeq.current;
     if (!user) {
+      setGroupTrips([]);
+      setGroupsError(null);
       setGroupsLoading(false);
       return;
     }
     setGroupsLoading(true);
     setGroupsError(null);
+    const current = () => seq === groupsLoadSeq.current;
     listMyGroupTrips(user.uid)
-      .then(setGroupTrips)
-      .catch(setGroupsError)
-      .finally(() => setGroupsLoading(false));
+      .then((list) => current() && setGroupTrips(list))
+      .catch((e) => current() && setGroupsError(e))
+      .finally(() => current() && setGroupsLoading(false));
   };
   useEffect(() => {
     loadGroupTrips();
@@ -390,7 +407,11 @@ export default function Itinerary() {
         ownerName: myUsername || user.displayName || 'Explorer',
         name: itineraryName(region.id),
         regionId: region.id,
-        landmarkIds: selectedLandmarks.filter((l) => !l.external).map((l) => l.id),
+        // Same stops, in the order you saved them (byRegion), not catalog order.
+        landmarkIds: orderBySaved(
+          selectedLandmarks.filter((l) => !l.external).map((l) => l.id),
+          trip.byRegion[region.id] || []
+        ),
         places: (trip.placesByRegion?.[region.id] || []).map(({ id: pid, name, address, lat, lng, url }) => ({
           id: pid,
           name,
@@ -421,6 +442,9 @@ export default function Itinerary() {
   // your live GPS, refreshed only once you've actually moved > the region's
   // center as a last resort before any of that is available. No starting
   // location is required — landmarks you've added always show a route.
+  // The typed address is geocoded in its own effect, so a GPS update (which
+  // can't change the answer) never re-geocodes it or flashes the skeleton.
+  const geocodedRegionRef = useRef(null);
   useEffect(() => {
     let cancelled = false;
 
@@ -436,11 +460,14 @@ export default function Itinerary() {
     }
 
     if (trip.startingLocation) {
-      setGeocoding(true);
+      // Only show the full-screen skeleton when there's no origin for this
+      // city yet; re-geocoding an edited address keeps the current route up.
+      if (geocodedRegionRef.current !== region.id) setGeocoding(true);
       geocodeLocation(trip.startingLocation, region)
         .catch(() => null)
         .then((geocoded) => {
           if (!cancelled) {
+            geocodedRegionRef.current = region.id;
             setOrigin(geocoded || region.center);
             setGeocoding(false);
           }
@@ -449,7 +476,11 @@ export default function Itinerary() {
         cancelled = true;
       };
     }
+  }, [region, trip.startingLocation, trip.startingCoords]);
 
+  // No pin or typed address: follow live GPS, refreshed only once you've moved.
+  useEffect(() => {
+    if (!region || trip.startingCoords || trip.startingLocation) return;
     const fallback = coords || region.center;
     const last = autoOriginRef.current;
     const moved = !last || distanceMeters(last.lat, last.lng, fallback.lat, fallback.lng) > AUTO_ORIGIN_REFRESH_METERS;
@@ -482,11 +513,13 @@ export default function Itinerary() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeOrigin, selectedLandmarks, sort, ratings, customOrder.join(',')]);
 
-  const [drivingRoute, setDrivingRoute] = useState([]);
+  // Driving-time results are tagged with the route they were computed for,
+  // so after a re-sort the list never shows the old order while OSRM answers.
+  const [drivingRoute, setDrivingRoute] = useState({ forRoute: null, legs: [] });
 
   useEffect(() => {
     if (!routeOrigin || !route.length) {
-      setDrivingRoute([]);
+      setDrivingRoute({ forRoute: null, legs: [] });
       return;
     }
     let cancelled = false;
@@ -496,7 +529,11 @@ export default function Itinerary() {
       .catch(() => route)
       .then((enhanced) => {
         if (!cancelled) {
-          setDrivingRoute(enhanced);
+          // Keep only the legs OSRM actually refined (null = estimate kept).
+          const legs = enhanced.map((e, i) =>
+            e === route[i] ? null : { distanceFromPrevMeters: e.distanceFromPrevMeters, travelMinutesFromPrev: e.travelMinutesFromPrev }
+          );
+          setDrivingRoute({ forRoute: routeOrderKey(route), legs });
         }
       });
     return () => {
@@ -504,7 +541,13 @@ export default function Itinerary() {
     };
   }, [routeOrigin, route]);
 
-  const displayRoute = drivingRoute.length === route.length ? drivingRoute : route;
+  // The current stops, with the driving legs laid over them when they were
+  // computed for this same stop order.
+  const displayRoute = useMemo(() => {
+    const { forRoute, legs } = drivingRoute;
+    if (forRoute !== routeOrderKey(route) || legs.length !== route.length || !legs.some(Boolean)) return route;
+    return route.map((stop, i) => (legs[i] ? { ...stop, ...legs[i] } : stop));
+  }, [drivingRoute, route]);
 
   // Hold-and-drag reorder (the grip on each stop card), only offered while
   // "Sort by" is "My order" -- dragging while sorted by distance/rating/etc.
@@ -526,6 +569,7 @@ export default function Itinerary() {
     const landmarks = [...(trip.byRegion[rid] || [])];
     const places = [...(trip.placesByRegion?.[rid] || [])];
     const customName = trip.itineraryNames?.[rid] || '';
+    const manualStatus = trip.itineraryStatus?.[rid] || null; // a manual Past/Current move
     removeItinerary(rid);
     setConfirmDelete(false);
     setOpenRegion(null);
@@ -535,6 +579,7 @@ export default function Itinerary() {
         if (landmarks.length) setRegionSelection(rid, landmarks);
         places.forEach((pl) => addPlace(rid, pl));
         if (customName) renameItinerary(rid, customName);
+        if (manualStatus) setItineraryStatus(rid, manualStatus);
         setOpenRegion(rid);
       },
     });

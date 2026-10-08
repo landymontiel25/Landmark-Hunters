@@ -74,9 +74,11 @@ export function todaysSoloCardIds(uid, cityId) {
   return pickDailyCardIds(uid, dayKey(new Date()), cityId);
 }
 
-export async function submitSoloCardRating(uid, landmarkId, verdict) {
+// dayId: the day whose deck is on screen (MyStreaks' useTodayKey), so a card
+// rated just after midnight lands on the day it was shown for.
+export async function submitSoloCardRating(uid, landmarkId, verdict, dayId = dayKey(new Date())) {
   if (!db) return;
-  const today = dayKey(new Date());
+  const today = dayId;
   await setDoc(
     doc(db, 'streaks', uid, 'days', today, 'entries', uid),
     { uid, ratings: { [landmarkId]: verdict }, updatedAt: serverTimestamp() },
@@ -99,14 +101,12 @@ export function subscribeSoloDayEntry(uid, dayId, onEntry, onError) {
 // caller. Points (for a secured day, and any milestone bonus) are awarded
 // server-side in that same call, not reported back for the client to
 // award a second time.
-export async function closeSoloToday() {
-  const now = new Date();
-  const today = dayKey(now);
+export async function closeSoloToday(dayId = dayKey(new Date())) {
+  const today = dayId;
   // The offsets at this local day's own midnights (start and end), so the
-  // server's window is right on a daylight-saving day too.
-  const y = now.getFullYear();
-  const m = now.getMonth();
-  const d = now.getDate();
+  // server's window is right on a daylight-saving day too. dayKey's month
+  // is 0-based, the same as Date's.
+  const [y, m, d] = today.split('-').map(Number);
   const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },

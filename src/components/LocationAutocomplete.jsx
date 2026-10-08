@@ -29,6 +29,10 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
   // One id per Autocomplete+Details "session" (Google's billing unit) --
   // reused across keystrokes, then replaced once a suggestion is resolved.
   const sessionTokenRef = useRef(makeSessionToken());
+  // Bumped by every pick and every keystroke: a slow address lookup only
+  // lands if nothing newer happened while it ran (a second tap on another
+  // suggestion, or more typing), so it can't overwrite the newer choice.
+  const pickSeqRef = useRef(0);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -116,18 +120,22 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
   // pick, right when the user actually commits to a suggestion.
   const resolveSuggestion = async (s) => {
     if (!s.placeId) {
+      pickSeqRef.current += 1;
       onSelect(s);
       setOpen(false);
       return;
     }
     setSearchError('');
     setFailedPick(null);
+    const seq = ++pickSeqRef.current;
     try {
       const details = await getPlaceDetails(s.placeId, sessionTokenRef.current);
       sessionTokenRef.current = makeSessionToken();
+      if (seq !== pickSeqRef.current) return;
       onSelect({ primary: details.primary || s.primary, secondary: details.secondary || s.secondary, lat: details.lat, lng: details.lng });
       setOpen(false);
     } catch (e) {
+      if (seq !== pickSeqRef.current) return;
       // What was typed stays in the box; the list stays open to try again.
       setSearchError(friendlyError(e, LOOKUP_FAILED));
       setFailedPick(s);
@@ -148,6 +156,7 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
         placeholder={placeholder}
         value={value}
         onChange={(e) => {
+          pickSeqRef.current += 1;
           onChange(e.target.value);
           setOpen(true);
         }}

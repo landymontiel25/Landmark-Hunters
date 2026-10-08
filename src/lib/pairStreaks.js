@@ -152,9 +152,11 @@ export function todaysCardIds(pairId, cityId) {
 // (no error, ever) but was permanently invisible on every read, including
 // after a reload. This exact bug shipped and reached production before it
 // was caught.
-export async function submitCardRating(pairId, uid, landmarkId, verdict) {
+// dayId (here and below): the day whose deck is on screen (MyStreaks'
+// useTodayKey), so a card rated just after midnight lands on that day.
+export async function submitCardRating(pairId, uid, landmarkId, verdict, dayId = dayKey(new Date())) {
   if (!db) return;
-  const today = dayKey(new Date());
+  const today = dayId;
   await setDoc(
     doc(db, 'streaks', pairId, 'days', today, 'entries', uid),
     { uid, ratings: { [landmarkId]: verdict }, updatedAt: serverTimestamp() },
@@ -162,9 +164,9 @@ export async function submitCardRating(pairId, uid, landmarkId, verdict) {
   );
 }
 
-export async function submitCardGuess(pairId, uid, landmarkId, verdict, cardIds) {
+export async function submitCardGuess(pairId, uid, landmarkId, verdict, cardIds, dayId = dayKey(new Date())) {
   if (!db) return;
-  const today = dayKey(new Date());
+  const today = dayId;
   const ref = doc(db, 'streaks', pairId, 'days', today, 'entries', uid);
   await setDoc(ref, { uid, guesses: { [landmarkId]: verdict }, updatedAt: serverTimestamp() }, { merge: true });
   // Recompute `done` from the entry we now expect to be complete, rather
@@ -181,8 +183,8 @@ export async function submitCardGuess(pairId, uid, landmarkId, verdict, cardIds)
 // after a card's rating+guess completes the day's deck. Safe to call any
 // time; api/close-streak-day.js only ever advances the count when both
 // members' entries actually cover today's real 3 cards.
-export async function closeToday(pairId) {
-  const today = dayKey(new Date());
+export async function closeToday(pairId, dayId = dayKey(new Date())) {
+  const today = dayId;
   await fetch(`${API_BASE}/api/close-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },

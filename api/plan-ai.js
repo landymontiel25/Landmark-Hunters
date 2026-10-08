@@ -270,6 +270,39 @@ export function linkAddresses(reply, stops = []) {
   return out.replace(/(\{\{address:\d+\}\})(?:[,\s]*\{\{address:\d+\}\})+/g, '$1');
 }
 
+// The model's {{address:N}} counts in ITS stops list, but some of those are
+// dropped (unknown ids, no source URL, past the first 4). keptFrom[i] is the
+// model's 1-based position of the i-th kept stop: point each token at the
+// kept stop it meant, and a token for a dropped stop becomes plain "address".
+export function remapAddressTokens(reply, keptFrom = []) {
+  return String(reply || '').replace(/\{\{address:(\d+)\}\}/g, (_, n) => {
+    const kept = keptFrom.indexOf(Number(n));
+    return kept === -1 ? 'address' : `{{address:${kept + 1}}}`;
+  });
+}
+
+// The model's output didn't parse as JSON -- usually a long answer cut off
+// at max_tokens mid-object, sometimes after a line of narration ("Let me
+// search..."). Never show that raw blob: the reply text if it got that far,
+// else whatever came before the JSON, else '' (the caller's retry line).
+export function unparsedReply(raw) {
+  const text = String(raw || '');
+  // Only a brace that opens a JSON object ({"...) starts the blob; a plain
+  // reply can hold {{address:1}} tokens or a stray "{" in its prose.
+  const brace = text.search(/\{\s*"/);
+  if (brace === -1) return text.trim();
+  const m = text.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  if (m) {
+    try {
+      const recovered = JSON.parse(`"${m[1]}"`);
+      if (String(recovered).trim()) return String(recovered).trim();
+    } catch {
+      /* fall through */
+    }
+  }
+  return text.slice(0, brace).trim();
+}
+
 // "can i rate here", "rate this place": a request to rate wherever they are.
 // "rate" must be the verb ("I rate", "to rate", "Rate this"), so "what's the
 // crime rate here?" or "a first-rate spot" isn't read as an ask to rate.
@@ -602,54 +635,48 @@ async function handler(req, res) {
     try {
       parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     } catch {
-      // A long answer can hit max_tokens mid-JSON. Never show that raw blob:
-      // pull out the reply text if it got that far, else a plain retry line.
-      let fallback = raw;
-      if (raw.includes('{')) {
-        const m = raw.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
-        let recovered = '';
-        try {
-          recovered = m ? JSON.parse(`"${m[1]}"`) : '';
-        } catch {
-          recovered = '';
-        }
-        fallback = raw.trimStart().startsWith('{') ? recovered : raw;
-      }
-      res.status(200).json({ reply: conciseReply(fallback, lastText) || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
+      const fallback = linkAddresses(remapAddressTokens(conciseReply(unparsedReply(raw), lastText), []), []);
+      res.status(200).json({ reply: fallback || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
       return;
     }
 
     const askedDirections = asksForDirections(lastText);
-    const stops = (Array.isArray(parsed.stops) ? parsed.stops : [])
+    const toStop = (s) => {
+      if (s?.match && validIds.has(s.match)) {
+        const [rid, id] = s.match.split('/');
+        const landmark = ALL_LANDMARKS.find((l) => l.regionId === rid && l.id === id);
+        return catalogStop(landmark, s.reason);
+      }
+      // A web-found stop instead of a catalog match -- needs a real name and
+      // a source URL we can actually link back to; drop it otherwise rather
+      // than show an unverifiable suggestion.
+      const name = String(s?.name || '').trim().slice(0, 120);
+      let url = String(s?.url || '').trim();
+      if (!/^https?:\/\//i.test(url)) url = '';
+      // A place they asked directions to is one they named themselves, so
+      // a name plus an address or area is enough for its card.
+      const located = String(s?.address || s?.place || '').trim();
+      if (!name || (!url && !(askedDirections && located))) return null;
+      return {
+        external: true,
+        name,
+        place: String(s?.place || '').trim().slice(0, 80),
+        address: String(s?.address || '').trim().slice(0, 160),
+        url,
+        reason: String(s?.reason || '').slice(0, 200),
+        rating: Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
+      };
+    };
+    const keptStops = (Array.isArray(parsed.stops) ? parsed.stops : [])
       .slice(0, 8)
-      .map((s) => {
-        if (s?.match && validIds.has(s.match)) {
-          const [rid, id] = s.match.split('/');
-          const landmark = ALL_LANDMARKS.find((l) => l.regionId === rid && l.id === id);
-          return catalogStop(landmark, s.reason);
-        }
-        // A web-found stop instead of a catalog match -- needs a real name and
-        // a source URL we can actually link back to; drop it otherwise rather
-        // than show an unverifiable suggestion.
-        const name = String(s?.name || '').trim().slice(0, 120);
-        let url = String(s?.url || '').trim();
-        if (!/^https?:\/\//i.test(url)) url = '';
-        // A place they asked directions to is one they named themselves, so
-        // a name plus an address or area is enough for its card.
-        const located = String(s?.address || s?.place || '').trim();
-        if (!name || (!url && !(askedDirections && located))) return null;
-        return {
-          external: true,
-          name,
-          place: String(s?.place || '').trim().slice(0, 80),
-          address: String(s?.address || '').trim().slice(0, 160),
-          url,
-          reason: String(s?.reason || '').slice(0, 200),
-          rating: Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
-        };
+      .map((s, i) => {
+        const stop = toStop(s);
+        // Remember the model's own 1-based position, for its {{address:N}}.
+        return stop ? { stop, from: i + 1 } : null;
       })
       .filter(Boolean)
       .slice(0, 4);
+    const stops = keptStops.map((k) => k.stop);
     // "How do I get to Hillstone?" answered in text only: add the place's
     // card anyway, so its Directions button is one tap away.
     if (!stops.length) {
@@ -705,7 +732,14 @@ async function handler(req, res) {
 
     // "Can I rate here?": show the catalog landmark they are standing at as a
     // stop, whose card carries the I'd go / Not sure / Not for me buttons.
-    let replyText = conciseReply((typeof parsed.reply === 'string' ? parsed.reply : '').slice(0, 1500), lastText);
+    const shortReply = conciseReply((typeof parsed.reply === 'string' ? parsed.reply : '').slice(0, 1500), lastText);
+    // None of the model's stops survived but the directions card was added:
+    // its address token means that card.
+    const tokenNs = new Set([...shortReply.matchAll(/\{\{address:(\d+)\}\}/g)].map((m) => m[1]));
+    let replyText =
+      !keptStops.length && stops.length === 1 && tokenNs.size === 1
+        ? shortReply.replace(/\{\{address:\d+\}\}/g, '{{address:1}}')
+        : remapAddressTokens(shortReply, keptStops.map((k) => k.from));
     if (hereLandmark && asksToRateHere(lastText) && !stops.some((st) => st.id === hereLandmark.id)) {
       stops.length = 0;
       quickReplies.length = 0;

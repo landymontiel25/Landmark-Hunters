@@ -303,12 +303,13 @@ export function computeMetrics(ds, now = Date.now()) {
   // ---- Ratings per active user per week -------------------------------------
   const weekAgoMs = now - STATS_WEEK_MS;
   const weekAgoDate = dateUtc(weekAgoMs);
+  // Same 7-day window as weeklyUsers below (the 7 dates after weekAgoDate).
   const activeWeek = new Set();
-  for (const [uid, days] of opens) for (const d of days) if (d >= weekAgoDate) activeWeek.add(uid);
+  for (const [uid, days] of opens) for (const d of days) if (d > weekAgoDate) activeWeek.add(uid);
   let ratingsWeek = 0;
   for (const r of reviews) {
     const t = ratingTime(r);
-    if (r?.userId && t != null && t >= weekAgoMs && t <= now) {
+    if (r?.userId && t != null && t > weekAgoMs && t <= now) {
       ratingsWeek += 1;
       activeWeek.add(r.userId);
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { setBackgroundLocationEnabled } from '../lib/friends';
 import { requestAlwaysPermission } from '../lib/backgroundLocation';
@@ -16,6 +16,15 @@ export default function LocationAlwaysStep({ onDone }) {
   const { user } = useAuth();
   const [enabling, setEnabling] = useState(false);
   const [err, setErr] = useState(null);
+  // "Not now" stays tappable while the permission dialog is up; whichever
+  // finishes first moves on, and the other must not advance the flow again
+  // (a second advance re-saved onboarding progress after the flow ended).
+  const doneRef = useRef(false);
+  const finish = () => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    onDone();
+  };
 
   const enable = async () => {
     setEnabling(true);
@@ -27,7 +36,7 @@ export default function LocationAlwaysStep({ onDone }) {
         return;
       }
       await setBackgroundLocationEnabled(user.uid, true);
-      onDone();
+      finish();
     } catch (e) {
       setErr(friendlyError(e, "Couldn't turn that on. You can enable it later from Settings."));
     } finally {
@@ -48,7 +57,7 @@ export default function LocationAlwaysStep({ onDone }) {
       <button type="button" className="btn btn-primary btn-block" onClick={enable} disabled={enabling}>
         {enabling ? 'Enabling…' : 'Always Allow Location'}
       </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onDone}>
+      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={finish}>
         Not now
       </button>
     </div>

@@ -66,4 +66,11 @@ describe('backfillCreatedAt', () => {
     expect(sets).toHaveLength(2);
     expect(r.done).toBe(false);
   });
+  it('leaves users for the next call when the Auth lookup fails, instead of using their first rating', async () => {
+    const { db, sets } = setup({ users: [{ id: 'a', data: {} }], authTimes: {}, reviews: { a: [{ ratedAt: 9000 }] } });
+    const auth = { getUsers: async () => { throw new Error('Auth lookup failed (503).'); } };
+    const r = await backfillCreatedAt(db, auth, { max: 50 });
+    expect(sets).toEqual([]);
+    expect(r).toMatchObject({ updated: 0, authFailed: 1, done: false });
+  });
 });

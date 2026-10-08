@@ -1,4 +1,5 @@
 import { adminDb } from './firebaseAdmin.js';
+import { canonicalLandmarkId } from '../../src/data/regions.js';
 
 // Admin-SDK duplicate of pairStreaks.js's computeCompatibility -- same
 // reasoning as close-streak-day.js's own isRealCheckin duplicate: that
@@ -20,12 +21,17 @@ export async function computeCompatibilityServer(myUid, partnerUid) {
     db.collection('reviews').where('userId', '==', myUid).get(),
     db.collection('reviews').where('userId', '==', partnerUid).get(),
   ]);
-  const mineMap = new Map(
-    mineSnap.docs.map((d) => d.data()).filter((r) => r.ratingTier && r.landmarkId).map((r) => [r.landmarkId, r])
-  );
-  const theirsMap = new Map(
-    theirsSnap.docs.map((d) => d.data()).filter((r) => r.ratingTier && r.landmarkId).map((r) => [r.landmarkId, r])
-  );
+  // Same inputs as the client copy: ids mapped to the current landmark id
+  // (getUserReviews does this), and only the partner's reviews the client can
+  // read (its query requires hidden == false).
+  const toMap = (docs) =>
+    new Map(
+      docs
+        .filter((r) => r.ratingTier && r.landmarkId)
+        .map((r) => [canonicalLandmarkId(r.landmarkId, r.region), r])
+    );
+  const mineMap = toMap(mineSnap.docs.map((d) => d.data()));
+  const theirsMap = toMap(theirsSnap.docs.map((d) => d.data()).filter((r) => r.hidden === false));
   const sharedIds = [...mineMap.keys()].filter((id) => theirsMap.has(id));
   if (sharedIds.length < COMPATIBILITY_MIN_SHARED) return { sharedCount: sharedIds.length, score: null };
   const scored = sharedIds

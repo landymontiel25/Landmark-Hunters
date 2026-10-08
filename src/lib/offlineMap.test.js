@@ -25,6 +25,14 @@ describe('tilesForViewbox', () => {
     const keys = tiles.map((t) => `${t.z}/${t.x}/${t.y}`);
     expect(new Set(keys).size).toBe(keys.length);
   });
+
+  it('stops at the cap for a whole-world viewbox and keeps the same leading tiles', () => {
+    const world = { minLat: -60, minLng: -180, maxLat: 75, maxLng: 180 };
+    const capped = tilesForViewbox(world, 12, 15, 1500);
+    expect(capped.length).toBe(1500);
+    const small = { minLat: 25.3, minLng: -80.6, maxLat: 25.95, maxLng: -80.05 };
+    expect(tilesForViewbox(small, 12, 13, 50)).toEqual(tilesForViewbox(small, 12, 13).slice(0, 50));
+  });
 });
 
 describe('downloadRegionTiles', () => {

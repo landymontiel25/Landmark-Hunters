@@ -181,7 +181,7 @@ export default function TripSetup() {
     try {
       const id = await createGroupTrip({
         ownerUid: user.uid,
-        ownerName: myUsername || user.displayName || user.email,
+        ownerName: myUsername || user.displayName || 'Explorer',
         name: `${activeRegion.name} Trip`,
         regionId: trip.activeRegion,
         initialMembers: friends

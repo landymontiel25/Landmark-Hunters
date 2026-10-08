@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId } from './regions';
+import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId, legacyLandmarkIds } from './regions';
 
 const KNOWN = new Set(INTERESTS.map((i) => i.id));
 
@@ -114,6 +114,8 @@ describe('catalog text and image hygiene', () => {
   const textOf = (l) => [l.name, l.summary, l.tip, l.neighborhood, l.cost, ...(l.facts || [])].filter((s) => typeof s === 'string');
 
   it('has no escape/entity artifacts or placeholder text in user-visible strings', () => {
+    // Control characters are what this check looks for.
+    // eslint-disable-next-line no-control-regex
     const ARTIFACT = /&(?:[a-z]+|#\d+|#x[0-9a-f]+);|[a-z]x(?:27|22|26)[a-z]|\\u[0-9a-f]{4}|\\[nt"']|%[0-9A-F]{2}|\*\*|`|\bundefined\b|\bnull\b|\bNaN\b|\bTODO\b|lorem ipsum|[\u0000-\u001f ​�]/i;
     const bad = [];
     for (const l of ALL_LANDMARKS)
@@ -200,6 +202,12 @@ describe('canonicalLandmarkId (renamed San Francisco ids)', () => {
     expect(canonicalLandmarkId('ferry-building', 'san-francisco')).toBe('ferry-building');
     const sfIds = new Set(ALL_LANDMARKS.filter((l) => l.regionId === 'san-francisco').map((l) => l.id));
     expect(sfIds.has(canonicalLandmarkId('the-battery', 'san-francisco'))).toBe(true);
+  });
+
+  it('lists the old ids a renamed landmark was stored under', () => {
+    expect(legacyLandmarkIds('washington-square-park-sf', 'san-francisco')).toEqual(['washington-square-park']);
+    expect(legacyLandmarkIds('ferry-building', 'san-francisco')).toEqual([]);
+    expect(legacyLandmarkIds('the-battery-sf', 'nyc')).toEqual([]);
   });
 });
 

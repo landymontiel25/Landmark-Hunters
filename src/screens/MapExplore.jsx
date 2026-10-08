@@ -17,6 +17,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { getLandmarkOverrides, saveLandmarkPosition } from '../lib/landmarkOverrides';
 import { getCustomLandmarks, deleteCustomLandmark, updateCustomLandmark } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
+import { createPositionCache } from '../lib/positionCache';
 import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -294,6 +295,8 @@ export default function MapExplore({ experiments = false }) {
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const packsVersion = usePlacePacksVersion();
+  // Stable [lat, lng] per pin so a markers rebuild doesn't move (re-cluster) every pin.
+  const [stablePosition] = useState(createPositionCache);
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const { myPhotos } = useMyPhotos();
   const navigate = useNavigate();
@@ -347,7 +350,9 @@ export default function MapExplore({ experiments = false }) {
     const from = coordsRef.current;
     if (!from) {
       if (geoError) {
-        setNav((cur) => cur && { ...cur, loading: false, error: 'Turn on location to get directions on the map.' });
+        // waitingForFix: a slow GPS reports a timeout before its first fix;
+        // the effect below picks the request back up once a fix comes in.
+        setNav((cur) => cur && { ...cur, loading: false, error: 'Turn on location to get directions on the map.', waitingForFix: true });
       }
       return undefined;
     }
@@ -374,7 +379,14 @@ export default function MapExplore({ experiments = false }) {
     document.body.classList.toggle('map-nav-open', !!nav);
     return () => document.body.classList.remove('map-nav-open');
   }, [nav]);
-  const refreshNav = () => setNav((cur) => cur && { ...cur, loading: true, error: null, req: cur.req + 1 });
+  const refreshNav = () => setNav((cur) => cur && { ...cur, loading: true, error: null, waitingForFix: false, req: cur.req + 1 });
+  // Gave up for lack of a location (a watch timeout counts as an error before
+  // the first fix): route as soon as a fix arrives, instead of leaving
+  // "Turn on location" up while your pin is already on the map.
+  useEffect(() => {
+    if (hasFix && nav?.waitingForFix) refreshNav();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasFix, nav?.waitingForFix]);
 
   // Ordered once you have a location (GPS, else where you last were); the
   // order doesn't reshuffle as you move.
@@ -836,7 +848,9 @@ export default function MapExplore({ experiments = false }) {
         const isClaimed = !!claimedMap[l.id];
         const goToDetails = () => navigate(`/landmarks/${l.regionId}/${l.id}`);
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
-        const position = savedPos ? [savedPos.lat, savedPos.lng] : [l.lat, l.lng];
+        const position = savedPos
+          ? stablePosition(`${l.regionId}/${l.id}`, savedPos.lat, savedPos.lng)
+          : stablePosition(`${l.regionId}/${l.id}`, l.lat, l.lng);
         return (
           <Marker
             key={`${l.regionId}/${l.id}`}
@@ -910,7 +924,7 @@ export default function MapExplore({ experiments = false }) {
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit, packsVersion]
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit, packsVersion, myPhotos]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
@@ -957,7 +971,7 @@ export default function MapExplore({ experiments = false }) {
         return (
           <Marker
             key={l.docId}
-            position={[l.lat, l.lng]}
+            position={stablePosition(`custom/${l.docId}`, l.lat, l.lng)}
             icon={pinIcon(isClaimed, isSelected)}
             draggable={adminMode}
             eventHandlers={adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : undefined}

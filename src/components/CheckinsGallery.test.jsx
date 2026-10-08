@@ -28,13 +28,13 @@ import CheckinsGallery from './CheckinsGallery';
 let container;
 afterEach(() => document.body.removeChild(container));
 
-async function mount() {
+async function mount(totalPoints = 300) {
   container = document.createElement('div');
   document.body.appendChild(container);
   await act(async () =>
     createRoot(container).render(
       <MemoryRouter>
-        <CheckinsGallery user={{ uid: 'me' }} claimedMap={{}} navigate={() => {}} totalPoints={300} />
+        <CheckinsGallery user={{ uid: 'me' }} claimedMap={{}} navigate={() => {}} totalPoints={totalPoints} />
       </MemoryRouter>
     )
   );
@@ -79,5 +79,25 @@ describe('My Check-ins thumbnails', () => {
     await mount();
     const row = [...container.querySelectorAll('.checkin-row')].find((r) => r.textContent.includes('Wynwood Walls'));
     expect(row.querySelector('img').getAttribute('src')).toBe('new.jpg');
+  });
+});
+
+describe('My Check-ins total points', () => {
+  const pts = () => container.querySelector('.rank-hero-pts').textContent;
+
+  it('shows the total once it is known', async () => {
+    await mount(300);
+    expect(pts()).toContain('300 total points');
+  });
+
+  it('shows a placeholder, not 0, while stats are still loading', async () => {
+    await mount(null);
+    expect(pts()).not.toMatch(/\d/);
+    expect(container.querySelector('.rank-hero-pts .skeleton-inline')).not.toBeNull();
+  });
+
+  it("shows a dash, not 0, when stats couldn't load", async () => {
+    await mount('–');
+    expect(pts()).toContain('– total points');
   });
 });

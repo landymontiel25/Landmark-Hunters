@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useFriends } from './FriendsContext';
 import { subscribeMyStreaks, startStreak, leaveStreak, closeToday } from './pairStreaks';
@@ -17,19 +17,25 @@ export function PairStreakProvider({ children }) {
   const [streaks, setStreaks] = useState([]);
 
   useEffect(() => {
-    if (!user) {
-      setStreaks([]);
-      return undefined;
-    }
+    // Cleared on every account change, not just sign-out, so the header
+    // never shows the previous account's pair streaks until the new
+    // snapshot lands.
+    setStreaks([]);
+    if (!user) return undefined;
     return subscribeMyStreaks(user.uid, setStreaks, () => {});
-  }, [user?.uid]);
+  }, [user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const value = {
-    streaks,
-    startStreakWith: (friend) => startStreak({ uid: user.uid, name: myUsername }, friend),
-    leaveStreak,
-    closeToday,
-  };
+  // Stable unless the streaks or the caller's identity change -- this
+  // provider also re-renders on every FriendsContext update.
+  const value = useMemo(
+    () => ({
+      streaks,
+      startStreakWith: (friend) => startStreak({ uid: user.uid, name: myUsername }, friend),
+      leaveStreak,
+      closeToday,
+    }),
+    [streaks, user, myUsername]
+  );
 
   return <PairStreakContext.Provider value={value}>{children}</PairStreakContext.Provider>;
 }

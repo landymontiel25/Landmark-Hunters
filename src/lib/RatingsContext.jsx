@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getAllRatings, getUserReviews } from './reviews';
 import { firebaseEnabled } from './firebase';
 import { useAuth } from './AuthContext';
@@ -51,22 +51,40 @@ export function RatingsProvider({ children }) {
   // (or failed), so a screen can tell "no ratings yet" from "not loaded".
   const [loadedFor, setLoadedFor] = useState(null);
 
+  // Each reload() takes a ticket; only the newest one may write state, so a
+  // slow read for account A can't land after sign-out or a switch to B.
+  const reqRef = useRef(0);
+  // Whose reviews rawReviews currently holds (set together with them).
+  const reviewsUidRef = useRef(null);
+
   const reload = useCallback(async () => {
     if (!firebaseEnabled) return;
+    const req = ++reqRef.current;
+    const stale = () => req !== reqRef.current;
     try {
-      setRatings(await withRetry(getAllRatings));
+      const all = await withRetry(getAllRatings);
+      if (!stale()) setRatings(all);
     } catch {
       /* offline / rules — leave ratings empty */
     }
+    if (stale()) return;
     if (!user) {
+      reviewsUidRef.current = null;
       setMyReviews({});
       return;
     }
     try {
       const list = await withRetry(() => getUserReviews(user.uid));
+      if (stale()) return;
+      reviewsUidRef.current = user.uid;
       setMyReviews(Object.fromEntries(list.map((r) => [r.landmarkId, r])));
     } catch {
-      /* leave whatever we had */
+      if (stale()) return;
+      // Leave whatever we had -- but only if it was this account's.
+      if (reviewsUidRef.current !== user.uid) {
+        reviewsUidRef.current = user.uid;
+        setMyReviews({});
+      }
     }
     setLoadedFor(user.uid);
   }, [user]);
@@ -76,7 +94,10 @@ export function RatingsProvider({ children }) {
   }, [reload]);
 
   const myReviewsLoaded = !!user && loadedFor === user.uid && claimedLoaded;
-  return <RatingsContext.Provider value={{ ratings, myReviews, myReviewsLoaded, reload }}>{children}</RatingsContext.Provider>;
+  // Re-rendered whenever CheckInContext changes (checking-in spinner, friends
+  // reloads...); keep the value stable unless ratings themselves change.
+  const value = useMemo(() => ({ ratings, myReviews, myReviewsLoaded, reload }), [ratings, myReviews, myReviewsLoaded, reload]);
+  return <RatingsContext.Provider value={value}>{children}</RatingsContext.Provider>;
 }
 
 export function useRatings() {

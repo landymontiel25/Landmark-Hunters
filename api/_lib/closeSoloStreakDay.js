@@ -4,6 +4,7 @@ import { adminDb } from './firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { previousDayKey, validClientDayKey, isDayBefore } from './streakDay.js';
 import { pickDailyCardIds } from '../../src/lib/sharedDeck.js';
+import { canonicalLandmarkId } from '../../src/data/regions.js';
 import { awardLeaderboardPointsServer } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
 import { SOLO_PICK_VOTES_REQUIRED, distinctActionsOn, localDayWindow } from './soloPicks.js';
@@ -85,7 +86,8 @@ async function handler(req, res) {
         checkinsSnap.docs
           .map((d) => d.data())
           .filter((c) => c.ratingOnly ? false : typeof c.visited === 'boolean' ? c.visited : c.points !== 0)
-          .map((c) => c.landmarkId)
+          // Same ids the phone excludes (getUserCheckedInLandmarkIds).
+          .map((c) => canonicalLandmarkId(c.landmarkId, c.region))
       );
       const cardIds = pickDailyCardIds(account.uid, dayId, streak.cityId, visitedIds);
       const entrySnap = await streakRef.collection('days').doc(dayId).collection('entries').doc(account.uid).get();

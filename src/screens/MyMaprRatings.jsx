@@ -42,7 +42,7 @@ export default function MyMaprRatings() {
     runOptimistic({
       apply: () => hide(true),
       commit: async () => {
-        await deleteMyReview(user.uid, r.landmarkId);
+        await deleteMyReview(user.uid, r.rawLandmarkId || r.landmarkId);
         await reloadRatings();
       },
       rollback: () => hide(false),

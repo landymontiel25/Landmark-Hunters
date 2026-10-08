@@ -16,9 +16,10 @@ const fakeFetch = vi.fn(async (_url: string, init?: RequestInit) => {
 
 const { FirebaseGateValue } = await import('@/lib/FirebaseGate');
 const { useGrowthMetrics, useMaprNCFModel, POLL_MS } = await import('@/lib/listeners');
-const { _resetHealth, getHealth, healthSummary } = await import('@/lib/listenerHealth');
+const { _resetHealth, getHealth } = await import('@/lib/listenerHealth');
 const { ErrorBoundary } = await import('@/components/ErrorBoundary');
 const { MetricCard } = await import('@/components/MetricCard');
+const { sessionNav } = await import('@/lib/session');
 
 const wrapper = (ready = true) =>
   function W({ children }: { children: ReactNode }) {
@@ -121,6 +122,25 @@ describe('AutoRefresh', () => {
     render(<AutoRefresh everyMs={60_000} fetchImpl={(async () => new Response('{}', { status: 503 })) as never} />);
     await act(async () => { await vi.advanceTimersByTimeAsync(1500); });
     expect(screen.getByTestId('auto-refresh').textContent).toContain('Refresh failed');
+  });
+});
+
+describe('expired session', () => {
+  it('a 401 from the polled read sends the page to /login', async () => {
+    const toLogin = vi.spyOn(sessionNav, 'toLogin').mockImplementation(() => {});
+    respond = () => ({ status: 401, body: { error: 'Sign in first.' } });
+    renderHook(() => useGrowthMetrics(), { wrapper: wrapper() });
+    await waitFor(() => expect(toLogin).toHaveBeenCalled());
+    toLogin.mockRestore();
+  });
+  it('a 401 from the auto refresh sends the page to /login', async () => {
+    vi.useFakeTimers();
+    const toLogin = vi.spyOn(sessionNav, 'toLogin').mockImplementation(() => {});
+    const { AutoRefresh } = await import('@/components/AutoRefresh');
+    render(<AutoRefresh everyMs={60_000} fetchImpl={(async () => new Response('{}', { status: 401 })) as never} />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(1500); });
+    expect(toLogin).toHaveBeenCalledTimes(1);
+    toLogin.mockRestore();
   });
 });
 

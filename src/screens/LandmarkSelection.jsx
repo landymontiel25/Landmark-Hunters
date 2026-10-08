@@ -310,11 +310,16 @@ export default function LandmarkSelection() {
   // came back on every later visit. Pick a city from the dropdown to
   // change it for this visit.
   // Where the Map tab was looking (city scale) wins over where you are. Back
-  // from a landmark keeps the list you left, "All cities" included, so the
-  // saved scroll spot lands on the same rows.
+  // from a landmark keeps the list you left, so the saved scroll spot lands
+  // on the same rows.
   const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
-  const [cityFilter, setCityFilter] = useState(returned?.city || mapCity || 'all');
-  const cityPickedByHand = useRef(false);
+  // "All cities" is kept on Back only when it was picked by hand; as a mere
+  // default it yields to the Map's city like a fresh open (#598).
+  const [cityFilter, setCityFilter] = useState(
+    returned?.city && (returned.city !== 'all' || returned.picked) ? returned.city : mapCity || 'all'
+  );
+  // Back from a landmark keeps a hand-picked city hand-picked.
+  const cityPickedByHand = useRef(!!returned?.picked);
   const gpsLat = coords?.lat ?? null;
   const gpsLng = coords?.lng ?? null;
   const gpsCity = useMemo(
@@ -323,7 +328,7 @@ export default function LandmarkSelection() {
   );
   // No map view and no pick yet: open on the city you are in once GPS answers.
   useEffect(() => {
-    if (cityPickedByHand.current || mapCity || returned?.city || !gpsCity) return;
+    if (cityPickedByHand.current || mapCity || (returned?.city && (returned.city !== 'all' || returned.picked)) || !gpsCity) return;
     setCityFilter(gpsCity);
   }, [gpsCity, mapCity, returned]);
   // Mapr Phase 1 models for "For Me" (maprRank/surfaces.js): the chosen city,
@@ -540,7 +545,7 @@ export default function LandmarkSelection() {
   const stableCheckIn = useCallback((landmark) => latest.current.checkIn(landmark), []);
   const stableInfo = useCallback((landmark) => {
     const { cityFilter: city, shownCount: count } = latest.current;
-    saveListReturn('landmarks', { y: window.scrollY, city, count });
+    saveListReturn('landmarks', { y: window.scrollY, city, count, picked: cityPickedByHand.current });
     latest.current.navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
   }, []);
 

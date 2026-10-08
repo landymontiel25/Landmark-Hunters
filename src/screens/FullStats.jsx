@@ -154,7 +154,7 @@ export default function FullStats() {
         </div>
       </div>
 
-      <CheckinsGallery user={user} claimedMap={claimedMap} navigate={navigate} totalPoints={stats?.totalPoints || 0} />
+      <CheckinsGallery user={user} claimedMap={claimedMap} navigate={navigate} totalPoints={stats?.failed ? '–' : stats ? stats.totalPoints || 0 : null} />
     </div>
   );
 }

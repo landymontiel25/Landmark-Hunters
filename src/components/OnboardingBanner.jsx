@@ -13,13 +13,21 @@ import { useSessionState } from '../lib/usePersistentState';
 // floats right under the header pill on the full-screen map and pushes the
 // map's own buttons down by its height (--banner-h, read by --header-h);
 // "inline" sits at the top of a normal page.
+//
+// The dismissal is per account: keyed by uid, and the inner component is
+// remounted on an account switch so the next account doesn't inherit it.
 export default function OnboardingBanner({ variant = 'inline' }) {
   const { user } = useAuth();
+  if (!user) return null;
+  return <Banner key={user.uid} uid={user.uid} variant={variant} />;
+}
+
+function Banner({ uid, variant }) {
   const { myProfile, profileFresh } = useFriends();
   const navigate = useNavigate();
-  const [dismissed, setDismissed] = useSessionState('onboarding.bannerDismissed', false);
+  const [dismissed, setDismissed] = useSessionState(`onboarding.bannerDismissed.${uid}`, false);
 
-  const show = !!user && profileFresh && !dismissed && onboardingStatus(myProfile) !== 'complete';
+  const show = profileFresh && !dismissed && onboardingStatus(myProfile) !== 'complete';
 
   useEffect(() => {
     if (variant !== 'fixed' || !show) return undefined;

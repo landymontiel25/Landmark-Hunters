@@ -11,12 +11,13 @@ afterEach(() => {
   localStorage.clear();
 });
 
-async function setup(friendsMock) {
+async function setup(friendsMock, blocked = []) {
   const state = { authUser: { uid: 'A' } };
   vi.doMock('./AuthContext', () => ({ useAuth: () => ({ user: state.authUser }) }));
   vi.doMock('./firebase', () => ({ firebaseEnabled: true }));
   vi.doMock('./reviews', () => ({ syncMyReviewVisibility: async () => {} }));
   vi.doMock('./leaderboard', () => ({ backfillUserName: async () => {} }));
+  vi.doMock('./blocks', () => ({ listBlockedUsers: async () => blocked }));
   vi.doMock('./friends', () => ({
     upsertUserProfile: async () => {},
     claimUsername: async () => {},
@@ -76,5 +77,23 @@ describe('FriendsProvider switching accounts', () => {
     expect(probe.ctx.myUsername).toBe('bob');
     await act(async () => finishA({ username: 'alice' }));
     expect(probe.ctx.myUsername).toBe('bob');
+  });
+});
+
+describe('FriendsProvider requests', () => {
+  it("leaves out a pending request from someone you've blocked", async () => {
+    const { probe, render } = await setup(
+      {
+        getUserProfile: async () => ({ username: 'alice' }),
+        listFriends: async () => [],
+        listIncomingRequests: async () => [
+          { id: 'X_A', from: 'X' },
+          { id: 'Y_A', from: 'Y' },
+        ],
+      },
+      [{ blockerUid: 'A', blockedUid: 'X' }]
+    );
+    await render();
+    expect(probe.ctx.requests.map((r) => r.from)).toEqual(['Y']);
   });
 });

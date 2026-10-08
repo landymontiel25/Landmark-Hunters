@@ -12,7 +12,21 @@ const d = (a, b) => distanceMeters(a[0], a[1], b[0], b[1]);
 
 export function prepareRoute(data) {
   const points = data?.points || [];
-  const steps = data?.steps || [];
+  // A step with no instruction (the Routes API leaves some out) just carries
+  // on from the one before; as its own step it showed "Arrive at ..." as the
+  // next move partway along the route. Fold it into the previous step.
+  const steps = [];
+  for (const s of data?.steps || []) {
+    const prev = steps[steps.length - 1];
+    if (prev && !s?.instruction) {
+      steps[steps.length - 1] = {
+        ...prev,
+        distanceMeters: (prev.distanceMeters || 0) + (s?.distanceMeters || 0),
+        // No end point on the folded step: fall back to the summed length.
+        end: s?.end || null,
+      };
+    } else if (s) steps.push(s);
+  }
   const cum = [0];
   for (let i = 1; i < points.length; i++) cum[i] = cum[i - 1] + d(points[i - 1], points[i]);
   const total = cum[cum.length - 1] || 0;

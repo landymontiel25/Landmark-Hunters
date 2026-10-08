@@ -188,7 +188,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
     getPickFeedback(user.uid)
       .then((fb) => setFeedback((cur) => ({ ...fb, ...cur })))
       .catch(() => {});
-  }, [user?.uid]);
+  }, [user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
 

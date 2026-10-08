@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useFirebaseGate } from './FirebaseGate';
+import { redirectIfSignedOut } from './session';
 import { reportListenerError, reportListenerUpdate, reportPaint, reportSubscribed, reportUnsubscribed } from './listenerHealth';
 import type { AccuracyDoc, AppMetrics, BigMiss, EngagementMetric, GrowthMetric, MaprMetric, MaprNCFModel, MaprSimilarity, RetentionCohort, TasteScore } from './types';
 
@@ -36,6 +37,7 @@ function revive(v: unknown): unknown {
 
 async function ask(payload: Record<string, unknown>, fetchImpl: typeof fetch = fetch) {
   const r = await fetchImpl('/api/firestore-read', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+  redirectIfSignedOut(r.status);
   const body = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(body.error || `Firestore read failed (${r.status}).`);
   return body;

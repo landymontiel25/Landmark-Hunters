@@ -19,6 +19,7 @@ const REGION_TIMEZONES = {
   philly: 'America/New_York',
   villanova: 'America/New_York',
   frankfurt: 'Europe/Berlin',
+  paris: 'Europe/Paris',
   switzerland: 'Europe/Zurich',
 };
 

@@ -41,8 +41,8 @@ const TABS = [
 // The Ranks tabs you last picked stick (this device, no expiry) -- the
 // period key is shared with Full Leaderboard's tabs.
 const REMEMBER = { ttlMs: 0 };
-// subscribeLeaderboard has no error callback: a listener that never
-// delivers a first snapshot is how a failed global read shows up.
+// subscribeLeaderboard's onError catches a listener that fails outright;
+// this catches one that never delivers a first snapshot at all.
 const STALL_MS = 15000;
 const MEDAL = ['\u{1F947}', '\u{1F948}', '\u{1F949}'];
 
@@ -92,6 +92,20 @@ function FinishOnboardingCard({ onStartOnboarding }) {
 
 export default function Profile() {
   const { user, loading: authLoading, firebaseEnabled, signOutUser } = useAuth();
+  // Same guard as Settings: a double tap must not start two sign-outs, and a
+  // failure must not surface as an unhandled rejection.
+  const [signingOut, setSigningOut] = useState(false);
+  const handleSignOut = async () => {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await signOutUser();
+    } catch (err) {
+      console.error('Sign out failed:', err?.code, err?.message);
+    } finally {
+      setSigningOut(false);
+    }
+  };
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
   const navigate = useNavigate();
@@ -642,7 +656,7 @@ export default function Profile() {
       <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
         {'\u{2699}\u{FE0F}'} Settings
       </Link>
-      <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={signOutUser}>
+      <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} disabled={signingOut} onClick={handleSignOut}>
         Sign Out
       </button>
     </div>

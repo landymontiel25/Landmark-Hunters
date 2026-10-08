@@ -12,6 +12,7 @@ import {
   toggleGroupLandmark,
   setGroupLandmarks,
   reorderGroupLandmarks,
+  withUnshownIds,
   addGroupMember,
   removeGroupMember,
   deleteGroupTrip,
@@ -83,10 +84,14 @@ export default function GroupTrip() {
   const [attempt, setAttempt] = useState(0);
   const [showAdd, setShowAdd] = useState(false);
   const scrolledBack = useRef(false);
+  // The scroll retry outlives later re-runs of the effect below; it's
+  // cancelled on unmount.
+  const cancelScrollBack = useRef(null);
+  useEffect(() => () => cancelScrollBack.current?.(), []);
   useEffect(() => {
     if (!returned || scrolledBack.current || status !== 'ready') return;
     scrolledBack.current = true;
-    return restoreScroll(Number(returned.y) || 0);
+    cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
   }, [returned, status]);
   // Landmark ticks you've made that the server hasn't confirmed yet, so the
   // checkbox flips the instant you tap it. { [landmarkId]: true | false }
@@ -180,11 +185,16 @@ export default function GroupTrip() {
   }, [selectedIdsKey, sort, coords?.lat, coords?.lng, ratings, landmarkIdsSafe.join(',')]);
   const stopsById = useMemo(() => Object.fromEntries(route.map((s) => [s.id, s])), [route]);
   const stopIds = useMemo(() => route.map((s) => s.id), [route]);
+  // Read at write time (a drag's release handler holds the render it started in).
+  const latestIds = useRef(null);
+  latestIds.current = { landmarkIds: landmarkIdsSafe, pending: pendingLandmarks };
+  const fullOrder = (ids) =>
+    withUnshownIds(ids, latestIds.current.landmarkIds, (id) => latestIds.current.pending[id] === false);
   const { order: dragOrder, registerNode, startDrag, keyReorder, draggingId, dragY, shifts } = useDragReorder(stopIds, (newIds) => {
     // A refused/dropped write used to vanish silently, leaving the new order
     // on screen for you while everyone else (and a reopen) still had the old one.
     if (trip) {
-      reorderGroupLandmarks(trip, newIds).catch((e) =>
+      reorderGroupLandmarks(trip, fullOrder(newIds)).catch((e) =>
         toast.show(friendlyError(e, "Couldn't save the new order. Try again."))
       );
     }
@@ -405,7 +415,7 @@ export default function GroupTrip() {
                     setEditing(false);
                   } else {
                     if (trip) {
-                      reorderGroupLandmarks(trip, orderedRoute.map((s) => s.id)).catch((e) =>
+                      reorderGroupLandmarks(trip, fullOrder(orderedRoute.map((s) => s.id))).catch((e) =>
                         toast.show(friendlyError(e, "Couldn't save your list order. Try again."))
                       );
                     }

@@ -89,14 +89,20 @@ function resolveStop(ref, conversationStops) {
     if (l) return { kind: 'landmark', regionId, id, name: l.name };
   }
   const n = norm(text);
+  // norm() of a non-Latin or emoji-only name is '', and every string
+  // .includes('') -- so only an exact name counts for those, never a guess.
+  const exact = text.toLowerCase();
   const match =
-    conversationStops.find((s) => norm(s.name) === n) ||
-    conversationStops.find((s) => norm(s.name).includes(n) || n.includes(norm(s.name)));
+    conversationStops.find((s) => String(s.name || '').trim().toLowerCase() === exact) ||
+    (n
+      ? conversationStops.find((s) => norm(s.name) === n) ||
+        conversationStops.find((s) => norm(s.name) && (norm(s.name).includes(n) || n.includes(norm(s.name))))
+      : null);
   if (match) {
     if (!match.external) return { kind: 'landmark', regionId: match.region, id: match.id, name: match.name };
     return { kind: 'place', name: match.name, address: match.address || '', place: match.place || '', url: match.url || '' };
   }
-  const l = ALL_LANDMARKS.find((x) => norm(x.name) === n);
+  const l = n ? ALL_LANDMARKS.find((x) => norm(x.name) === n) : null;
   return l ? { kind: 'landmark', regionId: l.regionId, id: l.id, name: l.name } : null;
 }
 
@@ -220,13 +226,16 @@ async function removeStop(action, ctx) {
   const target = findItinerary(action.itinerary, ctx);
   const stop = resolveStop(action.stop, ctx.conversationStops);
   const n = norm(action.stop);
+  // A name with nothing left after norm() (empty, emoji, non-Latin) would
+  // match every place via .includes('') -- don't guess which one.
+  if (!n && !stop) return { ok: false, text: `Couldn't tell which place "${action.stop}" is. Try naming it exactly.` };
   if (target?.kind === 'group') {
     const trip = target.trip;
     if (stop?.kind === 'landmark' && (trip.landmarkIds || []).includes(stop.id)) {
       await setGroupLandmarks(trip, [stop.id], false);
       return { ok: true, text: `Removed ${stop.name} from ${trip.name}.`, undo: () => setGroupLandmarks(trip, [stop.id], true), link: groupLink(trip.id) };
     }
-    const place = (trip.places || []).find((p) => norm(p.name) === n || norm(p.name).includes(n));
+    const place = n ? (trip.places || []).find((p) => norm(p.name) === n || norm(p.name).includes(n)) : null;
     if (place) {
       await removeGroupPlace(trip, place.id);
       return { ok: true, text: `Removed ${place.name} from ${trip.name}.`, undo: () => addGroupPlace({ ...trip, places: [] }, place), link: groupLink(trip.id) };
@@ -239,7 +248,7 @@ async function removeStop(action, ctx) {
       ctx.tripApi.removeLandmark(stop.id, regionId);
       return { ok: true, text: `Removed ${stop.name} from your ${ctx.tripApi.itineraryName(regionId)} itinerary.`, undo: () => ctx.tripApi.addLandmark(stop.id, regionId), link: soloLink(regionId) };
     }
-    const place = (ctx.trip.placesByRegion?.[regionId] || []).find((p) => norm(p.name) === n || norm(p.name).includes(n));
+    const place = n ? (ctx.trip.placesByRegion?.[regionId] || []).find((p) => norm(p.name) === n || norm(p.name).includes(n)) : null;
     if (place) {
       ctx.tripApi.removePlace(regionId, place.id);
       return { ok: true, text: `Removed ${place.name} from your ${ctx.tripApi.itineraryName(regionId)} itinerary.`, undo: () => ctx.tripApi.addPlace(regionId, place), link: soloLink(regionId) };
@@ -431,7 +440,7 @@ export function itinerarySummary(trip, tripApi, groupTrips) {
     ref: g.id,
     name: g.name,
     city: getRegion(g.regionId)?.name || g.regionId,
-    members: Object.values(g.memberNames || {}).slice(0, 10),
+    members: Object.values(g.memberNames || {}).map((n) => n || 'A traveler').slice(0, 10),
     stops: [
       ...(g.landmarkIds || []).map((id) => ALL_LANDMARKS.find((l) => l.regionId === g.regionId && l.id === id)?.name).filter(Boolean),
       ...(g.places || []).map((p) => p.name),

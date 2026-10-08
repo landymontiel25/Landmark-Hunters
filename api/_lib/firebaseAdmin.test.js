@@ -22,5 +22,6 @@ describe('adminAuth', () => {
     expect(url).toContain('/projects/p1/accounts:lookup');
     expect(init.headers.Authorization).toBe('Bearer tok');
     expect(JSON.parse(init.body)).toEqual({ localId: ['u1'] });
+    expect(init.signal).toBeInstanceOf(AbortSignal);
   });
 });

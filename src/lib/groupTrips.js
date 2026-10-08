@@ -11,6 +11,7 @@ import {
   serverTimestamp,
   arrayUnion,
   arrayRemove,
+  deleteField,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { notifyUser } from './notifications';
@@ -32,6 +33,13 @@ function fullError() {
 // write that creates the trip -- e.g. from Trip Setup's friend picker --
 // instead of creating an owner-only trip and then calling addGroupMember in
 // a loop right after.
+// Firestore refuses a write holding `undefined` anywhere (a member with no
+// name yet, a place with no address), failing the whole create. A missing
+// name is stored as null (shown as "A traveler"); a place's undefined fields
+// are left out, so the stored map still equals the one passed in.
+const nameOrNull = (n) => (n === undefined ? null : n);
+export const cleanPlace = (p) => Object.fromEntries(Object.entries(p || {}).filter(([, v]) => v !== undefined));
+
 export async function createGroupTrip({ ownerUid, ownerName, name, regionId, landmarkIds = [], places = [], initialMembers = [] }) {
   if (1 + initialMembers.length > MAX_GROUP_MEMBERS) throw fullError();
   const ref = await addDoc(collection(db, 'group_trips'), {
@@ -40,11 +48,11 @@ export async function createGroupTrip({ ownerUid, ownerName, name, regionId, lan
     regionId,
     memberUids: [ownerUid, ...initialMembers.map((m) => m.uid)],
     memberNames: {
-      [ownerUid]: ownerName,
-      ...Object.fromEntries(initialMembers.map((m) => [m.uid, m.name])),
+      [ownerUid]: nameOrNull(ownerName),
+      ...Object.fromEntries(initialMembers.map((m) => [m.uid, nameOrNull(m.name)])),
     },
     landmarkIds,
-    places,
+    places: places.map(cleanPlace),
     createdAt: serverTimestamp(),
   });
   // Let each invited friend know right away -- best-effort, since a
@@ -107,6 +115,15 @@ export async function setGroupLandmarks(trip, landmarkIds, add) {
 // Two members dragging at the same moment can race and one write wins;
 // acceptable here since a reorder is a personal convenience, not data
 // that must never be lost the way a landmark selection is.
+// The route only shows this city's catalog stops, so a reorder built from it
+// would drop every other id on the trip (custom landmarks, ones that don't
+// render). Keeps those, after the new order, except ids in `removed` (ones
+// the user just unticked and whose removal is still saving).
+export function withUnshownIds(orderedIds, currentIds, removed = () => false) {
+  const shown = new Set(orderedIds);
+  return [...orderedIds, ...(currentIds || []).filter((id) => !shown.has(id) && !removed(id))];
+}
+
 export async function reorderGroupLandmarks(trip, orderedIds) {
   await updateDoc(doc(db, 'group_trips', trip.id), { landmarkIds: orderedIds });
 }
@@ -116,7 +133,7 @@ export async function addGroupMember(trip, memberUid, memberName) {
   if ((trip.memberUids || []).length >= MAX_GROUP_MEMBERS) throw fullError();
   await updateDoc(doc(db, 'group_trips', trip.id), {
     memberUids: arrayUnion(memberUid),
-    [`memberNames.${memberUid}`]: memberName,
+    [`memberNames.${memberUid}`]: nameOrNull(memberName),
   });
   notifyUser(memberUid, {
     type: 'group_invite',
@@ -125,13 +142,13 @@ export async function addGroupMember(trip, memberUid, memberName) {
   }).catch(() => {});
 }
 
+// arrayRemove/deleteField rather than writing this screen's copy of the
+// lists back: someone another member invited a moment ago (not in that copy
+// yet) would otherwise be dropped too.
 export async function removeGroupMember(trip, memberUid) {
-  const memberNames = { ...trip.memberNames };
-  delete memberNames[memberUid];
   await updateDoc(doc(db, 'group_trips', trip.id), {
-    memberUids: (trip.memberUids || []).filter((u) => u !== memberUid),
-    memberNames,
-    name: trip.name,
+    memberUids: arrayRemove(memberUid),
+    [`memberNames.${memberUid}`]: deleteField(),
   });
 }
 
@@ -149,7 +166,7 @@ export async function renameGroupTrip(trip, name) {
 // whole trip. place: { id, name, address, lat, lng, url }
 export async function addGroupPlace(trip, place) {
   if ((trip.places || []).some((p) => p.id === place.id)) return;
-  await updateDoc(doc(db, 'group_trips', trip.id), { places: arrayUnion(place) });
+  await updateDoc(doc(db, 'group_trips', trip.id), { places: arrayUnion(cleanPlace(place)) });
 }
 
 export async function removeGroupPlace(trip, placeId) {

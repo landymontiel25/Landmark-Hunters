@@ -65,6 +65,9 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
   // of the header -- a wide one ran off the left of the screen. Measured
   // after render and nudged back inside the viewport.
   const [clampedLeft, setClampedLeft] = useState(null);
+  // Runs after every render on purpose (the popover's width follows its
+  // content). React skips the re-render when the value is unchanged.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     if (!open || !rect || !popoverRef.current) return;
     const width = popoverRef.current.offsetWidth;
@@ -135,20 +138,26 @@ function StreakBadge() {
   const navigate = useNavigate();
   const { user, firebaseEnabled } = useAuth();
   const today = useTodayKey();
-  const [streak, setStreak] = useState(null);
+  // Tagged with the account it was read for, so after switching accounts the
+  // previous account's streak never shows while the new one loads.
+  const [loaded, setLoaded] = useState({ uid: null, streak: null });
+  const streak = user && loaded.uid === user.uid ? loaded.streak : null;
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
 
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
+    const uid = user.uid;
     let cancelled = false;
     // Keep the unsubscribe: handing it back from the .then() below returns it
     // to nobody, which left a live listener behind every time `user` changed.
     let unsubscribe = null;
     const subscribe = () => {
       if (cancelled || unsubscribe) return;
-      unsubscribe = subscribeMySoloStreak(user.uid, setStreak, () => {});
+      const onStreak = (next) =>
+        setLoaded((cur) => (cur.uid === uid && cur.streak === next ? cur : { uid, streak: next }));
+      unsubscribe = subscribeMySoloStreak(uid, onStreak, () => {});
     };
     ensureSoloStreak(user.displayName || 'A traveler', user.uid)
       .then(subscribe)

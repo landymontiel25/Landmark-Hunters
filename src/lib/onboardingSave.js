@@ -1,5 +1,6 @@
 import { doc, setDoc, updateDoc, deleteDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
+import { settleWrite } from './offlineWrite';
 import { PICKABLE_REGIONS, getLandmark } from '../data/regions';
 import { ensurePlacePacks } from './placePacks';
 import { allSwipeCards, tagDeltasFromAnswers, placesIntro } from './onboardingCards';
@@ -185,12 +186,14 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
   // summary, score seed and places stay as they were (building them from the
   // shorter list would take those places' points out), and the version waits
   // too, so the next save, with the places loaded, applies everything.
+  // settleWrite: offline, a plain setDoc never settles and the notes step sat
+  // on "Saving…" with Skip disabled. Queued, it syncs on reconnect.
   if (!resolved.complete) {
-    await setDoc(doc(db, 'users', uid), { swipeAnswers: answersToPairs(answers), updatedAt: serverTimestamp() }, { merge: true });
+    await settleWrite(setDoc(doc(db, 'users', uid), { swipeAnswers: answersToPairs(answers), updatedAt: serverTimestamp() }, { merge: true }));
     return;
   }
   const { deltas, tagScores, tagScoresAt, applied } = seedTagScores(profile, answers, Date.now(), undefined, places);
-  await setDoc(
+  await settleWrite(setDoc(
     doc(db, 'users', uid),
     {
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
@@ -202,7 +205,7 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
       updatedAt: serverTimestamp(),
     },
     { merge: true }
-  );
+  ));
 }
 
 // "Onboarding has been updated" for accounts that predate this version.
