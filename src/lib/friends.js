@@ -156,7 +156,9 @@ export function subscribeUserProfile(uid, onProfile, onError) {
 
 // Claim a unique username. `usernames/{name}` doubles as the uniqueness lock.
 export async function claimUsername(user, rawName) {
-  const username = (rawName || '').trim().toLowerCase();
+  // The app shows handles as "@name", so a typed leading @ is dropped
+  // (findUserByUsername does the same).
+  const username = (rawName || '').trim().toLowerCase().replace(/^@/, '');
   if (!USERNAME_RE.test(username)) {
     throw userError('3–20 characters: lowercase letters, numbers, or _');
   }
