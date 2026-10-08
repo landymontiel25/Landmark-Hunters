@@ -114,7 +114,7 @@ function LandmarkDetailBody() {
     });
   };
   const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
-  const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
+  const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const region = getRegion(regionId);
@@ -374,7 +374,7 @@ function LandmarkDetailBody() {
     return () => {
       cancelled = true;
     };
-  }, [firebaseEnabled, user, landmark, checkedInHere]);
+  }, [firebaseEnabled, user, landmark, checkedInHere, checkinTick]);
 
   // quiet: a refresh after your own save/delete keeps the current list on
   // screen (and a failure there leaves it as-is) rather than flashing a
