@@ -45,13 +45,14 @@ export function useDragReorder(ids, onReorder) {
   // flight, so an in-progress drag never gets clobbered by its own
   // eventual write-back.
   const idsKey = ids.join('|');
-  // draggingId is a dep so a change that arrived mid-drag syncs once it ends.
+  // A change that arrived mid-drag is merged into the drop (onUp), and the
+  // owner's next ids after that write re-sync here.
   useEffect(() => {
     if (dragId.current) return;
     setOrder(ids);
     orderRef.current = ids;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idsKey, draggingId]);
+  }, [idsKey]);
 
   const registerNode = (id) => (node) => {
     if (node) nodesRef.current[id] = node;
