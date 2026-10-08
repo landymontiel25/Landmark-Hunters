@@ -6,12 +6,16 @@ import { friendlyError } from '../lib/friendlyError';
 import { Skeleton } from './Skeleton';
 import { useTrip } from '../lib/TripContext';
 import { useFriends } from '../lib/FriendsContext';
-import { nearestRegionId } from '../lib/geo';
+import { nearestRegionId, distanceMeters } from '../lib/geo';
+import { useStopAddresses } from '../lib/useStopAddresses';
+
+// A match this close to you counts as the place you're standing at.
+const NEAREST_METERS = 500;
 
 const SEARCH_FAILED = "Couldn't search addresses right now. Landmarks still show above.";
 const LOOKUP_FAILED = "Couldn't look up that address. Try again, or pick another result.";
 
-export default function LocationAutocomplete({ id, name, value, regionId, onChange, onSelect, placeholder }) {
+export default function LocationAutocomplete({ id, name, value, regionId, nearTo, onChange, onSelect, placeholder }) {
   const [suggestions, setSuggestions] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,21 +52,29 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
     // flip the spinner off) after the user has kept typing.
     let cancelled = false;
     const handle = setTimeout(async () => {
-      const localMatches = ALL_LANDMARKS.filter((l) => matchesSearch([l.name, getRegion(l.regionId)?.name].join(' '), q))
-        .sort((a, b) => (a.regionId === regionId ? -1 : 0) - (b.regionId === regionId ? -1 : 0))
-        .slice(0, 4)
-        .map((l) => ({
-          key: `l-${l.id}`,
-          primary: l.name,
-          secondary: `${getRegion(l.regionId)?.name} landmark`,
-          lat: l.lat,
-          lng: l.lng,
-          // Carried through to onSelect so a caller (Add Landmark) can tell
-          // "picked an existing landmark by name" apart from "picked an
-          // address" -- the former is a certain duplicate, not a maybe.
-          landmarkId: l.id,
-          landmarkRegionId: l.regionId,
-        }));
+      const hasNear = Number.isFinite(nearTo?.lat) && Number.isFinite(nearTo?.lng);
+      const withDistance = ALL_LANDMARKS.filter((l) => matchesSearch([l.name, getRegion(l.regionId)?.name].join(' '), q)).map((l) => ({
+        l,
+        meters: hasNear ? distanceMeters(nearTo.lat, nearTo.lng, l.lat, l.lng) : Infinity,
+      }));
+      // Standing at the place: the closest match comes first, so Enter
+      // picks it. Otherwise matches in the trip's region come first.
+      withDistance.sort((a, b) =>
+        hasNear ? a.meters - b.meters : (a.l.regionId === regionId ? -1 : 0) - (b.l.regionId === regionId ? -1 : 0)
+      );
+      const localMatches = withDistance.slice(0, 4).map(({ l, meters }, i) => ({
+        key: `l-${l.id}`,
+        primary: l.name,
+        lat: l.lat,
+        lng: l.lng,
+        nearest: i === 0 && meters <= NEAREST_METERS,
+        // Carried through to onSelect so a caller (Add Landmark) can tell
+        // "picked an existing landmark by name" apart from "picked an
+        // address" -- the former is a certain duplicate, not a maybe.
+        landmarkId: l.id,
+        landmarkRegionId: l.regionId,
+        regionName: getRegion(l.regionId)?.name,
+      }));
 
       const region = regionId ? getRegion(regionId) : null;
       // A failed remote search (network error, Places API quota, a non-2xx
@@ -91,7 +103,13 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
       cancelled = true;
       clearTimeout(handle);
     };
+    // `nearTo` is read once per search; GPS jitter must not restart it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, regionId, attempt]);
+
+  // Street address under each landmark match, so two branches of the same
+  // chain tell apart (cached, one lookup per second).
+  const addresses = useStopAddresses(suggestions.filter((s) => s.landmarkId).map((s) => ({ id: s.landmarkId, lat: s.lat, lng: s.lng })));
 
   // Local landmark matches already carry lat/lng; a Places suggestion only
   // has a placeId until now -- this is the one Place Details round trip per
@@ -188,7 +206,11 @@ export default function LocationAutocomplete({ id, name, value, regionId, onChan
                 onClick={() => resolveSuggestion(s)}
               >
                 <span className="autocomplete-primary">{s.primary}</span>
-                {s.secondary && <span className="autocomplete-secondary">{s.secondary}</span>}
+                {(() => {
+                  const text = s.landmarkId ? addresses[s.landmarkId] || s.regionName : s.secondary;
+                  const sub = [s.nearest && 'Nearest to you', text].filter(Boolean).join(' · ');
+                  return sub && <span className="autocomplete-secondary">{sub}</span>;
+                })()}
               </button>
             ))}
         </div>
