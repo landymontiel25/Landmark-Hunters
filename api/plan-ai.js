@@ -273,7 +273,7 @@ export function linkAddresses(reply, stops = []) {
 // "can i rate here", "rate this place": a request to rate wherever they are.
 // "rate" must be the verb ("I rate", "to rate", "Rate this"), so "what's the
 // crime rate here?" or "a first-rate spot" isn't read as an ask to rate.
-const RATE_VERB = String.raw`(?:^|[.!?,]\s*|\b(?:i|me|to|we|you|u|us|let's|lets|please|pls|wanna|gonna|lemme|and|then|can|could|will|would|should|ok|okay|yes|sure|now)\s+|(?:'ll|'d)\s+)rate\b`;
+const RATE_VERB = String.raw`(?:^|[.!?,]\s*|\b(?:i|me|to|we|you|u|us|let['’]s|lets|please|pls|wanna|gonna|lemme|and|then|can|could|will|would|should|ok|okay|yes|sure|now|just)\s+|(?:['’]ll|['’]d)\s+)rate\b`;
 const RATE_HERE = new RegExp(`${RATE_VERB}[^.?!]{0,30}\\b(here|this (place|spot|one)|where i am)\\b`, 'i');
 const RATE_ANY = new RegExp(
   `\\b(can|could|let|want|wanna|like|how do|how can)\\b[^.?!]{0,25}${RATE_VERB}|${RATE_VERB} (some|a few|more|places|landmarks|stuff)\\b|\\bplaces? to rate\\b|\\b(?:i|we|you|u)\\s+(?:can|could)\\s+rate\\b`,

@@ -130,3 +130,10 @@ describe('plan-ai text helpers: second review', () => {
     expect(conciseReply('Go to 5 Main St. at noon. Great. Third.', 'x')).toBe('Go to 5 Main St. at noon. Great.');
   });
 });
+
+describe('plan-ai asksToRate: iPhone apostrophes', () => {
+  it('reads curly apostrophes like straight ones', () => {
+    for (const t of ['I’d rate here', 'I’ll rate this one', 'Let’s rate this spot', 'just rate this place']) expect(asksToRateHere(t)).toBe(true);
+    expect(asksToRate('Let’s rate some places')).toBe(true);
+  });
+});
