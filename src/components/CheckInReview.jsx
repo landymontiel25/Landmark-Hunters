@@ -163,14 +163,32 @@ export default function CheckInReview() {
       // it), but is flagged so the landmark page doesn't call it "restored"
       // while this is still uploading.
       markDraftSubmitting(draftKey);
-      submitReview({
-        userId: user.uid,
-        userName: myUsername || user.displayName || 'Explorer',
-        landmark: justCheckedIn,
-        rating,
-        photoFiles,
-        disagreement,
-      })
+      const save = (files) =>
+        submitReview({
+          userId: user.uid,
+          userName: myUsername || user.displayName || 'Explorer',
+          landmark: justCheckedIn,
+          rating,
+          photoFiles: files,
+          disagreement,
+        });
+      save(photoFiles)
+        // A rating holds 3 photos. On a repeat visit the old ones can fill it,
+        // and the cap used to refuse the whole rating: save the rating, and
+        // put the new photos on this check-in instead.
+        .catch(async (e) => {
+          if (!photoFiles.length || !/holds up to|the most it can hold/.test(String(e?.message || ''))) throw e;
+          const res = await save([]);
+          let photoFailed = false;
+          for (const f of photoFiles) {
+            try {
+              await attachCheckinPhoto(user.uid, justCheckedIn.id, f);
+            } catch {
+              photoFailed = true;
+            }
+          }
+          return { ...res, photoFailed };
+        })
         .then(async (res) => {
           // Saved -- the in-progress copy on this device isn't needed. (On
           // failure it's kept, so the landmark page reopens with it.)
