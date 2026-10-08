@@ -284,6 +284,11 @@ export default function Mapr() {
   } = useMaprChat();
   // Arriving from a "shared a project with you" notification opens the list.
   const [chatsOpen, setChatsOpen] = useState(() => !!location.state?.openChats);
+  // Used once: drop it from history so Back from a landmark (or a refresh)
+  // doesn't pop the list open again, like openTripPlanner and ask below.
+  useEffect(() => {
+    if (location.state?.openChats) navigate(location.pathname, { replace: true, state: { ...location.state, openChats: false } });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [renamingTitle, setRenamingTitle] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editDraft, setEditDraft] = useState('');
@@ -1177,8 +1182,8 @@ export default function Mapr() {
               )}
               {m.quickReplies?.length > 0 && i === messages.length - 1 && !busy && (
                 <div className="chatlab-quick-replies">
-                  {m.quickReplies.map((qr) => (
-                    <button key={qr} type="button" onClick={() => send(null, qr)}>
+                  {m.quickReplies.map((qr, qi) => (
+                    <button key={`${qi}-${qr}`} type="button" onClick={() => send(null, qr)}>
                       {qr}
                     </button>
                   ))}
