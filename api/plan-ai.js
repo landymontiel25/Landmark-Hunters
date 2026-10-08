@@ -131,7 +131,7 @@ const INSTRUCTIONS =
   `- "stops" can be an empty array. Only use region/id values that actually appear in the catalog -- for anything else, use the web stop shape instead of inventing a match id.\n` +
   `- "quickReplies" can be an empty array -- see the rule above for when to fill it in.\n` +
   `- "actions" is usually an empty array. Each action is one of:\n` +
-  `  {"type": "add_stop", "stop": "<region/id, or the exact name of a place from this chat>", "itinerary": "<ref from YOUR ITINERARIES, or \"new\">", "newName": "<optional name if new>"}\n` +
+  `  {"type": "add_stop", "stop": "<region/id, or the exact name of a place from this chat>", "itinerary": "<ref from YOUR ITINERARIES, or "new">", "newName": "<optional name if new>"}\n` +
   `  {"type": "remove_stop", "stop": "<name or region/id>", "itinerary": "<ref>"}\n` +
   `  {"type": "create_itinerary", "name": "<name>", "city": "<region id from the catalog, e.g. miami>", "group": <true for a group itinerary, else false>}\n` +
   `  {"type": "rename_itinerary", "itinerary": "<ref>", "name": "<new name>"}\n` +

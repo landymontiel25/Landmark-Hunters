@@ -134,12 +134,14 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
     if (closedFor.current === key) return;
     closedFor.current = key;
     closeDay();
-  }, [dayDone, user?.uid]);
+    // Once per account and day; closeDay is rebuilt each render.
+  }, [dayDone, user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Each card is logged as shown (with a hidden guess) when it scrolls into
   // view, one set per city row, so a vote on it counts toward the taste score
   // and the match rate like any other Mapr pick.
-  const setId = useMemo(() => (user?.uid ? makeSetId(user.uid) : null), [user?.uid, regionId]);
+  // A new set for each city row: regionId is the intended trigger.
+  const setId = useMemo(() => (user?.uid ? makeSetId(user.uid) : null), [user?.uid, regionId]); // eslint-disable-line react-hooks/exhaustive-deps
   const logShown = useShownLogger({ uid: user?.uid, profile: myProfile, surface: 'travel-picks', source: 'travel-picks' });
 
   // Mapr Phase 1 models for this city (null until loaded; ranking works without).
