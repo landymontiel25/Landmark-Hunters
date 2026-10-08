@@ -685,7 +685,7 @@ export async function hasFriendTagTeam(userId, friendUids, checkins) {
   const friendSet = new Set(friendUids);
   return snap.docs.some((d) => {
     const x = d.data();
-    if (!friendSet.has(x.userId) || !x.createdAt?.seconds) return false;
+    if (!friendSet.has(x.userId) || !x.createdAt?.seconds || !isRealCheckin(x)) return false;
     const mySec = byLandmark.get(x.landmarkId);
     return mySec != null && Math.abs(x.createdAt.seconds - mySec) <= 86400;
   });

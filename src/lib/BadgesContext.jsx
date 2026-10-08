@@ -156,12 +156,15 @@ export function BadgesProvider({ children }) {
       ]);
       const customLandmarksById = new Map(allCustom.map((l) => [l.id, l]));
       const factLandmarks = allCustom.filter((l) => l.createdBy === user.uid && (l.facts || []).length > 0).length;
-      const annotated = rows.map((c) => annotateCheckin(c, customLandmarksById));
+      // Badges say "Checked in...": 0-point "Rate a Landmark" claims are
+      // ratings, not visits, so they don't count toward any of them.
+      const visits = rows.filter(isRealCheckin);
+      const annotated = visits.map((c) => annotateCheckin(c, customLandmarksById));
       const friendUidList = [...friendUids];
 
       const [top10, tagTeam] = await Promise.all([
         isInTopLeaderboard(user.uid).catch(() => false),
-        hasFriendTagTeam(user.uid, friendUidList, rows).catch(() => false),
+        hasFriendTagTeam(user.uid, friendUidList, visits).catch(() => false),
       ]);
 
       // byRegion also holds Mapr-found places' ids once Edit List has saved an
@@ -175,7 +178,7 @@ export function BadgesProvider({ children }) {
       );
 
       setExtra({
-        photoCheckins: countPhotoCheckins(rows),
+        photoCheckins: countPhotoCheckins(visits),
         // Reviewer needs a place you actually visited: you can rate places
         // without checking in, but the badge is for reviews of real visits.
         fiveStarReview: reviews.some(
@@ -185,14 +188,14 @@ export function BadgesProvider({ children }) {
         friends: friendUidList.length,
         top10,
         tagTeam,
-        regionMax: maxRegionCheckins(rows),
+        regionMax: maxRegionCheckins(visits),
         states: countDistinctStates(annotated),
         countries: countDistinctCountries(annotated),
         tripLandmarks,
         allStarWeek: hasAllStarWeek(annotated),
         cuisineTypes: countCuisineTypes(annotated),
-        nightOwl: hasNightOwlCheckin(rows),
-        goldenHour: hasGoldenHourCheckin(rows),
+        nightOwl: hasNightOwlCheckin(visits),
+        goldenHour: hasGoldenHourCheckin(visits),
       });
     } catch {
       // Best-effort -- the original 4 badge kinds (and everything else on
