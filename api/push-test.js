@@ -40,7 +40,8 @@ async function handler(req, res) {
       res.status(200).json({ ok: false, error: REASON_MESSAGE[result.reason] || 'Nothing was sent.' });
     }
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not send a test notification.' });
+    console.error('[push-test]', e);
+    res.status(500).json({ error: 'Could not send a test notification.' });
   }
 }
 

@@ -229,7 +229,8 @@ async function handler(req, res) {
     }
     res.status(200).json({ id: account.uid, ...data });
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not load your streak.' });
+    console.error('[ensure-solo-streak]', e);
+    res.status(500).json({ error: 'Could not load your streak.' });
   }
 }
 

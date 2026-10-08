@@ -152,7 +152,8 @@ async function handler(req, res) {
       milestoneAwarded: milestone || null,
     });
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not close that day.' });
+    console.error('[closeSoloStreakDay]', e);
+    res.status(500).json({ error: 'Could not close that day.' });
   }
 }
 
