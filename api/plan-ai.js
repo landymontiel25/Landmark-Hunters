@@ -207,13 +207,27 @@ export function trimTurns(incoming) {
 // sentences, 260 characters. Asking to "explain", "tell me more", "details" etc.
 // lifts the cap.
 export const ASKS_FOR_LONGER = /\b(tell me more|more (detail|info|about)|details?|explain|elaborate|in depth|in detail|step[- ]by[- ]step|longer|full (list|hours|schedule)|everything)\b/i;
+// Sentence split that doesn't cut at "St.", "Dr." or "e.g.", nor at "a.m." /
+// "p.m." when the sentence goes on ("9 a.m. to 5 p.m. daily").
+const TITLE_ABBR = /(?:^|\s)(?:St|Ave|Dr|Mt|Rd|Blvd|Ln|Ct|Pl|Hwy|Mr|Mrs|Ms|Jr|Sr|vs|No|e\.g|i\.e|approx|est)\.$/i;
+const TIME_ABBR = /(?:^|\s)[ap]\.m\.$/i;
+function splitSentences(text) {
+  const parts = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const out = [];
+  for (const part of parts) {
+    const prev = out[out.length - 1];
+    if (prev && (TITLE_ABBR.test(prev) || (TIME_ABBR.test(prev) && /^[a-z0-9]/.test(part)))) out[out.length - 1] = `${prev} ${part}`;
+    else out.push(part);
+  }
+  return out;
+}
 export function conciseReply(reply, userText = '') {
   const plain = String(reply || '')
     .replace(/\*\*|__|`/g, '')
     .replace(/^\s*(?:[-*\u2022]|\d+[.)])\s+/gm, '')
     .trim();
   if (ASKS_FOR_LONGER.test(String(userText))) return plain;
-  const sentences = plain.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const sentences = splitSentences(plain);
   let out = sentences.slice(0, 2).join(' ');
   if (out.length > 260) out = sentences[0].length <= 260 ? sentences[0] : `${out.slice(0, 257).trimEnd()}...`;
   return out || plain;
@@ -223,7 +237,10 @@ export function conciseReply(reply, userText = '') {
 // {{address:N}} token (N = the 1-based stop it belongs to) or, for an address
 // with no matching stop, {{addressq:<text>}}. The app shows the word
 // "address" as a link that opens Open in Map / Google Maps / Apple Maps.
-const STREET = /\b\d{1,6}\s+(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:,\s*[A-Z][\w .'-]*){0,3}?(?:,\s*[A-Z]{2}(?:\s+\d{5})?)?/g;
+// The house number can't be a count ("10 Blocks Down Main St"); a direction
+// after the street type ("Ave NW") and the city, state and ZIP stay in the
+// match. A city is 1-3 capitalized words, never a 2-letter state.
+const STREET = /\b\d{1,6}\s+(?!(?:[Bb]locks?|[Mm]inutes?|[Mm]ins?|[Mm]iles?|[Hh]ours?|[Ss]teps?|[Ss]tops?|[Ff]eet|[Mm]eters?)\b)(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:\s+[NS][EW]\b)?(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:,\s*(?![A-Z]{2}\b)[A-Z][\w'.-]*(?:\s+[A-Z][\w'.-]*){0,2}){0,2}(?:,\s*[A-Z]{2}(?:\s+\d{5})?)?/g;
 export function linkAddresses(reply, stops = []) {
   let out = String(reply || '');
   stops.forEach((st, i) => {
@@ -238,15 +255,22 @@ export function linkAddresses(reply, stops = []) {
 }
 
 // "can i rate here", "rate this place": a request to rate wherever they are.
-export const asksToRateHere = (text) => /\brate\b[^.?!]{0,30}\b(here|this (place|spot|one)|where i am)\b/i.test(String(text || ''));
+// "rate" must be the verb ("I rate", "to rate", "Rate this"), so "what's the
+// crime rate here?" or "a first-rate spot" isn't read as an ask to rate.
+const RATE_VERB = String.raw`(?:^|[.!?,]\s*|\b(?:i|me|to|we|you|u|us|let's|lets|please|pls|wanna|gonna|lemme|and|then)\s+)rate\b`;
+const RATE_HERE = new RegExp(`${RATE_VERB}[^.?!]{0,30}\\b(here|this (place|spot|one)|where i am)\\b`, 'i');
+const RATE_ANY = new RegExp(
+  `\\b(can|could|let|want|wanna|like|how do|how can)\\b[^.?!]{0,25}${RATE_VERB}|(?:^|[^-\\w])rate (some|a few|more|places|landmarks|stuff)\\b|\\bplaces? to rate\\b`,
+  'i'
+);
+export const asksToRateHere = (text) => RATE_HERE.test(String(text || '').trim());
 
 // Any ask to rate, not tied to one named place ("can I rate?", "let me rate
 // some places", "places to rate"). Together with asksToRateHere, and when Mapr
 // has no single place to show, the app puts up a carousel of places they have
 // not rated yet.
 export const asksToRate = (text) =>
-  asksToRateHere(text) ||
-  /\b(can|could|let|want|wanna|like|how do|how can)\b[^.?!]{0,25}\brate\b|\brate (some|a few|more|places|landmarks|stuff)\b|\bplaces? to rate\b/i.test(String(text || ''));
+  asksToRateHere(text) || RATE_ANY.test(String(text || '').trim());
 
 export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 'solo');
 

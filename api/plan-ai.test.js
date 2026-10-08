@@ -75,3 +75,27 @@ describe('plan-ai linkAddresses', () => {
     expect(linkAddresses('It is 5 km away, founded in 1999.')).toBe('It is 5 km away, founded in 1999.');
   });
 });
+
+describe('plan-ai text helpers: nightly fixes', () => {
+  it('does not read "rate" as a noun as an ask to rate', () => {
+    for (const t of ["What's the crime rate here?", 'whats the exchange rate here', 'Is the hotel rate here ok', 'Can you find a first-rate sushi spot?']) {
+      expect(asksToRateHere(t)).toBe(false);
+      expect(asksToRate(t)).toBe(false);
+    }
+    expect(asksToRate('wanna rate some stuff')).toBe(true);
+    expect(asksToRateHere('Rate this spot')).toBe(true);
+  });
+  it('keeps city, state, ZIP and a street direction inside the address', () => {
+    expect(linkAddresses('Go to 1237 E Passyunk Ave, Philadelphia, PA 19147.')).toBe(
+      'Go to {{addressq:1237%20E%20Passyunk%20Ave%2C%20Philadelphia%2C%20PA%2019147}}.'
+    );
+    expect(linkAddresses('See 1600 Pennsylvania Ave NW, Washington, DC 20500 today')).toBe(
+      'See {{addressq:1600%20Pennsylvania%20Ave%20NW%2C%20Washington%2C%20DC%2020500}} today'
+    );
+    expect(linkAddresses('Walk 10 Blocks Down Main St to it')).toBe('Walk 10 Blocks Down Main St to it');
+  });
+  it('does not cut a reply at a.m., p.m. or St.', () => {
+    expect(conciseReply('Hours are 9 a.m. to 5 p.m. daily. Great spot. Third.', 'x')).toBe('Hours are 9 a.m. to 5 p.m. daily. Great spot.');
+    expect(conciseReply('Open until 5 p.m. Great spot. Third.', 'x')).toBe('Open until 5 p.m. Great spot.');
+  });
+});
