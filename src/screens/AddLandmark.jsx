@@ -222,7 +222,13 @@ export default function AddLandmark() {
   // undo the confirmation.
   const [confirmedLandmarkId, setConfirmedLandmarkId] = useState(null);
   const duplicateConfirmed = !!confirmedLandmarkId && duplicateMatch?.id === confirmedLandmarkId;
+  // A landmark picked from the suggestions stays the match: the pin move
+  // (new regionId) or a check still in flight from typing must not replace it
+  // with a looser name check and unlock "Add". Typing clears the pick.
+  const confirmedRef = useRef(null);
+  confirmedRef.current = confirmedLandmarkId;
   useEffect(() => {
+    if (confirmedRef.current) return undefined;
     setDuplicateOverridden(false);
     const query = name.trim() || addressText.trim();
     if (query.length < 2) {
@@ -234,7 +240,7 @@ export default function AddLandmark() {
     setDuplicateChecking(true);
     const handle = setTimeout(async () => {
       const match = await findPossibleDuplicate({ name: query, regionId, lat: positionRef.current.lat, lng: positionRef.current.lng }).catch(() => null);
-      if (!cancelled) {
+      if (!cancelled && !confirmedRef.current) {
         setDuplicateMatch(match);
         setDuplicateChecking(false);
       }
