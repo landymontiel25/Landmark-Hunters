@@ -163,20 +163,27 @@ export async function saveOnboardingPlaces(uid, profile, places) {
 // and are stored as { regionId, id, name } so the step can be pre-filled.
 // The saved places as landmarks, waiting for the place packs (Miami, Philly,
 // SF...) when some aren't in the catalog yet. `complete` is false when some
-// still can't be found (offline), so the caller doesn't overwrite the list.
+// can't be found because the packs failed to load (offline).
 async function savedPlaces(profile) {
   const saved = Array.isArray(profile?.onboardingPlaces) ? profile.onboardingPlaces : [];
   let places = placesFromProfile(profile);
+  let packsOk = true;
   if (places.length < saved.length) {
-    await ensurePlacePacks().catch(() => false);
+    packsOk = await ensurePlacePacks().catch(() => false);
     places = placesFromProfile(profile);
   }
-  return { places, complete: places.length === saved.length };
+  // With every pack loaded, a place still missing was taken out of the
+  // catalog: go on without it rather than blocking the save forever.
+  return { places, complete: places.length === saved.length || packsOk === true };
 }
 
 export async function saveOnboardingResults(uid, profile, answers, { complete, places: given } = {}) {
   if (!db || !uid) return;
   const resolved = given ? { places: given, complete: true } : await savedPlaces(profile);
+  // Some saved places still can't be found (offline). Saving now would take
+  // their points out of the scores, so ask for a retry instead (Onboarding
+  // shows the error with Try again).
+  if (!resolved.complete) throw new Error("Couldn't load your saved places. Check your connection and try again.");
   const { places } = resolved;
   const { deltas, tagScores, tagScoresAt, applied } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(
@@ -184,17 +191,10 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
     {
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
       swipeAnswers: answersToPairs(answers),
-      // Some saved places still can't be found (offline): store the swipes
-      // but leave the summary, places and score seed as they are, so the
-      // places' points aren't taken out. The next save with them applies all.
-      ...(resolved.complete
-        ? {
-            swipeSummary: swipeSummary(answers, places),
-            ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
-            onboardingSwipeDeltas: deltas,
-            ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
-          }
-        : {}),
+      swipeSummary: swipeSummary(answers, places),
+      ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
+      onboardingSwipeDeltas: deltas,
+      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
       updatedAt: serverTimestamp(),
     },
     { merge: true }
