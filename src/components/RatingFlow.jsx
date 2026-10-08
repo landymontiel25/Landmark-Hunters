@@ -2,10 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   TIERS,
   FREQUENCIES,
-  MAX_CHIPS,
   MAX_ASPECTS,
   COMMENT_MAX,
-  chipsFor,
   aspectsFor,
   aspectLabel,
   tierQuestion,
@@ -24,7 +22,7 @@ function toDraft(initial) {
   };
 }
 
-// The three-step rating: tier -> chips -> ranked aspects. Shared by the
+// The rating: tier -> ranked aspects. Shared by the
 // check-in popup and the landmark page's "Rate your visit" card so both
 // entry points produce the identical review shape.
 //
@@ -53,7 +51,6 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
   const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;
   const patch = (fields) => setDraft((cur) => ({ ...cur, ...fields }));
-  const setHighlights = (fn) => setDraft((cur) => ({ ...cur, highlights: fn(cur.highlights) }));
   const setLovedOrder = (list) => patch({ lovedOrder: list });
   const setDislikedOrder = (list) => patch({ dislikedOrder: list });
   const pickFrequency = (id) => patch({ visitFrequency: visitFrequency === id ? null : id });
@@ -84,18 +81,12 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
     patch({ tier: id, highlights: [], lovedOrder: [], dislikedOrder: [] });
   };
 
-  const toggleChip = (id) =>
-    setHighlights((cur) =>
-      cur.includes(id) ? cur.filter((c) => c !== id) : cur.length < MAX_CHIPS ? [...cur, id] : cur
-    );
-
   const toggleRank = (setList, list, id) => {
     if (list.includes(id)) setList(list.filter((a) => a !== id));
     else if (list.length < MAX_ASPECTS) setList([...list, id]);
   };
 
   const question = tierQuestion(landmark);
-  const chips = tier ? chipsFor(landmark, tier) : [];
   const showLoved = tier === 'highly-recommend' || tier === 'worth-trying';
   const showDisliked = tier === 'probably-skip' || tier === 'worth-trying';
 
@@ -170,32 +161,6 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
                 {f.label}
               </button>
             ))}
-          </div>
-        </div>
-      )}
-
-      {tier && chips.length > 0 && (
-        <div style={{ marginTop: 14 }}>
-          <p className="rating-flow-label">
-            What stood out? <span>pick up to {MAX_CHIPS}</span>
-          </p>
-          <div className="rating-chip-row">
-            {chips.map((c) => {
-              const on = highlights.includes(c.id);
-              const full = !on && highlights.length >= MAX_CHIPS;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  className={`tag rating-chip ${on ? 'selected' : ''} ${full ? 'disabled' : ''}`}
-                  aria-pressed={on}
-                  disabled={full}
-                  onClick={() => toggleChip(c.id)}
-                >
-                  {c.label}
-                </button>
-              );
-            })}
           </div>
         </div>
       )}
