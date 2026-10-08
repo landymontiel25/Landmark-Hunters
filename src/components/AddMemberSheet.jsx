@@ -21,6 +21,18 @@ export default function AddMemberSheet({
   const [error, setError] = useState(null);
   const [friends, setFriends] = useState(null);
   const [friendsError, setFriendsError] = useState(null);
+  // A friend being added right now: a second tap must not send a second
+  // invite (the row only leaves once the trip snapshot comes back).
+  const [pendingUid, setPendingUid] = useState(null);
+  const pickFriend = async (f) => {
+    if (pendingUid === f.friend) return;
+    setPendingUid(f.friend);
+    try {
+      await onPick({ uid: f.friend, name: f.friendName });
+    } finally {
+      setPendingUid((cur) => (cur === f.friend ? null : cur));
+    }
+  };
 
   const loadFriends = () => {
     if (!user) return;
@@ -111,7 +123,7 @@ export default function AddMemberSheet({
         {available.map((f) => (
           <div key={f.friend} className="friend-row">
             <span>{f.friendName}</span>
-            <button type="button" className="btn btn-ghost btn-tight" onClick={() => onPick({ uid: f.friend, name: f.friendName })}>
+            <button type="button" className="btn btn-ghost btn-tight" disabled={pendingUid === f.friend} onClick={() => pickFriend(f).catch(() => {})}>
               {'\u{2795}'} Add
             </button>
           </div>

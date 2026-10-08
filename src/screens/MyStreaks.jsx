@@ -38,6 +38,7 @@ import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
 import { monthKey, displayStreakCount } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
+import { useToast } from '../lib/ToastContext';
 import { SkeletonList } from '../components/Skeleton';
 import MaprPickImage from '../components/MaprPickImage';
 
@@ -906,6 +907,7 @@ export default function MyStreaks() {
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
   const { streaks: storedStreaks, leaveStreak } = usePairStreaks();
+  const toast = useToast();
   // A streak doc keeps the partner's handle from the day it was created; a
   // partner who has renamed since would keep showing under the old one.
   // Friends carry their live username (listFriends), so prefer that.
@@ -985,7 +987,11 @@ export default function MyStreaks() {
 
   const handleLeave = async (id) => {
     setOpenDualId(null);
-    await leaveStreak(id);
+    try {
+      await leaveStreak(id);
+    } catch (e) {
+      toast?.show(friendlyError(e, "Couldn't leave the streak. Try again."));
+    }
   };
 
   return (
