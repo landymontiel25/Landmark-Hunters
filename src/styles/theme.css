@@ -983,6 +983,26 @@ textarea {
   font-size: 1.3rem;
 }
 
+/* Two-column chip grids (My Preferences, trip interests) are narrow on a
+   phone: tighter padding and type keep a long word like "Entertainment"
+   inside its bubble, and a label that still can't fit wraps instead of
+   spilling out. */
+.chip-grid .chip {
+  gap: 8px;
+  padding: 12px 8px;
+  font-size: 0.82rem;
+}
+
+.chip-grid .chip .chip-icon {
+  font-size: 1.1rem;
+  flex: none;
+}
+
+.chip-grid .chip > span:not(.chip-icon) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .chip-dashed {
   border-style: dashed;
   border-color: var(--color-border);
