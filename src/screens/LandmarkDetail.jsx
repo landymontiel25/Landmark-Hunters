@@ -723,7 +723,10 @@ function LandmarkDetailBody() {
 
   const shareVisit = async () => {
     const checkedIn = !!claimedMap[landmark.id];
-    const url = `${window.location.origin}/#/landmarks/${regionId}/${landmark.id}`;
+    // In the iOS app the origin is capacitor://localhost, which nobody else
+    // can open; share the public site (as Profile's share does).
+    const origin = /^https?:$/.test(window.location.protocol) ? window.location.origin : 'https://landmarkhunters.com';
+    const url = `${origin}/#/landmarks/${regionId}/${landmark.id}`;
     const text = checkedIn
       ? `\u{1F3AF} I just checked in at ${landmark.name} on Landmark Hunters — come explore and try to beat my score! \u{1F3C6}`
       : `\u{1F4CD} Check out ${landmark.name} on Landmark Hunters — hunt landmarks, check in, and earn points!`;
