@@ -1093,7 +1093,7 @@ export default function Mapr() {
                 );
               })()}
               {m.rate && <MaprRateCard place={m.rate} />}
-              {m.ratePicks && <MaprRatePicks />}
+              {m.ratePicks && <MaprRatePicks scope="chat" />}
               {m.error && m.retryText && i === messages.length - 1 && !busy && (
                 <div className="chatlab-error-actions">
                   <button type="button" className="btn btn-sm btn-ghost" onClick={() => send(null, m.retryText, { retry: true, requestFor: m.requestFor })}>
