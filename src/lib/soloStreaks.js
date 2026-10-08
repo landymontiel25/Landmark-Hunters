@@ -100,11 +100,21 @@ export function subscribeSoloDayEntry(uid, dayId, onEntry, onError) {
 // server-side in that same call, not reported back for the client to
 // award a second time.
 export async function closeSoloToday() {
-  const today = dayKey(new Date());
+  const now = new Date();
+  const today = dayKey(now);
+  // The offsets at this local day's own midnights (start and end), so the
+  // server's window is right on a daylight-saving day too.
+  const y = now.getFullYear();
+  const m = now.getMonth();
+  const d = now.getDate();
   const r = await fetch(`${API_BASE}/api/close-solo-streak-day`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ dayId: today, tzOffsetMin: new Date().getTimezoneOffset() }),
+    body: JSON.stringify({
+      dayId: today,
+      tzOffsetMin: new Date(y, m, d).getTimezoneOffset(),
+      tzOffsetEndMin: new Date(y, m, d + 1).getTimezoneOffset(),
+    }),
   });
   const data = await r.json().catch(() => null);
   // A crashed function answers with a non-JSON error page: report its status

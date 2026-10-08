@@ -35,7 +35,7 @@ async function handler(req, res) {
     res.status(429).json({ error: 'Too many requests -- wait a bit and try again.' });
     return;
   }
-  const { dayId, tzOffsetMin } = req.body || {};
+  const { dayId, tzOffsetMin, tzOffsetEndMin } = req.body || {};
   if (!validClientDayKey(dayId)) {
     res.status(400).json({ error: 'dayId is required.' });
     return;
@@ -66,7 +66,7 @@ async function handler(req, res) {
     // landmarks secures the day with no daily-card deck, so no city is needed.
     const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
     let counted = 0;
-    const window = localDayWindow(dayId, tzOffsetMin);
+    const window = localDayWindow(dayId, tzOffsetMin, tzOffsetEndMin);
     if (window) {
       const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
       counted = distinctActionsOn(fbSnap.docs, checkinsSnap.docs, window);
