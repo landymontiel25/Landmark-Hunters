@@ -1,3 +1,4 @@
+import { useTodayKey } from '../lib/useTodayKey';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -74,21 +75,25 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Trip is reflected here even before a fresh GPS fix comes in.
   const defaultRegionId = homeCityId || pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
   const regionId = cityOverride || defaultRegionId;
-  const { votes, removed, answeredIds, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
+  const { votes, removed, answeredAt, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
   // Landmarks answered today: earlier answers from today (the database copy,
   // with their time) plus the ones saved during this visit, so the counter
   // moves the moment a save lands, with no reload. The badges count (votes
   // and 0-point ratings from everywhere) can only raise it.
   const { actionsToday = 0 } = useBadges();
+  // todayKey re-runs this at midnight, so answers from last night stop counting.
+  const todayKey = useTodayKey();
   const answeredToday = useMemo(() => {
-    const today = dayKey(new Date());
-    const ids = new Set(answeredIds);
+    const ids = new Set();
+    for (const [id, at] of Object.entries(answeredAt || {})) {
+      if (dayKey(new Date(at)) === todayKey) ids.add(id);
+    }
     for (const [id, f] of Object.entries(feedback || {})) {
-      if (f?.at && dayKey(new Date(f.at)) === today) ids.add(id);
+      if (f?.at && dayKey(new Date(f.at)) === todayKey) ids.add(id);
     }
     return ids.size;
-  }, [feedback, answeredIds]);
+  }, [feedback, answeredAt, todayKey]);
   const countToday = Math.max(answeredToday, actionsToday);
   const dayDone = countToday >= PICKS_STREAK_THRESHOLD;
   // The moment today's quota is met, tell the server so the streak day
