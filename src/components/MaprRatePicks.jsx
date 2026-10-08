@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useRatings } from '../lib/RatingsContext';
 import { useTrip } from '../lib/TripContext';
@@ -10,11 +11,11 @@ export default function MaprRatePicks() {
   const { myReviews } = useRatings();
   const { claimedMap } = useCheckIn();
   const { trip } = useTrip();
-  return (
-    <MaprPicksCarousel
-      reviews={Object.values(myReviews || {})}
-      checkedInIds={Object.keys(claimedMap || {})}
-      regionIds={trip.activeRegion ? [trip.activeRegion] : []}
-    />
-  );
+  // Stable props: new arrays on every render made the carousel re-rank (and
+  // possibly reorder) under your thumb. scope="chat" keeps a city picked here
+  // from overwriting the Itinerary tab's saved Travel Picks city.
+  const reviews = useMemo(() => Object.values(myReviews || {}), [myReviews]);
+  const checkedInIds = useMemo(() => Object.keys(claimedMap || {}), [claimedMap]);
+  const regionIds = useMemo(() => (trip.activeRegion ? [trip.activeRegion] : []), [trip.activeRegion]);
+  return <MaprPicksCarousel reviews={reviews} checkedInIds={checkedInIds} regionIds={regionIds} scope="chat" />;
 }
