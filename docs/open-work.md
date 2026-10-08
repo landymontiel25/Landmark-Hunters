@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Discovery network plan (not started)
+
+`docs/discovery-network-plan.md` turns Mapr from ranking places into matching
+people: verified presence, tips, follows, community picks on every Mapr
+surface, local reputation, notifications, then a feed in dense cities. Phase
+0 (server-verified check-ins) comes first, because today "verified" is
+client-reported. Section 16 lists 7 decisions for the owner. Update this item
+as each phase ships.
+
 ## Formula 1 Circuits hidden from category pickers
 
 Owner asked to toggle "Formula 1 Circuits" off in the category pickers for now
