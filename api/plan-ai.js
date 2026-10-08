@@ -329,7 +329,14 @@ async function handler(req, res) {
   if (!account) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
+    if (!body || typeof body !== 'object') body = {};
     const incoming = Array.isArray(body.messages) ? body.messages : [];
     // Keep the payload (and cost) bounded -- a handful of recent turns is
     // plenty of context for a trip-planning chat.
@@ -374,7 +381,10 @@ async function handler(req, res) {
     // the traveler has clearly already told the app what they like.
     const requestFor = requestForOf(body);
     const taste = tasteInputsOf(body);
-    const reviews = (Array.isArray(taste.reviews) ? taste.reviews : []).slice(0, 60).map((r) => ({
+    const reviews = (Array.isArray(taste.reviews) ? taste.reviews : [])
+      .filter((r) => r && typeof r === 'object')
+      .slice(0, 60)
+      .map((r) => ({
       name: str(r.name, 80),
       tier: str(r.tier, 30),
       categories: (Array.isArray(r.categories) ? r.categories : []).map((c) => str(c, 30)).slice(0, 3),
@@ -452,8 +462,10 @@ async function handler(req, res) {
     // can land on real in-app stops before reaching for web search.
     let hereLandmark = null;
     const loc = body.location && typeof body.location === 'object' ? body.location : null;
-    const locLat = Number(loc?.lat);
-    const locLng = Number(loc?.lng);
+    // null or "" would become 0 and plan "near me" at (0, 0).
+    const coordNum = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
+    const locLat = coordNum(loc?.lat);
+    const locLng = coordNum(loc?.lng);
     if (loc && Number.isFinite(locLat) && Number.isFinite(locLng) && Math.abs(locLat) <= 90 && Math.abs(locLng) <= 180) {
       const label = str(loc.label, 120);
       const acc = Number(loc.accuracy);
@@ -512,7 +524,7 @@ async function handler(req, res) {
 
     // Imported places the latest message names, so "How do I get to <a cafe>"
     // can come back as that cafe's card.
-    const near = Number.isFinite(locLat) && Number.isFinite(locLng) ? { lat: locLat, lng: locLng } : null;
+    const near = Number.isFinite(locLat) && Number.isFinite(locLng) && Math.abs(locLat) <= 90 && Math.abs(locLng) <= 180 ? { lat: locLat, lng: locLng } : null;
     const lastText = turns[turns.length - 1].content;
     const named = placesNamedIn(
       lastText,
@@ -578,10 +590,12 @@ async function handler(req, res) {
     await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: msg.usage });
     const costUsd = estimateCostUsd(msg.usage);
 
+    // With web search the final text arrives as several blocks split around
+    // each cited span, often mid-string: a '\n' between them broke the JSON.
     const raw = msg.content
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
-      .join('\n')
+      .join('')
       .trim();
 
     let parsed;
@@ -651,8 +665,9 @@ async function handler(req, res) {
     const quickReplies = stops.length
       ? []
       : (Array.isArray(parsed.quickReplies) ? parsed.quickReplies : [])
-          .map((q) => String(q || '').trim().slice(0, 40))
+          .map((q) => (typeof q === 'string' ? q.trim().slice(0, 40) : ''))
           .filter(Boolean)
+          .filter((q, i, all) => all.indexOf(q) === i)
           .slice(0, 4);
 
     // Proposed itinerary actions: whitelisted and trimmed here; the app runs
@@ -662,9 +677,11 @@ async function handler(req, res) {
     const actions = (Array.isArray(parsed.actions) ? parsed.actions : [])
       .filter((a) => a && ACTIONS.includes(a.type))
       .slice(0, 6)
+      // The model sometimes returns an object where a name belongs; never let
+      // that become a place called "[object Object]".
       .map((a) => ({
         type: a.type,
-        stop: str(a.stop, 160),
+        stop: typeof a.stop === 'string' ? str(a.stop, 160) : '',
         itinerary: str(a.itinerary, 80),
         newName: str(a.newName, 80),
         name: str(a.name, 80),
@@ -672,7 +689,8 @@ async function handler(req, res) {
         group: a.group === true,
         username: str(a.username, 40),
         nameOverride: str(a.nameOverride, 120),
-      }));
+      }))
+      .filter((a) => !((a.type === 'add_stop' || a.type === 'remove_stop') && !a.stop));
 
     // A place the traveler says they just left, for the app's "How was it?"
     // rating card. A catalog match anywhere is fine -- it's only a pointer.
@@ -687,7 +705,7 @@ async function handler(req, res) {
 
     // "Can I rate here?": show the catalog landmark they are standing at as a
     // stop, whose card carries the I'd go / Not sure / Not for me buttons.
-    let replyText = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
+    let replyText = conciseReply((typeof parsed.reply === 'string' ? parsed.reply : '').slice(0, 1500), lastText);
     if (hereLandmark && asksToRateHere(lastText) && !stops.some((st) => st.id === hereLandmark.id)) {
       stops.length = 0;
       quickReplies.length = 0;
