@@ -99,3 +99,17 @@ describe('plan-ai text helpers: nightly fixes', () => {
     expect(conciseReply('Open until 5 p.m. Great spot. Third.', 'x')).toBe('Open until 5 p.m. Great spot.');
   });
 });
+
+describe('plan-ai text helpers: review follow-ups', () => {
+  it('still spots asks with a modal before rate', () => {
+    for (const t of ['Can you show me places I can rate', 'anything I can rate nearby?', 'Ok rate here', "I'll rate this place"]) expect(asksToRate(t)).toBe(true);
+    expect(asksToRateHere('Any places i can rate here?')).toBe(true);
+  });
+  it('never pulls the next sentence into an address', () => {
+    expect(linkAddresses('Try 400 Broad St, Philadelphia. It is great.')).toBe('Try {{addressq:400%20Broad%20St}}, Philadelphia. It is great.');
+  });
+  it('ends a sentence at a street name', () => {
+    expect(conciseReply('Located on Main St. Great tacos. Third.', 'x')).toBe('Located on Main St. Great tacos.');
+    expect(conciseReply('Head to St. Louis next. Fun. Third.', 'x')).toBe('Head to St. Louis next. Fun.');
+  });
+});
