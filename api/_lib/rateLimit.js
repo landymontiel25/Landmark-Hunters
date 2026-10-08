@@ -7,6 +7,7 @@
 // Firestore-backed counter via firebase-admin) -- worth adding if real
 // abuse shows up in practice.
 const buckets = new Map();
+const MAX_KEYS = 5000;
 
 function clientIp(req) {
   const fwd = req.headers['x-forwarded-for'];
@@ -23,9 +24,14 @@ function clientIp(req) {
 export function isRateLimited(req, key, { limit, windowMs, id }) {
   const bucketKey = `${key}:${id ? `uid:${id}` : clientIp(req)}`;
   const now = Date.now();
+  // Each new IP or uid adds a key; drop expired ones now and then so a warm
+  // instance's memory doesn't grow for its whole life.
+  if (buckets.size > MAX_KEYS) {
+    for (const [k, e] of buckets) if (now - e.start > e.windowMs) buckets.delete(k);
+  }
   const entry = buckets.get(bucketKey);
   if (!entry || now - entry.start > windowMs) {
-    buckets.set(bucketKey, { start: now, count: 1 });
+    buckets.set(bucketKey, { start: now, count: 1, windowMs });
     return false;
   }
   entry.count += 1;

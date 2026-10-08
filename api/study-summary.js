@@ -1,3 +1,4 @@
+import { secretOk } from './_lib/secretOk.js';
 import { adminDb, SERVICE_ACCOUNT_MISSING } from './_lib/firebaseAdmin.js';
 import { buildSummary, studyDocument } from './_lib/statsSummary.js';
 import { STUDY_COLLECTION } from '../src/lib/statsConstants.js';
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
     res.status(503).json({ error: 'CRON_SECRET is not set in Vercel, so the daily summary cannot run.' });
     return;
   }
-  if ((req.headers?.authorization || '') !== `Bearer ${secret}`) {
+  if (!secretOk(req.headers?.authorization, secret)) {
     res.status(401).json({ error: 'Unauthorized.' });
     return;
   }

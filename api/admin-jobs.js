@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { secretOk } from './_lib/secretOk.js';
 import { adminAuth, adminDb, SERVICE_ACCOUNT_MISSING } from './_lib/firebaseAdmin.js';
 import { backfillCreatedAt } from './_lib/createdAtBackfill.js';
 import { runPhotoBackfill } from './_lib/photoBackfill.js';
@@ -19,12 +19,7 @@ import { ALL_LANDMARKS } from '../src/data/regions.js';
 //   POST { action: 'photo-backfill' }  one batch of the Google place-ID backfill
 // Returns summaries only (counts, statuses), never user data.
 
-export function secretOk(header, secret) {
-  if (!secret || typeof header !== 'string') return false;
-  const a = Buffer.from(header);
-  const b = Buffer.from(`Bearer ${secret}`);
-  return a.length === b.length && timingSafeEqual(a, b);
-}
+export { secretOk };
 
 export default async function handler(req, res) {
   const secret = process.env.ADMIN_JOBS_SECRET;
