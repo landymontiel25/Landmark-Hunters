@@ -180,10 +180,6 @@ async function savedPlaces(profile) {
 export async function saveOnboardingResults(uid, profile, answers, { complete, places: given } = {}) {
   if (!db || !uid) return;
   const resolved = given ? { places: given, complete: true } : await savedPlaces(profile);
-  // Some saved places still can't be found (offline). Saving now would take
-  // their points out of the scores, so ask for a retry instead (Onboarding
-  // shows the error with Try again).
-  if (!resolved.complete) throw new Error("Couldn't load your saved places. Check your connection and try again.");
   const { places } = resolved;
   const { deltas, tagScores, tagScoresAt, applied } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(
@@ -192,7 +188,9 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
       swipeAnswers: answersToPairs(answers),
       swipeSummary: swipeSummary(answers, places),
-      ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
+      // Saved places that couldn't load (offline) are never overwritten
+      // with a shorter list.
+      ...(places.length && resolved.complete ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
       onboardingSwipeDeltas: deltas,
       ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
       updatedAt: serverTimestamp(),
