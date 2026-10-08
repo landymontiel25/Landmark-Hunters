@@ -52,7 +52,9 @@ const freshChat = (uid, projectId = null) => ({
 const withInterruptedNote = (messages) => {
   const last = messages.at(-1);
   if (last?.role !== 'user') return messages;
-  return [...messages, { role: 'assistant', text: INTERRUPTED_REPLY, stops: [], error: true, retryText: last.text }];
+  // requestFor rides along so Try again on a group plan stays a group plan
+  // (a solo resend would send the traveler's own taste).
+  return [...messages, { role: 'assistant', text: INTERRUPTED_REPLY, stops: [], error: true, retryText: last.text, ...(last.requestFor ? { requestFor: last.requestFor } : {}) }];
 };
 
 // Signed-out chats aren't saved: the AI needs an account anyway, and a
@@ -131,6 +133,8 @@ export function MaprChatProvider({ children }) {
   // lands after you switched away builds on what you actually sent (the saved
   // copy can be up to a save-delay behind, or not exist yet for a new chat).
   const snapshotsRef = useRef({});
+  // Chats deleted here or elsewhere: a late reply must not re-create them.
+  const deletedIdsRef = useRef(new Set());
   snapshotsRef.current[chat.id] = chat;
   const chatsRef = useRef(chats);
   chatsRef.current = chats;
@@ -175,7 +179,11 @@ export function MaprChatProvider({ children }) {
     const remote = chats.find((c) => c.id === chat.id);
     if (!remote) {
       // Deleted elsewhere (or you were removed from its project).
-      if (chat.saved && listLoaded) setChat(freshChat(uid));
+      if (chat.saved && listLoaded) {
+        deletedIdsRef.current.add(chat.id);
+        delete snapshotsRef.current[chat.id];
+        setChat(freshChat(uid));
+      }
       return;
     }
     setChat((c) => {
@@ -259,7 +267,7 @@ export function MaprChatProvider({ children }) {
         setMessages(u);
         return;
       }
-      if (!synced) return;
+      if (!synced || deletedIdsRef.current.has(chatId)) return;
       const remote = chatsRef.current.find((c) => c.id === chatId);
       const snap = snapshotsRef.current[chatId];
       // The snapshot is at least as new as the saved copy unless someone else
@@ -336,7 +344,17 @@ export function MaprChatProvider({ children }) {
 
   const deleteChat = useCallback(
     async (id) => {
-      if (chatsRef.current.some((c) => c.id === id)) await store.deleteChat(id);
+      deletedIdsRef.current.add(id);
+      const snap = snapshotsRef.current[id];
+      delete snapshotsRef.current[id];
+      try {
+        if (chatsRef.current.some((c) => c.id === id)) await store.deleteChat(id);
+      } catch (e) {
+        // Not deleted after all: let it save again.
+        deletedIdsRef.current.delete(id);
+        if (snap) snapshotsRef.current[id] = snap;
+        throw e;
+      }
       if (chatRef.current.id === id) {
         clearPersisted(storageKey(uid));
         setChat(freshChat(uid));
