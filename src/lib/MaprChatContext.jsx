@@ -173,6 +173,12 @@ export function MaprChatProvider({ children }) {
     };
   }, [synced, uid]);
 
+  // A chat that shows up in the synced list again (re-shared into a project)
+  // is live: let it save.
+  useEffect(() => {
+    for (const c of chats) deletedIdsRef.current.delete(c.id);
+  }, [chats]);
+
   // Keep the open chat in step with its synced copy: a newer turn from a
   // friend in a shared project, or a rename/move from another device.
   useEffect(() => {
