@@ -459,6 +459,7 @@ export default function AddLandmark() {
             placeholder="Or search an address…"
             value={addressText}
             regionId={regionId}
+            nearTo={coords}
             onChange={(v) => {
               setAddressText(v);
               setConfirmedLandmarkId(null);
