@@ -61,6 +61,10 @@ export function validClientDayKey(dayId, now = new Date()) {
   if (typeof dayId !== 'string' || !/^\d{4}-\d{1,2}-\d{1,2}$/.test(dayId)) return null;
   const [y, m, d] = dayId.split('-').map(Number);
   if (m > 11 || d < 1 || d > 31) return null;
+  // Only the canonical form of a real date: "2026-1-31" (Feb 31 = Mar 3) or
+  // "2026-02-03" would otherwise name the same day under a second key and
+  // slip past the string "already closed" checks for a second payout.
+  if (new Date(Date.UTC(y, m, d)).getUTCDate() !== d || `${y}-${m}-${d}` !== dayId) return null;
   const n = now instanceof Date ? now : new Date(now);
   const diffDays = (Date.UTC(y, m, d) - Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate())) / 86400000;
   return Math.abs(diffDays) <= 1 ? dayId : null;

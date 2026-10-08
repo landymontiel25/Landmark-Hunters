@@ -149,8 +149,8 @@ function experimentReport(name, annotated, ds, date) {
   const ctrTest = twoProportionTest(c.clicked, c.shown, t.clicked, t.shown);
   const days = started ? Math.floor((end - dayStart(started)) / DAY_MS) : 0;
   const guardrails = {
-    skipRate: t.skipRate == null || t.skipRate < 0.3,
-    repeatRate: t.repeatRate == null || t.repeatRate < 0.25,
+    skipRate: t.skipRate == null || t.skipRate < AB.guardrails.skipRate,
+    repeatRate: t.repeatRate == null || t.repeatRate < AB.guardrails.repeatRate,
     latencyP99: t.latencyP99Ms == null || t.latencyP99Ms < ALERTS.latencyP99Ms,
   };
   let decision = 'collecting';
@@ -168,7 +168,7 @@ function experimentReport(name, annotated, ds, date) {
 //   newUsers       picks shown to a user with under NEW_USER_RATINGS ratings
 //                  at the time, and the rest as `established`
 //   byRegion       one A/B per region
-const NEW_USER_RATINGS = 5;
+const NEW_USER_RATINGS = AB.newUserRatings;
 function armSummary(rows) {
   const s = summarizeRows(rows);
   return { shown: s.shown, users: new Set(rows.map((r) => r.userId)).size, ctr: s.ctr, skipRate: s.skipRate, visitLoveRate: s.visitLoveRate, rated: s.rated, avgPickRating: s.avgPickRating, rating4plusShare: s.rating4plusShare };

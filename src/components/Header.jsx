@@ -340,7 +340,13 @@ function ProfileMenu() {
       return;
     }
     let cancelled = false;
+    // Another account's numbers never carry over, and only the newest
+    // snapshot's lookup may land (an older one resolving late used to
+    // overwrite a fresh top-50 rank).
+    setMe(null);
+    let seq = 0;
     const unsub = subscribeLeaderboard('weekly', (entries) => {
+      const mySeq = ++seq;
       const idx = entries.findIndex((e) => e.userId === user.uid);
       if (idx >= 0) {
         setMe({ points: entries[idx].points, rank: rankOf(entries, idx) });
@@ -348,8 +354,8 @@ function ProfileMenu() {
       }
       // Not in the top 50: show your real points (unranked), not "0 pts".
       getMyLeaderboardEntry('weekly', user.uid)
-        .then((mine) => !cancelled && setMe({ points: mine?.points || 0, rank: null }))
-        .catch(() => !cancelled && setMe({ points: 0, rank: null }));
+        .then((mine) => !cancelled && mySeq === seq && setMe({ points: mine?.points || 0, rank: null }))
+        .catch(() => !cancelled && mySeq === seq && setMe({ points: 0, rank: null }));
     }, 50, () => setMe({ points: null, rank: null, failed: true }));
     return () => {
       cancelled = true;

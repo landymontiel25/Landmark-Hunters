@@ -41,7 +41,15 @@ async function handler(req, res) {
       Number.isFinite(viewbox.minLat) &&
       Number.isFinite(viewbox.minLng) &&
       Number.isFinite(viewbox.maxLat) &&
-      Number.isFinite(viewbox.maxLng)
+      Number.isFinite(viewbox.maxLng) &&
+      // Google 400s the whole search on a bad rectangle; the bias is only a
+      // hint, so skip it rather than fail. (low lng > high lng is a valid
+      // box across the antimeridian, so only latitude order is checked.)
+      Math.abs(viewbox.minLat) <= 90 &&
+      Math.abs(viewbox.maxLat) <= 90 &&
+      Math.abs(viewbox.minLng) <= 180 &&
+      Math.abs(viewbox.maxLng) <= 180 &&
+      viewbox.minLat <= viewbox.maxLat
     ) {
       payload.locationBias = {
         rectangle: {

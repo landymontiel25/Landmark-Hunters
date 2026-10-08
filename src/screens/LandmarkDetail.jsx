@@ -114,7 +114,7 @@ function LandmarkDetailBody() {
     });
   };
   const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
-  const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
+  const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const region = getRegion(regionId);
@@ -374,7 +374,7 @@ function LandmarkDetailBody() {
     return () => {
       cancelled = true;
     };
-  }, [firebaseEnabled, user, landmark, checkedInHere]);
+  }, [firebaseEnabled, user, landmark, checkedInHere, checkinTick]);
 
   // quiet: a refresh after your own save/delete keeps the current list on
   // screen (and a failure there leaves it as-is) rather than flashing a
@@ -723,7 +723,10 @@ function LandmarkDetailBody() {
 
   const shareVisit = async () => {
     const checkedIn = !!claimedMap[landmark.id];
-    const url = `${window.location.origin}/#/landmarks/${regionId}/${landmark.id}`;
+    // In the iOS app the origin is capacitor://localhost, which nobody else
+    // can open; share the public site (as Profile's share does).
+    const origin = /^https?:$/.test(window.location.protocol) ? window.location.origin : 'https://landmarkhunters.com';
+    const url = `${origin}/#/landmarks/${regionId}/${landmark.id}`;
     const text = checkedIn
       ? `\u{1F3AF} I just checked in at ${landmark.name} on Landmark Hunters — come explore and try to beat my score! \u{1F3C6}`
       : `\u{1F4CD} Check out ${landmark.name} on Landmark Hunters — hunt landmarks, check in, and earn points!`;

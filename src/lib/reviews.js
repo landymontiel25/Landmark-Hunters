@@ -11,7 +11,6 @@ import {
   limit,
   updateDoc,
   deleteDoc,
-  addDoc,
   arrayUnion,
   serverTimestamp,
 } from 'firebase/firestore';
@@ -452,9 +451,13 @@ async function _deleteMyReview(userId, landmarkId) {
     });
     const curSum = agg.exists() ? agg.data().sum || 0 : 0;
     const curCount = agg.exists() ? agg.data().count || 0 : 0;
-    const newCount = Math.max(0, curCount - 1);
-    const newSum = Math.max(0, curSum - s);
-    tx.set(aggRef, { sum: newSum, count: newCount, avg: newCount ? newSum / newCount : 0, updatedAt: serverTimestamp() }, { merge: true });
+    // A total that drifted to 0 (or is missing) can't drop by the 1 the rules
+    // require, and writing it would refuse the whole delete; leave it alone.
+    if (curCount >= 1) {
+      const newCount = curCount - 1;
+      const newSum = Math.max(0, curSum - s);
+      tx.set(aggRef, { sum: newSum, count: newCount, avg: newCount ? newSum / newCount : 0, updatedAt: serverTimestamp() }, { merge: true });
+    }
     tx.delete(reviewRef);
   });
 }

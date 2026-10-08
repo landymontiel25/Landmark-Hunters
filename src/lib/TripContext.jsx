@@ -154,8 +154,15 @@ export function TripProvider({ children }) {
   // order straight back to byRegion -- the array's own order IS the
   // itinerary's visit order for the 'custom' sort, so there's no separate
   // order field to keep in sync.
+  // Stops that aren't on screen yet (place packs still loading or offline, a
+  // user-added landmark that didn't load) keep their place at the end, so a
+  // reorder never deletes them.
   const reorderLandmarks = (regionId, orderedIds) =>
-    setTrip((t) => ({ ...t, byRegion: { ...t.byRegion, [regionId]: orderedIds } }));
+    setTrip((t) => {
+      const shown = new Set(orderedIds);
+      const hidden = (t.byRegion[regionId] || []).filter((id) => !shown.has(id));
+      return { ...t, byRegion: { ...t.byRegion, [regionId]: [...orderedIds, ...hidden] } };
+    });
 
   // Idempotent add (Mapr's "add it to my itinerary" shouldn't toggle a
   // stop OFF if it was already there).

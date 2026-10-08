@@ -49,4 +49,10 @@ describe('validClientDayKey', () => {
       expect(validClientDayKey(k, now)).toBe(null);
     }
   });
+  it('rejects keys that roll over to another date or are not canonical', () => {
+    const now = new Date(Date.UTC(2026, 2, 2, 12));
+    expect(validClientDayKey('2026-1-31', now)).toBe(null);
+    expect(validClientDayKey('2026-02-02', now)).toBe(null);
+    expect(validClientDayKey('2026-2-2', now)).toBe('2026-2-2');
+  });
 });

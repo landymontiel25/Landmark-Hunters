@@ -8,7 +8,7 @@ import { useRetentionCohorts } from '@/lib/listeners';
 import { pct } from '@/lib/metrics';
 
 export default function Retention() {
-  const { data, loading, error } = useRetentionCohorts(30);
+  const { data, loading, error } = useRetentionCohorts(91);
   const withUsers = data.filter((c) => c.day_0 > 0);
   const latest = withUsers[withUsers.length - 1];
   // The newest cohort old enough for each number.

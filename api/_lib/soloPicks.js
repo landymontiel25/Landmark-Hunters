@@ -13,13 +13,18 @@ const VERDICTS = new Set(['yes', 'no', 'unsure']);
 // minutes, so UTC-4 is 240). Returns the UTC ms window of that local day, or
 // null when either is missing or implausible (then only the daily cards close
 // the day, as before).
-export function localDayWindow(dayId, tzOffsetMin) {
-  if (!Number.isInteger(tzOffsetMin) || tzOffsetMin < -840 || tzOffsetMin > 840) return null;
+// tzOffsetEndMin (optional) is the offset at the NEXT local midnight. On a
+// daylight-saving day the local day is 23 or 25 hours long, so the end uses
+// its own offset; without it the window is a plain 24 hours, as before.
+const offsetOk = (v) => Number.isInteger(v) && v >= -840 && v <= 840;
+export function localDayWindow(dayId, tzOffsetMin, tzOffsetEndMin) {
+  if (!offsetOk(tzOffsetMin)) return null;
   const parts = String(dayId || '').split('-').map(Number);
   if (parts.length !== 3 || parts.some((n) => !Number.isInteger(n))) return null;
   const [y, m, d] = parts;
   const start = Date.UTC(y, m, d) + tzOffsetMin * 60000;
-  return { start, end: start + 24 * 60 * 60 * 1000 };
+  const endOffset = offsetOk(tzOffsetEndMin) && Math.abs(tzOffsetEndMin - tzOffsetMin) <= 120 ? tzOffsetEndMin : tzOffsetMin;
+  return { start, end: Date.UTC(y, m, d + 1) + endOffset * 60000 };
 }
 
 // Distinct landmarks the user answered on that local day.

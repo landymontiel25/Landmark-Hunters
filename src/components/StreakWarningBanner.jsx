@@ -39,10 +39,14 @@ export default function StreakWarningBanner() {
   const [streak, setStreak] = useState(null);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
 
+  // Cleared first, so a signed-out screen (or the next account) never shows
+  // the last account's countdown.
+  const uid = user?.uid;
   useEffect(() => {
-    if (!user) return undefined;
-    return subscribeMySoloStreak(user.uid, setStreak, () => {});
-  }, [user]);
+    setStreak(null);
+    if (!uid) return undefined;
+    return subscribeMySoloStreak(uid, setStreak, () => {});
+  }, [uid]);
 
   // 0 once the stored streak has already lapsed -- nothing left to warn about.
   const count = displayStreakCount(streak);

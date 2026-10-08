@@ -309,9 +309,11 @@ export default function LandmarkSelection() {
   // device and never expires, so a city browsed once (e.g. San Francisco)
   // came back on every later visit. Pick a city from the dropdown to
   // change it for this visit.
-  // Where the Map tab was looking (city scale) wins over where you are.
+  // Where the Map tab was looking (city scale) wins over where you are. Back
+  // from a landmark keeps the list you left, "All cities" included, so the
+  // saved scroll spot lands on the same rows.
   const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
-  const [cityFilter, setCityFilter] = useState(returned?.city && returned.city !== 'all' ? returned.city : mapCity || 'all');
+  const [cityFilter, setCityFilter] = useState(returned?.city || mapCity || 'all');
   const cityPickedByHand = useRef(false);
   const gpsLat = coords?.lat ?? null;
   const gpsLng = coords?.lng ?? null;
@@ -569,11 +571,16 @@ export default function LandmarkSelection() {
   latest.current.cityFilter = cityFilter;
   latest.current.shownCount = shownCount;
   const scrolledBack = useRef(false);
+  // The retry loop must outlive the re-renders that follow (rows still
+  // filling in, custom landmarks, models); cancelling it on each dependency
+  // change cut it to a single scrollTo. Cancel only when leaving the screen.
+  const cancelScrollBack = useRef(null);
   useEffect(() => {
     if (!returned || scrolledBack.current || !allRows.length || shownCount < Math.min(returned.count || 0, allRows.length)) return;
     scrolledBack.current = true;
-    return restoreScroll(Number(returned.y) || 0);
+    cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
   }, [returned, shownCount, allRows.length]);
+  useEffect(() => () => cancelScrollBack.current?.(), []);
 
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);

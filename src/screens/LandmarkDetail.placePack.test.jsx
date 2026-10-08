@@ -124,8 +124,6 @@ async function mountPage() {
   return container;
 }
 
-const btn = (c, re) => [...c.querySelectorAll('button')].find((b) => re.test(b.textContent));
-const click = (el) => act(async () => el.dispatchEvent(new MouseEvent('click', { bubbles: true })));
 
 import { toPlace } from '../../scripts/osm-import/transform.js';
 

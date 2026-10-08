@@ -12,7 +12,10 @@ export default function MaprPhase1() {
   const mapr = useMaprMetrics(14);
   const ncf = useMaprNCFModel();
   const sim = useMaprSimilarity();
+  // 8 days for the deviation alerts (today vs the 7 before); the "(7 days)"
+  // charts show 7.
   const series = useMemo(() => mapr.data.slice(-8) as unknown as Record<string, unknown>[], [mapr.data]);
+  const chartSeries = useMemo(() => series.slice(-7), [series]);
   const m = mapr.data[mapr.data.length - 1];
   const alerts = useMemo(
     () => [
@@ -40,8 +43,8 @@ export default function MaprPhase1() {
         <MetricCard title="Novelty (7 days)" value={m?.novelty_percentage == null ? '—' : `${num(m.novelty_percentage, 1)}%`} trend={trendOf(series, 'novelty_percentage')} note="Target 20%+" loading={mapr.loading} />
       </Grid>
       <Two>
-        <TrendChart title="Match, skip and repeat (7 days)" data={series} series={[{ key: 'match_rate', label: 'Match' }, { key: 'skip_rate', label: 'Skip' }, { key: 'repeat_rate', label: 'Repeat' }]} format={(v) => pct(v, 0)} domain={[0, 1]} />
-        <TrendChart title="Novelty % (7 days)" data={series} series={[{ key: 'novelty_percentage', label: 'Novelty' }]} format={(v) => `${Math.round(v)}%`} />
+        <TrendChart title="Match, skip and repeat (7 days)" data={chartSeries} series={[{ key: 'match_rate', label: 'Match' }, { key: 'skip_rate', label: 'Skip' }, { key: 'repeat_rate', label: 'Repeat' }]} format={(v) => pct(v, 0)} domain={[0, 1]} />
+        <TrendChart title="Novelty % (7 days)" data={chartSeries} series={[{ key: 'novelty_percentage', label: 'Novelty' }]} format={(v) => `${Math.round(v)}%`} />
       </Two>
       <Grid>
         <MetricCard title="Stagnating users" value={m?.stagnation_users ?? '—'} note="Under 3 ratings and 5 visits in 7 days" loading={mapr.loading} />

@@ -19,6 +19,9 @@ export function CheckInProvider({ children }) {
   const { user, firebaseEnabled } = useAuth();
   const { myUsername, myProfile } = useFriends();
   const [claimedMap, setClaimedMap] = useState({});
+  // Bumps on every real check-in, so a page already showing "checked in"
+  // (a repeat visit) knows to re-read its visit count.
+  const [checkinTick, setCheckinTick] = useState(0);
   // True once the first read of this account's real check-ins has finished
   // (or failed). RatingsContext waits for it before stamping which rated
   // places were really visited, so a half-loaded map never reads as
@@ -152,6 +155,7 @@ export function CheckInProvider({ children }) {
       // later, that later real attempt is what finally marks it claimed.
       if (!ratingOnly && (result.claimed || result.alreadyClaimed)) {
         setClaimedMap((m) => ({ ...m, [landmark.id]: true }));
+        setCheckinTick((t) => t + 1);
       }
       // Celebrate off the actual payout, not the base point value -- a
       // home-radius or 6th+ repeat visit pays 0 and has nothing to celebrate.
@@ -191,6 +195,7 @@ export function CheckInProvider({ children }) {
         user,
         firebaseEnabled,
         claimedMap,
+        checkinTick,
         claimedLoaded,
         checkingIn,
         checkIn,

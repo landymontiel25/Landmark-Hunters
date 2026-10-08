@@ -68,7 +68,8 @@ async function handler(req, res) {
     });
     res.status(200).json({ ok: true, freezesLeft: freezesLeft - 1 });
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not use a freeze.' });
+    console.error('[use-solo-streak-freeze]', e);
+    res.status(500).json({ error: 'Could not use a freeze.' });
   }
 }
 

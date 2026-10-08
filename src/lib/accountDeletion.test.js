@@ -42,6 +42,11 @@ vi.mock('firebase/firestore', () => {
               data: () => ({ userId: 'u1', landmarkId: 'b', setId: 'u1-1-x', rank: 2, shownAt: 1, surface: 'chat', predicted: 'positive' }),
             },
           ]
+        : col === 'mapr_chats'
+        ? [
+            { ref: { path: 'mapr_chats/mine' }, data: () => ({ ownerUid: 'u1', memberUids: ['u1'] }) },
+            { ref: { path: 'mapr_chats/theirs' }, data: () => ({ ownerUid: 'x', memberUids: ['x', 'u1'] }) },
+          ]
         : col === 'custom_landmarks'
         ? [{ ref: { path: 'custom_landmarks/c1' }, data: () => ({ images: ['img1'] }) }]
         : col === 'checkins'
@@ -77,6 +82,7 @@ vi.mock('firebase/storage', () => ({
 }));
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./reviews', () => ({ deleteMyReview: vi.fn() }));
+vi.mock('./maprChats', () => ({ deleteProject: vi.fn() }));
 
 import { deleteAccountData } from './accountDeletion';
 
@@ -168,9 +174,15 @@ describe('deleteAccountData wipe coverage', () => {
   it('queries every owned collection by its ownership field', async () => {
     await deleteAccountData('u1');
     const has = (f, o = '==') => queries.some(([qf, qo, v]) => qf === f && qo === o && v === 'u1');
-    for (const f of ['userId', 'from', 'to', 'owner', 'blockerUid', 'uid', 'ownerUid', 'createdBy']) expect(has(f)).toBe(true);
+    for (const f of ['userId', 'from', 'to', 'owner', 'blockerUid', 'uid', 'createdBy']) expect(has(f)).toBe(true);
     expect(has('memberIds', 'array-contains')).toBe(true);
     expect(has('memberUids', 'array-contains')).toBe(true);
+  });
+
+  it('deletes owned Mapr chats found by memberUids (the field the rules check), not shared ones', async () => {
+    await deleteAccountData('u1');
+    expect(deletedPaths).toContain('mapr_chats/mine');
+    expect(deletedPaths).not.toContain('mapr_chats/theirs');
   });
 
   it('deletes owned group trips, leaves joined ones, and deletes submitted landmarks plus images', async () => {

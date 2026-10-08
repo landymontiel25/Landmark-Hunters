@@ -41,7 +41,15 @@ async function handler(req, res) {
   if (!(await guardAiRequest(req, res, { key: 'smart-search', limit: 40, windowMs: 10 * 60 * 1000 }))) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    // A malformed body is the caller's 400, not an "AI request failed" 500
+    // logged as an upstream failure.
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
     const query = str(body.query, 120);
     if (query.length < 2) {
       res.status(200).json({ ids: [] });

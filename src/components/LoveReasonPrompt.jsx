@@ -12,7 +12,7 @@ import ErrorNotice from './ErrorNotice';
 // landmark's category. A repeat trigger offers a one-tap shortcut if the
 // last answer is still true, instead of making someone retype it.
 export default function LoveReasonPrompt() {
-  const { loveReasonPrompt, clearLoveReasonPrompt } = useCheckIn();
+  const { loveReasonPrompt, clearLoveReasonPrompt, justCheckedIn } = useCheckIn();
   const { user } = useAuth();
   const [text, setText] = useState('');
   const [previousNote, setPreviousNote] = useState(null);
@@ -39,7 +39,9 @@ export default function LoveReasonPrompt() {
     };
   }, [loveReasonPrompt, user]);
 
-  if (!loveReasonPrompt) return null;
+  // Waits for the check-in panel (and its celebration) to close: both are
+  // full-screen layers, and this one used to cover the "Checked in!" burst.
+  if (!loveReasonPrompt || justCheckedIn) return null;
 
   const save = async (note) => {
     if (!note.trim()) return;

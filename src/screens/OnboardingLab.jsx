@@ -1,13 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { isAdmin } from '../lib/admins';
-import { ALL_LANDMARKS, INTERESTS, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS, PLACE_DELTA } from '../lib/onboardingCards';
-import { searchScore } from '../lib/search';
 import OnboardingPlaces from '../components/OnboardingPlaces';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';

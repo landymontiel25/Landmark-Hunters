@@ -4,13 +4,14 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { INTEREST_CLASSIFIER_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
-import { AI_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
+import { aiFailure } from './_lib/upstream.js';
 
 // Custom interests (typed in on Setup, e.g. "nightlife", "racing") don't map to
 // any of the app's four built-in categories, so they can't filter Choose
 // Landmarks by tag matching alone. This asks the AI which real landmarks in the
 // full catalog actually fit that topic, so a custom interest narrows the list
 // the same way a built-in category does.
+const CLASSIFY_TIMEOUT_MS = 50000;
 const DEFAULT_EMOJI = '\u{2728}'; // sparkle -- used whenever the AI's pick is missing or unusable
 
 const INSTRUCTIONS =
@@ -51,7 +52,15 @@ async function handler(req, res) {
   if (!(await guardAiRequest(req, res, { key: 'classify-interest', limit: 30, windowMs: 10 * 60 * 1000 }))) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    // A malformed body is the caller's 400, not an "AI request failed" 500
+    // logged as an upstream failure.
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
     const interest = String(body.interest || '').trim().slice(0, 60);
     if (!interest) {
       res.status(400).json({ error: 'Missing interest.' });
@@ -63,7 +72,11 @@ async function handler(req, res) {
       'CATALOG (region/id | name | description):\n' +
       ALL_LANDMARKS.map((l) => `${l.regionId}/${l.id} | ${l.name} | ${(l.summary || '').slice(0, 140)}`).join('\n');
 
-    const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
+    // Reads ANTHROPIC_API_KEY from env. The SDK default (10 minutes, 2
+    // retries) outlives the 60 s function limit (vercel.json), which then
+    // cuts the call off with an HTML 504; the full-catalog answer is long, so
+    // it gets 50 s rather than the shared AI_TIMEOUT_MS.
+    const client = new Anthropic({ timeout: CLASSIFY_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({
       model: INTEREST_CLASSIFIER_MODEL,

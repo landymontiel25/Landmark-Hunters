@@ -57,7 +57,7 @@ async function handler(req, res) {
     return;
   }
   const { pairId, dayId } = req.body || {};
-  if (!pairId || typeof pairId !== 'string' || !validClientDayKey(dayId)) {
+  if (!pairId || typeof pairId !== 'string' || !/^[\w-]{1,128}$/.test(pairId) || !validClientDayKey(dayId)) {
     res.status(400).json({ error: 'pairId and dayId are required.' });
     return;
   }
@@ -194,7 +194,8 @@ async function handler(req, res) {
     );
     res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not close that day.' });
+    console.error('[close-streak-day]', e);
+    res.status(500).json({ error: 'Could not close that day.' });
   }
 }
 

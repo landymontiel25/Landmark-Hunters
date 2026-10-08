@@ -75,3 +75,65 @@ describe('plan-ai linkAddresses', () => {
     expect(linkAddresses('It is 5 km away, founded in 1999.')).toBe('It is 5 km away, founded in 1999.');
   });
 });
+
+describe('plan-ai text helpers: nightly fixes', () => {
+  it('does not read "rate" as a noun as an ask to rate', () => {
+    for (const t of ["What's the crime rate here?", 'whats the exchange rate here', 'Is the hotel rate here ok', 'Can you find a first-rate sushi spot?']) {
+      expect(asksToRateHere(t)).toBe(false);
+      expect(asksToRate(t)).toBe(false);
+    }
+    expect(asksToRate('wanna rate some stuff')).toBe(true);
+    expect(asksToRateHere('Rate this spot')).toBe(true);
+  });
+  it('keeps city, state, ZIP and a street direction inside the address', () => {
+    expect(linkAddresses('Go to 1237 E Passyunk Ave, Philadelphia, PA 19147.')).toBe(
+      'Go to {{addressq:1237%20E%20Passyunk%20Ave%2C%20Philadelphia%2C%20PA%2019147}}.'
+    );
+    expect(linkAddresses('See 1600 Pennsylvania Ave NW, Washington, DC 20500 today')).toBe(
+      'See {{addressq:1600%20Pennsylvania%20Ave%20NW%2C%20Washington%2C%20DC%2020500}} today'
+    );
+    expect(linkAddresses('Walk 10 Blocks Down Main St to it')).toBe('Walk 10 Blocks Down Main St to it');
+  });
+  it('does not cut a reply at a.m., p.m. or St.', () => {
+    expect(conciseReply('Hours are 9 a.m. to 5 p.m. daily. Great spot. Third.', 'x')).toBe('Hours are 9 a.m. to 5 p.m. daily. Great spot.');
+    expect(conciseReply('Open until 5 p.m. Great spot. Third.', 'x')).toBe('Open until 5 p.m. Great spot.');
+  });
+});
+
+describe('plan-ai text helpers: review follow-ups', () => {
+  it('still spots asks with a modal before rate', () => {
+    for (const t of ['Can you show me places I can rate', 'anything I can rate nearby?', 'Ok rate here', "I'll rate this place"]) expect(asksToRate(t)).toBe(true);
+    expect(asksToRateHere('Any places i can rate here?')).toBe(true);
+  });
+  it('never pulls the next sentence into an address', () => {
+    expect(linkAddresses('Try 400 Broad St, Philadelphia. It is great.')).toBe('Try {{addressq:400%20Broad%20St}}, Philadelphia. It is great.');
+  });
+  it('ends a sentence at a street name', () => {
+    expect(conciseReply('Located on Main St. Great tacos. Third.', 'x')).toBe('Located on Main St. Great tacos.');
+    expect(conciseReply('Head to St. Louis next. Fun. Third.', 'x')).toBe('Head to St. Louis next. Fun.');
+  });
+});
+
+describe('plan-ai text helpers: second review', () => {
+  it('treats price "rates" as questions, not asks to rate', () => {
+    for (const t of ['Is there a student rate here?', 'Can I get a lower rate here?', 'what rate do they charge here']) {
+      expect(asksToRate(t)).toBe(false);
+      expect(asksToRateHere(t)).toBe(false);
+    }
+    expect(asksToRate('stuff I could rate')).toBe(true);
+  });
+  it('links cities that start with St. or Ft.', () => {
+    expect(linkAddresses('1 Las Olas Blvd, Ft. Lauderdale, FL is it')).toBe('{{addressq:1%20Las%20Olas%20Blvd%2C%20Ft.%20Lauderdale%2C%20FL}} is it');
+  });
+  it('keeps names with Mt. and St. in one sentence', () => {
+    expect(conciseReply('Climb Mt. Rainier today. Fun. Third.', 'x')).toBe('Climb Mt. Rainier today. Fun.');
+    expect(conciseReply('Go to 5 Main St. at noon. Great. Third.', 'x')).toBe('Go to 5 Main St. at noon. Great.');
+  });
+});
+
+describe('plan-ai asksToRate: iPhone apostrophes', () => {
+  it('reads curly apostrophes like straight ones', () => {
+    for (const t of ['I’d rate here', 'I’ll rate this one', 'Let’s rate this spot', 'just rate this place']) expect(asksToRateHere(t)).toBe(true);
+    expect(asksToRate('Let’s rate some places')).toBe(true);
+  });
+});

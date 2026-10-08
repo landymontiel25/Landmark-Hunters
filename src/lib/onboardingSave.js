@@ -1,6 +1,7 @@
 import { doc, setDoc, updateDoc, deleteDoc, deleteField, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { PICKABLE_REGIONS, getLandmark } from '../data/regions';
+import { ensurePlacePacks } from './placePacks';
 import { allSwipeCards, tagDeltasFromAnswers, placesIntro } from './onboardingCards';
 import { TAG_CAP, TAG_FLOOR, decayFactor, GLOBAL_TASTE, hasGlobalTaste } from './tagScores';
 import { ONBOARDING_VERSION, ONBOARDING_NOTICE_MESSAGE, onboardingNoticeId } from './onboardingVersion';
@@ -85,20 +86,31 @@ export function seedTagScores(profile, answers, now = Date.now(), cityRegions = 
   const regions = hasGlobalTaste(profile) ? [...cityRegions, GLOBAL_TASTE] : cityRegions;
   const deltas = tagDeltasFromAnswers(answers, places);
   const previous = profile?.onboardingSwipeDeltas || {};
+  // What the last save really added per region and tag. A score already near
+  // the cap takes less than the full delta (+70 on a score of 80 adds 20), so
+  // a redo must take out only that, not the full delta, or it wipes points
+  // earned by ratings. Accounts saved before this field fall back to the delta.
+  const prevApplied = profile?.onboardingSwipeApplied || {};
   const tags = new Set([...Object.keys(deltas), ...Object.keys(previous)]);
   const tagScores = {};
   const tagScoresAt = {};
+  const applied = {};
   for (const region of regions) {
     for (const tag of tags) {
-      const change = (deltas[tag] || 0) - (previous[tag] || 0);
-      if (!change) continue;
+      const target = deltas[tag] || 0;
+      if (target === (previous[tag] || 0)) continue;
+      const before = Number(prevApplied?.[region]?.[tag]);
+      const undo = Number.isFinite(before) ? before : previous[tag] || 0;
       const current = Number(profile?.tagScores?.[region]?.[tag]) || 0;
       const decayed = current * decayFactor(profile?.tagScoresAt?.[region]?.[tag], now);
-      (tagScores[region] ||= {})[tag] = clamp(decayed + change);
+      const base = decayed - undo;
+      const next = clamp(base + target);
+      (tagScores[region] ||= {})[tag] = next;
       (tagScoresAt[region] ||= {})[tag] = now;
+      (applied[region] ||= {})[tag] = next - clamp(base);
     }
   }
-  return { deltas, tagScores, tagScoresAt };
+  return { deltas, tagScores, tagScoresAt, applied };
 }
 
 // Same wording the Test tab feeds Mapr: the card words in prose. The free-text
@@ -125,14 +137,14 @@ export const placesFromProfile = (profile) =>
 export async function saveOnboardingPlaces(uid, profile, places) {
   if (!db || !uid) return;
   const answers = pairsToAnswers(profile?.swipeAnswers);
-  const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers, Date.now(), undefined, places);
+  const { deltas, tagScores, tagScoresAt, applied } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(
     doc(db, 'users', uid),
     {
       onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })),
       swipeSummary: swipeSummary(answers, places),
       onboardingSwipeDeltas: deltas,
-      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt } : {}),
+      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
       updatedAt: serverTimestamp(),
     },
     { merge: true }
@@ -149,9 +161,35 @@ export async function saveOnboardingPlaces(uid, profile, places) {
 // saved on the account (saveOnboardingPlaces), so saving the swipes never drops
 // them. They count toward the tag-score seed and the text Mapr reads,
 // and are stored as { regionId, id, name } so the step can be pre-filled.
-export async function saveOnboardingResults(uid, profile, answers, { complete, places = placesFromProfile(profile) }) {
+// The saved places as landmarks, waiting for the place packs (Miami, Philly,
+// SF...) when some aren't in the catalog yet. `complete` is false when some
+// can't be found because the packs failed to load (offline).
+async function savedPlaces(profile) {
+  const saved = Array.isArray(profile?.onboardingPlaces) ? profile.onboardingPlaces : [];
+  let places = placesFromProfile(profile);
+  let packsOk = true;
+  if (places.length < saved.length) {
+    packsOk = await ensurePlacePacks().catch(() => false);
+    places = placesFromProfile(profile);
+  }
+  // With every pack loaded, a place still missing was taken out of the
+  // catalog: go on without it rather than blocking the save forever.
+  return { places, complete: places.length === saved.length || packsOk === true };
+}
+
+export async function saveOnboardingResults(uid, profile, answers, { complete, places: given } = {}) {
   if (!db || !uid) return;
-  const { deltas, tagScores, tagScoresAt } = seedTagScores(profile, answers, Date.now(), undefined, places);
+  const resolved = given ? { places: given, complete: true } : await savedPlaces(profile);
+  const { places } = resolved;
+  // Some saved places couldn't load (offline): save the swipes only. The
+  // summary, score seed and places stay as they were (building them from the
+  // shorter list would take those places' points out), and the version waits
+  // too, so the next save, with the places loaded, applies everything.
+  if (!resolved.complete) {
+    await setDoc(doc(db, 'users', uid), { swipeAnswers: answersToPairs(answers), updatedAt: serverTimestamp() }, { merge: true });
+    return;
+  }
+  const { deltas, tagScores, tagScoresAt, applied } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(
     doc(db, 'users', uid),
     {
@@ -160,7 +198,7 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
       swipeSummary: swipeSummary(answers, places),
       ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
       onboardingSwipeDeltas: deltas,
-      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt } : {}),
+      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
       updatedAt: serverTimestamp(),
     },
     { merge: true }

@@ -373,7 +373,9 @@ export default function TripSetup() {
       <button
         type="button"
         className="btn btn-primary btn-block"
-        disabled={!canContinue || creatingGroup}
+        // Ticked friends are only sent once the friends list has loaded;
+        // starting before that would make the trip without them.
+        disabled={!canContinue || creatingGroup || (tripMode === 'group' && friendsLoading && selectedFriendList.length > 0)}
         onClick={
           tripMode === 'group'
             ? startGroupTrip
