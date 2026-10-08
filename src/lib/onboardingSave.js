@@ -184,10 +184,17 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
     {
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
       swipeAnswers: answersToPairs(answers),
-      swipeSummary: swipeSummary(answers, places),
-      ...(places.length && resolved.complete ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
-      onboardingSwipeDeltas: deltas,
-      ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
+      // Some saved places still can't be found (offline): store the swipes
+      // but leave the summary, places and score seed as they are, so the
+      // places' points aren't taken out. The next save with them applies all.
+      ...(resolved.complete
+        ? {
+            swipeSummary: swipeSummary(answers, places),
+            ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
+            onboardingSwipeDeltas: deltas,
+            ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
+          }
+        : {}),
       updatedAt: serverTimestamp(),
     },
     { merge: true }
