@@ -51,7 +51,15 @@ async function handler(req, res) {
   if (!(await guardAiRequest(req, res, { key: 'classify-interest', limit: 30, windowMs: 10 * 60 * 1000 }))) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    // A malformed body is the caller's 400, not an "AI request failed" 500
+    // logged as an upstream failure.
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
     const interest = String(body.interest || '').trim().slice(0, 60);
     if (!interest) {
       res.status(400).json({ error: 'Missing interest.' });

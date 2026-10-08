@@ -96,7 +96,15 @@ async function handler(req, res) {
   if (!(await guardAiRequest(req, res, { key: 'mapr-picks', limit: 12, windowMs: 10 * 60 * 1000 }))) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    // A malformed body is the caller's 400, not an "AI request failed" 500
+    // logged as an upstream failure.
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
     const region = str(body.region, 40);
     if (!region) {
       res.status(200).json({ picks: [] });
@@ -105,10 +113,10 @@ async function handler(req, res) {
     await ensureServerPlacePacks();
     // users/{uid} tag maps (see tagScores.js). Scores, timestamps and counts
     // come for every region, since the warm start borrows from the others.
-    const numMap = (m) =>
+    const numMap = (m, cap = 40) =>
       Object.fromEntries(
         Object.entries(m && typeof m === 'object' ? m : {})
-          .slice(0, 40)
+          .slice(0, cap)
           .map(([k, v]) => [str(k, 40), Number(v)])
           .filter(([, v]) => Number.isFinite(v))
       );
@@ -133,9 +141,7 @@ async function handler(req, res) {
       tagCounts: nestedNumMap(body.tagCounts),
       capAnswers: strMap(body.capAnswers, 3),
     };
-    const checkinCounts = numMap(
-      Object.fromEntries(Object.entries(body.checkinCounts && typeof body.checkinCounts === 'object' ? body.checkinCounts : {}).slice(0, 2000))
-    );
+    const checkinCounts = numMap(body.checkinCounts, 2000);
     const excludeIds = (Array.isArray(body.excludeIds) ? body.excludeIds : []).slice(0, 2000).map((id) => str(id, 80));
     // Signup: swipe cards + notes, no ratings yet. The shortlist is built
     // from ONLY that signal (swipeShortlist), never signup-interest chips
@@ -156,7 +162,10 @@ async function handler(req, res) {
       res.status(200).json({ picks: [] });
       return;
     }
-    const recentReviews = (Array.isArray(body.recentReviews) ? body.recentReviews : []).slice(-10).map((r) => ({
+    const recentReviews = (Array.isArray(body.recentReviews) ? body.recentReviews : [])
+      .filter((r) => r && typeof r === 'object')
+      .slice(-10)
+      .map((r) => ({
       name: str(r.name, 80),
       tier: str(r.tier, 30),
       categories: (Array.isArray(r.categories) ? r.categories : []).map((c) => str(c, 30)).slice(0, 3),
