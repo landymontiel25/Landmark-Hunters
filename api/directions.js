@@ -49,10 +49,15 @@ const stripHtml = (s) =>
     .trim();
 
 const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : null);
-const coord = (o) =>
-  o && Number.isFinite(Number(o.lat)) && Number.isFinite(Number(o.lng))
-    ? { lat: Number(o.lat), lng: Number(o.lng) }
-    : null;
+// null/"" would coerce to 0 and route from (0,0); out-of-range values make
+// Google reject the call as a 502 instead of the caller's 400.
+const toNum = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
+const coord = (o) => {
+  if (!o || typeof o !== 'object') return null;
+  const lat = toNum(o.lat);
+  const lng = toNum(o.lng);
+  return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180 ? { lat, lng } : null;
+};
 
 const endPoint = (loc) => {
   const lat = num(loc?.latLng?.latitude);

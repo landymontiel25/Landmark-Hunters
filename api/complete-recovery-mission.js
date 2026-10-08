@@ -37,7 +37,7 @@ async function handler(req, res) {
     return;
   }
   const { pairId } = req.body || {};
-  if (!pairId || typeof pairId !== 'string') {
+  if (!pairId || typeof pairId !== 'string' || !/^[\w-]{1,128}$/.test(pairId)) {
     res.status(400).json({ error: 'pairId is required.' });
     return;
   }
@@ -105,7 +105,8 @@ async function handler(req, res) {
     });
     res.status(200).json({ ok: true, count: restored });
   } catch (e) {
-    res.status(500).json({ error: e?.message || 'Could not complete the recovery mission.' });
+    console.error('[complete-recovery-mission]', e);
+    res.status(500).json({ error: 'Could not complete the recovery mission.' });
   }
 }
 

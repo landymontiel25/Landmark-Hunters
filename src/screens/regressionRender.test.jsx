@@ -190,7 +190,7 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     expect(el.querySelector('.city-dropdown-toggle').textContent).toContain('All Cities');
   }, 30000);
 
-  it('filtered to just Villanova, with one already on the itinerary (Select All path)', async () => {
+  it('filtered to just Villanova, with one already on the itinerary (no Select All button)', async () => {
     const el = await renderIt({ byRegion: { villanova: ['corr-hall-arch'] } });
     await act(async () => {
       el.querySelector('.city-dropdown-toggle').click();
@@ -199,7 +199,8 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     await act(async () => {
       villanova.click();
     });
-    expect(el.textContent).toContain('Select All');
+    expect(el.textContent).not.toContain('Select All');
+    expect(el.textContent).not.toContain('Suggest For Me');
   }, 30000);
 });
 

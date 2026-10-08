@@ -1,3 +1,4 @@
+import { useTodayKey } from '../lib/useTodayKey';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -74,21 +75,25 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Trip is reflected here even before a fresh GPS fix comes in.
   const defaultRegionId = homeCityId || pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
   const regionId = cityOverride || defaultRegionId;
-  const { votes, removed, answeredIds, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
+  const { votes, removed, answeredAt, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
   // Landmarks answered today: earlier answers from today (the database copy,
   // with their time) plus the ones saved during this visit, so the counter
   // moves the moment a save lands, with no reload. The badges count (votes
   // and 0-point ratings from everywhere) can only raise it.
   const { actionsToday = 0 } = useBadges();
+  // todayKey re-runs this at midnight, so answers from last night stop counting.
+  const todayKey = useTodayKey();
   const answeredToday = useMemo(() => {
-    const today = dayKey(new Date());
-    const ids = new Set(answeredIds);
+    const ids = new Set();
+    for (const [id, at] of Object.entries(answeredAt || {})) {
+      if (dayKey(new Date(at)) === todayKey) ids.add(id);
+    }
     for (const [id, f] of Object.entries(feedback || {})) {
-      if (f?.at && dayKey(new Date(f.at)) === today) ids.add(id);
+      if (f?.at && dayKey(new Date(f.at)) === todayKey) ids.add(id);
     }
     return ids.size;
-  }, [feedback, answeredIds]);
+  }, [feedback, answeredAt, todayKey]);
   const countToday = Math.max(answeredToday, actionsToday);
   const dayDone = countToday >= PICKS_STREAK_THRESHOLD;
   // The moment today's quota is met, tell the server so the streak day
@@ -129,14 +134,13 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
     if (closedFor.current === key) return;
     closedFor.current = key;
     closeDay();
-    // closeDay is recreated every render; the ref above runs it once per day.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dayDone, user?.uid]);
+    // Once per account and day; closeDay is rebuilt each render.
+  }, [dayDone, user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Each card is logged as shown (with a hidden guess) when it scrolls into
   // view, one set per city row, so a vote on it counts toward the taste score
   // and the match rate like any other Mapr pick.
-  // regionId is on purpose: a new city starts a new set.
+  // A new set for each city row: regionId is the intended trigger.
   const setId = useMemo(() => (user?.uid ? makeSetId(user.uid) : null), [user?.uid, regionId]); // eslint-disable-line react-hooks/exhaustive-deps
   const logShown = useShownLogger({ uid: user?.uid, profile: myProfile, surface: 'travel-picks', source: 'travel-picks' });
 

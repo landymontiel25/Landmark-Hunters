@@ -310,6 +310,7 @@ export default function Settings() {
   };
 
   const sendTestPush = async () => {
+    if (pushTestMsg === 'Sending…') return;
     setPushTestMsg('Sending…');
     try {
       const r = await fetch(`${API_BASE}/api/push-test`, { method: 'POST', headers: await authHeaders() });

@@ -30,7 +30,9 @@ export async function createLandmarkFromPlace({ details, fallbackName, trustedNa
   // street. Without a trustedName, keep the original priority (a Places
   // suggestion resolved via Details is more reliable than the raw
   // autocomplete text a caller might pass as fallbackName).
-  const finalName = trustedName || details.primary || fallbackName;
+  // custom_landmarks rules need a 1-120 character name (AddLandmark caps
+  // at 80 too); a long Google name or an empty one was refused outright.
+  const finalName = String(trustedName || details.primary || fallbackName || '').trim().slice(0, 80) || 'New Landmark';
   // Forced refresh: right after verifying their email, a cached token
   // still says unverified for up to an hour, and firestore.rules checks
   // the token's email_verified before accepting the new landmark.

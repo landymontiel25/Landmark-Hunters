@@ -207,13 +207,42 @@ export function trimTurns(incoming) {
 // sentences, 260 characters. Asking to "explain", "tell me more", "details" etc.
 // lifts the cap.
 export const ASKS_FOR_LONGER = /\b(tell me more|more (detail|info|about)|details?|explain|elaborate|in depth|in detail|step[- ]by[- ]step|longer|full (list|hours|schedule)|everything)\b/i;
+// Sentence split that doesn't cut at "St.", "Dr." or "e.g.", nor at "a.m." /
+// "p.m." when the sentence goes on ("9 a.m. to 5 p.m. daily").
+// Sentence split that doesn't cut at "e.g." or "Mr.", at "a.m."/"p.m." when
+// the sentence goes on ("9 a.m. to 5 p.m. daily"), or at "St."/"Mt."/"Dr."
+// in a name ("Climb Mt. Rainier", "Head to St. Louis", "5 Main St. at noon").
+// After a street name that isn't the sentence's first word ("on Main St.
+// Great tacos.") it is a sentence end.
+const ALWAYS_ABBR = /(?:^|\s)(?:Mr|Mrs|Ms|Jr|Sr|vs|e\.g|i\.e|approx|No|est)\.$/i;
+const NAME_ABBR = /(?:^|\s)(St|Mt|Dr|Ft)\.$/;
+const TIME_ABBR = /(?:^|\s)[ap]\.m\.$/i;
+function glues(prev, part) {
+  if (ALWAYS_ABBR.test(prev)) return true;
+  if (TIME_ABBR.test(prev)) return /^[a-z0-9]/.test(part);
+  if (!NAME_ABBR.test(prev)) return false;
+  if (/^[a-z0-9]/.test(part)) return true;
+  const words = prev.split(/\s+/);
+  const before = words.length >= 2 ? words[words.length - 2] : '';
+  return !before || words.length === 2 || /^[a-z]/.test(before) || before.endsWith(',');
+}
+function splitSentences(text) {
+  const parts = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const out = [];
+  for (const part of parts) {
+    const prev = out[out.length - 1];
+    if (prev && glues(prev, part)) out[out.length - 1] = `${prev} ${part}`;
+    else out.push(part);
+  }
+  return out;
+}
 export function conciseReply(reply, userText = '') {
   const plain = String(reply || '')
     .replace(/\*\*|__|`/g, '')
     .replace(/^\s*(?:[-*\u2022]|\d+[.)])\s+/gm, '')
     .trim();
   if (ASKS_FOR_LONGER.test(String(userText))) return plain;
-  const sentences = plain.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const sentences = splitSentences(plain);
   let out = sentences.slice(0, 2).join(' ');
   if (out.length > 260) out = sentences[0].length <= 260 ? sentences[0] : `${out.slice(0, 257).trimEnd()}...`;
   return out || plain;
@@ -223,7 +252,11 @@ export function conciseReply(reply, userText = '') {
 // {{address:N}} token (N = the 1-based stop it belongs to) or, for an address
 // with no matching stop, {{addressq:<text>}}. The app shows the word
 // "address" as a link that opens Open in Map / Google Maps / Apple Maps.
-const STREET = /\b\d{1,6}\s+(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:,\s*[A-Z][\w .'-]*){0,3}?(?:,\s*[A-Z]{2}(?:\s+\d{5})?)?/g;
+// The house number can't be a count ("10 Blocks Down Main St"); a direction
+// after the street type ("Ave NW") and the city, state and ZIP stay in the
+// match. A city (1-3 capitalized words) is kept only when a state follows,
+// so a capitalized next sentence is never swallowed.
+const STREET = /\b\d{1,6}\s+(?!(?:[Bb]locks?|[Mm]inutes?|[Mm]ins?|[Mm]iles?|[Hh]ours?|[Ss]teps?|[Ss]tops?|[Ff]eet|[Mm]eters?)\b)(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:\s+[NS][EW]\b)?(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:(?:,\s*(?![A-Z]{2}\b)(?:(?:St|Ft|Mt)\.\s+)?[A-Z][\w'-]*(?:\s+[A-Z][\w'-]*){0,2}){0,2},\s*[A-Z]{2}\b(?:\s+\d{5})?)?/g;
 export function linkAddresses(reply, stops = []) {
   let out = String(reply || '');
   stops.forEach((st, i) => {
@@ -271,15 +304,22 @@ export function unparsedReply(raw) {
 }
 
 // "can i rate here", "rate this place": a request to rate wherever they are.
-export const asksToRateHere = (text) => /\brate\b[^.?!]{0,30}\b(here|this (place|spot|one)|where i am)\b/i.test(String(text || ''));
+// "rate" must be the verb ("I rate", "to rate", "Rate this"), so "what's the
+// crime rate here?" or "a first-rate spot" isn't read as an ask to rate.
+const RATE_VERB = String.raw`(?:^|[.!?,]\s*|\b(?:i|me|to|we|you|u|us|let['’]s|lets|please|pls|wanna|gonna|lemme|and|then|can|could|will|would|should|ok|okay|yes|sure|now|just)\s+|(?:['’]ll|['’]d)\s+)rate\b`;
+const RATE_HERE = new RegExp(`${RATE_VERB}[^.?!]{0,30}\\b(here|this (place|spot|one)|where i am)\\b`, 'i');
+const RATE_ANY = new RegExp(
+  `\\b(can|could|let|want|wanna|like|how do|how can)\\b[^.?!]{0,25}${RATE_VERB}|${RATE_VERB} (some|a few|more|places|landmarks|stuff)\\b|\\bplaces? to rate\\b|\\b(?:i|we|you|u)\\s+(?:can|could)\\s+rate\\b`,
+  'i'
+);
+export const asksToRateHere = (text) => RATE_HERE.test(String(text || '').trim());
 
 // Any ask to rate, not tied to one named place ("can I rate?", "let me rate
 // some places", "places to rate"). Together with asksToRateHere, and when Mapr
 // has no single place to show, the app puts up a carousel of places they have
 // not rated yet.
 export const asksToRate = (text) =>
-  asksToRateHere(text) ||
-  /\b(can|could|let|want|wanna|like|how do|how can)\b[^.?!]{0,25}\brate\b|\brate (some|a few|more|places|landmarks|stuff)\b|\bplaces? to rate\b/i.test(String(text || ''));
+  asksToRateHere(text) || RATE_ANY.test(String(text || '').trim());
 
 export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 'solo');
 
@@ -322,7 +362,14 @@ async function handler(req, res) {
   if (!account) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
+    if (!body || typeof body !== 'object') body = {};
     const incoming = Array.isArray(body.messages) ? body.messages : [];
     // Keep the payload (and cost) bounded -- a handful of recent turns is
     // plenty of context for a trip-planning chat.
@@ -367,7 +414,10 @@ async function handler(req, res) {
     // the traveler has clearly already told the app what they like.
     const requestFor = requestForOf(body);
     const taste = tasteInputsOf(body);
-    const reviews = (Array.isArray(taste.reviews) ? taste.reviews : []).slice(0, 60).map((r) => ({
+    const reviews = (Array.isArray(taste.reviews) ? taste.reviews : [])
+      .filter((r) => r && typeof r === 'object')
+      .slice(0, 60)
+      .map((r) => ({
       name: str(r.name, 80),
       tier: str(r.tier, 30),
       categories: (Array.isArray(r.categories) ? r.categories : []).map((c) => str(c, 30)).slice(0, 3),
@@ -445,8 +495,10 @@ async function handler(req, res) {
     // can land on real in-app stops before reaching for web search.
     let hereLandmark = null;
     const loc = body.location && typeof body.location === 'object' ? body.location : null;
-    const locLat = Number(loc?.lat);
-    const locLng = Number(loc?.lng);
+    // null or "" would become 0 and plan "near me" at (0, 0).
+    const coordNum = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '') ? Number(v) : NaN);
+    const locLat = coordNum(loc?.lat);
+    const locLng = coordNum(loc?.lng);
     if (loc && Number.isFinite(locLat) && Number.isFinite(locLng) && Math.abs(locLat) <= 90 && Math.abs(locLng) <= 180) {
       const label = str(loc.label, 120);
       const acc = Number(loc.accuracy);
@@ -505,7 +557,7 @@ async function handler(req, res) {
 
     // Imported places the latest message names, so "How do I get to <a cafe>"
     // can come back as that cafe's card.
-    const near = Number.isFinite(locLat) && Number.isFinite(locLng) ? { lat: locLat, lng: locLng } : null;
+    const near = Number.isFinite(locLat) && Number.isFinite(locLng) && Math.abs(locLat) <= 90 && Math.abs(locLng) <= 180 ? { lat: locLat, lng: locLng } : null;
     const lastText = turns[turns.length - 1].content;
     const named = placesNamedIn(
       lastText,
@@ -571,10 +623,12 @@ async function handler(req, res) {
     await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: msg.usage });
     const costUsd = estimateCostUsd(msg.usage);
 
+    // With web search the final text arrives as several blocks split around
+    // each cited span, often mid-string: a '\n' between them broke the JSON.
     const raw = msg.content
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
-      .join('\n')
+      .join('')
       .trim();
 
     let parsed;
@@ -638,8 +692,9 @@ async function handler(req, res) {
     const quickReplies = stops.length
       ? []
       : (Array.isArray(parsed.quickReplies) ? parsed.quickReplies : [])
-          .map((q) => String(q || '').trim().slice(0, 40))
+          .map((q) => (typeof q === 'string' ? q.trim().slice(0, 40) : ''))
           .filter(Boolean)
+          .filter((q, i, all) => all.indexOf(q) === i)
           .slice(0, 4);
 
     // Proposed itinerary actions: whitelisted and trimmed here; the app runs
@@ -649,9 +704,11 @@ async function handler(req, res) {
     const actions = (Array.isArray(parsed.actions) ? parsed.actions : [])
       .filter((a) => a && ACTIONS.includes(a.type))
       .slice(0, 6)
+      // The model sometimes returns an object where a name belongs; never let
+      // that become a place called "[object Object]".
       .map((a) => ({
         type: a.type,
-        stop: str(a.stop, 160),
+        stop: typeof a.stop === 'string' ? str(a.stop, 160) : '',
         itinerary: str(a.itinerary, 80),
         newName: str(a.newName, 80),
         name: str(a.name, 80),
@@ -659,7 +716,8 @@ async function handler(req, res) {
         group: a.group === true,
         username: str(a.username, 40),
         nameOverride: str(a.nameOverride, 120),
-      }));
+      }))
+      .filter((a) => !((a.type === 'add_stop' || a.type === 'remove_stop') && !a.stop));
 
     // A place the traveler says they just left, for the app's "How was it?"
     // rating card. A catalog match anywhere is fine -- it's only a pointer.
@@ -674,7 +732,7 @@ async function handler(req, res) {
 
     // "Can I rate here?": show the catalog landmark they are standing at as a
     // stop, whose card carries the I'd go / Not sure / Not for me buttons.
-    const shortReply = conciseReply(String(parsed.reply || '').slice(0, 1500), lastText);
+    const shortReply = conciseReply((typeof parsed.reply === 'string' ? parsed.reply : '').slice(0, 1500), lastText);
     // None of the model's stops survived but the directions card was added:
     // its address token means that card.
     const tokenNs = new Set([...shortReply.matchAll(/\{\{address:(\d+)\}\}/g)].map((m) => m[1]));

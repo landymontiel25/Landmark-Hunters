@@ -22,7 +22,7 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
-import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, sortInterests, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, PICKABLE_INTERESTS, sortInterests, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -265,7 +265,6 @@ export default function LandmarkSelection() {
   const {
     trip,
     toggleLandmark,
-    setRegionSelection,
     getRegionSelection,
     regionsWithItineraries,
     clearRegion,
@@ -310,7 +309,9 @@ export default function LandmarkSelection() {
   // device and never expires, so a city browsed once (e.g. San Francisco)
   // came back on every later visit. Pick a city from the dropdown to
   // change it for this visit.
-  // Where the Map tab was looking (city scale) wins over where you are.
+  // Where the Map tab was looking (city scale) wins over where you are. Back
+  // from a landmark keeps the list you left, so the saved scroll spot lands
+  // on the same rows.
   const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
   // "All cities" is kept on Back only when it was picked by hand; as a mere
   // default it yields to the Map's city like a fresh open (#598).
@@ -368,11 +369,6 @@ export default function LandmarkSelection() {
   // Popular choice saved back when that was the only default.
   const [savedSort, setSortBy] = usePersistentState('landmarks.sort.v2', 'forMe', { isEmpty: NEVER_EMPTY });
   const sortBy = savedSort === 'nearMe' || savedSort === 'popularity' ? savedSort : 'forMe';
-  // Snapshot of each touched region's selection from right before the last
-  // "Suggest For Me" applied, so pressing it again can undo exactly that --
-  // no separate trip to Clear. Null means the button isn't in its "applied"
-  // state (nothing to undo).
-  const [suggestedSnapshot, setSuggestedSnapshot] = useState(null);
 
   // Picking a city by hand (the dropdown) or GPS auto-pick already call
   // setMapFocus(id) themselves, right where they happen -- there used to
@@ -572,32 +568,6 @@ export default function LandmarkSelection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [smart.ids, landmarks, normalizedCustomLandmarks, editedLandmarks, cityFilter, activeCategories]);
 
-  // Toggle: applying it snapshots each touched city's prior selection so a
-  // second tap can put it back exactly, instead of making you find Clear.
-  const suggestForMe = () => {
-    if (suggestedSnapshot) {
-      Object.entries(suggestedSnapshot).forEach(([r, ids]) => setRegionSelection(r, ids));
-      setSuggestedSnapshot(null);
-      return;
-    }
-    const keys = [...trip.interests, ...trip.customInterests];
-    const interestKeys = keys.length ? keys : INTERESTS.map((i) => i.id);
-    const matches = landmarks.filter((l) => interestKeys.some((key) => landmarkMatchesCategory(l, key)));
-    const picked = (matches.length >= 8 ? matches : landmarks).slice(0, 10);
-    if (!picked.length) return;
-    // Group picks by city so each city's itinerary is set independently.
-    const byR = {};
-    picked.forEach((l) => {
-      (byR[l.regionId] ||= []).push(l.id);
-    });
-    const prior = {};
-    Object.keys(byR).forEach((r) => {
-      prior[r] = getRegionSelection(r);
-    });
-    setSuggestedSnapshot(prior);
-    Object.entries(byR).forEach(([r, ids]) => setRegionSelection(r, ids));
-  };
-
   const allRows = useMemo(
     () => [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])],
     [landmarks, smartLandmarks]
@@ -606,25 +576,20 @@ export default function LandmarkSelection() {
   latest.current.cityFilter = cityFilter;
   latest.current.shownCount = shownCount;
   const scrolledBack = useRef(false);
-  // The scroll retry outlives later re-runs of the effect below (more rows
-  // arriving would otherwise cancel it mid-way); it's cancelled on unmount.
+  // The retry loop must outlive the re-renders that follow (rows still
+  // filling in, custom landmarks, models); cancelling it on each dependency
+  // change cut it to a single scrollTo. Cancel only when leaving the screen.
   const cancelScrollBack = useRef(null);
-  useEffect(() => () => cancelScrollBack.current?.(), []);
   useEffect(() => {
     if (!returned || scrolledBack.current || !allRows.length || shownCount < Math.min(returned.count || 0, allRows.length)) return;
     scrolledBack.current = true;
     cancelScrollBack.current = restoreScroll(Number(returned.y) || 0);
   }, [returned, shownCount, allRows.length]);
+  useEffect(() => () => cancelScrollBack.current?.(), []);
 
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
   const scopeCount = cityFilter === 'all' ? selectedCount : getRegionSelection(cityFilter).length;
-  const unselectedVisible =
-    cityFilter === 'all'
-      ? []
-      : landmarks
-          .filter((l) => l.regionId === cityFilter && !getRegionSelection(cityFilter).includes(l.id))
-          .map((l) => l.id);
 
   return (
     <div>
@@ -663,31 +628,10 @@ export default function LandmarkSelection() {
       </div>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
-        <button
-          className={`btn btn-sm ${suggestedSnapshot ? 'btn-primary' : 'btn-ghost'}`}
-          onClick={suggestForMe}
-          disabled={!suggestedSnapshot && landmarks.length === 0}
-        >
-          {'✨'} {suggestedSnapshot ? 'Suggested ✓' : 'Suggest For Me'}
-        </button>
-        {/* One city at a time: "select all 74 landmarks everywhere" isn't a
-            trip anyone plans. Adds whatever the current filters show. */}
-        {cityFilter !== 'all' && unselectedVisible.length > 0 && (
-          <button
-            className="btn btn-ghost btn-sm"
-            onClick={() => {
-              setSuggestedSnapshot(null);
-              setRegionSelection(cityFilter, [...getRegionSelection(cityFilter), ...unselectedVisible]);
-            }}
-          >
-            {'\u{2705}'} Select All ({unselectedVisible.length})
-          </button>
-        )}
         {scopeCount > 0 && (
           <button
             className="btn btn-ghost btn-sm"
             onClick={() => {
-              setSuggestedSnapshot(null);
               if (cityFilter === 'all') clearAll();
               else clearRegion(cityFilter);
             }}
@@ -706,7 +650,6 @@ export default function LandmarkSelection() {
             onClick={() => {
               cityPickedByHand.current = false;
               setMapView(null);
-              setSuggestedSnapshot(null);
               setCityFilter(gpsCity);
             }}
           >
@@ -743,7 +686,7 @@ export default function LandmarkSelection() {
             onChange={(e) => setActiveCategories(e.target.value ? [e.target.value] : [])}
           >
             <option value="">All categories</option>
-            {sortInterests(INTERESTS).map((i) => (
+            {sortInterests(PICKABLE_INTERESTS).map((i) => (
             <option key={i.id} value={i.id}>
               {i.icon} {i.label}
             </option>

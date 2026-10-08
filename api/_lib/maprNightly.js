@@ -264,7 +264,7 @@ export async function postToSlack(text, { url = process.env.SLACK_WEBHOOK_URL, f
   }
 }
 
-export async function runDaily(db, { now = Date.now(), ds = null, slack = postToSlack } = {}) {
+export async function runDaily(db, { now = Date.now(), ds = null, slack = postToSlack, stagnation = true } = {}) {
   const data = ds || (await loadStatsData(db));
   const statusSnap = await db.collection(MODEL_COLLECTION).doc('status').get();
   const status = statusSnap.exists ? statusSnap.data() : {};
@@ -298,6 +298,9 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   // Stagnation flags, owner-only (the app raises epsilon and offers "Shake
   // things up?"). Cleared for users who are no longer stagnating.
   const flagged = new Set(stagnatingUserIds(data, now));
+  // The dashboard's 5-minute refresh is "numbers only": the flags change what
+  // users see, so only the nightly run moves them.
+  if (!stagnation) return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites };
   const existing = await db.collection(USER_MODEL_COLLECTION).where('stagnating', '==', true).get();
   const writes = [];
   const already = new Set(existing.docs.map((d) => d.id));

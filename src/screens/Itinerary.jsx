@@ -20,6 +20,7 @@ import { getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { geocodeLocation } from '../lib/geocode';
 import { useStopAddresses } from '../lib/useStopAddresses';
+import { usePlacePacksVersion } from '../lib/placePacks';
 import { distanceMeters } from '../lib/geo';
 import { matchesSearch } from '../lib/search';
 import {
@@ -355,6 +356,9 @@ export default function Itinerary() {
   // added -- those get a landmark-shaped stand-in so the route, map and
   // directions treat them the same (no check-in or rating: they aren't in
   // the catalog, so there's nothing to award points for).
+  // Re-read when the place packs (Miami, Philly, SF...) register: region is
+  // the same object before and after, so imported stops stayed hidden.
+  const placePacksVersion = usePlacePacksVersion();
   const selectedLandmarks = useMemo(() => {
     if (!region) return [];
     const ids = trip.byRegion[region.id] || [];
@@ -381,7 +385,7 @@ export default function Itinerary() {
       typicalMinutes: 45,
     }));
     return [...region.landmarks.filter((l) => ids.includes(l.id)), ...customs, ...places];
-  }, [region, trip.byRegion, trip.placesByRegion, customLms]);
+  }, [region, trip.byRegion, trip.placesByRegion, customLms, placePacksVersion]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Tapping Map from here frames every stop in this itinerary. Declared
   // after the effect above that calls setMapFocus (which clears it).
@@ -628,6 +632,8 @@ export default function Itinerary() {
   };
   // Leaving the city's itinerary drops any directions that were open.
   useEffect(() => setNav(null), [openReg]);
+  // Edit mode belongs to the city it was opened on.
+  useEffect(() => setEditing(false), [openReg]);
 
   // How many of this city's planned landmarks you've already checked in at.
   const visitedCount = selectedLandmarks.filter((l) => claimedMap[l.id]).length;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
@@ -38,6 +38,7 @@ import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
 import { monthKey, displayStreakCount } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
+import { useToast } from '../lib/ToastContext';
 import { SkeletonList } from '../components/Skeleton';
 import MaprPickImage from '../components/MaprPickImage';
 
@@ -631,7 +632,17 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
   // The city you are in right now (GPS), else the streak's own city.
-  const hereCity = nearestPickableCity(coords ? { lat: coords.lat, lng: coords.lng } : null, 30) || streak.cityId;
+  // Only needed once the day is done (the carousel), and only when the fix
+  // moves ~1 km: this scans every landmark, so not on each GPS tick.
+  const hereLat = coords ? Math.round(coords.lat * 100) / 100 : null;
+  const hereLng = coords ? Math.round(coords.lng * 100) / 100 : null;
+  const hereCity = useMemo(
+    () => (dayDone && hereLat != null ? nearestPickableCity({ lat: hereLat, lng: hereLng }, 30) : null) || streak.cityId,
+    [dayDone, hereLat, hereLng, streak.cityId]
+  );
+  // Stable carousel props, so it doesn't re-rank on every render.
+  const pickReviews = useMemo(() => Object.values(myReviews || {}), [myReviews]);
+  const pickCheckedInIds = useMemo(() => [...(visitedIds || [])], [visitedIds]);
 
   // If the close call right after the last rating failed (a network blip --
   // it's also what used to throw the rating back out of the optimistic
@@ -757,8 +768,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
           </p>
           <div style={{ marginTop: 12 }}>
             <MaprPicksCarousel
-              reviews={Object.values(myReviews || {})}
-              checkedInIds={[...(visitedIds || [])]}
+              reviews={pickReviews}
+              checkedInIds={pickCheckedInIds}
               homeCityId={hereCity}
               scope="streak"
             />
@@ -896,6 +907,7 @@ export default function MyStreaks() {
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
   const { streaks: storedStreaks, leaveStreak } = usePairStreaks();
+  const toast = useToast();
   // A streak doc keeps the partner's handle from the day it was created; a
   // partner who has renamed since would keep showing under the old one.
   // Friends carry their live username (listFriends), so prefer that.
@@ -975,7 +987,11 @@ export default function MyStreaks() {
 
   const handleLeave = async (id) => {
     setOpenDualId(null);
-    await leaveStreak(id);
+    try {
+      await leaveStreak(id);
+    } catch (e) {
+      toast?.show(friendlyError(e, "Couldn't leave the streak. Try again."));
+    }
   };
 
   return (

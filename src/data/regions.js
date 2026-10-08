@@ -319,6 +319,12 @@ export const INTERESTS = [
   { id: 'campus-life', label: 'Campus Life', icon: '\u{1F3EB}', added: 3 },
 ];
 
+// Categories left out of the pickers (category dropdowns, trip interests,
+// taste chips) for now. Their landmarks still exist, show on the map and in
+// search; remove an id here to bring the category back everywhere.
+export const HIDDEN_INTEREST_IDS = new Set(['formula-1']);
+export const PICKABLE_INTERESTS = INTERESTS.filter((i) => !HIDDEN_INTEREST_IDS.has(i.id));
+
 // Retired category ids and where their landmarks live now. Dorms folded
 // into Campus Life; saved filters and older custom landmarks may still
 // carry the old id.

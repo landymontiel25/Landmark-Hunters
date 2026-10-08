@@ -51,7 +51,15 @@ async function handler(req, res) {
   if (!(await guardAiRequest(req, res, { key: 'classify-interest', limit: 30, windowMs: 10 * 60 * 1000 }))) return;
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    // A malformed body is the caller's 400, not an "AI request failed" 500
+    // logged as an upstream failure.
+    let body;
+    try {
+      body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+    } catch {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
     const interest = String(body.interest || '').trim().slice(0, 60);
     if (!interest) {
       res.status(400).json({ error: 'Missing interest.' });
@@ -63,9 +71,10 @@ async function handler(req, res) {
       'CATALOG (region/id | name | description):\n' +
       ALL_LANDMARKS.map((l) => `${l.regionId}/${l.id} | ${l.name} | ${(l.summary || '').slice(0, 140)}`).join('\n');
 
-    // Reads ANTHROPIC_API_KEY from env. A long reply (up to 6000 tokens) needs
-    // the long budget; without one the SDK waits 10 minutes and retries, so
-    // Vercel kills the function with a non-JSON page first.
+    // Reads ANTHROPIC_API_KEY from env. The SDK default (10 minutes, 2
+    // retries) outlives the 60 s function limit (vercel.json), which then
+    // cuts the call off with an HTML 504; the full-catalog answer is long
+    // (up to 6000 tokens), so it gets the long budget.
     const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
     const msg = await client.messages.create({

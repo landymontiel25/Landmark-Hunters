@@ -29,7 +29,9 @@ import {
 //   mapr_ncf_model/current, mapr_similarity_matrix/current (weekly + latency)
 
 export const DASHBOARD_DAYS = 30;
-export const DASHBOARD_COHORTS = 30;
+// 91 so the oldest cohort is past day 90 (and day 30): with 30, day 30 was
+// always tomorrow and the 30/90-day numbers stayed empty.
+export const DASHBOARD_COHORTS = 91;
 const BATCH = 400;
 
 async function writeAll(db, writes) {

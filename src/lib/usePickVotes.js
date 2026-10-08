@@ -19,6 +19,9 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
   // Landmarks whose answer was saved during this visit (any verdict), so a
   // "3 answered today" counter can move the instant a save lands.
   const [answeredIds, setAnsweredIds] = useState(() => new Set());
+  // landmarkId -> when that answer was made, so a "today" counter can drop
+  // answers from before midnight while the screen stays open.
+  const [answeredAt, setAnsweredAt] = useState({});
   const ctx = useRef({});
   ctx.current = { uid, origin, onSaved, removeOnAnyVote };
   const last = useRef({}); // landmarkId -> { landmark, verdict, requestFor } for Try again
@@ -40,6 +43,7 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
       if (!alive.current) return;
       setVotes((cur) => ({ ...cur, [entry.landmarkId]: { verdict: entry.verdict, status: 'idle', tryingVerdict: null } }));
       setAnsweredIds((cur) => new Set(cur).add(entry.landmarkId));
+      setAnsweredAt((cur) => ({ ...cur, [entry.landmarkId]: Number(entry.at) || Date.now() }));
       // Not for me always takes the card out. Where a place is asked about once
       // (the Profile carousel), any answer does: it is already answered.
       if (entry.verdict === 'no' || ctx.current.removeOnAnyVote) setRemoved((cur) => new Set(cur).add(entry.landmarkId));
@@ -50,6 +54,19 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
 
   // Answers already saved (so a returning user sees them selected), plus any
   // tap still waiting offline, flagged "not saved yet".
+  // A different account (or sign-out) starts clean: the old account's
+  // answers must not show as selected or count toward the new one's day.
+  const lastUid = useRef(uid);
+  useEffect(() => {
+    if (lastUid.current === uid) return;
+    lastUid.current = uid;
+    setVotes({});
+    setRemoved(new Set());
+    setAnsweredIds(new Set());
+    setAnsweredAt({});
+    last.current = {};
+  }, [uid]);
+
   useEffect(() => {
     if (!uid) return undefined;
     let cancelled = false;
@@ -71,7 +88,9 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
     });
     const flush = () =>
       flushPendingPickVotes(uid)
-        .then((saved) => saved.forEach(applySaved))
+        .then((saved) => {
+          if (!cancelled) saved.forEach(applySaved);
+        })
         .catch(() => {});
     flush();
     window.addEventListener('online', flush);
@@ -108,5 +127,5 @@ export function usePickVotes({ uid, origin = null, onSaved = null, removeOnAnyVo
     [vote]
   );
 
-  return { votes, removed, answeredIds, vote, retry };
+  return { votes, removed, answeredIds, answeredAt, vote, retry };
 }

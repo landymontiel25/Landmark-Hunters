@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTrip } from '../lib/TripContext';
-import { INTERESTS } from '../data/regions';
+import { PICKABLE_INTERESTS as INTERESTS } from '../data/regions';
 import { classifyInterest } from '../lib/interestClassifier';
 import AddInterestChip from './AddInterestChip';
 import { Skeleton } from './Skeleton';

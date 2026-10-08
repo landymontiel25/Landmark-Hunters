@@ -176,7 +176,8 @@ export async function enrichLandmark({ name, lat, lng, userFacts = [], placeCont
   const raw = msg.content
     .filter((b) => b.type === 'text')
     .map((b) => b.text)
-    .join('\n')
+    // Web-search answers split the text around citations; '\n' broke the JSON.
+    .join('')
     .trim();
   const parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
 
@@ -204,7 +205,8 @@ export async function enrichLandmark({ name, lat, lng, userFacts = [], placeCont
     resolvedName,
     summary: stripCitationTags(String(parsed.summary || '')).slice(0, 300),
     facts: (Array.isArray(parsed.facts) && parsed.facts.length ? parsed.facts : userFacts)
-      .map((f) => stripCitationTags(String(f)).slice(0, 160))
+      .filter((f) => typeof f === 'string' && f.trim())
+      .map((f) => stripCitationTags(f).slice(0, 160))
       .slice(0, 5),
     free: parsed.free !== false,
     category,

@@ -35,8 +35,7 @@ export const APP_HELP =
   `picking for you"; the number counts down as you rate, e.g. "Rate 1 more place", with a "Rate places" button that opens the Landmarks tab where every row has a quick-rate button, and the Trip planner's "The usual"/"Something new" lock counts down the same way) and location turned on ("Turn on location to see picks near you"). A set is kept for 4 hours; an older one ` +
   `stays on screen with "Updating…" while a new one loads, and offline your last picks stay up. It hides while directions, a ` +
   `trip route, the search or category panel, or pin placement is open. No notifications, no background location.\n` +
-  `- Select all: on the Landmarks list, once you pick a single city, "✅ Select All" adds every landmark the current filters show to that ` +
-  `city's itinerary ("Clear" undoes it). A group trip's "➕ Add Landmarks" card has "Select all" / "Clear all" too, for everyone in the trip.\n` +
+  `- The Landmarks list has no "Suggest For Me" or "Select All" buttons; you tick landmarks one at a time, and "Clear" removes the city's picks. A group trip's "➕ Add Landmarks" card has "Select all" / "Clear all" too, for everyone in the trip.\n` +
   `- An open itinerary's stops (solo or group -- both work exactly the same way, group trips just have more people on them) are just always sorted ` +
   `"Nearest to me" automatically (a walkable route, not just closest-to-you-first) until you've customized the order -- nothing to pick, no dropdown, ` +
   `that's simply the default. An "✏️ Edit List" button switches every stop to an edit layout, same idea as iOS Weather's location list: a red "−" ` +
@@ -287,7 +286,7 @@ export const APP_HELP =
   `it warns you if that spot looks like it's already on the map (with a link to view the existing one). A typed-name guess is just a heads-up -- ` +
   `dismissible with "This is a different place" since the name match can be a false positive. Picking an existing landmark directly out of the ` +
   `address search's own suggestions is different -- that can't be a false positive, so there's no "different place" option for it and submitting ` +
-  `is blocked until you either view the existing one or change what you typed/picked. A landmark added more than ~100 km from any curated ` +
+  `is blocked until you either view the existing one or change what you typed/picked. Existing landmarks in those suggestions show their street address underneath, and when you are within about 500 m of one it comes first, labeled "Nearest to you". A landmark added more than ~100 km from any curated ` +
   `city shows as a "Custom pin" with no city: you can check in, rate and view it, but it has no "Add to Itinerary" button since there's no ` +
   `city itinerary for it. Landmarks added inside a curated city do show up in that city's itinerary when added. Photos are shrunk before upload.\n` +
   `- You can also add one through Mapr just by saying "make a landmark for where I am" (or "add this place", "create a landmark here"). ` +

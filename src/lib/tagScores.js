@@ -43,7 +43,8 @@ export const FULL_VALUE_RATINGS = 5;
 // user is new to, fading linearly to zero by WARM_START_RATINGS local ratings.
 export const WARM_START_WEIGHT = 0.4;
 export const WARM_START_RATINGS = 15;
-// Scores this close count as a tie, and the tag with more ratings behind it wins.
+// Width of the score bands that count as a tie (scoreShortlist); within a
+// band, the tag with more ratings behind it wins.
 export const CLOSE_SCORE = 3;
 // Shortlist slots held for tags the user has barely rated.
 export const WILDCARD_SLOTS = 4;
@@ -415,8 +416,9 @@ function takeWithTagLimit(ranked, limit, tagLimit) {
 }
 
 // Step 6 (+ steps 9 and 10): sum the user's effective tag scores over each
-// landmark's tags. Scores within CLOSE_SCORE of each other rank by how many
-// ratings back the tag, then by check-in count and editorial popularity.
+// landmark's tags. Scores in the same CLOSE_SCORE-wide band (0-2.9, 3-5.9,
+// ...; fixed bands, so the sort stays consistent) rank by how many ratings
+// back the tag, then by check-in count and editorial popularity.
 // Keeps at most PER_TAG_LIMIT per tag, and holds WILDCARD_SLOTS for tags the
 // user has barely rated so picks can find new interests.
 export function scoreShortlist({
