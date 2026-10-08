@@ -209,17 +209,29 @@ export function trimTurns(incoming) {
 export const ASKS_FOR_LONGER = /\b(tell me more|more (detail|info|about)|details?|explain|elaborate|in depth|in detail|step[- ]by[- ]step|longer|full (list|hours|schedule)|everything)\b/i;
 // Sentence split that doesn't cut at "St.", "Dr." or "e.g.", nor at "a.m." /
 // "p.m." when the sentence goes on ("9 a.m. to 5 p.m. daily").
-// "St.", "Dr." and "Mt." glue only after a lowercase word ("in St. Louis",
-// "see Dr. Smith"); after a capitalized name ("Main St. Great tacos.") they
-// end the sentence. Street types (Ave., Rd.) always end it.
-const TITLE_ABBR = /(?:^|\s[a-z][\w'-]*\s)(?:St|Dr|Mt)\.$|(?:^|\s)(?:Mr|Mrs|Ms|Jr|Sr|vs|e\.g|i\.e|approx)\.$/;
+// Sentence split that doesn't cut at "e.g." or "Mr.", at "a.m."/"p.m." when
+// the sentence goes on ("9 a.m. to 5 p.m. daily"), or at "St."/"Mt."/"Dr."
+// in a name ("Climb Mt. Rainier", "Head to St. Louis", "5 Main St. at noon").
+// After a street name that isn't the sentence's first word ("on Main St.
+// Great tacos.") it is a sentence end.
+const ALWAYS_ABBR = /(?:^|\s)(?:Mr|Mrs|Ms|Jr|Sr|vs|e\.g|i\.e|approx|No|est)\.$/i;
+const NAME_ABBR = /(?:^|\s)(St|Mt|Dr|Ft)\.$/;
 const TIME_ABBR = /(?:^|\s)[ap]\.m\.$/i;
+function glues(prev, part) {
+  if (ALWAYS_ABBR.test(prev)) return true;
+  if (TIME_ABBR.test(prev)) return /^[a-z0-9]/.test(part);
+  if (!NAME_ABBR.test(prev)) return false;
+  if (/^[a-z0-9]/.test(part)) return true;
+  const words = prev.split(/\s+/);
+  const before = words.length >= 2 ? words[words.length - 2] : '';
+  return !before || words.length === 2 || /^[a-z]/.test(before) || before.endsWith(',');
+}
 function splitSentences(text) {
   const parts = text.split(/(?<=[.!?])\s+/).filter(Boolean);
   const out = [];
   for (const part of parts) {
     const prev = out[out.length - 1];
-    if (prev && (TITLE_ABBR.test(prev) || (TIME_ABBR.test(prev) && /^[a-z]/.test(part)))) out[out.length - 1] = `${prev} ${part}`;
+    if (prev && glues(prev, part)) out[out.length - 1] = `${prev} ${part}`;
     else out.push(part);
   }
   return out;
@@ -244,7 +256,7 @@ export function conciseReply(reply, userText = '') {
 // after the street type ("Ave NW") and the city, state and ZIP stay in the
 // match. A city (1-3 capitalized words) is kept only when a state follows,
 // so a capitalized next sentence is never swallowed.
-const STREET = /\b\d{1,6}\s+(?!(?:[Bb]locks?|[Mm]inutes?|[Mm]ins?|[Mm]iles?|[Hh]ours?|[Ss]teps?|[Ss]tops?|[Ff]eet|[Mm]eters?)\b)(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:\s+[NS][EW]\b)?(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:(?:,\s*(?![A-Z]{2}\b)[A-Z][\w'-]*(?:\s+[A-Z][\w'-]*){0,2}){0,2},\s*[A-Z]{2}\b(?:\s+\d{5})?)?/g;
+const STREET = /\b\d{1,6}\s+(?!(?:[Bb]locks?|[Mm]inutes?|[Mm]ins?|[Mm]iles?|[Hh]ours?|[Ss]teps?|[Ss]tops?|[Ff]eet|[Mm]eters?)\b)(?:[NSEW]\.?\s+|(?:North|South|East|West)\s+)?(?:[A-Z0-9][\w'.-]*\s+){1,4}(?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Way|Dr|Drive|Ln|Lane|Ct|Court|Pl|Place|Hwy|Highway|Pkwy|Parkway|Ter|Terrace|Cir|Circle|Sq|Square|Pike|Trail)\b(?:\s+[NS][EW]\b)?(?:,?\s*(?:Suite|Ste|Unit|#)\s*\w+)?(?:(?:,\s*(?![A-Z]{2}\b)(?:(?:St|Ft|Mt)\.\s+)?[A-Z][\w'-]*(?:\s+[A-Z][\w'-]*){0,2}){0,2},\s*[A-Z]{2}\b(?:\s+\d{5})?)?/g;
 export function linkAddresses(reply, stops = []) {
   let out = String(reply || '');
   stops.forEach((st, i) => {
@@ -261,10 +273,10 @@ export function linkAddresses(reply, stops = []) {
 // "can i rate here", "rate this place": a request to rate wherever they are.
 // "rate" must be the verb ("I rate", "to rate", "Rate this"), so "what's the
 // crime rate here?" or "a first-rate spot" isn't read as an ask to rate.
-const RATE_VERB = String.raw`(?<!-)(?<!\b(?:the|a|an|my|your|our|their|its|crime|exchange|interest|tax|hotel|room|heart|success|birth|growth|death|flat|going|hourly|daily|nightly|conversion|error|frame|data|bit)\s+)\brate\b`;
+const RATE_VERB = String.raw`(?:^|[.!?,]\s*|\b(?:i|me|to|we|you|u|us|let's|lets|please|pls|wanna|gonna|lemme|and|then|can|could|will|would|should|ok|okay|yes|sure|now)\s+|(?:'ll|'d)\s+)rate\b`;
 const RATE_HERE = new RegExp(`${RATE_VERB}[^.?!]{0,30}\\b(here|this (place|spot|one)|where i am)\\b`, 'i');
 const RATE_ANY = new RegExp(
-  `\\b(can|could|let|want|wanna|like|how do|how can)\\b[^.?!]{0,25}${RATE_VERB}|${RATE_VERB} (some|a few|more|places|landmarks|stuff)\\b|\\bplaces? to rate\\b`,
+  `\\b(can|could|let|want|wanna|like|how do|how can)\\b[^.?!]{0,25}${RATE_VERB}|${RATE_VERB} (some|a few|more|places|landmarks|stuff)\\b|\\bplaces? to rate\\b|\\b(?:i|we|you|u)\\s+(?:can|could)\\s+rate\\b`,
   'i'
 );
 export const asksToRateHere = (text) => RATE_HERE.test(String(text || '').trim());

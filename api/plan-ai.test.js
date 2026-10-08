@@ -113,3 +113,20 @@ describe('plan-ai text helpers: review follow-ups', () => {
     expect(conciseReply('Head to St. Louis next. Fun. Third.', 'x')).toBe('Head to St. Louis next. Fun.');
   });
 });
+
+describe('plan-ai text helpers: second review', () => {
+  it('treats price "rates" as questions, not asks to rate', () => {
+    for (const t of ['Is there a student rate here?', 'Can I get a lower rate here?', 'what rate do they charge here']) {
+      expect(asksToRate(t)).toBe(false);
+      expect(asksToRateHere(t)).toBe(false);
+    }
+    expect(asksToRate('stuff I could rate')).toBe(true);
+  });
+  it('links cities that start with St. or Ft.', () => {
+    expect(linkAddresses('1 Las Olas Blvd, Ft. Lauderdale, FL is it')).toBe('{{addressq:1%20Las%20Olas%20Blvd%2C%20Ft.%20Lauderdale%2C%20FL}} is it');
+  });
+  it('keeps names with Mt. and St. in one sentence', () => {
+    expect(conciseReply('Climb Mt. Rainier today. Fun. Third.', 'x')).toBe('Climb Mt. Rainier today. Fun.');
+    expect(conciseReply('Go to 5 Main St. at noon. Great. Third.', 'x')).toBe('Go to 5 Main St. at noon. Great.');
+  });
+});
