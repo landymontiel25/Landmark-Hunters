@@ -95,7 +95,8 @@ export function streetAddress(lat, lng) {
     if (wait > 0) await new Promise((r) => setTimeout(r, wait));
     streetLastAt = Date.now();
     const label = await lookupStreetAddress(lat, lng, key);
-    if (!label) streetMisses.set(key, Date.now());
+    // Offline isn't a miss: try again as soon as the connection is back.
+    if (!label && !(typeof navigator !== 'undefined' && navigator.onLine === false)) streetMisses.set(key, Date.now());
     return label;
   });
   streetQueue = run.catch(() => null);
