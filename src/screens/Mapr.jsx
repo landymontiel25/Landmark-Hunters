@@ -128,6 +128,22 @@ function ReplyText({ text, stops = [], near }) {
 
 // "near me", "nearby", "closest"...: the reply's places open closest first.
 const NEAR_ME_ASK = /\b(near me|nearby|near here|around me|around here|close to me|closest|nearest|walking distance)\b/i;
+// The ask behind the reply at index i. A general "what's near me?" gets a
+// "What kind of place?" question with no places; the tapped answer ("Food")
+// still belongs to that near-me ask, so look back past a reply with no stops.
+function askedNearMe(messages, i) {
+  let userTurns = 0;
+  for (let j = i - 1; j >= 0 && userTurns < 2; j--) {
+    const x = messages[j];
+    if (x.role === 'user') {
+      userTurns += 1;
+      if (NEAR_ME_ASK.test(x.text || '')) return true;
+    } else if (x.stops?.length) {
+      return false;
+    }
+  }
+  return false;
+}
 
 export default function Mapr() {
   const navigate = useNavigate();
@@ -950,8 +966,7 @@ export default function Mapr() {
               {m.stops?.length > 0 && (() => {
                 // Closest first by default when they asked for places near
                 // them; tap Top rated to order by stars instead.
-                const asked = [...messages.slice(0, i)].reverse().find((x) => x.role === 'user')?.text || '';
-                const sortBy = stopSort[m.id] || (NEAR_ME_ASK.test(asked) ? 'closest' : 'mapr');
+                const sortBy = stopSort[m.id] || (askedNearMe(messages, i) ? 'closest' : 'mapr');
                 const entries = m.stops.map((stop, idx) => {
                   const lm = !stop.external ? getLandmark(stop.region, stop.id) : null;
                   const sLat = stop.lat ?? lm?.lat;
