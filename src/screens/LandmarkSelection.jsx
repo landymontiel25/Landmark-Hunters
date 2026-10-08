@@ -22,7 +22,7 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
-import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, sortInterests, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, PICKABLE_INTERESTS, sortInterests, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -674,7 +674,7 @@ export default function LandmarkSelection() {
             onChange={(e) => setActiveCategories(e.target.value ? [e.target.value] : [])}
           >
             <option value="">All categories</option>
-            {sortInterests(INTERESTS).map((i) => (
+            {sortInterests(PICKABLE_INTERESTS).map((i) => (
             <option key={i.id} value={i.id}>
               {i.icon} {i.label}
             </option>

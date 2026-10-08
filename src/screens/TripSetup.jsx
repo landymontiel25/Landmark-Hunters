@@ -8,7 +8,7 @@ import { Skeleton, SkeletonList } from '../components/Skeleton';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
-import { INTERESTS, getRegion } from '../data/regions';
+import { PICKABLE_INTERESTS, getRegion } from '../data/regions';
 import { nearestRegionId } from '../lib/geo';
 import { classifyInterest } from '../lib/interestClassifier';
 import { listFriends } from '../lib/friends';
@@ -280,7 +280,7 @@ export default function TripSetup() {
           </div>
         )}
         <div className="chip-grid">
-          {INTERESTS.map((i) => (
+          {PICKABLE_INTERESTS.map((i) => (
             <button
               key={i.id}
               type="button"

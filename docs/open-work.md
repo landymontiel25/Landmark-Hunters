@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Formula 1 Circuits hidden from category pickers
+
+Owner asked to toggle "Formula 1 Circuits" off in the category pickers for now
+(Landmarks tab dropdown, Add Landmark category, trip interests, taste chips;
+the Map filter already hid it). The landmarks stay in the app. To bring the
+category back, remove `'formula-1'` from `HIDDEN_INTEREST_IDS` in
+`src/data/regions.js` (and from `HIDDEN_CATEGORIES` in
+`src/components/MapCategoryFilter.jsx` for the map).
+
 ## "Your places" onboarding step (test tab only)
 
 Built in the admin Test tab (`OnboardingLab`): sign-up, then "Tell us up to
