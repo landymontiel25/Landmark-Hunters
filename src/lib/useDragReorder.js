@@ -32,18 +32,26 @@ export function useDragReorder(ids, onReorder) {
   const startRectsRef = useRef([]); // [{ id, top, height }], captured at drag start
   const gapRef = useRef(10);
   const finalOrderRef = useRef(ids);
+  // The owner's latest ids, so a drop reconciles with stops added or removed
+  // by someone else while the drag was in flight.
+  const idsRef = useRef(ids);
+  idsRef.current = ids;
+  // Removes the live drag's window listeners without saving (unmount).
+  const cancelDragRef = useRef(null);
+  useEffect(() => () => cancelDragRef.current?.(), []);
 
   // Re-sync to the source of truth whenever the underlying set of ids
   // changes (a landmark added/removed) -- but not while a drag is in
   // flight, so an in-progress drag never gets clobbered by its own
   // eventual write-back.
   const idsKey = ids.join('|');
+  // draggingId is a dep so a change that arrived mid-drag syncs once it ends.
   useEffect(() => {
     if (dragId.current) return;
     setOrder(ids);
     orderRef.current = ids;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idsKey]);
+  }, [idsKey, draggingId]);
 
   const registerNode = (id) => (node) => {
     if (node) nodesRef.current[id] = node;
@@ -88,7 +96,10 @@ export function useDragReorder(ids, onReorder) {
   const startDrag = (id) => (e) => {
     // Only the primary button/touch, and don't hijack normal taps elsewhere.
     if (e.button != null && e.button !== 0) return;
+    // One drag at a time; a second finger doesn't start another.
+    if (dragId.current) return;
     e.preventDefault();
+    const pointerId = e.pointerId;
     dragId.current = id;
     setDraggingId(id);
     setDragY(0);
@@ -112,17 +123,30 @@ export function useDragReorder(ids, onReorder) {
     }
     finalOrderRef.current = orderRef.current;
 
+    // Only the finger that started the drag moves or drops it.
+    const mine = (ev) => pointerId == null || ev.pointerId == null || ev.pointerId === pointerId;
+    const detach = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+      cancelDragRef.current = null;
+    };
     const onMove = (ev) => {
+      if (!mine(ev)) return;
       setDragY(ev.clientY - startYRef.current);
       const finalIds = orderFor(ev.clientY);
       finalOrderRef.current = finalIds;
       applyShifts(finalIds);
     };
-    const onUp = () => {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      window.removeEventListener('pointercancel', onUp);
-      const finalIds = finalOrderRef.current;
+    const onUp = (ev) => {
+      if (ev && !mine(ev)) return;
+      detach();
+      // Keep only stops that still exist, and add any that arrived mid-drag,
+      // so a drop never deletes or brings back someone else's change.
+      const current = idsRef.current;
+      const live = new Set(current);
+      const kept = finalOrderRef.current.filter((x) => live.has(x));
+      const finalIds = [...kept, ...current.filter((x) => !kept.includes(x))];
       dragId.current = null;
       setDraggingId(null);
       setDragY(0);
@@ -134,6 +158,10 @@ export function useDragReorder(ids, onReorder) {
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onUp);
+    cancelDragRef.current = () => {
+      detach();
+      dragId.current = null;
+    };
   };
 
   // Keyboard alternative to the drag: ArrowUp / ArrowDown on the grip moves
