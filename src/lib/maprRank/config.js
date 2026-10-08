@@ -240,6 +240,10 @@ export const AB = {
   alpha: 0.05,
   minDays: 7,
   maxDays: 14,
+  // Treatment must stay under these to be promoted (metrics.js abTest).
+  guardrails: { skipRate: 0.3, repeatRate: 0.25 },
+  // Rollout report: a user with fewer ratings than this counts as new.
+  newUserRatings: 5,
 };
 
 // --- Storage ----------------------------------------------------------------
