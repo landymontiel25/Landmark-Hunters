@@ -181,6 +181,14 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
   if (!db || !uid) return;
   const resolved = given ? { places: given, complete: true } : await savedPlaces(profile);
   const { places } = resolved;
+  // Some saved places couldn't load (offline): save the swipes only. The
+  // summary, score seed and places stay as they were (building them from the
+  // shorter list would take those places' points out), and the version waits
+  // too, so the next save, with the places loaded, applies everything.
+  if (!resolved.complete) {
+    await setDoc(doc(db, 'users', uid), { swipeAnswers: answersToPairs(answers), updatedAt: serverTimestamp() }, { merge: true });
+    return;
+  }
   const { deltas, tagScores, tagScoresAt, applied } = seedTagScores(profile, answers, Date.now(), undefined, places);
   await setDoc(
     doc(db, 'users', uid),
@@ -188,9 +196,7 @@ export async function saveOnboardingResults(uid, profile, answers, { complete, p
       ...(complete ? { onboardingVersion: ONBOARDING_VERSION } : {}),
       swipeAnswers: answersToPairs(answers),
       swipeSummary: swipeSummary(answers, places),
-      // Saved places that couldn't load (offline) are never overwritten
-      // with a shorter list.
-      ...(places.length && resolved.complete ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
+      ...(places.length ? { onboardingPlaces: places.map((l) => ({ regionId: l.regionId, id: l.id, name: l.name })) } : {}),
       onboardingSwipeDeltas: deltas,
       ...(Object.keys(tagScores).length ? { tagScores, tagScoresAt, onboardingSwipeApplied: applied } : {}),
       updatedAt: serverTimestamp(),
