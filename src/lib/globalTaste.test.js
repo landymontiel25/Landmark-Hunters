@@ -121,3 +121,24 @@ describe('seedTagScores with one overall taste', () => {
     expect(out.tagScores[GLOBAL_TASTE]).toBeUndefined();
   });
 });
+
+describe('seedTagScores redo near the cap', () => {
+  const food = ALL_SWIPE_CARDS.filter((c) => c.tag === ALL_SWIPE_CARDS.find((x) => x.word === 'Steak').tag);
+  it('takes out only what the last save really added', () => {
+    const tag = food[0].tag;
+    const loved = food.map((card) => ({ card, answer: 'love' }));
+    const profile = { tagScores: { miami: { [tag]: 80 } }, tagScoresAt: { miami: { [tag]: NOW } } };
+    const first = seedTagScores(profile, loved, NOW, ['miami']);
+    expect(first.tagScores.miami[tag]).toBe(100);
+    const after = {
+      ...profile,
+      tagScores: first.tagScores,
+      tagScoresAt: first.tagScoresAt,
+      onboardingSwipeDeltas: first.deltas,
+      onboardingSwipeApplied: first.applied,
+    };
+    // Redo with none of them loved: back to the 80 earned by ratings.
+    const redo = seedTagScores(after, [], NOW, ['miami']);
+    expect(redo.tagScores.miami[tag]).toBe(80);
+  });
+});
