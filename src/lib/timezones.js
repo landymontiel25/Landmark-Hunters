@@ -1,3 +1,5 @@
+import { canonicalRegionId } from '../data/regions';
+
 // Lets Admin Mode's check-in date/time editor show and accept the
 // landmark's OWN local time (EST, CET, etc.) instead of whichever timezone
 // the admin's device happens to be in -- editing "when I checked in" in
@@ -5,8 +7,6 @@
 // is.
 const REGION_TIMEZONES = {
   miami: 'America/New_York',
-  'key-biscayne': 'America/New_York',
-  'coral-gables': 'America/New_York',
   'san-francisco': 'America/Los_Angeles',
   'silicon-valley': 'America/Los_Angeles',
   nyc: 'America/New_York',
@@ -31,7 +31,8 @@ const REGION_TIMEZONES = {
 // to the admin's own timezone. Etc/GMT's sign is inverted from normal
 // convention (Etc/GMT-5 is UTC+5), which this accounts for.
 export function regionTimezone(regionId, lng) {
-  if (REGION_TIMEZONES[regionId]) return REGION_TIMEZONES[regionId];
+  const known = REGION_TIMEZONES[canonicalRegionId(regionId)];
+  if (known) return known;
   if (typeof lng === 'number' && Number.isFinite(lng)) {
     const offset = Math.max(-12, Math.min(14, Math.round(lng / 15)));
     return offset === 0 ? 'Etc/UTC' : `Etc/GMT${offset > 0 ? '-' : '+'}${Math.abs(offset)}`;

@@ -22,7 +22,7 @@ vi.mock('firebase/firestore', () => ({
   serverTimestamp: vi.fn(),
 }));
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
-vi.mock('../data/regions', () => ({ normalizeCategories: (c) => c }));
+vi.mock('../data/regions', () => ({ normalizeCategories: (c) => c, canonicalRegionId: (r) => r }));
 
 const { getCustomLandmark } = await import('./customLandmarks');
 

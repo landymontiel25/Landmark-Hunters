@@ -27,29 +27,9 @@ export const REGIONS = [
     country: 'USA',
     center: { lat: 25.7743, lng: -80.1937 },
     viewbox: { minLat: 25.3, minLng: -80.6, maxLat: 25.95, maxLng: -80.05 },
-    landmarks: MIAMI_LANDMARKS,
-  },
-  {
-    id: 'key-biscayne',
-    name: 'Key Biscayne',
-    tagline: 'Island beaches, a historic lighthouse & bay views',
-    city: 'Key Biscayne',
-    state: 'Florida',
-    country: 'USA',
-    center: { lat: 25.6908, lng: -80.1625 },
-    viewbox: { minLat: 25.63, minLng: -80.21, maxLat: 25.8, maxLng: -80.12 },
-    landmarks: KEYBISCAYNE_LANDMARKS,
-  },
-  {
-    id: 'coral-gables',
-    name: 'Coral Gables',
-    tagline: 'The City Beautiful — Mediterranean charm & Miracle Mile',
-    city: 'Coral Gables',
-    state: 'Florida',
-    country: 'USA',
-    center: { lat: 25.7519, lng: -80.2562 },
-    viewbox: { minLat: 25.72, minLng: -80.28, maxLat: 25.77, maxLng: -80.24 },
-    landmarks: CORALGABLES_LANDMARKS,
+    // Greater Miami: the city plus Coral Gables and Key Biscayne, which used
+    // to be regions of their own (see REGION_ALIASES).
+    landmarks: [...MIAMI_LANDMARKS, ...CORALGABLES_LANDMARKS, ...KEYBISCAYNE_LANDMARKS],
   },
   {
     id: 'san-francisco',
@@ -231,8 +211,19 @@ export const REGIONS = [
 // on the map, in search, and in "All cities" landmark lists.
 export const PICKABLE_REGIONS = REGIONS.filter((r) => !r.worldwide);
 
+// Regions folded into another one. Check-ins, reviews, itineraries and links
+// saved before the merge still carry the old id, so every lookup maps it to
+// the region that absorbed it. Landmark ids did not change.
+export const REGION_ALIASES = {
+  'key-biscayne': 'miami',
+  'coral-gables': 'miami',
+};
+
+export const canonicalRegionId = (id) => REGION_ALIASES[id] || id;
+
 export function getRegion(id) {
-  return REGIONS.find((r) => r.id === id) || null;
+  const rid = canonicalRegionId(id);
+  return REGIONS.find((r) => r.id === rid) || null;
 }
 
 export const ALL_LANDMARKS = REGIONS.flatMap((r) => r.landmarks.map((l) => ({ ...l, regionId: r.id })));
@@ -287,7 +278,7 @@ export function registerPlaces(places) {
 }
 
 export function getLandmark(regionId, landmarkId) {
-  const packed = packIndex.get(`${regionId}/${landmarkId}`);
+  const packed = packIndex.get(`${canonicalRegionId(regionId)}/${landmarkId}`);
   if (packed) return packed;
   const region = getRegion(regionId);
   return region?.landmarks.find((l) => l.id === landmarkId) || null;

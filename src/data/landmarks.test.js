@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId, legacyLandmarkIds } from './regions';
+import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId, legacyLandmarkIds, getRegion, getLandmark } from './regions';
 
 const KNOWN = new Set(INTERESTS.map((i) => i.id));
 
@@ -140,11 +140,19 @@ describe('catalog text and image hygiene', () => {
   });
 
   it('uses only valid, in-range coordinates (no zeros, no flipped signs for the Americas)', () => {
-    const WEST = new Set(['miami', 'key-biscayne', 'coral-gables', 'san-francisco', 'silicon-valley', 'nyc', 'philly', 'villanova']);
+    const WEST = new Set(['miami', 'san-francisco', 'silicon-valley', 'nyc', 'philly', 'villanova']);
     const bad = ALL_LANDMARKS.filter(
       (l) => l.lat === 0 || l.lng === 0 || Math.abs(l.lat) > 90 || Math.abs(l.lng) > 180 || (WEST.has(l.regionId) && (l.lng >= 0 || l.lat <= 0))
     );
     expect(bad.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
+  });
+
+  it('folds Coral Gables and Key Biscayne into Miami, old ids still resolve', () => {
+    expect(REGIONS.map((r) => r.id)).not.toContain('coral-gables');
+    expect(REGIONS.map((r) => r.id)).not.toContain('key-biscayne');
+    expect(getRegion('coral-gables')?.id).toBe('miami');
+    expect(getLandmark('coral-gables', 'alhambra-towers')?.name).toMatch(/Alhambra/);
+    expect(ALL_LANDMARKS.find((l) => l.id === 'alhambra-towers')?.regionId).toBe('miami');
   });
 
   it('keeps every region well formed (unique id, center inside its own map bounds)', () => {

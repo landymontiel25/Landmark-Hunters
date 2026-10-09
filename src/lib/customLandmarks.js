@@ -1,4 +1,4 @@
-import { normalizeCategories } from '../data/regions';
+import { normalizeCategories, canonicalRegionId } from '../data/regions';
 import { sharedRead, invalidating } from './sharedRead';
 import {
   doc,
@@ -35,7 +35,7 @@ export const normalizeRegion = (r) => (r && r !== 'null' && r !== 'undefined' ? 
 // gate. Nothing in the app reads or shows that value anymore.)
 // Also normalizes a missing/legacy "null" region so old docs stay readable.
 const withCategories = (l) => {
-  const out = { ...l, region: normalizeRegion(l.region) };
+  const out = { ...l, region: canonicalRegionId(normalizeRegion(l.region)) };
   return l.categories ? { ...out, categories: normalizeCategories(l.categories) } : out;
 };
 

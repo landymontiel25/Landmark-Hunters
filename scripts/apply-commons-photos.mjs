@@ -42,7 +42,13 @@ for (const r of found) {
 
 const byFile = new Map();
 for (const a of accepted) {
-  const f = path.join(DATA, `landmarks.${FILE_OF[a.regionId] || a.regionId}.js`);
+  // Coral Gables and Key Biscayne landmarks are Miami now but still live in
+  // their own data files, so look for the id in each of Miami's files.
+  const names = a.regionId === 'miami' ? ['miami', 'coralgables', 'keybiscayne'] : [FILE_OF[a.regionId] || a.regionId];
+  const f = names
+    .map((n) => path.join(DATA, `landmarks.${n}.js`))
+    .find((p) => new RegExp(`^\\s*id: ['"]${a.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"],`, 'm').test(fs.readFileSync(p, 'utf8'))) ||
+    path.join(DATA, `landmarks.${names[0]}.js`);
   if (!byFile.has(f)) byFile.set(f, []);
   byFile.get(f).push(a);
 }
