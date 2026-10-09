@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Coral Gables and Key Biscayne merged into Miami
+
+Both are now part of the `miami` region (`REGION_ALIASES` in
+`src/data/regions.js`). Landmark ids did not change; their data still lives
+in `landmarks.coralgables.js` and `landmarks.keybiscayne.js`, with
+`region: 'miami'`. Old itineraries, check-ins, reviews, custom landmarks and
+links that carry the old region id map to Miami on read (`getRegion`,
+`getLandmark`, `canonicalRegionId`, trip load, leaderboard city stats, Mapr
+nightly). Stored Firestore docs were not rewritten. Left open: the owner said
+"any landmarks currently in South Florida" too, but no other South Florida
+region exists, so nothing else moved. Other regions are untouched on request.
+
 ## Formula 1 Circuits hidden from category pickers
 
 Owner asked to toggle "Formula 1 Circuits" off in the category pickers for now

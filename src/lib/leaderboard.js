@@ -25,7 +25,7 @@ import { db, storage } from './firebase';
 import { isOffline, OFFLINE_MESSAGE } from './friendlyError';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
-import { REGIONS, canonicalLandmarkId } from '../data/regions';
+import { REGIONS, canonicalLandmarkId, canonicalRegionId } from '../data/regions';
 import { CHECKIN_RULE_METERS } from './maprConstants';
 
 export { distanceMeters };
@@ -519,10 +519,12 @@ export async function getUserStats(userId) {
     if (!isRealCheckin(x)) return;
     checkinsCount += 1;
     if (x.region) {
-      regions.add(x.region);
+      // Coral Gables and Key Biscayne count as Miami now.
+      const city = canonicalRegionId(x.region);
+      regions.add(city);
       const sec = x.createdAt?.seconds || 0;
-      if (sec > (cityLastVisit[x.region] || 0)) cityLastVisit[x.region] = sec;
-      cityPoints[x.region] = (cityPoints[x.region] || 0) + (x.points || 0);
+      if (sec > (cityLastVisit[city] || 0)) cityLastVisit[city] = sec;
+      cityPoints[city] = (cityPoints[city] || 0) + (x.points || 0);
     }
   });
   // Most-recently-visited city first, same ordering as the check-ins list.
