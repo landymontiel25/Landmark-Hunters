@@ -133,11 +133,24 @@ export const SV_BOX = [
   [37.15, -122.55],
 ];
 
+// Key Biscayne and Virginia Key, east of the Rickenbacker Causeway's
+// mainland end (the box stops short of Brickell and Coconut Grove).
+export const KB_SHAPE = [
+  [25.756, -80.185],
+  [25.756, -80.135],
+  [25.655, -80.135],
+  [25.655, -80.185],
+];
+// Virginia Key is north of Bear Cut (about 25.73 latitude).
+export const kbAreaOf = (lat) => (lat >= 25.728 ? 'Virginia Key' : 'Key Biscayne');
+
 export const IMPORT_REGIONS = {
   miami: {
     shape: MIAMI_SHAPE,
     packRegions: ['miami'],
     packRegionOf: () => 'miami',
+    // Research-first regions whose staged places join Miami's packs.
+    mergeFrom: ['kb'],
     // Commons photos of imported places must also be shown to be in the area.
     area: /\b(miami|coral gables|key biscayne|coconut grove|little havana|wynwood|brickell|south beach|virginia key|pinecrest|doral|hialeah|westchester|kendall|sweetwater|dade|biscayne)\b/,
   },
@@ -162,6 +175,19 @@ export const IMPORT_REGIONS = {
       ],
     },
     area: /\b(philadelphia|philly|villanova|radnor|wayne|rosemont|bryn mawr|haverford|ardmore|narberth|wynnewood|merion|conshohocken|manayunk|roxborough|east falls|fishtown|kensington|northern liberties|old city|society hill|center city|rittenhouse|fairmount|university city|south philly|passyunk|delaware county|montgomery county|main line)\b/,
+  },
+  // Research first (like sf), packed into Miami: build-packs.mjs --region
+  // miami merges data/kb/staged.json into Miami's packs (`mergeFrom`), so
+  // Miami's existing places stay as they are.
+  kb: {
+    shape: KB_SHAPE,
+    state: 'Florida',
+    defaultCity: 'Key Biscayne',
+    packRegions: ['miami'],
+    packRegionOf: () => 'miami',
+    areaOf: (lat) => kbAreaOf(lat),
+    curated: { target: 120, nightlifeShare: 0.1, minFillScore: 2, minCultureScore: 2, minWebFacts: 2 },
+    area: /\b(key biscayne|virginia key|crandon|bill baggs|cape florida|biscayne|miami)\b/,
   },
   sf: {
     shape: SF_SHAPE,

@@ -38,6 +38,16 @@ const allStaged = fromPacks
       })
     )
   : JSON.parse(fs.readFileSync(`${DIR}/staged.json`, 'utf8'));
+// Research-first regions packed into this one (regions.js `mergeFrom`, e.g.
+// Key Biscayne into Miami): their staged places join, unless already packed.
+for (const other of region.mergeFrom || []) {
+  const file = `scripts/osm-import/data/${other}/staged.json`;
+  if (!fs.existsSync(file)) continue;
+  const have = new Set(allStaged.map((p) => p.id));
+  const extra = JSON.parse(fs.readFileSync(file, 'utf8')).filter((p) => !have.has(p.id) && region.packRegions.includes(p.region));
+  console.log(`${file}: ${extra.length} new places`);
+  allStaged.push(...extra);
+}
 const staged = allStaged.filter((p) => p.categories[0] === category && !overrides[p.id]?.drop);
 if (!staged.length) throw new Error(`no staged places in ${category}`);
 // commons.reviewed.json, when there, holds the finder's results that have
