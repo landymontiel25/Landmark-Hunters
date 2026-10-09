@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { paletteFor, iconFor } from '../lib/landmarkVisuals';
+import { paletteFor, landmarkIcon } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
 
@@ -74,7 +74,7 @@ export default function LandmarkThumb({ landmark, size = 52, width, height, myPh
       className="landmark-thumb landmark-thumb-fallback"
       style={{ ...style, background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})` }}
     >
-      <span style={{ fontSize: Math.min(w, h) * 0.4 }}>{iconFor(landmark.categories)}</span>
+      <span style={{ fontSize: Math.min(w, h) * 0.4 }}>{landmarkIcon(landmark)}</span>
     </div>
   );
 }
