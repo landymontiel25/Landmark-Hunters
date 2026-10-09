@@ -12,7 +12,7 @@
 // naming the app, and every reply cached (data/<region>/nominatim/) so a
 // rerun doesn't ask again.
 import fs from 'node:fs';
-import { regionFromArgs } from './regions.js';
+import { regionFromArgs, insideRegion } from './regions.js';
 import { pickMatch, areaOf, viewbox, elementOf, parseAddress, OPINION, core } from './locate.js';
 import { normName } from '../../src/lib/placeMatch.js';
 import { okWebFact } from './transform.js';
@@ -35,7 +35,7 @@ async function geocode(c) {
   // A street-only hit (no house number) is a whole street, not an address.
   const h = hits[0];
   if (!h || (number && !h.address?.house_number)) return null;
-  return { lat: Number(h.lat), lng: Number(h.lon) };
+  return { lat: Number(h.lat), lng: Number(h.lon), hit: h, number };
 }
 
 const key = (s) => normName(s).replace(/^the /, '');
@@ -55,6 +55,32 @@ for (const f of fs.readdirSync(RESEARCH).filter((f) => /^verify-out-\d+\.json$/.
   }
 
 const box = viewbox(region.shape);
+
+// The OSM tags research may give an address-located place (RESEARCH-PROMPT.md
+// `osmTag`): only kinds the import already maps (transform.js classify).
+const ADDRESS_TAGS = new Set(['amenity=restaurant', 'amenity=cafe', 'amenity=ice_cream', 'shop=bakery', 'amenity=bar', 'amenity=pub', 'shop=books', 'shop=art', 'shop=antiques', 'tourism=gallery', 'amenity=arts_centre']);
+const slug = (s) => normName(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+function addressElement(c, geo) {
+  if (!ADDRESS_TAGS.has(c.osmTag)) return { why: `kind ${c.osmTag || '(none)'} needs an OSM object` };
+  if (!geo?.hit || !geo.number) return { why: 'no house number geocoded' };
+  const h = geo.hit;
+  if (String(h.address?.house_number) !== String(geo.number)) return { why: `geocoded house number ${h.address?.house_number} is not ${geo.number}` };
+  if (!insideRegion(region, geo.lat, geo.lng)) return { why: 'geocoded address is outside the region' };
+  const [k, v] = c.osmTag.split('=');
+  const { number, street } = parseAddress(c.address);
+  const tags = { name: c.name, [k]: v, 'addr:housenumber': number, 'addr:street': street, 'addr:city': c.city || region.defaultCity };
+  if (c.cuisine) tags.cuisine = String(c.cuisine).toLowerCase().replace(/\s+/g, '_');
+  return {
+    type: 'node',
+    id: Number(h.osm_id),
+    lat: geo.lat,
+    lon: geo.lng,
+    tags,
+    town: region.areaOf?.(geo.lat, geo.lng),
+    placeId: `osm-${region.id}-${slug(c.name)}`,
+    osmUrl: `https://www.openstreetmap.org/${h.osm_type}/${h.osm_id}`,
+  };
+}
 const located = [];
 const elements = new Map();
 const webFacts = JSON.parse(fs.readFileSync(FACTS, 'utf8'));
@@ -83,6 +109,18 @@ for (const c of rows.values()) {
     }
     geo = await geocode(c);
     match = pickMatch(c, results, { geo, inArea: (r) => !!areaOf(region, r) });
+  }
+  if (match.status !== 'FOUND' && region.addressFallback) {
+    // Not in OSM by name: place it at the researched address itself, only
+    // when Nominatim returns that exact house number inside the region.
+    const el = addressElement(c, geo);
+    if (el.why) { located.push({ ...base, status: 'NOT_FOUND', why: `${match.why}; address: ${el.why}` }); continue; }
+    if (elements.has(el.placeId)) { located.push({ ...base, status: 'DUPLICATE', why: `same name as ${elements.get(el.placeId).research.name}`, id: el.placeId }); continue; }
+    el.research = { name: c.name, tier: base.tier, reason: c.reason?.text && c.reason?.url ? c.reason : null };
+    elements.set(el.placeId, el);
+    webFacts[el.placeId] = { name: c.name, closed: false, closedSource: null, facts: facts.map((x) => ({ text: x.text.trim(), url: x.url })) };
+    located.push({ ...base, status: 'FOUND', id: el.placeId, how: 'researched address (Nominatim house number)', town: el.town, lat: el.lat, lng: el.lon, osmName: null });
+    continue;
   }
   if (match.status !== 'FOUND') { located.push({ ...base, status: 'NOT_FOUND', why: match.why }); continue; }
   const r = match.result;

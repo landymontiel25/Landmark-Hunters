@@ -440,7 +440,9 @@ export function toPlace(el, { region = 'miami', wikidataFacts = [], kind: forced
   const wd = wikidataFacts.filter((f) => !/^Named after /.test(f) || !nameKey(name).includes(nameKey(f.slice(12))));
   const facts = [...new Set([...wd, ...factsFromTags(t, kind.category)])].slice(0, 10);
   const place = {
-    id: `osm-${TYPE_LETTER[el.type]}${el.id}`,
+    // An address-located place (locate-candidates.mjs, region addressFallback)
+    // is not an OSM object of its own: it brings its own id and address link.
+    id: el.placeId || `osm-${TYPE_LETTER[el.type]}${el.id}`,
     popularity: (t.wikidata ? 2 : 0) + (t.wikipedia ? 1 : 0) + 1,
     name,
     region,
@@ -455,7 +457,7 @@ export function toPlace(el, { region = 'miami', wikidataFacts = [], kind: forced
     bookingUrl: null,
     typicalMinutes: kind.typicalMinutes,
     source: 'osm',
-    osmUrl: `https://www.openstreetmap.org/${el.type}/${el.id}`,
+    osmUrl: el.osmUrl || `https://www.openstreetmap.org/${el.type}/${el.id}`,
   };
   if (kind.checkInRadiusMeters) place.checkInRadiusMeters = kind.checkInRadiusMeters;
   const hours = osmHoursToApp(t.opening_hours);
@@ -480,7 +482,7 @@ export const nameKey = (s) =>
     .filter((w) => w && !STOP.has(w))
     .join(' ');
 
-function sameName(a, b) {
+export function sameName(a, b) {
   const x = nameKey(a);
   const y = nameKey(b);
   if (!x || !y) return false;

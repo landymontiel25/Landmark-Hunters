@@ -183,6 +183,12 @@ export const IMPORT_REGIONS = {
     shape: KB_SHAPE,
     state: 'Florida',
     defaultCity: 'Key Biscayne',
+    // Owner's call (2026-10-09): OpenStreetMap has almost no Key Biscayne
+    // businesses mapped, so a researched place OSM lacks may go on the map at
+    // its researched street address, when Nominatim returns that exact house
+    // number inside the shape (locate-candidates.mjs). Still no hand-typed
+    // coordinate.
+    addressFallback: true,
     packRegions: ['miami'],
     packRegionOf: () => 'miami',
     areaOf: (lat) => kbAreaOf(lat),
