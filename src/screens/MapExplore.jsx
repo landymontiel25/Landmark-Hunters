@@ -1224,7 +1224,10 @@ export default function MapExplore({ experiments = false }) {
             <Circle key={areaFlash.at} center={[areaFlash.lat, areaFlash.lng]} radius={areaFlash.radius} interactive={false} className="map-area-flash" pathOptions={areaFlashStyle(areaFlash.kind)} />
           )}
           {searchFocus && (
+            // Keyed so the label's color class (set once by Leaflet) follows
+            // each new search result.
             <Marker
+              key={searchFocus.id}
               position={[searchFocus.lat, searchFocus.lng]}
               icon={focusIcon}
               zIndexOffset={1000}

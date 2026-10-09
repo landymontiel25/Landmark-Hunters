@@ -226,8 +226,8 @@ export const REGION_ALIASES = {
 };
 
 // Everything a city search should match for a region: its name, city,
-// country, tagline and any other names it goes by (searchNames).
-export const regionSearchText = (r) => [r.name, r.city, r.country, r.tagline, ...(r.searchNames || [])].filter(Boolean).join(' ');
+// state or province ("Western Cape" finds Cape Town), country, tagline and any other names it goes by (searchNames).
+export const regionSearchText = (r) => [r.name, r.city, r.state, r.country, r.tagline, ...(r.searchNames || [])].filter(Boolean).join(' ');
 
 export const canonicalRegionId = (id) => REGION_ALIASES[id] || id;
 
