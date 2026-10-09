@@ -1,21 +1,278 @@
 [
-{"name":"Crandon Park Marina","area":"Key Biscayne","address":"4000 Crandon Blvd","city":"Key Biscayne","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"reason":null,"facts":[
- {"text":"A Miami-Dade Parks renovation completed in 2014 added new charter docks and a new seawall.","url":"https://miamidade.gov/parks/releases/2014-05-20-renovated-marina.asp"},
- {"text":"Its dock master building houses a bait and tackle shop.","url":"https://miamidade.gov/parks/releases/2014-05-20-renovated-marina.asp"},
- {"text":"Has 294 slips, 10 of them set aside for transient boats.","url":"https://waterwayguide.com/marina/crandon-park-marina"},
- {"text":"Its boat ramp gives 24-hour access to Biscayne Bay.","url":"https://www.howsyourriver.com/access_sites/crandon-park-marina"}]},
-{"name":"Lighthouse Café","area":"Key Biscayne","address":"1200 Crandon Blvd","city":"Key Biscayne","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"reason":null,"facts":[
- {"text":"First opened in 1995 inside Bill Baggs Cape Florida State Park.","url":"https://ediblesouthflorida.ediblecommunities.com/guide/guide-lighthouse-caf/"},
- {"text":"Serves cafe fare, American dishes and seafood.","url":"https://ediblesouthflorida.ediblecommunities.com/guide/guide-lighthouse-caf/"},
- {"text":"Looks out over the Atlantic Ocean.","url":"https://www.travelocity.com/discover/united-states-of-america/florida/miami/bill-baggs-cape-florida-state-park.d507418"}]},
-{"name":"Virginia Key North Point Trails","area":"Virginia Key","address":"Rickenbacker Causeway","city":"Miami","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"reason":null,"facts":[
- {"text":"Volunteers organized by the Virginia Key Bicycle Club built the mountain bike trails.","url":"https://www.nbcmiami.com/local/miamis-mountain-bike-evangelist/1890263/?amp=1"},
- {"text":"The City of Miami put $5,000 toward building the trail park.","url":"https://www.nbcmiami.com/local/miamis-mountain-bike-evangelist/1890263/?amp=1"},
- {"text":"Its routes range from beginner to advanced and sit in a gated section of the park.","url":"https://www.lonelyplanet.com/pois/1564941"}]},
-{"name":"Virginia Key Outdoor Center","area":"Virginia Key","address":"3801 Rickenbacker Causeway","city":"Miami","tier":"everyday","matched":true,"closed":true,"closedSource":"https://www.vkoc.net/","notFound":false,"searches":2,"reason":null,"facts":[]},
-{"name":"Rickenbacker Marina","area":"Virginia Key","address":"3301 Rickenbacker Causeway","city":"Miami","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":1,"reason":null,"facts":[
- {"text":"Offers dockage, boat storage and repair facilities off the Intracoastal Waterway.","url":"https://www.noonsite.com/business/rickenbacker-marina/"},
- {"text":"The Gramps Getaway bar sits in the middle of the marina property.","url":"https://www.miaminewtimes.com/?p=40559407"},
- {"text":"In 2021 Miami voters rejected a referendum to hand over redevelopment of the Virginia Key marinas.","url":"https://local10.com/news/politics/2021/11/03/voters-decide-not-to-allow-redevelopment-of-marinas-in-virginia-key"}]},
-{"name":"Atlantica Seafood Restaurant and Market","area":"Virginia Key","address":"","city":"Miami","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":true,"searches":3,"reason":null,"facts":[]}
+ {
+  "name": "Crandon Park Marina",
+  "area": "Key Biscayne",
+  "address": "4000 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Miami-Dade Parks renovation completed in 2014 added new charter docks and a new seawall.",
+    "url": "https://miamidade.gov/parks/releases/2014-05-20-renovated-marina.asp"
+   },
+   {
+    "text": "Its dock master building houses a bait and tackle shop.",
+    "url": "https://miamidade.gov/parks/releases/2014-05-20-renovated-marina.asp"
+   },
+   {
+    "text": "Has 294 slips, 10 of them set aside for transient boats.",
+    "url": "https://waterwayguide.com/marina/crandon-park-marina"
+   },
+   {
+    "text": "Its boat ramp gives 24-hour access to Biscayne Bay.",
+    "url": "https://www.howsyourriver.com/access_sites/crandon-park-marina"
+   }
+  ]
+ },
+ {
+  "name": "Lighthouse Café",
+  "area": "Key Biscayne",
+  "address": "1200 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First opened in 1995 inside Bill Baggs Cape Florida State Park.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-lighthouse-caf/"
+   },
+   {
+    "text": "Serves cafe fare, American dishes and seafood.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-lighthouse-caf/"
+   },
+   {
+    "text": "Looks out over the Atlantic Ocean.",
+    "url": "https://www.travelocity.com/discover/united-states-of-america/florida/miami/bill-baggs-cape-florida-state-park.d507418"
+   }
+  ]
+ },
+ {
+  "name": "Virginia Key North Point Trails",
+  "area": "Virginia Key",
+  "address": "Rickenbacker Causeway",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Volunteers organized by the Virginia Key Bicycle Club built the mountain bike trails.",
+    "url": "https://www.nbcmiami.com/local/miamis-mountain-bike-evangelist/1890263/?amp=1"
+   },
+   {
+    "text": "The City of Miami put $5,000 toward building the trail park.",
+    "url": "https://www.nbcmiami.com/local/miamis-mountain-bike-evangelist/1890263/?amp=1"
+   },
+   {
+    "text": "Its routes range from beginner to advanced and sit in a gated section of the park.",
+    "url": "https://www.lonelyplanet.com/pois/1564941"
+   }
+  ]
+ },
+ {
+  "name": "Virginia Key Outdoor Center",
+  "area": "Virginia Key",
+  "address": "3801 Rickenbacker Causeway",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.vkoc.net/",
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Rickenbacker Marina",
+  "area": "Virginia Key",
+  "address": "3301 Rickenbacker Causeway",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Offers dockage, boat storage and repair facilities off the Intracoastal Waterway.",
+    "url": "https://www.noonsite.com/business/rickenbacker-marina/"
+   },
+   {
+    "text": "The Gramps Getaway bar sits in the middle of the marina property.",
+    "url": "https://www.miaminewtimes.com/?p=40559407"
+   },
+   {
+    "text": "In 2021 Miami voters rejected a referendum to hand over redevelopment of the Virginia Key marinas.",
+    "url": "https://local10.com/news/politics/2021/11/03/voters-decide-not-to-allow-redevelopment-of-marinas-in-virginia-key"
+   }
+  ]
+ },
+ {
+  "name": "Atlantica Seafood Restaurant and Market",
+  "area": "Virginia Key",
+  "address": "",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Lighthouse Keeper's Cottage",
+  "area": "Key Biscayne",
+  "address": "1200 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A 1970 replica of the two-story brick keeper's house built at Cape Florida in 1846.",
+    "url": "https://lighthousedigest.com/Digest/database/uniquelighthouse.cfm?value=303"
+   },
+   {
+    "text": "The replica was built along with a summer kitchen, outhouse and cistern.",
+    "url": "https://lighthousedigest.com/Digest/database/uniquelighthouse.cfm?value=303"
+   },
+   {
+    "text": "The lighthouse compound in Bill Baggs Cape Florida State Park includes a replica of the keeper's cottage.",
+    "url": "https://www.americanheritage.com/content/cape-florida-lighthouse"
+   }
+  ]
+ },
+ {
+  "name": "Robin's Birding Trail",
+  "area": "Key Biscayne",
+  "address": "1200 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Starts at the island's south end, just northwest of the Cape Florida Lighthouse.",
+    "url": "https://www.hikingproject.com/trail/7024708/robins-birding-trail"
+   },
+   {
+    "text": "Ends at a raised clearing that served as a stopping place for birds migrating along the Eastern Flyway.",
+    "url": "https://www.hikingproject.com/trail/7024708/robins-birding-trail"
+   },
+   {
+    "text": "A lookout at No Name Harbor along the route faces Stiltsville in Biscayne National Park.",
+    "url": "https://www.hikingproject.com/trail/7024708/robins-birding-trail"
+   }
+  ]
+ },
+ {
+  "name": "Rickenbacker Trail",
+  "area": "Virginia Key",
+  "address": "Rickenbacker Causeway",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An 8.5-mile path along the Rickenbacker Causeway across Virginia Key and Key Biscayne.",
+    "url": "https://www.aaa.com/tripcanvas/attraction/rickenbacker-trail-VA16971"
+   },
+   {
+    "text": "Links with the Commodore, Old Cutler and Biscayne trails for a ride of about 27 miles.",
+    "url": "https://www.aaa.com/tripcanvas/attraction/rickenbacker-trail-VA16971"
+   },
+   {
+    "text": "Its surface is a mix of asphalt and concrete.",
+    "url": "https://100floridatrails.com/trails/rickenbacker-trail.htm"
+   }
+  ]
+ },
+ {
+  "name": "Bear Cut Bridge",
+  "area": "Virginia Key",
+  "address": "Rickenbacker Causeway",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": [
+   {
+    "text": "First built in 1944 to carry the Rickenbacker Causeway between Virginia Key and Key Biscayne.",
+    "url": "https://www.miamidade.gov/global/transportation/public-works/bear-cut-bridge-project.page"
+   },
+   {
+    "text": "Widened in 1983 and rehabilitated in 2014, when its original steel beams were replaced.",
+    "url": "https://www.miamidade.gov/global/transportation/public-works/bear-cut-bridge-project.page"
+   },
+   {
+    "text": "Miami-Dade County began a study in October 2024 weighing repair or replacement of the bridge.",
+    "url": "https://www.miamidade.gov/transit/library/bear-cut-bridge-fact-sheet.pdf"
+   }
+  ]
+ },
+ {
+  "name": "Miami Seaplane Tours",
+  "area": "Virginia Key",
+  "address": "3401 Rickenbacker Causeway",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://trytn.com/en/MiamiSeaplane/details/7410d5a4-21b8-4a3a-83f0-c468fe5794a3",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Miami Catamarans",
+  "area": "Virginia Key",
+  "address": "",
+  "city": "Miami",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ }
 ]
