@@ -368,6 +368,9 @@ export default function LandmarkSelection() {
   // New key so everyone lands on For Me (the default) once, instead of a
   // Popular choice saved back when that was the only default.
   const [savedSort, setSortBy] = usePersistentState('landmarks.sort.v2', 'forMe', { isEmpty: NEVER_EMPTY });
+  // Up arrow: not-checked-in first. Down arrow: checked-in first. null: neither.
+  const [savedCheckInOrder, setCheckInOrder] = usePersistentState('landmarks.checkInOrder', null, { isEmpty: NEVER_EMPTY });
+  const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;
   const sortBy = savedSort === 'nearMe' || savedSort === 'popularity' ? savedSort : 'forMe';
 
   // Picking a city by hand (the dropdown) or GPS auto-pick already call
@@ -443,7 +446,7 @@ export default function LandmarkSelection() {
     return true;
   };
 
-  const landmarks = useMemo(() => {
+  const sortedLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
     const filtered = [...editedLandmarks, ...normalizedCustomLandmarks].filter((l) => {
       if (cityFilter !== 'all' && l.regionId !== cityFilter) return false;
@@ -536,6 +539,17 @@ export default function LandmarkSelection() {
     normalizedCustomLandmarks,
     editedLandmarks,
   ]);
+
+  // Checked in vs not: an up arrow puts the places you haven't checked into
+  // first, a down arrow puts the checked-in ones first, no arrow leaves the
+  // sort above alone. Stable, so each group keeps that order. A search term
+  // keeps its best-match order.
+  const landmarks = useMemo(() => {
+    if (!checkInOrder || search.trim()) return sortedLandmarks;
+    const done = (l) => (claimedMap[l.id] ? 1 : 0);
+    const dir = checkInOrder === 'up' ? 1 : -1;
+    return [...sortedLandmarks].sort((a, b) => (done(a) - done(b)) * dir);
+  }, [sortedLandmarks, checkInOrder, claimedMap, search]);
 
   // Row callbacks keep one identity for the life of the screen so the memoized
   // rows (867 of them) skip re-rendering when something unrelated changes.
@@ -714,6 +728,22 @@ export default function LandmarkSelection() {
             {s.label}
           </button>
         ))}
+        <button
+          type="button"
+          className={`tab-btn ${checkInOrder ? 'active' : ''}`}
+          aria-pressed={!!checkInOrder}
+          aria-label={
+            checkInOrder === 'up'
+              ? 'Checked in order: places you have not checked into first. Tap for checked-in places first.'
+              : checkInOrder === 'down'
+                ? 'Checked in order: checked-in places first. Tap to turn off.'
+                : 'Checked in order: off. Tap to put places you have not checked into first.'
+          }
+          onClick={() => setCheckInOrder((cur) => (cur === 'up' ? 'down' : cur === 'down' ? null : 'up'))}
+        >
+          {'\u{2705}'}
+          {checkInOrder === 'up' ? ' \u{2191}' : checkInOrder === 'down' ? ' \u{2193}' : ''}
+        </button>
       </div>
       {sortBy === 'nearMe' && !coords && (
         <p style={{ fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginBottom: 18 }}>
