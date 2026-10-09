@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { PICKABLE_REGIONS, regionSearchText } from '../data/regions';
+import { PICKABLE_REGIONS, getRegion, regionSearchText } from '../data/regions';
+import { scopeRows } from '../lib/cityScope';
 import { matchesSearch } from '../lib/search';
 import { useSmartCitySearch } from '../lib/smartSearch';
 import SmartSearchLabel from './SmartSearchLabel';
@@ -9,7 +10,10 @@ export const ANY_REGION = { id: '', name: 'Any region', tagline: 'Search everywh
 // Type-to-search region picker (not a card list to tap through, not a plain
 // <select> to scroll) -- matches the "type where you are" ask. `region` is
 // the currently selected region object (or a placeholder with just a name).
-export default function RegionSearch({ region, onSelect, includeAny = false, placeholder = 'Search for a region…' }) {
+// `towns`: also offer the towns inside a city (Miami in South Florida); a
+// picked town comes back as its city with `townKey` (a lib/cityScope key) and
+// the town's name.
+export default function RegionSearch({ region, onSelect, includeAny = false, towns = false, placeholder = 'Search for a region…' }) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -25,8 +29,16 @@ export default function RegionSearch({ region, onSelect, includeAny = false, pla
   const q = query.trim().toLowerCase();
   const sortedRegions = [...PICKABLE_REGIONS].sort((a, b) => a.name.localeCompare(b.name));
   const options = includeAny ? [ANY_REGION, ...sortedRegions] : sortedRegions;
+  const townMatches = towns && q
+    ? scopeRows(q, { withAll: false })
+        .filter((row) => row.key.startsWith('a:'))
+        .map((row) => {
+          const city = getRegion(row.key.split(':')[1]);
+          return { ...city, townKey: row.key, name: row.primary, tagline: city.name };
+        })
+    : [];
   const wordMatches = q
-    ? options.filter((r) => matchesSearch(regionSearchText(r), q))
+    ? [...townMatches, ...options.filter((r) => matchesSearch(regionSearchText(r), q))]
     : options;
   const smart = useSmartCitySearch(q, wordMatches, open);
   const matches = [...wordMatches, ...smart.cities];
@@ -62,7 +74,7 @@ export default function RegionSearch({ region, onSelect, includeAny = false, pla
         <div className="autocomplete-list">
           {smart.loading && <SmartSearchLabel loading />}
           {matches.map((r, i) => (
-            <Fragment key={r.id || 'any'}>
+            <Fragment key={r.townKey || r.id || 'any'}>
             {i === wordMatches.length && <SmartSearchLabel count={smart.cities.length} />}
             <button
               type="button"

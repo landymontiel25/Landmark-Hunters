@@ -23,7 +23,8 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
-import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, PICKABLE_INTERESTS, regionSearchText, sortInterests, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, sortInterests, getRegion } from '../data/regions';
+import { inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -78,10 +79,10 @@ const popularScore = (l, ratings) => {
 // Searchable city picker -- a plain multi-city tab row gets unwieldy once
 // there are more than a handful of regions, so this collapses to one control
 // with a filterable list instead of an ever-growing row of buttons.
-// The small line under a city in the picker: the towns it covers (South
-// Florida), else its state and country ("Pennsylvania, USA").
-const citySub = (r) => r.subtitle || [r.state, r.country].filter(Boolean).join(', ');
-
+// The city picker: states (US) and countries, and, as you type, every
+// state, country, city and town that matches (lib/cityScope.js). `value` and
+// onChange's argument are scope keys ('all', 'g:us-California',
+// 'r:san-francisco', 'a:miami:Miami').
 function CityDropdown({ value, onChange }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -96,17 +97,28 @@ function CityDropdown({ value, onChange }) {
   }, []);
 
   const term = search.trim();
-  const filtered = PICKABLE_REGIONS.filter((r) => matchesSearch(regionSearchText(r), term)).sort((a, b) =>
-    a.city.localeCompare(b.city)
-  );
-  const smart = useSmartCitySearch(term, filtered, open);
-  const selectedLabel = value === 'all' ? 'All Cities' : getRegion(value)?.city ?? 'All Cities';
+  const rows = scopeRows(term);
+  // Mapr only steps in when no state, country, city or town matches.
+  const smart = useSmartCitySearch(term, rows.filter((r) => r.key.startsWith('r:')).map((r) => ({ id: r.key.slice(2) })), open && rows.length === 0);
+  const selectedLabel = scopeFromKey(value).label;
 
-  const choose = (id) => {
-    onChange(id);
+  const choose = (key) => {
+    onChange(key);
     setOpen(false);
     setSearch('');
   };
+
+  const row = (r) => (
+    <button
+      key={r.key}
+      type="button"
+      className={`city-dropdown-item autocomplete-item ${value === r.key ? 'active' : ''}`}
+      onClick={() => choose(r.key)}
+    >
+      <span className="autocomplete-primary">{r.primary}</span>
+      {r.secondary && <span className="autocomplete-secondary">{r.secondary}</span>}
+    </button>
+  );
 
   return (
     <div className="city-dropdown" ref={boxRef}>
@@ -122,42 +134,22 @@ function CityDropdown({ value, onChange }) {
             aria-label="Search cities"
             autoComplete="off"
             enterKeyHint="search"
-            placeholder={'\u{1F50D} Search cities…'}
+            placeholder={'\u{1F50D} Search states, countries, cities…'}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && term && rows.length) {
+                e.preventDefault();
+                choose(rows[0].key);
+              }
+            }}
             autoFocus
           />
           <div className="city-dropdown-list">
-            <button type="button" className={`city-dropdown-item autocomplete-item ${value === 'all' ? 'active' : ''}`} onClick={() => choose('all')}>
-              <span className="autocomplete-primary">All Cities</span>
-              <span className="autocomplete-secondary">Landmarks from every city</span>
-            </button>
-            {filtered.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                className={`city-dropdown-item autocomplete-item ${value === r.id ? 'active' : ''}`}
-                onClick={() => choose(r.id)}
-              >
-                <span className="autocomplete-primary">{r.city}</span>
-                {citySub(r) && <span className="autocomplete-secondary">{citySub(r)}</span>}
-              </button>
-            ))}
+            {rows.map(row)}
             <SmartSearchLabel loading={smart.loading} count={smart.cities.length} />
-            {smart.cities.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                className={`city-dropdown-item autocomplete-item ${value === r.id ? 'active' : ''}`}
-                onClick={() => choose(r.id)}
-              >
-                <span className="autocomplete-primary">{r.city}</span>
-                {citySub(r) && <span className="autocomplete-secondary">{citySub(r)}</span>}
-              </button>
-            ))}
-            {filtered.length === 0 && !smart.loading && smart.cities.length === 0 && (
-              <p className="city-dropdown-empty">No cities match.</p>
-            )}
+            {smart.cities.map((r) => row({ key: `r:${r.id}`, primary: r.city, secondary: [r.state, r.country].filter(Boolean).join(', ') }))}
+            {rows.length === 0 && !smart.loading && smart.cities.length === 0 && <p className="city-dropdown-empty">No cities match.</p>}
           </div>
         </div>
       )}
@@ -323,9 +315,14 @@ export default function LandmarkSelection() {
   const [mapCity] = useState(() => nearestPickableCity(getMapView(), 50));
   // "All cities" is kept on Back only when it was picked by hand; as a mere
   // default it yields to the Map's city like a fresh open (#598).
-  const [cityFilter, setCityFilter] = useState(
-    returned?.city && (returned.city !== 'all' || returned.picked) ? returned.city : mapCity || 'all'
+  // Where the list is limited to (lib/cityScope.js): everywhere, a state or
+  // country, one city, or one town in it. Its regionIds (null: everywhere)
+  // are what the itinerary, Clear and Mapr's models work with.
+  const [scopeKey, setScopeKey] = useState(() =>
+    scopeFromKey(returned?.city && (returned.city !== 'all' || returned.picked) ? returned.city : mapCity || 'all').key
   );
+  const scope = useMemo(() => scopeFromKey(scopeKey), [scopeKey]);
+  const setCityFilter = (id) => setScopeKey(scopeFromKey(id).key);
   // Back from a landmark keeps a hand-picked city hand-picked.
   const cityPickedByHand = useRef(!!returned?.picked);
   const gpsLat = coords?.lat ?? null;
@@ -342,8 +339,8 @@ export default function LandmarkSelection() {
   // Mapr Phase 1 models for "For Me" (maprRank/surfaces.js): the chosen city,
   // or the cities within 30 miles of you. Null until loaded.
   const modelRegions = useMemo(
-    () => (cityFilter !== 'all' ? cityFilter : coords ? regionsWithin({ lat: coords.lat, lng: coords.lng }, 30).sort().join(',') : ''),
-    [cityFilter, coords?.lat != null ? Math.round(coords.lat * 10) : null, coords?.lng != null ? Math.round(coords.lng * 10) : null] // eslint-disable-line react-hooks/exhaustive-deps
+    () => (scope.regionIds ? [...scope.regionIds].sort().join(',') : coords ? regionsWithin({ lat: coords.lat, lng: coords.lng }, 30).sort().join(',') : ''),
+    [scope, coords?.lat != null ? Math.round(coords.lat * 10) : null, coords?.lng != null ? Math.round(coords.lng * 10) : null] // eslint-disable-line react-hooks/exhaustive-deps
   );
   const [maprModels, setMaprModels] = useState(null);
   useEffect(() => {
@@ -449,7 +446,7 @@ export default function LandmarkSelection() {
 
   // Everything but the search box: city and category filters.
   const passesFilters = (l) => {
-    if (cityFilter !== 'all' && l.regionId !== cityFilter) return false;
+    if (!inScope(l, scope)) return false;
     if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
     return true;
   };
@@ -457,7 +454,7 @@ export default function LandmarkSelection() {
   const sortedLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
     const filtered = [...editedLandmarks, ...normalizedCustomLandmarks].filter((l) => {
-      if (cityFilter !== 'all' && l.regionId !== cityFilter) return false;
+      if (!inScope(l, scope)) return false;
       if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
       if (term) {
         // Includes the city/region name and category labels too -- so a
@@ -537,7 +534,7 @@ export default function LandmarkSelection() {
     maprModels,
     user?.uid,
     trip.savedInterests,
-    cityFilter,
+    scope,
     activeCategories,
     landmarkMatchesCategory,
     search,
@@ -588,14 +585,14 @@ export default function LandmarkSelection() {
       )
       .filter((l) => l && !shown.has(`${l.regionId}/${l.id}`) && passesFilters(l));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [smart.ids, landmarks, normalizedCustomLandmarks, editedLandmarks, cityFilter, activeCategories]);
+  }, [smart.ids, landmarks, normalizedCustomLandmarks, editedLandmarks, scope, activeCategories]);
 
   const allRows = useMemo(
     () => [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])],
     [landmarks, smartLandmarks]
   );
   const shownCount = useProgressiveCount(allRows.length, returned?.count);
-  latest.current.cityFilter = cityFilter;
+  latest.current.cityFilter = scopeKey;
   latest.current.shownCount = shownCount;
   const scrolledBack = useRef(false);
   // The retry loop must outlive the re-renders that follow (rows still
@@ -611,7 +608,7 @@ export default function LandmarkSelection() {
 
   // Total across every city; and the count within the currently filtered city.
   const selectedCount = regionsWithItineraries().reduce((n, r) => n + getRegionSelection(r).length, 0);
-  const scopeCount = cityFilter === 'all' ? selectedCount : getRegionSelection(cityFilter).length;
+  const scopeCount = scope.regionIds ? scope.regionIds.reduce((n, r) => n + getRegionSelection(r).length, 0) : selectedCount;
 
   return (
     <div>
@@ -623,7 +620,7 @@ export default function LandmarkSelection() {
           count: landmarks.length,
           matchingInterests: activeCategories.length > 0,
           searching: search.trim().length > 0,
-          cityFiltered: cityFilter !== 'all',
+          cityFiltered: scope.key !== 'all',
         })}
       </p>
 
@@ -654,8 +651,8 @@ export default function LandmarkSelection() {
           <button
             className="btn btn-ghost btn-sm"
             onClick={() => {
-              if (cityFilter === 'all') clearAll();
-              else clearRegion(cityFilter);
+              if (!scope.regionIds) clearAll();
+              else scope.regionIds.forEach((r) => clearRegion(r));
             }}
           >
             Clear ({scopeCount})
@@ -663,7 +660,7 @@ export default function LandmarkSelection() {
         )}
         {/* Back to the city you are in, after following the Map somewhere
             else or picking another city. */}
-        {gpsCity && gpsCity !== cityFilter && (
+        {gpsCity && scope.key !== `r:${gpsCity}` && (
           <button
             type="button"
             className="btn btn-ghost btn-sm"
@@ -681,13 +678,14 @@ export default function LandmarkSelection() {
       </div>
 
       <CityDropdown
-        value={cityFilter}
-        onChange={(id) => {
+        value={scope.key}
+        onChange={(key) => {
           cityPickedByHand.current = true;
-          setCityFilter(id);
+          setScopeKey(key);
           // Remember the city being browsed (so the Map opens on it too) and
           // that it was picked by hand, so GPS won't quietly override it later.
-          if (id !== 'all') {
+          const id = scopeRegionId(scopeFromKey(key));
+          if (id) {
             updateTrip({ activeRegion: id, activeRegionPicked: true });
             setMapFocus(id);
           } else {
