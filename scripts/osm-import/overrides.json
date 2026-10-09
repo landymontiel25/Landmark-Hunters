@@ -1604,5 +1604,20 @@
   },
   "osm-n370198231": {
     "rejectPhoto": "a street corner"
+  },
+  "osm-w117933964": {
+    "include": {
+      "region": "miami",
+      "category": "sports",
+      "topic": "marina",
+      "typicalMinutes": 45
+    },
+    "why": "Key Biscayne research: public marina on Virginia Key with sourced facts",
+    "source": "https://www.noonsite.com/business/rickenbacker-marina/"
+  },
+  "osm-n9765581817": {
+    "name": "Piononos",
+    "why": "OSM spells it Piononod; the bakery's listing and The Infatuation spell it Piononos",
+    "source": "https://www.theinfatuation.com/miami/reviews/piononos"
   }
 }

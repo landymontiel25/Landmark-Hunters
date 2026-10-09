@@ -633,6 +633,8 @@ export function importPlaces(elements, { catalog = [], region = 'miami', shape =
       dropped.reviewed.push({ id: label, name: place.name, why: fix.drop });
       continue;
     }
+    // OSM misspells a few names; the research result has the place's own spelling.
+    if (fix?.name) place.name = fix.name;
     if (fix?.category) place.categories = [fix.category];
     if (fix?.topic) {
       place.topic = fix.topic;

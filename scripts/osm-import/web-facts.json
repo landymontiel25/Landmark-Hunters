@@ -35838,5 +35838,62 @@
     "url": "https://sfrecpark.org/facilities/facility/details/Merced-Heights-Playground-256"
    }
   ]
+ },
+ "osm-w320802248": {
+  "name": "Lighthouse Café",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "First opened in 1995 inside Bill Baggs Cape Florida State Park.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-lighthouse-caf/"
+   },
+   {
+    "text": "Serves cafe fare, American dishes and seafood.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-lighthouse-caf/"
+   },
+   {
+    "text": "Looks out over the Atlantic Ocean.",
+    "url": "https://www.travelocity.com/discover/united-states-of-america/florida/miami/bill-baggs-cape-florida-state-park.d507418"
+   }
+  ]
+ },
+ "osm-w117933964": {
+  "name": "Rickenbacker Marina",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Offers dockage, boat storage and repair facilities off the Intracoastal Waterway.",
+    "url": "https://www.noonsite.com/business/rickenbacker-marina/"
+   },
+   {
+    "text": "The Gramps Getaway bar sits in the middle of the marina property.",
+    "url": "https://www.miaminewtimes.com/?p=40559407"
+   },
+   {
+    "text": "In 2021 Miami voters rejected a referendum to hand over redevelopment of the Virginia Key marinas.",
+    "url": "https://local10.com/news/politics/2021/11/03/voters-decide-not-to-allow-redevelopment-of-marinas-in-virginia-key"
+   }
+  ]
+ },
+ "osm-n9765581817": {
+  "name": "Piononos",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Its pavlova layers sliced strawberries, dulce de leche and whipped cream on a walnut meringue.",
+    "url": "https://www.theinfatuation.com/miami/reviews/piononos"
+   },
+   {
+    "text": "Also makes the pionono, a sponge cake rolled around dulce de leche.",
+    "url": "https://www.theinfatuation.com/miami/reviews/piononos"
+   },
+   {
+    "text": "A takeaway bakery with no seating.",
+    "url": "https://www.atly.com/location/Piononos"
+   }
+  ]
  }
 }
