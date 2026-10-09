@@ -290,8 +290,12 @@ const REROUTE_MS = 15000;
 
 // experiments: the Test tab's copy of the Map. Same screen, plus whatever is
 // being tried before it goes on the real Map (admin-only route, see App.jsx).
-// The search-result area flash: brand blue outline and fill (CSS fades it).
-const AREA_FLASH_STYLE = { color: '#5b8cff', weight: 3, fillColor: '#5b8cff', fillOpacity: 0.25 };
+// The search-result area flash: an outline and fill in the kind's color (CSS fades it).
+const AREA_COLORS = { city: '#2dd4bf', state: '#fbbf24', country: '#a78bfa' };
+const areaFlashStyle = (kind) => {
+  const c = AREA_COLORS[kind] || '#5b8cff';
+  return { color: c, weight: 3, fillColor: c, fillOpacity: 0.25 };
+};
 
 export default function MapExplore({ experiments = false }) {
   const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
@@ -802,7 +806,18 @@ export default function MapExplore({ experiments = false }) {
     setSearchTerm('');
     setAreaFlash(null);
     const map = mapRef.current;
-    if (map && (result.area || result.radius)) map.once('moveend', () => setAreaFlash({ ...result, at: Date.now() }));
+    // States and countries keep their outlines in a separate file, loaded
+    // only when one is picked (it is large).
+    const outline =
+      result.kind === 'state' || result.kind === 'country'
+        ? import('../data/placeAreas.json').then((m) => m.default[result.id] || null).catch(() => null)
+        : Promise.resolve(result.area || null);
+    if (map && (result.kind || result.area || result.radius)) {
+      map.once('moveend', async () => {
+        const area = await outline;
+        if (area || result.radius) setAreaFlash({ ...result, area, at: Date.now() });
+      });
+    }
     map?.flyTo([result.lat, result.lng], result.zoom);
   };
 
@@ -1173,7 +1188,7 @@ export default function MapExplore({ experiments = false }) {
                   we could recolor individually, only what we draw ourselves. */}
               <Polyline positions={remainingPoints} pathOptions={{ color: NAV_ROUTE_GREEN, weight: 5, opacity: 1 }} />
               <Marker position={[nav.dest.lat, nav.dest.lng]} icon={focusIcon} zIndexOffset={1000} interactive={false}>
-                <Tooltip permanent direction="top" offset={[0, -34]} className="focus-tooltip">
+                <Tooltip permanent direction="top" offset={[0, -34]} className={`focus-tooltip ${searchFocus.kind ? `focus-tooltip--${searchFocus.kind}` : ''}`}>
                   {nav.dest.name}
                 </Tooltip>
               </Marker>
@@ -1203,10 +1218,10 @@ export default function MapExplore({ experiments = false }) {
             </Marker>
           )}
           {areaFlash?.area && (
-            <Polygon key={areaFlash.at} positions={areaFlash.area} interactive={false} className="map-area-flash" pathOptions={AREA_FLASH_STYLE} />
+            <Polygon key={areaFlash.at} positions={areaFlash.area} interactive={false} className="map-area-flash" pathOptions={areaFlashStyle(areaFlash.kind)} />
           )}
           {areaFlash && !areaFlash.area && areaFlash.radius && (
-            <Circle key={areaFlash.at} center={[areaFlash.lat, areaFlash.lng]} radius={areaFlash.radius} interactive={false} className="map-area-flash" pathOptions={AREA_FLASH_STYLE} />
+            <Circle key={areaFlash.at} center={[areaFlash.lat, areaFlash.lng]} radius={areaFlash.radius} interactive={false} className="map-area-flash" pathOptions={areaFlashStyle(areaFlash.kind)} />
           )}
           {searchFocus && (
             <Marker
@@ -1424,7 +1439,7 @@ export default function MapExplore({ experiments = false }) {
                       onClick={() => selectSearchResult(r)}
                     >
                       <span className="map-search-result-name">{r.name}</span>
-                      <span className="map-search-result-city">{r.sub}</span>
+                      <span className={`map-search-result-city ${r.kind ? `map-search-kind--${r.kind}` : ''}`}>{r.sub}</span>
                     </button>
                   ))}
                   <SmartSearchLabel loading={smart.loading} count={smartResults.length} />

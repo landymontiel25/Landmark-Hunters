@@ -7030,3 +7030,15 @@ p.tag {
 .city-dropdown-item.active .autocomplete-secondary {
   font-weight: 400;
 }
+
+/* Map search: the name shown on the map is colored by what was searched, so a
+   city, a state and a country read apart at a glance (landmarks stay white). */
+.focus-tooltip--city.leaflet-tooltip { color: #2dd4bf; border-color: #2dd4bf; }
+.focus-tooltip--state.leaflet-tooltip { color: #fbbf24; border-color: #fbbf24; }
+.focus-tooltip--country.leaflet-tooltip { color: #a78bfa; border-color: #a78bfa; }
+.focus-tooltip--city.leaflet-tooltip-top::before { border-top-color: #2dd4bf; }
+.focus-tooltip--state.leaflet-tooltip-top::before { border-top-color: #fbbf24; }
+.focus-tooltip--country.leaflet-tooltip-top::before { border-top-color: #a78bfa; }
+.map-search-kind--city { color: #2dd4bf; }
+.map-search-kind--state { color: #fbbf24; }
+.map-search-kind--country { color: #a78bfa; }
