@@ -52,7 +52,7 @@ export const APP_HELP =
   `- Landmarks list sorts three ways: "✨ For Me" (the default -- places that fit your taste first, closest first, using the same ` +
   `taste scores Mapr Picks uses, learned from your ratings, plus the interests you picked at signup), "📍 Near Me", and ` +
   `"🔥 Popular" (most popular first, blending how well-known a place is with ` +
-  `community ratings). There's no Explored/Unexplored filter and no separate Top Rated sort anymore. Residence halls are ` +
+  `community ratings). Next to those sits a "✅" button that cycles three ways: no arrow (off, the sort above stands), "✅ ↑" (places you haven't checked into first, checked-in ones last), and "✅ ↓" (checked-in places first); each group keeps the sort order above, and typing in the search box keeps best match first. There's no Explored/Unexplored filter and no separate Top Rated sort anymore. Residence halls are ` +
   `under Campus Life; there's no separate Dorms category.\n` +
   `- You can edit your own comment on any landmark you've rated or checked into, from the "Your comment" box on its page (always together with a rating tier).\n` +
   `- Itineraries (Itinerary tab): one per city, plus group trips. Each has a name; tap ✏️ next to the title to rename it. A solo itinerary ` +
