@@ -1,15 +1,93 @@
 [
- {"name":"Commenoz Gallery","area":"Key Biscayne","address":"328 Crandon Blvd, Suite 218","city":"Key Biscayne","osmTag":"tourism=gallery","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"reason":null,"facts":[
-  {"text":"Naydu Commenoz established the gallery in 1982.","url":"https://commenozgallery.com/the-gallery/"},
-  {"text":"Shows paintings, sculpture, glass and limited editions by artists from the Americas, Asia and Europe.","url":"https://commenozgallery.com/"},
-  {"text":"Offers on-site custom framing.","url":"https://commenozgallery.com/"},
-  {"text":"Sits on the second floor of The Galleria Shopping Center.","url":"https://commenozgallery.com/contact/"}]},
- {"name":"Lighthouse Keepers Cottage","area":"Key Biscayne","address":"Cape Florida Park Blvd","city":"Key Biscayne","tier":"everyday","matched":true,"closed":false,"closedSource":null,"notFound":false,"searches":2,"reason":null,"facts":[
-  {"text":"The first brick keeper's cottage at Cape Florida was finished in 1825.","url":"https://www.hmdb.org/m.asp?m=80255"},
-  {"text":"Burned in an 1836 Seminole attack, the cottage was rebuilt under Reason Duke and completed in 1846.","url":"https://www.hmdb.org/m.asp?m=80255"},
-  {"text":"Six families of lighthouse keepers lived in the cottage in turn until 1878.","url":"https://www.hmdb.org/m.asp?m=80255"},
-  {"text":"The State of Florida built the current replica of the keeper's quarters in 1969.","url":"https://www.hmdb.org/m.asp?m=80255"}]},
- {"name":"Tanya Brillembourg Art Gallery","area":"Key Biscayne","address":null,"city":"Key Biscayne","osmTag":"tourism=gallery","tier":"everyday","matched":false,"closed":false,"closedSource":null,"notFound":true,"searches":1,"reason":null,"facts":[]},
- {"name":"Artistí Gallery/Studio","area":"Key Biscayne","address":"905 Crandon Blvd","city":"Key Biscayne","osmTag":"tourism=gallery","tier":"everyday","matched":true,"closed":true,"closedSource":"https://www.yelp.com/biz/artist%C3%AD-gallery-studio-key-biscayne?adjust_creative=mapquest","notFound":false,"searches":0,"reason":null,"facts":[]},
- {"name":"Saint Christophers by the Sea Church","area":"Key Biscayne","address":null,"city":"Key Biscayne","tier":"everyday","matched":false,"closed":false,"closedSource":null,"notFound":true,"searches":3,"reason":null,"facts":[]}
+ {
+  "name": "Commenoz Gallery",
+  "area": "Key Biscayne",
+  "address": "328 Crandon Blvd, Suite 218",
+  "city": "Key Biscayne",
+  "osmTag": "tourism=gallery",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [],
+  "note": "Left out on review: the research could not tell which page states each fact (source rule)."
+ },
+ {
+  "name": "Lighthouse Keepers Cottage",
+  "area": "Key Biscayne",
+  "address": "Cape Florida Park Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "The first brick keeper's cottage at Cape Florida was finished in 1825.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   },
+   {
+    "text": "Burned in an 1836 Seminole attack, the cottage was rebuilt under Reason Duke and completed in 1846.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   },
+   {
+    "text": "Six families of lighthouse keepers lived in the cottage in turn until 1878.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   },
+   {
+    "text": "The State of Florida built the current replica of the keeper's quarters in 1969.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   }
+  ]
+ },
+ {
+  "name": "Tanya Brillembourg Art Gallery",
+  "area": "Key Biscayne",
+  "address": null,
+  "city": "Key Biscayne",
+  "osmTag": "tourism=gallery",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Artistí Gallery/Studio",
+  "area": "Key Biscayne",
+  "address": "905 Crandon Blvd",
+  "city": "Key Biscayne",
+  "osmTag": "tourism=gallery",
+  "tier": "everyday",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.yelp.com/biz/artist%C3%AD-gallery-studio-key-biscayne?adjust_creative=mapquest",
+  "notFound": false,
+  "searches": 0,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Saint Christophers by the Sea Church",
+  "area": "Key Biscayne",
+  "address": null,
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 3,
+  "reason": null,
+  "facts": []
+ }
 ]
