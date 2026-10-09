@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { paletteFor, iconFor } from '../lib/landmarkVisuals';
+import { paletteFor, landmarkIcon } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
 import { IMAGE_CREDITS } from '../data/imageCredits';
@@ -22,7 +22,7 @@ const creditFor = (landmark, src) => IMAGE_CREDITS[src] || landmark.imageCredits
 
 export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', swipeable = false, myPhotos, onImageClick }) {
   const palette = paletteFor(landmark.id);
-  const icon = iconFor(landmark.categories);
+  const icon = landmarkIcon(landmark);
   const dims =
     size === 'sm' ? { width: 150, height: 105 } : size === 'lg' ? { width: 320, height: 220 } : { width: 220, height: 150 };
   // The big postcard is a fixed 320px, which (plus its border) is wider than

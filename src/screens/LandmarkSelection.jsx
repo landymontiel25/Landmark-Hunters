@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { sportIconFor } from '../lib/landmarkVisuals';
 import { landmarkCountText } from '../lib/landmarkCountText';
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
@@ -228,7 +229,7 @@ const LandmarkRow = memo(function LandmarkRow({
         </div>
         <div className="lr-main" onClick={() => onToggle(l)}>
           <h4>
-            <span className="lr-category-icons">{l.categories.map((c) => CATEGORY_ICON[c]).join('')}</span>
+            <span className="lr-category-icons">{l.categories.map((c) => ((c === 'sports' || c === 'stadiums') && sportIconFor(l)) || CATEGORY_ICON[c]).join('')}</span>
             {l.name}
             <QuickRateButton landmark={l} />
           </h4>
