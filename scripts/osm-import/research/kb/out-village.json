@@ -1,0 +1,99 @@
+[
+  {
+    "name": "Piononos",
+    "area": "Key Biscayne",
+    "address": "328 Crandon Blvd #217",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Its pavlova layers sliced strawberries, dulce de leche and whipped cream on a walnut meringue.",
+        "url": "https://www.theinfatuation.com/miami/reviews/piononos"
+      },
+      {
+        "text": "Also makes the pionono, a sponge cake rolled around dulce de leche.",
+        "url": "https://www.theinfatuation.com/miami/reviews/piononos"
+      },
+      {
+        "text": "A takeaway bakery with no seating.",
+        "url": "https://www.atly.com/location/Piononos"
+      }
+    ]
+  },
+  {
+    "name": "Pita Pockets",
+    "area": "Key Biscayne",
+    "address": "180 Crandon Blvd",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": true,
+    "closedSource": "https://www.theinfatuation.com/miami/reviews/pita-pockets-key-biscayne",
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "Key Biscayne Branch Library",
+    "area": "Key Biscayne",
+    "address": "299 Crandon Blvd",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": true,
+    "closedSource": "https://events.mdpls.org/press",
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "St. Christopher's by-the-Sea Episcopal Church",
+    "area": "Key Biscayne",
+    "address": "",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 2,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "Key Biscayne Community Church",
+    "area": "Key Biscayne",
+    "address": "",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 2,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "The Galleria Shopping Center",
+    "area": "Key Biscayne",
+    "address": "",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 1,
+    "reason": null,
+    "facts": []
+  }
+]
