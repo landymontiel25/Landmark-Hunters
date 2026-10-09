@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MapContainer, AttributionControl, TileLayer, Marker, Popup, Tooltip, Polyline, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, AttributionControl, TileLayer, Marker, Popup, Tooltip, Polyline, Polygon, Circle, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -290,6 +290,9 @@ const REROUTE_MS = 15000;
 
 // experiments: the Test tab's copy of the Map. Same screen, plus whatever is
 // being tried before it goes on the real Map (admin-only route, see App.jsx).
+// The search-result area flash: brand blue outline and fill (CSS fades it).
+const AREA_FLASH_STYLE = { color: '#5b8cff', weight: 3, fillColor: '#5b8cff', fillOpacity: 0.25 };
+
 export default function MapExplore({ experiments = false }) {
   const { toggleLandmark, removeLandmark, getRegionSelection, trip, mapFocus, mapFocusPoint, setMapFocusPoint, mapFocusStops } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkingIn, checkIn } = useCheckIn();
@@ -630,6 +633,14 @@ export default function MapExplore({ experiments = false }) {
   // The landmark you picked from search results — highlighted the same way
   // as "See it on the Map" from a landmark's detail page.
   const [searchFocus, setSearchFocus] = useState(null);
+  // A city or neighborhood picked from search (data/places.js) lights up its
+  // outline for 1.5 s after the map arrives, so you can see where it is.
+  const [areaFlash, setAreaFlash] = useState(null);
+  useEffect(() => {
+    if (!areaFlash) return undefined;
+    const t = setTimeout(() => setAreaFlash(null), 1500);
+    return () => clearTimeout(t);
+  }, [areaFlash]);
 
   // Capture the "fly to this landmark" request once (set when you view a
   // landmark), then clear the shared value so a later plain Map open doesn't
@@ -745,7 +756,10 @@ export default function MapExplore({ experiments = false }) {
         zoom: 17,
         score: score + near(l.lat, l.lng),
       }));
-    const placeMatches = SEARCHABLE_PLACES.map((p) => ({ ...p, score: searchScore(p.name, '', term) })).filter((p) => p.score > 0);
+    // Typing a place's whole name ("miami") puts that city or country first,
+    // above the many landmarks whose names start with it.
+    const exact = (name) => name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === term.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const placeMatches = SEARCHABLE_PLACES.map((p) => ({ ...p, score: searchScore(p.name, '', term) + (exact(p.name) ? 20 : 0) })).filter((p) => p.score > 0);
     // Best match first -- a name match beats a word buried in a description.
     return [...landmarkMatches, ...customMatches, ...placeMatches].sort((a, b) => b.score - a.score).slice(0, 8);
   // eslint-disable-next-line react-hooks/exhaustive-deps -- packsVersion: imported places join ALL_LANDMARKS in place
@@ -786,7 +800,10 @@ export default function MapExplore({ experiments = false }) {
     setSearchFocus(result);
     setSearchOpen(false);
     setSearchTerm('');
-    mapRef.current?.flyTo([result.lat, result.lng], result.zoom);
+    setAreaFlash(null);
+    const map = mapRef.current;
+    if (map && (result.area || result.radius)) map.once('moveend', () => setAreaFlash({ ...result, at: Date.now() }));
+    map?.flyTo([result.lat, result.lng], result.zoom);
   };
 
   const toggleSearch = () => {
@@ -1184,6 +1201,12 @@ export default function MapExplore({ experiments = false }) {
                 </Tooltip>
               )}
             </Marker>
+          )}
+          {areaFlash?.area && (
+            <Polygon key={areaFlash.at} positions={areaFlash.area} interactive={false} className="map-area-flash" pathOptions={AREA_FLASH_STYLE} />
+          )}
+          {areaFlash && !areaFlash.area && areaFlash.radius && (
+            <Circle key={areaFlash.at} center={[areaFlash.lat, areaFlash.lng]} radius={areaFlash.radius} interactive={false} className="map-area-flash" pathOptions={AREA_FLASH_STYLE} />
           )}
           {searchFocus && (
             <Marker

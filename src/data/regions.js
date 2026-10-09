@@ -20,9 +20,15 @@ import { PARIS_LANDMARKS } from './landmarks.paris.js';
 export const REGIONS = [
   {
     id: 'miami',
-    name: 'Miami',
-    tagline: 'Beaches, Art Deco & Cuban culture',
-    city: 'Miami',
+    // Shown as South Florida; the id stays 'miami' so saved data keeps working.
+    name: 'South Florida',
+    tagline: 'Miami, Miami Beach, Coral Gables, Key Biscayne, Coconut Grove, South Miami, Pinecrest & Doral',
+    city: 'South Florida',
+    // The towns with places in the app today, shown under the name in city
+    // pickers so people know Miami is in here.
+    subtitle: 'Miami, Miami Beach, Coral Gables, Key Biscayne, Coconut Grove, South Miami, Pinecrest, Doral',
+    // Typing any of these in a city search finds this region.
+    searchNames: ['Miami', 'Miami Beach', 'Coral Gables', 'Key Biscayne', 'Virginia Key', 'Doral', 'Hialeah', 'Coconut Grove', 'Brickell', 'Wynwood', 'Little Havana', 'Little Haiti', 'Kendall', 'Pinecrest', 'South Miami', 'Miami Springs', 'Westchester', 'Sweetwater', 'Aventura', 'North Miami', 'Sunny Isles', 'Bal Harbour', 'Surfside', 'Homestead', 'Miami-Dade', 'Dade'],
     state: 'Florida',
     country: 'USA',
     center: { lat: 25.7743, lng: -80.1937 },
@@ -218,6 +224,10 @@ export const REGION_ALIASES = {
   'key-biscayne': 'miami',
   'coral-gables': 'miami',
 };
+
+// Everything a city search should match for a region: its name, city,
+// country, tagline and any other names it goes by (searchNames).
+export const regionSearchText = (r) => [r.name, r.city, r.country, r.tagline, ...(r.searchNames || [])].filter(Boolean).join(' ');
 
 export const canonicalRegionId = (id) => REGION_ALIASES[id] || id;
 
