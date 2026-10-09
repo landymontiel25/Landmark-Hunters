@@ -35895,5 +35895,642 @@
     "url": "https://www.atly.com/location/Piononos"
    }
   ]
+ },
+ "osm-kb-rumbar": {
+  "name": "RUMBAR",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The lobby bar of The Ritz-Carlton Key Biscayne, styled after 1940s Havana with palmetto ceiling fans.",
+    "url": "https://www.ritzcarlton.com/en/hotels/miami/key-biscayne/dining/rumbar-lobby-lounge"
+   },
+   {
+    "text": "Opened in August 2007 as a Havana-inspired rum bar.",
+    "url": "https://www.bizbash.com/event-decor/miami-channels-havana-with-the-opening-of-rum-bar"
+   },
+   {
+    "text": "Reopened with the resort in December 2025 after a renovation.",
+    "url": "https://www.islandernews.com/news/keybiscayne/ritz-carlton-key-biscayne-reopens-with-new-architecture-spa-and-dining/article_3d9bae5b-b99f-4270-9541-454945103720.html"
+   }
+  ]
+ },
+ "osm-kb-dune-beach-bar": {
+  "name": "Dune Beach Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A beach bar at The Ritz-Carlton Key Biscayne that serves as a daytime beach bar and an evening lounge.",
+    "url": "https://www.ritzcarlton.com/en/hotels/miakb-the-ritz-carlton-key-biscayne-miami/dining/"
+   },
+   {
+    "text": "Its menu is American beach fare.",
+    "url": "https://www.ritzcarlton.com/en/hotels/miakb-the-ritz-carlton-key-biscayne-miami/dining/"
+   }
+  ]
+ },
+ "osm-kb-the-cleat": {
+  "name": "The Cleat",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "An open-air bar at No Name Harbor inside Bill Baggs Cape Florida State Park.",
+    "url": "https://lighthouserestaurants.com/the-cleat"
+   }
+  ]
+ },
+ "osm-kb-salt-waterfront-restaurant": {
+  "name": "SALT Waterfront Restaurant",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Sits on the University of Miami's Rosenstiel School campus and is open to the public.",
+    "url": "https://www.toasttab.com/local/salt-waterfront-restaurant/r-6a2675a3-3183-4e04-b279-1ef806a71197"
+   },
+   {
+    "text": "Its menu covers seafood and sandwiches, with vegetarian and vegan options.",
+    "url": "https://www.toasttab.com/local/salt-waterfront-restaurant/r-6a2675a3-3183-4e04-b279-1ef806a71197"
+   }
+  ]
+ },
+ "osm-kb-the-wetlab": {
+  "name": "The Wetlab",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A student-run bar on the University of Miami's Rosenstiel School campus.",
+    "url": "https://news.miami.edu/life/stories/2019/02/dining-at-the-u.html"
+   },
+   {
+    "text": "Its open terrace overlooks the bay.",
+    "url": "https://prod.gcp.timeout.com/miami/bars/the-wetlab"
+   }
+  ]
+ },
+ "osm-w313369992": {
+  "name": "Lighthouse Keepers Cottage",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The first brick keeper's cottage at Cape Florida was finished in 1825.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   },
+   {
+    "text": "Burned in an 1836 Seminole attack, the cottage was rebuilt under Reason Duke and completed in 1846.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   },
+   {
+    "text": "Six families of lighthouse keepers lived in the cottage in turn until 1878.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   },
+   {
+    "text": "The State of Florida built the current replica of the keeper's quarters in 1969.",
+    "url": "https://www.hmdb.org/m.asp?m=80255"
+   }
+  ]
+ },
+ "osm-kb-milanezza": {
+  "name": "Milanezza",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Serves Argentinian dishes with a twist in a casual room with a vintage feel.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-milanezza-restaurant-and-bar/"
+   },
+   {
+    "text": "The menu offers more than 18 combinations of its namesake milanesa.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-milanezza-restaurant-and-bar/"
+   },
+   {
+    "text": "Owners Gladys Arneri and Max Waicman opened their first restaurant here after moving from Buenos Aires.",
+    "url": "https://www.islandernews.com/news/keybiscayne/milanezza-restaurant-hits-the-spot/article_ef6e639b-d8b6-4873-8d3d-0df3df0ef959.html"
+   }
+  ]
+ },
+ "osm-kb-fulano": {
+  "name": "FULANO",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Calls itself Key Biscayne's neighborhood restaurant and serves Argentine food.",
+    "url": "https://www.fulanomiami.com/"
+   },
+   {
+    "text": "Has an indoor dining salon and an outdoor terrace with a rustic-modern look.",
+    "url": "https://www.fulanomiami.com/test"
+   }
+  ]
+ },
+ "osm-kb-artisan-kitchen-and-bar": {
+  "name": "Artisan Kitchen & Bar",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Has been open since 2020.",
+    "url": "https://atmosfy.io/location/key-biscayne/artisan-kitchen-and-bar"
+   },
+   {
+    "text": "Has an industrial look decorated with local artwork, with indoor and outdoor seating.",
+    "url": "https://atmosfy.io/location/key-biscayne/artisan-kitchen-and-bar"
+   },
+   {
+    "text": "Serves Venezuelan tapas and hosts a Sunday brunch with live music.",
+    "url": "https://www.islandernews.com/food/taste/the-soul-of-venezuela-is-served-in-key-biscayne/article_72c988ec-e67e-4fe6-9320-80691c1e5a27.html"
+   }
+  ]
+ },
+ "osm-kb-ceviche-bar-by-mixtura": {
+  "name": "Ceviche Bar by Mixtura",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Its menu includes Peruvian ceviches, causas and seafood plates.",
+    "url": "https://www.toasttab.com/local/order/cevichebarbymixtura/r-b1759efa-fabc-4d24-ab31-ff90ebb3cb7f"
+   },
+   {
+    "text": "Dogs can join their owners at its outdoor tables.",
+    "url": "https://www.bringfido.ca/restaurant/22464"
+   }
+  ]
+ },
+ "osm-kb-luma": {
+  "name": "Luma",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The Italian restaurant of The Ritz-Carlton Key Biscayne, with indoor and outdoor oceanfront dining.",
+    "url": "https://www.ritzcarlton.com/en/hotels/miakb-the-ritz-carlton-key-biscayne-miami/dining/"
+   },
+   {
+    "text": "Its name means brightness in Italian.",
+    "url": "https://www.ritzcarlton.com/en/hotels/miakb-the-ritz-carlton-key-biscayne-miami/dining/"
+   }
+  ]
+ },
+ "osm-kb-paralia": {
+  "name": "Paralía",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "An open-air beachfront restaurant at The Ritz-Carlton Key Biscayne, drawing on Greek and Turkish tavernas.",
+    "url": "https://www.hotel-online.com/news/the-ritz-carlton-key-biscayne-miami-reopens-following-100-million-transformation"
+   },
+   {
+    "text": "Its drinks list features Greek wines, ouzo and cocktails made with local botanicals.",
+    "url": "https://www.hotel-online.com/news/the-ritz-carlton-key-biscayne-miami-reopens-following-100-million-transformation"
+   },
+   {
+    "text": "Chef John Iatrellis, who helped open Claudie in Miami, now runs its kitchen.",
+    "url": "https://www.islandernews.com/food/taste/paral-as-new-chef-brings-plenty-of-flavor/article_e4534ae0-31f4-41ed-8765-49f7bb845072.html"
+   }
+  ]
+ },
+ "osm-kb-costa-med": {
+  "name": "Costa Med",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded in 2003 by a Key Biscayne resident.",
+    "url": "https://opentable.com/r/costa-med-key-biscayne"
+   },
+   {
+    "text": "The kitchen blends Mediterranean, European, Caribbean, Asian and South American flavors.",
+    "url": "https://opentable.com/r/costa-med-key-biscayne"
+   },
+   {
+    "text": "Pairs its food with an international wine list and craft beers.",
+    "url": "https://opentable.com/r/costa-med-key-biscayne"
+   },
+   {
+    "text": "Owned by Antonio Braschi.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   }
+  ]
+ },
+ "osm-kb-ayesha-saffron": {
+  "name": "Ayesha Saffron",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by the team that used to run Taste of Bombay in downtown Miami.",
+    "url": "https://www.urbandaddy.com/articles/7873/miami/ayesha-posh-spice-samosas-and-indian-beers-on-key-biscayne"
+   },
+   {
+    "text": "Serves Indian food built around tandoori cooking, with patio seating.",
+    "url": "https://opentable.com/r/ayesha-saffron-key-biscayne"
+   },
+   {
+    "text": "Part of a group that also runs Ayesha Fine Dining in Pinecrest and Saffron@Grove.",
+    "url": "https://www.seasoned.co/job/manager-ayesha-indian-fine-dining-key-biscayne-key-biscayne-fl_6ff43d1c-494b-4ef8-8c2a-d79c2abbf5f7"
+   }
+  ]
+ },
+ "osm-kb-vinya": {
+  "name": "Vinya",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A wine bar and shop: guests pick a bottle from the shelves to drink on site.",
+    "url": "https://www.opentable.com/r/vinya-key-biscayne"
+   },
+   {
+    "text": "The kitchen serves more than 25 dishes drawing on European technique and Latin flavors.",
+    "url": "https://www.opentable.com/r/vinya-key-biscayne"
+   },
+   {
+    "text": "Took over and renovated Stefano's, a Key Biscayne fixture since 1980.",
+    "url": "https://party-request.tripleseat.com/venues/bWMAxnBZ/"
+   },
+   {
+    "text": "Co-owned by sommelier Allegra Angelo, whose Coral Gables sister restaurant Vinya Table closed in late 2025.",
+    "url": "https://www.miaminewtimes.com/food-drink/popular-coral-gables-bistro-shutters-along-miamis-miracle-mile-40515045/"
+   }
+  ]
+ },
+ "osm-kb-tutto-pizza-and-pasta": {
+  "name": "Tutto Pizza & Pasta",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A family-friendly Italian trattoria with indoor seating and an outdoor patio.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/tutto-pizza-and-pasta"
+   },
+   {
+    "text": "Its menu includes filet mignon carpaccio, burrata and meatballs parmigiana.",
+    "url": "https://menupages.com/tutto-pizza-pasta/328-crandon-blvd-key-biscayne"
+   }
+  ]
+ },
+ "osm-kb-kazumi": {
+  "name": "Kazumi",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A contemporary Japanese restaurant run by chef Antonio Braschi.",
+    "url": "https://www.cnnbrasil.com.br/viagemegastronomia/gastronomia/restaurantes-key-biscayne-miami/"
+   },
+   {
+    "text": "Its dishes include a tuna pizza and truffle edamame.",
+    "url": "https://www.islandernews.com/food/taste/taste-s-list-of-the-best-places-for-outdoor-dining-on-key-biscayne/article_9a293908-99fc-11ef-a77a-27a30f3e8ec3.html"
+   },
+   {
+    "text": "Sits in the Square Shopping Center.",
+    "url": "https://www.islandernews.com/food/taste/last-taco-tuesday-of-september/article_fa0260df-1379-4197-8dec-31c6260ed20c.html"
+   }
+  ]
+ },
+ "osm-kb-la-scala": {
+  "name": "La Scala",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "An Italian bistro in the Arcade Shopping Center, which opened at this location in 2017.",
+    "url": "https://www.islandernews.com/food/restaurant/arcade-shopping-center-serves-key-biscayne-as-a-food-oasis/article_f82b5ed0-e993-11ec-b523-330adc335db3.html"
+   },
+   {
+    "text": "Owned by Chandra de Silva.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   },
+   {
+    "text": "The dining room has about a dozen tables.",
+    "url": "https://wanderlog.com/place/details/2941773/la-scala-italian-restaurant"
+   }
+  ]
+ },
+ "osm-kb-kebo-restaurant": {
+  "name": "KeBo Restaurant",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened in January 2014 as a Spanish gastronomy project.",
+    "url": "https://kebo-restaurant.com/"
+   },
+   {
+    "text": "Its menu includes several paellas and a charcoal grill section.",
+    "url": "https://kebo-restaurant.com/key-biscayne-key-biscayne-kebo-restaurant-food-menu"
+   },
+   {
+    "text": "Its turbot, branzino and octopus are cooked over a charcoal grill.",
+    "url": "https://www.theinfatuation.com/miami/reviews/kebo"
+   },
+   {
+    "text": "José Castellano runs the restaurant.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   }
+  ]
+ },
+ "osm-kb-brasas-kb": {
+  "name": "Brasas KB",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A Peruvian rotisserie whose signature is pollo a la brasa, served with sandwiches and salchipapas.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-brasas-kb/"
+   },
+   {
+    "text": "Its chicken comes with Peruvian sauces such as huancaína, ají amarillo and huacatay.",
+    "url": "https://www.islandernews.com/local/key-biscayne-tuesdays-tacos-and-more-menu/article_ca6ea1e4-6fdc-11ed-8482-f3b2951a32b9.html"
+   }
+  ]
+ },
+ "osm-kb-sir-pizza": {
+  "name": "Sir Pizza",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Began on Key Biscayne as a Pizza King and was renamed Sir Pizza in 1969.",
+    "url": "https://www.aol.com/founder-pizza-king-dies-leaving-100736772.html"
+   },
+   {
+    "text": "Now owned by Barry, the son of its founder.",
+    "url": "https://www.aol.com/founder-pizza-king-dies-leaving-100736772.html"
+   },
+   {
+    "text": "For a long time it was one of just a few restaurants on the island.",
+    "url": "https://www.theinfatuation.com/miami/reviews/sir-pizza"
+   },
+   {
+    "text": "Known for square-cut pizzas, it grew to 11 more locations in Miami-Dade and Broward.",
+    "url": "https://app.sponsorpitch.com/sponsors/sir-pizza"
+   }
+  ]
+ },
+ "osm-kb-lima-estilo-nikkei": {
+  "name": "Lima Estilo Nikkei",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by Argentine siblings María, Ramón and Santiago García Calvo.",
+    "url": "https://www.miaminewtimes.com/food-drink/miami-peruvian-restaurant-lima-estilo-nikkei-opens-in-key-biscayne-19559136/"
+   },
+   {
+    "text": "The siblings started a Buenos Aires restaurant of the same name in 2019.",
+    "url": "https://www.miaminewtimes.com/food-drink/miami-peruvian-restaurant-lima-estilo-nikkei-opens-in-key-biscayne-19559136/"
+   },
+   {
+    "text": "Serves Peruvian-Japanese Nikkei food such as truffled salmon belly nigiri and wasabi ceviche.",
+    "url": "https://www.miaminewtimes.com/food-drink/miami-peruvian-restaurant-lima-estilo-nikkei-opens-in-key-biscayne-19559136/"
+   }
+  ]
+ },
+ "osm-kb-papercrane-asian-bistro": {
+  "name": "Papercrane Asian Bistro",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Known as Origin until a rebrand, it spent nearly two decades at Key Colony Plaza.",
+    "url": "https://www.islandernews.com/food/taste/papercrane-brings-familiar-flavors-to-a-fresh-new-location/article_1970bea2-40d2-4883-aaa7-a0b52f6a0675.html"
+   },
+   {
+    "text": "Moved to the Galleria Shopping Center, keeping its menu and staff.",
+    "url": "https://www.islandernews.com/food/taste/papercrane-brings-familiar-flavors-to-a-fresh-new-location/article_1970bea2-40d2-4883-aaa7-a0b52f6a0675.html"
+   },
+   {
+    "text": "Serves Thai noodle dishes and sushi rolls.",
+    "url": "https://www.theinfatuation.com/miami/reviews/papercrane-asian-bistro"
+   }
+  ]
+ },
+ "osm-kb-be-bakery": {
+  "name": "Bë Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Run by Mendoza, Argentina natives Elisa Cruz and Alejandra Príncipe.",
+    "url": "https://www.islandernews.com/food/taste/b-bakery-from-mendoza-argentina-to-key-biscayne-with-authentic-flavors/article_ba93d58d-a501-49db-b9ef-e59980b8b40b.html"
+   },
+   {
+    "text": "The business began in Mendoza in 2010 as a catering company and opened its first bakery there in 2018.",
+    "url": "https://www.islandernews.com/food/taste/b-bakery-from-mendoza-argentina-to-key-biscayne-with-authentic-flavors/article_ba93d58d-a501-49db-b9ef-e59980b8b40b.html"
+   },
+   {
+    "text": "The menu centers on medialunas, alfajores, savory sandwiches and coffee.",
+    "url": "https://www.islandernews.com/food/taste/b-bakery-from-mendoza-argentina-to-key-biscayne-with-authentic-flavors/article_ba93d58d-a501-49db-b9ef-e59980b8b40b.html"
+   },
+   {
+    "text": "Took the place of the island bakery Clásica Victoria, which was sold and rebranded as Bë Bakery.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   }
+  ]
+ },
+ "osm-kb-la-boulangerie-boul-mich": {
+  "name": "La Boulangerie Boul'Mich",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "The bakery's roots on Key Biscayne go back to 1998, when it began as La Nueva Boulangerie.",
+    "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+   },
+   {
+    "text": "Venezuela-born partners led by Avy Cohen bought the brand from chef Massimo Stanzione in 2014.",
+    "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+   },
+   {
+    "text": "The Key Biscayne shop is the original of a bakery group that later opened in Aventura, Pinecrest, Boca Raton and Doral.",
+    "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+   }
+  ]
+ },
+ "osm-kb-flour-and-weirdoughs": {
+  "name": "Flour & Weirdoughs",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Bakes sourdough breads such as loaves stuffed with pork belly or made in the style of cacio e pepe.",
+    "url": "https://www.timeout.com/miami/restaurants/flour-weirdoughs"
+   },
+   {
+    "text": "Has a dining room next door for a sit-down breakfast or lunch.",
+    "url": "https://www.theinfatuation.com/miami/reviews/flour-weirdoughs"
+   }
+  ]
+ },
+ "osm-kb-d-lite-bistro-and-bakery": {
+  "name": "D'lite Bistro & Bakery",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "An all-day cafe that makes salmon bowls, acai bowls and gluten-free arepas.",
+    "url": "https://www.theinfatuation.com/miami/reviews/dlite-bistro-and-bakery"
+   },
+   {
+    "text": "The menu includes a Mediterranean bowl, a perico arepa and pan de bono.",
+    "url": "https://www.theinfatuation.com/miami/reviews/dlite-bistro-and-bakery"
+   },
+   {
+    "text": "Opened in 2020 by Colombian-born owner Alessandra Zurek.",
+    "url": "https://www.islandernews.com/food/taste/d-lite-bistro-bakery-offers-a-healthy-taste-of-community/article_894aea68-1278-4f5a-997b-dbf20bc6b2f4.html"
+   }
+  ]
+ },
+ "osm-kb-the-empanada": {
+  "name": "The Empanada's",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Founded by Mariana Schron of Buenos Aires and her husband, Santiago Pinera.",
+    "url": "https://www.miaminewtimes.com/food-drink/new-south-miami-empanada-spot-opens-after-success-in-key-biscayne-23048504/"
+   },
+   {
+    "text": "This is the original shop, opened in 2019; the brand later expanded across Miami-Dade and Broward.",
+    "url": "https://www.miaminewtimes.com/food-drink/new-south-miami-empanada-spot-opens-after-success-in-key-biscayne-23048504/"
+   },
+   {
+    "text": "Makes more than 25 flavors of Argentinean empanadas.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-empanada-s/"
+   }
+  ]
+ },
+ "osm-kb-donut-gallery-diner": {
+  "name": "Donut Gallery Diner",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Opened by Acela and Benjamin Zambrano, Cuban immigrants who moved to Miami in 1971.",
+    "url": "https://www.miaminewtimes.com/?p=40318867"
+   },
+   {
+    "text": "Their son Nelson now runs the diner with his family.",
+    "url": "https://www.miaminewtimes.com/?p=40318867"
+   },
+   {
+    "text": "Has served breakfast and lunch on Key Biscayne since 1972.",
+    "url": "https://www.theinfatuation.com/miami/reviews/donut-gallery-diner"
+   },
+   {
+    "text": "A narrow counter spot where low vinyl stools look over the griddle.",
+    "url": "https://www.theinfatuation.com/miami/reviews/donut-gallery-diner"
+   }
+  ]
+ },
+ "osm-kb-the-spruce-juice": {
+  "name": "The Spruce Juice",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Presses its raw juices and blends smoothies and acai bowls such as the Nutty bowl.",
+    "url": "https://www.islandernews.com/food/taste/smoothies-offer-a-quick-health-conscious-alternative-to-busy-people-and-the-village-has-tasty/article_e351b84c-49be-11ee-aefd-9f55a58debbe.html"
+   },
+   {
+    "text": "Opened in the Key Colony Shopping Center and became an after-school stop for island students.",
+    "url": "https://www.islandernews.com/food/taste/key-bites-exciting-options-bring-flavor-to-island-food-scene/article_e83fcff6-f462-11ef-9823-2fd39295f423.html"
+   }
+  ]
+ },
+ "osm-kb-yogurt-by-u": {
+  "name": "Yogurt By U",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A frozen yogurt shop with a wide range of flavors and toppings.",
+    "url": "https://www.atly.com/location/YogurtByU"
+   },
+   {
+    "text": "Islander News lists it as a casual, kid-friendly frozen yogurt stop.",
+    "url": "https://www.islandernews.com/food/taste/eat-sip-enjoy-the-ultimate-key-biscayne-restaurant-bar-directory/article_12143a51-cb6d-4aec-9288-74ff53739175.html"
+   }
+  ]
+ },
+ "osm-kb-the-golden-hog": {
+  "name": "The Golden Hog",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A neighborhood food market that has operated on the island since 1995.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/golden-hog"
+   },
+   {
+    "text": "Stocks imported goods such as Échiré butter from France and Petrossian caviar.",
+    "url": "https://miaminewtimes.com/best-of/2023/eat-and-drink/best-gourmet-grocery-17199492"
+   },
+   {
+    "text": "Serves deli sandwiches, churrasco from the grill and cappuccino at its bakery counter.",
+    "url": "https://www.theinfatuation.com/miami/reviews/the-golden-hog"
+   }
+  ]
+ },
+ "osm-kb-mestizo-latin-cuisine-and-coffee": {
+  "name": "Mestizo Latin Cuisine and Coffee",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "Its Mestizo Breakfast pairs eggs with shredded beef, black beans, sweet plantain, Paisa cheese and an arepa.",
+    "url": "https://www.islandernews.com/food/taste/rise-and-shine-for-these-breakfast-options/article_cc638038-eae0-11ef-9817-bfbfb401d8d4.html"
+   }
+  ]
+ },
+ "osm-kb-casa-silva": {
+  "name": "Casa Silva",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "A Spanish takeout and specialty food store run by Gabriela Silva, who is from Madrid.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   },
+   {
+    "text": "Her father ran a similar business on the island about a decade before.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   },
+   {
+    "text": "Sells Valenciana, fideuá and seafood paellas to go.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   },
+   {
+    "text": "Offers wines from Spain, Argentina and Italy by the glass or bottle.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   }
+  ]
+ },
+ "osm-kb-nahuen-gourmet-market": {
+  "name": "Nahuen Gourmet Market",
+  "closed": false,
+  "closedSource": null,
+  "facts": [
+   {
+    "text": "An Argentinean gourmet market, listed earlier as Patagonia Nahuen.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/patagonia-nahuen"
+   },
+   {
+    "text": "Sells homemade baked goods, deli items and made-to-order sandwiches.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/patagonia-nahuen"
+   },
+   {
+    "text": "Serves Argentinian dishes, desserts, medialunas and espresso drinks.",
+    "url": "https://www.islandernews.com/food/taste/eat-sip-enjoy-the-ultimate-key-biscayne-restaurant-bar-directory/article_12143a51-cb6d-4aec-9288-74ff53739175.html"
+   }
+  ]
  }
 }

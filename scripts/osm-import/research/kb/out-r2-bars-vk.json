@@ -1,0 +1,169 @@
+[
+  {
+    "name": "RUMBAR",
+    "area": "Key Biscayne",
+    "address": "455 Grand Bay Dr",
+    "city": "Key Biscayne",
+    "osmTag": "amenity=bar",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The lobby bar of The Ritz-Carlton Key Biscayne, styled after 1940s Havana with palmetto ceiling fans.",
+        "url": "https://www.ritzcarlton.com/en/hotels/miami/key-biscayne/dining/rumbar-lobby-lounge"
+      },
+      {
+        "text": "Opened in August 2007 as a Havana-inspired rum bar.",
+        "url": "https://www.bizbash.com/event-decor/miami-channels-havana-with-the-opening-of-rum-bar"
+      },
+      {
+        "text": "Rum Journal named it one of the world's best rum bars in 2014.",
+        "url": "https://www.caribjournal.com/?p=45085"
+      },
+      {
+        "text": "Reopened with the resort in December 2025 after a renovation.",
+        "url": "https://www.islandernews.com/news/keybiscayne/ritz-carlton-key-biscayne-reopens-with-new-architecture-spa-and-dining/article_3d9bae5b-b99f-4270-9541-454945103720.html"
+      }
+    ]
+  },
+  {
+    "name": "Dune Beach Bar",
+    "area": "Key Biscayne",
+    "address": "455 Grand Bay Dr",
+    "city": "Key Biscayne",
+    "osmTag": "amenity=bar",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A beach bar at The Ritz-Carlton Key Biscayne that serves as a daytime beach bar and an evening lounge.",
+        "url": "https://www.ritzcarlton.com/en/hotels/miakb-the-ritz-carlton-key-biscayne-miami/dining/"
+      },
+      {
+        "text": "Its menu is American beach fare.",
+        "url": "https://www.ritzcarlton.com/en/hotels/miakb-the-ritz-carlton-key-biscayne-miami/dining/"
+      }
+    ]
+  },
+  {
+    "name": "The Cleat",
+    "area": "Key Biscayne",
+    "address": "1200 Crandon Blvd",
+    "city": "Key Biscayne",
+    "osmTag": "amenity=bar",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "reason": null,
+    "facts": [
+      {
+        "text": "An open-air bar at No Name Harbor inside Bill Baggs Cape Florida State Park.",
+        "url": "https://lighthouserestaurants.com/the-cleat"
+      },
+      {
+        "text": "Named Best-Kept Secret (Dining Division) in Miami New Times' Best of Miami 2024.",
+        "url": "https://www.miaminewtimes.com/best-of-miami/2024/eat-and-drink/best-kept-secret-dining-division-20433676/"
+      },
+      {
+        "text": "Named Best Waterfront Bar by Miami New Times in 2022.",
+        "url": "https://miaminewtimes.com/best-of/2022/eat-and-drink/best-waterfront-bar-14715440"
+      }
+    ]
+  },
+  {
+    "name": "SALT Waterfront Restaurant",
+    "area": "Virginia Key",
+    "address": "4600 Rickenbacker Causeway",
+    "city": "Miami",
+    "osmTag": "amenity=restaurant",
+    "cuisine": "american",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "Sits on the University of Miami's Rosenstiel School campus and is open to the public.",
+        "url": "https://www.toasttab.com/local/salt-waterfront-restaurant/r-6a2675a3-3183-4e04-b279-1ef806a71197"
+      },
+      {
+        "text": "Its menu covers seafood and sandwiches, with vegetarian and vegan options.",
+        "url": "https://www.toasttab.com/local/salt-waterfront-restaurant/r-6a2675a3-3183-4e04-b279-1ef806a71197"
+      }
+    ]
+  },
+  {
+    "name": "The Wetlab",
+    "area": "Virginia Key",
+    "address": "4600 Rickenbacker Causeway",
+    "city": "Miami",
+    "osmTag": "amenity=bar",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 3,
+    "reason": null,
+    "facts": [
+      {
+        "text": "A student-run bar on the University of Miami's Rosenstiel School campus.",
+        "url": "https://news.miami.edu/life/stories/2019/02/dining-at-the-u.html"
+      },
+      {
+        "text": "Its open terrace overlooks the bay.",
+        "url": "https://prod.gcp.timeout.com/miami/bars/the-wetlab"
+      },
+      {
+        "text": "Named Best Campus Watering Hole by Miami New Times in 2010.",
+        "url": "https://www.miaminewtimes.com/best-of-miami/2010/bars-and-clubs/best-campus-watering-hole-6402400"
+      }
+    ]
+  },
+  {
+    "name": "Atlantica Seafood Restaurant & Market",
+    "area": "Virginia Key",
+    "address": null,
+    "city": "Miami",
+    "osmTag": "amenity=restaurant",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 2,
+    "reason": null,
+    "facts": []
+  },
+  {
+    "name": "Bayside Seafood Hut",
+    "area": "Virginia Key",
+    "address": null,
+    "city": "Miami",
+    "osmTag": "amenity=restaurant",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 3,
+    "reason": null,
+    "facts": []
+  }
+]

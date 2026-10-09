@@ -13,8 +13,8 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "art-museums",
-    "file": "places/miami/art-museums.ea760ad658.json",
-    "count": 19
+    "file": "places/miami/art-museums.7c38ba3c88.json",
+    "count": 20
   },
   {
     "region": "miami",
@@ -31,8 +31,8 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "local-life",
-    "file": "places/miami/local-life.1576e07071.json",
-    "count": 96
+    "file": "places/miami/local-life.38e174757b.json",
+    "count": 99
   },
   {
     "region": "miami",
@@ -55,8 +55,8 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "food",
-    "file": "places/miami/food.62a8bbe7a8.json",
-    "count": 526
+    "file": "places/miami/food.351b034c73.json",
+    "count": 554
   },
   {
     "region": "philly",

@@ -10,7 +10,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { ALL_LANDMARKS } from '../../src/data/regions.js';
 import { PLACE_PACKS } from '../../src/data/placePacks.manifest.js';
-import { withWebFacts } from './transform.js';
+import { withWebFacts, sameName as samePlaceName, distanceMeters } from './transform.js';
 import { regionFromArgs } from './regions.js';
 
 const region = regionFromArgs(process.argv);
@@ -44,7 +44,9 @@ for (const other of region.mergeFrom || []) {
   const file = `scripts/osm-import/data/${other}/staged.json`;
   if (!fs.existsSync(file)) continue;
   const have = new Set(allStaged.map((p) => p.id));
-  const extra = JSON.parse(fs.readFileSync(file, 'utf8')).filter((p) => !have.has(p.id) && region.packRegions.includes(p.region));
+  // Same name within 150 m of a place already packed is that place.
+  const near = (p) => allStaged.some((q) => samePlaceName(p.name, q.name) && distanceMeters(p.lat, p.lng, q.lat, q.lng) <= 150);
+  const extra = JSON.parse(fs.readFileSync(file, 'utf8')).filter((p) => !have.has(p.id) && !near(p) && region.packRegions.includes(p.region));
   console.log(`${file}: ${extra.length} new places`);
   allStaged.push(...extra);
 }

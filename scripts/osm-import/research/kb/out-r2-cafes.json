@@ -1,0 +1,453 @@
+[
+ {
+  "name": "Oasis Café",
+  "area": "Key Biscayne",
+  "address": "19 Harbor Dr",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.timeout.com/miami/restaurants/oasis-cafe",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "osmTag": "amenity=cafe",
+  "facts": []
+ },
+ {
+  "name": "Bë Bakery",
+  "area": "Key Biscayne",
+  "address": "638 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 6,
+  "reason": null,
+  "osmTag": "shop=bakery",
+  "facts": [
+   {
+    "text": "Run by Mendoza, Argentina natives Elisa Cruz and Alejandra Príncipe.",
+    "url": "https://www.islandernews.com/food/taste/b-bakery-from-mendoza-argentina-to-key-biscayne-with-authentic-flavors/article_ba93d58d-a501-49db-b9ef-e59980b8b40b.html"
+   },
+   {
+    "text": "The business began in Mendoza in 2010 as a catering company and opened its first bakery there in 2018.",
+    "url": "https://www.islandernews.com/food/taste/b-bakery-from-mendoza-argentina-to-key-biscayne-with-authentic-flavors/article_ba93d58d-a501-49db-b9ef-e59980b8b40b.html"
+   },
+   {
+    "text": "The menu centers on medialunas, alfajores, savory sandwiches and coffee.",
+    "url": "https://www.islandernews.com/food/taste/b-bakery-from-mendoza-argentina-to-key-biscayne-with-authentic-flavors/article_ba93d58d-a501-49db-b9ef-e59980b8b40b.html"
+   },
+   {
+    "text": "Took the place of the island bakery Clásica Victoria, which was sold and rebranded as Bë Bakery.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   }
+  ]
+ },
+ {
+  "name": "La Boulangerie Boul'Mich",
+  "area": "Key Biscayne",
+  "address": "328 Crandon Blvd, Suite 125",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "osmTag": "shop=bakery",
+  "facts": [
+   {
+    "text": "The bakery's roots on Key Biscayne go back to 1998, when it began as La Nueva Boulangerie.",
+    "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+   },
+   {
+    "text": "Venezuela-born partners led by Avy Cohen bought the brand from chef Massimo Stanzione in 2014.",
+    "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+   },
+   {
+    "text": "The Key Biscayne shop is the original of a bakery group that later opened in Aventura, Pinecrest, Boca Raton and Doral.",
+    "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+   }
+  ]
+ },
+ {
+  "name": "Flour & Weirdoughs",
+  "area": "Key Biscayne",
+  "address": "19 Harbor Dr",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "osmTag": "shop=bakery",
+  "facts": [
+   {
+    "text": "Bakes sourdough breads such as loaves stuffed with pork belly or made in the style of cacio e pepe.",
+    "url": "https://www.timeout.com/miami/restaurants/flour-weirdoughs"
+   },
+   {
+    "text": "Won Best Bakery in the Miami New Times 2024 Readers' Choice poll.",
+    "url": "https://www.miaminewtimes.com/best-of-miami/2024/readers-choice/best-bakery-20454732"
+   },
+   {
+    "text": "Named Best Bakery by Miami New Times in 2022.",
+    "url": "https://miaminewtimes.com/best-of/2022/eat-and-drink/best-bakery-14708971"
+   },
+   {
+    "text": "Has a dining room next door for a sit-down breakfast or lunch.",
+    "url": "https://www.theinfatuation.com/miami/reviews/flour-weirdoughs"
+   }
+  ]
+ },
+ {
+  "name": "D'lite Bistro & Bakery",
+  "area": "Key Biscayne",
+  "address": "180 Crandon Blvd, Suite 101",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "osmTag": "amenity=cafe",
+  "facts": [
+   {
+    "text": "An all-day cafe that makes salmon bowls, acai bowls and gluten-free arepas.",
+    "url": "https://www.theinfatuation.com/miami/reviews/dlite-bistro-and-bakery"
+   },
+   {
+    "text": "The menu includes a Mediterranean bowl, a perico arepa and pan de bono.",
+    "url": "https://www.theinfatuation.com/miami/reviews/dlite-bistro-and-bakery"
+   },
+   {
+    "text": "Opened in 2020 by Colombian-born owner Alessandra Zurek.",
+    "url": "https://www.islandernews.com/food/taste/d-lite-bistro-bakery-offers-a-healthy-taste-of-community/article_894aea68-1278-4f5a-997b-dbf20bc6b2f4.html"
+   }
+  ]
+ },
+ {
+  "name": "The Empanada's",
+  "area": "Key Biscayne",
+  "address": "180 Crandon Blvd, Suite 111",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "osmTag": "amenity=restaurant",
+  "cuisine": "argentinian",
+  "facts": [
+   {
+    "text": "Founded by Mariana Schron of Buenos Aires and her husband, Santiago Pinera.",
+    "url": "https://www.miaminewtimes.com/food-drink/new-south-miami-empanada-spot-opens-after-success-in-key-biscayne-23048504/"
+   },
+   {
+    "text": "This is the original shop, opened in 2019; the brand later expanded across Miami-Dade and Broward.",
+    "url": "https://www.miaminewtimes.com/food-drink/new-south-miami-empanada-spot-opens-after-success-in-key-biscayne-23048504/"
+   },
+   {
+    "text": "Makes more than 25 flavors of Argentinean empanadas.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-empanada-s/"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "Donut Gallery Diner",
+  "address": "83 Harbor Dr",
+  "searches": 1,
+  "osmTag": "amenity=restaurant",
+  "cuisine": "diner",
+  "facts": [
+   {
+    "text": "Opened by Acela and Benjamin Zambrano, Cuban immigrants who moved to Miami in 1971.",
+    "url": "https://www.miaminewtimes.com/?p=40318867"
+   },
+   {
+    "text": "Their son Nelson now runs the diner with his family.",
+    "url": "https://www.miaminewtimes.com/?p=40318867"
+   },
+   {
+    "text": "Has served breakfast and lunch on Key Biscayne since 1972.",
+    "url": "https://www.theinfatuation.com/miami/reviews/donut-gallery-diner"
+   },
+   {
+    "text": "A narrow counter spot where low vinyl stools look over the griddle.",
+    "url": "https://www.theinfatuation.com/miami/reviews/donut-gallery-diner"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html",
+  "notFound": false,
+  "reason": null,
+  "name": "Clásica Victoria",
+  "address": "638 Crandon Blvd",
+  "searches": 2,
+  "osmTag": "shop=bakery",
+  "facts": []
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "The Spruce Juice",
+  "address": "200 Crandon Blvd #110",
+  "searches": 4,
+  "osmTag": "amenity=cafe",
+  "facts": [
+   {
+    "text": "Presses its raw juices and blends smoothies and acai bowls such as the Nutty bowl.",
+    "url": "https://www.islandernews.com/food/taste/smoothies-offer-a-quick-health-conscious-alternative-to-busy-people-and-the-village-has-tasty/article_e351b84c-49be-11ee-aefd-9f55a58debbe.html"
+   },
+   {
+    "text": "Opened in the Key Colony Shopping Center and became an after-school stop for island students.",
+    "url": "https://www.islandernews.com/food/taste/key-bites-exciting-options-bring-flavor-to-island-food-scene/article_e83fcff6-f462-11ef-9823-2fd39295f423.html"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "reason": null,
+  "name": "Bianco Gelato",
+  "address": "",
+  "searches": 2,
+  "osmTag": "amenity=ice_cream",
+  "facts": []
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": true,
+  "closedSource": "https://www.theinfatuation.com/miami/reviews/krunch-by-kebo",
+  "notFound": false,
+  "reason": null,
+  "name": "Krunch By Kebo",
+  "address": "200 Crandon Blvd",
+  "searches": 0,
+  "osmTag": "amenity=restaurant",
+  "facts": []
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "Yogurt By U",
+  "address": "600 Crandon Blvd",
+  "searches": 4,
+  "osmTag": "amenity=ice_cream",
+  "facts": [
+   {
+    "text": "A frozen yogurt shop with a wide range of flavors and toppings.",
+    "url": "https://www.atly.com/location/YogurtByU"
+   },
+   {
+    "text": "Islander News lists it as a casual, kid-friendly frozen yogurt stop.",
+    "url": "https://www.islandernews.com/food/taste/eat-sip-enjoy-the-ultimate-key-biscayne-restaurant-bar-directory/article_12143a51-cb6d-4aec-9288-74ff53739175.html"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "The Golden Hog",
+  "address": "91 Harbor Dr",
+  "searches": 1,
+  "osmTag": "amenity=restaurant",
+  "cuisine": "deli",
+  "facts": [
+   {
+    "text": "A neighborhood food market that has operated on the island since 1995.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/golden-hog"
+   },
+   {
+    "text": "Named Best Gourmet Grocery by Miami New Times in 2023.",
+    "url": "https://miaminewtimes.com/best-of/2023/eat-and-drink/best-gourmet-grocery-17199492"
+   },
+   {
+    "text": "Stocks imported goods such as Échiré butter from France and Petrossian caviar.",
+    "url": "https://miaminewtimes.com/best-of/2023/eat-and-drink/best-gourmet-grocery-17199492"
+   },
+   {
+    "text": "Serves deli sandwiches, churrasco from the grill and cappuccino at its bakery counter.",
+    "url": "https://www.theinfatuation.com/miami/reviews/the-golden-hog"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "La Tropical Paletas",
+  "address": "328 Crandon Blvd, Ste 109",
+  "searches": 2,
+  "osmTag": "amenity=ice_cream",
+  "facts": []
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "reason": null,
+  "name": "KEBO's Corner",
+  "address": "",
+  "searches": 1,
+  "osmTag": "amenity=restaurant",
+  "facts": []
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "Mestizo Latin Cuisine and Coffee",
+  "address": "600 Crandon Blvd, Suite 130",
+  "searches": 3,
+  "osmTag": "amenity=cafe",
+  "facts": [
+   {
+    "text": "Its Mestizo Breakfast pairs eggs with shredded beef, black beans, sweet plantain, Paisa cheese and an arepa.",
+    "url": "https://www.islandernews.com/food/taste/rise-and-shine-for-these-breakfast-options/article_cc638038-eae0-11ef-9817-bfbfb401d8d4.html"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "Casa Silva",
+  "address": "260 Crandon Blvd",
+  "searches": 2,
+  "osmTag": "amenity=restaurant",
+  "cuisine": "spanish",
+  "note": "Address is the Square Shopping Center (260 Crandon Blvd per islandernews Narbona Cafe article); unit number not found.",
+  "facts": [
+   {
+    "text": "A Spanish takeout and specialty food store run by Gabriela Silva, who is from Madrid.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   },
+   {
+    "text": "Her father ran a similar business on the island about a decade before.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   },
+   {
+    "text": "Sells Valenciana, fideuá and seafood paellas to go.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   },
+   {
+    "text": "Offers wines from Spain, Argentina and Italy by the glass or bottle.",
+    "url": "https://www.islandernews.com/food/taste/casa-silva-winning-over-island-foodies/article_5d76b470-86fc-45bf-9046-18d931393900.html"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "reason": null,
+  "name": "Nahuen Gourmet Market",
+  "address": "260 Crandon Blvd, Unit 22",
+  "searches": 1,
+  "osmTag": "amenity=cafe",
+  "facts": [
+   {
+    "text": "An Argentinean gourmet market, listed earlier as Patagonia Nahuen.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/patagonia-nahuen"
+   },
+   {
+    "text": "Sells homemade baked goods, deli items and made-to-order sandwiches.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/patagonia-nahuen"
+   },
+   {
+    "text": "Serves Argentinian dishes, desserts, medialunas and espresso drinks.",
+    "url": "https://www.islandernews.com/food/taste/eat-sip-enjoy-the-ultimate-key-biscayne-restaurant-bar-directory/article_12143a51-cb6d-4aec-9288-74ff53739175.html"
+   }
+  ]
+ },
+ {
+  "area": "Key Biscayne",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "reason": null,
+  "name": "The Corner Coffee and Pantry",
+  "address": "10 Village Green Way",
+  "searches": 2,
+  "osmTag": "amenity=cafe",
+  "note": "Newest coverage found is about 2022; could not confirm open now.",
+  "facts": []
+ }
+]

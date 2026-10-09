@@ -1,9 +1,9 @@
 {
  "category": "local-life",
- "count": 96,
+ "count": 99,
  "commonsPhotos": 10,
- "commonsPhotoPct": 10.4,
- "withFacts": 96,
+ "commonsPhotoPct": 10.1,
+ "withFacts": 99,
  "withHours": 21,
  "photoSkips": [
   {
@@ -34,18 +34,18 @@
  ],
  "sample": [
   {
-   "id": "osm-n13717744385",
-   "name": "ON & ON",
+   "id": "osm-n11214375088",
+   "name": "Sugar",
    "topic": "bar",
-   "lat": 25.803043,
-   "lng": -80.200167,
+   "lat": 25.766606,
+   "lng": -80.19287,
    "photo": false,
    "facts": [
-    "Music venue hosting ticketed Friday night events focused on hip-hop and R&B.",
-    "Opened in 2026",
-    "21 and over"
+    "Rooftop bar and garden at the EAST Miami hotel.",
+    "Open-air bar on the 40th floor of the EAST hotel.",
+    "Serves Asian cuisine."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/13717744385"
+   "osmUrl": "https://www.openstreetmap.org/node/11214375088"
   },
   {
    "id": "osm-n9934299830",
@@ -204,6 +204,33 @@
    "osmUrl": "https://www.openstreetmap.org/node/10959342065"
   },
   {
+   "id": "osm-r7554876",
+   "name": "Sunset Place",
+   "topic": "mall",
+   "lat": 25.705814,
+   "lng": -80.28644,
+   "photo": false,
+   "facts": [
+    "Opened on December 18, 1998.",
+    "Built on the former site of The Bakery Centre, which opened in 1986.",
+    "Founded in 1999"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/relation/7554876"
+  },
+  {
+   "id": "osm-w435576204",
+   "name": "Ultramont Mall",
+   "topic": "mall",
+   "lat": 25.772976,
+   "lng": -80.191412,
+   "photo": true,
+   "facts": [
+    "It is in Miami's Central Business District.",
+    "Address: 100 Southeast 1st Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435576204"
+  },
+  {
    "id": "osm-n6030985494",
    "name": "Lincoln Center",
    "topic": "mall",
@@ -230,20 +257,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/5903100399"
   },
   {
-   "id": "osm-n7134733373",
-   "name": "Romero Britto",
-   "topic": "art shop",
-   "lat": 25.790301,
-   "lng": -80.140254,
-   "photo": false,
-   "facts": [
-    "Flagship gallery of artist Romero Britto.",
-    "The gallery has been on Lincoln Road since 1993.",
-    "Address: 1102 Lincoln Road, Miami Beach"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/7134733373"
-  },
-  {
    "id": "osm-n7150191720",
    "name": "Gemma Lounge",
    "topic": "bar",
@@ -258,17 +271,17 @@
    "osmUrl": "https://www.openstreetmap.org/node/7150191720"
   },
   {
-   "id": "osm-w435576204",
-   "name": "Ultramont Mall",
-   "topic": "mall",
-   "lat": 25.772976,
-   "lng": -80.191412,
-   "photo": true,
+   "id": "osm-n5384767023",
+   "name": "Mojitobar",
+   "topic": "bar",
+   "lat": 25.778364,
+   "lng": -80.186486,
+   "photo": false,
    "facts": [
-    "It is in Miami's Central Business District.",
-    "Address: 100 Southeast 1st Street, Miami"
+    "Located in the Bayside Marketplace shopping center.",
+    "Address: 401 Biscayne Boulevard, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/435576204"
+   "osmUrl": "https://www.openstreetmap.org/node/5384767023"
   },
   {
    "id": "osm-w1178292585",
@@ -282,33 +295,6 @@
     "Address: 1532 Washington Avenue, Miami Beach"
    ],
    "osmUrl": "https://www.openstreetmap.org/way/1178292585"
-  },
-  {
-   "id": "osm-n5192839521",
-   "name": "The Butcher Shop",
-   "topic": "bar",
-   "lat": 25.799364,
-   "lng": -80.198137,
-   "photo": false,
-   "facts": [
-    "Its full name is The Butcher Shop Beer Garden & Grill.",
-    "The Wynwood original later spawned a sibling location in West Palm Beach."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5192839521"
-  },
-  {
-   "id": "osm-n12075008819",
-   "name": "University of Miami Campus Store",
-   "topic": "bookstore",
-   "lat": 25.719989,
-   "lng": -80.277782,
-   "photo": false,
-   "facts": [
-    "Run by University of Miami",
-    "Also known as University Bookstore",
-    "Address: 1306 Stanford Drive, Unit 1500, Coral Gables"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/12075008819"
   },
   {
    "id": "osm-n13401917278",
@@ -325,45 +311,57 @@
    "osmUrl": "https://www.openstreetmap.org/node/13401917278"
   },
   {
-   "id": "osm-n5903100422",
-   "name": "Shula's Bar and Grill",
-   "topic": "pub",
-   "lat": 25.797829,
-   "lng": -80.273614,
+   "id": "osm-n12075008819",
+   "name": "University of Miami Campus Store",
+   "topic": "bookstore",
+   "lat": 25.719989,
+   "lng": -80.277782,
    "photo": false,
    "facts": [
-    "Located on Concourse D at Miami International Airport.",
-    "Opened at Miami International Airport in 2011."
+    "Run by University of Miami",
+    "Also known as University Bookstore",
+    "Address: 1306 Stanford Drive, Unit 1500, Coral Gables"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100422"
+   "osmUrl": "https://www.openstreetmap.org/node/12075008819"
   },
   {
-   "id": "osm-n10138526560",
-   "name": "Minibar",
+   "id": "osm-w1180266283",
+   "name": "Blackmarket",
    "topic": "bar",
-   "lat": 25.77412,
-   "lng": -80.136158,
+   "lat": 25.773243,
+   "lng": -80.190444,
    "photo": false,
    "facts": [
-    "A cocktail bar located at The Meridian in Miami Beach.",
-    "Accepts Bitcoin",
-    "Address: 418 Meridian Avenue, Miami Beach"
+    "Has about 30 TVs for watching games.",
+    "Address: 168 Southeast 1st Street, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/10138526560"
+   "osmUrl": "https://www.openstreetmap.org/way/1180266283"
   },
   {
-   "id": "osm-w435513518",
-   "name": "Macy's",
-   "topic": "department store",
-   "lat": 25.791794,
-   "lng": -80.136117,
+   "id": "osm-n5192839521",
+   "name": "The Butcher Shop",
+   "topic": "bar",
+   "lat": 25.799364,
+   "lng": -80.198137,
    "photo": false,
    "facts": [
-    "Part of Macy's, founded in 1858 by R.H. Macy.",
-    "Carries men's and women's clothing, shoes, jewelry, watches, handbags, luggage and home goods.",
-    "Part of the Macy's chain"
+    "Its full name is The Butcher Shop Beer Garden & Grill.",
+    "The Wynwood original later spawned a sibling location in West Palm Beach."
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/435513518"
+   "osmUrl": "https://www.openstreetmap.org/node/5192839521"
+  },
+  {
+   "id": "osm-n9882017556",
+   "name": "Mama Tried",
+   "topic": "bar",
+   "lat": 25.775339,
+   "lng": -80.190082,
+   "photo": true,
+   "facts": [
+    "Debuted in downtown Miami in June 2018.",
+    "Address: 207 Northeast 1st Street"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9882017556"
   }
  ],
  "points": [
@@ -845,6 +843,21 @@
   [
    25.801567,
    -80.202563,
+   0
+  ],
+  [
+   25.691857,
+   -80.157961,
+   0
+  ],
+  [
+   25.691857,
+   -80.157961,
+   0
+  ],
+  [
+   25.732238,
+   -80.162969,
    0
   ]
  ]

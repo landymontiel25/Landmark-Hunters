@@ -34,7 +34,9 @@ describe.runIf(packs.length)('shipped place chunks', () => {
 
   it('have the catalog landmark shape', () => {
     for (const l of all) {
-      expect(l.id).toMatch(/^osm-[nwr]\d+$/);
+      // An OSM object's id, or a researched place located at its address
+      // (locate-candidates.mjs addressFallback): osm-<import region>-<name>.
+      expect(l.id).toMatch(/^osm-([nwr]\d+|kb-[a-z0-9-]+)$/);
       expect(typeof l.name).toBe('string');
       expect(l.name.trim()).toBe(l.name);
       expect(l.name.length).toBeGreaterThan(0);
