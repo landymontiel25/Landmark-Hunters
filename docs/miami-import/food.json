@@ -1,9 +1,9 @@
 {
  "category": "food",
- "count": 526,
+ "count": 554,
  "commonsPhotos": 34,
- "commonsPhotoPct": 6.5,
- "withFacts": 526,
+ "commonsPhotoPct": 6.1,
+ "withFacts": 554,
  "withHours": 159,
  "photoSkips": [
   {
@@ -89,294 +89,126 @@
  ],
  "sample": [
   {
-   "id": "osm-w435531263",
-   "name": "El Carajo",
-   "topic": "café",
-   "lat": 25.746786,
-   "lng": -80.221529,
+   "id": "osm-n6446809494",
+   "name": "Chicken Kitchen",
+   "topic": "American restaurant",
+   "lat": 25.726051,
+   "lng": -80.261895,
    "photo": false,
    "facts": [
-    "A Spanish restaurant and wine store set inside a gas station.",
-    "Address: 2437 Southwest 17th Avenue, Miami"
+    "Part of Chicken Kitchen, whose first store opened in New York City in 1985.",
+    "The chain's original Chop-Chop recipe dates to 1989 and draws on French, Greek and Italian cooking.",
+    "Serves American food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/435531263"
+   "osmUrl": "https://www.openstreetmap.org/node/6446809494"
   },
   {
-   "id": "osm-n4661308690",
-   "name": "El Nuevo Siglo",
-   "topic": "international restaurant",
-   "lat": 25.765874,
-   "lng": -80.216462,
-   "photo": true,
-   "facts": [
-    "A small food counter with a few tables inside El Nuevo Siglo supermarket."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/4661308690"
-  },
-  {
-   "id": "osm-n5903100412",
-   "name": "Cafe Versailles",
-   "topic": "Cuban café",
-   "lat": 25.797248,
-   "lng": -80.274884,
-   "photo": false,
-   "facts": [
-    "Airport stall of Versailles, founded by Felipe Valls Sr. in 1971.",
-    "The original Versailles added an on-site bakery in 1998 that bakes pastries and breads in house.",
-    "Serves Cuban food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100412"
-  },
-  {
-   "id": "osm-w435537451",
-   "name": "Jackson Soul Food",
-   "topic": "restaurant",
-   "lat": 25.783471,
-   "lng": -80.199942,
-   "photo": false,
-   "facts": [
-    "Menu includes smothered pork chops, fried catfish, grits and cornbread.",
-    "Walls are lined with old photos and news clips on the restaurant's history.",
-    "Address: 950 Northwest 3rd Avenue, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/435537451"
-  },
-  {
-   "id": "osm-n13604478201",
-   "name": "Bite Sandwich",
-   "topic": "café",
-   "lat": 25.772207,
-   "lng": -80.221222,
-   "photo": false,
-   "facts": [
-    "Located in Little Havana.",
-    "Serves breakfast, coffee and sandwiches",
-    "Address: 1576 Southwest 1st Street"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13604478201"
-  },
-  {
-   "id": "osm-n6018262288",
-   "name": "Delicias de Espana",
+   "id": "osm-kb-la-boulangerie-boul-mich",
+   "name": "La Boulangerie Boul'Mich",
    "topic": "bakery",
-   "lat": 25.73254,
-   "lng": -80.314617,
+   "lat": 25.69549,
+   "lng": -80.163633,
    "photo": false,
    "facts": [
-    "Spanish bakery founded in 1997 by Ernesto Llerandi and his wife, Isabel Miranda.",
-    "Bakes cakes, breads and pastries, including custom cakes and traditional Spanish desserts.",
-    "Address: 7374 Southwest 40th Street, Miami"
+    "The bakery's roots on Key Biscayne go back to 1998, when it began as La Nueva Boulangerie.",
+    "Venezuela-born partners led by Avy Cohen bought the brand from chef Massimo Stanzione in 2014.",
+    "The Key Biscayne shop is the original of a bakery group that later opened in Aventura, Pinecrest, Boca Raton and Doral."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6018262288"
+   "osmUrl": "https://www.openstreetmap.org/node/6008784200"
   },
   {
-   "id": "osm-n3843182874",
-   "name": "The River Oyster Bar",
-   "topic": "seafood restaurant",
-   "lat": 25.767627,
-   "lng": -80.191966,
-   "photo": false,
-   "facts": [
-    "Chef David Bracha is behind The River Seafood & Oyster Bar.",
-    "Serves seafood",
-    "Offers delivery"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3843182874"
-  },
-  {
-   "id": "osm-n6773341638",
-   "name": "Opera House",
-   "topic": "pizza restaurant",
-   "lat": 25.792234,
-   "lng": -80.187117,
-   "photo": false,
-   "facts": [
-    "Calls itself a sports brasserie with indoor and outdoor dining, a bar and a lounge in Edgewater.",
-    "Pizzas include a New York style square pan Grandpa Pie with house vodka sauce.",
-    "Burger menu is led by the Opera Burger, a half-pound all-beef patty."
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6773341638"
-  },
-  {
-   "id": "osm-n3156408683",
-   "name": "Fritz & Franz Bierhaus",
-   "topic": "German restaurant",
-   "lat": 25.750851,
-   "lng": -80.256204,
-   "photo": false,
-   "facts": [
-    "Established in 2002 as a German and Austrian restaurant and beer hall.",
-    "Home of the FC Bayern Munich fan club in South Florida.",
-    "Serves German and Austrian food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/3156408683"
-  },
-  {
-   "id": "osm-n8694449286",
-   "name": "Exupery Burger & Tacos",
-   "topic": "burger restaurant",
-   "lat": 25.765441,
-   "lng": -80.224192,
-   "photo": false,
-   "facts": [
-    "Also listed under the name Exupery Burger & Pizza.",
-    "Serves burgers",
-    "Address: 1782 Southwest 8th Street, Miami"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/8694449286"
-  },
-  {
-   "id": "osm-n6091344818",
-   "name": "FREEHOLD Miami",
+   "id": "osm-n8694944761",
+   "name": "Pauloluigi",
    "topic": "restaurant",
-   "lat": 25.798437,
-   "lng": -80.19883,
+   "lat": 25.735643,
+   "lng": -80.239489,
    "photo": false,
    "facts": [
-    "Second location of FREEHOLD, a hospitality concept that started in Brooklyn.",
-    "The space was designed by the architecture and design firm Rockwell Group.",
-    "Address: 2219 Northwest 2nd Avenue, Miami"
+    "Its white pizza is made with mozzarella, ricotta and homemade nut-free pesto."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6091344818"
+   "osmUrl": "https://www.openstreetmap.org/node/8694944761"
   },
   {
-   "id": "osm-n6575655588",
-   "name": "Bottega Express",
-   "topic": "café",
-   "lat": 25.77615,
-   "lng": -80.196932,
+   "id": "osm-n12873587495",
+   "name": "Narbona",
+   "topic": "Uruguayan restaurant",
+   "lat": 25.69682,
+   "lng": -80.164277,
    "photo": false,
    "facts": [
-    "Express counter inside the Stephen P. Clark Government Center downtown.",
-    "Menu features a tuna sandwich."
+    "Menu lists pappardelle ragu, spinach ravioli, crab ravioli and potato gnocchi.",
+    "Makes chivito Uruguayo with tenderloin, ham, bacon and mozzarella.",
+    "Serves Uruguayan and American food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6575655588"
+   "osmUrl": "https://www.openstreetmap.org/node/12873587495"
   },
   {
-   "id": "osm-n9882027534",
-   "name": "Manolo & Rene Grill",
-   "topic": "Cuban restaurant",
-   "lat": 25.776078,
-   "lng": -80.188771,
-   "photo": false,
-   "facts": [
-    "Has served downtown Miami on 3rd Avenue since 1977.",
-    "Serves Cuban food",
-    "Has outdoor seating"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9882027534"
-  },
-  {
-   "id": "osm-n6025987539",
-   "name": "Häagen-Dazs",
-   "topic": "ice cream shop",
-   "lat": 25.704229,
-   "lng": -80.287467,
-   "photo": false,
-   "facts": [
-    "Part of Häagen-Dazs, founded in 1960 in the Bronx by Reuben and Rose Mattus.",
-    "The first Häagen-Dazs shop opened in Brooklyn Heights, NY in 1976.",
-    "Part of the Häagen-Dazs chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6025987539"
-  },
-  {
-   "id": "osm-n6076781683",
-   "name": "Fritanga Caña Brava",
-   "topic": "Latin American restaurant",
-   "lat": 25.779586,
-   "lng": -80.240703,
-   "photo": false,
-   "facts": [
-    "The site once housed La Hacienda Restaurant, which opened in 1946.",
-    "Its tall roadside sign is a relic of La Hacienda, now marked with the Caña Brava name.",
-    "Serves Latin American and Nicaraguan food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6076781683"
-  },
-  {
-   "id": "osm-n6074717989",
-   "name": "Majestic Portuguese Bakehouse",
-   "topic": "café",
-   "lat": 25.749749,
-   "lng": -80.248571,
-   "photo": false,
-   "facts": [
-    "Bakes pastel de nata with croissant-style dough and an egg custard filling.",
-    "Makes a francesinha sandwich with steak, ham, bacon, chorizo and cheese.",
-    "Serves Portuguese food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6074717989"
-  },
-  {
-   "id": "osm-n6085600910",
-   "name": "Crisppis | Miami",
-   "topic": "burger restaurant",
-   "lat": 25.804569,
-   "lng": -80.189168,
-   "photo": false,
-   "facts": [
-    "Original chicken sandwich is fried chicken with pickles and Crisppi's secret sauce on a brioche bun.",
-    "Makes chicken tenders fresh, never frozen, with house-made dipping sauces.",
-    "Serves burgers, chicken and donuts"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6085600910"
-  },
-  {
-   "id": "osm-n1025645943",
-   "name": "Pizza Hut",
+   "id": "osm-w1179968253",
+   "name": "Mario the Baker Pizza",
    "topic": "pizza restaurant",
-   "lat": 25.77336,
-   "lng": -80.189152,
+   "lat": 25.774361,
+   "lng": -80.194471,
    "photo": false,
    "facts": [
-    "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
-    "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "Specialty pizzas include Veggie, Capri, BBQ and Chicken Bacon Ranch.",
+    "Offers catering for events.",
     "Serves pizza"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1025645943"
+   "osmUrl": "https://www.openstreetmap.org/way/1179968253"
   },
   {
-   "id": "osm-w914498568",
-   "name": "Mamá Choa",
+   "id": "osm-n3992924356",
+   "name": "Master's Pizza Pasta & Grill",
+   "topic": "Italian restaurant",
+   "lat": 25.792511,
+   "lng": -80.141447,
+   "photo": false,
+   "facts": [
+    "Established in 1979, making homemade New York-style pizza to order.",
+    "Menu includes shrimp scampi, baked ziti, deep dish and pesto pizza.",
+    "Serves Italian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3992924356"
+  },
+  {
+   "id": "osm-n5629731539",
+   "name": "Genuine Pizza",
    "topic": "restaurant",
-   "lat": 25.777647,
-   "lng": -80.255339,
+   "lat": 25.791768,
+   "lng": -80.136755,
    "photo": false,
    "facts": [
-    "Named to honor Mama Choa and her homestyle Latin recipes.",
-    "Serves customizable bowls with sides like fritura de malanga and yuquitas.",
-    "Run by Latin Kitchen"
+    "Run by Chef Michael Schwartz"
    ],
-   "osmUrl": "https://www.openstreetmap.org/way/914498568"
+   "osmUrl": "https://www.openstreetmap.org/node/5629731539"
   },
   {
-   "id": "osm-n11512783470",
-   "name": "Salt & Straw",
-   "topic": "ice cream shop",
-   "lat": 25.790737,
-   "lng": -80.136424,
+   "id": "osm-n6110224085",
+   "name": "Dōma",
+   "topic": "restaurant",
+   "lat": 25.801803,
+   "lng": -80.194197,
    "photo": false,
    "facts": [
-    "Brought to Lincoln Road in 2023 by developer Terranova.",
-    "Held its Lincoln Road grand opening on September 1st.",
-    "Part of the Salt & Straw chain"
+    "The name dōma comes from the Latin word for home.",
+    "Culinary and hospitality team all come from Italy, cooking Southern Italian cuisine.",
+    "Address: 35 Northeast 26th Street"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/11512783470"
+   "osmUrl": "https://www.openstreetmap.org/node/6110224085"
   },
   {
-   "id": "osm-n6112915271",
-   "name": "Beehive Juice Bar",
-   "topic": "café",
-   "lat": 25.7331,
-   "lng": -80.300665,
+   "id": "osm-n6046793767",
+   "name": "Mayfair Grill",
+   "topic": "American restaurant",
+   "lat": 25.72876,
+   "lng": -80.241022,
    "photo": false,
    "facts": [
-    "The juice bar is part of the Beehive Natural Foods store.",
-    "Beehive Natural Foods operates as a natural foods grocery on Bird Road.",
-    "Address: 6490 Bird Road, Miami"
+    "Located inside the Mayfair House Hotel & Garden.",
+    "Chef Giorgio Rapicavoli was named its executive chef.",
+    "Focuses on wood-fired cooking."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6112915271"
+   "osmUrl": "https://www.openstreetmap.org/node/6046793767"
   },
   {
    "id": "osm-n12957873701",
@@ -393,46 +225,208 @@
    "osmUrl": "https://www.openstreetmap.org/node/12957873701"
   },
   {
-   "id": "osm-n4535082493",
-   "name": "Pollos & Jarras",
-   "topic": "Peruvian restaurant",
-   "lat": 25.77575,
-   "lng": -80.188532,
+   "id": "osm-n6059013229",
+   "name": "Chicken Kitchen",
+   "topic": "restaurant",
+   "lat": 25.778923,
+   "lng": -80.290401,
    "photo": false,
    "facts": [
-    "Specializes in Peruvian rotisserie chicken.",
-    "Opened by chef Juan Chipoco and sous chef Luis Hoyos of CVI.CHE 105.",
+    "Blue Lagoon location of the Chicken Kitchen chain.",
+    "Part of Chicken Kitchen, whose first store opened in New York City in 1985.",
+    "Address: 5765 Northwest 7th Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6059013229"
+  },
+  {
+   "id": "osm-n8695151745",
+   "name": "New York Roma Pizza",
+   "topic": "pizza restaurant",
+   "lat": 25.772827,
+   "lng": -80.190099,
+   "photo": false,
+   "facts": [
+    "Menu includes Capresse pizza with buffalo mozzarella, tomatoes and ricotta.",
+    "Also makes calzones in cheese, pepperoni and deluxe versions.",
+    "Serves pizza"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/8695151745"
+  },
+  {
+   "id": "osm-w435745521",
+   "name": "Mykonos",
+   "topic": "Greek restaurant",
+   "lat": 25.751403,
+   "lng": -80.214528,
+   "photo": false,
+   "facts": [
+    "Menu features moussaka, spanakopita and lamb shank.",
+    "Has a covered patio facing Coral Way.",
+    "Serves Greek food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/435745521"
+  },
+  {
+   "id": "osm-n5714247522",
+   "name": "Moi Homemade Peruvian Bakery",
+   "topic": "bakery",
+   "lat": 25.702825,
+   "lng": -80.285616,
+   "photo": false,
+   "facts": [
+    "Specializes in pavlovas alongside Peruvian baked goods.",
+    "Run by Moi Homemade Peruvian Bakery",
+    "Address: 7388 Southwest 57th Avenue, South Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/5714247522"
+  },
+  {
+   "id": "osm-w278812499",
+   "name": "Coyo Taco",
+   "topic": "Mexican restaurant",
+   "lat": 25.709093,
+   "lng": -80.283164,
+   "photo": false,
+   "facts": [
+    "Makes corn tortillas by hand on site and smashes its guacamole to order.",
+    "Serves Mexican food",
+    "Address: 1514 South Dixie Highway, Coral Gables"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/278812499"
+  },
+  {
+   "id": "osm-n3623650210",
+   "name": "Gran Paris Bakery",
+   "topic": "bakery",
+   "lat": 25.779061,
+   "lng": -80.244013,
+   "photo": false,
+   "facts": [
+    "Run by Gran Paris Bakery",
+    "Address: 3026 Northwest 7th Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3623650210"
+  },
+  {
+   "id": "osm-n13574849009",
+   "name": "Navi Coffee & Flowers",
+   "topic": "café",
+   "lat": 25.728084,
+   "lng": -80.246095,
+   "photo": false,
+   "facts": [
+    "Part coffee shop, part flower shop.",
+    "Named after founder Razzy's mother, Navideh, who is the head floral designer.",
+    "Accepts Bitcoin"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13574849009"
+  },
+  {
+   "id": "osm-n7844732323",
+   "name": "Gyro House",
+   "topic": "Mediterranean restaurant",
+   "lat": 25.777409,
+   "lng": -80.185503,
+   "photo": false,
+   "facts": [
+    "Menu includes gyro and chicken shawarma sandwiches plus chicken and kofta kebab platters.",
+    "Serves Mediterranean food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/7844732323"
+  },
+  {
+   "id": "osm-w534343920",
+   "name": "Glasshouse Café",
+   "topic": "café",
+   "lat": 25.675313,
+   "lng": -80.275743,
+   "photo": false,
+   "facts": [
+    "Cafe overlooking the Wings of the Tropics exhibit inside Fairchild Tropical Botanic Garden.",
+    "Dining room hangs a golden and amber Chihuly chandelier.",
+    "Menu includes soups, paninis, quiches and hand-crafted sodas."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/534343920"
+  },
+  {
+   "id": "osm-n6110284189",
+   "name": "Meraki Greek Bistro",
+   "topic": "restaurant",
+   "lat": 25.772956,
+   "lng": -80.192146,
+   "photo": false,
+   "facts": [
+    "Makes its gyro meat in house, in The Village area downtown.",
+    "Menu has chicken, lamb and pork gyro pitas and a mixed gyro platter.",
+    "Address: 142 Southeast 1st Avenue"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6110284189"
+  },
+  {
+   "id": "osm-n12908249522",
+   "name": "El Gran Inka",
+   "topic": "Peruvian restaurant",
+   "lat": 25.689585,
+   "lng": -80.16446,
+   "photo": false,
+   "facts": [
+    "Part of the Gran Inka group, which built its menus around Peruvian cuisine with modern techniques.",
+    "Menu centers on ceviches, lomo saltado and fresh seafood, with a pisco program.",
     "Serves Peruvian food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4535082493"
+   "osmUrl": "https://www.openstreetmap.org/node/12908249522"
   },
   {
-   "id": "osm-n6299289292",
-   "name": "Fontana Italian Biltmore Hotel Miami",
-   "topic": "Italian restaurant",
-   "lat": 25.740579,
-   "lng": -80.278365,
+   "id": "osm-n13570383301",
+   "name": "Pastelmania Bakery",
+   "topic": "bakery",
+   "lat": 25.77285,
+   "lng": -80.228602,
    "photo": false,
    "facts": [
-    "Has a landscaped courtyard set around a fountain inside the Biltmore Hotel.",
-    "Its rustic interior has an open-air kitchen and a wood-burning stove.",
-    "Serves Italian food"
+    "A bakery in the Little Havana neighborhood.",
+    "Address: 2015 West Flagler Street, Miami"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/6299289292"
+   "osmUrl": "https://www.openstreetmap.org/node/13570383301"
   },
   {
-   "id": "osm-n1670843023",
-   "name": "3 Chefs Chinese & Vietnamese Food",
-   "topic": "Chinese restaurant",
-   "lat": 25.793883,
-   "lng": -80.189192,
+   "id": "osm-n5814849753",
+   "name": "Nusr-Et",
+   "topic": "restaurant",
+   "lat": 25.764078,
+   "lng": -80.191642,
    "photo": false,
    "facts": [
-    "Menu spans Chinese and Vietnamese dishes, from noodle soups to seafood.",
-    "Pho comes with beef, meatball, chicken, shrimp or vegetables.",
-    "Serves Chinese food"
+    "Brings the steakhouse of chef Salt Bae to Brickell."
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/1670843023"
+   "osmUrl": "https://www.openstreetmap.org/node/5814849753"
+  },
+  {
+   "id": "osm-n13611867401",
+   "name": "iBurger",
+   "topic": "burger restaurant",
+   "lat": 25.793771,
+   "lng": -80.18934,
+   "photo": false,
+   "facts": [
+    "Menu includes a Mamma Mia burger.",
+    "Offers a Beyond Burger in its iVegan menu section.",
+    "Serves burgers"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/13611867401"
+  },
+  {
+   "id": "osm-n14085790101",
+   "name": "Gordon Ramsay Hell's Kitchen",
+   "topic": "restaurant",
+   "lat": 25.771135,
+   "lng": -80.188489,
+   "photo": false,
+   "facts": [
+    "Opened by chef Gordon Ramsay in downtown Miami.",
+    "Address: 340 Southeast 3rd Street, Miami"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/14085790101"
   }
  ],
  "points": [
@@ -2077,11 +2071,6 @@
    0
   ],
   [
-   25.697557,
-   -80.163269,
-   0
-  ],
-  [
    25.774214,
    -80.135238,
    0
@@ -3064,6 +3053,151 @@
   [
    25.695511,
    -80.163892,
+   0
+  ],
+  [
+   25.688525,
+   -80.16419,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.689386,
+   -80.164751,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.696107,
+   -80.16403,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.696107,
+   -80.16403,
+   0
+  ],
+  [
+   25.697987,
+   -80.164105,
+   0
+  ],
+  [
+   25.700123,
+   -80.163077,
+   0
+  ],
+  [
+   25.699585,
+   -80.162779,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.696107,
+   -80.16403,
+   0
+  ],
+  [
+   25.697686,
+   -80.163683,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.697987,
+   -80.164105,
+   0
+  ],
+  [
+   25.697987,
+   -80.164105,
+   0
+  ],
+  [
+   25.691857,
+   -80.157961,
+   0
+  ],
+  [
+   25.688087,
+   -80.16462,
+   0
+  ],
+  [
+   25.696107,
+   -80.16403,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.691857,
+   -80.157961,
+   0
+  ],
+  [
+   25.732238,
+   -80.162969,
+   0
+  ],
+  [
+   25.68798,
+   -80.164592,
+   0
+  ],
+  [
+   25.697987,
+   -80.164105,
+   0
+  ],
+  [
+   25.700209,
+   -80.162842,
+   0
+  ],
+  [
+   25.697686,
+   -80.163683,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.69549,
+   -80.163633,
+   0
+  ],
+  [
+   25.689968,
+   -80.164378,
    0
   ]
  ]

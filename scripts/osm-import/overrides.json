@@ -1619,5 +1619,9 @@
     "name": "Piononos",
     "why": "OSM spells it Piononod; the bakery's listing and The Infatuation spell it Piononos",
     "source": "https://www.theinfatuation.com/miami/reviews/piononos"
+  },
+  "osm-n6296898185": {
+    "drop": "renamed Papercrane Asian Bistro and moved to the Galleria (added from Key Biscayne research)",
+    "source": "https://www.islandernews.com/food/taste/papercrane-brings-familiar-flavors-to-a-fresh-new-location/article_1970bea2-40d2-4883-aaa7-a0b52f6a0675.html"
   }
 }
