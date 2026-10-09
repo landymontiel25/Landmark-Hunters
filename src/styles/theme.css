@@ -6999,3 +6999,28 @@ p.tag {
   border-color: var(--success);
   background: rgba(85, 201, 135, 0.14);
 }
+
+/* Map search: a picked city or neighborhood's outline fades in and out over
+   1.5 s (MapExplore areaFlash), so you can see where it is. */
+.map-area-flash {
+  animation: map-area-flash 1.5s ease-in-out forwards;
+}
+@keyframes map-area-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-area-flash { animation: none; }
+}
+
+/* The towns a city covers (South Florida: Miami, Key Biscayne...), small
+   under its name in the city picker. */
+.city-dropdown-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: var(--color-parchment-dim);
+  line-height: 1.3;
+}

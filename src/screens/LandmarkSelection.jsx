@@ -23,7 +23,7 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
-import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, PICKABLE_INTERESTS, sortInterests, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, PICKABLE_REGIONS, INTERESTS, PICKABLE_INTERESTS, regionSearchText, sortInterests, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -92,7 +92,7 @@ function CityDropdown({ value, onChange }) {
   }, []);
 
   const term = search.trim();
-  const filtered = PICKABLE_REGIONS.filter((r) => matchesSearch(r.city, term)).sort((a, b) =>
+  const filtered = PICKABLE_REGIONS.filter((r) => matchesSearch(regionSearchText(r), term)).sort((a, b) =>
     a.city.localeCompare(b.city)
   );
   const smart = useSmartCitySearch(term, filtered, open);
@@ -135,6 +135,7 @@ function CityDropdown({ value, onChange }) {
                 onClick={() => choose(r.id)}
               >
                 {r.city}
+                {r.subtitle && <span className="city-dropdown-sub">{r.subtitle}</span>}
               </button>
             ))}
             <SmartSearchLabel loading={smart.loading} count={smart.cities.length} />
@@ -146,6 +147,7 @@ function CityDropdown({ value, onChange }) {
                 onClick={() => choose(r.id)}
               >
                 {r.city}
+                {r.subtitle && <span className="city-dropdown-sub">{r.subtitle}</span>}
               </button>
             ))}
             {filtered.length === 0 && !smart.loading && smart.cities.length === 0 && (
