@@ -1,0 +1,223 @@
+[
+  {
+    "name": "Oasis Café",
+    "area": "Key Biscayne",
+    "address": "19 Harbor Dr",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": true,
+    "closedSource": "https://www.timeout.com/miami/restaurants/oasis-cafe",
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "osmTag": "amenity=cafe",
+    "facts": []
+  },
+  {
+    "name": "Bë Bakery",
+    "area": "Key Biscayne",
+    "address": "638 Crandon Blvd",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 4,
+    "reason": null,
+    "osmTag": "shop=bakery",
+    "facts": []
+  },
+  {
+    "name": "La Boulangerie Boul'Mich",
+    "area": "Key Biscayne",
+    "address": "328 Crandon Blvd, Suite 125",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "osmTag": "shop=bakery",
+    "facts": [
+      {
+        "text": "The bakery's roots on Key Biscayne go back to 1998, when it began as La Nueva Boulangerie.",
+        "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+      },
+      {
+        "text": "Venezuela-born partners led by Avy Cohen bought the brand from chef Massimo Stanzione in 2014.",
+        "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+      },
+      {
+        "text": "The Key Biscayne shop is the original of a bakery group that later opened in Aventura, Pinecrest, Boca Raton and Doral.",
+        "url": "https://www.miaminewtimes.com/food-drink/la-boulangerie-boulmich-expands-flagship-location-in-historic-dupont-building-17875645/"
+      }
+    ]
+  },
+  {
+    "name": "Flour & Weirdoughs",
+    "area": "Key Biscayne",
+    "address": "19 Harbor Dr",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "osmTag": "shop=bakery",
+    "facts": [
+      {
+        "text": "Bakes sourdough breads such as loaves stuffed with pork belly or made in the style of cacio e pepe.",
+        "url": "https://www.timeout.com/miami/restaurants/flour-weirdoughs"
+      },
+      {
+        "text": "Won Best Bakery in the Miami New Times 2024 Readers' Choice poll.",
+        "url": "https://www.miaminewtimes.com/best-of-miami/2024/readers-choice/best-bakery-20454732"
+      },
+      {
+        "text": "Named Best Bakery by Miami New Times in 2022.",
+        "url": "https://miaminewtimes.com/best-of/2022/eat-and-drink/best-bakery-14708971"
+      },
+      {
+        "text": "Has a dining room next door for a sit-down breakfast or lunch.",
+        "url": "https://www.theinfatuation.com/miami/reviews/flour-weirdoughs"
+      }
+    ]
+  },
+  {
+    "name": "D'lite Bistro & Bakery",
+    "area": "Key Biscayne",
+    "address": "180 Crandon Blvd, Suite 101",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "osmTag": "amenity=cafe",
+    "facts": [
+      {
+        "text": "An all-day cafe that makes salmon bowls, acai bowls and gluten-free arepas.",
+        "url": "https://www.theinfatuation.com/miami/reviews/dlite-bistro-and-bakery"
+      },
+      {
+        "text": "The menu includes a Mediterranean bowl, a perico arepa and pan de bono.",
+        "url": "https://www.theinfatuation.com/miami/reviews/dlite-bistro-and-bakery"
+      }
+    ]
+  },
+  {
+    "name": "The Empanada's",
+    "area": "Key Biscayne",
+    "address": "180 Crandon Blvd, Suite 111",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 2,
+    "reason": null,
+    "osmTag": "amenity=restaurant",
+    "cuisine": "argentinian",
+    "facts": [
+      {
+        "text": "Founded by Mariana Schron of Buenos Aires and her husband, Santiago Pinera.",
+        "url": "https://www.miaminewtimes.com/food-drink/new-south-miami-empanada-spot-opens-after-success-in-key-biscayne-23048504/"
+      },
+      {
+        "text": "This is the original shop, opened in 2019; the brand later expanded across Miami-Dade and Broward.",
+        "url": "https://www.miaminewtimes.com/food-drink/new-south-miami-empanada-spot-opens-after-success-in-key-biscayne-23048504/"
+      },
+      {
+        "text": "Makes more than 25 flavors of Argentinean empanadas.",
+        "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-empanada-s/"
+      }
+    ]
+  },
+  {
+    "area": "Key Biscayne",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "reason": null,
+    "name": "Donut Gallery Diner",
+    "address": "83 Harbor Dr",
+    "searches": 1,
+    "osmTag": "amenity=restaurant",
+    "cuisine": "diner",
+    "facts": [
+      {
+        "text": "Opened by Acela and Benjamin Zambrano, Cuban immigrants who moved to Miami in 1971.",
+        "url": "https://www.miaminewtimes.com/?p=40318867"
+      },
+      {
+        "text": "Their son Nelson now runs the diner with his family.",
+        "url": "https://www.miaminewtimes.com/?p=40318867"
+      },
+      {
+        "text": "Has served breakfast and lunch on Key Biscayne since 1972.",
+        "url": "https://www.theinfatuation.com/miami/reviews/donut-gallery-diner"
+      },
+      {
+        "text": "A narrow counter spot where low vinyl stools look over the griddle.",
+        "url": "https://www.theinfatuation.com/miami/reviews/donut-gallery-diner"
+      }
+    ]
+  },
+  {
+    "area": "Key Biscayne",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "reason": null,
+    "name": "Clásica Victoria",
+    "address": "638 Crandon Blvd",
+    "searches": 2,
+    "osmTag": "shop=bakery",
+    "facts": []
+  },
+  {
+    "area": "Key Biscayne",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "reason": null,
+    "name": "The Spruce Juice",
+    "address": "200 Crandon Blvd #110",
+    "searches": 2,
+    "osmTag": "amenity=cafe",
+    "facts": []
+  },
+  {
+    "area": "Key Biscayne",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": false,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "reason": null,
+    "name": "Bianco Gelato",
+    "address": "",
+    "searches": 2,
+    "osmTag": "amenity=ice_cream",
+    "facts": []
+  }
+]
