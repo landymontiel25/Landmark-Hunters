@@ -7015,12 +7015,18 @@ p.tag {
   .map-area-flash { animation: none; }
 }
 
-/* The towns a city covers (South Florida: Miami, Key Biscayne...), small
-   under its name in the city picker. */
-.city-dropdown-sub {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.72rem;
-  color: var(--color-parchment-dim);
-  line-height: 1.3;
+/* City picker rows look like the address search's (name, then a small gray
+   line: the towns a city covers or its state and country). */
+.city-dropdown-item.autocomplete-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.city-dropdown-item.active .autocomplete-primary {
+  color: var(--color-brass-bright);
+  font-weight: 700;
+}
+.city-dropdown-item.active .autocomplete-secondary {
+  font-weight: 400;
 }

@@ -78,6 +78,10 @@ const popularScore = (l, ratings) => {
 // Searchable city picker -- a plain multi-city tab row gets unwieldy once
 // there are more than a handful of regions, so this collapses to one control
 // with a filterable list instead of an ever-growing row of buttons.
+// The small line under a city in the picker: the towns it covers (South
+// Florida), else its state and country ("Pennsylvania, USA").
+const citySub = (r) => r.subtitle || [r.state, r.country].filter(Boolean).join(', ');
+
 function CityDropdown({ value, onChange }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -124,18 +128,19 @@ function CityDropdown({ value, onChange }) {
             autoFocus
           />
           <div className="city-dropdown-list">
-            <button type="button" className={`city-dropdown-item ${value === 'all' ? 'active' : ''}`} onClick={() => choose('all')}>
-              All Cities
+            <button type="button" className={`city-dropdown-item autocomplete-item ${value === 'all' ? 'active' : ''}`} onClick={() => choose('all')}>
+              <span className="autocomplete-primary">All Cities</span>
+              <span className="autocomplete-secondary">Landmarks from every city</span>
             </button>
             {filtered.map((r) => (
               <button
                 key={r.id}
                 type="button"
-                className={`city-dropdown-item ${value === r.id ? 'active' : ''}`}
+                className={`city-dropdown-item autocomplete-item ${value === r.id ? 'active' : ''}`}
                 onClick={() => choose(r.id)}
               >
-                {r.city}
-                {r.subtitle && <span className="city-dropdown-sub">{r.subtitle}</span>}
+                <span className="autocomplete-primary">{r.city}</span>
+                {citySub(r) && <span className="autocomplete-secondary">{citySub(r)}</span>}
               </button>
             ))}
             <SmartSearchLabel loading={smart.loading} count={smart.cities.length} />
@@ -143,11 +148,11 @@ function CityDropdown({ value, onChange }) {
               <button
                 key={r.id}
                 type="button"
-                className={`city-dropdown-item ${value === r.id ? 'active' : ''}`}
+                className={`city-dropdown-item autocomplete-item ${value === r.id ? 'active' : ''}`}
                 onClick={() => choose(r.id)}
               >
-                {r.city}
-                {r.subtitle && <span className="city-dropdown-sub">{r.subtitle}</span>}
+                <span className="autocomplete-primary">{r.city}</span>
+                {citySub(r) && <span className="autocomplete-secondary">{citySub(r)}</span>}
               </button>
             ))}
             {filtered.length === 0 && !smart.loading && smart.cities.length === 0 && (
