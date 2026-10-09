@@ -29,9 +29,9 @@ const nominatim = (params) => nominatimSearch(CACHE, params);
 async function geocode(c) {
   const { number, street } = parseAddress(c.address);
   if (!street) return null;
-  const city = c.city || (region.id === 'sf' ? 'San Francisco' : null);
+  const city = c.city || (region.id === 'sf' ? 'San Francisco' : region.defaultCity || null);
   if (!city) return null;
-  const hits = await nominatim({ street: number ? `${number} ${street}` : street, city, state: 'California', limit: '1', extratags: '0', namedetails: '0' });
+  const hits = await nominatim({ street: number ? `${number} ${street}` : street, city, state: region.state || 'California', limit: '1', extratags: '0', namedetails: '0' });
   // A street-only hit (no house number) is a whole street, not an address.
   const h = hits[0];
   if (!h || (number && !h.address?.house_number)) return null;

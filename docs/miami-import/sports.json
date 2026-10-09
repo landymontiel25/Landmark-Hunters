@@ -1,9 +1,9 @@
 {
  "category": "sports",
- "count": 6,
+ "count": 7,
  "commonsPhotos": 0,
  "commonsPhotoPct": 0,
- "withFacts": 6,
+ "withFacts": 7,
  "withHours": 2,
  "photoSkips": [],
  "sample": [
@@ -75,6 +75,20 @@
    "osmUrl": "https://www.openstreetmap.org/node/5901147212"
   },
   {
+   "id": "osm-w117933964",
+   "name": "Rickenbacker Marina",
+   "topic": "marina",
+   "lat": 25.745572,
+   "lng": -80.173964,
+   "photo": false,
+   "facts": [
+    "Offers dockage, boat storage and repair facilities off the Intracoastal Waterway.",
+    "The Gramps Getaway bar sits in the middle of the marina property.",
+    "In 2021 Miami voters rejected a referendum to hand over redevelopment of the Virginia Key marinas."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/117933964"
+  },
+  {
    "id": "osm-r18439268",
    "name": "Neil Schiff Tennis Center",
    "topic": "tennis center",
@@ -117,6 +131,11 @@
   [
    25.717118,
    -80.282191,
+   0
+  ],
+  [
+   25.745572,
+   -80.173964,
    0
   ]
  ]

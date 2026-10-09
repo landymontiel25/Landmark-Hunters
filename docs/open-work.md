@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Key Biscayne places limited by OpenStreetMap
+
+The owner asked for 100 new Key Biscayne places (2026-10-09). Three research
+agents (`scripts/osm-import/research/kb/`, import region `kb`, packed into
+Miami through `mergeFrom` in `regions.js`) checked about 200 names. Only 3
+passed every rule: Lighthouse Cafe, Piononos and Rickenbacker Marina. About
+190 names are not in OpenStreetMap (nearly every Crandon Blvd restaurant and
+shop), so the rule that a place goes on the map only where Nominatim returns
+it stops them. Growing Key Biscayne needs those places added to
+OpenStreetMap first, or an owner decision on that rule. `located.json` lists
+every candidate and why it stayed out.
+
 ## Coral Gables and Key Biscayne merged into Miami
 
 Both are now part of the `miami` region (`REGION_ALIASES` in

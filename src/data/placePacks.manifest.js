@@ -43,8 +43,8 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "sports",
-    "file": "places/miami/sports.235297be44.json",
-    "count": 6
+    "file": "places/miami/sports.ac60093ae6.json",
+    "count": 7
   },
   {
     "region": "miami",
@@ -55,8 +55,8 @@ export const PLACE_PACKS = [
   {
     "region": "miami",
     "category": "food",
-    "file": "places/miami/food.8d2e9beeed.json",
-    "count": 524
+    "file": "places/miami/food.62a8bbe7a8.json",
+    "count": 526
   },
   {
     "region": "philly",

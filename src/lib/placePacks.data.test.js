@@ -55,12 +55,16 @@ describe.runIf(packs.length)('shipped place chunks', () => {
 
   it('sit inside their import region\'s shape, in the app region it assigns', () => {
     for (const p of packs) {
+      // The first import region filling this app region, plus any research
+      // region merged into it (regions.js mergeFrom, e.g. Key Biscayne).
       const [id, region] = Object.entries(IMPORT_REGIONS).find(([, r]) => r.packRegions.includes(p.region)) || [];
       expect(region, `no import region fills ${p.region}`).toBeTruthy();
+      const shapes = [region, ...(region.mergeFrom || []).map((m) => IMPORT_REGIONS[m])];
       for (const l of p.places) {
         expect(l.region).toBe(p.region);
-        expect(insideShape(l.lat, l.lng, region.shape), `${l.name} (${id})`).toBe(true);
-        expect(region.packRegionOf(l.lat, l.lng)).toBe(l.region);
+        const from = shapes.find((r) => insideShape(l.lat, l.lng, r.shape));
+        expect(from, `${l.name} (${id})`).toBeTruthy();
+        expect(from.packRegionOf(l.lat, l.lng)).toBe(l.region);
       }
     }
   });

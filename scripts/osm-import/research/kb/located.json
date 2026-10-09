@@ -1,0 +1,197 @@
+[
+ {
+  "name": "St. Agnes Catholic Church",
+  "file": "out-more.json",
+  "area": "Key Biscayne",
+  "address": "100 Harbor Dr",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "no OSM result"
+ },
+ {
+  "name": "Monarch Lounge Bar",
+  "file": "out-more.json",
+  "area": "Key Biscayne",
+  "address": null,
+  "tier": "everyday",
+  "status": "UNCONFIRMED",
+  "why": "research found no result confirming it"
+ },
+ {
+  "name": "Crandon Park Marina",
+  "file": "out-parks.json",
+  "area": "Key Biscayne",
+  "address": "4000 Crandon Blvd",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "named OSM object not at the researched address"
+ },
+ {
+  "name": "Lighthouse Café",
+  "file": "out-parks.json",
+  "area": "Key Biscayne",
+  "address": "1200 Crandon Blvd",
+  "tier": "everyday",
+  "status": "FOUND",
+  "id": "osm-w320802248",
+  "how": "osm address",
+  "town": "Key Biscayne",
+  "lat": 25.6691116,
+  "lng": -80.1555285,
+  "osmName": "Lighthouse Cafe"
+ },
+ {
+  "name": "Virginia Key North Point Trails",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": "Rickenbacker Causeway",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "no OSM object with this name"
+ },
+ {
+  "name": "Virginia Key Outdoor Center",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": "3801 Rickenbacker Causeway",
+  "tier": "everyday",
+  "status": "CLOSED",
+  "why": "https://www.vkoc.net/"
+ },
+ {
+  "name": "Rickenbacker Marina",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": "3301 Rickenbacker Causeway",
+  "tier": "everyday",
+  "status": "FOUND",
+  "id": "osm-w117933964",
+  "how": "within 75 m of the address",
+  "town": "Virginia Key",
+  "lat": 25.7455722,
+  "lng": -80.1739636,
+  "osmName": "Rickenbacker Marina"
+ },
+ {
+  "name": "Atlantica Seafood Restaurant and Market",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": null,
+  "tier": "everyday",
+  "status": "UNCONFIRMED",
+  "why": "research found no result confirming it"
+ },
+ {
+  "name": "Lighthouse Keeper's Cottage",
+  "file": "out-parks.json",
+  "area": "Key Biscayne",
+  "address": "1200 Crandon Blvd",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "no OSM result"
+ },
+ {
+  "name": "Robin's Birding Trail",
+  "file": "out-parks.json",
+  "area": "Key Biscayne",
+  "address": "1200 Crandon Blvd",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "no OSM object with this name"
+ },
+ {
+  "name": "Rickenbacker Trail",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": "Rickenbacker Causeway",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "no OSM object with this name"
+ },
+ {
+  "name": "Bear Cut Bridge",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": "Rickenbacker Causeway",
+  "tier": "everyday",
+  "status": "NOT_FOUND",
+  "why": "named OSM object not at the researched address"
+ },
+ {
+  "name": "Miami Seaplane Tours",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": "3401 Rickenbacker Causeway",
+  "tier": "everyday",
+  "status": "CLOSED",
+  "why": "https://trytn.com/en/MiamiSeaplane/details/7410d5a4-21b8-4a3a-83f0-c468fe5794a3"
+ },
+ {
+  "name": "Miami Catamarans",
+  "file": "out-parks.json",
+  "area": "Virginia Key",
+  "address": null,
+  "tier": "everyday",
+  "status": "UNCONFIRMED",
+  "why": "research found no result confirming it"
+ },
+ {
+  "name": "Piononos",
+  "file": "out-village.json",
+  "area": "Key Biscayne",
+  "address": "328 Crandon Blvd #217",
+  "tier": "everyday",
+  "status": "FOUND",
+  "id": "osm-n9765581817",
+  "how": "within 75 m of the address",
+  "town": "Key Biscayne",
+  "lat": 25.6955107,
+  "lng": -80.1638923,
+  "osmName": "Piononod"
+ },
+ {
+  "name": "Pita Pockets",
+  "file": "out-village.json",
+  "area": "Key Biscayne",
+  "address": "180 Crandon Blvd",
+  "tier": "everyday",
+  "status": "CLOSED",
+  "why": "https://www.theinfatuation.com/miami/reviews/pita-pockets-key-biscayne"
+ },
+ {
+  "name": "Key Biscayne Branch Library",
+  "file": "out-village.json",
+  "area": "Key Biscayne",
+  "address": "299 Crandon Blvd",
+  "tier": "everyday",
+  "status": "CLOSED",
+  "why": "https://events.mdpls.org/press"
+ },
+ {
+  "name": "St. Christopher's by-the-Sea Episcopal Church",
+  "file": "out-village.json",
+  "area": "Key Biscayne",
+  "address": null,
+  "tier": "everyday",
+  "status": "UNCONFIRMED",
+  "why": "research found no result confirming it"
+ },
+ {
+  "name": "Key Biscayne Community Church",
+  "file": "out-village.json",
+  "area": "Key Biscayne",
+  "address": null,
+  "tier": "everyday",
+  "status": "UNCONFIRMED",
+  "why": "research found no result confirming it"
+ },
+ {
+  "name": "The Galleria Shopping Center",
+  "file": "out-village.json",
+  "area": "Key Biscayne",
+  "address": null,
+  "tier": "everyday",
+  "status": "UNCONFIRMED",
+  "why": "research found no result confirming it"
+ }
+]

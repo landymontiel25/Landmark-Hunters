@@ -1,10 +1,10 @@
 {
  "category": "food",
- "count": 524,
+ "count": 526,
  "commonsPhotos": 34,
  "commonsPhotoPct": 6.5,
- "withFacts": 524,
- "withHours": 158,
+ "withFacts": 526,
+ "withHours": 159,
  "photoSkips": [
   {
    "id": "osm-n12369742001",
@@ -170,6 +170,20 @@
    "osmUrl": "https://www.openstreetmap.org/node/6018262288"
   },
   {
+   "id": "osm-n3843182874",
+   "name": "The River Oyster Bar",
+   "topic": "seafood restaurant",
+   "lat": 25.767627,
+   "lng": -80.191966,
+   "photo": false,
+   "facts": [
+    "Chef David Bracha is behind The River Seafood & Oyster Bar.",
+    "Serves seafood",
+    "Offers delivery"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/3843182874"
+  },
+  {
    "id": "osm-n6773341638",
    "name": "Opera House",
    "topic": "pizza restaurant",
@@ -212,76 +226,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/8694449286"
   },
   {
-   "id": "osm-n5903100430",
-   "name": "Starbucks",
-   "topic": "café",
-   "lat": 25.798504,
-   "lng": -80.272791,
-   "photo": false,
-   "facts": [
-    "Located in Concourse D near Gate D10 at Miami International Airport.",
-    "Serves coffee",
-    "Part of the Starbucks chain"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/5903100430"
-  },
-  {
-   "id": "osm-n9882027534",
-   "name": "Manolo & Rene Grill",
-   "topic": "Cuban restaurant",
-   "lat": 25.776078,
-   "lng": -80.188771,
-   "photo": false,
-   "facts": [
-    "Has served downtown Miami on 3rd Avenue since 1977.",
-    "Serves Cuban food",
-    "Has outdoor seating"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/9882027534"
-  },
-  {
-   "id": "osm-n6074717989",
-   "name": "Majestic Portuguese Bakehouse",
-   "topic": "café",
-   "lat": 25.749749,
-   "lng": -80.248571,
-   "photo": false,
-   "facts": [
-    "Bakes pastel de nata with croissant-style dough and an egg custard filling.",
-    "Makes a francesinha sandwich with steak, ham, bacon, chorizo and cheese.",
-    "Serves Portuguese food"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/6074717989"
-  },
-  {
-   "id": "osm-n1025645943",
-   "name": "Pizza Hut",
-   "topic": "pizza restaurant",
-   "lat": 25.77336,
-   "lng": -80.189152,
-   "photo": false,
-   "facts": [
-    "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
-    "Named Pizza Hut because the founders' sign had room for eight letters.",
-    "Serves pizza"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/1025645943"
-  },
-  {
-   "id": "osm-w914498568",
-   "name": "Mamá Choa",
-   "topic": "restaurant",
-   "lat": 25.777647,
-   "lng": -80.255339,
-   "photo": false,
-   "facts": [
-    "Named to honor Mama Choa and her homestyle Latin recipes.",
-    "Serves customizable bowls with sides like fritura de malanga and yuquitas.",
-    "Run by Latin Kitchen"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/way/914498568"
-  },
-  {
    "id": "osm-n6091344818",
    "name": "FREEHOLD Miami",
    "topic": "restaurant",
@@ -307,6 +251,20 @@
     "Menu features a tuna sandwich."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/6575655588"
+  },
+  {
+   "id": "osm-n9882027534",
+   "name": "Manolo & Rene Grill",
+   "topic": "Cuban restaurant",
+   "lat": 25.776078,
+   "lng": -80.188771,
+   "photo": false,
+   "facts": [
+    "Has served downtown Miami on 3rd Avenue since 1977.",
+    "Serves Cuban food",
+    "Has outdoor seating"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/9882027534"
   },
   {
    "id": "osm-n6025987539",
@@ -337,18 +295,18 @@
    "osmUrl": "https://www.openstreetmap.org/node/6076781683"
   },
   {
-   "id": "osm-n11512783470",
-   "name": "Salt & Straw",
-   "topic": "ice cream shop",
-   "lat": 25.790737,
-   "lng": -80.136424,
+   "id": "osm-n6074717989",
+   "name": "Majestic Portuguese Bakehouse",
+   "topic": "café",
+   "lat": 25.749749,
+   "lng": -80.248571,
    "photo": false,
    "facts": [
-    "Brought to Lincoln Road in 2023 by developer Terranova.",
-    "Held its Lincoln Road grand opening on September 1st.",
-    "Part of the Salt & Straw chain"
+    "Bakes pastel de nata with croissant-style dough and an egg custard filling.",
+    "Makes a francesinha sandwich with steak, ham, bacon, chorizo and cheese.",
+    "Serves Portuguese food"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/11512783470"
+   "osmUrl": "https://www.openstreetmap.org/node/6074717989"
   },
   {
    "id": "osm-n6085600910",
@@ -365,18 +323,46 @@
    "osmUrl": "https://www.openstreetmap.org/node/6085600910"
   },
   {
-   "id": "osm-n4535082493",
-   "name": "Pollos & Jarras",
-   "topic": "Peruvian restaurant",
-   "lat": 25.77575,
-   "lng": -80.188532,
+   "id": "osm-n1025645943",
+   "name": "Pizza Hut",
+   "topic": "pizza restaurant",
+   "lat": 25.77336,
+   "lng": -80.189152,
    "photo": false,
    "facts": [
-    "Specializes in Peruvian rotisserie chicken.",
-    "Opened by chef Juan Chipoco and sous chef Luis Hoyos of CVI.CHE 105.",
-    "Serves Peruvian food"
+    "Part of Pizza Hut, founded in 1958 in Wichita, Kansas.",
+    "Named Pizza Hut because the founders' sign had room for eight letters.",
+    "Serves pizza"
    ],
-   "osmUrl": "https://www.openstreetmap.org/node/4535082493"
+   "osmUrl": "https://www.openstreetmap.org/node/1025645943"
+  },
+  {
+   "id": "osm-w914498568",
+   "name": "Mamá Choa",
+   "topic": "restaurant",
+   "lat": 25.777647,
+   "lng": -80.255339,
+   "photo": false,
+   "facts": [
+    "Named to honor Mama Choa and her homestyle Latin recipes.",
+    "Serves customizable bowls with sides like fritura de malanga and yuquitas.",
+    "Run by Latin Kitchen"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/914498568"
+  },
+  {
+   "id": "osm-n11512783470",
+   "name": "Salt & Straw",
+   "topic": "ice cream shop",
+   "lat": 25.790737,
+   "lng": -80.136424,
+   "photo": false,
+   "facts": [
+    "Brought to Lincoln Road in 2023 by developer Terranova.",
+    "Held its Lincoln Road grand opening on September 1st.",
+    "Part of the Salt & Straw chain"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/11512783470"
   },
   {
    "id": "osm-n6112915271",
@@ -393,34 +379,6 @@
    "osmUrl": "https://www.openstreetmap.org/node/6112915271"
   },
   {
-   "id": "osm-n14131315975",
-   "name": "Quinto Miami",
-   "topic": "South American restaurant",
-   "lat": 25.766607,
-   "lng": -80.192762,
-   "photo": false,
-   "facts": [
-    "Opened in May 2016 as Quinto La Huella at EAST, Miami in Brickell City Centre.",
-    "Opened as the first U.S. outpost of the Uruguayan beachfront eatery Parador La Huella.",
-    "Serves South American and Latin American food, plus breakfast"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/14131315975"
-  },
-  {
-   "id": "osm-n13812230058",
-   "name": "Mammamia Gelato Italiano",
-   "topic": "ice cream shop",
-   "lat": 25.765719,
-   "lng": -80.193464,
-   "photo": false,
-   "facts": [
-    "Also sells crepes along with gelato and frozen yogurt.",
-    "Welcomes dogs.",
-    "Has outdoor seating"
-   ],
-   "osmUrl": "https://www.openstreetmap.org/node/13812230058"
-  },
-  {
    "id": "osm-n12957873701",
    "name": "Ghee - Wynwood",
    "topic": "Indian restaurant",
@@ -433,6 +391,48 @@
     "Serves modern farm-to-table Indian food from a James Beard-nominated duo."
    ],
    "osmUrl": "https://www.openstreetmap.org/node/12957873701"
+  },
+  {
+   "id": "osm-n4535082493",
+   "name": "Pollos & Jarras",
+   "topic": "Peruvian restaurant",
+   "lat": 25.77575,
+   "lng": -80.188532,
+   "photo": false,
+   "facts": [
+    "Specializes in Peruvian rotisserie chicken.",
+    "Opened by chef Juan Chipoco and sous chef Luis Hoyos of CVI.CHE 105.",
+    "Serves Peruvian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/4535082493"
+  },
+  {
+   "id": "osm-n6299289292",
+   "name": "Fontana Italian Biltmore Hotel Miami",
+   "topic": "Italian restaurant",
+   "lat": 25.740579,
+   "lng": -80.278365,
+   "photo": false,
+   "facts": [
+    "Has a landscaped courtyard set around a fountain inside the Biltmore Hotel.",
+    "Its rustic interior has an open-air kitchen and a wood-burning stove.",
+    "Serves Italian food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/6299289292"
+  },
+  {
+   "id": "osm-n1670843023",
+   "name": "3 Chefs Chinese & Vietnamese Food",
+   "topic": "Chinese restaurant",
+   "lat": 25.793883,
+   "lng": -80.189192,
+   "photo": false,
+   "facts": [
+    "Menu spans Chinese and Vietnamese dishes, from noodle soups to seafood.",
+    "Pho comes with beef, meatball, chicken, shrimp or vegetables.",
+    "Serves Chinese food"
+   ],
+   "osmUrl": "https://www.openstreetmap.org/node/1670843023"
   }
  ],
  "points": [
@@ -3054,6 +3054,16 @@
   [
    25.770387,
    -80.189061,
+   0
+  ],
+  [
+   25.669112,
+   -80.155528,
+   0
+  ],
+  [
+   25.695511,
+   -80.163892,
    0
   ]
  ]
