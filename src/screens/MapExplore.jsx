@@ -1188,7 +1188,7 @@ export default function MapExplore({ experiments = false }) {
                   we could recolor individually, only what we draw ourselves. */}
               <Polyline positions={remainingPoints} pathOptions={{ color: NAV_ROUTE_GREEN, weight: 5, opacity: 1 }} />
               <Marker position={[nav.dest.lat, nav.dest.lng]} icon={focusIcon} zIndexOffset={1000} interactive={false}>
-                <Tooltip permanent direction="top" offset={[0, -34]} className={`focus-tooltip ${searchFocus.kind ? `focus-tooltip--${searchFocus.kind}` : ''}`}>
+                <Tooltip permanent direction="top" offset={[0, -34]} className="focus-tooltip">
                   {nav.dest.name}
                 </Tooltip>
               </Marker>
@@ -1230,7 +1230,7 @@ export default function MapExplore({ experiments = false }) {
               zIndexOffset={1000}
               interactive={false}
             >
-              <Tooltip permanent direction="top" offset={[0, -34]} className="focus-tooltip">
+              <Tooltip permanent direction="top" offset={[0, -34]} className={`focus-tooltip ${searchFocus.kind ? `focus-tooltip--${searchFocus.kind}` : ''}`}>
                 {searchFocus.name}
               </Tooltip>
             </Marker>
