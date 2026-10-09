@@ -11,7 +11,7 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 4,
   "reason": null,
   "facts": [
    {
@@ -21,6 +21,10 @@
    {
     "text": "The menu offers more than 18 combinations of its namesake milanesa.",
     "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-milanezza-restaurant-and-bar/"
+   },
+   {
+    "text": "Owners Gladys Arneri and Max Waicman opened their first restaurant here after moving from Buenos Aires.",
+    "url": "https://www.islandernews.com/news/keybiscayne/milanezza-restaurant-hits-the-spot/article_ef6e639b-d8b6-4873-8d3d-0df3df0ef959.html"
    }
   ]
  },
@@ -156,20 +160,20 @@
   "closed": false,
   "closedSource": null,
   "notFound": false,
-  "searches": 2,
+  "searches": 3,
   "reason": null,
   "facts": [
    {
-    "text": "An open-air restaurant on the shoreline at The Ritz-Carlton Key Biscayne, led by Executive Chef Renato Mekolli.",
+    "text": "An open-air beachfront restaurant at The Ritz-Carlton Key Biscayne, drawing on Greek and Turkish tavernas.",
     "url": "https://www.hotel-online.com/news/the-ritz-carlton-key-biscayne-miami-reopens-following-100-million-transformation"
    },
    {
-    "text": "Draws on Greek and Turkish tavernas, and its drinks list features Greek wines and ouzo.",
+    "text": "Its drinks list features Greek wines, ouzo and cocktails made with local botanicals.",
     "url": "https://www.hotel-online.com/news/the-ritz-carlton-key-biscayne-miami-reopens-following-100-million-transformation"
    },
    {
-    "text": "Serves traditional Greek and Turkish cuisine.",
-    "url": "https://www.diariolasamericas.com/paralia-brings-traditional-greek-and-turkish-cuisine-to-miami-n5395220/amp"
+    "text": "Chef John Iatrellis, who helped open Claudie in Miami, now runs its kitchen.",
+    "url": "https://www.islandernews.com/food/taste/paral-as-new-chef-brings-plenty-of-flavor/article_e4534ae0-31f4-41ed-8765-49f7bb845072.html"
    }
   ]
  },
@@ -199,6 +203,10 @@
    {
     "text": "Pairs its food with an international wine list and craft beers.",
     "url": "https://opentable.com/r/costa-med-key-biscayne"
+   },
+   {
+    "text": "Owned by Antonio Braschi.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
    }
   ]
  },
@@ -298,6 +306,112 @@
   "osmTag": "amenity=restaurant",
   "cuisine": "italian",
   "matched": true,
+  "closed": true,
+  "closedSource": "https://www.islandernews.com/food/taste/novecento-will-soon-move-its-unique-argentinian-cuisine-to-a-premiere-restaurant-location-on-key/article_044cb164-1a16-11ef-8262-7358425030a0.html",
+  "notFound": false,
+  "searches": 4,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Sake Room",
+  "area": "Key Biscayne",
+  "address": "328 Crandon Blvd, Suite 108",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "sushi",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html",
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Key Market",
+  "area": "Key Biscayne",
+  "address": null,
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": null,
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 2,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Kazumi",
+  "area": "Key Biscayne",
+  "address": "260 Crandon Blvd, Suite 16",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "japanese",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A contemporary Japanese restaurant run by chef Antonio Braschi.",
+    "url": "https://www.cnnbrasil.com.br/viagemegastronomia/gastronomia/restaurantes-key-biscayne-miami/"
+   },
+   {
+    "text": "Its dishes include a tuna pizza and truffle edamame.",
+    "url": "https://www.islandernews.com/food/taste/taste-s-list-of-the-best-places-for-outdoor-dining-on-key-biscayne/article_9a293908-99fc-11ef-a77a-27a30f3e8ec3.html"
+   },
+   {
+    "text": "Sits in the Square Shopping Center.",
+    "url": "https://www.islandernews.com/food/taste/last-taco-tuesday-of-september/article_fa0260df-1379-4197-8dec-31c6260ed20c.html"
+   }
+  ]
+ },
+ {
+  "name": "La Scala",
+  "area": "Key Biscayne",
+  "address": "180 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "italian",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 3,
+  "reason": null,
+  "facts": [
+   {
+    "text": "An Italian bistro in the Arcade Shopping Center, which opened at this location in 2017.",
+    "url": "https://www.islandernews.com/food/restaurant/arcade-shopping-center-serves-key-biscayne-as-a-food-oasis/article_f82b5ed0-e993-11ec-b523-330adc335db3.html"
+   },
+   {
+    "text": "Owned by Chandra de Silva.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   },
+   {
+    "text": "The dining room has about a dozen tables.",
+    "url": "https://wanderlog.com/place/details/2941773/la-scala-italian-restaurant"
+   }
+  ]
+ },
+ {
+  "name": "KeBo Restaurant",
+  "area": "Key Biscayne",
+  "address": "200 Crandon Blvd, Suite 104",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "spanish",
+  "matched": true,
   "closed": false,
   "closedSource": null,
   "notFound": false,
@@ -305,16 +419,155 @@
   "reason": null,
   "facts": [
    {
-    "text": "A family-owned and operated Italian restaurant.",
-    "url": "https://www.seasoned.co/store/b1f42bda-da09-493d-93e7-29254debbb1f/profile"
+    "text": "Opened in January 2014 as a Spanish gastronomy project.",
+    "url": "https://kebo-restaurant.com/"
    },
    {
-    "text": "Its name comes from the Italian word for fork.",
-    "url": "https://www.seasoned.co/store/b1f42bda-da09-493d-93e7-29254debbb1f/profile"
+    "text": "Its menu includes several paellas and a charcoal grill section.",
+    "url": "https://kebo-restaurant.com/key-biscayne-key-biscayne-kebo-restaurant-food-menu"
    },
    {
-    "text": "Its ingredients come either straight from Italy or from local suppliers.",
-    "url": "https://www.seasoned.co/store/b1f42bda-da09-493d-93e7-29254debbb1f/profile"
+    "text": "Its turbot, branzino and octopus are cooked over a charcoal grill.",
+    "url": "https://www.theinfatuation.com/miami/reviews/kebo"
+   },
+   {
+    "text": "José Castellano runs the restaurant.",
+    "url": "https://www.islandernews.com/food/taste/optimism-for-2026-high-with-local-restaurateurs/article_7198459d-583e-4ae8-9ea5-d7fd37b875c2.html"
+   }
+  ]
+ },
+ {
+  "name": "Toscana Mare",
+  "area": "Key Biscayne",
+  "address": "1121 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "italian",
+  "matched": true,
+  "closed": true,
+  "closedSource": "https://www.opentable.com.au/r/toscana-mare-key-biscayne",
+  "notFound": false,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Brasas KB",
+  "area": "Key Biscayne",
+  "address": "328 Crandon Blvd, Suite 107",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "peruvian",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "A Peruvian rotisserie whose signature is pollo a la brasa, served with sandwiches and salchipapas.",
+    "url": "https://ediblesouthflorida.ediblecommunities.com/guide/guide-brasas-kb/"
+   },
+   {
+    "text": "Its chicken comes with Peruvian sauces such as huancaína, ají amarillo and huacatay.",
+    "url": "https://www.islandernews.com/local/key-biscayne-tuesdays-tacos-and-more-menu/article_ca6ea1e4-6fdc-11ed-8482-f3b2951a32b9.html"
+   }
+  ]
+ },
+ {
+  "name": "Tacopolis",
+  "area": "Key Biscayne",
+  "address": null,
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "mexican",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Sir Pizza",
+  "area": "Key Biscayne",
+  "address": "712 Crandon Blvd",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "pizza",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Began on Key Biscayne as a Pizza King and was renamed Sir Pizza in 1969.",
+    "url": "https://www.aol.com/founder-pizza-king-dies-leaving-100736772.html"
+   },
+   {
+    "text": "Now owned by Barry, the son of its founder.",
+    "url": "https://www.aol.com/founder-pizza-king-dies-leaving-100736772.html"
+   },
+   {
+    "text": "For a long time it was one of just a few restaurants on the island.",
+    "url": "https://www.theinfatuation.com/miami/reviews/sir-pizza"
+   },
+   {
+    "text": "Known for square-cut pizzas, it grew to 11 more locations in Miami-Dade and Broward.",
+    "url": "https://app.sponsorpitch.com/sponsors/sir-pizza"
+   }
+  ]
+ },
+ {
+  "name": "Puntino",
+  "area": "Key Biscayne",
+  "address": null,
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "italian",
+  "matched": false,
+  "closed": false,
+  "closedSource": null,
+  "notFound": true,
+  "searches": 1,
+  "reason": null,
+  "facts": []
+ },
+ {
+  "name": "Lima Estilo Nikkei",
+  "area": "Key Biscayne",
+  "address": "180 Crandon Blvd, Suite 103",
+  "city": "Key Biscayne",
+  "tier": "everyday",
+  "osmTag": "amenity=restaurant",
+  "cuisine": "peruvian, japanese",
+  "matched": true,
+  "closed": false,
+  "closedSource": null,
+  "notFound": false,
+  "searches": 2,
+  "reason": null,
+  "facts": [
+   {
+    "text": "Opened by Argentine siblings María, Ramón and Santiago García Calvo.",
+    "url": "https://www.miaminewtimes.com/food-drink/miami-peruvian-restaurant-lima-estilo-nikkei-opens-in-key-biscayne-19559136/"
+   },
+   {
+    "text": "The siblings started a Buenos Aires restaurant of the same name in 2019.",
+    "url": "https://www.miaminewtimes.com/food-drink/miami-peruvian-restaurant-lima-estilo-nikkei-opens-in-key-biscayne-19559136/"
+   },
+   {
+    "text": "Serves Peruvian-Japanese Nikkei food such as truffled salmon belly nigiri and wasabi ceviche.",
+    "url": "https://www.miaminewtimes.com/food-drink/miami-peruvian-restaurant-lima-estilo-nikkei-opens-in-key-biscayne-19559136/"
    }
   ]
  }
