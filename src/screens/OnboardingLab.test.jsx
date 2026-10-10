@@ -66,7 +66,9 @@ describe('OnboardingLab', () => {
     const btn = (text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
     await act(async () => btn('Run checks').click());
     expect(el.querySelectorAll('.mall-lab-checks li.pass').length).toBe(6);
-    await act(async () => btn('Simulate a visit').click());
+    // Palm Grove (the made-up example) is in the list under the map.
+    const row = [...el.querySelectorAll('.mall-lab-mall-list li')].find((li) => li.textContent.includes('Palm Grove Plaza'));
+    await act(async () => row.querySelector('button').click());
     expect(el.textContent).toContain('Which stores did you visit?');
     const names = [...el.querySelectorAll('.mall-lab-store-name')].map((n) => n.textContent);
     expect(names[0]).toBe('Sunrise Coffee'); // most visited first
