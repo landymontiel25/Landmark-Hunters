@@ -80,3 +80,11 @@ npm run build && CHROMIUM_PATH=/opt/pw-browsers/chromium npm run e2e   # Playwri
 
 Phase 2 (not built): Firebase Auth sign-in instead of the shared password,
 custom date ranges, annotations on charts.
+
+## Builds
+
+`admin-dashboard/vercel.json` skips a build when nothing in this folder
+changed (`ignoreCommand`) and never builds the `claude/*` working branches,
+so app-only changes don't rebuild the dashboard. The main app's
+`vercel.json` skips `claude/*` branches too: only `main` builds.
+
