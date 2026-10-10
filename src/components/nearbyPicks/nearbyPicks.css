@@ -128,19 +128,26 @@ body.pin-placing .map-picks {
 }
 
 .mpp-sheet-grip {
-  padding: 8px 16px 6px;
+  /* A full thumb-sized strip (44px+), not just the little bar. */
+  min-height: 44px;
+  padding: 10px 16px 6px;
   cursor: grab;
   touch-action: none;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mpp-handle {
   display: block;
-  width: 40px;
-  height: 5px;
+  width: 48px;
+  height: 6px;
   margin: 0 auto 8px;
   border-radius: 3px;
   background: var(--border-strong);
+}
+
+.mpp-sheet-grip:active .mpp-handle {
+  background: var(--text-secondary);
 }
 
 .mpp-sheet-head {

@@ -88,37 +88,27 @@ export default function PicksBottomSheet({
     if (onScreen.length) onShownRef.current?.(onScreen);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onScreenSig, onShown]);
-  const onPointerDown = (e) => {
-    startY.current = e.clientY;
+  // One drag, from the grip or (pulling down) from the top of the list:
+  // begin at a y, follow it, settle where it ends.
+  const beginDrag = (y) => {
+    startY.current = y;
     startT.current = Date.now();
     startH.current = sheetRef.current?.offsetHeight || (minimized ? heightBounds().min : heightBounds().max);
-    // A mouse drag leaves the (short) grip within a few pixels, and without
-    // capture the release lands on the map, so the swipe never registered.
-    // Touch captures implicitly; this makes the mouse behave the same.
-    try {
-      e.currentTarget.setPointerCapture?.(e.pointerId);
-    } catch {
-      /* pointer already gone */
-    }
   };
-  const onPointerCancel = () => {
-    startY.current = null;
-    setDragH(null);
-  };
-  const onPointerMove = (e) => {
+  const moveDrag = (y) => {
     if (!moodFirst || startY.current == null) return;
-    const dy = e.clientY - startY.current;
+    const dy = y - startY.current;
     if (Math.abs(dy) <= 4 && !dragging) return; // still a tap
     const { min, max } = heightBounds();
     setDragH(Math.min(max, Math.max(min, startH.current - dy)));
   };
-  const onPointerUp = (e) => {
+  const endDrag = (y) => {
     if (startY.current == null) return;
-    const dy = e.clientY - startY.current;
+    const dy = y - startY.current;
     startY.current = null;
     if (moodFirst) {
       // Two states only: open (half the screen) and the title bar. The sheet
-      // follows the finger (onPointerMove) and settles on release: a flick goes
+      // follows the finger (moveDrag) and settles on release: a flick goes
       // the way it was flicked, a slow drag to the nearer end, a tap toggles.
       const { min, max } = heightBounds();
       const endH = Math.min(max, Math.max(min, startH.current - dy));
@@ -138,6 +128,51 @@ export default function PicksBottomSheet({
       if (expanded) onExpandedChange(false);
       else onMinimizedChange?.(true);
     } else onExpandedChange(!expanded);
+  };
+  const onPointerDown = (e) => {
+    beginDrag(e.clientY);
+    // A mouse drag leaves the grip within a few pixels, and without capture
+    // the release lands on the map, so the swipe never registered. Touch
+    // captures implicitly; this makes the mouse behave the same.
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {
+      /* pointer already gone */
+    }
+  };
+  const onPointerCancel = () => {
+    startY.current = null;
+    setDragH(null);
+  };
+  const onPointerMove = (e) => moveDrag(e.clientY);
+  const onPointerUp = (e) => endDrag(e.clientY);
+
+  // Pulling down on the list while it is scrolled to the top drags the whole
+  // sheet down, like a phone's own sheets, so the small grip is not the only
+  // place to grab. Scrolling the list up and down works as before.
+  const scrollRef = useRef(null);
+  const pull = useRef(null); // { y0, started, y }
+  const onListTouchStart = (e) => {
+    pull.current = (scrollRef.current?.scrollTop ?? 0) <= 0 ? { y0: e.touches[0].clientY, started: false, y: e.touches[0].clientY } : null;
+  };
+  const onListTouchMove = (e) => {
+    const p = pull.current;
+    if (!p) return;
+    const y = e.touches[0].clientY;
+    p.y = y;
+    if (!p.started) {
+      if (y - p.y0 < -4) pull.current = null; // scrolling the list up: leave it be
+      else if (y - p.y0 > 10) {
+        p.started = true;
+        beginDrag(p.y0);
+      }
+    }
+    if (p.started) moveDrag(y);
+  };
+  const onListTouchEnd = () => {
+    const p = pull.current;
+    pull.current = null;
+    if (p?.started) endDrag(p.y);
   };
   const toggle = () => {
     if (moodFirst) onMinimizedChange?.(!minimized);
@@ -317,7 +352,14 @@ export default function PicksBottomSheet({
           Within {distanceMiles} {distanceUnitLabel(units)}
         </button>
       )}
-      <div className="mpp-sheet-scroll">
+      <div
+        className="mpp-sheet-scroll"
+        ref={scrollRef}
+        onTouchStart={onListTouchStart}
+        onTouchMove={onListTouchMove}
+        onTouchEnd={onListTouchEnd}
+        onTouchCancel={onListTouchEnd}
+      >
         {moodFirst ? (
           <>
             {state === 'ready' && moodSlot}
