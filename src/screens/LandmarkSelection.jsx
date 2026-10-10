@@ -24,7 +24,7 @@ import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, sortInterests, getRegion } from '../data/regions';
-import { inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
+import { inArea, inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
@@ -322,6 +322,10 @@ export default function LandmarkSelection() {
     scopeFromKey(returned?.city && (returned.city !== 'all' || returned.picked) ? returned.city : mapCity || 'all').key
   );
   const scope = useMemo(() => scopeFromKey(scopeKey), [scopeKey]);
+  // An area drawn on the Map (its + dial's pencil) limits this list too,
+  // until it is cleared here or on the Map.
+  const [drawnArea, setDrawnArea] = useSessionState('map.drawnArea', null);
+  const drawnShape = useMemo(() => (drawnArea?.length > 2 ? { area: [drawnArea] } : null), [drawnArea]);
   const setCityFilter = (id) => setScopeKey(scopeFromKey(id).key);
   // Back from a landmark keeps a hand-picked city hand-picked.
   const cityPickedByHand = useRef(!!returned?.picked);
@@ -446,7 +450,7 @@ export default function LandmarkSelection() {
 
   // Everything but the search box: city and category filters.
   const passesFilters = (l) => {
-    if (!inScope(l, scope)) return false;
+    if (!inScope(l, scope) || (drawnShape && !inArea(l.lat, l.lng, drawnShape))) return false;
     if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
     return true;
   };
@@ -454,7 +458,7 @@ export default function LandmarkSelection() {
   const sortedLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
     const filtered = [...editedLandmarks, ...normalizedCustomLandmarks].filter((l) => {
-      if (!inScope(l, scope)) return false;
+      if (!inScope(l, scope) || (drawnShape && !inArea(l.lat, l.lng, drawnShape))) return false;
       if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
       if (term) {
         // Includes the city/region name and category labels too -- so a
@@ -535,6 +539,7 @@ export default function LandmarkSelection() {
     user?.uid,
     trip.savedInterests,
     scope,
+    drawnShape,
     activeCategories,
     landmarkMatchesCategory,
     search,
@@ -585,7 +590,7 @@ export default function LandmarkSelection() {
       )
       .filter((l) => l && !shown.has(`${l.regionId}/${l.id}`) && passesFilters(l));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [smart.ids, landmarks, normalizedCustomLandmarks, editedLandmarks, scope, activeCategories]);
+  }, [smart.ids, landmarks, normalizedCustomLandmarks, editedLandmarks, scope, drawnShape, activeCategories]);
 
   const allRows = useMemo(
     () => [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])],
@@ -616,12 +621,21 @@ export default function LandmarkSelection() {
         <span>{'\u{1F4CD}'}</span> Choose Landmarks
       </h1>
       <p className="screen-subtitle">
-        {landmarkCountText({
-          count: landmarks.length,
-          matchingInterests: activeCategories.length > 0,
-          searching: search.trim().length > 0,
-          cityFiltered: scope.key !== 'all',
-        })}
+        {drawnShape ? (
+          <>
+            {'\u{270F}\u{FE0F}'} {landmarks.length} {landmarks.length === 1 ? 'landmark' : 'landmarks'} in the area you drew on the Map
+            <button type="button" className="lm-drawn-cancel" aria-label="Cancel the drawn area" title="Cancel the drawn area" onClick={() => setDrawnArea(null)}>
+              {'\u{2715}'}
+            </button>
+          </>
+        ) : (
+          landmarkCountText({
+            count: landmarks.length,
+            matchingInterests: activeCategories.length > 0,
+            searching: search.trim().length > 0,
+            cityFiltered: scope.key !== 'all',
+          })
+        )}
       </p>
 
       <button

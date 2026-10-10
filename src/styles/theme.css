@@ -7137,3 +7137,18 @@ p.tag {
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Landmarks tab: the small ✕ that cancels the area drawn on the Map. */
+.lm-drawn-cancel {
+  margin-left: 8px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.2));
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: middle;
+}
