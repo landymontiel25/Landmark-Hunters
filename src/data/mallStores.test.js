@@ -18,20 +18,17 @@ describe('mall stores', () => {
   // Malls whose store research is still running (2026-10-10). Remove each
   // as its stores land; the list must only ever shrink.
   const RESEARCH_PENDING = new Set([
-    'silicon-valley/santana-row',
+    // Research still running.
+    'miami/osm-w279443134', // Midway Crossings
+    'miami/osm-w396472117', // Sunset Harbour Shops
+    'miami/osm-r7554876', // Sunset Place
     'cape-town/va-waterfront',
     'milan/galleria-vittorio-emanuele-ii',
-    'philly/king-of-prussia-mall',
-    'miami/osm-n2498529919',
-    'miami/osm-n6030985494',
-    'miami/osm-w441809093',
-    'miami/osm-w279443134',
-    'miami/osm-w291775638',
-    'miami/osm-w396472117',
-    'miami/osm-r7554876',
-    'miami/osm-w406011969',
-    'miami/osm-w436110281',
-    'miami/osm-w435576204',
+    // Research found no current tenants; for the owner to decide
+    // (docs/open-work.md): a building on Lincoln Road, not a mall?
+    'miami/osm-n6030985494', // Lincoln Center
+    // Only a 2015 source, which says it was to be replaced by a tower.
+    'miami/osm-w435576204', // Ultramont Mall
   ]);
 
   it('has a store list for every mall in the app', () => {
