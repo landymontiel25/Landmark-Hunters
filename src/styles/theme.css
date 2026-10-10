@@ -7267,3 +7267,77 @@ p.tag {
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
   border-radius: 12px;
 }
+
+/* Mall lab: a real-looking map of only malls, and the check-in sheet. */
+.mall-lab-map-full {
+  height: calc(100dvh - var(--header-h, 64px) - var(--nav-h, 72px) - 150px);
+  min-height: 380px;
+}
+.mall-visit {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}
+.mall-lab-checked-in {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--success, #34d399);
+  font-size: 0.85rem;
+}
+.mall-lab-search {
+  width: 100%;
+  margin: 0 0 10px;
+}
+.mall-lab-store-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.mall-lab-store-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.mall-lab-store-chip.on {
+  border-color: var(--mapr-blue, #5b8cff);
+  background: rgba(91, 140, 255, 0.16);
+}
+.mall-lab-visit-actions {
+  display: flex;
+  gap: 10px;
+}
+.mall-lab-visit-actions .btn {
+  flex: 1;
+}
+.mall-lab-vote span {
+  display: block;
+  font-size: 0.8rem;
+}
+.mall-lab-note {
+  width: 100%;
+  margin: 4px 0 12px;
+}
+.mall-lab-learned {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(91, 140, 255, 0.1);
+}
+.mall-lab-dev summary {
+  cursor: pointer;
+  font-weight: 600;
+}

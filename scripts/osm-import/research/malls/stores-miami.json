@@ -1,0 +1,305 @@
+[
+  {
+    "key": "miami/osm-w291775638",
+    "mall": "The Shops at Merrick Park",
+    "city": "Coral Gables",
+    "source": "https://www.shopsatmerrickpark.com/en/directory/",
+    "stores": [
+      {
+        "name": "Neiman Marcus",
+        "tags": [
+          "department store",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Nordstrom",
+        "tags": [
+          "department store",
+          "clothing"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/24395/"
+      },
+      {
+        "name": "Gucci",
+        "tags": [
+          "luxury",
+          "clothing"
+        ]
+      },
+      {
+        "name": "Louis Vuitton",
+        "tags": [
+          "luxury"
+        ]
+      },
+      {
+        "name": "Tiffany & Co.",
+        "tags": [
+          "jewelry",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Tory Burch",
+        "tags": [
+          "clothing",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Allen Edmonds",
+        "tags": [
+          "shoes"
+        ]
+      },
+      {
+        "name": "Alo Yoga",
+        "tags": [
+          "clothing",
+          "sports"
+        ]
+      },
+      {
+        "name": "lululemon",
+        "tags": [
+          "clothing",
+          "sports"
+        ]
+      },
+      {
+        "name": "Arhaus Furniture",
+        "tags": [
+          "home"
+        ]
+      },
+      {
+        "name": "Williams-Sonoma",
+        "tags": [
+          "home"
+        ]
+      },
+      {
+        "name": "Anthropologie",
+        "tags": [
+          "clothing",
+          "home"
+        ]
+      },
+      {
+        "name": "Banana Republic",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "J.Crew",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "Cole Haan",
+        "tags": [
+          "shoes"
+        ]
+      },
+      {
+        "name": "Madewell",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/29427/"
+      },
+      {
+        "name": "Sephora",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/19774/"
+      },
+      {
+        "name": "Yard House",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/19759/"
+      },
+      {
+        "name": "Sawa",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/19762/"
+      },
+      {
+        "name": "Landmark Theatres",
+        "tags": [
+          "entertainment"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "miami/osm-n2498529919",
+    "mall": "CocoWalk",
+    "city": "Coconut Grove, Miami",
+    "source": "https://airial.travel/attractions/united-states/miami/cocowalk-_t9_bHme",
+    "stores": [
+      {
+        "name": "Chop Steakhouse & Bar",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Botánico Gin & Cookhouse",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Narbona",
+        "tags": [
+          "food",
+          "grocery"
+        ]
+      },
+      {
+        "name": "El Bagel",
+        "tags": [
+          "food",
+          "cafe"
+        ]
+      },
+      {
+        "name": "Mister 01 Extraordinary Pizza",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Sushi Garage",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Planta Queen",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Bluemercury",
+        "tags": [
+          "beauty"
+        ]
+      },
+      {
+        "name": "FP Movement",
+        "tags": [
+          "clothing",
+          "sports"
+        ]
+      },
+      {
+        "name": "Gas Bijoux",
+        "tags": [
+          "jewelry"
+        ]
+      },
+      {
+        "name": "Cinépolis",
+        "tags": [
+          "entertainment"
+        ],
+        "source": "https://www.malls.com/malls/cocowalk/"
+      }
+    ],
+    "note": "No current official directory surfaced; tenants taken from a 2026 visitor page and a Malls.com listing refreshed April 2026. Edward Beiner (eyewear) and Coco Cigars also named but left out for lack of a fitting tag."
+  },
+  {
+    "key": "miami/osm-n6030985494",
+    "mall": "Lincoln Center",
+    "city": "Miami Beach",
+    "source": "https://embed-dev-3dwarehouse-classic.sketchup.com/model/83527a979766125eafe7a66770789494/The-Lincoln-Center-Miami-Beach-property",
+    "stores": [],
+    "note": "Only source found is a user-uploaded 3D model page describing 'The Lincoln Center' at 618-670 Lincoln Road / 1637 Euclid Ave as a Deco-style complex with a retail section, office building and courtyard (unverified). No result names any current tenant at 690 Lincoln Road or this complex. It is a building on the Lincoln Road pedestrian mall, not a standalone mall; consider dropping its mall status."
+  },
+  {
+    "key": "miami/osm-w441809093",
+    "mall": "Lincoln Road Mall",
+    "city": "Miami Beach",
+    "source": "https://lincolnroad.com/store-directory/",
+    "stores": [
+      {
+        "name": "Apple",
+        "tags": [
+          "electronics"
+        ],
+        "source": "https://lincolnroad.com/directory-location/apple-1/"
+      },
+      {
+        "name": "H&M",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://lincolnroad.com/directory-location/h-m/"
+      },
+      {
+        "name": "Nike",
+        "tags": [
+          "sports",
+          "shoes"
+        ],
+        "source": "https://lincolnroad.com/new-nike-store-lincoln-road/"
+      },
+      {
+        "name": "Sephora",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://lincolnroad.com/directory-location/sephora/"
+      },
+      {
+        "name": "Lululemon",
+        "tags": [
+          "clothing",
+          "sports"
+        ],
+        "source": "https://lincolnroad.com/directory-location/lululemon/"
+      },
+      {
+        "name": "Anthropologie",
+        "tags": [
+          "clothing",
+          "home"
+        ],
+        "source": "https://lincolnroad.com/directory-location/anthropologie/"
+      },
+      {
+        "name": "Osteria da Fortunata",
+        "tags": [
+          "food"
+        ],
+        "source": "https://lincolnroad.com/directory-location/osteria-da-fortunata/"
+      },
+      {
+        "name": "Balan's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://lincolnroad.com/directory-location/balans/"
+      },
+      {
+        "name": "Spris",
+        "tags": [
+          "food"
+        ],
+        "source": "https://lincolnroad.com/directory-location/spris/"
+      }
+    ],
+    "note": "Zara listed as 'reopening soon' and Sunglass Hut as renovating, so both left out. Anthropologie's listing gives 1654 Meridian Ave, just off the road."
+  }
+]

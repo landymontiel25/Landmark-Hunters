@@ -469,5 +469,704 @@ export const MALL_STORES = [
         "source": "https://baysidemarketplace.com/directory/shops/bath-and-body-works/"
       }
     ]
+  },
+  {
+    "key": "miami/osm-w291775638",
+    "mall": "The Shops at Merrick Park",
+    "city": "Coral Gables",
+    "source": "https://www.shopsatmerrickpark.com/en/directory/",
+    "stores": [
+      {
+        "name": "Neiman Marcus",
+        "tags": [
+          "department store",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Nordstrom",
+        "tags": [
+          "department store",
+          "clothing"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/24395/"
+      },
+      {
+        "name": "Gucci",
+        "tags": [
+          "luxury",
+          "clothing"
+        ]
+      },
+      {
+        "name": "Louis Vuitton",
+        "tags": [
+          "luxury"
+        ]
+      },
+      {
+        "name": "Tiffany & Co.",
+        "tags": [
+          "jewelry",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Tory Burch",
+        "tags": [
+          "clothing",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Allen Edmonds",
+        "tags": [
+          "shoes"
+        ]
+      },
+      {
+        "name": "Alo Yoga",
+        "tags": [
+          "clothing",
+          "sports"
+        ]
+      },
+      {
+        "name": "lululemon",
+        "tags": [
+          "clothing",
+          "sports"
+        ]
+      },
+      {
+        "name": "Arhaus Furniture",
+        "tags": [
+          "home"
+        ]
+      },
+      {
+        "name": "Williams-Sonoma",
+        "tags": [
+          "home"
+        ]
+      },
+      {
+        "name": "Anthropologie",
+        "tags": [
+          "clothing",
+          "home"
+        ]
+      },
+      {
+        "name": "Banana Republic",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "J.Crew",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "Cole Haan",
+        "tags": [
+          "shoes"
+        ]
+      },
+      {
+        "name": "Madewell",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/29427/"
+      },
+      {
+        "name": "Sephora",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/19774/"
+      },
+      {
+        "name": "Yard House",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/19759/"
+      },
+      {
+        "name": "Sawa",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.shopsatmerrickpark.com/en/directory/19762/"
+      },
+      {
+        "name": "Landmark Theatres",
+        "tags": [
+          "entertainment"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "miami/osm-n2498529919",
+    "mall": "CocoWalk",
+    "city": "Coconut Grove, Miami",
+    "source": "https://airial.travel/attractions/united-states/miami/cocowalk-_t9_bHme",
+    "stores": [
+      {
+        "name": "Chop Steakhouse & Bar",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Botánico Gin & Cookhouse",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Narbona",
+        "tags": [
+          "food",
+          "grocery"
+        ]
+      },
+      {
+        "name": "El Bagel",
+        "tags": [
+          "food",
+          "cafe"
+        ]
+      },
+      {
+        "name": "Mister 01 Extraordinary Pizza",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Sushi Garage",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Planta Queen",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Bluemercury",
+        "tags": [
+          "beauty"
+        ]
+      },
+      {
+        "name": "FP Movement",
+        "tags": [
+          "clothing",
+          "sports"
+        ]
+      },
+      {
+        "name": "Gas Bijoux",
+        "tags": [
+          "jewelry"
+        ]
+      },
+      {
+        "name": "Cinépolis",
+        "tags": [
+          "entertainment"
+        ],
+        "source": "https://www.malls.com/malls/cocowalk/"
+      }
+    ]
+  },
+  {
+    "key": "miami/osm-w441809093",
+    "mall": "Lincoln Road Mall",
+    "city": "Miami Beach",
+    "source": "https://lincolnroad.com/store-directory/",
+    "stores": [
+      {
+        "name": "Apple",
+        "tags": [
+          "electronics"
+        ],
+        "source": "https://lincolnroad.com/directory-location/apple-1/"
+      },
+      {
+        "name": "H&M",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://lincolnroad.com/directory-location/h-m/"
+      },
+      {
+        "name": "Nike",
+        "tags": [
+          "sports",
+          "shoes"
+        ],
+        "source": "https://lincolnroad.com/new-nike-store-lincoln-road/"
+      },
+      {
+        "name": "Sephora",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://lincolnroad.com/directory-location/sephora/"
+      },
+      {
+        "name": "Lululemon",
+        "tags": [
+          "clothing",
+          "sports"
+        ],
+        "source": "https://lincolnroad.com/directory-location/lululemon/"
+      },
+      {
+        "name": "Anthropologie",
+        "tags": [
+          "clothing",
+          "home"
+        ],
+        "source": "https://lincolnroad.com/directory-location/anthropologie/"
+      },
+      {
+        "name": "Osteria da Fortunata",
+        "tags": [
+          "food"
+        ],
+        "source": "https://lincolnroad.com/directory-location/osteria-da-fortunata/"
+      },
+      {
+        "name": "Balan's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://lincolnroad.com/directory-location/balans/"
+      },
+      {
+        "name": "Spris",
+        "tags": [
+          "food"
+        ],
+        "source": "https://lincolnroad.com/directory-location/spris/"
+      }
+    ]
+  },
+  {
+    "key": "miami/osm-w406011969",
+    "mall": "The Greenery Mall",
+    "city": "Miami",
+    "source": "https://www.mallscenters.com/malls/florida/the-greenery-mall",
+    "stores": [
+      {
+        "name": "T.J. Maxx",
+        "tags": [
+          "clothing",
+          "department store"
+        ],
+        "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+      },
+      {
+        "name": "HomeGoods",
+        "tags": [
+          "home"
+        ],
+        "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+      },
+      {
+        "name": "Guitar Center",
+        "tags": [
+          "electronics",
+          "entertainment"
+        ],
+        "source": "https://www.mallscenters.com/brands/stores/guitar-center/miami--florida--the-greenery-mall"
+      },
+      {
+        "name": "Mattress Firm",
+        "tags": [
+          "home"
+        ],
+        "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+      },
+      {
+        "name": "Starbucks",
+        "tags": [
+          "coffee"
+        ],
+        "source": "https://www.mallscenters.com/brands/stores/starbucks/miami--florida--the-greenery-mall"
+      },
+      {
+        "name": "Jamba Juice",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+      },
+      {
+        "name": "Don Pan",
+        "tags": [
+          "cafe",
+          "food"
+        ],
+        "source": "https://www.mallscenters.com/brands/stores/don-pan/miami--florida--the-greenery-mall"
+      },
+      {
+        "name": "Siam Dragon",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.mallscenters.com/brands/stores/siam-dragon/miami--florida--the-greenery-mall"
+      },
+      {
+        "name": "Pita Fresh",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Thump Gym",
+        "tags": [
+          "fitness"
+        ],
+        "source": "https://www.mallscenters.com/brands/stores/thump-gym/miami--florida--the-greenery-mall"
+      },
+      {
+        "name": "Massage Haven",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://www.mallscenters.com/brands/stores/massage-haven/miami--florida--the-greenery-mall"
+      },
+      {
+        "name": "King's Creek Nails",
+        "tags": [
+          "beauty"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "miami/osm-w436110281",
+    "mall": "The Shops at Mary Brickell Village",
+    "city": "Brickell, Miami",
+    "source": "https://www.malls.com/malls/mary_brickell_village/",
+    "stores": [
+      {
+        "name": "Publix",
+        "tags": [
+          "grocery"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "LA Fitness",
+        "tags": [
+          "fitness"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Moxie's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Balans",
+        "tags": [
+          "food"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "North Italia",
+        "tags": [
+          "food"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Toscana Divino",
+        "tags": [
+          "food"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Starbucks",
+        "tags": [
+          "coffee"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Raw Juce",
+        "tags": [
+          "cafe"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Shake Shack",
+        "tags": [
+          "fast food"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "P.F. Chang's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "Blue Martini",
+        "tags": [
+          "entertainment"
+        ],
+        "source": "https://shoppingcenterbusiness.com/?p=20380"
+      },
+      {
+        "name": "T-Mobile",
+        "tags": [
+          "electronics"
+        ]
+      },
+      {
+        "name": "Face Brow & Beauty Bar",
+        "tags": [
+          "beauty"
+        ]
+      },
+      {
+        "name": "Kanu Pet",
+        "tags": [
+          "pets"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "philly/king-of-prussia-mall",
+    "mall": "King of Prussia Mall",
+    "city": "King of Prussia, PA",
+    "source": "https://www.simon.com/mall/king-of-prussia/directory",
+    "stores": [
+      {
+        "name": "Nordstrom",
+        "tags": [
+          "department store"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Macy's",
+        "tags": [
+          "department store"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Neiman Marcus",
+        "tags": [
+          "department store",
+          "luxury"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Bloomingdale's",
+        "tags": [
+          "department store"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Primark",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Maggiano's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Seasons 52",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Morton's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+      },
+      {
+        "name": "Eataly",
+        "tags": [
+          "food",
+          "grocery"
+        ],
+        "source": "https://www.inquirer.com/food/restaurants/eataly-king-of-prussia-opening-date-20250917.html"
+      },
+      {
+        "name": "Faherty",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "adidas",
+        "tags": [
+          "sports",
+          "shoes"
+        ]
+      },
+      {
+        "name": "David Yurman",
+        "tags": [
+          "jewelry",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Free People",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://www.freepeople.com/stores/king-of-prussia-mall-king-of-prussia/"
+      },
+      {
+        "name": "Luxury Jewelers",
+        "tags": [
+          "jewelry"
+        ],
+        "source": "https://www.simon.com/brands/luxury-jewelers"
+      },
+      {
+        "name": "Squishables",
+        "tags": [
+          "toys",
+          "gifts"
+        ],
+        "source": "https://www.simon.com/brands/squishables-kop"
+      },
+      {
+        "name": "Pepper Palace",
+        "tags": [
+          "food",
+          "gifts"
+        ],
+        "source": "https://www.simon.com/brands/pepper-palace-kop"
+      },
+      {
+        "name": "East Meets West",
+        "tags": [
+          "gifts"
+        ],
+        "source": "https://www.simon.com/brands/east-meets-west-kop"
+      }
+    ]
+  },
+  {
+    "key": "silicon-valley/santana-row",
+    "mall": "Santana Row",
+    "city": "San Jose, CA",
+    "source": "https://www.mallscenters.com/malls/california/santana-row",
+    "stores": [
+      {
+        "name": "Aesop",
+        "tags": [
+          "beauty"
+        ]
+      },
+      {
+        "name": "Blue Bottle Coffee",
+        "tags": [
+          "coffee"
+        ]
+      },
+      {
+        "name": "Crate and Barrel",
+        "tags": [
+          "home"
+        ]
+      },
+      {
+        "name": "Fogo de Chao",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Gucci",
+        "tags": [
+          "luxury",
+          "clothing"
+        ]
+      },
+      {
+        "name": "H&M",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "Left Bank Brasserie",
+        "tags": [
+          "food"
+        ],
+        "source": "https://visitsiliconvalley.org/attractions/santana-row"
+      },
+      {
+        "name": "LB Steak",
+        "tags": [
+          "food"
+        ],
+        "source": "https://visitsiliconvalley.org/attractions/santana-row"
+      },
+      {
+        "name": "Pizza Antica",
+        "tags": [
+          "food"
+        ],
+        "source": "https://visitsiliconvalley.org/attractions/santana-row"
+      },
+      {
+        "name": "Maggiano's Little Italy",
+        "tags": [
+          "food"
+        ],
+        "source": "https://visitsiliconvalley.org/attractions/santana-row"
+      },
+      {
+        "name": "Johnny Doughnuts",
+        "tags": [
+          "dessert"
+        ],
+        "source": "https://hoodline.com/2026/06/santana-row-snags-johnny-doughnuts-as-wine-country-looms-next/"
+      }
+    ]
   }
 ];

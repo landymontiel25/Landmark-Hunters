@@ -12,7 +12,9 @@ afterEach(() => {
   vi.resetModules();
 });
 
-async function renderAs(email, { nothingToTest = false } = {}) {
+// The Test tab opens on Malls; `tab: 'onboarding'` (the default here, for the
+// onboarding tests) switches to that bubble first.
+async function renderAs(email, { nothingToTest = false, tab = 'onboarding' } = {}) {
   vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
@@ -31,6 +33,8 @@ async function renderAs(email, { nothingToTest = false } = {}) {
       </MemoryRouter>
     );
   });
+  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === (tab === 'malls' ? 'Malls' : 'Onboarding'));
+  if (bubble) await act(async () => bubble.click());
   return container;
 }
 
@@ -52,32 +56,51 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
-  it('shows the Onboarding and Malls bubbles above the test, Onboarding first', async () => {
-    const el = await renderAs('landymontiel25@gmail.com');
+  it('opens on the Malls bubble, with Onboarding next to it', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Onboarding', 'Malls']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Malls', 'Onboarding']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+    expect(el.querySelector('.mall-lab-map .leaflet-container')).toBeTruthy();
   });
 
-  it('opens the mall lab: Palm Grove Plaza, a visit, and the checks', async () => {
-    const el = await renderAs('landymontiel25@gmail.com');
-    await act(async () => [...el.querySelectorAll('.lab-tabs [role="tab"]')][1].click());
-    expect(el.textContent).toContain('Palm Grove Plaza');
-    // The map, with one pin per mall in the app and nothing else.
-    expect(el.querySelector('.mall-lab-map .leaflet-container')).toBeTruthy();
-    expect(el.querySelectorAll('.mall-lab-map path.leaflet-interactive').length).toBeGreaterThanOrEqual(5);
-    expect(el.textContent).toContain('Dolphin Mall');
-    expect(el.textContent).toContain('King of Prussia Mall');
+  it('mall check-in: tap a mall, Check In, pick stores, rate them, say what you like', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'malls' });
+    const btn = (text) => [...document.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+    // Only malls on the map, as the real Map's pins.
+    const pins = [...el.querySelectorAll('.mall-lab-map .leaflet-marker-icon')];
+    expect(pins.length).toBeGreaterThanOrEqual(5);
+    const dolphin = pins.find((p) => p.getAttribute('title') === 'Dolphin Mall');
+    await act(async () => dolphin.click());
+    await act(async () => btn('Check In').click());
+    expect(document.body.textContent).toContain("You're checked in at");
+    expect(document.body.textContent).toContain('Which stores did you go into?');
+    const chips = [...document.querySelectorAll('.mall-lab-store-chip')];
+    expect(chips.length).toBeGreaterThan(5);
+    await act(async () => chips[0].click());
+    await act(async () => chips[1].click());
+    await act(async () => btn('Next (2)').click());
+    expect(document.body.textContent).toContain('store 1 of 2');
+    await act(async () => btn('Liked it').click());
+    expect(document.body.textContent).toContain('What did you like about it?');
+    await act(async () => btn('friendly staff').click());
+    await act(async () => btn('Next store').click());
+    await act(async () => btn('Not for me').click());
+    await act(async () => btn('Next').click());
+    expect(document.body.textContent).toContain('What do you like about Dolphin Mall?');
+    await act(async () => btn('easy parking').click());
+    await act(async () => btn('Save').click());
+    expect(document.body.textContent).toContain('Visit saved');
+    expect(document.body.textContent).toContain('What Mapr learned');
+    await act(async () => btn('Done').click());
+    expect(document.querySelector('.mall-visit')).toBeNull();
+  });
+
+  it('runs the six mall checks on Palm Grove Plaza', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'malls' });
     const btn = (text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
     await act(async () => btn('Run checks').click());
     expect(el.querySelectorAll('.mall-lab-checks li.pass').length).toBe(6);
-    // Palm Grove (the made-up example) is in the list under the map.
-    const row = [...el.querySelectorAll('.mall-lab-mall-list li')].find((li) => li.textContent.includes('Palm Grove Plaza'));
-    await act(async () => row.querySelector('button').click());
-    expect(el.textContent).toContain('Which stores did you visit?');
-    const names = [...el.querySelectorAll('.mall-lab-store-name')].map((n) => n.textContent);
-    expect(names[0]).toBe('Sunrise Coffee'); // most visited first
-    expect(names).toHaveLength(6);
   });
 
   it('sends non-admins away', async () => {

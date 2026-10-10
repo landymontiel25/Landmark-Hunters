@@ -18,9 +18,13 @@ Store lists are app data (`data/mallStores.js`, built by
 `scripts/build-mall-stores.mjs` from `scripts/osm-import/research/malls/`):
 store names a result places at the mall, its directory as source, 1-2 tags.
 `data/mallStores.test.js` fails when a mall has no stores (standing rule in
-CLAUDE.md). Left open: 14 malls' research was still running at merge; they
-sit in that test's RESEARCH_PENDING list and show "No stores listed yet"
-until their stores land.
+CLAUDE.md). Left open: 5 malls' research was still running (Midway Crossings, Sunset
+Harbour Shops, Sunset Place, V&A Waterfront, Galleria Vittorio Emanuele II).
+Two found no current tenants and need an owner call: Lincoln Center (690
+Lincoln Road, likely a building on the Lincoln Road pedestrian mall, not a
+mall: drop its mall topic?) and Ultramont Mall (only a 2015 source, saying a
+tower would replace it: still open?). All seven sit in that test's
+RESEARCH_PENDING list; checking in there skips the store question.
 
 Scoring as before: a vote moves the store's tags with the Pick vote rules
 (+4 / -6, half after 5, 90-day half-life, +/-100); mall score is the

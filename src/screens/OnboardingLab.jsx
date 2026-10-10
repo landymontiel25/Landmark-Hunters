@@ -34,8 +34,8 @@ const STEPS = [
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
-  { id: 'onboarding', label: 'Onboarding' },
   { id: 'malls', label: 'Malls' },
+  { id: 'onboarding', label: 'Onboarding' },
 ];
 const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
@@ -56,7 +56,7 @@ const empty = () => ({
 
 export default function OnboardingLab() {
   const { user, loading: authLoading } = useAuth();
-  const [test, setTest] = useState('onboarding');
+  const [test, setTest] = useState('malls');
   const [step, setStep] = useState(0);
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);

@@ -1,0 +1,419 @@
+[
+ {
+  "key": "miami/osm-w406011969",
+  "mall": "The Greenery Mall",
+  "city": "Miami",
+  "source": "https://www.mallscenters.com/malls/florida/the-greenery-mall",
+  "stores": [
+   {
+    "name": "T.J. Maxx",
+    "tags": [
+     "clothing",
+     "department store"
+    ],
+    "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+   },
+   {
+    "name": "HomeGoods",
+    "tags": [
+     "home"
+    ],
+    "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+   },
+   {
+    "name": "Guitar Center",
+    "tags": [
+     "electronics",
+     "entertainment"
+    ],
+    "source": "https://www.mallscenters.com/brands/stores/guitar-center/miami--florida--the-greenery-mall"
+   },
+   {
+    "name": "Mattress Firm",
+    "tags": [
+     "home"
+    ],
+    "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+   },
+   {
+    "name": "Starbucks",
+    "tags": [
+     "coffee"
+    ],
+    "source": "https://www.mallscenters.com/brands/stores/starbucks/miami--florida--the-greenery-mall"
+   },
+   {
+    "name": "Jamba Juice",
+    "tags": [
+     "food"
+    ],
+    "source": "https://www.connectcre.com/stories/miami-retail-center-sells-for-58m/"
+   },
+   {
+    "name": "Don Pan",
+    "tags": [
+     "cafe",
+     "food"
+    ],
+    "source": "https://www.mallscenters.com/brands/stores/don-pan/miami--florida--the-greenery-mall"
+   },
+   {
+    "name": "Siam Dragon",
+    "tags": [
+     "food"
+    ],
+    "source": "https://www.mallscenters.com/brands/stores/siam-dragon/miami--florida--the-greenery-mall"
+   },
+   {
+    "name": "Pita Fresh",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Thump Gym",
+    "tags": [
+     "fitness"
+    ],
+    "source": "https://www.mallscenters.com/brands/stores/thump-gym/miami--florida--the-greenery-mall"
+   },
+   {
+    "name": "Massage Haven",
+    "tags": [
+     "beauty"
+    ],
+    "source": "https://www.mallscenters.com/brands/stores/massage-haven/miami--florida--the-greenery-mall"
+   },
+   {
+    "name": "King's Creek Nails",
+    "tags": [
+     "beauty"
+    ]
+   }
+  ],
+  "note": "No official directory found; Mallscenters store pages date from 2021, anchors confirmed by 2023 sale coverage (ConnectCRE). JoAnn Fabric left out (chain closed); offices, dental and services skipped."
+ },
+ {
+  "key": "miami/osm-w436110281",
+  "mall": "The Shops at Mary Brickell Village",
+  "city": "Brickell, Miami",
+  "source": "https://www.malls.com/malls/mary_brickell_village/",
+  "stores": [
+   {
+    "name": "Publix",
+    "tags": [
+     "grocery"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "LA Fitness",
+    "tags": [
+     "fitness"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Moxie's",
+    "tags": [
+     "food"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Balans",
+    "tags": [
+     "food"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "North Italia",
+    "tags": [
+     "food"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Toscana Divino",
+    "tags": [
+     "food"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Starbucks",
+    "tags": [
+     "coffee"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Raw Juce",
+    "tags": [
+     "cafe"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Shake Shack",
+    "tags": [
+     "fast food"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "P.F. Chang's",
+    "tags": [
+     "food"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "Blue Martini",
+    "tags": [
+     "entertainment"
+    ],
+    "source": "https://shoppingcenterbusiness.com/?p=20380"
+   },
+   {
+    "name": "T-Mobile",
+    "tags": [
+     "electronics"
+    ]
+   },
+   {
+    "name": "Face Brow & Beauty Bar",
+    "tags": [
+     "beauty"
+    ]
+   },
+   {
+    "name": "Kanu Pet",
+    "tags": [
+     "pets"
+    ]
+   }
+  ],
+  "note": "Official site directory not reachable via search; malls.com (updated April 2026) and a Shopping Center Business tenant list used."
+ },
+ {
+  "key": "miami/osm-w435576204",
+  "mall": "Ultramont Mall",
+  "city": "Downtown Miami",
+  "source": "https://www.condoblackbook.com/blog/three-new-high-rise-towers-will-soon-replace-some-old-retail-centers",
+  "stores": [],
+  "note": "No directory or current tenant list found in 2 searches; the only source (2015) describes the mall as slated for replacement by a tower at 101 SE 1st Ave and only mentions Marshalls in a photo credit, not as a confirmed current tenant."
+ },
+ {
+  "key": "philly/king-of-prussia-mall",
+  "mall": "King of Prussia Mall",
+  "city": "King of Prussia, PA",
+  "source": "https://www.simon.com/mall/king-of-prussia/directory",
+  "stores": [
+   {
+    "name": "Nordstrom",
+    "tags": [
+     "department store"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Macy's",
+    "tags": [
+     "department store"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Neiman Marcus",
+    "tags": [
+     "department store",
+     "luxury"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Bloomingdale's",
+    "tags": [
+     "department store"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Primark",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Maggiano's",
+    "tags": [
+     "food"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Seasons 52",
+    "tags": [
+     "food"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Morton's",
+    "tags": [
+     "food"
+    ],
+    "source": "https://www.mappedin.com/map-gallery/king-of-prussia-mall/"
+   },
+   {
+    "name": "Eataly",
+    "tags": [
+     "food",
+     "grocery"
+    ],
+    "source": "https://www.inquirer.com/food/restaurants/eataly-king-of-prussia-opening-date-20250917.html"
+   },
+   {
+    "name": "Faherty",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "adidas",
+    "tags": [
+     "sports",
+     "shoes"
+    ]
+   },
+   {
+    "name": "David Yurman",
+    "tags": [
+     "jewelry",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Free People",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://www.freepeople.com/stores/king-of-prussia-mall-king-of-prussia/"
+   },
+   {
+    "name": "Luxury Jewelers",
+    "tags": [
+     "jewelry"
+    ],
+    "source": "https://www.simon.com/brands/luxury-jewelers"
+   },
+   {
+    "name": "Squishables",
+    "tags": [
+     "toys",
+     "gifts"
+    ],
+    "source": "https://www.simon.com/brands/squishables-kop"
+   },
+   {
+    "name": "Pepper Palace",
+    "tags": [
+     "food",
+     "gifts"
+    ],
+    "source": "https://www.simon.com/brands/pepper-palace-kop"
+   },
+   {
+    "name": "East Meets West",
+    "tags": [
+     "gifts"
+    ],
+    "source": "https://www.simon.com/brands/east-meets-west-kop"
+   }
+  ]
+ },
+ {
+  "key": "silicon-valley/santana-row",
+  "mall": "Santana Row",
+  "city": "San Jose, CA",
+  "source": "https://www.mallscenters.com/malls/california/santana-row",
+  "stores": [
+   {
+    "name": "Aesop",
+    "tags": [
+     "beauty"
+    ]
+   },
+   {
+    "name": "Blue Bottle Coffee",
+    "tags": [
+     "coffee"
+    ]
+   },
+   {
+    "name": "Crate and Barrel",
+    "tags": [
+     "home"
+    ]
+   },
+   {
+    "name": "Fogo de Chao",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Gucci",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "H&M",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Left Bank Brasserie",
+    "tags": [
+     "food"
+    ],
+    "source": "https://visitsiliconvalley.org/attractions/santana-row"
+   },
+   {
+    "name": "LB Steak",
+    "tags": [
+     "food"
+    ],
+    "source": "https://visitsiliconvalley.org/attractions/santana-row"
+   },
+   {
+    "name": "Pizza Antica",
+    "tags": [
+     "food"
+    ],
+    "source": "https://visitsiliconvalley.org/attractions/santana-row"
+   },
+   {
+    "name": "Maggiano's Little Italy",
+    "tags": [
+     "food"
+    ],
+    "source": "https://visitsiliconvalley.org/attractions/santana-row"
+   },
+   {
+    "name": "Johnny Doughnuts",
+    "tags": [
+     "dessert"
+    ],
+    "source": "https://hoodline.com/2026/06/santana-row-snags-johnny-doughnuts-as-wine-country-looms-next/"
+   }
+  ],
+  "note": "Official santanarow.com directory not reachable via search; Mallscenters list may be stale (it still shows Amazon Books, left out). Tenants only reported as signing leases (New Balance, Evereve, Todd Snyder, YETI etc.) left out."
+ }
+]
