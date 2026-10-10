@@ -2,6 +2,7 @@
 // it, from the research files in scripts/osm-import/research/malls/:
 //   stores.json       the big malls (Dadeland, Dolphin Mall, King of Prussia...)
 //   stores-more.json  every other mall already in the app
+//   (any other .json there too: a later import's malls)
 // Each mall is a place already in the catalog (key "<region>/<id>"); each
 // store comes from a result that names it at that mall (its `source`).
 // A mall is a catalog place with topic 'mall' (imports) or `mall: true`
@@ -24,10 +25,10 @@ const CITY = {
 };
 
 const rows = [];
-for (const f of ['stores.json', 'stores-more.json']) {
-  const file = `${DIR}/${f}`;
-  if (fs.existsSync(file)) rows.push(...JSON.parse(fs.readFileSync(file, 'utf8')));
-}
+// Every research file in the folder (stores.json first), so a new import's
+// malls just add a file.
+const files = fs.existsSync(DIR) ? fs.readdirSync(DIR).filter((f) => f.endsWith('.json')).sort((a, b) => (a === 'stores.json' ? -1 : b === 'stores.json' ? 1 : a.localeCompare(b))) : [];
+for (const f of files) rows.push(...JSON.parse(fs.readFileSync(`${DIR}/${f}`, 'utf8')));
 const seen = new Set();
 const malls = [];
 for (const m of rows) {

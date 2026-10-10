@@ -86,8 +86,7 @@ read through `lib/malls.js` `storesOfPlace`). A mall is a place with topic
 research its stores in the same run: up to 20 stores, restaurants or
 attractions a result names as inside it now (the mall's directory page as
 `source`), 1 or 2 tags each from the list in `scripts/build-mall-stores.mjs`,
-written to a JSON file in `malls/` (`stores.json`, `stores-more.json`, or a
-new one added to the script's list). Then run
+written to a new JSON file in `malls/` (the script reads every file there). Then run
 `node scripts/build-mall-stores.mjs`. `src/data/mallStores.test.js` fails
 while any mall has no stores.
 
