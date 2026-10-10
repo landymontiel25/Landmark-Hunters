@@ -22,6 +22,8 @@ import { isAdmin } from '../lib/admins';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { useLandmarkEdits } from '../lib/LandmarkEditsContext';
 import MapCategoryFilter from '../components/MapCategoryFilter';
+import MapDrawOverlay from '../components/MapDrawOverlay';
+import { inArea } from '../lib/cityScope';
 import { setMapView } from '../lib/nearestCity';
 import { searchScore, proximityBonus } from '../lib/search';
 import CheckInButton from '../components/CheckInButton';
@@ -498,7 +500,14 @@ export default function MapExplore({ experiments = false }) {
   const setFilterCats = (set) => setFilterCatList([...set]);
   const toggleFilterCat = (id) =>
     setFilterCatList((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
-  const passesFilter = (l) => filterCats.size === 0 || (l.categories || []).some((c) => filterCats.has(c));
+  // An area drawn on the map (the + dial's pencil, Zillow style): only the
+  // landmarks inside it show until it is cleared. [lat, lng] points, or null.
+  const [drawnArea, setDrawnArea] = useSessionState('map.drawnArea', null);
+  const [drawMode, setDrawMode] = useState(false);
+  const [dialOpen, setDialOpen] = useState(false);
+  const drawnShape = useMemo(() => (drawnArea?.length > 2 ? { area: [drawnArea] } : null), [drawnArea]);
+  const passesFilter = (l) =>
+    (filterCats.size === 0 || (l.categories || []).some((c) => filterCats.has(c))) && (!drawnShape || inArea(l.lat, l.lng, drawnShape));
 
   // Moving a built-in landmark's pin: Admin Mode only (same as moving a
   // custom pin, or any other admin write) -- a drop saves the corrected
@@ -955,8 +964,8 @@ export default function MapExplore({ experiments = false }) {
         );
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, adminMode, applyEdit, packsVersion, myPhotos]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats and drawnShape
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, drawnShape, adminMode, applyEdit, packsVersion, myPhotos]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
@@ -1084,12 +1093,13 @@ export default function MapExplore({ experiments = false }) {
           </Marker>
         );
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats
-    [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, filterCats, myPhotos, getRegionSelection, adminMode]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats and drawnShape
+    [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, filterCats, drawnShape, myPhotos, getRegionSelection, adminMode]
   );
 
+  const areaCount = drawnArea ? markers.filter(Boolean).length + customMarkers.filter(Boolean).length : 0;
   const picksReady = !!user && !!myReviewsLoaded;
-  const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen;
+  const showPicks = picksReady && !nav && !tripRoute && !placingPin && !searchOpen && !filterOpen && !drawMode && !dialOpen;
   const picksH = picksMinimized
     ? `${PICKS_SHEET_H.minimized}px`
     : PICKS_SHEET_H.moodExpanded;
@@ -1216,6 +1226,9 @@ export default function MapExplore({ experiments = false }) {
                 </Tooltip>
               )}
             </Marker>
+          )}
+          {drawnArea?.length > 2 && (
+            <Polygon positions={drawnArea} interactive={false} pathOptions={{ color: '#5b8cff', weight: 3, dashArray: '8 6', fillColor: '#5b8cff', fillOpacity: 0.08 }} />
           )}
           {areaFlash?.area && (
             <Polygon key={areaFlash.at} positions={areaFlash.area} interactive={false} className="map-area-flash" pathOptions={areaFlashStyle(areaFlash.kind)} />
@@ -1350,21 +1363,53 @@ export default function MapExplore({ experiments = false }) {
         )
       )}
 
-      {!placingPin && (
+      {!placingPin && !drawMode && (
         <>
           <button type="button" className="map-search-btn" title="Search landmarks" aria-label={searchOpen ? "Close search" : "Search landmarks"} aria-expanded={searchOpen} onClick={toggleSearch}>
             {searchOpen ? '\u{2715}' : '\u{1F50D}'}
           </button>
+          {/* The + opens a small dial: add a landmark, or draw an area. */}
           <button
             type="button"
-            className="map-search-btn map-add-btn"
+            className={`map-search-btn map-add-btn ${dialOpen ? 'open' : ''}`}
             style={{ top: 'calc(var(--header-h) + 64px)' }}
-            title="Add a landmark — long-press the map to pin an exact spot"
-            aria-label="Add a landmark"
-            onClick={startPlacingPin}
+            title="Add a landmark or draw an area"
+            aria-label={dialOpen ? 'Close' : 'Add a landmark or draw an area'}
+            aria-expanded={dialOpen}
+            onClick={() => setDialOpen((o) => !o)}
           >
             {'\u{2795}'}
           </button>
+          {dialOpen && (
+            <div className="map-dial" style={{ top: 'calc(var(--header-h) + 64px)' }} role="menu">
+              <button
+                type="button"
+                role="menuitem"
+                className="map-dial-btn"
+                onClick={() => {
+                  setDialOpen(false);
+                  startPlacingPin();
+                }}
+              >
+                <span className="map-dial-icon" aria-hidden="true">{'\u{2795}'}</span>
+                <span className="map-dial-label">Add a landmark</span>
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="map-dial-btn"
+                onClick={() => {
+                  setDialOpen(false);
+                  setSearchOpen(false);
+                  setFilterOpen(false);
+                  setDrawMode(true);
+                }}
+              >
+                <span className="map-dial-icon" aria-hidden="true">{'\u{270F}\u{FE0F}'}</span>
+                <span className="map-dial-label">{drawnArea ? 'Redraw the area' : 'Draw an area'}</span>
+              </button>
+            </div>
+          )}
           <button
             type="button"
             className={`map-search-btn ${filterCats.size > 0 ? 'active' : ''}`}
@@ -1379,6 +1424,16 @@ export default function MapExplore({ experiments = false }) {
           >
             {filterOpen ? '\u{2715}' : '\u{1F5C2}\u{FE0F}'}
           </button>
+          {drawnArea && !drawMode && !filterOpen && (
+            <button
+              type="button"
+              className="map-filter-pill map-draw-pill"
+              style={filterCats.size > 0 ? { top: 'calc(var(--header-h) + 56px)' } : undefined}
+              onClick={() => setDrawnArea(null)}
+            >
+              {'\u{270F}\u{FE0F}'} {areaCount} {areaCount === 1 ? 'landmark' : 'landmarks'} in your area · Clear
+            </button>
+          )}
           {filterCats.size > 0 && !filterOpen && (
             <button type="button" className="map-filter-pill" onClick={() => setFilterCats(new Set())}>
               Showing {filterCats.size} {filterCats.size === 1 ? 'category' : 'categories'} · Show all
@@ -1467,6 +1522,18 @@ export default function MapExplore({ experiments = false }) {
             </select>
           </div>
         </>
+      )}
+
+      {drawMode && (
+        <MapDrawOverlay
+          map={mapRef.current}
+          onCancel={() => setDrawMode(false)}
+          onDone={(ring) => {
+            setDrawnArea(ring);
+            setDrawMode(false);
+            mapRef.current?.fitBounds(ring, { padding: [40, 40] });
+          }}
+        />
       )}
 
       {placingPin && (

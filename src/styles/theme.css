@@ -7042,3 +7042,98 @@ p.tag {
 .map-search-kind--city { color: #2dd4bf; }
 .map-search-kind--state { color: #fbbf24; }
 .map-search-kind--country { color: #a78bfa; }
+
+/* ---------- Map: the + dial and drawing an area (Zillow style) ---------- */
+
+.map-add-btn.open {
+  transform: rotate(45deg);
+}
+.map-add-btn {
+  transition: transform 0.2s ease;
+}
+
+/* Two round buttons fanning out to the right of the + button. */
+.map-dial {
+  position: absolute;
+  left: 76px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -28px;
+}
+.map-dial-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 999px;
+  background: var(--bg-elevated, #141a2e);
+  color: var(--text-primary, #fff);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  animation: map-dial-in 0.18s ease-out both;
+}
+.map-dial-btn:nth-child(2) {
+  animation-delay: 0.04s;
+}
+.map-dial-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(91, 140, 255, 0.18);
+  font-size: 1rem;
+}
+@keyframes map-dial-in {
+  from { opacity: 0; transform: translateX(-12px) scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The drawing surface sits over the map and takes every touch until done. */
+.map-draw-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1100;
+  touch-action: none;
+  cursor: crosshair;
+  background: rgba(10, 14, 30, 0.12);
+}
+.map-draw-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.map-draw-svg polyline {
+  fill: rgba(91, 140, 255, 0.12);
+  stroke: #5b8cff;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.map-draw-hint {
+  position: absolute;
+  top: calc(var(--header-h, 64px) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-elevated, #141a2e);
+  color: var(--text-primary, #fff);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.map-draw-cancel {
+  position: absolute;
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+}
