@@ -7172,3 +7172,68 @@ p.tag {
   cursor: pointer;
   vertical-align: middle;
 }
+
+/* ---------- Test tab: mall lab (screens/MallLab.jsx) ---------- */
+.mall-lab-dim {
+  font-size: 0.78rem;
+  color: var(--text-secondary, var(--color-parchment-dim));
+}
+.mall-lab-stores,
+.mall-lab-log,
+.mall-lab-checks {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mall-lab-store {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  cursor: pointer;
+}
+.mall-lab-store.on {
+  border-color: var(--mapr-blue, #5b8cff);
+  background: rgba(91, 140, 255, 0.1);
+}
+.mall-lab-store input {
+  width: 20px;
+  height: 20px;
+  grid-row: span 2;
+}
+.mall-lab-store-name {
+  font-weight: 600;
+}
+.mall-lab-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 14px;
+}
+.mall-lab-chip {
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+}
+.mall-lab-chip.on {
+  border-color: var(--mapr-blue, #5b8cff);
+  background: rgba(91, 140, 255, 0.18);
+}
+.mall-lab-votes {
+  display: flex;
+  gap: 12px;
+}
+.mall-lab-vote {
+  flex: 1;
+  min-height: 56px;
+  font-size: 1.6rem;
+}
+.mall-lab-checks li.fail {
+  color: var(--danger, #f87171);
+}

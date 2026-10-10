@@ -11,6 +11,7 @@ import OnboardingPlaces from '../components/OnboardingPlaces';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
+import MallLab from './MallLab';
 
 export { progressTier };
 
@@ -32,7 +33,10 @@ const STEPS = [
 ];
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
-const TESTS = [{ id: 'onboarding', label: 'Onboarding' }];
+const TESTS = [
+  { id: 'onboarding', label: 'Onboarding' },
+  { id: 'malls', label: 'Malls' },
+];
 const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
 const empty = () => ({
@@ -52,6 +56,7 @@ const empty = () => ({
 
 export default function OnboardingLab() {
   const { user, loading: authLoading } = useAuth();
+  const [test, setTest] = useState('onboarding');
   const [step, setStep] = useState(0);
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
@@ -61,9 +66,36 @@ export default function OnboardingLab() {
   if (authLoading) return null;
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
 
+  const testTabs = (
+    <div className="lab-tabs" role="tablist" aria-label="Tests">
+      {TESTS.map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          role="tab"
+          aria-selected={test === t.id}
+          className={`lab-tab ${test === t.id ? 'active' : ''}`}
+          onClick={() => setTest(t.id)}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  if (test === 'malls') {
+    return (
+      <div>
+        {testTabs}
+        <MallLab uid={user?.uid} />
+      </div>
+    );
+  }
+
   if (NOTHING_TO_TEST) {
     return (
       <div className="lab-center">
+        {testTabs}
         <h1 className="screen-title">
           <span>{'\u{1F9EA}'}</span> Nothing to test
         </h1>
@@ -88,13 +120,7 @@ export default function OnboardingLab() {
 
   return (
     <div>
-      <div className="lab-tabs" role="tablist" aria-label="Tests">
-        {TESTS.map((t) => (
-          <button key={t.id} type="button" role="tab" aria-selected className="lab-tab active">
-            {t.label}
-          </button>
-        ))}
-      </div>
+      {testTabs}
       <div className="card section lab-controls">
         <div className="lab-controls-head">
           <strong>{'\u{1F9EA}'} Onboarding test</strong>

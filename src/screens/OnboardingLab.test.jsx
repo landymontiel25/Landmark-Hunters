@@ -52,11 +52,25 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
-  it('shows one centered Onboarding bubble above the test', async () => {
+  it('shows the Onboarding and Malls bubbles above the test, Onboarding first', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Onboarding']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Onboarding', 'Malls']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('opens the mall lab: Palm Grove Plaza, a visit, and the checks', async () => {
+    const el = await renderAs('landymontiel25@gmail.com');
+    await act(async () => [...el.querySelectorAll('.lab-tabs [role="tab"]')][1].click());
+    expect(el.textContent).toContain('Palm Grove Plaza');
+    const btn = (text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+    await act(async () => btn('Run checks').click());
+    expect(el.querySelectorAll('.mall-lab-checks li.pass').length).toBe(6);
+    await act(async () => btn('Simulate a visit').click());
+    expect(el.textContent).toContain('Which stores did you visit?');
+    const names = [...el.querySelectorAll('.mall-lab-store-name')].map((n) => n.textContent);
+    expect(names[0]).toBe('Sunrise Coffee'); // most visited first
+    expect(names).toHaveLength(6);
   });
 
   it('sends non-admins away', async () => {
