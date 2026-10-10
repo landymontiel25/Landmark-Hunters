@@ -326,6 +326,37 @@ describe('PicksBottomSheet', () => {
       spy.mockRestore();
     });
 
+    it('pulling down on the list from its top drags the sheet down; scrolling the list does not', async () => {
+      let now = 1000;
+      const spy = vi.spyOn(Date, 'now').mockImplementation(() => now);
+      const onMinimizedChange = vi.fn();
+      const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, onExpandedChange: vi.fn(), onMinimizedChange });
+      const list = el.querySelector('.mpp-sheet-scroll');
+      const sheet = el.querySelector('.mpp-sheet');
+      Object.defineProperty(sheet, 'offsetHeight', { value: 400, configurable: true });
+      const touch = (type, y) => {
+        const e = new Event(type, { bubbles: true });
+        e.touches = type === 'touchend' ? [] : [{ clientY: y }];
+        return e;
+      };
+      // At the top, pulling down follows the finger and a long pull closes it.
+      await act(async () => list.dispatchEvent(touch('touchstart', 100)));
+      await act(async () => list.dispatchEvent(touch('touchmove', 200)));
+      expect(sheet.classList.contains('dragging')).toBe(true);
+      await act(async () => list.dispatchEvent(touch('touchmove', 420)));
+      now = 9000;
+      await act(async () => list.dispatchEvent(touch('touchend')));
+      expect(onMinimizedChange).toHaveBeenLastCalledWith(true);
+      // Scrolled down the list: the same pull just scrolls.
+      onMinimizedChange.mockClear();
+      list.scrollTop = 120;
+      await act(async () => list.dispatchEvent(touch('touchstart', 100)));
+      await act(async () => list.dispatchEvent(touch('touchmove', 300)));
+      await act(async () => list.dispatchEvent(touch('touchend')));
+      expect(onMinimizedChange).not.toHaveBeenCalled();
+      spy.mockRestore();
+    });
+
     it('keeps the top three as rows even when expanded, and shows the distance filter inside the card', async () => {
       const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, toolbar: <div data-testid="bar" /> });
       expect(el.querySelectorAll('.mpp-top3 .mpp-row')).toHaveLength(3);
