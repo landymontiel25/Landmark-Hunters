@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from 'react-leaflet';
 import { PALM_GROVE_PLAZA, TEST_MALL_PLACES } from '../data/testMalls';
-import { TEST_MALLS } from '../data/testMallStores';
-import { getLandmark } from '../data/regions';
+import { ALL_LANDMARKS, getRegion } from '../data/regions';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import {
   MAX_STORE_RATINGS,
@@ -14,12 +13,15 @@ import {
   ratingQueue,
   storesByVisits,
   topTags,
+  isMallPlace,
+  storesOfPlace,
+  mallStoresSource,
 } from '../lib/malls';
 import { runMallChecks } from '../lib/mallChecks';
 
-// Test tab: malls with stores inside them. The map shows only the big malls
-// already in the app (Dadeland, Dolphin Mall, King of Prussia...), each with
-// the stores its own directory lists (data/testMallStores.js). Tap one,
+// Test tab: malls with stores inside them. The map shows only the malls in
+// the app (Dadeland, Dolphin Mall, King of Prussia...), each with the stores
+// its own directory lists (data/mallStores.js). Tap one,
 // "Check in" (no location needed here), say which stores you went into and
 // rate them. Palm Grove Plaza (data/testMalls.js) is the made-up example the
 // checks run on. Ratings and the taste they build stay on this device
@@ -28,7 +30,6 @@ const RATINGS_KEY = 'mallLab.ratings.v1';
 const tasteKey = (uid) => `mallLab.taste.v1.${uid || 'guest'}`;
 const EMPTY_TASTE = { scores: {}, at: {}, counts: {} };
 const STREET_TILES = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const read = (key, fallback) => {
   try {
@@ -46,21 +47,24 @@ const write = (key, value) => {
   }
 };
 
-// Every test mall as { id, name, city, lat, lng, source } plus its stores as
-// places pointing back to it (parentId), the shape lib/malls.js works on.
+// Every mall in the app (lib/malls.js isMallPlace) as { id, name, city, lat,
+// lng, source }, plus its stores (data/mallStores.js) as places pointing back
+// to it (parentId), the shape lib/malls.js works on. A mall added to the app
+// shows up here by itself.
 function useTestMalls() {
   const packsVersion = usePlacePacksVersion();
   return useMemo(() => {
     const malls = [];
     const stores = [];
-    for (const m of TEST_MALLS) {
-      const [region, id] = m.key.split('/');
-      const l = getLandmark(region, id);
-      malls.push({ id: m.key, name: m.mall, city: m.city, lat: l?.lat, lng: l?.lng, source: m.source, onMap: Number.isFinite(l?.lat) });
-      for (const s of m.stores) stores.push({ id: `${m.key}::${slug(s.name)}`, parentId: m.key, name: s.name, tags: s.tags, visits: 0 });
+    for (const l of ALL_LANDMARKS) {
+      if (!isMallPlace(l)) continue;
+      const mine = storesOfPlace(l.regionId, l.id);
+      const key = `${l.regionId}/${l.id}`;
+      malls.push({ id: key, name: l.name, city: getRegion(l.regionId)?.name || '', lat: l.lat, lng: l.lng, source: mallStoresSource(l.regionId, l.id), onMap: Number.isFinite(l.lat), storeCount: mine.length });
+      stores.push(...mine);
     }
     return { malls, stores };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- packsVersion: Dadeland and Merrick Park arrive with the place packs
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- packsVersion: imported malls arrive with the place packs
   }, [packsVersion]);
 }
 
@@ -181,8 +185,8 @@ export default function MallLab({ uid }) {
                               {m.city} · {storesByVisits(m.id, places).length} stores
                             </div>
                             <div>{s.score}</div>
-                            <button type="button" className="btn btn-primary btn-sm" onClick={() => checkIn(m.id)}>
-                              {'\u{1F4CD}'} Check in
+                            <button type="button" className="btn btn-primary btn-sm" disabled={!m.storeCount} onClick={() => checkIn(m.id)}>
+                              {'\u{1F4CD}'} {m.storeCount ? 'Check in' : 'No stores listed yet'}
                             </button>
                           </div>
                         </Popup>
@@ -212,8 +216,8 @@ export default function MallLab({ uid }) {
                         {s.score} · {s.itinerary.include ? s.itinerary.reason : `In your itinerary: no (${s.itinerary.stores.length} store${s.itinerary.stores.length === 1 ? '' : 's'} match your top tags, needs 2)`}
                       </div>
                     </div>
-                    <button type="button" className="btn btn-ghost btn-sm" onClick={() => checkIn(m.id)}>
-                      Check in
+                    <button type="button" className="btn btn-ghost btn-sm" disabled={!m.example && !m.storeCount} onClick={() => checkIn(m.id)}>
+                      {m.example || m.storeCount ? 'Check in' : 'No stores yet'}
                     </button>
                   </li>
                 );

@@ -9,6 +9,7 @@
 // decay as a Mapr Pick vote (tagScores.js applyRating with VOTE_DELTAS: +4 up,
 // -6 down, half after 5 ratings on a tag, 90-day half-life, clamped to +/-100).
 import { applyRating, VOTE_DELTAS } from './tagScores.js';
+import { MALL_STORES } from '../data/mallStores.js';
 
 export const MAX_STORE_RATINGS = 4;
 // Optional tags a rating can carry.
@@ -91,3 +92,23 @@ export function mallForItinerary(parentId, places, scores) {
   const include = stores.length >= MIN_MATCHING_STORES;
   return { include, stores, reason: include ? `Stop here for ${listNames(stores.map((s) => s.name))}.` : null };
 }
+
+// ---- The app's own malls (data/mallStores.js) -------------------------------
+
+// A catalog place is a mall when the import mapped it as one (topic 'mall')
+// or it is marked `mall: true` (hand-picked malls).
+export const isMallPlace = (l) => !!l && (l.topic === 'mall' || l.mall === true);
+
+const storesByMall = new Map(MALL_STORES.map((m) => [m.key, m]));
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// The stores inside a catalog mall, as places pointing back to it
+// (parentId "<region>/<id>"), or [] for a place with none listed.
+export function storesOfPlace(regionId, id) {
+  const key = `${regionId}/${id}`;
+  return (storesByMall.get(key)?.stores || []).map((s) => ({ id: `${key}::${slug(s.name)}`, parentId: key, name: s.name, tags: s.tags, source: s.source || storesByMall.get(key).source, visits: 0 }));
+}
+
+// Where a mall's store list came from (its directory page), or null.
+export const mallStoresSource = (regionId, id) => storesByMall.get(`${regionId}/${id}`)?.source || null;
+
