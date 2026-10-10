@@ -1527,7 +1527,11 @@ export default function MapExplore({ experiments = false }) {
       {drawMode && (
         <MapDrawOverlay
           map={mapRef.current}
-          onCancel={() => setDrawMode(false)}
+          onCancel={() => {
+            // Cancel ends the drawn area too (on the Map and the Landmarks tab).
+            setDrawMode(false);
+            setDrawnArea(null);
+          }}
           onDone={(ring) => {
             setDrawnArea(ring);
             setDrawMode(false);
