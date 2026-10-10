@@ -1,0 +1,464 @@
+[
+  {
+    "key": "miami/osm-w144051823",
+    "mall": "Dadeland Mall",
+    "source": "https://www.simon.com/brands/center/dadeland-mall",
+    "stores": [
+      {
+        "name": "Apple Dadeland",
+        "tags": [
+          "electronics"
+        ]
+      },
+      {
+        "name": "Macy's",
+        "tags": [
+          "department store"
+        ]
+      },
+      {
+        "name": "Saks Fifth Avenue",
+        "tags": [
+          "department store",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Sephora",
+        "tags": [
+          "beauty"
+        ]
+      },
+      {
+        "name": "Zara",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "JCPenney",
+        "tags": [
+          "department store"
+        ],
+        "source": "https://www.miamiandbeaches.com/l/shopping/dadeland-mall/2877"
+      },
+      {
+        "name": "DICK'S House of Sport",
+        "tags": [
+          "sports"
+        ],
+        "source": "https://www.miamiandbeaches.com/l/shopping/dadeland-mall/2877"
+      },
+      {
+        "name": "Journeys",
+        "tags": [
+          "shoes"
+        ],
+        "source": "https://www.journeys.com/store/JOURNEYS-Dadeland-Mall"
+      },
+      {
+        "name": "Free People",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://www.freepeople.com/stores/dadeland-mall-miami/"
+      },
+      {
+        "name": "The Cheesecake Factory",
+        "tags": [
+          "food",
+          "dessert"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Aoki Teppanyaki",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Läderach Chocolatier Suisse",
+        "tags": [
+          "dessert",
+          "gifts"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Shake Shack",
+        "tags": [
+          "fast food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Churromania",
+        "tags": [
+          "dessert"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Häagen-Dazs",
+        "tags": [
+          "dessert"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Chick-fil-A",
+        "tags": [
+          "fast food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Auntie Anne's",
+        "tags": [
+          "fast food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Kelly's Cajun Grill",
+        "tags": [
+          "fast food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "Earls Kitchen + Bar",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      },
+      {
+        "name": "North Italia",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.simon.com/mall/dadeland-mall/stores/dining-pavilion"
+      }
+    ]
+  },
+  {
+    "key": "miami/dolphin-mall",
+    "mall": "Dolphin Mall",
+    "source": "https://www.simon.com/brands/center/dolphin-mall",
+    "stores": [
+      {
+        "name": "Bass Pro Shops Outdoor World",
+        "tags": [
+          "sports"
+        ]
+      },
+      {
+        "name": "Bloomingdale's - The Outlet Store",
+        "tags": [
+          "department store"
+        ]
+      },
+      {
+        "name": "Saks OFF 5TH",
+        "tags": [
+          "department store",
+          "clothing"
+        ]
+      },
+      {
+        "name": "Dave & Buster's",
+        "tags": [
+          "entertainment",
+          "food"
+        ]
+      },
+      {
+        "name": "CMX Cinemas",
+        "tags": [
+          "entertainment"
+        ]
+      },
+      {
+        "name": "Converse",
+        "tags": [
+          "shoes"
+        ]
+      },
+      {
+        "name": "Nike Factory Store",
+        "tags": [
+          "shoes",
+          "sports"
+        ],
+        "source": "https://www.simon.com/mall/dolphin-mall/stores/nike-factory-store"
+      },
+      {
+        "name": "The Cheesecake Factory",
+        "tags": [
+          "food",
+          "dessert"
+        ],
+        "source": "https://www.simon.com/mall/dolphin-mall/stores/the-cheesecake-factory"
+      },
+      {
+        "name": "Texas de Brazil",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.simon.com/mall/dolphin-mall/dining"
+      },
+      {
+        "name": "P.F. Chang's",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.simon.com/mall/dolphin-mall/dining"
+      },
+      {
+        "name": "El Gran Inka",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.simon.com/mall/dolphin-mall/dining"
+      },
+      {
+        "name": "Buffalo Wild Wings",
+        "tags": [
+          "food"
+        ],
+        "source": "https://www.malls.com/malls/dolphin-mall/"
+      }
+    ]
+  },
+  {
+    "key": "miami/brickell-city-centre",
+    "mall": "Brickell City Centre",
+    "source": "https://brickellcitycentre.com/visit/",
+    "stores": [
+      {
+        "name": "Saks Fifth Avenue",
+        "tags": [
+          "department store",
+          "luxury"
+        ]
+      },
+      {
+        "name": "Zara",
+        "tags": [
+          "clothing"
+        ]
+      },
+      {
+        "name": "Nike",
+        "tags": [
+          "shoes",
+          "sports"
+        ]
+      },
+      {
+        "name": "Sephora",
+        "tags": [
+          "beauty"
+        ]
+      },
+      {
+        "name": "CMX Cinemas",
+        "tags": [
+          "entertainment"
+        ]
+      },
+      {
+        "name": "Lululemon",
+        "tags": [
+          "clothing",
+          "fitness"
+        ],
+        "source": "https://www.brickellcitycentre.com/pt/whats-here/directory/lululemon-athletica"
+      },
+      {
+        "name": "Mango",
+        "tags": [
+          "clothing"
+        ],
+        "source": "https://brickellcitycentre.com/shop/mango/"
+      },
+      {
+        "name": "Kendra Scott",
+        "tags": [
+          "jewelry"
+        ],
+        "source": "https://brickellcitycentre.com/shop/kendra-scott/"
+      },
+      {
+        "name": "Drybar",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://brickellcitycentre.com/shop/drybar/"
+      },
+      {
+        "name": "Puttshack",
+        "tags": [
+          "entertainment"
+        ],
+        "source": "https://brickellcitycentre.com/brickell-city-centre-announces-puttshack/"
+      },
+      {
+        "name": "Luke's Lobster",
+        "tags": [
+          "food"
+        ],
+        "source": "https://brickellcitycentre.com/dine/lukes-lobster/"
+      },
+      {
+        "name": "Pubbelly Sushi",
+        "tags": [
+          "food"
+        ],
+        "source": "https://brickellcitycentre.com/dine/pubbelly-sushi/"
+      },
+      {
+        "name": "Tacology",
+        "tags": [
+          "food"
+        ],
+        "source": "https://brickellcitycentre.com/dine/tacology/"
+      },
+      {
+        "name": "Marabú",
+        "tags": [
+          "food"
+        ],
+        "source": "https://brickellcitycentre.com/dine/marabu/"
+      },
+      {
+        "name": "Motek",
+        "tags": [
+          "food",
+          "cafe"
+        ],
+        "source": "https://brickellcitycentre.com/dine/motek/"
+      },
+      {
+        "name": "The Henry",
+        "tags": [
+          "food"
+        ],
+        "source": "https://brickellcitycentre.com/dine/the-henry/"
+      }
+    ]
+  },
+  {
+    "key": "miami/bayside-marketplace",
+    "mall": "Bayside Marketplace",
+    "source": "https://baysidemarketplace.com/",
+    "stores": [
+      {
+        "name": "Hard Rock Cafe",
+        "tags": [
+          "food"
+        ],
+        "source": "https://baysidemarketplace.com/directory/restaurants/hard-rock/"
+      },
+      {
+        "name": "Bubba Gump Shrimp Co.",
+        "tags": [
+          "food"
+        ],
+        "source": "https://baysidemarketplace.com/directory/restaurants/bubba-shrimp/"
+      },
+      {
+        "name": "Margaritaville",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Kuba Cabana",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Black Market Miami",
+        "tags": [
+          "food"
+        ]
+      },
+      {
+        "name": "Five Guys",
+        "tags": [
+          "fast food"
+        ],
+        "source": "https://baysidemarketplace.com/directory/restaurants/eateries/five-guys/"
+      },
+      {
+        "name": "Häagen-Dazs",
+        "tags": [
+          "dessert"
+        ],
+        "source": "https://baysidemarketplace.com/directory/restaurants/haagens-dazs/"
+      },
+      {
+        "name": "Starbucks",
+        "tags": [
+          "coffee"
+        ],
+        "source": "https://baysidemarketplace.com/directory/restaurants/starbucks/"
+      },
+      {
+        "name": "Skyviews Miami",
+        "tags": [
+          "entertainment"
+        ],
+        "source": "https://baysidemarketplace.com/attractions/"
+      },
+      {
+        "name": "Build-A-Bear Workshop",
+        "tags": [
+          "toys",
+          "gifts"
+        ]
+      },
+      {
+        "name": "Claire's",
+        "tags": [
+          "jewelry"
+        ]
+      },
+      {
+        "name": "Victoria's Secret",
+        "tags": [
+          "clothing",
+          "beauty"
+        ],
+        "source": "https://baysidemarketplace.com/directory/shops/victorias-secret/"
+      },
+      {
+        "name": "Foot Locker",
+        "tags": [
+          "shoes"
+        ],
+        "source": "https://baysidemarketplace.com/directory/shops/foot-locker/"
+      },
+      {
+        "name": "Champs Sports",
+        "tags": [
+          "shoes",
+          "sports"
+        ],
+        "source": "https://baysidemarketplace.com/directory/shops/champs-sports/"
+      },
+      {
+        "name": "Bath & Body Works",
+        "tags": [
+          "beauty"
+        ],
+        "source": "https://baysidemarketplace.com/directory/shops/bath-and-body-works/"
+      }
+    ]
+  }
+]

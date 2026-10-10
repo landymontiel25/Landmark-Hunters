@@ -5,25 +5,31 @@ the PR that finishes it.
 
 ## Malls (places with stores inside), Test tab only
 
-Built in the Test tab's "Malls" bubble (`screens/MallLab.jsx`), on a made-up
-strip mall: Palm Grove Plaza with six stores (`data/testMalls.js`). Logic is
-in `lib/malls.js`, the six owner checks in `lib/mallChecks.js` (also run by
-`mallChecks.test.js`). A place with `parentId` is a store inside that place;
-a place others point to is a mall. After a visit: "Which stores did you
-visit?" (most visited first), then a thumbs card per checked store (4 max),
-optional tags. A vote moves the store's tags with the Pick vote rules
-(`applyRating` + `VOTE_DELTAS`: +4 / -6, half after 5, 90-day half-life,
-+/-100). Mall score: thumbs-up share per rated store, weighted by visits,
-unrated skipped. Itineraries: the mall joins when 2+ stores match the user's
-top 5 tags, with those stores as the reason.
+The Test tab's "Malls" bubble (`screens/MallLab.jsx`) shows a map with only
+the app's malls: every place with topic `mall` (imports) or `mall: true`
+(hand-picked: Dolphin Mall, Brickell City Centre, Bayside Marketplace, King
+of Prussia, Santana Row, V&A Waterfront, Galleria Vittorio Emanuele II), 18
+in all. Tap one, Check in (no location needed in the lab), pick the stores
+you went into (most visited first), then a thumbs card per store (4 max).
+Palm Grove Plaza (`data/testMalls.js`) is the made-up example the six owner
+checks run on (`lib/mallChecks.js`).
 
-Left open before it goes live: ratings and the lab's taste are kept in
-localStorage on the device, apart from the real account. Going live needs a
-Firestore collection for store ratings (rules, `isDashboard()` read for the
-admin dashboard), store tags folded into the real `tagScores` (and so into
-every Mapr surface through `src/lib/maprRank/`), real malls with real stores
-(the import's sourcing rules), visit counts from check-ins, the visit prompt
-after a real check-in at a mall, and `APP_HELP`.
+Store lists are app data (`data/mallStores.js`, built by
+`scripts/build-mall-stores.mjs` from `scripts/osm-import/research/malls/`):
+store names a result places at the mall, its directory as source, 1-2 tags.
+`data/mallStores.test.js` fails when a mall has no stores (standing rule in
+CLAUDE.md). Left open: 14 malls' research was still running at merge; they
+sit in that test's RESEARCH_PENDING list and show "No stores listed yet"
+until their stores land.
+
+Scoring as before: a vote moves the store's tags with the Pick vote rules
+(+4 / -6, half after 5, 90-day half-life, +/-100); mall score is the
+thumbs-up share per rated store weighted by visits, unrated skipped;
+itineraries take the mall when 2+ stores match the user's top 5 tags.
+Ratings and the lab's taste stay in localStorage. Going live needs a
+Firestore collection for store ratings, store tags in the real taste (every
+Mapr surface through `src/lib/maprRank/`), visit counts from check-ins, the
+store question after a real check-in at a mall, and `APP_HELP`.
 
 ## Key Biscayne import (address-located places)
 
