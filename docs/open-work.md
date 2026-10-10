@@ -3,6 +3,28 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Malls (places with stores inside), Test tab only
+
+Built in the Test tab's "Malls" bubble (`screens/MallLab.jsx`), on a made-up
+strip mall: Palm Grove Plaza with six stores (`data/testMalls.js`). Logic is
+in `lib/malls.js`, the six owner checks in `lib/mallChecks.js` (also run by
+`mallChecks.test.js`). A place with `parentId` is a store inside that place;
+a place others point to is a mall. After a visit: "Which stores did you
+visit?" (most visited first), then a thumbs card per checked store (4 max),
+optional tags. A vote moves the store's tags with the Pick vote rules
+(`applyRating` + `VOTE_DELTAS`: +4 / -6, half after 5, 90-day half-life,
++/-100). Mall score: thumbs-up share per rated store, weighted by visits,
+unrated skipped. Itineraries: the mall joins when 2+ stores match the user's
+top 5 tags, with those stores as the reason.
+
+Left open before it goes live: ratings and the lab's taste are kept in
+localStorage on the device, apart from the real account. Going live needs a
+Firestore collection for store ratings (rules, `isDashboard()` read for the
+admin dashboard), store tags folded into the real `tagScores` (and so into
+every Mapr surface through `src/lib/maprRank/`), real malls with real stores
+(the import's sourcing rules), visit counts from check-ins, the visit prompt
+after a real check-in at a mall, and `APP_HELP`.
+
 ## Key Biscayne import (address-located places)
 
 The owner asked for 100 new Key Biscayne places (2026-10-09). Seven research
