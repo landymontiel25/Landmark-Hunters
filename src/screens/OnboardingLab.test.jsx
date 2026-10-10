@@ -63,6 +63,11 @@ describe('OnboardingLab', () => {
     const el = await renderAs('landymontiel25@gmail.com');
     await act(async () => [...el.querySelectorAll('.lab-tabs [role="tab"]')][1].click());
     expect(el.textContent).toContain('Palm Grove Plaza');
+    // The map, with one pin per mall in the app and nothing else.
+    expect(el.querySelector('.mall-lab-map .leaflet-container')).toBeTruthy();
+    expect(el.querySelectorAll('.mall-lab-map path.leaflet-interactive').length).toBeGreaterThanOrEqual(5);
+    expect(el.textContent).toContain('Dolphin Mall');
+    expect(el.textContent).toContain('King of Prussia Mall');
     const btn = (text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
     await act(async () => btn('Run checks').click());
     expect(el.querySelectorAll('.mall-lab-checks li.pass').length).toBe(6);
