@@ -21,6 +21,7 @@ import LocationAutocomplete from '../components/LocationAutocomplete';
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError, fetchJson, isOffline } from '../lib/friendlyError';
 import { clearPersisted } from '../lib/usePersistentState';
+import { reverseGeocodePlace } from '../lib/placeLookup';
 import { API_BASE } from '../lib/apiBase';
 
 // Our own plain-language messages (and the AI's "reason"), which
@@ -120,9 +121,31 @@ export default function AddLandmark() {
   const busy = stage !== 'idle';
   const submittingRef = useRef(false);
 
+  // Bumped on every pin move, so a "what's here?" answer for a spot you've
+  // since moved away from is dropped.
+  const pinMovesRef = useRef(0);
   const choosePosition = (pos) => {
     pinChosenRef.current = true;
+    pinMovesRef.current += 1;
     setPosition(pos);
+  };
+
+  // "Use My Exact Location": the pin goes where you stand, and the place
+  // there (Cocoplum Yacht Club) fills the search box and Name. You can edit
+  // either after; nothing found leaves both empty.
+  const [findingHere, setFindingHere] = useState(false);
+  const useExactLocation = async () => {
+    const here = { lat: coords.lat, lng: coords.lng };
+    choosePosition(here);
+    setAddressText('');
+    setConfirmedLandmarkId(null);
+    const move = pinMovesRef.current;
+    setFindingHere(true);
+    const place = await reverseGeocodePlace(here.lat, here.lng);
+    setFindingHere(false);
+    if (move !== pinMovesRef.current || !place?.name) return;
+    setAddressText(place.name);
+    setName(place.name.slice(0, 80));
   };
 
   // GPS often lands a moment after this screen opens -- if the pin is still
@@ -388,14 +411,10 @@ export default function AddLandmark() {
           type="button"
           className="btn btn-ghost btn-sm btn-block"
           style={{ marginTop: 10 }}
-          disabled={!coords}
-          onClick={() => {
-            choosePosition({ lat: coords.lat, lng: coords.lng });
-            setAddressText('');
-            setConfirmedLandmarkId(null);
-          }}
+          disabled={!coords || findingHere}
+          onClick={useExactLocation}
         >
-          {'\u{1F4CD}'} {coords ? 'Use My Exact Location' : 'Locating…'}
+          {'\u{1F4CD}'} {!coords ? 'Locating…' : findingHere ? 'Finding the place you’re at…' : 'Use My Exact Location'}
         </button>
         <div style={{ marginTop: 10 }}>
           <LocationAutocomplete
