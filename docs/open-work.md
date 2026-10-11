@@ -5,14 +5,19 @@ the PR that finishes it.
 
 ## Malls (places with stores inside), Test tab only
 
-The Test tab's "Malls" bubble (`screens/MallLab.jsx`) shows a map with only
-the app's malls: every place with topic `mall` (imports) or `mall: true`
-(hand-picked: Dolphin Mall, Brickell City Centre, Bayside Marketplace, King
-of Prussia, Santana Row, V&A Waterfront, Galleria Vittorio Emanuele II), 18
-in all. Tap one, Check in (no location needed in the lab), pick the stores
-you went into (most visited first), then a thumbs card per store (4 max).
-Palm Grove Plaza (`data/testMalls.js`) is the made-up example the six owner
-checks run on (`lib/mallChecks.js`).
+The Test tab's "Malls" bubble (`screens/MallLab.jsx`, the bubble the tab
+opens on) shows a map with only the app's malls, clustered and opening on
+the area with the most malls (South Florida): every place with topic `mall`
+(imports) or `mall: true` (hand-picked: Dolphin Mall, Brickell City Centre,
+Bayside Marketplace, King of Prussia, Santana Row, V&A Waterfront, Galleria
+Vittorio Emanuele II), 18 in all. Tap one, Check In (no location needed in
+the lab), and the real check-in sheet opens ("Check in to <mall>?", the same
+RatingFlow, Post) with a "Which stores did you go to?" dropdown: search,
+multi-select up to 4, each picked store rated with its own RatingFlow (loved
+it = thumbs up, didn't like = thumbs down, ok = no taste change). Every
+check-in is its own visit; checking in again later rates other stores, and
+stores rated before are marked. Palm Grove Plaza (`data/testMalls.js`) is
+the made-up example the six owner checks run on (`lib/mallChecks.js`).
 
 Store lists are app data (`data/mallStores.js`, built by
 `scripts/build-mall-stores.mjs` from `scripts/osm-import/research/malls/`):

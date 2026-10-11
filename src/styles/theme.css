@@ -7341,3 +7341,104 @@ p.tag {
   cursor: pointer;
   font-weight: 600;
 }
+
+/* Mall check-in sheet (Test tab): the store dropdown and each store's rating. */
+.mall-store-picker {
+  position: relative;
+  margin-bottom: 10px;
+}
+.mall-store-picker-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.2));
+  border-radius: 14px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+.mall-store-picker-panel {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  background: var(--bg-elevated, #141a2e);
+}
+.mall-store-picker-panel input {
+  width: 100%;
+  margin-bottom: 8px;
+}
+.mall-store-picker-list {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.mall-store-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mall-store-option.on {
+  background: rgba(91, 140, 255, 0.16);
+}
+.mall-store-option:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.mall-store-check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--border-default, rgba(255, 255, 255, 0.3));
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+.mall-store-option.on .mall-store-check {
+  background: var(--mapr-blue, #5b8cff);
+  border-color: var(--mapr-blue, #5b8cff);
+  color: #fff;
+}
+.mall-store-option-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.mall-store-rating {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+}
+.mall-store-rating-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.mall-store-remove {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.2));
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
