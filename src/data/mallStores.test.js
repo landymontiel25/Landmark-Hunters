@@ -18,12 +18,6 @@ describe('mall stores', () => {
   // Malls whose store research is still running (2026-10-10). Remove each
   // as its stores land; the list must only ever shrink.
   const RESEARCH_PENDING = new Set([
-    // Research still running.
-    'miami/osm-w279443134', // Midway Crossings
-    'miami/osm-w396472117', // Sunset Harbour Shops
-    'miami/osm-r7554876', // Sunset Place
-    'cape-town/va-waterfront',
-    'milan/galleria-vittorio-emanuele-ii',
     // Research found no current tenants; for the owner to decide
     // (docs/open-work.md): a building on Lincoln Road, not a mall?
     'miami/osm-n6030985494', // Lincoln Center
