@@ -418,10 +418,6 @@ export default function AddLandmark() {
       <h1 className="screen-title">
         <span>{'\u{2795}'}</span> Add Landmark
       </h1>
-      <p className="screen-subtitle">
-        Add a real place that's missing from the map. It goes live right away — we'll research it and fill in whatever
-        you leave blank (category, photo, facts, and more).
-      </p>
       {draftRestored && (
         <p className="draft-restored-note">
           {'\u{1F4DD}'} Picked up where you left off {'\u{00B7}'}{' '}
@@ -433,9 +429,6 @@ export default function AddLandmark() {
 
       <div className="field">
         <FieldLabel required>Location</FieldLabel>
-        <p style={{ fontSize: '0.78rem', color: 'var(--color-parchment-dim)', marginTop: -4, marginBottom: 10 }}>
-          Drag the pin to the exact spot, use your current location, or search an address.
-        </p>
         <div className="itinerary-map" style={{ height: 260 }}>
           <MapContainer center={[position.lat, position.lng]} zoom={17} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
             <TileLayer url={SAT_TILE.url} attribution={SAT_TILE.attribution} />
