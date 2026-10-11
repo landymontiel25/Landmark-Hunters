@@ -118,6 +118,9 @@ export default function AddLandmark() {
   );
   const [addressText, setAddressText] = useState(() => savedDraft?.addressText || '');
   const [name, setName] = useState(() => savedDraft?.name || '');
+  // The name a picked search result filled in, so a later pick can replace
+  // it, while a name typed by hand is never overwritten.
+  const autoName = useRef(null);
   const [categories, setCategories] = useState(() => savedDraft?.categories || []);
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -483,6 +486,13 @@ export default function AddLandmark() {
               // a certain duplicate, not the usual typed-name guess.
               setConfirmedLandmarkId(s.landmarkId || null);
               if (s.landmarkId) setDuplicateMatch({ name: s.primary, region: s.landmarkRegionId, id: s.landmarkId });
+              // A named place ("Cocoplum Yacht Club", not "328 Crandon Blvd")
+              // fills the Name box, unless you typed a name yourself.
+              const placeName = String(s.primary || '').trim();
+              if (placeName && !/^\d/.test(placeName) && (!name.trim() || name === autoName.current)) {
+                autoName.current = placeName.slice(0, 80);
+                setName(autoName.current);
+              }
             }}
           />
         </div>
