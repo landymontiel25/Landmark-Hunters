@@ -20,7 +20,7 @@ import { fileToSmallDataUrl, pickPhoto } from '../lib/imageUtils';
 import LocationAutocomplete from '../components/LocationAutocomplete';
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError, fetchJson, isOffline } from '../lib/friendlyError';
-import { readPersisted, writePersisted, clearPersisted } from '../lib/usePersistentState';
+import { clearPersisted } from '../lib/usePersistentState';
 import { API_BASE } from '../lib/apiBase';
 
 // Our own plain-language messages (and the AI's "reason"), which
@@ -31,9 +31,6 @@ function userError(message) {
   return err;
 }
 
-const draftKeyFor = (uid) => (uid ? `addLandmark.${uid}` : null);
-
-const draftHasContent = (d) => !!(d && (d.name || d.addressText || d.categories?.length || d.facts?.length || d.factDraft));
 
 const SAT_TILE = {
   url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
@@ -101,38 +98,30 @@ export default function AddLandmark() {
     return region?.center || REGIONS[0].center;
   };
 
-  // Everything typed here (not the photo -- files can't be stored) is kept
-  // on this device as you go, so leaving mid-way and coming back picks up
-  // where you were. A spot handed over from the map's "+" is a fresh,
-  // deliberate choice, so it wins over a saved pin position.
-  const draftKey = draftKeyFor(user?.uid);
-  const [savedDraft] = useState(() => (draftKey && readPersisted(draftKey)) || null);
+  // Every visit starts blank: leaving the screen drops whatever you typed.
   const fromMap = location.state?.lat != null && location.state?.lng != null;
   // True once the pin was placed on purpose (dragged, searched, "Use My
   // Location", or handed over from the map) -- a late GPS fix then never
   // yanks it somewhere else.
-  const pinChosenRef = useRef(fromMap || !!savedDraft?.position);
+  const pinChosenRef = useRef(fromMap);
 
-  const [position, setPosition] = useState(() =>
-    !fromMap && savedDraft?.position ? savedDraft.position : startingCenter()
-  );
-  const [addressText, setAddressText] = useState(() => savedDraft?.addressText || '');
-  const [name, setName] = useState(() => savedDraft?.name || '');
+  const [position, setPosition] = useState(startingCenter);
+  const [addressText, setAddressText] = useState('');
+  const [name, setName] = useState('');
   // The name a picked search result filled in, so a later pick can replace
   // it, while a name typed by hand is never overwritten.
   const autoName = useRef(null);
-  const [categories, setCategories] = useState(() => savedDraft?.categories || []);
+  const [categories, setCategories] = useState([]);
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
   // Release the preview blob URL when it's replaced or the screen unmounts.
   useEffect(() => () => photoPreview && URL.revokeObjectURL(photoPreview), [photoPreview]);
-  const [facts, setFacts] = useState(() => savedDraft?.facts || []);
-  const [factDraft, setFactDraft] = useState(() => savedDraft?.factDraft || '');
+  const [facts, setFacts] = useState([]);
+  const [factDraft, setFactDraft] = useState('');
   const [stage, setStage] = useState('idle'); // idle | verifying | saving
   const [error, setError] = useState(null);
   const busy = stage !== 'idle';
   const submittingRef = useRef(false);
-  const [draftRestored, setDraftRestored] = useState(() => draftHasContent(savedDraft));
 
   const choosePosition = (pos) => {
     pinChosenRef.current = true;
@@ -149,55 +138,11 @@ export default function AddLandmark() {
     if (!pinChosenRef.current) setPosition({ lat: coords.lat, lng: coords.lng });
   }, [coords]);
 
-  // Signed-in state can arrive just after this screen mounts (cold open
-  // straight to Add Landmark) -- pick up the draft then, unless you've
-  // already started typing.
-  const loadedKeyRef = useRef(draftKey);
+  // Older versions saved a half-typed landmark on this device; clear any
+  // leftover so it never resurfaces.
   useEffect(() => {
-    if (!draftKey || loadedKeyRef.current === draftKey) return;
-    loadedKeyRef.current = draftKey;
-    const d = readPersisted(draftKey);
-    if (!draftHasContent(d) || name || addressText || categories.length || facts.length || factDraft) return;
-    setName(d.name || '');
-    setAddressText(d.addressText || '');
-    setCategories(d.categories || []);
-    setFacts(d.facts || []);
-    setFactDraft(d.factDraft || '');
-    if (d.position && !fromMap && !pinChosenRef.current) choosePosition(d.position);
-    setDraftRestored(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draftKey]);
-
-  useEffect(() => {
-    if (!draftKey) return undefined;
-    const t = setTimeout(() => {
-      const draft = { name, addressText, categories, facts, factDraft };
-      if (!draftHasContent(draft)) {
-        clearPersisted(draftKey);
-        return;
-      }
-      // Only a pin you placed yourself is worth restoring; the default
-      // center is recomputed fresh (e.g. from GPS) each time anyway.
-      writePersisted(draftKey, { ...draft, position: pinChosenRef.current ? position : null });
-    }, 300);
-    return () => clearTimeout(t);
-  }, [draftKey, name, addressText, categories, facts, factDraft, position]);
-
-  const discardDraft = () => {
-    clearPersisted(draftKey);
-    setName('');
-    setAddressText('');
-    setConfirmedLandmarkId(null);
-    setCategories([]);
-    setFacts([]);
-    setFactDraft('');
-    if (!fromMap) {
-      pinChosenRef.current = false;
-      setPosition(startingCenter());
-    }
-    setError(null);
-    setDraftRestored(false);
-  };
+    if (user?.uid) clearPersisted(`addLandmark.${user.uid}`);
+  }, [user?.uid]);
 
   const regionId = nearestRegionId(position.lat, position.lng);
   // Read inside the debounced duplicate check without re-running it (and
@@ -392,8 +337,6 @@ export default function AddLandmark() {
         topic: verified.topic || null,
         hours: verified.hours || null,
       });
-      // Submitted -- the saved draft has done its job.
-      clearPersisted(draftKey);
       // Standing right where you added it (within the same radius a normal
       // Check In button requires) means you don't have to tap Check In
       // separately -- open the same rate + post prompt every other check-in
@@ -421,14 +364,6 @@ export default function AddLandmark() {
       <h1 className="screen-title">
         <span>{'\u{2795}'}</span> Add Landmark
       </h1>
-      {draftRestored && (
-        <p className="draft-restored-note">
-          {'\u{1F4DD}'} Picked up where you left off {'\u{00B7}'}{' '}
-          <button type="button" onClick={discardDraft}>
-            Discard
-          </button>
-        </p>
-      )}
 
       <div className="field">
         <FieldLabel required>Location</FieldLabel>
