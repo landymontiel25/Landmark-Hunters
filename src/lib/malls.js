@@ -32,17 +32,24 @@ export const ratingQueue = (checkedIds, places) =>
 
 // One saved rating: who, which store (and its mall), the vote, the date, and
 // any optional tags.
-export const makeStoreRating = ({ userId, store, vote, tags = [], at = new Date() }) => ({
+export const makeStoreRating = ({ userId, store, vote, tags = [], tier = null, comment = '', at = new Date() }) => ({
   userId,
   storeId: store.id,
   parentId: store.parentId || null,
-  vote, // 'up' | 'down'
+  vote, // 'up' | 'down' | 'ok'
+  ...(tier ? { tier } : {}),
+  ...(comment ? { comment } : {}),
   date: at.toISOString(),
   tags: tags.filter((t) => STORE_RATING_TAGS.includes(t)),
 });
 
+// The check-in sheet's tiers as store votes: loved it is a thumbs up, didn't
+// like it a thumbs down, ok moves nothing.
+export const VOTE_OF_TIER = { 'highly-recommend': 'up', 'worth-trying': 'ok', 'probably-skip': 'down' };
+
 // A vote applied to the user's taste ({ scores, at, counts } per tag).
 export function applyStoreVote(taste, store, vote, nowMs = Date.now()) {
+  if (vote !== 'up' && vote !== 'down') return taste;
   const next = applyRating(taste, store.tags, null, nowMs, null, 1, VOTE_DELTAS[vote === 'up' ? 'yes' : 'no']);
   return {
     scores: { ...taste.scores, ...next.scores },
@@ -60,7 +67,8 @@ export function mallScore(parentId, places, ratings) {
   for (const store of childrenOf(parentId, places)) {
     const mine = ratings.filter((r) => r.storeId === store.id);
     if (!mine.length) continue;
-    const share = mine.filter((r) => r.vote === 'up').length / mine.length;
+    // An "ok" counts half a thumbs up.
+    const share = mine.reduce((n, r) => n + (r.vote === 'up' ? 1 : r.vote === 'ok' ? 0.5 : 0), 0) / mine.length;
     const w = Math.max(1, store.visits || 0);
     sum += share * w;
     weight += w;

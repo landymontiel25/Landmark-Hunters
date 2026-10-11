@@ -64,36 +64,58 @@ describe('OnboardingLab', () => {
     expect(el.querySelector('.mall-lab-map .leaflet-container')).toBeTruthy();
   });
 
-  it('mall check-in: tap a mall, Check In, pick stores, rate them, say what you like', async () => {
-    const el = await renderAs('landymontiel25@gmail.com', { tab: 'malls' });
+  it('mall check-in: the real check-in sheet, plus a store dropdown; check in again for more stores', async () => {
+    vi.resetModules();
+    const { MallCheckIn } = await import('./MallLab.jsx');
+    const { storesOfPlace, applyStoreVote, makeStoreRating, VOTE_OF_TIER } = await import('../lib/malls.js');
+    const mall = { key: 'miami/dolphin-mall', id: 'dolphin-mall', regionId: 'miami', name: 'Dolphin Mall', categories: ['local-life'], topic: 'mall' };
+    const stores = storesOfPlace('miami', 'dolphin-mall');
+    expect(stores.length).toBeGreaterThan(5);
+    let ratings = [];
+    const onPost = ({ storeRatings }) => {
+      let taste = { scores: {}, at: {}, counts: {} };
+      const saved = storeRatings.map(({ store, rating }) => {
+        taste = applyStoreVote(taste, store, VOTE_OF_TIER[rating.tier]);
+        return makeStoreRating({ userId: 'u', store, vote: VOTE_OF_TIER[rating.tier], tier: rating.tier });
+      });
+      ratings = [...ratings, ...saved];
+      return { saved, before: {}, after: taste.scores, nextRatings: ratings };
+    };
+    const sheet = () => (
+      <MemoryRouter>
+        <MallCheckIn mall={mall} stores={stores} ratings={ratings} places={stores} onPost={onPost} onClose={() => {}} />
+      </MemoryRouter>
+    );
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    await act(async () => root.render(sheet()));
     const btn = (text) => [...document.querySelectorAll('button')].find((b) => b.textContent.includes(text));
-    // Only malls on the map, as the real Map's pins.
-    const pins = [...el.querySelectorAll('.mall-lab-map .leaflet-marker-icon')];
-    expect(pins.length).toBeGreaterThanOrEqual(5);
-    const dolphin = pins.find((p) => p.getAttribute('title') === 'Dolphin Mall');
-    await act(async () => dolphin.click());
-    await act(async () => btn('Check In').click());
-    expect(document.body.textContent).toContain("You're checked in at");
-    expect(document.body.textContent).toContain('Which stores did you go into?');
-    const chips = [...document.querySelectorAll('.mall-lab-store-chip')];
-    expect(chips.length).toBeGreaterThan(5);
-    await act(async () => chips[0].click());
-    await act(async () => chips[1].click());
-    await act(async () => btn('Next (2)').click());
-    expect(document.body.textContent).toContain('store 1 of 2');
-    await act(async () => btn('Liked it').click());
-    expect(document.body.textContent).toContain('What did you like about it?');
-    await act(async () => btn('friendly staff').click());
-    await act(async () => btn('Next store').click());
-    await act(async () => btn('Not for me').click());
-    await act(async () => btn('Next').click());
-    expect(document.body.textContent).toContain('What do you like about Dolphin Mall?');
-    await act(async () => btn('easy parking').click());
-    await act(async () => btn('Save').click());
-    expect(document.body.textContent).toContain('Visit saved');
+    expect(document.body.textContent).toContain('Check in to Dolphin Mall?');
+    expect(btn('Post').disabled).toBe(true);
+    await act(async () => btn('I loved it').click());
+    expect(btn('Post').disabled).toBe(false);
+    // The store dropdown: pick two.
+    await act(async () => btn('Pick the stores you went into').click());
+    const options = [...document.querySelectorAll('.mall-store-option')];
+    await act(async () => options[0].click());
+    await act(async () => options[1].click());
+    await act(async () => [...document.querySelectorAll('.mall-store-picker-panel button')].find((b) => b.textContent === 'Done').click());
+    const blocks = [...document.querySelectorAll('.mall-store-rating')];
+    expect(blocks).toHaveLength(2);
+    expect(btn('Post').disabled).toBe(true); // each picked store needs its rating
+    const tierIn = (block, text) => [...block.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+    await act(async () => tierIn(blocks[0], 'I loved it').click());
+    await act(async () => tierIn(blocks[1], "I didn't like it").click());
+    await act(async () => btn('Post').click());
+    expect(document.body.textContent).toContain('Checked in!');
     expect(document.body.textContent).toContain('What Mapr learned');
-    await act(async () => btn('Done').click());
-    expect(document.querySelector('.mall-visit')).toBeNull();
+    expect(ratings).toHaveLength(2);
+    // Later: a new check-in at the same mall marks the stores rated before.
+    await act(async () => root.render(<div />));
+    await act(async () => root.render(sheet()));
+    await act(async () => btn('Pick the stores you went into').click());
+    expect([...document.querySelectorAll('.mall-store-option')].filter((o) => o.textContent.includes('rated before'))).toHaveLength(2);
   });
 
   it('runs the six mall checks on Palm Grove Plaza', async () => {
