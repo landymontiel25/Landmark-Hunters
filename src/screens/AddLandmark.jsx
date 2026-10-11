@@ -411,11 +411,12 @@ export default function AddLandmark() {
               setConfirmedLandmarkId(null);
             }}
             onSelect={(s) => {
-              // Move the pin, but leave the typed address text alone --
-              // the geocoder's top match is sometimes the nearest known
-              // business at that address, not the address itself, and
-              // overwriting what was typed with that name is confusing.
               choosePosition({ lat: s.lat, lng: s.lng });
+              // A row you tapped (or Enter) shows in the box. When leaving
+              // the box took the top row for you, what you typed stays: that
+              // row is sometimes a nearby business, not what you meant.
+              const chosen = s.how === 'tap' || s.how === 'enter';
+              if (chosen && s.primary) setAddressText(s.primary);
               // Picking one of the "landmark" suggestions (not a plain
               // address) means they chose an EXISTING landmark by name --
               // a certain duplicate, not the usual typed-name guess.
@@ -424,7 +425,7 @@ export default function AddLandmark() {
               // A named place ("Cocoplum Yacht Club", not "328 Crandon Blvd")
               // fills the Name box, unless you typed a name yourself.
               const placeName = String(s.primary || '').trim();
-              if (placeName && !/^\d/.test(placeName) && (!name.trim() || name === autoName.current)) {
+              if (chosen && placeName && !/^\d/.test(placeName) && (!name.trim() || name === autoName.current)) {
                 autoName.current = placeName.slice(0, 80);
                 setName(autoName.current);
               }

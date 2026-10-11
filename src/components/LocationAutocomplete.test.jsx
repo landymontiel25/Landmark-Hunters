@@ -54,4 +54,30 @@ describe('LocationAutocomplete', () => {
     expect(onSelect).toHaveBeenCalledTimes(1);
     expect(onSelect.mock.calls[0][0].primary).toBe('Hotel B');
   });
+
+  it('a tapped row keeps focus in the box and says it was tapped', async () => {
+    vi.useFakeTimers();
+    const onSelect = vi.fn();
+    function Box() {
+      const [v, setV] = useState('hotel');
+      return <LocationAutocomplete id="start" value={v} onChange={setV} onSelect={onSelect} />;
+    }
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    root = createRoot(container);
+    await act(async () => root.render(<Box />));
+    await act(async () => container.querySelector('input').focus());
+    await act(async () => vi.advanceTimersByTime(300));
+    const row = [...container.querySelectorAll('.autocomplete-item')].find((b) => b.textContent.includes('Hotel B'));
+
+    // On a phone, the press would otherwise blur the box and pick the top row.
+    const down = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+    row.dispatchEvent(down);
+    expect(down.defaultPrevented).toBe(true);
+
+    await act(async () => row.click());
+    await act(async () => details.b({ primary: 'Hotel B', lat: 2, lng: 2 }));
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect.mock.calls[0][0]).toMatchObject({ primary: 'Hotel B', how: 'tap' });
+  });
 });
