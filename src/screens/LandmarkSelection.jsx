@@ -631,15 +631,6 @@ export default function LandmarkSelection() {
         </p>
       )}
 
-      <button
-        type="button"
-        className="btn btn-ghost btn-block"
-        style={{ marginBottom: 12 }}
-        onClick={() => navigate('/add-landmark')}
-      >
-        {'\u{2795}'} Add a Landmark
-      </button>
-
       <div className="field" style={{ marginBottom: 12 }}>
         <input
           type="search"
@@ -652,6 +643,15 @@ export default function LandmarkSelection() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
+
+      <button
+        type="button"
+        className="btn btn-ghost btn-block"
+        style={{ marginBottom: 12 }}
+        onClick={() => navigate('/add-landmark')}
+      >
+        {'\u{2795}'} Add a Landmark
+      </button>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
         {scopeCount > 0 && (
