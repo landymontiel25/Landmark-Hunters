@@ -236,6 +236,19 @@ export function getRegion(id) {
   return REGIONS.find((r) => r.id === rid) || null;
 }
 
+// Retired category ids and where their landmarks live now. Dorms folded
+// into Campus Life, and Art & Museums into Art & Culture (id
+// history-culture). Landmark files, place packs, saved filters, check-ins
+// and older custom landmarks may still carry the old id; the catalog is
+// normalized on load (here and in registerPlaces).
+export const CATEGORY_ALIASES = { dorms: 'campus-life', 'art-museums': 'history-culture' };
+export const normalizeCategories = (cats) => [...new Set((cats || []).map((c) => CATEGORY_ALIASES[c] || c))];
+const normalizeLandmark = (l) => {
+  if (Array.isArray(l?.categories) && l.categories.some((c) => CATEGORY_ALIASES[c])) l.categories = normalizeCategories(l.categories);
+  return l;
+};
+for (const r of REGIONS) r.landmarks.forEach(normalizeLandmark);
+
 export const ALL_LANDMARKS = REGIONS.flatMap((r) => r.landmarks.map((l) => ({ ...l, regionId: r.id })));
 
 export const ALL_LANDMARKS_BOUNDS = ALL_LANDMARKS.reduce(
@@ -274,6 +287,7 @@ export function registerPlaces(places) {
     const key = `${p?.region}/${p?.id}`;
     if (!region || !p.id || packIndex.has(key) || idsOf(region).has(p.id)) continue;
     idsOf(region).add(p.id);
+    normalizeLandmark(p);
     region.landmarks.push(p);
     const entry = { ...p, regionId: region.id };
     ALL_LANDMARKS.push(entry);
@@ -297,8 +311,10 @@ export function getLandmark(regionId, landmarkId) {
 // `added` is the order each category was introduced to the app (1 = the
 // original four), so lists can show the newest categories first.
 export const INTERESTS = [
-  { id: 'history-culture', label: 'History & Culture', icon: '\u{1F3DB}\u{FE0F}', added: 1 },
-  { id: 'art-museums', label: 'Art & Museums', icon: '\u{1F5BC}\u{FE0F}', added: 2 },
+  // Art & Culture is museums, galleries, historic sites, monuments,
+  // churches. It used to be two categories (History & Culture, Art &
+  // Museums); the id stayed history-culture.
+  { id: 'history-culture', label: 'Art & Culture', icon: '\u{1F3DB}\u{FE0F}', added: 1 },
   // Food is restaurants, cafés, bakeries, gelato, food markets. Local Life is
   // bars, clubs, live-music venues, neighborhoods, squares, shopping streets.
   { id: 'food', label: 'Food', icon: '\u{1F37D}\u{FE0F}', added: 8 },
@@ -323,14 +339,9 @@ export const INTERESTS = [
 // Categories left out of the pickers (category dropdowns, trip interests,
 // taste chips) for now. Their landmarks still exist, show on the map and in
 // search; remove an id here to bring the category back everywhere.
-export const HIDDEN_INTEREST_IDS = new Set(['formula-1']);
+export const HIDDEN_INTEREST_IDS = new Set(['formula-1', 'benches', 'stadiums', 'campus-life', 'airports']);
 export const PICKABLE_INTERESTS = INTERESTS.filter((i) => !HIDDEN_INTEREST_IDS.has(i.id));
 
-// Retired category ids and where their landmarks live now. Dorms folded
-// into Campus Life; saved filters and older custom landmarks may still
-// carry the old id.
-export const CATEGORY_ALIASES = { dorms: 'campus-life' };
-export const normalizeCategories = (cats) => [...new Set((cats || []).map((c) => CATEGORY_ALIASES[c] || c))];
 
 export const INTEREST_ORDERS = [
   { id: 'abc', label: 'A–Z' },
@@ -349,6 +360,7 @@ export function sortInterests(list, orderId = 'abc') {
 // interests (localStorage) and old review docs can still carry these.
 const RETIRED_INTERESTS = {
   'food-local-life': ['food', 'local-life'],
+  'art-museums': ['history-culture'],
 };
 
 // Landmark ids that were renamed because two cities shared one. Check-ins,

@@ -20,10 +20,10 @@ export const TASTE_QUESTIONS = [
   },
   {
     id: 'history-culture',
-    label: 'History & Culture',
+    label: 'Art & Culture',
     icon: '\u{1F3DB}\u{FE0F}',
     prompt: 'Like or hate any of these?',
-    examples: ['Museums', 'Historic architecture', 'Old churches', 'Battlefields'],
+    examples: ['Museums', 'Art galleries', 'Historic architecture', 'Old churches'],
   },
   {
     id: 'parks-nature',

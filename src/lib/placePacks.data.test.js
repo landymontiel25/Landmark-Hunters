@@ -6,14 +6,15 @@ import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { PLACE_PACKS } from '../data/placePacks.manifest.js';
-import { ALL_LANDMARKS, INTERESTS, getRegion, registerPlaces, getLandmark } from '../data/regions.js';
+import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS, getRegion, registerPlaces, getLandmark } from '../data/regions.js';
 import { insideShape } from '../../scripts/osm-import/transform.js';
 import { IMPORT_REGIONS } from '../../scripts/osm-import/regions.js';
 import { isNearEnough } from './checkinRules.js';
 import { tierQuestion } from './ratingFlow.js';
 import { applyRating } from './tagScores.js';
 
-const CATEGORY_IDS = new Set(INTERESTS.map((i) => i.id));
+// Retired ids (art-museums) still ship in pack files; the app maps them on load.
+const CATEGORY_IDS = new Set([...INTERESTS.map((i) => i.id), ...Object.keys(CATEGORY_ALIASES)]);
 const catalogIds = new Set(ALL_LANDMARKS.map((l) => `${l.regionId}/${l.id}`));
 const packs = PLACE_PACKS.map((p) => ({ ...p, places: JSON.parse(fs.readFileSync(path.join('public', p.file), 'utf8')) }));
 const all = packs.flatMap((p) => p.places);

@@ -75,7 +75,7 @@ describe('PicksBottomSheet', () => {
     expect(cards[0].textContent).toContain('Reason a');
     expect(cards[0].textContent).toContain('Directions');
     expect(cards[2].textContent).toContain('Something new');
-    expect(cards[3].querySelector('.mpp-chain').textContent).toContain('Art & Museums');
+    expect(cards[3].querySelector('.mpp-chain').textContent).toContain('Art & Culture');
   });
 
   it('never shows the chain label unless asked (real tabs)', async () => {

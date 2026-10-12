@@ -6,7 +6,7 @@ const place = (id, categories, miles) => ({ id, regionId: 'test', name: id, cate
 
 describe('the Test tab moods', () => {
   it('lists eating, then entertainment, then the rest, and no tech spots', () => {
-    expect(TEST_MOODS.map((m) => m.id)).toEqual(['eat', 'entertainment', 'history', 'art', 'outdoors', 'night', 'sports']);
+    expect(TEST_MOODS.map((m) => m.id)).toEqual(['eat', 'entertainment', 'history', 'outdoors', 'night', 'sports']);
     expect(TEST_MOODS.some((m) => m.id === 'tech' || /tech/i.test(m.label))).toBe(false);
   });
 

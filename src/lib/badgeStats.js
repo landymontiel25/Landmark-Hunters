@@ -65,7 +65,9 @@ export function countCuisineTypes(checkins) {
 
 // "museum, restaurant, landmark, nature" mapped onto this app's real
 // category taxonomy.
-export const ALL_STAR_CATEGORIES = ['art-museums', 'food', 'history-culture', 'parks-nature'];
+// Art & Museums folded into Art & Culture (history-culture); categories
+// come from the current catalog, so museums count as Art & Culture.
+export const ALL_STAR_CATEGORIES = ['food', 'history-culture', 'parks-nature'];
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 // Whether all four ALL_STAR_CATEGORIES were each hit by at least one

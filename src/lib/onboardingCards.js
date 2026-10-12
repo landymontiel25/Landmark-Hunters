@@ -72,10 +72,10 @@ export const SWIPE_GROUPS = [
   },
   {
     id: 'history',
-    label: 'History & Culture',
+    label: 'Art & Culture',
     tag: 'history-culture',
     cards: [
-      ['Museums', '\u{1F5BC}\u{FE0F}', 'art-museums'],
+      ['Museums', '\u{1F5BC}\u{FE0F}'],
       ['Historic architecture', '\u{1F3DB}\u{FE0F}'],
       ['Old churches', '\u{26EA}'],
       ['Ruins', '\u{1F3DA}\u{FE0F}'],

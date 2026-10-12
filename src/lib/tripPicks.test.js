@@ -55,17 +55,17 @@ describe('"Something new" ranking', () => {
   it('counts ratings per region: a category rated a lot in another city is still new here', () => {
     // Taste varies city to city (museums in Paris vs. Brussels), so what's
     // "new" is scoped to THIS region, not blended across every place they've
-    // ever rated -- rating art-museums a lot in Miami shouldn't hide it as
+    // ever rated -- rating entertainment a lot in Miami shouldn't hide it as
     // "new" in Villanova, where they've never rated one.
-    const traveled = { ...profile, tagCounts: { ...profile.tagCounts, miami: { 'art-museums': 5 } } };
+    const traveled = { ...profile, tagCounts: { ...profile.tagCounts, miami: { 'entertainment': 5 } } };
     const picks = discoveryPicks({ profile: traveled, region: 'villanova', limit: 8, now: NOW });
-    expect(picks.some((p) => primary(p) === 'art-museums')).toBe(true);
+    expect(picks.some((p) => primary(p) === 'entertainment')).toBe(true);
   });
 
   it('does not count ratings from another region: heavily-rated locally is not new here', () => {
-    const local = { ...profile, tagCounts: { ...profile.tagCounts, villanova: { ...profile.tagCounts.villanova, 'art-museums': 5 } } };
+    const local = { ...profile, tagCounts: { ...profile.tagCounts, villanova: { ...profile.tagCounts.villanova, 'entertainment': 5 } } };
     const picks = discoveryPicks({ profile: local, region: 'villanova', limit: 8, now: NOW });
-    expect(picks.some((p) => primary(p) === 'art-museums')).toBe(false);
+    expect(picks.some((p) => primary(p) === 'entertainment')).toBe(false);
   });
 
   it('usual and new pick different places', () => {
