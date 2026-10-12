@@ -5,7 +5,7 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { usePairStreaks } from '../lib/PairStreakContext';
-import { ensureSoloStreak, subscribeMySoloStreak } from '../lib/soloStreaks';
+import { closeSoloToday, ensureSoloStreak, subscribeMySoloStreak, watchNewCheckins } from '../lib/soloStreaks';
 import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { useTodayKey } from '../lib/useTodayKey';
@@ -145,6 +145,21 @@ function StreakBadge() {
   const [open, setOpen] = useState(false);
   const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
+
+  // A check-in or rating anywhere in the app (check-in sheet, Rate a
+  // Landmark, Add Landmark) asks the server to close today as soon as it
+  // lands. The server counts today's 3 itself; this badge then turns green
+  // and counts up from its live streak doc, no reload needed.
+  const securedRef = useRef(false);
+  securedRef.current = isDayHeld(streak, today);
+  const uid = user?.uid;
+  useEffect(() => {
+    if (!firebaseEnabled || !uid) return undefined;
+    return watchNewCheckins(uid, () => {
+      if (securedRef.current) return;
+      closeSoloToday().catch(() => {});
+    });
+  }, [firebaseEnabled, uid]);
 
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;

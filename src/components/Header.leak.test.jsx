@@ -21,6 +21,8 @@ vi.mock('../lib/AdminModeContext', () => ({
 vi.mock('../lib/PairStreakContext', () => ({ usePairStreaks: () => ({ streaks: [] }) }));
 vi.mock('../lib/soloStreaks', () => ({
   ensureSoloStreak: (...a) => ensure(...a),
+  watchNewCheckins: (...a) => (globalThis.__watchNew || (() => () => {}))(...a),
+  closeSoloToday: (...a) => (globalThis.__closeToday || (async () => ({})))(...a),
   subscribeMySoloStreak: (...a) => subscribe(...a),
 }));
 vi.mock('../lib/leaderboard', () => ({ subscribeLeaderboard: () => () => {} }));
@@ -65,5 +67,33 @@ describe('Header streak badge listener', () => {
     expect(subscribe).toHaveBeenCalledTimes(1);
     await act(async () => root.unmount());
     expect(unsub).toHaveBeenCalledTimes(1);
+  });
+
+  it('closes the streak day when a new check-in or rating lands, until today is secured', async () => {
+    let onNew;
+    const stopWatching = vi.fn();
+    globalThis.__watchNew = (uid, cb) => {
+      onNew = cb;
+      return stopWatching;
+    };
+    const close = vi.fn(async () => ({ ok: true }));
+    globalThis.__closeToday = close;
+    let pushStreak;
+    subscribe.mockImplementation((uid, cb) => {
+      pushStreak = cb;
+      return unsub;
+    });
+    await mount();
+    await act(async () => onNew(1));
+    expect(close).toHaveBeenCalledTimes(1);
+    const d = new Date();
+    const today = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    await act(async () => pushStreak({ id: 'me', count: 4, lastCompletedDay: today }));
+    await act(async () => onNew(1));
+    expect(close).toHaveBeenCalledTimes(1);
+    await act(async () => root.unmount());
+    expect(stopWatching).toHaveBeenCalledTimes(1);
+    delete globalThis.__watchNew;
+    delete globalThis.__closeToday;
   });
 });

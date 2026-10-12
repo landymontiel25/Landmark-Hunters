@@ -25,7 +25,8 @@ export const PICKS_STREAK_THRESHOLD = 3;
 
 /**
  * Distinct landmarks engaged with today (local time) toward the daily quota
- * -- votes and 0-point ratings combined. For a "2/3 rated today" counter.
+ * -- votes, ratings and check-ins combined. For a "2/3 rated today" counter.
+ * Same rule as the server's distinctActionsOn (api/_lib/soloPicks.js).
  */
 export function todaysActionCount(checkins, pickFeedback = [], now = new Date()) {
   const today = dayKey(now);
@@ -35,7 +36,7 @@ export function todaysActionCount(checkins, pickFeedback = [], now = new Date())
     ids.add(f.landmarkId);
   }
   for (const c of checkins || []) {
-    if (isRealCheckin(c) || !c.createdAt?.seconds || !c.landmarkId) continue;
+    if (!c?.createdAt?.seconds || !c.landmarkId) continue;
     if (dayKey(new Date(c.createdAt.seconds * 1000)) !== today) continue;
     ids.add(c.landmarkId);
   }
@@ -98,8 +99,8 @@ export function hasCheckedInToday(checkins, now = new Date()) {
 
 // Day-keys (local time) with at least `minActions` distinct landmarks engaged
 // with, combining pick_feedback votes (voted landmarkId + `at` epoch ms)
-// and 0-point "Rate a Landmark" claims (ratingOnly checkins, by their
-// createdAt).
+// and check-ins of either kind (real ones and 0-point "Rate a Landmark"
+// claims, by their createdAt).
 function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_THRESHOLD) {
   const idsByDay = new Map();
   const add = (key, id) => {
@@ -112,7 +113,7 @@ function dailyActionDayKeys(checkins, pickFeedback, minActions = PICKS_STREAK_TH
     add(dayKey(new Date(f.at)), f.landmarkId);
   }
   for (const c of checkins || []) {
-    if (isRealCheckin(c) || !c.createdAt?.seconds || !c.landmarkId) continue;
+    if (!c?.createdAt?.seconds || !c.landmarkId) continue;
     add(dayKey(new Date(c.createdAt.seconds * 1000)), c.landmarkId);
   }
   const days = new Set();

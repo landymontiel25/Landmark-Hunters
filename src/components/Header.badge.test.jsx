@@ -21,6 +21,8 @@ async function renderHeader({ notifications = [], requests = [] } = {}) {
   vi.doMock('../lib/PairStreakContext', () => ({ usePairStreaks: () => ({ streaks: [] }) }));
   vi.doMock('../lib/soloStreaks', () => ({
     ensureSoloStreak: vi.fn(async () => ({})),
+    watchNewCheckins: (...a) => (globalThis.__watchNew || (() => () => {}))(...a),
+    closeSoloToday: (...a) => (globalThis.__closeToday || (async () => ({})))(...a),
     subscribeMySoloStreak: () => () => {},
   }));
   vi.doMock('../lib/leaderboard', () => ({ subscribeLeaderboard: () => () => {} }));
