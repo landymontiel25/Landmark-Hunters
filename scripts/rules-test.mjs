@@ -2,7 +2,10 @@
 // pass: private profile doc, bonus points, region_stats, streaks, referral,
 // admin notifications, reply visibility, check-in reads).
 //
-// Not part of `npm test` (needs Java + the Firebase emulators). Run with:
+// Not part of `npm test` (needs Java + the Firebase emulators). CI runs it
+// (the `rules` job in .github/workflows/ci.yml). Run locally with:
+//   npm run test:rules
+// or by hand:
 //   npm i --no-save firebase-tools @firebase/rules-unit-testing
 //   npx firebase emulators:exec --only firestore,storage --project demo-lh "node scripts/rules-test.mjs"
 import { readFileSync } from 'node:fs';

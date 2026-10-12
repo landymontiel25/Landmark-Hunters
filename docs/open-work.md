@@ -3,7 +3,7 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Discovery network plan v2 (not started)
+## Discovery network plan v2 (in progress)
 
 `docs/discovery-network-plan.md` (v2, 2026-10-10) turns Mapr from ranking
 places into matching people: verified presence, tips, follows and taste
@@ -14,6 +14,10 @@ and accuracy table by place type, a reputation cap of 15 per person, and moves
 check-in read limits before Phase 2. Order of work: prerequisites (rules tests
 in CI, scan question 7, check-in and points parts of question 14), then
 Phase 0. Update this item as each step ships.
+
+Progress: the `rules` CI job runs `scripts/rules-test.mjs` in the Firebase
+emulator on every PR (`npm run test:rules`), and the rules deploy workflow
+runs it again before it deploys.
 
 ## Founder and family accounts in the owner stats (needs the UIDs)
 
