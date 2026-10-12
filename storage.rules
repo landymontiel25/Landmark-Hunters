@@ -2,8 +2,11 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
 
+    // Mirrors isAdmin() in firestore.rules: a verified email on the list.
     function isAdmin() {
-      return request.auth != null && request.auth.token.email in ['landymontiel25@gmail.com'];
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['landymontiel25@gmail.com'];
     }
 
     // Every upload path ends in a file name that starts with the uploader's
