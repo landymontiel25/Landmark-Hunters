@@ -4,27 +4,40 @@
 // private windows). Without a fallback the flag could never be set, so a
 // screen file that is really missing would reload the page forever. The
 // fallback is window.name, which survives a reload of the same tab.
+//
+// The flag holds the reload's time and only counts for RELOAD_WINDOW_MS: long
+// enough to stop a loop, short enough that a later deploy in the same tab
+// gets its own reload instead of "Something went wrong".
 const RELOAD_FLAG = 'lh-chunk-reload';
 const NAME_MARK = '|lh-chunk-reload';
+export const RELOAD_WINDOW_MS = 30_000;
 
-const nameHas = () => typeof window !== 'undefined' && String(window.name || '').includes(NAME_MARK);
+const nameStamp = () => {
+  if (typeof window === 'undefined') return null;
+  const m = String(window.name || '').match(/\|lh-chunk-reload:?(\d*)/);
+  return m ? Number(m[1]) || 0 : null;
+};
+const stripName = () => String(window.name || '').replace(/\|lh-chunk-reload:?\d*/g, '');
 
-export function flagGet() {
+export function flagGet(now = Date.now()) {
+  let at = null;
   try {
-    if (sessionStorage.getItem(RELOAD_FLAG)) return '1';
+    const v = sessionStorage.getItem(RELOAD_FLAG);
+    if (v) at = Number(v) || 0;
   } catch {
     /* blocked storage */
   }
-  return nameHas() ? '1' : null;
+  if (at == null) at = nameStamp();
+  return at != null && now - at < RELOAD_WINDOW_MS ? '1' : null;
 }
 
-export function flagSet() {
+export function flagSet(now = Date.now()) {
   try {
-    sessionStorage.setItem(RELOAD_FLAG, '1');
+    sessionStorage.setItem(RELOAD_FLAG, String(now));
   } catch {
     /* blocked storage */
   }
-  if (typeof window !== 'undefined' && !nameHas()) window.name = String(window.name || '') + NAME_MARK;
+  if (typeof window !== 'undefined') window.name = `${stripName()}${NAME_MARK}:${now}`;
 }
 
 export function flagClear() {
@@ -33,13 +46,13 @@ export function flagClear() {
   } catch {
     /* blocked storage */
   }
-  if (nameHas()) window.name = String(window.name).split(NAME_MARK).join('');
+  if (typeof window !== 'undefined' && nameStamp() != null) window.name = stripName();
 }
 
 // Offline, a reload only swaps the app for the browser's own "no internet"
 // page; the screen's error card (with its Try Again) is the better place to
 // land. Otherwise reload at most once.
-export function shouldReloadForChunkError() {
+export function shouldReloadForChunkError(now = Date.now()) {
   if (typeof navigator !== 'undefined' && navigator.onLine === false) return false;
-  return !flagGet();
+  return !flagGet(now);
 }
