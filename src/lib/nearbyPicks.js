@@ -724,21 +724,14 @@ export const MOODS = [
   { id: 'eat', icon: '\u{1F37D}\u{FE0F}', label: 'Something to eat', categories: ['food'] },
   { id: 'history', icon: '\u{1F3DB}\u{FE0F}', label: 'Art & culture', categories: ['history-culture'] },
   { id: 'outdoors', icon: '\u{1F333}', label: 'Fresh air', categories: ['parks-nature', 'benches'] },
-  { id: 'night', icon: '\u{1F378}', label: 'A night out', categories: ['local-life', 'entertainment'] },
+  { id: 'night', icon: '\u{1F378}', label: 'A night out', categories: ['local-life'] },
   { id: 'sports', icon: '\u{1F3DF}\u{FE0F}', label: 'Sports', categories: ['stadiums', 'sports', 'formula-1'] },
   { id: 'tech', icon: '\u{1F4BB}', label: 'Tech spots', categories: ['tech'] },
 ];
-// The Test tab's moods: eating first, then entertainment (shows, zoos,
-// aquariums, amusement parks), the rest as before except that a night out is
-// only bars and clubs, and no tech spots.
-export const TEST_MOODS = [
-  MOODS.find((m) => m.id === 'eat'),
-  { id: 'entertainment', icon: '\u{1F39F}\u{FE0F}', label: 'Entertainment', categories: ['entertainment'] },
-  ...MOODS.filter((m) => m.id !== 'eat' && m.id !== 'tech').map((m) =>
-    // A night out is bars, clubs and live music (Local Life), not shows and zoos.
-    m.id === 'night' ? { ...m, categories: ['local-life'] } : m
-  ),
-];
+// The Map sheet's moods: the same, without tech spots. Entertainment
+// folded into Nightlife, so "A night out" covers bars, clubs, live music,
+// shows, zoos and amusement parks.
+export const TEST_MOODS = MOODS.filter((m) => m.id !== 'tech');
 // Where the Test tab's picks start, until someone taps a distance chip.
 export const TEST_DEFAULT_DISTANCE_MI = 5;
 // 'foryou' (the default) is Mapr's ranking (maprRank/surfaces.js rankPlaces):

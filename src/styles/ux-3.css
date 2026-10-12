@@ -200,3 +200,13 @@ input[type='range']:focus-visible {
   color: var(--text-secondary);
   white-space: nowrap;
 }
+
+/* Landmarks tab: one icon button per category, same pills as the sort row. */
+.lm-category-tabs {
+  margin-bottom: 10px;
+}
+.lm-category-tabs .tab-btn {
+  min-width: 0;
+  padding: 8px 0;
+  font-size: 1.15rem;
+}

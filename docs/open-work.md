@@ -19,7 +19,11 @@ opened ON day N. Accounts older than tracking stay out, never back-dated.
 The Accuracy page's per-category match rate, the Mapr skip/CTR/A/B numbers
 and the long study still include family accounts.
 
-## Categories: Art & Culture merge, four switched off (2026-10-12)
+## Categories: Art & Culture and Nightlife merges, four switched off (2026-10-12)
+
+Entertainment folded into Nightlife (id `local-life`) the same way: alias
+`entertainment` in `CATEGORY_ALIASES`. The Landmarks tab's Category
+dropdown became a row of category emoji buttons (multi-select).
 
 Owner asked to merge Art & Museums into History & Culture as "Art &
 Culture" and to switch off 10/10 Benches, Stadiums, Campus Life and

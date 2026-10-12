@@ -18,7 +18,6 @@ export const RATEABLE_CATEGORIES = [
   'stadiums',
   'benches',
   'parks-nature',
-  'entertainment',
   'tech',
   'history-culture',
   'food',
@@ -154,37 +153,21 @@ export const CHIPS = {
       { id: 'hard-to-get-to', label: 'Hard to get to' },
     ],
   },
-  entertainment: {
-    'highly-recommend': [
-      { id: 'so-much-fun', label: 'So much fun' },
-      { id: 'worth-the-ticket', label: 'Worth the ticket' },
-      { id: 'great-for-families', label: 'Great for families' },
-    ],
-    'worth-trying': [
-      { id: 'fun-but-pricey', label: 'Fun but pricey' },
-      { id: 'decent-show', label: 'Decent show' },
-      { id: 'long-lines', label: 'Long lines' },
-    ],
-    'probably-skip': [
-      { id: 'not-worth-it', label: 'Not worth it' },
-      { id: 'overpriced', label: 'Overpriced' },
-      { id: 'underwhelming', label: 'Underwhelming' },
-    ],
-  },
+  // Nightlife: bars and clubs, plus shows, zoos and amusement parks.
   'local-life': {
     'highly-recommend': [
       { id: 'great-vibe', label: 'Great vibe' },
-      { id: 'fun-crowd', label: 'Fun crowd' },
+      { id: 'so-much-fun', label: 'So much fun' },
       { id: 'good-drinks', label: 'Good drinks' },
     ],
     'worth-trying': [
       { id: 'decent-night', label: 'Decent night out' },
+      { id: 'fun-but-pricey', label: 'Fun but pricey' },
       { id: 'hit-or-miss', label: 'Hit or miss' },
-      { id: 'pricey-drinks', label: 'Pricey drinks' },
     ],
     'probably-skip': [
       { id: 'dead', label: 'Dead' },
-      { id: 'sketchy', label: 'Sketchy' },
+      { id: 'underwhelming', label: 'Underwhelming' },
       { id: 'overpriced', label: 'Overpriced' },
     ],
   },
@@ -299,6 +282,30 @@ export function chipsFor(landmark, tierId) {
 
 // Label for a saved chip id, for showing old reviews back to the user even
 // after the copy changes.
+// Chips and aspects retired when Art & Museums and Entertainment were folded
+// into Art & Culture and Nightlife: old reviews still carry these ids.
+const RETIRED_LABELS = {
+  'great-curation': 'Great curation',
+  'worth-visiting': 'Worth visiting',
+  'decent-curation': 'Decent curation',
+  'average-experience': 'Average experience',
+  'underwhelming-exhibits': 'Underwhelming exhibits',
+  'not-worth-it': 'Not worth it',
+  'great-storytelling': 'Great storytelling',
+  'okay-exhibits': 'Okay exhibits',
+  'not-maintained': 'Not maintained',
+  'worth-the-ticket': 'Worth the ticket',
+  'great-for-families': 'Great for families',
+  'decent-show': 'Decent show',
+  'long-lines': 'Long lines',
+  'fun-crowd': 'Fun crowd',
+  'pricey-drinks': 'Pricey drinks',
+  sketchy: 'Sketchy',
+  storytelling: 'Storytelling',
+  'crowd-level': 'Crowd level',
+  'fun-factor': 'Fun factor',
+};
+
 export function chipLabel(id) {
   for (const cat of Object.values(CHIPS)) {
     for (const list of Object.values(cat)) {
@@ -306,7 +313,7 @@ export function chipLabel(id) {
       if (hit) return hit.label;
     }
   }
-  return id;
+  return RETIRED_LABELS[id] || id;
 }
 
 // Ranked-aspect options per category. Price and Location are shared; the
@@ -330,12 +337,6 @@ export const ASPECT_SETS = {
     { id: 'location', label: 'Location' },
     { id: 'scenery', label: 'Scenery' },
     { id: 'upkeep', label: 'Upkeep' },
-  ],
-  entertainment: [
-    { id: 'price', label: 'Price' },
-    { id: 'location', label: 'Location' },
-    { id: 'fun-factor', label: 'Fun factor' },
-    { id: 'crowd-level', label: 'Crowd level' },
   ],
   'local-life': [
     { id: 'price', label: 'Price' },
@@ -391,7 +392,7 @@ export function aspectLabel(id) {
     const hit = list.find((a) => a.id === id);
     if (hit) return hit.label;
   }
-  return id;
+  return RETIRED_LABELS[id] || id;
 }
 
 // The question the tier picker answers, phrased around what this specific
@@ -408,7 +409,6 @@ const TIER_QUESTION_FALLBACK = {
   stadiums: 'Do you like this stadium?',
   benches: 'Do you like this bench?',
   'parks-nature': 'Do you like the outdoors here?',
-  entertainment: 'Do you like this place?',
   tech: 'Do you like this piece of tech history?',
   'history-culture': 'Do you like the art and culture here?',
   food: 'Do you like the food here?',

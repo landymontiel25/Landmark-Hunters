@@ -16,10 +16,10 @@
 // to (loud -> nightlife, shows, stadiums), so list every tag that fits.
 export const COMMENT_LEXICON = [
   // --- complaints about an aspect -----------------------------------------
-  { id: 'loud', terms: ['loud', 'too loud', 'noisy', 'too noisy', 'deafening', 'blaring'], tags: ['local-life', 'entertainment', 'stadiums'], valence: -1 },
-  { id: 'crowded', terms: ['crowded', 'too crowded', 'packed', 'overcrowded', 'too many people', 'long lines', 'long line'], tags: ['entertainment', 'local-life', 'stadiums'], valence: -1 },
+  { id: 'loud', terms: ['loud', 'too loud', 'noisy', 'too noisy', 'deafening', 'blaring'], tags: ['local-life', 'stadiums'], valence: -1 },
+  { id: 'crowded', terms: ['crowded', 'too crowded', 'packed', 'overcrowded', 'too many people', 'long lines', 'long line'], tags: ['local-life', 'stadiums'], valence: -1 },
   { id: 'touristy', terms: ['touristy', 'tourist trap', 'overrated'], tags: ['self'], valence: -1 },
-  { id: 'pricey', terms: ['overpriced', 'too expensive', 'expensive', 'rip off', 'ripoff', 'not worth the price'], tags: ['food', 'entertainment', 'local-life'], valence: -1 },
+  { id: 'pricey', terms: ['overpriced', 'too expensive', 'expensive', 'rip off', 'ripoff', 'not worth the price'], tags: ['food', 'local-life'], valence: -1 },
   { id: 'bad-food', terms: ['bad food', 'terrible food', 'awful food', 'bland', 'cold food', 'greasy', 'tasteless', 'food was bad', 'food was terrible'], tags: ['food'], valence: -1 },
   { id: 'slow-service', terms: ['slow service', 'rude staff', 'rude waiter', 'bad service', 'terrible service', 'long wait'], tags: ['food', 'local-life'], valence: -1 },
   { id: 'dirty', terms: ['dirty', 'filthy', 'smelly', 'trash everywhere', 'unclean'], tags: ['self'], valence: -1 },
@@ -32,7 +32,7 @@ export const COMMENT_LEXICON = [
   // --- praise for an aspect ------------------------------------------------
   { id: 'great-food', terms: ['great food', 'amazing food', 'delicious', 'tasty', 'yummy', 'best food', 'incredible food', 'excellent food', 'good food', 'fresh food', 'mouthwatering', 'food was great', 'food was amazing'], tags: ['food'], valence: 1 },
   { id: 'great-drinks', terms: ['great cocktails', 'amazing cocktails', 'great drinks', 'great music', 'great atmosphere', 'great vibe', 'amazing vibe', 'great nightlife', 'fun crowd'], tags: ['local-life'], valence: 1 },
-  { id: 'great-show', terms: ['great show', 'amazing show', 'so fun', 'a blast', 'great for kids', 'kids loved'], tags: ['entertainment'], valence: 1 },
+  { id: 'great-show', terms: ['great show', 'amazing show', 'so fun', 'a blast', 'great for kids', 'kids loved'], tags: ['local-life'], valence: 1 },
   { id: 'great-game', terms: ['great game', 'amazing game', 'electric atmosphere', 'great seats'], tags: ['stadiums', 'sports'], valence: 1 },
   { id: 'beautiful-nature', terms: ['beautiful views', 'great views', 'amazing views', 'peaceful', 'serene', 'gorgeous scenery', 'relaxing', 'beautiful trail', 'beautiful park', 'great hike'], tags: ['parks-nature'], valence: 1 },
   { id: 'history', terms: ['fascinating history', 'so much history', 'rich history', 'learned a lot', 'beautiful architecture', 'great history', 'historic'], tags: ['history-culture'], valence: 1 },

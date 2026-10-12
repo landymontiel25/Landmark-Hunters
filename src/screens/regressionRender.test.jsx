@@ -194,7 +194,7 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
         btn().click();
       });
     };
-    expect(btn().textContent.trim()).toBe('\u{2705}');
+    expect(btn().textContent.trim()).toBe('\u{2705} Checked in');
     await click();
     expect(btn().textContent).toContain('\u{2191}');
     expect(first()).not.toContain('Corr Hall Arch');
@@ -202,7 +202,7 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     expect(btn().textContent).toContain('\u{2193}');
     expect(first()).toContain('Corr Hall Arch');
     await click();
-    expect(btn().textContent.trim()).toBe('\u{2705}');
+    expect(btn().textContent.trim()).toBe('\u{2705} Checked in');
   }, 40000);
 
   it('opens on every landmark, not a city saved from an earlier visit', async () => {

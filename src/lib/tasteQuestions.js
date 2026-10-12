@@ -33,13 +33,6 @@ export const TASTE_QUESTIONS = [
     examples: ['Hiking trails', 'Scenic views', 'Beaches', 'Gardens'],
   },
   {
-    id: 'entertainment',
-    label: 'Entertainment',
-    icon: '\u{1F39F}\u{FE0F}',
-    prompt: 'Like or hate any of these?',
-    examples: ['Live music', 'Comedy shows', 'Theme parks', 'Aquariums', 'Crowds / long lines'],
-  },
-  {
     id: 'sports',
     label: 'Sports',
     icon: '\u{1F3C0}',
@@ -51,7 +44,7 @@ export const TASTE_QUESTIONS = [
     label: 'Nightlife',
     icon: '\u{1F378}',
     prompt: 'Like or hate any of these?',
-    examples: ['Nightlife / clubs', 'Dive bars', 'Farmers markets', 'Luxury / fancy spots'],
+    examples: ['Nightlife / clubs', 'Dive bars', 'Live music', 'Comedy shows', 'Theme parks', 'Crowds / long lines'],
   },
 ];
 

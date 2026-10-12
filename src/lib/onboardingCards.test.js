@@ -18,14 +18,14 @@ describe('onboarding swipe cards', () => {
     expect(new Set(deck.map((c) => c.word)).size).toBe(ALL_SWIPE_CARDS.length);
   });
 
-  it('has all 39 listed cards across 6 groups, each scoring a real category tag', () => {
-    expect(SWIPE_GROUPS).toHaveLength(6);
+  it('has all 39 listed cards across 5 groups, each scoring a real category tag', () => {
+    expect(SWIPE_GROUPS).toHaveLength(5);
     expect(ALL_SWIPE_CARDS).toHaveLength(39);
     const tags = new Set(INTERESTS.map((i) => i.id));
     for (const c of ALL_SWIPE_CARDS) expect(tags.has(c.tag)).toBe(true);
   });
 
-  it('picks 15-18 cards, 2-3 per group, no repeats', () => {
+  it('picks 15-18 cards, 3-4 per group, no repeats', () => {
     for (let run = 0; run < 200; run += 1) {
       const picked = pickSwipeCards();
       expect(picked.length).toBeGreaterThanOrEqual(15);
@@ -33,8 +33,8 @@ describe('onboarding swipe cards', () => {
       expect(new Set(picked.map((c) => c.word)).size).toBe(picked.length);
       for (const g of SWIPE_GROUPS) {
         const n = picked.filter((c) => c.group === g.id).length;
-        expect(n).toBeGreaterThanOrEqual(2);
-        expect(n).toBeLessThanOrEqual(3);
+        expect(n).toBeGreaterThanOrEqual(3);
+        expect(n).toBeLessThanOrEqual(4);
       }
     }
   });

@@ -42,7 +42,7 @@ describe('registered imported places', () => {
   it('cover every category under test with a real Mapr tag', () => {
     const ids = new Set(INTERESTS.map((i) => i.id));
     expect(new Set(fixtures.map((f) => f.categories[0]))).toEqual(
-      new Set(['food', 'local-life', 'entertainment', 'stadiums', 'sports', 'parks-nature', 'history-culture'])
+      new Set(['food', 'local-life', 'stadiums', 'sports', 'parks-nature', 'history-culture'])
     );
     for (const f of fixtures) expect(ids.has(f.categories[0])).toBe(true);
   });

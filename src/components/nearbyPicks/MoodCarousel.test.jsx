@@ -36,11 +36,11 @@ describe('MoodCarousel', () => {
     expect(labels.some((l) => l.includes('Tech spots'))).toBe(true);
   });
 
-  it('shows the moods it is given: eating, entertainment, and no tech spots in the Test tab', async () => {
+  it('shows the moods it is given: eating first and no tech spots on the Map', async () => {
     const el = await render({ moods: TEST_MOODS });
     const labels = [...el.querySelectorAll('.mpp-mood')].map((b) => b.textContent);
     expect(labels[0]).toContain('Something to eat');
-    expect(labels[1]).toContain('Entertainment');
+    expect(labels[1]).toContain('Art & culture');
     expect(labels.some((l) => l.includes('Tech spots'))).toBe(false);
     expect(el.querySelector('.mpp-section-title').textContent).toBe('What are you in the mood for?');
   });

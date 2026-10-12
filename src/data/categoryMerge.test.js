@@ -18,6 +18,12 @@ describe('Art & Museums folded into Art & Culture', () => {
   });
 });
 
+it('folds Entertainment into Nightlife', () => {
+  expect(ALL_LANDMARKS.some((l) => l.categories?.includes('entertainment'))).toBe(false);
+  expect(INTERESTS.find((i) => i.id === 'local-life')?.label).toBe('Nightlife');
+  expect(migrateInterests(['entertainment'])).toEqual(['local-life']);
+});
+
 it('keeps switched-off categories out of every picker', () => {
   const ids = PICKABLE_INTERESTS.map((i) => i.id);
   for (const off of ['benches', 'stadiums', 'campus-life', 'airports', 'formula-1']) expect(ids).not.toContain(off);
