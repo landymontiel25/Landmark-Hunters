@@ -2,7 +2,7 @@ import { doc, getDoc, setDoc, writeBatch, increment, serverTimestamp, getDocs, c
 import { db } from './firebase';
 import { findUserByUsername } from './friends';
 // Dynamic, not static: this file is reachable from AuthContext (eager,
-// app-wide) via recordReferralIfPending, while awardLeaderboardPoints is
+// app-wide) via recordReferralIfPending, while addLeaderboardPointsToBatch is
 // only ever needed by claimMyReferralBonuses (called from Profile, already
 // lazy). A static import here would drag leaderboard.js -- and, through it,
 // geo.js's REGIONS catalog -- into the eager bundle for every page load.
