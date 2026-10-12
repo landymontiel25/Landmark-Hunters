@@ -1,6 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { sportIconFor } from '../lib/landmarkVisuals';
-import { landmarkCountText } from '../lib/landmarkCountText';
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
 import { useTrip } from '../lib/TripContext';
@@ -618,25 +617,16 @@ export default function LandmarkSelection() {
   return (
     <div>
       <h1 className="screen-title">
-        <span>{'\u{1F4CD}'}</span> Choose Landmarks
+        <span>{'\u{1F4CD}'}</span> Landmarks ({landmarks.length})
       </h1>
-      <p className="screen-subtitle">
-        {drawnShape ? (
-          <>
-            {'\u{270F}\u{FE0F}'} {landmarks.length} {landmarks.length === 1 ? 'landmark' : 'landmarks'} in the area you drew on the Map
-            <button type="button" className="lm-drawn-cancel" aria-label="Cancel the drawn area" title="Cancel the drawn area" onClick={() => setDrawnArea(null)}>
-              {'\u{2715}'}
-            </button>
-          </>
-        ) : (
-          landmarkCountText({
-            count: landmarks.length,
-            matchingInterests: activeCategories.length > 0,
-            searching: search.trim().length > 0,
-            cityFiltered: scope.key !== 'all',
-          })
-        )}
-      </p>
+      {drawnShape && (
+        <p className="screen-subtitle">
+          {'\u{270F}\u{FE0F}'} In the area you drew on the Map
+          <button type="button" className="lm-drawn-cancel" aria-label="Cancel the drawn area" title="Cancel the drawn area" onClick={() => setDrawnArea(null)}>
+            {'\u{2715}'}
+          </button>
+        </p>
+      )}
 
       <button
         type="button"
