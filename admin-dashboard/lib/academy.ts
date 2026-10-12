@@ -19,7 +19,7 @@ export interface AcademyCard {
   title: string;
   rows: AcademyRow[];
   status: AppMetricCard['status'];
-  table?: { label: string; active: number; newUsers: number }[];
+  table?: { label: string; active: number; activeOutside?: number; newUsers: number }[];
   note?: string;
 }
 
@@ -46,7 +46,7 @@ export function academyCards(metrics: AppMetricCard[]): AcademyCard[] {
       title: 'Mapr match rate',
       status: matchVal == null ? 'unknown' : matchVal >= MATCH_TARGET_PCT ? 'met' : 'missed',
       rows: [
-        { label: 'Picks users rated positively', value: shown(match), detail: `Target ${MATCH_TARGET_PCT}% · based on ${basedOn(match) ?? 'no users yet'}` },
+        { label: 'Picks users rated positively', value: shown(match), detail: `Target ${MATCH_TARGET_PCT}% · based on ${basedOn(match) ?? 'no users yet'} · founder and family left out` },
         ...(base ? [{ label: base.label || 'Baseline', value: `${Number(base.value.toFixed(1))}${base.unit || '%'}` }] : []),
       ],
       note: matchVal == null ? match?.note || 'Needs users with 10 or more ratings on Mapr picks.' : undefined,
@@ -61,7 +61,9 @@ export function academyCards(metrics: AppMetricCard[]): AcademyCard[] {
         { label: 'Day 7', value: shown(d7), detail: basedOn(d7), status: retentionStatus(d7) },
         { label: 'Day 30', value: shown(d30), detail: basedOn(d30), status: retentionStatus(d30) },
       ],
-      note: [d1, d7, d30].every((m) => num(m) == null) ? 'Needs users whose day 1, 7 or 30 has passed since open tracking began.' : undefined,
+      note: [d1, d7, d30].every((m) => num(m) == null)
+        ? 'Needs users outside the family whose day 1, 7 or 30 has passed since open tracking began.'
+        : 'Accounts created since open tracking began, founder and family left out.',
     },
     {
       key: 'users',
@@ -71,10 +73,11 @@ export function academyCards(metrics: AppMetricCard[]): AcademyCard[] {
       rows: weekly
         ? [
             { label: 'Active users, last 7 days', value: shown(weekly, 0), detail: 'Opened the app or rated in the last 7 days' },
+            { label: 'Active users outside family', value: weekly.activeOutside == null ? 'Not measured yet' : String(weekly.activeOutside), detail: 'The same, founder and family left out' },
             { label: 'New users, last 7 days', value: weekly.newUsers == null ? 'Not measured yet' : String(weekly.newUsers), detail: basedOn(weekly) ? `${weekly.n} ${weekly.nLabel} so far` : undefined },
           ]
         : [{ label: 'Active users, last 7 days', value: 'Not measured yet' }],
-      table: weekly?.weekly?.map((w) => ({ label: w.weekEnding, active: w.active, newUsers: w.newUsers })),
+      table: weekly?.weekly?.map((w) => ({ label: w.weekEnding, active: w.active, activeOutside: w.activeOutside, newUsers: w.newUsers })),
       note: 'Counts of people, not percentages, so a small sample reads as it is.',
     },
     {
@@ -82,7 +85,12 @@ export function academyCards(metrics: AppMetricCard[]): AcademyCard[] {
       question: 'Is Mapr collecting the taste data that improves it?',
       title: 'Ratings per active user per week',
       status: 'unknown',
-      rows: [{ label: 'Last 7 days', value: shown(rpw, 2), detail: basedOn(rpw) ? `Based on ${basedOn(rpw)}` : undefined }],
+      rows: [
+        { label: 'Last 7 days', value: shown(rpw, 2), detail: basedOn(rpw) ? `Based on ${basedOn(rpw)}` : undefined },
+        ...(rpw?.outside
+          ? [{ label: 'Outside family', value: rpw.outside.value == null ? 'Not measured yet' : String(Number(rpw.outside.value.toFixed(2))), detail: `Based on ${rpw.outside.n} active users outside family` }]
+          : []),
+      ],
       note: num(rpw) == null ? rpw?.note : undefined,
     },
     {

@@ -3,6 +3,22 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Founder and family accounts in the owner stats (needs the UIDs)
+
+`src/lib/familyAccounts.js` holds `FAMILY_UIDS`, the founder and family
+accounts the admin dashboard leaves out of retention (Academy tab, Retention
+page) and the Mapr match rate (Academy, Overview, Mapr Phase 1 page, Slack
+alert). Active users and ratings per active user show the total plus an
+"outside family" line. The list shipped empty: the owner needs to send the
+Firebase Auth UIDs (theirs, their dad's, other family) and a PR adds them.
+Until then every number still includes those accounts.
+
+The Retention page cohorts now use the Academy rule (adminStats.js
+`retentionUsers`): accounts created since open tracking began (2026-10-01),
+opened ON day N. Accounts older than tracking stay out, never back-dated.
+The Accuracy page's per-category match rate, the Mapr skip/CTR/A/B numbers
+and the long study still include family accounts.
+
 ## Categories: Art & Culture merge, four switched off (2026-10-12)
 
 Owner asked to merge Art & Museums into History & Culture as "Art &
