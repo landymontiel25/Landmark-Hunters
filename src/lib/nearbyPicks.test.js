@@ -266,7 +266,7 @@ describe('fallback reason', () => {
 
   it('explains a chained pick by its link', () => {
     expect(fallbackReason(pick('a', { chain: { from: 'art-museums', to: 'food', count: 3 } }))).toBe(
-      'You often go for Food after Art & Museums.'
+      'You often go for Food after Art & Culture.'
     );
   });
 });

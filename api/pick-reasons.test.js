@@ -10,7 +10,7 @@ describe('pick-reasons', () => {
       { region: 'villanova', id: 'st-thomas-of-villanova-church', chainFrom: 'food' },
     ]);
     expect([...keys]).toEqual(['villanova/st-thomas-of-villanova-church', 'villanova/the-villanova-grotto']);
-    expect(lines[0]).toContain('St. Thomas of Villanova Church | History & Culture | usual');
+    expect(lines[0]).toContain('St. Thomas of Villanova Church | Art & Culture | usual');
     expect(lines[1]).toContain('| new |');
   });
 

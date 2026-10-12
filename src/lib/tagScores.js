@@ -1,4 +1,4 @@
-import { ALL_LANDMARKS } from '../data/regions.js';
+import { ALL_LANDMARKS, CATEGORY_ALIASES } from '../data/regions.js';
 import { AWAY_VOTE_MILES, AWAY_VOTE_WEIGHT, RATING_TAG_DELTA, TAP_TAG_DELTA } from './maprConstants.js';
 
 // Per-region tag scoring for Mapr Picks. A "tag" is a landmark's category id
@@ -263,7 +263,11 @@ function decayedRegion(profile, region, nowMs) {
   const at = profile?.tagScoresAt?.[region] || {};
   const out = {};
   for (const [tag, raw] of Object.entries(scores)) {
-    out[tag] = clampScore(Number(raw) || 0) * decayFactor(at[tag], nowMs);
+    const v = clampScore(Number(raw) || 0) * decayFactor(at[tag], nowMs);
+    // A retired category (art-museums) reads as the one it folded into;
+    // when both have a score, the stronger one wins.
+    const key = CATEGORY_ALIASES[tag] || tag;
+    if (!(key in out) || Math.abs(v) > Math.abs(out[key])) out[key] = v;
   }
   return out;
 }
@@ -689,7 +693,7 @@ export function settleShownPicks(profile, { engagedIds = [], today, nowMs = Date
 export const TIME_SLOTS = [
   { id: 'morning', label: 'morning (6-11am)', start: 6, end: 11, boosts: { 'parks-nature': 1.2, 'history-culture': 1.1 } },
   { id: 'lunch', label: 'lunch (11am-2pm)', start: 11, end: 14, boosts: { food: 1.3 } },
-  { id: 'afternoon', label: 'afternoon (2-5pm)', start: 14, end: 17, boosts: { 'art-museums': 1.2, 'history-culture': 1.2 } },
+  { id: 'afternoon', label: 'afternoon (2-5pm)', start: 14, end: 17, boosts: { 'history-culture': 1.2 } },
   { id: 'dinner', label: 'dinner (5-8pm)', start: 17, end: 20, boosts: { food: 1.3 } },
   { id: 'night', label: 'night (8pm-3am)', start: 20, end: 27, boosts: { 'local-life': 1.3, entertainment: 1.2 } },
 ];

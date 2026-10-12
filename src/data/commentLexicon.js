@@ -27,7 +27,7 @@ export const COMMENT_LEXICON = [
   { id: 'unsafe', terms: ['unsafe', 'sketchy', 'dangerous', 'felt unsafe'], tags: ['self'], valence: -1 },
   { id: 'small', terms: ['too small', 'tiny', 'cramped'], tags: ['self'], valence: -1 },
   { id: 'nature-complaint', terms: ['too hot', 'too muddy', 'overgrown', 'buggy', 'mosquitoes'], tags: ['parks-nature'], valence: -1 },
-  { id: 'dated-museum', terms: ['stuffy', 'outdated exhibits', 'dusty'], tags: ['art-museums', 'history-culture'], valence: -1 },
+  { id: 'dated-museum', terms: ['stuffy', 'outdated exhibits', 'dusty'], tags: ['history-culture'], valence: -1 },
 
   // --- praise for an aspect ------------------------------------------------
   { id: 'great-food', terms: ['great food', 'amazing food', 'delicious', 'tasty', 'yummy', 'best food', 'incredible food', 'excellent food', 'good food', 'fresh food', 'mouthwatering', 'food was great', 'food was amazing'], tags: ['food'], valence: 1 },
@@ -36,7 +36,7 @@ export const COMMENT_LEXICON = [
   { id: 'great-game', terms: ['great game', 'amazing game', 'electric atmosphere', 'great seats'], tags: ['stadiums', 'sports'], valence: 1 },
   { id: 'beautiful-nature', terms: ['beautiful views', 'great views', 'amazing views', 'peaceful', 'serene', 'gorgeous scenery', 'relaxing', 'beautiful trail', 'beautiful park', 'great hike'], tags: ['parks-nature'], valence: 1 },
   { id: 'history', terms: ['fascinating history', 'so much history', 'rich history', 'learned a lot', 'beautiful architecture', 'great history', 'historic'], tags: ['history-culture'], valence: 1 },
-  { id: 'art', terms: ['great exhibit', 'amazing exhibit', 'beautiful art', 'great collection', 'amazing art', 'inspiring art'], tags: ['art-museums'], valence: 1 },
+  { id: 'art', terms: ['great exhibit', 'amazing exhibit', 'beautiful art', 'great collection', 'amazing art', 'inspiring art'], tags: ['history-culture'], valence: 1 },
   { id: 'tech', terms: ['great innovation', 'inspiring tech', 'cool tech', 'startup energy'], tags: ['tech'], valence: 1 },
 
   // --- general sentiment about the place itself ---------------------------

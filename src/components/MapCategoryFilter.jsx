@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { INTERESTS } from '../data/regions';
+import { PICKABLE_INTERESTS } from '../data/regions';
 import { matchesSearch } from '../lib/search';
 
-// Categories hidden from this filter for now. Their landmarks still show
-// on the map under "All landmarks"; remove an id here to bring it back.
-const HIDDEN_CATEGORIES = new Set(['formula-1', 'benches']);
-const FILTER_INTERESTS = INTERESTS.filter((i) => !HIDDEN_CATEGORIES.has(i.id));
+// Hidden categories (HIDDEN_INTEREST_IDS in data/regions.js) stay out of
+// this filter; their landmarks still show under "All landmarks".
+const FILTER_INTERESTS = PICKABLE_INTERESTS;
 
 // The map's category filter: one solid control naming what's showing
 // ("All landmarks", one category, or "3 categories"). Tapping it drops
