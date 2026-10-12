@@ -75,7 +75,7 @@ describe('PicksBottomSheet', () => {
     expect(cards[0].textContent).toContain('Reason a');
     expect(cards[0].textContent).toContain('Directions');
     expect(cards[2].textContent).toContain('Something new');
-    expect(cards[3].querySelector('.mpp-chain').textContent).toContain('Art & Museums');
+    expect(cards[3].querySelector('.mpp-chain').textContent).toContain('Art & Culture');
   });
 
   it('never shows the chain label unless asked (real tabs)', async () => {
@@ -323,6 +323,37 @@ describe('PicksBottomSheet', () => {
       now = 10050;
       await act(async () => grip.dispatchEvent(ev('pointerup', 160)));
       expect(onMinimizedChange).toHaveBeenLastCalledWith(true);
+      spy.mockRestore();
+    });
+
+    it('pulling down on the list from its top drags the sheet down; scrolling the list does not', async () => {
+      let now = 1000;
+      const spy = vi.spyOn(Date, 'now').mockImplementation(() => now);
+      const onMinimizedChange = vi.fn();
+      const el = await render({ picks: PICKS, layout: 'mood-first', moodSlot: MOODS, expanded: true, onExpandedChange: vi.fn(), onMinimizedChange });
+      const list = el.querySelector('.mpp-sheet-scroll');
+      const sheet = el.querySelector('.mpp-sheet');
+      Object.defineProperty(sheet, 'offsetHeight', { value: 400, configurable: true });
+      const touch = (type, y) => {
+        const e = new Event(type, { bubbles: true });
+        e.touches = type === 'touchend' ? [] : [{ clientY: y }];
+        return e;
+      };
+      // At the top, pulling down follows the finger and a long pull closes it.
+      await act(async () => list.dispatchEvent(touch('touchstart', 100)));
+      await act(async () => list.dispatchEvent(touch('touchmove', 200)));
+      expect(sheet.classList.contains('dragging')).toBe(true);
+      await act(async () => list.dispatchEvent(touch('touchmove', 420)));
+      now = 9000;
+      await act(async () => list.dispatchEvent(touch('touchend')));
+      expect(onMinimizedChange).toHaveBeenLastCalledWith(true);
+      // Scrolled down the list: the same pull just scrolls.
+      onMinimizedChange.mockClear();
+      list.scrollTop = 120;
+      await act(async () => list.dispatchEvent(touch('touchstart', 100)));
+      await act(async () => list.dispatchEvent(touch('touchmove', 300)));
+      await act(async () => list.dispatchEvent(touch('touchend')));
+      expect(onMinimizedChange).not.toHaveBeenCalled();
       spy.mockRestore();
     });
 

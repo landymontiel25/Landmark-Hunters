@@ -64,3 +64,10 @@ touching `public/places/` or `scripts/osm-import/`. The owner's standing rules:
   finished batch so a usage limit or crash loses nothing, and stop at a
   clean, merged point if the run heads well past the budget.
 - Report times to the owner in Eastern Time.
+- Every mall comes with its stores (owner, 2026-10-10). A place the import
+  maps as a mall (topic 'mall') or a hand-picked one marked `mall: true` needs
+  its store list researched in the same run: add it to
+  `scripts/osm-import/research/malls/` (store names a result places at that
+  mall, the directory URL, 1-2 tags each) and run
+  `node scripts/build-mall-stores.mjs`. `src/data/mallStores.test.js` fails
+  while any mall has none.

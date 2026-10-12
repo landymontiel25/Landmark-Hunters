@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUnits, formatDistance } from '../../lib/UnitsContext';
 import { categoryLabel } from '../../lib/nearbyPicks';
 import { primaryCategory } from '../../lib/preferenceChains';
-import { iconFor, paletteFor } from '../../lib/landmarkVisuals';
+import { landmarkIcon, paletteFor } from '../../lib/landmarkVisuals';
 import DirectionsButton from '../DirectionsButton';
 import { usePlacePhoto } from '../../lib/usePlacePhoto';
 import PlacePhotoCredit from '../PlacePhotoCredit';
@@ -49,7 +49,7 @@ export function PickPhoto({ pick, className }) {
   const [from, to] = paletteFor(pick.id);
   return (
     <span ref={place.ref} className={`${className} mpp-img-tile`} style={{ background: `linear-gradient(135deg, ${from}, ${to})` }} aria-hidden="true">
-      {iconFor(pick.categories)}
+      {landmarkIcon(pick)}
     </span>
   );
 }

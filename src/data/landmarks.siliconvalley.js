@@ -930,6 +930,8 @@ export const SILICONVALLEY_LANDMARKS = [
   },
   {
     id: "santana-row",
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     editorialRank: 45,
     popularity: 6,
     cost: "Free",

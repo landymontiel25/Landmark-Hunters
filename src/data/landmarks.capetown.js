@@ -68,6 +68,8 @@ export const CAPETOWN_LANDMARKS = [
   },
   {
     id: "va-waterfront",
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     editorialRank: 4,
     popularity: 10,
     cost: "Free",

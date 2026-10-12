@@ -94,9 +94,9 @@ describe('cross-region warm start', () => {
   });
 
   it('fades out as local ratings reach 15', () => {
-    const half = { ...miamiFood, tagCounts: { milan: { 'art-museums': 7.5 } } };
+    const half = { ...miamiFood, tagCounts: { milan: { 'entertainment': 7.5 } } };
     expect(effectiveTagScores(half, 'milan', T0).food).toBeCloseTo(20);
-    const done = { ...miamiFood, tagCounts: { milan: { 'art-museums': 15 } } };
+    const done = { ...miamiFood, tagCounts: { milan: { 'entertainment': 15 } } };
     expect(effectiveTagScores(done, 'milan', T0).food).toBeUndefined();
   });
 
@@ -124,11 +124,11 @@ describe('decay and boosts', () => {
 
   it('keeps regions separate once a region has 15 ratings of its own', () => {
     const profile = {
-      tagScores: { milan: { food: 40 }, miami: { 'art-museums': 10 } },
-      tagScoresAt: { milan: { food: T0 }, miami: { 'art-museums': T0 } },
-      tagCounts: { miami: { 'art-museums': 15 } },
+      tagScores: { milan: { food: 40 }, miami: { 'entertainment': 10 } },
+      tagScoresAt: { milan: { food: T0 }, miami: { 'entertainment': T0 } },
+      tagCounts: { miami: { 'entertainment': 15 } },
     };
-    expect(effectiveTagScores(profile, 'miami', T0)).toEqual({ 'art-museums': 10 });
+    expect(effectiveTagScores(profile, 'miami', T0)).toEqual({ 'entertainment': 10 });
   });
 });
 
@@ -183,7 +183,7 @@ describe('localTagPicks', () => {
 
 describe('pendingCapPrompt', () => {
   it('asks about a capped tag until it is answered', () => {
-    const profile = { tagScores: { milan: { food: 100, 'art-museums': 40 } } };
+    const profile = { tagScores: { milan: { food: 100, 'entertainment': 40 } } };
     expect(pendingCapPrompt(profile)).toEqual({ region: 'milan', tag: 'food' });
     expect(pendingCapPrompt({ ...profile, tagBoosts: { milan: { food: 'no' } } })).toBeNull();
   });
@@ -225,7 +225,7 @@ describe('shortlists', () => {
   });
 
   it('limits one tag to 12 of the 30 slots, 18 when boosted', () => {
-    const scores = { 'history-culture': 90, food: 10, 'art-museums': 5 };
+    const scores = { 'history-culture': 90, food: 10, 'entertainment': 5 };
     const count = (list, tag) => list.filter((l) => l.categories[0] === tag).length;
     const plain = scoreShortlist({ scores, region: 'milan' });
     expect(plain).toHaveLength(30);
@@ -241,8 +241,8 @@ describe('shortlists', () => {
 
   it('ranks a close score backed by more ratings first', () => {
     const list = scoreShortlist({
-      scores: { food: 10, 'art-museums': 11 },
-      tagCounts: { food: 20, 'art-museums': 1 },
+      scores: { food: 10, 'entertainment': 11 },
+      tagCounts: { food: 20, 'entertainment': 1 },
       region: 'milan',
     });
     expect(list[0].categories[0]).toBe('food');
@@ -250,14 +250,14 @@ describe('shortlists', () => {
   });
 
   it('holds 4 wildcard slots for barely-rated, not-disliked tags', () => {
-    const scores = { 'history-culture': 90, food: 10, 'art-museums': 5, 'parks-nature': -10 };
+    const scores = { 'history-culture': 90, food: 10, 'entertainment': 5, 'parks-nature': -10 };
     const list = scoreShortlist({ scores, region: 'milan', random: () => 0 });
     const wild = list.filter((l) => l.wildcard);
     expect(list).toHaveLength(30);
     expect(wild).toHaveLength(4);
     expect(new Set(wild.map((l) => l.categories[0])).size).toBe(4);
     for (const l of wild) {
-      expect(['history-culture', 'food', 'art-museums', 'parks-nature']).not.toContain(l.categories[0]);
+      expect(['history-culture', 'food', 'entertainment', 'parks-nature']).not.toContain(l.categories[0]);
     }
   });
 
@@ -269,12 +269,12 @@ describe('shortlists', () => {
   });
 
   it('cold start puts signup interests first, most-visited first', () => {
-    const arts = milan.filter((l) => l.categories[0] === 'art-museums');
+    const arts = milan.filter((l) => l.categories[0] === 'history-culture');
     const busiest = arts.at(-1);
-    const list = coldStartShortlist({ region: 'milan', interests: ['art-museums'], checkinCounts: { [busiest.id]: 7 } });
+    const list = coldStartShortlist({ region: 'milan', interests: ['history-culture'], checkinCounts: { [busiest.id]: 7 } });
     expect(list[0].id).toBe(busiest.id);
     // At most 12 per tag are taken, so only that many are guaranteed to lead the list.
-    expect(list.slice(0, Math.min(arts.length, 12)).every((l) => l.categories[0] === 'art-museums')).toBe(true);
+    expect(list.slice(0, Math.min(arts.length, 12)).every((l) => l.categories[0] === 'history-culture')).toBe(true);
   });
 
   it('uses cold start only when the region has no rating signal', () => {

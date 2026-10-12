@@ -21,6 +21,8 @@ export const MILAN_LANDMARKS = [
   },
   {
     id: 'galleria-vittorio-emanuele-ii',
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     editorialRank: 2,
     popularity: 10, // rank 2 of 50
     cost: 'Free',

@@ -87,6 +87,7 @@ function getCityItems() {
       text: [
         [r.name, r.city, r.country].filter(Boolean).join(', '),
         r.tagline,
+        r.searchNames?.length ? `also called ${r.searchNames.join(', ')}` : null,
         `known for ${[...(r.landmarks || [])]
           .sort((a, b) => (b.popularity || 0) - (a.popularity || 0))
           .slice(0, 5)

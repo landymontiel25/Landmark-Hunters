@@ -1,9 +1,9 @@
 {
  "category": "art-museums",
- "count": 19,
+ "count": 20,
  "commonsPhotos": 3,
- "commonsPhotoPct": 15.8,
- "withFacts": 19,
+ "commonsPhotoPct": 15,
+ "withFacts": 20,
  "withHours": 6,
  "photoSkips": [],
  "sample": [
@@ -267,6 +267,20 @@
     "Address: 2612 Northwest 2nd Avenue, Miami"
    ],
    "osmUrl": "https://www.openstreetmap.org/node/4249047169"
+  },
+  {
+   "id": "osm-w313369992",
+   "name": "Lighthouse Keepers Cottage",
+   "topic": "museum",
+   "lat": 25.666456,
+   "lng": -80.156371,
+   "photo": false,
+   "facts": [
+    "The first brick keeper's cottage at Cape Florida was finished in 1825.",
+    "Burned in an 1836 Seminole attack, the cottage was rebuilt under Reason Duke and completed in 1846.",
+    "Six families of lighthouse keepers lived in the cottage in turn until 1878."
+   ],
+   "osmUrl": "https://www.openstreetmap.org/way/313369992"
   }
  ],
  "points": [
@@ -363,6 +377,11 @@
   [
    25.79944,
    -80.19512,
+   0
+  ],
+  [
+   25.666456,
+   -80.156371,
    0
   ]
  ]

@@ -6,14 +6,15 @@ import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { PLACE_PACKS } from '../data/placePacks.manifest.js';
-import { ALL_LANDMARKS, INTERESTS, getRegion, registerPlaces, getLandmark } from '../data/regions.js';
+import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS, getRegion, registerPlaces, getLandmark } from '../data/regions.js';
 import { insideShape } from '../../scripts/osm-import/transform.js';
 import { IMPORT_REGIONS } from '../../scripts/osm-import/regions.js';
 import { isNearEnough } from './checkinRules.js';
 import { tierQuestion } from './ratingFlow.js';
 import { applyRating } from './tagScores.js';
 
-const CATEGORY_IDS = new Set(INTERESTS.map((i) => i.id));
+// Retired ids (art-museums) still ship in pack files; the app maps them on load.
+const CATEGORY_IDS = new Set([...INTERESTS.map((i) => i.id), ...Object.keys(CATEGORY_ALIASES)]);
 const catalogIds = new Set(ALL_LANDMARKS.map((l) => `${l.regionId}/${l.id}`));
 const packs = PLACE_PACKS.map((p) => ({ ...p, places: JSON.parse(fs.readFileSync(path.join('public', p.file), 'utf8')) }));
 const all = packs.flatMap((p) => p.places);
@@ -34,7 +35,9 @@ describe.runIf(packs.length)('shipped place chunks', () => {
 
   it('have the catalog landmark shape', () => {
     for (const l of all) {
-      expect(l.id).toMatch(/^osm-[nwr]\d+$/);
+      // An OSM object's id, or a researched place located at its address
+      // (locate-candidates.mjs addressFallback): osm-<import region>-<name>.
+      expect(l.id).toMatch(/^osm-([nwr]\d+|kb-[a-z0-9-]+)$/);
       expect(typeof l.name).toBe('string');
       expect(l.name.trim()).toBe(l.name);
       expect(l.name.length).toBeGreaterThan(0);
@@ -55,12 +58,16 @@ describe.runIf(packs.length)('shipped place chunks', () => {
 
   it('sit inside their import region\'s shape, in the app region it assigns', () => {
     for (const p of packs) {
+      // The first import region filling this app region, plus any research
+      // region merged into it (regions.js mergeFrom, e.g. Key Biscayne).
       const [id, region] = Object.entries(IMPORT_REGIONS).find(([, r]) => r.packRegions.includes(p.region)) || [];
       expect(region, `no import region fills ${p.region}`).toBeTruthy();
+      const shapes = [region, ...(region.mergeFrom || []).map((m) => IMPORT_REGIONS[m])];
       for (const l of p.places) {
         expect(l.region).toBe(p.region);
-        expect(insideShape(l.lat, l.lng, region.shape), `${l.name} (${id})`).toBe(true);
-        expect(region.packRegionOf(l.lat, l.lng)).toBe(l.region);
+        const from = shapes.find((r) => insideShape(l.lat, l.lng, r.shape));
+        expect(from, `${l.name} (${id})`).toBeTruthy();
+        expect(from.packRegionOf(l.lat, l.lng)).toBe(l.region);
       }
     }
   });

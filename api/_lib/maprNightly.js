@@ -1,5 +1,5 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { ALL_LANDMARKS } from '../../src/data/regions.js';
+import { ALL_LANDMARKS, canonicalRegionId } from '../../src/data/regions.js';
 import { placeKinds } from '../../src/lib/placeKinds.js';
 import { loadStatsData } from './statsData.js';
 import {
@@ -48,11 +48,11 @@ export function ncfPositives(ds) {
   const out = [];
   for (const c of ds.checkins || []) {
     if (c.ratingOnly === true || !c.region || !c.landmarkId || !Number.isFinite(c.createdAt)) continue;
-    out.push({ userId: c.userId, itemKey: `${c.region}/${c.landmarkId}`, at: c.createdAt });
+    out.push({ userId: c.userId, itemKey: `${canonicalRegionId(c.region)}/${c.landmarkId}`, at: c.createdAt });
   }
   for (const r of ds.reviews || []) {
     if (!TIER_OK.has(r.ratingTier) || !r.region || !r.landmarkId || !Number.isFinite(reviewAt(r))) continue;
-    out.push({ userId: r.userId, itemKey: `${r.region}/${r.landmarkId}`, at: reviewAt(r) });
+    out.push({ userId: r.userId, itemKey: `${canonicalRegionId(r.region)}/${r.landmarkId}`, at: reviewAt(r) });
   }
   return out;
 }
@@ -66,14 +66,14 @@ export function computeAllSimilarity(ds, { now = Date.now(), landmarks = ALL_LAN
     if (!byRegion.has(l.regionId)) byRegion.set(l.regionId, []);
     byRegion.get(l.regionId).push({ id: l.id, features: landmarkFeatures(l, placeKinds) });
   }
-  const visits = (ds.checkins || []).filter((c) => c.ratingOnly !== true && c.region && c.landmarkId).map((c) => ({ userId: c.userId, landmarkId: c.landmarkId, region: c.region, at: c.createdAt }));
+  const visits = (ds.checkins || []).filter((c) => c.ratingOnly !== true && c.region && c.landmarkId).map((c) => ({ userId: c.userId, landmarkId: c.landmarkId, region: canonicalRegionId(c.region), at: c.createdAt }));
   const liked = (ds.reviews || []).filter((r) => TIER_OK.has(r.ratingTier) && r.region && r.landmarkId);
   const regions = {};
   for (const [region, list] of byRegion) {
     const res = computeRegionSimilarity({
       visits: visits.filter((v) => v.region === region),
       landmarks: list,
-      rowOwners: liked.filter((r) => r.region === region).map((r) => r.landmarkId),
+      rowOwners: liked.filter((r) => canonicalRegionId(r.region) === region).map((r) => r.landmarkId),
       now,
     });
     if (res.stats.rows) regions[region] = res;

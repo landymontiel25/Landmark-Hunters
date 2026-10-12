@@ -1,4 +1,4 @@
-import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
+import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
 import { tierStars, isVisitedReview } from './ratingFlow';
@@ -65,7 +65,7 @@ export const FAVORITE_MIN_METERS = 75;
 export const PICKS_CACHE_TTL_MS = 4 * 60 * 60 * 1000;
 
 const LABELS = Object.fromEntries(INTERESTS.map((i) => [i.id, i.label]));
-export const categoryLabel = (id) => LABELS[id] || id || 'this kind of place';
+export const categoryLabel = (id) => LABELS[CATEGORY_ALIASES[id] || id] || id || 'this kind of place';
 
 export const pickKey = (p) => `${p.region || p.regionId}/${p.id}`;
 
@@ -722,8 +722,7 @@ export function similarPlaces({ liked, pool = [], exclude = [], limit = SIMILAR_
 
 export const MOODS = [
   { id: 'eat', icon: '\u{1F37D}\u{FE0F}', label: 'Something to eat', categories: ['food'] },
-  { id: 'history', icon: '\u{1F3DB}\u{FE0F}', label: 'Some history', categories: ['history-culture'] },
-  { id: 'art', icon: '\u{1F5BC}\u{FE0F}', label: 'Art & museums', categories: ['art-museums'] },
+  { id: 'history', icon: '\u{1F3DB}\u{FE0F}', label: 'Art & culture', categories: ['history-culture'] },
   { id: 'outdoors', icon: '\u{1F333}', label: 'Fresh air', categories: ['parks-nature', 'benches'] },
   { id: 'night', icon: '\u{1F378}', label: 'A night out', categories: ['local-life', 'entertainment'] },
   { id: 'sports', icon: '\u{1F3DF}\u{FE0F}', label: 'Sports', categories: ['stadiums', 'sports', 'formula-1'] },

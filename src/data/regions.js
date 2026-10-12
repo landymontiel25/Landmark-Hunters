@@ -20,36 +20,22 @@ import { PARIS_LANDMARKS } from './landmarks.paris.js';
 export const REGIONS = [
   {
     id: 'miami',
-    name: 'Miami',
-    tagline: 'Beaches, Art Deco & Cuban culture',
-    city: 'Miami',
+    // Shown as South Florida; the id stays 'miami' so saved data keeps working.
+    name: 'South Florida',
+    tagline: 'Miami, Miami Beach, Coral Gables, Key Biscayne, Coconut Grove, South Miami, Pinecrest & Doral',
+    city: 'South Florida',
+    // The towns with places in the app today, shown under the name in city
+    // pickers so people know Miami is in here.
+    subtitle: 'Miami, Miami Beach, Coral Gables, Key Biscayne, Coconut Grove, South Miami, Pinecrest, Doral',
+    // Typing any of these in a city search finds this region.
+    searchNames: ['Miami', 'Miami Beach', 'Coral Gables', 'Key Biscayne', 'Virginia Key', 'Doral', 'Hialeah', 'Coconut Grove', 'Brickell', 'Wynwood', 'Little Havana', 'Little Haiti', 'Kendall', 'Pinecrest', 'South Miami', 'Miami Springs', 'Westchester', 'Sweetwater', 'Aventura', 'North Miami', 'Sunny Isles', 'Bal Harbour', 'Surfside', 'Homestead', 'Miami-Dade', 'Dade'],
     state: 'Florida',
     country: 'USA',
     center: { lat: 25.7743, lng: -80.1937 },
     viewbox: { minLat: 25.3, minLng: -80.6, maxLat: 25.95, maxLng: -80.05 },
-    landmarks: MIAMI_LANDMARKS,
-  },
-  {
-    id: 'key-biscayne',
-    name: 'Key Biscayne',
-    tagline: 'Island beaches, a historic lighthouse & bay views',
-    city: 'Key Biscayne',
-    state: 'Florida',
-    country: 'USA',
-    center: { lat: 25.6908, lng: -80.1625 },
-    viewbox: { minLat: 25.63, minLng: -80.21, maxLat: 25.8, maxLng: -80.12 },
-    landmarks: KEYBISCAYNE_LANDMARKS,
-  },
-  {
-    id: 'coral-gables',
-    name: 'Coral Gables',
-    tagline: 'The City Beautiful — Mediterranean charm & Miracle Mile',
-    city: 'Coral Gables',
-    state: 'Florida',
-    country: 'USA',
-    center: { lat: 25.7519, lng: -80.2562 },
-    viewbox: { minLat: 25.72, minLng: -80.28, maxLat: 25.77, maxLng: -80.24 },
-    landmarks: CORALGABLES_LANDMARKS,
+    // Greater Miami: the city plus Coral Gables and Key Biscayne, which used
+    // to be regions of their own (see REGION_ALIASES).
+    landmarks: [...MIAMI_LANDMARKS, ...CORALGABLES_LANDMARKS, ...KEYBISCAYNE_LANDMARKS],
   },
   {
     id: 'san-francisco',
@@ -231,9 +217,37 @@ export const REGIONS = [
 // on the map, in search, and in "All cities" landmark lists.
 export const PICKABLE_REGIONS = REGIONS.filter((r) => !r.worldwide);
 
+// Regions folded into another one. Check-ins, reviews, itineraries and links
+// saved before the merge still carry the old id, so every lookup maps it to
+// the region that absorbed it. Landmark ids did not change.
+export const REGION_ALIASES = {
+  'key-biscayne': 'miami',
+  'coral-gables': 'miami',
+};
+
+// Everything a city search should match for a region: its name, city,
+// state or province ("Western Cape" finds Cape Town), country, tagline and any other names it goes by (searchNames).
+export const regionSearchText = (r) => [r.name, r.city, r.state, r.country, r.tagline, ...(r.searchNames || [])].filter(Boolean).join(' ');
+
+export const canonicalRegionId = (id) => REGION_ALIASES[id] || id;
+
 export function getRegion(id) {
-  return REGIONS.find((r) => r.id === id) || null;
+  const rid = canonicalRegionId(id);
+  return REGIONS.find((r) => r.id === rid) || null;
 }
+
+// Retired category ids and where their landmarks live now. Dorms folded
+// into Campus Life, and Art & Museums into Art & Culture (id
+// history-culture). Landmark files, place packs, saved filters, check-ins
+// and older custom landmarks may still carry the old id; the catalog is
+// normalized on load (here and in registerPlaces).
+export const CATEGORY_ALIASES = { dorms: 'campus-life', 'art-museums': 'history-culture' };
+export const normalizeCategories = (cats) => [...new Set((cats || []).map((c) => CATEGORY_ALIASES[c] || c))];
+const normalizeLandmark = (l) => {
+  if (Array.isArray(l?.categories) && l.categories.some((c) => CATEGORY_ALIASES[c])) l.categories = normalizeCategories(l.categories);
+  return l;
+};
+for (const r of REGIONS) r.landmarks.forEach(normalizeLandmark);
 
 export const ALL_LANDMARKS = REGIONS.flatMap((r) => r.landmarks.map((l) => ({ ...l, regionId: r.id })));
 
@@ -273,6 +287,7 @@ export function registerPlaces(places) {
     const key = `${p?.region}/${p?.id}`;
     if (!region || !p.id || packIndex.has(key) || idsOf(region).has(p.id)) continue;
     idsOf(region).add(p.id);
+    normalizeLandmark(p);
     region.landmarks.push(p);
     const entry = { ...p, regionId: region.id };
     ALL_LANDMARKS.push(entry);
@@ -287,7 +302,7 @@ export function registerPlaces(places) {
 }
 
 export function getLandmark(regionId, landmarkId) {
-  const packed = packIndex.get(`${regionId}/${landmarkId}`);
+  const packed = packIndex.get(`${canonicalRegionId(regionId)}/${landmarkId}`);
   if (packed) return packed;
   const region = getRegion(regionId);
   return region?.landmarks.find((l) => l.id === landmarkId) || null;
@@ -296,8 +311,10 @@ export function getLandmark(regionId, landmarkId) {
 // `added` is the order each category was introduced to the app (1 = the
 // original four), so lists can show the newest categories first.
 export const INTERESTS = [
-  { id: 'history-culture', label: 'History & Culture', icon: '\u{1F3DB}\u{FE0F}', added: 1 },
-  { id: 'art-museums', label: 'Art & Museums', icon: '\u{1F5BC}\u{FE0F}', added: 2 },
+  // Art & Culture is museums, galleries, historic sites, monuments,
+  // churches. It used to be two categories (History & Culture, Art &
+  // Museums); the id stayed history-culture.
+  { id: 'history-culture', label: 'Art & Culture', icon: '\u{1F3DB}\u{FE0F}', added: 1 },
   // Food is restaurants, cafés, bakeries, gelato, food markets. Local Life is
   // bars, clubs, live-music venues, neighborhoods, squares, shopping streets.
   { id: 'food', label: 'Food', icon: '\u{1F37D}\u{FE0F}', added: 8 },
@@ -322,14 +339,9 @@ export const INTERESTS = [
 // Categories left out of the pickers (category dropdowns, trip interests,
 // taste chips) for now. Their landmarks still exist, show on the map and in
 // search; remove an id here to bring the category back everywhere.
-export const HIDDEN_INTEREST_IDS = new Set(['formula-1']);
+export const HIDDEN_INTEREST_IDS = new Set(['formula-1', 'benches', 'stadiums', 'campus-life', 'airports']);
 export const PICKABLE_INTERESTS = INTERESTS.filter((i) => !HIDDEN_INTEREST_IDS.has(i.id));
 
-// Retired category ids and where their landmarks live now. Dorms folded
-// into Campus Life; saved filters and older custom landmarks may still
-// carry the old id.
-export const CATEGORY_ALIASES = { dorms: 'campus-life' };
-export const normalizeCategories = (cats) => [...new Set((cats || []).map((c) => CATEGORY_ALIASES[c] || c))];
 
 export const INTEREST_ORDERS = [
   { id: 'abc', label: 'A–Z' },
@@ -348,6 +360,7 @@ export function sortInterests(list, orderId = 'abc') {
 // interests (localStorage) and old review docs can still carry these.
 const RETIRED_INTERESTS = {
   'food-local-life': ['food', 'local-life'],
+  'art-museums': ['history-culture'],
 };
 
 // Landmark ids that were renamed because two cities shared one. Check-ins,

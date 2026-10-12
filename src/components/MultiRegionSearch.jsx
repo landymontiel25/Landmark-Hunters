@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { PICKABLE_REGIONS } from '../data/regions';
+import { PICKABLE_REGIONS, regionSearchText } from '../data/regions';
 import { matchesSearch } from '../lib/search';
 import { useSmartCitySearch } from '../lib/smartSearch';
 import SmartSearchLabel from './SmartSearchLabel';
@@ -27,7 +27,7 @@ export default function MultiRegionSearch({ selectedIds, onToggle, onClearAll, p
   const q = query.trim().toLowerCase();
   const sortedRegions = [...PICKABLE_REGIONS].sort((a, b) => a.name.localeCompare(b.name));
   const wordMatches = q
-    ? sortedRegions.filter((r) => matchesSearch([r.name, r.city, r.country, r.tagline].filter(Boolean).join(' '), q))
+    ? sortedRegions.filter((r) => matchesSearch(regionSearchText(r), q))
     : sortedRegions;
   const smart = useSmartCitySearch(q, wordMatches, open);
   const matches = [...wordMatches, ...smart.cities];

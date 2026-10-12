@@ -220,7 +220,7 @@ export const ALL_BADGES = [
   { id: 'route-optimizer', kind: 'tripLandmarks', n: 5, label: 'Route Optimizer', icon: '\u{1F9ED}', description: 'Planned a 5+ landmark trip', rarity: 'uncommon' },
 
   // Variety Challenges
-  { id: 'all-star', kind: 'allStarWeek', n: 1, label: 'All-Star', icon: '\u{1F31F}', description: 'Checked into a museum, restaurant, historic site, and nature spot in one week', rarity: 'rare' },
+  { id: 'all-star', kind: 'allStarWeek', n: 1, label: 'All-Star', icon: '\u{1F31F}', description: 'Checked into an art & culture spot, a restaurant and a nature spot in one week', rarity: 'rare' },
   { id: 'cuisine-explorer', kind: 'cuisineTypes', n: 5, label: 'Cuisine Explorer', icon: '\u{1F37D}\u{FE0F}', description: '5 different food spots', rarity: 'uncommon' },
 
   // Rare/Timed

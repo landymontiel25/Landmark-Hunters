@@ -983,6 +983,26 @@ textarea {
   font-size: 1.3rem;
 }
 
+/* Two-column chip grids (My Preferences, trip interests) are narrow on a
+   phone: tighter padding and type keep a long word like "Entertainment"
+   inside its bubble, and a label that still can't fit wraps instead of
+   spilling out. */
+.chip-grid .chip {
+  gap: 8px;
+  padding: 12px 8px;
+  font-size: 0.82rem;
+}
+
+.chip-grid .chip .chip-icon {
+  font-size: 1.1rem;
+  flex: none;
+}
+
+.chip-grid .chip > span:not(.chip-icon) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .chip-dashed {
   border-style: dashed;
   border-color: var(--color-border);
@@ -5650,28 +5670,48 @@ h2,
   color: var(--success);
 }
 
-/* Map attribution: one short line ("© OpenStreetMap © CARTO") lifted above
-   the bottom nav, the picks sheet and the radius / locate buttons, instead
-   of wrapping to three lines behind them. */
+/* Map attribution: one short, faint line at the very bottom edge of the
+   map, tucked away (partly behind the bottom nav on a phone) instead of
+   floating mid-screen above the picks sheet. */
 .map-fullscreen .leaflet-bottom.leaflet-right {
-  bottom: calc(var(--nav-h) + var(--mpp-h, var(--map-picks-h, 0px)) + 68px);
+  bottom: 0;
   left: 0;
   display: flex;
   justify-content: flex-end;
   pointer-events: none;
-  transition: bottom 0.28s var(--ease);
 }
 .map-fullscreen .leaflet-control-attribution {
-  font-size: 10px;
-  line-height: 1.3;
-  padding: 1px 6px;
-  margin-right: 8px;
-  border-radius: 6px;
+  font-size: 8px;
+  line-height: 1.2;
+  padding: 0 4px;
+  margin: 0 2px 1px 0;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.25) !important;
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 0.6;
   pointer-events: auto;
   white-space: nowrap;
   max-width: calc(100vw - 16px);
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.map-fullscreen .leaflet-control-attribution a {
+  color: inherit;
+}
+
+/* Holding a finger on the map (or anything over it) must not start the
+   browser's text selection or the iOS copy / look-up popup: that is a
+   Safari habit, not an app's. Typing in the map's search box still works. */
+.map-fullscreen,
+.map-fullscreen * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.map-fullscreen input,
+.map-fullscreen textarea {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 /* Live navigation (ActiveNavOverlay) over the full-screen Map. */
@@ -6978,4 +7018,427 @@ p.tag {
   color: var(--success);
   border-color: var(--success);
   background: rgba(85, 201, 135, 0.14);
+}
+
+/* Map search: a picked city or neighborhood's outline fades in and out over
+   1.5 s (MapExplore areaFlash), so you can see where it is. */
+.map-area-flash {
+  animation: map-area-flash 1.5s ease-in-out forwards;
+}
+@keyframes map-area-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-area-flash { animation: none; }
+}
+
+/* City picker rows look like the address search's (name, then a small gray
+   line: the towns a city covers or its state and country). */
+.city-dropdown-item.autocomplete-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.city-dropdown-item.active .autocomplete-primary {
+  color: var(--color-brass-bright);
+  font-weight: 700;
+}
+.city-dropdown-item.active .autocomplete-secondary {
+  font-weight: 400;
+}
+
+/* Map search: the name shown on the map is colored by what was searched, so a
+   city, a state and a country read apart at a glance (landmarks stay white). */
+.focus-tooltip--city.leaflet-tooltip { color: #2dd4bf; border-color: #2dd4bf; }
+.focus-tooltip--state.leaflet-tooltip { color: #fbbf24; border-color: #fbbf24; }
+.focus-tooltip--country.leaflet-tooltip { color: #a78bfa; border-color: #a78bfa; }
+.focus-tooltip--city.leaflet-tooltip-top::before { border-top-color: #2dd4bf; }
+.focus-tooltip--state.leaflet-tooltip-top::before { border-top-color: #fbbf24; }
+.focus-tooltip--country.leaflet-tooltip-top::before { border-top-color: #a78bfa; }
+.map-search-kind--city { color: #2dd4bf; }
+.map-search-kind--state { color: #fbbf24; }
+.map-search-kind--country { color: #a78bfa; }
+
+/* ---------- Map: the + dial and drawing an area (Zillow style) ---------- */
+
+.map-add-btn.open {
+  transform: rotate(45deg);
+}
+.map-add-btn {
+  transition: transform 0.2s ease;
+}
+
+/* Two round buttons fanning out to the right of the + button. */
+.map-dial {
+  position: absolute;
+  left: 76px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -28px;
+}
+.map-dial-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 999px;
+  background: var(--bg-elevated, #141a2e);
+  color: var(--text-primary, #fff);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  animation: map-dial-in 0.18s ease-out both;
+}
+.map-dial-btn:nth-child(2) {
+  animation-delay: 0.04s;
+}
+.map-dial-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(91, 140, 255, 0.18);
+  font-size: 1rem;
+}
+@keyframes map-dial-in {
+  from { opacity: 0; transform: translateX(-12px) scale(0.85); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The drawing surface sits over the map and takes every touch until done. */
+.map-draw-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1100;
+  touch-action: none;
+  cursor: crosshair;
+  background: rgba(10, 14, 30, 0.12);
+}
+.map-draw-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.map-draw-svg polyline {
+  fill: rgba(91, 140, 255, 0.12);
+  stroke: #5b8cff;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.map-draw-hint {
+  position: absolute;
+  top: calc(var(--header-h, 64px) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-elevated, #141a2e);
+  color: var(--text-primary, #fff);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.map-draw-cancel {
+  position: absolute;
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Landmarks tab: the small ✕ that cancels the area drawn on the Map. */
+.lm-drawn-cancel {
+  margin-left: 8px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.2));
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+/* ---------- Test tab: mall lab (screens/MallLab.jsx) ---------- */
+.mall-lab-dim {
+  font-size: 0.78rem;
+  color: var(--text-secondary, var(--color-parchment-dim));
+}
+.mall-lab-stores,
+.mall-lab-log,
+.mall-lab-checks {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mall-lab-store {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  cursor: pointer;
+}
+.mall-lab-store.on {
+  border-color: var(--mapr-blue, #5b8cff);
+  background: rgba(91, 140, 255, 0.1);
+}
+.mall-lab-store input {
+  width: 20px;
+  height: 20px;
+  grid-row: span 2;
+}
+.mall-lab-store-name {
+  font-weight: 600;
+}
+.mall-lab-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 14px;
+}
+.mall-lab-chip {
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+}
+.mall-lab-chip.on {
+  border-color: var(--mapr-blue, #5b8cff);
+  background: rgba(91, 140, 255, 0.18);
+}
+.mall-lab-votes {
+  display: flex;
+  gap: 12px;
+}
+.mall-lab-vote {
+  flex: 1;
+  min-height: 56px;
+  font-size: 1.6rem;
+}
+.mall-lab-checks li.fail {
+  color: var(--danger, #f87171);
+}
+.mall-lab-map {
+  height: 340px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+}
+.mall-lab-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+}
+.mall-lab-mall-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mall-lab-mall-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+}
+
+/* Mall lab: a real-looking map of only malls, and the check-in sheet. */
+.mall-lab-map-full {
+  height: calc(100dvh - var(--header-h, 64px) - var(--nav-h, 72px) - 150px);
+  min-height: 380px;
+}
+.mall-visit {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}
+.mall-lab-checked-in {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--success, #34d399);
+  font-size: 0.85rem;
+}
+.mall-lab-search {
+  width: 100%;
+  margin: 0 0 10px;
+}
+.mall-lab-store-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.mall-lab-store-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.mall-lab-store-chip.on {
+  border-color: var(--mapr-blue, #5b8cff);
+  background: rgba(91, 140, 255, 0.16);
+}
+.mall-lab-visit-actions {
+  display: flex;
+  gap: 10px;
+}
+.mall-lab-visit-actions .btn {
+  flex: 1;
+}
+.mall-lab-vote span {
+  display: block;
+  font-size: 0.8rem;
+}
+.mall-lab-note {
+  width: 100%;
+  margin: 4px 0 12px;
+}
+.mall-lab-learned {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(91, 140, 255, 0.1);
+}
+.mall-lab-dev summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Mall check-in sheet (Test tab): the store dropdown and each store's rating. */
+.mall-store-picker {
+  position: relative;
+  margin-bottom: 10px;
+}
+.mall-store-picker-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.2));
+  border-radius: 14px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+.mall-store-picker-panel {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  background: var(--bg-elevated, #141a2e);
+}
+.mall-store-picker-panel input {
+  width: 100%;
+  margin-bottom: 8px;
+}
+.mall-store-picker-list {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.mall-store-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mall-store-option.on {
+  background: rgba(91, 140, 255, 0.16);
+}
+.mall-store-option:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.mall-store-check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--border-default, rgba(255, 255, 255, 0.3));
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+.mall-store-option.on .mall-store-check {
+  background: var(--mapr-blue, #5b8cff);
+  border-color: var(--mapr-blue, #5b8cff);
+  color: #fff;
+}
+.mall-store-option-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.mall-store-rating {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+}
+.mall-store-rating-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.mall-store-remove {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.2));
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
 }

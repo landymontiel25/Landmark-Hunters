@@ -145,6 +145,8 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
         name: c.landmarkName || lm?.name || c.landmarkId,
         photo: mine || lm?.images?.[0] || null,
         isMine: !!mine,
+        // Other names the city goes by (South Florida: Miami, Key Biscayne...), for search.
+        cityAlso: getRegion(c.region)?.searchNames?.join(' ') || '',
         city: getRegion(c.region)?.name || (!c.region || c.region === 'null' || c.region === 'custom' ? 'Custom pin' : c.region),
         points: c.points || 0,
         createdAt: c.createdAt?.seconds || 0,
@@ -218,7 +220,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   // Search by place, city, your comment, your rating or the date.
   const q = search.trim();
   const matched = sorted
-    ? sorted.filter((c) => matchesSearch([c.name, c.city, c.comment, c.tierLabel, c.date].filter(Boolean).join(' '), q))
+    ? sorted.filter((c) => matchesSearch([c.name, c.city, c.cityAlso, c.comment, c.tierLabel, c.date].filter(Boolean).join(' '), q))
     : null;
   // AI fallback when the word search finds little: it reads your check-ins
   // (place, city, your comment) to work out which one you mean.

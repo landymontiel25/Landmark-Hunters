@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { migrateInterests, getRegion, canonicalLandmarkId } from '../data/regions';
+import { migrateInterests, getRegion, canonicalLandmarkId, canonicalRegionId } from '../data/regions';
 
 const STORAGE_KEY = 'landmarkhunters.trip.v1';
 
@@ -60,17 +60,31 @@ function loadTrip() {
         : {};
       t.activeRegion = parsed.region ?? null;
     }
+    // Itineraries saved under a region that was folded into another (Coral
+    // Gables and Key Biscayne into Miami) move to the new region and merge
+    // with whatever it already had.
+    const mergeRegions = (obj, join) => {
+      const out = {};
+      for (const [region, value] of Object.entries(obj || {})) {
+        const key = canonicalRegionId(region);
+        out[key] = key in out ? join(out[key], value) : value;
+      }
+      return out;
+    };
     t.byRegion = Object.fromEntries(
-      Object.entries(t.byRegion || {}).map(([region, ids]) => [
+      Object.entries(
+        mergeRegions(t.byRegion, (a, b) => (Array.isArray(a) && Array.isArray(b) ? [...a, ...b] : a))
+      ).map(([region, ids]) => [
         region,
         // Deduped: a list saved with both a renamed landmark's old id and its
         // new one would otherwise show that stop twice.
         Array.isArray(ids) ? [...new Set(ids.map((id) => canonicalLandmarkId(id, region)))] : ids,
       ])
     );
-    t.itineraryNames = t.itineraryNames || {};
-    t.placesByRegion = t.placesByRegion || {};
-    t.itineraryStatus = t.itineraryStatus || {};
+    t.itineraryNames = mergeRegions(t.itineraryNames, (a) => a);
+    t.placesByRegion = mergeRegions(t.placesByRegion, (a, b) => (Array.isArray(a) && Array.isArray(b) ? [...a, ...b] : a));
+    t.itineraryStatus = mergeRegions(t.itineraryStatus, (a) => a);
+    if (t.activeRegion) t.activeRegion = canonicalRegionId(t.activeRegion);
     // Retired interest ids (e.g. the old "food-local-life") become their
     // replacements, so a saved preference keeps filtering after a split.
     t.interests = migrateInterests(t.interests);

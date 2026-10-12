@@ -3,14 +3,96 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Discovery network plan (not started)
+## Discovery network plan v2 (not started)
 
-`docs/discovery-network-plan.md` turns Mapr from ranking places into matching
-people: verified presence, tips, follows, community picks on every Mapr
-surface, local reputation, notifications, then a feed in dense cities. Phase
-0 (server-verified check-ins) comes first, because today "verified" is
-client-reported. Section 16 lists 7 decisions for the owner. Update this item
-as each phase ships.
+`docs/discovery-network-plan.md` (v2, 2026-10-10) turns Mapr from ranking
+places into matching people: verified presence, tips, follows and taste
+neighbors, community picks on every Mapr surface, local reputation, alerts,
+then a feed in dense cities. v2 adds a per-city ramp (Mapr only until a city
+has 100 active users and 150 live tips), a 0.3 neighbor-score floor, a radius
+and accuracy table by place type, a reputation cap of 15 per person, and moves
+check-in read limits before Phase 2. Order of work: prerequisites (rules tests
+in CI, scan question 7, check-in and points parts of question 14), then
+Phase 0. Update this item as each step ships.
+
+## Categories: Art & Culture merge, four switched off (2026-10-12)
+
+Owner asked to merge Art & Museums into History & Culture as "Art &
+Culture" and to switch off 10/10 Benches, Stadiums, Campus Life and
+Airports (Formula 1 was already off). The merged category kept the id
+`history-culture`; `art-museums` is an alias (`CATEGORY_ALIASES` in
+`data/regions.js`) mapped on load for landmark files, place packs,
+custom landmarks, saved interests, old reviews and taste scores
+(`tagScores.js decayedRegion`). Left as is: the import scripts
+(`scripts/osm-import/`) still emit `art-museums` and pack files still carry
+it, so a rebuild doesn't move other regions' packs. Switched-off categories
+are only out of pickers and filters (`HIDDEN_INTEREST_IDS`); their places
+still show and Mapr moods (Sports, Fresh air) still use them. To bring one
+back, remove its id from that set.
+
+## Malls (places with stores inside), Test tab only
+
+The Test tab's "Malls" bubble (`screens/MallLab.jsx`, the bubble the tab
+opens on) shows a map with only the app's malls, clustered and opening on
+the area with the most malls (South Florida): every place with topic `mall`
+(imports) or `mall: true` (hand-picked: Dolphin Mall, Brickell City Centre,
+Bayside Marketplace, King of Prussia, Santana Row, V&A Waterfront, Galleria
+Vittorio Emanuele II), 18 in all. Tap one, Check In (no location needed in
+the lab), and the real check-in sheet opens ("Check in to <mall>?", the same
+RatingFlow, Post) with a "Which stores did you go to?" dropdown: search,
+multi-select up to 4, each picked store rated with its own RatingFlow (loved
+it = thumbs up, didn't like = thumbs down, ok = no taste change). Every
+check-in is its own visit; checking in again later rates other stores, and
+stores rated before are marked. Palm Grove Plaza (`data/testMalls.js`) is
+the made-up example the six owner checks run on (`lib/mallChecks.js`).
+
+Store lists are app data (`data/mallStores.js`, built by
+`scripts/build-mall-stores.mjs` from `scripts/osm-import/research/malls/`):
+store names a result places at the mall, its directory as source, 1-2 tags.
+`data/mallStores.test.js` fails when a mall has no stores (standing rule in
+CLAUDE.md). Left open: Two malls found no current tenants and need an owner call:
+Lincoln Center (690 Lincoln Road, likely a building on the Lincoln Road
+pedestrian mall, not a mall: drop its mall topic?) and Ultramont Mall (only
+a 2015 source, saying a tower would replace it: still open?). Both sit in
+that test's RESEARCH_PENDING list; checking in there skips the store
+question. Thin lists to recheck: The Shops at Sunset Place has only AMC (the
+mall is mostly empty and slated for demolition), Sunset Harbour Shops 4
+stores.
+
+Scoring as before: a vote moves the store's tags with the Pick vote rules
+(+4 / -6, half after 5, 90-day half-life, +/-100); mall score is the
+thumbs-up share per rated store weighted by visits, unrated skipped;
+itineraries take the mall when 2+ stores match the user's top 5 tags.
+Ratings and the lab's taste stay in localStorage. Going live needs a
+Firestore collection for store ratings, store tags in the real taste (every
+Mapr surface through `src/lib/maprRank/`), visit counts from check-ins, the
+store question after a real check-in at a mall, and `APP_HELP`.
+
+## Key Biscayne import (address-located places)
+
+The owner asked for 100 new Key Biscayne places (2026-10-09). Seven research
+agents (`scripts/osm-import/research/kb/`, import region `kb`, packed into
+Miami through `mergeFrom`) got 36 onto the map. OpenStreetMap had almost no
+island businesses, so the owner allowed a place OSM lacks at its researched
+street address when Nominatim returns that exact house number
+(`addressFallback` in `regions.js`, ids `osm-kb-<name>`). Places in one plaza
+share its address point (328 Crandon Blvd holds several). The island has few
+more open places with sourced facts: the agents ran out of new restaurants,
+cafes, bars and galleries. Parks, trails and bridges still need an OSM
+object by name; seven leads failed that (`located.json`). Left open: no
+Commons photos were searched for these places.
+
+## Coral Gables and Key Biscayne merged into Miami
+
+Both are now part of the `miami` region (`REGION_ALIASES` in
+`src/data/regions.js`). Landmark ids did not change; their data still lives
+in `landmarks.coralgables.js` and `landmarks.keybiscayne.js`, with
+`region: 'miami'`. Old itineraries, check-ins, reviews, custom landmarks and
+links that carry the old region id map to Miami on read (`getRegion`,
+`getLandmark`, `canonicalRegionId`, trip load, leaderboard city stats, Mapr
+nightly). Stored Firestore docs were not rewritten. Left open: the owner said
+"any landmarks currently in South Florida" too, but no other South Florida
+region exists, so nothing else moved. Other regions are untouched on request.
 
 ## Formula 1 Circuits hidden from category pickers
 

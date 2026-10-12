@@ -19,6 +19,7 @@ import { closeSoloToday } from '../lib/soloStreaks';
 import { PICKS_STREAK_THRESHOLD, dayKey } from '../lib/streaks';
 import PickVoteButtons from './PickVoteButtons';
 import RegionSearch from './RegionSearch';
+import { inScope, scopeFromKey, scopeRegionId } from '../lib/cityScope';
 import RateLandmarkSearch from './RateLandmarkSearch';
 import MaprPickImage from './MaprPickImage';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
@@ -74,7 +75,9 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   // Most-recently-active city first, so switching cities on Itinerary/Group
   // Trip is reflected here even before a fresh GPS fix comes in.
   const defaultRegionId = homeCityId || pickRegion({ origin, fallbackRegions: [...regionIds].reverse() });
-  const regionId = cityOverride || defaultRegionId;
+  // A picked town (lib/cityScope key 'a:miami:Miami') limits the cards to it.
+  const townScope = cityOverride && cityOverride.startsWith('a:') ? scopeFromKey(cityOverride) : null;
+  const regionId = (townScope ? scopeRegionId(townScope) : cityOverride) || defaultRegionId;
   const { votes, removed, answeredAt, vote: saveVote, retry } = usePickVotes({ uid: user?.uid, origin, onSaved: () => reloadBadges(), removeOnAnyVote: true });
   const region = regionId ? getRegion(regionId) : null;
   // Landmarks answered today: earlier answers from today (the database copy,
@@ -165,7 +168,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
     if (!region || !user?.uid) return [];
     const places = region.landmarks
       .map((l) => ({ ...l, regionId: region.id }))
-      .filter((l) => isRateable(l))
+      .filter((l) => isRateable(l) && (!townScope || inScope(l, townScope)))
       .sort((a, b) => (b.popularity || 0) - (a.popularity || 0) || a.name.localeCompare(b.name));
     return rankPlaces({
       places,
@@ -179,7 +182,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
       explore: { createdAtMs: myProfile?.createdAt?.seconds != null ? myProfile.createdAt.seconds * 1000 : null, shown: readSeen(user.uid), votes: feedback, serverStagnating: models?.serverStagnating === true },
       rng: seededRandom(`${user.uid}|${region.id}|${setId}`),
     }).picks;
-  }, [region, user?.uid, myProfile, myReviews, lat, lng, models, checkedInIds, setId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [region, townScope?.key, user?.uid, myProfile, myReviews, lat, lng, models, checkedInIds, setId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Reconciles with Firestore feedback (a vote made on another device) once,
   // on top of the instant localStorage copy above.
@@ -243,7 +246,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
           style={{ fontSize: '0.68rem', cursor: 'pointer', fontFamily: 'inherit', appearance: 'none' }}
           onClick={() => setPickerOpen(true)}
         >
-          {region ? region.name : 'Choose a city'}
+          {townScope ? townScope.label : region ? region.name : 'Choose a city'}
         </button>
       </div>
       {dayDone && closeState.status === 'failed' && (
@@ -256,7 +259,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
       )}
       <p className="taste-card-note" style={{ margin: '0 0 10px' }}>
         {region
-          ? `Swipe through ${region.name} and say whether you'd go. Tap a card to see more.`
+          ? `Swipe through ${townScope ? townScope.label : region.name} and say whether you'd go. Tap a card to see more.`
           : 'Pick a city to start voting on landmarks there.'}
       </p>
       <div className="mapr-picks-track" onScroll={onScroll}>
@@ -281,7 +284,7 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         {region && landmarks.length === 0 && (
           <div className="taste-card-note" style={{ margin: '10px 0 0' }}>
             <p style={{ margin: '0 0 8px' }}>
-              {'\u{1F389}'} You've rated every place in {region.name}. Pick another city to keep going, or stay here and check back for new spots.
+              {'\u{1F389}'} You've rated every place in {townScope ? townScope.label : region.name}. Pick another city to keep going, or stay here and check back for new spots.
             </p>
             <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPickerOpen(true)}>
               Choose another city
@@ -305,9 +308,10 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
                 Mapr Travel Picks defaults to where you are right now -- pick another city to rate ahead of a trip.
               </p>
               <RegionSearch
-                region={region}
+                region={townScope ? { ...region, name: townScope.label } : region}
+                towns
                 onSelect={(r) => {
-                  setCityOverride(r.id);
+                  setCityOverride(r.townKey || r.id);
                   setPickerOpen(false);
                 }}
                 placeholder="Search for a city…"

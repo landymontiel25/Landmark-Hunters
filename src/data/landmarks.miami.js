@@ -134,6 +134,8 @@ export const MIAMI_LANDMARKS = [
   },
   {
     id: 'bayside-marketplace',
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     popularity: 9,
     cost: 'Free',
     neighborhood: 'Downtown Miami',
@@ -452,6 +454,8 @@ export const MIAMI_LANDMARKS = [
   },
   {
     id: 'brickell-city-centre',
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     popularity: 7,
     cost: 'Free',
     neighborhood: 'Brickell',
@@ -1616,6 +1620,8 @@ export const MIAMI_LANDMARKS = [
   },
   {
     id: "dolphin-mall",
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     popularity: 7,
     cost: "Free",
     neighborhood: "Sweetwater",

@@ -12,7 +12,9 @@ afterEach(() => {
   vi.resetModules();
 });
 
-async function renderAs(email, { nothingToTest = false } = {}) {
+// The Test tab opens on Malls; `tab: 'onboarding'` (the default here, for the
+// onboarding tests) switches to that bubble first.
+async function renderAs(email, { nothingToTest = false, tab = 'onboarding' } = {}) {
   vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
@@ -31,6 +33,8 @@ async function renderAs(email, { nothingToTest = false } = {}) {
       </MemoryRouter>
     );
   });
+  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === (tab === 'malls' ? 'Malls' : 'Onboarding'));
+  if (bubble) await act(async () => bubble.click());
   return container;
 }
 
@@ -52,11 +56,73 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
-  it('shows one centered Onboarding bubble above the test', async () => {
-    const el = await renderAs('landymontiel25@gmail.com');
+  it('opens on the Malls bubble, with Onboarding next to it', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Onboarding']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Malls', 'Onboarding']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+    expect(el.querySelector('.mall-lab-map .leaflet-container')).toBeTruthy();
+  });
+
+  it('mall check-in: the real check-in sheet, plus a store dropdown; check in again for more stores', async () => {
+    vi.resetModules();
+    const { MallCheckIn } = await import('./MallLab.jsx');
+    const { storesOfPlace, applyStoreVote, makeStoreRating, VOTE_OF_TIER } = await import('../lib/malls.js');
+    const mall = { key: 'miami/dolphin-mall', id: 'dolphin-mall', regionId: 'miami', name: 'Dolphin Mall', categories: ['local-life'], topic: 'mall' };
+    const stores = storesOfPlace('miami', 'dolphin-mall');
+    expect(stores.length).toBeGreaterThan(5);
+    let ratings = [];
+    const onPost = ({ storeRatings }) => {
+      let taste = { scores: {}, at: {}, counts: {} };
+      const saved = storeRatings.map(({ store, rating }) => {
+        taste = applyStoreVote(taste, store, VOTE_OF_TIER[rating.tier]);
+        return makeStoreRating({ userId: 'u', store, vote: VOTE_OF_TIER[rating.tier], tier: rating.tier });
+      });
+      ratings = [...ratings, ...saved];
+      return { saved, before: {}, after: taste.scores, nextRatings: ratings };
+    };
+    const sheet = () => (
+      <MemoryRouter>
+        <MallCheckIn mall={mall} stores={stores} ratings={ratings} places={stores} onPost={onPost} onClose={() => {}} />
+      </MemoryRouter>
+    );
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    await act(async () => root.render(sheet()));
+    const btn = (text) => [...document.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+    expect(document.body.textContent).toContain('Check in to Dolphin Mall?');
+    expect(btn('Post').disabled).toBe(true);
+    await act(async () => btn('I loved it').click());
+    expect(btn('Post').disabled).toBe(false);
+    // The store dropdown: pick two.
+    await act(async () => btn('Pick the stores you went into').click());
+    const options = [...document.querySelectorAll('.mall-store-option')];
+    await act(async () => options[0].click());
+    await act(async () => options[1].click());
+    await act(async () => [...document.querySelectorAll('.mall-store-picker-panel button')].find((b) => b.textContent === 'Done').click());
+    const blocks = [...document.querySelectorAll('.mall-store-rating')];
+    expect(blocks).toHaveLength(2);
+    expect(btn('Post').disabled).toBe(true); // each picked store needs its rating
+    const tierIn = (block, text) => [...block.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+    await act(async () => tierIn(blocks[0], 'I loved it').click());
+    await act(async () => tierIn(blocks[1], "I didn't like it").click());
+    await act(async () => btn('Post').click());
+    expect(document.body.textContent).toContain('Checked in!');
+    expect(document.body.textContent).toContain('What Mapr learned');
+    expect(ratings).toHaveLength(2);
+    // Later: a new check-in at the same mall marks the stores rated before.
+    await act(async () => root.render(<div />));
+    await act(async () => root.render(sheet()));
+    await act(async () => btn('Pick the stores you went into').click());
+    expect([...document.querySelectorAll('.mall-store-option')].filter((o) => o.textContent.includes('rated before'))).toHaveLength(2);
+  });
+
+  it('runs the six mall checks on Palm Grove Plaza', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'malls' });
+    const btn = (text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
+    await act(async () => btn('Run checks').click());
+    expect(el.querySelectorAll('.mall-lab-checks li.pass').length).toBe(6);
   });
 
   it('sends non-admins away', async () => {

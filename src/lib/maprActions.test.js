@@ -60,7 +60,7 @@ describe('Mapr actions', () => {
     const [r] = await runMaprActions([action], ctx());
     expect(r.ok).toBe(false);
     expect(r.needsConfirm).toBe(true);
-    expect(r.text).toMatch(/Miami/);
+    expect(r.text).toMatch(/South Florida/);
     expect(t.api.regionsWithItineraries()).toEqual([]);
 
     const [created] = await runMaprActions([{ type: 'create_itinerary', name: 'Spring Break', city: 'miami' }], ctx());

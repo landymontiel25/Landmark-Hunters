@@ -23,28 +23,37 @@ function levenshtein(a, b) {
   return dp[m][n];
 }
 
-// Loose enough to catch "Hillstone" vs "Hillstone Restaurant" (substring), and
-// "Helstone" vs "Hillstone" (a plain typo -- close enough in edit distance
-// that a person would recognize it as the same place, even though it's not
-// a substring match). Strict enough not to flag two unrelated places that
-// just share a common word, or names that are only vaguely similar.
-function namesMatch(a, b) {
-  const norm = (s) => s.trim().toLowerCase();
-  const x = norm(a);
-  const y = norm(b);
-  if (!x || !y) return false;
-  if (x === y || x.includes(y) || y.includes(x)) return true;
+// Words that don't tell two places apart: "Hillstone" and "Hillstone
+// Restaurant" are the same place.
+const FILLER = new Set(['the', 'restaurant', 'cafe', 'café', 'bar', 'grill', 'kitchen', 'eatery', 'miami', 'fl', 'inc', 'llc']);
+const core = (s) =>
+  s
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .split(/\s+/)
+    .filter((w) => w && !FILLER.has(w))
+    .join(' ');
 
-  // Compare the shorter string against each individual word of the longer
-  // one -- "Helstone" should match against "Hillstone" inside "Hillstone
-  // Restaurant" even though the two full strings are very different lengths.
-  const [shorter, longer] = x.length <= y.length ? [x, y] : [y, x];
-  const candidates = [longer, ...longer.split(/\s+/)];
-  return candidates.some((word) => {
-    if (Math.abs(word.length - shorter.length) > 3) return false;
-    const threshold = Math.max(1, Math.round(Math.min(word.length, shorter.length) * 0.3));
-    return levenshtein(shorter, word) <= threshold;
-  });
+// Same name once filler words are dropped ("Hillstone" and "Hillstone
+// Restaurant"), or a plain typo of it ("Helstone"). A name that only starts
+// the same is a different place: "Cocoplum Yacht Club" is not "Cocoplum".
+function namesMatch(a, b) {
+  const x = core(a);
+  const y = core(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  if (Math.abs(x.length - y.length) > 3) return false;
+  const threshold = Math.max(1, Math.round(Math.min(x.length, y.length) * 0.3));
+  return levenshtein(x, y) <= threshold;
+}
+
+// One name inside the other ("Joe's" in "Joe's Stone Crab") only counts at
+// the same spot, so a neighborhood's name never flags every place in it.
+const SAME_SPOT_METERS = 150;
+function partOfName(a, b) {
+  const x = core(a);
+  const y = core(b);
+  return !!x && !!y && (x.includes(y) || y.includes(x));
 }
 
 // Is there already a landmark by this name in this region -- the built-in
@@ -57,14 +66,17 @@ export async function findPossibleDuplicate({ name, regionId, lat, lng }) {
   const trimmed = (name || '').trim();
   if (trimmed.length < 2 || !regionId) return null;
 
-  const builtIn = ALL_LANDMARKS.find((l) => l.regionId === regionId && namesMatch(l.name, trimmed));
+  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng);
+  const sameSpot = (l) => hasPoint && Number.isFinite(l.lat) && Number.isFinite(l.lng) && distanceMeters(lat, lng, l.lat, l.lng) <= SAME_SPOT_METERS;
+  const nameHit = (l) => namesMatch(l.name, trimmed) || (partOfName(l.name, trimmed) && sameSpot(l));
+
+  const builtIn = ALL_LANDMARKS.find((l) => l.regionId === regionId && nameHit(l));
   if (builtIn) return { name: builtIn.name, region: builtIn.regionId, id: builtIn.id };
 
   const existing = await getCustomLandmarks().catch(() => []);
-  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng);
   const match = existing.find(
     (l) =>
-      namesMatch(l.name, trimmed) &&
+      nameHit(l) &&
       (l.region === regionId ||
         (l.region === CUSTOM_REGION && hasPoint && distanceMeters(lat, lng, l.lat, l.lng) <= SAME_AREA_METERS))
   );

@@ -1,0 +1,347 @@
+[
+ {
+  "key": "miami/osm-w279443134",
+  "mall": "Midway Crossings",
+  "city": "Miami",
+  "source": "https://sterlingorganization.com/?p=1427",
+  "stores": [
+   {
+    "name": "Costco",
+    "tags": [
+     "grocery",
+     "department store"
+    ]
+   },
+   {
+    "name": "The Home Depot",
+    "tags": [
+     "home"
+    ]
+   },
+   {
+    "name": "Micro Center",
+    "tags": [
+     "electronics"
+    ]
+   },
+   {
+    "name": "Burlington",
+    "tags": [
+     "clothing",
+     "department store"
+    ]
+   },
+   {
+    "name": "Ross Dress for Less",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Aldi",
+    "tags": [
+     "grocery"
+    ]
+   },
+   {
+    "name": "Ulta Beauty",
+    "tags": [
+     "beauty"
+    ],
+    "source": "https://www.ulta.com/stores/miami-fl-1771"
+   },
+   {
+    "name": "Macy's",
+    "tags": [
+     "department store",
+     "clothing"
+    ],
+    "source": "https://www.macys.com/stores/fl/miami/midway-crossings_628.html"
+   },
+   {
+    "name": "Five Below",
+    "tags": [
+     "gifts",
+     "toys"
+    ],
+    "source": "https://www.sterlingorganization.com/wp-content/uploads/2019/12/2026-08-21-Midway-Crossings-LEASINGBrochure.pdf"
+   },
+   {
+    "name": "Marshalls",
+    "tags": [
+     "clothing",
+     "home"
+    ],
+    "source": "https://local.aarp.org/place/midway-crossings-miami-fl.html"
+   },
+   {
+    "name": "Old Navy Outlet",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://local.aarp.org/place/midway-crossings-miami-fl.html"
+   }
+  ]
+ },
+ {
+  "key": "miami/osm-w396472117",
+  "mall": "Sunset Harbour Shops",
+  "city": "Miami Beach",
+  "source": "https://www.miamiandbeaches.com/things-to-do/shopping/best-places-to-shop-in-sunset-harbour",
+  "stores": [
+   {
+    "name": "Barry's Shop",
+    "tags": [
+     "clothing",
+     "fitness"
+    ]
+   },
+   {
+    "name": "Eberjey",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Frankie Miami",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Casa Bufala",
+    "tags": [
+     "food"
+    ],
+    "source": "https://whatnow.com/?p=146499"
+   }
+  ],
+  "note": "Small neighborhood strip; only four tenants confirmed as open. Asana Partners lease news (Sacro, Nautical Bowls, Chip City Cookies, The Outsider) is undated and does not confirm openings, so left out."
+ },
+ {
+  "key": "miami/osm-r7554876",
+  "mall": "The Shops at Sunset Place",
+  "city": "South Miami",
+  "source": "https://melvagarcia.com/blog/sunset-place-is-still-standing-heres-what-that-actually-changes-on-your-sunset-drive-walk",
+  "stores": [
+   {
+    "name": "AMC Sunset Place",
+    "tags": [
+     "entertainment"
+    ]
+   }
+  ],
+  "note": "Mall is mostly empty and slated for demolition (delayed; still standing per an Aug 2026 post). No current directory found. Only AMC is confirmed by a 2026 source; Barnes & Noble, GameTime and LA Fitness come from undated news saying they were still open. Recheck before the mall closes. Kept only AMC (the one a 2026 source confirms); the three from undated news are out."
+ },
+ {
+  "key": "cape-town/va-waterfront",
+  "mall": "V&A Waterfront",
+  "city": "Cape Town",
+  "source": "https://www.waterfront.co.za/food_and_drinks_category/restaurants/",
+  "stores": [
+   {
+    "name": "Willoughby & Co",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Tashas",
+    "tags": [
+     "cafe",
+     "food"
+    ]
+   },
+   {
+    "name": "Mugg & Bean",
+    "tags": [
+     "cafe"
+    ]
+   },
+   {
+    "name": "Gibson's Gourmet Burgers and Ribs",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Karibu",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Belthazar",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "City Grill Steakhouse",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "PRIMI",
+    "tags": [
+     "food"
+    ],
+    "source": "https://www.waterfront.co.za/food_and_drinks/primi-wharf/"
+   },
+   {
+    "name": "Dior",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://www.waterfront.co.za/articles/your-guide-to-the-hottest-new-va-stores-and-restaurants"
+   },
+   {
+    "name": "Old Khaki",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://www.waterfront.co.za/articles/your-guide-to-the-hottest-new-va-stores-and-restaurants"
+   },
+   {
+    "name": "Swatch",
+    "tags": [
+     "jewelry"
+    ],
+    "source": "https://www.waterfront.co.za/articles/your-guide-to-the-hottest-new-va-stores-and-restaurants"
+   },
+   {
+    "name": "Pandora",
+    "tags": [
+     "jewelry"
+    ],
+    "source": "https://www.waterfront.co.za/articles/your-guide-to-the-hottest-new-va-stores-and-restaurants"
+   },
+   {
+    "name": "Bulgari",
+    "tags": [
+     "luxury",
+     "jewelry"
+    ],
+    "source": "https://www.bulgari.com/it-ch/storelocator/sudafrica/capetown/shop-6200-upper-level-19-dock-rd-cape-town"
+   },
+   {
+    "name": "Grays",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://waterfront.co.za/stores/grays-shop/"
+   },
+   {
+    "name": "Two Oceans Aquarium",
+    "tags": [
+     "entertainment"
+    ],
+    "source": "https://www.waterfront.co.za/attractions"
+   },
+   {
+    "name": "Cape Wheel",
+    "tags": [
+     "entertainment"
+    ],
+    "source": "https://www.waterfront.co.za/blogs/the-cape-wheels-epic-comeback/"
+   },
+   {
+    "name": "Watershed",
+    "tags": [
+     "gifts"
+    ],
+    "source": "https://www.waterfront.co.za/attractions"
+   }
+  ]
+ },
+ {
+  "key": "milan/galleria-vittorio-emanuele-ii",
+  "mall": "Galleria Vittorio Emanuele II",
+  "city": "Milan",
+  "source": "https://citywonders.com/blog/what-youll-find-in-galleria-vittorio-emanuele",
+  "stores": [
+   {
+    "name": "Prada",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://www.nssmag.com/en/fashion/44353/galleria-vittorio-emanuele-record-rents-milan"
+   },
+   {
+    "name": "Louis Vuitton",
+    "tags": [
+     "luxury"
+    ],
+    "source": "https://www.nssmag.com/en/fashion/44353/galleria-vittorio-emanuele-record-rents-milan"
+   },
+   {
+    "name": "Versace",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://www.nssmag.com/en/fashion/44353/galleria-vittorio-emanuele-record-rents-milan"
+   },
+   {
+    "name": "Dior",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://www.nssmag.com/en/lifestyle/39196/galleria-vittorio-emanuele-milan-rent-luxury-dior"
+   },
+   {
+    "name": "Gucci",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Armani",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://www.exoticca.com/us/blog/a-travel-guide-to-galleria-vittorio-emanuele-ii/"
+   },
+   {
+    "name": "Luisa Spagnoli",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://www.exoticca.com/us/blog/a-travel-guide-to-galleria-vittorio-emanuele-ii/"
+   },
+   {
+    "name": "Borsalino",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Galleria_Vittorio_Emanuele_II"
+   },
+   {
+    "name": "Caffè Biffi",
+    "tags": [
+     "cafe",
+     "dessert"
+    ]
+   },
+   {
+    "name": "Savini",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Camparino in Galleria",
+    "tags": [
+     "cafe"
+    ]
+   }
+  ],
+  "note": "No official tenant directory found (the Comune di Milano grants concessions). Names come from travel guides and 2024-2025 news on Galleria leases; Feltrinelli's space was partly taken over by Prada, so recheck it."
+ }
+]

@@ -20,14 +20,14 @@ const overrides = JSON.parse(fs.readFileSync('scripts/osm-import/overrides.json'
 // A region pulled part by part (regions.js `parts`) keeps what each part's
 // pull returned, inside the outer shape.
 const inside = region.parts ? (lat, lng, el) => !!el.town && insideShape(lat, lng, region.shape) : null;
-const townOf = new Map(elements.map((el) => [`osm-${el.type[0]}${el.id}`, el.town]));
+const townOf = new Map(elements.map((el) => [(el.placeId || `osm-${el.type[0]}${el.id}`), el.town]));
 const imported = importPlaces(elements, { catalog, wikidataFacts, overrides, region: region.id, shape: region.shape, inside });
 const dropped = imported.dropped;
 // `_area` (a town or nearest neighborhood) is for the spread and the report
 // only; build-packs.mjs leaves underscore fields out of the packs.
 // A located candidate (locate-candidates.mjs) also carries its research
 // tier and, for an insider pick, the sourced tech link (`_tier`, `_reason`).
-const researchOf = new Map(elements.filter((el) => el.research).map((el) => [`osm-${el.type[0]}${el.id}`, el.research]));
+const researchOf = new Map(elements.filter((el) => el.research).map((el) => [(el.placeId || `osm-${el.type[0]}${el.id}`), el.research]));
 let places = imported.places.map((p) => ({
   ...p,
   region: region.packRegionOf(p.lat, p.lng),
@@ -35,7 +35,7 @@ let places = imported.places.map((p) => ({
   ...(researchOf.has(p.id) ? { _tier: researchOf.get(p.id).tier, _reason: researchOf.get(p.id).reason } : {}),
 }));
 if (region.curated) {
-  const tagsById = new Map(elements.map((el) => [`osm-${el.type[0]}${el.id}`, el.tags || {}]));
+  const tagsById = new Map(elements.map((el) => [(el.placeId || `osm-${el.type[0]}${el.id}`), el.tags || {}]));
   const webFacts = JSON.parse(fs.readFileSync('scripts/osm-import/web-facts.json', 'utf8'));
   const webFactsOf = (p) => (webFacts[p.id]?.facts || []).filter(okWebFact).length;
   const { selected, notSelected, tiers } = selectCurated(places, { tagsById, overrides, ...region.curated, webFactsOf, areaOf: (p) => p._area });
@@ -44,7 +44,7 @@ if (region.curated) {
   console.log('selected by tier:', tiers);
   console.log('selected by area:', Object.fromEntries(Object.entries(Object.groupBy(places, (p) => p._area)).map(([k, v]) => [k, v.length]).sort((a, b) => b[1] - a[1])));
 } else if (region.select) {
-  const tagsById = new Map(elements.map((el) => [`osm-${el.type[0]}${el.id}`, el.tags || {}]));
+  const tagsById = new Map(elements.map((el) => [(el.placeId || `osm-${el.type[0]}${el.id}`), el.tags || {}]));
   const { selected, notSelected, tiers } = selectPlaces(places, { tagsById, overrides, ...region.select });
   places = selected;
   dropped.notSelected = notSelected.map((p) => ({ id: p.id, name: p.name, category: p.categories[0], why: p.why }));

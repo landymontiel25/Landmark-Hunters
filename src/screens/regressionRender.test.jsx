@@ -117,7 +117,7 @@ describe('GroupTrip renders without crashing on real-world trip shapes', () => {
 });
 
 describe('LandmarkSelection renders the real Villanova catalog (some entries ship without every optional field)', () => {
-  async function renderIt(tripOverrides) {
+  async function renderIt(tripOverrides, claimedMap = {}) {
     vi.resetModules();
     vi.doMock('../lib/TripContext', () => ({
       useTrip: () => ({
@@ -150,7 +150,7 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     }));
     vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null }) }));
     vi.doMock('../lib/useCheckIn', () => ({
-      useCheckIn: () => ({ user: null, firebaseEnabled: false, claimedMap: {}, checkingIn: null, checkIn: vi.fn() }),
+      useCheckIn: () => ({ user: null, firebaseEnabled: false, claimedMap, checkingIn: null, checkIn: vi.fn() }),
     }));
     vi.doMock('../lib/RatingsContext', () => ({ useRatings: () => ({ ratings: {} }) }));
     vi.doMock('../lib/MyPhotosContext', () => ({ useMyPhotos: () => ({ myPhotos: {} }) }));
@@ -183,6 +183,26 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     }
     expect(el.querySelectorAll('.landmark-row').length).toBeGreaterThan(800);
     expect(el.textContent).toContain('Corr Hall Arch');
+  }, 40000);
+
+  it('the check-in arrow button cycles: off, up (not checked in first), down (checked in first)', async () => {
+    const el = await renderIt({}, { 'corr-hall-arch': true });
+    const btn = () => [...el.querySelectorAll('.tabs .tab-btn')].find((b) => b.textContent.includes('\u{2705}'));
+    const first = () => el.querySelector('.landmark-row')?.textContent || '';
+    const click = async () => {
+      await act(async () => {
+        btn().click();
+      });
+    };
+    expect(btn().textContent.trim()).toBe('\u{2705}');
+    await click();
+    expect(btn().textContent).toContain('\u{2191}');
+    expect(first()).not.toContain('Corr Hall Arch');
+    await click();
+    expect(btn().textContent).toContain('\u{2193}');
+    expect(first()).toContain('Corr Hall Arch');
+    await click();
+    expect(btn().textContent.trim()).toBe('\u{2705}');
   }, 40000);
 
   it('opens on every landmark, not a city saved from an earlier visit', async () => {

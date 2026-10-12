@@ -1,0 +1,43 @@
+[
+  {
+    "name": "St. Agnes Catholic Church",
+    "area": "Key Biscayne",
+    "address": "100 Harbor Dr",
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": false,
+    "searches": 1,
+    "reason": null,
+    "facts": [
+      {
+        "text": "The parish was founded in 1952.",
+        "url": "https://en.wikipedia.org/wiki/List_of_churches_in_the_Archdiocese_of_Miami"
+      },
+      {
+        "text": "Its current church building was dedicated in 1954.",
+        "url": "https://en.wikipedia.org/wiki/List_of_churches_in_the_Archdiocese_of_Miami"
+      },
+      {
+        "text": "The parish began by serving three dozen families on the island.",
+        "url": "https://parishsoft.com/success-stories"
+      }
+    ]
+  },
+  {
+    "name": "Monarch Lounge Bar",
+    "area": "Key Biscayne",
+    "address": null,
+    "city": "Key Biscayne",
+    "tier": "everyday",
+    "matched": true,
+    "closed": false,
+    "closedSource": null,
+    "notFound": true,
+    "searches": 1,
+    "reason": null,
+    "facts": []
+  }
+]

@@ -519,6 +519,8 @@ export const PHILLY_LANDMARKS = [
   },
   {
     id: 'king-of-prussia-mall',
+    // A mall: its stores are in data/mallStores.js.
+    mall: true,
     popularity: 8, // 5833 avg monthly Wikipedia views (raw signal, log-scaled 1-10)
     images: ['https://commons.wikimedia.org/wiki/Special:FilePath/King%20of%20Prussia%20Mall%20Court%20second%20floor%20near%20Bloomingdale\'s.jpeg?width=1200', 'https://commons.wikimedia.org/wiki/Special:FilePath/King%20of%20Prussia%20Mall%20entrance%20between%20Neiman%20Marcus%20and%20Macy\'s.jpg?width=1200'],
     name: 'King of Prussia Mall',

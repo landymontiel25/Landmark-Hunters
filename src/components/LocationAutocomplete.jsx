@@ -118,10 +118,12 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
   // Local landmark matches already carry lat/lng; a Places suggestion only
   // has a placeId until now -- this is the one Place Details round trip per
   // pick, right when the user actually commits to a suggestion.
-  const resolveSuggestion = async (s) => {
+  // `how` says what picked it: 'tap' (you chose this row), 'enter', or
+  // 'blur' (you left the box and the top row was taken for you).
+  const resolveSuggestion = async (s, how) => {
     if (!s.placeId) {
       pickSeqRef.current += 1;
-      onSelect(s);
+      onSelect({ ...s, how });
       setOpen(false);
       return;
     }
@@ -132,7 +134,7 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
       const details = await getPlaceDetails(s.placeId, sessionTokenRef.current);
       sessionTokenRef.current = makeSessionToken();
       if (seq !== pickSeqRef.current) return;
-      onSelect({ primary: details.primary || s.primary, secondary: details.secondary || s.secondary, lat: details.lat, lng: details.lng });
+      onSelect({ primary: details.primary || s.primary, secondary: details.secondary || s.secondary, lat: details.lat, lng: details.lng, how });
       setOpen(false);
     } catch (e) {
       if (seq !== pickSeqRef.current) return;
@@ -167,7 +169,7 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
           // dropdown item was previously the only way the pin ever moved.
           if (e.key === 'Enter' && suggestions.length > 0) {
             e.preventDefault();
-            resolveSuggestion(suggestions[0]);
+            resolveSuggestion(suggestions[0], 'enter');
           }
         }}
         onBlur={(e) => {
@@ -176,7 +178,7 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
           // tapped (the pin could land on the wrong place). Also skip while
           // a search is in flight: the list is stale then.
           if (boxRef.current?.contains(e.relatedTarget) || loading) return;
-          if (suggestions.length > 0) resolveSuggestion(suggestions[0]);
+          if (suggestions.length > 0) resolveSuggestion(suggestions[0], 'blur');
         }}
       />
       {open && (loading || suggestions.length > 0 || searchError) && (
@@ -200,7 +202,7 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
                 className="btn btn-ghost btn-tight"
                 // Keep focus in the box so its blur-to-pick doesn't fire.
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => (failedPick ? resolveSuggestion(failedPick) : setAttempt((a) => a + 1))}
+                onClick={() => (failedPick ? resolveSuggestion(failedPick, 'tap') : setAttempt((a) => a + 1))}
               >
                 {'\u{1F504}'} Try again
               </button>
@@ -212,7 +214,11 @@ export default function LocationAutocomplete({ id, name, value, regionId, nearTo
                 type="button"
                 key={s.key}
                 className="autocomplete-item"
-                onClick={() => resolveSuggestion(s)}
+                // Keep focus in the box: on a phone the blur closes the
+                // keyboard, which shifts the list and loses the tap, and the
+                // blur would pick the top row instead of this one.
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => resolveSuggestion(s, 'tap')}
               >
                 <span className="autocomplete-primary">{s.primary}</span>
                 {(() => {

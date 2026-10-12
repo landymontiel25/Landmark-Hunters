@@ -181,6 +181,7 @@ export function areaOf(region, r) {
   const city = a.city || a.town || a.village || a.hamlet || a.municipality || '';
   const p = pointOf(r);
   if (region.id === 'sf') return city === 'San Francisco' && insideShape(p.lat, p.lng, region.shape) ? 'San Francisco' : null;
+  if (region.id === 'kb') return insideShape(p.lat, p.lng, region.shape) ? region.areaOf(p.lat, p.lng) : null;
   if (region.id === 'sv') {
     const town = region.parts.find((t) => t.town && t.town === city);
     if (town) return town.name;
