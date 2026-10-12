@@ -50,7 +50,8 @@ describe('rateability gate', () => {
     expect(ids).toContain('formula-1');
     expect(ids).toContain('benches');
     expect(ids).toContain('tech');
-    expect(ids).toHaveLength(13);
+    expect(ids).not.toContain('art-museums');
+    expect(ids).toHaveLength(12);
   });
 
   it('rates airports as airports, whatever else they are tagged', () => {
@@ -106,7 +107,7 @@ describe('rateability gate', () => {
 
   it('picks the chip set from the first rateable category, in priority order', () => {
     expect(ratingCategory({ categories: ['food', 'history-culture'] })).toBe('history-culture');
-    expect(ratingCategory({ categories: ['campus-life', 'art-museums'] })).toBe('art-museums');
+    expect(ratingCategory({ categories: ['campus-life', 'art-museums'] })).toBe('history-culture');
     expect(ratingCategory({ categories: ['campus-life'] })).toBe(null);
   });
 });
@@ -190,16 +191,10 @@ describe('limits and aspects', () => {
       'atmosphere',
       'food',
     ]);
-    expect(aspectsFor({ categories: ['art-museums'] }).map((a) => a.id)).toEqual([
-      'price',
-      'location',
-      'exhibits',
-      'crowd-level',
-    ]);
     expect(aspectsFor({ categories: ['history-culture'] }).map((a) => a.id)).toEqual([
       'price',
       'location',
-      'storytelling',
+      'exhibits',
       'architecture',
     ]);
   });

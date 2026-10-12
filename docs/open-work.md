@@ -3,6 +3,21 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Categories: Art & Culture merge, four switched off (2026-10-12)
+
+Owner asked to merge Art & Museums into History & Culture as "Art &
+Culture" and to switch off 10/10 Benches, Stadiums, Campus Life and
+Airports (Formula 1 was already off). The merged category kept the id
+`history-culture`; `art-museums` is an alias (`CATEGORY_ALIASES` in
+`data/regions.js`) mapped on load for landmark files, place packs,
+custom landmarks, saved interests, old reviews and taste scores
+(`tagScores.js decayedRegion`). Left as is: the import scripts
+(`scripts/osm-import/`) still emit `art-museums` and pack files still carry
+it, so a rebuild doesn't move other regions' packs. Switched-off categories
+are only out of pickers and filters (`HIDDEN_INTEREST_IDS`); their places
+still show and Mapr moods (Sports, Fresh air) still use them. To bring one
+back, remove its id from that set.
+
 ## Malls (places with stores inside), Test tab only
 
 The Test tab's "Malls" bubble (`screens/MallLab.jsx`, the bubble the tab

@@ -9,7 +9,7 @@ import { getRegion } from '../../data/regions.js';
 const ON = Object.fromEntries(Object.keys(FEATURES).map((k) => [k, { enabled: true, rollout: 100 }]));
 const MILAN = { lat: 45.4642, lng: 9.19 };
 const NOW = Date.parse('2026-10-01T10:00:00Z');
-const profile = { tagScores: { all: { food: 30, 'art-museums': 20 } }, tagScoresAt: { all: { food: NOW, 'art-museums': NOW } } };
+const profile = { tagScores: { all: { food: 30, 'entertainment': 20 } }, tagScoresAt: { all: { food: NOW, 'entertainment': NOW } } };
 const milan = getRegion('milan').landmarks.map((l) => ({ ...l, regionId: 'milan' }));
 
 describe('rankPlaces (shared by every Mapr surface)', () => {
@@ -59,7 +59,7 @@ describe('rankPlaces (shared by every Mapr surface)', () => {
   });
 
   it('tasteScorer sums category scores', () => {
-    expect(tasteScorer({ profile, now: NOW })({ regionId: 'milan', categories: ['food', 'art-museums'] })).toBeCloseTo(50, 0);
+    expect(tasteScorer({ profile, now: NOW })({ regionId: 'milan', categories: ['food', 'entertainment'] })).toBeCloseTo(50, 0);
   });
 });
 
@@ -90,7 +90,7 @@ describe('Mapr chat ranking block', () => {
     expect(chatRanking({ uid: 'u1', pool: [], curated, regionsChosen: false, near: null })).toBeNull();
   });
   it('reads the client summary and reviews', () => {
-    expect(summaryScorer({ all: { food: 5, 'art-museums': 2 } })({ categories: ['food', 'art-museums'] })).toBe(7);
+    expect(summaryScorer({ all: { food: 5, 'entertainment': 2 } })({ categories: ['food', 'entertainment'] })).toBe(7);
     expect(reviewsMap([{ landmarkId: 'x', region: 'milan', tier: 'highly-recommend' }, { tier: 'bogus', landmarkId: 'y' }])).toEqual({ x: { landmarkId: 'x', region: 'milan', ratingTier: 'highly-recommend', visited: true } });
   });
 });

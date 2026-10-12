@@ -86,9 +86,8 @@ describe('countCuisineTypes', () => {
 });
 
 describe('hasAllStarWeek', () => {
-  it('is true when all 4 categories are hit within 7 days', () => {
+  it('is true when all 3 categories are hit within 7 days', () => {
     const checkins = [
-      { ...at('2026-03-01T10:00:00Z'), categories: ['art-museums'] },
       { ...at('2026-03-03T10:00:00Z'), categories: ['food'] },
       { ...at('2026-03-05T10:00:00Z'), categories: ['history-culture'] },
       { ...at('2026-03-07T10:00:00Z'), categories: ['parks-nature'] },
@@ -96,10 +95,9 @@ describe('hasAllStarWeek', () => {
     expect(hasAllStarWeek(checkins)).toBe(true);
   });
 
-  it('is false when the 4 categories are spread across more than 7 days', () => {
+  it('is false when the 3 categories are spread across more than 7 days', () => {
     const checkins = [
-      { ...at('2026-03-01T10:00:00Z'), categories: ['art-museums'] },
-      { ...at('2026-03-04T10:00:00Z'), categories: ['food'] },
+      { ...at('2026-03-01T10:00:00Z'), categories: ['food'] },
       { ...at('2026-03-07T10:00:00Z'), categories: ['history-culture'] },
       { ...at('2026-03-10T10:00:00Z'), categories: ['parks-nature'] },
     ];

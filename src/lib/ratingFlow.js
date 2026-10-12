@@ -1,4 +1,4 @@
-import { INTERESTS } from '../data/regions.js';
+import { INTERESTS, normalizeCategories } from '../data/regions.js';
 
 // Same cap firestore.rules enforces on reviews.comment.
 export const COMMENT_MAX = 500;
@@ -21,17 +21,17 @@ export const RATEABLE_CATEGORIES = [
   'entertainment',
   'tech',
   'history-culture',
-  'art-museums',
   'food',
   'local-life',
 ];
 
 export function isRateable(landmark) {
-  return (landmark?.categories || []).some((c) => RATEABLE_CATEGORIES.includes(c));
+  return normalizeCategories(landmark?.categories).some((c) => RATEABLE_CATEGORIES.includes(c));
 }
 
 export function ratingCategory(landmark) {
-  return RATEABLE_CATEGORIES.find((c) => (landmark?.categories || []).includes(c)) || null;
+  const cats = normalizeCategories(landmark?.categories);
+  return RATEABLE_CATEGORIES.find((c) => cats.includes(c)) || null;
 }
 
 // `stars` is derived from the tier, never picked directly: landmark_ratings'
@@ -119,37 +119,21 @@ export const CHIPS = {
       { id: 'too-expensive', label: 'Too expensive' },
     ],
   },
-  'art-museums': {
-    'highly-recommend': [
-      { id: 'stunning-collection', label: 'Stunning collection' },
-      { id: 'great-curation', label: 'Great curation' },
-      { id: 'worth-visiting', label: 'Worth visiting' },
-    ],
-    'worth-trying': [
-      { id: 'decent-exhibits', label: 'Decent exhibits' },
-      { id: 'decent-curation', label: 'Decent curation' },
-      { id: 'average-experience', label: 'Average experience' },
-    ],
-    'probably-skip': [
-      { id: 'underwhelming-exhibits', label: 'Underwhelming exhibits' },
-      { id: 'crowded', label: 'Crowded' },
-      { id: 'not-worth-it', label: 'Not worth it' },
-    ],
-  },
+  // Art & Culture: museums and galleries as well as historic sites.
   'history-culture': {
     'highly-recommend': [
+      { id: 'stunning-collection', label: 'Stunning collection' },
       { id: 'amazing-history', label: 'Amazing history' },
-      { id: 'great-storytelling', label: 'Great storytelling' },
       { id: 'beautiful-building', label: 'Beautiful building' },
     ],
     'worth-trying': [
-      { id: 'okay-exhibits', label: 'Okay exhibits' },
+      { id: 'decent-exhibits', label: 'Decent exhibits' },
       { id: 'decent-tour', label: 'Decent tour' },
       { id: 'fine-spot', label: 'Fine spot' },
     ],
     'probably-skip': [
       { id: 'boring', label: 'Boring' },
-      { id: 'not-maintained', label: 'Not maintained' },
+      { id: 'crowded', label: 'Crowded' },
       { id: 'overpriced', label: 'Overpriced' },
     ],
   },
@@ -335,16 +319,10 @@ export const ASPECT_SETS = {
     { id: 'atmosphere', label: 'Atmosphere' },
     { id: 'food', label: 'Food' },
   ],
-  'art-museums': [
-    { id: 'price', label: 'Price' },
-    { id: 'location', label: 'Location' },
-    { id: 'exhibits', label: 'Exhibits' },
-    { id: 'crowd-level', label: 'Crowd level' },
-  ],
   'history-culture': [
     { id: 'price', label: 'Price' },
     { id: 'location', label: 'Location' },
-    { id: 'storytelling', label: 'Storytelling' },
+    { id: 'exhibits', label: 'Exhibits' },
     { id: 'architecture', label: 'Architecture' },
   ],
   'parks-nature': [
@@ -432,8 +410,7 @@ const TIER_QUESTION_FALLBACK = {
   'parks-nature': 'Do you like the outdoors here?',
   entertainment: 'Do you like this place?',
   tech: 'Do you like this piece of tech history?',
-  'history-culture': 'Do you like the history here?',
-  'art-museums': 'Do you like the art here?',
+  'history-culture': 'Do you like the art and culture here?',
   food: 'Do you like the food here?',
   'local-life': 'Do you like this spot?',
 };
@@ -507,7 +484,7 @@ export function diversityHint(reviews) {
   const counts = {};
   const ratedCats = new Set();
   for (const r of rated) {
-    for (const c of r.categories || []) {
+    for (const c of normalizeCategories(r.categories)) {
       if (!RATEABLE_CATEGORIES.includes(c)) continue;
       counts[c] = (counts[c] || 0) + 1;
       ratedCats.add(c);

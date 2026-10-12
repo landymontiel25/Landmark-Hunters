@@ -22,12 +22,12 @@ const NOW = Date.UTC(2026, 9, 5);
 describe('effectiveTagScores with one overall taste', () => {
   it('reads the overall map in every city, ignoring the old per-city ones', () => {
     const profile = {
-      tagScores: { all: { 'art-museums': -20 }, miami: { 'art-museums': 40 } },
-      tagScoresAt: { all: { 'art-museums': NOW }, miami: { 'art-museums': NOW } },
-      tagCounts: { all: { 'art-museums': 2 } },
+      tagScores: { all: { 'entertainment': -20 }, miami: { 'entertainment': 40 } },
+      tagScoresAt: { all: { 'entertainment': NOW }, miami: { 'entertainment': NOW } },
+      tagCounts: { all: { 'entertainment': 2 } },
     };
-    expect(effectiveTagScores(profile, 'miami', NOW)['art-museums']).toBe(-20);
-    expect(effectiveTagScores(profile, 'paris', NOW)['art-museums']).toBe(-20);
+    expect(effectiveTagScores(profile, 'miami', NOW)['entertainment']).toBe(-20);
+    expect(effectiveTagScores(profile, 'paris', NOW)['entertainment']).toBe(-20);
     expect(localRatingCount(profile, 'paris')).toBe(2);
   });
 
@@ -45,8 +45,8 @@ describe('effectiveTagScores with one overall taste', () => {
 describe('rebuildGlobalTaste', () => {
   it('replays ratings from every city into one map, oldest first', () => {
     const reviews = [
-      { region: 'miami', categories: ['art-museums'], ratingTier: 'probably-skip', ratedAt: NOW - 2000 },
-      { region: 'paris', categories: ['art-museums'], ratingTier: 'probably-skip', ratedAt: NOW - 1000 },
+      { region: 'miami', categories: ['entertainment'], ratingTier: 'probably-skip', ratedAt: NOW - 2000 },
+      { region: 'paris', categories: ['entertainment'], ratingTier: 'probably-skip', ratedAt: NOW - 1000 },
       { region: 'paris', categories: ['food'], ratingTier: 'highly-recommend', ratedAt: NOW - 500 },
     ];
     const m = rebuildGlobalTaste({ reviews, nowMs: NOW });
@@ -55,9 +55,9 @@ describe('rebuildGlobalTaste', () => {
       const next = applyRating(want, r.categories, r.ratingTier, r.ratedAt);
       want = { scores: { ...want.scores, ...next.scores }, at: { ...want.at, ...next.at }, counts: { ...want.counts, ...next.counts } };
     }
-    expect(m.scores['art-museums']).toBeCloseTo(want.scores['art-museums'], 5);
-    expect(m.scores['art-museums']).toBeLessThan(TAG_DELTAS['probably-skip'] + 1); // both dislikes count
-    expect(m.counts['art-museums']).toBe(2);
+    expect(m.scores['entertainment']).toBeCloseTo(want.scores['entertainment'], 5);
+    expect(m.scores['entertainment']).toBeLessThan(TAG_DELTAS['probably-skip'] + 1); // both dislikes count
+    expect(m.counts['entertainment']).toBe(2);
     expect(m.scores.food).toBeGreaterThan(0);
   });
 
@@ -83,13 +83,13 @@ describe('rebuildGlobalTaste', () => {
 });
 
 describe('live learning writes the overall taste too', () => {
-  const LM = { id: 'lm1', region: 'miami', categories: ['art-museums'] };
+  const LM = { id: 'lm1', region: 'miami', categories: ['entertainment'] };
   it('a rating in Miami moves both the Miami map and the overall one', () => {
     const user = { tagScores: { all: {} } };
     const { userPatch } = planLearning({ user, landmark: LM, next: { rating: { tier: 'probably-skip' } }, nowMs: NOW });
-    expect(userPatch.tagScores.miami['art-museums']).toBeLessThan(0);
-    expect(userPatch.tagScores[GLOBAL_TASTE]['art-museums']).toBe(userPatch.tagScores.miami['art-museums']);
-    expect(userPatch.tagCounts[GLOBAL_TASTE]['art-museums']).toBe(1);
+    expect(userPatch.tagScores.miami['entertainment']).toBeLessThan(0);
+    expect(userPatch.tagScores[GLOBAL_TASTE]['entertainment']).toBe(userPatch.tagScores.miami['entertainment']);
+    expect(userPatch.tagCounts[GLOBAL_TASTE]['entertainment']).toBe(1);
   });
 
   it('an account not moved yet only gets the city map', () => {

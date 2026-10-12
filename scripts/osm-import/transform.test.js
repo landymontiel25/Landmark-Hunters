@@ -18,7 +18,7 @@ import {
 } from './transform.js';
 import { isClosedNow } from '../../src/lib/nearbyPicks.js';
 import { tierQuestion } from '../../src/lib/ratingFlow.js';
-import { INTERESTS } from '../../src/data/regions.js';
+import { CATEGORY_ALIASES, INTERESTS } from '../../src/data/regions.js';
 
 const node = (id, tags, lat = 25.7655, lng = -80.2196) => ({ type: 'node', id, lat, lon: lng, tags });
 
@@ -45,7 +45,8 @@ describe('shape', () => {
 });
 
 describe('classify (category = Mapr tag)', () => {
-  const ids = new Set(INTERESTS.map((i) => i.id));
+  // art-museums is retired; the app reads it as history-culture on load.
+  const ids = new Set([...INTERESTS.map((i) => i.id), ...Object.keys(CATEGORY_ALIASES)]);
   const cases = [
     [{ amenity: 'restaurant', cuisine: 'cuban' }, 'food', 'Cuban restaurant'],
     [{ amenity: 'restaurant', cuisine: 'seafood;spanish' }, 'food', 'seafood restaurant'],
