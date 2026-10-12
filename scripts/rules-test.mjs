@@ -18,7 +18,7 @@ import {
   doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, collection, query, where,
   writeBatch, increment, serverTimestamp, deleteField,
 } from 'firebase/firestore';
-import { ref, getBytes, listAll, uploadBytes } from 'firebase/storage';
+import { ref, getBytes, listAll, uploadBytes, deleteObject } from 'firebase/storage';
 
 const ADMIN_EMAIL = 'landymontiel25@gmail.com';
 const env = await initializeTestEnvironment({
@@ -262,6 +262,8 @@ await t('admin pointer: only the admin can set it, to their own uid; then it ide
   const adminDb = env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore();
   await assertFails(setDoc(doc(adminDb, 'admin_pointer/current'), { uid: 'hal', updatedAt: serverTimestamp() }));
   await assertSucceeds(setDoc(doc(adminDb, 'admin_pointer/current'), { uid: 'adm', updatedAt: serverTimestamp() }));
+  const unverified = env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).firestore();
+  await assertFails(setDoc(doc(unverified, 'admin_pointer/current'), { uid: 'adm', updatedAt: serverTimestamp() }));
   await assertSucceeds(getDoc(doc(as('hal'), 'admin_pointer/current')));
   await assertSucceeds(setDoc(doc(as('hal'), 'notifications/n7'), note()));
 });
@@ -284,8 +286,10 @@ await t('replies on a visible review can be read (list and get)', async () => {
 await t('replies on a hidden (2+ reports) review are hidden from others, not from the author or admin', async () => {
   await assertFails(getDocs(collection(as('lou'), 'reviews/ivy_hid/replies')));
   await assertSucceeds(getDocs(collection(as('ivy'), 'reviews/ivy_hid/replies')));
-  await assertSucceeds(getDocs(collection(env.authenticatedContext('adm', { email: ADMIN_EMAIL }).firestore(), 'reviews/ivy_hid/replies')));
+  await assertSucceeds(getDocs(collection(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'reviews/ivy_hid/replies')));
 });
+await t('an unverified account using the admin email is not the admin', () =>
+  assertFails(getDocs(collection(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).firestore(), 'reviews/ivy_hid/replies'))));
 await t('replies are hidden across a block, either direction', async () => {
   await assertFails(getDocs(collection(as('jon'), 'reviews/ivy_lm/replies')));
   await assertFails(getDocs(collection(as('kim'), 'reviews/ivy_lm/replies')));
@@ -592,6 +596,15 @@ await t('storage: signed-in can get a known file but cannot list a folder', asyn
   await assertFails(listAll(ref(stor('bob'), 'review_photos/lm')));
   await assertFails(getBytes(ref(env.unauthenticatedContext().storage(), 'review_photos/lm/ann.jpg')));
   await assertSucceeds(uploadBytes(ref(stor('bob'), 'review_photos/lm/bob.jpg'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
+});
+await t('storage: only a verified admin email can delete someone else\'s photo', async () => {
+  await env.withSecurityRulesDisabled(async (c) => {
+    await uploadBytes(ref(c.storage(), 'review_photos/lm/ann.jpg'), new Uint8Array([1, 2, 3]), { contentType: 'image/jpeg' });
+  });
+  const fake = env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).storage();
+  await assertFails(deleteObject(ref(fake, 'review_photos/lm/ann.jpg')));
+  const real = env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).storage();
+  await assertSucceeds(deleteObject(ref(real, 'review_photos/lm/ann.jpg')));
 });
 
 await env.cleanup();

@@ -2,9 +2,14 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // The admin account(s). Mirrors ADMIN_EMAILS in src/lib/admins.js.
+    // The admin account(s). Mirrors ADMIN_EMAILS in src/lib/admins.js. The
+    // email must be verified: an email/password account can claim any
+    // address until its owner clicks the link (Google sign-in is always
+    // verified).
     function isAdmin() {
-      return request.auth != null && request.auth.token.email in ['landymontiel25@gmail.com'];
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['landymontiel25@gmail.com'];
     }
 
     // A friend request from `fromUid` to `toUid` is waiting. Its id is

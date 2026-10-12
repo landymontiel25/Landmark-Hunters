@@ -17,7 +17,8 @@ Phase 0. Update this item as each step ships.
 
 Progress: the `rules` CI job runs `scripts/rules-test.mjs` in the Firebase
 emulator on every PR (`npm run test:rules`), and the rules deploy workflow
-runs it again before it deploys.
+runs it again before it deploys. `isAdmin()` in both rules files now needs a
+verified email (scan question 7); Google sign-in is always verified.
 
 ## Founder and family accounts in the owner stats (needs the UIDs)
 
