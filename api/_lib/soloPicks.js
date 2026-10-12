@@ -56,8 +56,9 @@ const msOf = (t) => (typeof t?.toMillis === 'function' ? t.toMillis() : Number.i
 
 // Distinct landmarks engaged with on that local day, the SAME rule the
 // "N/3 today" counter uses on the client (todaysActionCount in
-// src/lib/streaks.js): Travel Picks answers plus 0-point "Rate a Landmark"
-// ratings. Real check-ins do not count here.
+// src/lib/streaks.js): Travel Picks answers, 0-point "Rate a Landmark"
+// ratings and real check-ins (owner, 2026-10-12: "if I check in or rate 3
+// landmarks").
 export function distinctActionsOn(pickDocs, checkinDocs, window) {
   if (!window) return 0;
   const ids = new Set();
@@ -70,7 +71,7 @@ export function distinctActionsOn(pickDocs, checkinDocs, window) {
   }
   for (const raw of checkinDocs || []) {
     const c = typeof raw?.data === 'function' ? raw.data() : raw;
-    if (!isRatingOnlyClaim(c)) continue;
+    if (!c) continue;
     const id = typeof c.landmarkId === 'string' ? c.landmarkId : '';
     const at = msOf(c.createdAt);
     if (id && id.length <= 100 && Number.isFinite(at) && at >= window.start && at < window.end) ids.add(id);

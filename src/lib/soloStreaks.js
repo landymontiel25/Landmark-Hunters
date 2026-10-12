@@ -1,4 +1,4 @@
-import { doc, onSnapshot, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, setDoc, updateDoc, serverTimestamp, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { dayKey } from './streaks';
 import { pickDailyCardIds } from './sharedDeck';
@@ -57,6 +57,33 @@ export function subscribeMySoloStreak(uid, onStreak, onError) {
   return onSnapshot(
     doc(db, 'streaks', uid),
     (snap) => onStreak(snap.exists() ? { id: uid, ...snap.data() } : null),
+    onError
+  );
+}
+
+// Calls onNew() each time one of your check-ins or ratings (both are
+// checkins/ docs) reaches the server, so the header can close the streak day
+// right away instead of after a reload. Skips the first snapshot (the
+// history already there) and writes still pending on this device (the
+// server can't count those yet).
+export function watchNewCheckins(uid, onNew, onError = () => {}) {
+  if (!db || !uid) return () => {};
+  let first = true;
+  const seen = new Set();
+  return onSnapshot(
+    query(collection(db, 'checkins'), where('userId', '==', uid)),
+    { includeMetadataChanges: true },
+    (snap) => {
+      if (first) {
+        first = false;
+        snap.docs.forEach((d) => seen.add(d.id));
+        return;
+      }
+      if (snap.metadata.hasPendingWrites) return;
+      const fresh = snap.docs.filter((d) => !seen.has(d.id));
+      fresh.forEach((d) => seen.add(d.id));
+      if (fresh.length) onNew(fresh.length);
+    },
     onError
   );
 }

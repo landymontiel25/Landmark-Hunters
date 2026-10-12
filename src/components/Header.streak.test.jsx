@@ -34,6 +34,8 @@ vi.mock('../lib/AdminModeContext', () => ({
 vi.mock('../lib/PairStreakContext', () => ({ usePairStreaks: () => ({ streaks: [] }) }));
 vi.mock('../lib/soloStreaks', () => ({
   ensureSoloStreak: vi.fn(async () => ({})),
+  watchNewCheckins: (...a) => (globalThis.__watchNew || (() => () => {}))(...a),
+  closeSoloToday: (...a) => (globalThis.__closeToday || (async () => ({})))(...a),
   subscribeMySoloStreak: (uid, onStreak) => {
     onStreak(soloStreak);
     return () => {};
