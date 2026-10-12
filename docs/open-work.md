@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Discovery network plan v2 (not started)
+
+`docs/discovery-network-plan.md` (v2, 2026-10-10) turns Mapr from ranking
+places into matching people: verified presence, tips, follows and taste
+neighbors, community picks on every Mapr surface, local reputation, alerts,
+then a feed in dense cities. v2 adds a per-city ramp (Mapr only until a city
+has 100 active users and 150 live tips), a 0.3 neighbor-score floor, a radius
+and accuracy table by place type, a reputation cap of 15 per person, and moves
+check-in read limits before Phase 2. Order of work: prerequisites (rules tests
+in CI, scan question 7, check-in and points parts of question 14), then
+Phase 0. Update this item as each step ships.
+
 ## Founder and family accounts in the owner stats (needs the UIDs)
 
 `src/lib/familyAccounts.js` holds `FAMILY_UIDS`, the founder and family
