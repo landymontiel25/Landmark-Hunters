@@ -19,6 +19,24 @@ jobs:
       - run: npm run test
       - run: npm run build
 
+  # Emulator tests for firestore.rules and storage.rules. The rules deploy on
+  # every merge to main (deploy-firestore-rules.yml), so a rules change must
+  # pass these before it merges.
+  rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run test:rules
+
   admin-dashboard:
     runs-on: ubuntu-latest
     defaults:

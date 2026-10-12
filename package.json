@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "ios:sync": "vite build && cap sync ios",
     "ios:open": "cap open ios",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:rules": "npm i --no-save firebase-tools@13.35.1 @firebase/rules-unit-testing@5.0.2 && firebase emulators:exec --only firestore,storage --project demo-lh \"node scripts/rules-test.mjs\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",
