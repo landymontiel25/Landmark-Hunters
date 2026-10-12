@@ -315,10 +315,10 @@ export const INTERESTS = [
   // churches. It used to be two categories (History & Culture, Art &
   // Museums); the id stayed history-culture.
   { id: 'history-culture', label: 'Art & Culture', icon: '\u{1F3DB}\u{FE0F}', added: 1 },
-  // Food is restaurants, cafés, bakeries, gelato, food markets. Local Life is
+  // Food is restaurants, cafés, bakeries, gelato, food markets. Nightlife (id local-life) is
   // bars, clubs, live-music venues, neighborhoods, squares, shopping streets.
   { id: 'food', label: 'Food', icon: '\u{1F37D}\u{FE0F}', added: 8 },
-  { id: 'local-life', label: 'Local Life', icon: '\u{1F378}', added: 9 },
+  { id: 'local-life', label: 'Nightlife', icon: '\u{1F378}', added: 9 },
   { id: 'parks-nature', label: 'Parks & Nature', icon: '\u{1F333}', added: 4 },
   // Entertainment is shows, zoos, aquariums, cruises, amusement parks.
   // Stadiums is every stadium, arena, ballpark and race track. Sports
@@ -326,7 +326,7 @@ export const INTERESTS = [
   { id: 'entertainment', label: 'Entertainment', icon: '\u{1F39F}\u{FE0F}', added: 5 },
   { id: 'stadiums', label: 'Stadiums', icon: '\u{1F3DF}\u{FE0F}', added: 11 },
   { id: 'formula-1', label: 'Formula 1 Circuits', icon: '\u{1F3CE}\u{FE0F}', added: 12 },
-  { id: 'sports', label: 'Sports Activities', icon: '\u{1F3C0}', added: 10 },
+  { id: 'sports', label: 'Sports', icon: '\u{1F3C0}', added: 10 },
   { id: 'airports', label: 'Airports', icon: '\u{2708}\u{FE0F}', added: 7 },
   // Personal-favourite sitting spots with a view, like The 10/10 Bench.
   { id: 'benches', label: '10/10 Benches', icon: '\u{1FA91}', added: 13 },

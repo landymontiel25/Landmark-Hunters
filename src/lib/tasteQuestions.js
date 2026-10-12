@@ -41,14 +41,14 @@ export const TASTE_QUESTIONS = [
   },
   {
     id: 'sports',
-    label: 'Sports & Activities',
+    label: 'Sports',
     icon: '\u{1F3C0}',
     prompt: 'Like or hate any of these?',
     examples: ['Golf', 'Pickleball', 'Racing', 'Stadium games', 'Boating'],
   },
   {
     id: 'local-life',
-    label: 'Local Life',
+    label: 'Nightlife',
     icon: '\u{1F378}',
     prompt: 'Like or hate any of these?',
     examples: ['Nightlife / clubs', 'Dive bars', 'Farmers markets', 'Luxury / fancy spots'],
