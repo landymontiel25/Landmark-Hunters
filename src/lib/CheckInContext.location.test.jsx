@@ -21,7 +21,9 @@ afterEach(() => {
 
 // Renders the real CheckInProvider, taps Check In then Post with `fix`.
 async function post({ rule, fix, ratingOnly = false }) {
-  const claim = vi.fn(async () => ({ claimed: true, alreadyClaimed: false, payout: 100, visitNumber: 1 }));
+  const claim = vi.fn(async () => ({ claimed: true, alreadyClaimed: false, payout: 100, visitNumber: 1, checkinId: 'u_lm' }));
+  const verify = vi.fn(async () => ({ ok: true, verified: true, reason: null }));
+  vi.doMock('./verifyPresence', () => ({ verifyCheckinPresence: verify }));
   vi.doMock('./maprConstants', async () => ({ ...(await vi.importActual('./maprConstants')), REQUIRE_GPS_CHECKIN: rule }));
   vi.doMock('./AuthContext', () => ({ useAuth: () => authState }));
   vi.doMock('./FriendsContext', () => ({ useFriends: () => friendsState }));
@@ -57,14 +59,14 @@ async function post({ rule, fix, ratingOnly = false }) {
       error = e;
     }
   });
-  return { claim, error };
+  return { claim, error, verify, api: () => api };
 }
 
 describe('commitCheckIn location evidence', () => {
-  it('rule OFF: saves distance + accuracy, tagged unverified, even from far away or with no fix', async () => {
+  it('rule OFF: saves only "unverified" (no distance or accuracy), even from far away or with no fix', async () => {
     const a = await post({ rule: false, fix: far });
     expect(a.error).toBeNull();
-    expect(a.claim.mock.calls[0][0].location).toMatchObject({ distanceMeters: 500, gpsAccuracyMeters: 9, verification: 'unverified' });
+    expect(a.claim.mock.calls[0][0].location).toEqual({ verification: 'unverified' });
     container.remove();
     vi.resetModules();
     const b = await post({ rule: false, fix: null });
@@ -72,10 +74,17 @@ describe('commitCheckIn location evidence', () => {
     expect(b.claim.mock.calls[0][0].location).toEqual({ verification: 'unverified' });
   });
 
-  it('rule ON: a fix within 30 m is saved as verified', async () => {
+  it('rule ON: a fix within 30 m goes through, still saved unverified (only the server verifies)', async () => {
     const { claim, error } = await post({ rule: true, fix: near });
     expect(error).toBeNull();
-    expect(claim.mock.calls[0][0].location.verification).toBe('verified');
+    expect(claim.mock.calls[0][0].location).toEqual({ verification: 'unverified' });
+  });
+
+  it('asks the server to verify the new check-in and exposes its answer', async () => {
+    const { verify, api } = await post({ rule: false, fix: near });
+    expect(verify).toHaveBeenCalledWith('u_lm');
+    await act(async () => {});
+    expect(api().presenceResult).toMatchObject({ checkinId: 'u_lm', landmarkId: 'lm', verified: true });
   });
 
   it('rule ON: a fix farther than 30 m, or no fix, is refused and nothing is claimed', async () => {
@@ -89,9 +98,10 @@ describe('commitCheckIn location evidence', () => {
     expect(b.claim).not.toHaveBeenCalled();
   });
 
-  it('a rating-only claim is never refused and is saved untagged', async () => {
-    const { claim, error } = await post({ rule: true, fix: far, ratingOnly: true });
+  it('a rating-only claim is never refused, is saved untagged, and is never sent to verify', async () => {
+    const { claim, error, verify } = await post({ rule: true, fix: far, ratingOnly: true });
     expect(error).toBeNull();
+    expect(verify).not.toHaveBeenCalled();
     expect(claim.mock.calls[0][0].ratingOnly).toBe(true);
     expect(claim.mock.calls[0][0].location).toBeNull();
   });

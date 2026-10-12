@@ -100,7 +100,15 @@ export async function loadStatsData(db) {
     }),
     take('checkins', db.collection('checkins'), (d) => {
       const x = d.data();
-      return { userId: x.userId, createdAt: ms(x.createdAt), ratingOnly: x.ratingOnly === true, landmarkId: x.landmarkId ?? null, region: x.region ?? null };
+      return {
+        userId: x.userId,
+        createdAt: ms(x.createdAt),
+        ratingOnly: x.ratingOnly === true,
+        landmarkId: x.landmarkId ?? null,
+        region: x.region ?? null,
+        // Server-verified presence (api/verify-checkin.js); null when never checked.
+        presence: x.presence && typeof x.presence === 'object' ? { verified: x.presence.verified === true, reason: x.presence.reason ?? null } : null,
+      };
     }),
     take('referrals', db.collection('referrals'), (d) => ({ referrerUid: d.data().referrerUid, referredUid: d.data().referredUid })),
     take('place_scores', db.collectionGroup('place_scores'), (d) => {

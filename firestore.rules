@@ -135,15 +135,20 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['userId', 'userName', 'landmarkId', 'landmarkName', 'region',
              'points', 'basePoints', 'visitNumber', 'ratingOnly', 'visited', 'insideHomeRadius', 'createdAt',
              'distanceMeters', 'gpsAccuracyMeters', 'verification'])
-        // Optional location evidence saved with a real check-in (see
-        // checkinRules.js). Client-reported, so only type-checked here.
+        // Legacy location numbers: the app stopped writing them (verified
+        // presence and its GPS proof are server-written, below), but builds
+        // from before Phase 0 still send them, so they stay accepted, typed,
+        // until the Phase 2 check-in read limits land.
         && request.resource.data.get('distanceMeters', 0) is number
         && request.resource.data.get('distanceMeters', 0) >= 0
         && request.resource.data.get('distanceMeters', 0) <= 20100000
         && request.resource.data.get('gpsAccuracyMeters', 0) is number
         && request.resource.data.get('gpsAccuracyMeters', 0) >= 0
         && request.resource.data.get('gpsAccuracyMeters', 0) <= 1000000
-        && request.resource.data.get('verification', 'unverified') in ['unverified', 'verified']
+        // Only the server says a visit is verified: a client may write
+        // 'unverified' and never `presence` (keys list above), which
+        // api/verify-checkin.js writes with the Admin SDK.
+        && request.resource.data.get('verification', 'unverified') == 'unverified'
         && request.resource.data.points is number
         && request.resource.data.points >= 0
         && request.resource.data.points <= maxPointsPerWrite()
@@ -178,13 +183,26 @@ service cloud.firestore {
         && (
           (checkinId.split('_')[0] == request.auth.uid
             && request.resource.data.diff(resource.data).affectedKeys()
-                 .hasOnly(['photoURL', 'photoURLs', 'userName', 'distanceMeters', 'gpsAccuracyMeters'])
+                 .hasOnly(['photoURL', 'photoURLs', 'userName', 'distanceMeters', 'gpsAccuracyMeters', 'presence'])
             && locationOnlyRemoved('distanceMeters')
-            && locationOnlyRemoved('gpsAccuracyMeters'))
+            && locationOnlyRemoved('gpsAccuracyMeters')
+            // `presence` is server-written: the owner may only remove it
+            // (account deletion), never set or change it.
+            && locationOnlyRemoved('presence'))
           || (isAdmin()
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['createdAt']))
         );
       allow delete: if false;
+    }
+    // The GPS fix behind a check-in's `presence` (api/verify-checkin.js).
+    // Server only: not even the owner reads it.
+    match /checkins/{checkinId}/proof/{docId} {
+      allow read, write: if false;
+    }
+    // Each account's last verified fix, for the impossible-travel check.
+    // Server only.
+    match /presence_state/{uid} {
+      allow read, write: if false;
     }
     // The one check-in payout an account ever gets. Created by the owner in
     // the same write as the paying check-in it names (claimCheckIn), never
@@ -446,6 +464,10 @@ service cloud.firestore {
       allow write: if false;
     }
     match /taste_score/{id} {
+      allow read: if isDashboard();
+      allow write: if false;
+    }
+    match /presence_metrics/{id} {
       allow read: if isDashboard();
       allow write: if false;
     }

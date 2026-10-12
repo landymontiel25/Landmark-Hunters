@@ -63,6 +63,29 @@ export function growthDocs(ds, dates) {
 }
 
 // engagement_metrics/{date}
+// Verified presence per day (docs/discovery-network-plan.md, Phase 0): real
+// check-ins, how many the server checked, passed and failed, the pass rate of
+// the checked ones (Phase 0 is done at 80%+), and failures by reason.
+export function presenceDocs(ds, dates) {
+  const byDate = new Map(dates.map((d) => [d, { checkins: 0, checked: 0, verified: 0, reasons: {} }]));
+  for (const c of realCheckins(ds)) {
+    const slot = byDate.get(dateUtc(c.createdAt));
+    if (!slot) continue;
+    slot.checkins += 1;
+    if (!c.presence) continue;
+    slot.checked += 1;
+    if (c.presence.verified) slot.verified += 1;
+    else {
+      const why = c.presence.reason || 'unknown';
+      slot.reasons[why] = (slot.reasons[why] || 0) + 1;
+    }
+  }
+  return dates.map((date) => {
+    const s = byDate.get(date);
+    return { date, checkins: s.checkins, checked: s.checked, verified: s.verified, failed: s.checked - s.verified, verified_rate: r4(ratio(s.verified, s.checked)), fail_reasons: s.reasons };
+  });
+}
+
 export function engagementDocs(ds, dates, annotated = annotateShown(ds)) {
   const visits = realCheckins(ds);
   return dates.map((date) => {

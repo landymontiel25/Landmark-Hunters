@@ -175,9 +175,10 @@ export const REQUEST_FOR_VALUES = ['solo', 'group'];
 // check-in goes through wherever you are, and is saved tagged 'unverified'.
 // ON: a real check-in (not a rating-only claim) needs a GPS fix within the
 // place's radius, with accuracy no worse than CHECKIN_MAX_ACCURACY_METERS;
-// those are saved tagged 'verified'. Everything the rule needs is client side
-// (the Firestore rules cannot see the user's position), so 'verified' is a
-// client-reported tag, not server-proven.
+// The phone saves every check-in 'unverified'. Verified presence is
+// server-proven: api/verify-checkin.js checks a fresh fix against the place
+// (src/lib/presence.js, radius by place type) and writes `presence`, which
+// the rules forbid any client to write.
 export const REQUIRE_GPS_CHECKIN = false;
 // How close you must be (meters) to a place that has no radius of its own.
 // Big venues (parks, malls, beaches, national parks) keep their own larger
@@ -187,7 +188,9 @@ export const CHECKIN_RULE_METERS = 30;
 // A fix whose reported accuracy is worse than this (meters) cannot verify a
 // check-in; it is too coarse to say whether you are at the place.
 export const CHECKIN_MAX_ACCURACY_METERS = 50;
-// The two values saved on every real check-in's `verification` field.
+// Values of a check-in's legacy `verification` field. A client may only
+// write 'unverified'; old docs may hold 'verified' from before Phase 0, which
+// nothing trusts (read `presence.verified` instead).
 export const CHECKIN_VERIFICATIONS = ['unverified', 'verified'];
 
 // --- Onboarding first check-in (src/components/OnboardingCheckinStep.jsx) --

@@ -2946,6 +2946,18 @@ button.header-streak {
 }
 
 /* --- Post-check-in overtake payoff --- */
+/* Verified presence line (api/verify-checkin.js): the check-in success
+   panel and the check-in list. */
+.presence-line {
+  font-size: 0.85rem;
+  color: var(--color-parchment);
+  opacity: 0.85;
+}
+.presence-verified {
+  color: var(--success);
+  font-weight: 600;
+  opacity: 1;
+}
 .celebration-banner {
   margin: 4px 0 2px;
   padding: 10px 14px;

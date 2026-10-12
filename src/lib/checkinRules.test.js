@@ -64,18 +64,10 @@ describe('checkinBlockReason (rule OFF)', () => {
 });
 
 describe('checkinLocationFields', () => {
-  it('rule OFF: saves distance and accuracy, always unverified (even when close)', () => {
-    const f = checkinLocationFields(at(10, 6), place, { required: false });
-    expect(f.verification).toBe('unverified');
-    expect(f.distanceMeters).toBeGreaterThanOrEqual(9);
-    expect(f.gpsAccuracyMeters).toBe(6);
-  });
-  it('rule ON: verified only when near enough', () => {
-    expect(checkinLocationFields(at(10), place, { required: true }).verification).toBe('verified');
-    expect(checkinLocationFields(at(80), place, { required: true }).verification).toBe('unverified');
-  });
-  it('unverified, with no numbers, when the distance cannot be computed', () => {
-    expect(checkinLocationFields(null, place, { required: true })).toEqual({ verification: 'unverified' });
+  it('the phone saves only "unverified": no distance, accuracy or verified tag (the server decides)', () => {
+    expect(checkinLocationFields(at(10, 6), place, { required: false })).toEqual({ verification: 'unverified' });
+    expect(checkinLocationFields(at(10), place, { required: true })).toEqual({ verification: 'unverified' });
+    expect(checkinLocationFields(null, place)).toEqual({ verification: 'unverified' });
   });
 });
 

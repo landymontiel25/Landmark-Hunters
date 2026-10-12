@@ -16,6 +16,7 @@ import RatingFlow from './RatingFlow';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
+import { presenceLabel } from '../lib/presence';
 
 // Pops up the moment "Check In" is tapped -- nothing is claimed yet. Tapping
 // Post is what actually registers the check-in (via commitCheckIn) and awards
@@ -26,7 +27,7 @@ import { useGeo } from '../lib/GeoContext';
 // check-in, since there's nothing useful Mapr could learn from ranking a
 // dorm on Food/Service.
 export default function CheckInReview() {
-  const { justCheckedIn, checkInOptions, celebration, commitCheckIn, clearJustCheckedIn, claimedMap } = useCheckIn();
+  const { justCheckedIn, checkInOptions, celebration, commitCheckIn, clearJustCheckedIn, claimedMap, presenceResult } = useCheckIn();
   const requireComment = !!checkInOptions?.requireComment;
   // Rate a Landmark (Profile) claims the check-in for 0 points -- see
   // commitCheckIn in CheckInContext. No points were awarded, so this skips
@@ -254,6 +255,12 @@ export default function CheckInReview() {
               {ratingOnly ? `${'\u{2B50}'} Rated!` : `${'\u{1F3AF}'} Checked in!${celebration?.points > 0 ? ` +${celebration.points} pts` : ''}`}
             </h3>
             {!ratingOnly && celebration?.message && <div className="celebration-banner">{celebration.message}</div>}
+            {!ratingOnly && presenceResult && presenceResult.landmarkId === justCheckedIn.id && (
+              <p className={`presence-line ${presenceResult.verified ? 'presence-verified' : ''}`} style={{ marginTop: 8, marginBottom: 0 }}>
+                {presenceResult.verified ? '\u2713 ' : ''}
+                {presenceLabel(presenceResult)}
+              </p>
+            )}
             {msg && (
               <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
                 {msg}

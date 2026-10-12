@@ -5,6 +5,7 @@ import { MAX_REVIEW_PHOTOS } from '../../src/lib/reviews.js';
 import { MAX_GROUP_MEMBERS } from '../../src/lib/groupTrips.js';
 import { TASTE_DISPLAY_CAP, TASTE_MIN_GUESSES, TASTE_PERFECT_WINDOW, TASTE_WINDOW } from '../../src/lib/maprConstants.js';
 import { CHECKIN_RADIUS_METERS, MAX_CHECKIN_PHOTOS, POINTS_PER_CHECKIN } from '../../src/lib/leaderboard.js';
+import { PRESENCE_LIMITS } from '../../src/lib/presence.js';
 
 // Mapr answers "how does the app work" from APP_HELP only, so the numbers it
 // quotes must stay tied to the constants the app actually uses.
@@ -23,6 +24,12 @@ describe('APP_HELP stays in sync with code constants', () => {
   });
   it('quotes the group trip member cap', () => {
     expect(APP_HELP).toContain(`holds up to ${MAX_GROUP_MEMBERS} people`);
+  });
+  it('quotes the verified-visit radius and accuracy for each kind of place', () => {
+    const { landmark, indoor, area } = PRESENCE_LIMITS;
+    expect(APP_HELP).toContain(`${landmark.radiusMeters} m for a statue, building or single landmark (GPS accuracy ${landmark.maxAccuracyMeters} m or better)`);
+    expect(APP_HELP).toContain(`${indoor.radiusMeters} m for a museum, restaurant, bar or other indoor place (accuracy ${indoor.maxAccuracyMeters} m or better)`);
+    expect(APP_HELP).toContain(`${area.radiusMeters} m for a park, campus, beach or neighborhood (accuracy ${area.maxAccuracyMeters} m or better)`);
   });
   it('quotes the check-in radius and first-visit points', () => {
     expect(APP_HELP).toContain(`radius is ${CHECKIN_RADIUS_METERS} m`);
