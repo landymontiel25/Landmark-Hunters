@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { flagClear, flagGet, flagSet, shouldReloadForChunkError } from './chunkReload';
+import { RELOAD_WINDOW_MS, flagClear, flagGet, flagSet, shouldReloadForChunkError } from './chunkReload';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -43,5 +43,11 @@ describe('chunk reload guard', () => {
   it('does not reload while offline', () => {
     vi.stubGlobal('navigator', { ...navigator, onLine: false });
     expect(shouldReloadForChunkError()).toBe(false);
+  });
+
+  it('allows another reload once the last one is older than the window (a later deploy)', () => {
+    flagSet(1000);
+    expect(shouldReloadForChunkError(1000 + RELOAD_WINDOW_MS - 1)).toBe(false);
+    expect(shouldReloadForChunkError(1000 + RELOAD_WINDOW_MS + 1)).toBe(true);
   });
 });
