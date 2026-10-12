@@ -113,6 +113,35 @@ describe('retention', () => {
   });
 });
 
+describe('founder and family accounts', () => {
+  const user = (uid, d) => ({ uid, createdAt: day(d) + 3600000 });
+  const open = (uid, d) => ({ uid, date: dateUtc(day(d)) });
+  it('retention leaves them out of the cohort', () => {
+    const ds = { users: [user('me', 1), user('dad', 1), user('x', 1)], openDays: [open('me', 1), open('me', 2), open('dad', 2)], familyUids: ['me', 'dad'] };
+    expect(retention(ds, 1, day(10))).toMatchObject({ cohort: 1, returned: 0, pct: 0 });
+    expect(retention({ ...ds, familyUids: [] }, 1, day(10))).toMatchObject({ cohort: 3, returned: 2 });
+  });
+  it('match rate covers outside users only', () => {
+    const fam = pickUser('me', 10, 10);
+    const out = pickUser('x', 10, 5);
+    const ds = { recommendationLog: [...fam.rows, ...out.rows], reviews: [...fam.reviews, ...out.reviews] };
+    expect(byId(run({ ...ds, familyUids: [] }), 'matchRate')).toMatchObject({ value: 75, n: 2 });
+    expect(byId(run({ ...ds, familyUids: ['me'] }), 'matchRate')).toMatchObject({ value: 50, n: 1 });
+  });
+  it('active users and ratings per active user keep the total and add outside family', () => {
+    const t = NOW - STATS_DAY_MS;
+    const ds = {
+      familyUids: ['me'],
+      openDays: [{ uid: 'me', date: dateUtc(t) }, { uid: 'x', date: dateUtc(t) }],
+      reviews: [{ userId: 'me', landmarkId: 'a', updatedAt: t }, { userId: 'me', landmarkId: 'b', updatedAt: t }, { userId: 'me', landmarkId: 'c', updatedAt: t }, { userId: 'x', landmarkId: 'a', updatedAt: t }],
+    };
+    expect(byId(run(ds), 'ratingsPerActiveUserWeek')).toMatchObject({ value: 2, n: 2, outside: { value: 1, n: 1 } });
+    const w = byId(run(ds), 'weeklyUsers');
+    expect(w).toMatchObject({ value: 2, activeOutside: 1 });
+    expect(w.weekly[5]).toMatchObject({ active: 2, activeOutside: 1 });
+  });
+});
+
 describe('sessions, check-ins, first check-in', () => {
   const d = (n) => dateUtc(day(n));
   const openDays = [{ uid: 'a', date: d(3) }, { uid: 'b', date: d(3) }];

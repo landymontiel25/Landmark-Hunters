@@ -37,7 +37,7 @@ export default function MaprPhase1() {
       <ListenerError error={mapr.error || ncf.error || sim.error} />
       <AlertBanner items={alerts} />
       <Grid>
-        <MetricCard title="Match rate" value={pct(m?.match_rate)} trend={trendOf(series, 'match_rate')} note="Target 75%" loading={mapr.loading} />
+        <MetricCard title="Match rate" value={pct(m?.match_rate)} trend={trendOf(series, 'match_rate')} note="Target 75% · founder and family left out" loading={mapr.loading} />
         <MetricCard title="Skip rate" value={pct(m?.skip_rate)} trend={trendOf(series, 'skip_rate')} upIsGood={false} note="Target under 20%" loading={mapr.loading} />
         <MetricCard title="Repeat rate" value={pct(m?.repeat_rate)} trend={trendOf(series, 'repeat_rate')} upIsGood={false} note="Target under 30%" loading={mapr.loading} />
         <MetricCard title="Novelty (7 days)" value={m?.novelty_percentage == null ? '—' : `${num(m.novelty_percentage, 1)}%`} trend={trendOf(series, 'novelty_percentage')} note="Target 20%+" loading={mapr.loading} />

@@ -1,4 +1,5 @@
 import { computeMatchRate, gatherMatchRateInputs } from '../matchRate.js';
+import { familySet, withoutFamily } from '../familyAccounts.js';
 import { AB, ALERTS, EXPLORATION, METRICS, TARGETS } from './config.js';
 import { isStagnating } from './exploration.js';
 
@@ -222,8 +223,13 @@ export function computeDailyReport(ds, { date = dateUtc(Date.now() - DAY_MS), no
   const activeUsers = new Set(today.map((r) => r.userId));
 
   // Reaction-based match rate (the long-standing Mapr Match Rate), on the
-  // picks shown this day.
-  const mrInputs = gatherMatchRateInputs({ recommendationLog: (ds.recommendationLog || []).filter((r) => r.shownAt >= from && r.shownAt < to), pickFeedback: ds.pickFeedback, reviews: ds.reviews });
+  // picks shown this day, outside users only (founder and family left out).
+  const family = familySet(ds);
+  const mrInputs = gatherMatchRateInputs({
+    recommendationLog: withoutFamily(ds.recommendationLog, family).filter((r) => r.shownAt >= from && r.shownAt < to),
+    pickFeedback: withoutFamily(ds.pickFeedback, family),
+    reviews: withoutFamily(ds.reviews, family),
+  });
   const mr = computeMatchRate(mrInputs).overall;
 
   const ratingsToday = (ds.reviews || []).filter((r) => ratingAt(r) >= from && ratingAt(r) < to && TIER_STARS[r.ratingTier]);

@@ -39,6 +39,7 @@ export default function HorowitzAndreesenAcademy() {
                     <tr className="text-left muted">
                       <th className="font-normal pb-1">Week ending</th>
                       <th className="font-normal pb-1 text-right">Active</th>
+                      <th className="font-normal pb-1 text-right">Outside family</th>
                       <th className="font-normal pb-1 text-right">New</th>
                     </tr>
                   </thead>
@@ -47,6 +48,7 @@ export default function HorowitzAndreesenAcademy() {
                       <tr key={w.label}>
                         <td>{w.label}</td>
                         <td className="text-right">{w.active}</td>
+                        <td className="text-right">{w.activeOutside ?? '—'}</td>
                         <td className="text-right">{w.newUsers}</td>
                       </tr>
                     ))}

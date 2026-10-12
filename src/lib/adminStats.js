@@ -1,6 +1,7 @@
 import { computeMatchRate, gatherMatchRateInputs } from './matchRate.js';
 import { MATCH_ELIGIBLE_MIN_RATINGS, MATCH_WEIGHT_RATING, MATCH_WEIGHT_TAP } from './maprConstants.js';
 import { mostCommonAnswer } from './tasteScore.js';
+import { familySet, withoutFamily } from './familyAccounts.js';
 import {
   APP_COHORT_START,
   GOAL_CHECKINS_PER_DAILY_USER,
@@ -75,7 +76,7 @@ function metric(m) {
 }
 const judge = (value, ok) => (value == null ? 'unknown' : ok ? 'met' : 'missed');
 
-function openDaySets(ds) {
+export function openDaySets(ds) {
   const byUser = new Map();
   for (const o of ds.openDays || []) {
     if (!o?.uid || !o.date) continue;
@@ -98,22 +99,35 @@ export function cohortStartDate(ds) {
   return min == null ? null : dateUtc(min);
 }
 
-// Day-N retention: of users who signed up after open-day tracking began and
-// whose day N is fully over, the share who opened the app ON day N. Day N is
-// counted from the account's createdAt UTC date; open days are the user's
-// local dates, so a late-evening signup can be a day off (approximation).
-export function retention(ds, n, now = Date.now()) {
+// The users retention counts: signed up on or after the day open-day tracking
+// began (older accounts have no open record for their first days, so they
+// are left out, never back-dated), and not a founder or family account
+// (familyAccounts.js). The Retention page's cohorts (dashboardMetrics.js
+// retentionDocs) use this same list and the two helpers below.
+export function retentionUsers(ds) {
   const start = openDayTrackingStart(ds);
-  if (!start) return { cohort: 0, returned: 0, pct: null };
+  if (!start) return [];
   const startMs = startOfDayMs(start);
+  const family = familySet(ds);
+  return (ds.users || []).filter((u) => u?.createdAt != null && u.createdAt >= startMs && !family.has(u.uid));
+}
+
+// Day N is counted from the account's createdAt UTC date and is over once
+// the next day starts. Open days are the user's local dates, so a
+// late-evening signup can be a day off (approximation).
+export const retentionDayOver = (createdAt, n, now) => startOfDayMs(addDays(dateUtc(createdAt), n + 1)) <= now;
+export const openedOnDay = (opens, u, n) => opens.get(u.uid)?.has(addDays(dateUtc(u.createdAt), n)) === true;
+
+// Day-N retention: of retentionUsers whose day N is over, the share who
+// opened the app ON day N.
+export function retention(ds, n, now = Date.now()) {
   const opens = openDaySets(ds);
   let cohort = 0;
   let returned = 0;
-  for (const u of ds.users || []) {
-    if (u?.createdAt == null || u.createdAt < startMs) continue;
-    if (startOfDayMs(addDays(dateUtc(u.createdAt), n + 1)) > now) continue;
+  for (const u of retentionUsers(ds)) {
+    if (!retentionDayOver(u.createdAt, n, now)) continue;
     cohort += 1;
-    if (opens.get(u.uid)?.has(addDays(dateUtc(u.createdAt), n))) returned += 1;
+    if (openedOnDay(opens, u, n)) returned += 1;
   }
   return { cohort, returned, pct: cohort >= STATS_MIN_SAMPLE ? (returned / cohort) * 100 : null };
 }
@@ -145,10 +159,16 @@ export function computeMetrics(ds, now = Date.now()) {
   const reviews = ds.reviews || [];
   const checkins = ds.checkins || [];
   const out = [];
+  const family = familySet(ds);
 
   // ---- Mapr match rate (+ always-guess-usual-answer baseline) -------------
+  // Outside users only: founder and family reactions are left out.
   const mr = computeMatchRate(
-    gatherMatchRateInputs({ recommendationLog: ds.recommendationLog, pickFeedback: ds.pickFeedback, reviews }),
+    gatherMatchRateInputs({
+      recommendationLog: withoutFamily(ds.recommendationLog, family),
+      pickFeedback: withoutFamily(ds.pickFeedback, family),
+      reviews: withoutFamily(reviews, family),
+    }),
   );
   const eligible = mr.overall.eligibleUsers;
   const matchPct = mr.overall.eligibleMatchRate == null ? null : mr.overall.eligibleMatchRate * 100;
@@ -229,7 +249,7 @@ export function computeMetrics(ds, now = Date.now()) {
       status: judge(d30.pct, d30.pct > GOAL_RETENTION_D30_PCT),
       n: d30.cohort,
       nLabel: 'users old enough',
-      note: trackNote || (d30.cohort ? '' : 'No one who signed up since tracking began has reached day 30 yet.'),
+      note: trackNote || (d30.cohort ? '' : 'No one outside the family who signed up since tracking began has reached day 30 yet.'),
     }),
     metric({
       id: 'retentionD1',
@@ -240,7 +260,7 @@ export function computeMetrics(ds, now = Date.now()) {
       status: judge(d1.pct, d1.pct > GOAL_RETENTION_D1_PCT),
       n: d1.cohort,
       nLabel: 'users old enough',
-      note: trackNote || (d1.cohort ? '' : 'No one who signed up since tracking began has reached day 1 yet.'),
+      note: trackNote || (d1.cohort ? '' : 'No one outside the family who signed up since tracking began has reached day 1 yet.'),
     }),
   );
 
@@ -255,7 +275,7 @@ export function computeMetrics(ds, now = Date.now()) {
       status: d7.pct == null ? 'unknown' : 'info',
       n: d7.cohort,
       nLabel: 'users old enough',
-      note: trackNote || (d7.cohort ? '' : 'No one who signed up since tracking began has reached day 7 yet.'),
+      note: trackNote || (d7.cohort ? '' : 'No one outside the family who signed up since tracking began has reached day 7 yet.'),
     }),
   );
 
@@ -315,6 +335,12 @@ export function computeMetrics(ds, now = Date.now()) {
     }
   }
   const perActiveWeek = activeWeek.size ? ratingsWeek / activeWeek.size : null;
+  const activeWeekOutside = [...activeWeek].filter((uid) => !family.has(uid)).length;
+  let ratingsWeekOutside = 0;
+  for (const r of reviews) {
+    const t = ratingTime(r);
+    if (r?.userId && !family.has(r.userId) && t != null && t > weekAgoMs && t <= now) ratingsWeekOutside += 1;
+  }
   out.push(
     metric({
       id: 'ratingsPerActiveUserWeek',
@@ -325,6 +351,8 @@ export function computeMetrics(ds, now = Date.now()) {
       status: perActiveWeek == null ? 'unknown' : 'info',
       n: activeWeek.size,
       nLabel: 'active users, last 7 days',
+      // The same number without founder and family accounts.
+      outside: { value: round2(activeWeekOutside ? ratingsWeekOutside / activeWeekOutside : null), n: activeWeekOutside },
       note: activeWeek.size ? 'Ratings in the last 7 days divided by users who opened the app or rated in that time.' : 'No active users in the last 7 days.',
     }),
   );
@@ -345,7 +373,8 @@ export function computeMetrics(ds, now = Date.now()) {
       if (r?.userId && t != null && t > startMs && t <= endMs) active.add(r.userId);
     }
     const newUsers = users.filter((u) => u?.createdAt != null && u.createdAt > startMs && u.createdAt <= endMs).length;
-    weekly.push({ weekEnding: to, active: active.size, newUsers });
+    const activeOutside = [...active].filter((uid) => !family.has(uid)).length;
+    weekly.push({ weekEnding: to, active: active.size, activeOutside, newUsers });
   }
   const thisWeek = weekly[weekly.length - 1];
   out.push(
@@ -359,6 +388,7 @@ export function computeMetrics(ds, now = Date.now()) {
       n: users.length,
       nLabel: 'accounts in total',
       newUsers: thisWeek.newUsers,
+      activeOutside: thisWeek.activeOutside,
       weekly,
       note: 'Counts of people, not percentages. Active = opened the app or rated in the 7 days.',
     }),

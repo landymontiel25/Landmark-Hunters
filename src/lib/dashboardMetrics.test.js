@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { retention } from './adminStats.js';
 import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, retentionDocs, slackAlerts, tasteDocs } from './dashboardMetrics.js';
 
 const DAY = 86400000;
@@ -25,6 +26,10 @@ describe('growthDocs', () => {
     expect(d19).toMatchObject({ active_users: 1, new_users: 1, landmarks_visited: 1, total_landmarks_visited_cumulative: 1, repeat_landmark_visits: 0 });
     expect(d20).toMatchObject({ active_users: 2, new_users: 1, landmarks_visited: 2, total_landmarks_visited_cumulative: 3, repeat_landmark_visits: 1 });
   });
+  it('adds active users outside family next to the total', () => {
+    const [, d20] = growthDocs({ ...ds, familyUids: ['a'] }, ['2026-09-19', D]);
+    expect(d20).toMatchObject({ active_users: 2, active_users_outside_family: 1 });
+  });
 });
 
 describe('engagementDocs', () => {
@@ -41,13 +46,30 @@ describe('engagementDocs', () => {
 });
 
 describe('retentionDocs', () => {
-  it('counts returns on/after day 7 and 30, null until that day has passed, and churn', () => {
-    const now = Date.parse('2026-09-20T12:00:00Z');
-    const c = '2026-08-01';
-    const t0 = Date.parse(`${c}T10:00:00Z`);
-    const ds = { users: [{ uid: 'a', createdAt: t0 }, { uid: 'b', createdAt: t0 }], openDays: [{ uid: 'a', date: '2026-08-10' }, { uid: 'a', date: '2026-09-15' }, { uid: 'b', date: '2026-08-02' }] };
+  const now = Date.parse('2026-09-20T12:00:00Z');
+  const c = '2026-08-01';
+  const t0 = Date.parse(`${c}T10:00:00Z`);
+  it('counts opens ON day 7 / 30, null until that day is over, and churn', () => {
+    // Tracking began on the signup day (b's open on 08-01).
+    const ds = {
+      users: [{ uid: 'a', createdAt: t0 }, { uid: 'b', createdAt: t0 }],
+      openDays: [{ uid: 'b', date: '2026-08-01' }, { uid: 'a', date: '2026-08-08' }, { uid: 'a', date: '2026-08-31' }, { uid: 'a', date: '2026-09-15' }, { uid: 'b', date: '2026-08-10' }],
+    };
     const [r] = retentionDocs(ds, [c], now);
     expect(r).toMatchObject({ day_0: 2, day_7: 1, day_30: 1, day_90: null, retention_7_day: 0.5, retention_30_day: 0.5, churn_rate: 0.5 });
+  });
+  it('matches retention() in adminStats: pre-tracking signups and family left out', () => {
+    const ds = {
+      users: [{ uid: 'old', createdAt: t0 - 5 * DAY }, { uid: 'me', createdAt: t0 }, { uid: 'x', createdAt: t0 }, { uid: 'y', createdAt: t0 }],
+      openDays: [{ uid: 'x', date: c }, { uid: 'x', date: '2026-08-08' }, { uid: 'me', date: '2026-08-08' }, { uid: 'old', date: '2026-08-08' }],
+      familyUids: ['me'],
+    };
+    const [old] = retentionDocs(ds, ['2026-07-27'], now);
+    expect(old.day_0).toBe(0);
+    const [r] = retentionDocs(ds, [c], now);
+    expect(r).toMatchObject({ day_0: 2, day_7: 1, retention_7_day: 0.5 });
+    const d7 = retention(ds, 7, now);
+    expect(d7).toMatchObject({ cohort: 2, returned: 1 });
   });
 });
 

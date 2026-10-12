@@ -20,10 +20,10 @@ export default function Overview() {
     <Page title="Overview" subtitle={`Latest day: ${m?.date || g?.date || '—'}.`}>
       <ListenerError error={mapr.error || growth.error || engagement.error} />
       <Grid>
-        <MetricCard title="Active users" value={g?.active_users ?? '—'} trend={trendOf(growth.data as never, 'active_users')} loading={growth.loading} />
+        <MetricCard title="Active users" value={g?.active_users ?? '—'} note={g?.active_users_outside_family != null ? `${g.active_users_outside_family} outside family` : undefined} trend={trendOf(growth.data as never, 'active_users')} loading={growth.loading} />
         <MetricCard title="New users" value={g?.new_users ?? '—'} trend={trendOf(growth.data as never, 'new_users')} loading={growth.loading} />
         <MetricCard title="Average rating" value={num(e?.avg_rating, 2)} unit="/ 5" trend={trendOf(engagement.data as never, 'avg_rating')} note={e ? `${e.ratings} ratings that day` : undefined} loading={engagement.loading} />
-        <MetricCard title="Mapr match rate" value={pct(m?.match_rate)} trend={trendOf(series, 'match_rate')} note="Target 75%" loading={mapr.loading} />
+        <MetricCard title="Mapr match rate" value={pct(m?.match_rate)} trend={trendOf(series, 'match_rate')} note="Target 75% · founder and family left out" loading={mapr.loading} />
       </Grid>
       <TrendChart
         title="Mapr rates, last 7 days"

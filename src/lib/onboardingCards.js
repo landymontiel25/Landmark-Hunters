@@ -113,7 +113,7 @@ export const SWIPE_GROUPS = [
   },
   {
     id: 'sports',
-    label: 'Sports & Activities',
+    label: 'Sports',
     tag: 'sports',
     cards: [
       ['Golf', '\u{26F3}'],
@@ -128,7 +128,7 @@ export const SWIPE_GROUPS = [
   },
   {
     id: 'local',
-    label: 'Local Life',
+    label: 'Nightlife',
     tag: 'local-life',
     cards: [
       ['Nightlife/clubs', '\u{1FAA9}'],
