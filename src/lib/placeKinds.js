@@ -7,7 +7,7 @@
 // kinds. A kind only applies inside its group's categories, so a restaurant
 // whose facts mention "history" isn't a history place.
 const EAT = ['food', 'local-life'];
-const OUT = ['local-life', 'entertainment', 'food'];
+const OUT = ['local-life', 'food'];
 const SHOP = ['local-life'];
 const SEE = null; // any category except the eating ones
 const KINDS = [

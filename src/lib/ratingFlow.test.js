@@ -33,12 +33,12 @@ describe('rateability gate', () => {
     }
   });
 
-  it('rates parks and entertainment too, and lists them as onboarding interests', () => {
+  it('rates parks and nightlife too, and lists them as onboarding interests', () => {
     expect(isRateable({ categories: ['parks-nature'] })).toBe(true);
     expect(isRateable({ categories: ['entertainment'] })).toBe(true);
     const ids = INTERESTS.map((i) => i.id);
     expect(ids).toContain('parks-nature');
-    expect(ids).toContain('entertainment');
+    expect(ids).not.toContain('entertainment');
     expect(ids).not.toContain('dorms');
     expect(ids).toContain('campus-life');
     expect(ids).toContain('airports');
@@ -51,7 +51,7 @@ describe('rateability gate', () => {
     expect(ids).toContain('benches');
     expect(ids).toContain('tech');
     expect(ids).not.toContain('art-museums');
-    expect(ids).toHaveLength(12);
+    expect(ids).toHaveLength(11);
   });
 
   it('rates airports as airports, whatever else they are tagged', () => {
@@ -199,7 +199,7 @@ describe('limits and aspects', () => {
     ]);
   });
 
-  it('gives parks and entertainment their own third and fourth aspects', () => {
+  it('gives parks and nightlife their own third and fourth aspects', () => {
     expect(aspectsFor({ categories: ['parks-nature'] }).map((a) => a.id)).toEqual([
       'price',
       'location',
@@ -209,8 +209,8 @@ describe('limits and aspects', () => {
     expect(aspectsFor({ categories: ['entertainment'] }).map((a) => a.id)).toEqual([
       'price',
       'location',
-      'fun-factor',
-      'crowd-level',
+      'vibe',
+      'crowd',
     ]);
   });
 

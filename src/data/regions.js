@@ -237,11 +237,11 @@ export function getRegion(id) {
 }
 
 // Retired category ids and where their landmarks live now. Dorms folded
-// into Campus Life, and Art & Museums into Art & Culture (id
-// history-culture). Landmark files, place packs, saved filters, check-ins
+// into Campus Life, Art & Museums into Art & Culture (id
+// history-culture), and Entertainment into Nightlife (id local-life). Landmark files, place packs, saved filters, check-ins
 // and older custom landmarks may still carry the old id; the catalog is
 // normalized on load (here and in registerPlaces).
-export const CATEGORY_ALIASES = { dorms: 'campus-life', 'art-museums': 'history-culture' };
+export const CATEGORY_ALIASES = { dorms: 'campus-life', 'art-museums': 'history-culture', entertainment: 'local-life' };
 export const normalizeCategories = (cats) => [...new Set((cats || []).map((c) => CATEGORY_ALIASES[c] || c))];
 const normalizeLandmark = (l) => {
   if (Array.isArray(l?.categories) && l.categories.some((c) => CATEGORY_ALIASES[c])) l.categories = normalizeCategories(l.categories);
@@ -315,15 +315,15 @@ export const INTERESTS = [
   // churches. It used to be two categories (History & Culture, Art &
   // Museums); the id stayed history-culture.
   { id: 'history-culture', label: 'Art & Culture', icon: '\u{1F3DB}\u{FE0F}', added: 1 },
-  // Food is restaurants, cafés, bakeries, gelato, food markets. Nightlife (id local-life) is
-  // bars, clubs, live-music venues, neighborhoods, squares, shopping streets.
+  // Food is restaurants, cafés, bakeries, gelato, food markets. Nightlife
+  // (id local-life) is bars, clubs, live-music venues, neighborhoods,
+  // squares, shopping streets, and since it absorbed Entertainment: shows,
+  // zoos, aquariums, cruises, amusement parks.
   { id: 'food', label: 'Food', icon: '\u{1F37D}\u{FE0F}', added: 8 },
   { id: 'local-life', label: 'Nightlife', icon: '\u{1F378}', added: 9 },
   { id: 'parks-nature', label: 'Parks & Nature', icon: '\u{1F333}', added: 4 },
-  // Entertainment is shows, zoos, aquariums, cruises, amusement parks.
   // Stadiums is every stadium, arena, ballpark and race track. Sports
   // Activities is things you do (courts, golf, go-karts, pools, kayaking).
-  { id: 'entertainment', label: 'Entertainment', icon: '\u{1F39F}\u{FE0F}', added: 5 },
   { id: 'stadiums', label: 'Stadiums', icon: '\u{1F3DF}\u{FE0F}', added: 11 },
   { id: 'formula-1', label: 'Formula 1 Circuits', icon: '\u{1F3CE}\u{FE0F}', added: 12 },
   { id: 'sports', label: 'Sports', icon: '\u{1F3C0}', added: 10 },
@@ -361,6 +361,7 @@ export function sortInterests(list, orderId = 'abc') {
 const RETIRED_INTERESTS = {
   'food-local-life': ['food', 'local-life'],
   'art-museums': ['history-culture'],
+  entertainment: ['local-life'],
 };
 
 // Landmark ids that were renamed because two cities shared one. Check-ins,

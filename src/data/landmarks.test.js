@@ -10,9 +10,9 @@ describe('landmark catalog', () => {
     expect(bad.map((l) => `${l.regionId}/${l.id}: ${JSON.stringify(l.categories)}`)).toEqual([]);
   });
 
-  it('keeps Nightlife to bars, clubs and live music', () => {
+  it('keeps Nightlife to bars, clubs, live music and shows (Entertainment folded in)', () => {
     const local = ALL_LANDMARKS.filter((l) => l.categories[0] === 'local-life').map((l) => l.id);
-    expect(local.length).toBeLessThanOrEqual(80);
+    expect(local.length).toBeLessThanOrEqual(160);
     expect(local).toContain('ball-and-chain');
     expect(local).not.toContain('calle-ocho');
   });
@@ -31,7 +31,7 @@ describe('landmark catalog', () => {
     expect(stays.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
   });
 
-  it('files theaters, opera houses and cinemas under Entertainment (or Nightlife for live-music clubs), and nightclubs under Nightlife', () => {
+  it('files theaters, opera houses, cinemas and nightclubs under Nightlife', () => {
     const VENUE = /\b(theat(er|re)|teatro|cinema|opera house|music hall|concert hall)\b/i;
     const badVenue = ALL_LANDMARKS.filter((l) => VENUE.test(l.name) && !['entertainment', 'local-life'].includes(l.categories[0]));
     expect(badVenue.map((l) => `${l.regionId}/${l.id}: ${l.categories[0]}`)).toEqual([]);
@@ -41,7 +41,7 @@ describe('landmark catalog', () => {
   });
 
   it('keeps cost and the free flag consistent for paid venues', () => {
-    const PAID_KINDS = new Set(['food', 'stadiums', 'entertainment', 'formula-1']);
+    const PAID_KINDS = new Set(['food', 'stadiums', 'local-life', 'formula-1']);
     const bad = ALL_LANDMARKS.filter((l) => PAID_KINDS.has(l.categories[0]) && l.free === true && /^\$/.test(l.cost || ''));
     expect(bad.map((l) => `${l.regionId}/${l.id}: ${l.cost}`)).toEqual([]);
   });

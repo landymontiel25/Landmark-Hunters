@@ -85,7 +85,7 @@ describe('kinds checked on Miami and San Francisco data', () => {
   });
 
   it('a music hall is not American food; a restaurant is matched on its food, not its bar', () => {
-    const hall = { name: 'Great American Music Hall', categories: ['entertainment'], summary: 'A historic live music venue.' };
+    const hall = { name: 'Great American Music Hall', categories: ['local-life'], summary: 'A historic live music venue.' };
     expect(placeKinds(hall).has('american')).toBe(false);
     expect(placeKinds(hall).has('live-music')).toBe(true);
     const italian = food('Divieto Ristorante', { summary: 'Italian restaurant with a cocktail lounge.' });

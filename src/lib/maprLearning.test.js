@@ -214,7 +214,7 @@ describe('comment lexicon', () => {
   it('"too loud" lowers loud / noisy kinds of places', () => {
     const d = commentTagDeltas('Way too loud for me', ['local-life']);
     expect(d['local-life']).toBe(COMMENT_COMPLAINT_DELTA);
-    expect(d.entertainment).toBe(COMMENT_COMPLAINT_DELTA);
+    expect(d.stadiums).toBe(COMMENT_COMPLAINT_DELTA);
     expect(d.food).toBeUndefined();
   });
   it('"not loud" does not lower anything (negated complaint)', () => {
@@ -252,9 +252,9 @@ describe('comment lexicon', () => {
   it('a comment moves the tags in planLearning, and an edited comment replaces the old effect', () => {
     const a = planLearning({ landmark: LM, next: { rating: { tier: 'worth-trying' }, comment: 'too loud and crowded' }, nowMs: 1 });
     const ent = a.userPatch.tagScores.r;
-    expect(ent.entertainment).toBe(-COMMENT_CAP_PER_TAG); // loud + crowded = -6, capped
+    expect(ent.stadiums).toBe(-COMMENT_CAP_PER_TAG); // loud + crowded = -6, capped
     const b = planLearning({ user: a.userPatch, prev: a.ledger, landmark: LM, next: { comment: 'great food' }, nowMs: 1 });
-    expect(b.userPatch.tagScores.r.entertainment).toBeCloseTo(0, 5);
+    expect(b.userPatch.tagScores.r.stadiums).toBeCloseTo(0, 5);
     expect(b.userPatch.tagScores.r.food).toBeCloseTo(RATING_TAG_DELTA.neutral + COMMENT_PRAISE_DELTA, 5);
   });
   it('place score includes the comment', () => {
@@ -297,9 +297,9 @@ describe('through the real write paths (taps, ratings, comments, delete)', () =>
 
   it('a rating comment moves tags; editing it with saveMyComment swaps its effect', async () => {
     await rate('worth-trying', { comment: 'too loud' });
-    expect(user().tagScores.r.entertainment).toBe(COMMENT_COMPLAINT_DELTA);
+    expect(user().tagScores.r.stadiums).toBe(COMMENT_COMPLAINT_DELTA);
     await saveMyComment({ userId: 'u1', userName: 'u', landmark: LM, comment: 'great food' });
-    expect(user().tagScores.r.entertainment).toBeCloseTo(0, 5);
+    expect(user().tagScores.r.stadiums).toBeCloseTo(0, 5);
     expect(food()).toBeCloseTo(RATING_TAG_DELTA.neutral + COMMENT_PRAISE_DELTA, 5);
   });
 

@@ -695,10 +695,10 @@ export const TIME_SLOTS = [
   { id: 'lunch', label: 'lunch (11am-2pm)', start: 11, end: 14, boosts: { food: 1.3 } },
   { id: 'afternoon', label: 'afternoon (2-5pm)', start: 14, end: 17, boosts: { 'history-culture': 1.2 } },
   { id: 'dinner', label: 'dinner (5-8pm)', start: 17, end: 20, boosts: { food: 1.3 } },
-  { id: 'night', label: 'night (8pm-3am)', start: 20, end: 27, boosts: { 'local-life': 1.3, entertainment: 1.2 } },
+  { id: 'night', label: 'night (8pm-3am)', start: 20, end: 27, boosts: { 'local-life': 1.3 } },
 ];
 // Friday and Saturday nights lean harder into bars and clubs.
-export const WEEKEND_NIGHT_BOOSTS = { 'local-life': 1.5, entertainment: 1.3 };
+export const WEEKEND_NIGHT_BOOSTS = { 'local-life': 1.5 };
 
 // day: 0 = Sunday ... 6 = Saturday, hour: 0-23 local time.
 export function timeSlotFor(day, hour) {

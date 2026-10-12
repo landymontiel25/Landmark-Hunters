@@ -22,7 +22,7 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
-import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, sortInterests, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, getRegion } from '../data/regions';
 import { inArea, inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
@@ -360,16 +360,19 @@ export default function LandmarkSelection() {
   // ones you typed in -- so "Choose Landmarks" opens already narrowed to what you
   // said you wanted instead of dumping every landmark on you. Empty selection (no
   // interests chosen, or "All" tapped) means show everything.
-  // Starts on "All categories"; the dropdown narrows from there.
+  // Starts on every category; tapping category buttons narrows it (several
+  // at once is fine, none means all).
   // Category lasts while the app is open and resets every launch; search
   // text and sort survive closing the app (see usePersistentState).
   const [activeCategories, setActiveCategories] = useSessionState('landmarks.category', []);
-  // A restored custom interest may have been removed since -- don't leave
-  // the list filtered by something the dropdown can no longer show.
+  // A restored custom interest (or a retired category) may be gone since --
+  // don't leave the list filtered by a button that no longer shows.
   useEffect(() => {
-    const key = activeCategories[0];
-    if (key && !INTERESTS.some((i) => i.id === key) && !trip.customInterests.includes(key)) setActiveCategories([]);
+    const kept = activeCategories.filter((key) => PICKABLE_INTERESTS.some((i) => i.id === key) || trip.customInterests.includes(key));
+    if (kept.length !== activeCategories.length) setActiveCategories(kept);
   }, [activeCategories, trip.customInterests, setActiveCategories]);
+  const toggleCategory = (key) =>
+    setActiveCategories((cur) => (cur.includes(key) ? cur.filter((k) => k !== key) : [...cur, key]));
   // Tapping a row's thumbnail opens the photo full-screen.
   const [lightbox, setLightbox] = useState(null);
   const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
@@ -698,34 +701,45 @@ export default function LandmarkSelection() {
         }}
       />
 
-      {/* One dropdown instead of a chip per category: with a dozen-plus
-          categories the tab row wrapped onto four lines. Custom interests
-          typed on Setup sit at the bottom of the same list. */}
-      <div className="itin-toolbar" style={{ marginBottom: 10 }}>
-        <label className="itin-sort">
-          <span>Category</span>
-          <select
-            className="radius-select"
-            value={activeCategories[0] || ''}
-            onChange={(e) => setActiveCategories(e.target.value ? [e.target.value] : [])}
-          >
-            <option value="">All categories</option>
-            {sortInterests(PICKABLE_INTERESTS).map((i) => (
-            <option key={i.id} value={i.id}>
-              {i.icon} {i.label}
-            </option>
-          ))}
-          {trip.customInterests.map((text) => {
-            const pending = trip.customInterestMatches[text] === undefined;
-            return (
-              <option key={text} value={text} disabled={pending}>
-                {pending ? '\u{23F3} ' : '\u{2728} '}
-                {text}
-              </option>
-            );
-          })}
-          </select>
-        </label>
+      {/* One icon button per category, styled like the sort buttons below.
+          Tap to show only that category (tap more to add some); tap again
+          to drop it. None picked shows every category. Custom interests
+          typed on Setup get a button too. */}
+      <div className="tabs lm-category-tabs" role="group" aria-label="Categories">
+        {PICKABLE_INTERESTS.map((i) => {
+          const on = activeCategories.includes(i.id);
+          return (
+            <button
+              key={i.id}
+              type="button"
+              className={`tab-btn ${on ? 'active' : ''}`}
+              aria-pressed={on}
+              aria-label={i.label}
+              title={i.label}
+              onClick={() => toggleCategory(i.id)}
+            >
+              {i.icon}
+            </button>
+          );
+        })}
+        {trip.customInterests.map((text) => {
+          const pending = trip.customInterestMatches[text] === undefined;
+          const on = activeCategories.includes(text);
+          return (
+            <button
+              key={text}
+              type="button"
+              className={`tab-btn ${on ? 'active' : ''}`}
+              aria-pressed={on}
+              aria-label={text}
+              title={text}
+              disabled={pending}
+              onClick={() => toggleCategory(text)}
+            >
+              {pending ? '\u{23F3}' : trip.customInterestEmoji?.[text] || '\u{2728}'}
+            </button>
+          );
+        })}
       </div>
 
       <div className="tabs" style={{ marginBottom: sortBy === 'nearMe' && !coords ? 4 : 18 }}>
@@ -751,7 +765,7 @@ export default function LandmarkSelection() {
           }
           onClick={() => setCheckInOrder((cur) => (cur === 'up' ? 'down' : cur === 'down' ? null : 'up'))}
         >
-          {'\u{2705}'}
+          {'\u{2705}'} Checked in
           {checkInOrder === 'up' ? ' \u{2191}' : checkInOrder === 'down' ? ' \u{2193}' : ''}
         </button>
       </div>

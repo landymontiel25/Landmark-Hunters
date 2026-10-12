@@ -96,22 +96,6 @@ export const SWIPE_GROUPS = [
     ],
   },
   {
-    id: 'entertainment',
-    label: 'Entertainment',
-    tag: 'entertainment',
-    cards: [
-      // The catalog files live-music venues under Local Life.
-      ['Live music', '\u{1F3B8}', 'local-life'],
-      ['Comedy shows', '\u{1F3A4}'],
-      ['Theme parks', '\u{1F3A2}'],
-      ['Aquariums', '\u{1F420}'],
-      ['Zoos', '\u{1F992}'],
-      ['Casinos', '\u{1F3B0}'],
-      ['Arcades/bowling', '\u{1F3B3}'],
-      ['Festivals', '\u{1F3AA}'],
-    ],
-  },
-  {
     id: 'sports',
     label: 'Sports',
     tag: 'sports',
@@ -134,6 +118,15 @@ export const SWIPE_GROUPS = [
       ['Nightlife/clubs', '\u{1FAA9}'],
       ['Dive bars', '\u{1F37A}'],
       ['Rooftop bars', '\u{1F378}'],
+      // Entertainment folded into Nightlife.
+      ['Live music', '\u{1F3B8}'],
+      ['Comedy shows', '\u{1F3A4}'],
+      ['Theme parks', '\u{1F3A2}'],
+      ['Aquariums', '\u{1F420}'],
+      ['Zoos', '\u{1F992}'],
+      ['Casinos', '\u{1F3B0}'],
+      ['Arcades/bowling', '\u{1F3B3}'],
+      ['Festivals', '\u{1F3AA}'],
       // Food markets are filed under Food.
       ['Farmers markets', '\u{1F955}', 'food'],
       ['Luxury spots', '\u{1F48E}'],
@@ -171,12 +164,12 @@ function shuffle(list, random) {
   return out;
 }
 
-// 15-18 cards: 3 from each of the 6 groups, then 0-3 random groups drop to 2.
+// 15-18 cards: 3 from each of the 5 groups, then 0-3 random groups add a 4th.
 // Which cards each group shows is random, so every card gets coverage across
 // signups over time. Groups are interleaved rather than shown in blocks.
 export function pickSwipeCards(random = Math.random) {
-  const drop = new Set(shuffle(SWIPE_GROUPS.map((g) => g.id), random).slice(0, Math.floor(random() * 4)));
-  const picked = SWIPE_GROUPS.flatMap((g) => shuffle(g.cards, random).slice(0, drop.has(g.id) ? 2 : 3));
+  const extra = new Set(shuffle(SWIPE_GROUPS.map((g) => g.id), random).slice(0, Math.floor(random() * 4)));
+  const picked = SWIPE_GROUPS.flatMap((g) => shuffle(g.cards, random).slice(0, extra.has(g.id) ? 4 : 3));
   return shuffle(picked, random);
 }
 
