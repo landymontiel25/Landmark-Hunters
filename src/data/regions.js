@@ -243,8 +243,18 @@ export function getRegion(id) {
 // normalized on load (here and in registerPlaces).
 export const CATEGORY_ALIASES = { dorms: 'campus-life', 'art-museums': 'history-culture', entertainment: 'local-life' };
 export const normalizeCategories = (cats) => [...new Set((cats || []).map((c) => CATEGORY_ALIASES[c] || c))];
+// Local Life used to hold shops and markets too; once it became Nightlife a
+// bookstore there read as a nightclub. By topic (imports) or `mall: true`
+// (hand-picked), shops move to Shopping and farmers markets to Food. The
+// pack files keep their old category, so other regions' packs don't change.
+const SHOP_TOPICS = new Set(['bookstore', 'record store', 'mall', 'department store', 'antique shop', 'art shop']);
 const normalizeLandmark = (l) => {
-  if (Array.isArray(l?.categories) && l.categories.some((c) => CATEGORY_ALIASES[c])) l.categories = normalizeCategories(l.categories);
+  if (!Array.isArray(l?.categories)) return l;
+  if (l.categories.some((c) => CATEGORY_ALIASES[c])) l.categories = normalizeCategories(l.categories);
+  if (l.categories[0] === 'local-life') {
+    if (SHOP_TOPICS.has(l.topic) || l.mall === true) l.categories = ['shopping', ...l.categories.slice(1)];
+    else if (l.topic === 'market') l.categories = ['food', ...l.categories.slice(1)];
+  }
   return l;
 };
 for (const r of REGIONS) r.landmarks.forEach(normalizeLandmark);
@@ -330,6 +340,8 @@ export const INTERESTS = [
   { id: 'airports', label: 'Airports', icon: '\u{2708}\u{FE0F}', added: 7 },
   // Personal-favourite sitting spots with a view, like The 10/10 Bench.
   { id: 'benches', label: '10/10 Benches', icon: '\u{1FA91}', added: 13 },
+  // Bookstores, record stores, malls, department stores, antique and art shops.
+  { id: 'shopping', label: 'Shopping', icon: '\u{1F6CD}\u{FE0F}', added: 15 },
   // Where tech happened and happens: founding garages, HQ campuses, labs,
   // founder hangouts, hacker houses. The Bay Area catalog is mostly this.
   { id: 'tech', label: 'Tech & Startups', icon: '\u{1F4BB}', added: 14 },

@@ -18,6 +18,7 @@ const CATEGORY_ICON = {
   'formula-1': '\u{1F3CE}\u{FE0F}',
   benches: '\u{1FA91}',
   tech: '\u{1F4BB}',
+  shopping: '\u{1F6CD}\u{FE0F}',
   airports: '\u{2708}\u{FE0F}',
   'campus-life': '\u{1F3EB}',
   dorms: '\u{1F6CF}\u{FE0F}',

@@ -48,6 +48,11 @@ and the long study still include family accounts.
 Entertainment folded into Nightlife (id `local-life`) the same way: alias
 `entertainment` in `CATEGORY_ALIASES`. The Landmarks tab's Category
 dropdown became a row of category emoji buttons (multi-select).
+Shops that sat under Local Life (bookstores, record stores, malls,
+department stores, antique and art shops, `mall: true`) now load as a new
+Shopping category, and farmers markets (topic `market`) as Food
+(`normalizeLandmark` in `data/regions.js`, by topic). Pack files still say
+local-life; the import scripts weren't changed.
 
 Owner asked to merge Art & Museums into History & Culture as "Art &
 Culture" and to switch off 10/10 Benches, Stadiums, Campus Life and
