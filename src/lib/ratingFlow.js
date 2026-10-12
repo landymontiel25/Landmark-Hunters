@@ -19,6 +19,7 @@ export const RATEABLE_CATEGORIES = [
   'benches',
   'parks-nature',
   'tech',
+  'shopping',
   'history-culture',
   'food',
   'local-life',
@@ -169,6 +170,23 @@ export const CHIPS = {
       { id: 'dead', label: 'Dead' },
       { id: 'underwhelming', label: 'Underwhelming' },
       { id: 'overpriced', label: 'Overpriced' },
+    ],
+  },
+  shopping: {
+    'highly-recommend': [
+      { id: 'great-selection', label: 'Great selection' },
+      { id: 'helpful-staff', label: 'Helpful staff' },
+      { id: 'fun-to-browse', label: 'Fun to browse' },
+    ],
+    'worth-trying': [
+      { id: 'decent-selection', label: 'Decent selection' },
+      { id: 'pricey', label: 'Pricey' },
+      { id: 'busy', label: 'Busy' },
+    ],
+    'probably-skip': [
+      { id: 'poor-selection', label: 'Poor selection' },
+      { id: 'overpriced', label: 'Overpriced' },
+      { id: 'messy', label: 'Messy' },
     ],
   },
   tech: {
@@ -344,6 +362,12 @@ export const ASPECT_SETS = {
     { id: 'vibe', label: 'Vibe' },
     { id: 'crowd', label: 'Crowd' },
   ],
+  shopping: [
+    { id: 'price', label: 'Price' },
+    { id: 'location', label: 'Location' },
+    { id: 'selection', label: 'Selection' },
+    { id: 'staff', label: 'Staff' },
+  ],
   tech: [
     { id: 'price', label: 'Price' },
     { id: 'location', label: 'Location' },
@@ -410,6 +434,7 @@ const TIER_QUESTION_FALLBACK = {
   benches: 'Do you like this bench?',
   'parks-nature': 'Do you like the outdoors here?',
   tech: 'Do you like this piece of tech history?',
+  shopping: 'Do you like shopping here?',
   'history-culture': 'Do you like the art and culture here?',
   food: 'Do you like the food here?',
   'local-life': 'Do you like this spot?',

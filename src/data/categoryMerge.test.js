@@ -28,3 +28,15 @@ it('keeps switched-off categories out of every picker', () => {
   const ids = PICKABLE_INTERESTS.map((i) => i.id);
   for (const off of ['benches', 'stadiums', 'campus-life', 'airports', 'formula-1']) expect(ids).not.toContain(off);
 });
+
+it('files shops under Shopping and farmers markets under Food, never Nightlife', () => {
+  registerPlaces([
+    { id: 'osm-test-books', region: 'miami', name: 'Barnes & Noble', topic: 'bookstore', lat: 25.7, lng: -80.3, categories: ['local-life'] },
+    { id: 'osm-test-market', region: 'miami', name: 'Test Farmers Market', topic: 'market', lat: 25.7, lng: -80.3, categories: ['local-life'] },
+    { id: 'osm-test-bar', region: 'miami', name: 'Test Bar', topic: 'bar', lat: 25.7, lng: -80.3, categories: ['local-life'] },
+  ]);
+  expect(getLandmark('miami', 'osm-test-books').categories).toEqual(['shopping']);
+  expect(getLandmark('miami', 'osm-test-market').categories).toEqual(['food']);
+  expect(getLandmark('miami', 'osm-test-bar').categories).toEqual(['local-life']);
+  expect(ALL_LANDMARKS.find((l) => l.name === 'Dolphin Mall').categories).toEqual(['shopping']);
+});

@@ -130,7 +130,7 @@ export const SWIPE_GROUPS = [
       // Food markets are filed under Food.
       ['Farmers markets', '\u{1F955}', 'food'],
       ['Luxury spots', '\u{1F48E}'],
-      ['Shopping', '\u{1F6CD}\u{FE0F}'],
+      ['Shopping', '\u{1F6CD}\u{FE0F}', 'shopping'],
     ],
   },
 ].map((g) => ({
