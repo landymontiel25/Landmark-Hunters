@@ -149,6 +149,8 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
         cityAlso: getRegion(c.region)?.searchNames?.join(' ') || '',
         city: getRegion(c.region)?.name || (!c.region || c.region === 'null' || c.region === 'custom' ? 'Custom pin' : c.region),
         points: c.points || 0,
+        // Server-verified visit (api/verify-checkin.js); only a pass shows.
+        verified: c.presence?.verified === true,
         createdAt: c.createdAt?.seconds || 0,
         date: fmtDateTime(c.createdAt?.seconds),
         rateable: lm ? isRateable(lm) : true,
@@ -370,6 +372,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="checkin-name">{it.name}</div>
                 <div className="checkin-sub">{it.tierEmoji ? `${it.tierEmoji} ${it.tierLabel}` : 'Not rated yet'}</div>
+                {it.verified && <div className="checkin-sub presence-verified">{'\u2713'} Verified visit</div>}
                 {canEditDates && editingId === it.id ? (
                   <div
                     style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6, alignItems: 'center' }}

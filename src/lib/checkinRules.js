@@ -46,15 +46,11 @@ export const BLOCK_MESSAGES = {
   'too-far': 'You need to be at this place to check in.',
 };
 
-// The fields saved on every real check-in. 'verified' only when the rule is
-// on and the fix passes it; 'unverified' when the rule is off or the distance
-// could not be computed.
-export function checkinLocationFields(coords, landmark, { required = REQUIRE_GPS_CHECKIN } = {}) {
-  const m = measureCheckin(coords, landmark);
-  const verified = required && m.distanceMeters != null && isNearEnough(coords, landmark);
-  return {
-    ...(m.distanceMeters != null ? { distanceMeters: m.distanceMeters } : {}),
-    ...(m.gpsAccuracyMeters != null ? { gpsAccuracyMeters: m.gpsAccuracyMeters } : {}),
-    verification: verified ? 'verified' : 'unverified',
-  };
+// The fields the phone saves on every real check-in: only
+// `verification: 'unverified'`. Verified presence is the server's call
+// (api/verify-checkin.js writes `presence`; src/lib/presence.js), and the
+// distance and accuracy go to its server-only proof doc, not the readable
+// check-in. firestore.rules refuses 'verified' from a client.
+export function checkinLocationFields() {
+  return { verification: 'unverified' };
 }

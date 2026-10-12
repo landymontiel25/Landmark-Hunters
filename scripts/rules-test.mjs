@@ -207,7 +207,7 @@ await t('payout marker: only alongside a new paying check-in of your own', async
 await t('check-in location evidence: optional, typed, and only removable by the owner', async () => {
   const db = as('erin');
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc1'), ck({ landmarkId: 'loc1', distanceMeters: 12, gpsAccuracyMeters: 8.5, verification: 'unverified' })));
-  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc2'), ck({ landmarkId: 'loc2', verification: 'verified' })));
+  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc2'), ck({ landmarkId: 'loc2', verification: 'unverified' })));
   await assertFails(setDoc(doc(db, 'checkins/erin_loc3'), ck({ landmarkId: 'loc3', distanceMeters: '12' })));
   await assertFails(setDoc(doc(db, 'checkins/erin_loc4'), ck({ landmarkId: 'loc4', distanceMeters: -1 })));
   await assertFails(setDoc(doc(db, 'checkins/erin_loc5'), ck({ landmarkId: 'loc5', gpsAccuracyMeters: 'good' })));
@@ -225,6 +225,58 @@ await t('check-in location evidence: optional, typed, and only removable by the 
   // Someone else cannot scrub it, and the usual owner fields still work.
   await assertFails(updateDoc(doc(as('bob'), 'checkins/erin_loc8'), { distanceMeters: deleteField() }));
   await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc8'), { userName: 'Deleted User', photoURL: null }));
+});
+
+console.log('verified presence (Phase 0): server-written only');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'checkins/erin_v1'), ck({ landmarkId: 'v1', presence: { verified: false, reason: 'too-far', distanceMeters: 140 } }));
+  await setDoc(doc(db, 'checkins/erin_v2'), ck({ landmarkId: 'v2', presence: { verified: true, distanceMeters: 4, accuracyMeters: 8 } }));
+  await setDoc(doc(db, 'checkins/erin_v1/proof/main'), { uid: 'erin', lat: 1, lng: 2, accuracy: 9 });
+  await setDoc(doc(db, 'presence_state/erin'), { lat: 1, lng: 2, atMs: 1 });
+});
+await t('a normal unverified check-in (with or without the field) still works', async () => {
+  const db = as('erin');
+  await assertSucceeds(setDoc(doc(db, 'checkins/erin_n1'), ck({ landmarkId: 'n1', verification: 'unverified' })));
+  await assertSucceeds(setDoc(doc(db, 'checkins/erin_n2'), ck({ landmarkId: 'n2' })));
+});
+await t("a client can't create a check-in marked verified, or with presence", async () => {
+  const db = as('erin');
+  await assertFails(setDoc(doc(db, 'checkins/erin_f1'), ck({ landmarkId: 'f1', verification: 'verified' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_f2'), ck({ landmarkId: 'f2', presence: { verified: true } })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_f3'), ck({ landmarkId: 'f3', presence: { verified: false } })));
+});
+await t("the owner can't set or change presence, or flip verification", async () => {
+  const db = as('erin');
+  await assertFails(updateDoc(doc(db, 'checkins/erin_n1'), { presence: { verified: true } }));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_v1'), { 'presence.verified': true }));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_v1'), { presence: { verified: true, distanceMeters: 1 } }));
+  await assertFails(updateDoc(doc(db, 'checkins/erin_n1'), { verification: 'verified' }));
+  // Other users and the admin can't either.
+  await assertFails(updateDoc(doc(as('bob'), 'checkins/erin_n1'), { presence: { verified: true } }));
+  await assertFails(updateDoc(doc(as('adm', { email: ADMIN_EMAIL }), 'checkins/erin_n1'), { presence: { verified: true } }));
+});
+await t('the owner may remove presence (account deletion) and still edit photos', async () => {
+  const db = as('erin');
+  await assertSucceeds(updateDoc(doc(db, 'checkins/erin_v2'), { userName: 'Deleted User', presence: deleteField() }));
+  await assertSucceeds(updateDoc(doc(db, 'checkins/erin_v1'), { photoURL: null }));
+});
+await t('presence_metrics: only the admin dashboard reads it; nobody writes it', async () => {
+  await seed((db) => setDoc(doc(db, 'presence_metrics/2026-10-10'), { checked: 1, verified: 1 }));
+  const dash = env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore();
+  await assertSucceeds(getDoc(doc(dash, 'presence_metrics/2026-10-10')));
+  await assertFails(setDoc(doc(dash, 'presence_metrics/2026-10-10'), { checked: 9 }));
+  await assertFails(getDoc(doc(as('erin'), 'presence_metrics/2026-10-10')));
+  await assertFails(getDoc(doc(as('adm', { email: ADMIN_EMAIL }), 'presence_metrics/2026-10-10')));
+});
+await t('GPS proof and the last verified fix are server-only, even for the owner', async () => {
+  for (const db of [as('erin'), as('bob'), as('adm', { email: ADMIN_EMAIL })]) {
+    await assertFails(getDoc(doc(db, 'checkins/erin_v1/proof/main')));
+    await assertFails(getDocs(collection(db, 'checkins/erin_v1/proof')));
+    await assertFails(setDoc(doc(db, 'checkins/erin_v1/proof/main'), { lat: 0 }));
+    await assertFails(getDoc(doc(db, 'presence_state/erin')));
+    await assertFails(setDoc(doc(db, 'presence_state/erin'), { lat: 0, lng: 0, atMs: 0 }));
+  }
 });
 
 console.log('leaderboard_entries: a rise needs a payout in the same write');

@@ -88,7 +88,7 @@ export async function deleteAccountData(uid) {
 
   // Check-ins: scrub, never delete (see above).
   for (const d of (await safeGetDocs('checkins', 'userId', '==', uid)).docs) {
-    const { photoURL, photoURLs, distanceMeters, gpsAccuracyMeters } = d.data();
+    const { photoURL, photoURLs, distanceMeters, gpsAccuracyMeters, presence } = d.data();
     const gallery = Array.isArray(photoURLs) ? photoURLs : [];
     try {
       await updateDoc(d.ref, {
@@ -99,6 +99,9 @@ export async function deleteAccountData(uid) {
         // remove these, never set them). `verification` carries no position.
         ...(distanceMeters !== undefined ? { distanceMeters: deleteField() } : {}),
         ...(gpsAccuracyMeters !== undefined ? { gpsAccuracyMeters: deleteField() } : {}),
+        // Server-written verified presence (distance and accuracy inside):
+        // the owner may only remove it.
+        ...(presence !== undefined ? { presence: deleteField() } : {}),
       });
     } catch {
       /* best-effort */

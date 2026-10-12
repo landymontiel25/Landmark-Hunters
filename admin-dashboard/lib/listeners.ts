@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useFirebaseGate } from './FirebaseGate';
 import { redirectIfSignedOut } from './session';
 import { reportListenerError, reportListenerUpdate, reportPaint, reportSubscribed, reportUnsubscribed } from './listenerHealth';
-import type { AccuracyDoc, AppMetrics, BigMiss, EngagementMetric, GrowthMetric, MaprMetric, MaprNCFModel, MaprSimilarity, RetentionCohort, TasteScore } from './types';
+import type { AccuracyDoc, AppMetrics, BigMiss, EngagementMetric, GrowthMetric, MaprMetric, MaprNCFModel, MaprSimilarity, PresenceMetric, RetentionCohort, TasteScore } from './types';
 
 // Live hooks. Every hook returns { data, loading, error }, logs its health
 // (listenerHealth.ts), and stops on unmount. The server reads Firestore
@@ -110,3 +110,4 @@ export const useBigMisses = (n = 100) => useLatestDocs<BigMiss>('big_misses', 's
 export const useMaprNCFModel = () => useLiveDoc<MaprNCFModel>('mapr_ncf_model', 'current');
 export const useMaprSimilarity = () => useLiveDoc<MaprSimilarity>('mapr_similarity_matrix', 'current');
 export const useAppMetrics = () => useLiveDoc<AppMetrics>('app_metrics', 'latest');
+export const usePresenceMetrics = (days = 30) => useLatestDocs<PresenceMetric>('presence_metrics', 'date', days);

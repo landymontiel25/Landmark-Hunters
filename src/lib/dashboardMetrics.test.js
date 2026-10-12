@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { retention } from './adminStats.js';
-import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, retentionDocs, slackAlerts, tasteDocs } from './dashboardMetrics.js';
+import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, presenceDocs, retentionDocs, slackAlerts, tasteDocs } from './dashboardMetrics.js';
 
 const DAY = 86400000;
 const D = '2026-09-20';
@@ -115,4 +115,22 @@ it('slackAlerts: a >20% one-day match rate drop and a failed NCF training', () =
   expect(slackAlerts({ matchRate: 0.65 }, { matchRate: 0.7 }, null)).toEqual([]);
   expect(slackAlerts({}, null, { ok: false, reason: 'boom' })[0]).toMatch(/failed to train: boom/);
   expect(slackAlerts({}, null, { ok: false, reason: 'not-enough-data' })).toEqual([]);
+});
+
+describe('presenceDocs (verified visits per day)', () => {
+  it('counts checked, verified and failed real check-ins, with fail reasons', () => {
+    const at = Date.parse('2026-10-10T12:00:00Z');
+    const ds = {
+      checkins: [
+        { userId: 'a', createdAt: at, presence: { verified: true, reason: null } },
+        { userId: 'a', createdAt: at, presence: { verified: false, reason: 'too-far' } },
+        { userId: 'b', createdAt: at, presence: { verified: false, reason: 'too-far' } },
+        { userId: 'b', createdAt: at, presence: null },
+        { userId: 'c', createdAt: at, ratingOnly: true, presence: null },
+      ],
+    };
+    const [day, empty] = presenceDocs(ds, ['2026-10-10', '2026-10-11']);
+    expect(day).toEqual({ date: '2026-10-10', checkins: 4, checked: 3, verified: 1, failed: 2, verified_rate: 0.3333, fail_reasons: { 'too-far': 2 } });
+    expect(empty).toMatchObject({ checkins: 0, checked: 0, verified_rate: null });
+  });
 });

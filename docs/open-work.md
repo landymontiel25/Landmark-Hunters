@@ -27,6 +27,25 @@ change fail any check-in that pays points; install a fresh iOS build. Left
 open from question 14: one payout can still be copied into other weeks' and
 years' entries (at most once per entry), and `region_stats` bumps.
 
+Phase 0 (verified presence) shipped: `api/verify-checkin.js` checks a fresh
+GPS fix after each check-in against the place (`src/lib/presence.js`: radius
+and accuracy by place type, 10-minute check-in age, 2-minute fix age, 900
+km/h travel limit) and writes `presence`; the rules forbid clients from
+writing it or `verification: 'verified'`. The fix goes to server-only
+`checkins/{id}/proof/main`, the last verified fix to `presence_state/{uid}`.
+"✓ Verified visit" shows on the check-in screen and in the check-in list.
+The nightly job writes `presence_metrics/{date}`; the dashboard's App metrics
+page shows the rate (goal 80%). Next: a week on real phones to tune the
+radius table (the type table replaces each place's own
+`checkInRadiusMeters` for verification; big museums like the Philadelphia
+Museum of Art, 500 m today, may need their own number), then Phase 1. Left
+open in Phase 0: the Android mock-location flag (needs a native plugin
+change; the server already rejects `mocked: true`), Firebase App Check, an
+offline retry queue (an offline check-in stays unverified), the legacy
+`distanceMeters` / `gpsAccuracyMeters` keys still accepted on check-in create
+for pre-Phase-0 builds (remove with the Phase 2 read limits), and proof docs
+left behind when an account is deleted.
+
 ## Founder and family accounts in the owner stats (needs the UIDs)
 
 `src/lib/familyAccounts.js` holds `FAMILY_UIDS`, the founder and family

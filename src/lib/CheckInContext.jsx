@@ -9,6 +9,7 @@ import {
   POINTS_PER_CHECKIN,
 } from './leaderboard';
 import { checkinBlockReason, checkinLocationFields, BLOCK_MESSAGES } from './checkinRules';
+import { verifyCheckinPresence } from './verifyPresence';
 
 // Shared check-in state so there's ONE source of truth and a single place to
 // trigger the "rate + post" prompt, no matter which screen you checked in
@@ -43,6 +44,9 @@ export function CheckInProvider({ children }) {
   // 23, ... -- see shouldPromptLoveReason. The landmark + visit number is
   // all LoveReasonPrompt needs; it looks up any earlier answer itself.
   const [loveReasonPrompt, setLoveReasonPrompt] = useState(null);
+  // The server's answer for the check-in just posted:
+  // { checkinId, landmarkId, verified, reason, distanceMeters }, or null.
+  const [presenceResult, setPresenceResult] = useState(null);
 
   // Keep this week's standings warm so we can detect an overtake the instant a
   // check-in lands (compare where you were vs where +100 puts you).
@@ -130,8 +134,11 @@ export function CheckInProvider({ children }) {
   // and instantly securing the streak exactly as before.
   // `fix` is the user's GPS fix ({ lat, lng, accuracy }) at the moment of
   // Post. This provider sits above GeoProvider, so the caller passes it in.
-  // Every real check-in saves distance, accuracy and a verification tag;
-  // with REQUIRE_GPS_CHECKIN on, one that fails the rule is refused.
+  // Every real check-in is saved 'unverified'; right after, the server is
+  // asked to verify it (verifyPresence.js, api/verify-checkin.js) and its
+  // answer lands in `presence` (shown as "Verified visit"). The check-in
+  // never waits for that. With REQUIRE_GPS_CHECKIN on, one that fails the
+  // client rule is refused.
   const commitCheckIn = async (fix = null) => {
     const landmark = justCheckedIn;
     if (!user || !landmark) return null;
@@ -167,6 +174,16 @@ export function CheckInProvider({ children }) {
       if (!ratingOnly && (result.claimed || result.alreadyClaimed)) {
         setClaimedMap((m) => ({ ...m, [landmark.id]: true }));
         setCheckinTick((t) => t + 1);
+      }
+      if (!ratingOnly && result.claimed && result.checkinId) {
+        setPresenceResult(null);
+        const checkinId = result.checkinId;
+        verifyCheckinPresence(checkinId).then((v) => {
+          if (v) {
+            setPresenceResult({ checkinId, landmarkId: landmark.id, ...v });
+            setCheckinTick((t) => t + 1);
+          }
+        });
       }
       // Celebrate off the actual payout, not the base point value -- a
       // home-radius or 6th+ repeat visit pays 0 and has nothing to celebrate.
@@ -217,6 +234,7 @@ export function CheckInProvider({ children }) {
         clearJustCheckedIn,
         loveReasonPrompt,
         clearLoveReasonPrompt,
+        presenceResult,
       }}
     >
       {children}

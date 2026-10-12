@@ -197,3 +197,14 @@ export interface AppMetrics {
   truncated: string[];
   study?: { series?: { date: string; mapr: number | null; baseline: number | null; users: number }[] };
 }
+
+// presence_metrics/{date}: verified visits per day (api/verify-checkin.js).
+export interface PresenceMetric {
+  date: string;
+  checkins: number;
+  checked: number;
+  verified: number;
+  failed: number;
+  verified_rate: number | null;
+  fail_reasons: Record<string, number>;
+}

@@ -126,8 +126,8 @@ async function _claimCheckIn({
   ratingOnly = false,
   homeCoords = null,
   landmarkCoords = null,
-  // { distanceMeters?, gpsAccuracyMeters?, verification } from
-  // checkinLocationFields. Saved on real check-ins only; a rating-only claim
+  // { verification: 'unverified' } from checkinLocationFields (presence is
+  // server-written after the check-in, see verifyPresence.js). Saved on real check-ins only; a rating-only claim
   // is not a visit and stays untagged.
   location = null,
 }) {
