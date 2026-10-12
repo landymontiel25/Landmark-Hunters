@@ -18,13 +18,13 @@ export default function Growth() {
     <Page title="Growth" subtitle="Last 30 days, UTC. Active users = opened the app that day.">
       <ListenerError error={error} />
       <Grid>
-        <MetricCard title="Active users" value={g?.active_users ?? '—'} trend={trendOf(rows, 'active_users')} loading={loading} />
+        <MetricCard title="Active users" value={g?.active_users ?? '—'} note={g?.active_users_outside_family != null ? `${g.active_users_outside_family} outside family` : undefined} trend={trendOf(rows, 'active_users')} loading={loading} />
         <MetricCard title="New users" value={g?.new_users ?? '—'} trend={trendOf(rows, 'new_users')} loading={loading} />
         <MetricCard title="Landmarks visited" value={g?.landmarks_visited ?? '—'} note={g ? `${g.total_landmarks_visited_cumulative} all time` : undefined} trend={trendOf(rows, 'landmarks_visited')} loading={loading} />
         <MetricCard title="Growth rate" value={growthRate == null ? '—' : `${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(0)}%`} note="New users vs the day before" loading={loading} />
       </Grid>
       <Two>
-        <TrendChart title="Active users (30 days)" data={rows} series={[{ key: 'active_users', label: 'Active users' }]} />
+        <TrendChart title="Active users (30 days)" data={rows} series={[{ key: 'active_users', label: 'Active users' }, { key: 'active_users_outside_family', label: 'Outside family' }]} />
         <BarsChart title="New users (30 days)" data={short} xKey="day" series={[{ key: 'new_users', label: 'New users' }]} />
         <TrendChart title="Landmarks visited, cumulative" data={rows} series={[{ key: 'total_landmarks_visited_cumulative', label: 'Visits, all time' }]} />
         <BarsChart title="Repeat landmark visits (30 days)" data={short} xKey="day" series={[{ key: 'repeat_landmark_visits', label: 'Repeat visits' }]} />

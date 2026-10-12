@@ -32,7 +32,7 @@ time, errors) shows on the Overview page and in the sidebar.
 | Overview | `mapr_metrics`, `growth_metrics`, `engagement_metrics` |
 | Mapr Phase 1 | `mapr_metrics`, `mapr_ncf_model/current`, `mapr_similarity_matrix/current` |
 | Growth | `growth_metrics` |
-| Retention | `retention_cohorts` |
+| Retention | `retention_cohorts`, plus Day 1/7/30 from `app_metrics/latest` so it matches the Academy tab. Accounts created since open tracking began, founder and family (`src/lib/familyAccounts.js`) left out. |
 | Engagement | `engagement_metrics` |
 | Accuracy | `accuracy_by_category`, `accuracy_by_city` |
 | Taste | `taste_score`, `big_misses` (review status and notes are editable) |

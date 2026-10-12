@@ -100,6 +100,13 @@ describe('computeDailyReport', () => {
     expect(r.matchRate).toBeCloseTo(1, 6); // a "yes" tap and a loved rating
   });
 
+  it('match rate leaves out founder and family accounts; the other totals keep them', () => {
+    const fam = computeDailyReport({ ...ds, familyUids: ['a', 'b'] }, { date: D, now: T + 10 * DAY });
+    expect(fam.matchRate).toBeNull();
+    expect(fam.totals).toEqual(r.totals);
+    expect(fam.skipRate).toBe(r.skipRate);
+  });
+
   it('distance, boost and exploration distributions', () => {
     expect(r.distance).toMatchObject({ n: 4, within1_5km: 0.5, within3km: 0.75, p50: 1.2 });
     expect(r.boost).toMatchObject({ zero: 0.25, upTo5: 0.25, upTo10: 0.25, over10: 0.25 });

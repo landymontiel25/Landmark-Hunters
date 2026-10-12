@@ -67,6 +67,8 @@ export interface GrowthMetric {
   id: string;
   date: string;
   active_users: number;
+  // Written from 2026-10; older docs lack it.
+  active_users_outside_family?: number;
   new_users: number;
   landmarks_visited: number;
   total_landmarks_visited_cumulative: number;
@@ -183,7 +185,10 @@ export interface AppMetricCard {
   nLabel?: string;
   baseline?: { value: number; unit?: string; label?: string } | null;
   newUsers?: number;
-  weekly?: { weekEnding: string; active: number; newUsers: number }[];
+  // Founder and family accounts left out (src/lib/familyAccounts.js).
+  activeOutside?: number;
+  outside?: { value: number | null; n: number };
+  weekly?: { weekEnding: string; active: number; activeOutside?: number; newUsers: number }[];
 }
 export interface AppMetrics {
   generatedAt: number;

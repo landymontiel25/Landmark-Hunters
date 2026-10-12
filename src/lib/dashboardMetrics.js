@@ -1,3 +1,5 @@
+import { openDaySets, openedOnDay, retentionDayOver, retentionUsers } from './adminStats.js';
+import { familySet } from './familyAccounts.js';
 import { annotateShown } from './maprRank/metrics.js';
 
 // The documents the separate admin dashboard (admin-dashboard/) reads, as
@@ -24,8 +26,11 @@ export function lastDates(last, n) {
   return Array.from({ length: n }, (_, i) => dateUtc(dayStart(last) - (n - 1 - i) * DAY_MS));
 }
 
-// growth_metrics/{date}
+// growth_metrics/{date}. active_users counts everyone who opened the app
+// that day; active_users_outside_family leaves out founder and family
+// accounts (familyAccounts.js).
 export function growthDocs(ds, dates) {
+  const family = familySet(ds);
   const visits = realCheckins(ds).sort((a, b) => a.createdAt - b.createdAt);
   const seenPair = new Set();
   const byDate = new Map(dates.map((d) => [d, { visits: 0, repeat: 0 }]));
@@ -48,10 +53,12 @@ export function growthDocs(ds, dates) {
   const sortedDays = [...cumulativeAt.keys()].sort();
   return dates.map((date) => {
     for (const d of sortedDays) if (d <= date) running = Math.max(running, cumulativeAt.get(d));
-    const active = new Set((ds.openDays || []).filter((o) => o.date === date).map((o) => o.uid)).size;
+    const activeIds = new Set((ds.openDays || []).filter((o) => o.date === date).map((o) => o.uid));
+    const active = activeIds.size;
+    const activeOutside = [...activeIds].filter((uid) => !family.has(uid)).length;
     const fresh = (ds.users || []).filter((u) => Number.isFinite(u.createdAt) && dateUtc(u.createdAt) === date).length;
     const slot = byDate.get(date);
-    return { date, active_users: active, new_users: fresh, landmarks_visited: slot.visits, total_landmarks_visited_cumulative: running, repeat_landmark_visits: slot.repeat };
+    return { date, active_users: active, active_users_outside_family: activeOutside, new_users: fresh, landmarks_visited: slot.visits, total_landmarks_visited_cumulative: running, repeat_landmark_visits: slot.repeat };
   });
 }
 
@@ -80,30 +87,24 @@ export function engagementDocs(ds, dates, annotated = annotateShown(ds)) {
   });
 }
 
-// retention_cohorts/{signup date}: of the users who signed up that day, how
-// many opened the app on or after day 7 / 30 / 90 (null until that day has
-// passed). churn = share of the cohort (14+ days old) with no open in the
-// last 14 days.
+// retention_cohorts/{signup date}: the same rule as the Academy tab's
+// retention (adminStats.js retention()). The cohort is the users who signed
+// up that day, on or after the day open tracking began, founder and family
+// accounts left out; day_N counts those who opened the app ON day N (null
+// until day N is over). churn = share of the cohort (14+ days old) with no
+// open in the last 14 days.
 export function retentionDocs(ds, cohortDates, now = Date.now()) {
-  const opens = new Map();
-  for (const o of ds.openDays || []) {
-    if (!opens.has(o.uid)) opens.set(o.uid, []);
-    opens.get(o.uid).push(o.date);
-  }
-  const today = dateUtc(now);
+  const opens = openDaySets(ds);
+  const users = retentionUsers(ds);
   const recentFrom = dateUtc(now - 14 * DAY_MS);
   return cohortDates.map((date) => {
-    const cohort = (ds.users || []).filter((u) => Number.isFinite(u.createdAt) && dateUtc(u.createdAt) === date);
-    const back = (n) => {
-      const target = dateUtc(dayStart(date) + n * DAY_MS);
-      if (target >= today) return null;
-      return cohort.filter((u) => (opens.get(u.uid) || []).some((d) => d >= target)).length;
-    };
-    const d7 = back(7);
-    const d30 = back(30);
-    const d90 = back(90);
+    const cohort = users.filter((u) => dateUtc(u.createdAt) === date);
+    const on = (n) => (retentionDayOver(dayStart(date), n, now) ? cohort.filter((u) => openedOnDay(opens, u, n)).length : null);
+    const d7 = on(7);
+    const d30 = on(30);
+    const d90 = on(90);
     const oldEnough = dayStart(date) <= now - 14 * DAY_MS;
-    const churned = oldEnough ? cohort.filter((u) => !(opens.get(u.uid) || []).some((d) => d >= recentFrom)).length : null;
+    const churned = oldEnough ? cohort.filter((u) => ![...(opens.get(u.uid) || [])].some((d) => d >= recentFrom)).length : null;
     return {
       cohort_date: date,
       day_0: cohort.length,
