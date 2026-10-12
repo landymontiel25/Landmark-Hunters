@@ -1,6 +1,6 @@
-import { doc, setDoc, increment } from 'firebase/firestore';
+import { doc, writeBatch, increment } from 'firebase/firestore';
 import { db } from './firebase';
-import { awardLeaderboardPoints } from './leaderboard';
+import { addLeaderboardPointsToBatch } from './leaderboard';
 
 // A one-time reward for finishing the post-signup onboarding flow
 // (preferences + the first-check-in prompt). Stored on the user's own
@@ -12,15 +12,19 @@ export const ONBOARDING_BONUS_POINTS = 10;
 // Guarded by the caller checking myProfile.onboardingCompleted first (see
 // Profile's FirstCheckInStep) -- this only ever runs once per account.
 //
-// setDoc(merge: true) rather than updateDoc: updateDoc rejects outright if
+// A merged set rather than updateDoc: updateDoc rejects outright if
 // users/{uid} doesn't exist yet, which silently ate this write (the caller's
 // .catch swallowed it) whenever it raced upsertUserProfile's own fire-and-
 // forget doc creation on the same page load -- the flag then read back as
 // unset on the next load, resetting Profile to "Finish Onboarding" even
 // though the in-session UI had already moved past it.
+//
+// One batch: firestore.rules only lets a leaderboard entry rise by a
+// bonusPoints rise made in the same write.
 export async function completeOnboarding(uid, userName) {
   if (!db || !uid) return;
-  await setDoc(
+  const batch = writeBatch(db);
+  batch.set(
     doc(db, 'users', uid),
     {
       onboardingCompleted: true,
@@ -28,7 +32,8 @@ export async function completeOnboarding(uid, userName) {
     },
     { merge: true }
   );
-  await awardLeaderboardPoints(uid, userName, ONBOARDING_BONUS_POINTS);
+  addLeaderboardPointsToBatch(batch, uid, userName, ONBOARDING_BONUS_POINTS);
+  await batch.commit();
 }
 
 // Belt-and-suspenders against onboardingCompleted not sticking past a

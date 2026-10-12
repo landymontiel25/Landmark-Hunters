@@ -111,6 +111,12 @@ service cloud.firestore {
     function locationOnlyRemoved(k) {
       return !(k in request.resource.data) || request.resource.data[k] == resource.data.get(k, null);
     }
+    // checkin_payouts/{uid} does not exist before this write and names this
+    // check-in after it.
+    function checkinPayoutClaimedNow(checkinId) {
+      let path = /databases/$(database)/documents/checkin_payouts/$(request.auth.uid);
+      return !exists(path) && existsAfter(path) && getAfter(path).data.checkinId == checkinId;
+    }
     match /checkins/{checkinId} {
       // Signed-in only (was public). Nothing the app shows signed out reads
       // check-ins; leaderboards read leaderboard_entries instead.
@@ -141,6 +147,11 @@ service cloud.firestore {
         && request.resource.data.points is number
         && request.resource.data.points >= 0
         && request.resource.data.points <= maxPointsPerWrite()
+        // Points pay once per account (claimCheckIn pays only the first real
+        // check-in): a paying check-in must create checkin_payouts/{uid},
+        // naming itself, in the same write. Before, every new landmark id
+        // could mint another 100.
+        && (request.resource.data.points == 0 || checkinPayoutClaimedNow(checkinId))
         && request.resource.data.get('basePoints', 0) is number
         && request.resource.data.get('basePoints', 0) <= maxPointsPerWrite()
         // Payout follows the same taper claimCheckIn applies (full on visit
@@ -175,6 +186,43 @@ service cloud.firestore {
         );
       allow delete: if false;
     }
+    // The one check-in payout an account ever gets. Created by the owner in
+    // the same write as the paying check-in it names (claimCheckIn), never
+    // changed or removed, so a second paying check-in is impossible.
+    match /checkin_payouts/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['checkinId', 'createdAt'])
+        && request.resource.data.checkinId is string
+        && request.resource.data.checkinId.split('_')[0] == uid
+        && !exists(/databases/$(database)/documents/checkins/$(request.resource.data.checkinId))
+        && getAfter(/databases/$(database)/documents/checkins/$(request.resource.data.checkinId)).data.points > 0
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+    // A leaderboard entry rises only by a payout made in the same write:
+    // the paying check-in it names in `lastCheckinId` (created now, by you,
+    // for exactly that many points), or a bonusPoints rise on your profile
+    // of exactly that many points (onboarding or referral bonus; the users
+    // rule decides when those are allowed). Before, any client could add
+    // +100 to its own entries as often as it liked.
+    function leaderboardRiseOk(delta) {
+      return delta == 0
+        || (request.resource.data.get('lastCheckinId', null) is string
+            && checkinPaidNow(request.resource.data.lastCheckinId, delta))
+        || bonusPaidNow(delta);
+    }
+    function checkinPaidNow(checkinId, delta) {
+      let path = /databases/$(database)/documents/checkins/$(checkinId);
+      return !exists(path) && existsAfter(path)
+        && getAfter(path).data.userId == request.auth.uid
+        && getAfter(path).data.points == delta;
+    }
+    function bonusPaidNow(delta) {
+      let path = /databases/$(database)/documents/users/$(request.auth.uid);
+      return existsAfter(path)
+        && getAfter(path).data.get('bonusPoints', 0) - (exists(path) ? get(path).data.get('bonusPoints', 0) : 0) == delta;
+    }
     // Id is always "{period}_{periodKey}_{uid}" (see leaderboard.js). Before,
     // any signed-in account could write any entry id with any points, which
     // also let it overwrite (erase) someone else's entry. Now: your own id
@@ -184,19 +232,21 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.userId == request.auth.uid
         && entryId.matches('(weekly|monthly|yearly)_[0-9W-]+_' + request.auth.uid)
-        && request.resource.data.keys().hasOnly(['userId', 'userName', 'period', 'periodKey', 'points', 'updatedAt'])
+        && request.resource.data.keys().hasOnly(['userId', 'userName', 'period', 'periodKey', 'points', 'updatedAt', 'lastCheckinId'])
         && request.resource.data.points is number
         && request.resource.data.points >= 0
         && request.resource.data.points <= maxPointsPerWrite()
+        && leaderboardRiseOk(request.resource.data.points)
         && request.resource.data.get('userName', '') is string
         && request.resource.data.get('userName', '').size() <= 200;
       allow update: if request.auth != null
         && resource.data.userId == request.auth.uid
         && request.resource.data.userId == request.auth.uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['userName', 'points', 'updatedAt'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['userName', 'points', 'updatedAt', 'lastCheckinId'])
         && request.resource.data.points is number
         && request.resource.data.points >= resource.data.points
         && request.resource.data.points <= resource.data.points + maxPointsPerWrite()
+        && leaderboardRiseOk(request.resource.data.points - resource.data.points)
         && request.resource.data.get('userName', '') is string
         && request.resource.data.get('userName', '').size() <= 200;
       allow delete: if request.auth != null && resource.data.userId == request.auth.uid;

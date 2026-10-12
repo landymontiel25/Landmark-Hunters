@@ -176,11 +176,17 @@ async function _claimCheckIn({
       ? 0
       : taperedPoints(points, visitNumber);
 
+  // checkin_payouts/{uid} marks the account's one paying check-in; the rules
+  // only accept points > 0 alongside creating it. If it already exists the
+  // account was paid before, so this check-in pays 0.
+  const payoutRef = doc(db, 'checkin_payouts', userId);
+
   const result = await runTransaction(db, async (tx) => {
     const existing = await tx.get(checkinRef);
     if (existing.exists()) {
       return { claimed: false, alreadyClaimed: true };
     }
+    const paidPoints = payout > 0 && !(await tx.get(payoutRef)).exists() ? payout : 0;
 
     tx.set(checkinRef, {
       userId,
@@ -188,7 +194,7 @@ async function _claimCheckIn({
       landmarkId,
       landmarkName,
       region,
-      points: payout,
+      points: paidPoints,
       basePoints: points,
       visitNumber,
       ratingOnly,
@@ -201,7 +207,8 @@ async function _claimCheckIn({
       createdAt: serverTimestamp(),
     });
 
-    if (payout > 0) {
+    if (paidPoints > 0) {
+      tx.set(payoutRef, { checkinId, createdAt: serverTimestamp() });
       for (const period of PERIODS) {
         const entryRef = doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`);
         tx.set(
@@ -211,7 +218,9 @@ async function _claimCheckIn({
             userName,
             period,
             periodKey: keys[period],
-            points: increment(payout),
+            points: increment(paidPoints),
+            // The rules check that the rise matches this check-in's points.
+            lastCheckinId: checkinId,
             updatedAt: serverTimestamp(),
           },
           { merge: true }
@@ -219,7 +228,7 @@ async function _claimCheckIn({
       }
     }
 
-    return { claimed: true, alreadyClaimed: false, visitNumber, payout, checkinId };
+    return { claimed: true, alreadyClaimed: false, visitNumber, payout: paidPoints, checkinId };
   });
 
   // Outside the transaction on purpose: a failed counter write must never
@@ -234,19 +243,9 @@ async function _claimCheckIn({
  * only -- for anything that awards points outside a check-in (referral and
  * onboarding bonuses), so they count toward rank the same way check-in
  * points do, without retroactively touching periods that had already closed
- * by the time the bonus was earned.
- */
-export async function awardLeaderboardPoints(userId, userName, points) {
-  if (!db || !userId || !points) return;
-  const batch = writeBatch(db);
-  addLeaderboardPointsToBatch(batch, userId, userName, points);
-  await batch.commit();
-}
-
-/**
- * The same award, added to a caller's batch -- so a bonus can commit in ONE
- * atomic write with the bonusPoints bump and the flag that earns it (the
- * rules check those together; see referrals.js).
+ * by the time the bonus was earned. Always in the caller's batch, next to
+ * the bonusPoints bump that earns it: the rules only let an entry rise by a
+ * bonusPoints rise made in the same write (see referrals.js, onboarding.js).
  */
 export function addLeaderboardPointsToBatch(batch, userId, userName, points) {
   const keys = periodKeys();

@@ -18,7 +18,14 @@ Phase 0. Update this item as each step ships.
 Progress: the `rules` CI job runs `scripts/rules-test.mjs` in the Firebase
 emulator on every PR (`npm run test:rules`), and the rules deploy workflow
 runs it again before it deploys. `isAdmin()` in both rules files now needs a
-verified email (scan question 7); Google sign-in is always verified.
+verified email (scan question 7); Google sign-in is always verified. Check-in
+points pay once per account: a paying check-in must create
+`checkin_payouts/{uid}` in the same write, and a leaderboard entry rises only
+by a payout made in the same write (the paying check-in it names in
+`lastCheckinId`, or a matching bonusPoints rise). App builds from before this
+change fail any check-in that pays points; install a fresh iOS build. Left
+open from question 14: one payout can still be copied into other weeks' and
+years' entries (at most once per entry), and `region_stats` bumps.
 
 ## Founder and family accounts in the owner stats (needs the UIDs)
 

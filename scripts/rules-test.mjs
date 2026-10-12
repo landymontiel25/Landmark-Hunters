@@ -155,21 +155,54 @@ await t('a stranger cannot claim someone else\'s referral', async () => {
 
 console.log('checkins');
 await reset();
-const ck = (over = {}) => ({ userId: 'erin', userName: 'e', landmarkId: 'lm', landmarkName: 'L', region: 'r', points: 100, basePoints: 100, visitNumber: 1, ratingOnly: false, visited: true, insideHomeRadius: false, createdAt: serverTimestamp(), ...over });
+const ck = (over = {}) => ({ userId: 'erin', userName: 'e', landmarkId: 'lm', landmarkName: 'L', region: 'r', points: 0, basePoints: 100, visitNumber: 1, ratingOnly: false, visited: true, insideHomeRadius: false, createdAt: serverTimestamp(), ...over });
 await t('signed-out users cannot read check-ins; signed-in can', async () => {
   await seed((db) => setDoc(doc(db, 'checkins/erin_lm'), { userId: 'erin', points: 100 }));
   await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'checkins/erin_lm')));
   await assertSucceeds(getDoc(doc(as('bob'), 'checkins/erin_lm')));
 });
-await t('check-in payout follows the visit taper', async () => {
+// The paying check-in: the check-in, the payout marker and the three
+// leaderboard entries in one write, as claimCheckIn does it.
+const paidCheckin = (db, uid, id, over = {}, entryPoints = null) => {
+  const b = writeBatch(db);
+  const pts = over.points ?? 100;
+  b.set(doc(db, `checkins/${id}`), ck({ userId: uid, points: pts, ...over }));
+  b.set(doc(db, `checkin_payouts/${uid}`), { checkinId: id, createdAt: serverTimestamp() });
+  for (const [period, key] of [['weekly', '2026-W41'], ['monthly', '2026-10'], ['yearly', '2026']]) {
+    b.set(doc(db, `leaderboard_entries/${period}_${key}_${uid}`), { userId: uid, userName: 'e', period, periodKey: key, points: increment(entryPoints ?? pts), lastCheckinId: id, updatedAt: serverTimestamp() }, { merge: true });
+  }
+  return b.commit();
+};
+await t('check-in payout: 0 always works, points need the one-time payout marker', async () => {
   const db = as('erin');
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_a'), ck({ landmarkId: 'a' })));
-  await assertSucceeds(setDoc(doc(db, 'checkins/erin_a_2'), ck({ landmarkId: 'a', visitNumber: 2, points: 20 })));
-  await assertFails(setDoc(doc(db, 'checkins/erin_a_3'), ck({ landmarkId: 'a', visitNumber: 3, points: 100 })));
-  await assertFails(setDoc(doc(db, 'checkins/erin_a_7'), ck({ landmarkId: 'a', visitNumber: 7, points: 20 })));
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_a_8'), ck({ landmarkId: 'a', visitNumber: 7, points: 0 })));
+  // Points without the marker: denied, even on a first visit.
+  await assertFails(setDoc(doc(db, 'checkins/erin_x'), ck({ landmarkId: 'x', points: 100 })));
   await assertFails(setDoc(doc(db, 'checkins/erin_b'), ck({ landmarkId: 'b', ratingOnly: true, points: 50 })));
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_c'), ck({ landmarkId: 'c', ratingOnly: true, visited: false, points: 0 })));
+});
+await t('the first paying check-in works once, with its leaderboard entries', async () => {
+  const db = as('erin');
+  await assertSucceeds(paidCheckin(db, 'erin', 'erin_p1', { landmarkId: 'p1' }));
+  // A second payout, at another place, is denied: the marker already exists.
+  await assertFails(paidCheckin(db, 'erin', 'erin_p2', { landmarkId: 'p2' }));
+  await assertFails(setDoc(doc(db, 'checkins/erin_p3'), ck({ landmarkId: 'p3', points: 100 })));
+  // The marker can't be changed, removed, or read by others.
+  await assertFails(setDoc(doc(db, 'checkin_payouts/erin'), { checkinId: 'erin_p4', createdAt: serverTimestamp() }));
+  await assertFails(deleteDoc(doc(db, 'checkin_payouts/erin')));
+  await assertSucceeds(getDoc(doc(db, 'checkin_payouts/erin')));
+  await assertFails(getDoc(doc(as('bob'), 'checkin_payouts/erin')));
+});
+await t('payout marker: only alongside a new paying check-in of your own', async () => {
+  await assertFails(setDoc(doc(as('fay'), 'checkin_payouts/fay'), { checkinId: 'fay_q', createdAt: serverTimestamp() }));
+  await seed((db) => setDoc(doc(db, 'checkins/fay_old'), ck({ userId: 'fay', landmarkId: 'old', points: 100 })));
+  await assertFails(setDoc(doc(as('fay'), 'checkin_payouts/fay'), { checkinId: 'fay_old', createdAt: serverTimestamp() }));
+  await assertFails(paidCheckin(as('fay'), 'fay', 'fay_z', { landmarkId: 'z', points: 100 }, 200));
+  await assertFails(paidCheckin(as('bob'), 'fay', 'fay_y', { landmarkId: 'y' }));
+  // Visit taper still holds for the paying check-in.
+  await assertFails(paidCheckin(as('fay'), 'fay', 'fay_w_3', { landmarkId: 'w', visitNumber: 3, points: 100 }));
+  await assertSucceeds(paidCheckin(as('fay'), 'fay', 'fay_w', { landmarkId: 'w' }));
 });
 await t('check-in location evidence: optional, typed, and only removable by the owner', async () => {
   const db = as('erin');
@@ -192,6 +225,42 @@ await t('check-in location evidence: optional, typed, and only removable by the 
   // Someone else cannot scrub it, and the usual owner fields still work.
   await assertFails(updateDoc(doc(as('bob'), 'checkins/erin_loc8'), { distanceMeters: deleteField() }));
   await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc8'), { userName: 'Deleted User', photoURL: null }));
+});
+
+console.log('leaderboard_entries: a rise needs a payout in the same write');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'users/gus'), { uid: 'gus', username: 'gus', bonusPoints: 0 });
+  await setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), { userId: 'gus', userName: 'g', period: 'weekly', periodKey: '2026-W41', points: 10, updatedAt: 1 });
+  await setDoc(doc(db, 'checkins/gus_old'), { userId: 'gus', landmarkId: 'old', points: 100 });
+});
+const entry = (over = {}) => ({ userId: 'gus', userName: 'g', period: 'weekly', periodKey: '2026-W41', points: increment(100), updatedAt: serverTimestamp(), ...over });
+await t('a bare +100 on an entry is denied (create or update)', async () => {
+  const db = as('gus');
+  await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry(), { merge: true }));
+  await assertFails(setDoc(doc(db, 'leaderboard_entries/monthly_2026-10_gus'), entry({ period: 'monthly', periodKey: '2026-10', points: 100 })));
+});
+await t('naming an old check-in, or someone else\'s, does not pay', async () => {
+  const db = as('gus');
+  await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ lastCheckinId: 'gus_old' }), { merge: true }));
+  await seed((sdb) => setDoc(doc(sdb, 'checkins/hal_x'), { userId: 'hal', landmarkId: 'x', points: 100 }));
+  await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ lastCheckinId: 'hal_x' }), { merge: true }));
+});
+await t('name and timestamp updates with no rise still work', () =>
+  assertSucceeds(updateDoc(doc(as('gus'), 'leaderboard_entries/weekly_2026-W41_gus'), { userName: 'Gus', updatedAt: serverTimestamp() })));
+await t('onboarding bonus: +10 entries batched with the +10 bonus and the flag', async () => {
+  const db = as('gus');
+  const mk = (pts) => {
+    const b = writeBatch(db);
+    b.set(doc(db, 'users/gus'), { onboardingCompleted: true, bonusPoints: increment(10) }, { merge: true });
+    b.set(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ points: increment(pts) }), { merge: true });
+    b.set(doc(db, 'leaderboard_entries/yearly_2026_gus'), entry({ period: 'yearly', periodKey: '2026', points: increment(pts) }), { merge: true });
+    return b;
+  };
+  await assertFails(mk(100).commit());
+  await assertSucceeds(mk(10).commit());
+  // Done once: the flag is set, so the bonus and its entries can't repeat.
+  await assertFails(mk(10).commit());
 });
 
 console.log('region_stats');
