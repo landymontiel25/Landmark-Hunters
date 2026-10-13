@@ -1236,12 +1236,12 @@ service cloud.firestore {
     // Tips (docs/discovery-network-plan.md, Phase 1): a public note from a
     // verified visit. api/post-tip.js creates and deletes them, and
     // api/tips.js keeps reports, counts and status, all with the Admin SDK,
-    // so no client ever writes one. A single tip reads as the plan says:
-    // live and not hidden by reports, with no block either way, or your own,
-    // or the admin's (the dashboard reads with the service account, which
-    // skips rules). List queries are your own tips only: other people's
-    // tips come from api/tips.js, which can check blocks both ways (a list
-    // rule can't, so a direct query would show a blocker's tips).
+    // so no client ever writes one. Clients read only their own tips (and
+    // the verified admin any tip): everyone else's come from api/tips.js,
+    // which hides blocks both ways (a list rule can't) and sends only what a
+    // viewer should see, never the doc's report count, exact post time or
+    // held reasons. The dashboard reads with the service account, which
+    // skips rules.
     match /tips/{tipId} {
       // The id is always "{authorUid}_{landmarkId}" (one tip per person per
       // place), so your own id is checked first: a get on your own tip that
@@ -1249,11 +1249,7 @@ service cloud.firestore {
       allow get: if request.auth != null
         && (tipId.split('_')[0] == request.auth.uid
             || resource.data.authorUid == request.auth.uid
-            || isAdmin()
-            || (resource.data.status == 'live'
-                && resource.data.get('hidden', true) == false
-                && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + resource.data.authorUid))
-                && !exists(/databases/$(database)/documents/blocks/$(resource.data.authorUid + '_' + request.auth.uid))));
+            || isAdmin());
       allow list: if request.auth != null && resource.data.authorUid == request.auth.uid;
       allow write: if false;
     }

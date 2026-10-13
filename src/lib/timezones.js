@@ -1,4 +1,4 @@
-import { canonicalRegionId } from '../data/regions';
+import { canonicalRegionId } from '../data/regions.js';
 
 // Lets Admin Mode's check-in date/time editor show and accept the
 // landmark's OWN local time (EST, CET, etc.) instead of whichever timezone

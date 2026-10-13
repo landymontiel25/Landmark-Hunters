@@ -765,10 +765,9 @@ await seed(async (db) => {
   await setDoc(doc(db, 'tip_reactions/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', helpful: true, saved: false });
   await setDoc(doc(db, 'tip_views/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', at: 1 });
 });
-await t('tips: a signed-in user reads a live tip', () => assertSucceeds(getDoc(doc(as('bob'), 'tips/ann_lm1'))));
-await t('tips: signed out cannot read a tip', () => assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'tips/ann_lm1'))));
-await t('tips: held, hidden (2 reports) and removed tips are hidden from others', async () => {
-  for (const id of ['ann_lm2', 'ann_lm3', 'ann_lm4']) await assertFails(getDoc(doc(as('bob'), `tips/${id}`)));
+await t("tips: nobody else reads a tip straight from Firestore, live or not, signed in or out (api/tips.js serves them)", async () => {
+  for (const id of ['ann_lm1', 'ann_lm2', 'ann_lm3', 'ann_lm4']) await assertFails(getDoc(doc(as('bob'), `tips/${id}`)));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'tips/ann_lm1')));
 });
 await t('tips: the author reads their own held, hidden and removed tips', async () => {
   for (const id of ['ann_lm1', 'ann_lm2', 'ann_lm3', 'ann_lm4']) await assertSucceeds(getDoc(doc(as('ann'), `tips/${id}`)));
@@ -776,10 +775,6 @@ await t('tips: the author reads their own held, hidden and removed tips', async 
 await t('tips: the verified admin reads a held tip; an unverified admin email does not', async () => {
   await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'tips/ann_lm2')));
   await assertFails(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).firestore(), 'tips/ann_lm2')));
-});
-await t('tips: a block hides a live tip both ways', async () => {
-  await assertFails(getDoc(doc(as('cat'), 'tips/ann_lm1')));
-  await assertFails(getDoc(doc(as('dan'), 'tips/ann_lm1')));
 });
 await t('tips: a get on your own tip id before it exists is a clean not-found; on someone else\'s missing id it is denied', async () => {
   await assertSucceeds(getDoc(doc(as('bob'), 'tips/bob_lm77')));
@@ -823,12 +818,16 @@ await t('storage tip_photos: no upload into someone else\'s folder, no 5 MB file
   await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/x.jpg'), new Uint8Array([1]), { contentType: 'image/svg+xml' }));
   await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/x.html'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
 });
-await t('storage tip_photos: signed-in get works, list and signed-out get do not; only owner or admin deletes', async () => {
+await t('storage tip_photos: signed-in get works, list and signed-out get do not', async () => {
   await assertSucceeds(getBytes(ref(stor('bob'), 'tip_photos/ann/t1.jpg')));
   await assertFails(listAll(ref(stor('bob'), 'tip_photos/ann')));
   await assertFails(getBytes(ref(env.unauthenticatedContext().storage(), 'tip_photos/ann/t1.jpg')));
+});
+await t('storage tip_photos: no client overwrites or deletes a photo, its owner included; the admin can delete', async () => {
+  await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/t1.jpg'), new Uint8Array([9, 9]), { contentType: 'image/jpeg' }));
   await assertFails(deleteObject(ref(stor('bob'), 'tip_photos/ann/t1.jpg')));
-  await assertSucceeds(deleteObject(ref(stor('ann'), 'tip_photos/ann/t1.jpg')));
+  await assertFails(deleteObject(ref(stor('ann'), 'tip_photos/ann/t1.jpg')));
+  await assertSucceeds(deleteObject(ref(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).storage(), 'tip_photos/ann/t1.jpg')));
 });
 
 await env.cleanup();

@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc, deleteDoc, getDocs, collection, query, where, deleteField } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, deleteDoc, getDocs, collection, query, where, limit, deleteField } from 'firebase/firestore';
 import { ref, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { deleteMyReview } from './reviews';
@@ -6,6 +6,7 @@ import { deleteProject } from './maprChats';
 import { clearPickMarks } from './pickMarks';
 import { clearSeen } from './maprRank/seenHistory.js';
 import { clearLocalPickFeedback } from './pickFeedback';
+import { deleteAllMyTips } from './tipsApi';
 
 async function deletePhotoSafe(url) {
   if (!storage || !url) return;
@@ -38,11 +39,25 @@ async function deleteAll(snap) {
 
 const deleteWhere = async (col, field, uid) => deleteAll(await safeGetDocs(col, field, '==', uid));
 
+// True only when both reads succeed and find nothing.
+async function hasNoTipData(uid) {
+  try {
+    const [tips, marks] = await Promise.all([
+      getDocs(query(collection(db, 'tips'), where('authorUid', '==', uid), limit(1))),
+      getDocs(query(collection(db, 'tip_reactions'), where('uid', '==', uid), limit(1))),
+    ]);
+    return tips.docs.length === 0 && marks.docs.length === 0;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Best-effort cleanup of everything this account owns in Firestore/Storage,
  * run right before the Firebase Auth user itself is deleted (deleteAccount
  * in AuthContext). Every step is independent and swallows its own errors so
- * one failure never blocks the rest.
+ * one failure never blocks the rest, except the tips step, which runs first
+ * and stops the deletion if the server can't remove them.
  *
  * Check-ins can't be deleted outright -- firestore.rules locks them
  * permanently (allow delete: if false, kept that way so leaderboard totals
@@ -66,6 +81,36 @@ export async function deleteAccountData(uid) {
     username = userSnap.exists() ? userSnap.data().username : null;
   } catch {
     /* best-effort */
+  }
+
+  // Tips and helpful/saved marks: server-written, so the server deletes
+  // them (api/post-tip.js 'delete-mine') while the account still exists to
+  // sign the request. A removed or reported tip stays hidden for the
+  // owner's review, and reports the person filed stay (see that file).
+  // Unlike every other step this one stops the deletion when it fails
+  // (after one retry): after the account is gone nothing could sign
+  // another request, and the person's tips would stay public under their
+  // name. It runs first, so nothing else has been wiped yet.
+  let tipsError = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      await deleteAllMyTips();
+      tipsError = null;
+      break;
+    } catch (e) {
+      tipsError = e;
+      if (attempt === 0) await new Promise((r) => setTimeout(r, 1500));
+    }
+  }
+  // The server can't be reached: an account that provably has no tips and
+  // no marks may still go (deletion must not depend on the API for someone
+  // who never used tips). Any read error counts as "might have some".
+  if (tipsError && (await hasNoTipData(uid))) tipsError = null;
+  if (tipsError) {
+    throw Object.assign(new Error("Couldn't delete your tips, so your account was not deleted. Try again."), {
+      userMessage: "Couldn't delete your tips, so your account was not deleted. Try again.",
+      cause: tipsError,
+    });
   }
 
   // Reviews (+ replies and photos)
