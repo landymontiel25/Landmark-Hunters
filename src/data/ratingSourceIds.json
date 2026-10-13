@@ -248,6 +248,192 @@
   "el-escorial/vesta-taberna": {
     "googlePlaceId": "ChIJi9lgXSgKQQ0RV_7l5rnqFmU"
   },
+  "f1-circuits/autodromo-hermanos-rodriguez": {
+    "googlePlaceId": "ChIJd5OnVyH80YUR3aJAsoFl_zM"
+  },
+  "f1-circuits/bahrain-international-circuit": {
+    "googlePlaceId": "ChIJmU8R92ZNSD4R3MJZ3Pu7CAs"
+  },
+  "f1-circuits/baku-city-circuit": {
+    "googlePlaceId": "ChIJ0QfrcrR9MEARws6h-YrGmlI"
+  },
+  "f1-circuits/circuit-de-barcelona-catalunya": {
+    "googlePlaceId": "ChIJ8aBTwOy4pBIRSCt-74vQDhU"
+  },
+  "f1-circuits/circuit-de-monaco": {
+    "googlePlaceId": "ChIJf7zZWwDDzRIRnsiqeeeFPMI"
+  },
+  "f1-circuits/hungaroring": {
+    "googlePlaceId": "ChIJn9hRgpvPQUcRb_UBv5eGuzc"
+  },
+  "f1-circuits/interlagos": {
+    "googlePlaceId": "ChIJr4SVPshPzpQRwKUs2gfc_C8"
+  },
+  "f1-circuits/jeddah-corniche-circuit": {
+    "googlePlaceId": "ChIJoxpv0rbbwxURpkJHFslXruU"
+  },
+  "f1-circuits/marina-bay-street-circuit": {
+    "googlePlaceId": "ChIJ6R-xOqoZ2jERBcjUca9bbIk"
+  },
+  "f1-circuits/red-bull-ring": {
+    "googlePlaceId": "ChIJPTYwK7TOcUcROwzm4AXZmHc"
+  },
+  "f1-circuits/suzuka-circuit": {
+    "googlePlaceId": "ChIJzbeWipWKA2AR3CMBNvpFwYY"
+  },
+  "frankfurt/alte-oper": {
+    "googlePlaceId": "ChIJkbtVDq0OvUcRKL3BbW6vzb4"
+  },
+  "frankfurt/commerzbank-tower": {
+    "googlePlaceId": "ChIJoazPzRcPvUcR-B81O327u0s"
+  },
+  "frankfurt/deutsche-bank-park": {
+    "googlePlaceId": "ChIJ4YZAN4ILvUcRCpwnOJut73I"
+  },
+  "frankfurt/deutsches-architekturmuseum": {
+    "googlePlaceId": "ChIJQRMc6wIMvUcRnC37_Er9Xgw"
+  },
+  "frankfurt/eiserner-steg": {
+    "googlePlaceId": "ChIJox1qlqcOvUcRp60YI90hyz8"
+  },
+  "frankfurt/european-central-bank": {
+    "googlePlaceId": "ChIJU53gfqkOvUcR_T8ZOEZALs4"
+  },
+  "frankfurt/frankfurt-airport": {
+    "googlePlaceId": "ChIJeflCVHQLvUcRMfP4IU3YdIo"
+  },
+  "frankfurt/frankfurt-cathedral": {
+    "googlePlaceId": "ChIJcVvHnKYOvUcRMTFiTc-qNI8"
+  },
+  "frankfurt/goethe-house": {
+    "googlePlaceId": "ChIJhZzm1agOvUcR7Y5yl_dViYc"
+  },
+  "frankfurt/goethe-university-westend": {
+    "googlePlaceId": "ChIJF7JCBEoJvUcRCdo8DE9ygnU"
+  },
+  "frankfurt/goetheturm": {
+    "googlePlaceId": "ChIJweBfv_wNvUcRKuVpBeDxBQM"
+  },
+  "frankfurt/jazzkeller-frankfurt": {
+    "googlePlaceId": "ChIJ02jlM6wOvUcRppwSgRV0ak0"
+  },
+  "frankfurt/juedisches-museum-frankfurt": {
+    "googlePlaceId": "ChIJWXz64KkOvUcRkLMDDCsGK4Y"
+  },
+  "frankfurt/kleinmarkthalle": {
+    "googlePlaceId": "ChIJo7fTu6UOvUcR_KeTxloUC20"
+  },
+  "frankfurt/liebieghaus-skulpturensammlung": {
+    "googlePlaceId": "ChIJCVhqVAEMvUcRkubV29-eViM"
+  },
+  "frankfurt/oper-frankfurt": {
+    "googlePlaceId": "ChIJjQ6iiakOvUcRGmdK7fWHb1U"
+  },
+  "frankfurt/palmengarten": {
+    "googlePlaceId": "ChIJxfLE2UUJvUcR5WlJbp2M1D0"
+  },
+  "frankfurt/schauspiel-frankfurt": {
+    "googlePlaceId": "ChIJgdfMlqkOvUcRDCw3ivvZ8Zw"
+  },
+  "frankfurt/staedel-museum": {
+    "googlePlaceId": "ChIJ61K7owMMvUcRn_SCURQ0DaE"
+  },
+  "frankfurt/zoo-frankfurt": {
+    "googlePlaceId": "ChIJnx0ysJAOvUcRTHFb1aYN8pI"
+  },
+  "frankfurt/zum-gemalten-haus": {
+    "googlePlaceId": "ChIJA_zChRsMvUcR78BtVk4VThk"
+  },
+  "lake-como/abbazia-dellacquafredda": {
+    "googlePlaceId": "ChIJGRWg7j4jhEcRaiiaBofKElc"
+  },
+  "lake-como/argegno": {
+    "googlePlaceId": "ChIJCYS8MkAkhEcR4musLfAwvy4"
+  },
+  "lake-como/basilica-di-san-fedele-como": {
+    "googlePlaceId": "ChIJu_OnVbWdhkcRbrMnRbWTZMw"
+  },
+  "lake-como/cadenabbia": {
+    "googlePlaceId": "ChIJw6JyUzU9hEcRQ6-jPxS1oGM"
+  },
+  "lake-como/castello-di-vezio": {
+    "googlePlaceId": "ChIJn-XbdMcXhEcRaVY95-wyBOk"
+  },
+  "lake-como/chiesa-di-san-giorgio-varenna": {
+    "googlePlaceId": "ChIJXc8OPQAXhEcRHnInc13RHTs"
+  },
+  "lake-como/chiesa-di-san-lorenzo-tremezzo": {
+    "googlePlaceId": "ChIJ_8ggV9AihEcRJDC6Td-fMcE"
+  },
+  "lake-como/duomo-di-como": {
+    "googlePlaceId": "ChIJ3XNeo0uchkcR1_qYZuIiqAk"
+  },
+  "lake-como/faro-voltiano-brunate": {
+    "googlePlaceId": "ChIJc2bIdQCdhkcRp0CymYrDOR8"
+  },
+  "lake-como/grand-hotel-tremezzo": {
+    "googlePlaceId": "ChIJ7_uuAswihEcRVIzteVsHb98"
+  },
+  "lake-como/hotel-ristorante-la-darsena": {
+    "googlePlaceId": "ChIJPzWPtc8ihEcRLY6HcLnF3V4"
+  },
+  "lake-como/la-fabbrica-del-gelato": {
+    "googlePlaceId": "ChIJlcJDBxgjhEcRw2AKGzv2xag"
+  },
+  "lake-como/life-electric": {
+    "googlePlaceId": "ChIJ3XNeo0uchkcRTbJQBdIhkg0"
+  },
+  "lake-como/museo-della-seta-como": {
+    "googlePlaceId": "ChIJdy9kMS6chkcRGo3HHT252zs"
+  },
+  "lake-como/orrido-di-bellano": {
+    "googlePlaceId": "ChIJ7xJMcOwVhEcR9L9pZg2LBzo"
+  },
+  "lake-como/osteria-del-gallo-como": {
+    "googlePlaceId": "ChIJE1wP6bSdhkcR17XvTpHC-Rg"
+  },
+  "lake-como/osteria-il-pozzo": {
+    "googlePlaceId": "ChIJq3Z7YQ49hEcRaJR9x-vTPOU"
+  },
+  "lake-como/piazza-cavour-como": {
+    "googlePlaceId": "ChIJQbKXcbSdhkcRC58_fIptD5c"
+  },
+  "lake-como/porta-torre-como": {
+    "googlePlaceId": "ChIJtbuwpTWchkcRHsKPObekwVg"
+  },
+  "lake-como/punta-spartivento-bellagio": {
+    "googlePlaceId": "ChIJF3anm_4XhEcRS9w7ks_ZBhQ"
+  },
+  "lake-como/ristorante-sociale-como": {
+    "googlePlaceId": "ChIJiwAhvbWdhkcR0UA1XlEPmso"
+  },
+  "lake-como/teatro-sociale-di-como": {
+    "googlePlaceId": "ChIJGzGVe7WdhkcRs2YOgxeUr8M"
+  },
+  "lake-como/tempio-voltiano": {
+    "googlePlaceId": "ChIJ8es9GrKdhkcR3dUXw-DrI9o"
+  },
+  "lake-como/villa-bernasconi": {
+    "googlePlaceId": "ChIJ23OZeoOdhkcRqCbN5WaSGaU"
+  },
+  "lake-como/villa-carlotta": {
+    "googlePlaceId": "ChIJV103u8sihEcRT9ewj_k5QUI"
+  },
+  "lake-como/villa-del-balbianello": {
+    "googlePlaceId": "ChIJf7_q2BgjhEcRlZDZBj_xdEw"
+  },
+  "lake-como/villa-deste-cernobbio": {
+    "googlePlaceId": "ChIJqTV2BISdhkcREpyNyeFCEf0"
+  },
+  "lake-como/villa-melzi-gardens-bellagio": {
+    "googlePlaceId": "ChIJUxJBkqgihEcRT-N1SFtIA2g"
+  },
+  "lake-como/villa-monastero-varenna": {
+    "googlePlaceId": "ChIJGe2VLikdhEcR87_XMhQv31E"
+  },
+  "lake-como/villa-olmo": {
+    "googlePlaceId": "ChIJ2XNkR6idhkcReptpYQO06_c"
+  },
   "madrid/banco-de-espana": {
     "googlePlaceId": "ChIJY4JgvYQoQg0Ryx9-eVvXPXo"
   },
@@ -716,6 +902,243 @@
   "miami/original-rio-cristal": {
     "googlePlaceId": "ChIJRcBE_K-42YgR5zCEYHLZJ10"
   },
+  "miami/osm-n10144549329": {
+    "googlePlaceId": "ChIJcSPyXw-12YgRL3av_hg6G-8"
+  },
+  "miami/osm-n10232521783": {
+    "googlePlaceId": "ChIJzawLFPG02YgRRXt65Y9OOWw"
+  },
+  "miami/osm-n11214375111": {
+    "googlePlaceId": "ChIJW-Lc_5O32YgRB-OIvjzmgms"
+  },
+  "miami/osm-n11753966392": {
+    "googlePlaceId": "ChIJTSkNUarH2YgRHvr3AhvsNWI"
+  },
+  "miami/osm-n12134185043": {
+    "googlePlaceId": "ChIJ281_ULy52YgRU7z__2irEag"
+  },
+  "miami/osm-n12179541636": {
+    "googlePlaceId": "ChIJC2-osPi32YgRNO3OII2fQK4"
+  },
+  "miami/osm-n12198008215": {
+    "googlePlaceId": "ChIJ1_zskqPH2YgRpyOQb9ytU64"
+  },
+  "miami/osm-n12369742001": {
+    "googlePlaceId": "ChIJayhIp7i12YgRW94lbHWSNas"
+  },
+  "miami/osm-n12532491034": {
+    "googlePlaceId": "ChIJm6WqOqLH2YgR4Yi-I3zc5N8"
+  },
+  "miami/osm-n12631824771": {
+    "googlePlaceId": "ChIJT2-gAgC32YgRTTrFGl9JoAo"
+  },
+  "miami/osm-n12978737373": {
+    "googlePlaceId": "ChIJN-G71frH2YgR7tMjCx7LBGE"
+  },
+  "miami/osm-n13148371488": {
+    "googlePlaceId": "ChIJJWLqAFy32YgR6tEvoGiLt8c"
+  },
+  "miami/osm-n13165171139": {
+    "googlePlaceId": "ChIJJXkuuYq12YgR1qHlilmOO7U"
+  },
+  "miami/osm-n13228803916": {
+    "googlePlaceId": "ChIJ24Kn3Jm32YgRXG6CiDF05ko"
+  },
+  "miami/osm-n1327354294": {
+    "googlePlaceId": "ChIJPVKXxBm02YgR2M2rzcXaqVo"
+  },
+  "miami/osm-n13351871602": {
+    "googlePlaceId": "ChIJKe7ZApG32YgRrcWNzrI9C34"
+  },
+  "miami/osm-n13461562301": {
+    "googlePlaceId": "ChIJr9lrRCy32YgR2foMft9iLDc"
+  },
+  "miami/osm-n13527511701": {
+    "googlePlaceId": "ChIJMdx1Woa02YgRIIsD0-kH4JY"
+  },
+  "miami/osm-n13604478201": {
+    "googlePlaceId": "ChIJ3WTNRfq32YgRjpDpnX0butw"
+  },
+  "miami/osm-n13760426024": {
+    "googlePlaceId": "ChIJ0zB8KdW32YgR2Er54_1HNg4"
+  },
+  "miami/osm-n14031225188": {
+    "googlePlaceId": "ChIJp2lBr4a22YgRFMCka0LXwfU"
+  },
+  "miami/osm-n2697912490": {
+    "googlePlaceId": "ChIJ9zB-MYi02YgRzA6Er27EWD0"
+  },
+  "miami/osm-n2697912494": {
+    "googlePlaceId": "ChIJV-VeK6nH2YgROAfEonXa9qY"
+  },
+  "miami/osm-n3057276069": {
+    "googlePlaceId": "ChIJqbGWKoW02YgRvQjHLK4iIkc"
+  },
+  "miami/osm-n3683239634": {
+    "googlePlaceId": "ChIJlyvHTwC42YgRHqANqVVdY9k"
+  },
+  "miami/osm-n3992860911": {
+    "googlePlaceId": "ChIJUximEn602YgRd5jGb3MNS9U"
+  },
+  "miami/osm-n4001766674": {
+    "googlePlaceId": "ChIJi8gjTIW02YgRnBaP-nL0Ayg"
+  },
+  "miami/osm-n4001955061": {
+    "googlePlaceId": "ChIJ70-elY-02YgRi4IIjHvEbJI"
+  },
+  "miami/osm-n4109876689": {
+    "googlePlaceId": "ChIJj6RdbIa02YgRVPdTv_LY1Bg"
+  },
+  "miami/osm-n4205228308": {
+    "googlePlaceId": "ChIJdxKvhbK22YgRjusfbi9nc0Y"
+  },
+  "miami/osm-n4235839089": {
+    "googlePlaceId": "ChIJmQhdM5622YgRKz9Jia5lpiE"
+  },
+  "miami/osm-n4710861095": {
+    "googlePlaceId": "ChIJ0SaplY-02YgR5y6_HJnexSA"
+  },
+  "miami/osm-n4713855493": {
+    "googlePlaceId": "ChIJB7J-w2S32YgRBnap5CWYPao"
+  },
+  "miami/osm-n4945642323": {
+    "googlePlaceId": "ChIJYbZMrWi32YgRs0rpXLITaKc"
+  },
+  "miami/osm-n5025200754": {
+    "googlePlaceId": "ChIJQ6Rv3HS32YgR2RpqAp7OKVs"
+  },
+  "miami/osm-n5533485322": {
+    "googlePlaceId": "ChIJ5cFNMd252YgRHPzCPF8oYeo"
+  },
+  "miami/osm-n5903091080": {
+    "googlePlaceId": "ChIJnThm2GG32YgR5O051nQPPqA"
+  },
+  "miami/osm-n6010863676": {
+    "googlePlaceId": "ChIJzdGMGUG32YgRXeyPGx_-R28"
+  },
+  "miami/osm-n6010863681": {
+    "googlePlaceId": "ChIJwzbGDoS22YgR0yi7vExudM0"
+  },
+  "miami/osm-n6020065937": {
+    "googlePlaceId": "ChIJOWkERmy42YgRUhn84ucEo94"
+  },
+  "miami/osm-n6058560431": {
+    "googlePlaceId": "ChIJh86uNDO42YgRDsZHc__vuxY"
+  },
+  "miami/osm-n6059013229": {
+    "googlePlaceId": "ChIJt-4UX7652YgR3HzNDA-Y5P0"
+  },
+  "miami/osm-n6059013230": {
+    "googlePlaceId": "ChIJKSFGHMW52YgRn6gx7i04SIo"
+  },
+  "miami/osm-n6073264223": {
+    "googlePlaceId": "ChIJqSQt6aC32YgRRefSIribqSg"
+  },
+  "miami/osm-n6073738986": {
+    "googlePlaceId": "ChIJ812ECoi02YgRNjj8YJ8We_c"
+  },
+  "miami/osm-n6082723842": {
+    "googlePlaceId": "ChIJXUdCIvy22YgRRjgWpX-Un6U"
+  },
+  "miami/osm-n6091331640": {
+    "googlePlaceId": "ChIJxWXNtnC32YgRSjtndHSzTQM"
+  },
+  "miami/osm-n6110284485": {
+    "googlePlaceId": "ChIJsRbg74S22YgRi0Phf5bJduk"
+  },
+  "miami/osm-n6112915271": {
+    "googlePlaceId": "ChIJSR7OAxq42YgRj91YSFlX-_Y"
+  },
+  "miami/osm-n6114217486": {
+    "googlePlaceId": "ChIJg66GhVC22YgRnUrKD0yZzh4"
+  },
+  "miami/osm-n6299289289": {
+    "googlePlaceId": "ChIJLbfnxyG42YgRthBjT2m8DYU"
+  },
+  "miami/osm-n6446809494": {
+    "googlePlaceId": "ChIJjTkCj-W32YgRLV5vt_AagLg"
+  },
+  "miami/osm-n6575655588": {
+    "googlePlaceId": "ChIJXc3-k5m22YgRxkwxqSkmbTA"
+  },
+  "miami/osm-n6596747090": {
+    "googlePlaceId": "ChIJzxZk_Y-02YgRKCZSxoveK6M"
+  },
+  "miami/osm-n6912995626": {
+    "googlePlaceId": "ChIJXyMlds-32YgRJ3SLJ91UHoE"
+  },
+  "miami/osm-n6932414793": {
+    "googlePlaceId": "ChIJxds4s-632YgRp8qTPIXVl8c"
+  },
+  "miami/osm-n7194556907": {
+    "googlePlaceId": "ChIJ-VNe8By12YgRD-je0F5N7yc"
+  },
+  "miami/osm-n7194556914": {
+    "googlePlaceId": "ChIJybkxcoi02YgRbUubX5hYqhc"
+  },
+  "miami/osm-n7295693385": {
+    "googlePlaceId": "ChIJ2ReZ6ay22YgRUqnYhLtBOmM"
+  },
+  "miami/osm-n8714713011": {
+    "googlePlaceId": "ChIJA1-hGezH2YgRWn0F3ecOSGI"
+  },
+  "miami/osm-n8871944117": {
+    "googlePlaceId": "ChIJj2M3aSC02YgRgmxoMwWsT2s"
+  },
+  "miami/osm-n9033506450": {
+    "googlePlaceId": "ChIJITB4_sa32YgRQW8F03T1iyE"
+  },
+  "miami/osm-n903620843": {
+    "googlePlaceId": "ChIJtdYY24W02YgRz8e9VB8wNCs"
+  },
+  "miami/osm-n9173305501": {
+    "googlePlaceId": "ChIJ52G3Ap222YgRkSG7OUEgtqE"
+  },
+  "miami/osm-w1180991368": {
+    "googlePlaceId": "ChIJwfloxlm12YgRzgu3HlTiloY"
+  },
+  "miami/osm-w1274267731": {
+    "googlePlaceId": "ChIJDwilpEm52YgRKgRddnM8WPU"
+  },
+  "miami/osm-w301237024": {
+    "googlePlaceId": "ChIJLUCwvyC02YgRhBzAM6GyAqg"
+  },
+  "miami/osm-w313369992": {
+    "googlePlaceId": "ChIJBTzHUgrL2YgRtt8Mg5zZ37I"
+  },
+  "miami/osm-w366186665": {
+    "googlePlaceId": "ChIJZbz3pwG42YgR3dhJ9MNWeIc"
+  },
+  "miami/osm-w435566878": {
+    "googlePlaceId": "ChIJYRdVySi32YgR8ki5MlgrIBA"
+  },
+  "miami/osm-w435585940": {
+    "googlePlaceId": "ChIJRc6P1pK22YgRVUTC91dx_Bc"
+  },
+  "miami/osm-w435738306": {
+    "googlePlaceId": "ChIJWQ_p7Jm32YgRAYz8mlVL7E4"
+  },
+  "miami/osm-w435748067": {
+    "googlePlaceId": "ChIJr0dVbgG32YgR5g37tJssNo8"
+  },
+  "miami/osm-w435748157": {
+    "googlePlaceId": "ChIJcQvySry22YgRUSpddoU3o_8"
+  },
+  "miami/osm-w436033345": {
+    "googlePlaceId": "ChIJ77bhimi32YgRf-unf-l_hbg"
+  },
+  "miami/osm-w589360337": {
+    "googlePlaceId": "ChIJoZzfS4a02YgRcJSAqanU70A"
+  },
+  "miami/osm-w590186839": {
+    "googlePlaceId": "ChIJwacPloS02YgRczTrK6Zixwk"
+  },
+  "miami/osm-w643553509": {
+    "googlePlaceId": "ChIJ7-kC5C6y2YgR8kFGy8pYlsM"
+  },
+  "miami/osm-w746679195": {
+    "googlePlaceId": "ChIJUS8HNuXH2YgR82gMUELih4c"
+  },
   "miami/panther-coffee-wynwood": {
     "googlePlaceId": "ChIJG6HQcrK22YgREOwX4PyCF8c"
   },
@@ -794,8 +1217,29 @@
   "miami/zak-the-baker": {
     "googlePlaceId": "ChIJMVmQ-LK22YgRXCFmM480oqw"
   },
+  "milan/alcatraz-milano": {
+    "googlePlaceId": "ChIJNwuVZSjBhkcRsSeGkcP7Z50"
+  },
+  "milan/antica-trattoria-della-pesa": {
+    "googlePlaceId": "ChIJM1BlBDTBhkcRh-rYgUDugBk"
+  },
+  "milan/antica-trattoria-delluva-monza": {
+    "googlePlaceId": "ChIJU5WmLZm5hkcRUyoq5GeXO-k"
+  },
   "milan/arco-della-pace": {
     "googlePlaceId": "ChIJz7dBqkfBhkcRFcbFfk20vPs"
+  },
+  "milan/arena-civica-gianni-brera": {
+    "googlePlaceId": "ChIJo1Dp_UjBhkcRM-rZAZiXSyg"
+  },
+  "milan/armani-silos": {
+    "googlePlaceId": "ChIJDbI_deXDhkcRvDTVrWLCaVU"
+  },
+  "milan/bar-basso": {
+    "googlePlaceId": "ChIJo4rohezGhkcRHZ6K_OnXbow"
+  },
+  "milan/bar-magenta-milano": {
+    "googlePlaceId": "ChIJXQBYHVHBhkcRUXdW-zpy6rk"
   },
   "milan/basilica-di-san-lorenzo-maggiore": {
     "googlePlaceId": "ChIJL3DCeADFhkcR1Yk7DOpFkbY"
@@ -803,11 +1247,23 @@
   "milan/basilica-di-santambrogio": {
     "googlePlaceId": "ChIJCfxX3lbBhkcRY78V8stFXio"
   },
+  "milan/basilica-di-santeustorgio": {
+    "googlePlaceId": "ChIJ-QGdVAfEhkcR5PXbaEr1tk4"
+  },
   "milan/biblioteca-degli-alberi": {
     "googlePlaceId": "ChIJ90iZT83GhkcRXLqkHmqRL2w"
   },
+  "milan/bistro-aimo-e-nadia": {
+    "googlePlaceId": "ChIJVfnyQ1nBhkcR9rrzfgrqG8k"
+  },
+  "milan/blue-note-milano": {
+    "googlePlaceId": "ChIJKQXg_izBhkcRxzoUsizwFrc"
+  },
   "milan/camparino-in-galleria": {
     "googlePlaceId": "ChIJp12yKazGhkcRf6_h7JBATK0"
+  },
+  "milan/civico-planetario-ulrico-hoepli": {
+    "googlePlaceId": "ChIJswWtguTDhkcRRjRCRVvYlNg"
   },
   "milan/colonne-di-san-lorenzo": {
     "googlePlaceId": "ChIJpQh7KgDDhkcRMFvvPUBrAF0"
@@ -817,6 +1273,27 @@
   },
   "milan/galleria-vittorio-emanuele-ii": {
     "googlePlaceId": "ChIJw7aG_QY1eUcRFtQJWKmcCyc"
+  },
+  "milan/gallerie-d-italia-milano": {
+    "googlePlaceId": "ChIJST0k_q3GhkcR7JMZRBadEzM"
+  },
+  "milan/gelateria-marghera": {
+    "googlePlaceId": "ChIJxyqRi2TBhkcRSjDkZqejGJY"
+  },
+  "milan/giardini-pubblici-indro-montanelli": {
+    "googlePlaceId": "ChIJC9Gf1Z_HhkcRH6EVb5Dg_PI"
+  },
+  "milan/la-rinascente-rooftop": {
+    "googlePlaceId": "ChIJiSGn-a7GhkcR20GOfhtAv_U"
+  },
+  "milan/mag-cafe-navigli": {
+    "googlePlaceId": "ChIJ6VMJJPrDhkcRBQ03OU6avRk"
+  },
+  "milan/magazzini-generali-milano": {
+    "googlePlaceId": "ChIJYXFLlxbEhkcRy6HCgDhwx0E"
+  },
+  "milan/mercato-centrale-milano": {
+    "googlePlaceId": "ChIJhccWg6PHhkcRvvi6CCCa2vY"
   },
   "milan/museo-del-novecento": {
     "googlePlaceId": "ChIJLd2VYRsuVUARNjgLnq9U2dE"
@@ -830,11 +1307,20 @@
   "milan/parco-sempione": {
     "googlePlaceId": "ChIJWUblrUjBhkcRtpP5ICHdu7g"
   },
+  "milan/pasticceria-giovanni-galli": {
+    "googlePlaceId": "ChIJp_U8aKzGhkcR_2dNeMm6fDI"
+  },
   "milan/peck-milano": {
     "googlePlaceId": "ChIJTVAKcKzGhkcRMs7mktXAZeM"
   },
   "milan/piazza-gae-aulenti": {
     "googlePlaceId": "ChIJ0WESOTPBhkcRp4vLclj2VQs"
+  },
+  "milan/piazza-trento-e-trieste-monza": {
+    "googlePlaceId": "ChIJ55GmxaG5hkcRd8zDqpBnzVs"
+  },
+  "milan/piccolo-teatro-grassi": {
+    "googlePlaceId": "ChIJe-AWNK3GhkcRhzhcezTRbL8"
   },
   "milan/pinacoteca-ambrosiana": {
     "googlePlaceId": "ChIJn8qyiKzGhkcRbtP7f16_hsw"
@@ -845,8 +1331,20 @@
   "milan/ponte-dei-leoni": {
     "googlePlaceId": "ChIJUzN5gZi5hkcRVvJ0GeeTc8c"
   },
+  "milan/ratana-milano": {
+    "googlePlaceId": "ChIJU8MjZc3GhkcRKoLSRnNMr6E"
+  },
+  "milan/saint-georges-premier-monza": {
+    "googlePlaceId": "ChIJD0HSmS66hkcRRpxzb9NLl8U"
+  },
   "milan/san-bernardino-alle-ossa": {
     "googlePlaceId": "ChIJhfp35qXGhkcR_dPp7rKmopg"
+  },
+  "milan/san-giorgio-ristorante-pizzeria": {
+    "googlePlaceId": "ChIJqbZbesS_hkcRuH6ICy9kLyA"
+  },
+  "milan/san-maurizio-al-monastero-maggiore": {
+    "googlePlaceId": "ChIJ42GMgJi5hkcR70ydC_sBD-8"
   },
   "milan/san-siro-stadium": {
     "googlePlaceId": "ChIJnfEj-pPBhkcREvPvegzTxwk"
@@ -857,11 +1355,29 @@
   "milan/teatro-alla-scala": {
     "googlePlaceId": "ChIJV1caia3GhkcRT4MuEEjprRs"
   },
+  "milan/teatro-dal-verme": {
+    "googlePlaceId": "ChIJSepT3aPGhkcR-yVAAgWl6IE"
+  },
+  "milan/teatro-franco-parenti": {
+    "googlePlaceId": "ChIJme8STSDEhkcRboAwdFWxSho"
+  },
+  "milan/torre-velasca": {
+    "googlePlaceId": "ChIJya2FrqnGhkcRpwdkLswApmM"
+  },
+  "milan/trattoria-milanese": {
+    "googlePlaceId": "ChIJd8ROFKvGhkcRUf875a9G9lM"
+  },
   "milan/triennale-milano": {
     "googlePlaceId": "ChIJRwVc7UXBhkcRIlGMal_aWHU"
   },
+  "milan/unicredit-tower": {
+    "googlePlaceId": "ChIJ86LhyczGhkcRBymB1neNoL8"
+  },
   "milan/via-monte-napoleone": {
     "googlePlaceId": "ChIJ7YboRrDGhkcRtNS_v0co3TA"
+  },
+  "milan/villa-mirabello-monza": {
+    "googlePlaceId": "ChIJwwK65R67hkcRStOmHstigfw"
   },
   "milan/villa-necchi-campiglio": {
     "googlePlaceId": "ChIJn2UxgrvGhkcRNLCIIIOoylM"
@@ -1118,6 +1634,129 @@
   "nyc/yankee-stadium": {
     "googlePlaceId": "ChIJcWnnWiz0wokRCB6aVdnDQEk"
   },
+  "paris/accor-arena": {
+    "googlePlaceId": "ChIJ-Qr6Qxdy5kcRaThUcSf8m5g"
+  },
+  "paris/arc-de-triomphe": {
+    "googlePlaceId": "ChIJjx37cOxv5kcRPWQuEW5ntdk"
+  },
+  "paris/catacombs-of-paris": {
+    "googlePlaceId": "ChIJdbbQwbZx5kcRs7Qu5nPw18g"
+  },
+  "paris/caveau-de-la-huchette": {
+    "googlePlaceId": "ChIJiegK5OBx5kcR9t1Ycr1Bz1g"
+  },
+  "paris/cirque-d-hiver": {
+    "googlePlaceId": "ChIJiYqseAdu5kcR7ouNaKg8u5o"
+  },
+  "paris/cite-des-sciences-et-de-l-industrie": {
+    "googlePlaceId": "ChIJD6qS3zJs5kcRJ8_ebdhX0VI"
+  },
+  "paris/conciergerie": {
+    "googlePlaceId": "ChIJR3122B9u5kcRajG2bEZLypA"
+  },
+  "paris/eiffel-tower": {
+    "googlePlaceId": "ChIJLU7jZClu5kcR4PcOOO6p3I0"
+  },
+  "paris/folies-bergere": {
+    "googlePlaceId": "ChIJE5NzzD9u5kcRQScUmbF4ZH8"
+  },
+  "paris/fondation-louis-vuitton": {
+    "googlePlaceId": "ChIJJSr0RV1l5kcRzbW6FfxF1oU"
+  },
+  "paris/harrys-new-york-bar": {
+    "googlePlaceId": "ChIJu0Sg-TBu5kcRUIDfQSE4_yw"
+  },
+  "paris/jardin-du-luxembourg": {
+    "googlePlaceId": "ChIJe2jeNttx5kcRi_mJsGHdkQc"
+  },
+  "paris/le-duplex": {
+    "googlePlaceId": "ChIJp7wGa-xv5kcRHl_5cQQA_Ek"
+  },
+  "paris/le-grand-rex": {
+    "googlePlaceId": "ChIJTzDvbRZu5kcRotBpNmOrl68"
+  },
+  "paris/le-procope": {
+    "googlePlaceId": "ChIJdQn7zN5x5kcRhKnVo8EDJS0"
+  },
+  "paris/le-train-bleu": {
+    "googlePlaceId": "ChIJzev2rBxy5kcRYsCGyZ-UMRs"
+  },
+  "paris/les-deux-magots": {
+    "googlePlaceId": "ChIJLeslLNhx5kcRtkpSU9ZmNvo"
+  },
+  "paris/louvre-museum": {
+    "googlePlaceId": "ChIJD3uTd9hx5kcR1IQvGfr8dbk"
+  },
+  "paris/moulin-rouge": {
+    "googlePlaceId": "ChIJiQxv_05u5kcRESFIh6-QTvQ"
+  },
+  "paris/musee-d-orsay": {
+    "googlePlaceId": "ChIJG5Qwtitu5kcR2CNEsYy9cdA"
+  },
+  "paris/musee-de-cluny": {
+    "googlePlaceId": "ChIJLxPh9d1x5kcRf7M1U0pu1gU"
+  },
+  "paris/musee-de-l-orangerie": {
+    "googlePlaceId": "ChIJo6qq6i5u5kcRCpYBp4rQP9w"
+  },
+  "paris/musee-du-quai-branly": {
+    "googlePlaceId": "ChIJY8922uBv5kcRJESw9l2dlLc"
+  },
+  "paris/musee-picasso-paris": {
+    "googlePlaceId": "ChIJS2t0QgFu5kcR92388prakcE"
+  },
+  "paris/musee-rodin": {
+    "googlePlaceId": "ChIJQ9vMHipw5kcRWHC2ESjYaGQ"
+  },
+  "paris/notre-dame-de-paris": {
+    "googlePlaceId": "ChIJATr1n-Fx5kcRjQb6q6cdQDY"
+  },
+  "paris/olympia-paris": {
+    "googlePlaceId": "ChIJ-QC82zNu5kcRCvAZXBubjnI"
+  },
+  "paris/opera-bastille": {
+    "googlePlaceId": "ChIJOYNm1DBu5kcRhUP_L_0cJxo"
+  },
+  "paris/palais-de-tokyo": {
+    "googlePlaceId": "ChIJC0I3-eZv5kcRHaMcXnrRLsk"
+  },
+  "paris/palais-garnier": {
+    "googlePlaceId": "ChIJOYNm1DBu5kcRZwdtKBzyq6k"
+  },
+  "paris/pantheon-paris": {
+    "googlePlaceId": "ChIJc8mX0udx5kcRWKcjTwDr5QA"
+  },
+  "paris/parc-des-buttes-chaumont": {
+    "googlePlaceId": "ChIJh9M-FMZt5kcRkZSVdmDta_I"
+  },
+  "paris/parc-des-princes": {
+    "googlePlaceId": "ChIJjaFImcB65kcRXCzvbEBQJN0"
+  },
+  "paris/place-des-vosges": {
+    "googlePlaceId": "ChIJUeiI4P9x5kcRqEwHl6V32GQ"
+  },
+  "paris/pont-alexandre-iii": {
+    "googlePlaceId": "ChIJufChV9Bv5kcRT02XBr8yAOs"
+  },
+  "paris/sainte-chapelle": {
+    "googlePlaceId": "ChIJR3122B9u5kcRaCck3PlB9DM"
+  },
+  "paris/shakespeare-and-company": {
+    "googlePlaceId": "ChIJ_7ZXHuFx5kcRs1LnTeCsOBM"
+  },
+  "paris/stade-de-france": {
+    "googlePlaceId": "ChIJv2Mi3bpu5kcREWMVCXFPwHA"
+  },
+  "paris/station-f": {
+    "googlePlaceId": "ChIJzyOIICJy5kcRSN5lM7bsQQU"
+  },
+  "paris/tuileries-garden": {
+    "googlePlaceId": "ChIJAQAAMCxu5kcRx--_4QnbGcI"
+  },
+  "philly/academy-of-music": {
+    "googlePlaceId": "ChIJQyrhSSXGxokROLs_pfIhG4I"
+  },
   "philly/ardmore-music-hall": {
     "googlePlaceId": "ChIJVVxRaIbAxokRaUIqCSOUB94"
   },
@@ -1127,11 +1766,20 @@
   "philly/citizens-bank-park": {
     "googlePlaceId": "ChIJOetvJu7FxokR-jV1vd4SAgk"
   },
+  "philly/dalessandros-steaks": {
+    "googlePlaceId": "ChIJxz_iGfS4xokRgo1A_0OIjz0"
+  },
   "philly/eastern-state-penitentiary": {
     "googlePlaceId": "ChIJu35ZOcnHxokRrTUi4cDYHm8"
   },
   "philly/elfreths-alley": {
     "googlePlaceId": "ChIJn_0OoojIxokRli62b71uVCo"
+  },
+  "philly/f1-arcade-philadelphia": {
+    "googlePlaceId": "ChIJsSHnhJfHxokR876ZRHs_grY"
+  },
+  "philly/fogo-de-chao-philadelphia": {
+    "googlePlaceId": "ChIJM7iyCC_GxokRNkqZIXfrkzc"
   },
   "philly/franklin-field": {
     "googlePlaceId": "ChIJAbXqKVvGxokR-jgLbG2-R9g"
@@ -1139,8 +1787,14 @@
   "philly/genos-steaks": {
     "googlePlaceId": "ChIJAclYGRzGxokRw-ty74nFpKI"
   },
+  "philly/hilton-garden-inn-newtown-square": {
+    "googlePlaceId": "ChIJiXsB8qbrxokRG7j07HdBaZE"
+  },
   "philly/independence-hall": {
     "googlePlaceId": "ChIJd8kca4PIxokRqW59OWceihQ"
+  },
+  "philly/kimmel-center": {
+    "googlePlaceId": "ChIJfWCzLwnGxokROy6ZBUPSLE4"
   },
   "philly/liberty-bell-center": {
     "googlePlaceId": "ChIJo9mN1XTJxokRXw7NyvRIrB8"
@@ -1150,6 +1804,9 @@
   },
   "philly/love-park": {
     "googlePlaceId": "ChIJkydYBi7GxokRB1nllBaz4zk"
+  },
+  "philly/mcgillins-olde-ale-house": {
+    "googlePlaceId": "ChIJoYSfci_GxokRR3o-DdW78bo"
   },
   "philly/museum-of-the-american-revolution": {
     "googlePlaceId": "ChIJ74Iw4oTIxokRONknVjwsA2E"
@@ -1163,11 +1820,17 @@
   "philly/philadelphia-city-hall": {
     "googlePlaceId": "ChIJyb-70KChxokR5YR1l-Nka5s"
   },
+  "philly/philadelphia-film-center": {
+    "googlePlaceId": "ChIJt6y3uC_GxokR7zis1rIxzWs"
+  },
   "philly/philadelphia-museum-of-art": {
     "googlePlaceId": "ChIJ_5CoRebFxokR08ApAyF2KIs"
   },
   "philly/philadelphia-zoo": {
     "googlePlaceId": "ChIJi38nlHPHxokRahq_C3bxx78"
+  },
+  "philly/philadelphias-magic-gardens": {
+    "googlePlaceId": "ChIJ7x4bRCHGxokR-BVjmbZ2LWk"
   },
   "philly/radnor-trail": {
     "googlePlaceId": "ChIJY9S0_0GVxokRngVwBzxRo1Y"
@@ -1175,14 +1838,26 @@
   "philly/reading-terminal-market": {
     "googlePlaceId": "ChIJCQH7WCnGxokRAWsd3AfQj80"
   },
+  "philly/rittenhouse-square": {
+    "googlePlaceId": "ChIJIQGrHTrGxokRofc6nBBJrRU"
+  },
   "philly/rocky-steps-and-rocky-statue": {
     "googlePlaceId": "ChIJd4XRlLXHxokR24097rPRpx0"
+  },
+  "philly/the-franklin-fountain": {
+    "googlePlaceId": "ChIJX-r0h4XIxokRt1eX25BeJ9c"
   },
   "philly/the-franklin-institute": {
     "googlePlaceId": "ChIJ05tdhjTGxokReHRD0wXejyE"
   },
   "philly/the-palestra": {
     "googlePlaceId": "ChIJxdbusFrGxokRmoKVHoDLKOk"
+  },
+  "philly/trocadero-theatre": {
+    "googlePlaceId": "ChIJ_5bPKCrGxokRl_bTTyagkrQ"
+  },
+  "philly/union-transfer": {
+    "googlePlaceId": "ChIJPWg_kNXHxokRPXdE7nqMsI4"
   },
   "philly/wayne-art-center": {
     "googlePlaceId": "ChIJVy28bN-UxokRqqH_pL4Uktw"
@@ -1519,5 +2194,194 @@
   },
   "silicon-valley/winchester-mystery-house": {
     "googlePlaceId": "ChIJjzp2WN7Kj4ARZu9lBAGmS2Q"
+  },
+  "switzerland/blausee-nature-park": {
+    "googlePlaceId": "ChIJscYfhx4Hj0cRSdqJOPrT_lk"
+  },
+  "switzerland/cabaret-voltaire": {
+    "googlePlaceId": "ChIJIaBFiamgmkcR_fU5tgEiTWI"
+  },
+  "switzerland/cern": {
+    "googlePlaceId": "ChIJEXtz7PxijEcRMV6Ieq7zvoE"
+  },
+  "switzerland/chillon-castle": {
+    "googlePlaceId": "ChIJw2XdrluajkcRB4NcFVlCmSI"
+  },
+  "switzerland/fifa-world-football-museum": {
+    "googlePlaceId": "ChIJs__AavkJkEcR7cf-Mk_UPRU"
+  },
+  "switzerland/fondation-beyeler": {
+    "googlePlaceId": "ChIJeyh510y3kUcRNcIw-oiGjn4"
+  },
+  "switzerland/fraumunster": {
+    "googlePlaceId": "ChIJe6TskqmgmkcRuoNn0YcMfqU"
+  },
+  "switzerland/gemmi-pass": {
+    "googlePlaceId": "ChIJybk9hkIbj0cRKgYAICm_SsE"
+  },
+  "switzerland/grand-theatre-de-geneve": {
+    "googlePlaceId": "ChIJGc9nNipljEcRRqvTNMB8PbM"
+  },
+  "switzerland/grossmunster": {
+    "googlePlaceId": "ChIJZWHfSaqgmkcREF9TlBQlGkk"
+  },
+  "switzerland/hallenstadion-zurich": {
+    "googlePlaceId": "ChIJF717SIIKkEcRyQwpl0C9yxE"
+  },
+  "switzerland/harder-kulm": {
+    "googlePlaceId": "ChIJp7eXvbmkj0cROLDEoe4HFGg"
+  },
+  "switzerland/haus-hiltl": {
+    "googlePlaceId": "ChIJtwgunwYKkEcRhBQ0vi_9kHo"
+  },
+  "switzerland/jet-d-eau": {
+    "googlePlaceId": "ChIJxYdJYjpljEcRSJJQjwS5fwM"
+  },
+  "switzerland/jungfraujoch": {
+    "googlePlaceId": "ChIJ5bMOBCiej0cR63mRLDgOics"
+  },
+  "switzerland/kapellbrucke": {
+    "googlePlaceId": "ChIJ5cLMMJ_7j0cRNw7SwdMQsCA"
+  },
+  "switzerland/kronenhalle": {
+    "googlePlaceId": "ChIJxye0aaugmkcRti36D04xmFo"
+  },
+  "switzerland/kunsthaus-zurich": {
+    "googlePlaceId": "ChIJw12aEaygmkcRowvgojyyzdk"
+  },
+  "switzerland/kunstmuseum-basel": {
+    "googlePlaceId": "ChIJISXZALO5kUcRYNexwsUWa-k"
+  },
+  "switzerland/kunstmuseum-bern": {
+    "googlePlaceId": "ChIJkcgheMA5jkcR5iiQGyGqJoQ"
+  },
+  "switzerland/lausanne-cathedral": {
+    "googlePlaceId": "ChIJFQ36WTEujEcR-v_-_IG7-CQ"
+  },
+  "switzerland/lauterbrunnen-valley": {
+    "googlePlaceId": "ChIJx2UROwegj0cRMSyQVbstOQU"
+  },
+  "switzerland/lindt-home-of-chocolate": {
+    "googlePlaceId": "ChIJ1WdqYUenmkcRhKgqNBIK3Vo"
+  },
+  "switzerland/lion-monument-lucerne": {
+    "googlePlaceId": "ChIJi-sFV5v7j0cRhMOPcsv-emI"
+  },
+  "switzerland/matterhorn": {
+    "googlePlaceId": "ChIJ2ey5y2gzj0cRSVjlrIxFJpg"
+  },
+  "switzerland/musee-d-art-et-d-histoire-geneve": {
+    "googlePlaceId": "ChIJBThVgTJljEcRjOWvPKrMhUg"
+  },
+  "switzerland/museum-tinguely": {
+    "googlePlaceId": "ChIJVXViF8-5kUcR8FQza_dFZxc"
+  },
+  "switzerland/oeschinensee": {
+    "googlePlaceId": "ChIJ3U5wcKYIj0cR7uRcOgtegTA"
+  },
+  "switzerland/olympic-museum-lausanne": {
+    "googlePlaceId": "ChIJXWRrl8gvjEcRKDo3l3wIUSg"
+  },
+  "switzerland/palais-des-nations": {
+    "googlePlaceId": "ChIJPy7LqvxkjEcRc9ScYZfvq7o"
+  },
+  "switzerland/patek-philippe-museum": {
+    "googlePlaceId": "ChIJHVx0N9VkjEcRgFvJTopTApU"
+  },
+  "switzerland/reformation-wall": {
+    "googlePlaceId": "ChIJdYaDsytljEcRWMuHnIPwURA"
+  },
+  "switzerland/rigi": {
+    "googlePlaceId": "ChIJZauAc3hWhUcRqa2XjSFbHQU"
+  },
+  "switzerland/roche-tower": {
+    "googlePlaceId": "ChIJz-94lYK5kUcR8SpdJ9OZCxo"
+  },
+  "switzerland/schilthorn": {
+    "googlePlaceId": "ChIJsUVjBKqgj0cR8gehgn7ICg4"
+  },
+  "switzerland/st-jakob-park": {
+    "googlePlaceId": "ChIJS8Y0iyi4kUcRlbBWFo-mk_4"
+  },
+  "switzerland/stade-de-geneve": {
+    "googlePlaceId": "ChIJNZ-ndCJ7jEcRzq9IaB4k3iY"
+  },
+  "switzerland/staubbach-falls": {
+    "googlePlaceId": "ChIJX0OtFkugj0cRhocu2FtBoRI"
+  },
+  "switzerland/swiss-museum-of-transport": {
+    "googlePlaceId": "ChIJn30-NO_7j0cR3-RzS1-DQHQ"
+  },
+  "switzerland/swiss-national-museum": {
+    "googlePlaceId": "ChIJLYUQHAkKkEcRzA4gWFr1Hf8"
+  },
+  "switzerland/thun-castle": {
+    "googlePlaceId": "ChIJ9YIuKOeyj0cRowKkBD4N130"
+  },
+  "switzerland/tonhalle-zurich": {
+    "googlePlaceId": "ChIJd2_N-zcJkEcRpXQwOH7FZhs"
+  },
+  "switzerland/uetliberg": {
+    "googlePlaceId": "ChIJzVWL8qEJkEcRILng_v2ccPg"
+  },
+  "switzerland/zeughauskeller": {
+    "googlePlaceId": "ChIJX7fB6wAKkEcRhpTedk8sztg"
+  },
+  "switzerland/zoo-basel": {
+    "googlePlaceId": "ChIJS4T8YVa4kUcRNa2_13Zh9zI"
+  },
+  "switzerland/zoo-zurich": {
+    "googlePlaceId": "ChIJl6a3EuqgmkcRIbfUKDeckjE"
+  },
+  "switzerland/zurich-opera-house": {
+    "googlePlaceId": "ChIJ542tZFOnmkcRlnhxVTC0SlE"
+  },
+  "switzerland/zytglogge": {
+    "googlePlaceId": "ChIJ2VyJVME5jkcRRrAu5ve6FDI"
+  },
+  "villanova/bryn-mawr-college": {
+    "googlePlaceId": "ChIJazx-cI2_xokRROA-Ik6hyk0"
+  },
+  "villanova/bryn-mawr-film-institute": {
+    "googlePlaceId": "ChIJY2JvJPW_xokRkORer2f1vew"
+  },
+  "villanova/campus-corner": {
+    "googlePlaceId": "ChIJs1jeZliVxokRlcbULOaP32M"
+  },
+  "villanova/eastern-university": {
+    "googlePlaceId": "ChIJy0hxyBaVxokRuZSfopqerRA"
+  },
+  "villanova/falvey-memorial-library": {
+    "googlePlaceId": "ChIJ02QixViVxokR6jZp9fDKqEI"
+  },
+  "villanova/haverford-college": {
+    "googlePlaceId": "ChIJJS6VzuvGxokRWTnyFDVOAEQ"
+  },
+  "villanova/hopes-cookies": {
+    "googlePlaceId": "ChIJQSNBuva_xokRnPYAWO5JIow"
+  },
+  "villanova/ithan-valley-park": {
+    "googlePlaceId": "ChIJKTtuD7vqxokR_j2dGadeRQc"
+  },
+  "villanova/kellys-taproom": {
+    "googlePlaceId": "ChIJUSgopfa_xokRIJ1Ui1STDWo"
+  },
+  "villanova/kennedy-hall": {
+    "googlePlaceId": "ChIJUZm_DeK_xokRsf3hl3w0UMc"
+  },
+  "villanova/mendel-field": {
+    "googlePlaceId": "ChIJrV0i0FiVxokRcIaBpVNXZiw"
+  },
+  "villanova/riley-ellipse": {
+    "googlePlaceId": "ChIJ7b9iZAC_xokRS8Coy0b9_XQ"
+  },
+  "villanova/st-thomas-of-villanova-church": {
+    "googlePlaceId": "ChIJO83G71iVxokRKkq2i_KC48E"
+  },
+  "villanova/the-grog-grill": {
+    "googlePlaceId": "ChIJ5SMb-_S_xokR6kIlzMwUsEU"
+  },
+  "villanova/the-villanova-grotto": {
+    "googlePlaceId": "ChIJBa4UCACVxokRwLwAv1eyRko"
   }
 }

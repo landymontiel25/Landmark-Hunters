@@ -1314,6 +1314,840 @@
       ]
     }
   },
+  "f1-circuits/albert-park-circuit": {
+    "name": "Australia · Albert Park Circuit",
+    "lat": -37.8497,
+    "lng": 144.968,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJRaVhSQxo1moR6KiBWxXh_Qw",
+          "name": "Albert Park Grand Prix Circuit",
+          "lat": -37.8503402,
+          "lng": 144.9700059,
+          "distanceM": 190,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "f1-circuits/circuit-de-spa-francorchamps": {
+    "name": "Belgium · Circuit de Spa-Francorchamps",
+    "lat": 50.4372,
+    "lng": 5.9714,
+    "google": {
+      "reason": "name matches but 811 m away",
+      "candidates": [
+        {
+          "id": "ChIJN_dgBFx7wEcRDlzDGYheEHg",
+          "name": "Circuit of Spa-Francorchamps",
+          "lat": 50.443682300000006,
+          "lng": 5.9661612,
+          "distanceM": 811,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "f1-circuits/circuit-gilles-villeneuve": {
+    "name": "Canada · Circuit Gilles Villeneuve",
+    "lat": 45.5,
+    "lng": -73.5228,
+    "google": {
+      "reason": "name matches but 632 m away",
+      "candidates": [
+        {
+          "id": "ChIJZ6Uq6OAayUwRNo9TFvqt98k",
+          "name": "Circuit Gilles Villeneuve",
+          "lat": 45.5056323,
+          "lng": -73.5239197,
+          "distanceM": 632,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "f1-circuits/circuit-of-the-americas": {
+    "name": "Austin · Circuit of The Americas",
+    "lat": 30.1328,
+    "lng": -97.6411,
+    "google": {
+      "reason": "name matches but 430 m away",
+      "candidates": [
+        {
+          "id": "ChIJ-epS0TqwRIYR7eD1H90n6Io",
+          "name": "Circuit of The Americas",
+          "lat": 30.1358413,
+          "lng": -97.63833319999999,
+          "distanceM": 430,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "f1-circuits/lusail-international-circuit": {
+    "name": "Qatar · Lusail International Circuit",
+    "lat": 25.49,
+    "lng": 51.4542,
+    "google": {
+      "reason": "name matches but 417 m away",
+      "candidates": [
+        {
+          "id": "ChIJOaraOz3kRT4RDRlsJgovKo0",
+          "name": "Lusail International Circuit",
+          "lat": 25.488052999999997,
+          "lng": 51.4506507,
+          "distanceM": 417,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "f1-circuits/shanghai-international-circuit": {
+    "name": "China · Shanghai International Circuit",
+    "lat": 31.3389,
+    "lng": 121.2197,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJI3OOMEpCsjURTbmIi4Ir9xs",
+          "name": "Shanghai Audi International Circuit",
+          "lat": 31.339499,
+          "lng": 121.221638,
+          "distanceM": 196,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJyxuafUpCsjURoPmLqRDLHs0",
+          "name": "Shanghai International Circuit 5 Entrance",
+          "lat": 31.341545,
+          "lng": 121.21977400000002,
+          "distanceM": 294,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJIyHBtk1CsjUR-rwfYbJaF6Q",
+          "name": "Shanghai International Circuit 7 Exit",
+          "lat": 31.3334554,
+          "lng": 121.2208027,
+          "distanceM": 614,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "f1-circuits/silverstone-circuit": {
+    "name": "Great Britain · Silverstone Circuit",
+    "lat": 52.0786,
+    "lng": -1.0169,
+    "google": {
+      "reason": "name matches but 626 m away",
+      "candidates": [
+        {
+          "id": "ChIJJWySI1gcd0gRpiTDkbWvQhE",
+          "name": "Silverstone Circuit",
+          "lat": 52.0736895,
+          "lng": -1.0213818,
+          "distanceM": 626,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "frankfurt/frankfurt-hauptbahnhof": {
+    "name": "Frankfurt Hauptbahnhof",
+    "lat": 50.10694444,
+    "lng": 8.6625,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJWeTqyf8LvUcRzN7IrgG88KE",
+          "name": "Frankfurt (Main) Hauptbahnhof tief",
+          "lat": 50.1066626,
+          "lng": 8.6625146,
+          "distanceM": 31,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ-bKRN_4LvUcRrK86lzLJZkM",
+          "name": "Frankfurt (Main) Hauptbahnhof",
+          "lat": 50.1071439,
+          "lng": 8.6637837,
+          "distanceM": 94,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJoZJG3_8LvUcRNqa1cgOp4-8",
+          "name": "Frankfurt, Hauptbahnhof",
+          "lat": 50.107481199999995,
+          "lng": 8.6645024,
+          "distanceM": 155,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "frankfurt/historisches-museum-frankfurt": {
+    "name": "Historisches Museum Frankfurt",
+    "lat": 50.1096033,
+    "lng": 8.682443,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ51rYSKYOvUcRqPU28wH49uI",
+          "name": "Historical Museum Frankfurt",
+          "lat": 50.1094839,
+          "lng": 8.6823351,
+          "distanceM": 15,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "frankfurt/main-tower": {
+    "name": "Main Tower",
+    "lat": 50.11222222,
+    "lng": 8.67194444,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJJ78ZeqwOvUcRRWY4XT-9-JY",
+          "name": "Main Tower Restaurant & Lounge",
+          "lat": 50.1122635,
+          "lng": 8.672184699999999,
+          "distanceM": 18,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJJ--5d6wOvUcRk7-B_A_cj-0",
+          "name": "Main Tower",
+          "lat": 50.1122294,
+          "lng": 8.6722979,
+          "distanceM": 25,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJX0usKIcPvUcRex4ytC72h58",
+          "name": "MAIN TOWER",
+          "lat": 50.112539999999996,
+          "lng": 8.672139999999999,
+          "distanceM": 38,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "frankfurt/messeturm": {
+    "name": "Messeturm",
+    "lat": 50.11222222,
+    "lng": 8.65277778,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ-bHglVkJvUcR3QX81bHeD1o",
+          "name": "MesseTurm Service GmbH",
+          "lat": 50.1125015,
+          "lng": 8.6528873,
+          "distanceM": 32,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "frankfurt/museum-fuer-moderne-kunst": {
+    "name": "Museum für Moderne Kunst (MMK)",
+    "lat": 50.11166667,
+    "lng": 8.68472222,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJIQYWKqQOvUcRvAl09URqbSU",
+          "name": "ZOLLAMT MMK",
+          "lat": 50.1114889,
+          "lng": 8.684438199999999,
+          "distanceM": 28,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJbVasxqsOvUcRxfFGJe_mWzM",
+          "name": "TOWER MMK",
+          "lat": 50.110394,
+          "lng": 8.6728451,
+          "distanceM": 859,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "frankfurt/museum-giersch": {
+    "name": "Museum Giersch der Goethe-Universität",
+    "lat": 50.10138889,
+    "lng": 8.67055556,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJm3SGsAYMvUcReaSSz-uL5g4",
+          "name": "Museum Giersch",
+          "lat": 50.1013544,
+          "lng": 8.6702829,
+          "distanceM": 20,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "frankfurt/senckenberg-natural-history-museum": {
+    "name": "Senckenberg Natural History Museum",
+    "lat": 50.1175,
+    "lng": 8.65166667,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ2V1QFlsJvUcRSRhgQZzHGNA",
+          "name": "Senckenberg Nature Museum",
+          "lat": 50.117557899999994,
+          "lng": 8.6522363,
+          "distanceM": 41,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "frankfurt/weltkulturen-museum": {
+    "name": "Weltkulturen Museum",
+    "lat": 50.10555556,
+    "lng": 8.67888889,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJnepgTR0MvUcRQpNVTuR4nWs",
+          "name": "Museum of World Cultures",
+          "lat": 50.10576,
+          "lng": 8.679359999999999,
+          "distanceM": 41,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "lake-como/argegno-waterfront": {
+    "name": "Argegno Waterfront",
+    "lat": 45.945,
+    "lng": 9.129,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJHeGAGGokhEcRH0tbG06jLwY",
+          "name": "Pizzeria - Ristorante Lido di Argegno",
+          "lat": 45.9444057,
+          "lng": 9.1290084,
+          "distanceM": 66,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJUT-uamokhEcRsQrr_OxZ7Hw",
+          "name": "The Port Cafè",
+          "lat": 45.943617499999995,
+          "lng": 9.1287264,
+          "distanceM": 155,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJhzEDbGokhEcRGrCk6U74GxA",
+          "name": "Piazzetta | Lago di Como",
+          "lat": 45.943411399999995,
+          "lng": 9.1281745,
+          "distanceM": 188,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "lake-como/basilica-di-san-giacomo-bellagio": {
+    "name": "Basilica di San Giacomo",
+    "lat": 45.987948,
+    "lng": 9.2620455,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJw7jCl_8XhEcRPV_Zzfk7GQU",
+          "name": "Basilica of St. Giacomo",
+          "lat": 45.988,
+          "lng": 9.2619881,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "lake-como/cernobbio-waterfront": {
+    "name": "Cernobbio Waterfront",
+    "lat": 45.84093,
+    "lng": 9.07627,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJNy0-n9KdhkcRGRJLIR49CYE",
+          "name": "Fountain in Cernobio",
+          "lat": 45.8402301,
+          "lng": 9.0777413,
+          "distanceM": 138,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ3YU0AwCdhkcRLKVh9BbezDk",
+          "name": "Lungolago di Cernobbio",
+          "lat": 45.8399351,
+          "lng": 9.078104699999999,
+          "distanceM": 180,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJXa9EyISdhkcRdPT0y3SdQdU",
+          "name": "Lido di Cernobbio",
+          "lat": 45.8389455,
+          "lng": 9.078214,
+          "distanceM": 267,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "lake-como/como-historic-center": {
+    "name": "Como Historic Center & Piazza Duomo",
+    "lat": 45.8116,
+    "lng": 9.0826,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJkb5tEBqdhkcR0z0cZ-wttAw",
+          "name": "Piazza del Duomo",
+          "lat": 45.8117168,
+          "lng": 9.0829686,
+          "distanceM": 31,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJOWYoBgCdhkcRYp5f_BJROxc",
+          "name": "Duomo de Como",
+          "lat": 45.8118829,
+          "lng": 9.0829016,
+          "distanceM": 39,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ3XNeo0uchkcR1_qYZuIiqAk",
+          "name": "Como Cathedral",
+          "lat": 45.811644099999995,
+          "lng": 9.083238099999999,
+          "distanceM": 50,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "lake-como/gelab-gelateria": {
+    "name": "Gelab Gelateria",
+    "lat": 45.80944,
+    "lng": 9.08694,
+    "google": {
+      "reason": "name matches but 436 m away",
+      "candidates": [
+        {
+          "id": "ChIJARQsa6adhkcRsTkuTrLKRW4",
+          "name": "Gelab Gelateria",
+          "lat": 45.8106198,
+          "lng": 9.081571499999999,
+          "distanceM": 436,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "lake-como/isola-comacina-viewpoint": {
+    "name": "Isola Comacina Viewpoint",
+    "lat": 45.9649422,
+    "lng": 9.1766171,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJq6qqDnIjhEcRuFpyA0MWnt0",
+          "name": "Isola Comacina",
+          "lat": 45.9646883,
+          "lng": 9.1764482,
+          "distanceM": 31,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJGduEB3IjhEcRzNOSwp9h9eY",
+          "name": "Isola Comacina",
+          "lat": 45.9646755,
+          "lng": 9.176508199999999,
+          "distanceM": 31,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJd42gLnQjhEcRISxpmNCor1w",
+          "name": "Boat Service Lake Como",
+          "lat": 45.9656223,
+          "lng": 9.1693143,
+          "distanceM": 569,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "lake-como/laglio": {
+    "name": "Laglio",
+    "lat": 45.883,
+    "lng": 9.133,
+    "google": {
+      "reason": "name matches but 347 m away",
+      "candidates": [
+        {
+          "id": "ChIJM4ZHbCkhhEcRJfTDfnxb3dU",
+          "name": "Laglio",
+          "lat": 45.8811666,
+          "lng": 9.1366268,
+          "distanceM": 347,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "lake-como/lenno-waterfront": {
+    "name": "Lenno Waterfront",
+    "lat": 45.9728622,
+    "lng": 9.1956389,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ5UU_ERYjhEcR4GJBUd9NOK8",
+          "name": "Lenno",
+          "lat": 45.9744001,
+          "lng": 9.1967804,
+          "distanceM": 192,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ896Nv4gjhEcRp5dShwTCZno",
+          "name": "Lungolago Guido Delmati",
+          "lat": 45.9710195,
+          "lng": 9.196217599999999,
+          "distanceM": 210,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ9zBYthkjhEcRDRkjUTT0HYs",
+          "name": "Lido di Lenno",
+          "lat": 45.9705556,
+          "lng": 9.1975,
+          "distanceM": 294,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "lake-como/menaggio-lakefront-promenade": {
+    "name": "Menaggio Lakefront Promenade",
+    "lat": 46.0204,
+    "lng": 9.2388,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ1_POBw89hEcRad2evlgumF8",
+          "name": "Piazza Giuseppe Garibaldi",
+          "lat": 46.019703199999995,
+          "lng": 9.239009399999999,
+          "distanceM": 79,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJRX8sNgA9hEcR58YcNLuXOMY",
+          "name": "Mennaggio Promenade",
+          "lat": 46.0194748,
+          "lng": 9.2378001,
+          "distanceM": 129,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJc2Nv2cw9hEcRM0JJ712WrnU",
+          "name": "Fontana della Passeggiata di Menaggio",
+          "lat": 46.0201317,
+          "lng": 9.2406341,
+          "distanceM": 145,
+          "nameMatch": false,
+          "overlap": 0.33
+        }
+      ]
+    }
+  },
+  "lake-como/moltrasio": {
+    "name": "Moltrasio",
+    "lat": 45.867,
+    "lng": 9.1,
+    "google": {
+      "reason": "name matches but 481 m away",
+      "candidates": [
+        {
+          "id": "ChIJybPlIWonhEcRWhm1shic9HI",
+          "name": "Moltrasio",
+          "lat": 45.86284130000001,
+          "lng": 9.0983073,
+          "distanceM": 481,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "lake-como/passerella-degli-innamorati-varenna": {
+    "name": "Passerella degli Innamorati",
+    "lat": 46.0119846,
+    "lng": 9.2828237,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJj0O7UwAXhEcRLwjfFEquANs",
+          "name": "Passerella Innamorati Sul Lago",
+          "lat": 46.0117918,
+          "lng": 9.282931399999999,
+          "distanceM": 23,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJ6wySGwAXhEcRaiLmbXhfSRU",
+          "name": "Passeggiata degli innamorati",
+          "lat": 46.0133087,
+          "lng": 9.2836394,
+          "distanceM": 160,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "lake-como/piazza-giuseppe-garibaldi-menaggio": {
+    "name": "Piazza Giuseppe Garibaldi",
+    "lat": 46.02119,
+    "lng": 9.23875,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ5X2a9Q49hEcRVRuLdYsRiwo",
+          "name": "Piazza Giuseppe Garibaldi",
+          "lat": 46.0200042,
+          "lng": 9.2389561,
+          "distanceM": 133,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJJ8LYXg49hEcRqU5jKr-vG4U",
+          "name": "Piazza Giuseppe Garibaldi",
+          "lat": 46.01979,
+          "lng": 9.2389454,
+          "distanceM": 156,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ_ag1Xg49hEcRGkwkMw8VdlI",
+          "name": "Piazza Giuseppe Garibaldi",
+          "lat": 46.0197421,
+          "lng": 9.2390031,
+          "distanceM": 162,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "lake-como/piazza-xi-febbraio-lenno": {
+    "name": "Piazza XI Febbraio",
+    "lat": 45.9731269,
+    "lng": 9.1959252,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJMW7MqiIjhEcR9VmLKU2Mk_g",
+          "name": "Piazza 11 Febbraio",
+          "lat": 45.9731143,
+          "lng": 9.1959486,
+          "distanceM": 2,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "lake-como/sala-comacina": {
+    "name": "Sala Comacina",
+    "lat": 45.967,
+    "lng": 9.167,
+    "google": {
+      "reason": "name matches but 299 m away",
+      "candidates": [
+        {
+          "id": "ChIJo9GiHnsjhEcR-1n-2H-jubE",
+          "name": "Sala Comacina",
+          "lat": 45.9644839,
+          "lng": 9.1656259,
+          "distanceM": 299,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "lake-como/santa-maria-maddalena-ossuccio": {
+    "name": "Church of Santa Maria Maddalena, Ossuccio",
+    "lat": 45.96755,
+    "lng": 9.18098,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJr6qnRmwjhEcRuzbjW-7jpwU",
+          "name": "Chiesa Santa Maria Maddalena - Ossuccio-Tremezzina (co)",
+          "lat": 45.9675588,
+          "lng": 9.180981899999999,
+          "distanceM": 1,
+          "nameMatch": false,
+          "overlap": 0.8
+        }
+      ]
+    }
+  },
+  "lake-como/stadio-giuseppe-sinigaglia": {
+    "name": "Stadio Giuseppe Sinigaglia",
+    "lat": 45.8138295,
+    "lng": 9.0723243,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJXQyUva2dhkcRSvDVaUTol_I",
+          "name": "Giuseppe Sinigaglia Stadium",
+          "lat": 45.8138711,
+          "lng": 9.0723755,
+          "distanceM": 6,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "lake-como/villa-erba": {
+    "name": "Villa Erba",
+    "lat": 45.83944,
+    "lng": 9.0775,
+    "google": {
+      "reason": "name matches but 152 m away",
+      "candidates": [
+        {
+          "id": "ChIJZyD5O5ydhkcR6rrOb-e_Gk8",
+          "name": "Villa Erba",
+          "lat": 45.8381099,
+          "lng": 9.0770345,
+          "distanceM": 152,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "lake-como/villa-serbelloni-gardens": {
+    "name": "Villa Serbelloni Gardens",
+    "lat": 45.9870494,
+    "lng": 9.2642058,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJYeF0Ok0XhEcRfO719_Abu0s",
+          "name": "Parco di Villa Serbelloni",
+          "lat": 45.9876528,
+          "lng": 9.2623727,
+          "distanceM": 157,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJ50Lxz_8XhEcRL-6Yp2HreK0",
+          "name": "Grand Hotel Villa Serbelloni",
+          "lat": 45.9887466,
+          "lng": 9.2608309,
+          "distanceM": 322,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
   "madrid/cafe-central-jazz": {
     "name": "Café Central",
     "lat": 40.4141837,
@@ -2724,6 +3558,855 @@
       ]
     }
   },
+  "miami/osm-n12197880121": {
+    "name": "Ben's Pizza",
+    "lat": 25.691259,
+    "lng": -80.313738,
+    "google": {
+      "reason": "name matches but 193 m away",
+      "candidates": [
+        {
+          "id": "ChIJLajclj7H2YgRwtsaoyNe2Q0",
+          "name": "Ben's Pizza",
+          "lat": 25.690726299999998,
+          "lng": -80.31190939999999,
+          "distanceM": 193,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJKf-buiG32YgRK1DlsI4DDco",
+          "name": "Bens Pizza",
+          "lat": 25.778089899999998,
+          "lng": -80.1872262,
+          "distanceM": 15931,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n13447230901": {
+    "name": "Cajun Boil",
+    "lat": 25.767523,
+    "lng": -80.196098,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJb_UaEui32YgRfOvIVJcITas",
+          "name": "Cajun Boil Seafood Restaurant Brickell",
+          "lat": 25.7675239,
+          "lng": -80.19603339999999,
+          "distanceM": 6,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ_03_jfOx2YgRjMjZjOk9RGE",
+          "name": "Crab Du Jour Cajun Seafood & Sports Bar",
+          "lat": 25.807920000000003,
+          "lng": -80.1943823,
+          "distanceM": 4495,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJvwXe_ym52YgRN_IGSpX2SPo",
+          "name": "Cajun Boil Seafood Restaurant West Flagler",
+          "lat": 25.7679451,
+          "lng": -80.3602478,
+          "distanceM": 16438,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n13767195648": {
+    "name": "Cafe Versailles",
+    "lat": 25.79767,
+    "lng": -80.282951,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ7XzIROK52YgRdvRxROpgcCQ",
+          "name": "Cafe Versailles",
+          "lat": 25.7942458,
+          "lng": -80.2785717,
+          "distanceM": 581,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ-0XxJXO52YgRN68yMhdk4G4",
+          "name": "Café Versailles",
+          "lat": 25.7972464,
+          "lng": -80.2748335,
+          "distanceM": 814,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJt9yvFgu32YgRrk-vKGEQB6g",
+          "name": "Versailles Restaurant Cuban Cuisine",
+          "lat": 25.765024,
+          "lng": -80.25279599999999,
+          "distanceM": 4722,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n14197741301": {
+    "name": "Black Market",
+    "lat": 25.778422,
+    "lng": -80.186502,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJs-Ieb6S32YgRDe7QpRL9l4c",
+          "name": "Black Market Bayside",
+          "lat": 25.778422499999998,
+          "lng": -80.1864513,
+          "distanceM": 5,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJX19cNJy22YgRjx4OIdVA_CQ",
+          "name": "Black Market Miami",
+          "lat": 25.773249999999997,
+          "lng": -80.19050299999999,
+          "distanceM": 701,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJLd5AK5a22YgRRGVGkGpgD3Q",
+          "name": "Black Eagle",
+          "lat": 25.780775,
+          "lng": -80.2015072,
+          "distanceM": 1525,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n1670843023": {
+    "name": "3 Chefs Chinese & Vietnamese Food",
+    "lat": 25.793883,
+    "lng": -80.189192,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJc7gjW6i22YgR5yrp3LoviMs",
+          "name": "3 Chefs",
+          "lat": 25.7939682,
+          "lng": -80.1891861,
+          "distanceM": 9,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n2697912493": {
+    "name": "Caffe Di Mauro",
+    "lat": 25.787441,
+    "lng": -80.131955,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJMTIa_Y-02YgRcvNkrk7euXk",
+          "name": "DI MAURO´S ITALIAN RESTAURANT & PIZZERIA",
+          "lat": 25.787409999999998,
+          "lng": -80.13201219999999,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "miami/osm-n367819296": {
+    "name": "Miami Dade Cultural Center",
+    "lat": 25.774465,
+    "lng": -80.19642,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJwbaWh5m22YgRHXFyeXUGqpc",
+          "name": "Metro-Dade Cultural Center",
+          "lat": 25.774914,
+          "lng": -80.196461,
+          "distanceM": 50,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJXc3-k5m22YgR-AiHCWeoZ5o",
+          "name": "Miami-Dade County Department of Cultural Affairs",
+          "lat": 25.7759558,
+          "lng": -80.1965122,
+          "distanceM": 166,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJ__8vCZG22YgRSdoMnKQBwBs",
+          "name": "Miami Hispanic Cultural Arts Center",
+          "lat": 25.7725889,
+          "lng": -80.20249369999999,
+          "distanceM": 643,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "miami/osm-n4249047169": {
+    "name": "Gallery 2612",
+    "lat": 25.801806,
+    "lng": -80.199232,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJV8K_RLu32YgR1f6cF-SLRq8",
+          "name": "Gallery X Wynwood",
+          "lat": 25.8008062,
+          "lng": -80.1988492,
+          "distanceM": 118,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJ7wJAWbK22YgR0K37e36s1d0",
+          "name": "GGA Gallery",
+          "lat": 25.8012205,
+          "lng": -80.20050189999999,
+          "distanceM": 143,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJCVRpVnm32YgRDu5g-AwAmpA",
+          "name": "Wynwood Art Gallery",
+          "lat": 25.8012064,
+          "lng": -80.2008858,
+          "distanceM": 178,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n4686160889": {
+    "name": "Baires Restaurant",
+    "lat": 25.764074,
+    "lng": -80.193268,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJwzbGDoS22YgR0yi7vExudM0",
+          "name": "Baires Grill - Brickell",
+          "lat": 25.7640139,
+          "lng": -80.193375,
+          "distanceM": 13,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJ24Kn3Jm32YgRXG6CiDF05ko",
+          "name": "Baires Grill - Coral Gables",
+          "lat": 25.7501958,
+          "lng": -80.2584479,
+          "distanceM": 6708,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJlZsamMu12YgRJoP13RhIJEc",
+          "name": "Baires Grill - Miami Beach",
+          "lat": 25.797976199999997,
+          "lng": -80.1283558,
+          "distanceM": 7514,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n4810040221": {
+    "name": "Barzola",
+    "lat": 25.778388,
+    "lng": -80.275388,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJa5opamK32YgRWa160JLtukQ",
+          "name": "Barzola 1 Restaurante Ecuatoriano",
+          "lat": 25.7783748,
+          "lng": -80.2754077,
+          "distanceM": 2,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJQzU0g5eo2YgRi1sPN-MDsxA",
+          "name": "Barzola 2 Restaurante Ecuatoriano",
+          "lat": 26.022323399999998,
+          "lng": -80.26520289999999,
+          "distanceM": 27144,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n5902548468": {
+    "name": "Birdie's Bistro",
+    "lat": 25.752491,
+    "lng": -80.274753,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJu1JITpO32YgRYCOyorw2AFs",
+          "name": "Birdie Bistro",
+          "lat": 25.7525388,
+          "lng": -80.2746861,
+          "distanceM": 9,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n5903100396": {
+    "name": "Beaudevin",
+    "lat": 25.797219,
+    "lng": -80.276886,
+    "google": {
+      "reason": "name matches but 342 m away",
+      "candidates": [
+        {
+          "id": "ChIJTyXzB1i32YgRl19JJpT6xrE",
+          "name": "Beaudevin",
+          "lat": 25.795137,
+          "lng": -80.2793947,
+          "distanceM": 342,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n5903100412": {
+    "name": "Cafe Versailles",
+    "lat": 25.797248,
+    "lng": -80.274884,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ-0XxJXO52YgRN68yMhdk4G4",
+          "name": "Café Versailles",
+          "lat": 25.7972464,
+          "lng": -80.2748335,
+          "distanceM": 5,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ7XzIROK52YgRdvRxROpgcCQ",
+          "name": "Cafe Versailles",
+          "lat": 25.7942458,
+          "lng": -80.2785717,
+          "distanceM": 498,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJt9yvFgu32YgRrk-vKGEQB6g",
+          "name": "Versailles Restaurant Cuban Cuisine",
+          "lat": 25.765024,
+          "lng": -80.25279599999999,
+          "distanceM": 4211,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n5903100436": {
+    "name": "Cafe Versailles",
+    "lat": 25.798232,
+    "lng": -80.271777,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ-0XxJXO52YgRN68yMhdk4G4",
+          "name": "Café Versailles",
+          "lat": 25.7972464,
+          "lng": -80.2748335,
+          "distanceM": 325,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ7XzIROK52YgRdvRxROpgcCQ",
+          "name": "Cafe Versailles",
+          "lat": 25.7942458,
+          "lng": -80.2785717,
+          "distanceM": 812,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJt9yvFgu32YgRrk-vKGEQB6g",
+          "name": "Versailles Restaurant Cuban Cuisine",
+          "lat": 25.765024,
+          "lng": -80.25279599999999,
+          "distanceM": 4153,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n6025987565": {
+    "name": "Cecile",
+    "lat": 25.704201,
+    "lng": -80.28617,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJIyhj67fH2YgR7YHrvOx06oQ",
+          "name": "Cecile Bakery + Cafe",
+          "lat": 25.7041887,
+          "lng": -80.286127,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n6091344318": {
+    "name": "Waltman Ortega Fine Art",
+    "lat": 25.79944,
+    "lng": -80.19512,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ5SpC_6222YgR6dLl1UN2ZLI",
+          "name": "Aliona Ortega Fine Art",
+          "lat": 25.7994669,
+          "lng": -80.1950772,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "miami/osm-n6110274385": {
+    "name": "American Social",
+    "lat": 25.768176,
+    "lng": -80.196421,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ8XrxI4W22YgRyZiuIp0HdhQ",
+          "name": "American Social - Bar & Kitchen - Miami",
+          "lat": 25.768103,
+          "lng": -80.1960484,
+          "distanceM": 38,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJsRbg74S22YgRi0Phf5bJduk",
+          "name": "Blackbird Ordinary",
+          "lat": 25.7667169,
+          "lng": -80.1951854,
+          "distanceM": 204,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ0-RuM4O22YgRHcs-acMSQaQ",
+          "name": "Better Days",
+          "lat": 25.768440599999998,
+          "lng": -80.19116559999999,
+          "distanceM": 527,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "miami/osm-n6359624487": {
+    "name": "Lik Gallery",
+    "lat": 25.790788,
+    "lng": -80.135759,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJARwLtoW02YgRKGS7eluHLrE",
+          "name": "LIK Fine Art",
+          "lat": 25.790862999999998,
+          "lng": -80.13519939999999,
+          "distanceM": 57,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/osm-n6935717880": {
+    "name": "Silverspot Cinema",
+    "lat": 25.771394,
+    "lng": -80.188437,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJdeIMdp222YgRRHgaKTNQUUM",
+          "name": "Silverspot Cinema - Downtown Miami",
+          "lat": 25.771559999999997,
+          "lng": -80.1886784,
+          "distanceM": 30,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJvT6MLu632YgRm_HeJuqQzy0",
+          "name": "Silverspot Cinema Parking",
+          "lat": 25.7722047,
+          "lng": -80.1892732,
+          "distanceM": 123,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJDdzu46cc2YgR7gOCcQZURO8",
+          "name": "Silverspot Cinema - Coconut Creek",
+          "lat": 26.283227699999998,
+          "lng": -80.1885223,
+          "distanceM": 56913,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n7390272508": {
+    "name": "Apizza Brooklyn",
+    "lat": 25.734806,
+    "lng": -80.288025,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJYzGqMFu52YgRf_bTHtEqYgw",
+          "name": "Apizza Brooklyn Resto + Vino - Coral Gables",
+          "lat": 25.7347997,
+          "lng": -80.2879726,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJVxJSXK_H2YgR8hFxrfq_VrQ",
+          "name": "Apizza Brooklyn Resto + Vino - Pinecrest",
+          "lat": 25.682389800000003,
+          "lng": -80.3135417,
+          "distanceM": 6364,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-n9768312811": {
+    "name": "Benihana",
+    "lat": 25.749292,
+    "lng": -80.259502,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJq_m1UZe32YgRQ9tTkeMvtpc",
+          "name": "Benihana - Coral Gables",
+          "lat": 25.749336,
+          "lng": -80.2595494,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ94AksUm32YgRfgCGi0gtYYs",
+          "name": "Benihana Brickell",
+          "lat": 25.7642848,
+          "lng": -80.1942424,
+          "distanceM": 6745,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ397jMJLG2YgRd_H10d_4Wlw",
+          "name": "Samurai",
+          "lat": 25.644630499999998,
+          "lng": -80.334661,
+          "distanceM": 13862,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "miami/osm-n9982807519": {
+    "name": "abbale telavivian kitchen",
+    "lat": 25.769701,
+    "lng": -80.136872,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJA0eGsZ-12YgR0Z4Dm5b1J6I",
+          "name": "Abbalé Modern Mediterranean Kitchen - South Beach",
+          "lat": 25.7688647,
+          "lng": -80.13660329999999,
+          "distanceM": 97,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "miami/osm-w1005780281": {
+    "name": "Bugatti Bistro",
+    "lat": 25.748432,
+    "lng": -80.258892,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJc4rBQJe32YgRz0yvhygM1iE",
+          "name": "Bugatti Bistro - Italian Restaurant Coral Gables",
+          "lat": 25.7484282,
+          "lng": -80.2588569,
+          "distanceM": 4,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-w1178593087": {
+    "name": "CMX",
+    "lat": 25.766877,
+    "lng": -80.194509,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJuzUnnoS22YgR-ZU72MU4bWs",
+          "name": "CMX Brickell City Centre",
+          "lat": 25.7668254,
+          "lng": -80.19348269999999,
+          "distanceM": 103,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ4TcoYIO22YgRrLy7tQgjhwU",
+          "name": "CMX Stone Sports Bar Brickell",
+          "lat": 25.766968199999997,
+          "lng": -80.1934346,
+          "distanceM": 108,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJQ9wnV3u52YgRNnI2DxyQd74",
+          "name": "CMX CinéBistro CityPlace Doral",
+          "lat": 25.8070707,
+          "lng": -80.3319228,
+          "distanceM": 14466,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-w1315447901": {
+    "name": "The Irving Korach Architecture Gallery",
+    "lat": 25.716819,
+    "lng": -80.279064,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJoxwpYgC42YgR5eKGuzakews",
+          "name": "School of Architecture",
+          "lat": 25.717069499999997,
+          "lng": -80.279248,
+          "distanceM": 33,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJz7Wm3de52YgRIfnp5e8NeKk",
+          "name": "Thomas P. Murphy Design Studio Building",
+          "lat": 25.7170934,
+          "lng": -80.2783448,
+          "distanceM": 78,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJDwefO5S32YgRdYOiU3aQ4Vc",
+          "name": "Cernuda Arte",
+          "lat": 25.7429384,
+          "lng": -80.25809579999999,
+          "distanceM": 3584,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "miami/osm-w317881244": {
+    "name": "ALMA",
+    "lat": 25.79989,
+    "lng": -80.20053,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJN6t_OdC32YgRcouY3pBIlw4",
+          "name": "Alma Wynwood",
+          "lat": 25.7998992,
+          "lng": -80.20043009999999,
+          "distanceM": 10,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJn4F6XRix2YgRyKanFgGh_wk",
+          "name": "Alma y sazón mexicano",
+          "lat": 25.8246643,
+          "lng": -80.2097697,
+          "distanceM": 2906,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJfxIdBAC32YgRvTgDLkAgAvE",
+          "name": "Alma Old Cuban Cuisine",
+          "lat": 25.7656688,
+          "lng": -80.2181172,
+          "distanceM": 4193,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-w375165787": {
+    "name": "Jerry Herman Ring Theatre",
+    "lat": 25.719593,
+    "lng": -80.280105,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJQ7jXvAG42YgROG73CoH_Cg4",
+          "name": "The Jerry Herman Ring Theater",
+          "lat": 25.719612299999998,
+          "lng": -80.28006859999999,
+          "distanceM": 4,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "miami/osm-w435519440": {
+    "name": "Casola's Pizzeria & Sub Shop",
+    "lat": 25.746992,
+    "lng": -80.221397,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJp9KEWGO22YgRKmocbMe72CA",
+          "name": "Casola's",
+          "lat": 25.7469796,
+          "lng": -80.22143919999999,
+          "distanceM": 4,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-w483322279": {
+    "name": "Bass Museum of Art",
+    "lat": 25.797569,
+    "lng": -80.130114,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJVUQKVZy02YgRGA6_hGKlCQY",
+          "name": "The Bass",
+          "lat": 25.797566800000002,
+          "lng": -80.1301297,
+          "distanceM": 2,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/osm-w648463778": {
+    "name": "Bakan Wynwood",
+    "lat": 25.803246,
+    "lng": -80.199018,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJlyPZ16q32YgR2cpjqI36uDQ",
+          "name": "BAKAN",
+          "lat": 25.8031297,
+          "lng": -80.19907479999999,
+          "distanceM": 14,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "miami/rickenbacker-causeway": {
     "name": "Rickenbacker Causeway",
     "lat": 25.7335608,
@@ -3064,6 +4747,25 @@
       ]
     }
   },
+  "milan/derby-grill-monza": {
+    "name": "Derby Grill (Hotel de la Ville)",
+    "lat": 45.592677,
+    "lng": 9.27146,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJyTWu3Xe5hkcR23MAusBx5OQ",
+          "name": "Ristorante Derby Grill",
+          "lat": 45.5925094,
+          "lng": 9.2713599,
+          "distanceM": 20,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
   "milan/duomo-di-monza": {
     "name": "Duomo di Monza",
     "lat": 45.5836,
@@ -3185,6 +4887,81 @@
       ]
     }
   },
+  "milan/giardini-villa-reale-monza": {
+    "name": "Giardini della Villa Reale (Royal Gardens)",
+    "lat": 45.5878,
+    "lng": 9.2812,
+    "google": {
+      "reason": "name matches but 752 m away",
+      "candidates": [
+        {
+          "id": "ChIJb10GSYO5hkcRVhqlsZBLbiI",
+          "name": "Giardini della Villa Reale",
+          "lat": 45.5939403,
+          "lng": 9.2771407,
+          "distanceM": 752,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/ippodromo-di-san-siro": {
+    "name": "Ippodromo di San Siro",
+    "lat": 45.482344,
+    "lng": 9.1321087,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJY7ZKLQDBhkcRU4hGlJN-mY8",
+          "name": "Ippodromo Snai San Siro",
+          "lat": 45.4809887,
+          "lng": 9.1373064,
+          "distanceM": 432,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJx_pQoZDBhkcRiWm8RM7LBxo",
+          "name": "San Siro Ippodromo",
+          "lat": 45.4760815,
+          "lng": 9.128583299999999,
+          "distanceM": 749,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ67WmvZDBhkcRxSXsVW5ZtmY",
+          "name": "San Siro Ippodromo",
+          "lat": 45.476086599999995,
+          "lng": 9.1283788,
+          "distanceM": 754,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/latteria-san-marco": {
+    "name": "Latteria San Marco",
+    "lat": 45.4760491,
+    "lng": 9.1886139,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJz1LQRrXGhkcRmv77jN3YPLg",
+          "name": "La Latteria",
+          "lat": 45.4760646,
+          "lng": 9.188612899999999,
+          "distanceM": 2,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "milan/luini-panzerotti": {
     "name": "Luini",
     "lat": 45.4657,
@@ -3200,6 +4977,110 @@
           "distanceM": 25,
           "nameMatch": false,
           "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/mudec-museo-delle-culture": {
+    "name": "MUDEC (Museo delle Culture)",
+    "lat": 45.4515575,
+    "lng": 9.1616625,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJwcLyGObDhkcRd4Ay1dlKE3I",
+          "name": "Mudec",
+          "lat": 45.4515435,
+          "lng": 9.1615384,
+          "distanceM": 10,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/museo-alfa-romeo": {
+    "name": "Museo Alfa Romeo (Arese)",
+    "lat": 45.557966,
+    "lng": 9.047162,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ_-jmxeqUhkcRpMyt-v_OM5k",
+          "name": "Alfa Romeo Museum",
+          "lat": 45.5579362,
+          "lng": 9.0468134,
+          "distanceM": 27,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "milan/museo-poldi-pezzoli": {
+    "name": "Museo Poldi Pezzoli",
+    "lat": 45.4684748,
+    "lng": 9.1917804,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJl-MC8rHGhkcRbn3y-uOYmIQ",
+          "name": "Poldi Pezzoli Museum",
+          "lat": 45.468527699999996,
+          "lng": 9.191692699999999,
+          "distanceM": 9,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "milan/museo-tesoro-duomo-monza": {
+    "name": "Museo e Tesoro del Duomo (Serpero Museum)",
+    "lat": 45.583894,
+    "lng": 9.275447,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJZRlLc6K5hkcRYaGF0pRZsiQ",
+          "name": "Museo e Tesoro del Duomo di Monza",
+          "lat": 45.5839186,
+          "lng": 9.275815999999999,
+          "distanceM": 29,
+          "nameMatch": false,
+          "overlap": 0.71
+        }
+      ]
+    }
+  },
+  "milan/pasticceria-cova-1817": {
+    "name": "Pasticceria Cova (1817)",
+    "lat": 45.468111,
+    "lng": 9.19549,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJtw59UdzDhkcRQYDSBkctXfM",
+          "name": "Cova Montenapoleone",
+          "lat": 45.468168899999995,
+          "lng": 9.1954589,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJWbpOQU3BhkcRPRnyp56ixRg",
+          "name": "G. Cova & C.",
+          "lat": 45.468875,
+          "lng": 9.1840265,
+          "distanceM": 898,
+          "nameMatch": false,
+          "overlap": 0.33
         }
       ]
     }
@@ -3278,6 +5159,63 @@
       ]
     }
   },
+  "milan/ristorante-cracco": {
+    "name": "Ristorante Cracco",
+    "lat": 45.463922,
+    "lng": 9.18716,
+    "google": {
+      "reason": "name matches but 305 m away",
+      "candidates": [
+        {
+          "id": "ChIJidrh163GhkcRqMLsWK7AH_E",
+          "name": "Cracco",
+          "lat": 45.465851799999996,
+          "lng": 9.189947799999999,
+          "distanceM": 305,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/ristorante-savini": {
+    "name": "Ristorante Savini",
+    "lat": 45.465691,
+    "lng": 9.1904653,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJjcBseK7GhkcRQ-PznMmWVUA",
+          "name": "Savini Milano 1867",
+          "lat": 45.4656143,
+          "lng": 9.1903829,
+          "distanceM": 11,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "milan/santa-maria-in-strada-monza": {
+    "name": "Chiesa di Santa Maria in Strada",
+    "lat": 45.582341,
+    "lng": 9.274204,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJiZS_hKG5hkcRuP0TlEORZ4A",
+          "name": "Santa Maria in Strada, Monza",
+          "lat": 45.582353499999996,
+          "lng": 9.274011,
+          "distanceM": 15,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
   "milan/santa-maria-presso-san-satiro": {
     "name": "Santa Maria presso San Satiro",
     "lat": 45.462704,
@@ -3293,6 +5231,43 @@
           "distanceM": 22,
           "nameMatch": false,
           "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "milan/spontini-pizzeria": {
+    "name": "Spontini",
+    "lat": 45.4819876,
+    "lng": 9.2131304,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJrahvf8LGhkcR6-7UFTeaeCY",
+          "name": "Pizzeria Spontini",
+          "lat": 45.4819515,
+          "lng": 9.2133088,
+          "distanceM": 14,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ6XE6zOnGhkcRWaM6KILbNIk",
+          "name": "PANZERÒ panzerotti per passione",
+          "lat": 45.481944399999996,
+          "lng": 9.2133333,
+          "distanceM": 17,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ8bBpfsLGhkcRlaGxy--D75o",
+          "name": "Pattini",
+          "lat": 45.4822,
+          "lng": 9.212568899999999,
+          "distanceM": 50,
+          "nameMatch": false,
+          "overlap": 0
         }
       ]
     }
@@ -4180,6 +6155,561 @@
           "lng": -74.00867,
           "distanceM": 73,
           "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "paris/bouillon-chartier": {
+    "name": "Bouillon Chartier",
+    "lat": 48.87333333,
+    "lng": 2.34361111,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ4xutfT5u5kcRaJn2NkiOhPU",
+          "name": "Bouillon Chartier Grands Boulevards",
+          "lat": 48.871922399999995,
+          "lng": 2.3430304,
+          "distanceM": 163,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJfaqqFjxu5kcRjahWV24Cm6A",
+          "name": "Le Bouillon",
+          "lat": 48.870435099999995,
+          "lng": 2.3414172,
+          "distanceM": 360,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJO77c9RRv5kcRL-TBSE082ec",
+          "name": "Bouillon Chartier",
+          "lat": 48.8759574,
+          "lng": 2.3587849,
+          "distanceM": 1147,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "paris/cafe-de-flore": {
+    "name": "Café de Flore",
+    "lat": 48.85416667,
+    "lng": 2.33263889,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJq537gddx5kcR_3PhRd2muxg",
+          "name": "Café de Flore",
+          "lat": 48.8541588,
+          "lng": 2.3326046,
+          "distanceM": 3,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ6-JheNdx5kcRAAyhLjfy9cM",
+          "name": "Café de Flore",
+          "lat": 48.8538947,
+          "lng": 2.3325036,
+          "distanceM": 32,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJG1WwBNhx5kcRKTzpnbceZbE",
+          "name": "MyKeypers - Deluxe Flat 6P - St Germain des Pres Café de FLORE",
+          "lat": 48.8558464,
+          "lng": 2.3335936,
+          "distanceM": 199,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "paris/grand-palais": {
+    "name": "Grand Palais",
+    "lat": 48.8661,
+    "lng": 2.3125,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ0dzuSNBv5kcRa6BHUVdFm0k",
+          "name": "Grand Palais",
+          "lat": 48.866109099999996,
+          "lng": 2.3124544,
+          "distanceM": 3,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJSUOPztFv5kcRnEbSPYG-9fM",
+          "name": "Petit Palais",
+          "lat": 48.8660479,
+          "lng": 2.3145896,
+          "distanceM": 153,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJRSCdtdpv5kcRAUmHb5th1nI",
+          "name": "Le Grand Palais",
+          "lat": 48.866648,
+          "lng": 2.3099119999999997,
+          "distanceM": 199,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "paris/palais-royal-gardens": {
+    "name": "Palais-Royal Gardens",
+    "lat": 48.86333333,
+    "lng": 2.33694444,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ5bx0qiVu5kcRs_dMpI5ttiY",
+          "name": "Jardin du Palais-Royal",
+          "lat": 48.8649723,
+          "lng": 2.3378061,
+          "distanceM": 193,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "paris/pere-lachaise-cemetery": {
+    "name": "Père Lachaise Cemetery",
+    "lat": 48.86,
+    "lng": 2.395,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJhadpXItt5kcRGWQLUydhz6E",
+          "name": "Cimetière du Père-Lachaise",
+          "lat": 48.861472,
+          "lng": 2.3934724999999997,
+          "distanceM": 198,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "paris/philharmonie-de-paris": {
+    "name": "Philharmonie de Paris",
+    "lat": 48.891566,
+    "lng": 2.39407,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJP1IC2bVt5kcRNmL7ZmRb7hE",
+          "name": "Paris Philharmonic",
+          "lat": 48.8912963,
+          "lng": 2.3942959999999998,
+          "distanceM": 34,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "paris/place-de-la-concorde": {
+    "name": "Place de la Concorde",
+    "lat": 48.8656331,
+    "lng": 2.3212357,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJAQquYc1v5kcRLKslDuENAxg",
+          "name": "Place de la Concorde",
+          "lat": 48.8656331,
+          "lng": 2.3212357,
+          "distanceM": 0,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJA4noKgBv5kcRnvJCFLsyfWc",
+          "name": "Place de la Concorde",
+          "lat": 48.8635855,
+          "lng": 2.3197267,
+          "distanceM": 253,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "paris/pont-neuf": {
+    "name": "Pont Neuf",
+    "lat": 48.8575,
+    "lng": 2.34166667,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJx3PDTABv5kcRfrSxapFMgTw",
+          "name": "Pont Neuf",
+          "lat": 48.8578572,
+          "lng": 2.3419289,
+          "distanceM": 44,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJiwXbjSBu5kcRElMMiLmE-mo",
+          "name": "Vedettes du Pont Neuf",
+          "lat": 48.857448399999996,
+          "lng": 2.3409317,
+          "distanceM": 54,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJiwXbjSBu5kcRG_Vjyw1gadQ",
+          "name": "Pont Neuf",
+          "lat": 48.856696899999996,
+          "lng": 2.3408412000000003,
+          "distanceM": 108,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "paris/sacre-coeur-basilica": {
+    "name": "Sacré-Cœur Basilica",
+    "lat": 48.8868058,
+    "lng": 2.3430153,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ442GNENu5kcRGYUrvgqHw88",
+          "name": "Basilique du Sacré-Cœur de Montmartre",
+          "lat": 48.886704599999995,
+          "lng": 2.3431043,
+          "distanceM": 13,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "paris/stade-roland-garros": {
+    "name": "Stade Roland-Garros",
+    "lat": 48.84722222,
+    "lng": 2.24638889,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJdZmZnMV65kcRiWnGQGtgQJ0",
+          "name": "Roland Garros Stadium",
+          "lat": 48.8468727,
+          "lng": 2.2500214,
+          "distanceM": 269,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "philly/barnes-arboretum-at-saint-josephs-university": {
+    "name": "Barnes Arboretum at Saint Joseph's University",
+    "lat": 40.0037,
+    "lng": -75.2427,
+    "google": {
+      "reason": "name matches but 684 m away",
+      "candidates": [
+        {
+          "id": "ChIJNffJdU7HxokRU0udwLPT7gE",
+          "name": "The Barnes Arboretum at Saint Joseph’s University",
+          "lat": 39.9976924,
+          "lng": -75.240974,
+          "distanceM": 684,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/boathouse-row": {
+    "name": "Boathouse Row",
+    "lat": 39.9687,
+    "lng": -75.1804,
+    "google": {
+      "reason": "name matches but 624 m away",
+      "candidates": [
+        {
+          "id": "ChIJA06asbHHxokRPBVrDKtiYhg",
+          "name": "Boathouse Row",
+          "lat": 39.9695828,
+          "lng": -75.1876317,
+          "distanceM": 624,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/downtown-narberth": {
+    "name": "Downtown Narberth",
+    "lat": 40.0089,
+    "lng": -75.2606,
+    "google": {
+      "reason": "name matches but 384 m away",
+      "candidates": [
+        {
+          "id": "ChIJgwvDvaXAxokR6tzgNi1TpiI",
+          "name": "Downtown Narberth",
+          "lat": 40.005466999999996,
+          "lng": -75.261139,
+          "distanceM": 384,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/king-of-prussia-mall": {
+    "name": "King of Prussia Mall",
+    "lat": 40.0895,
+    "lng": -75.396,
+    "google": {
+      "reason": "name matches but 450 m away",
+      "candidates": [
+        {
+          "id": "ChIJZYcLs0qUxokRpUJlhi2gxiE",
+          "name": "King of Prussia",
+          "lat": 40.088518,
+          "lng": -75.39086449999999,
+          "distanceM": 450,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJwbtbZESUxokRCgJTafrurfw",
+          "name": "King of Prussia Town Center",
+          "lat": 40.084161,
+          "lng": -75.404702,
+          "distanceM": 949,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "philly/merion-cricket-club": {
+    "name": "Merion Cricket Club",
+    "lat": 40.0089,
+    "lng": -75.2977,
+    "google": {
+      "reason": "name matches but 793 m away",
+      "candidates": [
+        {
+          "id": "ChIJGSMMdJvAxokRQtLwfqlgHvc",
+          "name": "Merion Cricket Club",
+          "lat": 40.0159954,
+          "lng": -75.2986296,
+          "distanceM": 793,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/merion-friends-meeting-house": {
+    "name": "Merion Friends Meeting House",
+    "lat": 40.0034,
+    "lng": -75.2495,
+    "google": {
+      "reason": "name matches but 775 m away",
+      "candidates": [
+        {
+          "id": "ChIJAYGhI6rAxokRobZQWsklMCg",
+          "name": "Merion Friends Meeting",
+          "lat": 40.0094457,
+          "lng": -75.25402059999999,
+          "distanceM": 775,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/muhlenbergs-brigade-huts": {
+    "name": "Muhlenberg's Brigade Huts",
+    "lat": 40.0968,
+    "lng": -75.4308,
+    "google": {
+      "reason": "name matches but 450 m away",
+      "candidates": [
+        {
+          "id": "ChIJ17gBSwyUxokRA41qspSppEM",
+          "name": "Muhlenberg Brigade",
+          "lat": 40.097324,
+          "lng": -75.4256336,
+          "distanceM": 443,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJAdeGd7aVxokRYxJkXG-U3kE",
+          "name": "Muhlenberg's Brigade",
+          "lat": 40.0973484,
+          "lng": -75.4255625,
+          "distanceM": 450,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/mutter-museum": {
+    "name": "Mutter Museum",
+    "lat": 39.953275,
+    "lng": -75.176547,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJKZI5O8MyHogRMAkx1ntablc",
+          "name": "The Mütter Museum of The College of Physicians of Philadelphia",
+          "lat": 39.9532308,
+          "lng": -75.1763698,
+          "distanceM": 16,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/suburban-square": {
+    "name": "Suburban Square",
+    "lat": 40.0089,
+    "lng": -75.2954,
+    "google": {
+      "reason": "name matches but 493 m away",
+      "candidates": [
+        {
+          "id": "ChIJ6Q0bMoTAxokR_j3c-hwHKiU",
+          "name": "Suburban Square",
+          "lat": 40.0088589,
+          "lng": -75.28961389999999,
+          "distanceM": 493,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/valley-forge-national-historical-park": {
+    "name": "Valley Forge National Historical Park",
+    "lat": 40.1,
+    "lng": -75.436,
+    "google": {
+      "reason": "name matches but 640 m away",
+      "candidates": [
+        {
+          "id": "ChIJb_iFIvKTxokR-9Ha5lAtuG4",
+          "name": "Valley Forge National Historical Park",
+          "lat": 40.098299499999996,
+          "lng": -75.443185,
+          "distanceM": 640,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/valley-forge-visitor-center": {
+    "name": "Valley Forge Visitor Center",
+    "lat": 40.0977,
+    "lng": -75.4297,
+    "google": {
+      "reason": "name matches but 727 m away",
+      "candidates": [
+        {
+          "id": "ChIJjb_BIBCUxokRora2RKnUiwo",
+          "name": "Visitor Center At Valley Forge",
+          "lat": 40.1014128,
+          "lng": -75.422659,
+          "distanceM": 727,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/washington-memorial-chapel": {
+    "name": "Washington Memorial Chapel",
+    "lat": 40.1024,
+    "lng": -75.429,
+    "google": {
+      "reason": "name matches but 797 m away",
+      "candidates": [
+        {
+          "id": "ChIJZYcLs0qUxokRSUNSosAbuEs",
+          "name": "Washington Memorial Chapel",
+          "lat": 40.104536599999996,
+          "lng": -75.43794129999999,
+          "distanceM": 797,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/wayne-historic-district": {
+    "name": "Wayne Historic District",
+    "lat": 40.0446,
+    "lng": -75.3888,
+    "google": {
+      "reason": "name matches but 863 m away",
+      "candidates": [
+        {
+          "id": "ChIJp6lWEyaVxokRp5b6HEYyCzg",
+          "name": "South Wayne Historic District",
+          "lat": 40.0384777,
+          "lng": -75.3825724,
+          "distanceM": 863,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "philly/xfinity-mobile-arena": {
+    "name": "Xfinity Mobile Arena (formerly Wells Fargo Center)",
+    "lat": 39.9011,
+    "lng": -75.172017,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJR7HjD-zFxokRLbpFP7Ixn1I",
+          "name": "Xfinity Mobile Arena",
+          "lat": 39.9012015,
+          "lng": -75.17197949999999,
+          "distanceM": 12,
+          "nameMatch": false,
           "overlap": 1
         }
       ]
@@ -5424,6 +7954,1002 @@
           "distanceM": 119,
           "nameMatch": false,
           "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "switzerland/10-10-bench-lake-oeschinensee": {
+    "name": "10/10 Bench Lake Oeschinensee",
+    "lat": 46.50198,
+    "lng": 7.71812,
+    "google": {
+      "reason": "name matches but 408 m away",
+      "candidates": [
+        {
+          "id": "ChIJg-Yd_P8Hj0cRMdtFuxdnORc",
+          "name": "Oeschinen Lake Viewpoint",
+          "lat": 46.5007221,
+          "lng": 7.7142484,
+          "distanceM": 328,
+          "nameMatch": false,
+          "overlap": 0.33
+        },
+        {
+          "id": "ChIJIR28HAAJj0cRD-i8nsKg4z8",
+          "name": "10/10 bench Oeschinensee",
+          "lat": 46.503122,
+          "lng": 7.723179999999999,
+          "distanceM": 408,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ6XsUnCcHj0cRBNmGfrpuhnA",
+          "name": "Hiking Path to Oeschinensee",
+          "lat": 46.499214099999996,
+          "lng": 7.7060927999999995,
+          "distanceM": 971,
+          "nameMatch": false,
+          "overlap": 0.25
+        }
+      ]
+    }
+  },
+  "switzerland/bains-des-paquis": {
+    "name": "Bains des Pâquis",
+    "lat": 46.2099336,
+    "lng": 6.1565303,
+    "google": {
+      "reason": "name matches but 186 m away",
+      "candidates": [
+        {
+          "id": "ChIJqyGF-SVljEcRCjV8Kx1V1DU",
+          "name": "Bains des Pâquis",
+          "lat": 46.2103687,
+          "lng": 6.154191099999999,
+          "distanceM": 186,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "switzerland/basel-minster": {
+    "name": "Basel Minster",
+    "lat": 47.55666667,
+    "lng": 7.59222222,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJZ7ktPrK5kUcRUYQBN-iOkMk",
+          "name": "Basel Cathedral",
+          "lat": 47.5563317,
+          "lng": 7.5919795,
+          "distanceM": 41,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "switzerland/bear-park-bern": {
+    "name": "BärenPark",
+    "lat": 46.9476825,
+    "lng": 7.4591848,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJvXFBHtw5jkcRud-_FEnVeaI",
+          "name": "BearPark",
+          "lat": 46.9481216,
+          "lng": 7.459452100000001,
+          "distanceM": 53,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ15FZINw5jkcR44Y3SEPIzgk",
+          "name": "Bärenpark",
+          "lat": 46.94836,
+          "lng": 7.459681999999999,
+          "distanceM": 84,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJXRHSI9w5jkcR3J2WjoIUbh8",
+          "name": "Bärenpark",
+          "lat": 46.9484469,
+          "lng": 7.459684299999999,
+          "distanceM": 93,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "switzerland/bern-minster": {
+    "name": "Bern Minster",
+    "lat": 46.94722222,
+    "lng": 7.45138889,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJbbJxhMQ5jkcRmDwoIsGO3x4",
+          "name": "Cathedral of Bern",
+          "lat": 46.947239499999995,
+          "lng": 7.451530999999998,
+          "distanceM": 11,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "switzerland/gornergrat": {
+    "name": "Gornergrat",
+    "lat": 45.98333333,
+    "lng": 7.78472222,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ4SHGyGFKj0cRTpnrMqUBrQw",
+          "name": "Gornergrat",
+          "lat": 45.983332999999995,
+          "lng": 7.784721999999999,
+          "distanceM": 0,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJVfyhzmFKj0cR20qfUM89CqU",
+          "name": "Gornergrat",
+          "lat": 45.983475899999995,
+          "lng": 7.784680099999999,
+          "distanceM": 16,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ7X1nHGJKj0cRs6ug0aFSMsI",
+          "name": "Gornergrat",
+          "lat": 45.983318999999995,
+          "lng": 7.7822059999999995,
+          "distanceM": 194,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "switzerland/rhine-falls": {
+    "name": "Rhine Falls",
+    "lat": 47.67722222,
+    "lng": 8.61583333,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJhzIoTkt_kEcR1JP1K8DsOPM",
+          "name": "Rhine Falls",
+          "lat": 47.677951,
+          "lng": 8.6155799,
+          "distanceM": 83,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ1cnDekx_kEcRJ4mRcPw4XXo",
+          "name": "Rhine Falls",
+          "lat": 47.6780897,
+          "lng": 8.6154486,
+          "distanceM": 101,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "switzerland/rosengarten-bern": {
+    "name": "Rosengarten",
+    "lat": 46.9519684,
+    "lng": 7.4602976,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJtVOLBd45jkcRIIB9sn-RBog",
+          "name": "Rosengarten Bern",
+          "lat": 46.9514886,
+          "lng": 7.4600729,
+          "distanceM": 56,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJa3NHqeA5jkcR4Rr2SLsyYyg",
+          "name": "Rosengarten",
+          "lat": 46.95202,
+          "lng": 7.46126,
+          "distanceM": 73,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJKTYdrOA5jkcRsUPe61h4iDY",
+          "name": "Rosengarten",
+          "lat": 46.952117199999996,
+          "lng": 7.4613804,
+          "distanceM": 84,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "switzerland/spiez-castle": {
+    "name": "Spiez Castle",
+    "lat": 46.68915278,
+    "lng": 7.68737778,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJgZS1d3uuj0cR97rC6OcPMV4",
+          "name": "Schloss Spiez",
+          "lat": 46.689265899999995,
+          "lng": 7.6875052,
+          "distanceM": 16,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "switzerland/stadion-wankdorf": {
+    "name": "Stadion Wankdorf",
+    "lat": 46.96277778,
+    "lng": 7.465,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJU1V3jfw5jkcRf4RrFG4djD0",
+          "name": "Wankdorf Stadium",
+          "lat": 46.962654699999995,
+          "lng": 7.464434700000001,
+          "distanceM": 45,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "switzerland/zentrum-paul-klee": {
+    "name": "Zentrum Paul Klee",
+    "lat": 46.94916667,
+    "lng": 7.47388889,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJyximEGc3jkcRUUA0OfZgpw0",
+          "name": "Zentrum Paul Klee",
+          "lat": 46.9490841,
+          "lng": 7.474304,
+          "distanceM": 33,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJo14SV2c3jkcRVrB-2AP5hJo",
+          "name": "Zentrum Paul Klee",
+          "lat": 46.950793999999995,
+          "lng": 7.472833,
+          "distanceM": 198,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/alumni-hall": {
+    "name": "Alumni Hall",
+    "lat": 40.037,
+    "lng": -75.3405,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJKb6ieOK_xokRBNZVjJVPSPM",
+          "name": "Dougherty Hall",
+          "lat": 40.035388,
+          "lng": -75.341178,
+          "distanceM": 188,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJrZ5GlViVxokRTNVvfgALNtk",
+          "name": "Alumni Hall",
+          "lat": 40.0364023,
+          "lng": -75.3426092,
+          "distanceM": 191,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJCd81lViVxokRRvnsALy5ZBM",
+          "name": "Alumni Hall",
+          "lat": 40.036423,
+          "lng": -75.342659,
+          "distanceM": 195,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/austin-hall": {
+    "name": "Austin Hall",
+    "lat": 40.0362,
+    "lng": -75.3438,
+    "google": {
+      "reason": "name matches but 178 m away",
+      "candidates": [
+        {
+          "id": "ChIJ1eGqm1iVxokRhi53iOgWAtk",
+          "name": "Austin Hall",
+          "lat": 40.035869,
+          "lng": -75.341758,
+          "distanceM": 178,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/bartley-hall": {
+    "name": "Bartley Hall",
+    "lat": 40.0362,
+    "lng": -75.3385,
+    "google": {
+      "reason": "name matches but 164 m away",
+      "candidates": [
+        {
+          "id": "ChIJDxkL_-K_xokRBR6_NVLwg1A",
+          "name": "Bartley Hall",
+          "lat": 40.0347413,
+          "lng": -75.3382572,
+          "distanceM": 164,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/burns-hall": {
+    "name": "Burns Hall",
+    "lat": 40.0393,
+    "lng": -75.3468,
+    "google": {
+      "reason": "name matches but 394 m away",
+      "candidates": [
+        {
+          "id": "ChIJgRKvJV6VxokRJxMsLrmHJDM",
+          "name": "Burns Hall",
+          "lat": 40.0425751,
+          "lng": -75.3450211,
+          "distanceM": 394,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/caughlin-hall": {
+    "name": "Caughlin Hall",
+    "lat": 40.032,
+    "lng": -75.3448,
+    "google": {
+      "reason": "name matches but 336 m away",
+      "candidates": [
+        {
+          "id": "ChIJsS4P2FeVxokRJ7_d8hYe-oI",
+          "name": "Caughlin Hall",
+          "lat": 40.030696999999996,
+          "lng": -75.34124299999999,
+          "distanceM": 336,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/connelly-center": {
+    "name": "Connelly Center",
+    "lat": 40.0372,
+    "lng": -75.3402,
+    "google": {
+      "reason": "name matches but 159 m away",
+      "candidates": [
+        {
+          "id": "ChIJQ2NaaeK_xokRxsWp0ii-AWA",
+          "name": "Connelly Center",
+          "lat": 40.035771,
+          "lng": -75.34007600000001,
+          "distanceM": 159,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/corr-hall-arch": {
+    "name": "Corr Hall Arch",
+    "lat": 40.03656,
+    "lng": -75.34127,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJC6KBoFiVxokR7Yzn8nbgNZc",
+          "name": "Corr Hall",
+          "lat": 40.036553,
+          "lng": -75.341404,
+          "distanceM": 11,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ4Uy1oViVxokRU0BejnqA-Qg",
+          "name": "Corr Chapel",
+          "lat": 40.0363611,
+          "lng": -75.34136389999999,
+          "distanceM": 24,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJGa7Fj2CVxokRgaNnObhd0uA",
+          "name": "Arch Hall",
+          "lat": 40.0343297,
+          "lng": -75.3434217,
+          "distanceM": 308,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/donahue-hall": {
+    "name": "Donahue Hall",
+    "lat": 40.0324,
+    "lng": -75.3446,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJMzIJxleVxokRGrgScSR-sKk",
+          "name": "Donahue Hall",
+          "lat": 40.0308425,
+          "lng": -75.3424021,
+          "distanceM": 255,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJZekLxleVxokRE1WzqMQHr_4",
+          "name": "Donahue Hall",
+          "lat": 40.030817000000006,
+          "lng": -75.34232899999999,
+          "distanceM": 261,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ0XZ2hU-k44kRqlGBe-StCaA",
+          "name": "Donahue Hall",
+          "lat": 42.65329510000001,
+          "lng": -71.3206953,
+          "distanceM": 444624,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/dougherty-hall": {
+    "name": "Dougherty Hall",
+    "lat": 40.0368,
+    "lng": -75.34,
+    "google": {
+      "reason": "name matches but 186 m away",
+      "candidates": [
+        {
+          "id": "ChIJKb6ieOK_xokRBNZVjJVPSPM",
+          "name": "Dougherty Hall",
+          "lat": 40.035388,
+          "lng": -75.341178,
+          "distanceM": 186,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/driscoll-hall": {
+    "name": "Driscoll Hall",
+    "lat": 40.0366,
+    "lng": -75.3393,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJXyp3tuO_xokRVj-BO_m4WLo",
+          "name": "Driscoll Hall",
+          "lat": 40.0357205,
+          "lng": -75.33786180000001,
+          "distanceM": 157,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJP0s2tuO_xokR2evKZzeowKs",
+          "name": "Driscoll Hall",
+          "lat": 40.035745999999996,
+          "lng": -75.33779,
+          "distanceM": 160,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/farley-hall": {
+    "name": "Farley Hall",
+    "lat": 40.0403,
+    "lng": -75.3478,
+    "google": {
+      "reason": "name matches but 369 m away",
+      "candidates": [
+        {
+          "id": "ChIJeZx4CF-VxokRWmXGlhUo9Io",
+          "name": "Farley Hall",
+          "lat": 40.040078,
+          "lng": -75.343474,
+          "distanceM": 369,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/finneran-pavilion": {
+    "name": "Finneran Pavilion",
+    "lat": 40.0344,
+    "lng": -75.3456,
+    "google": {
+      "reason": "name matches but 850 m away",
+      "candidates": [
+        {
+          "id": "ChIJSw9KceO_xokR2Kry7sRH5XM",
+          "name": "Finneran Pavilion",
+          "lat": 40.033675599999995,
+          "lng": -75.33566189999999,
+          "distanceM": 850,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/gallen-hall": {
+    "name": "Gallen Hall",
+    "lat": 40.0407,
+    "lng": -75.3472,
+    "google": {
+      "reason": "name matches but 274 m away",
+      "candidates": [
+        {
+          "id": "ChIJpU5ArF-VxokROUL06dyB66U",
+          "name": "Gallen Hall",
+          "lat": 40.040805,
+          "lng": -75.34397899999999,
+          "distanceM": 274,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/good-counsel-hall": {
+    "name": "Good Counsel Hall",
+    "lat": 40.0328,
+    "lng": -75.344,
+    "google": {
+      "reason": "name matches but 180 m away",
+      "candidates": [
+        {
+          "id": "ChIJy1nzu1eVxokRcE6t16TrQes",
+          "name": "Good Counsel Hall",
+          "lat": 40.031335999999996,
+          "lng": -75.3430979,
+          "distanceM": 180,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/jackson-hall": {
+    "name": "Jackson Hall",
+    "lat": 40.0401,
+    "lng": -75.347,
+    "google": {
+      "reason": "name matches but 267 m away",
+      "candidates": [
+        {
+          "id": "ChIJzThFS16VxokRBf7Zfnrd6p8",
+          "name": "Jackson Hall",
+          "lat": 40.041311,
+          "lng": -75.34429,
+          "distanceM": 267,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/katharine-hall": {
+    "name": "Katharine Hall",
+    "lat": 40.0322,
+    "lng": -75.3442,
+    "google": {
+      "reason": "name matches but 333 m away",
+      "candidates": [
+        {
+          "id": "ChIJOZ8lZv2_xokROpEoTOTm5U0",
+          "name": "St. Katharine Hall",
+          "lat": 40.031006,
+          "lng": -75.340615,
+          "distanceM": 333,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/klekotka-hall": {
+    "name": "Klekotka Hall",
+    "lat": 40.0409,
+    "lng": -75.3478,
+    "google": {
+      "reason": "name matches but 458 m away",
+      "candidates": [
+        {
+          "id": "ChIJUUzNnl-VxokRs7EfPvXwyqA",
+          "name": "Klekotka Hall",
+          "lat": 40.040496999999995,
+          "lng": -75.342444,
+          "distanceM": 458,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/mcguire-hall": {
+    "name": "McGuire Hall",
+    "lat": 40.033,
+    "lng": -75.3448,
+    "google": {
+      "reason": "name matches but 377 m away",
+      "candidates": [
+        {
+          "id": "ChIJ6yyN0VeVxokRc1AP-qT1DK0",
+          "name": "McGuire Hall",
+          "lat": 40.030454999999996,
+          "lng": -75.341878,
+          "distanceM": 377,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/mendel-hall": {
+    "name": "Mendel Hall",
+    "lat": 40.0378,
+    "lng": -75.3428,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJlQVhNF-VxokRU7W7zHVXbv4",
+          "name": "Mendel Science Center",
+          "lat": 40.03789,
+          "lng": -75.342951,
+          "distanceM": 16,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "villanova/moulden-hall": {
+    "name": "Moulden Hall",
+    "lat": 40.0405,
+    "lng": -75.3468,
+    "google": {
+      "reason": "name matches but 338 m away",
+      "candidates": [
+        {
+          "id": "ChIJB0MJvF-VxokRUNveI6VZhKc",
+          "name": "Moulden Hall",
+          "lat": 40.041253,
+          "lng": -75.34295399999999,
+          "distanceM": 338,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/sheehan-hall": {
+    "name": "Sheehan Hall",
+    "lat": 40.0365,
+    "lng": -75.339,
+    "google": {
+      "reason": "name matches but 197 m away",
+      "candidates": [
+        {
+          "id": "ChIJs1sD9uK_xokRoPSbvxdKK54",
+          "name": "Sheehan Hall",
+          "lat": 40.034746999999996,
+          "lng": -75.339354,
+          "distanceM": 197,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/simpson-hall": {
+    "name": "Simpson Hall",
+    "lat": 40.0369,
+    "lng": -75.343,
+    "google": {
+      "reason": "name matches but 270 m away",
+      "candidates": [
+        {
+          "id": "ChIJvTwHdVmVxokRsMOfefABhEE",
+          "name": "Simpson Hall",
+          "lat": 40.035703999999996,
+          "lng": -75.345762,
+          "distanceM": 270,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJpYj720jHxokR3RbKaemud10",
+          "name": "Simpson Hall",
+          "lat": 39.9932454,
+          "lng": -75.2387285,
+          "distanceM": 10120,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/st-clare-hall": {
+    "name": "St. Clare Hall",
+    "lat": 40.0411,
+    "lng": -75.3472,
+    "google": {
+      "reason": "name matches but 246 m away",
+      "candidates": [
+        {
+          "id": "ChIJEYr_M16VxokRRdAkfhjzfO4",
+          "name": "St. Clare Hall",
+          "lat": 40.042091,
+          "lng": -75.344611,
+          "distanceM": 246,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/st-marys-hall": {
+    "name": "St. Mary's Hall",
+    "lat": 40.0395,
+    "lng": -75.3465,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJx0-pd1-VxokRF1313cCQ54I",
+          "name": "St. Mary's Hall Gymnasium",
+          "lat": 40.0400007,
+          "lng": -75.3421029,
+          "distanceM": 378,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJL8OQgF-VxokRK9As0ARj7YY",
+          "name": "Saint Mary Hall",
+          "lat": 40.0401631,
+          "lng": -75.3416733,
+          "distanceM": 417,
+          "nameMatch": false,
+          "overlap": 0.33
+        },
+        {
+          "id": "ChIJ-TGYiF-VxokR8KmoLV4XwW8",
+          "name": "W-1 St. Mary's Hall Lot",
+          "lat": 40.0407241,
+          "lng": -75.34148119999999,
+          "distanceM": 448,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/st-monica-hall": {
+    "name": "St. Monica Hall",
+    "lat": 40.0326,
+    "lng": -75.3436,
+    "google": {
+      "reason": "name matches but 296 m away",
+      "candidates": [
+        {
+          "id": "ChIJHQ9UQ_2_xokRDW5XbZ6iozA",
+          "name": "St. Monica Hall",
+          "lat": 40.031441,
+          "lng": -75.340476,
+          "distanceM": 296,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/stanford-hall": {
+    "name": "Stanford Hall",
+    "lat": 40.0325,
+    "lng": -75.3445,
+    "google": {
+      "reason": "name matches but 270 m away",
+      "candidates": [
+        {
+          "id": "ChIJEZNK41eVxokRoBlNBt6MeHA",
+          "name": "Stanford Hall",
+          "lat": 40.031873,
+          "lng": -75.3414409,
+          "distanceM": 270,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/sullivan-hall": {
+    "name": "Sullivan Hall",
+    "lat": 40.0368,
+    "lng": -75.3395,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ5aglUOK_xokRcAe_QiNunRI",
+          "name": "Sullivan Hall",
+          "lat": 40.035306,
+          "lng": -75.338904,
+          "distanceM": 174,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJeWNmUOK_xokR4T3KjdqlZMo",
+          "name": "Sullivan Hall",
+          "lat": 40.035180499999996,
+          "lng": -75.3386216,
+          "distanceM": 195,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ_4vePQDtxokRLAxEAJ5vskQ",
+          "name": "Sullivan Hall",
+          "lat": 40.027112300000006,
+          "lng": -75.511417,
+          "distanceM": 14677,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/tolentine-hall": {
+    "name": "Tolentine Hall",
+    "lat": 40.0362,
+    "lng": -75.343,
+    "google": {
+      "reason": "name matches but 160 m away",
+      "candidates": [
+        {
+          "id": "ChIJdz36F1mVxokRqe6HhuSUucE",
+          "name": "Tolentine Hall",
+          "lat": 40.036577799999996,
+          "lng": -75.3448143,
+          "distanceM": 160,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/vasey-hall": {
+    "name": "Vasey Hall",
+    "lat": 40.037,
+    "lng": -75.3398,
+    "google": {
+      "reason": "name matches but 209 m away",
+      "candidates": [
+        {
+          "id": "ChIJtY5QYeK_xokR18VcpyhTYxA",
+          "name": "Vasey Hall",
+          "lat": 40.035137999999996,
+          "lng": -75.340092,
+          "distanceM": 209,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/villanova-stadium": {
+    "name": "Villanova Stadium",
+    "lat": 40.033,
+    "lng": -75.3468,
+    "google": {
+      "reason": "name matches but 860 m away",
+      "candidates": [
+        {
+          "id": "ChIJU1CBR-O_xokRLqNFeB0NEZo",
+          "name": "Villanova Stadium",
+          "lat": 40.0329683,
+          "lng": -75.3366945,
+          "distanceM": 860,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "villanova/welsh-hall": {
+    "name": "Welsh Hall",
+    "lat": 40.0397,
+    "lng": -75.348,
+    "google": {
+      "reason": "name matches but 499 m away",
+      "candidates": [
+        {
+          "id": "ChIJLQD10F-VxokRs26fo70uaIc",
+          "name": "Welsh Hall",
+          "lat": 40.042177099999996,
+          "lng": -75.3431094,
+          "distanceM": 499,
+          "nameMatch": true,
+          "overlap": 1
         }
       ]
     }

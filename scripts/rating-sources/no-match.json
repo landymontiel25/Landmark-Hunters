@@ -155,6 +155,57 @@
   "el-escorial/valle-de-cuelgamuros": [
     "google"
   ],
+  "f1-circuits/circuit-zandvoort": [
+    "google"
+  ],
+  "f1-circuits/las-vegas-strip-circuit": [
+    "google"
+  ],
+  "f1-circuits/yas-marina-circuit": [
+    "google"
+  ],
+  "frankfurt/grueneburgpark": [
+    "google"
+  ],
+  "frankfurt/museum-angewandte-kunst": [
+    "google"
+  ],
+  "frankfurt/schirn-kunsthalle": [
+    "google"
+  ],
+  "lake-como/basilica-di-sant-abbondio": [
+    "google"
+  ],
+  "lake-como/brienno": [
+    "google"
+  ],
+  "lake-como/chiesa-santissima-trinita-argegno": [
+    "google"
+  ],
+  "lake-como/greenway-del-lago": [
+    "google"
+  ],
+  "lake-como/griante-waterfront": [
+    "google"
+  ],
+  "lake-como/menaggio-historic-center": [
+    "google"
+  ],
+  "lake-como/ristorante-terrazza-barchetta": [
+    "google"
+  ],
+  "lake-como/sacro-monte-di-ossuccio": [
+    "google"
+  ],
+  "lake-como/the-10-10-bench": [
+    "google"
+  ],
+  "lake-como/tremezzo-waterfront": [
+    "google"
+  ],
+  "lake-como/villa-oleandra-viewpoint": [
+    "google"
+  ],
   "madrid/auditorio-nacional-de-musica": [
     "google"
   ],
@@ -212,6 +263,69 @@
   "miami/ocean-drive": [
     "google"
   ],
+  "miami/osm-n12198008214": [
+    "google"
+  ],
+  "miami/osm-n3142396994": [
+    "google"
+  ],
+  "miami/osm-n367819407": [
+    "google"
+  ],
+  "miami/osm-n4110041150": [
+    "google"
+  ],
+  "miami/osm-n4110108022": [
+    "google"
+  ],
+  "miami/osm-n4209523097": [
+    "google"
+  ],
+  "miami/osm-n4224000190": [
+    "google"
+  ],
+  "miami/osm-n4587214222": [
+    "google"
+  ],
+  "miami/osm-n5770386029": [
+    "google"
+  ],
+  "miami/osm-n6018250453": [
+    "google"
+  ],
+  "miami/osm-n6037322170": [
+    "google"
+  ],
+  "miami/osm-n6059013223": [
+    "google"
+  ],
+  "miami/osm-n6073275079": [
+    "google"
+  ],
+  "miami/osm-n6114243285": [
+    "google"
+  ],
+  "miami/osm-n6440668419": [
+    "google"
+  ],
+  "miami/osm-n7527993810": [
+    "google"
+  ],
+  "miami/osm-n7844732317": [
+    "google"
+  ],
+  "miami/osm-n9173305516": [
+    "google"
+  ],
+  "miami/osm-n9397939004": [
+    "google"
+  ],
+  "miami/osm-w113657169": [
+    "google"
+  ],
+  "miami/osm-w1314522471": [
+    "google"
+  ],
   "miami/titanic-brewing-company": [
     "google"
   ],
@@ -230,10 +344,28 @@
   "milan/citylife-tre-torri": [
     "google"
   ],
+  "milan/civico-museo-archeologico-milano": [
+    "google"
+  ],
+  "milan/curva-parabolica-monza": [
+    "google"
+  ],
+  "milan/gelateria-la-romana-monza": [
+    "google"
+  ],
+  "milan/milan-malpensa-airport": [
+    "google"
+  ],
   "milan/milano-centrale": [
     "google"
   ],
+  "milan/monza-banked-oval": [
+    "google"
+  ],
   "milan/monza-park": [
+    "google"
+  ],
+  "milan/monza-rettifilo-podium": [
     "google"
   ],
   "milan/musei-civici-di-monza": [
@@ -243,6 +375,9 @@
     "google"
   ],
   "milan/naviglio-grande": [
+    "google"
+  ],
+  "milan/orto-botanico-di-brera": [
     "google"
   ],
   "milan/piazza-mercanti": [
@@ -260,6 +395,15 @@
   "milan/royal-villa-of-monza": [
     "google"
   ],
+  "milan/variante-ascari-monza": [
+    "google"
+  ],
+  "milan/via-italia-monza": [
+    "google"
+  ],
+  "milan/vigna-di-leonardo": [
+    "google"
+  ],
   "nyc/grants-tomb": [
     "google"
   ],
@@ -270,6 +414,45 @@
     "google"
   ],
   "nyc/wall-street-nyse": [
+    "google"
+  ],
+  "paris/les-invalides": [
+    "google"
+  ],
+  "philly/anthony-wayne-monument": [
+    "google"
+  ],
+  "philly/appleford-estate": [
+    "google"
+  ],
+  "philly/chanticleer-garden": [
+    "google"
+  ],
+  "philly/elmwood-park-zoo": [
+    "google"
+  ],
+  "philly/harriton-house": [
+    "google"
+  ],
+  "philly/jenkins-arboretum-and-gardens": [
+    "google"
+  ],
+  "philly/laurel-hill-west-cemetery": [
+    "google"
+  ],
+  "philly/national-memorial-arch": [
+    "google"
+  ],
+  "philly/schuylkill-river-trail": [
+    "google"
+  ],
+  "philly/stoneleigh-a-natural-garden": [
+    "google"
+  ],
+  "philly/the-willows-park-and-mansion": [
+    "google"
+  ],
+  "philly/washingtons-headquarters": [
     "google"
   ],
   "san-francisco/alcatraz-island": [
@@ -447,6 +630,33 @@
     "google"
   ],
   "silicon-valley/zilog-federico-faggin-origin": [
+    "google"
+  ],
+  "switzerland/eth-zurich": [
+    "google"
+  ],
+  "switzerland/federal-palace-of-switzerland": [
+    "google"
+  ],
+  "switzerland/gurten": [
+    "google"
+  ],
+  "switzerland/kkl-luzern": [
+    "google"
+  ],
+  "switzerland/pilatus-kulm": [
+    "google"
+  ],
+  "switzerland/st-pierre-cathedral-geneva": [
+    "google"
+  ],
+  "villanova/erin-pub": [
+    "google"
+  ],
+  "villanova/rudolph-hall": [
+    "google"
+  ],
+  "villanova/the-awakening-the-oreo": [
     "google"
   ]
 }
