@@ -13,6 +13,7 @@ import { attachCheckinPhoto } from '../lib/leaderboard';
 import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
+import TipComposer from './tips/TipComposer';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
@@ -43,6 +44,8 @@ export default function CheckInReview() {
   const [photoFiles, setPhotoFiles] = useState([]);
   const [photoPreviews, setPhotoPreviews] = useState([]);
   const [saving, setSaving] = useState(false);
+  // 'offer' | 'open' | 'done': the "Share a tip for others?" step after a verified visit.
+  const [tipState, setTipState] = useState('offer');
   const [msg, setMsg] = useState(null);
   // The check-in write itself failed: shown with Try again, and everything
   // you picked (rating, comment, photos) stays in the form.
@@ -265,6 +268,27 @@ export default function CheckInReview() {
               <p className="screen-subtitle" style={{ marginTop: 8, marginBottom: 0 }}>
                 {msg}
               </p>
+            )}
+            {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
+            {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user && tipState !== 'done' && (
+              <div style={{ marginTop: 12 }}>
+                {tipState === 'open' ? (
+                  <TipComposer
+                    uid={user.uid}
+                    checkinId={presenceResult.checkinId}
+                    landmarkName={justCheckedIn.name}
+                    onCancel={() => setTipState('done')}
+                    onPosted={(out) => {
+                      setTipState('done');
+                      setMsg(out?.status === 'held' ? 'Thanks! Your tip shows once it is reviewed.' : 'Thanks! Your tip is up on the landmark page.');
+                    }}
+                  />
+                ) : (
+                  <button type="button" className="btn btn-ghost btn-block" onClick={() => setTipState('open')}>
+                    {'\u{1F4A1}'} Share a tip for others?
+                  </button>
+                )}
+              </div>
             )}
             <button className="btn btn-primary btn-block" style={{ marginTop: 16 }} onClick={close}>
               Done

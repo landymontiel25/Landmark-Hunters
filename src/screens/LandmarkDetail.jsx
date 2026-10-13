@@ -41,6 +41,7 @@ import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
 import RatingStars from '../components/RatingStars';
 import RatingsSection from '../components/ratings/RatingsSection';
+import TipsSection from '../components/tips/TipsSection';
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton from '../components/SaveLandmarkButton';
@@ -961,6 +962,8 @@ function LandmarkDetailBody() {
           {landmark.factSources && Object.keys(landmark.factSources).length > 0 && ' · Linked facts come from the pages shown beside them'}
         </p>
       )}
+
+      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} />}
 
       {firebaseEnabled && user && (
         <div className="card checkin-stats-card">

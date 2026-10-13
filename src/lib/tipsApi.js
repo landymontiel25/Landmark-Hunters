@@ -26,3 +26,21 @@ export const deleteAllMyTips = (opts) => call('/api/post-tip', { body: { action:
 export const fetchTips = (region, landmarkId, opts) => call(`/api/tips?region=${encodeURIComponent(region)}&landmarkId=${encodeURIComponent(landmarkId)}`, { method: 'GET', ...opts });
 export const reactToTip = (tipId, kind, on, opts) => call('/api/tips', { body: { action: 'react', tipId, kind, on }, ...opts });
 export const reportTip = (tipId, reason, opts) => call('/api/tips', { body: { action: 'report', tipId, reason }, ...opts });
+
+// Uploads a tip photo to tip_photos/{uid}/ (storage.rules: the owner's own
+// folder, images under 5 MB, never overwritten) and returns its download
+// URL. Shrunk first: a phone photo is often over 5 MB.
+export async function uploadTipPhoto(uid, file) {
+  const [{ ref, uploadBytes, getDownloadURL }, { storage }, { shrinkPhoto }] = await Promise.all([
+    import('firebase/storage'),
+    import('./firebase'),
+    import('./shrinkPhoto'),
+  ]);
+  if (!storage || !uid || !file) throw new Error('Photos are not available right now.');
+  const small = await shrinkPhoto(file, 1600, 0.82);
+  if (small.size >= 5 * 1024 * 1024) throw Object.assign(new Error('That photo is too large (the limit is 5 MB).'), { userMessage: 'That photo is too large (the limit is 5 MB).' });
+  const name = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+  const r = ref(storage, `tip_photos/${uid}/${name}`);
+  await uploadBytes(r, small, { contentType: small.type || 'image/jpeg' });
+  return getDownloadURL(r);
+}

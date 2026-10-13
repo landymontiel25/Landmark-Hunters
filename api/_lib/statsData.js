@@ -76,6 +76,8 @@ export async function loadStatsData(db) {
         pickType: x.pickType ?? null,
         requestFor: x.requestFor,
         isTest: x.isTest === true,
+        surface: x.surface ?? null,
+        tipId: typeof x.tipId === 'string' ? x.tipId : null,
         categories: Array.isArray(x.categories) ? x.categories.slice(0, 3) : [],
         // Mapr Phase 1 telemetry (src/lib/recommendationLog.js telemetryFields).
         ...(x.telemetry === true
@@ -130,5 +132,9 @@ export async function loadStatsData(db) {
       return { userId: parentId(d), at: ms(x.at), score: x.score ?? null, baselineScore: x.baselineScore ?? null, ratingsCount: x.ratingsCount };
     }),
   ]);
-  return { users, openDays, reviews, pickFeedback, recommendationLog, checkins, referrals, placeScores, tasteHistory, truncated };
+  // Tip impressions ('landmark-page', Phase 1) share the collection but are
+  // not Mapr picks: kept apart so no Mapr metric counts them.
+  const tipImpressions = recommendationLog.filter((r) => r.surface === 'landmark-page');
+  const picks = recommendationLog.filter((r) => r.surface !== 'landmark-page');
+  return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, checkins, referrals, placeScores, tasteHistory, truncated };
 }

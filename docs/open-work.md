@@ -118,7 +118,15 @@ verified account records `tip_views` for the Phase 4 "went" count. Photos on tip
 `VITE_FIREBASE_STORAGE_BUCKET` in the server's environment too (Vercel
 gives functions every project variable); without it every photo is
 refused.
-Next: the tips UI, the dashboard Content page.
+UI shipped: the check-in screen offers "Share a tip for others?" after a
+verified visit (`components/tips/TipComposer.jsx`), and landmark pages show
+"From people who went" under the facts (`components/tips/TipsSection.jsx`)
+with Helpful, Save, Report (with a reason) and Block, your own tip's
+status, and "Share a tip for others" for 30 days after a verified visit.
+Each tip shown is logged to `recommendation_log` with surface
+`landmark-page` and its `tipId`; `statsData.js` keeps those rows out of
+every Mapr metric (`tipImpressions`). Legal explains tips and how to
+report one; APP_HELP describes tips. Next: the dashboard Content page.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

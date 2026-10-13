@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { TIP_MAX_CHARS, TIP_MAX_LINKS, TIP_MIN_CHARS, TIP_RATE_LIMIT, TIP_REPORT_HIDE, TIP_CHECKIN_MAX_AGE_DAYS, TIP_TAGS } from '../../src/lib/tips.js';
 import { APP_HELP } from './appHelp.js';
 import { MIN_RATINGS_FOR_PICKS, DEFAULT_DISTANCE_MI } from '../../src/lib/nearbyPicks.js';
 import { MAX_REVIEW_PHOTOS } from '../../src/lib/reviews.js';
@@ -42,5 +43,12 @@ describe('APP_HELP stays in sync with code constants', () => {
   });
   it('explains the Just me / A group question', () => {
     expect(APP_HELP).toContain('"Just me" or "A group"');
+  });
+  it('describes tips with the same numbers the server enforces', () => {
+    expect(APP_HELP).toContain(`${TIP_MIN_CHARS} to ${TIP_MAX_CHARS} characters`);
+    expect(APP_HELP).toContain(`${TIP_RATE_LIMIT.limit} tips an hour, at most ${TIP_MAX_LINKS} links`);
+    expect(APP_HELP).toContain(`${TIP_REPORT_HIDE} reports from different people hide the tip`);
+    expect(APP_HELP).toContain(`under ${TIP_CHECKIN_MAX_AGE_DAYS} days old`);
+    for (const t of TIP_TAGS) expect(APP_HELP).toContain(t.label);
   });
 });

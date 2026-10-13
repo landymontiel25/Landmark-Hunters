@@ -27,6 +27,11 @@ vi.mock('../lib/MyPhotosContext', () => ({ useMyPhotos: () => photosState }));
 vi.mock('../lib/reviews', () => ({ submitReview: vi.fn(), ratingDraftKey: () => null }));
 vi.mock('../lib/leaderboard', () => ({ attachCheckinPhoto: vi.fn() }));
 vi.mock('../lib/imageUtils', () => ({ pickPhoto: vi.fn() }));
+vi.mock('./CheckInBlast', async () => {
+  const { useEffect } = await import('react');
+  return { default: ({ onDone }) => { useEffect(() => { onDone(); }, [onDone]); return null; } };
+});
+vi.mock('./tips/TipComposer', () => ({ default: () => <div>TIP COMPOSER</div> }));
 
 import CheckInReview from './CheckInReview';
 import { submitReview } from '../lib/reviews';
@@ -115,5 +120,30 @@ describe('CheckInReview background save errors', () => {
     await act(async () => rejectSave(new Error('offline')));
     expect(container.textContent).toContain('Place B');
     expect(container.textContent).not.toContain("couldn't save");
+  });
+});
+
+describe('CheckInReview after a verified visit', () => {
+  it('offers "Share a tip for others?" once posted, only when the server verified this visit', async () => {
+    checkInState.justCheckedIn = { id: 'lm1', name: 'Test Cafe', region: 'r', categories: ['food'] };
+    checkInState.checkInOptions = { ratingOnly: false, requireComment: false };
+    checkInState.claimedMap = { lm1: true };
+    checkInState.commitCheckIn = async () => ({ claimed: true, checkinId: 'me_lm1' });
+    ratingsState.myReviews = { lm1: { ratingTier: 'highly-recommend', comment: '', highlights: [] } };
+    const mount = async () => {
+      const c = document.createElement('div');
+      document.body.appendChild(c);
+      await act(async () => createRoot(c).render(<CheckInReview />));
+      await act(async () => [...c.querySelectorAll('button')].find((b) => b.textContent === 'Post').click());
+      await act(async () => {});
+      return c;
+    };
+    checkInState.presenceResult = { verified: false, reason: 'too-far', landmarkId: 'lm1', checkinId: 'me_lm1' };
+    expect((await mount()).textContent).not.toContain('Share a tip for others?');
+    checkInState.presenceResult = { verified: true, landmarkId: 'lm1', checkinId: 'me_lm1' };
+    const c = await mount();
+    expect(c.textContent).toContain('Share a tip for others?');
+    await act(async () => [...c.querySelectorAll('button')].find((b) => b.textContent.includes('Share a tip for others?')).click());
+    expect(c.textContent).toContain('TIP COMPOSER');
   });
 });
