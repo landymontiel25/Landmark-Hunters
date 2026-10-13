@@ -17,7 +17,7 @@ import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../.
 import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf } from '../../src/lib/maprRank/ncf.js';
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
-import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
+import { writeDashboardDaily, writeDashboardModels, writeNeighborMetrics } from './dashboardDocs.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 import { followUpkeep } from './follows.js';
@@ -330,12 +330,7 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
     // network_metrics doc.
     try {
       upkeep.neighbors = await runNeighbors(db, data, { nowMs: now });
-      if (!upkeep.neighbors.skipped) {
-        await db.collection('network_metrics').doc(date).set(
-          { neighbors_active: upkeep.neighbors.active, neighbors_with_any: upkeep.neighbors.withNeighbors, neighbors_with_high: upkeep.neighbors.withHigh },
-          { merge: true }
-        );
-      }
+      await writeNeighborMetrics(db, date, upkeep.neighbors);
     } catch (e) {
       console.error('taste neighbors failed:', e?.message || e);
     }

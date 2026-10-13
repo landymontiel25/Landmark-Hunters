@@ -15,7 +15,8 @@ export function loadMyNeighbors(myUid, { nowMs = Date.now() } = {}) {
   const promise = getDoc(doc(db, NEIGHBORS_COLLECTION, myUid))
     .then((s) => (s.exists() ? neighborsFromDoc(s.data()) : null))
     .catch(() => {
-      cache = null; // retry next time
+      // Retry next time, unless a newer read already replaced this one.
+      if (cache?.promise === promise) cache = null;
       return null;
     });
   cache = { uid: myUid, at: nowMs, promise };

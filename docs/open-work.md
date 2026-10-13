@@ -206,9 +206,11 @@ people with a live tip, overall and per city, to `mapr_neighbors/{uid}`
 docs of people no longer active. Both Mapr loaders (`modelStore.js` on the
 phone, `maprServerModels.js` for chat) now load `neighbors`; nothing scores
 with it until Phase 3. Profiles show "Taste match: High / Some" next to the
-follower count, never a number. The doc holds scores, so the owner could
-see the numbers for their own matches with dev tools; the app never shows
-them. The Network dashboard page shows how many active people have a
+follower count, never a number. The doc holds scores, which its owner
+could read with dev tools, so rating agreement (step 3) only uses a
+finder's ratings where the reader could already read them (public profile,
+or friends); otherwise the score is taste alone (a security review showed
+fake accounts could otherwise work out a private person's ratings). The Network dashboard page shows how many active people have a
 neighbor. Phase 2 is complete; next is Phase 3 (community picks).
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)

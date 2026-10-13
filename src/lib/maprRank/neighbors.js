@@ -1,4 +1,5 @@
 import { effectiveTagScores } from '../tagScores.js';
+import { canonicalRegionId } from '../../data/regions.js';
 
 // Taste neighbors (docs/discovery-network-plan.md, steps 1 to 4). Pure, so
 // the nightly job (api/_lib/neighborsJob.js), the phone and the server
@@ -84,7 +85,11 @@ export function tasteMatchLabel(score) {
 // applied. people: { uid -> { vector, ratings, tiers } } for that city (or
 // overall). skip(uid): true for anyone who must not be a neighbor (a block
 // either way).
-export function rankNeighbors(uid, people, candidates, { skip = () => false, top = TOP_NEIGHBORS } = {}) {
+// canSeeRatings(uid): may this person read that candidate's ratings (their
+// profile is public, or they're friends)? When not, agreement stays out and
+// the score is taste alone: the score (readable by its owner) must never
+// reveal a rating the owner couldn't read anyway.
+export function rankNeighbors(uid, people, candidates, { skip = () => false, top = TOP_NEIGHBORS, canSeeRatings = () => true } = {}) {
   const me = people[uid];
   if (!me) return [];
   const out = [];
@@ -92,7 +97,8 @@ export function rankNeighbors(uid, people, candidates, { skip = () => false, top
     if (c === uid || skip(c)) continue;
     const them = people[c];
     if (!them) continue;
-    const score = neighborScore(tasteSim(me.vector, them.vector, me.ratings, them.ratings), agreement(me.tiers, them.tiers));
+    const agree = canSeeRatings(c) ? agreement(me.tiers, them.tiers) : null;
+    const score = neighborScore(tasteSim(me.vector, them.vector, me.ratings, them.ratings), agree);
     if (isNeighbor(score)) out.push({ uid: c, score: Math.round(score * 1000) / 1000 });
   }
   return out.sort((a, b) => b.score - a.score || (a.uid < b.uid ? -1 : 1)).slice(0, top);
@@ -103,7 +109,9 @@ export function rankNeighbors(uid, people, candidates, { skip = () => false, top
 export function neighborScoreOf(doc, otherUid, region = null) {
   if (!doc || !otherUid) return null;
   const pick = (list) => (Array.isArray(list) ? list.find((n) => n.uid === otherUid)?.score ?? null : null);
-  return (region && pick(doc.byRegion?.[region])) ?? pick(doc.global);
+  // Lists are keyed by the canonical region (an old id folded into Miami
+  // reads Miami's).
+  return (region && pick(doc.byRegion?.[canonicalRegionId(region)])) ?? pick(doc.global);
 }
 
 // mapr_neighbors/{uid} as the Mapr loaders hand it to ranking: lists of

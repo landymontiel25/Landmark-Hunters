@@ -21,10 +21,10 @@ export default function Network() {
         <section className="card p-4" aria-label="Network today">
           <p className="font-medium">Follows ({latest.date})</p>
           <p className="text-sm secondary mt-1">
-            {latest.follows_total} follows · {latest.new_follows} new that day · {latest.people_following} people follow someone · {latest.people_followed} people have a follower
+            {latest.follows_total ?? 0} follows · {latest.new_follows ?? 0} new that day · {latest.people_following ?? 0} people follow someone · {latest.people_followed ?? 0} people have a follower
           </p>
           <p className="text-xs muted mt-1">
-            Launch area: {latest.launch_active} active in the last 30 days · {latest.launch_following_discoverer} follow a discoverer ({pct(latest.launch_follow_rate)}) · {latest.discoverers} discoverers with a live tip
+            Launch area: {latest.launch_active ?? 0} active in the last 30 days · {latest.launch_following_discoverer ?? 0} follow a discoverer ({pct(latest.launch_follow_rate)}) · {latest.discoverers ?? 0} discoverers with a live tip
           </p>
           {latest.neighbors_active != null && (
             <p className="text-xs muted mt-1">

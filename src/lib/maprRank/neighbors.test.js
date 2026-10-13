@@ -74,6 +74,17 @@ describe('rankNeighbors and neighborScoreOf', () => {
     expect(out.map((n) => n.uid)).toEqual(['twin', 'near']);
     expect(out[0].score).toBeCloseTo(1, 3);
   });
+  it('leaves agreement out when the ratings are not readable, so the score is taste alone', () => {
+    const tiers = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [`p${i}`, 'highly-recommend']));
+    const ppl = {
+      me: { vector: { food: 1 }, ratings: 20, tiers },
+      priv: { vector: { food: 1, parks: 1 }, ratings: 20, tiers },
+    };
+    const seen = rankNeighbors('me', ppl, ['priv'])[0].score;
+    const hidden = rankNeighbors('me', ppl, ['priv'], { canSeeRatings: () => false })[0].score;
+    expect(hidden).toBeCloseTo(Math.SQRT1_2, 3);
+    expect(seen).toBeCloseTo(0.6 * Math.SQRT1_2 + 0.4, 3);
+  });
   it('a dad with different taste is not paired', () => {
     expect(rankNeighbors('me', people, ['opposite'])).toEqual([]);
   });
@@ -81,6 +92,8 @@ describe('rankNeighbors and neighborScoreOf', () => {
     const doc = { global: [{ uid: 'a', score: 0.4 }], byRegion: { philly: [{ uid: 'a', score: 0.7 }] } };
     expect(neighborScoreOf(doc, 'a', 'philly')).toBe(0.7);
     expect(neighborScoreOf(doc, 'a', 'miami')).toBe(0.4);
+    const miami = { global: [], byRegion: { miami: [{ uid: 'a', score: 0.5 }] } };
+    expect(neighborScoreOf(miami, 'a', 'coral-gables')).toBe(0.5);
     expect(neighborScoreOf(doc, 'b', 'philly')).toBeNull();
     expect(neighborScoreOf(null, 'a')).toBeNull();
   });

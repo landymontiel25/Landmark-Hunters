@@ -50,6 +50,7 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
   const [match, setMatch] = useState(null);
   useEffect(() => {
     let cancelled = false;
+    setMatch(null);
     tasteMatchFor(myUid, uid, region)
       .then((m) => !cancelled && setMatch(m))
       .catch(() => {});

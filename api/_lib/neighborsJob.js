@@ -1,5 +1,5 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { canonicalRegionId } from '../../src/data/regions.js';
+import { canonicalLandmarkId, canonicalRegionId } from '../../src/data/regions.js';
 import { activeUsers } from '../../src/lib/community.js';
 import { NEIGHBORS_COLLECTION } from '../../src/lib/maprRank/config.js';
 import { NEIGHBOR_HIGH, rankNeighbors, tasteVector } from '../../src/lib/maprRank/neighbors.js';
@@ -11,9 +11,9 @@ import { NEIGHBOR_HIGH, rankNeighbors, tasteVector } from '../../src/lib/maprRan
 // people out of each other's lists. Docs of people no longer active are
 // deleted, so a deleted account's list goes too.
 
-const PROFILE_FIELDS = ['tagScores', 'tagScoresAt', 'capAnswers', 'tagBoosts', 'tagCounts'];
+const PROFILE_FIELDS = ['tagScores', 'tagScoresAt', 'capAnswers', 'tagBoosts', 'tagCounts', 'public'];
 
-export function buildNeighborDocs({ profiles, reviews, tips, blocks, active, nowMs }) {
+export function buildNeighborDocs({ profiles, reviews, tips, blocks, friendEdges = new Set(), active, nowMs }) {
   const live = (tips || []).filter((t) => t.status === 'live' && !t.hidden && t.authorUid);
   const finders = [...new Set(live.map((t) => t.authorUid))];
   const findersIn = new Map();
@@ -36,18 +36,23 @@ export function buildNeighborDocs({ profiles, reviews, tips, blocks, active, now
   const tiersBy = new Map();
   for (const r of reviews || []) {
     if (!r.userId || !r.landmarkId || !r.ratingTier) continue;
-    if (!tiersAll.has(r.userId)) tiersAll.set(r.userId, {});
-    tiersAll.get(r.userId)[r.landmarkId] = r.ratingTier;
+    // One key per real place: the canonical region and the place's current
+    // id (a legacy id and its new one are the same place).
     const region = r.region ? canonicalRegionId(r.region) : null;
+    const place = canonicalLandmarkId(r.landmarkId, region);
+    if (!tiersAll.has(r.userId)) tiersAll.set(r.userId, {});
+    tiersAll.get(r.userId)[`${region || ''}/${place}`] = r.ratingTier;
     if (!region) continue;
     const k = `${r.userId}|${region}`;
     if (!tiersBy.has(k)) tiersBy.set(k, {});
-    tiersBy.get(k)[r.landmarkId] = r.ratingTier;
+    tiersBy.get(k)[place] = r.ratingTier;
   }
-  const everyone = [...new Set([...active, ...finders])];
+  // The people a list needs: everyone ranked (active) and the finders it
+  // ranks (all of them overall, that city's in a city).
   const peopleFor = (region) => {
     const out = {};
-    for (const uid of everyone) {
+    const who = new Set([...active, ...(region ? findersIn.get(region) : finders)]);
+    for (const uid of who) {
       const profile = profiles.get(uid);
       if (!profile) continue;
       const all = tiersAll.get(uid) || {};
@@ -65,10 +70,15 @@ export function buildNeighborDocs({ profiles, reviews, tips, blocks, active, now
   const docs = new Map();
   for (const uid of active) {
     const skip = (c) => blocked.get(uid)?.has(c) === true;
-    const global = rankNeighbors(uid, overall, finders, { skip });
+    // Agreement uses a finder's ratings only where this person could read
+    // them (the reviews rule: a public profile, or friends). The score is
+    // owner-readable, so otherwise it would give away private ratings.
+    const canSeeRatings = (c) => profiles.get(c)?.public === true || friendEdges.has(`${uid}_${c}`);
+    const opts = { skip, canSeeRatings };
+    const global = rankNeighbors(uid, overall, finders, opts);
     const byRegion = {};
     for (const [region, set] of findersIn) {
-      const list = rankNeighbors(uid, byRegionPeople.get(region), [...set], { skip });
+      const list = rankNeighbors(uid, byRegionPeople.get(region), [...set], opts);
       if (list.length) byRegion[region] = list;
     }
     docs.set(uid, { global, byRegion });
@@ -79,7 +89,7 @@ export function buildNeighborDocs({ profiles, reviews, tips, blocks, active, now
 export async function runNeighbors(db, ds, { nowMs = Date.now() } = {}) {
   if ((ds.truncated || []).some((t) => t === 'reviews' || t === 'tips')) return { skipped: true };
   const active = activeUsers(ds, { nowMs, canonical: canonicalRegionId });
-  const finders = new Set((ds.tips || []).filter((t) => t.status === 'live' && !t.hidden).map((t) => t.authorUid));
+  const finders = new Set((ds.tips || []).filter((t) => t.status === 'live' && !t.hidden && typeof t.authorUid === 'string' && t.authorUid).map((t) => t.authorUid));
   const uids = [...new Set([...active, ...finders])];
   const profiles = new Map();
   for (let i = 0; i < uids.length; i += 300) {
@@ -88,13 +98,18 @@ export async function runNeighbors(db, ds, { nowMs = Date.now() } = {}) {
   }
   // Active and still has an account.
   const activeNow = new Set([...active].filter((u) => profiles.has(u)));
-  const blocks = (await db.collection('blocks').get()).docs.map((d) => d.data());
-  const docs = buildNeighborDocs({ profiles, reviews: ds.reviews, tips: ds.tips, blocks, active: activeNow, nowMs });
+  const [blockSnap, edgeSnap] = await Promise.all([db.collection('blocks').get(), db.collection('friend_edges').select().get()]);
+  const blocks = blockSnap.docs.map((d) => d.data());
+  // friend_edges ids are "{owner}_{friend}", the same id the rules check.
+  const friendEdges = new Set(edgeSnap.docs.map((d) => d.id));
+  const docs = buildNeighborDocs({ profiles, reviews: ds.reviews, tips: ds.tips, blocks, friendEdges, active: activeNow, nowMs });
 
   const ts = FieldValue.serverTimestamp();
   const existing = (await db.collection(NEIGHBORS_COLLECTION).select().get()).docs.map((d) => d.id);
-  const writes = [...docs].map(([uid, d]) => ['set', uid, { ...d, updatedAt: ts }]);
-  for (const id of existing) if (!docs.has(id)) writes.push(['delete', id]);
+  // Someone with no neighbor gets no doc (an old one is deleted).
+  const hasAny = (d) => d.global.length > 0 || Object.keys(d.byRegion).length > 0;
+  const writes = [...docs].filter(([, d]) => hasAny(d)).map(([uid, d]) => ['set', uid, { ...d, updatedAt: ts }]);
+  for (const id of existing) if (!docs.has(id) || !hasAny(docs.get(id))) writes.push(['delete', id]);
   for (let i = 0; i < writes.length; i += 400) {
     const batch = db.batch();
     for (const [op, id, data] of writes.slice(i, i + 400)) {
