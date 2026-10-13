@@ -27,7 +27,7 @@ const MAX_TIPS = 50;
 const VIEW_REFRESH_MS = 12 * 60 * 60 * 1000;
 export const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
 
-export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = Date.now() } = {}) {
+export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = Date.now(), recordViews = true } = {}) {
   // The place's live tips (two equality filters, no composite index), plus
   // your own tip by its id whatever its status, so the page can say it is
   // waiting for review or was removed. Sorted here, newest first.
@@ -57,7 +57,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   const viewRefs = others.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
   const [reactionSnaps, viewSnaps] = await Promise.all([
     reactionRefs.length ? db.getAll(...reactionRefs) : [],
-    viewRefs.length ? db.getAll(...viewRefs) : [],
+    recordViews && viewRefs.length ? db.getAll(...viewRefs) : [],
   ]);
   const mine = {};
   reactionSnaps.forEach((s, i) => {
@@ -68,7 +68,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   // post of the tip) never moves.
   const batch = db.batch();
   let writes = 0;
-  others.forEach(([tipId, t], i) => {
+  if (recordViews) others.forEach(([tipId, t], i) => {
     const prev = viewSnaps[i].exists && madeOnThisPost(viewSnaps[i].data(), t) ? viewSnaps[i].data() : null;
     if (prev && nowMs - (prev.lastAt || 0) < VIEW_REFRESH_MS) return;
     writes++;
@@ -187,7 +187,9 @@ async function handler(req, res) {
       const landmarkId = String(req.query?.landmarkId || '');
       if (!ID_RE.test(region) || !ID_RE.test(landmarkId)) return send(res, 400, { error: 'region and landmarkId are required.' });
       res.setHeader?.('Cache-Control', 'private, no-store');
-      return send(res, 200, await listTips(db, account.uid, { region, landmarkId }));
+      // Views count toward "went because of a tip", so only a verified
+      // account's are recorded.
+      return send(res, 200, await listTips(db, account.uid, { region, landmarkId }, { recordViews: account.emailVerified === true }));
     }
     const body = (req.body && typeof req.body === 'object' ? req.body : null) || {};
     if (typeof body.tipId !== 'string' || !ID_RE.test(body.tipId)) return send(res, 400, { error: 'tipId is required.' });

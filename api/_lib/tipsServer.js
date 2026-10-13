@@ -5,7 +5,10 @@ import { regionTimezone } from '../../src/lib/timezones.js';
 // Server helpers shared by api/post-tip.js and api/tips.js.
 
 export const HOUR_MS = 60 * 60 * 1000;
-export const ID_RE = /^[\w.-]{1,300}$/;
+// Ids as they reach Firestore paths: letters, digits, _ . - and never '.',
+// '..' or a reserved __name__.
+const ID_CHARS = /^[\w.-]{1,300}$/;
+export const ID_RE = { test: (v) => typeof v === 'string' && ID_CHARS.test(v) && v !== '.' && v !== '..' && !/^__.*__$/.test(v) };
 export const send = (res, code, body) => res.status(code).json(body);
 
 // The month of a visit ("2026-10"), all a tip keeps: the tip doc is
@@ -153,7 +156,6 @@ export function tipForViewer(id, tip, viewerUid) {
     tags: Array.isArray(tip.tags) ? tip.tags : [],
     photoURL: tip.photoURL || null,
     visitMonth: typeof tip.visitMonth === 'string' ? tip.visitMonth : null,
-    createdAt: toMs(tip.createdAt) ?? tip.createdAtMs ?? null,
     verified: tip.verified === true,
     counts: { helpful: tip.counts?.helpful || 0, saved: tip.counts?.saved || 0 },
     mine: tip.authorUid === viewerUid,

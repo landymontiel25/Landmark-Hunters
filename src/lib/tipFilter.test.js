@@ -18,7 +18,7 @@ describe('tip word filter', () => {
     expect(filterTipText('f a g g o t').reasons).toContain('slur');
   });
   it('leaves words that merely contain a listed word, and places like Dick\'s or a Nazi-era exhibit', () => {
-    for (const t of ['Kids snigger at the statue.', 'Built 1776-1783, 1812 wing added later.', 'Open 9-5, closed 12/24 and 12/25 2026.', 'Kids were sniggering at the statue.', "Dick's Sporting Goods is upstairs.", 'The Nazi-era exhibit is upstairs.', 'Graduated magna cum laude here.']) expect(filterTipText(t).flagged).toBe(false);
+    for (const t of ['Kids snigger at the statue.', 'Built 1776-1783, 1812 wing added later.', 'Open 9-5, closed 12/24 and 12/25 2026.', 'Kids were sniggering at the statue.', "Dick's Sporting Goods is upstairs.", 'The Nazi-era exhibit is upstairs.', 'Graduated magna cum laude here.', 'I will find you a seat if you ask.']) expect(filterTipText(t).flagged).toBe(false);
   });
   it('never joins real words across a sentence into a slur', () => {
     expect(filterTipText('You will get wet. Back entrance is drier.').flagged).toBe(false);

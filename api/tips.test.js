@@ -52,7 +52,7 @@ describe('api/tips: reading', () => {
   });
   it('never returns reporters, held reasons, gens or who marked a tip', async () => {
     const t = (await list()).body.tips.find((x) => !x.mine);
-    expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'createdAt', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitMonth'].sort());
+    expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitMonth'].sort());
   });
   it('gives the month of the visit, never the day or time', async () => {
     expect((await list()).body.tips.find((x) => x.id === 'ann_bell').visitMonth).toBe('2027-01');
@@ -77,6 +77,15 @@ describe('api/tips: reading', () => {
   });
   it('finds tips under a renamed place by its current id', async () => {
     expect((await list('old-bell')).body.tips.map((t) => t.id)).toContain('ann_bell');
+  });
+  it("an unverified account's views aren't recorded", async () => {
+    caller = { uid: 'me', emailVerified: false };
+    expect((await list()).code).toBe(200);
+    expect(Object.keys(db.docs).filter((k) => k.startsWith('tip_views/'))).toEqual([]);
+  });
+  it("ids '.', '..' and reserved names are refused with a 400", async () => {
+    for (const tipId of ['.', '..', '__x__']) expect((await call('POST', { body: { action: 'report', tipId, reason: 'spam' } })).code).toBe(400);
+    expect((await call('GET', { query: { region: 'philly', landmarkId: '..' } })).code).toBe(400);
   });
   it('needs a sign-in and a place', async () => {
     expect((await call('GET', { query: { region: 'philly' } })).code).toBe(400);

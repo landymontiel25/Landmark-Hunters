@@ -765,7 +765,7 @@ await seed(async (db) => {
   await setDoc(doc(db, 'tip_reactions/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', helpful: true, saved: false });
   await setDoc(doc(db, 'tip_views/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', at: 1 });
 });
-await t('tips: a signed-in user reads a live tip', () => assertSucceeds(getDoc(doc(as('bob'), 'tips/ann_lm1'))));
+await t("tips: another user can't read even a live tip straight from Firestore (api/tips.js serves them)", () => assertFails(getDoc(doc(as('bob'), 'tips/ann_lm1'))));
 await t('tips: signed out cannot read a tip', () => assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'tips/ann_lm1'))));
 await t('tips: held, hidden (2 reports) and removed tips are hidden from others', async () => {
   for (const id of ['ann_lm2', 'ann_lm3', 'ann_lm4']) await assertFails(getDoc(doc(as('bob'), `tips/${id}`)));

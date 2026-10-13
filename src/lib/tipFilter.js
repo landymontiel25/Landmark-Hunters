@@ -35,7 +35,7 @@ const WORDS = [
 ];
 // Threats, harassment and spam, as phrases on the normalized text.
 const PHRASES = [
-  /\bkill (?:yo)?u(?:rself)?\b/, /\bkill your ?self\b/, /\bgo die\b/, /\bi(?:'| wi)ll (?:find|hurt|kill) you\b/,
+  /\bkill (?:yo)?u(?:rself)?\b/, /\bkill your ?self\b/, /\bgo die\b/, /\bi(?:'| wi)ll (?:hurt|kill) you\b/,
   /\bshoot (?:up|you)\b/, /\bbomb (?:this|the)\b/, /\bdm me\b/, /\bpromo code\b/, /\bcoupon code\b/,
   /\bfollow me on\b/, /\bcheck out my\b/, /\bcash ?app\b/, /\bvenmo\b/, /\bcrypto\b/, /\bbitcoin\b/,
 ];

@@ -126,7 +126,7 @@ async function postTip(db, account, body) {
 // Takes a tip of yours down, in one transaction so a report landing
 // meanwhile is either counted or refused because the tip is gone:
 //   removed by a moderator    left as it is (the lock on the place holds)
-//   reported (even once)      withdrawn: hidden from everyone, kept with its
+//   hidden by reports         withdrawn: hidden from everyone, kept with its
 //                             reports for the owner's review; no new tip
 //                             there until the owner clears it
 //   otherwise                 deleted (live, or held by the filter and
@@ -142,7 +142,8 @@ async function retireTip(db, ref, uid, { forAccount = false, region = null } = {
     if (!snap.exists || snap.data().authorUid !== uid) return { code: 'missing' };
     if (region && canonicalRegionId(snap.data().region) !== canonicalRegionId(region)) return { code: 'missing' };
     const t = snap.data();
-    const kept = t.status === 'removed' || t.status === 'withdrawn' || (t.reportCount || 0) > 0;
+    // One report alone doesn't lock the place; a tip hidden by reports does.
+    const kept = t.status === 'removed' || t.status === 'withdrawn' || t.hidden === true;
     if (!kept) {
       tx.delete(ref);
       return { code: 'deleted', tip: t };

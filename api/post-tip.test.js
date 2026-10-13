@@ -151,9 +151,16 @@ describe('api/post-tip: deleting', () => {
     await call({ action: 'delete', landmarkId: 'bell' });
     expect(db.docs['tip_reactions/zed_me_bell']).toBeDefined();
   });
-  it('a reported tip is withdrawn, not deleted: its reports stay and it waits for review', async () => {
+  it('a tip with one report is still deleted normally', async () => {
     await post();
     db.docs['tips/me_bell'].reportCount = 1;
+    expect((await call({ action: 'delete', landmarkId: 'bell' })).body).toEqual({ ok: true });
+    expect(db.docs['tips/me_bell']).toBeUndefined();
+  });
+  it('a tip hidden by reports is withdrawn, not deleted: its reports stay and it waits for review', async () => {
+    await post();
+    db.docs['tips/me_bell'].reportCount = 2;
+    db.docs['tips/me_bell'].hidden = true;
     db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell', gen: db.docs['tips/me_bell'].gen };
     expect((await call({ action: 'delete', landmarkId: 'bell' })).body).toEqual({ ok: true, withdrawn: true });
     expect(db.docs['tips/me_bell']).toMatchObject({ status: 'withdrawn', text: 'Go early, quiet then.' });
@@ -187,7 +194,7 @@ describe('api/post-tip: account deletion', () => {
     caller = { uid: 'me', emailVerified: false };
     uploaded = new Set(['tip_photos/me/a.jpg', 'tip_photos/me/b.jpg', 'tip_photos/me/orphan.jpg']);
     db.docs['tips/me_a'] = { authorUid: 'me', status: 'removed', text: 'awful words', photoPath: 'tip_photos/me/a.jpg', reportCount: 2, gen: 'g1' };
-    db.docs['tips/me_r'] = { authorUid: 'me', status: 'live', text: 'reported once', reportCount: 1, gen: 'g2' };
+    db.docs['tips/me_r'] = { authorUid: 'me', status: 'live', text: 'reported twice', reportCount: 2, hidden: true, gen: 'g2' };
     db.docs['tips/me_b'] = { authorUid: 'me', status: 'live', photoPath: 'tip_photos/me/b.jpg', gen: 'g3' };
     db.docs['tips/you_x'] = { authorUid: 'you', status: 'live', counts: { helpful: 3, saved: 2 }, gen: 'gx' };
     db.docs['tips/you_y'] = { authorUid: 'you', status: 'live', counts: { helpful: 0, saved: 0 }, gen: 'gy-new' };
@@ -203,7 +210,7 @@ describe('api/post-tip: account deletion', () => {
     expect(code).toBe(200);
     expect(body).toMatchObject({ tips: 3, reactions: 2 });
     expect(db.docs['tips/me_a']).toMatchObject({ status: 'removed', text: 'awful words', authorName: 'Deleted account' });
-    expect(db.docs['tips/me_r']).toMatchObject({ status: 'withdrawn', text: 'reported once' });
+    expect(db.docs['tips/me_r']).toMatchObject({ status: 'withdrawn', text: 'reported twice' });
     expect(db.docs['tips/me_b']).toBeUndefined();
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });
     expect(db.docs['tips/you_y'].counts.helpful).toBe(0);
@@ -230,7 +237,7 @@ describe('api/post-tip: discarding an unposted photo', () => {
   });
   it('account deletion leaves photos and claims alone when a tip failed to retire', async () => {
     uploaded = new Set(['tip_photos/me/a.jpg']);
-    db.docs['tips/me_a'] = { authorUid: 'me', status: 'live', photoPath: 'tip_photos/me/a.jpg', reportCount: 1, gen: 'g1' };
+    db.docs['tips/me_a'] = { authorUid: 'me', status: 'live', photoPath: 'tip_photos/me/a.jpg', reportCount: 2, hidden: true, gen: 'g1' };
     db.docs['tip_photo_claims/tip_photos__me__a.jpg'] = { uid: 'me', tipId: 'me_a', path: 'tip_photos/me/a.jpg' };
     const real = db.runTransaction;
     db.runTransaction = async () => {

@@ -72,10 +72,10 @@ left behind when an account is deleted.
 Phase 1 (tips) in progress, owner asked 2026-10-13 to build Phases 1 to 6
 without the week of phone tuning or the 50-tip checkpoint. Shipped so far:
 the rules. `tips/{uid}_{landmarkId}` (one tip per person per place) is
-written only by the server; a single tip reads when live and not hidden
-with no block either way, or by its author or the admin. Lists are your own
-tips only (a list rule can't check blocks; other people's tips will come
-from `api/tips.js`). Reports go through the server too, stricter than the
+written only by the server. Clients read only their own tips (and the
+admin any): everyone else's come from `api/tips.js`, which hides blocks
+both ways and sends no report count, exact post time or held reasons
+(stricter than the plan's read rule). Reports go through the server too, stricter than the
 plan's "add your own uid to the report list". `tip_reactions` are owner
 reads, server writes; `tip_views` server-only. `recommendation_log` takes
 the `'landmark-page'` surface. Storage `tip_photos/{uid}/` takes the owner's
@@ -91,7 +91,7 @@ lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it;
 `tip_photo_claims/` keeps one photo to one tip, and the photo must already
 be uploaded. Each post of a tip has its own `gen`; marks, reports and views
 carry it, so leftovers from an earlier post at the same id never count. A
-reported tip its author deletes is withdrawn (status `withdrawn`): hidden
+tip hidden by reports that its author deletes is withdrawn (status `withdrawn`): hidden
 from everyone, kept with its reports for the owner's review, and no new tip
 there until the owner clears it. An unreported one (live, or held by the
 filter) is deleted. Tip photos can't be overwritten in Storage, so a
@@ -110,8 +110,10 @@ whose author's profile is gone is still to build (Content page PR). Left
 open for the Content page: restoring a reported tip must reset its
 `reportCount`, or the next single report hides it again. The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read
-records `tip_views` for the Phase 4 "went" count. A tip's photo is deleted
-with its tip when `VITE_FIREBASE_STORAGE_BUCKET` is set on the server.
+records `tip_views` for the Phase 4 "went" count. Photos on tips need
+`VITE_FIREBASE_STORAGE_BUCKET` in the server's environment too (Vercel
+gives functions every project variable); without it every photo is
+refused.
 Next: the tips UI, the dashboard Content page.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
