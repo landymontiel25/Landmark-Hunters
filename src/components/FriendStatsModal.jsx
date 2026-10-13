@@ -7,6 +7,7 @@ import { usePairStreaks } from '../lib/PairStreakContext';
 import { displayStreakCount } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 import ErrorNotice from './ErrorNotice';
+import FollowButton from './FollowButton';
 
 // Starting a streak lives on the streak icon itself now (Header's flame,
 // or Your Stats' "streak" tile -> MyStreaks), not here -- streak-first,
@@ -50,6 +51,9 @@ export default function FriendStatsModal({ uid, name, onClose }) {
         <h3 style={{ marginTop: 0 }}>
           {'\u{1F464}'} @{name}
         </h3>
+        <div style={{ marginBottom: 10 }}>
+          <FollowButton uid={uid} />
+        </div>
         {state.loading && (
           // Same three tiles + "last check-in" line that are about to appear.
           <div role="status" aria-live="polite">

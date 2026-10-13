@@ -499,6 +499,10 @@ service cloud.firestore {
       allow read: if isDashboard();
       allow write: if false;
     }
+    match /network_metrics/{id} {
+      allow read: if isDashboard();
+      allow write: if false;
+    }
     match /mapr_ncf_model/{id} {
       allow read: if isDashboard();
       allow write: if false;
@@ -1273,6 +1277,27 @@ service cloud.firestore {
     // Who was shown which tip, and when (api/tips.js), for the "went because
     // of a tip" count (Phase 4). Server only: nobody sees who viewed a tip.
     match /tip_views/{id} {
+      allow read, write: if false;
+    }
+
+    // Follows (discovery network plan, Phase 2): one-way, of public
+    // profiles, id "{followerUid}_{followeeUid}". api/follow.js writes them
+    // and the counts on users/ with the Admin SDK; no client writes either.
+    // You read the follows you made and the ones made to you, no one
+    // else's: a list of who follows someone would show private accounts
+    // (the plan had any signed-in reader; this is tighter). Profiles show
+    // counts only.
+    match /follows/{id} {
+      allow get: if request.auth != null
+        && (id.split('_')[0] == request.auth.uid
+            || resource.data.followerUid == request.auth.uid
+            || resource.data.followeeUid == request.auth.uid);
+      allow list: if request.auth != null
+        && (resource.data.followerUid == request.auth.uid || resource.data.followeeUid == request.auth.uid);
+      allow write: if false;
+    }
+    // The hourly count of new follows (api/follow.js). Server only.
+    match /follow_log/{uid} {
       allow read, write: if false;
     }
 

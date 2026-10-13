@@ -1,6 +1,8 @@
 import { openDaySets, openedOnDay, retentionDayOver, retentionUsers } from './adminStats.js';
 import { familySet } from './familyAccounts.js';
 import { annotateShown } from './maprRank/metrics.js';
+import { activeUsers, COMMUNITY_REGIONS } from './community.js';
+import { canonicalRegionId } from '../data/regions.js';
 
 // The documents the separate admin dashboard (admin-dashboard/) reads, as
 // pure functions over the stats dataset (api/_lib/statsData.js shapes, times
@@ -117,6 +119,34 @@ export function tipDocs(ds, dates) {
       posted: tips.filter((t) => t.createdAt >= from && t.createdAt < to).length,
       impressions: (ds.tipImpressions || []).filter((r) => r.shownAt >= from && r.shownAt < to).reduce((n, r) => n + (r.tipIds?.length || 0), 0),
       authors_30d: authors30.size,
+    };
+  });
+}
+
+// The discovery network (Phases 2 to 6), one doc per day: follows so far.
+// launch_* is the launch area (COMMUNITY_REGIONS): people active there in
+// the last 30 days, and how many of them follow at least one discoverer
+// (someone with a live tip). Phase 2 is done when that share reaches 60%.
+export function networkDocs(ds, dates) {
+  const follows = ds.follows || [];
+  const discoverers = new Set((ds.tips || []).filter((t) => t.status === 'live' && !t.hidden).map((t) => t.authorUid));
+  return dates.map((date) => {
+    const from = dayStart(date);
+    const to = from + DAY_MS;
+    const upTo = follows.filter((f) => !Number.isFinite(f.createdAt) || f.createdAt < to);
+    const active = activeUsers(ds, { nowMs: to - 1, regions: COMMUNITY_REGIONS, canonical: canonicalRegionId });
+    const followsDiscoverer = new Set(upTo.filter((f) => discoverers.has(f.followeeUid)).map((f) => f.followerUid));
+    const launchFollowing = [...active].filter((u) => followsDiscoverer.has(u)).length;
+    return {
+      date,
+      follows_total: upTo.length,
+      new_follows: follows.filter((f) => f.createdAt >= from && f.createdAt < to).length,
+      people_following: new Set(upTo.map((f) => f.followerUid)).size,
+      people_followed: new Set(upTo.map((f) => f.followeeUid)).size,
+      discoverers: discoverers.size,
+      launch_active: active.size,
+      launch_following_discoverer: launchFollowing,
+      launch_follow_rate: r4(ratio(launchFollowing, active.size)),
     };
   });
 }

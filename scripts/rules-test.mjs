@@ -907,6 +907,52 @@ await t('tip_reports, tip_post_log, tip_photo_claims: server only', async () => 
   await assertFails(setDoc(doc(as('ann'), 'tip_photo_claims/tip_photos__ann__a.jpg'), { uid: 'ann' }));
 });
 
+console.log('follows (Phase 2)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'follows/ann_pub'), { followerUid: 'ann', followeeUid: 'pub', createdAtMs: 1 });
+  await setDoc(doc(db, 'follows/bob_pub'), { followerUid: 'bob', followeeUid: 'pub', createdAtMs: 1 });
+  await setDoc(doc(db, 'follow_log/ann'), { at: [1] });
+  await setDoc(doc(db, 'users/pub'), { uid: 'pub', public: true, followerCount: 2 });
+});
+await t('follows: you read the follows you made and the ones made to you', async () => {
+  await assertSucceeds(getDoc(doc(as('ann'), 'follows/ann_pub')));
+  await assertSucceeds(getDoc(doc(as('pub'), 'follows/ann_pub')));
+  await assertSucceeds(getDoc(doc(as('ann'), 'follows/ann_nobody')));
+  await assertSucceeds(getDocs(query(collection(as('ann'), 'follows'), where('followerUid', '==', 'ann'))));
+  await assertSucceeds(getDocs(query(collection(as('pub'), 'follows'), where('followeeUid', '==', 'pub'))));
+});
+await t('follows: nobody reads someone else\'s follows or lists who follows someone else', async () => {
+  await assertFails(getDoc(doc(as('bob'), 'follows/ann_pub')));
+  await assertFails(getDocs(query(collection(as('bob'), 'follows'), where('followeeUid', '==', 'pub'))));
+  await assertFails(getDocs(query(collection(as('bob'), 'follows'), where('followerUid', '==', 'ann'))));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'follows/ann_pub')));
+});
+await t('follows: no client creates, changes or deletes a follow (server only)', async () => {
+  await assertFails(setDoc(doc(as('cat'), 'follows/cat_pub'), { followerUid: 'cat', followeeUid: 'pub', createdAtMs: 1 }));
+  await assertFails(updateDoc(doc(as('ann'), 'follows/ann_pub'), { createdAtMs: 2 }));
+  await assertFails(deleteDoc(doc(as('ann'), 'follows/ann_pub')));
+  await assertFails(deleteDoc(doc(as('pub'), 'follows/ann_pub')));
+});
+await t('follow_log: server only', async () => {
+  await assertFails(getDoc(doc(as('ann'), 'follow_log/ann')));
+  await assertFails(setDoc(doc(as('ann'), 'follow_log/ann'), { at: [] }));
+});
+await t('follower counts: the owner cannot set or raise them', async () => {
+  await assertFails(updateDoc(doc(as('pub'), 'users/pub'), { followerCount: 1000000 }));
+  await assertSucceeds(updateDoc(doc(as('pub'), 'users/pub'), { public: true, updatedAt: serverTimestamp() }));
+});
+
+console.log('network_metrics (Phase 2+ dashboard)');
+await reset();
+await seed((db) => setDoc(doc(db, 'network_metrics/2026-10-12'), { date: '2026-10-12', follows_total: 1 }));
+await t('network_metrics: only the admin dashboard reads it; nobody writes', async () => {
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'network_metrics/2026-10-12')));
+  await assertFails(getDoc(doc(as('ann'), 'network_metrics/2026-10-12')));
+  await assertFails(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'network_metrics/2026-10-12')));
+  await assertFails(setDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'network_metrics/x'), { follows_total: 9 }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

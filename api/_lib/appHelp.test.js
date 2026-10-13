@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { FOLLOW_RATE_LIMIT } from './follows.js';
 import { TIP_MAX_CHARS, TIP_MAX_LINKS, TIP_MIN_CHARS, TIP_RATE_LIMIT, TIP_REPORT_HIDE, TIP_CHECKIN_MAX_AGE_DAYS, TIP_TAGS } from '../../src/lib/tips.js';
 import { APP_HELP } from './appHelp.js';
 import { MIN_RATINGS_FOR_PICKS, DEFAULT_DISTANCE_MI } from '../../src/lib/nearbyPicks.js';
@@ -50,5 +51,9 @@ describe('APP_HELP stays in sync with code constants', () => {
     expect(APP_HELP).toContain(`${TIP_REPORT_HIDE} reports from different people hide the tip`);
     expect(APP_HELP).toContain(`under ${TIP_CHECKIN_MAX_AGE_DAYS} days old`);
     for (const t of TIP_TAGS) expect(APP_HELP).toContain(t.label);
+  });
+  it('describes follows with the server\'s limit', () => {
+    expect(APP_HELP).toContain(`up to ${FOLLOW_RATE_LIMIT} new follows an hour`);
+    expect(APP_HELP).toContain('never a list of who follows someone');
   });
 });

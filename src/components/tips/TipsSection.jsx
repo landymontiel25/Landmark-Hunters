@@ -5,6 +5,7 @@ import { tipTagLabel } from '../../lib/tips';
 import { deleteMyTip, fetchTips, markTipsSeen, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
 import TipComposer from './TipComposer';
 import OnScreen from '../OnScreen';
+import FollowButton from '../FollowButton';
 
 // "From people who went" (docs/discovery-network-plan.md, Phase 1): tips
 // from verified visits, under the landmark page's sourced facts. Tips come
@@ -40,6 +41,8 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
   const landmarkId = landmark?.id;
   const [tips, setTips] = useState(null);
   const [reactions, setReactions] = useState({});
+  // The tip whose author card is open (follow a discoverer, Phase 2).
+  const [authorOpen, setAuthorOpen] = useState(null);
   const [error, setError] = useState(null);
   const [tipCheckin, setTipCheckin] = useState(null);
   const [composing, setComposing] = useState(false);
@@ -184,11 +187,28 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     return (
       <li key={t.id} className="tip-item card" style={{ padding: 12, marginBottom: 10, listStyle: 'none' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
-          <strong>{t.mine ? 'Your tip' : t.authorName}</strong>
+          {t.mine ? (
+            <strong>Your tip</strong>
+          ) : (
+            <button
+              type="button"
+              className="link-button"
+              aria-expanded={authorOpen === t.id}
+              onClick={() => setAuthorOpen((o) => (o === t.id ? null : t.id))}
+              style={{ background: 'none', border: 0, padding: 0, font: 'inherit', fontWeight: 700, color: 'inherit', cursor: 'pointer', textAlign: 'left' }}
+            >
+              {t.authorName}
+            </button>
+          )}
           <span className="presence-line presence-verified" style={{ fontSize: '0.75rem' }}>
             {'✓'} Verified visit{month ? ` · ${month}` : ''}
           </span>
         </div>
+        {!t.mine && authorOpen === t.id && (
+          <div style={{ marginTop: 6 }}>
+            <FollowButton uid={t.authorUid} compact />
+          </div>
+        )}
         <p style={{ margin: '6px 0', lineHeight: 1.5, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{t.text}</p>
         {t.tags?.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 6 }}>

@@ -7,6 +7,7 @@ import { clearPickMarks } from './pickMarks';
 import { clearSeen } from './maprRank/seenHistory.js';
 import { clearLocalPickFeedback } from './pickFeedback';
 import { deleteAllMyTips } from './tipsApi';
+import { deleteAllMyFollows } from './followsApi';
 
 async function deletePhotoSafe(url) {
   if (!storage || !url) return;
@@ -111,6 +112,14 @@ export async function deleteAccountData(uid) {
       userMessage: "Couldn't delete your tips, so your account was not deleted. Try again.",
       cause: tipsError,
     });
+  }
+
+  // Follows from and to you, on the server. Best effort: they hold only
+  // uids, and the nightly job removes any left by a deleted account.
+  try {
+    await deleteAllMyFollows();
+  } catch {
+    /* best-effort */
   }
 
   // Reviews (+ replies and photos)

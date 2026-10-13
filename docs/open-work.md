@@ -180,7 +180,22 @@ no longer holds distance or accuracy (version 2), and the nightly job
 scrubs both from old check-ins, 400 a night. "Not verified" never says
 how far. `users` profiles can't change server-kept fields
 (`followerCount`, `followingCount`, `reputation`, `founding`, `levels`,
-`serverBadges`, `tipCount`). Next: follows, then taste neighbors.
+`serverBadges`, `tipCount`).
+
+Phase 2, part 2 shipped: follows. `follows/{follower}_{followee}`, one-way,
+public profiles only, written only by `api/follow.js` (verified email, 60
+new follows an hour in `follow_log/{uid}`), which also keeps
+`followerCount` / `followingCount` on `users/`. Reads: the follows you made
+or got, never a list of someone else's followers (the plan had any
+signed-in reader). A block calls the server to remove follows both ways;
+account deletion removes yours (best effort). Nightly (`followUpkeep`):
+follows across a block or from a deleted account go, and every count is
+reset from the follows (skipped past 20,000 follows; page it then). UI:
+Follow / Following with the follower count on a tip author's name, the
+leaderboard name card and a friend's stats popup; Profile → Follows. The
+dashboard's new Network page (`network_metrics/{date}`) shows follows and
+the launch area's share of active people following a discoverer (Phase 2
+is done at 60%). Next: taste neighbors.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 
