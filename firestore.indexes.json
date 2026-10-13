@@ -55,7 +55,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "points",
+          "fieldPath": "createdAt",
           "order": "ASCENDING"
         }
       ]

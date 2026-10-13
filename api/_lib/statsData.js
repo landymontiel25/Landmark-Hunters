@@ -107,6 +107,9 @@ export async function loadStatsData(db) {
         userId: x.userId,
         createdAt: ms(x.createdAt),
         ratingOnly: x.ratingOnly === true,
+        // Real visit flag (null on old check-ins: points decide there).
+        visited: typeof x.visited === 'boolean' ? x.visited : null,
+        points: Number(x.points) || 0,
         landmarkId: x.landmarkId ?? null,
         region: x.region ?? null,
         // Server-verified presence (api/verify-checkin.js); null when never checked.

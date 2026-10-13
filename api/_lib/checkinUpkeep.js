@@ -1,35 +1,38 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { REGIONS, REGION_ALIASES } from '../../src/data/regions.js';
+import { canonicalRegionId } from '../../src/data/regions.js';
+import { isRealCheckin } from '../../src/lib/realCheckin.js';
 
 // Nightly check-in upkeep since the Phase 2 read limits (a phone reads only
 // its own, friends' and public profiles' check-ins).
 
 // Fills region_stats (Mapr Picks' cold-start check-in counts) for regions
 // that have no backfilled totals yet. A phone did this before Phase 2; it
-// can't read other people's check-ins any more, so the server counts them,
-// up to `maxRegions` regions a night. Counts real visits only, under the
-// region's id and any old id folded into it. A bump that lands between the
-// count and the write keeps the larger number per place.
-export async function backfillRegionStats(db, { maxRegions = 3 } = {}) {
+// can't read other people's check-ins any more, so the nightly job counts
+// them from the check-ins it already loaded (ds, statsData.js), up to
+// `maxRegions` regions a night, and skips the night when that load was cut
+// short. Real visits only, under the region's id and any old id folded into
+// it. A bump that lands between the load and the write can go uncounted
+// (the larger number per place is kept); that's at most a visit or two.
+export async function backfillRegionStats(db, ds, { maxRegions = 3 } = {}) {
+  if ((ds?.truncated || []).includes('checkins')) return 0;
   const done = new Set((await db.collection('region_stats').select('backfilled').get()).docs.filter((d) => d.data().backfilled === true).map((d) => d.id));
-  const todo = REGIONS.map((r) => r.id).filter((id) => !done.has(id)).slice(0, maxRegions);
+  const byRegion = new Map();
+  for (const c of ds?.checkins || []) {
+    if (!c.region || !c.landmarkId || !isRealCheckin(c)) continue;
+    const region = canonicalRegionId(c.region);
+    if (done.has(region)) continue;
+    if (!byRegion.has(region)) byRegion.set(region, {});
+    const counts = byRegion.get(region);
+    counts[c.landmarkId] = (counts[c.landmarkId] || 0) + 1;
+  }
   let written = 0;
-  for (const region of todo) {
-    const ids = [region, ...Object.keys(REGION_ALIASES).filter((a) => REGION_ALIASES[a] === region)];
-    const snap = await db.collection('checkins').where('region', 'in', ids).select('landmarkId', 'ratingOnly', 'visited').get();
-    const counts = {};
-    for (const d of snap.docs) {
-      const c = d.data();
-      if (c.ratingOnly === true || c.visited === false || !c.landmarkId) continue;
-      counts[c.landmarkId] = (counts[c.landmarkId] || 0) + 1;
-    }
+  for (const [region, counts] of [...byRegion].slice(0, maxRegions)) {
     const ref = db.collection('region_stats').doc(region);
     await db.runTransaction(async (tx) => {
       const cur = await tx.get(ref);
       if (cur.exists && cur.data().backfilled === true) return;
-      const old = (cur.exists && cur.data().counts) || {};
       const merged = { ...counts };
-      for (const [id, n] of Object.entries(old)) merged[id] = Math.max(merged[id] || 0, Number(n) || 0);
+      for (const [id, n] of Object.entries((cur.exists && cur.data().counts) || {})) merged[id] = Math.max(merged[id] || 0, Number(n) || 0);
       tx.set(ref, { counts: merged, backfilled: true, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
     });
     written++;
@@ -42,13 +45,16 @@ export async function backfillRegionStats(db, { maxRegions = 3 } = {}) {
 // accuracy on presence version 1 (Phase 0). They stay only in the
 // server-only proof. Ordering by a field returns only docs that have it.
 export async function scrubCheckinLocation(db, { max = 400 } = {}) {
-  const [legacy, presenceV1] = await Promise.all([
+  const [byDistance, byAccuracy, presenceV1] = await Promise.all([
     db.collection('checkins').orderBy('distanceMeters').limit(max).get(),
+    db.collection('checkins').orderBy('gpsAccuracyMeters').limit(max).get(),
     db.collection('checkins').where('presence.version', '==', 1).limit(max).get(),
   ]);
+  const legacy = new Map([...byDistance.docs, ...byAccuracy.docs].map((d) => [d.ref.path, d]));
   const batch = db.batch();
   let n = 0;
-  for (const d of legacy.docs) {
+  for (const d of legacy.values()) {
+    if (n >= max) break;
     batch.update(d.ref, { distanceMeters: FieldValue.delete(), gpsAccuracyMeters: FieldValue.delete() });
     n++;
   }

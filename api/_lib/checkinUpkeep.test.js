@@ -10,8 +10,10 @@ describe('scrubCheckinLocation', () => {
       'checkins/a': { userId: 'a', distanceMeters: 12, gpsAccuracyMeters: 8, points: 0 },
       'checkins/b': { userId: 'b', presence: { verified: false, reason: 'too-far', distanceMeters: 140, accuracyMeters: 9, version: 1 } },
       'checkins/c': { userId: 'c', presence: { verified: true, version: 2 } },
+      'checkins/d': { userId: 'd', gpsAccuracyMeters: 20 },
     });
-    expect(await scrubCheckinLocation(db)).toBe(2);
+    expect(await scrubCheckinLocation(db)).toBe(3);
+    expect(db.docs['checkins/d']).toEqual({ userId: 'd' });
     expect(db.docs['checkins/a']).toEqual({ userId: 'a', points: 0 });
     expect(db.docs['checkins/b'].presence).toEqual({ verified: false, reason: 'too-far', version: 2 });
   });
@@ -29,20 +31,30 @@ describe('scrubLeaderboardCheckinIds', () => {
 });
 
 describe('backfillRegionStats', () => {
+  const ds = {
+    truncated: [],
+    checkins: [
+      { userId: 'a', region: 'miami', landmarkId: 'bay', visited: true },
+      { userId: 'b', region: 'coral-gables', landmarkId: 'bay', points: 100 },
+      { userId: 'c', region: 'miami', landmarkId: 'bay', ratingOnly: true },
+      { userId: 'd', region: 'miami', landmarkId: 'pier', visited: false },
+      { userId: 'e', region: 'miami', landmarkId: 'park', visited: true },
+      { userId: 'f', region: 'philly', landmarkId: 'bell', visited: true },
+    ],
+  };
   it('counts real visits under the region and its old ids, keeps a larger bump, skips backfilled regions', async () => {
     const db = fakeDb({
-      'checkins/a_bay': { userId: 'a', region: 'miami', landmarkId: 'bay' },
-      'checkins/b_bay': { userId: 'b', region: 'coral-gables', landmarkId: 'bay' },
-      'checkins/c_bay': { userId: 'c', region: 'miami', landmarkId: 'bay', ratingOnly: true },
-      'checkins/d_pier': { userId: 'd', region: 'miami', landmarkId: 'pier', visited: false },
-      'checkins/e_park': { userId: 'e', region: 'miami', landmarkId: 'park' },
-      'checkins/f_bell': { userId: 'f', region: 'philly', landmarkId: 'bell' },
       'region_stats/miami': { counts: { park: 4 }, backfilled: false },
       'region_stats/philly': { counts: { bell: 9 }, backfilled: true },
     });
-    await backfillRegionStats(db, { maxRegions: 100 });
+    expect(await backfillRegionStats(db, ds)).toBe(1);
     expect(db.docs['region_stats/miami'].counts).toEqual({ bay: 2, park: 4 });
     expect(db.docs['region_stats/miami'].backfilled).toBe(true);
     expect(db.docs['region_stats/philly'].counts).toEqual({ bell: 9 });
+  });
+  it('skips the night when the check-in load was cut short', async () => {
+    const db = fakeDb({});
+    expect(await backfillRegionStats(db, { ...ds, truncated: ['checkins'] })).toBe(0);
+    expect(db.docs['region_stats/miami']).toBeUndefined();
   });
 });

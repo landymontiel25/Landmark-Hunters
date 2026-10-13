@@ -27,7 +27,7 @@ import { db, storage } from './firebase';
 import { isOffline, OFFLINE_MESSAGE } from './friendlyError';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
-import { REGIONS, canonicalLandmarkId, canonicalRegionId } from '../data/regions';
+import { canonicalLandmarkId, canonicalRegionId } from '../data/regions';
 import { CHECKIN_RULE_METERS } from './maprConstants';
 
 export { distanceMeters };
@@ -403,16 +403,8 @@ export async function getRegionCheckinCounts(region) {
   if (!db || !region) return {};
   const hit = regionCountsCache.get(region);
   if (hit && Date.now() - hit.at < 10 * 60 * 1000) return hit.counts;
-  const statsRef = doc(db, 'region_stats', region);
-  const stats = await getDoc(statsRef).catch(() => null);
-  let counts;
-  if (stats?.exists() && stats.data().backfilled) {
-    counts = stats.data().counts || {};
-  } else {
-    // Not backfilled yet: the nightly job fills it (a phone can't count
-    // other people's check-ins since Phase 2), so for now there's nothing.
-    counts = stats?.exists() ? stats.data().counts || {} : {};
-  }
+  const stats = await getDoc(doc(db, 'region_stats', region)).catch(() => null);
+  const counts = stats?.exists() ? stats.data().counts || {} : {};
   regionCountsCache.set(region, { at: Date.now(), counts });
   return counts;
 }
@@ -420,9 +412,9 @@ export async function getRegionCheckinCounts(region) {
 /**
  * Real check-ins per landmark across every region combined, for Mapr Picks
  * when there's no region to score in yet. Reads the region_stats counter
- * docs (one per region, so this stays a handful of reads); a region with no
- * backfilled counter yet gets counted once through getRegionCheckinCounts.
- * Cached for 10 minutes.
+ * docs (one per region, so this stays a handful of reads); a region the
+ * nightly job hasn't filled yet adds only its bumps so far. Cached for 10
+ * minutes.
  */
 let globalCountsCache = null;
 export async function getGlobalCheckinCounts() {
@@ -433,14 +425,7 @@ export async function getGlobalCheckinCounts() {
     for (const [id, n] of Object.entries(map || {})) counts[id] = (counts[id] || 0) + (Number(n) || 0);
   };
   const snap = await getDocs(collection(db, 'region_stats')).catch(() => null);
-  const done = new Set();
-  for (const d of snap?.docs || []) {
-    if (!d.data().backfilled) continue;
-    done.add(d.id);
-    add(d.data().counts);
-  }
-  const missing = REGIONS.map((r) => r.id).filter((id) => !done.has(id));
-  (await Promise.all(missing.map((id) => getRegionCheckinCounts(id).catch(() => ({}))))).forEach(add);
+  for (const d of snap?.docs || []) add(d.data().counts);
   globalCountsCache = { at: Date.now(), counts };
   return counts;
 }

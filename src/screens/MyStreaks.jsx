@@ -215,9 +215,11 @@ function StreakDetail({ streak, onBack, onLeave }) {
   useEffect(() => {
     if (!streak.cityId) return;
     setVisitedIds(undefined);
-    Promise.all([getUserCheckedInLandmarkIds(user.uid), getUserCheckedInLandmarkIds(partnerUid)])
-      .then(([mine, theirs]) => setVisitedIds(new Set([...mine, ...theirs])))
-      .catch(() => setVisitedIds(new Set()));
+    // The partner's check-ins read only while they're a friend or public
+    // (Phase 2 read limits); if not, the city shows your own visits.
+    Promise.all([getUserCheckedInLandmarkIds(user.uid).catch(() => []), getUserCheckedInLandmarkIds(partnerUid).catch(() => [])]).then(([mine, theirs]) =>
+      setVisitedIds(new Set([...mine, ...theirs]))
+    );
   }, [user.uid, partnerUid, streak.cityId]);
 
   // Mapr picks the city, not the user -- same default-location logic Mapr

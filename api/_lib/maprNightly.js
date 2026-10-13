@@ -315,7 +315,7 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
       console.error('leaderboard check-in id scrub failed:', e?.message || e);
     }
     try {
-      upkeep.regionStats = await backfillRegionStats(db);
+      upkeep.regionStats = await backfillRegionStats(db, data);
     } catch (e) {
       console.error('region_stats backfill failed:', e?.message || e);
     }
