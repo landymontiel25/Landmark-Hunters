@@ -87,10 +87,12 @@ Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 and saved, reports). Reporters live in server-only `tip_reports/` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
 lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it. A
-held or reported tip its author deletes is copied to server-only
-`tip_archive/` with its reports first, for the owner's review. Tip photos
-are create-only in Storage (no overwrite, no owner delete), so a reviewed
-tip's photo can't be swapped; the server removes it with its tip. Left
+reported tip its author deletes is withdrawn (status `withdrawn`): hidden
+from everyone, kept with its reports for the owner's review, and no new tip
+there until the owner clears it. An unreported one (live, or held by the
+filter) is deleted. Tip photos can't be overwritten in Storage, so a
+reviewed tip's photo can't be swapped; account deletion clears the whole
+`tip_photos/{uid}/` folder. Left
 open for the Content page: restoring a reported tip must reset its
 `reportCount`, or the next single report hides it again. The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read

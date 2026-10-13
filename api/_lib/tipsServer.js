@@ -32,11 +32,10 @@ export async function blockedEitherWay(db, a, b) {
 // Every report (tip_reports/{tipId}_{uid}), helpful/saved mark
 // (tip_reactions) and view (tip_views) of one tip, removed with the tip so a
 // re-posted tip at the same id starts clean.
-// keepReports leaves the reports for the archived copy (tip_archive).
-export async function deleteTipChildren(db, tipId, { keepReports = false } = {}) {
+export async function deleteTipChildren(db, tipId) {
   const [reactions, reports, views] = await Promise.all([
     db.collection('tip_reactions').where('tipId', '==', tipId).get(),
-    keepReports ? { docs: [] } : db.collection('tip_reports').where('tipId', '==', tipId).get(),
+    db.collection('tip_reports').where('tipId', '==', tipId).get(),
     db.collection('tip_views').where('tipId', '==', tipId).get(),
   ]);
   const all = [...reactions.docs, ...reports.docs, ...views.docs];
@@ -46,6 +45,10 @@ export async function deleteTipChildren(db, tipId, { keepReports = false } = {})
     await b.commit();
   }
 }
+
+// A helpful/saved mark (or a report, by its `at`) made on this tip, not
+// on a deleted tip that had the same id.
+export const reactionIsFresh = (r, tip) => !!r && (r.firstAt ?? 0) >= (tip?.createdAtMs ?? 0);
 
 // A Firebase Storage download URL for a file in tip_photos/{uid}/, and its
 // path. Anything else (another host, another folder, someone else's photo)
@@ -85,6 +88,20 @@ export async function deleteTipPhoto(path) {
     return true;
   } catch (e) {
     console.error('tip photo delete failed', e?.message || e);
+    return false;
+  }
+}
+
+// Account deletion: every file under tip_photos/{uid}/.
+export async function deleteTipPhotoFolder(uid) {
+  if (typeof uid !== 'string' || !/^[A-Za-z0-9]{1,128}$/.test(uid)) return false;
+  try {
+    const bucket = await adminBucket();
+    if (!bucket) return false;
+    await bucket.deleteFiles({ prefix: `tip_photos/${uid}/` });
+    return true;
+  } catch (e) {
+    console.error('tip photo folder delete failed', e?.message || e);
     return false;
   }
 }

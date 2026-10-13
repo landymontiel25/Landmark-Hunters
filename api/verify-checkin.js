@@ -6,6 +6,7 @@ import { getLandmark, canonicalLandmarkId } from '../src/data/regions.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { checkPresence, validFix } from '../src/lib/presence.js';
 import { withCors } from './_lib/cors.js';
+import { toMs } from './_lib/tipsServer.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the
@@ -21,7 +22,6 @@ import { withCors } from './_lib/cors.js';
 
 export const VERIFY_RATE_LIMIT = { limit: 30, windowMs: 60 * 60 * 1000 };
 
-const toMs = (t) => (t && typeof t.toMillis === 'function' ? t.toMillis() : typeof t === 'number' ? t : null);
 
 // The place as the server knows it: catalog and place packs first, then a
 // user-added landmark.

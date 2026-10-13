@@ -828,11 +828,12 @@ await t('storage tip_photos: signed-in get works, list and signed-out get do not
   await assertFails(listAll(ref(stor('bob'), 'tip_photos/ann')));
   await assertFails(getBytes(ref(env.unauthenticatedContext().storage(), 'tip_photos/ann/t1.jpg')));
 });
-await t('storage tip_photos: a photo cannot be overwritten or deleted by its owner (only the server or admin removes it)', async () => {
+await t('storage tip_photos: nobody overwrites a photo; only its owner or the admin deletes it', async () => {
   await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/t1.jpg'), new Uint8Array([9, 9]), { contentType: 'image/jpeg' }));
-  await assertFails(deleteObject(ref(stor('ann'), 'tip_photos/ann/t1.jpg')));
   await assertFails(deleteObject(ref(stor('bob'), 'tip_photos/ann/t1.jpg')));
-  await assertSucceeds(deleteObject(ref(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).storage(), 'tip_photos/ann/t1.jpg')));
+  await assertSucceeds(deleteObject(ref(stor('ann'), 'tip_photos/ann/t1.jpg')));
+  await assertSucceeds(uploadBytes(ref(stor('ann'), 'tip_photos/ann/t3.jpg'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
+  await assertSucceeds(deleteObject(ref(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).storage(), 'tip_photos/ann/t3.jpg')));
 });
 
 await env.cleanup();

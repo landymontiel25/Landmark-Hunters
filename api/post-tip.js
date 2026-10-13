@@ -3,7 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { deleteTipChildren, deleteTipPhoto, tipPhotoPath, toMs } from './_lib/tipsServer.js';
+import { deleteTipChildren, deleteTipPhoto, deleteTipPhotoFolder, reactionIsFresh, tipPhotoPath, toMs } from './_lib/tipsServer.js';
 import { canonicalLandmarkId } from '../src/data/regions.js';
 import { cleanTipText, tipCheckinProblem, tipIdFor, tipInputProblem, TIP_RATE_LIMIT } from '../src/lib/tips.js';
 import { filterTipText } from '../src/lib/tipFilter.js';
@@ -81,7 +81,7 @@ async function postTip(db, account, body) {
   const logRef = db.collection('tip_post_log').doc(account.uid);
   const outcome = await db.runTransaction(async (tx) => {
     const [existing, log] = await Promise.all([tx.get(ref), tx.get(logRef)]);
-    if (existing.exists) return 'exists';
+    if (existing.exists) return `exists:${existing.data().status}`;
     const recent = (log.exists && Array.isArray(log.data().at) ? log.data().at : []).filter((t) => typeof t === 'number' && t > nowMs - HOUR_MS);
     if (recent.length >= TIP_RATE_LIMIT.limit) return 'rate';
     tx.set(ref, tip);
@@ -89,7 +89,9 @@ async function postTip(db, account, body) {
     return 'ok';
   });
   if (outcome === 'rate') return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
-  if (outcome === 'exists') return [409, { error: 'You already shared a tip here. Delete it to write a new one.', code: 'exists' }];
+  if (outcome === 'exists:removed') return [409, { error: 'Your tip here was removed by a moderator, so you cannot post another one here.', code: 'removed' }];
+  if (outcome === 'exists:withdrawn') return [409, { error: 'Your earlier tip here is waiting for review. You can post again once it is reviewed.', code: 'withdrawn' }];
+  if (outcome.startsWith('exists')) return [409, { error: 'You already shared a tip here. Delete it to write a new one.', code: 'exists' }];
   return [200, { ok: true, tipId, status }];
 }
 
@@ -98,30 +100,34 @@ async function deleteTip(db, account, body) {
   if (typeof landmarkId !== 'string' || !/^[\w.-]{1,300}$/.test(landmarkId)) return [400, { error: 'landmarkId is required.' }];
   const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
   const ref = db.collection('tips').doc(tipId);
-  // In one transaction, so a report landing meanwhile is either seen (and
-  // archived) or refused because the tip is gone.
+  // One transaction, so a report landing meanwhile is either counted (and
+  // the tip withdrawn) or refused because the tip is gone.
   const outcome = await db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     if (!snap.exists || snap.data().authorUid !== account.uid) return { code: 'missing' };
     const t = snap.data();
-    // A tip the owner removed stays, so its author can't post it again.
-    if (t.status === 'removed') return { code: 'removed' };
-    // A held or reported tip is copied to server-only tip_archive first,
-    // with its report count, so the owner can still review it after its
-    // author deletes it.
-    if (t.status === 'held' || (t.reportCount || 0) > 0) {
-      tx.set(db.collection('tip_archive').doc(`${tipId}_${Date.now()}`), { ...t, tipId, archivedAt: Date.now(), archivedBy: 'author' });
+    if (t.status === 'removed' || t.status === 'withdrawn') return { code: t.status };
+    // A reported tip is withdrawn, not deleted: nobody sees it any more,
+    // but it and its reports stay for the owner's review (the dashboard's
+    // Content page), and a fresh copy can't be posted over the reports.
+    if ((t.reportCount || 0) > 0) {
+      tx.update(ref, { status: 'withdrawn', withdrawnAt: Date.now(), updatedAt: FieldValue.serverTimestamp() });
+      return { code: 'withdrawn-now' };
     }
+    // An unreported tip (live, or held by the filter and never public)
+    // goes for good.
     tx.delete(ref);
     return { code: 'deleted', tip: t };
   });
   if (outcome.code === 'missing') return [404, { error: 'No tip of yours here.' }];
   if (outcome.code === 'removed') return [403, { error: 'This tip was removed by a moderator.', code: 'removed' }];
+  if (outcome.code === 'withdrawn') return [200, { ok: true, withdrawn: true }];
+  if (outcome.code === 'withdrawn-now') return [200, { ok: true, withdrawn: true }];
   // Cleanup after the tip is gone is best effort: anything it leaves is
-  // older than a re-posted tip, and api/tips.js ignores marks and reports
-  // from before a tip was posted.
+  // older than a re-posted tip, and marks from before a tip was posted
+  // never count (reactionIsFresh).
   try {
-    await deleteTipChildren(db, tipId, { keepReports: outcome.tip.status === 'held' || (outcome.tip.reportCount || 0) > 0 });
+    await deleteTipChildren(db, tipId);
     await deleteTipPhotoIfUnused(db, account.uid, outcome.tip.photoPath);
   } catch (e) {
     console.error('tip cleanup failed', e?.message || e);
@@ -152,13 +158,17 @@ async function deleteMine(db, account) {
   ]);
   // In parallel: account deletion runs under the function's time limit.
   await Promise.all(tips.docs.map((d) => Promise.all([d.ref.delete(), deleteTipChildren(db, d.id), deleteTipPhoto(d.data().photoPath)])));
-  const archived = await db.collection('tip_archive').where('authorUid', '==', uid).get();
+  // Every photo in their folder, on a tip or not (an upload whose post
+  // failed): the folder is theirs alone.
+  await deleteTipPhotoFolder(uid);
+  const reportsOnTheirTips = await db.collection('tip_reports').where('authorUid', '==', uid).get();
   await Promise.all(reactions.docs.map((d) => {
     const r = d.data();
     const tipRef = db.collection('tips').doc(r.tipId);
     return db.runTransaction(async (tx) => {
       const t = await tx.get(tipRef);
-      if (t.exists) {
+      // A mark left from a deleted tip with the same id was never counted.
+      if (t.exists && reactionIsFresh(r, t.data())) {
         const dec = {};
         if (r.helpful === true) dec['counts.helpful'] = FieldValue.increment(-1);
         if (r.saved === true) dec['counts.saved'] = FieldValue.increment(-1);
@@ -169,7 +179,7 @@ async function deleteMine(db, account) {
   }));
   // Their reports go (who reported), the counts they added stay: a hide
   // from reports must not lift because a reporter left.
-  const rest = [...views.docs, ...authorViews.docs, ...reports.docs, ...archived.docs, db.collection('tip_post_log').doc(uid)].map((d) => d.ref || d);
+  const rest = [...views.docs, ...authorViews.docs, ...reports.docs, ...reportsOnTheirTips.docs, db.collection('tip_post_log').doc(uid)].map((d) => d.ref || d);
   for (let i = 0; i < rest.length; i += 400) {
     const b = db.batch();
     for (const r of rest.slice(i, i + 400)) b.delete(r);

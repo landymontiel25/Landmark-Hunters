@@ -3,7 +3,7 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { blockedBetween, blockedEitherWay, tipForViewer, toMs } from './_lib/tipsServer.js';
+import { blockedBetween, blockedEitherWay, reactionIsFresh, tipForViewer, toMs } from './_lib/tipsServer.js';
 import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
@@ -36,7 +36,9 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   for (const d of snap.docs) {
     const t = d.data();
     if (canonicalRegionId(t.region) !== want) continue;
-    if (t.authorUid === viewerUid ? t.status === 'removed' || t.status === 'withdrawn' : !tipIsPublic(t) || blocked.has(t.authorUid)) continue;
+    // Your own tip always comes back, with its status, so the page can say
+    // it is waiting for review or was removed.
+    if (t.authorUid !== viewerUid && (!tipIsPublic(t) || blocked.has(t.authorUid))) continue;
     visible.push([d.id, t]);
   }
   visible.sort((a, b) => (toMs(b[1].createdAt) ?? b[1].createdAtMs ?? 0) - (toMs(a[1].createdAt) ?? a[1].createdAtMs ?? 0));
@@ -45,7 +47,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   const reactionSnaps = reactionRefs.length ? await db.getAll(...reactionRefs) : [];
   const mine = {};
   reactionSnaps.forEach((s, i) => {
-    if (s.exists) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
+    if (s.exists && reactionIsFresh(s.data(), shown[i][1])) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
   });
   // Views: other people's live tips only. firstAt (when you first saw it)
   // never moves; lastAt moves at most twice a day, so a reload writes
@@ -111,7 +113,7 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
     if (on && !tipIsPublic(tipSnap.data())) return null;
     // A mark from before this tip was posted belongs to a deleted tip that
     // had the same id: it counts as no mark.
-    const fresh = rSnap.exists && (rSnap.data().firstAt ?? 0) >= (tipSnap.data().createdAtMs ?? 0);
+    const fresh = rSnap.exists && reactionIsFresh(rSnap.data(), tipSnap.data());
     const prev = fresh ? rSnap.data() : { helpful: false, saved: false };
     const next = { helpful: prev.helpful === true, saved: prev.saved === true, [kind]: on };
     if ((prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
@@ -144,19 +146,18 @@ export async function reportTip(db, uid, { tipId, reason = 'other' }) {
   const found = await actionableTip(db, uid, tipId);
   if (found.error) return found.error;
   const reportRef = db.collection('tip_reports').doc(`${tipId}_${uid}`);
-  const hidden = await db.runTransaction(async (tx) => {
+  const exists = await db.runTransaction(async (tx) => {
     const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reportRef)]);
-    if (!tipSnap.exists) return null;
-    const count = tipSnap.data().reportCount || 0;
+    if (!tipSnap.exists) return false;
     // A report from before this tip was posted (a deleted tip with the same
     // id) doesn't stop a new one.
-    if (rSnap.exists && (rSnap.data().at ?? 0) >= (tipSnap.data().createdAtMs ?? 0)) return count >= TIP_REPORT_HIDE;
+    if (rSnap.exists && (rSnap.data().at ?? 0) >= (tipSnap.data().createdAtMs ?? 0)) return true;
+    const next = (tipSnap.data().reportCount || 0) + 1;
     tx.set(reportRef, { uid, tipId, authorUid: tipSnap.data().authorUid, reason, at: Date.now() });
-    const next = count + 1;
     tx.update(found.ref, { reportCount: next, hidden: next >= TIP_REPORT_HIDE, lastReportedAt: Date.now() });
-    return next >= TIP_REPORT_HIDE;
+    return true;
   });
-  if (hidden == null) return [404, { error: 'No such tip.' }];
+  if (!exists) return [404, { error: 'No such tip.' }];
   return [200, { ok: true }];
 }
 
