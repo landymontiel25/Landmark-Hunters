@@ -326,6 +326,159 @@
   "miami/zak-the-baker": {
     "googlePlaceId": "ChIJMVmQ-LK22YgRXCFmM480oqw"
   },
+  "nyc/american-museum-natural-history": {
+    "googlePlaceId": "ChIJCXoPsPRYwokRsV1MYnKBfaI"
+  },
+  "nyc/apollo-theater": {
+    "googlePlaceId": "ChIJRaWCMm32wokRLdyc4zmYzRw"
+  },
+  "nyc/bronx-zoo": {
+    "googlePlaceId": "ChIJi9JqUYP0wokRLhCVlxy0bgU"
+  },
+  "nyc/brooklyn-academy-of-music": {
+    "googlePlaceId": "ChIJvWHvIrJbwokRKL-U0Da1spM"
+  },
+  "nyc/brooklyn-botanic-garden": {
+    "googlePlaceId": "ChIJwYu_aA5bwokR2lxjW-QvQlc"
+  },
+  "nyc/brooklyn-bridge": {
+    "googlePlaceId": "ChIJK3vOQyNawokRXEa9errdJiU"
+  },
+  "nyc/brooklyn-heights-promenade": {
+    "googlePlaceId": "ChIJkwX1AjdawokRx9reOccHFr4"
+  },
+  "nyc/brooklyn-museum": {
+    "googlePlaceId": "ChIJyTmcRApbwokR-oXJRqpVI8Y"
+  },
+  "nyc/carnegie-hall": {
+    "googlePlaceId": "ChIJ2RFUePdYwokRd5R6XF6xFD0"
+  },
+  "nyc/central-park": {
+    "googlePlaceId": "ChIJ4zGFAZpYwokRGUGph3Mf37k"
+  },
+  "nyc/chelsea-market": {
+    "googlePlaceId": "ChIJw2lMFL9ZwokRosAtly52YX4"
+  },
+  "nyc/chrysler-building": {
+    "googlePlaceId": "ChIJeWPFRwJZwokRGD60OOo74RU"
+  },
+  "nyc/columbia-university": {
+    "googlePlaceId": "ChIJyQ3Tlj72wokRUCflR_kzeVc"
+  },
+  "nyc/dumbo-washington-street": {
+    "googlePlaceId": "EiZXYXNoaW5ndG9uIFN0LCBCcm9va2x5biwgTlkgMTEyMDEsIFVTQSIuKiwKFAoSCSGsVFsxWsKJEQdbH-gbNqCAEhQKEgn7sD5vMVrCiRHDya8cLNmxzg"
+  },
+  "nyc/ellis-island": {
+    "googlePlaceId": "ChIJDw5fGZpQwokR69Yikp1Go9I"
+  },
+  "nyc/empire-state-building": {
+    "googlePlaceId": "ChIJaXQRs6lZwokRY6EFpJnhNNE"
+  },
+  "nyc/federal-hall": {
+    "googlePlaceId": "ChIJAaIFAxdawokR8txc3YPbD3A"
+  },
+  "nyc/frick-collection": {
+    "googlePlaceId": "ChIJHRH97uxYwokR6CBeDyn1jtg"
+  },
+  "nyc/grand-central-terminal": {
+    "googlePlaceId": "ChIJ-b2RmVlZwokRpb1pwEQjss0"
+  },
+  "nyc/greenwich-village": {
+    "googlePlaceId": "ChIJpxMyDJRZwokRX0XfgiHEgog"
+  },
+  "nyc/guggenheim-museum": {
+    "googlePlaceId": "ChIJmZ5emqJYwokRuDz79o0coAQ"
+  },
+  "nyc/hearst-tower": {
+    "googlePlaceId": "ChIJU0EjclhYwokRRJsr6pdOlTc"
+  },
+  "nyc/lever-house": {
+    "googlePlaceId": "ChIJbxQQa_tYwokRtUNdi05Ajtk"
+  },
+  "nyc/little-island": {
+    "googlePlaceId": "ChIJL-CJmTFZwokRsPcqje_bn7w"
+  },
+  "nyc/madison-square-garden": {
+    "googlePlaceId": "ChIJhRwB-yFawokR5Phil-QQ3zM"
+  },
+  "nyc/manhattan-bridge": {
+    "googlePlaceId": "ChIJS1F1Oy5awokRz58BetNK5Xs"
+  },
+  "nyc/metlife-building": {
+    "googlePlaceId": "ChIJhZJ3Yq5ZwokRop0t2AA2eWk"
+  },
+  "nyc/metropolitan-museum-of-art": {
+    "googlePlaceId": "ChIJb8Jg9pZYwokR-qHGtvSkLzs"
+  },
+  "nyc/morgan-library-museum": {
+    "googlePlaceId": "ChIJ3453OAdZwokRja92OOKCugM"
+  },
+  "nyc/moynihan-train-hall": {
+    "googlePlaceId": "ChIJD83UUwBZwokRo-Y7s04-Z5E"
+  },
+  "nyc/museum-of-modern-art": {
+    "googlePlaceId": "ChIJKxDbe_lYwokRVf__s8CPn-o"
+  },
+  "nyc/new-york-botanical-garden": {
+    "googlePlaceId": "ChIJyRUHuHzzwokRPxVBNKhcP9c"
+  },
+  "nyc/new-york-city-hall": {
+    "googlePlaceId": "ChIJs--MqP1YwokRBwAhjXWIHn8"
+  },
+  "nyc/one-vanderbilt-summit": {
+    "googlePlaceId": "ChIJd7I1IO5ZwokRbv7YUlgChl4"
+  },
+  "nyc/one-world-trade-center": {
+    "googlePlaceId": "ChIJy7cGfBlawokR5l2e93hsoEA"
+  },
+  "nyc/prospect-park": {
+    "googlePlaceId": "ChIJQwRohxBbwokRmHrfAMb3ixc"
+  },
+  "nyc/queensboro-bridge": {
+    "googlePlaceId": "ChIJRfm6EdxYwokRYAfRiLa0LJo"
+  },
+  "nyc/radio-city-music-hall": {
+    "googlePlaceId": "ChIJPS8b1vhYwokRldqq2YHmxJI"
+  },
+  "nyc/rockefeller-center": {
+    "googlePlaceId": "ChIJ9U1mz_5YwokRosza1aAk0jM"
+  },
+  "nyc/soho-cast-iron-district": {
+    "googlePlaceId": "ChIJZ5YPvCJZwokRwqzRW0glOxE"
+  },
+  "nyc/south-street-seaport": {
+    "googlePlaceId": "EhtTb3V0aCBTdCwgTmV3IFlvcmssIE5ZLCBVU0EiLiosChQKEgkleibqOlrCiRFTLFC5S1-9YhIUChIJ8_BTUSNawokRZOkHlZpubSI"
+  },
+  "nyc/st-john-the-divine": {
+    "googlePlaceId": "ChIJa0R7Vjz2wokR_wv0XhIOo8Q"
+  },
+  "nyc/statue-of-liberty": {
+    "googlePlaceId": "ChIJPTacEpBQwokRKwIlDXelxkA"
+  },
+  "nyc/stonewall-national-monument": {
+    "googlePlaceId": "ChIJC-exc5RZwokRWb0fbD6ZBTc"
+  },
+  "nyc/the-high-line": {
+    "googlePlaceId": "ChIJ5bQPhMdZwokRkTwKhVxhP1g"
+  },
+  "nyc/the-met-cloisters": {
+    "googlePlaceId": "ChIJK6bycAH0wokRrSnflfrnkZE"
+  },
+  "nyc/times-square": {
+    "googlePlaceId": "ChIJmQJIxlVYwokRLgeuocVOGVU"
+  },
+  "nyc/united-nations-hq": {
+    "googlePlaceId": "ChIJEU2H4BxZwokRNfY93Yvi-sU"
+  },
+  "nyc/whitney-museum": {
+    "googlePlaceId": "ChIJN3MJ6pRYwokRiXg91flSP8Y"
+  },
+  "nyc/williamsburg-bridge": {
+    "googlePlaceId": "ChIJxyfd2ddbwokR26AT-8t_Xtg"
+  },
+  "nyc/yankee-stadium": {
+    "googlePlaceId": "ChIJcWnnWiz0wokRCB6aVdnDQEk"
+  },
   "philly/ardmore-music-hall": {
     "googlePlaceId": "ChIJVVxRaIbAxokRaUIqCSOUB94"
   },
@@ -644,6 +797,9 @@
   "silicon-valley/filoli-historic-house-and-garden": {
     "googlePlaceId": "ChIJ1RXyM62hj4ARp0jUvcR7yzw"
   },
+  "silicon-valley/fox-theatre-redwood-city": {
+    "googlePlaceId": "ChIJ5_eDzFKij4ARR8mqZagHhM8"
+  },
   "silicon-valley/googleplex": {
     "googlePlaceId": "ChIJj61dQgK6j4AR4GeTYWZsKWw"
   },
@@ -652,6 +808,9 @@
   },
   "silicon-valley/hakone-estate-and-gardens": {
     "googlePlaceId": "ChIJjZdKxh9LjoARQsCEXVAnDx4"
+  },
+  "silicon-valley/hammer-theatre-center": {
+    "googlePlaceId": "ChIJxfWisLvMj4ARLNfwpDgtJyY"
   },
   "silicon-valley/hp-garage": {
     "googlePlaceId": "ChIJE5Nk7rC7j4ARW_lI6P5DoMg"
@@ -674,17 +833,41 @@
   "silicon-valley/nvidia-hq": {
     "googlePlaceId": "ChIJ24DEAifKj4ARyQheuUd4UnY"
   },
+  "silicon-valley/original-joes-san-jose": {
+    "googlePlaceId": "ChIJKww9ZLrMj4ARb-KGDMCdo_I"
+  },
+  "silicon-valley/paypal-park": {
+    "googlePlaceId": "ChIJGXZh0aHLj4ARX-9DpASeh5w"
+  },
   "silicon-valley/red-rock-coffee": {
     "googlePlaceId": "ChIJF8VqETS3j4ARxmLCuGE7dzk"
   },
+  "silicon-valley/rengstorff-house": {
+    "googlePlaceId": "ChIJ9758BB-6j4ARnYuWzI2H67g"
+  },
   "silicon-valley/rosicrucian-egyptian-museum": {
     "googlePlaceId": "ChIJ1UbraGvLj4ARkgVRgqtwO4E"
+  },
+  "silicon-valley/san-jose-museum-of-art": {
+    "googlePlaceId": "ChIJVx91TrvMj4ARzWqeIcRwuXs"
+  },
+  "silicon-valley/san-pedro-square-market": {
+    "googlePlaceId": "ChIJgxS1DqPMj4ARcXC8uguCrbU"
+  },
+  "silicon-valley/sand-hill-sundeck": {
+    "googlePlaceId": "ChIJCxO08v6lj4ARLk79MGJCQ5s"
   },
   "silicon-valley/sap-center": {
     "googlePlaceId": "ChIJq56TmaDMj4ARJJCpWy9v-i0"
   },
   "silicon-valley/shoreline-amphitheatre": {
     "googlePlaceId": "ChIJZeH1dve5j4ARPT9VG0oB3x0"
+  },
+  "silicon-valley/stanford-stadium": {
+    "googlePlaceId": "ChIJM1VVVSm7j4AR7l0mAlv7LnI"
+  },
+  "silicon-valley/stanford-theatre": {
+    "googlePlaceId": "ChIJQViY5Tm7j4ARi8P0xr1zR2g"
   },
   "silicon-valley/the-tech-interactive": {
     "googlePlaceId": "ChIJR8HI1brMj4ARBnFq5rlvpx4"

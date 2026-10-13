@@ -38,6 +38,12 @@
   "miami/titanic-brewing-company": [
     "google"
   ],
+  "nyc/grants-tomb": [
+    "google"
+  ],
+  "nyc/wall-street-nyse": [
+    "google"
+  ],
   "san-francisco/alcatraz-island": [
     "google"
   ],
@@ -89,6 +95,9 @@
   "silicon-valley/a16z-menlo-park-headquarters": [
     "google"
   ],
+  "silicon-valley/a16z-the-quad-expansion": [
+    "google"
+  ],
   "silicon-valley/adobe-hq": [
     "google"
   ],
@@ -107,10 +116,19 @@
   "silicon-valley/calafia-cafe": [
     "google"
   ],
+  "silicon-valley/center-of-santa-clara-valley-plaque": [
+    "google"
+  ],
   "silicon-valley/cisco-current-hq": [
     "google"
   ],
   "silicon-valley/cisco-original-site": [
+    "google"
+  ],
+  "silicon-valley/cromemco-origin": [
+    "google"
+  ],
+  "silicon-valley/doc-herrold-radio-broadcast-site": [
     "google"
   ],
   "silicon-valley/dolby-labs-early-bay-area-lab": [
@@ -122,6 +140,9 @@
   "silicon-valley/electronic-arts-first-base": [
     "google"
   ],
+  "silicon-valley/emerson-channing-plaque": [
+    "google"
+  ],
   "silicon-valley/fairchild-semiconductor-original-building": [
     "google"
   ],
@@ -129,6 +150,18 @@
     "google"
   ],
   "silicon-valley/gopro-origin-cottage": [
+    "google"
+  ],
+  "silicon-valley/ibm-building-025-memorial": [
+    "google"
+  ],
+  "silicon-valley/ideo-david-kelley-design-origin": [
+    "google"
+  ],
+  "silicon-valley/logitech-early-us-base": [
+    "google"
+  ],
+  "silicon-valley/loudcloud-opsware-hq": [
     "google"
   ],
   "silicon-valley/nasa-ames-hangar-one": [
@@ -167,6 +200,12 @@
   "silicon-valley/the-lucky-building-karma-building": [
     "google"
   ],
+  "silicon-valley/varian-associates": [
+    "google"
+  ],
+  "silicon-valley/vm-labs-origin": [
+    "google"
+  ],
   "silicon-valley/x-com-early-address": [
     "google"
   ],
@@ -177,6 +216,9 @@
     "google"
   ],
   "silicon-valley/youtube-garage": [
+    "google"
+  ],
+  "silicon-valley/zilog-federico-faggin-origin": [
     "google"
   ]
 }

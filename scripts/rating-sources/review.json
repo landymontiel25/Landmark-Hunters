@@ -791,6 +791,661 @@
       ]
     }
   },
+  "nyc/550-madison-avenue": {
+    "name": "550 Madison Avenue",
+    "lat": 40.76138889,
+    "lng": -73.97333333,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ0RNX-_pYwokRSwJeJLDCmJg",
+          "name": "550 Madison Ave",
+          "lat": 40.761465099999995,
+          "lng": -73.9731999,
+          "distanceM": 14,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "nyc/arthur-avenue": {
+    "name": "Arthur Avenue",
+    "lat": 40.855,
+    "lng": -73.8874,
+    "google": {
+      "reason": "name matches but 250 m away",
+      "candidates": [
+        {
+          "id": "ChIJH_JJSn30wokRA9NOVGocUcI",
+          "name": "Arthur Avenue",
+          "lat": 40.853372,
+          "lng": -73.8894579,
+          "distanceM": 250,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/brooklyn-bridge-park": {
+    "name": "Brooklyn Bridge Park",
+    "lat": 40.69777778,
+    "lng": -73.99833333,
+    "google": {
+      "reason": "name matches but 538 m away",
+      "candidates": [
+        {
+          "id": "ChIJjaFpo0ZawokRBcOFUZ13CaE",
+          "name": "Brooklyn Bridge Park",
+          "lat": 40.7022422,
+          "lng": -73.9958601,
+          "distanceM": 538,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/charging-bull": {
+    "name": "Charging Bull",
+    "lat": 40.705576,
+    "lng": -74.013421,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJURWoF5pYwokRIfXv4To528c",
+          "name": "Charging Bull",
+          "lat": 40.7055746,
+          "lng": -74.0134499,
+          "distanceM": 2,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJCXd8WxFawokRTdFCruE38Wo",
+          "name": "Charging Bull",
+          "lat": 40.705553699999996,
+          "lng": -74.0134436,
+          "distanceM": 3,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJgSycqf5bwokRteIQBZGu8nI",
+          "name": "The Fearless Girl",
+          "lat": 40.70679,
+          "lng": -74.0108317,
+          "distanceM": 257,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "nyc/coney-island": {
+    "name": "Coney Island",
+    "lat": 40.575,
+    "lng": -73.9825,
+    "google": {
+      "reason": "name matches but 998 m away",
+      "candidates": [
+        {
+          "id": "ChIJy3Wdl0hEwokReRGPPNxadFQ",
+          "name": "Coney Island",
+          "lat": 40.5755438,
+          "lng": -73.9707016,
+          "distanceM": 998,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/edge-hudson-yards": {
+    "name": "Edge",
+    "lat": 40.7541,
+    "lng": -74.0008,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ-5BETI9ZwokRrgJuBOzJdgM",
+          "name": "Beyond the Edge",
+          "lat": 40.7538221,
+          "lng": -74.0011542,
+          "distanceM": 43,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJd6jRZgBZwokR7FNsH-DvnBA",
+          "name": "Edge Observatory",
+          "lat": 40.753478199999996,
+          "lng": -74.0010393,
+          "distanceM": 72,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ3aqq5Q1ZwokRb9hLO7Gyxgw",
+          "name": "Edge NYC",
+          "lat": 40.753393599999995,
+          "lng": -74.00105500000001,
+          "distanceM": 81,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/fifth-avenue": {
+    "name": "Fifth Avenue",
+    "lat": 40.774078,
+    "lng": -73.965863,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ9Uc4naJYwokRSndBAbr7TVY",
+          "name": "5th Avenue",
+          "lat": 40.7745062,
+          "lng": -73.9655418,
+          "distanceM": 55,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "nyc/flatiron-building": {
+    "name": "Flatiron Building",
+    "lat": 40.74111111,
+    "lng": -73.98972222,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJZx8c96NZwokRJklw7SVhKt4",
+          "name": "Flatiron Building",
+          "lat": 40.741060499999996,
+          "lng": -73.9896986,
+          "distanceM": 6,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJbSSUB6RZwokRrdP7z8cjfX8",
+          "name": "Flatiron Building",
+          "lat": 40.7410065,
+          "lng": -73.9896538,
+          "distanceM": 13,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/green-wood-cemetery": {
+    "name": "Green-Wood Cemetery",
+    "lat": 40.6525,
+    "lng": -73.99111111,
+    "google": {
+      "reason": "name matches but 691 m away",
+      "candidates": [
+        {
+          "id": "ChIJ5wpCzsJawokRZ_zEIYKrf60",
+          "name": "The Green-Wood Cemetery",
+          "lat": 40.6581227,
+          "lng": -73.994603,
+          "distanceM": 691,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/hudson-yards-vessel": {
+    "name": "Hudson Yards & Vessel",
+    "lat": 40.75416667,
+    "lng": -74.0025,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJqygAFrRZwokRwF0VrBoXS0E",
+          "name": "Vessel",
+          "lat": 40.7538073,
+          "lng": -74.0021537,
+          "distanceM": 49,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/lincoln-center": {
+    "name": "Lincoln Center",
+    "lat": 40.7725,
+    "lng": -73.9839,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJN6W-X_VYwokRTqwcBnTw1Uk",
+          "name": "Lincoln Center for the Performing Arts",
+          "lat": 40.7724641,
+          "lng": -73.9834889,
+          "distanceM": 35,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/new-york-public-library": {
+    "name": "New York Public Library",
+    "lat": 40.75305556,
+    "lng": -73.98194444,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJJcFX6alZwokRPElLWaXkTeA",
+          "name": "The New York Public Library Shop",
+          "lat": 40.7529806,
+          "lng": -73.9817518,
+          "distanceM": 18,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ41L4bwBZwokRefwq7Pyh1mI",
+          "name": "The Rose Main Reading Room",
+          "lat": 40.7531448,
+          "lng": -73.9822317,
+          "distanceM": 26,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJqaiomQBZwokRTHOaUG7fUTs",
+          "name": "New York Public Library - Stephen A. Schwarzman Building",
+          "lat": 40.753182300000006,
+          "lng": -73.9822534,
+          "distanceM": 30,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/plaza-hotel": {
+    "name": "The Plaza Hotel",
+    "lat": 40.7645,
+    "lng": -73.9744,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJYaVdffBYwokRnTOoCzCq9mE",
+          "name": "The Plaza",
+          "lat": 40.7646318,
+          "lng": -73.9743251,
+          "distanceM": 16,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/riverside-church": {
+    "name": "Riverside Church",
+    "lat": 40.81194444,
+    "lng": -73.96305556,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJbfoLm0D2wokRciT8D0epqOM",
+          "name": "The Riverside Church",
+          "lat": 40.8119008,
+          "lng": -73.9630756,
+          "distanceM": 5,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJmf16hUD2wokRnhX5YPzPxbI",
+          "name": "The Weekday School",
+          "lat": 40.811804599999995,
+          "lng": -73.96332,
+          "distanceM": 27,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJQxxygUD2wokRpZv_nPJAqIs",
+          "name": "The Riverside Church - Food Pantry",
+          "lat": 40.811655699999996,
+          "lng": -73.9627302,
+          "distanceM": 42,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/seagram-building": {
+    "name": "Seagram Building",
+    "lat": 40.75861111,
+    "lng": -73.97222222,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJzx9RX_tYwokRPF3szQ9WNyE",
+          "name": "Seagram Building",
+          "lat": 40.758739999999996,
+          "lng": -73.9722414,
+          "distanceM": 14,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJZbNwp_xYwokR-otrIQUpMPE",
+          "name": "Seagram Building",
+          "lat": 40.758279699999996,
+          "lng": -73.97194209999999,
+          "distanceM": 44,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/sept-11-memorial-museum": {
+    "name": "National September 11 Memorial & Museum",
+    "lat": 40.71166667,
+    "lng": -74.01361111,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJRcvoOxpawokR7R4dQMXMMPQ",
+          "name": "9/11 Memorial & Museum",
+          "lat": 40.7115776,
+          "lng": -74.0133362,
+          "distanceM": 25,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "nyc/st-patricks-cathedral": {
+    "name": "St. Patrick's Cathedral",
+    "lat": 40.75861111,
+    "lng": -73.97638889,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJR1W5DfxYwokR2n7Oo1xhEbA",
+          "name": "St. Patrick's Cathedral",
+          "lat": 40.758553299999996,
+          "lng": -73.9763029,
+          "distanceM": 10,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJUW4vEPxYwokRW6o24DU0YIg",
+          "name": "St. Patrick's Cathedral",
+          "lat": 40.758611699999996,
+          "lng": -73.9761953,
+          "distanceM": 16,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJC80I541ZwokRlWC_JtlWi1Q",
+          "name": "St Patrick's Tour",
+          "lat": 40.7587921,
+          "lng": -73.97661740000001,
+          "distanceM": 28,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "nyc/the-battery": {
+    "name": "The Battery",
+    "lat": 40.70361111,
+    "lng": -74.01611111,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJR3FL9hJawokR6bS0S-4-pMw",
+          "name": "The Battery",
+          "lat": 40.7028804,
+          "lng": -74.016251,
+          "distanceM": 82,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJraKL-BJawokREpxDmF5GcL4",
+          "name": "The Battery",
+          "lat": 40.702931199999995,
+          "lng": -74.0153603,
+          "distanceM": 99,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJbbVB9BJawokRv-9eqUGEz0c",
+          "name": "The Battery Fountain",
+          "lat": 40.702761699999996,
+          "lng": -74.0165257,
+          "distanceM": 101,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/the-dakota": {
+    "name": "The Dakota",
+    "lat": 40.77666667,
+    "lng": -73.97638889,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJmeJZYoxYwokRCRPVFhoAwVU",
+          "name": "The Dakota",
+          "lat": 40.7767888,
+          "lng": -73.9761657,
+          "distanceM": 23,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJOzxOZIxYwokR1UI1YDL1WT8",
+          "name": "The Dakota",
+          "lat": 40.7769944,
+          "lng": -73.9760699,
+          "distanceM": 45,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJYRdWlotYwokRat39bGC-kAQ",
+          "name": "The Dakota Bar",
+          "lat": 40.77753010000001,
+          "lng": -73.9783988,
+          "distanceM": 195,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/the-oculus": {
+    "name": "The Oculus",
+    "lat": 40.7115,
+    "lng": -74.0114,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ4f4VwT5bwokRwQ6hjfC-eTM",
+          "name": "Oculus World Trade Center",
+          "lat": 40.711804199999996,
+          "lng": -74.0118498,
+          "distanceM": 51,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/theater-district-broadway": {
+    "name": "Broadway & the Theater District",
+    "lat": 40.759,
+    "lng": -73.985,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "EhtCcm9hZHdheSwgTmV3IFlvcmssIE5ZLCBVU0EiLiosChQKEgk5IyONWVbCiRGelpM_JoWL2hIUChIJgzD7uFVYwokRXCoEdvGu-aA",
+          "name": "Broadway",
+          "lat": 40.7586844,
+          "lng": -73.9854401,
+          "distanceM": 51,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/trinity-church": {
+    "name": "Trinity Church Wall Street",
+    "lat": 40.70805556,
+    "lng": -74.01222222,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJbVfZzhBawokRnmCT-muojBA",
+          "name": "Trinity Church NYC",
+          "lat": 40.7078931,
+          "lng": -74.0117901,
+          "distanceM": 41,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJN7dIijlbwokR9WGkQHX0vd0",
+          "name": "Trinity Commons",
+          "lat": 40.7083433,
+          "lng": -74.0127261,
+          "distanceM": 53,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJ60DCpIxbwokRHqZaNORwvc0",
+          "name": "Trinity Church Offices",
+          "lat": 40.708192499999996,
+          "lng": -74.0129432,
+          "distanceM": 63,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "nyc/unisphere-flushing-meadows": {
+    "name": "Unisphere & Flushing Meadows",
+    "lat": 40.74638889,
+    "lng": -73.845,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ4V8gytlfwokR432CV78b2a8",
+          "name": "Unisphere",
+          "lat": 40.7463961,
+          "lng": -73.8450629,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/washington-square-park": {
+    "name": "Washington Square Park",
+    "lat": 40.73083333,
+    "lng": -73.9975,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJjX494pBZwokRGH620d9eYfo",
+          "name": "Washington Square Park",
+          "lat": 40.7308838,
+          "lng": -73.997332,
+          "distanceM": 15,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJT5gpGSxZwokRTFhhl9njMZk",
+          "name": "Washington Square Park",
+          "lat": 40.7305056,
+          "lng": -73.9968651,
+          "distanceM": 65,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/woolworth-building": {
+    "name": "Woolworth Building",
+    "lat": 40.71222222,
+    "lng": -74.00805556,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJUSBl7RhawokR1uWCCvWriXQ",
+          "name": "The Woolworth Building",
+          "lat": 40.71243,
+          "lng": -74.0083547,
+          "distanceM": 34,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ4xga-BhawokR4A2dxnFFS08",
+          "name": "Woolworth Building",
+          "lat": 40.711756199999996,
+          "lng": -74.00867,
+          "distanceM": 73,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "san-francisco/a16z-san-francisco-office": {
     "name": "a16z San Francisco Office",
     "lat": 37.779371,
