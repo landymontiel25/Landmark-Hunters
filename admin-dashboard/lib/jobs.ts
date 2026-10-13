@@ -6,14 +6,18 @@ export const JOB_ACTIONS = ['mapr-run', 'refresh', 'tips-queue', 'tip-moderate']
 export type JobAction = (typeof JOB_ACTIONS)[number];
 export const TIP_DECISIONS = ['approve', 'remove', 'clear'] as const;
 const TIP_ID = /^[A-Za-z0-9_.-]{1,300}$/;
+const GEN = /^[A-Za-z0-9-]{1,64}$/;
+const tipIdOk = (v: string) => TIP_ID.test(v) && v !== '.' && v !== '..' && !/^__.*__$/.test(v);
 
 // Only the fields each action takes pass through, checked here too.
 export function jobParams(action: JobAction, input: unknown): Record<string, string> | null {
   if (action !== 'tip-moderate') return {};
   const x = (input || {}) as Record<string, unknown>;
-  if (typeof x.tipId !== 'string' || !TIP_ID.test(x.tipId)) return null;
+  if (typeof x.tipId !== 'string' || !tipIdOk(x.tipId)) return null;
   if (!TIP_DECISIONS.includes(x.decision as (typeof TIP_DECISIONS)[number])) return null;
-  return { tipId: x.tipId, decision: x.decision as string };
+  // The post the owner reviewed (its gen): a decision never lands on a newer one.
+  if (x.gen != null && (typeof x.gen !== 'string' || !GEN.test(x.gen))) return null;
+  return { tipId: x.tipId, decision: x.decision as string, ...(typeof x.gen === 'string' ? { gen: x.gen } : {}) };
 }
 
 export async function forwardJob(action: unknown, { appUrl = process.env.APP_URL, secret = process.env.ADMIN_JOBS_SECRET, fetchImpl = fetch, params = undefined as unknown } = {}): Promise<{ status: number; body: unknown }> {

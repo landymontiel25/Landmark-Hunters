@@ -134,8 +134,11 @@ Remove and Delete go through `api/admin-jobs.js` (`tips-queue`,
 count (resolved reports stay as the record). The nightly job writes
 `tip_metrics/{date}` (tips by state, posted, impressions, people with a
 live tip in 30 days, live tips per region) and sweeps marks and views
-whose tip is gone or reposted (`sweepTipOrphans`, skipped when the tips
-read was truncated). Phase 1 is complete; the 50-tip checkpoint is
+whose tip is gone or reposted (`sweepTipOrphans`: reads the tips at sweep
+time, skips the last hour, walks 2,000 docs a night from a cursor in
+server-only `tip_sweep_state`). A decision applies only to the post the
+owner saw (its `gen`); Remove and Delete ask first. The reported queue
+uses a new `tips (status, reportCount)` index. Phase 1 is complete; the 50-tip checkpoint is
 skipped at the owner's request.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)

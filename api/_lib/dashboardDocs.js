@@ -54,7 +54,7 @@ const clean = (o) => JSON.parse(JSON.stringify(o));
 // Firestore's 1500-byte limit.
 export const safeDocId = (id) => String(id).replace(/\//g, '_').slice(0, 500);
 
-export async function writeDashboardDaily(db, ds, report, { now = Date.now() } = {}) {
+export async function writeDashboardDaily(db, ds, report, { now = Date.now(), tips = true } = {}) {
   const ts = FieldValue.serverTimestamp();
   const yesterday = report.date;
   const dates = lastDates(yesterday, DASHBOARD_DAYS);
@@ -65,7 +65,7 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now() } =
   for (const d of tasteDocs(ds, dates)) writes.push(['taste_score', d.date, { ...d, createdAt: ts }]);
   for (const d of presenceDocs(ds, dates)) writes.push(['presence_metrics', d.date, { ...clean(d), createdAt: ts }]);
   // Today's tip state is only known now: the last day only.
-  for (const d of tipDocs(ds, [yesterday])) writes.push(['tip_metrics', d.date, { ...clean(d), createdAt: ts }]);
+  if (tips) for (const d of tipDocs(ds, [yesterday])) writes.push(['tip_metrics', d.date, { ...clean(d), createdAt: ts }]);
   for (const d of retentionDocs(ds, lastDates(dateUtc(now), DASHBOARD_COHORTS), now)) writes.push(['retention_cohorts', d.cohort_date, { ...clean(d), createdAt: ts }]);
   const acc = accuracyDocs(ds, yesterday, { annotated });
   writes.push(['accuracy_by_category', yesterday, { ...clean(acc.byCategory), createdAt: ts }]);

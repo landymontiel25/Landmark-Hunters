@@ -83,7 +83,7 @@ export default async function handler(req, res) {
       return;
     }
     if (body.action === 'tip-moderate') {
-      const out = await moderateTip(db, body.tipId, body.decision);
+      const out = await moderateTip(db, body.tipId, body.decision, typeof body.gen === 'string' ? { gen: body.gen } : {});
       res.status(out.status).json(out.body);
       return;
     }

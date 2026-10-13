@@ -198,7 +198,7 @@ export interface AppMetrics {
   study?: { series?: { date: string; mapr: number | null; baseline: number | null; users: number }[] };
 }
 
-// presence_metrics/{date}: verified visits per day (api/verify-checkin.js).
+// tip_metrics/{date}: tips by state at the nightly run (Phase 1).
 export interface TipMetric {
   date: string;
   live: number;
@@ -218,6 +218,7 @@ export interface TipMetric {
 
 export interface TipQueueRow {
   id: string;
+  gen: string | null;
   authorUid: string;
   authorName: string | null;
   landmarkId: string;
@@ -235,6 +236,7 @@ export interface TipQueueRow {
   accountDeleted: boolean;
 }
 
+// presence_metrics/{date}: verified visits per day (api/verify-checkin.js).
 export interface PresenceMetric {
   date: string;
   checkins: number;

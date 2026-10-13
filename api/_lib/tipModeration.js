@@ -1,6 +1,6 @@
-import { FieldValue } from 'firebase-admin/firestore';
+import { FieldPath, FieldValue } from 'firebase-admin/firestore';
 import { toMs } from './time.js';
-import { deleteRefs, deleteTipPhoto } from './tipsServer.js';
+import { deleteRefs, deleteTipPhoto, isFirestoreId } from './tipsServer.js';
 
 // The admin dashboard's Content page (admin-dashboard/app/dashboard/content),
 // through api/admin-jobs.js: tips waiting for the owner, and what the owner
@@ -17,6 +17,7 @@ export const TIP_DECISIONS = ['approve', 'remove', 'clear'];
 function queueRow(id, t, reports) {
   return {
     id,
+    gen: t.gen ?? null,
     authorUid: t.authorUid,
     authorName: t.authorName || null,
     landmarkId: t.landmarkId,
@@ -37,9 +38,11 @@ function queueRow(id, t, reports) {
 }
 
 export async function tipsQueue(db) {
+  // Reported = live with reports (index: status + reportCount), so removed
+  // tips with old reports never crowd it out.
   const [held, reported, withdrawn] = await Promise.all([
     db.collection('tips').where('status', '==', 'held').limit(QUEUE_LIMIT).get(),
-    db.collection('tips').where('reportCount', '>', 0).limit(QUEUE_LIMIT).get(),
+    db.collection('tips').where('status', '==', 'live').where('reportCount', '>', 0).limit(QUEUE_LIMIT).get(),
     db.collection('tips').where('status', '==', 'withdrawn').limit(QUEUE_LIMIT).get(),
   ]);
   const byId = new Map();
@@ -49,10 +52,15 @@ export async function tipsQueue(db) {
     byId.set(d.id, t);
   }
   const ids = [...byId.keys()];
-  const reportSnaps = await Promise.all(ids.map((id) => db.collection('tip_reports').where('tipId', '==', id).get()));
-  const rows = ids.map((id, i) => {
+  // Reports in chunks of 30 tips (Firestore's 'in' limit).
+  const reportsOf = new Map(ids.map((id) => [id, []]));
+  for (let i = 0; i < ids.length; i += 30) {
+    const snap = await db.collection('tip_reports').where('tipId', 'in', ids.slice(i, i + 30)).get();
+    for (const d of snap.docs) reportsOf.get(d.data().tipId)?.push(d.data());
+  }
+  const rows = ids.map((id) => {
     const t = byId.get(id);
-    const reports = reportSnaps[i].docs.map((d) => d.data()).filter((r) => (r.gen ?? null) === (t.gen ?? null) && !r.resolvedAt);
+    const reports = reportsOf.get(id).filter((r) => (r.gen ?? null) === (t.gen ?? null) && !r.resolvedAt);
     return queueRow(id, t, reports);
   });
   const order = { held: 0, withdrawn: 1, live: 2 };
@@ -76,57 +84,89 @@ export async function tipsQueue(db) {
 //            author can never post at that place again
 //   clear    deleted for good with its marks, views and photo (reports kept
 //            as the record); the author may post there again
-export async function moderateTip(db, tipId, decision, { nowMs = Date.now() } = {}) {
-  if (typeof tipId !== 'string' || !/^[\w.-]{1,300}$/.test(tipId)) return { status: 400, body: { error: 'tipId is required.' } };
+export async function moderateTip(db, tipId, decision, { nowMs = Date.now(), gen } = {}) {
+  if (!isFirestoreId(tipId)) return { status: 400, body: { error: 'tipId is required.' } };
   if (!TIP_DECISIONS.includes(decision)) return { status: 400, body: { error: 'Unknown decision.' } };
   const ref = db.collection('tips').doc(tipId);
-  const snap = await ref.get();
-  if (!snap.exists) return { status: 404, body: { error: 'No such tip.' } };
-  const t = snap.data();
-  const gone = decision === 'clear' || (decision === 'approve' && t.status === 'withdrawn');
-  if (gone) {
-    await ref.delete();
-    const [reactions, views] = await Promise.all([
-      db.collection('tip_reactions').where('tipId', '==', tipId).get(),
-      db.collection('tip_views').where('tipId', '==', tipId).get(),
-    ]);
-    await deleteRefs(db, [...reactions.docs, ...views.docs].map((d) => d.ref));
-    await deleteTipPhoto(t.photoPath);
-    return { status: 200, body: { ok: true, result: 'deleted' } };
+  // One transaction, on the post the owner reviewed (gen): a newer post at
+  // the same id, or one changed meanwhile, is never approved or removed
+  // unseen.
+  const out = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists) return { status: 404, body: { error: 'No such tip.' } };
+    const t = snap.data();
+    if (gen !== undefined && (t.gen ?? null) !== gen) return { status: 409, body: { error: 'This tip changed since the list loaded. Reload and look again.' } };
+    if (decision === 'clear' || (decision === 'approve' && t.status === 'withdrawn')) {
+      tx.delete(ref);
+      return { status: 200, body: { ok: true, result: 'deleted' }, cleanup: t };
+    }
+    if (decision === 'remove') {
+      tx.update(ref, { status: 'removed', hidden: true, photoURL: null, reviewedAt: nowMs, reviewDecision: 'remove', updatedAt: FieldValue.serverTimestamp() });
+      return { status: 200, body: { ok: true, result: 'removed' }, photoOnly: t };
+    }
+    if (t.status === 'removed') return { status: 409, body: { error: 'This tip was removed.' } };
+    tx.update(ref, { status: 'live', hidden: false, reportCount: 0, heldReasons: [], reviewedAt: nowMs, reviewDecision: 'approve', updatedAt: FieldValue.serverTimestamp() });
+    return { status: 200, body: { ok: true, result: 'live' }, resolve: true };
+  });
+  // After the decision, side by side so one failure doesn't strand another
+  // (the photo above all); reports stay as the record.
+  const steps = [];
+  if (out.cleanup) {
+    steps.push(
+      Promise.all([db.collection('tip_reactions').where('tipId', '==', tipId).get(), db.collection('tip_views').where('tipId', '==', tipId).get()]).then(([r, v]) =>
+        deleteRefs(db, [...r.docs, ...v.docs].map((d) => d.ref))
+      ),
+      deleteTipPhoto(out.cleanup.photoPath)
+    );
   }
-  if (decision === 'remove') {
-    await ref.update({ status: 'removed', hidden: true, photoURL: null, reviewedAt: nowMs, reviewDecision: 'remove', updatedAt: FieldValue.serverTimestamp() });
-    await deleteTipPhoto(t.photoPath);
-    return { status: 200, body: { ok: true, result: 'removed' } };
+  if (out.photoOnly) steps.push(deleteTipPhoto(out.photoOnly.photoPath));
+  if (out.resolve) {
+    steps.push(
+      db.collection('tip_reports').where('tipId', '==', tipId).get().then(async (reports) => {
+        const open = reports.docs.filter((d) => !d.data().resolvedAt);
+        for (let i = 0; i < open.length; i += 400) {
+          const b = db.batch();
+          for (const d of open.slice(i, i + 400)) b.update(d.ref, { resolvedAt: nowMs });
+          await b.commit();
+        }
+      })
+    );
   }
-  // approve
-  if (t.status === 'removed') return { status: 409, body: { error: 'This tip was removed.' } };
-  await ref.update({ status: 'live', hidden: false, reportCount: 0, heldReasons: [], reviewedAt: nowMs, reviewDecision: 'approve', updatedAt: FieldValue.serverTimestamp() });
-  const reports = await db.collection('tip_reports').where('tipId', '==', tipId).get();
-  const open = reports.docs.filter((d) => !d.data().resolvedAt);
-  for (let i = 0; i < open.length; i += 400) {
-    const b = db.batch();
-    for (const d of open.slice(i, i + 400)) b.update(d.ref, { resolvedAt: nowMs });
-    await b.commit();
-  }
-  return { status: 200, body: { ok: true, result: 'live' } };
+  const failed = (await Promise.allSettled(steps)).filter((x) => x.status === 'rejected');
+  if (failed.length) console.error('tip moderation cleanup failed', failed.map((f) => f.reason?.message || f.reason));
+  return { status: out.status, body: out.body };
 }
 
 // Nightly: marks and views left by a tip that is gone, or by an earlier post
 // at the same id (a cleanup that failed after a delete). They never count,
 // but they stay as data about a person; this removes them. Reports stay
-// (the moderation record). At most `max` of each per night.
-// Never runs on a partial list of tips (a truncated read would make live
-// tips look gone).
-export async function sweepTipOrphans(db, tips, { max = 2000, truncated = [] } = {}) {
-  if (!Array.isArray(tips) || truncated.includes('tips')) return 0;
-  const genOf = new Map((tips || []).map((t) => [t.id, t.gen ?? null]));
-  const stale = (d) => {
-    const x = d.data() || {};
-    return !genOf.has(x.tipId) || (x.gen ?? null) !== genOf.get(x.tipId);
-  };
-  const [reactions, views] = await Promise.all([db.collection('tip_reactions').limit(max).get(), db.collection('tip_views').limit(max).get()]);
-  const refs = [...reactions.docs, ...views.docs].filter(stale).map((d) => d.ref);
-  await deleteRefs(db, refs);
-  return refs.length;
+// (the moderation record). It reads the tips itself, at sweep time, and
+// skips anything from the last hour, so a tip posted while the job runs is
+// never mistaken for a gone one. It walks each collection `max` docs a
+// night from where it stopped (tip_sweep_state/cursor, server-only), so a
+// big collection is covered over several nights.
+export async function sweepTipOrphans(db, { max = 2000, nowMs = Date.now() } = {}) {
+  const tipsSnap = await db.collection('tips').get();
+  const genOf = new Map(tipsSnap.docs.map((d) => [d.id, d.data().gen ?? null]));
+  const stateRef = db.collection('tip_sweep_state').doc('cursor');
+  const state = (await stateRef.get()).data() || {};
+  const next = {};
+  let removed = 0;
+  for (const col of ['tip_reactions', 'tip_views']) {
+    let q = db.collection(col).orderBy(FieldPath.documentId()).limit(max);
+    if (state[col]) q = q.startAfter(state[col]);
+    const snap = await q.get();
+    const stale = snap.docs.filter((d) => {
+      const x = d.data() || {};
+      const at = x.lastAt ?? x.firstAt ?? x.helpfulAt ?? x.savedAt ?? 0;
+      if (nowMs - at < 60 * 60 * 1000) return false;
+      return !genOf.has(x.tipId) || (x.gen ?? null) !== genOf.get(x.tipId);
+    });
+    await deleteRefs(db, stale.map((d) => d.ref));
+    removed += stale.length;
+    // A short page means the end: start over next night.
+    next[col] = snap.docs.length < max ? null : snap.docs[snap.docs.length - 1].id;
+  }
+  await stateRef.set(next);
+  return removed;
 }

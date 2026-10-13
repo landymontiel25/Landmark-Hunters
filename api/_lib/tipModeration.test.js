@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { fakeDb, fakeFieldValue } from './fakeDb.testutil.js';
+import { fakeDb, fakeFieldPath, fakeFieldValue } from './fakeDb.testutil.js';
 
 const deleted = [];
-vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
+vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue, FieldPath: fakeFieldPath }));
 vi.mock('./firebaseAdmin.js', () => ({ adminBucket: async () => ({ file: (p) => ({ delete: async () => deleted.push(p) }) }) }));
 
 const { moderateTip, sweepTipOrphans, tipsQueue } = await import('./tipModeration.js');
@@ -60,7 +60,13 @@ describe('moderateTip', () => {
     expect(db.docs['tips/ann_rep']).toBeUndefined();
     expect(db.docs['tip_reports/ann_rep_g1_x']).toBeDefined();
   });
+  it('acts only on the post the owner reviewed', async () => {
+    expect((await moderateTip(db, 'ann_held', 'approve', { gen: 'g-newer' })).status).toBe(409);
+    expect(db.docs['tips/ann_held'].status).toBe('held');
+    expect((await moderateTip(db, 'ann_held', 'approve', { gen: 'g1' })).status).toBe(200);
+  });
   it('refuses bad input and missing tips', async () => {
+    expect((await moderateTip(db, '..', 'approve')).status).toBe(400);
     expect((await moderateTip(db, '../x', 'approve')).status).toBe(400);
     expect((await moderateTip(db, 'ann_ok', 'nuke')).status).toBe(400);
     expect((await moderateTip(db, 'nope', 'approve')).status).toBe(404);
@@ -68,17 +74,18 @@ describe('moderateTip', () => {
 });
 
 describe('sweepTipOrphans', () => {
-  it('removes marks and views of a tip that is gone or an older post, keeps current ones, and never runs on partial data', async () => {
-    db.docs['tip_reactions/z_gone'] = { tipId: 'nope', gen: 'g1' };
-    db.docs['tip_views/z_old'] = { tipId: 'ann_ok', gen: 'g0' };
-    db.docs['tip_views/z_ok'] = { tipId: 'ann_ok', gen: 'g1' };
-    const tips = Object.entries(db.docs).filter(([k]) => k.startsWith('tips/')).map(([k, v]) => ({ id: k.slice(5), gen: v.gen }));
-    expect(await sweepTipOrphans(db, tips, { truncated: ['tips'] })).toBe(0);
-    expect(await sweepTipOrphans(db, undefined)).toBe(0);
-    expect(await sweepTipOrphans(db, tips)).toBe(2);
+  it('removes old marks and views of a tip that is gone or an older post, keeps current and recent ones', async () => {
+    const NOW = 10 * 60 * 60 * 1000;
+    db.docs['tip_reactions/z_gone'] = { tipId: 'nope', gen: 'g1', firstAt: 0 };
+    db.docs['tip_reactions/z_new'] = { tipId: 'not_yet_seen', gen: 'g9', firstAt: NOW - 1000 };
+    db.docs['tip_views/z_old'] = { tipId: 'ann_ok', gen: 'g0', lastAt: 0 };
+    db.docs['tip_views/z_ok'] = { tipId: 'ann_ok', gen: 'g1', lastAt: 0 };
+    expect(await sweepTipOrphans(db, { nowMs: NOW })).toBe(2);
     expect(db.docs['tip_reactions/z_gone']).toBeUndefined();
     expect(db.docs['tip_views/z_old']).toBeUndefined();
+    expect(db.docs['tip_reactions/z_new']).toBeDefined();
     expect(db.docs['tip_views/z_ok']).toBeDefined();
     expect(db.docs['tip_reactions/z_ann_wd']).toBeDefined();
+    expect(db.docs['tip_sweep_state/cursor']).toEqual({ tip_reactions: null, tip_views: null });
   });
 });

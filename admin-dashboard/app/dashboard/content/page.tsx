@@ -46,9 +46,12 @@ export default function Content() {
   }, [load]);
 
   const decide = async (row: TipQueueRow, decision: string) => {
+    // Remove and Delete can't be undone.
+    if (decision !== 'approve' && !window.confirm(decision === 'remove' ? 'Remove this tip for good? Its author can never post at this place again.' : 'Delete this tip for good?')) return;
     setBusy(`${row.id}:${decision}`);
     try {
-      await job('tip-moderate', { tipId: row.id, decision });
+      await job('tip-moderate', { tipId: row.id, decision, ...(row.gen ? { gen: row.gen } : {}) });
+      setError(null);
       setRows((list) => (list || []).filter((x) => x.id !== row.id));
     } catch (e) {
       setError((e as Error).message);

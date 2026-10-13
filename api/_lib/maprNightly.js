@@ -288,7 +288,9 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   // The admin dashboard's collections (api/_lib/dashboardDocs.js).
   let dashboardWrites = 0;
   try {
-    dashboardWrites = await writeDashboardDaily(db, data, report, { now });
+    // Tip metrics are the state at the nightly run: the dashboard's refresh
+    // (no stagnation step) leaves them alone.
+    dashboardWrites = await writeDashboardDaily(db, data, report, { now, tips: stagnation });
   } catch (e) {
     console.error('dashboard docs failed:', e?.message || e);
   }
@@ -297,7 +299,7 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   let tipOrphans = 0;
   if (stagnation) {
     try {
-      tipOrphans = await sweepTipOrphans(db, data.tips, { truncated: data.truncated || [] });
+      tipOrphans = await sweepTipOrphans(db, { nowMs: now });
     } catch (e) {
       console.error('tip orphan sweep failed:', e?.message || e);
     }

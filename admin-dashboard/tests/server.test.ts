@@ -173,11 +173,11 @@ describe('jobs proxy', () => {
   });
   it('passes a tip decision through only with a valid tip id and decision, and nothing else', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
-    const out = await forwardJob('tip-moderate', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params: { tipId: 'u1_bell', decision: 'remove', action: 'mapr-run', extra: 'x' } });
+    const out = await forwardJob('tip-moderate', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params: { tipId: 'u1_bell', decision: 'remove', gen: 'a1b2-c3', action: 'mapr-run', extra: 'x' } });
     expect(out.status).toBe(200);
     const [, init] = fetchImpl.mock.calls[0] as unknown as [string, RequestInit];
-    expect(JSON.parse(String(init.body))).toEqual({ action: 'tip-moderate', tipId: 'u1_bell', decision: 'remove' });
-    for (const params of [{ tipId: 'u1/../x', decision: 'remove' }, { tipId: 'u1_bell', decision: 'nuke' }, {}]) {
+    expect(JSON.parse(String(init.body))).toEqual({ action: 'tip-moderate', tipId: 'u1_bell', decision: 'remove', gen: 'a1b2-c3' });
+    for (const params of [{ tipId: 'u1/../x', decision: 'remove' }, { tipId: '..', decision: 'remove' }, { tipId: 'u1_bell', decision: 'nuke' }, { tipId: 'u1_bell', decision: 'remove', gen: 'x/y' }, {}]) {
       expect((await forwardJob('tip-moderate', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params })).status).toBe(400);
     }
     expect(fetchImpl).toHaveBeenCalledTimes(1);
