@@ -1344,15 +1344,20 @@ export default function MapExplore({ experiments = false }) {
               </Popup>
             </Marker>
           )}
-          <MarkerClusterGroup
-            chunkedLoading
-            maxClusterRadius={55}
-            spiderfyOnMaxZoom
-            iconCreateFunction={clusterIcon}
-          >
-            {markers}
-            {customMarkers}
-          </MarkerClusterGroup>
+          {/* During an itinerary trip (Start Trip) or a group trip's route,
+              only that trip's numbered stops show; every other place comes
+              back when the trip ends or is closed. */}
+          {!navTrip && !orderedTrip && (
+            <MarkerClusterGroup
+              chunkedLoading
+              maxClusterRadius={55}
+              spiderfyOnMaxZoom
+              iconCreateFunction={clusterIcon}
+            >
+              {markers}
+              {customMarkers}
+            </MarkerClusterGroup>
+          )}
         </MapContainer>
 
       {orderedTrip && !nav && (
