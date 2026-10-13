@@ -114,7 +114,9 @@ export function presenceLabel(presence) {
   if (presence.verified === true) return 'Verified visit';
   switch (presence.reason) {
     case 'too-far':
-      return finite(presence.distanceMeters) ? `Not verified: ${presence.distanceMeters} m away` : 'Not verified: too far away';
+      // Never a distance: nobody, the owner included, sees how far away a
+      // check-in was (it stays in the server-only proof).
+      return 'Not verified: too far away';
     case 'weak-signal':
       return 'Not verified: too weak a signal';
     case 'stale-fix':

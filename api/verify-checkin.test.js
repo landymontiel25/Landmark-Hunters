@@ -55,7 +55,11 @@ describe('api/verify-checkin', () => {
     const { code, body } = await call({ checkinId: 'me_bell', fix: fix() });
     expect(code).toBe(200);
     expect(body).toMatchObject({ ok: true, verified: true, reason: null });
-    expect(docs['checkins/me_bell'].presence).toMatchObject({ verified: true, distanceMeters: 0, accuracyMeters: 10, placeType: 'landmark', verifiedAt: 'ts' });
+    expect(docs['checkins/me_bell'].presence).toMatchObject({ verified: true, placeType: 'landmark', verifiedAt: 'ts' });
+    // Distance and accuracy stay in the server-only proof, never on the check-in.
+    expect(docs['checkins/me_bell'].presence.distanceMeters).toBeUndefined();
+    expect(docs['checkins/me_bell'].presence.accuracyMeters).toBeUndefined();
+    expect(docs['checkins/me_bell/proof/main']).toMatchObject({ distanceMeters: 0, accuracy: 10 });
     expect(docs['checkins/me_bell/proof/main']).toMatchObject({ uid: 'me', lat: 39.9496, verified: true });
     expect(docs['presence_state/me']).toMatchObject({ lat: 39.9496, checkinId: 'me_bell' });
   });
@@ -64,7 +68,9 @@ describe('api/verify-checkin', () => {
     const { body } = await call({ checkinId: 'me_bell', fix: fix({ lat: 39.9496 + 140 / 111195 }) });
     expect(body).toMatchObject({ verified: false, reason: 'too-far' });
     expect(docs['checkins/me_bell'].presence).toMatchObject({ verified: false, reason: 'too-far' });
-    expect(docs['checkins/me_bell'].presence.distanceMeters).toBeGreaterThanOrEqual(139);
+    expect(docs['checkins/me_bell'].presence.distanceMeters).toBeUndefined();
+    expect(body.distanceMeters).toBeUndefined();
+    expect(docs['checkins/me_bell/proof/main'].distanceMeters).toBeGreaterThanOrEqual(139);
     expect(docs['presence_state/me']).toBeUndefined();
   });
 

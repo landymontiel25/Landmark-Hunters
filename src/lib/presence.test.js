@@ -99,7 +99,8 @@ describe('validFix', () => {
 describe('presenceLabel', () => {
   it('says verified, or why not', () => {
     expect(presenceLabel({ verified: true })).toBe('Verified visit');
-    expect(presenceLabel({ verified: false, reason: 'too-far', distanceMeters: 140 })).toBe('Not verified: 140 m away');
+    // Never a distance, even on an old check-in that still has one.
+    expect(presenceLabel({ verified: false, reason: 'too-far', distanceMeters: 140 })).toBe('Not verified: too far away');
     expect(presenceLabel({ verified: false, reason: 'weak-signal' })).toBe('Not verified: too weak a signal');
     expect(presenceLabel(null)).toBe(null);
   });

@@ -157,6 +157,8 @@ export function fakeDb(initial = {}) {
             const v = f === '__id__' ? p : getField(docs[p], f);
             return v && typeof v.toMillis === 'function' ? v.toMillis() : v;
           };
+          // Like Firestore: ordering by a field leaves out docs without it.
+          if (f !== '__id__') paths = paths.filter((p) => val(p) !== undefined);
           paths.sort((a, b) => (val(a) < val(b) ? -1 : val(a) > val(b) ? 1 : 0) * (dir === 'desc' ? -1 : 1));
         }
         if (lim != null) paths = paths.slice(0, lim);

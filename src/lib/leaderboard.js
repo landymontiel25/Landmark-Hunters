@@ -12,7 +12,6 @@ import {
   onSnapshot,
   serverTimestamp,
   increment,
-  deleteField,
   writeBatch,
   arrayUnion,
   arrayRemove,
@@ -415,15 +414,9 @@ export async function getRegionCheckinCounts(region) {
   if (stats?.exists() && stats.data().backfilled) {
     counts = stats.data().counts || {};
   } else {
-    // check-ins need a signed-in user; signed out, there is nothing to count.
-    const snap = await getDocs(query(collection(db, 'checkins'), where('region', '==', region))).catch(() => null);
-    if (!snap) return {};
-    counts = {};
-    for (const d of snap.docs) {
-      const x = d.data();
-      if (isRealCheckin(x)) counts[x.landmarkId] = (counts[x.landmarkId] || 0) + 1;
-    }
-    setDoc(statsRef, { counts, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
+    // Not backfilled yet: the nightly job fills it (a phone can't count
+    // other people's check-ins since Phase 2), so for now there's nothing.
+    counts = stats?.exists() ? stats.data().counts || {} : {};
   }
   regionCountsCache.set(region, { at: Date.now(), counts });
   return counts;
@@ -633,32 +626,18 @@ export async function getMyLeaderboardEntry(period, userId) {
 
 /**
  * Regional leaderboard: ranked by points earned checking in within one
- * curated region (Miami, Milan, etc.) during the current period. There's no
- * per-region leaderboard_entries doc, so this aggregates directly from
- * checkins -- a single-field query (region ==) filtered to this period's
- * check-ins client-side, then summed per user. Fine at this app's current
- * scale; would need a denormalized per-region entry (written alongside the
- * existing per-period ones in claimCheckIn) if a region's check-in volume
- * ever gets large enough to make this slow.
+ * curated region (Miami, Milan, etc.) during the current period.
  */
 export async function getRegionalLeaderboard(period, regionId, topN = 100) {
   if (!db || !regionId) return [];
-  const keys = periodKeys();
-  const key = keys[period];
-  const snap = await getDocs(query(collection(db, 'checkins'), where('region', '==', regionId)));
-  const totals = new Map(); // userId -> { userId, userName, points }
-  for (const d of snap.docs) {
-    const x = d.data();
-    const sec = x.createdAt?.seconds;
-    if (!sec) continue;
-    if (periodKeys(new Date(sec * 1000))[period] !== key) continue;
-    // `id` keys the board rows, same as the other two board reads.
-    const cur = totals.get(x.userId) || { id: x.userId, userId: x.userId, userName: x.userName, points: 0 };
-    cur.points += x.points || 0;
-    cur.userName = x.userName || cur.userName;
-    totals.set(x.userId, cur);
-  }
-  return [...totals.values()].sort((a, b) => b.points - a.points).slice(0, topN);
+  // Added up by the server (api/regional-leaderboard.js): since Phase 2 a
+  // phone can't read other people's check-ins across a region.
+  const [{ API_BASE }, { authHeaders }] = await Promise.all([import('./apiBase'), import('./apiAuth')]);
+  const qs = new URLSearchParams({ region: regionId, period, tz: String(new Date().getTimezoneOffset()) });
+  const r = await fetch(`${API_BASE}/api/regional-leaderboard?${qs}`, { headers: await authHeaders() });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(body.error || 'Could not load the leaderboard.'), { userMessage: body.error || null });
+  return (body.entries || []).slice(0, topN);
 }
 
 /**
@@ -701,14 +680,19 @@ export async function hasFriendTagTeam(userId, friendUids, checkins) {
   }
   const landmarkIds = [...byLandmark.keys()].slice(0, 10);
   if (!landmarkIds.length) return false;
-  const snap = await getDocs(query(collection(db, 'checkins'), where('landmarkId', 'in', landmarkIds)));
-  const friendSet = new Set(friendUids);
-  return snap.docs.some((d) => {
-    const x = d.data();
-    if (!friendSet.has(x.userId) || !x.createdAt?.seconds) return false;
-    const mySec = byLandmark.get(x.landmarkId);
-    return mySec != null && Math.abs(x.createdAt.seconds - mySec) <= 86400;
-  });
+  // One query per friend (at most 20), pinned to that friend's own
+  // check-ins: since Phase 2 a query across owners is refused.
+  for (const friendUid of friendUids.slice(0, 20)) {
+    const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', friendUid), where('landmarkId', 'in', landmarkIds))).catch(() => null);
+    const hit = snap?.docs.some((d) => {
+      const x = d.data();
+      if (!x.createdAt?.seconds) return false;
+      const mySec = byLandmark.get(x.landmarkId);
+      return mySec != null && Math.abs(x.createdAt.seconds - mySec) <= 86400;
+    });
+    if (hit) return true;
+  }
+  return false;
 }
 
 // onError (optional): called if the listener fails (offline too long,

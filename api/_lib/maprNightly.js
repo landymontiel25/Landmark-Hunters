@@ -19,6 +19,7 @@ import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/l
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
 import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
 import { sweepTipOrphans } from './tipModeration.js';
+import { backfillRegionStats, scrubCheckinLocation } from './checkinUpkeep.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -297,11 +298,26 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   // Tip marks and views whose tip is gone (Phase 1). Its own try: it must
   // never cost the report.
   let tipOrphans = 0;
+  let upkeep = null;
   if (stagnation) {
     try {
       tipOrphans = await sweepTipOrphans(db, { nowMs: now });
     } catch (e) {
       console.error('tip orphan sweep failed:', e?.message || e);
+    }
+    // Phase 2 check-in upkeep: region counts the phones can't build any
+    // more, and old location numbers taken off check-ins. Each in its own
+    // try, never costing the report.
+    upkeep = {};
+    try {
+      upkeep.regionStats = await backfillRegionStats(db, data);
+    } catch (e) {
+      console.error('region stats backfill failed:', e?.message || e);
+    }
+    try {
+      upkeep.scrubbed = await scrubCheckinLocation(db);
+    } catch (e) {
+      console.error('check-in location scrub failed:', e?.message || e);
     }
   }
   const extra = slackAlerts(report, trend[trend.length - 1], status.ncf);
@@ -320,5 +336,5 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   for (const d of existing.docs) if (!flagged.has(d.id)) writes.push((b) => b.set(d.ref, { stagnating: false }, { merge: true }));
   for (const uid of flagged) if (!already.has(uid)) writes.push((b) => b.set(db.collection(USER_MODEL_COLLECTION).doc(uid), { stagnating: true, stagnatingSince: now }, { merge: true }));
   await commitInBatches(db, writes);
-  return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites, tipOrphans };
+  return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites, tipOrphans, upkeep };
 }

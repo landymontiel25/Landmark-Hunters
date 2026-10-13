@@ -65,7 +65,12 @@ export default function FriendStatsModal({ uid, name, onClose }) {
             <Skeleton width="70%" height={12} style={{ marginTop: 14 }} />
           </div>
         )}
-        {state.error && (
+        {state.error?.code === 'permission-denied' && (
+          <p className="screen-subtitle" style={{ margin: 0 }}>
+            This profile is private. Their check-ins show to friends only.
+          </p>
+        )}
+        {state.error && state.error.code !== 'permission-denied' && (
           <ErrorNotice
             compact
             message={friendlyError(state.error, "We couldn't load their stats. Try again.")}

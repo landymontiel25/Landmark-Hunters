@@ -90,23 +90,11 @@ async function handler(req, res) {
       last: last ? { lat: last.lat, lng: last.lng, atMs: last.atMs } : null,
     });
 
+    // No distance or GPS accuracy on the check-in (Phase 2): anyone who may
+    // read it would see them. They stay in the server-only proof below.
     const presence = result.verified
-      ? {
-          verified: true,
-          distanceMeters: result.distanceMeters,
-          accuracyMeters: result.accuracyMeters,
-          placeType: result.placeType,
-          verifiedAt: FieldValue.serverTimestamp(),
-          version: 1,
-        }
-      : {
-          verified: false,
-          reason: result.reason,
-          ...(result.reason === 'too-far' ? { distanceMeters: result.distanceMeters } : {}),
-          placeType: result.placeType,
-          checkedAt: FieldValue.serverTimestamp(),
-          version: 1,
-        };
+      ? { verified: true, placeType: result.placeType, verifiedAt: FieldValue.serverTimestamp(), version: 2 }
+      : { verified: false, reason: result.reason, placeType: result.placeType, checkedAt: FieldValue.serverTimestamp(), version: 2 };
 
     const batch = db.batch();
     batch.update(checkinRef, { presence });
@@ -127,12 +115,7 @@ async function handler(req, res) {
     }
     await batch.commit();
 
-    res.status(200).json({
-      ok: true,
-      verified: result.verified,
-      reason: result.reason,
-      distanceMeters: result.distanceMeters,
-    });
+    res.status(200).json({ ok: true, verified: result.verified, reason: result.reason });
   } catch (err) {
     console.error('verify-checkin failed', err);
     res.status(500).json({ error: 'Could not verify this check-in.' });

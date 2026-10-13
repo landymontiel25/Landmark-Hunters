@@ -64,9 +64,7 @@ radius table (the type table replaces each place's own
 Museum of Art, 500 m today, may need their own number), then Phase 1. Left
 open in Phase 0: the Android mock-location flag (needs a native plugin
 change; the server already rejects `mocked: true`), Firebase App Check, an
-offline retry queue (an offline check-in stays unverified), the legacy
-`distanceMeters` / `gpsAccuracyMeters` keys still accepted on check-in create
-for pre-Phase-0 builds (remove with the Phase 2 read limits), and proof docs
+offline retry queue (an offline check-in stays unverified), and proof docs
 left behind when an account is deleted.
 
 Phase 1 (tips) in progress, owner asked 2026-10-13 to build Phases 1 to 6
@@ -140,6 +138,21 @@ server-only `tip_sweep_state`). A decision applies only to the post the
 owner saw (its `gen`); Remove and Delete ask first. The reported queue
 uses a new `tips (status, reportCount)` index. Phase 1 is complete; the 50-tip checkpoint is
 skipped at the owner's request.
+
+Phase 2 (follows and taste neighbors), part 1 shipped: check-in read
+limits. A check-in reads only for its owner, their friends, anyone when
+the owner's profile is public, and the verified admin; list queries must
+pin `userId`. Cross-owner reads were moved: the regional leaderboard is
+added up by `api/regional-leaderboard.js` (names and points only), the
+"Tag Team" badge queries each friend's check-ins, and `region_stats` is
+backfilled by the nightly job (`api/_lib/checkinUpkeep.js`). New
+check-ins can't carry `distanceMeters` / `gpsAccuracyMeters` any more
+(pre-Phase-0 builds fail to check in: install a fresh build), `presence`
+no longer holds distance or accuracy (version 2), and the nightly job
+scrubs both from old check-ins, 400 a night. "Not verified" never says
+how far. `users` profiles can't change server-kept fields
+(`followerCount`, `followingCount`, `reputation`, `founding`, `levels`,
+`serverBadges`, `tipCount`). Next: follows, then taste neighbors.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 
