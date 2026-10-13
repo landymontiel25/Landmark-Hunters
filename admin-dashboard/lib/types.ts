@@ -231,6 +231,22 @@ export interface NetworkMetric {
   neighbors_active?: number;
   neighbors_with_any?: number;
   neighbors_with_high?: number;
+  // Community density in the launch area (Phase 3).
+  density_active?: number;
+  density_live_tips?: number;
+  density_tip_places?: number;
+  density_discoverers_30d?: number;
+  density_median_nearby?: number;
+  density_ramp?: number;
+  density_gate_days?: number;
+  density_gate_open?: boolean;
+  // Community picks against Mapr-only picks, last 30 days (Phase 3).
+  community_picks_shown_30d?: number;
+  community_skip_rate_30d?: number | null;
+  community_visit_rate_30d?: number | null;
+  mapr_picks_shown_30d?: number;
+  mapr_skip_rate_30d?: number | null;
+  mapr_visit_rate_30d?: number | null;
 }
 
 export interface TipQueueRow {

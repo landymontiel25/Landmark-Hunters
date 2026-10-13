@@ -581,7 +581,7 @@ async function handler(req, res) {
     if (requestFor !== 'group') {
       try {
         const candidateRegions = regions.length ? uniqueRegionIds : near ? [...new Set(curated.filter((l) => Number.isFinite(l.lat) && kmBetween(near.lat, near.lng, l.lat, l.lng) <= CHAT_NEAR_KM).map((l) => l.regionId))] : [];
-        const models = candidateRegions.length ? await loadServerModels({ uid: account.uid, regions: candidateRegions }) : null;
+        const models = candidateRegions.length ? await loadServerModels({ uid: account.uid, regions: candidateRegions, communityText: true }) : null;
         ranking = chatRanking({ uid: account.uid, pool, curated, regionsChosen: regions.length > 0, near, tagScoreSummary: taste.tagScoreSummary, reviews: taste.reviews, swipeAnswers: taste.swipeAnswers, maprContext: body.maprContext, models, requestFor });
       } catch (e) {
         console.warn('mapr chat ranking skipped:', e?.message || e);

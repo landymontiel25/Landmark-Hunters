@@ -309,7 +309,8 @@ export default function CheckInReview() {
                   />
                 ) : (
                   <button type="button" className="btn btn-ghost btn-block" onClick={() => setTipState('open')}>
-                    {'\u{1F4A1}'} Share a tip for others?
+                    {/* A place someone added (Add a landmark): a new find to share (Phase 3). */}
+                    {'\u{1F4A1}'} {(justCheckedIn.landmark || justCheckedIn).createdBy ? 'Share this find?' : 'Share a tip for others?'}
                   </button>
                 )}
               </div>

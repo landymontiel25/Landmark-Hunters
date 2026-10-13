@@ -46,6 +46,12 @@ describe('api/tips: reading', () => {
     expect(body.tips[0]).toMatchObject({ mine: true, status: 'held', hidden: false });
     expect(body.tips[1].status).toBeUndefined();
   });
+  it('puts tips from people you follow, friends and taste neighbors first (Phase 3), then newest', async () => {
+    db.docs['follows/me_bob'] = { followerUid: 'me', followeeUid: 'bob' };
+    expect((await list()).body.tips.map((t) => t.id)).toEqual(['me_bell', 'bob_bell', 'ann_bell']);
+    db.docs['mapr_neighbors/me'] = { global: [{ uid: 'ann', score: 0.9 }], byRegion: {} };
+    expect((await list()).body.tips.map((t) => t.id)).toEqual(['me_bell', 'ann_bell', 'bob_bell']);
+  });
   it('hides tips across a block both ways, held, hidden and other-region tips', async () => {
     const ids = (await list()).body.tips.map((t) => t.id);
     for (const hidden of ['cat_bell', 'dan_bell', 'eve_bell', 'fay_bell', 'gus_bell']) expect(ids).not.toContain(hidden);

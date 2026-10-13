@@ -1,3 +1,4 @@
+import { finderFor, viewerRelations } from './_lib/communityServer.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
@@ -36,11 +37,12 @@ export async function listTips(db, viewerUid, { region, landmarkId }) {
   // waiting for review or was removed. Sorted here, newest first.
   const id = canonicalLandmarkId(landmarkId, region);
   const ownId = `${viewerUid}_${id}`;
-  const [snap, ownSnap, blocked] = await Promise.all([
+  const [snap, ownSnap, rel] = await Promise.all([
     db.collection('tips').where('landmarkId', '==', id).where('status', '==', 'live').get(),
     db.collection('tips').doc(ownId).get(),
-    blockedBetween(db, viewerUid),
+    viewerRelations(db, viewerUid),
   ]);
+  const blocked = rel.blocked;
   const want = canonicalRegionId(region);
   const visible = [];
   const candidates = [];
@@ -50,11 +52,13 @@ export async function listTips(db, viewerUid, { region, landmarkId }) {
     if (!tipIsPublic(t) || blocked.has(t.authorUid)) continue;
     candidates.push([d.id, t]);
   }
-  // Newest first. One read for the first page's reports, your marks and
-  // your views; a tip you reported stays hidden for you (with a little room
-  // for the ones it drops).
+  // Strongest finder for you first (Phase 3: a taste neighbor, someone you
+  // follow, a friend), then newest. One read for the first page's reports,
+  // your marks and your views; a tip you reported stays hidden for you
+  // (with a little room for the ones it drops).
   const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
-  candidates.sort((a, b) => at(b[1]) - at(a[1]));
+  const weightOf = new Map(candidates.map(([, t]) => [t.authorUid, finderFor(rel, t.authorUid, want).weight]));
+  candidates.sort((a, b) => weightOf.get(b[1].authorUid) - weightOf.get(a[1].authorUid) || at(b[1]) - at(a[1]));
   // Pages of 60 until 50 are kept: each page in one read of its reports
   // and your marks. (Reading records no view: see markSeen.)
   const ref = (col, id) => db.collection(col).doc(id);

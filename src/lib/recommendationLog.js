@@ -58,7 +58,7 @@ const catsOf = (s) => (s.categories && s.categories.length ? s.categories : getL
 export { makeSetId };
 
 const num = (v, lo = -1e9, hi = 1e9) => (typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : null);
-const VARIANT_KEYS = ['distanceDecay', 'itemSimilarity', 'ncf', 'exploration', 'maprV2'];
+const VARIANT_KEYS = ['distanceDecay', 'itemSimilarity', 'ncf', 'exploration', 'maprV2', 'communityPicks'];
 // Only known, well-typed telemetry fields reach Firestore.
 export function telemetryFields(t) {
   if (!t || typeof t !== 'object') return {};
@@ -79,6 +79,10 @@ export function telemetryFields(t) {
     rankLatencyMs: num(t.rankLatencyMs, 0, 600000),
     revisit: t.revisit === true,
     fallbacks: Array.isArray(t.fallbacks) ? t.fallbacks.filter((f) => typeof f === 'string').slice(0, 10).map((f) => f.slice(0, 40)) : [],
+    // Community picks (Phase 3): the lift and who found it, so the
+    // dashboard can compare them with Mapr-only picks.
+    communityWeight: num(t.communityWeight, 1, 2),
+    finderUid: typeof t.finderUid === 'string' && t.finderUid.length <= 128 ? t.finderUid : null,
   };
   if (t.variants && typeof t.variants === 'object') {
     out.variants = Object.fromEntries(VARIANT_KEYS.filter((k) => ['control', 'treatment'].includes(t.variants[k])).map((k) => [k, t.variants[k]]));

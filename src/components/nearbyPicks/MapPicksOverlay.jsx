@@ -37,6 +37,8 @@ import { useNearbyPicks } from './useNearbyPicks';
 import { useShownLogger } from '../../lib/useShownLogger';
 import PicksBottomSheet from './PicksBottomSheet';
 import DistanceFilter from './DistanceFilter';
+import FoundByPeopleRow from './FoundByPeopleRow';
+import { foundByPeopleLikeYou } from '../../lib/communityLabels';
 import BecauseYouLikedRow from './BecauseYouLikedRow';
 import MoodCarousel from './MoodCarousel';
 import MealCard from './MealCard';
@@ -235,6 +237,12 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     () => rankRow(similarPlaces({ liked, pool: similarUnrated, exclude: shownKeys, limit: 12 }), (p) => p.similarity || 0),
     [liked, similarUnrated, shownKeys, rankRow]
   );
+  // "Found by people like you" (Phase 3): places in range people like you
+  // shared a tip on, in Mapr's order, minus the ones already on the sheet.
+  const found = useMemo(
+    () => rankRow(foundByPeopleLikeYou(unrated.filter((p) => !shownKeys.includes(pickKey(p))), models?.community)),
+    [unrated, shownKeys, models, rankRow]
+  );
   // Public rating order stays the tie-break (ranking keeps the incoming order on ties).
   const meal = useMemo(() => (isMealTime(new Date(now)) ? rankRow(mealPicks({ pool: unrated, ratings, limit: 12 })) : []), [unrated, ratings, now, rankRow]);
   const interest = useMemo(() => {
@@ -261,6 +269,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
     [hidden, logRow, uid]
   );
   const onSimilarShown = useMemo(() => rowLogger('because-you-liked'), [rowLogger]);
+  const onFoundShown = useMemo(() => rowLogger('found-by-people'), [rowLogger]);
   const onMoodShown = useMemo(() => rowLogger('mood'), [rowLogger]);
   const onMealShown = useMemo(() => rowLogger('meal'), [rowLogger]);
   const onInterestShown = useMemo(() => rowLogger('nearby-interest'), [rowLogger]);
@@ -298,6 +307,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
         toolbar={<DistanceFilter value={distance} onChange={chooseDistance} />}
       >
         {!showRefresh && <ShakeUpCard uid={uid} show={stagnating && online} onShake={showDifferent} />}
+        <FoundByPeopleRow places={found} uid={uid} origin={origin} onShown={onFoundShown} />
         <BecauseYouLikedRow liked={liked} places={similar} uid={uid} origin={origin} onShown={onSimilarShown} />
         {!showRefresh && <MoodCarousel pool={pool} ratings={ratings} rank={rankRow} onShown={onMoodShown} />}
         {!showRefresh && <MealCard places={meal} onShown={onMealShown} />}

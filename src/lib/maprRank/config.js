@@ -23,6 +23,11 @@ export const FEATURES = {
   // v1. At 100% while the app has two users (October 2026, owner's call):
   // there is no control group, so lower it to run a real A/B test later.
   maprV2: { enabled: true, rollout: 100 },
+  // Community picks (discovery network plan, Phase 3): the finder lift from
+  // live, verified tips in launch cities (src/lib/maprRank/community.js).
+  // At 100%; an A/B test (weight on versus off) is useful past about 200
+  // active users in the launch city.
+  communityPicks: { enabled: true, rollout: 100 },
 };
 
 // Salts, so the two A/B tests split users independently of each other and
@@ -33,6 +38,7 @@ export const EXPERIMENT_SALTS = {
   ncf: 'mapr-p1-ncf',
   exploration: 'mapr-p1-explore',
   maprV2: 'mapr-v2',
+  communityPicks: 'community-picks',
 };
 
 // --- Week 1: distance decay ---------------------------------------------------

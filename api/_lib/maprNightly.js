@@ -17,7 +17,8 @@ import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../.
 import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf } from '../../src/lib/maprRank/ncf.js';
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
-import { writeDashboardDaily, writeDashboardModels, writeNeighborMetrics } from './dashboardDocs.js';
+import { writeDashboardDaily, writeDashboardModels, writeDensityMetrics, writeNeighborMetrics } from './dashboardDocs.js';
+import { runCommunityDensity } from './communityDensity.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 import { followUpkeep } from './follows.js';
@@ -333,6 +334,14 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
       await writeNeighborMetrics(db, date, upkeep.neighbors);
     } catch (e) {
       console.error('taste neighbors failed:', e?.message || e);
+    }
+    // Community density, ramp and gate per launch region (Phase 3).
+    try {
+      const density = await runCommunityDensity(db, data, { nowMs: now, date });
+      upkeep.density = density.skipped ? density : Object.fromEntries(Object.entries(density).map(([r, d]) => [r, { ramp: d.ramp, gateOpen: d.gateOpen }]));
+      await writeDensityMetrics(db, date, density);
+    } catch (e) {
+      console.error('community density failed:', e?.message || e);
     }
     try {
       upkeep.scrubbed = await scrubCheckinLocation(db);

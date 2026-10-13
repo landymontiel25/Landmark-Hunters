@@ -96,6 +96,8 @@ export async function loadStatsData(db) {
               rankLatencyMs: x.rankLatencyMs ?? null,
               revisit: x.revisit === true,
               fallbacks: Array.isArray(x.fallbacks) ? x.fallbacks : [],
+              communityWeight: x.communityWeight ?? null,
+              finderUid: x.finderUid ?? null,
               variants: x.variants && typeof x.variants === 'object' ? x.variants : null,
             }
           : {}),
@@ -150,6 +152,8 @@ export async function loadStatsData(db) {
         helpful: x.counts?.helpful || 0,
         saved: x.counts?.saved || 0,
         gen: x.gen ?? null,
+        verified: x.verified !== false,
+        visitMonth: typeof x.visitMonth === 'string' ? x.visitMonth : null,
       };
     }),
     // Follows (Phase 2): who follows whom, for counts on the dashboard.

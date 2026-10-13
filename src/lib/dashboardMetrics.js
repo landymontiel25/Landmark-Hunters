@@ -127,7 +127,21 @@ export function tipDocs(ds, dates) {
 // launch_* is the launch area (COMMUNITY_REGIONS): people active there in
 // the last 30 days, and how many of them follow at least one discoverer
 // (someone with a live tip). Phase 2 is done when that share reaches 60%.
-export function networkDocs(ds, dates) {
+function pickSplit(rows) {
+  const part = (xs) => ({ shown: xs.length, skip: r4(ratio(xs.filter((r) => r.action === 'skipped').length, xs.length)), visit: r4(ratio(xs.filter((r) => r.visited).length, xs.length)) });
+  const community = part(rows.filter((r) => Number(r.communityWeight) > 1));
+  const mapr = part(rows.filter((r) => !(Number(r.communityWeight) > 1)));
+  return {
+    community_picks_shown_30d: community.shown,
+    community_skip_rate_30d: community.skip,
+    community_visit_rate_30d: community.visit,
+    mapr_picks_shown_30d: mapr.shown,
+    mapr_skip_rate_30d: mapr.skip,
+    mapr_visit_rate_30d: mapr.visit,
+  };
+}
+
+export function networkDocs(ds, dates, annotated = annotateShown(ds)) {
   // Follows from or to a deleted account don't count (the nightly upkeep
   // removes them after this runs).
   const people = new Set((ds.users || []).map((u) => u.uid));
@@ -150,6 +164,10 @@ export function networkDocs(ds, dates) {
       launch_active: active.size,
       launch_following_discoverer: launchFollowing,
       launch_follow_rate: r4(ratio(launchFollowing, active.size)),
+      // Phase 3 is done when community picks match at least as well as
+      // Mapr-only picks over 30 days: picks shown in the 30 days to this
+      // date, split by whether someone's find lifted them.
+      ...pickSplit(annotated.filter((r) => r.shownAt >= to - 30 * DAY_MS && r.shownAt < to)),
     };
   });
 }

@@ -2,6 +2,7 @@ import { distanceMeters } from './geo';
 import { readPersisted, writePersisted } from './usePersistentState';
 import { discoveryPicks, usualPicks } from './tagScores';
 import { rankPlaces } from './maprRank/surfaces.js';
+import { canonicalRegionId, getLandmark } from '../data/regions';
 
 // Plain logic behind Mapr's Plan Your Trip wizard (TripPlannerCard): the
 // fixed step order, the message it hands Mapr, and the cached last plan.
@@ -95,8 +96,12 @@ export function rankTripPicks({ pickType, profile, regionIds = [], excludeIds = 
     for (const l of lists) if (l[i] && out.length < cap) out.push(l[i]);
   }
   if (!uid) return out;
-  return rankPlaces({
-    places: out,
+  // "Something new" gets one community find (Phase 3): a place in these
+  // cities that someone like you (a taste neighbor, someone you follow, a
+  // friend) shared a tip on, and you haven't rated.
+  const finds = pickType === 'new' ? communityFinds({ regionIds: ids, models, excludeIds, myReviews, have: out }) : [];
+  const { picks, ranked } = rankPlaces({
+    places: [...out, ...finds],
     uid,
     profile,
     myReviews,
@@ -107,7 +112,27 @@ export function rankTripPicks({ pickType, profile, regionIds = [], excludeIds = 
     count: pickType === 'new' ? limit : null,
     explore,
     rng,
-  }).picks.slice(0, limit);
+  });
+  const top = picks.slice(0, limit);
+  if (pickType !== 'new' || top.some((p) => p.community?.likeYou)) return top;
+  const find = ranked.find((p) => p.community?.likeYou && !top.some((t) => t.id === p.id && t.regionId === p.regionId));
+  if (!find) return top;
+  return top.length < limit ? [...top, find] : [...top.slice(0, limit - 1), find];
+}
+
+// Catalog places people like you found in these regions, not yet in `have`,
+// not excluded and not rated by you.
+export function communityFinds({ regionIds = [], models = null, excludeIds = [], myReviews = {}, have = [] }) {
+  const out = [];
+  const skip = new Set([...excludeIds, ...Object.keys(myReviews || {}), ...have.map((p) => p.id)]);
+  for (const region of regionIds) {
+    for (const [id, c] of Object.entries(models?.community?.[canonicalRegionId(region)]?.places || {})) {
+      if (!c?.likeYou || skip.has(id)) continue;
+      const l = getLandmark(region, id);
+      if (l) out.push({ ...l, regionId: l.regionId || region, tagScore: 0 });
+    }
+  }
+  return out;
 }
 
 // ---- Cached last plan -----------------------------------------------------
