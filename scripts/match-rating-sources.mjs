@@ -165,17 +165,26 @@ async function main() {
   }
 
   const tally = { sure: 0, review: 0, none: 0, errors: 0 };
+  // A source that hit its daily quota is skipped for the rest of the run
+  // (Google: "... per day"; Terra: its daily call cap). Re-run tomorrow.
+  const outOfQuota = new Set();
   for (let i = 0; i < pending.length; i += BATCH) {
     const batch = pending.slice(i, i + BATCH);
     for (const { l, todo } of batch) {
       for (const s of todo) {
+        if (outOfQuota.has(s)) continue;
         let verdict;
         try {
           verdict = classifyMatch(l, await SEARCH[s](l));
         } catch (e) {
           tally.errors += 1;
-          console.warn(`  ${l.key} ${s}: ${e.message}`);
-          if (/ 429/.test(e.message)) await sleep(10000);
+          if (/ 429/.test(e.message) && /per day|daily|quota/i.test(e.message)) {
+            outOfQuota.add(s);
+            console.warn(`  ${s}: daily quota reached. Stopping ${s} for this run; re-run tomorrow (or raise the quota) to continue.`);
+          } else {
+            console.warn(`  ${l.key} ${s}: ${e.message.split('\n')[0]}`);
+            if (/ 429/.test(e.message)) await sleep(10000);
+          }
           continue;
         } finally {
           await sleep(PAUSE);
@@ -197,6 +206,10 @@ async function main() {
     writeFileSync(OUT.none, `${JSON.stringify(sortKeys(none), null, 2)}\n`);
     const ta = [...new Set(Object.values(ids).map((v) => v.tripadvisorLocationId).filter(Boolean))].sort();
     writeFileSync(OUT.allowlist, ta.length ? `${ta.join('\n')}\n` : '');
+    if (SOURCES.every((s) => outOfQuota.has(s))) {
+      console.log('Every source hit its daily quota. Progress is saved; run the same command tomorrow.');
+      break;
+    }
     console.log(
       `batch ${i / BATCH + 1}: ${Math.min(i + BATCH, pending.length)}/${pending.length} done. ` +
         `sure ${tally.sure}, review ${tally.review}, no match ${tally.none}, errors ${tally.errors}. ` +
