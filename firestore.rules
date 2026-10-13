@@ -1238,14 +1238,18 @@ service cloud.firestore {
     // api/tips.js keeps reports, counts and status, all with the Admin SDK,
     // so no client ever writes one. A single tip reads as the plan says:
     // live and not hidden by reports, with no block either way, or your own,
-    // or the admin's. List queries are your own tips only: other people's
+    // or the admin's (the dashboard reads with the service account, which
+    // skips rules). List queries are your own tips only: other people's
     // tips come from api/tips.js, which can check blocks both ways (a list
     // rule can't, so a direct query would show a blocker's tips).
     match /tips/{tipId} {
+      // The id is always "{authorUid}_{landmarkId}" (one tip per person per
+      // place), so your own id is checked first: a get on your own tip that
+      // doesn't exist yet is a clean not-found, not a denial.
       allow get: if request.auth != null
-        && (resource.data.authorUid == request.auth.uid
+        && (tipId.split('_')[0] == request.auth.uid
+            || resource.data.authorUid == request.auth.uid
             || isAdmin()
-            || isDashboard()
             || (resource.data.status == 'live'
                 && resource.data.get('hidden', true) == false
                 && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + resource.data.authorUid))
