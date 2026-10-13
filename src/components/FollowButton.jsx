@@ -4,6 +4,8 @@ import { getUserProfile } from '../lib/friends';
 import { followUser, isFollowing, unfollowUser } from '../lib/followsApi';
 import { useToast } from '../lib/ToastContext';
 import { tasteMatchFor } from '../lib/tasteMatch';
+import { getReputation } from '../lib/reputationApi';
+import { levelsOf } from '../lib/reputationLabels';
 
 export const followerLabel = (n) => `${n} ${n === 1 ? 'follower' : 'followers'}`;
 
@@ -46,6 +48,16 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
   }, [profile, uid]);
 
   const myUid = user?.uid || null;
+  // Their best discoverer level ("Trusted in Philadelphia"), Phase 4.
+  const [level, setLevel] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    setLevel(null);
+    getReputation(uid).then((r) => !cancelled && setLevel(levelsOf(r)[0]?.label || null));
+    return () => {
+      cancelled = true;
+    };
+  }, [uid]);
   // "Taste match: High" or "Some" from your own neighbors, or nothing.
   const [match, setMatch] = useState(null);
   useEffect(() => {
@@ -100,6 +112,7 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
       <span className={compact ? 'muted' : 'secondary'} style={{ fontSize: compact ? 12 : 14 }}>
         {followerLabel(count)}
       </span>
+      {level && <span style={{ fontSize: compact ? 12 : 13 }}>{level}</span>}
       {match && (
         <span className="taste-match" style={{ fontSize: compact ? 12 : 13, fontWeight: 600 }}>
           Taste match: {match}

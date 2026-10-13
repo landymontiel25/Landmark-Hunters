@@ -1,4 +1,5 @@
-import { canonicalLandmarkId, canonicalRegionId, REGION_ALIASES } from '../../src/data/regions.js';
+import { canonicalLandmarkId, canonicalRegionId, getRegion, REGION_ALIASES } from '../../src/data/regions.js';
+import { reachesEveryone, reputation01 } from '../../src/lib/reputation.js';
 import { COMMUNITY_REGIONS } from '../../src/lib/community.js';
 import { communityWeight, finderWeight, freshness, placeFinderWeight, visitAgeDays } from '../../src/lib/maprRank/community.js';
 import { NEIGHBORS_COLLECTION } from '../../src/lib/maprRank/config.js';
@@ -33,16 +34,39 @@ export async function viewerRelations(db, viewerUid) {
   };
 }
 
+// Each finder's local reputation in one city (Phase 4): the 0-to-1 input to
+// finder weight and their level there. Server only (points never leave).
+export async function finderReputation(db, uids, region) {
+  const out = new Map();
+  const list = [...new Set(uids)].filter(Boolean);
+  for (let i = 0; i < list.length; i += 200) {
+    const part = list.slice(i, i + 200);
+    const [scores, pub] = await Promise.all([
+      db.getAll(...part.map((u) => db.collection('reputation_scores').doc(u))),
+      db.getAll(...part.map((u) => db.collection('reputation').doc(u))),
+    ]);
+    part.forEach((u, j) => {
+      const score = scores[j]?.exists ? scores[j].data()?.byRegion?.[region]?.score : null;
+      const level = pub[j]?.exists ? pub[j].data()?.levels?.[region] || null : null;
+      if (score != null || level) out.set(u, { rep: reputation01(score), level });
+    });
+  }
+  return out;
+}
+
 // One finder's weight for this viewer, and why ('neighbor', 'follow',
-// 'friend', or null for anyone else).
-export function finderFor(rel, uid, region) {
+// 'friend', 'trusted' for a Trusted or Insider finder in that city, or null
+// for anyone else). rep: { rep (0 to 1), level } from finderReputation.
+export function finderFor(rel, uid, region, rep = null) {
   const score = neighborScoreOf(rel.neighbors, uid, region);
   const follows = rel.follows.has(uid);
   const friend = rel.friends.has(uid);
-  const weight = finderWeight({ neighborScore: score, follows, friend });
+  const weight = finderWeight({ neighborScore: score, follows, friend, reputation: rep?.rep || 0 });
   const match = tasteMatchLabel(score);
-  const relation = match ? 'neighbor' : follows ? 'follow' : friend ? 'friend' : null;
-  return { weight, relation, match };
+  const trusted = reachesEveryone(rep?.level);
+  const relation = match ? 'neighbor' : follows ? 'follow' : friend ? 'friend' : trusted ? 'trusted' : null;
+  const levelLabel = trusted ? `${rep.level === 'Insider' ? 'Insider' : 'Trusted'} in ${getRegion(region)?.name || region}` : null;
+  return { weight, relation, match, ...(levelLabel ? { levelLabel } : {}) };
 }
 
 const isLive = (t) => t.status === 'live' && t.hidden !== true && t.verified !== false;
@@ -72,9 +96,10 @@ export async function computeCommunity(db, viewerUid, regions, { nowMs = Date.no
       const prev = byPlace.get(id).get(t.authorUid);
       if (!prev || (visitAgeDays(t.visitMonth, nowMs) ?? 1e9) < (visitAgeDays(prev.visitMonth, nowMs) ?? 1e9)) byPlace.get(id).set(t.authorUid, t);
     }
+    const reps = await finderReputation(db, [...byPlace.values()].flatMap((m) => [...m.keys()]), region);
     const places = {};
     for (const [id, finders] of byPlace) {
-      const rows = [...finders.values()].map((t) => ({ t, ...finderFor(relations, t.authorUid, region) }));
+      const rows = [...finders.values()].map((t) => ({ t, ...finderFor(relations, t.authorUid, region, reps.get(t.authorUid)) }));
       rows.sort((a, b) => b.weight - a.weight || (visitAgeDays(a.t.visitMonth, nowMs) ?? 1e9) - (visitAgeDays(b.t.visitMonth, nowMs) ?? 1e9));
       const best = rows[0];
       const lift = communityWeight(placeFinderWeight(rows.map((r) => r.weight)), density[region].ramp, freshness(visitAgeDays(best.t.visitMonth, nowMs)));
@@ -82,7 +107,7 @@ export async function computeCommunity(db, viewerUid, regions, { nowMs = Date.no
         lift: Math.round(lift * 10000) / 10000,
         likeYou: rows.some((r) => r.relation),
         finders: rows.length,
-        finder: { uid: best.t.authorUid, name: best.t.authorName || 'Explorer', relation: best.relation, match: best.match },
+        finder: { uid: best.t.authorUid, name: best.t.authorName || 'Explorer', relation: best.relation, match: best.match, ...(best.levelLabel ? { levelLabel: best.levelLabel } : {}) },
         ...(withText ? { tip: String(best.t.text || '').slice(0, 280) } : {}),
       };
     }

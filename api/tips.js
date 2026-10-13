@@ -1,4 +1,4 @@
-import { finderFor, viewerRelations } from './_lib/communityServer.js';
+import { finderFor, finderReputation, viewerRelations } from './_lib/communityServer.js';
 import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
@@ -57,7 +57,8 @@ export async function listTips(db, viewerUid, { region, landmarkId }) {
   // your marks and your views; a tip you reported stays hidden for you
   // (with a little room for the ones it drops).
   const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
-  const weightOf = new Map(candidates.map(([, t]) => [t.authorUid, finderFor(rel, t.authorUid, want).weight]));
+  const reps = await finderReputation(db, candidates.map(([, t]) => t.authorUid), want).catch(() => new Map());
+  const weightOf = new Map(candidates.map(([, t]) => [t.authorUid, finderFor(rel, t.authorUid, want, reps.get(t.authorUid)).weight]));
   candidates.sort((a, b) => weightOf.get(b[1].authorUid) - weightOf.get(a[1].authorUid) || at(b[1]) - at(a[1]));
   // Pages of 60 until 50 are kept: each page in one read of its reports
   // and your marks. (Reading records no view: see markSeen.)

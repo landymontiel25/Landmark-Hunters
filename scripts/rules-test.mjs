@@ -977,6 +977,29 @@ await t('community_density: only the admin dashboard reads it; no app user; nobo
   await assertFails(setDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'community_density/philly'), { ramp: 1 }));
 });
 
+console.log('reputation (Phase 4)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'reputation/fin'), { levels: { philly: 'Local' }, badges: ['first-find'] });
+  await setDoc(doc(db, 'reputation_scores/fin'), { byRegion: { philly: { score: 25, people: 3 } } });
+  await setDoc(doc(db, 'influence_events/t_a_went'), { finderUid: 'fin', actorUid: 'a', kind: 'went' });
+  await setDoc(doc(db, 'community_founding/philly'), { uids: ['fin'] });
+});
+await t('reputation: anyone signed in reads levels and badges; nobody writes them, not even the owner', async () => {
+  await assertSucceeds(getDoc(doc(as('ann'), 'reputation/fin')));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'reputation/fin')));
+  await assertFails(setDoc(doc(as('fin'), 'reputation/fin'), { levels: { philly: 'Insider' } }));
+  await assertFails(updateDoc(doc(as('fin'), 'reputation/fin'), { badges: ['founding-philly'] }));
+});
+await t('reputation points, influence events and the founding list: server only, even for the finder', async () => {
+  await assertFails(getDoc(doc(as('fin'), 'reputation_scores/fin')));
+  await assertFails(getDoc(doc(as('fin'), 'influence_events/t_a_went')));
+  await assertFails(getDoc(doc(as('a'), 'influence_events/t_a_went')));
+  await assertFails(getDocs(query(collection(as('fin'), 'influence_events'), where('finderUid', '==', 'fin'))));
+  await assertFails(getDoc(doc(as('fin'), 'community_founding/philly')));
+  await assertFails(setDoc(doc(as('fin'), 'reputation_scores/fin'), { byRegion: {} }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

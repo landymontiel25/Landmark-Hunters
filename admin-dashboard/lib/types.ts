@@ -247,6 +247,13 @@ export interface NetworkMetric {
   mapr_picks_shown_30d?: number;
   mapr_skip_rate_30d?: number | null;
   mapr_visit_rate_30d?: number | null;
+  // Influence events and local reputation (Phase 4).
+  influence_events?: number;
+  influence_new?: number;
+  went_7d?: number;
+  reputation_finders?: number;
+  reputation_levels?: Record<string, number>;
+  friend_heavy_finders?: number;
 }
 
 export interface TipQueueRow {

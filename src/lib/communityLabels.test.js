@@ -6,6 +6,7 @@ describe('foundByLine', () => {
     expect(foundByLine({ community: { likeYou: true, finder: { name: 'Ana', match: 'High' } } })).toBe('Found by Ana · verified visit · Taste match: High');
     expect(foundByLine({ community: { likeYou: true, finder: { name: 'Bo', relation: 'follow' } } })).toBe('Found by Bo · verified visit · you follow them');
     expect(foundByLine({ community: { likeYou: true, finder: { name: 'Cy', relation: 'friend' } } })).toBe('Found by Cy · verified visit · your friend');
+    expect(foundByLine({ community: { likeYou: true, finder: { name: 'Eli', relation: 'trusted', levelLabel: 'Trusted in Philadelphia' } } })).toBe('Found by Eli · verified visit · Trusted in Philadelphia');
     expect(foundByLine({ community: { likeYou: false, finder: { name: 'Dee' } } })).toBeNull();
     expect(foundByLine({})).toBeNull();
   });

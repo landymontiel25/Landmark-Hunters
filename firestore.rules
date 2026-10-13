@@ -461,6 +461,24 @@ service cloud.firestore {
       allow read: if isDashboard();
       allow write: if false;
     }
+    // Local reputation (discovery network plan, Phase 4), all written by the
+    // nightly job. Influence events (who did what with whose tip), scores
+    // and the founding list are server only: nobody sees points or events.
+    // reputation/{uid} holds only levels per city and badges, readable by
+    // anyone signed in (profiles and the "Trusted in" board show them).
+    match /influence_events/{id} {
+      allow read, write: if false;
+    }
+    match /reputation_scores/{uid} {
+      allow read, write: if false;
+    }
+    match /community_founding/{region} {
+      allow read, write: if false;
+    }
+    match /reputation/{uid} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
     // Your taste neighbors (discovery network plan, Phase 2), written by the
     // nightly job: the people with live tips whose taste matches yours.
     // Only you read it (it feeds your own Mapr ranking and the "Taste match"
