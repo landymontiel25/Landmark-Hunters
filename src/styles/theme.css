@@ -7601,3 +7601,20 @@ p.tag {
 .ratings-review-link {
   margin-left: 6px;
 }
+
+/* Google map attribution (components/GoogleMapAttribution.jsx): the logo
+   Google's Map Tiles policies require, bottom left, 16-19px tall. */
+.google-map-logo {
+  height: 18px;
+  width: auto;
+  margin: 0 0 4px 10px;
+  pointer-events: none;
+}
+.map-popup-rating {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}

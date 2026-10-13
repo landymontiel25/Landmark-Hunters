@@ -45,6 +45,9 @@ import { friendlyError } from '../lib/friendlyError';
 import OnboardingBanner from '../components/OnboardingBanner';
 import { useRatings } from '../lib/RatingsContext';
 import MapPicksOverlay from '../components/nearbyPicks/MapPicksOverlay';
+import { useGoogleTiles, googleTileUrl } from '../lib/googleTiles';
+import GoogleMapAttribution from '../components/GoogleMapAttribution';
+import MapPopupRating from '../components/ratings/MapPopupRating';
 import { PICKS_SHEET_H, distanceUnitLabel, optionToMiles } from '../lib/nearbyPicks';
 
 
@@ -139,6 +142,22 @@ function tripStopIcon(n, color = legColor(n)) {
     );
   }
   return tripStopIconCache.get(key);
+}
+
+// Six tile errors before any tile loads means Google's map isn't working
+// (key, quota): fall back to the Esri layers for this page load.
+function googleTileGuard(onFailed) {
+  let loaded = 0;
+  let errors = 0;
+  return {
+    tileload: () => {
+      loaded += 1;
+    },
+    tileerror: () => {
+      errors += 1;
+      if (!loaded && errors >= 6) onFailed();
+    },
+  };
 }
 
 const TILE_LAYERS = {
@@ -323,6 +342,10 @@ export default function MapExplore({ experiments = false }) {
   const mapRef = useRef(null);
   const location = useLocation();
   const [satellite] = useState(true);
+  // Google's map while online (lib/googleTiles.js); null keeps the Esri/Carto
+  // layers (offline, or no key set). Google ratings in popups only with it.
+  const googleMap = useGoogleTiles();
+  const googleTileEvents = useMemo(() => (googleMap ? googleTileGuard(googleMap.onTilesFailed) : undefined), [googleMap]);
   const toast = useToast();
 
   // "Open in Map" from any Get Directions sheet (DirectionsButton) lands
@@ -948,6 +971,7 @@ export default function MapExplore({ experiments = false }) {
                 <p style={{ margin: '2px 0 8px', fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
                   {region?.name}
                 </p>
+                {googleMap && <MapPopupRating landmark={landmark} />}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '0 0 8px' }}>
                   {landmark.categories.map((c) => (
                     <span key={c} className="tag">
@@ -990,7 +1014,7 @@ export default function MapExplore({ experiments = false }) {
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats and drawnShape
-    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, drawnShape, adminMode, applyEdit, packsVersion, myPhotos]
+    [trip.byRegion, claimedMap, checkingIn, user, firebaseEnabled, savedOverrides, filterCats, drawnShape, adminMode, applyEdit, packsVersion, myPhotos, googleMap]
   );
 
   // Admin Mode's pin-move for a custom landmark -- separate from the
@@ -1178,15 +1202,28 @@ export default function MapExplore({ experiments = false }) {
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
           <AttributionControl position="bottomright" prefix={false} />
           <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />
-          <TileLayer
-            key={satellite ? 'satellite' : 'street'}
-            attribution={TILE_LAYERS[satellite ? 'satellite' : 'street'].attribution}
-            url={TILE_LAYERS[satellite ? 'satellite' : 'street'].url}
-          />
+          {googleMap ? (
+            <>
+              {/* Google satellite imagery with Google's labels (one layer). */}
+              <TileLayer
+                key={`google-${googleMap.session}`}
+                url={googleTileUrl(googleMap.session)}
+                maxNativeZoom={21}
+                eventHandlers={googleTileEvents}
+              />
+              <GoogleMapAttribution session={googleMap.session} />
+            </>
+          ) : (
+            <TileLayer
+              key={satellite ? 'satellite' : 'street'}
+              attribution={TILE_LAYERS[satellite ? 'satellite' : 'street'].attribution}
+              url={TILE_LAYERS[satellite ? 'satellite' : 'street'].url}
+            />
+          )}
           {/* Transparent labels overlay on top of the satellite imagery: country
               names when zoomed out, cities mid-zoom, neighborhoods/streets up
               close — so you can orient without leaving the satellite view. */}
-          {satellite && (
+          {!googleMap && satellite && (
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
               attribution="&copy; Esri"

@@ -14,6 +14,7 @@ vi.mock('./useImageAvailable', () => ({ useImageAvailable: () => logo }));
 import RatingsSection from './RatingsSection';
 import RatingsCardLine from './RatingsCardLine';
 import HeaderRating from './HeaderRating';
+import MapPopupRating from './MapPopupRating';
 
 const landmark = { id: 'liberty-bell-center', regionId: 'philly', name: 'Liberty Bell Center' };
 const GOOGLE = {
@@ -151,5 +152,20 @@ describe('HeaderRating (under the landmark title)', () => {
     await render(<HeaderRating outside={{ status: 'loading', sources: null }} agg={null} />);
     expect(container.textContent).not.toContain('No ratings yet');
     expect(container.querySelector('.skeleton')).toBeTruthy();
+  });
+});
+
+describe('MapPopupRating (pin popup on the Google map)', () => {
+  it('shows the Google rating, or nothing when Google has none', async () => {
+    hookState = done({ google: GOOGLE, tripadvisor: null });
+    await render(<MapPopupRating landmark={landmark} />);
+    expect(container.textContent).toContain('⭐ 4.7');
+    expect(container.textContent).toContain('Google Maps');
+    hookState = done({ google: null, tripadvisor: null });
+    container.remove();
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    await render(<MapPopupRating landmark={landmark} />);
+    expect(container.innerHTML).toBe('');
   });
 });

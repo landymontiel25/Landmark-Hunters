@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Google map online, Esri offline (2026-10-13, needs the owner's key)
+
+The Map tab shows Google's satellite map with labels (Map Tiles API) while
+online and keeps the Esri/Carto map and offline download when offline, with
+no key set, or when Google tiles fail. Map popups show the Google rating
+only on Google's map (Places terms). Nothing changes until the owner
+enables the Map Tiles API, makes a browser key restricted to it and the
+site's referrers, sets a daily tile quota, and adds
+`VITE_GOOGLE_MAP_TILES_KEY` in Vercel. Details: `docs/google-map.md`.
+
 ## Google and Tripadvisor ratings on landmarks (2026-10-13, needs owner steps)
 
 Update 2026-10-13: Google matching ran for all 3,498 places: 2,327 matched
