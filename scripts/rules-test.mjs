@@ -966,6 +966,17 @@ await t('mapr_neighbors: only the owner reads or deletes it; nobody writes it', 
   await assertSucceeds(deleteDoc(doc(as('ann'), 'mapr_neighbors/ann')));
 });
 
+console.log('community_density (Phase 3)');
+await reset();
+await seed((db) => setDoc(doc(db, 'community_density/philly'), { ramp: 0.2, activeUsers: 20, gateOpen: false }));
+await t('community_density: only the admin dashboard reads it; no app user; nobody writes', async () => {
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'community_density/philly')));
+  await assertFails(getDoc(doc(as('ann'), 'community_density/philly')));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'community_density/philly')));
+  await assertFails(setDoc(doc(as('ann'), 'community_density/philly'), { ramp: 1 }));
+  await assertFails(setDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'community_density/philly'), { ramp: 1 }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

@@ -452,6 +452,15 @@ service cloud.firestore {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if false;
     }
+    // Each launch city's community numbers (discovery network plan, Phase 3):
+    // the ramp, active people, live tips and the density gate, written by
+    // the nightly job. Server and dashboard only: no app user sees density
+    // numbers or the ramp (the plan let any signed-in user read them;
+    // api/community.js gives a phone only its own lift and the gate).
+    match /community_density/{region} {
+      allow read: if isDashboard();
+      allow write: if false;
+    }
     // Your taste neighbors (discovery network plan, Phase 2), written by the
     // nightly job: the people with live tips whose taste matches yours.
     // Only you read it (it feeds your own Mapr ranking and the "Taste match"

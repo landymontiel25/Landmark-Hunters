@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { foundByLine } from '../../lib/communityLabels';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useUnits, formatDistance } from '../../lib/UnitsContext';
@@ -127,6 +128,7 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
             {pick.rating?.count ? ` · ${'\u{2605}'} ${Number(pick.rating.avg).toFixed(1)}` : ''}
           </span>
           {pick.reason && <span className="mpp-card-reason">{pick.reason}</span>}
+          {foundByLine(pick) && <span className="mpp-card-reason mpp-card-found">{foundByLine(pick)}</span>}
         </span>
       </button>
       <div className="mpp-card-foot">

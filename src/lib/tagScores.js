@@ -20,7 +20,7 @@ import { AWAY_VOTE_MILES, AWAY_VOTE_WEIGHT, RATING_TAG_DELTA, TAP_TAG_DELTA } fr
 // Exponential decay is linear, so decaying one running total from its last
 // write equals decaying every rating from its own timestamp and summing.
 // That lets us store one number per tag instead of every contribution.
-// Plain .js import paths: api/mapr-picks.js runs this under Node on Vercel.
+// Plain .js import paths: the api/ routes (Mapr chat) run this under Node on Vercel.
 
 // Numbers live in maprConstants.js (RATING_TAG_DELTA / TAP_TAG_DELTA).
 export const TAG_DELTAS = {

@@ -4,6 +4,7 @@ import { collabBoost } from './similarity.js';
 import { prepareScorer } from './ncf.js';
 import { variantsFor } from './experiments.js';
 import { epsilonFor, explorationSet, isStagnating, userState } from './exploration.js';
+import { applyCommunity } from './community.js';
 
 // Mapr Phase 1 scoring, on top of the tag-score queues from
 // rankNearbyCandidates (src/lib/nearbyPicks.js):
@@ -12,6 +13,10 @@ import { epsilonFor, explorationSet, isStagnating, userState } from './explorati
 //   Week 2  base        = after_decay * (1 + item_item_boost)      (boost <= 0.2)
 //   Week 3  final       = 0.4 * base / max(base) + 0.6 * ncf       (NCF treatment)
 //   Week 4  each slot explores with probability epsilon            (exploration treatment)
+//   Phase 3 final      = final x community lift                       (community picks)
+//           the lift comes from live, verified tips in launch cities,
+//           computed per viewer on the server (models.community, see
+//           api/_lib/communityServer.js); 1 everywhere else
 //
 // Every step has its own feature flag (config.js FEATURES) and its own
 // fallback: a missing or broken model, or a step over its time budget, drops
@@ -135,6 +140,20 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
     } else r.final = r.base;
   }
 
+  // Phase 3: community picks. The lift (1 to 2, already ramped) for each
+  // place someone found; a place with none keeps its score.
+  let communityUsed = false;
+  if (on('communityPicks') && models?.community) {
+    for (const r of rows) {
+      const c = models.community[r.p.region || r.p.regionId]?.places?.[r.p.id];
+      if (!c) continue;
+      r.community = c;
+      const lifted = applyCommunity(r.final, c.lift);
+      if (lifted !== r.final) communityUsed = true;
+      r.final = lifted;
+    }
+  }
+
   const latencyMs = round(clock() - started, 2);
   const out = { usual: [], fresh: [] };
   for (const r of rows) {
@@ -148,13 +167,17 @@ export function scorePicks({ usual = [], fresh = [], uid = null, myReviews = {},
       ncfModel,
       finalScore: round(r.final),
       revisit: visited.has(r.p.id),
+      // Who found it and its lift, so community picks can be compared with
+      // Mapr-only ones (match rate, skip rate).
+      communityWeight: r.community ? round(r.community.lift) : null,
+      finderUid: r.community?.finder?.uid ?? null,
     };
-    out[r.q].push({ ...r.p, finalScore: r.final, telemetry });
+    out[r.q].push({ ...r.p, finalScore: r.final, telemetry, ...(r.community ? { community: { likeYou: r.community.likeYou === true, finder: r.community.finder || null } } : {}) });
   }
   const best = (a, b) => b.finalScore - a.finalScore || (a.distanceMeters ?? 0) - (b.distanceMeters ?? 0);
   out.usual.sort(best);
   out.fresh.sort(best);
-  return { ...out, meta: { variants, fallbacks, latencyMs, ncfUsed, ncfModel } };
+  return { ...out, meta: { variants, fallbacks, latencyMs, ncfUsed, ncfModel, communityUsed } };
 }
 
 // Week 4: the exploration side of one request. Null for users outside the

@@ -220,7 +220,29 @@ could read with dev tools, so rating agreement (step 3) only uses a
 finder's ratings where the reader could already read them (public profile,
 or friends); otherwise the score is taste alone (a security review showed
 fake accounts could otherwise work out a private person's ratings). The Network dashboard page shows how many active people have a
-neighbor. Phase 2 is complete; next is Phase 3 (community picks).
+neighbor. Phase 2 is complete.
+
+Phase 3 shipped: community picks. `src/lib/maprRank/community.js` holds
+steps 5 to 7 (finder weight, place weight with +0.1 per extra finder and
+the 2.0 cap, freshness, ramp, community weight) and the density gate, with
+unit tests. Nightly `api/_lib/communityDensity.js` writes
+`community_density/{philly,villanova}` (the launch area counted as one:
+active people, live tips, places, recent discoverers, median nearby finds,
+ramp, gate streak); server and dashboard only. `api/_lib/communityServer.js`
+computes each viewer's per-place lift and finder; the phone gets it from
+`api/community.js` through `loadMaprModels`, Mapr chat through
+`loadServerModels`, and `scorePicks` multiplies it in (feature
+`communityPicks`, at 100%). Surfaces: Map sheet picks and every row (reason
+line names the finder), new "Found by people like you" row (3 or more),
+Travel Picks, trip planner ("Something new" gets one community find),
+Places tab For Me plus a "Found by people" chip, Mapr chat (FOUND BY lines
+and quoted tips; the misleading "similar taste" wording fixed), landmark
+page tips sorted by finder weight. `api/mapr-picks.js` deleted (no caller).
+Deviations: freshness scales the lift only, not the whole score; density
+numbers are not readable by app users. The Network dashboard shows the
+density numbers and community vs Mapr-only skip and visit rates over 30
+days (Phase 3 is done when community picks match at least as well). Next:
+Phase 4 (influence events and local reputation).
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

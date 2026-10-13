@@ -60,7 +60,7 @@ export const TASTE_QUESTIONS = [
 // ({ [categoryId]: string }) is the per-category "Comment" field next to
 // each question. Turned into plain prose ("Food: likes Steak, Fine dining;
 // dislikes Sushi (note: no pepper on my steak)") so the AI reads it exactly
-// like a typed answer -- see api/plan-ai.js and api/mapr-picks.js's IN
+// like a typed answer -- see api/plan-ai.js's IN
 // THEIR OWN WORDS section.
 export function baselineToSentence(baseline, categoryNotes) {
   if (!baseline) return '';

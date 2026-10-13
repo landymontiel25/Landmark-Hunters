@@ -60,4 +60,9 @@ describe('APP_HELP stays in sync with code constants', () => {
     expect(APP_HELP).toContain('"Taste match: High" or "Taste match: Some"');
     expect(APP_HELP).toContain('You never see a number or a percentage');
   });
+  it('describes community picks without numbers', () => {
+    expect(APP_HELP).toContain('Found by people like you');
+    expect(APP_HELP).toContain('Share this find?');
+    expect(APP_HELP).toContain('You never see the lift, weights or how full a city is');
+  });
 });

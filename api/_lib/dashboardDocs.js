@@ -68,7 +68,7 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now(), ti
   for (const d of presenceDocs(ds, dates)) writes.push(['presence_metrics', d.date, { ...clean(d), createdAt: ts }]);
   // Today's tip state is only known now: the last day only.
   if (tips) for (const d of tipDocs(ds, [yesterday])) writes.push(['tip_metrics', d.date, { ...clean(d), createdAt: ts }]);
-  if (tips) for (const d of networkDocs(ds, [yesterday])) writes.push(['network_metrics', d.date, { ...clean(d), createdAt: ts }]);
+  if (tips) for (const d of networkDocs(ds, [yesterday], annotated)) writes.push(['network_metrics', d.date, { ...clean(d), createdAt: ts }]);
   for (const d of retentionDocs(ds, lastDates(dateUtc(now), DASHBOARD_COHORTS), now)) writes.push(['retention_cohorts', d.cohort_date, { ...clean(d), createdAt: ts }]);
   const acc = accuracyDocs(ds, yesterday, { annotated });
   writes.push(['accuracy_by_category', yesterday, { ...clean(acc.byCategory), createdAt: ts }]);
@@ -89,6 +89,26 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now(), ti
 export async function writeNeighborMetrics(db, date, out) {
   if (!out || out.skipped) return;
   await db.collection('network_metrics').doc(date).set({ neighbors_active: out.active, neighbors_with_any: out.withNeighbors, neighbors_with_high: out.withHigh }, { merge: true });
+}
+
+// After the nightly community density run (Phase 3): the launch area's
+// numbers, merged into that day's network_metrics doc.
+export async function writeDensityMetrics(db, date, out) {
+  const d = out && !out.skipped ? Object.values(out)[0] : null;
+  if (!d) return;
+  await db.collection('network_metrics').doc(date).set(
+    {
+      density_active: d.activeUsers,
+      density_live_tips: d.liveTips,
+      density_tip_places: d.liveTipPlaces,
+      density_discoverers_30d: d.discoverers30,
+      density_median_nearby: d.medianNearby,
+      density_ramp: d.ramp,
+      density_gate_days: d.gateStreakDays,
+      density_gate_open: d.gateOpen,
+    },
+    { merge: true }
+  );
 }
 
 // After the weekly models: the NCF and similarity status docs.

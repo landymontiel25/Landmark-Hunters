@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
@@ -381,6 +382,12 @@ export default function LandmarkSelection() {
   // Category lasts while the app is open and resets every launch; search
   // text and sort survive closing the app (see usePersistentState).
   const [activeCategories, setActiveCategories] = useSessionState('landmarks.category', []);
+  // "Found by people" (Phase 3): only places someone like you (a taste
+  // neighbor, someone you follow, a friend) shared a tip on. The chip shows
+  // only when there are some.
+  const [foundOnly, setFoundOnly] = useSessionState('landmarks.found', false);
+  const isFound = useCallback((l) => isCommunityFind(l, maprModels?.community), [maprModels]);
+  const hasFound = useMemo(() => Object.values(maprModels?.community || {}).some((r) => Object.values(r?.places || {}).some((c) => c?.likeYou)), [maprModels]);
   // A restored custom interest (or a retired category) may be gone since --
   // don't leave the list filtered by a button that no longer shows.
   useEffect(() => {
@@ -470,6 +477,7 @@ export default function LandmarkSelection() {
   const passesFilters = (l) => {
     if (!inScope(l, scope) || (drawnShape && !inArea(l.lat, l.lng, drawnShape))) return false;
     if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
+    if (foundOnly && hasFound && !isFound(l)) return false;
     return true;
   };
 
@@ -478,6 +486,7 @@ export default function LandmarkSelection() {
     const filtered = [...editedLandmarks, ...normalizedCustomLandmarks].filter((l) => {
       if (!inScope(l, scope) || (drawnShape && !inArea(l.lat, l.lng, drawnShape))) return false;
       if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
+      if (foundOnly && hasFound && !isFound(l)) return false;
       if (term) {
         // Includes the city/region name and category labels too -- so a
         // query like "Miami F1" finds the Miami International Autodrome
@@ -558,6 +567,9 @@ export default function LandmarkSelection() {
         a.name.localeCompare(b.name)
     );
   }, [
+    foundOnly,
+    hasFound,
+    isFound,
     myProfile,
     myReviews,
     maprModels,
@@ -769,6 +781,17 @@ export default function LandmarkSelection() {
             </button>
           );
         })}
+        {hasFound && (
+          <button
+            type="button"
+            className={`tab-btn ${foundOnly ? 'active' : ''}`}
+            aria-pressed={!!foundOnly}
+            title="Found by people like you"
+            onClick={() => setFoundOnly(!foundOnly)}
+          >
+            {'\u{1F465}'} Found by people
+          </button>
+        )}
       </div>
 
       <div className="tabs" style={{ marginBottom: sortBy === 'nearMe' && !coords ? 4 : 18 }}>

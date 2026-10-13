@@ -298,7 +298,7 @@ export async function removePushToken(uid, token) {
 // onboarding (its notes step) or anytime after from Settings. Same
 // users/{uid} doc getUserProfile already reads, so it's available for free
 // via FriendsContext's myProfile once saved. Fed to the AI verbatim (see
-// api/plan-ai.js/api/mapr-picks.js's TASTE INTRO section) rather than
+// api/plan-ai.js's TASTE INTRO section) rather than
 // parsed into categories -- "I love racing, steak, pickleball, the boat...
 // I like fancy things" is exactly the kind of free-form context an LLM
 // reads better than any keyword list could.

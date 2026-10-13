@@ -50,7 +50,7 @@ function userError(message) {
 // landmarks voted or rated in a day (see src/lib/streaks.js) to do that
 // without a real visit. The review this writes feeds Mapr Picks' matching
 // the same way every other review does (src/lib/maprPicks.js /
-// api/mapr-picks.js read categories/tier/highlights/comment from reviews),
+// the old api/mapr-picks.js read categories/tier/highlights/comment from reviews),
 // so the mandatory comment here is exactly what a plain yes/no vote can't
 // give Mapr to learn from.
 export default function RateLandmarkSearch() {
