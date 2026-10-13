@@ -7,6 +7,7 @@ import FollowButton from './FollowButton';
 import { Skeleton } from './Skeleton';
 import { useToast } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
+import { mouseOnly } from '../lib/mouseOnly';
 
 // Wraps a name (leaderboard, full-list page, wherever) so tapping it goes
 // straight to that person's stats if you're already friends -- the same
@@ -27,8 +28,9 @@ export default function FriendPopoverName({ userId, fallbackName, children }) {
   const isMe = user && userId === user.uid;
   const isFriend = friendUids.has(userId);
 
-  // Same hover-with-grace-period + tap-to-toggle pattern as the header's own
-  // profile popover, so it behaves the same on a Mac trackpad and a phone.
+  // Hover with a grace period for a mouse, tap to toggle on a phone. Hover
+  // listens to the mouse only (mouseOnly): a tap's own enter event opened
+  // the card and the tap's click closed it again.
   // Only relevant for the small "add friend" card below -- a friend's name
   // opens their stats modal directly instead, so it never needs a hover.
   const openNow = () => {
@@ -103,7 +105,7 @@ export default function FriendPopoverName({ userId, fallbackName, children }) {
   };
 
   return (
-    <span className="user-popover" ref={ref} onMouseEnter={openNow} onMouseLeave={closeSoon}>
+    <span className="user-popover" ref={ref} onPointerEnter={mouseOnly(openNow)} onPointerLeave={mouseOnly(closeSoon)}>
       <span
         className="user-popover-trigger"
         role="button"

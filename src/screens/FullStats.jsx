@@ -8,6 +8,7 @@ import { levelProgress } from '../lib/level';
 import CheckinsGallery from '../components/CheckinsGallery';
 import { SkeletonCard } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
+import { mouseOnly } from '../lib/mouseOnly';
 
 const SORTS = [
   { id: 'oldest', label: 'Oldest' },
@@ -132,8 +133,8 @@ export default function FullStats() {
               <div
                 key={b.id}
                 className={`badge-tile ${earned ? 'earned' : 'locked'}`}
-                onMouseEnter={() => openNow(b.id)}
-                onMouseLeave={closeSoon}
+                onPointerEnter={mouseOnly(() => openNow(b.id))}
+                onPointerLeave={mouseOnly(closeSoon)}
                 onClick={() => setOpenBadgeId((cur) => (cur === b.id ? null : b.id))}
               >
                 <span className="badge-tile-icon">{b.icon}</span>
