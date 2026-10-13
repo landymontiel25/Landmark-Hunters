@@ -39,6 +39,8 @@ import { usePersistentState } from '../lib/usePersistentState';
 import { useDragReorder } from '../lib/useDragReorder';
 import { friendlyError } from '../lib/friendlyError';
 import { useToast } from '../lib/ToastContext';
+import { itineraryShareText, routeMode, shareItinerary as shareText } from '../lib/itineraryShare';
+import AddSquareIcon from '../components/AddSquareIcon';
 import ErrorNotice from '../components/ErrorNotice';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
@@ -600,6 +602,14 @@ export default function Itinerary() {
       state: { directionsTo: toNavStop(list[0]), directionsQueue: list.slice(1).map(toNavStop), startNav: true },
     });
   };
+  // Share with anyone, app or not: the stops and a Google Maps route, by the
+  // phone's share sheet (texts, WhatsApp, email...) or copied to paste.
+  const shareItinerary = () =>
+    shareText({
+      title: itineraryName(region.id),
+      text: itineraryShareText({ name: itineraryName(region.id), regionName: region.name, stops: displayRoute, mode: routeMode(displayRoute) }),
+      toast,
+    });
   const linkStops = displayRoute.filter((s) => !claimedMap[s.id]).length
     ? displayRoute.filter((s) => !claimedMap[s.id])
     : displayRoute;
@@ -887,7 +897,8 @@ export default function Itinerary() {
         </div>
         {user ? (
           <button type="button" className="member-add-row" onClick={() => setShowAddMember(true)} disabled={converting}>
-            {'\u{2795}'} {converting ? 'Adding…' : 'Add a user'}
+            <AddSquareIcon />
+            {converting ? 'Adding…' : 'Add a user'}
           </button>
         ) : (
           <p className="screen-subtitle" style={{ margin: '10px 0 0' }}>
@@ -995,6 +1006,9 @@ export default function Itinerary() {
           <div className="itin-trip-actions">
             <button type="button" className="btn btn-primary" onClick={() => startTrip()}>
               {'\u{25B6}\u{FE0F}'} Start Trip
+            </button>
+            <button type="button" className="btn btn-ghost" onClick={shareItinerary}>
+              {'\u{1F4E4}'} Share
             </button>
             {allStopsLinks.map((href, i) => (
               <a key={href} className="btn btn-ghost" href={href} target="_blank" rel="noreferrer">

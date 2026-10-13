@@ -237,3 +237,11 @@ button.back-sticky,
   font-weight: 600;
   color: var(--text-primary);
 }
+
+/* Members card: the add-a-user row leads with a rounded-square plus icon. */
+.member-add-row {
+  gap: 10px;
+}
+.member-add-icon {
+  flex-shrink: 0;
+}
