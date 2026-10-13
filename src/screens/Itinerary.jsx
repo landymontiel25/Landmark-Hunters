@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap } from 'react-leaflet';
-import L from 'leaflet';
+// leafletGuards: Leaflet plus a fix for two timers that outlive their map.
+import L from '../lib/leafletGuards';
 import 'leaflet/dist/leaflet.css';
 import { useTrip } from '../lib/TripContext';
 import { useGeo } from '../lib/GeoContext';
