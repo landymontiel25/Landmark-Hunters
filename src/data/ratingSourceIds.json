@@ -1,4 +1,79 @@
 {
+  "miami/ancient-spanish-monastery": {
+    "googlePlaceId": "ChIJv-QSpLqt2YgR7Da-jhWuV2o"
+  },
+  "miami/bayfront-park": {
+    "googlePlaceId": "ChIJd9nFxyC02YgRVdtnh8Obwp8"
+  },
+  "miami/brickell-city-centre": {
+    "googlePlaceId": "ChIJ9b849YC32YgR612tUl-KdyM"
+  },
+  "miami/colony-hotel": {
+    "googlePlaceId": "ChIJg_hOoZK02YgRhl_OsRNp-Mw"
+  },
+  "miami/espanola-way": {
+    "googlePlaceId": "ChIJeaHmmI-02YgRtTHiPZhhuGU"
+  },
+  "miami/fairchild-tropical-botanic-garden": {
+    "googlePlaceId": "ChIJu_e4BnTI2YgREAOg3GxMK8g"
+  },
+  "miami/freedom-tower": {
+    "googlePlaceId": "ChIJQYc31KG22YgRSGPrHL_dpiQ"
+  },
+  "miami/frost-museum-of-science": {
+    "googlePlaceId": "ChIJab3yr6C22YgRdh8TY4oVu_w"
+  },
+  "miami/holocaust-memorial-miami-beach": {
+    "googlePlaceId": "ChIJt_rH-qQp2YgRVCQiSJ3NXzs"
+  },
+  "miami/institute-of-contemporary-art-miami": {
+    "googlePlaceId": "ChIJP_TMP1ex2YgR4S9TDvJAO2M"
+  },
+  "miami/kaseya-center": {
+    "googlePlaceId": "ChIJlZFyCaC22YgRbFtPKFIFrRM"
+  },
+  "miami/loandepot-park": {
+    "googlePlaceId": "ChIJT6FDlOi22YgRho4_rKhVv3c"
+  },
+  "miami/maximo-gomez-park-domino-park": {
+    "googlePlaceId": "ChIJrwdJxvC22YgRYBoTtbtcriQ"
+  },
+  "miami/miami-childrens-museum": {
+    "googlePlaceId": "ChIJoVWX_Rm02YgRllHsIZGN16c"
+  },
+  "miami/miami-design-district": {
+    "googlePlaceId": "ChIJB3_XyFCx2YgRFHOXPjVD_8U"
+  },
+  "miami/miami-international-autodrome": {
+    "googlePlaceId": "ChIJ87CsDgCv2YgR1vzidKw4Bag"
+  },
+  "miami/miracle-mile": {
+    "googlePlaceId": "ChIJqXee5BS32YgRj9mh9RBqHvc"
+  },
+  "miami/perez-art-museum-miami": {
+    "googlePlaceId": "ChIJAUUpLJq22YgRAU604E8-tsM"
+  },
+  "miami/rubell-museum": {
+    "googlePlaceId": "ChIJLx5iM6222YgR2ubX5fvu4ts"
+  },
+  "miami/superblue-miami": {
+    "googlePlaceId": "ChIJqU2oA4m32YgRYwF5JdM4I38"
+  },
+  "miami/the-barnacle-historic-state-park": {
+    "googlePlaceId": "ChIJWUrQV8W32YgRsIjdBURU4_Q"
+  },
+  "miami/the-villa-casa-casuarina": {
+    "googlePlaceId": "ChIJPxh9HpK02YgRw4dfWY2eMpY"
+  },
+  "miami/venetian-pool": {
+    "googlePlaceId": "ChIJO2jhb4m32YgRvulhfY9IMx0"
+  },
+  "miami/vizcaya-museum-and-gardens": {
+    "googlePlaceId": "ChIJE5jqT1222YgR4STdDoStYPg"
+  },
+  "miami/wynwood-walls": {
+    "googlePlaceId": "ChIJ98BffLK22YgRsymdIvOgjNA"
+  },
   "philly/ardmore-music-hall": {
     "googlePlaceId": "ChIJVVxRaIbAxokRaUIqCSOUB94"
   },

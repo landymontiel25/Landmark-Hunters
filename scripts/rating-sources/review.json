@@ -1,0 +1,398 @@
+{
+  "miami/bayside-marketplace": {
+    "name": "Bayside Marketplace",
+    "lat": 25.778236,
+    "lng": -80.187103,
+    "google": {
+      "reason": "name matches but 257 m away",
+      "candidates": [
+        {
+          "id": "ChIJ2YAfbyC02YgRQzEiuI4qloc",
+          "name": "Bayside Marketplace",
+          "lat": 25.7771696,
+          "lng": -80.1848308,
+          "distanceM": 257,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/calle-ocho": {
+    "name": "Calle Ocho",
+    "lat": 25.766425,
+    "lng": -80.193117,
+    "google": {
+      "reason": "name matches but 890 m away",
+      "candidates": [
+        {
+          "id": "ChIJw3-9-Y622YgRYWXCmMaNMek",
+          "name": "Calle Ocho Plaza",
+          "lat": 25.7665181,
+          "lng": -80.2019991,
+          "distanceM": 890,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ097kN4C32YgRjOsSxUueXUg",
+          "name": "Calle Ocho Murals",
+          "lat": 25.765499799999997,
+          "lng": -80.21807969999999,
+          "distanceM": 2502,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ5YNpBQC32YgRPOLro09s8SY",
+          "name": "Calle Ocho Walk of Fame",
+          "lat": 25.765829999999998,
+          "lng": -80.21837,
+          "distanceM": 2530,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/deering-estate": {
+    "name": "Deering Estate",
+    "lat": 25.615703,
+    "lng": -80.306734,
+    "google": {
+      "reason": "name matches but 250 m away",
+      "candidates": [
+        {
+          "id": "ChIJz5n5t9jF2YgRjza5I32Cz3w",
+          "name": "Deering Estate",
+          "lat": 25.614314699999998,
+          "lng": -80.30869609999999,
+          "distanceM": 250,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/haulover-beach": {
+    "name": "Haulover Beach",
+    "lat": 25.907563,
+    "lng": -80.12141,
+    "google": {
+      "reason": "name matches but 523 m away",
+      "candidates": [
+        {
+          "id": "ChIJndCi02ut2YgRgQiu2Kn9irk",
+          "name": "Haulover Park",
+          "lat": 25.911442599999997,
+          "lng": -80.1234842,
+          "distanceM": 479,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJZVJRF2qt2YgRrn9kX-4z2p8",
+          "name": "Haulover Beach",
+          "lat": 25.912264699999998,
+          "lng": -80.12127819999999,
+          "distanceM": 523,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJVwxcXOet2YgRSUHaftyPUFg",
+          "name": "Haulover Beach (Clothing Optional Section)",
+          "lat": 25.9154485,
+          "lng": -80.1215325,
+          "distanceM": 877,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/historymiami-museum": {
+    "name": "HistoryMiami Museum",
+    "lat": 25.774463,
+    "lng": -80.196586,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJg8qVGJq22YgRgnRfn3-HvOY",
+          "name": "Museum of Miami",
+          "lat": 25.7746635,
+          "lng": -80.196383,
+          "distanceM": 30,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "miami/jewish-museum-of-florida-fiu": {
+    "name": "Jewish Museum of Florida-FIU",
+    "lat": 25.7719,
+    "lng": -80.133,
+    "google": {
+      "reason": "name matches but 156 m away",
+      "candidates": [
+        {
+          "id": "ChIJveywtPO02YgREa3fTMjqsOM",
+          "name": "Jewish Museum of Florida",
+          "lat": 25.7725299,
+          "lng": -80.134395,
+          "distanceM": 156,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/jungle-island": {
+    "name": "Jungle Island",
+    "lat": 25.786178,
+    "lng": -80.174694,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJkWXRuBC02YgRripCIoUAN9g",
+          "name": "Jungle Island",
+          "lat": 25.786206999999997,
+          "lng": -80.175026,
+          "distanceM": 33,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJndVMcS612YgROEkTZLkFoT4",
+          "name": "Treetop Trekking Miami",
+          "lat": 25.785640299999997,
+          "lng": -80.1745463,
+          "distanceM": 62,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ0W8jMxe02YgR2nixJGeUldw",
+          "name": "Jungle Island",
+          "lat": 25.7846579,
+          "lng": -80.1739071,
+          "distanceM": 186,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/lincoln-road": {
+    "name": "Lincoln Road",
+    "lat": 25.790685,
+    "lng": -80.130351,
+    "google": {
+      "reason": "name matches but 152 m away",
+      "candidates": [
+        {
+          "id": "ChIJH3eP2oW02YgR36z2lTkIIK4",
+          "name": "Lincoln Road",
+          "lat": 25.7907529,
+          "lng": -80.1318681,
+          "distanceM": 152,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/little-haiti-cultural-complex": {
+    "name": "Little Haiti Cultural Complex",
+    "lat": 25.8258,
+    "lng": -80.1912,
+    "google": {
+      "reason": "name matches but 510 m away",
+      "candidates": [
+        {
+          "id": "ChIJ1YIkHGGx2YgReoTnZ80QKtw",
+          "name": "Little Haiti Cultural Complex",
+          "lat": 25.830386,
+          "lng": -80.1913205,
+          "distanceM": 510,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/matheson-hammock-park": {
+    "name": "Matheson Hammock Park",
+    "lat": 25.677376,
+    "lng": -80.266076,
+    "google": {
+      "reason": "name matches but 971 m away",
+      "candidates": [
+        {
+          "id": "ChIJ-XPbuWXI2YgRQk_qbsYfAx4",
+          "name": "Matheson Hammock Park & Marina",
+          "lat": 25.679227700000002,
+          "lng": -80.2566025,
+          "distanceM": 971,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/miami-circle-national-historic-landmark": {
+    "name": "Miami Circle National Historic Landmark",
+    "lat": 25.7699,
+    "lng": -80.1913,
+    "google": {
+      "reason": "name matches but 241 m away",
+      "candidates": [
+        {
+          "id": "ChIJmfGPOJ222YgR0oaxGVzR9fM",
+          "name": "Miami Circle National Historic Landmark",
+          "lat": 25.7694512,
+          "lng": -80.1889471,
+          "distanceM": 241,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/oleta-river-state-park": {
+    "name": "Oleta River State Park",
+    "lat": 25.917654,
+    "lng": -80.137433,
+    "google": {
+      "reason": "name matches but 891 m away",
+      "candidates": [
+        {
+          "id": "ChIJfW8fEnWt2YgRpLHVb4Wf_Hg",
+          "name": "Oleta River State Park",
+          "lat": 25.9134301,
+          "lng": -80.1298671,
+          "distanceM": 891,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/south-beach": {
+    "name": "South Beach",
+    "lat": 25.774429,
+    "lng": -80.133241,
+    "google": {
+      "reason": "name matches but 914 m away",
+      "candidates": [
+        {
+          "id": "ChIJ8YDAi4602YgRvebvqeTs_no",
+          "name": "South Beach",
+          "lat": 25.7826123,
+          "lng": -80.1340772,
+          "distanceM": 914,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/south-pointe-park-and-pier": {
+    "name": "South Pointe Park and Pier",
+    "lat": 25.7701,
+    "lng": -80.1306,
+    "google": {
+      "reason": "name matches but 736 m away",
+      "candidates": [
+        {
+          "id": "ChIJf2LdW-W02YgR4q0vx7_GK18",
+          "name": "South Pointe Park Pier",
+          "lat": 25.7635368,
+          "lng": -80.1296706,
+          "distanceM": 736,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/the-bass": {
+    "name": "The Bass",
+    "lat": 25.7909,
+    "lng": -80.1309,
+    "google": {
+      "reason": "name matches but 745 m away",
+      "candidates": [
+        {
+          "id": "ChIJVUQKVZy02YgRGA6_hGKlCQY",
+          "name": "The Bass",
+          "lat": 25.797566800000002,
+          "lng": -80.1301297,
+          "distanceM": 745,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/the-biltmore-hotel": {
+    "name": "The Biltmore Hotel",
+    "lat": 25.740896,
+    "lng": -80.277706,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJn-er0I-32YgR4K99ZMfBxiQ",
+          "name": "Biltmore Hotel Miami Coral Gables",
+          "lat": 25.7407941,
+          "lng": -80.27867959999999,
+          "distanceM": 98,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/venetian-causeway": {
+    "name": "Venetian Causeway",
+    "lat": 25.789762,
+    "lng": -80.183457,
+    "google": {
+      "reason": "name matches but 216 m away",
+      "candidates": [
+        {
+          "id": "ChIJR8z-6xy02YgRftwkEForZBM",
+          "name": "West Venetian Causeway Bridge",
+          "lat": 25.7898791,
+          "lng": -80.1813011,
+          "distanceM": 216,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/zoo-miami": {
+    "name": "Zoo Miami",
+    "lat": 25.613374,
+    "lng": -80.399919,
+    "google": {
+      "reason": "name matches but 554 m away",
+      "candidates": [
+        {
+          "id": "ChIJFY7wCsjD2YgRn8R_2IMRjtw",
+          "name": "Zoo Miami",
+          "lat": 25.6095318,
+          "lng": -80.3964056,
+          "distanceM": 554,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  }
+}
