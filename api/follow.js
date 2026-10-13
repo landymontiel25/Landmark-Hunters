@@ -2,7 +2,7 @@ import { verifyIdToken } from './_lib/verifyAuth.js';
 import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { withCors } from './_lib/cors.js';
-import { isFirestoreId, send } from './_lib/tipsServer.js';
+import { blockedEitherWay, isFirestoreId, send } from './_lib/tipsServer.js';
 import { deleteMyFollows, follow, removeFollowsBetween, unfollow } from './_lib/follows.js';
 
 // Follows (docs/discovery-network-plan.md, Phase 2). The only way a follow
@@ -43,8 +43,7 @@ async function handler(req, res) {
     if (action === 'blocked') {
       // Only once a block between the two exists, so nobody can unfollow
       // someone else's follows.
-      const [x, y] = await Promise.all([db.collection('blocks').doc(`${account.uid}_${uid}`).get(), db.collection('blocks').doc(`${uid}_${account.uid}`).get()]);
-      if (!x.exists && !y.exists) return send(res, 400, { error: 'No block between you.' });
+      if (!(await blockedEitherWay(db, account.uid, uid))) return send(res, 400, { error: 'No block between you.' });
       await removeFollowsBetween(db, account.uid, uid);
       return send(res, 200, { ok: true });
     }

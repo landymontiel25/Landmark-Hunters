@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { getUserProfile } from '../lib/friends';
 import { followUser, isFollowing, unfollowUser } from '../lib/followsApi';
@@ -7,8 +7,9 @@ import { useToast } from '../lib/ToastContext';
 export const followerLabel = (n) => `${n} ${n === 1 ? 'follower' : 'followers'}`;
 
 // Follow / Following for someone's public profile (Phase 2), with their
-// follower count. Shows nothing for your own profile; a private profile
-// shows its count only (it can't be followed). Pass `profile` when the
+// follower count. Your own profile and a private one show the count with
+// no button (a private profile can't be followed, but one you already
+// follow can be unfollowed). Pass `profile` when the
 // caller already has users/{uid}; otherwise it's loaded here.
 export default function FollowButton({ uid, profile: given = null, compact = false }) {
   const { user } = useAuth();
@@ -33,9 +34,14 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
     };
   }, [uid, given]);
 
+  // The count is taken from the profile once per person: a reloaded
+  // profile object must not undo a follow you just made.
+  const countFor = useRef(null);
   useEffect(() => {
-    if (profile) setCount(Math.max(0, Number(profile.followerCount) || 0));
-  }, [profile]);
+    if (!profile || countFor.current === uid) return;
+    countFor.current = uid;
+    setCount(Math.max(0, Number(profile.followerCount) || 0));
+  }, [profile, uid]);
 
   const myUid = user?.uid || null;
   useEffect(() => {
@@ -43,7 +49,9 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
     let cancelled = false;
     isFollowing(myUid, uid)
       .then((f) => !cancelled && setFollowing(f))
-      .catch(() => !cancelled && setFollowing(false));
+      // Unknown stays unknown (button disabled): guessing "not following"
+      // would let a tap add a follow that already exists to the count.
+      .catch(() => {});
     return () => {
       cancelled = true;
     };

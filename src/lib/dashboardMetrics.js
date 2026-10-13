@@ -128,7 +128,10 @@ export function tipDocs(ds, dates) {
 // the last 30 days, and how many of them follow at least one discoverer
 // (someone with a live tip). Phase 2 is done when that share reaches 60%.
 export function networkDocs(ds, dates) {
-  const follows = ds.follows || [];
+  // Follows from or to a deleted account don't count (the nightly upkeep
+  // removes them after this runs).
+  const people = new Set((ds.users || []).map((u) => u.uid));
+  const follows = (ds.follows || []).filter((f) => !ds.users || (people.has(f.followerUid) && people.has(f.followeeUid)));
   const discoverers = new Set((ds.tips || []).filter((t) => t.status === 'live' && !t.hidden).map((t) => t.authorUid));
   return dates.map((date) => {
     const from = dayStart(date);
