@@ -1,13 +1,13 @@
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { tipCheckinProblem, tipIdFor } from './tips';
+import { toMs as ms } from './time';
 import { canonicalLandmarkId, canonicalRegionId, legacyLandmarkIds } from '../data/regions';
 
 // The check-in a new tip at this place can rest on: your newest real visit
 // the server verified (presence written by api/verify-checkin.js) in the
 // last 30 days. Null when there is none, so the app doesn't offer a tip it
 // would refuse.
-const ms = (t) => (t && typeof t.toMillis === 'function' ? t.toMillis() : typeof t?.seconds === 'number' ? t.seconds * 1000 : null);
 
 export function pickTipCheckin(checkins, nowMs, uid) {
   let best = null;

@@ -7,7 +7,7 @@ import { discardTipPhoto, postTip, TIPS_CHANGED_EVENT, uploadTipPhoto } from '..
 // form for one tip on a verified visit. The server (api/post-tip.js) checks
 // everything again; this only keeps the person from typing something it
 // will refuse. A tip is public: the screen says so before Post.
-export default function TipComposer({ uid, checkinId, landmarkName, onPosted, onCancel }) {
+export default function TipComposer({ uid, checkinId, landmarkName, onPosted, onCancel, onBusyChange }) {
   const [text, setText] = useState('');
   const [tags, setTags] = useState([]);
   const [file, setFile] = useState(null);
@@ -17,6 +17,9 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
   const previewRef = useRef(null);
   previewRef.current = preview;
   useEffect(() => () => previewRef.current && URL.revokeObjectURL(previewRef.current), []);
+  useEffect(() => {
+    onBusyChange?.(busy);
+  }, [busy, onBusyChange]);
   const length = cleanTipText(text).length;
   const ok = length >= TIP_MIN_CHARS && length <= TIP_MAX_CHARS;
 

@@ -100,14 +100,16 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     flushTimer.current = null;
     const ids = [...pending.current];
     pending.current.clear();
-    if (ids.length) markTipsSeen(ids).catch(() => {});
+    // A failed send leaves the tips unseen, so they go again next time.
+    if (ids.length) markTipsSeen(ids).catch(() => ids.forEach((id) => seenIds.current.delete(id)));
   };
   useEffect(() => () => {
     if (flushTimer.current) clearTimeout(flushTimer.current);
     flush();
   }, []);
   const onTipSeen = (id) => {
-    if (seenIds.current.has(id)) return;
+    // Views count only for verified accounts (the server ignores the rest).
+    if (user?.emailVerified !== true || seenIds.current.has(id)) return;
     seenIds.current.add(id);
     pending.current.add(id);
     if (!flushTimer.current) flushTimer.current = setTimeout(flush, 800);
@@ -181,7 +183,6 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     const month = monthLabel(t.visitMonth);
     return (
       <li key={t.id} className="tip-item card" style={{ padding: 12, marginBottom: 10, listStyle: 'none' }}>
-        {!t.mine && <OnScreen onSeen={() => onTipSeen(t.id)} style={{ height: 2 }} aria-hidden="true" />}
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
           <strong>{t.mine ? 'Your tip' : t.authorName}</strong>
           <span className="presence-line presence-verified" style={{ fontSize: '0.75rem' }}>
@@ -233,6 +234,9 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
             </>
           )}
         </div>
+        {/* At the bottom of the card: seen once the whole tip has scrolled
+            into view. */}
+        {!t.mine && <OnScreen onSeen={() => onTipSeen(t.id)} style={{ height: 2 }} aria-hidden="true" />}
         {reporting === t.id && (
           <div role="group" aria-label="Why are you reporting this tip?" style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             {REPORT_REASONS.map((rr) => (

@@ -94,13 +94,15 @@ export async function listTips(db, viewerUid, { region, landmarkId }) {
 export async function markSeen(db, viewerUid, tipIds, { nowMs = Date.now() } = {}) {
   const ids = [...new Set((Array.isArray(tipIds) ? tipIds : []).filter(isFirestoreId))].slice(0, MAX_TIPS);
   if (!ids.length) return [200, { ok: true, recorded: 0 }];
-  // Views first: a tip seen in the last 12 hours costs one read and nothing
-  // else.
+  // The tips and your views of them together: a view is up to date only for
+  // the same post (gen) and within 12 hours.
   const viewRefs = ids.map((id) => db.collection('tip_views').doc(`${viewerUid}_${id}`));
-  const before = await db.getAll(...viewRefs);
-  const due = ids.map((id, i) => ({ id, ref: viewRefs[i], prev: before[i].exists ? before[i].data() : null })).filter((x) => !x.prev || nowMs - (x.prev.lastAt || 0) >= VIEW_REFRESH_MS);
-  if (!due.length) return [200, { ok: true, recorded: 0 }];
-  const [tipSnaps, blocked] = await Promise.all([db.getAll(...due.map((x) => db.collection('tips').doc(x.id))), blockedBetween(db, viewerUid)]);
+  const [before, tipSnaps, blocked] = await Promise.all([
+    db.getAll(...viewRefs),
+    db.getAll(...ids.map((id) => db.collection('tips').doc(id))),
+    blockedBetween(db, viewerUid),
+  ]);
+  const due = ids.map((id, i) => ({ id, ref: viewRefs[i], prev: before[i].exists ? before[i].data() : null }));
   const batch = db.batch();
   const recorded = [];
   due.forEach((x, i) => {
@@ -109,6 +111,7 @@ export async function markSeen(db, viewerUid, tipIds, { nowMs = Date.now() } = {
     const t = s.data();
     if (t.authorUid === viewerUid || !tipIsPublic(t) || blocked.has(t.authorUid)) return;
     const prev = x.prev && madeOnThisPost(x.prev, t) ? x.prev : null;
+    if (prev && nowMs - (prev.lastAt || 0) < VIEW_REFRESH_MS) return;
     batch.set(x.ref, { uid: viewerUid, tipId: x.id, gen: t.gen ?? null, authorUid: t.authorUid, landmarkId: t.landmarkId, region: t.region || null, firstAt: prev?.firstAt ?? nowMs, lastAt: nowMs });
     recorded.push({ id: x.id, t });
   });

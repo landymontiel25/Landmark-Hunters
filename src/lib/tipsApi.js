@@ -46,7 +46,9 @@ export async function uploadTipPhoto(uid, file) {
   const small = await shrinkPhoto(file, 1600, 0.82);
   // Only formats every phone and browser shows: a photo the browser
   // couldn't convert (HEIC on most desktops) is refused, not posted broken.
-  if (!/^image\/(jpeg|png|webp)$/.test(small.type || 'image/jpeg')) {
+  // A file with no type counts only by its name.
+  const ok = small.type ? /^image\/(jpeg|png|webp)$/.test(small.type) : /\.(jpe?g|png|webp)$/i.test(file.name || '');
+  if (!ok) {
     const msg = "That photo's format can't be shown everywhere. Try a JPEG or a screenshot of it.";
     throw Object.assign(new Error(msg), { userMessage: msg });
   }
