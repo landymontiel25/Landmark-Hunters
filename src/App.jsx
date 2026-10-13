@@ -239,14 +239,16 @@ function FeedHome() {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!city || location.pathname !== '/') return;
+    if (city === undefined) return; // still loading
     try {
+      // Decided once per session, as soon as the gate is known: a later
+      // tap on the Map tab always opens the Map.
       if (sessionStorage.getItem('lh-feed-home')) return;
       sessionStorage.setItem('lh-feed-home', '1');
     } catch {
       return;
     }
-    navigate('/feed', { replace: true });
+    if (city && location.pathname === '/') navigate('/feed', { replace: true });
   }, [city, location.pathname, navigate]);
   return null;
 }

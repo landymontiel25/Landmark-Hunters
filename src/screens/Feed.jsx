@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -18,32 +18,34 @@ export default function Feed() {
   const { user } = useAuth();
   const { myProfile } = useFriends();
   const region = useFeedCity();
-  const [state, setState] = useState({ loading: true, items: [] });
+  const [state, setState] = useState({ loading: true, items: [], setId: null });
   const [attempt, setAttempt] = useState(0);
-  const setId = useMemo(() => (user ? makeSetId(user.uid) : null), [user, region, attempt]); // eslint-disable-line react-hooks/exhaustive-deps
-  const log = useShownLogger({ uid: user?.uid, profile: myProfile, surface: FEED_SURFACE, source: 'feed' });
+  const uid = user?.uid || null;
+  const log = useShownLogger({ uid, profile: myProfile, surface: FEED_SURFACE, source: 'feed' });
   const logged = useRef(null);
 
   useEffect(() => {
-    if (!region) return undefined;
+    if (!region || !uid) return undefined;
     let cancelled = false;
-    setState({ loading: true, items: [] });
+    setState({ loading: true, items: [], setId: null });
     fetchFeed(region)
-      .then((out) => !cancelled && setState({ loading: false, items: out.items || [] }))
-      .catch((e) => !cancelled && setState({ loading: false, items: [], error: e }));
+      // Each load is its own shown set, with its own id.
+      .then((out) => !cancelled && setState({ loading: false, items: out.items || [], setId: makeSetId(uid) }))
+      .catch((e) => !cancelled && setState({ loading: false, items: [], setId: null, error: e }));
     return () => {
       cancelled = true;
     };
-  }, [region, attempt]);
+  }, [region, uid, attempt]);
 
   // The whole list is logged once per load, as one shown set.
   useEffect(() => {
-    if (!setId || !state.items.length || logged.current === setId) return;
-    logged.current = setId;
-    log(setId, state.items.map((x, i) => loggable({ ...x.place, regionId: x.place.region }, i + 1)));
-  }, [setId, state.items, log]);
+    if (!state.setId || !state.items.length || logged.current === state.setId) return;
+    logged.current = state.setId;
+    log(state.setId, state.items.map((x, i) => loggable({ ...x.place, regionId: x.place.region }, i + 1)));
+  }, [state, log]);
 
   if (!user) return null;
+  if (region === undefined) return <SkeletonList count={4} />;
   if (!region) {
     return (
       <div className="card section">

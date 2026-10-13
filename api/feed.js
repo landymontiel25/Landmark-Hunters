@@ -8,7 +8,7 @@ import { loadServerModels } from './_lib/maprServerModels.js';
 import { readDensity } from './_lib/communityDensity.js';
 import { canonicalLandmarkId, canonicalRegionId, getLandmark, getRegion } from '../src/data/regions.js';
 import { COMMUNITY_REGIONS } from '../src/lib/community.js';
-import { rankPlaces } from '../src/lib/maprRank/surfaces.js';
+import { rankPlaces, tasteScorer } from '../src/lib/maprRank/surfaces.js';
 import { finderWhy } from '../src/lib/communityLabels.js';
 import { composeFeed, FEED_SIZE } from '../src/lib/feed.js';
 
@@ -18,8 +18,9 @@ import { composeFeed, FEED_SIZE } from '../src/lib/feed.js';
 // Tips come from computeCommunity (live, verified, not yours, no block
 // either way), one per place, ordered by Mapr's shared pipeline
 // (rankPlaces: taste, kind of place, the community lift); every 6th item is
-// one of Mapr's own picks. Places you rated are left out. Never a weight,
-// ramp or score.
+// one of Mapr's own picks. Places you rated are left out. Never the ramp
+// or density numbers; each place carries the same ranking telemetry every
+// Mapr surface logs with a shown pick.
 
 const TIERS = new Set(['highly-recommend', 'worth-trying', 'probably-skip']);
 
@@ -40,7 +41,16 @@ export async function buildFeed(db, uid, region, { now = Date.now(), models = nu
     .map((l) => ({ ...l, regionId: region }));
   const rankedTips = rankPlaces({ places: tipped, uid, profile, myReviews, models: m, now }).ranked;
   const tipIds = new Set(tipped.map((l) => l.id));
-  const rankedMapr = rankPlaces({ places: catalog.filter((l) => !tipIds.has(l.id) && !myReviews[l.id]), uid, profile, myReviews, models: m, now }).ranked.slice(0, FEED_SIZE);
+  // Mapr's own picks: the 200 best taste fits first, then the full ranking
+  // on those (a city can have thousands of places).
+  const fit = tasteScorer({ profile, myReviews, now });
+  const shortlist = catalog
+    .filter((l) => !tipIds.has(l.id) && !myReviews[l.id])
+    .map((l) => [l, fit(l)])
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 200)
+    .map(([l]) => l);
+  const rankedMapr = rankPlaces({ places: shortlist, uid, profile, myReviews, models: m, now, scoreOf: fit }).ranked.slice(0, FEED_SIZE);
   const tipItems = rankedTips.map((p) => {
     const c = places[p.id];
     return { key: `${region}/${p.id}`, finderUid: c.finder?.uid || null, followed: c.finder?.relation === 'follow', place: p, c };

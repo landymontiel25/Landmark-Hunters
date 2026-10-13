@@ -78,7 +78,8 @@ service cloud.firestore {
     // omit them); when present they must be well-formed.
     function pickMarkOk(data) {
       return (!('pickSetId' in data) || (data.pickSetId is string && data.pickSetId.size() <= 200))
-        && (!('pickSurface' in data) || data.pickSurface == null || data.pickSurface in ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'])
+        // 'feed': a place seen in the Feed (Phase 6), so rating it still saves.
+        && (!('pickSurface' in data) || data.pickSurface == null || data.pickSurface in ['map-sheet', 'mapr-tab', 'chat', 'travel-picks', 'feed'])
         && (!('pickShownAt' in data) || data.pickShownAt == null || data.pickShownAt is number);
     }
 
