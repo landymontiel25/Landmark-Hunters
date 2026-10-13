@@ -50,7 +50,10 @@ export default function FriendCheckins() {
       <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
         {'←'} Back
       </button>
-      {error && (
+      {error?.code === 'permission-denied' && (
+        <p className="screen-subtitle">This profile is private. Their check-ins show to friends only.</p>
+      )}
+      {error && error.code !== 'permission-denied' && (
         <ErrorNotice
           message={friendlyError(error, "We couldn't load their check-ins. Try again.")}
           onRetry={() => setAttempt((n) => n + 1)}

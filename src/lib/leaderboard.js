@@ -16,8 +16,10 @@ import {
   arrayUnion,
   arrayRemove,
   Timestamp,
+  deleteField,
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
+import { periodKeysAt } from './periods';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
@@ -65,26 +67,9 @@ export function shouldPromptLoveReason(visitNumber) {
   return visitNumber === 3 || (visitNumber > 3 && (visitNumber - 3) % 10 === 0);
 }
 
-function pad(n) {
-  return String(n).padStart(2, '0');
-}
-
-// ISO-8601 week number
-function isoWeekKey(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-  return `${d.getUTCFullYear()}-W${pad(weekNo)}`;
-}
-
+// Shared with the server (api/regional-leaderboard.js): src/lib/periods.js.
 export function periodKeys(date = new Date()) {
-  return {
-    weekly: isoWeekKey(date),
-    monthly: `${date.getFullYear()}-${pad(date.getMonth() + 1)}`,
-    yearly: `${date.getFullYear()}`,
-  };
+  return periodKeysAt(date.getTime(), date.getTimezoneOffset());
 }
 
 export const PERIODS = ['weekly', 'monthly', 'yearly'];
@@ -233,6 +218,15 @@ async function _claimCheckIn({
   // Outside the transaction on purpose: a failed counter write must never
   // block the check-in itself.
   if (result.claimed && !ratingOnly) bumpRegionCheckinCount(region, landmarkId).catch(() => {});
+  // lastCheckinId proves the payout to the rules in that one write; left on
+  // the public entry it would tell anyone where and when this account
+  // checked in. Taken off right after (and nightly, for any left behind).
+  if (result.claimed && result.payout > 0) {
+    const keys = periodKeys();
+    for (const period of PERIODS) {
+      _updateDoc(doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`), { lastCheckinId: deleteField() }).catch(() => {});
+    }
+  }
 
   return result;
 }
@@ -633,7 +627,13 @@ export async function getRegionalLeaderboard(period, regionId, topN = 100) {
   // Added up by the server (api/regional-leaderboard.js): since Phase 2 a
   // phone can't read other people's check-ins across a region.
   const [{ API_BASE }, { authHeaders }] = await Promise.all([import('./apiBase'), import('./apiAuth')]);
-  const qs = new URLSearchParams({ region: regionId, period, tz: String(new Date().getTimezoneOffset()) });
+  let zone = '';
+  try {
+    zone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch {
+    /* no Intl zone: the offset below is used */
+  }
+  const qs = new URLSearchParams({ region: regionId, period, tz: String(new Date().getTimezoneOffset()), ...(zone ? { zone } : {}) });
   const r = await fetch(`${API_BASE}/api/regional-leaderboard?${qs}`, { headers: await authHeaders() });
   const body = await r.json().catch(() => ({}));
   if (!r.ok) throw Object.assign(new Error(body.error || 'Could not load the leaderboard.'), { userMessage: body.error || null });
@@ -680,17 +680,19 @@ export async function hasFriendTagTeam(userId, friendUids, checkins) {
   }
   const landmarkIds = [...byLandmark.keys()].slice(0, 10);
   if (!landmarkIds.length) return false;
-  // One query per friend (at most 20), pinned to that friend's own
-  // check-ins: since Phase 2 a query across owners is refused.
-  for (const friendUid of friendUids.slice(0, 20)) {
+  // One query per friend, pinned to that friend's own check-ins (since
+  // Phase 2 a query across owners is refused), ten friends at a time.
+  const hitFor = async (friendUid) => {
     const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', friendUid), where('landmarkId', 'in', landmarkIds))).catch(() => null);
-    const hit = snap?.docs.some((d) => {
+    return !!snap?.docs.some((d) => {
       const x = d.data();
       if (!x.createdAt?.seconds) return false;
       const mySec = byLandmark.get(x.landmarkId);
       return mySec != null && Math.abs(x.createdAt.seconds - mySec) <= 86400;
     });
-    if (hit) return true;
+  };
+  for (let i = 0; i < friendUids.length; i += 10) {
+    if ((await Promise.all(friendUids.slice(i, i + 10).map(hitFor))).some(Boolean)) return true;
   }
   return false;
 }

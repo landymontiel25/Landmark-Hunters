@@ -16,3 +16,18 @@ export function periodKeysAt(ms, offsetMin = 0) {
     yearly: `${d.getUTCFullYear()}`,
   };
 }
+
+// The same keys in an IANA time zone ("America/New_York"), so each moment is
+// read in that zone's own offset at the time (DST included). Falls back to
+// UTC for an unknown zone.
+export function periodKeysInZone(ms, zone) {
+  let parts;
+  try {
+    parts = new Intl.DateTimeFormat('en-US', { timeZone: zone, year: 'numeric', month: 'numeric', day: 'numeric' }).formatToParts(new Date(ms));
+  } catch {
+    return periodKeysAt(ms, 0);
+  }
+  const get = (t) => Number(parts.find((p) => p.type === t)?.value);
+  // Noon UTC on that calendar day: the UTC getters then give that day.
+  return periodKeysAt(Date.UTC(get('year'), get('month') - 1, get('day'), 12), 0);
+}

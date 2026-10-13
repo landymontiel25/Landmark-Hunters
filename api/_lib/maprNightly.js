@@ -19,7 +19,7 @@ import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/l
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
 import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
 import { sweepTipOrphans } from './tipModeration.js';
-import { backfillRegionStats, scrubCheckinLocation } from './checkinUpkeep.js';
+import { scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -305,14 +305,14 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
     } catch (e) {
       console.error('tip orphan sweep failed:', e?.message || e);
     }
-    // Phase 2 check-in upkeep: region counts the phones can't build any
-    // more, and old location numbers taken off check-ins. Each in its own
+    // Phase 2 upkeep: check-in ids off the public leaderboard entries, and
+    // old location numbers off check-ins. Each in its own
     // try, never costing the report.
     upkeep = {};
     try {
-      upkeep.regionStats = await backfillRegionStats(db, data);
+      upkeep.leaderboardIds = await scrubLeaderboardCheckinIds(db);
     } catch (e) {
-      console.error('region stats backfill failed:', e?.message || e);
+      console.error('leaderboard check-in id scrub failed:', e?.message || e);
     }
     try {
       upkeep.scrubbed = await scrubCheckinLocation(db);

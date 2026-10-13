@@ -28,13 +28,14 @@ vi.mock('firebase/firestore', () => ({
     }),
   serverTimestamp: () => 'ts',
   increment: (n) => n,
+  deleteField: () => '__delete__',
   setDoc: () => Promise.resolve(),
   getDoc: vi.fn(),
   writeBatch: vi.fn(),
   onSnapshot: vi.fn(),
   arrayUnion: vi.fn(),
   arrayRemove: vi.fn(),
-  updateDoc: vi.fn(),
+  updateDoc: vi.fn(() => Promise.resolve()),
   Timestamp: {},
 }));
 
@@ -81,15 +82,15 @@ describe('claimCheckIn visit numbering', () => {
     expect(res.payout).toBe(100);
   });
 
-  it('saves distance, GPS accuracy and the verification tag on a real check-in; leaves a rating-only claim untagged', async () => {
-    const location = { distanceMeters: 12, gpsAccuracyMeters: 8, verification: 'unverified' };
+  it('saves the verification tag on a real check-in; leaves a rating-only claim untagged', async () => {
+    const location = { verification: 'unverified' };
     state.prior = [];
     await claimCheckIn({ ...args, location });
     expect(state.written).toMatchObject(location);
     state.written = null;
     await claimCheckIn({ ...args, ratingOnly: true, points: 0, location });
     expect(state.written.ratingOnly).toBe(true);
-    for (const k of ['distanceMeters', 'gpsAccuracyMeters', 'verification']) expect(k in state.written).toBe(false);
+    for (const k of ['verification']) expect(k in state.written).toBe(false);
   });
 
   it('pays nothing on real repeat visits but still logs them', async () => {

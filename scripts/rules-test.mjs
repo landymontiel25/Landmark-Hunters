@@ -341,6 +341,11 @@ await t('naming an old check-in, or someone else\'s, does not pay', async () => 
   await seed((sdb) => setDoc(doc(sdb, 'checkins/hal_x'), { userId: 'hal', landmarkId: 'x', points: 100 }));
   await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ lastCheckinId: 'hal_x' }), { merge: true }));
 });
+await t('Phase 2: the owner can take lastCheckinId off an entry (no rise), so it doesn\'t stay public', async () => {
+  await seed((db) => setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_ken'), { userId: 'ken', userName: 'k', period: 'weekly', periodKey: '2026-W41', points: 100, lastCheckinId: 'ken_lm', updatedAt: 1 }));
+  await assertSucceeds(updateDoc(doc(as('ken'), 'leaderboard_entries/weekly_2026-W41_ken'), { lastCheckinId: deleteField() }));
+  await assertFails(updateDoc(doc(as('bob'), 'leaderboard_entries/weekly_2026-W41_ken'), { lastCheckinId: deleteField() }));
+});
 await t('name and timestamp updates with no rise still work', () =>
   assertSucceeds(updateDoc(doc(as('gus'), 'leaderboard_entries/weekly_2026-W41_gus'), { userName: 'Gus', updatedAt: serverTimestamp() })));
 await t('onboarding bonus: +10 entries batched with the +10 bonus and the flag', async () => {
@@ -375,11 +380,10 @@ await t('cannot overwrite counts directly or touch two landmarks', async () => {
   await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: increment(1), other: 500 }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
   await assertFails(deleteDoc(doc(db, 'region_stats/miami')));
 });
-await t('backfill works while the region is not backfilled, then locks (even over bump leftovers)', async () => {
-  const db = as('bob');
-  await assertSucceeds(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 12, lm9: 3 }, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }));
-  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 1 }, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }));
-  await assertSucceeds(bump(as('erin'), 'lm1')); // a bump still works once backfilled
+await t('Phase 2: no client can stamp a region\'s counts (the old backfill), even on a region not backfilled', async () => {
+  await assertFails(setDoc(doc(as('bob'), 'region_stats/miami'), { counts: { lm1: 12, lm9: 3 }, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(as('bob'), 'region_stats/newregion'), { counts: { someplace: 999999 }, backfilled: true, updatedAt: serverTimestamp() }));
+  await assertSucceeds(bump(as('erin'), 'lm1')); // bumps still work
 });
 await t('signed out cannot write region_stats; anyone can still read', async () => {
   await assertFails(setDoc(doc(env.unauthenticatedContext().firestore(), 'region_stats/x'), { counts: {}, backfilled: true }));

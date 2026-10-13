@@ -1,33 +1,7 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { canonicalRegionId } from '../../src/data/regions.js';
 
 // Nightly check-in upkeep since the Phase 2 read limits (a phone reads only
 // its own, friends' and public profiles' check-ins).
-
-// region_stats/{region} (check-ins per place, Mapr's cold start): a phone
-// used to build a missing one from every check-in in the region, which it
-// can no longer read. The server builds any region not yet backfilled from
-// the night's check-ins; the app's +1 bumps carry on after that.
-export async function backfillRegionStats(db, ds) {
-  if ((ds.truncated || []).includes('checkins')) return 0;
-  const byRegion = new Map();
-  for (const c of ds.checkins || []) {
-    if (c.ratingOnly === true || c.visited === false || !c.region || !c.landmarkId) continue;
-    const region = canonicalRegionId(c.region);
-    if (!byRegion.has(region)) byRegion.set(region, {});
-    const counts = byRegion.get(region);
-    counts[c.landmarkId] = (counts[c.landmarkId] || 0) + 1;
-  }
-  let written = 0;
-  for (const [region, counts] of byRegion) {
-    const ref = db.collection('region_stats').doc(region);
-    const snap = await ref.get();
-    if (snap.exists && snap.data().backfilled === true) continue;
-    await ref.set({ counts, backfilled: true, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-    written++;
-  }
-  return written;
-}
 
 // Takes old location numbers off check-ins, `max` a night: the legacy
 // distanceMeters / gpsAccuracyMeters some builds wrote, and the distance and
@@ -51,4 +25,17 @@ export async function scrubCheckinLocation(db, { max = 400 } = {}) {
   }
   if (n) await batch.commit();
   return n;
+}
+
+// leaderboard_entries are public. lastCheckinId proves a payout to the
+// rules in the paying write and the app takes it off right after; this
+// removes any left behind (old entries, an app that went offline), `max` a
+// night, so no entry says where and when someone checked in.
+export async function scrubLeaderboardCheckinIds(db, { max = 400 } = {}) {
+  const snap = await db.collection('leaderboard_entries').orderBy('lastCheckinId').limit(max).get();
+  if (snap.empty) return 0;
+  const batch = db.batch();
+  for (const d of snap.docs) batch.update(d.ref, { lastCheckinId: FieldValue.delete() });
+  await batch.commit();
+  return snap.size;
 }

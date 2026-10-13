@@ -874,20 +874,16 @@ service cloud.firestore {
     // start ranks by these). Same trust level as landmark_ratings below.
     match /region_stats/{region} {
       allow read: if true;
-      // Two kinds of write, nothing else (and no delete):
-      //  - a bump: +1 on exactly ONE landmark, named in `lastBump`, by someone
-      //    who has a check-in doc for that landmark (bumpRegionCheckinCount);
-      //  - the one-time backfill that stamps a region's counts and
-      //    `backfilled: true`, allowed only while the region isn't backfilled.
+      // One kind of write, nothing else (and no delete): a bump, +1 on
+      // exactly ONE landmark, named in `lastBump`, by someone who has a
+      // check-in doc for that landmark (bumpRegionCheckinCount). The old
+      // client backfill (any account could stamp a region's counts once) is
+      // gone since Phase 2: phones can't read a region's check-ins, and
+      // letting one stamp made-up counts would be permanent.
       allow create, update: if request.auth != null
         && request.resource.data.keys().hasOnly(['counts', 'backfilled', 'lastBump', 'updatedAt'])
         && request.resource.data.counts is map
-        && (regionBackfillOk() || regionBumpOk());
-    }
-    function regionBackfillOk() {
-      return request.resource.data.get('backfilled', false) == true
-        && !('lastBump' in request.resource.data)
-        && (resource == null || resource.data.get('backfilled', false) != true);
+        && regionBumpOk();
     }
     function regionBumpOk() {
       let d = request.resource.data;

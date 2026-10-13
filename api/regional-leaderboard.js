@@ -3,33 +3,61 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
-import { isFirestoreId } from './_lib/tipsServer.js';
+import { blockedBetween, isFirestoreId } from './_lib/tipsServer.js';
 import { canonicalRegionId } from '../src/data/regions.js';
-import { periodKeysAt } from '../src/lib/periods.js';
+import { periodKeysAt, periodKeysInZone } from '../src/lib/periods.js';
 
 // The Profile tab's regional leaderboard: points earned checking in within
 // one region this week, month or year. It used to read every check-in in
 // the region from the phone; since Phase 2 a phone may read only its own,
 // friends' and public profiles' check-ins, so the server adds them up and
-// returns only what the board shows (name and points), as the global board
-// (leaderboard_entries) already does.
-//   GET ?region=&period=weekly|monthly|yearly&tz=<getTimezoneOffset()>
+// returns only what the board shows (name and points), and only for people
+// this viewer may see under the same rule (themself, friends, public
+// profiles; no block either way), with points this period.
+//   GET ?region=&period=weekly|monthly|yearly&tz=<getTimezoneOffset()>&zone=<IANA zone>
 
 const PERIODS = ['weekly', 'monthly', 'yearly'];
 const TOP_N = 100;
 
-export function regionalBoard(rows, { period, nowMs = Date.now(), offsetMin = 0, topN = TOP_N }) {
-  const key = periodKeysAt(nowMs, offsetMin)[period];
+// A real visit, as the app reads one (leaderboard.js isRealCheckin).
+const isRealCheckin = (x) => !x.ratingOnly && (typeof x.visited === 'boolean' ? x.visited : x.points !== 0);
+
+// rows: check-ins in the region. canSee(uid): may this viewer see that
+// person (themself, a friend, or a public profile, and no block either way).
+// Only people with points this period are on the board: a 0-point row would
+// only say "was in this region".
+export function regionalBoard(rows, { period, nowMs = Date.now(), offsetMin = 0, zone = null, topN = TOP_N, canSee = () => true }) {
+  const keysAt = (ms) => (zone ? periodKeysInZone(ms, zone) : periodKeysAt(ms, offsetMin));
+  const key = keysAt(nowMs)[period];
   const totals = new Map();
   for (const x of rows) {
+    if (!isRealCheckin(x) || !canSee(x.userId)) continue;
     const at = toMs(x.createdAt);
-    if (at == null || periodKeysAt(at, offsetMin)[period] !== key) continue;
+    if (at == null || keysAt(at)[period] !== key) continue;
     const cur = totals.get(x.userId) || { id: x.userId, userId: x.userId, userName: x.userName || 'Explorer', points: 0 };
     cur.points += Number(x.points) || 0;
     if (x.userName) cur.userName = x.userName;
     totals.set(x.userId, cur);
   }
-  return [...totals.values()].sort((a, b) => b.points - a.points).slice(0, topN);
+  return [...totals.values()].filter((e) => e.points > 0).sort((a, b) => b.points - a.points).slice(0, topN);
+}
+
+// Who this viewer may see among `uids`: the same people the check-in rules
+// let them read (checkinOwnerVisible), minus a block either way.
+export async function visibleOwners(db, viewerUid, uids) {
+  const others = [...new Set(uids)].filter((u) => u && u !== viewerUid);
+  const out = new Set([viewerUid]);
+  if (!others.length) return out;
+  const [users, edges, blocked] = await Promise.all([
+    db.getAll(...others.map((u) => db.collection('users').doc(u))),
+    db.getAll(...others.map((u) => db.collection('friend_edges').doc(`${viewerUid}_${u}`))),
+    blockedBetween(db, viewerUid),
+  ]);
+  others.forEach((u, i) => {
+    if (blocked.has(u)) return;
+    if (edges[i].exists || users[i].data()?.public === true) out.add(u);
+  });
+  return out;
 }
 
 async function handler(req, res) {
@@ -44,11 +72,15 @@ async function handler(req, res) {
   const tz = Number(req.query?.tz);
   if (!isFirestoreId(region) || !PERIODS.includes(period)) return res.status(400).json({ error: 'region and period are required.' });
   const offsetMin = Number.isFinite(tz) && Math.abs(tz) <= 14 * 60 ? tz : 0;
+  const zoneParam = String(req.query?.zone || '');
+  const zone = /^[A-Za-z_]+(?:\/[A-Za-z0-9_+-]+){0,2}$/.test(zoneParam) ? zoneParam : null;
   try {
-    const snap = await adminDb().collection('checkins').where('region', '==', canonicalRegionId(region)).get();
-    const rows = snap.docs.map((d) => d.data()).filter((x) => x.ratingOnly !== true && x.visited !== false);
+    const db = adminDb();
+    const snap = await db.collection('checkins').where('region', '==', canonicalRegionId(region)).get();
+    const rows = snap.docs.map((d) => d.data()).filter((x) => (Number(x.points) || 0) > 0);
+    const visible = await visibleOwners(db, account.uid, rows.map((x) => x.userId));
     res.setHeader?.('Cache-Control', 'private, max-age=60');
-    return res.status(200).json({ entries: regionalBoard(rows, { period, offsetMin }) });
+    return res.status(200).json({ entries: regionalBoard(rows, { period, offsetMin, zone, canSee: (u) => visible.has(u) }) });
   } catch (e) {
     console.error('regional-leaderboard failed', e?.message || e);
     return res.status(500).json({ error: 'Could not load the leaderboard.' });
