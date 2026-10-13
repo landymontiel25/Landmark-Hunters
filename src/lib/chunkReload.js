@@ -69,3 +69,16 @@ export function settleScreenModule(m) {
   flagClear();
   return m;
 }
+
+// A screen's file (or its CSS) that failed to download, in the wording of
+// Chrome, Safari and Firefox, plus Vite's CSS preload error.
+export function isLoadFailure(err) {
+  return /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS/i.test(
+    String(err?.message || err || '')
+  );
+}
+
+// window.location.reload, kept here so tests can replace it.
+export const pageReload = {
+  run: () => window.location.reload(),
+};
