@@ -51,7 +51,7 @@ vi.mock('../lib/soloStreaks', () => ({
     onStreak(soloStreak);
     return () => {};
   },
-  setSoloStreakCity: vi.fn(),
+  setSoloStreakCity: vi.fn(async () => {}),
   submitSoloCardRating: (...args) => submitSoloCardRatingMock(...args),
   subscribeSoloDayEntry: (uid, dayId, onEntry) => {
     entryListener = onEntry;
@@ -80,8 +80,12 @@ vi.mock('../lib/pairStreaks', () => ({
 }));
 vi.mock('../lib/leaderboard', () => ({ getUserCheckedInLandmarkIds: async () => [] }));
 vi.mock('../lib/friends', () => ({ listFriends: async () => [] }));
+const history = vi.hoisted(() => ({ answered: new Map() }));
+vi.mock('../lib/soloDeckHistory', () => ({ answeredBefore: async () => history.answered }));
 
 import MyStreaks from './MyStreaks';
+import { setSoloStreakCity } from '../lib/soloStreaks';
+import { deckPool } from '../lib/sharedDeck';
 
 let container;
 afterEach(() => {
@@ -92,6 +96,9 @@ afterEach(() => {
   submitSoloCardRatingMock.mockClear();
   closeSoloTodayMock.mockClear();
   spendSoloFreezeMock.mockClear();
+  setSoloStreakCity.mockClear();
+  soloStreak.cityId = 'miami';
+  history.answered = new Map();
 });
 
 const render = async () => {
@@ -164,5 +171,28 @@ describe('MyStreaks - solo streak', () => {
 
     expect(container.textContent).toContain('Start a Streak');
     expect(container.textContent).toContain("Pick a friend");
+  });
+
+  it('moves the cards to the city you are in (Miami, not Villanova) before any is rated', async () => {
+    soloStreak.cityId = 'villanova';
+    await render();
+    expect(setSoloStreakCity).toHaveBeenCalledWith('me', 'miami');
+  });
+
+  it('keeps the city once a card is rated today', async () => {
+    soloStreak.cityId = 'villanova';
+    fakeEntry = { uid: 'me', ratings: { [deckPool('villanova')[0]]: 'yes' } };
+    await render();
+    expect(setSoloStreakCity).not.toHaveBeenCalled();
+  });
+
+  it('skips places you answered on earlier days', async () => {
+    const pool = deckPool('miami');
+    history.answered = new Map(pool.slice(0, pool.length - 3).map((id) => [id, 1]));
+    await render();
+    const names = [...container.querySelectorAll('.mapr-pick-name')].map((n) => n.textContent);
+    const { getRegion } = await import('../data/regions');
+    const fresh = pool.slice(-3).map((id) => getRegion('miami').landmarks.find((l) => l.id === id).name);
+    expect(names.sort()).toEqual(fresh.sort());
   });
 });
