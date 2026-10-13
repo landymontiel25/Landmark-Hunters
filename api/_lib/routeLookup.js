@@ -103,6 +103,190 @@ export async function routeBetween({ from, to, mode = 'drive' } = {}, { catalog 
 }
 
 // "How far / how long / how many minutes" questions: Mapr must look the
-// route up before answering (plan-ai forces the tool for these).
-export const asksDistanceOrTime = (text) =>
-  /\b(how (far|long|close|many (minutes|mins|miles|hours|km|kilometers))|distance|(minutes?|mins?|miles?|hours?|km) (away|from|to|drive|walk)|drive time|travel time|walking time|get there|eta)\b/i.test(String(text || ''));
+// route up before answering (plan-ai forces the tool for these). Tuned on
+// mapr-synthetic-trainer/chat-facts: typos ("hw far") count, and "how long"
+// only counts with a travel word, so "how long should I spend at the
+// museum" or "how long does it take to set up a trip" don't.
+const HOW = String.raw`(?:how|hw|hoe|hiw|hpw)`;
+const TRAVEL_WORD = String.raw`(?:drive|driving|drives|walk|walking|ride|commute|by car|on foot|uber|lyft|taxi|cab|train|subway|bus|transit|bike|biking|from|get (?:to|there|from|back|home)|go (?:to|from)|head (?:to|over)|reach|eta)`;
+const TRAVEL_PATTERNS = [
+  new RegExp(String.raw`\b${HOW}\s+(?:far|close|near|farr|faar)\b`, 'i'),
+  new RegExp(String.raw`\b${HOW}\s+(?:many|much)\s+(?:minutes?|mins?|miles?|mi|hours?|hrs?|km|kilometers?|time)\b[^?.!]*\b(?:to|from|away|between|get|drive|walk|until)\b`, 'i'),
+  new RegExp(String.raw`\b${HOW}\s+(?:long|lng|lnog|logn)\b[^?.!]*\b${TRAVEL_WORD}\b`, 'i'),
+  new RegExp(String.raw`\b${TRAVEL_WORD}\b[^?.!]*\b${HOW}\s+(?:long|far)\b`, 'i'),
+  new RegExp(String.raw`\b\w[\w'&.-]*\s+to\s+[\w'&.-]+[^?.!]*\b${HOW}\s+long\b`, 'i'),
+  new RegExp(String.raw`\b${HOW}\s+(?:quick|fast|soon)\s+can\s+(?:i|we|u|you)\s+(?:get|be|make it)\b`, 'i'),
+  /\b(?:distance|drive time|driving time|travel time|walking time|walk time|commute|eta)\b/i,
+  /\b(?:walkable|walking distance|can (?:i|we|u|you) walk|long walk|short walk|walk (?:to|from) )/i,
+  /\b(?:minutes?|mins?|miles?|hours?|hrs?|km) (?:away|drive|walk|ride|from (?!now|today))/i,
+  /\b(?:make it|get) (?:to|from|there)\b[^?.!]*\bin \d+\s*(?:min|mins|minutes|hours?|hrs?)\b/i,
+  // "is X far", "is X close to Y", "is X nearby" -- not "is there a park nearby".
+  /\b(?:is|are|isn'?t)\s+(?!there\b|any\b|anything\b|anywhere\b|something\b|somewhere\b)[^?.!]{2,80}?\s(?:far|close|nearby|near me|close by|close to|far from|near)\b(?!\s+(?:me\s+)?(?:for|that|which|with)\b)/i,
+];
+export const asksDistanceOrTime = (text) => {
+  const t = String(text || '');
+  return TRAVEL_PATTERNS.some((re) => re.test(t));
+};
+
+// --- Mapr chat's place_hours tool: today's real hours from Google Places ----
+const DAY_MS = 86400000;
+function localClock(iso, offsetMin) {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t) || !Number.isFinite(offsetMin)) return null;
+  const d = new Date(t + offsetMin * 60000);
+  let h = d.getUTCHours();
+  const m = d.getUTCMinutes();
+  const ap = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${String(m).padStart(2, '0')} ${ap}`;
+}
+
+export async function placeHours({ place } = {}, { near = null, fetchImpl = fetch, now = Date.now() } = {}) {
+  const key = process.env.GOOGLE_PLACES_API_KEY;
+  const q = String(place || '').trim();
+  if (!q) return { error: 'No place given.' };
+  if (!key) return { error: 'Hours lookup is not set up.' };
+  const r = await fetchImpl('https://places.googleapis.com/v1/places:searchText', {
+    signal: timeoutSignal(),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': key,
+      'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.currentOpeningHours,places.utcOffsetMinutes,places.businessStatus',
+    },
+    body: JSON.stringify({
+      textQuery: q.slice(0, 200),
+      maxResultCount: 1,
+      ...(near ? { locationBias: { circle: { center: { latitude: near.lat, longitude: near.lng }, radius: 50000 } } } : {}),
+    }),
+  });
+  if (!r.ok) return { error: 'The hours lookup failed.' };
+  const p = (await r.json())?.places?.[0];
+  if (!p) return { error: `Couldn't find "${q}".` };
+  const name = p.displayName?.text || q;
+  const address = p.formattedAddress || '';
+  if (p.businessStatus === 'CLOSED_PERMANENTLY') return { name, address, permanentlyClosed: true, source: 'Google Maps' };
+  if (p.businessStatus === 'CLOSED_TEMPORARILY') return { name, address, temporarilyClosed: true, source: 'Google Maps' };
+  const h = p.currentOpeningHours;
+  if (!h) return { name, address, error: 'Google has no hours listed for this place.' };
+  const off = Number(p.utcOffsetMinutes);
+  // weekdayDescriptions starts on Monday.
+  const dow = Number.isFinite(off) ? new Date(now + off * 60000).getUTCDay() : null;
+  const today = dow == null ? null : h.weekdayDescriptions?.[(dow + 6) % 7] || null;
+  return {
+    name,
+    address,
+    openNow: h.openNow === true,
+    today,
+    ...(h.openNow && h.nextCloseTime ? { closesAt: localClock(h.nextCloseTime, off) } : {}),
+    ...(!h.openNow && h.nextOpenTime ? { opensAt: localClock(h.nextOpenTime, off), opensAtIsToday: Date.parse(h.nextOpenTime) - now < DAY_MS && localClock(h.nextOpenTime, off) != null } : {}),
+    source: 'Google Maps',
+  };
+}
+
+// --- Mapr chat's best_order tool: the fastest order for a day's stops -------
+// One Route Matrix call gets every leg's real time; with up to 7 stops every
+// order is tried, so the answer is the true fastest, not a guess.
+function permutations(xs) {
+  if (xs.length <= 1) return [xs];
+  return xs.flatMap((x, i) => permutations([...xs.slice(0, i), ...xs.slice(i + 1)]).map((p) => [x, ...p]));
+}
+
+export async function bestOrder({ stops = [], start = 'my location', end = '', mode = 'drive' } = {}, { catalog = [], near = null, fetchImpl = fetch } = {}) {
+  const names = (Array.isArray(stops) ? stops : []).map((s) => String(s || '').trim()).filter(Boolean).slice(0, 7);
+  if (names.length < 2) return { error: 'Need at least two stops to order.' };
+  const startQ = String(start || '').trim();
+  const endQ = String(end || '').trim();
+  const places = await Promise.all([startQ, ...names, ...(endQ ? [endQ] : [])].map((q) => (q ? resolvePlace(q, { catalog, near, fetchImpl }) : null)));
+  const startP = startQ ? places[0] : null;
+  if (startQ && !startP) return { error: ME.test(startQ) ? "The traveler's location isn't available." : `Couldn't find "${startQ}".` };
+  const stopP = places.slice(1, 1 + names.length);
+  const missing = names.filter((_, i) => !stopP[i]);
+  if (missing.length) return { error: `Couldn't find ${missing.map((m) => `"${m}"`).join(', ')}.` };
+  const endP = endQ ? places[places.length - 1] : null;
+  if (endQ && !endP) return { error: `Couldn't find "${endQ}".` };
+  if (!process.env.GOOGLE_ROUTES_API_KEY) return { error: 'Route lookup is not set up.' };
+
+  const all = [...(startP ? [startP] : []), ...stopP, ...(endP ? [endP] : [])];
+  const wp = (p) => ({ waypoint: { location: { latLng: { latitude: p.lat, longitude: p.lng } } } });
+  const travelMode = mode === 'walk' ? 'WALK' : 'DRIVE';
+  const r = await fetchImpl('https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix', {
+    signal: timeoutSignal(),
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': process.env.GOOGLE_ROUTES_API_KEY, 'X-Goog-FieldMask': 'originIndex,destinationIndex,duration,distanceMeters,condition' },
+    body: JSON.stringify({
+      origins: all.map(wp),
+      destinations: all.map(wp),
+      travelMode,
+      ...(travelMode === 'DRIVE' ? { routingPreference: 'TRAFFIC_AWARE' } : {}),
+    }),
+  });
+  if (!r.ok) return { error: 'The route lookup failed.' };
+  const rows = await r.json();
+  const cell = {};
+  for (const e of Array.isArray(rows) ? rows : []) {
+    const sec = parseInt(e.duration, 10);
+    if (e.condition && e.condition !== 'ROUTE_EXISTS') continue;
+    if (Number.isFinite(sec) && Number.isFinite(Number(e.distanceMeters))) cell[`${e.originIndex}>${e.destinationIndex}`] = { sec, m: Number(e.distanceMeters) };
+  }
+  const offset = startP ? 1 : 0;
+  const idx = stopP.map((_, i) => i + offset);
+  const endIdx = endP ? all.length - 1 : null;
+  let best = null;
+  for (const order of permutations(idx)) {
+    const seq = [...(startP ? [0] : []), ...order, ...(endIdx != null ? [endIdx] : [])];
+    let sec = 0;
+    let ok = true;
+    for (let i = 1; i < seq.length && ok; i++) {
+      const c = cell[`${seq[i - 1]}>${seq[i]}`];
+      if (!c) ok = false;
+      else sec += c.sec;
+    }
+    if (ok && (!best || sec < best.sec)) best = { seq, sec };
+  }
+  if (!best) return { error: 'No route found between those places.' };
+  const leg = (a, b) => {
+    const c = cell[`${a}>${b}`];
+    return {
+      from: { name: all[a].name },
+      to: { name: all[b].name },
+      mode: travelMode === 'WALK' ? 'walking' : 'driving',
+      miles: Math.round((c.m / 1609.34) * 10) / 10,
+      km: Math.round((c.m / 1000) * 10) / 10,
+      minutes: Math.max(1, Math.round(c.sec / 60)),
+    };
+  };
+  const legs = best.seq.slice(1).map((b, i) => leg(best.seq[i], b));
+  const totalM = legs.reduce((s, l) => s + l.km * 1000, 0);
+  return {
+    order: best.seq.filter((i) => i >= offset && i < offset + stopP.length).map((i) => all[i].name),
+    legs,
+    totalMiles: Math.round((totalM / 1609.34) * 10) / 10,
+    totalKm: Math.round((totalM / 1000) * 10) / 10,
+    totalMinutes: legs.reduce((s, l) => s + l.minutes, 0),
+    mode: travelMode === 'WALK' ? 'walking' : 'driving',
+    source: 'Google Maps',
+  };
+}
+
+// Every route-like result a reply can quote: single routes, a day's legs and
+// its total.
+export function routesFrom(results = []) {
+  const out = [];
+  for (const r of results) {
+    if (!r || r.error) continue;
+    if (Number.isFinite(r.miles)) out.push(r);
+    if (Array.isArray(r.legs)) {
+      out.push(...r.legs);
+      out.push({ from: { name: 'Start' }, to: { name: 'last stop' }, mode: r.mode, miles: r.totalMiles, km: r.totalKm, minutes: r.totalMinutes });
+    }
+  }
+  return out;
+}
+
+// "Is X open?", "what time does X close", "X hours today": Mapr must check
+// Google's live hours first (plan-ai forces place_hours for these).
+export const asksHours = (text) =>
+  /\b(?:is|are|r)\b[^?.!]{1,80}\b(?:open|closed)\b(?!\s+(?:to|for|source|minded|up|mic)\b)|\bwhat time (?:does|do|is|will)\b[^?.!]*\b(?:open|close|closing|opening)\b|\bwhen (?:does|do|is|will)\b[^?.!]*\b(?:open|close|closing|opening)\b|\bhours\b(?![^?.!]*\b(?:to kill|away|drive|walk|ago)\b)(?<!\d\s*hours)|\bstill open\b|\bhow late\b|\bopen (?:now|today|tonight|tomorrow|late|right now)\b|\bclos(?:e|es|ing) (?:soon|at|today|tonight|early)\b/i.test(
+    String(text || '')
+  );

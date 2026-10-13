@@ -12,7 +12,8 @@ import { asksForDirections, directionsTarget, placesNamedIn } from '../src/lib/p
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
-import { asksDistanceOrTime, routeBetween } from './_lib/routeLookup.js';
+import { asksDistanceOrTime, asksHours, bestOrder, placeHours, routeBetween, routesFrom } from './_lib/routeLookup.js';
+import { guardReply } from './_lib/factGuard.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -68,6 +69,8 @@ const INSTRUCTIONS =
   `tells you which item off that menu fits right now. Don't default to their single most-loved category regardless ` +
   `of context.\n` +
   `- DISTANCES AND TRAVEL TIMES: never state how far apart two places are, how many miles or minutes away something is, or how long it takes to get somewhere unless you got that number from the route_between tool in THIS reply (or it is printed in the app's own data below). Never estimate, round from memory, or guess. To answer "how far / how long / how many minutes", call route_between with the two places (use "my location" for where the traveler is now) and report its miles and minutes as given, saying it's driving (or walking) and that times are with current traffic. If route_between returns an error, say plainly that you couldn't check the distance right now and suggest the Directions button; do not give a number. Travelers rely on these numbers.\n` +
+  `- PLANNING A DAY: when they give you 2 or more places to fit into a day ("plan my afternoon: A, B and C", "what order should I do these in", "I have 3 hours, can I do X and Y"), or you recommend 3+ stops for one outing, call best_order with the stops (start "my location" when you have CURRENT LOCATION) and give them in that order, with the total travel time it returns. Before sending someone somewhere tonight or right now, check place_hours for any stop you're not sure is open, and skip or flag one that's closed when they'd get there. If they have a time budget, say plainly whether it fits (total travel time from best_order plus a sensible visit length per stop) and what to cut if not.\n` +
+  `- Never state a price, an entry fee or a star rating you didn't see in a web_search result in THIS reply.\n` +
   `- Prefer the catalog when it has a genuinely good fit -- those stops open inside the app with full details and check-ins.\n` +
   `- Use web_search whenever the catalog doesn't cover what they're asking -- a city or neighborhood we don't track, a specific vibe (nightlife, racing, shopping, live music), or anything current -- so you're never limited to just the catalog.\n` +
   `- If you already have enough to go on (a vibe, a time budget, an interest, or a rating history to lean on -- doesn't need to be much), recommend 2-4 real stops in a sensible order, mixing catalog and web-found places as needed, with one short reason each tied to what they said or to their known taste.\n` +
@@ -79,7 +82,8 @@ const INSTRUCTIONS =
   `- You're also the app's only assistant, so answer anything else they ask: history, tips, what to see or eat, or the ` +
   `best time to go for a landmark or city (say that hours/prices may vary), or which landmark they mean from a vague ` +
   `description or nickname (return it as a catalog stop so they can open it). If they ask when a place opens/closes, ` +
-  `answer with just TODAY's hours (from LOCAL NOW below) via web_search if you don't already know them -- never dump ` +
+  `answer with just TODAY's hours from the place_hours tool (Google Maps, live) -- only fall back to web_search if it ` +
+  `returns an error, and never state hours, "open now" or a closing time you didn't look up in this reply. Never dump ` +
   `the full week's schedule unless they specifically ask for the full hours or a different day. For "how do I..." / ` +
   `"what is..." questions about the app itself, answer from HOW LANDMARK HUNTERS WORKS below as ground truth -- never invent a ` +
   `feature it doesn't list. Keep these short too by default (see the brevity rule above) -- only go longer when they ask ` +
@@ -90,7 +94,7 @@ const INSTRUCTIONS =
   `they score negative just because it fits the time.\n` +
   `- If CURRENT LOCATION is given below, that's where the traveler is right now (from their phone's GPS). Use it for ` +
   `"near me", "nearby", "around here", "close by" and for any ask with no city -- search near that town, prefer places a ` +
-  `short trip away, and mention roughly how far each stop is. Never ask which city they're in when you have it. If ` +
+  `short trip away. Don't write how far each stop is (each card shows its own real distance). Never ask which city they're in when you have it. If ` +
   `location is marked unavailable and they ask for something nearby, ask which city or neighborhood they're in.\n` +
   `- If they ask you to add/make/create a landmark for where they physically are right now ("make a landmark for where I ` +
   `am", "add this place", "create a landmark here"), use the create_landmark_here action (see JSON shape below) -- never ` +
@@ -613,7 +617,42 @@ async function handler(req, res) {
         required: ['from', 'to'],
       },
     };
+    const HOURS_TOOL = {
+      name: 'place_hours',
+      description:
+        "A place's real hours from Google Maps: whether it's open right now, when it closes or next opens, and today's hours. " +
+        'ALWAYS call this before saying a place is open, closed, or when it opens or closes.',
+      input_schema: {
+        type: 'object',
+        properties: { place: { type: 'string', description: 'Place name (add the city if it could be ambiguous) or address.' } },
+        required: ['place'],
+      },
+    };
+    const ORDER_TOOL = {
+      name: 'best_order',
+      description:
+        'The fastest order to visit 2-7 stops, from Google Maps (real travel times with live traffic, or walking), with each ' +
+        "leg's miles and minutes and the total. Call it whenever you plan a day or an outing with several stops.",
+      input_schema: {
+        type: 'object',
+        properties: {
+          stops: { type: 'array', items: { type: 'string' }, description: 'Place names or addresses to visit, any order.' },
+          start: { type: 'string', description: 'Where they start: "my location" (default) or a place.' },
+          end: { type: 'string', description: 'Optional place they must finish at (e.g. their hotel). Leave empty if anywhere.' },
+          mode: { type: 'string', enum: ['drive', 'walk'], description: 'drive (default) or walk.' },
+        },
+        required: ['stops'],
+      },
+    };
+    const TOOL_RUNNERS = {
+      route_between: (input) => routeBetween(input || {}, { catalog: ALL_LANDMARKS, near }),
+      place_hours: (input) => placeHours(input || {}, { near }),
+      best_order: (input) => bestOrder({ start: near ? 'my location' : '', ...(input || {}) }, { catalog: ALL_LANDMARKS, near }),
+    };
+    const toolResults = [];
     const mustRoute = asksDistanceOrTime(lastText);
+    // "Is X open?": look the real hours up first.
+    const mustHours = !mustRoute && asksHours(lastText);
     const convo = [...turns];
     const usageTotal = {};
     const addUsage = (u) => {
@@ -621,7 +660,7 @@ async function handler(req, res) {
       const ws = u?.server_tool_use?.web_search_requests || 0;
       if (ws) usageTotal.server_tool_use = { web_search_requests: (usageTotal.server_tool_use?.web_search_requests || 0) + ws };
     };
-    const ask = (round) => client.messages.create({
+    const ask = (force) => client.messages.create({
       model: PLAN_AI_MODEL,
       max_tokens: 1200,
       system: [
@@ -648,49 +687,96 @@ async function handler(req, res) {
       // genuinely needs several searches isn't cut off. The client shows a
       // running cost total instead, so the trade-off stays visible.
       // max_uses caps per-reply search spend (each search is billed).
-      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }, ROUTE_TOOL],
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }, ROUTE_TOOL, HOURS_TOOL, ORDER_TOOL],
       // A distance/time question: the first round must look the route up.
-      ...(mustRoute && round === 0 ? { tool_choice: { type: 'tool', name: 'route_between' } } : {}),
+      ...(force ? { tool_choice: { type: 'tool', name: force } } : {}),
       messages: convo,
     });
 
-    let msg = await ask(0);
+    // Runs the tools the reply asked for and asks again, until it answers.
+    const runTools = async (first) => {
+      let m = first;
+      for (let round = 1; round <= 4 && m.stop_reason === 'tool_use'; round++) {
+        const calls = m.content.filter((b) => b.type === 'tool_use' && TOOL_RUNNERS[b.name]);
+        if (!calls.length) break;
+        const results = await Promise.all(
+          calls.map(async (c) => {
+            let out;
+            try {
+              out = await TOOL_RUNNERS[c.name](c.input);
+            } catch {
+              out = { error: 'The lookup failed.' };
+            }
+            toolResults.push({ tool: c.name, out });
+            return { type: 'tool_result', tool_use_id: c.id, content: JSON.stringify(out) };
+          })
+        );
+        convo.push({ role: 'assistant', content: m.content }, { role: 'user', content: results });
+        m = await ask(null);
+        addUsage(m.usage);
+      }
+      return m;
+    };
+    const textOf = (m) =>
+      m.content
+        .filter((b) => b.type === 'text')
+        .map((b) => b.text)
+        .join('')
+        .trim();
+    const evidenceNow = () => ({
+      routes: routesFrom(toolResults.filter((t) => t.tool !== 'place_hours').map((t) => t.out)),
+      hoursLookups: toolResults.filter((t) => t.tool === 'place_hours').map((t) => t.out),
+      webSearches: usageTotal.server_tool_use?.web_search_requests || 0,
+      askedTravel: mustRoute,
+      // The route failed only because we don't know where they are.
+      locationOff: !near && toolResults.some((t) => /location isn't available/.test(t.out?.error || '')),
+    });
+
+    let msg = await ask(mustRoute ? 'route_between' : mustHours ? 'place_hours' : null);
     addUsage(msg.usage);
-    for (let round = 1; round <= 3 && msg.stop_reason === 'tool_use'; round++) {
-      const calls = msg.content.filter((b) => b.type === 'tool_use' && b.name === 'route_between');
-      if (!calls.length) break;
-      const results = await Promise.all(
-        calls.map(async (c) => {
-          let out;
-          try {
-            out = await routeBetween(c.input || {}, { catalog: ALL_LANDMARKS, near });
-          } catch {
-            out = { error: 'The route lookup failed.' };
-          }
-          return { type: 'tool_result', tool_use_id: c.id, content: JSON.stringify(out) };
-        })
-      );
-      convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: results });
-      msg = await ask(round);
-      addUsage(msg.usage);
+    msg = await runTools(msg);
+    // The reply states a distance, a travel time or hours it never looked
+    // up: rather than cut it and leave the traveler with nothing, send it
+    // back once with the lookup required.
+    {
+      const draft = textOf(msg);
+      let draftReply = draft;
+      try {
+        draftReply = String(JSON.parse(draft.slice(draft.indexOf('{'), draft.lastIndexOf('}') + 1)).reply || '');
+      } catch {
+        // not JSON: check the raw text
+      }
+      const ev = evidenceNow();
+      const cut = guardReply(draftReply, ev).removed;
+      const force = cut.some((c) => c.why === 'travel') && !ev.routes.length
+        ? 'route_between'
+        : cut.some((c) => c.why === 'hours') && !ev.hoursLookups.length && !ev.webSearches
+          ? 'place_hours'
+          : null;
+      if (force && msg.stop_reason !== 'tool_use') {
+        convo.push(
+          { role: 'assistant', content: msg.content },
+          { role: 'user', content: `Before answering, check that with ${force} -- never state ${force === 'place_hours' ? 'hours' : 'a distance or travel time'} you didn't look up. Then answer my last question again in the same JSON shape.` }
+        );
+        msg = await runTools(await ask(force).then((m) => (addUsage(m.usage), m)));
+      }
     }
 
     await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: usageTotal });
     const costUsd = estimateCostUsd(usageTotal);
+    // The last check (api/_lib/factGuard.js): only numbers a lookup in this
+    // reply backs reach the traveler.
+    const evidence = evidenceNow();
 
     // With web search the final text arrives as several blocks split around
     // each cited span, often mid-string: a '\n' between them broke the JSON.
-    const raw = msg.content
-      .filter((b) => b.type === 'text')
-      .map((b) => b.text)
-      .join('')
-      .trim();
+    const raw = textOf(msg);
 
     let parsed;
     try {
       parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     } catch {
-      const fallback = linkAddresses(remapAddressTokens(conciseReply(unparsedReply(raw), lastText), []), []);
+      const fallback = linkAddresses(remapAddressTokens(guardReply(conciseReply(unparsedReply(raw), lastText), evidence).reply, []), []);
       res.status(200).json({ reply: fallback || 'Lost my train of thought there -- try that again?', stops: [], cost: costUsd });
       return;
     }
@@ -719,7 +805,7 @@ async function handler(req, res) {
         address: String(s?.address || '').trim().slice(0, 160),
         url,
         reason: String(s?.reason || '').slice(0, 200),
-        rating: Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
+        rating: evidence.webSearches > 0 && Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
       };
     };
     const keptStops = (Array.isArray(parsed.stops) ? parsed.stops : [])
@@ -787,7 +873,7 @@ async function handler(req, res) {
 
     // "Can I rate here?": show the catalog landmark they are standing at as a
     // stop, whose card carries the I'd go / Not sure / Not for me buttons.
-    const shortReply = conciseReply((typeof parsed.reply === 'string' ? parsed.reply : '').slice(0, 1500), lastText);
+    const shortReply = guardReply(conciseReply((typeof parsed.reply === 'string' ? parsed.reply : '').slice(0, 1500), lastText), evidence).reply;
     // None of the model's stops survived but the directions card was added:
     // its address token means that card.
     const tokenNs = new Set([...shortReply.matchAll(/\{\{address:(\d+)\}\}/g)].map((m) => m[1]));
