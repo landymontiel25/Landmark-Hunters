@@ -36,8 +36,10 @@ export const tipTagLabel = (id) => TIP_TAGS.find((t) => t.id === id)?.label || n
 // One tip per person per place: the id says so.
 export const tipIdFor = (uid, landmarkId) => `${uid}_${landmarkId}`;
 
-// http(s) links, www. links and bare domains (example.com/path).
-const LINK_RE = /\b(?:https?:\/\/|www\.)[^\s]+|\b[a-z0-9][a-z0-9-]{0,62}\.(?:com|net|org|io|co|app|ly|me|info|biz|us|uk|gg|xyz|link|site|online|shop|store)\b(?:\/[^\s]*)?/gi;
+// http(s) links, www. links and bare domains (example.com/path). Bare
+// domains only for endings that aren't also words, so "views.Us kids" or
+// "Jo.Me and my wife" (a missing space) never count as links.
+const LINK_RE = /\b(?:https?:\/\/|www\.)[^\s]+|\b[a-z0-9][a-z0-9-]{0,62}\.(?:com|net|org|io|app|ly|xyz|link|site|online|shop|store)\b(?:\/[^\s]*)?/gi;
 export function countLinks(text) {
   return (String(text || '').match(LINK_RE) || []).length;
 }

@@ -95,10 +95,14 @@ from everyone, kept with its reports for the owner's review, and no new tip
 there until the owner clears it. An unreported one (live, or held by the
 filter) is deleted. Tip photos can't be overwritten in Storage, so a
 reviewed tip's photo can't be swapped, and one photo can sit on one tip
-only; account deletion clears the whole `tip_photos/{uid}/` folder and
-leaves a removed or reported tip as an empty marker (no text, name or
-photo) so `delete-mine` can't lift a moderation lock; it keeps the
-person's reports and post log for the same reason. If `delete-mine`
+only; account deletion retires each tip as a
+delete would (a removed or reported tip stays hidden, with its text and
+photo, for the owner's review; the owner deletes it from the Content
+page), clears the rest of `tip_photos/{uid}/`, and keeps the person's
+reports and post log, so `delete-mine` on a live account can't lift a
+moderation lock or reset a limit. `discard-photo` removes an upload whose
+tip never posted (clients can't delete tip photos). Tips show the day of
+the visit, never the time. If `delete-mine`
 fails during account deletion, the tips stay: a nightly sweep for tips
 whose author's profile is gone is still to build (Content page PR). Left
 open for the Content page: restoring a reported tip must reset its

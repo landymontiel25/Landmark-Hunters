@@ -14,7 +14,7 @@ vi.mock('./_lib/firebaseAdmin.js', () => ({
   adminDb: () => db,
   adminBucket: async () => ({
     file: (p) => ({ delete: async () => deleted.push(p), exists: async () => [uploaded.has(p)] }),
-    deleteFiles: async ({ prefix }) => deleted.push(`${prefix}*`),
+    getFiles: async ({ prefix }) => [[...uploaded].filter((p) => p.startsWith(prefix)).map((name) => ({ name, delete: async () => deleted.push(name) }))],
   }),
 }));
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
@@ -163,10 +163,11 @@ describe('api/post-tip: deleting', () => {
 });
 
 describe('api/post-tip: account deletion', () => {
-  it('removes your tips, marks, views, claims and photos, keeps moderated tips as empty markers, fixes counts', async () => {
+  it('retires every tip like a delete, keeps reported or removed ones (and their photos) for review, fixes counts', async () => {
     caller = { uid: 'me', emailVerified: false };
-    db.docs['tips/me_a'] = { authorUid: 'me', status: 'removed', text: 'awful words', authorName: 'landy', photoPath: 'tip_photos/me/a.jpg', reportCount: 2, gen: 'g1' };
-    db.docs['tips/me_r'] = { authorUid: 'me', status: 'live', text: 'reported once', authorName: 'landy', reportCount: 1, gen: 'g2' };
+    uploaded = new Set(['tip_photos/me/a.jpg', 'tip_photos/me/b.jpg', 'tip_photos/me/orphan.jpg']);
+    db.docs['tips/me_a'] = { authorUid: 'me', status: 'removed', text: 'awful words', photoPath: 'tip_photos/me/a.jpg', reportCount: 2, gen: 'g1' };
+    db.docs['tips/me_r'] = { authorUid: 'me', status: 'live', text: 'reported once', reportCount: 1, gen: 'g2' };
     db.docs['tips/me_b'] = { authorUid: 'me', status: 'live', photoPath: 'tip_photos/me/b.jpg', gen: 'g3' };
     db.docs['tips/you_x'] = { authorUid: 'you', status: 'live', counts: { helpful: 3, saved: 2 }, gen: 'gx' };
     db.docs['tips/you_y'] = { authorUid: 'you', status: 'live', counts: { helpful: 0, saved: 0 }, gen: 'gy-new' };
@@ -174,21 +175,35 @@ describe('api/post-tip: account deletion', () => {
     db.docs['tip_reactions/me_you_y'] = { uid: 'me', tipId: 'you_y', gen: 'gy-old', helpful: true };
     db.docs['tip_views/me_you_x'] = { uid: 'me', tipId: 'you_x', gen: 'gx' };
     db.docs['tip_views/you_me_b'] = { uid: 'you', tipId: 'me_b', authorUid: 'me', gen: 'g3' };
-    db.docs['tip_photo_claims/tip_photos__me__b.jpg'] = { uid: 'me', tipId: 'me_b' };
+    db.docs['tip_photo_claims/tip_photos__me__b.jpg'] = { uid: 'me', tipId: 'me_b', path: 'tip_photos/me/b.jpg' };
+    db.docs['tip_photo_claims/tip_photos__me__a.jpg'] = { uid: 'me', tipId: 'me_a', path: 'tip_photos/me/a.jpg' };
     db.docs['tip_reports/you_x_me'] = { uid: 'me', tipId: 'you_x', reason: 'spam', gen: 'gx' };
     db.docs['tip_post_log/me'] = { at: [NOW] };
     const { code, body } = await call({ action: 'delete-mine' });
     expect(code).toBe(200);
     expect(body).toMatchObject({ tips: 3, reactions: 2 });
-    expect(db.docs['tips/me_a']).toMatchObject({ status: 'removed', text: '', authorName: 'Deleted account', photoPath: null, reportCount: 2 });
-    expect(db.docs['tips/me_r']).toMatchObject({ status: 'withdrawn', text: '', authorName: 'Deleted account' });
+    expect(db.docs['tips/me_a']).toMatchObject({ status: 'removed', text: 'awful words' });
+    expect(db.docs['tips/me_r']).toMatchObject({ status: 'withdrawn', text: 'reported once' });
     expect(db.docs['tips/me_b']).toBeUndefined();
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });
     expect(db.docs['tips/you_y'].counts.helpful).toBe(0);
-    expect(Object.keys(db.docs).filter((k) => k.startsWith('tip_reactions/') || k.startsWith('tip_views/') || k.startsWith('tip_photo_claims/'))).toEqual([]);
-    expect(deleted).toContain('tip_photos/me/*');
+    expect(Object.keys(db.docs).filter((k) => k.startsWith('tip_reactions/') || k.startsWith('tip_views/'))).toEqual([]);
+    expect(db.docs['tip_photo_claims/tip_photos__me__a.jpg']).toBeDefined();
+    expect(db.docs['tip_photo_claims/tip_photos__me__b.jpg']).toBeUndefined();
+    expect(deleted.sort()).toEqual(['tip_photos/me/b.jpg', 'tip_photos/me/orphan.jpg']);
     // Kept so a live account can't use this to report twice or post past the limit.
     expect(db.docs['tip_reports/you_x_me']).toBeDefined();
     expect(db.docs['tip_post_log/me']).toBeDefined();
+  });
+});
+
+describe('api/post-tip: discarding an unposted photo', () => {
+  it('deletes your own unclaimed upload, never one on a tip or someone else\'s', async () => {
+    expect((await call({ action: 'discard-photo', photoURL: photo('me', 'p2.jpg') })).code).toBe(200);
+    expect(deleted).toEqual(['tip_photos/me/p2.jpg']);
+    db.docs['tip_photo_claims/tip_photos__me__p1.jpg'] = { uid: 'me', tipId: 'me_bell', path: 'tip_photos/me/p1.jpg' };
+    expect((await call({ action: 'discard-photo', photoURL: photo() })).code).toBe(409);
+    expect((await call({ action: 'discard-photo', photoURL: photo('you') })).code).toBe(400);
+    expect(deleted).toEqual(['tip_photos/me/p2.jpg']);
   });
 });

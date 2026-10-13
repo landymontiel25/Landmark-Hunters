@@ -47,6 +47,7 @@ const EMAIL_RE = /[^\s@]+@[^\s@]+\.[a-z]{2,}/i;
 
 const WORD_SET = new Set(WORDS);
 const SLUR_WORD_SET = new Set(SLURS_WORDS);
+const SLUR_CHUNK_RE = new RegExp(`^(?:sand)?(?:${SLURS_SQUEEZED.join('|')})(?:s|z|es|as|az)?$`);
 
 // { flagged, reasons: ['slur' | 'profanity' | 'threat-or-spam' | 'contact'] }
 export function filterTipText(text) {
@@ -67,7 +68,7 @@ export function filterTipText(text) {
   const words = norm.split(/[^a-z]+/).filter(Boolean);
   // A squeezed chunk that is the slur (maybe plural), never a word that
   // merely has it inside ("snigger", "sniggering").
-  const slurChunk = (c) => SLURS_SQUEEZED.some((s) => new RegExp(`^(?:sand)?${s}(?:s|z|es|as|az)?$`).test(c));
+  const slurChunk = (c) => SLUR_CHUNK_RE.test(c);
   if (squeezed.some(slurChunk) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
   if (words.some((w) => WORD_SET.has(w))) reasons.add('profanity');
   if (PHRASES.some((re) => re.test(norm))) reasons.add('threat-or-spam');

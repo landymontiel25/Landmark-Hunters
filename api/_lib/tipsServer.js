@@ -2,6 +2,8 @@ import { adminBucket } from './firebaseAdmin.js';
 import { toMs } from './time.js';
 
 // Server helpers shared by api/post-tip.js and api/tips.js.
+
+const DAY_MS = 24 * 60 * 60 * 1000;
 //
 // A tip's id is {authorUid}_{landmarkId}, so one person has one tip per
 // place, and an id comes back when a tip is deleted and posted again. Each
@@ -42,13 +44,11 @@ export const madeOnThisPost = (child, tip) => !!child && !!tip && child.gen === 
 
 // The marks, reports and views of one post of a tip (by its gen), removed
 // with it. A newer post at the same id keeps its own.
+// (Equality filters only, so no composite index.)
 export async function deleteTipChildren(db, tipId, gen) {
-  const [reactions, reports, views] = await Promise.all([
-    db.collection('tip_reactions').where('tipId', '==', tipId).get(),
-    db.collection('tip_reports').where('tipId', '==', tipId).get(),
-    db.collection('tip_views').where('tipId', '==', tipId).get(),
-  ]);
-  const refs = [...reactions.docs, ...reports.docs, ...views.docs].filter((d) => d.data()?.gen === gen).map((d) => d.ref);
+  const of = (col) => db.collection(col).where('tipId', '==', tipId).where('gen', '==', gen ?? null).get();
+  const [reactions, reports, views] = await Promise.all([of('tip_reactions'), of('tip_reports'), of('tip_views')]);
+  const refs = [...reactions.docs, ...reports.docs, ...views.docs].map((d) => d.ref);
   await deleteRefs(db, refs);
 }
 
@@ -113,13 +113,15 @@ export async function deleteTipPhoto(path) {
   }
 }
 
-// Account deletion: every file under tip_photos/{uid}/.
-export async function deleteTipPhotoFolder(uid) {
+// Account deletion: every file under tip_photos/{uid}/ but `keep` (photos
+// of tips kept for the owner's review).
+export async function deleteTipPhotoFolder(uid, { keep = new Set() } = {}) {
   if (typeof uid !== 'string' || !/^[A-Za-z0-9]{1,128}$/.test(uid)) return false;
   try {
     const bucket = await adminBucket();
     if (!bucket) return false;
-    await bucket.deleteFiles({ prefix: `tip_photos/${uid}/` });
+    const [files] = await bucket.getFiles({ prefix: `tip_photos/${uid}/` });
+    await Promise.all(files.filter((f) => !keep.has(f.name)).map((f) => f.delete({ ignoreNotFound: true })));
     return true;
   } catch (e) {
     console.error('tip photo folder delete failed', e?.message || e);
@@ -139,7 +141,9 @@ export function tipForViewer(id, tip, viewerUid) {
     text: tip.text,
     tags: Array.isArray(tip.tags) ? tip.tags : [],
     photoURL: tip.photoURL || null,
-    visitAt: toMs(tip.visitAt),
+    // The day of the visit, never the minute: a tip shouldn't say exactly
+    // when its author stood somewhere.
+    visitAt: toMs(tip.visitAt) == null ? null : Math.floor(toMs(tip.visitAt) / DAY_MS) * DAY_MS,
     createdAt: toMs(tip.createdAt) ?? tip.createdAtMs ?? null,
     verified: tip.verified === true,
     counts: { helpful: tip.counts?.helpful || 0, saved: tip.counts?.saved || 0 },

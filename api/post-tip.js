@@ -24,6 +24,7 @@ import { filterTipText } from '../src/lib/tipFilter.js';
 //   POST { checkinId, text, tags?, photoURL? }   share a tip
 //   POST { action: 'delete', landmarkId, region } delete your own tip there
 //   POST { action: 'delete-mine' }               account deletion
+//   POST { action: 'discard-photo', photoURL }   an upload never posted
 // A tip needs a verified email and a verified check-in (presence written by
 // api/verify-checkin.js) under 30 days old. 10 tips an hour, one per person
 // per place (the id is {uid}_{landmarkId}), at most 2 links and none in an
@@ -109,7 +110,7 @@ async function postTip(db, account, body) {
     if (claim?.exists) return 'photo-used';
     tx.set(ref, tip);
     tx.set(logRef, { at: [...recent, nowMs] });
-    if (claimRef) tx.set(claimRef, { uid: account.uid, tipId, at: nowMs });
+    if (claimRef) tx.set(claimRef, { uid: account.uid, tipId, path: photoPath, at: nowMs });
     return 'ok';
   });
   if (outcome === 'rate') return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
@@ -126,9 +127,9 @@ async function postTip(db, account, body) {
 //                             there until the owner clears it
 //   otherwise                 deleted (live, or held by the filter and
 //                             never public)
-// forAccount (account deletion) also strips a kept tip's text, name and
-// photo, leaving an empty marker.
-async function retireTip(db, ref, uid, { forAccount = false } = {}) {
+// A kept tip keeps its text and photo until the owner reviews it, even on
+// account deletion: it is moderation evidence, never public again.
+async function retireTip(db, ref, uid) {
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     if (!snap.exists || snap.data().authorUid !== uid) return { code: 'missing' };
@@ -139,11 +140,7 @@ async function retireTip(db, ref, uid, { forAccount = false } = {}) {
       return { code: 'deleted', tip: t };
     }
     const status = t.status === 'removed' ? 'removed' : 'withdrawn';
-    const changes = {
-      ...(t.status !== status ? { status, withdrawnAt: Date.now() } : {}),
-      ...(forAccount ? { text: '', tags: [], authorName: 'Deleted account', photoURL: null, photoPath: null, accountDeletedAt: Date.now() } : {}),
-    };
-    if (Object.keys(changes).length) tx.update(ref, { ...changes, updatedAt: FieldValue.serverTimestamp() });
+    if (t.status !== status) tx.update(ref, { status, withdrawnAt: Date.now(), updatedAt: FieldValue.serverTimestamp() });
     return { code: status, tip: t };
   });
 }
@@ -167,12 +164,14 @@ async function deleteTip(db, account, body) {
 }
 
 // Account deletion (src/lib/accountDeletion.js): every tip of yours goes
-// through retireTip (kept ones become empty markers, so this can't lift a
-// moderation lock or erase what the owner is reviewing), your marks on
-// others' tips go (and come off their counts), with the record of what you
-// viewed, who viewed your tips, your photo claims and your photos. Your
-// reports on others' tips and your hourly post log stay: deleting them
-// would let a live account report a tip twice or post past the limit.
+// through retireTip, as if you deleted each one: unreported ones go, a
+// removed or reported one stays (hidden) for the owner's review with its
+// photo. Your marks on others' tips go and come off their counts, with the
+// record of what you viewed, who viewed your tips, and your photo claims
+// and photos that no kept tip shows. Your reports and hourly post log stay,
+// so a live account calling this can't report a tip twice or post past the
+// limit, and it can do nothing here it couldn't do one tip at a time.
+// Each step runs even if another fails; any failure answers 500.
 async function deleteMine(db, account) {
   const uid = account.uid;
   const [tips, reactions, views, authorViews, claims] = await Promise.all([
@@ -182,33 +181,51 @@ async function deleteMine(db, account) {
     db.collection('tip_views').where('authorUid', '==', uid).get(),
     db.collection('tip_photo_claims').where('uid', '==', uid).get(),
   ]);
-  // In parallel: account deletion runs under the function's time limit.
-  await Promise.all([
+  const keptPhotos = new Set();
+  const steps = await Promise.allSettled([
     ...tips.docs.map(async (d) => {
-      const out = await retireTip(db, d.ref, uid, { forAccount: true });
+      const out = await retireTip(db, d.ref, uid);
       if (out.code === 'deleted') await deleteTipChildren(db, d.id, out.tip.gen);
+      else if (out.tip?.photoPath) keptPhotos.add(out.tip.photoPath);
     }),
-    ...reactions.docs.map((d) => {
-      const r = d.data();
-      const tipRef = db.collection('tips').doc(r.tipId);
-      return db.runTransaction(async (tx) => {
-        const t = await tx.get(tipRef);
+    ...reactions.docs.map((d) =>
+      db.runTransaction(async (tx) => {
+        const [rSnap, t] = await Promise.all([tx.get(d.ref), tx.get(db.collection('tips').doc(d.data().tipId))]);
+        if (!rSnap.exists) return;
+        const r = rSnap.data();
         // A mark from an older post at the same id was never counted.
         if (t.exists && madeOnThisPost(r, t.data())) {
           const dec = {};
           if (r.helpful === true) dec['counts.helpful'] = FieldValue.increment(-1);
           if (r.saved === true) dec['counts.saved'] = FieldValue.increment(-1);
-          if (Object.keys(dec).length) tx.update(tipRef, dec);
+          if (Object.keys(dec).length) tx.update(t.ref, dec);
         }
         tx.delete(d.ref);
-      });
-    }),
-    // Every photo in the folder, on a tip or not (an upload whose post
-    // failed): the folder is theirs alone.
-    deleteTipPhotoFolder(uid),
+      })
+    ),
   ]);
-  await deleteRefs(db, [...views.docs, ...authorViews.docs, ...claims.docs].map((d) => d.ref));
+  const after = await Promise.allSettled([
+    deleteTipPhotoFolder(uid, { keep: keptPhotos }),
+    deleteRefs(db, [...views.docs, ...authorViews.docs, ...claims.docs.filter((d) => !keptPhotos.has(d.data()?.path))].map((d) => d.ref)),
+  ]);
+  const failed = [...steps, ...after].filter((x) => x.status === 'rejected');
+  if (failed.length) {
+    console.error('delete-mine: some steps failed', failed.map((f) => f.reason?.message || f.reason));
+    return [500, { error: 'Some of your tips could not be deleted. Try again.' }];
+  }
   return [200, { ok: true, tips: tips.size, reactions: reactions.size }];
+}
+
+// A photo uploaded for a tip that was never posted (cancelled, or the post
+// was refused): the client can't delete tip photos, so it asks here. Only
+// your own, and only one no tip has claimed.
+async function discardPhoto(db, account, body) {
+  const path = tipPhotoPath(body.photoURL, account.uid);
+  if (!path) return [400, { error: 'That photo could not be used.', code: 'bad-photo' }];
+  const claim = await db.collection('tip_photo_claims').doc(photoClaimId(path)).get();
+  if (claim.exists) return [409, { error: 'That photo is on a tip.', code: 'photo-used' }];
+  await deleteTipPhoto(path);
+  return [200, { ok: true }];
 }
 
 async function handler(req, res) {
@@ -217,7 +234,7 @@ async function handler(req, res) {
   if (!account) return send(res, 401, { error: 'Sign in first.' });
   const body = (req.body && typeof req.body === 'object' ? req.body : null) || {};
   const action = body.action || 'post';
-  if (!['post', 'delete', 'delete-mine'].includes(action)) return send(res, 400, { error: 'Unknown action.' });
+  if (!['post', 'delete', 'delete-mine', 'discard-photo'].includes(action)) return send(res, 400, { error: 'Unknown action.' });
   // Account deletion is never limited or gated: it must always run.
   if (action === 'post') {
     if (!account.emailVerified) return send(res, 403, { error: 'Verify your email to share tips.', code: 'email' });
@@ -226,13 +243,13 @@ async function handler(req, res) {
     if (isRateLimited(req, 'post-tip', { limit: TIP_RATE_LIMIT.limit * 3, windowMs: TIP_RATE_LIMIT.windowMs, id: account.uid })) {
       return send(res, 429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' });
     }
-  } else if (action === 'delete' && isRateLimited(req, 'post-tip-delete', { limit: 60, windowMs: HOUR_MS, id: account.uid })) {
+  } else if (action !== 'delete-mine' && isRateLimited(req, `post-tip-${action}`, { limit: 60, windowMs: HOUR_MS, id: account.uid })) {
     return send(res, 429, { error: 'Too many requests. Try again later.' });
   }
   try {
     const db = adminDb();
-    const [code, out] =
-      action === 'post' ? await postTip(db, account, body) : action === 'delete' ? await deleteTip(db, account, body) : await deleteMine(db, account);
+    const run = { post: postTip, delete: deleteTip, 'delete-mine': deleteMine, 'discard-photo': discardPhoto }[action];
+    const [code, out] = await run(db, account, body);
     return send(res, code, out);
   } catch (err) {
     console.error('post-tip failed', err?.message || err);
