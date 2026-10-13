@@ -111,18 +111,18 @@ async function postTip(db, account, body) {
   // instance, one tip per photo.
   const outcome = await db.runTransaction(async (tx) => {
     const [existing, log, claim] = await Promise.all([tx.get(ref), tx.get(logRef), claimRef ? tx.get(claimRef) : null]);
-    if (existing.exists) return `exists:${existing.data().status}`;
+    if (existing.exists) return { code: 'exists', status: existing.data().status };
     const recent = (log.exists && Array.isArray(log.data().at) ? log.data().at : []).filter((t) => typeof t === 'number' && t > nowMs - HOUR_MS);
-    if (recent.length >= TIP_RATE_LIMIT.limit) return 'rate';
-    if (claim?.exists) return 'photo-used';
+    if (recent.length >= TIP_RATE_LIMIT.limit) return { code: 'rate' };
+    if (claim?.exists) return { code: 'photo-used' };
     tx.set(ref, tip);
     tx.set(logRef, { at: [...recent, nowMs] });
     if (claimRef) tx.set(claimRef, { uid: account.uid, tipId, path: photoPath, at: nowMs });
-    return 'ok';
+    return { code: 'ok' };
   });
-  if (outcome === 'rate') return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
-  if (outcome === 'photo-used') return [400, { error: 'Add a new photo for this tip.', code: 'photo-used' }];
-  if (outcome.startsWith('exists')) return EXISTS_ERRORS[outcome.slice(7)] || EXISTS_ERRORS.default;
+  if (outcome.code === 'rate') return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
+  if (outcome.code === 'photo-used') return [400, { error: 'Add a new photo for this tip.', code: 'photo-used' }];
+  if (outcome.code === 'exists') return EXISTS_ERRORS[outcome.status] || EXISTS_ERRORS.default;
   return [200, { ok: true, tipId, status }];
 }
 

@@ -106,7 +106,11 @@ moderation lock or reset a limit. `discard-photo` removes an upload whose
 tip never posted (clients can't delete tip photos). Tips keep only
 the visit month, in the place's time zone, and not the check-in id (the tip
 doc is readable by anyone who sees the tip). If `delete-mine`
-fails twice, account deletion stops before wiping anything and says so. Left
+fails twice, account deletion stops before wiping anything and says so
+(unless the account provably has no tips or marks). Left for the Content
+page PR: a nightly sweep of marks, reports and views whose tip is gone or
+reposted (a failed cleanup after a delete leaves them; they never count,
+but they stay). Left
 open for the Content page: restoring a reported tip must reset its
 `reportCount`, or the next single report hides it again. The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read by a

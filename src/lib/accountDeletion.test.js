@@ -63,6 +63,7 @@ vi.mock('firebase/firestore', () => {
     doc: (_db, ...parts) => ({ path: parts.join('/') }),
     collection: (_db, ...parts) => ({ name: parts.join('/') }),
     query: (c) => c,
+    limit: () => undefined,
     where: (field, op, value) => {
       queries.push([field, op, value]);
     },
@@ -231,11 +232,11 @@ describe('deleteAccountData tips step', () => {
     tipsMock.fail = 1;
     await expect(deleteAccountData('u1')).resolves.toBeUndefined();
     tipsMock.hasTips = false;
-  });
-  it('an account with no tips or marks never calls the server', async () => {
-    tipsMock.fail = 5;
+  }, 10000);
+  it('with the server down, an account that provably has no tips or marks still goes', async () => {
+    tipsMock.fail = 2;
     tipsMock.hasTips = false;
     await expect(deleteAccountData('u1')).resolves.toBeUndefined();
     tipsMock.fail = 0;
-  });
+  }, 10000);
 });
