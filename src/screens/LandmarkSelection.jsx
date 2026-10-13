@@ -476,10 +476,16 @@ export default function LandmarkSelection() {
       return true;
     });
 
-    // Typing a name to find it is a lookup, not a browse -- the best match
-    // first (then alphabetical) is what makes a known name fast to spot, so
-    // a search term overrides whichever Sort mode (For Me/Popular/Near
-    // Me) is active. Clearing the search goes back to that sort.
+    // Near Me always means closest first, even while searching: "sushi" with
+    // Near Me on lists the nearest sushi places first.
+    if (term && sortBy === 'nearMe' && coords) {
+      const dist = new Map(filtered.map((l) => [l, distanceMeters(coords.lat, coords.lng, l.lat, l.lng)]));
+      return [...filtered].sort((a, b) => dist.get(a) - dist.get(b));
+    }
+    // Otherwise typing a name to find it is a lookup, not a browse -- the
+    // best match first (then alphabetical) is what makes a known name fast
+    // to spot, so a search term overrides For Me / Popular. Clearing the
+    // search goes back to that sort.
     if (term) {
       // Best match first (name matches over description matches), then A-Z.
       const score = new Map(
@@ -596,10 +602,16 @@ export default function LandmarkSelection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [smart.ids, landmarks, normalizedCustomLandmarks, editedLandmarks, scope, drawnShape, activeCategories]);
 
-  const allRows = useMemo(
-    () => [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])],
-    [landmarks, smartLandmarks]
-  );
+  // With Near Me on, Mapr's extra matches join the typed ones in one list,
+  // closest first, instead of sitting in their own block below.
+  const nearMeSearch = sortBy === 'nearMe' && !!coords && !!search.trim();
+  const allRows = useMemo(() => {
+    if (nearMeSearch && smartLandmarks.length) {
+      const d = (l) => distanceMeters(coords.lat, coords.lng, l.lat, l.lng);
+      return [...landmarks, ...smartLandmarks].sort((a, b) => d(a) - d(b));
+    }
+    return [...landmarks, ...(smartLandmarks.length ? [SMART_DIVIDER, ...smartLandmarks] : [])];
+  }, [landmarks, smartLandmarks, nearMeSearch, coords]);
   const shownCount = useProgressiveCount(allRows.length, returned?.count);
   latest.current.cityFilter = scopeKey;
   latest.current.shownCount = shownCount;
@@ -622,7 +634,7 @@ export default function LandmarkSelection() {
   return (
     <div>
       <h1 className="screen-title">
-        <span>{'\u{1F4CD}'}</span> Landmarks ({landmarks.length})
+        <span>{'\u{1F4CD}'}</span> Places ({landmarks.length})
       </h1>
       {drawnShape && (
         <p className="screen-subtitle">
