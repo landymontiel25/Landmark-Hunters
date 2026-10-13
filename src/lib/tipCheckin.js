@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { tipCheckinProblem, tipIdFor } from './tips';
-import { canonicalLandmarkId, legacyLandmarkIds } from '../data/regions';
+import { canonicalLandmarkId, canonicalRegionId, legacyLandmarkIds } from '../data/regions';
 
 // The check-in a new tip at this place can rest on: your newest real visit
 // the server verified (presence written by api/verify-checkin.js) in the
@@ -41,7 +41,10 @@ export async function findTipCheckin(uid, landmarkId, region, { nowMs = Date.now
     const current = canonicalLandmarkId(landmarkId, region);
     const ids = [...new Set([landmarkId, current, ...legacyLandmarkIds(current, region)])].slice(0, 10);
     const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', uid), where('landmarkId', 'in', ids)));
-    return pickTipCheckin(snap.docs.map((d) => ({ id: d.id, ...d.data() })), nowMs, uid);
+    // Same id, other region: not this place.
+    const want = canonicalRegionId(region);
+    const here = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((c) => !region || canonicalRegionId(c.region) === want);
+    return pickTipCheckin(here, nowMs, uid);
   } catch {
     return null;
   }

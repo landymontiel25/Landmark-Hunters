@@ -14,11 +14,9 @@ const api = vi.hoisted(() => ({
 }));
 const blocks = vi.hoisted(() => ({ blockUser: vi.fn(async () => {}) }));
 const checkin = vi.hoisted(() => ({ value: null }));
-const impressions = vi.hoisted(() => ({ logTipImpressions: vi.fn(async () => {}) }));
 vi.mock('../../lib/tipsApi', () => api);
 vi.mock('../../lib/blocks', () => blocks);
 vi.mock('../../lib/tipCheckin', () => ({ findTipCheckin: async () => checkin.value }));
-vi.mock('../../lib/tipImpressions', () => impressions);
 vi.mock('../../lib/imageUtils', () => ({ pickPhoto: vi.fn() }));
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -54,16 +52,24 @@ beforeEach(() => {
 afterEach(() => document.body.removeChild(container));
 
 describe('TipsSection', () => {
-  it('shows "From people who went" with the finder, Verified visit, the month and tags, and logs the impression', async () => {
+  it('shows "From people who went" with the finder, Verified visit, the month and tags, and records it as seen', async () => {
     await mount();
     expect(container.textContent).toContain('From people who went');
     expect(container.textContent).toContain('ann');
     expect(container.textContent).toContain('Verified visit');
     expect(container.textContent).toContain('2026');
     expect(container.textContent).toContain('Go early');
-    expect(impressions.logTipImpressions).toHaveBeenCalledTimes(1);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 900));
+    });
+    expect(api.markTipsSeen).toHaveBeenCalledTimes(1);
     expect(api.markTipsSeen).toHaveBeenCalledWith(['ann_bell']);
-    expect(impressions.logTipImpressions).toHaveBeenCalledWith(expect.objectContaining({ landmarkId: 'bell', tipIds: ['ann_bell'] }));
+  });
+  it('drops a tip from the list when the server says it is no longer public', async () => {
+    api.reactToTip.mockResolvedValue({ ok: true, reaction: { helpful: false, saved: false }, counts: null });
+    await mount();
+    await click('Helpful');
+    expect(container.textContent).not.toContain('Go early');
   });
   it('marks a tip helpful and shows the new count, never who', async () => {
     api.reactToTip.mockResolvedValue({ ok: true, reaction: { helpful: true, saved: false }, counts: { helpful: 3, saved: 0 } });

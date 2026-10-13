@@ -3,7 +3,6 @@ import { blockUser } from '../../lib/blocks';
 import { findTipCheckin } from '../../lib/tipCheckin';
 import { tipTagLabel } from '../../lib/tips';
 import { deleteMyTip, fetchTips, markTipsSeen, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
-import { logTipImpressions } from '../../lib/tipImpressions';
 import TipComposer from './TipComposer';
 import OnScreen from '../OnScreen';
 
@@ -46,7 +45,6 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
   const [composing, setComposing] = useState(false);
   const [reporting, setReporting] = useState(null);
   const [busy, setBusy] = useState(null);
-  const logged = useRef(false);
 
   // Only the newest request may land (loads can overlap and finish out of
   // order).
@@ -92,15 +90,27 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     };
   }, [user, landmarkId, region, refreshKey, visited]);
 
-  // One impression row per page view, once the tips are on screen
-  // (surface 'landmark-page'); never counted as a Mapr pick.
-  const onSeen = () => {
-    if (!user || logged.current) return;
-    const shown = (tips || []).filter((t) => !t.mine).map((t) => t.id);
-    if (!shown.length) return;
-    logged.current = true;
-    logTipImpressions({ uid: user.uid, landmarkId, region, tipIds: shown });
-    markTipsSeen(shown).catch(() => {});
+  // Each tip counts as seen once it is on screen (the server records the
+  // view and the impression; see api/tips.js markSeen). Sent in small
+  // batches, each tip at most once per page.
+  const seenIds = useRef(new Set());
+  const pending = useRef(new Set());
+  const flushTimer = useRef(null);
+  const flush = () => {
+    flushTimer.current = null;
+    const ids = [...pending.current];
+    pending.current.clear();
+    if (ids.length) markTipsSeen(ids).catch(() => {});
+  };
+  useEffect(() => () => {
+    if (flushTimer.current) clearTimeout(flushTimer.current);
+    flush();
+  }, []);
+  const onTipSeen = (id) => {
+    if (seenIds.current.has(id)) return;
+    seenIds.current.add(id);
+    pending.current.add(id);
+    if (!flushTimer.current) flushTimer.current = setTimeout(flush, 800);
   };
 
   if (!user) return null;
@@ -116,8 +126,9 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     try {
       const out = await reactToTip(t.id, kind, on);
       setReactions((r) => ({ ...r, [t.id]: out.reaction }));
-      // The server's own counts after the change.
-      if (out.counts) setTips((list) => list.map((x) => (x.id === t.id ? { ...x, counts: out.counts } : x)));
+      // The server's own counts after the change; none means the tip is no
+      // longer public, so it leaves the list.
+      setTips((list) => (out.counts ? list.map((x) => (x.id === t.id ? { ...x, counts: out.counts } : x)) : list.filter((x) => x.id !== t.id)));
     } catch (e) {
       toast?.show?.(e?.userMessage || "Couldn't save that. Try again.");
     } finally {
@@ -170,6 +181,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     const month = monthLabel(t.visitMonth);
     return (
       <li key={t.id} className="tip-item card" style={{ padding: 12, marginBottom: 10, listStyle: 'none' }}>
+        {!t.mine && <OnScreen onSeen={() => onTipSeen(t.id)} style={{ height: 2 }} aria-hidden="true" />}
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
           <strong>{t.mine ? 'Your tip' : t.authorName}</strong>
           <span className="presence-line presence-verified" style={{ fontSize: '0.75rem' }}>
@@ -263,9 +275,6 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
       ) : (
         <>
           {error && <p className="screen-subtitle">{error}</p>}
-          {/* A thin marker at the top of the list: it is on screen as soon as
-              the tips are, however long the list is. */}
-          {others.length > 0 && <OnScreen key={others.map((t) => t.id).join(',')} onSeen={onSeen} style={{ height: 2 }} aria-hidden="true" />}
           <ul style={{ padding: 0, margin: 0 }}>
             {mine && renderTip(mine)}
             {others.map(renderTip)}

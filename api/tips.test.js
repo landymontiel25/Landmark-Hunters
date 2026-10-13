@@ -67,11 +67,14 @@ describe('api/tips: reading', () => {
     const seen = (ids) => call('POST', { body: { action: 'seen', tipIds: ids } });
     expect((await seen(['ann_bell', 'me_bell', 'cat_bell', 'fay_bell', 'gus_bell'])).body).toEqual({ ok: true, recorded: 1 });
     expect(db.docs['tip_views/me_ann_bell']).toMatchObject({ uid: 'me', tipId: 'ann_bell', authorUid: 'ann', gen: 'g-ann' });
+    const rows = Object.entries(db.docs).filter(([k]) => k.startsWith('recommendation_log/'));
+    expect(rows).toHaveLength(1);
+    expect(rows[0][1]).toMatchObject({ userId: 'me', landmarkId: 'bell', surface: 'landmark-page', tipIds: ['ann_bell'], pickType: null, isTest: false });
     for (const id of ['me_me_bell', 'me_cat_bell', 'me_fay_bell', 'me_gus_bell']) expect(db.docs[`tip_views/${id}`]).toBeUndefined();
     const before = db.writes.length;
     await seen(['ann_bell']);
     expect(db.writes.length).toBe(before);
-    db.docs['tip_views/me_ann_bell'] = { ...db.docs['tip_views/me_ann_bell'], gen: 'g-old', firstAt: 5 };
+    db.docs['tip_views/me_ann_bell'] = { ...db.docs['tip_views/me_ann_bell'], gen: 'g-old', firstAt: 5, lastAt: 0 };
     await seen(['ann_bell']);
     expect(db.docs['tip_views/me_ann_bell'].firstAt).not.toBe(5);
     expect(db.docs['tip_views/me_ann_bell'].gen).toBe('g-ann');

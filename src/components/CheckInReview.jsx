@@ -105,7 +105,8 @@ export default function CheckInReview() {
   // One tip per person per place: no offer where you already have one (an
   // unknown answer still offers; the server refuses a second tip).
   useEffect(() => {
-    if (!justCheckedIn || !user?.uid) return undefined;
+    // Only when a tip could be offered at all.
+    if (!justCheckedIn || !user?.uid || !user.emailVerified || checkInOptions?.ratingOnly) return undefined;
     let cancelled = false;
     hasMyTip(user.uid, justCheckedIn.id, justCheckedIn.regionId || justCheckedIn.region).then((has) => {
       if (!cancelled) setHasTipHere(has);
@@ -113,7 +114,7 @@ export default function CheckInReview() {
     return () => {
       cancelled = true;
     };
-  }, [justCheckedIn, user?.uid]);
+  }, [justCheckedIn, user?.uid, user?.emailVerified, checkInOptions?.ratingOnly]);
 
   if (!justCheckedIn) return null;
 

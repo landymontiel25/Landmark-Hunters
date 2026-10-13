@@ -85,8 +85,10 @@ Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 `delete-mine` on account deletion, which `accountDeletion.js` calls) and
 `api/tips.js` (a place's live tips with blocks hidden both ways, helpful
 and saved, reports; marking and reporting need a verified email, like
-posting; reading doesn't). Views are recorded only when the tips reach
-the screen (`seen`), and only for verified accounts. Reporters
+posting; reading doesn't). Each tip is recorded as seen when it reaches the
+screen (`seen`, verified accounts only): a `tip_views` doc and one
+`recommendation_log` impression row (surface `landmark-page`, the newly
+seen `tipIds`), both written by the server under one rule. Reporters
 live in server-only `tip_reports/{tipId}_{gen}_{uid}` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
 lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it;
@@ -123,9 +125,7 @@ verified visit (`components/tips/TipComposer.jsx`), and landmark pages show
 "From people who went" under the facts (`components/tips/TipsSection.jsx`)
 with Helpful, Save, Report (with a reason) and Block, your own tip's
 status, and "Share a tip for others" for 30 days after a verified visit.
-A page view with tips logs one `recommendation_log` row (surface
-`landmark-page`, the shown `tipIds`, at most once a day per place per
-device); `statsData.js` keeps those rows out of every Mapr metric
+`statsData.js` keeps the `landmark-page` rows out of every Mapr metric
 (`tipImpressions`). A tip you reported stays hidden for you. Open choice:
 impressions sit in `recommendation_log` as the plan says, so they count
 toward its 100,000-row nightly read cap; move them to their own

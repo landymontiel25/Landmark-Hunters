@@ -166,7 +166,7 @@ export function fakeDb(initial = {}) {
     return q;
   }
   function collection(name) {
-    return { ...query(name), doc: (id) => ref(`${name}/${id}`), add: async (data) => {
+    return { ...query(name), doc: (id) => ref(`${name}/${id ?? `auto${Math.random().toString(36).slice(2, 10)}`}`), add: async (data) => {
       const id = `auto${Object.keys(docs).length}_${Math.random().toString(36).slice(2, 8)}`;
       setDoc(`${name}/${id}`, data);
       return ref(`${name}/${id}`);
