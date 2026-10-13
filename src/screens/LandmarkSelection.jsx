@@ -17,6 +17,7 @@ import { getMapView, nearestPickableCity, setMapView } from '../lib/nearestCity'
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
+import SaveLandmarkButton from '../components/SaveLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
 import { classifyInterest } from '../lib/interestClassifier';
 import CheckInButton from '../components/CheckInButton';
@@ -192,7 +193,10 @@ const LandmarkRow = memo(function LandmarkRow({
 }) {
   return (
     <div className={`landmark-row ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
-      <ShareLandmarkButton icon landmark={l} regionId={l.regionId} className="share-icon-btn lr-share" />
+      <div className="lr-corner">
+        <SaveLandmarkButton landmark={l} regionId={l.regionId} />
+        <ShareLandmarkButton icon landmark={l} regionId={l.regionId} />
+      </div>
       <div className="lr-top">
         <div
           className="check-circle"

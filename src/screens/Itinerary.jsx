@@ -41,6 +41,7 @@ import { friendlyError } from '../lib/friendlyError';
 import { useToast } from '../lib/ToastContext';
 import { itineraryShareText, routeMode, shareItinerary as shareText } from '../lib/itineraryShare';
 import AddSquareIcon from '../components/AddSquareIcon';
+import SavedForLater from '../components/SavedForLater';
 import ErrorNotice from '../components/ErrorNotice';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
@@ -280,6 +281,7 @@ export default function Itinerary() {
   const myRegions = regionsWithItineraries().filter((rid) => getRegion(rid));
   const [openRegion, setOpenRegion] = usePersistentState('itinerary.openRegion', null);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
+  const [openSaved, setOpenSaved] = useState(false);
   const openReg = openRegion && myRegions.includes(openRegion) ? openRegion : null;
   const region = getRegion(openReg);
 
@@ -679,6 +681,10 @@ export default function Itinerary() {
     statusOverrides[key] === 'past' ? 'moved to Past' : `\u{2705} all ${(landmarkIds || []).length} visited`;
   const openPhase = openReg ? soloPhase(openReg) : null;
 
+  // The bookmark's "Save for later" list, its own itinerary-style card.
+  const savedCount = (trip.savedForLater || []).length;
+  if (openSaved) return <SavedForLater onBack={() => setOpenSaved(false)} />;
+
   // Nothing planned on this device yet: wait for (or report a failure of)
   // the group-trip load before deciding this really is a dead end.
   if (myRegions.length === 0 && groupsLoading) {
@@ -689,7 +695,7 @@ export default function Itinerary() {
       </div>
     );
   }
-  if (myRegions.length === 0 && groupsError) {
+  if (myRegions.length === 0 && groupsError && savedCount === 0) {
     return (
       <div className="empty-state">
         <ErrorNotice error={groupsError} message={friendlyError(groupsError, "Couldn't load your group trips.")} onRetry={loadGroupTrips} />
@@ -702,7 +708,7 @@ export default function Itinerary() {
   }
 
   // No personal itineraries AND no group trips -- true dead end.
-  if (myRegions.length === 0 && groupTrips.length === 0) {
+  if (myRegions.length === 0 && groupTrips.length === 0 && savedCount === 0) {
     return (
       <div className="empty-state">
         <p>No itineraries yet. Create a trip to start one.</p>
@@ -771,12 +777,23 @@ export default function Itinerary() {
             Itineraries move here once you've checked into every landmark on them.
           </p>
         )}
-        {!searching && tabGroups.length + tabSolo.length === 0 && !groupsLoading && (
+        {!searching && tabGroups.length + tabSolo.length === 0 && !groupsLoading && !(savedCount > 0 && itinTab === 'current') && (
           <p className="screen-subtitle">
             {itinTab === 'past'
               ? "Nothing here yet. Once you've checked into every landmark on an itinerary, it moves here."
               : 'No current itineraries. Start one below, or check Past.'}
           </p>
+        )}
+        {savedCount > 0 && !searching && itinTab === 'current' && (
+          <button type="button" className="card itin-city-card" onClick={() => setOpenSaved(true)} style={{ marginBottom: 14 }}>
+            <div style={{ textAlign: 'left' }}>
+              <h3 style={{ margin: 0 }}>{'\u{1F516}'} Save for later</h3>
+              <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
+                {savedCount} saved {savedCount === 1 ? 'place' : 'places'}
+              </p>
+            </div>
+            <span className="itin-city-arrow">{'→'}</span>
+          </button>
         )}
         {tabGroups.length > 0 && (
           <div style={{ marginBottom: 18 }}>

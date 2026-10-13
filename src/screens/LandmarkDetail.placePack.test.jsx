@@ -29,7 +29,7 @@ const stable = vi.hoisted(() => {
     ratings: { ratings: {}, myReviews: {}, reload: asyncNoop },
     photos: { reload: asyncNoop },
     friends: { myUsername: 'me', friendUids: [] },
-    trip: { toggleLandmark: noop, removeLandmark: noop, getRegionSelection: () => [], updateTrip: noop, setMapFocus: noop, setMapFocusPoint: noop },
+    trip: { isSavedForLater: () => false, saveForLater: noop, unsaveForLater: noop, toggleLandmark: noop, removeLandmark: noop, getRegionSelection: () => [], updateTrip: noop, setMapFocus: noop, setMapFocusPoint: noop },
     toast: { show: () => 0, dismiss: noop },
     geo: { coords: null },
     admin: { adminMode: false },

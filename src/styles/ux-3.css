@@ -265,15 +265,103 @@ button.back-sticky,
 .landmark-row {
   position: relative;
 }
-.lr-share {
+.lr-corner {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 2;
+  display: flex;
+  gap: 6px;
 }
 .landmark-row .lr-top {
-  padding-right: 40px;
+  padding-right: 84px;
 }
-.detail-topbar .share-icon-btn {
+.detail-topbar-right {
   margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+.share-icon-btn.is-saved {
+  color: var(--color-brass-bright, var(--text-primary));
+}
+
+/* The save sheet (Instagram-style): what you saved, then the itineraries it
+   can also go on, each a row with + or a check. */
+.save-sheet-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-brass-bright, var(--text-primary));
+}
+.save-sheet-head strong {
+  color: var(--text-primary);
+}
+.save-sheet-sub {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.save-sheet-label {
+  margin: 16px 0 6px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+.save-sheet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 4px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border-subtle, var(--glass-border));
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.save-sheet-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border-subtle, var(--glass-border));
+  flex-shrink: 0;
+}
+.save-sheet-row.on .save-sheet-mark {
+  background: var(--mapr-blue);
+  border-color: var(--mapr-blue);
+  color: #fff;
+}
+.save-sheet-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Save for later list rows. */
+.saved-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.saved-row-name {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  min-width: 0;
+}
+.saved-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
