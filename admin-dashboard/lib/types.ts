@@ -261,6 +261,10 @@ export interface NetworkMetric {
   loop_went_repost_rate?: number | null;
   loop_other_finders?: number;
   loop_other_repost_rate?: number | null;
+  // The feed (Phase 6).
+  launch_d7_cohort?: number;
+  launch_d7_retention?: number | null;
+  feed_items_shown_30d?: number;
 }
 
 export interface TipQueueRow {

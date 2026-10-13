@@ -44,6 +44,11 @@ export default function Network() {
               {(latest.friend_heavy_finders ?? 0) > 0 && <strong> · {latest.friend_heavy_finders} finders get most events from friends (check for a ring)</strong>}
             </p>
           )}
+          {latest.launch_d7_cohort != null && (
+            <p className="text-xs muted mt-1">
+              Feed: {latest.feed_items_shown_30d ?? 0} feed items shown in 30 days · day-7 retention of new people in the launch area {pct(latest.launch_d7_retention)} ({latest.launch_d7_cohort} people; compare before and after the gate opens)
+            </p>
+          )}
           {latest.loop_went_finders != null && (
             <p className="text-xs muted mt-1">
               Loop: {latest.loop_went_finders} discoverers got a &quot;tip went&quot; (14 to 44 days ago), {pct(latest.loop_went_repost_rate)} posted again within 14 days, vs {pct(latest.loop_other_repost_rate)} of {latest.loop_other_finders ?? 0} without one · alerts tonight {latest.alerts_nightly ?? 0} + {latest.alerts_nearby ?? 0} nearby
@@ -58,6 +63,7 @@ export default function Network() {
       )}
       <TrendChart title="Follows" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'follows_total', label: 'Follows' }, { key: 'new_follows', label: 'New' }]} format={(v) => String(Math.round(v))} />
       <TrendChart title="Went because of a tip (7 days)" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'went_7d', label: 'Went' }]} format={(v) => String(Math.round(v))} />
+      <TrendChart title="Day-7 retention, new people in the launch area" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'launch_d7_retention', label: 'Day 7' }]} format={(v) => pct(v)} />
       <TrendChart title="Community ramp" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'density_ramp', label: 'Ramp' }]} format={(v) => pct(v)} />
       <TrendChart title="People with a taste neighbor" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'neighbors_with_any', label: 'Any' }, { key: 'neighbors_with_high', label: 'High' }]} format={(v) => String(Math.round(v))} />
       <TrendChart title="Launch area following a discoverer" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'launch_follow_rate', label: 'Share' }]} format={(v) => pct(v)} />

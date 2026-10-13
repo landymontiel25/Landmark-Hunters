@@ -75,4 +75,8 @@ describe('APP_HELP stays in sync with code constants', () => {
     expect(APP_HELP).toContain(`at most ${FOLLOW_TIP_DAILY_MAX} a day`);
     expect(APP_HELP).toContain('Settings → Discovery alerts');
   });
+  it('describes the feed and where it shows', () => {
+    expect(APP_HELP).toContain("Mapr thinks you'd like");
+    expect(APP_HELP).toContain('Everywhere else the Map stays home');
+  });
 });

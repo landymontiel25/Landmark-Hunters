@@ -175,5 +175,6 @@ describe('networkDocs', () => {
     const [doc] = networkDocs(ds, ['2026-10-12']);
     expect(doc).toMatchObject({ follows_total: 2, new_follows: 2, people_following: 2, people_followed: 2, discoverers: 1, launch_active: 3, launch_following_discoverer: 1 });
     expect(doc.launch_follow_rate).toBeCloseTo(1 / 3, 3);
+    expect(doc).toMatchObject({ launch_d7_cohort: 0, launch_d7_retention: null, feed_items_shown_30d: 0 });
   });
 });

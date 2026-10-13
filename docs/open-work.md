@@ -274,7 +274,20 @@ Switches per group in `users/{uid}/private/main.notificationPrefs` (rules
 allow known groups as booleans), Settings → Discovery alerts.
 `alert_log/{uid}` keeps the limits, server only. The Network dashboard
 shows alerts sent and the loop check (repost within 14 days after a "tip
-went" against people without one). Next: Phase 6 (feed).
+went" against people without one).
+
+Phase 6 shipped: the feed. `api/feed.js` builds 30 items for a launch
+city past the density gate (`src/lib/feed.js` `composeFeed`: at most 2 in
+a row from one finder, at most 1 in 5 from people you follow, every 6th
+item one of Mapr's own picks), ordered by `rankPlaces` with the community
+lift; places you rated are left out. `?gate=1` says which launch cities
+are open. The Feed tab shows first in the bottom bar, and the app opens on
+it once per session, only when the current trip's city is open
+(`useFeedCity`); elsewhere the Map stays home. Shown items log to
+`recommendation_log` with surface `'feed'`. The Network dashboard shows
+feed items shown and day-7 retention of new people in the launch area (the
+Phase 6 check: compare before and after the gate opens). All six phases are
+built; see Phase 4's note for what's left for the owner.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 
