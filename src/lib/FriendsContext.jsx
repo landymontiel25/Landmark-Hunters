@@ -67,6 +67,9 @@ async function fetchProfileWithRetry(uid) {
 export function FriendsProvider({ children }) {
   const { user } = useAuth();
   const [friendUids, setFriendUids] = useState(() => new Set());
+  // True once this account's friend list has loaded at least once, so a
+  // screen can say "no friends yet" right away instead of a loading skeleton.
+  const [friendsKnown, setFriendsKnown] = useState(false);
   const [requests, setRequests] = useState([]);
   const [publicProfile, setMyProfile] = useState(null);
   // Email, home address/coords, last location, push tokens: owner-only doc,
@@ -94,6 +97,7 @@ export function FriendsProvider({ children }) {
   const reload = useCallback(async () => {
     if (!firebaseEnabled || !user) {
       setFriendUids(new Set());
+      setFriendsKnown(false);
       setRequests([]);
       setMyProfile(null);
       setMyPrivate(null);
@@ -141,7 +145,10 @@ export function FriendsProvider({ children }) {
       listBlockedUsers(uid),
     ]);
     if (stale()) return;
-    if (f.status === 'fulfilled') setFriendUids(new Set((f.value || []).map((x) => x.friend)));
+    if (f.status === 'fulfilled') {
+      setFriendUids(new Set((f.value || []).map((x) => x.friend)));
+      setFriendsKnown(true);
+    }
     // A request someone sent before you blocked them is still in Firestore
     // (and the rules would still let you accept it) -- don't list it.
     const blockedUids = new Set(b.status === 'fulfilled' ? (b.value || []).map((x) => x.blockedUid) : []);
@@ -166,6 +173,7 @@ export function FriendsProvider({ children }) {
     shownUidRef.current = user.uid;
     if (accountChanged) {
       setFriendUids(new Set());
+      setFriendsKnown(false);
       setRequests([]);
       setMyPrivate(null);
     }
@@ -238,6 +246,7 @@ export function FriendsProvider({ children }) {
     <FriendsContext.Provider
       value={{
         friendUids,
+        friendsKnown,
         requests,
         myProfile,
         profileFresh,

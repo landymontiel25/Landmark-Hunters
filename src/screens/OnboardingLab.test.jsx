@@ -140,11 +140,15 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Rate a few things you');
 
     await click(button(el, 'Next'));
-    expect(el.textContent).toContain('Love it: swipe right or tap ♥');
-    expect(el.textContent).toContain("Don't like it: swipe left or tap ✕");
-    expect(el.textContent).toContain("Not sure or don't care (you'll be asked again later): tap the card or tap −");
+    expect(el.textContent).toContain("Hello! I'm Mapr, your personal AI assistant.");
+    await click(button(el, "Let's practice"));
+    await click(button(el, 'Skip practice'));
+    expect(el.textContent).toContain("You've got it!");
 
     await click(button(el, 'Start'));
+    expect(el.textContent).toContain('Love it');
+    expect(el.textContent).toContain('Nope');
+    expect(el.textContent).toContain('Not sure');
     expect(el.querySelector('.lab-progress').className).toContain('lab-tier-red');
     const love = el.querySelector('[aria-label="Love it"]');
     expect(el.querySelector('.lab-progress').textContent).toBe('0%');
@@ -210,6 +214,8 @@ describe('OnboardingLab', () => {
     await signUp(el);
     await click(button(el, 'Skip for now'));
     await click(button(el, 'Next'));
+    await click(button(el, "Let's practice"));
+    await click(button(el, 'Skip practice'));
     await click(button(el, 'Start'));
     expect(button(el, 'Undo').disabled).toBe(true);
     const first = el.querySelector('.lab-card-word').textContent;

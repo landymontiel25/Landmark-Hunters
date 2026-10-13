@@ -50,7 +50,9 @@ const SWIPE_PX = 90;
 const TAP_PX = 8;
 
 // onSkip (optional) adds a "Skip this step" button under the cards; answers given so far are kept.
-export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, onSkip }) {
+// labels: show "Nope", "Not sure", "Love it" under the buttons. practice: a
+// tutorial card (no progress bar, no Undo, never "All done").
+export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, onSkip, labels = false, practice = false }) {
   const answered = new Set(answers.map((a) => a.card.word));
   const index = cards.findIndex((c) => !answered.has(c.word));
   const card = index === -1 ? null : cards[index];
@@ -58,7 +60,7 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
   const [leaving, setLeaving] = useState(null);
   const start = useRef(null);
 
-  if (!card) {
+  if (!card && !practice) {
     return (
       <div className="lab-center nav-clear">
         <OnboardingProgress done={answers.length} total={cards.length} />
@@ -73,6 +75,8 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
       </div>
     );
   }
+
+  if (!card) return null;
 
   const decide = (answer) => {
     if (leaving) return;
@@ -109,7 +113,7 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
 
   return (
     <div className="nav-clear">
-      <OnboardingProgress done={answers.length} total={cards.length} />
+      {!practice && <OnboardingProgress done={answers.length} total={cards.length} />}
       <div className="lab-card-area">
         <div
           className={`lab-card ${leaving ? 'leaving' : ''} ${dx !== 0 && !leaving ? 'dragging' : ''}`}
@@ -144,20 +148,25 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
           {hint && <div className={`lab-card-hint ${hint}`}>{hint === 'love' ? 'LOVE IT' : 'NOPE'}</div>}
         </div>
       </div>
-      <div className="lab-card-buttons">
-        <button type="button" className="btn btn-ghost" onClick={() => decide('dislike')} aria-label="Don't like it">
-          {'\u{2715}'}
-        </button>
-        <button type="button" className="btn btn-ghost" onClick={() => decide('unsure')} aria-label="Not sure">
-          {'\u{2212}'}
-        </button>
-        <button type="button" className="btn btn-ghost" onClick={() => decide('love')} aria-label="Love it">
-          {'\u{2665}'}
-        </button>
+      <div className={`lab-card-buttons ${labels ? 'labeled' : ''}`}>
+        {[
+          ['dislike', '\u{2715}', 'Nope', "Don't like it"],
+          ['unsure', '\u{2212}', 'Not sure', 'Not sure'],
+          ['love', '\u{2665}', 'Love it', 'Love it'],
+        ].map(([answer, icon, word, aria]) => (
+          <div key={answer} className="lab-card-btn-wrap">
+            <button type="button" className="btn btn-ghost" onClick={() => decide(answer)} aria-label={aria}>
+              {icon}
+            </button>
+            {labels && <span className="lab-card-btn-label">{word}</span>}
+          </div>
+        ))}
       </div>
+      {!practice && (
         <button type="button" className="btn btn-ghost btn-sm lab-undo" disabled={!answers.length || !!leaving} onClick={onUndo}>
           {'\u{21B6}'} Undo
         </button>
+      )}
       {onSkip && (
         <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} disabled={!!leaving} onClick={onSkip}>
           Skip this step

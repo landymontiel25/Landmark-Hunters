@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
 import { useFriends } from '../lib/FriendsContext';
+import NoFriendsYet from '../components/NoFriendsYet';
 import { usePairStreaks } from '../lib/PairStreakContext';
 import { listFriends } from '../lib/friends';
 import {
@@ -818,6 +819,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
 function StartStreakPicker({ existingPartnerUids, onStarted, onCancel }) {
   const { user } = useAuth();
   const { startStreakWith } = usePairStreaks();
+  const { friendsKnown, friendUids } = useFriends();
+  const noFriends = friendsKnown && friendUids.size === 0;
   const [friends, setFriends] = useState(null);
   const [loadError, setLoadError] = useState(null);
   const [busyUid, setBusyUid] = useState(null);
@@ -853,17 +856,19 @@ function StartStreakPicker({ existingPartnerUids, onStarted, onCancel }) {
       <p className="screen-subtitle" style={{ marginTop: 0 }}>
         Pick a friend -- streaks are friends-only for now.
       </p>
-      {friends === null ? (
+      {friends === null && noFriends ? (
+        <NoFriendsYet>Add a friend from Profile, then come back here to start a streak together.</NoFriendsYet>
+      ) : friends === null ? (
         <SkeletonList count={3} label="Loading your friends" />
       ) : loadError ? (
         <p className="screen-subtitle" style={{ margin: 0 }}>
           {friendlyError(loadError, "Couldn't load your friends.")}
         </p>
+      ) : friends.length === 0 ? (
+        <NoFriendsYet>Add a friend from Profile, then come back here to start a streak together.</NoFriendsYet>
       ) : available.length === 0 ? (
         <p className="screen-subtitle" style={{ margin: 0 }}>
-          {friends.length === 0
-            ? 'No friends yet -- add one from Profile, then come back here.'
-            : "You're already streaking with everyone you can right now."}
+          {"You're already streaking with everyone you can right now."}
         </p>
       ) : (
         available.map((f) => (

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
+import { useFriends } from '../lib/FriendsContext';
+import NoFriendsYet from './NoFriendsYet';
 import { findUserByUsername, listFriends } from '../lib/friends';
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
@@ -71,6 +73,8 @@ export default function AddMemberSheet({
     }
   };
 
+  const { friendsKnown, friendUids } = useFriends();
+  const noFriends = friendsKnown && friendUids.size === 0;
   const available = (friends || []).filter((f) => !excludeUids.includes(f.friend));
 
   return createPortal(
@@ -111,15 +115,18 @@ export default function AddMemberSheet({
         <p className="screen-subtitle" style={{ margin: '16px 0 6px' }}>
           Or pick a friend
         </p>
-        {friends === null && <SkeletonList count={2} label="Loading friends" />}
+        {friends === null && !noFriends && <SkeletonList count={2} label="Loading friends" />}
         {friendsError && (
           <ErrorNotice error={friendsError} message={friendlyError(friendsError, "Couldn't load your friends.")} onRetry={loadFriends} compact />
         )}
-        {friends !== null && !friendsError && available.length === 0 && (
-          <p className="screen-subtitle" style={{ marginTop: 0 }}>
-            {friends.length ? 'All your friends are already on it.' : 'No friends yet — search by username above.'}
-          </p>
-        )}
+        {(friends !== null || noFriends) && !friendsError && available.length === 0 &&
+          (friends?.length ? (
+            <p className="screen-subtitle" style={{ marginTop: 0 }}>
+              All your friends are already on it.
+            </p>
+          ) : (
+            <NoFriendsYet>Search for someone by their username above to bring them along.</NoFriendsYet>
+          ))}
         {available.map((f) => (
           <div key={f.friend} className="friend-row">
             <span>{f.friendName}</span>
