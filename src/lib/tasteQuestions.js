@@ -44,7 +44,14 @@ export const TASTE_QUESTIONS = [
     label: 'Nightlife',
     icon: '\u{1F378}',
     prompt: 'Like or hate any of these?',
-    examples: ['Nightlife / clubs', 'Dive bars', 'Live music', 'Comedy shows', 'Theme parks', 'Crowds / long lines'],
+    examples: ['Nightlife / clubs', 'Dive bars', 'Live music', 'Comedy shows', 'Crowds / long lines'],
+  },
+  {
+    id: 'attractions',
+    label: 'Attractions',
+    icon: '\u{1F3A2}',
+    prompt: 'Like or hate any of these?',
+    examples: ['Theme parks', 'Aquariums', 'Zoos', 'Bowling & arcades'],
   },
 ];
 

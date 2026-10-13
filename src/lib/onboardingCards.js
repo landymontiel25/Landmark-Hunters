@@ -118,14 +118,15 @@ export const SWIPE_GROUPS = [
       ['Nightlife/clubs', '\u{1FAA9}'],
       ['Dive bars', '\u{1F37A}'],
       ['Rooftop bars', '\u{1F378}'],
-      // Entertainment folded into Nightlife.
+      // Shows and comedy are Nightlife; theme parks, aquariums, zoos and
+      // bowling score Attractions.
       ['Live music', '\u{1F3B8}'],
       ['Comedy shows', '\u{1F3A4}'],
-      ['Theme parks', '\u{1F3A2}'],
-      ['Aquariums', '\u{1F420}'],
-      ['Zoos', '\u{1F992}'],
+      ['Theme parks', '\u{1F3A2}', 'attractions'],
+      ['Aquariums', '\u{1F420}', 'attractions'],
+      ['Zoos', '\u{1F992}', 'attractions'],
       ['Casinos', '\u{1F3B0}'],
-      ['Arcades/bowling', '\u{1F3B3}'],
+      ['Arcades/bowling', '\u{1F3B3}', 'attractions'],
       ['Festivals', '\u{1F3AA}'],
       // Food markets are filed under Food.
       ['Farmers markets', '\u{1F955}', 'food'],

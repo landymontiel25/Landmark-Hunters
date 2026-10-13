@@ -1,4 +1,5 @@
 import { normalizeCategories, canonicalRegionId } from '../data/regions';
+import { nightlifeHome } from '../data/nightlifeSort';
 import { sharedRead, invalidating } from './sharedRead';
 import {
   doc,
@@ -36,7 +37,13 @@ export const normalizeRegion = (r) => (r && r !== 'null' && r !== 'undefined' ? 
 // Also normalizes a missing/legacy "null" region so old docs stay readable.
 const withCategories = (l) => {
   const out = { ...l, region: canonicalRegionId(normalizeRegion(l.region)) };
-  return l.categories ? { ...out, categories: normalizeCategories(l.categories) } : out;
+  if (!l.categories) return out;
+  let categories = normalizeCategories(l.categories);
+  // Same sort as the catalog: a zoo or theater someone added under the old
+  // Entertainment (now Nightlife) moves to Attractions or Art & Culture.
+  const home = categories[0] === 'local-life' ? nightlifeHome(l) : null;
+  if (home) categories = [home, ...categories.slice(1).filter((c) => c !== home)];
+  return { ...out, categories };
 };
 
 export function getCustomLandmarks() {

@@ -83,6 +83,14 @@ and the long study still include family accounts.
 
 ## Categories: Art & Culture and Nightlife merges, four switched off (2026-10-12)
 
+2026-10-13: Nightlife held zoos, aquariums (the Miami Seaquarium) and
+theaters after the Entertainment merge. `data/nightlifeSort.js` now sorts
+local-life places at load: Attractions (new category, 🎢) for aquariums,
+zoos, theme parks, bowling, arcades, boat tours; Art & Culture for
+theaters, opera, concert halls, cinemas; bars, clubs, live music, comedy,
+cabaret and flamenco stay. Same for user-added places. Pack files are
+unchanged; the import scripts still emit local-life/entertainment.
+
 Entertainment folded into Nightlife (id `local-life`) the same way: alias
 `entertainment` in `CATEGORY_ALIASES`. The Landmarks tab's Category
 dropdown became a row of category emoji buttons (multi-select).

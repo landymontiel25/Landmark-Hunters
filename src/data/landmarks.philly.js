@@ -528,7 +528,7 @@ export const PHILLY_LANDMARKS = [
     lat: 40.0895,
     lng: -75.3960,
     checkInRadiusMeters: 1200,
-    categories: ['history-culture'],
+    categories: ['shopping'],
     summary: 'One of the largest shopping malls in the United States, with hundreds of stores and restaurants.',
     facts: [
       'One of the largest malls in the U.S. by leasable space',

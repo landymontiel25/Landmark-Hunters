@@ -20,6 +20,7 @@ export const RATEABLE_CATEGORIES = [
   'parks-nature',
   'tech',
   'shopping',
+  'attractions',
   'history-culture',
   'food',
   'local-life',
@@ -170,6 +171,23 @@ export const CHIPS = {
       { id: 'dead', label: 'Dead' },
       { id: 'underwhelming', label: 'Underwhelming' },
       { id: 'overpriced', label: 'Overpriced' },
+    ],
+  },
+  attractions: {
+    'highly-recommend': [
+      { id: 'so-much-fun', label: 'So much fun' },
+      { id: 'worth-the-ticket', label: 'Worth the ticket' },
+      { id: 'great-for-families', label: 'Great for families' },
+    ],
+    'worth-trying': [
+      { id: 'fun-but-pricey', label: 'Fun but pricey' },
+      { id: 'long-lines', label: 'Long lines' },
+      { id: 'once-is-enough', label: 'Once is enough' },
+    ],
+    'probably-skip': [
+      { id: 'not-worth-it', label: 'Not worth it' },
+      { id: 'overpriced', label: 'Overpriced' },
+      { id: 'underwhelming', label: 'Underwhelming' },
     ],
   },
   shopping: {
@@ -362,6 +380,12 @@ export const ASPECT_SETS = {
     { id: 'vibe', label: 'Vibe' },
     { id: 'crowd', label: 'Crowd' },
   ],
+  attractions: [
+    { id: 'price', label: 'Price' },
+    { id: 'location', label: 'Location' },
+    { id: 'fun-factor', label: 'Fun factor' },
+    { id: 'crowd-level', label: 'Crowd level' },
+  ],
   shopping: [
     { id: 'price', label: 'Price' },
     { id: 'location', label: 'Location' },
@@ -435,6 +459,7 @@ const TIER_QUESTION_FALLBACK = {
   'parks-nature': 'Do you like the outdoors here?',
   tech: 'Do you like this piece of tech history?',
   shopping: 'Do you like shopping here?',
+  attractions: 'Do you like this attraction?',
   'history-culture': 'Do you like the art and culture here?',
   food: 'Do you like the food here?',
   'local-life': 'Do you like this spot?',
