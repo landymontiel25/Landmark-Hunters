@@ -44,6 +44,11 @@ export default function Network() {
               {(latest.friend_heavy_finders ?? 0) > 0 && <strong> · {latest.friend_heavy_finders} finders get most events from friends (check for a ring)</strong>}
             </p>
           )}
+          {latest.loop_went_finders != null && (
+            <p className="text-xs muted mt-1">
+              Loop: {latest.loop_went_finders} discoverers got a &quot;tip went&quot; (14 to 44 days ago), {pct(latest.loop_went_repost_rate)} posted again within 14 days, vs {pct(latest.loop_other_repost_rate)} of {latest.loop_other_finders ?? 0} without one · alerts tonight {latest.alerts_nightly ?? 0} + {latest.alerts_nearby ?? 0} nearby
+            </p>
+          )}
           {latest.neighbors_active != null && (
             <p className="text-xs muted mt-1">
               Taste neighbors: {latest.neighbors_with_any ?? 0} of {latest.neighbors_active} active people have at least one (score 0.3 or more) · {latest.neighbors_with_high ?? 0} have a High match

@@ -367,12 +367,24 @@ service cloud.firestore {
     }
     // Owner-only. The server (firebase-admin) bypasses rules, so push
     // sending reads tokens from here too.
+    function notificationPrefsOk(p) {
+      return p is map
+        && p.keys().hasOnly(['tipWent', 'tipHelpful', 'levelUp', 'newFollower', 'followTip', 'nearbyFind'])
+        && (!('tipWent' in p) || p.tipWent is bool)
+        && (!('tipHelpful' in p) || p.tipHelpful is bool)
+        && (!('levelUp' in p) || p.levelUp is bool)
+        && (!('newFollower' in p) || p.newFollower is bool)
+        && (!('followTip' in p) || p.followTip is bool)
+        && (!('nearbyFind' in p) || p.nearbyFind is bool);
+    }
     match /users/{uid}/private/{docId} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
         && docId == 'main'
-        && request.resource.data.keys().hasOnly(['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'updatedAt'])
-        && (!('email' in request.resource.data) || request.resource.data.email == request.auth.token.email.lower());
+        && request.resource.data.keys().hasOnly(['email', 'homeAddress', 'homeCoords', 'lastKnownLocation', 'pushTokens', 'notificationPrefs', 'updatedAt'])
+        && (!('email' in request.resource.data) || request.resource.data.email == request.auth.token.email.lower())
+        // Discovery alert switches (Phase 5): known groups, true or false.
+        && (!('notificationPrefs' in request.resource.data) || notificationPrefsOk(request.resource.data.notificationPrefs));
     }
     // Mapr's per-place score for one user (src/lib/maprLearning.js): the
     // place's own score, what was applied to the type (tag) scores so a changed
@@ -1333,6 +1345,15 @@ service cloud.firestore {
     }
     // The hourly count of new follows (api/follow.js). Server only.
     match /follow_log/{uid} {
+      allow read, write: if false;
+    }
+    // Discovery alert limits per person (Phase 5): server only.
+    match /alert_log/{uid} {
+      allow read, write: if false;
+    }
+    // Which follows already sent a "new follower" alert (one per pair, ever,
+    // so follow and unfollow can't be used to spam someone). Server only.
+    match /follow_alerted/{id} {
       allow read, write: if false;
     }
 

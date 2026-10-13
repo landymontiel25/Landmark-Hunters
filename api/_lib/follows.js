@@ -44,7 +44,8 @@ export async function follow(db, follower, followee, { nowMs = Date.now() } = {}
     tx.set(logRef, { at: [...recent, nowMs] });
     tx.set(usersRef(db, followee), { followerCount: countOf(them, 'followerCount') + 1 }, { merge: true });
     tx.set(usersRef(db, follower), { followingCount: countOf(me, 'followingCount') + 1 }, { merge: true });
-    return [200, { ok: true, following: true }];
+    // Third item, for the caller only: a new follow and the count it made.
+    return [200, { ok: true, following: true }, { created: true, followerCount: countOf(them, 'followerCount') + 1 }];
   });
 }
 

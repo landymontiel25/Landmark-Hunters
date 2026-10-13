@@ -254,6 +254,13 @@ export interface NetworkMetric {
   reputation_finders?: number;
   reputation_levels?: Record<string, number>;
   friend_heavy_finders?: number;
+  // Discovery alerts and the loop (Phase 5).
+  alerts_nightly?: number;
+  alerts_nearby?: number;
+  loop_went_finders?: number;
+  loop_went_repost_rate?: number | null;
+  loop_other_finders?: number;
+  loop_other_repost_rate?: number | null;
 }
 
 export interface TipQueueRow {

@@ -1000,6 +1000,21 @@ await t('reputation points, influence events and the founding list: server only,
   await assertFails(setDoc(doc(as('fin'), 'reputation_scores/fin'), { byRegion: {} }));
 });
 
+console.log('discovery alerts (Phase 5)');
+await reset();
+await t('notificationPrefs: the owner saves known switches as true or false; nothing else, nobody else', async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'users/ann/private/main'), { notificationPrefs: { tipWent: false, nearbyFind: true } }, { merge: true }));
+  await assertFails(setDoc(doc(as('ann'), 'users/ann/private/main'), { notificationPrefs: { tipWent: 'no' } }, { merge: true }));
+  await assertFails(setDoc(doc(as('ann'), 'users/ann/private/main'), { notificationPrefs: { spamMe: true } }, { merge: true }));
+  await assertFails(setDoc(doc(as('bob'), 'users/ann/private/main'), { notificationPrefs: { tipWent: true } }, { merge: true }));
+});
+await t('alert_log and follow_alerted: server only', async () => {
+  await assertFails(getDoc(doc(as('ann'), 'follow_alerted/ann_bob')));
+  await assertFails(setDoc(doc(as('ann'), 'follow_alerted/ann_bob'), { at: 1 }));
+  await assertFails(getDoc(doc(as('ann'), 'alert_log/ann')));
+  await assertFails(setDoc(doc(as('ann'), 'alert_log/ann'), { wentDay: '2026-10-13' }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

@@ -261,7 +261,20 @@ decide: retiring points (stop payouts, client leaderboard writes off,
 replace the points boards and level bar); and the plan's "learning" (a
 tip teaching your taste, a Helpful or Save as a half "I'd go"), which needs
 the taste rebuild (`rebuildGlobalTaste`) to include tips so it survives a
-rebuild. Next: Phase 5 (alerts).
+rebuild.
+
+Phase 5 shipped: discovery alerts (`api/_lib/alerts.js`), all written by
+the server into `notifications/` with a push where the plan says:
+tip went (nightly, once a day), tip helpful (nightly, in-app), level up
+(nightly), new follower (on follow; push for the first 10), follow tip (on
+a live tip, followers who have checked in in that region, 2 a day) and
+nearby find (nightly check, once a week, a Trusted find within a mile of
+`lastKnownLocation` from the last 7 days, of a kind the person likes).
+Switches per group in `users/{uid}/private/main.notificationPrefs` (rules
+allow known groups as booleans), Settings → Discovery alerts.
+`alert_log/{uid}` keeps the limits, server only. The Network dashboard
+shows alerts sent and the loop check (repost within 14 days after a "tip
+went" against people without one). Next: Phase 6 (feed).
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

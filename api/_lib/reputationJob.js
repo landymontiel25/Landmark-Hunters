@@ -1,6 +1,7 @@
 import { FieldValue } from 'firebase-admin/firestore';
 import { canonicalLandmarkId, canonicalRegionId } from '../../src/data/regions.js';
 import { COMMUNITY_REGIONS } from '../../src/lib/community.js';
+import { levelUpsOf } from './alerts.js';
 import { EVENT_WEIGHTS, FOUNDING_LIMIT, LEVEL_RANK, levelsFor, reputationScore, trustOf, WENT_WINDOW_DAYS } from '../../src/lib/reputation.js';
 
 // Nightly (docs/discovery-network-plan.md, Phase 4).
@@ -190,12 +191,46 @@ export async function runReputation(db, ds, { nowMs = Date.now() } = {}) {
   }
   const friendHeavy = [...tally.values()].filter((t) => t.all >= 3 && t.friends / t.all > 0.5).length;
   const weekAgo = nowMs - 7 * DAY_MS;
+  const fresh = events.filter((e) => !known.has(e.id));
+  const prevLevels = new Map([...prevPub].map(([id, d]) => [id, d.levels || {}]));
+  const loop = loopRates({ events, tips, nowMs });
   return {
+    ...loop,
+    // For the alerts that follow (api/_lib/alerts.js); not stored.
+    alerts: { fresh, levelUps: levelUpsOf(prevLevels, rep.levels), levels: rep.levels },
     events: events.length,
-    newEvents: writes.filter((w) => w[0] === 'set' && w[1] === 'influence_events').length,
+    newEvents: fresh.length,
     wentLast7d: events.filter((e) => e.kind === 'went' && e.at >= weekAgo).length,
     finders: rep.scores.size,
     levels: levelCount,
     friendHeavy,
+  };
+}
+
+// Phase 5's check: of the people with a live tip who heard "tip went"
+// (a went event 14 to 44 days ago), how many posted another tip within 14
+// days of it, against people whose tips got no went in that window.
+export function loopRates({ events, tips, nowMs }) {
+  const from = nowMs - 44 * DAY_MS;
+  const to = nowMs - 14 * DAY_MS;
+  const firstWent = new Map();
+  for (const e of events) if (e.kind === 'went' && e.at >= from && e.at < to && (!firstWent.has(e.finderUid) || e.at < firstWent.get(e.finderUid))) firstWent.set(e.finderUid, e.at);
+  const posts = new Map();
+  for (const t of tips || []) {
+    if (!Number.isFinite(t.createdAt)) continue;
+    if (!posts.has(t.authorUid)) posts.set(t.authorUid, []);
+    posts.get(t.authorUid).push(t.createdAt);
+  }
+  const postedWithin = (uid, start) => (posts.get(uid) || []).some((at) => at > start && at <= start + 14 * DAY_MS);
+  const wentUids = [...firstWent.keys()];
+  // Comparison: people who had a tip before the window (so a first tip
+  // never counts as posting again) and no went in it.
+  const others = [...posts.keys()].filter((u) => !firstWent.has(u) && (posts.get(u) || []).some((at) => at <= from));
+  const rate = (xs, test) => (xs.length ? Math.round((xs.filter(test).length / xs.length) * 10000) / 10000 : null);
+  return {
+    loopWentFinders: wentUids.length,
+    loopWentRepostRate: rate(wentUids, (u) => postedWithin(u, firstWent.get(u))),
+    loopOtherFinders: others.length,
+    loopOtherRepostRate: rate(others, (u) => postedWithin(u, from)),
   };
 }

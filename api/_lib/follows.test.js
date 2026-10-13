@@ -16,7 +16,7 @@ const base = () =>
 describe('follow', () => {
   it('follows a public profile once and counts it on both sides', async () => {
     const db = base();
-    expect(await follow(db, 'me', 'pub')).toEqual([200, { ok: true, following: true }]);
+    expect(await follow(db, 'me', 'pub')).toEqual([200, { ok: true, following: true }, { created: true, followerCount: 1 }]);
     expect(await follow(db, 'me', 'pub')).toEqual([200, { ok: true, following: true }]);
     expect(db.docs['follows/me_pub']).toMatchObject({ followerUid: 'me', followeeUid: 'pub' });
     expect(db.docs['users/pub'].followerCount).toBe(1);

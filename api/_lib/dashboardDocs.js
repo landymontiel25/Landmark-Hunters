@@ -117,9 +117,26 @@ export async function writeDensityMetrics(db, date, out) {
 export async function writeReputationMetrics(db, date, out) {
   if (!out || out.skipped) return;
   await db.collection('network_metrics').doc(date).set(
-    { influence_events: out.events, influence_new: out.newEvents, went_7d: out.wentLast7d, reputation_finders: out.finders, reputation_levels: out.levels || {}, friend_heavy_finders: out.friendHeavy },
+    {
+      influence_events: out.events,
+      influence_new: out.newEvents,
+      went_7d: out.wentLast7d,
+      reputation_finders: out.finders,
+      reputation_levels: out.levels || {},
+      friend_heavy_finders: out.friendHeavy,
+      // Phase 5: do people who hear "tip went" post again sooner?
+      loop_went_finders: out.loopWentFinders ?? 0,
+      loop_went_repost_rate: out.loopWentRepostRate ?? null,
+      loop_other_finders: out.loopOtherFinders ?? 0,
+      loop_other_repost_rate: out.loopOtherRepostRate ?? null,
+    },
     { merge: true }
   );
+}
+
+// Discovery alerts sent tonight (Phase 5).
+export async function writeAlertMetrics(db, date, { nightly = 0, nearby = 0 } = {}) {
+  await db.collection('network_metrics').doc(date).set({ alerts_nightly: nightly, alerts_nearby: nearby }, { merge: true });
 }
 
 // After the weekly models: the NCF and similarity status docs.

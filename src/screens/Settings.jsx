@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import AlertSettings from '../components/AlertSettings';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
@@ -573,6 +574,8 @@ export default function Settings() {
           )}
         </div>
       )}
+
+      {firebaseEnabled && user && <AlertSettings uid={user.uid} toast={toast} />}
 
       {canUseAdminMode && (
         <div className="card section">

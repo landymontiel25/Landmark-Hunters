@@ -4,6 +4,7 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { withCors } from './_lib/cors.js';
 import { blockedEitherWay, isFirestoreId, send } from './_lib/tipsServer.js';
 import { deleteMyFollows, follow, removeFollowsBetween, unfollow } from './_lib/follows.js';
+import { followerAlert } from './_lib/alerts.js';
 
 // Follows (docs/discovery-network-plan.md, Phase 2). The only way a follow
 // is made or removed: the rules refuse every client write to follows/ and
@@ -33,7 +34,9 @@ async function handler(req, res) {
     if (!isFirestoreId(uid)) return send(res, 400, { error: 'uid is required.' });
     if (action === 'follow') {
       if (!account.emailVerified) return send(res, 403, { error: 'Verify your email to follow people.', code: 'unverified' });
-      const [code, body] = await follow(db, account.uid, uid);
+      const [code, body, made] = await follow(db, account.uid, uid);
+      // "New follower" alert (Phase 5); never costs the follow.
+      if (made?.created) await followerAlert(db, { followerUid: account.uid, followeeUid: uid, followerCount: made.followerCount }).catch((e) => console.error('follower alert failed', e?.message || e));
       return send(res, code, body);
     }
     if (action === 'unfollow') {

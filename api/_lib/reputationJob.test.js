@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { fakeDb, fakeFieldValue } from './fakeDb.testutil.js';
 
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
-const { buildEvents, buildReputation, runReputation } = await import('./reputationJob.js');
+const { buildEvents, buildReputation, loopRates, runReputation } = await import('./reputationJob.js');
 
 const NOW = Date.parse('2026-10-13T12:00:00Z');
 const DAY = 86400000;
@@ -93,5 +93,21 @@ describe('runReputation', () => {
   it('an unverified tip earns nothing', () => {
     const events = buildEvents({ tips: [{ ...tip, verified: false }], reactions: [{ uid: 'a', tipId: 'fin_bell', gen: 'g1', helpful: true, helpfulAt: NOW }], views: [], checkins: [], reviews: [] });
     expect(events).toEqual([]);
+  });
+});
+
+describe('loopRates (Phase 5 check)', () => {
+  it('compares reposts within 14 days after a went with finders who had none', () => {
+    const tips = [
+      { authorUid: 'w1', createdAt: NOW - 60 * DAY },
+      { authorUid: 'w1', createdAt: NOW - 25 * DAY },
+      { authorUid: 'w2', createdAt: NOW - 60 * DAY },
+      { authorUid: 'o1', createdAt: NOW - 60 * DAY },
+      { authorUid: 'o1', createdAt: NOW - 40 * DAY },
+      { authorUid: 'o2', createdAt: NOW - 60 * DAY },
+      { authorUid: 'new', createdAt: NOW - 40 * DAY },
+    ];
+    const events = [{ kind: 'went', finderUid: 'w1', at: NOW - 30 * DAY }, { kind: 'went', finderUid: 'w2', at: NOW - 30 * DAY }];
+    expect(loopRates({ events, tips, nowMs: NOW })).toEqual({ loopWentFinders: 2, loopWentRepostRate: 0.5, loopOtherFinders: 2, loopOtherRepostRate: 0.5 });
   });
 });
