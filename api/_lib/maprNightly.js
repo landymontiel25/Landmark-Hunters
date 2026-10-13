@@ -265,7 +265,7 @@ export async function postToSlack(text, { url = process.env.SLACK_WEBHOOK_URL, f
   }
 }
 
-export async function runDaily(db, { now = Date.now(), ds = null, slack = postToSlack, stagnation = true } = {}) {
+export async function runDaily(db, { now = Date.now(), ds = null, slack = postToSlack, stagnation = true, tipMetrics = stagnation } = {}) {
   const data = ds || (await loadStatsData(db));
   const statusSnap = await db.collection(MODEL_COLLECTION).doc('status').get();
   const status = statusSnap.exists ? statusSnap.data() : {};
@@ -289,8 +289,8 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   let dashboardWrites = 0;
   try {
     // Tip metrics are the state at the nightly run: the dashboard's refresh
-    // (no stagnation step) leaves them alone.
-    dashboardWrites = await writeDashboardDaily(db, data, report, { now, tips: stagnation });
+    // and a manual run leave them alone.
+    dashboardWrites = await writeDashboardDaily(db, data, report, { now, tips: tipMetrics });
   } catch (e) {
     console.error('dashboard docs failed:', e?.message || e);
   }

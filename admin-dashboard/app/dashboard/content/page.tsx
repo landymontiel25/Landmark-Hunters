@@ -13,12 +13,12 @@ import type { TipQueueRow } from '@/lib/types';
 
 const STATUS_LABEL: Record<string, string> = { held: 'Held by the filter', live: 'Reported', withdrawn: 'Withdrawn after reports' };
 const DECISIONS = [
-  { id: 'approve', label: 'Approve', help: 'Live again; reports start over. A withdrawn tip is deleted so its author can post again.' },
+  { id: 'approve', label: 'Approve', help: 'Live again; reports start over. A withdrawn tip is deleted (after a prompt) so its author can post again.' },
   { id: 'remove', label: 'Remove', help: 'Hidden for good, photo deleted; its author cannot post at that place again.' },
   { id: 'clear', label: 'Delete', help: 'Gone for good with its marks; its author may post there again.' },
 ] as const;
 
-async function job(action: string, extra: Record<string, string> = {}) {
+async function job(action: string, extra: Record<string, string | null> = {}) {
   const r = await fetch('/api/jobs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, ...extra }) });
   const body = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(body.error || `Failed (${r.status}).`);
@@ -46,11 +46,17 @@ export default function Content() {
   }, [load]);
 
   const decide = async (row: TipQueueRow, decision: string) => {
-    // Remove and Delete can't be undone.
-    if (decision !== 'approve' && !window.confirm(decision === 'remove' ? 'Remove this tip for good? Its author can never post at this place again.' : 'Delete this tip for good?')) return;
+    // Remove and Delete can't be undone, and neither can Approve on a
+    // withdrawn tip (its author deleted it, so approving deletes it).
+    const asks: Record<string, string> = {
+      remove: 'Remove this tip for good? Its author can never post at this place again.',
+      clear: 'Delete this tip for good?',
+    };
+    const ask = decision === 'approve' && row.status === 'withdrawn' ? 'Its author deleted this tip, so approving deletes it for good and lets them post here again. Go ahead?' : asks[decision];
+    if (ask && !window.confirm(ask)) return;
     setBusy(`${row.id}:${decision}`);
     try {
-      await job('tip-moderate', { tipId: row.id, decision, ...(row.gen ? { gen: row.gen } : {}) });
+      await job('tip-moderate', { tipId: row.id, decision, gen: row.gen ?? null });
       setError(null);
       setRows((list) => (list || []).filter((x) => x.id !== row.id));
     } catch (e) {

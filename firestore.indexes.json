@@ -42,7 +42,7 @@
         },
         {
           "fieldPath": "reportCount",
-          "order": "ASCENDING"
+          "order": "DESCENDING"
         }
       ]
     }

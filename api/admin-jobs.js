@@ -54,7 +54,8 @@ export default async function handler(req, res) {
       const ds = await loadStatsData(db);
       await ensureServerPlacePacks();
       const models = await runWeekly(db, { now, ds });
-      const daily = await runDaily(db, { now, ds });
+      // tip_metrics stays the nightly run's snapshot.
+      const daily = await runDaily(db, { now, ds, tipMetrics: false });
       res.status(200).json({ ok: true, daily, models });
       return;
     }
@@ -83,7 +84,8 @@ export default async function handler(req, res) {
       return;
     }
     if (body.action === 'tip-moderate') {
-      const out = await moderateTip(db, body.tipId, body.decision, typeof body.gen === 'string' ? { gen: body.gen } : {});
+      // gen (string or null) is the post the owner reviewed; always sent.
+      const out = await moderateTip(db, body.tipId, body.decision, typeof body.gen === 'string' || body.gen === null ? { gen: body.gen } : {});
       res.status(out.status).json(out.body);
       return;
     }

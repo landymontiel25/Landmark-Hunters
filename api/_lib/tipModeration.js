@@ -38,19 +38,16 @@ function queueRow(id, t, reports) {
 }
 
 export async function tipsQueue(db) {
-  // Reported = live with reports (index: status + reportCount), so removed
-  // tips with old reports never crowd it out.
+  // Reported = live with reports, most reported first (index: status +
+  // reportCount desc), so removed tips with old reports never crowd it out
+  // and a long queue keeps the hidden ones.
   const [held, reported, withdrawn] = await Promise.all([
     db.collection('tips').where('status', '==', 'held').limit(QUEUE_LIMIT).get(),
-    db.collection('tips').where('status', '==', 'live').where('reportCount', '>', 0).limit(QUEUE_LIMIT).get(),
+    db.collection('tips').where('status', '==', 'live').where('reportCount', '>', 0).orderBy('reportCount', 'desc').limit(QUEUE_LIMIT).get(),
     db.collection('tips').where('status', '==', 'withdrawn').limit(QUEUE_LIMIT).get(),
   ]);
   const byId = new Map();
-  for (const d of [...held.docs, ...reported.docs, ...withdrawn.docs]) {
-    const t = d.data();
-    if (t.status === 'removed') continue;
-    byId.set(d.id, t);
-  }
+  for (const d of [...held.docs, ...reported.docs, ...withdrawn.docs]) byId.set(d.id, d.data());
   const ids = [...byId.keys()];
   // Reports in chunks of 30 tips (Firestore's 'in' limit).
   const reportsOf = new Map(ids.map((id) => [id, []]));
@@ -65,14 +62,7 @@ export async function tipsQueue(db) {
   });
   const order = { held: 0, withdrawn: 1, live: 2 };
   rows.sort((a, b) => (order[a.status] ?? 3) - (order[b.status] ?? 3) || b.reportCount - a.reportCount || (b.createdAt || 0) - (a.createdAt || 0));
-  return {
-    rows,
-    counts: {
-      held: rows.filter((r) => r.status === 'held').length,
-      reported: rows.filter((r) => r.status === 'live').length,
-      withdrawn: rows.filter((r) => r.status === 'withdrawn').length,
-    },
-  };
+  return { rows };
 }
 
 // One decision on one tip:
@@ -95,7 +85,7 @@ export async function moderateTip(db, tipId, decision, { nowMs = Date.now(), gen
     const snap = await tx.get(ref);
     if (!snap.exists) return { status: 404, body: { error: 'No such tip.' } };
     const t = snap.data();
-    if (gen !== undefined && (t.gen ?? null) !== gen) return { status: 409, body: { error: 'This tip changed since the list loaded. Reload and look again.' } };
+    if (gen !== undefined && (t.gen ?? null) !== (gen ?? null)) return { status: 409, body: { error: 'This tip changed since the list loaded. Reload and look again.' } };
     if (decision === 'clear' || (decision === 'approve' && t.status === 'withdrawn')) {
       tx.delete(ref);
       return { status: 200, body: { ok: true, result: 'deleted' }, cleanup: t };
@@ -106,14 +96,16 @@ export async function moderateTip(db, tipId, decision, { nowMs = Date.now(), gen
     }
     if (t.status === 'removed') return { status: 409, body: { error: 'This tip was removed.' } };
     tx.update(ref, { status: 'live', hidden: false, reportCount: 0, heldReasons: [], reviewedAt: nowMs, reviewDecision: 'approve', updatedAt: FieldValue.serverTimestamp() });
-    return { status: 200, body: { ok: true, result: 'live' }, resolve: true };
+    return { status: 200, body: { ok: true, result: 'live' }, resolve: { gen: t.gen ?? null } };
   });
   // After the decision, side by side so one failure doesn't strand another
   // (the photo above all); reports stay as the record.
   const steps = [];
   if (out.cleanup) {
     steps.push(
-      Promise.all([db.collection('tip_reactions').where('tipId', '==', tipId).get(), db.collection('tip_views').where('tipId', '==', tipId).get()]).then(([r, v]) =>
+      // This post's only (its gen): a post made at the same id since keeps
+      // its own.
+      Promise.all(['tip_reactions', 'tip_views'].map((c) => db.collection(c).where('tipId', '==', tipId).where('gen', '==', out.cleanup.gen ?? null).get())).then(([r, v]) =>
         deleteRefs(db, [...r.docs, ...v.docs].map((d) => d.ref))
       ),
       deleteTipPhoto(out.cleanup.photoPath)
@@ -123,7 +115,8 @@ export async function moderateTip(db, tipId, decision, { nowMs = Date.now(), gen
   if (out.resolve) {
     steps.push(
       db.collection('tip_reports').where('tipId', '==', tipId).get().then(async (reports) => {
-        const open = reports.docs.filter((d) => !d.data().resolvedAt);
+        // The reports the owner saw: this post's, filed before the decision.
+        const open = reports.docs.filter((d) => !d.data().resolvedAt && (d.data().gen ?? null) === out.resolve.gen && (d.data().at ?? 0) <= nowMs);
         for (let i = 0; i < open.length; i += 400) {
           const b = db.batch();
           for (const d of open.slice(i, i + 400)) b.update(d.ref, { resolvedAt: nowMs });
@@ -146,7 +139,7 @@ export async function moderateTip(db, tipId, decision, { nowMs = Date.now(), gen
 // night from where it stopped (tip_sweep_state/cursor, server-only), so a
 // big collection is covered over several nights.
 export async function sweepTipOrphans(db, { max = 2000, nowMs = Date.now() } = {}) {
-  const tipsSnap = await db.collection('tips').get();
+  const tipsSnap = await db.collection('tips').select('gen').get();
   const genOf = new Map(tipsSnap.docs.map((d) => [d.id, d.data().gen ?? null]));
   const stateRef = db.collection('tip_sweep_state').doc('cursor');
   const state = (await stateRef.get()).data() || {};

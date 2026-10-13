@@ -104,8 +104,9 @@ export function tipDocs(ds, dates) {
     live_places: new Set(live.map((t) => `${t.region}/${t.landmarkId}`)).size,
     helpful_total: tips.reduce((n, t) => n + (t.helpful || 0), 0),
     saved_total: tips.reduce((n, t) => n + (t.saved || 0), 0),
-    live_by_region: live.reduce((m, t) => ({ ...m, [t.region || 'unknown']: (m[t.region || 'unknown'] || 0) + 1 }), {}),
+    live_by_region: {},
   };
+  for (const t of live) state.live_by_region[t.region || 'unknown'] = (state.live_by_region[t.region || 'unknown'] || 0) + 1;
   return dates.map((date) => {
     const from = dayStart(date);
     const to = from + DAY_MS;

@@ -26,12 +26,12 @@ beforeEach(() => {
 
 describe('tips queue', () => {
   it('lists held, withdrawn and reported tips (not removed or clean ones), with this post\'s report reasons and never who reported', async () => {
-    const { rows, counts } = await tipsQueue(db);
+    const { rows } = await tipsQueue(db);
     expect(rows.map((r) => r.id)).toEqual(['ann_held', 'ann_wd', 'ann_rep']);
-    expect(counts).toEqual({ held: 1, reported: 1, withdrawn: 1 });
     const rep = rows.find((r) => r.id === 'ann_rep');
     expect(rep.reports).toEqual([{ reason: 'spam', at: 5 }]);
     expect(JSON.stringify(rows)).not.toContain('"uid"');
+    expect(rep.gen).toBe('g1');
   });
 });
 
@@ -40,14 +40,18 @@ describe('moderateTip', () => {
     expect((await moderateTip(db, 'ann_rep', 'approve')).body.result).toBe('live');
     expect(db.docs['tips/ann_rep']).toMatchObject({ status: 'live', hidden: false, reportCount: 0, reviewDecision: 'approve' });
     expect(db.docs['tip_reports/ann_rep_g1_x'].resolvedAt).toBeTruthy();
+    // An older post's report isn't the one the owner reviewed.
+    expect(db.docs['tip_reports/ann_rep_g0_y'].resolvedAt).toBeUndefined();
     expect((await tipsQueue(db)).rows.map((r) => r.id)).not.toContain('ann_rep');
     await moderateTip(db, 'ann_held', 'approve');
     expect(db.docs['tips/ann_held']).toMatchObject({ status: 'live', heldReasons: [] });
   });
-  it('approve on a withdrawn tip deletes it with its marks, so its author can post again', async () => {
+  it('approve on a withdrawn tip deletes it with this post\'s marks only, so its author can post again', async () => {
+    db.docs['tip_reactions/q_ann_wd'] = { uid: 'q', tipId: 'ann_wd', gen: 'g2-newer', helpful: true };
     expect((await moderateTip(db, 'ann_wd', 'approve')).body.result).toBe('deleted');
     expect(db.docs['tips/ann_wd']).toBeUndefined();
     expect(db.docs['tip_reactions/z_ann_wd']).toBeUndefined();
+    expect(db.docs['tip_reactions/q_ann_wd']).toBeDefined();
   });
   it('remove hides the tip for good and deletes its photo; it can\'t be approved after', async () => {
     expect((await moderateTip(db, 'ann_rep', 'remove')).body.result).toBe('removed');
@@ -62,6 +66,7 @@ describe('moderateTip', () => {
   });
   it('acts only on the post the owner reviewed', async () => {
     expect((await moderateTip(db, 'ann_held', 'approve', { gen: 'g-newer' })).status).toBe(409);
+    expect((await moderateTip(db, 'ann_held', 'approve', { gen: null })).status).toBe(409);
     expect(db.docs['tips/ann_held'].status).toBe('held');
     expect((await moderateTip(db, 'ann_held', 'approve', { gen: 'g1' })).status).toBe(200);
   });
