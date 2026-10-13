@@ -17,8 +17,9 @@ import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../.
 import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf } from '../../src/lib/maprRank/ncf.js';
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
-import { writeDashboardDaily, writeDashboardModels, writeDensityMetrics, writeNeighborMetrics } from './dashboardDocs.js';
+import { writeDashboardDaily, writeDashboardModels, writeDensityMetrics, writeNeighborMetrics, writeReputationMetrics } from './dashboardDocs.js';
 import { runCommunityDensity } from './communityDensity.js';
+import { runReputation } from './reputationJob.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 import { followUpkeep } from './follows.js';
@@ -334,6 +335,13 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
       await writeNeighborMetrics(db, date, upkeep.neighbors);
     } catch (e) {
       console.error('taste neighbors failed:', e?.message || e);
+    }
+    // Influence events, local reputation, levels and badges (Phase 4).
+    try {
+      upkeep.reputation = await runReputation(db, data, { nowMs: now });
+      await writeReputationMetrics(db, date, upkeep.reputation);
+    } catch (e) {
+      console.error('reputation failed:', e?.message || e);
     }
     // Community density, ramp and gate per launch region (Phase 3).
     try {

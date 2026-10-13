@@ -111,6 +111,17 @@ export async function writeDensityMetrics(db, date, out) {
   );
 }
 
+// After the nightly reputation run (Phase 4): influence events, went
+// visits this week, people at each level per city, and finders whose
+// events come mostly from friends (the friend-ring alert).
+export async function writeReputationMetrics(db, date, out) {
+  if (!out || out.skipped) return;
+  await db.collection('network_metrics').doc(date).set(
+    { influence_events: out.events, influence_new: out.newEvents, went_7d: out.wentLast7d, reputation_finders: out.finders, reputation_levels: out.levels || {}, friend_heavy_finders: out.friendHeavy },
+    { merge: true }
+  );
+}
+
 // After the weekly models: the NCF and similarity status docs.
 export async function writeDashboardModels(db, { ncf, ncfV2 = null, similarity }, { now = Date.now() } = {}) {
   const ev = ncf?.evaluation || {};

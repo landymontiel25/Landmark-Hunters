@@ -6,6 +6,7 @@ import { act } from 'react';
 const api = vi.hoisted(() => ({ following: false, fail: false }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' } }) }));
 vi.mock('../lib/ToastContext', () => ({ useToast: () => ({ show: vi.fn() }) }));
+vi.mock('../lib/reputationApi', () => ({ getReputation: vi.fn(async (uid) => (uid === 'x' ? { levels: { philly: 'Trusted' }, badges: [] } : null)) }));
 vi.mock('../lib/tasteMatch', () => ({ tasteMatchFor: vi.fn(async (_me, uid) => (uid === 'x' ? 'High' : null)) }));
 vi.mock('../lib/friends', () => ({ getUserProfile: vi.fn(async () => ({ uid: 'x', public: true, followerCount: 4 })) }));
 vi.mock('../lib/followsApi', () => ({
@@ -45,6 +46,7 @@ describe('FollowButton', () => {
     await mount(<FollowButton uid="x" />);
     expect(text()).toContain('4 followers');
     expect(text()).toContain('Taste match: High');
+    expect(text()).toContain('Trusted in Philadelphia');
     expect(text()).not.toMatch(/\d+%/);
     expect(button().textContent).toBe('Follow');
     await act(async () => button().click());

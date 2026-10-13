@@ -65,4 +65,8 @@ describe('APP_HELP stays in sync with code constants', () => {
     expect(APP_HELP).toContain('Share this find?');
     expect(APP_HELP).toContain('You never see the lift, weights or how full a city is');
   });
+  it('describes discoverer levels without points', () => {
+    expect(APP_HELP).toContain('Local, then Trusted, then Insider');
+    expect(APP_HELP).toContain('You never see points, scores or who did what with your tips');
+  });
 });

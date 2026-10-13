@@ -42,6 +42,15 @@ describe('computeCommunity', () => {
     expect(p.f.lift).toBeLessThan(p.a.lift);
     expect(p.a.tip).toBeUndefined();
   });
+  it('a Trusted finder in the city reaches everyone, and reputation lifts their weight (Phase 4)', async () => {
+    const db = base();
+    db.docs['reputation_scores/str'] = { byRegion: { philly: { score: 125, people: 12 } } };
+    db.docs['reputation/str'] = { levels: { philly: 'Trusted' }, badges: [] };
+    const c = (await computeCommunity(db, 'me', ['philly'], { nowMs: NOW })).philly.places.c;
+    expect(c.lift).toBeCloseTo(1.25, 3);
+    expect(c.likeYou).toBe(true);
+    expect(c.finder).toMatchObject({ relation: 'trusted', levelLabel: 'Trusted in Philadelphia' });
+  });
   it('week 1 (ramp 0) lifts nothing, but still lists the finds', async () => {
     const out = await computeCommunity(base({ ramp: 0, gateOpen: false }), 'me', ['philly'], { nowMs: NOW });
     expect(out.philly.places.a.lift).toBe(1);

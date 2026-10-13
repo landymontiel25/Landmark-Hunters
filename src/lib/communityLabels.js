@@ -3,7 +3,11 @@
 // Why this finder counts for you, in words (Mapr chat uses the same).
 export function finderWhy(f) {
   if (!f) return null;
-  return f.match ? `Taste match: ${f.match}` : f.relation === 'follow' ? 'you follow them' : f.relation === 'friend' ? 'your friend' : null;
+  if (f.match) return `Taste match: ${f.match}`;
+  if (f.relation === 'follow') return 'you follow them';
+  if (f.relation === 'friend') return 'your friend';
+  // A Trusted or Insider finder in that city (Phase 4).
+  return typeof f.levelLabel === 'string' ? f.levelLabel.slice(0, 60) : null;
 }
 
 export function foundByLine(pick) {

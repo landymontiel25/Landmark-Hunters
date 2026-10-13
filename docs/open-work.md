@@ -241,8 +241,27 @@ page tips sorted by finder weight. `api/mapr-picks.js` deleted (no caller).
 Deviations: freshness scales the lift only, not the whole score; density
 numbers are not readable by app users. The Network dashboard shows the
 density numbers and community vs Mapr-only skip and visit rates over 30
-days (Phase 3 is done when community picks match at least as well). Next:
-Phase 4 (influence events and local reputation).
+days (Phase 3 is done when community picks match at least as well).
+
+Phase 4 shipped (part): influence events and local reputation.
+`src/lib/reputation.js` holds steps 8 and 9 (event weights, 15 per person,
+180-day half-life, trust 1.0 / 0.5 friends / 0.3, levels with minimum
+people and Insider's top 5%) with unit tests. Nightly
+`api/_lib/reputationJob.js` builds `influence_events` (server only) from
+marks, views, verified check-ins and ratings, writes `reputation_scores`
+(server only) and `reputation/{uid}` (levels and badges, signed-in read),
+and keeps the first 25 Locals per launch city in `community_founding`.
+Reputation feeds finder weight (1 + 0.5 x score / 250), and Trusted or
+Insider finders reach everyone ("Trusted in Philadelphia" on their cards).
+Profile → Discoverer shows levels, badges and the "Trusted in {city}"
+board (`api/reputation-board.js`, names and levels only); profiles show
+a person's best level. The Network dashboard shows events, went per week,
+levels per city and a friend-ring count. Not done, for the owner to
+decide: retiring points (stop payouts, client leaderboard writes off,
+replace the points boards and level bar); and the plan's "learning" (a
+tip teaching your taste, a Helpful or Save as a half "I'd go"), which needs
+the taste rebuild (`rebuildGlobalTaste`) to include tips so it survives a
+rebuild. Next: Phase 5 (alerts).
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

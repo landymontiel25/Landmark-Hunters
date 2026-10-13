@@ -37,6 +37,13 @@ export default function Network() {
               Last 30 days: {latest.community_picks_shown_30d} community picks shown (skip {pct(latest.community_skip_rate_30d)}, visit {pct(latest.community_visit_rate_30d)}) vs {latest.mapr_picks_shown_30d ?? 0} Mapr-only (skip {pct(latest.mapr_skip_rate_30d)}, visit {pct(latest.mapr_visit_rate_30d)})
             </p>
           )}
+          {latest.influence_events != null && (
+            <p className="text-xs muted mt-1">
+              Reputation: {latest.influence_events} influence events ({latest.influence_new ?? 0} new) · {latest.went_7d ?? 0} went in the last 7 days · {latest.reputation_finders ?? 0} finders with a score ·{' '}
+              {Object.entries(latest.reputation_levels || {}).map(([k, v]) => `${k.replace('_', ' ')} ${v}`).join(', ') || 'no levels yet'}
+              {(latest.friend_heavy_finders ?? 0) > 0 && <strong> · {latest.friend_heavy_finders} finders get most events from friends (check for a ring)</strong>}
+            </p>
+          )}
           {latest.neighbors_active != null && (
             <p className="text-xs muted mt-1">
               Taste neighbors: {latest.neighbors_with_any ?? 0} of {latest.neighbors_active} active people have at least one (score 0.3 or more) · {latest.neighbors_with_high ?? 0} have a High match
@@ -45,6 +52,7 @@ export default function Network() {
         </section>
       )}
       <TrendChart title="Follows" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'follows_total', label: 'Follows' }, { key: 'new_follows', label: 'New' }]} format={(v) => String(Math.round(v))} />
+      <TrendChart title="Went because of a tip (7 days)" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'went_7d', label: 'Went' }]} format={(v) => String(Math.round(v))} />
       <TrendChart title="Community ramp" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'density_ramp', label: 'Ramp' }]} format={(v) => pct(v)} />
       <TrendChart title="People with a taste neighbor" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'neighbors_with_any', label: 'Any' }, { key: 'neighbors_with_high', label: 'High' }]} format={(v) => String(Math.round(v))} />
       <TrendChart title="Launch area following a discoverer" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'launch_follow_rate', label: 'Share' }]} format={(v) => pct(v)} />
