@@ -97,34 +97,38 @@ describe('RatingsSection (detail screen)', () => {
   });
 });
 
-describe('RatingsCardLine (landmark card)', () => {
-  it('shows a placeholder while loading and nothing readable', async () => {
+describe('RatingsCardLine (Places tab row)', () => {
+  const appTag = <span className="tag rating-tag app-own">⭐ 4.0 (3)</span>;
+
+  it('shows the app\'s own rating while Google loads (no blank, no jump)', async () => {
     hookState = { ref: () => {}, status: 'loading', sources: null };
-    await render(<RatingsCardLine landmark={landmark} flags={FLAGS_OFF} />);
-    expect(container.querySelector('.ratings-line-loading')).toBeTruthy();
-    expect(container.textContent).toBe('');
+    await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
+    expect(container.querySelector('.app-own')).toBeTruthy();
+    expect(container.querySelector('[data-source="google"]')).toBeNull();
   });
 
-  it('shows each source on one line with its name', async () => {
+  it('shows the Google rating with a star, count and "Google Maps", in place of the app\'s own', async () => {
     hookState = done({ google: GOOGLE, tripadvisor: TA });
-    await render(<RatingsCardLine landmark={landmark} flags={FLAGS_OFF} />);
-    const chips = [...container.querySelectorAll('.ratings-chip')].map((c) => c.dataset.source);
-    expect(chips).toEqual(['google', 'tripadvisor']);
-    expect(container.textContent).toContain('4.7');
-    expect(container.textContent).toContain('(1,234)');
-    expect(container.textContent).toContain('Google Maps');
-    expect(container.querySelector('.ratings-chip-ta img.ta-logo')).toBeTruthy();
+    await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
+    const g = container.querySelector('[data-source="google"]');
+    expect(g.textContent).toContain('⭐ 4.7');
+    expect(g.textContent).toContain('(1,234)');
+    expect(g.textContent).toContain('Google Maps');
+    expect(container.querySelector('.app-own')).toBeNull();
+    expect(container.querySelector('[data-source="tripadvisor"] img.ta-logo')).toBeTruthy();
   });
 
-  it('renders nothing visible without data, and nothing at all when the flag is off', async () => {
+  it('falls back to the app\'s own rating when Google has none, and when the switch is off', async () => {
     hookState = done({ google: null, tripadvisor: null });
-    await render(<RatingsCardLine landmark={landmark} flags={FLAGS_OFF} />);
-    expect(container.querySelector('.ratings-chip')).toBeNull();
+    await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
+    expect(container.querySelector('.app-own')).toBeTruthy();
+    expect(container.querySelector('[data-source]')).toBeNull();
     hookState = { ref: () => {}, status: 'off', sources: null };
     container.remove();
     container = document.createElement('div');
     document.body.appendChild(container);
-    await render(<RatingsCardLine landmark={landmark} flags={{ cardLine: false, landmarkHunters: false }} />);
-    expect(container.innerHTML).toBe('');
+    await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={{ cardLine: false, landmarkHunters: false }} />);
+    expect(container.querySelector('.app-own')).toBeTruthy();
+    expect(container.querySelector('.ratings-inline')).toBeNull();
   });
 });

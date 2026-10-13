@@ -14,7 +14,7 @@ app's own Landmark Hunters rating is built and switched off.
 | Filling the IDs | `scripts/match-rating-sources.mjs` (matching rules in `scripts/rating-sources/match.js`) |
 | Endpoint | `api/landmark-ratings.js` (fetchers in `api/_lib/ratingSources.js`) |
 | Client | `src/lib/landmarkRatings.js`, `src/lib/useLandmarkRatings.js` |
-| UI | `src/components/ratings/` (`RatingsCardLine` on the Landmarks tab rows, `RatingsSection` on the landmark page) |
+| UI | `src/components/ratings/` (`RatingsCardLine` in each Places tab row's tag line: "⭐ 4.6 (1,234) Google Maps" in place of the old 🔥 N/10 tag, falling back to the app's own average when Google has none; `RatingsSection` on the landmark page) |
 
 The IDs live in one map instead of inside each landmark's own data: 2,253
 of the 3,498 places sit in generated, content-hashed pack files

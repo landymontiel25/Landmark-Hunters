@@ -621,13 +621,6 @@ textarea {
   background: transparent;
 }
 
-.popularity-tag {
-  font-weight: 700;
-  border-color: var(--color-rust);
-  color: #f2c9a0;
-  background: rgba(242, 184, 75, 0.15);
-}
-
 .distance-tag {
   text-transform: none;
   letter-spacing: 0.02em;
@@ -7469,6 +7462,12 @@ p.tag {
 }
 [data-theme='light'] .gmp-attribution {
   color: #5e5e5e;
+}
+.ratings-inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 1px;
 }
 .ratings-line {
   display: flex;
