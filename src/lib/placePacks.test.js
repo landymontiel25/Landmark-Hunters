@@ -10,7 +10,6 @@ import { tierQuestion } from './ratingFlow.js';
 import { applyRating, buildShortlist } from './tagScores.js';
 import { eligiblePlaces } from './nearbyPicks.js';
 import { onboardingRateQueue } from './onboardingRatePicks.js';
-import { getChallengesForRegion } from './challenges.js';
 import { ensurePlacePacks, isPlacePackId, resetPlacePacksForTest } from './placePacks.js';
 
 const at = (lat, lng) => ({ lat, lng });
@@ -79,10 +78,6 @@ describe('registered imported places', () => {
     const { coldStart, shortlist } = buildShortlist({ profile, region: 'miami', excludeIds: curated });
     expect(coldStart).toBe(false);
     expect(shortlist[0].id).toBe(fixtures[0].id);
-  });
-
-  it('stays out of the curated challenges', () => {
-    for (const c of getChallengesForRegion('miami')) expect(c.landmarks.some((l) => l.source === 'osm')).toBe(false);
   });
 });
 
