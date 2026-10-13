@@ -12,6 +12,7 @@ import { asksForDirections, directionsTarget, placesNamedIn } from '../src/lib/p
 import { PLAN_AI_MODEL } from './_lib/aiModels.js';
 import { logAiCall } from './_lib/aiCallLog.js';
 import { AI_LONG_TIMEOUT_MS, aiFailure } from './_lib/upstream.js';
+import { asksDistanceOrTime, routeBetween } from './_lib/routeLookup.js';
 
 // Backs the Mapr tab's chat interface -- the app's home screen, the one
 // thing people open every day -- a real back-and-forth instead of a
@@ -66,6 +67,7 @@ const INSTRUCTIONS =
   `those over a static profile match -- their taste tells you the MENU of things they enjoy, their actual message ` +
   `tells you which item off that menu fits right now. Don't default to their single most-loved category regardless ` +
   `of context.\n` +
+  `- DISTANCES AND TRAVEL TIMES: never state how far apart two places are, how many miles or minutes away something is, or how long it takes to get somewhere unless you got that number from the route_between tool in THIS reply (or it is printed in the app's own data below). Never estimate, round from memory, or guess. To answer "how far / how long / how many minutes", call route_between with the two places (use "my location" for where the traveler is now) and report its miles and minutes as given, saying it's driving (or walking) and that times are with current traffic. If route_between returns an error, say plainly that you couldn't check the distance right now and suggest the Directions button; do not give a number. Travelers rely on these numbers.\n` +
   `- Prefer the catalog when it has a genuinely good fit -- those stops open inside the app with full details and check-ins.\n` +
   `- Use web_search whenever the catalog doesn't cover what they're asking -- a city or neighborhood we don't track, a specific vibe (nightlife, racing, shopping, live music), or anything current -- so you're never limited to just the catalog.\n` +
   `- If you already have enough to go on (a vibe, a time budget, an interest, or a rating history to lean on -- doesn't need to be much), recommend 2-4 real stops in a sensible order, mixing catalog and web-found places as needed, with one short reason each tied to what they said or to their known taste.\n` +
@@ -592,7 +594,34 @@ async function handler(req, res) {
 
     const client = new Anthropic({ timeout: AI_LONG_TIMEOUT_MS, maxRetries: 0 });
 
-    const msg = await client.messages.create({
+    // Mapr's real distance/time lookup (api/_lib/routeLookup.js). A
+    // "how far / how long" question must call it before answering, so a
+    // made-up number can never reach the traveler.
+    const ROUTE_TOOL = {
+      name: 'route_between',
+      description:
+        'Real distance and travel time between two places, from Google Maps (driving with live traffic, or walking). ' +
+        'ALWAYS call this before saying how far apart two places are or how long it takes to get somewhere. ' +
+        'Use "my location" for where the traveler is right now. Places can be names ("House of Blues Orlando") or addresses.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          from: { type: 'string', description: 'Starting place name or address, or "my location".' },
+          to: { type: 'string', description: 'Destination place name or address, or "my location".' },
+          mode: { type: 'string', enum: ['drive', 'walk'], description: 'drive (default) or walk.' },
+        },
+        required: ['from', 'to'],
+      },
+    };
+    const mustRoute = asksDistanceOrTime(lastText);
+    const convo = [...turns];
+    const usageTotal = {};
+    const addUsage = (u) => {
+      for (const k of ['input_tokens', 'output_tokens', 'cache_creation_input_tokens', 'cache_read_input_tokens']) usageTotal[k] = (usageTotal[k] || 0) + (u?.[k] || 0);
+      const ws = u?.server_tool_use?.web_search_requests || 0;
+      if (ws) usageTotal.server_tool_use = { web_search_requests: (usageTotal.server_tool_use?.web_search_requests || 0) + ws };
+    };
+    const ask = (round) => client.messages.create({
       model: PLAN_AI_MODEL,
       max_tokens: 1200,
       system: [
@@ -619,12 +648,35 @@ async function handler(req, res) {
       // genuinely needs several searches isn't cut off. The client shows a
       // running cost total instead, so the trade-off stays visible.
       // max_uses caps per-reply search spend (each search is billed).
-      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }],
-      messages: turns,
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }, ROUTE_TOOL],
+      // A distance/time question: the first round must look the route up.
+      ...(mustRoute && round === 0 ? { tool_choice: { type: 'tool', name: 'route_between' } } : {}),
+      messages: convo,
     });
 
-    await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: msg.usage });
-    const costUsd = estimateCostUsd(msg.usage);
+    let msg = await ask(0);
+    addUsage(msg.usage);
+    for (let round = 1; round <= 3 && msg.stop_reason === 'tool_use'; round++) {
+      const calls = msg.content.filter((b) => b.type === 'tool_use' && b.name === 'route_between');
+      if (!calls.length) break;
+      const results = await Promise.all(
+        calls.map(async (c) => {
+          let out;
+          try {
+            out = await routeBetween(c.input || {}, { catalog: ALL_LANDMARKS, near });
+          } catch {
+            out = { error: 'The route lookup failed.' };
+          }
+          return { type: 'tool_result', tool_use_id: c.id, content: JSON.stringify(out) };
+        })
+      );
+      convo.push({ role: 'assistant', content: msg.content }, { role: 'user', content: results });
+      msg = await ask(round);
+      addUsage(msg.usage);
+    }
+
+    await logAiCall({ feature: 'plan-ai', model: PLAN_AI_MODEL, usage: usageTotal });
+    const costUsd = estimateCostUsd(usageTotal);
 
     // With web search the final text arrives as several blocks split around
     // each cited span, often mid-string: a '\n' between them broke the JSON.

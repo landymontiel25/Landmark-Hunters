@@ -86,6 +86,7 @@ export const APP_HELP =
   `- Ask Mapr how to get to a place ("How do I get to Hillstone?", "directions to Vizcaya") and it answers with that place's card, ` +
   `the same card as its recommendations: tap Directions on it for the route, or tap the card for the place's page. This works for the ` +
   `everyday places too (cafes, restaurants, parks and the rest). Mapr doesn't write out turn-by-turn steps in the chat.\n` +
+  `- Ask Mapr how far apart two places are or how long it takes to get somewhere ("how far is Kres Chophouse from House of Blues?", "how many minutes to the airport?") and it looks up the real driving or walking distance and time with Google Maps (driving includes live traffic) before it answers, and names Google Maps as the source. Mapr never guesses a distance or time: if it can't check right now, it says so and points you to the Directions button.\n` +
   `- Mapr reads each place's facts (the same ones on its page: when it opened, who built or runs it, what it serves, what it has, ` +
   `like trails, courts or a playground) when it recommends places, writes Mapr Picks lines, or answers about a place you name. ` +
   `Facts that came from web research link to their source on the place page.\n` +
