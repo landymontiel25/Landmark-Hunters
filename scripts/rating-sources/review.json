@@ -791,6 +791,62 @@
       ]
     }
   },
+  "san-francisco/a16z-san-francisco-office": {
+    "name": "a16z San Francisco Office",
+    "lat": 37.779371,
+    "lng": -122.392649,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ99sIGQB_j4ARwGYxeH3ryQ4",
+          "name": "a16z",
+          "lat": 37.779409,
+          "lng": -122.3926127,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/angel-island-immigration-station": {
+    "name": "Angel Island Immigration Station",
+    "lat": 37.86591,
+    "lng": -122.435215,
+    "google": {
+      "reason": "name matches but 866 m away",
+      "candidates": [
+        {
+          "id": "ChIJgZskC0qDhYARJBD-unNgFJ8",
+          "name": "Angel Island Immigration Station",
+          "lat": 37.8694135,
+          "lng": -122.42640899999999,
+          "distanceM": 866,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJnfibKCGDhYAR0aKad-TrxC4",
+          "name": "Angel Island Immigration Museum",
+          "lat": 37.8698826,
+          "lng": -122.42547660000001,
+          "distanceM": 962,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJoYv-boiAhYARFCgbltJKKUs",
+          "name": "Angel Island Immigration Station Foundation",
+          "lat": 37.785145,
+          "lng": -122.40725189999999,
+          "distanceM": 9310,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "san-francisco/anthropic-office": {
     "name": "Anthropic Office",
     "lat": 37.788511,
@@ -852,6 +908,62 @@
           "distanceM": 5373,
           "nameMatch": false,
           "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/blue-bottle-coffee-original-kiosk": {
+    "name": "Blue Bottle Coffee Original Kiosk",
+    "lat": 37.776314,
+    "lng": -122.423255,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJSy28upiAhYARkoxpzFnW7b4",
+          "name": "Blue Bottle Coffee",
+          "lat": 37.7763342,
+          "lng": -122.42323750000001,
+          "distanceM": 3,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ1VGyjmCBhYAR_pOL0q5shVs",
+          "name": "Blue Bottle Coffee",
+          "lat": 37.773877399999996,
+          "lng": -122.41855819999999,
+          "distanceM": 494,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ06Hd8sWAhYARxyVxtgXyAks",
+          "name": "Blue Bottle Coffee",
+          "lat": 37.7923343,
+          "lng": -122.43473399999998,
+          "distanceM": 2047,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/cathedral-of-st-mary-of-the-assumption": {
+    "name": "Cathedral of St Mary of the Assumption",
+    "lat": 37.784024,
+    "lng": -122.425338,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJY2eH8L2AhYARx7eYYhTWTKU",
+          "name": "Cathedral of Saint Mary of the Assumption",
+          "lat": 37.7842115,
+          "lng": -122.4253924,
+          "distanceM": 21,
+          "nameMatch": false,
+          "overlap": 0.75
         }
       ]
     }
@@ -949,6 +1061,25 @@
       ]
     }
   },
+  "san-francisco/databricks-hq": {
+    "name": "Databricks HQ",
+    "lat": 37.791438,
+    "lng": -122.393559,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJfZYV8GSAhYARdNBZy79Yfbg",
+          "name": "Databricks Inc.",
+          "lat": 37.791235,
+          "lng": -122.3936336,
+          "distanceM": 24,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
   "san-francisco/ferry-building": {
     "name": "Ferry Building",
     "lat": 37.795549,
@@ -980,6 +1111,43 @@
           "lat": 37.7954456,
           "lng": -122.39361379999998,
           "distanceM": 17,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/fort-point": {
+    "name": "Fort Point",
+    "lat": 37.810486,
+    "lng": -122.476882,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ_fRRLeqGhYAROWsCl5027X8",
+          "name": "Fort Point National Historic Site",
+          "lat": 37.810611699999995,
+          "lng": -122.47708999999999,
+          "distanceM": 23,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ80scpO2GhYARkZO-p4IKJyo",
+          "name": "Fort Point Rock",
+          "lat": 37.80826210000001,
+          "lng": -122.47886109999999,
+          "distanceM": 302,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ67ahEtqHhYARZklm4HikYO4",
+          "name": "Fort Point View Point",
+          "lat": 37.8084738,
+          "lng": -122.4729845,
+          "distanceM": 409,
           "nameMatch": true,
           "overlap": 1
         }
@@ -1097,6 +1265,44 @@
       ]
     }
   },
+  "san-francisco/palace-hotel": {
+    "name": "Palace Hotel",
+    "lat": 37.787948,
+    "lng": -122.401918,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ150MH4iAhYARy399PwjhCb4",
+          "name": "Palace Hotel, a Luxury Collection Hotel, San Francisco",
+          "lat": 37.7881241,
+          "lng": -122.4019021,
+          "distanceM": 20,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/pinterest-hq": {
+    "name": "Pinterest HQ",
+    "lat": 37.777585,
+    "lng": -122.396762,
+    "google": {
+      "reason": "name matches but 346 m away",
+      "candidates": [
+        {
+          "id": "ChIJa62YdCt-j4ARpwrK9YatxKw",
+          "name": "Pinterest",
+          "lat": 37.7754264,
+          "lng": -122.3995996,
+          "distanceM": 346,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "san-francisco/powell-street-cable-car-turntable": {
     "name": "Powell Street Cable Car Turntable",
     "lat": 37.784714,
@@ -1130,6 +1336,99 @@
           "distanceM": 2776,
           "nameMatch": true,
           "overlap": 0.8
+        }
+      ]
+    }
+  },
+  "san-francisco/south-park": {
+    "name": "South Park",
+    "lat": 37.78159,
+    "lng": -122.393975,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJC7w8g0l_j4ARngbLrlCl4GA",
+          "name": "South Park",
+          "lat": 37.7815955,
+          "lng": -122.39396210000001,
+          "distanceM": 1,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJWxAi73iAhYARdA8rP4kLEI8",
+          "name": "South Park",
+          "lat": 37.7815501,
+          "lng": -122.39403529999998,
+          "distanceM": 7,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJL02H3XiAhYARL2baz9yQBxE",
+          "name": "Caffe Centro SP",
+          "lat": 37.7816794,
+          "lng": -122.3942754,
+          "distanceM": 28,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "san-francisco/sutro-baths-ruins": {
+    "name": "Sutro Baths Ruins",
+    "lat": 37.77782,
+    "lng": -122.513275,
+    "google": {
+      "reason": "name matches but 294 m away",
+      "candidates": [
+        {
+          "id": "ChIJszBPbLWHhYARfrlLxEb3GuA",
+          "name": "Sutro Baths",
+          "lat": 37.7804444,
+          "lng": -122.51365,
+          "distanceM": 294,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/the-institute": {
+    "name": "The Institute",
+    "lat": 37.789774,
+    "lng": -122.396932,
+    "google": {
+      "reason": "name matches but 544 m away",
+      "candidates": [
+        {
+          "id": "ChIJO-j0NYiAhYARqxk-_uyhU3Y",
+          "name": "Mechanics' Institute",
+          "lat": 37.7888534,
+          "lng": -122.4030107,
+          "distanceM": 544,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJzcTTQW9_j4ARoUrZADzZOzM",
+          "name": "Institute of Contemporary Art San Francisco",
+          "lat": 37.7844993,
+          "lng": -122.40451689999999,
+          "distanceM": 888,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJpX1BIIKAhYARn8kOzhG9FjE",
+          "name": "San Francisco Institute of Esthetics and Cosmetology",
+          "lat": 37.777105899999995,
+          "lng": -122.40714210000002,
+          "distanceM": 1670,
+          "nameMatch": false,
+          "overlap": 1
         }
       ]
     }
@@ -1177,6 +1476,560 @@
           "distanceM": 14,
           "nameMatch": false,
           "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "san-francisco/washington-square-park-sf": {
+    "name": "Washington Square Park",
+    "lat": 37.800865,
+    "lng": -122.410101,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJoYiOqfGAhYAR8J-KiogVyCQ",
+          "name": "Washington Square",
+          "lat": 37.8007752,
+          "lng": -122.41024639999999,
+          "distanceM": 16,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJe7QxrfGAhYARjifwcEgJwVk",
+          "name": "Washington Square Playground",
+          "lat": 37.800969599999995,
+          "lng": -122.41064159999999,
+          "distanceM": 49,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJnQK7tvGAhYARXpYh2ttUfLI",
+          "name": "Washington Square Park Dental",
+          "lat": 37.8005904,
+          "lng": -122.41105749999998,
+          "distanceM": 89,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/wave-organ": {
+    "name": "Wave Organ",
+    "lat": 37.807157,
+    "lng": -122.435892,
+    "google": {
+      "reason": "name matches but 403 m away",
+      "candidates": [
+        {
+          "id": "ChIJ4e_eTCmBhYARKs37VQo82FA",
+          "name": "The Wave Organ",
+          "lat": 37.8085486,
+          "lng": -122.44013100000001,
+          "distanceM": 403,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/world-flagship-store": {
+    "name": "World Flagship Store",
+    "lat": 37.787328,
+    "lng": -122.407813,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ61ICagCBhYARIl_huF2jAI0",
+          "name": "World Flagship Union Square",
+          "lat": 37.787381499999995,
+          "lng": -122.40729839999999,
+          "distanceM": 46,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "silicon-valley/bucks-of-woodside": {
+    "name": "Buck's of Woodside",
+    "lat": 37.429791,
+    "lng": -122.255188,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJs3uv7H-vj4AR3FtuDCNG_8g",
+          "name": "Buck’s Restaurant",
+          "lat": 37.4297052,
+          "lng": -122.2551199,
+          "distanceM": 11,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "silicon-valley/californias-great-america": {
+    "name": "California's Great America",
+    "lat": 37.394792,
+    "lng": -121.970171,
+    "google": {
+      "reason": "name matches but 470 m away",
+      "candidates": [
+        {
+          "id": "ChIJq7iF28bJj4ARdWUD6DQUr3I",
+          "name": "California's Great America",
+          "lat": 37.3973529,
+          "lng": -121.9744083,
+          "distanceM": 470,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/coupa-cafe": {
+    "name": "Coupa Cafe",
+    "lat": 37.444779,
+    "lng": -122.161583,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJY5UIijm7j4ARPkLgY0DXJuI",
+          "name": "Coupa Cafe - Ramona",
+          "lat": 37.444609199999995,
+          "lng": -122.16152839999998,
+          "distanceM": 19,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJCx18PDe7j4ARWiGmoE-TsMg",
+          "name": "Coupa Cafe - Lytton",
+          "lat": 37.444618,
+          "lng": -122.16539059999998,
+          "distanceM": 337,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJWcHrNti6j4AR2u-_aV8SPfU",
+          "name": "Coupa Cafe - GSB",
+          "lat": 37.428033,
+          "lng": -122.162083,
+          "distanceM": 1863,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/facebook-first-office-plaque": {
+    "name": "Facebook First Office Plaque",
+    "lat": 37.444951,
+    "lng": -122.162999,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ4ZXd62S7j4ARSOtouG4N0jY",
+          "name": "Facebook’s First Office Plaque",
+          "lat": 37.445003899999996,
+          "lng": -122.16296330000002,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "silicon-valley/genentech-founding-site": {
+    "name": "Genentech Founding Site",
+    "lat": 37.656751,
+    "lng": -122.378916,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ3Xmd_xqjj4ARC2vcmfdZvNQ",
+          "name": "Genentech",
+          "lat": 37.6566481,
+          "lng": -122.378031,
+          "distanceM": 79,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJcXUp10N4j4ARkUtkyf6UQIA",
+          "name": "Genentech Building 31",
+          "lat": 37.6547401,
+          "lng": -122.38216329999999,
+          "distanceM": 363,
+          "nameMatch": false,
+          "overlap": 0.33
+        },
+        {
+          "id": "ChIJXZMmkEN4j4ARMYLVWMLXSYc",
+          "name": "Genentech Building 35",
+          "lat": 37.655820399999996,
+          "lng": -122.38333949999998,
+          "distanceM": 403,
+          "nameMatch": false,
+          "overlap": 0.33
+        }
+      ]
+    }
+  },
+  "silicon-valley/history-san-jose-history-park": {
+    "name": "History San Jose / History Park",
+    "lat": 37.320127,
+    "lng": -121.857906,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJj67qoGUzjoARpofMbag2H7o",
+          "name": "History Park (operated by History San Jose)",
+          "lat": 37.320169299999996,
+          "lng": -121.8586549,
+          "distanceM": 66,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJafwXwCgzjoARwzNzqjE6mkY",
+          "name": "History San Jose",
+          "lat": 37.3192403,
+          "lng": -121.85762659999999,
+          "distanceM": 102,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/japanese-friendship-garden": {
+    "name": "Japanese Friendship Garden",
+    "lat": 37.325867,
+    "lng": -121.862902,
+    "google": {
+      "reason": "name matches but 546 m away",
+      "candidates": [
+        {
+          "id": "ChIJnwKWPCwzjoARY4_zZxCFY5k",
+          "name": "Japanese Friendship Garden",
+          "lat": 37.3212316,
+          "lng": -121.86087429999999,
+          "distanceM": 546,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/lick-observatory": {
+    "name": "Lick Observatory",
+    "lat": 37.342294,
+    "lng": -121.640172,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJF0sJhG4qjoARa-_KfC92Vu8",
+          "name": "Lick Observatory",
+          "lat": 37.341412999999996,
+          "lng": -121.64291019999999,
+          "distanceM": 261,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJj4dng3EqjoARcQj0ZrPEyYg",
+          "name": "Lick Observatory Visitor Gallery",
+          "lat": 37.3430167,
+          "lng": -121.63718709999999,
+          "distanceM": 276,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/meta-hq": {
+    "name": "Meta HQ",
+    "lat": 37.484668,
+    "lng": -122.148365,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJGcSN3pa8j4ARpeP0i0Oel2Q",
+          "name": "Meta Headquarters",
+          "lat": 37.485073,
+          "lng": -122.1482824,
+          "distanceM": 46,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "silicon-valley/mission-santa-clara-de-asis": {
+    "name": "Mission Santa Clara de Asis",
+    "lat": 37.348624,
+    "lng": -121.936544,
+    "google": {
+      "reason": "name matches but 471 m away",
+      "candidates": [
+        {
+          "id": "ChIJq2RlQcnLj4ARFaq7gPDWTsk",
+          "name": "Mission Santa Clara de Asís",
+          "lat": 37.3488276,
+          "lng": -121.94187129999999,
+          "distanceM": 471,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/palantir-original-palo-alto-office": {
+    "name": "Palantir Original Palo Alto Office",
+    "lat": 37.442606,
+    "lng": -122.1621,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJyzG7bzq7j4ARpv3TGyJ9RkE",
+          "name": "Palantir Technologies",
+          "lat": 37.4427114,
+          "lng": -122.16220789999998,
+          "distanceM": 15,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "silicon-valley/palo-alto-baylands-nature-preserve": {
+    "name": "Palo Alto Baylands Nature Preserve",
+    "lat": 37.459623,
+    "lng": -122.106335,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJvxDunke6j4ARORduHKhLIiU",
+          "name": "Baylands Nature Preserve",
+          "lat": 37.45750890000001,
+          "lng": -122.1075783,
+          "distanceM": 259,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJfx5xETy6j4ARW4IFsXbZ9Ps",
+          "name": "Palo Alto Baylands Nature Preserve Trail",
+          "lat": 37.45750890000001,
+          "lng": -122.1075783,
+          "distanceM": 259,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/rosewood-sand-hill-madera": {
+    "name": "Rosewood Sand Hill / Madera",
+    "lat": 37.419532,
+    "lng": -122.212542,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJiUNAfPukj4AR5sxvOP_JPUA",
+          "name": "Madera",
+          "lat": 37.419256399999995,
+          "lng": -122.212186,
+          "distanceM": 44,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/santana-row": {
+    "name": "Santana Row",
+    "lat": 37.319343,
+    "lng": -121.949328,
+    "google": {
+      "reason": "name matches but 236 m away",
+      "candidates": [
+        {
+          "id": "ChIJKbQHeyDLj4ARDY5fLdwueaM",
+          "name": "Santana Row",
+          "lat": 37.3211988,
+          "lng": -121.94802190000001,
+          "distanceM": 236,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/shockley-semiconductor-site": {
+    "name": "Shockley Semiconductor Site",
+    "lat": 37.404819,
+    "lng": -122.110868,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJBUpZDwCxj4ARlQq4qucIebw",
+          "name": "Shockley Semiconductor Laboratory Sculpture",
+          "lat": 37.4050362,
+          "lng": -122.1110851,
+          "distanceM": 31,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "silicon-valley/sri-international": {
+    "name": "SRI International",
+    "lat": 37.456605,
+    "lng": -122.174686,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJi9XNLq2kj4ARNFIw84dslXY",
+          "name": "SRI International: Headquarters",
+          "lat": 37.4575372,
+          "lng": -122.17643359999998,
+          "distanceM": 186,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ077_EU27j4AR-LwMsJRtLrk",
+          "name": "SRI International",
+          "lat": 37.4541817,
+          "lng": -122.17252069999998,
+          "distanceM": 330,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJL36VFpm6j4ARyMpUwPR2j2s",
+          "name": "PARC, part of SRI International",
+          "lat": 37.402498699999995,
+          "lng": -122.1472884,
+          "distanceM": 6485,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/st-michaels-alley": {
+    "name": "St Michael's Alley",
+    "lat": 37.441471,
+    "lng": -122.15976,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJmcAiGDu7j4ARvF2-fF-NMxE",
+          "name": "Saint Michael's Alley",
+          "lat": 37.4414977,
+          "lng": -122.1597862,
+          "distanceM": 4,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "silicon-valley/stanford-dish-trail": {
+    "name": "Stanford Dish Trail",
+    "lat": 37.410036,
+    "lng": -122.16136,
+    "google": {
+      "reason": "name matches but 761 m away",
+      "candidates": [
+        {
+          "id": "ChIJEXQkA8u6j4ARsxkfG-OQ29s",
+          "name": "Stanford Dish Hiking Trail",
+          "lat": 37.4127475,
+          "lng": -122.1692681,
+          "distanceM": 761,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/tesla-fremont-factory": {
+    "name": "Tesla Fremont Factory",
+    "lat": 37.497114,
+    "lng": -121.945009,
+    "google": {
+      "reason": "name matches but 517 m away",
+      "candidates": [
+        {
+          "id": "ChIJVXDQOyLGj4ARQLXcO7ozvTY",
+          "name": "Tesla Kato Road",
+          "lat": 37.493514399999995,
+          "lng": -121.94513680000001,
+          "distanceM": 400,
+          "nameMatch": false,
+          "overlap": 0.33
+        },
+        {
+          "id": "ChIJe3hOBNPHj4ARhuHYRzR9jSg",
+          "name": "Tesla Motors Center",
+          "lat": 37.493479199999996,
+          "lng": -121.94514109999999,
+          "distanceM": 404,
+          "nameMatch": false,
+          "overlap": 0.33
+        },
+        {
+          "id": "ChIJSb979lTGj4ARJftHPERsTy0",
+          "name": "Tesla Fremont",
+          "lat": 37.4924685,
+          "lng": -121.94469699999999,
+          "distanceM": 517,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "silicon-valley/xerox-parc": {
+    "name": "Xerox PARC",
+    "lat": 37.402735,
+    "lng": -122.148601,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJL36VFpm6j4ARyMpUwPR2j2s",
+          "name": "PARC, part of SRI International",
+          "lat": 37.402498699999995,
+          "lng": -122.1472884,
+          "distanceM": 119,
+          "nameMatch": false,
+          "overlap": 0.5
         }
       ]
     }

@@ -404,14 +404,47 @@
   "san-francisco/airbnb-hq": {
     "googlePlaceId": "ChIJ3-Ibdix-j4ARDNwT7ivEwoc"
   },
+  "san-francisco/alamo-drafthouse-new-mission": {
+    "googlePlaceId": "ChIJFyM_zj5-j4ARVy4Crc6cSdM"
+  },
+  "san-francisco/andon-market": {
+    "googlePlaceId": "ChIJERK2KlGBhYARPZxqm3UK1sU"
+  },
+  "san-francisco/aquarium-of-the-bay": {
+    "googlePlaceId": "ChIJr6OmefyAhYAR-h8_vW9p5GQ"
+  },
+  "san-francisco/asian-art-museum": {
+    "googlePlaceId": "ChIJkQQVTZqAhYARHxPt2iJkm1Q"
+  },
   "san-francisco/baker-beach": {
     "googlePlaceId": "ChIJp_hAi_yGhYARGdXAfU1rPYs"
+  },
+  "san-francisco/balmy-alley": {
+    "googlePlaceId": "ChIJI_DSmEh-j4ARD3DzVWxfVw8"
+  },
+  "san-francisco/bernal-heights-park": {
+    "googlePlaceId": "ChIJXfZJOaB_j4ARqpK7DW1C0JE"
+  },
+  "san-francisco/bi-rite-creamery": {
+    "googlePlaceId": "ChIJh1wqPBh-j4ARliLVoyr5W_c"
+  },
+  "san-francisco/cable-car-museum": {
+    "googlePlaceId": "ChIJX1oMlvKAhYARNZquwetszd8"
+  },
+  "san-francisco/caffe-centro": {
+    "googlePlaceId": "ChIJL02H3XiAhYARL2baz9yQBxE"
   },
   "san-francisco/california-academy-of-sciences": {
     "googlePlaceId": "ChIJIUT7rEOHhYARucp3wM-HhBs"
   },
+  "san-francisco/castro-theatre": {
+    "googlePlaceId": "ChIJeWH4Txt-j4ARJZQ5pivU-hQ"
+  },
   "san-francisco/chase-center": {
     "googlePlaceId": "ChIJ6QBEf8Z_j4AR40Gh2OOTZ30"
+  },
+  "san-francisco/clarion-alley": {
+    "googlePlaceId": "ChIJaxLQJCN-j4AR9ZJpsSa8Lcc"
   },
   "san-francisco/cliff-house": {
     "googlePlaceId": "ChIJr4X4bjKHhYAR424FLrCQwPw"
@@ -419,17 +452,38 @@
   "san-francisco/coit-tower": {
     "googlePlaceId": "ChIJAQAAQIyAhYARRN3yIQG4hd4"
   },
+  "san-francisco/conservatory-of-flowers": {
+    "googlePlaceId": "ChIJ5abCmkWHhYARH3zgiLVc_Ew"
+  },
+  "san-francisco/corgi-cafe": {
+    "googlePlaceId": "ChIJ6wmoSgCBhYARTLpwxLqS7VE"
+  },
+  "san-francisco/davies-symphony-hall": {
+    "googlePlaceId": "ChIJLZdoPZmAhYARCANMfz0eq9U"
+  },
   "san-francisco/de-young-museum": {
     "googlePlaceId": "ChIJI7NivpmAhYARSuRPlbbn_2w"
   },
   "san-francisco/dolores-park": {
     "googlePlaceId": "ChIJp3CqeRd-j4ARYI0i8e_kGKY"
   },
+  "san-francisco/dropbox-hq": {
+    "googlePlaceId": "ChIJf16Ze3iAhYARYwVEQT_LPVc"
+  },
   "san-francisco/exploratorium": {
     "googlePlaceId": "ChIJk2vl5NSGhYARwPGvs_ubIws"
   },
+  "san-francisco/filbert-steps": {
+    "googlePlaceId": "ChIJXxpYQvaAhYARTxBaACPjYJM"
+  },
   "san-francisco/fishermans-wharf": {
     "googlePlaceId": "ChIJueOuefqAhYARapAU-YtbztA"
+  },
+  "san-francisco/four-barrel-coffee": {
+    "googlePlaceId": "ChIJ__abjyF-j4ARmyuzGS1yOdc"
+  },
+  "san-francisco/frontier-tower": {
+    "googlePlaceId": "ChIJFwoupK-BhYARMWbdafFyOtc"
   },
   "san-francisco/ghirardelli-square": {
     "googlePlaceId": "ChIJp5jP7rCBhYARRcpUh_kHgKk"
@@ -437,11 +491,35 @@
   "san-francisco/golden-gate-bridge": {
     "googlePlaceId": "ChIJw____96GhYARCVVwg5cT7c0"
   },
+  "san-francisco/grace-cathedral": {
+    "googlePlaceId": "ChIJg2Kun5KAhYARg0g3AF1jbQQ"
+  },
+  "san-francisco/great-american-music-hall": {
+    "googlePlaceId": "ChIJI56vzpaAhYARuopEz-SlLuU"
+  },
+  "san-francisco/hyde-street-pier": {
+    "googlePlaceId": "ChIJ7XU8qeGAhYARMd5brm8JUSs"
+  },
+  "san-francisco/japantown-peace-pagoda": {
+    "googlePlaceId": "ChIJfews076AhYARmydcUh7E5DA"
+  },
+  "san-francisco/kezar-stadium": {
+    "googlePlaceId": "ChIJldoU6FCHhYAREFqwcwO0fr8"
+  },
+  "san-francisco/lands-end-lookout": {
+    "googlePlaceId": "ChIJud4Rs7KHhYARZX7u45tQsjA"
+  },
   "san-francisco/legion-of-honor": {
     "googlePlaceId": "ChIJabri1qyHhYARLE0Vd4zY_7k"
   },
   "san-francisco/lombard-street": {
     "googlePlaceId": "ChIJl62Bq92AhYARrLLC3ZcLL8Q"
+  },
+  "san-francisco/lyft-hq": {
+    "googlePlaceId": "ChIJFb2cDjp-j4AR3h8Hy3Cu9-c"
+  },
+  "san-francisco/musee-mecanique": {
+    "googlePlaceId": "ChIJCQAzVOKAhYARuOpiALmomu0"
   },
   "san-francisco/ocean-beach": {
     "googlePlaceId": "ChIJY8btaZSHhYAR_GctC494Hoo"
@@ -461,16 +539,163 @@
   "san-francisco/pier-39": {
     "googlePlaceId": "ChIJHSGzi_yAhYARnrPmDWAx9ro"
   },
+  "san-francisco/presidio-tunnel-tops": {
+    "googlePlaceId": "ChIJXfbP6YmAhYARX1lrFe54-tY"
+  },
+  "san-francisco/ritual-coffee-roasters": {
+    "googlePlaceId": "ChIJm8vaiT5-j4ARU2MyuxNCc2s"
+  },
+  "san-francisco/ross-alley": {
+    "googlePlaceId": "ChIJG1XnWfOAhYARwbyrgZ-NaEM"
+  },
+  "san-francisco/saint-frank-coffee": {
+    "googlePlaceId": "ChIJmfgIQ-iAhYARq5osc-JybBo"
+  },
+  "san-francisco/salesforce-park": {
+    "googlePlaceId": "ChIJC9y2SGOAhYARSaejL5ecgmg"
+  },
   "san-francisco/salesforce-tower": {
     "googlePlaceId": "ChIJ1dIqa2OAhYAREimtEtfBLyc"
   },
+  "san-francisco/sams-grill": {
+    "googlePlaceId": "ChIJk0b6hYmAhYARWaxB5KIql44"
+  },
   "san-francisco/san-francisco-city-hall": {
     "googlePlaceId": "ChIJY-bqepmAhYARSk9Xg_9tcLI"
+  },
+  "san-francisco/sightglass-coffee-flagship": {
+    "googlePlaceId": "ChIJf-V9OIKAhYARu8bBG2S6RME"
+  },
+  "san-francisco/ss-jeremiah-obrien": {
+    "googlePlaceId": "ChIJR3tgUOKAhYARqS7NZ7xDM44"
+  },
+  "san-francisco/swan-oyster-depot": {
+    "googlePlaceId": "ChIJEdGJjp6AhYAR1LtP-ptLrOg"
+  },
+  "san-francisco/tadich-grill": {
+    "googlePlaceId": "ChIJqVjXkGGAhYAR5X80yCKz9Wo"
+  },
+  "san-francisco/tartine-bakery": {
+    "googlePlaceId": "ChIJBVY2Bxh-j4ARa2zO8Jd6H2A"
+  },
+  "san-francisco/the-battery-sf": {
+    "googlePlaceId": "ChIJDTYl9V-AhYARfLVd9boHpkI"
+  },
+  "san-francisco/the-fillmore": {
+    "googlePlaceId": "ChIJO2EGsrmAhYARdDfDm-uVTQQ"
+  },
+  "san-francisco/the-interval-at-long-now": {
+    "googlePlaceId": "ChIJg67PeyeBhYAROkno8i7ZxlI"
+  },
+  "san-francisco/tiat": {
+    "googlePlaceId": "ChIJuVNMjW2BhYARyMagafdnXhY"
+  },
+  "san-francisco/tin-how-temple": {
+    "googlePlaceId": "ChIJ4W9VVouAhYARm7UjFtckzSE"
+  },
+  "san-francisco/tosca-cafe": {
+    "googlePlaceId": "ChIJ2xNJivSAhYARhivCKSIaZCY"
   },
   "san-francisco/twin-peaks": {
     "googlePlaceId": "ChIJt3HwrOJ9j4ARbW6uAcmhz7I"
   },
   "san-francisco/union-square": {
     "googlePlaceId": "ChIJu0D9046AhYARurZMmbXZQf4"
+  },
+  "san-francisco/uss-pampanito": {
+    "googlePlaceId": "ChIJ60RjV-KAhYARZTyNwVT1AWo"
+  },
+  "san-francisco/vaillancourt-fountain": {
+    "googlePlaceId": "ChIJzQpfzmaAhYARdEanmhXQpB4"
+  },
+  "san-francisco/vesuvio-cafe": {
+    "googlePlaceId": "ChIJT2cmiPSAhYARwyhb3VgcriM"
+  },
+  "san-francisco/war-memorial-opera-house": {
+    "googlePlaceId": "ChIJ7UVGDpmAhYARBt5goMZ-AO0"
+  },
+  "san-francisco/yerba-buena-gardens": {
+    "googlePlaceId": "ChIJCUsDnIeAhYARWCBpPTrHJpQ"
+  },
+  "san-francisco/zuni-cafe": {
+    "googlePlaceId": "ChIJO7u9q5-AhYARiSSXyWv9eJ8"
+  },
+  "silicon-valley/alpine-inn-zotts-rossottis": {
+    "googlePlaceId": "ChIJBZrpYl-lj4AR4K5ngtG0KOE"
+  },
+  "silicon-valley/apple-park-visitor-center": {
+    "googlePlaceId": "ChIJ0aPn18W1j4ARgC9zTSPeQRc"
+  },
+  "silicon-valley/bird-dog": {
+    "googlePlaceId": "ChIJAY-Z2Dm7j4ARqSN9jmWhs00"
+  },
+  "silicon-valley/cantor-arts-center": {
+    "googlePlaceId": "ChIJOfekbSy7j4ARlnP73s9MMBw"
+  },
+  "silicon-valley/computer-history-museum": {
+    "googlePlaceId": "ChIJm7NJkla3j4AR8vR-HWRxgOo"
+  },
+  "silicon-valley/dutch-goose": {
+    "googlePlaceId": "ChIJt8dAXemkj4ARXDrSoUeLfh0"
+  },
+  "silicon-valley/evvia-estiatorio": {
+    "googlePlaceId": "ChIJByU8Zze7j4ARtKef7nHMEks"
+  },
+  "silicon-valley/filoli-historic-house-and-garden": {
+    "googlePlaceId": "ChIJ1RXyM62hj4ARp0jUvcR7yzw"
+  },
+  "silicon-valley/googleplex": {
+    "googlePlaceId": "ChIJj61dQgK6j4AR4GeTYWZsKWw"
+  },
+  "silicon-valley/guadalupe-river-park": {
+    "googlePlaceId": "ChIJAbdJa2LLj4ARkimX9gu_Edg"
+  },
+  "silicon-valley/hakone-estate-and-gardens": {
+    "googlePlaceId": "ChIJjZdKxh9LjoARQsCEXVAnDx4"
+  },
+  "silicon-valley/hp-garage": {
+    "googlePlaceId": "ChIJE5Nk7rC7j4ARW_lI6P5DoMg"
+  },
+  "silicon-valley/il-fornaio-palo-alto": {
+    "googlePlaceId": "ChIJpf2l3zi7j4ARq9jTYIKdfb0"
+  },
+  "silicon-valley/intel-museum": {
+    "googlePlaceId": "ChIJi0P5bJHJj4ARlze0BLmnRHY"
+  },
+  "silicon-valley/levis-stadium": {
+    "googlePlaceId": "ChIJ3_DFJ8jJj4ARGH0fLjdaRRE"
+  },
+  "silicon-valley/municipal-rose-garden": {
+    "googlePlaceId": "ChIJb5KWbRTLj4AR1iYBl5vpNf8"
+  },
+  "silicon-valley/nikola-tesla-statue": {
+    "googlePlaceId": "ChIJ8xJN5e-6j4AR7WOoOj6iKzk"
+  },
+  "silicon-valley/nvidia-hq": {
+    "googlePlaceId": "ChIJ24DEAifKj4ARyQheuUd4UnY"
+  },
+  "silicon-valley/red-rock-coffee": {
+    "googlePlaceId": "ChIJF8VqETS3j4ARxmLCuGE7dzk"
+  },
+  "silicon-valley/rosicrucian-egyptian-museum": {
+    "googlePlaceId": "ChIJ1UbraGvLj4ARkgVRgqtwO4E"
+  },
+  "silicon-valley/sap-center": {
+    "googlePlaceId": "ChIJq56TmaDMj4ARJJCpWy9v-i0"
+  },
+  "silicon-valley/shoreline-amphitheatre": {
+    "googlePlaceId": "ChIJZeH1dve5j4ARPT9VG0oB3x0"
+  },
+  "silicon-valley/the-tech-interactive": {
+    "googlePlaceId": "ChIJR8HI1brMj4ARBnFq5rlvpx4"
+  },
+  "silicon-valley/the-village-pub": {
+    "googlePlaceId": "ChIJG1kW_BCkj4AR8ZZ326YvxPU"
+  },
+  "silicon-valley/villa-montalvo-montalvo-arts-center": {
+    "googlePlaceId": "ChIJ4YSL3_tKjoARpGsLdUkxppM"
+  },
+  "silicon-valley/winchester-mystery-house": {
+    "googlePlaceId": "ChIJjzp2WN7Kj4ARZu9lBAGmS2Q"
   }
 }

@@ -41,7 +41,31 @@
   "san-francisco/alcatraz-island": [
     "google"
   ],
+  "san-francisco/block-square-hq": [
+    "google"
+  ],
+  "san-francisco/craigslist-origin-apartment": [
+    "google"
+  ],
+  "san-francisco/doordash-hq": [
+    "google"
+  ],
   "san-francisco/haight-ashbury-intersection": [
+    "google"
+  ],
+  "san-francisco/hf0-hacker-fellowship": [
+    "google"
+  ],
+  "san-francisco/instacart-hq": [
+    "google"
+  ],
+  "san-francisco/linkedin-hq": [
+    "google"
+  ],
+  "san-francisco/odeo-twitter-birthplace": [
+    "google"
+  ],
+  "san-francisco/reddit-hq": [
     "google"
   ],
   "san-francisco/salesforce-hq": [
@@ -50,10 +74,109 @@
   "san-francisco/sfmoma": [
     "google"
   ],
+  "san-francisco/slack-original-hq": [
+    "google"
+  ],
   "san-francisco/the-presidio": [
     "google"
   ],
   "san-francisco/uber-hq": [
+    "google"
+  ],
+  "san-francisco/waymo-depot": [
+    "google"
+  ],
+  "silicon-valley/a16z-menlo-park-headquarters": [
+    "google"
+  ],
+  "silicon-valley/adobe-hq": [
+    "google"
+  ],
+  "silicon-valley/apple-garage": [
+    "google"
+  ],
+  "silicon-valley/apple-original-hq": [
+    "google"
+  ],
+  "silicon-valley/applied-materials-hq": [
+    "google"
+  ],
+  "silicon-valley/atari-hq": [
+    "google"
+  ],
+  "silicon-valley/calafia-cafe": [
+    "google"
+  ],
+  "silicon-valley/cisco-current-hq": [
+    "google"
+  ],
+  "silicon-valley/cisco-original-site": [
+    "google"
+  ],
+  "silicon-valley/dolby-labs-early-bay-area-lab": [
+    "google"
+  ],
+  "silicon-valley/ebay-hq": [
+    "google"
+  ],
+  "silicon-valley/electronic-arts-first-base": [
+    "google"
+  ],
+  "silicon-valley/fairchild-semiconductor-original-building": [
+    "google"
+  ],
+  "silicon-valley/google-garage": [
+    "google"
+  ],
+  "silicon-valley/gopro-origin-cottage": [
+    "google"
+  ],
+  "silicon-valley/nasa-ames-hangar-one": [
+    "google"
+  ],
+  "silicon-valley/nest-labs-first-office": [
+    "google"
+  ],
+  "silicon-valley/netflix-hq": [
+    "google"
+  ],
+  "silicon-valley/netscape-communications-original-hq": [
+    "google"
+  ],
+  "silicon-valley/oracle-hq": [
+    "google"
+  ],
+  "silicon-valley/paypal-hq": [
+    "google"
+  ],
+  "silicon-valley/peninsula-creamery": [
+    "google"
+  ],
+  "silicon-valley/silicon-graphics-sgi-original-campus": [
+    "google"
+  ],
+  "silicon-valley/stanford-main-quad-hoover-tower": [
+    "google"
+  ],
+  "silicon-valley/stanford-memorial-church": [
+    "google"
+  ],
+  "silicon-valley/stripe-hq": [
+    "google"
+  ],
+  "silicon-valley/the-lucky-building-karma-building": [
+    "google"
+  ],
+  "silicon-valley/x-com-early-address": [
+    "google"
+  ],
+  "silicon-valley/y-combinator-mountain-view-office": [
+    "google"
+  ],
+  "silicon-valley/yahoo-hq": [
+    "google"
+  ],
+  "silicon-valley/youtube-garage": [
     "google"
   ]
 }
