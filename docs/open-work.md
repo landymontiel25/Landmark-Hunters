@@ -87,8 +87,12 @@ Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 and saved, reports). Reporters live in server-only `tip_reports/` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
 lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it. A
-held or reported tip is withdrawn (status `withdrawn`), not deleted, so its
-reports stay for review. The word filter
+held or reported tip its author deletes is copied to server-only
+`tip_archive/` with its reports first, for the owner's review. Tip photos
+are create-only in Storage (no overwrite, no owner delete), so a reviewed
+tip's photo can't be swapped; the server removes it with its tip. Left
+open for the Content page: restoring a reported tip must reset its
+`reportCount`, or the next single report hides it again. The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read
 records `tip_views` for the Phase 4 "went" count. A tip's photo is deleted
 with its tip when `VITE_FIREBASE_STORAGE_BUCKET` is set on the server.

@@ -21,6 +21,10 @@ describe('tip word filter', () => {
     expect(filterTipText('You will get wet. Back entrance is drier.').flagged).toBe(false);
     expect(filterTipText('Cool rag. Head upstairs for views.').flagged).toBe(false);
   });
+  it('a mark at the end of a word, or a curly apostrophe, never hides it', () => {
+    for (const t of ['This place is shit!', 'I will kill you!', 'go die!!', 'what a retard!', 'kys!', 'i\u2019ll hurt you']) expect(filterTipText(t).flagged).toBe(true);
+    expect(filterTipText('b!tch at the door').reasons).toContain('profanity');
+  });
   it('holds threats, spam phrases and contact details', () => {
     expect(filterTipText('go die in the river').reasons).toContain('threat-or-spam');
     expect(filterTipText('DM me for a promo code').reasons).toContain('threat-or-spam');

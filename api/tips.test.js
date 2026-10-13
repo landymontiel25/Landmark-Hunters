@@ -89,6 +89,15 @@ describe('api/tips: helpful, saved and reports', () => {
     expect(db.docs['tip_reactions/me_ann_bell']).toBeUndefined();
     expect((await list()).body.reactions).toEqual({});
   });
+  it('ignores marks and reports left from a deleted tip with the same id', async () => {
+    db.docs['tips/ann_bell'].createdAtMs = 100;
+    db.docs['tip_reactions/me_ann_bell'] = { uid: 'me', tipId: 'ann_bell', helpful: true, saved: false, firstAt: 50 };
+    db.docs['tip_reports/ann_bell_me'] = { uid: 'me', tipId: 'ann_bell', at: 50 };
+    await react('ann_bell', 'helpful', true);
+    expect(db.docs['tips/ann_bell'].counts.helpful).toBe(1);
+    await call('POST', { body: { action: 'report', tipId: 'ann_bell', reason: 'spam' } });
+    expect(db.docs['tips/ann_bell'].reportCount).toBe(1);
+  });
   it('takes back a mark on a tip that has since been hidden', async () => {
     await react('ann_bell', 'saved', true);
     db.docs['tips/ann_bell'].hidden = true;

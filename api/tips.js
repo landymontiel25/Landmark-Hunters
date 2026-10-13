@@ -109,7 +109,10 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
       return on ? null : { helpful: false, saved: false };
     }
     if (on && !tipIsPublic(tipSnap.data())) return null;
-    const prev = rSnap.exists ? rSnap.data() : { helpful: false, saved: false };
+    // A mark from before this tip was posted belongs to a deleted tip that
+    // had the same id: it counts as no mark.
+    const fresh = rSnap.exists && (rSnap.data().firstAt ?? 0) >= (tipSnap.data().createdAtMs ?? 0);
+    const prev = fresh ? rSnap.data() : { helpful: false, saved: false };
     const next = { helpful: prev.helpful === true, saved: prev.saved === true, [kind]: on };
     if ((prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
     if (!next.helpful && !next.saved) tx.delete(reactionRef);
@@ -122,7 +125,7 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
         region: tipSnap.data().region || null,
         helpful: next.helpful,
         saved: next.saved,
-        ...(on && !rSnap.exists ? { firstAt: Date.now() } : {}),
+        ...(on && !fresh ? { firstAt: Date.now() } : {}),
         ...(on ? { [`${kind}At`]: Date.now() } : {}),
         updatedAt: FieldValue.serverTimestamp(),
       }, { merge: true });
@@ -145,7 +148,9 @@ export async function reportTip(db, uid, { tipId, reason = 'other' }) {
     const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reportRef)]);
     if (!tipSnap.exists) return null;
     const count = tipSnap.data().reportCount || 0;
-    if (rSnap.exists) return count >= TIP_REPORT_HIDE;
+    // A report from before this tip was posted (a deleted tip with the same
+    // id) doesn't stop a new one.
+    if (rSnap.exists && (rSnap.data().at ?? 0) >= (tipSnap.data().createdAtMs ?? 0)) return count >= TIP_REPORT_HIDE;
     tx.set(reportRef, { uid, tipId, authorUid: tipSnap.data().authorUid, reason, at: Date.now() });
     const next = count + 1;
     tx.update(found.ref, { reportCount: next, hidden: next >= TIP_REPORT_HIDE, lastReportedAt: Date.now() });

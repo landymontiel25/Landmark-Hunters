@@ -32,10 +32,11 @@ export async function blockedEitherWay(db, a, b) {
 // Every report (tip_reports/{tipId}_{uid}), helpful/saved mark
 // (tip_reactions) and view (tip_views) of one tip, removed with the tip so a
 // re-posted tip at the same id starts clean.
-export async function deleteTipChildren(db, tipId) {
+// keepReports leaves the reports for the archived copy (tip_archive).
+export async function deleteTipChildren(db, tipId, { keepReports = false } = {}) {
   const [reactions, reports, views] = await Promise.all([
     db.collection('tip_reactions').where('tipId', '==', tipId).get(),
-    db.collection('tip_reports').where('tipId', '==', tipId).get(),
+    keepReports ? { docs: [] } : db.collection('tip_reports').where('tipId', '==', tipId).get(),
     db.collection('tip_views').where('tipId', '==', tipId).get(),
   ]);
   const all = [...reactions.docs, ...reports.docs, ...views.docs];

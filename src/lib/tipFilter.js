@@ -15,7 +15,11 @@ export function normalizeForFilter(text) {
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
-    .replace(/[013457@$!|8]/g, (c) => LEET[c] || c);
+    // Curly quotes (an iPhone's default) read as straight ones.
+    .replace(/[\u2018\u2019\u02bc]/g, "'")
+    // A look-alike counts as a letter only before another letter or
+    // look-alike ("sh1t", "b!tch"), so "shit!" or "you!" keep their ending.
+    .replace(/[013457@$!|8]+(?=[a-z])/g, (run) => run.replace(/./g, (c) => LEET[c] || c));
 }
 
 // Slurs and hate terms. The long, unmistakable ones are also checked inside

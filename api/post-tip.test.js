@@ -78,15 +78,28 @@ describe('api/post-tip: posting', () => {
     expect(db.docs['tip_reports/me_bell_you']).toBeUndefined();
     expect(db.docs['tip_reactions/you_me_bell']).toBeUndefined();
   });
-  it('a held or reported tip is withdrawn, not deleted, keeping its reports, and blocks a repost', async () => {
+  it('a held or reported tip is archived with its reports when its author deletes it', async () => {
     await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' });
     db.docs['tips/me_bell'].reportCount = 1;
-    db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell' };
-    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).body).toMatchObject({ ok: true, withdrawn: true });
-    expect(db.docs['tips/me_bell'].status).toBe('withdrawn');
+    db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell', at: NOW };
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).code).toBe(200);
+    expect(db.docs['tips/me_bell']).toBeUndefined();
+    const archived = Object.keys(db.docs).filter((k) => k.startsWith('tip_archive/me_bell_'));
+    expect(archived).toHaveLength(1);
+    expect(db.docs[archived[0]]).toMatchObject({ tipId: 'me_bell', reportCount: 1, archivedBy: 'author' });
     expect(db.docs['tip_reports/me_bell_you']).toBeDefined();
-    expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(409);
-    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).code).toBe(403);
+    expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(200);
+  });
+  it("keeps a photo another of your tips still shows", async () => {
+    await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: photo() });
+    db.docs['tips/me_other'] = { authorUid: 'me', photoPath: 'tip_photos/me/p1.jpg', status: 'live' };
+    await call({ action: 'delete', landmarkId: 'bell' });
+    expect(deleted).toEqual([]);
+  });
+  it("can't delete a tip a moderator removed", async () => {
+    db.docs['tips/me_bell'] = { authorUid: 'me', status: 'removed' };
+    expect((await call({ action: 'delete', landmarkId: 'bell' })).code).toBe(403);
+    expect(db.docs['tips/me_bell']).toBeDefined();
   });
   it('allows one tip per person per place', async () => {
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(200);
@@ -141,13 +154,11 @@ describe('api/post-tip: deleting', () => {
     expect(db.docs['tip_views/you_me_bell']).toBeUndefined();
     expect(deleted).toEqual(['tip_photos/me/p1.jpg']);
   });
-  it("can't delete someone else's tip or a tip a moderator removed", async () => {
+  it("can't delete someone else's tip", async () => {
     db.docs['tips/you_bell'] = { authorUid: 'you', status: 'live' };
     caller = { uid: 'me', emailVerified: true };
     expect((await call({ action: 'delete', landmarkId: 'bell' })).code).toBe(404);
-    db.docs['tips/me_bell'] = { authorUid: 'me', status: 'removed' };
-    expect((await call({ action: 'delete', landmarkId: 'bell' })).code).toBe(403);
-    expect(db.docs['tips/me_bell']).toBeDefined();
+    expect(db.docs['tips/you_bell']).toBeDefined();
   });
   it('account deletion removes every tip, mark and view of yours and fixes the counts, even unverified', async () => {
     caller = { uid: 'me', emailVerified: false };
@@ -158,11 +169,13 @@ describe('api/post-tip: deleting', () => {
     db.docs['tip_views/me_you_x'] = { uid: 'me', tipId: 'you_x' };
     db.docs['tip_views/you_me_b'] = { uid: 'you', tipId: 'me_b', authorUid: 'me' };
     db.docs['tip_reports/you_x_me'] = { uid: 'me', tipId: 'you_x', reason: 'spam' };
+    db.docs['tip_archive/me_c_1'] = { authorUid: 'me', tipId: 'me_c' };
     const { code, body } = await call({ action: 'delete-mine' });
     expect(code).toBe(200);
     expect(body).toMatchObject({ tips: 2, reactions: 1 });
     expect(Object.keys(db.docs).filter((k) => k.startsWith('tips/me_') || k.startsWith('tip_reactions/me_') || k.startsWith('tip_views/'))).toEqual([]);
     expect(db.docs['tip_reports/you_x_me']).toBeUndefined();
+    expect(db.docs['tip_archive/me_c_1']).toBeUndefined();
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });
     expect(deleted).toEqual(['tip_photos/me/b.jpg']);
   });

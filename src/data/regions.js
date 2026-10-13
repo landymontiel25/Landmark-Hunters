@@ -397,7 +397,7 @@ const LEGACY_LANDMARK_IDS = {
 };
 
 export function canonicalLandmarkId(id, region) {
-  return LEGACY_LANDMARK_IDS[region]?.[id] || id;
+  return LEGACY_LANDMARK_IDS[region]?.[id] || LEGACY_LANDMARK_IDS[canonicalRegionId(region)]?.[id] || id;
 }
 
 // The reverse: old ids a current landmark was stored under before the rename

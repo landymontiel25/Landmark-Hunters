@@ -98,21 +98,43 @@ async function deleteTip(db, account, body) {
   if (typeof landmarkId !== 'string' || !/^[\w.-]{1,300}$/.test(landmarkId)) return [400, { error: 'landmarkId is required.' }];
   const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
   const ref = db.collection('tips').doc(tipId);
-  const snap = await ref.get();
-  if (!snap.exists || snap.data().authorUid !== account.uid) return [404, { error: 'No tip of yours here.' }];
-  const t = snap.data();
-  // A tip the owner removed stays, so its author can't post it again.
-  if (t.status === 'removed' || t.status === 'withdrawn') return [403, { error: 'This tip was removed.', code: 'removed' }];
-  // A held or reported tip is withdrawn, not deleted: it disappears for
-  // everyone, but its reports stay for the owner's review and a fresh copy
-  // can't be posted over them.
-  if (t.status === 'held' || (t.reportCount || 0) > 0) {
-    await ref.update({ status: 'withdrawn', withdrawnAt: Date.now(), updatedAt: FieldValue.serverTimestamp() });
-    return [200, { ok: true, withdrawn: true }];
+  // In one transaction, so a report landing meanwhile is either seen (and
+  // archived) or refused because the tip is gone.
+  const outcome = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists || snap.data().authorUid !== account.uid) return { code: 'missing' };
+    const t = snap.data();
+    // A tip the owner removed stays, so its author can't post it again.
+    if (t.status === 'removed') return { code: 'removed' };
+    // A held or reported tip is copied to server-only tip_archive first,
+    // with its report count, so the owner can still review it after its
+    // author deletes it.
+    if (t.status === 'held' || (t.reportCount || 0) > 0) {
+      tx.set(db.collection('tip_archive').doc(`${tipId}_${Date.now()}`), { ...t, tipId, archivedAt: Date.now(), archivedBy: 'author' });
+    }
+    tx.delete(ref);
+    return { code: 'deleted', tip: t };
+  });
+  if (outcome.code === 'missing') return [404, { error: 'No tip of yours here.' }];
+  if (outcome.code === 'removed') return [403, { error: 'This tip was removed by a moderator.', code: 'removed' }];
+  // Cleanup after the tip is gone is best effort: anything it leaves is
+  // older than a re-posted tip, and api/tips.js ignores marks and reports
+  // from before a tip was posted.
+  try {
+    await deleteTipChildren(db, tipId, { keepReports: outcome.tip.status === 'held' || (outcome.tip.reportCount || 0) > 0 });
+    await deleteTipPhotoIfUnused(db, account.uid, outcome.tip.photoPath);
+  } catch (e) {
+    console.error('tip cleanup failed', e?.message || e);
   }
-  await ref.delete();
-  await Promise.all([deleteTipChildren(db, tipId), deleteTipPhoto(t.photoPath)]);
   return [200, { ok: true }];
+}
+
+// A photo can sit on two tips (one upload, two places); it goes only when
+// no other tip of yours shows it.
+async function deleteTipPhotoIfUnused(db, uid, path) {
+  if (!path) return;
+  const others = await db.collection('tips').where('authorUid', '==', uid).where('photoPath', '==', path).limit(1).get();
+  if (others.empty) await deleteTipPhoto(path);
 }
 
 // Account deletion (src/lib/accountDeletion.js): the caller's tips (removed
@@ -130,6 +152,7 @@ async function deleteMine(db, account) {
   ]);
   // In parallel: account deletion runs under the function's time limit.
   await Promise.all(tips.docs.map((d) => Promise.all([d.ref.delete(), deleteTipChildren(db, d.id), deleteTipPhoto(d.data().photoPath)])));
+  const archived = await db.collection('tip_archive').where('authorUid', '==', uid).get();
   await Promise.all(reactions.docs.map((d) => {
     const r = d.data();
     const tipRef = db.collection('tips').doc(r.tipId);
@@ -146,7 +169,7 @@ async function deleteMine(db, account) {
   }));
   // Their reports go (who reported), the counts they added stay: a hide
   // from reports must not lift because a reporter left.
-  const rest = [...views.docs, ...authorViews.docs, ...reports.docs, db.collection('tip_post_log').doc(uid)].map((d) => d.ref || d);
+  const rest = [...views.docs, ...authorViews.docs, ...reports.docs, ...archived.docs, db.collection('tip_post_log').doc(uid)].map((d) => d.ref || d);
   for (let i = 0; i < rest.length; i += 400) {
     const b = db.batch();
     for (const r of rest.slice(i, i + 400)) b.delete(r);
