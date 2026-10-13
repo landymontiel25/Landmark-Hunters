@@ -1048,6 +1048,35 @@ service cloud.firestore {
               && request.resource.data.memberUids.hasAll(resource.data.memberUids.removeAll([request.auth.uid])))
         );
       allow delete: if request.auth != null && request.auth.uid == resource.data.ownerUid;
+
+      // Live location (src/lib/liveLocation.js), WhatsApp-style: one doc per
+      // sharing member. Every member of the trip can read them; you can only
+      // write your own (as a member, with a sane shape and an end at most 8
+      // hours away) and delete your own to stop sharing.
+      match /live_locations/{uid} {
+        function liveTrip() {
+          return get(/databases/$(database)/documents/group_trips/$(tripId)).data;
+        }
+        function liveShapeOk() {
+          let d = request.resource.data;
+          return d.keys().hasOnly(['uid', 'name', 'lat', 'lng', 'accuracy', 'mode', 'expiresAt', 'updatedAt'])
+            && d.uid == request.auth.uid
+            && d.name is string && d.name.size() <= 60
+            && d.lat is number && d.lat >= -90 && d.lat <= 90
+            && d.lng is number && d.lng >= -180 && d.lng <= 180
+            && (d.accuracy == null || d.accuracy is number)
+            && d.mode in ['viewing', 'timed']
+            && d.expiresAt is int
+            && d.expiresAt <= request.time.toMillis() + 8 * 60 * 60 * 1000 + 5 * 60 * 1000
+            && d.updatedAt == request.time;
+        }
+        allow read: if request.auth != null && request.auth.uid in liveTrip().memberUids;
+        allow create, update: if request.auth != null
+          && request.auth.uid == uid
+          && request.auth.uid in liveTrip().memberUids
+          && liveShapeOk();
+        allow delete: if request.auth != null && request.auth.uid == uid;
+      }
     }
 
     // Mapr chats and projects (src/lib/maprChats.js). A chat's memberUids

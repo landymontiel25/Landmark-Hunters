@@ -728,6 +728,29 @@ await t('storage: only a verified admin email can delete someone else\'s photo',
   await assertSucceeds(deleteObject(ref(real, 'review_photos/lm/ann.jpg')));
 });
 
+console.log('group trips: live location');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'group_trips/trip1'), { ownerUid: 'alice', memberUids: ['alice', 'bob'], memberNames: { alice: 'Alice', bob: 'Bob' }, name: 'Trip', regionId: 'miami', landmarkIds: [] });
+});
+const live = (uid, extra = {}) => ({ uid, name: uid, lat: 25.77, lng: -80.19, accuracy: 10, mode: 'timed', expiresAt: Date.now() + 60 * 60 * 1000, updatedAt: serverTimestamp(), ...extra });
+await t('a member shares their own live location', () => assertSucceeds(setDoc(doc(as('alice'), 'group_trips/trip1/live_locations/alice'), live('alice'))));
+await t('another member can see it', () => assertSucceeds(getDoc(doc(as('bob'), 'group_trips/trip1/live_locations/alice'))));
+await t('another member can list everyone sharing', () => assertSucceeds(getDocs(collection(as('bob'), 'group_trips/trip1/live_locations'))));
+await t('someone not on the trip cannot see it', () => assertFails(getDoc(doc(as('carol'), 'group_trips/trip1/live_locations/alice'))));
+await t('nobody can write another member\'s location', () => assertFails(setDoc(doc(as('bob'), 'group_trips/trip1/live_locations/alice'), live('alice'))));
+await t('a non-member cannot share into the trip', () => assertFails(setDoc(doc(as('carol'), 'group_trips/trip1/live_locations/carol'), live('carol'))));
+await t('a member can share and then update their own location', async () => {
+  await assertSucceeds(setDoc(doc(as('bob'), 'group_trips/trip1/live_locations/bob'), live('bob', { mode: 'viewing', expiresAt: Date.now() + 2 * 60 * 1000 })));
+  await assertSucceeds(setDoc(doc(as('bob'), 'group_trips/trip1/live_locations/bob'), live('bob', { lat: 25.78, accuracy: null })));
+});
+await t('a share cannot run past 8 hours', () => assertFails(setDoc(doc(as('bob'), 'group_trips/trip1/live_locations/bob'), live('bob', { expiresAt: Date.now() + 9 * 60 * 60 * 1000 }))));
+await t('extra fields are refused', () => assertFails(setDoc(doc(as('bob'), 'group_trips/trip1/live_locations/bob'), live('bob', { note: 'x' }))));
+await t('only the sharer can stop it', async () => {
+  await assertFails(deleteDoc(doc(as('bob'), 'group_trips/trip1/live_locations/alice')));
+  await assertSucceeds(deleteDoc(doc(as('alice'), 'group_trips/trip1/live_locations/alice')));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

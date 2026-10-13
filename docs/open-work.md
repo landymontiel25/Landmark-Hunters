@@ -46,6 +46,17 @@ offline retry queue (an offline check-in stays unverified), the legacy
 for pre-Phase-0 builds (remove with the Phase 2 read limits), and proof docs
 left behind when an account is deleted.
 
+## Live location on group trips: updates only while the app is open (2026-10-13)
+
+`group_trips/{id}/live_locations/{uid}` (rules + emulator tests in
+`scripts/rules-test.mjs`). Timed shares (15 min / 1 h / 8 h) are pushed by
+`LiveLocationSharer` (mounted app-wide) and page-only shares by
+`LiveLocationCard` with a 2-minute heartbeat. A web page can't send
+location in the background, so with the app closed a share freezes at its
+last spot until it expires. The iOS app's background location
+(`backgroundLocation.js`) could keep timed shares moving; not wired yet.
+Expired docs are hidden, not deleted, if the sharer never reopens the app.
+
 ## Save for later is device-only (2026-10-13)
 
 The bookmark's Save for later list lives in the trip state
