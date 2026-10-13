@@ -227,6 +227,10 @@ export interface NetworkMetric {
   launch_active: number;
   launch_following_discoverer: number;
   launch_follow_rate: number | null;
+  // Taste neighbors (written after the rest of the doc, so may be missing).
+  neighbors_active?: number;
+  neighbors_with_any?: number;
+  neighbors_with_high?: number;
 }
 
 export interface TipQueueRow {

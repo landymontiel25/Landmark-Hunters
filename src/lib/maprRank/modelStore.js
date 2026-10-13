@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { FEATURES, MODEL_CACHE_MS, MODEL_COLLECTION, NCF, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from './config.js';
+import { FEATURES, MODEL_CACHE_MS, MODEL_COLLECTION, NCF, NEIGHBORS_COLLECTION, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from './config.js';
+import { neighborsFromDoc } from './neighbors.js';
 import { ncfDocFor } from './experiments.js';
 import { ncfFromDoc } from './ncf.js';
 import { decodeNeighbors } from './similarity.js';
@@ -12,6 +13,7 @@ import { decodeNeighbors } from './similarity.js';
 //                Mapr v2 rollout (signed-in read; falls back to ncf)
 //   signals      mapr_models/signals        (signed-in read: check-ins this week per place)
 //   userEmbedding mapr_user_models/{uid}    (owner-only read)
+//   neighbors    mapr_neighbors/{uid}       (owner-only read; taste neighbors, Phase 2)
 // Any doc that is missing or fails to load is just null: ranking falls back
 // to the step before (maprRank/rank.js). Never throws.
 
@@ -70,10 +72,11 @@ export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), re
     const m = await cachedDoc(docName, [MODEL_COLLECTION, docName], ncfFromDoc, opts);
     return m || docName === NCF.modelDoc ? m : cachedDoc(NCF.modelDoc, [MODEL_COLLECTION, NCF.modelDoc], ncfFromDoc, opts);
   };
-  const [ncf, signals, user, ...sims] = await Promise.all([
+  const [ncf, signals, user, neighbors, ...sims] = await Promise.all([
     loadNcf(),
     cachedDoc('signals', [MODEL_COLLECTION, 'signals'], (d) => ({ trending: d.trending || {} }), opts),
     cachedDoc(`user:${uid}`, [USER_MODEL_COLLECTION, uid], (d) => ({ byVersion: d.byVersion && typeof d.byVersion === 'object' ? d.byVersion : {}, stagnating: d.stagnating === true }), opts),
+    cachedDoc(`neighbors:${uid}`, [NEIGHBORS_COLLECTION, uid], neighborsFromDoc, opts),
     ...regions.map((r) => cachedDoc(`sim:${r}`, [SIMILARITY_COLLECTION, r], (d) => decodeNeighbors(d.neighbors), opts)),
   ]);
   const similarity = {};
@@ -84,7 +87,7 @@ export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), re
   // embeddings (the doc keeps the last two, so a rollback still finds one).
   const emb = ncf?.version ? user?.byVersion?.[ncf.version] : null;
   const userEmbedding = Array.isArray(emb) ? emb : null;
-  return { similarity, ncf, signals, userEmbedding, serverStagnating: user?.stagnating === true };
+  return { similarity, ncf, signals, userEmbedding, serverStagnating: user?.stagnating === true, neighbors: neighbors || null };
 }
 
 export function _resetModelMemory() {

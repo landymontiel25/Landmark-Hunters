@@ -452,6 +452,14 @@ service cloud.firestore {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if false;
     }
+    // Your taste neighbors (discovery network plan, Phase 2), written by the
+    // nightly job: the people with live tips whose taste matches yours.
+    // Only you read it (it feeds your own Mapr ranking and the "Taste match"
+    // label you see on profiles); nobody sees who counts you as a neighbor.
+    match /mapr_neighbors/{uid} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if false;
+    }
     // The separate admin dashboard (admin-dashboard/). Its server checks the
     // owner's password, then mints a Firebase custom token for the uid
     // 'admin-dashboard' carrying the claim dashboardAdmin: true. Only the

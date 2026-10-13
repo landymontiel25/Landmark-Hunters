@@ -21,6 +21,7 @@ import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 import { followUpkeep } from './follows.js';
+import { runNeighbors } from './neighborsJob.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -324,6 +325,19 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
       upkeep.follows = await followUpkeep(db);
     } catch (e) {
       console.error('follow upkeep failed:', e?.message || e);
+    }
+    // Taste neighbors (Phase 2), with their counts added to the day's
+    // network_metrics doc.
+    try {
+      upkeep.neighbors = await runNeighbors(db, data, { nowMs: now });
+      if (!upkeep.neighbors.skipped) {
+        await db.collection('network_metrics').doc(date).set(
+          { neighbors_active: upkeep.neighbors.active, neighbors_with_any: upkeep.neighbors.withNeighbors, neighbors_with_high: upkeep.neighbors.withHigh },
+          { merge: true }
+        );
+      }
+    } catch (e) {
+      console.error('taste neighbors failed:', e?.message || e);
     }
     try {
       upkeep.scrubbed = await scrubCheckinLocation(db);

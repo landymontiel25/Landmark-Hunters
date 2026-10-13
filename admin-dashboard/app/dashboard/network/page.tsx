@@ -26,9 +26,15 @@ export default function Network() {
           <p className="text-xs muted mt-1">
             Launch area: {latest.launch_active} active in the last 30 days · {latest.launch_following_discoverer} follow a discoverer ({pct(latest.launch_follow_rate)}) · {latest.discoverers} discoverers with a live tip
           </p>
+          {latest.neighbors_active != null && (
+            <p className="text-xs muted mt-1">
+              Taste neighbors: {latest.neighbors_with_any ?? 0} of {latest.neighbors_active} active people have at least one (score 0.3 or more) · {latest.neighbors_with_high ?? 0} have a High match
+            </p>
+          )}
         </section>
       )}
       <TrendChart title="Follows" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'follows_total', label: 'Follows' }, { key: 'new_follows', label: 'New' }]} format={(v) => String(Math.round(v))} />
+      <TrendChart title="People with a taste neighbor" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'neighbors_with_any', label: 'Any' }, { key: 'neighbors_with_high', label: 'High' }]} format={(v) => String(Math.round(v))} />
       <TrendChart title="Launch area following a discoverer" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'launch_follow_rate', label: 'Share' }]} format={(v) => pct(v)} />
     </Page>
   );

@@ -11,6 +11,7 @@ const docs = {
   'mapr_models/signals': { trending: { 'milan/a': 3 } },
   'mapr_user_models/u1': { byVersion: { v1: [0, 0], v2: [0.5, 0.5] }, stagnating: true },
   'mapr_similarity/milan': { neighbors: JSON.stringify({ a: [['b', 0.5]] }) },
+  'mapr_neighbors/u1': { global: [{ uid: 'f1', score: 0.7 }, { uid: 'weak', score: 0.1 }], byRegion: { milan: [{ uid: 'f1', score: 0.8 }] } },
 };
 
 beforeEach(() => {
@@ -27,6 +28,8 @@ describe('loadMaprModels', () => {
     expect(m.signals.trending['milan/a']).toBe(3);
     expect(m.serverStagnating).toBe(true);
     expect(m.ncf.active).toBe(false); // the doc has no `active`: off
+    // Taste neighbors (Phase 2), floor applied.
+    expect(m.neighbors).toEqual({ global: [{ uid: 'f1', score: 0.7 }], byRegion: { milan: [{ uid: 'f1', score: 0.8 }] } });
   });
 
   it('loads mapr_models/ncf_v2 for a Mapr v2 user, and ncf for everyone else', async () => {

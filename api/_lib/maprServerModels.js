@@ -1,5 +1,6 @@
 import { adminDb } from './firebaseAdmin.js';
-import { MODEL_CACHE_MS, MODEL_COLLECTION, NCF, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from '../../src/lib/maprRank/config.js';
+import { MODEL_CACHE_MS, MODEL_COLLECTION, NCF, NEIGHBORS_COLLECTION, SIMILARITY_COLLECTION, USER_MODEL_COLLECTION } from '../../src/lib/maprRank/config.js';
+import { neighborsFromDoc } from '../../src/lib/maprRank/neighbors.js';
 import { ncfDocFor } from '../../src/lib/maprRank/experiments.js';
 import { ncfFromDoc } from '../../src/lib/maprRank/ncf.js';
 import { decodeNeighbors } from '../../src/lib/maprRank/similarity.js';
@@ -36,7 +37,7 @@ export async function loadServerModels({ uid, regions = [], now = Date.now(), db
     const snap = await store.collection(col).doc(id).get();
     return snap.exists ? snap.data() : null;
   };
-  const [ncf, signals, user, ...sims] = await Promise.all([
+  const [ncf, signals, user, neighbors, ...sims] = await Promise.all([
     (async () => {
       // Mapr v2 users get mapr_models/ncf_v2, falling back to ncf.
       const docName = uid ? ncfDocFor(uid) : NCF.modelDoc;
@@ -46,6 +47,7 @@ export async function loadServerModels({ uid, regions = [], now = Date.now(), db
     })(),
     cached('signals', async () => ({ trending: (await get(MODEL_COLLECTION, 'signals'))?.trending || {} }), now),
     uid ? cached(`user:${uid}`, () => get(USER_MODEL_COLLECTION, uid), now) : null,
+    uid ? cached(`neighbors:${uid}`, async () => neighborsFromDoc(await get(NEIGHBORS_COLLECTION, uid)), now) : null,
     ...regions.map((r) => cached(`sim:${r}`, async () => decodeNeighbors((await get(SIMILARITY_COLLECTION, r))?.neighbors), now)),
   ]);
   const similarity = {};
@@ -53,7 +55,7 @@ export async function loadServerModels({ uid, regions = [], now = Date.now(), db
     if (sims[i] && Object.keys(sims[i]).length) similarity[r] = sims[i];
   });
   const emb = ncf?.version ? user?.byVersion?.[ncf.version] : null;
-  return { similarity, ncf, signals, userEmbedding: Array.isArray(emb) ? emb : null, serverStagnating: user?.stagnating === true };
+  return { similarity, ncf, signals, userEmbedding: Array.isArray(emb) ? emb : null, serverStagnating: user?.stagnating === true, neighbors: neighbors || null };
 }
 
 export const _resetServerModels = () => cache.clear();

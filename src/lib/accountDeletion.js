@@ -122,6 +122,13 @@ export async function deleteAccountData(uid) {
     /* best-effort */
   }
 
+  // Taste neighbors (written nightly; the job also drops a gone account's).
+  try {
+    await deleteDoc(doc(db, 'mapr_neighbors', uid));
+  } catch {
+    /* best-effort */
+  }
+
   // Reviews (+ replies and photos)
   for (const d of (await safeGetDocs('reviews', 'userId', '==', uid)).docs) {
     const { landmarkId, photoURLs, photoURL } = d.data();

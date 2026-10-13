@@ -252,6 +252,7 @@ export const AB = {
 export const MODEL_COLLECTION = 'mapr_models'; // ncf, ncf_prev, ncf_v2, ncf_v2_prev, signals, status
 export const SIMILARITY_COLLECTION = 'mapr_similarity'; // one doc per region
 export const USER_MODEL_COLLECTION = 'mapr_user_models'; // one doc per uid, owner-only
+export const NEIGHBORS_COLLECTION = 'mapr_neighbors'; // taste neighbors, one doc per uid, owner-only (Phase 2)
 export const METRICS_COLLECTION = 'mapr_metrics'; // one doc per UTC day, server-only
 // The phone keeps the model docs this long before reading them again.
 export const MODEL_CACHE_MS = 12 * 60 * 60 * 1000;

@@ -206,7 +206,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
         </div>
         {!t.mine && authorOpen === t.id && (
           <div style={{ marginTop: 6 }}>
-            <FollowButton uid={t.authorUid} compact />
+            <FollowButton uid={t.authorUid} region={t.region || null} compact />
           </div>
         )}
         <p style={{ margin: '6px 0', lineHeight: 1.5, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{t.text}</p>
