@@ -21,6 +21,7 @@ const taste = {
   tasteIntro: 'I love tacos',
   insiderMode: true,
   tagScoreSummary: { philly: { food: 40 } },
+  swipeAnswers: [{ word: 'Pizza', answer: 'dislike' }],
 };
 const stop = (id) => ({ id, region: 'villanova', name: id, categories: ['food'] });
 
@@ -45,7 +46,7 @@ describe('client payload', () => {
     expect(tasteContextFor('solo', taste)).toEqual(taste);
   });
   it('a group request sends no taste context at all', () => {
-    expect(tasteContextFor('group', taste)).toEqual({ reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {} });
+    expect(tasteContextFor('group', taste)).toEqual({ reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {}, swipeAnswers: [] });
   });
 });
 
@@ -57,7 +58,7 @@ describe('api/plan-ai taste inputs', () => {
   });
   it('group ignores every taste field, even if a client sent them', () => {
     expect(requestForOf({ requestFor: 'group' })).toBe('group');
-    expect(tasteInputsOf({ ...taste, requestFor: 'group' })).toEqual({ reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {} });
+    expect(tasteInputsOf({ ...taste, requestFor: 'group' })).toEqual({ reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {}, swipeAnswers: [] });
   });
   it('the group prompt tells the model to follow the ask, not the usual taste', () => {
     expect(GROUP_REQUEST_TEXT).toMatch(/Follow exactly what they asked for/);

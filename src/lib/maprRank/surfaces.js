@@ -1,5 +1,5 @@
 import { effectiveTagScores } from '../tagScores.js';
-import { kindAffinity, kindBoost } from '../placeKinds.js';
+import { tasteKindAffinity, kindBoost } from '../placeKinds.js';
 import { getLandmark } from '../../data/regions.js';
 import { FEATURES } from './config.js';
 import { haversineKm } from './distanceDecay.js';
@@ -24,7 +24,7 @@ export function tasteScorer({ profile = null, myReviews = {}, now = Date.now(), 
     if (!cache.has(region)) cache.set(region, profile ? effectiveTagScores(profile, region, now) : {});
     return cache.get(region);
   };
-  const affinity = kindAffinity(myReviews, findLandmark);
+  const affinity = tasteKindAffinity(myReviews, findLandmark, profile);
   return (l) => {
     const s = scoresFor(l.regionId || l.region);
     const tag = (l.categories || []).reduce((sum, c) => sum + (s[c] || 0), 0);

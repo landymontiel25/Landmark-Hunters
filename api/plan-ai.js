@@ -329,7 +329,7 @@ export const requestForOf = (body) => (body?.requestFor === 'group' ? 'group' : 
 // interests, intro, tag scores or Insider Mode).
 export function tasteInputsOf(body) {
   if (requestForOf(body) === 'group') {
-    return { reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {} };
+    return { reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {}, swipeAnswers: [] };
   }
   return {
     reviews: body?.reviews,
@@ -337,6 +337,9 @@ export function tasteInputsOf(body) {
     tasteIntro: body?.tasteIntro,
     insiderMode: body?.insiderMode === true,
     tagScoreSummary: body?.tagScoreSummary,
+    swipeAnswers: (Array.isArray(body?.swipeAnswers) ? body.swipeAnswers : [])
+      .slice(0, 80)
+      .map((a) => ({ word: String(a?.word ?? '').slice(0, 40), answer: String(a?.answer ?? '').slice(0, 10) })),
   };
 }
 
@@ -579,7 +582,7 @@ async function handler(req, res) {
       try {
         const candidateRegions = regions.length ? uniqueRegionIds : near ? [...new Set(curated.filter((l) => Number.isFinite(l.lat) && kmBetween(near.lat, near.lng, l.lat, l.lng) <= CHAT_NEAR_KM).map((l) => l.regionId))] : [];
         const models = candidateRegions.length ? await loadServerModels({ uid: account.uid, regions: candidateRegions }) : null;
-        ranking = chatRanking({ uid: account.uid, pool, curated, regionsChosen: regions.length > 0, near, tagScoreSummary: taste.tagScoreSummary, reviews: taste.reviews, maprContext: body.maprContext, models, requestFor });
+        ranking = chatRanking({ uid: account.uid, pool, curated, regionsChosen: regions.length > 0, near, tagScoreSummary: taste.tagScoreSummary, reviews: taste.reviews, swipeAnswers: taste.swipeAnswers, maprContext: body.maprContext, models, requestFor });
       } catch (e) {
         console.warn('mapr chat ranking skipped:', e?.message || e);
         ranking = null;

@@ -4,7 +4,7 @@ import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
 import { tierStars, isVisitedReview } from './ratingFlow';
 import { linksFrom, primaryCategory } from './preferenceChains';
 import { formatDistance } from './formatDistance';
-import { placeKinds, kindSimilarity, kindAffinity, kindBoost } from './placeKinds.js';
+import { placeKinds, kindSimilarity, tasteKindAffinity, kindBoost } from './placeKinds.js';
 import { scorePicks, planExploration } from './maprRank/rank.js';
 import { assignSlots } from './maprRank/exploration.js';
 import { FEATURES } from './maprRank/config.js';
@@ -501,7 +501,7 @@ export function rankNearbyCandidates({ profile, origin, miles, myReviews = {}, c
   // Within a category, the KIND of place matters too (placeKinds.js): a loved
   // steakhouse lifts other steakhouses, a disliked kind sinks its places.
   const byKey = new Map(landmarksForKinds().map((l) => [`${l.regionId}/${l.id}`, l]));
-  const affinity = kindAffinity(myReviews, (r) => byKey.get(`${r.region}/${r.landmarkId}`) || null);
+  const affinity = tasteKindAffinity(myReviews, (r) => byKey.get(`${r.region}/${r.landmarkId}`) || null, profile);
   for (const p of [...usual, ...fresh]) {
     const boost = kindBoost(byKey.get(pickKey(p)) || p, affinity);
     if (boost) p.tagScore = Math.round(((p.tagScore || 0) + boost) * 10) / 10;
