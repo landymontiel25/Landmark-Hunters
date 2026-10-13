@@ -1,8 +1,44 @@
 {
+  "aranjuez/churreria-palomino": [
+    "google"
+  ],
+  "aranjuez/freson-de-aranjuez": [
+    "google"
+  ],
+  "aranjuez/fuente-de-apolo": [
+    "google"
+  ],
   "aranjuez/jardin-de-la-isla": [
     "google"
   ],
+  "aranjuez/jardin-del-rey": [
+    "google"
+  ],
   "aranjuez/palacio-real-aranjuez": [
+    "google"
+  ],
+  "aranjuez/raso-de-la-estrella": [
+    "google"
+  ],
+  "aranjuez/reserva-el-regajal": [
+    "google"
+  ],
+  "aranjuez/restaurante-la-almazara": [
+    "google"
+  ],
+  "aranjuez/restaurante-rusinol-aranjuez": [
+    "google"
+  ],
+  "aranjuez/rio-tajo-aranjuez": [
+    "google"
+  ],
+  "aranjuez/salon-de-porcelana-aranjuez": [
+    "google"
+  ],
+  "aranjuez/tenta-brewing-aranjuez": [
+    "google"
+  ],
+  "aranjuez/tren-de-la-fresa": [
     "google"
   ],
   "cape-town/africa-cafe": [
@@ -177,6 +213,51 @@
     "google"
   ],
   "miami/titanic-brewing-company": [
+    "google"
+  ],
+  "milan/arengario-di-monza": [
+    "google"
+  ],
+  "milan/cappella-di-teodolinda-corona-ferrea": [
+    "google"
+  ],
+  "milan/cappella-espiatoria-di-monza": [
+    "google"
+  ],
+  "milan/cimitero-monumentale": [
+    "google"
+  ],
+  "milan/citylife-tre-torri": [
+    "google"
+  ],
+  "milan/milano-centrale": [
+    "google"
+  ],
+  "milan/monza-park": [
+    "google"
+  ],
+  "milan/musei-civici-di-monza": [
+    "google"
+  ],
+  "milan/navigli-district": [
+    "google"
+  ],
+  "milan/naviglio-grande": [
+    "google"
+  ],
+  "milan/piazza-mercanti": [
+    "google"
+  ],
+  "milan/pirelli-hangarbicocca": [
+    "google"
+  ],
+  "milan/quadrilatero-della-moda": [
+    "google"
+  ],
+  "milan/roseto-niso-fumagalli": [
+    "google"
+  ],
+  "milan/royal-villa-of-monza": [
     "google"
   ],
   "nyc/grants-tomb": [

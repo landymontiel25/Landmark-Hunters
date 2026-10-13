@@ -1,4 +1,80 @@
 {
+  "aranjuez/asador-el-corral-de-la-abuela": {
+    "name": "Asador El Corral de la Abuela",
+    "lat": 40.0364693,
+    "lng": -3.6038072,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJQUebA74FQg0RtvRD_AhFUqE",
+          "name": "Restaurante El Corral de la Abuela",
+          "lat": 40.036380199999996,
+          "lng": -3.6039513999999997,
+          "distanceM": 16,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "aranjuez/bierlab-aranjuez": {
+    "name": "BierLab",
+    "lat": 40.0283467,
+    "lng": -3.6027462,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ0SXy9L8FQg0RbWK6wb1tF5g",
+          "name": "Bar BierLab. Aranjuez",
+          "lat": 40.028314699999996,
+          "lng": -3.6027182,
+          "distanceM": 4,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/calle-de-la-reina": {
+    "name": "Calle de la Reina",
+    "lat": 40.03818,
+    "lng": -3.59373,
+    "google": {
+      "reason": "name matches but 616 m away",
+      "candidates": [
+        {
+          "id": "ChIJ8-WUopAFQg0RgLWcU7MZOeI",
+          "name": "Calle de la Reina",
+          "lat": 40.0393356,
+          "lng": -3.5866548,
+          "distanceM": 616,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/casa-de-oficios-y-caballeros": {
+    "name": "Casa de Oficios y Caballeros",
+    "lat": 40.03436,
+    "lng": -3.60758,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJvV5Nj7sFQg0R-m1mjEyTu0c",
+          "name": "Casa de Santiago de los Caballeros",
+          "lat": 40.0348542,
+          "lng": -3.6069052999999998,
+          "distanceM": 79,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
   "aranjuez/casa-jose-restaurant": {
     "name": "Casa José",
     "lat": 40.034,
@@ -13,6 +89,354 @@
           "lng": -3.6050237999999997,
           "distanceM": 346,
           "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/casa-pablo-restaurant": {
+    "name": "Casa Pablo",
+    "lat": 40.03328,
+    "lng": -3.6029,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ8-rJ4L0FQg0RXTw9zoEBkcY",
+          "name": "Restaurante en Aranjuez de Cocina Tradicional Madrid | Casa Pablo",
+          "lat": 40.033242,
+          "lng": -3.6029249999999995,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ7YHwXr4FQg0R51YK-dq5kAE",
+          "name": "Restaurante Casa Pablete",
+          "lat": 40.0314982,
+          "lng": -3.6039138999999993,
+          "distanceM": 216,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJf62tlb4FQg0RjQJKJ4tGI_k",
+          "name": "Casa José",
+          "lat": 40.0318852,
+          "lng": -3.6050237999999997,
+          "distanceM": 238,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "aranjuez/club-piraguismo-aranjuez": {
+    "name": "Club Escuela de Piragüismo de Aranjuez",
+    "lat": 40.0376966,
+    "lng": -3.6042839,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJhYVp27wFQg0RFhFJINN1j1A",
+          "name": "Canoe Club School Aranjuez",
+          "lat": 40.0376763,
+          "lng": -3.6042381,
+          "distanceM": 5,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "aranjuez/convento-de-san-pascual": {
+    "name": "Convento de San Pascual",
+    "lat": 40.02933,
+    "lng": -3.6005,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJG_oLbJUFQg0RAZyuZK0jEGw",
+          "name": "Parroquia de San Pascual",
+          "lat": 40.029663899999996,
+          "lng": -3.6005072,
+          "distanceM": 37,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "aranjuez/dolce-fusione-gelato": {
+    "name": "Dolce Fusione (Heladería Artesanal)",
+    "lat": 40.0345,
+    "lng": -3.6055,
+    "google": {
+      "reason": "name matches but 317 m away",
+      "candidates": [
+        {
+          "id": "ChIJ94P1ptoFQg0Rf6lgezNjzd8",
+          "name": "Dolce Fusione - Heladería Artesanal Café-Bar",
+          "lat": 40.0318393,
+          "lng": -3.6041516,
+          "distanceM": 317,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/el-tomate-restaurant": {
+    "name": "El Tomate de Aranjuez",
+    "lat": 40.034,
+    "lng": -3.605,
+    "google": {
+      "reason": "name matches but 616 m away",
+      "candidates": [
+        {
+          "id": "ChIJYwx0eL8FQg0RgwXHaEhfpgM",
+          "name": "Restaurante El Tomate De Aranjuez",
+          "lat": 40.028515399999996,
+          "lng": -3.60402,
+          "distanceM": 616,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/estanque-de-los-chinescos": {
+    "name": "Estanque de los Chinescos",
+    "lat": 40.04,
+    "lng": -3.596,
+    "google": {
+      "reason": "name matches but 182 m away",
+      "candidates": [
+        {
+          "id": "ChIJ6f9kVpoFQg0RbVGKyaI7_Gg",
+          "name": "Estanque de Chinescos",
+          "lat": 40.0406857,
+          "lng": -3.5940540999999997,
+          "distanceM": 182,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/fuente-de-narciso": {
+    "name": "Fuente de Narciso",
+    "lat": 40.0398,
+    "lng": -3.5975,
+    "google": {
+      "reason": "name matches but 257 m away",
+      "candidates": [
+        {
+          "id": "ChIJUYiJEJgFQg0R7wxbpYzB6ek",
+          "name": "Fuente de Narciso",
+          "lat": 40.040383999999996,
+          "lng": -3.600415,
+          "distanceM": 257,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/heladeria-isabelo": {
+    "name": "Heladería Isabelo",
+    "lat": 40.0342,
+    "lng": -3.6058,
+    "google": {
+      "reason": "name matches but 255 m away",
+      "candidates": [
+        {
+          "id": "ChIJmTRliL4FQg0RqYukt57zrJ4",
+          "name": "Heladeria Isabelo",
+          "lat": 40.0322989,
+          "lng": -3.6041171000000003,
+          "distanceM": 255,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJidwj2pYFQg0RckF6TeDlfj0",
+          "name": "Cafetería Isabelo",
+          "lat": 40.0354591,
+          "lng": -3.5971450999999997,
+          "distanceM": 750,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "aranjuez/heladeria-la-rotonda": {
+    "name": "Heladería La Rotonda",
+    "lat": 40.035,
+    "lng": -3.606,
+    "google": {
+      "reason": "name matches but 839 m away",
+      "candidates": [
+        {
+          "id": "ChIJ84GEPgAFQg0RKJTGTUonFRU",
+          "name": "Heladería La Rotonda Aranjuez",
+          "lat": 40.0314342,
+          "lng": -3.5973152,
+          "distanceM": 839,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/iglesia-de-alpajes": {
+    "name": "Iglesia de Alpajés",
+    "lat": 40.0358439,
+    "lng": -3.5984673,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJGWzyHZcFQg0RGoYnSg44-0E",
+          "name": "Iglesia de Nuestra Señora de las Angustias (Iglesia de Alpajés)",
+          "lat": 40.0358509,
+          "lng": -3.5985511999999997,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/iglesia-de-san-antonio": {
+    "name": "Iglesia de San Antonio",
+    "lat": 40.03318,
+    "lng": -3.60569,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJB_Y4IrwFQg0RCGsPARVN418",
+          "name": "San Antonio de Padua Church",
+          "lat": 40.033415600000005,
+          "lng": -3.6056443000000002,
+          "distanceM": 26,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJdaYUnbkFQg0Rv-GWFSzaiVc",
+          "name": "Parroquia del Espíritu Santo",
+          "lat": 40.032484,
+          "lng": -3.6092524999999998,
+          "distanceM": 313,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJG_oLbJUFQg0RAZyuZK0jEGw",
+          "name": "Parroquia de San Pascual",
+          "lat": 40.029663899999996,
+          "lng": -3.6005072,
+          "distanceM": 590,
+          "nameMatch": false,
+          "overlap": 0.33
+        }
+      ]
+    }
+  },
+  "aranjuez/jardin-de-isabel-ii": {
+    "name": "Jardín de Isabel II",
+    "lat": 40.0351,
+    "lng": -3.60435,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJz8zoTbwFQg0RM08WE5oYOJE",
+          "name": "Isabel II Garden",
+          "lat": 40.0349182,
+          "lng": -3.6043643999999997,
+          "distanceM": 20,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "aranjuez/jardin-de-la-reina": {
+    "name": "Jardín de la Reina",
+    "lat": 40.03672,
+    "lng": -3.60785,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJgWXGDLsFQg0RWHvwp7Y3hfY",
+          "name": "King's Garden",
+          "lat": 40.035921699999996,
+          "lng": -3.6078978999999998,
+          "distanceM": 89,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJG6CBmrwFQg0RSs0LZuyY2RU",
+          "name": "Garden of the Island",
+          "lat": 40.0385352,
+          "lng": -3.6094334000000003,
+          "distanceM": 243,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJK599G-oFQg0RzJeIRxuaTGI",
+          "name": "Restaurante Jardin del Principe",
+          "lat": 40.0365,
+          "lng": -3.60339,
+          "distanceM": 380,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "aranjuez/real-cortijo-san-isidro": {
+    "name": "Real Cortijo de San Isidro",
+    "lat": 40.05458,
+    "lng": -3.56528,
+    "google": {
+      "reason": "name matches but 199 m away",
+      "candidates": [
+        {
+          "id": "ChIJxYvxyJgPQg0RnplcUFCU9xg",
+          "name": "Real Cortijo de San Isidro",
+          "lat": 40.0549161,
+          "lng": -3.5629801999999997,
+          "distanceM": 199,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "aranjuez/restaurante-careme-aranjuez": {
+    "name": "Restaurante Carême",
+    "lat": 40.0355918,
+    "lng": -3.6067408,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJl15PgLwFQg0Rjzam3AUAWHE",
+          "name": "Restaurante Carême Jesús del Cerro",
+          "lat": 40.035578,
+          "lng": -3.6065690999999998,
+          "distanceM": 15,
+          "nameMatch": false,
           "overlap": 1
         }
       ]
@@ -2505,6 +2929,408 @@
           "distanceM": 554,
           "nameMatch": true,
           "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/autodromo-nazionale-monza": {
+    "name": "Autodromo Nazionale Monza",
+    "lat": 45.619106,
+    "lng": 9.282641,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJfb1IDja6hkcRMqbTqfV-XmQ",
+          "name": "Monza Circuit",
+          "lat": 45.617686,
+          "lng": 9.281033299999999,
+          "distanceM": 201,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "milan/bosco-verticale": {
+    "name": "Bosco Verticale",
+    "lat": 45.486737,
+    "lng": 9.191263,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJhT25ytLGhkcRJQQzQy3d4_g",
+          "name": "Bosco Verticale Restaurant",
+          "lat": 45.4867115,
+          "lng": 9.1910436,
+          "distanceM": 17,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJqWd2KADHhkcR6Mqx7P8JU_I",
+          "name": "Baunilla Bosco Verticale",
+          "lat": 45.4861052,
+          "lng": 9.1925455,
+          "distanceM": 122,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJIZuktDLBhkcReyE6f2hoUFQ",
+          "name": "Bosco Verticale",
+          "lat": 45.4857042,
+          "lng": 9.190538499999999,
+          "distanceM": 128,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/brera-district": {
+    "name": "Brera District",
+    "lat": 45.472,
+    "lng": 9.1875,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJH05-WBHuhkcRNjexLI56Nhs",
+          "name": "Pinacoteca di Brera",
+          "lat": 45.471954499999995,
+          "lng": 9.1878145,
+          "distanceM": 25,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJ6wRiLw7HhkcRBoOjB3crp_w",
+          "name": "Palazzo Brera",
+          "lat": 45.4718222,
+          "lng": 9.1877791,
+          "distanceM": 29,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJCYiuC7PGhkcRz09nwZLNenU",
+          "name": "Brera",
+          "lat": 45.4712356,
+          "lng": 9.1874068,
+          "distanceM": 85,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/castello-sforzesco": {
+    "name": "Castello Sforzesco",
+    "lat": 45.470301,
+    "lng": 9.178091,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJPXupDrb8hkcRm8JyxGbdVmU",
+          "name": "Sforzesco Castle",
+          "lat": 45.4704762,
+          "lng": 9.1793325,
+          "distanceM": 99,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "milan/darsena-di-milano": {
+    "name": "Darsena di Milano",
+    "lat": 45.452911,
+    "lng": 9.178572,
+    "google": {
+      "reason": "name matches but 237 m away",
+      "candidates": [
+        {
+          "id": "ChIJs71gAPzDhkcRKHrc5CKLd6Q",
+          "name": "Darsena di Milano",
+          "lat": 45.453634799999996,
+          "lng": 9.1757125,
+          "distanceM": 237,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/duomo-di-monza": {
+    "name": "Duomo di Monza",
+    "lat": 45.5836,
+    "lng": 9.27585,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJZRlLc6K5hkcRBrJIM1td7VA",
+          "name": "Parrocchia di S. Giovanni Battista Duomo di Monza",
+          "lat": 45.583573699999995,
+          "lng": 9.2754664,
+          "distanceM": 30,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/duomo-rooftops": {
+    "name": "Duomo Rooftops",
+    "lat": 45.4643,
+    "lng": 9.1901,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJUY43hqXHhkcRy0hDb9CKlAg",
+          "name": "Terrazza Duomo 21",
+          "lat": 45.4647763,
+          "lng": 9.1896676,
+          "distanceM": 63,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJ1Tpt7K7GhkcRZbKfL7oet3E",
+          "name": "Terrazza del Duomo",
+          "lat": 45.4642294,
+          "lng": 9.1911954,
+          "distanceM": 86,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJiSGn-a7GhkcR20GOfhtAv_U",
+          "name": "La Rinascente Rooftop",
+          "lat": 45.464791999999996,
+          "lng": 9.191913,
+          "distanceM": 152,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "milan/fondazione-prada": {
+    "name": "Fondazione Prada",
+    "lat": 45.443922,
+    "lng": 9.204322,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJzdA2xz3EhkcRaZFRmQn7rHE",
+          "name": "Fondazione Prada",
+          "lat": 45.4440339,
+          "lng": 9.2044443,
+          "distanceM": 16,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ16AE-J7GhkcRnxchwJ_WRRU",
+          "name": "Fondazione Prada",
+          "lat": 45.444355599999994,
+          "lng": 9.2052072,
+          "distanceM": 84,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/galleria-arte-moderna-milano": {
+    "name": "Galleria d'Arte Moderna",
+    "lat": 45.472533,
+    "lng": 9.199676,
+    "google": {
+      "reason": "name matches but 941 m away",
+      "candidates": [
+        {
+          "id": "ChIJIejx8rnGhkcRx73hnSpeDpY",
+          "name": "Villa Reale",
+          "lat": 45.472470200000004,
+          "lng": 9.1997553,
+          "distanceM": 9,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ0aJqFrnGhkcRC7zxxQ2Yk8E",
+          "name": "Modern Art Gallery",
+          "lat": 45.472777799999996,
+          "lng": 9.200000000000001,
+          "distanceM": 37,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJW7kYvLnGhkcRwkQX9ATYw5U",
+          "name": "PAC Padiglione d'Arte Contemporanea",
+          "lat": 45.472932,
+          "lng": 9.1994653,
+          "distanceM": 47,
+          "nameMatch": false,
+          "overlap": 0.33
+        }
+      ]
+    }
+  },
+  "milan/luini-panzerotti": {
+    "name": "Luini",
+    "lat": 45.4657,
+    "lng": 9.1913,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJoUEJQq7GhkcRI153LB6-eXY",
+          "name": "Panzerotti Luini",
+          "lat": 45.465828599999995,
+          "lng": 9.1915578,
+          "distanceM": 25,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/pasticceria-marchesi-1824": {
+    "name": "Pasticceria Marchesi 1824",
+    "lat": 45.465486,
+    "lng": 9.180653,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJD5IlqVPBhkcRr_-qUpovfSA",
+          "name": "Marchesi 1824",
+          "lat": 45.4655917,
+          "lng": 9.180677200000002,
+          "distanceM": 12,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJQykP363GhkcR57Ljx7fpoWw",
+          "name": "Marchesi 1824",
+          "lat": 45.4656209,
+          "lng": 9.1900859,
+          "distanceM": 736,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ6zoIQLDGhkcRWO7yEfkZWLI",
+          "name": "Marchesi 1824",
+          "lat": 45.46843760000001,
+          "lng": 9.1951433,
+          "distanceM": 1177,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "milan/piazza-del-duomo": {
+    "name": "Piazza del Duomo",
+    "lat": 45.46391,
+    "lng": 9.19064,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJB_yYk67GhkcRjJyOxmJ15xI",
+          "name": "Duomo Cathedral Square",
+          "lat": 45.464231399999996,
+          "lng": 9.189874999999999,
+          "distanceM": 70,
+          "nameMatch": false,
+          "overlap": 0.33
+        },
+        {
+          "id": "ChIJB4CSZFzAhkcRwPCxEusUvvM",
+          "name": "Piazza del Duomo",
+          "lat": 45.4641941,
+          "lng": 9.189698,
+          "distanceM": 80,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJoTZGw67GhkcREy4aECdOf6s",
+          "name": "Duomo di Milano",
+          "lat": 45.464097599999995,
+          "lng": 9.1919265,
+          "distanceM": 102,
+          "nameMatch": false,
+          "overlap": 0.33
+        }
+      ]
+    }
+  },
+  "milan/santa-maria-presso-san-satiro": {
+    "name": "Santa Maria presso San Satiro",
+    "lat": 45.462704,
+    "lng": 9.187834,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJt1PB9qvGhkcRwIetkCDW1qM",
+          "name": "Chiesa di Santa Maria",
+          "lat": 45.4628771,
+          "lng": 9.1876895,
+          "distanceM": 22,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "milan/the-last-supper": {
+    "name": "The Last Supper (Leonardo da Vinci)",
+    "lat": 45.466472,
+    "lng": 9.170873,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ76jHT1rBhkcRhv_9lZv4uG0",
+          "name": "Leonardo's Last Supper Museum",
+          "lat": 45.4661853,
+          "lng": 9.170600499999999,
+          "distanceM": 38,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "milan/torre-branca": {
+    "name": "Torre Branca",
+    "lat": 45.473285,
+    "lng": 9.172885,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJrxs7lEXBhkcR4V5LMTSeSyQ",
+          "name": "Branca Tower",
+          "lat": 45.473469699999995,
+          "lng": 9.1728953,
+          "distanceM": 21,
+          "nameMatch": false,
+          "overlap": 0.5
         }
       ]
     }

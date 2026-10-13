@@ -1,12 +1,57 @@
 {
+  "aranjuez/aguatinta-restaurant": {
+    "googlePlaceId": "ChIJW80BlL0FQg0RvdTqz1T-ttA"
+  },
+  "aranjuez/almibar-restaurant": {
+    "googlePlaceId": "ChIJV12gcwAFQg0RUPRWDkKTC8I"
+  },
+  "aranjuez/bodega-del-real-cortijo": {
+    "googlePlaceId": "ChIJGdHcRqwPQg0RUFx4Xdp4hyQ"
+  },
+  "aranjuez/casa-de-infantes": {
+    "googlePlaceId": "ChIJVVWVMrwFQg0REe5-MM6cjy8"
+  },
   "aranjuez/casa-del-labrador": {
     "googlePlaceId": "ChIJMdHteZAFQg0RO9DehSpov0s"
+  },
+  "aranjuez/el-rana-verde-restaurant": {
+    "googlePlaceId": "ChIJfUVs330FQg0RFuEcLECIEH4"
+  },
+  "aranjuez/estacion-de-aranjuez": {
+    "googlePlaceId": "ChIJaVRSsbMFQg0ReZIac8V9SEI"
+  },
+  "aranjuez/fuente-de-hercules-y-anteo": {
+    "googlePlaceId": "ChIJNdpujbwFQg0REWzZ2DyruO8"
+  },
+  "aranjuez/jardin-del-parterre": {
+    "googlePlaceId": "ChIJTehvE74FQg0RFVuwGTxsrMU"
   },
   "aranjuez/jardin-del-principe": {
     "googlePlaceId": "ChIJv7hP3pcFQg0R0VNJLBxoxAk"
   },
+  "aranjuez/mar-de-ontigola": {
+    "googlePlaceId": "ChIJO6jKhugFQg0R3XnruVYPUWc"
+  },
+  "aranjuez/mercado-de-abastos-aranjuez": {
+    "googlePlaceId": "ChIJaZ_Vkb4FQg0RXsOGJ9RLaPc"
+  },
+  "aranjuez/museo-faluas-reales": {
+    "googlePlaceId": "ChIJHVSn8aEFQg0REawQJ_CoTEQ"
+  },
   "aranjuez/plaza-de-parejas": {
     "googlePlaceId": "ChIJb0f2r7sFQg0Rqr6_agsHfzY"
+  },
+  "aranjuez/plaza-de-san-antonio": {
+    "googlePlaceId": "ChIJ-XLbh7wFQg0RwleyLpBqjoI"
+  },
+  "aranjuez/plaza-de-toros-aranjuez": {
+    "googlePlaceId": "ChIJezbMUpUFQg0Rvihw1TXh3Bk"
+  },
+  "aranjuez/postas-taperia": {
+    "googlePlaceId": "ChIJYeemfhUFQg0R_7t-Qvqnc6I"
+  },
+  "aranjuez/teatro-real-carlos-iii": {
+    "googlePlaceId": "ChIJLQMW070FQg0RBM91hgwmd7M"
   },
   "cape-town/artscape-theatre-centre": {
     "googlePlaceId": "ChIJxZpWKIpdzB0R4p7yjUOgkTs"
@@ -748,6 +793,78 @@
   },
   "miami/zak-the-baker": {
     "googlePlaceId": "ChIJMVmQ-LK22YgRXCFmM480oqw"
+  },
+  "milan/arco-della-pace": {
+    "googlePlaceId": "ChIJz7dBqkfBhkcRFcbFfk20vPs"
+  },
+  "milan/basilica-di-san-lorenzo-maggiore": {
+    "googlePlaceId": "ChIJL3DCeADFhkcR1Yk7DOpFkbY"
+  },
+  "milan/basilica-di-santambrogio": {
+    "googlePlaceId": "ChIJCfxX3lbBhkcRY78V8stFXio"
+  },
+  "milan/biblioteca-degli-alberi": {
+    "googlePlaceId": "ChIJ90iZT83GhkcRXLqkHmqRL2w"
+  },
+  "milan/camparino-in-galleria": {
+    "googlePlaceId": "ChIJp12yKazGhkcRf6_h7JBATK0"
+  },
+  "milan/colonne-di-san-lorenzo": {
+    "googlePlaceId": "ChIJpQh7KgDDhkcRMFvvPUBrAF0"
+  },
+  "milan/duomo-di-milano": {
+    "googlePlaceId": "ChIJoTZGw67GhkcREy4aECdOf6s"
+  },
+  "milan/galleria-vittorio-emanuele-ii": {
+    "googlePlaceId": "ChIJw7aG_QY1eUcRFtQJWKmcCyc"
+  },
+  "milan/museo-del-novecento": {
+    "googlePlaceId": "ChIJLd2VYRsuVUARNjgLnq9U2dE"
+  },
+  "milan/museo-scienza-e-tecnologia-leonardo-da-vinci": {
+    "googlePlaceId": "ChIJm-5swlnBhkcRkuvlGcqPRXI"
+  },
+  "milan/palazzo-reale-di-milano": {
+    "googlePlaceId": "ChIJoXV1xa7GhkcRgWMIumOeV90"
+  },
+  "milan/parco-sempione": {
+    "googlePlaceId": "ChIJWUblrUjBhkcRtpP5ICHdu7g"
+  },
+  "milan/peck-milano": {
+    "googlePlaceId": "ChIJTVAKcKzGhkcRMs7mktXAZeM"
+  },
+  "milan/piazza-gae-aulenti": {
+    "googlePlaceId": "ChIJ0WESOTPBhkcRp4vLclj2VQs"
+  },
+  "milan/pinacoteca-ambrosiana": {
+    "googlePlaceId": "ChIJn8qyiKzGhkcRbtP7f16_hsw"
+  },
+  "milan/pinacoteca-di-brera": {
+    "googlePlaceId": "ChIJH05-WBHuhkcRNjexLI56Nhs"
+  },
+  "milan/ponte-dei-leoni": {
+    "googlePlaceId": "ChIJUzN5gZi5hkcRVvJ0GeeTc8c"
+  },
+  "milan/san-bernardino-alle-ossa": {
+    "googlePlaceId": "ChIJhfp35qXGhkcR_dPp7rKmopg"
+  },
+  "milan/san-siro-stadium": {
+    "googlePlaceId": "ChIJnfEj-pPBhkcREvPvegzTxwk"
+  },
+  "milan/santa-maria-delle-grazie": {
+    "googlePlaceId": "ChIJgxy_RFrBhkcRWVrH08TNW-0"
+  },
+  "milan/teatro-alla-scala": {
+    "googlePlaceId": "ChIJV1caia3GhkcRT4MuEEjprRs"
+  },
+  "milan/triennale-milano": {
+    "googlePlaceId": "ChIJRwVc7UXBhkcRIlGMal_aWHU"
+  },
+  "milan/via-monte-napoleone": {
+    "googlePlaceId": "ChIJ7YboRrDGhkcRtNS_v0co3TA"
+  },
+  "milan/villa-necchi-campiglio": {
+    "googlePlaceId": "ChIJn2UxgrvGhkcRNLCIIIOoylM"
   },
   "nyc/american-museum-natural-history": {
     "googlePlaceId": "ChIJCXoPsPRYwokRsV1MYnKBfaI"
