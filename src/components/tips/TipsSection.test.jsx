@@ -9,6 +9,7 @@ const api = vi.hoisted(() => ({
   postTip: vi.fn(),
   uploadTipPhoto: vi.fn(),
   discardTipPhoto: vi.fn(async () => ({ ok: true })),
+  TIPS_CHANGED_EVENT: 'lh-tips-changed',
 }));
 const blocks = vi.hoisted(() => ({ blockUser: vi.fn(async () => {}) }));
 const checkin = vi.hoisted(() => ({ value: null }));
@@ -25,7 +26,7 @@ import { act } from 'react';
 import TipsSection from './TipsSection';
 
 const landmark = { id: 'bell', regionId: 'philly', name: 'Liberty Bell' };
-const user = { uid: 'me' };
+const user = { uid: 'me', emailVerified: true };
 const tip = (o) => ({ id: 'ann_bell', authorUid: 'ann', authorName: 'ann', text: 'Go early, the line wraps.', tags: ['go-early'], photoURL: null, visitMonth: '2026-10', verified: true, counts: { helpful: 2, saved: 0 }, mine: false, ...o });
 
 let container;
@@ -59,10 +60,11 @@ describe('TipsSection', () => {
     expect(container.textContent).toContain('Verified visit');
     expect(container.textContent).toContain('2026');
     expect(container.textContent).toContain('Go early');
+    expect(impressions.logTipImpressions).toHaveBeenCalledTimes(1);
     expect(impressions.logTipImpressions).toHaveBeenCalledWith(expect.objectContaining({ landmarkId: 'bell', tipIds: ['ann_bell'] }));
   });
   it('marks a tip helpful and shows the new count, never who', async () => {
-    api.reactToTip.mockResolvedValue({ ok: true, reaction: { helpful: true, saved: false } });
+    api.reactToTip.mockResolvedValue({ ok: true, reaction: { helpful: true, saved: false }, counts: { helpful: 3, saved: 0 } });
     await mount();
     await click('Helpful');
     expect(api.reactToTip).toHaveBeenCalledWith('ann_bell', 'helpful', true);

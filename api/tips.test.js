@@ -116,6 +116,18 @@ describe('api/tips: helpful, saved and reports', () => {
     await report();
     expect(db.docs['tips/ann_bell'].reportCount).toBe(1);
   });
+  it('returns the counts after a mark, and never lists a tip you reported', async () => {
+    expect((await react('ann_bell', 'helpful', true)).body).toMatchObject({ reaction: { helpful: true, saved: false }, counts: { helpful: 1, saved: 0 } });
+    await report();
+    expect((await list()).body.tips.map((t) => t.id)).not.toContain('ann_bell');
+  });
+  it('takes back one mark of two on a tip that has since been deleted', async () => {
+    await react('ann_bell', 'helpful', true);
+    await react('ann_bell', 'saved', true);
+    delete db.docs['tips/ann_bell'];
+    expect((await react('ann_bell', 'helpful', false)).code).toBe(200);
+    expect(db.docs['tip_reactions/me_ann_bell']).toBeUndefined();
+  });
   it('takes back a mark on a tip that has since been hidden', async () => {
     await react('ann_bell', 'saved', true);
     db.docs['tips/ann_bell'].hidden = true;
@@ -143,9 +155,9 @@ describe('api/tips: helpful, saved and reports', () => {
     caller = { uid: 'zed', emailVerified: true };
     await report();
     expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 2, hidden: true });
-    caller = { uid: 'me', emailVerified: true };
+    caller = { uid: 'bob', emailVerified: true };
     expect((await list()).body.tips.map((t) => t.id)).not.toContain('ann_bell');
-    expect((await report('bob_bell', 'because')).code).toBe(400);
+    expect((await report('ann_bell', 'because')).code).toBe(400);
   });
   it('a report never lands on a different post re-posted at the same id', async () => {
     const real = db.runTransaction;

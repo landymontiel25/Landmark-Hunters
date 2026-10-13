@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, vi } from 'vitest';
 
-const api = vi.hoisted(() => ({ postTip: vi.fn(), uploadTipPhoto: vi.fn(), discardTipPhoto: vi.fn(async () => ({ ok: true })) }));
+const api = vi.hoisted(() => ({ postTip: vi.fn(), uploadTipPhoto: vi.fn(), discardTipPhoto: vi.fn(async () => ({ ok: true })), TIPS_CHANGED_EVENT: 'lh-tips-changed' }));
 const photo = vi.hoisted(() => ({ pickPhoto: vi.fn() }));
 vi.mock('../../lib/tipsApi', () => api);
 vi.mock('../../lib/imageUtils', () => photo);

@@ -14,6 +14,7 @@ import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
 import TipComposer from './tips/TipComposer';
+import { hasMyTip } from '../lib/tipCheckin';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
@@ -46,6 +47,7 @@ export default function CheckInReview() {
   const [saving, setSaving] = useState(false);
   // 'offer' | 'open' | 'done': the "Share a tip for others?" step after a verified visit.
   const [tipState, setTipState] = useState('offer');
+  const [hasTipHere, setHasTipHere] = useState(null);
   const [msg, setMsg] = useState(null);
   // The check-in write itself failed: shown with Try again, and everything
   // you picked (rating, comment, photos) stays in the form.
@@ -95,8 +97,22 @@ export default function CheckInReview() {
       setPostError(null);
       setPosted(false);
       setBlast(false);
+      setTipState('offer');
+      setHasTipHere(null);
     }
   }, [justCheckedIn]);
+
+  // One tip per person per place: no offer where you already have one.
+  useEffect(() => {
+    if (!justCheckedIn || !user?.uid) return undefined;
+    let cancelled = false;
+    hasMyTip(user.uid, justCheckedIn.id).then((has) => {
+      if (!cancelled) setHasTipHere(has);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [justCheckedIn, user?.uid]);
 
   if (!justCheckedIn) return null;
 
@@ -270,7 +286,7 @@ export default function CheckInReview() {
               </p>
             )}
             {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
-            {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user && tipState !== 'done' && (
+            {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere === false && tipState !== 'done' && (
               <div style={{ marginTop: 12 }}>
                 {tipState === 'open' ? (
                   <TipComposer

@@ -14,7 +14,7 @@ const checkInState = {
   commitCheckIn: () => {},
   clearJustCheckedIn: () => {},
 };
-const authState = { user: { uid: 'me' } };
+const authState = { user: { uid: 'me', emailVerified: true } };
 const friendsState = { myUsername: 'me' };
 const ratingsState = { myReviews: {}, reload: () => {} };
 const photosState = { reload: () => {} };
@@ -38,6 +38,8 @@ vi.mock('./CheckInBlast', async () => {
   return { default: FakeBlast };
 });
 vi.mock('./tips/TipComposer', () => ({ default: () => <div>TIP COMPOSER</div> }));
+const tipHere = vi.hoisted(() => ({ has: false }));
+vi.mock('../lib/tipCheckin', () => ({ hasMyTip: async () => tipHere.has }));
 
 import CheckInReview from './CheckInReview';
 import { submitReview } from '../lib/reviews';
@@ -151,5 +153,9 @@ describe('CheckInReview after a verified visit', () => {
     expect(c.textContent).toContain('Share a tip for others?');
     await act(async () => [...c.querySelectorAll('button')].find((b) => b.textContent.includes('Share a tip for others?')).click());
     expect(c.textContent).toContain('TIP COMPOSER');
+    // Already a tip here: no offer.
+    tipHere.has = true;
+    expect((await mount()).textContent).not.toContain('Share a tip for others?');
+    tipHere.has = false;
   });
 });

@@ -40,12 +40,18 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   ]);
   const want = canonicalRegionId(region);
   const visible = [];
+  const candidates = [];
   for (const d of snap.docs) {
     const t = d.data();
     if (d.id === ownId || canonicalRegionId(t.region) !== want) continue;
     if (!tipIsPublic(t) || blocked.has(t.authorUid)) continue;
-    visible.push([d.id, t]);
+    candidates.push([d.id, t]);
   }
+  // A tip you reported stays hidden for you.
+  const reportSnaps = candidates.length ? await db.getAll(...candidates.map(([tipId, t]) => db.collection('tip_reports').doc(`${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`))) : [];
+  candidates.forEach((c, i) => {
+    if (!reportSnaps[i]?.exists) visible.push(c);
+  });
   const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
   visible.sort((a, b) => at(b[1]) - at(a[1]));
   const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
@@ -122,10 +128,15 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
     const tip = tipSnap.exists ? tipSnap.data() : null;
     // Still the post you saw, and still public.
     if (on && (!tip || !tipIsPublic(tip) || (tip.gen ?? null) !== seenGen)) return null;
+    // Taking a mark back on a tip that no longer exists: the mark just goes.
+    if (!tip) {
+      if (rSnap.exists) tx.delete(reactionRef);
+      return { reaction: { helpful: false, saved: false }, counts: null };
+    }
     // A mark from an older post at the same id counts as no mark.
     const prev = rSnap.exists && madeOnThisPost(rSnap.data(), tip) ? rSnap.data() : { helpful: false, saved: false };
     const next = { helpful: prev.helpful === true, saved: prev.saved === true, [kind]: on };
-    if (tip && (prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
+    if ((prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
     if (!next.helpful && !next.saved) {
       if (rSnap.exists) tx.delete(reactionRef);
     } else {
@@ -143,10 +154,12 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
         updatedAt: FieldValue.serverTimestamp(),
       });
     }
-    return next;
+    const counts = { helpful: tip.counts?.helpful || 0, saved: tip.counts?.saved || 0 };
+    if ((prev[kind] === true) !== on) counts[kind] = Math.max(0, counts[kind] + (on ? 1 : -1));
+    return { reaction: next, counts };
   });
   if (!out) return [404, { error: 'No such tip.' }];
-  return [200, { ok: true, reaction: out }];
+  return [200, { ok: true, reaction: out.reaction, counts: out.counts }];
 }
 
 // Two distinct reporters hide a tip until the owner reviews it. Who

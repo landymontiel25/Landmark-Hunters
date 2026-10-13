@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { pickPhoto } from '../../lib/imageUtils';
 import { cleanTipText, TIP_MAX_CHARS, TIP_MAX_TAGS, TIP_MIN_CHARS, TIP_TAGS } from '../../lib/tips';
-import { discardTipPhoto, postTip, uploadTipPhoto } from '../../lib/tipsApi';
+import { discardTipPhoto, postTip, TIPS_CHANGED_EVENT, uploadTipPhoto } from '../../lib/tipsApi';
 
 // "Share a tip for others?" (docs/discovery-network-plan.md, Phase 1): the
 // form for one tip on a verified visit. The server (api/post-tip.js) checks
@@ -14,6 +14,9 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
   const [preview, setPreview] = useState(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null);
+  const previewRef = useRef(null);
+  previewRef.current = preview;
+  useEffect(() => () => previewRef.current && URL.revokeObjectURL(previewRef.current), []);
   const length = cleanTipText(text).length;
   const ok = length >= TIP_MIN_CHARS && length <= TIP_MAX_CHARS;
 
@@ -43,6 +46,12 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
     try {
       if (file) photoURL = await uploadTipPhoto(uid, file);
       const out = await postTip({ checkinId, text, tags, photoURL });
+      // The landmark page's tips list reloads on this.
+      try {
+        window.dispatchEvent(new CustomEvent(TIPS_CHANGED_EVENT));
+      } catch {
+        /* no window */
+      }
       onPosted?.(out);
     } catch (e) {
       // The photo never made it onto a tip: ask the server to remove it.

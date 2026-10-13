@@ -963,7 +963,7 @@ function LandmarkDetailBody() {
         </p>
       )}
 
-      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} />}
+      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={checkinTick} />}
 
       {firebaseEnabled && user && (
         <div className="card checkin-stats-card">

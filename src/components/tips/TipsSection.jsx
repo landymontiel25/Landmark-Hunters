@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { blockUser } from '../../lib/blocks';
 import { findTipCheckin } from '../../lib/tipCheckin';
 import { tipTagLabel } from '../../lib/tips';
-import { deleteMyTip, fetchTips, reactToTip, reportTip } from '../../lib/tipsApi';
+import { deleteMyTip, fetchTips, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
 import { logTipImpressions } from '../../lib/tipImpressions';
 import TipComposer from './TipComposer';
 
@@ -35,7 +35,7 @@ function ownStatusNote(t) {
   return null;
 }
 
-export default function TipsSection({ landmark, user, toast }) {
+export default function TipsSection({ landmark, user, toast, refreshKey = 0 }) {
   const region = landmark?.regionId || landmark?.region;
   const landmarkId = landmark?.id;
   const [tips, setTips] = useState(null);
@@ -45,7 +45,7 @@ export default function TipsSection({ landmark, user, toast }) {
   const [composing, setComposing] = useState(false);
   const [reporting, setReporting] = useState(null);
   const [busy, setBusy] = useState(null);
-  const logged = useRef(new Set());
+  const logged = useRef(false);
 
   const load = useCallback(async () => {
     if (!user || !region || !landmarkId) return;
@@ -60,8 +60,14 @@ export default function TipsSection({ landmark, user, toast }) {
     }
   }, [user, region, landmarkId]);
 
+  // Reload after a check-in (refreshKey) and after a tip posts anywhere.
   useEffect(() => {
     load();
+  }, [load, refreshKey]);
+  useEffect(() => {
+    const onChange = () => load();
+    window.addEventListener(TIPS_CHANGED_EVENT, onChange);
+    return () => window.removeEventListener(TIPS_CHANGED_EVENT, onChange);
   }, [load]);
 
   useEffect(() => {
@@ -73,22 +79,22 @@ export default function TipsSection({ landmark, user, toast }) {
     return () => {
       cancelled = true;
     };
-  }, [user, landmarkId]);
+  }, [user, landmarkId, refreshKey]);
 
-  // One impression row per tip shown (surface 'landmark-page'), so tips can
-  // be measured later; never counted as a Mapr pick.
+  // One impression row per page view with tips (surface 'landmark-page'),
+  // so tips can be measured later; never counted as a Mapr pick.
   useEffect(() => {
-    if (!user || !tips?.length) return;
-    const fresh = tips.filter((t) => !t.mine && !logged.current.has(t.id));
-    if (!fresh.length) return;
-    fresh.forEach((t) => logged.current.add(t.id));
-    logTipImpressions({ uid: user.uid, landmarkId, region, tipIds: fresh.map((t) => t.id) });
+    if (!user || !tips?.length || logged.current) return;
+    const shown = tips.filter((t) => !t.mine).map((t) => t.id);
+    if (!shown.length) return;
+    logged.current = true;
+    logTipImpressions({ uid: user.uid, landmarkId, region, tipIds: shown });
   }, [tips, user, landmarkId, region]);
 
   if (!user) return null;
   const mine = tips?.find((t) => t.mine) || null;
   const others = (tips || []).filter((t) => !t.mine);
-  const canShare = !!tipCheckin && !mine;
+  const canShare = !!tipCheckin && !mine && user.emailVerified === true;
 
   const react = async (t, kind) => {
     const on = !reactions[t.id]?.[kind];
@@ -96,7 +102,8 @@ export default function TipsSection({ landmark, user, toast }) {
     try {
       const out = await reactToTip(t.id, kind, on);
       setReactions((r) => ({ ...r, [t.id]: out.reaction }));
-      setTips((list) => list.map((x) => (x.id === t.id ? { ...x, counts: { ...x.counts, [kind]: Math.max(0, (x.counts?.[kind] || 0) + (on ? 1 : -1)) } } : x)));
+      // The server's own counts after the change.
+      if (out.counts) setTips((list) => list.map((x) => (x.id === t.id ? { ...x, counts: out.counts } : x)));
     } catch (e) {
       toast?.show?.(e?.userMessage || "Couldn't save that. Try again.");
     } finally {
@@ -109,7 +116,7 @@ export default function TipsSection({ landmark, user, toast }) {
       await reportTip(t.id, reason);
       setReporting(null);
       setTips((list) => list.filter((x) => x.id !== t.id));
-      toast?.show?.('Thanks. The tip is hidden for you, and we will review it.');
+      toast?.show?.('Thanks. The tip is hidden for you, and it will be reviewed.');
     } catch (e) {
       toast?.show?.(e?.userMessage || "Couldn't send that report. Try again.");
     } finally {
@@ -248,6 +255,7 @@ export default function TipsSection({ landmark, user, toast }) {
           {!error && !mine && others.length === 0 && (
             <p className="screen-subtitle" style={{ margin: 0 }}>
               No tips yet.{tipCheckin ? '' : ' Check in here with location on to share the first one.'}
+              {tipCheckin && user.emailVerified !== true ? ' Verify your email to share one.' : ''}
             </p>
           )}
         </>

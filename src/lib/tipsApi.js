@@ -5,6 +5,9 @@ import { authHeaders } from './apiAuth';
 // Every call returns the server's JSON; a failure throws an Error whose
 // message is the server's own (already written for people to read).
 
+// Fired after a tip of yours is posted, so an open landmark page reloads.
+export const TIPS_CHANGED_EVENT = 'lh-tips-changed';
+
 async function call(path, { method = 'POST', body = null, fetchImpl = fetch } = {}) {
   const r = await fetchImpl(`${API_BASE}${path}`, {
     method,

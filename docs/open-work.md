@@ -123,9 +123,10 @@ verified visit (`components/tips/TipComposer.jsx`), and landmark pages show
 "From people who went" under the facts (`components/tips/TipsSection.jsx`)
 with Helpful, Save, Report (with a reason) and Block, your own tip's
 status, and "Share a tip for others" for 30 days after a verified visit.
-Each tip shown is logged to `recommendation_log` with surface
-`landmark-page` and its `tipId`; `statsData.js` keeps those rows out of
-every Mapr metric (`tipImpressions`). Legal explains tips and how to
+A page view with tips logs one `recommendation_log` row (surface
+`landmark-page`, the shown `tipIds`, at most once a day per place per
+device); `statsData.js` keeps those rows out of every Mapr metric
+(`tipImpressions`). A tip you reported stays hidden for you. Legal explains tips and how to
 report one; APP_HELP describes tips. Next: the dashboard Content page.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
