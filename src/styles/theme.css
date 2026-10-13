@@ -7463,6 +7463,15 @@ p.tag {
 [data-theme='light'] .gmp-attribution {
   color: #5e5e5e;
 }
+.header-google-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.15rem;
+}
+.header-google-rating .gmp-attribution {
+  font-size: 13px;
+}
 .ratings-inline {
   display: inline-flex;
   flex-wrap: wrap;

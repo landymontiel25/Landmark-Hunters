@@ -13,6 +13,7 @@ vi.mock('./useImageAvailable', () => ({ useImageAvailable: () => logo }));
 
 import RatingsSection from './RatingsSection';
 import RatingsCardLine from './RatingsCardLine';
+import HeaderRating from './HeaderRating';
 
 const landmark = { id: 'liberty-bell-center', regionId: 'philly', name: 'Liberty Bell Center' };
 const GOOGLE = {
@@ -130,5 +131,25 @@ describe('RatingsCardLine (Places tab row)', () => {
     await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={{ cardLine: false, landmarkHunters: false }} />);
     expect(container.querySelector('.app-own')).toBeTruthy();
     expect(container.querySelector('.ratings-inline')).toBeNull();
+  });
+});
+
+describe('HeaderRating (under the landmark title)', () => {
+  it('shows the Google rating with a star, count and "Google Maps"', async () => {
+    await render(<HeaderRating outside={done({ google: GOOGLE, tripadvisor: null })} agg={{ avg: 4, count: 2 }} />);
+    const g = container.querySelector('[data-source="google"]');
+    expect(g.textContent).toContain('4.7');
+    expect(g.textContent).toContain('(1,234)');
+    expect(g.textContent).toContain('Google Maps');
+    expect(container.textContent).not.toContain('No ratings yet');
+  });
+  it('falls back to the app\'s own stars, or "No ratings yet", when Google has none', async () => {
+    await render(<HeaderRating outside={done({ google: null, tripadvisor: null })} agg={null} />);
+    expect(container.textContent).toContain('No ratings yet');
+  });
+  it('shows a placeholder, not "No ratings yet", while Google loads', async () => {
+    await render(<HeaderRating outside={{ status: 'loading', sources: null }} agg={null} />);
+    expect(container.textContent).not.toContain('No ratings yet');
+    expect(container.querySelector('.skeleton')).toBeTruthy();
   });
 });
