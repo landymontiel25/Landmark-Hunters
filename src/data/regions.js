@@ -20,10 +20,11 @@ import { PARIS_LANDMARKS } from './landmarks.paris.js';
 export const REGIONS = [
   {
     id: 'miami',
-    // Shown as South Florida; the id stays 'miami' so saved data keeps working.
-    name: 'South Florida',
+    // Greater Miami (the city plus Miami Beach, Coral Gables, Key Biscayne...).
+    // Called South Florida for a while; named Miami again 2026-10-13.
+    name: 'Miami',
     tagline: 'Miami, Miami Beach, Coral Gables, Key Biscayne, Coconut Grove, South Miami, Pinecrest & Doral',
-    city: 'South Florida',
+    city: 'Miami',
     // The towns with places in the app today, shown under the name in city
     // pickers so people know Miami is in here.
     subtitle: 'Miami, Miami Beach, Coral Gables, Key Biscayne, Coconut Grove, South Miami, Pinecrest, Doral',

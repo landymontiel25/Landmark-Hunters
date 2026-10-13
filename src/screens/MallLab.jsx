@@ -114,7 +114,7 @@ function useMalls() {
   }, [packsVersion]);
 }
 
-// Opens on the area with the most malls (South Florida today) instead of the
+// Opens on the area with the most malls (Miami today) instead of the
 // whole world, where every Miami mall would sit under one pin.
 function startBounds(malls) {
   const byRegion = new Map();

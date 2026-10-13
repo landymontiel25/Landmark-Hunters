@@ -2,8 +2,8 @@
 // city picker (lib/cityScope.js: only Miami's landmarks, say) and the map
 // search's highlight.
 //
-// South Florida cities and neighborhoods, so searching "Miami" on the map
-// flies to Miami itself (the app's region is the whole of South Florida).
+// Miami-area cities and neighborhoods, so searching "Coral Gables" on the map
+// flies to Coral Gables itself (the app's Miami region is the whole area).
 // Coordinates are Nominatim's for "<name>, Florida" (2026-10-09), not typed
 // by hand; zoom fits a city or a neighborhood. `area` is the city's
 // outline from the same Nominatim reply (polygon_threshold 0.003, [lat, lng]
@@ -56,8 +56,8 @@ export const SILICON_VALLEY_TOWNS = [
   { name: 'Portola Valley', lat: 37.3736, lng: -122.219, zoom: 13, area: [[[37.3733,-122.2541],[37.352,-122.24],[37.3383,-122.2141],[37.3519,-122.1966],[37.3604,-122.2026],[37.3704,-122.2016],[37.3848,-122.1909],[37.3945,-122.19],[37.3976,-122.192],[37.3941,-122.2043],[37.4012,-122.2068],[37.3934,-122.2338],[37.3808,-122.2239],[37.39,-122.2394],[37.3733,-122.2541]]] },
 ];
 
-// Towns inside a city, by region id. South Florida: every place above but
-// Fort Lauderdale (Broward County, outside the app's South Florida for now).
+// Towns inside a city, by region id. Miami: every place above but Fort
+// Lauderdale (Broward County, outside the app's Miami region for now).
 export const SUB_AREAS = {
   miami: SOUTH_FLORIDA_PLACES.filter((p) => p.name !== 'Fort Lauderdale'),
   'silicon-valley': SILICON_VALLEY_TOWNS,

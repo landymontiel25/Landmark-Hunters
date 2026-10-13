@@ -10,7 +10,7 @@ export const ANY_REGION = { id: '', name: 'Any region', tagline: 'Search everywh
 // Type-to-search region picker (not a card list to tap through, not a plain
 // <select> to scroll) -- matches the "type where you are" ask. `region` is
 // the currently selected region object (or a placeholder with just a name).
-// `towns`: also offer the towns inside a city (Miami in South Florida); a
+// `towns`: also offer the towns inside a city (Coral Gables in Miami); a
 // picked town comes back as its city with `townKey` (a lib/cityScope key) and
 // the town's name.
 export default function RegionSearch({ region, onSelect, includeAny = false, towns = false, placeholder = 'Search for a region…' }) {

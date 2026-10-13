@@ -145,7 +145,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
         name: c.landmarkName || lm?.name || c.landmarkId,
         photo: mine || lm?.images?.[0] || null,
         isMine: !!mine,
-        // Other names the city goes by (South Florida: Miami, Key Biscayne...), for search.
+        // Other names the city goes by (Miami: Coral Gables, Key Biscayne...), for search.
         cityAlso: getRegion(c.region)?.searchNames?.join(' ') || '',
         city: getRegion(c.region)?.name || (!c.region || c.region === 'null' || c.region === 'custom' ? 'Custom pin' : c.region),
         points: c.points || 0,

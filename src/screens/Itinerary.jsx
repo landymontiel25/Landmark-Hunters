@@ -227,7 +227,7 @@ function ItineraryMap({ origin, stops, onDetails, onInApp, navPoints, navStopId,
 // re-trigger the OSRM driving-time lookups for no real change in the route.
 const AUTO_ORIGIN_REFRESH_METERS = 150;
 
-// Where an itinerary is, in bold on its card: "📍 South Florida · Florida,
+// Where an itinerary is, in bold on its card: "📍 Miami · Florida,
 // USA" (the city, then its state or country when that adds anything).
 function ItinWhere({ region }) {
   if (!region) return null;
