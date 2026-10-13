@@ -210,3 +210,18 @@ input[type='range']:focus-visible {
   padding: 8px 0;
   font-size: 1.15rem;
 }
+
+/* Back buttons ride down the page under the sticky header as you scroll, so
+   you never have to scroll back up to leave a screen. Solid background so
+   the page doesn't show through. On Landmark pages the whole top bar
+   (Back plus its right-side buttons) sticks. */
+.back-sticky {
+  position: sticky;
+  top: calc(var(--header-h) - 4px);
+  z-index: 15;
+}
+button.back-sticky,
+.back-sticky .btn {
+  background: rgb(var(--color-bg-rgb));
+  box-shadow: var(--shadow-float);
+}

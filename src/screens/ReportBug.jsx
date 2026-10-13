@@ -250,7 +250,7 @@ export default function ReportBug() {
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm back-sticky" onClick={() => goBack(navigate, location)} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 

@@ -17,7 +17,7 @@ export default function MyCheckins() {
     return (
       <div>
         <p className="screen-subtitle">Sign in on Profile to see your check-ins.</p>
-        <button type="button" className="btn btn-ghost btn-block" onClick={() => navigate('/profile')}>
+        <button type="button" className="btn btn-ghost btn-block back-sticky" onClick={() => navigate('/profile')}>
           {'←'} Back to Profile
         </button>
       </div>
@@ -26,7 +26,7 @@ export default function MyCheckins() {
 
   return (
     <div>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
         {'←'} Back to Profile
       </button>
       <CheckinsGallery user={user} claimedMap={claimedMap} navigate={navigate} totalPoints={stats?.failed ? '–' : stats ? stats.totalPoints || 0 : null} />

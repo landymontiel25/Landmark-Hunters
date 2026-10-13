@@ -972,7 +972,7 @@ export default function MyStreaks() {
     return (
       <div>
         <p className="screen-subtitle">Sign in on Profile to see your streaks.</p>
-        <button type="button" className="btn btn-ghost btn-block" onClick={() => navigate('/profile')}>
+        <button type="button" className="btn btn-ghost btn-block back-sticky" onClick={() => navigate('/profile')}>
           {'←'} Back to Profile
         </button>
       </div>

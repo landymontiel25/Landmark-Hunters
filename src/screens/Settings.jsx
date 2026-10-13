@@ -364,7 +364,7 @@ export default function Settings() {
       <h1 className="screen-title">
         <span>{'\u{2699}\u{FE0F}'}</span> Settings
       </h1>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
         {'\u{2190}'} Back
       </button>
 
