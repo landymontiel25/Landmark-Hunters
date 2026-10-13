@@ -13,7 +13,10 @@ vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 vi.mock('./_lib/firebaseAdmin.js', () => ({
   adminDb: () => db,
   adminBucket: async () => ({
-    file: (p) => ({ delete: async () => deleted.push(p), exists: async () => [uploaded.has(p)] }),
+    file: (p) => ({ delete: async () => deleted.push(p), exists: async () => {
+      if (p.includes('flaky')) throw new Error('storage down');
+      return [uploaded.has(p)];
+    } }),
     getFiles: async ({ prefix }) => [[...uploaded].filter((p) => p.startsWith(prefix)).map((name) => ({ name, delete: async () => deleted.push(name) }))],
   }),
 }));
@@ -124,6 +127,9 @@ describe('api/post-tip: posting', () => {
   it('refuses a check-in with no region', async () => {
     db.docs['checkins/me_bell'] = checkin({ region: null });
     expect((await post()).body.code).toBe('no-place');
+  });
+  it('a Storage failure checking the photo answers 500 (try again), not bad-photo', async () => {
+    expect((await post({ photoURL: photo('me', 'flaky.jpg') })).code).toBe(500);
   });
   it('refuses bad input', async () => {
     expect((await post({ checkinId: '../x' })).code).toBe(400);

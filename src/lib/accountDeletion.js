@@ -88,7 +88,7 @@ export async function deleteAccountData(uid) {
       tipsError = e;
     }
   }
-  if (tipsError && tipsError.status !== 404) {
+  if (tipsError) {
     throw Object.assign(new Error("Couldn't delete your tips. Nothing was deleted. Try again."), {
       userMessage: "Couldn't delete your tips. Nothing was deleted. Try again.",
       cause: tipsError,

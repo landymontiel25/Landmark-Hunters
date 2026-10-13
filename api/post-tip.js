@@ -69,7 +69,9 @@ async function postTip(db, account, body) {
   let photoPath = null;
   if (photoURL != null) {
     photoPath = tipPhotoPath(photoURL, account.uid);
-    if (!photoPath || !(await tipPhotoExists(photoPath))) return [400, { error: 'That photo could not be used.', code: 'bad-photo' }];
+    if (!photoPath) return [400, { error: 'That photo could not be used.', code: 'bad-photo' }];
+    // Throws on a Storage failure (500, try again); false means no file.
+    if (!(await tipPhotoExists(photoPath))) return [400, { error: 'That photo could not be used.', code: 'bad-photo' }];
   }
 
   const clean = cleanTipText(text);
@@ -205,15 +207,14 @@ async function deleteMine(db, account) {
     db.collection('tip_photo_claims').where('uid', '==', uid).get(),
   ]);
   const keptPhotos = new Set();
-  const tipSteps = await Promise.allSettled(
-    tips.docs.map(async (d) => {
+  // Tips and marks side by side, each twenty at a time, so a heavy account
+  // neither floods Firestore with transactions nor runs out the clock.
+  const [tipStep, markStep] = await Promise.allSettled([
+    inChunks(tips.docs, 20, async (d) => {
       const out = await retireTip(db, d.ref, uid, { forAccount: true });
       if (out.code === 'deleted') await deleteTipChildren(db, d.id, out.tip.gen);
       else if (out.tip?.photoPath) keptPhotos.add(out.tip.photoPath);
-    })
-  );
-  const steps = await Promise.allSettled([
-    // Twenty at a time, so thousands of marks don't contend all at once.
+    }),
     inChunks(reactions.docs, 20, (d) =>
       db.runTransaction(async (tx) => {
         const [rSnap, t] = await Promise.all([tx.get(d.ref), tx.get(db.collection('tips').doc(d.data().tipId))]);
@@ -230,18 +231,16 @@ async function deleteMine(db, account) {
       })
     ),
   ]);
-  // Photos and claims only once every tip is settled: a tip that failed to
-  // retire may still show its photo, so nothing of it goes this time.
   // Claims go only after their files are gone, or an old photo URL could
   // go on a new tip.
-  const tipsOk = tipSteps.every((x) => x.status === 'fulfilled');
+  const tipsOk = tipStep.status === 'fulfilled';
   const after = await Promise.allSettled([
     tipsOk
       ? deleteTipPhotoFolder(uid, { keep: keptPhotos }).then(() => deleteRefs(db, claims.docs.filter((d) => !keptPhotos.has(d.data()?.path)).map((d) => d.ref)))
       : null,
     deleteRefs(db, [...views.docs, ...authorViews.docs].map((d) => d.ref)),
   ]);
-  const failed = [...tipSteps, ...steps, ...after].filter((x) => x.status === 'rejected');
+  const failed = [tipStep, markStep, ...after].filter((x) => x.status === 'rejected');
   if (failed.length) {
     console.error('delete-mine: some steps failed', failed.map((f) => f.reason?.message || f.reason));
     return [500, { error: 'Some of your tips could not be deleted. Try again.' }];

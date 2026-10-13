@@ -1,5 +1,4 @@
 import { adminBucket } from './firebaseAdmin.js';
-import { toMs } from './time.js';
 import { regionTimezone } from '../../src/lib/timezones.js';
 
 // Server helpers shared by api/post-tip.js and api/tips.js.
@@ -104,16 +103,13 @@ export const photoClaimId = (path) => String(path).replace(/\//g, '__');
 // Is the file there now? A tip may only point at an uploaded photo (the
 // Storage rules then stop it changing); a URL for a file uploaded later
 // would let a live tip's image appear after posting.
+// Throws when Storage fails, so the post answers 500 (try again), never a
+// "bad photo" that would make the app discard a good upload.
 export async function tipPhotoExists(path) {
-  try {
-    const bucket = await adminBucket();
-    if (!bucket) return false;
-    const [exists] = await bucket.file(path).exists();
-    return exists === true;
-  } catch (e) {
-    console.error('tip photo check failed', e?.message || e);
-    return false;
-  }
+  const bucket = await adminBucket();
+  if (!bucket) return false;
+  const [exists] = await bucket.file(path).exists();
+  return exists === true;
 }
 
 // Best effort: a tip's photo goes with the tip. A failure leaves an orphan

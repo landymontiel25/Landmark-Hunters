@@ -765,10 +765,9 @@ await seed(async (db) => {
   await setDoc(doc(db, 'tip_reactions/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', helpful: true, saved: false });
   await setDoc(doc(db, 'tip_views/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', at: 1 });
 });
-await t("tips: another user can't read even a live tip straight from Firestore (api/tips.js serves them)", () => assertFails(getDoc(doc(as('bob'), 'tips/ann_lm1'))));
-await t('tips: signed out cannot read a tip', () => assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'tips/ann_lm1'))));
-await t('tips: held, hidden (2 reports) and removed tips are hidden from others', async () => {
-  for (const id of ['ann_lm2', 'ann_lm3', 'ann_lm4']) await assertFails(getDoc(doc(as('bob'), `tips/${id}`)));
+await t("tips: nobody else reads a tip straight from Firestore, live or not, signed in or out (api/tips.js serves them)", async () => {
+  for (const id of ['ann_lm1', 'ann_lm2', 'ann_lm3', 'ann_lm4']) await assertFails(getDoc(doc(as('bob'), `tips/${id}`)));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'tips/ann_lm1')));
 });
 await t('tips: the author reads their own held, hidden and removed tips', async () => {
   for (const id of ['ann_lm1', 'ann_lm2', 'ann_lm3', 'ann_lm4']) await assertSucceeds(getDoc(doc(as('ann'), `tips/${id}`)));
@@ -776,10 +775,6 @@ await t('tips: the author reads their own held, hidden and removed tips', async 
 await t('tips: the verified admin reads a held tip; an unverified admin email does not', async () => {
   await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'tips/ann_lm2')));
   await assertFails(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).firestore(), 'tips/ann_lm2')));
-});
-await t('tips: a block hides a live tip both ways', async () => {
-  await assertFails(getDoc(doc(as('cat'), 'tips/ann_lm1')));
-  await assertFails(getDoc(doc(as('dan'), 'tips/ann_lm1')));
 });
 await t('tips: a get on your own tip id before it exists is a clean not-found; on someone else\'s missing id it is denied', async () => {
   await assertSucceeds(getDoc(doc(as('bob'), 'tips/bob_lm77')));
