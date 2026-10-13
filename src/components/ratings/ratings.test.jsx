@@ -56,8 +56,8 @@ describe('RatingsSection (detail screen)', () => {
     hookState = done({ google: GOOGLE, tripadvisor: TA });
     await render(<RatingsSection landmark={landmark} flags={FLAGS_OFF} />);
     expect(rows()).toEqual(['google', 'tripadvisor']);
-    expect(container.textContent).toContain('Google Maps');
-    expect(container.querySelector('.gmp-attribution').getAttribute('translate')).toBe('no');
+    expect(container.querySelector('[aria-label="Google Maps"]')).toBeTruthy();
+    expect(container.querySelector('[aria-label="Google Maps"]').getAttribute('translate')).toBe('no');
     expect(container.textContent).toContain('1,234');
     expect(container.textContent).toContain('Worth the line.');
     expect(container.textContent).toContain('Tripadvisor traveler review by traveler1, 2026-09-01');
@@ -114,8 +114,8 @@ describe('RatingsCardLine (Places tab row)', () => {
     await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
     const g = container.querySelector('[data-source="google"]');
     expect(g.textContent).toContain('⭐ 4.7');
-    expect(g.textContent).toContain('(1,234)');
-    expect(g.textContent).toContain('Google Maps');
+    expect(g.textContent).toContain('(1,234 reviews)');
+    expect(g.querySelector('[aria-label="Google Maps"]')).toBeTruthy();
     expect(container.querySelector('.app-own')).toBeNull();
     expect(container.querySelector('[data-source="tripadvisor"] img.ta-logo')).toBeTruthy();
   });
@@ -145,13 +145,30 @@ describe('RatingsCardLine: no Google rating', () => {
   });
 });
 
+describe('GoogleAttribution', () => {
+  it('shows the official Google Maps logo, labelled "Google Maps", once its files exist', async () => {
+    hookState = done({ google: GOOGLE, tripadvisor: null });
+    await render(<RatingsCardLine landmark={landmark} flags={FLAGS_OFF} />);
+    const logoEl = container.querySelector('.gmp-logo');
+    expect(logoEl.getAttribute('aria-label')).toBe('Google Maps');
+    expect(logoEl.querySelectorAll('img')).toHaveLength(2);
+  });
+  it('falls back to the exact text "Google Maps" while the logo files are missing', async () => {
+    logo = 'missing';
+    hookState = done({ google: GOOGLE, tripadvisor: null });
+    await render(<RatingsCardLine landmark={landmark} flags={FLAGS_OFF} />);
+    expect(container.querySelector('.gmp-attribution').textContent).toBe('Google Maps');
+    expect(container.textContent).toContain('(1,234 reviews)');
+  });
+});
+
 describe('HeaderRating (under the landmark title)', () => {
   it('shows the Google rating with a star, count and "Google Maps"', async () => {
     await render(<HeaderRating outside={done({ google: GOOGLE, tripadvisor: null })} agg={{ avg: 4, count: 2 }} />);
     const g = container.querySelector('[data-source="google"]');
     expect(g.textContent).toContain('4.7');
-    expect(g.textContent).toContain('(1,234)');
-    expect(g.textContent).toContain('Google Maps');
+    expect(g.textContent).toContain('(1,234 reviews)');
+    expect(g.querySelector('[aria-label="Google Maps"]')).toBeTruthy();
     expect(container.textContent).not.toContain('No ratings yet');
   });
   it('falls back to the app\'s own stars, or "No ratings yet", when Google has none', async () => {
@@ -170,7 +187,7 @@ describe('MapPopupRating (pin popup on the Google map)', () => {
     hookState = done({ google: GOOGLE, tripadvisor: null });
     await render(<MapPopupRating landmark={landmark} />);
     expect(container.textContent).toContain('⭐ 4.7');
-    expect(container.textContent).toContain('Google Maps');
+    expect(container.querySelector('[aria-label="Google Maps"]')).toBeTruthy();
     hookState = done({ google: null, tripadvisor: null });
     container.remove();
     container = document.createElement('div');

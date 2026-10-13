@@ -36,6 +36,11 @@ export function formatCount(n) {
   return Number.isFinite(n) ? Math.round(n).toLocaleString('en-US') : '';
 }
 
+// "1 review", "134,418 reviews".
+export function formatReviews(n) {
+  return Number.isFinite(n) ? `${formatCount(n)} ${Math.round(n) === 1 ? 'review' : 'reviews'}` : '';
+}
+
 // The key a landmark's IDs are stored under: "region/id".
 export function ratingKey(regionId, landmarkId) {
   return regionId && landmarkId ? `${regionId}/${landmarkId}` : null;
