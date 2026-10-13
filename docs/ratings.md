@@ -67,10 +67,12 @@ endpoint answers `Cache-Control: no-store`.
 
 `GET /api/landmark-ratings?region=&id=[&detail=1]` (signed in; 150 calls per
 account per 10 minutes, through `api/_lib/aiGuard.js` like the AI endpoints).
-Answers `{ landmarkId, detail, sources: { google, tripadvisor } }`; each source
-is `{ rating, count, url, ratingImageUrl?, snippets }` or `null` (no ID, no
-key, no rating, or the source failed). The request never fails because a
-source did. Keys (`GOOGLE_PLACES_API_KEY`, `TRIPADVISOR_API_KEY`) are read
+Answers `{ landmarkId, detail, sources: { google, tripadvisor }, googleNoRating }`;
+each source is `{ rating, count, url, ratingImageUrl?, snippets }` or `null`
+(no ID, no key, no rating, or the source failed). `googleNoRating` is true
+only when the null is final (no Google ID for the place, or Google answered
+with no rating); a failed lookup leaves it false. The app shows "No ratings
+available" only on true. The request never fails because a source did. Keys (`GOOGLE_PLACES_API_KEY`, `TRIPADVISOR_API_KEY`) are read
 only on the server.
 
 - Card (`detail` off): Google Place Details with `rating,userRatingCount,googleMapsUri`;

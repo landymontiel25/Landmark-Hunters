@@ -27,9 +27,11 @@ function pump() {
   }
 }
 
-const EMPTY = { google: null, tripadvisor: null };
+const EMPTY = { google: null, tripadvisor: null, googleNoRating: false };
 
-// Resolves to { google, tripadvisor } (each a result or null). Never throws.
+// Resolves to { google, tripadvisor } (each a result or null) plus
+// googleNoRating (true only when the server says Google has no rating for the
+// place; any failure leaves it false). Never throws.
 export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetch } = {}) {
   const region = landmark?.regionId ?? landmark?.region;
   const id = landmark?.id;
@@ -47,7 +49,11 @@ export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetc
         if ([401, 429, 503].includes(r.status)) pausedUntil = Date.now() + PAUSE_MS;
         if (!r.ok) return resolve(EMPTY);
         const body = await r.json().catch(() => null);
-        resolve({ google: body?.sources?.google || null, tripadvisor: body?.sources?.tripadvisor || null });
+        resolve({
+          google: body?.sources?.google || null,
+          tripadvisor: body?.sources?.tripadvisor || null,
+          googleNoRating: body?.googleNoRating === true,
+        });
       } catch {
         resolve(EMPTY);
       }

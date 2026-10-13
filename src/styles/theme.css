@@ -7618,3 +7618,9 @@ p.tag {
   gap: 4px;
   flex-wrap: wrap;
 }
+/* "No ratings available" (RatingsCardLine, MapPopupRating): Google has no
+   rating for the place. Quieter than a real rating. */
+.ratings-none {
+  color: var(--color-parchment-dim);
+  font-weight: 500;
+}

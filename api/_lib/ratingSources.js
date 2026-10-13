@@ -56,15 +56,15 @@ export function normalizeGoogle(data, { detail = false } = {}) {
 }
 
 export async function fetchGoogle(placeId, { detail = false, apiKey = process.env.GOOGLE_PLACES_API_KEY, fetchImpl = fetch } = {}) {
-  if (!placeId || !apiKey) return null;
+  if (!placeId) return null;
+  // Errors throw, so null always means "Google has no rating for this place"
+  // (api/landmark-ratings.js tells the app that apart from a failed lookup).
+  if (!apiKey) throw new Error('google: no key');
   const r = await fetchImpl(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
     signal: timeoutSignal(RATINGS_TIMEOUT_MS),
     headers: { 'X-Goog-Api-Key': apiKey, 'X-Goog-FieldMask': detail ? GOOGLE_DETAIL_FIELDS : GOOGLE_CARD_FIELDS },
   });
-  if (!r.ok) {
-    console.warn(`landmark-ratings: google ${r.status}`);
-    return null;
-  }
+  if (!r.ok) throw new Error(`google ${r.status}`);
   return normalizeGoogle(await r.json(), { detail });
 }
 

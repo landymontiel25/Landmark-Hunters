@@ -7,9 +7,10 @@ import { canonicalRegionId } from '../src/data/regions.js';
 
 // GET /api/landmark-ratings?region=&id=[&detail=1]
 // Ratings for one landmark from each outside source (docs/ratings.md):
-//   { sources: { google: {...} | null, tripadvisor: {...} | null } }
+//   { sources: { google: {...} | null, tripadvisor: {...} | null }, googleNoRating }
 // A source with no ID for this landmark, no key, no data or an error is
-// null; the request itself still answers 200.
+// null; the request itself still answers 200. googleNoRating says the null
+// is final (no Google listing, or one with no rating), not an error.
 //
 // Keys stay here: GOOGLE_PLACES_API_KEY and TRIPADVISOR_API_KEY are server
 // env vars and never appear in a response. Sign-in plus a per-account limit,
@@ -67,9 +68,16 @@ async function handler(req, res) {
     sources[s] = r.status === 'fulfilled' ? r.value || null : null;
   });
 
+  // True only when Google has nothing to show for this place: we have no
+  // Google listing for it, or the listing has no rating. A failed lookup
+  // leaves it false, so the app never says "No ratings available" because
+  // Google was slow.
+  const g = results[OUTSIDE_SOURCES.indexOf('google')];
+  const googleNoRating = !ids.googlePlaceId || (g.status === 'fulfilled' && !g.value);
+
   // Never cached by browsers or the CDN (see above).
   res.setHeader?.('Cache-Control', 'no-store');
-  res.status(200).json({ landmarkId: id, detail, sources });
+  res.status(200).json({ landmarkId: id, detail, sources, googleNoRating });
 }
 
 export default withCors(handler);

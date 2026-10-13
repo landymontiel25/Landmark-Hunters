@@ -9,8 +9,10 @@ import { TRIPADVISOR_LOGO } from './brand';
 // A landmark card's outside ratings: "⭐ 4.6 (23,757) Google Maps" (plus
 // Tripadvisor when it is on), as tags in the card's meta row. Fetches only
 // once the card is near the screen, so a long list costs nothing for rows
-// never seen and never waits on it. `fallback` (the app's own rating tag)
-// shows while loading and when Google has no rating for the place.
+// never seen and never waits on it. When Google has no rating for the place
+// (no Google listing, or a listing nobody rated) it says "No ratings
+// available"; `fallback` (the app's own rating tag) shows only while loading
+// or when the lookup failed.
 function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS }) {
   const enabled = flags.cardLine && !landmark?.custom;
   const { ref, status, sources } = useLandmarkRatings(landmark, { enabled });
@@ -23,6 +25,10 @@ function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS }) {
       {google ? (
         <span className="tag rating-tag ratings-chip-google" data-source="google">
           {'⭐'} {google.rating.toFixed(1)} <span className="ratings-count">({formatCount(google.count)})</span> <GoogleAttribution />
+        </span>
+      ) : status === 'done' && sources.googleNoRating ? (
+        <span className="tag rating-tag ratings-none" data-source="none">
+          No ratings available
         </span>
       ) : (
         fallback
