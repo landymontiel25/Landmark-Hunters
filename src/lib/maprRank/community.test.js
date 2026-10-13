@@ -68,6 +68,9 @@ describe('density gate', () => {
     expect(gateStreak({ date: '2026-10-11', gateStreakDays: 13 }, true, '2026-10-12')).toBe(14);
     expect(gateStreak({ date: '2026-10-11', gateStreakDays: 13 }, false, '2026-10-12')).toBe(0);
     expect(gateStreak({ date: '2026-10-12', gateStreakDays: 5 }, true, '2026-10-12')).toBe(5);
+    // A missed night starts the run over.
+    expect(gateStreak({ date: '2026-10-09', gateStreakDays: 13 }, true, '2026-10-12')).toBe(1);
+    expect(gateStreak(null, true, '2026-10-12')).toBe(1);
     expect(gateOpen(GATE.days)).toBe(true);
     expect(gateOpen(13)).toBe(false);
   });

@@ -25,6 +25,7 @@ import {
   pickKey,
   ratingsCountOf,
   similarPlaces,
+  SIMILAR_LIMIT,
   SIMILAR_MIN_MI,
   unratedPlaces,
   SHEET_PICKS,
@@ -233,15 +234,18 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
       rankPlaces({ places: items || [], uid, profile: myProfile, myReviews, origin, models, visitedIds, now, ...(scoreOf ? { scoreOf } : {}) }).picks,
     [uid, myProfile, myReviews, origin, models, visitedIds, now]
   );
-  const similar = useMemo(
-    () => rankRow(similarPlaces({ liked, pool: similarUnrated, exclude: shownKeys, limit: 12 }), (p) => p.similarity || 0),
-    [liked, similarUnrated, shownKeys, rankRow]
-  );
   // "Found by people like you" (Phase 3): places in range people like you
   // shared a tip on, in Mapr's order, minus the ones already on the sheet.
   const found = useMemo(
     () => rankRow(foundByPeopleLikeYou(unrated.filter((p) => !shownKeys.includes(pickKey(p))), models?.community)),
     [unrated, shownKeys, models, rankRow]
+  );
+  // "Because you liked" leaves out what the Found row shows, so no place is
+  // on both.
+  const foundKeys = useMemo(() => found.slice(0, SIMILAR_LIMIT).map(pickKey), [found]);
+  const similar = useMemo(
+    () => rankRow(similarPlaces({ liked, pool: similarUnrated, exclude: [...shownKeys, ...foundKeys], limit: 12 }), (p) => p.similarity || 0),
+    [liked, similarUnrated, shownKeys, foundKeys, rankRow]
   );
   // Public rating order stays the tie-break (ranking keeps the incoming order on ties).
   const meal = useMemo(() => (isMealTime(new Date(now)) ? rankRow(mealPicks({ pool: unrated, ratings, limit: 12 })) : []), [unrated, ratings, now, rankRow]);

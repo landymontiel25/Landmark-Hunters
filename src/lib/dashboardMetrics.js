@@ -167,7 +167,8 @@ export function networkDocs(ds, dates, annotated = annotateShown(ds)) {
       // Phase 3 is done when community picks match at least as well as
       // Mapr-only picks over 30 days: picks shown in the 30 days to this
       // date, split by whether someone's find lifted them.
-      ...pickSplit(annotated.filter((r) => r.shownAt >= to - 30 * DAY_MS && r.shownAt < to)),
+      // Launch area only, so other cities' rates don't decide it.
+      ...pickSplit(annotated.filter((r) => r.shownAt >= to - 30 * DAY_MS && r.shownAt < to && r.region && COMMUNITY_REGIONS.includes(canonicalRegionId(r.region)))),
     };
   });
 }

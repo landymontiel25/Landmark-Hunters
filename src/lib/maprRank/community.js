@@ -77,10 +77,14 @@ export const GATE = { discoverers30: 30, liveTipPlaces: 150, medianNearby: 5, da
 export function gateMet({ discoverers30 = 0, liveTipPlaces = 0, medianNearby = 0 } = {}) {
   return discoverers30 >= GATE.discoverers30 && liveTipPlaces >= GATE.liveTipPlaces && medianNearby >= GATE.medianNearby;
 }
-// The run of days the gate has held, given yesterday's doc.
+// The run of days the gate has held, given the last doc written. Only a
+// doc from the day before carries the run on: a missed or skipped night
+// starts it over, and a re-run of the same date doesn't count twice.
+const dayBefore = (date) => new Date(Date.parse(`${date}T00:00:00Z`) - 86400000).toISOString().slice(0, 10);
 export function gateStreak(prev, met, date) {
   if (prev?.date === date) return prev.gateStreakDays || 0;
-  return met ? (prev?.gateStreakDays || 0) + 1 : 0;
+  if (!met) return 0;
+  return prev?.date === dayBefore(date) ? (prev.gateStreakDays || 0) + 1 : 1;
 }
 export const gateOpen = (streakDays) => streakDays >= GATE.days;
 

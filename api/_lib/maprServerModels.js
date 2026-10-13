@@ -12,9 +12,12 @@ import { decodeNeighbors } from '../../src/lib/maprRank/similarity.js';
 // (no service account, no model yet) is null and ranking falls back.
 
 const cache = new Map();
+// Community lifts name people and change with blocks and moderation: 10
+// minutes, not the models' MODEL_CACHE_MS.
+const COMMUNITY_CACHE_MS = 10 * 60 * 1000;
 async function cached(key, load, now) {
   const hit = cache.get(key);
-  if (hit && now - hit.at < MODEL_CACHE_MS) return hit.value;
+  if (hit && now - hit.at < (key.startsWith('community:') ? COMMUNITY_CACHE_MS : MODEL_CACHE_MS)) return hit.value;
   let value;
   try {
     value = await load();

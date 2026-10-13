@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { restoreScroll, saveListReturn, takeListReturn } from '../lib/listReturn';
@@ -385,7 +386,7 @@ export default function LandmarkSelection() {
   // neighbor, someone you follow, a friend) shared a tip on. The chip shows
   // only when there are some.
   const [foundOnly, setFoundOnly] = useSessionState('landmarks.found', false);
-  const isFound = useCallback((l) => maprModels?.community?.[l.regionId]?.places?.[l.id]?.likeYou === true, [maprModels]);
+  const isFound = useCallback((l) => isCommunityFind(l, maprModels?.community), [maprModels]);
   const hasFound = useMemo(() => Object.values(maprModels?.community || {}).some((r) => Object.values(r?.places || {}).some((c) => c?.likeYou)), [maprModels]);
   // A restored custom interest (or a retired category) may be gone since --
   // don't leave the list filtered by a button that no longer shows.

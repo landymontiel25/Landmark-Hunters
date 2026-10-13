@@ -76,19 +76,27 @@ const defaultFetchCommunity = async (regions) => {
   return (await r.json()).regions || {};
 };
 
+// Kept for 10 minutes, not the models' 12 hours: a block, an unfollow or
+// a removed tip shows within minutes. A failed fetch is remembered for 2
+// minutes, so a refused or broken endpoint isn't asked again by every
+// surface at once. Memory only (it names people).
+export const COMMUNITY_CACHE_MS = 10 * 60 * 1000;
+const COMMUNITY_RETRY_MS = 2 * 60 * 1000;
+const communityMemory = new Map();
 async function loadCommunity(uid, regions, { nowMs, fetchCommunity }) {
   const wanted = [...new Set(regions.map(canonicalRegionId))].filter((r) => COMMUNITY_REGIONS.includes(r)).sort();
   if (!wanted.length) return null;
-  const name = `community:${uid}:${wanted.join(',')}`;
-  const hit = readCache(name, nowMs);
-  if (hit) return hit.value;
+  const name = `${uid}:${wanted.join(',')}`;
+  const hit = communityMemory.get(name);
+  if (hit && nowMs - hit.at < (hit.value ? COMMUNITY_CACHE_MS : COMMUNITY_RETRY_MS)) return hit.value;
+  let value = null;
   try {
-    const value = await fetchCommunity(wanted);
-    writeCache(name, value, nowMs);
-    return value;
+    value = await fetchCommunity(wanted);
   } catch {
-    return null;
+    value = null;
   }
+  communityMemory.set(name, { at: nowMs, value });
+  return value;
 }
 
 export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), read = defaultRead, features = FEATURES, fetchCommunity = defaultFetchCommunity } = {}) {
@@ -120,4 +128,5 @@ export async function loadMaprModels({ uid, regions = [], nowMs = Date.now(), re
 
 export function _resetModelMemory() {
   memory.clear();
+  communityMemory.clear();
 }

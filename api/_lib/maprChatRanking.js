@@ -3,6 +3,7 @@ import { haversineKm } from '../../src/lib/maprRank/distanceDecay.js';
 import { seededRandom } from '../../src/lib/maprRank/experiments.js';
 import { kindBoost, tasteKindAffinity } from '../../src/lib/placeKinds.js';
 import { getLandmark } from '../../src/data/regions.js';
+import { finderWhy } from '../../src/lib/communityLabels.js';
 
 // Mapr chat (api/plan-ai.js) with the same Phase 1 ranking as every other
 // Mapr surface: the candidate places are ranked in code (taste x distance x
@@ -41,11 +42,14 @@ export function summaryScorer(tagScoreSummary, affinity = null) {
 
 // " | FOUND BY: Ana (verified, taste match High)" for a place someone the
 // traveler matches, follows or is friends with shared a tip on.
+// A user's text for the prompt: one line, no quotes, bounded.
+const oneLine = (v, n) => String(v ?? '').replace(/[\s\u2028\u2029]+/g, ' ').replace(/["`]/g, "'").trim().slice(0, n);
+const finderName = (f) => oneLine(f?.name, 40) || 'A verified visitor';
 function foundBy(p) {
   const f = p.community?.likeYou ? p.community.finder : null;
   if (!f) return '';
-  const why = f.match ? `taste match ${f.match}` : f.relation === 'follow' ? 'someone they follow' : f.relation === 'friend' ? 'their friend' : null;
-  return ` | FOUND BY: ${String(f.name || 'a verified visitor').slice(0, 40)} (verified visit${why ? `, ${why}` : ''})`;
+  const why = finderWhy(f);
+  return ` | FOUND BY: ${finderName(f)} (verified visit${why ? `, ${why.toLowerCase()}` : ''})`;
 }
 
 // Returns { text, telemetry: { "region/id": {...} }, ids: Set } or null.
@@ -92,7 +96,7 @@ export function chatRanking({ uid, pool = [], curated = [], regionsChosen = fals
   const tips = picks
     .map((p) => ({ p, c: models?.community?.[p.regionId]?.places?.[p.id] }))
     .filter(({ c }) => c?.likeYou && c.tip)
-    .map(({ p, c }) => `${p.regionId}/${p.id} | ${c.finder?.name || 'A verified visitor'} (verified visit${c.finder?.match ? `, taste match ${c.finder.match}` : ''}): "${String(c.tip).replace(/\s+/g, ' ').replace(/"/g, "'")}"`);
+    .map(({ p, c }) => `${p.regionId}/${p.id} | ${finderName(c.finder)} (verified visit${finderWhy(c.finder) ? `, ${finderWhy(c.finder).toLowerCase()}` : ''}): "${oneLine(c.tip, 280)}"`);
   const text =
     "MAPR'S RANKING FOR THIS TRAVELER (Mapr's own scoring: their taste, how close each place is, places similar to ones they " +
     'loved, its learned model, and in launch cities tips from verified visitors; best fit first; already-visited places left out):\n' +

@@ -99,7 +99,7 @@ export function rankTripPicks({ pickType, profile, regionIds = [], excludeIds = 
   // "Something new" gets one community find (Phase 3): a place in these
   // cities that someone like you (a taste neighbor, someone you follow, a
   // friend) shared a tip on, and you haven't rated.
-  const finds = pickType === 'new' ? communityFinds({ regionIds: ids, models, excludeIds, myReviews, have: out }) : [];
+  const finds = pickType === 'new' ? communityFinds({ regionIds: ids, models, excludeIds, myReviews, have: out, origin }) : [];
   const { picks, ranked } = rankPlaces({
     places: [...out, ...finds],
     uid,
@@ -122,14 +122,19 @@ export function rankTripPicks({ pickType, profile, regionIds = [], excludeIds = 
 
 // Catalog places people like you found in these regions, not yet in `have`,
 // not excluded and not rated by you.
-export function communityFinds({ regionIds = [], models = null, excludeIds = [], myReviews = {}, have = [] }) {
+// With an origin, only places within COMMUNITY_FIND_KM of it. (A place
+// someone added by hand isn't in the catalog, so it can't join here yet.)
+export const COMMUNITY_FIND_KM = 25;
+export function communityFinds({ regionIds = [], models = null, excludeIds = [], myReviews = {}, have = [], origin = null }) {
   const out = [];
   const skip = new Set([...excludeIds, ...Object.keys(myReviews || {}), ...have.map((p) => p.id)]);
   for (const region of regionIds) {
     for (const [id, c] of Object.entries(models?.community?.[canonicalRegionId(region)]?.places || {})) {
       if (!c?.likeYou || skip.has(id)) continue;
       const l = getLandmark(region, id);
-      if (l) out.push({ ...l, regionId: l.regionId || region, tagScore: 0 });
+      if (!l) continue;
+      if (origin && Number.isFinite(l.lat) && distanceMeters(origin.lat, origin.lng, l.lat, l.lng) > COMMUNITY_FIND_KM * 1000) continue;
+      out.push({ ...l, regionId: l.regionId || region, tagScore: 0 });
     }
   }
   return out;

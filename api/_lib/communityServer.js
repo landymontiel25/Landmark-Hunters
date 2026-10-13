@@ -15,17 +15,20 @@ import { blockedBetween } from './tipsServer.js';
 // (api/community.js), never the ramp, density numbers or anyone's weight.
 
 // What each finder is to this viewer: neighbor score, followed, friend.
+// Blocks must load (a failure throws: never show a blocked person); the
+// rest only order and lift things, so a failed read counts as none.
 export async function viewerRelations(db, viewerUid) {
+  const soft = (p) => p.catch(() => null);
   const [neighborsSnap, follows, friends, blocked] = await Promise.all([
-    db.collection(NEIGHBORS_COLLECTION).doc(viewerUid).get(),
-    db.collection('follows').where('followerUid', '==', viewerUid).get(),
-    db.collection('friend_edges').where('owner', '==', viewerUid).get(),
+    soft(db.collection(NEIGHBORS_COLLECTION).doc(viewerUid).get()),
+    soft(db.collection('follows').where('followerUid', '==', viewerUid).get()),
+    soft(db.collection('friend_edges').where('owner', '==', viewerUid).get()),
     blockedBetween(db, viewerUid),
   ]);
   return {
-    neighbors: neighborsSnap.exists ? neighborsFromDoc(neighborsSnap.data()) : null,
-    follows: new Set(follows.docs.map((d) => d.data().followeeUid)),
-    friends: new Set(friends.docs.map((d) => d.data().friend).filter(Boolean)),
+    neighbors: neighborsSnap?.exists ? neighborsFromDoc(neighborsSnap.data()) : null,
+    follows: new Set((follows?.docs || []).map((d) => d.data().followeeUid)),
+    friends: new Set((friends?.docs || []).map((d) => d.data().friend).filter(Boolean)),
     blocked,
   };
 }
@@ -54,9 +57,11 @@ export async function computeCommunity(db, viewerUid, regions, { nowMs = Date.no
   if (!wanted.length) return {};
   const relations = rel || (await viewerRelations(db, viewerUid));
   const out = {};
-  for (const region of wanted) {
-    const ids = [region, ...Object.keys(REGION_ALIASES).filter((a) => REGION_ALIASES[a] === region)];
-    const snap = await db.collection('tips').where('region', 'in', ids).where('status', '==', 'live').get();
+  const snaps = await Promise.all(
+    wanted.map((region) => db.collection('tips').where('region', 'in', [region, ...Object.keys(REGION_ALIASES).filter((a) => REGION_ALIASES[a] === region)]).where('status', '==', 'live').get())
+  );
+  for (const [i, region] of wanted.entries()) {
+    const snap = snaps[i];
     const byPlace = new Map();
     for (const d of snap.docs) {
       const t = d.data();
