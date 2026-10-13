@@ -764,6 +764,7 @@ export default function MapExplore({ experiments = false }) {
         // the key too -- otherwise two different results collide on one
         // React key and the list can visibly duplicate/misrender as you type.
         id: `landmark-${l.regionId}-${l.id}`,
+        path: `/landmarks/${l.regionId}/${l.id}`,
         name: l.name,
         sub: getRegion(l.regionId)?.name,
         lat: savedPos?.lat ?? l.lat,
@@ -782,6 +783,7 @@ export default function MapExplore({ experiments = false }) {
       .filter((x) => x.score > 0)
       .map(({ l, score }) => ({
         id: `custom-${l.docId}`,
+        path: `/landmarks/${l.region}/${l.id}`,
         name: l.name,
         sub: getRegion(l.region)?.name,
         lat: l.lat,
@@ -811,7 +813,7 @@ export default function MapExplore({ experiments = false }) {
       .map((id) => {
         if (id.startsWith('custom:')) {
           const l = customLandmarks.find((c) => c.docId === id.slice(7));
-          return l && { id: `custom-${l.docId}`, name: l.name, sub: getRegion(l.region)?.name, lat: l.lat, lng: l.lng, zoom: 17 };
+          return l && { id: `custom-${l.docId}`, path: `/landmarks/${l.region}/${l.id}`, name: l.name, sub: getRegion(l.region)?.name, lat: l.lat, lng: l.lng, zoom: 17 };
         }
         const [rid, lid] = id.split('/');
         const l = ALL_LANDMARKS.find((x) => x.regionId === rid && x.id === lid);
@@ -819,6 +821,7 @@ export default function MapExplore({ experiments = false }) {
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
         return {
           id: `landmark-${l.regionId}-${l.id}`,
+          path: `/landmarks/${l.regionId}/${l.id}`,
           name: l.name,
           sub: getRegion(l.regionId)?.name,
           lat: savedPos?.lat ?? l.lat,
@@ -870,6 +873,7 @@ export default function MapExplore({ experiments = false }) {
         const savedPos = savedOverrides[`${l.regionId}/${l.id}`];
         return {
           id: `landmark-${l.regionId}-${l.id}`,
+          path: `/landmarks/${l.regionId}/${l.id}`,
           name: l.name,
           region: l.regionId,
           landmarkId: l.id,
@@ -877,7 +881,7 @@ export default function MapExplore({ experiments = false }) {
           lng: savedPos?.lng ?? l.lng,
         };
       }),
-      ...customLandmarks.map((l) => ({ id: `custom-${l.docId}`, name: l.name, region: l.region, landmarkId: l.id, lat: l.lat, lng: l.lng })),
+      ...customLandmarks.map((l) => ({ id: `custom-${l.docId}`, path: `/landmarks/${l.region}/${l.id}`, name: l.name, region: l.region, landmarkId: l.id, lat: l.lat, lng: l.lng })),
     ];
     return all
       .map((l) => ({ ...l, meters: distanceMeters(listLat, listLng, l.lat, l.lng) }))
@@ -1311,7 +1315,10 @@ export default function MapExplore({ experiments = false }) {
               position={[searchFocus.lat, searchFocus.lng]}
               icon={focusIcon}
               zIndexOffset={1000}
-              interactive={false}
+              // A searched place opens its page when tapped; a city, state or
+              // country is just a label.
+              interactive={!!searchFocus.path}
+              eventHandlers={searchFocus.path ? { click: () => navigate(searchFocus.path) } : undefined}
             >
               <Tooltip permanent direction="top" offset={[0, -34]} className={`focus-tooltip ${searchFocus.kind ? `focus-tooltip--${searchFocus.kind}` : ''}`}>
                 {searchFocus.name}
@@ -1548,6 +1555,7 @@ export default function MapExplore({ experiments = false }) {
                       type="button"
                       key={l.id}
                       className="map-search-result"
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => selectSearchResult({ ...l, zoom: 17 })}
                     >
                       <span className="map-search-result-name">{l.name}</span>
@@ -1566,6 +1574,10 @@ export default function MapExplore({ experiments = false }) {
                       type="button"
                       key={r.id}
                       className="map-search-result"
+                      // Keep focus in the search box on press: on a phone the
+                      // blur closes the keyboard, the list jumps and the tap
+                      // is lost.
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => selectSearchResult(r)}
                     >
                       <span className="map-search-result-name">{r.name}</span>
@@ -1574,7 +1586,7 @@ export default function MapExplore({ experiments = false }) {
                   ))}
                   <SmartSearchLabel loading={smart.loading} count={smartResults.length} />
                   {smartResults.map((r) => (
-                    <button type="button" key={r.id} className="map-search-result" onClick={() => selectSearchResult(r)}>
+                    <button type="button" key={r.id} className="map-search-result" onMouseDown={(e) => e.preventDefault()} onClick={() => selectSearchResult(r)}>
                       <span className="map-search-result-name">{r.name}</span>
                       <span className="map-search-result-city">{r.sub}</span>
                     </button>
