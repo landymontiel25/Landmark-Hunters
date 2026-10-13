@@ -223,13 +223,13 @@ await t('Phase 2 read limits: your own list and a get on your own missing id sti
 });
 // The paying check-in: the check-in, the payout marker and the three
 // leaderboard entries in one write, as claimCheckIn does it.
-const paidCheckin = (db, uid, id, over = {}, entryPoints = null) => {
+const paidCheckin = (db, uid, id, over = {}, entryPoints = null, legacyId = false) => {
   const b = writeBatch(db);
   const pts = over.points ?? 100;
   b.set(doc(db, `checkins/${id}`), ck({ userId: uid, points: pts, ...over }));
   b.set(doc(db, `checkin_payouts/${uid}`), { checkinId: id, createdAt: serverTimestamp() });
   for (const [period, key] of [['weekly', '2026-W41'], ['monthly', '2026-10'], ['yearly', '2026']]) {
-    b.set(doc(db, `leaderboard_entries/${period}_${key}_${uid}`), { userId: uid, userName: 'e', period, periodKey: key, points: increment(entryPoints ?? pts), lastCheckinId: id, updatedAt: serverTimestamp() }, { merge: true });
+    b.set(doc(db, `leaderboard_entries/${period}_${key}_${uid}`), { userId: uid, userName: 'e', period, periodKey: key, points: increment(entryPoints ?? pts), ...(legacyId ? { lastCheckinId: id } : {}), updatedAt: serverTimestamp() }, { merge: true });
   }
   return b.commit();
 };
@@ -357,6 +357,12 @@ await t('naming an old check-in, or someone else\'s, does not pay', async () => 
   await seed((sdb) => setDoc(doc(sdb, 'checkins/hal_x'), { userId: 'hal', landmarkId: 'x', points: 100 }));
   await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ lastCheckinId: 'hal_x' }), { merge: true }));
 });
+await t('Phase 2: the payout doc proves a rise, no public lastCheckinId needed; a build that still sends it works; it never pays twice', async () => {
+  await assertSucceeds(paidCheckin(as('lia'), 'lia', 'lia_lm'));
+  await assertSucceeds(paidCheckin(as('max'), 'max', 'max_lm', {}, null, true));
+  // The payout doc exists now: no new rise, with or without naming a check-in.
+  await assertFails(setDoc(doc(as('lia'), 'leaderboard_entries/weekly_2026-W41_lia'), { userId: 'lia', userName: 'l', period: 'weekly', periodKey: '2026-W41', points: increment(100), lastCheckinId: 'lia_lm', updatedAt: serverTimestamp() }, { merge: true }));
+});
 await t('Phase 2: the owner can take lastCheckinId off an entry (no rise), so it doesn\'t stay public', async () => {
   await seed((db) => setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_ken'), { userId: 'ken', userName: 'k', period: 'weekly', periodKey: '2026-W41', points: 100, lastCheckinId: 'ken_lm', updatedAt: 1 }));
   await assertSucceeds(updateDoc(doc(as('ken'), 'leaderboard_entries/weekly_2026-W41_ken'), { lastCheckinId: deleteField() }));
@@ -381,25 +387,16 @@ await t('onboarding bonus: +10 entries batched with the +10 bonus and the flag',
 
 console.log('region_stats');
 await reset();
-await seed((db) => setDoc(doc(db, 'checkins/erin_lm1'), { userId: 'erin', points: 100 }));
-const bump = (db, id, inc = 1, extra = {}) => setDoc(doc(db, 'region_stats/miami'), { counts: { [id]: increment(inc) }, lastBump: id, updatedAt: serverTimestamp(), ...extra }, { merge: true });
-await t('bump: +1 for a landmark you checked in at (first write creates the doc)', () => assertSucceeds(bump(as('erin'), 'lm1')));
-await t('bump again +1 works; +2 and a bump for a landmark with no check-in do not', async () => {
-  await assertSucceeds(bump(as('erin'), 'lm1'));
-  await assertFails(bump(as('erin'), 'lm1', 2));
-  await assertFails(bump(as('erin'), 'lm2'));
-  await assertFails(bump(as('bob'), 'lm1'));
+await seed(async (db) => {
+  await setDoc(doc(db, 'checkins/erin_lm1'), { userId: 'erin', points: 100 });
+  await setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 3 }, backfilled: true });
 });
-await t('cannot overwrite counts directly or touch two landmarks', async () => {
+await t('Phase 2: region_stats is server-written; no client bumps, stamps or deletes it, even with a check-in there', async () => {
   const db = as('erin');
-  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 9999 }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
-  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: increment(1), other: 500 }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: increment(1) }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(db, 'region_stats/newregion'), { counts: { lm1: increment(1) }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(as('bob'), 'region_stats/miami'), { counts: { lm1: 12, lm9: 3 }, backfilled: true, updatedAt: serverTimestamp() }, { merge: true }));
   await assertFails(deleteDoc(doc(db, 'region_stats/miami')));
-});
-await t('Phase 2: no client can stamp a region\'s counts (the old backfill), even on a region not backfilled', async () => {
-  await assertFails(setDoc(doc(as('bob'), 'region_stats/miami'), { counts: { lm1: 12, lm9: 3 }, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }));
-  await assertFails(setDoc(doc(as('bob'), 'region_stats/newregion'), { counts: { someplace: 999999 }, backfilled: true, updatedAt: serverTimestamp() }));
-  await assertSucceeds(bump(as('erin'), 'lm1')); // bumps still work
 });
 await t('signed out cannot write region_stats; anyone can still read', async () => {
   await assertFails(setDoc(doc(env.unauthenticatedContext().firestore(), 'region_stats/x'), { counts: {}, backfilled: true }));

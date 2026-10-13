@@ -145,11 +145,13 @@ the owner's profile is public, never across a block either way, and the
 verified admin; list queries must pin `userId`. Cross-owner reads were moved: the regional leaderboard is
 added up by `api/regional-leaderboard.js` (names and points only, and only
 people the viewer may see who have points), the "Tag Team" badge queries
-each friend's check-ins, and the old client backfill of `region_stats` is
-gone (the rule takes the one-count bump only; the nightly job fills a
-region's totals, 3 regions a night). Public leaderboard entries
-no longer carry `lastCheckinId`: new claims drop it, and the nightly job
-(`api/_lib/checkinUpkeep.js`) scrubs old ones. New
+each friend's check-ins, and `region_stats` is server-written only: the
+nightly job recounts every region from the check-ins (a client bump could
+not be tied to a real visit, so one account could inflate a count without
+limit). Public leaderboard entries no longer carry `lastCheckinId`: a rise
+is proven by the owner-only `checkin_payouts/{uid}` doc made in the same
+write. Builds from before still send `lastCheckinId` (allowed, proves
+nothing), and the nightly job (`api/_lib/checkinUpkeep.js`) scrubs it. New
 check-ins can't carry `distanceMeters` / `gpsAccuracyMeters` any more
 (pre-Phase-0 builds fail to check in: install a fresh build), `presence`
 no longer holds distance or accuracy (version 2), and the nightly job

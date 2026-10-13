@@ -2,7 +2,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  setDoc,
   runTransaction,
   collection,
   query,
@@ -16,7 +15,6 @@ import {
   arrayUnion,
   arrayRemove,
   Timestamp,
-  deleteField,
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
 import { periodKeysAt } from './periods';
@@ -203,9 +201,8 @@ async function _claimCheckIn({
             userName,
             period,
             periodKey: keys[period],
+            // The rules check the rise against the payout doc above.
             points: increment(paidPoints),
-            // The rules check that the rise matches this check-in's points.
-            lastCheckinId: checkinId,
             updatedAt: serverTimestamp(),
           },
           { merge: true }
@@ -215,20 +212,6 @@ async function _claimCheckIn({
 
     return { claimed: true, alreadyClaimed: false, visitNumber, payout: paidPoints, checkinId };
   });
-
-  // Outside the transaction on purpose: a failed counter write must never
-  // block the check-in itself.
-  if (result.claimed && !ratingOnly) bumpRegionCheckinCount(region, landmarkId).catch(() => {});
-  // lastCheckinId proves the payout to the rules in that one write; left on
-  // the public entry it would tell anyone where and when this account
-  // checked in. Taken off right after (and nightly, for any left behind).
-  if (result.claimed && result.payout > 0) {
-    // The same keys the transaction paid into (not recomputed: a claim
-    // across midnight Sunday would aim at next week's entry).
-    for (const period of PERIODS) {
-      _updateDoc(doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`), { lastCheckinId: deleteField() }).catch(() => {});
-    }
-  }
 
   return result;
 }
@@ -393,10 +376,9 @@ export async function getVisitCount(userId, landmarkId) {
 /**
  * Real check-ins per landmark across every user in one region, as
  * { [landmarkId]: count }. Repeat visits count: they're real demand too.
- * Reads one running counter doc, region_stats/{region}, that claimCheckIn
- * bumps on every real visit. The nightly job fills the totals for a region
- * with no backfilled counter (api/_lib/checkinUpkeep.js). Cached for 10
- * minutes per region.
+ * Reads one counter doc, region_stats/{region}, that the nightly job
+ * recounts (api/_lib/checkinUpkeep.js), so today's visits show tomorrow.
+ * Cached for 10 minutes per region.
  */
 const regionCountsCache = new Map();
 export async function getRegionCheckinCounts(region) {
@@ -412,8 +394,7 @@ export async function getRegionCheckinCounts(region) {
 /**
  * Real check-ins per landmark across every region combined, for Mapr Picks
  * when there's no region to score in yet. Reads the region_stats counter
- * docs (one per region, so this stays a handful of reads); a region the
- * nightly job hasn't filled yet adds only its bumps so far. Cached for 10
+ * docs (one per region, so this stays a handful of reads). Cached for 10
  * minutes.
  */
 let globalCountsCache = null;
@@ -428,17 +409,6 @@ export async function getGlobalCheckinCounts() {
   for (const d of snap?.docs || []) add(d.data().counts);
   globalCountsCache = { at: Date.now(), counts };
   return counts;
-}
-
-async function bumpRegionCheckinCount(region, landmarkId) {
-  if (!db || !region || !landmarkId) return;
-  await setDoc(
-    doc(db, 'region_stats', region),
-    // lastBump names the one landmark being bumped -- firestore.rules allows
-    // exactly +1 on that key (and only for someone who has checked in there).
-    { counts: { [landmarkId]: increment(1) }, lastBump: landmarkId, updatedAt: serverTimestamp() },
-    { merge: true }
-  );
 }
 
 /**

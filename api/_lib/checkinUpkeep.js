@@ -1,43 +1,44 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { canonicalRegionId } from '../../src/data/regions.js';
+import { REGIONS, canonicalRegionId } from '../../src/data/regions.js';
 import { isRealCheckin } from '../../src/lib/realCheckin.js';
 
 // Nightly check-in upkeep since the Phase 2 read limits (a phone reads only
 // its own, friends' and public profiles' check-ins).
 
-// Fills region_stats (Mapr Picks' cold-start check-in counts) for regions
-// that have no backfilled totals yet. A phone did this before Phase 2; it
-// can't read other people's check-ins any more, so the nightly job counts
-// them from the check-ins it already loaded (ds, statsData.js), up to
-// `maxRegions` regions a night, and skips the night when that load was cut
-// short. Real visits only, under the region's id and any old id folded into
-// it. A bump that lands between the load and the write can go uncounted
-// (the larger number per place is kept); that's at most a visit or two.
-export async function backfillRegionStats(db, ds, { maxRegions = 3 } = {}) {
+// Recounts region_stats (Mapr Picks' cold-start check-in counts) for every
+// region from the check-ins the nightly job already loaded (ds,
+// statsData.js), and skips the night when that load was cut short. Real
+// visits only, under the region's id and any old id folded into it. Since
+// Phase 2 only the server writes these (phones used to bump them, and a bump
+// couldn't be tied to a real visit), so each night overwrites the counts,
+// which also wipes any made up before. A doc for an id that isn't a region
+// is deleted.
+export async function recountRegionStats(db, ds) {
   if ((ds?.truncated || []).includes('checkins')) return 0;
-  const done = new Set((await db.collection('region_stats').select('backfilled').get()).docs.filter((d) => d.data().backfilled === true).map((d) => d.id));
+  const known = new Set(REGIONS.map((r) => r.id));
   const byRegion = new Map();
   for (const c of ds?.checkins || []) {
     if (!c.region || !c.landmarkId || !isRealCheckin(c)) continue;
     const region = canonicalRegionId(c.region);
-    if (done.has(region)) continue;
+    if (!known.has(region)) continue;
     if (!byRegion.has(region)) byRegion.set(region, {});
     const counts = byRegion.get(region);
     counts[c.landmarkId] = (counts[c.landmarkId] || 0) + 1;
   }
-  let written = 0;
-  for (const [region, counts] of [...byRegion].slice(0, maxRegions)) {
-    const ref = db.collection('region_stats').doc(region);
-    await db.runTransaction(async (tx) => {
-      const cur = await tx.get(ref);
-      if (cur.exists && cur.data().backfilled === true) return;
-      const merged = { ...counts };
-      for (const [id, n] of Object.entries((cur.exists && cur.data().counts) || {})) merged[id] = Math.max(merged[id] || 0, Number(n) || 0);
-      tx.set(ref, { counts: merged, backfilled: true, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-    });
-    written++;
+  const existing = (await db.collection('region_stats').select().get()).docs.map((d) => d.id);
+  const batch = db.batch();
+  let n = 0;
+  for (const id of existing) {
+    if (known.has(id)) continue;
+    batch.delete(db.collection('region_stats').doc(id));
+    n++;
   }
-  return written;
+  for (const id of new Set([...byRegion.keys(), ...existing.filter((x) => known.has(x))])) {
+    batch.set(db.collection('region_stats').doc(id), { counts: byRegion.get(id) || {}, backfilled: true, updatedAt: FieldValue.serverTimestamp() });
+    n++;
+  }
+  if (n) await batch.commit();
+  return n;
 }
 
 // Takes old location numbers off check-ins, `max` a night: the legacy

@@ -236,22 +236,22 @@ service cloud.firestore {
       allow update, delete: if false;
     }
     // A leaderboard entry rises only by a payout made in the same write:
-    // the paying check-in it names in `lastCheckinId` (created now, by you,
-    // for exactly that many points), or a bonusPoints rise on your profile
-    // of exactly that many points (onboarding or referral bonus; the users
-    // rule decides when those are allowed). Before, any client could add
-    // +100 to its own entries as often as it liked.
+    // the account's one paying check-in (checkin_payouts/{uid}, created now,
+    // owner-read, naming a check-in of yours for exactly that many points),
+    // or a bonusPoints rise on your profile of exactly that many points
+    // (onboarding or referral bonus; the users rule decides when those are
+    // allowed). The proof used to be `lastCheckinId` on the entry itself,
+    // which is public: anyone could watch where and when each account
+    // checked in (Phase 2). Builds from before still send it; it's allowed
+    // but proves nothing, and the nightly job removes it.
     function leaderboardRiseOk(delta) {
-      return delta == 0
-        || (request.resource.data.get('lastCheckinId', null) is string
-            && checkinPaidNow(request.resource.data.lastCheckinId, delta))
-        || bonusPaidNow(delta);
+      return delta == 0 || payoutPaidNow(delta) || bonusPaidNow(delta);
     }
-    function checkinPaidNow(checkinId, delta) {
-      let path = /databases/$(database)/documents/checkins/$(checkinId);
-      return !exists(path) && existsAfter(path)
-        && getAfter(path).data.userId == request.auth.uid
-        && getAfter(path).data.points == delta;
+    function payoutPaidNow(delta) {
+      let payout = /databases/$(database)/documents/checkin_payouts/$(request.auth.uid);
+      return !exists(payout) && existsAfter(payout)
+        && getAfter(/databases/$(database)/documents/checkins/$(getAfter(payout).data.checkinId)).data.userId == request.auth.uid
+        && getAfter(/databases/$(database)/documents/checkins/$(getAfter(payout).data.checkinId)).data.points == delta;
     }
     function bonusPaidNow(delta) {
       let path = /databases/$(database)/documents/users/$(request.auth.uid);
@@ -875,29 +875,14 @@ service cloud.firestore {
       allow update: if false;
     }
     // Running per-landmark check-in counts for one region (Mapr Picks' cold
-    // start ranks by these). Same trust level as landmark_ratings below.
+    // start ranks by these). Written only by the nightly job
+    // (api/_lib/checkinUpkeep.js), which recounts each region from the
+    // check-ins. Phones used to bump and backfill these; neither could be
+    // tied to a real new visit, so one account could push a place's count
+    // as high as it liked (Phase 2).
     match /region_stats/{region} {
       allow read: if true;
-      // One kind of write, nothing else (and no delete): a bump, +1 on
-      // exactly ONE landmark, named in `lastBump`, by someone who has a
-      // check-in doc for that landmark (bumpRegionCheckinCount). The old
-      // client backfill (any account could stamp a region's counts once) is
-      // gone since Phase 2: phones can't read a region's check-ins, and
-      // letting one stamp made-up counts would be permanent.
-      allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['counts', 'backfilled', 'lastBump', 'updatedAt'])
-        && request.resource.data.counts is map
-        && regionBumpOk();
-    }
-    function regionBumpOk() {
-      let d = request.resource.data;
-      let bumped = d.get('lastBump', null);
-      let old = resource == null ? {} : resource.data.get('counts', {});
-      return bumped is string
-        && d.get('backfilled', false) == (resource == null ? false : resource.data.get('backfilled', false))
-        && exists(/databases/$(database)/documents/checkins/$(request.auth.uid + '_' + bumped))
-        && d.counts.diff(old).affectedKeys().hasOnly([bumped])
-        && d.counts[bumped] == old.get(bumped, 0) + 1;
+      allow write: if false;
     }
     // Running rating aggregate per landmark. Only moves together with your
     // own review for that landmark in the same transaction (submitReview /
