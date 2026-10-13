@@ -8,6 +8,7 @@ import { Skeleton, SkeletonList } from '../components/Skeleton';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
+import NoFriendsYet from '../components/NoFriendsYet';
 import { PICKABLE_INTERESTS, getRegion } from '../data/regions';
 import { nearestRegionId } from '../lib/geo';
 import { classifyInterest } from '../lib/interestClassifier';
@@ -39,9 +40,9 @@ function GroupFriendPicker({ friends, loading, error, onRetry, query, onQueryCha
       ) : error ? (
         <ErrorNotice error={error} message={friendlyError(error, "Couldn't load your friends. Try again.")} onRetry={onRetry} compact />
       ) : friends.length === 0 ? (
-        <p className="screen-subtitle" style={{ marginBottom: 0 }}>
-          No friends yet — add some from your <Link to="/profile">Profile</Link> first.
-        </p>
+        <NoFriendsYet>
+          Add some from your <Link to="/profile">Profile</Link> and build this trip together.
+        </NoFriendsYet>
       ) : (
         <>
           <input
@@ -86,7 +87,7 @@ export default function TripSetup() {
     useTrip();
   const { useCurrentLocation, locating, locateError, usingGps } = useGpsStartLocation();
   const { user } = useAuth();
-  const { myUsername } = useFriends();
+  const { myUsername, friendsKnown, friendUids } = useFriends();
   const navigate = useNavigate();
   // Custom interests (e.g. "nightlife", "racing") aren't tagged on any landmark,
   // so the AI has to figure out which ones fit while this stays showing "finding
@@ -352,7 +353,7 @@ export default function TripSetup() {
         {tripMode === 'group' && user && (
           <GroupFriendPicker
             friends={friends}
-            loading={friendsLoading}
+            loading={friendsLoading && !(friendsKnown && friendUids.size === 0)}
             error={friendsError}
             onRetry={loadFriends}
             query={friendQuery}

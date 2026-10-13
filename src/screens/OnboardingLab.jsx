@@ -9,7 +9,8 @@ import { distanceMeters } from '../lib/geo';
 import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTAS, PLACE_DELTA } from '../lib/onboardingCards';
 import OnboardingPlaces from '../components/OnboardingPlaces';
 import LandmarkThumb from '../components/LandmarkThumb';
-import { HowToStep as LabInstructions, SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
+import { SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
+import MaprTutorial, { MaprBubble } from '../components/MaprTutorial';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
 import MallLab from './MallLab';
 
@@ -25,7 +26,9 @@ const STEPS = [
   ...(SIGNUP_ON ? [{ id: 'signup', label: 'Sign up' }] : []),
   { id: 'places', label: 'Your places' },
   { id: 'prompt', label: 'Rate prompt' },
-  { id: 'howto', label: 'Instructions' },
+  // Mapr leads: hello, what the three answers mean, then practice on three
+  // sample cards. Replaces the old wall-of-text instructions.
+  { id: 'howto', label: 'Mapr tutorial' },
   { id: 'cards', label: 'Cards' },
   { id: 'notes', label: 'Anything else' },
   { id: 'checkin', label: 'First check-in' },
@@ -188,9 +191,13 @@ export default function OnboardingLab() {
           }}
         />
       )}
-      {id === 'howto' && <LabInstructions onNext={() => go('cards', 'Read instructions')} />}
+      {id === 'howto' && <MaprTutorial onDone={() => go('cards', 'Finished Mapr tutorial')} />}
+      {id === 'cards' && data.answers.length < data.cards.length && (
+        <MaprBubble>Swipe away! Every card teaches me what to pick for you.</MaprBubble>
+      )}
       {id === 'cards' && (
         <LabCardStack
+          labels
           cards={data.cards}
           answers={data.answers}
           onAnswer={(card, answer) => {

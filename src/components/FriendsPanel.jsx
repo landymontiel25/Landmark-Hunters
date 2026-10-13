@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
+import NoFriendsYet from './NoFriendsYet';
 import { findUserByUsername, sendFriendRequest, acceptRequest, declineRequest, listFriends, requestKey } from '../lib/friends';
 import { listBlockedUsers, unblockUser } from '../lib/blocks';
 import FriendStatsModal from './FriendStatsModal';
@@ -12,7 +13,9 @@ import { usePersistentState } from '../lib/usePersistentState';
 
 export default function FriendsPanel() {
   const { user } = useAuth();
-  const { requests, reload, myUsername, setUsername } = useFriends();
+  const { requests, reload, myUsername, setUsername, friendsKnown, friendUids } = useFriends();
+  // Already known to have no friends: skip the loading skeleton.
+  const noFriends = friendsKnown && friendUids.size === 0;
   const toast = useToast();
   // A half-typed friend handle survives leaving Profile (per account, 1 day).
   const [handle, setHandle] = usePersistentState(user ? `friendSearch.${user.uid}` : null, '', {
@@ -299,10 +302,10 @@ export default function FriendsPanel() {
               loadFriends();
             }}
           />
-        ) : friends === null ? (
+        ) : friends === null && !noFriends ? (
           <SkeletonList count={3} label="Loading your friends" />
-        ) : friends.length === 0 ? (
-          <p className="screen-subtitle" style={{ margin: 0 }}>No friends yet.</p>
+        ) : !friends?.length ? (
+          <NoFriendsYet>Add someone by their username above and plan your next adventure together.</NoFriendsYet>
         ) : (
           friends.map((f) => (
             <div
