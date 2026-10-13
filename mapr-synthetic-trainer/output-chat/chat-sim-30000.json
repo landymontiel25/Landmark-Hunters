@@ -1,0 +1,175 @@
+{
+  "users": 30000,
+  "questions": 90000,
+  "seconds": 2582,
+  "totals": {
+    "asked": 90000,
+    "wrongBefore": 28283,
+    "wrongAfter": 0,
+    "repliesWrongBefore": 20952,
+    "repliesWrongAfter": 0,
+    "overCut": 32,
+    "unanswered": 0,
+    "forced": 44502,
+    "errors": 0
+  },
+  "byIntent": {
+    "plan": {
+      "asked": 10773,
+      "wrongBefore": 3046,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 2318,
+      "repliesWrongAfter": 0,
+      "overCut": 32,
+      "unanswered": 0,
+      "forced": 0,
+      "errors": 0
+    },
+    "hours": {
+      "asked": 10827,
+      "wrongBefore": 3422,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 2977,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 9770,
+      "errors": 0
+    },
+    "app": {
+      "asked": 3534,
+      "wrongBefore": 0,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 0,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 0,
+      "errors": 0
+    },
+    "recs": {
+      "asked": 10780,
+      "wrongBefore": 3439,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 2335,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 0,
+      "errors": 0
+    },
+    "dist_pair": {
+      "asked": 14323,
+      "wrongBefore": 5220,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 3483,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 14188,
+      "errors": 0
+    },
+    "dist_me": {
+      "asked": 14502,
+      "wrongBefore": 6425,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 4474,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 14375,
+      "errors": 0
+    },
+    "directions": {
+      "asked": 4595,
+      "wrongBefore": 1195,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 645,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 0,
+      "errors": 0
+    },
+    "price": {
+      "asked": 5425,
+      "wrongBefore": 1578,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 1578,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 0,
+      "errors": 0
+    },
+    "walkable": {
+      "asked": 6209,
+      "wrongBefore": 2666,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 1850,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 6157,
+      "errors": 0
+    },
+    "visit_length": {
+      "asked": 4446,
+      "wrongBefore": 3,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 3,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 12,
+      "errors": 0
+    },
+    "rating": {
+      "asked": 4586,
+      "wrongBefore": 1289,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 1289,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 0,
+      "errors": 0
+    }
+  },
+  "byStyle": {
+    "careful": {
+      "asked": 49581,
+      "wrongBefore": 0,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 0,
+      "repliesWrongAfter": 0,
+      "overCut": 31,
+      "unanswered": 0,
+      "forced": 24454,
+      "errors": 0
+    },
+    "sloppy": {
+      "asked": 27151,
+      "wrongBefore": 9384,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 9299,
+      "repliesWrongAfter": 0,
+      "overCut": 1,
+      "unanswered": 0,
+      "forced": 13429,
+      "errors": 0
+    },
+    "liar": {
+      "asked": 13268,
+      "wrongBefore": 18899,
+      "wrongAfter": 0,
+      "repliesWrongBefore": 11653,
+      "repliesWrongAfter": 0,
+      "overCut": 0,
+      "unanswered": 0,
+      "forced": 6619,
+      "errors": 0
+    }
+  },
+  "examples": []
+}

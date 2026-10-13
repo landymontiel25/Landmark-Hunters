@@ -19,6 +19,11 @@ describe('plan-ai trimTurns', () => {
 });
 
 describe('plan-ai conciseReply', () => {
+  it('keeps names with initials whole (found by the chat simulation)', () => {
+    const t = 'F. M. Kirby Auditorium is 2.3 miles from your location, about 9 minutes by car.';
+    expect(conciseReply(t, '')).toBe(t);
+  });
+
   const long =
     "Your taste score improves when Mapr guesses right. **Rate places I suggest** to give me data. Answer pick cards honestly. Be specific in comments. The more you rate the better.";
 

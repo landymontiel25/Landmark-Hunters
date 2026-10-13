@@ -3,6 +3,26 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Mapr chat fact guard, live hours, best order (2026-10-13)
+
+Shipped: Mapr chat can't show a distance, travel time, hours, price or
+rating that no lookup backed in that reply (`api/_lib/factGuard.js`). New
+tools: `place_hours` (Google Places live hours) and `best_order` (Route
+Matrix, fastest order for 2-7 stops). Proof: the chat simulation in
+`mapr-synthetic-trainer/chat-facts/` (results in
+`mapr-synthetic-trainer/CHAT-FACTS-RESULTS.md`; 300 travelers run in every
+test run). Still open:
+- The simulation's AI is a stand-in. A live run against the real model
+  needs the owner to set a dollar budget (each chat call costs money).
+- `place_hours` reads `currentOpeningHours`, a Places API (New) field
+  billed at a higher tier than name and location. Watch the Places bill;
+  the kill switch is removing the field (Mapr then falls back to web
+  search for hours).
+- Hours found through web search are trusted, not checked number by number.
+- The guard can't tell which place a vague closeness phrase ("a short
+  walk") refers to; it keeps one only when a checked route is under 15
+  minutes or a mile.
+
 ## Solo streak daily cards: city, variety, warnings (2026-10-13)
 
 Fixed: the 3 daily cards follow the city you are in (the streak's city
