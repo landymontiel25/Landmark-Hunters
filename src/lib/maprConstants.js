@@ -4,6 +4,10 @@
 
 // --- Where a pick was shown (recommendation_log.surface) ---------------
 export const SURFACES = ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'];
+// Tips shown on a landmark page (Phase 1 of the discovery network plan).
+// Logged to recommendation_log under this surface, but not a Mapr pick:
+// api/_lib/statsData.js keeps these rows out of every Mapr metric.
+export const TIP_SURFACE = 'landmark-page';
 
 // --- Hidden prediction (src/lib/maprPrediction.js) ---------------------
 // Saved with each shown pick as `predicted`. Never rendered or returned to

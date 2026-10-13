@@ -85,7 +85,10 @@ Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 `delete-mine` on account deletion, which `accountDeletion.js` calls) and
 `api/tips.js` (a place's live tips with blocks hidden both ways, helpful
 and saved, reports; marking and reporting need a verified email, like
-posting; reading doesn't, but only verified accounts' views are recorded). Reporters
+posting; reading doesn't). Each tip is recorded as seen when it reaches the
+screen (`seen`, verified accounts only): a `tip_views` doc and one
+`recommendation_log` impression row (surface `landmark-page`, the newly
+seen `tipIds`), both written by the server under one rule. Reporters
 live in server-only `tip_reports/{tipId}_{gen}_{uid}` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
 lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it;
@@ -113,12 +116,22 @@ reposted (a failed cleanup after a delete leaves them; they never count,
 but they stay). Left
 open for the Content page: restoring a reported tip must reset its
 `reportCount`, or the next single report hides it again. The word filter
-(`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read by a
-verified account records `tip_views` for the Phase 4 "went" count. Photos on tips need
+(`src/lib/tipFilter.js`) holds a tip instead of refusing it. `tip_views` feed the Phase 4 "went" count. Photos on tips need
 `VITE_FIREBASE_STORAGE_BUCKET` in the server's environment too (Vercel
 gives functions every project variable); without it every photo is
 refused.
-Next: the tips UI, the dashboard Content page.
+UI shipped: the check-in screen offers "Share a tip for others?" after a
+verified visit (`components/tips/TipComposer.jsx`), and landmark pages show
+"From people who went" under the facts (`components/tips/TipsSection.jsx`)
+with Helpful, Save, Report (with a reason) and Block, your own tip's
+status, and "Share a tip for others" for 30 days after a verified visit.
+`statsData.js` keeps the `landmark-page` rows out of every Mapr metric
+(`tipImpressions`). A tip you reported stays hidden for you. Open choice:
+impressions sit in `recommendation_log` as the plan says, so they count
+toward its 100,000-row nightly read cap; move them to their own
+collection if that cap gets close. Photos the browser can't convert
+(HEIC on most desktops) are refused rather than posted broken. Legal explains tips and how to
+report one; APP_HELP describes tips. Next: the dashboard Content page.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

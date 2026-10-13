@@ -13,6 +13,8 @@ import { attachCheckinPhoto } from '../lib/leaderboard';
 import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
+import TipComposer from './tips/TipComposer';
+import { hasMyTip } from '../lib/tipCheckin';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 import CheckInBlast from './CheckInBlast';
 import { useGeo } from '../lib/GeoContext';
@@ -43,6 +45,11 @@ export default function CheckInReview() {
   const [photoFiles, setPhotoFiles] = useState([]);
   const [photoPreviews, setPhotoPreviews] = useState([]);
   const [saving, setSaving] = useState(false);
+  // 'offer' | 'open' | 'done': the "Share a tip for others?" step after a verified visit.
+  const [tipState, setTipState] = useState('offer');
+  const [hasTipHere, setHasTipHere] = useState(null);
+  // A tip is being shared: the sheet stays open until it answers.
+  const [tipBusy, setTipBusy] = useState(false);
   const [msg, setMsg] = useState(null);
   // The check-in write itself failed: shown with Try again, and everything
   // you picked (rating, comment, photos) stays in the form.
@@ -92,8 +99,24 @@ export default function CheckInReview() {
       setPostError(null);
       setPosted(false);
       setBlast(false);
+      setTipState('offer');
+      setHasTipHere(null);
     }
   }, [justCheckedIn]);
+
+  // One tip per person per place: no offer where you already have one (an
+  // unknown answer still offers; the server refuses a second tip).
+  useEffect(() => {
+    // Only when a tip could be offered at all.
+    if (!justCheckedIn || !user?.uid || !user.emailVerified || checkInOptions?.ratingOnly) return undefined;
+    let cancelled = false;
+    hasMyTip(user.uid, justCheckedIn.id, justCheckedIn.regionId || justCheckedIn.region).then((has) => {
+      if (!cancelled) setHasTipHere(has);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [justCheckedIn, user?.uid, user?.emailVerified, checkInOptions?.ratingOnly]);
 
   if (!justCheckedIn) return null;
 
@@ -232,7 +255,10 @@ export default function CheckInReview() {
     }
   };
 
-  const close = () => clearJustCheckedIn();
+  const close = () => {
+    if (tipBusy) return;
+    clearJustCheckedIn();
+  };
 
   if (posted && blast) {
     return (
@@ -266,7 +292,29 @@ export default function CheckInReview() {
                 {msg}
               </p>
             )}
-            <button className="btn btn-primary btn-block" style={{ marginTop: 16 }} onClick={close}>
+            {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
+            {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere !== true && tipState !== 'done' && (
+              <div style={{ marginTop: 12 }}>
+                {tipState === 'open' ? (
+                  <TipComposer
+                    uid={user.uid}
+                    checkinId={presenceResult.checkinId}
+                    landmarkName={justCheckedIn.name}
+                    onCancel={() => setTipState('done')}
+                    onBusyChange={setTipBusy}
+                    onPosted={(out) => {
+                      setTipState('done');
+                      setMsg(out?.status === 'held' ? 'Thanks! Your tip shows once it is reviewed.' : 'Thanks! Your tip is up on the landmark page.');
+                    }}
+                  />
+                ) : (
+                  <button type="button" className="btn btn-ghost btn-block" onClick={() => setTipState('open')}>
+                    {'\u{1F4A1}'} Share a tip for others?
+                  </button>
+                )}
+              </div>
+            )}
+            <button className="btn btn-primary btn-block" style={{ marginTop: 16 }} onClick={close} disabled={tipBusy}>
               Done
             </button>
           </>

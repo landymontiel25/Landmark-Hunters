@@ -41,6 +41,7 @@ import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
 import RatingStars from '../components/RatingStars';
 import RatingsSection from '../components/ratings/RatingsSection';
+import TipsSection from '../components/tips/TipsSection';
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton from '../components/SaveLandmarkButton';
@@ -124,7 +125,7 @@ function LandmarkDetailBody() {
     });
   };
   const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
-  const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn } = useCheckIn();
+  const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn, presenceResult } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const region = getRegion(regionId);
@@ -961,6 +962,8 @@ function LandmarkDetailBody() {
           {landmark.factSources && Object.keys(landmark.factSources).length > 0 && ' · Linked facts come from the pages shown beside them'}
         </p>
       )}
+
+      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={presenceResult?.landmarkId === landmark.id ? `${presenceResult.checkinId}:${presenceResult.verified}` : ''} visited={checkedInHere || legacyLandmarkIds(landmark.id, regionId).some((id) => claimedMap?.[id])} />}
 
       {firebaseEnabled && user && (
         <div className="card checkin-stats-card">

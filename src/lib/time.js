@@ -1,0 +1,11 @@
+// Milliseconds from whatever Firestore hands back for a time: a number, a
+// Timestamp (client or Admin SDK), or a plain { seconds } / { _seconds }
+// object. Null for anything else. Shared by the app and the API
+// (api/_lib/time.js re-exports it), so both read times the same way.
+export const toMs = (v) => {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
+  if (v && typeof v.toMillis === 'function') return v.toMillis();
+  if (v && typeof v.seconds === 'number') return v.seconds * 1000;
+  if (v && typeof v._seconds === 'number') return v._seconds * 1000;
+  return null;
+};

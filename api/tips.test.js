@@ -63,25 +63,33 @@ describe('api/tips: reading', () => {
     expect(ids[0]).toBe('me_bell');
     expect(ids).toHaveLength(51);
   });
-  it("records which of others' live tips you saw; a reload writes nothing; an older post's view doesn't carry over", async () => {
-    await list();
+  it("records which of others' live tips reached your screen; a repeat writes nothing; an older post's view doesn't carry over", async () => {
+    const seen = (ids) => call('POST', { body: { action: 'seen', tipIds: ids } });
+    expect((await seen(['ann_bell', 'me_bell', 'cat_bell', 'fay_bell', 'gus_bell'])).body).toEqual({ ok: true, recorded: 1 });
     expect(db.docs['tip_views/me_ann_bell']).toMatchObject({ uid: 'me', tipId: 'ann_bell', authorUid: 'ann', gen: 'g-ann' });
-    expect(db.docs['tip_views/me_me_bell']).toBeUndefined();
+    const rows = Object.entries(db.docs).filter(([k]) => k.startsWith('recommendation_log/'));
+    expect(rows).toHaveLength(1);
+    expect(rows[0][1]).toMatchObject({ userId: 'me', landmarkId: 'bell', surface: 'landmark-page', tipIds: ['ann_bell'], pickType: null, isTest: false });
+    for (const id of ['me_me_bell', 'me_cat_bell', 'me_fay_bell', 'me_gus_bell']) expect(db.docs[`tip_views/${id}`]).toBeUndefined();
     const before = db.writes.length;
-    await list();
+    await seen(['ann_bell']);
     expect(db.writes.length).toBe(before);
-    db.docs['tip_views/me_ann_bell'] = { ...db.docs['tip_views/me_ann_bell'], gen: 'g-old', firstAt: 5 };
-    await list();
+    db.docs['tip_views/me_ann_bell'] = { ...db.docs['tip_views/me_ann_bell'], gen: 'g-old', firstAt: 5, lastAt: 0 };
+    await seen(['ann_bell']);
     expect(db.docs['tip_views/me_ann_bell'].firstAt).not.toBe(5);
     expect(db.docs['tip_views/me_ann_bell'].gen).toBe('g-ann');
-  });
-  it('finds tips under a renamed place by its current id', async () => {
-    expect((await list('old-bell')).body.tips.map((t) => t.id)).toContain('ann_bell');
+    // Reading the list records nothing.
+    delete db.docs['tip_views/me_ann_bell'];
+    await list();
+    expect(db.docs['tip_views/me_ann_bell']).toBeUndefined();
   });
   it("an unverified account's views aren't recorded", async () => {
     caller = { uid: 'me', emailVerified: false };
-    expect((await list()).code).toBe(200);
+    expect((await call('POST', { body: { action: 'seen', tipIds: ['ann_bell'] } })).body.recorded).toBe(0);
     expect(Object.keys(db.docs).filter((k) => k.startsWith('tip_views/'))).toEqual([]);
+  });
+  it('finds tips under a renamed place by its current id', async () => {
+    expect((await list('old-bell')).body.tips.map((t) => t.id)).toContain('ann_bell');
   });
   it("ids '.', '..' and reserved names are refused with a 400", async () => {
     for (const tipId of ['.', '..', '__x__']) expect((await call('POST', { body: { action: 'report', tipId, reason: 'spam' } })).code).toBe(400);
@@ -116,6 +124,18 @@ describe('api/tips: helpful, saved and reports', () => {
     await report();
     expect(db.docs['tips/ann_bell'].reportCount).toBe(1);
   });
+  it('returns the counts after a mark, and never lists a tip you reported', async () => {
+    expect((await react('ann_bell', 'helpful', true)).body).toMatchObject({ reaction: { helpful: true, saved: false }, counts: { helpful: 1, saved: 0 } });
+    await report();
+    expect((await list()).body.tips.map((t) => t.id)).not.toContain('ann_bell');
+  });
+  it('takes back one mark of two on a tip that has since been deleted', async () => {
+    await react('ann_bell', 'helpful', true);
+    await react('ann_bell', 'saved', true);
+    delete db.docs['tips/ann_bell'];
+    expect((await react('ann_bell', 'helpful', false)).code).toBe(200);
+    expect(db.docs['tip_reactions/me_ann_bell']).toBeUndefined();
+  });
   it('takes back a mark on a tip that has since been hidden', async () => {
     await react('ann_bell', 'saved', true);
     db.docs['tips/ann_bell'].hidden = true;
@@ -143,9 +163,9 @@ describe('api/tips: helpful, saved and reports', () => {
     caller = { uid: 'zed', emailVerified: true };
     await report();
     expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 2, hidden: true });
-    caller = { uid: 'me', emailVerified: true };
+    caller = { uid: 'bob', emailVerified: true };
     expect((await list()).body.tips.map((t) => t.id)).not.toContain('ann_bell');
-    expect((await report('bob_bell', 'because')).code).toBe(400);
+    expect((await report('ann_bell', 'because')).code).toBe(400);
   });
   it('a report never lands on a different post re-posted at the same id', async () => {
     const real = db.runTransaction;

@@ -72,6 +72,25 @@ export default function Legal() {
           from Wikimedia Commons; photos marked "via Google Maps" load from Google each time and are never stored.
         </p>
 
+        <h3>Tips</h3>
+        <p>
+          A tip you share after a verified visit is public: anyone signed in can see it with your username and the
+          month of your visit (never the day, time or your location). Tips with flagged words wait for review before
+          anyone else sees them. Deleting your account deletes your tips, except one a moderator removed or that was
+          reported and is waiting for review, which stays hidden until it is reviewed.
+        </p>
+
+        <h3>Reporting a tip or a person</h3>
+        <p>
+          Under any tip on a landmark page, tap <strong>Report</strong> and pick a reason. Two reports from different
+          people hide the tip from everyone until we review it, and we never tell anyone who reported. Tap{' '}
+          <strong>Block</strong> to hide that person's tips and reviews from you, and yours from them. You can also email{' '}
+          <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: 'var(--color-brass)' }}>
+            {CONTACT_EMAIL}
+          </a>{' '}
+          about any tip.
+        </p>
+
         <h3>Your choices</h3>
         <p>
           You can make your profile private (Profile → Privacy), block or report another user's content (on any
@@ -110,9 +129,9 @@ export default function Legal() {
 
         <h3>Acceptable use</h3>
         <p>
-          Don't post content that's abusive, illegal, or that you don't have the right to share. We may remove
-          content or suspend an account that violates this, and you can report or block another user's content
-          directly in the app.
+          Don't post content that's abusive, illegal, or that you don't have the right to share, and don't post tips
+          that are ads or written for pay. We may remove content or suspend an account that violates this, and you can
+          report or block another user's content (reviews and tips) directly in the app.
         </p>
 
         <h3>Location & check-ins</h3>

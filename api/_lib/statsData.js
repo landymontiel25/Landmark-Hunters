@@ -1,5 +1,6 @@
 import { FieldPath } from 'firebase-admin/firestore';
 import { STATS_MAX_DOCS, STATS_PAGE_SIZE } from '../../src/lib/statsConstants.js';
+import { TIP_SURFACE } from '../../src/lib/maprConstants.js';
 
 // Reads what the admin stats and the study summary need, with the Admin SDK
 // (which bypasses Firestore rules), in bounded batches. Each collection is
@@ -76,6 +77,8 @@ export async function loadStatsData(db) {
         pickType: x.pickType ?? null,
         requestFor: x.requestFor,
         isTest: x.isTest === true,
+        surface: x.surface ?? null,
+        tipIds: Array.isArray(x.tipIds) ? x.tipIds.slice(0, 50) : null,
         categories: Array.isArray(x.categories) ? x.categories.slice(0, 3) : [],
         // Mapr Phase 1 telemetry (src/lib/recommendationLog.js telemetryFields).
         ...(x.telemetry === true
@@ -130,5 +133,9 @@ export async function loadStatsData(db) {
       return { userId: parentId(d), at: ms(x.at), score: x.score ?? null, baselineScore: x.baselineScore ?? null, ratingsCount: x.ratingsCount };
     }),
   ]);
-  return { users, openDays, reviews, pickFeedback, recommendationLog, checkins, referrals, placeScores, tasteHistory, truncated };
+  // Tip impressions ('landmark-page', Phase 1) share the collection but are
+  // not Mapr picks: kept apart so no Mapr metric counts them.
+  const tipImpressions = recommendationLog.filter((r) => r.surface === TIP_SURFACE);
+  const picks = recommendationLog.filter((r) => r.surface !== TIP_SURFACE);
+  return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, checkins, referrals, placeScores, tasteHistory, truncated };
 }
