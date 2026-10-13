@@ -143,6 +143,7 @@ export function fakeDb(initial = {}) {
       limit: (n) => query(prefix, filters, n, group, order),
       orderBy: (f, dir = 'asc') => query(prefix, filters, lim, group, [typeof f === 'string' ? f : '__id__', dir]),
       startAfter: () => q,
+      select: () => q,
       get: async () => {
         let paths = Object.keys(docs).filter((p) => {
           const parts = p.split('/');

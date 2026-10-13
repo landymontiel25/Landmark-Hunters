@@ -198,6 +198,44 @@ export interface AppMetrics {
   study?: { series?: { date: string; mapr: number | null; baseline: number | null; users: number }[] };
 }
 
+// tip_metrics/{date}: tips by state at the nightly run (Phase 1).
+export interface TipMetric {
+  date: string;
+  live: number;
+  held: number;
+  hidden: number;
+  withdrawn: number;
+  removed: number;
+  reported_live: number;
+  live_places: number;
+  helpful_total: number;
+  saved_total: number;
+  live_by_region: Record<string, number>;
+  posted: number;
+  impressions: number;
+  authors_30d: number;
+}
+
+export interface TipQueueRow {
+  id: string;
+  gen: string | null;
+  authorUid: string;
+  authorName: string | null;
+  landmarkId: string;
+  landmarkName: string | null;
+  region: string | null;
+  text: string;
+  tags: string[];
+  photoURL: string | null;
+  status: 'held' | 'live' | 'withdrawn';
+  hidden: boolean;
+  reportCount: number;
+  heldReasons: string[];
+  reports: { reason: string; at: number | null }[];
+  createdAt: number | null;
+  accountDeleted: boolean;
+}
+
 // presence_metrics/{date}: verified visits per day (api/verify-checkin.js).
 export interface PresenceMetric {
   date: string;

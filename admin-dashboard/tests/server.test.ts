@@ -171,6 +171,23 @@ describe('jobs proxy', () => {
     expect((await forwardJob('refresh', { appUrl: '', secret: '', fetchImpl: fetchImpl as never })).status).toBe(503);
     expect((await forwardJob('refresh', { appUrl: 'x', secret: 's', fetchImpl: (async () => { throw new Error('down'); }) as never })).status).toBe(502);
   });
+  it('passes a tip decision through only with a valid tip id and decision, and nothing else', async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    const out = await forwardJob('tip-moderate', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params: { tipId: 'u1_bell', decision: 'remove', gen: 'a1b2-c3', action: 'mapr-run', extra: 'x' } });
+    expect(out.status).toBe(200);
+    const [, init] = fetchImpl.mock.calls[0] as unknown as [string, RequestInit];
+    expect(JSON.parse(String(init.body))).toEqual({ action: 'tip-moderate', tipId: 'u1_bell', decision: 'remove', gen: 'a1b2-c3' });
+    for (const params of [{ tipId: 'u1/../x', decision: 'remove' }, { tipId: '..', decision: 'remove' }, { tipId: 'u1_bell', decision: 'nuke' }, { tipId: 'u1_bell', decision: 'remove', gen: 'x/y' }, { tipId: 'u1_bell', decision: 'remove' }, {}]) {
+      expect((await forwardJob('tip-moderate', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params })).status).toBe(400);
+    }
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
+    // Other actions never carry fields.
+    await forwardJob('tips-queue', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params: { tipId: 'x', decision: 'remove' } });
+    expect(JSON.parse(String((fetchImpl.mock.calls[1] as unknown as [string, RequestInit])[1].body))).toEqual({ action: 'tips-queue' });
+    // A tip from before gens existed sends gen null, which still checks.
+    await forwardJob('tip-moderate', { appUrl: 'https://app.example', secret: 's', fetchImpl: fetchImpl as never, params: { tipId: 'u1_bell', decision: 'approve', gen: null } });
+    expect(JSON.parse(String((fetchImpl.mock.calls[2] as unknown as [string, RequestInit])[1].body))).toEqual({ action: 'tip-moderate', tipId: 'u1_bell', decision: 'approve', gen: null });
+  });
 });
 
 const { privateKey: TEST_PEM } = generateKeyPairSync('rsa', { modulusLength: 2048, privateKeyEncoding: { type: 'pkcs8', format: 'pem' }, publicKeyEncoding: { type: 'spki', format: 'pem' } });
