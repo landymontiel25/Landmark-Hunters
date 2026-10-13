@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { FOLLOW_RATE_LIMIT } from './follows.js';
+import { FOLLOW_TIP_DAILY_MAX, FOLLOWER_PUSH_FIRST } from '../../src/lib/alerts.js';
 import { TIP_MAX_CHARS, TIP_MAX_LINKS, TIP_MIN_CHARS, TIP_RATE_LIMIT, TIP_REPORT_HIDE, TIP_CHECKIN_MAX_AGE_DAYS, TIP_TAGS } from '../../src/lib/tips.js';
 import { APP_HELP } from './appHelp.js';
 import { MIN_RATINGS_FOR_PICKS, DEFAULT_DISTANCE_MI } from '../../src/lib/nearbyPicks.js';
@@ -68,5 +69,10 @@ describe('APP_HELP stays in sync with code constants', () => {
   it('describes discoverer levels without points', () => {
     expect(APP_HELP).toContain('Local, then Trusted, then Insider');
     expect(APP_HELP).toContain('You never see points, scores or who did what with your tips');
+  });
+  it('describes discovery alerts with the server\'s limits', () => {
+    expect(APP_HELP).toContain(`a push for your first ${FOLLOWER_PUSH_FIRST} followers`);
+    expect(APP_HELP).toContain(`at most ${FOLLOW_TIP_DAILY_MAX} a day`);
+    expect(APP_HELP).toContain('Settings → Discovery alerts');
   });
 });

@@ -22,6 +22,7 @@ import {
 import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { cleanTipText, tipCheckinProblem, tipIdFor, tipInputProblem, TIP_RATE_LIMIT } from '../src/lib/tips.js';
 import { filterTipText } from '../src/lib/tipFilter.js';
+import { followTipAlerts } from './_lib/alerts.js';
 
 // Tips (docs/discovery-network-plan.md, Phase 1). The only way a tip is
 // created or deleted: the rules forbid any client write to tips/.
@@ -123,6 +124,9 @@ async function postTip(db, account, body) {
   if (outcome.code === 'rate') return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
   if (outcome.code === 'photo-used') return [400, { error: 'Add a new photo for this tip.', code: 'photo-used' }];
   if (outcome.code === 'exists') return EXISTS_ERRORS[outcome.status] || EXISTS_ERRORS.default;
+  // People who follow the author hear about a live tip (Phase 5). Never
+  // costs the post.
+  if (status === 'live') await followTipAlerts(db, { tip: { ...tip, id: tipId }, nowMs }).catch((e) => console.error('follow tip alerts failed', e?.message || e));
   return [200, { ok: true, tipId, status }];
 }
 

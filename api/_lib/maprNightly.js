@@ -17,9 +17,10 @@ import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../.
 import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf } from '../../src/lib/maprRank/ncf.js';
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
-import { writeDashboardDaily, writeDashboardModels, writeDensityMetrics, writeNeighborMetrics, writeReputationMetrics } from './dashboardDocs.js';
+import { writeAlertMetrics, writeDashboardDaily, writeDashboardModels, writeDensityMetrics, writeNeighborMetrics, writeReputationMetrics } from './dashboardDocs.js';
 import { runCommunityDensity } from './communityDensity.js';
 import { runReputation } from './reputationJob.js';
+import { nearbyFindAlerts, nightlyAlerts } from './alerts.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 import { followUpkeep } from './follows.js';
@@ -338,8 +339,23 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
     }
     // Influence events, local reputation, levels and badges (Phase 4).
     try {
-      upkeep.reputation = await runReputation(db, data, { nowMs: now });
-      await writeReputationMetrics(db, date, upkeep.reputation);
+      const { alerts, ...rep } = await runReputation(db, data, { nowMs: now });
+      upkeep.reputation = rep;
+      await writeReputationMetrics(db, date, rep);
+      // Discovery alerts (Phase 5), each group in its own try.
+      if (alerts) {
+        try {
+          upkeep.alerts = await nightlyAlerts(db, { events: alerts.fresh, levelUps: alerts.levelUps, nowMs: now });
+        } catch (e) {
+          console.error('discovery alerts failed:', e?.message || e);
+        }
+        try {
+          upkeep.nearbyAlerts = await nearbyFindAlerts(db, data, { nowMs: now, reputation: alerts.levels });
+        } catch (e) {
+          console.error('nearby find alerts failed:', e?.message || e);
+        }
+        await writeAlertMetrics(db, date, { nightly: upkeep.alerts || 0, nearby: upkeep.nearbyAlerts || 0 }).catch(() => {});
+      }
     } catch (e) {
       console.error('reputation failed:', e?.message || e);
     }
