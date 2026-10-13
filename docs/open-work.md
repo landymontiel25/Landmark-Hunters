@@ -46,6 +46,14 @@ offline retry queue (an offline check-in stays unverified), the legacy
 for pre-Phase-0 builds (remove with the Phase 2 read limits), and proof docs
 left behind when an account is deleted.
 
+## Save for later is device-only (2026-10-13)
+
+The bookmark's Save for later list lives in the trip state
+(`trip.savedForLater` in `lib/TripContext.jsx`), like solo itineraries: on
+this device's storage, not synced to the account. Signing in on another
+phone shows an empty list. Syncing it (and solo itineraries) through
+Firestore is open.
+
 ## Founder and family accounts in the owner stats (needs the UIDs)
 
 `src/lib/familyAccounts.js` holds `FAMILY_UIDS`, the founder and family

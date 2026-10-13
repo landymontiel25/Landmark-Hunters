@@ -121,6 +121,9 @@ describe('LandmarkSelection renders the real Villanova catalog (some entries shi
     vi.resetModules();
     vi.doMock('../lib/TripContext', () => ({
       useTrip: () => ({
+        isSavedForLater: () => false,
+        saveForLater: () => {},
+        unsaveForLater: () => {},
         trip: {
           activeRegion: 'villanova',
           visitFilter: [],
@@ -234,6 +237,9 @@ describe('MapExplore shows "Picked for you right now" over the live map', () => 
     const logRecommendations = vi.fn(async () => []);
     vi.doMock('../lib/TripContext', () => ({
       useTrip: () => ({
+        isSavedForLater: () => false,
+        saveForLater: () => {},
+        unsaveForLater: () => {},
         trip: { byRegion: {}, activeRegion: null },
         toggleLandmark: vi.fn(),
         getRegionSelection: () => [],

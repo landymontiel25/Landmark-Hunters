@@ -45,6 +45,9 @@ const DEFAULT_TRIP = {
   // { [regionId | `group:<id>`]: 'past' | 'current' } -- a manual "Move to
   // Past" / "Move back to Current" (see src/lib/itineraryStatus.js).
   itineraryStatus: {},
+  // The bookmark's "Save for later" list, across every city:
+  // [{ regionId, id, name }], newest first. Shown as its own card on Itinerary.
+  savedForLater: [],
 };
 
 function loadTrip() {
@@ -84,6 +87,9 @@ function loadTrip() {
     t.itineraryNames = mergeRegions(t.itineraryNames, (a) => a);
     t.placesByRegion = mergeRegions(t.placesByRegion, (a, b) => (Array.isArray(a) && Array.isArray(b) ? [...a, ...b] : a));
     t.itineraryStatus = mergeRegions(t.itineraryStatus, (a) => a);
+    t.savedForLater = (Array.isArray(t.savedForLater) ? t.savedForLater : [])
+      .filter((s) => s && s.regionId && s.id)
+      .map((s) => ({ ...s, regionId: canonicalRegionId(s.regionId), id: canonicalLandmarkId(s.id, canonicalRegionId(s.regionId)) }));
     if (t.activeRegion) t.activeRegion = canonicalRegionId(t.activeRegion);
     // Retired interest ids (e.g. the old "food-local-life") become their
     // replacements, so a saved preference keeps filtering after a split.
@@ -253,6 +259,23 @@ export function TripProvider({ children }) {
       return { ...t, itineraryStatus };
     });
 
+  // Save for later (the bookmark). Saving puts the place at the top; saving
+  // something already saved does nothing.
+  const isSavedForLater = (regionId, id) =>
+    (trip.savedForLater || []).some((s) => s.regionId === canonicalRegionId(regionId) && s.id === id);
+  const saveForLater = (regionId, id, name = '') =>
+    setTrip((t) => {
+      const rid = canonicalRegionId(regionId);
+      const cur = t.savedForLater || [];
+      if (cur.some((s) => s.regionId === rid && s.id === id)) return t;
+      return { ...t, savedForLater: [{ regionId: rid, id, ...(name ? { name } : {}) }, ...cur] };
+    });
+  const unsaveForLater = (regionId, id) =>
+    setTrip((t) => {
+      const rid = canonicalRegionId(regionId);
+      return { ...t, savedForLater: (t.savedForLater || []).filter((s) => !(s.regionId === rid && s.id === id)) };
+    });
+
   const clearRegion = (regionId) =>
     setTrip((t) => {
       const byRegion = { ...t.byRegion };
@@ -327,6 +350,9 @@ export function TripProvider({ children }) {
         setRegionSelection,
         reorderLandmarks,
         clearRegion,
+        isSavedForLater,
+        saveForLater,
+        unsaveForLater,
         clearAll,
         getRegionSelection,
         regionsWithItineraries,
