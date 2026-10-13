@@ -51,7 +51,18 @@ export function classifyMatch(landmark, candidates) {
     const { id, name, distanceM } = sure[0];
     return { status: 'sure', id: String(id), candidate: { id: String(id), name, distanceM } };
   }
-  if (sure.length > 1 || named.length > 1) return { status: 'review', reason: 'several places share the name', candidates: top() };
+  // Several matches (a venue and its sub-places: "Museum of Art" and
+  // "Museum of Art Steps"): sure only if exactly one nearby name is the
+  // landmark's own name word for word.
+  if (sure.length > 1 || named.length > 1) {
+    const own = words(landmark.name).join(' ');
+    const exact = named.filter((c) => words(c.name).join(' ') === own);
+    if (exact.length === 1 && exact[0].distanceM <= sureRadius) {
+      const { id, name, distanceM } = exact[0];
+      return { status: 'sure', id: String(id), candidate: { id: String(id), name, distanceM } };
+    }
+    return { status: 'review', reason: 'several places share the name', candidates: top() };
+  }
   if (named.length === 1) return { status: 'review', reason: `name matches but ${named[0].distanceM} m away`, candidates: top() };
   const partial = scored.find((c) => c.distanceM <= sureRadius && c.overlap >= 0.5);
   if (partial) return { status: 'review', reason: 'nearby place with a similar name', candidates: top() };

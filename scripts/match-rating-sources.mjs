@@ -16,6 +16,11 @@
 //   --pause=300                    ms between API calls
 //   --redo                         look up landmarks already matched or reviewed
 //   --dry-run                      list what would be looked up; no API calls
+//   --google-mode=nearby           use Google Nearby Search (the 20 places
+//                                  closest to the landmark) instead of Text
+//                                  Search; only sure matches are kept, the
+//                                  rest are left for a Text Search run.
+//                                  Useful when Text Search hits its daily cap.
 //
 // Outputs:
 //   src/data/ratingSourceIds.json             sure matches ("region/id" -> IDs)
@@ -33,7 +38,8 @@ import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ALL_LANDMARKS, registerPlaces } from '../src/data/regions.js';
-import { classifyMatch } from './rating-sources/match.js';
+import { classifyMatch, SURE_RADIUS_M } from './rating-sources/match.js';
+import { placeTypeFor } from '../src/lib/presence.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = {
@@ -55,6 +61,7 @@ const BATCH = Math.max(1, Number(args.batch) || 20);
 const LIMIT = Number(args.limit) || Infinity;
 const PAUSE = Number(args.pause ?? 300);
 const DRY = !!args['dry-run'];
+const GOOGLE_NEARBY = args['google-mode'] === 'nearby';
 
 const readJson = (p, fallback) => {
   try {
@@ -84,7 +91,33 @@ const calls = { google: 0, tripadvisor: 0 };
 
 // Places API (New) Text Search, biased to 250 m around the landmark. Field
 // mask id + displayName + location (Text Search Pro).
+// Nearby Search: Google's 20 most popular places inside the landmark's sure
+// radius (closest-first misses landmarks in dense downtowns).
+// Same Pro field mask; a different daily quota from Text Search.
+async function searchGoogleNearby(l) {
+  calls.google += 1;
+  const radius = SURE_RADIUS_M[placeTypeFor(l)] || SURE_RADIUS_M.landmark;
+  const r = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': process.env.GOOGLE_PLACES_API_KEY,
+      'X-Goog-FieldMask': 'places.id,places.displayName,places.location',
+    },
+    body: JSON.stringify({
+      maxResultCount: 20,
+      rankPreference: 'POPULARITY',
+      locationRestriction: { circle: { center: { latitude: l.lat, longitude: l.lng }, radius } },
+    }),
+    signal: AbortSignal.timeout(15000),
+  });
+  if (!r.ok) throw new Error(`google ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const data = await r.json();
+  return (data.places || []).map((p) => ({ id: p.id, name: p.displayName?.text, lat: p.location?.latitude, lng: p.location?.longitude }));
+}
+
 async function searchGoogle(l) {
+  if (GOOGLE_NEARBY) return searchGoogleNearby(l);
   calls.google += 1;
   const r = await fetch('https://places.googleapis.com/v1/places:searchText', {
     method: 'POST',
@@ -164,7 +197,7 @@ async function main() {
     return;
   }
 
-  const tally = { sure: 0, review: 0, none: 0, errors: 0 };
+  const tally = { sure: 0, review: 0, none: 0, errors: 0, deferred: 0 };
   // A source that hit its daily quota is skipped for the rest of the run
   // (Google: "... per day"; Terra: its daily call cap). Re-run tomorrow.
   const outOfQuota = new Set();
@@ -189,7 +222,9 @@ async function main() {
         } finally {
           await sleep(PAUSE);
         }
-        if (verdict.status === 'sure') {
+        if (s === 'google' && GOOGLE_NEARBY && verdict.status !== 'sure') {
+          tally.deferred += 1; // left for a Text Search run
+        } else if (verdict.status === 'sure') {
           ids[l.key] = { ...ids[l.key], [FIELD[s]]: verdict.id };
           tally.sure += 1;
         } else if (verdict.status === 'review') {
@@ -212,7 +247,7 @@ async function main() {
     }
     console.log(
       `batch ${i / BATCH + 1}: ${Math.min(i + BATCH, pending.length)}/${pending.length} done. ` +
-        `sure ${tally.sure}, review ${tally.review}, no match ${tally.none}, errors ${tally.errors}. ` +
+        `sure ${tally.sure}, review ${tally.review}, no match ${tally.none}, errors ${tally.errors}${GOOGLE_NEARBY ? `, left for text search ${tally.deferred}` : ''}. ` +
         `API calls so far: google ${calls.google}, tripadvisor ${calls.tripadvisor}.`
     );
   }

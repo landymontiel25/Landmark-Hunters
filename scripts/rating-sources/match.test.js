@@ -24,6 +24,19 @@ describe('classifyMatch', () => {
     ]);
     expect(out.status).toBe('review');
   });
+  it('picks the exact name when sub-places also match', () => {
+    const museum = { name: 'Philadelphia Museum of Art', lat: 39.9656, lng: -75.181, categories: ['art-museums'] };
+    const out = classifyMatch(museum, [
+      { id: 'M', name: 'Philadelphia Museum of Art', lat: 39.9656, lng: -75.181 },
+      { id: 'S', name: 'Philadelphia Museum of Art Steps', lat: 39.9652, lng: -75.1802 },
+    ]);
+    expect(out).toMatchObject({ status: 'sure', id: 'M' });
+    // No exact name among several matches: still review.
+    expect(classifyMatch({ ...bell, name: 'Liberty Bell' }, [
+      { id: 'A', name: 'Liberty Bell Center', lat: at(10), lng: bell.lng },
+      { id: 'B', name: 'Liberty Bell Pavilion', lat: at(30), lng: bell.lng },
+    ]).status).toBe('review');
+  });
   it('sends a nearby similar name to review, never guesses', () => {
     const out = classifyMatch(bell, [{ id: 'A', name: 'Liberty Bell Gift Shop', lat: at(30), lng: bell.lng }]);
     expect(out.status).toBe('review');
