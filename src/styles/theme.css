@@ -7454,3 +7454,142 @@ p.tag {
   color: var(--text-primary);
   cursor: pointer;
 }
+
+/* ---- Outside ratings (components/ratings, docs/ratings.md) ---- */
+/* Google's text attribution: "Google Maps", sans-serif 400, 12-16px,
+   white on dark or #5e5e5e on light, never wrapped. */
+.gmp-attribution {
+  font-family: Roboto, system-ui, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: normal;
+  white-space: nowrap;
+  color: #ffffff;
+}
+[data-theme='light'] .gmp-attribution {
+  color: #5e5e5e;
+}
+.ratings-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+  min-height: 0;
+  font-size: 0.78rem;
+}
+.ratings-line-loading {
+  width: 9rem;
+  height: 0.9rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+}
+[data-theme='light'] .ratings-line-loading {
+  background: rgba(43, 38, 32, 0.08);
+}
+.ratings-line-empty {
+  display: none;
+}
+.ratings-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.ratings-star {
+  color: #f5b301;
+  margin-right: 2px;
+}
+.ratings-count {
+  opacity: 0.75;
+}
+/* Tripadvisor: Ollie logo at least 20px tall, bubbles on white, at least
+   55px wide. */
+.ta-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+.ta-logo {
+  height: 20px;
+  width: auto;
+}
+.ta-bubbles {
+  width: 70px;
+  height: auto;
+}
+.ta-mark-compact .ta-bubbles {
+  width: 55px;
+}
+.ta-bubbles-small {
+  width: 55px;
+  display: block;
+  background: #ffffff;
+  border-radius: 3px;
+}
+.ratings-section h3 {
+  margin-top: 0;
+}
+.ratings-row {
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  border-radius: var(--radius-md, 10px);
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.ratings-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ratings-score {
+  font-weight: 700;
+}
+.ratings-source-name {
+  font-weight: 600;
+}
+.ratings-snippets {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.ratings-snippet {
+  margin-top: 8px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.ratings-quote {
+  display: block;
+  margin: 4px 0;
+}
+.ratings-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.ratings-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.ratings-when,
+.ratings-note {
+  font-size: 0.78rem;
+  opacity: 0.75;
+}
+.ratings-review-link,
+.ratings-see-all {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+.ratings-review-link {
+  margin-left: 6px;
+}

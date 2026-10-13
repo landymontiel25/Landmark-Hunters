@@ -23,6 +23,7 @@ import AdmissionTag from '../components/AdmissionTag';
 import { classifyInterest } from '../lib/interestClassifier';
 import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
+import RatingsCardLine from '../components/ratings/RatingsCardLine';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
 import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, getRegion, getLandmark } from '../data/regions';
@@ -248,6 +249,8 @@ const LandmarkRow = memo(function LandmarkRow({
             )}
             {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
           </div>
+          {/* Signed out, the endpoint answers nothing, so the row skips it entirely. */}
+          {user && <RatingsCardLine landmark={l} />}
         </div>
       </div>
       <div className="lr-actions">

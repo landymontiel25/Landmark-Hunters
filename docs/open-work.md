@@ -3,6 +3,22 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Google and Tripadvisor ratings on landmarks (2026-10-13, needs owner steps)
+
+Built in PR "Landmark ratings" (not merged, per the owner): `docs/ratings.md`.
+Cards and landmark pages show Google and Tripadvisor ratings through
+`api/landmark-ratings.js`; a Landmark Hunters row is built behind
+`RATINGS_FLAGS.landmarkHunters` (off). Nothing shows until the owner:
+adds `TRIPADVISOR_API_KEY` (Terra) in Vercel, runs
+`scripts/match-rating-sources.mjs` (this cloud session had no keys; the
+Terra nearby parameter names are unconfirmed), reviews
+`scripts/rating-sources/review.json`, adds the Tripadvisor IDs to the Terra
+allowlist, and drops Tripadvisor's logo into `public/brand/`. No ratings are
+cached anywhere, because Google and Tripadvisor terms allow storing only
+their IDs. Yelp was asked for and not built: Yelp's API terms 5(c) forbid
+its ratings beside other user content. Watch billing after launch;
+`RATINGS_FLAGS.cardLine` turns off the per-card calls.
+
 ## Discovery network plan v2 (in progress)
 
 `docs/discovery-network-plan.md` (v2, 2026-10-10) turns Mapr from ranking
