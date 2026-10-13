@@ -56,4 +56,8 @@ describe('APP_HELP stays in sync with code constants', () => {
     expect(APP_HELP).toContain(`up to ${FOLLOW_RATE_LIMIT} new follows an hour`);
     expect(APP_HELP).toContain('never a list of who follows someone');
   });
+  it('describes Taste match without numbers', () => {
+    expect(APP_HELP).toContain('"Taste match: High" or "Taste match: Some"');
+    expect(APP_HELP).toContain('You never see a number or a percentage');
+  });
 });

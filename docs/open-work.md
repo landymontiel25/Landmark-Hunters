@@ -195,7 +195,23 @@ Follow / Following with the follower count on a tip author's name, the
 leaderboard name card and a friend's stats popup; Profile → Follows. The
 dashboard's new Network page (`network_metrics/{date}`) shows follows and
 the launch area's share of active people following a discoverer (Phase 2
-is done at 60%). Next: taste neighbors.
+is done at 60%).
+
+Phase 2, part 3 shipped: taste neighbors. `src/lib/maprRank/neighbors.js`
+holds steps 1 to 4 (taste vector, shrunk cosine, rating agreement, 0.6 /
+0.4 neighbor score, 0.3 floor, High at 0.6) with unit tests. The nightly
+job (`api/_lib/neighborsJob.js`) writes each active user's top 50 among
+people with a live tip, overall and per city, to `mapr_neighbors/{uid}`
+(owner read and delete, server write), skips blocked pairs, and deletes
+docs of people no longer active. Both Mapr loaders (`modelStore.js` on the
+phone, `maprServerModels.js` for chat) now load `neighbors`; nothing scores
+with it until Phase 3. Profiles show "Taste match: High / Some" next to the
+follower count, never a number. The doc holds scores, which its owner
+could read with dev tools, so rating agreement (step 3) only uses a
+finder's ratings where the reader could already read them (public profile,
+or friends); otherwise the score is taste alone (a security review showed
+fake accounts could otherwise work out a private person's ratings). The Network dashboard page shows how many active people have a
+neighbor. Phase 2 is complete; next is Phase 3 (community picks).
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

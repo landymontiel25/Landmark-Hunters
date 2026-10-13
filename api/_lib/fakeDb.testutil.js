@@ -192,7 +192,8 @@ export function fakeDb(initial = {}) {
     collection,
     collectionGroup: (name) => query(name, [], null, true),
     doc: (path) => ref(path),
-    getAll: async (...refs) => Promise.all(refs.map((r) => r.get())),
+    // Like the Admin SDK, a trailing options object ({ fieldMask }) is not a ref.
+    getAll: async (...refs) => Promise.all(refs.filter((r) => typeof r?.get === 'function').map((r) => r.get())),
     batch,
     runTransaction: async (fn) => {
       const b = batch();

@@ -3,15 +3,17 @@ import { useAuth } from '../lib/AuthContext';
 import { getUserProfile } from '../lib/friends';
 import { followUser, isFollowing, unfollowUser } from '../lib/followsApi';
 import { useToast } from '../lib/ToastContext';
+import { tasteMatchFor } from '../lib/tasteMatch';
 
 export const followerLabel = (n) => `${n} ${n === 1 ? 'follower' : 'followers'}`;
 
 // Follow / Following for someone's public profile (Phase 2), with their
-// follower count. Your own profile and a private one show the count with
+// follower count and, when they're one of your taste neighbors, "Taste
+// match: High" or "Some" (never a number). Your own profile and a private one show the count with
 // no button (a private profile can't be followed, but one you already
 // follow can be unfollowed). Pass `profile` when the
 // caller already has users/{uid}; otherwise it's loaded here.
-export default function FollowButton({ uid, profile: given = null, compact = false }) {
+export default function FollowButton({ uid, profile: given = null, compact = false, region = null }) {
   const { user } = useAuth();
   const toast = useToast();
   const [profile, setProfile] = useState(given);
@@ -44,6 +46,18 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
   }, [profile, uid]);
 
   const myUid = user?.uid || null;
+  // "Taste match: High" or "Some" from your own neighbors, or nothing.
+  const [match, setMatch] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    setMatch(null);
+    tasteMatchFor(myUid, uid, region)
+      .then((m) => !cancelled && setMatch(m))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [myUid, uid, region]);
   useEffect(() => {
     if (!myUid || isMe || !uid) return;
     let cancelled = false;
@@ -86,6 +100,11 @@ export default function FollowButton({ uid, profile: given = null, compact = fal
       <span className={compact ? 'muted' : 'secondary'} style={{ fontSize: compact ? 12 : 14 }}>
         {followerLabel(count)}
       </span>
+      {match && (
+        <span className="taste-match" style={{ fontSize: compact ? 12 : 13, fontWeight: 600 }}>
+          Taste match: {match}
+        </span>
+      )}
       {canFollow && (
         <button
           type="button"

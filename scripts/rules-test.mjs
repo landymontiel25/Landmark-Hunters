@@ -953,6 +953,19 @@ await t('network_metrics: only the admin dashboard reads it; nobody writes', asy
   await assertFails(setDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'network_metrics/x'), { follows_total: 9 }));
 });
 
+console.log('mapr_neighbors (Phase 2)');
+await reset();
+await seed((db) => setDoc(doc(db, 'mapr_neighbors/ann'), { global: [{ uid: 'bob', score: 0.7 }], byRegion: {} }));
+await t('mapr_neighbors: only the owner reads or deletes it; nobody writes it', async () => {
+  await assertSucceeds(getDoc(doc(as('ann'), 'mapr_neighbors/ann')));
+  await assertFails(getDoc(doc(as('bob'), 'mapr_neighbors/ann')));
+  await assertFails(getDocs(query(collection(as('bob'), 'mapr_neighbors'))));
+  await assertFails(setDoc(doc(as('ann'), 'mapr_neighbors/ann'), { global: [{ uid: 'cat', score: 1 }] }));
+  await assertFails(updateDoc(doc(as('ann'), 'mapr_neighbors/ann'), { global: [] }));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'mapr_neighbors/ann')));
+  await assertSucceeds(deleteDoc(doc(as('ann'), 'mapr_neighbors/ann')));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

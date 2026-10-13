@@ -84,6 +84,13 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now(), ti
   return writes.length;
 }
 
+// After the nightly taste-neighbors run (Phase 2): its counts, merged into
+// that day's network_metrics doc.
+export async function writeNeighborMetrics(db, date, out) {
+  if (!out || out.skipped) return;
+  await db.collection('network_metrics').doc(date).set({ neighbors_active: out.active, neighbors_with_any: out.withNeighbors, neighbors_with_high: out.withHigh }, { merge: true });
+}
+
 // After the weekly models: the NCF and similarity status docs.
 export async function writeDashboardModels(db, { ncf, ncfV2 = null, similarity }, { now = Date.now() } = {}) {
   const ev = ncf?.evaluation || {};

@@ -17,10 +17,11 @@ import { computeRegionSimilarity, encodeNeighbors, landmarkFeatures } from '../.
 import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf } from '../../src/lib/maprRank/ncf.js';
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
-import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
+import { writeDashboardDaily, writeDashboardModels, writeNeighborMetrics } from './dashboardDocs.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
 import { followUpkeep } from './follows.js';
+import { runNeighbors } from './neighborsJob.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -324,6 +325,14 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
       upkeep.follows = await followUpkeep(db);
     } catch (e) {
       console.error('follow upkeep failed:', e?.message || e);
+    }
+    // Taste neighbors (Phase 2), with their counts added to the day's
+    // network_metrics doc.
+    try {
+      upkeep.neighbors = await runNeighbors(db, data, { nowMs: now });
+      await writeNeighborMetrics(db, date, upkeep.neighbors);
+    } catch (e) {
+      console.error('taste neighbors failed:', e?.message || e);
     }
     try {
       upkeep.scrubbed = await scrubCheckinLocation(db);
