@@ -27,7 +27,16 @@ site's referrers, sets a daily tile quota, and adds
 
 ## Google and Tripadvisor ratings on landmarks (2026-10-13, needs owner steps)
 
-Update 2026-10-13: Google matching ran for all 3,498 places: 2,327 matched
+Update 2026-10-13 (evening): the 735 close calls were checked by hand: 631
+accepted, 104 left in review.json (a different place, a chain branch too far
+away, or a part of a bigger site). The 436 no-matches were searched again by
+"name, city": 164 matched, 235 still have nothing (left in no-match.json),
+and 37 were not searched because the daily SearchText cap (400) ran out
+(scripts/rating-sources/not-retried.json; rerun them after the quota resets).
+3,122 of 3,498 places now have a Google ID. Places without a Google rating
+say "No ratings available" (api/landmark-ratings.js googleNoRating).
+
+Earlier 2026-10-13: Google matching ran for all 3,498 places: 2,327 matched
 (src/data/ratingSourceIds.json), 735 close calls in
 scripts/rating-sources/review.json, 436 with nothing near in no-match.json.
 Owner to-dos: set Places quotas back (SearchTextRequest 400,

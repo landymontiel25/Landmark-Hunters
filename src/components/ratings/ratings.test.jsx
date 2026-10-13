@@ -135,6 +135,16 @@ describe('RatingsCardLine (Places tab row)', () => {
   });
 });
 
+describe('RatingsCardLine: no Google rating', () => {
+  const appTag = <span className="tag rating-tag app-own">⭐ 4.0 (3)</span>;
+  it('says "No ratings available" when Google has no rating for the place', async () => {
+    hookState = done({ google: null, tripadvisor: null, googleNoRating: true });
+    await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
+    expect(container.querySelector('.ratings-none').textContent).toBe('No ratings available');
+    expect(container.querySelector('.app-own')).toBeNull();
+  });
+});
+
 describe('HeaderRating (under the landmark title)', () => {
   it('shows the Google rating with a star, count and "Google Maps"', async () => {
     await render(<HeaderRating outside={done({ google: GOOGLE, tripadvisor: null })} agg={{ avg: 4, count: 2 }} />);
@@ -167,5 +177,11 @@ describe('MapPopupRating (pin popup on the Google map)', () => {
     document.body.appendChild(container);
     await render(<MapPopupRating landmark={landmark} />);
     expect(container.innerHTML).toBe('');
+  });
+
+  it('says "No ratings available" when Google has no rating for the place', async () => {
+    hookState = done({ google: null, tripadvisor: null, googleNoRating: true });
+    await render(<MapPopupRating landmark={landmark} />);
+    expect(container.textContent).toBe('No ratings available');
   });
 });

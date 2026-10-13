@@ -30,10 +30,10 @@ describe('loadLandmarkRatings', () => {
   it('signed out, a server error or a network error all resolve to no data', async () => {
     headers = {};
     const fetchImpl = ok({ google: { rating: 4 } });
-    expect(await loadLandmarkRatings(lm, { fetchImpl })).toEqual({ google: null, tripadvisor: null });
+    expect(await loadLandmarkRatings(lm, { fetchImpl })).toEqual({ google: null, tripadvisor: null, googleNoRating: false });
     expect(fetchImpl).not.toHaveBeenCalled();
     headers = { Authorization: 'Bearer t' };
-    expect(await loadLandmarkRatings(lm, { fetchImpl: vi.fn(async () => ({ ok: false, status: 500 })) })).toEqual({ google: null, tripadvisor: null });
-    expect(await loadLandmarkRatings(lm, { detail: true, fetchImpl: vi.fn(async () => { throw new Error('offline'); }) })).toEqual({ google: null, tripadvisor: null });
+    expect(await loadLandmarkRatings(lm, { fetchImpl: vi.fn(async () => ({ ok: false, status: 500 })) })).toEqual({ google: null, tripadvisor: null, googleNoRating: false });
+    expect(await loadLandmarkRatings(lm, { detail: true, fetchImpl: vi.fn(async () => { throw new Error('offline'); }) })).toEqual({ google: null, tripadvisor: null, googleNoRating: false });
   });
 });

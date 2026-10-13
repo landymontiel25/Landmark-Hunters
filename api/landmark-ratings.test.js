@@ -89,6 +89,7 @@ describe('api/landmark-ratings', () => {
     const { code, body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(code).toBe(200);
     expect(body.sources.google).toBeNull();
+    expect(body.googleNoRating).toBe(false);
     expect(body.sources.tripadvisor).toMatchObject({ rating: 4.5 });
   });
 
@@ -108,11 +109,14 @@ describe('api/landmark-ratings', () => {
     const { code, body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(code).toBe(200);
     expect(body.sources).toEqual({ google: null, tripadvisor: null });
+    // A failed lookup is not "no ratings".
+    expect(body.googleNoRating).toBe(false);
   });
 
   it('a landmark with no IDs makes no outside calls', async () => {
     const { body } = await call({ region: 'philly', id: 'somewhere-else' });
     expect(body.sources).toEqual({ google: null, tripadvisor: null });
+    expect(body.googleNoRating).toBe(true);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
@@ -127,6 +131,7 @@ describe('api/landmark-ratings', () => {
     google = async () => json({ googleMapsUri: 'https://maps.google.com/?cid=1' });
     const { body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(body.sources.google).toBeNull();
+    expect(body.googleNoRating).toBe(true);
   });
 
   it('needs sign-in, and rejects a bad landmark id', async () => {
