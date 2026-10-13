@@ -43,7 +43,6 @@ import { useToast } from '../lib/ToastContext';
 import ErrorNotice from '../components/ErrorNotice';
 import AddMemberSheet from '../components/AddMemberSheet';
 import EditableTitle from '../components/EditableTitle';
-import MaprRatePicks from '../components/MaprRatePicks';
 import { ScreenSkeleton, Skeleton, SkeletonCard, SkeletonList } from '../components/Skeleton';
 
 const ROUTE_BLUE = '#2b7fff';
@@ -229,14 +228,16 @@ function ItineraryMap({ origin, stops, onDetails, onInApp, navPoints, navStopId,
 // re-trigger the OSRM driving-time lookups for no real change in the route.
 const AUTO_ORIGIN_REFRESH_METERS = 150;
 
-// Mapr Travel Picks live here, with trip planning: swipe through a city you
-// are going to (or dreaming about) and say whether you'd go. Kept off Profile
-// so the streak is the first thing people rate for.
-function TravelPicksSection() {
+// Where an itinerary is, in bold on its card: "📍 South Florida · Florida,
+// USA" (the city, then its state or country when that adds anything).
+function ItinWhere({ region }) {
+  if (!region) return null;
+  const place = [region.state, region.country].filter((x) => x && x !== region.name).join(', ');
   return (
-    <div style={{ marginTop: 24 }}>
-      <MaprRatePicks />
-    </div>
+    <p className="itin-where">
+      {'\u{1F4CD}'} {region.name}
+      {place ? <span className="itin-where-sub"> · {place}</span> : null}
+    </p>
   );
 }
 
@@ -687,7 +688,6 @@ export default function Itinerary() {
           {'\u{2795}'} Create New Trip
         </button>
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
-        <TravelPicksSection />
       </div>
     );
   }
@@ -707,7 +707,6 @@ export default function Itinerary() {
           {'\u{2795}'} Create New Trip
         </button>
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
-        <TravelPicksSection />
       </div>
     );
   }
@@ -782,8 +781,9 @@ export default function Itinerary() {
               >
                 <div style={{ textAlign: 'left' }}>
                   <h3 style={{ margin: 0 }}>{t.name}</h3>
+                  <ItinWhere region={getRegion(t.regionId)} />
                   <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
-                    {getRegion(t.regionId)?.name} · {(t.memberUids || []).length} member{(t.memberUids || []).length !== 1 ? 's' : ''}
+                    {(t.memberUids || []).length} member{(t.memberUids || []).length !== 1 ? 's' : ''}
                     {groupPhase(t) === 'past' ? ` · ${pastLabel(groupKey(t.id), t.landmarkIds)}` : ''}
                   </p>
                 </div>
@@ -805,8 +805,8 @@ export default function Itinerary() {
             <button key={rid} type="button" className="card itin-city-card" onClick={() => setOpenRegion(rid)}>
               <div style={{ textAlign: 'left' }}>
                 <h3 style={{ margin: 0 }}>{named}</h3>
+                <ItinWhere region={r} />
                 <p style={{ margin: '4px 0 0', color: 'var(--color-parchment-dim)', fontSize: '0.85rem' }}>
-                  {named !== r?.name ? `${r?.name} · ` : ''}
                   {count} stop{count !== 1 ? 's' : ''}
                   {soloPhase(rid) === 'past' ? ` · ${pastLabel(rid, catalogIdsFor(rid))}` : ''}
                 </p>
@@ -826,7 +826,6 @@ export default function Itinerary() {
           {'\u{2795}'} Create New Trip
         </button>
         {showCreateTrip && <CreateTripModal onClose={() => setShowCreateTrip(false)} />}
-        <TravelPicksSection />
       </div>
     );
   }

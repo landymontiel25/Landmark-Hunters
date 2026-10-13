@@ -13,7 +13,7 @@ export default function MaprRatePicks({ scope = 'travel' }) {
   const { trip } = useTrip();
   // Stable props: new arrays on every render made the carousel re-rank (and
   // possibly reorder) under your thumb. Mapr chat passes scope="chat" so a city
-  // picked there doesn't overwrite the Itinerary tab's saved Travel Picks city.
+  // picked there doesn't overwrite the saved Travel Picks city (Settings).
   const reviews = useMemo(() => Object.values(myReviews || {}), [myReviews]);
   const checkedInIds = useMemo(() => Object.keys(claimedMap || {}), [claimedMap]);
   const regionIds = useMemo(() => (trip.activeRegion ? [trip.activeRegion] : []), [trip.activeRegion]);
