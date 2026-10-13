@@ -41,6 +41,7 @@ import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
 import RatingStars from '../components/RatingStars';
 import DirectionsButton from '../components/DirectionsButton';
+import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
 import { pickPhoto } from '../lib/imageUtils';
 import { LandmarkDetailSkeleton, Skeleton, SkeletonList } from '../components/Skeleton';
@@ -853,6 +854,7 @@ function LandmarkDetailBody() {
             </button>
           </div>
         )}
+        <ShareLandmarkButton icon landmark={landmark} regionId={regionId} />
       </div>
 
       <LandmarkPostcard landmark={landmark} size="lg" swipeable myPhotos={myPhotos} onImageClick={setLightboxSrc} />

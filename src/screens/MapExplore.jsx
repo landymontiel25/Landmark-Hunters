@@ -29,6 +29,7 @@ import { setMapView } from '../lib/nearestCity';
 import { searchScore, proximityBonus } from '../lib/search';
 import CheckInButton from '../components/CheckInButton';
 import DirectionsButton from '../components/DirectionsButton';
+import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
 import TurnByTurnPanel from '../components/TurnByTurnPanel';
 import ActiveNavOverlay from '../components/ActiveNavOverlay';
@@ -965,6 +966,7 @@ export default function MapExplore({ experiments = false }) {
                   <button type="button" className="btn btn-ghost btn-sm" onClick={goToDetails}>
                     Details
                   </button>
+                  <ShareLandmarkButton landmark={{ ...landmark, lat: position[0], lng: position[1] }} regionId={l.regionId} className="btn btn-ghost btn-sm" />
                 </div>
                 <div style={{ marginTop: 8 }}>
                   <CheckInButton
@@ -1085,6 +1087,7 @@ export default function MapExplore({ experiments = false }) {
                   <button type="button" className="btn btn-ghost btn-sm" onClick={goToDetails}>
                     Details
                   </button>
+                  <ShareLandmarkButton landmark={l} regionId={l.region} className="btn btn-ghost btn-sm" />
                 </div>
                 <div style={{ marginTop: 8 }}>
                   <CheckInButton
