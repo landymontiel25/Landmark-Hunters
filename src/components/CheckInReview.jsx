@@ -102,7 +102,8 @@ export default function CheckInReview() {
     }
   }, [justCheckedIn]);
 
-  // One tip per person per place: no offer where you already have one.
+  // One tip per person per place: no offer where you already have one (an
+  // unknown answer still offers; the server refuses a second tip).
   useEffect(() => {
     if (!justCheckedIn || !user?.uid) return undefined;
     let cancelled = false;
@@ -286,7 +287,7 @@ export default function CheckInReview() {
               </p>
             )}
             {/* After a verified visit, the rating flow offers a tip (Phase 1). */}
-            {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere === false && tipState !== 'done' && (
+            {!ratingOnly && presenceResult?.verified && presenceResult.landmarkId === justCheckedIn.id && user?.emailVerified && hasTipHere !== true && tipState !== 'done' && (
               <div style={{ marginTop: 12 }}>
                 {tipState === 'open' ? (
                   <TipComposer

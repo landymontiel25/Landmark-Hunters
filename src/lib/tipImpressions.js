@@ -2,6 +2,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { makeSetId } from './setId';
 import { TIP_SURFACE } from './maprConstants';
+import { canonicalLandmarkId, canonicalRegionId } from '../data/regions';
 
 // Tips shown under "From people who went" (Phase 1): one recommendation_log
 // row per page view, surface 'landmark-page' (allowed by firestore.rules),
@@ -24,8 +25,11 @@ const readSeen = () => {
   }
 };
 
-export async function logTipImpressions({ uid, landmarkId, region, tipIds = [], nowMs = Date.now() }) {
-  if (!db || !uid || !landmarkId || !tipIds.length) return;
+export async function logTipImpressions({ uid, landmarkId: rawId, region: rawRegion, tipIds = [], nowMs = Date.now() }) {
+  if (!db || !uid || !rawId || !tipIds.length) return;
+  // The ids tips are filed under, so a row joins to its tips.
+  const region = canonicalRegionId(rawRegion);
+  const landmarkId = canonicalLandmarkId(rawId, region);
   const id = `${uid}|${region}|${landmarkId}`;
   const today = localDay(nowMs);
   if (readSeen()[id] === today) return;

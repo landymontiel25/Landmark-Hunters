@@ -63,32 +63,30 @@ describe('api/tips: reading', () => {
     expect(ids[0]).toBe('me_bell');
     expect(ids).toHaveLength(51);
   });
-  it("records which of others' live tips you saw; a reload writes nothing; an older post's view doesn't carry over", async () => {
-    await list();
+  it("records which of others' live tips reached your screen; a repeat writes nothing; an older post's view doesn't carry over", async () => {
+    const seen = (ids) => call('POST', { body: { action: 'seen', tipIds: ids } });
+    expect((await seen(['ann_bell', 'me_bell', 'cat_bell', 'fay_bell', 'gus_bell'])).body).toEqual({ ok: true, recorded: 1 });
     expect(db.docs['tip_views/me_ann_bell']).toMatchObject({ uid: 'me', tipId: 'ann_bell', authorUid: 'ann', gen: 'g-ann' });
-    expect(db.docs['tip_views/me_me_bell']).toBeUndefined();
+    for (const id of ['me_me_bell', 'me_cat_bell', 'me_fay_bell', 'me_gus_bell']) expect(db.docs[`tip_views/${id}`]).toBeUndefined();
     const before = db.writes.length;
-    await list();
+    await seen(['ann_bell']);
     expect(db.writes.length).toBe(before);
     db.docs['tip_views/me_ann_bell'] = { ...db.docs['tip_views/me_ann_bell'], gen: 'g-old', firstAt: 5 };
-    await list();
+    await seen(['ann_bell']);
     expect(db.docs['tip_views/me_ann_bell'].firstAt).not.toBe(5);
     expect(db.docs['tip_views/me_ann_bell'].gen).toBe('g-ann');
-  });
-  it('fills the page past tips you reported', async () => {
-    for (let i = 0; i < 80; i++) db.docs[`tips/u${i}_bell`] = tip(`u${i}`, { createdAtMs: 1000 + i });
-    for (let i = 60; i < 80; i++) db.docs[`tip_reports/u${i}_bell_g-u${i}_me`] = { uid: 'me', tipId: `u${i}_bell`, gen: `g-u${i}` };
-    const ids = (await list()).body.tips.map((t) => t.id);
-    expect(ids).toHaveLength(51);
-    expect(ids).not.toContain('u79_bell');
-  });
-  it('finds tips under a renamed place by its current id', async () => {
-    expect((await list('old-bell')).body.tips.map((t) => t.id)).toContain('ann_bell');
+    // Reading the list records nothing.
+    delete db.docs['tip_views/me_ann_bell'];
+    await list();
+    expect(db.docs['tip_views/me_ann_bell']).toBeUndefined();
   });
   it("an unverified account's views aren't recorded", async () => {
     caller = { uid: 'me', emailVerified: false };
-    expect((await list()).code).toBe(200);
+    expect((await call('POST', { body: { action: 'seen', tipIds: ['ann_bell'] } })).body.recorded).toBe(0);
     expect(Object.keys(db.docs).filter((k) => k.startsWith('tip_views/'))).toEqual([]);
+  });
+  it('finds tips under a renamed place by its current id', async () => {
+    expect((await list('old-bell')).body.tips.map((t) => t.id)).toContain('ann_bell');
   });
   it("ids '.', '..' and reserved names are refused with a 400", async () => {
     for (const tipId of ['.', '..', '__x__']) expect((await call('POST', { body: { action: 'report', tipId, reason: 'spam' } })).code).toBe(400);

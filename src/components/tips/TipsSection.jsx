@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { blockUser } from '../../lib/blocks';
 import { findTipCheckin } from '../../lib/tipCheckin';
 import { tipTagLabel } from '../../lib/tips';
-import { deleteMyTip, fetchTips, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
+import { deleteMyTip, fetchTips, markTipsSeen, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
 import { logTipImpressions } from '../../lib/tipImpressions';
 import TipComposer from './TipComposer';
 import OnScreen from '../OnScreen';
@@ -100,6 +100,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     if (!shown.length) return;
     logged.current = true;
     logTipImpressions({ uid: user.uid, landmarkId, region, tipIds: shown });
+    markTipsSeen(shown).catch(() => {});
   };
 
   if (!user) return null;

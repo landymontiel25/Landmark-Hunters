@@ -9,6 +9,7 @@ const api = vi.hoisted(() => ({
   postTip: vi.fn(),
   uploadTipPhoto: vi.fn(),
   discardTipPhoto: vi.fn(async () => ({ ok: true })),
+  markTipsSeen: vi.fn(async () => ({ ok: true })),
   TIPS_CHANGED_EVENT: 'lh-tips-changed',
 }));
 const blocks = vi.hoisted(() => ({ blockUser: vi.fn(async () => {}) }));
@@ -61,6 +62,7 @@ describe('TipsSection', () => {
     expect(container.textContent).toContain('2026');
     expect(container.textContent).toContain('Go early');
     expect(impressions.logTipImpressions).toHaveBeenCalledTimes(1);
+    expect(api.markTipsSeen).toHaveBeenCalledWith(['ann_bell']);
     expect(impressions.logTipImpressions).toHaveBeenCalledWith(expect.objectContaining({ landmarkId: 'bell', tipIds: ['ann_bell'] }));
   });
   it('marks a tip helpful and shows the new count, never who', async () => {
