@@ -13,6 +13,7 @@ import { SwipeCardStack as LabCardStack, progressTier } from '../components/Onbo
 import MaprTutorial, { MaprBubble } from '../components/MaprTutorial';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
 import MallLab from './MallLab';
+import TasteProfileLab from './TasteProfileLab';
 
 export { progressTier };
 
@@ -39,6 +40,7 @@ const STEPS = [
 const TESTS = [
   { id: 'malls', label: 'Malls' },
   { id: 'onboarding', label: 'Onboarding' },
+  { id: 'taste', label: 'Taste Profile' },
 ];
 const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
@@ -91,6 +93,15 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <MallLab uid={user?.uid} />
+      </div>
+    );
+  }
+
+  if (test === 'taste') {
+    return (
+      <div>
+        {testTabs}
+        <TasteProfileLab />
       </div>
     );
   }
