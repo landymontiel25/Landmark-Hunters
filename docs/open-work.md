@@ -5,6 +5,13 @@ the PR that finishes it.
 
 ## Google and Tripadvisor ratings on landmarks (2026-10-13, needs owner steps)
 
+Update 2026-10-13: Google matching ran for all 3,498 places: 2,327 matched
+(src/data/ratingSourceIds.json), 735 close calls in
+scripts/rating-sources/review.json, 436 with nothing near in no-match.json.
+Owner to-dos: set Places quotas back (SearchTextRequest 400,
+SearchNearbyRequest 100, GetPlaceRequest 1000), add a budget alert, and
+regenerate the Places key (it appeared in a screenshot) and update Vercel.
+
 Built in PR "Landmark ratings" (not merged, per the owner): `docs/ratings.md`.
 Cards and landmark pages show Google and Tripadvisor ratings through
 `api/landmark-ratings.js`; a Landmark Hunters row is built behind
