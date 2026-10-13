@@ -39,8 +39,9 @@ import LandmarkPostcard from '../components/LandmarkPostcard';
 import Lightbox from '../components/Lightbox';
 import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
-import RatingStars from '../components/RatingStars';
 import RatingsSection from '../components/ratings/RatingsSection';
+import HeaderRating from '../components/ratings/HeaderRating';
+import { useLandmarkRatings } from '../lib/useLandmarkRatings';
 import TipsSection from '../components/tips/TipsSection';
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
@@ -453,6 +454,10 @@ function LandmarkDetailBody() {
   useEffect(() => {
     loadReviews();
   }, [loadReviews]);
+
+  // Google rating and reviews (api/landmark-ratings.js): one call, shared by
+  // the rating under the title and the Ratings section.
+  const outside = useLandmarkRatings(landmark, { detail: true, lazy: false, enabled: !!landmark && !customLandmark });
 
   if (!landmark && customLoading) {
     return <LandmarkDetailSkeleton />;
@@ -884,14 +889,14 @@ function LandmarkDetailBody() {
       )}
 
       <div className="center" style={{ marginBottom: 18 }}>
-        <RatingStars value={agg?.avg || 0} count={agg?.count || 0} size="1.15rem" />
+        <HeaderRating outside={outside} agg={agg} />
       </div>
 
       <div className="card section">
         <p style={{ fontSize: '1.02rem', margin: 0 }}>{landmark.summary}</p>
       </div>
 
-      {!customLandmark && <RatingsSection landmark={landmark} lhAgg={agg} />}
+      {!customLandmark && <RatingsSection landmark={landmark} lhAgg={agg} outside={outside} />}
 
       {landmark.tip && (
         <div

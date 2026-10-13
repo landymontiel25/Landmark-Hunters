@@ -195,6 +195,12 @@ const LandmarkRow = memo(function LandmarkRow({
   onOpenPhoto,
   onInfo,
 }) {
+  const appRating =
+    ratingCount > 0 ? (
+      <span className="tag rating-tag">
+        {'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})
+      </span>
+    ) : null;
   return (
     <div className={`landmark-row ${isSelected ? 'selected' : ''} ${claimedMap[l.id] ? 'visited' : ''}`}>
       <div className="lr-corner">
@@ -243,14 +249,12 @@ const LandmarkRow = memo(function LandmarkRow({
           </h4>
           <div className="lr-meta">
             <AdmissionTag landmark={l} short />
-            {typeof l.popularity === 'number' && <span className="tag popularity-tag">{'\u{1F525}'} {l.popularity}/10</span>}
-            {ratingCount > 0 && (
-              <span className="tag rating-tag">{'⭐'} {ratingAvg.toFixed(1)} ({ratingCount})</span>
-            )}
+            {/* The Google rating (⭐ 4.6 (1,234) Google Maps); the app's own
+                rating only where Google has none. Signed out the endpoint
+                answers nothing, so the row skips the call. */}
+            {user ? <RatingsCardLine landmark={l} fallback={appRating} /> : appRating}
             {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
           </div>
-          {/* Signed out, the endpoint answers nothing, so the row skips it entirely. */}
-          {user && <RatingsCardLine landmark={l} />}
         </div>
       </div>
       <div className="lr-actions">

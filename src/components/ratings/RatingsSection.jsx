@@ -12,8 +12,11 @@ import { TRIPADVISOR_LOGO } from './brand';
 // sources'). A source with no data hides its row; no rows hides the section.
 // `lhAgg` is the app's own { avg, count }, used only when the Landmark
 // Hunters flag is on.
-export default function RatingsSection({ landmark, lhAgg = null, flags = RATINGS_FLAGS }) {
-  const { status, sources } = useLandmarkRatings(landmark, { detail: true, lazy: false });
+// `outside` (optional): a useLandmarkRatings result the page already has,
+// so the section doesn't make its own call.
+export default function RatingsSection({ landmark, lhAgg = null, flags = RATINGS_FLAGS, outside = null }) {
+  const own = useLandmarkRatings(landmark, { detail: true, lazy: false, enabled: !outside });
+  const { status, sources } = outside || own;
   const taLogo = useImageAvailable(TRIPADVISOR_LOGO);
   const lh = flags.landmarkHunters && lhAgg?.count > 0;
 
