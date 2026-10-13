@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { RELOAD_WINDOW_MS, flagClear, flagGet, flagSet, shouldReloadForChunkError } from './chunkReload';
+import { RELOAD_WINDOW_MS, flagClear, flagGet, flagSet, settleScreenModule, shouldReloadForChunkError } from './chunkReload';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -49,5 +49,27 @@ describe('chunk reload guard', () => {
     flagSet(1000);
     expect(shouldReloadForChunkError(1000 + RELOAD_WINDOW_MS - 1)).toBe(false);
     expect(shouldReloadForChunkError(1000 + RELOAD_WINDOW_MS + 1)).toBe(true);
+  });
+});
+
+describe('settleScreenModule', () => {
+  it('hands back a loaded screen and clears the reload flag', () => {
+    flagSet();
+    const mod = { default: () => null };
+    expect(settleScreenModule(mod)).toBe(mod);
+    expect(flagGet()).toBe(null);
+  });
+
+  // Found by the app simulation: a chunk failed just as the network came
+  // back, the preloadError listener started a reload, Vite's helper
+  // resolved to undefined, and React crashed reading undefined.default.
+  it('waits (never settles) when the import came back empty because a reload is underway', async () => {
+    flagSet();
+    const p = settleScreenModule(undefined);
+    expect(p).toBeInstanceOf(Promise);
+    const raced = await Promise.race([p.then(() => 'settled'), new Promise((r) => setTimeout(() => r('pending'), 20))]);
+    expect(raced).toBe('pending');
+    // The flag stays set, so the reloaded page does not reload again.
+    expect(flagGet()).toBe('1');
   });
 });

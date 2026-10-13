@@ -56,3 +56,16 @@ export function shouldReloadForChunkError(now = Date.now()) {
   if (typeof navigator !== 'undefined' && navigator.onLine === false) return false;
   return !flagGet(now);
 }
+
+// What a lazy screen's import resolved to. Vite's preload helper resolves
+// to undefined instead of rejecting when the vite:preloadError listener
+// (App.jsx) cancels the error to reload the page. Rendering that crashed
+// the screen ("Cannot read properties of undefined (reading 'default')")
+// for the moment before the reload, and clearing the flag here let the next
+// load reload again (a loop when the file is really gone). Wait for the
+// reload instead, with the flag still set.
+export function settleScreenModule(m) {
+  if (m == null) return new Promise(() => {});
+  flagClear();
+  return m;
+}
