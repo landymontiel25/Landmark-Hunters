@@ -751,6 +751,86 @@ await t('only the sharer can stop it', async () => {
   await assertSucceeds(deleteDoc(doc(as('alice'), 'group_trips/trip1/live_locations/alice')));
 });
 
+console.log('tips (Phase 1)');
+await reset();
+const tip = (authorUid, landmarkId, extra = {}) => ({ authorUid, authorName: authorUid, landmarkId, region: 'philly', checkinId: `${authorUid}_${landmarkId}`, visitAt: 1, text: 'Go early, the line wraps the block by noon.', tags: [], photoURL: null, status: 'live', hidden: false, reportedBy: [], counts: { helpful: 0, saved: 0 }, createdAt: 1, ...extra });
+await seed(async (db) => {
+  await setDoc(doc(db, 'tips/ann_lm1'), tip('ann', 'lm1'));
+  await setDoc(doc(db, 'tips/ann_lm2'), tip('ann', 'lm2', { status: 'held' }));
+  await setDoc(doc(db, 'tips/ann_lm3'), tip('ann', 'lm3', { hidden: true, reportedBy: ['x', 'y'] }));
+  await setDoc(doc(db, 'tips/ann_lm4'), tip('ann', 'lm4', { status: 'removed' }));
+  await setDoc(doc(db, 'tips/bob_lm1'), tip('bob', 'lm1'));
+  await setDoc(doc(db, 'blocks/ann_cat'), { blockerUid: 'ann', blockedUid: 'cat' });
+  await setDoc(doc(db, 'blocks/dan_ann'), { blockerUid: 'dan', blockedUid: 'ann' });
+  await setDoc(doc(db, 'tip_reactions/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', helpful: true, saved: false });
+  await setDoc(doc(db, 'tip_views/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', at: 1 });
+});
+await t('tips: a signed-in user reads a live tip', () => assertSucceeds(getDoc(doc(as('bob'), 'tips/ann_lm1'))));
+await t('tips: signed out cannot read a tip', () => assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'tips/ann_lm1'))));
+await t('tips: held, hidden (2 reports) and removed tips are hidden from others', async () => {
+  for (const id of ['ann_lm2', 'ann_lm3', 'ann_lm4']) await assertFails(getDoc(doc(as('bob'), `tips/${id}`)));
+});
+await t('tips: the author reads their own held, hidden and removed tips', async () => {
+  for (const id of ['ann_lm1', 'ann_lm2', 'ann_lm3', 'ann_lm4']) await assertSucceeds(getDoc(doc(as('ann'), `tips/${id}`)));
+});
+await t('tips: the verified admin reads a held tip; an unverified admin email does not', async () => {
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'tips/ann_lm2')));
+  await assertFails(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: false }).firestore(), 'tips/ann_lm2')));
+});
+await t('tips: a block hides a live tip both ways', async () => {
+  await assertFails(getDoc(doc(as('cat'), 'tips/ann_lm1')));
+  await assertFails(getDoc(doc(as('dan'), 'tips/ann_lm1')));
+});
+await t('tips: a get on your own tip id before it exists is a clean not-found; on someone else\'s missing id it is denied', async () => {
+  await assertSucceeds(getDoc(doc(as('bob'), 'tips/bob_lm77')));
+  await assertFails(getDoc(doc(as('bob'), 'tips/ann_lm77')));
+});
+await t('tips: you can list your own tips, not anyone else\'s or everyone\'s', async () => {
+  await assertSucceeds(getDocs(query(collection(as('ann'), 'tips'), where('authorUid', '==', 'ann'))));
+  await assertFails(getDocs(query(collection(as('bob'), 'tips'), where('authorUid', '==', 'ann'))));
+  await assertFails(getDocs(query(collection(as('bob'), 'tips'), where('landmarkId', '==', 'lm1'), where('status', '==', 'live'))));
+});
+await t('tips: no client creates, edits, reports into or deletes a tip (server only)', async () => {
+  await assertFails(setDoc(doc(as('bob'), 'tips/bob_lm9'), tip('bob', 'lm9')));
+  await assertFails(updateDoc(doc(as('ann'), 'tips/ann_lm1'), { text: 'changed text here' }));
+  await assertFails(updateDoc(doc(as('ann'), 'tips/ann_lm2'), { status: 'live' }));
+  await assertFails(updateDoc(doc(as('bob'), 'tips/ann_lm1'), { reportedBy: ['bob'] }));
+  await assertFails(updateDoc(doc(as('ann'), 'tips/ann_lm1'), { counts: { helpful: 999, saved: 0 } }));
+  await assertFails(deleteDoc(doc(as('ann'), 'tips/ann_lm1')));
+});
+await t('tip_reactions: owner reads own marks; others cannot; nobody writes', async () => {
+  await assertSucceeds(getDoc(doc(as('bob'), 'tip_reactions/bob_ann_lm1')));
+  await assertSucceeds(getDocs(query(collection(as('bob'), 'tip_reactions'), where('uid', '==', 'bob'))));
+  await assertFails(getDoc(doc(as('ann'), 'tip_reactions/bob_ann_lm1')));
+  await assertFails(getDocs(query(collection(as('ann'), 'tip_reactions'), where('tipId', '==', 'ann_lm1'))));
+  await assertFails(setDoc(doc(as('bob'), 'tip_reactions/bob_ann_lm1'), { uid: 'bob', tipId: 'ann_lm1', helpful: true, saved: true }));
+  await assertFails(deleteDoc(doc(as('bob'), 'tip_reactions/bob_ann_lm1')));
+});
+await t('tip_views: server only, even for the viewer and the author', async () => {
+  await assertFails(getDoc(doc(as('bob'), 'tip_views/bob_ann_lm1')));
+  await assertFails(getDoc(doc(as('ann'), 'tip_views/bob_ann_lm1')));
+  await assertFails(setDoc(doc(as('bob'), 'tip_views/bob_x'), { uid: 'bob' }));
+});
+await t("recommendation_log: 'landmark-page' is an allowed surface; unknown surfaces still fail", async () => {
+  await assertSucceeds(setDoc(doc(as('bob'), 'recommendation_log/lp1'), { userId: 'bob', landmarkId: 'lm1', pickType: null, surface: 'landmark-page', setId: 's1', rank: 1, shownAt: 1 }));
+  await assertFails(setDoc(doc(as('bob'), 'recommendation_log/lp2'), { userId: 'bob', landmarkId: 'lm1', pickType: null, surface: 'tips-anywhere' }));
+});
+await t('storage tip_photos: owner uploads an image under 5 MB in their own folder', () =>
+  assertSucceeds(uploadBytes(ref(stor('ann'), 'tip_photos/ann/t1.jpg'), new Uint8Array([1, 2]), { contentType: 'image/jpeg' })));
+await t('storage tip_photos: no upload into someone else\'s folder, no 5 MB file, no non-image', async () => {
+  await assertFails(uploadBytes(ref(stor('bob'), 'tip_photos/ann/t2.jpg'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
+  await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/big.jpg'), new Uint8Array(5 * 1024 * 1024), { contentType: 'image/jpeg' }));
+  await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/x.jpg'), new Uint8Array([1]), { contentType: 'image/svg+xml' }));
+  await assertFails(uploadBytes(ref(stor('ann'), 'tip_photos/ann/x.html'), new Uint8Array([1]), { contentType: 'image/jpeg' }));
+});
+await t('storage tip_photos: signed-in get works, list and signed-out get do not; only owner or admin deletes', async () => {
+  await assertSucceeds(getBytes(ref(stor('bob'), 'tip_photos/ann/t1.jpg')));
+  await assertFails(listAll(ref(stor('bob'), 'tip_photos/ann')));
+  await assertFails(getBytes(ref(env.unauthenticatedContext().storage(), 'tip_photos/ann/t1.jpg')));
+  await assertFails(deleteObject(ref(stor('bob'), 'tip_photos/ann/t1.jpg')));
+  await assertSucceeds(deleteObject(ref(stor('ann'), 'tip_photos/ann/t1.jpg')));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

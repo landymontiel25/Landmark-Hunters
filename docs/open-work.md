@@ -69,6 +69,21 @@ offline retry queue (an offline check-in stays unverified), the legacy
 for pre-Phase-0 builds (remove with the Phase 2 read limits), and proof docs
 left behind when an account is deleted.
 
+Phase 1 (tips) in progress, owner asked 2026-10-13 to build Phases 1 to 6
+without the week of phone tuning or the 50-tip checkpoint. Shipped so far:
+the rules. `tips/{uid}_{landmarkId}` (one tip per person per place) is
+written only by the server; a single tip reads when live and not hidden
+with no block either way, or by its author or the admin. Lists are your own
+tips only (a list rule can't check blocks; other people's tips will come
+from `api/tips.js`). Reports go through the server too, stricter than the
+plan's "add your own uid to the report list". `tip_reactions` are owner
+reads, server writes; `tip_views` server-only. `recommendation_log` takes
+the `'landmark-page'` surface. Storage `tip_photos/{uid}/` takes the owner's
+images under 5 MB. `firestore.indexes.json` is new and deploys last in the
+rules workflow (the service account may need the Cloud Datastore Index
+Admin role). Next: `api/post-tip.js`, the tips UI, the dashboard Content
+page.
+
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 
 `group_trips/{id}/live_locations/{uid}` (rules + emulator tests in
