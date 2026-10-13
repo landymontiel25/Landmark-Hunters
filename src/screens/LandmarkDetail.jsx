@@ -263,7 +263,6 @@ function LandmarkDetailBody() {
   const [blockedNow, setBlockedNow] = useState(() => new Set());
   const [landmarkReported, setLandmarkReported] = useState(false);
   const [factsExpanded, setFactsExpanded] = useState(false);
-  const [shareMsg, setShareMsg] = useState(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
   const [deletingCustom, setDeletingCustom] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
@@ -771,33 +770,6 @@ function LandmarkDetailBody() {
     navigate(-1);
   };
 
-  const shareVisit = async () => {
-    const checkedIn = !!claimedMap[landmark.id];
-    // In the iOS app the origin is capacitor://localhost, which nobody else
-    // can open; share the public site (as Profile's share does).
-    const origin = /^https?:$/.test(window.location.protocol) ? window.location.origin : 'https://landmarkhunters.com';
-    const url = `${origin}/#/landmarks/${regionId}/${landmark.id}`;
-    const text = checkedIn
-      ? `\u{1F3AF} I just checked in at ${landmark.name} on Landmark Hunters — come explore and try to beat my score! \u{1F3C6}`
-      : `\u{1F4CD} Check out ${landmark.name} on Landmark Hunters — hunt landmarks, check in, and earn points!`;
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: 'Landmark Hunters', text, url });
-      } else {
-        await navigator.clipboard.writeText(`${text} ${url}`);
-        setShareMsg('Link copied — paste it to your friends! \u{1F4E3}');
-        setTimeout(() => setShareMsg(null), 4000);
-      }
-    } catch (e) {
-      // Dismissing the share sheet (AbortError) is fine; a blocked clipboard
-      // or failed share shouldn't look like a dead button.
-      if (e?.name !== 'AbortError') {
-        setShareMsg(`Couldn't share from here. Copy this link instead: ${url}`);
-        setTimeout(() => setShareMsg(null), 8000);
-      }
-    }
-  };
-
   // Add or edit your own comment any time (always saved together with a tier).
   const myCommentBox =
     user && myComment !== null && (checkedInHere || hasMyReview || reviews.some((r) => r.userId === user.uid)) ? (
@@ -1154,14 +1126,6 @@ function LandmarkDetailBody() {
         className="btn-block"
       />
 
-      <button type="button" className="btn btn-primary btn-block" onClick={shareVisit} style={{ marginTop: 12 }}>
-        {'\u{1F3C6}'} Share with Friends & Family
-      </button>
-      {shareMsg && (
-        <p className="screen-subtitle" style={{ textAlign: 'center', marginTop: 6, marginBottom: 0 }}>
-          {shareMsg}
-        </p>
-      )}
 
       {firebaseEnabled && user && checkedInHere && (
         <div className="card section" style={{ marginTop: 16 }}>
