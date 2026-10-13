@@ -27,6 +27,7 @@ async function renderSettings({
     emailVerified,
     providerData: providers.map((providerId) => ({ providerId })),
   };
+  vi.doMock('../components/MaprRatePicks', () => ({ default: () => null }));
   vi.doMock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => false }, registerPlugin: () => ({}) }));
   vi.doMock('../lib/AuthContext', () => ({
     useAuth: () => ({

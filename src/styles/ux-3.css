@@ -225,3 +225,15 @@ button.back-sticky,
   background: rgb(var(--color-bg-rgb));
   box-shadow: var(--shadow-float);
 }
+
+/* Itinerary cards: where each trip is, in bold under its name. */
+.itin-where {
+  margin: 4px 0 0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-brass-bright, var(--text-primary));
+}
+.itin-where-sub {
+  font-weight: 600;
+  color: var(--text-primary);
+}
