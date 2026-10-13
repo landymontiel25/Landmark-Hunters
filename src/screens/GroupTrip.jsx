@@ -35,6 +35,8 @@ import { useStopAddresses } from '../lib/useStopAddresses';
 import { useRatings } from '../lib/RatingsContext';
 import { runOptimistic, useToast } from '../lib/ToastContext';
 import ErrorNotice from '../components/ErrorNotice';
+import AddSquareIcon from '../components/AddSquareIcon';
+import { itineraryShareText, routeMode, shareItinerary } from '../lib/itineraryShare';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 
 // Same outline as the loaded screen: back button, title, members card,
@@ -329,6 +331,13 @@ export default function GroupTrip() {
     .filter((p) => Number.isFinite(p?.lat) && Number.isFinite(p?.lng))
     .map((p) => ({ id: p.id, name: p.name, lat: p.lat, lng: p.lng }));
   const viewInMap = () => navigate('/', { state: { tripRoute: { name: trip.name, stops: tripStops } } });
+  // Share with anyone, app or not: the route's stops in order and a Google
+  // Maps link, by the phone's share sheet or copied.
+  const shareTrip = () => {
+    const placed = new Set(route.map((s) => s.id));
+    const stops = [...route, ...tripStops.filter((s) => !placed.has(s.id))];
+    shareItinerary({ title: trip.name, text: itineraryShareText({ name: trip.name, regionName: region?.name || '', stops, mode: routeMode(stops) }), toast });
+  };
 
   // Leave right away; the delete finishes in the background. If it's
   // refused, say so (the trip is still there) and offer to try again.
@@ -372,7 +381,8 @@ export default function GroupTrip() {
           </p>
         ) : (
           <button type="button" className="member-add-row" onClick={() => setShowAdd(true)}>
-            {'\u{2795}'} Add
+            <AddSquareIcon />
+            Add a user
           </button>
         )}
         {showAdd && (
@@ -394,6 +404,11 @@ export default function GroupTrip() {
             {tripStops.length > 0 && (
               <button type="button" className="btn btn-primary btn-sm" onClick={viewInMap}>
                 {'\u{1F5FA}\u{FE0F}'} View in Map
+              </button>
+            )}
+            {tripStops.length > 0 && (
+              <button type="button" className="btn btn-ghost btn-sm" onClick={shareTrip}>
+                {'\u{1F4E4}'} Share
               </button>
             )}
             {!editing && sortPref && (
