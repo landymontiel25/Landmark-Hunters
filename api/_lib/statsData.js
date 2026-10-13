@@ -1,5 +1,6 @@
 import { FieldPath } from 'firebase-admin/firestore';
 import { STATS_MAX_DOCS, STATS_PAGE_SIZE } from '../../src/lib/statsConstants.js';
+import { TIP_SURFACE } from '../../src/lib/maprConstants.js';
 
 // Reads what the admin stats and the study summary need, with the Admin SDK
 // (which bypasses Firestore rules), in bounded batches. Each collection is
@@ -134,7 +135,7 @@ export async function loadStatsData(db) {
   ]);
   // Tip impressions ('landmark-page', Phase 1) share the collection but are
   // not Mapr picks: kept apart so no Mapr metric counts them.
-  const tipImpressions = recommendationLog.filter((r) => r.surface === 'landmark-page');
-  const picks = recommendationLog.filter((r) => r.surface !== 'landmark-page');
+  const tipImpressions = recommendationLog.filter((r) => r.surface === TIP_SURFACE);
+  const picks = recommendationLog.filter((r) => r.surface !== TIP_SURFACE);
   return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, checkins, referrals, placeScores, tasteHistory, truncated };
 }

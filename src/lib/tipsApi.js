@@ -48,10 +48,15 @@ export async function uploadTipPhoto(uid, file) {
   // Timed out like the other uploads, so a dead connection shows an error
   // instead of "Sharing…" forever.
   const slow = "Couldn't upload the photo. Check your connection and try again.";
+  let uploaded = false;
   try {
     await withTimeout(uploadBytes(r, small, { contentType: small.type || 'image/jpeg' }), 30000);
+    uploaded = true;
     return await withTimeout(getDownloadURL(r), 10000);
   } catch (e) {
+    // Uploaded but no URL back: ask the server to remove it (the URL needs
+    // no token for that).
+    if (uploaded) discardTipPhoto(`https://firebasestorage.googleapis.com/v0/b/${r.bucket}/o/${encodeURIComponent(r.fullPath)}`).catch(() => {});
     throw Object.assign(new Error(slow), { userMessage: slow, cause: e });
   }
 }

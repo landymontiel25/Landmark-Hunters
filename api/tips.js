@@ -47,40 +47,44 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
     if (!tipIsPublic(t) || blocked.has(t.authorUid)) continue;
     candidates.push([d.id, t]);
   }
-  // Newest first; then a tip you reported stays hidden for you (checked on
-  // the first page only, with a little room for ones it drops).
+  // Newest first. One read for the first page's reports, your marks and
+  // your views; a tip you reported stays hidden for you (with a little room
+  // for the ones it drops).
   const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
   candidates.sort((a, b) => at(b[1]) - at(a[1]));
   const page = candidates.slice(0, MAX_TIPS + 10);
-  const reportSnaps = page.length ? await db.getAll(...page.map(([tipId, t]) => db.collection('tip_reports').doc(`${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`))) : [];
+  const ref = (col, id) => db.collection(col).doc(id);
+  const refs = page.flatMap(([tipId, t]) => [
+    ref('tip_reports', `${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`),
+    ref('tip_reactions', `${viewerUid}_${tipId}`),
+    ref('tip_views', `${viewerUid}_${tipId}`),
+  ]);
+  const snaps = refs.length ? await db.getAll(...refs) : [];
+  const extra = new Map();
   page.forEach((c, i) => {
-    if (!reportSnaps[i]?.exists) visible.push(c);
+    if (snaps[i * 3]?.exists) return;
+    visible.push(c);
+    extra.set(c[0], { reaction: snaps[i * 3 + 1], view: snaps[i * 3 + 2], ref: refs[i * 3 + 2] });
   });
   const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
-  const shown = [...own, ...visible.slice(0, MAX_TIPS)];
-
-  // Everyone else's tips here are live and public (the own tip is first).
-  const others = shown.slice(own.length);
-  const reactionRefs = others.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
-  const viewRefs = others.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
-  const [reactionSnaps, viewSnaps] = await Promise.all([
-    reactionRefs.length ? db.getAll(...reactionRefs) : [],
-    recordViews && viewRefs.length ? db.getAll(...viewRefs) : [],
-  ]);
+  const others = visible.slice(0, MAX_TIPS);
+  const shown = [...own, ...others];
   const mine = {};
-  reactionSnaps.forEach((s, i) => {
-    if (s.exists && madeOnThisPost(s.data(), others[i][1])) mine[others[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
-  });
+  for (const [tipId, t] of others) {
+    const r = extra.get(tipId)?.reaction;
+    if (r?.exists && madeOnThisPost(r.data(), t)) mine[tipId] = { helpful: r.data().helpful === true, saved: r.data().saved === true };
+  }
 
   // Views: other people's live tips only. firstAt (when you first saw this
   // post of the tip) never moves.
   const batch = db.batch();
   let writes = 0;
-  if (recordViews) others.forEach(([tipId, t], i) => {
-    const prev = viewSnaps[i].exists && madeOnThisPost(viewSnaps[i].data(), t) ? viewSnaps[i].data() : null;
+  if (recordViews) others.forEach(([tipId, t]) => {
+    const { view, ref: viewRef } = extra.get(tipId);
+    const prev = view?.exists && madeOnThisPost(view.data(), t) ? view.data() : null;
     if (prev && nowMs - (prev.lastAt || 0) < VIEW_REFRESH_MS) return;
     writes++;
-    batch.set(viewRefs[i], {
+    batch.set(viewRef, {
       uid: viewerUid,
       tipId,
       gen: t.gen ?? null,

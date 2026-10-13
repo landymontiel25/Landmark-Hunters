@@ -148,9 +148,6 @@ export function CheckInProvider({ children }) {
       throw Object.assign(new Error(BLOCK_MESSAGES[blocked]), { userMessage: BLOCK_MESSAGES[blocked], code: `checkin/${blocked}` });
     }
     setCheckingIn(landmark.id);
-    // A verified result belongs to one check-in: never carry it over.
-    setPresenceResult(null);
-    latestCheckinId.current = null;
     try {
       const ratingOnly = !!checkInOptions?.ratingOnly;
       const points = ratingOnly ? 0 : landmark.points ?? POINTS_PER_CHECKIN;
@@ -180,6 +177,9 @@ export function CheckInProvider({ children }) {
         setCheckinTick((t) => t + 1);
       }
       if (!ratingOnly && result.claimed && result.checkinId) {
+        // A verified result belongs to one check-in: a new one clears it, and
+        // only the newest check-in's answer may land.
+        setPresenceResult(null);
         const checkinId = result.checkinId;
         latestCheckinId.current = checkinId;
         verifyCheckinPresence(checkinId).then((v) => {

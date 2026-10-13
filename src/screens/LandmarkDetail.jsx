@@ -963,7 +963,7 @@ function LandmarkDetailBody() {
         </p>
       )}
 
-      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={presenceResult?.landmarkId === landmark.id ? `${presenceResult.checkinId}:${presenceResult.verified}` : ''} />}
+      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={presenceResult?.landmarkId === landmark.id ? `${presenceResult.checkinId}:${presenceResult.verified}` : ''} visited={!!claimedMap?.[landmark.id] || checkedInHere} />}
 
       {firebaseEnabled && user && (
         <div className="card checkin-stats-card">

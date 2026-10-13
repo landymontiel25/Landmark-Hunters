@@ -1,6 +1,7 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { makeSetId } from './setId';
+import { TIP_SURFACE } from './maprConstants';
 
 // Tips shown under "From people who went" (Phase 1): one recommendation_log
 // row per page view, surface 'landmark-page' (allowed by firestore.rules),
@@ -34,7 +35,7 @@ export async function logTipImpressions({ uid, landmarkId, region, tipIds = [], 
       landmarkId,
       region: region || null,
       pickType: null,
-      surface: 'landmark-page',
+      surface: TIP_SURFACE,
       tipIds: tipIds.slice(0, 50),
       setId: makeSetId(uid, nowMs),
       rank: 1,

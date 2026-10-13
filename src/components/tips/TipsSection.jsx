@@ -5,6 +5,7 @@ import { tipTagLabel } from '../../lib/tips';
 import { deleteMyTip, fetchTips, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
 import { logTipImpressions } from '../../lib/tipImpressions';
 import TipComposer from './TipComposer';
+import OnScreen from '../OnScreen';
 
 // "From people who went" (docs/discovery-network-plan.md, Phase 1): tips
 // from verified visits, under the landmark page's sourced facts. Tips come
@@ -35,7 +36,7 @@ function ownStatusNote(t) {
   return null;
 }
 
-export default function TipsSection({ landmark, user, toast, refreshKey = '' }) {
+export default function TipsSection({ landmark, user, toast, refreshKey = '', visited = true }) {
   const region = landmark?.regionId || landmark?.region;
   const landmarkId = landmark?.id;
   const [tips, setTips] = useState(null);
@@ -47,14 +48,20 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '' }) 
   const [busy, setBusy] = useState(null);
   const logged = useRef(false);
 
+  // Only the newest request may land (loads can overlap and finish out of
+  // order).
+  const requestNo = useRef(0);
   const load = useCallback(async () => {
     if (!user || !region || !landmarkId) return;
+    const n = ++requestNo.current;
     try {
       const out = await fetchTips(region, landmarkId);
+      if (n !== requestNo.current) return;
       setTips(out.tips || []);
       setReactions(out.reactions || {});
       setError(null);
     } catch (e) {
+      if (n !== requestNo.current) return;
       setError(e?.userMessage || "Couldn't load tips.");
       setTips((t) => t || []);
     }
@@ -71,7 +78,11 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '' }) 
   }, [load]);
 
   useEffect(() => {
-    if (!user || !landmarkId) return;
+    // Only where you've checked in: no checkins query on every page.
+    if (!user || !landmarkId || !visited) {
+      setTipCheckin(null);
+      return undefined;
+    }
     let cancelled = false;
     findTipCheckin(user.uid, landmarkId, region).then((c) => {
       if (!cancelled) setTipCheckin(c);
@@ -79,22 +90,24 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '' }) 
     return () => {
       cancelled = true;
     };
-  }, [user, landmarkId, region, refreshKey]);
+  }, [user, landmarkId, region, refreshKey, visited]);
 
-  // One impression row per page view with tips (surface 'landmark-page'),
-  // so tips can be measured later; never counted as a Mapr pick.
-  useEffect(() => {
-    if (!user || !tips?.length || logged.current) return;
-    const shown = tips.filter((t) => !t.mine).map((t) => t.id);
+  // One impression row per page view, once the tips are on screen
+  // (surface 'landmark-page'); never counted as a Mapr pick.
+  const onSeen = () => {
+    if (!user || logged.current) return;
+    const shown = (tips || []).filter((t) => !t.mine).map((t) => t.id);
     if (!shown.length) return;
     logged.current = true;
     logTipImpressions({ uid: user.uid, landmarkId, region, tipIds: shown });
-  }, [tips, user, landmarkId, region]);
+  };
 
   if (!user) return null;
   const mine = tips?.find((t) => t.mine) || null;
   const others = (tips || []).filter((t) => !t.mine);
-  const canShare = !!tipCheckin && !mine && user.emailVerified === true;
+  // Only once the list has loaded cleanly: until then "no tip of mine" is
+  // unknown.
+  const canShare = tips != null && !error && !!tipCheckin && !mine && user.emailVerified === true;
 
   const react = async (t, kind) => {
     const on = !reactions[t.id]?.[kind];
@@ -248,10 +261,16 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '' }) 
       ) : (
         <>
           {error && <p className="screen-subtitle">{error}</p>}
-          <ul style={{ padding: 0, margin: 0 }}>
-            {mine && renderTip(mine)}
-            {others.map(renderTip)}
-          </ul>
+          {others.length > 0 ? (
+            <OnScreen key={others.map((t) => t.id).join(',')} onSeen={onSeen}>
+              <ul style={{ padding: 0, margin: 0 }}>
+                {mine && renderTip(mine)}
+                {others.map(renderTip)}
+              </ul>
+            </OnScreen>
+          ) : (
+            <ul style={{ padding: 0, margin: 0 }}>{mine && renderTip(mine)}</ul>
+          )}
           {!error && !mine && others.length === 0 && (
             <p className="screen-subtitle" style={{ margin: 0 }}>
               No tips yet.{tipCheckin ? '' : ' Check in here with location on to share the first one.'}
