@@ -36,6 +36,8 @@ import { useRatings } from '../lib/RatingsContext';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
+import { answeredBefore } from '../lib/soloDeckHistory';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { monthKey, displayStreakCount } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
@@ -566,6 +568,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const { user } = useAuth();
   const { coords } = useGeo();
   const [entry, setEntry] = useState({ uid: user.uid, ratings: {} });
+  // Which day's entry has arrived from the database (null until it has).
+  const [entryDay, setEntryDay] = useState(null);
   const [freezeBusy, setFreezeBusy] = useState(false);
   const [freezeMsg, setFreezeMsg] = useState(null);
   const [visitedIds, setVisitedIds] = useState(undefined);
@@ -593,7 +597,12 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   useEffect(() => {
     setOptimisticRatings({});
     setEntriesError(null);
-    return subscribeSoloDayEntry(streak.id, today, setEntry, (e) => {
+    setEntryDay(null);
+    const onEntry = (next) => {
+      setEntry(next);
+      setEntryDay(today);
+    };
+    return subscribeSoloDayEntry(streak.id, today, onEntry, (e) => {
       // eslint-disable-next-line no-console -- worth having in the device
       // console if someone needs to debug why today's ratings aren't showing.
       console.error("Today's solo streak entry failed to load", e);
@@ -608,21 +617,52 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       .catch(() => setVisitedIds(new Set()));
   }, [user.uid]);
 
-  // Same auto-pick-the-city logic as StreakDetail/Mapr Travel Picks -- see
-  // that component's own note.
-  const pickedCityRef = useRef(false);
+  // Places you answered before today, so today's 3 are ones you haven't
+  // seen (owner, 2026-10-13: "it's putting the same landmarks every day").
+  const [answered, setAnswered] = useState(undefined);
   useEffect(() => {
-    if (streak.cityId || pickedCityRef.current) return;
-    const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
-    const defaultRegionId = pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
-    if (!defaultRegionId) return;
-    pickedCityRef.current = true;
-    setSoloStreakCity(streak.id, defaultRegionId).catch(() => {
-      pickedCityRef.current = false;
-    });
-  }, [streak.id, streak.cityId, coords]);
+    let cancelled = false;
+    setAnswered(undefined);
+    const [y, m, d] = today.split('-').map(Number);
+    answeredBefore(user.uid, new Date(y, m, d).getTime())
+      .then((map) => !cancelled && setAnswered(map))
+      .catch(() => !cancelled && setAnswered(new Map()));
+    return () => {
+      cancelled = true;
+    };
+  }, [user.uid, today]);
 
-  const deck = streak.cityId && visitedIds ? dailyDeck(streak.id, today, streak.cityId, visitedIds) : [];
+  // The city you are in right now (GPS, within 30 miles of one), only
+  // re-checked when the fix moves ~1 km: it scans every landmark.
+  const hereLat = coords ? Math.round(coords.lat * 100) / 100 : null;
+  const hereLng = coords ? Math.round(coords.lng * 100) / 100 : null;
+  const gpsCity = useMemo(
+    () => (hereLat != null ? nearestPickableCity({ lat: hereLat, lng: hereLng }, 30) : null),
+    [hereLat, hereLng]
+  );
+
+  // Today's cards come from the city you are in. A streak with no city yet
+  // gets one (GPS, else the same default Mapr Travel Picks uses); a streak
+  // whose city is somewhere else (Villanova while you're in Miami) moves to
+  // where you are, as long as no card has been rated today: switching
+  // mid-day would swap the cards under you.
+  const pickedCityRef = useRef(null);
+  const ratedToday = Object.keys(entry.ratings || {}).length;
+  useEffect(() => {
+    const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
+    const target = streak.cityId
+      ? entryDay === today && ratedToday === 0 && gpsCity && gpsCity !== streak.cityId
+        ? gpsCity
+        : null
+      : gpsCity || pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
+    if (!target || pickedCityRef.current === target) return;
+    pickedCityRef.current = target;
+    setSoloStreakCity(streak.id, target).catch(() => {
+      pickedCityRef.current = null;
+    });
+  }, [streak.id, streak.cityId, coords, gpsCity, entryDay, today, ratedToday]);
+
+  const deck = streak.cityId && visitedIds && answered ? dailyDeck(streak.id, today, streak.cityId, visitedIds, answered) : [];
   const cardIds = deck.map((l) => l.id);
   const shownRating = (id) => optimisticRatings[id] ?? entry.ratings?.[id];
   const remainingToRate = deck.filter((l) => !shownRating(l.id));
@@ -632,15 +672,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const dayDone = streak.lastCompletedDay === today || (cardIds.length > 0 && myRatedCount === cardIds.length);
   const region = streak.cityId ? getRegion(streak.cityId) : null;
 
-  // The city you are in right now (GPS), else the streak's own city.
-  // Only needed once the day is done (the carousel), and only when the fix
-  // moves ~1 km: this scans every landmark, so not on each GPS tick.
-  const hereLat = coords ? Math.round(coords.lat * 100) / 100 : null;
-  const hereLng = coords ? Math.round(coords.lng * 100) / 100 : null;
-  const hereCity = useMemo(
-    () => (dayDone && hereLat != null ? nearestPickableCity({ lat: hereLat, lng: hereLng }, 30) : null) || streak.cityId,
-    [dayDone, hereLat, hereLng, streak.cityId]
-  );
+  // The carousel after the 3: the city you are in, else the streak's own.
+  const hereCity = gpsCity || streak.cityId;
   // Stable carousel props, so it doesn't re-rank on every render.
   const pickReviews = useMemo(() => Object.values(myReviews || {}), [myReviews]);
   const pickCheckedInIds = useMemo(() => [...(visitedIds || [])], [visitedIds]);
@@ -745,7 +778,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       {voteError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {voteError}</p>}
       {!streak.cityId ? (
         <SkeletonList count={1} label="Finding your city" />
-      ) : visitedIds === undefined ? (
+      ) : visitedIds === undefined || answered === undefined ? (
         <SkeletonList count={3} label="Loading today's landmarks" />
       ) : cardIds.length === 0 ? (
         <p className="screen-subtitle" style={{ margin: 0 }}>
@@ -768,12 +801,16 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
             {'✓'} You've rated all 3 today.{closeMsg ? ` ${closeMsg}` : ''} Keep going: every place you rate teaches Mapr more.
           </p>
           <div style={{ marginTop: 12 }}>
-            <MaprPicksCarousel
-              reviews={pickReviews}
-              checkedInIds={pickCheckedInIds}
-              homeCityId={hereCity}
-              scope="streak"
-            />
+            {/* A crash in the carousel drops just the carousel, never the
+                streak page above it. */}
+            <ErrorBoundary fallback={null}>
+              <MaprPicksCarousel
+                reviews={pickReviews}
+                checkedInIds={pickCheckedInIds}
+                homeCityId={hereCity}
+                scope="streak"
+              />
+            </ErrorBoundary>
           </div>
         </>
       )}

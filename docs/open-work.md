@@ -3,6 +3,18 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Solo streak daily cards: city, variety, warnings (2026-10-13)
+
+Fixed: the 3 daily cards follow the city you are in (the streak's city
+moves before the first card is rated that day), skip places you answered on
+earlier days (sharedDeck.js avoidIds, from src/lib/soloDeckHistory.js), and
+always deal 3. Red streak warnings (header flame, Profile line) show only in
+the last 5 hours, like the banner and notification already did. Still open:
+the owner said the Streaks page "shuts down the app" and signs them out. No
+repro yet (the page renders fine in tests with Miami's places loaded); the
+carousel under the cards now has its own error boundary. Next step: a
+screenshot of the "Something went wrong" details, or the device console.
+
 ## Google map online, Esri offline (2026-10-13, needs the owner's key)
 
 The Map tab shows Google's satellite map with labels (Map Tiles API) while

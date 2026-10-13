@@ -68,4 +68,38 @@ describe('deckPool and imported places', () => {
     expect(getRegion('philly').landmarks.some((l) => l.id === 'osm-n999999999')).toBe(true);
     expect(deckPool('philly')).toEqual(before);
   });
+
+  it('puts places you already answered after every fresh one', () => {
+    const pool = deckPool('villanova');
+    const answered = new Map(pool.slice(0, pool.length - 2).map((id, i) => [id, 1000 + i]));
+    const ids = pickDailyCardIds('me', '2026-9-28', 'villanova', [], 3, answered);
+    expect(ids).toHaveLength(3);
+    // The 2 never-answered places, then the one answered longest ago.
+    expect(ids).toEqual([...pool.slice(-2), pool[0]].sort());
+  });
+
+  it('changes the solo cards every day until the city is used up', () => {
+    const pool = deckPool('villanova');
+    const answered = new Map();
+    const seen = [];
+    for (let day = 1; day <= Math.floor(pool.length / 3); day++) {
+      const ids = pickDailyCardIds('me', `2026-9-${day}`, 'villanova', [], 3, answered);
+      expect(ids.some((id) => seen.includes(id))).toBe(false);
+      ids.forEach((id) => answered.set(id, day));
+      seen.push(...ids);
+    }
+  });
+
+  it('still deals 3 cards when fewer than 3 places are left unvisited', () => {
+    const pool = deckPool('villanova');
+    const ids = pickDailyCardIds('me', '2026-9-28', 'villanova', pool.slice(1));
+    expect(ids).toHaveLength(3);
+    expect(ids).toContain(pool[0]);
+  });
+
+  it('draws the same cards as before when nothing is answered', () => {
+    const pool = deckPool('miami');
+    expect(pickDailyCardIds('a_b', '2026-9-28', 'miami', [], 3, new Map())).toEqual(pickDailyCardIds('a_b', '2026-9-28', 'miami'));
+    expect(pool.length).toBeGreaterThan(3);
+  });
 });

@@ -11,6 +11,7 @@ import { subscribeMyNotifications } from '../lib/notifications';
 import { useTodayKey } from '../lib/useTodayKey';
 import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
+import { useInStreakWarningWindow } from '../lib/useStreakWarning';
 
 function formatLeft(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -191,6 +192,7 @@ function StreakBadge() {
     const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
     return () => clearInterval(id);
   }, [open]);
+  const warnWindow = useInStreakWarningWindow();
 
   if (!firebaseEnabled || !user) return null;
 
@@ -199,12 +201,14 @@ function StreakBadge() {
   const count = displayStreakCount(streak);
   const active = count > 0;
   const secured = isDayHeld(streak, today);
+  // Red only in the day's last 5 hours; earlier, an unsecured day is plain.
+  const tint = !streak ? '' : secured ? 'secured' : warnWindow ? 'at-risk' : '';
 
   return (
     <div className="header-streak-wrap" ref={ref}>
       <button
         type="button"
-        className={`header-streak ${active ? 'active' : ''} ${streak ? (secured ? 'secured' : 'at-risk') : ''}`}
+        className={`header-streak ${active ? 'active' : ''} ${tint}`}
         aria-expanded={open}
         aria-label={`${count}-day solo streak${streak ? `, today ${secured ? 'secured' : 'not secured yet'}` : ''}`}
         onClick={() => setOpen((o) => !o)}

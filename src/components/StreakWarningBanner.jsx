@@ -6,6 +6,7 @@ import { subscribeMySoloStreak } from '../lib/soloStreaks';
 import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { notifyUser } from '../lib/notifications';
+import { STREAK_WARNING_WINDOW_MS } from '../lib/useStreakWarning';
 
 // Alert once 5 hours remain in the local day with the SOLO streak not yet
 // secured today (lastCompletedDay isn't today -- the same server-authority
@@ -14,7 +15,6 @@ import { notifyUser } from '../lib/notifications';
 // boundary the streak's own day-close counts by, so this is exactly when
 // an active solo streak is about to actually lapse. Separate from (and
 // doesn't touch) the dual streak's own per-pair countdown in the header.
-const WARNING_WINDOW_MS = 5 * 60 * 60 * 1000;
 const NOTIFIED_PREFIX = 'landmarkhunters.streakWarned.';
 
 function formatCountdown(ms) {
@@ -60,7 +60,7 @@ export default function StreakWarningBanner() {
   }, [atRisk]);
   useVisibleInterval(() => setMsLeft(msUntilStreakLapse()), 1000, atRisk);
 
-  const withinWarningWindow = atRisk && msLeft > 0 && msLeft <= WARNING_WINDOW_MS;
+  const withinWarningWindow = atRisk && msLeft > 0 && msLeft <= STREAK_WARNING_WINDOW_MS;
 
   useEffect(() => {
     if (!user || !withinWarningWindow) return;

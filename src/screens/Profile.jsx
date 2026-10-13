@@ -18,6 +18,7 @@ import { getRegion, REGIONS } from '../data/regions';
 import { useBadges } from '../lib/BadgesContext';
 import { PICKS_STREAK_THRESHOLD, dayKey, displayStreakCount, isDayHeld } from '../lib/streaks';
 import { subscribeMySoloStreak } from '../lib/soloStreaks';
+import { useInStreakWarningWindow } from '../lib/useStreakWarning';
 import { claimMyReferralBonuses } from '../lib/referrals';
 import { hasCompletedOnboardingLocally } from '../lib/onboarding';
 import { ONBOARDING_VERSION, onboardingStatus } from '../lib/onboardingVersion';
@@ -114,6 +115,7 @@ export default function Profile() {
   // the same way Header's badge and the streak-risk banner below do, so
   // this tile can never show a different number than either of those.
   const [soloStreak, setSoloStreak] = useState(null);
+  const streakWarnWindow = useInStreakWarningWindow();
   useEffect(() => {
     if (!user) return undefined;
     return subscribeMySoloStreak(user.uid, setSoloStreak, () => {});
@@ -392,8 +394,9 @@ export default function Profile() {
   // risk" nor "safe" here -- and a freeze spent today counts as held.
   const soloCount = displayStreakCount(soloStreak);
   const todayKey = dayKey(new Date());
+  // Red only in the day's last 5 hours (owner, 2026-10-13).
   const soloStreakAtRisk =
-    soloCount > 0 && !isDayHeld(soloStreak, todayKey);
+    soloCount > 0 && !isDayHeld(soloStreak, todayKey) && streakWarnWindow;
 
   const leaderboardLabel =
     scope === 'friends'

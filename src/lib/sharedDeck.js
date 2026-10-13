@@ -11,10 +11,9 @@ import { isRateable } from './ratingFlow.js';
 // free (only reads static landmark data), so it's safe to import from
 // either a browser bundle or a serverless function.
 //
-// Known simplification: doesn't track which landmarks a pair has already
-// seen, so "cards do not repeat until the city is exhausted" (spec item 3)
-// isn't implemented -- a card can resurface on a later day. A real
-// server-tracked history would be the fix once this is proven out.
+// Known simplification: a pair's deck doesn't track which landmarks the pair
+// has already seen, so a card can resurface on a later day. The solo deck
+// passes your earlier answers as avoidIds (MyStreaks.jsx) so it doesn't.
 
 function hashSeed(str) {
   let h = 2166136261;
@@ -61,38 +60,51 @@ export function deckPool(cityId) {
 // pure and dependency-free (see the file-level note); callers fetch the
 // real check-in ids themselves (client: leaderboard.js's
 // getUserCheckedInLandmarkIds; server: close-streak-day.js, admin SDK).
-export function pickDailyCardIds(pairId, dayId, cityId, excludeIds = [], count = DAILY_DECK_SIZE) {
-  return pickOrderedCardIds(pairId, dayId, cityId, excludeIds, count).sort();
+//
+// avoidIds (optional, a Map of landmark id -> when you last answered it, or
+// a Set) are places you already rated or voted on: they come after every
+// place you have never answered, oldest answer first, so the solo cards
+// change every day and only repeat once the whole city is used up.
+export function pickDailyCardIds(pairId, dayId, cityId, excludeIds = [], count = DAILY_DECK_SIZE, avoidIds = null) {
+  return pickOrderedCardIds(pairId, dayId, cityId, excludeIds, count, avoidIds).sort();
 }
 
 // The same draw in pick order. The first DAILY_DECK_SIZE of any larger draw
 // are the day's real cards, so the server (which draws 3) and the phone agree
 // on them whatever `count` the phone asks for.
-function pickOrderedCardIds(pairId, dayId, cityId, excludeIds, count) {
+function pickOrderedCardIds(pairId, dayId, cityId, excludeIds, count, avoidIds) {
   const exclude = excludeIds instanceof Set ? excludeIds : new Set(excludeIds);
+  const avoid = avoidIds instanceof Map ? avoidIds : new Map([...(avoidIds || [])].map((id) => [id, 0]));
   const fullPool = deckPool(cityId);
-  const unvisited = fullPool.filter((id) => !exclude.has(id));
-  // Both of you have been everywhere rateable in this city -- fall back to
-  // the full pool rather than leaving the deck empty; a repeat is the
-  // lesser problem next to "no cards at all".
-  const source = unvisited.length > 0 ? unvisited : fullPool;
-  if (source.length <= count) return [...source];
+  // Never answered, then answered (oldest first), then places you have been
+  // to. A city you have done everything in still gets a full deck: a repeat
+  // is the lesser problem next to "no cards at all" (or only 1 or 2, which
+  // the day-close never counts as done).
+  const fresh = fullPool.filter((id) => !exclude.has(id) && !avoid.has(id));
+  const answered = fullPool
+    .filter((id) => !exclude.has(id) && avoid.has(id))
+    .sort((a, b) => (avoid.get(a) || 0) - (avoid.get(b) || 0) || (a < b ? -1 : 1));
+  const visited = fullPool.filter((id) => exclude.has(id));
   const rand = mulberry32(hashSeed(`${pairId}:${dayId}:${cityId}`));
-  const remaining = [...source];
   const picked = [];
-  for (let i = 0; i < count && remaining.length; i++) {
-    const idx = Math.floor(rand() * remaining.length);
-    picked.push(remaining.splice(idx, 1)[0]);
-  }
+  const draw = (tier) => {
+    const remaining = [...tier];
+    while (picked.length < count && remaining.length) {
+      picked.push(remaining.splice(Math.floor(rand() * remaining.length), 1)[0]);
+    }
+  };
+  draw(fresh);
+  for (const id of answered) if (picked.length < count) picked.push(id);
+  draw(visited);
   return picked;
 }
 
 // Full landmark objects (with regionId attached, matching ALL_LANDMARKS'
 // shape) for today's deck, in the app's own catalog order -- not the
 // pick order, so the row doesn't visually reshuffle between renders.
-export function dailyDeck(pairId, dayId, cityId, excludeIds = []) {
+export function dailyDeck(pairId, dayId, cityId, excludeIds = [], avoidIds = null) {
   const region = getRegion(cityId);
   if (!region) return [];
-  const ids = new Set(pickDailyCardIds(pairId, dayId, cityId, excludeIds));
+  const ids = new Set(pickDailyCardIds(pairId, dayId, cityId, excludeIds, DAILY_DECK_SIZE, avoidIds));
   return region.landmarks.filter((l) => ids.has(l.id)).map((l) => ({ ...l, regionId: cityId }));
 }
