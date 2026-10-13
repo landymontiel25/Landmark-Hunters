@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import { useLandmarkRatings } from '../../lib/useLandmarkRatings';
-import { RATINGS_FLAGS, formatCount, hasRating } from '../../lib/ratingSources';
+import { RATINGS_FLAGS, formatCount, formatReviews, hasRating } from '../../lib/ratingSources';
 import GoogleAttribution from './GoogleAttribution';
 import { TripadvisorMark } from './TripadvisorRatingRow';
 import { useImageAvailable } from './useImageAvailable';
 import { TRIPADVISOR_LOGO } from './brand';
 
-// A landmark card's outside ratings: "⭐ 4.6 (23,757) Google Maps" (plus
+// A landmark card's outside ratings: "⭐ 4.6 (23,757 reviews) Google Maps" (plus
 // Tripadvisor when it is on), as tags in the card's meta row. Fetches only
 // once the card is near the screen, so a long list costs nothing for rows
 // never seen and never waits on it. When Google has no rating for the place
@@ -24,7 +24,7 @@ function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS }) {
     <span ref={ref} className="ratings-inline">
       {google ? (
         <span className="tag rating-tag ratings-chip-google" data-source="google">
-          {'⭐'} {google.rating.toFixed(1)} <span className="ratings-count">({formatCount(google.count)})</span> <GoogleAttribution />
+          {'⭐'} {google.rating.toFixed(1)} <span className="ratings-count">({formatReviews(google.count)})</span> <GoogleAttribution />
         </span>
       ) : status === 'done' && sources.googleNoRating ? (
         <span className="tag rating-tag ratings-none" data-source="none">

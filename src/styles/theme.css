@@ -7624,3 +7624,25 @@ p.tag {
   color: var(--color-parchment-dim);
   font-weight: 500;
 }
+/* Google Maps logo attribution (components/ratings/GoogleAttribution.jsx):
+   Google's size rule is 16-19 px tall with clear space around it. The theme
+   picks the version made for its background. */
+.gmp-logo {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 4px;
+  line-height: 0;
+}
+.gmp-logo img {
+  height: 16px;
+  width: auto;
+}
+.gmp-logo .gmp-logo-on-light {
+  display: none;
+}
+[data-theme='light'] .gmp-logo .gmp-logo-on-dark {
+  display: none;
+}
+[data-theme='light'] .gmp-logo .gmp-logo-on-light {
+  display: inline;
+}

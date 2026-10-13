@@ -1,4 +1,4 @@
-import { formatCount } from '../../lib/ratingSources';
+import { formatReviews } from '../../lib/ratingSources';
 import GoogleAttribution from './GoogleAttribution';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -18,7 +18,7 @@ export default function GoogleRatingRow({ data }) {
           </span>
           {data.rating.toFixed(1)}
         </span>
-        <span className="ratings-count">({formatCount(data.count)} reviews)</span>
+        <span className="ratings-count">({formatReviews(data.count)})</span>
       </div>
       {data.snippets?.length > 0 && (
         <>

@@ -37,7 +37,9 @@ grow. Each entry is still the two optional fields per landmark.
   no caching or storing of Places content except the place ID, which may be
   stored indefinitely (coordinates up to 30 days, not used here). When shown
   without a Google map: "Google Maps" attribution (text is fine where the
-  logo doesn't fit), Google content set apart from other content. Reviews:
+  logo doesn't fit; the app shows the logo once `public/brand/` has it, and
+the text until then), Google content set apart from other content. The
+wording "Google Maps" can't be changed (no "Google reviews"). Reviews:
   author name, photo and profile link; a link to each review on Google Maps
   (`googleMapsUri`); a note on how reviews are ordered; visit month and year
   for places in France. Places content must not be used with a non-Google
