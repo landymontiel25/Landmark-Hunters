@@ -822,7 +822,7 @@ function LandmarkDetailBody() {
   return (
     <div>
       {disagreementNode}
-      <div className="detail-topbar">
+      <div className="detail-topbar back-sticky">
         <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)}>
           {'← Back'}
         </button>

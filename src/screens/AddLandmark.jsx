@@ -377,7 +377,7 @@ export default function AddLandmark() {
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm back-sticky" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 

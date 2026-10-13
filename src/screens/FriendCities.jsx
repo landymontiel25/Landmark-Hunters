@@ -38,7 +38,7 @@ export default function FriendCities() {
 
   return (
     <div>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
         {'←'} Back
       </button>
       <h1 className="screen-title">

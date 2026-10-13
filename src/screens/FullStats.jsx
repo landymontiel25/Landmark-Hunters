@@ -70,7 +70,7 @@ export default function FullStats() {
     return (
       <div>
         <p className="screen-subtitle">Sign in on Profile to see your stats.</p>
-        <button type="button" className="btn btn-ghost btn-block" onClick={() => navigate('/profile')}>
+        <button type="button" className="btn btn-ghost btn-block back-sticky" onClick={() => navigate('/profile')}>
           {'\u{2190}'} Back to Profile
         </button>
       </div>
@@ -86,7 +86,7 @@ export default function FullStats() {
       <h1 className="screen-title">
         <span>{'\u{2B50}'}</span> Full Stats
       </h1>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
         {'\u{2190}'} Back to Profile
       </button>
 

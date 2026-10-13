@@ -19,7 +19,7 @@ export default function MyCities() {
     return (
       <div>
         <p className="screen-subtitle">Sign in on Profile to see your cities.</p>
-        <button type="button" className="btn btn-ghost btn-block" onClick={() => navigate('/profile')}>
+        <button type="button" className="btn btn-ghost btn-block back-sticky" onClick={() => navigate('/profile')}>
           {'←'} Back to Profile
         </button>
       </div>
@@ -28,7 +28,7 @@ export default function MyCities() {
 
   return (
     <div>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate('/profile')}>
         {'←'} Back to Profile
       </button>
       <h1 className="screen-title">
