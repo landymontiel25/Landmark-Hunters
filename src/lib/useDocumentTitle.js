@@ -7,7 +7,7 @@ const TITLES = [
   [/^\/$/, 'Map'],
   [/^\/add-landmark/, 'Add a landmark'],
   [/^\/landmarks\/[^/]+\/[^/]+/, 'Landmark'],
-  [/^\/landmarks/, 'Landmarks'],
+  [/^\/landmarks/, 'Places'],
   [/^\/itinerary/, 'Trip'],
   [/^\/leaderboard\/full/, 'Leaderboard'],
   [/^\/(profile|leaderboard|account)/, 'Profile'],
