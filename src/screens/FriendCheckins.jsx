@@ -51,7 +51,7 @@ export default function FriendCheckins() {
         {'←'} Back
       </button>
       {error?.code === 'permission-denied' && (
-        <p className="screen-subtitle">This profile is private. Their check-ins show to friends only.</p>
+        <p className="screen-subtitle">You can't see these check-ins. Check-ins show to friends, or to everyone when the profile is public.</p>
       )}
       {error && error.code !== 'permission-denied' && (
         <ErrorNotice

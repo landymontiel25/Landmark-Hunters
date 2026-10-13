@@ -20,10 +20,21 @@ export function periodKeysAt(ms, offsetMin = 0) {
 // The same keys in an IANA time zone ("America/New_York"), so each moment is
 // read in that zone's own offset at the time (DST included). Falls back to
 // UTC for an unknown zone.
+// One formatter per zone: building one is slow, and the board reads every
+// row through it.
+const zoneFormats = new Map();
+function zoneFormat(zone) {
+  if (!zoneFormats.has(zone)) {
+    if (zoneFormats.size > 50) zoneFormats.clear();
+    zoneFormats.set(zone, new Intl.DateTimeFormat('en-US', { timeZone: zone, year: 'numeric', month: 'numeric', day: 'numeric' }));
+  }
+  return zoneFormats.get(zone);
+}
+
 export function periodKeysInZone(ms, zone) {
   let parts;
   try {
-    parts = new Intl.DateTimeFormat('en-US', { timeZone: zone, year: 'numeric', month: 'numeric', day: 'numeric' }).formatToParts(new Date(ms));
+    parts = zoneFormat(zone).formatToParts(new Date(ms));
   } catch {
     return periodKeysAt(ms, 0);
   }

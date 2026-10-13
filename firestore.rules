@@ -119,14 +119,18 @@ service cloud.firestore {
     }
     // Who may read someone's check-ins (discovery network plan v2, Phase 2):
     // the owner, a friend, or anyone signed in when the owner's profile is
-    // public. Before, any signed-in account read every check-in, which a
-    // follow feature would have turned into a way to track people.
+    // public, and never across a block either way (a block leaves the
+    // friendship in place). Before, any signed-in account read every
+    // check-in, which a follow feature would have turned into a way to
+    // track people.
     function checkinOwnerVisible(ownerUid) {
       return request.auth != null
         && (ownerUid == request.auth.uid
-            || exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + ownerUid))
-            || (exists(/databases/$(database)/documents/users/$(ownerUid))
-                && get(/databases/$(database)/documents/users/$(ownerUid)).data.get('public', false) == true));
+            || (!exists(/databases/$(database)/documents/blocks/$(ownerUid + '_' + request.auth.uid))
+                && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + ownerUid))
+                && (exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + ownerUid))
+                    || (exists(/databases/$(database)/documents/users/$(ownerUid))
+                        && get(/databases/$(database)/documents/users/$(ownerUid)).data.get('public', false) == true))));
     }
     match /checkins/{checkinId} {
       // get: your own id first (a get on your own check-in before it exists

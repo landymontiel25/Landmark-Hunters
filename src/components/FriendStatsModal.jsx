@@ -67,7 +67,7 @@ export default function FriendStatsModal({ uid, name, onClose }) {
         )}
         {state.error?.code === 'permission-denied' && (
           <p className="screen-subtitle" style={{ margin: 0 }}>
-            This profile is private. Their check-ins show to friends only.
+            You can't see these check-ins. Check-ins show to friends, or to everyone when the profile is public.
           </p>
         )}
         {state.error && state.error.code !== 'permission-denied' && (

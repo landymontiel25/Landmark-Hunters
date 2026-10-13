@@ -141,12 +141,13 @@ skipped at the owner's request.
 
 Phase 2 (follows and taste neighbors), part 1 shipped: check-in read
 limits. A check-in reads only for its owner, their friends, anyone when
-the owner's profile is public, and the verified admin; list queries must
-pin `userId`. Cross-owner reads were moved: the regional leaderboard is
+the owner's profile is public, never across a block either way, and the
+verified admin; list queries must pin `userId`. Cross-owner reads were moved: the regional leaderboard is
 added up by `api/regional-leaderboard.js` (names and points only, and only
 people the viewer may see who have points), the "Tag Team" badge queries
 each friend's check-ins, and the old client backfill of `region_stats` is
-gone (the rule takes the one-count bump only). Public leaderboard entries
+gone (the rule takes the one-count bump only; the nightly job fills a
+region's totals, 3 regions a night). Public leaderboard entries
 no longer carry `lastCheckinId`: new claims drop it, and the nightly job
 (`api/_lib/checkinUpkeep.js`) scrubs old ones. New
 check-ins can't carry `distanceMeters` / `gpsAccuracyMeters` any more

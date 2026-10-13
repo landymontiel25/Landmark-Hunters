@@ -4,7 +4,8 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
 import { blockedBetween, isFirestoreId } from './_lib/tipsServer.js';
-import { canonicalRegionId } from '../src/data/regions.js';
+import { canonicalRegionId, REGION_ALIASES } from '../src/data/regions.js';
+import { isRealCheckin } from '../src/lib/realCheckin.js';
 import { periodKeysAt, periodKeysInZone } from '../src/lib/periods.js';
 
 // The Profile tab's regional leaderboard: points earned checking in within
@@ -19,8 +20,6 @@ import { periodKeysAt, periodKeysInZone } from '../src/lib/periods.js';
 const PERIODS = ['weekly', 'monthly', 'yearly'];
 const TOP_N = 100;
 
-// A real visit, as the app reads one (leaderboard.js isRealCheckin).
-const isRealCheckin = (x) => !x.ratingOnly && (typeof x.visited === 'boolean' ? x.visited : x.points !== 0);
 
 // rows: check-ins in the region. canSee(uid): may this viewer see that
 // person (themself, a friend, or a public profile, and no block either way).
@@ -76,7 +75,16 @@ async function handler(req, res) {
   const zone = /^[A-Za-z_]+(?:\/[A-Za-z0-9_+-]+){0,2}$/.test(zoneParam) ? zoneParam : null;
   try {
     const db = adminDb();
-    const snap = await db.collection('checkins').where('region', '==', canonicalRegionId(region)).get();
+    // The region and any old id folded into it; paid check-ins only, and
+    // only the fields the board uses (index: region + points).
+    const canonical = canonicalRegionId(region);
+    const ids = [canonical, ...Object.keys(REGION_ALIASES).filter((a) => REGION_ALIASES[a] === canonical)];
+    const snap = await db
+      .collection('checkins')
+      .where('region', 'in', ids)
+      .where('points', '>', 0)
+      .select('userId', 'userName', 'points', 'createdAt', 'ratingOnly', 'visited')
+      .get();
     const rows = snap.docs.map((d) => d.data()).filter((x) => (Number(x.points) || 0) > 0);
     const visible = await visibleOwners(db, account.uid, rows.map((x) => x.userId));
     res.setHeader?.('Cache-Control', 'private, max-age=60');

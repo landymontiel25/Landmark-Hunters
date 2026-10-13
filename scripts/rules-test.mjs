@@ -195,6 +195,22 @@ await t('Phase 2 read limits: a friend reads them; so does anyone when the profi
   await assertSucceeds(getDoc(doc(as('bob'), 'checkins/gus_lm')));
   await assertSucceeds(getDocs(query(collection(as('bob'), 'checkins'), where('userId', '==', 'gus'))));
 });
+await t('Phase 2 read limits: a block either way hides a friend\'s or a public profile\'s check-ins', async () => {
+  await seed(async (db) => {
+    await setDoc(doc(db, 'users/hal'), { uid: 'hal', public: true });
+    await setDoc(doc(db, 'checkins/hal_lm'), { userId: 'hal', points: 0, region: 'r', landmarkId: 'lm' });
+    await setDoc(doc(db, 'blocks/hal_ivy'), { blockerUid: 'hal', blockedUid: 'ivy' });
+    await setDoc(doc(db, 'blocks/jon_hal'), { blockerUid: 'jon', blockedUid: 'hal' });
+    await setDoc(doc(db, 'friend_edges/kim_erin'), { owner: 'kim', friend: 'erin' });
+    await setDoc(doc(db, 'blocks/erin_kim'), { blockerUid: 'erin', blockedUid: 'kim' });
+  });
+  await assertFails(getDoc(doc(as('ivy'), 'checkins/hal_lm')));
+  await assertFails(getDocs(query(collection(as('ivy'), 'checkins'), where('userId', '==', 'hal'))));
+  await assertFails(getDoc(doc(as('jon'), 'checkins/hal_lm')));
+  await assertFails(getDoc(doc(as('kim'), 'checkins/erin_lm')));
+  await assertSucceeds(getDoc(doc(as('hal'), 'checkins/hal_lm')));
+  await assertSucceeds(getDoc(doc(as('bob'), 'checkins/hal_lm')));
+});
 await t('Phase 2 read limits: queries across owners (by region or place) are refused, even for a friend', async () => {
   await assertFails(getDocs(query(collection(as('fay'), 'checkins'), where('region', '==', 'r'))));
   await assertFails(getDocs(query(collection(as('bob'), 'checkins'), where('landmarkId', 'in', ['lm']))));

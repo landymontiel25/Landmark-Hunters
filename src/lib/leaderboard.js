@@ -20,6 +20,7 @@ import {
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
 import { periodKeysAt } from './periods';
+import { isRealCheckin } from './realCheckin';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
@@ -222,7 +223,8 @@ async function _claimCheckIn({
   // the public entry it would tell anyone where and when this account
   // checked in. Taken off right after (and nightly, for any left behind).
   if (result.claimed && result.payout > 0) {
-    const keys = periodKeys();
+    // The same keys the transaction paid into (not recomputed: a claim
+    // across midnight Sunday would aim at next week's entry).
     for (const period of PERIODS) {
       _updateDoc(doc(db, 'leaderboard_entries', `${period}_${keys[period]}_${userId}`), { lastCheckinId: deleteField() }).catch(() => {});
     }
@@ -392,10 +394,9 @@ export async function getVisitCount(userId, landmarkId) {
  * Real check-ins per landmark across every user in one region, as
  * { [landmarkId]: count }. Repeat visits count: they're real demand too.
  * Reads one running counter doc, region_stats/{region}, that claimCheckIn
- * bumps on every real visit. The first read for a region with no
- * backfilled counter counts its check-ins once and saves the totals;
- * two clients racing that both write the same totals, so it's safe.
- * Cached for 10 minutes per region.
+ * bumps on every real visit. The nightly job fills the totals for a region
+ * with no backfilled counter (api/_lib/checkinUpkeep.js). Cached for 10
+ * minutes per region.
  */
 const regionCountsCache = new Map();
 export async function getRegionCheckinCounts(region) {
@@ -483,11 +484,8 @@ export async function getUserTotalPoints(userId) {
 // yet). Same rule as streaks.js' isRealCheckin -- shared here, not
 // duplicated, so every caller (leaderboard, streaks, check-in galleries,
 // friend stats, Mapr ratings) agrees on what counts as a real visit.
-export function isRealCheckin(x) {
-  if (x.ratingOnly) return false;
-  if (typeof x.visited === 'boolean') return x.visited;
-  return x.points !== 0;
-}
+// Lives in realCheckin.js so the API shares it.
+export { isRealCheckin };
 
 export async function getUserStats(userId) {
   const [snap, profile] = await Promise.all([

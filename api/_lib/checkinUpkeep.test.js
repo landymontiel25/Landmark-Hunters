@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { fakeDb, fakeFieldValue } from './fakeDb.testutil.js';
 
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
-const { scrubCheckinLocation, scrubLeaderboardCheckinIds } = await import('./checkinUpkeep.js');
+const { backfillRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } = await import('./checkinUpkeep.js');
 
 describe('scrubCheckinLocation', () => {
   it('removes legacy location numbers and presence v1 distance and accuracy, keeping the rest', async () => {
@@ -25,5 +25,24 @@ describe('scrubLeaderboardCheckinIds', () => {
     });
     expect(await scrubLeaderboardCheckinIds(db)).toBe(1);
     expect(db.docs['leaderboard_entries/weekly_2026-W41_a']).toEqual({ userId: 'a', points: 100 });
+  });
+});
+
+describe('backfillRegionStats', () => {
+  it('counts real visits under the region and its old ids, keeps a larger bump, skips backfilled regions', async () => {
+    const db = fakeDb({
+      'checkins/a_bay': { userId: 'a', region: 'miami', landmarkId: 'bay' },
+      'checkins/b_bay': { userId: 'b', region: 'coral-gables', landmarkId: 'bay' },
+      'checkins/c_bay': { userId: 'c', region: 'miami', landmarkId: 'bay', ratingOnly: true },
+      'checkins/d_pier': { userId: 'd', region: 'miami', landmarkId: 'pier', visited: false },
+      'checkins/e_park': { userId: 'e', region: 'miami', landmarkId: 'park' },
+      'checkins/f_bell': { userId: 'f', region: 'philly', landmarkId: 'bell' },
+      'region_stats/miami': { counts: { park: 4 }, backfilled: false },
+      'region_stats/philly': { counts: { bell: 9 }, backfilled: true },
+    });
+    await backfillRegionStats(db, { maxRegions: 100 });
+    expect(db.docs['region_stats/miami'].counts).toEqual({ bay: 2, park: 4 });
+    expect(db.docs['region_stats/miami'].backfilled).toBe(true);
+    expect(db.docs['region_stats/philly'].counts).toEqual({ bell: 9 });
   });
 });
