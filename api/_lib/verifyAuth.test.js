@@ -22,7 +22,7 @@ describe('verifyIdToken', () => {
 
   it('returns the account on success', async () => {
     vi.stubEnv('VITE_FIREBASE_API_KEY', 'k');
-    globalThis.fetch = vi.fn(async () => ({ ok: true, json: async () => ({ users: [{ localId: 'u1', email: 'a@b.c', emailVerified: true }] }) }));
-    expect(await verifyIdToken({ headers: { authorization: 'Bearer t' } })).toEqual({ uid: 'u1', email: 'a@b.c', emailVerified: true });
+    globalThis.fetch = vi.fn(async () => ({ ok: true, json: async () => ({ users: [{ localId: 'u1', email: 'a@b.c', emailVerified: true, createdAt: '1700000000000' }] }) }));
+    expect(await verifyIdToken({ headers: { authorization: 'Bearer t' } })).toEqual({ uid: 'u1', email: 'a@b.c', emailVerified: true, createdAtMs: 1700000000000 });
   });
 });

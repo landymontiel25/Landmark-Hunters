@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+const tipsMock = vi.hoisted(() => ({ fail: 0, hasTips: false }));
 const updates = [];
 const deletedFiles = [];
 const queries = [];
@@ -55,6 +56,8 @@ vi.mock('firebase/firestore', () => {
           { ref: { path: 'checkins/u1_b' }, data: () => ({}) },
           { ref: { path: 'checkins/u1_c' }, data: () => ({ distanceMeters: 12, gpsAccuracyMeters: 8, verification: 'unverified' }) },
         ]
+      : col === 'tips' && tipsMock.hasTips
+      ? [{ ref: { path: 'tips/u1_a' }, data: () => ({ authorUid: 'u1' }) }]
       : [];
   return {
     doc: (_db, ...parts) => ({ path: parts.join('/') }),
@@ -83,7 +86,6 @@ vi.mock('firebase/storage', () => ({
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./reviews', () => ({ deleteMyReview: vi.fn() }));
 vi.mock('./maprChats', () => ({ deleteProject: vi.fn() }));
-const tipsMock = vi.hoisted(() => ({ fail: 0 }));
 vi.mock('./tipsApi', () => ({ deleteAllMyTips: vi.fn(async () => { if (tipsMock.fail > 0) { tipsMock.fail--; throw Object.assign(new Error('x'), { status: 500 }); } return { ok: true }; }) }));
 
 import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
@@ -224,8 +226,16 @@ describe('clearLocalAccountStorage', () => {
 describe('deleteAccountData tips step', () => {
   it('retries once, then stops the whole deletion before wiping anything if the server cannot delete the tips', async () => {
     tipsMock.fail = 2;
+    tipsMock.hasTips = true;
     await expect(deleteAccountData('u1')).rejects.toThrow(/Couldn't delete your tips/);
     tipsMock.fail = 1;
     await expect(deleteAccountData('u1')).resolves.toBeUndefined();
+    tipsMock.hasTips = false;
+  });
+  it('an account with no tips or marks never calls the server', async () => {
+    tipsMock.fail = 5;
+    tipsMock.hasTips = false;
+    await expect(deleteAccountData('u1')).resolves.toBeUndefined();
+    tipsMock.fail = 0;
   });
 });

@@ -403,7 +403,7 @@ export function canonicalLandmarkId(id, region) {
 // The reverse: old ids a current landmark was stored under before the rename
 // (docs keyed `${uid}_${oldId}` are still there under the old id).
 export function legacyLandmarkIds(id, region) {
-  return Object.entries(LEGACY_LANDMARK_IDS[region] || LEGACY_LANDMARK_IDS[canonicalRegionId(region)] || {})
+  return Object.entries({ ...(LEGACY_LANDMARK_IDS[canonicalRegionId(region)] || {}), ...(LEGACY_LANDMARK_IDS[region] || {}) })
     .filter(([, next]) => next === id)
     .map(([old]) => old);
 }

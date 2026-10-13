@@ -101,7 +101,11 @@ describe('api/post-tip: posting', () => {
   it('refuses links from a first-week account and a third link from anyone', async () => {
     db.docs['users/me'].createdAt = ts(NOW - 2 * DAY);
     expect((await post({ text: 'Menu is at bellcafe.com today' })).body.code).toBe('links-new-account');
-    db.docs['users/me'].createdAt = ts(NOW - 60 * DAY);
+    // No profile time: the Auth record's creation time decides.
+    delete db.docs['users/me'].createdAt;
+    caller = { uid: 'me', emailVerified: true, createdAtMs: NOW - 2 * DAY };
+    expect((await post({ text: 'Menu is at bellcafe.com today' })).body.code).toBe('links-new-account');
+    caller = { uid: 'me', emailVerified: true, createdAtMs: NOW - 60 * DAY };
     expect((await post({ text: 'a.com b.com c.com all good' })).body.code).toBe('too-many-links');
     expect((await post({ text: 'Menu is at bellcafe.com today' })).code).toBe(200);
   });
@@ -154,13 +158,13 @@ describe('api/post-tip: deleting', () => {
   it('cleanup leaves what belongs to a newer post at the same id', async () => {
     await post();
     db.docs['tip_reactions/zed_me_bell'] = { uid: 'zed', tipId: 'me_bell', gen: 'newer-post', helpful: true };
-    await call({ action: 'delete', landmarkId: 'bell' });
+    await call({ action: 'delete', landmarkId: 'bell', region: 'philly' });
     expect(db.docs['tip_reactions/zed_me_bell']).toBeDefined();
   });
   it('a tip with one report is still deleted normally', async () => {
     await post();
     db.docs['tips/me_bell'].reportCount = 1;
-    expect((await call({ action: 'delete', landmarkId: 'bell' })).body).toEqual({ ok: true });
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).body).toEqual({ ok: true });
     expect(db.docs['tips/me_bell']).toBeUndefined();
   });
   it('a tip hidden by reports is withdrawn, not deleted: its reports stay and it waits for review', async () => {
@@ -168,14 +172,14 @@ describe('api/post-tip: deleting', () => {
     db.docs['tips/me_bell'].reportCount = 2;
     db.docs['tips/me_bell'].hidden = true;
     db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell', gen: db.docs['tips/me_bell'].gen };
-    expect((await call({ action: 'delete', landmarkId: 'bell' })).body).toEqual({ ok: true, withdrawn: true });
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).body).toEqual({ ok: true, withdrawn: true });
     expect(db.docs['tips/me_bell']).toMatchObject({ status: 'withdrawn', text: 'Go early, quiet then.' });
     expect(db.docs['tip_reports/me_bell_you']).toBeDefined();
     expect((await post()).body.code).toBe('withdrawn');
   });
   it('a held, unreported tip is deleted for good', async () => {
     await post({ text: 'the guards are sh1t here' });
-    expect((await call({ action: 'delete', landmarkId: 'bell' })).body).toEqual({ ok: true });
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).body).toEqual({ ok: true });
     expect(db.docs['tips/me_bell']).toBeUndefined();
   });
   it('a delete from another region\'s page never touches your tip here', async () => {
@@ -184,13 +188,11 @@ describe('api/post-tip: deleting', () => {
     expect(db.docs['tips/me_bell']).toBeDefined();
   });
   it("can't delete someone else's tip or one a moderator removed", async () => {
-    db.docs['tips/you_bell'] = { authorUid: 'you', status: 'live' };
-    caller = { uid: 'you', emailVerified: true };
-    caller = { uid: 'me', emailVerified: true };
-    db.docs['tips/me_x'] = { authorUid: 'you', status: 'live' };
-    expect((await call({ action: 'delete', landmarkId: 'x' })).code).toBe(404);
-    db.docs['tips/me_bell'] = { authorUid: 'me', status: 'removed' };
-    expect((await call({ action: 'delete', landmarkId: 'bell' })).code).toBe(403);
+    db.docs['tips/me_x'] = { authorUid: 'you', status: 'live', region: 'philly' };
+    expect((await call({ action: 'delete', landmarkId: 'x', region: 'philly' })).code).toBe(404);
+    db.docs['tips/me_bell'] = { authorUid: 'me', status: 'removed', region: 'philly' };
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).code).toBe(403);
+    expect((await call({ action: 'delete', landmarkId: 'bell' })).code).toBe(400);
     expect(db.docs['tips/me_bell']).toBeDefined();
   });
 });

@@ -62,7 +62,8 @@ async function postTip(db, account, body) {
     return [400, { error: 'This check-in is missing its place.', code: 'no-place' }];
   }
   const user = userSnap.exists ? userSnap.data() : {};
-  const createdAtMs = toMs(user.createdAt);
+  // The Auth record's creation time (always there), else the profile's.
+  const createdAtMs = Number.isFinite(account.createdAtMs) ? account.createdAtMs : toMs(user.createdAt);
   const inputProblem = tipInputProblem({ text, tags }, { accountAgeMs: createdAtMs == null ? null : nowMs - createdAtMs });
   if (inputProblem) return [400, { error: inputProblem.message, code: inputProblem.code }];
 
@@ -162,9 +163,11 @@ async function retireTip(db, ref, uid, { forAccount = false, region = null } = {
 
 async function deleteTip(db, account, body) {
   const { landmarkId } = body;
-  if (typeof landmarkId !== 'string' || !isFirestoreId(landmarkId)) return [400, { error: 'landmarkId is required.' }];
-  const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
-  const out = await retireTip(db, db.collection('tips').doc(tipId), account.uid, { region: typeof body.region === 'string' ? body.region : null });
+  if (typeof landmarkId !== 'string' || !isFirestoreId(landmarkId) || typeof body.region !== 'string' || !isFirestoreId(body.region)) {
+    return [400, { error: 'landmarkId and region are required.' }];
+  }
+  const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, body.region));
+  const out = await retireTip(db, db.collection('tips').doc(tipId), account.uid, { region: body.region });
   if (out.code === 'missing') return [404, { error: 'No tip of yours here.' }];
   if (out.code === 'removed') return [403, { error: 'This tip was removed by a moderator.', code: 'removed' }];
   if (out.code === 'withdrawn') return [200, { ok: true, withdrawn: true }];
@@ -189,12 +192,17 @@ async function deleteTip(db, account, body) {
 // Each step runs even if another fails; any failure answers 500.
 // Runs fn over items, `size` at a time; rejects if any call failed.
 async function inChunks(items, size, fn) {
-  let failed = null;
+  let failed = false;
+  let reason = null;
   for (let i = 0; i < items.length; i += size) {
-    const out = await Promise.allSettled(items.slice(i, i + size).map(fn));
-    failed = failed || out.find((x) => x.status === 'rejected')?.reason || null;
+    for (const x of await Promise.allSettled(items.slice(i, i + size).map(fn))) {
+      if (x.status === 'rejected' && !failed) {
+        failed = true;
+        reason = x.reason;
+      }
+    }
   }
-  if (failed) throw failed;
+  if (failed) throw reason instanceof Error ? reason : new Error(String(reason ?? 'a step failed'));
 }
 
 async function deleteMine(db, account) {

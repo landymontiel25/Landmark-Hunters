@@ -78,8 +78,12 @@ export async function deleteAccountData(uid) {
   // (after one retry): after the account is gone nothing could sign
   // another request, and the person's tips would stay public under their
   // name. It runs first, so nothing else has been wiped yet.
+  // An account with no tips and no marks skips the server (its own tips
+  // and marks are the two lists it can read), so deletion never depends on
+  // the API for someone who never used tips.
   let tipsError = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  const hasTipData = (await safeGetDocs('tips', 'authorUid', '==', uid)).docs.length > 0 || (await safeGetDocs('tip_reactions', 'uid', '==', uid)).docs.length > 0;
+  for (let attempt = 0; hasTipData && attempt < 2; attempt++) {
     try {
       await deleteAllMyTips();
       tipsError = null;
@@ -89,8 +93,8 @@ export async function deleteAccountData(uid) {
     }
   }
   if (tipsError) {
-    throw Object.assign(new Error("Couldn't delete your tips. Nothing was deleted. Try again."), {
-      userMessage: "Couldn't delete your tips. Nothing was deleted. Try again.",
+    throw Object.assign(new Error("Couldn't delete your tips, so your account was not deleted. Try again."), {
+      userMessage: "Couldn't delete your tips, so your account was not deleted. Try again.",
       cause: tipsError,
     });
   }

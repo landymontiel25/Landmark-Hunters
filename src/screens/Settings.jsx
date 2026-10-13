@@ -145,7 +145,7 @@ export default function Settings() {
       await deleteAccount(hasPasswordLogin ? deletePassword : undefined);
       navigate('/', { replace: true });
     } catch (err) {
-      setDeleteMsg(authErrorMessage(err) || 'Could not delete your account.');
+      setDeleteMsg(err?.userMessage || authErrorMessage(err) || 'Could not delete your account.');
       setDeleteBusy(false);
     }
   };

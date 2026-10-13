@@ -8,11 +8,11 @@
 // symbols swapped back, accents dropped), then checked word by word and,
 // for the slurs, with spaces and punctuation squeezed out too ("f.a.g").
 
-const LEET = { 0: 'o', 1: 'i', 3: 'e', 4: 'a', 5: 's', 7: 't', 8: 'b', '@': 'a', $: 's', '!': 'i', '|': 'i' };
+const LEET = { 0: 'o', 1: 'i', 3: 'e', 4: 'a', 5: 's', 6: 'g', 7: 't', 8: 'b', 9: 'g', '@': 'a', $: 's', '!': 'i', '|': 'i' };
 
 // Every look-alike swapped, wherever it sits ("n.1.g", "nigg@"). Used for
 // the slur checks only: "shit!" must keep its "!" for the word checks.
-const fullLeet = (norm) => norm.replace(/[013457@$!|8]/g, (c) => LEET[c] || c);
+const fullLeet = (norm) => norm.replace(/[01345679@$!|8]/g, (c) => LEET[c] || c);
 
 export function normalizeForFilter(text) {
   return String(text || '')
@@ -23,13 +23,13 @@ export function normalizeForFilter(text) {
     .replace(/[\u2018\u2019\u02bc]/g, "'")
     // A look-alike counts as a letter only before another letter or
     // look-alike ("sh1t", "b!tch"), so "shit!" or "you!" keep their ending.
-    .replace(/[013457@$!|8]+(?=[a-z])/g, (run) => run.replace(/./g, (c) => LEET[c] || c));
+    .replace(/[01345679@$!|8]+(?=[a-z])/g, (run) => run.replace(/./g, (c) => LEET[c] || c));
 }
 
 // Slurs and hate terms. The long, unmistakable ones are also checked inside
 // squeezed text, so spacing and dots don't get around them; shorter ones
 // are whole words only, so "raccoon", "spicy" or "Pakistan" never trip.
-const SLURS_SQUEEZED = ['nigger', 'nigga', 'faggot', 'sandnigger', 'shemale', 'towelhead', 'raghead', 'wetback', 'tranny'];
+const SLURS_SQUEEZED = ['nigger', 'nigga', 'faggot', 'shemale', 'towelhead', 'raghead', 'wetback', 'tranny'];
 const SLURS_WORDS = ['retard', 'retards', 'kike', 'kikes', 'chink', 'chinks', 'spic', 'spics', 'beaner', 'beaners', 'gook', 'gooks', 'coon', 'coons', 'dyke', 'dykes', 'paki', 'pakis'];
 // Whole words only.
 const WORDS = [
