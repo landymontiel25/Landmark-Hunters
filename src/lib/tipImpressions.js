@@ -10,36 +10,45 @@ import { makeSetId } from './setId';
 // server's own tip_views record who saw what for the "went" count.
 // Best-effort: a failed write never shows.
 const KEY = 'lh-tip-impressions:v1';
-const day = (ms) => new Date(ms).toISOString().slice(0, 10);
-
-function seenToday(id, nowMs) {
+// The device's own date, so "once a day" follows the person's day.
+const localDay = (ms) => {
+  const d = new Date(ms);
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+};
+const readSeen = () => {
   try {
-    const all = JSON.parse(localStorage.getItem(KEY) || '{}');
-    const today = day(nowMs);
-    if (all[id] === today) return true;
-    const kept = Object.fromEntries(Object.entries(all).filter(([, d]) => d === today));
-    kept[id] = today;
-    localStorage.setItem(KEY, JSON.stringify(kept));
-    return false;
+    return JSON.parse(localStorage.getItem(KEY) || '{}');
   } catch {
-    return false;
+    return {};
   }
-}
+};
 
 export async function logTipImpressions({ uid, landmarkId, region, tipIds = [], nowMs = Date.now() }) {
   if (!db || !uid || !landmarkId || !tipIds.length) return;
-  if (seenToday(`${uid}|${region}|${landmarkId}`, nowMs)) return;
-  await addDoc(collection(db, 'recommendation_log'), {
-    userId: uid,
-    landmarkId,
-    region: region || null,
-    pickType: null,
-    surface: 'landmark-page',
-    tipIds: tipIds.slice(0, 50),
-    setId: makeSetId(uid, nowMs),
-    rank: 1,
-    shownAt: nowMs,
-    isTest: false,
-    createdAt: serverTimestamp(),
-  }).catch(() => {});
+  const id = `${uid}|${region}|${landmarkId}`;
+  const today = localDay(nowMs);
+  if (readSeen()[id] === today) return;
+  try {
+    await addDoc(collection(db, 'recommendation_log'), {
+      userId: uid,
+      landmarkId,
+      region: region || null,
+      pickType: null,
+      surface: 'landmark-page',
+      tipIds: tipIds.slice(0, 50),
+      setId: makeSetId(uid, nowMs),
+      rank: 1,
+      shownAt: nowMs,
+      isTest: false,
+      createdAt: serverTimestamp(),
+    });
+  } catch {
+    return; // not marked: the next view tries again
+  }
+  try {
+    const kept = Object.fromEntries(Object.entries(readSeen()).filter(([, d]) => d === today));
+    localStorage.setItem(KEY, JSON.stringify({ ...kept, [id]: today }));
+  } catch {
+    /* storage blocked: may log again today */
+  }
 }

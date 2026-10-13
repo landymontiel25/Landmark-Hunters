@@ -125,7 +125,7 @@ function LandmarkDetailBody() {
     });
   };
   const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
-  const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn } = useCheckIn();
+  const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn, presenceResult } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
   const region = getRegion(regionId);
@@ -963,7 +963,7 @@ function LandmarkDetailBody() {
         </p>
       )}
 
-      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={checkinTick} />}
+      {firebaseEnabled && user && <TipsSection key={`${landmark.regionId || landmark.region}/${landmark.id}`} landmark={landmark} user={user} toast={toast} refreshKey={presenceResult?.landmarkId === landmark.id ? `${presenceResult.checkinId}:${presenceResult.verified}` : ''} />}
 
       {firebaseEnabled && user && (
         <div className="card checkin-stats-card">

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('./firebase', () => ({ db: null }));
+vi.mock('../data/regions', () => ({ canonicalLandmarkId: (id) => id, legacyLandmarkIds: () => [] }));
 const { pickTipCheckin } = await import('./tipCheckin.js');
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -19,7 +20,10 @@ describe('pickTipCheckin', () => {
     expect(out).toEqual({ id: 'b', at: NOW - DAY });
   });
   it('is null without one', () => {
-    expect(pickTipCheckin([{ id: 'x', createdAt: ts(NOW), verification: 'verified' }], NOW)).toBeNull();
-    expect(pickTipCheckin([], NOW)).toBeNull();
+    expect(pickTipCheckin([{ id: 'x', userId: 'me', createdAt: ts(NOW), verification: 'verified' }], NOW, 'me')).toBeNull();
+    expect(pickTipCheckin([], NOW, 'me')).toBeNull();
+    // Someone else's verified check-in never counts, and no uid means none.
+    expect(pickTipCheckin([{ id: 'y', userId: 'you', createdAt: ts(NOW), presence: { verified: true } }], NOW, 'me')).toBeNull();
+    expect(pickTipCheckin([{ id: 'y', userId: 'you', createdAt: ts(NOW), presence: { verified: true } }], NOW)).toBeNull();
   });
 });

@@ -47,6 +47,7 @@ export function CheckInProvider({ children }) {
   // The server's answer for the check-in just posted:
   // { checkinId, landmarkId, verified, reason, distanceMeters }, or null.
   const [presenceResult, setPresenceResult] = useState(null);
+  const latestCheckinId = useRef(null);
 
   // Keep this week's standings warm so we can detect an overtake the instant a
   // check-in lands (compare where you were vs where +100 puts you).
@@ -149,6 +150,7 @@ export function CheckInProvider({ children }) {
     setCheckingIn(landmark.id);
     // A verified result belongs to one check-in: never carry it over.
     setPresenceResult(null);
+    latestCheckinId.current = null;
     try {
       const ratingOnly = !!checkInOptions?.ratingOnly;
       const points = ratingOnly ? 0 : landmark.points ?? POINTS_PER_CHECKIN;
@@ -179,8 +181,10 @@ export function CheckInProvider({ children }) {
       }
       if (!ratingOnly && result.claimed && result.checkinId) {
         const checkinId = result.checkinId;
+        latestCheckinId.current = checkinId;
         verifyCheckinPresence(checkinId).then((v) => {
-          if (v) {
+          // A late answer for an earlier check-in never lands on a newer one.
+          if (v && latestCheckinId.current === checkinId) {
             setPresenceResult({ checkinId, landmarkId: landmark.id, ...v });
             setCheckinTick((t) => t + 1);
           }

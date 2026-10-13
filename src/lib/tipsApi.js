@@ -34,16 +34,24 @@ export const reportTip = (tipId, reason, opts) => call('/api/tips', { body: { ac
 // folder, images under 5 MB, never overwritten) and returns its download
 // URL. Shrunk first: a phone photo is often over 5 MB.
 export async function uploadTipPhoto(uid, file) {
-  const [{ ref, uploadBytes, getDownloadURL }, { storage }, { shrinkPhoto }] = await Promise.all([
+  const [{ ref, uploadBytes, getDownloadURL }, { storage }, { shrinkPhoto }, { withTimeout }] = await Promise.all([
     import('firebase/storage'),
     import('./firebase'),
     import('./shrinkPhoto'),
+    import('./withTimeout'),
   ]);
   if (!storage || !uid || !file) throw new Error('Photos are not available right now.');
   const small = await shrinkPhoto(file, 1600, 0.82);
   if (small.size >= 5 * 1024 * 1024) throw Object.assign(new Error('That photo is too large (the limit is 5 MB).'), { userMessage: 'That photo is too large (the limit is 5 MB).' });
   const name = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
   const r = ref(storage, `tip_photos/${uid}/${name}`);
-  await uploadBytes(r, small, { contentType: small.type || 'image/jpeg' });
-  return getDownloadURL(r);
+  // Timed out like the other uploads, so a dead connection shows an error
+  // instead of "Sharing…" forever.
+  const slow = "Couldn't upload the photo. Check your connection and try again.";
+  try {
+    await withTimeout(uploadBytes(r, small, { contentType: small.type || 'image/jpeg' }), 30000);
+    return await withTimeout(getDownloadURL(r), 10000);
+  } catch (e) {
+    throw Object.assign(new Error(slow), { userMessage: slow, cause: e });
+  }
 }

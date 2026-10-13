@@ -35,7 +35,7 @@ function ownStatusNote(t) {
   return null;
 }
 
-export default function TipsSection({ landmark, user, toast, refreshKey = 0 }) {
+export default function TipsSection({ landmark, user, toast, refreshKey = '' }) {
   const region = landmark?.regionId || landmark?.region;
   const landmarkId = landmark?.id;
   const [tips, setTips] = useState(null);
@@ -73,13 +73,13 @@ export default function TipsSection({ landmark, user, toast, refreshKey = 0 }) {
   useEffect(() => {
     if (!user || !landmarkId) return;
     let cancelled = false;
-    findTipCheckin(user.uid, landmarkId).then((c) => {
+    findTipCheckin(user.uid, landmarkId, region).then((c) => {
       if (!cancelled) setTipCheckin(c);
     });
     return () => {
       cancelled = true;
     };
-  }, [user, landmarkId, refreshKey]);
+  }, [user, landmarkId, region, refreshKey]);
 
   // One impression row per page view with tips (surface 'landmark-page'),
   // so tips can be measured later; never counted as a Mapr pick.
@@ -234,8 +234,8 @@ export default function TipsSection({ landmark, user, toast, refreshKey = 0 }) {
             onCancel={() => setComposing(false)}
             onPosted={(out) => {
               setComposing(false);
+              // (The list reloads on TIPS_CHANGED_EVENT from the composer.)
               toast?.show?.(out?.status === 'held' ? 'Thanks! Your tip shows once it is reviewed.' : 'Thanks! Your tip is up.');
-              load();
             }}
           />
         ) : (

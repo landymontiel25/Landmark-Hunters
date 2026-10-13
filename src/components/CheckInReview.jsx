@@ -106,7 +106,7 @@ export default function CheckInReview() {
   useEffect(() => {
     if (!justCheckedIn || !user?.uid) return undefined;
     let cancelled = false;
-    hasMyTip(user.uid, justCheckedIn.id).then((has) => {
+    hasMyTip(user.uid, justCheckedIn.id, justCheckedIn.regionId || justCheckedIn.region).then((has) => {
       if (!cancelled) setHasTipHere(has);
     });
     return () => {

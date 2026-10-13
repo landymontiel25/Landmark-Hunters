@@ -47,13 +47,15 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
     if (!tipIsPublic(t) || blocked.has(t.authorUid)) continue;
     candidates.push([d.id, t]);
   }
-  // A tip you reported stays hidden for you.
-  const reportSnaps = candidates.length ? await db.getAll(...candidates.map(([tipId, t]) => db.collection('tip_reports').doc(`${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`))) : [];
-  candidates.forEach((c, i) => {
+  // Newest first; then a tip you reported stays hidden for you (checked on
+  // the first page only, with a little room for ones it drops).
+  const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
+  candidates.sort((a, b) => at(b[1]) - at(a[1]));
+  const page = candidates.slice(0, MAX_TIPS + 10);
+  const reportSnaps = page.length ? await db.getAll(...page.map(([tipId, t]) => db.collection('tip_reports').doc(`${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`))) : [];
+  page.forEach((c, i) => {
     if (!reportSnaps[i]?.exists) visible.push(c);
   });
-  const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
-  visible.sort((a, b) => at(b[1]) - at(a[1]));
   const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
   const shown = [...own, ...visible.slice(0, MAX_TIPS)];
 
