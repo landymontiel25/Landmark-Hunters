@@ -1,6 +1,6 @@
 name: Deploy Firestore Rules
 
-# Runs only when firestore.rules or storage.rules actually changes on main, so merging a PR
+# Runs only when firestore.rules, storage.rules or firestore.indexes.json changes on main, so merging a PR
 # that touches it is the whole deploy step -- no separate manual
 # `firebase deploy --only firestore:rules` needed afterward. Needs a
 # FIREBASE_SERVICE_ACCOUNT repo secret to actually do anything (see below);
@@ -19,6 +19,7 @@ on:
     paths:
       - 'firestore.rules'
       - 'storage.rules'
+      - 'firestore.indexes.json'
   # Lets you re-deploy on demand from the Actions tab (Run workflow) without
   # needing a new firestore.rules change to push -- e.g. right after adding
   # the FIREBASE_SERVICE_ACCOUNT secret for the first time, to deploy
@@ -54,6 +55,12 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
         run: npx firebase-tools@13 deploy --only firestore:rules --non-interactive
+      # Composite indexes (firestore.indexes.json). Never deletes an index
+      # that exists only in the console (no --force).
+      - name: Deploy Firestore indexes
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
+        run: npx firebase-tools@13 deploy --only firestore:indexes --non-interactive
       # Separate step so a Storage permission problem can never hold back the
       # Firestore rules above. Needs the service account to have the
       # "Service Usage Consumer" and "Firebase Rules Admin" roles in Google

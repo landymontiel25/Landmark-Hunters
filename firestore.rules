@@ -839,7 +839,8 @@ service cloud.firestore {
         && (!('setId' in request.resource.data) || (request.resource.data.setId is string && request.resource.data.setId.size() <= 200))
         && (!('rank' in request.resource.data) || (request.resource.data.rank is int && request.resource.data.rank >= 1 && request.resource.data.rank <= 100))
         && (!('shownAt' in request.resource.data) || request.resource.data.shownAt is number)
-        && (!('surface' in request.resource.data) || request.resource.data.surface in ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'])
+        // 'landmark-page': tips shown under "From people who went" (Phase 1).
+        && (!('surface' in request.resource.data) || request.resource.data.surface in ['map-sheet', 'mapr-tab', 'chat', 'travel-picks', 'landmark-page'])
         && (!('predicted' in request.resource.data) || request.resource.data.predicted == null || request.resource.data.predicted in ['positive', 'neutral', 'negative'])
         // Who the chat request behind this pick was for (optional).
         && (!('requestFor' in request.resource.data) || request.resource.data.requestFor in ['solo', 'group']);
@@ -1230,6 +1231,40 @@ service cloud.firestore {
         && resource.data.uid == request.auth.uid
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
       allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
+    // Tips (docs/discovery-network-plan.md, Phase 1): a public note from a
+    // verified visit. api/post-tip.js creates and deletes them, and
+    // api/tips.js keeps reports, counts and status, all with the Admin SDK,
+    // so no client ever writes one. A single tip reads as the plan says:
+    // live and not hidden by reports, with no block either way, or your own,
+    // or the admin's. List queries are your own tips only: other people's
+    // tips come from api/tips.js, which can check blocks both ways (a list
+    // rule can't, so a direct query would show a blocker's tips).
+    match /tips/{tipId} {
+      allow get: if request.auth != null
+        && (resource.data.authorUid == request.auth.uid
+            || isAdmin()
+            || isDashboard()
+            || (resource.data.status == 'live'
+                && resource.data.get('hidden', true) == false
+                && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + resource.data.authorUid))
+                && !exists(/databases/$(database)/documents/blocks/$(resource.data.authorUid + '_' + request.auth.uid))));
+      allow list: if request.auth != null && resource.data.authorUid == request.auth.uid;
+      allow write: if false;
+    }
+    // Your own "helpful" and "saved" marks on tips, id "{uid}_{tipId}".
+    // api/tips.js writes them together with the tip's counts, so the counts
+    // can't drift from the marks. Owner-only reads; nobody sees who marked.
+    match /tip_reactions/{id} {
+      allow get: if request.auth != null && id.split('_')[0] == request.auth.uid;
+      allow list: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
+    // Who was shown which tip, and when (api/tips.js), for the "went because
+    // of a tip" count (Phase 4). Server only: nobody sees who viewed a tip.
+    match /tip_views/{id} {
+      allow read, write: if false;
     }
 
     // Google place-ID cache for api/place-photo.js. Written and read ONLY by
