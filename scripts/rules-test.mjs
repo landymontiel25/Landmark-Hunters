@@ -75,6 +75,21 @@ await t('account deletion: owner can delete private doc and public doc', async (
   await assertSucceeds(deleteDoc(doc(db, 'users/alice')));
 });
 
+console.log('users: server-kept fields (Phase 2)');
+await reset();
+await seed((db) => setDoc(doc(db, 'users/sam'), { uid: 'sam', username: 'sam', followerCount: 3, reputation: { philly: 'local' } }));
+await t('a client cannot set or change follower counts, reputation, levels, founding or badges on its own profile', async () => {
+  const db = as('sam');
+  for (const patch of [{ followerCount: 1000000 }, { followingCount: 5 }, { reputation: { philly: 'insider' } }, { founding: { philly: true } }, { levels: { philly: 'trusted' } }, { serverBadges: ['x'] }, { tipCount: 99 }]) {
+    await assertFails(updateDoc(doc(db, 'users/sam'), patch));
+  }
+  await assertFails(setDoc(doc(as('new9'), 'users/new9'), { uid: 'new9', followerCount: 50 }));
+});
+await t('saving the profile with those fields unchanged still works', async () => {
+  await assertSucceeds(setDoc(doc(as('sam'), 'users/sam'), { uid: 'sam', username: 'sam', followerCount: 3, reputation: { philly: 'local' }, displayName: 'Sam' }));
+  await assertSucceeds(updateDoc(doc(as('sam'), 'users/sam'), { displayName: 'Sammy' }));
+});
+
 console.log('bonusPoints');
 await reset();
 await seed(async (db) => {
@@ -156,20 +171,65 @@ await t('a stranger cannot claim someone else\'s referral', async () => {
 console.log('checkins');
 await reset();
 const ck = (over = {}) => ({ userId: 'erin', userName: 'e', landmarkId: 'lm', landmarkName: 'L', region: 'r', points: 0, basePoints: 100, visitNumber: 1, ratingOnly: false, visited: true, insideHomeRadius: false, createdAt: serverTimestamp(), ...over });
-await t('signed-out users cannot read check-ins; signed-in can', async () => {
+await t('signed-out users cannot read check-ins; the owner can', async () => {
   await seed((db) => setDoc(doc(db, 'checkins/erin_lm'), { userId: 'erin', points: 100 }));
   await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), 'checkins/erin_lm')));
-  await assertSucceeds(getDoc(doc(as('bob'), 'checkins/erin_lm')));
+  await assertSucceeds(getDoc(doc(as('erin'), 'checkins/erin_lm')));
+});
+await t('Phase 2 read limits: a stranger cannot read a private profile\'s check-ins, one by one or as a list', async () => {
+  await seed(async (db) => {
+    await setDoc(doc(db, 'users/erin'), { uid: 'erin', public: false });
+    await setDoc(doc(db, 'checkins/erin_lm'), { userId: 'erin', points: 100, region: 'r', landmarkId: 'lm' });
+  });
+  await assertFails(getDoc(doc(as('bob'), 'checkins/erin_lm')));
+  await assertFails(getDocs(query(collection(as('bob'), 'checkins'), where('userId', '==', 'erin'))));
+});
+await t('Phase 2 read limits: a friend reads them; so does anyone when the profile is public', async () => {
+  await seed(async (db) => {
+    await setDoc(doc(db, 'friend_edges/fay_erin'), { owner: 'fay', friend: 'erin' });
+    await setDoc(doc(db, 'users/gus'), { uid: 'gus', public: true });
+    await setDoc(doc(db, 'checkins/gus_lm'), { userId: 'gus', points: 0, region: 'r', landmarkId: 'lm' });
+  });
+  await assertSucceeds(getDoc(doc(as('fay'), 'checkins/erin_lm')));
+  await assertSucceeds(getDocs(query(collection(as('fay'), 'checkins'), where('userId', '==', 'erin'))));
+  await assertSucceeds(getDoc(doc(as('bob'), 'checkins/gus_lm')));
+  await assertSucceeds(getDocs(query(collection(as('bob'), 'checkins'), where('userId', '==', 'gus'))));
+});
+await t('Phase 2 read limits: a block either way hides a friend\'s or a public profile\'s check-ins', async () => {
+  await seed(async (db) => {
+    await setDoc(doc(db, 'users/hal'), { uid: 'hal', public: true });
+    await setDoc(doc(db, 'checkins/hal_lm'), { userId: 'hal', points: 0, region: 'r', landmarkId: 'lm' });
+    await setDoc(doc(db, 'blocks/hal_ivy'), { blockerUid: 'hal', blockedUid: 'ivy' });
+    await setDoc(doc(db, 'blocks/jon_hal'), { blockerUid: 'jon', blockedUid: 'hal' });
+    await setDoc(doc(db, 'friend_edges/kim_erin'), { owner: 'kim', friend: 'erin' });
+    await setDoc(doc(db, 'blocks/erin_kim'), { blockerUid: 'erin', blockedUid: 'kim' });
+  });
+  await assertFails(getDoc(doc(as('ivy'), 'checkins/hal_lm')));
+  await assertFails(getDocs(query(collection(as('ivy'), 'checkins'), where('userId', '==', 'hal'))));
+  await assertFails(getDoc(doc(as('jon'), 'checkins/hal_lm')));
+  await assertFails(getDoc(doc(as('kim'), 'checkins/erin_lm')));
+  await assertSucceeds(getDoc(doc(as('hal'), 'checkins/hal_lm')));
+  await assertSucceeds(getDoc(doc(as('bob'), 'checkins/hal_lm')));
+});
+await t('Phase 2 read limits: queries across owners (by region or place) are refused, even for a friend', async () => {
+  await assertFails(getDocs(query(collection(as('fay'), 'checkins'), where('region', '==', 'r'))));
+  await assertFails(getDocs(query(collection(as('bob'), 'checkins'), where('landmarkId', 'in', ['lm']))));
+});
+await t('Phase 2 read limits: your own list and a get on your own missing id still work; the verified admin reads any', async () => {
+  await assertSucceeds(getDocs(query(collection(as('erin'), 'checkins'), where('userId', '==', 'erin'))));
+  await assertSucceeds(getDoc(doc(as('erin'), 'checkins/erin_nothere')));
+  await assertFails(getDoc(doc(as('bob'), 'checkins/erin_nothere')));
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'checkins/erin_lm')));
 });
 // The paying check-in: the check-in, the payout marker and the three
 // leaderboard entries in one write, as claimCheckIn does it.
-const paidCheckin = (db, uid, id, over = {}, entryPoints = null) => {
+const paidCheckin = (db, uid, id, over = {}, entryPoints = null, legacyId = false) => {
   const b = writeBatch(db);
   const pts = over.points ?? 100;
   b.set(doc(db, `checkins/${id}`), ck({ userId: uid, points: pts, ...over }));
   b.set(doc(db, `checkin_payouts/${uid}`), { checkinId: id, createdAt: serverTimestamp() });
   for (const [period, key] of [['weekly', '2026-W41'], ['monthly', '2026-10'], ['yearly', '2026']]) {
-    b.set(doc(db, `leaderboard_entries/${period}_${key}_${uid}`), { userId: uid, userName: 'e', period, periodKey: key, points: increment(entryPoints ?? pts), lastCheckinId: id, updatedAt: serverTimestamp() }, { merge: true });
+    b.set(doc(db, `leaderboard_entries/${period}_${key}_${uid}`), { userId: uid, userName: 'e', period, periodKey: key, points: increment(entryPoints ?? pts), ...(legacyId ? { lastCheckinId: id } : {}), updatedAt: serverTimestamp() }, { merge: true });
   }
   return b.commit();
 };
@@ -204,26 +264,25 @@ await t('payout marker: only alongside a new paying check-in of your own', async
   await assertFails(paidCheckin(as('fay'), 'fay', 'fay_w_3', { landmarkId: 'w', visitNumber: 3, points: 100 }));
   await assertSucceeds(paidCheckin(as('fay'), 'fay', 'fay_w', { landmarkId: 'w' }));
 });
-await t('check-in location evidence: optional, typed, and only removable by the owner', async () => {
+await t('Phase 2: no location numbers on a new check-in; old ones can only be removed by the owner', async () => {
   const db = as('erin');
-  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc1'), ck({ landmarkId: 'loc1', distanceMeters: 12, gpsAccuracyMeters: 8.5, verification: 'unverified' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc1'), ck({ landmarkId: 'loc1', distanceMeters: 12, gpsAccuracyMeters: 8.5, verification: 'unverified' })));
+  await assertFails(setDoc(doc(db, 'checkins/erin_loc1b'), ck({ landmarkId: 'loc1b', gpsAccuracyMeters: 8.5 })));
   await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc2'), ck({ landmarkId: 'loc2', verification: 'unverified' })));
-  await assertFails(setDoc(doc(db, 'checkins/erin_loc3'), ck({ landmarkId: 'loc3', distanceMeters: '12' })));
-  await assertFails(setDoc(doc(db, 'checkins/erin_loc4'), ck({ landmarkId: 'loc4', distanceMeters: -1 })));
-  await assertFails(setDoc(doc(db, 'checkins/erin_loc5'), ck({ landmarkId: 'loc5', gpsAccuracyMeters: 'good' })));
   await assertFails(setDoc(doc(db, 'checkins/erin_loc6'), ck({ landmarkId: 'loc6', verification: 'trusted' })));
   await assertFails(setDoc(doc(db, 'checkins/erin_loc7'), ck({ landmarkId: 'loc7', somethingElse: 1 })));
-  // Owner can remove the two location numbers (account-deletion scrub) ...
-  await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc1'), { distanceMeters: deleteField(), gpsAccuracyMeters: deleteField() }));
-  // ... but cannot set, change or null them, nor touch verification or points.
+  // A check-in from before Phase 2 that still has them.
+  await seed((sdb) => setDoc(doc(sdb, 'checkins/erin_loc8'), { ...ck({ landmarkId: 'loc8', verification: 'unverified' }), createdAt: 1, distanceMeters: 40, gpsAccuracyMeters: 9 }));
+  // The owner can't set, change or null them, nor touch verification or points ...
   await assertFails(updateDoc(doc(db, 'checkins/erin_loc2'), { distanceMeters: 5 }));
-  await assertSucceeds(setDoc(doc(db, 'checkins/erin_loc8'), ck({ landmarkId: 'loc8', distanceMeters: 40, gpsAccuracyMeters: 9, verification: 'unverified' })));
   await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { distanceMeters: 0 }));
   await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { distanceMeters: null }));
   await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { verification: 'verified' }));
   await assertFails(updateDoc(doc(db, 'checkins/erin_loc8'), { points: 500 }));
-  // Someone else cannot scrub it, and the usual owner fields still work.
+  // ... someone else can't scrub them ...
   await assertFails(updateDoc(doc(as('bob'), 'checkins/erin_loc8'), { distanceMeters: deleteField() }));
+  // ... the owner can remove them (account deletion), and the usual fields still work.
+  await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc8'), { distanceMeters: deleteField(), gpsAccuracyMeters: deleteField() }));
   await assertSucceeds(updateDoc(doc(db, 'checkins/erin_loc8'), { userName: 'Deleted User', photoURL: null }));
 });
 
@@ -298,6 +357,17 @@ await t('naming an old check-in, or someone else\'s, does not pay', async () => 
   await seed((sdb) => setDoc(doc(sdb, 'checkins/hal_x'), { userId: 'hal', landmarkId: 'x', points: 100 }));
   await assertFails(setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ lastCheckinId: 'hal_x' }), { merge: true }));
 });
+await t('Phase 2: the payout doc proves a rise, no public lastCheckinId needed; a build that still sends it works; it never pays twice', async () => {
+  await assertSucceeds(paidCheckin(as('lia'), 'lia', 'lia_lm'));
+  await assertSucceeds(paidCheckin(as('max'), 'max', 'max_lm', {}, null, true));
+  // The payout doc exists now: no new rise, with or without naming a check-in.
+  await assertFails(setDoc(doc(as('lia'), 'leaderboard_entries/weekly_2026-W41_lia'), { userId: 'lia', userName: 'l', period: 'weekly', periodKey: '2026-W41', points: increment(100), lastCheckinId: 'lia_lm', updatedAt: serverTimestamp() }, { merge: true }));
+});
+await t('Phase 2: the owner can take lastCheckinId off an entry (no rise), so it doesn\'t stay public', async () => {
+  await seed((db) => setDoc(doc(db, 'leaderboard_entries/weekly_2026-W41_ken'), { userId: 'ken', userName: 'k', period: 'weekly', periodKey: '2026-W41', points: 100, lastCheckinId: 'ken_lm', updatedAt: 1 }));
+  await assertSucceeds(updateDoc(doc(as('ken'), 'leaderboard_entries/weekly_2026-W41_ken'), { lastCheckinId: deleteField() }));
+  await assertFails(updateDoc(doc(as('bob'), 'leaderboard_entries/weekly_2026-W41_ken'), { lastCheckinId: deleteField() }));
+});
 await t('name and timestamp updates with no rise still work', () =>
   assertSucceeds(updateDoc(doc(as('gus'), 'leaderboard_entries/weekly_2026-W41_gus'), { userName: 'Gus', updatedAt: serverTimestamp() })));
 await t('onboarding bonus: +10 entries batched with the +10 bonus and the flag', async () => {
@@ -317,26 +387,16 @@ await t('onboarding bonus: +10 entries batched with the +10 bonus and the flag',
 
 console.log('region_stats');
 await reset();
-await seed((db) => setDoc(doc(db, 'checkins/erin_lm1'), { userId: 'erin', points: 100 }));
-const bump = (db, id, inc = 1, extra = {}) => setDoc(doc(db, 'region_stats/miami'), { counts: { [id]: increment(inc) }, lastBump: id, updatedAt: serverTimestamp(), ...extra }, { merge: true });
-await t('bump: +1 for a landmark you checked in at (first write creates the doc)', () => assertSucceeds(bump(as('erin'), 'lm1')));
-await t('bump again +1 works; +2 and a bump for a landmark with no check-in do not', async () => {
-  await assertSucceeds(bump(as('erin'), 'lm1'));
-  await assertFails(bump(as('erin'), 'lm1', 2));
-  await assertFails(bump(as('erin'), 'lm2'));
-  await assertFails(bump(as('bob'), 'lm1'));
+await seed(async (db) => {
+  await setDoc(doc(db, 'checkins/erin_lm1'), { userId: 'erin', points: 100 });
+  await setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 3 }, backfilled: true });
 });
-await t('cannot overwrite counts directly or touch two landmarks', async () => {
+await t('Phase 2: region_stats is server-written; no client bumps, stamps or deletes it, even with a check-in there', async () => {
   const db = as('erin');
-  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 9999 }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
-  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: increment(1), other: 500 }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: increment(1) }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(db, 'region_stats/newregion'), { counts: { lm1: increment(1) }, lastBump: 'lm1', updatedAt: serverTimestamp() }, { merge: true }));
+  await assertFails(setDoc(doc(as('bob'), 'region_stats/miami'), { counts: { lm1: 12, lm9: 3 }, backfilled: true, updatedAt: serverTimestamp() }, { merge: true }));
   await assertFails(deleteDoc(doc(db, 'region_stats/miami')));
-});
-await t('backfill works while the region is not backfilled, then locks (even over bump leftovers)', async () => {
-  const db = as('bob');
-  await assertSucceeds(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 12, lm9: 3 }, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }));
-  await assertFails(setDoc(doc(db, 'region_stats/miami'), { counts: { lm1: 1 }, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }));
-  await assertSucceeds(bump(as('erin'), 'lm1')); // a bump still works once backfilled
 });
 await t('signed out cannot write region_stats; anyone can still read', async () => {
   await assertFails(setDoc(doc(env.unauthenticatedContext().firestore(), 'region_stats/x'), { counts: {}, backfilled: true }));

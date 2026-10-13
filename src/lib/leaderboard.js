@@ -2,7 +2,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  setDoc,
   runTransaction,
   collection,
   query,
@@ -12,20 +11,21 @@ import {
   onSnapshot,
   serverTimestamp,
   increment,
-  deleteField,
   writeBatch,
   arrayUnion,
   arrayRemove,
   Timestamp,
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
+import { periodKeysAt } from './periods';
+import { isRealCheckin } from './realCheckin';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
 import { isOffline, OFFLINE_MESSAGE } from './friendlyError';
 import { distanceMeters } from './geo';
 import { getUserProfile } from './friends';
-import { REGIONS, canonicalLandmarkId, canonicalRegionId } from '../data/regions';
+import { canonicalLandmarkId, canonicalRegionId } from '../data/regions';
 import { CHECKIN_RULE_METERS } from './maprConstants';
 
 export { distanceMeters };
@@ -66,26 +66,9 @@ export function shouldPromptLoveReason(visitNumber) {
   return visitNumber === 3 || (visitNumber > 3 && (visitNumber - 3) % 10 === 0);
 }
 
-function pad(n) {
-  return String(n).padStart(2, '0');
-}
-
-// ISO-8601 week number
-function isoWeekKey(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-  return `${d.getUTCFullYear()}-W${pad(weekNo)}`;
-}
-
+// Shared with the server (api/regional-leaderboard.js): src/lib/periods.js.
 export function periodKeys(date = new Date()) {
-  return {
-    weekly: isoWeekKey(date),
-    monthly: `${date.getFullYear()}-${pad(date.getMonth() + 1)}`,
-    yearly: `${date.getFullYear()}`,
-  };
+  return periodKeysAt(date.getTime(), date.getTimezoneOffset());
 }
 
 export const PERIODS = ['weekly', 'monthly', 'yearly'];
@@ -218,9 +201,8 @@ async function _claimCheckIn({
             userName,
             period,
             periodKey: keys[period],
+            // The rules check the rise against the payout doc above.
             points: increment(paidPoints),
-            // The rules check that the rise matches this check-in's points.
-            lastCheckinId: checkinId,
             updatedAt: serverTimestamp(),
           },
           { merge: true }
@@ -230,10 +212,6 @@ async function _claimCheckIn({
 
     return { claimed: true, alreadyClaimed: false, visitNumber, payout: paidPoints, checkinId };
   });
-
-  // Outside the transaction on purpose: a failed counter write must never
-  // block the check-in itself.
-  if (result.claimed && !ratingOnly) bumpRegionCheckinCount(region, landmarkId).catch(() => {});
 
   return result;
 }
@@ -398,10 +376,8 @@ export async function getVisitCount(userId, landmarkId) {
 /**
  * Real check-ins per landmark across every user in one region, as
  * { [landmarkId]: count }. Repeat visits count: they're real demand too.
- * Reads one running counter doc, region_stats/{region}, that claimCheckIn
- * bumps on every real visit. The first read for a region with no
- * backfilled counter counts its check-ins once and saves the totals;
- * two clients racing that both write the same totals, so it's safe.
+ * Reads one counter doc, region_stats/{region}, that the nightly job
+ * recounts (api/_lib/checkinUpkeep.js), so today's visits show tomorrow.
  * Cached for 10 minutes per region.
  */
 const regionCountsCache = new Map();
@@ -409,22 +385,8 @@ export async function getRegionCheckinCounts(region) {
   if (!db || !region) return {};
   const hit = regionCountsCache.get(region);
   if (hit && Date.now() - hit.at < 10 * 60 * 1000) return hit.counts;
-  const statsRef = doc(db, 'region_stats', region);
-  const stats = await getDoc(statsRef).catch(() => null);
-  let counts;
-  if (stats?.exists() && stats.data().backfilled) {
-    counts = stats.data().counts || {};
-  } else {
-    // check-ins need a signed-in user; signed out, there is nothing to count.
-    const snap = await getDocs(query(collection(db, 'checkins'), where('region', '==', region))).catch(() => null);
-    if (!snap) return {};
-    counts = {};
-    for (const d of snap.docs) {
-      const x = d.data();
-      if (isRealCheckin(x)) counts[x.landmarkId] = (counts[x.landmarkId] || 0) + 1;
-    }
-    setDoc(statsRef, { counts, backfilled: true, lastBump: deleteField(), updatedAt: serverTimestamp() }, { merge: true }).catch(() => {});
-  }
+  const stats = await getDoc(doc(db, 'region_stats', region)).catch(() => null);
+  const counts = stats?.exists() ? stats.data().counts || {} : {};
   regionCountsCache.set(region, { at: Date.now(), counts });
   return counts;
 }
@@ -432,9 +394,8 @@ export async function getRegionCheckinCounts(region) {
 /**
  * Real check-ins per landmark across every region combined, for Mapr Picks
  * when there's no region to score in yet. Reads the region_stats counter
- * docs (one per region, so this stays a handful of reads); a region with no
- * backfilled counter yet gets counted once through getRegionCheckinCounts.
- * Cached for 10 minutes.
+ * docs (one per region, so this stays a handful of reads). Cached for 10
+ * minutes.
  */
 let globalCountsCache = null;
 export async function getGlobalCheckinCounts() {
@@ -445,27 +406,9 @@ export async function getGlobalCheckinCounts() {
     for (const [id, n] of Object.entries(map || {})) counts[id] = (counts[id] || 0) + (Number(n) || 0);
   };
   const snap = await getDocs(collection(db, 'region_stats')).catch(() => null);
-  const done = new Set();
-  for (const d of snap?.docs || []) {
-    if (!d.data().backfilled) continue;
-    done.add(d.id);
-    add(d.data().counts);
-  }
-  const missing = REGIONS.map((r) => r.id).filter((id) => !done.has(id));
-  (await Promise.all(missing.map((id) => getRegionCheckinCounts(id).catch(() => ({}))))).forEach(add);
+  for (const d of snap?.docs || []) add(d.data().counts);
   globalCountsCache = { at: Date.now(), counts };
   return counts;
-}
-
-async function bumpRegionCheckinCount(region, landmarkId) {
-  if (!db || !region || !landmarkId) return;
-  await setDoc(
-    doc(db, 'region_stats', region),
-    // lastBump names the one landmark being bumped -- firestore.rules allows
-    // exactly +1 on that key (and only for someone who has checked in there).
-    { counts: { [landmarkId]: increment(1) }, lastBump: landmarkId, updatedAt: serverTimestamp() },
-    { merge: true }
-  );
 }
 
 /**
@@ -496,11 +439,8 @@ export async function getUserTotalPoints(userId) {
 // yet). Same rule as streaks.js' isRealCheckin -- shared here, not
 // duplicated, so every caller (leaderboard, streaks, check-in galleries,
 // friend stats, Mapr ratings) agrees on what counts as a real visit.
-export function isRealCheckin(x) {
-  if (x.ratingOnly) return false;
-  if (typeof x.visited === 'boolean') return x.visited;
-  return x.points !== 0;
-}
+// Lives in realCheckin.js so the API shares it.
+export { isRealCheckin };
 
 export async function getUserStats(userId) {
   const [snap, profile] = await Promise.all([
@@ -633,32 +573,24 @@ export async function getMyLeaderboardEntry(period, userId) {
 
 /**
  * Regional leaderboard: ranked by points earned checking in within one
- * curated region (Miami, Milan, etc.) during the current period. There's no
- * per-region leaderboard_entries doc, so this aggregates directly from
- * checkins -- a single-field query (region ==) filtered to this period's
- * check-ins client-side, then summed per user. Fine at this app's current
- * scale; would need a denormalized per-region entry (written alongside the
- * existing per-period ones in claimCheckIn) if a region's check-in volume
- * ever gets large enough to make this slow.
+ * curated region (Miami, Milan, etc.) during the current period.
  */
 export async function getRegionalLeaderboard(period, regionId, topN = 100) {
   if (!db || !regionId) return [];
-  const keys = periodKeys();
-  const key = keys[period];
-  const snap = await getDocs(query(collection(db, 'checkins'), where('region', '==', regionId)));
-  const totals = new Map(); // userId -> { userId, userName, points }
-  for (const d of snap.docs) {
-    const x = d.data();
-    const sec = x.createdAt?.seconds;
-    if (!sec) continue;
-    if (periodKeys(new Date(sec * 1000))[period] !== key) continue;
-    // `id` keys the board rows, same as the other two board reads.
-    const cur = totals.get(x.userId) || { id: x.userId, userId: x.userId, userName: x.userName, points: 0 };
-    cur.points += x.points || 0;
-    cur.userName = x.userName || cur.userName;
-    totals.set(x.userId, cur);
+  // Added up by the server (api/regional-leaderboard.js): since Phase 2 a
+  // phone can't read other people's check-ins across a region.
+  const [{ API_BASE }, { authHeaders }] = await Promise.all([import('./apiBase'), import('./apiAuth')]);
+  let zone = '';
+  try {
+    zone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  } catch {
+    /* no Intl zone: the offset below is used */
   }
-  return [...totals.values()].sort((a, b) => b.points - a.points).slice(0, topN);
+  const qs = new URLSearchParams({ region: regionId, period, tz: String(new Date().getTimezoneOffset()), ...(zone ? { zone } : {}) });
+  const r = await fetch(`${API_BASE}/api/regional-leaderboard?${qs}`, { headers: await authHeaders() });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(body.error || 'Could not load the leaderboard.'), { userMessage: body.error || null });
+  return (body.entries || []).slice(0, topN);
 }
 
 /**
@@ -701,14 +633,21 @@ export async function hasFriendTagTeam(userId, friendUids, checkins) {
   }
   const landmarkIds = [...byLandmark.keys()].slice(0, 10);
   if (!landmarkIds.length) return false;
-  const snap = await getDocs(query(collection(db, 'checkins'), where('landmarkId', 'in', landmarkIds)));
-  const friendSet = new Set(friendUids);
-  return snap.docs.some((d) => {
-    const x = d.data();
-    if (!friendSet.has(x.userId) || !x.createdAt?.seconds) return false;
-    const mySec = byLandmark.get(x.landmarkId);
-    return mySec != null && Math.abs(x.createdAt.seconds - mySec) <= 86400;
-  });
+  // One query per friend, pinned to that friend's own check-ins (since
+  // Phase 2 a query across owners is refused), ten friends at a time.
+  const hitFor = async (friendUid) => {
+    const snap = await getDocs(query(collection(db, 'checkins'), where('userId', '==', friendUid), where('landmarkId', 'in', landmarkIds))).catch(() => null);
+    return !!snap?.docs.some((d) => {
+      const x = d.data();
+      if (!x.createdAt?.seconds) return false;
+      const mySec = byLandmark.get(x.landmarkId);
+      return mySec != null && Math.abs(x.createdAt.seconds - mySec) <= 86400;
+    });
+  };
+  for (let i = 0; i < friendUids.length; i += 10) {
+    if ((await Promise.all(friendUids.slice(i, i + 10).map(hitFor))).some(Boolean)) return true;
+  }
+  return false;
 }
 
 // onError (optional): called if the listener fails (offline too long,

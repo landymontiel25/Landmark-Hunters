@@ -45,7 +45,10 @@ export default function FriendCities() {
         <span>{'\u{1F3D9}\u{FE0F}'}</span>{' '}
         {name ? `${name}'s Cities` : error ? 'Cities' : <Skeleton width={180} height={26} radius={10} />}
       </h1>
-      {error && (
+      {error?.code === 'permission-denied' && (
+        <p className="screen-subtitle">You can't see these check-ins. Check-ins show to friends, or to everyone when the profile is public.</p>
+      )}
+      {error && error.code !== 'permission-denied' && (
         <ErrorNotice
           message={friendlyError(error, "We couldn't load their cities. Try again.")}
           onRetry={() => setAttempt((n) => n + 1)}

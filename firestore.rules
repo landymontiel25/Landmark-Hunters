@@ -117,10 +117,33 @@ service cloud.firestore {
       let path = /databases/$(database)/documents/checkin_payouts/$(request.auth.uid);
       return !exists(path) && existsAfter(path) && getAfter(path).data.checkinId == checkinId;
     }
+    // Who may read someone's check-ins (discovery network plan v2, Phase 2):
+    // the owner, a friend, or anyone signed in when the owner's profile is
+    // public, and never across a block either way (a block leaves the
+    // friendship in place). Before, any signed-in account read every
+    // check-in, which a follow feature would have turned into a way to
+    // track people.
+    function checkinOwnerVisible(ownerUid) {
+      return request.auth != null
+        && (ownerUid == request.auth.uid
+            || (!exists(/databases/$(database)/documents/blocks/$(ownerUid + '_' + request.auth.uid))
+                && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + ownerUid))
+                && (exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + ownerUid))
+                    || (exists(/databases/$(database)/documents/users/$(ownerUid))
+                        && get(/databases/$(database)/documents/users/$(ownerUid)).data.get('public', false) == true))));
+    }
     match /checkins/{checkinId} {
-      // Signed-in only (was public). Nothing the app shows signed out reads
-      // check-ins; leaderboards read leaderboard_entries instead.
-      allow read: if request.auth != null;
+      // get: your own id first (a get on your own check-in before it exists
+      // is a clean not-found), then the owner check, plus the verified
+      // admin (Admin Mode's check-in date fix reads it first).
+      allow get: if request.auth != null
+        && (checkinId.split('_')[0] == request.auth.uid
+            || checkinOwnerVisible(resource.data.userId)
+            || isAdmin());
+      // list: queries must pin userId (where userId == X), so the rule can
+      // check that one owner. A query across owners (by region or place) is
+      // refused; those counts come from the server now.
+      allow list: if checkinOwnerVisible(resource.data.userId) || isAdmin();
       // Repeat check-ins to the same landmark are real now -- visit #1 keeps
       // the original uid_landmarkId doc id (so every existing check-in stays
       // valid untouched); visit #2 onward is uid_landmarkId_<visitNumber>.
@@ -132,19 +155,13 @@ service cloud.firestore {
           checkinId == request.auth.uid + '_' + request.resource.data.landmarkId
           || checkinId.matches(request.auth.uid + '_' + request.resource.data.landmarkId + '_[0-9]+')
         )
+        // No location numbers any more (Phase 2): builds from before Phase 0
+        // that still send distanceMeters / gpsAccuracyMeters are refused, so
+        // nobody's distance or GPS accuracy is stored where others can read
+        // it. The GPS proof is server-written and server-only (below).
         && request.resource.data.keys().hasOnly(['userId', 'userName', 'landmarkId', 'landmarkName', 'region',
              'points', 'basePoints', 'visitNumber', 'ratingOnly', 'visited', 'insideHomeRadius', 'createdAt',
-             'distanceMeters', 'gpsAccuracyMeters', 'verification'])
-        // Legacy location numbers: the app stopped writing them (verified
-        // presence and its GPS proof are server-written, below), but builds
-        // from before Phase 0 still send them, so they stay accepted, typed,
-        // until the Phase 2 check-in read limits land.
-        && request.resource.data.get('distanceMeters', 0) is number
-        && request.resource.data.get('distanceMeters', 0) >= 0
-        && request.resource.data.get('distanceMeters', 0) <= 20100000
-        && request.resource.data.get('gpsAccuracyMeters', 0) is number
-        && request.resource.data.get('gpsAccuracyMeters', 0) >= 0
-        && request.resource.data.get('gpsAccuracyMeters', 0) <= 1000000
+             'verification'])
         // Only the server says a visit is verified: a client may write
         // 'unverified' and never `presence` (keys list above), which
         // api/verify-checkin.js writes with the Admin SDK.
@@ -219,22 +236,22 @@ service cloud.firestore {
       allow update, delete: if false;
     }
     // A leaderboard entry rises only by a payout made in the same write:
-    // the paying check-in it names in `lastCheckinId` (created now, by you,
-    // for exactly that many points), or a bonusPoints rise on your profile
-    // of exactly that many points (onboarding or referral bonus; the users
-    // rule decides when those are allowed). Before, any client could add
-    // +100 to its own entries as often as it liked.
+    // the account's one paying check-in (checkin_payouts/{uid}, created now,
+    // owner-read, naming a check-in of yours for exactly that many points),
+    // or a bonusPoints rise on your profile of exactly that many points
+    // (onboarding or referral bonus; the users rule decides when those are
+    // allowed). The proof used to be `lastCheckinId` on the entry itself,
+    // which is public: anyone could watch where and when each account
+    // checked in (Phase 2). Builds from before still send it; it's allowed
+    // but proves nothing, and the nightly job removes it.
     function leaderboardRiseOk(delta) {
-      return delta == 0
-        || (request.resource.data.get('lastCheckinId', null) is string
-            && checkinPaidNow(request.resource.data.lastCheckinId, delta))
-        || bonusPaidNow(delta);
+      return delta == 0 || payoutPaidNow(delta) || bonusPaidNow(delta);
     }
-    function checkinPaidNow(checkinId, delta) {
-      let path = /databases/$(database)/documents/checkins/$(checkinId);
-      return !exists(path) && existsAfter(path)
-        && getAfter(path).data.userId == request.auth.uid
-        && getAfter(path).data.points == delta;
+    function payoutPaidNow(delta) {
+      let payout = /databases/$(database)/documents/checkin_payouts/$(request.auth.uid);
+      return !exists(payout) && existsAfter(payout)
+        && getAfter(/databases/$(database)/documents/checkins/$(getAfter(payout).data.checkinId)).data.userId == request.auth.uid
+        && getAfter(/databases/$(database)/documents/checkins/$(getAfter(payout).data.checkinId)).data.points == delta;
     }
     function bonusPaidNow(delta) {
       let path = /databases/$(database)/documents/users/$(request.auth.uid);
@@ -276,10 +293,17 @@ service cloud.firestore {
     // it), `username` must be one you actually hold in usernames/, bonus
     // points only go up by one bonus at a time, and privilege-looking fields
     // can't be set at all (nothing reads them today; this keeps it that way).
+    function SERVER_PROFILE_FIELDS() {
+      return ['followerCount', 'followingCount', 'reputation', 'founding', 'levels', 'serverBadges', 'tipCount'];
+    }
     function profileFieldsOk() {
       let d = request.resource.data;
       let changed = resource == null ? d.keys() : d.diff(resource.data).affectedKeys();
       return !d.keys().hasAny(['isAdmin', 'admin', 'role', 'roles', 'isVerified', 'verified', 'moderator'])
+        // Server-kept (discovery network): follower counts, reputation,
+        // levels and the founding badge are written only by the server, so a
+        // phone can't give itself a million followers or a level.
+        && !changed.hasAny(SERVER_PROFILE_FIELDS())
         && (!changed.hasAny(['uid']) || d.uid == request.auth.uid)
         // (email may also be REMOVED from this doc: it now lives in the
         // private doc below, and the client deletes the legacy copy.)
@@ -851,33 +875,14 @@ service cloud.firestore {
       allow update: if false;
     }
     // Running per-landmark check-in counts for one region (Mapr Picks' cold
-    // start ranks by these). Same trust level as landmark_ratings below.
+    // start ranks by these). Written only by the nightly job
+    // (api/_lib/checkinUpkeep.js), which recounts each region from the
+    // check-ins. Phones used to bump and backfill these; neither could be
+    // tied to a real new visit, so one account could push a place's count
+    // as high as it liked (Phase 2).
     match /region_stats/{region} {
       allow read: if true;
-      // Two kinds of write, nothing else (and no delete):
-      //  - a bump: +1 on exactly ONE landmark, named in `lastBump`, by someone
-      //    who has a check-in doc for that landmark (bumpRegionCheckinCount);
-      //  - the one-time backfill that stamps a region's counts and
-      //    `backfilled: true`, allowed only while the region isn't backfilled.
-      allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['counts', 'backfilled', 'lastBump', 'updatedAt'])
-        && request.resource.data.counts is map
-        && (regionBackfillOk() || regionBumpOk());
-    }
-    function regionBackfillOk() {
-      return request.resource.data.get('backfilled', false) == true
-        && !('lastBump' in request.resource.data)
-        && (resource == null || resource.data.get('backfilled', false) != true);
-    }
-    function regionBumpOk() {
-      let d = request.resource.data;
-      let bumped = d.get('lastBump', null);
-      let old = resource == null ? {} : resource.data.get('counts', {});
-      return bumped is string
-        && d.get('backfilled', false) == (resource == null ? false : resource.data.get('backfilled', false))
-        && exists(/databases/$(database)/documents/checkins/$(request.auth.uid + '_' + bumped))
-        && d.counts.diff(old).affectedKeys().hasOnly([bumped])
-        && d.counts[bumped] == old.get(bumped, 0) + 1;
+      allow write: if false;
     }
     // Running rating aggregate per landmark. Only moves together with your
     // own review for that landmark in the same transaction (submitReview /
