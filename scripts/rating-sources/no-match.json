@@ -1,14 +1,35 @@
 {
+  "aranjuez/jardin-de-la-isla": [
+    "google"
+  ],
+  "aranjuez/palacio-real-aranjuez": [
+    "google"
+  ],
+  "cape-town/africa-cafe": [
+    "google"
+  ],
   "cape-town/bloubergstrand": [
     "google"
   ],
   "cape-town/chavonnes-battery": [
     "google"
   ],
+  "cape-town/codfather-camps-bay": [
+    "google"
+  ],
   "cape-town/constantia-wine-route": [
     "google"
   ],
+  "cape-town/llandudno-beach": [
+    "google"
+  ],
   "cape-town/maclears-beacon": [
+    "google"
+  ],
+  "cape-town/mzolis": [
+    "google"
+  ],
+  "cape-town/newlands-cricket-ground": [
     "google"
   ],
   "cape-town/silvermine": [
@@ -24,6 +45,99 @@
     "google"
   ],
   "cape-town/woodstock-biscuit-mill": [
+    "google"
+  ],
+  "el-escorial/bosque-la-herreria": [
+    "google"
+  ],
+  "el-escorial/casa-de-la-compana": [
+    "google"
+  ],
+  "el-escorial/cueva-del-oso": [
+    "google"
+  ],
+  "el-escorial/despoblado-de-navalquejigo": [
+    "google"
+  ],
+  "el-escorial/el-castanar": [
+    "google"
+  ],
+  "el-escorial/fuente-de-la-reina": [
+    "google"
+  ],
+  "el-escorial/galeria-convalecientes-botica": [
+    "google"
+  ],
+  "el-escorial/iglesia-de-san-bernabe": [
+    "google"
+  ],
+  "el-escorial/la-granjilla-la-fresneda": [
+    "google"
+  ],
+  "el-escorial/la-lonja": [
+    "google"
+  ],
+  "el-escorial/los-valencianos-helados": [
+    "google"
+  ],
+  "el-escorial/monasterio-de-prestado": [
+    "google"
+  ],
+  "el-escorial/monte-abantos": [
+    "google"
+  ],
+  "el-escorial/museos-monasterio": [
+    "google"
+  ],
+  "el-escorial/palacio-de-los-borbones": [
+    "google"
+  ],
+  "el-escorial/palacio-felipe-ii": [
+    "google"
+  ],
+  "el-escorial/panteon-de-los-reyes": [
+    "google"
+  ],
+  "el-escorial/pasteleria-ponton": [
+    "google"
+  ],
+  "el-escorial/patio-de-los-reyes": [
+    "google"
+  ],
+  "el-escorial/pico-de-abantos": [
+    "google"
+  ],
+  "el-escorial/pinar-de-abantos": [
+    "google"
+  ],
+  "el-escorial/sala-de-las-batallas": [
+    "google"
+  ],
+  "el-escorial/torre-fortaleza-campillo": [
+    "google"
+  ],
+  "el-escorial/valle-de-cuelgamuros": [
+    "google"
+  ],
+  "madrid/auditorio-nacional-de-musica": [
+    "google"
+  ],
+  "madrid/basilica-de-san-francisco-el-grande": [
+    "google"
+  ],
+  "madrid/biblioteca-nacional-espana": [
+    "google"
+  ],
+  "madrid/museo-de-historia-de-madrid": [
+    "google"
+  ],
+  "madrid/museo-nacional-de-artes-decorativas": [
+    "google"
+  ],
+  "madrid/real-fabrica-de-tapices": [
+    "google"
+  ],
+  "madrid/rocambolesc": [
     "google"
   ],
   "miami/adrienne-arsht-center": [

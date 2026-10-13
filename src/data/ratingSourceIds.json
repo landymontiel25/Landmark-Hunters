@@ -1,9 +1,30 @@
 {
+  "aranjuez/casa-del-labrador": {
+    "googlePlaceId": "ChIJMdHteZAFQg0RO9DehSpov0s"
+  },
+  "aranjuez/jardin-del-principe": {
+    "googlePlaceId": "ChIJv7hP3pcFQg0R0VNJLBxoxAk"
+  },
+  "aranjuez/plaza-de-parejas": {
+    "googlePlaceId": "ChIJb0f2r7sFQg0Rqr6_agsHfzY"
+  },
+  "cape-town/artscape-theatre-centre": {
+    "googlePlaceId": "ChIJxZpWKIpdzB0R4p7yjUOgkTs"
+  },
+  "cape-town/baxter-theatre-centre": {
+    "googlePlaceId": "ChIJQ3QXtiZdzB0RZZ6QY6d99Ls"
+  },
   "cape-town/bo-kaap-museum": {
     "googlePlaceId": "ChIJjSQp42VnzB0R6WYFH3MPXjk"
   },
   "cape-town/boulders-beach": {
     "googlePlaceId": "ChIJKeByCDY-zB0RECn0gAHgvHw"
+  },
+  "cape-town/cape-point": {
+    "googlePlaceId": "ChIJE0s3aKAjzB0RoQR4Kt3wSug"
+  },
+  "cape-town/cape-town-science-centre": {
+    "googlePlaceId": "ChIJp-uEhAVdzB0RxWSUgly4Sw0"
   },
   "cape-town/castle-of-good-hope": {
     "googlePlaceId": "ChIJwUYG_oddzB0RZYGNwMhCuy0"
@@ -20,23 +41,41 @@
   "cape-town/district-six-museum": {
     "googlePlaceId": "ChIJXdpUhHtnzB0RI8TYhHL5028"
   },
+  "cape-town/gold-restaurant": {
+    "googlePlaceId": "ChIJ7Rdn5mZnzB0RyOHHPQvv-1Q"
+  },
   "cape-town/green-point-park": {
     "googlePlaceId": "ChIJrfmRVzZnzB0RupuFfQj-5D0"
   },
   "cape-town/greenmarket-square": {
     "googlePlaceId": "ChIJO5eLP2RnzB0RdXzpIWbNluw"
   },
+  "cape-town/harbour-house-kalk-bay": {
+    "googlePlaceId": "ChIJHWikDhRAzB0RyOvryzibbV8"
+  },
   "cape-town/holocaust-centre": {
     "googlePlaceId": "ChIJDb99o3BnzB0RGDakjkK3Wrk"
+  },
+  "cape-town/hout-bay-museum": {
+    "googlePlaceId": "ChIJP1wABRlpzB0RzpUsJnEzGg4"
   },
   "cape-town/iziko-sa-museum": {
     "googlePlaceId": "ChIJ523J8npnzB0Rfvs7MyenlN8"
   },
+  "cape-town/jonkershuis-constantia": {
+    "googlePlaceId": "ChIJe6PtQ9FpzB0R4YORfViLQ5s"
+  },
   "cape-town/kalk-bay": {
     "googlePlaceId": "ChIJu2x0EhZAzB0RCyIwnb_NXFY"
   },
+  "cape-town/kalkys": {
+    "googlePlaceId": "ChIJ8SkpLY1BzB0RMPl2PmlbuTg"
+  },
   "cape-town/kirstenbosch": {
     "googlePlaceId": "ChIJecz6YqhCzB0RZqXqcdmKfBs"
+  },
+  "cape-town/kloof-street-house": {
+    "googlePlaceId": "ChIJ_Tc00XFnzB0R1TIppn46x4I"
   },
   "cape-town/koopmans-de-wet-house": {
     "googlePlaceId": "ChIJfZdhqWZnzB0R1nvvG8N6cp8"
@@ -47,11 +86,17 @@
   "cape-town/lions-head": {
     "googlePlaceId": "ChIJ7Tf0rQVnzB0REQJgaykzKEg"
   },
+  "cape-town/mama-africa-restaurant": {
+    "googlePlaceId": "ChIJ-f-De2VnzB0RwYNmkT4nR1A"
+  },
   "cape-town/oranjezicht-market": {
     "googlePlaceId": "ChIJJda7Ik5nzB0RNkLL5Oqi17c"
   },
   "cape-town/platteklip-gorge": {
     "googlePlaceId": "ChIJOXOeGZNnzB0Rr9f40FLC0to"
+  },
+  "cape-town/pot-luck-club": {
+    "googlePlaceId": "ChIJYxj8tKZdzB0R2_H65PgjFV4"
   },
   "cape-town/rhodes-memorial": {
     "googlePlaceId": "ChIJbUMgPRZdzB0RWKEeB36jNpk"
@@ -83,8 +128,299 @@
   "cape-town/st-georges-cathedral": {
     "googlePlaceId": "ChIJP6mj-2RnzB0Ruwi6tU44GPc"
   },
+  "cape-town/truth-coffee": {
+    "googlePlaceId": "ChIJk0_6kHxnzB0R9hOYtdW5I_s"
+  },
   "cape-town/two-oceans-aquarium": {
     "googlePlaceId": "ChIJfeaqwlpnzB0Rl2i0iRvp6SI"
+  },
+  "el-escorial/antigua-canela": {
+    "googlePlaceId": "ChIJgXovmCgKQQ0R5tI6SC8JfTs"
+  },
+  "el-escorial/arboreto-luis-ceballos": {
+    "googlePlaceId": "ChIJf0pE3K4LQQ0Ra4_9pUTZjCo"
+  },
+  "el-escorial/asador-del-rey": {
+    "googlePlaceId": "ChIJW-V3_iUKQQ0RBXNrvK6uvq8"
+  },
+  "el-escorial/basilica-el-escorial": {
+    "googlePlaceId": "ChIJe9egIVoLQQ0RqivjxW-5PH4"
+  },
+  "el-escorial/casita-del-principe": {
+    "googlePlaceId": "ChIJB_KUJTwKQQ0Rjbpji0g0Ynw"
+  },
+  "el-escorial/charoles-restaurant": {
+    "googlePlaceId": "ChIJxe2QnSgKQQ0RKJqKbceMZyI"
+  },
+  "el-escorial/cocheras-del-rey": {
+    "googlePlaceId": "ChIJAUv19SUKQQ0Ra0KbZeu-Nlk"
+  },
+  "el-escorial/ermita-virgen-de-gracia": {
+    "googlePlaceId": "ChIJ8S6PqK8JQQ0R22nQxf_rUi4"
+  },
+  "el-escorial/fuente-del-seminario": {
+    "googlePlaceId": "ChIJw0F7BLEJQQ0R-c-ZaVbpgtQ"
+  },
+  "el-escorial/jardin-de-los-frailes": {
+    "googlePlaceId": "ChIJ_2Y3pycKQQ0RZ_sfVXsLb9s"
+  },
+  "el-escorial/la-cueva-restaurant": {
+    "googlePlaceId": "ChIJw6CbqSgKQQ0Rj7m1nTfYk3A"
+  },
+  "el-escorial/museo-lunar-fresnedillas": {
+    "googlePlaceId": "ChIJ-QrpMJ-mQQ0Rk72nf8DEMQ0"
+  },
+  "el-escorial/paco-pastel": {
+    "googlePlaceId": "ChIJX4dojygKQQ0RQ__vLXOarCk"
+  },
+  "el-escorial/parrilla-principe": {
+    "googlePlaceId": "ChIJnw5ZrM8LQQ0Ry-672BmAKcw"
+  },
+  "el-escorial/patio-de-los-evangelistas": {
+    "googlePlaceId": "ChIJofXJYgALQQ0Rspq91X99b_8"
+  },
+  "el-escorial/primera-casa-de-oficios": {
+    "googlePlaceId": "ChIJSfDvGAALQQ0RagjvWmOK4KA"
+  },
+  "el-escorial/real-coliseo-carlos-iii": {
+    "googlePlaceId": "ChIJAVG0HSYKQQ0RBeS7YxG8ZxU"
+  },
+  "el-escorial/restaurante-horizontal": {
+    "googlePlaceId": "ChIJy3SEOIQJQQ0RlL8RSe4YTrg"
+  },
+  "el-escorial/segunda-casa-de-oficios": {
+    "googlePlaceId": "ChIJAVWbpwQLQQ0RCL7b0EaBzRs"
+  },
+  "el-escorial/teatro-auditorio-san-lorenzo-de-el-escorial": {
+    "googlePlaceId": "ChIJc3JX5i8KQQ0R7KfTV3IjxaM"
+  },
+  "el-escorial/tercera-casa-de-oficios": {
+    "googlePlaceId": "ChIJiWWNZwALQQ0R_zpMcxrID7M"
+  },
+  "el-escorial/town-san-lorenzo": {
+    "googlePlaceId": "ChIJg8YyLS8KQQ0RvM-WF9d8jqc"
+  },
+  "el-escorial/vesta-taberna": {
+    "googlePlaceId": "ChIJi9lgXSgKQQ0RV_7l5rnqFmU"
+  },
+  "madrid/banco-de-espana": {
+    "googlePlaceId": "ChIJY4JgvYQoQg0Ryx9-eVvXPXo"
+  },
+  "madrid/bar-cock": {
+    "googlePlaceId": "ChIJE1kP-oYoQg0Rt0cg2q82Iw0"
+  },
+  "madrid/barrio-de-las-letras": {
+    "googlePlaceId": "ChIJE5MzAYEoQg0RPPfbSrJKa6Y"
+  },
+  "madrid/bodega-de-la-ardosa": {
+    "googlePlaceId": "ChIJ8xKGEogoQg0REcIj5XURiIU"
+  },
+  "madrid/cafe-berlin-madrid": {
+    "googlePlaceId": "ChIJkypEYnwoQg0Rcv7cT2S2JKs"
+  },
+  "madrid/cafe-comercial-madrid": {
+    "googlePlaceId": "ChIJsZg7GoooQg0RHiiN2NWPCsQ"
+  },
+  "madrid/caixaforum-madrid": {
+    "googlePlaceId": "ChIJmUm3eSgmQg0R6kTeCcnVsjQ"
+  },
+  "madrid/campo-del-moro": {
+    "googlePlaceId": "ChIJ7aLeH4EoQg0RzT0PTqYc3Y4"
+  },
+  "madrid/cardamomo-tablao": {
+    "googlePlaceId": "ChIJxc3PCIEoQg0RE3zA5okGlls"
+  },
+  "madrid/casa-alberto": {
+    "googlePlaceId": "ChIJi0vRVCkmQg0RhJD1GJk3jkU"
+  },
+  "madrid/casa-ciriaco": {
+    "googlePlaceId": "ChIJhVC8zXkoQg0Rtkq8zvLwo64"
+  },
+  "madrid/casa-de-campo": {
+    "googlePlaceId": "ChIJtRbzP-2HQQ0RJx9XvRW6qLw"
+  },
+  "madrid/casa-labra": {
+    "googlePlaceId": "ChIJ3aNabn4oQg0RUZW-XLWz1e8"
+  },
+  "madrid/casa-lucio": {
+    "googlePlaceId": "ChIJjTElVSyIQQ0R5J3uj1YKeOs"
+  },
+  "madrid/casa-mira-turron": {
+    "googlePlaceId": "ChIJY8eHFIEoQg0RRoTUgzaw0pg"
+  },
+  "madrid/cerveceria-alemana": {
+    "googlePlaceId": "ChIJl1SpTIAoQg0R0cZk-OZCkDA"
+  },
+  "madrid/chocolateria-san-gines": {
+    "googlePlaceId": "ChIJHeRevn4oQg0R1cMSLDTWlWg"
+  },
+  "madrid/chueca": {
+    "googlePlaceId": "ChIJ1zd1J4YoQg0RPzo0-Ojqaxc"
+  },
+  "madrid/cine-dore": {
+    "googlePlaceId": "ChIJkfK9PyomQg0R9P8bQpD0wBk"
+  },
+  "madrid/circulo-de-bellas-artes": {
+    "googlePlaceId": "ChIJ35PCcoQoQg0RGhxNE3_2Iak"
+  },
+  "madrid/congreso-de-los-diputados": {
+    "googlePlaceId": "ChIJxdpqMEYpQg0RCV2h58r2A2s"
+  },
+  "madrid/corral-de-la-moreria": {
+    "googlePlaceId": "ChIJozCS4HcoQg0RrX_GowuiJko"
+  },
+  "madrid/edificio-carrion": {
+    "googlePlaceId": "ChIJCeTLWHwoQg0ReGpwiP45wwg"
+  },
+  "madrid/edificio-metropolis": {
+    "googlePlaceId": "ChIJKx77DIQoQg0R_gppYNKr4c0"
+  },
+  "madrid/ermita-san-antonio-florida": {
+    "googlePlaceId": "ChIJaQbyBhMoQg0RnrxRkEi3nxQ"
+  },
+  "madrid/estadio-alfredo-di-stefano": {
+    "googlePlaceId": "ChIJ-RFqZF0uQg0RsstyXVOpg5w"
+  },
+  "madrid/estadio-metropolitano": {
+    "googlePlaceId": "ChIJibcBhOovQg0RxA7V2mQNXSQ"
+  },
+  "madrid/faro-de-moncloa": {
+    "googlePlaceId": "ChIJAbFjxkAoQg0Ryx69MbezvLE"
+  },
+  "madrid/fuente-de-neptuno": {
+    "googlePlaceId": "ChIJi3AD54IoQg0RoG7z2VRC7ao"
+  },
+  "madrid/joy-eslava": {
+    "googlePlaceId": "ChIJ3edGl34oQg0RiMwsMcIHmAk"
+  },
+  "madrid/la-mallorquina": {
+    "googlePlaceId": "ChIJjVvRaX4oQg0R55xhfQ3uARU"
+  },
+  "madrid/lhardy": {
+    "googlePlaceId": "ChIJwz4BFIEoQg0R28-rnZ5Z4RM"
+  },
+  "madrid/los-galayos": {
+    "googlePlaceId": "ChIJYZsMIn8oQg0RfPVHFfWwSsE"
+  },
+  "madrid/maison-glacee": {
+    "googlePlaceId": "ChIJFadWanopQg0RXzfgRGyO4kg"
+  },
+  "madrid/matadero-madrid": {
+    "googlePlaceId": "ChIJM7u8_EkmQg0RSH-cbUX_1Yc"
+  },
+  "madrid/mercado-de-la-paz": {
+    "googlePlaceId": "ChIJ7fF3jpYoQg0RcfOxYBExJrY"
+  },
+  "madrid/mercado-de-san-anton": {
+    "googlePlaceId": "ChIJ0RbRyv0pQg0RS9u2jqDIbOE"
+  },
+  "madrid/mercado-de-san-fernando": {
+    "googlePlaceId": "ChIJu_erQjImQg0RSGdXtET1-HU"
+  },
+  "madrid/mercado-de-san-ildefonso": {
+    "googlePlaceId": "ChIJeQ--ZogoQg0RpbSSHRBuj8U"
+  },
+  "madrid/mercado-de-san-miguel": {
+    "googlePlaceId": "ChIJLW4ZIXkoQg0R6JDRTdPmLxY"
+  },
+  "madrid/movistar-arena": {
+    "googlePlaceId": "ChIJ_SuoWaUoQg0R4wWpEFDnT4I"
+  },
+  "madrid/museo-de-america": {
+    "googlePlaceId": "ChIJtXBzsUYoQg0RIwSOTUcqlb8"
+  },
+  "madrid/museo-del-prado": {
+    "googlePlaceId": "ChIJ7aLYZp0oQg0RWoitk33wlBA"
+  },
+  "madrid/museo-del-romanticismo": {
+    "googlePlaceId": "ChIJdbewIIkoQg0RZS3cT1ZMzSc"
+  },
+  "madrid/museo-del-traje": {
+    "googlePlaceId": "ChIJ04I32mgpQg0Rgo5zdDFx10g"
+  },
+  "madrid/museo-nacional-de-ciencias-naturales": {
+    "googlePlaceId": "ChIJxYeg-O4oQg0Rjnq7nU4nHRQ"
+  },
+  "madrid/museo-reina-sofia": {
+    "googlePlaceId": "ChIJvQc62ygmQg0Rcb-6WdEUmDA"
+  },
+  "madrid/palacio-de-cristal-retiro": {
+    "googlePlaceId": "ChIJmx4vAgApQg0RKc5KVest8_A"
+  },
+  "madrid/palacio-real-de-madrid": {
+    "googlePlaceId": "ChIJwamkfX4oQg0RUUjO1nnsfy4"
+  },
+  "madrid/parque-de-atracciones-madrid": {
+    "googlePlaceId": "ChIJO-zP-QeIQQ0RypPybBogF2I"
+  },
+  "madrid/parque-del-oeste": {
+    "googlePlaceId": "ChIJbWJHqRQoQg0R5EugZXTDJu8"
+  },
+  "madrid/parque-el-capricho": {
+    "googlePlaceId": "ChIJy-dW8MovQg0RrADN3D4itWo"
+  },
+  "madrid/parque-juan-carlos-i": {
+    "googlePlaceId": "ChIJDxhIALUvQg0RE5k2R2VbvTM"
+  },
+  "madrid/pasteleria-el-riojano": {
+    "googlePlaceId": "ChIJj8Hv8n4oQg0R1gOcx3J6rTA"
+  },
+  "madrid/plaza-de-cibeles": {
+    "googlePlaceId": "ChIJQzimtoQoQg0RqO2I0nyFVGo"
+  },
+  "madrid/plaza-de-espana-madrid": {
+    "googlePlaceId": "ChIJlYIB-28oQg0Ra1v7bI12cCQ"
+  },
+  "madrid/plaza-de-la-villa": {
+    "googlePlaceId": "ChIJrRE9AHkoQg0RDl_m0pRrFPI"
+  },
+  "madrid/plaza-de-oriente": {
+    "googlePlaceId": "ChIJKQ9_EnooQg0RBkGRKAQNul8"
+  },
+  "madrid/plaza-de-santa-ana": {
+    "googlePlaceId": "ChIJVZ9_tIEoQg0RhmHI1X9HZpE"
+  },
+  "madrid/plaza-de-toros-las-ventas": {
+    "googlePlaceId": "ChIJN9Ka0LQoQg0RyKntUElZV74"
+  },
+  "madrid/puerta-de-alcala": {
+    "googlePlaceId": "ChIJJ1KGSpooQg0R8YZKFDqLJ5g"
+  },
+  "madrid/puerta-de-toledo": {
+    "googlePlaceId": "ChIJb0FJ0NAnQg0RzMV5ZmZZwMg"
+  },
+  "madrid/puerta-del-sol": {
+    "googlePlaceId": "ChIJx319oIAoQg0RecYd2lfuSmk"
+  },
+  "madrid/real-jardin-botanico": {
+    "googlePlaceId": "ChIJi_NS7icmQg0RK8FepNiBeSk"
+  },
+  "madrid/real-monasterio-de-la-encarnacion": {
+    "googlePlaceId": "ChIJcZj1T3ooQg0R1nvEppRpfV8"
+  },
+  "madrid/sala-el-sol": {
+    "googlePlaceId": "ChIJFwTeOIcoQg0RS-hPVCsHrhM"
+  },
+  "madrid/san-jeronimo-el-real": {
+    "googlePlaceId": "ChIJZ8xFdJ0oQg0RwgcVJGz5clA"
+  },
+  "madrid/teatro-circo-price": {
+    "googlePlaceId": "ChIJ0TocOiwmQg0RORcnJzivH6c"
+  },
+  "madrid/teatro-de-la-zarzuela": {
+    "googlePlaceId": "ChIJX9jt64MoQg0RL6tNvZdnRKY"
+  },
+  "madrid/teatro-espanol": {
+    "googlePlaceId": "ChIJ6QwArYEoQg0RoyXEbH4qnxA"
+  },
+  "madrid/teatro-kapital": {
+    "googlePlaceId": "ChIJ4RUenCgmQg0RdI4x7geRUEA"
+  },
+  "madrid/villa-rosa-tablao": {
+    "googlePlaceId": "ChIJGepcFKcpQg0RLs_SIdiFkjI"
+  },
+  "madrid/zoo-aquarium-de-madrid": {
+    "googlePlaceId": "ChIJHQS2xgqIQQ0RgyGlQ3AakYk"
   },
   "miami/actors-playhouse-miracle-theatre": {
     "googlePlaceId": "ChIJvbp3sZC32YgR3ue4ys04fbs"
