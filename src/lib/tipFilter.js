@@ -10,6 +10,10 @@
 
 const LEET = { 0: 'o', 1: 'i', 3: 'e', 4: 'a', 5: 's', 7: 't', 8: 'b', '@': 'a', $: 's', '!': 'i', '|': 'i' };
 
+// Every look-alike swapped, wherever it sits ("n.1.g", "nigg@"). Used for
+// the slur checks only: "shit!" must keep its "!" for the word checks.
+const fullLeet = (norm) => norm.replace(/[013457@$!|8]/g, (c) => LEET[c] || c);
+
 export function normalizeForFilter(text) {
   return String(text || '')
     .normalize('NFKD')
@@ -56,15 +60,20 @@ export function filterTipText(text) {
   // Squeezed within each space-separated chunk ("f.a.g.g.o.t"), and across
   // runs of single letters ("f a g g o t"), never across real words, so
   // "wet. Back" or "rag. Head" stay apart.
-  const chunks = norm.split(/\s+/).map((c) => c.replace(/[^a-z]/g, '')).filter(Boolean);
+  // Both readings of each chunk: look-alikes swapped only before a letter
+  // ("shit!" stays "shit"), and every look-alike swapped ("n.1.g.g.e.r").
+  const chunkSets = [norm, fullLeet(norm)].map((n) => n.split(/\s+/).map((c) => c.replace(/[^a-z]/g, '')).filter(Boolean));
+  const chunks = chunkSets.flat();
   // Runs of single letters ("a f a g g o t"): any slur inside counts, since
   // no real word is split that way.
   const spaced = [];
-  for (let i = 0; i < chunks.length; ) {
-    let j = i;
-    while (j < chunks.length && chunks[j].length === 1) j++;
-    if (j - i >= 3) spaced.push(chunks.slice(i, j).join(''));
-    i = j > i ? j : i + 1;
+  for (const set of chunkSets) {
+    for (let i = 0; i < set.length; ) {
+      let j = i;
+      while (j < set.length && set[j].length === 1) j++;
+      if (j - i >= 3) spaced.push(set.slice(i, j).join(''));
+      i = j > i ? j : i + 1;
+    }
   }
   const reasons = new Set();
   const words = norm.split(/[^a-z]+/).filter(Boolean);

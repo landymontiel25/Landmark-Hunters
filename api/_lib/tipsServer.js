@@ -58,7 +58,7 @@ export async function deleteRefs(db, refs) {
 }
 
 // Was this mark, report or view made on this post of the tip?
-export const madeOnThisPost = (child, tip) => !!child && !!tip && child.gen === tip.gen;
+export const madeOnThisPost = (child, tip) => !!child && !!tip && (child.gen ?? null) === (tip.gen ?? null);
 
 // The marks, reports and views of one post of a tip (by its gen), removed
 // with it. A newer post at the same id keeps its own.

@@ -84,7 +84,8 @@ rules workflow (the service account may need the Cloud Datastore Index
 Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 `delete-mine` on account deletion, which `accountDeletion.js` calls) and
 `api/tips.js` (a place's live tips with blocks hidden both ways, helpful
-and saved, reports; both need a verified email, like posting). Reporters
+and saved, reports; marking and reporting need a verified email, like
+posting; reading doesn't, but only verified accounts' views are recorded). Reporters
 live in server-only `tip_reports/{tipId}_{gen}_{uid}` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
 lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it;
@@ -105,12 +106,11 @@ moderation lock or reset a limit. `discard-photo` removes an upload whose
 tip never posted (clients can't delete tip photos). Tips keep only
 the visit month, in the place's time zone, and not the check-in id (the tip
 doc is readable by anyone who sees the tip). If `delete-mine`
-fails during account deletion, the tips stay: a nightly sweep for tips
-whose author's profile is gone is still to build (Content page PR). Left
+fails twice, account deletion stops before wiping anything and says so. Left
 open for the Content page: restoring a reported tip must reset its
 `reportCount`, or the next single report hides it again. The word filter
-(`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read
-records `tip_views` for the Phase 4 "went" count. Photos on tips need
+(`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read by a
+verified account records `tip_views` for the Phase 4 "went" count. Photos on tips need
 `VITE_FIREBASE_STORAGE_BUCKET` in the server's environment too (Vercel
 gives functions every project variable); without it every photo is
 refused.

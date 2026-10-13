@@ -83,7 +83,8 @@ vi.mock('firebase/storage', () => ({
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./reviews', () => ({ deleteMyReview: vi.fn() }));
 vi.mock('./maprChats', () => ({ deleteProject: vi.fn() }));
-vi.mock('./tipsApi', () => ({ deleteAllMyTips: vi.fn(async () => ({ ok: true })) }));
+const tipsMock = vi.hoisted(() => ({ fail: 0 }));
+vi.mock('./tipsApi', () => ({ deleteAllMyTips: vi.fn(async () => { if (tipsMock.fail > 0) { tipsMock.fail--; throw Object.assign(new Error('x'), { status: 500 }); } return { ok: true }; }) }));
 
 import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
 
@@ -217,5 +218,14 @@ describe('clearLocalAccountStorage', () => {
     localStorage.setItem('landmarkhunters.profile.v1', JSON.stringify({ uid: 'u2' }));
     clearLocalAccountStorage('u1');
     expect(localStorage.getItem('landmarkhunters.profile.v1')).not.toBeNull();
+  });
+});
+
+describe('deleteAccountData tips step', () => {
+  it('retries once, then stops the whole deletion before wiping anything if the server cannot delete the tips', async () => {
+    tipsMock.fail = 2;
+    await expect(deleteAccountData('u1')).rejects.toThrow(/Couldn't delete your tips/);
+    tipsMock.fail = 1;
+    await expect(deleteAccountData('u1')).resolves.toBeUndefined();
   });
 });

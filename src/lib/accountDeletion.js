@@ -43,7 +43,8 @@ const deleteWhere = async (col, field, uid) => deleteAll(await safeGetDocs(col, 
  * Best-effort cleanup of everything this account owns in Firestore/Storage,
  * run right before the Firebase Auth user itself is deleted (deleteAccount
  * in AuthContext). Every step is independent and swallows its own errors so
- * one failure never blocks the rest.
+ * one failure never blocks the rest, except the tips step, which runs first
+ * and stops the deletion if the server can't remove them.
  *
  * Check-ins can't be deleted outright -- firestore.rules locks them
  * permanently (allow delete: if false, kept that way so leaderboard totals
@@ -73,14 +74,25 @@ export async function deleteAccountData(uid) {
   // them (api/post-tip.js 'delete-mine') while the account still exists to
   // sign the request. A removed or reported tip stays hidden for the
   // owner's review, and reports the person filed stay (see that file).
-  // One retry: after the account is gone nothing can sign another.
+  // Unlike every other step this one stops the deletion when it fails
+  // (after one retry): after the account is gone nothing could sign
+  // another request, and the person's tips would stay public under their
+  // name. It runs first, so nothing else has been wiped yet.
+  let tipsError = null;
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       await deleteAllMyTips();
+      tipsError = null;
       break;
-    } catch {
-      /* best-effort */
+    } catch (e) {
+      tipsError = e;
     }
+  }
+  if (tipsError && tipsError.status !== 404) {
+    throw Object.assign(new Error("Couldn't delete your tips. Nothing was deleted. Try again."), {
+      userMessage: "Couldn't delete your tips. Nothing was deleted. Try again.",
+      cause: tipsError,
+    });
   }
 
   // Reviews (+ replies and photos)
