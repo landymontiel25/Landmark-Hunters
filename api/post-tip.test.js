@@ -47,7 +47,8 @@ describe('api/post-tip: posting', () => {
     expect(code).toBe(200);
     expect(body).toEqual({ ok: true, tipId: 'me_bell', status: 'live' });
     const t = db.docs['tips/me_bell'];
-    expect(t).toMatchObject({ authorUid: 'me', authorName: 'landy', landmarkId: 'bell', region: 'philly', checkinId: 'me_bell', text: 'Go early, the line wraps the block.', tags: ['go-early'], status: 'live', hidden: false, reportCount: 0, counts: { helpful: 0, saved: 0 }, verified: true, photoPath: 'tip_photos/me/p1.jpg', visitAt: NOW - DAY });
+    expect(t).toMatchObject({ authorUid: 'me', authorName: 'landy', landmarkId: 'bell', region: 'philly', checkinId: 'me_bell', text: 'Go early, the line wraps the block.', tags: ['go-early'], status: 'live', hidden: false, reportCount: 0, counts: { helpful: 0, saved: 0 }, verified: true, photoPath: 'tip_photos/me/p1.jpg', visitMonth: new Date(NOW - DAY).toISOString().slice(0, 7) });
+    expect(t.visitAt).toBeUndefined();
     expect(typeof t.gen).toBe('string');
     expect(db.docs['tip_photo_claims/tip_photos__me__p1.jpg']).toMatchObject({ uid: 'me', tipId: 'me_bell' });
   });
@@ -205,5 +206,20 @@ describe('api/post-tip: discarding an unposted photo', () => {
     expect((await call({ action: 'discard-photo', photoURL: photo() })).code).toBe(409);
     expect((await call({ action: 'discard-photo', photoURL: photo('you') })).code).toBe(400);
     expect(deleted).toEqual(['tip_photos/me/p2.jpg']);
+    // A discarded photo can't then go on a tip.
+    expect((await post({ photoURL: photo('me', 'p2.jpg') })).body.code).toBe('photo-used');
+  });
+  it('account deletion leaves photos and claims alone when a tip failed to retire', async () => {
+    uploaded = new Set(['tip_photos/me/a.jpg']);
+    db.docs['tips/me_a'] = { authorUid: 'me', status: 'live', photoPath: 'tip_photos/me/a.jpg', reportCount: 1, gen: 'g1' };
+    db.docs['tip_photo_claims/tip_photos__me__a.jpg'] = { uid: 'me', tipId: 'me_a', path: 'tip_photos/me/a.jpg' };
+    const real = db.runTransaction;
+    db.runTransaction = async () => {
+      throw new Error('contention');
+    };
+    expect((await call({ action: 'delete-mine' })).code).toBe(500);
+    db.runTransaction = real;
+    expect(deleted).toEqual([]);
+    expect(db.docs['tip_photo_claims/tip_photos__me__a.jpg']).toBeDefined();
   });
 });

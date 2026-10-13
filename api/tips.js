@@ -4,7 +4,7 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
-import { blockedBetween, blockedEitherWay, madeOnThisPost, tipForViewer } from './_lib/tipsServer.js';
+import { blockedBetween, blockedEitherWay, HOUR_MS, ID_RE, madeOnThisPost, send, tipForViewer } from './_lib/tipsServer.js';
 import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
@@ -22,13 +22,10 @@ import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 // marked or reported a tip: counts only. Every mark, report and view
 // carries the tip's `gen` (see api/_lib/tipsServer.js).
 
-const HOUR_MS = 60 * 60 * 1000;
 const MAX_TIPS = 50;
 // A view's lastAt moves at most this often, so a reload writes nothing.
 const VIEW_REFRESH_MS = 12 * 60 * 60 * 1000;
-const ID_RE = /^[\w.-]{1,300}$/;
 export const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
-const send = (res, code, body) => res.status(code).json(body);
 
 export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = Date.now() } = {}) {
   // The place's live tips (two equality filters, no composite index), plus

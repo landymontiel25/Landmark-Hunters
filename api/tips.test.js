@@ -17,7 +17,7 @@ const call = async (method, { query = {}, body = {} } = {}) => {
   await handler({ method, headers: {}, query, body }, res);
   return { code: res.status.mock.calls[0]?.[0], body: res.json.mock.calls[0]?.[0] };
 };
-const tip = (authorUid, o = {}) => ({ authorUid, authorName: authorUid, landmarkId: 'bell', region: 'philly', text: `Tip from ${authorUid}.`, tags: [], status: 'live', hidden: false, reportCount: 0, counts: { helpful: 0, saved: 0 }, verified: true, createdAtMs: 1, visitAt: 1_800_000_123_456, gen: `g-${authorUid}`, heldReasons: ['x'], ...o });
+const tip = (authorUid, o = {}) => ({ authorUid, authorName: authorUid, landmarkId: 'bell', region: 'philly', text: `Tip from ${authorUid}.`, tags: [], status: 'live', hidden: false, reportCount: 0, counts: { helpful: 0, saved: 0 }, verified: true, createdAtMs: 1, visitMonth: '2027-01', gen: `g-${authorUid}`, heldReasons: ['x'], ...o });
 const list = (landmarkId = 'bell') => call('GET', { query: { region: 'philly', landmarkId } });
 const react = (tipId, kind, on) => call('POST', { body: { action: 'react', tipId, kind, on } });
 const report = (tipId = 'ann_bell', reason = 'offensive') => call('POST', { body: { action: 'report', tipId, reason } });
@@ -52,12 +52,10 @@ describe('api/tips: reading', () => {
   });
   it('never returns reporters, held reasons, gens or who marked a tip', async () => {
     const t = (await list()).body.tips.find((x) => !x.mine);
-    expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'createdAt', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitAt'].sort());
+    expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'createdAt', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitMonth'].sort());
   });
-  it('gives the day of the visit, never the minute', async () => {
-    const t = (await list()).body.tips.find((x) => x.id === 'ann_bell');
-    expect(t.visitAt % (24 * 60 * 60 * 1000)).toBe(0);
-    expect(1_800_000_123_456 - t.visitAt).toBeLessThan(24 * 60 * 60 * 1000);
+  it('gives the month of the visit, never the day or time', async () => {
+    expect((await list()).body.tips.find((x) => x.id === 'ann_bell').visitMonth).toBe('2027-01');
   });
   it('always returns your own tip, even behind 50 newer ones', async () => {
     for (let i = 0; i < 60; i++) db.docs[`tips/u${i}_bell`] = tip(`u${i}`, { createdAtMs: 1000 + i });

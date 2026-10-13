@@ -102,7 +102,7 @@ page), clears the rest of `tip_photos/{uid}/`, and keeps the person's
 reports and post log, so `delete-mine` on a live account can't lift a
 moderation lock or reset a limit. `discard-photo` removes an upload whose
 tip never posted (clients can't delete tip photos). Tips show the day of
-the visit, never the time. If `delete-mine`
+the visit month only (the tip doc is readable by anyone who sees the tip). If `delete-mine`
 fails during account deletion, the tips stay: a nightly sweep for tips
 whose author's profile is gone is still to build (Content page PR). Left
 open for the Content page: restoring a reported tip must reset its

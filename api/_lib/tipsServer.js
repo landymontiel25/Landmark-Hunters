@@ -3,7 +3,14 @@ import { toMs } from './time.js';
 
 // Server helpers shared by api/post-tip.js and api/tips.js.
 
-const DAY_MS = 24 * 60 * 60 * 1000;
+export const HOUR_MS = 60 * 60 * 1000;
+export const ID_RE = /^[\w.-]{1,300}$/;
+export const send = (res, code, body) => res.status(code).json(body);
+
+// The month of a visit ("2026-10"), all a tip keeps: the tip doc is
+// readable by anyone who can see the tip, so it never holds the day or
+// time someone stood at a place.
+export const visitMonthOf = (ms) => (Number.isFinite(ms) ? new Date(ms).toISOString().slice(0, 7) : null);
 //
 // A tip's id is {authorUid}_{landmarkId}, so one person has one tip per
 // place, and an id comes back when a tip is deleted and posted again. Each
@@ -117,16 +124,12 @@ export async function deleteTipPhoto(path) {
 // of tips kept for the owner's review).
 export async function deleteTipPhotoFolder(uid, { keep = new Set() } = {}) {
   if (typeof uid !== 'string' || !/^[A-Za-z0-9]{1,128}$/.test(uid)) return false;
-  try {
-    const bucket = await adminBucket();
-    if (!bucket) return false;
-    const [files] = await bucket.getFiles({ prefix: `tip_photos/${uid}/` });
-    await Promise.all(files.filter((f) => !keep.has(f.name)).map((f) => f.delete({ ignoreNotFound: true })));
-    return true;
-  } catch (e) {
-    console.error('tip photo folder delete failed', e?.message || e);
-    return false;
-  }
+  // Throws on a Storage failure, so account deletion reports it and retries.
+  const bucket = await adminBucket();
+  if (!bucket) return false;
+  const [files] = await bucket.getFiles({ prefix: `tip_photos/${uid}/` });
+  await Promise.all(files.filter((f) => !keep.has(f.name)).map((f) => f.delete({ ignoreNotFound: true })));
+  return true;
 }
 
 // What a viewer gets for one tip. No reporters, no held reason, no who
@@ -141,9 +144,7 @@ export function tipForViewer(id, tip, viewerUid) {
     text: tip.text,
     tags: Array.isArray(tip.tags) ? tip.tags : [],
     photoURL: tip.photoURL || null,
-    // The day of the visit, never the minute: a tip shouldn't say exactly
-    // when its author stood somewhere.
-    visitAt: toMs(tip.visitAt) == null ? null : Math.floor(toMs(tip.visitAt) / DAY_MS) * DAY_MS,
+    visitMonth: typeof tip.visitMonth === 'string' ? tip.visitMonth : null,
     createdAt: toMs(tip.createdAt) ?? tip.createdAtMs ?? null,
     verified: tip.verified === true,
     counts: { helpful: tip.counts?.helpful || 0, saved: tip.counts?.saved || 0 },
