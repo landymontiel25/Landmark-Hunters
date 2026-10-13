@@ -1,4 +1,91 @@
 {
+  "cape-town/bo-kaap-museum": {
+    "googlePlaceId": "ChIJjSQp42VnzB0R6WYFH3MPXjk"
+  },
+  "cape-town/boulders-beach": {
+    "googlePlaceId": "ChIJKeByCDY-zB0RECn0gAHgvHw"
+  },
+  "cape-town/castle-of-good-hope": {
+    "googlePlaceId": "ChIJwUYG_oddzB0RZYGNwMhCuy0"
+  },
+  "cape-town/chapmans-peak": {
+    "googlePlaceId": "ChIJ-wA3HsNrzB0R6m99d4jV2rw"
+  },
+  "cape-town/city-hall": {
+    "googlePlaceId": "ChIJJUj_OmNnzB0RGBwoRd497Os"
+  },
+  "cape-town/clock-tower": {
+    "googlePlaceId": "ChIJfSlHjFlnzB0RM6RAP9YLvSo"
+  },
+  "cape-town/district-six-museum": {
+    "googlePlaceId": "ChIJXdpUhHtnzB0RI8TYhHL5028"
+  },
+  "cape-town/green-point-park": {
+    "googlePlaceId": "ChIJrfmRVzZnzB0RupuFfQj-5D0"
+  },
+  "cape-town/greenmarket-square": {
+    "googlePlaceId": "ChIJO5eLP2RnzB0RdXzpIWbNluw"
+  },
+  "cape-town/holocaust-centre": {
+    "googlePlaceId": "ChIJDb99o3BnzB0RGDakjkK3Wrk"
+  },
+  "cape-town/iziko-sa-museum": {
+    "googlePlaceId": "ChIJ523J8npnzB0Rfvs7MyenlN8"
+  },
+  "cape-town/kalk-bay": {
+    "googlePlaceId": "ChIJu2x0EhZAzB0RCyIwnb_NXFY"
+  },
+  "cape-town/kirstenbosch": {
+    "googlePlaceId": "ChIJecz6YqhCzB0RZqXqcdmKfBs"
+  },
+  "cape-town/koopmans-de-wet-house": {
+    "googlePlaceId": "ChIJfZdhqWZnzB0R1nvvG8N6cp8"
+  },
+  "cape-town/la-colombe": {
+    "googlePlaceId": "ChIJCWq-g2FCzB0R4RYvykSREW4"
+  },
+  "cape-town/lions-head": {
+    "googlePlaceId": "ChIJ7Tf0rQVnzB0REQJgaykzKEg"
+  },
+  "cape-town/oranjezicht-market": {
+    "googlePlaceId": "ChIJJda7Ik5nzB0RNkLL5Oqi17c"
+  },
+  "cape-town/platteklip-gorge": {
+    "googlePlaceId": "ChIJOXOeGZNnzB0Rr9f40FLC0to"
+  },
+  "cape-town/rhodes-memorial": {
+    "googlePlaceId": "ChIJbUMgPRZdzB0RWKEeB36jNpk"
+  },
+  "cape-town/robben-island": {
+    "googlePlaceId": "ChIJy3XfS2WKzB0RYZDeLkVkb30"
+  },
+  "cape-town/rondevlei": {
+    "googlePlaceId": "ChIJHwc6bWdBzB0RFSn2P9zPxqk"
+  },
+  "cape-town/sa-jewish-museum": {
+    "googlePlaceId": "ChIJDb99o3BnzB0Rclz4MmRZ2Bg"
+  },
+  "cape-town/sa-national-gallery": {
+    "googlePlaceId": "ChIJ1_aClHpnzB0RgC7vAuZ7a7c"
+  },
+  "cape-town/sea-point-pavilion": {
+    "googlePlaceId": "ChIJ9ZAgDSFnzB0RtaIfaO0TS9k"
+  },
+  "cape-town/signal-hill": {
+    "googlePlaceId": "ChIJxW6bWT5nzB0R9BN9WSyJps4"
+  },
+  "cape-town/slangkop-lighthouse": {
+    "googlePlaceId": "ChIJo6TZF71szB0RFX3LNqzHatI"
+  },
+  "cape-town/slave-lodge": {
+    "googlePlaceId": "ChIJv3trkmRnzB0RnqgKLSzSOEE"
+  },
+  "cape-town/st-georges-cathedral": {
+    "googlePlaceId": "ChIJP6mj-2RnzB0Ruwi6tU44GPc"
+  },
+  "cape-town/two-oceans-aquarium": {
+    "googlePlaceId": "ChIJfeaqwlpnzB0Rl2i0iRvp6SI"
+  },
   "miami/actors-playhouse-miracle-theatre": {
     "googlePlaceId": "ChIJvbp3sZC32YgR3ue4ys04fbs"
   },
@@ -332,6 +419,24 @@
   "nyc/apollo-theater": {
     "googlePlaceId": "ChIJRaWCMm32wokRLdyc4zmYzRw"
   },
+  "nyc/barclays-center": {
+    "googlePlaceId": "ChIJo3lEaa5bwokRnuZS2oWTlLk"
+  },
+  "nyc/beacon-theatre": {
+    "googlePlaceId": "ChIJEdN5k4lYwokRuNPGGOZUwOQ"
+  },
+  "nyc/bemelmans-bar": {
+    "googlePlaceId": "ChIJEQ6D9pRYwokRS-qUAZyIb6k"
+  },
+  "nyc/birdland-jazz-club": {
+    "googlePlaceId": "ChIJdc9EhVNYwokR-naSYfm_Urc"
+  },
+  "nyc/blue-note-jazz-club": {
+    "googlePlaceId": "ChIJbfTV15NZwokRSeNM676BEZI"
+  },
+  "nyc/bowery-ballroom": {
+    "googlePlaceId": "ChIJLQUUOYZZwokR1BfSFbM-XB4"
+  },
   "nyc/bronx-zoo": {
     "googlePlaceId": "ChIJi9JqUYP0wokRLhCVlxy0bgU"
   },
@@ -362,8 +467,17 @@
   "nyc/chrysler-building": {
     "googlePlaceId": "ChIJeWPFRwJZwokRGD60OOo74RU"
   },
+  "nyc/citi-field": {
+    "googlePlaceId": "ChIJldFHseBfwokRO3aZ8NSVW_U"
+  },
   "nyc/columbia-university": {
     "googlePlaceId": "ChIJyQ3Tlj72wokRUCflR_kzeVc"
+  },
+  "nyc/delmonicos": {
+    "googlePlaceId": "ChIJwy8lmxZawokRtWUTg5wuv6I"
+  },
+  "nyc/di-fara-pizza": {
+    "googlePlaceId": "ChIJM2mGRMhEwokRv1Fy6oFJ570"
   },
   "nyc/dumbo-washington-street": {
     "googlePlaceId": "EiZXYXNoaW5ndG9uIFN0LCBCcm9va2x5biwgTlkgMTEyMDEsIFVTQSIuKiwKFAoSCSGsVFsxWsKJEQdbH-gbNqCAEhQKEgn7sD5vMVrCiRHDya8cLNmxzg"
@@ -377,8 +491,14 @@
   "nyc/federal-hall": {
     "googlePlaceId": "ChIJAaIFAxdawokR8txc3YPbD3A"
   },
+  "nyc/film-forum": {
+    "googlePlaceId": "ChIJW3q6Yo1ZwokRwnpMeNyWLFs"
+  },
   "nyc/frick-collection": {
     "googlePlaceId": "ChIJHRH97uxYwokR6CBeDyn1jtg"
+  },
+  "nyc/grand-central-oyster-bar": {
+    "googlePlaceId": "ChIJR9legAFZwokRa1s5gcFXPZw"
   },
   "nyc/grand-central-terminal": {
     "googlePlaceId": "ChIJ-b2RmVlZwokRpb1pwEQjss0"
@@ -392,17 +512,41 @@
   "nyc/hearst-tower": {
     "googlePlaceId": "ChIJU0EjclhYwokRRJsr6pdOlTc"
   },
+  "nyc/ifc-center": {
+    "googlePlaceId": "ChIJjSKIz5NZwokRTS3NUw8-59o"
+  },
+  "nyc/joes-pizza": {
+    "googlePlaceId": "ChIJ8Q2WSpJZwokRQz-bYYgEskM"
+  },
+  "nyc/katzs-delicatessen": {
+    "googlePlaceId": "ChIJCar0f49ZwokR6ozLV-dHNTE"
+  },
+  "nyc/keens-steakhouse": {
+    "googlePlaceId": "ChIJ5804KalZwokRzGll2Rm7nag"
+  },
+  "nyc/le-bernardin": {
+    "googlePlaceId": "ChIJV7QQ6kdZwokRax4615zpSGU"
+  },
   "nyc/lever-house": {
     "googlePlaceId": "ChIJbxQQa_tYwokRtUNdi05Ajtk"
   },
   "nyc/little-island": {
     "googlePlaceId": "ChIJL-CJmTFZwokRsPcqje_bn7w"
   },
+  "nyc/lombardis-pizza": {
+    "googlePlaceId": "ChIJp-cWE4pZwokRmUI8_BIF8dg"
+  },
   "nyc/madison-square-garden": {
     "googlePlaceId": "ChIJhRwB-yFawokR5Phil-QQ3zM"
   },
+  "nyc/madison-square-park": {
+    "googlePlaceId": "ChIJp32RvaZZwokRfH0Zgzl9mXk"
+  },
   "nyc/manhattan-bridge": {
     "googlePlaceId": "ChIJS1F1Oy5awokRz58BetNK5Xs"
+  },
+  "nyc/mcsorleys-old-ale-house": {
+    "googlePlaceId": "ChIJGdCSd5tZwokRfYvMyzO7qtE"
   },
   "nyc/metlife-building": {
     "googlePlaceId": "ChIJhZJ3Yq5ZwokRop0t2AA2eWk"
@@ -419,17 +563,29 @@
   "nyc/museum-of-modern-art": {
     "googlePlaceId": "ChIJKxDbe_lYwokRVf__s8CPn-o"
   },
+  "nyc/museum-of-the-moving-image": {
+    "googlePlaceId": "ChIJAx_yUCVfwokRQ2xEBIWV21g"
+  },
   "nyc/new-york-botanical-garden": {
     "googlePlaceId": "ChIJyRUHuHzzwokRPxVBNKhcP9c"
   },
   "nyc/new-york-city-hall": {
     "googlePlaceId": "ChIJs--MqP1YwokRBwAhjXWIHn8"
   },
+  "nyc/nom-wah-tea-parlor": {
+    "googlePlaceId": "ChIJqwvF8CZawokRwi6ijQhRGD0"
+  },
   "nyc/one-vanderbilt-summit": {
     "googlePlaceId": "ChIJd7I1IO5ZwokRbv7YUlgChl4"
   },
   "nyc/one-world-trade-center": {
     "googlePlaceId": "ChIJy7cGfBlawokR5l2e93hsoEA"
+  },
+  "nyc/patsys-pizzeria": {
+    "googlePlaceId": "ChIJvXfkSP31wokRJ1Lqb0Nk7qQ"
+  },
+  "nyc/peter-luger": {
+    "googlePlaceId": "ChIJR_bK295bwokR8gM6QgEdmkY"
   },
   "nyc/prospect-park": {
     "googlePlaceId": "ChIJQwRohxBbwokRmHrfAMb3ixc"
@@ -440,8 +596,20 @@
   "nyc/radio-city-music-hall": {
     "googlePlaceId": "ChIJPS8b1vhYwokRldqq2YHmxJI"
   },
+  "nyc/raos": {
+    "googlePlaceId": "ChIJs21Av_31wokRz_hcbeRuZ0E"
+  },
+  "nyc/river-cafe": {
+    "googlePlaceId": "ChIJ2QZOdTpawokRU_eN_EPJaX8"
+  },
   "nyc/rockefeller-center": {
     "googlePlaceId": "ChIJ9U1mz_5YwokRosza1aAk0jM"
+  },
+  "nyc/russ-and-daughters": {
+    "googlePlaceId": "ChIJ7VEEjYNZwokRS0bdsXA3uyg"
+  },
+  "nyc/snug-harbor": {
+    "googlePlaceId": "ChIJw_2KmiJOwokRtifdssh9kq8"
   },
   "nyc/soho-cast-iron-district": {
     "googlePlaceId": "ChIJZ5YPvCJZwokRwqzRW0glOxE"
@@ -458,6 +626,12 @@
   "nyc/stonewall-national-monument": {
     "googlePlaceId": "ChIJC-exc5RZwokRWb0fbD6ZBTc"
   },
+  "nyc/tavern-on-the-green": {
+    "googlePlaceId": "ChIJKy5pv_RYwokRBaqWbokKqOc"
+  },
+  "nyc/tenement-museum": {
+    "googlePlaceId": "ChIJ20bVJYdZwokRhI7esP3mYM0"
+  },
   "nyc/the-high-line": {
     "googlePlaceId": "ChIJ5bQPhMdZwokRkTwKhVxhP1g"
   },
@@ -469,6 +643,18 @@
   },
   "nyc/united-nations-hq": {
     "googlePlaceId": "ChIJEU2H4BxZwokRNfY93Yvi-sU"
+  },
+  "nyc/usta-tennis-center": {
+    "googlePlaceId": "ChIJA77QN9lfwokRRmMsefeNEbA"
+  },
+  "nyc/verrazzano-narrows-bridge": {
+    "googlePlaceId": "ChIJbbFndJ1PwokRP_O9d-Oyloo"
+  },
+  "nyc/veselka": {
+    "googlePlaceId": "ChIJlxDiXJxZwokRp4HHbeYqXXU"
+  },
+  "nyc/village-vanguard": {
+    "googlePlaceId": "ChIJ1Y0Fz5VZwokRia-gnWy02iE"
   },
   "nyc/whitney-museum": {
     "googlePlaceId": "ChIJN3MJ6pRYwokRiXg91flSP8Y"

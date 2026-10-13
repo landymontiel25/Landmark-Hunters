@@ -1,4 +1,31 @@
 {
+  "cape-town/bloubergstrand": [
+    "google"
+  ],
+  "cape-town/chavonnes-battery": [
+    "google"
+  ],
+  "cape-town/constantia-wine-route": [
+    "google"
+  ],
+  "cape-town/maclears-beacon": [
+    "google"
+  ],
+  "cape-town/silvermine": [
+    "google"
+  ],
+  "cape-town/springbok-rugby-museum": [
+    "google"
+  ],
+  "cape-town/tokai-forest": [
+    "google"
+  ],
+  "cape-town/twelve-apostles": [
+    "google"
+  ],
+  "cape-town/woodstock-biscuit-mill": [
+    "google"
+  ],
   "miami/adrienne-arsht-center": [
     "google"
   ],
@@ -39,6 +66,12 @@
     "google"
   ],
   "nyc/grants-tomb": [
+    "google"
+  ],
+  "nyc/staten-island-ferry": [
+    "google"
+  ],
+  "nyc/sylvias-restaurant": [
     "google"
   ],
   "nyc/wall-street-nyse": [

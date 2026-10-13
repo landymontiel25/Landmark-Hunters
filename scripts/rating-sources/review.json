@@ -1,4 +1,529 @@
 {
+  "cape-town/auwal-mosque": {
+    "name": "Auwal Mosque",
+    "lat": -33.92222222,
+    "lng": 18.415,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJyXRPuV1nzB0RIVJfHzxiyWI",
+          "name": "Auwal Masjid",
+          "lat": -33.922303299999996,
+          "lng": 18.4148912,
+          "distanceM": 13,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "cape-town/bo-kaap": {
+    "name": "Bo-Kaap",
+    "lat": -33.92083333,
+    "lng": 18.41527778,
+    "google": {
+      "reason": "name matches but 305 m away",
+      "candidates": [
+        {
+          "id": "ChIJLSz2VWhnzB0Rpm9vazg9yw4",
+          "name": "Bo-Kaap",
+          "lat": -33.9182226,
+          "lng": 18.4142522,
+          "distanceM": 305,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/camps-bay-beach": {
+    "name": "Camps Bay Beach",
+    "lat": -33.95,
+    "lng": 18.38333333,
+    "google": {
+      "reason": "name matches but 530 m away",
+      "candidates": [
+        {
+          "id": "ChIJuUZtdVNmzB0R-7OvUK-IBzE",
+          "name": "Camps Bay Beach",
+          "lat": -33.9506605,
+          "lng": 18.3776413,
+          "distanceM": 530,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/cape-of-good-hope": {
+    "name": "Cape of Good Hope & Cape Point",
+    "lat": -34.35805556,
+    "lng": 18.47555556,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJmYaWAAAjzB0Rqaq-aU3-sak",
+          "name": "Cape of Good Hope",
+          "lat": -34.358689399999996,
+          "lng": 18.475349899999998,
+          "distanceM": 73,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJZz_grPwizB0R6aJ8t_FcKDU",
+          "name": "Cape of Good Hope",
+          "lat": -34.3568425,
+          "lng": 18.4739882,
+          "distanceM": 197,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ7ygOGFgjzB0RjV-zYsGqWDk",
+          "name": "Cape Of Good Hope footpath",
+          "lat": -34.3554745,
+          "lng": 18.4777155,
+          "distanceM": 349,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "cape-town/cape-town-stadium": {
+    "name": "Cape Town Stadium",
+    "lat": -33.90346111111111,
+    "lng": 18.41115277777778,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJMW70K09nzB0ROXRQqLI9zac",
+          "name": "DHL Stadium",
+          "lat": -33.9034439,
+          "lng": 18.411154700000004,
+          "distanceM": 2,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "cape-town/cape-wheel": {
+    "name": "Cape Wheel",
+    "lat": -33.90305556,
+    "lng": 18.42277778,
+    "google": {
+      "reason": "name matches but 316 m away",
+      "candidates": [
+        {
+          "id": "ChIJeWUZ4F1nzB0RFcD_RkR-5Uw",
+          "name": "The Cape Wheel",
+          "lat": -33.9026183,
+          "lng": 18.4193928,
+          "distanceM": 316,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/clifton-beaches": {
+    "name": "Clifton Beaches",
+    "lat": -33.93994,
+    "lng": 18.37588,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJPxrnppNnzB0Rkx2NI1xvYcw",
+          "name": "Clifton 4th Beach",
+          "lat": -33.9405591,
+          "lng": 18.375174899999998,
+          "distanceM": 95,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJNTC0x_5mzB0RcEN-wOIN0Ag",
+          "name": "Clifton 4th",
+          "lat": -33.9405758,
+          "lng": 18.3751248,
+          "distanceM": 99,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJocfhnP5mzB0R45ZvZnXcHRI",
+          "name": "Clifton 3rd",
+          "lat": -33.9390582,
+          "lng": 18.3762374,
+          "distanceM": 103,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "cape-town/company-garden": {
+    "name": "Company's Garden",
+    "lat": -33.92777778,
+    "lng": 18.41694444,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ9eDkX1JnzB0RXtjmWhNuScY",
+          "name": "The Company's Garden - Rose Garden",
+          "lat": -33.927808399999996,
+          "lng": 18.4165421,
+          "distanceM": 37,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJzeK_bTNnzB0RN8aL3IOCLCw",
+          "name": "Company's Garden Sundial",
+          "lat": -33.9266128,
+          "lng": 18.4174719,
+          "distanceM": 138,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJkWBudABnzB0Rydl68AE8yno",
+          "name": "The Company's Garden",
+          "lat": -33.926120399999995,
+          "lng": 18.4179441,
+          "distanceM": 206,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/devils-peak": {
+    "name": "Devil's Peak",
+    "lat": -33.95475278,
+    "lng": 18.43926389,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ_zs8yGddzB0RP2CsTH-QMLk",
+          "name": "Devil's Peak",
+          "lat": -33.9548621,
+          "lng": 18.4394575,
+          "distanceM": 22,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJt4L8o2pdzB0RFY_wisrMdgQ",
+          "name": "Devil’s Peak",
+          "lat": -33.9546937,
+          "lng": 18.440571500000004,
+          "distanceM": 121,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJmSuVqP9nzB0RAJkKEnQMz5c",
+          "name": "Devil's Peak",
+          "lat": -33.955160400000004,
+          "lng": 18.4245457,
+          "distanceM": 1358,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/groot-constantia": {
+    "name": "Groot Constantia",
+    "lat": -34.03111111,
+    "lng": 18.41888889,
+    "google": {
+      "reason": "name matches but 213 m away",
+      "candidates": [
+        {
+          "id": "ChIJEXoUs9ppzB0RzHENeddpBUY",
+          "name": "Groot Constantia",
+          "lat": -34.029526,
+          "lng": 18.4201952,
+          "distanceM": 213,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/groote-kerk": {
+    "name": "Groote Kerk",
+    "lat": -33.9248,
+    "lng": 18.4209,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJT2WDX2NnzB0RY-xmFACd0Ho",
+          "name": "Groote Kerk Kaapstad",
+          "lat": -33.9247326,
+          "lng": 18.420882000000002,
+          "distanceM": 8,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ92wlhmRnzB0R2QGMpHAKpBI",
+          "name": "Groote Kerk",
+          "lat": -33.924135,
+          "lng": 18.420966999999997,
+          "distanceM": 74,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ5Sxoh2RnzB0RCF-0n334-cA",
+          "name": "Groote Kerk",
+          "lat": -33.923899999999996,
+          "lng": 18.421288999999998,
+          "distanceM": 106,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/hout-bay": {
+    "name": "Hout Bay",
+    "lat": -34.03333333,
+    "lng": 18.35,
+    "google": {
+      "reason": "name matches but 663 m away",
+      "candidates": [
+        {
+          "id": "ChIJ_elK6gtpzB0R9qpW9BYh8dk",
+          "name": "Hout Bay",
+          "lat": -34.0392923,
+          "lng": 18.3500299,
+          "distanceM": 663,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/long-street": {
+    "name": "Long Street",
+    "lat": -33.92166667,
+    "lng": 18.42,
+    "google": {
+      "reason": "name matches but 188 m away",
+      "candidates": [
+        {
+          "id": "ChIJWRPfIGRnzB0RVRF5ql_EcmE",
+          "name": "Long Street",
+          "lat": -33.922923,
+          "lng": 18.4186309,
+          "distanceM": 188,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/muizenberg-beach": {
+    "name": "Muizenberg Beach",
+    "lat": -34.10555556,
+    "lng": 18.46805556,
+    "google": {
+      "reason": "name matches but 404 m away",
+      "candidates": [
+        {
+          "id": "ChIJK0_pHVZAzB0RqcyfKL4LfEs",
+          "name": "Muizenberg Beach",
+          "lat": -34.1087366,
+          "lng": 18.4701801,
+          "distanceM": 404,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/nobel-square": {
+    "name": "Nobel Square",
+    "lat": -33.906583,
+    "lng": 18.419722,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJh_UCllBnzB0RVnU68X2OAcE",
+          "name": "Nobel Square",
+          "lat": -33.9065612,
+          "lng": 18.419714,
+          "distanceM": 3,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJPTmEelpnzB0Reez0tdmaTdc",
+          "name": "Nobel Square",
+          "lat": -33.906163299999996,
+          "lng": 18.4192812,
+          "distanceM": 62,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/noordhoek-beach": {
+    "name": "Noordhoek Long Beach",
+    "lat": -34.104,
+    "lng": 18.36,
+    "google": {
+      "reason": "name matches but 670 m away",
+      "candidates": [
+        {
+          "id": "ChIJn4R3fZ5rzB0RBeRAPjoS5w8",
+          "name": "Noordhoek Beach",
+          "lat": -34.0982857,
+          "lng": 18.3576856,
+          "distanceM": 670,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJNR7133ZrzB0R8_w8vX7IzCw",
+          "name": "Long Beach",
+          "lat": -34.1326368,
+          "lng": 18.3345354,
+          "distanceM": 3954,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ-4NcsIJszB0RlJPOwmdGRjk",
+          "name": "Long Beach",
+          "lat": -34.1326326,
+          "lng": 18.334518799999998,
+          "distanceM": 3955,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/sea-point-promenade": {
+    "name": "Sea Point Promenade",
+    "lat": -33.91527778,
+    "lng": 18.3925,
+    "google": {
+      "reason": "name matches but 627 m away",
+      "candidates": [
+        {
+          "id": "ChIJOcnEGqxnzB0RfBeIJzJZM7E",
+          "name": "Sea Point Promenade",
+          "lat": -33.9098934,
+          "lng": 18.3904723,
+          "distanceM": 627,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/simons-town": {
+    "name": "Simon's Town",
+    "lat": -34.19333333,
+    "lng": 18.43333333,
+    "google": {
+      "reason": "name matches but 231 m away",
+      "candidates": [
+        {
+          "id": "ChIJb84aFlwVzB0R-nRykhcoE9M",
+          "name": "Simon's Town",
+          "lat": -34.193459499999996,
+          "lng": 18.435835,
+          "distanceM": 231,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/table-mountain": {
+    "name": "Table Mountain",
+    "lat": -33.96218,
+    "lng": 18.409883,
+    "google": {
+      "reason": "name matches but 428 m away",
+      "candidates": [
+        {
+          "id": "ChIJcxnD-_tnzB0R5YsM2zi5S_c",
+          "name": "Table Mountain (Nature Reserve)",
+          "lat": -33.9660289,
+          "lng": 18.4098014,
+          "distanceM": 428,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJH7aysfdnzB0RtP4Njfl3218",
+          "name": "Maclear's Beacon",
+          "lat": -33.966825,
+          "lng": 18.4255629,
+          "distanceM": 1536,
+          "nameMatch": false,
+          "overlap": 0
+        }
+      ]
+    }
+  },
+  "cape-town/va-waterfront": {
+    "name": "V&A Waterfront",
+    "lat": -33.90305556,
+    "lng": 18.42277778,
+    "google": {
+      "reason": "name matches but 600 m away",
+      "candidates": [
+        {
+          "id": "ChIJpUSVz1BnzB0RgEe7eAWGwx0",
+          "name": "V&A Waterfront",
+          "lat": -33.907991599999995,
+          "lng": 18.420161999999998,
+          "distanceM": 600,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "cape-town/zeitz-mocaa": {
+    "name": "Zeitz MOCAA",
+    "lat": -33.9084,
+    "lng": 18.423,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ3dD0bFlnzB0RGBEddr2FeY8",
+          "name": "Zeitz Museum of Contemporary Art Africa",
+          "lat": -33.908411799999996,
+          "lng": 18.4226404,
+          "distanceM": 33,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
   "miami/amelia-earhart-park": {
     "name": "Amelia Earhart Park",
     "lat": 25.8869127,
@@ -848,6 +1373,62 @@
       ]
     }
   },
+  "nyc/bryant-park": {
+    "name": "Bryant Park",
+    "lat": 40.753751,
+    "lng": -73.983543,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJBQrKATBZwokR5PiaVeIM8u4",
+          "name": "Bryant Park Winter Village",
+          "lat": 40.7535021,
+          "lng": -73.98358499999999,
+          "distanceM": 28,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJvbGg56pZwokRp_E3JbivnLQ",
+          "name": "Bryant Park",
+          "lat": 40.7535367,
+          "lng": -73.9829529,
+          "distanceM": 55,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJBesOp6pZwokRBYN8vIzkwhI",
+          "name": "Bryant Park",
+          "lat": 40.7542906,
+          "lng": -73.9830296,
+          "distanceM": 74,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/carbone": {
+    "name": "Carbone",
+    "lat": 40.728,
+    "lng": -74.0002,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJmSvG_ZFZwokRTOFeiLXzkmA",
+          "name": "Carbone New York",
+          "lat": 40.727989099999995,
+          "lng": -74.0002414,
+          "distanceM": 4,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "nyc/charging-bull": {
     "name": "Charging Bull",
     "lat": 40.705576,
@@ -898,6 +1479,34 @@
           "lat": 40.5755438,
           "lng": -73.9707016,
           "distanceM": 998,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/domino-park": {
+    "name": "Domino Park",
+    "lat": 40.714106,
+    "lng": -73.968275,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJX7hLk0FZwokRFhRcjtylakg",
+          "name": "Domino Park",
+          "lat": 40.7148803,
+          "lng": -73.967851,
+          "distanceM": 93,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJZ_46jThZwokRUnLCe58xZ-8",
+          "name": "Domino Park",
+          "lat": 40.715706,
+          "lng": -73.9675687,
+          "distanceM": 188,
           "nameMatch": true,
           "overlap": 1
         }
@@ -1026,6 +1635,80 @@
       ]
     }
   },
+  "nyc/juniors-restaurant": {
+    "name": "Junior's",
+    "lat": 40.6901455,
+    "lng": -73.9819887,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJKSnzQJVewokRme40boVi4uk",
+          "name": "Junior's Restaurant & Bakery",
+          "lat": 40.6901493,
+          "lng": -73.9818736,
+          "distanceM": 10,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJmSutZnRbwokRInW40tNXZUw",
+          "name": "Juniors Car Service",
+          "lat": 40.6415641,
+          "lng": -73.9640284,
+          "distanceM": 5610,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJv8YTWFRYwokRkTUSNDg04Y4",
+          "name": "Junior's Restaurant & Bakery",
+          "lat": 40.7583331,
+          "lng": -73.98663669999999,
+          "distanceM": 7592,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/levain-bakery-upper-west-side": {
+    "name": "Levain Bakery",
+    "lat": 40.7799,
+    "lng": -73.980342,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ6SmehIlYwokRaO14xlmbWZU",
+          "name": "Levain Bakery",
+          "lat": 40.779958900000004,
+          "lng": -73.9802984,
+          "distanceM": 8,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJsZ5hHIlYwokRkNYj6Fip1UI",
+          "name": "Levain Bakery",
+          "lat": 40.781526,
+          "lng": -73.9792856,
+          "distanceM": 201,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJQ7djRf9ZwokRerdr9yNTdfM",
+          "name": "Levain Bakery",
+          "lat": 40.777355299999996,
+          "lng": -73.9552613,
+          "distanceM": 2131,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "nyc/lincoln-center": {
     "name": "Lincoln Center",
     "lat": 40.7725,
@@ -1040,6 +1723,43 @@
           "lng": -73.9834889,
           "distanceM": 35,
           "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "nyc/nathans-famous": {
+    "name": "Nathan's Famous",
+    "lat": 40.575278,
+    "lng": -73.981389,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJQQaDPzVEwokRwJfPzNzyNnI",
+          "name": "Nathan's Famous",
+          "lat": 40.5752667,
+          "lng": -73.9814806,
+          "distanceM": 8,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJv58wAS5FwokR071pDE2VMIo",
+          "name": "Nathan's Famous",
+          "lat": 40.5733548,
+          "lng": -73.9798835,
+          "distanceM": 249,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJd1YvYgBbwokR5eX6Vn3JNA4",
+          "name": "Nathan's Famous",
+          "lat": 40.7038704,
+          "lng": -74.0138541,
+          "distanceM": 14559,
+          "nameMatch": true,
           "overlap": 1
         }
       ]
