@@ -29,7 +29,13 @@ vi.mock('../lib/leaderboard', () => ({ attachCheckinPhoto: vi.fn() }));
 vi.mock('../lib/imageUtils', () => ({ pickPhoto: vi.fn() }));
 vi.mock('./CheckInBlast', async () => {
   const { useEffect } = await import('react');
-  return { default: ({ onDone }) => { useEffect(() => { onDone(); }, [onDone]); return null; } };
+  function FakeBlast({ onDone }) {
+    useEffect(() => {
+      onDone();
+    }, [onDone]);
+    return null;
+  }
+  return { default: FakeBlast };
 });
 vi.mock('./tips/TipComposer', () => ({ default: () => <div>TIP COMPOSER</div> }));
 
