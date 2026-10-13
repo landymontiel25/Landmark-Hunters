@@ -1,6 +1,8 @@
 import { rankPlaces } from '../../src/lib/maprRank/surfaces.js';
 import { haversineKm } from '../../src/lib/maprRank/distanceDecay.js';
 import { seededRandom } from '../../src/lib/maprRank/experiments.js';
+import { kindBoost, tasteKindAffinity } from '../../src/lib/placeKinds.js';
+import { getLandmark } from '../../src/data/regions.js';
 
 // Mapr chat (api/plan-ai.js) with the same Phase 1 ranking as every other
 // Mapr surface: the candidate places are ranked in code (taste x distance x
@@ -25,17 +27,20 @@ export function reviewsMap(reviews) {
   return out;
 }
 
-// Taste fit from the summary the client sends: { all: {tag: score} } or per city.
-export function summaryScorer(tagScoreSummary) {
+// Taste fit from the summary the client sends: { all: {tag: score} } or per
+// city, plus the kind-of-place boost (placeKinds.js) from the reviews and the
+// onboarding swipes, the same as every other Mapr surface.
+export function summaryScorer(tagScoreSummary, affinity = null) {
   const s = tagScoreSummary && typeof tagScoreSummary === 'object' ? tagScoreSummary : {};
   return (l) => {
     const tags = s.all || s[l.regionId] || {};
-    return (l.categories || []).reduce((sum, c) => sum + (Number(tags[c]) || 0), 0);
+    const tag = (l.categories || []).reduce((sum, c) => sum + (Number(tags[c]) || 0), 0);
+    return affinity ? tag + kindBoost(l, affinity) : tag;
   };
 }
 
 // Returns { text, telemetry: { "region/id": {...} }, ids: Set } or null.
-export function chatRanking({ uid, pool = [], curated = [], regionsChosen = false, near = null, tagScoreSummary = {}, reviews = [], maprContext = null, models = null, now = Date.now(), requestFor = 'solo', count = CHAT_RANKED_COUNT, rng = null }) {
+export function chatRanking({ uid, pool = [], curated = [], regionsChosen = false, near = null, tagScoreSummary = {}, reviews = [], swipeAnswers = [], maprContext = null, models = null, now = Date.now(), requestFor = 'solo', count = CHAT_RANKED_COUNT, rng = null }) {
   if (requestFor === 'group') return null;
   const candidates = regionsChosen
     ? pool
@@ -46,7 +51,8 @@ export function chatRanking({ uid, pool = [], curated = [], regionsChosen = fals
   const myReviews = reviewsMap(reviews);
   const visited = new Set(Object.values(myReviews).filter((r) => r.visited).map((r) => r.landmarkId));
   const places = candidates.filter((l) => !visited.has(l.id));
-  const fit = summaryScorer(tagScoreSummary);
+  const affinity = tasteKindAffinity(myReviews, (r) => (r.region ? getLandmark(r.region, r.landmarkId) : null), { swipeAnswers });
+  const fit = summaryScorer(tagScoreSummary, affinity);
   const ctx = maprContext && typeof maprContext === 'object' ? maprContext : {};
   const shown = {};
   for (const [id, n] of Object.entries(ctx.seen && typeof ctx.seen === 'object' ? ctx.seen : {}).slice(0, 500)) {

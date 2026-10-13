@@ -664,6 +664,7 @@ export default function Mapr() {
             tasteIntro: composeTasteIntro(myProfile),
             insiderMode,
             tagScoreSummary,
+            swipeAnswers: myProfile?.swipeAnswers,
           }),
           // Mapr Phase 1 exploration on the server: account age and how often
           // each place has been shown to this user (device history).

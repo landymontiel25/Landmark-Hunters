@@ -10,7 +10,7 @@ export const normalizeRequestFor = (v) => (isRequestFor(v) ? v : 'solo');
 // device. (api/plan-ai.js drops them again on its side.)
 export function tasteContextFor(requestFor, ctx) {
   if (requestFor === 'group') {
-    return { reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {} };
+    return { reviews: [], interests: [], tasteIntro: '', insiderMode: false, tagScoreSummary: {}, swipeAnswers: [] };
   }
   return {
     reviews: ctx.reviews,
@@ -18,5 +18,8 @@ export function tasteContextFor(requestFor, ctx) {
     tasteIntro: ctx.tasteIntro,
     insiderMode: ctx.insiderMode,
     tagScoreSummary: ctx.tagScoreSummary,
+    // Onboarding swipes ({ word, answer }), so the chat ranking sinks a kind
+    // swiped left (pizza) the same way every other Mapr surface does.
+    swipeAnswers: Array.isArray(ctx.swipeAnswers) ? ctx.swipeAnswers : [],
   };
 }

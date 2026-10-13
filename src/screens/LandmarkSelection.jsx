@@ -10,6 +10,7 @@ import { useMyPhotos } from '../lib/MyPhotosContext';
 import { useFriends } from '../lib/FriendsContext';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
 import { rankPlaces } from '../lib/maprRank/surfaces.js';
+import { kindBoost, tasteKindAffinity } from '../lib/placeKinds.js';
 import { regionsWithin } from '../lib/nearbyPicks';
 import { effectiveTagScores } from '../lib/tagScores';
 import { distanceMeters } from '../lib/geo';
@@ -24,7 +25,7 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import Lightbox from '../components/Lightbox';
 import QuickRateButton from '../components/QuickRateButton';
-import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, getRegion } from '../data/regions';
+import { ALL_LANDMARKS, INTERESTS, PICKABLE_INTERESTS, getRegion, getLandmark } from '../data/regions';
 import { inArea, inScope, scopeFromKey, scopeRegionId, scopeRows } from '../lib/cityScope';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
@@ -56,16 +57,18 @@ const SORT_OPTIONS = [
 // "For Me": how likely you are to actually go -- the same learned per-city
 // category scores Mapr Picks ranks by (-100..100, from your ratings, with
 // other cities lending a warm start), plus a nudge for the interests you
-// picked at signup. Ties fall through to Popular.
+// picked at signup, plus the kind of place (placeKinds.js): a kind you
+// swiped left on in onboarding or rated down sinks even inside a category
+// you like. Ties fall through to Popular.
 const INTEREST_BONUS = 15;
-function forMeScore(l, profile, interests, scoresByRegion) {
+function forMeScore(l, profile, interests, scoresByRegion, affinity = null) {
   const region = l.regionId ?? null;
   if (!scoresByRegion.has(region)) scoresByRegion.set(region, effectiveTagScores(profile, region));
   const scores = scoresByRegion.get(region);
   const cats = l.categories || [];
   const tagPart = cats.length ? Math.max(...cats.map((c) => scores[c] || 0)) : 0;
   const interestPart = cats.some((c) => interests.has(c)) ? INTEREST_BONUS : 0;
-  return tagPart + interestPart;
+  return tagPart + interestPart + (affinity ? kindBoost(l, affinity) : 0);
 }
 
 // "Popular": the catalog's popularity (0-10) nudged by community ratings,
@@ -507,7 +510,8 @@ export default function LandmarkSelection() {
     if (sortBy === 'forMe') {
       const interests = new Set(trip.savedInterests || []);
       const scoresByRegion = new Map();
-      const score = new Map(filtered.map((l) => [l, forMeScore(l, myProfile, interests, scoresByRegion)]));
+      const affinity = tasteKindAffinity(myReviews, (r) => getLandmark(r.region, r.landmarkId) || null, myProfile);
+      const score = new Map(filtered.map((l) => [l, forMeScore(l, myProfile, interests, scoresByRegion, affinity)]));
       // Signed in: Mapr's ranking (maprRank/surfaces.js) over this fit --
       // distance decay keeps liked places first, then neutral, then disliked,
       // nearer first within each; plus similar places and the model. Ties

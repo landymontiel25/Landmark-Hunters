@@ -176,6 +176,46 @@ export function kindAffinity(myReviews, findLandmark = () => null) {
   return out;
 }
 
+// Onboarding swipe cards that name a kind of place. Swiping left on Pizza
+// means pizza places, not all food: the category moves too (tagScores), but
+// only this makes a pizza place rank below a steakhouse for someone who
+// loves steak and passed on pizza.
+export const SWIPE_CARD_KINDS = {
+  Steak: ['steakhouse'],
+  Pizza: ['pizza'],
+  Sushi: ['sushi'],
+  'Coffee shops': ['coffee'],
+  'Hiking trails': ['trails'],
+  Beaches: ['beach'],
+  Gardens: ['garden'],
+  'Nightlife/clubs': ['nightclub'],
+  'Dive bars': ['bar'],
+  'Rooftop bars': ['cocktails'],
+  'Live music': ['live-music'],
+  Shopping: ['shopping'],
+};
+// A swiped "don't like" is said outright, so it outweighs a whole category's
+// lift: -20 affinity is -40 points, enough to put those places below plain
+// neutral ones even when their category is a signup interest. A swiped
+// "love" is a light nudge, like a "worth trying" rating plus a bit.
+export const SWIPE_KIND_WEIGHT = { love: 3, dislike: -20 };
+export function swipeKindAffinity(swipeAnswers) {
+  const out = {};
+  for (const a of Array.isArray(swipeAnswers) ? swipeAnswers : []) {
+    const w = SWIPE_KIND_WEIGHT[a?.answer];
+    for (const k of (w && SWIPE_CARD_KINDS[a?.word]) || []) out[k] = (out[k] || 0) + w;
+  }
+  return out;
+}
+
+// Everything Mapr knows about kinds for one traveler: their ratings
+// (kindAffinity) plus their onboarding swipes. Every Mapr surface reads this.
+export function tasteKindAffinity(myReviews, findLandmark, profile) {
+  const out = kindAffinity(myReviews, findLandmark);
+  for (const [k, v] of Object.entries(swipeKindAffinity(profile?.swipeAnswers))) out[k] = (out[k] || 0) + v;
+  return out;
+}
+
 // A pick's boost from the kinds it shares with what the traveler rated:
 // each affinity point is worth KIND_POINTS tag-score points (one "Highly
 // recommend" of a category is worth 10), so a loved steakhouse lifts other
