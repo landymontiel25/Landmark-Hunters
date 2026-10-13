@@ -830,6 +830,23 @@ await t('storage tip_photos: no client overwrites or deletes a photo, its owner 
   await assertSucceeds(deleteObject(ref(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).storage(), 'tip_photos/ann/t1.jpg')));
 });
 
+console.log('tip_metrics (Phase 1 dashboard)');
+await reset();
+await seed((db) => setDoc(doc(db, 'tip_metrics/2026-10-12'), { date: '2026-10-12', live: 1 }));
+await t('tip_metrics: only the admin dashboard reads it; no app user, not even the admin account, and nobody writes', async () => {
+  await assertSucceeds(getDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'tip_metrics/2026-10-12')));
+  await assertFails(getDoc(doc(as('ann'), 'tip_metrics/2026-10-12')));
+  await assertFails(getDoc(doc(env.authenticatedContext('adm', { email: ADMIN_EMAIL, email_verified: true }).firestore(), 'tip_metrics/2026-10-12')));
+  await assertFails(setDoc(doc(env.authenticatedContext('admin-dashboard', { dashboardAdmin: true }).firestore(), 'tip_metrics/x'), { live: 9 }));
+});
+await t('tip_reports, tip_post_log, tip_photo_claims: server only', async () => {
+  await assertFails(getDoc(doc(as('ann'), 'tip_reports/x_g_ann')));
+  await assertFails(setDoc(doc(as('ann'), 'tip_reports/x_g_ann'), { uid: 'ann' }));
+  await assertFails(getDoc(doc(as('ann'), 'tip_post_log/ann')));
+  await assertFails(setDoc(doc(as('ann'), 'tip_post_log/ann'), { at: [] }));
+  await assertFails(setDoc(doc(as('ann'), 'tip_photo_claims/tip_photos__ann__a.jpg'), { uid: 'ann' }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

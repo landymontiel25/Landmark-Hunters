@@ -86,6 +86,40 @@ export function presenceDocs(ds, dates) {
   });
 }
 
+// Tips (Phase 1), one doc per day: the state of every tip at the end of
+// that day's run (live, held, hidden, withdrawn, removed), tips posted and
+// impressions logged that day, people with a live tip posted in the last 30
+// days, live tips on distinct places, Helpful/Save totals, and live tips per
+// region. Counts only; tip text never reaches the dashboard docs.
+export function tipDocs(ds, dates) {
+  const tips = ds.tips || [];
+  const live = tips.filter((t) => t.status === 'live' && !t.hidden);
+  const state = {
+    live: live.length,
+    held: tips.filter((t) => t.status === 'held').length,
+    hidden: tips.filter((t) => t.status === 'live' && t.hidden).length,
+    withdrawn: tips.filter((t) => t.status === 'withdrawn').length,
+    removed: tips.filter((t) => t.status === 'removed').length,
+    reported_live: live.filter((t) => t.reportCount > 0).length,
+    live_places: new Set(live.map((t) => `${t.region}/${t.landmarkId}`)).size,
+    helpful_total: tips.reduce((n, t) => n + (t.helpful || 0), 0),
+    saved_total: tips.reduce((n, t) => n + (t.saved || 0), 0),
+    live_by_region: live.reduce((m, t) => ({ ...m, [t.region || 'unknown']: (m[t.region || 'unknown'] || 0) + 1 }), {}),
+  };
+  return dates.map((date) => {
+    const from = dayStart(date);
+    const to = from + DAY_MS;
+    const authors30 = new Set(live.filter((t) => t.createdAt >= to - 30 * DAY_MS && t.createdAt < to).map((t) => t.authorUid));
+    return {
+      date,
+      ...state,
+      posted: tips.filter((t) => t.createdAt >= from && t.createdAt < to).length,
+      impressions: (ds.tipImpressions || []).filter((r) => r.shownAt >= from && r.shownAt < to).reduce((n, r) => n + (r.tipIds?.length || 0), 0),
+      authors_30d: authors30.size,
+    };
+  });
+}
+
 export function engagementDocs(ds, dates, annotated = annotateShown(ds)) {
   const visits = realCheckins(ds);
   return dates.map((date) => {

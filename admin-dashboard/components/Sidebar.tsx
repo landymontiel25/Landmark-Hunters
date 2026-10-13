@@ -14,6 +14,7 @@ export const NAV = [
   { href: '/dashboard/accuracy', label: 'Accuracy' },
   { href: '/dashboard/taste', label: 'Taste' },
   { href: '/dashboard/app-metrics', label: 'App metrics' },
+  { href: '/dashboard/content', label: 'Content' },
   { href: '/dashboard/tools', label: 'Tools' },
 ];
 

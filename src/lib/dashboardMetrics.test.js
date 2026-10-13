@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { retention } from './adminStats.js';
-import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, presenceDocs, retentionDocs, slackAlerts, tasteDocs } from './dashboardMetrics.js';
+import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, presenceDocs, retentionDocs, slackAlerts, tasteDocs, tipDocs } from './dashboardMetrics.js';
 
 const DAY = 86400000;
 const D = '2026-09-20';
@@ -132,5 +132,24 @@ describe('presenceDocs (verified visits per day)', () => {
     const [day, empty] = presenceDocs(ds, ['2026-10-10', '2026-10-11']);
     expect(day).toEqual({ date: '2026-10-10', checkins: 4, checked: 3, verified: 1, failed: 2, verified_rate: 0.3333, fail_reasons: { 'too-far': 2 } });
     expect(empty).toMatchObject({ checkins: 0, checked: 0, verified_rate: null });
+  });
+});
+
+
+describe('tipDocs', () => {
+  it('counts tips by state, posted and impressions that day, and people with a live tip from the last 30 days', () => {
+    const day = Date.parse('2026-10-12T12:00:00Z');
+    const ds = {
+      tips: [
+        { authorUid: 'a', landmarkId: 'x', region: 'philly', status: 'live', hidden: false, reportCount: 1, createdAt: day, helpful: 2, saved: 1 },
+        { authorUid: 'b', landmarkId: 'x', region: 'philly', status: 'live', hidden: false, reportCount: 0, createdAt: day - 40 * 864e5, helpful: 0, saved: 0 },
+        { authorUid: 'c', landmarkId: 'y', region: 'villanova', status: 'live', hidden: true, reportCount: 2, createdAt: day },
+        { authorUid: 'd', landmarkId: 'z', region: 'philly', status: 'held', createdAt: day },
+        { authorUid: 'e', landmarkId: 'z', region: 'philly', status: 'removed', createdAt: 1 },
+      ],
+      tipImpressions: [{ shownAt: day, tipIds: ['1', '2'] }, { shownAt: 5, tipIds: ['3'] }],
+    };
+    const [doc] = tipDocs(ds, ['2026-10-12']);
+    expect(doc).toMatchObject({ date: '2026-10-12', live: 2, held: 1, hidden: 1, removed: 1, withdrawn: 0, reported_live: 1, live_places: 1, posted: 3, impressions: 2, authors_30d: 1, helpful_total: 2, saved_total: 1, live_by_region: { philly: 2 } });
   });
 });

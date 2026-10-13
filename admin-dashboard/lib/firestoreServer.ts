@@ -9,7 +9,7 @@ import { parseServiceAccount, type ServiceAccount } from './firebaseAdmin';
 const SCOPE = 'https://www.googleapis.com/auth/datastore';
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
-export const READABLE = ['mapr_metrics', 'growth_metrics', 'engagement_metrics', 'retention_cohorts', 'accuracy_by_category', 'accuracy_by_city', 'taste_score', 'mapr_ncf_model', 'mapr_similarity_matrix', 'app_metrics', 'big_misses', 'presence_metrics'];
+export const READABLE = ['mapr_metrics', 'growth_metrics', 'engagement_metrics', 'retention_cohorts', 'accuracy_by_category', 'accuracy_by_city', 'taste_score', 'mapr_ncf_model', 'mapr_similarity_matrix', 'app_metrics', 'big_misses', 'presence_metrics', 'tip_metrics'];
 export const MISS_STATUSES = ['pending', 'resolved', 'duplicate'];
 
 type Fetch = typeof fetch;

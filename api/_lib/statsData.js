@@ -44,7 +44,7 @@ export async function loadStatsData(db) {
     if (r.truncated) truncated.push(name);
     return r.rows;
   };
-  const [users, openDays, reviews, pickFeedback, recommendationLog, checkins, referrals, placeScores, tasteHistory] = await Promise.all([
+  const [users, openDays, reviews, pickFeedback, recommendationLog, checkins, referrals, placeScores, tasteHistory, tips] = await Promise.all([
     take('users', db.collection('users'), (d) => ({ uid: d.id, createdAt: ms(d.data().createdAt) })),
     take('open_days', db.collectionGroup('open_days'), (d) => ({ uid: parentId(d), date: d.id })),
     take('reviews', db.collection('reviews'), (d) => {
@@ -132,10 +132,27 @@ export async function loadStatsData(db) {
       const x = d.data();
       return { userId: parentId(d), at: ms(x.at), score: x.score ?? null, baselineScore: x.baselineScore ?? null, ratingsCount: x.ratingsCount };
     }),
+    // Tips (Phase 1): counts only, never the text.
+    take('tips', db.collection('tips'), (d) => {
+      const x = d.data();
+      return {
+        id: d.id,
+        authorUid: x.authorUid,
+        landmarkId: x.landmarkId,
+        region: x.region ?? null,
+        status: x.status,
+        hidden: x.hidden === true,
+        reportCount: x.reportCount || 0,
+        createdAt: x.createdAtMs ?? ms(x.createdAt),
+        helpful: x.counts?.helpful || 0,
+        saved: x.counts?.saved || 0,
+        gen: x.gen ?? null,
+      };
+    }),
   ]);
   // Tip impressions ('landmark-page', Phase 1) share the collection but are
   // not Mapr picks: kept apart so no Mapr metric counts them.
   const tipImpressions = recommendationLog.filter((r) => r.surface === TIP_SURFACE);
   const picks = recommendationLog.filter((r) => r.surface !== TIP_SURFACE);
-  return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, checkins, referrals, placeScores, tasteHistory, truncated };
+  return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, tips, checkins, referrals, placeScores, tasteHistory, truncated };
 }

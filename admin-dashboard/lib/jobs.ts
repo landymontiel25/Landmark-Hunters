@@ -1,17 +1,31 @@
-// The Tools page's buttons, forwarded by app/api/jobs/route.ts to the main
-// app's api/admin-jobs.js with ADMIN_JOBS_SECRET (server to server; the
-// secret never reaches the browser). Only these actions pass through.
-export const JOB_ACTIONS = ['mapr-run', 'refresh'] as const;
+// The Tools page's buttons and the Content page's tip decisions, forwarded
+// by app/api/jobs/route.ts to the main app's api/admin-jobs.js with
+// ADMIN_JOBS_SECRET (server to server; the secret never reaches the
+// browser). Only these actions, and their checked fields, pass through.
+export const JOB_ACTIONS = ['mapr-run', 'refresh', 'tips-queue', 'tip-moderate'] as const;
 export type JobAction = (typeof JOB_ACTIONS)[number];
+export const TIP_DECISIONS = ['approve', 'remove', 'clear'] as const;
+const TIP_ID = /^[A-Za-z0-9_.-]{1,300}$/;
 
-export async function forwardJob(action: unknown, { appUrl = process.env.APP_URL, secret = process.env.ADMIN_JOBS_SECRET, fetchImpl = fetch } = {}): Promise<{ status: number; body: unknown }> {
+// Only the fields each action takes pass through, checked here too.
+export function jobParams(action: JobAction, input: unknown): Record<string, string> | null {
+  if (action !== 'tip-moderate') return {};
+  const x = (input || {}) as Record<string, unknown>;
+  if (typeof x.tipId !== 'string' || !TIP_ID.test(x.tipId)) return null;
+  if (!TIP_DECISIONS.includes(x.decision as (typeof TIP_DECISIONS)[number])) return null;
+  return { tipId: x.tipId, decision: x.decision as string };
+}
+
+export async function forwardJob(action: unknown, { appUrl = process.env.APP_URL, secret = process.env.ADMIN_JOBS_SECRET, fetchImpl = fetch, params = undefined as unknown } = {}): Promise<{ status: number; body: unknown }> {
   if (!JOB_ACTIONS.includes(action as JobAction)) return { status: 400, body: { error: 'Unknown action.' } };
+  const extra = jobParams(action as JobAction, params);
+  if (!extra) return { status: 400, body: { error: 'Bad request.' } };
   if (!appUrl || !secret) return { status: 503, body: { error: 'APP_URL and ADMIN_JOBS_SECRET must be set on the dashboard.' } };
   try {
     const r = await fetchImpl(`${appUrl.replace(/\/$/, '')}/api/admin-jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
-      body: JSON.stringify({ action }),
+      body: JSON.stringify({ action, ...extra }),
     });
     const text = await r.text().catch(() => '');
     // The app (or Vercel in front of it) refusing the server-to-server call

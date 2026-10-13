@@ -110,12 +110,7 @@ tip never posted (clients can't delete tip photos). Tips keep only
 the visit month, in the place's time zone, and not the check-in id (the tip
 doc is readable by anyone who sees the tip). If `delete-mine`
 fails twice, account deletion stops before wiping anything and says so
-(unless the account provably has no tips or marks). Left for the Content
-page PR: a nightly sweep of marks, reports and views whose tip is gone or
-reposted (a failed cleanup after a delete leaves them; they never count,
-but they stay). Left
-open for the Content page: restoring a reported tip must reset its
-`reportCount`, or the next single report hides it again. The word filter
+(unless the account provably has no tips or marks).  The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. `tip_views` feed the Phase 4 "went" count. Photos on tips need
 `VITE_FIREBASE_STORAGE_BUCKET` in the server's environment too (Vercel
 gives functions every project variable); without it every photo is
@@ -131,7 +126,17 @@ impressions sit in `recommendation_log` as the plan says, so they count
 toward its 100,000-row nightly read cap; move them to their own
 collection if that cap gets close. Photos the browser can't convert
 (HEIC on most desktops) are refused rather than posted broken. Legal explains tips and how to
-report one; APP_HELP describes tips. Next: the dashboard Content page.
+report one; APP_HELP describes tips. The dashboard's Content page
+(admin-dashboard, Content) lists held, reported and withdrawn tips with
+the filter's reasons and the report reasons (never who reported); Approve,
+Remove and Delete go through `api/admin-jobs.js` (`tips-queue`,
+`tip-moderate`, `api/_lib/tipModeration.js`). Approving resets the report
+count (resolved reports stay as the record). The nightly job writes
+`tip_metrics/{date}` (tips by state, posted, impressions, people with a
+live tip in 30 days, live tips per region) and sweeps marks and views
+whose tip is gone or reposted (`sweepTipOrphans`, skipped when the tips
+read was truncated). Phase 1 is complete; the 50-tip checkpoint is
+skipped at the owner's request.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

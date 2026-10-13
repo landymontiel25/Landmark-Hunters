@@ -11,6 +11,7 @@ import {
   growthDocs,
   lastDates,
   presenceDocs,
+  tipDocs,
   maprFlatFields,
   retentionDocs,
   tasteDocs,
@@ -25,6 +26,7 @@ import {
 //   retention_cohorts/{signup date} the last DASHBOARD_COHORTS signup days
 //   accuracy_by_category/{date}, accuracy_by_city/{date}
 //   presence_metrics/{date}          verified-visit counts and fail reasons
+//   tip_metrics/{date}               tips by state, posted, impressions (Phase 1)
 //   big_misses/{region__id}          stats merged in; reviewed/resolution kept
 //   app_metrics/latest               the old in-app admin stats (cards + study)
 //   mapr_metrics/{date}              gets the dashboard's flat fields
@@ -62,6 +64,8 @@ export async function writeDashboardDaily(db, ds, report, { now = Date.now() } =
   for (const d of engagementDocs(ds, dates, annotated)) writes.push(['engagement_metrics', d.date, { ...d, createdAt: ts }]);
   for (const d of tasteDocs(ds, dates)) writes.push(['taste_score', d.date, { ...d, createdAt: ts }]);
   for (const d of presenceDocs(ds, dates)) writes.push(['presence_metrics', d.date, { ...clean(d), createdAt: ts }]);
+  // Today's tip state is only known now: the last day only.
+  for (const d of tipDocs(ds, [yesterday])) writes.push(['tip_metrics', d.date, { ...clean(d), createdAt: ts }]);
   for (const d of retentionDocs(ds, lastDates(dateUtc(now), DASHBOARD_COHORTS), now)) writes.push(['retention_cohorts', d.cohort_date, { ...clean(d), createdAt: ts }]);
   const acc = accuracyDocs(ds, yesterday, { annotated });
   writes.push(['accuracy_by_category', yesterday, { ...clean(acc.byCategory), createdAt: ts }]);

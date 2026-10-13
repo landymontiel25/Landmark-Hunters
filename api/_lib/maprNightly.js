@@ -18,6 +18,7 @@ import { hasDrifted, pairwiseAccuracy, serializeModel, shouldPromote, trainNcf }
 import { computeDailyReport, slackMessage, stagnatingUserIds } from '../../src/lib/maprRank/metrics.js';
 import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
 import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
+import { sweepTipOrphans } from './tipModeration.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -291,6 +292,16 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   } catch (e) {
     console.error('dashboard docs failed:', e?.message || e);
   }
+  // Tip marks and views whose tip is gone (Phase 1). Its own try: it must
+  // never cost the report.
+  let tipOrphans = 0;
+  if (stagnation) {
+    try {
+      tipOrphans = await sweepTipOrphans(db, data.tips, { truncated: data.truncated || [] });
+    } catch (e) {
+      console.error('tip orphan sweep failed:', e?.message || e);
+    }
+  }
   const extra = slackAlerts(report, trend[trend.length - 1], status.ncf);
   const link = process.env.DASHBOARD_URL ? `\n<${process.env.DASHBOARD_URL}/dashboard|Open the dashboard>` : '';
   const slackResult = await slack(slackMessage(report, trend) + (extra.length ? `\n:rotating_light: ${extra.join('\n:rotating_light: ')}` : '') + link);
@@ -300,12 +311,12 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
   const flagged = new Set(stagnatingUserIds(data, now));
   // The dashboard's 5-minute refresh is "numbers only": the flags change what
   // users see, so only the nightly run moves them.
-  if (!stagnation) return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites };
+  if (!stagnation) return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites, tipOrphans };
   const existing = await db.collection(USER_MODEL_COLLECTION).where('stagnating', '==', true).get();
   const writes = [];
   const already = new Set(existing.docs.map((d) => d.id));
   for (const d of existing.docs) if (!flagged.has(d.id)) writes.push((b) => b.set(d.ref, { stagnating: false }, { merge: true }));
   for (const uid of flagged) if (!already.has(uid)) writes.push((b) => b.set(db.collection(USER_MODEL_COLLECTION).doc(uid), { stagnating: true, stagnatingSince: now }, { merge: true }));
   await commitInBatches(db, writes);
-  return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites };
+  return { date, shown: report.totals.shown, alerts: report.alerts.length + extra.length, slack: slackResult, stagnating: flagged.size, dashboardWrites, tipOrphans };
 }
