@@ -57,6 +57,10 @@ async function postTip(db, account, body) {
   const visitProblem = tipCheckinProblem(checkin, account.uid, nowMs);
   if (visitProblem) return [visitProblem.code === 'not-yours' ? 403 : 400, { error: visitProblem.message, code: visitProblem.code }];
 
+  // A tip is listed by its place and region, so it needs both.
+  if (typeof checkin.region !== 'string' || !checkin.region || typeof checkin.landmarkId !== 'string') {
+    return [400, { error: 'This check-in is missing its place.', code: 'no-place' }];
+  }
   const user = userSnap.exists ? userSnap.data() : {};
   const createdAtMs = toMs(user.createdAt);
   const inputProblem = tipInputProblem({ text, tags }, { accountAgeMs: createdAtMs == null ? null : nowMs - createdAtMs });
@@ -84,8 +88,7 @@ async function postTip(db, account, body) {
     landmarkId,
     landmarkName: String(checkin.landmarkName || '').slice(0, 200),
     region: checkin.region || null,
-    checkinId,
-    visitMonth: visitMonthOf(checkin.createdAtMs),
+    visitMonth: visitMonthOf(checkin.createdAtMs, checkin.region),
     text: clean,
     tags,
     photoURL: photoPath ? photoURL : null,
@@ -209,10 +212,14 @@ async function deleteMine(db, account) {
   ]);
   // Photos and claims only once every tip is settled: a tip that failed to
   // retire may still show its photo, so nothing of it goes this time.
+  // Claims go only after their files are gone, or an old photo URL could
+  // go on a new tip.
   const tipsOk = tipSteps.every((x) => x.status === 'fulfilled');
   const after = await Promise.allSettled([
-    tipsOk ? deleteTipPhotoFolder(uid, { keep: keptPhotos }) : null,
-    deleteRefs(db, [...views.docs, ...authorViews.docs, ...(tipsOk ? claims.docs.filter((d) => !keptPhotos.has(d.data()?.path)) : [])].map((d) => d.ref)),
+    tipsOk
+      ? deleteTipPhotoFolder(uid, { keep: keptPhotos }).then(() => deleteRefs(db, claims.docs.filter((d) => !keptPhotos.has(d.data()?.path)).map((d) => d.ref)))
+      : null,
+    deleteRefs(db, [...views.docs, ...authorViews.docs].map((d) => d.ref)),
   ]);
   const failed = [...tipSteps, ...steps, ...after].filter((x) => x.status === 'rejected');
   if (failed.length) {

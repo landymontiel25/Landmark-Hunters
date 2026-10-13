@@ -1,5 +1,6 @@
 import { adminBucket } from './firebaseAdmin.js';
 import { toMs } from './time.js';
+import { regionTimezone } from '../../src/lib/timezones.js';
 
 // Server helpers shared by api/post-tip.js and api/tips.js.
 
@@ -10,7 +11,14 @@ export const send = (res, code, body) => res.status(code).json(body);
 // The month of a visit ("2026-10"), all a tip keeps: the tip doc is
 // readable by anyone who can see the tip, so it never holds the day or
 // time someone stood at a place.
-export const visitMonthOf = (ms) => (Number.isFinite(ms) ? new Date(ms).toISOString().slice(0, 7) : null);
+// In the place's own time zone, so a late-evening visit on the 31st stays
+// in its month.
+export function visitMonthOf(ms, region) {
+  if (!Number.isFinite(ms)) return null;
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: regionTimezone(region), year: 'numeric', month: '2-digit' }).formatToParts(new Date(ms));
+  const get = (t) => parts.find((p) => p.type === t)?.value;
+  return `${get('year')}-${get('month')}`;
+}
 //
 // A tip's id is {authorUid}_{landmarkId}, so one person has one tip per
 // place, and an id comes back when a tip is deleted and posted again. Each

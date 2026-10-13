@@ -100,7 +100,7 @@ describe('api/tips: helpful, saved and reports', () => {
   });
   it('ignores marks and reports from an older post at the same id', async () => {
     db.docs['tip_reactions/me_ann_bell'] = { uid: 'me', tipId: 'ann_bell', gen: 'g-old', helpful: true, saved: false };
-    db.docs['tip_reports/ann_bell_me'] = { uid: 'me', tipId: 'ann_bell', gen: 'g-old' };
+    db.docs['tip_reports/ann_bell_g-old_me'] = { uid: 'me', tipId: 'ann_bell', gen: 'g-old' };
     expect((await list()).body.reactions).toEqual({});
     await react('ann_bell', 'helpful', true);
     expect(db.docs['tips/ann_bell'].counts.helpful).toBe(1);
@@ -114,6 +114,12 @@ describe('api/tips: helpful, saved and reports', () => {
     expect(db.docs['tip_reactions/me_ann_bell']).toBeUndefined();
     expect(db.docs['tips/ann_bell'].counts.saved).toBe(0);
   });
+  it('marks and reports need a verified email', async () => {
+    caller = { uid: 'me', emailVerified: false };
+    expect((await react('ann_bell', 'helpful', true)).code).toBe(403);
+    expect((await report()).code).toBe(403);
+    expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 0, counts: { helpful: 0, saved: 0 } });
+  });
   it("can't react to your own, a held, hidden, blocked or missing tip", async () => {
     expect((await react('me_bell', 'helpful', true)).code).toBe(400);
     for (const id of ['cat_bell', 'dan_bell', 'fay_bell', 'gus_bell', 'nope_bell']) expect((await react(id, 'helpful', true)).code).toBe(404);
@@ -124,7 +130,7 @@ describe('api/tips: helpful, saved and reports', () => {
     await report();
     expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 1, hidden: false });
     expect(db.docs['tips/ann_bell'].reportedBy).toBeUndefined();
-    expect(db.docs['tip_reports/ann_bell_me']).toMatchObject({ uid: 'me', tipId: 'ann_bell', gen: 'g-ann', reason: 'offensive' });
+    expect(db.docs['tip_reports/ann_bell_g-ann_me']).toMatchObject({ uid: 'me', tipId: 'ann_bell', gen: 'g-ann', reason: 'offensive' });
     caller = { uid: 'zed', emailVerified: true };
     await report();
     expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 2, hidden: true });

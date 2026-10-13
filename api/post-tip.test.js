@@ -18,7 +18,7 @@ vi.mock('./_lib/firebaseAdmin.js', () => ({
   }),
 }));
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
-vi.mock('../src/data/regions.js', () => ({ canonicalLandmarkId: (id) => (id === 'old-bell' ? 'bell' : id) }));
+vi.mock('../src/data/regions.js', () => ({ canonicalRegionId: (r) => r, canonicalLandmarkId: (id) => (id === 'old-bell' ? 'bell' : id) }));
 
 const { default: handler } = await import('./post-tip.js');
 
@@ -47,7 +47,8 @@ describe('api/post-tip: posting', () => {
     expect(code).toBe(200);
     expect(body).toEqual({ ok: true, tipId: 'me_bell', status: 'live' });
     const t = db.docs['tips/me_bell'];
-    expect(t).toMatchObject({ authorUid: 'me', authorName: 'landy', landmarkId: 'bell', region: 'philly', checkinId: 'me_bell', text: 'Go early, the line wraps the block.', tags: ['go-early'], status: 'live', hidden: false, reportCount: 0, counts: { helpful: 0, saved: 0 }, verified: true, photoPath: 'tip_photos/me/p1.jpg', visitMonth: new Date(NOW - DAY).toISOString().slice(0, 7) });
+    expect(t.checkinId).toBeUndefined();
+    expect(t).toMatchObject({ authorUid: 'me', authorName: 'landy', landmarkId: 'bell', region: 'philly', text: 'Go early, the line wraps the block.', tags: ['go-early'], status: 'live', hidden: false, reportCount: 0, counts: { helpful: 0, saved: 0 }, verified: true, photoPath: 'tip_photos/me/p1.jpg', visitMonth: new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit' }).format(new Date(NOW - DAY)).slice(0, 7) });
     expect(t.visitAt).toBeUndefined();
     expect(typeof t.gen).toBe('string');
     expect(db.docs['tip_photo_claims/tip_photos__me__p1.jpg']).toMatchObject({ uid: 'me', tipId: 'me_bell' });
@@ -110,6 +111,19 @@ describe('api/post-tip: posting', () => {
     delete process.env.VITE_FIREBASE_STORAGE_BUCKET;
     expect((await post({ photoURL: photo('me', 'p2.jpg') })).body.code).toBe('bad-photo');
     expect(db.docs['tips/me_bell']).toBeUndefined();
+  });
+  it('keeps the visit month in the place\'s own time zone', async () => {
+    // 9 pm on Oct 31 in Philadelphia is Nov 1 in UTC.
+    db.docs['checkins/me_bell'] = checkin({ createdAt: ts(Date.UTC(2026, 10, 1, 1, 0)) });
+    const realNow = Date.now;
+    Date.now = () => Date.UTC(2026, 10, 2);
+    await post();
+    Date.now = realNow;
+    expect(db.docs['tips/me_bell'].visitMonth).toBe('2026-10');
+  });
+  it('refuses a check-in with no region', async () => {
+    db.docs['checkins/me_bell'] = checkin({ region: null });
+    expect((await post()).body.code).toBe('no-place');
   });
   it('refuses bad input', async () => {
     expect((await post({ checkinId: '../x' })).code).toBe(400);

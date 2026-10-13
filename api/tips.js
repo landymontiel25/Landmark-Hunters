@@ -52,7 +52,8 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   const shown = [...own, ...visible.slice(0, MAX_TIPS)];
 
   const viewed = shown.filter(([, t]) => t.authorUid !== viewerUid && t.status === 'live');
-  const reactionRefs = shown.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
+  const others = shown.filter(([, t]) => t.authorUid !== viewerUid);
+  const reactionRefs = others.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
   const viewRefs = viewed.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
   const [reactionSnaps, viewSnaps] = await Promise.all([
     reactionRefs.length ? db.getAll(...reactionRefs) : [],
@@ -60,7 +61,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   ]);
   const mine = {};
   reactionSnaps.forEach((s, i) => {
-    if (s.exists && madeOnThisPost(s.data(), shown[i][1])) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
+    if (s.exists && madeOnThisPost(s.data(), others[i][1])) mine[others[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
   });
 
   // Views: other people's live tips only. firstAt (when you first saw this
@@ -149,13 +150,15 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
 }
 
 // Two distinct reporters hide a tip until the owner reviews it. Who
-// reported stays in server-only tip_reports/{tipId}_{uid} (no rule matches
+// reported stays in server-only tip_reports/{tipId}_{gen}_{uid} (no rule matches
 // it, so clients are denied), never on the tip, which its author can read.
 export async function reportTip(db, uid, { tipId, reason }) {
   if (!REPORT_REASONS.includes(reason)) return [400, { error: 'Pick a reason.' }];
   const found = await actionableTip(db, uid, tipId);
   if (found.error) return found.error;
-  const reportRef = db.collection('tip_reports').doc(`${tipId}_${uid}`);
+  // One doc per person per post of the tip, so a report on a later post
+  // never overwrites the record of an earlier one.
+  const reportRef = db.collection('tip_reports').doc(`${tipId}_${found.tip.gen ?? 'nogen'}_${uid}`);
   const ok = await db.runTransaction(async (tx) => {
     const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reportRef)]);
     const tip = tipSnap.exists ? tipSnap.data() : null;
@@ -188,6 +191,9 @@ async function handler(req, res) {
     }
     const body = (req.body && typeof req.body === 'object' ? req.body : null) || {};
     if (typeof body.tipId !== 'string' || !ID_RE.test(body.tipId)) return send(res, 400, { error: 'tipId is required.' });
+    // Marks and reports move counts and hide tips, so they take a verified
+    // email, like posting: a throwaway account can't hide a tip.
+    if (!account.emailVerified) return send(res, 403, { error: 'Verify your email first.', code: 'email' });
     if (body.action === 'react') {
       if (isRateLimited(req, 'tips-react', { limit: 200, windowMs: HOUR_MS, id: account.uid })) return send(res, 429, { error: 'Too many requests. Try again later.' });
       const [code, out] = await reactToTip(db, account.uid, body);

@@ -69,9 +69,10 @@ export async function deleteAccountData(uid) {
     /* best-effort */
   }
 
-  // Tips, helpful/saved marks and reports: server-written, so the server
-  // deletes them (api/post-tip.js 'delete-mine'), while the account still
-  // exists to sign the request.
+  // Tips and helpful/saved marks: server-written, so the server deletes
+  // them (api/post-tip.js 'delete-mine') while the account still exists to
+  // sign the request. A removed or reported tip stays hidden for the
+  // owner's review, and reports the person filed stay (see that file).
   // One retry: after the account is gone nothing can sign another.
   for (let attempt = 0; attempt < 2; attempt++) {
     try {

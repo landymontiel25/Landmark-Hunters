@@ -84,7 +84,8 @@ rules workflow (the service account may need the Cloud Datastore Index
 Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 `delete-mine` on account deletion, which `accountDeletion.js` calls) and
 `api/tips.js` (a place's live tips with blocks hidden both ways, helpful
-and saved, reports). Reporters live in server-only `tip_reports/` (no rule
+and saved, reports; both need a verified email, like posting). Reporters
+live in server-only `tip_reports/{tipId}_{gen}_{uid}` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
 lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it;
 `tip_photo_claims/` keeps one photo to one tip, and the photo must already
@@ -102,7 +103,8 @@ page), clears the rest of `tip_photos/{uid}/`, and keeps the person's
 reports and post log, so `delete-mine` on a live account can't lift a
 moderation lock or reset a limit. `discard-photo` removes an upload whose
 tip never posted (clients can't delete tip photos). Tips keep only
-the visit month (the tip doc is readable by anyone who sees the tip). If `delete-mine`
+the visit month, in the place's time zone, and not the check-in id (the tip
+doc is readable by anyone who sees the tip). If `delete-mine`
 fails during account deletion, the tips stay: a nightly sweep for tips
 whose author's profile is gone is still to build (Content page PR). Left
 open for the Content page: restoring a reported tip must reset its
