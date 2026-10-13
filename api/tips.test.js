@@ -104,6 +104,27 @@ describe('api/tips: helpful, saved and reports', () => {
     await call('POST', { body: { action: 'report', tipId: 'ann_bell', reason: 'spam' } });
     expect(db.docs['tips/ann_bell'].reportCount).toBe(1);
   });
+  it('a report never lands on a different tip re-posted at the same id', async () => {
+    const { reportTip } = await import('./tips.js');
+    // The tip changes between the check and the transaction.
+    let n = 0;
+    const origCollection = db.collection;
+    db.collection = (name) => {
+      const c = origCollection(name);
+      if (name !== 'tips') return c;
+      return { ...c, doc: (id) => {
+        const r = c.doc(id);
+        return { ...r, get: async () => {
+          const out = await r.get();
+          if (id === 'ann_bell' && n++ === 0) db.docs['tips/ann_bell'] = { ...db.docs['tips/ann_bell'], createdAtMs: 999 };
+          return out;
+        } };
+      } };
+    };
+    expect((await reportTip(db, 'me', { tipId: 'ann_bell', reason: 'spam' }))[0]).toBe(404);
+    db.collection = origCollection;
+    expect(db.docs['tips/ann_bell'].reportCount).toBe(0);
+  });
   it('takes back a mark on a tip that has since been hidden', async () => {
     await react('ann_bell', 'saved', true);
     db.docs['tips/ann_bell'].hidden = true;

@@ -74,7 +74,8 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
         authorUid: t.authorUid,
         landmarkId: t.landmarkId,
         region: t.region || null,
-        firstAt: before[i].exists ? (before[i].data().firstAt ?? nowMs) : nowMs,
+        // A view left from a deleted tip with the same id doesn't count.
+        firstAt: before[i].exists && (before[i].data().firstAt ?? 0) >= (t.createdAtMs ?? 0) ? before[i].data().firstAt : nowMs,
         lastAt: nowMs,
       });
     });
@@ -155,7 +156,8 @@ export async function reportTip(db, uid, { tipId, reason = 'other' }) {
   const reportRef = db.collection('tip_reports').doc(`${tipId}_${uid}`);
   const exists = await db.runTransaction(async (tx) => {
     const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reportRef)]);
-    if (!tipSnap.exists) return false;
+    // Still the tip you saw (not a re-post at the same id) and still public.
+    if (!tipSnap.exists || !tipIsPublic(tipSnap.data()) || tipSnap.data().createdAtMs !== found.tip.createdAtMs) return false;
     // A report from before this tip was posted (a deleted tip with the same
     // id) doesn't stop a new one.
     if (rSnap.exists && (rSnap.data().at ?? 0) >= (tipSnap.data().createdAtMs ?? 0)) return true;

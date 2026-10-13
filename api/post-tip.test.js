@@ -105,11 +105,9 @@ describe('api/post-tip: posting', () => {
     db.docs['tips/me_bell'] = { authorUid: 'me', status: 'removed' };
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).body.code).toBe('removed');
   });
-  it("keeps a photo another of your tips still shows", async () => {
-    await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: photo() });
-    db.docs['tips/me_other'] = { authorUid: 'me', photoPath: 'tip_photos/me/p1.jpg', status: 'live' };
-    await call({ action: 'delete', landmarkId: 'bell' });
-    expect(deleted).toEqual([]);
+  it('one photo, one tip: a photo already on a tip (a removed one too) is refused', async () => {
+    db.docs['tips/me_other'] = { authorUid: 'me', photoPath: 'tip_photos/me/p1.jpg', status: 'removed' };
+    expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: photo() })).body.code).toBe('photo-used');
   });
   it("can't delete a tip a moderator removed", async () => {
     db.docs['tips/me_bell'] = { authorUid: 'me', status: 'removed' };
@@ -177,22 +175,23 @@ describe('api/post-tip: deleting', () => {
   });
   it('account deletion removes every tip, mark and view of yours and fixes the counts, even unverified', async () => {
     caller = { uid: 'me', emailVerified: false };
-    db.docs['tips/me_a'] = { authorUid: 'me', status: 'removed' };
+    db.docs['tips/me_a'] = { authorUid: 'me', status: 'removed', text: 'awful words', authorName: 'landy', photoPath: 'tip_photos/me/a.jpg', reportCount: 2 };
     db.docs['tips/me_b'] = { authorUid: 'me', status: 'live', photoPath: 'tip_photos/me/b.jpg' };
     db.docs['tips/you_x'] = { authorUid: 'you', status: 'live', counts: { helpful: 3, saved: 2 } };
     db.docs['tip_reactions/me_you_x'] = { uid: 'me', tipId: 'you_x', helpful: true, saved: true };
     db.docs['tip_views/me_you_x'] = { uid: 'me', tipId: 'you_x' };
     db.docs['tip_views/you_me_b'] = { uid: 'you', tipId: 'me_b', authorUid: 'me' };
     db.docs['tip_reports/you_x_me'] = { uid: 'me', tipId: 'you_x', reason: 'spam' };
-    db.docs['tip_reports/me_c_zed'] = { uid: 'zed', tipId: 'me_c', authorUid: 'me' };
     db.docs['tips/you_y'] = { authorUid: 'you', status: 'live', counts: { helpful: 0, saved: 0 }, createdAtMs: NOW };
     db.docs['tip_reactions/me_you_y'] = { uid: 'me', tipId: 'you_y', helpful: true, firstAt: NOW - DAY };
     const { code, body } = await call({ action: 'delete-mine' });
     expect(code).toBe(200);
     expect(body).toMatchObject({ tips: 2, reactions: 2 });
-    expect(Object.keys(db.docs).filter((k) => k.startsWith('tips/me_') || k.startsWith('tip_reactions/me_') || k.startsWith('tip_views/'))).toEqual([]);
+    // A removed tip stays as an empty marker so a moderation lock holds.
+    expect(db.docs['tips/me_a']).toMatchObject({ status: 'removed', text: '', authorName: 'Deleted account', photoPath: null, reportCount: 2 });
+    expect(db.docs['tips/me_b']).toBeUndefined();
+    expect(Object.keys(db.docs).filter((k) => k.startsWith('tip_reactions/me_') || k.startsWith('tip_views/'))).toEqual([]);
     expect(db.docs['tip_reports/you_x_me']).toBeUndefined();
-    expect(db.docs['tip_reports/me_c_zed']).toBeUndefined();
     expect(db.docs['tips/you_y'].counts.helpful).toBe(0);
     expect(deleted).toContain('tip_photos/me/*');
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });

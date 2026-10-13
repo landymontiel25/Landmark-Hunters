@@ -1,7 +1,6 @@
 import { adminBucket } from './firebaseAdmin.js';
 import { toMs } from './time.js';
 
-export { toMs };
 
 // Server helpers shared by api/post-tip.js and api/tips.js.
 

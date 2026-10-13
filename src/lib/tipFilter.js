@@ -29,9 +29,9 @@ const SLURS_SQUEEZED = ['nigger', 'nigga', 'faggot', 'sandnigger', 'shemale', 't
 const SLURS_WORDS = ['retard', 'retards', 'kike', 'kikes', 'chink', 'chinks', 'spic', 'spics', 'beaner', 'beaners', 'gook', 'gooks', 'coon', 'coons', 'dyke', 'dykes', 'paki', 'pakis'];
 // Whole words only.
 const WORDS = [
-  'fuck', 'fucking', 'fucker', 'motherfucker', 'shit', 'shitty', 'bullshit', 'bitch', 'bitches', 'cunt', 'cock', 'dick',
+  'fuck', 'fucking', 'fucker', 'motherfucker', 'shit', 'shitty', 'bullshit', 'bitch', 'bitches', 'cunt', 'cock',
   'dickhead', 'pussy', 'whore', 'slut', 'bastard', 'asshole', 'twat', 'wanker', 'porn', 'porno', 'nude', 'nudes',
-  'blowjob', 'handjob', 'rape', 'rapist', 'nazi', 'kys', 'cum', 'jizz', 'fag', 'fags', 'escort', 'escorts', 'onlyfans',
+  'blowjob', 'handjob', 'rape', 'rapist', 'kys', 'jizz', 'fag', 'fags', 'escort', 'escorts', 'onlyfans',
 ];
 // Threats, harassment and spam, as phrases on the normalized text.
 const PHRASES = [
@@ -63,7 +63,10 @@ export function filterTipText(text) {
   }
   const reasons = new Set();
   const words = norm.split(/[^a-z]+/).filter(Boolean);
-  if (squeezed.some((c) => SLURS_SQUEEZED.some((s) => c.includes(s))) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
+  // A squeezed chunk ending in the slur (maybe plural), never a word that
+  // merely has it inside ("sniggering").
+  const slurChunk = (c) => SLURS_SQUEEZED.some((s) => new RegExp(`^[a-z]*${s}(?:s|z|es|as|az)?$`).test(c));
+  if (squeezed.some(slurChunk) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
   if (words.some((w) => WORD_SET.has(w))) reasons.add('profanity');
   if (PHRASES.some((re) => re.test(norm))) reasons.add('threat-or-spam');
   if (PHONE_RE.test(raw) || EMAIL_RE.test(raw)) reasons.add('contact');

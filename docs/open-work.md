@@ -91,8 +91,12 @@ reported tip its author deletes is withdrawn (status `withdrawn`): hidden
 from everyone, kept with its reports for the owner's review, and no new tip
 there until the owner clears it. An unreported one (live, or held by the
 filter) is deleted. Tip photos can't be overwritten in Storage, so a
-reviewed tip's photo can't be swapped; account deletion clears the whole
-`tip_photos/{uid}/` folder. Left
+reviewed tip's photo can't be swapped, and one photo can sit on one tip
+only; account deletion clears the whole `tip_photos/{uid}/` folder and
+leaves a removed or reported tip as an empty marker (no text, name or
+photo) so `delete-mine` can't lift a moderation lock. If `delete-mine`
+fails during account deletion, the tips stay: a nightly sweep for tips
+whose author's profile is gone is still to build (Content page PR). Left
 open for the Content page: restoring a reported tip must reset its
 `reportCount`, or the next single report hides it again. The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read
