@@ -1,0 +1,25 @@
+import { describe, it, expect } from 'vitest';
+import { filterTipText } from './tipFilter.js';
+
+describe('tip word filter', () => {
+  it('passes ordinary tips, including words that contain a short slur', () => {
+    for (const t of ['Go early, the line wraps the block by noon.', 'The raccoon exhibit is great for kids.', 'Spicy noodles at the stand by the gate.', 'Cocktail bar upstairs, quiet on Mondays.', 'Grapes at the market stall, Pakistan Day festival in May.', 'Grab a scone at Dickinson Square.']) {
+      expect(filterTipText(t)).toEqual({ flagged: false, reasons: [] });
+    }
+  });
+  it('holds profanity, even with look-alike characters', () => {
+    expect(filterTipText('this place is sh1t').reasons).toContain('profanity');
+    expect(filterTipText('F U C K this line').flagged).toBe(false); // spaced-out profanity is not a slur; left to reports
+    expect(filterTipText('fuck this line').reasons).toContain('profanity');
+  });
+  it('holds slurs with spacing or dots', () => {
+    expect(filterTipText('f.a.g.g.o.t').reasons).toContain('slur');
+    expect(filterTipText('the staff are r3tard').reasons).toContain('slur');
+  });
+  it('holds threats, spam phrases and contact details', () => {
+    expect(filterTipText('go die in the river').reasons).toContain('threat-or-spam');
+    expect(filterTipText('DM me for a promo code').reasons).toContain('threat-or-spam');
+    expect(filterTipText('Call 215 555 0100 for tickets').reasons).toContain('contact');
+    expect(filterTipText('write me at a@b.com').reasons).toContain('contact');
+  });
+});

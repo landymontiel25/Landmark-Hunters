@@ -25,6 +25,16 @@ export async function adminMessaging() {
   return getMessaging(adminApp());
 }
 
+// The app's Storage bucket (VITE_FIREBASE_STORAGE_BUCKET, the same value
+// the client uses), for removing a tip's photo with its tip. Loads lazily,
+// like messaging. Null when no bucket is configured.
+export async function adminBucket() {
+  const name = process.env.VITE_FIREBASE_STORAGE_BUCKET;
+  if (!name) return null;
+  const { getStorage } = await import('firebase-admin/storage');
+  return getStorage(adminApp()).bucket(name);
+}
+
 export function adminDb() {
   return getFirestore(adminApp());
 }
