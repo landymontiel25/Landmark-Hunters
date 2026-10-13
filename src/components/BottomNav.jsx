@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { isAdmin } from '../lib/admins';
+import { useFeedCity } from '../lib/useFeedGate';
 
 // 5 tabs -- Setup is no longer one of them (it's the "Create New Trip"
 // modal inside Itinerary now). Mapr sits dead center: it's the app's home
@@ -14,6 +15,10 @@ const items = [
   { to: '/itinerary', label: 'Itinerary', icon: '\u{1F5FA}\u{FE0F}' },
   { to: '/profile', label: 'Profile', icon: '\u{1F3C6}' },
 ];
+
+// The Feed tab (Phase 6), first in the bar, only in a city past the
+// density gate.
+const FEED_TAB = { to: '/feed', label: 'Feed', icon: '\u{1F4F0}' };
 
 // Admin-only sandbox for trying out sign-up/onboarding (screens/OnboardingLab).
 const TEST_TAB = { to: '/test', label: 'Test', icon: '\u{1F9EA}' };
@@ -37,7 +42,9 @@ export function BottomNavFallback() {
 export default function BottomNav() {
   const navRef = useRef(null);
   const { user } = useAuth();
-  const tabs = isAdmin(user?.email) ? [...items, TEST_TAB] : items;
+  const feedCity = useFeedCity();
+  const base = feedCity ? [FEED_TAB, ...items] : items;
+  const tabs = isAdmin(user?.email) ? [...base, TEST_TAB] : base;
 
   // If the page is zoomed anyway (pinch), position: fixed sticks to the
   // unzoomed layout viewport on iOS and the bar lands mid-screen. The

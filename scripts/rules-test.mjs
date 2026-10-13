@@ -1015,6 +1015,16 @@ await t('alert_log and follow_alerted: server only', async () => {
   await assertFails(setDoc(doc(as('ann'), 'alert_log/ann'), { wentDay: '2026-10-13' }));
 });
 
+console.log('feed (Phase 6)');
+await reset();
+await t("pick marks: a rating or vote on a place seen in the Feed saves (pickSurface 'feed')", async () => {
+  await assertSucceeds(setDoc(doc(as('ann'), 'pick_feedback/ann_pm1'), { userId: 'ann', landmarkId: 'pm1', verdict: 'yes', at: Date.now(), pickSetId: 'ann-1-x', pickSurface: 'feed', pickShownAt: Date.now() }));
+});
+await t("recommendation_log: 'feed' is an allowed surface", async () => {
+  await assertSucceeds(setDoc(doc(as('bob'), 'recommendation_log/fd1'), { userId: 'bob', landmarkId: 'lm1', pickType: null, surface: 'feed', setId: 's1', rank: 1, shownAt: 1 }));
+  await assertFails(setDoc(doc(as('bob'), 'recommendation_log/fd2'), { userId: 'ann', landmarkId: 'lm1', pickType: null, surface: 'feed' }));
+});
+
 await env.cleanup();
 console.log(failed ? `\n${failed} FAILED` : '\nall passed');
 process.exit(failed ? 1 : 0);

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { HashRouter, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { AuthProvider } from './lib/AuthContext';
 import { MaprChatProvider } from './lib/MaprChatContext';
 import { CheckInProvider } from './lib/CheckInContext';
@@ -15,6 +15,7 @@ import { PairStreakProvider } from './lib/PairStreakContext';
 import { AdminModeProvider } from './lib/AdminModeContext';
 import { LandmarkEditsProvider } from './lib/LandmarkEditsContext';
 import Header from './components/Header';
+import { useFeedCity } from './lib/useFeedGate';
 import BottomNav, { BottomNavFallback } from './components/BottomNav';
 import ErrorBoundary from './components/ErrorBoundary';
 import OfflineBanner from './components/OfflineBanner';
@@ -133,6 +134,7 @@ if (typeof window !== 'undefined') {
 // that Vite would otherwise inline.
 const LandmarkSelection = lazyScreen(() => import('./screens/LandmarkSelection'));
 const MapExplore = lazyScreen(() => import('./screens/MapExplore'));
+const Feed = lazyScreen(() => import('./screens/Feed'));
 const AddLandmark = lazyScreen(() => import('./screens/AddLandmark'));
 const LandmarkDetail = lazyScreen(() => import('./screens/LandmarkDetail'));
 const Itinerary = lazyScreen(() => import('./screens/Itinerary'));
@@ -167,6 +169,7 @@ function AppRoutes() {
       <Suspense fallback={<ScreenSkeleton />}>
         <Routes>
           <Route path="/" element={<MapExplore />} />
+          <Route path="/feed" element={<Feed />} />
           <Route path="/add-landmark" element={<AddLandmark />} />
           <Route path="/landmarks" element={<LandmarkSelection />} />
           <Route path="/landmarks/:region/:id" element={<LandmarkDetail />} />
@@ -228,6 +231,28 @@ function prefetchScreens() {
   };
 }
 
+// The Feed opens first (Phase 6) only in a city past the density gate:
+// once per session, opening the app on the Map takes you to the Feed.
+// Everywhere else the Map stays home.
+function FeedHome() {
+  const city = useFeedCity();
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (city === undefined) return; // still loading
+    try {
+      // Decided once per session, as soon as the gate is known: a later
+      // tap on the Map tab always opens the Map.
+      if (sessionStorage.getItem('lh-feed-home')) return;
+      sessionStorage.setItem('lh-feed-home', '1');
+    } catch {
+      return;
+    }
+    if (city && location.pathname === '/') navigate('/feed', { replace: true });
+  }, [city, location.pathname, navigate]);
+  return null;
+}
+
 export default function App() {
   useEffect(() => prefetchScreens(), []);
   useEffect(() => installModalA11y(), []);
@@ -258,6 +283,7 @@ export default function App() {
           {/* Each always-on piece gets its own boundary: without one, a crash
               in any of them (they sit outside the per-screen boundary) takes
               down the whole app to a blank white page. */}
+          <Soft><FeedHome /></Soft>
           <Soft><OfflineBanner /></Soft>
           <Soft><StreakWarningBanner /></Soft>
           <Soft><Header /></Soft>

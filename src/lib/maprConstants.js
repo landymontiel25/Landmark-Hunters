@@ -3,7 +3,8 @@
 // Later measurement items add to this file.
 
 // --- Where a pick was shown (recommendation_log.surface) ---------------
-export const SURFACES = ['map-sheet', 'mapr-tab', 'chat', 'travel-picks'];
+// 'feed': the Feed tab (Phase 6).
+export const SURFACES = ['map-sheet', 'mapr-tab', 'chat', 'travel-picks', 'feed'];
 // Tips shown on a landmark page (Phase 1 of the discovery network plan).
 // Logged to recommendation_log under this surface, but not a Mapr pick:
 // api/_lib/statsData.js keeps these rows out of every Mapr metric.

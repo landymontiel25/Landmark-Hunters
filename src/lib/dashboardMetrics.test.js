@@ -175,5 +175,26 @@ describe('networkDocs', () => {
     const [doc] = networkDocs(ds, ['2026-10-12']);
     expect(doc).toMatchObject({ follows_total: 2, new_follows: 2, people_following: 2, people_followed: 2, discoverers: 1, launch_active: 3, launch_following_discoverer: 1 });
     expect(doc.launch_follow_rate).toBeCloseTo(1 / 3, 3);
+    expect(doc).toMatchObject({ launch_d7_cohort: 0, launch_d7_retention: null, feed_items_shown_30d: 0 });
+  });
+  it('day-7 retention counts people who used the launch area in their first week, kept or not', () => {
+    const DAY = 864e5;
+    const to = Date.parse('2026-10-13T00:00:00Z');
+    const signup = to - 20 * DAY;
+    const d7 = new Date(signup + 7 * DAY).toISOString().slice(0, 10);
+    const ds = {
+      users: [{ uid: 'kept', createdAt: signup }, { uid: 'left', createdAt: signup }, { uid: 'miami', createdAt: signup }],
+      checkins: [
+        { userId: 'kept', region: 'philly', createdAt: signup + DAY },
+        { userId: 'left', region: 'villanova', createdAt: signup + DAY },
+        { userId: 'miami', region: 'miami', createdAt: signup + DAY },
+      ],
+      reviews: [],
+      openDays: [{ uid: 'kept', date: d7 }],
+      follows: [],
+      tips: [],
+    };
+    const [doc] = networkDocs(ds, ['2026-10-12']);
+    expect(doc).toMatchObject({ launch_d7_cohort: 2, launch_d7_retention: 0.5 });
   });
 });

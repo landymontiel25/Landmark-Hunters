@@ -162,6 +162,9 @@ export async function loadStatsData(db) {
   // Tip impressions ('landmark-page', Phase 1) share the collection but are
   // not Mapr picks: kept apart so no Mapr metric counts them.
   const tipImpressions = recommendationLog.filter((r) => r.surface === TIP_SURFACE);
-  const picks = recommendationLog.filter((r) => r.surface !== TIP_SURFACE);
-  return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, tips, follows, checkins, referrals, placeScores, tasteHistory, truncated };
+  // Feed rows (Phase 6) are mostly other people's tips, not Mapr picks:
+  // kept apart too, so the Feed's mix never moves a Mapr metric.
+  const feedImpressions = recommendationLog.filter((r) => r.surface === 'feed');
+  const picks = recommendationLog.filter((r) => r.surface !== TIP_SURFACE && r.surface !== 'feed');
+  return { users, openDays, reviews, pickFeedback, recommendationLog: picks, tipImpressions, feedImpressions, tips, follows, checkins, referrals, placeScores, tasteHistory, truncated };
 }

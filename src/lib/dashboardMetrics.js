@@ -127,6 +127,26 @@ export function tipDocs(ds, dates) {
 // launch_* is the launch area (COMMUNITY_REGIONS): people active there in
 // the last 30 days, and how many of them follow at least one discoverer
 // (someone with a live tip). Phase 2 is done when that share reaches 60%.
+// Phase 6's check: day-7 retention (opened the app on their 7th day) of
+// people who signed up 7 to 37 days before this date and used the app in
+// the launch area in their first week. Compare it before and after the
+// feed opens.
+function launchRetention(ds, to) {
+  const opened = new Set((ds.openDays || []).map((o) => `${o.uid}|${o.date}`));
+  // In the launch area = a check-in or rating there in their first week,
+  // so someone who left early still counts against retention.
+  const firstWeekThere = new Set();
+  const created = new Map((ds.users || []).map((u) => [u.uid, u.createdAt]));
+  const inArea = (r) => r && COMMUNITY_REGIONS.includes(canonicalRegionId(r));
+  for (const x of [...(ds.checkins || []), ...(ds.reviews || []).map((r) => ({ ...r, createdAt: r.ratedAt ?? r.updatedAt ?? r.createdAt }))]) {
+    const c = created.get(x.userId);
+    if (Number.isFinite(c) && inArea(x.region) && Number.isFinite(x.createdAt) && x.createdAt >= c && x.createdAt < c + 7 * DAY_MS) firstWeekThere.add(x.userId);
+  }
+  const cohort = (ds.users || []).filter((u) => Number.isFinite(u.createdAt) && u.createdAt >= to - 37 * DAY_MS && u.createdAt < to - 7 * DAY_MS && firstWeekThere.has(u.uid));
+  const kept = cohort.filter((u) => opened.has(`${u.uid}|${dateUtc(u.createdAt + 7 * DAY_MS)}`)).length;
+  return { launch_d7_cohort: cohort.length, launch_d7_retention: r4(ratio(kept, cohort.length)) };
+}
+
 function pickSplit(rows) {
   const part = (xs) => ({ shown: xs.length, skip: r4(ratio(xs.filter((r) => r.action === 'skipped').length, xs.length)), visit: r4(ratio(xs.filter((r) => r.visited).length, xs.length)) });
   const community = part(rows.filter((r) => Number(r.communityWeight) > 1));
@@ -168,6 +188,8 @@ export function networkDocs(ds, dates, annotated = annotateShown(ds)) {
       // Mapr-only picks over 30 days: picks shown in the 30 days to this
       // date, split by whether someone's find lifted them.
       // Launch area only, so other cities' rates don't decide it.
+      ...launchRetention(ds, to),
+      feed_items_shown_30d: (ds.feedImpressions || []).filter((r) => r.shownAt >= to - 30 * DAY_MS && r.shownAt < to).length,
       ...pickSplit(annotated.filter((r) => r.shownAt >= to - 30 * DAY_MS && r.shownAt < to && r.region && COMMUNITY_REGIONS.includes(canonicalRegionId(r.region)))),
     };
   });
