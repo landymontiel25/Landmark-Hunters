@@ -48,15 +48,20 @@ export async function uploadTipPhoto(uid, file) {
   // Timed out like the other uploads, so a dead connection shows an error
   // instead of "Sharing…" forever.
   const slow = "Couldn't upload the photo. Check your connection and try again.";
-  let uploaded = false;
+  // An upload that ends up unused (no URL back, or it finishes after the
+  // timeout) is removed by the server (the URL needs no token for that).
+  const discard = () => discardTipPhoto(`https://firebasestorage.googleapis.com/v0/b/${r.bucket}/o/${encodeURIComponent(r.fullPath)}`).catch(() => {});
+  const upload = uploadBytes(r, small, { contentType: small.type || 'image/jpeg' });
   try {
-    await withTimeout(uploadBytes(r, small, { contentType: small.type || 'image/jpeg' }), 30000);
-    uploaded = true;
+    await withTimeout(upload, 30000);
+  } catch (e) {
+    upload.then(discard, () => {});
+    throw Object.assign(new Error(slow), { userMessage: slow, cause: e });
+  }
+  try {
     return await withTimeout(getDownloadURL(r), 10000);
   } catch (e) {
-    // Uploaded but no URL back: ask the server to remove it (the URL needs
-    // no token for that).
-    if (uploaded) discardTipPhoto(`https://firebasestorage.googleapis.com/v0/b/${r.bucket}/o/${encodeURIComponent(r.fullPath)}`).catch(() => {});
+    discard();
     throw Object.assign(new Error(slow), { userMessage: slow, cause: e });
   }
 }

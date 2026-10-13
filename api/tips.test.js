@@ -75,6 +75,13 @@ describe('api/tips: reading', () => {
     expect(db.docs['tip_views/me_ann_bell'].firstAt).not.toBe(5);
     expect(db.docs['tip_views/me_ann_bell'].gen).toBe('g-ann');
   });
+  it('fills the page past tips you reported', async () => {
+    for (let i = 0; i < 80; i++) db.docs[`tips/u${i}_bell`] = tip(`u${i}`, { createdAtMs: 1000 + i });
+    for (let i = 60; i < 80; i++) db.docs[`tip_reports/u${i}_bell_g-u${i}_me`] = { uid: 'me', tipId: `u${i}_bell`, gen: `g-u${i}` };
+    const ids = (await list()).body.tips.map((t) => t.id);
+    expect(ids).toHaveLength(51);
+    expect(ids).not.toContain('u79_bell');
+  });
   it('finds tips under a renamed place by its current id', async () => {
     expect((await list('old-bell')).body.tips.map((t) => t.id)).toContain('ann_bell');
   });

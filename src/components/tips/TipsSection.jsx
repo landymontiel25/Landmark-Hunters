@@ -154,7 +154,8 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     setBusy('mine:delete');
     try {
       await deleteMyTip(landmarkId, region);
-      await load();
+      // Every open tips list (this one included) reloads.
+      window.dispatchEvent(new CustomEvent(TIPS_CHANGED_EVENT));
     } catch (e) {
       toast?.show?.(e?.userMessage || "Couldn't delete the tip. Try again.");
     } finally {
@@ -261,16 +262,13 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
       ) : (
         <>
           {error && <p className="screen-subtitle">{error}</p>}
-          {others.length > 0 ? (
-            <OnScreen key={others.map((t) => t.id).join(',')} onSeen={onSeen}>
-              <ul style={{ padding: 0, margin: 0 }}>
-                {mine && renderTip(mine)}
-                {others.map(renderTip)}
-              </ul>
-            </OnScreen>
-          ) : (
-            <ul style={{ padding: 0, margin: 0 }}>{mine && renderTip(mine)}</ul>
-          )}
+          {/* A thin marker at the top of the list: it is on screen as soon as
+              the tips are, however long the list is. */}
+          {others.length > 0 && <OnScreen key={others.map((t) => t.id).join(',')} onSeen={onSeen} style={{ height: 2 }} aria-hidden="true" />}
+          <ul style={{ padding: 0, margin: 0 }}>
+            {mine && renderTip(mine)}
+            {others.map(renderTip)}
+          </ul>
           {!error && !mine && others.length === 0 && (
             <p className="screen-subtitle" style={{ margin: 0 }}>
               No tips yet.{tipCheckin ? '' : ' Check in here with location on to share the first one.'}

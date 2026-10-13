@@ -52,22 +52,27 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   // for the ones it drops).
   const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
   candidates.sort((a, b) => at(b[1]) - at(a[1]));
-  const page = candidates.slice(0, MAX_TIPS + 10);
+  // Pages of 60 until 50 are kept: each page in one read of its reports,
+  // your marks and (verified viewers only) your views.
   const ref = (col, id) => db.collection(col).doc(id);
-  const refs = page.flatMap(([tipId, t]) => [
-    ref('tip_reports', `${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`),
-    ref('tip_reactions', `${viewerUid}_${tipId}`),
-    ref('tip_views', `${viewerUid}_${tipId}`),
-  ]);
-  const snaps = refs.length ? await db.getAll(...refs) : [];
+  const per = recordViews ? 3 : 2;
   const extra = new Map();
-  page.forEach((c, i) => {
-    if (snaps[i * 3]?.exists) return;
-    visible.push(c);
-    extra.set(c[0], { reaction: snaps[i * 3 + 1], view: snaps[i * 3 + 2], ref: refs[i * 3 + 2] });
-  });
+  for (let start = 0; start < candidates.length && visible.length < MAX_TIPS; start += MAX_TIPS + 10) {
+    const page = candidates.slice(start, start + MAX_TIPS + 10);
+    const refs = page.flatMap(([tipId, t]) => [
+      ref('tip_reports', `${tipId}_${t.gen ?? 'nogen'}_${viewerUid}`),
+      ref('tip_reactions', `${viewerUid}_${tipId}`),
+      ...(recordViews ? [ref('tip_views', `${viewerUid}_${tipId}`)] : []),
+    ]);
+    const snaps = await db.getAll(...refs);
+    page.forEach((c, i) => {
+      if (snaps[i * per]?.exists || visible.length >= MAX_TIPS) return;
+      visible.push(c);
+      extra.set(c[0], { reaction: snaps[i * per + 1], view: recordViews ? snaps[i * per + 2] : null, ref: recordViews ? refs[i * per + 2] : null });
+    });
+  }
   const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
-  const others = visible.slice(0, MAX_TIPS);
+  const others = visible;
   const shown = [...own, ...others];
   const mine = {};
   for (const [tipId, t] of others) {
@@ -142,7 +147,8 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
     // A mark from an older post at the same id counts as no mark.
     const prev = rSnap.exists && madeOnThisPost(rSnap.data(), tip) ? rSnap.data() : { helpful: false, saved: false };
     const next = { helpful: prev.helpful === true, saved: prev.saved === true, [kind]: on };
-    if ((prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
+    const changed = (prev[kind] === true) !== on;
+    if (changed) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
     if (!next.helpful && !next.saved) {
       if (rSnap.exists) tx.delete(reactionRef);
     } else {
@@ -161,7 +167,7 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
       });
     }
     const counts = { helpful: tip.counts?.helpful || 0, saved: tip.counts?.saved || 0 };
-    if ((prev[kind] === true) !== on) counts[kind] = Math.max(0, counts[kind] + (on ? 1 : -1));
+    if (changed) counts[kind] = Math.max(0, counts[kind] + (on ? 1 : -1));
     return { reaction: next, counts };
   });
   if (!out) return [404, { error: 'No such tip.' }];
