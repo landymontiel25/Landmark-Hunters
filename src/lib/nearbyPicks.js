@@ -726,6 +726,7 @@ export const MOODS = [
   { id: 'outdoors', icon: '\u{1F333}', label: 'Fresh air', categories: ['parks-nature', 'benches'] },
   { id: 'night', icon: '\u{1F378}', label: 'A night out', categories: ['local-life'] },
   { id: 'shopping', icon: '\u{1F6CD}\u{FE0F}', label: 'Some shopping', categories: ['shopping'] },
+  { id: 'dayout', icon: '\u{1F3A2}', label: 'A fun day out', categories: ['attractions'] },
   { id: 'sports', icon: '\u{1F3DF}\u{FE0F}', label: 'Sports', categories: ['stadiums', 'sports', 'formula-1'] },
   { id: 'tech', icon: '\u{1F4BB}', label: 'Tech spots', categories: ['tech'] },
 ];

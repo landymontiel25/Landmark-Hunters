@@ -32,7 +32,7 @@ export const COMMENT_LEXICON = [
   // --- praise for an aspect ------------------------------------------------
   { id: 'great-food', terms: ['great food', 'amazing food', 'delicious', 'tasty', 'yummy', 'best food', 'incredible food', 'excellent food', 'good food', 'fresh food', 'mouthwatering', 'food was great', 'food was amazing'], tags: ['food'], valence: 1 },
   { id: 'great-drinks', terms: ['great cocktails', 'amazing cocktails', 'great drinks', 'great music', 'great atmosphere', 'great vibe', 'amazing vibe', 'great nightlife', 'fun crowd'], tags: ['local-life'], valence: 1 },
-  { id: 'great-show', terms: ['great show', 'amazing show', 'so fun', 'a blast', 'great for kids', 'kids loved'], tags: ['local-life'], valence: 1 },
+  { id: 'great-show', terms: ['great show', 'amazing show', 'so fun', 'a blast', 'great for kids', 'kids loved'], tags: ['attractions', 'local-life'], valence: 1 },
   { id: 'great-game', terms: ['great game', 'amazing game', 'electric atmosphere', 'great seats'], tags: ['stadiums', 'sports'], valence: 1 },
   { id: 'beautiful-nature', terms: ['beautiful views', 'great views', 'amazing views', 'peaceful', 'serene', 'gorgeous scenery', 'relaxing', 'beautiful trail', 'beautiful park', 'great hike'], tags: ['parks-nature'], valence: 1 },
   { id: 'history', terms: ['fascinating history', 'so much history', 'rich history', 'learned a lot', 'beautiful architecture', 'great history', 'historic'], tags: ['history-culture'], valence: 1 },

@@ -52,7 +52,8 @@ describe('rateability gate', () => {
     expect(ids).toContain('tech');
     expect(ids).not.toContain('art-museums');
     expect(ids).toContain('shopping');
-    expect(ids).toHaveLength(12);
+    expect(ids).toContain('attractions');
+    expect(ids).toHaveLength(13);
   });
 
   it('rates airports as airports, whatever else they are tagged', () => {

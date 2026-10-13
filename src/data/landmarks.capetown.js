@@ -81,7 +81,7 @@ export const CAPETOWN_LANDMARKS = [
     lat: -33.90305556,
     lng: 18.42277778,
     checkInRadiusMeters: 500,
-    categories: ["history-culture"],
+    categories: ["shopping"],
     summary: "A working harbor turned shopping, dining and cultural hub beneath Table Mountain.",
     facts: ["Built around the city’s oldest working harbour","Named for Queen Victoria and her son Prince Alfred","Prince Alfred tipped the first stones for the breakwater in 1860","The most-visited destination in South Africa","Home to Zeitz MOCAA and the Two Oceans Aquarium","The departure point for ferries to Robben Island","The red Clock Tower is one of its best-known landmarks","A swing bridge lets boats pass between the basins","Cape fur seals often haul out on the quays","Framed by views of Table Mountain across the water"],
     free: true,

@@ -1,4 +1,5 @@
 import { MIAMI_LANDMARKS } from './landmarks.miami.js';
+import { nightlifeHome } from './nightlifeSort.js';
 import { MADRID_LANDMARKS } from './landmarks.madrid.js';
 import { EL_ESCORIAL_LANDMARKS } from './landmarks.elescorial.js';
 import { ARANJUEZ_LANDMARKS } from './landmarks.aranjuez.js';
@@ -255,6 +256,12 @@ const normalizeLandmark = (l) => {
   if (l.categories[0] === 'local-life') {
     if (SHOP_TOPICS.has(l.topic) || l.mall === true) l.categories = ['shopping', ...l.categories.slice(1)];
     else if (l.topic === 'market') l.categories = ['food', ...l.categories.slice(1)];
+    else {
+      // Zoos, aquariums and theme parks to Attractions, theaters and cinemas
+      // to Art & Culture (data/nightlifeSort.js); bars and clubs stay.
+      const home = nightlifeHome(l);
+      if (home) l.categories = [home, ...l.categories.slice(1).filter((c) => c !== home)];
+    }
   }
   return l;
 };
@@ -343,6 +350,8 @@ export const INTERESTS = [
   { id: 'benches', label: '10/10 Benches', icon: '\u{1FA91}', added: 13 },
   // Bookstores, record stores, malls, department stores, antique and art shops.
   { id: 'shopping', label: 'Shopping', icon: '\u{1F6CD}\u{FE0F}', added: 15 },
+  // A fun day out: aquariums, zoos, theme parks, bowling, arcades, boat tours.
+  { id: 'attractions', label: 'Attractions', icon: '\u{1F3A2}', added: 16 },
   // Where tech happened and happens: founding garages, HQ campuses, labs,
   // founder hangouts, hacker houses. The Bay Area catalog is mostly this.
   { id: 'tech', label: 'Tech & Startups', icon: '\u{1F4BB}', added: 14 },

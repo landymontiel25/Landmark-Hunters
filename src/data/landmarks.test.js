@@ -31,9 +31,9 @@ describe('landmark catalog', () => {
     expect(stays.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
   });
 
-  it('files theaters, opera houses, cinemas and nightclubs under Nightlife', () => {
+  it('files theaters, opera houses and cinemas under Art & Culture (or Nightlife for music clubs), and nightclubs under Nightlife', () => {
     const VENUE = /\b(theat(er|re)|teatro|cinema|opera house|music hall|concert hall)\b/i;
-    const badVenue = ALL_LANDMARKS.filter((l) => VENUE.test(l.name) && !['entertainment', 'local-life'].includes(l.categories[0]));
+    const badVenue = ALL_LANDMARKS.filter((l) => VENUE.test(l.name) && !['history-culture', 'local-life'].includes(l.categories[0]));
     expect(badVenue.map((l) => `${l.regionId}/${l.id}: ${l.categories[0]}`)).toEqual([]);
     const badClub = ALL_LANDMARKS.filter((l) => /\bnightclub\b/i.test(l.summary) && !['local-life', 'entertainment'].includes(l.categories[0]));
     expect(badClub.map((l) => `${l.regionId}/${l.id}`)).toEqual([]);
@@ -222,7 +222,7 @@ describe('canonicalLandmarkId (renamed San Francisco ids)', () => {
 describe('sortInterests', () => {
   it('orders A–Z by default, newest and oldest by when the category was added', () => {
     expect(sortInterests(INTERESTS)[0].label).toBe('10/10 Benches');
-    expect(sortInterests(INTERESTS, 'newest')[0].id).toBe('shopping');
+    expect(sortInterests(INTERESTS, 'newest')[0].id).toBe('attractions');
     expect(sortInterests(INTERESTS, 'oldest')[0].id).toBe('history-culture');
     expect(new Set(INTERESTS.map((i) => i.added)).size).toBe(INTERESTS.length);
   });

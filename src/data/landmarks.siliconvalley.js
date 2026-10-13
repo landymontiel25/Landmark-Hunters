@@ -943,7 +943,7 @@ export const SILICONVALLEY_LANDMARKS = [
     lat: 37.319343,
     lng: -121.949328,
     checkInRadiusMeters: 400,
-    categories: ["history-culture"],
+    categories: ["shopping"],
     summary: "A European-styled shopping, dining and residential street built from scratch in 2002, one of the valley's main dining and shopping destinations.",
     tip: "Walking the street is free; parking garages are free for the first hours. Weekend evenings are the busiest time.",
     facts: ["Opened in November 2002 on the site of the old Town & Country Village shopping center", "Developed by Federal Realty as a mixed-use district of shops, restaurants, offices and apartments", "A fire in August 2002 destroyed a nearly finished building weeks before the planned opening", "Covers about 42 acres along Winchester Boulevard across from Westfield Valley Fair", "Modeled on European pedestrian streets, with a tree-lined main street and a central park", "Hotel Valencia anchors the middle of the row", "Hosts an outdoor chess board and a weekly farmers market", "Home to Silicon Valley offices for tech firms alongside the retail", "Its restaurants and patios fill on weekend evenings with diners from across the valley", "Sits on the west side of San Jose near the Winchester Mystery House"],
