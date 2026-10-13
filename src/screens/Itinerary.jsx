@@ -12,7 +12,6 @@ import CheckInButton from '../components/CheckInButton';
 import LandmarkThumb from '../components/LandmarkThumb';
 import QuickRateButton from '../components/QuickRateButton';
 import TripRecapCard from '../components/TripRecapCard';
-import ThemedChallenge from '../components/ThemedChallenge';
 import OfflineDownloadButton from '../components/OfflineDownloadButton';
 import { createGroupTrip, listMyGroupTrips } from '../lib/groupTrips';
 import { itineraryPhase, groupKey } from '../lib/itineraryStatus';
@@ -251,7 +250,6 @@ export default function Itinerary() {
     trip,
     toggleLandmark,
     setRegionSelection,
-    getRegionSelection,
     regionsWithItineraries,
     updateTrip,
     setMapFocus,
@@ -880,16 +878,6 @@ export default function Itinerary() {
         )}
       </div>
 
-      <ThemedChallenge
-        regionId={region.id}
-        claimedMap={claimedMap}
-        onAddAll={(landmarks) => {
-          const current = getRegionSelection(region.id);
-          const merged = [...new Set([...current, ...landmarks.map((l) => l.id)])];
-          setRegionSelection(region.id, merged);
-        }}
-      />
-      <OfflineDownloadButton region={region} />
 
       <div className="card section">
         <h3 style={{ marginTop: 0 }}>Members</h3>
@@ -1208,6 +1196,11 @@ export default function Itinerary() {
           </div>
         </div>
       )}
+
+      {/* Offline map download, last on the page. */}
+      <div style={{ marginTop: 24 }}>
+        <OfflineDownloadButton region={region} />
+      </div>
     </div>
   );
 }
