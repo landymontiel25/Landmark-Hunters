@@ -1,0 +1,35 @@
+'use client';
+import { Page } from '@/components/Page';
+import { TrendChart } from '@/components/Chart';
+import { ListenerError } from '@/components/AlertBanner';
+import { useNetworkMetrics } from '@/lib/listeners';
+
+// The discovery network (docs/discovery-network-plan.md, Phases 2 to 6),
+// from network_metrics/{date}, written by the app's nightly job. Counts
+// only: no names, no uids.
+
+const pct = (v: number | null | undefined) => (v == null ? 'n/a' : `${Math.round(v * 100)}%`);
+
+export default function Network() {
+  const metrics = useNetworkMetrics(30);
+  const latest = metrics.data?.[metrics.data.length - 1];
+  return (
+    <Page title="Network" subtitle="Follows and the launch area (Philadelphia plus Villanova). Phase 2 is done when 60% of active people there follow a discoverer.">
+      <ListenerError error={metrics.error} />
+      {!latest && !metrics.error && <p className="text-sm muted">No network numbers yet. The nightly job writes them.</p>}
+      {latest && (
+        <section className="card p-4" aria-label="Network today">
+          <p className="font-medium">Follows ({latest.date})</p>
+          <p className="text-sm secondary mt-1">
+            {latest.follows_total} follows · {latest.new_follows} new that day · {latest.people_following} people follow someone · {latest.people_followed} people have a follower
+          </p>
+          <p className="text-xs muted mt-1">
+            Launch area: {latest.launch_active} active in the last 30 days · {latest.launch_following_discoverer} follow a discoverer ({pct(latest.launch_follow_rate)}) · {latest.discoverers} discoverers with a live tip
+          </p>
+        </section>
+      )}
+      <TrendChart title="Follows" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'follows_total', label: 'Follows' }, { key: 'new_follows', label: 'New' }]} format={(v) => String(Math.round(v))} />
+      <TrendChart title="Launch area following a discoverer" data={(metrics.data || []) as unknown as Record<string, unknown>[]} series={[{ key: 'launch_follow_rate', label: 'Share' }]} format={(v) => pct(v)} />
+    </Page>
+  );
+}

@@ -88,6 +88,7 @@ vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./reviews', () => ({ deleteMyReview: vi.fn() }));
 vi.mock('./maprChats', () => ({ deleteProject: vi.fn() }));
 vi.mock('./tipsApi', () => ({ deleteAllMyTips: vi.fn(async () => { if (tipsMock.fail > 0) { tipsMock.fail--; throw Object.assign(new Error('x'), { status: 500 }); } return { ok: true }; }) }));
+vi.mock('./followsApi', () => ({ deleteAllMyFollows: vi.fn(async () => ({ ok: true })) }));
 
 import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
 

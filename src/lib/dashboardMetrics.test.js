@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { retention } from './adminStats.js';
-import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, presenceDocs, retentionDocs, slackAlerts, tasteDocs, tipDocs } from './dashboardMetrics.js';
+import { accuracyDocs, bigMissDocs, engagementDocs, growthDocs, lastDates, maprFlatFields, presenceDocs, retentionDocs, slackAlerts, tasteDocs, tipDocs, networkDocs } from './dashboardMetrics.js';
 
 const DAY = 86400000;
 const D = '2026-09-20';
@@ -151,5 +151,29 @@ describe('tipDocs', () => {
     };
     const [doc] = tipDocs(ds, ['2026-10-12']);
     expect(doc).toMatchObject({ date: '2026-10-12', live: 2, held: 1, hidden: 1, removed: 1, withdrawn: 0, reported_live: 1, live_places: 1, posted: 3, impressions: 2, authors_30d: 1, helpful_total: 2, saved_total: 1, live_by_region: { philly: 2 } });
+  });
+});
+
+describe('networkDocs', () => {
+  it('counts follows up to the day and the launch area share following a discoverer', () => {
+    const day = Date.parse('2026-10-12T12:00:00Z');
+    const ds = {
+      tips: [{ authorUid: 'finder', status: 'live', hidden: false }, { authorUid: 'gone', status: 'removed' }],
+      follows: [
+        { followerUid: 'a', followeeUid: 'finder', createdAt: day },
+        { followerUid: 'b', followeeUid: 'gone', createdAt: day },
+        { followerUid: 'c', followeeUid: 'finder', createdAt: day + 864e5 },
+      ],
+      checkins: [
+        { userId: 'a', region: 'philly', createdAt: day },
+        { userId: 'b', region: 'villanova', createdAt: day },
+        { userId: 'c', region: 'philly', createdAt: day },
+        { userId: 'd', region: 'miami', createdAt: day },
+      ],
+      reviews: [],
+    };
+    const [doc] = networkDocs(ds, ['2026-10-12']);
+    expect(doc).toMatchObject({ follows_total: 2, new_follows: 2, people_following: 2, people_followed: 2, discoverers: 1, launch_active: 3, launch_following_discoverer: 1 });
+    expect(doc.launch_follow_rate).toBeCloseTo(1 / 3, 3);
   });
 });

@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { getUserProfile, sendFriendRequest, hasPendingRequestTo } from '../lib/friends';
 import FriendStatsModal from './FriendStatsModal';
+import FollowButton from './FollowButton';
 import { Skeleton } from './Skeleton';
 import { useToast } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
@@ -120,6 +121,11 @@ export default function FriendPopoverName({ userId, fallbackName, children }) {
       {open && !isFriend && (
         <div className="user-popover-card" onClick={(e) => e.stopPropagation()}>
           <div className="user-popover-username">@{profile?.username || fallbackName}</div>
+          {!isMe && profile?.uid && !profile.loadFailed && (
+            <div style={{ margin: '4px 0 6px' }}>
+              <FollowButton uid={userId} profile={profile} compact />
+            </div>
+          )}
           {!isMe && !profile && (
             <span role="status" aria-live="polite">
               <span className="visually-hidden">Loading profile…</span>

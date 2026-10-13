@@ -23,6 +23,7 @@ import { claimMyReferralBonuses } from '../lib/referrals';
 import { hasCompletedOnboardingLocally } from '../lib/onboarding';
 import { ONBOARDING_VERSION, onboardingStatus } from '../lib/onboardingVersion';
 import FriendsPanel from '../components/FriendsPanel';
+import FollowsPanel from '../components/FollowsPanel';
 import SignInForm from '../components/SignInForm';
 import Onboarding from './Onboarding';
 import FriendPopoverName from '../components/FriendPopoverName';
@@ -655,6 +656,7 @@ export default function Profile() {
         <InviteButton myUsername={myUsername} />
       </div>
       <FriendsPanel />
+      <FollowsPanel />
 
       <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
         {'\u{2699}\u{FE0F}'} Settings

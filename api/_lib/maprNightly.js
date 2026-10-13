@@ -20,6 +20,7 @@ import { slackAlerts } from '../../src/lib/dashboardMetrics.js';
 import { writeDashboardDaily, writeDashboardModels } from './dashboardDocs.js';
 import { sweepTipOrphans } from './tipModeration.js';
 import { recountRegionStats, scrubCheckinLocation, scrubLeaderboardCheckinIds } from './checkinUpkeep.js';
+import { followUpkeep } from './follows.js';
 
 // Mapr Phase 1 batch work, run by api/mapr-nightly.js with the Admin SDK.
 //   daily   metrics report -> mapr_metrics/{date}, Slack, stagnation flags
@@ -318,6 +319,11 @@ export async function runDaily(db, { now = Date.now(), ds = null, slack = postTo
       upkeep.regionStats = await recountRegionStats(db, data);
     } catch (e) {
       console.error('region_stats recount failed:', e?.message || e);
+    }
+    try {
+      upkeep.follows = await followUpkeep(db);
+    } catch (e) {
+      console.error('follow upkeep failed:', e?.message || e);
     }
     try {
       upkeep.scrubbed = await scrubCheckinLocation(db);

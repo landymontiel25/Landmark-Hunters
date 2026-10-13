@@ -216,6 +216,19 @@ export interface TipMetric {
   authors_30d: number;
 }
 
+// network_metrics/{date}: follows and the launch area (Phases 2 to 6).
+export interface NetworkMetric {
+  date: string;
+  follows_total: number;
+  new_follows: number;
+  people_following: number;
+  people_followed: number;
+  discoverers: number;
+  launch_active: number;
+  launch_following_discoverer: number;
+  launch_follow_rate: number | null;
+}
+
 export interface TipQueueRow {
   id: string;
   gen: string | null;
