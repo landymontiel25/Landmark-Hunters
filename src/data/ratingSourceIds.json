@@ -1,15 +1,111 @@
 {
+  "miami/actors-playhouse-miracle-theatre": {
+    "googlePlaceId": "ChIJvbp3sZC32YgR3ue4ys04fbs"
+  },
+  "miami/ad-barnes-park": {
+    "googlePlaceId": "ChIJ4VASkWi42YgRsG-s7GIn-XE"
+  },
+  "miami/alex-rodriguez-park-mark-light-field": {
+    "googlePlaceId": "ChIJffexyv7H2YgR7fZSIcVEqzs"
+  },
+  "miami/alhambra-towers": {
+    "googlePlaceId": "ChIJyxIjVZi32YgRsroHyLsYY70"
+  },
   "miami/ancient-spanish-monastery": {
     "googlePlaceId": "ChIJv-QSpLqt2YgR7Da-jhWuV2o"
+  },
+  "miami/ball-and-chain": {
+    "googlePlaceId": "ChIJe4rXvvC22YgRpjGQg1PlJmM"
+  },
+  "miami/bay-of-pigs-museum": {
+    "googlePlaceId": "ChIJ5WQ_YPm22YgRyteWLaAxzpI"
   },
   "miami/bayfront-park": {
     "googlePlaceId": "ChIJd9nFxyC02YgRVdtnh8Obwp8"
   },
+  "miami/ben-jerrys-coral-gables": {
+    "googlePlaceId": "ChIJJZVHI5i32YgRPQbtj2rCjvk"
+  },
+  "miami/bill-baggs-park": {
+    "googlePlaceId": "ChIJT6PHOUbK2YgRamANgVMeFqk"
+  },
+  "miami/biltmore-golf-course": {
+    "googlePlaceId": "ChIJN_mHKiC42YgRKgpoT84Yack"
+  },
+  "miami/black-archives-historic-lyric-theater": {
+    "googlePlaceId": "ChIJixrzU9-w2YgRlKJpF4WOXyc"
+  },
+  "miami/boaters-grill": {
+    "googlePlaceId": "ChIJ4-C5_UHK2YgRsw1ujkOdOwk"
+  },
+  "miami/bougainvilleas-old-florida-tavern": {
+    "googlePlaceId": "ChIJPSNlW-XH2YgRrKOXwQSLZaw"
+  },
+  "miami/bowlero-doral": {
+    "googlePlaceId": "ChIJiyWW_MW-2YgRU7-KoPyiQmk"
+  },
+  "miami/brickell-bay": {
+    "googlePlaceId": "ChIJF3MCKYK22YgRKL73upo1yHw"
+  },
   "miami/brickell-city-centre": {
     "googlePlaceId": "ChIJ9b849YC32YgR612tUl-KdyM"
   },
+  "miami/brickell-key": {
+    "googlePlaceId": "ChIJ9XoWYyi02YgRRCkKDik327c"
+  },
+  "miami/bulla-gastrobar-coral-gables": {
+    "googlePlaceId": "ChIJp6chQZe32YgRJBwcJ8qFH0M"
+  },
+  "miami/cafe-la-trova": {
+    "googlePlaceId": "ChIJZzgtHTW32YgR-k9p8IqD5m0"
+  },
+  "miami/caffe-abbracci": {
+    "googlePlaceId": "ChIJiSd1C5q32YgRo6pHoZz1Aec"
+  },
+  "miami/cape-florida-lighthouse": {
+    "googlePlaceId": "ChIJSWdN2E3K2YgRHdwe2DVru2A"
+  },
+  "miami/churchills-pub": {
+    "googlePlaceId": "ChIJgeJwFl6x2YgR5_eN0kqVnso"
+  },
   "miami/colony-hotel": {
     "googlePlaceId": "ChIJg_hOoZK02YgRhl_OsRNp-Mw"
+  },
+  "miami/coral-castle-museum": {
+    "googlePlaceId": "ChIJJTjxenrd2YgRmQ9YjR2nXNw"
+  },
+  "miami/coral-gables-art-cinema": {
+    "googlePlaceId": "ChIJ21f3-Jm32YgRVBxpp524niM"
+  },
+  "miami/coral-gables-city-hall": {
+    "googlePlaceId": "ChIJVTp8ZZC32YgRIEFgs6s4J3E"
+  },
+  "miami/coral-gables-museum": {
+    "googlePlaceId": "ChIJpfo_G5q32YgRUADWEMdHrZo"
+  },
+  "miami/crandon-golf": {
+    "googlePlaceId": "ChIJC_uG9o612YgR4-xHKDaSVBE"
+  },
+  "miami/crandon-park": {
+    "googlePlaceId": "ChIJARLTeoy12YgRWrhf9BwKLXU"
+  },
+  "miami/crandon-park-tennis-center": {
+    "googlePlaceId": "ChIJsx_uwom12YgRTgFJATN-1xc"
+  },
+  "miami/divieto-ristorante-doral": {
+    "googlePlaceId": "ChIJE-uqEqu-2YgRLHOKY1_PKnI"
+  },
+  "miami/dolphin-mall": {
+    "googlePlaceId": "ChIJo3EDg8a-2YgRYL74KV5Y4hs"
+  },
+  "miami/doral-central-park": {
+    "googlePlaceId": "ChIJXyVG0We52YgR0RInUGwc_jk"
+  },
+  "miami/doral-glades-park": {
+    "googlePlaceId": "ChIJDYH8btq72YgRqJoMK9Wcz5U"
+  },
+  "miami/el-palacio-de-los-jugos": {
+    "googlePlaceId": "ChIJDUU1sES42YgRCWEsbKx9imk"
   },
   "miami/espanola-way": {
     "googlePlaceId": "ChIJeaHmmI-02YgRtTHiPZhhuGU"
@@ -20,26 +116,104 @@
   "miami/freedom-tower": {
     "googlePlaceId": "ChIJQYc31KG22YgRSGPrHL_dpiQ"
   },
+  "miami/frost-art-museum-fiu": {
+    "googlePlaceId": "ChIJNbZeEjG_2YgRFD1TjUzJeBY"
+  },
   "miami/frost-museum-of-science": {
     "googlePlaceId": "ChIJab3yr6C22YgRdh8TY4oVu_w"
+  },
+  "miami/garcias-seafood": {
+    "googlePlaceId": "ChIJo5nchJa22YgReZn7JVz0r5k"
+  },
+  "miami/gesu-church-miami": {
+    "googlePlaceId": "ChIJzQAYlZ622YgRuFeLKIZATO8"
+  },
+  "miami/glenn-curtiss-mansion": {
+    "googlePlaceId": "ChIJpYhTBAK62YgRbU7PE-JgLHg"
+  },
+  "miami/gold-coast-railroad-museum": {
+    "googlePlaceId": "ChIJ_fPLlNHD2YgRs1uJWWnkfyM"
+  },
+  "miami/granada-golf-course": {
+    "googlePlaceId": "ChIJsdAe4oe32YgRMUDC_52erPg"
+  },
+  "miami/greenstreet-cafe-coconut-grove": {
+    "googlePlaceId": "ChIJs1e8QsW32YgR2n6XDREEhNk"
+  },
+  "miami/hard-rock-stadium": {
+    "googlePlaceId": "ChIJqfO1lwSv2YgR2_kLxpThFVg"
+  },
+  "miami/hialeah-park-racing-casino": {
+    "googlePlaceId": "ChIJs2ajQXi62YgRryDVs-X3cBk"
   },
   "miami/holocaust-memorial-miami-beach": {
     "googlePlaceId": "ChIJt_rH-qQp2YgRVCQiSJ3NXzs"
   },
+  "miami/hoy-como-ayer": {
+    "googlePlaceId": "ChIJh4ReCf622YgRGCQIJ9SvJ9g"
+  },
+  "miami/hyatt-regency-coral-gables": {
+    "googlePlaceId": "ChIJs-YmZ5i32YgR7-3RF6zovCs"
+  },
   "miami/institute-of-contemporary-art-miami": {
     "googlePlaceId": "ChIJP_TMP1ex2YgR4S9TDvJAO2M"
+  },
+  "miami/islas-canarias-restaurant": {
+    "googlePlaceId": "ChIJjxXKu56_2YgRQbCl_QYXQyU"
   },
   "miami/kaseya-center": {
     "googlePlaceId": "ChIJlZFyCaC22YgRbFtPKFIFrRM"
   },
+  "miami/kendall-indian-hammocks-park": {
+    "googlePlaceId": "ChIJW5keOcnA2YgRdHHcA2hRMsQ"
+  },
+  "miami/key-biscayne-community-center": {
+    "googlePlaceId": "ChIJy_qZTRPK2YgR1HNsNS_PHuc"
+  },
+  "miami/kings-dining-entertainment-doral": {
+    "googlePlaceId": "ChIJd7uTqvSw2YgRINnJ7d86Dc0"
+  },
+  "miami/la-camaronera": {
+    "googlePlaceId": "ChIJ79UJauO22YgRzXfy8KIQsmQ"
+  },
+  "miami/la-sin-rival-bakery": {
+    "googlePlaceId": "ChIJyV8GG9q42YgRUuuwvnt5Xa4"
+  },
+  "miami/lagniappe-miami": {
+    "googlePlaceId": "ChIJIeFjL1Sx2YgR_K_UxHKqgYY"
+  },
   "miami/loandepot-park": {
     "googlePlaceId": "ChIJT6FDlOi22YgRho4_rKhVv3c"
+  },
+  "miami/lowe-art-museum": {
+    "googlePlaceId": "ChIJa57Eef-32YgR6svQH2tC6as"
+  },
+  "miami/magic-city-casino": {
+    "googlePlaceId": "ChIJCToZw2y32YgRdX8ZBKs5BRs"
+  },
+  "miami/marjory-stoneman-douglas-nature-center": {
+    "googlePlaceId": "ChIJ-_5n95m12YgRP7H7Uwxnkvs"
+  },
+  "miami/maurice-a-ferre-park": {
+    "googlePlaceId": "ChIJtaM_HB602YgRWEIQVSrIQnY"
   },
   "miami/maximo-gomez-park-domino-park": {
     "googlePlaceId": "ChIJrwdJxvC22YgRYBoTtbtcriQ"
   },
+  "miami/merrick-house": {
+    "googlePlaceId": "ChIJi4dojYi32YgR3IB4PvqGuTs"
+  },
   "miami/miami-childrens-museum": {
     "googlePlaceId": "ChIJoVWX_Rm02YgRllHsIZGN16c"
+  },
+  "miami/miami-city-cemetery": {
+    "googlePlaceId": "ChIJo0o7tKi22YgRbeZ2Qy8cUPU"
+  },
+  "miami/miami-city-hall-dinner-key": {
+    "googlePlaceId": "ChIJuUQejcy32YgR1en9A6pxPLs"
+  },
+  "miami/miami-dade-county-auditorium": {
+    "googlePlaceId": "ChIJ_8SDEeW22YgRX9kKijbri8U"
   },
   "miami/miami-design-district": {
     "googlePlaceId": "ChIJB3_XyFCx2YgRFHOXPjVD_8U"
@@ -47,14 +221,68 @@
   "miami/miami-international-autodrome": {
     "googlePlaceId": "ChIJ87CsDgCv2YgR1vzidKw4Bag"
   },
+  "miami/miami-marine-stadium": {
+    "googlePlaceId": "ChIJG0-8aca12YgRBHEBZJ-x7ew"
+  },
+  "miami/miami-seaquarium": {
+    "googlePlaceId": "ChIJKelZy7-12YgR09DmTl_Cu5c"
+  },
+  "miami/miami-springs-golf-country-club": {
+    "googlePlaceId": "ChIJpWH4HR262YgRqC3xxnX2Zus"
+  },
   "miami/miracle-mile": {
     "googlePlaceId": "ChIJqXee5BS32YgRj9mh9RBqHvc"
+  },
+  "miami/museum-of-graffiti": {
+    "googlePlaceId": "ChIJLak3qiC32YgRLgUwpvrqlzc"
+  },
+  "miami/news-cafe": {
+    "googlePlaceId": "ChIJx-r_mZK02YgRkb5R4DklTs4"
+  },
+  "miami/no-name-harbor": {
+    "googlePlaceId": "ChIJ9yJAG0fK2YgRkYhcHH-ABYA"
+  },
+  "miami/olympia-theater-gusman": {
+    "googlePlaceId": "ChIJb_AUK5y22YgR6Gqh4MNg2mI"
+  },
+  "miami/original-rio-cristal": {
+    "googlePlaceId": "ChIJRcBE_K-42YgR5zCEYHLZJ10"
+  },
+  "miami/panther-coffee-wynwood": {
+    "googlePlaceId": "ChIJG6HQcrK22YgREOwX4PyCF8c"
+  },
+  "miami/pasion-del-cielo-coral-gables": {
+    "googlePlaceId": "ChIJbyMaSpi32YgRDtX_e0Lp-N0"
+  },
+  "miami/peacock-park-coconut-grove": {
+    "googlePlaceId": "ChIJFyRo08-32YgR4OA0XWmeGl8"
   },
   "miami/perez-art-museum-miami": {
     "googlePlaceId": "ChIJAUUpLJq22YgRAU604E8-tsM"
   },
+  "miami/pinecrest-gardens": {
+    "googlePlaceId": "ChIJuyCMUy3G2YgRyrGn93iiGoM"
+  },
+  "miami/pisco-y-nazca-doral": {
+    "googlePlaceId": "ChIJDX1029u72YgRFYqswzdpZDY"
+  },
+  "miami/pitbull-stadium-fiu": {
+    "googlePlaceId": "ChIJD5E6Gjq_2YgRHwaHuquJafg"
+  },
+  "miami/regatta-park": {
+    "googlePlaceId": "ChIJUZZkts232YgRkoM9ZK95I3o"
+  },
   "miami/rubell-museum": {
     "googlePlaceId": "ChIJLx5iM6222YgR2ubX5fvu4ts"
+  },
+  "miami/rusty-pelican": {
+    "googlePlaceId": "ChIJc2PcMM612YgR_kdEdDDuTrQ"
+  },
+  "miami/sanguich-de-miami": {
+    "googlePlaceId": "ChIJhw4bDvq22YgRt1rD2Am4AxY"
+  },
+  "miami/simpson-park-hammock": {
+    "googlePlaceId": "ChIJjxgHoIe22YgRWDaoVeZ-I3U"
   },
   "miami/superblue-miami": {
     "googlePlaceId": "ChIJqU2oA4m32YgRYwF5JdM4I38"
@@ -65,14 +293,38 @@
   "miami/the-villa-casa-casuarina": {
     "googlePlaceId": "ChIJPxh9HpK02YgRw4dfWY2eMpY"
   },
+  "miami/time-out-market-miami": {
+    "googlePlaceId": "ChIJLVx-RoW02YgR3wBgT_CEmZQ"
+  },
+  "miami/tower-theater-miami": {
+    "googlePlaceId": "ChIJLYpguPC22YgRX3k5qYjT4YU"
+  },
+  "miami/tropical-park": {
+    "googlePlaceId": "ChIJcxJRMYe42YgRDSlj6Z_CDxk"
+  },
   "miami/venetian-pool": {
     "googlePlaceId": "ChIJO2jhb4m32YgRvulhfY9IMx0"
+  },
+  "miami/versailles-restaurant": {
+    "googlePlaceId": "ChIJt9yvFgu32YgRrk-vKGEQB6g"
+  },
+  "miami/village-green-park": {
+    "googlePlaceId": "ChIJ-xHq32zK2YgRfYP3x4QLwcY"
+  },
+  "miami/virginia-key-beach": {
+    "googlePlaceId": "ChIJW3QVPLe12YgR0KU7s72boRI"
   },
   "miami/vizcaya-museum-and-gardens": {
     "googlePlaceId": "ChIJE5jqT1222YgR4STdDoStYPg"
   },
+  "miami/watsco-center": {
+    "googlePlaceId": "ChIJPcF_nP_H2YgRIvxA-gs23KI"
+  },
   "miami/wynwood-walls": {
     "googlePlaceId": "ChIJ98BffLK22YgRsymdIvOgjNA"
+  },
+  "miami/zak-the-baker": {
+    "googlePlaceId": "ChIJMVmQ-LK22YgRXCFmM480oqw"
   },
   "philly/ardmore-music-hall": {
     "googlePlaceId": "ChIJVVxRaIbAxokRaUIqCSOUB94"
@@ -148,5 +400,77 @@
   },
   "philly/zahav": {
     "googlePlaceId": "ChIJzSVn2prIxokRx1kTchCYRwI"
+  },
+  "san-francisco/airbnb-hq": {
+    "googlePlaceId": "ChIJ3-Ibdix-j4ARDNwT7ivEwoc"
+  },
+  "san-francisco/baker-beach": {
+    "googlePlaceId": "ChIJp_hAi_yGhYARGdXAfU1rPYs"
+  },
+  "san-francisco/california-academy-of-sciences": {
+    "googlePlaceId": "ChIJIUT7rEOHhYARucp3wM-HhBs"
+  },
+  "san-francisco/chase-center": {
+    "googlePlaceId": "ChIJ6QBEf8Z_j4AR40Gh2OOTZ30"
+  },
+  "san-francisco/cliff-house": {
+    "googlePlaceId": "ChIJr4X4bjKHhYAR424FLrCQwPw"
+  },
+  "san-francisco/coit-tower": {
+    "googlePlaceId": "ChIJAQAAQIyAhYARRN3yIQG4hd4"
+  },
+  "san-francisco/de-young-museum": {
+    "googlePlaceId": "ChIJI7NivpmAhYARSuRPlbbn_2w"
+  },
+  "san-francisco/dolores-park": {
+    "googlePlaceId": "ChIJp3CqeRd-j4ARYI0i8e_kGKY"
+  },
+  "san-francisco/exploratorium": {
+    "googlePlaceId": "ChIJk2vl5NSGhYARwPGvs_ubIws"
+  },
+  "san-francisco/fishermans-wharf": {
+    "googlePlaceId": "ChIJueOuefqAhYARapAU-YtbztA"
+  },
+  "san-francisco/ghirardelli-square": {
+    "googlePlaceId": "ChIJp5jP7rCBhYARRcpUh_kHgKk"
+  },
+  "san-francisco/golden-gate-bridge": {
+    "googlePlaceId": "ChIJw____96GhYARCVVwg5cT7c0"
+  },
+  "san-francisco/legion-of-honor": {
+    "googlePlaceId": "ChIJabri1qyHhYARLE0Vd4zY_7k"
+  },
+  "san-francisco/lombard-street": {
+    "googlePlaceId": "ChIJl62Bq92AhYARrLLC3ZcLL8Q"
+  },
+  "san-francisco/ocean-beach": {
+    "googlePlaceId": "ChIJY8btaZSHhYAR_GctC494Hoo"
+  },
+  "san-francisco/openai-office": {
+    "googlePlaceId": "ChIJv7lpPQB_j4ARF3C374hqlaQ"
+  },
+  "san-francisco/oracle-park": {
+    "googlePlaceId": "ChIJ_T25cNd_j4ARehGmHe0pT84"
+  },
+  "san-francisco/painted-ladies": {
+    "googlePlaceId": "ChIJuX92JKWAhYARxVmeb8DQIYQ"
+  },
+  "san-francisco/palace-of-fine-arts": {
+    "googlePlaceId": "ChIJgUYUENWGhYAR9awaWIrbYOk"
+  },
+  "san-francisco/pier-39": {
+    "googlePlaceId": "ChIJHSGzi_yAhYARnrPmDWAx9ro"
+  },
+  "san-francisco/salesforce-tower": {
+    "googlePlaceId": "ChIJ1dIqa2OAhYAREimtEtfBLyc"
+  },
+  "san-francisco/san-francisco-city-hall": {
+    "googlePlaceId": "ChIJY-bqepmAhYARSk9Xg_9tcLI"
+  },
+  "san-francisco/twin-peaks": {
+    "googlePlaceId": "ChIJt3HwrOJ9j4ARbW6uAcmhz7I"
+  },
+  "san-francisco/union-square": {
+    "googlePlaceId": "ChIJu0D9046AhYARurZMmbXZQf4"
   }
 }

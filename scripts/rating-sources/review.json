@@ -1,4 +1,42 @@
 {
+  "miami/amelia-earhart-park": {
+    "name": "Amelia Earhart Park",
+    "lat": 25.8869127,
+    "lng": -80.2778746,
+    "google": {
+      "reason": "name matches but 612 m away",
+      "candidates": [
+        {
+          "id": "ChIJOx8kLAiw2YgRgaWJcTwN1l8",
+          "name": "Amelia Earhart Park",
+          "lat": 25.8820221,
+          "lng": -80.2750709,
+          "distanceM": 612,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/azucar-ice-cream-little-havana": {
+    "name": "Azucar Ice Cream Company",
+    "lat": 25.7658359,
+    "lng": -80.2196546,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJJcjMuPC22YgR6qCdc4fpZ0I",
+          "name": "Azucar Ice Cream - Little Havana",
+          "lat": 25.765851800000004,
+          "lng": -80.219672,
+          "distanceM": 2,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
   "miami/bayside-marketplace": {
     "name": "Bayside Marketplace",
     "lat": 25.778236,
@@ -14,6 +52,25 @@
           "distanceM": 257,
           "nameMatch": true,
           "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/biscayne-bay-boat-cruise": {
+    "name": "Biscayne Bay Boat Cruise",
+    "lat": 25.7787,
+    "lng": -80.1866,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJY_ZCYbu12YgRtqEEV53k11s",
+          "name": "Biscayne Bay Boat Tours",
+          "lat": 25.7785309,
+          "lng": -80.18627579999999,
+          "distanceM": 38,
+          "nameMatch": false,
+          "overlap": 0.75
         }
       ]
     }
@@ -74,6 +131,71 @@
       ]
     }
   },
+  "miami/grazianos-bird-road": {
+    "name": "Graziano's Restaurant (Bird Road)",
+    "lat": 25.7336396,
+    "lng": -80.3442459,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJfdhyZ7242YgRp7DwsxFoCLg",
+          "name": "Graziano's Mercado Bird Road",
+          "lat": 25.7335802,
+          "lng": -80.3441337,
+          "distanceM": 13,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJLztTO7242YgRo8bmAfBYbWI",
+          "name": "Graziano's Restaurant Bird Rd",
+          "lat": 25.7335398,
+          "lng": -80.344647,
+          "distanceM": 42,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "miami/grazianos-market-coral-gables": {
+    "name": "Graziano's Market",
+    "lat": 25.75118,
+    "lng": -80.25666,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ_ekjSZi32YgR_hxJiTz8bYc",
+          "name": "Graziano's Mercado Coral Gables",
+          "lat": 25.751199999999997,
+          "lng": -80.2564,
+          "distanceM": 26,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJFXsUY5q32YgRQMRswpFrPx4",
+          "name": "Graziano's Restaurant Coral Gables",
+          "lat": 25.7508067,
+          "lng": -80.26258399999999,
+          "distanceM": 595,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJez61Uxq32YgRgQZv24N61k4",
+          "name": "Graziano's Mercado at The Lifetime Building",
+          "lat": 25.728228599999998,
+          "lng": -80.2595898,
+          "distanceM": 2569,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
   "miami/haulover-beach": {
     "name": "Haulover Beach",
     "lat": 25.907563,
@@ -111,6 +233,25 @@
       ]
     }
   },
+  "miami/hillstone-restaurant": {
+    "name": "Hillstone Restaurant",
+    "lat": 25.7497,
+    "lng": -80.2567,
+    "google": {
+      "reason": "name matches but 217 m away",
+      "candidates": [
+        {
+          "id": "ChIJwTATX5e32YgRNCr4N3Sw1yg",
+          "name": "Hillstone",
+          "lat": 25.7497974,
+          "lng": -80.2588592,
+          "distanceM": 217,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "miami/historymiami-museum": {
     "name": "HistoryMiami Museum",
     "lat": 25.774463,
@@ -130,6 +271,43 @@
       ]
     }
   },
+  "miami/hobie-island-beach": {
+    "name": "Hobie Island Beach (Windsurfer Beach)",
+    "lat": 25.7450657,
+    "lng": -80.1760238,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJn4GbwMW12YgRditCooKuqMA",
+          "name": "Hobie Island Beach Park",
+          "lat": 25.745573999999998,
+          "lng": -80.1770083,
+          "distanceM": 114,
+          "nameMatch": false,
+          "overlap": 0.75
+        },
+        {
+          "id": "ChIJjYnLi83L2YgRGbX6HKNDxr4",
+          "name": "Hobie Island Beach",
+          "lat": 25.7457332,
+          "lng": -80.1979885,
+          "distanceM": 2201,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJkfsJXGW22YgRCMVplLeShe8",
+          "name": "Hobie Island Beach Park North",
+          "lat": 25.7462308,
+          "lng": -80.1997232,
+          "distanceM": 2377,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
   "miami/jewish-museum-of-florida-fiu": {
     "name": "Jewish Museum of Florida-FIU",
     "lat": 25.7719,
@@ -143,6 +321,34 @@
           "lat": 25.7725299,
           "lng": -80.134395,
           "distanceM": 156,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/joes-stone-crab": {
+    "name": "Joe's Stone Crab",
+    "lat": 25.768408,
+    "lng": -80.13524,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJgYZ4DvG02YgR6zxax8FTfHo",
+          "name": "Joe's Stone Crab",
+          "lat": 25.769112999999997,
+          "lng": -80.13501099999999,
+          "distanceM": 82,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ5VG2CfG02YgR9VoW1DWtf7w",
+          "name": "Joe's Stone Crab",
+          "lat": 25.7691561,
+          "lng": -80.1351747,
+          "distanceM": 83,
           "nameMatch": true,
           "overlap": 1
         }
@@ -224,6 +430,44 @@
       ]
     }
   },
+  "miami/little-havana": {
+    "name": "Little Havana",
+    "lat": 25.76815,
+    "lng": -80.233469,
+    "google": {
+      "reason": "name matches but 550 m away",
+      "candidates": [
+        {
+          "id": "ChIJ558VBRe32YgRidtyRyNfJTU",
+          "name": "Little Havana",
+          "lat": 25.772571799999998,
+          "lng": -80.2310072,
+          "distanceM": 550,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/lummus-park-miami": {
+    "name": "Lummus Park (Fort Dallas)",
+    "lat": 25.7761902,
+    "lng": -80.2012373,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJb-NbJ5e22YgRT_b6uMl8PG8",
+          "name": "Lummus Park Historic District",
+          "lat": 25.7763816,
+          "lng": -80.2017156,
+          "distanceM": 52,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
   "miami/matheson-hammock-park": {
     "name": "Matheson Hammock Park",
     "lat": 25.677376,
@@ -237,6 +481,25 @@
           "lat": 25.679227700000002,
           "lng": -80.2566025,
           "distanceM": 971,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/miami-beach-boardwalk": {
+    "name": "Miami Beach Boardwalk",
+    "lat": 25.795695,
+    "lng": -80.126772,
+    "google": {
+      "reason": "name matches but 445 m away",
+      "candidates": [
+        {
+          "id": "ChIJAbRY_GGz2YgRqSa_i75G6mk",
+          "name": "Miami Beach Boardwalk",
+          "lat": 25.799550699999998,
+          "lng": -80.1255947,
+          "distanceM": 445,
           "nameMatch": true,
           "overlap": 1
         }
@@ -262,6 +525,25 @@
       ]
     }
   },
+  "miami/nu-stadium-miami-freedom-park": {
+    "name": "Nu Stadium at Miami Freedom Park",
+    "lat": 25.7924775,
+    "lng": -80.2595069,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ170WVQC32YgRcdE9FVf-jAg",
+          "name": "Nu Stadium",
+          "lat": 25.792244999999998,
+          "lng": -80.2594427,
+          "distanceM": 27,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "miami/oleta-river-state-park": {
     "name": "Oleta River State Park",
     "lat": 25.917654,
@@ -275,6 +557,44 @@
           "lat": 25.9134301,
           "lng": -80.1298671,
           "distanceM": 891,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/one-alhambra-plaza": {
+    "name": "1 Alhambra Plaza",
+    "lat": 25.75254,
+    "lng": -80.25478,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJoUcyAJm32YgRuh1I1nZ5hnE",
+          "name": "1 Alhambra Plz",
+          "lat": 25.752794899999998,
+          "lng": -80.25501270000001,
+          "distanceM": 37,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "miami/rickenbacker-causeway": {
+    "name": "Rickenbacker Causeway",
+    "lat": 25.7335608,
+    "lng": -80.1623748,
+    "google": {
+      "reason": "name matches but 610 m away",
+      "candidates": [
+        {
+          "id": "ChIJN-AhnO612YgRSImkBQ_bLeQ",
+          "name": "Rickenbacker Causeway",
+          "lat": 25.7373993,
+          "lng": -80.1667303,
+          "distanceM": 610,
           "nameMatch": true,
           "overlap": 1
         }
@@ -319,6 +639,25 @@
       ]
     }
   },
+  "miami/stiltsville": {
+    "name": "Stiltsville",
+    "lat": 25.6535,
+    "lng": -80.1715,
+    "google": {
+      "reason": "name matches but 320 m away",
+      "candidates": [
+        {
+          "id": "ChIJoV7V6M_L2YgRvH6xv3rVUtA",
+          "name": "Stiltsville",
+          "lat": 25.6545537,
+          "lng": -80.17447349999999,
+          "distanceM": 320,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "miami/the-bass": {
     "name": "The Bass",
     "lat": 25.7909,
@@ -357,6 +696,44 @@
       ]
     }
   },
+  "miami/trump-national-doral-blue-monster": {
+    "name": "Trump National Doral (Blue Monster)",
+    "lat": 25.8125938,
+    "lng": -80.338749,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJISHCY9-72YgRlV26O7OK5fk",
+          "name": "Trump National Doral Miami",
+          "lat": 25.812967300000004,
+          "lng": -80.3387175,
+          "distanceM": 42,
+          "nameMatch": false,
+          "overlap": 0.75
+        }
+      ]
+    }
+  },
+  "miami/university-of-miami-coral-gables": {
+    "name": "University of Miami (Coral Gables Campus)",
+    "lat": 25.7172725,
+    "lng": -80.2787069,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJfTjGHwK42YgRzjHwQarPwDg",
+          "name": "University of Miami",
+          "lat": 25.7169568,
+          "lng": -80.2798198,
+          "distanceM": 117,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
   "miami/venetian-causeway": {
     "name": "Venetian Causeway",
     "lat": 25.789762,
@@ -370,6 +747,25 @@
           "lat": 25.7898791,
           "lng": -80.1813011,
           "distanceM": 216,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "miami/wynwood": {
+    "name": "Wynwood",
+    "lat": 25.801412,
+    "lng": -80.199087,
+    "google": {
+      "reason": "name matches but 315 m away",
+      "candidates": [
+        {
+          "id": "ChIJcdFMSK222YgR6Qvhw20FP0c",
+          "name": "Wynwood",
+          "lat": 25.8042441,
+          "lng": -80.1989186,
+          "distanceM": 315,
           "nameMatch": true,
           "overlap": 1
         }
@@ -391,6 +787,396 @@
           "distanceM": 554,
           "nameMatch": true,
           "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/anthropic-office": {
+    "name": "Anthropic Office",
+    "lat": 37.788511,
+    "lng": -122.396738,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJxeKpaQCBhYARzF7mH1Q6WzM",
+          "name": "Anthropic",
+          "lat": 37.7897884,
+          "lng": -122.3947887,
+          "distanceM": 223,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ1XauxsaBhYARfdELBNtvXYk",
+          "name": "Anthropic",
+          "lat": 37.789957400000006,
+          "lng": -122.400884,
+          "distanceM": 398,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/bay-bridge": {
+    "name": "Bay Bridge",
+    "lat": 37.785648,
+    "lng": -122.391456,
+    "google": {
+      "reason": "name matches but 696 m away",
+      "candidates": [
+        {
+          "id": "ChIJ6SU2JA-BhYARm-IyAI8LiWU",
+          "name": "Bay Bridge Lookout",
+          "lat": 37.791812799999995,
+          "lng": -122.39007880000001,
+          "distanceM": 696,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ8yqBQBOAhYARU-WeAqu8_K4",
+          "name": "San Francisco – Oakland Bay Bridge",
+          "lat": 37.7982799,
+          "lng": -122.3778182,
+          "distanceM": 1846,
+          "nameMatch": false,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJExBKYY5_hYARwFxunXII-Rw",
+          "name": "San Francisco–Oakland Bay Bridge",
+          "lat": 37.8190512,
+          "lng": -122.34725970000001,
+          "distanceM": 5373,
+          "nameMatch": false,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/chinatown-gate": {
+    "name": "Chinatown Gate",
+    "lat": 37.790688,
+    "lng": -122.405594,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJSaN1HQCBhYARBC7F_HR8HA0",
+          "name": "Dragon Gate San Francisco",
+          "lat": 37.7906274,
+          "lng": -122.40559730000001,
+          "distanceM": 7,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJY8jq4G2BhYARSkNa7_mZ5eE",
+          "name": "Tian Xia Wei Gong",
+          "lat": 37.7905703,
+          "lng": -122.4055726,
+          "distanceM": 13,
+          "nameMatch": false,
+          "overlap": 0
+        },
+        {
+          "id": "ChIJ1QEslYuAhYAR2JO6IDkMcRU",
+          "name": "China Gate Gifts",
+          "lat": 37.7919875,
+          "lng": -122.40593989999999,
+          "distanceM": 148,
+          "nameMatch": false,
+          "overlap": 0.5
+        }
+      ]
+    }
+  },
+  "san-francisco/city-lights-bookstore": {
+    "name": "City Lights Bookstore",
+    "lat": 37.797652,
+    "lng": -122.406617,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ9W7ofPSAhYARPkhgF24V8KI",
+          "name": "City Lights Booksellers & Publishers",
+          "lat": 37.7976271,
+          "lng": -122.40662130000001,
+          "distanceM": 3,
+          "nameMatch": false,
+          "overlap": 0.67
+        }
+      ]
+    }
+  },
+  "san-francisco/crissy-field": {
+    "name": "Crissy Field",
+    "lat": 37.805762,
+    "lng": -122.449099,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJB_PVcdGGhYAR-ZjKm4PQ_A0",
+          "name": "Crissy Field East Beach",
+          "lat": 37.806429099999995,
+          "lng": -122.45069149999999,
+          "distanceM": 158,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJv3ARgtSGhYARHiAOtYz4FjE",
+          "name": "Crissy Field Center",
+          "lat": 37.8038953,
+          "lng": -122.45552579999999,
+          "distanceM": 602,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJJ4tQjdCGhYARLTYulcGRM20",
+          "name": "Crissy Field Marsh",
+          "lat": 37.804570999999996,
+          "lng": -122.45688,
+          "distanceM": 696,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/ferry-building": {
+    "name": "Ferry Building",
+    "lat": 37.795549,
+    "lng": -122.393475,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJ3Xve2jyBhYARK-5rIz9ZW2A",
+          "name": "Ferry Building",
+          "lat": 37.7955703,
+          "lng": -122.3933208,
+          "distanceM": 14,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJWTGPjmaAhYARxz6l1hOj92w",
+          "name": "Ferry Building",
+          "lat": 37.7954425,
+          "lng": -122.3936136,
+          "distanceM": 17,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ528mjWaAhYARquYmVsr1nSI",
+          "name": "Ferry Building",
+          "lat": 37.7954456,
+          "lng": -122.39361379999998,
+          "distanceM": 17,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/golden-gate-park": {
+    "name": "Golden Gate Park",
+    "lat": 37.768178,
+    "lng": -122.492758,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJd-UpaaCHhYARATTB9Q5e4xk",
+          "name": "Golden Gate Park Polo Field",
+          "lat": 37.768211699999995,
+          "lng": -122.4932246,
+          "distanceM": 41,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ3z0XWAuHhYARyswQwPWGknI",
+          "name": "Golden Gate Park Disc Golf Course",
+          "lat": 37.771128499999996,
+          "lng": -122.48615799999999,
+          "distanceM": 666,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJY_dFYHKHhYARMKc772iLvnE",
+          "name": "Golden Gate Park",
+          "lat": 37.7689203,
+          "lng": -122.482977,
+          "distanceM": 864,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/japanese-tea-garden": {
+    "name": "Japanese Tea Garden",
+    "lat": 37.770293,
+    "lng": -122.470124,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJVx8K7mmHhYAR-mix-61_zYk",
+          "name": "Japanese Tea Garden",
+          "lat": 37.770382999999995,
+          "lng": -122.4701793,
+          "distanceM": 11,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJ4TP_eIqHhYARt5acrB0te3A",
+          "name": "Japanese Tea House",
+          "lat": 37.770432299999996,
+          "lng": -122.46980099999999,
+          "distanceM": 32,
+          "nameMatch": false,
+          "overlap": 0.67
+        },
+        {
+          "id": "ChIJhVvouY-AhYARt6oYQBabsr8",
+          "name": "Japanese Tea Garden",
+          "lat": 37.7700913,
+          "lng": -122.47043590000001,
+          "distanceM": 35,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/mission-dolores": {
+    "name": "Mission Dolores",
+    "lat": 37.764353,
+    "lng": -122.426953,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJf2Aq3xh-j4ARnoDE5unLsTs",
+          "name": "Mission Dolores Basilica",
+          "lat": 37.764387299999996,
+          "lng": -122.42689689999999,
+          "distanceM": 6,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJFcynIBl-j4ARhkCe4XekDDs",
+          "name": "Mission of San Francisco de Asis",
+          "lat": 37.764387299999996,
+          "lng": -122.42689689999999,
+          "distanceM": 6,
+          "nameMatch": false,
+          "overlap": 0.5
+        },
+        {
+          "id": "ChIJUZmBIBl-j4ARa8p78uz8bk0",
+          "name": "Mission Dolores Cemetery",
+          "lat": 37.7640033,
+          "lng": -122.42691500000001,
+          "distanceM": 39,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/powell-street-cable-car-turntable": {
+    "name": "Powell Street Cable Car Turntable",
+    "lat": 37.784714,
+    "lng": -122.407197,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJ8XAgrZ-AhYARyiCpDlYNaFs",
+          "name": "Cable Car Turnaround Powell St.",
+          "lat": 37.7847118,
+          "lng": -122.4077009,
+          "distanceM": 44,
+          "nameMatch": false,
+          "overlap": 0.6
+        },
+        {
+          "id": "ChIJj1DU8OSAhYARgDbYxmY2G94",
+          "name": "Powell/Mason Cable Car Turnaround",
+          "lat": 37.805272300000006,
+          "lng": -122.41522979999999,
+          "distanceM": 2392,
+          "nameMatch": false,
+          "overlap": 0.6
+        },
+        {
+          "id": "ChIJbeE-fcyBhYAR92mcmn2xMVI",
+          "name": "Powell & Hyde Cable Car Turntable",
+          "lat": 37.8070737,
+          "lng": -122.42124600000001,
+          "distanceM": 2776,
+          "nameMatch": true,
+          "overlap": 0.8
+        }
+      ]
+    }
+  },
+  "san-francisco/transamerica-pyramid": {
+    "name": "Transamerica Pyramid",
+    "lat": 37.795188,
+    "lng": -122.40279,
+    "google": {
+      "reason": "several places share the name",
+      "candidates": [
+        {
+          "id": "ChIJQ-U7wYqAhYAReKjwcBt6SGU",
+          "name": "Transamerica Pyramid",
+          "lat": 37.79517750000001,
+          "lng": -122.4027787,
+          "distanceM": 2,
+          "nameMatch": true,
+          "overlap": 1
+        },
+        {
+          "id": "ChIJKSXBv4qAhYARNoqlkeKg9to",
+          "name": "Transamerica Pyramid",
+          "lat": 37.79524240000001,
+          "lng": -122.40308109999998,
+          "distanceM": 26,
+          "nameMatch": true,
+          "overlap": 1
+        }
+      ]
+    }
+  },
+  "san-francisco/twitter-x-hq": {
+    "name": "Twitter/X HQ",
+    "lat": 37.776542,
+    "lng": -122.416807,
+    "google": {
+      "reason": "nearby place with a similar name",
+      "candidates": [
+        {
+          "id": "ChIJWUSPbJyAhYARpQ8FtdnWDrE",
+          "name": "X Corp. HQ",
+          "lat": 37.7765452,
+          "lng": -122.41696689999999,
+          "distanceM": 14,
+          "nameMatch": false,
+          "overlap": 0.67
         }
       ]
     }

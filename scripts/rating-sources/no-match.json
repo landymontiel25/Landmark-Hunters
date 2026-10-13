@@ -8,7 +8,22 @@
   "miami/biscayne-national-park": [
     "google"
   ],
+  "miami/brickell-avenue": [
+    "google"
+  ],
+  "miami/coconut-grove": [
+    "google"
+  ],
+  "miami/everglades-airboat-tour": [
+    "google"
+  ],
   "miami/everglades-national-park": [
+    "google"
+  ],
+  "miami/kyu-miami": [
+    "google"
+  ],
+  "miami/mangos-tropical-cafe": [
     "google"
   ],
   "miami/miami-beach-art-deco-historic-district": [
@@ -18,6 +33,27 @@
     "google"
   ],
   "miami/ocean-drive": [
+    "google"
+  ],
+  "miami/titanic-brewing-company": [
+    "google"
+  ],
+  "san-francisco/alcatraz-island": [
+    "google"
+  ],
+  "san-francisco/haight-ashbury-intersection": [
+    "google"
+  ],
+  "san-francisco/salesforce-hq": [
+    "google"
+  ],
+  "san-francisco/sfmoma": [
+    "google"
+  ],
+  "san-francisco/the-presidio": [
+    "google"
+  ],
+  "san-francisco/uber-hq": [
     "google"
   ]
 }
