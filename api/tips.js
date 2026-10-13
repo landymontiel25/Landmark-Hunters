@@ -3,8 +3,8 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { blockedBetween, blockedEitherWay, reactionIsFresh, tipForViewer } from './_lib/tipsServer.js';
 import { toMs } from './_lib/time.js';
+import { blockedBetween, blockedEitherWay, madeOnThisPost, tipForViewer } from './_lib/tipsServer.js';
 import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
@@ -12,19 +12,22 @@ import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 // Phase 1). Tips of other people are read here, not straight from
 // Firestore, because only the server can hide tips across a block in both
 // directions (a client can't see who blocked it).
-//   GET  ?region=&landmarkId=              live tips at a place, newest first,
-//                                          plus your own helpful/saved marks
+//   GET  ?region=&landmarkId=              your own tip there (any status)
+//                                          first, then live tips, newest
+//                                          first, plus your helpful/saved marks
 //   POST { action: 'react', tipId, kind: 'helpful' | 'saved', on }
-//   POST { action: 'report', tipId, reason? }
+//   POST { action: 'report', tipId, reason }
 // Each GET records which tips you were shown (tip_views, server-only) for
 // the "went because of a tip" count later. Nobody ever sees who viewed,
-// marked or reported a tip: counts only.
+// marked or reported a tip: counts only. Every mark, report and view
+// carries the tip's `gen` (see api/_lib/tipsServer.js).
 
 const HOUR_MS = 60 * 60 * 1000;
 const MAX_TIPS = 50;
+// A view's lastAt moves at most this often, so a reload writes nothing.
 const VIEW_REFRESH_MS = 12 * 60 * 60 * 1000;
 const ID_RE = /^[\w.-]{1,300}$/;
-const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
+export const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
 const send = (res, code, body) => res.status(code).json(body);
 
 export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = Date.now() } = {}) {
@@ -50,37 +53,40 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   visible.sort((a, b) => at(b[1]) - at(a[1]));
   const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
   const shown = [...own, ...visible.slice(0, MAX_TIPS)];
+
+  const viewed = shown.filter(([, t]) => t.authorUid !== viewerUid && t.status === 'live');
   const reactionRefs = shown.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
-  const reactionSnaps = reactionRefs.length ? await db.getAll(...reactionRefs) : [];
+  const viewRefs = viewed.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
+  const [reactionSnaps, viewSnaps] = await Promise.all([
+    reactionRefs.length ? db.getAll(...reactionRefs) : [],
+    viewRefs.length ? db.getAll(...viewRefs) : [],
+  ]);
   const mine = {};
   reactionSnaps.forEach((s, i) => {
-    if (s.exists && reactionIsFresh(s.data(), shown[i][1])) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
+    if (s.exists && madeOnThisPost(s.data(), shown[i][1])) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
   });
-  // Views: other people's live tips only. firstAt (when you first saw it)
-  // never moves; lastAt moves at most twice a day, so a reload writes
-  // nothing.
-  const viewed = shown.filter(([, t]) => t.authorUid !== viewerUid && t.status === 'live');
-  if (viewed.length) {
-    const viewRefs = viewed.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
-    const before = await db.getAll(...viewRefs);
-    const batch = db.batch();
-    let writes = 0;
-    viewed.forEach(([tipId, t], i) => {
-      if (before[i].exists && nowMs - (before[i].data().lastAt || 0) < VIEW_REFRESH_MS) return;
-      writes++;
-      batch.set(viewRefs[i], {
-        uid: viewerUid,
-        tipId,
-        authorUid: t.authorUid,
-        landmarkId: t.landmarkId,
-        region: t.region || null,
-        // A view left from a deleted tip with the same id doesn't count.
-        firstAt: before[i].exists && (before[i].data().firstAt ?? 0) >= (t.createdAtMs ?? 0) ? before[i].data().firstAt : nowMs,
-        lastAt: nowMs,
-      });
+
+  // Views: other people's live tips only. firstAt (when you first saw this
+  // post of the tip) never moves.
+  const batch = db.batch();
+  let writes = 0;
+  viewed.forEach(([tipId, t], i) => {
+    const prev = viewSnaps[i].exists && madeOnThisPost(viewSnaps[i].data(), t) ? viewSnaps[i].data() : null;
+    if (prev && nowMs - (prev.lastAt || 0) < VIEW_REFRESH_MS) return;
+    writes++;
+    batch.set(viewRefs[i], {
+      uid: viewerUid,
+      tipId,
+      gen: t.gen ?? null,
+      authorUid: t.authorUid,
+      landmarkId: t.landmarkId,
+      region: t.region || null,
+      firstAt: prev?.firstAt ?? nowMs,
+      lastAt: nowMs,
     });
-    if (writes) await batch.commit();
-  }
+  });
+  if (writes) await batch.commit();
+
   return {
     tips: shown.map(([tipId, t]) => ({ ...tipForViewer(tipId, t, viewerUid), ...(t.authorUid === viewerUid ? { status: t.status, hidden: t.hidden === true } : {}) })),
     reactions: mine,
@@ -102,43 +108,42 @@ async function actionableTip(db, uid, tipId) {
 
 export async function reactToTip(db, uid, { tipId, kind, on }) {
   if (!['helpful', 'saved'].includes(kind) || typeof on !== 'boolean') return [400, { error: 'kind and on are required.' }];
-  // Taking a mark back works on any tip you marked, even one that has since
-  // been hidden or blocked; adding one needs a tip you can see.
+  // Adding a mark needs a tip you can see; taking one back works on any
+  // tip you marked, even one hidden or blocked since.
   let tipRef = db.collection('tips').doc(tipId);
+  let seenGen = null;
   if (on) {
     const found = await actionableTip(db, uid, tipId);
     if (found.error) return found.error;
     tipRef = found.ref;
+    seenGen = found.tip.gen ?? null;
   }
   const reactionRef = db.collection('tip_reactions').doc(`${uid}_${tipId}`);
   const out = await db.runTransaction(async (tx) => {
     const [tipSnap, rSnap] = await Promise.all([tx.get(tipRef), tx.get(reactionRef)]);
-    if (!on && !rSnap.exists) return { helpful: false, saved: false };
-    if (!tipSnap.exists) {
-      if (!on) tx.delete(reactionRef);
-      return on ? null : { helpful: false, saved: false };
-    }
-    if (on && !tipIsPublic(tipSnap.data())) return null;
-    // A mark from before this tip was posted belongs to a deleted tip that
-    // had the same id: it counts as no mark.
-    const fresh = rSnap.exists && reactionIsFresh(rSnap.data(), tipSnap.data());
-    const prev = fresh ? rSnap.data() : { helpful: false, saved: false };
+    const tip = tipSnap.exists ? tipSnap.data() : null;
+    // Still the post you saw, and still public.
+    if (on && (!tip || !tipIsPublic(tip) || (tip.gen ?? null) !== seenGen)) return null;
+    // A mark from an older post at the same id counts as no mark.
+    const prev = rSnap.exists && madeOnThisPost(rSnap.data(), tip) ? rSnap.data() : { helpful: false, saved: false };
     const next = { helpful: prev.helpful === true, saved: prev.saved === true, [kind]: on };
-    if ((prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
-    if (!next.helpful && !next.saved) tx.delete(reactionRef);
-    else {
+    if (tip && (prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
+    if (!next.helpful && !next.saved) {
+      if (rSnap.exists) tx.delete(reactionRef);
+    } else {
       tx.set(reactionRef, {
         uid,
         tipId,
-        authorUid: tipSnap.data().authorUid,
-        landmarkId: tipSnap.data().landmarkId,
-        region: tipSnap.data().region || null,
+        gen: tip.gen ?? null,
+        authorUid: tip.authorUid,
+        landmarkId: tip.landmarkId,
+        region: tip.region || null,
         helpful: next.helpful,
         saved: next.saved,
-        ...(on && !fresh ? { firstAt: Date.now() } : {}),
+        firstAt: prev.firstAt ?? Date.now(),
         ...(on ? { [`${kind}At`]: Date.now() } : {}),
         updatedAt: FieldValue.serverTimestamp(),
-      }, { merge: true });
+      });
     }
     return next;
   });
@@ -147,26 +152,26 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
 }
 
 // Two distinct reporters hide a tip until the owner reviews it. Who
-// reported stays in server-only tip_reports/{tipId}_{uid} (no rule lets a
-// client read it), never on the tip, which its author can read.
-export async function reportTip(db, uid, { tipId, reason = 'other' }) {
+// reported stays in server-only tip_reports/{tipId}_{uid} (no rule matches
+// it, so clients are denied), never on the tip, which its author can read.
+export async function reportTip(db, uid, { tipId, reason }) {
   if (!REPORT_REASONS.includes(reason)) return [400, { error: 'Pick a reason.' }];
   const found = await actionableTip(db, uid, tipId);
   if (found.error) return found.error;
   const reportRef = db.collection('tip_reports').doc(`${tipId}_${uid}`);
-  const exists = await db.runTransaction(async (tx) => {
+  const ok = await db.runTransaction(async (tx) => {
     const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reportRef)]);
-    // Still the tip you saw (not a re-post at the same id) and still public.
-    if (!tipSnap.exists || !tipIsPublic(tipSnap.data()) || tipSnap.data().createdAtMs !== found.tip.createdAtMs) return false;
-    // A report from before this tip was posted (a deleted tip with the same
-    // id) doesn't stop a new one.
-    if (rSnap.exists && (rSnap.data().at ?? 0) >= (tipSnap.data().createdAtMs ?? 0)) return true;
-    const next = (tipSnap.data().reportCount || 0) + 1;
-    tx.set(reportRef, { uid, tipId, authorUid: tipSnap.data().authorUid, reason, at: Date.now() });
+    const tip = tipSnap.exists ? tipSnap.data() : null;
+    // Still the post you saw, and still public.
+    if (!tip || !tipIsPublic(tip) || (tip.gen ?? null) !== (found.tip.gen ?? null)) return false;
+    // One report per person per post.
+    if (rSnap.exists && madeOnThisPost(rSnap.data(), tip)) return true;
+    const next = (tip.reportCount || 0) + 1;
+    tx.set(reportRef, { uid, tipId, gen: tip.gen ?? null, authorUid: tip.authorUid, reason, at: Date.now() });
     tx.update(found.ref, { reportCount: next, hidden: next >= TIP_REPORT_HIDE, lastReportedAt: Date.now() });
     return true;
   });
-  if (!exists) return [404, { error: 'No such tip.' }];
+  if (!ok) return [404, { error: 'No such tip.' }];
   return [200, { ok: true }];
 }
 

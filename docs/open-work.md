@@ -86,7 +86,10 @@ Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 `api/tips.js` (a place's live tips with blocks hidden both ways, helpful
 and saved, reports). Reporters live in server-only `tip_reports/` (no rule
 matches it, so clients are denied), never on the tip. The 10-an-hour count
-lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it. A
+lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it;
+`tip_photo_claims/` keeps one photo to one tip, and the photo must already
+be uploaded. Each post of a tip has its own `gen`; marks, reports and views
+carry it, so leftovers from an earlier post at the same id never count. A
 reported tip its author deletes is withdrawn (status `withdrawn`): hidden
 from everyone, kept with its reports for the owner's review, and no new tip
 there until the owner clears it. An unreported one (live, or held by the
@@ -94,7 +97,8 @@ filter) is deleted. Tip photos can't be overwritten in Storage, so a
 reviewed tip's photo can't be swapped, and one photo can sit on one tip
 only; account deletion clears the whole `tip_photos/{uid}/` folder and
 leaves a removed or reported tip as an empty marker (no text, name or
-photo) so `delete-mine` can't lift a moderation lock. If `delete-mine`
+photo) so `delete-mine` can't lift a moderation lock; it keeps the
+person's reports and post log for the same reason. If `delete-mine`
 fails during account deletion, the tips stay: a nightly sweep for tips
 whose author's profile is gone is still to build (Content page PR). Left
 open for the Content page: restoring a reported tip must reset its

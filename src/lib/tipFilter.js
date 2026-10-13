@@ -40,7 +40,9 @@ const PHRASES = [
   /\bfollow me on\b/, /\bcheck out my\b/, /\bcash ?app\b/, /\bvenmo\b/, /\bcrypto\b/, /\bbitcoin\b/,
 ];
 // A phone number or an email address in a tip reads as spam or doxxing.
-const PHONE_RE = /(?:\+?\d[\s().-]?){10,}/;
+// A US-style number (215 555 0100, (215) 555-0100, +1 215.555.0100) or
+// an international one written with a +. Years and ranges (1776-1783) aren't.
+const PHONE_RE = /(?:^|[^\d])(?:\+\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(?!\d)|\+\d[\d\s.-]{8,}\d/;
 const EMAIL_RE = /[^\s@]+@[^\s@]+\.[a-z]{2,}/i;
 
 const WORD_SET = new Set(WORDS);
@@ -63,9 +65,9 @@ export function filterTipText(text) {
   }
   const reasons = new Set();
   const words = norm.split(/[^a-z]+/).filter(Boolean);
-  // A squeezed chunk ending in the slur (maybe plural), never a word that
-  // merely has it inside ("sniggering").
-  const slurChunk = (c) => SLURS_SQUEEZED.some((s) => new RegExp(`^[a-z]*${s}(?:s|z|es|as|az)?$`).test(c));
+  // A squeezed chunk that is the slur (maybe plural), never a word that
+  // merely has it inside ("snigger", "sniggering").
+  const slurChunk = (c) => SLURS_SQUEEZED.some((s) => new RegExp(`^(?:sand)?${s}(?:s|z|es|as|az)?$`).test(c));
   if (squeezed.some(slurChunk) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
   if (words.some((w) => WORD_SET.has(w))) reasons.add('profanity');
   if (PHRASES.some((re) => re.test(norm))) reasons.add('threat-or-spam');

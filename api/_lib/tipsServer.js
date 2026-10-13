@@ -1,8 +1,13 @@
 import { adminBucket } from './firebaseAdmin.js';
 import { toMs } from './time.js';
 
-
 // Server helpers shared by api/post-tip.js and api/tips.js.
+//
+// A tip's id is {authorUid}_{landmarkId}, so one person has one tip per
+// place, and an id comes back when a tip is deleted and posted again. Each
+// post gets its own `gen` (a random id), and every mark, report and view
+// records the gen of the tip it was made on: one from an older post at the
+// same id never counts, whatever the clocks say.
 
 // Everyone on the other side of a block from `uid`, either direction.
 export async function blockedBetween(db, uid) {
@@ -23,32 +28,33 @@ export async function blockedEitherWay(db, a, b) {
   return x.exists || y.exists;
 }
 
-// Every report (tip_reports/{tipId}_{uid}), helpful/saved mark
-// (tip_reactions) and view (tip_views) of one tip, removed with the tip so a
-// re-posted tip at the same id starts clean.
-// beforeMs keeps anything made at or after it (a re-posted tip's own).
-export async function deleteTipChildren(db, tipId, { beforeMs = Infinity } = {}) {
+// Deletes refs in batches (Firestore takes up to 500 writes per batch).
+export async function deleteRefs(db, refs) {
+  for (let i = 0; i < refs.length; i += 400) {
+    const b = db.batch();
+    for (const r of refs.slice(i, i + 400)) b.delete(r);
+    await b.commit();
+  }
+}
+
+// Was this mark, report or view made on this post of the tip?
+export const madeOnThisPost = (child, tip) => !!child && !!tip && child.gen === tip.gen;
+
+// The marks, reports and views of one post of a tip (by its gen), removed
+// with it. A newer post at the same id keeps its own.
+export async function deleteTipChildren(db, tipId, gen) {
   const [reactions, reports, views] = await Promise.all([
     db.collection('tip_reactions').where('tipId', '==', tipId).get(),
     db.collection('tip_reports').where('tipId', '==', tipId).get(),
     db.collection('tip_views').where('tipId', '==', tipId).get(),
   ]);
-  const old = (d) => (d.data()?.firstAt ?? d.data()?.at ?? 0) < beforeMs;
-  const all = [...reactions.docs, ...reports.docs, ...views.docs].filter(old);
-  for (let i = 0; i < all.length; i += 400) {
-    const b = db.batch();
-    for (const d of all.slice(i, i + 400)) b.delete(d.ref);
-    await b.commit();
-  }
+  const refs = [...reactions.docs, ...reports.docs, ...views.docs].filter((d) => d.data()?.gen === gen).map((d) => d.ref);
+  await deleteRefs(db, refs);
 }
 
-// A helpful/saved mark (or a report, by its `at`) made on this tip, not
-// on a deleted tip that had the same id.
-export const reactionIsFresh = (r, tip) => !!r && (r.firstAt ?? 0) >= (tip?.createdAtMs ?? 0);
-
 // A Firebase Storage download URL for a file in tip_photos/{uid}/, and its
-// path. Anything else (another host, another folder, someone else's photo)
-// is null.
+// path. Anything else (another host, another folder, someone else's photo,
+// or no bucket configured) is null.
 const PHOTO_PATH_RE = /^tip_photos\/([A-Za-z0-9]{1,128})\/[A-Za-z0-9_-]{1,80}\.jpg$/;
 export function tipPhotoPath(url, uid, bucket = process.env.VITE_FIREBASE_STORAGE_BUCKET) {
   if (typeof url !== 'string' || url.length > 2000) return null;
@@ -73,8 +79,27 @@ export function tipPhotoPath(url, uid, bucket = process.env.VITE_FIREBASE_STORAG
   return pm && pm[1] === uid ? path : null;
 }
 
-// Best effort: a tip's photo goes with the tip (removed by moderation or by
-// its author). A failure leaves an orphan file, never a failed request.
+// The doc that says a photo is taken (tip_photo_claims/{this}): one photo,
+// one tip, ever.
+export const photoClaimId = (path) => String(path).replace(/\//g, '__');
+
+// Is the file there now? A tip may only point at an uploaded photo (the
+// Storage rules then stop it changing); a URL for a file uploaded later
+// would let a live tip's image appear after posting.
+export async function tipPhotoExists(path) {
+  try {
+    const bucket = await adminBucket();
+    if (!bucket) return false;
+    const [exists] = await bucket.file(path).exists();
+    return exists === true;
+  } catch (e) {
+    console.error('tip photo check failed', e?.message || e);
+    return false;
+  }
+}
+
+// Best effort: a tip's photo goes with the tip. A failure leaves an orphan
+// file, never a failed request.
 export async function deleteTipPhoto(path) {
   if (typeof path !== 'string' || !path.startsWith('tip_photos/')) return false;
   try {
