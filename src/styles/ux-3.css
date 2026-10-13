@@ -365,3 +365,62 @@ button.back-sticky,
   gap: 6px;
   flex-shrink: 0;
 }
+
+/* Live location on a group trip. */
+.live-mine {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.live-mine > span:nth-child(2) {
+  flex: 1;
+  min-width: 180px;
+}
+.live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+  flex-shrink: 0;
+}
+.live-map {
+  height: 220px;
+  margin-top: 12px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.live-pin {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mapr-blue);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.live-pin.mine {
+  background: #22c55e;
+}
+.live-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.live-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.88rem;
+}
+.live-list li span {
+  color: var(--text-secondary);
+  text-align: right;
+}

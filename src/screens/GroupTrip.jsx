@@ -36,6 +36,7 @@ import { useRatings } from '../lib/RatingsContext';
 import { runOptimistic, useToast } from '../lib/ToastContext';
 import ErrorNotice from '../components/ErrorNotice';
 import AddSquareIcon from '../components/AddSquareIcon';
+import LiveLocationCard from '../components/LiveLocationCard';
 import { itineraryShareText, routeMode, shareItinerary } from '../lib/itineraryShare';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 
@@ -394,6 +395,14 @@ export default function GroupTrip() {
           />
         )}
       </div>
+
+      {user && (
+        <LiveLocationCard
+          tripId={trip.id}
+          uid={user.uid}
+          myName={trip.memberNames?.[user.uid] || user.displayName || 'A traveler'}
+        />
+      )}
 
       <div className="card section">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8, flexWrap: 'wrap' }}>

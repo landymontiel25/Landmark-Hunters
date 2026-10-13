@@ -5,6 +5,7 @@ import { MaprChatProvider } from './lib/MaprChatContext';
 import { CheckInProvider } from './lib/CheckInContext';
 import { TripProvider } from './lib/TripContext';
 import { GeoProvider } from './lib/GeoContext';
+import LiveLocationSharer from './components/LiveLocationSharer';
 import { RatingsProvider } from './lib/RatingsContext';
 import { MyPhotosProvider } from './lib/MyPhotosContext';
 import { FriendsProvider } from './lib/FriendsContext';
@@ -253,6 +254,7 @@ export default function App() {
           <PushNotificationsSync />
           <OnboardingNoticeSync />
           <Soft><GlobalTasteSync /></Soft>
+          <Soft><LiveLocationSharer /></Soft>
           {/* Each always-on piece gets its own boundary: without one, a crash
               in any of them (they sit outside the per-screen boundary) takes
               down the whole app to a blank white page. */}
