@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { laterLegs, legColor } from '../lib/tripLegs';
 import { MapContainer, AttributionControl, TileLayer, Marker, Popup, Tooltip, Polyline, Polygon, Circle, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
@@ -122,14 +123,21 @@ const focusIcon = L.divIcon({
 
 // Numbered stop on a trip's route ("View in Map" from a group trip).
 const tripStopIconCache = new Map();
-function tripStopIcon(n) {
-  if (!tripStopIconCache.has(n)) {
+// A numbered trip stop, ringed in the color of the leg that reaches it.
+function tripStopIcon(n, color = legColor(n)) {
+  const key = `${n}|${color}`;
+  if (!tripStopIconCache.has(key)) {
     tripStopIconCache.set(
-      n,
-      L.divIcon({ className: '', html: `<div class="trip-stop-pin">${n}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] })
+      key,
+      L.divIcon({
+        className: '',
+        html: `<div class="trip-stop-pin" style="border-color:${color};color:${color}">${n}</div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      })
     );
   }
-  return tripStopIconCache.get(n);
+  return tripStopIconCache.get(key);
 }
 
 const TILE_LAYERS = {
@@ -322,6 +330,8 @@ export default function MapExplore({ experiments = false }) {
   // active: live navigation (following you, next turn up top). queue: the
   // itinerary stops still to go after this one, offered on arrival.
   const [nav, setNav] = useState(null); // { dest, loading, error, data, req, active, queue }
+  // Bumped when a multi-stop trip starts, to frame the whole trip once.
+  const [fitTripKey, setFitTripKey] = useState(0);
   useEffect(() => {
     const dest = location.state?.directionsTo;
     if (!dest) return;
@@ -335,6 +345,11 @@ export default function MapExplore({ experiments = false }) {
       active: !!location.state?.startNav,
       queue: location.state?.directionsQueue || [],
     });
+    // A whole trip: frame every stop first (Recenter then follows you).
+    if (location.state?.directionsQueue?.length) {
+      setFollowing(false);
+      setFitTripKey((k) => k + 1);
+    }
     // Clear it so a reload or back-navigation doesn't re-open directions.
     navigate(location.pathname, { replace: true, state: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -411,7 +426,7 @@ export default function MapExplore({ experiments = false }) {
     if (!orderedTrip?.stops.length) return;
     const [first, ...rest] = orderedTrip.stops.map((st) => ({ name: st.name, lat: st.lat, lng: st.lng }));
     setFollowing(true);
-    setNav({ dest: first, queue: rest, loading: true, error: null, data: null, req: 0, active: true });
+    setNav({ dest: { ...first, n: 1 }, queue: rest.map((st, i) => ({ ...st, n: i + 2 })), loading: true, error: null, data: null, req: 0, active: true });
     setTripRoute(null);
   };
 
@@ -424,6 +439,10 @@ export default function MapExplore({ experiments = false }) {
     arrivedRef.current = false;
   }, [navRoute]);
   const navActive = !!nav?.active;
+  // Navigating an itinerary: the current stop's number and whether there's
+  // a trip (more stops queued, or a numbered stop) to draw around it.
+  const navStopNo = nav?.dest?.n ?? 1;
+  const navTrip = !!nav && (nav.queue?.length > 0 || nav.dest?.n > 1);
   const progress = useMemo(
     () => (navActive && navRoute && coords ? navProgress(navRoute, coords, alongRef.current) : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1172,10 +1191,16 @@ export default function MapExplore({ experiments = false }) {
               <FitTripRoute
                 points={[...(orderedTrip.origin ? [[orderedTrip.origin.lat, orderedTrip.origin.lng]] : []), ...orderedTrip.stops.map((st) => [st.lat, st.lng])]}
               />
-              <Polyline
-                positions={[...(orderedTrip.origin ? [[orderedTrip.origin.lat, orderedTrip.origin.lng]] : []), ...orderedTrip.stops.map((st) => [st.lat, st.lng])]}
-                pathOptions={{ color: '#4d7fff', weight: 4, opacity: 0.9, dashArray: '8 8' }}
-              />
+              {orderedTrip.stops.map((st, i) => {
+                const from = i === 0 ? orderedTrip.origin : orderedTrip.stops[i - 1];
+                return from ? (
+                  <Polyline
+                    key={`trip-leg-${st.id || i}`}
+                    positions={[[from.lat, from.lng], [st.lat, st.lng]]}
+                    pathOptions={{ color: legColor(i + 1), weight: 4, opacity: 0.95, dashArray: '8 8' }}
+                  />
+                ) : null;
+              })}
               {orderedTrip.stops.map((st, i) => (
                 <Marker key={`trip-${st.id || i}`} position={[st.lat, st.lng]} icon={tripStopIcon(i + 1)} zIndexOffset={900}>
                   <Tooltip direction="top" offset={[0, -14]} className="focus-tooltip">
@@ -1196,12 +1221,51 @@ export default function MapExplore({ experiments = false }) {
                   dims (body.map-nav-open, in theme.css) so it stands out --
                   the underlying satellite imagery has no real per-road data
                   we could recolor individually, only what we draw ourselves. */}
-              <Polyline positions={remainingPoints} pathOptions={{ color: NAV_ROUTE_GREEN, weight: 5, opacity: 1 }} />
+              <Polyline positions={remainingPoints} pathOptions={{ color: navTrip ? legColor(navStopNo) : NAV_ROUTE_GREEN, weight: 5, opacity: 1 }} />
               <Marker position={[nav.dest.lat, nav.dest.lng]} icon={focusIcon} zIndexOffset={1000} interactive={false}>
                 <Tooltip permanent direction="top" offset={[0, -34]} className="focus-tooltip">
+                  {navTrip ? `${navStopNo}. ` : ''}
                   {nav.dest.name}
                 </Tooltip>
               </Marker>
+            </>
+          )}
+          {/* A whole itinerary trip: the stops after this one, numbered, with
+              a line in each leg's own color, so the full trip stays on the map. */}
+          {navTrip && (
+            <>
+              {fitTripKey > 0 && (
+                <FitTripRoute
+                  key={fitTripKey}
+                  points={[...(coords ? [[coords.lat, coords.lng]] : []), [nav.dest.lat, nav.dest.lng], ...nav.queue.map((st) => [st.lat, st.lng])]}
+                />
+              )}
+              {/* Until the road route to the current stop loads, a straight
+                  line to it in its color. */}
+              {!(nav.data?.points?.length > 1) && coords && (
+                <Polyline
+                  positions={[[coords.lat, coords.lng], [nav.dest.lat, nav.dest.lng]]}
+                  pathOptions={{ color: legColor(navStopNo), weight: 4, opacity: 0.9, dashArray: '8 8' }}
+                />
+              )}
+              <Marker position={[nav.dest.lat, nav.dest.lng]} icon={tripStopIcon(navStopNo)} zIndexOffset={1100}>
+                <Tooltip direction="top" offset={[0, -14]} className="focus-tooltip">
+                  {navStopNo}. {nav.dest.name}
+                </Tooltip>
+              </Marker>
+              {laterLegs(nav.dest, nav.queue, navStopNo).map((leg) => (
+                <Polyline key={`leg-${leg.n}`} positions={leg.positions} pathOptions={{ color: leg.color, weight: 4, opacity: 0.9, dashArray: '8 8' }} />
+              ))}
+              {nav.queue.map((st, i) => {
+                const n = st.n ?? navStopNo + i + 1;
+                return (
+                  <Marker key={`next-${n}`} position={[st.lat, st.lng]} icon={tripStopIcon(n)} zIndexOffset={900}>
+                    <Tooltip direction="top" offset={[0, -14]} className="focus-tooltip">
+                      {n}. {st.name}
+                    </Tooltip>
+                  </Marker>
+                );
+              })}
             </>
           )}
           {coords && (
@@ -1310,7 +1374,7 @@ export default function MapExplore({ experiments = false }) {
               {orderedTrip.stops.map((st, i) => (
                 <li key={st.id || i}>
                   <span>
-                    {i + 1}. {st.name}
+                    <strong style={{ color: legColor(i + 1) }}>{i + 1}.</strong> {st.name}
                   </span>
                   {(i > 0 || orderedTrip.origin) && (
                     <span className="turn-step-dist">{formatDistance(st.distanceFromPrevMeters, units)}</span>

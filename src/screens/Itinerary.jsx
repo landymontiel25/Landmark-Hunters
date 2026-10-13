@@ -586,7 +586,8 @@ export default function Itinerary() {
 
   // Live navigation on the full-screen Map through the stops still to go,
   // in list order; each arrival offers the next one.
-  const toNavStop = (s) => ({ name: s.name, lat: s.lat, lng: s.lng });
+  // n: the stop's number on the itinerary, shown on its pin on the Map.
+  const toNavStop = (s) => ({ name: s.name, lat: s.lat, lng: s.lng, n: displayRoute.findIndex((x) => x.id === s.id) + 1 || undefined });
   const startTrip = (fromStop) => {
     const pending = displayRoute.filter((s) => !claimedMap[s.id]);
     const list = fromStop
