@@ -24,7 +24,9 @@ export async function reputationBoard(db, viewerUid, region, { size = BOARD_SIZE
     .map((d, i) => {
       const u = users[i]?.exists ? users[i].data() : null;
       if (!u) return null; // a deleted account
-      return { uid: d.id, name: u.username || u.displayName || 'Explorer', level: pubs[i]?.exists ? pubs[i].data()?.levels?.[region] || null : null };
+      // The username, the name tips already show; never a display name (it
+      // can be a real name).
+      return { uid: d.id, name: u.username || 'Explorer', level: pubs[i]?.exists ? pubs[i].data()?.levels?.[region] || null : null };
     })
     .filter(Boolean);
 }

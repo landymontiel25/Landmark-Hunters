@@ -84,6 +84,10 @@ export async function computeCommunity(db, viewerUid, regions, { nowMs = Date.no
   const snaps = await Promise.all(
     wanted.map((region) => db.collection('tips').where('region', 'in', [region, ...Object.keys(REGION_ALIASES).filter((a) => REGION_ALIASES[a] === region)]).where('status', '==', 'live').get())
   );
+  // Each city's finders' reputation, in parallel; a failed read counts as
+  // none (reputation only lifts, it never hides anything).
+  const authorsOf = (snap) => snap.docs.map((d) => d.data().authorUid).filter(Boolean);
+  const repsByRegion = await Promise.all(wanted.map((region, i) => finderReputation(db, authorsOf(snaps[i]), region).catch(() => new Map())));
   for (const [i, region] of wanted.entries()) {
     const snap = snaps[i];
     const byPlace = new Map();
@@ -96,19 +100,22 @@ export async function computeCommunity(db, viewerUid, regions, { nowMs = Date.no
       const prev = byPlace.get(id).get(t.authorUid);
       if (!prev || (visitAgeDays(t.visitMonth, nowMs) ?? 1e9) < (visitAgeDays(prev.visitMonth, nowMs) ?? 1e9)) byPlace.get(id).set(t.authorUid, t);
     }
-    const reps = await finderReputation(db, [...byPlace.values()].flatMap((m) => [...m.keys()]), region);
+    const reps = repsByRegion[i];
     const places = {};
     for (const [id, finders] of byPlace) {
       const rows = [...finders.values()].map((t) => ({ t, ...finderFor(relations, t.authorUid, region, reps.get(t.authorUid)) }));
       rows.sort((a, b) => b.weight - a.weight || (visitAgeDays(a.t.visitMonth, nowMs) ?? 1e9) - (visitAgeDays(b.t.visitMonth, nowMs) ?? 1e9));
       const best = rows[0];
       const lift = communityWeight(placeFinderWeight(rows.map((r) => r.weight)), density[region].ramp, freshness(visitAgeDays(best.t.visitMonth, nowMs)));
+      // The card credits someone like you when there is one (a taste match,
+      // someone you follow, a friend, a Trusted finder), else the top finder.
+      const shown = rows.find((r) => r.relation) || best;
       places[id] = {
         lift: Math.round(lift * 10000) / 10000,
         likeYou: rows.some((r) => r.relation),
         finders: rows.length,
-        finder: { uid: best.t.authorUid, name: best.t.authorName || 'Explorer', relation: best.relation, match: best.match, ...(best.levelLabel ? { levelLabel: best.levelLabel } : {}) },
-        ...(withText ? { tip: String(best.t.text || '').slice(0, 280) } : {}),
+        finder: { uid: shown.t.authorUid, name: shown.t.authorName || 'Explorer', relation: shown.relation, match: shown.match, ...(shown.levelLabel ? { levelLabel: shown.levelLabel } : {}) },
+        ...(withText ? { tip: String(shown.t.text || '').slice(0, 280) } : {}),
       };
     }
     out[region] = { gateOpen: density[region].gateOpen, places };

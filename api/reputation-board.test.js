@@ -25,7 +25,7 @@ describe('reputationBoard', () => {
     const board = await reputationBoard(db, 'me', 'philly');
     expect(board).toEqual([
       { uid: 'a', name: 'ana', level: 'Trusted' },
-      { uid: 'c', name: 'Cy', level: null },
+      { uid: 'c', name: 'Explorer', level: null },
       { uid: 'b', name: 'bo', level: 'Local' },
     ]);
     expect(JSON.stringify(board)).not.toContain('score');

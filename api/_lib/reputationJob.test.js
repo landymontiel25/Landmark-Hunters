@@ -67,7 +67,7 @@ describe('runReputation', () => {
     const db = fakeDb({
       'tip_reactions/a_fin_bell': { uid: 'a', tipId: 'fin_bell', gen: 'g1', helpful: true, helpfulAt: NOW },
     });
-    const ds = { truncated: [], tips: [tip], checkins: [], reviews: [], users: [{ uid: 'a', createdAt: NOW - 30 * DAY }] };
+    const ds = { truncated: [], tips: [tip], checkins: [], reviews: [], users: [{ uid: 'a', createdAt: NOW - 30 * DAY }, { uid: 'fin', createdAt: NOW - 30 * DAY }] };
     const out = await runReputation(db, ds, { nowMs: NOW });
     expect(out.newEvents).toBe(1);
     expect(db.docs['influence_events/fin_bell_a_helpful']).toMatchObject({ finderUid: 'fin', actorUid: 'a', kind: 'helpful' });
@@ -75,5 +75,23 @@ describe('runReputation', () => {
     expect(db.docs['reputation/fin']).toMatchObject({ levels: {}, badges: ['first-find'] });
     expect(JSON.stringify(db.docs['reputation/fin'])).not.toContain('score');
     expect((await runReputation(db, ds, { nowMs: NOW })).newEvents).toBe(0);
+  });
+  it('a deleted account\'s reputation, events and founding place go', async () => {
+    const db = fakeDb({
+      'reputation/gone': { levels: { philly: 'Local' }, badges: ['first-find'] },
+      'reputation_scores/gone': { byRegion: { philly: { score: 30, people: 3 } } },
+      'influence_events/t_gone_went': { finderUid: 'fin', actorUid: 'gone', kind: 'went' },
+      'community_founding/philly': { uids: ['gone', 'fin'] },
+    });
+    const ds = { truncated: [], tips: [], checkins: [], reviews: [], users: [{ uid: 'fin', createdAt: NOW - 30 * DAY }] };
+    await runReputation(db, ds, { nowMs: NOW });
+    expect(db.docs['reputation/gone']).toBeUndefined();
+    expect(db.docs['reputation_scores/gone']).toBeUndefined();
+    expect(db.docs['influence_events/t_gone_went']).toBeUndefined();
+    expect(db.docs['community_founding/philly'].uids).toEqual(['fin']);
+  });
+  it('an unverified tip earns nothing', () => {
+    const events = buildEvents({ tips: [{ ...tip, verified: false }], reactions: [{ uid: 'a', tipId: 'fin_bell', gen: 'g1', helpful: true, helpfulAt: NOW }], views: [], checkins: [], reviews: [] });
+    expect(events).toEqual([]);
   });
 });

@@ -17,15 +17,14 @@ import { EVENT_WEIGHTS, FOUNDING_LIMIT, LEVEL_RANK, levelsFor, reputationScore, 
 // first-find, went-10 and founding are kept once earned.
 
 const DAY_MS = 86400000;
-const placeKey = (region, landmarkId) => {
-  const r = canonicalRegionId(region || '');
-  return `${r}/${canonicalLandmarkId(landmarkId, r)}`;
-};
+// A place by its current id (landmark ids are unique across regions; a
+// rating saved without its region still matches).
+const placeKey = (region, landmarkId) => canonicalLandmarkId(landmarkId, region ? canonicalRegionId(region) : undefined);
 
 // Events from plain rows (testable without Firestore).
 export function buildEvents({ tips, reactions, views, checkins, reviews }) {
   const live = new Map(); // tipId -> tip (live and unhidden: removed or held tips earn nothing)
-  for (const t of tips || []) if (t.status === 'live' && !t.hidden && t.authorUid) live.set(t.id, t);
+  for (const t of tips || []) if (t.status === 'live' && !t.hidden && t.verified !== false && t.authorUid) live.set(t.id, t);
   const events = new Map();
   const add = (tip, actorUid, kind, at) => {
     if (!actorUid || actorUid === tip.authorUid || !Number.isFinite(at)) return;
@@ -51,7 +50,9 @@ export function buildEvents({ tips, reactions, views, checkins, reviews }) {
   const loves = new Map();
   for (const r of reviews || []) {
     if (r.ratingTier !== 'highly-recommend' || !r.userId) continue;
-    const at = r.ratedAt ?? r.updatedAt ?? r.createdAt;
+    // The latest change: a rating changed to "I loved it" after the visit
+    // counts from when it changed.
+    const at = r.updatedAt ?? r.ratedAt ?? r.createdAt;
     if (Number.isFinite(at)) loves.set(`${r.userId}|${placeKey(r.region, r.landmarkId)}`, at);
   }
   for (const v of views || []) {
@@ -68,7 +69,7 @@ export function buildEvents({ tips, reactions, views, checkins, reviews }) {
 }
 
 // Scores, levels and badges per finder from events.
-export function buildReputation({ events, tips, verifiedCount, accountAgeDays, friendEdges, nowMs, prevBadges = new Map(), founding = {} }) {
+export function buildReputation({ events, tips, verifiedCount, accountAgeDays, friendEdges, nowMs, prevBadges = new Map(), founding = {}, exists = () => true }) {
   const byFinderCity = new Map();
   for (const e of events) {
     const k = `${e.finderUid}|${e.region}`;
@@ -95,7 +96,8 @@ export function buildReputation({ events, tips, verifiedCount, accountAgeDays, f
     }
   }
   // Founding discoverers: the first 25 to reach Local in a launch city.
-  const nextFounding = Object.fromEntries(COMMUNITY_REGIONS.map((r) => [r, [...(founding[r] || [])]]));
+  // A deleted account leaves the list (its data goes with it).
+  const nextFounding = Object.fromEntries(COMMUNITY_REGIONS.map((r) => [r, (founding[r] || []).filter(exists)]));
   for (const region of COMMUNITY_REGIONS) {
     const reached = [...levels].filter(([, byRegion]) => LEVEL_RANK[byRegion[region]] >= LEVEL_RANK.Local).map(([uid]) => uid);
     // Higher score first when several reach it the same night.
@@ -104,8 +106,8 @@ export function buildReputation({ events, tips, verifiedCount, accountAgeDays, f
   }
   const went = new Map();
   for (const e of events) if (e.kind === 'went') went.set(e.finderUid, (went.get(e.finderUid) || 0) + 1);
-  const finders = new Set((tips || []).filter((t) => t.status === 'live' && !t.hidden).map((t) => t.authorUid));
-  const people = new Set([...scores.keys(), ...finders, ...prevBadges.keys()]);
+  const finders = new Set((tips || []).filter((t) => t.status === 'live' && !t.hidden && t.verified !== false).map((t) => t.authorUid));
+  const people = new Set([...scores.keys(), ...finders, ...prevBadges.keys()].filter(exists));
   const badges = new Map();
   for (const uid of people) {
     const kept = (prevBadges.get(uid) || []).filter((b) => b === 'first-find' || b === 'went-10' || b.startsWith('founding-'));
@@ -121,52 +123,76 @@ export function buildReputation({ events, tips, verifiedCount, accountAgeDays, f
 
 export async function runReputation(db, ds, { nowMs = Date.now() } = {}) {
   if ((ds.truncated || []).some((t) => ['tips', 'checkins', 'reviews', 'users'].includes(t))) return { skipped: true };
-  const [reactionsSnap, viewsSnap, edgesSnap, prevSnap, foundingSnap] = await Promise.all([
+  const [reactionsSnap, viewsSnap, edgesSnap, prevSnap, prevScoresSnap, foundingSnap, knownSnap] = await Promise.all([
     db.collection('tip_reactions').get(),
     db.collection('tip_views').get(),
     db.collection('friend_edges').select().get(),
     db.collection('reputation').get(),
+    db.collection('reputation_scores').get(),
     db.collection('community_founding').get(),
+    db.collection('influence_events').select('finderUid', 'actorUid').get(),
   ]);
-  const tips = ds.tips || [];
-  const events = buildEvents({ tips, reactions: reactionsSnap.docs.map((d) => d.data()), views: viewsSnap.docs.map((d) => d.data()), checkins: ds.checkins, reviews: ds.reviews });
+  const accounts = new Set((ds.users || []).map((u) => u.uid));
+  const exists = (uid) => accounts.has(uid);
+  // Deleted accounts earn and give nothing.
+  const tips = (ds.tips || []).filter((t) => exists(t.authorUid));
+  const events = buildEvents({ tips, reactions: reactionsSnap.docs.map((d) => d.data()).filter((r) => exists(r.uid)), views: viewsSnap.docs.map((d) => d.data()).filter((v) => exists(v.uid)), checkins: ds.checkins, reviews: ds.reviews });
   const verifiedCount = new Map();
   for (const c of ds.checkins || []) if (c.presence?.verified === true) verifiedCount.set(c.userId, (verifiedCount.get(c.userId) || 0) + 1);
   const accountAgeDays = new Map((ds.users || []).filter((u) => Number.isFinite(u.createdAt)).map((u) => [u.uid, (nowMs - u.createdAt) / DAY_MS]));
   const friendEdges = new Set(edgesSnap.docs.map((d) => d.id));
-  const prevBadges = new Map(prevSnap.docs.map((d) => [d.id, Array.isArray(d.data().badges) ? d.data().badges : []]));
+  const prevPub = new Map(prevSnap.docs.map((d) => [d.id, d.data()]));
+  const prevScores = new Map(prevScoresSnap.docs.map((d) => [d.id, d.data()]));
+  const prevBadges = new Map([...prevPub].map(([id, d]) => [id, Array.isArray(d.badges) ? d.badges : []]));
   const founding = Object.fromEntries(foundingSnap.docs.map((d) => [d.id, Array.isArray(d.data().uids) ? d.data().uids : []]));
-  const rep = buildReputation({ events, tips, verifiedCount, accountAgeDays, friendEdges, nowMs, prevBadges, founding });
+  const rep = buildReputation({ events, tips, verifiedCount, accountAgeDays, friendEdges, nowMs, prevBadges, founding, exists });
 
   const ts = FieldValue.serverTimestamp();
   const writes = [];
-  // New events only (ids are stable).
-  const known = new Set((await db.collection('influence_events').select().get()).docs.map((d) => d.id));
-  for (const e of events) if (!known.has(e.id)) writes.push(['influence_events', e.id, e]);
-  const everyone = new Set([...rep.scores.keys(), ...rep.badges.keys(), ...prevSnap.docs.map((d) => d.id)]);
+  const same = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+  // New events only (ids are stable); events naming a deleted account go.
+  const known = new Set(knownSnap.docs.map((d) => d.id));
+  for (const e of events) if (!known.has(e.id)) writes.push(['set', 'influence_events', e.id, e]);
+  for (const d of knownSnap.docs) if (!exists(d.data().finderUid) || !exists(d.data().actorUid)) writes.push(['delete', 'influence_events', d.id]);
+  const everyone = new Set([...rep.scores.keys(), ...rep.badges.keys()]);
   for (const uid of everyone) {
-    writes.push(['reputation_scores', uid, { byRegion: rep.scores.get(uid) || {}, updatedAt: ts }]);
-    writes.push(['reputation', uid, { levels: rep.levels.get(uid) || {}, badges: rep.badges.get(uid) || [], updatedAt: ts }]);
+    const byRegion = rep.scores.get(uid) || {};
+    const levels = rep.levels.get(uid) || {};
+    const badges = rep.badges.get(uid) || [];
+    // Only what changed: most nights most people's numbers don't.
+    if (!same(prevScores.get(uid)?.byRegion, byRegion)) writes.push(['set', 'reputation_scores', uid, { byRegion, updatedAt: ts }]);
+    if (!same(prevPub.get(uid)?.levels, levels) || !same(prevPub.get(uid)?.badges, badges)) writes.push(['set', 'reputation', uid, { levels, badges, updatedAt: ts }]);
   }
-  for (const [region, uids] of Object.entries(rep.founding)) writes.push(['community_founding', region, { uids, updatedAt: ts }]);
+  // Docs of accounts that are gone, or with nothing left.
+  for (const id of new Set([...prevPub.keys(), ...prevScores.keys()])) {
+    if (everyone.has(id)) continue;
+    if (prevPub.has(id)) writes.push(['delete', 'reputation', id]);
+    if (prevScores.has(id)) writes.push(['delete', 'reputation_scores', id]);
+  }
+  for (const [region, uids] of Object.entries(rep.founding)) if (!same(founding[region], uids)) writes.push(['set', 'community_founding', region, { uids, updatedAt: ts }]);
   for (let i = 0; i < writes.length; i += 400) {
     const batch = db.batch();
-    for (const [col, id, data] of writes.slice(i, i + 400)) batch.set(db.collection(col).doc(id), data);
+    for (const [op, col, id, data] of writes.slice(i, i + 400)) {
+      if (op === 'set') batch.set(db.collection(col).doc(id), data);
+      else batch.delete(db.collection(col).doc(id));
+    }
     await batch.commit();
   }
-  // Counts for the dashboard.
+  // Counts for the dashboard, in one pass over the events.
   const levelCount = {};
   for (const byRegion of rep.levels.values()) for (const [region, level] of Object.entries(byRegion)) levelCount[`${region}_${level}`] = (levelCount[`${region}_${level}`] || 0) + 1;
-  let friendHeavy = 0;
-  for (const [finder] of rep.scores) {
-    const mine = events.filter((e) => e.finderUid === finder);
-    const fromFriends = mine.filter((e) => friendEdges.has(`${finder}_${e.actorUid}`)).length;
-    if (mine.length >= 3 && fromFriends / mine.length > 0.5) friendHeavy++;
+  const tally = new Map();
+  for (const e of events) {
+    const t = tally.get(e.finderUid) || { all: 0, friends: 0 };
+    t.all++;
+    if (friendEdges.has(`${e.finderUid}_${e.actorUid}`)) t.friends++;
+    tally.set(e.finderUid, t);
   }
+  const friendHeavy = [...tally.values()].filter((t) => t.all >= 3 && t.friends / t.all > 0.5).length;
   const weekAgo = nowMs - 7 * DAY_MS;
   return {
     events: events.length,
-    newEvents: writes.filter((w) => w[0] === 'influence_events').length,
+    newEvents: writes.filter((w) => w[0] === 'set' && w[1] === 'influence_events').length,
     wentLast7d: events.filter((e) => e.kind === 'went' && e.at >= weekAgo).length,
     finders: rep.scores.size,
     levels: levelCount,

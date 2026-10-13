@@ -191,6 +191,9 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
         helpful: next.helpful,
         saved: next.saved,
         firstAt: prev.firstAt ?? Date.now(),
+        // Each mark keeps its own time (reputation dates its events by it).
+        ...(Number.isFinite(prev.helpfulAt) ? { helpfulAt: prev.helpfulAt } : {}),
+        ...(Number.isFinite(prev.savedAt) ? { savedAt: prev.savedAt } : {}),
         ...(on ? { [`${kind}At`]: Date.now() } : {}),
         updatedAt: FieldValue.serverTimestamp(),
       });
