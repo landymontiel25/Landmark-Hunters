@@ -33,6 +33,9 @@
     "api/verify-checkin.js": {
       "includeFiles": "public/places/**"
     },
+    "api/landmark-ratings.js": {
+      "includeFiles": "src/data/ratingSourceIds.json"
+    },
     "api/admin-jobs.js": {
       "maxDuration": 60,
       "includeFiles": "public/places/**"

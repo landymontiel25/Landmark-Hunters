@@ -1,0 +1,5 @@
+User-agent: *
+# Tripadvisor requires that its review text loads through a call search
+# engines can't crawl (Terra Review Implementation Policy). Ratings and
+# reviews from every source come from this endpoint.
+Disallow: /api/landmark-ratings

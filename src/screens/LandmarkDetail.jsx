@@ -40,6 +40,7 @@ import Lightbox from '../components/Lightbox';
 import ReviewReplies from '../components/ReviewReplies';
 import CheckInButton from '../components/CheckInButton';
 import RatingStars from '../components/RatingStars';
+import RatingsSection from '../components/ratings/RatingsSection';
 import DirectionsButton from '../components/DirectionsButton';
 import AdmissionTag from '../components/AdmissionTag';
 import { pickPhoto } from '../lib/imageUtils';
@@ -910,6 +911,8 @@ function LandmarkDetailBody() {
       <div className="card section">
         <p style={{ fontSize: '1.02rem', margin: 0 }}>{landmark.summary}</p>
       </div>
+
+      {!customLandmark && <RatingsSection landmark={landmark} lhAgg={agg} />}
 
       {landmark.tip && (
         <div
