@@ -1351,6 +1351,11 @@ service cloud.firestore {
     match /alert_log/{uid} {
       allow read, write: if false;
     }
+    // Which follows already sent a "new follower" alert (one per pair, ever,
+    // so follow and unfollow can't be used to spam someone). Server only.
+    match /follow_alerted/{id} {
+      allow read, write: if false;
+    }
 
     // Google place-ID cache for api/place-photo.js. Written and read ONLY by
     // the server (Admin SDK, which bypasses these rules). Clients never touch

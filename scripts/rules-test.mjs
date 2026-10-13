@@ -1008,7 +1008,9 @@ await t('notificationPrefs: the owner saves known switches as true or false; not
   await assertFails(setDoc(doc(as('ann'), 'users/ann/private/main'), { notificationPrefs: { spamMe: true } }, { merge: true }));
   await assertFails(setDoc(doc(as('bob'), 'users/ann/private/main'), { notificationPrefs: { tipWent: true } }, { merge: true }));
 });
-await t('alert_log: server only', async () => {
+await t('alert_log and follow_alerted: server only', async () => {
+  await assertFails(getDoc(doc(as('ann'), 'follow_alerted/ann_bob')));
+  await assertFails(setDoc(doc(as('ann'), 'follow_alerted/ann_bob'), { at: 1 }));
   await assertFails(getDoc(doc(as('ann'), 'alert_log/ann')));
   await assertFails(setDoc(doc(as('ann'), 'alert_log/ann'), { wentDay: '2026-10-13' }));
 });

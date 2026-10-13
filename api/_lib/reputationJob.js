@@ -223,7 +223,9 @@ export function loopRates({ events, tips, nowMs }) {
   }
   const postedWithin = (uid, start) => (posts.get(uid) || []).some((at) => at > start && at <= start + 14 * DAY_MS);
   const wentUids = [...firstWent.keys()];
-  const others = [...posts.keys()].filter((u) => !firstWent.has(u) && (posts.get(u) || []).some((at) => at < to));
+  // Comparison: people who had a tip before the window (so a first tip
+  // never counts as posting again) and no went in it.
+  const others = [...posts.keys()].filter((u) => !firstWent.has(u) && (posts.get(u) || []).some((at) => at <= from));
   const rate = (xs, test) => (xs.length ? Math.round((xs.filter(test).length / xs.length) * 10000) / 10000 : null);
   return {
     loopWentFinders: wentUids.length,

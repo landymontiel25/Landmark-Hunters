@@ -16,13 +16,16 @@ export default function AlertSettings({ uid, toast = null }) {
     };
   }, [uid]);
   if (!prefs) return null;
+  // The switch shows what you chose at once; if the save fails it goes
+  // back to what it was before this tap.
   const toggle = async (group) => {
-    const next = !alertOn(prefs, group);
+    const before = alertOn(prefs, group);
+    const next = !before;
     setPrefs((p) => ({ ...p, [group]: next }));
     try {
       await setAlertPref(uid, group, next);
     } catch {
-      setPrefs((p) => ({ ...p, [group]: !next }));
+      setPrefs((p) => (p[group] === next ? { ...p, [group]: before } : p));
       toast?.show?.("Couldn't save that. Try again.");
     }
   };

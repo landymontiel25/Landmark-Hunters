@@ -105,6 +105,7 @@ describe('loopRates (Phase 5 check)', () => {
       { authorUid: 'o1', createdAt: NOW - 60 * DAY },
       { authorUid: 'o1', createdAt: NOW - 40 * DAY },
       { authorUid: 'o2', createdAt: NOW - 60 * DAY },
+      { authorUid: 'new', createdAt: NOW - 40 * DAY },
     ];
     const events = [{ kind: 'went', finderUid: 'w1', at: NOW - 30 * DAY }, { kind: 'went', finderUid: 'w2', at: NOW - 30 * DAY }];
     expect(loopRates({ events, tips, nowMs: NOW })).toEqual({ loopWentFinders: 2, loopWentRepostRate: 0.5, loopOtherFinders: 2, loopOtherRepostRate: 0.5 });

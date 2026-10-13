@@ -7,6 +7,7 @@ vi.mock('./push.js', () => ({ sendPushToUser: vi.fn(async (uid, msg) => { pushes
 const { followerAlert, followTipAlerts, levelUpsOf, nearbyFindAlerts, nightlyAlerts } = await import('./alerts.js');
 
 const NOW = Date.parse('2026-10-13T12:00:00Z');
+const DAY = 86400000;
 const inbox = (db, uid) => Object.entries(db.docs).filter(([k, v]) => k.startsWith('notifications/') && v.uid === uid).map(([, v]) => v);
 
 beforeEach(() => {
@@ -29,9 +30,11 @@ describe('nightlyAlerts', () => {
     expect(inbox(db, 'fin').map((n) => n.type)).toEqual(['discovery_tipHelpful']);
     expect(pushes).toHaveLength(0);
   });
-  it('level up pushes', async () => {
+  it('level up pushes once per level and city', async () => {
     const db = fakeDb({});
     await nightlyAlerts(db, { levelUps: [{ uid: 'fin', region: 'philly', level: 'Trusted' }], nowMs: NOW });
+    await nightlyAlerts(db, { levelUps: [{ uid: 'fin', region: 'philly', level: 'Trusted' }, { uid: 'fin', region: 'philly', level: 'Local' }], nowMs: NOW + DAY });
+    expect(inbox(db, 'fin')).toHaveLength(1);
     expect(inbox(db, 'fin')[0].message).toContain("You're now Trusted in Philadelphia");
     expect(pushes).toHaveLength(1);
   });
@@ -45,10 +48,17 @@ describe('nightlyAlerts', () => {
 describe('followerAlert', () => {
   it('in-app always, push only for the first 10 followers', async () => {
     const db = fakeDb({ 'users/a': { username: 'ana' } });
+    const db2 = fakeDb({ 'users/b': { username: 'bo' } });
     await followerAlert(db, { followerUid: 'a', followeeUid: 'f', followerCount: 10, nowMs: NOW });
-    await followerAlert(db, { followerUid: 'a', followeeUid: 'f', followerCount: 11, nowMs: NOW });
-    expect(inbox(db, 'f').map((n) => n.message)).toEqual(['@ana followed you.', '@ana followed you.']);
+    await followerAlert(db2, { followerUid: 'b', followeeUid: 'f', followerCount: 11, nowMs: NOW });
+    expect(inbox(db, 'f').map((n) => n.message)).toEqual(['@ana followed you.']);
+    expect(inbox(db2, 'f').map((n) => n.message)).toEqual(['@bo followed you.']);
     expect(pushes).toHaveLength(1);
+  });
+  it('follow, unfollow and follow again alerts once', async () => {
+    const db = fakeDb({ 'users/a': { username: 'ana' } });
+    for (let i = 0; i < 5; i++) await followerAlert(db, { followerUid: 'a', followeeUid: 'f', followerCount: 1, nowMs: NOW + i });
+    expect(inbox(db, 'f')).toHaveLength(1);
   });
 });
 
@@ -83,5 +93,7 @@ describe('nearbyFindAlerts', () => {
     expect(inbox(db, 'u')[0].message).toMatch(/^A Trusted find near you: /);
     expect(await nearbyFindAlerts(db, ds, { nowMs: NOW + 3600000, reputation })).toBe(0);
     expect(await nearbyFindAlerts(fakeDb({ ...db.docs, 'alert_log/u': {} }), ds, { nowMs: NOW, reputation: new Map([['fin', { philly: 'Local' }]]) })).toBe(0);
+    // A block either way: no alert naming that finder.
+    expect(await nearbyFindAlerts(fakeDb({ ...db.docs, 'alert_log/u': {}, 'blocks/u_fin': { blockerUid: 'u', blockedUid: 'fin' } }), ds, { nowMs: NOW, reputation })).toBe(0);
   });
 });

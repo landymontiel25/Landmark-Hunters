@@ -1,7 +1,7 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { canonicalLandmarkId, canonicalRegionId, getLandmark, getRegion } from '../../src/data/regions.js';
+import { canonicalLandmarkId, canonicalRegionId, getLandmark, getRegion, REGION_ALIASES } from '../../src/data/regions.js';
 import { ALERT_GROUPS, alertOn, FOLLOW_TIP_DAILY_MAX, FOLLOWER_PUSH_FIRST, NEARBY_FIND_MILES } from '../../src/lib/alerts.js';
-import { effectiveTagScores } from '../../src/lib/tagScores.js';
+import { rankPlaces } from '../../src/lib/maprRank/surfaces.js';
 import { haversineKm } from '../../src/lib/maprRank/distanceDecay.js';
 import { LEVEL_RANK, reachesEveryone } from '../../src/lib/reputation.js';
 import { sendPushToUser } from './push.js';
@@ -75,7 +75,13 @@ export async function nightlyAlerts(db, { events = [], levelUps = [], nowMs = Da
     } else if (await sendAlert(db, finderUid, 'tipHelpful', { message: `${people} ${people === 1 ? 'person' : 'people'} found your tip at ${where}${more} helpful.`, landmarkId: first.landmarkId, region: first.region, nowMs })) sent++;
   }
   for (const { uid, region, level } of levelUps) {
-    if (await sendAlert(db, uid, 'levelUp', { message: `You're now ${level} in ${cityName(region)}. People went to places because of your tips.`, push: true, nowMs })) sent++;
+    // Each level once per city: a level that fades and comes back is not
+    // news again.
+    const log = db.collection('alert_log').doc(uid);
+    const told = ((await log.get()).data() || {}).levelsAnnounced || {};
+    if ((LEVEL_RANK[told[region]] || 0) >= (LEVEL_RANK[level] || 0)) continue;
+    await log.set({ levelsAnnounced: { ...told, [region]: level } }, { merge: true });
+    if (await sendAlert(db, uid, 'levelUp', { message: `You're now ${level} in ${cityName(region)}. People are finding your tips useful.`, push: true, nowMs })) sent++;
   }
   return sent;
 }
@@ -83,6 +89,10 @@ export async function nightlyAlerts(db, { events = [], levelUps = [], nowMs = Da
 // Someone followed `followeeUid` (api/_lib/follows.js). Push only while
 // they have 10 followers or fewer.
 export async function followerAlert(db, { followerUid, followeeUid, followerCount, nowMs = Date.now() }) {
+  // Once per pair, ever: unfollowing and following again sends nothing.
+  const once = db.collection('follow_alerted').doc(`${followerUid}_${followeeUid}`);
+  if ((await once.get()).exists) return false;
+  await once.set({ at: nowMs });
   const who = (await db.collection('users').doc(followerUid).get()).data();
   const name = who?.username ? `@${who.username}` : 'Someone';
   return sendAlert(db, followeeUid, 'newFollower', { message: `${name} followed you.`, push: followerCount <= FOLLOWER_PUSH_FIRST, nowMs });
@@ -90,29 +100,31 @@ export async function followerAlert(db, { followerUid, followeeUid, followerCoun
 
 // A tip went live (api/post-tip.js): its author's followers who have been
 // to that city hear about it, at most 2 a day each.
+export const FOLLOW_TIP_MAX_FOLLOWERS = 500;
 export async function followTipAlerts(db, { tip, nowMs = Date.now() }) {
   if (!tip?.authorUid || tip.status !== 'live') return 0;
   const region = canonicalRegionId(tip.region || '');
+  const regionIds = [region, ...Object.keys(REGION_ALIASES).filter((a) => REGION_ALIASES[a] === region)];
   // A block removes follows both ways, so followers never include one.
-  const followers = await db.collection('follows').where('followeeUid', '==', tip.authorUid).get();
-  let sent = 0;
-  for (const d of followers.docs) {
-    const uid = d.data().followerUid;
-    if (!uid) continue;
+  const followers = await db.collection('follows').where('followeeUid', '==', tip.authorUid).limit(FOLLOW_TIP_MAX_FOLLOWERS).get();
+  const today = dayKey(nowMs);
+  const one = async (uid) => {
+    if (!uid) return false;
     // Near their cities: they checked in somewhere in this region before.
-    const been = await db.collection('checkins').where('userId', '==', uid).where('region', '==', region).limit(1).get();
-    if (been.empty) continue;
+    const been = await db.collection('checkins').where('userId', '==', uid).where('region', 'in', regionIds).limit(1).get();
+    if (been.empty) return false;
     const log = db.collection('alert_log').doc(uid);
     const prev = (await log.get()).data() || {};
-    const today = dayKey(nowMs);
     const count = prev.followTipDay === today ? prev.followTipCount || 0 : 0;
-    if (count >= FOLLOW_TIP_DAILY_MAX) continue;
+    if (count >= FOLLOW_TIP_DAILY_MAX) return false;
     const ok = await sendAlert(db, uid, 'followTip', { message: `${tip.authorName || 'Someone you follow'} shared a tip at ${placeName(tip.region, tip.landmarkId)}.`, push: true, landmarkId: tip.landmarkId, region, nowMs });
-    if (ok) {
-      await log.set({ followTipDay: today, followTipCount: count + 1 }, { merge: true });
-      sent++;
-    }
-  }
+    if (ok) await log.set({ followTipDay: today, followTipCount: count + 1 }, { merge: true });
+    return ok;
+  };
+  // Twenty at a time, so a big following doesn't hold the post up.
+  const uids = followers.docs.map((d) => d.data().followerUid);
+  let sent = 0;
+  for (let i = 0; i < uids.length; i += 20) sent += (await Promise.all(uids.slice(i, i + 20).map((u) => one(u).catch(() => false)))).filter(Boolean).length;
   return sent;
 }
 
@@ -124,45 +136,56 @@ export async function nearbyFindAlerts(db, ds, { nowMs = Date.now(), reputation 
   for (const t of ds.tips || []) {
     if (t.status !== 'live' || t.hidden || t.verified === false) continue;
     const region = canonicalRegionId(t.region || '');
-    if (!reachesEveryone(reputation.get(t.authorUid)?.[region])) continue;
+    const level = reputation.get(t.authorUid)?.[region];
+    if (!reachesEveryone(level)) continue;
     const l = getLandmark(region, canonicalLandmarkId(t.landmarkId, region));
-    if (l && Number.isFinite(l.lat)) finds.push({ t, l, region });
+    if (l && Number.isFinite(l.lat)) finds.push({ t, l, region, level });
   }
   if (!finds.length) return 0;
-  const rated = new Set((ds.reviews || []).map((r) => `${r.userId}|${r.landmarkId}`));
+  const rated = new Set((ds.reviews || []).map((r) => `${r.userId}|${canonicalLandmarkId(r.landmarkId, r.region ? canonicalRegionId(r.region) : undefined)}`));
   // People active in the last 30 days whose phone shared a location this
   // week (users/{uid}/private/main, owner-only; read here by the server).
   const uids = [...activeUsers(ds, { nowMs })];
+  // A block either way keeps a finder's name out of someone's alerts.
+  const blocked = new Set();
+  for (const d of (await db.collection('blocks').get()).docs) {
+    const { blockerUid: a, blockedUid: b } = d.data() || {};
+    if (a && b) blocked.add(`${a}_${b}`).add(`${b}_${a}`);
+  }
   let sent = 0;
   for (let i = 0; i < uids.length; i += 200) {
     const part = uids.slice(i, i + 200);
-    const privs = await db.getAll(...part.map((u) => db.doc(`users/${u}/private/main`)));
+    const [privs, logs, users] = await Promise.all([
+      db.getAll(...part.map((u) => db.doc(`users/${u}/private/main`))),
+      db.getAll(...part.map((u) => db.collection('alert_log').doc(u))),
+      db.getAll(...part.map((u) => db.collection('users').doc(u))),
+    ]);
     for (const [j, p] of privs.entries()) {
       const uid = part[j];
       const loc = p.exists ? p.data().lastKnownLocation : null;
       if (!loc || !Number.isFinite(loc.lat) || !(Number(loc.at) > nowMs - 7 * DAY_MS)) continue;
-      if (await nearbyFor(db, { uid, p, loc, finds, rated, week, nowMs })) sent++;
+      if ((logs[j]?.data() || {}).nearbyWeek === week) continue;
+      if (await nearbyFor(db, { uid, p, loc, finds, rated, blocked, week, nowMs, profile: users[j]?.exists ? users[j].data() : null })) sent++;
     }
   }
   return sent;
 }
 
-// One person's weekly nearby find, if any.
-async function nearbyFor(db, { uid, p, loc, finds, rated, week, nowMs }) {
+// One person's weekly nearby find, if any: the finds within a mile, ranked
+// by Mapr's shared pipeline (maprRank/surfaces.js rankPlaces: taste, kind
+// of place, distance), the best one that fits their taste.
+async function nearbyFor(db, { uid, p, loc, finds, rated, blocked = new Set(), week, nowMs, profile }) {
   if (!alertOn(p.data().notificationPrefs || {}, 'nearbyFind')) return false;
-  const log = db.collection('alert_log').doc(uid);
-  const prev = (await log.get()).data() || {};
-  if (prev.nearbyWeek === week) return false;
-  const near = finds.filter((f) => f.t.authorUid !== uid && !rated.has(`${uid}|${f.l.id}`) && haversineKm(loc.lat, loc.lng, f.l.lat, f.l.lng) <= NEARBY_FIND_MILES * 1.609);
-  if (!near.length) return false;
-  const profile = (await db.collection('users').doc(uid).get()).data() || null;
-  const liked = near.find((f) => {
-    const s = profile ? effectiveTagScores(profile, f.region, nowMs) : {};
-    return (f.l.categories || []).some((c) => (s[c] || 0) > 0);
-  });
+  const near = finds.filter((f) => f.t.authorUid !== uid && !blocked.has(`${uid}_${f.t.authorUid}`) && !rated.has(`${uid}|${f.l.id}`) && haversineKm(loc.lat, loc.lng, f.l.lat, f.l.lng) <= NEARBY_FIND_MILES * 1.609);
+  if (!near.length || !profile) return false;
+  const byKey = new Map(near.map((f) => [`${f.region}/${f.l.id}`, f]));
+  const { ranked } = rankPlaces({ places: near.map((f) => ({ ...f.l, regionId: f.region })), uid, profile, origin: { lat: loc.lat, lng: loc.lng }, now: nowMs });
+  const top = ranked.find((r) => r.finalScore > 0);
+  const liked = top ? byKey.get(`${top.regionId}/${top.id}`) : null;
   if (!liked) return false;
-  const ok = await sendAlert(db, uid, 'nearbyFind', { message: `A Trusted find near you: ${liked.l.name}. ${liked.t.authorName || 'A discoverer'} shared a tip after a verified visit.`, push: true, landmarkId: liked.l.id, region: liked.region, nowMs, prefs: p.data().notificationPrefs || {} });
-  if (ok) await log.set({ nearbyWeek: week }, { merge: true });
+  const level = liked.level === 'Insider' ? 'An Insider' : 'A Trusted';
+  const ok = await sendAlert(db, uid, 'nearbyFind', { message: `${level} find near you: ${liked.l.name}. ${liked.t.authorName || 'A discoverer'} shared a tip after a verified visit.`, push: true, landmarkId: liked.l.id, region: liked.region, nowMs, prefs: p.data().notificationPrefs || {} });
+  if (ok) await db.collection('alert_log').doc(uid).set({ nearbyWeek: week }, { merge: true });
   return ok;
 }
 
