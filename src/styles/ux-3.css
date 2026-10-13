@@ -245,3 +245,35 @@ button.back-sticky,
 .member-add-icon {
   flex-shrink: 0;
 }
+
+/* The universal share icon: top right of every place card and of a place's
+   page. A round ghost button, the same size on both. */
+.share-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle, var(--glass-border));
+  background: rgb(var(--color-bg-rgb));
+  color: var(--text-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.landmark-row {
+  position: relative;
+}
+.lr-share {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+.landmark-row .lr-top {
+  padding-right: 40px;
+}
+.detail-topbar .share-icon-btn {
+  margin-left: auto;
+}
