@@ -3,7 +3,8 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { deleteTipChildren, deleteTipPhoto, deleteTipPhotoFolder, reactionIsFresh, tipPhotoPath, toMs } from './_lib/tipsServer.js';
+import { deleteTipChildren, deleteTipPhoto, deleteTipPhotoFolder, reactionIsFresh, tipPhotoPath } from './_lib/tipsServer.js';
+import { toMs } from './_lib/time.js';
 import { canonicalLandmarkId } from '../src/data/regions.js';
 import { cleanTipText, tipCheckinProblem, tipIdFor, tipInputProblem, TIP_RATE_LIMIT } from '../src/lib/tips.js';
 import { filterTipText } from '../src/lib/tipFilter.js';
@@ -100,6 +101,7 @@ async function deleteTip(db, account, body) {
   if (typeof landmarkId !== 'string' || !/^[\w.-]{1,300}$/.test(landmarkId)) return [400, { error: 'landmarkId is required.' }];
   const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
   const ref = db.collection('tips').doc(tipId);
+  const deletedAt = Date.now();
   // One transaction, so a report landing meanwhile is either counted (and
   // the tip withdrawn) or refused because the tip is gone.
   const outcome = await db.runTransaction(async (tx) => {
@@ -127,7 +129,9 @@ async function deleteTip(db, account, body) {
   // older than a re-posted tip, and marks from before a tip was posted
   // never count (reactionIsFresh).
   try {
-    await deleteTipChildren(db, tipId);
+    // Only what is older than this delete: a tip re-posted at the same id
+    // meanwhile keeps its own fresh marks.
+    await deleteTipChildren(db, tipId, { beforeMs: deletedAt });
     await deleteTipPhotoIfUnused(db, account.uid, outcome.tip.photoPath);
   } catch (e) {
     console.error('tip cleanup failed', e?.message || e);
@@ -157,7 +161,8 @@ async function deleteMine(db, account) {
     db.collection('tip_reports').where('uid', '==', uid).get(),
   ]);
   // In parallel: account deletion runs under the function's time limit.
-  await Promise.all(tips.docs.map((d) => Promise.all([d.ref.delete(), deleteTipChildren(db, d.id), deleteTipPhoto(d.data().photoPath)])));
+  // (Photos go with the folder below.)
+  await Promise.all(tips.docs.map((d) => Promise.all([d.ref.delete(), deleteTipChildren(db, d.id)])));
   // Every photo in their folder, on a tip or not (an upload whose post
   // failed): the folder is theirs alone.
   await deleteTipPhotoFolder(uid);
@@ -195,7 +200,7 @@ async function handler(req, res) {
   const body = (req.body && typeof req.body === 'object' ? req.body : null) || {};
   const action = body.action || 'post';
   if (!['post', 'delete', 'delete-mine'].includes(action)) return send(res, 400, { error: 'Unknown action.' });
-  // Deleting is always allowed (account deletion must never be blocked).
+  // Account deletion is never limited or gated: it must always run.
   if (action === 'post') {
     if (!account.emailVerified) return send(res, 403, { error: 'Verify your email to share tips.', code: 'email' });
     // Attempts, not tips: a few retries after a refused tip must not lock
@@ -204,7 +209,7 @@ async function handler(req, res) {
     if (isRateLimited(req, 'post-tip', { limit: TIP_RATE_LIMIT.limit * 3, windowMs: TIP_RATE_LIMIT.windowMs, id: account.uid })) {
       return send(res, 429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' });
     }
-  } else if (isRateLimited(req, 'post-tip-delete', { limit: 60, windowMs: HOUR_MS, id: account.uid })) {
+  } else if (action === 'delete' && isRateLimited(req, 'post-tip-delete', { limit: 60, windowMs: HOUR_MS, id: account.uid })) {
     return send(res, 429, { error: 'Too many requests. Try again later.' });
   }
   try {

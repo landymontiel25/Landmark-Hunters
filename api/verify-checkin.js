@@ -6,7 +6,7 @@ import { getLandmark, canonicalLandmarkId } from '../src/data/regions.js';
 import { ensureServerPlacePacks } from './_lib/placePacks.js';
 import { checkPresence, validFix } from '../src/lib/presence.js';
 import { withCors } from './_lib/cors.js';
-import { toMs } from './_lib/tipsServer.js';
+import { toMs } from './_lib/time.js';
 
 // Verified presence (docs/discovery-network-plan.md, Phase 0). Right after a
 // check-in is saved, the app sends a fresh GPS fix here. The server loads the

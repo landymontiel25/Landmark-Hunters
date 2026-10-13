@@ -3,7 +3,8 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { blockedBetween, blockedEitherWay, reactionIsFresh, tipForViewer, toMs } from './_lib/tipsServer.js';
+import { blockedBetween, blockedEitherWay, reactionIsFresh, tipForViewer } from './_lib/tipsServer.js';
+import { toMs } from './_lib/time.js';
 import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
@@ -27,22 +28,28 @@ const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
 const send = (res, code, body) => res.status(code).json(body);
 
 export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = Date.now() } = {}) {
-  // Every tip at the place (one per person per place keeps this small),
-  // sorted here: a query limit without an order would cut by author id.
+  // The place's live tips (two equality filters, no composite index), plus
+  // your own tip by its id whatever its status, so the page can say it is
+  // waiting for review or was removed. Sorted here, newest first.
   const id = canonicalLandmarkId(landmarkId, region);
-  const [snap, blocked] = await Promise.all([db.collection('tips').where('landmarkId', '==', id).get(), blockedBetween(db, viewerUid)]);
+  const ownId = `${viewerUid}_${id}`;
+  const [snap, ownSnap, blocked] = await Promise.all([
+    db.collection('tips').where('landmarkId', '==', id).where('status', '==', 'live').get(),
+    db.collection('tips').doc(ownId).get(),
+    blockedBetween(db, viewerUid),
+  ]);
   const want = canonicalRegionId(region);
   const visible = [];
   for (const d of snap.docs) {
     const t = d.data();
-    if (canonicalRegionId(t.region) !== want) continue;
-    // Your own tip always comes back, with its status, so the page can say
-    // it is waiting for review or was removed.
-    if (t.authorUid !== viewerUid && (!tipIsPublic(t) || blocked.has(t.authorUid))) continue;
+    if (d.id === ownId || canonicalRegionId(t.region) !== want) continue;
+    if (!tipIsPublic(t) || blocked.has(t.authorUid)) continue;
     visible.push([d.id, t]);
   }
-  visible.sort((a, b) => (toMs(b[1].createdAt) ?? b[1].createdAtMs ?? 0) - (toMs(a[1].createdAt) ?? a[1].createdAtMs ?? 0));
-  const shown = visible.slice(0, MAX_TIPS);
+  const at = (t) => toMs(t.createdAt) ?? t.createdAtMs ?? 0;
+  visible.sort((a, b) => at(b[1]) - at(a[1]));
+  const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
+  const shown = [...own, ...visible.slice(0, MAX_TIPS)];
   const reactionRefs = shown.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
   const reactionSnaps = reactionRefs.length ? await db.getAll(...reactionRefs) : [];
   const mine = {};
@@ -74,7 +81,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
     if (writes) await batch.commit();
   }
   return {
-    tips: shown.map(([id, t]) => ({ ...tipForViewer(id, t, viewerUid), ...(t.authorUid === viewerUid ? { status: t.status } : {}) })),
+    tips: shown.map(([tipId, t]) => ({ ...tipForViewer(tipId, t, viewerUid), ...(t.authorUid === viewerUid ? { status: t.status, hidden: t.hidden === true } : {}) })),
     reactions: mine,
   };
 }

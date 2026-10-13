@@ -40,16 +40,16 @@ describe('api/tips: reading', () => {
   it('lists live tips at the place, newest first, plus your own (held) tip', async () => {
     const { code, body } = await list();
     expect(code).toBe(200);
-    expect(body.tips.map((t) => t.id)).toEqual(['ann_bell', 'bob_bell', 'me_bell']);
-    expect(body.tips[2]).toMatchObject({ mine: true, status: 'held' });
-    expect(body.tips[0].status).toBeUndefined();
+    expect(body.tips.map((t) => t.id)).toEqual(['me_bell', 'ann_bell', 'bob_bell']);
+    expect(body.tips[0]).toMatchObject({ mine: true, status: 'held', hidden: false });
+    expect(body.tips[1].status).toBeUndefined();
   });
   it('hides tips across a block both ways, held, hidden and other-region tips', async () => {
     const ids = (await list()).body.tips.map((t) => t.id);
     for (const hidden of ['cat_bell', 'dan_bell', 'eve_bell', 'fay_bell', 'gus_bell']) expect(ids).not.toContain(hidden);
   });
   it('never returns reporters, held reasons or who marked a tip', async () => {
-    const t = (await list()).body.tips[0];
+    const t = (await list()).body.tips.find((x) => !x.mine);
     expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'createdAt', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitAt'].sort());
   });
   it("records which of others' live tips you were shown, keeping the first time", async () => {
@@ -64,6 +64,12 @@ describe('api/tips: reading', () => {
     await list();
     expect(db.docs['tip_views/me_ann_bell'].firstAt).toBe(5);
     expect(db.docs['tip_views/me_ann_bell'].lastAt).toBeGreaterThan(1);
+  });
+  it('always returns your own tip, even behind 50 newer ones', async () => {
+    for (let i = 0; i < 60; i++) db.docs[`tips/u${i}_bell`] = tip(`u${i}`, { createdAtMs: 1000 + i });
+    const ids = (await list()).body.tips.map((t) => t.id);
+    expect(ids[0]).toBe('me_bell');
+    expect(ids).toHaveLength(51);
   });
   it('finds tips under a renamed place by its current id', async () => {
     expect((await call('GET', { query: { region: 'philly', landmarkId: 'old-bell' } })).body.tips.map((t) => t.id)).toContain('ann_bell');

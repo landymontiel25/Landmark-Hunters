@@ -1,14 +1,9 @@
 import { adminBucket } from './firebaseAdmin.js';
+import { toMs } from './time.js';
+
+export { toMs };
 
 // Server helpers shared by api/post-tip.js and api/tips.js.
-
-export const toMs = (v) => {
-  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
-  if (v && typeof v.toMillis === 'function') return v.toMillis();
-  if (v && typeof v.seconds === 'number') return v.seconds * 1000;
-  if (v && typeof v._seconds === 'number') return v._seconds * 1000;
-  return null;
-};
 
 // Everyone on the other side of a block from `uid`, either direction.
 export async function blockedBetween(db, uid) {
@@ -32,13 +27,15 @@ export async function blockedEitherWay(db, a, b) {
 // Every report (tip_reports/{tipId}_{uid}), helpful/saved mark
 // (tip_reactions) and view (tip_views) of one tip, removed with the tip so a
 // re-posted tip at the same id starts clean.
-export async function deleteTipChildren(db, tipId) {
+// beforeMs keeps anything made at or after it (a re-posted tip's own).
+export async function deleteTipChildren(db, tipId, { beforeMs = Infinity } = {}) {
   const [reactions, reports, views] = await Promise.all([
     db.collection('tip_reactions').where('tipId', '==', tipId).get(),
     db.collection('tip_reports').where('tipId', '==', tipId).get(),
     db.collection('tip_views').where('tipId', '==', tipId).get(),
   ]);
-  const all = [...reactions.docs, ...reports.docs, ...views.docs];
+  const old = (d) => (d.data()?.firstAt ?? d.data()?.at ?? 0) < beforeMs;
+  const all = [...reactions.docs, ...reports.docs, ...views.docs].filter(old);
   for (let i = 0; i < all.length; i += 400) {
     const b = db.batch();
     for (const d of all.slice(i, i + 400)) b.delete(d.ref);

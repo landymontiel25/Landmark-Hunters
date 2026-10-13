@@ -87,6 +87,14 @@ describe('api/post-tip: posting', () => {
     expect(db.docs['tip_reports/me_bell_you']).toBeDefined();
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).body.code).toBe('withdrawn');
   });
+  it("a delete's cleanup leaves marks made on a tip re-posted after it", async () => {
+    await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' });
+    db.docs['tip_reactions/zed_me_bell'] = { uid: 'zed', tipId: 'me_bell', helpful: true, firstAt: NOW + 60000 };
+    db.docs['tip_reactions/old_me_bell'] = { uid: 'old', tipId: 'me_bell', helpful: true, firstAt: NOW - 60000 };
+    await call({ action: 'delete', landmarkId: 'bell' });
+    expect(db.docs['tip_reactions/zed_me_bell']).toBeDefined();
+    expect(db.docs['tip_reactions/old_me_bell']).toBeUndefined();
+  });
   it('a held, unreported tip is deleted for good', async () => {
     await call({ checkinId: 'me_bell', text: 'the guards are sh1t here' });
     expect(db.docs['tips/me_bell'].status).toBe('held');
@@ -188,6 +196,5 @@ describe('api/post-tip: deleting', () => {
     expect(db.docs['tips/you_y'].counts.helpful).toBe(0);
     expect(deleted).toContain('tip_photos/me/*');
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });
-    expect(deleted).toContain('tip_photos/me/b.jpg');
   });
 });
