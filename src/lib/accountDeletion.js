@@ -6,6 +6,7 @@ import { deleteProject } from './maprChats';
 import { clearPickMarks } from './pickMarks';
 import { clearSeen } from './maprRank/seenHistory.js';
 import { clearLocalPickFeedback } from './pickFeedback';
+import { deleteAllMyTips } from './tipsApi';
 
 async function deletePhotoSafe(url) {
   if (!storage || !url) return;
@@ -64,6 +65,15 @@ export async function deleteAccountData(uid) {
   try {
     const userSnap = await getDoc(doc(db, 'users', uid));
     username = userSnap.exists() ? userSnap.data().username : null;
+  } catch {
+    /* best-effort */
+  }
+
+  // Tips, helpful/saved marks and reports: server-written, so the server
+  // deletes them (api/post-tip.js 'delete-mine'), while the account still
+  // exists to sign the request.
+  try {
+    await deleteAllMyTips();
   } catch {
     /* best-effort */
   }

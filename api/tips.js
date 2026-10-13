@@ -3,8 +3,8 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { blockedBetween, tipForViewer, toMs } from './_lib/tipsServer.js';
-import { canonicalRegionId } from '../src/data/regions.js';
+import { blockedBetween, blockedEitherWay, tipForViewer, toMs } from './_lib/tipsServer.js';
+import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
 // Reading tips and reacting to them (docs/discovery-network-plan.md,
@@ -26,7 +26,10 @@ const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
 const send = (res, code, body) => res.status(code).json(body);
 
 export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = Date.now() } = {}) {
-  const [snap, blocked] = await Promise.all([db.collection('tips').where('landmarkId', '==', landmarkId).limit(200).get(), blockedBetween(db, viewerUid)]);
+  // Every tip at the place (one per person per place keeps this small),
+  // sorted here: a query limit without an order would cut by author id.
+  const id = canonicalLandmarkId(landmarkId, region);
+  const [snap, blocked] = await Promise.all([db.collection('tips').where('landmarkId', '==', id).get(), blockedBetween(db, viewerUid)]);
   const want = canonicalRegionId(region);
   const visible = [];
   for (const d of snap.docs) {
@@ -37,8 +40,8 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   }
   visible.sort((a, b) => (toMs(b[1].createdAt) ?? b[1].createdAtMs ?? 0) - (toMs(a[1].createdAt) ?? a[1].createdAtMs ?? 0));
   const shown = visible.slice(0, MAX_TIPS);
-  const reactionRefs = shown.map(([id]) => db.collection('tip_reactions').doc(`${viewerUid}_${id}`));
-  const reactionSnaps = reactionRefs.length ? await Promise.all(reactionRefs.map((r) => r.get())) : [];
+  const reactionRefs = shown.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
+  const reactionSnaps = reactionRefs.length ? await db.getAll(...reactionRefs) : [];
   const mine = {};
   reactionSnaps.forEach((s, i) => {
     if (s.exists) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
@@ -47,13 +50,13 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   // never moves; lastAt does.
   const viewed = shown.filter(([, t]) => t.authorUid !== viewerUid && t.status === 'live');
   if (viewed.length) {
-    const viewRefs = viewed.map(([id]) => db.collection('tip_views').doc(`${viewerUid}_${id}`));
-    const before = await Promise.all(viewRefs.map((r) => r.get()));
+    const viewRefs = viewed.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
+    const before = await db.getAll(...viewRefs);
     const batch = db.batch();
-    viewed.forEach(([id, t], i) => {
+    viewed.forEach(([tipId, t], i) => {
       batch.set(viewRefs[i], {
         uid: viewerUid,
-        tipId: id,
+        tipId,
         authorUid: t.authorUid,
         landmarkId: t.landmarkId,
         region: t.region || null,
@@ -78,8 +81,7 @@ async function actionableTip(db, uid, tipId) {
   const tip = snap.data();
   if (tip.authorUid === uid) return { error: [400, { error: 'That is your own tip.' }] };
   if (!tipIsPublic(tip)) return { error: [404, { error: 'No such tip.' }] };
-  const blocked = await blockedBetween(db, uid);
-  if (blocked.has(tip.authorUid)) return { error: [404, { error: 'No such tip.' }] };
+  if (await blockedEitherWay(db, uid, tip.authorUid)) return { error: [404, { error: 'No such tip.' }] };
   return { ref, tip };
 }
 
@@ -116,19 +118,19 @@ export async function reactToTip(db, uid, { tipId, kind, on }) {
 }
 
 // Two distinct reporters hide a tip until the owner reviews it. Who
-// reported stays in a server-only subcollection, never on the tip (its
-// author can read the tip).
+// reported stays in server-only tip_reports/{tipId}_{uid} (no rule lets a
+// client read it), never on the tip, which its author can read.
 export async function reportTip(db, uid, { tipId, reason = 'other' }) {
   if (!REPORT_REASONS.includes(reason)) return [400, { error: 'Pick a reason.' }];
   const found = await actionableTip(db, uid, tipId);
   if (found.error) return found.error;
-  const reportRef = found.ref.collection('reports').doc(uid);
+  const reportRef = db.collection('tip_reports').doc(`${tipId}_${uid}`);
   const hidden = await db.runTransaction(async (tx) => {
     const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reportRef)]);
     if (!tipSnap.exists) return null;
     const count = tipSnap.data().reportCount || 0;
     if (rSnap.exists) return count >= TIP_REPORT_HIDE;
-    tx.set(reportRef, { uid, reason, at: Date.now() });
+    tx.set(reportRef, { uid, tipId, authorUid: tipSnap.data().authorUid, reason, at: Date.now() });
     const next = count + 1;
     tx.update(found.ref, { reportCount: next, hidden: next >= TIP_REPORT_HIDE, lastReportedAt: Date.now() });
     return next >= TIP_REPORT_HIDE;

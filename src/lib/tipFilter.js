@@ -46,10 +46,20 @@ const SLUR_WORD_SET = new Set(SLURS_WORDS);
 export function filterTipText(text) {
   const raw = String(text || '');
   const norm = normalizeForFilter(raw);
-  const squeezed = norm.replace(/[^a-z]/g, '');
+  // Squeezed within each space-separated chunk ("f.a.g.g.o.t"), and across
+  // runs of single letters ("f a g g o t"), never across real words, so
+  // "wet. Back" or "rag. Head" stay apart.
+  const chunks = norm.split(/\s+/).map((c) => c.replace(/[^a-z]/g, '')).filter(Boolean);
+  const squeezed = [...chunks];
+  for (let i = 0; i < chunks.length; ) {
+    let j = i;
+    while (j < chunks.length && chunks[j].length === 1) j++;
+    if (j - i >= 3) squeezed.push(chunks.slice(i, j).join(''));
+    i = j > i ? j : i + 1;
+  }
   const reasons = new Set();
   const words = norm.split(/[^a-z]+/).filter(Boolean);
-  if (SLURS_SQUEEZED.some((s) => squeezed.includes(s)) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
+  if (squeezed.some((c) => SLURS_SQUEEZED.some((s) => c.includes(s))) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
   if (words.some((w) => WORD_SET.has(w))) reasons.add('profanity');
   if (PHRASES.some((re) => re.test(norm))) reasons.add('threat-or-spam');
   if (PHONE_RE.test(raw) || EMAIL_RE.test(raw)) reasons.add('contact');

@@ -15,6 +15,11 @@ describe('tip word filter', () => {
   it('holds slurs with spacing or dots', () => {
     expect(filterTipText('f.a.g.g.o.t').reasons).toContain('slur');
     expect(filterTipText('the staff are r3tard').reasons).toContain('slur');
+    expect(filterTipText('f a g g o t').reasons).toContain('slur');
+  });
+  it('never joins real words across a sentence into a slur', () => {
+    expect(filterTipText('You will get wet. Back entrance is drier.').flagged).toBe(false);
+    expect(filterTipText('Cool rag. Head upstairs for views.').flagged).toBe(false);
   });
   it('holds threats, spam phrases and contact details', () => {
     expect(filterTipText('go die in the river').reasons).toContain('threat-or-spam');

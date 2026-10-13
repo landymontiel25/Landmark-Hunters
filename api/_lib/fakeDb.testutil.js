@@ -189,6 +189,7 @@ export function fakeDb(initial = {}) {
     collection,
     collectionGroup: (name) => query(name, [], null, true),
     doc: (path) => ref(path),
+    getAll: async (...refs) => Promise.all(refs.map((r) => r.get())),
     batch,
     runTransaction: async (fn) => {
       const b = batch();

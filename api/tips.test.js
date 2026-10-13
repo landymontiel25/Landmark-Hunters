@@ -8,7 +8,7 @@ vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => caller }));
 vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 vi.mock('./_lib/firebaseAdmin.js', () => ({ adminDb: () => db, adminBucket: async () => null }));
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
-vi.mock('../src/data/regions.js', () => ({ canonicalRegionId: (r) => (r === 'coralgables' ? 'miami' : r) }));
+vi.mock('../src/data/regions.js', () => ({ canonicalRegionId: (r) => (r === 'coralgables' ? 'miami' : r), canonicalLandmarkId: (id) => (id === 'old-bell' ? 'bell' : id) }));
 
 const { default: handler } = await import('./tips.js');
 
@@ -60,6 +60,9 @@ describe('api/tips: reading', () => {
     await list();
     expect(db.docs['tip_views/me_ann_bell'].firstAt).toBe(5);
   });
+  it('finds tips under a renamed place by its current id', async () => {
+    expect((await call('GET', { query: { region: 'philly', landmarkId: 'old-bell' } })).body.tips.map((t) => t.id)).toContain('ann_bell');
+  });
   it('needs a sign-in and a place', async () => {
     expect((await call('GET', { query: { region: 'philly' } })).code).toBe(400);
     caller = null;
@@ -92,7 +95,7 @@ describe('api/tips: helpful, saved and reports', () => {
     await report();
     expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 1, hidden: false });
     expect(db.docs['tips/ann_bell'].reportedBy).toBeUndefined();
-    expect(db.docs['tips/ann_bell/reports/me']).toMatchObject({ uid: 'me', reason: 'offensive' });
+    expect(db.docs['tip_reports/ann_bell_me']).toMatchObject({ uid: 'me', tipId: 'ann_bell', reason: 'offensive' });
     caller = { uid: 'zed', emailVerified: true };
     await report();
     expect(db.docs['tips/ann_bell']).toMatchObject({ reportCount: 2, hidden: true });

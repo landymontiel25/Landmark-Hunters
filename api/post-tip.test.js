@@ -11,6 +11,7 @@ vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => caller }));
 vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 vi.mock('./_lib/firebaseAdmin.js', () => ({ adminDb: () => db, adminBucket: async () => ({ file: (p) => ({ delete: async () => deleted.push(p) }) }) }));
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: fakeFieldValue }));
+vi.mock('../src/data/regions.js', () => ({ canonicalLandmarkId: (id) => (id === 'old-bell' ? 'bell' : id) }));
 
 const { default: handler } = await import('./post-tip.js');
 
@@ -62,6 +63,19 @@ describe('api/post-tip: posting', () => {
     expect((await call({ checkinId: 'you_bell', text: 'Go early, quiet then.' })).code).toBe(403);
     expect((await call({ checkinId: 'me_none', text: 'Go early, quiet then.' })).body.code).toBe('no-checkin');
     expect(db.docs['tips/me_bell']).toBeUndefined();
+  });
+  it('files a tip under the place\'s current id when the check-in has an old one', async () => {
+    db.docs['checkins/me_old-bell'] = checkin({ landmarkId: 'old-bell' });
+    expect((await call({ checkinId: 'me_old-bell', text: 'Go early, quiet then.' })).body.tipId).toBe('me_bell');
+    expect(db.docs['tips/me_bell'].landmarkId).toBe('bell');
+  });
+  it('a re-posted tip starts with no reports or marks from the deleted one', async () => {
+    await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' });
+    db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell' };
+    db.docs['tip_reactions/you_me_bell'] = { uid: 'you', tipId: 'me_bell', helpful: true };
+    await call({ action: 'delete', landmarkId: 'bell' });
+    expect(db.docs['tip_reports/me_bell_you']).toBeUndefined();
+    expect(db.docs['tip_reactions/you_me_bell']).toBeUndefined();
   });
   it('allows one tip per person per place', async () => {
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(200);
@@ -121,10 +135,13 @@ describe('api/post-tip: deleting', () => {
     db.docs['tips/you_x'] = { authorUid: 'you', status: 'live', counts: { helpful: 3, saved: 2 } };
     db.docs['tip_reactions/me_you_x'] = { uid: 'me', tipId: 'you_x', helpful: true, saved: true };
     db.docs['tip_views/me_you_x'] = { uid: 'me', tipId: 'you_x' };
+    db.docs['tip_views/you_me_b'] = { uid: 'you', tipId: 'me_b', authorUid: 'me' };
+    db.docs['tip_reports/you_x_me'] = { uid: 'me', tipId: 'you_x', reason: 'spam' };
     const { code, body } = await call({ action: 'delete-mine' });
     expect(code).toBe(200);
     expect(body).toMatchObject({ tips: 2, reactions: 1 });
-    expect(Object.keys(db.docs).filter((k) => k.startsWith('tips/me_') || k.startsWith('tip_reactions/me_') || k.startsWith('tip_views/me_'))).toEqual([]);
+    expect(Object.keys(db.docs).filter((k) => k.startsWith('tips/me_') || k.startsWith('tip_reactions/me_') || k.startsWith('tip_views/'))).toEqual([]);
+    expect(db.docs['tip_reports/you_x_me']).toBeUndefined();
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });
     expect(deleted).toEqual(['tip_photos/me/b.jpg']);
   });

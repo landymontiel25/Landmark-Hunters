@@ -23,6 +23,29 @@ export async function blockedBetween(db, uid) {
   return set;
 }
 
+// Is there a block between a and b, either way? Two direct gets, the same
+// ids the rules check.
+export async function blockedEitherWay(db, a, b) {
+  const [x, y] = await Promise.all([db.collection('blocks').doc(`${a}_${b}`).get(), db.collection('blocks').doc(`${b}_${a}`).get()]);
+  return x.exists || y.exists;
+}
+
+// Every tip report (tip_reports/{tipId}_{uid}) and helpful/saved mark
+// (tip_reactions) on one tip, removed with the tip so a re-posted tip at
+// the same id starts clean.
+export async function deleteTipChildren(db, tipId) {
+  const [reactions, reports] = await Promise.all([
+    db.collection('tip_reactions').where('tipId', '==', tipId).get(),
+    db.collection('tip_reports').where('tipId', '==', tipId).get(),
+  ]);
+  const all = [...reactions.docs, ...reports.docs];
+  for (let i = 0; i < all.length; i += 400) {
+    const b = db.batch();
+    for (const d of all.slice(i, i + 400)) b.delete(d.ref);
+    await b.commit();
+  }
+}
+
 // A Firebase Storage download URL for a file in tip_photos/{uid}/, and its
 // path. Anything else (another host, another folder, someone else's photo)
 // is null.
@@ -38,9 +61,9 @@ export function tipPhotoPath(url, uid, bucket = process.env.VITE_FIREBASE_STORAG
   if (u.protocol !== 'https:' || u.hostname !== 'firebasestorage.googleapis.com') return null;
   const m = u.pathname.match(/^\/v0\/b\/([^/]+)\/o\/([^/]+)$/);
   if (!m) return null;
-  if (bucket && decodeURIComponent(m[1]) !== bucket) return null;
   let path;
   try {
+    if (bucket && decodeURIComponent(m[1]) !== bucket) return null;
     path = decodeURIComponent(m[2]);
   } catch {
     return null;

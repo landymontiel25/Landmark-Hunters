@@ -81,8 +81,15 @@ reads, server writes; `tip_views` server-only. `recommendation_log` takes
 the `'landmark-page'` surface. Storage `tip_photos/{uid}/` takes the owner's
 images under 5 MB. `firestore.indexes.json` is new and deploys last in the
 rules workflow (the service account may need the Cloud Datastore Index
-Admin role). Next: `api/post-tip.js`, the tips UI, the dashboard Content
-page.
+Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
+`delete-mine` on account deletion, which `accountDeletion.js` calls) and
+`api/tips.js` (a place's live tips with blocks hidden both ways, helpful
+and saved, reports). Reporters live in server-only `tip_reports/` (no rule
+matches it, so clients are denied), never on the tip. The word filter
+(`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read
+records `tip_views` for the Phase 4 "went" count. A tip's photo is deleted
+with its tip when `VITE_FIREBASE_STORAGE_BUCKET` is set on the server.
+Next: the tips UI, the dashboard Content page.
 
 ## Live location on group trips: updates only while the app is open (2026-10-13)
 

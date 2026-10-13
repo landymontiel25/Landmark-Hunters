@@ -3,7 +3,8 @@ import { isRateLimited } from './_lib/rateLimit.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
-import { deleteTipPhoto, tipPhotoPath, toMs } from './_lib/tipsServer.js';
+import { deleteTipChildren, deleteTipPhoto, tipPhotoPath, toMs } from './_lib/tipsServer.js';
+import { canonicalLandmarkId } from '../src/data/regions.js';
 import { cleanTipText, tipCheckinProblem, tipIdFor, tipInputProblem, TIP_RATE_LIMIT } from '../src/lib/tips.js';
 import { filterTipText } from '../src/lib/tipFilter.js';
 
@@ -56,12 +57,15 @@ async function postTip(db, account, body) {
   const clean = cleanTipText(text);
   const filtered = filterTipText(clean);
   const status = filtered.flagged ? 'held' : 'live';
-  const tipId = tipIdFor(account.uid, checkin.landmarkId);
+  // The place's current id (a renamed landmark keeps old check-ins under
+  // its old id), so the tip shows on the page and stays one per place.
+  const landmarkId = canonicalLandmarkId(checkin.landmarkId, checkin.region);
+  const tipId = tipIdFor(account.uid, landmarkId);
   const ref = db.collection('tips').doc(tipId);
   const tip = {
     authorUid: account.uid,
     authorName: String(user.username || user.displayName || 'Explorer').slice(0, 60),
-    landmarkId: checkin.landmarkId,
+    landmarkId,
     landmarkName: String(checkin.landmarkName || '').slice(0, 200),
     region: checkin.region || null,
     checkinId,
@@ -90,44 +94,37 @@ async function postTip(db, account, body) {
   return [200, { ok: true, tipId, status }];
 }
 
-// Removes one tip's helpful/saved marks (anyone's) with it.
-async function deleteReactionsFor(db, tipId) {
-  const snap = await db.collection('tip_reactions').where('tipId', '==', tipId).get();
-  for (let i = 0; i < snap.docs.length; i += 400) {
-    const b = db.batch();
-    for (const d of snap.docs.slice(i, i + 400)) b.delete(d.ref);
-    await b.commit();
-  }
-}
-
 async function deleteTip(db, account, body) {
   const { landmarkId } = body;
   if (typeof landmarkId !== 'string' || !/^[\w.-]{1,300}$/.test(landmarkId)) return [400, { error: 'landmarkId is required.' }];
-  const tipId = tipIdFor(account.uid, landmarkId);
+  const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
   const ref = db.collection('tips').doc(tipId);
   const snap = await ref.get();
   if (!snap.exists || snap.data().authorUid !== account.uid) return [404, { error: 'No tip of yours here.' }];
   // A tip the owner removed stays, so its author can't post it again.
   if (snap.data().status === 'removed') return [403, { error: 'This tip was removed by a moderator.', code: 'removed' }];
   await ref.delete();
-  await deleteReactionsFor(db, tipId);
+  await deleteTipChildren(db, tipId);
   await deleteTipPhoto(snap.data().photoPath);
   return [200, { ok: true }];
 }
 
 // Account deletion (src/lib/accountDeletion.js): the caller's tips (removed
 // ones too: the account is going), their marks on others' tips (and those
-// tips' counts), and the server's record of what they viewed.
+// tips' counts), their reports, and the server's record of what they viewed
+// and who viewed their tips.
 async function deleteMine(db, account) {
   const uid = account.uid;
-  const [tips, reactions, views] = await Promise.all([
+  const [tips, reactions, views, authorViews, reports] = await Promise.all([
     db.collection('tips').where('authorUid', '==', uid).get(),
     db.collection('tip_reactions').where('uid', '==', uid).get(),
     db.collection('tip_views').where('uid', '==', uid).get(),
+    db.collection('tip_views').where('authorUid', '==', uid).get(),
+    db.collection('tip_reports').where('uid', '==', uid).get(),
   ]);
   for (const d of tips.docs) {
     await d.ref.delete();
-    await deleteReactionsFor(db, d.id);
+    await deleteTipChildren(db, d.id);
     await deleteTipPhoto(d.data().photoPath);
   }
   for (const d of reactions.docs) {
@@ -144,9 +141,12 @@ async function deleteMine(db, account) {
       tx.delete(d.ref);
     });
   }
-  for (let i = 0; i < views.docs.length; i += 400) {
+  // Their reports go (who reported), the counts they added stay: a hide
+  // from reports must not lift because a reporter left.
+  const rest = [...views.docs, ...authorViews.docs, ...reports.docs];
+  for (let i = 0; i < rest.length; i += 400) {
     const b = db.batch();
-    for (const d of views.docs.slice(i, i + 400)) b.delete(d.ref);
+    for (const d of rest.slice(i, i + 400)) b.delete(d.ref);
     await b.commit();
   }
   return [200, { ok: true, tips: tips.size, reactions: reactions.size }];
@@ -162,7 +162,10 @@ async function handler(req, res) {
   // Deleting is always allowed (account deletion must never be blocked).
   if (action === 'post') {
     if (!account.emailVerified) return send(res, 403, { error: 'Verify your email to share tips.', code: 'email' });
-    if (isRateLimited(req, 'post-tip', { ...TIP_RATE_LIMIT, id: account.uid })) {
+    // Attempts, not tips: a few retries after a refused tip must not lock
+    // anyone out. The 10-tips-an-hour count is the account's own saved
+    // tips (postTip).
+    if (isRateLimited(req, 'post-tip', { limit: TIP_RATE_LIMIT.limit * 3, windowMs: TIP_RATE_LIMIT.windowMs, id: account.uid })) {
       return send(res, 429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' });
     }
   } else if (isRateLimited(req, 'post-tip-delete', { limit: 60, windowMs: HOUR_MS, id: account.uid })) {

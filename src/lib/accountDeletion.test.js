@@ -83,6 +83,7 @@ vi.mock('firebase/storage', () => ({
 vi.mock('./firebase', () => ({ db: {}, storage: {} }));
 vi.mock('./reviews', () => ({ deleteMyReview: vi.fn() }));
 vi.mock('./maprChats', () => ({ deleteProject: vi.fn() }));
+vi.mock('./tipsApi', () => ({ deleteAllMyTips: vi.fn(async () => ({ ok: true })) }));
 
 import { deleteAccountData, clearLocalAccountStorage } from './accountDeletion';
 
