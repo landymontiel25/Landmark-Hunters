@@ -498,3 +498,132 @@ button.back-sticky,
   font-weight: 600;
   color: var(--text-secondary);
 }
+
+/* Taste Profile (Test tab): the tappable score and the Vivino-style sheet. */
+.taste-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--mapr-blue, #5b8cff);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.taste-link-small {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.taste-sheet-title {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+.taste-summary {
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+.taste-heading {
+  margin: 18px 0 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+.taste-row {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 80px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.taste-row-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.taste-row-word {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+.taste-scale {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border-subtle, rgba(255, 255, 255, 0.1));
+}
+.taste-scale-mid {
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--text-secondary);
+  opacity: 0.5;
+}
+.taste-scale-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+}
+.taste-scale-fill.pos {
+  background: #22c55e;
+}
+.taste-scale-fill.neg {
+  background: #ef4444;
+}
+.taste-scale-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  padding: 0 80px 0 calc((100% - 80px) / 2.3);
+}
+.taste-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.taste-chip {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.taste-chip.love {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+.taste-chip.skip {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+.taste-words {
+  margin: 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+.taste-comment {
+  width: 100%;
+  font: inherit;
+}
+.taste-changes {
+  margin-top: 10px;
+}
+.taste-changes-head {
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+.taste-changes ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.taste-changes li.up {
+  color: #22c55e;
+}
+.taste-changes li.down {
+  color: #ef4444;
+}
