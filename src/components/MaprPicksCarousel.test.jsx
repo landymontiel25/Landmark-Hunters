@@ -29,6 +29,8 @@ const solo = vi.hoisted(() => ({ closes: 0, reply: { ok: true, closed: true } })
 vi.mock('../lib/soloStreaks', () => ({ closeSoloToday: () => { solo.closes += 1; return Promise.resolve(solo.reply); } }));
 vi.mock('../lib/BadgesContext', () => ({ useBadges: () => ({ reload: () => {}, actionsToday: 0 }) }));
 vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
+// The Google rating line: stubbed to a marker naming its landmark.
+vi.mock('./ratings/RatingsCardLine', () => ({ default: ({ landmark }) => <span className="ratings-line-stub">{landmark.id}</span> }));
 
 import MaprPicksCarousel from './MaprPicksCarousel';
 
@@ -61,6 +63,13 @@ describe('Mapr Travel Picks', () => {
     expect(names.length).toBeGreaterThan(0);
     const villanovaLandmarks = ALL_LANDMARKS.filter((l) => l.regionId === 'villanova');
     expect(names.every((n) => villanovaLandmarks.some((l) => l.name === n))).toBe(true);
+  });
+
+  it('each card carries its landmark\'s Google rating line', async () => {
+    await render({ reviews: [], checkedInIds: [] });
+    const cards = [...container.querySelectorAll('.mapr-pick')];
+    expect(cards.length).toBeGreaterThan(0);
+    for (const card of cards) expect(card.querySelector('.ratings-line-stub')?.textContent).toBe(card.dataset.pickKey.split('/')[1]);
   });
 
   it('excludes landmarks already reviewed or checked into', async () => {

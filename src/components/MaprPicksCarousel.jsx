@@ -13,6 +13,7 @@ import { usePersistentState } from '../lib/usePersistentState';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion } from '../data/regions';
 import { isRateable, isVisitedReview } from '../lib/ratingFlow';
+import RatingsCardLine from './ratings/RatingsCardLine';
 import { getPickFeedback, readLocalFeedback, votedIds } from '../lib/pickFeedback';
 import { usePickVotes } from '../lib/usePickVotes';
 import { closeSoloToday } from '../lib/soloStreaks';
@@ -278,6 +279,9 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
               <span className="mapr-pick-name">{l.name}</span>
               <span className="mapr-pick-sub">{(l.summary || '').split(/(?<=[.!?])\s/)[0]}</span>
             </button>
+            {/* Google rating (components/ratings). Not on the Map tab's cards:
+                Google forbids its Places content beside a non-Google map. */}
+            <RatingsCardLine landmark={l} />
             <PickVoteButtons name={l.name} vote={votes[l.id]} onVote={(v) => vote(l, v)} onRetry={() => retry(l.id)} />
           </OnScreen>
         ))}

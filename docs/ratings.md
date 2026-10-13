@@ -14,7 +14,7 @@ app's own Landmark Hunters rating is built and switched off.
 | Filling the IDs | `scripts/match-rating-sources.mjs` (matching rules in `scripts/rating-sources/match.js`) |
 | Endpoint | `api/landmark-ratings.js` (fetchers in `api/_lib/ratingSources.js`) |
 | Client | `src/lib/landmarkRatings.js`, `src/lib/useLandmarkRatings.js` |
-| UI | `src/components/ratings/` (`RatingsCardLine` on the Landmarks tab rows, `RatingsSection` on the landmark page) |
+| UI | `src/components/ratings/` (`RatingsCardLine` on the Places tab rows and the Mapr Travel Picks cards, `RatingsSection` on the landmark page). Not on the Map tab's pick cards: they sit over our Leaflet map, and Google forbids Places content with a non-Google map. |
 
 The IDs live in one map instead of inside each landmark's own data: 2,253
 of the 3,498 places sit in generated, content-hashed pack files
