@@ -104,7 +104,6 @@ function afterTools(ctx, results) {
   ctx.toolOuts.push(...results.map((x) => x.out));
   const garble = style === 'liar' || (style === 'sloppy' && r() < 0.5);
   const parts = [];
-  let searched = false;
   for (const { name, out } of results) {
     if (name === 'route_between') {
       if (out.error) {
@@ -126,15 +125,15 @@ function afterTools(ctx, results) {
         continue;
       }
       const total = garble ? guessMin(r) : out.totalMinutes;
-      parts.push(`Go ${out.order.join(', then ')}. That's ${total} minutes of ${out.mode} in all.`);
-      if (!garble && r() < 0.5) parts.push(`First leg is ${out.legs[0].minutes} minutes.`);
+      const first = !garble && r() < 0.5 ? `, and the first leg is ${out.legs[0].minutes} minutes of ${out.mode}` : '';
+      parts.push(`Go ${out.order.join(', then ')}. That's ${total} minutes of ${out.mode} in all${first}.`);
     }
   }
   if (style === 'liar' && r() < 0.3) {
     parts.push(`Entry is $${10 + Math.floor(r() * 40)}.`);
   }
   void world;
-  return text(json(parts.join(' ')), searched ? { server_tool_use: { web_search_requests: 1 } } : {});
+  return text(json(parts.join(' ')));
 }
 
 export function fakeCreate(ctx) {

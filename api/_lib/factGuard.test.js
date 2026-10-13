@@ -36,6 +36,12 @@ describe('fact guard: distances and travel times', () => {
     expect(c.map((x) => [x.lo, x.hi])).toEqual([[14.6, 14.6], [84, 84], [90, 90], [20, 25]]);
   });
 
+  it('keeps a checked distance to a place with initials in its name', () => {
+    const r = { from: { name: 'your location' }, to: { name: 'F. M. Kirby Auditorium' }, miles: 2.3, km: 3.7, minutes: 9 };
+    const t = 'F. M. Kirby Auditorium is 2.3 miles from your location, about 9 minutes by car.';
+    expect(guardReply(t, { routes: [r], askedTravel: true }).reply).toBe(t);
+  });
+
   it('leaves visit lengths and app how-tos alone', () => {
     for (const t of ['Plan to spend about 2 hours at the museum.', 'It takes about 2 minutes to add a landmark.', 'The tour runs 90 minutes.']) {
       expect(guardReply(t, {}).reply).toBe(t);

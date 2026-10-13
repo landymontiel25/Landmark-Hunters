@@ -167,7 +167,7 @@ function sentences(text) {
   const out = [];
   for (const p of parts) {
     const prev = out[out.length - 1];
-    if (prev && /(?:^|\s)(St|Mt|Dr|Ft|Mr|Mrs|Ms|vs|approx|No|[ap]\.m)\.$/i.test(prev.text)) prev.text += ' ' + p;
+    if (prev && (/(?:^|\s)(St|Mt|Dr|Ft|Mr|Mrs|Ms|vs|approx|No|[ap]\.m)\.$/i.test(prev.text) || (/(?:^|\s)[A-Z]\.$/.test(prev.text) && /^[A-Z]/.test(p)))) prev.text += ' ' + p;
     else out.push({ text: p });
   }
   return out;

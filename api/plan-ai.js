@@ -223,8 +223,11 @@ export const ASKS_FOR_LONGER = /\b(tell me more|more (detail|info|about)|details
 const ALWAYS_ABBR = /(?:^|\s)(?:Mr|Mrs|Ms|Jr|Sr|vs|e\.g|i\.e|approx|No|est)\.$/i;
 const NAME_ABBR = /(?:^|\s)(St|Mt|Dr|Ft)\.$/;
 const TIME_ABBR = /(?:^|\s)[ap]\.m\.$/i;
+// A capital initial in a name ("F. M. Kirby Auditorium", "John F. Kennedy").
+const INITIAL = /(?:^|\s)[A-Z]\.$/;
 function glues(prev, part) {
   if (ALWAYS_ABBR.test(prev)) return true;
+  if (INITIAL.test(prev) && /^[A-Z]/.test(part)) return true;
   if (TIME_ABBR.test(prev)) return /^[a-z0-9]/.test(part);
   if (!NAME_ABBR.test(prev)) return false;
   if (/^[a-z0-9]/.test(part)) return true;

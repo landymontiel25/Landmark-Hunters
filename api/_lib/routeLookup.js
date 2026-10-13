@@ -121,7 +121,7 @@ const TRAVEL_PATTERNS = [
   /\b(?:minutes?|mins?|miles?|hours?|hrs?|km) (?:away|drive|walk|ride|from (?!now|today))/i,
   /\b(?:make it|get) (?:to|from|there)\b[^?.!]*\bin \d+\s*(?:min|mins|minutes|hours?|hrs?)\b/i,
   // "is X far", "is X close to Y", "is X nearby" -- not "is there a park nearby".
-  /\b(?:is|are|isn'?t)\s+(?!there\b|any\b|anything\b|anywhere\b|something\b|somewhere\b)[^?.!]{2,80}?\s(?:far|close|nearby|near me|close by|close to|far from|near)\b(?!\s+(?:me\s+)?(?:for|that|which|with)\b)/i,
+  /\b(?:is|are|isn'?t)\s+(?!there\b|any\b|anything\b|anywhere\b|something\b|somewhere\b)[^?!]{2,80}?\s(?:far|close|nearby|near me|close by|close to|far from|near)\b(?!\s+(?:me\s+)?(?:for|that|which|with)\b)/i,
 ];
 export const asksDistanceOrTime = (text) => {
   const t = String(text || '');
