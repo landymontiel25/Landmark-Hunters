@@ -1,5 +1,5 @@
 // Where a list is limited to: everywhere, a state or country, one app city
-// (region), or one town inside a city (South Florida's Miami, Silicon Valley's
+// (region), or one town inside a city (Miami's Coral Gables, Silicon Valley's
 // Palo Alto). A scope is a short key so it can be saved and compared:
 //   'all' | 'g:<group id>' | 'r:<region id>' | 'a:<region id>:<town name>'
 // A bare region id (older saved values) reads as 'r:<id>'.
@@ -7,9 +7,8 @@ import { PICKABLE_REGIONS, getRegion, canonicalRegionId } from '../data/regions'
 import { SUB_AREAS } from '../data/cityAreas';
 import { matchesSearch } from './search';
 
-// US cities group by state, everywhere else by country. South Florida is the
-// only part of Florida in the app, so its state goes by that name.
-const GROUP_LABEL = { 'us-Florida': 'South Florida' };
+// US cities group by state, everywhere else by country.
+const GROUP_LABEL = {};
 const groupIdOf = (r) => (r.country === 'USA' ? `us-${r.state}` : `c-${r.country}`);
 
 export const CITY_GROUPS = (() => {
@@ -37,6 +36,10 @@ export const CITY_GROUPS = (() => {
     .sort((a, b) => a.label.localeCompare(b.label));
 })();
 
+// A town named like its city (the city of Miami inside the Miami region)
+// reads "City of Miami", so the two never look the same in a list.
+export const townLabel = (name, regionId) => (getRegion(regionId)?.name === name ? `City of ${name}` : name);
+
 export const groupOfRegion = (regionId) => CITY_GROUPS.find((g) => g.regionIds.includes(canonicalRegionId(regionId))) || null;
 
 // A group with one city is that city.
@@ -52,7 +55,7 @@ export function scopeFromKey(key) {
     const [, regionId, ...rest] = key.split(':');
     const name = rest.join(':');
     const area = (SUB_AREAS[regionId] || []).find((a) => a.name === name);
-    return area ? { key, label: name, regionIds: [regionId], area } : scopeFromKey(`r:${regionId}`);
+    return area ? { key, label: townLabel(name, regionId), regionIds: [regionId], area } : scopeFromKey(`r:${regionId}`);
   }
   const id = canonicalRegionId(key.startsWith('r:') ? key.slice(2) : key);
   const r = getRegion(id);
@@ -130,7 +133,7 @@ export function scopeRows(query, { withAll = true } = {}) {
   for (const [regionId, areas] of Object.entries(SUB_AREAS)) {
     const r = getRegion(regionId);
     for (const a of areas) {
-      if (matchesSearch([a.name, ...(a.aliases || [])].join(' '), q)) add({ key: `a:${regionId}:${a.name}`, primary: a.name, secondary: r.name });
+      if (matchesSearch([a.name, ...(a.aliases || [])].join(' '), q)) add({ key: `a:${regionId}:${a.name}`, primary: townLabel(a.name, regionId), secondary: r.name });
     }
   }
   const lower = q.toLowerCase();

@@ -7,7 +7,7 @@ describe('city scopes', () => {
   it('groups US cities by state and the rest by country', () => {
     const ca = CITY_GROUPS.find((g) => g.label === 'California');
     expect(ca.regionIds.sort()).toEqual(['san-francisco', 'silicon-valley']);
-    expect(CITY_GROUPS.find((g) => g.label === 'South Florida').regionIds).toEqual(['miami']);
+    expect(CITY_GROUPS.find((g) => g.label === 'Florida').regionIds).toEqual(['miami']);
     expect(CITY_GROUPS.find((g) => g.label === 'Spain').regionIds.length).toBe(3);
   });
 
@@ -24,9 +24,11 @@ describe('city scopes', () => {
   });
 
   it('finds a town inside a city and limits to it', () => {
-    expect(keys('miami')[0]).toBe('a:miami:Miami');
+    // The whole Miami region first, then the city of Miami inside it.
+    expect(keys('miami')[0]).toBe('r:miami');
+    expect(keys('miami')).toContain('a:miami:Miami');
     const miami = scopeFromKey('a:miami:Miami');
-    expect(miami.label).toBe('Miami');
+    expect(miami.label).toBe('City of Miami');
     expect(inScope({ regionId: 'miami', lat: 25.7743, lng: -80.1937 }, miami)).toBe(true); // downtown Miami
     expect(inScope({ regionId: 'miami', lat: 25.7907, lng: -80.13 }, miami)).toBe(false); // Miami Beach
     expect(inScope({ regionId: 'paris', lat: 25.7743, lng: -80.1937 }, miami)).toBe(false);

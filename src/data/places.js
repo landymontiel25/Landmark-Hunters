@@ -274,7 +274,7 @@ export const COUNTRIES = [
 // Flattened, uniform shape for the map search box: a name, a sub-label, a
 // coordinate to fly to, and a zoom level suited to the size of the thing.
 export const SEARCHABLE_PLACES = [
-  // Every app city (South Florida, Silicon Valley, Paris...), under its state
+  // Every app city (Miami, Silicon Valley, Paris...), under its state
   // or country, then the towns inside the multi-town ones.
   ...PICKABLE_REGIONS.filter((r) => REGION_AREAS[r.id]).map((r) => ({
     id: `city-${r.id}`,
@@ -284,7 +284,7 @@ export const SEARCHABLE_PLACES = [
     ...REGION_AREAS[r.id],
   })),
   ...SILICON_VALLEY_TOWNS.map((p) => ({ id: `sv-${p.name}`, name: p.name, sub: 'Silicon Valley', kind: 'city', lat: p.lat, lng: p.lng, zoom: p.zoom, area: p.area })),
-  ...SOUTH_FLORIDA_PLACES.map((p) => ({ id: `sfl-${p.name}`, name: p.name, sub: 'South Florida', kind: 'city', lat: p.lat, lng: p.lng, zoom: p.zoom, area: p.area, radius: p.radius })),
+  ...SOUTH_FLORIDA_PLACES.map((p) => ({ id: `sfl-${p.name}`, name: p.name, sub: 'Miami area', kind: 'city', lat: p.lat, lng: p.lng, zoom: p.zoom, area: p.area, radius: p.radius })),
   ...US_STATES.map((s) => ({ id: `state-${s.name}`, name: s.name, sub: 'US State', kind: 'state', lat: s.lat, lng: s.lng, zoom: 6 })),
   ...COUNTRIES.map((c) => ({ id: `country-${c.name}`, name: c.name, sub: 'Country', kind: 'country', lat: c.lat, lng: c.lng, zoom: 4 })),
 ];
