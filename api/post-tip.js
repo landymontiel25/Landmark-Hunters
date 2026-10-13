@@ -19,7 +19,7 @@ import {
   send,
   visitMonthOf,
 } from './_lib/tipsServer.js';
-import { canonicalLandmarkId } from '../src/data/regions.js';
+import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { cleanTipText, tipCheckinProblem, tipIdFor, tipInputProblem, TIP_RATE_LIMIT } from '../src/lib/tips.js';
 import { filterTipText } from '../src/lib/tipFilter.js';
 
@@ -132,11 +132,15 @@ async function postTip(db, account, body) {
 //   otherwise                 deleted (live, or held by the filter and
 //                             never public)
 // A kept tip keeps its text and photo until the owner reviews it, even on
-// account deletion: it is moderation evidence, never public again.
-async function retireTip(db, ref, uid) {
+// account deletion: it is moderation evidence, never public again. On
+// account deletion (forAccount) its author name goes.
+// region, when given, must be the tip's: a delete from one region's page
+// never touches a tip in another.
+async function retireTip(db, ref, uid, { forAccount = false, region = null } = {}) {
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     if (!snap.exists || snap.data().authorUid !== uid) return { code: 'missing' };
+    if (region && canonicalRegionId(snap.data().region) !== canonicalRegionId(region)) return { code: 'missing' };
     const t = snap.data();
     const kept = t.status === 'removed' || t.status === 'withdrawn' || (t.reportCount || 0) > 0;
     if (!kept) {
@@ -144,7 +148,11 @@ async function retireTip(db, ref, uid) {
       return { code: 'deleted', tip: t };
     }
     const status = t.status === 'removed' ? 'removed' : 'withdrawn';
-    if (t.status !== status) tx.update(ref, { status, withdrawnAt: Date.now(), updatedAt: FieldValue.serverTimestamp() });
+    const changes = {
+      ...(t.status !== status ? { status, withdrawnAt: Date.now() } : {}),
+      ...(forAccount ? { authorName: 'Deleted account', accountDeletedAt: Date.now() } : {}),
+    };
+    if (Object.keys(changes).length) tx.update(ref, { ...changes, updatedAt: FieldValue.serverTimestamp() });
     return { code: status, tip: t };
   });
 }
@@ -153,7 +161,7 @@ async function deleteTip(db, account, body) {
   const { landmarkId } = body;
   if (typeof landmarkId !== 'string' || !ID_RE.test(landmarkId)) return [400, { error: 'landmarkId is required.' }];
   const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
-  const out = await retireTip(db, db.collection('tips').doc(tipId), account.uid);
+  const out = await retireTip(db, db.collection('tips').doc(tipId), account.uid, { region: typeof body.region === 'string' ? body.region : null });
   if (out.code === 'missing') return [404, { error: 'No tip of yours here.' }];
   if (out.code === 'removed') return [403, { error: 'This tip was removed by a moderator.', code: 'removed' }];
   if (out.code === 'withdrawn') return [200, { ok: true, withdrawn: true }];
@@ -188,7 +196,7 @@ async function deleteMine(db, account) {
   const keptPhotos = new Set();
   const tipSteps = await Promise.allSettled(
     tips.docs.map(async (d) => {
-      const out = await retireTip(db, d.ref, uid);
+      const out = await retireTip(db, d.ref, uid, { forAccount: true });
       if (out.code === 'deleted') await deleteTipChildren(db, d.id, out.tip.gen);
       else if (out.tip?.photoPath) keptPhotos.add(out.tip.photoPath);
     })
@@ -245,7 +253,9 @@ async function discardPhoto(db, account, body) {
     return true;
   });
   if (!free) return [409, { error: 'That photo is on a tip.', code: 'photo-used' }];
-  await deleteTipPhoto(path);
+  // A failed delete answers 500 so the app tries again (the discarded claim
+  // lets a retry through).
+  if (!(await deleteTipPhoto(path))) return [500, { error: 'Could not remove the photo. Try again.' }];
   return [200, { ok: true }];
 }
 

@@ -51,10 +51,10 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   const own = ownSnap.exists && canonicalRegionId(ownSnap.data().region) === want ? [[ownId, ownSnap.data()]] : [];
   const shown = [...own, ...visible.slice(0, MAX_TIPS)];
 
-  const viewed = shown.filter(([, t]) => t.authorUid !== viewerUid && t.status === 'live');
-  const others = shown.filter(([, t]) => t.authorUid !== viewerUid);
+  // Everyone else's tips here are live and public (the own tip is first).
+  const others = shown.slice(own.length);
   const reactionRefs = others.map(([tipId]) => db.collection('tip_reactions').doc(`${viewerUid}_${tipId}`));
-  const viewRefs = viewed.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
+  const viewRefs = others.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
   const [reactionSnaps, viewSnaps] = await Promise.all([
     reactionRefs.length ? db.getAll(...reactionRefs) : [],
     viewRefs.length ? db.getAll(...viewRefs) : [],
@@ -68,7 +68,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   // post of the tip) never moves.
   const batch = db.batch();
   let writes = 0;
-  viewed.forEach(([tipId, t], i) => {
+  others.forEach(([tipId, t], i) => {
     const prev = viewSnaps[i].exists && madeOnThisPost(viewSnaps[i].data(), t) ? viewSnaps[i].data() : null;
     if (prev && nowMs - (prev.lastAt || 0) < VIEW_REFRESH_MS) return;
     writes++;

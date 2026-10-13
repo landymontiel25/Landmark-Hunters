@@ -165,6 +165,11 @@ describe('api/post-tip: deleting', () => {
     expect((await call({ action: 'delete', landmarkId: 'bell' })).body).toEqual({ ok: true });
     expect(db.docs['tips/me_bell']).toBeUndefined();
   });
+  it('a delete from another region\'s page never touches your tip here', async () => {
+    await post();
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'miami' })).code).toBe(404);
+    expect(db.docs['tips/me_bell']).toBeDefined();
+  });
   it("can't delete someone else's tip or one a moderator removed", async () => {
     db.docs['tips/you_bell'] = { authorUid: 'you', status: 'live' };
     caller = { uid: 'you', emailVerified: true };
@@ -197,7 +202,7 @@ describe('api/post-tip: account deletion', () => {
     const { code, body } = await call({ action: 'delete-mine' });
     expect(code).toBe(200);
     expect(body).toMatchObject({ tips: 3, reactions: 2 });
-    expect(db.docs['tips/me_a']).toMatchObject({ status: 'removed', text: 'awful words' });
+    expect(db.docs['tips/me_a']).toMatchObject({ status: 'removed', text: 'awful words', authorName: 'Deleted account' });
     expect(db.docs['tips/me_r']).toMatchObject({ status: 'withdrawn', text: 'reported once' });
     expect(db.docs['tips/me_b']).toBeUndefined();
     expect(db.docs['tips/you_x'].counts).toEqual({ helpful: 2, saved: 1 });
