@@ -39,8 +39,9 @@ export const tipIdFor = (uid, landmarkId) => `${uid}_${landmarkId}`;
 // http(s) links, www. links and bare domains (example.com/path). Bare
 // domains only for endings that aren't also words, so "views.Us kids",
 // "gift shop.Store hours" or "Jo.Me and my wife" (a missing space) never
-// count as links.
-const LINK_RE = /\b(?:https?:\/\/|www\.)[^\s]+|\b[a-z0-9][a-z0-9-]{0,62}\.(?:com|net|org|io|ly|xyz)\b(?:\/[^\s]*)?/gi;
+// count as links. The ending must be lowercase ("daily.Org groups" is a
+// sentence, "Bellcafe.com" a link).
+const LINK_RE = /\b(?:[Hh][Tt][Tt][Pp][Ss]?:\/\/|[Ww][Ww][Ww]\.)[^\s]+|\b[A-Za-z0-9][A-Za-z0-9-]{0,62}\.(?:com|net|org|io|ly|xyz)\b(?:\/[^\s]*)?/g;
 export function countLinks(text) {
   return (String(text || '').match(LINK_RE) || []).length;
 }

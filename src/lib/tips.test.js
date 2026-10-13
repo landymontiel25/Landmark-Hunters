@@ -22,7 +22,8 @@ describe('tip input', () => {
   it('counts http, www and bare-domain links', () => {
     expect(countLinks('see https://a.com/x and www.b.org and c.io/menu')).toBe(3);
     expect(countLinks('No links here. Just a sentence.')).toBe(0);
-    expect(countLinks('Great views.Us kids loved it. Ask for Jo.Me and my wife went twice. Gift shop.Store hours vary.Online tickets.')).toBe(0);
+    expect(countLinks('Great views.Us kids loved it. Ask for Jo.Me and my wife went twice. Gift shop.Store hours vary.Online tickets. Open daily.Org groups. Try the sandwich.Ly')).toBe(0);
+    expect(countLinks('Bellcafe.com and HTTPS://x.y')).toBe(2);
   });
   it('allows 2 links, never 3, and none in the first week or with an unknown age', () => {
     expect(tipInputProblem({ text: 'Menu at a.com and b.com' }, old)).toBeNull();

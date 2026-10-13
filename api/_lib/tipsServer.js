@@ -8,7 +8,7 @@ export const HOUR_MS = 60 * 60 * 1000;
 // Ids as they reach Firestore paths: letters, digits, _ . - and never '.',
 // '..' or a reserved __name__.
 const ID_CHARS = /^[\w.-]{1,300}$/;
-export const ID_RE = { test: (v) => typeof v === 'string' && ID_CHARS.test(v) && v !== '.' && v !== '..' && !/^__.*__$/.test(v) };
+export const isFirestoreId = (v) => typeof v === 'string' && ID_CHARS.test(v) && v !== '.' && v !== '..' && !/^__.*__$/.test(v);
 export const send = (res, code, body) => res.status(code).json(body);
 
 // The month of a visit ("2026-10"), all a tip keeps: the tip doc is

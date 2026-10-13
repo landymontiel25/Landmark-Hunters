@@ -57,19 +57,26 @@ export function filterTipText(text) {
   // runs of single letters ("f a g g o t"), never across real words, so
   // "wet. Back" or "rag. Head" stay apart.
   const chunks = norm.split(/\s+/).map((c) => c.replace(/[^a-z]/g, '')).filter(Boolean);
-  const squeezed = [...chunks];
+  // Runs of single letters ("a f a g g o t"): any slur inside counts, since
+  // no real word is split that way.
+  const spaced = [];
   for (let i = 0; i < chunks.length; ) {
     let j = i;
     while (j < chunks.length && chunks[j].length === 1) j++;
-    if (j - i >= 3) squeezed.push(chunks.slice(i, j).join(''));
+    if (j - i >= 3) spaced.push(chunks.slice(i, j).join(''));
     i = j > i ? j : i + 1;
   }
   const reasons = new Set();
   const words = norm.split(/[^a-z]+/).filter(Boolean);
   // A squeezed chunk that is the slur (maybe plural), never a word that
   // merely has it inside ("snigger", "sniggering").
-  const slurChunk = (c) => SLUR_CHUNK_RE.test(c);
-  if (squeezed.some(slurChunk) || words.some((w) => SLUR_WORD_SET.has(w))) reasons.add('slur');
+  if (
+    chunks.some((c) => SLUR_CHUNK_RE.test(c)) ||
+    spaced.some((run) => SLURS_SQUEEZED.some((s) => run.includes(s))) ||
+    words.some((w) => SLUR_WORD_SET.has(w))
+  ) {
+    reasons.add('slur');
+  }
   if (words.some((w) => WORD_SET.has(w))) reasons.add('profanity');
   if (PHRASES.some((re) => re.test(norm))) reasons.add('threat-or-spam');
   if (PHONE_RE.test(raw) || EMAIL_RE.test(raw)) reasons.add('contact');

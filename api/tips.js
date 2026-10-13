@@ -4,7 +4,7 @@ import { adminDb } from './_lib/firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { withCors } from './_lib/cors.js';
 import { toMs } from './_lib/time.js';
-import { blockedBetween, blockedEitherWay, HOUR_MS, ID_RE, madeOnThisPost, send, tipForViewer } from './_lib/tipsServer.js';
+import { blockedBetween, blockedEitherWay, HOUR_MS, isFirestoreId, madeOnThisPost, send, tipForViewer } from './_lib/tipsServer.js';
 import { canonicalLandmarkId, canonicalRegionId } from '../src/data/regions.js';
 import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
@@ -164,11 +164,13 @@ export async function reportTip(db, uid, { tipId, reason }) {
     const tip = tipSnap.exists ? tipSnap.data() : null;
     // Still the post you saw, and still public.
     if (!tip || !tipIsPublic(tip) || (tip.gen ?? null) !== (found.tip.gen ?? null)) return false;
-    // One report per person per post.
-    if (rSnap.exists && madeOnThisPost(rSnap.data(), tip)) return true;
+    // One report per person per post (the doc id holds the post's gen).
+    if (rSnap.exists) return true;
     const next = (tip.reportCount || 0) + 1;
     tx.set(reportRef, { uid, tipId, gen: tip.gen ?? null, authorUid: tip.authorUid, reason, at: Date.now() });
-    tx.update(found.ref, { reportCount: next, hidden: next >= TIP_REPORT_HIDE, lastReportedAt: Date.now() });
+    // No report time on the tip: its author can read it, and a time could
+    // point at who reported.
+    tx.update(found.ref, { reportCount: next, hidden: next >= TIP_REPORT_HIDE });
     return true;
   });
   if (!ok) return [404, { error: 'No such tip.' }];
@@ -185,14 +187,14 @@ async function handler(req, res) {
       if (isRateLimited(req, 'tips-read', { limit: 600, windowMs: HOUR_MS, id: account.uid })) return send(res, 429, { error: 'Too many requests. Try again later.' });
       const region = String(req.query?.region || '');
       const landmarkId = String(req.query?.landmarkId || '');
-      if (!ID_RE.test(region) || !ID_RE.test(landmarkId)) return send(res, 400, { error: 'region and landmarkId are required.' });
+      if (!isFirestoreId(region) || !isFirestoreId(landmarkId)) return send(res, 400, { error: 'region and landmarkId are required.' });
       res.setHeader?.('Cache-Control', 'private, no-store');
       // Views count toward "went because of a tip", so only a verified
       // account's are recorded.
       return send(res, 200, await listTips(db, account.uid, { region, landmarkId }, { recordViews: account.emailVerified === true }));
     }
     const body = (req.body && typeof req.body === 'object' ? req.body : null) || {};
-    if (typeof body.tipId !== 'string' || !ID_RE.test(body.tipId)) return send(res, 400, { error: 'tipId is required.' });
+    if (typeof body.tipId !== 'string' || !isFirestoreId(body.tipId)) return send(res, 400, { error: 'tipId is required.' });
     // Marks and reports move counts and hide tips, so they take a verified
     // email, like posting: a throwaway account can't hide a tip.
     if (!account.emailVerified) return send(res, 403, { error: 'Verify your email first.', code: 'email' });

@@ -11,7 +11,7 @@ import {
   deleteTipPhoto,
   deleteTipPhotoFolder,
   HOUR_MS,
-  ID_RE,
+  isFirestoreId,
   madeOnThisPost,
   photoClaimId,
   tipPhotoExists,
@@ -48,7 +48,7 @@ const EXISTS_ERRORS = {
 
 async function postTip(db, account, body) {
   const { checkinId, text, tags = [], photoURL = null } = body;
-  if (typeof checkinId !== 'string' || !ID_RE.test(checkinId) || typeof text !== 'string' || text.length > 2000) {
+  if (typeof checkinId !== 'string' || !isFirestoreId(checkinId) || typeof text !== 'string' || text.length > 2000) {
     return [400, { error: 'checkinId and text are required.' }];
   }
   const nowMs = Date.now();
@@ -160,7 +160,7 @@ async function retireTip(db, ref, uid, { forAccount = false, region = null } = {
 
 async function deleteTip(db, account, body) {
   const { landmarkId } = body;
-  if (typeof landmarkId !== 'string' || !ID_RE.test(landmarkId)) return [400, { error: 'landmarkId is required.' }];
+  if (typeof landmarkId !== 'string' || !isFirestoreId(landmarkId)) return [400, { error: 'landmarkId is required.' }];
   const tipId = tipIdFor(account.uid, canonicalLandmarkId(landmarkId, typeof body.region === 'string' ? body.region : undefined));
   const out = await retireTip(db, db.collection('tips').doc(tipId), account.uid, { region: typeof body.region === 'string' ? body.region : null });
   if (out.code === 'missing') return [404, { error: 'No tip of yours here.' }];
@@ -185,6 +185,16 @@ async function deleteTip(db, account, body) {
 // so a live account calling this can't report a tip twice or post past the
 // limit, and it can do nothing here it couldn't do one tip at a time.
 // Each step runs even if another fails; any failure answers 500.
+// Runs fn over items, `size` at a time; rejects if any call failed.
+async function inChunks(items, size, fn) {
+  let failed = null;
+  for (let i = 0; i < items.length; i += size) {
+    const out = await Promise.allSettled(items.slice(i, i + size).map(fn));
+    failed = failed || out.find((x) => x.status === 'rejected')?.reason || null;
+  }
+  if (failed) throw failed;
+}
+
 async function deleteMine(db, account) {
   const uid = account.uid;
   const [tips, reactions, views, authorViews, claims] = await Promise.all([
@@ -203,7 +213,8 @@ async function deleteMine(db, account) {
     })
   );
   const steps = await Promise.allSettled([
-    ...reactions.docs.map((d) =>
+    // Twenty at a time, so thousands of marks don't contend all at once.
+    inChunks(reactions.docs, 20, (d) =>
       db.runTransaction(async (tx) => {
         const [rSnap, t] = await Promise.all([tx.get(d.ref), tx.get(db.collection('tips').doc(d.data().tipId))]);
         if (!rSnap.exists) return;
