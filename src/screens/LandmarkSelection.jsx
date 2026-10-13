@@ -240,7 +240,8 @@ const LandmarkRow = memo(function LandmarkRow({
             )}
             {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
           </div>
-          <RatingsCardLine landmark={l} />
+          {/* Signed out, the endpoint answers nothing, so the row skips it entirely. */}
+          {user && <RatingsCardLine landmark={l} />}
         </div>
       </div>
       <div className="lr-actions">
