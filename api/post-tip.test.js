@@ -73,9 +73,20 @@ describe('api/post-tip: posting', () => {
     await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' });
     db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell' };
     db.docs['tip_reactions/you_me_bell'] = { uid: 'you', tipId: 'me_bell', helpful: true };
+    db.docs['tips/me_bell'].reportCount = 0;
     await call({ action: 'delete', landmarkId: 'bell' });
     expect(db.docs['tip_reports/me_bell_you']).toBeUndefined();
     expect(db.docs['tip_reactions/you_me_bell']).toBeUndefined();
+  });
+  it('a held or reported tip is withdrawn, not deleted, keeping its reports, and blocks a repost', async () => {
+    await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' });
+    db.docs['tips/me_bell'].reportCount = 1;
+    db.docs['tip_reports/me_bell_you'] = { uid: 'you', tipId: 'me_bell' };
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).body).toMatchObject({ ok: true, withdrawn: true });
+    expect(db.docs['tips/me_bell'].status).toBe('withdrawn');
+    expect(db.docs['tip_reports/me_bell_you']).toBeDefined();
+    expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(409);
+    expect((await call({ action: 'delete', landmarkId: 'bell', region: 'philly' })).code).toBe(403);
   });
   it('allows one tip per person per place', async () => {
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(200);
@@ -84,11 +95,14 @@ describe('api/post-tip: posting', () => {
     expect(again.code).toBe(409);
     expect(db.docs['tips/me_bell'].text).toBe('Go early, quiet then.');
   });
-  it('limits an account to 10 tips an hour, counted from its own tips', async () => {
-    for (let i = 0; i < 10; i++) db.docs[`tips/me_p${i}`] = { authorUid: 'me', createdAtMs: NOW - 1000 };
+  it('limits an account to 10 tips an hour, deleted tips included, across instances', async () => {
+    db.docs['tip_post_log/me'] = { at: Array.from({ length: 10 }, () => NOW - 1000) };
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(429);
-    for (let i = 0; i < 10; i++) db.docs[`tips/me_p${i}`].createdAtMs = NOW - 2 * 60 * 60 * 1000;
+    db.docs['tip_post_log/me'] = { at: Array.from({ length: 10 }, () => NOW - 2 * 60 * 60 * 1000) };
     expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.' })).code).toBe(200);
+    expect(db.docs['tip_post_log/me'].at).toHaveLength(1);
+    await call({ action: 'delete', landmarkId: 'bell', region: 'philly' });
+    expect(db.docs['tip_post_log/me'].at).toHaveLength(1);
   });
   it('refuses links from a first-week account and a third link from anyone', async () => {
     db.docs['users/me'].createdAt = ts(NOW - 2 * DAY);
@@ -97,7 +111,12 @@ describe('api/post-tip: posting', () => {
     expect((await call({ checkinId: 'me_bell', text: 'a.com b.com c.com all good' })).body.code).toBe('too-many-links');
     expect((await call({ checkinId: 'me_bell', text: 'Menu is at bellcafe.com today' })).code).toBe(200);
   });
+  it('refuses any photo when the server has no bucket configured', async () => {
+    delete process.env.VITE_FIREBASE_STORAGE_BUCKET;
+    expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: photo() })).body.code).toBe('bad-photo');
+  });
   it("refuses a photo that isn't a tip photo in your own folder of this app's bucket", async () => {
+    expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: 'https://firebasestorage.googleapis.com/v0/b/%E0/o/x' })).body.code).toBe('bad-photo');
     for (const url of [photo('you'), photo('me', 'p.png'), 'https://evil.com/x.jpg', photo().replace(BUCKET, 'other.appspot.com'), `https://firebasestorage.googleapis.com/v0/b/${BUCKET}/o/${encodeURIComponent('review_photos/me/me.jpg')}`]) {
       expect((await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: url })).body.code).toBe('bad-photo');
     }
@@ -111,13 +130,15 @@ describe('api/post-tip: posting', () => {
 });
 
 describe('api/post-tip: deleting', () => {
-  it('deletes your own tip, its marks and its photo', async () => {
+  it('deletes your own tip, its marks, views and photo, by its current id', async () => {
     await call({ checkinId: 'me_bell', text: 'Go early, quiet then.', photoURL: photo() });
     db.docs['tip_reactions/you_me_bell'] = { uid: 'you', tipId: 'me_bell', helpful: true };
-    const { code } = await call({ action: 'delete', landmarkId: 'bell' });
+    db.docs['tip_views/you_me_bell'] = { uid: 'you', tipId: 'me_bell' };
+    const { code } = await call({ action: 'delete', landmarkId: 'old-bell', region: 'philly' });
     expect(code).toBe(200);
     expect(db.docs['tips/me_bell']).toBeUndefined();
     expect(db.docs['tip_reactions/you_me_bell']).toBeUndefined();
+    expect(db.docs['tip_views/you_me_bell']).toBeUndefined();
     expect(deleted).toEqual(['tip_photos/me/p1.jpg']);
   });
   it("can't delete someone else's tip or a tip a moderator removed", async () => {

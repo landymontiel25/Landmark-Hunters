@@ -57,8 +57,13 @@ describe('api/tips: reading', () => {
     expect(db.docs['tip_views/me_ann_bell']).toMatchObject({ uid: 'me', tipId: 'ann_bell', authorUid: 'ann' });
     expect(db.docs['tip_views/me_me_bell']).toBeUndefined();
     db.docs['tip_views/me_ann_bell'].firstAt = 5;
+    const before = db.writes.length;
+    await list();
+    expect(db.writes.length).toBe(before);
+    db.docs['tip_views/me_ann_bell'].lastAt = 1;
     await list();
     expect(db.docs['tip_views/me_ann_bell'].firstAt).toBe(5);
+    expect(db.docs['tip_views/me_ann_bell'].lastAt).toBeGreaterThan(1);
   });
   it('finds tips under a renamed place by its current id', async () => {
     expect((await call('GET', { query: { region: 'philly', landmarkId: 'old-bell' } })).body.tips.map((t) => t.id)).toContain('ann_bell');
@@ -83,6 +88,13 @@ describe('api/tips: helpful, saved and reports', () => {
     expect(db.docs['tips/ann_bell'].counts).toEqual({ helpful: 0, saved: 0 });
     expect(db.docs['tip_reactions/me_ann_bell']).toBeUndefined();
     expect((await list()).body.reactions).toEqual({});
+  });
+  it('takes back a mark on a tip that has since been hidden', async () => {
+    await react('ann_bell', 'saved', true);
+    db.docs['tips/ann_bell'].hidden = true;
+    expect((await react('ann_bell', 'saved', false)).code).toBe(200);
+    expect(db.docs['tip_reactions/me_ann_bell']).toBeUndefined();
+    expect(db.docs['tips/ann_bell'].counts.saved).toBe(0);
   });
   it("can't react to your own, a held, hidden or blocked tip", async () => {
     expect((await react('me_bell', 'helpful', true)).code).toBe(400);

@@ -85,7 +85,10 @@ Admin role). Endpoints shipped: `api/post-tip.js` (share, delete your own,
 `delete-mine` on account deletion, which `accountDeletion.js` calls) and
 `api/tips.js` (a place's live tips with blocks hidden both ways, helpful
 and saved, reports). Reporters live in server-only `tip_reports/` (no rule
-matches it, so clients are denied), never on the tip. The word filter
+matches it, so clients are denied), never on the tip. The 10-an-hour count
+lives in server-only `tip_post_log/{uid}`, so deleting doesn't reset it. A
+held or reported tip is withdrawn (status `withdrawn`), not deleted, so its
+reports stay for review. The word filter
 (`src/lib/tipFilter.js`) holds a tip instead of refusing it. Each tips read
 records `tip_views` for the Phase 4 "went" count. A tip's photo is deleted
 with its tip when `VITE_FIREBASE_STORAGE_BUCKET` is set on the server.

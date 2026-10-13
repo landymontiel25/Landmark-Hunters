@@ -29,11 +29,7 @@ async function postTip(db, account, body) {
     return [400, { error: 'checkinId and text are required.' }];
   }
   const nowMs = Date.now();
-  const [checkinSnap, userSnap, mineSnap] = await Promise.all([
-    db.collection('checkins').doc(checkinId).get(),
-    db.collection('users').doc(account.uid).get(),
-    db.collection('tips').where('authorUid', '==', account.uid).get(),
-  ]);
+  const [checkinSnap, userSnap] = await Promise.all([db.collection('checkins').doc(checkinId).get(), db.collection('users').doc(account.uid).get()]);
   const checkin = checkinSnap.exists ? { ...checkinSnap.data(), createdAtMs: toMs(checkinSnap.data().createdAt) } : null;
   const visitProblem = tipCheckinProblem(checkin, account.uid, nowMs);
   if (visitProblem) return [visitProblem.code === 'not-yours' ? 403 : 400, { error: visitProblem.message, code: visitProblem.code }];
@@ -42,11 +38,6 @@ async function postTip(db, account, body) {
   const createdAtMs = toMs(user.createdAt);
   const inputProblem = tipInputProblem({ text, tags }, { accountAgeMs: createdAtMs == null ? null : nowMs - createdAtMs });
   if (inputProblem) return [400, { error: inputProblem.message, code: inputProblem.code }];
-
-  // The per-instance limiter in the handler is best effort; this one counts
-  // the account's own tips, so it holds across instances.
-  const lastHour = mineSnap.docs.filter((d) => (d.data().createdAtMs ?? toMs(d.data().createdAt) ?? 0) > nowMs - HOUR_MS).length;
-  if (lastHour >= TIP_RATE_LIMIT.limit) return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
 
   let photoPath = null;
   if (photoURL != null) {
@@ -84,13 +75,21 @@ async function postTip(db, account, body) {
     createdAtMs: nowMs,
     updatedAt: FieldValue.serverTimestamp(),
   };
-  const created = await db.runTransaction(async (tx) => {
-    const existing = await tx.get(ref);
-    if (existing.exists) return false;
+  // 10 tips an hour, across every server instance: tip_post_log/{uid}
+  // (server-only) keeps the last hour's post times, and deleting a tip
+  // doesn't take its post back off the log.
+  const logRef = db.collection('tip_post_log').doc(account.uid);
+  const outcome = await db.runTransaction(async (tx) => {
+    const [existing, log] = await Promise.all([tx.get(ref), tx.get(logRef)]);
+    if (existing.exists) return 'exists';
+    const recent = (log.exists && Array.isArray(log.data().at) ? log.data().at : []).filter((t) => typeof t === 'number' && t > nowMs - HOUR_MS);
+    if (recent.length >= TIP_RATE_LIMIT.limit) return 'rate';
     tx.set(ref, tip);
-    return true;
+    tx.set(logRef, { at: [...recent, nowMs] });
+    return 'ok';
   });
-  if (!created) return [409, { error: 'You already shared a tip here. Delete it to write a new one.', code: 'exists' }];
+  if (outcome === 'rate') return [429, { error: 'That is a lot of tips in one hour. Try again later.', code: 'rate' }];
+  if (outcome === 'exists') return [409, { error: 'You already shared a tip here. Delete it to write a new one.', code: 'exists' }];
   return [200, { ok: true, tipId, status }];
 }
 
@@ -101,11 +100,18 @@ async function deleteTip(db, account, body) {
   const ref = db.collection('tips').doc(tipId);
   const snap = await ref.get();
   if (!snap.exists || snap.data().authorUid !== account.uid) return [404, { error: 'No tip of yours here.' }];
+  const t = snap.data();
   // A tip the owner removed stays, so its author can't post it again.
-  if (snap.data().status === 'removed') return [403, { error: 'This tip was removed by a moderator.', code: 'removed' }];
+  if (t.status === 'removed' || t.status === 'withdrawn') return [403, { error: 'This tip was removed.', code: 'removed' }];
+  // A held or reported tip is withdrawn, not deleted: it disappears for
+  // everyone, but its reports stay for the owner's review and a fresh copy
+  // can't be posted over them.
+  if (t.status === 'held' || (t.reportCount || 0) > 0) {
+    await ref.update({ status: 'withdrawn', withdrawnAt: Date.now(), updatedAt: FieldValue.serverTimestamp() });
+    return [200, { ok: true, withdrawn: true }];
+  }
   await ref.delete();
-  await deleteTipChildren(db, tipId);
-  await deleteTipPhoto(snap.data().photoPath);
+  await Promise.all([deleteTipChildren(db, tipId), deleteTipPhoto(t.photoPath)]);
   return [200, { ok: true }];
 }
 
@@ -122,15 +128,12 @@ async function deleteMine(db, account) {
     db.collection('tip_views').where('authorUid', '==', uid).get(),
     db.collection('tip_reports').where('uid', '==', uid).get(),
   ]);
-  for (const d of tips.docs) {
-    await d.ref.delete();
-    await deleteTipChildren(db, d.id);
-    await deleteTipPhoto(d.data().photoPath);
-  }
-  for (const d of reactions.docs) {
+  // In parallel: account deletion runs under the function's time limit.
+  await Promise.all(tips.docs.map((d) => Promise.all([d.ref.delete(), deleteTipChildren(db, d.id), deleteTipPhoto(d.data().photoPath)])));
+  await Promise.all(reactions.docs.map((d) => {
     const r = d.data();
     const tipRef = db.collection('tips').doc(r.tipId);
-    await db.runTransaction(async (tx) => {
+    return db.runTransaction(async (tx) => {
       const t = await tx.get(tipRef);
       if (t.exists) {
         const dec = {};
@@ -140,13 +143,13 @@ async function deleteMine(db, account) {
       }
       tx.delete(d.ref);
     });
-  }
+  }));
   // Their reports go (who reported), the counts they added stay: a hide
   // from reports must not lift because a reporter left.
-  const rest = [...views.docs, ...authorViews.docs, ...reports.docs];
+  const rest = [...views.docs, ...authorViews.docs, ...reports.docs, db.collection('tip_post_log').doc(uid)].map((d) => d.ref || d);
   for (let i = 0; i < rest.length; i += 400) {
     const b = db.batch();
-    for (const d of rest.slice(i, i + 400)) b.delete(d.ref);
+    for (const r of rest.slice(i, i + 400)) b.delete(r);
     await b.commit();
   }
   return [200, { ok: true, tips: tips.size, reactions: reactions.size }];

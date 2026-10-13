@@ -21,6 +21,7 @@ import { tipIsPublic, TIP_REPORT_HIDE } from '../src/lib/tips.js';
 
 const HOUR_MS = 60 * 60 * 1000;
 const MAX_TIPS = 50;
+const VIEW_REFRESH_MS = 12 * 60 * 60 * 1000;
 const ID_RE = /^[\w.-]{1,300}$/;
 const REPORT_REASONS = ['spam', 'offensive', 'false', 'private-info', 'other'];
 const send = (res, code, body) => res.status(code).json(body);
@@ -35,7 +36,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
   for (const d of snap.docs) {
     const t = d.data();
     if (canonicalRegionId(t.region) !== want) continue;
-    if (t.authorUid === viewerUid ? t.status === 'removed' : !tipIsPublic(t) || blocked.has(t.authorUid)) continue;
+    if (t.authorUid === viewerUid ? t.status === 'removed' || t.status === 'withdrawn' : !tipIsPublic(t) || blocked.has(t.authorUid)) continue;
     visible.push([d.id, t]);
   }
   visible.sort((a, b) => (toMs(b[1].createdAt) ?? b[1].createdAtMs ?? 0) - (toMs(a[1].createdAt) ?? a[1].createdAtMs ?? 0));
@@ -47,13 +48,17 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
     if (s.exists) mine[shown[i][0]] = { helpful: s.data().helpful === true, saved: s.data().saved === true };
   });
   // Views: other people's live tips only. firstAt (when you first saw it)
-  // never moves; lastAt does.
+  // never moves; lastAt moves at most twice a day, so a reload writes
+  // nothing.
   const viewed = shown.filter(([, t]) => t.authorUid !== viewerUid && t.status === 'live');
   if (viewed.length) {
     const viewRefs = viewed.map(([tipId]) => db.collection('tip_views').doc(`${viewerUid}_${tipId}`));
     const before = await db.getAll(...viewRefs);
     const batch = db.batch();
+    let writes = 0;
     viewed.forEach(([tipId, t], i) => {
+      if (before[i].exists && nowMs - (before[i].data().lastAt || 0) < VIEW_REFRESH_MS) return;
+      writes++;
       batch.set(viewRefs[i], {
         uid: viewerUid,
         tipId,
@@ -64,7 +69,7 @@ export async function listTips(db, viewerUid, { region, landmarkId }, { nowMs = 
         lastAt: nowMs,
       });
     });
-    await batch.commit();
+    if (writes) await batch.commit();
   }
   return {
     tips: shown.map(([id, t]) => ({ ...tipForViewer(id, t, viewerUid), ...(t.authorUid === viewerUid ? { status: t.status } : {}) })),
@@ -87,15 +92,26 @@ async function actionableTip(db, uid, tipId) {
 
 export async function reactToTip(db, uid, { tipId, kind, on }) {
   if (!['helpful', 'saved'].includes(kind) || typeof on !== 'boolean') return [400, { error: 'kind and on are required.' }];
-  const found = await actionableTip(db, uid, tipId);
-  if (found.error) return found.error;
+  // Taking a mark back works on any tip you marked, even one that has since
+  // been hidden or blocked; adding one needs a tip you can see.
+  let tipRef = db.collection('tips').doc(tipId);
+  if (on) {
+    const found = await actionableTip(db, uid, tipId);
+    if (found.error) return found.error;
+    tipRef = found.ref;
+  }
   const reactionRef = db.collection('tip_reactions').doc(`${uid}_${tipId}`);
   const out = await db.runTransaction(async (tx) => {
-    const [tipSnap, rSnap] = await Promise.all([tx.get(found.ref), tx.get(reactionRef)]);
-    if (!tipSnap.exists || !tipIsPublic(tipSnap.data())) return null;
+    const [tipSnap, rSnap] = await Promise.all([tx.get(tipRef), tx.get(reactionRef)]);
+    if (!on && !rSnap.exists) return { helpful: false, saved: false };
+    if (!tipSnap.exists) {
+      if (!on) tx.delete(reactionRef);
+      return on ? null : { helpful: false, saved: false };
+    }
+    if (on && !tipIsPublic(tipSnap.data())) return null;
     const prev = rSnap.exists ? rSnap.data() : { helpful: false, saved: false };
     const next = { helpful: prev.helpful === true, saved: prev.saved === true, [kind]: on };
-    if ((prev[kind] === true) !== on) tx.update(found.ref, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
+    if ((prev[kind] === true) !== on) tx.update(tipRef, { [`counts.${kind}`]: FieldValue.increment(on ? 1 : -1) });
     if (!next.helpful && !next.saved) tx.delete(reactionRef);
     else {
       tx.set(reactionRef, {

@@ -1,7 +1,6 @@
 import { adminBucket } from './firebaseAdmin.js';
 
-// Server helpers shared by api/post-tip.js, api/tips.js and the admin
-// Content page actions (api/admin-jobs.js).
+// Server helpers shared by api/post-tip.js and api/tips.js.
 
 export const toMs = (v) => {
   if (typeof v === 'number') return Number.isFinite(v) ? v : null;
@@ -30,15 +29,16 @@ export async function blockedEitherWay(db, a, b) {
   return x.exists || y.exists;
 }
 
-// Every tip report (tip_reports/{tipId}_{uid}) and helpful/saved mark
-// (tip_reactions) on one tip, removed with the tip so a re-posted tip at
-// the same id starts clean.
+// Every report (tip_reports/{tipId}_{uid}), helpful/saved mark
+// (tip_reactions) and view (tip_views) of one tip, removed with the tip so a
+// re-posted tip at the same id starts clean.
 export async function deleteTipChildren(db, tipId) {
-  const [reactions, reports] = await Promise.all([
+  const [reactions, reports, views] = await Promise.all([
     db.collection('tip_reactions').where('tipId', '==', tipId).get(),
     db.collection('tip_reports').where('tipId', '==', tipId).get(),
+    db.collection('tip_views').where('tipId', '==', tipId).get(),
   ]);
-  const all = [...reactions.docs, ...reports.docs];
+  const all = [...reactions.docs, ...reports.docs, ...views.docs];
   for (let i = 0; i < all.length; i += 400) {
     const b = db.batch();
     for (const d of all.slice(i, i + 400)) b.delete(d.ref);
@@ -63,7 +63,8 @@ export function tipPhotoPath(url, uid, bucket = process.env.VITE_FIREBASE_STORAG
   if (!m) return null;
   let path;
   try {
-    if (bucket && decodeURIComponent(m[1]) !== bucket) return null;
+    // No configured bucket: no photo (any Firebase project's URL would pass).
+    if (!bucket || decodeURIComponent(m[1]) !== bucket) return null;
     path = decodeURIComponent(m[2]);
   } catch {
     return null;
