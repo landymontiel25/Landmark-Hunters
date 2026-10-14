@@ -360,7 +360,7 @@ export async function runSession({ getContext, base, index, seed, persona: force
       r.text()
         .then((t) => {
           // A transaction that lost a race; the SDK retries it.
-          if (/does not match the required base version/.test(t)) return;
+          if (/does not match the required base version|entity already exists/.test(t)) return;
           add('http4xx', `${r.status()} ${r.request().method()} ${path} ${t.slice(0, 200)}`);
         })
         .catch(() => add('http4xx', `${r.status()} ${r.request().method()} ${path}`));

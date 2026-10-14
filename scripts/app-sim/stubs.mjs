@@ -90,6 +90,8 @@ function json(route, status, body, delayMs = 0) {
   return send();
 }
 
+const pick1 = (rng, list) => list[Math.floor(rng() * list.length)];
+
 function pickN(rng, list, n) {
   const out = [];
   const copy = [...list];
@@ -225,7 +227,28 @@ export function makeRouter({ rng, base, stats, failRate = 0.03 }) {
         case 'community':
           return json(route, 200, { regions: {} });
         case 'tips':
-          if (req.method() === 'GET') return json(route, 200, { tips: [], reactions: {} });
+          if (req.method() === 'GET') {
+            // Half the places have a tip or two from other visitors, some
+            // with a long pasted link, as real tips do.
+            const region = url.searchParams.get('region') || 'miami';
+            const landmarkId = url.searchParams.get('landmarkId') || '';
+            const n = rng() < 0.5 ? 0 : 1 + Math.floor(rng() * 2);
+            const tips = Array.from({ length: n }, (_, i) => ({
+              id: `simtip${i}${landmarkId.length}`,
+              authorUid: `simAuthor${i}`,
+              authorName: pick1(rng, ['Maria', 'Jon', 'Priya', 'A very long display name for a visitor']),
+              landmarkId,
+              region,
+              text: rng() < 0.3 ? `Parking info here: https://example.com/${'p'.repeat(150)}` : 'Go early on weekdays; the line is short before 10.',
+              tags: rng() < 0.5 ? ['timing'] : [],
+              photoURL: null,
+              visitMonth: '2026-09',
+              verified: rng() < 0.7,
+              counts: { helpful: Math.floor(rng() * 5), saved: 0 },
+              mine: false,
+            }));
+            return json(route, 200, { tips, reactions: {} });
+          }
           return json(route, 200, { ok: true, recorded: 0 });
         case 'post-tip':
           return json(route, 403, { error: 'Verify your email to share tips.', code: 'email' });

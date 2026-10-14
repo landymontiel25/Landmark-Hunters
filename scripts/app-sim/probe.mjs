@@ -358,6 +358,39 @@ PROBES['offline-map'] = async (browser) => {
   return `${ok ? 'PASS' : 'FAIL'} offline banner ${r.banner}; overlaps: ${r.overlaps.join(', ') || 'none'}`;
 };
 
+// A tip from another visitor with a long pasted link, on a landmark page.
+PROBES['tips-long'] = async (browser) => {
+  const { page, context } = await setup(browser);
+  // Alternating draws: the tips stub then returns one tip with a long link.
+  let k = 0;
+  context.__simRouter = makeRouter({ rng: () => (k++ % 2 ? 0.2 : 0.6), base: BASE, stats: { api: {}, unknownApi: {}, external: {}, requests: 0 }, failRate: 0 });
+  const me = await signUp(page);
+  await verify(me.uid);
+  await page.waitForTimeout(3000);
+  await page.evaluate(() => (location.hash = '/landmarks/miami/south-beach'));
+  await page.waitForTimeout(5000);
+  await page.mouse.wheel(0, 2500);
+  await page.waitForTimeout(1500);
+  const shown = await page.evaluate(() => document.body.innerText.includes('example.com/ppp'));
+  const o = await overflowAt(page);
+  await context.close();
+  if (!shown) return 'FAIL the stub tip did not show (probe setup)';
+  return o.docW > 391 || o.out.length ? `FAIL page ${o.docW}px; ${o.out.join('; ')}` : 'PASS a long tip wraps';
+};
+
+// A landmark link opened fresh (as from a text message): Back stays in the
+// app and lands on Places.
+PROBES['shared-link-back'] = async (browser) => {
+  const { page, context } = await setup(browser);
+  await page.goto(`${BASE}/#/landmarks/miami/south-beach`);
+  await page.waitForTimeout(4000);
+  await page.getByRole('button', { name: /← Back/ }).first().tap();
+  await page.waitForTimeout(1500);
+  const url = page.url();
+  await context.close();
+  return url.startsWith(BASE) && /#\/landmarks$/.test(url) ? 'PASS Back went to Places' : `FAIL Back went to ${url}`;
+};
+
 // Feature request and bug report forms: fill, send, see it confirmed.
 PROBES['forms'] = async (browser) => {
   const { page, context, errors } = await setup(browser);
