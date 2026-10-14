@@ -70,7 +70,9 @@
   --header-base: calc(76px + var(--safe-top) + var(--offline-h));
   /* Set by OnboardingBanner while its floating variant is on screen. */
   --banner-h: 0px;
-  --header-h: calc(var(--header-base) + var(--banner-h));
+  /* Set by WhereAmI (the "where you are" pill under the header). */
+  --whereami-h: 0px;
+  --header-h: calc(var(--header-base) + var(--banner-h) + var(--whereami-h));
   /* Floating tab bar: 66px tall, 12px off the bottom edge, plus room. */
   --nav-h: calc(92px + var(--safe-bottom));
 }
@@ -3840,6 +3842,8 @@ button.header-streak {
 /* Hides all normal chrome while picking an exact spot for a new landmark --
    only the crosshair reticle and Cancel/Done controls stay on screen. */
 body.pin-placing .app-header,
+body.pin-placing .where-am-i-row,
+body.lightbox-open .where-am-i-row,
 body.pin-placing .bottom-nav,
 body.lightbox-open .app-header,
 body.lightbox-open .bottom-nav {
@@ -7665,4 +7669,43 @@ p.tag {
 }
 [data-theme='light'] .gmp-logo .gmp-logo-on-light {
   display: inline;
+}
+
+/* "Where I am" pill: rides under the sticky header on every tab. */
+.where-am-i-row {
+  position: sticky;
+  top: calc(var(--header-base) + var(--banner-h) - 4px);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  margin: -4px 14px 0;
+  padding-bottom: 6px;
+  pointer-events: none;
+}
+.where-am-i {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 32px;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default, var(--glass-border));
+  background: rgb(var(--color-bg-rgb));
+  box-shadow: var(--shadow-float);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.where-am-i-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.where-am-i-moving .where-am-i-text {
+  color: var(--mapr-blue, var(--text-primary));
 }

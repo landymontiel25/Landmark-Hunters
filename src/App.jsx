@@ -36,6 +36,7 @@ import { useTripAccountGuard } from './lib/tripAccountGuard';
 import { installModalA11y } from './lib/modalA11y';
 import { useDocumentTitle } from './lib/useDocumentTitle';
 import { shouldResetScroll } from './lib/scrollReset';
+import WhereAmI from './components/WhereAmI';
 import { flagSet, settleScreenModule, shouldReloadForChunkError } from './lib/chunkReload';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
@@ -284,6 +285,7 @@ export default function App() {
           <Soft><OfflineBanner /></Soft>
           <Soft><StreakWarningBanner /></Soft>
           <Soft><Header /></Soft>
+          <Soft><WhereAmI /></Soft>
           <main className="app-main">
             <AppRoutes />
           </main>
