@@ -22,6 +22,7 @@ test run). Still open:
 - The guard can't tell which place a vague closeness phrase ("a short
   walk") refers to; it keeps one only when a checked route is under 15
   minutes or a mile.
+
 ## App simulation: suggestions not built (2026-10-14)
 
 `scripts/app-sim/` runs thousands of simulated users against the
