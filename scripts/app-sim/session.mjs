@@ -587,11 +587,39 @@ export async function runSession({ getContext, base, index, seed, persona: force
           })
           .filter(floating)
           .slice(0, 60);
+        // The part of a control its scrolling or clipping parents let show:
+        // a row scrolled out of a results list is not on screen.
+        const shown = (el) => {
+          const r = el.getBoundingClientRect();
+          let { left, top, right, bottom } = r;
+          for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+            if (getComputedStyle(p).overflow === 'visible') continue;
+            const q = p.getBoundingClientRect();
+            left = Math.max(left, q.left);
+            top = Math.max(top, q.top);
+            right = Math.min(right, q.right);
+            bottom = Math.min(bottom, q.bottom);
+          }
+          return { left, top, right, bottom };
+        };
+        // Fully under something else (a panel over the map controls) is
+        // layering on purpose; only a control still partly showing counts.
+        const peeks = (el) => {
+          const r = shown(el);
+          if (r.right - r.left < 2 || r.bottom - r.top < 2) return false;
+          const xs = [r.left + 3, (r.left + r.right) / 2, r.right - 3];
+          const ys = [r.top + 3, (r.top + r.bottom) / 2, r.bottom - 3];
+          return xs.some((x) => ys.some((y) => {
+            const t = document.elementFromPoint(x, y);
+            return t && (t === el || el.contains(t));
+          }));
+        };
         for (let i = 0; i < ctrls.length; i += 1) {
           for (let j = i + 1; j < ctrls.length; j += 1) {
             if (ctrls[i].contains(ctrls[j]) || ctrls[j].contains(ctrls[i])) continue;
-            const a = ctrls[i].getBoundingClientRect();
-            const b = ctrls[j].getBoundingClientRect();
+            if (!peeks(ctrls[i]) || !peeks(ctrls[j])) continue;
+            const a = shown(ctrls[i]);
+            const b = shown(ctrls[j]);
             const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
             const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
             const name = (e) => (e.getAttribute('aria-label') || e.innerText || e.className || e.tagName).toString().trim().slice(0, 30);
