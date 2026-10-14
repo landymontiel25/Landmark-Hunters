@@ -125,4 +125,21 @@ describe('MyCommentEditor', () => {
     expect(row('a').textContent).toContain('Second');
     expect(row('a').textContent).not.toContain('First');
   });
+
+  // Found by the app simulation: on My Check-ins the row opens the place,
+  // but a tap on the comment text was swallowed, so the middle of the row
+  // did nothing. The text lets the tap through; Edit keeps its own.
+  it('a tap on the comment reaches the row; Edit does not', async () => {
+    const onRow = vi.fn();
+    await mount(
+      <div onClick={onRow}>
+        <MyCommentEditor compact userId="u1" landmark={landmark} comment="Loud but fun" tier="good" />
+      </div>
+    );
+    await act(async () => container.querySelector('.review-comment').click());
+    expect(onRow).toHaveBeenCalledTimes(1);
+    await click('Edit comment');
+    expect(onRow).toHaveBeenCalledTimes(1);
+    expect(container.querySelector('textarea')).not.toBeNull();
+  });
 });
