@@ -54,3 +54,30 @@ describe('findPossibleDuplicate', () => {
     expect(match?.id).toBe(hood.id);
   });
 });
+
+describe('namesMatch', () => {
+  it('does not mix up different names that only look alike (owner report: Budare Bistro vs Bugatti Bistro)', async () => {
+    const { namesMatch } = await import('./duplicateLandmarkCheck.js');
+    expect(namesMatch('Budare Bistro', 'Bugatti Bistro')).toBe(false);
+    expect(namesMatch('La Mar', 'La Mer')).toBe(false);
+    expect(namesMatch('Pizza Cafe', 'Pizza Bar')).toBe(true); // filler words only
+  });
+
+  it('still catches real typos and spacing slips', async () => {
+    const { namesMatch } = await import('./duplicateLandmarkCheck.js');
+    expect(namesMatch('Helstone', 'Hillstone Restaurant')).toBe(true);
+    expect(namesMatch('Vizcaya Musuem', 'Vizcaya Museum')).toBe(true);
+    expect(namesMatch('Versailes', 'Versailles')).toBe(true);
+    expect(namesMatch("Joes Stone Crab", "Joe's Stone Crab")).toBe(true);
+  });
+});
+
+describe('findPossibleDuplicate with a location', () => {
+  it('ignores a look-alike name far away', async () => {
+    const { ALL_LANDMARKS } = await import('../data/regions');
+    const h = ALL_LANDMARKS.find((l) => l.regionId === 'miami' && l.name === 'Hillstone Restaurant');
+    const far = { lat: h.lat + 0.1, lng: h.lng };
+    expect(await findPossibleDuplicate({ name: 'Helstone', regionId: 'miami', ...far })).toBeNull();
+    expect(await findPossibleDuplicate({ name: 'Helstone', regionId: 'miami', lat: h.lat, lng: h.lng })).toMatchObject({ name: 'Hillstone Restaurant' });
+  });
+});
