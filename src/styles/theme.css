@@ -3219,6 +3219,14 @@ button.header-streak {
 }
 
 .friend-email-input,
+/* A comment with a long unbroken word (a pasted link) made the landmark
+   page 1,819px wide on a 390px phone and stuck out of its card on Check-ins
+   and Stats. Break it anywhere instead. Found by the app simulation (probe
+   long-text). */
+.review-comment {
+  overflow-wrap: anywhere;
+}
+
 .review-comment-input {
   width: 100%;
   background: var(--color-bg-raised);

@@ -358,7 +358,83 @@ PROBES['offline-map'] = async (browser) => {
   return `${ok ? 'PASS' : 'FAIL'} offline banner ${r.banner}; overlaps: ${r.overlaps.join(', ') || 'none'}`;
 };
 
-const browser = await chromium.launch();
+// Feature request and bug report forms: fill, send, see it confirmed.
+PROBES['forms'] = async (browser) => {
+  const { page, context, errors } = await setup(browser);
+  const me = await signUp(page);
+  await verify(me.uid);
+  await page.waitForTimeout(3000);
+  const out = [];
+  for (const [route, fields] of [
+    ['/request-feature', [['Dark mode', 'A one-tap day plan'], ['What should it do', 'Plan my afternoon around where I am.'], ['What problem', 'Saves time on a trip.']]],
+    ['/report-bug', [["Map pins don't load", 'Filter button hidden'], ['What did you see', 'The filter button sits under the sheet.'], ['What did you tap', 'Open the Map on a small phone.']]],
+  ]) {
+    await page.evaluate((x) => (location.hash = x), route);
+    await page.waitForTimeout(2500);
+    for (const [ph, v] of fields) await page.getByPlaceholder(new RegExp(ph)).first().fill(v);
+    await page.locator('form button[type=submit]').first().tap();
+    await page.waitForTimeout(3500);
+    const text = await page.evaluate(() => document.querySelector('main')?.innerText || '');
+    out.push(`${route}: ${/thank|sent|got it|received|submitted/i.test(text) ? 'confirmed' : `no confirmation ("${text.replace(/\s+/g, ' ').slice(0, 80)}")`}`);
+  }
+  await context.close();
+  const e = quiet(errors);
+  const ok = out.every((x) => x.endsWith('confirmed')) && !e.length;
+  return `${ok ? 'PASS' : 'FAIL'} ${out.join('; ')}${e.length ? `; errors: ${e.slice(0, 3).join(' | ')}` : ''}`;
+};
+
+// Long unbroken text people type (a pasted link, a key held down) must
+// wrap, not widen the screen: a Mapr message and a check-in comment.
+PROBES['long-text'] = async (browser) => {
+  const geo = { latitude: 25.774429, longitude: -80.133241, accuracy: 10 };
+  const { page, context } = await setup(browser, { geo });
+  const me = await signUp(page);
+  await verify(me.uid);
+  await page.waitForTimeout(3000);
+  const long = `https://example.com/${'a'.repeat(180)}`;
+  const bad = [];
+  await page.evaluate(() => (location.hash = '/mapr'));
+  await page.waitForTimeout(3000);
+  await page.getByPlaceholder(/up for/).first().fill(long);
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(3000);
+  let o = await overflowAt(page);
+  if (o.docW > 391 || o.out.length) bad.push(`/mapr: page ${o.docW}px; ${o.out.join('; ')}`);
+  // The chat is named after that first message; open the chat list.
+  await page.getByRole('button', { name: 'Your chats' }).first().tap().catch(() => {});
+  await page.waitForTimeout(1500);
+  o = await overflowAt(page);
+  if (o.docW > 391 || o.out.length) bad.push(`/mapr chat list: page ${o.docW}px; ${o.out.join('; ')}`);
+  await page.keyboard.press('Escape');
+  await page.evaluate(() => (location.hash = '/landmarks/miami/south-beach'));
+  await page.waitForTimeout(3000);
+  const sheet = page.locator('.modal-card').first();
+  await page.getByRole('button', { name: /Check In/ }).first().tap();
+  await page.waitForTimeout(1500);
+  await sheet.getByRole('button', { name: /loved it/i }).first().tap();
+  await page.waitForTimeout(800);
+  const ta = sheet.locator('textarea').first();
+  if (await ta.count()) await ta.fill(long);
+  await sheet.getByRole('button', { name: /^Post$|Confirm check-in/ }).first().tap();
+  await page.waitForTimeout(6000);
+  await page.keyboard.press('Escape');
+  await page.evaluate(() => (location.hash = '/'));
+  await page.waitForTimeout(1500);
+  await page.evaluate(() => (location.hash = '/landmarks/miami/south-beach'));
+  await page.waitForTimeout(4000);
+  o = await overflowAt(page);
+  if (o.docW > 391 || o.out.length) bad.push(`landmark page: page ${o.docW}px; ${o.out.join('; ')}`);
+  for (const r of ['/checkins', '/stats', '/mapr-ratings']) {
+    await page.evaluate((x) => (location.hash = x), r);
+    await page.waitForTimeout(3000);
+    o = await overflowAt(page);
+    if (o.docW > 391 || o.out.length) bad.push(`${r}: page ${o.docW}px; ${o.out.join('; ')}`);
+  }
+  await context.close();
+  return bad.length ? `FAIL\n  ${bad.join('\n  ')}` : 'PASS long text wraps everywhere checked';
+};
+
+const browser = await chromium.launch({ args: ['--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE 127.0.0.1'] });
 const names = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(PROBES);
 let failed = 0;
 for (const n of names) {

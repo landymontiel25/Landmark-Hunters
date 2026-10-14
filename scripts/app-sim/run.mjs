@@ -174,7 +174,9 @@ async function main() {
   const launch = () =>
     chromium.launch({
       executablePath: process.env.SIM_CHROMIUM || undefined,
-      args: ['--disable-dev-shm-usage', '--disable-gpu', '--no-first-run', '--mute-audio'],
+      // Every request is answered by the stubs; anything that slips past
+      // them (Chromium's own preconnects) fails here instead of going out.
+      args: ['--disable-dev-shm-usage', '--disable-gpu', '--no-first-run', '--mute-audio', '--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE 127.0.0.1'],
     });
   // A few browsers, many contexts: one crashing browser loses only its share.
   const browsers = [];
