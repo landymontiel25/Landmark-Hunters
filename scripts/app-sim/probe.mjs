@@ -311,14 +311,17 @@ PROBES['checkin-photo'] = async (browser) => {
   const text = await page.evaluate(() => document.body.innerText.slice(0, 4000));
   const posted = /checked in|Posted|points|\+\d+ pts|Nice/i.test(text);
   // The new check-in on My Check-ins opens its landmark page when tapped.
+  // New badges (first check-in, ...) pop up over the sheet; tap each away.
+  for (let i = 0; i < 6 && (await page.locator('.celebration-enter').count()); i += 1) {
+    await page.locator('.celebration-enter').first().tap().catch(() => {});
+    await page.waitForTimeout(700);
+  }
   await tap(/^Done$/, sheet);
+  await page.waitForTimeout(1500);
+  if (await page.locator('.modal-card').count()) steps.push('a sheet stayed open after Done');
   await page.evaluate(() => (location.hash = '/checkins'));
   await page.waitForTimeout(3500);
   const tile = page.locator('.checkin-tile, .checkin-row').first();
-  if (process.env.PROBE_DEBUG) {
-    console.log(await page.evaluate(() => [...document.querySelectorAll('.checkin-tile, .checkin-row')].map((e) => `${e.className}|${e.innerText.slice(0, 60)}`).join('\n')));
-    await page.screenshot({ path: `${process.env.PROBE_DEBUG}/checkins.png` });
-  }
   let opened = 'no tile';
   if (await tile.count()) {
     await tile.tap().catch(() => {});
