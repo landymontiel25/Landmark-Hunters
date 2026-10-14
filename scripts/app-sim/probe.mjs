@@ -236,7 +236,7 @@ PROBES['map-controls'] = async (browser) => {
     await page.waitForTimeout(800);
     // Any two controls whose boxes overlap: one sits on part of the other.
     const covered = await page.evaluate(() => {
-      const els = [...document.querySelectorAll('.map-search-btn, .radius-select, .map-locate-btn')].filter((e) => e.getBoundingClientRect().width);
+      const els = [...document.querySelectorAll('.map-search-btn, .radius-select, .map-locate-btn, .map-picks .mpp-sheet')].filter((e) => e.getBoundingClientRect().width);
       const out = [];
       for (let i = 0; i < els.length; i += 1) {
         for (let j = i + 1; j < els.length; j += 1) {
@@ -244,7 +244,8 @@ PROBES['map-controls'] = async (browser) => {
           const b = els[j].getBoundingClientRect();
           const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
           const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
-          if (w > 0 && h > 0) out.push(`${els[i].getAttribute('aria-label')} and ${els[j].getAttribute('aria-label')} overlap ${Math.round(w)}x${Math.round(h)}px`);
+          const nm = (e) => e.getAttribute('aria-label') || e.className.split(' ')[0];
+          if (w > 0 && h > 0) out.push(`${nm(els[i])} and ${nm(els[j])} overlap ${Math.round(w)}x${Math.round(h)}px`);
         }
       }
       return out;
@@ -255,6 +256,106 @@ PROBES['map-controls'] = async (browser) => {
   }
   await context.close();
   return bad.length ? `FAIL ${bad.join(' | ')}` : `PASS no map control covered (${seen.join(', ')})`;
+};
+
+// Check in at a place with a rating, a comment and a photo (Storage
+// emulator), the full Post path.
+PROBES['checkin-photo'] = async (browser) => {
+  const geo = { latitude: 25.774429, longitude: -80.133241, accuracy: 10 };
+  const { page, context, errors } = await setup(browser, { geo });
+  const me = await signUp(page);
+  await verify(me.uid);
+  await page.waitForTimeout(3000);
+  // A small real JPEG, drawn by the browser.
+  const jpeg = Buffer.from(
+    (await page.evaluate(() => {
+      const c = document.createElement('canvas');
+      c.width = 64;
+      c.height = 48;
+      const g = c.getContext('2d');
+      g.fillStyle = '#3a7';
+      g.fillRect(0, 0, 64, 48);
+      return c.toDataURL('image/jpeg', 0.8);
+    })).split(',')[1],
+    'base64'
+  );
+  let chooser = 0;
+  page.on('filechooser', (fc) => {
+    chooser += 1;
+    fc.setFiles({ name: 'beach.jpg', mimeType: 'image/jpeg', buffer: jpeg }).catch(() => {});
+  });
+  await page.evaluate(() => (location.hash = '/landmarks/miami/south-beach'));
+  await page.waitForTimeout(3000);
+  const steps = [];
+  const tap = async (re, where = page) => {
+    const el = where.getByRole('button', { name: re }).first();
+    if (!(await el.count())) return false;
+    await el.tap({ timeout: 4000 }).catch(() => {});
+    steps.push(String(re));
+    await page.waitForTimeout(1200);
+    return true;
+  };
+  if (!(await tap(/Check In/))) return 'FAIL no Check In button';
+  const sheet = page.locator('.modal-card').first();
+  await tap(/loved it/i, sheet);
+  const comment = page.locator('textarea').first();
+  if (await comment.count()) await comment.fill('Great sunset walk, busy on weekends.');
+  await tap(/Add photo/, sheet);
+  await page.waitForTimeout(2500);
+  const inputs = await page.evaluate(() => [...document.querySelectorAll('input[type=file]')].map((i) => `${i.accept}|${i.isConnected}`));
+  steps.push(`file inputs: ${JSON.stringify(inputs)}`);
+  if (process.env.PROBE_SHOTS) await page.screenshot({ path: `${process.env.PROBE_SHOTS}/checkin-photo.png` });
+  const thumbs = await page.locator('.modal-card img').count();
+  await tap(/^Post$|Confirm check-in/, sheet);
+  await page.waitForTimeout(9000);
+  const text = await page.evaluate(() => document.body.innerText.slice(0, 4000));
+  const posted = /checked in|Posted|points|\+\d+ pts|Nice/i.test(text);
+  const list = await fetch('http://127.0.0.1:9199/v0/b/demo-lh.appspot.com/o', { headers: { Authorization: 'Bearer owner' } })
+    .then((r) => r.json())
+    .catch(() => ({}));
+  const mine = (list.items || []).filter((o) => String(o.name).includes(me.uid));
+  await context.close();
+  const e = quiet(errors);
+  const summary = `steps ${steps.join(', ')}; file chooser opened ${chooser}x; preview images ${thumbs}; posted=${posted}; photos in Storage for this user: ${mine.length}`;
+  if (e.length) return `FAIL ${summary}; errors:\n  ${[...new Set(e.map((x) => x.slice(0, 220)))].join('\n  ')}`;
+  return posted && mine.length ? `PASS ${summary}` : `FAIL ${summary}`;
+};
+
+// Offline on the Map: the offline banner must be visible (not under the
+// map) and the header, the onboarding banner and the map buttons must not
+// sit on each other.
+PROBES['offline-map'] = async (browser) => {
+  const { page, context } = await setup(browser, { geo: { latitude: 25.7743, longitude: -80.1937, accuracy: 20 } });
+  const me = await signUp(page);
+  await verify(me.uid);
+  await page.waitForTimeout(4000);
+  await page.evaluate(() => (location.hash = '/'));
+  await page.waitForTimeout(3000);
+  await context.setOffline(true);
+  await page.waitForTimeout(1500);
+  const r = await page.evaluate(() => {
+    const vis = (el) => {
+      if (!el) return 'missing';
+      const b = el.getBoundingClientRect();
+      const top = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
+      return top && (top === el || el.contains(top)) ? 'visible' : `covered by ${top?.className || top?.tagName}`;
+    };
+    const boxes = [...document.querySelectorAll('header.app-header, .onboarding-banner-fixed, .map-search-btn, .map-picks .mpp-sheet')].map((e) => [e.className.split(' ')[0], e.getBoundingClientRect()]);
+    const overlaps = [];
+    for (let i = 0; i < boxes.length; i += 1)
+      for (let j = i + 1; j < boxes.length; j += 1) {
+        const [na, a] = boxes[i];
+        const [nb, b] = boxes[j];
+        const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+        const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+        if (w > 0 && h > 0) overlaps.push(`${na}/${nb} ${Math.round(w)}x${Math.round(h)}`);
+      }
+    return { banner: vis(document.querySelector('[role=status].offline-banner') || [...document.querySelectorAll('[role=status]')].find((e) => /offline/i.test(e.textContent))), overlaps };
+  });
+  await context.setOffline(false);
+  await context.close();
+  const ok = r.banner === 'visible' && !r.overlaps.length;
+  return `${ok ? 'PASS' : 'FAIL'} offline banner ${r.banner}; overlaps: ${r.overlaps.join(', ') || 'none'}`;
 };
 
 const browser = await chromium.launch();

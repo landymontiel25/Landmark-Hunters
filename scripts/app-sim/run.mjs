@@ -13,6 +13,11 @@
 //   --base URL       where the sim build is served (default: starts `vite preview`)
 //   --build          rebuild the sim bundle first (VITE_USE_EMULATOR=1, demo config)
 //   --max-minutes M  stop starting new sessions after M minutes (default 110)
+//   --emulator-batch N  run the emulators itself and restart them (fresh,
+//                    empty) every N sessions. The Firestore emulator's heap
+//                    fills after about 400 sessions and it then spends its
+//                    time in GC; a restart keeps a long run honest.
+//   --shots          save one screenshot per finding kind per session (out/.../shots)
 //   --fail-rate x    share of AI calls answered 503 (default 0.03)
 //   --out DIR        output folder (default scripts/app-sim/out/run-<seed>)
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
@@ -39,6 +44,7 @@ const FROM = Number(arg('from', 0));
 const ONLY = arg('only', '') ? String(arg('only')).split(',').map(Number) : null;
 const FAIL_RATE = Number(arg('fail-rate', 0.03));
 const MAX_MS = Number(arg('max-minutes', 110)) * 60000;
+const EMU_BATCH = Number(arg('emulator-batch', 0));
 const OUT = arg('out', join(here, 'out', `run-${SEED}${FROM ? `-from${FROM}` : ''}`));
 let BASE = arg('base', '');
 
@@ -64,7 +70,46 @@ async function up(url) {
   }
 }
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+let emulators = null;
+async function startEmulators() {
+  const log = join(here, '.work', 'emulators.log');
+  mkdirSync(join(here, '.work'), { recursive: true });
+  const { openSync } = await import('node:fs');
+  const fd = openSync(log, 'a');
+  emulators = spawn('node', [join(here, 'start-emulators.mjs')], { cwd: root, stdio: ['ignore', fd, fd], detached: true });
+  for (let i = 0; i < 240; i += 1) {
+    if ((await up('http://127.0.0.1:8080/')) && (await up('http://127.0.0.1:9099/'))) return;
+    await sleep(500);
+  }
+  throw new Error(`emulators did not start; see ${log}`);
+}
+async function stopEmulators() {
+  if (!emulators) return;
+  // The whole process group: the CLI, the Firestore and Storage JVMs.
+  try {
+    process.kill(-emulators.pid, 'SIGINT');
+  } catch {
+    /* gone */
+  }
+  for (let i = 0; i < 60 && (await up('http://127.0.0.1:8080/')); i += 1) await sleep(500);
+  try {
+    process.kill(-emulators.pid, 'SIGKILL');
+  } catch {
+    /* gone */
+  }
+  emulators = null;
+  await sleep(1500);
+}
+
 async function main() {
+  if (EMU_BATCH) {
+    if ((await up('http://127.0.0.1:8080/')) || (await up('http://127.0.0.1:9099/'))) {
+      console.error('--emulator-batch starts its own emulators; stop the running ones first.');
+      process.exit(1);
+    }
+    await startEmulators();
+  }
   if (!(await up('http://127.0.0.1:9099/')) && !(await up('http://127.0.0.1:8080/'))) {
     console.error('Start the emulators first: node scripts/app-sim/start-emulators.mjs');
     process.exit(1);
@@ -101,7 +146,19 @@ async function main() {
   );
   const accounts = saved.filter((_, i) => known[i]);
   console.log(`account pool: ${accounts.length} of ${saved.length} saved accounts still exist`);
+  // Merged on save: two runs on the same emulators share one pool.
+  const savePool = () => {
+    let onDisk = [];
+    try {
+      onDisk = JSON.parse(readFileSync(poolFile, 'utf8'));
+    } catch {
+      /* none yet */
+    }
+    const byEmail = new Map([...onDisk, ...accounts].map((a) => [a.email, a]));
+    writeFileSync(poolFile, JSON.stringify([...byEmail.values()]));
+  };
   const pool = {
+    reset: () => accounts.splice(0, accounts.length),
     size: () => accounts.length,
     addAccount: (a) => accounts.push(a),
     take: (rng) => (accounts.length ? accounts[Math.floor(rng() * accounts.length)] : null),
@@ -110,6 +167,9 @@ async function main() {
   const indexes = ONLY || Array.from({ length: SESSIONS }, (_, i) => FROM + i);
   const results = [];
   let next = 0;
+  // With --emulator-batch, workers stop at the batch end so the emulators
+  // can restart between batches.
+  let batchEnd = EMU_BATCH ? Math.min(EMU_BATCH, indexes.length) : indexes.length;
   const started = Date.now();
   const launch = () =>
     chromium.launch({
@@ -129,7 +189,8 @@ async function main() {
     }
   }
 
-  const opts = { failRate: FAIL_RATE, sessionTimeoutMs: 180000 };
+  const opts = { failRate: FAIL_RATE, sessionTimeoutMs: 180000, shotsDir: arg('shots', false) ? join(OUT, 'shots') : null };
+  if (opts.shotsDir) mkdirSync(opts.shotsDir, { recursive: true });
   const progress = () => {
     const done = results.length;
     const mins = (Date.now() - started) / 60000;
@@ -156,7 +217,7 @@ async function main() {
       if (!contexts[device]) contexts[device] = await newSimContext(browsers[bi], device);
       return contexts[device];
     };
-    while (next < indexes.length && Date.now() - started < MAX_MS) {
+    while (next < batchEnd && Date.now() - started < MAX_MS) {
       const index = indexes[next++];
       try {
         await runSession({ getContext, base: BASE, index, seed: SEED, pool, out: results, opts });
@@ -169,19 +230,30 @@ async function main() {
       }
       progress();
       if (results.length % 50 === 0) {
-        writeFileSync(poolFile, JSON.stringify(accounts));
+        savePool();
         writeFileSync(join(OUT, 'sessions.partial.json'), JSON.stringify(results));
       }
     }
     for (const c of Object.values(contexts)) await c.close().catch(() => {});
   }
   // Stagger worker starts so the first page loads do not pile up.
-  await Promise.all(Array.from({ length: WORKERS }, (_, w) => new Promise((r) => setTimeout(r, w * 700)).then(() => worker(w))));
+  const runWorkers = () => Promise.all(Array.from({ length: WORKERS }, (_, w) => sleep(w * 700).then(() => worker(w))));
+  await runWorkers();
+  while (EMU_BATCH && batchEnd < indexes.length && Date.now() - started < MAX_MS) {
+    process.stdout.write(`\nrestarting the emulators after ${batchEnd} sessions\n`);
+    savePool();
+    await stopEmulators();
+    await startEmulators();
+    pool.reset();
+    batchEnd = Math.min(batchEnd + EMU_BATCH, indexes.length);
+    await runWorkers();
+  }
   process.stdout.write('\n');
   for (const b of browsers) await b.close().catch(() => {});
   if (preview) preview.kill();
+  await stopEmulators();
 
-  writeFileSync(poolFile, JSON.stringify(accounts));
+  savePool();
   results.sort((a, b) => a.index - b.index);
   writeFileSync(join(OUT, 'sessions.json'), JSON.stringify(results));
   const report = buildReport(results, { seed: SEED, ms: Date.now() - started, workers: WORKERS });

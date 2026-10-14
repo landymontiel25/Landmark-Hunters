@@ -8,6 +8,11 @@ import { fileURLToPath } from 'node:url';
 import { makeRouter, CATALOG, adminSet } from './stubs.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
+// A 48x32 JPEG (drawn by Chromium) for photo pickers.
+const SMALL_JPEG = Buffer.from(
+  '/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAgADADASIAAhEBAxEB/8QAGQABAQEAAwAAAAAAAAAAAAAAAAYFAwQH/8QAKxAAAQIEBAILAAAAAAAAAAAAAAERAgMEBQYSExQWoyIxNUFUYWSCstHi/8QAFwEAAwEAAAAAAAAAAAAAAAAAAgMFBP/EACMRAAAGAQMFAQAAAAAAAAAAAAABAgMEERIFEyExUWFxgcH/2gAMAwEAAhEDEQA/AOI0+Hbr4XmQ/ZmHpREny1x8cCLm+vwRNMgty88zMqrp5vwIOos1wpJEU+fT5JcLOueFWdW7lOiW+Iuw6j2/JCIGwZCpDZqV3rj4E6jFRFdJCDOqvn2YAA2icBS8Yeg535JoCHo7T1bhXQ0sS3o97R1fr9G5ccSb+hmUu0087dLUdmVF6m8jDACaZbZTigqIC/IdkKycOzAADQgf/9k=',
+  'base64'
+);
 const INPAGE = readFileSync(join(here, 'inpage.js'), 'utf8');
 
 // A browser context for one worker and device type. Sessions swap their
@@ -302,7 +307,15 @@ export async function runSession({ getContext, base, index, seed, persona: force
   await page.goto(`${base}/__sim_reset`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.title === 'reset-done', null, { timeout: 10000 });
 
-  const add = (kindName, message, extra = {}) => findings.push({ kind: kindName, message: String(message).slice(0, 600), action: actionNo, hash: safeHash(), ...extra });
+  const shotKinds = new Set();
+  const add = (kindName, message, extra = {}) => {
+    findings.push({ kind: kindName, message: String(message).slice(0, 600), action: actionNo, hash: safeHash(), ...extra });
+    // --shots: one screenshot per kind per session, for the report.
+    if (opts.shotsDir && !shotKinds.has(kindName) && !['harness', 'infra', 'console', 'console-warning'].includes(kindName)) {
+      shotKinds.add(kindName);
+      page.screenshot({ path: join(opts.shotsDir, `${index}-${actionNo}-${kindName}.png` ) }).catch(() => {});
+    }
+  };
   let lastUrl = base;
   const safeHash = () => {
     try {
@@ -352,6 +365,14 @@ export async function runSession({ getContext, base, index, seed, persona: force
         })
         .catch(() => add('http4xx', `${r.status()} ${r.request().method()} ${path}`));
     }
+  });
+  // Photo pickers (check-in, tips, add landmark) get a small JPEG most of
+  // the time, and are cancelled otherwise.
+  page.on('filechooser', (fc) => {
+    if (rng() < 0.8) {
+      steps.push('  (picks a photo)');
+      fc.setFiles({ name: 'photo.jpg', mimeType: 'image/jpeg', buffer: SMALL_JPEG }).catch(() => {});
+    } else steps.push('  (cancels the photo picker)');
   });
   page.on('dialog', (d) => {
     steps.push(`  dialog(${d.type()}): ${d.message().slice(0, 80)}`);
@@ -546,7 +567,39 @@ export async function runSession({ getContext, base, index, seed, persona: force
           if (offenders.length > 3) break;
         }
       }
-      return { boundary: sim.boundary, stuck: sim.stuck, blank: sim.blank, offenders };
+      // Floating controls (fixed or absolute) that sit on part of each
+      // other, like a menu over a button: one of them cannot be tapped.
+      const overlaps = [];
+      if (scan) {
+        // Only controls that stay put on screen (inside something fixed):
+        // list rows scrolling under a fixed bar are expected.
+        const floating = (el) => {
+          for (let p = el; p && p !== document.body; p = p.parentElement) {
+            if (getComputedStyle(p).position === 'fixed') return true;
+          }
+          return false;
+        };
+        const ctrls = [...document.querySelectorAll('main button, main select, main a[href], main input')]
+          .filter((e) => !e.closest('.leaflet-container, .bottom-nav, .modal-backdrop, [role=dialog], [role=menu]'))
+          .filter((e) => {
+            const r = e.getBoundingClientRect();
+            return r.width > 4 && r.height > 4 && r.bottom > 0 && r.top < innerHeight && getComputedStyle(e).visibility !== 'hidden';
+          })
+          .filter(floating)
+          .slice(0, 60);
+        for (let i = 0; i < ctrls.length; i += 1) {
+          for (let j = i + 1; j < ctrls.length; j += 1) {
+            if (ctrls[i].contains(ctrls[j]) || ctrls[j].contains(ctrls[i])) continue;
+            const a = ctrls[i].getBoundingClientRect();
+            const b = ctrls[j].getBoundingClientRect();
+            const w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+            const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+            const name = (e) => (e.getAttribute('aria-label') || e.innerText || e.className || e.tagName).toString().trim().slice(0, 30);
+            if (w > 2 && h > 2) overlaps.push(`"${name(ctrls[i])}" and "${name(ctrls[j])}" overlap ${Math.round(w)}x${Math.round(h)}px`);
+          }
+        }
+      }
+      return { boundary: sim.boundary, stuck: sim.stuck, blank: sim.blank, offenders, overlaps };
     }, { scan, vw: persona.viewport.width }).catch(() => null);
     if (!s) return;
     for (const b of s.boundary.slice(seen.boundary)) add(b.offline || (offline && /dynamically imported/.test(b.details)) ? 'boundary-offline' : 'boundary', `Something went wrong on ${b.hash}: ${b.details}`, { boundaryHash: b.hash });
@@ -556,6 +609,7 @@ export async function runSession({ getContext, base, index, seed, persona: force
     seen.stuck = s.stuck.length;
     seen.blank = s.blank.length;
     for (const o of s.offenders) add('overflow', `${o.sel} sticks out ${o.over}px: "${o.text}"`, { sel: o.sel });
+    for (const o of s.overlaps || []) add('overlap', o);
   }
 
   // ---------- actions ----------

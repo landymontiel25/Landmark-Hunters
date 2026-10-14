@@ -43,7 +43,7 @@ export function buildReport(results, { seed, ms, workers }) {
     for (const [k, v] of Object.entries(r.external || {})) external[k] = (external[k] || 0) + v;
     const perSession = new Set();
     for (const f of r.findings) {
-      const route = f.kind === 'overflow' || f.kind === 'noop' || f.kind === 'stuck' ? routeOf(f.hash) : '';
+      const route = ['overflow', 'overlap', 'noop', 'stuck'].includes(f.kind) ? routeOf(f.hash) : '';
       const key = [f.kind, normalize(f.message), topFrame(f.stack), route].join(' | ');
       let g = groups.get(key);
       if (!g) {
@@ -70,7 +70,7 @@ export function buildReport(results, { seed, ms, workers }) {
     `${results.length} sessions, ${actions} actions, ${durationMin.toFixed(1)} min, ${workers} workers. ` +
     `${list.filter((g) => g.kind !== 'harness').length} distinct findings (${list.filter((g) => ['pageerror', 'boundary', 'blank'].includes(g.kind)).length} crashes/errors).`;
 
-  const order = ['pageerror', 'boundary', 'blank', 'stuck', 'console', 'console-warning', 'requestfailed', 'http5xx', 'overflow', 'noop', 'harness'];
+  const order = ['pageerror', 'boundary', 'blank', 'stuck', 'console', 'console-warning', 'requestfailed', 'http5xx', 'http4xx', 'overflow', 'overlap', 'noop', 'boundary-offline', 'infra', 'harness'];
   let md = `# App sim report (seed ${seed})\n\n${summary}\n\nPersonas: ${JSON.stringify(personaCount)}\n\nAPI calls stubbed: ${JSON.stringify(apiCalls)}\n\nUnknown API routes: ${JSON.stringify(unknownApi)}\n\nOther hosts answered: ${JSON.stringify(external)}\n\n`;
   for (const kind of order) {
     const gs = list.filter((g) => g.kind === kind);
