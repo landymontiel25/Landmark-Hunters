@@ -18,6 +18,8 @@ function levenshtein(a, b) {
     for (let j = 1; j <= n; j++) {
       dp[i][j] =
         a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      // Two letters swapped ("Musuem") is one slip, not two.
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) dp[i][j] = Math.min(dp[i][j], dp[i - 2][j - 2] + 1);
     }
   }
   return dp[m][n];
@@ -25,7 +27,7 @@ function levenshtein(a, b) {
 
 // Words that don't tell two places apart: "Hillstone" and "Hillstone
 // Restaurant" are the same place.
-const FILLER = new Set(['the', 'restaurant', 'cafe', 'café', 'bar', 'grill', 'kitchen', 'eatery', 'miami', 'fl', 'inc', 'llc']);
+const FILLER = new Set(['the', 'restaurant', 'cafe', 'café', 'bar', 'bistro', 'grill', 'kitchen', 'eatery', 'miami', 'fl', 'inc', 'llc']);
 const core = (s) =>
   s
     .toLowerCase()
@@ -34,18 +36,38 @@ const core = (s) =>
     .filter((w) => w && !FILLER.has(w))
     .join(' ');
 
+// How many letters a word can be off by and still be a typo of another:
+// none for short words, one for medium, two for long ("Helstone" for
+// "Hillstone").
+const typoAllowance = (len) => (len < 5 ? 0 : len < 8 ? 1 : 2);
+
 // Same name once filler words are dropped ("Hillstone" and "Hillstone
-// Restaurant"), or a plain typo of it ("Helstone"). A name that only starts
-// the same is a different place: "Cocoplum Yacht Club" is not "Cocoplum".
-function namesMatch(a, b) {
+// Restaurant"), or a plain typo of it ("Helstone"). Compared word by word,
+// so two different names that only look alike ("Budare Bistro" and
+// "Bugatti Bistro", owner report 2026-10-14) don't match. A name that only
+// starts the same is a different place: "Cocoplum Yacht Club" is not
+// "Cocoplum".
+export function namesMatch(a, b) {
   const x = core(a);
   const y = core(b);
   if (!x || !y) return false;
-  if (x === y) return true;
-  if (Math.abs(x.length - y.length) > 3) return false;
-  const threshold = Math.max(1, Math.round(Math.min(x.length, y.length) * 0.3));
-  return levenshtein(x, y) <= threshold;
+  if (x === y || x.replace(/\s/g, '') === y.replace(/\s/g, '')) return true;
+  const xs = x.split(' ');
+  const ys = y.split(' ');
+  if (xs.length !== ys.length) return false;
+  let total = 0;
+  for (let i = 0; i < xs.length; i++) {
+    if (xs[i] === ys[i]) continue;
+    const d = levenshtein(xs[i], ys[i]);
+    if (d > typoAllowance(Math.min(xs[i].length, ys[i].length))) return false;
+    total += d;
+  }
+  return total <= 2;
 }
+
+// A typo match only counts near the place: two spots more than this far
+// apart are different places, however alike the names look.
+const TYPO_MAX_METERS = 2_000;
 
 // One name inside the other ("Joe's" in "Joe's Stone Crab") only counts at
 // the same spot, so a neighborhood's name never flags every place in it.
@@ -68,7 +90,10 @@ export async function findPossibleDuplicate({ name, regionId, lat, lng }) {
 
   const hasPoint = Number.isFinite(lat) && Number.isFinite(lng);
   const sameSpot = (l) => hasPoint && Number.isFinite(l.lat) && Number.isFinite(l.lng) && distanceMeters(lat, lng, l.lat, l.lng) <= SAME_SPOT_METERS;
-  const nameHit = (l) => namesMatch(l.name, trimmed) || (partOfName(l.name, trimmed) && sameSpot(l));
+  const farApart = (l) => hasPoint && Number.isFinite(l.lat) && Number.isFinite(l.lng) && distanceMeters(lat, lng, l.lat, l.lng) > TYPO_MAX_METERS;
+  const sameName = (l) => core(l.name) === core(trimmed);
+  const nameHit = (l) =>
+    sameName(l) || (namesMatch(l.name, trimmed) && !farApart(l)) || (partOfName(l.name, trimmed) && sameSpot(l));
 
   const builtIn = ALL_LANDMARKS.find((l) => l.regionId === regionId && nameHit(l));
   if (builtIn) return { name: builtIn.name, region: builtIn.regionId, id: builtIn.id };
