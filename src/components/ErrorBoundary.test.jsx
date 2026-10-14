@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import ErrorBoundary from './ErrorBoundary';
+import { pageReload } from '../lib/chunkReload';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -20,7 +21,11 @@ function Bomb() {
   throw new Error('kaboom');
 }
 
-function mountCrash() {
+function LoadFailure() {
+  throw new TypeError('Failed to fetch dynamically imported module: http://x/assets/Mapr-abc.js');
+}
+
+function mountCrash(Child = Bomb) {
   vi.spyOn(console, 'error').mockImplementation(() => {});
   host = document.createElement('div');
   document.body.appendChild(host);
@@ -28,7 +33,7 @@ function mountCrash() {
   act(() =>
     root.render(
       <ErrorBoundary>
-        <Bomb />
+        <Child />
       </ErrorBoundary>
     )
   );
@@ -105,5 +110,35 @@ describe('ErrorBoundary', () => {
       link.dispatchEvent(evt);
     });
     expect(evt.defaultPrevented).toBe(false);
+  });
+
+  // Found by the app simulation: a screen opened while offline stayed on
+  // "Something went wrong" after the connection came back, and Try Again
+  // while still offline swapped the app for the browser's offline page.
+  it('a screen that failed to download offline reloads once the connection is back', () => {
+    const reload = vi.spyOn(pageReload, 'run').mockImplementation(() => {});
+    vi.stubGlobal('navigator', { ...navigator, onLine: false });
+    mountCrash(LoadFailure);
+    expect(reload).not.toHaveBeenCalled();
+    window.dispatchEvent(new Event('online'));
+    expect(reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('Try Again while offline says so instead of reloading', () => {
+    const reload = vi.spyOn(pageReload, 'run').mockImplementation(() => {});
+    vi.stubGlobal('navigator', { ...navigator, onLine: false });
+    mountCrash(LoadFailure);
+    const btn = [...host.querySelectorAll('button')].find((b) => b.textContent === 'Try Again');
+    act(() => btn.click());
+    expect(reload).not.toHaveBeenCalled();
+    expect(host.textContent).toContain('Still offline');
+  });
+
+  it('an ordinary crash does not reload when the connection comes back', () => {
+    const reload = vi.spyOn(pageReload, 'run').mockImplementation(() => {});
+    vi.stubGlobal('navigator', { ...navigator, onLine: false });
+    mountCrash();
+    window.dispatchEvent(new Event('online'));
+    expect(reload).not.toHaveBeenCalled();
   });
 });

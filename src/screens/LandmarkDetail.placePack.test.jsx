@@ -114,6 +114,7 @@ async function mountPage() {
       <MemoryRouter initialEntries={['/landmarks/miami/osm-n424242']}>
         <Routes>
           <Route path="/landmarks/:region/:id" element={<LandmarkDetail />} />
+          <Route path="/landmarks" element={<p>PLACES LIST</p>} />
         </Routes>
       </MemoryRouter>
     );
@@ -157,5 +158,17 @@ describe('imported place page', () => {
     expect(c.textContent).toMatch(/Do you like Cuban food\?/);
     expect(c.textContent).not.toMatch(/Needs a ticket/);
     expect(getCustomLandmark).not.toHaveBeenCalled();
+  });
+
+  // Found by the app simulation: opened from a shared link (the first page
+  // in the app), Back called navigate(-1), which did nothing or left the
+  // app. It now goes to Places.
+  it('Back on a page opened from a shared link goes to Places', async () => {
+    packs.ok = true;
+    packs.place = place;
+    const c = await mountPage();
+    const back = [...c.querySelectorAll('button')].find((b) => b.textContent.includes('Back'));
+    await act(async () => back.click());
+    expect(c.textContent).toContain('PLACES LIST');
   });
 });

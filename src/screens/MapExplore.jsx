@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { laterLegs, legColor } from '../lib/tripLegs';
 import { MapContainer, AttributionControl, TileLayer, Marker, Popup, Tooltip, Polyline, Polygon, Circle, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
-import L from 'leaflet';
+// leafletGuards: Leaflet plus a fix for two timers that outlive their map.
+import L from '../lib/leafletGuards';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import { ALL_LANDMARKS, ALL_LANDMARKS_BOUNDS, INTERESTS, getRegion, normalizeCategories } from '../data/regions';

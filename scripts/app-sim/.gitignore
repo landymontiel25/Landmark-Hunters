@@ -1,0 +1,4 @@
+# Sim build, emulator working dir, run output (logs, screenshots, JSON).
+.work/
+.dist/
+out/

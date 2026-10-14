@@ -56,10 +56,22 @@ export default function MyCommentEditor({ userId, userName, landmark, comment, t
   const stop = (e) => e.stopPropagation();
 
   if (!editing) {
+    // Only the button keeps its tap to itself: on My Check-ins this sits in
+    // a row that opens the place, and stopping every tap on the comment
+    // text made the middle of the row do nothing (found by the app
+    // simulation's dead-button check).
     return (
-      <div className={`my-comment ${compact ? 'my-comment-compact' : ''}`} onClick={stop} onKeyDown={stop}>
+      <div className={`my-comment ${compact ? 'my-comment-compact' : ''}`}>
         {shown ? <p className="review-comment" style={{ margin: 0 }}>{shown}</p> : null}
-        <button type="button" className="btn btn-ghost btn-tight" onClick={start}>
+        <button
+          type="button"
+          className="btn btn-ghost btn-tight"
+          onClick={(e) => {
+            e.stopPropagation();
+            start();
+          }}
+          onKeyDown={stop}
+        >
           {shown ? `${'\u{270F}\u{FE0F}'} Edit comment` : `${'\u{1F4AC}'} Add a comment`}
         </button>
       </div>

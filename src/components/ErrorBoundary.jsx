@@ -1,4 +1,7 @@
 import { Component } from 'react';
+import { isLoadFailure, pageReload } from '../lib/chunkReload';
+
+const isOffline = () => typeof navigator !== 'undefined' && navigator.onLine === false;
 
 // Catches a render-time crash in whatever it wraps: the current screen (keyed
 // by route in App.jsx), each piece of always-on chrome (with a `fallback`),
@@ -6,7 +9,8 @@ import { Component } from 'react';
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { error: null };
+    this.state = { error: null, stillOffline: false };
+    this.onOnline = null;
   }
 
   static getDerivedStateFromError(error) {
@@ -17,7 +21,29 @@ export default class ErrorBoundary extends Component {
     // No crash-reporting service wired up yet -- at minimum this keeps the
     // real error visible in the console instead of vanishing with the UI.
     console.error('Uncaught render error:', error, info?.componentStack);
+    // The screen's file could not download because the connection dropped.
+    // React keeps that failure, so the screen stayed broken after the
+    // connection came back until Try Again. Reload once it is back. (Found
+    // by the app simulation, docs/app-sim-results.md.)
+    if (isOffline() && isLoadFailure(error) && !this.onOnline && typeof window !== 'undefined') {
+      this.onOnline = () => pageReload.run();
+      window.addEventListener('online', this.onOnline, { once: true });
+    }
   }
+
+  componentWillUnmount() {
+    if (this.onOnline) window.removeEventListener('online', this.onOnline);
+  }
+
+  // Offline, a reload swaps the app for the browser's own "no internet"
+  // page, so Try Again says it is still offline instead.
+  tryAgain = () => {
+    if (isOffline()) {
+      this.setState({ stillOffline: true });
+      return;
+    }
+    pageReload.run();
+  };
 
   render() {
     if (!this.state.error) return this.props.children;
@@ -29,7 +55,7 @@ export default class ErrorBoundary extends Component {
         <h1 className="screen-title">{'\u{26A0}\u{FE0F}'} Something went wrong</h1>
         <p className="screen-subtitle">
           {typeof navigator !== 'undefined' && navigator.onLine === false
-            ? "You're offline, and this screen needs a connection to open. Reconnect and try again."
+            ? "You're offline, and this screen needs a connection to open. It opens by itself once you're back online."
             : 'This screen hit a snag on our end. Anything you were typing is saved on this device, so trying again picks up where you left off.'}
         </p>
         {/* A full reload, not just clearing local state: the most common
@@ -39,9 +65,14 @@ export default class ErrorBoundary extends Component {
             and fails again identically. Reloading fetches the current
             index.html with correct chunk references, which actually fixes
             it -- clearing state can't. */}
-        <button className="btn btn-primary btn-block" onClick={() => window.location.reload()}>
+        <button className="btn btn-primary btn-block" onClick={this.tryAgain}>
           Try Again
         </button>
+        {this.state.stillOffline && (
+          <p className="screen-subtitle" role="status" style={{ marginTop: 10 }}>
+            Still offline. This screen opens again by itself once you're back online.
+          </p>
+        )}
         <a
           href="#/"
           onClick={(e) => {

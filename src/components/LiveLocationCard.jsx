@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
-import L from 'leaflet';
+// leafletGuards: Leaflet plus a fix for two timers that outlive their map.
+import L from '../lib/leafletGuards';
 import 'leaflet/dist/leaflet.css';
 import { useGeo } from '../lib/GeoContext';
 import { useToast } from '../lib/ToastContext';

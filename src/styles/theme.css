@@ -64,7 +64,10 @@
      bar clear of the system UI. */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --header-base: calc(76px + var(--safe-top));
+  /* Set by OfflineBanner to its height while it shows (sticky, above the
+     header); the header and everything placed under it move down by it. */
+  --offline-h: 0px;
+  --header-base: calc(76px + var(--safe-top) + var(--offline-h));
   /* Set by OnboardingBanner while its floating variant is on screen. */
   --banner-h: 0px;
   --header-h: calc(var(--header-base) + var(--banner-h));
@@ -1983,7 +1986,7 @@ textarea {
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-float);
   position: sticky;
-  top: calc(var(--safe-top) + 12px);
+  top: calc(var(--safe-top) + 12px + var(--offline-h));
   z-index: 20;
 }
 
@@ -2059,6 +2062,15 @@ textarea {
 .profile-menu-trigger {
   cursor: pointer;
   font: inherit;
+  /* A long display name (up to 200 characters, before a @username is set)
+     pushed the whole app wider than a phone. Cut it with an ellipsis. */
+  max-width: 42vw;
+}
+
+.profile-menu-trigger .score-chip-pts {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-menu-caret {
@@ -3207,6 +3219,14 @@ button.header-streak {
 }
 
 .friend-email-input,
+/* A comment with a long unbroken word (a pasted link) made the landmark
+   page 1,819px wide on a 390px phone and stuck out of its card on Check-ins
+   and Stats. Break it anywhere instead. Found by the app simulation (probe
+   long-text). */
+.review-comment {
+  overflow-wrap: anywhere;
+}
+
 .review-comment-input {
   width: 100%;
   background: var(--color-bg-raised);

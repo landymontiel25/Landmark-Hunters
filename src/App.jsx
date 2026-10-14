@@ -36,7 +36,7 @@ import { useTripAccountGuard } from './lib/tripAccountGuard';
 import { installModalA11y } from './lib/modalA11y';
 import { useDocumentTitle } from './lib/useDocumentTitle';
 import { shouldResetScroll } from './lib/scrollReset';
-import { flagClear, flagSet, shouldReloadForChunkError } from './lib/chunkReload';
+import { flagSet, settleScreenModule, shouldReloadForChunkError } from './lib/chunkReload';
 
 // Renders nothing -- just needs to sit inside AuthProvider/FriendsProvider to
 // start/stop push registration as the traveler's own saved preference
@@ -104,10 +104,7 @@ function lazyScreen(load) {
   screenLoaders.push(load);
   return lazy(() =>
     load()
-      .then((m) => {
-        flagClear();
-        return m;
-      })
+      .then(settleScreenModule)
       .catch((err) => {
         if (shouldReloadForChunkError()) {
           flagSet();
