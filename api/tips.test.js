@@ -58,7 +58,7 @@ describe('api/tips: reading', () => {
   });
   it('never returns reporters, held reasons, gens or who marked a tip', async () => {
     const t = (await list()).body.tips.find((x) => !x.mine);
-    expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitMonth'].sort());
+    expect(Object.keys(t).sort()).toEqual(['authorName', 'authorUid', 'counts', 'edited', 'id', 'landmarkId', 'mine', 'photoURL', 'region', 'tags', 'text', 'verified', 'visitMonth'].sort());
   });
   it('gives the month of the visit, never the day or time', async () => {
     expect((await list()).body.tips.find((x) => x.id === 'ann_bell').visitMonth).toBe('2027-01');

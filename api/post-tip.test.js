@@ -197,6 +197,43 @@ describe('api/post-tip: deleting', () => {
   });
 });
 
+describe('api/post-tip: editing', () => {
+  const edit = (o = {}) => call({ action: 'edit', landmarkId: 'bell', region: 'philly', text: 'Go early, before the school groups.', tags: ['go-early'], ...o });
+  it('changes your own tip\'s words and tags, keeps its photo and counts, and marks it edited', async () => {
+    await post({ photoURL: photo() });
+    db.docs['tips/me_bell'].counts = { helpful: 3, saved: 1 };
+    const { code, body } = await edit({ text: '  Go early,   before the school groups. ' });
+    expect(code).toBe(200);
+    expect(body).toMatchObject({ ok: true, status: 'live' });
+    expect(db.docs['tips/me_bell']).toMatchObject({ text: 'Go early, before the school groups.', tags: ['go-early'], status: 'live', photoPath: 'tip_photos/me/p1.jpg', counts: { helpful: 3, saved: 1 } });
+    expect(Number.isFinite(db.docs['tips/me_bell'].editedAt)).toBe(true);
+  });
+  it('runs the same checks as a new tip: the word filter holds a flagged edit, bad input is refused', async () => {
+    await post();
+    expect((await edit({ text: 'the guards here are sh1t and rude' })).body.status).toBe('held');
+    expect((await edit({ text: 'no' })).body.code).toBe('too-short');
+    expect((await edit({ tags: ['not-a-tag'] })).body.code).toBe('bad-tags');
+  });
+  it('only your own tip, from its own region, not one waiting for review, and needs a verified email', async () => {
+    expect((await edit()).code).toBe(404);
+    await post();
+    expect((await edit({ region: 'miami' })).code).toBe(404);
+    db.docs['tips/me_bell'].hidden = true;
+    expect((await edit()).body.code).toBe('locked');
+    db.docs['tips/me_bell'].hidden = false;
+    db.docs['tips/me_bell'].status = 'removed';
+    expect((await edit()).code).toBe(403);
+    caller = { uid: 'me', emailVerified: false };
+    expect((await edit()).body.code).toBe('email');
+  });
+  it('saving the same words changes nothing', async () => {
+    await post({ text: 'Go early, quiet then.' });
+    const { body } = await edit({ text: 'Go early, quiet then.', tags: [] });
+    expect(body).toMatchObject({ ok: true, unchanged: true });
+    expect(db.docs['tips/me_bell'].editedAt).toBeUndefined();
+  });
+});
+
 describe('api/post-tip: account deletion', () => {
   it('retires every tip like a delete, keeps reported or removed ones (and their photos) for review, fixes counts', async () => {
     caller = { uid: 'me', emailVerified: false };
