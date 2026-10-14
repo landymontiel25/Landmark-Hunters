@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## App simulation: suggestions not built (2026-10-14)
+
+`scripts/app-sim/` runs thousands of simulated users against the
+emulators; `docs/app-sim-results.md` has how to run it, the 12 bugs it
+found (all fixed) and 14 suggested features and UI changes, not built, in
+priority order. Next: the owner picks which suggestions to build. Rerun
+the sim (`--emulator-batch 250`) after any big UI change; the Firestore
+emulator needs a restart about every 400 sessions or it slows to a crawl.
+
 ## Solo streak daily cards: city, variety, warnings (2026-10-13)
 
 Fixed: the 3 daily cards follow the city you are in (the streak's city
@@ -12,8 +21,11 @@ always deal 3. Red streak warnings (header flame, Profile line) show only in
 the last 5 hours, like the banner and notification already did. Still open:
 the owner said the Streaks page "shuts down the app" and signs them out. No
 repro yet (the page renders fine in tests with Miami's places loaded); the
-carousel under the cards now has its own error boundary. Next step: a
-screenshot of the "Something went wrong" details, or the device console.
+carousel under the cards now has its own error boundary. The app
+simulation (2026-10-14) opened Streaks in 415 sessions and never hit an
+error screen there while online, so it likely needs the iOS app or real
+data. Next step: a screenshot of the "Something went wrong" details, or
+the device console.
 
 ## Google map online, Esri offline (2026-10-13, needs the owner's key)
 
