@@ -5,8 +5,9 @@ import { ALL_LANDMARKS } from '../data/regions';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { streetAddress } from '../lib/geocode';
+import { reverseGeocodePlace } from '../lib/placeLookup';
 import { distanceMeters } from '../lib/geo';
-import { STOP_AFTER_MS, isMoving, placeAt, shortAddress } from '../lib/whereAmI';
+import { STOP_AFTER_MS, isMoving, nearestPlace, placeAt, shortAddress } from '../lib/whereAmI';
 
 // "Where I am", under the header on every tab (owner request 2026-10-14):
 // the landmark you're at, else your street address, or "Traveling…" while
@@ -74,9 +75,17 @@ export default function WhereAmI() {
     }
     if (here && !here.place && distanceMeters(here.at.lat, here.at.lng, at.lat, at.lng) < RESOLVE_AGAIN_METERS) return;
     let live = true;
-    streetAddress(at.lat, at.lng).then((label) => {
-      if (live) setHere(label ? { label: shortAddress(label), at } : null);
-    });
+    // OpenStreetMap first (free, cached on the phone), then Google's
+    // nearby-place lookup; if both fail, the nearest place (below).
+    (async () => {
+      let label = await streetAddress(at.lat, at.lng).catch(() => null);
+      if (!label) {
+        const g = await reverseGeocodePlace(at.lat, at.lng).catch(() => null);
+        label = g?.address || g?.name || null;
+      }
+      if (live && label) setHere({ label: shortAddress(label), at });
+      else if (live) setHere((h) => (h?.place ? null : h));
+    })();
     return () => {
       live = false;
     };
@@ -84,8 +93,11 @@ export default function WhereAmI() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coords, traveling, places]);
 
-  const text = traveling ? 'Traveling…' : here?.label || '';
-  const visible = !!coords && !!text;
+  // Never blank while there's a fix: "Near <place>" until the address
+  // comes back (or if it never does), else "Finding your spot…".
+  const near = !traveling && !here && coords ? nearestPlace(coords, places) : null;
+  const text = traveling ? 'Traveling…' : here?.label || (near ? `Near ${near.name}` : 'Finding your spot…');
+  const visible = !!coords;
 
   useLayoutEffect(() => {
     const root = document.documentElement;
@@ -105,7 +117,7 @@ export default function WhereAmI() {
 
   if (!visible) return null;
 
-  const place = !traveling ? here?.place : null;
+  const place = !traveling ? here?.place || near : null;
   const open = () => {
     const region = place?.regionId || place?.region;
     if (place?.id && region) navigate(`/landmarks/${region}/${place.id}`);
@@ -121,8 +133,8 @@ export default function WhereAmI() {
         aria-live="polite"
         aria-label={traveling ? 'Where you are: traveling' : `Where you are: ${text}`}
       >
-        <span aria-hidden="true">{traveling ? '\u{1F697}' : place ? '\u{2B50}' : '\u{1F4CD}'}</span>
-        <span className="where-am-i-text">{place ? `At ${text}` : text}</span>
+        <span aria-hidden="true">{traveling ? '\u{1F697}' : here?.place ? '\u{2B50}' : '\u{1F4CD}'}</span>
+        <span className="where-am-i-text">{here?.place && !traveling ? `At ${text}` : text}</span>
       </button>
     </div>
   );

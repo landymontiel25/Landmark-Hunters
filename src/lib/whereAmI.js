@@ -51,3 +51,17 @@ export function shortAddress(label) {
     .slice(0, 2)
     .join(', ');
 }
+
+// No address yet (still looking, or the lookups failed): the nearest place
+// within 500 m, so the pill still says something useful.
+export const NEAR_MAX_METERS = 500;
+export function nearestPlace(point, places, maxMeters = NEAR_MAX_METERS) {
+  if (!point) return null;
+  let best = null;
+  for (const p of places) {
+    if (!Number.isFinite(p?.lat) || !Number.isFinite(p?.lng) || !p.name) continue;
+    const d = distanceMeters(point.lat, point.lng, p.lat, p.lng);
+    if (d <= maxMeters && (!best || d < best.d)) best = { place: p, d };
+  }
+  return best?.place || null;
+}
