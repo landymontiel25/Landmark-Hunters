@@ -4,7 +4,7 @@ let signedIn = true;
 vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => (signedIn ? { uid: 'me' } : null) }));
 vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 
-const { default: handler, _setRatingIds } = await import('./landmark-ratings.js');
+const { default: handler, _setRatingIds, _setCustomLookup } = await import('./landmark-ratings.js');
 
 const GOOGLE_OK = {
   rating: 4.7,
@@ -132,6 +132,24 @@ describe('api/landmark-ratings', () => {
     const { body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(body.sources.google).toBeNull();
     expect(body.googleNoRating).toBe(true);
+  });
+
+  it('a user-added landmark gets its Google rating through its own saved ID', async () => {
+    const lookup = vi.fn(async () => 'ChIJcustom');
+    _setCustomLookup(lookup);
+    const { body } = await call({ region: 'miami', id: 'custom-1760000000000-abc123' });
+    expect(lookup).toHaveBeenCalledWith('custom-1760000000000-abc123');
+    expect(body.sources.google).toMatchObject({ rating: 4.7 });
+    expect(fetchMock.mock.calls.some(([u]) => String(u).includes('places/ChIJcustom'))).toBe(true);
+  });
+
+  it('a user-added landmark with no Google match says so; a failed lookup does not', async () => {
+    _setCustomLookup(async () => null);
+    expect((await call({ region: 'custom', id: 'custom-1-a' })).body.googleNoRating).toBe(true);
+    _setCustomLookup(async () => {
+      throw new Error('google search 503');
+    });
+    expect((await call({ region: 'custom', id: 'custom-1-a' })).body.googleNoRating).toBe(false);
   });
 
   it('needs sign-in, and rejects a bad landmark id', async () => {

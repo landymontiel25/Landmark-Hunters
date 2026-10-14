@@ -14,7 +14,7 @@ import { TRIPADVISOR_LOGO } from './brand';
 // available"; `fallback` (the app's own rating tag) shows only while loading
 // or when the lookup failed.
 function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS }) {
-  const enabled = flags.cardLine && !landmark?.custom;
+  const enabled = flags.cardLine;
   const { ref, status, sources } = useLandmarkRatings(landmark, { enabled });
   const taLogo = useImageAvailable(enabled ? TRIPADVISOR_LOGO : null);
   if (status === 'off') return fallback;

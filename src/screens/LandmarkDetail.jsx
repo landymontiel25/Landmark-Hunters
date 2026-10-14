@@ -458,7 +458,7 @@ function LandmarkDetailBody() {
 
   // Google rating and reviews (api/landmark-ratings.js): one call, shared by
   // the rating under the title and the Ratings section.
-  const outside = useLandmarkRatings(landmark, { detail: true, lazy: false, enabled: !!landmark && !customLandmark });
+  const outside = useLandmarkRatings(landmark, { detail: true, lazy: false, enabled: !!landmark });
 
   if (!landmark && customLoading) {
     return <LandmarkDetailSkeleton />;
@@ -898,7 +898,7 @@ function LandmarkDetailBody() {
         <p style={{ fontSize: '1.02rem', margin: 0 }}>{landmark.summary}</p>
       </div>
 
-      {!customLandmark && <RatingsSection landmark={landmark} lhAgg={agg} outside={outside} />}
+      <RatingsSection landmark={landmark} lhAgg={agg} outside={outside} />
 
       {landmark.tip && (
         <div

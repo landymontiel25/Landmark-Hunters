@@ -59,6 +59,9 @@ site's referrers, sets a daily tile quota, and adds
 
 ## Google and Tripadvisor ratings on landmarks (2026-10-13, needs owner steps)
 
+Update 2026-10-14: user-added landmarks get Google ratings too, matched
+the first time anyone views them (docs/ratings.md, "User-added landmarks").
+
 Update 2026-10-13 (evening): the 735 close calls were checked by hand: 631
 accepted, 104 left in review.json (a different place, a chain branch too far
 away, or a part of a bigger site). The 436 no-matches were searched again by

@@ -8,7 +8,7 @@ import GoogleAttribution from './GoogleAttribution';
 // A popup's content only mounts when it opens, so this is one call per open.
 // "No ratings available" when Google has no rating for the place.
 export default function MapPopupRating({ landmark }) {
-  const { status, sources } = useLandmarkRatings(landmark, { lazy: false, enabled: !landmark?.custom });
+  const { status, sources } = useLandmarkRatings(landmark, { lazy: false });
   const google = status === 'done' && hasRating(sources?.google) ? sources.google : null;
   if (!google) {
     if (status !== 'done' || !sources?.googleNoRating) return null;
