@@ -14,6 +14,7 @@ import MaprTutorial, { MaprBubble } from '../components/MaprTutorial';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
 import MallLab from './MallLab';
 import TasteProfileLab from './TasteProfileLab';
+import RatingSliderLab from './RatingSliderLab';
 
 export { progressTier };
 
@@ -38,6 +39,7 @@ const STEPS = [
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
+  { id: 'slider', label: 'Rating slider' },
   { id: 'malls', label: 'Malls' },
   { id: 'onboarding', label: 'Onboarding' },
   { id: 'taste', label: 'Taste Profile' },
@@ -61,7 +63,7 @@ const empty = () => ({
 
 export default function OnboardingLab() {
   const { user, loading: authLoading } = useAuth();
-  const [test, setTest] = useState('malls');
+  const [test, setTest] = useState('slider');
   const [step, setStep] = useState(0);
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
@@ -87,6 +89,15 @@ export default function OnboardingLab() {
       ))}
     </div>
   );
+
+  if (test === 'slider') {
+    return (
+      <div>
+        {testTabs}
+        <RatingSliderLab />
+      </div>
+    );
+  }
 
   if (test === 'malls') {
     return (

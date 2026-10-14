@@ -56,11 +56,16 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
-  it('opens on the Malls bubble, with Onboarding next to it', async () => {
+  it('opens on the Rating slider bubble, with Malls and Onboarding next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Malls', 'Onboarding', 'Taste Profile']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Onboarding', 'Taste Profile']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+    expect(el.querySelector('.rate-slider')).toBeTruthy();
+  });
+
+  it('the Malls bubble shows the mall map', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'malls' });
     expect(el.querySelector('.mall-lab-map .leaflet-container')).toBeTruthy();
   });
 

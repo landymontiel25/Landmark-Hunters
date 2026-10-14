@@ -7709,3 +7709,86 @@ p.tag {
 .where-am-i-moving .where-am-i-text {
   color: var(--mapr-blue, var(--text-primary));
 }
+/* Test tab: Rating slider (screens/RatingSliderLab.jsx). A 1-5 line with a
+   draggable face, the three phrases under 1, 3 and 5. */
+.rate-slider {
+  padding: 18px 18px 4px;
+  user-select: none;
+}
+.rate-slider-track {
+  position: relative;
+  height: 44px;
+  touch-action: none;
+  cursor: pointer;
+  outline: none;
+}
+.rate-slider-track:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent, #5b8cff);
+  border-radius: 22px;
+}
+.rate-slider-line,
+.rate-slider-fill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+}
+.rate-slider-line {
+  right: 0;
+  background: var(--border-default, rgba(255, 255, 255, 0.18));
+}
+.rate-slider-fill {
+  background: linear-gradient(90deg, #f06a6a, #f2c14e 50%, #55c987);
+}
+.rate-slider-tick {
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 22px;
+  margin: -11px 0 0 -1.5px;
+  border-radius: 2px;
+  background: var(--border-default, rgba(255, 255, 255, 0.3));
+}
+.rate-slider-tick.on {
+  background: var(--text-primary, #fff);
+}
+.rate-slider-thumb {
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--surface-raised, #1d2540);
+  border: 2px solid var(--text-primary, #fff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: left 0.12s ease;
+  pointer-events: none;
+}
+.rate-slider-labels {
+  position: relative;
+  height: 44px;
+  margin-top: 4px;
+}
+.rate-slider-label {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--color-parchment-dim);
+  white-space: nowrap;
+}
+.rate-slider-label.on {
+  color: var(--text-primary, #fff);
+}
+.rate-slider-label small {
+  font-size: 0.72rem;
+}
