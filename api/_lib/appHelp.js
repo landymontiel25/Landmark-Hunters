@@ -6,7 +6,7 @@
 // or flow (see CLAUDE.md).
 export const APP_HELP =
   `HOW LANDMARK HUNTERS WORKS (for questions about the app itself, not a landmark):\n` +
-  `- "Where I am": with location on, a small pill under the header on every tab shows where you are right now: "At <place>" when you're standing at a landmark or a place someone added (tap it to open that place's page), otherwise your street address (tap it to go to the Map). While you're moving (walking or driving) it says "Traveling…", and it names the new spot about half a minute after you stop. It stays on screen as you scroll, like the Back buttons, and hides when location is off.\n` +
+  `- "Where I am": with location on, a small pill under the header on every tab shows where you are right now: "At <place>" when you're standing at a landmark or a place someone added (tap it to open that place's page), otherwise your street address (tap it to go to the Map); if the address can't be found it says "Near <closest place>", and "Finding your spot…" while it looks. While you're moving (walking or driving) it says "Traveling…", and it names the new spot about half a minute after you stop. It stays on screen as you scroll, like the Back buttons, and hides when location is off.\n` +
   `- Navigation: 5 tabs — Map, Landmarks, Mapr, Itinerary, Profile.\n` +
   `- AI features (Mapr chat, Mapr Picks, smart search, custom-interest matching) need you to be signed in. There's no daily limit, only a short pause ("Too many requests in a row") after many requests close together, e.g. more than 10 Mapr chat messages in 10 minutes. Mapr is the ` +
   `one AI assistant: ask it anything -- plans, questions about a place or city, or how the app works. Each landmark's page has an ` +

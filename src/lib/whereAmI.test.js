@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isMoving, placeAt, shortAddress } from './whereAmI';
+import { isMoving, nearestPlace, placeAt, shortAddress } from './whereAmI';
 
 // About 111 m per 0.001 degree of latitude.
 const fix = (t, dLat, accuracy = 10) => ({ lat: 25.76 + dLat, lng: -80.2, accuracy, t: t * 1000 });
@@ -40,5 +40,13 @@ describe('shortAddress', () => {
   it('keeps the first two parts', () => {
     expect(shortAddress('1801 SW 3rd Avenue, Miami, Florida')).toBe('1801 SW 3rd Avenue, Miami');
     expect(shortAddress('')).toBe('');
+  });
+});
+
+describe('nearestPlace', () => {
+  it('finds the closest place within 500 m only', () => {
+    const places = [{ id: 'a', name: 'A', lat: 25.76, lng: -80.2 }];
+    expect(nearestPlace({ lat: 25.763, lng: -80.2 }, places)?.id).toBe('a'); // ~330 m
+    expect(nearestPlace({ lat: 25.77, lng: -80.2 }, places)).toBeNull(); // ~1.1 km
   });
 });

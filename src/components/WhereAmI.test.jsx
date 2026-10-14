@@ -11,6 +11,8 @@ vi.mock('../lib/GeoContext', () => ({ useGeo: () => geo }));
 vi.mock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => [{ id: 'budare', region: 'custom', name: 'Budare Bistro', lat: 25.7601, lng: -80.2101 }] }));
 const street = vi.fn(async () => '1801 SW 3rd Avenue, Miami, Florida');
 vi.mock('../lib/geocode', () => ({ streetAddress: (...a) => street(...a) }));
+const google = vi.fn(async () => null);
+vi.mock('../lib/placeLookup', () => ({ reverseGeocodePlace: (...a) => google(...a) }));
 
 const { default: WhereAmI } = await import('./WhereAmI');
 const { ALL_LANDMARKS } = await import('../data/regions');
@@ -30,7 +32,10 @@ const text = () => host.textContent;
 describe('WhereAmI', () => {
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
-    street.mockClear();
+    street.mockReset();
+    street.mockImplementation(async () => '1801 SW 3rd Avenue, Miami, Florida');
+    google.mockReset();
+    google.mockImplementation(async () => null);
   });
   afterEach(() => {
     act(() => root?.unmount());
@@ -78,5 +83,26 @@ describe('WhereAmI', () => {
     });
     await act(async () => {});
     expect(text()).toContain('1801 SW 3rd Avenue, Miami');
+  });
+
+  it('falls back to Google when OpenStreetMap has no address', async () => {
+    street.mockImplementation(async () => null);
+    google.mockImplementation(async () => ({ name: 'Some Shop', address: '200 SW 8th St, Miami, FL' }));
+    geo = { coords: { lat: 10.5, lng: -66.9, accuracy: 10 } };
+    await mount();
+    expect(text()).toContain('200 SW 8th St, Miami');
+  });
+
+  it('is never blank with a location: nearest place, else "Finding your spot…"', async () => {
+    street.mockImplementation(async () => null);
+    const lm = ALL_LANDMARKS.find((l) => l.regionId === 'miami' && Number.isFinite(l.lat));
+    geo = { coords: { lat: lm.lat + 0.002, lng: lm.lng, accuracy: 10 } }; // ~220 m away
+    await mount();
+    expect(text()).toMatch(/^.Near /u);
+    act(() => root.unmount());
+    host.remove();
+    geo = { coords: { lat: 10.5, lng: -66.9, accuracy: 10 } };
+    await mount();
+    expect(text()).toContain('Finding your spot…');
   });
 });
