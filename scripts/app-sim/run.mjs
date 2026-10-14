@@ -21,7 +21,7 @@
 //   --fail-rate x    share of AI calls answered 503 (default 0.03)
 //   --out DIR        output folder (default scripts/app-sim/out/run-<seed>)
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
-import { spawn, execSync } from 'node:child_process';
+import { spawn, spawnSync, execSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, chromiumPath } from './pw.mjs';
@@ -98,6 +98,8 @@ async function stopEmulators() {
   } catch {
     /* gone */
   }
+  // The Firestore JVM runs in a process group of its own.
+  spawnSync('pkill', ['-f', 'cloud-firestore-emulator'], { stdio: 'ignore' });
   emulators = null;
   await sleep(1500);
 }
