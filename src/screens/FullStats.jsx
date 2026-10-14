@@ -8,7 +8,7 @@ import { levelProgress } from '../lib/level';
 import CheckinsGallery from '../components/CheckinsGallery';
 import { SkeletonCard } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
-import { mouseOnly } from '../lib/mouseOnly';
+import { HOVER_CLICK_GRACE_MS, mouseOnly } from '../lib/mouseOnly';
 
 const SORTS = [
   { id: 'oldest', label: 'Oldest' },
@@ -48,9 +48,16 @@ export default function FullStats() {
   const [openBadgeId, setOpenBadgeId] = useState(null);
   const gridRef = useRef(null);
   const closeTimer = useRef(null);
+  const hoverOpened = useRef({ id: null, at: 0 });
   const openNow = (id) => {
     clearTimeout(closeTimer.current);
+    if (openBadgeId !== id) hoverOpened.current = { id, at: Date.now() };
     setOpenBadgeId(id);
+  };
+  // A click right after the hover that opened this tile keeps it open.
+  const toggleBadge = (id) => {
+    const justHovered = hoverOpened.current.id === id && Date.now() - hoverOpened.current.at < HOVER_CLICK_GRACE_MS;
+    setOpenBadgeId((cur) => (cur === id && !justHovered ? null : id));
   };
   const closeSoon = () => {
     closeTimer.current = setTimeout(() => setOpenBadgeId(null), 250);
@@ -135,7 +142,7 @@ export default function FullStats() {
                 className={`badge-tile ${earned ? 'earned' : 'locked'}`}
                 onPointerEnter={mouseOnly(() => openNow(b.id))}
                 onPointerLeave={mouseOnly(closeSoon)}
-                onClick={() => setOpenBadgeId((cur) => (cur === b.id ? null : b.id))}
+                onClick={() => toggleBadge(b.id)}
               >
                 <span className="badge-tile-icon">{b.icon}</span>
                 <span className="badge-tile-label">{b.label}</span>

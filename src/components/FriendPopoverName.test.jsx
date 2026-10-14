@@ -56,11 +56,18 @@ describe('FriendPopoverName', () => {
     expect(card()).not.toBeNull();
   });
 
-  it('a mouse hover opens it and a click closes it', async () => {
+  // Also found by the sim: on a desktop the click that follows the hover
+  // closed the card the hover had just opened.
+  it('a mouse hover opens it, the click right after keeps it, a later click closes it', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
     await mount();
     await act(async () => enter(trigger(), 'mouse'));
     expect(card()).not.toBeNull();
     await act(async () => trigger().click());
+    expect(card()).not.toBeNull();
+    vi.setSystemTime(Date.now() + 2000);
+    await act(async () => trigger().click());
     expect(card()).toBeNull();
+    vi.useRealTimers();
   });
 });

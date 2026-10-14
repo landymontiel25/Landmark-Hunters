@@ -8,3 +8,8 @@
 export const mouseOnly = (fn) => (e) => {
   if (e?.pointerType === 'mouse') fn(e);
 };
+
+// On a desktop the pointer arrives (hover opens the card) a moment before
+// the click on the same spot, and the click then toggled the card shut.
+// A click this soon after the hover that opened it keeps it open.
+export const HOVER_CLICK_GRACE_MS = 600;

@@ -7,7 +7,7 @@ import FollowButton from './FollowButton';
 import { Skeleton } from './Skeleton';
 import { useToast } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
-import { mouseOnly } from '../lib/mouseOnly';
+import { HOVER_CLICK_GRACE_MS, mouseOnly } from '../lib/mouseOnly';
 
 // Wraps a name (leaderboard, full-list page, wherever) so tapping it goes
 // straight to that person's stats if you're already friends -- the same
@@ -24,6 +24,7 @@ export default function FriendPopoverName({ userId, fallbackName, children }) {
   const toast = useToast();
   const ref = useRef(null);
   const closeTimer = useRef(null);
+  const hoverOpenedAt = useRef(0);
 
   const isMe = user && userId === user.uid;
   const isFriend = friendUids.has(userId);
@@ -36,6 +37,7 @@ export default function FriendPopoverName({ userId, fallbackName, children }) {
   const openNow = () => {
     if (isFriend) return;
     clearTimeout(closeTimer.current);
+    if (!open) hoverOpenedAt.current = Date.now();
     setOpen(true);
   };
   const closeSoon = () => {
@@ -48,6 +50,7 @@ export default function FriendPopoverName({ userId, fallbackName, children }) {
       setShowStats(true);
       return;
     }
+    if (open && Date.now() - hoverOpenedAt.current < HOVER_CLICK_GRACE_MS) return;
     setOpen((o) => !o);
   };
 
