@@ -25,11 +25,13 @@
   };
   startObserver();
 
-  // Near-zero animation and transition times (what a reduced-motion phone
-  // does): the end events still fire, but headless Chromium stops painting
-  // shimmer and spinner frames for every open page.
+  // Near-zero animations (headless Chromium then stops painting shimmer and
+  // spinner frames for every open page) and no transitions. Not 1ms
+  // transitions: that gives every element a transition on every property
+  // (transition-property defaults to all), and in a busy headless browser
+  // they stall mid-way, which looked like controls overlapping.
   const style = document.createElement('style');
-  style.textContent = '*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important;transition-delay:0s!important}';
+  style.textContent = '*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:0s!important;transition-delay:0s!important}';
   const addStyle = () => (document.head || document.documentElement).appendChild(style);
   if (document.head) addStyle();
   else document.addEventListener('DOMContentLoaded', addStyle, { once: true });

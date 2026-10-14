@@ -310,6 +310,22 @@ PROBES['checkin-photo'] = async (browser) => {
   await page.waitForTimeout(9000);
   const text = await page.evaluate(() => document.body.innerText.slice(0, 4000));
   const posted = /checked in|Posted|points|\+\d+ pts|Nice/i.test(text);
+  // The new check-in on My Check-ins opens its landmark page when tapped.
+  await tap(/^Done$/, sheet);
+  await page.evaluate(() => (location.hash = '/checkins'));
+  await page.waitForTimeout(3500);
+  const tile = page.locator('.checkin-tile, .checkin-row').first();
+  if (process.env.PROBE_DEBUG) {
+    console.log(await page.evaluate(() => [...document.querySelectorAll('.checkin-tile, .checkin-row')].map((e) => `${e.className}|${e.innerText.slice(0, 60)}`).join('\n')));
+    await page.screenshot({ path: `${process.env.PROBE_DEBUG}/checkins.png` });
+  }
+  let opened = 'no tile';
+  if (await tile.count()) {
+    await tile.tap().catch(() => {});
+    await page.waitForTimeout(1500);
+    opened = page.url().includes('/landmarks/miami/south-beach') ? 'tile opens the place' : `tile left us on ${page.url().split('#')[1]}`;
+  }
+  steps.push(opened);
   const list = await fetch('http://127.0.0.1:9199/v0/b/demo-lh.appspot.com/o', { headers: { Authorization: 'Bearer owner' } })
     .then((r) => r.json())
     .catch(() => ({}));
@@ -318,7 +334,7 @@ PROBES['checkin-photo'] = async (browser) => {
   const e = quiet(errors);
   const summary = `steps ${steps.join(', ')}; file chooser opened ${chooser}x; preview images ${thumbs}; posted=${posted}; photos in Storage for this user: ${mine.length}`;
   if (e.length) return `FAIL ${summary}; errors:\n  ${[...new Set(e.map((x) => x.slice(0, 220)))].join('\n  ')}`;
-  return posted && mine.length ? `PASS ${summary}` : `FAIL ${summary}`;
+  return posted && mine.length && opened === 'tile opens the place' ? `PASS ${summary}` : `FAIL ${summary}`;
 };
 
 // Offline on the Map: the offline banner must be visible (not under the
