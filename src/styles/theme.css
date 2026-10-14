@@ -2059,6 +2059,15 @@ textarea {
 .profile-menu-trigger {
   cursor: pointer;
   font: inherit;
+  /* A long display name (up to 200 characters, before a @username is set)
+     pushed the whole app wider than a phone. Cut it with an ellipsis. */
+  max-width: 42vw;
+}
+
+.profile-menu-trigger .score-chip-pts {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-menu-caret {
