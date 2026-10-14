@@ -64,6 +64,54 @@ const PROBES = {
   },
 };
 
+// Elements that stick out past a 390px phone screen, outermost only.
+function overflowAt(page) {
+  return page.evaluate((vw) => {
+    const out = [];
+    const docW = document.documentElement.scrollWidth;
+    const clipped = (el) => {
+      for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+        const ox = getComputedStyle(p).overflowX;
+        if (ox !== 'visible') return true;
+      }
+      return false;
+    };
+    for (const el of document.querySelectorAll('body *')) {
+      if (el.closest('.leaflet-container')) continue;
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height || r.right <= vw + 1 || r.left >= vw) continue;
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || cs.position === 'fixed' || clipped(el)) continue;
+      const pr = el.parentElement?.getBoundingClientRect();
+      if (pr && pr.right > vw + 1 && !clipped(el.parentElement)) continue;
+      const cls = String(el.className || '').split(' ').filter(Boolean).slice(0, 2).join('.');
+      out.push(`${el.tagName.toLowerCase()}${cls ? '.' + cls : ''} +${Math.round(r.right - vw)}px "${(el.innerText || '').trim().slice(0, 40)}"`);
+    }
+    return { docW, out: out.slice(0, 6) };
+  }, 390);
+}
+
+PROBES['overflow-sweep'] = async (browser) => {
+  const { page, context } = await setup(browser, { geo: { latitude: 25.7743, longitude: -80.1937, accuracy: 20 } });
+  const me = await signUp(page, 'A Very Long Display Name For Overflow Testing');
+  await fetch('http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/projects/demo-lh/accounts:update', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer owner', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ localId: me.uid, emailVerified: true }),
+  });
+  const routes = ['/', '/landmarks', '/landmarks/miami/south-beach', '/landmarks/philly/independence-hall', '/mapr', '/itinerary', '/profile', '/settings', '/stats',
+    '/checkins', '/mapr-ratings', '/cities', '/streaks', '/notifications', '/request-feature', '/report-bug', '/legal', '/leaderboard/full', '/add-landmark', '/feed', '/onboarding', '/no-such-page'];
+  const bad = [];
+  for (const r of routes) {
+    await page.evaluate((x) => (location.hash = x), r);
+    await page.waitForTimeout(2500);
+    const o = await overflowAt(page);
+    if (o.docW > 391 || o.out.length) bad.push(`${r}: page ${o.docW}px; ${o.out.join('; ')}`);
+  }
+  await context.close();
+  return bad.length ? `FAIL\n  ${bad.join('\n  ')}` : 'PASS nothing wider than 390px';
+};
+
 const browser = await chromium.launch();
 const names = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(PROBES);
 let failed = 0;

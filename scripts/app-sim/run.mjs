@@ -12,6 +12,7 @@
 //   --only i,j       run only these session indexes (repro)
 //   --base URL       where the sim build is served (default: starts `vite preview`)
 //   --build          rebuild the sim bundle first (VITE_USE_EMULATOR=1, demo config)
+//   --max-minutes M  stop starting new sessions after M minutes (default 110)
 //   --fail-rate x    share of AI calls answered 503 (default 0.03)
 //   --out DIR        output folder (default scripts/app-sim/out/run-<seed>)
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
@@ -37,6 +38,7 @@ const SEED = String(arg('seed', '1'));
 const FROM = Number(arg('from', 0));
 const ONLY = arg('only', '') ? String(arg('only')).split(',').map(Number) : null;
 const FAIL_RATE = Number(arg('fail-rate', 0.03));
+const MAX_MS = Number(arg('max-minutes', 110)) * 60000;
 const OUT = arg('out', join(here, 'out', `run-${SEED}${FROM ? `-from${FROM}` : ''}`));
 let BASE = arg('base', '');
 
@@ -154,7 +156,7 @@ async function main() {
       if (!contexts[device]) contexts[device] = await newSimContext(browsers[bi], device);
       return contexts[device];
     };
-    while (next < indexes.length) {
+    while (next < indexes.length && Date.now() - started < MAX_MS) {
       const index = indexes[next++];
       try {
         await runSession({ getContext, base: BASE, index, seed: SEED, pool, out: results, opts });

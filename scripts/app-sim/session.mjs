@@ -457,6 +457,18 @@ export async function runSession({ getContext, base, index, seed, persona: force
     await settle(800);
     account = { email, password, name, uid: null };
     account.uid = await lookupUid(email, password);
+    // Most people tap the link in the verification email (the emulator
+    // marks the account verified), then "I've verified it".
+    if (account.uid && rng() < 0.75) {
+      await fetch('http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/projects/demo-lh/accounts:update', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer owner', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ localId: account.uid, emailVerified: true }),
+      }).catch(() => {});
+      account.verified = true;
+      step('verify email (link in the email)');
+      if (/#\/profile/.test(safeHash())) await clickMatching(/verified it/i);
+    }
     if (account.uid) pool.addAccount({ ...account });
     return true;
   };
@@ -501,11 +513,15 @@ export async function runSession({ getContext, base, index, seed, persona: force
     const scanKey = await page.evaluate(() => location.hash.replace(/\?.*/, '') + (document.querySelector('.modal-backdrop, [role=dialog]') ? '+sheet' : '')).catch(() => '');
     const scan = persona.viewport.width < 500 && (!scanned.has(scanKey) || rng() < 0.05);
     scanned.add(scanKey);
-    const s = await page.evaluate((scan) => {
+    const s = await page.evaluate(({ scan, vw }) => {
       const sim = window.__sim || { boundary: [], stuck: [], blank: [] };
-      // Elements wider than the screen (only the outermost offender).
-      const vw = innerWidth;
+      // Elements wider than the screen (only the outermost offender). vw is
+      // the phone's width, not innerWidth: a mobile browser widens its
+      // layout viewport to fit content that sticks out.
       const offenders = [];
+      if (scan && document.documentElement.scrollWidth > vw + 1) {
+        offenders.push({ sel: 'page', text: `page is ${document.documentElement.scrollWidth}px wide`, over: document.documentElement.scrollWidth - vw });
+      }
       if (scan) {
         const clipped = (el) => {
           for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
@@ -531,7 +547,7 @@ export async function runSession({ getContext, base, index, seed, persona: force
         }
       }
       return { boundary: sim.boundary, stuck: sim.stuck, blank: sim.blank, offenders };
-    }, scan).catch(() => null);
+    }, { scan, vw: persona.viewport.width }).catch(() => null);
     if (!s) return;
     for (const b of s.boundary.slice(seen.boundary)) add(b.offline || (offline && /dynamically imported/.test(b.details)) ? 'boundary-offline' : 'boundary', `Something went wrong on ${b.hash}: ${b.details}`, { boundaryHash: b.hash });
     for (const b of s.stuck.slice(seen.stuck)) add('stuck', `Loading stuck ${Math.round(b.ms / 1000)}s on ${b.hash}: ${b.sig}`, { sig: b.sig });
@@ -591,7 +607,14 @@ export async function runSession({ getContext, base, index, seed, persona: force
       if (rng() < 0.5 && (await clickMatching(/^(←|‹|<|Back)|back$/i))) return true;
       step('browser back');
       await page.goBack({ timeout: 5000, waitUntil: 'domcontentloaded' }).catch(() => {});
-      return settle(500);
+      await settle(500);
+      // Back from the first screen leaves the app; the user opens it again.
+      if (!page.url().startsWith(base)) {
+        step('  (left the app, opens it again)');
+        loaded = false;
+        await goto('/');
+      }
+      return true;
     },
     async reload() {
       if (offline) return ACTIONS.back();
