@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { FETCHERS } from './_lib/ratingSources.js';
+import { CUSTOM_ID_PREFIX, customGooglePlaceId } from './_lib/customRatingMatch.js';
+import { adminDb } from './_lib/firebaseAdmin.js';
 import { OUTSIDE_SOURCES, ratingKey } from '../src/lib/ratingSources.js';
 import { canonicalRegionId } from '../src/data/regions.js';
 
@@ -38,6 +40,12 @@ export const _setRatingIds = (map) => {
   idsCache = map;
 };
 
+let customLookup = (id) => customGooglePlaceId(adminDb(), id);
+// Tests only.
+export const _setCustomLookup = (fn) => {
+  customLookup = fn;
+};
+
 const ID_FIELD = { google: 'googlePlaceId', tripadvisor: 'tripadvisorLocationId' };
 const SAFE = /^[A-Za-z0-9_.:-]{1,100}$/;
 
@@ -56,7 +64,19 @@ async function handler(req, res) {
     return;
   }
   const detail = req.query?.detail === '1';
-  const ids = ratingIds()[ratingKey(canonicalRegionId(region), id)] || {};
+  let ids = ratingIds()[ratingKey(canonicalRegionId(region), id)] || {};
+  // A landmark a user added: its Google ID lives on its own doc, found the
+  // first time anyone asks (api/_lib/customRatingMatch.js).
+  let customLookupFailed = false;
+  if (!ids.googlePlaceId && id.startsWith(CUSTOM_ID_PREFIX)) {
+    try {
+      const googlePlaceId = await customLookup(id);
+      if (googlePlaceId) ids = { ...ids, googlePlaceId };
+    } catch (e) {
+      customLookupFailed = true;
+      console.warn(`landmark-ratings: custom match failed (${e?.message || 'error'})`);
+    }
+  }
 
   const results = await Promise.allSettled(
     OUTSIDE_SOURCES.map((s) => (ids[ID_FIELD[s]] ? FETCHERS[s](ids[ID_FIELD[s]], { detail }) : Promise.resolve(null)))
@@ -73,7 +93,7 @@ async function handler(req, res) {
   // leaves it false, so the app never says "No ratings available" because
   // Google was slow.
   const g = results[OUTSIDE_SOURCES.indexOf('google')];
-  const googleNoRating = !ids.googlePlaceId || (g.status === 'fulfilled' && !g.value);
+  const googleNoRating = !customLookupFailed && (!ids.googlePlaceId || (g.status === 'fulfilled' && !g.value));
 
   // Never cached by browsers or the CDN (see above).
   res.setHeader?.('Cache-Control', 'no-store');

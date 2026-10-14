@@ -82,6 +82,17 @@ only on the server.
 - Landmark page (`detail=1`): the same plus Google `reviews` and Terra
   Location Reviews (`rating_min=5`).
 
+## User-added landmarks
+
+A landmark someone adds (`custom_landmarks`, id `custom-...`) has no entry
+in `ratingSourceIds.json`. The first time the endpoint is asked about one,
+`api/_lib/customRatingMatch.js` runs one Google Text Search (name, 250 m
+bias), applies the script's strict match (`api/_lib/ratingMatch.js`), and
+saves only `googlePlaceId` (plus `googleMatchAt`) on the landmark's doc with
+the admin SDK. No sure match: only `googleMatchAt` is saved and the search
+runs again after 14 days. Clients can't write either field (the
+`custom_landmarks` create rule pins its keys).
+
 ## Filling the IDs
 
 ```
