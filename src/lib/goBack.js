@@ -1,7 +1,9 @@
 // A Back button that still works when there's nothing to go back to (the
 // page was opened straight from a link or bookmark, so navigate(-1) does
-// nothing). react-router marks the first entry of a session 'default'.
-export function goBack(navigate, location) {
-  if (location?.key === 'default') navigate('/', { replace: true });
+// nothing, or leaves the app). react-router marks the first entry of a
+// session 'default'. `fallback` is where Back goes then (a landmark page
+// opened from a shared link goes to Places).
+export function goBack(navigate, location, fallback = '/') {
+  if (location?.key === 'default') navigate(fallback, { replace: true });
   else navigate(-1);
 }

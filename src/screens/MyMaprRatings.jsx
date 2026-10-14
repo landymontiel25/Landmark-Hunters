@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { useAuth } from '../lib/AuthContext';
 import { useRatings } from '../lib/RatingsContext';
 import { getUserCheckins, isRealCheckin } from '../lib/leaderboard';
@@ -20,6 +21,7 @@ const TABS = TIERS.map((t) => ({ id: t.id, label: t.label, emoji: t.emoji }));
 
 export default function MyMaprRatings() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, firebaseEnabled } = useAuth();
   const { myReviews, myReviewsLoaded, reload: reloadRatings } = useRatings();
   const toast = useToast();
@@ -102,7 +104,7 @@ export default function MyMaprRatings() {
 
   return (
     <div>
-      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 16 }} onClick={() => navigate(-1)}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 16 }} onClick={() => goBack(navigate, location, '/profile')}>
         {'← Back'}
       </button>
 

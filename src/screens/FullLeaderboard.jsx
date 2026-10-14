@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { subscribeLeaderboard, cleanName, rankOf } from '../lib/leaderboard';
@@ -27,6 +28,7 @@ const TABS = [
 // bookmarkable/shareable on its own since the period is a query param.
 export default function FullLeaderboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, firebaseEnabled } = useAuth();
   const { myUsername } = useFriends();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,7 +92,7 @@ export default function FullLeaderboard() {
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm back-sticky" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm back-sticky" onClick={() => goBack(navigate, location, '/profile')} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 
