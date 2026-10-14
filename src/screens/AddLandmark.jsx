@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
-import L from 'leaflet';
+// leafletGuards: Leaflet plus a fix for two timers that outlive their map.
+import L from '../lib/leafletGuards';
 import 'leaflet/dist/leaflet.css';
 import { REGIONS, getRegion } from '../data/regions';
 import CategorySelect from '../components/CategorySelect';
@@ -377,7 +379,7 @@ export default function AddLandmark() {
 
   return (
     <div>
-      <button className="btn btn-ghost btn-sm back-sticky" onClick={() => navigate(-1)} style={{ marginBottom: 16 }}>
+      <button className="btn btn-ghost btn-sm back-sticky" onClick={() => goBack(navigate, location)} style={{ marginBottom: 16 }}>
         {'← Back'}
       </button>
 

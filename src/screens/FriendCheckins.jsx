@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { getUserStats } from '../lib/leaderboard';
 import { getUserProfile } from '../lib/friends';
 import CheckinsGallery from '../components/CheckinsGallery';
@@ -17,6 +18,7 @@ export default function FriendCheckins() {
   const { uid } = useParams();
   const friendUser = useMemo(() => ({ uid }), [uid]);
   const navigate = useNavigate();
+  const location = useLocation();
   const [name, setName] = useState('');
   const [totalPoints, setTotalPoints] = useState(0);
   const [error, setError] = useState(null);
@@ -47,7 +49,7 @@ export default function FriendCheckins() {
 
   return (
     <div>
-      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => goBack(navigate, location, '/profile')}>
         {'←'} Back
       </button>
       {error?.code === 'permission-denied' && (

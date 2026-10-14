@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AlertSettings from '../components/AlertSettings';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
@@ -66,6 +67,7 @@ function DraftRestoredNote({ onDiscard }) {
 
 export default function Settings() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, firebaseEnabled, signOutUser, resendVerification, refreshUser, changePassword, deleteAccount } = useAuth();
   const { myProfile, reload: reloadFriends } = useFriends();
   const { theme, toggleTheme } = useTheme();
@@ -366,7 +368,7 @@ export default function Settings() {
       <h1 className="screen-title">
         <span>{'\u{2699}\u{FE0F}'}</span> Settings
       </h1>
-      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => goBack(navigate, location, '/profile')}>
         {'\u{2190}'} Back
       </button>
 

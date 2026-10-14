@@ -56,3 +56,29 @@ export function shouldReloadForChunkError(now = Date.now()) {
   if (typeof navigator !== 'undefined' && navigator.onLine === false) return false;
   return !flagGet(now);
 }
+
+// What a lazy screen's import resolved to. Vite's preload helper resolves
+// to undefined instead of rejecting when the vite:preloadError listener
+// (App.jsx) cancels the error to reload the page. Rendering that crashed
+// the screen ("Cannot read properties of undefined (reading 'default')")
+// for the moment before the reload, and clearing the flag here let the next
+// load reload again (a loop when the file is really gone). Wait for the
+// reload instead, with the flag still set.
+export function settleScreenModule(m) {
+  if (m == null) return new Promise(() => {});
+  flagClear();
+  return m;
+}
+
+// A screen's file (or its CSS) that failed to download, in the wording of
+// Chrome, Safari and Firefox, plus Vite's CSS preload error.
+export function isLoadFailure(err) {
+  return /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS/i.test(
+    String(err?.message || err || '')
+  );
+}
+
+// window.location.reload, kept here so tests can replace it.
+export const pageReload = {
+  run: () => window.location.reload(),
+};

@@ -61,12 +61,28 @@
      at 232px it filled a phone turned sideways, pushing the radius menu and
      locate button up under the header and leaving no map to look at. */
   --mpp-h: min(var(--map-picks-h, 0px), 32dvh);
+  /* The open sheet stops below the search / + / filter buttons (the filter
+     button ends 172px under the header, plus a 12px gap). At half the
+     screen it covered the filter button on Safari's shorter visible area
+     (390x664) and on any phone while the onboarding or offline banner was
+     up. Found by the app simulation (probe map-controls). */
+  --mpp-max: max(160px, calc(100dvh - var(--header-h) - 184px - var(--nav-h) - 8px));
 }
 
 .map-fullscreen.has-picks .map-fab-bar,
 .map-fullscreen.has-picks .map-locate-btn {
-  bottom: calc(var(--nav-h) + var(--mpp-h, 0px) + 16px);
+  bottom: calc(var(--nav-h) + min(var(--mpp-h, 0px), var(--mpp-max, 100dvh)) + 16px);
   transition: bottom 0.28s var(--ease);
+}
+
+/* With the sheet open at half the screen, the radius menu rose into the
+   search / add / filter buttons on the left and covered the filter button
+   (390x844 with the onboarding banner up; on a shorter visible area, like
+   Safari with its toolbars, it covered + as well). Found by the app
+   simulation. Next to the locate button it has the row to itself. */
+.map-fullscreen.has-picks .map-fab-bar {
+  left: auto;
+  right: 68px;
 }
 
 /* Sideways or on a short screen: the search / add / filter buttons run down the left edge and
@@ -79,12 +95,12 @@
 }
 
 .map-fullscreen.has-picks .map-error-toast {
-  bottom: calc(var(--nav-h) + var(--mpp-h, 0px) + 70px);
+  bottom: calc(var(--nav-h) + min(var(--mpp-h, 0px), var(--mpp-max, 100dvh)) + 70px);
 }
 
 .map-picks .mpp-sheet {
   position: relative;
-  height: var(--mpp-h, 232px);
+  height: min(var(--mpp-h, 232px), var(--mpp-max, 100dvh));
   border-radius: 22px;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-float);
@@ -670,7 +686,7 @@ body.pin-placing .map-picks {
 
 /* Test tab: swiping up goes half way up the screen (MapExplore sets --mpp-h). */
 .map-picks .mpp-sheet.mpp-sheet-mood.expanded {
-  height: var(--mpp-h);
+  height: min(var(--mpp-h), var(--mpp-max, 100dvh));
 }
 
 /* While a finger is dragging the handle the height tracks it exactly. */

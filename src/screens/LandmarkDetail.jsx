@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { canonicalLandmarkId, getLandmark, getRegion, INTERESTS, legacyLandmarkIds } from '../data/regions';
 import { getCustomLandmark, reportCustomLandmark, deleteCustomLandmark } from '../lib/customLandmarks';
 import { ensurePlacePacks, isPlacePackId, usePlacePacksVersion } from '../lib/placePacks';
@@ -775,7 +776,7 @@ function LandmarkDetailBody() {
     }
     removeLandmark(landmark.id, regionId);
     toast?.show('Landmark deleted.');
-    navigate(-1);
+    goBack(navigate, location, '/landmarks');
   };
 
   // Add or edit your own comment any time (always saved together with a tier).
@@ -804,7 +805,8 @@ function LandmarkDetailBody() {
     <div>
       {disagreementNode}
       <div className="detail-topbar back-sticky">
-        <button className="btn btn-ghost btn-sm" onClick={() => navigate(-1)}>
+        {/* Opened from a shared link, there is no page to go back to. */}
+        <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location, '/landmarks')}>
           {'← Back'}
         </button>
         {checkinNav && (

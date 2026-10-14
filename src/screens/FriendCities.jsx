@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { goBack } from '../lib/goBack';
 import { getUserStats } from '../lib/leaderboard';
 import { getUserProfile } from '../lib/friends';
 import CityList from '../components/CityList';
@@ -13,6 +14,7 @@ import { Skeleton, SkeletonList } from '../components/Skeleton';
 export default function FriendCities() {
   const { uid } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [name, setName] = useState('');
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
@@ -38,7 +40,7 @@ export default function FriendCities() {
 
   return (
     <div>
-      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => navigate(-1)}>
+      <button type="button" className="btn btn-ghost btn-block back-sticky" style={{ marginBottom: 24 }} onClick={() => goBack(navigate, location, '/profile')}>
         {'←'} Back
       </button>
       <h1 className="screen-title">
