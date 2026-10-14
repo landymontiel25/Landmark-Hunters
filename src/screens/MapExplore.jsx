@@ -1091,6 +1091,9 @@ export default function MapExplore({ experiments = false }) {
                 <p style={{ margin: '2px 0 8px', fontSize: '0.72rem', color: 'var(--color-parchment-dim)' }}>
                   {region?.name || 'Custom pin'}
                 </p>
+                {/* The Google rating once its Google listing is linked
+                    (api/_lib/customRatingMatch.js), Google's map only. */}
+                {googleMap && <MapPopupRating landmark={landmark} />}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '0 0 8px' }}>
                   {landmark.categories.map((c) => (
                     <span key={c} className="tag">
@@ -1145,7 +1148,7 @@ export default function MapExplore({ experiments = false }) {
         );
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- passesFilter only reads filterCats and drawnShape
-    [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, filterCats, drawnShape, myPhotos, getRegionSelection, adminMode]
+    [customLandmarks, claimedMap, checkingIn, user, firebaseEnabled, checkIn, navigate, filterCats, drawnShape, myPhotos, getRegionSelection, adminMode, googleMap]
   );
 
   const areaCount = drawnArea ? markers.filter(Boolean).length + customMarkers.filter(Boolean).length : 0;
