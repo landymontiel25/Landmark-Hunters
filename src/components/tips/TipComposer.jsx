@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { pickPhoto } from '../../lib/imageUtils';
 import { cleanTipText, TIP_MAX_CHARS, TIP_MAX_TAGS, TIP_MIN_CHARS, TIP_TAGS } from '../../lib/tips';
-import { discardTipPhoto, postTip, TIPS_CHANGED_EVENT, uploadTipPhoto } from '../../lib/tipsApi';
+import { discardTipPhoto, editMyTip, postTip, TIPS_CHANGED_EVENT, uploadTipPhoto } from '../../lib/tipsApi';
 
 // "Share a tip for others?" (docs/discovery-network-plan.md, Phase 1): the
 // form for one tip on a verified visit. The server (api/post-tip.js) checks
 // everything again; this only keeps the person from typing something it
 // will refuse. A tip is public: the screen says so before Post.
-export default function TipComposer({ uid, checkinId, landmarkName, onPosted, onCancel, onBusyChange }) {
-  const [text, setText] = useState('');
-  const [tags, setTags] = useState([]);
+// `editing` ({ landmarkId, region, text, tags }) opens it on your own tip
+// instead: same form, filled in, saving through the server's edit action.
+// The photo stays as it is (no photo picker while editing).
+export default function TipComposer({ uid, checkinId, landmarkName, onPosted, onCancel, onBusyChange, editing = null }) {
+  const [text, setText] = useState(editing?.text || '');
+  const [tags, setTags] = useState(editing?.tags || []);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -47,8 +50,10 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
     setMsg(null);
     let photoURL = null;
     try {
-      if (file) photoURL = await uploadTipPhoto(uid, file);
-      const out = await postTip({ checkinId, text, tags, photoURL });
+      if (file && !editing) photoURL = await uploadTipPhoto(uid, file);
+      const out = editing
+        ? await editMyTip({ landmarkId: editing.landmarkId, region: editing.region, text, tags })
+        : await postTip({ checkinId, text, tags, photoURL });
       // The landmark page's tips list reloads on this.
       try {
         window.dispatchEvent(new CustomEvent(TIPS_CHANGED_EVENT));
@@ -59,7 +64,7 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
     } catch (e) {
       // The photo never made it onto a tip: ask the server to remove it.
       if (photoURL) discardTipPhoto(photoURL).catch(() => {});
-      setMsg(e?.userMessage || e?.message || "Couldn't share the tip. Try again.");
+      setMsg(e?.userMessage || e?.message || (editing ? "Couldn't save your changes. Try again." : "Couldn't share the tip. Try again."));
     } finally {
       setBusy(false);
     }
@@ -67,7 +72,7 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
 
   return (
     <div className="tip-composer">
-      <h4 style={{ margin: '0 0 6px' }}>{'\u{1F4A1}'} Share a tip for others?</h4>
+      <h4 style={{ margin: '0 0 6px' }}>{editing ? '\u{270F}\u{FE0F} Edit your tip' : '\u{1F4A1} Share a tip for others?'}</h4>
       <p className="screen-subtitle" style={{ margin: '0 0 8px', fontSize: '0.8rem' }}>
         Something useful about {landmarkName || 'this place'} for the next person. Tips are public and show your username.
       </p>
@@ -94,7 +99,7 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
           </button>
         ))}
       </div>
-      {preview ? (
+      {editing ? null : preview ? (
         <div style={{ position: 'relative', display: 'inline-block', marginBottom: 8 }}>
           <img src={preview} alt="Your tip's photo" style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
           <button type="button" className="chip-remove" aria-label="Remove photo" onClick={removePhoto} style={{ position: 'absolute', top: -6, right: -6 }}>
@@ -113,11 +118,11 @@ export default function TipComposer({ uid, checkinId, landmarkName, onPosted, on
       )}
       <div style={{ display: 'flex', gap: 8 }}>
         <button type="button" className="btn btn-primary btn-block" disabled={!ok || busy} aria-busy={busy} onClick={submit}>
-          {busy ? 'Sharing…' : 'Share tip'}
+          {editing ? (busy ? 'Saving…' : 'Save changes') : busy ? 'Sharing…' : 'Share tip'}
         </button>
         {onCancel && (
           <button type="button" className="btn btn-ghost" onClick={onCancel} disabled={busy}>
-            Not now
+            {editing ? 'Cancel' : 'Not now'}
           </button>
         )}
       </div>

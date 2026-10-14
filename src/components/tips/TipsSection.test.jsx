@@ -6,6 +6,7 @@ const api = vi.hoisted(() => ({
   reactToTip: vi.fn(),
   reportTip: vi.fn(),
   deleteMyTip: vi.fn(),
+  editMyTip: vi.fn(),
   postTip: vi.fn(),
   uploadTipPhoto: vi.fn(),
   discardTipPhoto: vi.fn(async () => ({ ok: true })),
@@ -101,6 +102,23 @@ describe('TipsSection', () => {
     api.deleteMyTip.mockResolvedValue({ ok: true });
     await click('Delete');
     expect(api.deleteMyTip).toHaveBeenCalledWith('bell', 'philly');
+  });
+  it('edits your own tip in place: the form opens filled in and saves through the server', async () => {
+    api.fetchTips.mockResolvedValue({ tips: [tip({ id: 'me_bell', authorUid: 'me', mine: true, status: 'live', hidden: false, edited: true })], reactions: {} });
+    await mount();
+    expect(container.textContent).toContain('edited');
+    await click('Edit');
+    const box = container.querySelector('textarea');
+    expect(box.value).toBe('Go early, the line wraps.');
+    expect(container.textContent).not.toContain('Add a photo');
+    const set = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value').set;
+    await act(async () => {
+      set.call(box, 'Go early, before the school groups.');
+      box.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    api.editMyTip.mockResolvedValue({ ok: true, status: 'live' });
+    await click('Save changes');
+    expect(api.editMyTip).toHaveBeenCalledWith({ landmarkId: 'bell', region: 'philly', text: 'Go early, before the school groups.', tags: ['go-early'] });
   });
   it('offers "Share a tip" only with a verified check-in and no tip of yours yet', async () => {
     await mount();

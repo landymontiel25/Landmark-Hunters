@@ -46,6 +46,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
   const [error, setError] = useState(null);
   const [tipCheckin, setTipCheckin] = useState(null);
   const [composing, setComposing] = useState(false);
+  const [editingMine, setEditingMine] = useState(false);
   const [reporting, setReporting] = useState(null);
   const [busy, setBusy] = useState(null);
 
@@ -184,6 +185,23 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     const r = reactions[t.id] || {};
     const note = t.mine ? ownStatusNote(t) : null;
     const month = monthLabel(t.visitMonth);
+    if (t.mine && editingMine) {
+      return (
+        <li key={t.id} style={{ listStyle: 'none', marginBottom: 10 }}>
+          <TipComposer
+            uid={user.uid}
+            landmarkName={landmark?.name}
+            editing={{ landmarkId, region, text: t.text, tags: t.tags || [] }}
+            onCancel={() => setEditingMine(false)}
+            onPosted={(out) => {
+              setEditingMine(false);
+              // (The list reloads on TIPS_CHANGED_EVENT from the composer.)
+              if (!out?.unchanged) toast?.show?.(out?.status === 'held' ? 'Saved. Your tip shows again once it is reviewed.' : 'Your tip is updated.');
+            }}
+          />
+        </li>
+      );
+    }
     return (
       <li key={t.id} className="tip-item card" style={{ padding: 12, marginBottom: 10, listStyle: 'none' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
@@ -202,6 +220,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
           )}
           <span className="presence-line presence-verified" style={{ fontSize: '0.75rem' }}>
             {'✓'} Verified visit{month ? ` · ${month}` : ''}
+            {t.edited ? ' · edited' : ''}
           </span>
         </div>
         {!t.mine && authorOpen === t.id && (
@@ -232,9 +251,14 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
                 {t.counts.helpful} found it helpful · {t.counts.saved} saved
               </span>
               {t.status !== 'removed' && t.status !== 'withdrawn' && (
-                <button type="button" className="btn btn-ghost btn-sm" onClick={remove} disabled={busy === 'mine:delete'}>
-                  Delete
-                </button>
+                <>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setEditingMine(true)} disabled={busy === 'mine:delete'}>
+                    Edit
+                  </button>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={remove} disabled={busy === 'mine:delete'}>
+                    Delete
+                  </button>
+                </>
               )}
             </>
           ) : (

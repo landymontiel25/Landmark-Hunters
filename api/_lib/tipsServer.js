@@ -153,6 +153,7 @@ export function tipForViewer(id, tip, viewerUid) {
     photoURL: tip.photoURL || null,
     visitMonth: typeof tip.visitMonth === 'string' ? tip.visitMonth : null,
     verified: tip.verified === true,
+    edited: Number.isFinite(tip.editedAt),
     counts: { helpful: tip.counts?.helpful || 0, saved: tip.counts?.saved || 0 },
     mine: tip.authorUid === viewerUid,
   };

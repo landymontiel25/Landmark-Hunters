@@ -20,6 +20,8 @@ async function call(path, { method = 'POST', body = null, fetchImpl = fetch } = 
 }
 
 export const postTip = ({ checkinId, text, tags = [], photoURL = null }, opts) => call('/api/post-tip', { body: { checkinId, text, tags, photoURL }, ...opts });
+export const editMyTip = ({ landmarkId, region, text, tags = [] }, opts) =>
+  call('/api/post-tip', { body: { action: 'edit', landmarkId, region, text, tags }, ...opts });
 export const deleteMyTip = (landmarkId, region, opts) => call('/api/post-tip', { body: { action: 'delete', landmarkId, region }, ...opts });
 // A photo uploaded for a tip that never posted (cancelled or refused).
 export const discardTipPhoto = (photoURL, opts) => call('/api/post-tip', { body: { action: 'discard-photo', photoURL }, ...opts });

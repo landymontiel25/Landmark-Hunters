@@ -28,6 +28,8 @@ import { followTipAlerts } from './_lib/alerts.js';
 // created or deleted: the rules forbid any client write to tips/.
 //   POST { checkinId, text, tags?, photoURL? }   share a tip
 //   POST { action: 'delete', landmarkId, region } delete your own tip there
+//   POST { action: 'edit', landmarkId, region, text, tags? }
+//                                                 change your own tip's words
 //   POST { action: 'delete-mine' }               account deletion
 //   POST { action: 'discard-photo', photoURL }   an upload never posted
 // A tip needs a verified email and a verified check-in (presence written by
@@ -185,6 +187,43 @@ async function deleteTip(db, account, body) {
   return [200, { ok: true }];
 }
 
+// Changes the words and tags of your own tip at a place (its photo, visit
+// and counts stay). The same input checks and word filter as a new tip, so
+// an edit can't slip past either: a flagged edit is held for review, a clean
+// one is live. A tip a moderator removed, or one hidden by reports, can't be
+// edited (it waits for the owner's review as it is). editedAt marks it
+// "edited" for everyone.
+async function editTip(db, account, body) {
+  const { landmarkId, region, text, tags = [] } = body;
+  if (typeof landmarkId !== 'string' || !isFirestoreId(landmarkId) || typeof region !== 'string' || !isFirestoreId(region)) {
+    return [400, { error: 'landmarkId and region are required.' }];
+  }
+  if (typeof text !== 'string' || text.length > 2000) return [400, { error: 'text is required.' }];
+  const nowMs = Date.now();
+  const userSnap = await db.collection('users').doc(account.uid).get();
+  const user = userSnap.exists ? userSnap.data() : {};
+  const createdAtMs = Number.isFinite(account.createdAtMs) ? account.createdAtMs : toMs(user.createdAt);
+  const inputProblem = tipInputProblem({ text, tags }, { accountAgeMs: createdAtMs == null ? null : nowMs - createdAtMs });
+  if (inputProblem) return [400, { error: inputProblem.message, code: inputProblem.code }];
+  const clean = cleanTipText(text);
+  const filtered = filterTipText(clean);
+  const status = filtered.flagged ? 'held' : 'live';
+  const ref = db.collection('tips').doc(tipIdFor(account.uid, canonicalLandmarkId(landmarkId, region)));
+  const out = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists || snap.data().authorUid !== account.uid) return 'missing';
+    const t = snap.data();
+    if (canonicalRegionId(t.region) !== canonicalRegionId(region)) return 'missing';
+    if (t.status === 'removed' || t.status === 'withdrawn' || t.hidden === true) return 'locked';
+    if (t.text === clean && JSON.stringify(t.tags || []) === JSON.stringify(tags)) return 'same';
+    tx.update(ref, { text: clean, tags, status, heldReasons: filtered.reasons, editedAt: nowMs, updatedAt: FieldValue.serverTimestamp() });
+    return 'ok';
+  });
+  if (out === 'missing') return [404, { error: 'No tip of yours here.' }];
+  if (out === 'locked') return [403, { error: 'This tip is waiting for review, so it cannot be edited.', code: 'locked' }];
+  return [200, { ok: true, status: out === 'same' ? undefined : status, unchanged: out === 'same' }];
+}
+
 // Account deletion (src/lib/accountDeletion.js): every tip of yours goes
 // through retireTip, as if you deleted each one: unreported ones go, a
 // removed or reported one stays (hidden) for the owner's review with its
@@ -288,11 +327,13 @@ async function handler(req, res) {
   if (!account) return send(res, 401, { error: 'Sign in first.' });
   const body = (req.body && typeof req.body === 'object' ? req.body : null) || {};
   const action = body.action || 'post';
-  if (!['post', 'delete', 'delete-mine', 'discard-photo'].includes(action)) return send(res, 400, { error: 'Unknown action.' });
+  if (!['post', 'edit', 'delete', 'delete-mine', 'discard-photo'].includes(action)) return send(res, 400, { error: 'Unknown action.' });
   // Account deletion has a generous limit of its own (it runs once or twice
   // per account) and no email gate.
+  if ((action === 'post' || action === 'edit') && !account.emailVerified) {
+    return send(res, 403, { error: 'Verify your email to share tips.', code: 'email' });
+  }
   if (action === 'post') {
-    if (!account.emailVerified) return send(res, 403, { error: 'Verify your email to share tips.', code: 'email' });
     // Attempts, not tips: a few retries after a refused tip must not lock
     // anyone out. The 10-tips-an-hour count is tip_post_log (postTip).
     if (isRateLimited(req, 'post-tip', { limit: TIP_RATE_LIMIT.limit * 3, windowMs: TIP_RATE_LIMIT.windowMs, id: account.uid })) {
@@ -303,7 +344,7 @@ async function handler(req, res) {
   }
   try {
     const db = adminDb();
-    const run = { post: postTip, delete: deleteTip, 'delete-mine': deleteMine, 'discard-photo': discardPhoto }[action];
+    const run = { post: postTip, edit: editTip, delete: deleteTip, 'delete-mine': deleteMine, 'discard-photo': discardPhoto }[action];
     const [code, out] = await run(db, account, body);
     return send(res, code, out);
   } catch (err) {
