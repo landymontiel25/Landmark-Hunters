@@ -92,8 +92,13 @@ Open <http://localhost:3000>, sign in with your own `@villanova.edu` address and
 
 ## Deploy
 
-Deploy to Vercel with **Root Directory** set to `villanova-profiles`, and add the two environment
-variables above. In Supabase, set **Authentication > URL Configuration > Site URL** to your deployed URL.
+This app is its own Vercel project, separate from the Landmark Hunters app.
+
+1. In Vercel, choose **Add New > Project** and import the `landymontiel25/Landmark-Hunters` repo.
+2. Set **Root Directory** to `villanova-profiles`. Vercel detects Next.js.
+3. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` under **Environment Variables**.
+4. Deploy. `vercel.json` skips builds when a commit leaves this folder unchanged and turns off previews for `claude/*` branches.
+5. In Supabase, set **Authentication > URL Configuration > Site URL** to the Vercel URL.
 
 ## Project layout
 
