@@ -414,11 +414,11 @@ function ProfileMenu() {
 
   if (!firebaseEnabled) return null;
 
-  // Signed out: a gentle nudge to join the competition, straight to /profile.
+  // Signed out: says plainly what it does, straight to /profile to sign in.
   if (!user) {
     return (
-      <Link to="/profile" className="score-chip score-chip-join" title="Sign in to compete">
-        {'\u{1F3C6}'} Compete
+      <Link to="/profile" className="score-chip score-chip-join" title="Sign in">
+        Sign in
       </Link>
     );
   }

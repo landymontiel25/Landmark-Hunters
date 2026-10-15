@@ -68,3 +68,17 @@ describe('Header solo streak across accounts', () => {
     expect(soloCount()).toBe('0');
   });
 });
+
+describe('Header when signed out', () => {
+  it('shows a "Sign in" button that goes to Profile', async () => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    root = createRoot(container);
+    currentUser = null;
+    await render();
+    const link = container.querySelector('a.score-chip-join');
+    expect(link.textContent.trim()).toBe('Sign in');
+    expect(link.getAttribute('href')).toBe('/profile');
+    expect(container.textContent).not.toContain('Compete');
+  });
+});
