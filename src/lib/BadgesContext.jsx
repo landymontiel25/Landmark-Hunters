@@ -350,6 +350,12 @@ export function BadgesProvider({ children }) {
   return <BadgesContext.Provider value={value}>{children}</BadgesContext.Provider>;
 }
 
+// For pieces that also render outside the provider (the header in tests):
+// null there instead of throwing.
+export function useOptionalBadges() {
+  return useContext(BadgesContext);
+}
+
 export function useBadges() {
   const ctx = useContext(BadgesContext);
   if (!ctx) throw new Error('useBadges must be used inside BadgesProvider');

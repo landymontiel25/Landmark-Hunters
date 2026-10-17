@@ -9,6 +9,7 @@ import { closeSoloToday, ensureSoloStreak, subscribeMySoloStreak, watchNewChecki
 import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry } from '../lib/leaderboard';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { useTodayKey } from '../lib/useTodayKey';
+import { useOptionalBadges } from '../lib/BadgesContext';
 import { msUntilStreakLapse, displayStreakCount, isDayHeld, PICKS_STREAK_THRESHOLD } from '../lib/streaks';
 import { Skeleton } from './Skeleton';
 import { useInStreakWarningWindow } from '../lib/useStreakWarning';
@@ -161,6 +162,34 @@ function StreakBadge() {
       closeSoloToday().catch(() => {});
     });
   }, [firebaseEnabled, uid]);
+
+  // The watcher above only sees check-ins that land while this page is open
+  // and listening. One made elsewhere (another device, the iPhone app, a
+  // backgrounded tab) never fired it, so 3 check-ins could leave the day
+  // open for good (owner report 2026-10-17). The badge counter reloads after
+  // every check-in and on return to the app: at 3 today and not yet closed,
+  // ask the server once per count (a failed call tries again next reload).
+  const actionsToday = useOptionalBadges()?.actionsToday ?? 0;
+  const closeAskedFor = useRef('');
+  const [closeRetry, setCloseRetry] = useState(0);
+  const held = isDayHeld(streak, today);
+  useEffect(() => {
+    if (!firebaseEnabled || !uid || !streak || held || actionsToday < PICKS_STREAK_THRESHOLD) return;
+    const key = `${uid}:${today}:${actionsToday}`;
+    if (closeAskedFor.current === key) return;
+    closeAskedFor.current = key;
+    let timer = null;
+    const retryLater = () => {
+      closeAskedFor.current = '';
+      timer = setTimeout(() => setCloseRetry((n) => n + 1), 30_000);
+    };
+    closeSoloToday(today)
+      .then((r) => {
+        if (!r?.ok) retryLater();
+      })
+      .catch(retryLater);
+    return () => clearTimeout(timer);
+  }, [firebaseEnabled, uid, streak, held, actionsToday, today, closeRetry]);
 
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
