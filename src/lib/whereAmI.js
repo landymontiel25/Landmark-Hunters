@@ -65,3 +65,8 @@ export function nearestPlace(point, places, maxMeters = NEAR_MAX_METERS) {
   }
   return best?.place || null;
 }
+
+// The quick "Check in" button under the pill shows only this close to a
+// place (owner, 2026-10-18). Checking in from a landmark's own page has no
+// such limit.
+export const QUICK_CHECKIN_METERS = 30;

@@ -7,6 +7,8 @@ import { MemoryRouter } from 'react-router-dom';
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 let geo = { coords: null };
+let checkin = { user: { uid: 'me' }, firebaseEnabled: true, claimedMap: {}, checkingIn: null, checkIn: vi.fn() };
+vi.mock('../lib/useCheckIn', () => ({ useCheckIn: () => checkin }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => geo }));
 vi.mock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => [{ id: 'budare', region: 'custom', name: 'Budare Bistro', lat: 25.7601, lng: -80.2101 }] }));
 const street = vi.fn(async () => '1801 SW 3rd Avenue, Miami, Florida');
@@ -104,5 +106,37 @@ describe('WhereAmI', () => {
     geo = { coords: { lat: 10.5, lng: -66.9, accuracy: 10 } };
     await mount();
     expect(text()).toContain('Finding your spot…');
+  });
+
+  it('shows a Check in button within 30 m of a place and opens the usual check-in sheet', async () => {
+    checkin = { ...checkin, checkIn: vi.fn() };
+    geo = { coords: { lat: 25.7601, lng: -80.2101, accuracy: 10 } }; // at Budare Bistro
+    await mount();
+    const btn = host.querySelector('.where-am-i-checkin');
+    expect(btn.textContent).toContain('Check in');
+    await act(async () => btn.click());
+    expect(checkin.checkIn).toHaveBeenCalledWith(expect.objectContaining({ id: 'budare', name: 'Budare Bistro' }));
+  });
+
+  it('hides the button past 30 m (the pill can still say "At …"), and when signed out', async () => {
+    geo = { coords: { lat: 25.76045, lng: -80.2101, accuracy: 10 } }; // ~39 m away
+    await mount();
+    expect(text()).toContain('At Budare Bistro');
+    expect(host.querySelector('.where-am-i-checkin')).toBeNull();
+    act(() => root.unmount());
+    host.remove();
+    checkin = { ...checkin, user: null };
+    geo = { coords: { lat: 25.7601, lng: -80.2101, accuracy: 10 } };
+    await mount();
+    expect(host.querySelector('.where-am-i-checkin')).toBeNull();
+    checkin = { ...checkin, user: { uid: 'me' } };
+  });
+
+  it('says "Check in again" at a place you already checked into', async () => {
+    checkin = { ...checkin, claimedMap: { budare: true } };
+    geo = { coords: { lat: 25.7601, lng: -80.2101, accuracy: 10 } };
+    await mount();
+    expect(host.querySelector('.where-am-i-checkin').textContent).toContain('Check in again');
+    checkin = { ...checkin, claimedMap: {} };
   });
 });

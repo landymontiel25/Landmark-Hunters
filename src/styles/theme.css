@@ -7677,6 +7677,9 @@ p.tag {
   top: calc(var(--header-base) + var(--banner-h) - 4px);
   z-index: 20;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
   justify-content: center;
   margin: -4px 14px 0;
   padding-bottom: 6px;
@@ -7791,4 +7794,13 @@ p.tag {
 }
 .rate-slider-label small {
   font-size: 0.72rem;
+}
+
+.where-am-i-checkin {
+  pointer-events: auto;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: var(--shadow-float);
 }

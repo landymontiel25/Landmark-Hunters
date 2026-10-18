@@ -7,7 +7,8 @@ import { getCustomLandmarks } from '../lib/customLandmarks';
 import { streetAddress } from '../lib/geocode';
 import { reverseGeocodePlace } from '../lib/placeLookup';
 import { distanceMeters } from '../lib/geo';
-import { STOP_AFTER_MS, isMoving, nearestPlace, placeAt, shortAddress } from '../lib/whereAmI';
+import { QUICK_CHECKIN_METERS, STOP_AFTER_MS, isMoving, nearestPlace, placeAt, shortAddress } from '../lib/whereAmI';
+import { useCheckIn } from '../lib/useCheckIn';
 
 // "Where I am", under the header on every tab (owner request 2026-10-14):
 // the landmark you're at, else your street address, or "Traveling…" while
@@ -22,6 +23,7 @@ const TICK_MS = 5_000;
 export default function WhereAmI() {
   const { coords } = useGeo();
   const navigate = useNavigate();
+  const { user, firebaseEnabled, claimedMap = {}, checkingIn, checkIn } = useCheckIn();
   const packsVersion = usePlacePacksVersion();
   const ref = useRef(null);
   const fixes = useRef([]);
@@ -118,6 +120,14 @@ export default function WhereAmI() {
   if (!visible) return null;
 
   const place = !traveling ? here?.place || near : null;
+  // Check in without opening the place: only within 30 m of a place, and
+  // not while you're moving. Same rate + post sheet as everywhere else.
+  const checkPlace =
+    firebaseEnabled && user && !traveling ? nearestPlace(coords, places, QUICK_CHECKIN_METERS) : null;
+  const checkBusy = !!checkPlace && checkingIn === checkPlace.id;
+  const checkLabel = checkBusy
+    ? '\u{23F3} Checking in…'
+    : `\u{1F4CD} ${claimedMap[checkPlace?.id] ? 'Check in again' : 'Check in'}${checkPlace && checkPlace.id !== here?.place?.id ? ` at ${checkPlace.name}` : ''}`;
   const open = () => {
     const region = place?.regionId || place?.region;
     if (place?.id && region) navigate(`/landmarks/${region}/${place.id}`);
@@ -136,6 +146,17 @@ export default function WhereAmI() {
         <span aria-hidden="true">{traveling ? '\u{1F697}' : here?.place ? '\u{2B50}' : '\u{1F4CD}'}</span>
         <span className="where-am-i-text">{here?.place && !traveling ? `At ${text}` : text}</span>
       </button>
+      {checkPlace && (
+        <button
+          type="button"
+          className="btn btn-primary btn-sm where-am-i-checkin"
+          disabled={checkBusy}
+          aria-busy={checkBusy}
+          onClick={() => checkIn(checkPlace)}
+        >
+          {checkLabel}
+        </button>
+      )}
     </div>
   );
 }
