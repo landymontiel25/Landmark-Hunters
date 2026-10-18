@@ -169,12 +169,15 @@ function StreakBadge() {
   // open for good (owner report 2026-10-17). The badge counter reloads after
   // every check-in and on return to the app: at 3 today and not yet closed,
   // ask the server once per count (a failed call tries again next reload).
-  const actionsToday = useOptionalBadges()?.actionsToday ?? 0;
+  // One real check-in secures the day too (checkedInToday), not only 3.
+  const badgeCounts = useOptionalBadges();
+  const actionsToday = badgeCounts?.actionsToday ?? 0;
+  const dayEarned = !!badgeCounts?.checkedInToday || actionsToday >= PICKS_STREAK_THRESHOLD;
   const closeAskedFor = useRef('');
   const [closeRetry, setCloseRetry] = useState(0);
   const held = isDayHeld(streak, today);
   useEffect(() => {
-    if (!firebaseEnabled || !uid || !streak || held || actionsToday < PICKS_STREAK_THRESHOLD) return;
+    if (!firebaseEnabled || !uid || !streak || held || !dayEarned) return;
     const key = `${uid}:${today}:${actionsToday}`;
     if (closeAskedFor.current === key) return;
     closeAskedFor.current = key;
@@ -189,7 +192,7 @@ function StreakBadge() {
       })
       .catch(retryLater);
     return () => clearTimeout(timer);
-  }, [firebaseEnabled, uid, streak, held, actionsToday, today, closeRetry]);
+  }, [firebaseEnabled, uid, streak, held, dayEarned, actionsToday, today, closeRetry]);
 
   useEffect(() => {
     if (!firebaseEnabled || !user) return undefined;
@@ -250,7 +253,7 @@ function StreakBadge() {
       <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
         {!active ? (
           <>
-            <div>Rate 3 landmarks today to start a streak</div>
+            <div>Check in or rate 3 landmarks today to start a streak</div>
             <button
               type="button"
               className="btn btn-primary btn-sm streak-popover-cta"
