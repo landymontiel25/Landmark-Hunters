@@ -10,7 +10,9 @@ let geo = { coords: null };
 let checkin = { user: { uid: 'me' }, firebaseEnabled: true, claimedMap: {}, checkingIn: null, checkIn: vi.fn() };
 vi.mock('../lib/useCheckIn', () => ({ useCheckIn: () => checkin }));
 vi.mock('../lib/GeoContext', () => ({ useGeo: () => geo }));
-vi.mock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => [{ id: 'budare', region: 'custom', name: 'Budare Bistro', lat: 25.7601, lng: -80.2101 }] }));
+const defaultCustom = [{ id: 'budare', region: 'custom', name: 'Budare Bistro', lat: 25.7601, lng: -80.2101 }];
+let customList = defaultCustom;
+vi.mock('../lib/customLandmarks', () => ({ getCustomLandmarks: async () => customList }));
 const street = vi.fn(async () => '1801 SW 3rd Avenue, Miami, Florida');
 vi.mock('../lib/geocode', () => ({ streetAddress: (...a) => street(...a) }));
 const google = vi.fn(async () => null);
@@ -137,6 +139,27 @@ describe('WhereAmI', () => {
     geo = { coords: { lat: 25.7601, lng: -80.2101, accuracy: 10 } };
     await mount();
     expect(host.querySelector('.where-am-i-checkin').textContent).toContain('Check in again');
+    checkin = { ...checkin, claimedMap: {} };
+  });
+
+  it('lists every place within 30 m, the ones you have not checked into first', async () => {
+    const { ALL_LANDMARKS } = await import('../data/regions');
+    const lm = ALL_LANDMARKS.find((l) => l.regionId === 'miami' && Number.isFinite(l.lat));
+    // Budare Bistro is already checked into; a second place added next to the landmark.
+    const near = [lm, { id: 'budare', name: 'Budare Bistro', lat: lm.lat + 0.0001, lng: lm.lng }];
+    customList = near.slice(1);
+    checkin = { ...checkin, claimedMap: { budare: true }, checkIn: vi.fn() };
+    geo = { coords: { lat: lm.lat, lng: lm.lng, accuracy: 10 } };
+    await mount();
+    const toggle = host.querySelector('.where-am-i-checkin');
+    expect(toggle.textContent).toMatch(/2 places here/);
+    await act(async () => toggle.click());
+    const rows = [...host.querySelectorAll('.where-am-i-list-row')];
+    expect(rows.map((r) => r.querySelector('.where-am-i-list-name').textContent)).toEqual([lm.name, 'Budare Bistro']);
+    expect(rows[1].querySelector('button').textContent).toBe('Check in again');
+    await act(async () => rows[0].querySelector('button').click());
+    expect(checkin.checkIn).toHaveBeenCalledWith(expect.objectContaining({ id: lm.id }));
+    customList = defaultCustom;
     checkin = { ...checkin, claimedMap: {} };
   });
 });

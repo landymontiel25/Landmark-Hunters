@@ -70,3 +70,22 @@ export function nearestPlace(point, places, maxMeters = NEAR_MAX_METERS) {
 // place (owner, 2026-10-18). Checking in from a landmark's own page has no
 // such limit.
 export const QUICK_CHECKIN_METERS = 30;
+
+// Every place within `meters`, the ones you haven't checked into first,
+// then nearest first (owner, 2026-10-18).
+export function placesWithin(point, places, meters, claimed = {}) {
+  if (!point) return [];
+  const out = [];
+  const seen = new Set();
+  for (const p of places) {
+    if (!Number.isFinite(p?.lat) || !Number.isFinite(p?.lng) || !p.name) continue;
+    const d = distanceMeters(point.lat, point.lng, p.lat, p.lng);
+    const key = p.id || `${p.name}|${p.lat}|${p.lng}`;
+    if (d <= meters && !seen.has(key)) {
+      seen.add(key);
+      out.push({ place: p, d });
+    }
+  }
+  out.sort((a, b) => !!claimed[a.place.id] - !!claimed[b.place.id] || a.d - b.d);
+  return out.map((x) => x.place);
+}

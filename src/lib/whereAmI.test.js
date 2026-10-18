@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isMoving, nearestPlace, placeAt, shortAddress } from './whereAmI';
+import { isMoving, nearestPlace, placeAt, placesWithin, shortAddress } from './whereAmI';
 
 // About 111 m per 0.001 degree of latitude.
 const fix = (t, dLat, accuracy = 10) => ({ lat: 25.76 + dLat, lng: -80.2, accuracy, t: t * 1000 });
@@ -48,5 +48,17 @@ describe('nearestPlace', () => {
     const places = [{ id: 'a', name: 'A', lat: 25.76, lng: -80.2 }];
     expect(nearestPlace({ lat: 25.763, lng: -80.2 }, places)?.id).toBe('a'); // ~330 m
     expect(nearestPlace({ lat: 25.77, lng: -80.2 }, places)).toBeNull(); // ~1.1 km
+  });
+});
+
+describe('placesWithin', () => {
+  const places = [
+    { id: 'near-done', name: 'Visited', lat: 25.76, lng: -80.2 },
+    { id: 'new', name: 'New', lat: 25.7602, lng: -80.2 }, // ~22 m
+    { id: 'far', name: 'Far', lat: 25.761, lng: -80.2 }, // ~110 m
+  ];
+  it('keeps places within the radius, unvisited first, then nearest', () => {
+    const got = placesWithin({ lat: 25.76, lng: -80.2 }, places, 30, { 'near-done': true }).map((p) => p.id);
+    expect(got).toEqual(['new', 'near-done']);
   });
 });
