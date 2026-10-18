@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { distinctActionsOn, localDayWindow } from './soloPicks.js';
+import { distinctActionsOn, hasRealCheckinOn, localDayWindow } from './soloPicks.js';
 
 describe('localDayWindow', () => {
   it('is 24 hours with one offset (old clients)', () => {
@@ -30,5 +30,21 @@ describe('distinctActionsOn', () => {
       { landmarkId: 'd', visited: true, createdAt: { seconds: (w.start - 1000) / 1000 } },
     ];
     expect(distinctActionsOn(picks, checkins, w)).toBe(3);
+  });
+});
+
+describe('hasRealCheckinOn', () => {
+  const w = localDayWindow('2026-9-18', 240);
+  const at = { seconds: (w.start + 3600 * 1000) / 1000 };
+  it('one real check-in today secures the day', () => {
+    expect(hasRealCheckinOn([{ landmarkId: 'a', visited: true, points: 0, createdAt: at }], w)).toBe(true);
+  });
+  it('ignores ratings and check-ins from other days', () => {
+    const docs = [
+      { landmarkId: 'a', ratingOnly: true, visited: false, createdAt: at },
+      { landmarkId: 'b', visited: true, createdAt: { seconds: (w.start - 1000) / 1000 } },
+    ];
+    expect(hasRealCheckinOn(docs, w)).toBe(false);
+    expect(hasRealCheckinOn([{ landmarkId: 'a', visited: true, createdAt: at }], null)).toBe(false);
   });
 });

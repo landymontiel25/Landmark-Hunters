@@ -7,7 +7,7 @@ import { pickDailyCardIds } from '../../src/lib/sharedDeck.js';
 import { canonicalLandmarkId } from '../../src/data/regions.js';
 import { awardLeaderboardPointsServer } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
-import { SOLO_PICK_VOTES_REQUIRED, distinctActionsOn, localDayWindow } from './soloPicks.js';
+import { SOLO_PICK_VOTES_REQUIRED, distinctActionsOn, hasRealCheckinOn, localDayWindow } from './soloPicks.js';
 
 // Points for a secured solo day, and one-time bonuses the first time a
 // streak reaches a milestone length -- half the dual-streak amounts (see
@@ -61,18 +61,23 @@ async function handler(req, res) {
       res.status(200).json({ ok: true, closed: true, already: true, count: streak.count, best: streak.best });
       return;
     }
-    // The "rate 3 landmarks today" quota, counted exactly like the Travel Picks
-    // "N/3 today" counter: answers in Mapr Travel Picks (pick_feedback) plus
-    // 0-point "Rate a Landmark" ratings, on the caller's local day. 3 different
-    // landmarks secures the day with no daily-card deck, so no city is needed.
+    // One real check-in today secures the day by itself, the same rule
+    // ensure-solo-streak.js applies on every app load. Without it here, a
+    // check-in left the header red until a reload ran that repair.
+    // Otherwise the "rate 3 landmarks today" quota, counted exactly like the
+    // Travel Picks "N/3 today" counter: answers in Mapr Travel Picks
+    // (pick_feedback) plus check-ins and 0-point "Rate a Landmark" ratings, on
+    // the caller's local day. 3 different landmarks secures the day with no
+    // daily-card deck, so no city is needed.
     const checkinsSnap = await db.collection('checkins').where('userId', '==', account.uid).get();
     let counted = 0;
     const window = localDayWindow(dayId, tzOffsetMin, tzOffsetEndMin);
-    if (window) {
+    const checkedIn = hasRealCheckinOn(checkinsSnap.docs, window);
+    if (window && !checkedIn) {
       const fbSnap = await db.collection('pick_feedback').where('userId', '==', account.uid).get();
       counted = distinctActionsOn(fbSnap.docs, checkinsSnap.docs, window);
     }
-    const picksDone = counted >= SOLO_PICK_VOTES_REQUIRED;
+    const picksDone = checkedIn || counted >= SOLO_PICK_VOTES_REQUIRED;
 
     // Otherwise the 3 daily cards on the Streaks page, which are drawn from
     // the streak's city.

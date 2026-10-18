@@ -63,6 +63,13 @@ describe('Header closes the streak day from today’s count', () => {
     expect(closeToday).toHaveBeenCalledTimes(1);
   });
 
+  // Owner report 2026-10-18: one check-in left the 🔥 red until a reload.
+  it('asks the server to close today after a single real check-in', async () => {
+    badges = { actionsToday: 1, checkedInToday: true };
+    await render();
+    expect(closeToday).toHaveBeenCalledTimes(1);
+  });
+
   it('does nothing under 3, or when today is already closed', async () => {
     badges = { actionsToday: 2 };
     await render();

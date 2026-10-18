@@ -78,3 +78,18 @@ export function distinctActionsOn(pickDocs, checkinDocs, window) {
   }
   return ids.size;
 }
+
+// Whether the user made a real check-in (a visit, not a 0-point rating) on
+// that local day. One check-in secures the day on its own, the same rule
+// api/ensure-solo-streak.js and the app's hasSecuredStreakToday use (owner,
+// 2026-10-18: "once I check in or rate 3 places").
+export function hasRealCheckinOn(checkinDocs, window) {
+  if (!window) return false;
+  for (const raw of checkinDocs || []) {
+    const c = typeof raw?.data === 'function' ? raw.data() : raw;
+    if (!c || isRatingOnlyClaim(c)) continue;
+    const at = msOf(c.createdAt);
+    if (Number.isFinite(at) && at >= window.start && at < window.end) return true;
+  }
+  return false;
+}
