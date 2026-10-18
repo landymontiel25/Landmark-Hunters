@@ -23,10 +23,13 @@ const creditFor = (landmark, src) => IMAGE_CREDITS[src] || landmark.imageCredits
 export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', swipeable = false, myPhotos, onImageClick }) {
   const palette = paletteFor(landmark.id);
   const icon = landmarkIcon(landmark);
+  // The landmark page's photo (lg) fills the width up to 640px by 460px
+  // (owner, 2026-10-18: "make the picture bigger"). A phone can't go wider,
+  // so there it grows taller instead (0.9 of its width).
   const dims =
-    size === 'sm' ? { width: 150, height: 105 } : size === 'lg' ? { width: 320, height: 220 } : { width: 220, height: 150 };
-  // The big postcard is a fixed 320px, which (plus its border) is wider than
-  // the page on a 320px phone and pushed the whole screen sideways.
+    size === 'sm' ? { width: 150, height: 105 } : size === 'lg' ? { width: 640, height: 460 } : { width: 220, height: 150 };
+  // Never wider than the page (minus its border), or a small phone scrolls sideways.
+  if (size === 'lg') dims.height = `min(${dims.height}px, calc((100vw - 60px) * 0.9))`;
   dims.width = `min(${dims.width}px, calc(100vw - 60px))`;
   const [failed, setFailed] = useState(() => new Set());
   const [loaded, setLoaded] = useState(() => new Set());
