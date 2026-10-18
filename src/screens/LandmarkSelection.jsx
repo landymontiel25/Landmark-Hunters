@@ -1,4 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { loadLandmarkRatings } from '../lib/landmarkRatings';
+import { ratedScore } from '../lib/topRated';
 import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
 import { useNavigate, useNavigationType } from 'react-router-dom';
@@ -53,8 +55,11 @@ const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 const SORT_OPTIONS = [
   { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
-  { id: 'popularity', label: '\u{1F525} Popular' },
+  { id: 'rated', label: '\u{2B50} Top Rated' },
 ];
+
+// Top Rated: src/lib/topRated.js. Up to RATED_FETCH_CAP Google lookups a visit.
+const RATED_FETCH_CAP = 80;
 
 // "For Me": how likely you are to actually go -- the same learned per-city
 // category scores Mapr Picks ranks by (-100..100, from your ratings, with
@@ -195,6 +200,7 @@ const LandmarkRow = memo(function LandmarkRow({
   onCheckIn,
   onOpenPhoto,
   onInfo,
+  ratingSources,
 }) {
   const appRating =
     ratingCount > 0 ? (
@@ -253,7 +259,7 @@ const LandmarkRow = memo(function LandmarkRow({
             {/* The Google rating (⭐ 4.6 (1,234) Google Maps); the app's own
                 rating only where Google has none. Signed out the endpoint
                 answers nothing, so the row skips the call. */}
-            {user ? <RatingsCardLine landmark={l} fallback={appRating} /> : appRating}
+            {user ? <RatingsCardLine landmark={l} fallback={appRating} preloaded={ratingSources} /> : appRating}
             {distanceText && <span className="tag distance-tag">{'\u{1F4CD}'} {distanceText} away</span>}
           </div>
         </div>
@@ -405,7 +411,10 @@ export default function LandmarkSelection() {
   // Up arrow: not-checked-in first. Down arrow: checked-in first. null: neither.
   const [savedCheckInOrder, setCheckInOrder] = usePersistentState('landmarks.checkInOrder', null, { isEmpty: NEVER_EMPTY });
   const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;
-  const sortBy = savedSort === 'nearMe' || savedSort === 'popularity' ? savedSort : 'forMe';
+  // A Popular choice saved before Top Rated replaced it opens as Top Rated.
+  const sortBy = savedSort === 'nearMe' ? 'nearMe' : savedSort === 'rated' || savedSort === 'popularity' ? 'rated' : 'forMe';
+  // Google ratings fetched for the Top Rated sort, this visit only.
+  const [googleById, setGoogleById] = useState({});
 
   // Picking a city by hand (the dropdown) or GPS auto-pick already call
   // setMapFocus(id) themselves, right where they happen -- there used to
@@ -560,13 +569,15 @@ export default function LandmarkSelection() {
           a.name.localeCompare(b.name)
       );
     }
+    const score = new Map(filtered.map((l) => [l, ratedScore(l, googleById, ratings)]));
     return [...filtered].sort(
       (a, b) =>
-        (a.editorialRank ?? 99) - (b.editorialRank ?? 99) ||
+        (score.get(b) ?? -1) - (score.get(a) ?? -1) ||
         popularScore(b, ratings) - popularScore(a, ratings) ||
         a.name.localeCompare(b.name)
     );
   }, [
+    googleById,
     foundOnly,
     hasFound,
     isFound,
@@ -597,6 +608,21 @@ export default function LandmarkSelection() {
     const dir = checkInOrder === 'up' ? 1 : -1;
     return [...sortedLandmarks].sort((a, b) => (done(a) - done(b)) * dir);
   }, [sortedLandmarks, checkInOrder, claimedMap, search]);
+
+  // Top Rated: fetch Google ratings for the places at the top of the list
+  // (rows reuse them instead of fetching again), up to RATED_FETCH_CAP a
+  // visit. Signed out the endpoint answers nothing, so nothing is asked.
+  const ratedAsked = useRef(new Set());
+  useEffect(() => {
+    if (sortBy !== 'rated' || !user) return;
+    const want = landmarks
+      .filter((l) => l && l.id && l.regionId && !ratedAsked.current.has(l.id))
+      .slice(0, Math.max(0, RATED_FETCH_CAP - ratedAsked.current.size));
+    for (const l of want) {
+      ratedAsked.current.add(l.id);
+      loadLandmarkRatings(l).then((sources) => setGoogleById((cur) => ({ ...cur, [l.id]: sources })));
+    }
+  }, [sortBy, user, landmarks]);
 
   // Row callbacks keep one identity for the life of the screen so the memoized
   // rows (867 of them) skip re-rendering when something unrelated changes.
@@ -848,6 +874,7 @@ export default function LandmarkSelection() {
               photo={photo}
               ratingAvg={rating?.count > 0 ? rating.avg : null}
               ratingCount={rating?.count || 0}
+              ratingSources={googleById[l.id] || null}
               distanceText={coords ? formatDistance(distanceMeters(coords.lat, coords.lng, l.lat, l.lng), units) : null}
               user={user}
               firebaseEnabled={firebaseEnabled}
