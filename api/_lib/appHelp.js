@@ -200,8 +200,9 @@ export const APP_HELP =
   `comments show there -- a rating on its own doesn't count as a comment. You can add or edit your comment any time later, but it is always saved ` +
   `together with a rating tier (the editor asks you to pick one if you have none yet) -- from that section or from each row of ` +
   `My Check-ins (Profile → your check-ins). Other people's comments show when their account is public or they're your friend.\n` +
-  `- My Check-ins has a search box: type a place, city, something from your comment, your rating ("loved") or a date.\n` +
+  `- My Check-ins has a search box: type a place, city, something from your comment, your rating ("loved") or a date. Its "Sort by" menu has Most recent, Oldest first, Highest rated, Lowest rated and By city; By city folds your check-ins into one section per city (most check-ins first, newest first inside), each opening to its own search box that only looks in that city.\n` +
   `- My Check-ins also opens from the "📸 My Check-ins" button at the top right of the Places tab, next to the "Places (N)" title; from there it starts on Grid (your photos) and its Back button returns to Places.\n` +
+  `- A landmark's page has its Check In button right under the category and visit-length tags at the top (Check In Again once you've been).\n` +
   `- One check-in per place per day: checking in again at the same place on the same day (for example to change your rating or comment) updates that visit instead of adding a second check-in, and same-day repeats from before this change show and count as one.\n` +
   `- Every search box (Map, Landmarks, My Check-ins, Rate a Landmark, city pickers) forgives spelling: typos, swapped or missing ` +
   `letters, half-typed words, sound-alike spellings ("filadelfia"), and accents. Best matches come first. When that still finds ` +

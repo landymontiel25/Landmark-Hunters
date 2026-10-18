@@ -253,6 +253,117 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
     });
   };
 
+  // One check-in as a list row / a grid tile (also used inside each city
+  // group of the By city view).
+  const renderRow = (it) => (
+    <div
+      key={it.id}
+      className="checkin-row"
+      role="button"
+      tabIndex={0}
+      onClick={() => go(it)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          go(it);
+        }
+      }}
+    >
+      {it.photo ? (
+        <img className="checkin-list-thumb" src={it.photo} alt={it.name} loading="lazy" decoding="async" />
+      ) : (
+        <div className="checkin-thumb-blank" />
+      )}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="checkin-name">{it.name}</div>
+        <div className="checkin-sub">{it.tierEmoji ? `${it.tierEmoji} ${it.tierLabel}` : 'Not rated yet'}</div>
+        {it.verified && <div className="checkin-sub presence-verified">{'\u2713'} Verified visit</div>}
+        {canEditDates && editingId === it.id ? (
+          <div
+            style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6, alignItems: 'center' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <input
+              type="datetime-local"
+              aria-label="Check-in date and time"
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              disabled={editSaving}
+              style={{ fontSize: '0.78rem', padding: '4px 6px' }}
+            />
+            <span className="tag" style={{ fontSize: '0.68rem' }}>
+              {tzAbbrev(regionTimezone(it.regionId, it.lng))} — {it.city}
+            </span>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              disabled={editSaving}
+              onClick={() => saveEdit(it)}
+            >
+              {editSaving ? 'Saving…' : 'Save'}
+            </button>
+            <button type="button" className="btn btn-ghost btn-sm" disabled={editSaving} onClick={cancelEdit}>
+              Cancel
+            </button>
+            {editError && (
+              <span className="tag tag-error" style={{ fontSize: '0.7rem' }}>
+                {editError}
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className="checkin-sub" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {it.date}
+            {canEditDates && (
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm admin-edit-btn"
+                style={{ padding: '1px 10px', fontSize: '0.7rem' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  startEdit(it);
+                }}
+              >
+                {'\u{270F}\u{FE0F}'} Edit date
+              </button>
+            )}
+          </div>
+        )}
+        {isOwnGallery && it.comment !== null && (
+          <MyCommentEditor
+            compact
+            userId={user.uid}
+            landmark={{ id: it.landmarkId, name: it.name, region: it.regionId, categories: it.categories }}
+            comment={it.comment}
+            tier={it.tierId}
+            userName={user.displayName || undefined}
+            // Repeat visits to one place are separate rows sharing one
+            // comment -- keep the others in step with the edit.
+            onSaved={(text) =>
+              setCheckins((prev) =>
+                prev.map((c) => (c.landmarkId === it.landmarkId ? { ...c, comment: text } : c))
+              )
+            }
+          />
+        )}
+      </div>
+    </div>
+  );
+  const renderTile = (it) => (
+    <button type="button" key={it.id} className="checkin-tile" onClick={() => go(it)}>
+      {it.photo ? (
+        <img src={it.photo} alt={it.name} loading="lazy" decoding="async" />
+      ) : (
+        <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
+      )}
+      <span className="checkin-tile-name">{it.name}</span>
+    </button>
+  );
+
+  // By city: one fold-out group per city (most check-ins first), each with
+  // its own search box. A search in the top box shows the plain list instead.
+  const byCity = sort === 'city' && !q && shown ? groupByCity(shown) : null;
+
   return (
     <div className="section">
       <div className="card" style={{ textAlign: 'center', marginBottom: 14 }}>
@@ -347,110 +458,19 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
         </p>
       )}
 
-      {shown && shown.length > 0 && layout === 'list' && (
+      {!byCity && shown && shown.length > 0 && layout === 'list' && (
         <div style={{ marginTop: 12 }}>
           {display.map((it) =>
             it === SMART_DIVIDER ? (
               <SmartSearchLabel key={it.id} count={smartExtra.length} />
             ) : (
-            <div
-              key={it.id}
-              className="checkin-row"
-              role="button"
-              tabIndex={0}
-              onClick={() => go(it)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  go(it);
-                }
-              }}
-            >
-              {it.photo ? (
-                <img className="checkin-list-thumb" src={it.photo} alt={it.name} loading="lazy" decoding="async" />
-              ) : (
-                <div className="checkin-thumb-blank" />
-              )}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div className="checkin-name">{it.name}</div>
-                <div className="checkin-sub">{it.tierEmoji ? `${it.tierEmoji} ${it.tierLabel}` : 'Not rated yet'}</div>
-                {it.verified && <div className="checkin-sub presence-verified">{'\u2713'} Verified visit</div>}
-                {canEditDates && editingId === it.id ? (
-                  <div
-                    style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6, alignItems: 'center' }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <input
-                      type="datetime-local"
-                      aria-label="Check-in date and time"
-                      value={editValue}
-                      onChange={(e) => setEditValue(e.target.value)}
-                      disabled={editSaving}
-                      style={{ fontSize: '0.78rem', padding: '4px 6px' }}
-                    />
-                    <span className="tag" style={{ fontSize: '0.68rem' }}>
-                      {tzAbbrev(regionTimezone(it.regionId, it.lng))} — {it.city}
-                    </span>
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-sm"
-                      disabled={editSaving}
-                      onClick={() => saveEdit(it)}
-                    >
-                      {editSaving ? 'Saving…' : 'Save'}
-                    </button>
-                    <button type="button" className="btn btn-ghost btn-sm" disabled={editSaving} onClick={cancelEdit}>
-                      Cancel
-                    </button>
-                    {editError && (
-                      <span className="tag tag-error" style={{ fontSize: '0.7rem' }}>
-                        {editError}
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <div className="checkin-sub" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    {it.date}
-                    {canEditDates && (
-                      <button
-                        type="button"
-                        className="btn btn-ghost btn-sm admin-edit-btn"
-                        style={{ padding: '1px 10px', fontSize: '0.7rem' }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          startEdit(it);
-                        }}
-                      >
-                        {'\u{270F}\u{FE0F}'} Edit date
-                      </button>
-                    )}
-                  </div>
-                )}
-                {isOwnGallery && it.comment !== null && (
-                  <MyCommentEditor
-                    compact
-                    userId={user.uid}
-                    landmark={{ id: it.landmarkId, name: it.name, region: it.regionId, categories: it.categories }}
-                    comment={it.comment}
-                    tier={it.tierId}
-                    userName={user.displayName || undefined}
-                    // Repeat visits to one place are separate rows sharing one
-                    // comment -- keep the others in step with the edit.
-                    onSaved={(text) =>
-                      setCheckins((prev) =>
-                        prev.map((c) => (c.landmarkId === it.landmarkId ? { ...c, comment: text } : c))
-                      )
-                    }
-                  />
-                )}
-              </div>
-            </div>
+            renderRow(it)
             )
           )}
         </div>
       )}
 
-      {shown && shown.length > 0 && layout === 'grid' && (
+      {!byCity && shown && shown.length > 0 && layout === 'grid' && (
         <div className="checkin-grid">
           {display.map((it) =>
             it === SMART_DIVIDER ? (
@@ -458,18 +478,70 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
                 <SmartSearchLabel count={smartExtra.length} />
               </div>
             ) : (
-            <button type="button" key={it.id} className="checkin-tile" onClick={() => go(it)}>
-              {it.photo ? (
-                <img src={it.photo} alt={it.name} loading="lazy" decoding="async" />
-              ) : (
-                <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
-              )}
-              <span className="checkin-tile-name">{it.name}</span>
-            </button>
+            renderTile(it)
             )
           )}
         </div>
       )}
+      {byCity && (
+        <div className="checkin-cities">
+          {byCity.map(({ city, items }) => (
+            <CityGroup key={city} city={city} items={items} layout={layout} renderRow={renderRow} renderTile={renderTile} />
+          ))}
+        </div>
+      )}
     </div>
+  );
+}
+
+// Check-ins grouped by city, the city with the most check-ins first (ties
+// A-Z); inside a city the chosen order (most recent first) holds.
+function groupByCity(items) {
+  const groups = new Map();
+  for (const it of items) {
+    const city = it.city || 'Other';
+    if (!groups.has(city)) groups.set(city, []);
+    groups.get(city).push(it);
+  }
+  return [...groups.entries()]
+    .map(([city, list]) => ({ city, items: list }))
+    .sort((a, b) => b.items.length - a.items.length || a.city.localeCompare(b.city));
+}
+
+// One city's fold-out group in the By city view, with a search box that
+// only looks inside this city.
+function CityGroup({ city, items, layout, renderRow, renderTile }) {
+  const [open, setOpen] = useState(false);
+  const [find, setFind] = useState('');
+  const term = find.trim();
+  const list = term ? items.filter((c) => matchesSearch([c.name, c.comment, c.tierLabel, c.date].filter(Boolean).join(' '), term)) : items;
+  return (
+    <details className="checkin-city" open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+      <summary className="checkin-city-head">
+        <span>{city}</span>
+        <span className="checkin-city-count">{items.length}</span>
+      </summary>
+      {open && (
+        <div className="checkin-city-body">
+          <input
+            type="search"
+            className="checkin-search"
+            aria-label={`Search your check-ins in ${city}`}
+            autoComplete="off"
+            enterKeyHint="search"
+            placeholder={`\u{1F50D} Search ${city}…`}
+            value={find}
+            onChange={(e) => setFind(e.target.value)}
+          />
+          {!list.length ? (
+            <p className="screen-subtitle">No check-ins in {city} match "{term}".</p>
+          ) : layout === 'grid' ? (
+            <div className="checkin-grid">{list.map(renderTile)}</div>
+          ) : (
+            <div style={{ marginTop: 12 }}>{list.map(renderRow)}</div>
+          )}
+        </div>
+      )}
+    </details>
   );
 }

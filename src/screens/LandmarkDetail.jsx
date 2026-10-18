@@ -859,6 +859,18 @@ function LandmarkDetailBody() {
         <span className="tag">{'~' + landmark.typicalMinutes + ' min'}</span>
         {customLandmark && <span className="tag">{'\u{2728}'} Community-submitted</span>}
       </div>
+      {/* Check In sits right under the tags, one tap from the top (owner, 2026-10-18). */}
+      <div style={{ marginTop: -6, marginBottom: 18 }}>
+        <CheckInButton
+          landmark={landmark}
+          user={user}
+          firebaseEnabled={firebaseEnabled}
+          claimedMap={claimedMap}
+          checkingIn={checkingIn}
+          onCheckIn={checkIn}
+          className="btn-block"
+        />
+      </div>
       {customLandmark && user && customLandmark.createdBy !== user.uid && (
         <p className="center" style={{ marginTop: -10, marginBottom: 18 }}>
           {landmarkReported ? (
@@ -1147,15 +1159,6 @@ function LandmarkDetailBody() {
         </button>
       )}
 
-      <CheckInButton
-        landmark={landmark}
-        user={user}
-        firebaseEnabled={firebaseEnabled}
-        claimedMap={claimedMap}
-        checkingIn={checkingIn}
-        onCheckIn={checkIn}
-        className="btn-block"
-      />
 
 
       {firebaseEnabled && user && checkedInHere && (

@@ -1,6 +1,7 @@
 // Author and license for stored Wikimedia Commons photos (keyed by image URL).
 // Written by scripts/apply-commons-photos.mjs; shown under the photo by LandmarkPostcard.
 export const IMAGE_CREDITS = {
+  "https://commons.wikimedia.org/wiki/Special:FilePath/SUNSET%20AT%20BOATER%27S%20GRILL%20-%20panoramio.jpg?width=1200": {"author":"Rodolfo L. Hernandez","license":"CC BY-SA 3.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0","pageUrl":"https://commons.wikimedia.org/wiki/File:SUNSET_AT_BOATER%27S_GRILL_-_panoramio.jpg"},
   "https://commons.wikimedia.org/wiki/Special:FilePath/222%20Second%20Street.jpg?width=1200": {"author":"Dead.rabbit","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0","pageUrl":"https://commons.wikimedia.org/wiki/File:222_Second_Street.jpg"},
   "https://commons.wikimedia.org/wiki/Special:FilePath/4980MilanoTeatroGrassi.jpg?width=1200": {"author":"Geobia","license":"CC0","licenseUrl":"https://creativecommons.org/publicdomain/zero/1.0/","pageUrl":"https://commons.wikimedia.org/wiki/File:4980MilanoTeatroGrassi.jpg"},
   "https://commons.wikimedia.org/wiki/Special:FilePath/Aranjuez%20-%20Iglesia%20de%20Nuestra%20Se%C3%B1ora%20de%20las%20Angusias%20o%20de%20Alpaj%C3%A9s%2015.JPG?width=1200": {"author":"Zarateman","license":"CC BY-SA 3.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/3.0","pageUrl":"https://commons.wikimedia.org/wiki/File:Aranjuez_-_Iglesia_de_Nuestra_Se%C3%B1ora_de_las_Angusias_o_de_Alpaj%C3%A9s_15.JPG"},
