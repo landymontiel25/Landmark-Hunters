@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { paletteFor, landmarkIcon } from '../lib/landmarkVisuals';
 import { usePlacePhoto } from '../lib/usePlacePhoto';
 import PlacePhotoCredit from './PlacePhotoCredit';
+import { isPermanentlyClosed } from '../lib/closedPlace';
 
 // Compact, non-swipeable thumbnail for dense contexts (list rows, itinerary
 // stops, map popups) where the decorative postcard frame doesn't fit.
@@ -17,7 +18,18 @@ import PlacePhotoCredit from './PlacePhotoCredit';
 // Places photo once the tile scrolls into view (see docs/photos.md), shown
 // with its required "Photo: <author> via Google Maps" credit; any failure
 // leaves the colored tile.
-export default function LandmarkThumb({ landmark, size = 52, width, height, myPhoto }) {
+// A place closed for good wears a CLOSED band across its thumbnail.
+export default function LandmarkThumb(props) {
+  if (!isPermanentlyClosed(props.landmark)) return <Thumb {...props} />;
+  return (
+    <span className="landmark-thumb-wrap">
+      <Thumb {...props} />
+      <span className="landmark-thumb-closed">CLOSED</span>
+    </span>
+  );
+}
+
+function Thumb({ landmark, size = 52, width, height, myPhoto }) {
   const [failed, setFailed] = useState(() => new Set());
   const [loaded, setLoaded] = useState(null);
   const image = [myPhoto, ...(landmark.images || [])].find((src) => src && !failed.has(src));

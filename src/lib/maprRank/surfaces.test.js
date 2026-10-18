@@ -149,3 +149,14 @@ describe('trip planner: "Something new" gets one community find', () => {
     expect(usual.some((p) => p.id === target.id)).toBe(false);
   });
 });
+
+describe('closed places', () => {
+  it('a place closed for good is never ranked on any surface', () => {
+    const places = [
+      { id: 'open', regionId: 'miami', name: 'Open', categories: ['entertainment'], lat: 25.7, lng: -80.2 },
+      { id: 'gone', regionId: 'miami', name: 'Gone', categories: ['entertainment'], lat: 25.7, lng: -80.2, permanentlyClosed: true },
+    ];
+    const { ranked } = rankPlaces({ places, features: FEATURES });
+    expect(ranked.map((p) => p.id)).toEqual(['open']);
+  });
+});

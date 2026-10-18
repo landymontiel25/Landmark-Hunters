@@ -248,8 +248,8 @@ export async function bestOrder({ stops = [], start = 'my location', end = '', m
   const leg = (a, b) => {
     const c = cell[`${a}>${b}`];
     return {
-      from: { name: all[a].name },
-      to: { name: all[b].name },
+      from: { name: all[a].name, address: all[a].address || '' },
+      to: { name: all[b].name, address: all[b].address || '' },
       mode: travelMode === 'WALK' ? 'walking' : 'driving',
       miles: Math.round((c.m / 1609.34) * 10) / 10,
       km: Math.round((c.m / 1000) * 10) / 10,

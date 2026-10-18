@@ -6845,6 +6845,32 @@ p.tag {
 .landmark-thumb-wrap .landmark-thumb {
   display: block;
 }
+/* Closed for good: the landmark page's note above its description. */
+.landmark-closed-note {
+  color: var(--danger);
+  font-weight: 600;
+}
+.landmark-closed-note a {
+  color: inherit;
+  text-decoration: underline;
+}
+/* Closed for good: a red band across the thumbnail (LandmarkThumb). */
+.landmark-thumb-closed {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 0;
+  background: rgba(200, 40, 40, 0.88);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-align: center;
+  pointer-events: none;
+}
 .place-photo-host {
   position: relative;
   overflow: hidden;

@@ -1053,6 +1053,8 @@ export default function Mapr() {
                       ? formatDistance(distanceMeters(coords.lat, coords.lng, lat, lng), units)
                       : null;
                     const resolved = !stop.external || !!stop.createdId;
+                    // Not a landmark yet: say so until it is (or fails).
+                    const loading = creating || (!resolved && !stop.createFailed && !!user);
                     const voteRegion = stop.createdRegion || stop.region;
                     // "Not for me" takes the card out of the reply.
                     if (id && pickVotes.removed.has(id)) return null;
@@ -1067,7 +1069,7 @@ export default function Mapr() {
                           {resolved ? (
                             <LandmarkThumb landmark={{ id, name: stop.name, lat, lng, images, categories, source: stop.source || catalogLm?.source }} size={64} myPhoto={myPhotos[id]?.[0]} />
                           ) : (
-                            <div className="chatlab-stop-globe">{creating ? '\u{23F3}' : '\u{1F310}'}</div>
+                            <div className="chatlab-stop-globe">{loading ? '\u{23F3}' : '\u{1F310}'}</div>
                           )}
                           <div className="chatlab-stop-text">
                             <strong>
@@ -1075,10 +1077,10 @@ export default function Mapr() {
                               {!resolved && stop.place ? ` — ${stop.place}` : ''}
                             </strong>
                             {stop.address && <span className="chatlab-stop-address">{'\u{1F4CD}'} {stop.address}</span>}
-                            {(distance || creating || stars != null) && (
+                            {(distance || loading || stars != null) && (
                               <span className="chatlab-stop-meta">
-                                {creating ? (
-                                  <span>Give me a couple seconds while I set this up…</span>
+                                {loading ? (
+                                  <span>Loading card, please wait a moment…</span>
                                 ) : (
                                   <span>
                                     {distance}
