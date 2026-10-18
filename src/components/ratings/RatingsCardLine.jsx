@@ -13,9 +13,14 @@ import { TRIPADVISOR_LOGO } from './brand';
 // (no Google listing, or a listing nobody rated) it says "No ratings
 // available"; `fallback` (the app's own rating tag) shows only while loading
 // or when the lookup failed.
-function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS }) {
+// `preloaded`: sources the list already fetched (the Places tab's Top Rated
+// sort), shown as-is with no second call.
+function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS, preloaded = null }) {
   const enabled = flags.cardLine;
-  const { ref, status, sources } = useLandmarkRatings(landmark, { enabled });
+  const live = useLandmarkRatings(landmark, { enabled: enabled && !preloaded });
+  const { ref } = live;
+  const status = enabled && preloaded ? 'done' : live.status;
+  const sources = enabled && preloaded ? preloaded : live.sources;
   const taLogo = useImageAvailable(enabled ? TRIPADVISOR_LOGO : null);
   if (status === 'off') return fallback;
   const google = status === 'done' && hasRating(sources.google) ? sources.google : null;

@@ -22,6 +22,7 @@ import RegionSearch from './RegionSearch';
 import { inScope, scopeFromKey, scopeRegionId } from '../lib/cityScope';
 import RateLandmarkSearch from './RateLandmarkSearch';
 import MaprPickImage from './MaprPickImage';
+import { loadPlacePhoto, peekPlacePhoto } from '../lib/placePhoto';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
 import { readSeen } from '../lib/maprRank/seenHistory.js';
 import { rankPlaces, loggable } from '../lib/maprRank/surfaces.js';
@@ -193,8 +194,6 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
       .catch(() => {});
   }, [user?.uid]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!user) return null;
-
   // A landmark already rated, already checked into (even unrated), or
   // already voted ✓/✗/🤷 here has nothing left to teach Mapr right now --
   // rate it for real from its own page instead.
@@ -203,7 +202,17 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
   const reviewedIds = new Set(reviews.filter(isVisitedReview).map((r) => r.landmarkId).filter(Boolean));
   const savedPlaceIds = (myProfile?.onboardingPlaces || []).map((p) => p.id);
   const excludeIds = new Set([...checkedInIds, ...reviewedIds, ...savedPlaceIds, ...votedIds(feedback).filter((id) => !touched.has(id)), ...removed]);
-  const landmarks = ranked.filter((l) => !excludeIds.has(l.id)).slice(0, RESERVE);
+  const pool = ranked.filter((l) => !excludeIds.has(l.id));
+  // Cards need a picture (owner, 2026-10-18): a place with no photo of its
+  // own shows only once a Google photo turns up for it, unless nothing with
+  // a photo is left to answer.
+  const hasPhoto = usePhotoChecks(pool, RESERVE);
+  const withPhoto = pool.filter((l) => hasPhoto(l) === true);
+  const checking = pool.some((l) => hasPhoto(l) === undefined);
+  const landmarks = (withPhoto.length || checking ? withPhoto : pool).slice(0, RESERVE);
+
+  if (!user) return null;
+
 
   // Saved to the database first (usePickVotes); the card reacts to the
   // result. onSaved refreshes actionsToday the moment a day's Nth vote lands,
@@ -281,7 +290,12 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
             <PickVoteButtons name={l.name} vote={votes[l.id]} onVote={(v) => vote(l, v)} onRetry={() => retry(l.id)} />
           </OnScreen>
         ))}
-        {region && landmarks.length === 0 && (
+        {region && landmarks.length === 0 && checking && (
+          <div className="taste-card-note" style={{ margin: '10px 0 0' }}>
+            Finding places with photos…
+          </div>
+        )}
+        {region && landmarks.length === 0 && !checking && (
           <div className="taste-card-note" style={{ margin: '10px 0 0' }}>
             <p style={{ margin: '0 0 8px' }}>
               {'\u{1F389}'} You've rated every place in {townScope ? townScope.label : region.name}. Pick another city to keep going, or stay here and check back for new spots.
@@ -325,4 +339,32 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
         )}
     </div>
   );
+}
+
+// Whether each pool place has a picture: its own image, or a Google photo
+// (looked up in rank order, only as many as it takes to fill `want` cards).
+// Returns a lookup: true, false, or undefined while it's still being checked
+// (or not checked yet because enough cards with photos came first).
+function usePhotoChecks(pool, want) {
+  const [found, setFound] = useState({});
+  const asked = useRef(new Set());
+  const keyOf = (l) => `${l.regionId}/${l.id}`;
+  const hasPhoto = (l) => {
+    if (l.images?.length) return true;
+    if (keyOf(l) in found) return found[keyOf(l)];
+    const known = peekPlacePhoto(l);
+    return known === undefined ? undefined : !!known;
+  };
+  useEffect(() => {
+    let shown = 0;
+    for (const l of pool) {
+      if (shown >= want) break;
+      const has = hasPhoto(l);
+      if (has) shown += 1;
+      if (has !== undefined || asked.current.has(keyOf(l))) continue;
+      asked.current.add(keyOf(l));
+      loadPlacePhoto(l).then((photo) => setFound((cur) => ({ ...cur, [keyOf(l)]: !!photo })));
+    }
+  }); // eslint-disable-line react-hooks/exhaustive-deps
+  return hasPhoto;
 }
