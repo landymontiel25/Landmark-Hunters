@@ -7,6 +7,8 @@ export const CHECKIN_SORTS = [
   { id: 'oldest', label: 'Oldest first' },
   { id: 'top', label: 'Highest rated' },
   { id: 'bottom', label: 'Lowest rated' },
+  // Grouped into a fold-out section per city (CheckinsGallery), newest first inside.
+  { id: 'city', label: 'By city' },
 ];
 
 export function sortCheckins(items, sortId) {

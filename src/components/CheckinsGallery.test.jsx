@@ -101,3 +101,26 @@ describe('My Check-ins total points', () => {
     expect(pts()).toContain('– total points');
   });
 });
+
+// Owner, 2026-10-18: organize check-ins by city, a fold-out per city with a search.
+describe('My Check-ins by city', () => {
+  it('groups check-ins into one fold-out per city, each with its own search', async () => {
+    await mount();
+    const select = container.querySelector('select');
+    await act(async () => {
+      select.value = 'city';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    const heads = [...container.querySelectorAll('.checkin-city-head')].map((h) => h.textContent);
+    expect(heads.length).toBe(3);
+    expect(names()).toHaveLength(0); // all folded
+    const miami = [...container.querySelectorAll('.checkin-city')].find((d) => d.textContent.includes('Miami'));
+    await act(async () => {
+      miami.open = true;
+      miami.dispatchEvent(new Event('toggle'));
+    });
+    expect(names()).toEqual(['Wynwood Walls']);
+    expect(miami.querySelector('input[type="search"]')).toBeTruthy();
+    localStorage.removeItem('lh-checkins-sort');
+  });
+});
