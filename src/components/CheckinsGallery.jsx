@@ -4,6 +4,7 @@ import { getLandmark, getRegion } from '../data/regions';
 import { getCustomLandmarks } from '../lib/customLandmarks';
 import { ensurePlacePacks, isPlacePackId } from '../lib/placePacks';
 import { getUserCheckins, updateCheckinTimestamp, isRealCheckin } from '../lib/leaderboard';
+import { oneVisitPerDay } from '../lib/realCheckin';
 import { getMyReview } from '../lib/reviews';
 import { isRateable, tierById, tierStars } from '../lib/ratingFlow';
 import { CHECKIN_SORTS, sortCheckins } from '../lib/checkinSort';
@@ -38,7 +39,7 @@ function fmtDateTime(seconds) {
 // The full photo gallery of everywhere you've checked in -- lives on the
 // Full Stats page (moved out of the Ranks tab strip, which is now just
 // This Week / This Month / This Year).
-export default function CheckinsGallery({ user, claimedMap, navigate, totalPoints, title = 'My Check-ins' }) {
+export default function CheckinsGallery({ user, claimedMap, navigate, totalPoints, title = 'My Check-ins', initialLayout = 'list' }) {
   const { user: viewer } = useAuth();
   const { adminMode } = useAdminMode();
   const canEditDates = adminMode && isAdmin(viewer?.email);
@@ -48,7 +49,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   // A failed read is its own state -- never shown as "No check-ins yet".
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
-  const [layout, setLayout] = useState('list'); // 'list' | 'grid'
+  const [layout, setLayout] = useState(initialLayout === 'grid' ? 'grid' : 'list'); // 'list' | 'grid'
   const [search, setSearch] = useState('');
   // Admin Mode: which row's "when I checked in" is being edited, if any.
   const [editingId, setEditingId] = useState(null);
@@ -174,7 +175,8 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       }
       // A "Rate a Landmark" claim (ratingOnly, 0 points) isn't a visit --
       // it never belongs here, only in My Mapr Ratings.
-      rows = rows.filter(isRealCheckin);
+      // Re-checking in the same day (to edit a rating) is one visit, not two.
+      rows = oneVisitPerDay(rows.filter(isRealCheckin));
       if (cancelled) return;
       // Show right away using landmark photos, so the gallery is never blank…
       setCheckins(rows.map((c) => build(c, null)));

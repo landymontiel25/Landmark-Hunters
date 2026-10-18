@@ -101,3 +101,26 @@ describe('claimCheckIn visit numbering', () => {
     expect(state.written.id).toBe('u1_lm_2');
   });
 });
+
+// Owner, 2026-10-18: re-checking in to edit a rating made a second check-in.
+describe('claimCheckIn: one visit per place per day', () => {
+  beforeEach(() => {
+    state.written = null;
+    state.other = null;
+  });
+  const sec = (ms) => ({ seconds: Math.floor(ms / 1000) });
+
+  it('a second check-in at the same place the same day logs nothing new', async () => {
+    state.prior = [{ visited: true, points: 0, __id: 'u1_lm', createdAt: sec(Date.now() - 60 * 1000) }];
+    const res = await claimCheckIn(args);
+    expect(res).toMatchObject({ claimed: false, alreadyClaimed: true, sameDay: true, checkinId: 'u1_lm' });
+    expect(state.written).toBeNull();
+  });
+
+  it('a check-in there on an earlier day is a new visit', async () => {
+    state.prior = [{ visited: true, points: 0, __id: 'u1_lm', createdAt: sec(Date.now() - 3 * 24 * 3600 * 1000) }];
+    const res = await claimCheckIn(args);
+    expect(res.claimed).toBe(true);
+    expect(state.written.id).toBe('u1_lm_2');
+  });
+});
