@@ -449,6 +449,22 @@ await t('admin pointer: only the admin can set it, to their own uid; then it ide
   await assertSucceeds(setDoc(doc(as('hal'), 'notifications/n7'), note()));
 });
 
+console.log('rating tags (a friend tagged you in a rating)');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'friend_edges/tia_uma'), { owner: 'tia', friend: 'uma', friendName: 'uma' });
+  await setDoc(doc(db, 'friend_edges/uma_tia'), { owner: 'uma', friend: 'tia', friendName: 'tia' });
+});
+const tagNote = (over) => ({ uid: 'uma', type: 'rating_tag', message: '@tia tagged you in their rating of Vizcaya.', landmarkId: 'vizcaya', groupTripId: null, featureRequestId: null, bugReportId: null, regionId: 'miami', fromUid: 'tia', read: false, createdAt: serverTimestamp(), ...over });
+await t('you can tag a friend', () => assertSucceeds(setDoc(doc(as('tia'), 'notifications/t1'), tagNote())));
+await t('no tag to a non-friend, as someone else, or with a long message', async () => {
+  const db = as('tia');
+  await assertFails(setDoc(doc(db, 'notifications/t2'), tagNote({ uid: 'vic' })));
+  await assertFails(setDoc(doc(db, 'notifications/t3'), tagNote({ fromUid: 'uma' })));
+  await assertFails(setDoc(doc(db, 'notifications/t4'), tagNote({ message: 'x'.repeat(201) })));
+  await assertFails(setDoc(doc(as('vic'), 'notifications/t5'), tagNote({ fromUid: 'vic' })));
+});
+
 console.log('reply reads');
 await reset();
 await seed(async (db) => {

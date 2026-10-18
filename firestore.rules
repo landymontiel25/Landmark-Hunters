@@ -1283,6 +1283,15 @@ service cloud.firestore {
             // the writer really filed: it must point at their own doc and
             // its message must carry that doc's own name and title (so it
             // can't be used to send the admin arbitrary text).
+            // A friend tagged you in their rating (TagFriendsPicker): only
+            // from yourself, only to someone you're friends with.
+            || (request.resource.data.type == 'rating_tag'
+                && request.resource.data.fromUid == request.auth.uid
+                && request.resource.data.uid != request.auth.uid
+                && exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + request.resource.data.uid))
+                && request.resource.data.message is string
+                && request.resource.data.message.size() <= 200
+                && request.resource.data.read == false)
             || (request.resource.data.type == 'feature_request'
                 && isAdminUid(request.resource.data.uid)
                 && adminNoticeOk('feature_requests', 'featureRequestId', ' New feature request from '))

@@ -10,6 +10,7 @@ import {
   commentQuestion,
 } from '../lib/ratingFlow';
 import { usePersistentState, readPersisted, isDraftSubmitting } from '../lib/usePersistentState';
+import TagFriendsPicker from './TagFriendsPicker';
 
 function toDraft(initial) {
   return {
@@ -19,6 +20,9 @@ function toDraft(initial) {
     dislikedOrder: initial?.dislikedOrder || [],
     comment: initial?.comment || '',
     visitFrequency: initial?.visitFrequency || null,
+    // Friends tagged in this rating: [{ uid, name }]. Not stored on the
+    // review; reviews.js notifies them when it saves.
+    tagged: [],
   };
 }
 
@@ -39,7 +43,8 @@ function toDraft(initial) {
 // draftKey (see ratingDraftKey in reviews.js): when given, a rating in
 // progress is saved on this device as you tap, so closing the app mid-rating
 // doesn't lose it. The parent clears it once the rating actually saves.
-export default function RatingFlow({ landmark, onChange, initial = null, requireComment = false, draftKey = null }) {
+// tagUid: the signed-in rater, for "@ Tag a friend" (left out, no tagging).
+export default function RatingFlow({ landmark, onChange, initial = null, requireComment = false, draftKey = null, tagUid = null }) {
   // A draft identical to what's already on file (or with no tier) isn't
   // worth keeping -- it would only "restore" what the form shows anyway.
   const initialJson = JSON.stringify(toDraft(initial));
@@ -50,6 +55,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   });
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
   const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;
+  const tagged = draft.tagged || [];
   const patch = (fields) => setDraft((cur) => ({ ...cur, ...fields }));
   const setLovedOrder = (list) => patch({ lovedOrder: list });
   const setDislikedOrder = (list) => patch({ dislikedOrder: list });
@@ -57,6 +63,15 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   // Free text, optional: the one place to say what the chips can't. Mapr
   // reads it alongside the chips when learning what you like.
   const setComment = (text) => patch({ comment: text });
+  // Tagging adds "@name" to the comment (so the rating shows who it's for);
+  // untagging takes it back out.
+  const setTagged = (list, { added, removed } = {}) => {
+    const at = (name) => `@${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`;
+    let text = comment;
+    if (added && !new RegExp(at(added.name), 'i').test(text)) text = `${text.trim()} @${added.name}`.trim().slice(0, COMMENT_MAX);
+    if (removed) text = text.replace(new RegExp(`\\s*${at(removed.name)}`, 'gi'), '').trim();
+    patch({ tagged: list, comment: text });
+  };
 
   const discardDraft = () => {
     clearDraft();
@@ -65,8 +80,11 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   };
 
   const payload = useMemo(
-    () => (tier ? { tier, highlights, lovedOrder, dislikedOrder, comment: comment.trim(), visitFrequency } : null),
-    [tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency]
+    () =>
+      tier
+        ? { tier, highlights, lovedOrder, dislikedOrder, comment: comment.trim(), visitFrequency, ...(tagged.length ? { tagged } : {}) }
+        : null,
+    [tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency, tagged]
   );
   useEffect(() => {
     onChange?.(payload);
@@ -197,6 +215,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
+          <TagFriendsPicker uid={tagUid} tagged={tagged} onChange={setTagged} />
         </div>
       )}
     </div>
