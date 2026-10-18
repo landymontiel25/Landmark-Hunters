@@ -686,9 +686,21 @@ export default function LandmarkSelection() {
 
   return (
     <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F4CD}'}</span> Places ({landmarks.length})
-      </h1>
+      <div className="places-title-row">
+        <h1 className="screen-title">
+          <span>{'\u{1F4CD}'}</span> Places ({landmarks.length})
+        </h1>
+        {/* Your check-ins, opened on Grid (photos first). */}
+        {user && (
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm places-checkins-btn"
+            onClick={() => navigate('/checkins', { state: { layout: 'grid', from: 'places' } })}
+          >
+            {'\u{1F4F8}'} My Check-ins
+          </button>
+        )}
+      </div>
       {drawnShape && (
         <p className="screen-subtitle">
           {'\u{270F}\u{FE0F}'} In the area you drew on the Map

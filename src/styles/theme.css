@@ -7954,3 +7954,19 @@ p.tag {
   color: var(--color-parchment-dim);
   font-size: 0.9rem;
 }
+
+/* Places tab: title on the left, "My Check-ins" on the right. */
+.places-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 10px;
+}
+.places-title-row .screen-title {
+  min-width: 0;
+}
+.places-checkins-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}

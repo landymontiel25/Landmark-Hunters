@@ -18,7 +18,7 @@ import {
 } from 'firebase/firestore';
 import { sharedRead, invalidating } from './sharedRead';
 import { periodKeysAt } from './periods';
-import { isRealCheckin } from './realCheckin';
+import { isRealCheckin, oneVisitPerDay, visitDayOf } from './realCheckin';
 import { updateDoc as _updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from './firebase';
@@ -132,6 +132,14 @@ async function _claimCheckIn({
   // first made your first real check-in there pay as a 20% "repeat".
   // Highest existing visit index, not the doc count: deleting a check-in
   // leaves a gap, and count+1 would then collide with a surviving doc id.
+  // A real check-in here already today: this is the same visit (usually
+  // re-checking in to change the rating, which the sheet saves on its own),
+  // so no second check-in is logged.
+  if (!ratingOnly) {
+    const today = visitDayOf({ createdAt: { seconds: Math.floor(Date.now() / 1000) } });
+    const sameDay = priorSnap.docs.find((d) => isRealCheckin(d.data()) && visitDayOf(d.data()) === today);
+    if (sameDay) return { claimed: false, alreadyClaimed: true, sameDay: true, checkinId: sameDay.id };
+  }
   const base = `${userId}_${landmarkId}`;
   let maxIdx = 0;
   for (const d of priorSnap.docs) {
@@ -452,9 +460,11 @@ export async function getUserStats(userId) {
   const cityLastVisit = {}; // regionId -> most recent check-in, in epoch seconds
   const cityPoints = {}; // regionId -> points earned there
   let checkinsCount = 0;
+  // Points from every doc; visits counted once per place per day.
   snap.docs.forEach((d) => {
-    const x = d.data();
-    totalPoints += x.points || 0;
+    totalPoints += d.data().points || 0;
+  });
+  oneVisitPerDay(snap.docs.map((d) => ({ id: d.id, ...d.data() }))).forEach((x) => {
     if (!isRealCheckin(x)) return;
     checkinsCount += 1;
     if (x.region) {
