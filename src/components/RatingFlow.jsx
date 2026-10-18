@@ -12,6 +12,8 @@ import {
 import { usePersistentState, readPersisted, isDraftSubmitting } from '../lib/usePersistentState';
 import TagFriendsPicker from './TagFriendsPicker';
 
+const NO_TAGS = [];
+
 function toDraft(initial) {
   return {
     tier: initial?.tier || null,
@@ -55,7 +57,7 @@ export default function RatingFlow({ landmark, onChange, initial = null, require
   });
   const [draft, setDraft, clearDraft] = usePersistentState(draftKey, () => toDraft(initial), { isEmpty });
   const { tier, highlights, lovedOrder, dislikedOrder, comment, visitFrequency } = draft;
-  const tagged = draft.tagged || [];
+  const tagged = draft.tagged || NO_TAGS;
   const patch = (fields) => setDraft((cur) => ({ ...cur, ...fields }));
   const setLovedOrder = (list) => patch({ lovedOrder: list });
   const setDislikedOrder = (list) => patch({ dislikedOrder: list });

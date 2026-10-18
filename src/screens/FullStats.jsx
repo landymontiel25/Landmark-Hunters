@@ -42,7 +42,11 @@ export default function FullStats() {
   const { claimedMap } = useCheckIn();
   const { stats, badges, badgeEarnedAt, reload: reloadStats } = useBadges();
   const [sortBy, setSortBy] = useState('recent');
-  const badgeGridRef = useRef(null);
+  // One row of badges at first (4 on a laptop, 2 on a phone: as many as fit),
+  // then "Show more" opens the rest in a box that scrolls on its own.
+  const [badgeGrid, setBadgeGrid] = useState(null);
+  const [badgesOpen, setBadgesOpen] = useState(false);
+  const perRow = useGridColumns(badgeGrid);
   // Which badge's description popover is open -- hover (desktop, with the
   // same short grace period as the header's profile popover) or tap
   // (mobile) both toggle it, same pattern as Profile's badge pills.
@@ -88,10 +92,6 @@ export default function FullStats() {
 
   const earnedIds = new Set(badges.map((b) => b.id));
   const sorted = sortBadges(badgeEarnedAt, sortBy);
-  // One row of badges at first (4 on a laptop, 2 on a phone: as many as fit),
-  // then "Show more" opens the rest in a box that scrolls on its own.
-  const [badgesOpen, setBadgesOpen] = useState(false);
-  const perRow = useGridColumns(badgeGridRef);
   const visibleBadges = badgesOpen ? sorted : sorted.slice(0, perRow);
   const { level, pointsIntoLevel, pointsForNextLevel, pct } = levelProgress(stats?.totalPoints || 0);
 
@@ -138,7 +138,7 @@ export default function FullStats() {
             </button>
           ))}
         </div>
-        <div ref={badgeGridRef} className={`badges-full-grid ${badgesOpen ? 'badges-scroll' : ''}`}>
+        <div ref={setBadgeGrid} className={`badges-full-grid ${badgesOpen ? 'badges-scroll' : ''}`}>
           {visibleBadges.map((b) => {
             const earned = earnedIds.has(b.id);
             const open = openBadgeId === b.id;
@@ -185,10 +185,9 @@ const BADGE_GAP_PX = 10;
 function columnsFor(width) {
   return Math.max(1, Math.floor((width + BADGE_GAP_PX) / (BADGE_MIN_PX + BADGE_GAP_PX)));
 }
-function useGridColumns(ref) {
+function useGridColumns(el) {
   const [cols, setCols] = useState(4);
   useEffect(() => {
-    const el = ref.current;
     if (!el) return undefined;
     const measure = () => el.clientWidth > 0 && setCols(columnsFor(el.clientWidth));
     measure();
@@ -196,6 +195,6 @@ function useGridColumns(ref) {
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [ref]);
+  }, [el]);
   return cols;
 }
