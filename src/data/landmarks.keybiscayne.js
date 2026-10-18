@@ -72,6 +72,10 @@ export const KEYBISCAYNE_LANDMARKS = [
     images: ["https://commons.wikimedia.org/wiki/Special:FilePath/MiamiSeaquarium-MainEntrance.JPG?width=1200","https://commons.wikimedia.org/wiki/Special:FilePath/Miamiseaquariumlolita.jpg?width=1200","https://commons.wikimedia.org/wiki/Special:FilePath/Miami_Seaquarium_Monorail_Blue_Marlin_car.jpg?width=1200","https://commons.wikimedia.org/wiki/Special:FilePath/MiamiSeaquarium-Aquarium.JPG?width=1200"],
     name: "Miami Seaquarium",
     region: 'miami',
+    // Closed for good (owner report 2026-10-18).
+    permanentlyClosed: true,
+    closedNote: "Miami Seaquarium closed permanently on October 12, 2025, after 70 years.",
+    closedSource: "https://en.wikipedia.org/wiki/Miami_Seaquarium",
     lat: 25.733,
     lng: -80.165525,
     checkInRadiusMeters: 300,

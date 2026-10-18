@@ -2,8 +2,12 @@
 // is required (src/data: free:false is a ticketed attraction). Restaurants
 // and cafes carry a price level instead and are never "ticketed", so they
 // show nothing rather than a misleading "Ticketed".
+import { isPermanentlyClosed } from '../lib/closedPlace';
+
 export function admissionText(landmark, short = false) {
   if (!landmark) return null;
+  // Closed for good: no ticket to talk about.
+  if (isPermanentlyClosed(landmark)) return 'CLOSED';
   // Unknown (imported places without a fee tag): no claim either way.
   if (landmark.free == null) return null;
   if (landmark.free) return short ? 'Free' : 'Free to Visit';
@@ -14,5 +18,6 @@ export function admissionText(landmark, short = false) {
 export default function AdmissionTag({ landmark, short = false }) {
   const text = admissionText(landmark, short);
   if (!text) return null;
-  return <span className={`tag ${landmark.free ? 'tag-free' : ''}`}>{text}</span>;
+  const tone = isPermanentlyClosed(landmark) ? 'tag-error' : landmark.free ? 'tag-free' : '';
+  return <span className={`tag ${tone}`}>{text}</span>;
 }

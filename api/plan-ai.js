@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { ALL_LANDMARKS, getRegion } from '../src/data/regions.js';
+import { findLookedUp, lookedUpPlaces, lookedUpNamedIn } from './_lib/lookedUpPlaces.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
 import { APP_HELP } from './_lib/appHelp.js';
 import { TIME_SLOTS, WEEKEND_NIGHT_BOOSTS, timeSlotFor } from '../src/lib/tagScores.js';
@@ -78,7 +79,7 @@ const INSTRUCTIONS =
   `- If their ask is too vague to suggest anything useful yet AND you have no rating history to lean on either, ask ONE short clarifying question instead of guessing -- but don't stall forever; after any clarification, go ahead and suggest something. With a rating history, a vague ask ("something fun today") is enough to go on -- use their taste instead of asking them to repeat it.\n` +
   `- Repeat check-ins are a real, encouraged feature here (see the app's own rules), so it's fine to bring back a spot they've already loved alongside something new -- if it's genuinely unclear which they want, ask in plain words, never a bare "new or repeat?" fragment: something like "Want me to stick to places you haven't been, or is it fine to bring back a favorite too?"\n` +
   `- Whenever you ask a clarifying question that has a small set of short, natural answers (new vs. a repeat favorite, indoor vs. outdoor, morning vs. evening, etc.), ALSO fill "quickReplies" with 2-4 of those answers verbatim, each just a few words, in the exact words a traveler would tap rather than type -- the app shows these as tappable buttons under your message. Leave "quickReplies" empty whenever you're not asking that kind of question (recommending stops, just chatting, an open-ended "what are you into?" with no short-answer shape).\n` +
-  `- If they're just chatting (thanks, small talk, a question about a place you already suggested, or a question about their own taste/interests), reply naturally with no stops.\n` +
+  `- Every place you name or suggest in "reply" goes in "stops" too, so the app shows its card: places you recommend, places you looked up with route_between, place_hours or best_order, and a place you already suggested that they ask about again. If they're just chatting (thanks, small talk, or a question about their own taste/interests) and you name no place, reply naturally with no stops.\n` +
   `- You're also the app's only assistant, so answer anything else they ask: history, tips, what to see or eat, or the ` +
   `best time to go for a landmark or city (say that hours/prices may vary), or which landmark they mean from a vague ` +
   `description or nickname (return it as a catalog stop so they can open it). If they ask when a place opens/closes, ` +
@@ -129,7 +130,7 @@ const INSTRUCTIONS =
   `place they merely mention or plan to visit. If they already said how it was, still set "rate" (the app lets them save it).\n` +
   `- They can rate right in this chat with the pick buttons on a place's card ("I'd go" / "Not sure" / "Not for me"), which teach Mapr their taste. If they ask to rate, or say they want to rate or are at a place ("can I rate here?", "rate Hillstone"), return that place as a stop (for "here" or "this place", the first NEAREST CATALOG LANDMARK when it is under 0.3 km, else ask which place) so its card shows the buttons. If they ask to rate without naming a place and you are not at one, return NO stops and a one-line reply: the app then shows a carousel of places they have not rated yet. Say yes in one short line ("Sure -- tap how it sounds."); never tell them to go to the landmark's page. Leave "rate" for the "I just left X" case above.\n` +
   `- Never write a street address in "reply". When they ask where a place is or for its address, return that place as a stop and write {{address:N}} where the address would go (N = its position in "stops", starting at 1), e.g. "Sure, here's the {{address:1}}." The app shows it as a link that opens maps. Also no "about 0.5 km away" in the reply: the card shows the distance.\n` +
-  `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search, and must include the source URL.\n\n` +
+  `- Never invent a place. Catalog stops must be real region/id values from the catalog below. Web-found stops must be real places you actually found via search (include the source URL) or via route_between, place_hours or best_order (url can be empty; use the name and address the lookup returned).\n\n` +
   `Once you're done -- searching or not -- your ENTIRE visible reply must be ONLY a single JSON object. No narration before or after it, not even a note that you're searching:\n` +
   `{"reply": "<your conversational reply, short by default -- 1-2 sentences unless they asked for more>", "stops": [<catalog stop> | <web stop>, ...], "quickReplies": [<short tappable answer>, ...], "actions": [<action>, ...], "rate": null | {"match": "<region/id>"} | {"name": "<real place name>", "address": "<address or empty>"}}\n` +
   `- Catalog stop: {"match": "<region/id from the catalog>", "reason": "<why this stop, 1 short sentence>"}\n` +
@@ -408,7 +409,8 @@ async function handler(req, res) {
     // parks would multiply its size); MATCHING PLACES below lists the ones a
     // message names.
     await ensureServerPlacePacks();
-    const curated = ALL_LANDMARKS.filter((l) => l.source !== 'osm');
+    // A place closed for good is never suggested.
+    const curated = ALL_LANDMARKS.filter((l) => l.source !== 'osm' && !l.permanentlyClosed);
     const pool = regions.length ? curated.filter((l) => uniqueRegionIds.includes(l.regionId)) : curated;
 
     const validIds = new Set(pool.map((l) => `${l.regionId}/${l.id}`));
@@ -785,6 +787,9 @@ async function handler(req, res) {
     }
 
     const askedDirections = asksForDirections(lastText);
+    // Places this reply's own Google lookups found: real, so they need no
+    // source URL for a card.
+    const lookedUp = lookedUpPlaces(toolResults);
     const toStop = (s) => {
       if (s?.match && validIds.has(s.match)) {
         const [rid, id] = s.match.split('/');
@@ -800,12 +805,13 @@ async function handler(req, res) {
       // A place they asked directions to is one they named themselves, so
       // a name plus an address or area is enough for its card.
       const located = String(s?.address || s?.place || '').trim();
-      if (!name || (!url && !(askedDirections && located))) return null;
+      const found = name ? findLookedUp(name, lookedUp) : null;
+      if (!name || (!url && !found && !(askedDirections && located))) return null;
       return {
         external: true,
         name,
         place: String(s?.place || '').trim().slice(0, 80),
-        address: String(s?.address || '').trim().slice(0, 160),
+        address: (String(s?.address || '').trim() || found?.address || '').slice(0, 160),
         url,
         reason: String(s?.reason || '').slice(0, 200),
         rating: evidence.webSearches > 0 && Number(s?.rating) > 0 && Number(s?.rating) <= 5 ? Math.round(Number(s.rating) * 10) / 10 : null,
@@ -821,6 +827,14 @@ async function handler(req, res) {
       .filter(Boolean)
       .slice(0, 4);
     const stops = keptStops.map((k) => k.stop);
+    // The reply names places its lookups found but returned no stops for
+    // them: add their cards anyway (catalog ones as catalog stops).
+    if (!stops.length && typeof parsed.reply === 'string') {
+      for (const p of lookedUpNamedIn(parsed.reply, lookedUp).slice(0, 4)) {
+        const lm = curated.find((l) => l.name.toLowerCase() === p.name.toLowerCase());
+        stops.push(lm ? catalogStop(lm, '') : { external: true, name: p.name, place: '', address: p.address, url: '', reason: '', rating: null });
+      }
+    }
     // "How do I get to Hillstone?" answered in text only: add the place's
     // card anyway, so its Directions button is one tap away.
     if (!stops.length) {

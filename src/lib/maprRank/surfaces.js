@@ -44,7 +44,8 @@ export function tasteScorer({ profile = null, myReviews = {}, now = Date.now(), 
 //   rng             random source for exploration slots
 export function rankPlaces({ places = [], uid = null, profile = null, myReviews = {}, origin = null, models = null, visitedIds = null, now = Date.now(), features = FEATURES, scoreOf = null, count = null, explore = null, rng = Math.random }) {
   const fit = scoreOf || tasteScorer({ profile, myReviews, now });
-  const candidates = places.map((l) => {
+  // A place closed for good is never a pick, on any surface.
+  const candidates = places.filter((l) => l?.permanentlyClosed !== true).map((l) => {
     const km = origin && Number.isFinite(l.lat) && Number.isFinite(l.lng) ? haversineKm(origin.lat, origin.lng, l.lat, l.lng) : null;
     return { ...l, region: l.regionId || l.region, regionId: l.regionId || l.region, tagScore: fit(l), distanceMeters: km == null ? (l.distanceMeters ?? null) : km * 1000 };
   });

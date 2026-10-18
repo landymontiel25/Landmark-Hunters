@@ -76,7 +76,8 @@ export const APP_HELP =
   `Directions and a remove button), separate from the numbered route. Once you've checked into at least one landmark on a solo itinerary, a ` +
   `"🎬 Trip Recap" button appears there: a shareable card with how many landmarks you visited and the points earned (group trips don't have one).\n` +
   `- Mapr's place recommendations (e.g. "good bowling near me") show as a grid of cards under its reply, one per place — not plain chat ` +
-  `text. Each card shows a photo/category icon, the address, a short reason, distance from you once it's ready, and a Get Directions ` +
+  `text. Every place Mapr names in a reply gets a card, including places it looked up for distances or hours and a place you ask about again. A place that isn't a landmark in the app yet shows "Loading card, please wait a moment…" while the app adds it, then turns into a normal card that opens its landmark page. Each card shows a photo/category icon, the address, a short reason, distance from you once it's ready, and a Get Directions ` +
+  `button. Places closed for good (Miami Seaquarium, closed October 12, 2025) still show in the Places list, but every card shows CLOSED in capitals (a red band on the photo and a red CLOSED tag in place of "Needs a ticket"), their page says CLOSED above the description with a source link, and Mapr never suggests them on any surface. The Get Directions ` +
   `button (same three-choice picker as everywhere else) — no opening/closing hours on the card by default; ask Mapr directly ("what time ` +
   `does it close") and it answers in chat with just that day's hours unless you ask for the full week. Tapping any card opens that ` +
   `place's full landmark page right away: if it's a place Mapr found on the web that isn't already in the catalog, tapping it creates ` +

@@ -48,6 +48,7 @@ import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton from '../components/SaveLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
+import { isPermanentlyClosed } from '../lib/closedPlace';
 import { pickPhoto } from '../lib/imageUtils';
 import { LandmarkDetailSkeleton, Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
@@ -895,6 +896,19 @@ function LandmarkDetailBody() {
       </div>
 
       <div className="card section">
+        {isPermanentlyClosed(landmark) && (
+          <p className="landmark-closed-note" style={{ margin: '0 0 8px' }}>
+            <strong>CLOSED.</strong> {landmark.closedNote || 'This place has closed for good.'}
+            {landmark.closedSource && (
+              <>
+                {' '}
+                <a href={landmark.closedSource} target="_blank" rel="noopener noreferrer">
+                  Source
+                </a>
+              </>
+            )}
+          </p>
+        )}
         <p style={{ fontSize: '1.02rem', margin: 0 }}>{landmark.summary}</p>
       </div>
 
