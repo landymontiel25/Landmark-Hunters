@@ -104,6 +104,7 @@ export default function QuickRateButton({ landmark }) {
                 landmark={landmark}
                 initial={initial}
                 draftKey={draftKey}
+                tagUid={user?.uid}
                 onChange={setRating}
               />
               {error && (

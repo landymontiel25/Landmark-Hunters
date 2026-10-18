@@ -24,6 +24,7 @@ import { disagreementCheck, isDisagreementReason, ratedAtMs, reasonFromComment }
 import { pickMarkFields } from './pickMarks';
 import { scheduleTasteRecompute } from './tasteScoreStore';
 import { canonicalLandmarkId } from '../data/regions';
+import { notifyUser } from './notifications';
 
 // An Error whose message was written for travelers, not developers --
 // friendlyError() shows `userMessage` as-is instead of a generic fallback.
@@ -275,8 +276,31 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
   await writeReview();
   // The taste score follows the newest answer (tasteScore.js).
   scheduleTasteRecompute(userId);
+  // Friends tagged in the rating (TagFriendsPicker) hear about it.
+  // Best-effort: a failed notice never fails the saved rating.
+  await notifyTaggedFriends({ userId, userName, landmark, tagged: rating.tagged });
 
   return { photoURLs, photoFailed };
+}
+
+// One notification per tagged friend (firestore.rules: type 'rating_tag'
+// only goes to someone you're friends with, from yourself).
+export async function notifyTaggedFriends({ userId, userName, landmark, tagged }) {
+  const seen = new Set();
+  const list = (Array.isArray(tagged) ? tagged : []).filter((t) => t?.uid && t.uid !== userId && !seen.has(t.uid) && seen.add(t.uid)).slice(0, 10);
+  const who = String(userName || 'A friend').replace(/^@/, '').slice(0, 40);
+  const place = String(landmark?.name || 'a place').slice(0, 80);
+  await Promise.allSettled(
+    list.map((t) =>
+      notifyUser(t.uid, {
+        type: 'rating_tag',
+        message: `@${who} tagged you in their rating of ${place}.`,
+        landmarkId: landmark?.id || null,
+        regionId: landmark?.regionId || landmark?.region || null,
+        fromUid: userId,
+      })
+    )
+  );
 }
 
 /**

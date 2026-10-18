@@ -188,7 +188,7 @@ export const APP_HELP =
   `- Rating: three plain tiers — "I loved it" / "Ok" / "I didn't like it" — no star ratings anymore, framed as a question about the place ` +
   `("Do you like Peruvian food?", "Do you like this sports bar?", "Do you like the racing?"). Newly added community landmarks get that specific ` +
   `wording from the research done when they're added; catalog landmarks get a general one per category ("Do you like the food here?"). The ` +
-  `comment box asks "What do you like about this place?" ("What didn't you like..." for "I didn't like it") and is encouraged since that's what ` +
+  `comment box asks "What do you like about this place?" ("What didn't you like..." for "I didn't like it"). Under it, "@ Tag a friend" opens a dropdown of your friends: tap one to tag them (they show as a chip and "@name" is added to your comment; tap × to untag), and when the rating saves each tagged friend gets a notification ("@you tagged you in their rating of X") that opens the place. You can only tag friends. The comment is encouraged since that's what ` +
   `actually teaches Mapr, more than the tier alone. Every rating (and every comment) carries one of the three tiers: there are no comment-only ` +
   `reviews, so a comment can only be saved together with a tier (an older comment-only one asks you to pick a tier the next time you edit it). ` +
   `Up to 4 aspects can be ranked per list: "I loved it" ranks what made it great, "I didn't like it" ranks what let it down, and "Ok" shows both ` +
@@ -205,7 +205,7 @@ export const APP_HELP =
   `letters, half-typed words, sound-alike spellings ("filadelfia"), and accents. Best matches come first. When that still finds ` +
   `little and you're signed in, Mapr works out what you meant from a description, nickname or what a place is known for ("the big ` +
   `clock in London", "Rocky steps", "the city with the Eiffel Tower") and shows those under "✨ Mapr thinks you mean".\n` +
-  `- Badges: not shown on Profile itself (that screen is deliberately kept simple) — see them all at Profile → "See Full Stats" (earned in color, the rest grayed). Earned ` +
+  `- Badges: not shown on Profile itself (that screen is deliberately kept simple) — see them all at Profile → "See Full Stats" (earned in color, the rest grayed). All Badges shows one row at first (as many as fit: about 4 on a computer, 2 on a phone) with a "Show more" button; tapping it opens the rest in a box you scroll inside, without scrolling the page, and "Show less" folds it back. Earned ` +
   `automatically: total check-ins (1/5/10/25/50/100: First Steps, Explorer, Adventurer, Legend, Expedition, Cartographer), cities (2/3: City Hopper, ` +
   `Globetrotter), states and countries, daily check-in streaks (3/7/30-Day Streak), the one-time Welcome badge from onboarding, plus activity ones ` +
   `(photo check-ins, a first review, adding landmark facts, 5 friends, top-10 leaderboard, trip planning, night owl / golden hour check-ins, and more).\n` +

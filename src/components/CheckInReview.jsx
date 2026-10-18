@@ -355,6 +355,7 @@ export default function CheckInReview() {
                   onChange={setRating}
                   requireComment={requireComment}
                   draftKey={draftKey}
+                  tagUid={user?.uid}
                 />
               </>
             ) : (

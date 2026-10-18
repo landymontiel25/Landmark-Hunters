@@ -169,6 +169,12 @@ export default function Notifications() {
       navigate('/report-bug', { state: { tab: 'review' } });
       return;
     }
+    // A tag carries its place's region, so places outside the built-in
+    // catalog (imported or added ones) open too.
+    if (n.landmarkId && n.regionId) {
+      navigate(`/landmarks/${n.regionId}/${n.landmarkId}`);
+      return;
+    }
     if (n.landmarkId) {
       const landmark = ALL_LANDMARKS.find((l) => l.id === n.landmarkId);
       if (landmark) navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);

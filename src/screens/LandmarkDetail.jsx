@@ -1231,6 +1231,7 @@ function LandmarkDetailBody() {
                 // (otherwise saving the rating submits '' and blanks it).
                 initial={savedRating?.tier ? savedRating : myComment ? { comment: myComment } : null}
                 draftKey={draftKey}
+                tagUid={user?.uid}
                 onChange={(r) => {
                   setMyRating(r);
                   setSubmitted(false);
