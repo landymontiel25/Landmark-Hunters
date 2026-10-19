@@ -112,7 +112,7 @@ export default function MyMaprRatings() {
         <span>{'\u{2B50}'}</span> My Mapr Ratings
       </h1>
       <p className="screen-subtitle">
-        Everything you've rated without checking in — through Mapr Picks or a Rate button. Places you've checked into are in My Check-ins.
+        Everything you've rated without checking in — through Mapr Picks or a Rate button. Places you've checked into are in My Memories.
       </p>
 
       <div className="tabs" style={{ justifyContent: 'center', marginBottom: 14, flexWrap: 'wrap' }}>
