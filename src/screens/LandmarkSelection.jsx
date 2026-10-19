@@ -697,7 +697,7 @@ export default function LandmarkSelection() {
             className="btn btn-ghost btn-sm places-checkins-btn"
             onClick={() => navigate('/checkins', { state: { layout: 'grid', from: 'places' } })}
           >
-            {'\u{1F4F8}'} My Check-ins
+            {'\u{1F4F8}'} My Memories
           </button>
         )}
       </div>

@@ -39,7 +39,7 @@ function fmtDateTime(seconds) {
 // The full photo gallery of everywhere you've checked in -- lives on the
 // Full Stats page (moved out of the Ranks tab strip, which is now just
 // This Week / This Month / This Year).
-export default function CheckinsGallery({ user, claimedMap, navigate, totalPoints, title = 'My Check-ins', initialLayout = 'list' }) {
+export default function CheckinsGallery({ user, claimedMap, navigate, totalPoints, title = 'My Memories', initialLayout = 'list' }) {
   const { user: viewer } = useAuth();
   const { adminMode } = useAdminMode();
   const canEditDates = adminMode && isAdmin(viewer?.email);

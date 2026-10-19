@@ -15,7 +15,7 @@ const TITLES = [
   [/^\/group\//, 'Group trip'],
   [/^\/settings/, 'Settings'],
   [/^\/stats/, 'Stats'],
-  [/^\/checkins/, 'Check-ins'],
+  [/^\/checkins/, 'My Memories'],
   [/^\/mapr-ratings/, 'My ratings'],
   [/^\/cities/, 'Cities'],
   [/^\/streaks/, 'Streaks'],
