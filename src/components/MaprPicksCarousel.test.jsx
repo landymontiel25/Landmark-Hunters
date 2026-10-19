@@ -28,7 +28,6 @@ vi.mock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: { lat: 40.0356, l
 const solo = vi.hoisted(() => ({ closes: 0, reply: { ok: true, closed: true } }));
 vi.mock('../lib/soloStreaks', () => ({ closeSoloToday: () => { solo.closes += 1; return Promise.resolve(solo.reply); } }));
 vi.mock('../lib/BadgesContext', () => ({ useBadges: () => ({ reload: () => {}, actionsToday: 0 }) }));
-vi.mock('./RateLandmarkSearch', () => ({ default: () => null }));
 
 import MaprPicksCarousel from './MaprPicksCarousel';
 

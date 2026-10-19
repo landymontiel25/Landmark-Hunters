@@ -20,7 +20,6 @@ import { PICKS_STREAK_THRESHOLD, dayKey } from '../lib/streaks';
 import PickVoteButtons from './PickVoteButtons';
 import RegionSearch from './RegionSearch';
 import { inScope, scopeFromKey, scopeRegionId } from '../lib/cityScope';
-import RateLandmarkSearch from './RateLandmarkSearch';
 import MaprPickImage from './MaprPickImage';
 import { loadPlacePhoto, peekPlacePhoto } from '../lib/placePhoto';
 import { loadMaprModels } from '../lib/maprRank/modelStore.js';
@@ -45,8 +44,7 @@ import { seededRandom } from '../lib/maprRank/experiments.js';
 // carries no signal. On a later visit a place you answered "I'd go" or "Not
 // for me" is not offered again, and a "Not sure" one comes back after
 // UNSURE_SNOOZE_MS (pickFeedback.js votedIds). Rating a landmark for real
-// (with a comment, feeding the public review average) is still what
-// "+ Rate a Landmark" is for.
+// (with a comment, feeding the public review average) happens on its page.
 //
 // The "guess what your partner would pick" step from the dual-streak spec
 // isn't built yet -- there's no pairing system for it to attach to. This is
@@ -223,15 +221,14 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
     saveVote({ id: landmark.id, region: landmark.regionId, name: landmark.name, categories: landmark.categories || [] }, verdict);
   };
 
-  // Which card is in view, for the dots -- offset by one slot since the "+
-  // Rate a Landmark" card sits before the real picks in the track.
+  // Which card is in view, for the dots.
   const onScroll = (e) => {
     const el = e.currentTarget;
     if (!el.firstElementChild) return;
     const w = el.firstElementChild.getBoundingClientRect().width + 10;
     const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
     const count = el.querySelectorAll('[data-pick-key]').length;
-    setActive(atEnd ? Math.max(0, count - 1) : Math.max(0, Math.round(el.scrollLeft / w) - 1));
+    setActive(atEnd ? Math.max(0, count - 1) : Math.max(0, Math.round(el.scrollLeft / w)));
   };
 
   return (
@@ -272,7 +269,6 @@ export default function MaprPicksCarousel({ reviews = [], checkedInIds = [], reg
           : 'Pick a city to start voting on landmarks there.'}
       </p>
       <div className="mapr-picks-track" onScroll={onScroll}>
-        <RateLandmarkSearch />
         {landmarks.map((l, i) => (
           <OnScreen
             key={`${l.regionId}/${l.id}`}
