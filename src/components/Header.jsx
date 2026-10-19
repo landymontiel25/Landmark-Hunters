@@ -4,9 +4,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { useFriends } from '../lib/FriendsContext';
 import { useAdminMode } from '../lib/AdminModeContext';
-import { usePairStreaks } from '../lib/PairStreakContext';
 import { closeSoloToday, ensureSoloStreak, subscribeMySoloStreak, watchNewCheckins } from '../lib/soloStreaks';
-import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry } from '../lib/leaderboard';
+import { subscribeLeaderboard, rankOf, getMyLeaderboardEntry, cleanName } from '../lib/leaderboard';
+import { readPersisted, writePersisted } from '../lib/usePersistentState';
+
+// Shared with Profile and the full standings page (FullLeaderboard.jsx).
+const LEADERBOARD_PERIOD_KEY = 'leaderboard.period';
 import { subscribeMyNotifications } from '../lib/notifications';
 import { useTodayKey } from '../lib/useTodayKey';
 import { useOptionalBadges } from '../lib/BadgesContext';
@@ -63,6 +66,11 @@ function CountdownClock({ ms, secured }) {
 function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
   const popoverRef = useRef(null);
   const [rect, setRect] = useState(null);
+  // Callers pass a new onRequestClose every render; reading it through a ref
+  // keeps the listener effect below from re-running (and re-measuring, which
+  // re-renders) on every render, a loop that never settled.
+  const closeRef = useRef(onRequestClose);
+  closeRef.current = onRequestClose;
   // The popover is centered under its trigger, which sits near the left edge
   // of the header -- a wide one ran off the left of the screen. Measured
   // after render and nudged back inside the viewport.
@@ -87,11 +95,11 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
     window.addEventListener('scroll', update, true);
     const close = (e) => {
       if (popoverRef.current?.contains(e.target) || triggerRef.current?.contains(e.target)) return;
-      onRequestClose();
+      closeRef.current();
     };
     document.addEventListener('mousedown', close);
     document.addEventListener('touchstart', close);
-    const onKey = (e) => e.key === 'Escape' && onRequestClose();
+    const onKey = (e) => e.key === 'Escape' && closeRef.current();
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
@@ -100,7 +108,7 @@ function StreakPopoverPortal({ open, triggerRef, onRequestClose, children }) {
       document.removeEventListener('mousedown', close);
       document.removeEventListener('touchstart', close);
     };
-  }, [open, triggerRef, onRequestClose]);
+  }, [open, triggerRef]);
 
   if (!open || !rect) return null;
   return createPortal(
@@ -290,78 +298,137 @@ function StreakBadge() {
   );
 }
 
-// Dead center of the header, on every screen, next to the solo streak's
-// single 🔥 -- fed by a pair's streak instead of a personal one, and shown
-// as 🔥🔥 (two flames) specifically so it's never mistaken for the solo
-// badge right beside it. Flame animates only once a pair has an actual
-// streak (count > 0). Green once today's already closed (lastCompletedDay
-// is today -- the real server-authority signal from api/close-streak-day.js,
-// only set once BOTH members finish rating+guessing all 3), red otherwise
-// -- no in-between color. Tapping opens a live countdown to the
-// local-midnight deadline -- the same lightweight popover as before; the
-// full "who it's with / how long / today's status" picture lives in Your
-// Stats -> the streak tile instead (MyStreaks.jsx).
-function PairStreakBadge() {
+// Standings (owner, 2026-10-18: replaces the dual streak's 🔥🔥 badge).
+// Shows your points for the chosen period; tapping opens your rank, the top
+// of the board with you in it, who's just ahead, and a link to the full
+// standings page. Week / Month / Year is the same choice Profile and the
+// full standings page remember (leaderboard.period).
+const STANDINGS_PERIODS = [
+  { id: 'weekly', label: 'Week' },
+  { id: 'monthly', label: 'Month' },
+  { id: 'yearly', label: 'Year' },
+];
+const STANDINGS_TOP = 5;
+function StandingsBadge() {
   const { user, firebaseEnabled } = useAuth();
-  const { streaks } = usePairStreaks();
-  const today = useTodayKey();
+  const navigate = useNavigate();
+  const [period, setPeriodState] = useState(() => {
+    const saved = readPersisted(LEADERBOARD_PERIOD_KEY);
+    return STANDINGS_PERIODS.some((p) => p.id === saved) ? saved : 'weekly';
+  });
+  const setPeriod = (id) => {
+    setPeriodState(id);
+    writePersisted(LEADERBOARD_PERIOD_KEY, id);
+  };
+  // { uid, period, entries, me: { points, rank } } -- tagged so another
+  // account's or period's numbers never show while the next ones load.
+  const [board, setBoard] = useState(null);
   const [open, setOpen] = useState(false);
-  const [msLeft, setMsLeft] = useState(() => msUntilStreakLapse());
   const ref = useRef(null);
+  const uid = user?.uid;
 
   useEffect(() => {
-    if (!open) return undefined;
-    setMsLeft(msUntilStreakLapse());
-    const id = setInterval(() => setMsLeft(msUntilStreakLapse()), 1000);
-    return () => clearInterval(id);
-  }, [open]);
+    if (!firebaseEnabled || !uid) return undefined;
+    let cancelled = false;
+    let seq = 0;
+    const unsub = subscribeLeaderboard(
+      period,
+      (entries) => {
+        const mySeq = ++seq;
+        const idx = entries.findIndex((e) => e.userId === uid);
+        if (idx >= 0) {
+          setBoard({ uid, period, entries, me: { points: entries[idx].points, rank: rankOf(entries, idx) } });
+          return;
+        }
+        // Not in the top 50: your real points, unranked.
+        getMyLeaderboardEntry(period, uid)
+          .then((mine) => !cancelled && mySeq === seq && setBoard({ uid, period, entries, me: { points: mine?.points || 0, rank: null } }))
+          .catch(() => !cancelled && mySeq === seq && setBoard({ uid, period, entries, me: { points: 0, rank: null } }));
+      },
+      50,
+      () => !cancelled && setBoard({ uid, period, entries: [], me: null, failed: true })
+    );
+    return () => {
+      cancelled = true;
+      unsub();
+    };
+  }, [firebaseEnabled, uid, period]);
 
   if (!firebaseEnabled || !user) return null;
 
-  // The streak you're most invested in, if you have more than one -- just
-  // the highest count, ties broken by whichever sorts first.
-  const primary = streaks.length
-    ? streaks.reduce((a, b) => (displayStreakCount(b) > displayStreakCount(a) ? b : a))
-    : null;
-  const primaryCount = displayStreakCount(primary);
-  const active = primaryCount > 0;
-  const secured = isDayHeld(primary, today);
-  const partnerName = primary
-    ? Object.entries(primary.memberNames || {}).find(([uid]) => uid !== user.uid)?.[1]
-    : null;
+  const current = board && board.uid === uid && board.period === period ? board : null;
+  const me = current?.me;
+  const entries = current?.entries || [];
+  const myIdx = entries.findIndex((e) => e.userId === uid);
+  // The next person above you (fewer points than them, so a real gap).
+  const ahead = myIdx > 0 ? [...entries.slice(0, myIdx)].reverse().find((e) => e.points > entries[myIdx].points) : null;
+  const periodLabel = STANDINGS_PERIODS.find((p) => p.id === period).label;
 
   return (
     <div className="header-streak-wrap" ref={ref}>
       <button
         type="button"
-        className={`header-streak ${active ? 'active' : ''} ${primary ? (secured ? 'secured' : 'at-risk') : ''}`}
+        className="header-streak header-standings"
         aria-expanded={open}
-        aria-label={`Dual streak${primary ? `, today ${secured ? 'secured' : 'not secured yet'}` : ''}`}
+        aria-label={me ? `Standings: ${me.points} points this ${periodLabel.toLowerCase()}${me.rank ? `, rank ${me.rank}` : ''}` : 'Standings'}
         onClick={() => setOpen((o) => !o)}
       >
-        <span className="header-streak-flame" aria-hidden="true">
-          {'\u{1F525}\u{1F525}'}
-        </span>
-        <span className="header-streak-num">{primaryCount}</span>
+        <span aria-hidden="true">{'\u{1F3C6}'}</span>
+        <span className="header-streak-num">{me ? me.points.toLocaleString() : '–'}</span>
       </button>
       <StreakPopoverPortal open={open} triggerRef={ref} onRequestClose={() => setOpen(false)}>
-        {!primary ? (
-          <div>Invite a friend to start a streak</div>
-        ) : (
-          <>
-            <div className="points-popover-joined">
-              {!secured
-                ? `Streak with @${partnerName} ends in`
-                : `Today's secured with @${partnerName} — new day starts in`}
+        <div className="standings-pop">
+          <div className="tabs standings-tabs" role="group" aria-label="Standings period">
+            {STANDINGS_PERIODS.map((p) => (
+              <button key={p.id} type="button" className={`tab-btn ${period === p.id ? 'active' : ''}`} aria-pressed={period === p.id} onClick={() => setPeriod(p.id)}>
+                {p.label}
+              </button>
+            ))}
+          </div>
+          {!current ? (
+            <div role="status" aria-live="polite">
+              <span className="visually-hidden">Loading standings…</span>
+              <Skeleton className="skeleton-inline" width={140} height={14} />
             </div>
-            <CountdownClock ms={msLeft} secured={secured} />
-            {!secured && (
-              <div className="streak-popover-hint">
-                Vote or rate {PICKS_STREAK_THRESHOLD} landmarks in Mapr Travel Picks
+          ) : current.failed ? (
+            <div>Couldn&apos;t load the standings. Try again in a moment.</div>
+          ) : (
+            <>
+              <div className="standings-me">
+                <span className="standings-me-rank">{me.rank ? `#${me.rank}` : 'Unranked'}</span>
+                <span className="standings-me-pts">{me.points.toLocaleString()} pts this {periodLabel.toLowerCase()}</span>
               </div>
-            )}
-          </>
-        )}
+              {ahead && (
+                <div className="streak-popover-hint">
+                  {(ahead.points - entries[myIdx].points).toLocaleString()} pts behind @{cleanName(ahead.userName)}
+                </div>
+              )}
+              {entries.length > 0 ? (
+                <ol className="standings-list">
+                  {entries.slice(0, STANDINGS_TOP).map((e, i) => (
+                    <li key={e.userId} className={e.userId === uid ? 'mine' : ''}>
+                      <span className="standings-rank">#{rankOf(entries, i)}</span>
+                      <span className="standings-name">@{cleanName(e.userName)}</span>
+                      <span className="standings-pts">{(e.points || 0).toLocaleString()}</span>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <div className="streak-popover-hint">No points yet this {periodLabel.toLowerCase()}. Check in to be first.</div>
+              )}
+            </>
+          )}
+          <button
+            type="button"
+            className="btn btn-primary btn-sm streak-popover-cta"
+            onClick={() => {
+              setOpen(false);
+              navigate(`/leaderboard/full?period=${period}`);
+            }}
+          >
+            {'\u{1F3C6}'} Full standings
+          </button>
+        </div>
       </StreakPopoverPortal>
     </div>
   );
@@ -528,7 +595,7 @@ export default function Header() {
       </Link>
       <div className="app-header-center" style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         <StreakBadge />
-        <PairStreakBadge />
+        <StandingsBadge />
       </div>
       <div className="app-header-actions">
         <ProfileMenu />
