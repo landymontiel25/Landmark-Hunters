@@ -224,10 +224,12 @@ export const APP_HELP =
   `this shipped -- it was seeded once from their real history the first time their account touched the app after the change, never reset to 0.\n` +
   `- Streak counts (solo and dual) show 0 as soon as a day has been missed with no freeze covering it, instead of lingering at the old number until the ` +
   `next rating. A freeze holds the day on the traveler's own local calendar (not UTC), and a fully-rated day that failed to register retries on reopening the streak page.\n` +
-  `- Dual Streaks (🔥🔥, two flames, in the header next to the solo streak's single 🔥 -- not shown on Profile's Your Stats tile, only reachable via ` +
-  `the header or the Streaks page's own Dual tab): a SEPARATE streak that belongs to a PAIR of friends, independent of the solo streak above -- you ` +
+  `- Header standings (🏆 and your points, in the header next to the solo streak's single 🔥; it replaced the dual streak's 🔥🔥 badge in October 2026): ` +
+  `shows your points for the chosen period. Tap it for a dropdown with Week / Month / Year buttons (the same choice Profile's Ranks and the full standings page remember), ` +
+  `your rank (or Unranked), how many points you are behind the person just above you, the top 5 with you highlighted, and a "Full standings" button that opens the full ranked list for that period.\n` +
+  `- Dual Streaks (only reachable via the Streaks page's own Dual tab now; the header no longer shows a 🔥🔥 badge): a SEPARATE streak that belongs to a PAIR of friends, independent of the solo streak above -- you ` +
   `can have both going at once, and starting one never touches or resets your solo streak.\n` +
-  `- Streaks page: Profile's "streak" tile, or the header's single 🔥 or 🔥🔥, all open the same real page (not a popup, same as check-ins/cities) ` +
+  `- Streaks page: Profile's "streak" tile, or the header's single 🔥 popup, open the same real page (not a popup, same as check-ins/cities) ` +
   `with the two streak types kept apart as SOLO and DUAL subtabs rather than one mixed list -- they're different enough (no partner/guess step, its ` +
   `own single freeze, its own rules) that mixing them read as confusing, and a solo streak accidentally showing up in the dual list was a real bug ` +
   `this fixed. Solo shows directly under its own tab (there's only ever one); Dual keeps a list, since a pair can have up to 3 active dual streaks ` +

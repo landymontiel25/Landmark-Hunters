@@ -8013,3 +8013,68 @@ p.tag {
 .checkin-city-body {
   padding: 0 12px 12px;
 }
+
+/* Header standings badge (replaces the dual streak's) and its dropdown. */
+.header-standings {
+  color: var(--color-parchment, inherit);
+}
+.standings-pop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 230px;
+}
+.standings-tabs {
+  margin: 0;
+}
+.standings-tabs .tab-btn {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+.standings-me {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.standings-me-rank {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.standings-me-pts {
+  color: var(--color-parchment-dim);
+  font-size: 0.85rem;
+}
+.standings-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.standings-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+.standings-list li.mine {
+  background: rgba(91, 140, 255, 0.18);
+  font-weight: 700;
+}
+.standings-rank {
+  width: 2.2em;
+  color: var(--color-parchment-dim);
+}
+.standings-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.standings-pts {
+  font-variant-numeric: tabular-nums;
+}
