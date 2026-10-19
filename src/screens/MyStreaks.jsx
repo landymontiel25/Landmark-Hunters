@@ -672,7 +672,6 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   // The server's word wins: a day it already closed is done even if today's
   // cards changed after the ratings went in.
   const dayDone = streak.lastCompletedDay === today || (cardIds.length > 0 && myRatedCount === cardIds.length);
-  const region = streak.cityId ? getRegion(streak.cityId) : null;
 
   // The carousel after the 3: the city you are in, else the streak's own.
   const hereCity = gpsCity || streak.cityId;
@@ -772,9 +771,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
         </div>
       </div>
 
-      <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>Today's 3 landmarks</span>
-        <span className="tag" style={{ fontSize: '0.68rem' }}>{region ? region.name : 'Finding your city…'}</span>
+      <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4 }}>
+        Today's 3 landmarks
       </p>
       {entriesError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {entriesError}</p>}
       {voteError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {voteError}</p>}
@@ -827,10 +825,6 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
           {freezeMsg}
         </p>
       )}
-
-      <p className="screen-subtitle" style={{ marginBottom: 0 }}>
-        {since(streak.createdAt) || 'Just started'}. The day counts once you've rated 3; rate as many more as you like.
-      </p>
 
       <div style={{ marginTop: 16, padding: 12, borderRadius: 10, border: '1px dashed var(--border-default)' }}>
         <p style={{ margin: '0 0 8px', fontWeight: 700 }}>{'\u{1F465}'} Add a friend to turn this into a dual streak.</p>
