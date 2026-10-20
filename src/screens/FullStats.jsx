@@ -4,6 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useBadges } from '../lib/BadgesContext';
 import { ALL_BADGES, RARITY_ORDER } from '../lib/streaks';
+import { SHOW_BADGES } from '../lib/featureFlags';
 import { levelProgress } from '../lib/level';
 import CheckinsGallery from '../components/CheckinsGallery';
 import { SkeletonCard } from '../components/Skeleton';
@@ -126,6 +127,7 @@ export default function FullStats() {
         </div>
       )}
 
+      {SHOW_BADGES && (
       <div className="card section">
         <h3 style={{ marginTop: 0 }}>{'\u{1F3C5}'} All Badges</h3>
         <p className="screen-subtitle" style={{ marginTop: 0 }}>
@@ -172,6 +174,7 @@ export default function FullStats() {
           </button>
         )}
       </div>
+      )}
 
       <CheckinsGallery user={user} claimedMap={claimedMap} navigate={navigate} totalPoints={stats?.failed ? '–' : stats ? stats.totalPoints || 0 : null} />
     </div>

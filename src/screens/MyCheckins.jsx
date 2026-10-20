@@ -7,8 +7,8 @@ import CheckinsGallery from '../components/CheckinsGallery';
 // Just the check-ins gallery, on its own -- Your Stats' "check-ins" tile used
 // to send you to Full Stats (level + badges + everything), when what was
 // wanted was only the check-ins. "See Full Stats" still goes there.
-// Opened from the Places tab's "My Check-ins" button it starts on Grid (the
-// photos, your memories) and Back returns to Places.
+// Starts on Grid (the photos, your memories); opened from the Places tab,
+// Back returns to Places.
 export default function MyCheckins() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,7 +40,7 @@ export default function MyCheckins() {
         claimedMap={claimedMap}
         navigate={navigate}
         totalPoints={stats?.failed ? '–' : stats ? stats.totalPoints || 0 : null}
-        initialLayout={location.state?.layout === 'grid' ? 'grid' : 'list'}
+        initialLayout={location.state?.layout === 'list' ? 'list' : 'grid'}
       />
     </div>
   );

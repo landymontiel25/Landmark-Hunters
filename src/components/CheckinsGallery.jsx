@@ -39,7 +39,7 @@ function fmtDateTime(seconds) {
 // The full photo gallery of everywhere you've checked in -- lives on the
 // Full Stats page (moved out of the Ranks tab strip, which is now just
 // This Week / This Month / This Year).
-export default function CheckinsGallery({ user, claimedMap, navigate, totalPoints, title = 'My Memories', initialLayout = 'list' }) {
+export default function CheckinsGallery({ user, claimedMap, navigate, totalPoints, title = 'My Memories', initialLayout = 'grid' }) {
   const { user: viewer } = useAuth();
   const { adminMode } = useAdminMode();
   const canEditDates = adminMode && isAdmin(viewer?.email);
@@ -49,7 +49,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
   // A failed read is its own state -- never shown as "No check-ins yet".
   const [loadError, setLoadError] = useState(null);
   const [loadAttempt, setLoadAttempt] = useState(0);
-  const [layout, setLayout] = useState(initialLayout === 'grid' ? 'grid' : 'list'); // 'list' | 'grid'
+  const [layout, setLayout] = useState(initialLayout === 'list' ? 'list' : 'grid'); // 'list' | 'grid', Grid by default (owner, 2026-10-20)
   const [search, setSearch] = useState('');
   // Admin Mode: which row's "when I checked in" is being edited, if any.
   const [editingId, setEditingId] = useState(null);

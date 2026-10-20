@@ -199,6 +199,7 @@ export const APP_HELP =
   `comments show there -- a rating on its own doesn't count as a comment. You can add or edit your comment any time later, but it is always saved ` +
   `together with a rating tier (the editor asks you to pick one if you have none yet) -- from that section or from each row of ` +
   `My Memories (Profile → your check-ins; called My Check-ins before October 2026). Other people's comments show when their account is public or they're your friend.\n` +
+  `- My Memories opens on Grid (photo tiles) by default; the List button beside it switches to rows with your rating, date and comment.\n` +
   `- My Memories has a search box: type a place, city, something from your comment, your rating ("loved") or a date. Its "Sort by" menu has Most recent, Oldest first, Highest rated, Lowest rated and By city; By city folds your check-ins into one section per city (most check-ins first, newest first inside), each opening to its own search box that only looks in that city.\n` +
   `- Profile starts with a "📸 My Memories (N)" card above Your Stats: your memories' photos as tiles, newest first, one row at first (3 tiles) with a "Show more" button that opens the rest in a box you scroll inside without scrolling the page ("Show less" folds it back), and "See all ›" opens My Memories on Grid. Tap a tile to open that place.\n` +
   `- My Memories also opens from the "📸 My Memories" button at the top right of the Places tab, next to the "Places (N)" title; from there it starts on Grid (your photos) and its Back button returns to Places.\n` +
@@ -208,6 +209,7 @@ export const APP_HELP =
   `letters, half-typed words, sound-alike spellings ("filadelfia"), and accents. Best matches come first. When that still finds ` +
   `little and you're signed in, Mapr works out what you meant from a description, nickname or what a place is known for ("the big ` +
   `clock in London", "Rocky steps", "the city with the Eiffel Tower") and shows those under "✨ Mapr thinks you mean".\n` +
+  `- Badges are hidden for now (October 2026): no All Badges section on Full Stats, no "Badge Earned" popup, and no badges on Profile's Discoverer card. They are still earned and saved in the background and will show again when turned back on; if someone asks about badges, say they are switched off for now. The rest of this entry is how they work when shown.\n` +
   `- Badges: not shown on Profile itself (that screen is deliberately kept simple) — see them all at Profile → "See Full Stats" (earned in color, the rest grayed). All Badges shows one row at first (as many as fit: about 4 on a computer, 2 on a phone) with a "Show more" button; tapping it opens the rest in a box you scroll inside, without scrolling the page, and "Show less" folds it back. Earned ` +
   `automatically: total check-ins (1/5/10/25/50/100: First Steps, Explorer, Adventurer, Legend, Expedition, Cartographer), cities (2/3: City Hopper, ` +
   `Globetrotter), states and countries, daily check-in streaks (3/7/30-Day Streak), the one-time Welcome badge from onboarding, plus activity ones ` +
