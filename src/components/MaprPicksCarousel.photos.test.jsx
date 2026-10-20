@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 // Owner, 2026-10-18: a Travel Picks card with no picture shouldn't show
 // unless every place that has one is already answered.
-import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 import { createRoot } from 'react-dom/client';

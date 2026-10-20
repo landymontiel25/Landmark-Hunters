@@ -6,6 +6,8 @@
 
 // Radius and GPS accuracy limit by place type (plan v2). Starting values:
 // tune them on real phones in the week after Phase 0 ships.
+import { haversineMeters } from './haversine.js';
+
 export const PRESENCE_LIMITS = {
   landmark: { radiusMeters: 30, maxAccuracyMeters: 50 }, // statue, building, single landmark
   indoor: { radiusMeters: 60, maxAccuracyMeters: 100 }, // museum or indoor site
@@ -51,14 +53,7 @@ export function presenceLimitsFor(place) {
   return PRESENCE_LIMITS[placeTypeFor(place)];
 }
 
-const toRad = (d) => (d * Math.PI) / 180;
-export function metersBetween(lat1, lng1, lat2, lng2) {
-  const R = 6371000;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
-}
+export const metersBetween = haversineMeters;
 
 const finite = (n) => typeof n === 'number' && Number.isFinite(n);
 

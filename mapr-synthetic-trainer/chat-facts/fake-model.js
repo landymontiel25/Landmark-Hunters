@@ -45,7 +45,7 @@ function firstMove(ctx, req) {
   if (forced === 'route_between') return toolUse('route_between', routeInput(q, ctx));
   if (forced === 'place_hours') return toolUse('place_hours', { place: q.intent === 'recs' ? ctx.recPlaces[0] : q.places[0] || ctx.recPlaces[0] });
   const uses = style === 'careful' || (style === 'sloppy' && r() < 0.5);
-  const [A, B] = q.places;
+  const [A] = q.places;
   switch (q.intent) {
     case 'dist_pair':
     case 'dist_me':

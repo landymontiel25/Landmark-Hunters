@@ -1,5 +1,6 @@
 import { ALL_LANDMARKS, CATEGORY_ALIASES } from '../data/regions.js';
 import { AWAY_VOTE_MILES, AWAY_VOTE_WEIGHT, RATING_TAG_DELTA, TAP_TAG_DELTA } from './maprConstants.js';
+import { haversineMeters } from './haversine.js';
 
 // Per-region tag scoring for Mapr Picks. A "tag" is a landmark's category id
 // (food, history-culture, ...), the same ids signup interests use. Everything
@@ -83,11 +84,7 @@ function landmarkById() {
 export function voteWeight(near, region, landmarkId, place = null) {
   const l = place && Number.isFinite(place.lat) ? place : landmarkById().get(`${region}/${landmarkId}`);
   if (!near || !Number.isFinite(near.lat) || !Number.isFinite(near.lng) || !l || !Number.isFinite(l.lat) || !Number.isFinite(l.lng)) return 1;
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(l.lat - near.lat);
-  const dLng = toRad(l.lng - near.lng);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(near.lat)) * Math.cos(toRad(l.lat)) * Math.sin(dLng / 2) ** 2;
-  const miles = 3958.8 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const miles = (haversineMeters(near.lat, near.lng, l.lat, l.lng) / 6371000) * 3958.8;
   return miles > AWAY_VOTE_MILES ? AWAY_VOTE_WEIGHT : 1;
 }
 const weightedVoteDelta = (v) => (VOTE_DELTAS[v.verdict] || 0) * voteWeight(v.near, v.region, v.landmarkId);

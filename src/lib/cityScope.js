@@ -6,6 +6,7 @@
 import { PICKABLE_REGIONS, getRegion, canonicalRegionId } from '../data/regions';
 import { SUB_AREAS } from '../data/cityAreas';
 import { matchesSearch } from './search';
+import { haversineMeters } from './haversine';
 
 // US cities group by state, everywhere else by country.
 const GROUP_LABEL = {};
@@ -76,13 +77,7 @@ function insideRing(lat, lng, ring) {
   return inside;
 }
 
-function metersBetween(aLat, aLng, bLat, bLng) {
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(bLat - aLat);
-  const dLng = toRad(bLng - aLng);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(aLat)) * Math.cos(toRad(bLat)) * Math.sin(dLng / 2) ** 2;
-  return 2 * 6371000 * Math.asin(Math.sqrt(h));
-}
+const metersBetween = haversineMeters;
 
 // Is this point in the town: inside its outline, or within its radius when
 // the town is mapped as a point (a neighborhood like Brickell).
