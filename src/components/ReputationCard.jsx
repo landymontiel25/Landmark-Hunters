@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getRegion } from '../data/regions';
 import { fetchReputationBoard, getReputation } from '../lib/reputationApi';
 import { badgeLabel, levelsOf } from '../lib/reputationLabels';
+import { SHOW_BADGES } from '../lib/featureFlags';
 
 // Your discoverer levels per city and badges (Phase 4), and the "Trusted
 // in {city}" board for `region`: people ranked by local reputation, with
@@ -34,7 +35,8 @@ export default function ReputationCard({ uid, region = null }) {
   }, [region]);
 
   const levels = levelsOf(rep);
-  const badges = (rep?.badges || []).map(badgeLabel).filter(Boolean);
+  // Hidden for now with the rest of the badges (featureFlags.js).
+  const badges = SHOW_BADGES ? (rep?.badges || []).map(badgeLabel).filter(Boolean) : [];
   const city = region ? getRegion(region)?.name || region : null;
   return (
     <div className="card section">

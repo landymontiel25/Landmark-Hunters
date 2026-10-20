@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SHOW_BADGES } from '../lib/featureFlags';
 import { useAuth } from '../lib/AuthContext';
 import { useBadges } from '../lib/BadgesContext';
 import { levelProgress } from '../lib/level';
@@ -43,7 +44,8 @@ export default function CelebrationOverlay() {
     }
   }, [user, stats]);
 
-  const badge = justEarned[0] || null;
+  // Badges are hidden for now (featureFlags.js): no "Badge Earned" popup.
+  const badge = SHOW_BADGES ? justEarned[0] || null : null;
 
   useEffect(() => {
     if (!badge) return;

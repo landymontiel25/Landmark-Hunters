@@ -28,13 +28,13 @@ import CheckinsGallery from './CheckinsGallery';
 let container;
 afterEach(() => document.body.removeChild(container));
 
-async function mount(totalPoints = 300) {
+async function mount(totalPoints = 300, layout = 'list') {
   container = document.createElement('div');
   document.body.appendChild(container);
   await act(async () =>
     createRoot(container).render(
       <MemoryRouter>
-        <CheckinsGallery user={{ uid: 'me' }} claimedMap={{}} navigate={() => {}} totalPoints={totalPoints} />
+        <CheckinsGallery user={{ uid: 'me' }} claimedMap={{}} navigate={() => {}} totalPoints={totalPoints} initialLayout={layout} />
       </MemoryRouter>
     )
   );
@@ -122,5 +122,23 @@ describe('My Check-ins by city', () => {
     expect(names()).toEqual(['Wynwood Walls']);
     expect(miami.querySelector('input[type="search"]')).toBeTruthy();
     localStorage.removeItem('lh-checkins-sort');
+  });
+});
+
+// Owner, 2026-10-20: My Memories opens on Grid.
+describe('My Memories default view', () => {
+  it('starts on Grid', async () => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    await act(async () =>
+      createRoot(container).render(
+        <MemoryRouter>
+          <CheckinsGallery user={{ uid: 'me' }} claimedMap={{}} navigate={() => {}} totalPoints={300} />
+        </MemoryRouter>
+      )
+    );
+    await act(async () => new Promise((r) => setTimeout(r, 0)));
+    expect(container.querySelectorAll('.checkin-tile')).toHaveLength(3);
+    expect(container.querySelector('.checkin-row')).toBeNull();
   });
 });
