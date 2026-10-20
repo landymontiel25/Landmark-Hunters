@@ -1,16 +1,7 @@
 import { REGIONS } from '../data/regions';
+import { haversineMeters } from './haversine';
 
-export function distanceMeters(lat1, lng1, lat2, lng2) {
-  const R = 6371000;
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
+export const distanceMeters = haversineMeters;
 
 // Which curated region a point falls closest to, by straight-line distance
 // to each region's center -- used to file a new landmark under a city.

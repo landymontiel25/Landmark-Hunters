@@ -1,4 +1,5 @@
 import { DECAY_DISTANCE_KM, DECAY_MIN_DISTANCE_KM } from './config.js';
+import { haversineKm as sharedHaversineKm } from '../haversine.js';
 
 // Week 1: closer landmarks score higher.
 //   score_adjusted = score * 1 / (1 + distance_km / DECAY_DISTANCE_KM)
@@ -6,16 +7,10 @@ import { DECAY_DISTANCE_KM, DECAY_MIN_DISTANCE_KM } from './config.js';
 // Only the ratio between two places matters for the ranking, so the curve's
 // overall scale does not change which place wins.
 
-const EARTH_RADIUS_KM = 6371;
-const toRad = (d) => (d * Math.PI) / 180;
-
 // Great-circle distance in km. NaN when any coordinate is missing.
 export function haversineKm(lat1, lng1, lat2, lng2) {
   if (![lat1, lng1, lat2, lng2].every(Number.isFinite)) return NaN;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 2 * EARTH_RADIUS_KM * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return sharedHaversineKm(lat1, lng1, lat2, lng2);
 }
 
 // Multiplier in (0, 1]. Unknown, negative or zero distance -> 1 (no change).

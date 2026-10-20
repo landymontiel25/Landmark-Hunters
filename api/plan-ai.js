@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { haversineKm } from '../src/lib/haversine.js';
 import { ALL_LANDMARKS, getRegion } from '../src/data/regions.js';
 import { findLookedUp, lookedUpPlaces, lookedUpNamedIn } from './_lib/lookedUpPlaces.js';
 import { guardAiRequest } from './_lib/aiGuard.js';
@@ -159,13 +160,7 @@ const PRICE_PER_SEARCH = 10 / 1000;
 const str = (v, n) => String(v ?? '').trim().slice(0, n);
 
 // Straight-line distance in km (haversine).
-function kmBetween(lat1, lng1, lat2, lng2) {
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
+const kmBetween = haversineKm;
 
 // A catalog (or imported) landmark as a chat stop card. lat/lng ride along so
 // the card can show distance before the client has loaded the place packs.

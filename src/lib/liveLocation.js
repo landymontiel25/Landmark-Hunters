@@ -1,5 +1,6 @@
 import { collection, deleteDoc, doc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
+import { haversineMeters } from './haversine';
 import { readPersisted, writePersisted } from './usePersistentState';
 
 // Live location on a group trip, like WhatsApp's: a member shares where they
@@ -29,14 +30,7 @@ export function shareUntil(optionId, now = Date.now()) {
   return opt.ms ? now + opt.ms : now + VIEWING_HEARTBEAT_MS;
 }
 
-const meters = (a, b) => {
-  const R = 6371000;
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(b.lat - a.lat);
-  const dLng = toRad(b.lng - a.lng);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-};
+const meters = (a, b) => haversineMeters(a.lat, a.lng, b.lat, b.lng);
 
 // Whether to write a new position: the first one, after moving MOVE_METERS,
 // or once REFRESH_MS has passed (which also renews a viewing heartbeat).

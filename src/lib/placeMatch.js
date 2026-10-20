@@ -4,6 +4,8 @@
 // trailing words like "Restaurant" or "Bar & Grill" when what's left is
 // still distinctive.
 
+import { haversineKm } from './haversine.js';
+
 const TRAILING = new Set([
   'restaurant', 'restaurants', 'cafe', 'coffee', 'bar', 'grill', 'kitchen', 'bistro', 'eatery', 'miami',
   'and', 'the', 'de', 'en', 'y', 'n', 'el', 'la',
@@ -48,13 +50,7 @@ export function asksForDirections(text) {
   return DIRECTIONS.test(String(text || ''));
 }
 
-function km(lat1, lng1, lat2, lng2) {
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 6371 * 2 * Math.asin(Math.sqrt(a));
-}
+const km = haversineKm;
 
 // Places whose name appears in `text`, best first: the longest matched
 // phrase wins, then the nearest to `near` ({lat, lng}) when given.

@@ -431,7 +431,7 @@ export async function runSession({ getContext, base, index, seed, persona: force
       } else {
         await loc.click({ timeout: 2500 });
       }
-    } catch (e) {
+    } catch {
       // Usually the element moved or vanished between listing and click.
       return false;
     }

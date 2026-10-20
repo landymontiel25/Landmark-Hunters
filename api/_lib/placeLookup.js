@@ -1,4 +1,5 @@
 import { timeoutSignal } from './upstream.js';
+import { haversineMeters } from '../../src/lib/haversine.js';
 import { adminDb } from './firebaseAdmin.js';
 import { FieldValue } from 'firebase-admin/firestore';
 import { PLACE_ID_COLLECTION, PLACE_ID_FIRESTORE_TIMEOUT_MS } from './placeIdConstants.js';
@@ -43,13 +44,7 @@ export function namesMatch(wanted, found) {
   return shared / setA.size >= 0.8 && shared / setB.size >= 0.8;
 }
 
-export function distanceMeters(lat1, lng1, lat2, lng2) {
-  const toRad = (d) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 2 * 6371000 * Math.asin(Math.sqrt(h));
-}
+export const distanceMeters = haversineMeters;
 
 export function safeUri(uri) {
   if (typeof uri !== 'string' || !uri) return null;
