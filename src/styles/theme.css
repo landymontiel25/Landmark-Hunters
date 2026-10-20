@@ -8044,3 +8044,12 @@ p.tag {
 .standings-pts {
   font-variant-numeric: tabular-nums;
 }
+
+/* Profile's My Memories after "Show more": the photos scroll inside this
+   box, not the page (same idea as All Badges). */
+.checkin-grid.profile-memories-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}

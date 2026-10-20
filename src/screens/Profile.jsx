@@ -32,6 +32,7 @@ import Onboarding from './Onboarding';
 import FriendPopoverName from '../components/FriendPopoverName';
 import RegionSearch from '../components/RegionSearch';
 import DiscoveryStatsCard from '../components/DiscoveryStatsCard';
+import ProfileMemories from '../components/ProfileMemories';
 import { Skeleton, SkeletonList } from '../components/Skeleton';
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
@@ -411,6 +412,8 @@ export default function Profile() {
 
   return (
     <div>
+      {/* Your memories' photos lead the page, above Your Stats. */}
+      <ProfileMemories />
       {/* Your Stats -- moved to the top of the page, ahead of everything else. */}
       <div className="card section">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
