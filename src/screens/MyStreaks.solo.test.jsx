@@ -98,6 +98,7 @@ afterEach(() => {
   spendSoloFreezeMock.mockClear();
   setSoloStreakCity.mockClear();
   soloStreak.cityId = 'miami';
+  delete soloStreak.cityPinned;
   history.answered = new Map();
 });
 
@@ -184,6 +185,51 @@ describe('MyStreaks - solo streak', () => {
     fakeEntry = { uid: 'me', ratings: { [deckPool('villanova')[0]]: 'yes' } };
     await render();
     expect(setSoloStreakCity).not.toHaveBeenCalled();
+  });
+
+  // Owner, 2026-10-21: everything in Villanova was rated, so the cards kept
+  // repeating. A city dropdown lets you choose where today's 3 come from.
+  it('the city dropdown lists cities with how many new places each has, and choosing one pins it', async () => {
+    const pool = deckPool('miami');
+    history.answered = new Map(pool.slice(0, 2).map((id) => [id, 1]));
+    await render();
+    const select = container.querySelector('#solo-city');
+    expect(select.value).toBe('auto');
+    const miami = [...select.options].find((o) => o.value === 'miami');
+    expect(miami.textContent).toBe(`Miami (${pool.length - 2} new)`);
+    expect([...select.options][0].textContent).toContain('Where I am (Miami)');
+    await act(async () => {
+      select.value = 'philly';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(setSoloStreakCity).toHaveBeenCalledWith('me', 'philly', { pinned: true });
+  });
+
+  it('a city you chose stays put: GPS does not move it back', async () => {
+    soloStreak.cityId = 'villanova';
+    soloStreak.cityPinned = true;
+    await render();
+    expect(setSoloStreakCity).not.toHaveBeenCalled();
+    expect(container.querySelector('#solo-city').value).toBe('villanova');
+  });
+
+  it('"Where I am" unpins and goes back to the city you are in', async () => {
+    soloStreak.cityId = 'villanova';
+    soloStreak.cityPinned = true;
+    await render();
+    const select = container.querySelector('#solo-city');
+    await act(async () => {
+      select.value = 'auto';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(setSoloStreakCity).toHaveBeenCalledWith('me', 'miami', { pinned: false });
+  });
+
+  it('the city is locked once a card is rated today', async () => {
+    fakeEntry = { uid: 'me', ratings: { [deckPool('miami')[0]]: 'yes' } };
+    await render();
+    expect(container.querySelector('#solo-city').disabled).toBe(true);
+    expect(container.textContent).toContain("You can change the city before you rate today's first card.");
   });
 
   it('skips places you answered on earlier days', async () => {

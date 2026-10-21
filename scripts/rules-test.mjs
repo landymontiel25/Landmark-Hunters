@@ -418,6 +418,14 @@ await t('streak with a friend works, with a stranger does not, with yourself doe
   await assertFails(setDoc(doc(as('zed'), `streaks/${a}_${b}x`), streak('zed', 'fay')));
   await assertFails(setDoc(doc(as('fay'), 'streaks/fay_fay'), { ...streak('fay', 'fay'), memberIds: ['fay', 'fay'] }));
 });
+await t('a member can set the city and pin it; nothing else, and the pin must be true or false', async () => {
+  await seed((db) => setDoc(doc(db, 'streaks/hal'), { mode: 'solo', memberIds: ['hal'], count: 5, best: 18, lastCompletedDay: null, cityId: 'villanova' }));
+  await assertSucceeds(updateDoc(doc(as('hal'), 'streaks/hal'), { cityId: 'miami', cityPinned: true, updatedAt: serverTimestamp() }));
+  await assertSucceeds(updateDoc(doc(as('hal'), 'streaks/hal'), { cityPinned: false }));
+  await assertFails(updateDoc(doc(as('hal'), 'streaks/hal'), { cityPinned: 'yes' }));
+  await assertFails(updateDoc(doc(as('hal'), 'streaks/hal'), { cityId: 'paris', count: 99 }));
+  await assertFails(updateDoc(doc(as('zed'), 'streaks/hal'), { cityId: 'paris' }));
+});
 
 console.log('notifications to the admin');
 await reset();

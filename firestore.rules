@@ -873,10 +873,13 @@ service cloud.firestore {
       // recoveryOpenUntil/recoveryPriorCount/recoveryUsedMonth stay fully
       // server-authority (any write touching them is denied) -- cityId is
       // the one field either member can set themselves, to pick where the
-      // pair's daily 3-card deck (sharedDeck.js) draws from.
+      // pair's daily 3-card deck (sharedDeck.js) draws from. cityPinned
+      // marks a city the user chose from the solo streak's city dropdown,
+      // so GPS stops moving the deck (MyStreaks.jsx).
       allow update: if request.auth != null
         && request.auth.uid in resource.data.memberIds
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cityId', 'updatedAt']);
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cityId', 'cityPinned', 'updatedAt'])
+        && (!('cityPinned' in request.resource.data) || request.resource.data.cityPinned is bool);
       // Guardrail (item b2/11): anyone in the pair can leave, no penalty.
       allow delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
 

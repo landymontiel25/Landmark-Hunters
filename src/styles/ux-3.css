@@ -1066,3 +1066,33 @@ button.back-sticky,
     display: none;
   }
 }
+
+/* Solo streak: which city today's 3 cards come from (MyStreaks.jsx). */
+.solo-city-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 10px;
+}
+.solo-city-picker label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.solo-city-picker select {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated, rgba(255, 255, 255, 0.05));
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.solo-city-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.78rem;
+}
