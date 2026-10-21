@@ -324,7 +324,6 @@ function StandingsBadge() {
   // account's or period's numbers never show while the next ones load.
   const [board, setBoard] = useState(null);
   const [open, setOpen] = useState(false);
-  const [signingOut, setSigningOut] = useState(false);
   const ref = useRef(null);
   const uid = user?.uid;
 
