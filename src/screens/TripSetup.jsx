@@ -93,11 +93,20 @@ export default function TripSetup() {
   // matches…" on the chip. Not persisted -- it's re-derived from the trip's own
   // pending state (a custom interest with no matches entry yet).
   const [classifying, setClassifying] = useState(() => new Set());
-  // Whether "Use My Preferences" is toggled on -- an explicit on/off flag
+  // Whether "My Preferences" is toggled on -- an explicit on/off flag
   // rather than something derived from comparing trip.interests to
   // savedInterests, since those can coincidentally match (or drift apart
   // after you tweak a chip by hand) without you ever touching this control.
   const [preferencesSelected, setPreferencesSelected] = useState(false);
+  // The form opens with no interest picked (owner, 2026-10-21): last
+  // time's picks no longer carry over. "My Preferences" fills in your saved
+  // ones with one tap.
+  useEffect(() => {
+    updateTrip({ interests: [], customInterests: [] });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const hasPreferences = trip.savedInterests.length > 0 || trip.savedCustomInterests.length > 0;
+  const [noPreferences, setNoPreferences] = useState(false);
   // Trip type is a required, explicit choice -- starts at null (neither
   // picked) rather than defaulting to 'solo', so Setup can't be continued
   // without deciding. Previously the only way into a group trip was way at
@@ -201,6 +210,10 @@ export default function TripSetup() {
   };
 
   const togglePreferences = () => {
+    if (!hasPreferences) {
+      setNoPreferences(true);
+      return;
+    }
     if (preferencesSelected) {
       updateTrip({ interests: [], customInterests: [] });
     } else {
@@ -267,17 +280,21 @@ export default function TripSetup() {
 
       <div className="field">
         <label>What are you interested in?</label>
-        {(trip.savedInterests.length > 0 || trip.savedCustomInterests.length > 0) && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
-            <button
-              type="button"
-              className={`chip ${preferencesSelected ? 'selected' : ''}`} aria-pressed={!!(preferencesSelected)}
-              onClick={togglePreferences}
-            >
-              <span className="chip-icon">{'⭐'}</span>
-              <span>Use My Preferences</span>
-            </button>
-          </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
+          <button
+            type="button"
+            className={`chip ${preferencesSelected ? 'selected' : ''}`}
+            aria-pressed={!!preferencesSelected}
+            onClick={togglePreferences}
+          >
+            <span className="chip-icon">{'⭐'}</span>
+            <span>My Preferences</span>
+          </button>
+        </div>
+        {noPreferences && !hasPreferences && (
+          <p style={{ fontSize: '0.78rem', color: 'var(--color-parchment-dim)', margin: '0 0 10px', textAlign: 'center' }}>
+            No preferences saved yet. Set them in Settings, under My Preferences.
+          </p>
         )}
         <div className="chip-grid">
           {PICKABLE_INTERESTS.map((i) => (

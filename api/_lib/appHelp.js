@@ -178,7 +178,9 @@ export const APP_HELP =
   `appears once it's on, to check the whole pipeline actually works.\n` +
   `- Trip Setup: no longer its own tab. The Itinerary tab's empty/overview state leads with "🧭 Use Mapr (recommended)", which jumps straight to ` +
   `Mapr's Plan Your Trip chat (see above) — a "➕ Create New Trip" modal (a one-page starting location/region/interests form, plus a full solo-vs-group ` +
-  `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead.\n` +
+  `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead. In that form, "What are you ` +
+  `interested in?" opens with nothing picked; a "⭐ My Preferences" button above the chips fills in the preferences saved in Settings (tap it ` +
+  `again to clear them), and with none saved it says to set them in Settings.\n` +
   `- Check-ins: open a landmark and tap its check-in button, then Post (Cancel records nothing) — repeat check-ins to the same place are allowed, each logged with its own timestamp. ` +
   `The usual "you're here" radius is 30 m, but right now the app does NOT require being near the place to check in. ` +
   `Only your very first check-in ever pays points (100 points on the 1st visit); every check-in after that, at any place, pays nothing, because check-ins are for Mapr — every visit still counts toward Mapr ` +
