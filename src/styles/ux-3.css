@@ -466,6 +466,15 @@ button.back-sticky,
   font-size: 1.3rem;
   flex-shrink: 0;
 }
+.mapr-dir {
+  font-weight: 700;
+}
+.mapr-dir-right {
+  color: var(--success, #22c55e);
+}
+.mapr-dir-left {
+  color: var(--danger, #ef4444);
+}
 .mapr-bubble-text {
   padding: 10px 14px;
   border-radius: 4px 16px 16px 16px;
