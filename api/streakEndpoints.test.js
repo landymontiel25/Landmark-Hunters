@@ -29,7 +29,7 @@ const fakeDb = {
     doc: (id) => ref(`${n}/${id}`),
     where: () => ({ get: async () => ({ docs: (n === 'pick_feedback' ? pickDocs : checkinDocs).map((x) => ({ data: () => x })) }) }),
   }),
-  runTransaction: async (fn) => fn({ get: (r) => r.get(), update: (r, u) => r.update(u) }),
+  runTransaction: async (fn) => fn({ get: (r) => r.get(), update: (r, u) => r.update(u), set: () => {} }),
 };
 
 vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => ({ uid: 'me' }) }));
@@ -37,7 +37,16 @@ vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 vi.mock('./_lib/firebaseAdmin.js', () => ({ adminDb: () => fakeDb }));
 vi.mock('firebase-admin/firestore', () => ({ FieldValue: { serverTimestamp: () => 'ts', delete: () => 'del' } }));
 vi.mock('../src/lib/sharedDeck.js', () => ({ pickDailyCardIds: () => ['a', 'b', 'c'] }));
-vi.mock('./_lib/leaderboardPoints.js', () => ({ awardLeaderboardPointsServer: (...a) => award(...a), cleanUserName: (n) => n || 'A traveler' }));
+// The streak endpoints pay inside their close transaction: `award` records
+// each member's payout (db, uid, name, points, dayId).
+vi.mock('./_lib/leaderboardPoints.js', () => ({
+  awardLeaderboardPointsServer: (...a) => award(...a),
+  leaderboardPointWrites: (...a) => {
+    award(...a);
+    return [];
+  },
+  cleanUserName: (n) => n || 'A traveler',
+}));
 
 const call = async (handler, body) => {
   const res = { status: vi.fn(() => res), json: vi.fn(() => res) };
@@ -70,6 +79,23 @@ describe('close-solo-streak-day', () => {
     expect(streakDoc.count).toBe(5);
     expect(award).toHaveBeenCalledTimes(1);
     expect([a.already, b.already].filter(Boolean)).toHaveLength(1);
+  });
+
+  it('pays a milestone the first time the streak reaches it, and not again after a reset', async () => {
+    const { default: handler } = await import('./close-solo-streak-day.js');
+    const { SOLO_DAY_POINTS, SOLO_MILESTONE_POINTS } = await import('./_lib/closeSoloStreakDay.js');
+    streakDoc = { ...streakDoc, count: 2, best: 2 };
+    let out = await call(handler, { dayId: utcToday() });
+    expect(streakDoc.count).toBe(3);
+    expect(out.milestoneAwarded).toBe(SOLO_MILESTONE_POINTS[3]);
+    expect(award.mock.calls[0][3]).toBe(SOLO_DAY_POINTS + SOLO_MILESTONE_POINTS[3]);
+    // Broke and climbed back to 3: the best is still 18, so no second payout.
+    award.mockClear();
+    streakDoc = { ...streakDoc, count: 2, best: 18, lastCompletedDay: utcYesterday() };
+    out = await call(handler, { dayId: utcToday() });
+    expect(streakDoc.count).toBe(3);
+    expect(out.milestoneAwarded).toBe(null);
+    expect(award.mock.calls[0][3]).toBe(SOLO_DAY_POINTS);
   });
 
   it('does not move the streak backwards for an older day', async () => {
@@ -246,6 +272,18 @@ describe('dual streak fixes', () => {
     await handler({ method: 'POST', headers: {}, body: { pairId: 'me', confirm: 'RESET' } }, res);
     expect(res.status).toHaveBeenCalledWith(403);
     expect(streakDoc.count).toBe(5);
+  });
+
+  it('dual: pays every member in the close, and a milestone only the first time', async () => {
+    const { default: handler, DUAL_DAY_POINTS, DUAL_MILESTONE_POINTS } = await import('./close-streak-day.js');
+    streakDoc = { mode: 'dual', memberIds: ['me'], cityId: 'x', count: 2, best: 2, lastCompletedDay: utcYesterday(), frozenDays: [] };
+    await call(handler, { pairId: 'me', dayId: utcToday() });
+    expect(streakDoc.count).toBe(3);
+    expect(award.mock.calls.map((c) => [c[1], c[3]])).toEqual([['me', DUAL_DAY_POINTS + DUAL_MILESTONE_POINTS[3]]]);
+    award.mockClear();
+    streakDoc = { ...streakDoc, count: 2, best: 30, lastCompletedDay: utcYesterday() };
+    await call(handler, { pairId: 'me', dayId: utcToday() });
+    expect(award.mock.calls.map((c) => c[3])).toEqual([DUAL_DAY_POINTS]);
   });
 
   it('does not open a recovery mission when freezes were last refreshed in an earlier month', async () => {

@@ -5,12 +5,13 @@ import { FieldValue } from 'firebase-admin/firestore';
 import { previousDayKey, validClientDayKey, isDayBefore } from './streakDay.js';
 import { pickDailyCardIds } from '../../src/lib/sharedDeck.js';
 import { canonicalLandmarkId } from '../../src/data/regions.js';
-import { awardLeaderboardPointsServer } from './leaderboardPoints.js';
+import { leaderboardPointWrites } from './leaderboardPoints.js';
 import { withCors } from './cors.js';
 import { SOLO_PICK_VOTES_REQUIRED, distinctActionsOn, hasRealCheckinOn, localDayWindow } from './soloPicks.js';
 
 // Points for a secured solo day, and one-time bonuses the first time a
-// streak reaches a milestone length -- half the dual-streak amounts (see
+// streak reaches a milestone length (paid only when the count passes the
+// streak's best ever, so a reset and climb back never pays one twice) -- half the dual-streak amounts (see
 // close-streak-day.js), since a solo day is one person rating 3 landmarks
 // versus a pair coordinating to rate AND guess all 3. Values chosen against
 // POINTS_PER_CHECKIN (100, leaderboard.js) as the app's existing point
@@ -134,8 +135,15 @@ async function handler(req, res) {
       // recovery mission, no reveal) -- a break with no freeze left just
       // resets, same as it always would have under the old live-computed
       // count.
+      // Read before the update: past the best ever means a first time.
+      const milestone = count > (fresh.best || 0) ? SOLO_MILESTONE_POINTS[count] || 0 : 0;
       t.update(streakRef, { count, best, lastCompletedDay: dayId, updatedAt: FieldValue.serverTimestamp() });
-      return { closed: true, count, best };
+      // Paid in the same transaction as the close: a failed payout can no
+      // longer leave the day closed with no points (a retry sees `already`).
+      for (const [ref, data] of leaderboardPointWrites(db, account.uid, fresh.memberNames?.[account.uid], SOLO_DAY_POINTS + milestone, dayId)) {
+        t.set(ref, data, { merge: true });
+      }
+      return { closed: true, count, best, milestone };
     });
     if (outcome.already) {
       res.status(200).json({ ok: true, closed: true, already: true, count: outcome.count, best: outcome.best });
@@ -147,9 +155,7 @@ async function handler(req, res) {
     }
     const nextCount = outcome.count;
     const nextBest = outcome.best;
-    const milestone = SOLO_MILESTONE_POINTS[nextCount] || 0;
-    const userName = streak.memberNames?.[account.uid];
-    await awardLeaderboardPointsServer(db, account.uid, userName, SOLO_DAY_POINTS + milestone, dayId);
+    const milestone = outcome.milestone;
     res.status(200).json({
       ok: true,
       closed: true,

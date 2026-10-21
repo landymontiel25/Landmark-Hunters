@@ -30,7 +30,18 @@ function fakeDb(initial = {}) {
   });
   const db = {
     docs,
-    collection: (name) => ({ doc: (id) => ref(`${name}/${id}`) }),
+    collection: (name) => {
+      // where(a, '==', x).where(b, '==', y).get() over this collection.
+      const query = (filters) => ({
+        where: (f, _op, v) => query([...filters, [f, v]]),
+        get: async () => ({
+          docs: [...docs.entries()]
+            .filter(([path, d]) => path.startsWith(`${name}/`) && filters.every(([f, v]) => d[f] === v))
+            .map(([, d]) => ({ data: () => d })),
+        }),
+      });
+      return { doc: (id) => ref(`${name}/${id}`), where: (f, op, v) => query([[f, v]]) };
+    },
     runTransaction: async (fn) =>
       fn({
         get: (r) => r.get(),
@@ -115,6 +126,18 @@ describe('awardPhotoBonus', () => {
     expect(db.docs.has('photo_bonus_checks/u_x')).toBe(false);
     const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
     expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
+  });
+
+  it('a real visit counts even when the first entry at the place was a rating-only one', async () => {
+    const db = fakeDb({
+      'checkins/u_x': { ...visit, ratingOnly: true, visited: false, points: 0 },
+      'checkins/u_x_2': { userId: 'u', landmarkId: 'x', ratingOnly: false, visited: true, points: 0 },
+    });
+    const out = await awardPhotoBonus(db, 'u', 'x', { dayId: '2026-9-21', boards: false, check: async () => ({ ok: true, reason: 'ok' }) });
+    expect(out.awarded).toBe(PHOTO_BONUS_POINTS);
+    // With no real visit anywhere, still nothing.
+    const none = fakeDb({ 'checkins/u_x': { ...visit, ratingOnly: true, visited: false, points: 0 } });
+    expect((await awardPhotoBonus(none, 'u', 'x', { dayId: '2026-9-21', check: async () => ({ ok: true }) })).reason).toBe('no-checkin');
   });
 
   it('respects the daily limit, except for the back-pay', async () => {

@@ -79,8 +79,8 @@ export const PERIODS = ['weekly', 'monthly', 'yearly'];
  * check-in that predates this change stays valid untouched; visit #2
  * onward is uid_landmarkId_<visitNumber>), so re-checking in somewhere is
  * always allowed and always logged with its own timestamp. What pays out
- * is a separate question from what gets logged: payout tapers with repeat
- * visits (see taperedPoints), and would also be 0 inside the user's home
+ * is a separate question from what gets logged: only the account's first
+ * real check-in ever pays (checkin_payouts/{uid}), and it would also be 0 inside the user's home
  * radius if HOME_RADIUS_EXCLUSION_ENABLED were on (it's currently off) --
  * but the visit itself is always recorded in full regardless, since Mapr
  * should learn from every visit whether or not it paid out.

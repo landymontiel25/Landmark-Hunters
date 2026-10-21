@@ -6,8 +6,8 @@ const AUTO_DISMISS_MS = 2600;
 
 // The full-screen "YOU CHECKED IN!" blast: a burst of confetti, expanding
 // rings and a big rainbow title, shown the moment a check-in posts. Tap
-// anywhere (or wait) and it hands off to the normal "Checked in! +100"
-// panel underneath. Purely celebratory -- nothing here is interactive
+// anywhere (or wait) and it hands off to the normal "Checked in!" panel
+// underneath ("+N pts" shows only when the check-in paid). Purely celebratory -- nothing here is interactive
 // beyond dismissing it.
 export default function CheckInBlast({ landmarkName, points = 100, message, onDone }) {
   // Randomize once per mount so every check-in's burst looks different,

@@ -1,7 +1,8 @@
 // A player's level, derived from lifetime points (not a period leaderboard
-// score) so it only ever goes up. Level N unlocks at (N-1)^2 * 100 points --
-// roughly (N-1)^2 check-ins -- so early levels come fast and later ones
-// take meaningfully longer, the same shape most level curves use.
+// score) so it only ever goes up. Level N unlocks at (N-1)^2 * 100 points
+// (lifetime = bonusPoints + check-in points, getUserStats), so early levels
+// come fast and later ones take meaningfully longer, the same shape most
+// level curves use.
 const POINTS_PER_LEVEL_UNIT = 100;
 
 export function levelForPoints(totalPoints) {

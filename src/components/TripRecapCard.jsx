@@ -1,19 +1,17 @@
 import { useState } from 'react';
-import { POINTS_PER_CHECKIN } from '../lib/leaderboard';
 
-// A shareable "wrapped"-style summary of one city's trip so far -- how many
-// of the planned stops got visited and the points earned doing it. Flat
-// points per check-in (no variable values anywhere in the app), so
-// visitedCount * POINTS_PER_CHECKIN is the real total, not an estimate.
+// A shareable "wrapped"-style summary of one city's trip so far: how many
+// of the planned stops got visited, and which. No points figure: only an
+// account's first check-in ever pays (leaderboard.js), so "visits x 100"
+// overstated it, and the real number is almost always 0.
 export default function TripRecapCard({ regionName, visitedLandmarks, onClose }) {
   const [shareMsg, setShareMsg] = useState(null);
-  const points = visitedLandmarks.length * POINTS_PER_CHECKIN;
 
   const share = async () => {
     const names = visitedLandmarks.map((l) => l.name).join(', ');
     const text =
       `\u{1F9ED} My ${regionName} trip on Landmark Hunters: ${visitedLandmarks.length} landmark` +
-      `${visitedLandmarks.length !== 1 ? 's' : ''} visited, ${points.toLocaleString()} points earned!` +
+      `${visitedLandmarks.length !== 1 ? 's' : ''} visited!` +
       (names ? ` (${names})` : '') +
       ` \u{1F3C6}`;
     try {
@@ -56,10 +54,6 @@ export default function TripRecapCard({ regionName, visitedLandmarks, onClose })
             <div>
               <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{visitedLandmarks.length}</div>
               <div style={{ fontSize: '0.72rem', opacity: 0.7 }}>landmarks visited</div>
-            </div>
-            <div>
-              <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{points.toLocaleString()}</div>
-              <div style={{ fontSize: '0.72rem', opacity: 0.7 }}>points earned</div>
             </div>
           </div>
 

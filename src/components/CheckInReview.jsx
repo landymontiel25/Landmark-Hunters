@@ -62,7 +62,8 @@ export default function CheckInReview() {
   const [postError, setPostError] = useState(null);
   const [posted, setPosted] = useState(false);
   // The full-screen blast shows the instant a check-in posts, then hands
-  // off to the quieter "Checked in! +100" panel below.
+  // off to the quieter "Checked in!" panel below (with "+N pts" only when
+  // this check-in paid: the account's first one ever).
   const [blast, setBlast] = useState(false);
   const endBlast = useCallback(() => setBlast(false), []);
   // Every preview blob URL made, so they can be released (they otherwise
