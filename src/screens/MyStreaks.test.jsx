@@ -208,6 +208,12 @@ describe('MyStreaks', () => {
     });
     // Still gone 300ms in, well before the 500ms write resolves.
     expect(container.querySelectorAll('.mapr-pick-name').length).toBe(2);
+    // Let the write finish inside the test: left pending, it resolved after
+    // the test environment closed and failed the run ("window is not
+    // defined", CI on main, 2026-10-21).
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 250));
+    });
   });
 
   it('brings the card back and shows an error banner if the write actually fails', async () => {

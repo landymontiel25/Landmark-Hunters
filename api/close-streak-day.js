@@ -7,11 +7,12 @@ import { pickDailyCardIds } from '../src/lib/sharedDeck.js';
 import { canonicalLandmarkId } from '../src/data/regions.js';
 import { sendPushToUser } from './_lib/push.js';
 import { computeCompatibilityServer } from './_lib/compatibility.js';
-import { awardLeaderboardPointsServer } from './_lib/leaderboardPoints.js';
+import { leaderboardPointWrites } from './_lib/leaderboardPoints.js';
 import { withCors } from './_lib/cors.js';
 
 // Points for a secured dual day, and one-time bonuses the first time a
-// streak reaches a milestone length -- double the solo-streak amounts (see
+// streak reaches a milestone length (paid only when the count passes the
+// streak's best ever, so a reset and climb back never pays one twice) -- double the solo-streak amounts (see
 // close-solo-streak-day.js), since a dual day requires coordinating a
 // partner through rate AND guess on all 3, not just rating them alone.
 // Awarded to BOTH members here (server-side, the moment the day actually
@@ -170,6 +171,9 @@ async function handler(req, res) {
       const broke = !bridged && (fresh.count || 0) > 0;
       const count = bridged ? (fresh.count || 0) + 1 : 1;
       const best = Math.max(fresh.best || 0, count);
+      // Past the best ever means a first time: a reset and climb back never
+      // pays a milestone twice.
+      const milestone = count > (fresh.best || 0) ? DUAL_MILESTONE_POINTS[count] || 0 : 0;
       const update = { count, best, lastCompletedDay: dayId, updatedAt: FieldValue.serverTimestamp() };
       // Recovery mission (item 7): only opens when a real break just happened
       // AND the pair has no freezes left to fall back on. 24h window, logged
@@ -187,6 +191,13 @@ async function handler(req, res) {
         update.recoveryPriorCount = fresh.count || 0;
       }
       t.update(streakRef, update);
+      // Both members are paid in the same transaction as the close, so a
+      // failed payout can't leave the day closed with no points.
+      for (const uid of fresh.memberIds || []) {
+        for (const [ref, data] of leaderboardPointWrites(db, uid, fresh.memberNames?.[uid], DUAL_DAY_POINTS + milestone, dayId)) {
+          t.set(ref, data, { merge: true });
+        }
+      }
       return { closed: true, count, best };
     });
     if (outcome.already) {
@@ -199,12 +210,6 @@ async function handler(req, res) {
     }
     const nextCount = outcome.count;
     const nextBest = outcome.best;
-    const milestone = DUAL_MILESTONE_POINTS[nextCount] || 0;
-    await Promise.all(
-      (streak.memberIds || []).map((uid) =>
-        awardLeaderboardPointsServer(db, uid, streak.memberNames?.[uid], DUAL_DAY_POINTS + milestone, dayId)
-      )
-    );
     res.status(200).json({ ok: true, closed: true, count: nextCount, best: nextBest });
   } catch (e) {
     console.error('[close-streak-day]', e);

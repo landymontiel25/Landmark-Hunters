@@ -54,20 +54,25 @@ const PERIODS = ['weekly', 'monthly', 'yearly'];
 // a client-side award), and keeps the same trust boundary close-streak-day.js
 // already uses for the count itself.
 export async function awardLeaderboardPointsServer(db, userId, userName, points, dayId) {
-  if (!userId || !points) return;
+  const writes = leaderboardPointWrites(db, userId, userName, points, dayId);
+  if (!writes.length) return;
+  const batch = db.batch();
+  for (const [ref, data] of writes) batch.set(ref, data, { merge: true });
+  await batch.commit();
+}
+
+// The same three board writes as [ref, data] pairs, for a caller to make
+// inside its own transaction (t.set(ref, data, { merge: true })), so the
+// points can never be lost between closing a streak day and paying it.
+export function leaderboardPointWrites(db, userId, userName, points, dayId) {
+  if (!userId || !points) return [];
   // dayId is the caller's own local "y-m-d" key (month 0-based, already
   // validated by validClientDayKey): derive the week/month/year from THAT so
   // points land in the same period the traveler's own check-ins do, not the
   // server's UTC one (which differs near midnight on a period boundary).
   const keys = periodKeys(dateFromDayId(dayId));
-  const batch = db.batch();
-  for (const period of PERIODS) {
-    const ref = db.collection('leaderboard_entries').doc(`${period}_${keys[period]}_${userId}`);
-    batch.set(
-      ref,
-      { userId, userName: cleanUserName(userName), period, periodKey: keys[period], points: FieldValue.increment(points), updatedAt: FieldValue.serverTimestamp() },
-      { merge: true }
-    );
-  }
-  await batch.commit();
+  return PERIODS.map((period) => [
+    db.collection('leaderboard_entries').doc(`${period}_${keys[period]}_${userId}`),
+    { userId, userName: cleanUserName(userName), period, periodKey: keys[period], points: FieldValue.increment(points), updatedAt: FieldValue.serverTimestamp() },
+  ]);
 }

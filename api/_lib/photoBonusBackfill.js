@@ -1,4 +1,5 @@
 import { awardPhotoBonus } from './photoBonus.js';
+import { isRealCheckin } from '../../src/lib/realCheckin.js';
 
 // The one-time back-pay (owner, 2026-10-21): +10 per place for everyone who
 // added a photo before the photo bonus existed, with the same rules and the
@@ -17,7 +18,7 @@ const photosOf = (d) => [...(Array.isArray(d?.photoURLs) ? d.photoURLs : []), ..
 // of a place the user really checked in to, minus places already paid, in a
 // stable order.
 export function backfillCandidates({ checkins, reviews, paidIds }) {
-  const real = (c) => !c.ratingOnly && c.visited !== false;
+  const real = (c) => isRealCheckin(c);
   const visited = new Set(checkins.filter(real).map((c) => `${c.userId}_${c.landmarkId}`));
   const keys = new Map();
   const add = (userId, landmarkId) => {

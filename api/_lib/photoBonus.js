@@ -7,6 +7,7 @@ import { awardLeaderboardPointsServer, cleanUserName } from './leaderboardPoints
 import { photoShowsPlace } from './photoCheck.js';
 import { withCors } from './cors.js';
 import { INTERESTS, getLandmark, getRegion } from '../../src/data/regions.js';
+import { isRealCheckin } from '../../src/lib/realCheckin.js';
 
 // Bonus points for a photo (owner, 2026-10-21): +10 the first time you add
 // a photo at a place you really checked in to, once per place, at most 5
@@ -25,17 +26,19 @@ export const PHOTOS_CHECKED_PER_TRY = 3;
 const photosOf = (d) => [...(Array.isArray(d?.photoURLs) ? d.photoURLs : []), ...(d?.photoURL ? [d.photoURL] : [])].filter((u) => typeof u === 'string');
 const hasPhoto = (d) => photosOf(d).length > 0;
 
-// A real visit: a check-in that isn't a rating-only claim (those are 0-point
-// "Rate a Landmark" entries; see soloPicks.js isRatingOnlyClaim).
-const realVisit = (c) => !!c && !c.ratingOnly && c.visited !== false;
+// A real visit, the same test the rest of the app uses (realCheckin.js):
+// not a rating-only "Rate a Landmark" entry.
+const realVisit = (c) => !!c && isRealCheckin(c);
 
 // Pure: whether this place can earn the bonus (before the photo check), and
 // why not when it can't. checkin: checkins/{uid}_{landmarkId}; review:
 // reviews/{uid}_{landmarkId} (photos taken while rating at check-in land
 // there); paid: the ledger doc already exists; today: bonuses paid so far
-// on this day (null skips the daily limit, for the one-time back-pay).
-export function photoBonusDecision({ uid, checkin, review, paid, today }) {
-  if (!checkin || checkin.userId !== uid || !realVisit(checkin)) return { awarded: 0, reason: 'no-checkin' };
+// on this day (null skips the daily limit, for the one-time back-pay);
+// visited: a real visit here on any check-in doc, when the first doc (where
+// photos are kept) is a rating-only one (defaults to that doc's own answer).
+export function photoBonusDecision({ uid, checkin, review, paid, today, visited }) {
+  if (!checkin || checkin.userId !== uid || !(visited ?? realVisit(checkin))) return { awarded: 0, reason: 'no-checkin' };
   if (!hasPhoto(checkin) && !(review && review.userId === uid && hasPhoto(review))) return { awarded: 0, reason: 'no-photo' };
   if (paid) return { awarded: 0, reason: 'already' };
   if (today != null && today >= PHOTO_BONUSES_PER_DAY) return { awarded: 0, reason: 'daily-limit' };
@@ -85,7 +88,14 @@ export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, daily
   };
 
   const first = await read((ref) => ref.get());
-  const pre = photoBonusDecision({ uid, ...first });
+  // Photos live on the first check-in doc. If that one was a rating-only
+  // entry, a later real visit (doc _2, _3...) still counts.
+  let visited;
+  if (first.checkin && !realVisit(first.checkin)) {
+    const all = await db.collection('checkins').where('userId', '==', uid).where('landmarkId', '==', landmarkId).get();
+    visited = all.docs.some((d) => isRealCheckin(d.data()));
+  }
+  const pre = photoBonusDecision({ uid, ...first, visited });
   if (!pre.awarded) return pre;
 
   // Does a photo show the place? Newest first; the first yes is enough.
@@ -112,7 +122,7 @@ export async function awardPhotoBonus(db, uid, landmarkId, { dayId = null, daily
   // or both slip under the daily limit.
   const outcome = await db.runTransaction(async (t) => {
     const now = await read((ref) => t.get(ref));
-    const decision = photoBonusDecision({ uid, ...now });
+    const decision = photoBonusDecision({ uid, ...now, visited });
     if (!decision.awarded) return decision;
     t.create(paidRef, { userId: uid, landmarkId, dayId, points: decision.awarded, photo: verdict.reason, createdAt: FieldValue.serverTimestamp() });
     if (dayRef) t.set(dayRef, { userId: uid, dayId, count: FieldValue.increment(1) }, { merge: true });
