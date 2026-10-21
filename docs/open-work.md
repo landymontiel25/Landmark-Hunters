@@ -15,11 +15,28 @@ Admin-only sandbox; the real flow (screens/Onboarding.jsx) is unchanged.
 Next: the owner edits the text, then the combined flow replaces the real
 new-account onboarding (APP_HELP's Onboarding entry changes with it).
 
-Tutorial 2 (2026-10-21): a second sub-tab, next to Tutorial, that started
-as an exact copy. Its words and steps are in screens/signupTutorial2Steps.js
-(the pieces read whichever file through screens/tutorialText.js), so it can
-change without touching Tutorial 1. The owner hasn't said yet what it does
-differently, or which of the two goes live.
+Tutorial 2 (2026-10-21): the owner's "First-Run Tutorial Build Guide"
+(PDF), built as a Test tab sandbox in screens/FirstRunLab.jsx. State is one
+pure reducer in src/lib/firstRun.js (unit tested), the words are in
+screens/firstRunCopy.js. Built: welcome sheet over the live Map, taste chips,
+3 swipe cards (Interested / Not for me, hint on card one), one rating on the
+first Interested, check-in with a distance pill (30 m, feet), progress ring
+toward PROGRESS_GOAL (10; the guide says test 10 vs 15), sign-up prompt from
+its three triggers, Skip and Skip all on every step, progress kept per
+account on the device, analytics events shown on screen. Tests: T2-T8,
+T9/T10 (storage), T15, T16.
+Not built, since they change the live app or need a decision:
+- The guide assumes guests can check in and rate before signing up. The app
+  needs an account for both (CheckInButton, LandmarkDetail). Needs the
+  owner's call: add a guest mode, or ask for sign-up before check-in.
+- No analytics pipeline exists; events only show in the sandbox. Needs a
+  choice of where they go (e.g. a Firestore collection, Firebase Analytics).
+- "Continue with Apple" is in the guide; the app has no Apple sign-in.
+- Rating labels: the guide says "It was okay" / "Not for me"; the app says
+  "Ok" / "I didn't like it". Tutorial 2 uses the guide's words.
+- Empty states on the five tabs, pull hints (once per account, max 3 per
+  session), Profile "Show me around" checklist and "Tips", Firestore sync of
+  first-run state, T1/T11/T12-T14 (device, offline, contrast checks).
 
 Agreed with the owner for when the Tutorial goes live (not built yet):
 - "View Tutorial" button in Settings, in the bottom card, right under

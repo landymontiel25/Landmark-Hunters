@@ -16,9 +16,8 @@ import MallLab from './MallLab';
 import TasteProfileLab from './TasteProfileLab';
 import RatingSliderLab from './RatingSliderLab';
 import { TutorialHello, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
-import * as TUTORIAL_1 from './signupTutorialSteps';
-import * as TUTORIAL_2 from './signupTutorial2Steps';
-import { TutorialText, useTutorialText } from './tutorialText';
+import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
+import FirstRunLab from './FirstRunLab';
 
 export { progressTier };
 
@@ -28,8 +27,9 @@ export { progressTier };
 // state: no account is created, nothing is written to Firestore or the saved
 // trip, and "Restart" wipes it. The results screen shows what a real signup
 // would have saved (tagScores changes and notes) without saving it. The step
-// order and Mapr's words live in signupTutorialSteps.js (Tutorial) and
-// signupTutorial2Steps.js (Tutorial 2); each starts fresh when opened.
+// order and Mapr's words live in signupTutorialSteps.js. Tutorial 2 is a
+// different flow, the First-Run Tutorial Build Guide (FirstRunLab.jsx).
+const STEPS = TUTORIAL_STEPS;
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
@@ -39,7 +39,6 @@ const TESTS = [
   { id: 'tutorial2', label: 'Tutorial 2' },
   { id: 'taste', label: 'Taste Profile' },
 ];
-const TUTORIALS = { tutorial: { title: 'Tutorial', text: TUTORIAL_1 }, tutorial2: { title: 'Tutorial 2', text: TUTORIAL_2 } };
 
 const empty = () => ({
   name: '',
@@ -98,6 +97,15 @@ export default function OnboardingLab() {
     );
   }
 
+  if (test === 'tutorial2') {
+    return (
+      <div>
+        {testTabs}
+        <FirstRunLab />
+      </div>
+    );
+  }
+
   if (test === 'taste') {
     return (
       <div>
@@ -119,21 +127,16 @@ export default function OnboardingLab() {
     );
   }
 
-  const tutorial = TUTORIALS[test] || TUTORIALS.tutorial;
   return (
     <div>
       {testTabs}
-      <TutorialText.Provider value={tutorial.text}>
-        <TutorialFlow key={test} title={tutorial.title} />
-      </TutorialText.Provider>
+      <TutorialFlow />
     </div>
   );
 }
 
-// One run of a tutorial (Tutorial or Tutorial 2). Keyed by sub-tab, so
-// switching between the two starts the other one fresh.
-function TutorialFlow({ title }) {
-  const { SAY, TUTORIAL_STEPS: STEPS } = useTutorialText();
+// One run of the Tutorial, from hello to the results.
+function TutorialFlow() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(empty);
   const [log, setLog] = useState([]);
@@ -159,7 +162,7 @@ function TutorialFlow({ title }) {
     <div>
       <div className="card section lab-controls">
         <div className="lab-controls-head">
-          <strong>{'\u{1F9EA}'} {title} test</strong>
+          <strong>{'\u{1F9EA}'} Tutorial test</strong>
           <span className="tag">Nothing here is saved</span>
         </div>
         <div className="lab-steps">

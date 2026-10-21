@@ -2,14 +2,13 @@ import { Suspense, useState } from 'react';
 import { Route, Routes, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
-import { useTutorialText } from './tutorialText';
+import { SAY, TABS } from './signupTutorialSteps';
 import { TAB_SCREENS } from './tutorialTabScreens';
 
 // The Tutorial's explain-only steps (Test tab, screens/OnboardingLab): a
 // small drawn phone screen plus Mapr's bubbles, for steps the sandbox can't
 // run for real (email verification, the iPhone location prompt, the tabs).
-// Nothing is created or saved. The words come from useTutorialText():
-// signupTutorialSteps.js (Tutorial) or signupTutorial2Steps.js (Tutorial 2).
+// Nothing is created or saved. The words live in signupTutorialSteps.js.
 
 function Phone({ children }) {
   return <div className="tut-phone">{children}</div>;
@@ -24,7 +23,6 @@ function NextButton({ onClick, children = 'Next' }) {
 }
 
 export function TutorialHello({ onDone }) {
-  const { SAY } = useTutorialText();
   return (
     <div className="tut nav-clear">
       <Phone>
@@ -39,7 +37,6 @@ export function TutorialHello({ onDone }) {
 }
 
 export function TutorialVerify({ email, onDone }) {
-  const { SAY } = useTutorialText();
   return (
     <div className="tut nav-clear">
       <Phone>
@@ -57,7 +54,6 @@ export function TutorialVerify({ email, onDone }) {
 }
 
 export function TutorialLocation({ onDone }) {
-  const { SAY } = useTutorialText();
   return (
     <div className="tut nav-clear">
       <Phone>
@@ -80,7 +76,7 @@ export function TutorialLocation({ onDone }) {
 // pieces (sheets, floating buttons) inside the frame. If the screen can't
 // load or crashes, the tab's icon and name show instead.
 const ROOT_ROUTE = { outlet: null, matches: [], isDataRoute: false };
-function TabScreen({ stop }) {
+export function TabScreen({ stop }) {
   const Screen = TAB_SCREENS[stop.path];
   const plain = (
     <div className="tut-screen-plain">
@@ -110,7 +106,6 @@ function TabScreen({ stop }) {
 
 // One stop per tab; tap a tab in the drawn bar to jump to it.
 export function TutorialTabs({ onDone }) {
-  const { TABS } = useTutorialText();
   const [i, setI] = useState(0);
   const stop = TABS[i];
   const last = i === TABS.length - 1;
