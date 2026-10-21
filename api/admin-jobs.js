@@ -7,6 +7,7 @@ import { loadStatsData } from './_lib/statsData.js';
 import { runDaily, runWeekly } from './_lib/maprNightly.js';
 import { ALL_LANDMARKS } from '../src/data/regions.js';
 import { moderateTip, tipsQueue } from './_lib/tipModeration.js';
+import { runPhotoBonusBackfill } from './_lib/photoBonusBackfill.js';
 
 // The owner's admin tools, now driven only by the separate admin dashboard
 // (admin-dashboard/), server to server. The app itself has no admin stats
@@ -18,6 +19,8 @@ import { moderateTip, tipsQueue } from './_lib/tipModeration.js';
 //                                      training, no Slack message (auto-refresh)
 //   POST { action: 'backfill' }        sign-up date backfill (users.createdAt)
 //   POST { action: 'photo-backfill' }  one batch of the Google place-ID backfill
+//   POST { action: 'photo-bonus-backfill' }  one batch of the photo bonus
+//                                      back-pay (+10 per place for earlier photos)
 //   POST { action: 'tips-queue' }      tips waiting for the owner (Content page)
 //   POST { action: 'tip-moderate', tipId, decision: 'approve' | 'remove' | 'clear' }
 // Returns summaries only (counts, statuses), never user data, except the
@@ -77,6 +80,15 @@ export default async function handler(req, res) {
       }
       await ensureServerPlacePacks();
       res.status(200).json(await runPhotoBackfill(db, ALL_LANDMARKS, { apiKey: process.env.GOOGLE_PLACES_API_KEY }));
+      return;
+    }
+    if (body.action === 'photo-bonus-backfill') {
+      if (!process.env.ANTHROPIC_API_KEY) {
+        res.status(503).json({ error: 'ANTHROPIC_API_KEY is not set in Vercel, so photos cannot be checked.' });
+        return;
+      }
+      await ensureServerPlacePacks();
+      res.status(200).json(await runPhotoBonusBackfill(db));
       return;
     }
     if (body.action === 'tips-queue') {

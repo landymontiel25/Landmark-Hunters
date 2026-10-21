@@ -10,7 +10,7 @@ import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../l
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
-import { claimPhotoBonus, photoBonusMessage } from '../lib/photoBonus';
+import { claimPhotoBonusAndTell } from '../lib/photoBonus';
 import { useToast } from '../lib/ToastContext';
 import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
@@ -38,10 +38,9 @@ export default function CheckInReview() {
   // the confetti blast and the "+N pts" copy entirely rather than show "+0".
   const ratingOnly = !!checkInOptions?.ratingOnly;
   const toast = useToast();
-  // +10 for a photo at a place you checked in to (api/_lib/photoBonus.js
-  // decides; a rating-only claim never qualifies).
-  const askPhotoBonus = (landmarkId) =>
-    claimPhotoBonus(landmarkId).then((pts) => pts > 0 && toast.show(photoBonusMessage(pts), { tone: 'success' }));
+  // +10 for a photo of a place you checked in to (api/_lib/photoBonus.js
+  // decides and checks the photo; a rating-only claim never qualifies).
+  const askPhotoBonus = (landmarkId) => claimPhotoBonusAndTell(landmarkId, toast);
   const { user } = useAuth();
   const { coords } = useGeo();
   const { myUsername } = useFriends();
