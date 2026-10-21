@@ -466,6 +466,12 @@ button.back-sticky,
   font-size: 1.3rem;
   flex-shrink: 0;
 }
+.mapr-bubble-ask .mapr-bubble-text {
+  font-weight: 700;
+  font-size: 1.05rem;
+  border: 2px solid var(--color-gold, #c9a227);
+  background: rgba(201, 162, 39, 0.12);
+}
 .mapr-dir {
   font-weight: 700;
 }
