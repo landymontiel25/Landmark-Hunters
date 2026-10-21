@@ -33,7 +33,7 @@ async function renderAs(email, { nothingToTest = false, tab = 'onboarding' } = {
       </MemoryRouter>
     );
   });
-  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === (tab === 'malls' ? 'Malls' : 'Onboarding'));
+  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === ({ malls: 'Malls', tutorial: 'Tutorial' }[tab] || 'Onboarding'));
   if (bubble) await act(async () => bubble.click());
   return container;
 }
@@ -59,9 +59,25 @@ describe('OnboardingLab', () => {
   it('opens on the Rating slider bubble, with Malls and Onboarding next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Onboarding', 'Taste Profile']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Onboarding', 'Taste Profile', 'Tutorial']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.rate-slider')).toBeTruthy();
+  });
+
+  it('the Tutorial bubble walks every step and starts over', async () => {
+    const { TUTORIAL_STEPS } = await import('./signupTutorialSteps.js');
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'tutorial' });
+    expect(el.textContent).toContain(`Step 1 of ${TUTORIAL_STEPS.length}`);
+    for (const step of TUTORIAL_STEPS.slice(1)) {
+      await click(button(el, 'Next'));
+      expect(el.textContent).toContain(step.title);
+      expect(el.textContent).toContain(step.say[0]);
+    }
+    expect(button(el, 'Next')).toBeUndefined();
+    await click(button(el, 'Start over'));
+    expect(el.textContent).toContain('Step 1 of');
+    await click(button(el, 'Skip tutorial'));
+    expect(el.textContent).toContain(TUTORIAL_STEPS[TUTORIAL_STEPS.length - 1].title);
   });
 
   it('the Malls bubble shows the mall map', async () => {

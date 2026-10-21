@@ -3,6 +3,15 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Test tab: signup tutorial draft (2026-10-21)
+
+The Test tab has a "Tutorial" bubble: Mapr walks through sign-up, email
+verification, rating 10 places, the first check-in, Always location, the
+five tabs and the swipe cards (screens/SignupTutorialLab.jsx). The words
+are a first draft in screens/signupTutorialSteps.js for the owner to edit.
+Admin-only for now; nothing real uses it yet. Next: the owner edits the
+text, then decides where (and whether) new accounts see it.
+
 ## Mapr chat fact guard, live hours, best order (2026-10-13)
 
 Shipped: Mapr chat can't show a distance, travel time, hours, price or
