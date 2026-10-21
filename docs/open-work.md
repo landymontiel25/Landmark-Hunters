@@ -18,7 +18,11 @@ new-account onboarding (APP_HELP's Onboarding entry changes with it).
 Tutorial 2 (2026-10-21): the owner's "First-Run Tutorial Build Guide"
 (PDF), built as a Test tab sandbox in screens/FirstRunLab.jsx. State is one
 pure reducer in src/lib/firstRun.js (unit tested), the words are in
-screens/firstRunCopy.js. Built: welcome sheet over the live Map, taste chips,
+screens/firstRunCopy.js. The owner put onboarding around the guide's steps
+(2026-10-21), so it runs in order with Tutorial 1's step buttons: sign up,
+verify email, welcome, taste, swipe, anything else, your places, check-in,
+progress, location, your tabs, done (ORDER in firstRun.js; sign-up and
+verify can't be skipped). Built: welcome sheet over the live Map, taste chips,
 3 swipe cards (Interested / Not for me, hint on card one), one rating on the
 first Interested, check-in with a distance pill (30 m, feet), progress ring
 toward PROGRESS_GOAL (10; the guide says test 10 vs 15), sign-up prompt from

@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
+  NO_SKIP,
+  ORDER,
   PROGRESS_GOAL,
   SWIPES,
   firstRunKey,
@@ -16,25 +18,29 @@ const at = (step, extra = {}) => ({ ...initialFirstRun(0), step, ...extra });
 const place = { id: 'p1', name: 'Place 1' };
 
 describe('firstRunReducer (T16)', () => {
-  it('NEXT walks welcome, taste, swipe, checkin, progress, done', () => {
+  it('NEXT walks every step in order, onboarding around the guide', () => {
     let s = initialFirstRun(0);
-    expect(s.step).toBe('welcome');
-    s = r(s, { type: 'NEXT', now: 1 });
-    expect(s.step).toBe('taste');
-    s = r(s, { type: 'NEXT', chips: ['food', 'sports', 'parks-nature'], now: 2 });
-    expect(s).toMatchObject({ step: 'swipe', tasteChips: ['food', 'sports', 'parks-nature'] });
-    s = r(s, { type: 'NEXT', now: 3 });
-    expect(s.step).toBe('checkin');
-    s = r(s, { type: 'NEXT', now: 4 });
-    expect(s.step).toBe('progress');
-    s = r(s, { type: 'NEXT', now: 5 });
-    expect(s).toMatchObject({ step: 'done', outcome: 'done', completedAt: 5 });
+    const seen = [s.step];
+    while (s.step !== 'done') {
+      s = r(s, { type: 'NEXT', chips: s.step === 'taste' ? ['food', 'sports', 'parks-nature'] : undefined, now: 5 });
+      seen.push(s.step);
+    }
+    expect(seen).toEqual(ORDER);
+    expect(seen.slice(0, 4)).toEqual(['signup', 'verify', 'welcome', 'taste']);
+    expect(s).toMatchObject({ outcome: 'done', completedAt: 5, tasteChips: ['food', 'sports', 'parks-nature'] });
   });
 
-  it('swipes count to 3 (T5), then go to check-in', () => {
+  it('JUMP goes straight to any step and keeps the counts; unknown steps are ignored', () => {
+    const s = r(at('checkin', { swipesDone: 3, ratingsCount: 1 }), { type: 'JUMP', step: 'taste' });
+    expect(s).toMatchObject({ step: 'taste', swipesDone: 3, ratingsCount: 1 });
+    expect(r(at('skipped', { outcome: 'skipped' }), { type: 'JUMP', step: 'welcome' })).toMatchObject({ step: 'welcome', outcome: null });
+    expect(r(s, { type: 'JUMP', step: 'rate' })).toBe(s);
+  });
+
+  it('swipes count to 3 (T5), then go on to "anything else"', () => {
     let s = at('swipe');
     for (let i = 0; i < SWIPES; i++) s = r(s, { type: 'SWIPE', dir: 'not_for_me' });
-    expect(s).toMatchObject({ swipesDone: 3, step: 'checkin' });
+    expect(s).toMatchObject({ swipesDone: 3, step: 'notes' });
     // A late swipe after the cards are done changes nothing.
     expect(r(s, { type: 'SWIPE', dir: 'interested', place })).toBe(s);
   });
@@ -48,9 +54,9 @@ describe('firstRunReducer (T16)', () => {
     expect(s).toMatchObject({ step: 'swipe', swipesDone: 2, ratingsCount: 1 });
   });
 
-  it('a rating on the third card goes on to check-in', () => {
+  it('a rating on the third card goes on past the cards', () => {
     const s = r(r(at('swipe', { swipesDone: 2 }), { type: 'SWIPE', dir: 'interested', place }), { type: 'RATE', label: 'worth-trying' });
-    expect(s).toMatchObject({ step: 'checkin', ratingsCount: 1 });
+    expect(s).toMatchObject({ step: 'notes', ratingsCount: 1 });
   });
 
   it('RATE and CHECKIN_OK only count on their own step', () => {
@@ -65,7 +71,7 @@ describe('firstRunReducer (T16)', () => {
     expect(s.hintsShown).toEqual({ itinerary_reorder: true });
     expect(r(s, { type: 'DISMISS_HINT', key: 'itinerary_reorder' })).toBe(s);
     s = r(s, { type: 'RESET', now: 9 });
-    expect(s).toMatchObject({ step: 'welcome', swipesDone: 0, ratingsCount: 0, startedAt: 9, hintsShown: { itinerary_reorder: true } });
+    expect(s).toMatchObject({ step: 'signup', swipesDone: 0, ratingsCount: 0, startedAt: 9, hintsShown: { itinerary_reorder: true } });
   });
 
   it('SIGNUP_NOT_NOW counts, so the prompt can wait before it returns', () => {
@@ -80,11 +86,18 @@ describe('firstRunReducer (T16)', () => {
 
 describe('skip (T2, T3)', () => {
   it('Skip step moves on and marks the step skipped, on every step', () => {
-    const next = { welcome: 'taste', taste: 'swipe', swipe: 'checkin', checkin: 'progress', progress: 'done' };
+    const next = { welcome: 'taste', taste: 'swipe', swipe: 'notes', notes: 'places', places: 'checkin', checkin: 'progress', progress: 'location', location: 'tabs', tabs: 'done' };
     for (const [step, to] of Object.entries(next)) {
       const s = r(at(step), { type: 'SKIP_STEP', now: 1 });
       expect(s.step).toBe(to);
       expect(s.skippedSteps).toContain(step);
+    }
+  });
+
+  it('sign-up and email verification cannot be skipped', () => {
+    for (const step of NO_SKIP) {
+      const s = at(step);
+      expect(r(s, { type: 'SKIP_STEP' })).toBe(s);
     }
   });
 
@@ -102,7 +115,7 @@ describe('skip (T2, T3)', () => {
   });
 
   it('Skip all ends the flow from any step, and nothing brings a step back', () => {
-    for (const step of ['welcome', 'taste', 'swipe', 'rate', 'checkin', 'progress']) {
+    for (const step of ['welcome', 'taste', 'swipe', 'rate', 'notes', 'places', 'checkin', 'progress', 'location', 'tabs']) {
       const s = r(at(step), { type: 'SKIP_ALL', now: 7 });
       expect(s).toMatchObject({ step: 'skipped', outcome: 'skipped', completedAt: 7 });
       for (const type of ['NEXT', 'SKIP_STEP', 'SKIP_ALL']) expect(r(s, { type })).toBe(s);
@@ -121,13 +134,13 @@ describe('storage (T9, T10)', () => {
     const store = memory();
     saveFirstRun('A', { ...initialFirstRun(0), step: 'checkin', hintsShown: { x: true } }, store);
     expect(loadFirstRun('A', store)).toMatchObject({ step: 'checkin', hintsShown: { x: true } });
-    expect(loadFirstRun('B', store)).toMatchObject({ step: 'welcome', hintsShown: {} });
+    expect(loadFirstRun('B', store)).toMatchObject({ step: 'signup', hintsShown: {} });
     expect(firstRunKey(null)).toBe('lh.firstRunLab.guest');
   });
 
   it('bad saved data or blocked storage starts fresh', () => {
-    expect(loadFirstRun('A', { getItem: () => '{oops' }).step).toBe('welcome');
-    expect(loadFirstRun('A', { getItem: () => { throw new Error('blocked'); } }).step).toBe('welcome');
+    expect(loadFirstRun('A', { getItem: () => '{oops' }).step).toBe('signup');
+    expect(loadFirstRun('A', { getItem: () => { throw new Error('blocked'); } }).step).toBe('signup');
     expect(() => saveFirstRun('A', initialFirstRun(), { setItem: () => { throw new Error('full'); } })).not.toThrow();
   });
 

@@ -2,10 +2,13 @@
 // 2026-10-21). One pure reducer, so tests call it without rendering. The Test
 // tab's Tutorial 2 (screens/FirstRunLab.jsx) runs it; nothing real uses it yet.
 //
-// Steps, in order: welcome -> taste -> swipe (with one rating on the first
-// "Interested" card) -> checkin -> progress -> done. "skipped" ends the flow
-// from any step. The sign-up prompt is not a step: it opens only from its
-// triggers (save streak, add friend, keep my ratings).
+// Steps, in order (ORDER): sign up -> verify email -> welcome -> taste ->
+// swipe (with one rating on the first "Interested" card) -> anything else ->
+// your places -> check-in -> progress -> location -> your tabs -> done. The
+// owner put sign-up and the rest of onboarding around the guide's steps
+// (2026-10-21). "skipped" ends the flow from any step. The sign-up prompt is
+// separate: it opens only from its triggers (save streak, add friend, keep
+// my ratings).
 import { CHECKIN_RULE_METERS } from './maprConstants';
 
 // Ratings goal for the progress ring. The guide asks to test 10 against 15.
@@ -15,12 +18,16 @@ export const SWIPES = 3;
 export const CHECKIN_METERS = CHECKIN_RULE_METERS;
 export const SIGNUP_TRIGGERS = ['save_streak', 'add_friend', 'keep_ratings'];
 
-export const FLOW = ['welcome', 'taste', 'swipe', 'rate', 'checkin', 'progress'];
+// The steps with a button in the test controls, in order. 'rate' isn't one:
+// it opens from a swipe.
+export const ORDER = ['signup', 'verify', 'welcome', 'taste', 'swipe', 'notes', 'places', 'checkin', 'progress', 'location', 'tabs', 'done'];
+// Steps you can't skip: you need an account, and a verified email.
+export const NO_SKIP = new Set(['signup', 'verify']);
 const FINISHED = new Set(['done', 'skipped']);
 
 export function initialFirstRun(now = Date.now()) {
   return {
-    step: 'welcome',
+    step: 'signup',
     swipesDone: 0,
     ratingsCount: 0,
     checkinsCount: 0,
@@ -39,25 +46,14 @@ export function initialFirstRun(now = Date.now()) {
 const addOnce = (list, item) => (list.includes(item) ? list : [...list, item]);
 
 // Where the flow goes after the swipe step's work: back to the cards while
-// any are left, else on to check-in.
-const afterCard = (s) => (s.swipesDone >= SWIPES ? 'checkin' : 'swipe');
+// any are left, else on past them.
+const AFTER_SWIPES = ORDER[ORDER.indexOf('swipe') + 1];
+const afterCard = (s) => (s.swipesDone >= SWIPES ? AFTER_SWIPES : 'swipe');
 
 function nextStep(s) {
-  switch (s.step) {
-    case 'welcome':
-      return 'taste';
-    case 'taste':
-      return 'swipe';
-    case 'swipe':
-    case 'rate':
-      return 'checkin';
-    case 'checkin':
-      return 'progress';
-    case 'progress':
-      return 'done';
-    default:
-      return s.step;
-  }
+  if (s.step === 'rate') return AFTER_SWIPES;
+  const i = ORDER.indexOf(s.step);
+  return i === -1 || i === ORDER.length - 1 ? s.step : ORDER[i + 1];
 }
 
 function finish(s, step, now) {
@@ -79,7 +75,7 @@ export function firstRunReducer(state, action) {
       return goTo(withChips, nextStep(s), now);
     }
     case 'SKIP_STEP': {
-      if (ended) return s;
+      if (ended || NO_SKIP.has(s.step)) return s;
       const skipped = { ...s, skippedSteps: addOnce(s.skippedSteps, s.step) };
       // Skipping the rating hides it for this place only and goes back to
       // the cards. Skipping the cards ends them and keeps the default feed.
@@ -101,7 +97,12 @@ export function firstRunReducer(state, action) {
       return { ...s, ratingsCount: s.ratingsCount + 1, ratePlace: null, step: afterCard(s) };
     case 'CHECKIN_OK':
       if (s.step !== 'checkin') return s;
-      return { ...s, checkinsCount: s.checkinsCount + 1, step: 'progress' };
+      return { ...s, checkinsCount: s.checkinsCount + 1, step: nextStep(s) };
+    case 'JUMP':
+      // The test controls' step buttons: go straight to a step, from
+      // anywhere, keeping the counts.
+      if (!ORDER.includes(action.step)) return s;
+      return goTo({ ...s, ratePlace: null, completedAt: null, outcome: null }, action.step, now);
     case 'DISMISS_HINT':
       return s.hintsShown[action.key] ? s : { ...s, hintsShown: { ...s.hintsShown, [action.key]: true } };
     case 'SIGNUP_NOT_NOW':
