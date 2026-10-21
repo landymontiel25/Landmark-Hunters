@@ -8071,12 +8071,19 @@ p.tag {
   font-variant-numeric: tabular-nums;
 }
 
+/* Profile's My Memories: the photos are the point of the page (owner,
+   2026-10-21), so each tile is 30% taller than the square tiles elsewhere,
+   which also fits phone photos (portrait) better. */
+.profile-memories .checkin-tile {
+  aspect-ratio: 1 / 1.3;
+}
+
 /* Profile's My Memories after "Show more": the photos scroll inside this
    box, not the page (same idea as All Badges). A wrapper around the grid,
    never the grid itself: iPhone Safari squeezes a height-capped grid's rows
    into overlapping slivers instead of scrolling. */
 .profile-memories-scroll {
-  max-height: 420px;
+  max-height: 546px;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
