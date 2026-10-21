@@ -15,6 +15,20 @@ Admin-only sandbox; the real flow (screens/Onboarding.jsx) is unchanged.
 Next: the owner edits the text, then the combined flow replaces the real
 new-account onboarding (APP_HELP's Onboarding entry changes with it).
 
+Agreed with the owner for when the Tutorial goes live (not built yet):
+- "View Tutorial" button in Settings, in the bottom card, right under
+  "Report a Bug". Tapping it asks which kind of run:
+  1. "Update my preferences": the swipe cards, notes and places save for
+     real and replace the earlier card answers (check-in ratings stay).
+  2. "Just review the app": nothing is saved; a refresher on swiping and
+     the tabs.
+  Both skip sign-up and verify email (already signed in).
+- Demo account (the owner made it; email to come): it shows the Tutorial
+  at sign-in for testers, and its sign-in run saves for real. Waiting on
+  the email and whether testers share one phone (then it shows on each
+  app open, since the app keeps people signed in).
+- Update APP_HELP in the same PR so Mapr knows where "View Tutorial" is.
+
 ## Mapr chat fact guard, live hours, best order (2026-10-13)
 
 Shipped: Mapr chat can't show a distance, travel time, hours, price or
