@@ -185,7 +185,9 @@ export const APP_HELP =
   `The usual "you're here" radius is 30 m, but right now the app does NOT require being near the place to check in. ` +
   `Only your very first check-in ever pays points (100 points on the 1st visit); every check-in after that, at any place, pays nothing, because check-ins are for Mapr — every visit still counts toward Mapr ` +
   `learning your taste regardless of payout. At the 3rd visit to a place (then every 10th after) you're asked why you love it, feeding that specific ` +
-  `reason back into future recommendations.\n` +
+  `reason back into future recommendations. Photo bonus: the first time you add a photo at a place you really checked in to (with your check-in, ` +
+  `your rating, or later from the place's page), you get +10 points, once per place and at most 5 places a day; a photo on a rating-only ` +
+  `"Rate a Landmark" entry doesn't count.\n` +
   `- Rating: three plain tiers — "I loved it" / "Ok" / "I didn't like it" — no star ratings anymore, framed as a question about the place ` +
   `("Do you like Peruvian food?", "Do you like this sports bar?", "Do you like the racing?"). Newly added community landmarks get that specific ` +
   `wording from the research done when they're added; catalog landmarks get a general one per category ("Do you like the food here?"). The ` +

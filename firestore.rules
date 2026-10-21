@@ -236,6 +236,16 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update, delete: if false;
     }
+    // Photo bonus ledgers (api/_lib/photoBonus.js): one doc per place paid,
+    // and a per-day count. Written only by that server function (Admin SDK);
+    // the owner can read which places already paid.
+    match /photo_bonuses/{id} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+    match /photo_bonus_days/{id} {
+      allow read, write: if false;
+    }
     // A leaderboard entry rises only by a payout made in the same write:
     // the account's one paying check-in (checkin_payouts/{uid}, created now,
     // owner-read, naming a check-in of yours for exactly that many points),
