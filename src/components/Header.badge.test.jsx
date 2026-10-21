@@ -12,8 +12,8 @@ afterEach(() => {
   vi.resetModules();
 });
 
-async function renderHeader({ notifications = [], requests = [] } = {}) {
-  vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true }) }));
+async function renderHeader({ notifications = [], requests = [], signOutUser = vi.fn() } = {}) {
+  vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true, signOutUser }) }));
   vi.doMock('../lib/FriendsContext', () => ({ useFriends: () => ({ myUsername: 'me', requests }) }));
   vi.doMock('../lib/AdminModeContext', () => ({
     useAdminMode: () => ({ adminMode: false, canUseAdminMode: false, setAdminMode: vi.fn() }),
@@ -73,5 +73,31 @@ describe('Header notification badge on the username pill', () => {
     const el = await renderHeader({ notifications: [{ id: 'a', read: false }] });
     await act(async () => el.querySelector('.profile-menu-trigger').click());
     expect(el.querySelectorAll('.notif-badge')).toHaveLength(2);
+  });
+});
+
+describe('Header account menu layout', () => {
+  const open = async (el) => act(async () => el.querySelector('.profile-menu-trigger').click());
+  const btn = (el, text) => [...el.querySelectorAll('.points-popover button, .points-popover a')].find((b) => b.textContent.includes(text));
+
+  it('puts Notifications beside this week, then View Profile and Sign Out side by side', async () => {
+    const el = await renderHeader();
+    await open(el);
+    const top = el.querySelector('.points-popover-top');
+    expect(top.textContent).toContain('This Week');
+    expect(top.textContent).toContain('Notifications');
+    const viewProfile = btn(el, 'View Profile');
+    const signOut = btn(el, 'Sign Out');
+    expect(viewProfile.parentElement).toBe(signOut.parentElement);
+    expect(viewProfile.compareDocumentPosition(signOut) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('Sign Out signs you out and closes the menu', async () => {
+    const signOutUser = vi.fn(async () => {});
+    const el = await renderHeader({ signOutUser });
+    await open(el);
+    await act(async () => btn(el, 'Sign Out').click());
+    expect(signOutUser).toHaveBeenCalledTimes(1);
+    expect(el.querySelector('.points-popover')).toBeNull();
   });
 });

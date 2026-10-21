@@ -2222,6 +2222,13 @@ button.header-streak {
   }
 }
 
+/* The account menu's first row: this week's rank on the left, the
+   Notifications button on the right. */
+.points-popover-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .points-popover {
   position: absolute;
   top: calc(100% + 8px);

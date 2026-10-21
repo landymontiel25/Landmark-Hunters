@@ -324,6 +324,7 @@ function StandingsBadge() {
   // account's or period's numbers never show while the next ones load.
   const [board, setBoard] = useState(null);
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const ref = useRef(null);
   const uid = user?.uid;
 
@@ -446,19 +447,21 @@ function CountBadge({ count }) {
   );
 }
 
-// Header identity control. Shows who you're signed in as; tapping reveals this week's rank/points, a "Notifications"
-// link (badged with the unread count), and "View Profile". Notifications
+// Header identity control. Shows who you're signed in as; tapping reveals this
+// week's rank/points with a "Notifications" link beside it (badged with the
+// unread count), then "View Profile" and "Sign Out" side by side. Notifications
 // live inside this dropdown rather than as their own header icon -- a
 // second always-visible icon here has no room next to the wordmark on a
 // narrow phone.
 function ProfileMenu() {
-  const { user, firebaseEnabled } = useAuth();
+  const { user, firebaseEnabled, signOutUser } = useAuth();
   const { myUsername, requests } = useFriends();
   const { adminMode, canUseAdminMode, setAdminMode } = useAdminMode();
   const navigate = useNavigate();
   const [me, setMe] = useState(null); // { points, rank } for the current week
   const [unread, setUnread] = useState(0);
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -536,19 +539,35 @@ function ProfileMenu() {
       <CountBadge count={notificationCount} />
       {open && (
         <div className="points-popover">
-          <div className="points-popover-joined">This Week</div>
-          {/* Before the weekly board's first snapshot, "— · 0 pts" would read
-              as a real (and discouraging) answer -- show a placeholder instead. */}
-          {me ? (
-            <div>
-              {'\u{1F3C6}'} {me.failed ? "Couldn't load this week's rank" : <>{me.rank ? `#${me.rank}` : '—'} {'·'} {me.points.toLocaleString()} pts</>}
+          <div className="points-popover-top">
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div className="points-popover-joined">This Week</div>
+              {/* Before the weekly board's first snapshot, "— · 0 pts" would read
+                  as a real (and discouraging) answer -- show a placeholder instead. */}
+              {me ? (
+                <div>
+                  {'\u{1F3C6}'} {me.failed ? "Couldn't load this week's rank" : <>{me.rank ? `#${me.rank}` : '—'} {'·'} {me.points.toLocaleString()} pts</>}
+                </div>
+              ) : (
+                <div role="status" aria-live="polite" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span className="visually-hidden">Loading this week's rank…</span>
+                  {'\u{1F3C6}'} <Skeleton className="skeleton-inline" width={90} height={13} />
+                </div>
+              )}
             </div>
-          ) : (
-            <div role="status" aria-live="polite" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span className="visually-hidden">Loading this week's rank…</span>
-              {'\u{1F3C6}'} <Skeleton className="skeleton-inline" width={90} height={13} />
-            </div>
-          )}
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              style={{ position: 'relative', flexShrink: 0 }}
+              onClick={() => {
+                setOpen(false);
+                navigate('/notifications');
+              }}
+            >
+              {'\u{1F514}'} Notifications
+              <CountBadge count={notificationCount} />
+            </button>
+          </div>
           {/* Admin account only -- same switch as Settings -> Admin Mode. */}
           {canUseAdminMode && (
             <label className="admin-mode-switch">
@@ -563,21 +582,28 @@ function ProfileMenu() {
             </label>
           )}
           <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-            <button
-              type="button"
-              className="btn btn-ghost btn-sm"
-              style={{ position: 'relative', flex: 1 }}
-              onClick={() => {
-                setOpen(false);
-                navigate('/notifications');
-              }}
-            >
-              {'\u{1F514}'} Notifications
-              <CountBadge count={notificationCount} />
-            </button>
             <Link to="/profile" className="btn btn-primary btn-sm" style={{ flex: 1 }} onClick={() => setOpen(false)}>
               View Profile
             </Link>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              style={{ flex: 1 }}
+              disabled={signingOut}
+              onClick={async () => {
+                setSigningOut(true);
+                try {
+                  await signOutUser();
+                  setOpen(false);
+                } catch (err) {
+                  console.error('Sign out failed:', err?.code, err?.message);
+                } finally {
+                  setSigningOut(false);
+                }
+              }}
+            >
+              {signingOut ? 'Signing out…' : 'Sign Out'}
+            </button>
           </div>
         </div>
       )}
