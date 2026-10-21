@@ -2,13 +2,14 @@ import { Suspense, useState } from 'react';
 import { Route, Routes, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
-import { SAY, TABS } from './signupTutorialSteps';
+import { useTutorialText } from './tutorialText';
 import { TAB_SCREENS } from './tutorialTabScreens';
 
 // The Tutorial's explain-only steps (Test tab, screens/OnboardingLab): a
 // small drawn phone screen plus Mapr's bubbles, for steps the sandbox can't
 // run for real (email verification, the iPhone location prompt, the tabs).
-// Nothing is created or saved. The words live in signupTutorialSteps.js.
+// Nothing is created or saved. The words come from useTutorialText():
+// signupTutorialSteps.js (Tutorial) or signupTutorial2Steps.js (Tutorial 2).
 
 function Phone({ children }) {
   return <div className="tut-phone">{children}</div>;
@@ -23,6 +24,7 @@ function NextButton({ onClick, children = 'Next' }) {
 }
 
 export function TutorialHello({ onDone }) {
+  const { SAY } = useTutorialText();
   return (
     <div className="tut nav-clear">
       <Phone>
@@ -37,6 +39,7 @@ export function TutorialHello({ onDone }) {
 }
 
 export function TutorialVerify({ email, onDone }) {
+  const { SAY } = useTutorialText();
   return (
     <div className="tut nav-clear">
       <Phone>
@@ -54,6 +57,7 @@ export function TutorialVerify({ email, onDone }) {
 }
 
 export function TutorialLocation({ onDone }) {
+  const { SAY } = useTutorialText();
   return (
     <div className="tut nav-clear">
       <Phone>
@@ -106,6 +110,7 @@ function TabScreen({ stop }) {
 
 // One stop per tab; tap a tab in the drawn bar to jump to it.
 export function TutorialTabs({ onDone }) {
+  const { TABS } = useTutorialText();
   const [i, setI] = useState(0);
   const stop = TABS[i];
   const last = i === TABS.length - 1;
