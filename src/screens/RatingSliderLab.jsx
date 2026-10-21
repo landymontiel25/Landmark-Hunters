@@ -5,13 +5,36 @@ import { distanceMeters } from '../lib/geo';
 import LandmarkThumb from '../components/LandmarkThumb';
 
 // Test tab: "Rating slider". Trying a 5-point drag line in place of the
-// three rating buttons, keeping the three phrases at 1, 3 and 5. Pick any
+// three rating buttons, keeping the three phrases at 1, 3 and 5, shown
+// above the line. Pick any
 // landmark, drag (or tap) a point, then Check in or Rate. Nothing is saved:
 // the log shows what the real app would save today (the 1-5 value and the
 // three-way answer it maps to).
 export const SLIDER_POINTS = [1, 2, 3, 4, 5];
 export const SLIDER_PHRASES = { 1: 'Not for me', 3: "It's ok", 5: 'I love it' };
-const FACES = { 1: '\u{1F44E}', 2: '\u{1F615}', 3: '\u{1F610}', 4: '\u{1F642}', 5: '\u{2764}\u{FE0F}' };
+// Each point's color along the line, red to green (matches the fill).
+const POINT_COLORS = { 1: '#f06a6a', 2: '#f0956a', 3: '#f2c14e', 4: '#a8c86a', 5: '#55c987' };
+// Line-drawn faces in one color (owner, 2026-10-21: the emoji looked
+// childish). Frown to smile, then a heart for 5.
+const MOUTHS = { 1: 'M8 16.5Q12 13 16 16.5', 2: 'M8.5 16Q12 14.6 15.5 16', 3: 'M8.5 15.5H15.5', 4: 'M8.5 14.5Q12 17.2 15.5 14.5' };
+
+export function RatingIcon({ value, size = 22 }) {
+  const color = POINT_COLORS[value];
+  return (
+    <svg className="rate-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+      {value === 5 ? (
+        <path d="M12 19.5s-7-4.3-7-9.6A3.9 3.9 0 0 1 12 7.6a3.9 3.9 0 0 1 7 2.3c0 5.3-7 9.6-7 9.6z" fill={color} />
+      ) : (
+        <>
+          <circle cx="12" cy="12" r="8.5" />
+          <circle cx="9.2" cy="10" r="0.6" fill={color} />
+          <circle cx="14.8" cy="10" r="0.6" fill={color} />
+          <path d={MOUTHS[value]} />
+        </>
+      )}
+    </svg>
+  );
+}
 
 // The three answers the app saves now, for comparison.
 export function tierForValue(v) {
@@ -37,6 +60,15 @@ export function RatingSlider({ value, onChange }) {
   const pct = value ? ((value - 1) / 4) * 100 : null;
   return (
     <div className="rate-slider">
+      {/* Above the line, so a finger dragging along it doesn't cover them. */}
+      <div className="rate-slider-labels" aria-hidden="true">
+        {SLIDER_POINTS.map((p) => (
+          <span key={p} className={`rate-slider-label${value === p ? ' on' : ''}`} style={{ left: `${((p - 1) / 4) * 100}%` }}>
+            {SLIDER_PHRASES[p] && <small>{SLIDER_PHRASES[p]}</small>}
+            <b>{p}</b>
+          </span>
+        ))}
+      </div>
       <div
         ref={track}
         className="rate-slider-track"
@@ -70,18 +102,10 @@ export function RatingSlider({ value, onChange }) {
           <span key={p} className={`rate-slider-tick${value && p <= value ? ' on' : ''}`} style={{ left: `${((p - 1) / 4) * 100}%` }} />
         ))}
         {pct != null && (
-          <span className="rate-slider-thumb" style={{ left: `${pct}%` }} aria-hidden="true">
-            {FACES[value]}
+          <span className="rate-slider-thumb" style={{ left: `${pct}%`, borderColor: POINT_COLORS[value] }} aria-hidden="true">
+            <RatingIcon value={value} />
           </span>
         )}
-      </div>
-      <div className="rate-slider-labels" aria-hidden="true">
-        {SLIDER_POINTS.map((p) => (
-          <span key={p} className={`rate-slider-label${value === p ? ' on' : ''}`} style={{ left: `${((p - 1) / 4) * 100}%` }}>
-            <b>{p}</b>
-            {SLIDER_PHRASES[p] && <small>{SLIDER_PHRASES[p]}</small>}
-          </span>
-        ))}
       </div>
     </div>
   );
@@ -162,8 +186,14 @@ export default function RatingSliderLab() {
             </div>
           </div>
           <RatingSlider value={value} onChange={setValue} />
-          <p style={{ textAlign: 'center', minHeight: 24, margin: '6px 0 12px', fontWeight: 700 }} aria-live="polite">
-            {value ? `${FACES[value]} ${value}/5${SLIDER_PHRASES[value] ? ` · ${SLIDER_PHRASES[value]}` : ''}` : 'Drag to rate'}
+          <p className="rate-slider-result" aria-live="polite">
+            {value ? (
+              <>
+                <RatingIcon value={value} size={20} /> {value}/5{SLIDER_PHRASES[value] ? ` · ${SLIDER_PHRASES[value]}` : ''}
+              </>
+            ) : (
+              'Drag to rate'
+            )}
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
             <button type="button" className="btn btn-primary btn-block" disabled={!value} onClick={() => act('checkin')}>

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { buildTasteProfile, parseTasteComment, tasteWord } from './tasteProfileView';
 
 describe('taste profile', () => {
-  it('turns scores, swipes and words into a profile with a summary', () => {
+  it('turns scores and swipes into a profile with a summary', () => {
     const now = Date.now();
     const profile = {
       tagScores: { all: { food: 45, 'parks-nature': 20, 'local-life': -50 } },
@@ -11,14 +11,12 @@ describe('taste profile', () => {
         { word: 'Steak', answer: 'love' },
         { word: 'Pizza', answer: 'dislike' },
       ],
-      tasteIntro: 'I love beach days',
     };
     const p = buildTasteProfile({ profile, now });
     expect(p.categories[0]).toMatchObject({ id: 'food', word: 'Loves' });
     expect(p.categories.find((c) => c.id === 'local-life').word).toBe('Not for you');
     expect(p.loves).toContain('steakhouse');
     expect(p.skips).toContain('pizza');
-    expect(p.words).toContain('I love beach days');
     expect(p.summary).toBe('You lean toward Food and Parks & Nature, you love steakhouses, you skip pizza.');
   });
 

@@ -1,11 +1,10 @@
 import { PICKABLE_INTERESTS } from '../data/regions';
 import { effectiveTagScores } from './tagScores';
 import { tasteKindAffinity } from './placeKinds';
-import { composeTasteIntro } from './tasteQuestions';
 
 // The Taste Profile (Test tab), Vivino-style: what Mapr thinks you like, in
-// three parts it already keeps: a score per category, the kinds of place you
-// love or skip (from ratings and onboarding swipes), and your own words.
+// two parts it already keeps: a score per category, the kinds of place you
+// love or skip (from ratings and onboarding swipes).
 
 // What the percentage is called. "Taste Match": how well Mapr matches your
 // taste (the % of its recent guesses that were right).
@@ -44,7 +43,6 @@ export function buildTasteProfile({ profile, myReviews = {}, findLandmark = () =
   const kinds = Object.entries(affinity).filter(([, v]) => v);
   const loves = kinds.filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k]) => k);
   const skips = kinds.filter(([, v]) => v < 0).sort((a, b) => a[1] - b[1]).map(([k]) => k);
-  const words = composeTasteIntro(profile);
 
   const top = categories.filter((c) => c.score >= 10).slice(0, 2).map((c) => c.label);
   const parts = [];
@@ -54,7 +52,7 @@ export function buildTasteProfile({ profile, myReviews = {}, findLandmark = () =
   const summary = parts.length
     ? `${parts.join(', ')}.`.replace(/^./, (c) => c.toUpperCase())
     : 'Mapr is still learning your taste. Rate places and answer picks to fill this in.';
-  return { categories, loves, skips, words, summary };
+  return { categories, loves, skips, summary };
 }
 
 // ---- Comments ---------------------------------------------------------------

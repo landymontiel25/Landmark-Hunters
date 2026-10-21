@@ -30,7 +30,7 @@ afterEach(() => {
 });
 
 describe('TasteProfileLab', () => {
-  it('shows the renamed score as a link that opens the taste profile, and previews a comment', async () => {
+  it('shows the renamed score as a link that opens the taste profile', async () => {
     el = document.createElement('div');
     document.body.appendChild(el);
     root = createRoot(el);
@@ -44,12 +44,11 @@ describe('TasteProfileLab', () => {
     expect(el.textContent).toContain('You lean toward Food');
     expect(el.textContent).toContain('Pizza');
 
-    const box = el.querySelector('textarea');
-    const setValue = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
-    await act(async () => {
-      setValue.call(box, 'I like coffee now');
-      box.dispatchEvent(new Event('input', { bubbles: true }));
-    });
-    expect(el.textContent).toContain('Show more Coffee');
+    // Owner, 2026-10-21: "In your own words" removed, and the "Tell Mapr
+    // what to change" box switched off (its parsing is tested in
+    // tasteProfileView.test.js).
+    expect(el.textContent).not.toContain('In your own words');
+    expect(el.textContent).not.toContain('Tell Mapr what to change');
+    expect(el.querySelector('textarea')).toBeNull();
   });
 });

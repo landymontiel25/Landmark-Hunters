@@ -43,4 +43,18 @@ describe('Rating slider (Test tab)', () => {
     await act(async () => button('Check in').click());
     expect(container.textContent).toContain('3/5 (It\'s ok)');
   });
+  // Owner, 2026-10-21: a finger dragging the line covered the phrases under
+  // it, and the emoji looked childish.
+  it('puts the phrases above the line and uses a line icon, not an emoji, on the thumb', async () => {
+    await render();
+    const labels = container.querySelector('.rate-slider-labels');
+    const track = container.querySelector('.rate-slider-track');
+    expect(labels.compareDocumentPosition(track) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const slider = container.querySelector('[role="slider"]');
+    for (let i = 0; i < 5; i++) await act(async () => slider.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })));
+    const thumb = container.querySelector('.rate-slider-thumb');
+    expect(thumb.querySelector('svg.rate-icon')).toBeTruthy();
+    expect(thumb.textContent).toBe('');
+    expect(container.querySelector('.rate-slider-label.on').textContent).toBe('I love it5');
+  });
 });
