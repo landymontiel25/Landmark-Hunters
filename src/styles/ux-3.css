@@ -616,11 +616,6 @@ button.back-sticky,
   background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
 }
-.taste-words {
-  margin: 0;
-  font-style: italic;
-  color: var(--text-secondary);
-}
 .taste-comment {
   width: 100%;
   font: inherit;

@@ -11,8 +11,12 @@ import { SCORE_NAME, buildTasteProfile, kindLabel, parseTasteComment } from '../
 
 // Test tab: "Taste Profile". Mapr's score, renamed (SCORE_NAME), with the
 // percentage underlined as a link; tapping it opens what your taste profile
-// is made of, Vivino-style, and a box to tell Mapr what to change. Reads your
-// real profile; nothing here is saved.
+// is made of, Vivino-style: by category and the kinds of places you love or
+// skip. Reads your real profile; nothing here is saved.
+// The "Tell Mapr what to change" box, switched off by the owner
+// (2026-10-21). The parsing behind it stays (tasteProfileView.js).
+const SHOW_CHANGE_BOX = false;
+
 export default function TasteProfileLab() {
   const { user } = useAuth();
   const { myProfile } = useFriends();
@@ -133,41 +137,43 @@ export default function TasteProfileLab() {
             </div>
           )}
 
-          <h4 className="taste-heading">In your own words</h4>
-          <p className="taste-words">{profile.words || 'Nothing yet. Anything you tell Mapr about yourself shows up here.'}</p>
-
-          <h4 className="taste-heading">Tell Mapr what to change</h4>
-          <textarea
-            className="taste-comment"
-            rows={3}
-            maxLength={500}
-            placeholder={'e.g. "I like coffee now, but no more pizza. More museums please!"'}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          {comment.trim() && (
-            <div className="taste-changes">
-              {changes.length ? (
-                <>
-                  <p className="taste-changes-head">Mapr would:</p>
-                  <ul>
-                    {changes.map((c) => (
-                      <li key={`${c.type}:${c.id}`} className={c.direction > 0 ? 'up' : 'down'}>
-                        {c.direction > 0 ? '\u{2191} Show more' : '\u{2193} Show less'} {c.label}
-                        {c.type === 'category' ? ' (category)' : ''}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
-                    And read your note word for word in Mapr chat. In the real app, saving would update every Mapr surface.
-                  </p>
-                </>
-              ) : (
-                <p className="screen-subtitle" style={{ margin: 0 }}>
-                  Mapr would keep this as a note and read it in chat. Name a kind of place ("coffee", "museums") and say more or less to change its picks directly.
-                </p>
+          {/* Off for now (owner, 2026-10-21). Set SHOW_CHANGE_BOX to bring it back. */}
+          {SHOW_CHANGE_BOX && (
+            <>
+              <h4 className="taste-heading">Tell Mapr what to change</h4>
+              <textarea
+                className="taste-comment"
+                rows={3}
+                maxLength={500}
+                placeholder={'e.g. "I like coffee now, but no more pizza. More museums please!"'}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              {comment.trim() && (
+                <div className="taste-changes">
+                  {changes.length ? (
+                    <>
+                      <p className="taste-changes-head">Mapr would:</p>
+                      <ul>
+                        {changes.map((c) => (
+                          <li key={`${c.type}:${c.id}`} className={c.direction > 0 ? 'up' : 'down'}>
+                            {c.direction > 0 ? '\u{2191} Show more' : '\u{2193} Show less'} {c.label}
+                            {c.type === 'category' ? ' (category)' : ''}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="screen-subtitle" style={{ margin: '6px 0 0' }}>
+                        And read your note word for word in Mapr chat. In the real app, saving would update every Mapr surface.
+                      </p>
+                    </>
+                  ) : (
+                    <p className="screen-subtitle" style={{ margin: 0 }}>
+                      Mapr would keep this as a note and read it in chat. Name a kind of place ("coffee", "museums") and say more or less to change its picks directly.
+                    </p>
+                  )}
+                </div>
               )}
-            </div>
+            </>
           )}
         </div>
       )}
