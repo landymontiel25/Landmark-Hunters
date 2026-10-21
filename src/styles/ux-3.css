@@ -1091,3 +1091,21 @@ button.back-sticky,
   margin: 0;
   font-size: 0.78rem;
 }
+.fr-not-been {
+  font-weight: 800;
+}
+.fr-two .btn {
+  padding-left: 6px;
+  padding-right: 6px;
+  white-space: normal;
+}
+/* A tab preview you can use (the Map: tap a pin). Taps that would leave
+   the tutorial are blocked in TabScreen. */
+.tut-screen.live {
+  pointer-events: auto;
+}
+.tut-try {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}

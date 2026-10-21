@@ -37,10 +37,10 @@ describe('firstRunReducer (T16)', () => {
     expect(r(s, { type: 'JUMP', step: 'rate' })).toBe(s);
   });
 
-  it('swipes count to 3 (T5), then go on to "anything else"', () => {
+  it('swipes count to 3 (T5), Not sure included, then go on to check-in', () => {
     let s = at('swipe');
-    for (let i = 0; i < SWIPES; i++) s = r(s, { type: 'SWIPE', dir: 'not_for_me' });
-    expect(s).toMatchObject({ swipesDone: 3, step: 'notes' });
+    for (const dir of ['not_for_me', 'not_sure', 'not_for_me']) s = r(s, { type: 'SWIPE', dir });
+    expect(s).toMatchObject({ swipesDone: SWIPES, step: 'checkin' });
     // A late swipe after the cards are done changes nothing.
     expect(r(s, { type: 'SWIPE', dir: 'interested', place })).toBe(s);
   });
@@ -56,7 +56,7 @@ describe('firstRunReducer (T16)', () => {
 
   it('a rating on the third card goes on past the cards', () => {
     const s = r(r(at('swipe', { swipesDone: 2 }), { type: 'SWIPE', dir: 'interested', place }), { type: 'RATE', label: 'worth-trying' });
-    expect(s).toMatchObject({ step: 'notes', ratingsCount: 1 });
+    expect(s).toMatchObject({ step: 'checkin', ratingsCount: 1 });
   });
 
   it('RATE and CHECKIN_OK only count on their own step', () => {
@@ -86,7 +86,7 @@ describe('firstRunReducer (T16)', () => {
 
 describe('skip (T2, T3)', () => {
   it('Skip step moves on and marks the step skipped, on every step', () => {
-    const next = { welcome: 'taste', taste: 'swipe', swipe: 'notes', notes: 'places', places: 'checkin', checkin: 'progress', progress: 'location', location: 'tabs', tabs: 'done' };
+    const next = { welcome: 'taste', taste: 'swipe', swipe: 'checkin', checkin: 'progress', progress: 'location', location: 'tabs', tabs: 'done' };
     for (const [step, to] of Object.entries(next)) {
       const s = r(at(step), { type: 'SKIP_STEP', now: 1 });
       expect(s.step).toBe(to);
@@ -110,12 +110,19 @@ describe('skip (T2, T3)', () => {
     const s = r(rating, { type: 'SKIP_STEP' });
     expect(s).toMatchObject({ step: 'swipe', ratingsCount: 0, ratePlace: null });
     expect(s.skippedSteps).toContain('rate');
-    // Rating was skipped, so the next Interested doesn't ask again.
-    expect(r(s, { type: 'SWIPE', dir: 'interested', place }).step).toBe('swipe');
+    // Hidden for that place only: the next Interested asks again.
+    expect(r(s, { type: 'SWIPE', dir: 'interested', place: { id: 'p2', name: 'Place 2' } }).step).toBe('rate');
+  });
+
+  it('"Haven\'t been here" rates nothing, is not a skip, and the next Interested asks again', () => {
+    const s = r(r(at('swipe'), { type: 'SWIPE', dir: 'interested', place }), { type: 'NOT_BEEN' });
+    expect(s).toMatchObject({ step: 'swipe', ratingsCount: 0, ratePlace: null, skippedSteps: [] });
+    expect(r(s, { type: 'SWIPE', dir: 'interested', place }).step).toBe('rate');
+    expect(r(at('swipe'), { type: 'NOT_BEEN' }).step).toBe('swipe');
   });
 
   it('Skip all ends the flow from any step, and nothing brings a step back', () => {
-    for (const step of ['welcome', 'taste', 'swipe', 'rate', 'notes', 'places', 'checkin', 'progress', 'location', 'tabs']) {
+    for (const step of ['welcome', 'taste', 'swipe', 'rate', 'checkin', 'progress', 'location', 'tabs']) {
       const s = r(at(step), { type: 'SKIP_ALL', now: 7 });
       expect(s).toMatchObject({ step: 'skipped', outcome: 'skipped', completedAt: 7 });
       for (const type of ['NEXT', 'SKIP_STEP', 'SKIP_ALL']) expect(r(s, { type })).toBe(s);
