@@ -18,7 +18,6 @@ import { createGroupTrip, MAX_GROUP_MEMBERS } from '../lib/groupTrips';
 import LocationAutocomplete, { HomeStartPrefill } from '../components/LocationAutocomplete';
 import AddInterestChip from '../components/AddInterestChip';
 import RegionSearch from '../components/RegionSearch';
-import PreferenceChips from '../components/PreferenceChips';
 
 const isEmptyList = (v) => !v?.length;
 
@@ -320,14 +319,6 @@ export default function TripSetup() {
           ))}
           <AddInterestChip existing={trip.customInterests} onAdd={addCustomInterest} />
         </div>
-      </div>
-
-      <div className="card section">
-        <h3 style={{ marginTop: 0 }}>{'⭐'} My Preferences</h3>
-        <p className="screen-subtitle" style={{ marginTop: -6 }}>
-          Save what you're usually into once, and "Use My Preferences" above fills it in with one tap on every trip.
-        </p>
-        <PreferenceChips />
       </div>
 
       <div className="field">
