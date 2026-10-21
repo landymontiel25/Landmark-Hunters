@@ -79,11 +79,12 @@ export const PRACTICE = [
   },
 ];
 
-// The "Your tabs" step: one stop per tab, in the bottom bar's order.
+// The "Your tabs" step: one stop per tab (`path` is the tab's real screen,
+// shown live in the drawn phone), in the bottom bar's order.
 export const TABS = [
-  { tab: 'Map', icon: '\u{1F310}', say: 'The Map shows every landmark near you. Tap a pin to see the place and check in when you are there.' },
-  { tab: 'Places', icon: '\u{1F4CD}', say: 'Places lists landmarks by city, ordered by what I think you will like most.' },
-  { tab: 'Mapr', icon: '\u{1F9E0}', say: 'Ask me anything here: where to eat, what to see this afternoon, or how the app works.' },
-  { tab: 'Itinerary', icon: '\u{1F5FA}\u{FE0F}', say: 'Plan a trip, alone or with friends. I can fill a day with places you will like.' },
-  { tab: 'Profile', icon: '\u{1F3C6}', say: 'Your points, streaks, memories and friends live here, along with the leaderboard.' },
+  { tab: 'Map', path: '/', icon: '\u{1F310}', say: 'The Map shows every landmark near you. Tap a pin to see the place and check in when you are there.' },
+  { tab: 'Places', path: '/landmarks', icon: '\u{1F4CD}', say: 'Places lists landmarks by city, ordered by what I think you will like most.' },
+  { tab: 'Mapr', path: '/mapr', icon: '\u{1F9E0}', say: 'Ask me anything here: where to eat, what to see this afternoon, or how the app works.' },
+  { tab: 'Itinerary', path: '/itinerary', icon: '\u{1F5FA}\u{FE0F}', say: 'Plan a trip, alone or with friends. I can fill a day with places you will like.' },
+  { tab: 'Profile', path: '/profile', icon: '\u{1F3C6}', say: 'Your points, streaks, memories and friends live here, along with the leaderboard.' },
 ];

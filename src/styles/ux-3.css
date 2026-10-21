@@ -808,6 +808,32 @@ button.back-sticky,
   color: var(--mapr-blue, #5b8cff);
   border-radius: 6px;
 }
+.tut-screen {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--bg-primary, #07090d);
+  pointer-events: none;
+  /* Holds the screen's position: fixed pieces inside the frame. */
+  transform: translateZ(0);
+}
+.tut-screen-inner {
+  width: 200%;
+  height: 200%;
+  padding: 12px;
+  box-sizing: border-box;
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+.tut-screen-plain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 0;
+}
 .tut-nav {
   display: flex;
   width: 100%;
