@@ -1109,3 +1109,84 @@ button.back-sticky,
   color: var(--text-secondary);
   margin: 0;
 }
+
+/* Test tab "Itinerary tutorial" (screens/ItineraryTutorialLab): its drawn
+   screens. Uses the tutorial's tut-* and fr-* pieces too. */
+.itut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+.itut-tabs {
+  justify-content: center;
+}
+.itut-chip {
+  width: auto;
+  padding: 6px 12px;
+}
+.itut-stop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+  font-size: 0.85rem;
+}
+.itut-stop-name {
+  flex: 1;
+}
+.itut-minus {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--danger, #f06a6a);
+  color: #fff;
+  font-weight: 700;
+}
+.itut-pulse-icon {
+  font-size: 1.3rem;
+  animation: tut-pulse 1.6s ease-in-out infinite;
+  border-radius: 6px;
+}
+.itut-route {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 10px;
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 8px, rgba(255, 255, 255, 0.18) 8px 14px) center / 100% 2px no-repeat,
+    var(--mapr-blue-soft, rgba(91, 140, 255, 0.12));
+}
+.itut-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+}
+.itut-pin-1 {
+  background: #22c55e;
+}
+.itut-pin-2 {
+  background: #3b82f6;
+}
+.itut-pin-3 {
+  background: #f97316;
+}
+@media (prefers-reduced-motion: reduce) {
+  .itut-pulse-icon,
+  .tut-pulse {
+    animation: none;
+  }
+}
