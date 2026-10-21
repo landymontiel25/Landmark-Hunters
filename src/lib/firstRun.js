@@ -3,10 +3,10 @@
 // tab's Tutorial 2 (screens/FirstRunLab.jsx) runs it; nothing real uses it yet.
 //
 // Steps, in order (ORDER): sign up -> verify email -> welcome -> taste ->
-// swipe (with one rating on the first "Interested" card) -> anything else ->
-// your places -> check-in -> progress -> location -> your tabs -> done. The
-// owner put sign-up and the rest of onboarding around the guide's steps
-// (2026-10-21). "skipped" ends the flow from any step. The sign-up prompt is
+// swipe (Interested, Not sure or Not for me; one rating on the first
+// "Interested" card) -> check-in -> progress -> location -> your tabs -> done.
+// The owner put sign-up and the rest of onboarding around the guide's steps,
+// then dropped "anything else" and "your places" (2026-10-21). "skipped" ends the flow from any step. The sign-up prompt is
 // separate: it opens only from its triggers (save streak, add friend, keep
 // my ratings).
 import { CHECKIN_RULE_METERS } from './maprConstants';
@@ -20,7 +20,7 @@ export const SIGNUP_TRIGGERS = ['save_streak', 'add_friend', 'keep_ratings'];
 
 // The steps with a button in the test controls, in order. 'rate' isn't one:
 // it opens from a swipe.
-export const ORDER = ['signup', 'verify', 'welcome', 'taste', 'swipe', 'notes', 'places', 'checkin', 'progress', 'location', 'tabs', 'done'];
+export const ORDER = ['signup', 'verify', 'welcome', 'taste', 'swipe', 'checkin', 'progress', 'location', 'tabs', 'done'];
 // Steps you can't skip: you need an account, and a verified email.
 export const NO_SKIP = new Set(['signup', 'verify']);
 const FINISHED = new Set(['done', 'skipped']);
@@ -88,13 +88,19 @@ export function firstRunReducer(state, action) {
       if (s.step !== 'swipe' || s.swipesDone >= SWIPES) return s;
       const swiped = { ...s, swipesDone: s.swipesDone + 1 };
       // The first "Interested" asks for one rating, once per run.
-      const askRating = action.dir === 'interested' && s.ratingsCount === 0 && !s.skippedSteps.includes('rate') && action.place;
+      // Skipping it, or "Haven't been here", hides it for that place only.
+      const askRating = action.dir === 'interested' && s.ratingsCount === 0 && action.place;
       if (askRating) return { ...swiped, step: 'rate', ratePlace: action.place };
       return { ...swiped, step: afterCard(swiped) };
     }
     case 'RATE':
       if (s.step !== 'rate') return s;
       return { ...s, ratingsCount: s.ratingsCount + 1, ratePlace: null, step: afterCard(s) };
+    case 'NOT_BEEN':
+      // "Haven't been here": an answer, not a skip. Nothing is rated, and the
+      // next Interested card asks again.
+      if (s.step !== 'rate') return s;
+      return { ...s, ratePlace: null, step: afterCard(s) };
     case 'CHECKIN_OK':
       if (s.step !== 'checkin') return s;
       return { ...s, checkinsCount: s.checkinsCount + 1, step: nextStep(s) };

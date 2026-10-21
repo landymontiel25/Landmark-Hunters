@@ -236,6 +236,36 @@ describe('OnboardingLab', () => {
     expect(el.querySelector('.first-run-lab')).toBeNull();
   });
 
+  it('the Map stop can be used (tap a pin), and nothing in it leaves the tutorial', async () => {
+    const { useNavigate } = await import('react-router-dom');
+    function FakeMap() {
+      const navigate = useNavigate();
+      return (
+        <div className="fake-map">
+          <button type="button" className="fake-pin" onClick={() => navigate('/landmarks/miami/x')}>
+            pin
+          </button>
+          <a className="fake-link" href="#/feed">
+            feed
+          </a>
+        </div>
+      );
+    }
+    const el = await renderAs('landymontiel25@gmail.com', { tabScreens: { '/': FakeMap } });
+    await click([...el.querySelectorAll('.lab-step')].find((b) => b.textContent.includes('Your tabs')));
+    await act(async () => new Promise((r) => setTimeout(r, 0)));
+    const live = el.querySelector('.tut-screen');
+    expect(live.classList.contains('live')).toBe(true);
+    expect(live.hasAttribute('inert')).toBe(false);
+    expect(el.textContent).toContain('Try it: tap a pin.');
+    await click(el.querySelector('.fake-pin'));
+    const link = new MouseEvent('click', { bubbles: true, cancelable: true });
+    el.querySelector('.fake-link').dispatchEvent(link);
+    expect(link.defaultPrevented).toBe(true);
+    expect(el.textContent).toContain('Tab 1 of 5');
+    expect(el.textContent).not.toContain('home');
+  });
+
   it('tapping a tab in the drawn bar jumps to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
     await click([...el.querySelectorAll('.lab-step')].find((b) => b.textContent.includes('Your tabs')));

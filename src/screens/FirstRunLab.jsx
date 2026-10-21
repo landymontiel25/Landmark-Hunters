@@ -8,7 +8,6 @@ import { ALL_LANDMARKS, PICKABLE_INTERESTS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { TIERS } from '../lib/ratingFlow';
 import ConfettiBurst from '../components/ConfettiBurst';
-import OnboardingPlaces from '../components/OnboardingPlaces';
 import {
   CHECKIN_METERS,
   NO_SKIP,
@@ -21,16 +20,16 @@ import {
   saveFirstRun,
 } from '../lib/firstRun';
 import { COPY } from './firstRunCopy';
-import { LabNotes, LabSignUp, TabScreen, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
+import { LabSignUp, TabScreen, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
 
 // Test tab "Tutorial 2": the owner's First-Run Tutorial Build Guide as a
 // sandbox, with onboarding around it in order (ORDER in lib/firstRun.js):
 // sign up, verify email, welcome sheet on the Map, taste chips, three swipe
-// cards with one rating, anything else, your places, first check-in with a
-// distance pill, progress ring, location, your tabs. The sign-up prompt opens
+// cards (Interested, Not sure, Not for me) with one rating, first check-in
+// with a distance pill, progress ring, location, your tabs. The sign-up prompt opens
 // from its triggers. Skip and Skip all on every step but sign-up and verify,
-// one tap. The sign-up form, notes box, location and tabs steps are the same
-// pieces Tutorial 1 uses (SignupTutorialLab.jsx), with its Mapr lines.
+// one tap. The sign-up form, location and tabs steps are the same pieces
+// Tutorial 1 uses (SignupTutorialLab.jsx), with its Mapr lines.
 // Nothing reaches Firestore: ratings and check-ins are pretend, analytics
 // events go to the on-screen log, and progress is kept on this device per
 // account (lib/firstRun.js). The words are in firstRunCopy.js.
@@ -44,15 +43,13 @@ const STEP_LABELS = {
   welcome: 'Welcome',
   taste: 'Taste pick',
   swipe: 'Swipe',
-  notes: 'Anything else',
-  places: 'Your places',
   checkin: 'First check-in',
   progress: 'Progress',
   location: 'Location',
   tabs: 'Your tabs',
   done: 'Done',
 };
-const emptyForm = () => ({ name: '', email: '', password: '', age: false, notes: '', places: [] });
+const emptyForm = () => ({ name: '', email: '', password: '', age: false });
 
 const secsSince = (t) => Math.round((Date.now() - t) / 1000);
 const radiusOf = (place) => place?.checkInRadiusMeters || CHECKIN_METERS;
@@ -142,7 +139,7 @@ function TasteChips({ saved, onNext }) {
 
 const SWIPE_PX = 90;
 
-// One card at a time: drag right or left, or the two buttons. The animated
+// One card at a time: drag right or left, or the three buttons. The animated
 // hint shows on card one only (static under reduced motion).
 function SwipeDeck({ card, index, onSwipe }) {
   const [dx, setDx] = useState(0);
@@ -155,7 +152,7 @@ function SwipeDeck({ card, index, onSwipe }) {
     if (decided.current) return;
     decided.current = true;
     setLeaving(true);
-    setDx(dir === 'interested' ? 600 : -600);
+    setDx(dir === 'interested' ? 600 : dir === 'not_for_me' ? -600 : 0);
     setTimeout(() => onSwipe(dir), 220);
   };
   const up = (e) => {
@@ -205,6 +202,9 @@ function SwipeDeck({ card, index, onSwipe }) {
         <button type="button" className="btn btn-ghost fr-tap" disabled={leaving} onClick={() => decide('not_for_me')}>
           {'\u{2715}'} {COPY.swipe.no}
         </button>
+        <button type="button" className="btn btn-ghost fr-tap" disabled={leaving} onClick={() => decide('not_sure')}>
+          {'\u{2212}'} {COPY.swipe.unsure}
+        </button>
         <button type="button" className="btn btn-primary fr-tap" disabled={leaving} onClick={() => decide('interested')}>
           {'\u{2665}'} {COPY.swipe.yes}
         </button>
@@ -216,7 +216,7 @@ function SwipeDeck({ card, index, onSwipe }) {
   );
 }
 
-function RatingLabels({ place, onRate }) {
+function RatingLabels({ place, onRate, onNotBeen }) {
   return (
     <div>
       <h2 className="fr-title">{COPY.rate.title}</h2>
@@ -230,6 +230,9 @@ function RatingLabels({ place, onRate }) {
             {t.emoji} {COPY.rate.labels[t.id]}
           </button>
         ))}
+        <button type="button" className="btn btn-ghost btn-block fr-tap fr-not-been" onClick={onNotBeen}>
+          {COPY.rate.notBeen}
+        </button>
       </div>
     </div>
   );
@@ -429,11 +432,11 @@ export default function FirstRunLab() {
             track('first_run_step', { step: 'rate', action: 'done', secs_since_start: secs() });
             dispatch({ type: 'RATE', label: tier });
           }}
+          onNotBeen={() => {
+            track('first_run_step', { step: 'rate', action: 'not_been', secs_since_start: secs() });
+            dispatch({ type: 'NOT_BEEN' });
+          }}
         />
-      )}
-      {step === 'notes' && <LabNotes data={form} set={setFormPart} onDone={() => stepDone()} />}
-      {step === 'places' && (
-        <OnboardingPlaces places={form.places} onChange={(places) => setFormPart({ places })} onDone={() => stepDone()} />
       )}
       {step === 'checkin' && (
         <div>

@@ -13,12 +13,14 @@ export const COPY = {
     title: 'Would you go?',
     hint: 'Swipe right if it looks good.',
     yes: 'Interested',
+    unsure: 'Not sure',
     no: 'Not for me',
   },
   rate: {
     title: 'Been here?',
     sub: 'Rate for yourself. This teaches us your taste.',
     labels: { 'highly-recommend': 'I loved it', 'worth-trying': 'It was okay', 'probably-skip': 'Not for me' },
+    notBeen: "Haven't been here",
   },
   checkin: {
     title: 'Your first check-in',

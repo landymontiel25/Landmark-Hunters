@@ -1,5 +1,5 @@
-import { Suspense, useState } from 'react';
-import { Link, Route, Routes, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
+import { Suspense, useContext, useMemo, useState } from 'react';
+import { Link, Route, Routes, UNSAFE_NavigationContext as NavigationContext, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
 import { SAY, TABS } from './signupTutorialSteps';
@@ -77,9 +77,21 @@ export function TutorialLocation({ onDone }) {
 // route as usual. The scaled box's transform also holds the screen's fixed-position
 // pieces (sheets, floating buttons) inside the frame. If the screen can't
 // load or crashes, the tab's icon and name show instead.
+//
+// `live` (the Map stop: owner, 2026-10-21) lets you use it, e.g. tap a pin.
+// Nothing in it can take you out of the tutorial: its navigation goes to a
+// navigator that goes nowhere, and taps on plain "#/..." links are dropped.
 const ROOT_ROUTE = { outlet: null, matches: [], isDataRoute: false };
-export function TabScreen({ stop }) {
+const stayPut = (e) => {
+  if (e.target.closest?.('a[href^="#"], a[href^="/"]')) e.preventDefault();
+};
+export function TabScreen({ stop, live = false }) {
   const Screen = TAB_SCREENS[stop.path];
+  const nav = useContext(NavigationContext);
+  const stuck = useMemo(
+    () => ({ ...nav, navigator: { ...nav.navigator, push() {}, replace() {}, go() {} } }),
+    [nav]
+  );
   const plain = (
     <div className="tut-screen-plain">
       <div className="tut-hero" aria-hidden="true">
@@ -90,15 +102,22 @@ export function TabScreen({ stop }) {
   );
   if (!Screen) return plain;
   return (
-    <div className="tut-screen" aria-hidden="true" inert>
+    <div
+      className={`tut-screen${live ? ' live' : ''}`}
+      aria-hidden={live ? undefined : 'true'}
+      inert={!live}
+      onClickCapture={stayPut}
+    >
       <div className="tut-screen-inner">
         <ErrorBoundary fallback={plain}>
           <Suspense fallback={plain}>
-            <RouteContext.Provider value={ROOT_ROUTE}>
-              <Routes location={{ pathname: stop.path, search: '', hash: '', state: null, key: 'tutorial' }}>
-                <Route path={stop.path} element={<Screen />} />
-              </Routes>
-            </RouteContext.Provider>
+            <NavigationContext.Provider value={stuck}>
+              <RouteContext.Provider value={ROOT_ROUTE}>
+                <Routes location={{ pathname: stop.path, search: '', hash: '', state: null, key: 'tutorial' }}>
+                  <Route path={stop.path} element={<Screen />} />
+                </Routes>
+              </RouteContext.Provider>
+            </NavigationContext.Provider>
           </Suspense>
         </ErrorBoundary>
       </div>
@@ -117,7 +136,7 @@ export function TutorialTabs({ onDone }) {
         Tab {i + 1} of {TABS.length}: <strong>{stop.tab}</strong>
       </p>
       <Phone key={stop.tab}>
-        <TabScreen stop={stop} />
+        <TabScreen stop={stop} live={!!stop.live} />
         <div className="tut-nav">
           {TABS.map((t, n) => (
             <button
@@ -133,6 +152,7 @@ export function TutorialTabs({ onDone }) {
           ))}
         </div>
       </Phone>
+      {stop.live && stop.tryIt && <p className="tut-try">{stop.tryIt}</p>}
       <MaprBubble>{stop.say}</MaprBubble>
       <NextButton onClick={() => (last ? onDone() : setI(i + 1))}>{last ? 'Finish' : 'Next tab'}</NextButton>
     </div>

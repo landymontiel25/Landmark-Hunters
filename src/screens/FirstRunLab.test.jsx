@@ -90,11 +90,6 @@ describe('Tutorial 2 (first-run guide)', () => {
     await click(button(el, 'Interested'));
     await wait(240);
 
-    expect(el.textContent).toContain("Anything else you love or hate that we didn't cover?");
-    await click(button(el, 'Continue'));
-    expect(el.textContent).toContain('Tell us up to 10 places you visit most');
-    await click(button(el, 'Skip for now'));
-
     // T7: inside 30 m, Check in is on.
     expect(el.textContent).toContain("You're here.");
     await click(button(el, 'Check in'));
@@ -113,9 +108,27 @@ describe('Tutorial 2 (first-run guide)', () => {
     expect(e.filter((n) => n === 'first_rating')).toHaveLength(1);
     expect(e.filter((n) => n === 'first_checkin')).toHaveLength(1);
     expect(e.filter((n) => n === 'first_run_done')).toHaveLength(1);
-    // Sign up, verify, welcome, taste, rating, swipe, anything else, places,
-    // check-in, progress, location, tabs.
-    expect(e.filter((n) => n === 'first_run_step')).toHaveLength(12);
+    // Sign up, verify, welcome, taste, rating, swipe, check-in, progress,
+    // location, tabs.
+    expect(e.filter((n) => n === 'first_run_step')).toHaveLength(10);
+    expect(el.textContent).not.toContain("Anything else you love or hate that we didn't cover?");
+  });
+
+  it('has Not sure on the cards, and a bold "Haven\'t been here" on the rating', async () => {
+    const el = await render();
+    await toWelcome(el);
+    await click(button(el, 'Show me'));
+    await click(button(el, 'Skip'));
+    await click(button(el, 'Not sure'));
+    await wait(240);
+    expect(el.textContent).toContain('2 of 3');
+    await click(button(el, 'Interested'));
+    await wait(240);
+    const notBeen = button(el, "Haven't been here");
+    expect(notBeen.classList.contains('fr-not-been')).toBe(true);
+    await click(notBeen);
+    expect(el.textContent).toContain('3 of 3');
+    expect(events(el)).not.toContain('first_rating');
   });
 
   it('T5: a fast double tap on a card fires one swipe', async () => {
@@ -193,7 +206,8 @@ describe('Tutorial 2 (first-run guide)', () => {
     const el = await render();
     const steps = [...el.querySelectorAll('.lab-step')].map((b) => b.textContent);
     expect(steps.slice(0, 5)).toEqual(['1. Sign up', '2. Verify email', '3. Welcome', '4. Taste pick', '5. Swipe']);
-    expect(steps.at(-1)).toBe('12. Done');
+    expect(steps.at(-1)).toBe('10. Done');
+    expect(steps.join(' ')).not.toMatch(/Anything else|Your places/);
     expect(button(el, 'Back').disabled).toBe(true);
     await click(button(el, 'Next step'));
     expect(el.textContent).toContain('Verify your email');
