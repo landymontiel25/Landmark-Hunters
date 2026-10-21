@@ -21,7 +21,7 @@ export function MaprSays({ lines }) {
 // Practice lines color the directions so they read at a glance: "right"
 // green (love it), "left" red (nope). Lowercase only, so "Right answer"
 // (meaning correct) stays plain.
-export function colorDirections(text) {
+function colorDirections(text) {
   return text.split(/\b(right|left)\b/).map((part, i) =>
     part === 'right' || part === 'left' ? (
       <span key={i} className={`mapr-dir mapr-dir-${part}`}>
