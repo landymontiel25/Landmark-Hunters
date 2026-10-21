@@ -23,11 +23,14 @@ const WAYS = { swipe: 'a swipe', tap: 'a tap on the card', button: 'a button' };
 
 // The tutorial's swipe practice (Test tab, step 4): Mapr has you answer a
 // sample card each way, swiping right, swiping left, tapping the card, then
-// tapping a button, and says what each one means. The words are in
+// tapping a button, and says what each one means. A right answer moves
+// straight on to the next card (the answered card never comes back), with
+// Mapr's "Good job" over it; a wrong one keeps the card for another try. The words are in
 // screens/signupTutorialSteps.js. Nothing from practice is saved.
 export default function MaprTutorial({ onDone }) {
   const [step, setStep] = useState(0); // 0 intro, 1..PRACTICE.length tasks, then ready
-  const [feedback, setFeedback] = useState(null);
+  const [feedback, setFeedback] = useState(null); // a wrong try on this card
+  const [praise, setPraise] = useState(null); // the last card's "Good job"
   const task = PRACTICE[step - 1];
 
   if (step === 0) {
@@ -55,6 +58,7 @@ export default function MaprTutorial({ onDone }) {
   if (step > PRACTICE.length) {
     return (
       <div className="lab-center nav-clear">
+        {praise && <MaprBubble>{praise}</MaprBubble>}
         <MaprSays lines={SAY.howtoReady} />
         <button type="button" className="btn btn-primary btn-block" onClick={onDone}>
           Start {'\u{2192}'}
@@ -65,6 +69,7 @@ export default function MaprTutorial({ onDone }) {
 
   return (
     <div>
+      {praise && !feedback && <MaprBubble>{praise}</MaprBubble>}
       <MaprBubble>{feedback || task.ask}</MaprBubble>
       <p className="tut-count">
         Practice {step} of {PRACTICE.length}
@@ -77,11 +82,9 @@ export default function MaprTutorial({ onDone }) {
         answers={[]}
         onAnswer={(card, answer, how) => {
           if (answer === task.want && how === task.how) {
-            setFeedback(task.good);
-            setTimeout(() => {
-              setFeedback(null);
-              setStep((s) => s + 1);
-            }, 1400);
+            setPraise(task.good);
+            setFeedback(null);
+            setStep((s) => s + 1);
           } else if (answer === task.want) {
             setFeedback(`Right answer, but that was ${WAYS[how]}. ${task.ask}`);
           } else {
@@ -91,7 +94,10 @@ export default function MaprTutorial({ onDone }) {
         onUndo={() => {}}
         onFinished={() => {}}
       />
-      <button type="button" className="btn btn-ghost btn-sm lab-undo" onClick={() => setStep(PRACTICE.length + 1)}>
+      <button type="button" className="btn btn-ghost btn-sm lab-undo" onClick={() => {
+          setPraise(null);
+          setStep(PRACTICE.length + 1);
+        }}>
         Skip practice
       </button>
     </div>
