@@ -48,7 +48,10 @@ describe('Profile memories grid', () => {
     expect(more.textContent).toBe('Show more (1)');
     await act(async () => more.click());
     expect(names()).toEqual(['Bravo', 'Delta', 'Charlie', 'Alpha']);
-    expect(el.querySelector('.checkin-grid').classList.contains('profile-memories-scroll')).toBe(true);
+    // The box scrolls on a wrapper; the grid inside is never height-capped
+    // (iPhone Safari squeezes a capped grid's rows into slivers).
+    expect(el.querySelector('.profile-memories-scroll > .checkin-grid')).toBeTruthy();
+    expect(el.querySelector('.checkin-grid').classList.contains('profile-memories-scroll')).toBe(false);
     el.remove();
   });
 });

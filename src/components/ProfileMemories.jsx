@@ -10,7 +10,9 @@ import { getLandmark } from '../data/regions';
 // Your memories as photo tiles at the top of Profile (owner, 2026-10-20),
 // newest first, one per place per day like My Memories. One row shows at
 // first; "Show more" opens the rest in a box that scrolls on its own
-// without scrolling the page, the same as All Badges on Full Stats.
+// without scrolling the page, the same as All Badges on Full Stats. The box
+// scrolls on a wrapper, not on the grid itself: iPhone Safari squeezes a
+// height-capped grid's rows into slivers instead of scrolling them.
 const PER_ROW = 3;
 
 export default function ProfileMemories() {
@@ -63,17 +65,19 @@ export default function ProfileMemories() {
           See all ›
         </button>
       </div>
-      <div className={`checkin-grid ${open ? 'profile-memories-scroll' : ''}`}>
-        {shown.map((t) => (
-          <button type="button" key={t.id} className="checkin-tile" onClick={() => navigate(`/landmarks/${t.regionId}/${t.landmarkId}`)}>
-            {t.photo ? (
-              <img src={t.photo} alt={t.name} loading="lazy" decoding="async" />
-            ) : (
-              <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
-            )}
-            <span className="checkin-tile-name">{t.name}</span>
-          </button>
-        ))}
+      <div className={open ? 'profile-memories-scroll' : undefined}>
+        <div className="checkin-grid">
+          {shown.map((t) => (
+            <button type="button" key={t.id} className="checkin-tile" onClick={() => navigate(`/landmarks/${t.regionId}/${t.landmarkId}`)}>
+              {t.photo ? (
+                <img src={t.photo} alt={t.name} loading="lazy" decoding="async" />
+              ) : (
+                <div className="checkin-thumb-blank" style={{ width: '100%', height: '100%' }} />
+              )}
+              <span className="checkin-tile-name">{t.name}</span>
+            </button>
+          ))}
+        </div>
       </div>
       {tiles.length > PER_ROW && (
         <button type="button" className="btn btn-ghost btn-sm badges-more" aria-expanded={open} onClick={() => setOpen((o) => !o)}>

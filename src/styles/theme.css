@@ -8046,8 +8046,10 @@ p.tag {
 }
 
 /* Profile's My Memories after "Show more": the photos scroll inside this
-   box, not the page (same idea as All Badges). */
-.checkin-grid.profile-memories-scroll {
+   box, not the page (same idea as All Badges). A wrapper around the grid,
+   never the grid itself: iPhone Safari squeezes a height-capped grid's rows
+   into overlapping slivers instead of scrolling. */
+.profile-memories-scroll {
   max-height: 420px;
   overflow-y: auto;
   overscroll-behavior: contain;
