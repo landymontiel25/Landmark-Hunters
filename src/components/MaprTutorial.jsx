@@ -18,6 +18,21 @@ export function MaprSays({ lines }) {
   return lines.map((line) => <MaprBubble key={line}>{line}</MaprBubble>);
 }
 
+// Practice lines color the directions so they read at a glance: "right"
+// green (love it), "left" red (nope). Lowercase only, so "Right answer"
+// (meaning correct) stays plain.
+function colorDirections(text) {
+  return text.split(/\b(right|left)\b/).map((part, i) =>
+    part === 'right' || part === 'left' ? (
+      <span key={i} className={`mapr-dir mapr-dir-${part}`}>
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+}
+
 const NAMES = { love: 'a love it', dislike: 'a nope', unsure: 'a not sure' };
 const WAYS = { swipe: 'a swipe', tap: 'a tap on the card', button: 'a button' };
 
@@ -58,7 +73,7 @@ export default function MaprTutorial({ onDone }) {
   if (step > PRACTICE.length) {
     return (
       <div className="lab-center nav-clear">
-        {praise && <MaprBubble>{praise}</MaprBubble>}
+        {praise && <MaprBubble>{colorDirections(praise)}</MaprBubble>}
         <MaprSays lines={SAY.howtoReady} />
         <button type="button" className="btn btn-primary btn-block" onClick={onDone}>
           Start {'\u{2192}'}
@@ -69,8 +84,8 @@ export default function MaprTutorial({ onDone }) {
 
   return (
     <div>
-      {praise && !feedback && <MaprBubble>{praise}</MaprBubble>}
-      <MaprBubble>{feedback || task.ask}</MaprBubble>
+      {praise && !feedback && <MaprBubble>{colorDirections(praise)}</MaprBubble>}
+      <MaprBubble>{colorDirections(feedback || task.ask)}</MaprBubble>
       <p className="tut-count">
         Practice {step} of {PRACTICE.length}
       </p>

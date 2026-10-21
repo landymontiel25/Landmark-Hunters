@@ -40,6 +40,7 @@ describe('MaprTutorial', () => {
 
     await act(async () => button("Let's practice").click());
     expect(el.textContent).toContain('Swipe the Ice cream card right.');
+    expect(el.querySelector('.mapr-dir-right').textContent).toBe('right');
 
     // Wrong answer, then right answer the wrong way (the button, not a swipe).
     await drag(-200);
@@ -47,12 +48,15 @@ describe('MaprTutorial', () => {
     await press('Love it');
     await act(async () => vi.advanceTimersByTime(300));
     expect(el.textContent).toContain('Right answer, but that was a button.');
+    // "Right answer" means correct, so it stays plain; only the direction is green.
+    expect([...el.querySelectorAll('.mapr-dir')].map((n) => n.textContent)).toEqual(['right']);
 
     await drag(200);
     // Straight on to the next card, Ice cream gone, praise above it.
     expect(el.textContent).toContain('Swiping right means you loved it.');
     expect(el.textContent).not.toContain('Ice cream');
     expect(el.textContent).toContain('Traffic jams');
+    expect(el.querySelector('.mapr-dir-left').textContent).toBe('left');
 
     await drag(-200);
     expect(el.textContent).toContain("Swiping left means you didn't like it.");
