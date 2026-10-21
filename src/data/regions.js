@@ -17,6 +17,7 @@ import { SANFRANCISCO_LANDMARKS } from './landmarks.sanfrancisco.js';
 import { SILICONVALLEY_LANDMARKS } from './landmarks.siliconvalley.js';
 import { SWITZERLAND_LANDMARKS } from './landmarks.switzerland.js';
 import { PARIS_LANDMARKS } from './landmarks.paris.js';
+import { applySpecialPlace } from './specialPlaces.js';
 
 export const REGIONS = [
   {
@@ -306,6 +307,7 @@ export function registerPlaces(places) {
     if (!region || !p.id || packIndex.has(key) || idsOf(region).has(p.id)) continue;
     idsOf(region).add(p.id);
     normalizeLandmark(p);
+    applySpecialPlace(p);
     region.landmarks.push(p);
     const entry = { ...p, regionId: region.id };
     ALL_LANDMARKS.push(entry);

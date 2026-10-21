@@ -55,6 +55,7 @@ import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
 import { useToast, runOptimistic } from '../lib/ToastContext';
 import { claimPhotoBonusAndTell } from '../lib/photoBonus';
+import { claimLandmarkBonusAndTell } from '../lib/landmarkBonus';
 import { clearPersisted } from '../lib/usePersistentState';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 
@@ -209,6 +210,10 @@ function LandmarkDetailBody() {
   const { reload: reloadMyPhotos } = useMyPhotos();
   const { myUsername, friendUids, reload: reloadFriends } = useFriends();
   const toast = useToast();
+  // For the one-time place bonus asked from the check-in loader below,
+  // without making the loader re-run when the toast functions change.
+  const toastRef = useRef(toast);
+  toastRef.current = toast;
   const { ask: askDisagreement, node: disagreementNode } = useDisagreementAsk();
   // myRating: live RatingFlow payload (null until a tier's picked).
   // savedRating: what's already on file, to pre-fill on an edit.
@@ -408,6 +413,9 @@ function LandmarkDetailBody() {
         if (cancelled) return;
         checkinDocIdRef.current = lid;
         setMyCheckin(c);
+        // Checked in here before a place got its own bonus (the Alhambra
+        // Water Tower's 1,000)? Paid now, once; the server checks the visit.
+        if (c && landmark.landmarkBonus) claimLandmarkBonusAndTell({ ...landmark, regionId }, toastRef.current);
         // Prepended ahead of whatever's already here (review photos), so a
         // photo you added after checking in stays the landmark's lead photo
         // even on a fresh page load, not just right after adding it.
