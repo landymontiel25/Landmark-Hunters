@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SwipeCardStack } from './OnboardingSteps';
-import { useTutorialText } from '../screens/tutorialText';
+import { PRACTICE, SAY } from '../screens/signupTutorialSteps';
 
 // Mapr talking: its face and a speech bubble. `ask` makes it stand out (bold,
 // gold edge), for the instruction you're meant to follow right now.
@@ -42,10 +42,8 @@ const WAYS = { swipe: 'a swipe', tap: 'a tap on the card', button: 'a button' };
 // tapping a button, and says what each one means. A right answer moves
 // straight on to the next card (the answered card never comes back), with
 // Mapr's "Good job" over it; a wrong one keeps the card for another try. The words are in
-// useTutorialText() (signupTutorialSteps.js, or Tutorial 2's copy). Nothing
-// from practice is saved.
+// screens/signupTutorialSteps.js. Nothing from practice is saved.
 export default function MaprTutorial({ onDone }) {
-  const { SAY, PRACTICE } = useTutorialText();
   const [step, setStep] = useState(0); // 0 intro, 1..PRACTICE.length tasks, then ready
   const [feedback, setFeedback] = useState(null); // a wrong try on this card
   const [praise, setPraise] = useState(null); // the last card's "Good job"

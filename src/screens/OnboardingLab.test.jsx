@@ -14,8 +14,9 @@ afterEach(() => {
 
 // The Test tab opens on Rating slider; `tab: 'tutorial'` (the default here,
 // for the tutorial tests) switches to that bubble first.
-async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScreens = {}, tutorial2 = null } = {}) {
-  if (tutorial2) vi.doMock('./signupTutorial2Steps', tutorial2);
+async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScreens = {} } = {}) {
+  // Tutorial 2 has its own tests (FirstRunLab.test.jsx).
+  vi.doMock('./FirstRunLab', () => ({ default: () => <p className="first-run-lab">first-run lab</p> }));
   // The real tab screens are too heavy for these tests; a stand-in (or none,
   // which shows the tab's icon and name) takes their place.
   vi.doMock('./tutorialTabScreens', () => ({ TAB_SCREENS: tabScreens }));
@@ -227,21 +228,12 @@ describe('OnboardingLab', () => {
     expect(el.querySelector('.tut-screen').hasAttribute('inert')).toBe(true);
   });
 
-  it('Tutorial 2 is its own copy: its words change without touching Tutorial', async () => {
-    const tutorial2 = async () => {
-      const one = await vi.importActual('./signupTutorialSteps.js');
-      return { ...one, SAY: { ...one.SAY, hello: ['Hello from Tutorial 2.'] } };
-    };
-    const el = await renderAs('landymontiel25@gmail.com', { tab: 'tutorial2', tutorial2 });
-    expect(el.textContent).toContain('Tutorial 2 test');
-    expect(el.textContent).toContain('Hello from Tutorial 2.');
-    await click(button(el, "Let's go"));
-    expect(el.textContent).toContain('Create Account');
-
-    // Tutorial 1 still says its own hello, and starts fresh.
+  it('the Tutorial 2 bubble opens the first-run tutorial, and Tutorial is still there', async () => {
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'tutorial2' });
+    expect(el.querySelector('.first-run-lab')).toBeTruthy();
     await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'Tutorial'));
     expect(el.textContent).toContain("Hi! I'm Mapr, your personal AI guide.");
-    expect(el.textContent).not.toContain('Hello from Tutorial 2.');
+    expect(el.querySelector('.first-run-lab')).toBeNull();
   });
 
   it('tapping a tab in the drawn bar jumps to it', async () => {
