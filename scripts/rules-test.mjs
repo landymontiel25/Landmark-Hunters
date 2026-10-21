@@ -427,6 +427,18 @@ await t('photo bonus ledgers are server-only; you can read which of your places 
   await assertFails(setDoc(doc(as('hal'), 'photo_bonus_checks/hal_x'), { userId: 'hal', urls: [] }));
   await assertFails(getDoc(doc(as('hal'), 'photo_bonus_checks/hal_x')));
 });
+await t('the first-landmark bonus ledger is server-only; you can read your own', async () => {
+  await seed((db) => setDoc(doc(db, 'landmark_bonuses/hal_osm-w435585913'), { userId: 'hal', landmarkId: 'osm-w435585913', points: 1000 }));
+  await assertSucceeds(getDoc(doc(as('hal'), 'landmark_bonuses/hal_osm-w435585913')));
+  await assertFails(getDoc(doc(as('zed'), 'landmark_bonuses/hal_osm-w435585913')));
+  await assertFails(setDoc(doc(as('zed'), 'landmark_bonuses/zed_osm-w435585913'), { userId: 'zed', landmarkId: 'osm-w435585913', points: 1000 }));
+});
+await t('the first-landmark bonus ledger is server-only; you can read your own', async () => {
+  await seed((db) => setDoc(doc(db, 'landmark_bonuses/hal_osm-w435585913'), { userId: 'hal', landmarkId: 'osm-w435585913', points: 1000 }));
+  await assertSucceeds(getDoc(doc(as('hal'), 'landmark_bonuses/hal_osm-w435585913')));
+  await assertFails(getDoc(doc(as('zed'), 'landmark_bonuses/hal_osm-w435585913')));
+  await assertFails(setDoc(doc(as('zed'), 'landmark_bonuses/zed_osm-w435585913'), { userId: 'zed', landmarkId: 'osm-w435585913', points: 1000 }));
+});
 await t('a member can set the city and pin it; nothing else, and the pin must be true or false', async () => {
   await seed((db) => setDoc(doc(db, 'streaks/hal'), { mode: 'solo', memberIds: ['hal'], count: 5, best: 18, lastCompletedDay: null, cityId: 'villanova' }));
   await assertSucceeds(updateDoc(doc(as('hal'), 'streaks/hal'), { cityId: 'miami', cityPinned: true, updatedAt: serverTimestamp() }));

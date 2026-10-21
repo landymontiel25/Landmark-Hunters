@@ -11,6 +11,7 @@ import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
 import { claimPhotoBonusAndTell } from '../lib/photoBonus';
+import { claimLandmarkBonusAndTell } from '../lib/landmarkBonus';
 import { useToast } from '../lib/ToastContext';
 import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
@@ -197,6 +198,8 @@ export default function CheckInReview() {
     setBlast(!ratingOnly);
     setSaving(false);
     const thisCheckIn = justCheckedIn;
+    // A place's own bonus (the Alhambra Water Tower's 1,000), once per account.
+    if (!ratingOnly) claimLandmarkBonusAndTell(thisCheckIn, toast);
     const setBgMsg = (m) => {
       if (currentCheckIn.current === thisCheckIn) setMsg(m);
     };

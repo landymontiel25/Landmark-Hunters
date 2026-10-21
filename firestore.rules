@@ -246,6 +246,12 @@ service cloud.firestore {
     match /photo_bonus_days/{id} {
       allow read, write: if false;
     }
+    // A place's own bonus paid (api/_lib/landmarkBonus.js, e.g. the Alhambra
+    // Water Tower's 1,000): one doc per account and place, server only.
+    match /landmark_bonuses/{id} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
     // Photos already checked for a place (photoCheck.js), never re-checked.
     match /photo_bonus_checks/{id} {
       allow read, write: if false;
