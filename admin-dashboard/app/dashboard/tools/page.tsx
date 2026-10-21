@@ -7,6 +7,7 @@ import { Page } from '@/components/Page';
 // the shared secret.
 const TOOLS = [
   { action: 'mapr-run', title: 'Mapr: run now', text: 'Runs the nightly job now, weekly models included: similarity matrix, NCF training, the daily report, every dashboard collection, and the Slack message. Takes up to a minute.' },
+  { action: 'photo-bonus-backfill', title: 'Photo bonus: pay earlier photos', text: 'Pays +10 points per place to everyone who added a photo before the photo bonus existed, if the photo shows the place (an AI check, about half a cent a photo). Does about 20 places per press: press again until it says done is true. Safe to press again; nothing pays twice.' },
 ] as const;
 
 export default function Tools() {

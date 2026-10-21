@@ -2,7 +2,7 @@
 // by app/api/jobs/route.ts to the main app's api/admin-jobs.js with
 // ADMIN_JOBS_SECRET (server to server; the secret never reaches the
 // browser). Only these actions, and their checked fields, pass through.
-export const JOB_ACTIONS = ['mapr-run', 'refresh', 'tips-queue', 'tip-moderate'] as const;
+export const JOB_ACTIONS = ['mapr-run', 'refresh', 'photo-bonus-backfill', 'tips-queue', 'tip-moderate'] as const;
 export type JobAction = (typeof JOB_ACTIONS)[number];
 export const TIP_DECISIONS = ['approve', 'remove', 'clear'] as const;
 const TIP_ID = /^[A-Za-z0-9_.-]{1,300}$/;

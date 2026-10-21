@@ -13,3 +13,8 @@ export const PLAN_AI_MODEL = 'claude-haiku-4-5';
 // you right now" on the Map tab). Writing a short line per place
 // is small work; the ranking itself is done in code.
 export const PICK_REASONS_MODEL = 'claude-haiku-4-5';
+
+// The photo bonus's check that a photo really shows the place (or a visit
+// there), not a black screen, a screenshot or something unrelated
+// (api/_lib/photoCheck.js). One image and a yes/no per call, at low effort.
+export const PHOTO_CHECK_MODEL = 'claude-opus-5-5';

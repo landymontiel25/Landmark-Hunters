@@ -424,6 +424,8 @@ await t('photo bonus ledgers are server-only; you can read which of your places 
   await assertFails(getDoc(doc(as('zed'), 'photo_bonuses/hal_x')));
   await assertFails(setDoc(doc(as('hal'), 'photo_bonuses/hal_y'), { userId: 'hal', landmarkId: 'y', points: 10 }));
   await assertFails(setDoc(doc(as('hal'), 'photo_bonus_days/hal_2026-9-21'), { userId: 'hal', count: 0 }));
+  await assertFails(setDoc(doc(as('hal'), 'photo_bonus_checks/hal_x'), { userId: 'hal', urls: [] }));
+  await assertFails(getDoc(doc(as('hal'), 'photo_bonus_checks/hal_x')));
 });
 await t('a member can set the city and pin it; nothing else, and the pin must be true or false', async () => {
   await seed((db) => setDoc(doc(db, 'streaks/hal'), { mode: 'solo', memberIds: ['hal'], count: 5, best: 18, lastCompletedDay: null, cityId: 'villanova' }));

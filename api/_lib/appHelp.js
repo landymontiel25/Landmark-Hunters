@@ -187,7 +187,9 @@ export const APP_HELP =
   `learning your taste regardless of payout. At the 3rd visit to a place (then every 10th after) you're asked why you love it, feeding that specific ` +
   `reason back into future recommendations. Photo bonus: the first time you add a photo at a place you really checked in to (with your check-in, ` +
   `your rating, or later from the place's page), you get +10 points, once per place and at most 5 places a day; a photo on a rating-only ` +
-  `"Rate a Landmark" entry doesn't count.\n` +
+  `"Rate a Landmark" entry doesn't count. The photo has to show the place or your visit there (the building, its sign, the view, the inside, food ` +
+  `or drinks there, you at the place): an AI check turns down black or blank images, screenshots and photos of somewhere else, and the app says ` +
+  `so; add a photo of the place to earn it. People who added photos before the bonus existed were paid once for those too.\n` +
   `- Rating: three plain tiers — "I loved it" / "Ok" / "I didn't like it" — no star ratings anymore, framed as a question about the place ` +
   `("Do you like Peruvian food?", "Do you like this sports bar?", "Do you like the racing?"). Newly added community landmarks get that specific ` +
   `wording from the research done when they're added; catalog landmarks get a general one per category ("Do you like the food here?"). The ` +

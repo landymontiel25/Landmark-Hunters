@@ -54,7 +54,7 @@ import { LandmarkDetailSkeleton, Skeleton, SkeletonList } from '../components/Sk
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
 import { useToast, runOptimistic } from '../lib/ToastContext';
-import { claimPhotoBonus, photoBonusMessage } from '../lib/photoBonus';
+import { claimPhotoBonusAndTell } from '../lib/photoBonus';
 import { clearPersisted } from '../lib/usePersistentState';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
 
@@ -575,7 +575,7 @@ function LandmarkDetailBody() {
     setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Check your connection and try again (photos must be under 8 MB)." : null);
     // Paid only if you really checked in here (the server checks).
     if (photoFiles.length && !res?.photoFailed) {
-      claimPhotoBonus(landmark.id).then((pts) => pts > 0 && toast.show(photoBonusMessage(pts), { tone: 'success' }));
+      claimPhotoBonusAndTell(landmark.id, toast);
     }
     setSaving(false);
     // The rating is saved; these only refresh what's shown, so a hiccup
@@ -668,9 +668,7 @@ function LandmarkDetailBody() {
       setMyCheckin((prev) => ({ ...prev, photoURLs: [...(prev?.photoURLs || []), url] }));
       setMyPhotos((prev) => (prev.includes(url) ? prev : [url, ...prev]));
       reloadMyPhotos().catch(() => {});
-      claimPhotoBonus(checkinDocIdRef.current || landmark.id).then(
-        (pts) => pts > 0 && toast.show(photoBonusMessage(pts), { tone: 'success' })
-      );
+      claimPhotoBonusAndTell(checkinDocIdRef.current || landmark.id, toast);
     } catch (e) {
       setCheckinPhotoError(friendlyError(e, "Couldn't upload that photo. Try again."));
       setFailedCheckinPhoto(f);
