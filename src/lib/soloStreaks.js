@@ -88,9 +88,15 @@ export function watchNewCheckins(uid, onNew, onError = () => {}) {
   );
 }
 
-export async function setSoloStreakCity(uid, cityId) {
+// pinned: true when you chose the city from the dropdown (GPS then leaves it
+// alone), false to go back to "where I am". Left out, the pin is untouched.
+export async function setSoloStreakCity(uid, cityId, { pinned } = {}) {
   if (!db) return;
-  await updateDoc(doc(db, 'streaks', uid), { cityId, updatedAt: serverTimestamp() });
+  await updateDoc(doc(db, 'streaks', uid), {
+    cityId,
+    ...(typeof pinned === 'boolean' ? { cityPinned: pinned } : {}),
+    updatedAt: serverTimestamp(),
+  });
 }
 
 // Today's 3 personal cards -- pickDailyCardIds seeded with the user's own

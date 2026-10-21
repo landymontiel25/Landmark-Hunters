@@ -28,7 +28,7 @@ import {
   spendSoloFreeze,
   SOLO_FREEZES_PER_MONTH,
 } from '../lib/soloStreaks';
-import { dailyDeck } from '../lib/sharedDeck';
+import { dailyDeck, deckPool } from '../lib/sharedDeck';
 import MaprPicksCarousel from '../components/MaprPicksCarousel';
 import { nearestPickableCity } from '../lib/nearestCity';
 import { usePickVotes } from '../lib/usePickVotes';
@@ -566,6 +566,26 @@ function StreakDetail({ streak, onBack, onLeave }) {
 // BRAND NEW streak at 0 (the same StartStreakPicker flow as "Start a
 // Streak" on the list below); this streak's own count is never touched by
 // that.
+// Which city today's 3 cards come from: "Where I am" (GPS, the default) or
+// a city you pick, shown with how many new places it has for you.
+function SoloCityPicker({ value, options, hereName, locked, busy, onChange }) {
+  return (
+    <div className="solo-city-picker">
+      <label htmlFor="solo-city">City</label>
+      <select id="solo-city" value={value} disabled={locked || busy} onChange={(e) => onChange(e.target.value)}>
+        <option value="auto">{'\u{1F4CD}'} Where I am{hereName ? ` (${hereName})` : ''}</option>
+        {options.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.name}
+            {c.fresh == null ? '' : c.fresh === 0 ? ' (all rated)' : ` (${c.fresh} new)`}
+          </option>
+        ))}
+      </select>
+      {locked && <p className="screen-subtitle solo-city-note">You can change the city before you rate today's first card.</p>}
+    </div>
+  );
+}
+
 function SoloStreakDetail({ streak, onBack, onInvite }) {
   const { user } = useAuth();
   const { coords } = useGeo();
@@ -647,13 +667,16 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   // gets one (GPS, else the same default Mapr Travel Picks uses); a streak
   // whose city is somewhere else (Villanova while you're in Miami) moves to
   // where you are, as long as no card has been rated today: switching
-  // mid-day would swap the cards under you.
+  // mid-day would swap the cards under you. A city you chose from the
+  // dropdown (cityPinned) stays put until you choose "Where I am" again
+  // (owner, 2026-10-21: every Villanova place was already rated, so the cards
+  // kept repeating).
   const pickedCityRef = useRef(null);
   const ratedToday = Object.keys(entry.ratings || {}).length;
   useEffect(() => {
     const origin = coords ? { lat: coords.lat, lng: coords.lng } : null;
     const target = streak.cityId
-      ? entryDay === today && ratedToday === 0 && gpsCity && gpsCity !== streak.cityId
+      ? !streak.cityPinned && entryDay === today && ratedToday === 0 && gpsCity && gpsCity !== streak.cityId
         ? gpsCity
         : null
       : gpsCity || pickRegion({ origin, fallbackRegions: [PICKABLE_REGIONS[0]?.id] });
@@ -662,7 +685,35 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
     setSoloStreakCity(streak.id, target).catch(() => {
       pickedCityRef.current = null;
     });
-  }, [streak.id, streak.cityId, coords, gpsCity, entryDay, today, ratedToday]);
+  }, [streak.id, streak.cityId, streak.cityPinned, coords, gpsCity, entryDay, today, ratedToday]);
+
+  // The city dropdown: every city with cards, and how many of its places you
+  // have never answered or been to, so you can pick one with new cards.
+  const cityOptions = useMemo(
+    () =>
+      PICKABLE_REGIONS.map((r) => {
+        const pool = deckPool(r.id);
+        const fresh = answered && visitedIds ? pool.filter((id) => !answered.has(id) && !visitedIds.has(id)).length : null;
+        return { id: r.id, name: r.name, size: pool.length, fresh };
+      }).filter((c) => c.size > 0),
+    [answered, visitedIds]
+  );
+  const [cityBusy, setCityBusy] = useState(false);
+  const chooseCity = async (value) => {
+    const auto = value === 'auto';
+    const target = auto ? gpsCity || streak.cityId : value;
+    if (!target) return;
+    setCityBusy(true);
+    setVoteError(null);
+    try {
+      await setSoloStreakCity(streak.id, target, { pinned: !auto });
+      pickedCityRef.current = target;
+    } catch (e) {
+      setVoteError(friendlyError(e, "Couldn't change the city. Try again."));
+    } finally {
+      setCityBusy(false);
+    }
+  };
 
   const deck = streak.cityId && visitedIds && answered ? dailyDeck(streak.id, today, streak.cityId, visitedIds, answered) : [];
   const cardIds = deck.map((l) => l.id);
@@ -774,6 +825,18 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       <p className="screen-subtitle" style={{ marginTop: 14, marginBottom: 4 }}>
         Today's 3 landmarks
       </p>
+      {streak.cityId && (
+        <SoloCityPicker
+          value={streak.cityPinned ? streak.cityId : 'auto'}
+          options={cityOptions}
+          hereName={getRegion(gpsCity || streak.cityId)?.name}
+          // Not once today's cards are being rated: switching would swap
+          // them under you. Fine again once today is done (it sets tomorrow's).
+          locked={ratedToday > 0 && !dayDone}
+          busy={cityBusy}
+          onChange={chooseCity}
+        />
+      )}
       {entriesError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {entriesError}</p>}
       {voteError && <p className="mapr-pick-error" style={{ margin: '0 0 10px' }}>{'\u{26A0}\u{FE0F}'} {voteError}</p>}
       {!streak.cityId ? (
