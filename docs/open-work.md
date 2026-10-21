@@ -3,14 +3,17 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Test tab: signup tutorial draft (2026-10-21)
+## Test tab: Tutorial = sign-up + onboarding combined (2026-10-21)
 
-The Test tab has a "Tutorial" bubble: Mapr walks through sign-up, email
-verification, rating 10 places, the first check-in, Always location, the
-five tabs and the swipe cards (screens/SignupTutorialLab.jsx). The words
-are a first draft in screens/signupTutorialSteps.js for the owner to edit.
-Admin-only for now; nothing real uses it yet. Next: the owner edits the
-text, then decides where (and whether) new accounts see it.
+The owner merged onboarding and the tutorial into one Mapr-led flow, the
+Test tab's "Tutorial" bubble (screens/OnboardingLab.jsx): hello, sign up,
+verify email, swipe practice (swipe right, swipe left, tap the card, tap a
+button; Mapr says what each means), the 39 cards ("a minute max"), anything
+else, your places, first check-in, Always location, your tabs, done. All of
+Mapr's words and the step order are in screens/signupTutorialSteps.js.
+Admin-only sandbox; the real flow (screens/Onboarding.jsx) is unchanged.
+Next: the owner edits the text, then the combined flow replaces the real
+new-account onboarding (APP_HELP's Onboarding entry changes with it).
 
 ## Mapr chat fact guard, live hours, best order (2026-10-13)
 

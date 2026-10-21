@@ -1,113 +1,89 @@
-// The Test tab's "Tutorial" bubble (SignupTutorialLab): Mapr walks a new
-// user through signing up and their first minutes in the app. Edit the
-// words here; each step's `mock` picks the little screen drawn above Mapr's
-// bubble (see MOCKS in SignupTutorialLab.jsx). `say` is a list: one Mapr
-// bubble per line. Order matches the real new-account path in
-// screens/Onboarding.jsx (verify -> rate 10 -> first check-in -> Always
-// location on iOS -> done), followed by a tour of the five tabs.
+// Everything Mapr says in the Test tab's Tutorial (screens/OnboardingLab),
+// the sign-up tutorial and onboarding combined into one flow. Edit the
+// words here. `say` is a list: one Mapr bubble per line.
+
+// The steps, in order. `label` is the step's button in the test controls.
 export const TUTORIAL_STEPS = [
+  { id: 'hello', label: 'Hello' },
+  { id: 'signup', label: 'Sign up' },
+  { id: 'verify', label: 'Verify email' },
+  { id: 'howto', label: 'Swipe practice' },
+  { id: 'cards', label: 'Cards' },
+  { id: 'notes', label: 'Anything else' },
+  { id: 'places', label: 'Your places' },
+  { id: 'checkin', label: 'First check-in' },
+  { id: 'location', label: 'Location' },
+  { id: 'tabs', label: 'Your tabs' },
+  { id: 'done', label: 'Done' },
+];
+
+export const SAY = {
+  hello: [
+    "Hi! I'm Mapr, your personal AI guide.",
+    "I'll help you sign up, learn what you like, and show you around the app. It only takes a couple of minutes.",
+  ],
+  signup: ['First, make your account. Add a name, your email and a password, or tap Sign up with Google.'],
+  verify: [
+    'I sent you an email with a link. Tap it, then come back here.',
+    "This is the one step you can't skip.",
+  ],
+  howtoIntro: [
+    "Now I'll show you some cards so I can learn what you like.",
+    "Let's practice first. You can swipe or tap, and I'll show you both.",
+  ],
+  howtoReady: ["You've got it! \u{1F389} Now the real cards. There are no wrong answers."],
+  cards: ['This takes a minute max. Every card teaches me what to pick for you.'],
+  notes: ["Anything else you love or hate that the cards didn't cover? Tell me in your own words, or skip it."],
+  places: ['Which places do you go to most? Add a few and I can find new spots like them.'],
+  checkin: ["If you're at a landmark right now, check in for your first points. Not near one? Skip for now."],
+  location: [
+    'In the iPhone app I ask to switch location from While Using to Always.',
+    'That lets me tell you when you pass a place worth a stop. You can skip this too.',
+  ],
+  done: ["That's it! Go find your first landmark. I'll be here when you need me."],
+};
+
+// Swipe practice (step 4), one card per task. `how` is the way the card has
+// to be answered: 'swipe' (drag the card), 'tap' (tap the card itself) or
+// 'button' (the ✕ − ♥ buttons under it). `good` is what Mapr says when you
+// get it right.
+const practice = (word, icon, group) => ({ word, icon, group, photos: [], tag: null });
+export const PRACTICE = [
   {
-    id: 'hello',
-    title: 'Welcome',
-    mock: 'hello',
-    say: [
-      "Hi! I'm Mapr, your personal AI guide to Landmark Hunters.",
-      "I'll show you how to sign up and what happens next. It takes about a minute.",
-    ],
+    card: practice('Ice cream', '\u{1F366}', 'food'),
+    want: 'love',
+    how: 'swipe',
+    ask: 'Swipe the Ice cream card right.',
+    good: 'Good job! Swiping right means you loved it.',
   },
   {
-    id: 'account',
-    title: 'Create your account',
-    mock: 'signup',
-    say: [
-      'Pick a display name, add your email and a password (6 characters or more).',
-      'Tick the box to confirm you are 13 or older, then tap Create Account. Or skip the form and tap Sign up with Google.',
-    ],
+    card: practice('Traffic jams', '\u{1F697}', 'local'),
+    want: 'dislike',
+    how: 'swipe',
+    ask: 'Now swipe the Traffic jams card left.',
+    good: "Good job! Swiping left means you didn't like it.",
   },
   {
-    id: 'verify',
-    title: 'Verify your email',
-    mock: 'verify',
-    say: [
-      'I send you an email with a link. Tap it, then come back to the app.',
-      'This screen waits until you verify. It is the one step you cannot skip.',
-    ],
+    card: practice('Opera', '\u{1F3AD}', 'entertainment'),
+    want: 'unsure',
+    how: 'tap',
+    ask: 'Now tap the Opera card.',
+    good: "Good job! Tapping the card means you're not sure.",
   },
   {
-    id: 'rate',
-    title: 'Rate 10 places',
-    mock: 'rate',
-    say: [
-      "Next I show you places one at a time. Tap I loved it, Ok, or I didn't like it.",
-      "Haven't been? Tap Haven't been / not sure and I skip it. After 10 ratings I can start picking places for you.",
-    ],
+    card: practice('Beaches', '\u{1F3D6}\u{FE0F}', 'nature'),
+    want: 'love',
+    how: 'button',
+    ask: 'You can tap the buttons too. Tap \u{2665} under the Beaches card.',
+    good: 'Good job! \u{2665} means you loved it, same as swiping right.',
   },
-  {
-    id: 'checkin',
-    title: 'Your first check-in',
-    mock: 'checkin',
-    say: [
-      'If you are standing at a landmark right now, check in for your first points.',
-      'Not near one? Tap Skip for now. You can check in from the Map any time.',
-    ],
-  },
-  {
-    id: 'location',
-    title: 'Always know where you are',
-    mock: 'location',
-    say: [
-      'In the iPhone app I ask to switch location from While Using to Always.',
-      'That lets me tell you when you pass a place worth a stop. You can skip this too.',
-    ],
-  },
-  {
-    id: 'map',
-    title: 'Map',
-    mock: 'tabs',
-    tab: 'Map',
-    say: ['The Map shows every landmark near you. Tap a pin to see the place and check in when you are there.'],
-  },
-  {
-    id: 'places',
-    title: 'Places',
-    mock: 'tabs',
-    tab: 'Places',
-    say: ['Places lists landmarks by city, ordered by what I think you will like most.'],
-  },
-  {
-    id: 'mapr',
-    title: 'Mapr',
-    mock: 'tabs',
-    tab: 'Mapr',
-    say: ['Ask me anything here: where to eat, what to see this afternoon, or how the app works.'],
-  },
-  {
-    id: 'itinerary',
-    title: 'Itinerary',
-    mock: 'tabs',
-    tab: 'Itinerary',
-    say: ['Plan a trip, alone or with friends. I can fill a day with places you will like.'],
-  },
-  {
-    id: 'profile',
-    title: 'Profile',
-    mock: 'tabs',
-    tab: 'Profile',
-    say: ['Your points, streaks, memories and friends live here, along with the leaderboard.'],
-  },
-  {
-    id: 'swipe',
-    title: 'Teach me more',
-    mock: 'swipe',
-    say: [
-      'Want better picks? Later, tap the banner on the Map or Mapr tab to swipe through 39 cards.',
-      'Swipe right if you love it, left if not, or tap the card if you are not sure.',
-    ],
-  },
-  {
-    id: 'done',
-    title: "You're set",
-    mock: 'done',
-    say: ["That's it! Go find your first landmark. I'll be here when you need me."],
-  },
+];
+
+// The "Your tabs" step: one stop per tab, in the bottom bar's order.
+export const TABS = [
+  { tab: 'Map', icon: '\u{1F310}', say: 'The Map shows every landmark near you. Tap a pin to see the place and check in when you are there.' },
+  { tab: 'Places', icon: '\u{1F4CD}', say: 'Places lists landmarks by city, ordered by what I think you will like most.' },
+  { tab: 'Mapr', icon: '\u{1F9E0}', say: 'Ask me anything here: where to eat, what to see this afternoon, or how the app works.' },
+  { tab: 'Itinerary', icon: '\u{1F5FA}\u{FE0F}', say: 'Plan a trip, alone or with friends. I can fill a day with places you will like.' },
+  { tab: 'Profile', icon: '\u{1F3C6}', say: 'Your points, streaks, memories and friends live here, along with the leaderboard.' },
 ];

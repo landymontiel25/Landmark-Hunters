@@ -12,9 +12,9 @@ afterEach(() => {
   vi.resetModules();
 });
 
-// The Test tab opens on Malls; `tab: 'onboarding'` (the default here, for the
-// onboarding tests) switches to that bubble first.
-async function renderAs(email, { nothingToTest = false, tab = 'onboarding' } = {}) {
+// The Test tab opens on Rating slider; `tab: 'tutorial'` (the default here,
+// for the tutorial tests) switches to that bubble first.
+async function renderAs(email, { nothingToTest = false, tab = 'tutorial' } = {}) {
   vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
@@ -33,14 +33,25 @@ async function renderAs(email, { nothingToTest = false, tab = 'onboarding' } = {
       </MemoryRouter>
     );
   });
-  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === ({ malls: 'Malls', tutorial: 'Tutorial' }[tab] || 'Onboarding'));
+  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === (tab === 'malls' ? 'Malls' : 'Tutorial'));
   if (bubble) await act(async () => bubble.click());
   return container;
 }
 
 const click = (el) => act(async () => el.click());
 const button = (el, text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
-const signUp = (el) => click(button(el, 'Sign up with Google'));
+// Hello -> sign up with Google -> verify (pretend).
+const signUp = async (el) => {
+  await click(button(el, "Let's go"));
+  await click(button(el, 'Sign up with Google'));
+  await click(button(el, 'I tapped the link'));
+};
+// From the swipe practice into the real cards.
+const toCards = async (el) => {
+  await click(button(el, "Let's practice"));
+  await click(button(el, 'Skip practice'));
+  await click(button(el, 'Start'));
+};
 
 describe('OnboardingLab', () => {
   it('says there is nothing to test while the sandbox is switched off', async () => {
@@ -56,28 +67,12 @@ describe('OnboardingLab', () => {
     expect(el.textContent).not.toContain('try the update notice again');
   });
 
-  it('opens on the Rating slider bubble, with Malls and Onboarding next to it', async () => {
+  it('opens on the Rating slider bubble, with Malls and Tutorial next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Onboarding', 'Taste Profile', 'Tutorial']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Tutorial', 'Taste Profile']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.rate-slider')).toBeTruthy();
-  });
-
-  it('the Tutorial bubble walks every step and starts over', async () => {
-    const { TUTORIAL_STEPS } = await import('./signupTutorialSteps.js');
-    const el = await renderAs('landymontiel25@gmail.com', { tab: 'tutorial' });
-    expect(el.textContent).toContain(`Step 1 of ${TUTORIAL_STEPS.length}`);
-    for (const step of TUTORIAL_STEPS.slice(1)) {
-      await click(button(el, 'Next'));
-      expect(el.textContent).toContain(step.title);
-      expect(el.textContent).toContain(step.say[0]);
-    }
-    expect(button(el, 'Next')).toBeUndefined();
-    await click(button(el, 'Start over'));
-    expect(el.textContent).toContain('Step 1 of');
-    await click(button(el, 'Skip tutorial'));
-    expect(el.textContent).toContain(TUTORIAL_STEPS[TUTORIAL_STEPS.length - 1].title);
   });
 
   it('the Malls bubble shows the mall map', async () => {
@@ -151,22 +146,24 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('home');
   });
 
-  it('walks the whole flow and restarts', async () => {
+  it('walks the whole tutorial and restarts', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
+    expect(el.textContent).toContain("Hi! I'm Mapr, your personal AI guide.");
+    await click(button(el, "Let's go"));
     expect(el.textContent).toContain('Create Account');
     expect(el.textContent).toContain('Terms of Service');
-    await signUp(el);
-    expect(el.textContent).toContain("Tell us up to 10 places you visit most, and we'll help you discover new spots you'll love.");
-    await click(button(el, 'Skip for now'));
-    expect(el.textContent).toContain('Rate a few things you');
+    await click(button(el, 'Sign up with Google'));
+    expect(el.textContent).toContain('Verify your email');
+    await click(button(el, 'I tapped the link'));
 
-    await click(button(el, 'Next'));
-    expect(el.textContent).toContain("Hello! I'm Mapr, your personal AI assistant.");
+    expect(el.textContent).toContain('swipe or tap');
     await click(button(el, "Let's practice"));
+    expect(el.textContent).toContain('Practice 1 of 4');
     await click(button(el, 'Skip practice'));
     expect(el.textContent).toContain("You've got it!");
 
     await click(button(el, 'Start'));
+    expect(el.textContent).toContain('This takes a minute max.');
     expect(el.textContent).toContain('Love it');
     expect(el.textContent).toContain('Nope');
     expect(el.textContent).toContain('Not sure');
@@ -180,30 +177,49 @@ describe('OnboardingLab', () => {
       await act(async () => new Promise((r) => setTimeout(r, 230)));
     }
     expect(el.textContent).toContain('All done');
+    expect(el.textContent).not.toContain('This takes a minute max.');
     expect(el.querySelector('.lab-progress').className).toContain('lab-tier-done');
     expect(el.querySelector('.lab-progress').textContent).toBe('100%');
     expect(el.querySelector('.lab-bar span').style.width).toBe('100%');
 
     await click(button(el, 'Continue →'));
     expect(el.textContent).toContain("Anything else you love or hate that we didn't cover?");
-
     await click(button(el, 'Continue'));
-    expect(el.textContent).toContain('Your First Check-In');
-
+    expect(el.textContent).toContain("Tell us up to 10 places you visit most, and we'll help you discover new spots you'll love.");
     await click(button(el, 'Skip for now'));
-    expect(el.textContent).toContain('Onboarding finished');
+    expect(el.textContent).toContain('Your First Check-In');
+    await click(button(el, 'Skip for now'));
+    expect(el.textContent).toContain('Always Allow');
+    await click(button(el, 'Next'));
+
+    for (const tab of ['Map', 'Places', 'Mapr', 'Itinerary']) {
+      expect(el.querySelector('.tut-count').textContent).toContain(tab);
+      await click(button(el, 'Next tab'));
+    }
+    expect(el.querySelector('.tut-count').textContent).toContain('Profile');
+    await click(button(el, 'Finish'));
+
+    expect(el.textContent).toContain("That's it!");
+    expect(el.textContent).toContain('Tutorial finished');
     expect(el.textContent).toContain('1 love it');
     expect(el.textContent).toContain('+10');
-    expect(el.textContent).not.toContain('What Mapr would recommend');
     expect(el.querySelectorAll('.lab-rec').length).toBe(0);
 
     await click(button(el, 'Restart'));
-    expect(el.textContent).toContain('Create Account');
+    expect(el.textContent).toContain("Hi! I'm Mapr, your personal AI guide.");
   }, 30000);
+
+  it('tapping a tab in the drawn bar jumps to it', async () => {
+    const el = await renderAs('landymontiel25@gmail.com');
+    await click([...el.querySelectorAll('.lab-step')].find((b) => b.textContent.includes('Your tabs')));
+    await click([...el.querySelectorAll('.tut-nav-item')].find((b) => b.textContent.includes('Itinerary')));
+    expect(el.querySelector('.tut-count').textContent).toContain('Itinerary');
+    expect(el.textContent).toContain('Plan a trip');
+  });
 
   it('suggests places while typing and Tab adds the top match', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
-    await signUp(el);
+    await click([...el.querySelectorAll('.lab-step')].find((b) => b.textContent.includes('Your places')));
     const input = el.querySelector('#lab-place');
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
     await act(async () => {
@@ -222,22 +238,20 @@ describe('OnboardingLab', () => {
     expect(el.querySelector('.lab-place-list')).toBeNull();
   });
 
-  it('Skip on the rate prompt goes straight to the end with no preference data', async () => {
+  it('skipping the cards right away goes on with no preference data', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
     await signUp(el);
-    await click(button(el, 'Skip for now'));
-    await click([...el.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Skip'));
+    await toCards(el);
+    await click(button(el, 'Skip this step'));
+    expect(el.textContent).toContain("Anything else you love or hate that we didn't cover?");
+    await click([...el.querySelectorAll('.lab-step')].find((b) => b.textContent.includes('Done')));
     expect(el.textContent).toContain('no preference data yet');
   });
 
   it('Undo brings back the last card and drops its answer', async () => {
     const el = await renderAs('landymontiel25@gmail.com');
     await signUp(el);
-    await click(button(el, 'Skip for now'));
-    await click(button(el, 'Next'));
-    await click(button(el, "Let's practice"));
-    await click(button(el, 'Skip practice'));
-    await click(button(el, 'Start'));
+    await toCards(el);
     expect(button(el, 'Undo').disabled).toBe(true);
     const first = el.querySelector('.lab-card-word').textContent;
     await click(el.querySelector('[aria-label="Love it"]'));
