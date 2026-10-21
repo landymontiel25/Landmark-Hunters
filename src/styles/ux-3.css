@@ -838,11 +838,12 @@ button.back-sticky,
   border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
 }
 .tut-nav-item {
-  border: none;
+  border: 2px solid transparent;
+  border-radius: 999px;
   background: none;
   color: inherit;
   font: inherit;
-  padding: 2px 4px;
+  padding: 3px 8px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -854,6 +855,20 @@ button.back-sticky,
   opacity: 1;
   color: var(--color-gold, #c9a227);
   font-weight: 600;
+  /* A red circle around the tab Mapr is talking about (owner, 2026-10-21). */
+  border-color: var(--danger, #ef4444);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+  animation: tut-ring 1.6s ease-in-out infinite;
+}
+@keyframes tut-ring {
+  50% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tut-nav-item.active {
+    animation: none;
+  }
 }
 .tut-actions {
   display: flex;
