@@ -14,7 +14,10 @@ afterEach(() => {
 
 // The Test tab opens on Rating slider; `tab: 'tutorial'` (the default here,
 // for the tutorial tests) switches to that bubble first.
-async function renderAs(email, { nothingToTest = false, tab = 'tutorial' } = {}) {
+async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScreens = {} } = {}) {
+  // The real tab screens are too heavy for these tests; a stand-in (or none,
+  // which shows the tab's icon and name) takes their place.
+  vi.doMock('./tutorialTabScreens', () => ({ TAB_SCREENS: tabScreens }));
   vi.doMock('./onboardingLabConfig', () => ({ NOTHING_TO_TEST: nothingToTest }));
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: email ? { uid: 'u', email } : null }) }));
   vi.doMock('../lib/GeoContext', () => ({ useGeo: () => ({ coords: null, loading: false }) }));
@@ -208,6 +211,20 @@ describe('OnboardingLab', () => {
     await click(button(el, 'Restart'));
     expect(el.textContent).toContain("Hi! I'm Mapr, your personal AI guide.");
   }, 30000);
+
+  it('shows the real tab screen, at its own path, without letting you tap it', async () => {
+    const { useLocation } = await import('react-router-dom');
+    function FakeItinerary() {
+      return <p className="fake-screen">screen at {useLocation().pathname}</p>;
+    }
+    const el = await renderAs('landymontiel25@gmail.com', { tabScreens: { '/itinerary': FakeItinerary } });
+    await click([...el.querySelectorAll('.lab-step')].find((b) => b.textContent.includes('Your tabs')));
+    expect(el.querySelector('.fake-screen')).toBeNull();
+    await click([...el.querySelectorAll('.tut-nav-item')].find((b) => b.textContent.includes('Itinerary')));
+    await act(async () => new Promise((r) => setTimeout(r, 0)));
+    expect(el.querySelector('.tut-screen .fake-screen').textContent).toBe('screen at /itinerary');
+    expect(el.querySelector('.tut-screen').hasAttribute('inert')).toBe(true);
+  });
 
   it('tapping a tab in the drawn bar jumps to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com');

@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { Route, Routes, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
 import { SAY, TABS } from './signupTutorialSteps';
+import { TAB_SCREENS } from './tutorialTabScreens';
 
 // The Tutorial's explain-only steps (Test tab, screens/OnboardingLab): a
 // small drawn phone screen plus Mapr's bubbles, for steps the sandbox can't
@@ -66,6 +69,41 @@ export function TutorialLocation({ onDone }) {
   );
 }
 
+// The tab's real screen, live but shrunk and not clickable (inert). Rendered
+// at its own path (a Routes with a fixed location, under a reset route context
+// so the Test tab's own /test route doesn't get in the way) so it reads its
+// route as usual. The scaled box's transform also holds the screen's fixed-position
+// pieces (sheets, floating buttons) inside the frame. If the screen can't
+// load or crashes, the tab's icon and name show instead.
+const ROOT_ROUTE = { outlet: null, matches: [], isDataRoute: false };
+function TabScreen({ stop }) {
+  const Screen = TAB_SCREENS[stop.path];
+  const plain = (
+    <div className="tut-screen-plain">
+      <div className="tut-hero" aria-hidden="true">
+        {stop.icon}
+      </div>
+      <div className="tut-screen-title">{stop.tab}</div>
+    </div>
+  );
+  if (!Screen) return plain;
+  return (
+    <div className="tut-screen" aria-hidden="true" inert>
+      <div className="tut-screen-inner">
+        <ErrorBoundary fallback={plain}>
+          <Suspense fallback={plain}>
+            <RouteContext.Provider value={ROOT_ROUTE}>
+              <Routes location={{ pathname: stop.path, search: '', hash: '', state: null, key: 'tutorial' }}>
+                <Route path={stop.path} element={<Screen />} />
+              </Routes>
+            </RouteContext.Provider>
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+    </div>
+  );
+}
+
 // One stop per tab; tap a tab in the drawn bar to jump to it.
 export function TutorialTabs({ onDone }) {
   const [i, setI] = useState(0);
@@ -77,10 +115,7 @@ export function TutorialTabs({ onDone }) {
         Tab {i + 1} of {TABS.length}: <strong>{stop.tab}</strong>
       </p>
       <Phone key={stop.tab}>
-        <div className="tut-hero" aria-hidden="true">
-          {stop.icon}
-        </div>
-        <div className="tut-screen-title">{stop.tab}</div>
+        <TabScreen stop={stop} />
         <div className="tut-nav">
           {TABS.map((t, n) => (
             <button
