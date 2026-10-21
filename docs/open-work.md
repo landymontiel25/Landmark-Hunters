@@ -44,6 +44,15 @@ Not built, since they change the live app or need a decision:
   session), Profile "Show me around" checklist and "Tips", Firestore sync of
   first-run state, T1/T11/T12-T14 (device, offline, contrast checks).
 
+Itinerary tutorial (2026-10-21): a Test tab sub-tab
+(screens/ItineraryTutorialLab.jsx, words in itineraryTutorialSteps.js). A
+first-visit sheet over the real Itinerary tab asks "Want to learn how to
+make an itinerary?" (Show me / Skip), then 6 steps: start a trip (Use Mapr
+or Create New Trip), add places (bookmark, or ask Mapr), order stops (Edit
+List), go (Start Trip, Share), plan with friends (Add a user, live
+location), Past. Not wired into the real Itinerary tab yet: it would need a
+"seen" flag per account so it shows only the first time.
+
 Agreed with the owner for when the Tutorial goes live (not built yet):
 - "View Tutorial" button in Settings, in the bottom card, right under
   "Report a Bug". Tapping it asks which kind of run:

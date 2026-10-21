@@ -18,6 +18,7 @@ import RatingSliderLab from './RatingSliderLab';
 import { LabNotes, LabSignUp, TutorialHello, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
 import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
 import FirstRunLab from './FirstRunLab';
+import ItineraryTutorialLab from './ItineraryTutorialLab';
 
 export { progressTier };
 
@@ -37,6 +38,7 @@ const TESTS = [
   { id: 'malls', label: 'Malls' },
   { id: 'tutorial', label: 'Tutorial' },
   { id: 'tutorial2', label: 'Tutorial 2' },
+  { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
 ];
 
@@ -102,6 +104,15 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <FirstRunLab />
+      </div>
+    );
+  }
+
+  if (test === 'itinerary') {
+    return (
+      <div>
+        {testTabs}
+        <ItineraryTutorialLab />
       </div>
     );
   }
