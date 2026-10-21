@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { useGeo } from '../lib/GeoContext';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
@@ -15,7 +15,7 @@ import { NOTHING_TO_TEST } from './onboardingLabConfig';
 import MallLab from './MallLab';
 import TasteProfileLab from './TasteProfileLab';
 import RatingSliderLab from './RatingSliderLab';
-import { TutorialHello, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
+import { LabNotes, LabSignUp, TutorialHello, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
 import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
 import FirstRunLab from './FirstRunLab';
 
@@ -263,100 +263,6 @@ function TutorialFlow() {
       {id === 'tabs' && <TutorialTabs onDone={() => go('done', 'Finished your tabs')} />}
       {id === 'done' && <MaprSays lines={SAY.done} />}
       {id === 'done' && <LabSummary data={data} log={log} onRestart={restart} />}
-    </div>
-  );
-}
-
-function LabNotes({ data, set, onDone }) {
-  return (
-    <div>
-      <h1 className="screen-title">Anything else?</h1>
-      <p className="screen-subtitle">Anything else you love or hate that we didn't cover?</p>
-      <textarea
-        className="rating-comment"
-        aria-label="Anything else you love or hate"
-        rows={5}
-        maxLength={2000}
-        placeholder="Optional"
-        value={data.notes}
-        onChange={(e) => set({ notes: e.target.value })}
-      />
-      <button
-        type="button"
-        className="btn btn-primary btn-block"
-        style={{ marginTop: 20 }}
-        onClick={() => onDone(data.notes.trim() ? 'Added notes' : 'Continued without notes')}
-      >
-        {data.notes.trim() ? 'Save & continue' : 'Continue'} {'\u{2192}'}
-      </button>
-    </div>
-  );
-}
-
-function LabSignUp({ data, set, onDone }) {
-  const [error, setError] = useState('');
-  const submit = (e) => {
-    e.preventDefault();
-    if (!data.age) {
-      setError('You must confirm you’re 13 or older to create an account.');
-      return;
-    }
-    setError('');
-    onDone('email');
-  };
-  return (
-    <div>
-      <h1 className="screen-title">
-        <span>{'\u{1F6C2}'}</span> Sign In
-      </h1>
-      <p className="screen-subtitle">Sign in to check in, rate places, add friends, and hit the leaderboard.</p>
-      <form onSubmit={submit}>
-        <div className="field">
-          <label htmlFor="lab-name">Display Name</label>
-          <input id="lab-name" type="text" value={data.name} onChange={(e) => set({ name: e.target.value })} required />
-        </div>
-        <div className="field">
-          <label htmlFor="lab-email">Email</label>
-          <input id="lab-email" type="email" value={data.email} onChange={(e) => set({ email: e.target.value })} required />
-        </div>
-        <div className="field">
-          <label htmlFor="lab-password">Password</label>
-          <input
-            id="lab-password"
-            type="password"
-            autoComplete="off"
-            value={data.password}
-            onChange={(e) => set({ password: e.target.value })}
-            required
-            minLength={6}
-          />
-        </div>
-        {error && (
-          <p className="tag tag-error" role="alert" style={{ display: 'block', marginBottom: 14 }}>
-            {error}
-          </p>
-        )}
-        <label className="lab-age check-age-label">
-          <input type="checkbox" checked={data.age} onChange={(e) => set({ age: e.target.checked })} />
-          <span>I am 13 years of age or older.</span>
-        </label>
-        <p style={{ textAlign: 'center', fontSize: '0.72rem', color: 'var(--color-parchment-dim)', margin: '0 0 10px' }}>
-          By creating an account, you agree to our{' '}
-          <Link to="/legal" style={{ color: 'var(--color-parchment-dim)' }}>
-            Terms of Service &amp; Privacy Policy
-          </Link>
-          .
-        </p>
-        <button className="btn btn-primary btn-block" type="submit">
-          Create Account
-        </button>
-      </form>
-      <div className="lab-divider">
-        <span>or</span>
-      </div>
-      <button type="button" className="btn btn-ghost btn-block" onClick={() => onDone('Google')}>
-        {'\u{1F510}'} Sign up with Google
-      </button>
     </div>
   );
 }

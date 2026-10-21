@@ -31,7 +31,7 @@ export const COPY = {
     title: (goal) => `Rate ${goal} places and your picks get sharper.`,
     of: (n, goal) => `${n} of ${goal} ratings`,
     badge: 'First check-in!',
-    button: 'Done',
+    button: 'Next',
   },
   done: { title: "You're set.", sub: 'Go find your first landmark.' },
   skipped: { title: 'Tutorial skipped.', sub: 'The app opens the Map now.' },

@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react';
-import { Route, Routes, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
+import { Link, Route, Routes, UNSAFE_RouteContext as RouteContext } from 'react-router-dom';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { MaprBubble, MaprSays } from '../components/MaprTutorial';
 import { SAY, TABS } from './signupTutorialSteps';
@@ -9,6 +9,8 @@ import { TAB_SCREENS } from './tutorialTabScreens';
 // small drawn phone screen plus Mapr's bubbles, for steps the sandbox can't
 // run for real (email verification, the iPhone location prompt, the tabs).
 // Nothing is created or saved. The words live in signupTutorialSteps.js.
+// The sign-up form and "Anything else" box are shared by Tutorial and
+// Tutorial 2 (FirstRunLab).
 
 function Phone({ children }) {
   return <div className="tut-phone">{children}</div>;
@@ -133,6 +135,100 @@ export function TutorialTabs({ onDone }) {
       </Phone>
       <MaprBubble>{stop.say}</MaprBubble>
       <NextButton onClick={() => (last ? onDone() : setI(i + 1))}>{last ? 'Finish' : 'Next tab'}</NextButton>
+    </div>
+  );
+}
+
+export function LabNotes({ data, set, onDone }) {
+  return (
+    <div>
+      <h1 className="screen-title">Anything else?</h1>
+      <p className="screen-subtitle">Anything else you love or hate that we didn't cover?</p>
+      <textarea
+        className="rating-comment"
+        aria-label="Anything else you love or hate"
+        rows={5}
+        maxLength={2000}
+        placeholder="Optional"
+        value={data.notes}
+        onChange={(e) => set({ notes: e.target.value })}
+      />
+      <button
+        type="button"
+        className="btn btn-primary btn-block"
+        style={{ marginTop: 20 }}
+        onClick={() => onDone(data.notes.trim() ? 'Added notes' : 'Continued without notes')}
+      >
+        {data.notes.trim() ? 'Save & continue' : 'Continue'} {'\u{2192}'}
+      </button>
+    </div>
+  );
+}
+
+export function LabSignUp({ data, set, onDone }) {
+  const [error, setError] = useState('');
+  const submit = (e) => {
+    e.preventDefault();
+    if (!data.age) {
+      setError('You must confirm you’re 13 or older to create an account.');
+      return;
+    }
+    setError('');
+    onDone('email');
+  };
+  return (
+    <div>
+      <h1 className="screen-title">
+        <span>{'\u{1F6C2}'}</span> Sign In
+      </h1>
+      <p className="screen-subtitle">Sign in to check in, rate places, add friends, and hit the leaderboard.</p>
+      <form onSubmit={submit}>
+        <div className="field">
+          <label htmlFor="lab-name">Display Name</label>
+          <input id="lab-name" type="text" value={data.name} onChange={(e) => set({ name: e.target.value })} required />
+        </div>
+        <div className="field">
+          <label htmlFor="lab-email">Email</label>
+          <input id="lab-email" type="email" value={data.email} onChange={(e) => set({ email: e.target.value })} required />
+        </div>
+        <div className="field">
+          <label htmlFor="lab-password">Password</label>
+          <input
+            id="lab-password"
+            type="password"
+            autoComplete="off"
+            value={data.password}
+            onChange={(e) => set({ password: e.target.value })}
+            required
+            minLength={6}
+          />
+        </div>
+        {error && (
+          <p className="tag tag-error" role="alert" style={{ display: 'block', marginBottom: 14 }}>
+            {error}
+          </p>
+        )}
+        <label className="lab-age check-age-label">
+          <input type="checkbox" checked={data.age} onChange={(e) => set({ age: e.target.checked })} />
+          <span>I am 13 years of age or older.</span>
+        </label>
+        <p style={{ textAlign: 'center', fontSize: '0.72rem', color: 'var(--color-parchment-dim)', margin: '0 0 10px' }}>
+          By creating an account, you agree to our{' '}
+          <Link to="/legal" style={{ color: 'var(--color-parchment-dim)' }}>
+            Terms of Service &amp; Privacy Policy
+          </Link>
+          .
+        </p>
+        <button className="btn btn-primary btn-block" type="submit">
+          Create Account
+        </button>
+      </form>
+      <div className="lab-divider">
+        <span>or</span>
+      </div>
+      <button type="button" className="btn btn-ghost btn-block" onClick={() => onDone('Google')}>
+        {'\u{1F510}'} Sign up with Google
+      </button>
     </div>
   );
 }

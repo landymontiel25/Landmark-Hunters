@@ -8,9 +8,11 @@ import { ALL_LANDMARKS, PICKABLE_INTERESTS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
 import { TIERS } from '../lib/ratingFlow';
 import ConfettiBurst from '../components/ConfettiBurst';
+import OnboardingPlaces from '../components/OnboardingPlaces';
 import {
   CHECKIN_METERS,
-  FLOW,
+  NO_SKIP,
+  ORDER,
   PROGRESS_GOAL,
   SIGNUP_TRIGGERS,
   SWIPES,
@@ -19,12 +21,16 @@ import {
   saveFirstRun,
 } from '../lib/firstRun';
 import { COPY } from './firstRunCopy';
-import { TabScreen } from './SignupTutorialLab';
+import { LabNotes, LabSignUp, TabScreen, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
 
 // Test tab "Tutorial 2": the owner's First-Run Tutorial Build Guide as a
-// sandbox. Welcome sheet on the Map, taste chips, three swipe cards with one
-// rating, first check-in with a distance pill, progress ring, and the sign-up
-// prompt from its triggers. Skip step and Skip all on every step, one tap.
+// sandbox, with onboarding around it in order (ORDER in lib/firstRun.js):
+// sign up, verify email, welcome sheet on the Map, taste chips, three swipe
+// cards with one rating, anything else, your places, first check-in with a
+// distance pill, progress ring, location, your tabs. The sign-up prompt opens
+// from its triggers. Skip and Skip all on every step but sign-up and verify,
+// one tap. The sign-up form, notes box, location and tabs steps are the same
+// pieces Tutorial 1 uses (SignupTutorialLab.jsx), with its Mapr lines.
 // Nothing reaches Firestore: ratings and check-ins are pretend, analytics
 // events go to the on-screen log, and progress is kept on this device per
 // account (lib/firstRun.js). The words are in firstRunCopy.js.
@@ -32,7 +38,21 @@ import { TabScreen } from './SignupTutorialLab';
 const MIN_CHIPS = 3;
 const MAX_CHIPS = 5;
 const MAP_STOP = { path: '/', tab: 'Map', icon: '\u{1F310}' };
-const STEP_LABELS = { welcome: 'Welcome', taste: 'Taste pick', swipe: 'Swipe', rate: 'Rating', checkin: 'Check-in', progress: 'Progress' };
+const STEP_LABELS = {
+  signup: 'Sign up',
+  verify: 'Verify email',
+  welcome: 'Welcome',
+  taste: 'Taste pick',
+  swipe: 'Swipe',
+  notes: 'Anything else',
+  places: 'Your places',
+  checkin: 'First check-in',
+  progress: 'Progress',
+  location: 'Location',
+  tabs: 'Your tabs',
+  done: 'Done',
+};
+const emptyForm = () => ({ name: '', email: '', password: '', age: false, notes: '', places: [] });
 
 const secsSince = (t) => Math.round((Date.now() - t) / 1000);
 const radiusOf = (place) => place?.checkInRadiusMeters || CHECKIN_METERS;
@@ -286,6 +306,8 @@ export default function FirstRunLab() {
   const [log, setLog] = useState([]);
   const [pretend, setPretend] = useState(false);
   const [signup, setSignup] = useState(null);
+  const [form, setForm] = useState(emptyForm);
+  const setFormPart = (patch) => setForm((f) => ({ ...f, ...patch }));
   // The cards stay put once dealt; the first GPS fix re-deals them to the
   // nearest places only if no card has been swiped yet.
   const [cards, setCards] = useState(() => pickCards(coords));
@@ -333,8 +355,12 @@ export default function FirstRunLab() {
     doneRef.current = false;
     setLog([]);
     setSignup(null);
+    setForm(emptyForm());
     dispatch({ type: 'RESET' });
   };
+  // The test controls' step buttons, Back and Next step.
+  const at = ORDER.indexOf(state.step === 'rate' ? 'swipe' : state.step === 'skipped' ? 'done' : state.step);
+  const jump = (i) => dispatch({ type: 'JUMP', step: ORDER[Math.max(0, Math.min(ORDER.length - 1, i))] });
 
   const accountRatings = Object.keys(myReviews || {}).length;
   const card = cards[state.swipesDone];
@@ -347,21 +373,40 @@ export default function FirstRunLab() {
           <strong>{'\u{1F9EA}'} Tutorial 2 test</strong>
           <span className="tag">Nothing here is saved</span>
         </div>
-        <p className="screen-subtitle" style={{ margin: '6px 0 8px' }}>
-          The First-Run Tutorial Build Guide. Step: <strong>{STEP_LABELS[step] || step}</strong>
-        </p>
+        <div className="lab-steps">
+          {ORDER.map((id, i) => (
+            <button
+              key={id}
+              type="button"
+              className={`lab-step ${i === at ? 'active' : ''} ${i < at ? 'done' : ''}`}
+              onClick={() => jump(i)}
+            >
+              {i + 1}. {STEP_LABELS[id]}
+            </button>
+          ))}
+        </div>
         <div className="lab-actions">
           <button type="button" className="btn btn-ghost btn-sm" onClick={restart}>
             {'\u{21BA}'} Restart
           </button>
+          <button type="button" className="btn btn-ghost btn-sm" disabled={at <= 0} onClick={() => jump(at - 1)}>
+            {'\u{2190}'} Back
+          </button>
+          <button type="button" className="btn btn-ghost btn-sm" disabled={at >= ORDER.length - 1} onClick={() => jump(at + 1)}>
+            Next step {'\u{2192}'}
+          </button>
+        </div>
+        <div className="lab-actions" style={{ marginTop: 8 }}>
           <label className="fr-toggle">
             <input type="checkbox" checked={pretend} onChange={(e) => setPretend(e.target.checked)} /> Pretend I'm at the place
           </label>
         </div>
       </div>
 
-      {FLOW.includes(step) && step !== 'welcome' && <SkipBar onSkip={skipStep} onSkipAll={skipAll} />}
+      {!NO_SKIP.has(step) && !['welcome', 'done', 'skipped'].includes(step) && <SkipBar onSkip={skipStep} onSkipAll={skipAll} />}
 
+      {step === 'signup' && <LabSignUp data={form} set={setFormPart} onDone={() => stepDone()} />}
+      {step === 'verify' && <TutorialVerify email={form.email} onDone={() => stepDone()} />}
       {step === 'welcome' && <WelcomeSheet onShow={() => stepDone()} onSkip={skipAll} />}
       {step === 'taste' && <TasteChips saved={trip.savedInterests || []} onNext={(chips) => stepDone({ chips })} />}
       {step === 'swipe' && card && (
@@ -386,6 +431,10 @@ export default function FirstRunLab() {
           }}
         />
       )}
+      {step === 'notes' && <LabNotes data={form} set={setFormPart} onDone={() => stepDone()} />}
+      {step === 'places' && (
+        <OnboardingPlaces places={form.places} onChange={(places) => setFormPart({ places })} onDone={() => stepDone()} />
+      )}
       {step === 'checkin' && (
         <div>
           <h2 className="fr-title">{COPY.checkin.title}</h2>
@@ -409,6 +458,8 @@ export default function FirstRunLab() {
           </button>
         </div>
       )}
+      {step === 'location' && <TutorialLocation onDone={() => stepDone()} />}
+      {step === 'tabs' && <TutorialTabs onDone={() => stepDone()} />}
       {(step === 'done' || step === 'skipped') && (
         <div className="lab-center">
           <h2 className="fr-title">{COPY[step].title}</h2>
