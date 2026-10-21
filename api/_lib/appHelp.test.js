@@ -9,6 +9,7 @@ import { MAX_GROUP_MEMBERS } from '../../src/lib/groupTrips.js';
 import { TASTE_DISPLAY_CAP, TASTE_MIN_GUESSES, TASTE_PERFECT_WINDOW, TASTE_WINDOW } from '../../src/lib/maprConstants.js';
 import { CHECKIN_RADIUS_METERS, MAX_CHECKIN_PHOTOS, POINTS_PER_CHECKIN } from '../../src/lib/leaderboard.js';
 import { PRESENCE_LIMITS } from '../../src/lib/presence.js';
+import { PHOTO_BONUS_POINTS, PHOTO_BONUSES_PER_DAY } from './photoBonus.js';
 
 // Mapr answers "how does the app work" from APP_HELP only, so the numbers it
 // quotes must stay tied to the constants the app actually uses.
@@ -24,6 +25,9 @@ describe('APP_HELP stays in sync with code constants', () => {
     expect(APP_HELP).toContain(`up to ${MAX_REVIEW_PHOTOS} can be added when you rate or check in`);
     expect(APP_HELP).toContain(`up to ${MAX_CHECKIN_PHOTOS} per check-in`);
     expect(APP_HELP).toContain(`holds at most ${MAX_REVIEW_PHOTOS} photos`);
+  });
+  it('quotes the photo bonus', () => {
+    expect(APP_HELP).toContain(`you get +${PHOTO_BONUS_POINTS} points, once per place and at most ${PHOTO_BONUSES_PER_DAY} places a day`);
   });
   it('quotes the group trip member cap', () => {
     expect(APP_HELP).toContain(`holds up to ${MAX_GROUP_MEMBERS} people`);

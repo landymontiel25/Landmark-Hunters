@@ -10,6 +10,8 @@ import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../l
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
+import { claimPhotoBonus, photoBonusMessage } from '../lib/photoBonus';
+import { useToast } from '../lib/ToastContext';
 import { pickPhoto } from '../lib/imageUtils';
 import { isRateable, diversityHint } from '../lib/ratingFlow';
 import RatingFlow from './RatingFlow';
@@ -35,6 +37,11 @@ export default function CheckInReview() {
   // commitCheckIn in CheckInContext. No points were awarded, so this skips
   // the confetti blast and the "+N pts" copy entirely rather than show "+0".
   const ratingOnly = !!checkInOptions?.ratingOnly;
+  const toast = useToast();
+  // +10 for a photo at a place you checked in to (api/_lib/photoBonus.js
+  // decides; a rating-only claim never qualifies).
+  const askPhotoBonus = (landmarkId) =>
+    claimPhotoBonus(landmarkId).then((pts) => pts > 0 && toast.show(photoBonusMessage(pts), { tone: 'success' }));
   const { user } = useAuth();
   const { coords } = useGeo();
   const { myUsername } = useFriends();
@@ -232,6 +239,7 @@ export default function CheckInReview() {
           unmarkDraftSubmitting(draftKey);
           await Promise.all([reloadRatings(), reloadMyPhotos()]).catch(() => {});
           if (res?.photoFailed) setBgMsg("Your photo couldn't upload — you can try again from the landmark page.");
+          else if (photoFiles.length && !ratingOnly) askPhotoBonus(justCheckedIn.id);
         })
         .catch(() => {
           unmarkDraftSubmitting(draftKey);
@@ -251,6 +259,7 @@ export default function CheckInReview() {
         }
         await reloadMyPhotos().catch(() => {});
         if (failed) setBgMsg("Some photos couldn't upload — you can try again from the landmark page.");
+        if (!ratingOnly && (!failed || photoFiles.length > 1)) askPhotoBonus(justCheckedIn.id);
       })();
     }
   };

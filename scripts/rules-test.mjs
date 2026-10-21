@@ -418,6 +418,13 @@ await t('streak with a friend works, with a stranger does not, with yourself doe
   await assertFails(setDoc(doc(as('zed'), `streaks/${a}_${b}x`), streak('zed', 'fay')));
   await assertFails(setDoc(doc(as('fay'), 'streaks/fay_fay'), { ...streak('fay', 'fay'), memberIds: ['fay', 'fay'] }));
 });
+await t('photo bonus ledgers are server-only; you can read which of your places already paid', async () => {
+  await seed((db) => setDoc(doc(db, 'photo_bonuses/hal_x'), { userId: 'hal', landmarkId: 'x', dayId: '2026-9-21', points: 10 }));
+  await assertSucceeds(getDoc(doc(as('hal'), 'photo_bonuses/hal_x')));
+  await assertFails(getDoc(doc(as('zed'), 'photo_bonuses/hal_x')));
+  await assertFails(setDoc(doc(as('hal'), 'photo_bonuses/hal_y'), { userId: 'hal', landmarkId: 'y', points: 10 }));
+  await assertFails(setDoc(doc(as('hal'), 'photo_bonus_days/hal_2026-9-21'), { userId: 'hal', count: 0 }));
+});
 await t('a member can set the city and pin it; nothing else, and the pin must be true or false', async () => {
   await seed((db) => setDoc(doc(db, 'streaks/hal'), { mode: 'solo', memberIds: ['hal'], count: 5, best: 18, lastCompletedDay: null, cityId: 'villanova' }));
   await assertSucceeds(updateDoc(doc(as('hal'), 'streaks/hal'), { cityId: 'miami', cityPinned: true, updatedAt: serverTimestamp() }));
