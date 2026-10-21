@@ -627,3 +627,201 @@ button.back-sticky,
 .taste-changes li.down {
   color: #ef4444;
 }
+
+/* Test tab "Tutorial" bubble (screens/SignupTutorialLab). */
+.tut {
+  max-width: 420px;
+  margin: 0 auto;
+}
+.tut-dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.tut-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: var(--border-subtle, rgba(255, 255, 255, 0.2));
+  cursor: pointer;
+}
+.tut-dot.done {
+  background: var(--mapr-blue-soft, rgba(91, 140, 255, 0.5));
+}
+.tut-dot.active {
+  background: var(--color-gold, #c9a227);
+  transform: scale(1.3);
+}
+.tut-count {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+}
+.tut-phone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 300px;
+  justify-content: center;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+  border-radius: 28px;
+  border: 2px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+  background: var(--bg-card, rgba(255, 255, 255, 0.04));
+  animation: tut-in 0.25s ease-out;
+}
+@keyframes tut-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.tut-hero {
+  font-size: 4rem;
+  line-height: 1;
+}
+.tut-screen-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.tut-small {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.tut-field {
+  width: 100%;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.tut-input {
+  margin-top: 2px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+.tut-check {
+  width: 100%;
+  font-size: 0.8rem;
+}
+.tut-btn {
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+  font-size: 0.85rem;
+}
+.tut-btn-primary {
+  background: var(--color-gold, #c9a227);
+  border-color: transparent;
+  color: #14110a;
+  font-weight: 600;
+}
+.tut-or {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.tut-pulse {
+  animation: tut-pulse 1.6s ease-in-out infinite;
+}
+@keyframes tut-pulse {
+  50% {
+    box-shadow: 0 0 0 6px rgba(201, 162, 39, 0.35);
+  }
+}
+.tut-progress {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-subtle, rgba(255, 255, 255, 0.15));
+  overflow: hidden;
+}
+.tut-progress > div {
+  height: 100%;
+  background: var(--color-gold, #c9a227);
+}
+.tut-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+}
+.tut-photo {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  border-radius: 10px;
+  background: var(--mapr-blue-soft, rgba(91, 140, 255, 0.15));
+}
+.tut-swipe {
+  width: 70%;
+  transform: rotate(-4deg);
+}
+.tut-swipe-row {
+  display: flex;
+  gap: 18px;
+  font-size: 1.4rem;
+}
+.tut-dialog {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--bg-elevated, rgba(255, 255, 255, 0.08));
+  text-align: center;
+  font-size: 0.85rem;
+}
+.tut-dialog-btn {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+  color: var(--mapr-blue, #5b8cff);
+  border-radius: 6px;
+}
+.tut-nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.18));
+}
+.tut-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.65rem;
+  opacity: 0.5;
+}
+.tut-nav-item.active {
+  opacity: 1;
+  color: var(--color-gold, #c9a227);
+  font-weight: 600;
+}
+.tut-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.tut-actions .btn {
+  flex: 1;
+}
+.tut-skip {
+  display: block;
+  margin: 10px auto 0;
+}

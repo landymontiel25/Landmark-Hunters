@@ -15,6 +15,7 @@ import { NOTHING_TO_TEST } from './onboardingLabConfig';
 import MallLab from './MallLab';
 import TasteProfileLab from './TasteProfileLab';
 import RatingSliderLab from './RatingSliderLab';
+import SignupTutorialLab from './SignupTutorialLab';
 
 export { progressTier };
 
@@ -43,6 +44,7 @@ const TESTS = [
   { id: 'malls', label: 'Malls' },
   { id: 'onboarding', label: 'Onboarding' },
   { id: 'taste', label: 'Taste Profile' },
+  { id: 'tutorial', label: 'Tutorial' },
 ];
 const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
@@ -104,6 +106,15 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <MallLab uid={user?.uid} />
+      </div>
+    );
+  }
+
+  if (test === 'tutorial') {
+    return (
+      <div>
+        {testTabs}
+        <SignupTutorialLab />
       </div>
     );
   }
