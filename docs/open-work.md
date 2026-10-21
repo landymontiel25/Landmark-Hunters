@@ -15,6 +15,12 @@ Admin-only sandbox; the real flow (screens/Onboarding.jsx) is unchanged.
 Next: the owner edits the text, then the combined flow replaces the real
 new-account onboarding (APP_HELP's Onboarding entry changes with it).
 
+Tutorial 2 (2026-10-21): a second sub-tab, next to Tutorial, that started
+as an exact copy. Its words and steps are in screens/signupTutorial2Steps.js
+(the pieces read whichever file through screens/tutorialText.js), so it can
+change without touching Tutorial 1. The owner hasn't said yet what it does
+differently, or which of the two goes live.
+
 Agreed with the owner for when the Tutorial goes live (not built yet):
 - "View Tutorial" button in Settings, in the bottom card, right under
   "Report a Bug". Tapping it asks which kind of run:

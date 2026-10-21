@@ -14,7 +14,8 @@ afterEach(() => {
 
 // The Test tab opens on Rating slider; `tab: 'tutorial'` (the default here,
 // for the tutorial tests) switches to that bubble first.
-async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScreens = {} } = {}) {
+async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScreens = {}, tutorial2 = null } = {}) {
+  if (tutorial2) vi.doMock('./signupTutorial2Steps', tutorial2);
   // The real tab screens are too heavy for these tests; a stand-in (or none,
   // which shows the tab's icon and name) takes their place.
   vi.doMock('./tutorialTabScreens', () => ({ TAB_SCREENS: tabScreens }));
@@ -36,7 +37,7 @@ async function renderAs(email, { nothingToTest = false, tab = 'tutorial', tabScr
       </MemoryRouter>
     );
   });
-  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === (tab === 'malls' ? 'Malls' : 'Tutorial'));
+  const bubble = tab && [...container.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === ({ malls: 'Malls', tutorial2: 'Tutorial 2' }[tab] || 'Tutorial'));
   if (bubble) await act(async () => bubble.click());
   return container;
 }
@@ -73,7 +74,7 @@ describe('OnboardingLab', () => {
   it('opens on the Rating slider bubble, with Malls and Tutorial next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Tutorial', 'Taste Profile']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Tutorial', 'Tutorial 2', 'Taste Profile']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.rate-slider')).toBeTruthy();
   });
@@ -224,6 +225,23 @@ describe('OnboardingLab', () => {
     await act(async () => new Promise((r) => setTimeout(r, 0)));
     expect(el.querySelector('.tut-screen .fake-screen').textContent).toBe('screen at /itinerary');
     expect(el.querySelector('.tut-screen').hasAttribute('inert')).toBe(true);
+  });
+
+  it('Tutorial 2 is its own copy: its words change without touching Tutorial', async () => {
+    const tutorial2 = async () => {
+      const one = await vi.importActual('./signupTutorialSteps.js');
+      return { ...one, SAY: { ...one.SAY, hello: ['Hello from Tutorial 2.'] } };
+    };
+    const el = await renderAs('landymontiel25@gmail.com', { tab: 'tutorial2', tutorial2 });
+    expect(el.textContent).toContain('Tutorial 2 test');
+    expect(el.textContent).toContain('Hello from Tutorial 2.');
+    await click(button(el, "Let's go"));
+    expect(el.textContent).toContain('Create Account');
+
+    // Tutorial 1 still says its own hello, and starts fresh.
+    await click([...el.querySelectorAll('.lab-tabs [role="tab"]')].find((t) => t.textContent === 'Tutorial'));
+    expect(el.textContent).toContain("Hi! I'm Mapr, your personal AI guide.");
+    expect(el.textContent).not.toContain('Hello from Tutorial 2.');
   });
 
   it('tapping a tab in the drawn bar jumps to it', async () => {

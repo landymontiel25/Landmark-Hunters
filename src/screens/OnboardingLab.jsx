@@ -16,7 +16,9 @@ import MallLab from './MallLab';
 import TasteProfileLab from './TasteProfileLab';
 import RatingSliderLab from './RatingSliderLab';
 import { TutorialHello, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
-import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
+import * as TUTORIAL_1 from './signupTutorialSteps';
+import * as TUTORIAL_2 from './signupTutorial2Steps';
+import { TutorialText, useTutorialText } from './tutorialText';
 
 export { progressTier };
 
@@ -26,17 +28,18 @@ export { progressTier };
 // state: no account is created, nothing is written to Firestore or the saved
 // trip, and "Restart" wipes it. The results screen shows what a real signup
 // would have saved (tagScores changes and notes) without saving it. The step
-// order and Mapr's words live in signupTutorialSteps.js.
-const STEPS = TUTORIAL_STEPS;
+// order and Mapr's words live in signupTutorialSteps.js (Tutorial) and
+// signupTutorial2Steps.js (Tutorial 2); each starts fresh when opened.
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
   { id: 'slider', label: 'Rating slider' },
   { id: 'malls', label: 'Malls' },
   { id: 'tutorial', label: 'Tutorial' },
+  { id: 'tutorial2', label: 'Tutorial 2' },
   { id: 'taste', label: 'Taste Profile' },
 ];
-const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
+const TUTORIALS = { tutorial: { title: 'Tutorial', text: TUTORIAL_1 }, tutorial2: { title: 'Tutorial 2', text: TUTORIAL_2 } };
 
 const empty = () => ({
   name: '',
@@ -56,11 +59,6 @@ const empty = () => ({
 export default function OnboardingLab() {
   const { user, loading: authLoading } = useAuth();
   const [test, setTest] = useState('slider');
-  const [step, setStep] = useState(0);
-  const [data, setData] = useState(empty);
-  const [log, setLog] = useState([]);
-  const set = (patch) => setData((d) => ({ ...d, ...patch }));
-  const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
 
   if (authLoading) return null;
   if (!isAdmin(user?.email)) return <Navigate to="/" replace />;
@@ -121,6 +119,28 @@ export default function OnboardingLab() {
     );
   }
 
+  const tutorial = TUTORIALS[test] || TUTORIALS.tutorial;
+  return (
+    <div>
+      {testTabs}
+      <TutorialText.Provider value={tutorial.text}>
+        <TutorialFlow key={test} title={tutorial.title} />
+      </TutorialText.Provider>
+    </div>
+  );
+}
+
+// One run of a tutorial (Tutorial or Tutorial 2). Keyed by sub-tab, so
+// switching between the two starts the other one fresh.
+function TutorialFlow({ title }) {
+  const { SAY, TUTORIAL_STEPS: STEPS } = useTutorialText();
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState(empty);
+  const [log, setLog] = useState([]);
+  const set = (patch) => setData((d) => ({ ...d, ...patch }));
+  const note = (text) => setLog((l) => [...l, `${new Date().toLocaleTimeString()} — ${text}`]);
+  const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
+
   const go = (target, why) => {
     const i = typeof target === 'string' ? indexOf(target) : target;
     const next = Math.max(0, Math.min(STEPS.length - 1, i));
@@ -137,10 +157,9 @@ export default function OnboardingLab() {
 
   return (
     <div>
-      {testTabs}
       <div className="card section lab-controls">
         <div className="lab-controls-head">
-          <strong>{'\u{1F9EA}'} Tutorial test</strong>
+          <strong>{'\u{1F9EA}'} {title} test</strong>
           <span className="tag">Nothing here is saved</span>
         </div>
         <div className="lab-steps">
