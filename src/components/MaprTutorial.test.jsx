@@ -27,7 +27,6 @@ const drag = async (dx) => {
   });
   await act(async () => vi.advanceTimersByTime(300));
 };
-const next = () => act(async () => vi.advanceTimersByTime(1500));
 
 describe('MaprTutorial', () => {
   it('has you swipe right, swipe left, tap the card, then tap a button, saying what each means', async () => {
@@ -50,24 +49,23 @@ describe('MaprTutorial', () => {
     expect(el.textContent).toContain('Right answer, but that was a button.');
 
     await drag(200);
+    // Straight on to the next card, Ice cream gone, praise above it.
     expect(el.textContent).toContain('Swiping right means you loved it.');
-    await next();
+    expect(el.textContent).not.toContain('Ice cream');
     expect(el.textContent).toContain('Traffic jams');
 
     await drag(-200);
     expect(el.textContent).toContain("Swiping left means you didn't like it.");
-    await next();
+    expect(el.textContent).not.toContain('Traffic jams');
     expect(el.textContent).toContain('Opera');
 
     await drag(0);
     expect(el.textContent).toContain("Tapping the card means you're not sure.");
-    await next();
     expect(el.textContent).toContain('Beaches');
 
     await press('Love it');
     await act(async () => vi.advanceTimersByTime(300));
     expect(el.textContent).toContain('same as swiping right');
-    await next();
 
     expect(el.textContent).toContain("You've got it!");
     await act(async () => button('Start').click());
