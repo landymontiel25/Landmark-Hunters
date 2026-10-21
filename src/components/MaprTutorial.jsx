@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { SwipeCardStack } from './OnboardingSteps';
 import { PRACTICE, SAY } from '../screens/signupTutorialSteps';
 
-// Mapr talking: its face and a speech bubble.
-export function MaprBubble({ children }) {
+// Mapr talking: its face and a speech bubble. `ask` makes it stand out (bold,
+// gold edge), for the instruction you're meant to follow right now.
+export function MaprBubble({ children, ask = false }) {
   return (
-    <div className="mapr-bubble">
+    <div className={`mapr-bubble ${ask ? 'mapr-bubble-ask' : ''}`}>
       <span className="mapr-bubble-face" aria-hidden="true">
         {'\u{1F9E0}'}
       </span>
@@ -85,7 +86,7 @@ export default function MaprTutorial({ onDone }) {
   return (
     <div>
       {praise && !feedback && <MaprBubble>{colorDirections(praise)}</MaprBubble>}
-      <MaprBubble>{colorDirections(feedback || task.ask)}</MaprBubble>
+      <MaprBubble ask>{colorDirections(feedback || task.ask)}</MaprBubble>
       <p className="tut-count">
         Practice {step} of {PRACTICE.length}
       </p>

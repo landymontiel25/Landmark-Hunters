@@ -41,6 +41,7 @@ describe('MaprTutorial', () => {
     await act(async () => button("Let's practice").click());
     expect(el.textContent).toContain('Swipe the Ice cream card right.');
     expect(el.querySelector('.mapr-dir-right').textContent).toBe('right');
+    expect(el.querySelector('.mapr-bubble-ask .mapr-bubble-text').textContent).toBe('Swipe the Ice cream card right.');
 
     // Wrong answer, then right answer the wrong way (the button, not a swipe).
     await drag(-200);
