@@ -16,36 +16,59 @@ afterEach(() => {
 const button = (text) => [...el.querySelectorAll('button')].find((b) => b.textContent.includes(text));
 const press = (label) => act(async () => el.querySelector(`[aria-label="${label}"]`).click());
 
+// Drag the practice card dx pixels (0 = a tap on the card).
+const drag = async (dx) => {
+  const card = el.querySelector('.lab-card');
+  const fire = (type, x) => card.dispatchEvent(new MouseEvent(type, { bubbles: true, clientX: x, clientY: 0 }));
+  await act(async () => {
+    fire('pointerdown', 100);
+    fire('pointermove', 100 + dx);
+    fire('pointerup', 100 + dx);
+  });
+  await act(async () => vi.advanceTimersByTime(300));
+};
+const next = () => act(async () => vi.advanceTimersByTime(1500));
+
 describe('MaprTutorial', () => {
-  it('Mapr says hello, then has you practice each answer with a good job', async () => {
+  it('has you swipe right, swipe left, tap the card, then tap a button, saying what each means', async () => {
     vi.useFakeTimers();
     const onDone = vi.fn();
     el = document.createElement('div');
     document.body.appendChild(el);
     root = createRoot(el);
     await act(async () => root.render(<MaprTutorial onDone={onDone} />));
-    expect(el.textContent).toContain("Hello! I'm Mapr, your personal AI assistant.");
+    expect(el.textContent).toContain("Let's practice first");
 
     await act(async () => button("Let's practice").click());
-    expect(el.textContent).toContain('swipe right');
-    expect(el.textContent).toContain('Ice cream');
+    expect(el.textContent).toContain('Swipe the Ice cream card right.');
 
-    await press("Don't like it");
+    // Wrong answer, then right answer the wrong way (the button, not a swipe).
+    await drag(-200);
+    expect(el.textContent).toContain('Almost! That was a nope.');
+    await press('Love it');
     await act(async () => vi.advanceTimersByTime(300));
-    expect(el.textContent).toContain('Almost!');
+    expect(el.textContent).toContain('Right answer, but that was a button.');
+
+    await drag(200);
+    expect(el.textContent).toContain('Swiping right means you loved it.');
+    await next();
+    expect(el.textContent).toContain('Traffic jams');
+
+    await drag(-200);
+    expect(el.textContent).toContain("Swiping left means you didn't like it.");
+    await next();
+    expect(el.textContent).toContain('Opera');
+
+    await drag(0);
+    expect(el.textContent).toContain("Tapping the card means you're not sure.");
+    await next();
+    expect(el.textContent).toContain('Beaches');
 
     await press('Love it');
     await act(async () => vi.advanceTimersByTime(300));
-    expect(el.textContent).toContain('Good job!');
-    await act(async () => vi.advanceTimersByTime(1000));
-    expect(el.textContent).toContain('Traffic jams');
+    expect(el.textContent).toContain('same as swiping right');
+    await next();
 
-    await press("Don't like it");
-    await act(async () => vi.advanceTimersByTime(1300));
-    expect(el.textContent).toContain('Opera');
-
-    await press('Not sure');
-    await act(async () => vi.advanceTimersByTime(1300));
     expect(el.textContent).toContain("You've got it!");
     await act(async () => button('Start').click());
     expect(onDone).toHaveBeenCalled();

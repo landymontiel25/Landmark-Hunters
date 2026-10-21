@@ -10,41 +10,31 @@ import { allSwipeCards, tagDeltasFromAnswers, tasteIntroFromAnswers, SWIPE_DELTA
 import OnboardingPlaces from '../components/OnboardingPlaces';
 import LandmarkThumb from '../components/LandmarkThumb';
 import { SwipeCardStack as LabCardStack, progressTier } from '../components/OnboardingSteps';
-import MaprTutorial, { MaprBubble } from '../components/MaprTutorial';
+import MaprTutorial, { MaprSays } from '../components/MaprTutorial';
 import { NOTHING_TO_TEST } from './onboardingLabConfig';
 import MallLab from './MallLab';
 import TasteProfileLab from './TasteProfileLab';
 import RatingSliderLab from './RatingSliderLab';
-import SignupTutorialLab from './SignupTutorialLab';
+import { TutorialHello, TutorialLocation, TutorialTabs, TutorialVerify } from './SignupTutorialLab';
+import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
 
 export { progressTier };
 
-// Admin-only sandbox for trying out sign-up + onboarding. Everything here is
-// local state: no account is created, nothing is written to Firestore or the
-// saved trip, and "Restart" wipes it. The results screen shows what a real
-// signup would have saved (tagScores changes and notes) without saving it.
-// Sign-up is step 1, then "Your places", then the rating cards.
-const SIGNUP_ON = true;
-const STEPS = [
-  ...(SIGNUP_ON ? [{ id: 'signup', label: 'Sign up' }] : []),
-  { id: 'places', label: 'Your places' },
-  { id: 'prompt', label: 'Rate prompt' },
-  // Mapr leads: hello, what the three answers mean, then practice on three
-  // sample cards. Replaces the old wall-of-text instructions.
-  { id: 'howto', label: 'Mapr tutorial' },
-  { id: 'cards', label: 'Cards' },
-  { id: 'notes', label: 'Anything else' },
-  { id: 'checkin', label: 'First check-in' },
-  { id: 'done', label: 'Done' },
-];
+// Admin-only sandbox for the Tutorial: sign-up and onboarding combined into
+// one Mapr-led flow (hello, sign up, verify, swipe practice, the cards, notes,
+// your places, first check-in, location, your tabs). Everything here is local
+// state: no account is created, nothing is written to Firestore or the saved
+// trip, and "Restart" wipes it. The results screen shows what a real signup
+// would have saved (tagScores changes and notes) without saving it. The step
+// order and Mapr's words live in signupTutorialSteps.js.
+const STEPS = TUTORIAL_STEPS;
 // The Test tab's sub-tabs, shown as floating bubbles above the test. Add an
 // entry here (and render it below) for each new test.
 const TESTS = [
   { id: 'slider', label: 'Rating slider' },
   { id: 'malls', label: 'Malls' },
-  { id: 'onboarding', label: 'Onboarding' },
-  { id: 'taste', label: 'Taste Profile' },
   { id: 'tutorial', label: 'Tutorial' },
+  { id: 'taste', label: 'Taste Profile' },
 ];
 const indexOf = (id) => STEPS.findIndex((s) => s.id === id);
 
@@ -110,15 +100,6 @@ export default function OnboardingLab() {
     );
   }
 
-  if (test === 'tutorial') {
-    return (
-      <div>
-        {testTabs}
-        <SignupTutorialLab />
-      </div>
-    );
-  }
-
   if (test === 'taste') {
     return (
       <div>
@@ -159,7 +140,7 @@ export default function OnboardingLab() {
       {testTabs}
       <div className="card section lab-controls">
         <div className="lab-controls-head">
-          <strong>{'\u{1F9EA}'} Onboarding test</strong>
+          <strong>{'\u{1F9EA}'} Tutorial test</strong>
           <span className="tag">Nothing here is saved</span>
         </div>
         <div className="lab-steps">
@@ -192,42 +173,23 @@ export default function OnboardingLab() {
         </div>
       </div>
 
+      {id === 'hello' && <TutorialHello onDone={() => go('signup', 'Met Mapr')} />}
       {id === 'signup' && (
-        <LabSignUp
-          data={data}
-          set={set}
-          onDone={(via) => {
-            set({ via });
-            go('places', `Signed up (${via})`);
-          }}
-        />
+        <>
+          <MaprSays lines={SAY.signup} />
+          <LabSignUp
+            data={data}
+            set={set}
+            onDone={(via) => {
+              set({ via });
+              go('verify', `Signed up (${via})`);
+            }}
+          />
+        </>
       )}
-      {id === 'places' && (
-        <OnboardingPlaces
-          places={data.places}
-          onChange={(places, what) => {
-            note(what);
-            set({ places });
-          }}
-          onDone={() => go('prompt', data.places.length ? `Added ${data.places.length} places` : 'Skipped places')}
-        />
-      )}
-      {id === 'prompt' && (
-        <LabRatePrompt
-          onSkip={() => {
-            set({ skippedRating: true });
-            go('done', 'Skipped rating, straight into the app');
-          }}
-          onNext={() => {
-            set({ skippedRating: false });
-            go('howto', 'Chose to rate');
-          }}
-        />
-      )}
-      {id === 'howto' && <MaprTutorial onDone={() => go('cards', 'Finished Mapr tutorial')} />}
-      {id === 'cards' && data.answers.length < data.cards.length && (
-        <MaprBubble>Swipe away! Every card teaches me what to pick for you.</MaprBubble>
-      )}
+      {id === 'verify' && <TutorialVerify email={data.email} onDone={() => go('howto', 'Verified email (pretend)')} />}
+      {id === 'howto' && <MaprTutorial onDone={() => go('cards', 'Finished swipe practice')} />}
+      {id === 'cards' && data.answers.length < data.cards.length && <MaprSays lines={SAY.cards} />}
       {id === 'cards' && (
         <LabCardStack
           labels
@@ -243,31 +205,42 @@ export default function OnboardingLab() {
             note(`Undo: ${last.card.word}`);
             set({ answers: data.answers.slice(0, -1) });
           }}
+          onSkip={() => {
+            set({ skippedRating: !data.answers.length });
+            go('notes', `Skipped cards after ${data.answers.length}`);
+          }}
           onFinished={() => go('notes', 'Finished cards')}
         />
       )}
       {id === 'notes' && (
-        <LabNotes data={data} set={set} onDone={(how) => go('checkin', how)} />
+        <>
+          <MaprSays lines={SAY.notes} />
+          <LabNotes data={data} set={set} onDone={(how) => go('places', how)} />
+        </>
       )}
-      {id === 'checkin' && <LabCheckIn data={data} set={set} onDone={(how) => go('done', how)} />}
+      {id === 'places' && (
+        <>
+          <MaprSays lines={SAY.places} />
+          <OnboardingPlaces
+            places={data.places}
+            onChange={(places, what) => {
+              note(what);
+              set({ places });
+            }}
+            onDone={() => go('checkin', data.places.length ? `Added ${data.places.length} places` : 'Skipped places')}
+          />
+        </>
+      )}
+      {id === 'checkin' && (
+        <>
+          <MaprSays lines={SAY.checkin} />
+          <LabCheckIn data={data} set={set} onDone={(how) => go('location', how)} />
+        </>
+      )}
+      {id === 'location' && <TutorialLocation onDone={() => go('tabs', 'Saw the location ask')} />}
+      {id === 'tabs' && <TutorialTabs onDone={() => go('done', 'Finished your tabs')} />}
+      {id === 'done' && <MaprSays lines={SAY.done} />}
       {id === 'done' && <LabSummary data={data} log={log} onRestart={restart} />}
-    </div>
-  );
-}
-
-function LabRatePrompt({ onSkip, onNext }) {
-  return (
-    <div className="lab-center">
-      <h1 className="screen-title">
-        <span>{'\u{1F389}'}</span> You're in!
-      </h1>
-      <p className="screen-subtitle">Rate a few things you're into — takes 60-90 seconds.</p>
-      <button type="button" className="btn btn-primary btn-block" onClick={onNext}>
-        Next {'\u{2192}'}
-      </button>
-      <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 10 }} onClick={onSkip}>
-        Skip
-      </button>
     </div>
   );
 }
@@ -416,18 +389,16 @@ function LabSummary({ data, log, onRestart }) {
   return (
     <div>
       <h1 className="screen-title">
-        <span>{'\u{1F3C1}'}</span> Onboarding finished
+        <span>{'\u{1F3C1}'}</span> Tutorial finished
       </h1>
       <p className="screen-subtitle">What a real signup would have saved. Nothing here was actually saved.</p>
       <div className="card section">
-        {SIGNUP_ON && (
-          <p>
-            <strong>Signed up with:</strong> {data.via || '—'}
-          </p>
-        )}
+        <p>
+          <strong>Signed up with:</strong> {data.via || '—'}
+        </p>
         {data.skippedRating ? (
           <p>
-            <strong>Rating:</strong> skipped — straight into the app, no preference data yet
+            <strong>Cards:</strong> skipped, no preference data yet
           </p>
         ) : (
           <p>

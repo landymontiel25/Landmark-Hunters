@@ -52,6 +52,8 @@ const TAP_PX = 8;
 // onSkip (optional) adds a "Skip this step" button under the cards; answers given so far are kept.
 // labels: show "Nope", "Not sure", "Love it" under the buttons. practice: a
 // tutorial card (no progress bar, no Undo, never "All done").
+// onAnswer gets (card, answer, how): how is 'swipe', 'tap' (the card itself)
+// or 'button', for the tutorial's practice cards.
 export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, onSkip, labels = false, practice = false }) {
   const answered = new Set(answers.map((a) => a.card.word));
   const index = cards.findIndex((c) => !answered.has(c.word));
@@ -78,12 +80,12 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
 
   if (!card) return null;
 
-  const decide = (answer) => {
+  const decide = (answer, how) => {
     if (leaving) return;
     setLeaving(answer);
     setDx(answer === 'love' ? 600 : answer === 'dislike' ? -600 : 0);
     setTimeout(() => {
-      onAnswer(card, answer);
+      onAnswer(card, answer, how);
       setDx(0);
       setLeaving(null);
     }, 220);
@@ -103,9 +105,9 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
     const moved = e.clientX - start.current.x;
     const movedY = e.clientY - start.current.y;
     start.current = null;
-    if (moved > SWIPE_PX) decide('love');
-    else if (moved < -SWIPE_PX) decide('dislike');
-    else if (Math.abs(moved) < TAP_PX && Math.abs(movedY) < TAP_PX) decide('unsure');
+    if (moved > SWIPE_PX) decide('love', 'swipe');
+    else if (moved < -SWIPE_PX) decide('dislike', 'swipe');
+    else if (Math.abs(moved) < TAP_PX && Math.abs(movedY) < TAP_PX) decide('unsure', 'tap');
     else setDx(0);
   };
 
@@ -155,7 +157,7 @@ export function SwipeCardStack({ cards, answers, onAnswer, onUndo, onFinished, o
           ['love', '\u{2665}', 'Love it', 'Love it'],
         ].map(([answer, icon, word, aria]) => (
           <div key={answer} className="lab-card-btn-wrap">
-            <button type="button" className="btn btn-ghost" onClick={() => decide(answer)} aria-label={aria}>
+            <button type="button" className="btn btn-ghost" onClick={() => decide(answer, 'button')} aria-label={aria}>
               {icon}
             </button>
             {labels && <span className="lab-card-btn-label">{word}</span>}
