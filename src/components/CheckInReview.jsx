@@ -10,7 +10,7 @@ import { clearPersisted, markDraftSubmitting, unmarkDraftSubmitting } from '../l
 import { friendlyError } from '../lib/friendlyError';
 import ErrorNotice from './ErrorNotice';
 import { attachCheckinPhoto } from '../lib/leaderboard';
-import { claimPhotoBonusAndTell } from '../lib/photoBonus';
+import { claimPhotoBonusAndTell, photoButtonLabel, usePhotoBonusOpen } from '../lib/photoBonus';
 import { claimLandmarkBonusAndTell } from '../lib/landmarkBonus';
 import { useToast } from '../lib/ToastContext';
 import { pickPhoto } from '../lib/imageUtils';
@@ -41,8 +41,9 @@ export default function CheckInReview() {
   const toast = useToast();
   // +10 for a photo of a place you checked in to (api/_lib/photoBonus.js
   // decides and checks the photo; a rating-only claim never qualifies).
-  const askPhotoBonus = (landmarkId) => claimPhotoBonusAndTell(landmarkId, toast);
   const { user } = useAuth();
+  const [photoBonusOpen, markPhotoBonusPaid] = usePhotoBonusOpen(user?.uid, ratingOnly ? null : justCheckedIn?.id);
+  const askPhotoBonus = (landmarkId) => claimPhotoBonusAndTell(landmarkId, toast).then(markPhotoBonusPaid);
   const { coords } = useGeo();
   const { myUsername } = useFriends();
   const { myReviews, reload: reloadRatings } = useRatings();
@@ -403,7 +404,7 @@ export default function CheckInReview() {
             {photoFiles.length < 3 && (
               <div style={{ marginTop: 12 }}>
                 <button type="button" className="btn btn-ghost btn-sm" onClick={onPhoto}>
-                  {'\u{1F4F8}'} Add photo ({photoFiles.length}/3)
+                  {photoButtonLabel(`\u{1F4F8} Add photo (${photoFiles.length}/3)`, photoBonusOpen)}
                 </button>
               </div>
             )}
