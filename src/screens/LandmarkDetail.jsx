@@ -54,7 +54,7 @@ import { LandmarkDetailSkeleton, Skeleton, SkeletonList } from '../components/Sk
 import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
 import { useToast, runOptimistic } from '../lib/ToastContext';
-import { claimPhotoBonusAndTell } from '../lib/photoBonus';
+import { claimPhotoBonusAndTell, photoButtonLabel, usePhotoBonusOpen } from '../lib/photoBonus';
 import { claimLandmarkBonusAndTell } from '../lib/landmarkBonus';
 import { clearPersisted } from '../lib/usePersistentState';
 import { useDisagreementAsk } from '../lib/useDisagreementAsk';
@@ -320,6 +320,7 @@ function LandmarkDetailBody() {
   // and photo edits must target that doc, not a missing one.
   const reviewDocIdRef = useRef(null);
   const checkinDocIdRef = useRef(null);
+  const [photoBonusOpen, markPhotoBonusPaid] = usePhotoBonusOpen(user?.uid, landmark?.id);
 
   const loadMyReview = useCallback(async () => {
     if (!firebaseEnabled || !user || !landmark) return;
@@ -583,7 +584,7 @@ function LandmarkDetailBody() {
     setSaveMsg(res?.photoFailed ? "Rating saved — but your photo couldn't upload. Check your connection and try again (photos must be under 8 MB)." : null);
     // Paid only if you really checked in here (the server checks).
     if (photoFiles.length && !res?.photoFailed) {
-      claimPhotoBonusAndTell(landmark.id, toast);
+      claimPhotoBonusAndTell(landmark.id, toast).then(markPhotoBonusPaid);
     }
     setSaving(false);
     // The rating is saved; these only refresh what's shown, so a hiccup
@@ -676,7 +677,7 @@ function LandmarkDetailBody() {
       setMyCheckin((prev) => ({ ...prev, photoURLs: [...(prev?.photoURLs || []), url] }));
       setMyPhotos((prev) => (prev.includes(url) ? prev : [url, ...prev]));
       reloadMyPhotos().catch(() => {});
-      claimPhotoBonusAndTell(checkinDocIdRef.current || landmark.id, toast);
+      claimPhotoBonusAndTell(checkinDocIdRef.current || landmark.id, toast).then(markPhotoBonusPaid);
     } catch (e) {
       setCheckinPhotoError(friendlyError(e, "Couldn't upload that photo. Try again."));
       setFailedCheckinPhoto(f);
@@ -1212,7 +1213,7 @@ function LandmarkDetailBody() {
           {checkinPhotos.length < MAX_CHECKIN_PHOTOS && (
             <div style={{ marginTop: checkinPhotos.length > 0 ? 12 : 0 }}>
               <button type="button" className="btn btn-ghost btn-sm" disabled={checkinPhotoBusy} onClick={addMyCheckinPhoto}>
-                {checkinPhotoBusy ? 'Working…' : `${'\u{1F4F8}'} Add photo (${checkinPhotos.length}/${MAX_CHECKIN_PHOTOS})`}
+                {checkinPhotoBusy ? 'Working…' : photoButtonLabel(`\u{1F4F8} Add photo (${checkinPhotos.length}/${MAX_CHECKIN_PHOTOS})`, photoBonusOpen)}
               </button>
             </div>
           )}
@@ -1284,7 +1285,7 @@ function LandmarkDetailBody() {
               {photoFiles.length < photoRoom ? (
                 <div style={{ marginTop: 12 }}>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={onPhotoChange}>
-                    {'\u{1F4F8}'} Add photo ({reviewPhotoCount + photoFiles.length}/{MAX_REVIEW_PHOTOS})
+                    {photoButtonLabel(`\u{1F4F8} Add photo (${reviewPhotoCount + photoFiles.length}/${MAX_REVIEW_PHOTOS})`, photoBonusOpen)}
                   </button>
                 </div>
               ) : (

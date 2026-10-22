@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebase';
 import { authHeaders } from './apiAuth';
 import { API_BASE } from './apiBase';
 import { dayKey } from './streaks';
@@ -29,6 +32,35 @@ export function photoBonusToast({ awarded, reason }) {
   if (reason === 'photo-not-of-place')
     return { message: "No photo bonus: that photo doesn't look like it was taken here. Add one of the place to earn it.", tone: 'info' };
   return null;
+}
+
+// The "+10 pts" on an Add photo button: shown until this place's bonus is
+// paid (photo_bonuses/{uid}_{landmarkId}, readable by its owner). Until the
+// read answers, the label stays off so it never flashes on and away.
+export const PHOTO_BONUS_LABEL = '+10 pts';
+export const photoButtonLabel = (base, open) => (open ? `${base} \u00B7 ${PHOTO_BONUS_LABEL}` : base);
+
+export function usePhotoBonusOpen(uid, landmarkId) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!uid || !landmarkId || !db) {
+      setOpen(false);
+      return undefined;
+    }
+    let live = true;
+    getDoc(doc(db, 'photo_bonuses', `${uid}_${landmarkId}`))
+      .then((snap) => live && setOpen(!snap.exists()))
+      .catch(() => live && setOpen(false));
+    return () => {
+      live = false;
+    };
+  }, [uid, landmarkId]);
+  // After a paid photo, the label goes away without another read.
+  const markPaid = (res) => {
+    if (res?.awarded > 0) setOpen(false);
+    return res;
+  };
+  return [open, markPaid];
 }
 
 // Asks, then shows the toast (if any) with the app's toast.show.
