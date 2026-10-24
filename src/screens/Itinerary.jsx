@@ -416,13 +416,15 @@ export default function Itinerary() {
           selectedLandmarks.filter((l) => !l.external).map((l) => l.id),
           trip.byRegion[region.id] || []
         ),
-        places: (trip.placesByRegion?.[region.id] || []).map(({ id: pid, name, address, lat, lng, url }) => ({
+        places: (trip.placesByRegion?.[region.id] || []).map(({ id: pid, name, address, lat, lng, url, fromRegion, landmarkId }) => ({
           id: pid,
           name,
           address: address || '',
           lat,
           lng,
           url: url || '',
+          // A landmark from another city keeps its link to its own page.
+          ...(landmarkId ? { fromRegion, landmarkId } : {}),
         })),
         initialMembers: [member],
       });
@@ -1069,7 +1071,19 @@ export default function Itinerary() {
               <div className={`card ${claimedMap[stop.id] ? 'visited' : ''}`} style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                    {stop.external ? (
+                    {stop.external && stop.landmarkId ? (
+                      <button
+                        type="button"
+                        className="route-stop-link"
+                        onClick={() => navigate(`/landmarks/${stop.fromRegion}/${stop.landmarkId}`)}
+                        title={`Open ${stop.name} — check in, rate, or see details`}
+                      >
+                        <span className="chatlab-stop-globe" aria-hidden="true">
+                          {'\u{1F4CD}'}
+                        </span>
+                        <h4 style={{ margin: 0, color: 'var(--color-parchment)' }}>{stop.name}</h4>
+                      </button>
+                    ) : stop.external ? (
                       <>
                         <span className="chatlab-stop-globe" aria-hidden="true">
                           {'\u{1F310}'}
@@ -1114,7 +1128,13 @@ export default function Itinerary() {
                 </div>
                 {stop.external ? (
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                    <span className="tag place-tag">{'\u{2728}'} Found by Mapr</span>
+                    {stop.landmarkId ? (
+                      <span className="tag place-tag">
+                        {'\u{1F4CD}'} From {getRegion(stop.fromRegion)?.name || 'another city'}
+                      </span>
+                    ) : (
+                      <span className="tag place-tag">{'\u{2728}'} Found by Mapr</span>
+                    )}
                     {stop.address && <span className="tag place-tag">{stop.address}</span>}
                   </div>
                 ) : (
