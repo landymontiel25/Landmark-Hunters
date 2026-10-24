@@ -598,12 +598,23 @@ export default function GroupTrip() {
       {(trip.places || []).length > 0 && (
         <div className="card section">
           <h3 style={{ marginTop: 0 }}>
-            {'\u{1F310}'} Places From Mapr ({trip.places.length})
+            {'\u{1F310}'} Places From Mapr &amp; Other Cities ({trip.places.length})
           </h3>
           {trip.places.map((p) => (
             <div key={p.id} className="friend-row" style={{ alignItems: 'flex-start' }}>
               <span style={{ minWidth: 0 }}>
-                <strong>{p.name}</strong>
+                {p.landmarkId ? (
+                  <Link to={`/landmarks/${p.fromRegion}/${p.landmarkId}`}>
+                    <strong>{p.name}</strong>
+                  </Link>
+                ) : (
+                  <strong>{p.name}</strong>
+                )}
+                {p.landmarkId && getRegion(p.fromRegion) && (
+                  <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                    From {getRegion(p.fromRegion).name}
+                  </span>
+                )}
                 {p.address && (
                   <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{p.address}</span>
                 )}

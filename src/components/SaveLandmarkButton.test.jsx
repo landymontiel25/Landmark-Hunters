@@ -7,10 +7,15 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: null }) }));
 vi.mock('../lib/ToastContext', () => ({ useToast: () => ({ show: vi.fn() }) }));
-vi.mock('../lib/groupTrips', () => ({ listMyGroupTrips: async () => [], toggleGroupLandmark: async () => {} }));
+vi.mock('../lib/groupTrips', () => ({
+  listMyGroupTrips: async () => [],
+  toggleGroupLandmark: async () => {},
+  addGroupPlace: async () => {},
+  removeGroupPlace: async () => {},
+}));
 
 import { TripProvider, useTrip } from '../lib/TripContext';
-import SaveLandmarkButton from './SaveLandmarkButton';
+import SaveLandmarkButton, { ItinerarySheet } from './SaveLandmarkButton';
 
 let container;
 let root;
@@ -60,5 +65,39 @@ describe('SaveLandmarkButton', () => {
     await act(async () => bookmark().click());
     expect(tripRef.savedForLater).toEqual([]);
     expect(tripRef.byRegion.miami).toEqual(['vizcaya']);
+  });
+
+  // Owner ask 2026-10-24: a place can go on any itinerary you have, with its
+  // own city's first.
+  it("lists this city's itinerary first, then every other one, and adds across cities as a linked place", async () => {
+    localStorage.setItem(
+      'landmarkhunters.trip.v1',
+      JSON.stringify({ byRegion: { 'san-francisco': ['ferry-building'], miami: ['vizcaya'] }, itineraryNames: { 'san-francisco': 'SF Weekend' } })
+    );
+    const landmark = { id: 'south-pointe-park', name: 'South Pointe Park and Pier', lat: 25.765, lng: -80.134 };
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    root = createRoot(container);
+    await act(async () =>
+      root.render(
+        <TripProvider>
+          <ItinerarySheet landmark={landmark} regionId="miami" onClose={() => {}} />
+          <Probe />
+        </TripProvider>
+      )
+    );
+    const rows = [...document.querySelectorAll('.save-sheet-row')];
+    expect(rows.map((b) => b.textContent)).toEqual([expect.stringContaining('Miami'), expect.stringContaining('SF Weekend')]);
+
+    await act(async () => rows[0].click());
+    await act(async () => rows[1].click());
+    expect(tripRef.byRegion.miami).toEqual(['vizcaya', 'south-pointe-park']);
+    expect(tripRef.byRegion['san-francisco']).toEqual(['ferry-building']);
+    expect(tripRef.placesByRegion['san-francisco']).toEqual([
+      expect.objectContaining({ id: 'lm:miami:south-pointe-park', fromRegion: 'miami', landmarkId: 'south-pointe-park', lat: 25.765 }),
+    ]);
+
+    await act(async () => rows[1].click());
+    expect(tripRef.placesByRegion['san-francisco']).toBeUndefined();
   });
 });

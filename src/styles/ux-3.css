@@ -322,6 +322,17 @@ button.back-sticky,
   text-align: left;
   cursor: pointer;
 }
+.save-sheet-row-sub {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+/* Many itineraries scroll inside the sheet; Done stays in view. */
+.save-sheet-list {
+  max-height: 50vh;
+  overflow-y: auto;
+}
 .save-sheet-mark {
   width: 28px;
   height: 28px;

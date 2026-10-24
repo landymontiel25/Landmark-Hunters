@@ -46,7 +46,7 @@ import { useLandmarkRatings } from '../lib/useLandmarkRatings';
 import TipsSection from '../components/tips/TipsSection';
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
-import SaveLandmarkButton from '../components/SaveLandmarkButton';
+import SaveLandmarkButton, { ItinerarySheet } from '../components/SaveLandmarkButton';
 import AdmissionTag from '../components/AdmissionTag';
 import { isPermanentlyClosed } from '../lib/closedPlace';
 import { pickPhoto } from '../lib/imageUtils';
@@ -129,7 +129,7 @@ function LandmarkDetailBody() {
       state: { checkinNav: { ...checkinNav, index } },
     });
   };
-  const { toggleLandmark, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
+  const { trip, removeLandmark, getRegionSelection, updateTrip, setMapFocus, setMapFocusPoint } = useTrip();
   const { user, firebaseEnabled, claimedMap, checkinTick = 0, checkingIn, checkIn, presenceResult } = useCheckIn();
   const { adminMode } = useAdminMode();
   const { applyEdit, reload: reloadLandmarkEdits } = useLandmarkEdits();
@@ -278,6 +278,7 @@ function LandmarkDetailBody() {
   const [lightboxSrc, setLightboxSrc] = useState(null);
   const [deletingCustom, setDeletingCustom] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
+  const [itineraryPickerOpen, setItineraryPickerOpen] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('');
 
   // Questions go to Mapr (the app's one assistant): it opens the chat with
@@ -511,6 +512,9 @@ function LandmarkDetailBody() {
   }
 
   const isSelected = getRegionSelection(regionId).includes(landmark.id);
+  const asPlaceId = `lm:${regionId}:${landmark.id}`;
+  const onAnyItinerary =
+    isSelected || Object.values(trip?.placesByRegion || {}).some((list) => (list || []).some((p) => p.id === asPlaceId));
   const agg = ratings[landmark.id];
   const draftKey = ratingDraftKey(user?.uid, landmark.id);
 
@@ -1162,16 +1166,17 @@ function LandmarkDetailBody() {
         </div>
       )}
 
-      {/* A pin far from every curated city has no city itinerary to join. */}
-      {(region || isSelected) && (
-        <button
-          type="button"
-          className={`btn btn-block ${isSelected ? 'btn-success' : 'btn-primary'}`}
-          onClick={() => toggleLandmark(landmark.id, regionId)}
-          style={{ marginBottom: 12 }}
-        >
-          {isSelected ? '✓ Added to Itinerary' : 'Add to Itinerary'}
-        </button>
+      {/* Any itinerary you have takes it, this city's or another's. */}
+      <button
+        type="button"
+        className={`btn btn-block ${onAnyItinerary ? 'btn-success' : 'btn-primary'}`}
+        onClick={() => setItineraryPickerOpen(true)}
+        style={{ marginBottom: 12 }}
+      >
+        {onAnyItinerary ? '✓ Added to Itinerary' : 'Add to Itinerary'}
+      </button>
+      {itineraryPickerOpen && (
+        <ItinerarySheet landmark={landmark} regionId={regionId} onClose={() => setItineraryPickerOpen(false)} />
       )}
 
 
