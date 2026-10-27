@@ -10,6 +10,7 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 // the My Preferences button was removed the same week at the owner's ask.
 let container;
 afterEach(() => {
+  localStorage.clear();
   container?.remove();
   vi.resetModules();
 });
@@ -56,15 +57,40 @@ async function render({ saved = [] } = {}) {
 const chip = (el, label) => [...el.querySelectorAll('.chip')].find((c) => c.textContent.includes(label));
 const selected = (el) => [...el.querySelectorAll('.chip-grid .chip.selected')].map((c) => c.textContent.trim());
 
-describe('Create New Trip: interests', () => {
-  it('opens with nothing picked, even if last time had picks', async () => {
+const tabBtn = (el, label) => [...el.querySelectorAll('.tab-btn')].find((b) => b.textContent.includes(label));
+
+describe('Create New Trip: Play, Plan and interests', () => {
+  it('opens on Play, with the interest chips and trip type tucked behind Plan', async () => {
     const { el } = await render({ saved: ['food'] });
-    expect(selected(el)).toEqual([]);
+    expect(tabBtn(el, 'Play').getAttribute('aria-pressed')).toBe('true');
+    expect(tabBtn(el, 'Plan').getAttribute('aria-pressed')).toBe('false');
+    expect(el.querySelector('.chip-grid')).toBeNull();
+    expect(chip(el, 'My Preferences')).toBeUndefined();
   });
 
-  it('has no My Preferences button', async () => {
+  it('Plan opens with nothing picked, even if last time had picks, and Top Landmarks leads the chips', async () => {
     const { el } = await render({ saved: ['food'] });
-    expect(chip(el, 'My Preferences')).toBeUndefined();
-    expect(el.textContent).not.toContain('No preferences saved yet');
+    await act(async () => tabBtn(el, 'Plan').click());
+    expect(selected(el)).toEqual([]);
+    expect(el.querySelector('.chip-grid .chip').textContent).toContain('Top Landmarks');
+    expect(el.textContent).toContain('Choose Landmarks');
+  });
+
+  it('Play opens the Landmarks tab on Top Landmarks', async () => {
+    const { el } = await render();
+    localStorage.setItem('lh.draft.v1.landmarks.sort.v3', JSON.stringify({ v: 'forMe', t: Date.now() }));
+    await act(async () => tabBtn(el, 'Play').click());
+    expect(JSON.parse(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).v).toBe('rated');
+  });
+
+  it('the Top Landmarks chip sets that sort when you tap Choose Landmarks', async () => {
+    const { el } = await render();
+    localStorage.setItem('lh.draft.v1.landmarks.sort.v3', JSON.stringify({ v: 'nearMe', t: Date.now() }));
+    await act(async () => tabBtn(el, 'Plan').click());
+    await act(async () => chip(el, 'Top Landmarks').click());
+    expect(chip(el, 'Top Landmarks').getAttribute('aria-pressed')).toBe('true');
+    await act(async () => tabBtn(el, 'Solo').click());
+    await act(async () => [...el.querySelectorAll('button')].find((b) => b.textContent.includes('Choose Landmarks')).click());
+    expect(JSON.parse(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).v).toBe('rated');
   });
 });

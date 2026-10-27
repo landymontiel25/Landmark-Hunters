@@ -16,7 +16,6 @@ const subscribe = vi.fn((uid, onStreak) => {
 });
 let ensure = async () => ({});
 
-vi.mock('../components/MaprPicksCarousel', () => ({ default: () => null }));
 vi.mock('../lib/RatingsContext', () => ({ useRatings: () => ({ myReviews: {} }) }));
 vi.mock('../lib/usePickVotes', () => ({ usePickVotes: () => ({ vote: () => Promise.resolve(null) }) }));
 vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'me' }, firebaseEnabled: true }) }));

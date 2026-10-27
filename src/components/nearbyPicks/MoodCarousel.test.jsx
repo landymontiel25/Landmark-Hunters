@@ -42,7 +42,7 @@ describe('MoodCarousel', () => {
     expect(labels[0]).toContain('Something to eat');
     expect(labels[1]).toContain('Art & culture');
     expect(labels.some((l) => l.includes('Tech spots'))).toBe(false);
-    expect(el.querySelector('.mpp-section-title').textContent).toBe('What are you in the mood for?');
+    expect(el.querySelector('.mpp-section-title').textContent).toBe('Discover top landmarks');
   });
 
   it('switches between carousel and list, and remembers the choice', async () => {

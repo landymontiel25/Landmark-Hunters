@@ -29,7 +29,6 @@ import { useToast, runOptimistic } from '../lib/ToastContext';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState, readPersisted } from '../lib/usePersistentState';
 import { API_BASE } from '../lib/apiBase';
-import MaprRatePicks from '../components/MaprRatePicks';
 
 const isNull = (v) => v == null;
 
@@ -813,13 +812,6 @@ export default function Settings() {
           </div>,
           document.body
         )}
-      {/* Mapr Travel Picks, parked here at the bottom for now (it used to
-          sit on the Itinerary tab). */}
-      {user && (
-        <div style={{ marginTop: 32 }}>
-          <MaprRatePicks />
-        </div>
-      )}
     </div>
   );
 }

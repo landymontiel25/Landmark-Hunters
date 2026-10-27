@@ -23,7 +23,7 @@ import { usePickVotes } from '../../lib/usePickVotes';
 // Also: updating (an older set is showing while a new one loads) and slow
 // (offline: the last set stays on screen).
 //
-// layout 'mood-first' (the Test tab): "What are you in the mood for?" (the
+// layout 'mood-first' (the Test tab): "Discover top landmarks" (the
 // moodSlot) on top, then one card with the top three picks, each with a
 // Directions button, and the refresh button beside the card's title.
 export const SWIPE_PX = 30;

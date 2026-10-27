@@ -10,7 +10,7 @@ import { useFeedCity } from '../lib/useFeedGate';
 // position instead of an end slot.
 const items = [
   { to: '/', label: 'Map', icon: '\u{1F310}', end: true },
-  { to: '/landmarks', label: 'Places', icon: '\u{1F4CD}' },
+  { to: '/landmarks', label: 'Landmarks', icon: '\u{1F4CD}' },
   { to: '/mapr', label: 'Mapr', icon: '\u{1F9E0}' },
   { to: '/itinerary', label: 'Itinerary', icon: '\u{1F5FA}\u{FE0F}' },
   { to: '/profile', label: 'Profile', icon: '\u{1F3C6}' },
