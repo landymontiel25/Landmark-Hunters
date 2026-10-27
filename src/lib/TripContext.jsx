@@ -311,15 +311,6 @@ export function TripProvider({ children }) {
         : [...t.deselectedCustomInterests, text],
     }));
 
-  // One tap on Setup: replace the live trip interests with your saved ones
-  // (skipping any custom ones you've turned off).
-  const applyPreferences = () =>
-    setTrip((t) => ({
-      ...t,
-      interests: [...t.savedInterests],
-      customInterests: t.savedCustomInterests.filter((x) => !t.deselectedCustomInterests.includes(x)),
-    }));
-
   const getRegionSelection = (regionId) => trip.byRegion[regionId] || [];
 
   // A city counts once it has catalog stops, Mapr-found places, or a name
@@ -364,7 +355,6 @@ export function TripProvider({ children }) {
         addSavedCustomInterest,
         removeSavedCustomInterest,
         toggleSavedCustomInterestSelected,
-        applyPreferences,
         mapFocus,
         setMapFocus,
         mapFocusPoint,

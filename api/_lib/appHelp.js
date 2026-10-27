@@ -117,7 +117,7 @@ export const APP_HELP =
   `any other (group trips work the same as before). Tapping an answer moves on by itself; steps with a text box have Next. Every step has Back, ` +
   `progress dots, Close and "Just browse the map", and every step but the first has Skip. Answers are saved as you go, so closing the app ` +
   `picks up on the same step. Planning the exact same trip again from the same spot in the same part of the day shows the last plan again ` +
-  `instead of re-planning. Interest chips and "Use My Preferences" are no longer part of this flow; My Preferences is still editable in Settings.\n` +
+  `instead of re-planning. Interest chips are no longer part of this flow; My Preferences is still editable in Settings.\n` +
   `- Taste score (the "Taste Profile" card on the Mapr tab, not Profile; it reads "Mapr Score: N%" with a one-line nudge that raising it helps Mapr understand you better, and a bar that is red under 40%, yellow from 40% to 69% and green from 70%, with the number beside it and a word like Strong or Getting there): how often Mapr's own quiet guess about a place it suggested matched your answer. ` +
   `Mapr keeps a hidden guess for each pick it shows you, and only after you answer (a rating, or an "I'd go" / "Not sure" / "Not for me" tap, whichever is your newest answer on that place) ` +
   `is it compared. The score looks at your last 20 such guesses: same answer is a full hit, one step off (say a guess of I'd go against It was ok) counts half, two steps off (I'd go against ` +
@@ -179,8 +179,7 @@ export const APP_HELP =
   `- Trip Setup: no longer its own tab. The Itinerary tab's empty/overview state leads with "🧭 Use Mapr (recommended)", which jumps straight to ` +
   `Mapr's Plan Your Trip chat (see above) — a "➕ Create New Trip" modal (a one-page starting location/region/interests form, plus a full solo-vs-group ` +
   `flow with friend invites) is still there underneath it for anyone who wants the old non-chat form instead. In that form, "What are you ` +
-  `interested in?" opens with nothing picked; a "⭐ My Preferences" button above the chips fills in the preferences saved in Settings (tap it ` +
-  `again to clear them), and with none saved it says to set them in Settings.\n` +
+  `interested in?" opens with nothing picked; there is no My Preferences button there.\n` +
   `- Check-ins: open a landmark and tap its check-in button, then Post (Cancel records nothing) — repeat check-ins to the same place are allowed, each logged with its own timestamp. ` +
   `The usual "you're here" radius is 30 m, but right now the app does NOT require being near the place to check in. ` +
   `Only your very first check-in ever pays points (100 points on the 1st visit); every check-in after that, at any place, pays nothing, because check-ins are for Mapr — every visit still counts toward Mapr ` +
