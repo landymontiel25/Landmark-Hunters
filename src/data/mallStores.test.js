@@ -17,13 +17,8 @@ const TAGS = new Set(['clothing', 'shoes', 'department store', 'beauty', 'electr
 describe('mall stores', () => {
   // Malls whose store research is still running (2026-10-10). Remove each
   // as its stores land; the list must only ever shrink.
-  const RESEARCH_PENDING = new Set([
-    // Research found no current tenants; for the owner to decide
-    // (docs/open-work.md): a building on Lincoln Road, not a mall?
-    'miami/osm-n6030985494', // Lincoln Center
-    // Only a 2015 source, which says it was to be replaced by a tower.
-    'miami/osm-w435576204', // Ultramont Mall
-  ]);
+  // (Lincoln Center and Ultramont Mall left with Miami's top-100 cut.)
+  const RESEARCH_PENDING = new Set([]);
 
   it('has a store list for every mall in the app', () => {
     const missing = malls

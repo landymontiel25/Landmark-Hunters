@@ -1,4 +1,4 @@
-// "How do I get to Hillstone?" comes back with Hillstone's card (its
+// "How do I get to Versailles?" comes back with Versailles' card (its
 // Directions button sits on it), whether or not the AI listed it as a stop,
 // and named imported places reach the AI as MATCHING PLACES.
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -44,30 +44,30 @@ describe('plan-ai directions questions', () => {
 
   it('adds the named place as a card when the AI answered in text only', async () => {
     aiText = JSON.stringify({ reply: 'Head west on Coral Way.', stops: [] });
-    const r = await ask('How do I get to Hillstone?');
+    const r = await ask('How do I get to Versailles?');
     expect(r.stops).toHaveLength(1);
-    expect(r.stops[0]).toMatchObject({ region: 'miami', name: 'Hillstone Restaurant' });
+    expect(r.stops[0]).toMatchObject({ region: 'miami', name: 'Versailles Restaurant' });
     expect(Number.isFinite(r.stops[0].lat) && Number.isFinite(r.stops[0].lng)).toBe(true);
   });
 
   it('adds no card when the question is not about getting there', async () => {
     aiText = JSON.stringify({ reply: 'Try these.', stops: [] });
-    expect((await ask('Is Hillstone good?')).stops).toEqual([]);
+    expect((await ask('Is Versailles good?')).stops).toEqual([]);
   });
 
   it('lists named imported places and accepts them as stops', async () => {
-    const cafe = ALL_LANDMARKS.find((l) => l.source === 'osm' && l.name === 'Vice City Bean');
+    const cafe = ALL_LANDMARKS.find((l) => l.source === 'osm' && l.name === 'The Kampong');
     expect(cafe).toBeTruthy();
-    aiText = JSON.stringify({ reply: "Here's Vice City Bean.", stops: [{ match: `miami/${cafe.id}`, reason: 'Tap Directions.' }] });
-    const r = await ask('directions to Vice City Bean');
+    aiText = JSON.stringify({ reply: "Here's The Kampong.", stops: [{ match: `miami/${cafe.id}`, reason: 'Tap Directions.' }] });
+    const r = await ask('directions to The Kampong');
     const system = lastRequest.system.map((b) => b.text).join('\n');
     expect(system).toMatch(/MATCHING PLACES/);
     expect(system).toContain(`miami/${cafe.id}`);
     // Its researched facts ride along so Mapr knows what the place is.
-    expect(system).toContain('facts: Founded by Roland and Eva Baker');
+    expect(system).toContain('facts: The Kampong is a botanical garden');
     // Imported places stay out of the cached catalog block.
     expect(lastRequest.system.find((b) => b.cache_control).text).not.toContain('osm-');
-    expect(r.stops[0]).toMatchObject({ id: cafe.id, name: 'Vice City Bean', source: 'osm' });
+    expect(r.stops[0]).toMatchObject({ id: cafe.id, name: 'The Kampong', source: 'osm' });
   });
 });
 

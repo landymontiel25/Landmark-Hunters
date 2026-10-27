@@ -16,7 +16,7 @@ describe('directionsStopFor', () => {
   });
 
   it('finds a built-in landmark', async () => {
-    expect((await directionsStopFor('How do I get to Hillstone?'))?.name).toBe('Hillstone Restaurant');
+    expect((await directionsStopFor('How do I get to Versailles?'))?.name).toBe('Versailles Restaurant');
   });
 
   it('adds nothing for other questions or unknown places', async () => {
