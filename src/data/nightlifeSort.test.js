@@ -7,13 +7,13 @@ const cat = (name) => ALL_LANDMARKS.find((l) => l.name === name)?.categories[0];
 describe('Nightlife is only bars, clubs and live music', () => {
   it('puts aquariums, zoos and theme parks under Attractions', () => {
     expect(INTERESTS.find((i) => i.id === 'attractions')?.label).toBe('Attractions');
-    for (const n of ['Miami Seaquarium', 'Zoo Miami', 'Jungle Island', 'Bronx Zoo', 'Coney Island', "California's Great America", 'Two Oceans Aquarium']) {
+    for (const n of ['Zoo Miami', 'Jungle Island', 'Bronx Zoo', 'Coney Island', "California's Great America", 'Two Oceans Aquarium']) {
       expect(cat(n), n).toBe('attractions');
     }
   });
 
   it('puts theaters, opera houses and cinemas under Art & Culture', () => {
-    for (const n of ['Adrienne Arsht Center', 'Teatro alla Scala', 'Palais Garnier', 'Carnegie Hall', 'Castro Theatre', 'Tower Theater Miami']) {
+    for (const n of ['Adrienne Arsht Center', 'Teatro alla Scala', 'Palais Garnier', 'Carnegie Hall', 'Castro Theatre']) {
       expect(cat(n), n).toBe('history-culture');
     }
   });

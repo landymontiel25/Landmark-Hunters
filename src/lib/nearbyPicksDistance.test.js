@@ -24,10 +24,11 @@ const miles = (m) => m / METERS_PER_MILE;
 const NOW = new Date('2026-10-01T03:00:00');
 
 describe('real catalog density', () => {
-  it('Doral has a real set of places within 5 mi, and plenty within 10', () => {
-    expect(withinDistance(ALL_LANDMARKS, DORAL, 5).length).toBeGreaterThanOrEqual(10);
+  // Miami is its owner-picked top 100 since 2026-10-27, so Doral is thin.
+  it('Doral has a few places within 5 mi, and plenty within 10', () => {
+    expect(withinDistance(ALL_LANDMARKS, DORAL, 5).length).toBeGreaterThanOrEqual(3);
     expect(withinDistance(ALL_LANDMARKS, DORAL, 10).length).toBeGreaterThanOrEqual(20);
-    expect(miles(withinDistance(ALL_LANDMARKS, DORAL, 100)[0].distanceMeters)).toBeLessThan(2);
+    expect(miles(withinDistance(ALL_LANDMARKS, DORAL, 100)[0].distanceMeters)).toBeLessThan(3);
   });
 
   it('3 AM does not hide the nearby catalog (no built-in place carries hours)', () => {
@@ -74,8 +75,8 @@ describe('nearest beyond the radius', () => {
   it('lists the nearest three past 1 mi at Doral, closest first', () => {
     const list = nearestBeyond({ origin: DORAL, miles: 1, date: NOW });
     expect(list).toHaveLength(3);
-    expect(list[0].name).toBe('Trump National Doral (Blue Monster)');
-    expect(miles(list[0].distanceMeters)).toBeCloseTo(1.1, 0);
+    expect(list[0].name).toBe('Dolphin Mall');
+    expect(miles(list[0].distanceMeters)).toBeCloseTo(2.7, 0);
     expect(list.every((p, i) => i === 0 || p.distanceMeters >= list[i - 1].distanceMeters)).toBe(true);
   });
   it('widen target is the smallest chip that reaches the nearest place', () => {

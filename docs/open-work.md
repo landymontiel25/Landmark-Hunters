@@ -3,6 +3,30 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Miami cut to the owner's top 100 (2026-10-27)
+
+The owner gave an evidence-based ranking of Miami's top 100 landmarks and
+asked for every other Miami place to go, imported places included. Miami
+now has exactly 100: 90 hand-picked entries in `landmarks.miami.js`,
+`landmarks.coralgables.js` and `landmarks.keybiscayne.js` (21 new ones,
+each with its rank in a comment, pinned by Nominatim at the researched
+address) and 10 imported places left in `public/places/miami/` (the Black
+Police Precinct Museum, Fillmore, Colony Theatre, Books & Books Coral Gables,
+The Kampong, Miami Beach Botanical Garden, Margaret Pace Park, David T.
+Kennedy Park, Alice Wainwright Park, The Underline). `landmarks.test.js`
+fails if the count drifts. Aventura Mall and Bal Harbour Shops came with
+store lists (`research/malls/stores-miami-top100.json`). Still open:
+- The rank lives only in comments; "Top Landmarks" still sorts by Google
+  rating. Sorting Miami by the owner's rank needs a `rank` field and a
+  sort change.
+- The Alhambra Water Tower (1,000-point first-landmark bonus) is off the
+  map. Its `SPECIAL_PLACES` entry stays, so re-adding the tower brings the
+  bonus back.
+- `scripts/osm-import/build-packs.mjs` rebuilds from `data/miami/staged.json`
+  when that file exists locally, which would bring the old Miami imports
+  back. Rebuild Miami only from the current packs.
+- Check-ins and ratings at removed places stay in Firestore.
+
 ## Test tab: Tutorial = sign-up + onboarding combined (2026-10-21)
 
 The owner merged onboarding and the tutorial into one Mapr-led flow, the

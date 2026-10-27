@@ -1,4 +1,5 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { PLACE_PACKS } from './placePacks.manifest.js';
 import { describe, expect, it } from 'vitest';
 import { ALL_LANDMARKS, INTERESTS, REGIONS, sortInterests, canonicalLandmarkId, legacyLandmarkIds, getRegion, getLandmark } from './regions';
 
@@ -151,8 +152,17 @@ describe('catalog text and image hygiene', () => {
     expect(REGIONS.map((r) => r.id)).not.toContain('coral-gables');
     expect(REGIONS.map((r) => r.id)).not.toContain('key-biscayne');
     expect(getRegion('coral-gables')?.id).toBe('miami');
-    expect(getLandmark('coral-gables', 'alhambra-towers')?.name).toMatch(/Alhambra/);
-    expect(ALL_LANDMARKS.find((l) => l.id === 'alhambra-towers')?.regionId).toBe('miami');
+    expect(getLandmark('coral-gables', 'merrick-house')?.name).toMatch(/Merrick/);
+    expect(ALL_LANDMARKS.find((l) => l.id === 'merrick-house')?.regionId).toBe('miami');
+  });
+
+  // Owner, 2026-10-27: Miami is exactly their evidence-based top 100, the
+  // hand-picked landmarks plus the imported places still in its packs.
+  it('keeps Miami to the top 100', () => {
+    const packed = PLACE_PACKS.filter((p) => p.region === 'miami').flatMap((p) => JSON.parse(readFileSync(`public/${p.file}`, 'utf8')));
+    const miami = [...getRegion('miami').landmarks, ...packed];
+    expect(miami).toHaveLength(100);
+    expect(miami.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum']));
   });
 
   it('keeps every region well formed (unique id, center inside its own map bounds)', () => {

@@ -6,6 +6,8 @@
 //               server (api/_lib/landmarkBonus.js)
 export const SPECIAL_PLACES = {
   // Owner, 2026-10-21: the first landmark ever in Landmark Hunters.
+  // Off the map since 2026-10-27 (Miami cut to the owner's top 100): this
+  // stays so the bonus comes back if the tower is added again.
   'miami/osm-w435585913': {
     name: 'Alhambra Water Tower',
     bonusPoints: 1000,

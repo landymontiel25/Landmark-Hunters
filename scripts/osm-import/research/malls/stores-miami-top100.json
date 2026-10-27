@@ -1,0 +1,311 @@
+[
+ {
+  "key": "miami/aventura-mall",
+  "mall": "Aventura Mall",
+  "city": "Aventura, Miami",
+  "source": "https://aventuramall.com/about-aventura-mall/",
+  "stores": [
+   {
+    "name": "Nordstrom",
+    "tags": [
+     "department store"
+    ]
+   },
+   {
+    "name": "Bloomingdale's",
+    "tags": [
+     "department store"
+    ]
+   },
+   {
+    "name": "Macy's",
+    "tags": [
+     "department store"
+    ]
+   },
+   {
+    "name": "Bershka",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Aritzia",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Anthropologie",
+    "tags": [
+     "clothing",
+     "home"
+    ]
+   },
+   {
+    "name": "Alo Yoga",
+    "tags": [
+     "clothing",
+     "fitness"
+    ]
+   },
+   {
+    "name": "Charlotte Tilbury",
+    "tags": [
+     "beauty"
+    ]
+   },
+   {
+    "name": "Nike",
+    "tags": [
+     "shoes",
+     "sports"
+    ]
+   },
+   {
+    "name": "Ralph Lauren",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Sephora",
+    "tags": [
+     "beauty"
+    ]
+   },
+   {
+    "name": "SKIMS",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Zara",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Eataly",
+    "tags": [
+     "food",
+     "grocery"
+    ]
+   },
+   {
+    "name": "Dior",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://aventuramall.com/"
+   },
+   {
+    "name": "Prada",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://aventuramall.com/"
+   },
+   {
+    "name": "Massimo Dutti",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://aventuramall.com/"
+   },
+   {
+    "name": "Missoni",
+    "tags": [
+     "luxury",
+     "clothing"
+    ],
+    "source": "https://aventuramall.com/"
+   },
+   {
+    "name": "Revolve",
+    "tags": [
+     "clothing"
+    ],
+    "source": "https://aventuramall.com/"
+   },
+   {
+    "name": "Wilson",
+    "tags": [
+     "sports"
+    ],
+    "source": "https://aventuramall.com/"
+   }
+  ]
+ },
+ {
+  "key": "miami/bal-harbour-shops",
+  "mall": "Bal Harbour Shops",
+  "city": "Bal Harbour, Miami",
+  "source": "https://www.balharbourshops.com/store-directory/",
+  "stores": [
+   {
+    "name": "Neiman Marcus",
+    "tags": [
+     "department store",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Saks Fifth Avenue",
+    "tags": [
+     "department store",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Chanel",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Gucci",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Prada",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Saint Laurent",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Bottega Veneta",
+    "tags": [
+     "luxury"
+    ]
+   },
+   {
+    "name": "Valentino",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Versace",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Fendi",
+    "tags": [
+     "luxury"
+    ]
+   },
+   {
+    "name": "Moncler",
+    "tags": [
+     "luxury",
+     "clothing"
+    ]
+   },
+   {
+    "name": "Tiffany & Co.",
+    "tags": [
+     "jewelry",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Van Cleef & Arpels",
+    "tags": [
+     "jewelry",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Harry Winston",
+    "tags": [
+     "jewelry",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Graff Jewelers",
+    "tags": [
+     "jewelry",
+     "luxury"
+    ]
+   },
+   {
+    "name": "David Yurman",
+    "tags": [
+     "jewelry"
+    ]
+   },
+   {
+    "name": "Rolex by Tourneau",
+    "tags": [
+     "jewelry",
+     "luxury"
+    ]
+   },
+   {
+    "name": "Books & Books",
+    "tags": [
+     "books"
+    ]
+   },
+   {
+    "name": "lululemon",
+    "tags": [
+     "clothing",
+     "fitness"
+    ]
+   },
+   {
+    "name": "Diptyque",
+    "tags": [
+     "beauty",
+     "home"
+    ]
+   },
+   {
+    "name": "Le Labo",
+    "tags": [
+     "beauty"
+    ]
+   },
+   {
+    "name": "Ralph Lauren",
+    "tags": [
+     "clothing"
+    ]
+   },
+   {
+    "name": "Carpaccio",
+    "tags": [
+     "food"
+    ]
+   },
+   {
+    "name": "Makoto",
+    "tags": [
+     "food"
+    ]
+   }
+  ]
+ }
+]
