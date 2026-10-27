@@ -26,6 +26,10 @@ store lists (`research/malls/stores-miami-top100.json`). Still open:
   when that file exists locally, which would bring the old Miami imports
   back. Rebuild Miami only from the current packs.
 - Check-ins and ratings at removed places stay in Firestore.
+- Places people added in Miami (29 `custom_landmarks` docs on 2026-10-27,
+  mostly restaurants) are hidden by `CLOSED_TO_CUSTOM` in
+  `src/lib/customLandmarks.js`, not deleted. A new Miami submission saves
+  but never shows; Add a Landmark doesn't warn about that yet.
 
 ## Test tab: Tutorial = sign-up + onboarding combined (2026-10-21)
 

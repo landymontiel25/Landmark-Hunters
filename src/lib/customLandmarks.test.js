@@ -94,6 +94,17 @@ describe('region-less custom landmarks', () => {
     });
     expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['b']);
   });
+
+  it('leaves out places people added in Miami (only the owner\'s top 100 show there)', async () => {
+    const { getCustomLandmarks } = await import('./customLandmarks');
+    getDocsMock.mockResolvedValueOnce({
+      docs: [
+        { id: 'a', data: () => ({ id: 'a', name: 'Sushi Maki', region: 'miami' }) },
+        { id: 'b', data: () => ({ id: 'b', name: 'Artisans', region: 'villanova' }) },
+      ],
+    });
+    expect((await getCustomLandmarks()).map((l) => l.id)).toEqual(['b']);
+  });
 });
 
 describe('addCustomLandmark topic', () => {
