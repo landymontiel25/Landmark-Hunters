@@ -19,6 +19,7 @@ import { LabNotes, LabSignUp, TutorialHello, TutorialLocation, TutorialTabs, Tut
 import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
 import FirstRunLab from './FirstRunLab';
 import ItineraryTutorialLab from './ItineraryTutorialLab';
+import ExplainerImagesLab from './ExplainerImagesLab';
 
 export { progressTier };
 
@@ -40,6 +41,7 @@ const TESTS = [
   { id: 'tutorial2', label: 'Tutorial 2' },
   { id: 'itinerary', label: 'Itinerary tutorial' },
   { id: 'taste', label: 'Taste Profile' },
+  { id: 'images', label: '5 images' },
 ];
 
 const empty = () => ({
@@ -122,6 +124,15 @@ export default function OnboardingLab() {
       <div>
         {testTabs}
         <TasteProfileLab />
+      </div>
+    );
+  }
+
+  if (test === 'images') {
+    return (
+      <div>
+        {testTabs}
+        <ExplainerImagesLab />
       </div>
     );
   }
