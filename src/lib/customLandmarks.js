@@ -46,6 +46,10 @@ const withCategories = (l) => {
   return { ...out, categories };
 };
 
+// Owner, 2026-10-27: Miami shows only their top 100, so places people
+// added there stay off every list, map and pick (their own page still opens).
+const CLOSED_TO_CUSTOM = new Set(['miami']);
+
 export function getCustomLandmarks() {
   return sharedRead('custom_landmarks', loadCustomLandmarks);
 }
@@ -64,6 +68,7 @@ async function loadCustomLandmarks() {
   }
   return snap.docs
     .map((d) => withCategories({ docId: d.id, ...d.data() }))
+    .filter((l) => !CLOSED_TO_CUSTOM.has(l.region))
     .filter((l) => (l.reportedBy?.length || 0) < 2 || (me && (l.createdBy === me.uid || isAdmin(me.email))));
 }
 
