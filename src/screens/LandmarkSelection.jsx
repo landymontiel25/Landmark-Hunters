@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadLandmarkRatings } from '../lib/landmarkRatings';
 import { ratedScore } from '../lib/topRated';
+import { LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT } from '../lib/landmarksSort';
 import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
 import { useNavigate, useNavigationType } from 'react-router-dom';
@@ -52,13 +53,18 @@ const SMART_DIVIDER = { id: '__smart__' };
 const CATEGORY_ICON = Object.fromEntries(INTERESTS.map((i) => [i.id, i.icon]));
 
 
+// Top Landmarks (the old Top Rated) leads and is the default.
 const SORT_OPTIONS = [
+  { id: 'rated', label: '\u{2B50} Top Landmarks' },
   { id: 'forMe', label: '\u{2728} For Me' },
   { id: 'nearMe', label: '\u{1F4CD} Near Me' },
-  { id: 'rated', label: '\u{2B50} Top Rated' },
 ];
 
-// Top Rated: src/lib/topRated.js. Up to RATED_FETCH_CAP Google lookups a visit.
+// The "Add a Landmark" button under the search box is hidden for now (owner,
+// 2026-10-27); flip this to bring it back.
+const SHOW_ADD_LANDMARK = false;
+
+// Top Landmarks: src/lib/topRated.js. Up to RATED_FETCH_CAP Google lookups a visit.
 const RATED_FETCH_CAP = 80;
 
 // "For Me": how likely you are to actually go -- the same learned per-city
@@ -405,15 +411,13 @@ export default function LandmarkSelection() {
   // Tapping a row's thumbnail opens the photo full-screen.
   const [lightbox, setLightbox] = useState(null);
   const [search, setSearch] = usePersistentState('landmarks.search', '', { ttlMs: DAY });
-  // New key so everyone lands on For Me (the default) once, instead of a
-  // Popular choice saved back when that was the only default.
-  const [savedSort, setSortBy] = usePersistentState('landmarks.sort.v2', 'forMe', { isEmpty: NEVER_EMPTY });
+  // Top Landmarks is the default (see landmarksSort.js for the key).
+  const [savedSort, setSortBy] = usePersistentState(LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT, { isEmpty: NEVER_EMPTY });
   // Up arrow: not-checked-in first. Down arrow: checked-in first. null: neither.
   const [savedCheckInOrder, setCheckInOrder] = usePersistentState('landmarks.checkInOrder', null, { isEmpty: NEVER_EMPTY });
   const checkInOrder = savedCheckInOrder === 'up' || savedCheckInOrder === 'down' ? savedCheckInOrder : null;
-  // A Popular choice saved before Top Rated replaced it opens as Top Rated.
-  const sortBy = savedSort === 'nearMe' ? 'nearMe' : savedSort === 'rated' || savedSort === 'popularity' ? 'rated' : 'forMe';
-  // Google ratings fetched for the Top Rated sort, this visit only.
+  const sortBy = savedSort === 'nearMe' ? 'nearMe' : savedSort === 'forMe' ? 'forMe' : 'rated';
+  // Google ratings fetched for the Top Landmarks sort, this visit only.
   const [googleById, setGoogleById] = useState({});
 
   // Picking a city by hand (the dropdown) or GPS auto-pick already call
@@ -688,7 +692,7 @@ export default function LandmarkSelection() {
     <div>
       <div className="places-title-row">
         <h1 className="screen-title">
-          <span>{'\u{1F4CD}'}</span> Places ({landmarks.length})
+          <span>{'\u{1F4CD}'}</span> Landmarks ({landmarks.length})
         </h1>
         {/* Your check-ins, opened on Grid (photos first). */}
         {user && (
@@ -723,14 +727,16 @@ export default function LandmarkSelection() {
         />
       </div>
 
-      <button
-        type="button"
-        className="btn btn-ghost btn-block"
-        style={{ marginBottom: 12 }}
-        onClick={() => navigate('/add-landmark')}
-      >
-        {'\u{2795}'} Add a Landmark
-      </button>
+      {SHOW_ADD_LANDMARK && (
+        <button
+          type="button"
+          className="btn btn-ghost btn-block"
+          style={{ marginBottom: 12 }}
+          onClick={() => navigate('/add-landmark')}
+        >
+          {'\u{2795}'} Add a Landmark
+        </button>
+      )}
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 16 }}>
         {scopeCount > 0 && (

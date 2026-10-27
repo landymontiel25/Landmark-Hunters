@@ -29,15 +29,12 @@ import {
   SOLO_FREEZES_PER_MONTH,
 } from '../lib/soloStreaks';
 import { dailyDeck, deckPool } from '../lib/sharedDeck';
-import MaprPicksCarousel from '../components/MaprPicksCarousel';
 import { nearestPickableCity } from '../lib/nearestCity';
 import { usePickVotes } from '../lib/usePickVotes';
-import { useRatings } from '../lib/RatingsContext';
 import { pickRegion } from '../lib/tagScores';
 import { getRegion, PICKABLE_REGIONS } from '../data/regions';
 import { getUserCheckedInLandmarkIds } from '../lib/leaderboard';
 import { answeredBefore } from '../lib/soloDeckHistory';
-import ErrorBoundary from '../components/ErrorBoundary';
 import { monthKey, displayStreakCount } from '../lib/streaks';
 import { useTodayKey } from '../lib/useTodayKey';
 import { friendlyError } from '../lib/friendlyError';
@@ -45,7 +42,7 @@ import { useToast } from '../lib/ToastContext';
 import { SkeletonList } from '../components/Skeleton';
 import MaprPickImage from '../components/MaprPickImage';
 
-// Same verdict vocabulary Mapr Travel Picks uses (MaprPicksCarousel.jsx) --
+// Same verdict vocabulary every Mapr pick uses --
 // "would you go", not "how was it", since a shared card is often somewhere
 // neither of you has actually been yet.
 const VOTE_COPY = {
@@ -600,9 +597,7 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   const [voteError, setVoteError] = useState(null);
   const [closeMsg, setCloseMsg] = useState(null);
   // Every answer on today's cards also teaches Mapr (pickVotes), like any
-  // pick answer. Past the 3, the Travel Picks carousel for the city you are
-  // in takes over, so you can rate as many more as you like.
-  const { myReviews } = useRatings();
+  // pick answer.
   const pickVotes = usePickVotes({ uid: user.uid, origin: coords ? { lat: coords.lat, lng: coords.lng } : null, removeOnAnyVote: true });
   const teachMapr = (landmark, verdict) => {
     if (!landmark) return;
@@ -724,11 +719,6 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
   // cards changed after the ratings went in.
   const dayDone = streak.lastCompletedDay === today || (cardIds.length > 0 && myRatedCount === cardIds.length);
 
-  // The carousel after the 3: the city you are in, else the streak's own.
-  const hereCity = gpsCity || streak.cityId;
-  // Stable carousel props, so it doesn't re-rank on every render.
-  const pickReviews = useMemo(() => Object.values(myReviews || {}), [myReviews]);
-  const pickCheckedInIds = useMemo(() => [...(visitedIds || [])], [visitedIds]);
 
   // If the close call right after the last rating failed (a network blip --
   // it's also what used to throw the rating back out of the optimistic
@@ -861,20 +851,8 @@ function SoloStreakDetail({ streak, onBack, onInvite }) {
       ) : (
         <>
           <p className="screen-subtitle" style={{ margin: 0 }}>
-            {'✓'} You've rated all 3 today.{closeMsg ? ` ${closeMsg}` : ''} Keep going: every place you rate teaches Mapr more.
+            {'✓'} You've rated all 3 today.{closeMsg ? ` ${closeMsg}` : ''}
           </p>
-          <div style={{ marginTop: 12 }}>
-            {/* A crash in the carousel drops just the carousel, never the
-                streak page above it. */}
-            <ErrorBoundary fallback={null}>
-              <MaprPicksCarousel
-                reviews={pickReviews}
-                checkedInIds={pickCheckedInIds}
-                homeCityId={hereCity}
-                scope="streak"
-              />
-            </ErrorBoundary>
-          </div>
         </>
       )}
 

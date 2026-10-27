@@ -13,7 +13,7 @@ import { TRIPADVISOR_LOGO } from './brand';
 // (no Google listing, or a listing nobody rated) it says "No ratings
 // available"; `fallback` (the app's own rating tag) shows only while loading
 // or when the lookup failed.
-// `preloaded`: sources the list already fetched (the Places tab's Top Rated
+// `preloaded`: sources the list already fetched (the Landmarks tab's Top Landmarks
 // sort), shown as-is with no second call.
 function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS, preloaded = null }) {
   const enabled = flags.cardLine;

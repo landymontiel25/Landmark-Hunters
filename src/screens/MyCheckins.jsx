@@ -7,14 +7,14 @@ import CheckinsGallery from '../components/CheckinsGallery';
 // Just the check-ins gallery, on its own -- Your Stats' "check-ins" tile used
 // to send you to Full Stats (level + badges + everything), when what was
 // wanted was only the check-ins. "See Full Stats" still goes there.
-// Starts on Grid (the photos, your memories); opened from the Places tab,
-// Back returns to Places.
+// Starts on Grid (the photos, your memories); opened from the Landmarks tab,
+// Back returns to Landmarks.
 export default function MyCheckins() {
   const navigate = useNavigate();
   const location = useLocation();
   const fromPlaces = location.state?.from === 'places';
   const backTo = fromPlaces ? '/landmarks' : '/profile';
-  const backLabel = fromPlaces ? 'Back to Places' : 'Back to Profile';
+  const backLabel = fromPlaces ? 'Back to Landmarks' : 'Back to Profile';
   const { user, firebaseEnabled } = useAuth();
   const { claimedMap } = useCheckIn();
   const { stats } = useBadges();

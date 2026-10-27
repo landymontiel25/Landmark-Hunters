@@ -38,6 +38,10 @@ import ErrorNotice from '../components/ErrorNotice';
 import { friendlyError } from '../lib/friendlyError';
 import { usePersistentState } from '../lib/usePersistentState';
 
+// The Discoverer and Follows cards are hidden for now (owner, 2026-10-27);
+// flip this to bring them back.
+const SHOW_DISCOVERER_AND_FOLLOWS = false;
+
 const PERIOD_LABEL = { weekly: 'This Week', monthly: 'This Month', yearly: 'This Year' };
 const TABS = [
   { id: 'weekly', label: 'This Week' },
@@ -663,8 +667,12 @@ export default function Profile() {
       </div>
       <FriendsPanel />
       {/* Discoverer levels, badges and "Trusted in" (Phase 4): the board's city is the leaderboard's, else your current trip's, else the launch city. */}
-      <ReputationCard uid={user.uid} region={canonicalRegionId(regionalRegionId || trip.activeRegion || COMMUNITY_REGIONS[0])} />
-      <FollowsPanel />
+      {SHOW_DISCOVERER_AND_FOLLOWS && (
+        <>
+          <ReputationCard uid={user.uid} region={canonicalRegionId(regionalRegionId || trip.activeRegion || COMMUNITY_REGIONS[0])} />
+          <FollowsPanel />
+        </>
+      )}
 
       <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
         {'\u{2699}\u{FE0F}'} Settings

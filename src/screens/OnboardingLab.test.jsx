@@ -197,7 +197,7 @@ describe('OnboardingLab', () => {
     expect(el.textContent).toContain('Always Allow');
     await click(button(el, 'Next'));
 
-    for (const tab of ['Map', 'Places', 'Mapr', 'Itinerary']) {
+    for (const tab of ['Map', 'Landmarks', 'Mapr', 'Itinerary']) {
       expect(el.querySelector('.tut-count').textContent).toContain(tab);
       await click(button(el, 'Next tab'));
     }

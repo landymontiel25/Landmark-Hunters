@@ -24,7 +24,7 @@ iCloud, not any local folder.
   place the app recommends or ranks places for a user: the Map tab's
   "Picked for you" sheet and its rows (Because you liked, Found by people
   like you, moods, meal, nearby interest), Mapr chat (`api/plan-ai.js`),
-  Travel Picks (`src/components/MaprPicksCarousel.jsx`), the trip planner
+  the trip planner
   ("The usual" / "Something new"),
   the landmark list's ordering, and any surface added later. When a change
   touches how Mapr scores, ranks, learns or logs, wire it into all of them

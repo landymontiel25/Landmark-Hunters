@@ -900,20 +900,10 @@ async function handler(req, res) {
       replyText = 'Sure -- tap how it sounds.';
     }
 
-    // They want to rate but there is no one place to show: the app shows a
-    // carousel of places they haven't rated, voted on or checked into (so
-    // every one counts toward the daily streak).
-    const ratePicks = !rate && !stops.length && asksToRate(lastText);
-    if (ratePicks) {
-      replyText = 'Tap any place below to rate it.';
-      quickReplies.length = 0;
-    }
-
     replyText = linkAddresses(replyText, stops);
 
     res.status(200).json({
       reply: replyText || "Here's what I found:",
-      ratePicks,
       stops,
       quickReplies,
       actions,

@@ -401,7 +401,7 @@ function LabSummary({ data, log, onRestart }) {
               {intro || 'nothing'}
             </p>
             <p className="screen-subtitle" style={{ fontSize: '0.75rem' }}>
-              The same text goes to every Mapr surface: the Map sheet, Travel Picks, chat, the trip planner and the landmark list.
+              The same text goes to every Mapr surface: the Map sheet, chat, the trip planner and the landmark list.
             </p>
           </div>
 

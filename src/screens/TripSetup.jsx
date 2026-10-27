@@ -15,6 +15,7 @@ import { classifyInterest } from '../lib/interestClassifier';
 import { listFriends } from '../lib/friends';
 import { matchesSearch } from '../lib/search';
 import { createGroupTrip, MAX_GROUP_MEMBERS } from '../lib/groupTrips';
+import { showTopLandmarks } from '../lib/landmarksSort';
 import LocationAutocomplete, { HomeStartPrefill } from '../components/LocationAutocomplete';
 import AddInterestChip from '../components/AddInterestChip';
 import RegionSearch from '../components/RegionSearch';
@@ -92,6 +93,11 @@ export default function TripSetup() {
   // matches…" on the chip. Not persisted -- it's re-derived from the trip's own
   // pending state (a custom interest with no matches entry yet).
   const [classifying, setClassifying] = useState(() => new Set());
+  // Play (the default) goes straight to every landmark, top ones first; Plan
+  // opens the itinerary form below (owner, 2026-10-27).
+  const [planning, setPlanning] = useState(false);
+  // The Top Landmarks chip: Choose Landmarks then opens on the Top Landmarks sort.
+  const [topFirst, setTopFirst] = useState(false);
   // The form opens with no interest picked (owner, 2026-10-21): last
   // time's picks no longer carry over.
   useEffect(() => {
@@ -200,6 +206,11 @@ export default function TripSetup() {
     }
   };
 
+  const play = () => {
+    showTopLandmarks();
+    navigate('/landmarks');
+  };
+
   return (
     <div>
       <h1 className="screen-title">
@@ -256,9 +267,34 @@ export default function TripSetup() {
         <RegionSearch region={activeRegion} onSelect={selectRegion} placeholder="Search for a region…" />
       </div>
 
+      <div className="tabs" style={{ justifyContent: 'center', marginBottom: 8 }}>
+        <button type="button" className={`tab-btn ${planning ? '' : 'active'}`} aria-pressed={!planning} onClick={play}>
+          {'\u{1F3AF}'} Play
+        </button>
+        <button type="button" className={`tab-btn ${planning ? 'active' : ''}`} aria-pressed={planning} onClick={() => setPlanning(true)}>
+          {'\u{1F5D3}\u{FE0F}'} Plan
+        </button>
+      </div>
+      {!planning && (
+        <p style={{ fontSize: '0.78rem', color: 'var(--color-parchment-dim)', margin: '0 0 16px', textAlign: 'center' }}>
+          Play shows every landmark, top ones first. Plan builds an itinerary.
+        </p>
+      )}
+
+      {planning && (
+      <>
       <div className="field">
         <label>What are you interested in?</label>
         <div className="chip-grid">
+          <button
+            type="button"
+            className={`chip ${topFirst ? 'selected' : ''}`}
+            aria-pressed={topFirst}
+            onClick={() => setTopFirst((v) => !v)}
+          >
+            <span className="chip-icon">{'\u{2B50}'}</span>
+            <span>Top Landmarks</span>
+          </button>
           {PICKABLE_INTERESTS.map((i) => (
             <button
               key={i.id}
@@ -352,6 +388,7 @@ export default function TripSetup() {
             ? startGroupTrip
             : () => {
                 setTripMode(null);
+                if (topFirst) showTopLandmarks();
                 navigate('/landmarks');
               }
         }
@@ -362,6 +399,8 @@ export default function TripSetup() {
             : `${'\u{1F465}'} Start Group Trip ${'\u{2192}'}`
           : `Choose Landmarks ${'\u{2192}'}`}
       </button>
+      </>
+      )}
     </div>
   );
 }

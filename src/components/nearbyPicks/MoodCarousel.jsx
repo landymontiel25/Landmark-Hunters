@@ -20,7 +20,7 @@ function readView() {
   }
 }
 
-// "What are you in the mood for?": swipe through moods, pick one, then
+// "Discover top landmarks": swipe through moods, pick one, then
 // swipe its places (or scroll them as a list), sorted closest or highest
 // rated. `pool` is
 // nearbyPicks.eligiblePlaces (already inside the distance filter).
@@ -49,7 +49,7 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
 
   return (
     <section className="mpp-section">
-      <h3 className="mpp-section-title">What are you in the mood for?</h3>
+      <h3 className="mpp-section-title">Discover top landmarks</h3>
       <div className="mpp-carousel mpp-moods" role="listbox" aria-label="Moods">
         {moods.map((m) => (
           <button
