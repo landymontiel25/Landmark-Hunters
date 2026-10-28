@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { HashRouter, Routes, Route, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { AuthProvider } from './lib/AuthContext';
 import { MaprChatProvider } from './lib/MaprChatContext';
 import { CheckInProvider } from './lib/CheckInContext';
@@ -144,7 +144,6 @@ const GroupTrip = lazyScreen(() => import('./screens/GroupTrip'));
 const Settings = lazyScreen(() => import('./screens/Settings'));
 const FullStats = lazyScreen(() => import('./screens/FullStats'));
 const MyCheckins = lazyScreen(() => import('./screens/MyCheckins'));
-const Favorites = lazyScreen(() => import('./screens/Favorites'));
 const MyMaprRatings = lazyScreen(() => import('./screens/MyMaprRatings'));
 const MyCities = lazyScreen(() => import('./screens/MyCities'));
 const MyStreaks = lazyScreen(() => import('./screens/MyStreaks'));
@@ -183,7 +182,7 @@ function AppRoutes() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/stats" element={<FullStats />} />
           <Route path="/checkins" element={<MyCheckins />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/favorites" element={<Navigate to="/itinerary" replace state={{ section: 'favorites' }} />} />
           <Route path="/mapr-ratings" element={<MyMaprRatings />} />
           <Route path="/cities" element={<MyCities />} />
           <Route path="/streaks" element={<MyStreaks />} />

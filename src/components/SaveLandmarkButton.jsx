@@ -24,10 +24,9 @@ export function BookmarkIcon({ filled = false, size = 20 }) {
   );
 }
 
-// Instagram-style save. Tapping the bookmark slides up a sheet with two ways
-// to keep the place: your Favorite places (anywhere in the world, with a note
-// of your own, listed under Profile) or any itinerary you have, this city's
-// first. The bookmark is filled once the place is a favorite (or was saved
+// Instagram-style save. Tapping the bookmark slides up a sheet with two tabs:
+// an itinerary (any you have, this city's first) or Favorites (anywhere in the
+// world, with a note of your own, listed in Itinerary > Favorites). The bookmark is filled once the place is a favorite (or was saved
 // for later before that list was replaced by favorites).
 export default function SaveLandmarkButton({ landmark, regionId, className = 'share-icon-btn' }) {
   const { isSavedForLater } = useTrip();
@@ -75,7 +74,29 @@ export function landmarkAsPlace(landmark, regionId) {
 
 function SaveSheet({ landmark, regionId, onClose }) {
   const { isSavedForLater, unsaveForLater } = useTrip();
+  const { isFavorite } = useFavorites();
   const onLater = isSavedForLater(regionId, landmark.id);
+  // Two ways to save, as two tabs: an itinerary, or your Favorites.
+  const [tab, setTab] = useState('itinerary');
+  const tabs = (
+    <div className="tabs save-sheet-tabs" role="tablist" aria-label="How to save">
+      {[
+        { id: 'itinerary', label: '\u{1F5FA}\u{FE0F} Itinerary' },
+        { id: 'favorites', label: `${isFavorite(regionId, landmark.id) ? '\u{2705}' : '\u{2B50}'} Favorites` },
+      ].map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          role="tab"
+          aria-selected={tab === t.id}
+          className={`tab-btn ${tab === t.id ? 'active' : ''}`}
+          onClick={() => setTab(t.id)}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
   return (
     <ItinerarySheet
       landmark={landmark}
@@ -90,8 +111,9 @@ function SaveSheet({ landmark, regionId, onClose }) {
           </div>
         </>
       }
-      before={<FavoriteSection landmark={landmark} regionId={regionId} />}
-      label="Or add it to an itinerary"
+      before={tabs}
+      replaceList={tab === 'favorites' ? <FavoriteSection landmark={landmark} regionId={regionId} /> : null}
+      label="Add it to an itinerary"
       secondary={
         onLater ? (
           <button type="button" className="btn btn-ghost btn-sm" onClick={() => unsaveForLater(regionId, landmark.id)}>
@@ -105,9 +127,9 @@ function SaveSheet({ landmark, regionId, onClose }) {
   );
 }
 
-// "Favorite places": one tap to keep the place, then a note of your own
-// ("great pizza, ask for the garlic knots") that shows under it on its page
-// and in Profile > Favorite places.
+// Favorites: one tap to keep the place, then a note of your own ("great
+// pizza, ask for the garlic knots") that shows under it on its page and in
+// Itinerary > Favorites.
 function FavoriteSection({ landmark, regionId }) {
   const { signedIn, isFavorite, getFavorite, add, remove, setNote } = useFavorites();
   const toast = useToast();
@@ -149,23 +171,17 @@ function FavoriteSection({ landmark, regionId }) {
   if (!signedIn) {
     return (
       <div className="save-sheet-fav">
-        <p className="save-sheet-label" style={{ marginTop: 12 }}>
-          {'\u{2B50}'} Favorite places
-        </p>
-        <p className="screen-subtitle" style={{ margin: 0 }}>
-          <Link to="/profile">Sign in</Link> to keep favorite places with your own notes.
+        <p className="screen-subtitle" style={{ margin: '12px 0 0' }}>
+          <Link to="/profile">Sign in</Link> to keep favorites with your own notes.
         </p>
       </div>
     );
   }
   return (
     <div className="save-sheet-fav">
-      <p className="save-sheet-label" style={{ marginTop: 12 }}>
-        Save to
-      </p>
       <button type="button" className={`save-sheet-row ${on ? 'on' : ''}`} disabled={busy} onClick={toggle}>
         <span>
-          {'\u{2B50}'} Favorite places
+          {'\u{2B50}'} {on ? 'In your Favorites' : 'Add to Favorites'}
           <span className="save-sheet-row-sub">Find it again anywhere, with a note</span>
         </span>
         <span className="save-sheet-mark">{on ? '\u{2713}' : '+'}</span>
@@ -184,7 +200,7 @@ function FavoriteSection({ landmark, regionId }) {
           Save note
         </button>
       )}
-      {!on && draft && <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>Tap Favorite places above to keep this note.</p>}
+      {!on && draft && <p className="screen-subtitle" style={{ margin: '4px 0 0' }}>Tap Add to Favorites above to keep this note.</p>}
     </div>
   );
 }
@@ -192,7 +208,7 @@ function FavoriteSection({ landmark, regionId }) {
 // Every itinerary you have, solo or group, in any city: this city's first
 // (or "Start a <city> itinerary" when you have none), then the rest. A
 // landmark joins its own city's list as a stop and any other as a place.
-export function ItinerarySheet({ landmark, regionId, onClose, head, before = null, label = 'Add it to an itinerary', secondary = <span /> }) {
+export function ItinerarySheet({ landmark, regionId, onClose, head, before = null, replaceList = null, label = 'Add it to an itinerary', secondary = <span /> }) {
   const { trip, addLandmark, removeLandmark, addPlace, removePlace, itineraryName, regionsWithItineraries } = useTrip();
   const { user } = useAuth();
   const toast = useToast();
@@ -264,8 +280,9 @@ export function ItinerarySheet({ landmark, regionId, onClose, head, before = nul
       <div className="modal-card save-sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={label}>
         {head && <div className="save-sheet-head">{head}</div>}
         {before}
-        <p className="save-sheet-label">{label}</p>
-        <div className="save-sheet-list">
+        {replaceList}
+        {!replaceList && <p className="save-sheet-label">{label}</p>}
+        {!replaceList && <div className="save-sheet-list">
           {/* A pin far from every curated city has no city itinerary to start. */}
           {(city || hasHere) &&
             row(
@@ -284,7 +301,7 @@ export function ItinerarySheet({ landmark, regionId, onClose, head, before = nul
           {sortedGroups
             .filter((g) => g.regionId !== regionId)
             .map((g) => row(g.id, `\u{1F465} ${g.name}`, subFor(g.regionId, g.name), groupOn(g), () => toggleGroup(g)))}
-        </div>
+        </div>}
         <div className="save-sheet-actions">
           {secondary}
           <button type="button" className="btn btn-primary btn-sm" onClick={onClose}>

@@ -348,6 +348,9 @@ button.back-sticky,
   border-color: var(--mapr-blue);
   color: #fff;
 }
+.save-sheet-tabs {
+  margin: 12px 0 4px;
+}
 .save-sheet-note {
   width: 100%;
   margin: 8px 0 8px;
@@ -361,6 +364,15 @@ button.back-sticky,
 }
 
 /* Favorite places screen. */
+.favorites-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.favorites-filters select {
+  min-width: 0;
+}
 .favorite-row {
   margin-bottom: 10px;
 }
