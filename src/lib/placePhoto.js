@@ -1,6 +1,7 @@
 import { API_BASE } from './apiBase';
 import { authHeaders } from './apiAuth';
 import { fetchJson } from './friendlyError';
+import { getCommunityPhoto } from './communityPhotos';
 
 // Client side of the runtime photo fallback (api/place-photo.js, see
 // docs/photos.md). Only ever called for a landmark with no image of its own.
@@ -23,6 +24,18 @@ export function placePhotoKey(l) {
   const lng = Number(l?.lng);
   if (!l?.name || !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
   return `${l.name}|${lat.toFixed(5)}|${lng.toFixed(5)}`;
+}
+
+/** Drops a place's cached photo (its shared community photo was taken down). */
+export function forgetPlacePhoto(l) {
+  const key = placePhotoKey(l);
+  if (key) cache.delete(key);
+}
+
+/** Puts a just-shared community photo in the cache so tiles pick it up at once. */
+export function primePlacePhoto(l, photo) {
+  const key = placePhotoKey(l);
+  if (key) cache.set(key, { value: photo, expires: Date.now() + SUCCESS_TTL_MS });
 }
 
 /** Cached result: {url, attributions} | null (no photo) | undefined (unknown). */
@@ -88,11 +101,15 @@ export function loadPlacePhoto(l) {
   const cached = peekPlacePhoto(l);
   if (cached !== undefined) return Promise.resolve(cached);
 
-  const promise = enqueue(() => request(l)).then((r) => {
-    const out = r?.value ?? null;
-    cache.set(key, { value: out, expires: Date.now() + (r?.ttl ?? FAILURE_TTL_MS) });
-    return out;
-  });
+  // A place's shared community photo (see communityPhotos.js) comes first: it
+  // is one cheap Firestore read and saves the Google lookup entirely.
+  const promise = getCommunityPhoto(l.region || l.regionId, l.id)
+    .then((c) => (c ? { value: { url: c.url, attributions: [], community: true }, ttl: SUCCESS_TTL_MS } : enqueue(() => request(l))))
+    .then((r) => {
+      const out = r?.value ?? null;
+      cache.set(key, { value: out, expires: Date.now() + (r?.ttl ?? FAILURE_TTL_MS) });
+      return out;
+    });
   cache.set(key, { promise });
   return promise;
 }

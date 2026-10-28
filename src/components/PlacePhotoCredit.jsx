@@ -17,6 +17,10 @@ function openAuthor(e, uri) {
 
 export default function PlacePhotoCredit({ photo, compact = false, className = '' }) {
   if (!photo) return null;
+  // A photo a user chose to share carries no Google credit.
+  if (photo.community) {
+    return compact ? null : <span className={`place-photo-credit ${className}`}>Photo shared by a Landmark Hunters user</span>;
+  }
   const first = photo.attributions?.[0];
   const text = creditText(photo);
   if (compact) {

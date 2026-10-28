@@ -1015,6 +1015,28 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null && isAdmin();
     }
+    // The one public picture of a place that has none of its own: the first
+    // user who says yes to "can we use your photo?" (src/lib/communityPhotos.js).
+    // Readable by anyone like the landmark data itself. Create-only, so it is
+    // never replaced (a user who says no creates nothing and the next
+    // submitter is asked); only the photo's owner or the admin can take it
+    // down. The URL must be the caller's own check-in or rating photo.
+    match /community_photos/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.auth.token.email_verified == true
+        && request.resource.data.keys().hasOnly(['region', 'id', 'url', 'photoUid', 'createdAt'])
+        && request.resource.data.region is string
+        && request.resource.data.id is string
+        && id == request.resource.data.region + '__' + request.resource.data.id
+        && request.resource.data.photoUid == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.url is string
+        && request.resource.data.url.size() <= 1500
+        && request.resource.data.url.matches('https://firebasestorage[.]googleapis[.]com/v0/b/[^/]+/o/(checkin|review)_photos%2F[^/?]+%2F' + request.auth.uid + '_[0-9]+[.]jpg.*');
+      allow update: if false;
+      allow delete: if request.auth != null && (resource.data.photoUid == request.auth.uid || isAdmin());
+    }
     match /custom_landmarks/{id} {
       // Same reportedBy hide-past-threshold rule as reviews, unless you're
       // the submitter or an admin. That check can only apply to a single-doc

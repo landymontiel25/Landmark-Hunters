@@ -812,6 +812,41 @@ await t('signed out can list custom landmarks', () => assertSucceeds(getDocs(col
 await t('a reported pin cannot be fetched by someone else', () => assertFails(getDoc(doc(as('bob'), 'custom_landmarks/bad'))));
 await t('its creator can still fetch it', () => assertSucceeds(getDoc(doc(as('alice'), 'custom_landmarks/bad'))));
 
+console.log('community_photos: one public photo per place, create-once, own photo only');
+await reset();
+const cpUrl = (uid, folder = 'checkin_photos') =>
+  `https://firebasestorage.googleapis.com/v0/b/demo-lh.appspot.com/o/${folder}%2Fpl-1%2F${uid}_1700000000001.jpg?alt=media&token=abc`;
+const cpDoc = (uid, over = {}) => ({ region: 'miami', id: 'pl-1', url: cpUrl(uid), photoUid: uid, createdAt: serverTimestamp(), ...over });
+await t('anyone, even signed out, can read a place\'s community photo', async () => {
+  await seed((db) => setDoc(doc(db, 'community_photos/miami__seeded'), { region: 'miami', id: 'seeded', url: cpUrl('zed'), photoUid: 'zed', createdAt: new Date() }));
+  await assertSucceeds(getDoc(doc(env.unauthenticatedContext().firestore(), 'community_photos/miami__seeded')));
+});
+await t('the first user can share their own check-in photo', () => assertSucceeds(setDoc(doc(as('ann'), 'community_photos/miami__pl-1'), cpDoc('ann'))));
+await t('nobody can replace it, not even its owner', async () => {
+  await assertFails(setDoc(doc(as('bob'), 'community_photos/miami__pl-1'), cpDoc('bob')));
+  await assertFails(setDoc(doc(as('ann'), 'community_photos/miami__pl-1'), cpDoc('ann')));
+  await assertFails(updateDoc(doc(as('ann'), 'community_photos/miami__pl-1'), { url: cpUrl('ann', 'review_photos') }));
+});
+await t('a rating photo also works, on a place with no photo yet', () => assertSucceeds(setDoc(doc(as('bob'), 'community_photos/miami__pl-2'), cpDoc('bob', { id: 'pl-2', url: cpUrl('bob', 'review_photos') }))));
+await t('cannot share someone else\'s photo or an outside URL', async () => {
+  await assertFails(setDoc(doc(as('cat'), 'community_photos/miami__pl-3'), cpDoc('cat', { id: 'pl-3', url: cpUrl('ann') })));
+  await assertFails(setDoc(doc(as('cat'), 'community_photos/miami__pl-3'), cpDoc('cat', { id: 'pl-3', url: 'https://evil.example/x.jpg' })));
+  await assertFails(setDoc(doc(as('cat'), 'community_photos/miami__pl-3'), cpDoc('cat', { id: 'pl-3', photoUid: 'ann' })));
+});
+await t('the doc id must match region and id, and extra fields are refused', async () => {
+  await assertFails(setDoc(doc(as('cat'), 'community_photos/miami__other'), cpDoc('cat', { id: 'pl-3' })));
+  await assertFails(setDoc(doc(as('cat'), 'community_photos/miami__pl-3'), cpDoc('cat', { id: 'pl-3', note: 'hi' })));
+});
+await t('signed out and unverified emails cannot share', async () => {
+  await assertFails(setDoc(doc(env.unauthenticatedContext().firestore(), 'community_photos/miami__pl-4'), cpDoc('dan', { id: 'pl-4' })));
+  await assertFails(setDoc(doc(as('dan', { email_verified: false }), 'community_photos/miami__pl-4'), cpDoc('dan', { id: 'pl-4' })));
+});
+await t('only the photo\'s owner or the admin can take it down', async () => {
+  await assertFails(deleteDoc(doc(as('bob'), 'community_photos/miami__pl-1')));
+  await assertSucceeds(deleteDoc(doc(as('adm', { email: ADMIN_EMAIL }), 'community_photos/miami__pl-1')));
+  await assertSucceeds(deleteDoc(doc(as('bob'), 'community_photos/miami__pl-2')));
+});
+
 console.log('storage');
 const stor = (uid) => env.authenticatedContext(uid, {}).storage();
 await t('storage: signed-in can get a known file but cannot list a folder', async () => {
