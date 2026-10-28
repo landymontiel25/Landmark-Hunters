@@ -348,11 +348,31 @@ button.back-sticky,
   border-color: var(--mapr-blue);
   color: #fff;
 }
+.save-sheet-note {
+  width: 100%;
+  margin: 8px 0 8px;
+  resize: vertical;
+}
 .save-sheet-actions {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   margin-top: 16px;
+}
+
+/* Favorite places screen. */
+.favorite-row {
+  margin-bottom: 10px;
+}
+.favorite-note-text {
+  margin: 6px 0 8px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.favorite-note-empty {
+  color: var(--text-secondary);
 }
 
 /* Save for later list rows. */

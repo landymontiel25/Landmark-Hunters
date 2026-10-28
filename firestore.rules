@@ -444,6 +444,30 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update: if false;
     }
+    // Favorite places (src/lib/favorites.js): places this user wants to find
+    // again, each with a short note. Owner-only in every direction. A doc is
+    // created whole, and afterwards only its note and name can change.
+    match /users/{uid}/favorites/{id} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['region', 'id', 'name', 'lat', 'lng', 'note', 'savedAt'])
+        && request.resource.data.region is string
+        && request.resource.data.id is string
+        && id == request.resource.data.region + '__' + request.resource.data.id
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 200
+        && request.resource.data.note is string
+        && request.resource.data.note.size() <= 500
+        && (request.resource.data.lat == null || request.resource.data.lat is number)
+        && (request.resource.data.lng == null || request.resource.data.lng is number)
+        && request.resource.data.savedAt is number;
+      allow update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['note', 'name'])
+        && request.resource.data.note is string
+        && request.resource.data.note.size() <= 500
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 200;
+    }
     // What this user reported (src/lib/myReports.js), so Settings can list it.
     // Owner-only in every direction; create and delete only. Nothing here
     // reaches the person reported.

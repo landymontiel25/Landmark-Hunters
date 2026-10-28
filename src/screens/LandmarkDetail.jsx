@@ -48,6 +48,7 @@ import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton, { ItinerarySheet } from '../components/SaveLandmarkButton';
 import PhotoOfferCard from '../components/PhotoOfferCard';
+import FavoriteNoteCard from '../components/FavoriteNoteCard';
 import { useConfirm } from '../components/ConfirmSheet';
 import { logMyReport } from '../lib/myReports';
 import { isSharablePhotoUrl, photoOfferDeclined, removeCommunityPhotoIfMine } from '../lib/communityPhotos';
@@ -973,6 +974,8 @@ function LandmarkDetailBody() {
       <h1 className="screen-title" style={{ justifyContent: 'center', textAlign: 'center' }}>
         {landmark.name}
       </h1>
+
+      <FavoriteNoteCard regionId={regionId} landmarkId={landmark.id} />
 
       <div className="center" style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 18, flexWrap: 'wrap' }}>
         {landmark.categories.map((c) => (

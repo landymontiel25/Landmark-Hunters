@@ -5,7 +5,26 @@ import { act } from 'react';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: null }) }));
+const h = vi.hoisted(() => ({
+  user: null,
+  rows: [],
+  listeners: [],
+  addFavorite: vi.fn(async () => {}),
+  setFavoriteNote: vi.fn(async () => {}),
+  removeFavorite: vi.fn(async () => {}),
+}));
+vi.mock('../lib/AuthContext', () => ({ useAuth: () => ({ user: h.user }) }));
+vi.mock('../lib/favorites', () => ({
+  FAVORITE_NOTE_MAX: 500,
+  favoriteId: (r, i) => `${r}__${i}`,
+  addFavorite: h.addFavorite,
+  setFavoriteNote: h.setFavoriteNote,
+  removeFavorite: h.removeFavorite,
+  subscribeFavorites: (_uid, cb) => {
+    cb(h.rows);
+    return () => {};
+  },
+}));
 vi.mock('../lib/ToastContext', () => ({ useToast: () => ({ show: vi.fn() }) }));
 vi.mock('../lib/groupTrips', () => ({
   listMyGroupTrips: async () => [],
@@ -16,6 +35,8 @@ vi.mock('../lib/groupTrips', () => ({
 
 import { TripProvider, useTrip } from '../lib/TripContext';
 import SaveLandmarkButton, { ItinerarySheet } from './SaveLandmarkButton';
+import { FavoritesProvider } from '../lib/FavoritesContext';
+import { MemoryRouter } from 'react-router-dom';
 
 let container;
 let root;
@@ -33,38 +54,67 @@ function Probe() {
 }
 
 describe('SaveLandmarkButton', () => {
-  it('saves to Save for later, offers the city itinerary, and unsaves on a second tap', async () => {
-    const landmark = { id: 'vizcaya', name: 'Vizcaya' };
+  const mount = async (children) => {
     container = document.createElement('div');
     document.body.appendChild(container);
     root = createRoot(container);
     await act(async () =>
       root.render(
-        <TripProvider>
-          <SaveLandmarkButton landmark={landmark} regionId="miami" />
-          <Probe />
-        </TripProvider>
+        <MemoryRouter>
+          <TripProvider>
+            <FavoritesProvider>{children}</FavoritesProvider>
+            <Probe />
+          </TripProvider>
+        </MemoryRouter>
       )
     );
-    const bookmark = () => container.querySelector('button[aria-pressed]');
-    expect(bookmark().getAttribute('aria-pressed')).toBe('false');
+  };
+  const bookmark = () => container.querySelector('button[aria-haspopup="dialog"]');
+  const row = (text) => [...document.querySelectorAll('.save-sheet-row')].find((b) => b.textContent.includes(text));
+  const landmark = { id: 'vizcaya', name: 'Vizcaya', lat: 25.7, lng: -80.2 };
 
+  it('the bookmark opens a sheet with two ways to save: Favorite places and an itinerary', async () => {
+    h.user = null;
+    await mount(<SaveLandmarkButton landmark={landmark} regionId="miami" />);
     await act(async () => bookmark().click());
-    expect(tripRef.savedForLater).toEqual([{ regionId: 'miami', id: 'vizcaya', name: 'Vizcaya' }]);
-    expect(bookmark().getAttribute('aria-pressed')).toBe('true');
-    expect(document.body.textContent).toContain('Saved to Save for later');
-
-    const startRow = [...document.querySelectorAll('.save-sheet-row')].find((b) => b.textContent.includes('Start a Miami itinerary'));
-    await act(async () => startRow.click());
+    expect(document.body.textContent).toContain('Favorite places');
+    expect(document.body.textContent).toContain('Sign in');
+    expect(document.body.textContent).toContain('Or add it to an itinerary');
+    await act(async () => row('Start a Miami itinerary').click());
     expect(tripRef.byRegion.miami).toEqual(['vizcaya']);
-
+    expect(tripRef.savedForLater).toEqual([]);
     const done = [...document.querySelectorAll('button')].find((b) => b.textContent === 'Done');
     await act(async () => done.click());
-    expect(document.body.textContent).not.toContain('Saved to Save for later');
+    expect(document.body.textContent).not.toContain('Or add it to an itinerary');
+  });
 
+  it('signed in: Favorite places saves the place, and a note saves under it', async () => {
+    h.user = { uid: 'me' };
+    h.rows = [];
+    h.addFavorite.mockClear();
+    h.setFavoriteNote.mockClear();
+    await mount(<SaveLandmarkButton landmark={landmark} regionId="miami" />);
     await act(async () => bookmark().click());
-    expect(tripRef.savedForLater).toEqual([]);
-    expect(tripRef.byRegion.miami).toEqual(['vizcaya']);
+    await act(async () => row('Favorite places').click());
+    expect(h.addFavorite).toHaveBeenCalledWith('me', { region: 'miami', id: 'vizcaya', name: 'Vizcaya', lat: 25.7, lng: -80.2, note: '' });
+  });
+
+  it('a favorite place fills the bookmark and shows its note, which can be edited', async () => {
+    h.user = { uid: 'me' };
+    h.rows = [{ region: 'miami', id: 'vizcaya', name: 'Vizcaya', lat: 25.7, lng: -80.2, note: 'Go at sunset', savedAt: 1 }];
+    h.setFavoriteNote.mockClear();
+    await mount(<SaveLandmarkButton landmark={landmark} regionId="miami" />);
+    expect(bookmark().className).toContain('is-saved');
+    await act(async () => bookmark().click());
+    const box = document.querySelector('textarea');
+    expect(box.value).toBe('Go at sunset');
+    await act(async () => {
+      const set = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+      set.call(box, 'Go at sunset, bring cash');
+      box.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await act(async () => [...document.querySelectorAll('button')].find((b) => b.textContent === 'Save note').click());
+    expect(h.setFavoriteNote).toHaveBeenCalledWith('me', 'miami', 'vizcaya', 'Go at sunset, bring cash');
   });
 
   // Owner ask 2026-10-24: a place can go on any itinerary you have, with its

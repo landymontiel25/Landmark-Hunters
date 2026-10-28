@@ -265,6 +265,12 @@ export async function deleteAccountData(uid) {
   } catch {
     /* best-effort */
   }
+  // Favorite places and their notes (users/{uid}/favorites).
+  try {
+    await deleteAll(await getDocs(collection(db, 'users', uid, 'favorites')));
+  } catch {
+    /* best-effort */
+  }
   // The record of what this account reported (users/{uid}/my_reports).
   try {
     await deleteAll(await getDocs(collection(db, 'users', uid, 'my_reports')));
