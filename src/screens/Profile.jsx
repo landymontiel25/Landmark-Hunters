@@ -23,7 +23,6 @@ import { claimMyReferralBonuses } from '../lib/referrals';
 import { hasCompletedOnboardingLocally } from '../lib/onboarding';
 import { ONBOARDING_VERSION, onboardingStatus } from '../lib/onboardingVersion';
 import FriendsPanel from '../components/FriendsPanel';
-import { useFavorites } from '../lib/FavoritesContext';
 import FollowsPanel from '../components/FollowsPanel';
 import ReputationCard from '../components/ReputationCard';
 import { COMMUNITY_REGIONS } from '../lib/community';
@@ -119,7 +118,6 @@ export default function Profile() {
   };
   const { myUsername, friendUids, myProfile } = useFriends();
   const { trip } = useTrip();
-  const { favorites } = useFavorites();
   const navigate = useNavigate();
   const { stats, reload: reloadStats } = useBadges();
   // Solo streak's own doc (mode: 'solo', streaks/{uid}) -- kept live here
@@ -676,10 +674,7 @@ export default function Profile() {
         </>
       )}
 
-      <Link to="/favorites" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
-        {'\u{2B50}'} Favorite places{favorites.length ? ` (${favorites.length})` : ''}
-      </Link>
-      <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 12 }}>
+      <Link to="/settings" className="btn btn-ghost btn-block" style={{ marginTop: 20 }}>
         {'\u{2699}\u{FE0F}'} Settings
       </Link>
       <button className="btn btn-ghost btn-block" style={{ marginTop: 12 }} disabled={signingOut} onClick={handleSignOut}>

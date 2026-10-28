@@ -24,7 +24,7 @@ vi.mock('../lib/FavoritesContext', () => ({ useFavorites: () => h.fav }));
 vi.mock('../lib/ToastContext', () => ({ useToast: () => h.toast }));
 vi.mock('../components/DirectionsButton', () => ({ default: ({ children }) => <button type="button">{children}</button> }));
 
-import Favorites from './Favorites';
+import FavoritesList from './FavoritesList';
 
 let container;
 afterEach(() => container?.remove());
@@ -34,14 +34,14 @@ async function render() {
   await act(async () =>
     createRoot(container).render(
       <MemoryRouter>
-        <Favorites />
+        <FavoritesList />
       </MemoryRouter>
     )
   );
 }
 const button = (text) => [...container.querySelectorAll('button')].find((b) => b.textContent.includes(text));
 
-describe('Favorite places screen', () => {
+describe('Favorites list', () => {
   it('lists each place with your note, grouped by city, and searches notes', async () => {
     await render();
     expect(container.textContent).toContain('Vizcaya');
@@ -54,6 +54,18 @@ describe('Favorite places screen', () => {
     });
     expect(container.textContent).toContain('Pizzeria X');
     expect(container.textContent).not.toContain('Vizcaya');
+  });
+
+  it('filters by city and sorts A to Z', async () => {
+    await render();
+    const select = container.querySelector('select[aria-label="Filter by city"]');
+    expect([...select.options].map((o) => o.textContent)).toEqual(['All cities (2)', 'Miami (1)', 'Other places (1)']);
+    await act(async () => {
+      select.value = 'Miami';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    expect(container.textContent).toContain('Vizcaya');
+    expect(container.textContent).not.toContain('Pizzeria X');
   });
 
   it('edits a note and removes a place with Undo', async () => {

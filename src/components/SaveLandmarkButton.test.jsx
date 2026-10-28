@@ -73,29 +73,37 @@ describe('SaveLandmarkButton', () => {
   const row = (text) => [...document.querySelectorAll('.save-sheet-row')].find((b) => b.textContent.includes(text));
   const landmark = { id: 'vizcaya', name: 'Vizcaya', lat: 25.7, lng: -80.2 };
 
-  it('the bookmark opens a sheet with two ways to save: Favorite places and an itinerary', async () => {
+  const tab = (label) => [...document.querySelectorAll('[role="tab"]')].find((b) => b.textContent.includes(label));
+
+  it('the bookmark opens a sheet with two tabs: Itinerary and Favorites', async () => {
     h.user = null;
     await mount(<SaveLandmarkButton landmark={landmark} regionId="miami" />);
     await act(async () => bookmark().click());
-    expect(document.body.textContent).toContain('Favorite places');
+    expect(tab('Itinerary').getAttribute('aria-selected')).toBe('true');
+    expect(tab('Favorites').getAttribute('aria-selected')).toBe('false');
+    expect(document.body.textContent).toContain('Add it to an itinerary');
+    // Favorites shows its own content and hides the itinerary rows.
+    await act(async () => tab('Favorites').click());
     expect(document.body.textContent).toContain('Sign in');
-    expect(document.body.textContent).toContain('Or add it to an itinerary');
+    expect(document.body.textContent).not.toContain('Add it to an itinerary');
+    await act(async () => tab('Itinerary').click());
     await act(async () => row('Start a Miami itinerary').click());
     expect(tripRef.byRegion.miami).toEqual(['vizcaya']);
     expect(tripRef.savedForLater).toEqual([]);
     const done = [...document.querySelectorAll('button')].find((b) => b.textContent === 'Done');
     await act(async () => done.click());
-    expect(document.body.textContent).not.toContain('Or add it to an itinerary');
+    expect(document.body.textContent).not.toContain('Add it to an itinerary');
   });
 
-  it('signed in: Favorite places saves the place, and a note saves under it', async () => {
+  it('signed in: Add to Favorites saves the place', async () => {
     h.user = { uid: 'me' };
     h.rows = [];
     h.addFavorite.mockClear();
     h.setFavoriteNote.mockClear();
     await mount(<SaveLandmarkButton landmark={landmark} regionId="miami" />);
     await act(async () => bookmark().click());
-    await act(async () => row('Favorite places').click());
+    await act(async () => tab('Favorites').click());
+    await act(async () => row('Add to Favorites').click());
     expect(h.addFavorite).toHaveBeenCalledWith('me', { region: 'miami', id: 'vizcaya', name: 'Vizcaya', lat: 25.7, lng: -80.2, note: '' });
   });
 
@@ -106,6 +114,7 @@ describe('SaveLandmarkButton', () => {
     await mount(<SaveLandmarkButton landmark={landmark} regionId="miami" />);
     expect(bookmark().className).toContain('is-saved');
     await act(async () => bookmark().click());
+    await act(async () => tab('Favorites').click());
     const box = document.querySelector('textarea');
     expect(box.value).toBe('Go at sunset');
     await act(async () => {

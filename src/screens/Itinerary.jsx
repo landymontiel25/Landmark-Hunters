@@ -1,5 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import FavoritesList from '../components/FavoritesList';
+import { useFavorites } from '../lib/FavoritesContext';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap } from 'react-leaflet';
 // leafletGuards: Leaflet plus a fix for two timers that outlive their map.
 import L from '../lib/leafletGuards';
@@ -249,7 +251,7 @@ function ItinWhere({ region }) {
 // same order, and those shouldn't drop back to estimates.
 const routeOrderKey = (route) => route.map((s) => s.id).join('|');
 
-export default function Itinerary() {
+function ItineraryBody({ sectionTabs }) {
   const {
     trip,
     toggleLandmark,
@@ -693,6 +695,7 @@ export default function Itinerary() {
   if (myRegions.length === 0 && groupsLoading) {
     return (
       <div>
+        {sectionTabs}
         <Skeleton width="60%" height={30} radius={10} style={{ marginBottom: 16 }} />
         <SkeletonList count={2} label="Loading your itineraries" />
       </div>
@@ -701,6 +704,7 @@ export default function Itinerary() {
   if (myRegions.length === 0 && groupsError && savedCount === 0) {
     return (
       <div className="empty-state">
+        {sectionTabs}
         <ErrorNotice error={groupsError} message={friendlyError(groupsError, "Couldn't load your group trips.")} onRetry={loadGroupTrips} />
         <button className="btn btn-ghost" style={{ marginTop: 10 }} onClick={() => setShowCreateTrip(true)}>
           {'\u{2795}'} Create New Trip
@@ -714,6 +718,7 @@ export default function Itinerary() {
   if (myRegions.length === 0 && groupTrips.length === 0 && savedCount === 0) {
     return (
       <div className="empty-state">
+        {sectionTabs}
         <p>No itineraries yet. Create a trip to start one.</p>
         <button
           className="btn btn-primary"
@@ -733,6 +738,7 @@ export default function Itinerary() {
   if (!openReg) {
     return (
       <div>
+        {sectionTabs}
         <h1 className="screen-title">
           <span>{'\u{1F5FA}\u{FE0F}'}</span> Your Itineraries
         </h1>
@@ -1256,4 +1262,53 @@ export default function Itinerary() {
       </div>
     </div>
   );
+}
+
+// The Itinerary tab has two sub-tabs: Itineraries (your trips) and Favorites
+// (places you loved, with your notes). The tabs sit above the trips overview
+// and its empty states; an open itinerary's route takes over the whole tab.
+// A bookmark's "Favorites" link and the old /favorites route open the second.
+export default function Itinerary() {
+  const location = useLocation();
+  const [section, setSection] = usePersistentState('itinerary.section', 'itineraries');
+  // Arriving with state { section: 'favorites' } (the /favorites redirect)
+  // opens that sub-tab once.
+  useEffect(() => {
+    if (location.state?.section === 'favorites') setSection('favorites');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key]);
+  const { favorites } = useFavorites();
+
+  const tabs = (
+    <div className="tabs itin-sections" style={{ marginBottom: 14 }} role="tablist" aria-label="Itinerary sections">
+      {[
+        { id: 'itineraries', label: '\u{1F5FA}\u{FE0F} Itineraries' },
+        { id: 'favorites', label: `\u{2B50} Favorites${favorites.length ? ` (${favorites.length})` : ''}` },
+      ].map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          role="tab"
+          aria-selected={section === t.id}
+          className={`tab-btn ${section === t.id ? 'active' : ''}`}
+          onClick={() => setSection(t.id)}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  if (section === 'favorites') {
+    return (
+      <div>
+        {tabs}
+        <h1 className="screen-title">
+          <span>{'\u{2B50}'}</span> Favorites
+        </h1>
+        <FavoritesList />
+      </div>
+    );
+  }
+  return <ItineraryBody sectionTabs={tabs} />;
 }
