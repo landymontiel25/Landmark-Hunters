@@ -47,7 +47,7 @@ export default function FavoriteNoteCard({ regionId, landmarkId }) {
         </button>
       )}
       <p className="screen-subtitle" style={{ margin: '8px 0 0', fontSize: '0.8rem' }}>
-        Only you can see this. Find all your favorites under Profile.
+        Only you can see this. Find all your favorites in Itinerary > Favorites.
       </p>
     </div>
   );

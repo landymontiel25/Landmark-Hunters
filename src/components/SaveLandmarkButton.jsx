@@ -24,10 +24,9 @@ export function BookmarkIcon({ filled = false, size = 20 }) {
   );
 }
 
-// Instagram-style save. Tapping the bookmark slides up a sheet with two ways
-// to keep the place: your Favorite places (anywhere in the world, with a note
-// of your own, listed under Profile) or any itinerary you have, this city's
-// first. The bookmark is filled once the place is a favorite (or was saved
+// Instagram-style save. Tapping the bookmark slides up a sheet with two tabs:
+// an itinerary (any you have, this city's first) or Favorites (anywhere in the
+// world, with a note of your own, listed in Itinerary > Favorites). The bookmark is filled once the place is a favorite (or was saved
 // for later before that list was replaced by favorites).
 export default function SaveLandmarkButton({ landmark, regionId, className = 'share-icon-btn' }) {
   const { isSavedForLater } = useTrip();
