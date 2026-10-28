@@ -79,17 +79,35 @@ describe('TipsSection', () => {
     expect(api.reactToTip).toHaveBeenCalledWith('ann_bell', 'helpful', true);
     expect(buttons().find((b) => b.textContent.includes('Helpful')).textContent).toContain('3');
   });
-  it('reports with a reason and hides the tip for the reporter', async () => {
+  const sheet = () => document.querySelector('[role="alertdialog"]');
+  const sheetClick = async (label) => act(async () => [...sheet().querySelectorAll('button')].find((b) => b.textContent === label).click());
+  it('warns before reporting, then reports with a reason and hides the tip for the reporter', async () => {
     api.reportTip.mockResolvedValue({ ok: true });
     await mount();
     await click('Report');
     await click('Offensive or hateful');
+    expect(sheet().textContent).toContain('Report this tip?');
+    expect(api.reportTip).not.toHaveBeenCalled();
+    await sheetClick('Report');
     expect(api.reportTip).toHaveBeenCalledWith('ann_bell', 'offensive');
     expect(container.textContent).not.toContain('Go early');
   });
-  it('blocks the author and hides their tips', async () => {
+  it('cancelling the report warning sends nothing', async () => {
+    api.reportTip.mockClear();
+    await mount();
+    await click('Report');
+    await click('Offensive or hateful');
+    await sheetClick('Cancel');
+    expect(api.reportTip).not.toHaveBeenCalled();
+    expect(container.textContent).toContain('Go early');
+  });
+  it('warns before blocking, then blocks the author and hides their tips', async () => {
+    blocks.blockUser.mockClear();
     await mount();
     await click('Block');
+    expect(sheet().textContent).toContain('Block @ann?');
+    expect(blocks.blockUser).not.toHaveBeenCalled();
+    await sheetClick('Block');
     expect(blocks.blockUser).toHaveBeenCalledWith('me', 'ann', 'ann');
     expect(container.textContent).not.toContain('Go early');
   });

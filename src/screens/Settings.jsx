@@ -23,6 +23,7 @@ import { authHeaders } from '../lib/apiAuth';
 import { useAdminMode } from '../lib/AdminModeContext';
 import { authErrorMessage } from '../lib/authErrors';
 import PreferenceChips from '../components/PreferenceChips';
+import SafetyList from '../components/SafetyList';
 import LocationAutocomplete from '../components/LocationAutocomplete';
 import ErrorNotice from '../components/ErrorNotice';
 import { useToast, runOptimistic } from '../lib/ToastContext';
@@ -422,6 +423,8 @@ export default function Settings() {
         </p>
         <PreferenceChips />
       </div>
+
+      {firebaseEnabled && user && <SafetyList />}
 
       {firebaseEnabled && user && (
         <div className="card section">

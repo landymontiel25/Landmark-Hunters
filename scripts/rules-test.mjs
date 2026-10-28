@@ -812,6 +812,28 @@ await t('signed out can list custom landmarks', () => assertSucceeds(getDocs(col
 await t('a reported pin cannot be fetched by someone else', () => assertFails(getDoc(doc(as('bob'), 'custom_landmarks/bad'))));
 await t('its creator can still fetch it', () => assertSucceeds(getDoc(doc(as('alice'), 'custom_landmarks/bad'))));
 
+console.log('my_reports: your own list of what you reported, private');
+await reset();
+const rep = (over = {}) => ({ kind: 'comment', targetId: 'bob_lm', label: '@bob on Cafe', landmarkId: 'lm', regionId: 'miami', createdAt: serverTimestamp(), ...over });
+await t('you can log, read and delete your own reports', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/my_reports/comment_bob_lm'), rep()));
+  await assertSucceeds(getDocs(collection(db, 'users/ann/my_reports')));
+  await assertSucceeds(deleteDoc(doc(db, 'users/ann/my_reports/comment_bob_lm')));
+});
+await t('a report log is never editable, and only holds the allowed fields and kinds', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/my_reports/tip_t1'), rep({ kind: 'tip', targetId: 't1' })));
+  await assertFails(setDoc(doc(db, 'users/ann/my_reports/tip_t1'), rep({ kind: 'tip', targetId: 't1', label: 'changed' })));
+  await assertFails(setDoc(doc(db, 'users/ann/my_reports/x_1'), rep({ kind: 'other' })));
+  await assertFails(setDoc(doc(db, 'users/ann/my_reports/comment_2'), rep({ extra: 1 })));
+});
+await t('nobody else can read or write your report log, not even signed out', async () => {
+  await assertFails(getDocs(collection(as('bob'), 'users/ann/my_reports')));
+  await assertFails(setDoc(doc(as('bob'), 'users/ann/my_reports/comment_9'), rep()));
+  await assertFails(getDocs(collection(env.unauthenticatedContext().firestore(), 'users/ann/my_reports')));
+});
+
 console.log('community_photos: one public photo per place, create-once, own photo only');
 await reset();
 const cpUrl = (uid, folder = 'checkin_photos') =>

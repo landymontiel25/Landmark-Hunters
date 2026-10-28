@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { blockUser } from '../../lib/blocks';
 import { findTipCheckin } from '../../lib/tipCheckin';
 import { tipTagLabel } from '../../lib/tips';
+import { useConfirm } from '../ConfirmSheet';
+import { logMyReport } from '../../lib/myReports';
 import { deleteMyTip, fetchTips, markTipsSeen, reactToTip, reportTip, TIPS_CHANGED_EVENT } from '../../lib/tipsApi';
 import TipComposer from './TipComposer';
 import OnScreen from '../OnScreen';
@@ -48,6 +50,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
   const [composing, setComposing] = useState(false);
   const [editingMine, setEditingMine] = useState(false);
   const [reporting, setReporting] = useState(null);
+  const { confirm, node: confirmNode } = useConfirm();
   const [busy, setBusy] = useState(null);
 
   // Only the newest request may land (loads can overlap and finish out of
@@ -142,9 +145,21 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     }
   };
   const report = async (t, reason) => {
+    if (
+      !(await confirm({
+        title: 'Report this tip?',
+        body: [
+          `Only report tips that are spam, abusive or about the wrong place. Two reports from different people hide it for everyone.`,
+          "They won't be told who reported it. You can see what you've reported in Settings, under Blocked & Reported.",
+        ],
+        confirmLabel: 'Report',
+      }))
+    )
+      return;
     setBusy(`${t.id}:report`);
     try {
       await reportTip(t.id, reason);
+      logMyReport(user.uid, { kind: 'tip', targetId: t.id, label: `Tip${t.authorName ? ` by @${t.authorName}` : ''} on ${landmark?.name || 'a place'}`, landmarkId, regionId: region });
       setReporting(null);
       setTips((list) => list.filter((x) => x.id !== t.id));
       toast?.show?.('Thanks. The tip is hidden for you, and it will be reviewed.');
@@ -155,7 +170,17 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
     }
   };
   const block = async (t) => {
-    if (!window.confirm(`Block ${t.authorName}? You won't see each other's tips or reviews.`)) return;
+    if (
+      !(await confirm({
+        title: `Block @${String(t.authorName || '').replace(/^@/, '')}?`,
+        body: [
+          "You won't see each other's tips, ratings or comments, and any friend request or follow between you ends.",
+          'You can unblock anytime in Settings, under Blocked & Reported.',
+        ],
+        confirmLabel: 'Block',
+      }))
+    )
+      return;
     setBusy(`${t.id}:block`);
     try {
       await blockUser(user.uid, t.authorUid, t.authorName);
@@ -296,6 +321,7 @@ export default function TipsSection({ landmark, user, toast, refreshKey = '', vi
 
   return (
     <div className="section tips-section">
+      {confirmNode}
       <h3>From people who went</h3>
       <p className="screen-subtitle" style={{ marginTop: -6, fontSize: '0.8rem' }}>
         Tips from verified visits. They are people's own words, not checked facts.
