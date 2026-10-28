@@ -812,6 +812,32 @@ await t('signed out can list custom landmarks', () => assertSucceeds(getDocs(col
 await t('a reported pin cannot be fetched by someone else', () => assertFails(getDoc(doc(as('bob'), 'custom_landmarks/bad'))));
 await t('its creator can still fetch it', () => assertSucceeds(getDoc(doc(as('alice'), 'custom_landmarks/bad'))));
 
+console.log('favorites: your own favorite places with notes, private');
+await reset();
+const fav = (over = {}) => ({ region: 'rome', id: 'pizzeria-x', name: 'Pizzeria X', lat: 41.9, lng: 12.5, note: 'Great pizza', savedAt: 1700000000000, ...over });
+await t('you can save, read, edit the note of, and delete your own favorite', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/favorites/rome__pizzeria-x'), fav()));
+  await assertSucceeds(getDocs(collection(db, 'users/ann/favorites')));
+  await assertSucceeds(updateDoc(doc(db, 'users/ann/favorites/rome__pizzeria-x'), { note: 'Ask for the garlic knots' }));
+  await assertSucceeds(deleteDoc(doc(db, 'users/ann/favorites/rome__pizzeria-x')));
+});
+await t('a favorite keeps its place: only note and name can change, notes stay under 500 characters', async () => {
+  const db = as('ann');
+  await assertSucceeds(setDoc(doc(db, 'users/ann/favorites/rome__a'), fav({ id: 'a' })));
+  await assertFails(updateDoc(doc(db, 'users/ann/favorites/rome__a'), { lat: 1 }));
+  await assertFails(updateDoc(doc(db, 'users/ann/favorites/rome__a'), { note: 'x'.repeat(501) }));
+  await assertFails(setDoc(doc(db, 'users/ann/favorites/rome__b'), fav({ id: 'b', note: 'x'.repeat(501) })));
+  await assertFails(setDoc(doc(db, 'users/ann/favorites/rome__c'), fav({ id: 'c', extra: 1 })));
+  await assertFails(setDoc(doc(db, 'users/ann/favorites/wrong'), fav({ id: 'c' })));
+});
+await t('nobody else can read or write your favorites, not even signed out', async () => {
+  await assertFails(getDocs(collection(as('bob'), 'users/ann/favorites')));
+  await assertFails(setDoc(doc(as('bob'), 'users/ann/favorites/rome__z'), fav({ id: 'z' })));
+  await assertFails(deleteDoc(doc(as('bob'), 'users/ann/favorites/rome__a')));
+  await assertFails(getDocs(collection(env.unauthenticatedContext().firestore(), 'users/ann/favorites')));
+});
+
 console.log('my_reports: your own list of what you reported, private');
 await reset();
 const rep = (over = {}) => ({ kind: 'comment', targetId: 'bob_lm', label: '@bob on Cafe', landmarkId: 'lm', regionId: 'miami', createdAt: serverTimestamp(), ...over });

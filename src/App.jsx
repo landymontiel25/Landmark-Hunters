@@ -9,6 +9,7 @@ import LiveLocationSharer from './components/LiveLocationSharer';
 import { RatingsProvider } from './lib/RatingsContext';
 import { MyPhotosProvider } from './lib/MyPhotosContext';
 import { FriendsProvider } from './lib/FriendsContext';
+import { FavoritesProvider } from './lib/FavoritesContext';
 import { UnitsProvider } from './lib/UnitsContext';
 import { BadgesProvider } from './lib/BadgesContext';
 import { PairStreakProvider } from './lib/PairStreakContext';
@@ -143,6 +144,7 @@ const GroupTrip = lazyScreen(() => import('./screens/GroupTrip'));
 const Settings = lazyScreen(() => import('./screens/Settings'));
 const FullStats = lazyScreen(() => import('./screens/FullStats'));
 const MyCheckins = lazyScreen(() => import('./screens/MyCheckins'));
+const Favorites = lazyScreen(() => import('./screens/Favorites'));
 const MyMaprRatings = lazyScreen(() => import('./screens/MyMaprRatings'));
 const MyCities = lazyScreen(() => import('./screens/MyCities'));
 const MyStreaks = lazyScreen(() => import('./screens/MyStreaks'));
@@ -181,6 +183,7 @@ function AppRoutes() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/stats" element={<FullStats />} />
           <Route path="/checkins" element={<MyCheckins />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/mapr-ratings" element={<MyMaprRatings />} />
           <Route path="/cities" element={<MyCities />} />
           <Route path="/streaks" element={<MyStreaks />} />
@@ -260,6 +263,7 @@ export default function App() {
       <AdminModeProvider>
       <LandmarkEditsProvider>
       <FriendsProvider>
+      <FavoritesProvider>
       <CheckInProvider>
       <TripProvider>
       <BadgesProvider>
@@ -306,6 +310,7 @@ export default function App() {
       </BadgesProvider>
       </TripProvider>
       </CheckInProvider>
+      </FavoritesProvider>
       </FriendsProvider>
       </LandmarkEditsProvider>
       </AdminModeProvider>
