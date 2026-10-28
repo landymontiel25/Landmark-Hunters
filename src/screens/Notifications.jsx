@@ -171,13 +171,15 @@ export default function Notifications() {
     }
     // A tag carries its place's region, so places outside the built-in
     // catalog (imported or added ones) open too.
+    // A rating tag opens the place scrolled to the rating you were tagged in.
+    const state = n.type === 'rating_tag' && n.fromUid ? { focusReviewId: `${n.fromUid}_${n.landmarkId}` } : undefined;
     if (n.landmarkId && n.regionId) {
-      navigate(`/landmarks/${n.regionId}/${n.landmarkId}`);
+      navigate(`/landmarks/${n.regionId}/${n.landmarkId}`, { state });
       return;
     }
     if (n.landmarkId) {
       const landmark = ALL_LANDMARKS.find((l) => l.id === n.landmarkId);
-      if (landmark) navigate(`/landmarks/${landmark.regionId}/${landmark.id}`);
+      if (landmark) navigate(`/landmarks/${landmark.regionId}/${landmark.id}`, { state });
     }
   };
 
@@ -301,6 +303,11 @@ export default function Notifications() {
             >
               <p style={{ margin: 0, fontSize: '0.9rem', flex: 1 }}>{n.message}</p>
               {n.type === 'streak_warning' && <StreakCountdown createdAt={n.createdAt} />}
+              {n.type === 'rating_tag' && n.landmarkId && (
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--mapr-blue, var(--text-primary))', whiteSpace: 'nowrap' }}>
+                  View rating {'\u203A'}
+                </span>
+              )}
             </div>
           ))}
         </div>

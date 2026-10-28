@@ -1967,7 +1967,9 @@ textarea {
   box-shadow: var(--shadow-float);
   position: sticky;
   top: calc(var(--safe-top) + 12px + var(--offline-h));
-  z-index: 20;
+  /* Above the where-am-i pill row under it (z-index 20, later in the page),
+     so the profile dropdown opens over the pill instead of behind it. */
+  z-index: 22;
 }
 
 .app-header img,
@@ -3275,6 +3277,12 @@ button.header-streak {
   padding: 12px;
   margin-bottom: 10px;
   background: var(--color-bg-card);
+}
+
+/* The rating a "tagged you" notification opened. */
+.review-item.review-focus {
+  border-color: var(--mapr-blue, var(--color-border-soft));
+  box-shadow: 0 0 0 2px var(--mapr-blue, transparent);
 }
 
 .review-head {
