@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { MOODS, MOOD_SORTS, moodPlaces } from '../../lib/nearbyPicks';
+import { MOODS, MOOD_SORTS, TOP_MOOD, moodPlaces } from '../../lib/nearbyPicks';
 import { useReadyItems } from './useNearbyPicks';
 import { useShownEffect } from './useShownEffect';
 import PickCard, { PickRow } from './PickCard';
@@ -20,16 +20,26 @@ function readView() {
   }
 }
 
-// "Discover top landmarks": swipe through moods, pick one, then
-// swipe its places (or scroll them as a list), sorted closest or highest
-// rated. `pool` is
+// "Discover top landmarks": Top landmarks (every kind of place) or Places
+// (swipe through moods, pick one), then swipe the places (or scroll them as
+// a list), sorted closest or highest rated. `pool` is
 // nearbyPicks.eligiblePlaces (already inside the distance filter).
 // rank(places) is Mapr's ranking for the "For you" sort (MapPicksOverlay
 // passes maprRank/surfaces.js rankPlaces); without it, For you is closest.
 // onShown(places) is called with the places on screen (logged as picks).
 export default function MoodCarousel({ pool, ratings, initialMood = null, initialSort = 'foryou', moods = MOODS, rank = null, onShown = null }) {
-  const [mood, setMood] = useState(initialMood);
-  const [sort, setSort] = useState(initialSort);
+  // Two buttons: Top landmarks (the default: the best places near you, any
+  // kind) and Places, which opens the moods (Something to eat, Art & culture...).
+  const [section, setSection] = useState(initialMood ? 'places' : 'top');
+  const [pickedMood, setMood] = useState(initialMood);
+  const mood = section === 'top' ? TOP_MOOD.id : pickedMood;
+  const [sort, setSort] = useState(initialMood ? initialSort : 'rated');
+  const chooseSection = (id) => {
+    if (id === section) return;
+    setSection(id);
+    // Top landmarks start on highest rated, moods on Mapr's order for you.
+    setSort(id === 'top' ? 'rated' : initialSort);
+  };
   const [view, setViewState] = useState(readView);
   const setView = (v) => {
     setViewState(v);
@@ -50,21 +60,40 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
   return (
     <section className="mpp-section">
       <h3 className="mpp-section-title">Discover top landmarks</h3>
-      <div className="mpp-carousel mpp-moods" role="listbox" aria-label="Moods">
-        {moods.map((m) => (
+      <div className="mpp-sections" role="tablist" aria-label="What to discover">
+        {[
+          { id: 'top', label: `${TOP_MOOD.icon} ${TOP_MOOD.label}` },
+          { id: 'places', label: '\u{1F4CD} Places' },
+        ].map((t) => (
           <button
-            key={m.id}
+            key={t.id}
             type="button"
-            role="option"
-            aria-selected={mood === m.id}
-            className={`mpp-mood ${mood === m.id ? 'active' : ''}`}
-            onClick={() => setMood(mood === m.id ? null : m.id)}
+            role="tab"
+            aria-selected={section === t.id}
+            className={`mpp-chip ${section === t.id ? 'active' : ''}`}
+            onClick={() => chooseSection(t.id)}
           >
-            <span className="mpp-mood-icon">{m.icon}</span>
-            {m.label}
+            {t.label}
           </button>
         ))}
       </div>
+      {section === 'places' && (
+        <div className="mpp-carousel mpp-moods" role="listbox" aria-label="Moods">
+          {moods.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              role="option"
+              aria-selected={pickedMood === m.id}
+              className={`mpp-mood ${pickedMood === m.id ? 'active' : ''}`}
+              onClick={() => setMood(pickedMood === m.id ? null : m.id)}
+            >
+              <span className="mpp-mood-icon">{m.icon}</span>
+              {m.label}
+            </button>
+          ))}
+        </div>
+      )}
       {mood && (
         <>
           <div className="mpp-sort-row">
@@ -120,7 +149,9 @@ export default function MoodCarousel({ pool, ratings, initialMood = null, initia
               </div>
             )
           ) : (
-            <p className="mpp-note">{places.length ? 'Loading places…' : 'Nothing for that mood within your distance.'}</p>
+            <p className="mpp-note">
+              {places.length ? 'Loading places…' : section === 'top' ? 'No landmarks within your distance.' : 'Nothing for that mood within your distance.'}
+            </p>
           )}
         </>
       )}

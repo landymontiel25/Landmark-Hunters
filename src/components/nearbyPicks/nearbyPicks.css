@@ -475,6 +475,11 @@ body.pin-placing .map-picks {
   scroll-snap-align: start;
 }
 
+.mpp-sections {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 10px;
+}
 .mpp-moods {
   gap: 8px;
 }

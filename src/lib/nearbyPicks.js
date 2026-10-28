@@ -1,3 +1,4 @@
+import { weightedStars } from './topRated';
 import { ALL_LANDMARKS, CATEGORY_ALIASES, INTERESTS } from '../data/regions';
 import { distanceMeters } from './geo';
 import { discoveryPicks, effectiveTagScores, usualPicks } from './tagScores';
@@ -730,10 +731,12 @@ export const MOODS = [
   { id: 'sports', icon: '\u{1F3DF}\u{FE0F}', label: 'Sports', categories: ['stadiums', 'sports', 'formula-1'] },
   { id: 'tech', icon: '\u{1F4BB}', label: 'Tech spots', categories: ['tech'] },
 ];
-// The Map sheet's moods: the same, without tech spots. Entertainment
-// folded into Nightlife, so "A night out" covers bars, clubs, live music,
-// shows, zoos and amusement parks.
-export const TEST_MOODS = MOODS.filter((m) => m.id !== 'tech');
+// The Map sheet's moods: the same, without tech spots, and without Fresh air
+// (owner, 2026-10-28). Entertainment folded into Nightlife, so "A night out"
+// covers bars, clubs, live music, shows, zoos and amusement parks.
+export const TEST_MOODS = MOODS.filter((m) => m.id !== 'tech' && m.id !== 'outdoors');
+// "Top landmarks" (the Map sheet's first button): every category at once.
+export const TOP_MOOD = { id: 'top', icon: '\u{2B50}', label: 'Top landmarks', categories: null };
 // Where the Test tab's picks start, until someone taps a distance chip.
 export const TEST_DEFAULT_DISTANCE_MI = 5;
 // 'foryou' (the default) is Mapr's ranking (maprRank/surfaces.js rankPlaces):
@@ -749,12 +752,15 @@ export const MOOD_SORTS = [
 // (ratings: RatingsContext's { [landmarkId]: { avg, count } }). Unrated
 // places sort after rated ones, closest first.
 export function moodPlaces({ moodId, pool = [], sort = 'closest', ratings = {}, limit = 10, moods = MOODS }) {
-  const mood = moods.find((m) => m.id === moodId);
+  const mood = moodId === TOP_MOOD.id ? TOP_MOOD : moods.find((m) => m.id === moodId);
   if (!mood) return [];
-  const wanted = new Set(mood.categories);
-  const avg = (l) => (ratings?.[l.id]?.count ? Number(ratings[l.id].avg) || 0 : -1);
+  const wanted = mood.categories ? new Set(mood.categories) : null;
+  // Top landmarks weighs the stars by how many people gave them, so one 5.0
+  // does not beat a 4.8 from a hundred (src/lib/topRated.js).
+  const avg = (l) =>
+    ratings?.[l.id]?.count ? (wanted ? Number(ratings[l.id].avg) || 0 : weightedStars(Number(ratings[l.id].avg) || 0, ratings[l.id].count)) : -1;
   return pool
-    .filter((l) => (l.categories || []).some((c) => wanted.has(c)))
+    .filter((l) => !wanted || (l.categories || []).some((c) => wanted.has(c)))
     .sort((a, b) => (sort === 'rated' ? avg(b) - avg(a) : 0) || a.distanceMeters - b.distanceMeters)
     .slice(0, limit)
     .map((l) => toPick(l, ratings?.[l.id]?.count ? { rating: ratings[l.id] } : {}));
