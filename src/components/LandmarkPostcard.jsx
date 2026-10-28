@@ -118,12 +118,14 @@ export default function LandmarkPostcard({ landmark, size = 'md', rotate = 'l', 
           width: dims.width,
           height: dims.height,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})`,
         }}
       >
         <span style={{ fontSize: size === 'lg' ? '2.6rem' : '1.8rem', filter: 'grayscale(0.15)' }}>{icon}</span>
+        {place.missing && <span className="no-image-label">No image available</span>}
       </div>
     );
   }
