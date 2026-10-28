@@ -47,6 +47,9 @@ import TipsSection from '../components/tips/TipsSection';
 import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton, { ItinerarySheet } from '../components/SaveLandmarkButton';
+import PhotoOfferCard from '../components/PhotoOfferCard';
+import { isSharablePhotoUrl, photoOfferDeclined, removeCommunityPhotoIfMine } from '../lib/communityPhotos';
+import { forgetPlacePhoto, loadPlacePhoto } from '../lib/placePhoto';
 import AdmissionTag from '../components/AdmissionTag';
 import { isPermanentlyClosed } from '../lib/closedPlace';
 import { pickPhoto } from '../lib/imageUtils';
@@ -480,6 +483,29 @@ function LandmarkDetailBody() {
   // the rating under the title and the Ratings section.
   const outside = useLandmarkRatings(landmark, { detail: true, lazy: false, enabled: !!landmark });
 
+  // The first photo someone submits for a place with no public picture
+  // earns a "can we use it?" prompt (communityPhotos.js). Only when the place
+  // has no stored image and nothing (a shared photo, Google) turned one up.
+  const [photoRev, setPhotoRev] = useState(0);
+  const [offerDismissed, setOfferDismissed] = useState(false);
+  const [placeHasNoPhoto, setPlaceHasNoPhoto] = useState(false);
+  const noOwnImage = !!landmark && !landmark.images?.length;
+  const sharable = user ? myPhotos.find((u) => isSharablePhotoUrl(u, user.uid)) || null : null;
+  useEffect(() => {
+    if (!firebaseEnabled || !user || !landmark || !noOwnImage || !regionId || !sharable) {
+      setPlaceHasNoPhoto(false);
+      return undefined;
+    }
+    if (photoOfferDeclined(user.uid, regionId, landmark.id)) return undefined;
+    let cancelled = false;
+    loadPlacePhoto({ ...landmark, region: regionId }).then((p) => !cancelled && setPlaceHasNoPhoto(!p));
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firebaseEnabled, user?.uid, landmark?.id, noOwnImage, regionId, !!sharable, photoRev]);
+  const offerUrl = placeHasNoPhoto && !offerDismissed ? sharable : null;
+
   if (!landmark && customLoading) {
     return <LandmarkDetailSkeleton />;
   }
@@ -629,6 +655,8 @@ function LandmarkDetailBody() {
         // (a missing doc is a no-op) -- otherwise the old one comes back.
         const ids = [...new Set([reviewDocIdRef.current || landmark.id, landmark.id, ...legacyLandmarkIds(landmark.id, regionId)])];
         for (const id of ids) await deleteMyReview(user.uid, id);
+        // A public picture that was this rating's photo went with it.
+        await removeCommunityPhotoIfMine({ region: regionId, id: landmark.id, uid: user.uid, urlIncludes: 'review_photos' });
         reviewDocIdRef.current = landmark.id;
         Promise.all([reloadRatings(), loadReviews({ quiet: true }), reloadMyPhotos()]).catch(() => {});
       },
@@ -727,6 +755,10 @@ function LandmarkDetailBody() {
       },
       commit: async () => {
         await removeCheckinPhoto(user.uid, checkinDocIdRef.current || landmark.id, url);
+        removeCommunityPhotoIfMine({ region: regionId, id: landmark.id, uid: user.uid, url }).then(() => {
+          forgetPlacePhoto(landmark);
+          setPhotoRev((n) => n + 1);
+        });
         reloadMyPhotos().catch(() => {});
       },
       rollback: () => {
@@ -870,7 +902,20 @@ function LandmarkDetailBody() {
         </div>
       </div>
 
-      <LandmarkPostcard landmark={landmark} size="lg" swipeable myPhotos={myPhotos} onImageClick={setLightboxSrc} />
+      <LandmarkPostcard key={`postcard-${photoRev}`} landmark={landmark} size="lg" swipeable myPhotos={myPhotos} onImageClick={setLightboxSrc} />
+
+      {offerUrl && (
+        <PhotoOfferCard
+          landmark={landmark}
+          regionId={regionId}
+          uid={user.uid}
+          photoUrl={offerUrl}
+          onDone={(won) => {
+            setOfferDismissed(true);
+            if (won) setPhotoRev((n) => n + 1);
+          }}
+        />
+      )}
 
       <h1 className="screen-title" style={{ justifyContent: 'center', textAlign: 'center' }}>
         {landmark.name}

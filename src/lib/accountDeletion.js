@@ -234,6 +234,10 @@ export async function deleteAccountData(uid) {
     for (const u of Array.isArray(images) ? images : []) await deletePhotoSafe(u);
   }
 
+  // A place's public picture that was this account's photo (the photo itself
+  // is deleted with the rest of its check-in and rating photos).
+  await deleteAll(await safeGetDocs('community_photos', 'photoUid', '==', uid));
+
   if (username) {
     try {
       await deleteDoc(doc(db, 'usernames', username));

@@ -2,6 +2,16 @@
 
 About 463 of 1,244 catalog landmarks have `images: []`. Instead of storing photos for them, the app fetches one from Google Places at runtime and shows it with the credit Google requires. Landmarks that already have an image never trigger any of this.
 
+## Community photo (the first shared photo becomes the public picture)
+
+Owner, 2026-10-28: when a place has no stored image and Google finds none, the first user who submits a photo of it is asked "Can we use your photo as the public picture?" Yes makes it the picture; No asks the next person who submits one.
+
+- Firestore `community_photos/{region}__{landmarkId}` = `{ region, id, url, photoUid, createdAt }`. `url` is the user's own Firebase Storage URL (a `checkin_photos` or `review_photos` file named `<uid>_<digits>.jpg`). `firestore.rules`: readable by anyone, create-only (so it is never replaced and a "No" creates nothing), the URL and `photoUid` must be the caller's own, delete by the owner or the admin. Emulator tests are in `scripts/rules-test.mjs`.
+- `src/lib/communityPhotos.js` reads and writes it. `loadPlacePhoto` (`src/lib/placePhoto.js`) checks it before the Google lookup, so a shared photo also saves the Google call. It is marked `community: true` and shown without a Google credit ("Photo shared by a Landmark Hunters user"). One read per place per session, only for places with no stored image that are about to look up a photo.
+- The prompt (`PhotoOfferCard`) is on the landmark page, for a place with no stored image, no shared photo and no Google match, when the viewer has one of their own check-in or rating photos there. A photo added in the check-in popup is offered the next time the page opens.
+- "No thanks" is remembered in localStorage (`lh.photoOffer.<uid>.<region>.<id>`), so it is per device.
+- The photo goes away when its owner removes that photo or the rating it came from (`removeCommunityPhotoIfMine`) or deletes their account (`accountDeletion.js`). The admin can delete the doc to take a photo down. A photo whose file is gone falls back to "No image available".
+
 ## How it works
 
 1. A landmark with no image (and no personal check-in photo) renders its colored category tile. Where it renders: `LandmarkThumb` (list rows, itinerary, map popups, trip/Mapr cards), `LandmarkPostcard` (the landmark page hero), `PickPhoto` (nearby picks), and `MaprPickImage` (Mapr picks and streak vote cards).
