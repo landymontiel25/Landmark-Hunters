@@ -116,6 +116,9 @@ function LandmarkDetailBody() {
   // step through your check-ins one by one.
   const location = useLocation();
   const checkinNav = location.state?.checkinNav || null;
+  // Set when you arrived from a "tagged you in their rating" notification:
+  // the rating to scroll to and highlight once the comments load.
+  const focusReviewId = location.state?.focusReviewId || null;
   const navPrev = checkinNav && checkinNav.index > 0 ? checkinNav.sequence[checkinNav.index - 1] : null;
   const navNext =
     checkinNav && checkinNav.index < checkinNav.sequence.length - 1 ? checkinNav.sequence[checkinNav.index + 1] : null;
@@ -467,6 +470,11 @@ function LandmarkDetailBody() {
   useEffect(() => {
     loadReviews();
   }, [loadReviews]);
+
+  useEffect(() => {
+    if (!focusReviewId || reviewsStatus !== 'ready') return;
+    document.getElementById(`review-${focusReviewId}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [focusReviewId, reviewsStatus]);
 
   // Google rating and reviews (api/landmark-ratings.js): one call, shared by
   // the rating under the title and the Ratings section.
@@ -1378,7 +1386,7 @@ function LandmarkDetailBody() {
             // Yours is already in the "Your comment" box above.
             if (mine && myCommentBox) return null;
             return (
-              <div key={r.id} className="review-item">
+              <div key={r.id} id={`review-${r.id}`} className={`review-item${focusReviewId === r.id ? ' review-focus' : ''}`}>
                 <div className="review-head">
                   <strong>{r.userName}</strong>
                   {r.ratingTier ? (
