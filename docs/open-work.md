@@ -3,6 +3,14 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Test tab: "5 images" intro (2026-10-28)
+
+The owner drew five intro screens (Discover, Arrive prepared, Plan less,
+Play, Remember) for onboarding. They live as live, tappable screens in the
+Test tab's "5 images" bubble (`src/screens/ExplainerImagesLab.jsx`), using
+Philly landmarks and their own photos and facts. Still open: the intro is
+not in the real signup flow yet; wire it in once the owner approves it.
+
 ## Miami cut to the owner's top 100 (2026-10-27)
 
 The owner gave an evidence-based ranking of Miami's top 100 landmarks and
