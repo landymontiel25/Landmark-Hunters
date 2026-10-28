@@ -1614,6 +1614,22 @@ button.back-sticky,
   margin-top: 12px;
 }
 
+.intro-nearby {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--text-primary);
+}
+.intro-nearby p {
+  margin: 0;
+}
+.intro-nearby-more {
+  margin-top: 4px !important;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 /* 5. Remember */
 .intro-memories {
   display: grid;
