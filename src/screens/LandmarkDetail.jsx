@@ -48,6 +48,8 @@ import DirectionsButton from '../components/DirectionsButton';
 import ShareLandmarkButton from '../components/ShareLandmarkButton';
 import SaveLandmarkButton, { ItinerarySheet } from '../components/SaveLandmarkButton';
 import PhotoOfferCard from '../components/PhotoOfferCard';
+import { useConfirm } from '../components/ConfirmSheet';
+import { logMyReport } from '../lib/myReports';
 import { isSharablePhotoUrl, photoOfferDeclined, removeCommunityPhotoIfMine } from '../lib/communityPhotos';
 import { forgetPlacePhoto, loadPlacePhoto } from '../lib/placePhoto';
 import AdmissionTag from '../components/AdmissionTag';
@@ -216,6 +218,7 @@ function LandmarkDetailBody() {
   const { reload: reloadMyPhotos } = useMyPhotos();
   const { myUsername, friendUids, reload: reloadFriends } = useFriends();
   const toast = useToast();
+  const { confirm, node: confirmNode } = useConfirm();
   // For the one-time place bonus asked from the check-in loader below,
   // without making the loader re-run when the toast functions change.
   const toastRef = useRef(toast);
@@ -773,11 +776,30 @@ function LandmarkDetailBody() {
 
   // Report / Block / Report-this-landmark all flip to "✓" instantly and
   // undo themselves (with a Retry toast) only if the write fails.
-  const handleReport = (rv) =>
+  const handleReport = async (rv, confirmed = false) => {
+    if (
+      !confirmed &&
+      !(await confirm({
+        title: `Report ${rv.userName ? `@${String(rv.userName).replace(/^@/, '')}'s` : 'this'} comment?`,
+        body: [
+          'Only report comments that are spam, abusive or about the wrong place. Two reports from different people hide it for everyone.',
+          "They won't be told who reported it. You can see what you've reported in Settings, under Blocked & Reported.",
+        ],
+        confirmLabel: 'Report',
+      }))
+    )
+      return;
     runOptimistic({
       apply: () => setReportedNow((s) => new Set(s).add(rv.id)),
       commit: async () => {
         await reportReview({ reporterUid: user.uid, review: rv });
+        logMyReport(user.uid, {
+          kind: 'comment',
+          targetId: rv.id,
+          label: `${rv.userName ? `@${String(rv.userName).replace(/^@/, '')}` : 'A comment'} on ${landmark.name}`,
+          landmarkId: landmark.id,
+          regionId,
+        });
         loadReviews({ quiet: true });
       },
       rollback: () =>
@@ -788,10 +810,24 @@ function LandmarkDetailBody() {
         }),
       toast,
       errorMessage: "Couldn't send that report. Nothing was changed.",
-      retry: () => handleReport(rv),
+      retry: () => handleReport(rv, true),
     });
+  };
 
-  const handleBlock = (rv) =>
+  const handleBlock = async (rv, confirmed = false) => {
+    const who = rv.userName ? `@${String(rv.userName).replace(/^@/, '')}` : 'this person';
+    if (
+      !confirmed &&
+      !(await confirm({
+        title: `Block ${who}?`,
+        body: [
+          "You won't see each other's comments, ratings or tips, and any friend request or follow between you ends.",
+          'You can unblock anytime in Settings, under Blocked & Reported.',
+        ],
+        confirmLabel: 'Block',
+      }))
+    )
+      return;
     runOptimistic({
       apply: () => setBlockedNow((s) => new Set(s).add(rv.userId)),
       commit: async () => {
@@ -808,18 +844,34 @@ function LandmarkDetailBody() {
         }),
       toast,
       errorMessage: `Couldn't block ${rv.userName || 'that person'}. Nothing was changed.`,
-      retry: () => handleBlock(rv),
+      retry: () => handleBlock(rv, true),
     });
+  };
 
-  const handleReportLandmark = () => {
+  const handleReportLandmark = async (confirmed = false) => {
     if (!customLandmark || !user) return;
+    if (
+      confirmed !== true &&
+      !(await confirm({
+        title: `Report ${customLandmark.name}?`,
+        body: [
+          'Only report a place that is fake, closed or in the wrong spot. Two reports from different people hide it for everyone.',
+          "You can see what you've reported in Settings, under Blocked & Reported.",
+        ],
+        confirmLabel: 'Report',
+      }))
+    )
+      return;
     runOptimistic({
       apply: () => setLandmarkReported(true),
-      commit: () => reportCustomLandmark(user.uid, customLandmark.docId),
+      commit: async () => {
+        await reportCustomLandmark(user.uid, customLandmark.docId);
+        logMyReport(user.uid, { kind: 'landmark', targetId: customLandmark.docId, label: customLandmark.name, landmarkId: landmark.id, regionId });
+      },
       rollback: () => setLandmarkReported(false),
       toast,
       errorMessage: "Couldn't send that report. Nothing was changed.",
-      retry: handleReportLandmark,
+      retry: () => handleReportLandmark(true),
     });
   };
 
@@ -864,6 +916,7 @@ function LandmarkDetailBody() {
   return (
     <div>
       {disagreementNode}
+      {confirmNode}
       <div className="detail-topbar back-sticky">
         {/* Opened from a shared link, there is no page to go back to. */}
         <button className="btn btn-ghost btn-sm" onClick={() => goBack(navigate, location, '/landmarks')}>
@@ -948,7 +1001,7 @@ function LandmarkDetailBody() {
           {landmarkReported ? (
             <span className="review-reported">Reported ✓</span>
           ) : (
-            <button className="btn btn-ghost btn-tight" onClick={handleReportLandmark}>
+            <button className="btn btn-ghost btn-tight" onClick={() => handleReportLandmark()}>
               Report this landmark
             </button>
           )}

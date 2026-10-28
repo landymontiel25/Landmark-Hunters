@@ -444,6 +444,21 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update: if false;
     }
+    // What this user reported (src/lib/myReports.js), so Settings can list it.
+    // Owner-only in every direction; create and delete only. Nothing here
+    // reaches the person reported.
+    match /users/{uid}/my_reports/{id} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['kind', 'targetId', 'label', 'landmarkId', 'regionId', 'createdAt'])
+        && request.resource.data.kind in ['comment', 'tip', 'landmark']
+        && request.resource.data.targetId is string
+        && request.resource.data.targetId.size() <= 200
+        && request.resource.data.label is string
+        && request.resource.data.label.size() <= 200
+        && request.resource.data.createdAt == request.time;
+      allow update: if false;
+    }
     // The taste score's history for one user (src/lib/tasteScore.js): a
     // snapshot per recompute, throttled client-side. Owner-only in every
     // direction; create and delete only, a snapshot is never edited.

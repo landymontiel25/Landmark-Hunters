@@ -265,6 +265,12 @@ export async function deleteAccountData(uid) {
   } catch {
     /* best-effort */
   }
+  // The record of what this account reported (users/{uid}/my_reports).
+  try {
+    await deleteAll(await getDocs(collection(db, 'users', uid, 'my_reports')));
+  } catch {
+    /* best-effort */
+  }
   // The daily open record (users/{uid}/open_days), same reason.
   try {
     await deleteAll(await getDocs(collection(db, 'users', uid, 'open_days')));
