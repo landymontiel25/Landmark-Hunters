@@ -5,8 +5,9 @@ import { ALL_LANDMARKS, INTERESTS } from '../data/regions';
 const place = (id, categories, miles) => ({ id, regionId: 'test', name: id, categories, distanceMeters: miles * 1609.34 });
 
 describe('the Test tab moods', () => {
-  it('lists the Map moods without tech spots', () => {
-    expect(TEST_MOODS.map((m) => m.id)).toEqual(['eat', 'history', 'outdoors', 'night', 'shopping', 'dayout', 'sports']);
+  it('lists the Map moods without tech spots or Fresh air', () => {
+    expect(TEST_MOODS.map((m) => m.id)).toEqual(['eat', 'history', 'night', 'shopping', 'dayout', 'sports']);
+    expect(TEST_MOODS.some((m) => m.id === 'outdoors' || /fresh air/i.test(m.label))).toBe(false);
     expect(TEST_MOODS.some((m) => m.id === 'tech' || /tech/i.test(m.label))).toBe(false);
   });
 
@@ -18,8 +19,9 @@ describe('the Test tab moods', () => {
     expect(INTERESTS.some((i) => i.id === 'entertainment')).toBe(false);
   });
 
-  it('does not change the real Map moods', () => {
+  it('does not change the shared mood list', () => {
     expect(MOODS[0].id).toBe('eat');
+    expect(MOODS.some((m) => m.id === 'outdoors')).toBe(true);
     expect(MOODS.some((m) => m.id === 'tech')).toBe(true);
   });
 
