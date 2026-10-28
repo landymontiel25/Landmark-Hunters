@@ -10,6 +10,9 @@ Play, Remember) for onboarding. They live as live, tappable screens in the
 Test tab's "5 images" bubble (`src/screens/ExplainerImagesLab.jsx`), using
 Philly landmarks and their own photos and facts. Still open: the intro is
 not in the real signup flow yet; wire it in once the owner approves it.
+The Play screen's Check in asks for your location (2026-10-28): within 100 m
+of a landmark it says you are there and shows the discovered toast;
+otherwise it names the closest landmark and how far it is, plus the next two.
 
 ## Miami cut to the owner's top 100 (2026-10-27)
 

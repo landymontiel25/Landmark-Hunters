@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { ALL_LANDMARKS } from '../data/regions';
 import { distanceMeters } from '../lib/geo';
+import { nearestLandmarks } from '../lib/nearestLandmarks';
 import { useUnits, formatDistance } from '../lib/UnitsContext';
 
 // Test tab: "5 images". The five-screen intro the owner drew (Discover,
@@ -218,10 +219,34 @@ function Plan() {
   );
 }
 
+// Within this many metres of a landmark counts as being at it.
+const AT_PLACE_M = 100;
+
 function Play() {
-  const place = byId(PLAY);
+  const { units } = useUnits();
   const [checkedIn, setCheckedIn] = useState(false);
   const [shared, setShared] = useState(false);
+  // Check in looks up where you are: you are at a landmark, or here is how
+  // far the closest ones are. { status: 'locating' | 'ready' | 'denied', list }
+  const [nearby, setNearby] = useState(null);
+  const here = nearby?.status === 'ready' && nearby.list[0]?.meters <= AT_PLACE_M ? nearby.list[0].landmark : null;
+  const place = here || byId(PLAY);
+  const checkIn = () => {
+    if (!navigator.geolocation) {
+      setNearby({ status: 'denied', list: [] });
+      return;
+    }
+    setNearby({ status: 'locating', list: [] });
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const list = nearestLandmarks({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 3);
+        setNearby({ status: 'ready', list });
+        if (list[0]?.meters <= AT_PLACE_M) setCheckedIn(true);
+      },
+      () => setNearby({ status: 'denied', list: [] }),
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+    );
+  };
   const share = async () => {
     const text = `I just checked in at ${place.name} on Landmark Hunters.`;
     try {
@@ -255,13 +280,45 @@ function Play() {
         <span className="intro-panel-title">Explore together</span>
         <span className="intro-panel-sub">{place.name}</span>
         <div className="intro-play-actions">
-          <button type="button" className={`btn ${checkedIn ? 'btn-ghost' : 'btn-primary'}`} disabled={checkedIn} onClick={() => setCheckedIn(true)}>
-            {checkedIn ? 'Checked in' : '\u{1F4CD} Check in'}
+          <button
+            type="button"
+            className={`btn ${checkedIn ? 'btn-ghost' : 'btn-primary'}`}
+            disabled={checkedIn || nearby?.status === 'locating'}
+            onClick={checkIn}
+          >
+            {checkedIn ? 'Checked in' : nearby?.status === 'locating' ? 'Finding you…' : '\u{1F4CD} Check in'}
           </button>
           <button type="button" className="btn btn-ghost" onClick={share}>
             {shared ? 'Shared' : 'Share the fun'}
           </button>
         </div>
+        {nearby?.status === 'denied' && (
+          <p className="intro-nearby" role="status">
+            Turn on location to see the landmark closest to you.
+          </p>
+        )}
+        {nearby?.status === 'ready' && (
+          <div className="intro-nearby" role="status">
+            {nearby.list.length === 0 ? (
+              <p>No landmarks found near you.</p>
+            ) : here ? (
+              <p>
+                You are at <strong>{here.name}</strong>.
+              </p>
+            ) : (
+              <>
+                <p>
+                  Closest landmark: <strong>{nearby.list[0].landmark.name}</strong>, {formatDistance(nearby.list[0].meters, units)} away.
+                </p>
+                {nearby.list.length > 1 && (
+                  <p className="intro-nearby-more">
+                    Then {nearby.list.slice(1).map((n) => `${n.landmark.name} (${formatDistance(n.meters, units)})`).join(', ')}.
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

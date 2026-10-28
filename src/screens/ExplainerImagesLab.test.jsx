@@ -78,7 +78,13 @@ describe('5 images intro', () => {
     expect(el.querySelectorAll('.intro-stop')[2].getAttribute('aria-pressed')).toBe('true');
   });
 
-  it('Play: check in shows the discovered toast; Remember opens a photo', async () => {
+  it('Play: check in at a landmark shows the discovered toast; Remember opens a photo', async () => {
+    const { ALL_LANDMARKS } = await import('../data/regions');
+    const hall = ALL_LANDMARKS.find((l) => l.id === 'independence-hall');
+    Object.defineProperty(navigator, 'geolocation', {
+      configurable: true,
+      value: { getCurrentPosition: (ok) => ok({ coords: { latitude: hall.lat, longitude: hall.lng } }) },
+    });
     const el = await render();
     await click(el.querySelector('[role="tab"][aria-label="Play"]'));
     await click(button(el, 'Check in'));
@@ -86,5 +92,40 @@ describe('5 images intro', () => {
     await click(button(el, 'Next'));
     await click(el.querySelector('.intro-memory'));
     expect(el.querySelector('.intro-memory-big')).toBeTruthy();
+  });
+
+  const play = async () => {
+    const el = await render();
+    await click(el.querySelector('[role="tab"][aria-label="Play"]'));
+    return el;
+  };
+  const fakeGeo = (impl) => {
+    Object.defineProperty(navigator, 'geolocation', { configurable: true, value: { getCurrentPosition: impl } });
+  };
+
+  it('Check in far from any landmark names the closest one and how far it is', async () => {
+    // Out in the Atlantic: nothing is within reach, so it reports the nearest.
+    fakeGeo((ok) => ok({ coords: { latitude: 30, longitude: -60 } }));
+    const el = await play();
+    await click(button(el, 'Check in'));
+    expect(el.querySelector('.intro-nearby').textContent).toMatch(/Closest landmark: .+, \d+ m away\./);
+    expect(button(el, 'Check in')).toBeTruthy();
+  });
+
+  it('Check in at a landmark says you are there and checks you in', async () => {
+    const { ALL_LANDMARKS } = await import('../data/regions');
+    const hall = ALL_LANDMARKS.find((l) => l.id === 'independence-hall');
+    fakeGeo((ok) => ok({ coords: { latitude: hall.lat, longitude: hall.lng } }));
+    const el = await play();
+    await click(button(el, 'Check in'));
+    expect(el.querySelector('.intro-nearby').textContent).toContain('You are at');
+    expect(button(el, 'Checked in')).toBeTruthy();
+  });
+
+  it('Check in with location refused asks you to turn it on', async () => {
+    fakeGeo((_ok, fail) => fail({ code: 1 }));
+    const el = await play();
+    await click(button(el, 'Check in'));
+    expect(el.querySelector('.intro-nearby').textContent).toContain('Turn on location');
   });
 });
