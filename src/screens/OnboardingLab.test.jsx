@@ -75,7 +75,7 @@ describe('OnboardingLab', () => {
   it('opens on the Rating slider bubble, with Malls and Tutorial next to it', async () => {
     const el = await renderAs('landymontiel25@gmail.com', { tab: null });
     const tabs = [...el.querySelectorAll('.lab-tabs [role="tab"]')];
-    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Tutorial', 'Tutorial 2', 'Itinerary tutorial', 'Taste Profile']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Rating slider', 'Malls', 'Tutorial', 'Tutorial 2', 'Itinerary tutorial', 'Taste Profile', '5 images']);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');
     expect(el.querySelector('.rate-slider')).toBeTruthy();
   });
