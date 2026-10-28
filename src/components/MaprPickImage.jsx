@@ -19,6 +19,7 @@ export default function MaprPickImage({ landmark }) {
   return (
     <div ref={place.ref} className="mapr-pick-img mapr-pick-img-blank">
       {'\u{1F4CD}'}
+      {place.missing && <span className="no-image-label">No image available</span>}
     </div>
   );
 }

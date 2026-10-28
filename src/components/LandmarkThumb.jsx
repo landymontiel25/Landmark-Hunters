@@ -87,6 +87,7 @@ function Thumb({ landmark, size = 52, width, height, myPhoto }) {
       style={{ ...style, background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})` }}
     >
       <span style={{ fontSize: Math.min(w, h) * 0.4 }}>{landmarkIcon(landmark)}</span>
+      {place.missing && w >= 96 && <span className="no-image-label">No image available</span>}
     </div>
   );
 }

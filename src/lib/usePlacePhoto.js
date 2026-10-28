@@ -10,7 +10,10 @@ import { loadPlacePhoto, peekPlacePhoto, placePhotoKey } from './placePhoto';
  * lookup: false never starts a Google lookup (dense lists of imported
  * places); it still shows a photo already fetched this session.
  *
- * Returns { ref, photo, onError }: photo is {url, attributions} or null.
+ * Returns { ref, photo, missing, onError }: photo is {url, attributions} or
+ * null. `missing` is true once the lookup has finished and found nothing (or
+ * its photo failed to load), so the tile can say "No image available"; it
+ * stays false while the lookup is pending or never runs.
  * Call onError from the <img> so a dead URL drops back to the placeholder.
  */
 export function usePlacePhoto(landmark, { enabled = true, lookup = true } = {}) {
@@ -63,5 +66,6 @@ export function usePlacePhoto(landmark, { enabled = true, lookup = true } = {}) 
   const known = enabled && !lookup && key ? peekPlacePhoto(landmark) : null;
   const fetched = active && state.key === key ? state.photo : null;
   const photo = [fetched, known].find((p) => p && p.url !== brokenUrl) || null;
-  return { ref: setNode, photo, onError: () => photo && setBrokenUrl(photo.url) };
+  const missing = active && !photo && (state.key === key || brokenUrl !== null);
+  return { ref: setNode, photo, missing, onError: () => photo && setBrokenUrl(photo.url) };
 }

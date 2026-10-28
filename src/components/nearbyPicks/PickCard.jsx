@@ -51,6 +51,7 @@ export function PickPhoto({ pick, className }) {
   return (
     <span ref={place.ref} className={`${className} mpp-img-tile`} style={{ background: `linear-gradient(135deg, ${from}, ${to})` }} aria-hidden="true">
       {landmarkIcon(pick)}
+      {place.missing && className.includes('card') && <span className="no-image-label">No image available</span>}
     </span>
   );
 }
