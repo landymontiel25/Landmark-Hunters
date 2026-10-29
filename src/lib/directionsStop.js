@@ -10,7 +10,7 @@ import { asksForDirections, directionsTarget } from './placeMatch';
 export async function directionsStopFor(text, near = null) {
   if (!asksForDirections(text)) return null;
   await ensurePlacePacks().catch(() => false);
-  const custom = await getCustomLandmarks().catch(() => []);
+  const custom = await getCustomLandmarks({ includeClosed: true }).catch(() => []);
   const places = [
     ...ALL_LANDMARKS,
     ...(custom || []).filter((l) => l?.id && l.name).map((l) => ({ ...l, regionId: l.region })),

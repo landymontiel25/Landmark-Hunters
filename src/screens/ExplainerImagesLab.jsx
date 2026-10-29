@@ -21,6 +21,15 @@ const MEMORIES = [
   ['reading-terminal-market', 2],
   ['liberty-bell-center', 0],
 ];
+// "Other travelers" tiles on the Remember screen: drawn scenes, not photos.
+// To use real pictures, give an entry a `photo` URL (a file under /public);
+// the tile then shows that image instead of the drawing.
+const TRAVELERS = [
+  { name: 'Maya', place: 'Independence Hall', sky: ['#f6b26b', '#ffe5b4'], skin: '#8d5524', shirt: '#4d7fff', hair: '#2b1b12', shape: 'tower' },
+  { name: 'Jordan & Ellis', place: 'Reading Terminal Market', sky: ['#7aa7ff', '#cfe0ff'], skin: '#e0ac69', shirt: '#e5603d', hair: '#5a3825', shape: 'arch', two: true },
+  { name: 'Priya', place: 'Museum of Art steps', sky: ['#9b8cf6', '#e3dcff'], skin: '#c68642', shirt: '#55c987', hair: '#120c08', shape: 'columns' },
+  { name: 'Sam', place: 'Liberty Bell Center', sky: ['#5fc7c0', '#d5f3f0'], skin: '#f1c27d', shirt: '#9b5cf6', hair: '#c9a24d', shape: 'bell' },
+];
 const FRIENDS = [
   { initials: 'You', color: '#4d7fff' },
   { initials: 'SR', color: '#9b5cf6' },
@@ -324,6 +333,77 @@ function Play() {
   );
 }
 
+function Person({ x, skin, shirt, hair }) {
+  return (
+    <g transform={`translate(${x} 0)`}>
+      <rect x="-13" y="82" width="26" height="38" rx="11" fill={shirt} />
+      <circle cx="0" cy="68" r="12" fill={skin} />
+      <path d="M-12 66a12 12 0 0 1 24 0c-5-5-17-5-24 0z" fill={hair} />
+    </g>
+  );
+}
+
+function Backdrop({ shape }) {
+  const c = 'rgba(40,48,70,0.55)';
+  if (shape === 'tower')
+    return (
+      <g fill={c}>
+        <rect x="52" y="52" width="76" height="68" />
+        <rect x="80" y="26" width="20" height="30" />
+        <path d="M78 26l12-16 12 16z" />
+      </g>
+    );
+  if (shape === 'arch')
+    return (
+      <g fill={c}>
+        <rect x="24" y="56" width="132" height="64" />
+        <path d="M70 120v-26a20 20 0 0 1 40 0v26z" fill="rgba(255,255,255,0.35)" />
+      </g>
+    );
+  if (shape === 'columns')
+    return (
+      <g fill={c}>
+        <path d="M30 56l60-20 60 20z" />
+        {[44, 68, 92, 116, 140].map((x) => (
+          <rect key={x} x={x - 4} y="58" width="8" height="62" />
+        ))}
+      </g>
+    );
+  return (
+    <g fill={c}>
+      <rect x="40" y="60" width="100" height="60" />
+      <path d="M90 28a22 22 0 0 1 22 22v10H68V50a22 22 0 0 1 22-22z" />
+    </g>
+  );
+}
+
+function TravelerTile({ t }) {
+  const id = `sky-${t.name.replace(/\W/g, '')}`;
+  return (
+    <figure className="intro-traveler">
+      {t.photo ? (
+        <img className="intro-traveler-art" src={t.photo} alt={`${t.name} at ${t.place}`} />
+      ) : (
+        <svg className="intro-traveler-art" viewBox="0 0 180 120" preserveAspectRatio="xMidYMid slice" role="img" aria-label={`Drawing of ${t.name} at ${t.place}`}>
+          <defs>
+            <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={t.sky[0]} />
+              <stop offset="1" stopColor={t.sky[1]} />
+            </linearGradient>
+          </defs>
+          <rect width="180" height="120" fill={`url(#${id})`} />
+          <Backdrop shape={t.shape} />
+          <Person x={t.two ? 76 : 90} skin={t.skin} shirt={t.shirt} hair={t.hair} />
+          {t.two && <Person x={106} skin="#f1c27d" shirt="#f2b705" hair="#3b2a1a" />}
+        </svg>
+      )}
+      <figcaption className="intro-memory-caption">
+        {t.name} · {t.place}
+      </figcaption>
+    </figure>
+  );
+}
+
 function Remember() {
   const places = MEMORIES.map(([id, photo]) => ({ place: byId(id), photo })).filter((m) => m.place);
   const [big, setBig] = useState(null);
@@ -352,6 +432,19 @@ function Remember() {
             ))}
           </div>
         )}
+      </div>
+      <div className="intro-panel">
+        <div className="intro-panel-head">
+          <span className="intro-panel-title">
+            <Pin /> Shared by other travelers
+          </span>
+          <span className="intro-panel-sub">examples</span>
+        </div>
+        <div className="intro-memories">
+          {TRAVELERS.map((t) => (
+            <TravelerTile key={t.name} t={t} />
+          ))}
+        </div>
       </div>
     </div>
   );

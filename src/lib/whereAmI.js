@@ -23,7 +23,13 @@ export function isMoving(fixes, now = Date.now()) {
     if (dt * 1000 < MOVE_MIN_SPAN_MS) return false;
     const d = distanceMeters(f.lat, f.lng, last.lat, last.lng);
     const drift = Math.max(MOVE_MIN_METERS, 1.5 * (((f.accuracy || 0) + (last.accuracy || 0)) / 2));
-    return d > drift && d / dt >= MOVE_MIN_SPEED;
+    if (!(d > drift && d / dt >= MOVE_MIN_SPEED)) return false;
+    // Real movement is steady: the fixes from the last third of that span
+    // are still on the way, not already sitting at the end point. One
+    // indoor GPS jump that then holds still fails this (owner, 2026-10-29:
+    // "Traveling" while sitting in an office).
+    const tail = recent.filter((g) => g !== last && g.t > f.t && last.t - g.t <= (dt * 1000) / 3);
+    return tail.every((g) => distanceMeters(g.lat, g.lng, last.lat, last.lng) >= 0.2 * d);
   });
 }
 

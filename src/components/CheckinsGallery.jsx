@@ -187,7 +187,7 @@ export default function CheckinsGallery({ user, claimedMap, navigate, totalPoint
       const needsCustoms = rows.some((c) => !getLandmark(c.region, c.landmarkId));
       const [reviews, customList] = await Promise.all([
         Promise.all(rows.map((c) => getMyReview(user.uid, c.landmarkId).catch(() => null))),
-        needsCustoms ? getCustomLandmarks().catch(() => []) : [],
+        needsCustoms ? getCustomLandmarks({ includeClosed: true }).catch(() => []) : [],
       ]);
       customs = new Map(customList.map((l) => [l.id, l]));
       if (cancelled) return;

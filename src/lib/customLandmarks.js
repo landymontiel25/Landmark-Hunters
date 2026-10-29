@@ -50,11 +50,16 @@ const withCategories = (l) => {
 // added there stay off every list, map and pick (their own page still opens).
 const CLOSED_TO_CUSTOM = new Set(['miami']);
 
-export function getCustomLandmarks() {
-  return sharedRead('custom_landmarks', loadCustomLandmarks);
+// includeClosed: screens that show places the user already has (My Memories,
+// saved itineraries, directions) keep a hidden place's photo and name, so an
+// earlier check-in at e.g. Nexus Shooting Range doesn't lose its picture.
+export function getCustomLandmarks({ includeClosed = false } = {}) {
+  return includeClosed
+    ? sharedRead('custom_landmarks_all', () => loadCustomLandmarks(true))
+    : sharedRead('custom_landmarks', () => loadCustomLandmarks(false));
 }
 
-async function loadCustomLandmarks() {
+async function loadCustomLandmarks(includeClosed = false) {
   if (!db) return [];
   const snap = await getDocs(collection(db, 'custom_landmarks'));
   // firestore.rules can't enforce the hide-once-reported rule on a list
@@ -68,7 +73,7 @@ async function loadCustomLandmarks() {
   }
   return snap.docs
     .map((d) => withCategories({ docId: d.id, ...d.data() }))
-    .filter((l) => !CLOSED_TO_CUSTOM.has(l.region))
+    .filter((l) => includeClosed || !CLOSED_TO_CUSTOM.has(l.region))
     .filter((l) => (l.reportedBy?.length || 0) < 2 || (me && (l.createdBy === me.uid || isAdmin(me.email))));
 }
 

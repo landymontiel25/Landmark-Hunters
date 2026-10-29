@@ -64,6 +64,8 @@ const SORT_OPTIONS = [
 // The "Add a Landmark" button under the search box is hidden for now (owner,
 // 2026-10-27); flip this to bring it back.
 const SHOW_ADD_LANDMARK = false;
+// Row photo size in px (was 52; owner asked for a bit bigger on iPhone, 2026-10-29).
+const ROW_THUMB = 68;
 
 // Top Landmarks: src/lib/topRated.js. Google is asked about the TOP_CANDIDATES
 // most popular places once per visit; the list waits for the answers (or this
@@ -251,10 +253,10 @@ const LandmarkRow = memo(function LandmarkRow({
               }}
               aria-label={`View photo of ${l.name}`}
             >
-              <LandmarkThumb landmark={l} myPhoto={photo} />
+              <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />
             </button>
           ) : (
-            <LandmarkThumb landmark={l} myPhoto={photo} />
+            <LandmarkThumb landmark={l} myPhoto={photo} size={ROW_THUMB} />
           )}
         </div>
         <div className="lr-main" onClick={() => onToggle(l)}>
@@ -849,7 +851,7 @@ export default function LandmarkSelection() {
         )}
       </div>
 
-      <div className="tabs" style={{ marginBottom: sortBy === 'nearMe' && !coords ? 4 : 18 }}>
+      <div className="tabs lm-sort-tabs" style={{ marginBottom: sortBy === 'nearMe' && !coords ? 4 : 18 }}>
         {SORT_OPTIONS.map((s) => (
           <button
             key={s.id}
