@@ -4,7 +4,7 @@ let signedIn = true;
 vi.mock('./_lib/verifyAuth.js', () => ({ verifyIdToken: async () => (signedIn ? { uid: 'me' } : null) }));
 vi.mock('./_lib/rateLimit.js', () => ({ isRateLimited: () => false }));
 
-const { default: handler, _setRatingIds, _setCustomLookup } = await import('./landmark-ratings.js');
+const { default: handler, _setRatingIds, _setCustomLookup, _setCatalogLookup } = await import('./landmark-ratings.js');
 
 const GOOGLE_OK = {
   rating: 4.7,
@@ -55,6 +55,7 @@ beforeEach(() => {
   process.env.GOOGLE_PLACES_API_KEY = 'g-secret-key';
   process.env.TRIPADVISOR_API_KEY = 'ta-secret-key';
   _setRatingIds({ 'philly/liberty-bell-center': { googlePlaceId: 'ChIJabc', tripadvisorLocationId: '60763' } });
+  _setCatalogLookup(async () => null);
   google = async () => json(GOOGLE_OK);
   tripadvisor = { location: async () => json(TA_LOCATION), reviews: async () => json(TA_REVIEWS) };
   vi.stubGlobal('fetch', fetchMock);
@@ -125,6 +126,32 @@ describe('api/landmark-ratings', () => {
     const { body } = await call({ region: 'philly', id: 'liberty-bell-center' });
     expect(body.sources.tripadvisor).toBeNull();
     expect(body.sources.google).not.toBeNull();
+  });
+
+  it('a catalog landmark with no ID is matched on first sight from the name and spot the app sends', async () => {
+    const lookup = vi.fn(async () => 'ChIJmatched');
+    _setCatalogLookup(lookup);
+    const q = { region: 'miami', id: 'art-deco-district', name: 'Art Deco Historic District and Ocean Drive', lat: '25.78', lng: '-80.13' };
+    const { body } = await call(q);
+    expect(lookup).toHaveBeenCalledWith(expect.objectContaining({ region: 'miami', id: 'art-deco-district', name: q.name, lat: 25.78, lng: -80.13 }));
+    expect(body.sources.google).toMatchObject({ rating: 4.7 });
+    expect(fetchMock.mock.calls.some(([u]) => String(u).includes('places/ChIJmatched'))).toBe(true);
+  });
+
+  it('a landmark that already has an ID is never searched for', async () => {
+    const lookup = vi.fn(async () => 'ChIJother');
+    _setCatalogLookup(lookup);
+    await call({ region: 'philly', id: 'liberty-bell-center', name: 'Liberty Bell Center', lat: '39.9', lng: '-75.1' });
+    expect(lookup).not.toHaveBeenCalled();
+  });
+
+  it('a failed catalog match does not say "no ratings"; no match does', async () => {
+    _setCatalogLookup(async () => {
+      throw new Error('google search 503');
+    });
+    expect((await call({ region: 'miami', id: 'x1', name: 'X', lat: '1', lng: '2' })).body.googleNoRating).toBe(false);
+    _setCatalogLookup(async () => null);
+    expect((await call({ region: 'miami', id: 'x1', name: 'X', lat: '1', lng: '2' })).body.googleNoRating).toBe(true);
   });
 
   it('a source with no rating yet is null', async () => {

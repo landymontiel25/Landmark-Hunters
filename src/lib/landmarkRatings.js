@@ -44,7 +44,10 @@ export function loadLandmarkRatings(landmark, { detail = false, fetchImpl = fetc
         if (Date.now() < pausedUntil) return resolve(EMPTY);
         const headers = await authHeaders();
         if (!headers.Authorization) return resolve(EMPTY); // signed out: no ratings
-        const qs = new URLSearchParams({ region, id, ...(detail ? { detail: '1' } : {}) });
+        // The name and spot let the server match a landmark it has no Google ID
+        // for yet (api/_lib/catalogRatingMatch.js).
+        const where = Number.isFinite(landmark.lat) && Number.isFinite(landmark.lng) && landmark.name ? { name: landmark.name, lat: String(landmark.lat), lng: String(landmark.lng) } : {};
+        const qs = new URLSearchParams({ region, id, ...where, ...(detail ? { detail: '1' } : {}) });
         const r = await fetchImpl(`${API_BASE}/api/landmark-ratings?${qs}`, { headers });
         if ([401, 429, 503].includes(r.status)) pausedUntil = Date.now() + PAUSE_MS;
         if (!r.ok) return resolve(EMPTY);

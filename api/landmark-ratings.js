@@ -3,9 +3,10 @@ import { guardAiRequest } from './_lib/aiGuard.js';
 import { withCors } from './_lib/cors.js';
 import { FETCHERS } from './_lib/ratingSources.js';
 import { CUSTOM_ID_PREFIX, customGooglePlaceId } from './_lib/customRatingMatch.js';
+import { catalogGooglePlaceId } from './_lib/catalogRatingMatch.js';
 import { adminDb } from './_lib/firebaseAdmin.js';
 import { OUTSIDE_SOURCES, ratingKey } from '../src/lib/ratingSources.js';
-import { canonicalRegionId } from '../src/data/regions.js';
+import { canonicalRegionId, getLandmark } from '../src/data/regions.js';
 
 // GET /api/landmark-ratings?region=&id=[&detail=1]
 // Ratings for one landmark from each outside source (docs/ratings.md):
@@ -46,6 +47,15 @@ export const _setCustomLookup = (fn) => {
   customLookup = fn;
 };
 
+// A catalog landmark with no ID in the map: matched here the first time
+// anyone asks (api/_lib/catalogRatingMatch.js). The name and coordinates come
+// from the request, as they do for photos; the match is checked against them.
+let catalogLookup = (l) => catalogGooglePlaceId(l);
+// Tests only.
+export const _setCatalogLookup = (fn) => {
+  catalogLookup = fn;
+};
+
 const ID_FIELD = { google: 'googlePlaceId', tripadvisor: 'tripadvisorLocationId' };
 const SAFE = /^[A-Za-z0-9_.:-]{1,100}$/;
 
@@ -75,6 +85,27 @@ async function handler(req, res) {
     } catch (e) {
       customLookupFailed = true;
       console.warn(`landmark-ratings: custom match failed (${e?.message || 'error'})`);
+    }
+  }
+
+  if (!ids.googlePlaceId && !id.startsWith(CUSTOM_ID_PREFIX)) {
+    const name = String(req.query?.name || '').slice(0, 200);
+    const lat = Number(req.query?.lat);
+    const lng = Number(req.query?.lng);
+    const canonical = canonicalRegionId(region);
+    try {
+      const googlePlaceId = await catalogLookup({
+        region: canonical,
+        id,
+        name,
+        lat,
+        lng,
+        categories: getLandmark(canonical, id)?.categories || [],
+      });
+      if (googlePlaceId) ids = { ...ids, googlePlaceId };
+    } catch (e) {
+      customLookupFailed = true;
+      console.warn(`landmark-ratings: catalog match failed (${e?.message || 'error'})`);
     }
   }
 

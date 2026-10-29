@@ -6,6 +6,12 @@ export const PLACE_PACK_ID_PREFIX = 'osm-';
 export const PLACE_PACKS = [
   {
     "region": "miami",
+    "category": "airports",
+    "file": "places/miami/airports.27ad576087.json",
+    "count": 1
+  },
+  {
+    "region": "miami",
     "category": "art-museums",
     "file": "places/miami/art-museums.19d4b6e341.json",
     "count": 1

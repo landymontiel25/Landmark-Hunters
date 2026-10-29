@@ -65,6 +65,9 @@ touching `public/places/` or `scripts/osm-import/`. The owner's standing rules:
   finished batch so a usage limit or crash loses nothing, and stop at a
   clean, merged point if the run heads well past the budget.
 - Report times to the owner in Eastern Time.
+- Airports are always landmarks (owner, 2026-10-29). A region cut or filter
+  never drops them; Miami's top 100 does not count Miami International
+  Airport.
 - Every mall comes with its stores (owner, 2026-10-10). A place the import
   maps as a mall (topic 'mall') or a hand-picked one marked `mall: true` needs
   its store list researched in the same run: add it to

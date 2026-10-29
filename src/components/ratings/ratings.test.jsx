@@ -137,11 +137,16 @@ describe('RatingsCardLine (Places tab row)', () => {
 
 describe('RatingsCardLine: no Google rating', () => {
   const appTag = <span className="tag rating-tag app-own">⭐ 4.0 (3)</span>;
-  it('says "No ratings available" when Google has no rating for the place', async () => {
+  it('shows the app\'s own rating when Google has none', async () => {
     hookState = done({ google: null, tripadvisor: null, googleNoRating: true });
     await render(<RatingsCardLine landmark={landmark} fallback={appTag} flags={FLAGS_OFF} />);
-    expect(container.querySelector('.ratings-none').textContent).toBe('No ratings available');
-    expect(container.querySelector('.app-own')).toBeNull();
+    expect(container.querySelector('.app-own')).toBeTruthy();
+    expect(container.querySelector('.ratings-none')).toBeNull();
+  });
+  it('invites the first rating when neither Google nor the app has one', async () => {
+    hookState = done({ google: null, tripadvisor: null, googleNoRating: true });
+    await render(<RatingsCardLine landmark={landmark} fallback={null} flags={FLAGS_OFF} />);
+    expect(container.querySelector('.ratings-none').textContent).toBe('No ratings yet. Be the first');
   });
 });
 

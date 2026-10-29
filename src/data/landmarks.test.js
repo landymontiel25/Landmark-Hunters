@@ -158,9 +158,13 @@ describe('catalog text and image hygiene', () => {
 
   // Owner, 2026-10-27: Miami is exactly their evidence-based top 100, the
   // hand-picked landmarks plus the imported places still in its packs.
-  it('keeps Miami to the top 100', () => {
+  // Owner, 2026-10-29: airports are always landmarks, so they sit outside
+  // that 100 (Miami International Airport).
+  it('keeps Miami to the top 100, plus its airports', () => {
     const packed = PLACE_PACKS.filter((p) => p.region === 'miami').flatMap((p) => JSON.parse(readFileSync(`public/${p.file}`, 'utf8')));
-    const miami = [...getRegion('miami').landmarks, ...packed];
+    const all = [...getRegion('miami').landmarks, ...packed];
+    const miami = all.filter((l) => !(l.categories || []).includes('airports'));
+    expect(all.filter((l) => (l.categories || []).includes('airports')).map((l) => l.name)).toEqual(['Miami International Airport']);
     expect(miami).toHaveLength(100);
     expect(miami.map((l) => l.name)).toEqual(expect.arrayContaining(['Vizcaya Museum and Gardens', 'Wynwood Walls', 'The Kampong', 'World Erotic Art Museum']));
   });
