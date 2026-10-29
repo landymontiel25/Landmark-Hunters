@@ -12,7 +12,7 @@ import { geocodeLocation } from '../lib/geocode';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { classifyInterest } from '../lib/interestClassifier';
 import { pickRegion } from '../lib/tagScores';
-import { ratePlacesText, visitedReviewIds } from '../lib/nearbyPicks';
+import { picksUnlocked, ratePlacesText, visitedReviewIds } from '../lib/nearbyPicks';
 import {
   MIN_RATINGS_FOR_PICK_TYPE,
   TRIP_STEPS,
@@ -95,7 +95,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
   const gpsPending = useRef(false);
 
   const ratingsCount = Object.values(myReviews || {}).filter((r) => r?.ratingTier).length;
-  const canPickType = ratingsCount >= MIN_RATINGS_FOR_PICK_TYPE;
+  const canPickType = picksUnlocked(ratingsCount, myProfile, MIN_RATINGS_FOR_PICK_TYPE);
   const pickTypeChosen = canPickType ? wizard.pickType : null;
   const pickType = pickTypeChosen;
 

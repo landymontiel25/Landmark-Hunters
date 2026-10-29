@@ -15,7 +15,7 @@ import {
   TEST_DEFAULT_DISTANCE_MI,
   TEST_MOODS,
   writeStoredDistance,
-  MIN_RATINGS_FOR_PICKS,
+  picksUnlocked,
   eligiblePlaces,
   isMealTime,
   lovedSeed,
@@ -108,7 +108,7 @@ export default function MapPicksOverlay({ hidden = false, coords, geoError, over
   const [checkins, setCheckins] = useState([]);
 
   const ratingsCount = ratingsCountOf(myReviews);
-  const locked = ratingsCount < MIN_RATINGS_FOR_PICKS;
+  const locked = !picksUnlocked(ratingsCount, myProfile);
 
   // Check-ins only matter once there are picks to chain.
   useEffect(() => {
