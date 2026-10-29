@@ -245,6 +245,9 @@ function InitialView({ coords, lastKnown, bounds, regionBounds, stopBounds, focu
 // Long-press on touch (and right-click on desktop) fires Leaflet's
 // 'contextmenu' event -- no separate gesture library needed to let someone
 // pin an exact spot that isn't one of the built-in landmarks.
+// Hidden for now (owner, 2026-10-29); flip back to true to bring it back.
+const SHOW_ADD_LANDMARK = false;
+
 function PinDropHandler({ onDrop, disabled }) {
   useMapEvents({
     contextmenu(e) {
@@ -1205,7 +1208,7 @@ export default function MapExplore({ experiments = false }) {
           />
           {!placingPin && <LocateControl coords={coords} radiusMiles={radiusMiles} />}
           <AttributionControl position="bottomright" prefix={false} />
-          <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />
+          {SHOW_ADD_LANDMARK && <PinDropHandler onDrop={setPinDrop} disabled={placingPin} />}
           {googleMap ? (
             <>
               {/* Google satellite imagery with Google's labels (one layer). */}
@@ -1493,8 +1496,8 @@ export default function MapExplore({ experiments = false }) {
             type="button"
             className={`map-search-btn map-add-btn ${dialOpen ? 'open' : ''}`}
             style={{ top: 'calc(var(--header-h) + 64px)' }}
-            title="Add a landmark or draw an area"
-            aria-label={dialOpen ? 'Close' : 'Add a landmark or draw an area'}
+            title={SHOW_ADD_LANDMARK ? 'Add a landmark or draw an area' : 'Draw an area'}
+            aria-label={dialOpen ? 'Close' : SHOW_ADD_LANDMARK ? 'Add a landmark or draw an area' : 'Draw an area'}
             aria-expanded={dialOpen}
             onClick={() => setDialOpen((o) => !o)}
           >
@@ -1502,18 +1505,20 @@ export default function MapExplore({ experiments = false }) {
           </button>
           {dialOpen && (
             <div className="map-dial" style={{ top: 'calc(var(--header-h) + 64px)' }} role="menu">
-              <button
-                type="button"
-                role="menuitem"
-                className="map-dial-btn"
-                onClick={() => {
-                  setDialOpen(false);
-                  startPlacingPin();
-                }}
-              >
-                <span className="map-dial-icon" aria-hidden="true">{'\u{2795}'}</span>
-                <span className="map-dial-label">Add a landmark</span>
-              </button>
+              {SHOW_ADD_LANDMARK && (
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="map-dial-btn"
+                  onClick={() => {
+                    setDialOpen(false);
+                    startPlacingPin();
+                  }}
+                >
+                  <span className="map-dial-icon" aria-hidden="true">{'\u{2795}'}</span>
+                  <span className="map-dial-label">Add a landmark</span>
+                </button>
+              )}
               <button
                 type="button"
                 role="menuitem"

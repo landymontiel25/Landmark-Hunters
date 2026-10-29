@@ -16,6 +16,16 @@ describe('isMoving', () => {
     expect(isMoving([fix(0, 0, 50), fix(20, 0.0005, 50)], 20_000)).toBe(false);
   });
 
+  it('ignores one GPS jump that then holds still (sitting in an office)', () => {
+    const jump = [fix(0, 0, 20), fix(12, 0, 20), fix(18, 0.0006, 20), fix(24, 0.0006, 20), fix(30, 0.00061, 20)];
+    expect(isMoving(jump, 30_000)).toBe(false); // ~67 m jump, then still
+  });
+
+  it('keeps seeing steady walking across several fixes', () => {
+    const walk = [fix(0, 0), fix(10, 0.0001), fix(20, 0.0002), fix(30, 0.0003)];
+    expect(isMoving(walk, 30_000)).toBe(true);
+  });
+
   it('needs at least 10 s between fixes and forgets fixes older than 30 s', () => {
     expect(isMoving([fix(0, 0), fix(5, 0.001)], 5_000)).toBe(false);
     expect(isMoving([fix(0, 0), fix(20, 0.001)], 60_000)).toBe(false);

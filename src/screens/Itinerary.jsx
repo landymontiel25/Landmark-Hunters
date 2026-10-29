@@ -355,7 +355,7 @@ function ItineraryBody({ sectionTabs }) {
 
   const [customLms, setCustomLms] = useState([]);
   useEffect(() => {
-    getCustomLandmarks().then(setCustomLms).catch(() => {});
+    getCustomLandmarks({ includeClosed: true }).then(setCustomLms).catch(() => {});
   }, []);
 
   // Catalog landmarks plus any real places Mapr found on the web and you

@@ -12,6 +12,7 @@ import { geocodeLocation } from '../lib/geocode';
 import { useGpsStartLocation } from '../lib/useGpsStartLocation';
 import { classifyInterest } from '../lib/interestClassifier';
 import { pickRegion } from '../lib/tagScores';
+import { showTopLandmarks } from '../lib/landmarksSort';
 import { picksUnlocked, ratePlacesText, visitedReviewIds } from '../lib/nearbyPicks';
 import {
   MIN_RATINGS_FOR_PICK_TYPE,
@@ -34,6 +35,8 @@ const MOODS = [
   { value: 'energized', icon: '\u{26A1}', label: 'Energized & Active', hint: 'upbeat, on your feet, go-go-go' },
   { value: 'easygoing', icon: '\u{1F634}', label: 'Easygoing & Chill', hint: 'relaxed, slower pace, low-key' },
 ];
+// First choice on the mood step: skip the plan and play (owner, 2026-10-29).
+const PLAY_CHOICE = { value: 'play', icon: '\u{1F3C6}', label: 'Play Landmark Hunters', hint: 'find the top landmarks' };
 const PICK_TYPES = [
   { value: 'usual', icon: '\u{2B50}', label: 'The usual', hint: 'more of what you already love' },
   { value: 'new', icon: '\u{1F9ED}', label: 'Something new', hint: "kinds of places you haven't tried much" },
@@ -171,7 +174,11 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
 
   const onChoose = (value) => {
     if (wizard.step === 'location') chooseLocation(value);
-    else if (wizard.step === 'mood') set({ mood: value, step: 'pick' });
+    else if (wizard.step === 'mood' && value === PLAY_CHOICE.value) {
+      showTopLandmarks();
+      onClose?.();
+      navigate('/landmarks');
+    } else if (wizard.step === 'mood') set({ mood: value, step: 'pick' });
     else if (wizard.step === 'pick') set({ pickType: wizard.pickType === value ? null : value });
     else if (wizard.step === 'tripType') set({ tripMode: value, step: 'plan' });
     else if (wizard.step === 'plan' && asking) planTrip(value);
@@ -338,7 +345,7 @@ export default function TripPlannerCard({ regions, onSetRegions, onToggleRegion,
     {
       id: 'mood',
       question: 'What are you in the mood for?',
-      choices: MOODS,
+      choices: [PLAY_CHOICE, ...MOODS],
       value: wizard.mood,
     },
     {

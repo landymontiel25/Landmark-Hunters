@@ -102,6 +102,16 @@ const type = async (value) => {
 const activeDot = () => [...container.querySelectorAll('.chat-wizard-dot')].findIndex((d) => d.classList.contains('active'));
 
 describe('Plan Your Trip wizard', () => {
+  it('offers Play Landmark Hunters first on the mood step and opens Top Landmarks', async () => {
+    await render();
+    await click('Next');
+    const labels = [...container.querySelectorAll('.chat-wizard-choice, .chat-wizard-choices button')].map((b) => b.textContent);
+    expect(labels[0]).toContain('Play Landmark Hunters');
+    expect(labels[0]).toContain('find the top landmarks');
+    await click('Play Landmark Hunters');
+    expect(localStorage.getItem('lh.draft.v1.landmarks.sort.v3')).toContain('rated');
+  });
+
   it('walks the steps in order: location, mood, what sounds good, trip type, plan', async () => {
     await render();
     expect(container.querySelectorAll('.chat-wizard-dot')).toHaveLength(5);
