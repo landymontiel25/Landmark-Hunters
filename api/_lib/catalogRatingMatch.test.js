@@ -23,6 +23,12 @@ describe('catalogGooglePlaceId', () => {
     expect(await catalogGooglePlaceId(art, d)).toBe('ChIJart');
   });
 
+  it('a district whose pin sits over a kilometer from Google\'s still gets its rating', async () => {
+    const pinned = { ...art, lat: 25.794, lng: -80.13 }; // our pin ~1.3 km north of Google's
+    const d = deps();
+    expect(await catalogGooglePlaceId(pinned, d)).toBe('ChIJart');
+  });
+
   it('a single building with the right name but far off is not guessed', async () => {
     const shop = { region: 'miami', id: 'cafe', name: 'Cafe Roma', lat: 25.78, lng: -80.13, categories: ['food'] };
     const d = deps({ search: vi.fn(async () => [{ id: 'ChIJother', name: 'Cafe Roma', lat: 25.78 + 0.0055, lng: -80.13 }]) });

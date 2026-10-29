@@ -64,8 +64,8 @@ const SORT_OPTIONS = [
 // The "Add a Landmark" button under the search box is hidden for now (owner,
 // 2026-10-27); flip this to bring it back.
 const SHOW_ADD_LANDMARK = false;
-// Row photo size in px (was 52; owner asked for a bit bigger on iPhone, 2026-10-29).
-const ROW_THUMB = 68;
+// Row photo size in px (was 52, then 68; owner asked for bigger again, 2026-10-29).
+const ROW_THUMB = 92;
 
 // Top Landmarks: src/lib/topRated.js. Google is asked about the TOP_CANDIDATES
 // most popular places once per visit; the list waits for the answers (or this

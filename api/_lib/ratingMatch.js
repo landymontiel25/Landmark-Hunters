@@ -15,6 +15,9 @@ import { placeTypeFor } from '../../src/lib/presence.js';
 export const SURE_RADIUS_M = { landmark: 150, indoor: 150, area: 400 };
 // Beyond the sure radius but within this, a name match is worth a human look.
 export const REVIEW_RADIUS_M = 1000;
+// A district's pin (a whole neighborhood, like the Art Deco Historic District)
+// can sit well over a kilometer from where Google puts it.
+export const AREA_REVIEW_RADIUS_M = 3000;
 
 const STOP = new Set(['the', 'a', 'an', 'of', 'and', 'at', 'in', 'on', 'de', 'la', 'le', 'el', 'los', 'las']);
 const words = (s) => normalizeName(s).split(' ').filter((t) => t && !STOP.has(t));
@@ -44,7 +47,8 @@ export function classifyMatch(landmark, candidates) {
     }))
     .sort((a, b) => a.distanceM - b.distanceM);
 
-  const named = scored.filter((c) => c.nameMatch && c.distanceM <= REVIEW_RADIUS_M);
+  const reviewRadius = placeTypeFor(landmark) === 'area' ? AREA_REVIEW_RADIUS_M : REVIEW_RADIUS_M;
+  const named = scored.filter((c) => c.nameMatch && c.distanceM <= reviewRadius);
   const sure = named.filter((c) => c.distanceM <= sureRadius);
   const top = () => scored.slice(0, 3).map(({ id, name, lat, lng, distanceM, nameMatch, overlap }) => ({ id: String(id), name, lat, lng, distanceM, nameMatch, overlap }));
 
