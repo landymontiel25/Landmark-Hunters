@@ -10,9 +10,11 @@ import { TRIPADVISOR_LOGO } from './brand';
 // Tripadvisor when it is on), as tags in the card's meta row. Fetches only
 // once the card is near the screen, so a long list costs nothing for rows
 // never seen and never waits on it. When Google has no rating for the place
-// (no Google listing, or a listing nobody rated) it says "No ratings
-// available"; `fallback` (the app's own rating tag) shows only while loading
-// or when the lookup failed.
+// (no Google listing, or a listing nobody rated) it shows `fallback` (the
+// app's own rating tag) or, with none, "No ratings yet. Be the first"; the
+// fallback also shows while loading or when the lookup failed. A landmark
+// with no stored Google ID is matched by the server on first sight, so
+// "no rating" means Google really has none.
 // `preloaded`: sources the list already fetched (the Landmarks tab's Top Landmarks
 // sort), shown as-is with no second call.
 function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS, preloaded = null }) {
@@ -32,9 +34,12 @@ function RatingsCardLine({ landmark, fallback = null, flags = RATINGS_FLAGS, pre
           {'⭐'} {google.rating.toFixed(1)} <span className="ratings-count">({formatReviews(google.count)})</span> <GoogleAttribution />
         </span>
       ) : status === 'done' && sources.googleNoRating ? (
-        <span className="tag rating-tag ratings-none" data-source="none">
-          No ratings available
-        </span>
+        // Google has none: the app's own rating, else an invitation to give it.
+        fallback || (
+          <span className="tag rating-tag ratings-none" data-source="none">
+            No ratings yet. Be the first
+          </span>
+        )
       ) : (
         fallback
       )}
