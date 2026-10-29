@@ -9,6 +9,7 @@ import { landmarkIcon, paletteFor } from '../../lib/landmarkVisuals';
 import DirectionsButton from '../DirectionsButton';
 import { usePlacePhoto } from '../../lib/usePlacePhoto';
 import PlacePhotoCredit from '../PlacePhotoCredit';
+import { admissionText } from '../AdmissionTag';
 
 // One pick: photo, name, distance, one-line reason, Directions. Tapping a
 // card or a row opens a small sheet with Directions and the landmark's own
@@ -126,6 +127,7 @@ export default function PickCard({ pick, showChainLabel = false, showTag = true,
             {pick.distanceMeters != null && formatDistance(pick.distanceMeters, units)}
             {pick.distanceMeters != null && ' · '}
             {categoryLabel(primaryCategory(pick.categories))}
+            {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
             {pick.rating?.count ? ` · ${'\u{2605}'} ${Number(pick.rating.avg).toFixed(1)}` : ''}
           </span>
           {pick.reason && <span className="mpp-card-reason">{pick.reason}</span>}
@@ -156,6 +158,7 @@ export function PickRow({ pick, action = null, voteSlot = null }) {
           <span>
             {pick.distanceMeters != null ? formatDistance(pick.distanceMeters, units) : ''}
             {pick.favorite ? ' · You loved this' : pick.pickType === 'new' ? ' · Something new' : ''}
+            {admissionText(pick, true) ? ` · ${admissionText(pick, true)}` : ''}
           </span>
         </span>
       </button>

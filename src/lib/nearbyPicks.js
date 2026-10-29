@@ -435,6 +435,9 @@ export function toPick(l, extra = {}) {
     lng: l.lng,
     summary: l.summary || '',
     distanceMeters: l.distanceMeters ?? null,
+    // Free / needs a ticket, shown on the card (AdmissionTag's rules).
+    ...(l.free != null ? { free: l.free } : {}),
+    ...(l.permanentlyClosed ? { permanentlyClosed: true } : {}),
     ...(l.pickType ? { pickType: l.pickType } : {}),
     ...(l.tagScore != null ? { tagScore: l.tagScore } : {}),
     ...extra,
