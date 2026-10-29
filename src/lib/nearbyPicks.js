@@ -26,6 +26,20 @@ export const distanceUnitLabel = (units) => (units === 'metric' ? 'km' : 'mi');
 export const optionToMiles = (n, units) => (units === 'metric' ? (n * 1000) / METERS_PER_MILE : n);
 // Same bar as Plan Your Trip's "The usual" / "Something new".
 export const MIN_RATINGS_FOR_PICKS = 10;
+// A new account is not asked to rate 10 places before it gets picks: what it
+// answered in onboarding (the swipe cards, the questions, the places it visits
+// most) already seeds its taste (onboardingSave.seedTagScores, placeKinds), so
+// the Map sheet and The usual / Something new unlock on those alone (owner,
+// 2026-10-29).
+export function onboardingTasteSeeded(profile) {
+  const swipes = Array.isArray(profile?.swipeAnswers) ? profile.swipeAnswers : [];
+  if (swipes.some((a) => a?.answer === 'love' || a?.answer === 'dislike')) return true;
+  if (profile?.tasteBaseline && typeof profile.tasteBaseline === 'object' && Object.keys(profile.tasteBaseline).length) return true;
+  if (typeof profile?.tasteIntro === 'string' && profile.tasteIntro.trim()) return true;
+  return Array.isArray(profile?.onboardingPlaces) && profile.onboardingPlaces.length > 0;
+}
+export const picksUnlocked = (ratingsCount, profile, min = MIN_RATINGS_FOR_PICKS) =>
+  (Number(ratingsCount) || 0) >= min || onboardingTasteSeeded(profile);
 // "Rate 10 places" for someone with none; "Rate 1 more place" for someone at 9.
 export function ratePlacesText(count, min = MIN_RATINGS_FOR_PICKS) {
   const left = Math.max(0, min - (Number(count) || 0));

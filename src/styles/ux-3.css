@@ -1543,10 +1543,15 @@ button.back-sticky,
   fill: var(--mapr-blue);
 }
 .intro-map-stop text {
-  fill: #fff;
+  /* The theme's text color, so the numbers show on the light circles in light
+     mode; the lit stop is blue, so its number is white. */
+  fill: var(--text-primary);
   font-size: 11px;
   font-weight: 700;
   text-anchor: middle;
+}
+.intro-map-stop.on text {
+  fill: #fff;
 }
 .intro-stop + .intro-stop {
   border-top: 1px solid var(--border-subtle);
@@ -1564,6 +1569,7 @@ button.back-sticky,
 }
 .intro-stop.on .intro-stop-num {
   background: var(--mapr-blue);
+  color: #fff;
 }
 .intro-stop-photo {
   flex: none;
