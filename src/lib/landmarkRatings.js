@@ -8,7 +8,7 @@ import { authHeaders } from './apiAuth';
 // long list never floods the network, and a 401/429/503 pauses new calls
 // for a minute.
 
-const MAX_CONCURRENT = 3;
+const MAX_CONCURRENT = 6;
 const PAUSE_MS = 60 * 1000;
 
 const inFlight = new Map(); // key -> promise

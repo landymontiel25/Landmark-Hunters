@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadLandmarkRatings } from '../lib/landmarkRatings';
-import { ratedScore } from '../lib/topRated';
+import { topCandidates, topLandmarksOrder } from '../lib/topRated';
 import { LANDMARKS_SORT_KEY, TOP_LANDMARKS_SORT } from '../lib/landmarksSort';
 import { isCommunityFind } from '../lib/communityLabels';
 import { sportIconFor } from '../lib/landmarkVisuals';
@@ -40,6 +40,7 @@ import { useSmartSearch, useSmartCitySearch, landmarkSearchText } from '../lib/s
 import SmartSearchLabel from '../components/SmartSearchLabel';
 import { usePersistentState, useSessionState } from '../lib/usePersistentState';
 import ErrorNotice from '../components/ErrorNotice';
+import { SkeletonList } from '../components/Skeleton';
 
 // A null sort (every sort tab toggled off) is a real choice worth keeping.
 const NEVER_EMPTY = () => false;
@@ -64,8 +65,10 @@ const SORT_OPTIONS = [
 // 2026-10-27); flip this to bring it back.
 const SHOW_ADD_LANDMARK = false;
 
-// Top Landmarks: src/lib/topRated.js. Up to RATED_FETCH_CAP Google lookups a visit.
-const RATED_FETCH_CAP = 80;
+// Top Landmarks: src/lib/topRated.js. Google is asked about the TOP_CANDIDATES
+// most popular places once per visit; the list waits for the answers (or this
+// long) and then keeps its order, so rows don't jump around while you look.
+const TOP_WAIT_MS = 6000;
 
 // "For Me": how likely you are to actually go -- the same learned per-city
 // category scores Mapr Picks ranks by (-100..100, from your ratings, with
@@ -494,9 +497,10 @@ export default function LandmarkSelection() {
     return true;
   };
 
-  const sortedLandmarks = useMemo(() => {
+  // The search box, city and category filters applied, before any sort.
+  const filteredLandmarks = useMemo(() => {
     const term = search.trim().toLowerCase();
-    const filtered = [...editedLandmarks, ...normalizedCustomLandmarks].filter((l) => {
+    return [...editedLandmarks, ...normalizedCustomLandmarks].filter((l) => {
       if (!inScope(l, scope) || (drawnShape && !inArea(l.lat, l.lng, drawnShape))) return false;
       if (activeCategories.length && !activeCategories.some((key) => landmarkMatchesCategory(l, key))) return false;
       if (foundOnly && hasFound && !isFound(l)) return false;
@@ -511,7 +515,35 @@ export default function LandmarkSelection() {
       }
       return true;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editedLandmarks, normalizedCustomLandmarks, scope, drawnShape, activeCategories, foundOnly, hasFound, isFound, search]);
 
+  // Top Landmarks: the places worth asking Google about, and whether the
+  // answers are in. Nothing is shown until they are (or TOP_WAIT_MS passes),
+  // then the order is fixed for this list, so it never reshuffles or fills in
+  // under your thumb.
+  const topWanted = sortBy === 'rated' && !!user && !search.trim();
+  const topCands = useMemo(
+    () => (topWanted ? topCandidates(filteredLandmarks.filter((l) => l.regionId), (l) => popularScore(l, ratings)) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [topWanted, filteredLandmarks]
+  );
+  const topSig = topCands.map((l) => l.id).join('|');
+  const [topTimedOut, setTopTimedOut] = useState(null);
+  const topAnswered = topCands.every((l) => googleById[l.id] !== undefined);
+  const topReady = !topWanted || topAnswered || topTimedOut === topSig;
+  useEffect(() => {
+    if (!topWanted || topReady) return undefined;
+    const id = setTimeout(() => setTopTimedOut(topSig), TOP_WAIT_MS);
+    return () => clearTimeout(id);
+  }, [topWanted, topReady, topSig]);
+  const topSnap = useRef({ sig: null, data: {} });
+  if (topWanted && topReady && topSnap.current.sig !== topSig) topSnap.current = { sig: topSig, data: googleById };
+  const topLoading = topWanted && !topReady;
+
+  const sortedLandmarks = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    const filtered = filteredLandmarks;
     // Near Me always means closest first, even while searching: "sushi" with
     // Near Me on lists the nearest sushi places first.
     if (term && sortBy === 'nearMe' && coords) {
@@ -573,34 +605,15 @@ export default function LandmarkSelection() {
           a.name.localeCompare(b.name)
       );
     }
-    const score = new Map(filtered.map((l) => [l, ratedScore(l, googleById, ratings)]));
-    return [...filtered].sort(
-      (a, b) =>
-        (score.get(b) ?? -1) - (score.get(a) ?? -1) ||
-        popularScore(b, ratings) - popularScore(a, ratings) ||
-        a.name.localeCompare(b.name)
-    );
-  }, [
-    googleById,
-    foundOnly,
-    hasFound,
-    isFound,
-    myProfile,
-    myReviews,
-    maprModels,
-    user?.uid,
-    trip.savedInterests,
-    scope,
-    drawnShape,
-    activeCategories,
-    landmarkMatchesCategory,
-    search,
-    sortBy,
-    coords,
-    ratings,
-    normalizedCustomLandmarks,
-    editedLandmarks,
-  ]);
+    // Top Landmarks: the real top places only (src/lib/topRated.js). Signed
+    // out there is no Google data to rank by, so every place is listed with
+    // the most popular first.
+    const popular = (l) => popularScore(l, ratings);
+    if (!user) return [...filtered].sort((a, b) => popular(b) - popular(a) || a.name.localeCompare(b.name));
+    if (!topReady) return [];
+    return topLandmarksOrder(topCands, topSnap.current.data, popular);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- topSnap is read once topReady/topSig say it is current
+  }, [filteredLandmarks, topCands, topReady, topSig, myProfile, myReviews, maprModels, user, trip.savedInterests, search, sortBy, coords, ratings]);
 
   // Checked in vs not: an up arrow puts the places you haven't checked into
   // first, a down arrow puts the checked-in ones first, no arrow leaves the
@@ -613,20 +626,18 @@ export default function LandmarkSelection() {
     return [...sortedLandmarks].sort((a, b) => (done(a) - done(b)) * dir);
   }, [sortedLandmarks, checkInOrder, claimedMap, search]);
 
-  // Top Rated: fetch Google ratings for the places at the top of the list
-  // (rows reuse them instead of fetching again), up to RATED_FETCH_CAP a
-  // visit. Signed out the endpoint answers nothing, so nothing is asked.
+  // Top Landmarks: fetch Google ratings for the candidates (rows reuse them
+  // instead of fetching again). Signed out the endpoint answers nothing, so
+  // nothing is asked.
   const ratedAsked = useRef(new Set());
   useEffect(() => {
-    if (sortBy !== 'rated' || !user) return;
-    const want = landmarks
-      .filter((l) => l && l.id && l.regionId && !ratedAsked.current.has(l.id))
-      .slice(0, Math.max(0, RATED_FETCH_CAP - ratedAsked.current.size));
-    for (const l of want) {
+    if (!topWanted) return;
+    for (const l of topCands) {
+      if (ratedAsked.current.has(l.id)) continue;
       ratedAsked.current.add(l.id);
       loadLandmarkRatings(l).then((sources) => setGoogleById((cur) => ({ ...cur, [l.id]: sources })));
     }
-  }, [sortBy, user, landmarks]);
+  }, [topWanted, topCands]);
 
   // Row callbacks keep one identity for the life of the screen so the memoized
   // rows (867 of them) skip re-rendering when something unrelated changes.
@@ -692,7 +703,7 @@ export default function LandmarkSelection() {
     <div>
       <div className="places-title-row">
         <h1 className="screen-title">
-          <span>{'\u{1F4CD}'}</span> Landmarks ({landmarks.length})
+          <span>{'\u{1F4CD}'}</span> Landmarks{topLoading ? '' : ` (${landmarks.length})`}
         </h1>
         {/* Your check-ins, opened on Grid (photos first). */}
         {user && (
@@ -878,6 +889,8 @@ export default function LandmarkSelection() {
           onRetry={loadCustomLandmarks}
         />
       )}
+
+      {topLoading && <SkeletonList count={6} label="Finding the top landmarks" />}
 
       <div>
         {allRows.slice(0, shownCount).map((l) => {
