@@ -1,5 +1,6 @@
 import { API_BASE } from './apiBase';
 import { fetchJson } from './friendlyError';
+import { authHeaders } from './apiAuth';
 /**
  * Address search for Add Landmark / Trip Setup, backed by Google Places API
  * (New) via the /api/places-* server functions -- keeps GOOGLE_PLACES_API_KEY
@@ -30,7 +31,7 @@ export async function searchPlaces(text, region, sessionToken) {
   // back silently as "zero matches."
   const data = await fetchJson(`${API_BASE}/api/places-autocomplete`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify(body),
   });
   return Array.isArray(data.suggestions) ? data.suggestions : [];
@@ -43,5 +44,5 @@ export async function searchPlaces(text, region, sessionToken) {
 export async function getPlaceDetails(placeId, sessionToken) {
   const params = new URLSearchParams({ placeId });
   if (sessionToken) params.set('sessionToken', sessionToken);
-  return fetchJson(`${API_BASE}/api/places-details?${params.toString()}`);
+  return fetchJson(`${API_BASE}/api/places-details?${params.toString()}`, { headers: await authHeaders() });
 }

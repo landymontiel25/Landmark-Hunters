@@ -17,7 +17,7 @@ export function withCors(handler) {
       res.setHeader('Access-Control-Allow-Origin', origin);
       res.setHeader('Vary', 'Origin');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+      res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type, X-Firebase-AppCheck');
       res.setHeader('Access-Control-Max-Age', '86400');
     }
     // Answer the preflight before the handler's method check, auth check and
