@@ -131,7 +131,9 @@ async function _submitReview({ userId, userName, landmark, rating, photoFiles, p
       try {
         // Unique name per upload (rules allow {uid}_{digits}.jpg): a later photo
         // must never overwrite an earlier one's file.
-        const path = `review_photos/${landmarkId}/${userId}_${Date.now()}${i}.jpg`;
+        // A random tail too: friends-only photos must not be guessable from
+        // the uid and a timestamp.
+        const path = `review_photos/${landmarkId}/${userId}_${Date.now()}${i}${crypto.getRandomValues(new Uint32Array(2)).join('')}.jpg`;
         const storageRef = ref(storage, path);
         await withTimeout(uploadBytes(storageRef, files[i], { contentType: files[i].type || 'image/jpeg' }), 20000);
         photoURLs.push(await withTimeout(getDownloadURL(storageRef), 10000));

@@ -225,6 +225,13 @@ service cloud.firestore {
     // The one check-in payout an account ever gets. Created by the owner in
     // the same write as the paying check-in it names (claimCheckIn), never
     // changed or removed, so a second paying check-in is impossible.
+    match /onboarding_payouts/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['createdAt'])
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
     match /checkin_payouts/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == uid
@@ -351,11 +358,19 @@ service cloud.firestore {
         && d.bonusPoints >= (resource == null ? 0 : resource.data.get('bonusPoints', 0))
         && bonusDeltaOk(d, d.bonusPoints - (resource == null ? 0 : resource.data.get('bonusPoints', 0)));
     }
+    // The onboarding +10 needs onboarding_payouts/{uid} created in the same
+    // write. That doc can never be changed or removed, so deleting and
+    // recreating users/{uid} can't pay the bonus twice.
+    function onboardingPaidNow() {
+      let payout = /databases/$(database)/documents/onboarding_payouts/$(request.auth.uid);
+      return !exists(payout) && existsAfter(payout);
+    }
     function bonusDeltaOk(d, delta) {
       return delta == 0
         || (delta == 10
             && (resource == null || resource.data.get('onboardingCompleted', false) != true)
-            && d.get('onboardingCompleted', false) == true)
+            && d.get('onboardingCompleted', false) == true
+            && onboardingPaidNow())
         || (delta == 50 && referredClaimNow(request.auth.uid))
         || (delta == 50 && d.get('bonusSource', null) is string && referrerClaimNow(d.bonusSource));
     }
@@ -797,7 +812,9 @@ service cloud.firestore {
         || (resource.data.get('hidden', true) == false
             && (resource.data.get('visibility', 'private') == 'public'
                 || (request.auth != null
-                    && exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + resource.data.userId)))));
+                    && exists(/databases/$(database)/documents/friend_edges/$(request.auth.uid + '_' + resource.data.userId))
+                    && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + resource.data.userId))
+                    && !exists(/databases/$(database)/documents/blocks/$(resource.data.userId + '_' + request.auth.uid)))));
       allow create: if request.auth != null
         && reviewId == request.auth.uid + '_' + request.resource.data.landmarkId
         && request.resource.data.userId == request.auth.uid
@@ -832,6 +849,7 @@ service cloud.firestore {
                 || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['visibility', 'hidden', 'updatedAt'])))
           || (
             reviewId.split('_')[0] != request.auth.uid
+            && reviewVisible(reviewId)
             && !(resource.data.get('reportedBy', []).hasAny([request.auth.uid]))
             && request.resource.data.reportedBy == resource.data.get('reportedBy', []).concat([request.auth.uid])
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reportedBy', 'hidden'])
@@ -848,6 +866,8 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.keys().hasOnly(['uid', 'userName', 'text', 'createdAt'])
+        && reviewVisible(reviewId)
+        && (!('userName' in request.resource.data) || (request.resource.data.userName is string && request.resource.data.userName.size() <= 60))
         && request.resource.data.text is string
         && request.resource.data.text.size() > 0
         && request.resource.data.text.size() <= 500;
@@ -1017,6 +1037,9 @@ service cloud.firestore {
         && request.resource.data.count is number
         && request.resource.data.count >= 0
         && request.resource.data.sum >= 0
+        // The shown average must be the real one: the client writes
+        // sum / count, and nothing else may be set here.
+        && request.resource.data.avg == (request.resource.data.count == 0 ? 0 : request.resource.data.sum / request.resource.data.count)
         && ratingDeltaOk(id,
              request.resource.data.count - (resource == null ? 0 : resource.data.get('count', 0)),
              request.resource.data.sum - (resource == null ? 0 : resource.data.get('sum', 0)));
@@ -1346,18 +1369,30 @@ service cloud.firestore {
         && d.message.split(sep)[0].size() <= 4
         && d.message.split(sep)[1] == get(src).data.userName + ': "' + get(src).data.title + '"';
     }
+    // An invite notice to someone else: the fields notifyUser writes, a
+    // short message, and no block between sender and recipient either way.
+    function inviteNoticeOk() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['uid', 'type', 'message', 'landmarkId', 'groupTripId', 'featureRequestId', 'bugReportId', 'maprProjectId', 'regionId', 'fromUid', 'read', 'createdAt'])
+        && d.message is string
+        && d.message.size() <= 500
+        && !exists(/databases/$(database)/documents/blocks/$(request.auth.uid + '_' + d.uid))
+        && !exists(/databases/$(database)/documents/blocks/$(d.uid + '_' + request.auth.uid));
+    }
     match /notifications/{id} {
       allow get, list: if request.auth != null && resource.data.uid == request.auth.uid;
       allow create: if request.auth != null
         && (request.resource.data.uid == request.auth.uid
             || isAdmin()
             || (request.resource.data.type == 'group_invite'
+                && inviteNoticeOk()
                 && exists(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId))
                 && request.auth.uid in
                    get(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId)).data.memberUids
                 && request.resource.data.uid in
                    get(/databases/$(database)/documents/group_trips/$(request.resource.data.groupTripId)).data.memberUids)
             || (request.resource.data.type == 'mapr_project_invite'
+                && inviteNoticeOk()
                 && exists(/databases/$(database)/documents/mapr_projects/$(request.resource.data.maprProjectId))
                 && request.auth.uid ==
                    get(/databases/$(database)/documents/mapr_projects/$(request.resource.data.maprProjectId)).data.ownerUid

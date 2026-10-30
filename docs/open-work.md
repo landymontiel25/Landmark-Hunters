@@ -3,6 +3,14 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Security audit follow-ups (2026-10-30)
+
+20-point audit done: `docs/security-audit-2026-10-30.md`. Owner first:
+delete the service-account key `8bc84a2c…` in Google Cloud (it is in the
+public repo's history) and turn on GitHub secret scanning. Still open:
+reports from unverified throwaway accounts, missing key lists on several
+collections, `custom_landmarks` public list, friends-only group invites.
+
 ## Rate limits, daily quotas, App Check (2026-10-30, needs owner steps)
 
 Built: shared daily quotas per account and across everyone on every AI and
