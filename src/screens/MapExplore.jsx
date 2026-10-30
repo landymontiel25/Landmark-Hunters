@@ -17,6 +17,7 @@ import { useUnits, formatDistance } from '../lib/UnitsContext';
 import { useCheckIn } from '../lib/useCheckIn';
 import { useMyPhotos } from '../lib/MyPhotosContext';
 import { getLandmarkOverrides, saveLandmarkPosition } from '../lib/landmarkOverrides';
+import { bubbleRadius } from '../lib/landmarkBubble';
 import { getCustomLandmarks, deleteCustomLandmark, updateCustomLandmark } from '../lib/customLandmarks';
 import { usePlacePacksVersion } from '../lib/placePacks';
 import { createPositionCache } from '../lib/positionCache';
@@ -605,6 +606,8 @@ export default function MapExplore({ experiments = false }) {
   // specific building on a campus) and carry that exact location straight
   // into Add Landmark instead of having to re-find it there.
   const [pinDrop, setPinDrop] = useState(null);
+  // Tapping a landmark draws its radius bubble (src/lib/landmarkBubble.js).
+  const [bubble, setBubble] = useState(null); // { key, lat, lng, radius }
 
   // "+" no longer jumps straight into Add Landmark -- it drops into this
   // mode instead: a crosshair stays fixed at the screen's center while you
@@ -949,7 +952,11 @@ export default function MapExplore({ experiments = false }) {
             position={position}
             icon={pinIcon(isClaimed, isSelected)}
             draggable={adminMode}
-            eventHandlers={adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : undefined}
+            eventHandlers={{
+              ...(adminMode ? { dragend: (e) => handlePinDragEnd(l, e) } : {}),
+              popupopen: () => setBubble({ key: `${l.regionId}/${l.id}`, lat: position[0], lng: position[1], radius: bubbleRadius(landmark) }),
+              popupclose: () => setBubble((b) => (b?.key === `${l.regionId}/${l.id}` ? null : b)),
+            }}
           >
             <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
@@ -1068,7 +1075,14 @@ export default function MapExplore({ experiments = false }) {
             position={stablePosition(`custom/${l.docId}`, l.lat, l.lng)}
             icon={pinIcon(isClaimed, isSelected)}
             draggable={adminMode}
-            eventHandlers={adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : undefined}
+            eventHandlers={{
+              ...(adminMode ? { dragend: (e) => handleCustomPinDragEnd(l, e) } : {}),
+              popupopen: (e) => {
+                const at = e.target.getLatLng();
+                setBubble({ key: `custom/${l.docId}`, lat: at.lat, lng: at.lng, radius: bubbleRadius(l) });
+              },
+              popupclose: () => setBubble((b) => (b?.key === `custom/${l.docId}` ? null : b)),
+            }}
           >
             <Popup autoPanPaddingTopLeft={POPUP_PAN_TOP_LEFT} autoPanPaddingBottomRight={POPUP_PAN_BOTTOM_RIGHT}>
               <div className="map-popup">
@@ -1341,6 +1355,15 @@ export default function MapExplore({ experiments = false }) {
                 </Tooltip>
               )}
             </Marker>
+          )}
+          {bubble && (
+            <Circle
+              key={bubble.key}
+              center={[bubble.lat, bubble.lng]}
+              radius={bubble.radius}
+              interactive={false}
+              pathOptions={{ color: '#5b8cff', weight: 2, fillColor: '#5b8cff', fillOpacity: 0.18 }}
+            />
           )}
           {drawnArea?.length > 2 && (
             <Polygon positions={drawnArea} interactive={false} pathOptions={{ color: '#5b8cff', weight: 3, dashArray: '8 6', fillColor: '#5b8cff', fillOpacity: 0.08 }} />
