@@ -318,7 +318,7 @@ async function _addCheckinPhoto(userId, landmarkId, file) {
     err.userMessage = err.message;
     throw err;
   }
-  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${Math.floor(Math.random() * 1000)}.jpg`);
+  const storageRef = ref(storage, `checkin_photos/${landmarkId}/${userId}_${Date.now()}${crypto.getRandomValues(new Uint32Array(2)).join('')}.jpg`);
   await uploadBytes(storageRef, file, { contentType: file.type || 'image/jpeg' });
   const photoURL = await getDownloadURL(storageRef);
   await _updateDoc(doc(db, 'checkins', `${userId}_${landmarkId}`), { photoURLs: arrayUnion(photoURL) });

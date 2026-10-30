@@ -1,4 +1,4 @@
-import { doc, writeBatch, increment } from 'firebase/firestore';
+import { doc, writeBatch, increment, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { addLeaderboardPointsToBatch } from './leaderboard';
 
@@ -32,6 +32,9 @@ export async function completeOnboarding(uid, userName) {
     },
     { merge: true }
   );
+  // The create-once marker firestore.rules needs before it pays the +10,
+  // so deleting and recreating the profile can't pay it again.
+  batch.set(doc(db, 'onboarding_payouts', uid), { createdAt: serverTimestamp() });
   addLeaderboardPointsToBatch(batch, uid, userName, ONBOARDING_BONUS_POINTS);
   await batch.commit();
 }

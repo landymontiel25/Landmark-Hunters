@@ -30,7 +30,9 @@ const initials = (name) =>
     .map((w) => w[0])
     .join('')
     .slice(0, 2)
-    .toUpperCase();
+    .toUpperCase()
+    // Goes into the pin's HTML, and the name is another user's.
+    .replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const pinFor = (name, mine) =>
   L.divIcon({ className: '', html: `<div class="live-pin${mine ? ' mine' : ''}">${initials(name)}</div>`, iconSize: [34, 34], iconAnchor: [17, 17] });
 

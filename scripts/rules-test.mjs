@@ -16,7 +16,7 @@ import {
 } from '@firebase/rules-unit-testing';
 import {
   doc, getDoc, setDoc, updateDoc, deleteDoc, getDocs, collection, query, where,
-  writeBatch, increment, serverTimestamp, deleteField,
+  writeBatch, increment, serverTimestamp, deleteField, addDoc,
 } from 'firebase/firestore';
 import { ref, getBytes, listAll, uploadBytes, deleteObject } from 'firebase/storage';
 
@@ -99,14 +99,28 @@ await seed(async (db) => {
 await t('cannot bump bonusPoints by hand (+100, +1, +50)', async () => {
   for (const n of [100, 1, 50]) await assertFails(updateDoc(doc(as('carl'), 'users/carl'), { bonusPoints: n }));
 });
-await t('onboarding: +10 together with onboardingCompleted false->true', () =>
-  assertSucceeds(setDoc(doc(as('carl'), 'users/carl'), { onboardingCompleted: true, bonusPoints: increment(10) }, { merge: true })));
+await t('onboarding: +10 needs the onboarding_payouts marker in the same write', () =>
+  assertFails(setDoc(doc(as('carl'), 'users/carl'), { onboardingCompleted: true, bonusPoints: increment(10) }, { merge: true })));
+await t('onboarding: +10 together with onboardingCompleted false->true and the marker', () => {
+  const db = as('carl');
+  const b = writeBatch(db);
+  b.set(doc(db, 'users/carl'), { onboardingCompleted: true, bonusPoints: increment(10) }, { merge: true });
+  b.set(doc(db, 'onboarding_payouts/carl'), { createdAt: serverTimestamp() });
+  return assertSucceeds(b.commit());
+});
 await t('onboarding bonus cannot be re-earned (+10 again, or un-completing)', async () => {
   await assertFails(updateDoc(doc(as('carl'), 'users/carl'), { bonusPoints: increment(10) }));
   await assertFails(updateDoc(doc(as('carl'), 'users/carl'), { onboardingCompleted: false }));
   await assertFails(updateDoc(doc(as('dana'), 'users/dana'), { bonusPoints: increment(10) }));
 });
 await t('bonusPoints never goes down', () => assertFails(updateDoc(doc(as('carl'), 'users/carl'), { bonusPoints: 0 })));
+await t('onboarding: deleting and recreating the profile cannot pay the bonus again', async () => {
+  const db = as('carl');
+  await assertSucceeds(deleteDoc(doc(db, 'users/carl')));
+  await assertFails(setDoc(doc(db, 'users/carl'), { uid: 'carl', username: 'carl', onboardingCompleted: true, bonusPoints: 10 }));
+  await assertFails(deleteDoc(doc(db, 'onboarding_payouts/carl')));
+  await assertFails(setDoc(doc(db, 'onboarding_payouts/carl'), { createdAt: serverTimestamp() }));
+});
 
 console.log('referrals');
 await reset();
@@ -375,6 +389,7 @@ await t('onboarding bonus: +10 entries batched with the +10 bonus and the flag',
   const mk = (pts) => {
     const b = writeBatch(db);
     b.set(doc(db, 'users/gus'), { onboardingCompleted: true, bonusPoints: increment(10) }, { merge: true });
+    b.set(doc(db, 'onboarding_payouts/gus'), { createdAt: serverTimestamp() });
     b.set(doc(db, 'leaderboard_entries/weekly_2026-W41_gus'), entry({ points: increment(pts) }), { merge: true });
     b.set(doc(db, 'leaderboard_entries/yearly_2026_gus'), entry({ period: 'yearly', periodKey: '2026', points: increment(pts) }), { merge: true });
     return b;
@@ -1151,6 +1166,36 @@ await t("pick marks: a rating or vote on a place seen in the Feed saves (pickSur
 await t("recommendation_log: 'feed' is an allowed surface", async () => {
   await assertSucceeds(setDoc(doc(as('bob'), 'recommendation_log/fd1'), { userId: 'bob', landmarkId: 'lm1', pickType: null, surface: 'feed', setId: 's1', rank: 1, shownAt: 1 }));
   await assertFails(setDoc(doc(as('bob'), 'recommendation_log/fd2'), { userId: 'ann', landmarkId: 'lm1', pickType: null, surface: 'feed' }));
+});
+
+console.log('security audit 2026-10-30');
+await reset();
+await seed(async (db) => {
+  await setDoc(doc(db, 'landmark_ratings/lmA'), { landmarkId: 'lmA', sum: 8, count: 2, avg: 4 });
+  await setDoc(doc(db, 'group_trips/gt1'), { ownerUid: 'amy', memberUids: ['amy', 'ben', 'cal'], memberNames: {}, name: 'Trip', regionId: 'miami', landmarkIds: [] });
+  await setDoc(doc(db, 'blocks/cal_amy'), { blockerUid: 'cal', blockedUid: 'amy' });
+  await setDoc(doc(db, 'users/rae'), { uid: 'rae', username: 'rae', public: false });
+  await setDoc(doc(db, 'reviews/rae_lmP'), { userId: 'rae', landmarkId: 'lmP', stars: 4, comment: 'c', hidden: false, reportedBy: [], visibility: 'friends' });
+  await setDoc(doc(db, 'friend_edges/dov_rae'), { a: 'dov', b: 'rae' });
+  await setDoc(doc(db, 'blocks/rae_dov'), { blockerUid: 'rae', blockedUid: 'dov' });
+});
+await t('landmark_ratings: nobody can set a fake average', async () => {
+  await assertFails(updateDoc(doc(as('eve'), 'landmark_ratings/lmA'), { avg: 5 }));
+  await assertFails(updateDoc(doc(as('eve'), 'landmark_ratings/lmA'), { avg: 'x' }));
+});
+const invite = (uid) => ({ uid, type: 'group_invite', message: 'You were added to a group trip: Trip', landmarkId: null, groupTripId: 'gt1', featureRequestId: null, bugReportId: null, read: false, createdAt: serverTimestamp() });
+await t('group invite: a member can notify another member', () =>
+  assertSucceeds(addDoc(collection(as('amy'), 'notifications'), invite('ben'))));
+await t('group invite: not to someone who blocked you, not with a huge message, not with extra fields', async () => {
+  await assertFails(addDoc(collection(as('amy'), 'notifications'), invite('cal')));
+  await assertFails(addDoc(collection(as('amy'), 'notifications'), { ...invite('ben'), message: 'x'.repeat(501) }));
+  await assertFails(addDoc(collection(as('amy'), 'notifications'), { ...invite('ben'), link: 'https://evil' }));
+});
+await t('reviews: a blocked friend cannot list your friends-only reviews', () =>
+  assertFails(getDocs(query(collection(as('dov'), 'reviews'), where('userId', '==', 'rae'), where('hidden', '==', false)))));
+await t('replies and reports: only on reviews you can see', async () => {
+  await assertFails(addDoc(collection(as('zed'), 'reviews/rae_lmP/replies'), { uid: 'zed', userName: 'z', text: 'hi', createdAt: serverTimestamp() }));
+  await assertFails(updateDoc(doc(as('zed'), 'reviews/rae_lmP'), { reportedBy: ['zed'] }));
 });
 
 await env.cleanup();
