@@ -3,6 +3,16 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
+## Rate limits, daily quotas, App Check (2026-10-30, needs owner steps)
+
+Built: shared daily quotas per account and across everyone on every AI and
+Google route, signed-out Google calls counted per IP with lower limits, and
+App Check (reCAPTCHA Enterprise) wired on web and server, off by default.
+Details and the owner's steps: `docs/rate-limits.md`. Still open: set the
+Anthropic spend limit and Google budget, the `usage_quota` TTL policy, turn
+App Check on in monitor mode, and add App Attest to the iOS app before
+`APP_CHECK_MODE=enforce`. Firebase App Check below (Phase 0) is this item.
+
 ## Test tab: "5 images" intro (2026-10-28)
 
 The owner drew five intro screens (Discover, Arrive prepared, Plan less,

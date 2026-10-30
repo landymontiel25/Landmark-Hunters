@@ -1,4 +1,4 @@
-import { isRateLimited } from './_lib/rateLimit.js';
+import { guardBilledRequest } from './_lib/billedGuard.js';
 import { withCors } from './_lib/cors.js';
 import { timeoutSignal } from './_lib/upstream.js';
 
@@ -74,10 +74,7 @@ async function handler(req, res) {
     res.status(503).json({ error: 'Directions are not set up yet. Add GOOGLE_ROUTES_API_KEY in Vercel.' });
     return;
   }
-  if (isRateLimited(req, 'directions', { limit: 30, windowMs: 60 * 1000 })) {
-    res.status(429).json({ error: 'Too many requests in a row — slow down a bit.' });
-    return;
-  }
+  if (!(await guardBilledRequest(req, res, { key: 'directions', scope: 'google-directions', what: 'Directions', limit: 30, anonLimit: 10, windowMs: 60 * 1000 }))) return;
 
   let body;
   try {

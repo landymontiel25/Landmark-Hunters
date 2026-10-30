@@ -1,4 +1,4 @@
-import { isRateLimited } from './_lib/rateLimit.js';
+import { guardBilledRequest } from './_lib/billedGuard.js';
 import { withCors } from './_lib/cors.js';
 import { timeoutSignal } from './_lib/upstream.js';
 
@@ -16,10 +16,7 @@ async function handler(req, res) {
     res.status(503).json({ error: 'Address search is not set up yet. Add GOOGLE_PLACES_API_KEY in Vercel.' });
     return;
   }
-  if (isRateLimited(req, 'places-autocomplete', { limit: 60, windowMs: 60 * 1000 })) {
-    res.status(429).json({ error: 'Too many searches in a row — slow down a bit.' });
-    return;
-  }
+  if (!(await guardBilledRequest(req, res, { key: 'places-autocomplete', scope: 'google-autocomplete', what: 'Address search', limit: 60, anonLimit: 30, windowMs: 60 * 1000 }))) return;
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};

@@ -9,7 +9,7 @@
 const buckets = new Map();
 const MAX_KEYS = 5000;
 
-function clientIp(req) {
+export function clientIp(req) {
   const fwd = req.headers['x-forwarded-for'];
   if (fwd) return String(fwd).split(',')[0].trim();
   return req.socket?.remoteAddress || 'unknown';

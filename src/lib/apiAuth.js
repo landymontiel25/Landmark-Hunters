@@ -1,15 +1,18 @@
 import { auth } from './firebase';
+import { appCheckHeaders } from './appCheck';
 
-// Authorization header for our own /api/* endpoints. The AI endpoints
-// require a signed-in account (api/_lib/aiGuard.js) and count usage per
-// account, so every call sends the current user's Firebase ID token.
-// Signed out, this is empty and the server answers with a sign-in error.
+// Headers for our own /api/* endpoints: the current user's Firebase ID token
+// and, when App Check is on, its token (src/lib/appCheck.js). The AI
+// endpoints require a signed-in account (api/_lib/aiGuard.js); the Google
+// ones count usage per account when signed in and per IP when not
+// (api/_lib/billedGuard.js). Signed out, only the App Check header is sent.
 export async function authHeaders() {
+  const check = await appCheckHeaders();
   const user = auth?.currentUser;
-  if (!user) return {};
+  if (!user) return check;
   try {
-    return { Authorization: `Bearer ${await user.getIdToken()}` };
+    return { ...check, Authorization: `Bearer ${await user.getIdToken()}` };
   } catch {
-    return {};
+    return check;
   }
 }

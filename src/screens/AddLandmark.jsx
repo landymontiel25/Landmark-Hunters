@@ -25,6 +25,7 @@ import { friendlyError, fetchJson, isOffline } from '../lib/friendlyError';
 import { clearPersisted } from '../lib/usePersistentState';
 import { reverseGeocodePlace } from '../lib/placeLookup';
 import { API_BASE } from '../lib/apiBase';
+import { appCheckHeaders } from '../lib/appCheck';
 
 // Our own plain-language messages (and the AI's "reason"), which
 // friendlyError should show as written rather than swap for a generic one.
@@ -282,7 +283,7 @@ export default function AddLandmark() {
       try {
         verified = await fetchJson(`${API_BASE}/api/verify-landmark`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+          headers: { 'Content-Type': 'application/json', ...(await appCheckHeaders()), Authorization: `Bearer ${idToken}` },
           // Never leave "Verifying…" spinning forever on a stalled request.
           signal: AbortSignal.timeout(90000),
           body: JSON.stringify({
