@@ -12,7 +12,8 @@ import { DistancePill, ProgressRing, TasteChips } from './FirstRunLab';
 import { SAY } from './signupTutorialSteps';
 import LabSummary from './TutorialSummary';
 
-// Test tab "Ultimate tutorial" (owner, 2026-11-02): Tutorial (T1) and
+// Test tab "Tutorial with planner" (owner, 2026-11-02; was "Ultimate
+// tutorial"): Tutorial (T1) and
 // Tutorial 2 (T2) combined in the owner's order, with Mapr explaining every
 // step. Each step is the real piece from its tutorial, so a fix there shows
 // here too:
@@ -88,7 +89,7 @@ export default function UltimateTutorialLab() {
     <div>
       <div className="card section lab-controls">
         <div className="lab-controls-head">
-          <strong>{'\u{1F9EA}'} Ultimate tutorial test</strong>
+          <strong>{'\u{1F9EA}'} Tutorial with planner test</strong>
           <span className="tag">Nothing here is saved</span>
         </div>
         <div className="lab-steps">

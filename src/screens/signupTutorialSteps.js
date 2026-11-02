@@ -50,6 +50,15 @@ export const SAY = {
   ],
   progress: ['Every place you rate teaches me your taste. Rate 10 and my picks get sharper.'],
   progressCheckedIn: ['And you checked in! That earned your first badge.'],
+  // Game tutorial: Mapr's line on each of the five intro screens
+  // (ExplainerImagesLab), by screen id.
+  images: {
+    discover: ["Here's how the game works. I find places near you worth the trip, picked for you."],
+    prepared: ['Before you go, every place has its facts and photos, so you know what to expect.'],
+    plan: ['Got a few stops in mind? I line them up into one route.'],
+    play: ['When you get there, check in. Each check-in earns points, and you can play with friends.'],
+    remember: ['Every place you check in to stays here, with your photos. Ready to try one?'],
+  },
 };
 
 // Swipe practice (step 4), one card per task. `how` is the way the card has
