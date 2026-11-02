@@ -42,6 +42,20 @@ describe('UILab (Test tab: UI)', () => {
     expect(el.querySelector('.mui')).toBeTruthy();
   });
 
+  it('every screen has the floating tab bar at its bottom, in step with the sub-tabs', async () => {
+    const el = await render();
+    const bar = () => [...el.querySelectorAll('.uil-frame .uil-tabbar button')];
+    expect(bar().map((b) => b.textContent)).toEqual(['Map', 'Landmarks', 'Mapr', 'Itinerary', 'Profile']);
+    expect(bar()[2].getAttribute('aria-current')).toBe('page');
+    await click(bar()[3]);
+    expect(tab(el, 'Itinerary').getAttribute('aria-selected')).toBe('true');
+    expect(el.querySelector('.uil-frame .uil-empty').textContent).toContain('Itinerary');
+    await click(tab(el, 'Map'));
+    expect(bar()[0].getAttribute('aria-current')).toBe('page');
+    expect(el.querySelector('.uil-frame .map-ui-stub')).toBeTruthy();
+    expect(el.querySelector('.uil-exit')).toBeNull();
+  });
+
   it('Map has its screen; the others are empty placeholders for now', async () => {
     const el = await render();
     await click(tab(el, 'Map'));

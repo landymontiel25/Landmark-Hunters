@@ -84,25 +84,37 @@ export default function UILab() {
     };
   }, [full]);
 
-  if (full) {
-    return (
-      <div className="uil-full" role="dialog" aria-modal="true" aria-label={`${UI_SCREENS.find((s) => s.id === screen).label}, full screen`}>
-        <div className="uil-full-scroll" key={screen}>
-          <Screen id={screen} fullScreen />
-        </div>
-        <button type="button" className={`uil-exit ${UI_SCREENS.find((s) => s.id === screen).exit || ''}`} aria-label="Exit full screen" onClick={() => setFull(false)}>
+  const entry = UI_SCREENS.find((s) => s.id === screen);
+  // The phone: the screen (scrolling on its own) with the floating tab bar
+  // over its bottom. Full screen shows it edge to edge on the device; on the
+  // page it sits in a phone-height frame under the sub-tabs.
+  const phone = (
+    <>
+      <div className="uil-scroll" key={screen}>
+        <Screen id={screen} fullScreen />
+      </div>
+      {full && (
+        <button type="button" className={`uil-exit ${entry.exit || ''}`} aria-label="Exit full screen" onClick={() => setFull(false)}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
             <path d="M6 6l12 12M18 6 6 18" />
           </svg>
         </button>
-        <nav className="uil-tabbar" aria-label="Screens">
-          {UI_SCREENS.map((s) => (
-            <button key={s.id} type="button" className={screen === s.id ? 'on' : ''} aria-current={screen === s.id ? 'page' : undefined} onClick={() => setScreen(s.id)}>
-              <TabIcon id={s.id} />
-              <span>{s.label}</span>
-            </button>
-          ))}
-        </nav>
+      )}
+      <nav className="uil-tabbar" aria-label="Screens">
+        {UI_SCREENS.map((s) => (
+          <button key={s.id} type="button" className={screen === s.id ? 'on' : ''} aria-current={screen === s.id ? 'page' : undefined} onClick={() => setScreen(s.id)}>
+            <TabIcon id={s.id} />
+            <span>{s.label}</span>
+          </button>
+        ))}
+      </nav>
+    </>
+  );
+
+  if (full) {
+    return (
+      <div className="uil-phone uil-full" role="dialog" aria-modal="true" aria-label={`${entry.label}, full screen`}>
+        {phone}
       </div>
     );
   }
@@ -123,7 +135,7 @@ export default function UILab() {
           </svg>
         </button>
       </div>
-      <Screen id={screen} fullScreen={false} />
+      <div className="uil-phone uil-frame">{phone}</div>
     </div>
   );
 }

@@ -27,7 +27,7 @@
   inset: 0;
   height: auto;
   margin: 0;
-  --mul-safe-top: calc(env(safe-area-inset-top, 0px) / var(--z, 1));
+  --mul-safe-top: calc(var(--uil-safe-top, env(safe-area-inset-top, 0px)) / var(--z, 1));
 }
 @media (min-width: 600px) {
   .mul:not(.mul-full) {
