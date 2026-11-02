@@ -3,19 +3,27 @@
 Unfinished work and the decisions behind it, newest first. Remove an item in
 the PR that finishes it.
 
-## Test tab: "UI" Mapr home redesign (2026-11-02)
+## Test tab: "UI" app redesign, iPhone first (2026-11-02)
 
-The owner gave a mockup for a new Mapr home screen (orb, "Hey <name>,",
-ask bar, six quick chips, "Try asking about..." photo cards, recent chats).
-It lives as a live screen in the Test tab's "UI" bubble
-(`src/screens/MaprUILab.jsx` + `.css`), which the Test tab now opens on.
-The screen is laid out at the mockup's 393pt width and zoomed to fit, so
-it keeps the mockup's proportions on any phone; that also keeps the
-mockup's small type (chip and row text about 10-11pt on an iPhone). The ask
-bar, chips, cards and sample rows send a real question to Mapr; the city
-pill switches city and the cards' photos; recent chats are your own.
-Still open: the real Mapr tab is unchanged. Once the owner approves the
-look, move it into `Mapr.jsx` (and update `APP_HELP`).
+The owner is redesigning the app one screen at a time from their mockups,
+built for the iPhone app first (the web shows the same screens at phone
+width). The Test tab opens on the "UI" bubble (`src/screens/UILab.jsx`),
+which has a sub-tab per app tab (Map, Landmarks, Mapr, Itinerary, Profile)
+and a Full screen button. Full screen hides the app's header and nav,
+keeps clear of the Dynamic Island and home indicator, and has its own
+iOS-style tab bar plus an × at top center to leave.
+
+Only Mapr is designed (`src/screens/MaprUILab.jsx` + `.css`): laid out at
+the mockup's 393pt width and zoomed to fit, so it keeps the mockup's
+proportions and its small type (chip and row text about 10-11pt). Small
+controls get invisible 44pt tap areas. The ask bar, chips, cards and sample
+rows send a real question to Mapr; the city pill switches city; recent
+chats are your own. Map, Landmarks, Itinerary and Profile show "Not
+designed yet" until the owner sends those mockups.
+
+Still open: no haptics (the app has no Capacitor Haptics plugin yet), and
+the real tabs are unchanged. Once the owner approves a screen, move it
+into the real tab (and update `APP_HELP`).
 
 ## Security audit follow-ups (2026-10-30)
 

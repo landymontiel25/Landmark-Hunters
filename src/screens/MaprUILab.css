@@ -8,16 +8,12 @@
   --mui-line: rgba(255, 255, 255, 0.14);
   --mui-fill: rgba(255, 255, 255, 0.018);
   --mui-blue: #5b8cff;
-  --mui-sans:
-    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui,
-    sans-serif;
-  --mui-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --mui-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  --mui-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
 
   margin: -24px -20px 0;
   min-height: 100%;
-  background:
-    radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%),
-    var(--mui-bg);
+  background: radial-gradient(90% 30% at 50% 0%, rgba(22, 32, 62, 0.75), transparent 75%), var(--mui-bg);
   color: #fff;
   font-family: var(--mui-sans);
   overflow: hidden;
@@ -30,6 +26,14 @@
     border-radius: 28px;
     border: 1px solid var(--mui-line);
   }
+}
+
+.mui.mui-full {
+  margin: 0;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  min-height: 100%;
 }
 
 .mui-screen {
@@ -146,12 +150,7 @@
   position: absolute;
   inset: -22px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(60, 90, 255, 0.42) 0%,
-    rgba(70, 70, 220, 0.14) 48%,
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(60, 90, 255, 0.42) 0%, rgba(70, 70, 220, 0.14) 48%, transparent 70%);
   animation: mui-breathe 4.5s ease-in-out infinite;
 }
 .mui-orb {
@@ -160,24 +159,9 @@
   border-radius: 50%;
   overflow: hidden;
   background:
-    radial-gradient(
-      55% 55% at 52% 55%,
-      #0a1a92 0%,
-      rgba(14, 34, 170, 0.85) 45%,
-      transparent 80%
-    ),
-    radial-gradient(
-      70% 60% at 82% 22%,
-      #b46ce6 0%,
-      rgba(150, 100, 235, 0.6) 35%,
-      transparent 70%
-    ),
-    radial-gradient(
-      80% 70% at 18% 82%,
-      #5aa2ff 0%,
-      rgba(70, 130, 255, 0.5) 40%,
-      transparent 75%
-    ),
+    radial-gradient(55% 55% at 52% 55%, #0a1a92 0%, rgba(14, 34, 170, 0.85) 45%, transparent 80%),
+    radial-gradient(70% 60% at 82% 22%, #b46ce6 0%, rgba(150, 100, 235, 0.6) 35%, transparent 70%),
+    radial-gradient(80% 70% at 18% 82%, #5aa2ff 0%, rgba(70, 130, 255, 0.5) 40%, transparent 75%),
     linear-gradient(135deg, #3f6cf0 0%, #2c45d8 50%, #6a4fe0 100%);
   box-shadow:
     inset 0 0 6px rgba(160, 190, 255, 0.55),
@@ -185,14 +169,10 @@
 }
 .mui-orb::before,
 .mui-orb::after {
-  content: "";
+  content: '';
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(150, 175, 255, 0.16),
-    transparent 62%
-  );
+  background: radial-gradient(circle at 30% 30%, rgba(150, 175, 255, 0.16), transparent 62%);
   box-shadow: inset 2px 2px 6px rgba(170, 190, 255, 0.12);
 }
 .mui-orb::before {
@@ -419,12 +399,7 @@
 .mui-card-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 40%,
-    rgba(5, 7, 12, 0.55) 64%,
-    rgba(5, 7, 12, 0.9) 100%
-  );
+  background: linear-gradient(180deg, transparent 40%, rgba(5, 7, 12, 0.55) 64%, rgba(5, 7, 12, 0.9) 100%);
 }
 .mui-card-title {
   position: absolute;
@@ -511,4 +486,47 @@
   width: 15px;
   height: 15px;
   color: #d5d9e2;
+}
+
+/* ---------- iPhone ---------- */
+/* Apple's minimum tap target is 44pt. The chips (33pt) and chat rows (39pt)
+   keep the mockup's look; an invisible layer stretches what you can tap. */
+.mui-chip,
+.mui-row,
+.mui-see-all,
+.mui-city,
+.mui-avatar {
+  position: relative;
+}
+.mui-chip::after,
+.mui-row::after,
+.mui-see-all::after,
+.mui-city::after,
+.mui-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -5.5px 0;
+}
+.mui-see-all::after {
+  inset: -14px -8px;
+}
+.mui-city::after,
+.mui-avatar::after {
+  inset: -7px -3px;
+}
+.mui button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+.mui-chip:active,
+.mui-see-all:active,
+.mui-city:active,
+.mui-avatar:active {
+  opacity: 0.6;
+}
+.mui-cards {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }

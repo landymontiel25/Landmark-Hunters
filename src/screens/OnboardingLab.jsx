@@ -20,7 +20,7 @@ import { SAY, TUTORIAL_STEPS } from './signupTutorialSteps';
 import FirstRunLab from './FirstRunLab';
 import ItineraryTutorialLab from './ItineraryTutorialLab';
 import ExplainerImagesLab from './ExplainerImagesLab';
-import MaprUILab from './MaprUILab';
+import UILab from './UILab';
 
 export { progressTier };
 
@@ -89,7 +89,7 @@ export default function OnboardingLab() {
     return (
       <div>
         {testTabs}
-        <MaprUILab />
+        <UILab />
       </div>
     );
   }
