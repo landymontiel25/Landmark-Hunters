@@ -185,7 +185,23 @@ function initialsOf(user) {
 // draft / onDraft: the ask bar's text (Mapr keeps it per chat).
 // onAsk(text): sends text to Mapr. chats / onOpenChat / onSeeAllChats: the
 // recent chats (hidden with none); See all opens the chat list.
-export default function MaprHome({ regions = [], onSetRegions, draft = '', onDraft, onAsk, busy = false, chats = [], onOpenChat, onSeeAllChats = null, children = null }) {
+// score / scoreEstimated: the Mapr Score shown inside the orb (null: still
+// learning); onOrbTap opens the full score.
+export default function MaprHome({
+  regions = [],
+  onSetRegions,
+  draft = '',
+  onDraft,
+  onAsk,
+  busy = false,
+  chats = [],
+  onOpenChat,
+  onSeeAllChats = null,
+  score = null,
+  scoreEstimated = false,
+  onOrbTap = null,
+  children = null,
+}) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [cityOpen, setCityOpen] = useState(false);
@@ -286,7 +302,13 @@ export default function MaprHome({ regions = [], onSetRegions, draft = '', onDra
                   </li>
                   {REGIONS.map((r) => (
                     <li key={r.id}>
-                      <button type="button" role="option" aria-selected={chosen?.id === r.id} className={chosen?.id === r.id ? 'on' : ''} onClick={() => pickCity(r)}>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={chosen?.id === r.id}
+                        className={chosen?.id === r.id ? 'on' : ''}
+                        onClick={() => pickCity(r)}
+                      >
                         {r.name}
                       </button>
                     </li>
@@ -300,10 +322,19 @@ export default function MaprHome({ regions = [], onSetRegions, draft = '', onDra
           </div>
         </header>
 
-        <div className="mui-orb-wrap" aria-hidden="true">
-          <div className="mui-orb-glow" />
-          <div className="mui-orb" />
-        </div>
+        <button
+          type="button"
+          className="mui-orb-wrap"
+          onClick={() => onOrbTap?.()}
+          aria-label={score != null ? `Mapr Score ${scoreEstimated ? 'about ' : ''}${score}%. See your score` : 'Mapr Score: still learning. See your score'}
+        >
+          <span className="mui-orb-glow" />
+          <span className="mui-orb" />
+          <span className="mui-orb-score" aria-hidden="true">
+            <strong>{score != null ? `${scoreEstimated ? '~' : ''}${score}%` : '…'}</strong>
+            <small>Mapr Score</small>
+          </span>
+        </button>
 
         <h2 className="mui-hello">Hey {firstName},</h2>
         <p className="mui-sub">What are you in the mood for?</p>
@@ -342,6 +373,31 @@ export default function MaprHome({ regions = [], onSetRegions, draft = '', onDra
           </button>
         </form>
 
+        {recent.length > 0 && (
+          <>
+            <div className="mui-section-head mui-recent-head">
+              <h3>Your recent chats</h3>
+              {onSeeAllChats && (
+                <button type="button" className="mui-see-all" onClick={onSeeAllChats}>
+                  See all
+                  <Icon size={16} stroke={2} d="m9 6 6 6-6 6" />
+                </button>
+              )}
+            </div>
+            <ul className="mui-recent">
+              {recent.map((c) => (
+                <li key={c.id}>
+                  <button type="button" className="mui-row" onClick={() => onOpenChat?.(c.id)}>
+                    <span className="mui-row-icon">{chatIcon(c.title)}</span>
+                    <span className="mui-row-title">{c.title}</span>
+                    <Icon size={18} stroke={1.8} d="m9 6 6 6-6 6" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
         <div className="mui-chips">
           {[CHIPS.slice(0, 3), CHIPS.slice(3)].map((row, i) => (
             <div className="mui-chip-row" key={i}>
@@ -378,31 +434,6 @@ export default function MaprHome({ regions = [], onSetRegions, draft = '', onDra
             </button>
           ))}
         </div>
-
-        {recent.length > 0 && (
-          <>
-            <div className="mui-section-head mui-recent-head">
-              <h3>Your recent chats</h3>
-              {onSeeAllChats && (
-                <button type="button" className="mui-see-all" onClick={onSeeAllChats}>
-                  See all
-                  <Icon size={16} stroke={2} d="m9 6 6 6-6 6" />
-                </button>
-              )}
-            </div>
-            <ul className="mui-recent">
-              {recent.map((c) => (
-                <li key={c.id}>
-                  <button type="button" className="mui-row" onClick={() => onOpenChat?.(c.id)}>
-                    <span className="mui-row-icon">{chatIcon(c.title)}</span>
-                    <span className="mui-row-title">{c.title}</span>
-                    <Icon size={18} stroke={1.8} d="m9 6 6 6-6 6" />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
       </div>
       {children && <div className="mui-more">{children}</div>}
     </div>

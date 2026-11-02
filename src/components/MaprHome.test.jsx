@@ -12,10 +12,10 @@ afterEach(() => {
   vi.resetModules();
 });
 
-async function render({ chats = [], synced = true } = {}) {
+async function render({ chats = [], synced = true, score = null, scoreEstimated = false } = {}) {
   vi.doMock('../lib/AuthContext', () => ({ useAuth: () => ({ user: { uid: 'u', email: 'a@b.c', displayName: 'Landy Montiel' } }) }));
   const { default: MaprHome } = await import('./MaprHome.jsx');
-  const calls = { asked: [], opened: [], seeAll: 0, regions: null };
+  const calls = { asked: [], opened: [], seeAll: 0, regions: null, orb: 0 };
   function Host() {
     const [regions, setRegions] = useState([{ id: 'miami', name: 'Miami' }]);
     const [draft, setDraft] = useState('');
@@ -32,6 +32,9 @@ async function render({ chats = [], synced = true } = {}) {
         chats={chats}
         onOpenChat={(id) => calls.opened.push(id)}
         onSeeAllChats={synced ? () => calls.seeAll++ : null}
+        score={score}
+        scoreEstimated={scoreEstimated}
+        onOrbTap={() => calls.orb++}
       >
         <p className="extra">taste card</p>
       </MaprHome>
@@ -111,6 +114,28 @@ describe('MaprHome (the Mapr tab before a conversation)', () => {
     expect(calls.opened).toEqual(['b']);
     await click([...el.querySelectorAll('.mui-recent-head .mui-see-all')][0]);
     expect(calls.seeAll).toBe(1);
+  });
+
+  it('recent chats sit right under the ask bar, above the chips', async () => {
+    const { el } = await render({ chats: [{ id: 'a', title: 'Chat a' }] });
+    const order = [...el.querySelectorAll('.mui-ask, .mui-recent, .mui-chips')].map((n) => n.className.split(' ')[0]);
+    expect(order).toEqual(['mui-ask', 'mui-recent', 'mui-chips']);
+  });
+
+  it('the orb shows the Mapr Score and opens it on tap', async () => {
+    const { el, calls } = await render({ score: 72 });
+    expect(el.querySelector('.mui-orb-score').textContent).toBe('72%Mapr Score');
+    await click(el.querySelector('.mui-orb-wrap'));
+    expect(calls.orb).toBe(1);
+  });
+
+  it('an estimated score shows with ~, and none yet shows …', async () => {
+    const est = await render({ score: 40, scoreEstimated: true });
+    expect(est.el.querySelector('.mui-orb-score strong').textContent).toBe('~40%');
+    container.remove();
+    vi.resetModules();
+    const none = await render();
+    expect(none.el.querySelector('.mui-orb-score strong').textContent).toBe('…');
   });
 
   it('with no chats there is no recent chats section', async () => {

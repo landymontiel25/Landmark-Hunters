@@ -30,12 +30,14 @@ MapPicksOverlay so both use the same Mapr pipeline; it logs as test sets
 and keeps its own remembered distance. Ratings shown are the app's own
 community ratings, not Google's.
 
-Mapr shipped (2026-11-02): the Mapr tab opens on the design
-(`src/components/MaprHome.jsx` + `.css`) whenever no conversation is
-open; asking anything starts the chat on the same tab, and ➕ New chat
-brings the home back. The city pill sets Mapr's regions ("Any city" for
+Mapr shipped (2026-11-02): the Mapr tab always opens on the design
+(`src/components/MaprHome.jsx` + `.css`), even with a chat open; asking
+from it starts a new chat on the same tab, recent chats sit right under
+the ask bar, and the orb shows the Mapr Score (`src/lib/useMaprScore.js`,
+shared with the Taste Profile card), opening that card on tap. In a chat,
+the header orb goes back to the home. The city pill sets Mapr's regions ("Any city" for
 none). Recent chats show only with real chats. The planner (when opened
-from Itinerary) and the Taste Profile card sit under the design. The Test
+from Itinerary) sits under the design. The Test
 tab's Mapr slot now links to the live tab. Landmarks, Itinerary and
 Profile show "Not designed yet" until the owner sends those mockups.
 
