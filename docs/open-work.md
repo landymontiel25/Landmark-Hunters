@@ -63,6 +63,12 @@ App Check on in monitor mode, and add App Attest to the iOS app before
 
 ## Test tab: "Game tutorial" (2026-11-02)
 
+The Test tab's onboarding tutorials are now just Planner tutorial and Game
+tutorial (owner, 2026-11-02): the Tutorial and Tutorial 2 bubbles are gone.
+Their step pieces stay (SignupTutorialLab.jsx, FirstRunLab.jsx's exported
+steps) because both tutorials are built from them; FirstRunLab's own flow
+is no longer shown anywhere.
+
 The owner wants onboarding for the game only for now: Hello, Sign up,
 Verify email (Tutorial), the 5 images intro, First check-in (Tutorial 2's
 distance check), Your tabs, Done (Tutorial), with Mapr explaining every
@@ -72,7 +78,7 @@ intro screens (`SAY.images` in `signupTutorialSteps.js`);
 `ExplainerImagesLab` takes `onDone` / `onSlide` so it can be a step.
 Nothing is saved. Still open: not the real signup flow yet.
 
-## Test tab: "Tutorial with planner" (2026-11-02, was "Ultimate tutorial")
+## Test tab: "Planner tutorial" (2026-11-02, was "Ultimate tutorial")
 
 The owner combined Tutorial (T1) and Tutorial 2 (T2) into one onboarding
 in this order, with Mapr explaining every step: Hello T1, Sign up T1,
