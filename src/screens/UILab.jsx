@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import MaprUILab from './MaprUILab';
+import MapUILab from './MapUILab';
 import './UILab.css';
 
 // Test tab: "UI". The app's redesign, one screen per tab, built for the
 // iPhone first (the web shows the same screens at phone width). Each tab of
 // the app gets a sub-tab here; Full screen shows the chosen screen the way
 // the phone would, with no app header or nav, and its own tab bar to move
-// between screens. Only Mapr is designed so far; the rest wait for the
+// between screens. Map and Mapr are designed so far; the rest wait for the
 // owner's mockups.
 const UI_SCREENS = [
-  { id: 'map', label: 'Map', screen: null },
+  { id: 'map', label: 'Map', screen: MapUILab, exit: 'low-right' },
   { id: 'landmarks', label: 'Landmarks', screen: null },
   { id: 'mapr', label: 'Mapr', screen: MaprUILab },
   { id: 'itinerary', label: 'Itinerary', screen: null },
@@ -89,7 +90,7 @@ export default function UILab() {
         <div className="uil-full-scroll" key={screen}>
           <Screen id={screen} fullScreen />
         </div>
-        <button type="button" className="uil-exit" aria-label="Exit full screen" onClick={() => setFull(false)}>
+        <button type="button" className={`uil-exit ${UI_SCREENS.find((s) => s.id === screen).exit || ''}`} aria-label="Exit full screen" onClick={() => setFull(false)}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
             <path d="M6 6l12 12M18 6 6 18" />
           </svg>
